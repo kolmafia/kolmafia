@@ -149,7 +149,7 @@ public class AdventureFrame extends KoLFrame
 		heroDonation = new HeroDonationPanel();
 
 		JPanel otherStuffPanel = new JPanel();
-		otherStuffPanel.setLayout( new BorderLayout( 10, 10 ) );
+		otherStuffPanel.setLayout( new BorderLayout( 0, 0 ) );
 		otherStuffPanel.add( clanGym, BorderLayout.NORTH );
 		otherStuffPanel.add( clanBuff, BorderLayout.CENTER );
 		otherStuffPanel.add( heroDonation, BorderLayout.SOUTH );
@@ -306,7 +306,7 @@ public class AdventureFrame extends KoLFrame
 				JList tallyDisplay = new JList( resultsTally );
 				tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 				tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-				tallyDisplay.setVisibleRowCount( 10 );
+				tallyDisplay.setVisibleRowCount( 11 );
 
 				add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
@@ -455,7 +455,7 @@ public class AdventureFrame extends KoLFrame
 				resultsDisplay = new JList( results );
 				resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				resultsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-				resultsDisplay.setVisibleRowCount( 10 );
+				resultsDisplay.setVisibleRowCount( 11 );
 
 				add( new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
@@ -569,7 +569,7 @@ public class AdventureFrame extends KoLFrame
 			countField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Gym Item: ", workoutField );
+			elements[0] = new VerifiableElement( "Clan Gym: ", workoutField );
 			elements[1] = new VerifiableElement( "# of turns: ", countField );
 
 			setContent( elements );
@@ -753,7 +753,7 @@ public class AdventureFrame extends KoLFrame
 					int started = 1;
 					while ( started <= buffCount && isBuffing )
 					{
-						updateDisplay( DISABLED_STATE, "Attempting to purchasing buff " + (started++) + "..." );
+						updateDisplay( DISABLED_STATE, "Attempting to purchase buff " + (started++) + "..." );
 						buff.run();
 					}
 
