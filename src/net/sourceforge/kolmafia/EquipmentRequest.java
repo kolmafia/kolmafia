@@ -218,10 +218,15 @@ public class EquipmentRequest extends KoLRequest
 					if ( TradeableItemDatabase.contains( result.getResultName() ) )
 						AdventureResult.addResultToList( inventory, result );
 
-					skipTokens( remainingTokens, 2 );
+					lastToken = remainingTokens.nextToken();
 
-					if ( remainingTokens.hasMoreTokens() )
-						lastToken = remainingTokens.nextToken();
+					if ( lastToken.startsWith( "[" ) && remainingTokens.hasMoreTokens() )
+					{
+						skipTokens( remainingTokens, 1 );
+
+						if ( remainingTokens.hasMoreTokens() )
+							lastToken = remainingTokens.nextToken();
+					}
 				}
 				catch ( Exception e )
 				{
@@ -235,7 +240,7 @@ public class EquipmentRequest extends KoLRequest
 						remainingTokens.nextToken();
 				}
 			}
-			while ( remainingTokens.hasMoreTokens() );
+			while ( remainingTokens.hasMoreTokens() && !lastToken.startsWith( "make:" ) );
 		}
 	}
 }
