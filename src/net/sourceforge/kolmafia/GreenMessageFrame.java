@@ -48,6 +48,7 @@ import java.awt.event.KeyEvent;
 // containers
 import javax.swing.Box;
 import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -68,11 +69,11 @@ public class GreenMessageFrame extends KoLFrame
 
 	private JTextField recipientEntry;
 	private JTextArea messageEntry;
+	private JButton sendMessageButton;
 
 	private SortedListModel attachedItems;
 	private JLabel attachedItemsDisplay;
 	private JLabel sendMessageStatus;
-	private JMenuItem sendMenuItem;
 
 	public GreenMessageFrame( KoLmafia client )
 	{	this( client, "" );
@@ -95,10 +96,11 @@ public class GreenMessageFrame extends KoLFrame
 
 		this.attachedItemsDisplay = new JLabel( "(none)" );
 		JPanel attachmentPanel = new JPanel();
-		attachmentPanel.setLayout( new BorderLayout() );
-		JLabel attachLabel = new JLabel( "Attachments:  ", JLabel.LEFT );
-		attachLabel.setForeground( new Color( 0, 0, 128 ) );
-		attachmentPanel.add( attachLabel, BorderLayout.WEST );
+		attachmentPanel.setLayout( new BorderLayout( 5, 5 ) );
+		JButton attachButton = new JButton( "Attach" );
+		attachButton.addActionListener( new AttachItemListener() );
+		attachButton.setForeground( new Color( 0, 0, 128 ) );
+		attachmentPanel.add( attachButton, BorderLayout.WEST );
 		attachmentPanel.add( attachedItemsDisplay, BorderLayout.CENTER );
 
 		this.messageEntry = new JTextArea( ROWS, COLS );
@@ -108,52 +110,28 @@ public class GreenMessageFrame extends KoLFrame
 			JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		centerPanel.add( recipientPanel, "" );
-		centerPanel.add( Box.createVerticalStrut( 16 ) );
+		centerPanel.add( Box.createVerticalStrut( 4 ) );
 		centerPanel.add( attachmentPanel, "" );
+		centerPanel.add( Box.createVerticalStrut( 4 ) );
 		centerPanel.add( scrollArea, "" );
 		centerPanel.add( Box.createVerticalStrut( 16 ) );
 
-		this.sendMessageStatus = new JLabel( " ", JLabel.CENTER );
-		centerPanel.add( sendMessageStatus );
-		centerPanel.add( Box.createVerticalStrut( 4 ) );
+		this.sendMessageButton = new JButton( "Send" );
+		sendMessageButton.addActionListener( new SendGreenMessageListener() );
+		this.sendMessageStatus = new JLabel( " ", JLabel.LEFT );
 
-		addMenuBar();
+		JPanel sendMessagePanel = new JPanel();
+		sendMessagePanel.setLayout( new BorderLayout( 5, 5 ) );
+		sendMessagePanel.add( sendMessageButton, BorderLayout.WEST );
+		sendMessagePanel.add( sendMessageStatus, BorderLayout.CENTER );
+
+		centerPanel.add( sendMessagePanel );
+		centerPanel.add( Box.createVerticalStrut( 4 ) );
 
 		this.getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		this.getContentPane().add( centerPanel, "" );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		setResizable( false );
-	}
-
-	/**
-	 * Utility method used to add a menu bar to the <code>GreenMessageFrame</code>.
-	 * The menu bar contains the general license information associated with
-	 * <code>KoLmafia</code> and the ability to attach items to the green message.
-	 * This also contains the option to send the message.
-	 */
-
-	private void addMenuBar()
-	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
-
-		JMenu fileMenu = new JMenu("File");
-		fileMenu.setMnemonic( KeyEvent.VK_F );
-		menuBar.add( fileMenu );
-
-		this.sendMenuItem = new JMenuItem( "Send Message", KeyEvent.VK_S );
-		sendMenuItem.addActionListener( new SendGreenMessageListener() );
-		fileMenu.add( sendMenuItem );
-
-		JMenuItem meatItem = new JMenuItem( "Attach Meat...", KeyEvent.VK_M );
-		meatItem.addActionListener( new AttachMeatListener() );
-		fileMenu.add( meatItem );
-
-		JMenuItem attachItem = new JMenuItem( "Attach Item...", KeyEvent.VK_I );
-		attachItem.addActionListener( new AttachItemListener() );
-		fileMenu.add( attachItem );
-
-		addHelpMenu( menuBar );
 	}
 
 	/**
@@ -170,8 +148,8 @@ public class GreenMessageFrame extends KoLFrame
 		if ( messageEntry != null )
 			messageEntry.setEnabled( isEnabled );
 
-		if ( sendMenuItem != null )
-			sendMenuItem.setEnabled( isEnabled );
+		if ( sendMessageButton != null )
+			sendMessageButton.setEnabled( isEnabled );
 	}
 
 	/**
@@ -196,7 +174,12 @@ public class GreenMessageFrame extends KoLFrame
 			{
 				GreenMessageFrame.this.setEnabled( false );
 				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
-				sendMessageStatus.setText( "Finished attempt to send message to " + recipientEntry.getText() );
+
+				if ( client.permitsContinue() )
+					sendMessageStatus.setText( "Message sent to " + recipientEntry.getText() );
+				else
+					sendMessageStatus.setText( recipientEntry.getText() + " does not exist." );
+
 				GreenMessageFrame.this.setEnabled( true );
 			}
 		}
@@ -219,39 +202,6 @@ public class GreenMessageFrame extends KoLFrame
 	}
 
 	/**
-	 * Internal class used to handle attaching meat to the message.  This
-	 * is done by prompting the user with a dialog box where they choose
-	 * the amount of meat they wish to attach.  Note that all effects are
-	 * cumulative.
-	 */
-
-	private class AttachMeatListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			try
-			{
-				int amount = df.parse( JOptionPane.showInputDialog(
-					"Attaching meat..." ) ).intValue();
-
-				int existingIndex = attachedItems.indexOf( new AdventureResult( AdventureResult.MEAT, 0 ) );
-				if ( existingIndex != -1 )
-					attachedItems.remove( existingIndex );
-
-				AdventureResult.addResultToList( attachedItems, new AdventureResult(
-					AdventureResult.MEAT, amount ) );
-				resetAttachedItemsDisplay();
-			}
-			catch ( Exception e1 )
-			{
-				// Ignore the exception - this effectively kills
-				// the request, which is exactly what you want to
-				// happen in the event of bad input
-			}
-		}
-	}
-
-	/**
 	 * Internal class used to handle attaching items to the message.  This
 	 * is done by prompting the user with a dialog box where they choose
 	 * the item they wish to attach.  Note that only one of the item will
@@ -264,24 +214,28 @@ public class GreenMessageFrame extends KoLFrame
 		{
 			try
 			{
-				Object [] possibleValues = client.getInventory().toArray();
+				AdventureResult [] possibleValues = new AdventureResult[ client.getInventory().size() + 1 ];
+				client.getInventory().toArray( possibleValues );
+				for ( int i = possibleValues.length - 1; i > 0; --i )
+					possibleValues[i] = possibleValues[i-1];
+				possibleValues[0] = new AdventureResult( AdventureResult.MEAT, client.getCharacterData().getAvailableMeat() );
+
 				String attachmentName = ((AdventureResult) JOptionPane.showInputDialog(
 					null, "Attach to message...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
 					possibleValues, possibleValues[0] )).getName();
 
 				AdventureResult blankAttachment = new AdventureResult( attachmentName, 0 );
 				int existingIndex = attachedItems.indexOf( blankAttachment );
-				int defaultCount = existingIndex != -1 ? 0 :
+				int defaultCount = existingIndex != -1 ? 0 : attachmentName.equals( AdventureResult.MEAT ) ? 0 :
 					((AdventureResult)client.getInventory().get( client.getInventory().indexOf( blankAttachment ) )).getCount();
 
 				int attachmentCount = df.parse( JOptionPane.showInputDialog(
-					"Attaching multiple " + attachmentName + "...", "" + defaultCount ) ).intValue();
+					"Attaching " + attachmentName + "...", "" + defaultCount ) ).intValue();
 
 				if ( existingIndex != -1 )
 					attachedItems.remove( existingIndex );
 
-				AdventureResult.addResultToList( attachedItems, new AdventureResult(
-					attachmentName, attachmentCount ) );
+				AdventureResult.addResultToList( attachedItems, new AdventureResult( attachmentName, attachmentCount ) );
 				resetAttachedItemsDisplay();
 			}
 			catch ( Exception e1 )
