@@ -75,10 +75,11 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 // event listeners
-import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 // containers
 import javax.swing.JFrame;
@@ -126,6 +127,7 @@ public class LoginFrame extends KoLFrame
 
 		updateDisplay( ENABLED_STATE, " " );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		addWindowListener( new ExitRequestAdapter() );
 
 		addMenuBar();
 	}
@@ -249,6 +251,20 @@ public class LoginFrame extends KoLFrame
 
 				(new LoginRequest( client, loginname, password )).run();
 			}
+		}
+	}
+
+	/**
+	 * Formally exits the program if there are no active sessions when
+	 * this frame is closed.
+	 */
+
+	private class ExitRequestAdapter extends WindowAdapter
+	{
+		public void windowClosed( WindowEvent e )
+		{
+			if ( client == null || client.getLoginName() == null )
+				System.exit( 0 );
 		}
 	}
 }
