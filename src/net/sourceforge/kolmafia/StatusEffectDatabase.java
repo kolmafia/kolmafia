@@ -75,7 +75,7 @@ public class StatusEffectDatabase implements UtilityConstants
 			while ( (line = effectdata.readLine()) != null )
 			{
 				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 2 )
+				if ( strtok.countTokens() == 3 )
 				{
 					Integer effectID = Integer.valueOf( strtok.nextToken() );
 					String effectName = strtok.nextToken();
