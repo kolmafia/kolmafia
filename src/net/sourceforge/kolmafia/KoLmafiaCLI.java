@@ -394,6 +394,15 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Buffs are pretty neat, too - for now, it's
+		// just casts on self
+
+		if ( command.equals( "cast" ) || command.equals( "skill" ) )
+		{
+			executeCastBuffRequest( parameters );
+			return;
+		}
+
 		// One command available after login is a request
 		// to print the current state of the client.  This
 		// should be handled in a separate method, since
@@ -525,6 +534,48 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.cancelRequest();
 			return;
 		}
+	}
+
+	/**
+	 * A special module used to handle casting skills on yourself;
+	 * note, these skills have to be listed in the table.
+	 */
+
+	private void executeCastBuffRequest( String parameters )
+	{
+		String firstParameter = parameters.split( " " )[0].toLowerCase();
+		String skillName = getSkillName( firstParameter );
+
+		if ( skillName != null )
+		{
+			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, 1 ), 1 );
+			return;
+		}
+
+		skillName = getSkillName( parameters.substring( firstParameter.length() ).trim() );
+		if ( skillName == null )
+		{
+			scriptRequestor.cancelRequest();
+			scriptRequestor.updateDisplay( ENABLED_STATE, "Skill not available" );
+			return;
+		}
+
+		scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, Integer.parseInt( firstParameter ) ), 1 );
+	}
+
+	/**
+	 * Utility method used to retrieve the full name of a skill,
+	 * given a substring representing it.
+	 */
+
+	private String getSkillName( String substring )
+	{
+		List skills = scriptRequestor.getCharacterData().getAvailableSkills();
+		for ( int i = 0; i < skills.size(); ++i )
+			if ( ((String)skills.get(i)).toLowerCase().indexOf( substring ) != -1 )
+				return (String) skills.get(i);
+
+		return null;
 	}
 
 	/**
