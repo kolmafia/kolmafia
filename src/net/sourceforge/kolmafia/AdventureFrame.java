@@ -288,7 +288,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				setLayout( new BorderLayout() );
 				setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-				add( JComponentUtilities.createLabel( "Adventure Results", JLabel.CENTER,
+				add( JComponentUtilities.createLabel( "Session Results Summary", JLabel.CENTER,
 					Color.black, Color.white ), BorderLayout.NORTH );
 
 				JList tallyDisplay = new JList( resultsTally );
