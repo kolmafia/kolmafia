@@ -121,7 +121,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
 		{
-			updateDisplay( ENABLED_STATE, "Redirected to unknown page: " + redirectLocation );
+			updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
 			client.cancelRequest();
 			return;
 		}
