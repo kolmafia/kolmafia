@@ -134,6 +134,8 @@ public class ConsumeItemRequest extends KoLRequest
 				client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "You already have that familiar." );
 				return;
 			}
+			else if ( itemUsed.getName().startsWith( "scroll of d" ) && replyContent.indexOf( "crumble" ) == -1 )
+				return;
 
 			// Parse the reply, which can be found before the
 			// word "Inventory".  In theory, this could've caused
