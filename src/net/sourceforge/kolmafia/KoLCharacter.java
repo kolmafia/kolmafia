@@ -761,7 +761,7 @@ public class KoLCharacter
 
 	/**
 	 * Accessor method to indicate a change in state of the toaster.
-	 * @param	hasToaster	Whether or not the character currently has a toaster
+	 * @param	hasArches	Whether or not the character currently has golden arches
 	 */
 
 	public void setArches( boolean hasArches )
