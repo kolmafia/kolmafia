@@ -87,7 +87,7 @@ public class ItemManageFrame extends KoLFrame
 		tabs = new JTabbedPane();
 		tabs.addTab( "Sell", new SellItemPanel() );
 		tabs.addTab( "Create", new CreationPanel() );
-		tabs.addTab( "Put Away", new ClosetPanel() );
+		tabs.addTab( "Put Away", new StoragePanel() );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -155,7 +155,7 @@ public class ItemManageFrame extends KoLFrame
 		/**
 		 * In order to keep the user interface from freezing (or at
 		 * least appearing to freeze), this internal class is used
-		 * to actually autosell the item
+		 * to actually autosell the items.
 		 */
 
 		private class AutoSellRequestThread extends Thread
@@ -174,8 +174,6 @@ public class ItemManageFrame extends KoLFrame
 				try
 				{
 					SellItemPanel.this.setEnabled( false );
-
-
 					Object [] items = availableList.getSelectedValues();
 					AdventureResult currentItem;
 
@@ -217,12 +215,12 @@ public class ItemManageFrame extends KoLFrame
 	 * the closet.
 	 */
 
-	private class ClosetPanel extends JPanel
+	private class StoragePanel extends JPanel
 	{
 		private JList availableList;
 		private JList closetList;
 
-		public ClosetPanel()
+		public StoragePanel()
 		{
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout( 10, 10 ) );
@@ -259,7 +257,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{
+			{	(new ItemStorageRequestThread( ItemStorageRequest.MOVE_TO_CLOSET )).run();
 			}
 
 			protected void actionCancelled()
@@ -273,7 +271,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public InsideClosetPanel()
 			{
-				super( "take one", "take all" );
+				super( "option 1", "option 2" );
 				setContent( null );
 
 				closet = client == null ? new LockableListModel() : client.getCloset().getMirrorImage();
@@ -298,6 +296,48 @@ public class ItemManageFrame extends KoLFrame
 
 			protected void actionCancelled()
 			{
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually autosell the item
+		 */
+
+		private class ItemStorageRequestThread extends Thread
+		{
+			private int moveType;
+
+			public ItemStorageRequestThread( int moveType )
+			{
+				super( "Closet-Request-Thread" );
+				setDaemon( true );
+				this.moveType = moveType;
+			}
+
+			public void run()
+			{
+				try
+				{
+					StoragePanel.this.setEnabled( false );
+					updateDisplay( DISABLED_STATE, "Moving items..." );
+					Object [] items =
+						moveType == ItemStorageRequest.MOVE_TO_CLOSET ? availableList.getSelectedValues() :
+						moveType == ItemStorageRequest.MOVE_TO_INVENTORY ? closetList.getSelectedValues() :
+						moveType == ItemStorageRequest.MOVE_TO_STASH ? availableList.getSelectedValues() : null;
+
+					updateDisplay( DISABLED_STATE, "Items successfully moved." );
+					(new ItemStorageRequest( client, moveType, items )).run();
+					StoragePanel.this.setEnabled( true );
+				}
+				catch ( NumberFormatException e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
 			}
 		}
 	}
