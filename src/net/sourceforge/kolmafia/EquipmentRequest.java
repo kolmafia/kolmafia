@@ -193,7 +193,9 @@ public class EquipmentRequest extends KoLRequest
 	{
 		if ( !oldItem.equals( newItem ) )
 		{
-			AdventureResult.addResultToList( client.getInventory(), new AdventureResult( oldItem, 1 ) );
+			if ( !oldItem.equals( "none" ) )
+				AdventureResult.addResultToList( client.getInventory(), new AdventureResult( oldItem, 1 ) );
+			if ( !newItem.equals( "none" ) )
 			AdventureResult.addResultToList( client.getInventory(), new AdventureResult( newItem, -1 ) );
 		}
 	}
