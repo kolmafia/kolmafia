@@ -64,6 +64,7 @@ public class KoLmafiaCLI extends KoLmafia
 {
 	protected static final DecimalFormat df = new DecimalFormat();
 
+	private String previousCommand;
 	private PrintStream outputStream;
 	private BufferedReader commandStream;
 	private KoLmafia scriptRequestor;
@@ -253,6 +254,9 @@ public class KoLmafiaCLI extends KoLmafia
 		String command = line.split( " " )[0].toLowerCase().trim();
 		String parameters = line.substring( command.length() ).trim();
 		executeCommand( command, parameters );
+
+		if ( !command.equals( "repeat" ) )
+			previousCommand = line;
 	}
 
 	/**
@@ -311,6 +315,29 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
+		// Next, handle repeat commands - these are a
+		// carry-over feature which made sense in CLI.
+
+		if ( command.equals( "repeat" ) )
+		{
+			try
+			{
+				int repeatCount = parameters.length() == 0 ? 1 : df.parse( parameters ).intValue();
+				for ( int i = 0; i < repeatCount; ++i )
+					executeLine( previousCommand );
+
+				return;
+			}
+			catch ( Exception e )
+			{
+				// Notify the client that the command could not be repeated
+				// the given number of times.
+
+				updateDisplay( KoLFrame.ENABLED_STATE, parameters + " is not a number." );
+				return;
+			}
+		}
+
 		// If there's any commands which suggest that the
 		// client is in a login state, you should not do
 		// any commands listed beyond this point
@@ -339,6 +366,21 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) )
 		{
 			executeConsumeItemRequest( parameters );
+			return;
+		}
+
+		// One of the largest commands is adventuring,
+		// which (as usual) gets its own module.
+
+		if ( command.equals( "adventure" ) )
+		{
+			executeAdventureRequest( parameters );
+			return;
+		}
+
+		if ( command.equals( "hermit" ) )
+		{
+			executeAdventureRequest( "hermit " + parameters );
 			return;
 		}
 	}
@@ -394,6 +436,14 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( parameterList.length != 1 )
 			updateDisplay( KoLFrame.ENABLED_STATE, "Data has been printed to <" + parameterList[1] + ">" );
 	}
+
+	/**
+	 * A special module used specifically for properly printing out
+	 * data relevant to the current session.  This method is more
+	 * specialized than its counterpart and is used when the data
+	 * to be printed is known, as well as the stream to print to.
+	 * Usually called by its counterpart to handle specific instances.
+	 */
 
 	private void executePrintCommand( String desiredData, PrintStream outputStream )
 	{
@@ -466,12 +516,56 @@ public class KoLmafiaCLI extends KoLmafia
 		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
 			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
 
-		updateDisplay( 0, useTypeAsString + " " + itemCount + " " + itemName + "..." );
+		updateDisplay( KoLFrame.DISABLED_STATE, useTypeAsString + " " + itemCount + " " + itemName + "..." );
 
 		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
 			(new ConsumeItemRequest( this, consumptionType, itemName, itemCount )).run();
 		else
 			makeRequest( new ConsumeItemRequest( scriptRequestor, consumptionType, itemName, 1 ), itemCount );
+	}
+
+	/**
+	 * A special module used specifically for properly instantiating
+	 * AdventureRequests, including HermitRequests, if necessary.
+	 */
+
+	private void executeAdventureRequest( String parameters )
+	{
+		String adventureName;  int adventureCount;
+
+		if ( AdventureDatabase.contains( parameters ) )
+		{
+			adventureName = parameters;
+			adventureCount = 1;
+		}
+		else
+		{
+			String adventureCountString = parameters.split( " " )[0];
+			adventureName = parameters.substring( adventureCountString.length() ).trim();
+
+			if ( !AdventureDatabase.contains( adventureName ) )
+			{
+				updateDisplay( KoLFrame.ENABLED_STATE, adventureName + " does not exist in the adventure database." );
+				return;
+			}
+
+			try
+			{
+				adventureCount = df.parse( adventureCountString ).intValue();
+			}
+			catch ( Exception e )
+			{
+				// Technically, this exception should not be thrown, but if
+				// it is, then print an error message and return.
+
+				updateDisplay( KoLFrame.ENABLED_STATE, adventureCountString + " is not a number." );
+				return;
+			}
+		}
+
+		KoLAdventure adventure = AdventureDatabase.getAdventure( scriptRequestor, adventureName );
+		updateDisplay( KoLFrame.DISABLED_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
+		makeRequest( adventure, adventureCount );
 	}
 
 	/**
