@@ -37,10 +37,7 @@ package net.java.dev.spellcast.utilities;
 /**
  * An extension of the {@link net.java.dev.spellcast.utilities.LockableListModel} which maintains
  * elements in ascending order, where elements can only be added and replaced if they do not
- * disturb the sorted property of the <code>List</code>.  The <code>SortedListModel</code> adds
- * the additional restriction that, if an element <tt>e2</tt> is added to the list after another
- * element <tt>e1</tt> is added, and <tt>e1.equals(e2)</tt> returns <tt>true</tt>, then <tt>e2</tt>
- * must appear in the list after <tt>e1</tt>.
+ * disturb the sorted property of the <code>List</code>.
  */
 
 public class SortedListModel extends LockableListModel
@@ -104,12 +101,8 @@ public class SortedListModel extends LockableListModel
 
 	public synchronized void add( int index, Object element )
 	{
-		if ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 )
-			throw new IllegalArgumentException( "attempted to add element into invalid position of sorted list" );
-		if ( index < size() && ((Comparable)element).compareTo( get( index ) ) >= 0 )
-			throw new IllegalArgumentException( "attempted to add element into invalid position of sorted list" );
-
 		super.add( index, element );
+		java.util.Collections.sort( this );
 	}
 
     /**
@@ -171,12 +164,9 @@ public class SortedListModel extends LockableListModel
 
 	public synchronized Object set( int index, Object element )
 	{
-		if ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 )
-			throw new IllegalArgumentException( "the element at the index [" + index + "] could not be replaced; this is a sorted list" );
-		if ( index + 1 < size() && ((Comparable)element).compareTo( get( index + 1 ) ) >= 0 )
-			throw new IllegalArgumentException( "the element at the index [" + index + "] could not be replaced; this is a sorted list" );
-
-		return super.set( index, element );
+		Object oldvalue = super.set( index, element );
+		java.util.Collections.sort( this );
+		return oldvalue;
 	}
 
 	/**
