@@ -192,14 +192,16 @@ shot of tomato schnapps	3	fermenting powder	tomato
 
 extra-spicy bloody mary	3	bloody mary	spices
 especially salty dog	3	salty dog	brine
+margarita	3	bottle of tequila	lemon
 martini	3	bottle of gin	olive
-monkey wrench	bottle of rum	grapefruit
+monkey wrench	3	bottle of rum	grapefruit
 salty dog	3	bottle of gin	grapefruit
 rum and cola	3	bottle of rum	Dyspepsi-Cola
 screwdriver	3	bottle of vodka	orange
 spiced rum	3	bottle of rum	spices
 strawberry daiquiri	3	bottle of rum	strawberry
 strawberry wine	3	boxed wine	strawberry
+tequila sunrise	3	bottle of tequila	orange
 vodka and cranberry	3	bottle of vodka	cranberries
 vodka martini	3	bottle of vodka	olive
 whiskey and cola	3	bottle of whiskey	Dyspepsi-Cola
@@ -215,6 +217,7 @@ wine spritzer	3	boxed wine	soda water
 a little sump'm sump'm	7	martini	little paper umbrella
 horizontal tango	7	wine spritzer	little paper umbrella
 roll in the hay	7	whiskey and soda	little paper umbrella
+ducha de oro	7	tequila sunrise	little paper umbrella
 
 fuzzbump	7	whiskey sour	coconut shell
 slip 'n' slide	7	screwdriver	coconut shell
@@ -223,15 +226,18 @@ pink pony	7	strawberry wine	coconut shell
 
 slap and tickle	7	salty dog	magical ice cubes
 rockin' wagon	7	vodka martini	magical ice cubes
-perpendicular hula	7	straberry daiquiri	magical ice cubes
+perpendicular hula	7	strawberry daiquiri	magical ice cubes
+calle de miel	7	margarita	magical ice cubes
 
 
 # Tiny plastic sword drinks which can be made by anyone.  Also
 # includes skewered items and subingredients.
 
 grog	3	bottle of rum	lime
+tequila with training wheels	3	bottle of tequila	lime
 skewered lime	3	lime	tiny plastic sword
 grogtini	3	grog	skewered lime
+bodyslam	3	tequila with training wheels	skewered lime
 
 sangria	3	boxed wine	cherry
 old-fashioned	3	bottle of whiskey	cherry
