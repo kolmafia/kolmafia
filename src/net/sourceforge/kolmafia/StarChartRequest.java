@@ -99,8 +99,11 @@ public class StarChartRequest extends KoLRequest implements Comparable
 
 		List results = new ArrayList();
 		for ( int i = 0; i < STAR_ITEMS.length; ++i )
-			results.add( new StarChartRequest( client, STAR_ITEMS[i],
-				Math.min( Math.min( chartValue, starsValue / STAR_ITEMS[i].stars ), linesValue / STAR_ITEMS[i].lines ) ) );
+		{
+			int maximumPossible = Math.min( Math.min( chartValue, starsValue / STAR_ITEMS[i].stars ), linesValue / STAR_ITEMS[i].lines );
+			if ( maximumPossible > 0 )
+				results.add( new StarChartRequest( client, STAR_ITEMS[i], maximumPossible ) );
+		}
 
 		return results;
 	}
@@ -114,7 +117,7 @@ public class StarChartRequest extends KoLRequest implements Comparable
 	}
 
 	public void setQuantityNeeded( int quantityNeeded )
-	{	this.quantityNeeded = quantityNeeded;
+	{	this.quantityNeeded = Math.min( this.quantityNeeded, quantityNeeded );
 	}
 
 	public int getQuantityNeeded()
