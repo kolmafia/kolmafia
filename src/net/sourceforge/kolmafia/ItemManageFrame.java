@@ -233,16 +233,13 @@ public class ItemManageFrame extends KoLFrame
 							itemName = currentItem.getName();
 							consumptionType = TradeableItemDatabase.getConsumptionType( itemName );
 
-							if ( useMultiple )
-							{
-								consumptionCount = df.parse( JOptionPane.showInputDialog( "Using multiple " + itemName + "..." ) ).intValue();
-								if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
-									(new ConsumeItemRequest( client, consumptionType, itemName, consumptionCount )).run();
-								else
-									client.makeRequest( new ConsumeItemRequest( client, consumptionType, itemName, 1 ), consumptionCount );
-							}
+							consumptionCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
+								"Using multiple " + itemName + "..." ) ).intValue() : 1;
+
+							if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
+								(new ConsumeItemRequest( client, consumptionType, itemName, consumptionCount )).run();
 							else
-								(new ConsumeItemRequest( client, consumptionType, itemName, 1 )).run();
+								client.makeRequest( new ConsumeItemRequest( client, consumptionType, itemName, 1 ), consumptionCount );
 						}
 					}
 					catch ( Exception e )

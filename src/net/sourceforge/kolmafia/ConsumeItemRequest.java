@@ -52,12 +52,20 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public ConsumeItemRequest( KoLmafia client, int consumptionType, String itemName, int itemCount )
 	{
-		super( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" : "inv_use.php", false );
+		super( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
+			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : "inv_use.php", false );
+
+		if ( consumptionType == CONSUME_MULTIPLE )
+		{
+			addFormField( "action", "useitem" );
+			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "quantity", "" + itemCount );
+		}
+
 		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemName ) );
 
 		this.itemUsed = new AdventureResult( itemName, -1 );
-		this.resultRequest = new RetrieveResultRequest( client,
-			(consumptionType == CONSUME_USE || consumptionType == CONSUME_MULTIPLE) ? 3 : 1 );
+		this.resultRequest = new RetrieveResultRequest( client, consumptionType == CONSUME_USE ? 3 : 1 );
 	}
 
 	public void run()
