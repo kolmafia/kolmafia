@@ -151,6 +151,11 @@ public class SearchMallRequest extends KoLRequest
 			return;
 
 		int startIndex = replyContent.indexOf( "Search Results:" );
+		if ( startIndex == -1 )
+		{
+			updateDisplay( ENABLED_STATE, "No results found." );
+			return;
+		}
 
 		// Change all multi-line store names into single line store names so that the
 		// parser doesn't get confused; remove all stores where limits have already
@@ -260,7 +265,6 @@ public class SearchMallRequest extends KoLRequest
 		if ( forceSortingString != null && forceSortingString.equals( "true" ) )
 			java.util.Collections.sort( results );
 
-		results.add( "" );
 		updateDisplay( ENABLED_STATE, "Search complete." );
 	}
 }
