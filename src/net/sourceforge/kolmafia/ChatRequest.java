@@ -167,6 +167,8 @@ public class ChatRequest extends KoLRequest
 
 			if ( isContinuationRequest )
 				(new ChatContinuationThread()).start();
+			if ( isFriendAdditionRequest )
+				(new ChatRequest( client, null, "/friends" )).run();
 		}
 	}
 
