@@ -72,7 +72,6 @@ public class ConcoctionsDatabase implements UtilityConstants
 
 		BufferedReader itemdata = DataUtilities.getReaderForSharedDataFile( ITEM_DBASE_FILE );
 
-
 		try
 		{
 			String line;
@@ -96,14 +95,46 @@ public class ConcoctionsDatabase implements UtilityConstants
 		}
 	}
 
+	/**
+	 * Returns the concoctions which are available given the list of
+	 * ingredients.  The list returned contains formal requests for
+	 * item creation.
+	 *
+	 * @param	client	The client to be consulted of the results
+	 * @param	availableIngredients	The list of ingredients available for mixing
+	 * @return	A list of possible concoctions
+	 */
+
 	public static LockableListModel getConcoctions( KoLmafia client, List availableIngredients )
 	{
 		for ( int i = 0; i < ITEM_COUNT; ++i )
-			quantityPossible[i] = -1;
+		{
+			if ( concoctions[i] == null )
+			{
+				String itemName = TradeableItemDatabase.getItemName(i);
+				if ( itemName != null )
+				{
+					int index = availableIngredients.indexOf( new AdventureResult( itemName, 0 ) );
+					quantityPossible[i] = (index == -1) ? 0 : ((AdventureResult)availableIngredients.get( index )).getCount();
+				}
+				else
+					quantityPossible[i] = 0;
+			}
+			else
+				quantityPossible[i] = -1;
+		}
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( concoctions[i] != null )
 				concoctions[i].calculateQuantityPossible( availableIngredients );
+
+		for ( int i = 0; i < availableIngredients.size(); ++i )
+		{
+			AdventureResult result = (AdventureResult) availableIngredients.get(i);
+
+			if ( result.isItem() )
+				quantityPossible[ TradeableItemDatabase.getItemID( result.getName() ) ] -= result.getCount();
+		}
 
 		LockableListModel concoctionsList = new LockableListModel();
 
@@ -113,6 +144,21 @@ public class ConcoctionsDatabase implements UtilityConstants
 
 		return concoctionsList;
 	}
+
+	/**
+	 * Returns the item IDs of the ingredients for the given item.
+	 * Note that if there are no ingredients, then <code>null</code>
+	 * will be returned instead.
+	 */
+
+	public static int [][] getIngredients( int itemID )
+	{	return (concoctions[ itemID ] == null) ? null : concoctions[ itemID ].getIngredients();
+	}
+
+	/**
+	 * Internal class used to represent a single concoction.  It
+	 * contains all the information needed to actually make the item.
+	 */
 
 	private static class Concoction
 	{
@@ -134,6 +180,21 @@ public class ConcoctionsDatabase implements UtilityConstants
 
 		public int getMixingMethod()
 		{	return mixingMethod;
+		}
+
+		public int [][] getIngredients()
+		{
+			int [][] ingredients = new int[2][2];
+
+			ingredients[0][0] = ingredient1;
+			ingredients[0][1] = (concoctions[ingredient1] == null) ?
+				ItemCreationRequest.NOCREATE : concoctions[ingredient1].getMixingMethod();
+
+			ingredients[1][0] = ingredient2;
+			ingredients[1][1] = (concoctions[ingredient2] == null) ?
+				ItemCreationRequest.NOCREATE : concoctions[ingredient2].getMixingMethod();
+
+			return ingredients;
 		}
 
 		public void calculateQuantityPossible( List availableIngredients )

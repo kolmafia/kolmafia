@@ -85,7 +85,7 @@ public class ItemManageFrame extends KoLFrame
 		setResizable( false );
 
 		tabs = new JTabbedPane();
-		tabs.addTab( "Sell", new SellItemPanel() );
+		tabs.addTab( "Sell", new SellPanel() );
 		tabs.addTab( "Put Away", new StoragePanel() );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
@@ -107,101 +107,189 @@ public class ItemManageFrame extends KoLFrame
 			tabs.setEnabledAt( i, isEnabled );
 	}
 
-	/**
-	 * Internal class used to handle everything related to
-	 * selling items; this allows autoselling of items as
-	 * well as placing item inside of a store.
-	 */
 
-	private class SellItemPanel extends NonContentPanel
+	private class SellPanel extends JPanel
 	{
-		private LockableListModel available;
 		private JList availableList;
+		private JList concoctionsList;
 
-		public SellItemPanel()
+		public SellPanel()
 		{
-			super( "autosell", "automall" );
-			setContent( null, null, null, null, true, true );
+			JPanel panel = new JPanel();
+			panel.setLayout( new BorderLayout( 10, 10 ) );
+			panel.add( new SellItemPanel(), BorderLayout.NORTH );
+			panel.add( new CreateItemPanel(), BorderLayout.SOUTH );
 
-			available = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
-			availableList = new JList( available );
-			availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-			availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
-
-			add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
-		}
-
-		public void clear()
-		{
-		}
-
-		protected void actionConfirmed()
-		{	(new AutoSellRequestThread( AutoSellRequest.AUTOSELL )).start();
-		}
-
-		protected void actionCancelled()
-		{	(new AutoSellRequestThread( AutoSellRequest.AUTOMALL )).start();
+			setLayout( new CardLayout( 10, 10 ) );
+			add( panel, "" );
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
 			availableList.setEnabled( isEnabled );
+			concoctionsList.setEnabled( isEnabled );
 		}
 
 		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually autosell the items.
+		 * Internal class used to handle everything related to
+		 * selling items; this allows autoselling of items as
+		 * well as placing item inside of a store.
 		 */
 
-		private class AutoSellRequestThread extends Thread
+		private class SellItemPanel extends NonContentPanel
 		{
-			private int sellType;
+			private LockableListModel available;
 
-			public AutoSellRequestThread( int sellType )
+			public SellItemPanel()
 			{
-				super( "AutoSell-Request-Thread" );
-				setDaemon( true );
-				this.sellType = sellType;
+				super( "autosell", "sell in mall" );
+				setContent( null, null, null, null, true, true );
+
+				available = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
+				availableList = new JList( available );
+				availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
+				availableList.setVisibleRowCount( 8 );
+
+				add( JComponentUtilities.createLabel( "Inside Inventory", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+				add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
 			}
 
-			public void run()
+			public void clear()
 			{
-				try
+			}
+
+			protected void actionConfirmed()
+			{	(new AutoSellRequestThread( AutoSellRequest.AUTOSELL )).start();
+			}
+
+			protected void actionCancelled()
+			{	(new AutoSellRequestThread( AutoSellRequest.AUTOMALL )).start();
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				availableList.setEnabled( isEnabled );
+			}
+
+			/**
+			 * In order to keep the user interface from freezing (or at
+			 * least appearing to freeze), this internal class is used
+			 * to actually autosell the items.
+			 */
+
+			private class AutoSellRequestThread extends Thread
+			{
+				private int sellType;
+
+				public AutoSellRequestThread( int sellType )
 				{
-					SellItemPanel.this.setEnabled( false );
-					Object [] items = availableList.getSelectedValues();
-					AdventureResult currentItem;
+					super( "AutoSell-Request-Thread" );
+					setDaemon( true );
+					this.sellType = sellType;
+				}
 
-					for ( int i = 0; i < items.length; ++i )
+				public void run()
+				{
+					try
 					{
-						currentItem = (AdventureResult) items[i];
+						SellItemPanel.this.setEnabled( false );
+						Object [] items = availableList.getSelectedValues();
+						AdventureResult currentItem;
 
-						switch ( sellType )
+						for ( int i = 0; i < items.length; ++i )
 						{
-							case AutoSellRequest.AUTOSELL:
-								updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getName() + "..." );
-								break;
+							currentItem = (AdventureResult) items[i];
 
-							case AutoSellRequest.AUTOMALL:
-								updateDisplay( DISABLED_STATE, "Placing " + currentItem.getName() + " in the mall..." );
-								break;
+							switch ( sellType )
+							{
+								case AutoSellRequest.AUTOSELL:
+									updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getName() + "..." );
+									break;
+
+								case AutoSellRequest.AUTOMALL:
+									updateDisplay( DISABLED_STATE, "Placing " + currentItem.getName() + " in the mall..." );
+									break;
+							}
+
+							(new AutoSellRequest( client, sellType, currentItem )).run();
 						}
 
-						(new AutoSellRequest( client, sellType, currentItem )).run();
+						updateDisplay( ENABLED_STATE, "Requests complete." );
+						SellItemPanel.this.setEnabled( true );
 					}
-
-					updateDisplay( ENABLED_STATE, "Requests complete." );
-					SellItemPanel.this.setEnabled( true );
+					catch ( NumberFormatException e )
+					{
+						// If the number placed inside of the count list was not
+						// an actual integer value, pretend nothing happened.
+						// Using exceptions for flow control is bad style, but
+						// this will be fixed once we add functionality.
+					}
 				}
-				catch ( NumberFormatException e )
+			}
+		}
+
+		/**
+		 * Internal class used to handle everything related to
+		 * creating items; this allows creating of items,
+		 * which usually get resold in malls.
+		 */
+
+		private class CreateItemPanel extends NonContentPanel
+		{
+			private LockableListModel concoctions;
+
+			public CreateItemPanel()
+			{
+				super( "create items", "refresh list" );
+				setContent( null, null, null, null, true, true );
+
+				concoctions = client == null ? new LockableListModel() : ConcoctionsDatabase.getConcoctions( client, client.getInventory() );
+				concoctionsList = new JList( concoctions );
+				concoctionsList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+				concoctionsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
+				concoctionsList.setVisibleRowCount( 8 );
+
+				add( JComponentUtilities.createLabel( "Create an Item", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+				add( new JScrollPane( concoctionsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+			}
+
+			public void clear()
+			{
+			}
+
+			protected void actionConfirmed()
+			{
+			}
+
+			protected void actionCancelled()
+			{	(new RefreshListThread()).start();
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				concoctionsList.setEnabled( isEnabled );
+			}
+
+			/**
+			 * In order to keep the user interface from freezing (or at
+			 * least appearing to freeze), this internal class is used
+			 * to actually autosell the items.
+			 */
+
+			private class RefreshListThread extends Thread
+			{
+				public void run()
 				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
+					concoctions.clear();
+					concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, client.getInventory() ) );
 				}
 			}
 		}
@@ -249,7 +337,7 @@ public class ItemManageFrame extends KoLFrame
 				availableList = new JList( inventory );
 				availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
-				availableList.setVisibleRowCount( 7 );
+				availableList.setVisibleRowCount( 8 );
 
 				add( JComponentUtilities.createLabel( "Inside Inventory", JLabel.CENTER,
 					Color.black, Color.white ), BorderLayout.NORTH );
@@ -283,7 +371,7 @@ public class ItemManageFrame extends KoLFrame
 				closetList = new JList( closet );
 				closetList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				closetList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
-				closetList.setVisibleRowCount( 7 );
+				closetList.setVisibleRowCount( 8 );
 
 				add( JComponentUtilities.createLabel( "Inside Closet", JLabel.CENTER,
 					Color.black, Color.white ), BorderLayout.NORTH );

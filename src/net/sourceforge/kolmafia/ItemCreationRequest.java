@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.List;
 
 /**
  * An extension of <code>KoLRequest</code> designed to handle all the
@@ -46,12 +47,13 @@ public class ItemCreationRequest extends KoLRequest
 	public static final int MEAT_STACK = 88;
 	public static final int DENSE_STACK = 258;
 
+	public static final int NOCREATE = 0;
 	public static final int COMBINE = 1;
 	public static final int COOK = 2;
 	public static final int MIX = 3;
 	public static final int SMITH = 4;
 
-	private int itemID, quantity, creationType;
+	private int itemID, quantityNeeded, mixingMethod;
 
 	/**
 	 * Constructs a new <code>ItemCreationRequest</code> where you create
@@ -59,14 +61,21 @@ public class ItemCreationRequest extends KoLRequest
 	 *
 	 * @param	client	The client to be notified of the item creation
 	 * @param	itemID	The identifier for the item to be created
+	 * @param	mixingMethod	How the item is created
+	 * @param	quantityNeeded	How many of this item are needed
 	 */
 
-	public ItemCreationRequest( KoLmafia client, int itemID, int creationType, int quantity )
+	public ItemCreationRequest( KoLmafia client, int itemID, int mixingMethod, int quantityNeeded )
 	{
-		super( client, "" );
+		super( client, mixingMethod == COMBINE ? "combine.php" : mixingMethod == COOK ? "cook.php" :
+			mixingMethod == MIX ? "cocktail.php" : "" );
+
+		addFormField( "action", "combine" );
+		addFormField( "pwd", client.getPasswordHash() );
+
 		this.itemID = itemID;
-		this.creationType = creationType;
-		this.quantity = quantity;
+		this.mixingMethod = mixingMethod;
+		this.quantityNeeded = quantityNeeded;
 	}
 
 	/**
@@ -85,22 +94,22 @@ public class ItemCreationRequest extends KoLRequest
 
 			case MEAT_PASTE:
 			{
-				while ( quantity > 1000 )
+				while ( quantityNeeded > 1000 )
 				{
 					(new MeatPasteRequest( client, 1000 )).run();
-					quantity -= 1000;
+					quantityNeeded -= 1000;
 				}
-				while ( quantity > 100 )
+				while ( quantityNeeded > 100 )
 				{
 					(new MeatPasteRequest( client, 100 )).run();
-					quantity -= 100;
+					quantityNeeded -= 100;
 				}
-				while ( quantity > 10 )
+				while ( quantityNeeded > 10 )
 				{
 					(new MeatPasteRequest( client, 10 )).run();
-					quantity -= 10;
+					quantityNeeded -= 10;
 				}
-				for ( int i = 0; i < quantity; ++i )
+				for ( int i = 0; i < quantityNeeded; ++i )
 					(new MeatPasteRequest( client, 1 )).run();
 				break;
 			}
@@ -113,7 +122,7 @@ public class ItemCreationRequest extends KoLRequest
 			case DENSE_STACK:
 			{
 				boolean isDense = (itemID == DENSE_STACK);
-				for ( int i = 0; i < quantity; ++i )
+				for ( int i = 0; i < quantityNeeded; ++i )
 					(new MeatStackRequest( client, isDense )).run();
 				break;
 			}
@@ -126,14 +135,14 @@ public class ItemCreationRequest extends KoLRequest
 
 			default:
 
-				switch ( creationType )
+				switch ( mixingMethod )
 				{
 					case COMBINE:
+					case COOK:
+					case MIX:
 						combineItems();
 						break;
 
-					case COOK:
-					case MIX:
 					case SMITH:
 						break;
 				}
@@ -148,6 +157,59 @@ public class ItemCreationRequest extends KoLRequest
 
 	private void combineItems()
 	{
+		int [][] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+
+		if ( ingredients != null )
+		{
+			makeIngredient( ingredients[0][0], ingredients[0][1] );
+			makeIngredient( ingredients[1][0], ingredients[1][1] );
+		}
+
+		// Check to see if you need meat paste in order
+		// to create the needed quantity of items, and
+		// create any needed meat paste.
+
+		if ( mixingMethod == COMBINE )
+			makeIngredient( MEAT_PASTE, COMBINE );
+
+		// Now that the item's been created, you can
+		// actually do the request!
+
+		addFormField( "item1", "" + ingredients[0][0] );
+		addFormField( "item2", "" + ingredients[1][0] );
+		addFormField( "quantity", "" + quantityNeeded );
+
+		super.run();
+	}
+
+	/**
+	 * Helper routine which makes more of the given ingredient, if it
+	 * is needed.
+	 *
+	 * @param	ingredientID	The ingredient to make
+	 * @param	mixingMethod	How the ingredient is prepared
+	 */
+
+	private void makeIngredient( int ingredientID, int mixingMethod )
+	{
+		List inventory = client.getInventory();
+		int index = inventory.indexOf( new AdventureResult( TradeableItemDatabase.getItemName( ingredientID ), 0 ) );
+		int currentQuantity = (index == -1) ? 0 : ((AdventureResult)inventory.get( index )).getCount();
+
+		if ( currentQuantity < quantityNeeded )
+			(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - currentQuantity )).run();
+	}
+
+	/**
+	 * Returns the string form of this item creation request.
+	 * This displays the item name, and the amount that will
+	 * be created by this request.
+	 *
+	 * @return	The string form of this request
+	 */
+
+	public String toString()
+	{	return TradeableItemDatabase.getItemName( itemID ) + " (" + quantityNeeded + ")";
 	}
 
 	/**
@@ -159,11 +221,11 @@ public class ItemCreationRequest extends KoLRequest
 
 	private class MeatPasteRequest extends KoLRequest
 	{
-		public MeatPasteRequest( KoLmafia client, int quantity )
+		public MeatPasteRequest( KoLmafia client, int quantityNeeded )
 		{
 			super( client, "inventory.php" );
 			addFormField( "which", "3" );
-			addFormField( "action", ((quantity == 1) ? "meat" : "" + quantity) + "paste" );
+			addFormField( "action", ((quantityNeeded == 1) ? "meat" : "" + quantityNeeded) + "paste" );
 		}
 	}
 
