@@ -62,6 +62,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private PrintStream outputStream;
 	private BufferedReader commandStream;
+	private KoLmafia scriptRequestor;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -73,7 +74,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			KoLmafiaCLI session = new KoLmafiaCLI( null );
+			KoLmafiaCLI session = new KoLmafiaCLI( null, null );
 			session.attemptLogin();
 		}
 		catch ( IOException e )
@@ -112,17 +113,25 @@ public class KoLmafiaCLI extends KoLmafia
 	 * to allow the user to login.
 	 */
 
-	public KoLmafiaCLI( String scriptLocation ) throws IOException
+	public KoLmafiaCLI( KoLmafia scriptRequestor, String scriptLocation ) throws IOException
 	{
 		InputStream inputStream = scriptLocation == null ? System.in : new FileInputStream( scriptLocation );
 
 		outputStream = scriptLocation == null ? System.out : new NullStream();
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
+		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
 
-		outputStream.println();
-		outputStream.println( "****************" );
-		outputStream.println( "* KoLmafia CLI *" );
-		outputStream.println( "****************" );
+		if ( scriptRequestor instanceof KoLmafiaGUI )
+		{
+			listenForCommands();
+		}
+		else
+		{
+			outputStream.println();
+			outputStream.println( "****************" );
+			outputStream.println( "* KoLmafia CLI *" );
+			outputStream.println( "****************" );
+		}
 	}
 
 	/**
@@ -307,7 +316,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
 			(new ConsumeItemRequest( this, consumptionType, itemName, itemCount )).run();
 		else
-			makeRequest( new ConsumeItemRequest( this, consumptionType, itemName, 1 ), itemCount );
+			makeRequest( new ConsumeItemRequest( scriptRequestor, consumptionType, itemName, 1 ), itemCount );
 	}
 
 	/**
@@ -317,13 +326,18 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
-		outputStream.println( message );
+		if ( scriptRequestor instanceof KoLmafiaGUI )
+			scriptRequestor.updateDisplay( state, message );
+		else
+		{
+			outputStream.println( message );
 
-		// There's a special case to be handled if the login was not
-		// successful - in other words, attempt to prompt the user again
+			// There's a special case to be handled if the login was not
+			// successful - in other words, attempt to prompt the user again
 
-		if ( message.equals( "Login failed." ) )
-			attemptLogin();
+			if ( message.equals( "Login failed." ) )
+				attemptLogin();
+		}
 	}
 
 	/**
