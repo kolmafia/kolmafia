@@ -186,21 +186,12 @@ public class ChatRequest extends KoLRequest
 
 		public void run()
 		{
-			try
-			{
-				// Before running the next request, you should wait for the
-				// refresh rate indicated - this is likely the default rate
-				// used for the KoLChat.
+			// Before running the next request, you should wait for the
+			// refresh rate indicated - this is likely the default rate
+			// used for the KoLChat.
 
-				if ( NEEDED_DELAY > 0 )
-					this.sleep( NEEDED_DELAY );
-			}
-			catch ( InterruptedException e )
-			{
-				// Because this thread is never passed to the outside world,
-				// this should only happen on close - but since this is a
-				// daemon thread, it'll automatically die anyway.
-			}
+			if ( NEEDED_DELAY > 0 )
+				ChatRequest.delay( NEEDED_DELAY );
 
 			// Once the thread has waited for the stated amount of time,
 			// the next chat request should be run.  Note that this is

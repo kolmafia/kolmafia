@@ -289,19 +289,35 @@ public class KoLRequest implements Runnable, KoLConstants
 		// all requests, not just chat requests, have a delay before
 		// running to be friendlier on the server.
 
-		try
-		{
-			if ( !formURLString.equals( "" ) && !formURLString.equals( "login.php" ) && !client.inLoginState() )
-				Thread.sleep( REFRESH_RATE );
-		}
-		catch ( InterruptedException e )
-		{
-		}
+		if ( client != null && !client.inLoginState() )
+			delay( REFRESH_RATE );
 
 		// Now that everything's been delayed, go ahead and execute
 		// the request (which is different from running now!)
 
 		execute();
+	}
+
+	/**
+	 * Utility method which waits for the given duration without
+	 * using Thread.sleep() - this means CPU usage can be greatly
+	 * reduced.
+	 */
+
+	protected static void delay( long milliseconds )
+	{
+		Object waitObject = new Object();
+		try
+		{
+			synchronized ( waitObject )
+			{
+				waitObject.wait( milliseconds );
+				waitObject.notifyAll();
+			}
+		}
+		catch ( InterruptedException e )
+		{
+		}
 	}
 
 	/**
