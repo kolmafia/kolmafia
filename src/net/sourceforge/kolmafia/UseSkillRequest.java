@@ -75,12 +75,17 @@ public class UseSkillRequest extends KoLRequest
 		else
 			addFormField( "quantity", "" + buffCount );
 
+		this.target = target;
 		this.consumedMP = ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount;
 	}
 
 	public void run()
 	{
-		updateDisplay( DISABLED_STATE, "Casting " + skillName + "..." );
+		if ( target == null )
+			updateDisplay( DISABLED_STATE, "Casting " + skillName + "..." );
+		else
+			updateDisplay( DISABLED_STATE, "Casting " + skillName + " on " + target );
+
 		super.run();
 
 		// If it does not notify you that you didn't have enough mana points,
