@@ -648,10 +648,13 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			isBuffing = false;
-			contentPanel = clanBuff;
-			client.updateAdventure( false, false );
-			updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
+			if ( isBuffing )
+			{
+				isBuffing = false;
+				contentPanel = clanBuff;
+				client.updateAdventure( false, false );
+				updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
+			}
 		}
 
 		public void requestFocus()
@@ -763,11 +766,14 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			contentPanel = heroDonation;
-			if ( heroField.getSelectedIndex() != -1 )
-				updateDisplay( NOCHANGE_STATE, "You have killed the Hermit hiding behind the " + heroField.getSelectedItem() );
-			else
-				updateDisplay( NOCHANGE_STATE, "Blow up which statue?" );
+			if ( AdventureFrame.this.isEnabled() )
+			{
+				contentPanel = heroDonation;
+				if ( heroField.getSelectedIndex() != -1 )
+					updateDisplay( NOCHANGE_STATE, "You have killed the Hermit hiding behind the " + heroField.getSelectedItem() );
+				else
+					updateDisplay( NOCHANGE_STATE, "Blow up which statue?" );
+			}
 		}
 
 		public void requestFocus()
