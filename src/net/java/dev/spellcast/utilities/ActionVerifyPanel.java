@@ -125,16 +125,11 @@ public abstract class ActionVerifyPanel extends JRootPane
 		// to be specified, then it appears above the button panel
 
 		JPanel eastContainer = new JPanel();
-		eastContainer.setLayout( new BorderLayout() );
+		eastContainer.setLayout( new BorderLayout( 10, 10 ) );
+		eastContainer.add( buttonPanel, BorderLayout.NORTH );
 
 		if ( eastPanel != null )
-		{
-			eastContainer.add( eastPanel, BorderLayout.NORTH );
-			eastContainer.add( Box.createVerticalStrut( 10 ), BorderLayout.CENTER );
-			eastContainer.add( buttonPanel, BorderLayout.SOUTH );
-		}
-		else
-			eastContainer.add( buttonPanel, BorderLayout.NORTH );
+			eastContainer.add( eastPanel, BorderLayout.CENTER );
 
 		container.add( eastContainer, BorderLayout.EAST );
 
@@ -163,20 +158,26 @@ public abstract class ActionVerifyPanel extends JRootPane
 		if ( elements != null && elements.length > 0 )
 		{
 			JPanel elementsContainer = new JPanel();
-			elementsContainer.setLayout( new BoxLayout( elementsContainer, BoxLayout.X_AXIS ) );
+
+			if ( elements.length == 1 )
+				elementsContainer.setLayout( new BorderLayout() );
+			else
+				elementsContainer.setLayout( new BoxLayout( elementsContainer, BoxLayout.X_AXIS ) );
 
 			if ( isLabelPreceeding )
 			{
 				elementsContainer.add( constructLabelPanel( elements ) );
-				elementsContainer.add( Box.createHorizontalStrut( 10 ) );
+				if ( elements.length > 1 )
+					elementsContainer.add( Box.createHorizontalStrut( 10 ), BorderLayout.WEST );
 			}
 
-			elementsContainer.add( constructFieldPanel( elements ) );
+			elementsContainer.add( constructFieldPanel( elements ), BorderLayout.CENTER );
 
 			if ( !isLabelPreceeding )
 			{
-				elementsContainer.add( Box.createHorizontalStrut( 10 ) );
-				elementsContainer.add( constructLabelPanel( elements ) );
+				if ( elements.length > 1 )
+					elementsContainer.add( Box.createHorizontalStrut( 10 ) );
+				elementsContainer.add( constructLabelPanel( elements ), BorderLayout.EAST );
 			}
 
 			westContainer.add( elementsContainer,
