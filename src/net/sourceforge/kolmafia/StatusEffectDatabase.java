@@ -55,7 +55,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class StatusEffectDatabase implements UtilityConstants
 {
-	private static final String EFFECT_DBASE_FILE = "statuseffect.dat";
+	private static final String EFFECT_DBASE_FILE = "statuseffects.dat";
 	public static final int EFFECT_COUNT = 1200;
 
 	private static String [] effectByID = new String[ EFFECT_COUNT ];
