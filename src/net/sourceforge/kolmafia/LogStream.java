@@ -79,49 +79,4 @@ public class LogStream extends java.io.PrintStream
 		println();
 		println();
 	}
-
-	/**
-	 * Prints the given exception to the current <code>LogStream</code>,
-	 * along with the stack trace.
-	 *
-	 * @param	e	The <code>Exception</code> to be printed to this <code>LogStream</code>.
-	 */
-
-	public void println( Exception e )
-	{
-		println();
-		println( "****************************" );
-		println( "  General Exception: " + e.toString() );
-		println();
-
-		e.printStackTrace( this );
-
-		println( "****************************" );
-		println();
-		println();
-	}
-
-	/**
-	 * Prints the given exception to the current <code>LogStream</code>,
-	 * along with the stack trace.  Note that there is no difference
-	 * between this method and the corresponding method for generic
-	 * <code>Exceptions</code> other than the fact that "Runtime"
-	 * is used instead of "General".
-	 *
-	 * @param	e	The <code>RuntimeException</code> to be printed to this <code>LogStream</code>.
-	 */
-
-	public void println( RuntimeException e )
-	{
-		println();
-		println( "****************************" );
-		println( "  Runtime Exception: " + e.toString() );
-		println();
-
-		e.printStackTrace( this );
-
-		println( "****************************" );
-		println();
-		println();
-	}
 }
