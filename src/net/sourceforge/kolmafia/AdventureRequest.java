@@ -237,8 +237,9 @@ public class AdventureRequest extends KoLRequest
 		// If you went to the tavern, 100 meat should be deducted from
 		// your running tally.
 
-		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "25" ) )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
+		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "25" ) &&
+			replyContent.indexOf( "You gain 2 Dru" ) == -1 )
+					client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
 
 		// If you're at the casino, each of the different slot machines
 		// deducts meat from your tally
