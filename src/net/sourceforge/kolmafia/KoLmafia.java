@@ -73,10 +73,8 @@ public class KoLmafia implements UtilityConstants
 
 	public static void main( String [] args )
 	{
-
-System.out.println( MoonPhaseDatabase.getMoonEffect() );
-//		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
-//    	KoLmafia session = new KoLmafia();
+		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
+    	KoLmafia session = new KoLmafia();
 	}
 
 	/**
