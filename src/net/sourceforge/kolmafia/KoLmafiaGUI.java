@@ -33,15 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
 import javax.swing.JOptionPane;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 /**
  * The main class for the <code>KoLmafia</code> package.  This
@@ -52,7 +44,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * of the interactions.
  */
 
-public class KoLmafiaGUI extends KoLmafia implements UtilityConstants
+public class KoLmafiaGUI extends KoLmafia
 {
 	private KoLFrame activeFrame;
 

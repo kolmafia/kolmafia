@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import javax.swing.JOptionPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
