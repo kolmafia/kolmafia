@@ -95,6 +95,7 @@ public class FightRequest extends KoLRequest
 				// was completed.
 
 				processResults( replyContent.substring( winmsgIndex + 16 ) );
+				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 				client.updateAdventure( true, true );
 			}
 			else if ( replyContent.indexOf( "You lose." ) != -1 )
@@ -106,6 +107,7 @@ public class FightRequest extends KoLRequest
 
 				processResults( "" );
 				updateDisplay( KoLFrame.ENABLED_STATE, "You were defeated!" );
+				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 				client.updateAdventure( true, false );
 			}
 			else
