@@ -118,14 +118,31 @@ public class AdventureRequest extends KoLRequest
 		// different URL), you can actually skip the adventure.
 
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "choice.php" ) )
+		{
 			(new AdventureRequest( client, formSource, adventureID )).run();
+			return;
+		}
 
 		// Also, if you're using KoLmafia, you're probably not
 		// trying to complete the /haiku subquest, so the subquest
 		// will be ignored as well
 
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "haiku.php" ) )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "Encountered haiku subquest." );
 			client.cancelRequest();
+			return;
+		}
+
+		// Update if you're redirected to a page the client does not
+		// yet recognize.
+
+		if ( !isErrorState && responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "Redirected to unknown page: " + redirectLocation );
+			client.cancelRequest();
+			return;
+		}
 
 		// From here on out, there will only be data handling
 		// if you've encountered a non-redirect request, and
