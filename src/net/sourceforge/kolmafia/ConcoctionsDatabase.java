@@ -169,7 +169,7 @@ public class ConcoctionsDatabase implements UtilityConstants
 
 	private static boolean isPermittedMixtureMethod( int mixingMethod, KoLCharacter data )
 	{
-		String classname = data.getClassName();
+		String classtype = data.getClassType();
 
 		switch ( mixingMethod )
 		{
@@ -180,16 +180,16 @@ public class ConcoctionsDatabase implements UtilityConstants
 				return data.hasBartender();
 
 			case ItemCreationRequest.SMITH:
-				return data.hasChef() && classname.startsWith( "Se" );
+				return data.hasChef() && classtype.startsWith( "Se" );
 
 			case ItemCreationRequest.COOK_REAGENT:
-				return data.hasChef() && classname.startsWith( "Sa" );
+				return data.hasChef() && classtype.startsWith( "Sa" );
 
 			case ItemCreationRequest.COOK_PASTA:
-				return data.hasChef() && classname.startsWith( "Pa" );
+				return data.hasChef() && classtype.startsWith( "Pa" );
 
 			case ItemCreationRequest.MIX_SPECIAL:
-				return data.hasBartender() && classname.startsWith( "Di" );
+				return data.hasBartender() && classtype.startsWith( "Di" );
 
 			default:
 				return true;

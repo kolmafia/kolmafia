@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.List;
+import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -50,9 +51,129 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLCharacter
 {
+	private static List SEAL_CLUBBER = new ArrayList();
+	static
+	{
+		SEAL_CLUBBER.add( "Lemming Trampler" );
+		SEAL_CLUBBER.add( "Tern Slapper" );
+		SEAL_CLUBBER.add( "Puffin Intimidator" );
+		SEAL_CLUBBER.add( "Ermine Thumper" );
+		SEAL_CLUBBER.add( "Penguin Frightener" );
+		SEAL_CLUBBER.add( "Malamute Basher" );
+		SEAL_CLUBBER.add( "Narwhal Pummeler" );
+		SEAL_CLUBBER.add( "Otter Crusher" );
+		SEAL_CLUBBER.add( "Caribou Smacker" );
+		SEAL_CLUBBER.add( "Moose Harasser" );
+		SEAL_CLUBBER.add( "Reindeer Threatener" );
+		SEAL_CLUBBER.add( "Ox Wrestler" );
+		SEAL_CLUBBER.add( "Walrus Bludgeoner" );
+		SEAL_CLUBBER.add( "Whale Boxer" );
+		SEAL_CLUBBER.add( "Seal Clubber" );
+	}
+
+	private static List TURTLE_TAMER = new ArrayList();
+	static
+	{
+		TURTLE_TAMER.add( "Toad Coach" );
+		TURTLE_TAMER.add( "Skink Trainer" );
+		TURTLE_TAMER.add( "Frog Director" );
+		TURTLE_TAMER.add( "Gecko Supervisor" );
+		TURTLE_TAMER.add( "Newt Herder" );
+		TURTLE_TAMER.add( "Frog Boss" );
+		TURTLE_TAMER.add( "Iguana Driver" );
+		TURTLE_TAMER.add( "Salamander Subduer" );
+		TURTLE_TAMER.add( "Bullfrog Overseer" );
+		TURTLE_TAMER.add( "Rattlesnake Chief" );
+		TURTLE_TAMER.add( "Crocodile Lord" );
+		TURTLE_TAMER.add( "Cobra Commander" );
+		TURTLE_TAMER.add( "Alligator Subjugator" );
+		TURTLE_TAMER.add( "Asp Master" );
+		TURTLE_TAMER.add( "Turtle Tamer" );
+	}
+
+	private static List PASTAMANCER = new ArrayList();
+	static
+	{
+		PASTAMANCER.add( "Dough Acolyte" );
+		PASTAMANCER.add( "Yeast Scholar" );
+		PASTAMANCER.add( "Noodle Neophyte" );
+		PASTAMANCER.add( "Starch Savant" );
+		PASTAMANCER.add( "Carbohydrate Cognoscenti" );
+		PASTAMANCER.add( "Spaghetti Sage" );
+		PASTAMANCER.add( "Macaroni Magician" );
+		PASTAMANCER.add( "Vermicelli Enchanter" );
+		PASTAMANCER.add( "Linguini Thaumaturge" );
+		PASTAMANCER.add( "Ravioli Sorcerer" );
+		PASTAMANCER.add( "Manicotti Magus" );
+		PASTAMANCER.add( "Spaghetti Spellbinder" );
+		PASTAMANCER.add( "Canneloni Conjurer" );
+		PASTAMANCER.add( "Angel-Hair Archmage" );
+		PASTAMANCER.add( "Pastamancer" );
+	}
+
+	private static List SAUCEROR = new ArrayList();
+	static
+	{
+		SAUCEROR.add( "Allspice Acolyte" );
+		SAUCEROR.add( "Cilantro Seer" );
+		SAUCEROR.add( "Parsley Enchanter" );
+		SAUCEROR.add( "Sage Sage" );
+		SAUCEROR.add( "Rosemary Diviner" );
+		SAUCEROR.add( "Thyme Wizard" );
+		SAUCEROR.add( "Taragon Thaumaturge" );
+		SAUCEROR.add( "Oreganoccultist" );
+		SAUCEROR.add( "Basillusionist" );
+		SAUCEROR.add( "Coriander Conjurer" );
+		SAUCEROR.add( "Bay Leaf Brujo" );
+		SAUCEROR.add( "Sesame Soothsayer" );
+		SAUCEROR.add( "Marinara Mage" );
+		SAUCEROR.add( "Alfredo Archmarge" );
+		SAUCEROR.add( "Sauceror" );
+	}
+
+	private static List DISCO_BANDIT = new ArrayList();
+	static
+	{
+		DISCO_BANDIT.add( "Funk Footpad" );
+		DISCO_BANDIT.add( "Rhythm Rogue" );
+		DISCO_BANDIT.add( "Chill Crook" );
+		DISCO_BANDIT.add( "Jiggy Grifter" );
+		DISCO_BANDIT.add( "Beat Snatcher" );
+		DISCO_BANDIT.add( "Sample Swindler" );
+		DISCO_BANDIT.add( "Move Buster" );
+		DISCO_BANDIT.add( "Jam Horker" );
+		DISCO_BANDIT.add( "Groove Filcher" );
+		DISCO_BANDIT.add( "Vibe Robber" );
+		DISCO_BANDIT.add( "Boogie Brigand" );
+		DISCO_BANDIT.add( "Flow Purloiner" );
+		DISCO_BANDIT.add( "Jive Pillager" );
+		DISCO_BANDIT.add( "Rhymer and Stealer" );
+		DISCO_BANDIT.add( "Disco Bandit" );
+	}
+
+	private static List ACCORDION_THIEF = new ArrayList();
+	static
+	{
+		ACCORDION_THIEF.add( "Polka Criminal" );
+		ACCORDION_THIEF.add( "Mariachi Larcenist" );
+		ACCORDION_THIEF.add( "Zydeco Rogue" );
+		ACCORDION_THIEF.add( "Chord Horker" );
+		ACCORDION_THIEF.add( "Chromatic Crook" );
+		ACCORDION_THIEF.add( "Squeezebox Scoundrel" );
+		ACCORDION_THIEF.add( "Concertina Con Artist" );
+		ACCORDION_THIEF.add( "Button Box Burglar" );
+		ACCORDION_THIEF.add( "Hurdy-Gurdy Hooligan" );
+		ACCORDION_THIEF.add( "Sub-Sub-Apprentice Accordion Thief" );
+		ACCORDION_THIEF.add( "Sub-Apprentice Accordion Thief" );
+		ACCORDION_THIEF.add( "Pseudo-Apprentice Accordion Thief" );
+		ACCORDION_THIEF.add( "Hemi-Apprentice Accordion Thief" );
+		ACCORDION_THIEF.add( "Apprentice Accordion Thief" );
+		ACCORDION_THIEF.add( "Accordion Thief" );
+	}
+
 	private String username;
 	private int userID, level;
-	private String classname;
+	private String classname, classtype;
 
 	private int currentHP, maximumHP, baseMaxHP;
 	private int currentMP, maximumMP, baseMaxMP;
@@ -163,7 +284,23 @@ public class KoLCharacter
 	 */
 
 	public void setClassName( String classname )
-	{	this.classname = classname;
+	{
+		this.classname = classname;
+
+		if ( SEAL_CLUBBER.contains( classname ) )
+			classtype = "Seal Clubber";
+		else if ( TURTLE_TAMER.contains( classname ) )
+			classtype = "Turtle Tamer";
+		else if ( PASTAMANCER.contains( classname ) )
+			classtype = "Pastamancer";
+		else if ( SAUCEROR.contains( classname ) )
+			classtype = "Sauceror";
+		else if ( DISCO_BANDIT.contains( classname ) )
+			classtype = "Disco Bandit";
+		else if ( ACCORDION_THIEF.contains( classname ) )
+			classtype = "Accordion Thief";
+		else
+			classtype = "";
 	}
 
 	/**
@@ -173,6 +310,15 @@ public class KoLCharacter
 
 	public String getClassName()
 	{	return classname;
+	}
+
+	/**
+	 * Accessor method to retrieve the type of the character's class.
+	 * @return	The type of the character's class
+	 */
+
+	public String getClassType()
+	{	return classtype;
 	}
 
 	/**
