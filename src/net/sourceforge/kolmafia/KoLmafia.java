@@ -391,7 +391,21 @@ public class KoLmafia implements UtilityConstants
 			this.permitContinue = true;
 			int iterationsRemaining = iterations;
 
-			if ( request.toString().indexOf( "Hermit" ) == -1 )
+			if ( request.toString().equals( "The Hermitage" ) )
+			{
+				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Robbing the hermit..." );
+				(new HermitRequest( this, iterations )).run();
+
+				if ( permitContinue )
+					activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Hermit successfully looted!" );
+			}
+			else if ( request.toString().startsWith( "Gym" ) )
+			{
+				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Beginning workout..." );
+				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
+				activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Workout completed." );
+			}
+			else
 			{
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
@@ -409,14 +423,6 @@ public class KoLmafia implements UtilityConstants
 
 				if ( iterationsRemaining <= 0 )
 					activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
-			}
-			else
-			{
-				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Robbing the hermit..." );
-				(new HermitRequest( this, iterations )).run();
-
-				if ( permitContinue )
-					activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Hermit successfully looted!" );
 			}
 		}
 		catch ( RuntimeException e )
