@@ -356,7 +356,8 @@ public class ChatFrame extends KoLFrame
 					catch ( java.io.IOException e1 )
 					{
 						client.getLogStream().println( "Failed to open browser:" );
-						client.getLogStream().print( e );
+						client.getLogStream().print( e1 );
+						e1.printStackTrace( client.getLogStream() );
 					}
 				}
 			}

@@ -632,7 +632,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ENABLED_STATE, "I/O error.  Retrying..." );
 
 			if ( client != null )
+			{
 				logStream.println( e );
+				e.printStackTrace( logStream );
+			}
 
 			this.execute();
 			return;

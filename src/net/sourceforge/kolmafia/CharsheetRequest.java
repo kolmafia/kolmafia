@@ -253,6 +253,7 @@ public class CharsheetRequest extends KoLRequest
 		catch ( RuntimeException e )
 		{
 			logStream.println( e );
+			e.printStackTrace( logStream );
 		}
 	}
 

@@ -328,6 +328,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		catch ( Exception e )
 		{
 			logStream.println( e );
+			e.printStackTrace( logStream );
 		}
 	}
 
@@ -672,6 +673,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			// user that an error was encountered.
 
 			logStream.println( e );
+			e.printStackTrace( logStream );
 			updateDisplay( ENABLED_STATE, "Unexpected error." );
 		}
 
@@ -741,7 +743,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		// initialized - this can be checked by observing what
 		// class the current log stream is.
 
-		if ( logStream instanceof LogStream )
+		if ( !(logStream instanceof NullStream) )
 			return;
 
 		try

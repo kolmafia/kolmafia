@@ -118,6 +118,7 @@ public class AutoSellRequest extends KoLRequest
 				// and continue on.
 
 				logStream.println( e );
+				e.printStackTrace( logStream );
 			}
 		}
 	}
