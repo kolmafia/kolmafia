@@ -274,7 +274,7 @@ public class EquipmentRequest extends KoLRequest
 				if ( lastToken.startsWith( "Accessory:" ) )
 					accessories[ accessoryCount++ ] = parsedContent.nextToken();
 				else if ( lastToken.startsWith( "Familiar:" ) )
-					familiarItem = parsedContent.nextToken();
+					character.setFamiliarItem( parsedContent.nextToken() );
 			}
 			while ( !lastToken.startsWith( "Outfit" ) && parsedContent.hasMoreTokens() );
 
@@ -289,7 +289,7 @@ public class EquipmentRequest extends KoLRequest
 				SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();
 
 			character.setEquipment( hat, weapon, pants,
-				accessories[0], accessories[1], accessories[2], familiarItem, outfits );
+				accessories[0], accessories[1], accessories[2], outfits );
 		}
 		catch ( Exception e )
 		{

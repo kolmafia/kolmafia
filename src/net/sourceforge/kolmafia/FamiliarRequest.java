@@ -36,21 +36,23 @@ package net.sourceforge.kolmafia;
 
 public class FamiliarRequest extends KoLRequest
 {
-	private int newFamiliarID;
+	private int familiarID;
 	private boolean isChangingFamiliar;
 
 	public FamiliarRequest( KoLmafia client )
 	{
 		super( client, "familiar.php", false );
-		this.newFamiliarID = 0;
+		this.familiarID = 0;
 		this.isChangingFamiliar = false;
 	}
 
-	public FamiliarRequest( KoLmafia client, int newFamiliarID )
+	public FamiliarRequest( KoLmafia client, String familiarName )
 	{
 		super( client, "familiar.php" );
 		addFormField( "action", "newfam" );
-		addFormField( "newfam", "" + newFamiliarID );
+
+		this.familiarID = FamiliarsDatabase.getFamiliarID( familiarName );
+		addFormField( "newfam", "" + familiarID );
 		this.isChangingFamiliar = true;
 	}
 
@@ -70,13 +72,21 @@ public class FamiliarRequest extends KoLRequest
 		// to be retrieved as well.  This can actually be done on
 		// the reply page.
 
+		if ( isChangingFamiliar )
+		{
+			KoLCharacter characterData = client.getCharacterData();
+			characterData.setFamiliarDescription( FamiliarsDatabase.getFamiliarName( familiarID ), -1 );
+		}
 
 		// Otherwise, determine which familiars are present on the
 		// frame (since there was no change) and add them.
 
-		KoLCharacter characterData = client.getCharacterData();
-		for ( int i = 1; i < 30; ++i )
-			if ( replyContent.indexOf( "which=" + i ) != -1 )
-				characterData.addFamiliar( i );
+		else
+		{
+			KoLCharacter characterData = client.getCharacterData();
+			for ( int i = 1; i < 30; ++i )
+				if ( replyContent.indexOf( "which=" + i ) != -1 )
+					characterData.addFamiliar( i );
+		}
 	}
 }

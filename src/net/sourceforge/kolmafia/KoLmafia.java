@@ -156,6 +156,9 @@ public abstract class KoLmafia implements UtilityConstants
 			return;
 		}
 
+		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving familiar data..." );
+		(new FamiliarRequest( this )).run();
+
 		// Begin by loading the user-specific settings.
 		logStream.println( "Loading user settings for " + loginname + "..." );
 		settings = new KoLSettings( loginname );

@@ -72,9 +72,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class CharsheetFrame extends KoLFrame
 {
 	private KoLCharacter characterData;
-	private JLabel [] equipment;
-	private JComboBox outfitSelect, effectSelect;
-	private JButton changeOutfitButton, removeEffectButton;
+	private JLabel [] equipment, familiarData;
+	private JComboBox outfitSelect, familiarSelect;
+	private JButton changeOutfitButton, changeFamiliarButton;
 
 	/**
 	 * Constructs a new character sheet, using the data located
@@ -131,17 +131,38 @@ public class CharsheetFrame extends KoLFrame
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout( new BorderLayout( 10, 10 ) );
 
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout( new BorderLayout( 5, 5 ) );
 		JLabel outfitLabel = new JLabel( "Outfits:  ", JLabel.RIGHT );
 		JComponentUtilities.setComponentSize( outfitLabel, 80, 24 );
-		southPanel.add( outfitLabel, BorderLayout.WEST );
+		labelPanel.add( outfitLabel, BorderLayout.NORTH );
+		JLabel familiarLabel = new JLabel( "Familiar:  ", JLabel.RIGHT );
+		JComponentUtilities.setComponentSize( familiarLabel, 80, 24 );
+		labelPanel.add( familiarLabel, BorderLayout.SOUTH );
 
+		southPanel.add( labelPanel, BorderLayout.WEST );
+
+		JPanel selectPanel = new JPanel();
+		selectPanel.setLayout( new GridLayout( 2, 1 ) );
 		outfitSelect = new JComboBox( characterData.getOutfits().getMirrorImage() );
-		southPanel.add( outfitSelect, BorderLayout.CENTER );
+		selectPanel.add( outfitSelect, "" );
+		familiarSelect = new JComboBox( characterData.getFamiliars().getMirrorImage() );
+		selectPanel.add( familiarSelect, "" );
 
+		southPanel.add( selectPanel, BorderLayout.CENTER );
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout( new BorderLayout( 5, 5 ) );
 		changeOutfitButton = new JButton( "change" );
 		JComponentUtilities.setComponentSize( changeOutfitButton, 84, 24 );
 		changeOutfitButton.addActionListener( new ChangeOutfitListener() );
-		southPanel.add( changeOutfitButton, BorderLayout.EAST );
+		buttonPanel.add( changeOutfitButton, BorderLayout.NORTH );
+		changeFamiliarButton = new JButton( "change" );
+		JComponentUtilities.setComponentSize( changeFamiliarButton, 84, 24 );
+		changeFamiliarButton.addActionListener( new ChangeFamiliarListener() );
+		buttonPanel.add( changeFamiliarButton, BorderLayout.SOUTH );
+
+		southPanel.add( buttonPanel, BorderLayout.EAST );
 
 		return southPanel;
 	}
@@ -245,10 +266,13 @@ public class CharsheetFrame extends KoLFrame
 		}
 
 		valuePanel.add( new JLabel( "" ) );
-		valuePanel.add( new JLabel( characterData.getFamiliarRace(), JLabel.LEFT ) );
-		valuePanel.add( new JLabel( characterData.getFamiliarItem(), JLabel.LEFT ) );
-		valuePanel.add( new JLabel( "" + characterData.getFamiliarWeight(), JLabel.LEFT ) );
-		valuePanel.add( new JLabel( "" ) );
+
+		familiarData = new JLabel[3];
+		for ( int i = 0; i < 3; ++i )
+		{
+			familiarData[i] = new JLabel( "", JLabel.LEFT );
+			valuePanel.add( familiarData[i] );
+		}
 
 		JPanel equipPanel = new JPanel();
 		equipPanel.setLayout( new BorderLayout() );
@@ -279,6 +303,62 @@ public class CharsheetFrame extends KoLFrame
 			equipment[3].setText( characterData.getAccessory1() );
 			equipment[4].setText( characterData.getAccessory2() );
 			equipment[5].setText( characterData.getAccessory3() );
+
+			familiarData[0].setText( characterData.getFamiliarRace() );
+			familiarData[1].setText( characterData.getFamiliarItem() );
+			familiarData[2].setText( characterData.getFamiliarWeight() < 0 ? "unknown" :
+				"" + characterData.getFamiliarWeight() );
+		}
+	}
+
+	private class ChangeFamiliarListener implements ActionListener
+	{
+		private String change;
+
+		public void actionPerformed( ActionEvent e )
+		{
+			change = (String) familiarSelect.getSelectedItem();
+			if ( change != null )
+				(new ChangeFamiliarThread()).start();
+		}
+
+		private class ChangeFamiliarThread extends Thread
+		{
+			public ChangeFamiliarThread()
+			{
+				super( "Change-Familiar-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				SwingUtilities.invokeLater( new FamiliarChangeGUIUpdater( true ) );
+				(new FamiliarRequest( client, change )).run();
+				SwingUtilities.invokeLater( new FamiliarChangeGUIUpdater( false ) );
+			}
+
+			private class FamiliarChangeGUIUpdater implements Runnable
+			{
+				private boolean isStart;
+
+				public FamiliarChangeGUIUpdater( boolean isStart )
+				{	this.isStart = isStart;
+				}
+
+				public void run()
+				{
+					if ( isStart )
+						client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Changing familiar..." );
+					else
+					{
+						client.updateDisplay( KoLFrame.NOCHANGE_STATE, "" );
+						refreshEquipPanel();
+					}
+
+					CharsheetFrame.this.familiarSelect.setEnabled( !isStart );
+					CharsheetFrame.this.changeFamiliarButton.setEnabled( !isStart );
+				}
+			}
 		}
 	}
 

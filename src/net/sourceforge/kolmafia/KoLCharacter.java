@@ -599,12 +599,11 @@ public class KoLCharacter
 	 * @param	accessory1	The name of the accessory in the first accessory slot
 	 * @param	accessory2	The name of the accessory in the first accessory slot
 	 * @param	accessory3	The name of the accessory in the first accessory slot
-	 * @param	familiarItem	The name of the item equipped on the character's familiar
 	 * @param	outfits	A listing of available outfits
 	 */
 
 	public void setEquipment( String hat, String weapon, String pants,
-		String accessory1, String accessory2, String accessory3, String familiarItem, List outfits )
+		String accessory1, String accessory2, String accessory3, List outfits )
 	{
 		equipment.set( 0, hat );
 		equipment.set( 1, weapon );
@@ -612,7 +611,6 @@ public class KoLCharacter
 		equipment.set( 3, accessory1 );
 		equipment.set( 4, accessory2 );
 		equipment.set( 5, accessory3 );
-		equipment.set( 6, familiarItem );
 
 		this.outfits.clear();
 		this.outfits.addAll( outfits );
@@ -676,6 +674,15 @@ public class KoLCharacter
 
 	public String getAccessory3()
 	{	return (String) equipment.get( 5 );
+	}
+
+	/**
+	 * Accessor method to set the name of the item equipped on the character's familiar.
+	 * @param	familiarItem	The item to set as the character's familiar item
+	 */
+
+	public void setFamiliarItem( String familiarItem )
+	{	equipment.set( 6, familiarItem );
 	}
 
 	/**
@@ -893,5 +900,14 @@ public class KoLCharacter
 
 	public void addFamiliar( int familiarID )
 	{	familiars.add( FamiliarsDatabase.getFamiliarName( familiarID ) );
+	}
+
+	/**
+	 * Returns the list of familiars available to the character.
+	 * @return	The list of familiars available to the character
+	 */
+
+	public LockableListModel getFamiliars()
+	{	return familiars;
 	}
 }
