@@ -449,9 +449,19 @@ public class KoLmafiaCLI extends KoLmafia
 		// request.  This one's simple, but it still
 		// gets its own utility method.
 
-		if ( command.equals( "automall" ) )
+		if ( command.equals( "mallsell" ) || command.equals( "automall" ) )
 		{
 			executeAutoMallRequest( parameters );
+			return;
+		}
+
+		// Yay for more item-related commands.  This
+		// one is the one that allows you to place
+		// things into your clan stash.
+
+		if ( command.equals( "stash" ) )
+		{
+			executeStashRequest( parameters );
 			return;
 		}
 
@@ -946,6 +956,23 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		return firstMatch;
+	}
+
+	/**
+	 * A special module used specifically for properly instantiating
+	 * ItemStorageRequests which send things to the clan stash.
+	 */
+
+	private void executeStashRequest( String parameters )
+	{
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, USAGE );
+		if ( firstMatch == null )
+			return;
+
+		Object [] items = new Object[1];
+		items[0] = firstMatch;
+
+		scriptRequestor.makeRequest( new ItemStorageRequest( scriptRequestor, ItemStorageRequest.INVENTORY_TO_STASH, items ), 1 );
 	}
 
 	/**
