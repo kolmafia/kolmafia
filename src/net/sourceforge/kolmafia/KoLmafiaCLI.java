@@ -126,12 +126,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			super.parseResult( result );
 			if ( !inLoginState() )
-			{
-				if ( result.startsWith( "You" ) )
-					outputStream.println( result );
-				else
-					outputStream.println( "Adventure result: " + result );
-			}
+				outputStream.println( (result.startsWith( "You" ) ? " - " : " - Adventure result: ") + result );
 		}
 		else
 			scriptRequestor.parseResult( result );
