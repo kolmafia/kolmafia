@@ -48,7 +48,6 @@ public class GreenMessageRequest extends KoLRequest
 	public GreenMessageRequest( KoLmafia client, String recipient, String message, Object [] attachments )
 	{
 		super( client, "sendmessage.php" );
-
 		addFormField( "action", "send" );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "towho", recipient );
@@ -67,61 +66,59 @@ public class GreenMessageRequest extends KoLRequest
 
 	public void run()
 	{
-		addFormField( "sendmeat", "" );
-
 		// First, check to see how many attachments are to be
 		// placed in the closet - if there's too many,
 		// then you'll need to break up the request
 
-		if ( attachments == null || attachments.length == 0 )
-			return;
-
-		if ( attachments.length > 11 )
+		if ( attachments != null && attachments.length != 0 )
 		{
-			int currentBaseIndex = 0;
-			int remainingItems = attachments.length;
-
-			Object [] itemHolder = null;
-
-			while ( remainingItems > 0 )
+			if ( attachments.length > 11 )
 			{
-				itemHolder = new Object[ remainingItems < 11 ? remainingItems : 11 ];
+				int currentBaseIndex = 0;
+				int remainingItems = attachments.length;
 
-				for ( int i = 0; i < itemHolder.length; ++i )
-					itemHolder[i] = attachments[ currentBaseIndex + i ];
+				Object [] itemHolder = null;
 
-				// For each broken-up request, you create a new ItemStorage request
-				// which will create the appropriate data to post.
+				while ( remainingItems > 0 )
+				{
+					itemHolder = new Object[ remainingItems < 11 ? remainingItems : 11 ];
 
-				(new GreenMessageRequest( client, recipient, message, itemHolder )).run();
+					for ( int i = 0; i < itemHolder.length; ++i )
+						itemHolder[i] = attachments[ currentBaseIndex + i ];
 
-				currentBaseIndex += 11;
-				remainingItems -= 11;
+					// For each broken-up request, you create a new ItemStorage request
+					// which will create the appropriate data to post.
+
+					(new GreenMessageRequest( client, recipient, message, itemHolder )).run();
+
+					currentBaseIndex += 11;
+					remainingItems -= 11;
+				}
+
+				// Since all the sub-requests were run, there's nothing left
+				// to do - simply return from this method.
+
+				return;
 			}
 
-			// Since all the sub-requests were run, there's nothing left
-			// to do - simply return from this method.
+			boolean attachedMeat = false;
 
-			return;
-		}
-
-		boolean attachedMeat = false;
-
-		for ( int i = 0; i < attachments.length; ++i )
-		{
-			AdventureResult result = (AdventureResult) attachments[i];
-			int itemID = TradeableItemDatabase.getItemID( result.getName() );
-
-			if ( itemID != -1 )
+			for ( int i = 0; i < attachments.length; ++i )
 			{
-				int index = attachedMeat ? i : i + 1;
-				addFormField( "whichitem" + index, "" + itemID );
-				addFormField( "howmany" + index, "" + result.getCount() );
-			}
-			else if ( result.getName().equals( AdventureResult.MEAT ) )
-			{
-				addFormField( "sendmeat", "" + result.getCount() );
-				attachedMeat = true;
+				AdventureResult result = (AdventureResult) attachments[i];
+				int itemID = TradeableItemDatabase.getItemID( result.getName() );
+
+				if ( itemID != -1 )
+				{
+					int index = attachedMeat ? i : i + 1;
+					addFormField( "whichitem" + index, "" + itemID );
+					addFormField( "howmany" + index, "" + result.getCount() );
+				}
+				else if ( result.getName().equals( AdventureResult.MEAT ) )
+				{
+					addFormField( "sendmeat", "" + result.getCount() );
+					attachedMeat = true;
+				}
 			}
 		}
 
