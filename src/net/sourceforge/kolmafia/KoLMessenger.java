@@ -272,7 +272,14 @@ public class KoLMessenger
 	{
 		onlineContacts.clear();
 		onlineContacts.addAll( currentContacts );
-		contactsFrame.setVisible( !onlineContacts.isEmpty() );
+
+		if ( !onlineContacts.isEmpty() )
+		{
+			contactsFrame.setSize( new Dimension( 150, 500 ) );
+			contactsFrame.setVisible( true );
+		}
+		else
+			contactsFrame.setVisible( false );
 	}
 
 	/**
@@ -287,7 +294,14 @@ public class KoLMessenger
 			onlineContacts.add( characterName );
 		else if ( !isOnline )
 			onlineContacts.remove( characterName );
-		contactsFrame.setVisible( !onlineContacts.isEmpty() );
+
+		if ( !onlineContacts.isEmpty() )
+		{
+			contactsFrame.setSize( new Dimension( 150, 500 ) );
+			contactsFrame.setVisible( true );
+		}
+		else
+			contactsFrame.setVisible( false );
 	}
 
 	/**
@@ -334,7 +348,15 @@ public class KoLMessenger
 
 				List newContactList = new ArrayList();
 				while ( parsedContactList.hasMoreTokens() )
+				{
 					newContactList.add( parsedContactList.nextToken() );
+
+					// The name is usually followed by a comma; the comma is skipped
+					// so that you don't have commas appearing in the contact list
+
+					if ( parsedContactList.hasMoreTokens() )
+						parsedContactList.nextToken();
+				}
 				updateContactList( newContactList );
 			}
 			else
@@ -396,7 +418,7 @@ public class KoLMessenger
 			// This is determined by where the colon is - in a
 			// send, it is not bolded, while in a receive, it is.
 
-			boolean isRecipient = message.indexOf( "</b>:" ) == -1;
+			boolean isRecipient = message.indexOf( "</b>:" ) != -1;
 
 			// Next, split the message around the tags so you know
 			// how to display the message.
