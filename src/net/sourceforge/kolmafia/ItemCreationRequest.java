@@ -57,6 +57,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int MIX_SPECIAL = 7;
 
 	private int itemID, quantityNeeded, mixingMethod;
+
 	/**
 	 * Constructs a new <code>ItemCreationRequest</code> where you create
 	 * the given number of items.
@@ -82,10 +83,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		this.quantityNeeded = quantityNeeded;
 	}
 
+	public boolean equals( Object o )
+	{	return o != null && o instanceof ItemCreationRequest && itemID == ((ItemCreationRequest)o).itemID;
+	}
+
 	public int compareTo( Object o )
 	{
-		return o == null ? -1 :
-			this.toString().compareToIgnoreCase( o.toString() );
+		return o == null || !(o instanceof ItemCreationRequest) ? -1 :
+			TradeableItemDatabase.getItemName( itemID ).compareToIgnoreCase( TradeableItemDatabase.getItemName( ((ItemCreationRequest)o).itemID ) );
 	}
 
 	/**
@@ -255,7 +260,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 						client.cancelRequest();
 				}
 				else if ( client.permitsContinue() )
-					updateDisplay( ENABLED_STATE, item.getName() + " successfully cooked." );
+					updateDisplay( ENABLED_STATE, "Successfully cooked " + quantityNeeded + " " + item.getName() );
 
 				break;
 
@@ -272,13 +277,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 						client.cancelRequest();
 				}
 				else if ( client.permitsContinue() )
-					updateDisplay( ENABLED_STATE, item.getName() + " successfully mixed." );
+					updateDisplay( ENABLED_STATE, "Successfully mixed " + quantityNeeded + " " + item.getName() );
 
 				break;
 
 			default:
 				if ( client.permitsContinue() )
-					updateDisplay( ENABLED_STATE, item.getName() + " successfully created." );
+					updateDisplay( ENABLED_STATE,  "Successfully created " + quantityNeeded + " " + item.getName() );
 		}
 	}
 
