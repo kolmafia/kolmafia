@@ -59,4 +59,19 @@ public class ClanGymRequest extends KoLRequest
 		addFormField( "action", equipmentID == HOBOFLEX ? "hoboflex" : equipmentID == BIGBOOK ? "bigbook" : "tanningbed" );
 		addFormField( "numturns", "" + turnCount );
 	}
+
+	/**
+	 * Runs the request.  Note that this does not report an error if it fails;
+	 * it merely parses the results to see if any gains were made.
+	 */
+
+	public void run()
+	{
+		super.run();
+
+		// All the gains will be found before the first </center> tag;
+		// therefore, you can parse just that small segment.
+
+		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
+	}
 }
