@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 import java.util.StringTokenizer;
+import javax.swing.JOptionPane;
 
 public class AutoSellRequest extends KoLRequest
 {
@@ -43,34 +44,29 @@ public class AutoSellRequest extends KoLRequest
 	public static final int AUTOSELL = 1;
 	public static final int AUTOMALL = 2;
 
-	/**
-	 * Constructs a new <code>AutoSellRequest</code>.
-	 * @param	client	The client to be notified of the results
-	 */
-
-	public AutoSellRequest( KoLmafia client, int sellType, AdventureResult itemToSell )
+	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell )
 	{
-		super( client, sellType == AUTOSELL ? "sellstuff.php" : sellType == AUTOMALL ? "managestore.php" : "" );
+		super( client, "sellstuff.php" );
 		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemToSell.getName() ) );
-
-		switch ( sellType )
-		{
-			case AUTOSELL:
-				addFormField( "action", "sell" );
-				addFormField( "type", "all" );
-				break;
-
-			case AUTOMALL:
-				addFormField( "action", "additem" );
-				addFormField( "sellprice", "999999999" );
-				addFormField( "limit", "0" );
-				addFormField( "addtype", "addall" );
-				break;
-		}
-
+		addFormField( "action", "sell" );
+		addFormField( "type", "all" );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		this.sellType = sellType;
+		this.sellType = AUTOSELL;
+		this.soldResult = new AdventureResult( itemToSell.getName(), 0 - itemToSell.getCount() );
+	}
+
+	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell, int desiredPrice )
+	{
+		super( client, "managestore.php" );
+
+		addFormField( "action", "additem" );
+		addFormField( "sellprice", "" + desiredPrice );
+		addFormField( "limit", "0" );
+		addFormField( "addtype", "addall" );
+		addFormField( "pwd", client.getPasswordHash() );
+
+		this.sellType = AUTOMALL;
 		this.soldResult = new AdventureResult( itemToSell.getName(), 0 - itemToSell.getCount() );
 	}
 
