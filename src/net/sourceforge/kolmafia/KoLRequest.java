@@ -63,17 +63,6 @@ public class KoLRequest extends Thread
 	private static String KOL_ROOT = "http://www.kingdomofloathing.com/";
 	private static final int MAX_RETRIES = 4;
 
-	static
-	{
-		// This test uses the Kingdom of Loathing automatic balancing
-		// server, rather than allowing users to specify the root;
-		// usually, this works out to the benefit of everyone.
-
-		KoLRequest root = new KoLRequest( null, "" );
-		root.run();
-		KOL_ROOT = "http://" + root.formConnection.getURL().getHost() + "/";
-	}
-
 	private URL formURL;
 	private String sessionID;
 	private List data;
@@ -87,6 +76,21 @@ public class KoLRequest extends Thread
 
 	protected String replyContent;
 	protected HttpURLConnection formConnection;
+
+	public static void autoDetectServer()
+	{
+		// This test uses the Kingdom of Loathing automatic balancing
+		// server, rather than allowing users to specify the root;
+		// usually, this works out to the benefit of everyone.
+
+		KoLRequest root = new KoLRequest( null, "" );
+		root.run();
+		KOL_ROOT = "http://" + root.formConnection.getURL().getHost() + "/";
+	}
+
+	public static void setLoginServer( String server )
+	{	KOL_ROOT = "http://" + server + "/";
+	}
 
 	/**
 	 * Constructs a new KoLRequest.  The class is not declared abstract so that

@@ -91,9 +91,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
+import javax.swing.JComboBox;
 
 // spellcast-related imports
 import net.java.dev.spellcast.utilities.LicenseDisplay;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -135,7 +137,7 @@ public class LoginFrame extends KoLFrame
 		JMenuItem menuItem = new JMenuItem( "Copyright", KeyEvent.VK_C );
 		menuItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
-			{	new LicenseDisplay( "KoLmafia: Copyright Notice" );
+			{	(new LicenseDisplay( "KoLmafia: Copyright Notice" )).requestFocus();
 			}
 		});
 
@@ -148,6 +150,7 @@ public class LoginFrame extends KoLFrame
 		private JLabel actionStatusLabel;
 		private JLabel serverReplyLabel;
 
+		JComboBox serverSelect;
 		JTextField loginnameField;
 		JPasswordField passwordField;
 
@@ -166,9 +169,19 @@ public class LoginFrame extends KoLFrame
 			loginnameField = new JTextField();
 			passwordField = new JPasswordField();
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Login: ", loginnameField );
-			elements[1] = new VerifiableElement( "Password: ", passwordField );
+			LockableListModel servers = new LockableListModel();
+			servers.add( "(Auto Detect)" );
+			servers.add( "Use Login Server 1" );
+			servers.add( "Use Login Server 2" );
+			servers.add( "Use Login Server 3" );
+			servers.setSelectedIndex(0);
+
+			serverSelect = new JComboBox( servers );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Server: ", serverSelect );
+			elements[1] = new VerifiableElement( "Login: ", loginnameField );
+			elements[2] = new VerifiableElement( "Password: ", passwordField );
 
 			setContent( elements );
 		}
@@ -186,6 +199,7 @@ public class LoginFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
+			serverSelect.setEnabled( isEnabled );
 			loginnameField.setEnabled( isEnabled );
 			passwordField.setEnabled( isEnabled );
 		}
@@ -195,6 +209,7 @@ public class LoginFrame extends KoLFrame
 			Runnable updateAComponent = new Runnable() {
 				public void run()
 				{
+					serverSelect.setSelectedIndex(0);
 					loginnameField.setText( "" );
 					passwordField.setText( "" );
 					requestFocus();
@@ -206,6 +221,11 @@ public class LoginFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			updateDisplay( DISABLED_STATE, "Sending login..." );
+
+			if ( serverSelect.getSelectedIndex() == 0 )
+				KoLRequest.autoDetectServer();
+			else
+				KoLRequest.setLoginServer( "www." + serverSelect.getSelectedIndex() + ".kingdomofloathing.com" );
 
 			String loginname = loginnameField.getText();
 			String password = new String( passwordField.getPassword() );
