@@ -230,7 +230,7 @@ public class AdventureFrame extends KoLFrame
 				Color.black, Color.white ), BorderLayout.NORTH );
 
 			JList tallyDisplay = new JList( tally );
-			tallyDisplay.setPrototypeCellValue( "@@@@@@@@@@" );
+			tallyDisplay.setPrototypeCellValue( "@@@@@@@@@@@@@" );
 			tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			tallyDisplay.setVisibleRowCount( 4 );
 
