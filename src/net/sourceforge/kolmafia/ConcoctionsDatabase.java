@@ -107,11 +107,9 @@ public class ConcoctionsDatabase implements UtilityConstants
 
 	public static SortedListModel getConcoctions( KoLmafia client, List availableIngredients )
 	{
-		String classname = client.getCharacterData().getClassName();
-
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 		{
-			if ( concoctions[i] == null || !isPermittedMixtureMethod( concoctions[i].getMixingMethod(), classname ) )
+			if ( concoctions[i] == null || !isPermittedMixtureMethod( concoctions[i].getMixingMethod(), client.getCharacterData() ) )
 			{
 				String itemName = TradeableItemDatabase.getItemName(i);
 				if ( itemName != null )
@@ -156,18 +154,26 @@ public class ConcoctionsDatabase implements UtilityConstants
 	 * variables is as specified.
 	 */
 
-	private static boolean isPermittedMixtureMethod( int mixingMethod, String classname )
+	private static boolean isPermittedMixtureMethod( int mixingMethod, KoLCharacter data )
 	{
+		String classname = data.getClassName();
+
 		switch ( mixingMethod )
 		{
+			case ItemCreationRequest.COOK:
+				return data.hasChef();
+
+			case ItemCreationRequest.MIX:
+				return data.hasBartender();
+
 			case ItemCreationRequest.SMITH:
-				return classname.startsWith( "Se" );
+				return data.hasChef() && classname.startsWith( "Se" );
 
 			case ItemCreationRequest.COOK_REAGENT:
-				return classname.startsWith( "Sa" );
+				return data.hasChef() && classname.startsWith( "Sa" );
 
 			case ItemCreationRequest.COOK_PASTA:
-				return classname.startsWith( "Pa" );
+				return data.hasChef() && classname.startsWith( "Pa" );
 
 			default:
 				return true;
