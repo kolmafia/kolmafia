@@ -45,6 +45,7 @@ public class CakeArenaRequest extends KoLRequest
 	public CakeArenaRequest( KoLmafia client, int opponentID, int eventID )
 	{
 		super( client, "arena.php" );
+		addFormField( "action", "go" );
 		addFormField( "whichopp", "" + opponentID );
 		addFormField( "event", "" + eventID );
 	}
@@ -52,7 +53,6 @@ public class CakeArenaRequest extends KoLRequest
 	public void run()
 	{
 		super.run();
-		processResults( replyContent );
 
 		if ( replyContent.indexOf( "You can't" ) != -1 || replyContent.indexOf( "You shouldn't" ) != -1 ||
 			replyContent.indexOf( "You don't" ) != -1 || replyContent.indexOf( "You need" ) != -1 ||
@@ -68,6 +68,11 @@ public class CakeArenaRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "Arena battles aborted!" );
 			return;
 		}
+
+		processResults( replyContent );
+		client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
+		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+
 
 		int lastMatchIndex = 0;
 		int [] opponentIDs = new int[4];
