@@ -392,14 +392,14 @@ public class BuffBotFrame extends KoLFrame
 				else
 				{
 					client.updateDisplay( ENABLED_STATE, "Buffbotting started." );
-					buffbotLog.append("Starting a new session.<br>\n");
+					buffbotLog.append("<b>Starting a new session.</b><br>\n");
 					client.resetContinueState();
 					client.setBuffBotActive(true);
 					
 					BuffBotManager bbMail = new BuffBotManager(client, BuffCostTable);
 					client.setBuffBotMail(bbMail);
 					bbMail.runBuffBot();
-					buffbotLog.append("BuffBot Terminated.<br>\n");
+					buffbotLog.append("BuffBot Terminated.<br>\n\n\n");
 					client.updateDisplay( ENABLED_STATE, "BuffBot stopped." );
 					client.setBuffBotActive(false);
 					

@@ -87,7 +87,7 @@ public class BuffBotHome
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 
 		buffbotLog = new LimitedSizeChatBuffer( "Buffbot Log: " + noExtensionName, Integer.MAX_VALUE );
-		buffbotLog.setActiveLogFile( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + ".html", noExtensionName );
+		buffbotLog.setActiveLogFile( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + ".html", noExtensionName, true );
 		isActive = false;
 	}
 
