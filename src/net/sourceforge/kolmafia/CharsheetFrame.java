@@ -196,7 +196,10 @@ public class CharsheetFrame extends KoLFrame
 			baseLabel.setText( " (" + baseValue + ")" );
 		}
 		else
+		{
+			adjustedLabel.setText( "" );
 			baseLabel.setText( "" + baseValue );
+		}
 
 		statpointPanel[ displayIndex ].setToolTipText( "" + tillNextPoint + " until " + (baseValue + 1) );
 	}
