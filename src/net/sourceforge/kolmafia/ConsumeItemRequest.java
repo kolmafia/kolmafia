@@ -169,7 +169,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// is probably smarter with error-checking after so
 			// long, the output/input's probably just fine.
 
-			if ( itemUsed.getName().indexOf( "rolling" ) == -1 || itemUsed.getName().indexOf( "Protest" ) == -1 )
+			if ( itemUsed.getName().indexOf( "rolling" ) == -1 && itemUsed.getName().indexOf( "Protest" ) == -1 )
 				client.addToResultTally( itemUsed );
 
 			processResults( replyContent.substring( 0, replyContent.indexOf( "Inventory:" ) ) );
