@@ -459,6 +459,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			super.setEnabled( isEnabled );
 			messageDisposalSelect.setEnabled( isEnabled );
+			buffBotModeSelect.setEnabled( isEnabled );
 			whiteListEntry.setEnabled( isEnabled );
 			for ( int i = 0; i < restoreCheckbox.length; ++i )
 				restoreCheckbox[i].setEnabled( isEnabled );
@@ -510,7 +511,7 @@ public class BuffBotFrame extends KoLFrame
 							restoreCheckbox[i].setSelected( true );
 
 				messageDisposalSelect.setSelectedIndex( messageDisposalSetting == null ? 0 : Integer.parseInt( messageDisposalSetting ) );
-				buffBotModeSelect.setSelectedIndex( (messageDisposalSetting == null || itemBasedBuffingSetting.equals( "false" )) ? 0 : 1 );
+				buffBotModeSelect.setSelectedIndex( (itemBasedBuffingSetting == null || itemBasedBuffingSetting.equals( "false" )) ? 0 : 1 );
 
 
 				if ( whiteListSetting != null )
