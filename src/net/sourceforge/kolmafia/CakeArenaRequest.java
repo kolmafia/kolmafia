@@ -83,7 +83,7 @@ public class CakeArenaRequest extends KoLRequest
 
 			client.getCakeArenaManager().registerOpponent(
 				Integer.parseInt( opponentMatcher.group(1) ), opponentMatcher.group().substring( 0,
-						opponentMatcher.group().indexOf( "," ) ).replaceAll( "<.*?>", "" ) );
+						opponentMatcher.group().indexOf( "," ) ).replaceFirst( "<br>", " (" ).replaceAll( "<.*?>", "" ) + ")" );
 		}
 	}
 	/**
