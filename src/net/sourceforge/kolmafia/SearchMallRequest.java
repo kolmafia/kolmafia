@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 import java.util.List;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
 /**
@@ -46,6 +47,7 @@ import java.util.StringTokenizer;
 public class SearchMallRequest extends KoLRequest
 {
 	private List results;
+	private String searchString;
 
 	/**
 	 * Constructs a new <code>SearchMallRequest</code> which searches for
@@ -62,6 +64,7 @@ public class SearchMallRequest extends KoLRequest
 	{
 		super( client, "searchmall.php" );
 		addFormField( "whichitem", searchString );
+		this.searchString = searchString;
 
 		String cheapestCountString = client.getSettings().getProperty( "defaultLimit" );
 		int cheapestCount = cheapestCountString == null ? 13 : Integer.parseInt( cheapestCountString );
@@ -159,6 +162,8 @@ public class SearchMallRequest extends KoLRequest
 		boolean npcStoreAdded = true;
 		int npcStorePrice = -1;
 
+		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
+
 		while ( parsedResults.hasMoreTokens() )
 		{
 			// The first token contains the item name
@@ -176,7 +181,10 @@ public class SearchMallRequest extends KoLRequest
 				lastItemName = itemName;
 				npcStoreAdded = !NPCStoreDatabase.contains( itemName );
 				if ( !npcStoreAdded )
+				{
+					itemNames.remove( itemName );
 					npcStorePrice = NPCStoreDatabase.getNPCStorePrice( itemName );
+				}
 			}
 
 			// The next token contains the number of items being sold
@@ -208,6 +216,19 @@ public class SearchMallRequest extends KoLRequest
 			}
 
 			results.add( new MallPurchaseRequest( client, itemName, purchaseLimit, shopID, shopName, price ) );
+		}
+
+		// Now, for the items which matched, check to see if there are
+		// any entries inside of the NPC store database for them and
+		// add - this is just in case some of the items become notrade
+		// so items can still be bought from the NPC stores.
+
+		Iterator itemNameIterator = itemNames.iterator();
+		while ( itemNameIterator.hasNext() )
+		{
+			lastItemName = (String) itemNameIterator.next();
+			if ( NPCStoreDatabase.contains( lastItemName ) )
+				results.add( NPCStoreDatabase.getPurchaseRequest( client, lastItemName ) );
 		}
 
 		String forceSortingString = client.getSettings().getProperty( "forceSorting" );
