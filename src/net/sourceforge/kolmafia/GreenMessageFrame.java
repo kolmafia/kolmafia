@@ -257,8 +257,14 @@ public class GreenMessageFrame extends KoLFrame
 					null, "Attach to message...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
 					possibleValues, possibleValues[0] )).getName();
 
+				AdventureResult blankAttachment = new AdventureResult( attachmentName, 0 );
+				int existingIndex = attachedItems.indexOf( blankAttachment );
+				int defaultCount = existingIndex != -1 ? 0 - ((AdventureResult)attachedItems.get(
+					existingIndex )).getCount() : ((AdventureResult)client.getInventory().get(
+						client.getInventory().indexOf( blankAttachment ) )).getCount();
+
 				int attachmentCount = df.parse( JOptionPane.showInputDialog(
-					"Attaching multiple " + attachmentName + "..." ) ).intValue();
+					"Attaching multiple " + attachmentName + "...", "" + defaultCount ) ).intValue();
 
 				AdventureResult.addResultToList( attachedItems, new AdventureResult(
 					attachmentName, attachmentCount ) );
