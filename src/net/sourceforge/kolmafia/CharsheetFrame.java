@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
@@ -43,6 +44,7 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
 
 // utilities
@@ -99,9 +101,27 @@ public class CharsheetFrame extends KoLFrame
 		entirePanel.add( createStatsPanel(), BorderLayout.WEST );
 		entirePanel.add( createEquipPanel(), BorderLayout.EAST );
 		entirePanel.add( createImagePanel(), BorderLayout.CENTER );
+		entirePanel.add( createUneffectPanel(), BorderLayout.SOUTH );
 
 		getContentPane().add( entirePanel, "" );
 		addWindowListener( new ReturnFocusAdapter() );
+	}
+
+	/**
+	 * Utility method used for creating a panel displaying the character's current
+	 * effects.  Eventually, this panel will also contain the ability to remove
+	 * these effects (using soft greens).
+	 *
+	 * @return	a <code>JPanel</code> displaying the current effects
+	 */
+
+	private JPanel createUneffectPanel()
+	{
+		JPanel uneffectPanel = new JPanel();
+		uneffectPanel.setLayout( new BorderLayout( 0, 0 ) );
+		uneffectPanel.add( new JLabel( "Active Effects:    ", JLabel.RIGHT ), BorderLayout.CENTER );
+		uneffectPanel.add( new JComboBox( characterData.getEffects().getMirrorImage() ), BorderLayout.EAST );
+		return uneffectPanel;
 	}
 
 	/**
@@ -171,7 +191,6 @@ public class CharsheetFrame extends KoLFrame
 		statsPanel.add( new JLabel( characterData.getAdventuresLeft() + " adventures left", JLabel.CENTER ) );
 
 		statsPanel.add( new JLabel( " " ) );
-
 		return statsPanel;
 	}
 
@@ -198,7 +217,7 @@ public class CharsheetFrame extends KoLFrame
 		fieldPanel.add( new JLabel( "Familiar:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Item:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Weight:  ", JLabel.RIGHT ) );
-		fieldPanel.add( new JLabel( "" ) );
+
 
 		JPanel valuePanel = new JPanel();
 		valuePanel.setLayout( new GridLayout( 12, 1 ) );

@@ -181,6 +181,23 @@ public class CharsheetRequest extends KoLRequest
 			skipTokens( parsedContent, 3 );
 			character.setTotalTurnsUsed( intToken( parsedContent ) );
 
+			// Determine whether or not the player has any
+			// active effects - if so, retrieve them.
+
+			character.clearEffects();
+			if ( replyContent.indexOf( "Effects:" ) != -1 )
+			{
+				while ( !parsedContent.nextToken().startsWith( "Eff" ) );
+				skipTokens( parsedContent, 13 );
+				token = parsedContent.nextToken();
+
+				while ( !token.equals( "/table" ) )
+				{
+					character.addEffect( parsedContent.nextToken() );
+					skipTokens( parsedContent, 7 );
+					token = parsedContent.nextToken();
+				}
+			}
 
 			// Now, a hack to determine which familiar you have:
 			// it appears after the word "Current", skipping

@@ -62,6 +62,7 @@ public class KoLCharacter
 	private LockableListModel equipment;
 	private SortedListModel inventory;
 	private SortedListModel closet;
+	private LockableListModel activeEffects;
 
 	private int availableMeat;
 	private int closetMeat;
@@ -96,6 +97,7 @@ public class KoLCharacter
 		this.equipment = new LockableListModel();
 		this.inventory = new SortedListModel( AdventureResult.class );
 		this.closet = new SortedListModel( AdventureResult.class );
+		this.activeEffects = new LockableListModel();
 
 		for ( int i = 0; i < 7; ++i )
 			equipment.add( "none" );
@@ -606,6 +608,32 @@ public class KoLCharacter
 
 	public void setChef( boolean hasChef )
 	{	this.hasChef = hasChef;
+	}
+
+	/**
+	 * Accessor method to clear the list of active effects.
+	 */
+
+	public void clearEffects()
+	{	activeEffects.clear();
+	}
+
+	/**
+	 * Accessor method to add an effect to the list of effects.
+	 * @param	effect	The effect to add
+	 */
+
+	public void addEffect( String effect )
+	{	activeEffects.add( effect );
+	}
+
+	/**
+	 * Accessor method to add a listing of the current effects.
+	 * @return	A list of current effects
+	 */
+
+	public LockableListModel getEffects()
+	{	return activeEffects;
 	}
 
 	/**
