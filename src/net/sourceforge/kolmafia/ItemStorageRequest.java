@@ -208,8 +208,5 @@ public class ItemStorageRequest extends KoLRequest
 			super.run();
 			source.remove( items[0] );
 		}
-
-
-System.out.println( replyContent );
 	}
 }
