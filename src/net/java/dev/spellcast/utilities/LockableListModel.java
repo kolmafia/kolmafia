@@ -45,13 +45,10 @@ import java.util.Iterator;
 import javax.swing.event.ListDataEvent;
 
 /**
- * <p>An extension of the <code>PartiallySynchronizedListModel</code> which forces all
- * functions to be synchronized in order to achieve the ability to lock the object
- * in the same fashion noted by the <code>LockableObject</code> interface, exempting
- * the functions that would be used by a list model, or functions that are called
- * in an AWT thread.  Because of these two exceptions, the methods are not explicitly
- * declared synchronized.  Note that this implementation of <code>LockableObject</code>
- * only permits one lock.</p>
+ * <p>An extension of the <code>AbstractListModel</code> which forces all functions
+ * to be synchronized in order to achieve the ability to lock the object in the same
+ * fashion noted by the <code>LockableObject</code> interface.  Note that this
+ * implementation of <code>LockableObject</code> only permits one lock.</p>
  *
  * <p>In addition to this assertion, the <code>LockableListModel</code> also provides the
  * ability to create a <i>mirror image</i>: namely, another <code>LockableListModel</code>
@@ -68,9 +65,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	private int selectedIndex;
 
 	/**
-	 * Constructs a new <code>LockableListModel</code>.  Because this is
-	 * structurally identical to the <code>PartiallySynchronizedListModel</code>
-	 * in terms of underlying structure, this merely calls the super constructor.
+	 * Constructs a new <code>LockableListModel</code>.
 	 */
 
 	public LockableListModel()

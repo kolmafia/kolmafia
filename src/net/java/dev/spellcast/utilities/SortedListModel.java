@@ -35,12 +35,12 @@
 package net.java.dev.spellcast.utilities;
 
 /**
- * An extension of the {@link net.java.dev.spellcast.utilities.SpecializedListModel} which maintains
- * elements in ascending order using a {@link java.util.Vector}, where elements can only be added
- * and replaced if they do not disturb the sorted property of the <code>List</code>.  The
- * <code>SortedListModel</code> adds the additional restriction that, if an element <tt>e2</tt>
- * is added to the list after another element <tt>e1</tt> is added, and <tt>e1.equals(e2)</tt>
- * returns <tt>true</tt>, then <tt>e2</tt> must appear in the list after <tt>e1</tt>.
+ * An extension of the {@link net.java.dev.spellcast.utilities.LockableListModel} which maintains
+ * elements in ascending order, where elements can only be added and replaced if they do not
+ * disturb the sorted property of the <code>List</code>.  The <code>SortedListModel</code> adds
+ * the additional restriction that, if an element <tt>e2</tt> is added to the list after another
+ * element <tt>e1</tt> is added, and <tt>e1.equals(e2)</tt> returns <tt>true</tt>, then <tt>e2</tt>
+ * must appear in the list after <tt>e1</tt>.
  */
 
 public class SortedListModel extends LockableListModel
@@ -53,7 +53,7 @@ public class SortedListModel extends LockableListModel
 
 	/**
 	 * Constructs a new <code>SortedListModel</code>.  In essence, all this
-	 * class does is call the constructor for the <code>SpecializedListModel</code>
+	 * class does is call the constructor for the <code>LockableListModel</code>
 	 * with the class object associated with <code>java.lang.Comparable</code>.
 	 */
 
