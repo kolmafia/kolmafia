@@ -56,15 +56,13 @@ public class KoLMessenger
 	private KoLmafia client;
 	private ContactListFrame contactsFrame;
 
-	private ChatFrame mainChatFrame;
-	private ChatBuffer mainChatBuffer;
-
 	private TreeMap instantMessageFrames;
 	private TreeMap instantMessageBuffers;
 
 	private TreeMap seenPlayerIDs;
 	private SortedListModel onlineContacts;
 
+	private String currentChannel;
 	private boolean isLastBlueRequest;
 
 	public KoLMessenger( KoLmafia client )
@@ -77,11 +75,6 @@ public class KoLMessenger
 
 		seenPlayerIDs = new TreeMap();
 		contactsFrame = new ContactListFrame( client, onlineContacts );
-
-		mainChatFrame = new ChatFrame( client, this );
-		mainChatBuffer = new ChatBuffer( client.getLoginName() + ": Started " +
-			Calendar.getInstance().getTime().toString() );
-		mainChatBuffer.setChatDisplay( mainChatFrame.getChatDisplay() );
 	}
 
 	/**
@@ -131,7 +124,7 @@ public class KoLMessenger
 
 	public ChatBuffer getChatBuffer( String contact )
 	{
-		return contact == null ? mainChatBuffer :
+		return contact == null ? (ChatBuffer) instantMessageBuffers.get( currentChannel ) :
 			(ChatBuffer) instantMessageBuffers.get( contact );
 	}
 
@@ -142,25 +135,14 @@ public class KoLMessenger
 
 	public void removeChat( String contact )
 	{
-		if ( contact == null && mainChatBuffer == null )
+		if ( contact == null )
 			return;
 
 		ChatFrame frameToRemove;
 		ChatBuffer bufferToRemove;
 
-		if ( contact == null )
-		{
-			frameToRemove = mainChatFrame;
-			mainChatFrame = null;
-
-			bufferToRemove = mainChatBuffer;
-			mainChatBuffer = null;
-		}
-		else
-		{
-			frameToRemove = (ChatFrame) instantMessageFrames.remove( contact );
-			bufferToRemove = (ChatBuffer) instantMessageBuffers.remove( contact );
-		}
+		frameToRemove = (ChatFrame) instantMessageFrames.remove( contact );
+		bufferToRemove = (ChatBuffer) instantMessageBuffers.remove( contact );
 
 		if ( frameToRemove != null )
 		{
@@ -171,7 +153,7 @@ public class KoLMessenger
 		if ( bufferToRemove != null )
 			bufferToRemove.closeActiveLogFile();
 
-		if ( contact == null && mainChatBuffer == null && instantMessageBuffers.size() == 0 )
+		if ( instantMessageBuffers.size() == 0 )
 			client.deinitializeChat();
 	}
 
@@ -181,7 +163,7 @@ public class KoLMessenger
 	 */
 
 	public boolean isShowing()
-	{	return mainChatFrame == null ? false : mainChatFrame.isShowing();
+	{	return instantMessageBuffers.size() == 0;
 	}
 
 	/**
@@ -214,9 +196,6 @@ public class KoLMessenger
 				return;
 			}
 
-			if ( mainChatFrame != null )
-				mainChatFrame.setVisible( isVisible );
-
 			Iterator frames = instantMessageFrames.values().iterator();
 			while ( frames.hasNext() )
 				((ChatFrame) frames.next()).setVisible( isVisible );
@@ -248,22 +227,11 @@ public class KoLMessenger
 
 	public void dispose()
 	{
-		removeChat( null );
 		while ( !instantMessageFrames.isEmpty() )
 			removeChat( (String) instantMessageFrames.firstKey() );
 
 		contactsFrame.setVisible( false );
 		contactsFrame.dispose();
-	}
-
-	/**
-	 * Requests forcus for the messenger's primary window.
-	 */
-
-	public void requestFocus()
-	{
-		if ( mainChatFrame != null )
-			mainChatFrame.requestFocus();
 	}
 
 	/**
@@ -369,6 +337,8 @@ public class KoLMessenger
 		// the contact list found in the last /friends update
 
 		Matcher contactListMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( originalContent );
+		ChatBuffer mainChatBuffer = getChatBuffer( currentChannel );
+
 		int lastFindIndex = 0;
 		while ( contactListMatcher.find( lastFindIndex ) )
 		{
@@ -457,14 +427,52 @@ public class KoLMessenger
 		if ( message == null || message.trim().length() == 0 )
 			return;
 
-		if ( !message.startsWith( "<font color=blue>" ) || message.indexOf( "<a" ) == -1 )
+		String noLinksContent = message.replaceAll( "</?a.*?>", "" );
+
+		// If the message is coming from a listen channel, you
+		// need to place it in that channel.  Otherwise, place
+		// it in the current channel.
+
+		if ( noLinksContent.startsWith( "<font color=green>[" ) )
+		{
+			String channel = noLinksContent.substring( 19, noLinksContent.indexOf( "]" ) );
+			ChatBuffer channelBuffer = getChatBuffer( "/" + channel );
+
+			if ( channelBuffer == null )
+			{
+				openInstantMessage( "/" + channel );
+				channelBuffer = getChatBuffer( "/" + channel );
+				channelBuffer.append( "<font color=green>You are listening to channel: " );
+				channelBuffer.append( channel );
+				channelBuffer.append( "." );
+				channelBuffer.append( "</font><br>\n" );
+			}
+
+			channelBuffer.append( noLinksContent.substring( noLinksContent.indexOf( "<b>" ) ) );
+			channelBuffer.append( "<br>\n" );
+		}
+		else if ( noLinksContent.startsWith( "<font color=green>You are now talking in channel: " ) )
+		{
+			currentChannel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) - 1 );
+			ChatBuffer channelBuffer = getChatBuffer( currentChannel );
+
+			if ( channelBuffer == null )
+			{
+				openInstantMessage( currentChannel );
+				channelBuffer = getChatBuffer( currentChannel );
+			}
+
+			channelBuffer.append( noLinksContent );
+			channelBuffer.append( "<br>\n" );
+		}
+		else if ( !message.startsWith( "<font color=blue>" ) || message.indexOf( "<a" ) == -1 )
 		{
 			// The easy case is if it's a normal chat message.
 			// Then, it just gets updated to the main chat buffer,
 			// provided that the main chat buffer is not null
 
-			if ( mainChatBuffer != null )
-				mainChatBuffer.append( message.replaceAll( "</?a.*?>", "" ).trim() + "<br>\n" );
+			ChatBuffer currentChannelBuffer = getChatBuffer( currentChannel );
+			currentChannelBuffer.append( noLinksContent.trim() + "<br>\n" );
 		}
 		else
 		{
@@ -529,7 +537,7 @@ public class KoLMessenger
 
 	public void openInstantMessage( String characterName )
 	{
-		ChatBuffer newBuffer = new ChatBuffer( client.getLoginName() + " (Conversation with " + characterName + ") : Started " +
+		ChatBuffer newBuffer = new ChatBuffer( client.getLoginName() + ": " + characterName + " - Started " +
 			Calendar.getInstance().getTime().toString() );
 
 		ChatFrame newFrame = new ChatFrame( client, this, characterName );

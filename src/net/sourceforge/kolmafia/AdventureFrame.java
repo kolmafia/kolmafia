@@ -1006,7 +1006,6 @@ public class AdventureFrame extends KoLFrame
 					kolchat = client.getMessenger();
 				}
 
-				kolchat.requestFocus();
 				updateDisplay( NOCHANGE_STATE, "" );
 			}
 		}

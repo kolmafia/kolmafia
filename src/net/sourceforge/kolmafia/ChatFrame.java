@@ -129,10 +129,10 @@ public class ChatFrame extends KoLFrame
 
 		setSize( new Dimension( 400, 300 ) );
 
-		if ( associatedContact == null )
-			setTitle( "KoLmafia Chat: " + ((client == null) ? "UI Test" : client.getLoginName()) );
+		if ( associatedContact == null || associatedContact.startsWith( "/" ) )
+			setTitle( "KoLmafia Chat: " + ((client == null) ? "UI Test" : associatedContact) );
 		else
-			setTitle( "KoLmafia NSIPM: " + associatedContact + " / " + client.getLoginName() );
+			setTitle( "KoLmafia NSIPM: " + client.getLoginName() + " / " + associatedContact );
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class ChatFrame extends KoLFrame
 		clearItem.addActionListener( new ClearChatBufferListener() );
 		fileMenu.add( clearItem );
 
-		if ( associatedContact != null )
+		if ( !associatedContact.startsWith( "/" ) )
 		{
 			JMenu peopleMenu = new JMenu("People");
 			peopleMenu.setMnemonic( KeyEvent.VK_P );
