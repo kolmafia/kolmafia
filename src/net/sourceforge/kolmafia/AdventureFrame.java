@@ -302,7 +302,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		if ( skillBuff != null && skillBuff.isShowing() )
 			skillBuff.setEnabled( this.isEnabled );
-		
+
 	}
 
 	/**
@@ -467,13 +467,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			// Once the stubs are finished, this will notify the
 			// client to terminate the loop early.  For now, since
 			// there's no actual functionality, simply request focus
-			
+
 			//Let the BuffBot deactivate itself
-			if (client.isBuffBotActive()) 
+			if (client.isBuffBotActive())
 			{	client.setBuffBotActive(false);
 				return;
 			}
-			
+
 			contentPanel = adventureSelect;
 			updateDisplay( ERROR_STATE, "Adventuring terminated." );
 			client.cancelRequest();
@@ -1009,13 +1009,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 						amountRemaining -= eachAmount * (increments - 1);
 
 						if ( client.permitsContinue() )
-						{
-							updateDisplay( DISABLED_STATE, "Request " + increments + " in progress..." );
-							(new HeroDonationRequest( client, designatedHero, amountRemaining )).run();
-
-							if ( client.permitsContinue() )
-								updateDisplay( ENABLED_STATE, "Requests complete!" );
-						}
+							client.makeRequest( new HeroDonationRequest( client, designatedHero, amountRemaining ), 1 );
 					}
 				}
 				catch ( Exception e )
@@ -1051,7 +1045,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 						return;
 
 					int amount = df.parse( amountField.getText() ).intValue();
-					(new ItemStorageRequest( client, amount, ItemStorageRequest.MEAT_TO_STASH )).run();
+					client.makeRequest( new ItemStorageRequest( client, amount, ItemStorageRequest.MEAT_TO_STASH ), 1 );
 				}
 				catch ( Exception e )
 				{
@@ -1147,7 +1141,8 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 						return;
 
 					int amount = df.parse( amountField.getText() ).intValue();
-					(new ItemStorageRequest( client, amount, isDeposit ? ItemStorageRequest.MEAT_TO_CLOSET : ItemStorageRequest.MEAT_TO_INVENTORY )).run();
+					client.makeRequest( new ItemStorageRequest( client, amount, isDeposit ?
+						ItemStorageRequest.MEAT_TO_CLOSET : ItemStorageRequest.MEAT_TO_INVENTORY ), 1 );
 
 				}
 				catch ( Exception e )
@@ -1218,7 +1213,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 					return;
 
 				RemoveEffectsPanel.this.setEnabled( false );
-				(new UneffectRequest( client, effect )).run();
+				client.makeRequest( new UneffectRequest( client, effect ), 1 );
 				boolean isEnabled = client.getInventory().contains( UneffectRequest.REMEDY );
 				RemoveEffectsPanel.this.setEnabled( isEnabled );
 			}

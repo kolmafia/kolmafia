@@ -252,9 +252,11 @@ public class ItemManageFrame extends KoLFrame
 							"Using multiple " + currentItem.getName() + "..." ) ).intValue() : 1;
 
 						if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
-							(new ConsumeItemRequest( client, consumptionType, new AdventureResult( currentItem.getItemID(), consumptionCount ))).run();
+							client.makeRequest( new ConsumeItemRequest( client, consumptionType,
+								new AdventureResult( currentItem.getItemID(), consumptionCount ) ), 1 );
 						else
-							client.makeRequest( new ConsumeItemRequest( client, consumptionType, new AdventureResult( currentItem.getItemID(), 1 ) ), consumptionCount );
+							client.makeRequest( new ConsumeItemRequest( client, consumptionType,
+								new AdventureResult( currentItem.getItemID(), 1 ) ), consumptionCount );
 
 					}
 					catch ( Exception e )
@@ -380,7 +382,7 @@ public class ItemManageFrame extends KoLFrame
 					switch ( sellType )
 					{
 						case AutoSellRequest.AUTOSELL:
-							(new AutoSellRequest( client, currentItem )).run();
+							client.makeRequest( new AutoSellRequest( client, currentItem ), 1 );
 							break;
 						case AutoSellRequest.AUTOMALL:
 						{
@@ -394,7 +396,7 @@ public class ItemManageFrame extends KoLFrame
 									"Price for " + currentItem.getName() + "?" ) ).intValue() : 999999999;
 
 								if ( desiredPrice >= 10 )
-									(new AutoSellRequest( client, currentItem, desiredPrice )).run();
+									client.makeRequest( new AutoSellRequest( client, currentItem, desiredPrice ), 1 );
 								else
 									finishedSelling = true;
 							}
@@ -552,11 +554,11 @@ public class ItemManageFrame extends KoLFrame
 				if ( moveType == CLOSET_TO_STASH )
 				{
 					items = closetList.getSelectedValues();
-					(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items )).run();
-					(new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_STASH, items )).run();
+					client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ), 1 );
+					client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_STASH, items ), 1 );
 				}
 				else
-					(new ItemStorageRequest( client, moveType, items )).run();
+					client.makeRequest( new ItemStorageRequest( client, moveType, items ), 1 );
 
 				refreshConcoctionsList();
 				client.updateDisplay( ENABLED_STATE, " " );
@@ -651,7 +653,7 @@ public class ItemManageFrame extends KoLFrame
 						if ( creationCount > 0 )
 						{
 							selection.setQuantityNeeded( creationCount );
-							selection.run();
+							client.makeRequest( selection, 1 );
 						}
 					}
 					else
@@ -665,7 +667,7 @@ public class ItemManageFrame extends KoLFrame
 						if ( creationCount > 0 )
 						{
 							selection.setQuantityNeeded( creationCount );
-							selection.run();
+							client.makeRequest( selection, 1 );
 						}
 					}
 				}
