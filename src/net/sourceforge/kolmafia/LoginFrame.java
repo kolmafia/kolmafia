@@ -249,6 +249,7 @@ public class LoginFrame extends KoLFrame
 					return;
 				}
 
+				updateDisplay( DISABLED_STATE, "Determining login settings..." );
 				(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected() )).run();
 			}
 		}
