@@ -116,6 +116,15 @@ public class SearchMallRequest extends KoLRequest
 
 		skipTokens( parsedResults, 4 );
 
+		// Now, check to see if there was actually
+		// no results in a limited search
+
+		if ( parsedResults.countTokens() == 1 )
+		{
+			frame.updateDisplay( KoLFrame.ENABLED_STATE, "No results found." );
+			return;
+		}
+
 		while ( parsedResults.hasMoreTokens() )
 		{
 			// The first token contains the item name
