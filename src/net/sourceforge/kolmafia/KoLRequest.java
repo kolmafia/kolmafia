@@ -688,7 +688,23 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			else if ( lastToken.startsWith( "You acquire" ) )
-				client.parseResult( parsedResults.nextToken() );
+			{
+				if ( lastToken.indexOf( "effect" ) == -1 )
+					client.parseResult( parsedResults.nextToken() );
+				else
+				{
+					String effect = parsedResults.nextToken();
+					lastToken = parsedResults.nextToken();
+
+					if ( lastToken.indexOf( "duration" ) == -1 )
+						client.parseResult( effect );
+					else
+					{
+						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
+						client.parseResult( effect + " (" + duration + ")" );
+					}
+				}
+			}
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 				client.parseResult( lastToken );
 		}
