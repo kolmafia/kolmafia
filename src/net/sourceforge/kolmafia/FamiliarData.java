@@ -62,8 +62,6 @@ public class FamiliarData
 		this.item = html.indexOf( "<img" ) == -1 ? "none" :
 			html.indexOf( "<img src=\"http://images.kingdomofloathing.com/itemimages/lnecklace.gif\"" ) == -1 ?
 				FamiliarsDatabase.getFamiliarItem( id ) : "lead necklace";
-
-		this.weight += item.equals( "none" ) ? 0 : item.equals( "lead necklace" ) ? 3 : 5;
 	}
 
 	public int getID()
