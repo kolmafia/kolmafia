@@ -672,6 +672,7 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox forceSortSelect;
 		private JComboBox promptForPriceSelect;
 		private JComboBox useClosetForCreationSelect;
+		private JComboBox autoRepairBoxesSelect;
 
 		public ResultsOptionsPanel()
 		{
@@ -697,11 +698,18 @@ public class OptionsFrame extends KoLFrame
 
 			useClosetForCreationSelect = new JComboBox( useClosetForCreation );
 
-			VerifiableElement [] elements = new VerifiableElement[4];
+			LockableListModel autoRepairBoxes = new LockableListModel();
+			autoRepairBoxes.add( "Halt on explosion" );
+			autoRepairBoxes.add( "Auto-repair on explosion" );
+
+			autoRepairBoxesSelect = new JComboBox( autoRepairBoxes );
+
+			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "Default Limit: ", defaultLimitField );
 			elements[1] = new VerifiableElement( "Sorting Style: ", forceSortSelect );
 			elements[2] = new VerifiableElement( "Automall Style: ", promptForPriceSelect );
 			elements[3] = new VerifiableElement( "Ingredient Source: ", useClosetForCreationSelect );
+			elements[4] = new VerifiableElement( "Auto-Repair: ", autoRepairBoxesSelect );
 
 			setContent( elements );
 		}
@@ -728,6 +736,7 @@ public class OptionsFrame extends KoLFrame
 				String forceSortSetting = settings.getProperty( "forceSorting" );
 				String promptForPriceSetting = settings.getProperty( "promptForPrice" );
 				String useClosetForCreationSetting = settings.getProperty( "useClosetForCreation" );
+				String autoRepairBoxesSetting = settings.getProperty( "autoRepairBoxes" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
@@ -749,6 +758,11 @@ public class OptionsFrame extends KoLFrame
 				else
 					useClosetForCreationSelect.setSelectedIndex( 1 );
 
+				if ( autoRepairBoxesSetting == null || autoRepairBoxesSetting.equals( "false" ) )
+					autoRepairBoxesSelect.setSelectedIndex( 0 );
+				else
+					autoRepairBoxesSelect.setSelectedIndex( 1 );
+
 				(new StatusMessageChanger( "" )).run();
 			}
 		}
@@ -767,6 +781,7 @@ public class OptionsFrame extends KoLFrame
 				settings.setProperty( "forceSorting", "" + (forceSortSelect.getSelectedIndex() == 1) );
 				settings.setProperty( "promptForPrice", "" + (promptForPriceSelect.getSelectedIndex() == 0) );
 				settings.setProperty( "useClosetForCreation", "" + (useClosetForCreationSelect.getSelectedIndex() == 1) );
+				settings.setProperty( "autoRepairBoxes", "" + (autoRepairBoxesSelect.getSelectedIndex() == 1) );
 				saveSettings();
 			}
 		}

@@ -252,7 +252,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					updateDisplay( KoLFrame.ENABLED_STATE, "Chef explosion!" );
 					client.getCharacterData().setChef( false );
-					client.cancelRequest();
+
+					if ( autoRepairBoxServant() )
+						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
+					else
+						client.cancelRequest();
 				}
 				break;
 
@@ -262,10 +266,63 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					updateDisplay( KoLFrame.ENABLED_STATE, "Bartender explosion!" );
 					client.getCharacterData().setBartender( false );
-					client.cancelRequest();
+
+					if ( autoRepairBoxServant() )
+						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
+					else
+						client.cancelRequest();
 				}
 				break;
 		}
+	}
+
+	private boolean autoRepairBoxServant()
+	{
+		// Check to see if the player wants to autorepair
+		String autoRepairBoxesSetting = client.getSettings().getProperty( "autoRepairBoxes" );
+		if ( autoRepairBoxesSetting == null || autoRepairBoxesSetting.equals( "false" ) )
+			return false;
+
+		// If they do want to auto-repair, make sure that
+		// the appropriate item is available in their inventory
+
+		switch ( mixingMethod )
+		{
+			case COOK:
+			case COOK_REAGENT:
+			case COOK_PASTA:
+
+				return useBoxServant( "chef-in-the-box" );
+
+			case MIX:
+			case MIX_SPECIAL:
+
+				return useBoxServant( "bartender-in-the-box" );
+		}
+
+		return false;
+	}
+
+	private boolean useBoxServant( String servantName )
+	{
+		AdventureResult [] servant = { new AdventureResult( servantName, 1 ) };
+
+		if ( client.getInventory().contains( servant[0] ) )
+		{
+			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, servantName, 1 )).run();
+			return true;
+		}
+
+		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
+		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) && client.getCloset().contains( servant[0] ) )
+		{
+			updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving " + servantName + " from closet..." );
+			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servant )).run();
+			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, servantName, 1 )).run();
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
