@@ -44,7 +44,7 @@ import java.util.StringTokenizer;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * A static class which retrieves all the concoctions available in
@@ -105,7 +105,7 @@ public class ConcoctionsDatabase implements UtilityConstants
 	 * @return	A list of possible concoctions
 	 */
 
-	public static LockableListModel getConcoctions( KoLmafia client, List availableIngredients )
+	public static SortedListModel getConcoctions( KoLmafia client, List availableIngredients )
 	{
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 		{
@@ -136,7 +136,7 @@ public class ConcoctionsDatabase implements UtilityConstants
 				quantityPossible[ TradeableItemDatabase.getItemID( result.getName() ) ] -= result.getCount();
 		}
 
-		LockableListModel concoctionsList = new LockableListModel();
+		SortedListModel concoctionsList = new SortedListModel();
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( quantityPossible[i] > 0 )

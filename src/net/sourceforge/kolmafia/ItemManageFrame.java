@@ -56,6 +56,7 @@ import javax.swing.BorderFactory;
 
 // other imports
 import java.text.ParseException;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -69,7 +70,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-	private LockableListModel concoctions;
+	private SortedListModel concoctions;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -116,7 +117,7 @@ public class ItemManageFrame extends KoLFrame
 
 	private class SellPanel extends JPanel
 	{
-		private JPanel sellPanel, createPanel;
+		private NonContentPanel sellPanel, createPanel;
 		private JList availableList;
 		private JList concoctionsList;
 
@@ -258,7 +259,7 @@ public class ItemManageFrame extends KoLFrame
 				super( "create", "refresh list" );
 				setContent( null, null, null, null, true, true );
 
-				concoctions = client == null ? new LockableListModel() : ConcoctionsDatabase.getConcoctions( client, client.getInventory() );
+				concoctions = client == null ? new SortedListModel() : ConcoctionsDatabase.getConcoctions( client, client.getInventory() );
 				concoctionsList = new JList( concoctions );
 				concoctionsList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 				concoctionsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
@@ -317,7 +318,7 @@ public class ItemManageFrame extends KoLFrame
 
 	private class StoragePanel extends JPanel
 	{
-		private JPanel inventoryPanel, closetPanel;
+		private NonContentPanel inventoryPanel, closetPanel;
 		private JList availableList;
 		private JList closetList;
 

@@ -41,7 +41,7 @@ import java.util.List;
  * handle items which use meat paste and are tradeable in-game.
  */
 
-public class ItemCreationRequest extends KoLRequest
+public class ItemCreationRequest extends KoLRequest implements Comparable
 {
 	public static final int MEAT_PASTE = 25;
 	public static final int MEAT_STACK = 88;
@@ -76,6 +76,21 @@ public class ItemCreationRequest extends KoLRequest
 		this.itemID = itemID;
 		this.mixingMethod = mixingMethod;
 		this.quantityNeeded = quantityNeeded;
+	}
+
+	/**
+	 * Compares the <code>AdventureResult</code> with the given object for name
+	 * equality and priority differences.  Return values are consistent with the
+	 * rules laid out in {@link java.lang.Comparable#compareTo(Object)}.
+	 */
+
+	public int compareTo( Object o )
+	{
+		if ( !(o instanceof ItemCreationRequest) || o == null )
+			return -1;
+
+		ItemCreationRequest icr = (ItemCreationRequest) o;
+		return TradeableItemDatabase.getItemName( itemID ).compareTo( TradeableItemDatabase.getItemName( icr.itemID ) );
 	}
 
 	/**
