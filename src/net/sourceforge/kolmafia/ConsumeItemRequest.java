@@ -165,6 +165,13 @@ public class ConsumeItemRequest extends KoLRequest
 				return;
 			}
 
+			else if ( replyContent.indexOf( "Too much" ) != -1 )
+			{
+				client.cancelRequest();
+				updateDisplay( ENABLED_STATE, "Your spleen might go kabooie." );
+				return;
+			}
+
 			// Check to make sure that if a scroll of drastic healing
 			// were used and didn't dissolve, the scroll is not consumed
 
