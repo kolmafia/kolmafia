@@ -207,13 +207,26 @@ public class AdventureFrame extends KoLFrame
 		if ( isheet != null && isheet.isShowing() )
 			isheet.setEnabled( isEnabled );
 
-		csheetMenuItem.setEnabled( isEnabled );
-		adventureSelect.setEnabled( isEnabled );
-		mallSearch.setEnabled( isEnabled );
-		clanBuff.setEnabled( isEnabled );
-		heroDonation.setEnabled( isEnabled );
-		meatStorage.setEnabled( isEnabled );
-		skillBuff.setEnabled( isEnabled );
+		if ( csheetMenuItem != null && csheetMenuItem.isShowing() )
+			csheetMenuItem.setEnabled( isEnabled );
+
+		if ( adventureSelect != null && adventureSelect.isShowing() )
+			adventureSelect.setEnabled( isEnabled );
+
+		if ( mallSearch != null && mallSearch.isShowing() )
+			mallSearch.setEnabled( isEnabled );
+
+		if ( clanBuff != null && clanBuff.isShowing() )
+			clanBuff.setEnabled( isEnabled );
+
+		if ( heroDonation != null && heroDonation.isShowing() )
+			heroDonation.setEnabled( isEnabled );
+
+		if ( meatStorage != null && meatStorage.isShowing() )
+			meatStorage.setEnabled( isEnabled );
+
+		if ( skillBuff != null && skillBuff.isShowing() )
+			skillBuff.setEnabled( isEnabled );
 	}
 
 	/**
@@ -290,6 +303,12 @@ public class AdventureFrame extends KoLFrame
 				client == null ? new LockableListModel() : client.getCharacterData().getEffects().getMirrorImage() ) );
 
 			setContent( elements, resultsTally );
+
+			String lastAdventure = client.getSettings().getProperty( "lastAdventure" );
+			if ( lastAdventure != null )
+				for ( int i = 0; i < adventureList.size(); ++i )
+					if ( adventureList.get(i).toString().equals( lastAdventure ) )
+						locationField.setSelectedItem( adventureList.get(i) );
 		}
 
 		protected void setContent( VerifiableElement [] elements, LockableListModel resultsTally )
@@ -392,6 +411,9 @@ public class AdventureFrame extends KoLFrame
 				{
 					int count = df.parse( countField.getText() ).intValue();
 					Runnable request = (Runnable) locationField.getSelectedItem();
+					client.getSettings().setProperty( "lastAdventure", request.toString() );
+					client.getSettings().saveSettings();
+
 					client.makeRequest( request, count );
 
 					if ( isheet != null )
