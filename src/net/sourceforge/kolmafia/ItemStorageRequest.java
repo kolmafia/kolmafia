@@ -165,6 +165,8 @@ public class ItemStorageRequest extends KoLRequest
 
 	private void meat()
 	{
+		int beforeMeatInCloset = client.getCharacterData().getClosetMeat();
+
 		super.run();
 
 		// If an error state occurred, return from this
@@ -183,8 +185,9 @@ public class ItemStorageRequest extends KoLRequest
 		{
 			try
 			{
-				String meatInCloset = meatInClosetMatcher.group();
-				client.getCharacterData().setClosetMeat( df.parse( meatInCloset ).intValue() );
+				int afterMeatInCloset = df.parse( meatInClosetMatcher.group() ).intValue();
+				client.getCharacterData().setClosetMeat( afterMeatInCloset );
+				client.processResult( new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
 			}
 			catch ( Exception e )
 			{
