@@ -253,10 +253,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String command = line.split( " " )[0].toLowerCase().trim();
 		String parameters = line.substring( command.length() ).trim();
-		executeCommand( command, parameters );
 
 		if ( !command.equals( "repeat" ) )
 			previousCommand = line;
+
+		executeCommand( command, parameters );
 	}
 
 	/**
@@ -272,6 +273,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) || command.equals( "relogin" ) )
 		{
+			scriptRequestor.deinitialize();
 			attemptLogin();
 			return;
 		}
@@ -353,7 +355,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// should be handled in a separate method, since
 		// there are many things the client may want to print
 
-		if ( command.equals( "print" ) || command.equals( "list" ) )
+		if ( command.equals( "print" ) || command.equals( "list" ) || command.equals( "show" ) )
 		{
 			executePrintCommand( parameters );
 			return;
@@ -378,9 +380,51 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "hermit" ) )
+		// Another popular command involves changing
+		// your current familiar.
+
+		if ( command.equals( "familiar" ) )
 		{
-			executeAdventureRequest( "hermit " + parameters );
+			if ( parameters.startsWith( "list" ) )
+			{
+				executePrintCommand( "familiars " + parameters.substring( 4 ).trim() );
+				return;
+			}
+
+			(new FamiliarRequest( scriptRequestor, parameters )).run();
+			return;
+		}
+
+		// Yet another popular command involves changing
+		// your outfit.
+
+		if ( command.equals( "outfit" ) )
+		{
+			if ( parameters.startsWith( "list" ) )
+			{
+				executePrintCommand( "outfits " + parameters.substring( 4 ).trim() );
+				return;
+			}
+
+			executeChangeOutfitCommand( parameters );
+			return;
+		}
+
+		// Finally, handle command abbreviations - in
+		// other words, commands that look like they're
+		// their own commands, but are actually commands
+		// which are derived from other commands.
+
+		if ( command.equals( "hermit" ) || command.equals( "gym" ) )
+		{
+			executeAdventureRequest( command + " " + parameters );
+			return;
+		}
+
+		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) ||
+			command.equals( "outfits" ) || command.equals( "familiars" ) )
+		{
+			executePrintCommand( command + " " + parameters );
 			return;
 		}
 	}
@@ -447,7 +491,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, PrintStream outputStream )
 	{
-		if ( desiredData.equals( "inventory" ) )
+		if ( desiredData.startsWith( "inv" ) )
 		{
 			printList( inventory, outputStream );
 			return;
@@ -462,6 +506,18 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( desiredData.equals( "session" ) )
 		{
 			printList( tally, outputStream );
+			return;
+		}
+
+		if ( desiredData.equals( "outfits" ) )
+		{
+			printList( characterData.getOutfits(), outputStream );
+			return;
+		}
+
+		if ( desiredData.equals( "familiars" ) )
+		{
+			printList( characterData.getFamiliars(), outputStream );
 			return;
 		}
 	}
@@ -569,6 +625,33 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
+	 * Special module used specifically for properly instantiating
+	 * requests to change the user's outfit.
+	 */
+
+	private void executeChangeOutfitCommand( String parameters )
+	{
+		Iterator outfitIterator = characterData.getOutfits().iterator();
+		SpecialOutfit intendedOutfit = null;
+		SpecialOutfit currentOutfit;
+
+		while ( intendedOutfit == null && outfitIterator.hasNext() )
+		{
+			currentOutfit = (SpecialOutfit) outfitIterator.next();
+			if ( currentOutfit.toString().toLowerCase().indexOf( parameters.toLowerCase() ) != -1 )
+				intendedOutfit = currentOutfit;
+		}
+
+		if ( intendedOutfit == null )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "You can't wear that outfit." );
+			return;
+		}
+
+		(new EquipmentRequest( scriptRequestor, intendedOutfit )).run();
+	}
+
+	/**
 	 * Updates the currently active display in the <code>KoLmafia</code>
 	 * session.
 	 */
@@ -609,6 +692,20 @@ public class KoLmafiaCLI extends KoLmafia
 
 	protected void makeHermitRequest( int itemCount )
 	{
+		String item = previousCommand.split( " " )[2];
+		int itemNumber = -1;
+
+		for ( int i = 0; itemNumber == -1 && i < hermitItemNames.length; ++i )
+			if ( hermitItemNames[i].indexOf( item ) != -1 )
+				itemNumber = hermitItemNumbers[i];
+
+		if ( itemNumber != -1 )
+			settings.setProperty( "hermitTrade", "" + itemNumber );
+		else
+			settings.remove( "hermitTrade" );
+
+		settings.saveSettings();
+		(new HermitRequest( scriptRequestor, itemCount )).run();
 	}
 
 	/**
