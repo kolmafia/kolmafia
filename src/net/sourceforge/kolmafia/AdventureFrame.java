@@ -565,7 +565,7 @@ public class AdventureFrame extends KoLFrame
 						}
 					}
 				}
-				catch ( NumberFormatException e )
+				catch ( Exception e )
 				{
 					// If the number placed inside of the count list was not
 					// an actual integer value, pretend nothing happened.
@@ -683,7 +683,7 @@ public class AdventureFrame extends KoLFrame
 					client.makeRequest( buff, buffCount );
 					isBuffing = false;
 				}
-				catch ( NumberFormatException e )
+				catch ( Exception e )
 				{
 					// If the number placed inside of the count list was not
 					// an actual integer value, pretend nothing happened.
