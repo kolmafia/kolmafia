@@ -57,7 +57,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private KoLCharacter me;
 	private LimitedSizeChatBuffer buffbotLog;
 	private static final int BBSLEEPTIME = 1000; // Sleep this much each time
-	private static final int BBSLEEPCOUNT = 60;  // This many times
+	private static final int BBSLEEPCOUNT = 75;  // This many times
+	private static final int BBSLEEPCOUNTLONG = 300;  // This many times for slot needs
 	
 	/**
 	 * Constructor for the <code>BuffBotManager</code> class.
