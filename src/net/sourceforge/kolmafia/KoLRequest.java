@@ -285,6 +285,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
+		if ( client != null && !formURLString.equals( "fight.php" ) )
+			client.resetContinueState();
+
 		// Adding in a delay inbetween run requests - this means that
 		// all requests, not just chat requests, have a delay before
 		// running to be friendlier on the server.
@@ -297,9 +300,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		catch ( InterruptedException e )
 		{
 		}
-
-		if ( client != null && !formURLString.equals( "fight.php" ) )
-			client.resetContinueState();
 
 		boolean connectSuccess = false;
 		for ( int i = 0; i < MAX_RETRIES && !connectSuccess; ++i )
@@ -513,15 +513,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 						if ( client.inLoginState() )
 						{
-							KoLRequest rerun = new KoLRequest( client, formURLString, doOutput );
-							rerun.data.addAll( this.data );
-							rerun.run();
-
-							this.responseCode = rerun.responseCode;
-							this.isErrorState = rerun.isErrorState;
-							this.redirectLocation = rerun.redirectLocation;
-							this.formConnection = rerun.formConnection;
-							this.replyContent = rerun.replyContent;
+							this.run();
 							return;
 						}
 					}
