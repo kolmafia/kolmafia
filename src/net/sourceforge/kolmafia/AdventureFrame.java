@@ -86,6 +86,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 // spellcast-related imports
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -117,6 +118,9 @@ public class AdventureFrame extends KoLFrame
 		private JLabel actionStatusLabel;
 		private JLabel serverReplyLabel;
 
+		JComboBox locationField;
+		JTextField countField;
+
 		public AdventurePanel( LockableListModel list )
 		{
 			super( "begin", "cancel" );
@@ -129,8 +133,12 @@ public class AdventureFrame extends KoLFrame
 			serverReplyLabel = new JLabel( " ", JLabel.CENTER );
 			actionStatusPanel.add( serverReplyLabel );
 
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Location: ", new JComboBox( list ) );
+			locationField = new JComboBox( list );
+			countField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "# of turns: ", countField );
+			elements[1] = new VerifiableElement( "Location: ", locationField );
 
 			setContent( elements );
 		}
@@ -148,6 +156,8 @@ public class AdventureFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
+			locationField.setEnabled( isEnabled );
+			countField.setEnabled( isEnabled );
 		}
 
 		public void clear()
@@ -155,6 +165,7 @@ public class AdventureFrame extends KoLFrame
 			Runnable updateAComponent = new Runnable() {
 				public void run()
 				{
+					countField.setText( "" );
 					requestFocus();
 				}
 			};
@@ -163,15 +174,39 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			// Once the stubs are finished, this will notify the
+			// client to begin adventuring based on the values
+			// placed in the input fields.  For now, since there's
+			// no actual functionality, simply parse the values.
+
+			Runnable request = (Runnable) locationField.getSelectedItem();
+
+			try
+			{
+				int count = Integer.parseInt( countField.getText() );
+				updateDisplay( ADVENTURING_STATE, "Adventure 1 in progress..." );
+			}
+			catch ( NumberFormatException e )
+			{
+				// If the number placed inside of the count list was not
+				// an actual integer value, pretend nothing happened.
+				// Using exceptions for flow control is bad style, but
+				// this will be fixed once we add functionality.
+			}
 		}
 
 		protected void actionCancelled()
 		{
+			// Once the stubs are finished, this will notify the
+			// client to terminate the loop early.  For now, since
+			// there's no actual functionality, simply request focus
+
+			updateDisplay( LOGGED_IN_STATE, "Adventuring terminated." );
 			requestFocus();
 		}
 
 		public void requestFocus()
-		{
+		{	locationField.requestFocus();
 		}
 	}
 
@@ -202,16 +237,13 @@ public class AdventureFrame extends KoLFrame
 		{
 			switch ( displayState )
 			{
-				case PRE_LOGIN_STATE:
+				case LOGGED_IN_STATE:
 					contentPanel.setEnabled( true );
 					contentPanel.clear();
 					break;
 
-				case SENDING_LOGIN_STATE:
+				case ADVENTURING_STATE:
 					contentPanel.setEnabled( false );
-					break;
-
-				case LOGGED_IN_STATE:
 					break;
 			}
 		}

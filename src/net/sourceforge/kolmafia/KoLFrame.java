@@ -46,6 +46,7 @@ public abstract class KoLFrame extends javax.swing.JFrame
 	public static final int PRE_LOGIN_STATE     = 1;
 	public static final int SENDING_LOGIN_STATE = 2;
 	public static final int LOGGED_IN_STATE     = 3;
+	public static final int ADVENTURING_STATE   = 4;
 
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
