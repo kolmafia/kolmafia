@@ -102,14 +102,17 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.initialize( loginname, sessionID, getBreakfast );
 
-		activeFrame.setVisible( false );
-		activeFrame.dispose();
-		activeFrame = null;
+		if ( permitContinue )
+		{
+			activeFrame.setVisible( false );
+			activeFrame.dispose();
+			activeFrame = null;
 
-		activeFrame = new AdventureFrame( this, AdventureDatabase.getAsLockableListModel( this ), tally );
-		activeFrame.pack();  activeFrame.setVisible( true );
-		activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
-		activeFrame.requestFocus();
+			activeFrame = new AdventureFrame( this, AdventureDatabase.getAsLockableListModel( this ), tally );
+			activeFrame.pack();  activeFrame.setVisible( true );
+			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+			activeFrame.requestFocus();
+		}
 	}
 
 	/**
