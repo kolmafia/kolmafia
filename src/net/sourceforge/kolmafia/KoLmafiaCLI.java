@@ -120,18 +120,16 @@ public class KoLmafiaCLI extends KoLmafia
 	 * @param	result	String to parse for the result
 	 */
 
-	public void parseResult( String result )
+	public void addToResultTally( AdventureResult result )
 	{
 		if ( scriptRequestor == this )
 		{
-			super.parseResult( result );
-			if ( result.startsWith( "You" ) )
-				outputStream.println( result );
-			else
-				outputStream.println( "You acquire: " + result );
+			super.addToResultTally( result );
+			if ( !inLoginState() )
+				outputStream.println( "Adventure result: " + result );
 		}
 		else
-			scriptRequestor.parseResult( result );
+			scriptRequestor.addToResultTally( result );
 	}
 
 	/**
@@ -433,6 +431,16 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "create" ) || command.equals( "make" ) || command.equals( "bake" ) || command.equals( "mix" ) || command.equals( "smith" ) )
 		{
 			executeItemCreationRequest( parameters );
+			return;
+		}
+
+		// Another item-related command is the autosell
+		// request.  This one's simple, but it still
+		// gets its own utility method.
+
+		if ( command.equals( "sell" ) || command.equals( "autosell" ) )
+		{
+			executeAutoSellRequest( parameters );
 			return;
 		}
 
@@ -800,7 +808,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an item quantity before the string.
 	 */
 
-	private AdventureResult getFirstMatchingItem( String parameters )
+	private AdventureResult getFirstMatchingItem( String parameters, boolean isCreation )
 	{
 		String itemName;  int itemCount;
 
@@ -844,7 +852,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				try
 				{
-					itemCount = df.parse( itemCountString ).intValue();
+					itemCount = itemCountString.equals( "*" ) ? Integer.MAX_VALUE : df.parse( itemCountString ).intValue();
 				}
 				catch ( Exception e )
 				{
@@ -865,7 +873,44 @@ public class KoLmafiaCLI extends KoLmafia
 			return null;
 		}
 
-		return new AdventureResult( itemName, itemCount );
+		AdventureResult firstMatch = new AdventureResult( itemName, itemCount );
+		int index = scriptRequestor.getInventory().indexOf( firstMatch );
+
+		if ( itemCount == Integer.MAX_VALUE )
+		{
+			if ( !isCreation )
+				return (AdventureResult) scriptRequestor.getInventory().get( index );
+
+			List concoctions = ConcoctionsDatabase.getConcoctions( scriptRequestor, scriptRequestor.getInventory() );
+			ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
+			index = concoctions.indexOf( concoction );
+
+for ( int i = 0; i < concoctions.size(); ++i )
+	System.out.println( concoctions.get(i) + ": " + concoctions.get(i).equals( concoction ) );
+
+			return index == -1 ? null : new AdventureResult( itemName, ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
+		}
+
+		return firstMatch;
+	}
+
+	/**
+	 * A special module used specifically for properly instantiating
+	 * AutoSellRequests.
+	 */
+
+	private void executeAutoSellRequest( String parameters )
+	{
+		String itemName;
+
+		// Now, handle the instance where the first item is actually
+		// the quantity desired, and the next is the amount to use
+
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, false );
+		if ( firstMatch == null )
+			return;
+
+		(new AutoSellRequest( scriptRequestor, firstMatch )).run();
 	}
 
 	/**
@@ -877,7 +922,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		int itemID;  int mixingMethod;  int quantityNeeded;
 
-		AdventureResult firstMatch = getFirstMatchingItem( parameters );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, true );
 		if ( firstMatch == null )
 			return;
 
@@ -900,7 +945,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
-		AdventureResult firstMatch = getFirstMatchingItem( parameters );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, false );
 		if ( firstMatch == null )
 			return;
 
