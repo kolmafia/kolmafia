@@ -121,6 +121,13 @@ public class KoLmafia implements UtilityConstants
 		// Store the initialized variables
 		this.sessionID = sessionID;
 
+		if ( !permitContinue )
+		{
+			this.sessionID = null;
+			this.permitContinue = true;
+			return;
+		}
+
 		activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
 		(new PasswordHashRequest( this )).run();
 
