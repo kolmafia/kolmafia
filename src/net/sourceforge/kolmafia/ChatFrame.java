@@ -221,6 +221,10 @@ public class ChatFrame extends KoLFrame
 
 		private class AddFriendThread extends Thread
 		{
+			public AddFriendThread()
+			{	setDaemon( true );
+			}
+
 			public void run()
 			{	(new ChatRequest( client, associatedContact, "/friend" )).run();
 			}
@@ -240,6 +244,10 @@ public class ChatFrame extends KoLFrame
 
 		private class IgnoreFriendThread extends Thread
 		{
+			public IgnoreFriendThread()
+			{	setDaemon( true );
+			}
+
 			public void run()
 			{	(new ChatRequest( client, associatedContact, "/ignore" )).run();
 			}
@@ -268,7 +276,9 @@ public class ChatFrame extends KoLFrame
 			private String message;
 
 			public ChatEntryThread( String message )
-			{	this.message = message;
+			{
+				this.message = message;
+				setDaemon( true );
 			}
 
 			public void run()
@@ -290,6 +300,10 @@ public class ChatFrame extends KoLFrame
 
 		private class ClearChatBufferThread extends Thread
 		{
+			public ClearChatBufferThread()
+			{	setDaemon( true );
+			}
+
 			public void run()
 			{
 				if ( client != null )

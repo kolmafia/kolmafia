@@ -543,11 +543,11 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
+				updateDisplay( DISABLED_STATE, "Purchasing items..." );
+				Object [] purchases = resultsDisplay.getSelectedValues();
+
 				try
 				{
-					updateDisplay( DISABLED_STATE, "Purchasing items..." );
-
-					Object [] purchases = resultsDisplay.getSelectedValues();
 					int maxPerStore = countField.getText().trim().length() == 0 ? Integer.MAX_VALUE :
 						Integer.parseInt( maxPerStoreField.getText() );
 
@@ -563,11 +563,6 @@ public class AdventureFrame extends KoLFrame
 							results.remove( purchases[i] );
 						}
 					}
-
-					if ( isheet != null )
-						isheet.refreshConcoctionsList();
-
-					updateDisplay( ENABLED_STATE, "Purchases complete." );
 				}
 				catch ( NumberFormatException e )
 				{
@@ -576,6 +571,11 @@ public class AdventureFrame extends KoLFrame
 					// Using exceptions for flow control is bad style, but
 					// this will be fixed once we add functionality.
 				}
+
+				if ( isheet != null )
+					isheet.refreshConcoctionsList();
+
+				updateDisplay( ENABLED_STATE, "Purchases complete." );
 			}
 		}
 	}
@@ -1059,7 +1059,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				// Create a new instance of a client, and allow
 				// the current client to run down in a separate
-				// thread.
+				// Thread.
 
 				(new LogoutRequestThread()).start();
 				new KoLmafia();
@@ -1069,7 +1069,7 @@ public class AdventureFrame extends KoLFrame
 		private class LogoutRequestThread extends Thread
 		{
 			public LogoutRequestThread()
-			{	setDaemon( false );
+			{	setDaemon( true );
 			}
 
 			public void run()

@@ -219,6 +219,10 @@ public class OptionsFrame extends KoLFrame
 
 		private class LoadDefaultSettingsThread extends Thread
 		{
+			public LoadDefaultSettingsThread()
+			{	setDaemon( true );
+			}
+
 			public void run()
 			{
 				Properties settings = (client == null) ? System.getProperties() : client.getSettings();
@@ -258,6 +262,10 @@ public class OptionsFrame extends KoLFrame
 
 		private class StoreSettingsThread extends Thread
 		{
+			public StoreSettingsThread()
+			{	setDaemon( true );
+			}
+
 			public void run()
 			{
 				// First, determine what the proxy settings chosen
@@ -424,6 +432,10 @@ public class OptionsFrame extends KoLFrame
 
 		private class StoreSettingsThread extends Thread
 		{
+			public StoreSettingsThread()
+			{	setDaemon( true );
+			}
+
 			public void run()
 			{
 				if ( client != null )
@@ -550,6 +562,10 @@ public class OptionsFrame extends KoLFrame
 
 		private class StoreSettingsThread extends Thread
 		{
+			public StoreSettingsThread()
+			{	setDaemon( true );
+			}
+
 			public void run()
 			{
 				int [] selected = new int[3];
@@ -700,6 +716,10 @@ public class OptionsFrame extends KoLFrame
 
 		private class StoreSettingsThread extends Thread
 		{
+			public StoreSettingsThread()
+			{	setDaemon( true );
+			}
+
 			public void run()
 			{
 				int selected = -1;
