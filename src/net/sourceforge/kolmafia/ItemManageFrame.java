@@ -163,8 +163,8 @@ public class ItemManageFrame extends KoLFrame
 
 			public ConsumeFoodPanel()
 			{
-				super( "use all", "cancel" );
-				setContent( null );
+				super( "use one", "use all" );
+				setContent( null, null, null, null, true, true );
 
 				edibleItems = client == null ? new LockableListModel() : client.getEdibleItems().getMirrorImage();
 				edibleItemList = new JList( edibleItems );
@@ -183,13 +183,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ConsumeItemRequestThread(1)).start();
+			{	(new ConsumeItemRequestThread(true, false)).start();
 			}
 
 			protected void actionCancelled()
-			{
-				client.cancelRequest();
-				ItemManageFrame.this.setEnabled( true );
+			{	(new ConsumeItemRequestThread(true, true)).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -205,8 +203,8 @@ public class ItemManageFrame extends KoLFrame
 
 			public ConsumeMiscPanel()
 			{
-				super( "use all", "cancel" );
-				setContent( null );
+				super( "use one", "use all" );
+				setContent( null, null, null, null, true, true );
 
 				usableItems = client == null ? new LockableListModel() : client.getUsableItems().getMirrorImage();
 				usableItemList = new JList( usableItems );
@@ -225,13 +223,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ConsumeItemRequestThread(2)).start();
+			{	(new ConsumeItemRequestThread(false, false)).start();
 			}
 
 			protected void actionCancelled()
-			{
-				client.cancelRequest();
-				ItemManageFrame.this.setEnabled( true );
+			{	(new ConsumeItemRequestThread(false, true)).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -249,26 +245,27 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ConsumeItemRequestThread extends Thread
 		{
-			private int listID;
+			private boolean isEdibleItemRequest, useAll;
 
-			public ConsumeItemRequestThread( int listID )
+			public ConsumeItemRequestThread( boolean isEdibleItemRequest, boolean useAll )
 			{
 				super( "Consume-Request-Thread" );
 				setDaemon( true );
-				this.listID = listID;
+				this.isEdibleItemRequest = isEdibleItemRequest;
+				this.useAll = useAll;
 			}
 
 			public void run()
 			{
 				ItemManageFrame.this.setEnabled( false );
-				Object [] items = (listID == 1 ? edibleItemList : usableItemList).getSelectedValues();
+				Object [] items = (isEdibleItemRequest ? edibleItemList : usableItemList).getSelectedValues();
 				AdventureResult currentItem;  Runnable request;
 
 				for ( int i = 0; i < items.length; ++i )
 				{
 					currentItem = (AdventureResult) items[i];
 					request = new ConsumeItemRequest( client, TradeableItemDatabase.getConsumptionType( currentItem.getName() ), currentItem );
-					client.makeRequest( request, currentItem.getCount() );
+					client.makeRequest( request, useAll ? currentItem.getCount() : 1 );
 				}
 
 				refreshConcoctionsList();
