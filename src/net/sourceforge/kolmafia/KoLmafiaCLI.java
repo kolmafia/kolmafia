@@ -36,13 +36,17 @@ package net.sourceforge.kolmafia;
 
 // input and output
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.PrintStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 // utility imports
+import java.util.List;
+import java.util.Iterator;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -164,9 +168,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 			outputStream.println();
 
-			outputStream.println( "Determining server..." );
+			updateDisplay( KoLFrame.DISABLED_STATE, "Determining server..." );
 			KoLRequest.applySettings();
-			outputStream.println( KoLRequest.getRootHostName() + " selected." );
+			updateDisplay( KoLFrame.DISABLED_STATE, KoLRequest.getRootHostName() + " selected." );
 
 			outputStream.println();
 			(new LoginRequest( scriptRequestor, username, password, true )).run();
@@ -191,6 +195,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void initialize( String loginname, String sessionID, boolean getBreakfast )
 	{
+		if ( scriptRequestor != this )
+		{
+			scriptRequestor.initialize( loginname, sessionID, getBreakfast );
+			return;
+		}
+
 		super.initialize( loginname, sessionID, getBreakfast );
 		outputStream.println();
 		listenForCommands();
@@ -253,23 +263,36 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCommand( String command, String parameters )
 	{
-		if ( command.equals( "login" ) )
+		// First, handle any requests to login or relogin.
+		// This will be done by calling a utility method.
+
+		if ( command.equals( "login" ) || command.equals( "relogin" ) )
 		{
 			attemptLogin();
 			return;
 		}
 
+		// Next, handle any requests that request exiting.
+		// Note that a logout request should be sent in
+		// order to be friendlier to the server, if the
+		// character has already logged in.
+
 		if ( command.equals( "exit" ) || command.equals( "quit" ) || command.equals( "logout" ) )
 		{
 			if ( !scriptRequestor.inLoginState() )
 			{
-				outputStream.println( "Logging out..." );
+				updateDisplay( KoLFrame.DISABLED_STATE, "Logging out..." );
 				(new LogoutRequest( scriptRequestor )).run();
 			}
 
-			outputStream.println( "Exiting KoLmafia..." );
+			updateDisplay( KoLFrame.DISABLED_STATE, "Exiting KoLmafia..." );
 			System.exit(0);
 		}
+
+		// Next, handle any requests for script execution;
+		// these can be done at any time (including before
+		// login), so they should be handled before a test
+		// of login state needed for other commands.
 
 		if ( command.equals( "call" ) || command.equals( "run" ) || command.equals( "exec" ) || command.equals( "load" ) )
 		{
@@ -283,7 +306,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Print a message indicating that the file failed to
 				// be loaded, since that's what the error probably was.
 
-				outputStream.println( "Script file <" + parameters + "> could not be found." );
+				updateDisplay( KoLFrame.ENABLED_STATE, "Script file <" + parameters + "> could not be found." );
 				return;
 			}
 		}
@@ -294,13 +317,101 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( scriptRequestor.inLoginState() )
 		{
-			outputStream.println( "You have not yet logged in." );
+			updateDisplay( KoLFrame.ENABLED_STATE, "You have not yet logged in." );
 			return;
 		}
+
+		// One command available after login is a request
+		// to print the current state of the client.  This
+		// should be handled in a separate method, since
+		// there are many things the client may want to print
+
+		if ( command.equals( "print" ) || command.equals( "list" ) )
+		{
+			executePrintCommand( parameters );
+			return;
+		}
+
+		// One command is an item usage request.  These
+		// requests are complicated, so delegate to the
+		// appropriate utility method.
 
 		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) )
 		{
 			executeConsumeItemRequest( parameters );
+			return;
+		}
+	}
+
+	/**
+	 * A special module used specifically for properly printing out
+	 * data relevant to the current session.
+	 */
+
+	private void executePrintCommand( String parameters )
+	{
+		if ( parameters.length() == 0 )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "Print what?" );
+			return;
+		}
+
+		String [] parameterList = parameters.split( " " );
+		PrintStream desiredOutputStream;
+
+		if ( parameterList.length != 1 )
+		{
+			File outputFile = new File( parameterList[1] );
+
+			// If the output file does not exist, create it first
+			// to avoid FileNotFoundExceptions being thrown.
+
+			try
+			{
+				if ( !outputFile.exists() )
+				{
+					outputFile.getParentFile().mkdirs();
+					outputFile.createNewFile();
+				}
+
+				desiredOutputStream = new PrintStream( new FileOutputStream( outputFile ), true );
+			}
+			catch ( IOException e )
+			{
+				// Because you created a file, no I/O errors should
+				// occur.  However, since there could still be something
+				// bad happening, print an error message.
+
+				updateDisplay( KoLFrame.ENABLED_STATE, "I/O error in opening file <" + parameterList[1] + ">" );
+				return;
+			}
+		}
+		else
+			desiredOutputStream = this.outputStream;
+
+		executePrintCommand( parameterList[0].toLowerCase(), desiredOutputStream );
+
+		if ( parameterList.length != 1 )
+			updateDisplay( KoLFrame.ENABLED_STATE, "Data has been printed to <" + parameterList[1] + ">" );
+	}
+
+	private void executePrintCommand( String desiredData, PrintStream outputStream )
+	{
+		if ( desiredData.equals( "inventory" ) )
+		{
+			printList( inventory, outputStream );
+			return;
+		}
+
+		if ( desiredData.equals( "closet" ) )
+		{
+			printList( closet, outputStream );
+			return;
+		}
+
+		if ( desiredData.equals( "session" ) )
+		{
+			printList( tally, outputStream );
 			return;
 		}
 	}
@@ -333,7 +444,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( !TradeableItemDatabase.contains( itemName ) )
 			{
-				outputStream.println( itemName + " does not exist in the item database." );
+				updateDisplay( KoLFrame.ENABLED_STATE, itemName + " does not exist in the item database." );
 				return;
 			}
 
@@ -346,7 +457,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Technically, this exception should not be thrown, but if
 				// it is, then print an error message and return.
 
-				outputStream.println( itemCountString + " is not a number." );
+				updateDisplay( KoLFrame.ENABLED_STATE, itemCountString + " is not a number." );
 				return;
 			}
 		}
@@ -416,5 +527,18 @@ public class KoLmafiaCLI extends KoLmafia
 
 	protected boolean confirmDrunkenRequest()
 	{	return false;
+	}
+
+	/**
+	 * Utility method used to print a list to the given output
+	 * stream.  If there's a need to print to the current output
+	 * stream, simply pass the output stream to this method.
+	 */
+
+	private static void printList( List printing, PrintStream outputStream )
+	{
+		Iterator printingIterator = printing.iterator();
+		while ( printingIterator.hasNext() )
+			outputStream.println( printingIterator.next() );
 	}
 }
