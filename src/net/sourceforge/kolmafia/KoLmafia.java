@@ -63,6 +63,7 @@ public abstract class KoLmafia implements UtilityConstants
 	protected String password, sessionID, passwordHash;
 	protected KoLCharacter characterData;
 	protected KoLMessenger loathingChat;
+	protected KoLMailManager loathingMail;
 
 	protected KoLSettings settings;
 	protected PrintStream logStream;
@@ -199,6 +200,7 @@ public abstract class KoLmafia implements UtilityConstants
 		}
 
 		this.isLoggingIn = false;
+		loathingMail = new KoLMailManager( this );
 	}
 
 	/**
@@ -578,6 +580,17 @@ public abstract class KoLmafia implements UtilityConstants
 
 	public KoLMessenger getMessenger()
 	{	return loathingChat;
+	}
+
+	/**
+	 * Returns the mailing client associated with the current
+	 * session of KoLmafia.
+	 *
+	 * @return	The mailing client for the current session
+	 */
+
+	public KoLMailManager getMailManager()
+	{	return loathingMail;
 	}
 
 	/**

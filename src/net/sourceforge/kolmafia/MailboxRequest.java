@@ -57,11 +57,14 @@ public class MailboxRequest extends KoLRequest
 	{
 		super.run();
 
-		Matcher messageMatcher = Pattern.compile( "<tr><td valign=top>.*?</tr>" ).matcher( replyContent );
-		String currentMessage, currentPlainTextMessage;
-		int lastMessageIndex = 0;
+		boolean shouldContinueParsing = true;
+		KoLMailManager currentMailManager = client.getMailManager();
 
-		while ( messageMatcher.find( lastMessageIndex ) )
+		int lastMessageIndex = 0;
+		String currentMessage, currentPlainTextMessage;
+
+		Matcher messageMatcher = Pattern.compile( "<tr><td valign=top>.*?</tr>" ).matcher( replyContent );
+		while ( shouldContinueParsing && messageMatcher.find( lastMessageIndex ) )
 		{
 			lastMessageIndex = messageMatcher.end();
 
@@ -72,33 +75,38 @@ public class MailboxRequest extends KoLRequest
 			currentMessage = messageMatcher.group().replaceAll( "<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll(
 				"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
 
-			// At this point, a brand new KoLGreenMessage would be created and added
-			// to the list of items.  However, because the internal structure of a
-			// KoLGreenMessage has not yet been decided, do nothing.
+			// At this point, the message is registered with the mail manager, which
+			// records the message and updates whether or not you should continue.
+
+			shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
 		}
 
 		// Determine how many messages there are, and how many there are left
 		// to go.  This will cause a lot of server load for those with lots
-		// of messages, though ... hopefully, people don't load things often.
+		// of messages.  But!  This can be fixed by testing the mail manager
+		// to see if it thinks all the new messages have been retrieved.
 
-		try
+		if ( shouldContinueParsing )
 		{
-			Matcher messageCountMatcher = Pattern.compile( "[\\d]+" ).matcher(
-				replyContent.substring( replyContent.indexOf( " - " ) + 3, replyContent.indexOf( "</b>" ) ) );
+			try
+			{
+				Matcher messageCountMatcher = Pattern.compile( "[\\d]+" ).matcher(
+					replyContent.substring( replyContent.indexOf( " - " ) + 3, replyContent.indexOf( "</b>" ) ) );
 
-			messageCountMatcher.find();
-			int lastMessageID = df.parse( messageCountMatcher.group() ).intValue();
+				messageCountMatcher.find();
+				int lastMessageID = df.parse( messageCountMatcher.group() ).intValue();
 
-			messageCountMatcher.find( 4 );
-			int totalMessages = df.parse( messageCountMatcher.group() ).intValue();
+				messageCountMatcher.find( 4 );
+				int totalMessages = df.parse( messageCountMatcher.group() ).intValue();
 
-			if ( lastMessageID != totalMessages )
-				(new MailboxRequest( client, boxname, lastMessageID )).run();
-		}
-		catch ( Exception e )
-		{
-			// If an exception is caught, do absolutely nothing because
-			// the page has somehow changed (HTML-wise)
+				if ( lastMessageID != totalMessages )
+					(new MailboxRequest( client, boxname, lastMessageID )).run();
+			}
+			catch ( Exception e )
+			{
+				// If an exception is caught, do absolutely nothing because
+				// the page has somehow changed (HTML-wise)
+			}
 		}
 	}
 }
