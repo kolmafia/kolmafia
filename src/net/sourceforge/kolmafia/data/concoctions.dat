@@ -247,9 +247,9 @@ cherry bomb	3	old-fashioned	skewered cherry
 
 dry martini	3	bottle of gin	jumbo olive
 dry vodka martini	3	bottle of vodka	jumbo olive
-skewered olive	3	jumbo olive	tiny plastic sword
-dirty martini	3	dry martini	skewered olive
-vesper	3	dry vodka martini	skewered olive
+skewered jumbo olive	3	jumbo olive	tiny plastic sword
+dirty martini	3	dry martini	skewered jumbo olive
+vesper	3	dry vodka martini	skewered jumbo olive
 
 
 # Meat-smithing items that aren't holiday-oriented.  These are
