@@ -336,15 +336,23 @@ public class KoLMessenger
 		// behind the default HTML handler is compared to a web browser.
 
 		String orderedTagsContent = noLinksContent.replaceAll( "<b><i>", "<i><b>" ).replaceAll(
-			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</b></font>", "</b>" ).replaceAll(
-				"<font color=green><font color=green>", "<font color=green>" ).replaceAll(
-					"<font color=red><b><b>", "" ).replaceAll( "<font color=red>", "<font color=red><b>" );
+			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</font></b>", "</b></font>" );
+
+
+		// Another problem is doubled tags and other weird content related
+		// to color (strangely, only colors suffer from this.  These tags
+		// need to be replaced and/or fixed as well.
+
+		String correctedColorContent = orderedTagsContent.replaceAll(
+			"<font color=green><font color=green>", "<font color=green>" ).replaceAll(
+				"<font color=red><b><b>", "" ).replaceAll( "<font color=red><b>", "" ).replaceAll(
+					"<font color=red>", "<font color=red><b>" );
 
 		// Also, there is no such thing as "none" color - though this works in
 		// Java 1.4.2 and the latest update of 1.5.0, it shouldn't be here anyway,
 		// as it's not a real color.
 
-		String validColorsContent = orderedTagsContent.replaceAll( "<font color=\"none\">", "" );
+		String validColorsContent = correctedColorContent.replaceAll( "<font color=\"none\">", "<font color=black>" );
 
 		// Although it's not necessary, it cleans up the HTML if all of the
 		// last seen data is removed.  It makes the buffer smaller (for one),
@@ -378,6 +386,9 @@ public class KoLMessenger
 
 			if ( lines[i].indexOf( "</b>, the Level" ) != -1 )
 				lines[i] += "</font>";
+
+			if ( lines[i].startsWith( "</font>" ) )
+				lines[i] = lines[i].substring( 7 );
 		}
 
 		for ( int i = 0; i < lines.length; ++i )
