@@ -548,9 +548,7 @@ public class BuffBotFrame extends KoLFrame
 				if ( settings instanceof KoLSettings )
 					((KoLSettings)settings).saveSettings();
 
-				setStatusMessage( ENABLED_STATE, "Settings saved." );
-				KoLRequest.delay( 5000 );
-				setStatusMessage( ENABLED_STATE, "" );
+				JOptionPane.showMessageDialog( null, "Settings have been saved!" );
 			}
 		}
 	}
