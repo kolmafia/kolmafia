@@ -91,7 +91,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected KoLFrame( String title, KoLmafia client )
 	{
 		super( title );
+
 		this.client = client;
+		this.isEnabled = true;
 		this.existingFrames = new ArrayList();
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
