@@ -45,6 +45,7 @@ package net.sourceforge.kolmafia;
 public class UneffectRequest extends KoLRequest
 {
 	private int effectID;
+	public static AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", -1 );
 
 	/**
 	 * Constructs a new <code>UneffectRequest</code>.
@@ -52,13 +53,14 @@ public class UneffectRequest extends KoLRequest
 	 * @param	effectID	The ID number for the effect to be removed
 	 */
 
-	public UneffectRequest( KoLmafia client, int effectID )
+	public UneffectRequest( KoLmafia client, String effectDescription )
 	{
 		super( client, "uneffect.php" );
 		addFormField( "using", "Yep." );
 		addFormField( "pwd", client.getPasswordHash() );
+
+		this.effectID = StatusEffectDatabase.getEffectID( effectDescription.split( "(" )[0].trim() );
 		addFormField( "whicheffect", "" + effectID );
-		this.effectID = effectID;
 	}
 
 	public void run()
@@ -71,7 +73,7 @@ public class UneffectRequest extends KoLRequest
 		if ( replyContent != null && replyContent.indexOf( "Effect removed." ) != -1 )
 		{
 			client.getCharacterData().getEffects().remove( new AdventureResult( StatusEffectDatabase.getEffectName( effectID ), 0 ) );
-			client.addToResultTally( new AdventureResult( "soft green echo eyedrop antidote", -1 ) );
+			client.addToResultTally( REMEDY );
 		}
 	}
 }
