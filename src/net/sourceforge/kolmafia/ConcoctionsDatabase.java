@@ -155,7 +155,7 @@ public class ConcoctionsDatabase implements UtilityConstants
 		SortedListModel concoctionsList = new SortedListModel();
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
-			if ( quantityPossible[i] > 0 )
+			if ( quantityPossible[i] > 0 && concoctions[i] != null )
 				concoctionsList.add( new ItemCreationRequest( client, i, concoctions[i].getMixingMethod(), quantityPossible[i] ) );
 
 		return concoctionsList;
