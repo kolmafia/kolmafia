@@ -78,6 +78,9 @@ public class CharsheetFrame extends KoLFrame
 {
 	private KoLCharacter characterData;
 
+	private JLabel [] statusLabel;
+	private JPanel [] statpointPanel;
+
 	/**
 	 * Constructs a new character sheet, using the data located
 	 * in the provided session.
@@ -112,28 +115,10 @@ public class CharsheetFrame extends KoLFrame
 		entirePanel.setLayout( new BorderLayout( 20, 20 ) );
 
 		entirePanel.add( createImagePanel(), BorderLayout.WEST );
-		entirePanel.add( createStatsPanel(), BorderLayout.CENTER );
+		entirePanel.add( createStatusPanel(), BorderLayout.CENTER );
 
 		getContentPane().add( entirePanel, "" );
 		addWindowListener( new ReturnFocusAdapter() );
-
-		addMenuBar();
-	}
-
-	private void addMenuBar()
-	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
-
-		JMenu fileMenu = new JMenu("File");
-		fileMenu.setMnemonic( KeyEvent.VK_F );
-		menuBar.add( fileMenu );
-
-		JMenuItem refreshItem = new JMenuItem( "Refresh Status", KeyEvent.VK_R );
-		refreshItem.addActionListener( new StatusRefreshListener() );
-		fileMenu.add( refreshItem );
-
-		addHelpMenu( menuBar );
 	}
 
 	/**
@@ -162,31 +147,58 @@ public class CharsheetFrame extends KoLFrame
 			imagename.append( parsedName.nextToken().toLowerCase() );
 
 		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( imagename.toString() + ".gif" ) ), BorderLayout.CENTER );
-		imagePanel.add( new JLabel( " " ), BorderLayout.SOUTH );
+
+		JButton refreshButton = new JButton( "Refresh Status" );
+		refreshButton.addActionListener( new StatusRefreshListener() );
+		imagePanel.add( refreshButton, BorderLayout.SOUTH );
 		return imagePanel;
 	}
 
 	/**
-	 * Utility method for creating a panel that displays the given stats,
+	 * Utility method for creating a panel that displays the given statusLabel,
 	 * using formatting if the values are different.
 	 */
 
-	private JPanel createValuePanel( int baseValue, int adjustedValue, int tillNextPoint )
+	private JPanel createValuePanel( int displayIndex )
 	{
-		JPanel displayPanel = new JPanel();
-		displayPanel.setLayout( new BorderLayout( 0, 0 ) );
+		statpointPanel[ displayIndex ] = new JPanel();
+		statpointPanel[ displayIndex ].setLayout( new BorderLayout( 0, 0 ) );
+
+		int index1 = ((displayIndex + 1) << 1);
+		int index2 = index1 + 1;
+
+		statusLabel[ index1 ] = new JLabel( "", JLabel.LEFT );
+		statusLabel[ index1 ].setForeground( Color.BLUE );
+		statpointPanel[ displayIndex ].add( statusLabel[ index1 ], BorderLayout.WEST );
+
+		statusLabel[ index2 ] = new JLabel( "", JLabel.LEFT );
+		statpointPanel[ displayIndex ].add( statusLabel[ index2 ], BorderLayout.CENTER );
+
+		return statpointPanel[ displayIndex ];
+	}
+
+	/**
+	 * Utility method for modifying a panel that displays the given statusLabel,
+	 * using formatting if the values are different.
+	 */
+
+	private void refreshValuePanel( int displayIndex, int baseValue, int adjustedValue, int tillNextPoint )
+	{
+		int index1 = ((displayIndex + 1) << 1);
+		int index2 = index1 + 1;
+
+		JLabel adjustedLabel = statusLabel[index1];
+		JLabel baseLabel = statusLabel[index2];
+
 		if ( baseValue != adjustedValue )
 		{
-			JLabel adjustedLabel = new JLabel( "" + adjustedValue, JLabel.LEFT );
-			adjustedLabel.setForeground( Color.BLUE );
-			displayPanel.add( adjustedLabel, BorderLayout.WEST );
-			displayPanel.add( new JLabel( " (" + baseValue + ")", JLabel.LEFT ), BorderLayout.CENTER );
+			adjustedLabel.setText( "" + adjustedValue );
+			baseLabel.setText( " (" + baseValue + ")" );
 		}
 		else
-			displayPanel.add( new JLabel( "" + baseValue, JLabel.LEFT ), BorderLayout.CENTER );
+			baseLabel.setText( "" + baseValue );
 
-		displayPanel.setToolTipText( "" + tillNextPoint + " until " + (baseValue + 1) );
-		return displayPanel;
+		statpointPanel[ displayIndex ].setToolTipText( "" + tillNextPoint + " until " + (baseValue + 1) );
 	}
 
 	/**
@@ -196,16 +208,23 @@ public class CharsheetFrame extends KoLFrame
 	 * @return	a <code>JPanel</code> displaying the character's statistics
 	 */
 
-	private JPanel createStatsPanel()
+	private JPanel createStatusPanel()
 	{
-		JPanel statsPanel = new JPanel();
-		statsPanel.setLayout( new BoxLayout( statsPanel, BoxLayout.Y_AXIS ) );
+		JPanel statusLabelPanel = new JPanel();
+		statusLabelPanel.setLayout( new BoxLayout( statusLabelPanel, BoxLayout.Y_AXIS ) );
 
-		statsPanel.add( new JLabel( " " ) );
+		statusLabelPanel.add( new JLabel( " " ) );
 
-		statsPanel.add( new JLabel( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() + " (HP)", JLabel.CENTER ), "");
-		statsPanel.add( new JLabel( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() + " (MP)", JLabel.CENTER ), "" );
-		statsPanel.add( new JLabel( " " ) );
+		this.statusLabel = new JLabel[11];
+		for ( int i = 0; i < 11; ++i )
+		{
+			statusLabel[i] = new JLabel( "", JLabel.CENTER );
+			if ( i == 1 )  i = 7;
+		}
+
+		statusLabelPanel.add( statusLabel[0], "");
+		statusLabelPanel.add( statusLabel[1], "" );
+		statusLabelPanel.add( new JLabel( " " ) );
 
 		JPanel primeStatLabels = new JPanel();
 		primeStatLabels.setLayout( new GridLayout( 3, 1 ) );
@@ -213,31 +232,64 @@ public class CharsheetFrame extends KoLFrame
 		primeStatLabels.add( new JLabel( "Mys: ", JLabel.RIGHT ) );
 		primeStatLabels.add( new JLabel( "Mox: ", JLabel.RIGHT ) );
 
+		this.statpointPanel = new JPanel[3];
 		JPanel primeStatValues = new JPanel();
 		primeStatValues.setLayout( new GridLayout( 3, 1 ) );
-		primeStatValues.add( createValuePanel( characterData.getBaseMuscle(), characterData.getAdjustedMuscle(), characterData.getMuscleTNP() ) );
-		primeStatValues.add( createValuePanel( characterData.getBaseMysticality(), characterData.getAdjustedMysticality(), characterData.getMysticalityTNP() ) );
-		primeStatValues.add( createValuePanel( characterData.getBaseMoxie(), characterData.getAdjustedMoxie(), characterData.getMoxieTNP() ) );
+		primeStatValues.add( createValuePanel( 0 ) );
+		primeStatValues.add( createValuePanel( 1 ) );
+		primeStatValues.add( createValuePanel( 2 ) );
 
 		JPanel primeStatPanel = new JPanel();
 		primeStatPanel.setLayout( new BoxLayout( primeStatPanel, BoxLayout.X_AXIS ) );
 		primeStatPanel.add( primeStatLabels, BorderLayout.WEST );
 		primeStatPanel.add( primeStatValues, BorderLayout.CENTER );
-		statsPanel.add( primeStatPanel, "" );
+		statusLabelPanel.add( primeStatPanel, "" );
 
-		statsPanel.add( new JLabel( " " ), "" );
-		statsPanel.add( new JLabel( characterData.getAvailableMeat() + " meat", JLabel.CENTER ), "" );
-		statsPanel.add( new JLabel( characterData.getInebriety() + " drunkenness", JLabel.CENTER ), "" );
-		statsPanel.add( new JLabel( characterData.getAdventuresLeft() + " adventures left", JLabel.CENTER ), "" );
+		statusLabelPanel.add( new JLabel( " " ), "" );
+		statusLabelPanel.add( statusLabel[8], "" );
+		statusLabelPanel.add( statusLabel[9], "" );
+		statusLabelPanel.add( statusLabel[10], "" );
 
-		statsPanel.add( new JLabel( " " ), "" );
-		return statsPanel;
+		statusLabelPanel.add( new JLabel( " " ), "" );
+		refreshStatus();
+
+		return statusLabelPanel;
+	}
+
+	private void refreshStatus()
+	{
+		statusLabel[0].setText( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() + " (HP)" );
+		statusLabel[1].setText( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() + " (MP)" );
+
+		refreshValuePanel( 0, characterData.getBaseMuscle(), characterData.getAdjustedMuscle(), characterData.getMuscleTNP() );
+		refreshValuePanel( 1, characterData.getBaseMysticality(), characterData.getAdjustedMysticality(), characterData.getMysticalityTNP() );
+		refreshValuePanel( 2, characterData.getBaseMoxie(), characterData.getAdjustedMoxie(), characterData.getMoxieTNP() );
+
+		statusLabel[8].setText( characterData.getAvailableMeat() + " meat" );
+		statusLabel[9].setText( characterData.getInebriety() + " drunkenness" );
+		statusLabel[10].setText( characterData.getAdventuresLeft() + " adventures left" );
 	}
 
 	private class StatusRefreshListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
+		{	(new StatusRefreshThread()).start();
+		}
+
+		private class StatusRefreshThread extends Thread
 		{
+			public StatusRefreshThread()
+			{
+				super( "Status-Refresh-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				(new CharsheetRequest( client )).run();
+				refreshStatus();
+				client.updateDisplay( ENABLED_STATE, " " );
+			}
 		}
 	}
 
