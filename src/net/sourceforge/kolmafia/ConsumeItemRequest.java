@@ -126,6 +126,12 @@ public class ConsumeItemRequest extends KoLRequest
 				client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Consumption limit reached." );
 				return;
 			}
+			else if ( replyContent.indexOf( "You've already got a familiar of that type." ) != -1 )
+			{
+				client.updateAdventure( false, false );
+				client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "You already have that familiar." );
+				return;
+			}
 
 			// Parse the reply, which can be found before the
 			// word "Inventory".  In theory, this could've caused
