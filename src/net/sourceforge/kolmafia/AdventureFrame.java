@@ -123,7 +123,7 @@ public class AdventureFrame extends KoLFrame
 	 * defaulted to the adventure selection panel.
 	 *
 	 * @param	client	Client/session associated with this frame
-	 * @param	availableAdventures	Adventures available to the user
+	 * @param	adventureList	Adventures available to the user
 	 * @param	resultsTally	Tally of adventuring results
 	 */
 
