@@ -56,7 +56,10 @@ public class HeroDonationRequest extends KoLRequest
 	public HeroDonationRequest( KoLmafia client, int heroID, int amount )
 	{
 		super( client, "shrines.php" );
-		addFormField( "pwd", client.getPasswordHash() );
+
+		if ( client != null )
+			addFormField( "pwd", client.getPasswordHash() );
+
 		addFormField( "action", heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "sneakypete" );
 		addFormField( "howmuch", "" + amount );
 	}
