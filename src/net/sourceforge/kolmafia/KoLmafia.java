@@ -140,6 +140,7 @@ public class KoLmafia implements UtilityConstants
 		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
 		characterData = new KoLCharacter( loginname );
 		(new CharsheetRequest( this )).run();
+		(new CampgroundRequest( this )).run();
 
 		if ( !permitContinue )
 		{

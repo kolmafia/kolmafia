@@ -474,16 +474,25 @@ public class KoLRequest implements Runnable
 
 						line = istream.readLine();
 
+						// There's a chance that there was no content in the reply
+						// (header-only reply) - if that's the case, the line will
+						// be null and you've hit an error state.
+
+						if ( line == null )
+						{
+							isErrorState = true;
+							return;
+						}
+
 						// Check for MySQL errors, since those have been getting more
 						// frequent, and would cause an I/O Exception to be thrown
 						// unnecessarily, when a re-request would do.  I'm not sure
 						// how they work right now (which line the MySQL error is
 						// printed to), but for now, assume that it's the first line.
 
-
 						if ( line.indexOf( "()" ) != -1 )
 						{
-							logStream.println( "MySQL error encountered.  Repeating request..." );
+							logStream.println( "MySQL error.  Repeating request..." );
 							this.run();  return;
 						}
 
@@ -492,7 +501,7 @@ public class KoLRequest implements Runnable
 						for ( int i = 0; i < 9; ++i )
 							istream.readLine();
 
-						logStream.println( "Skipping complete.  Reading page content..." );
+						logStream.println( "Reading page content..." );
 					}
 
 					// The remaining lines form the rest of the content.  In order
@@ -505,15 +514,7 @@ public class KoLRequest implements Runnable
 						replyBuffer.append( line );
 
 					replyContent = replyBuffer.toString().replaceAll( " pwd=[\'\"][0-9a-f]*[\'\"]", "" );
-					String plainTextContent = replyContent.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" );
-
-					logStream.println( "Reply content retrieved." );
-
-					logStream.println(
-						"\n ==== HYPERTEXT ====\n" + replyContent +
-						"\n ==== PLAINTEXT ====\n" + plainTextContent +
-						"\n ==================="
-					);
+					logStream.println( replyContent );
 				}
 
 				// If you've encountered an error state, then make sure the
