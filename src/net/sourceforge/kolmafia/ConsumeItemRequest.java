@@ -208,7 +208,7 @@ public class ConsumeItemRequest extends KoLRequest
 						0 - ((AdventureResult)client.getInventory().get( consumedItemIndex )).getCount() ) );
 			}
 
-			updateDisplay( ENABLED_STATE, itemUsed.getName() + " successfully used." );
+			updateDisplay( ENABLED_STATE, "Successfully used " + itemUsed.getName() );
 		}
 
 	}
