@@ -64,7 +64,6 @@ public class SearchMallRequest extends KoLRequest
 	{
 		super( client, "searchmall.php" );
 		addFormField( "whichitem", searchString );
-		this.searchString = searchString;
 
 		String cheapestCountString = client.getSettings().getProperty( "defaultLimit" );
 		int cheapestCount = cheapestCountString == null ? 13 : Integer.parseInt( cheapestCountString );
@@ -75,6 +74,7 @@ public class SearchMallRequest extends KoLRequest
 			addFormField( "shownum", "" + cheapestCount );
 		}
 
+		this.searchString = searchString;
 		this.results = results;
 	}
 
@@ -101,6 +101,7 @@ public class SearchMallRequest extends KoLRequest
 			addFormField( "shownum", "" + cheapestCount );
 		}
 
+		this.searchString = searchString;
 		this.results = results;
 	}
 
@@ -163,7 +164,6 @@ public class SearchMallRequest extends KoLRequest
 		int npcStorePrice = -1;
 
 		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
-
 		while ( parsedResults.hasMoreTokens() )
 		{
 			// The first token contains the item name
