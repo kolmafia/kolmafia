@@ -381,10 +381,7 @@ public class LoginFrame extends KoLFrame
 						return;
 					}
 					else if ( e.getKeyChar() == KeyEvent.CHAR_UNDEFINED )
-					{
-						System.out.println( e.getKeyCode() == KeyEvent.VK_DELETE );
 						return;
-					}
 
 					// If it wasn't the enter key that was being released,
 					// then make sure that the current name is stored
