@@ -102,8 +102,14 @@ public class SearchMallRequest extends KoLRequest
 			return;
 		}
 
+		// Change all multi-line store names into single line store names so that the
+		// parser doesn't get confused; remove all stores where limits have already
+		// been reached (which have been greyed out), and then remove all non-anchor
+		// tags to make everything easy to parse.
+
 		StringTokenizer parsedResults = new StringTokenizer(
-			replyContent.substring( startIndex ).replaceAll( "<br>", " " ).replaceAll( "</?[pcbth][^>]*>", "\n" ), "\n" );
+			replyContent.substring( startIndex ).replaceAll( "<br>", " " ).replaceAll(
+				"<td style=.*?<tr>", "" ).replaceAll( "</?[^a][^>]*>", "\n" ), "\n" );
 
 		// The first four tokens are just the table
 		// headers, and so they can be discarded
@@ -122,7 +128,7 @@ public class SearchMallRequest extends KoLRequest
 			StringTokenizer buyDetails = new StringTokenizer( parsedResults.nextToken(), " &nbsp;()/day" );
 			int total = intToken( buyDetails );
 			int limit = buyDetails.hasMoreTokens() ? intToken( buyDetails ) : 0;
-			int purchaseLimit = total < limit ? total : limit;
+			int purchaseLimit = (limit == 0 || total < limit) ? total : limit;
 
 			// The next token contains data which identifies the shop
 

@@ -282,7 +282,7 @@ public class AdventureFrame extends KoLFrame
 		 * provided, so this functions as a container for that list model.
 		 */
 
-		protected class AdventureResultsPanel extends JPanel
+		private class AdventureResultsPanel extends JPanel
 		{
 			public AdventureResultsPanel( LockableListModel resultsTally )
 			{
@@ -347,6 +347,8 @@ public class AdventureFrame extends KoLFrame
 		private JTextField searchField;
 		private JTextField countField;
 
+		private LockableListModel results;
+
 		public MallSearchPanel()
 		{
 			super( "search", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
@@ -359,7 +361,8 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			searchField = new JTextField();
-			countField = new JTextField( "0" );
+			countField = new JTextField();
+			results = new LockableListModel();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Search String: ", searchField );
@@ -371,7 +374,12 @@ public class AdventureFrame extends KoLFrame
 		protected void setContent( VerifiableElement [] elements )
 		{
 			super.setContent( elements );
-			add( actionStatusPanel, BorderLayout.SOUTH );
+
+			JPanel southPanel = new JPanel();
+			southPanel.setLayout( new BorderLayout( 10, 10 ) );
+			southPanel.add( actionStatusPanel, BorderLayout.NORTH );
+			southPanel.add( new SearchResultsPanel(), BorderLayout.SOUTH );
+			add( southPanel, BorderLayout.SOUTH );
 		}
 
 		public void setStatusMessage( String s )
@@ -388,7 +396,7 @@ public class AdventureFrame extends KoLFrame
 		public void clear()
 		{
 			searchField.setText( "" );
-			countField.setText( "0" );
+			countField.setText( "" );
 			requestFocus();
 		}
 
@@ -417,6 +425,32 @@ public class AdventureFrame extends KoLFrame
 		}
 
 		/**
+		 * An internal class which represents the panel used for tallying the
+		 * results of the mall search request.  Note that all of the tallying
+		 * functionality is handled by the <code>LockableListModel</code>
+		 * provided, so this functions as a container for that list model.
+		 */
+
+		private class SearchResultsPanel extends JPanel
+		{
+			public SearchResultsPanel()
+			{
+				setLayout( new BorderLayout() );
+				setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+				add( JComponentUtilities.createLabel( "Search Results", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+
+				JList resultsDisplay = new JList( results );
+				resultsDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+				resultsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+				resultsDisplay.setVisibleRowCount( 10 );
+
+				add( new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			}
+		}
+
+		/**
 		 * In order to keep the user interface from freezing (or at
 		 * least appearing to freeze), this internal class is used
 		 * to actually make the adventuring requests.
@@ -435,7 +469,6 @@ public class AdventureFrame extends KoLFrame
 				try
 				{
 					updateDisplay( DISABLED_STATE, "Searching for items..." );
-					LockableListModel results = new LockableListModel();
 					(new SearchMallRequest( client, searchField.getText(),
 						Integer.parseInt( countField.getText() ), results )).run();
 				}

@@ -93,6 +93,16 @@ public class MallPurchaseRequest extends KoLRequest
 	}
 
 	/**
+	 * Converts this request into a readable string.  This is useful for
+	 * debugging and as a temporary substitute for a list panel, in the
+	 * event that a suitable list cell renderer has not been created.
+	 */
+
+	public String toString()
+	{	return itemName + " (" + quantity + " @ " + price + "): " + shopName;
+	}
+
+	/**
 	 * Accessor method to set the quantity of items to be purchased to the
 	 * given value.  This is useful when the user does not want to purchase
 	 * the maximum number of items available to them.
