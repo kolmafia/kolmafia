@@ -82,6 +82,12 @@ public class AdventureRequest extends KoLRequest
 			addFormField( "action", "slot" );
 			addFormField( "whichslot", adventureID );
 		}
+		else if ( formSource.equals( "dungeon.php" ) )
+		{
+			addFormField( "action", "Yep" );
+			addFormField( "option", "1" );
+			addFormField( "pwd", client.getPasswordHash() );
+		}
 		else
 			addFormField( "action", adventureID );
 	}
@@ -157,7 +163,8 @@ public class AdventureRequest extends KoLRequest
 
 		if ( replyContent.indexOf( "You can't" ) != -1 || replyContent.indexOf( "You shouldn't" ) != -1 ||
 			replyContent.indexOf( "You don't" ) != -1 || replyContent.indexOf( "You need" ) != -1 ||
-			replyContent.indexOf( "You're way too beaten" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 )
+			replyContent.indexOf( "You're way too beaten" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 ||
+			replyContent.indexOf( "You have reached the bottom of today's Dungeon." ) != -1 )
 		{
 			// Notify the client of failure by telling it that
 			// the adventure did not take place and the client
