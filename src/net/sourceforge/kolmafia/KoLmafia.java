@@ -648,8 +648,10 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 					}
 				}
 
-				if ( permitContinue && iterationsRemaining <= 0 && !(request instanceof UseSkillRequest) )
+				if ( permitContinue && iterations > 0 && iterationsRemaining <= 0 && !(request instanceof UseSkillRequest) )
 					updateDisplay( ENABLED_STATE, "Requests completed!" );
+				else if ( iterations <= 0 )
+					updateDisplay( ENABLED_STATE, "" );
 			}
 		}
 		catch ( RuntimeException e )
