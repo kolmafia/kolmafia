@@ -116,10 +116,13 @@ public class StoreManageFrame extends KoLFrame
 
 			elementsPanel.add( labelPanel2 );
 			storeItemList = new StoreItemPanelList();
-			elementsPanel.add( storeItemList );
+			JScrollPane storeItemScrollArea = new JScrollPane( storeItemList,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			elementsPanel.add( storeItemScrollArea );
 
 			JScrollPane scrollArea = new JScrollPane( elementsPanel,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "", scrollArea );
