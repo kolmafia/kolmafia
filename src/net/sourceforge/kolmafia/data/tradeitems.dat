@@ -832,7 +832,8 @@
 998	0	maiden wig
 999	0	maid head
 1000	0	Meat maid
-1003	3	soda water
+1003	2	soda water
+1004	2	bottle of tequila
 1005	2	boxed wine
 1006	1	cherry
 1007	0	coconut shell
@@ -840,11 +841,15 @@
 1009	2	vodka martini
 1010	2	whiskey and soda
 1011	2	monkey wrench
+1012	2	tequila sunrise
+1013	2	margarita
 1014	2	strawberry wine
 1015	2	wine spritzer
 1016	2	perpendicular hula
 1019	2	dry vodka martini
 1020	2	old-fashioned
+1021	2	tequila with training wheels
 1022	2	sangria
 1023	2	vesper
+1024	2	bodyslam
 1025	2	sangria del diablo
