@@ -261,7 +261,7 @@ public class AdventureResult implements Comparable
 		String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
 
 		return new AdventureResult( parsedItemName, Character.isDigit( parsedItemCount.charAt(0) ) ?
-			df.parse(parsedItem.nextToken()).intValue() : Integer.MAX_VALUE );
+			df.parse( parsedItemCount ).intValue() : Integer.MAX_VALUE );
 	}
 
 	/**
