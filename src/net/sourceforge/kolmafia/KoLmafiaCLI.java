@@ -780,7 +780,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 					if ( matchingNames.size() == 0 )
 					{
-						scriptRequestor.updateDisplay( ENABLED_STATE, "[" + parameters + "] does not match anything in the item database." );
+						scriptRequestor.updateDisplay( ENABLED_STATE, "[" + itemNameString + "] does not match anything in the item database." );
 						scriptRequestor.cancelRequest();
 						return null;
 					}
@@ -802,6 +802,13 @@ public class KoLmafiaCLI extends KoLmafia
 					return null;
 				}
 			}
+		}
+
+		if ( !TradeableItemDatabase.contains( itemName ) )
+		{
+			scriptRequestor.updateDisplay( ENABLED_STATE, "[" + itemName + "] does not match anything in the item database." );
+			scriptRequestor.cancelRequest();
+			return null;
 		}
 
 		return new AdventureResult( itemName, itemCount );
