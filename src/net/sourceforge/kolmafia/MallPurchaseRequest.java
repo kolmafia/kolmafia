@@ -42,9 +42,12 @@ import java.util.StringTokenizer;
 
 public class MallPurchaseRequest extends KoLRequest
 {
-	private boolean wasExecuted;
+	private static final int BEER_SCHLITZ = 41;
+	private static final int BEER_WILLER = 81;
+
+	private boolean successful;
 	private String itemName, shopName;
-	private int shopID, quantity, price;
+	private int itemID, shopID, quantity, price;
 
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> with the given values.
@@ -61,10 +64,30 @@ public class MallPurchaseRequest extends KoLRequest
 	 */
 
 	public MallPurchaseRequest( KoLmafia client, String itemName, int quantity, int shopID, String shopName, int price )
+	{	this( client, itemName, TradeableItemDatabase.getItemID( itemName ), quantity, shopID, shopName, price );
+	}
+
+	/**
+	 * Constructs a new <code>MallPurchaseRequest</code> with the given values.
+	 * Note that the only value which can be modified at a later time is the
+	 * quantity of items being purchases; all others are consistent through
+	 * the time when the purchase is actually executed.
+	 *
+	 * @param	client	The client to which this request reports errors
+	 * @param	itemName	The name of the item to be purchased
+	 * @param	itemID	The database ID for the item to be purchased
+	 * @param	quantity	The quantity of items to be purchased
+	 * @param	shopID	The integer identifier for the shop from which the item will be purchased
+	 * @param	shopName	The name of the shop
+	 * @param	price	The price at which the item will be purchased
+	 */
+
+	private MallPurchaseRequest( KoLmafia client, String itemName, int itemID, int quantity, int shopID, String shopName, int price )
 	{
 		super( client, "mallstore.php" );
 
 		this.itemName = itemName;
+		this.itemID = itemID;
 		this.shopID = shopID;
 		this.shopName = shopName;
 		this.quantity = quantity;
@@ -79,7 +102,7 @@ public class MallPurchaseRequest extends KoLRequest
 		// you wish to buy at.
 
 		StringBuffer whichItem = new StringBuffer();
-		whichItem.append( TradeableItemDatabase.getItemID( itemName ) );
+		whichItem.append( itemID );
 
 		// First append the item ID.  Until the item database is done,
 		// there's no way to look up the item.
@@ -127,10 +150,35 @@ public class MallPurchaseRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( wasExecuted || quantity < 1 )
+		if ( quantity < 1 )
 			return;
 
 		addFormField( "quantity", "" + quantity );
+		this.successful = false;
+
+		// The special case of ice-cold beer is that it does not show
+		// up in the item database (since it appears twice, it'd be
+		// weird to put it in there), but there's no way to find out
+		// which one the store is selling without visiting the store.
+		// Effectively, two database hits will happen in the worst
+		// case, and only one will occur in the best.
+
+		if ( itemName.equals( "ice-cold beer" ) && itemID == -1 )
+		{
+			MallPurchaseRequest schlitzPurchase =
+				new MallPurchaseRequest( client, itemName, BEER_SCHLITZ, quantity, shopID, shopName, price );
+			schlitzPurchase.run();
+
+			if ( !schlitzPurchase.successful )
+			{
+				MallPurchaseRequest willerPurchase =
+					new MallPurchaseRequest( client, itemName, BEER_WILLER, quantity, shopID, shopName, price );
+				willerPurchase.run();
+			}
+
+			return;
+		}
+
 		super.run();
 
 		// If an error state occurred, return from this
@@ -140,10 +188,8 @@ public class MallPurchaseRequest extends KoLRequest
 			return;
 
 		// Once it reaches this point, you know that the
-		// request was executed.  Therefore, reset state
-		// variables and begin parsing the reply.
+		// request was executed.  Begin parsing the reply.
 
-		wasExecuted = true;
 		String result = replyContent.substring( 0, replyContent.indexOf( "</table>" ) );
 
 		if ( result.indexOf( "acquire" ) == -1 )
@@ -167,13 +213,14 @@ public class MallPurchaseRequest extends KoLRequest
 			skipTokens( st, 4 );  int limit = intToken( st );
 			skipTokens( st, 11 );  int alreadyPurchased = intToken( st );
 
-			(new MallPurchaseRequest( client, itemName, limit - alreadyPurchased, shopID, shopName, price )).run();
+			(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price )).run();
 		}
 		else
 		{
 			// Otherwise, you managed to purchase something!  Here,
 			// you report to the client whatever you gained.
 
+			this.successful = true;
 			int itemIndex = client.getInventory().indexOf( new AdventureResult( itemName, 0 ) );
 			int beforeCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
 
