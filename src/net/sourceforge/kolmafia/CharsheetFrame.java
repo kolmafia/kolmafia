@@ -52,6 +52,7 @@ import javax.swing.ImageIcon;
 // event listeners
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.SwingUtilities;
 
 // utilities
 import java.net.URL;
@@ -293,13 +294,26 @@ public class CharsheetFrame extends KoLFrame
 	}
 
 	private void refreshEquipPanel()
+	{	SwingUtilities.invokeLater( new EquipPanelRefresher() );
+	}
+
+	private class EquipPanelRefresher implements Runnable
 	{
-		equipment[0].setText( characterData.getHat() );
-		equipment[1].setText( characterData.getWeapon() );
-		equipment[2].setText( characterData.getPants() );
-		equipment[3].setText( characterData.getAccessory1() );
-		equipment[4].setText( characterData.getAccessory2() );
-		equipment[5].setText( characterData.getAccessory3() );
+		public void run()
+		{
+			if ( !SwingUtilities.isEventDispatchThread() )
+			{
+				SwingUtilities.invokeLater( this );
+				return;
+			}
+
+			equipment[0].setText( characterData.getHat() );
+			equipment[1].setText( characterData.getWeapon() );
+			equipment[2].setText( characterData.getPants() );
+			equipment[3].setText( characterData.getAccessory1() );
+			equipment[4].setText( characterData.getAccessory2() );
+			equipment[5].setText( characterData.getAccessory3() );
+		}
 	}
 
 	private class ChangeOutfitListener implements ActionListener
@@ -323,16 +337,32 @@ public class CharsheetFrame extends KoLFrame
 
 			public void run()
 			{
-				CharsheetFrame.this.outfitSelect.setEnabled( false );
-				CharsheetFrame.this.changeOutfitButton.setEnabled( false );
-				client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "Changing outfit..." );
-
+				SwingUtilities.invokeLater( new OutfitChangeGUIUpdater( true ) );
 				(new EquipmentRequest( client, change )).run();
-				refreshEquipPanel();
+				SwingUtilities.invokeLater( new OutfitChangeGUIUpdater( false ) );
+			}
 
-				client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "" );
-				CharsheetFrame.this.changeOutfitButton.setEnabled( true );
-				CharsheetFrame.this.outfitSelect.setEnabled( true );
+			private class OutfitChangeGUIUpdater implements Runnable
+			{
+				private boolean isStart;
+
+				public OutfitChangeGUIUpdater( boolean isStart )
+				{	this.isStart = isStart;
+				}
+
+				public void run()
+				{
+					if ( isStart )
+						client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "Changing outfit..." );
+					else
+					{
+						client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "" );
+						refreshEquipPanel();
+					}
+
+					CharsheetFrame.this.outfitSelect.setEnabled( !isStart );
+					CharsheetFrame.this.changeOutfitButton.setEnabled( !isStart );
+				}
 			}
 		}
 	}
@@ -358,10 +388,7 @@ public class CharsheetFrame extends KoLFrame
 
 			public void run()
 			{
-				CharsheetFrame.this.effectSelect.setEnabled( false );
-				CharsheetFrame.this.removeEffectButton.setEnabled( false );
-				client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "Removing effect..." );
-
+				SwingUtilities.invokeLater( new EffectRemoveGUIUpdater() );
 				int effectCount = characterData.getEffects().size();
 				(new UneffectRequest( client, effectDescription )).run();
 
@@ -370,10 +397,36 @@ public class CharsheetFrame extends KoLFrame
 				else
 					client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "Effect removal failed." );
 
-				boolean hasRemedy = client.getInventory().contains( UneffectRequest.REMEDY );
+				SwingUtilities.invokeLater( new EffectRemoveGUIUpdater(
+					client.getInventory().contains( UneffectRequest.REMEDY ) ) );
 
-				CharsheetFrame.this.removeEffectButton.setEnabled( hasRemedy );
-				CharsheetFrame.this.effectSelect.setEnabled( hasRemedy );
+			}
+
+			private class EffectRemoveGUIUpdater implements Runnable
+			{
+				private boolean isStart;
+				private boolean hasRemedy;
+
+				public EffectRemoveGUIUpdater()
+				{
+					this.isStart = true;
+					this.hasRemedy = true;
+				}
+
+				public EffectRemoveGUIUpdater( boolean hasRemedy )
+				{
+					this.isStart = false;
+					this.hasRemedy = hasRemedy;
+				}
+
+				public void run()
+				{
+					CharsheetFrame.this.effectSelect.setEnabled( !isStart && hasRemedy );
+					CharsheetFrame.this.removeEffectButton.setEnabled( !isStart && hasRemedy );
+
+					if ( isStart )
+						client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "Removing effect..." );
+				}
 			}
 		}
 	}
