@@ -38,6 +38,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import java.io.PrintStream;
 import java.io.BufferedWriter;
@@ -63,6 +65,10 @@ import java.util.StringTokenizer;
 public class KoLRequest implements Runnable
 {
 	private static String KOL_ROOT = "http://www.kingdomofloathing.com/";
+	static
+	{	applySettings();
+	}
+
 	private static final int MAX_RETRIES = 4;
 
 	private URL formURL;
@@ -81,12 +87,69 @@ public class KoLRequest implements Runnable
 	protected HttpURLConnection formConnection;
 
 	/**
+	 * Static method called when <code>KoLRequest</code> is first
+	 * instantiated or whenever the settings have changed.  This
+	 * initializes the login server to the one stored in the user's
+	 * settings, as well as initializes the user's proxy settings.
+	 */
+
+	public static void applySettings()
+	{
+		KoLSettings currentSettings = new KoLSettings();
+
+		if ( currentSettings.getProperty( "proxySet" ).equals( "true" ) )
+		{
+			System.setProperty( "proxySet", "true" );
+
+			String proxyHost = currentSettings.getProperty( "http.proxyHost" );
+
+			try
+			{	System.setProperty( "http.proxyHost", InetAddress.getByName( proxyHost ).getHostAddress() );
+			}
+			catch ( UnknownHostException e )
+			{	System.setProperty( "http.proxyHost", proxyHost );
+			}
+
+			System.setProperty( "http.proxyPort", currentSettings.getProperty( "http.proxyPort" ) );
+			String proxyUser = currentSettings.getProperty( "http.proxyUser" );
+
+			if ( proxyUser != null )
+			{
+				System.setProperty( "http.proxyUser", proxyUser );
+				System.setProperty( "http.proxyPassword", currentSettings.getProperty( "http.proxyPassword" ) );
+			}
+			else
+			{
+				System.getProperties().remove( "http.proxyUser" );
+				System.getProperties().remove( "http.proxyPassword" );
+			}
+		}
+		else
+		{
+			System.setProperty( "proxySet", "false" );
+			System.getProperties().remove( "http.proxyHost" );
+			System.getProperties().remove( "http.proxyPort" );
+			System.getProperties().remove( "http.proxyUser" );
+			System.getProperties().remove( "http.proxyPassword" );
+		}
+
+
+		switch ( Integer.parseInt( currentSettings.getProperty( "loginServer" ) ) )
+		{
+			case 0:	autoDetectServer();
+			case 1:	setLoginServer( "www.kingdomofloathing.com" );
+			case 2:	setLoginServer( "www2.kingdomofloathing.com" );
+			case 3:	setLoginServer( "www3.kingdomofloathing.com" );
+		}
+	}
+
+	/**
 	 * Static method used to auto detect the server to be used as
 	 * the root for all requests by all KoLmafia clients running
 	 * on the current JVM instance.
 	 */
 
-	public static void autoDetectServer()
+	private static void autoDetectServer()
 	{
 		// This test uses the Kingdom of Loathing automatic balancing
 		// server, rather than allowing users to specify the root;
@@ -105,8 +168,15 @@ public class KoLRequest implements Runnable
 	 * @param	server	The hostname of the server to be used.
 	 */
 
-	public static void setLoginServer( String server )
-	{	KOL_ROOT = "http://" + server + "/";
+	private static void setLoginServer( String server )
+	{
+
+		try
+		{	KOL_ROOT = "http://" + InetAddress.getByName( server ).getHostAddress() + "/";
+		}
+		catch ( UnknownHostException e )
+		{	KOL_ROOT = "http://" + server + "/";
+		}
 	}
 
 	/**

@@ -275,75 +275,45 @@ public class OptionsFrame extends KoLFrame
 				// First, determine what the proxy settings chosen
 				// by the user.
 
+				KoLSettings settings = client.getSettings();
+
 				if ( proxyHost.getText().trim().length() != 0 )
 				{
-					setProperty( "proxySet", "true" );
-					setProperty( "http.proxyHost", proxyHost.getText() );
-					setProperty( "http.proxyPort", proxyPort.getText() );
+					settings.setProperty( "proxySet", "true" );
+					settings.setProperty( "http.proxyHost", proxyHost.getText() );
+					settings.setProperty( "http.proxyPort", proxyPort.getText() );
 
 					if ( proxyLogin.getText().trim().length() != 0 )
 					{
-						setProperty( "http.proxyUser", proxyLogin.getText() );
-						setProperty( "http.proxyPassword", proxyPassword.getText().trim().length() != 0 ?
-							proxyPassword.getText() : "anonymoususer@defaultmailserver.com" );
+						settings.setProperty( "http.proxyUser", proxyLogin.getText() );
+						settings.setProperty( "http.proxyPassword", proxyPassword.getText() );
 					}
 					else
 					{
-						removeProperty( "http.proxyUser" );
-						removeProperty( "http.proxyPassword" );
+						settings.remove( "http.proxyUser" );
+						settings.remove( "http.proxyPassword" );
 					}
 				}
 				else
 				{
-					client.getSettings().setProperty( "proxySet", "false" );
-					removeProperty( "http.proxyHost" );
-					removeProperty( "http.proxyPort" );
-					removeProperty( "http.proxyUser" );
-					removeProperty( "http.proxyPassword" );
+					settings.setProperty( "proxySet", "false" );
+					settings.remove( "http.proxyHost" );
+					settings.remove( "http.proxyPort" );
+					settings.remove( "http.proxyUser" );
+					settings.remove( "http.proxyPassword" );
 				}
 
 				// Next, change the server that's used to login;
 				// find out the selected index.
 
-				if ( serverSelect.getSelectedIndex() == 0 )
-					KoLRequest.autoDetectServer();
-				else
-					KoLRequest.setLoginServer( "www." + serverSelect.getSelectedIndex() + ".kingdomofloathing.com" );
-
-				client.getSettings().setProperty( "loginServer", "" + serverSelect.getSelectedIndex() );
+				settings.setProperty( "loginServer", "" + serverSelect.getSelectedIndex() );
 
 				// Save the settings that were just set; that way,
 				// the next login can use them.
 
-				client.getSettings().saveSettings();
+				settings.saveSettings();
+				KoLRequest.applySettings();
 				(new StatusMessageChanger( "Settings saved." )).run();
-			}
-
-			/**
-			 * Utility method which applies the given property to both the
-			 * current JVM instance and the character's preferences.
-			 *
-			 * @param	key	The key associated with the property to set
-			 * @param	value	The value associated with the property to set
-			 */
-
-			private void setProperty( String key, String value )
-			{
-				client.getSettings().setProperty( key, value );
-				System.getProperties().setProperty( key, value );
-			}
-
-			/**
-			 * Utility method which removes the given property from both the
-			 * current JVM instance and the character's preferences.
-			 *
-			 * @param	key	The key associated with the property to remove
-			 */
-
-			private void removeProperty( String key )
-			{
-				client.getSettings().remove( key );
-				System.getProperties().remove( key );
 			}
 		}
 	}
