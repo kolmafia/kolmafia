@@ -145,15 +145,15 @@ public class CharsheetRequest extends KoLRequest
 			// based on the base values.
 
 			int adjustedMuscle = intToken( parsedContent );
-			int totalMuscle = calculateSubpoints( retrieveBase( parsedContent, adjustedMuscle ), intToken( parsedContent ) );
+			int totalMuscle = KoLCharacter.calculateSubpoints( retrieveBase( parsedContent, adjustedMuscle ), intToken( parsedContent ) );
 
 			skipTokens( parsedContent, 4 );
 			int adjustedMysticality = intToken( parsedContent );
-			int totalMysticality = calculateSubpoints( retrieveBase( parsedContent, adjustedMysticality ), intToken( parsedContent ) );
+			int totalMysticality = KoLCharacter.calculateSubpoints( retrieveBase( parsedContent, adjustedMysticality ), intToken( parsedContent ) );
 
 			skipTokens( parsedContent, 4 );
 			int adjustedMoxie = intToken( parsedContent );
-			int totalMoxie = calculateSubpoints( retrieveBase( parsedContent, adjustedMoxie ), intToken( parsedContent ) );
+			int totalMoxie = KoLCharacter.calculateSubpoints( retrieveBase( parsedContent, adjustedMoxie ), intToken( parsedContent ) );
 
 			character.setStats( adjustedMuscle, totalMuscle,
 				adjustedMysticality, totalMysticality, adjustedMoxie, totalMoxie );
@@ -189,20 +189,6 @@ public class CharsheetRequest extends KoLRequest
 		{
 			logStream.println( e );
 		}
-	}
-
-	/**
-	 * Utility method for calculating how many subpoints have been accumulated
-	 * thus far, given the current base point value of the statistic and how
-	 * many have been accumulate since the last gain.
-	 *
-	 * @param	baseValue	The current base point value
-	 * @param	sinceLastBase	Number of subpoints accumulate since the last base point gain
-	 * @return	The total number of subpoints acquired since creation
-	 */
-
-	private int calculateSubpoints( int baseValue, int sinceLastBase )
-	{	return baseValue * baseValue + sinceLastBase - 1;
 	}
 
 	/**
