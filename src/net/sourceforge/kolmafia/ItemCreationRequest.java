@@ -219,6 +219,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( isErrorState || responseCode != 200 )
 			return;
 
+		// Check to make sure that the item creation
+		// did not fail.
+
+		if ( replyContent.indexOf( "You don't have" ) != -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( ENABLED_STATE, "You're missing ingredients." );
+			return;
+		}
+
 		// Arbitrary results can happen - just throw the
 		// entire string to the results parser and let
 		// it figure out what was actually gained; note
