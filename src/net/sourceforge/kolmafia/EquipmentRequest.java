@@ -171,7 +171,7 @@ public class EquipmentRequest extends KoLRequest
 		// to start.  Skip them both.
 
 		skipTokens( parsedContent, 2 );
-		String lastToken = parsedContent.nextToken();
+		String lastToken;
 
 		try
 		{
@@ -181,12 +181,11 @@ public class EquipmentRequest extends KoLRequest
 				// in the item database; otherwise, it could cause
 				// problems when you're moving items around.
 
+				lastToken = parsedContent.nextToken();
 				AdventureResult result = AdventureResult.parseResult( lastToken );
 
 				if ( TradeableItemDatabase.contains( result.getName() ) )
 					AdventureResult.addResultToList( resultList, result );
-
-				lastToken = parsedContent.nextToken();
 			}
 			while ( lastToken.trim().length() != 0 );
 		}
