@@ -76,6 +76,9 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Font;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 // containers
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -177,6 +180,8 @@ public class BuffBotFrame extends KoLFrame {
         getContentPane().add( tabs, " " );
         addWindowListener( new ReturnFocusAdapter() );
         setDefaultCloseOperation( HIDE_ON_CLOSE );
+
+		addWindowListener( new DisableBuffBotAdapter() );
 
         /* addMenuBar();*/
     }
@@ -591,15 +596,34 @@ public class BuffBotFrame extends KoLFrame {
 					add(panel);
 				}
             }
-
-            public void setEnabled( boolean isEnabled ) {
-                super.setEnabled( isEnabled );
-            }
-
-
         }
     }
 
+	/**
+	 * An internal class used to handle logout whenever the window
+	 * is closed.  An instance of this class is added to the window
+	 * listener list.
+	 */
+
+	private class DisableBuffBotAdapter extends WindowAdapter
+	{
+		public void windowClosed( WindowEvent e )
+		{
+			if ( client != null )
+				(new DisableBuffBotThread()).start();
+		}
+
+		private class DisableBuffBotThread extends Thread
+		{
+			public DisableBuffBotThread()
+			{	setDaemon( true );
+			}
+
+			public void run()
+			{	client.deinitializeBuffBot();
+			}
+		}
+	}
 
     /**
      * The main method used in the event of testing the way the
@@ -611,9 +635,6 @@ public class BuffBotFrame extends KoLFrame {
         KoLFrame uitest = new BuffBotFrame( null);
         uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
     }
-
-
-
 }
 
 
