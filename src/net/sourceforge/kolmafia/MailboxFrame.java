@@ -147,6 +147,18 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			(new RequestMailboxThread( currentTabName )).start();
 	}
 
+	public void refreshMailbox()
+	{
+		if ( messageListInbox.isInitialized() )
+			(new RequestMailboxThread( "Inbox" )).start();
+
+		if ( messageListOutbox.isInitialized() )
+			(new RequestMailboxThread( "Outbox" )).start();
+
+		if ( messageListSaved.isInitialized() )
+			(new RequestMailboxThread( "Saved" )).start();
+	}
+
 	private class RequestMailboxThread extends Thread
 	{
 		private String mailboxName;
