@@ -48,6 +48,8 @@ import java.awt.CardLayout;
 public class MoonPhaseDatabase
 {
 	private static int PHASE_STEP;
+	private static int RONALD_PHASE;
+	private static int GRIMACE_PHASE;
 
 	static
 	{
@@ -63,6 +65,9 @@ public class MoonPhaseDatabase
 		long timeDifference = System.currentTimeMillis() - newMoonDate;
 		PHASE_STEP = (int) Math.floor( (double)timeDifference / (double)dayLength );
 		PHASE_STEP = (PHASE_STEP + 16) % 16;
+
+		RONALD_PHASE = PHASE_STEP % 8;
+		GRIMACE_PHASE = ((int)Math.floor( PHASE_STEP / 2 )) % 8;
 	}
 
 	private static final String [] STAT_EFFECT =
@@ -82,11 +87,7 @@ public class MoonPhaseDatabase
 	 */
 
 	public static final String getMoonPhase()
-	{
-		int ronaldPhase = PHASE_STEP % 8;
-		int grimacePhase = ((int)Math.floor( PHASE_STEP / 2 )) % 8;
-
-		return "Ronald: " + getPhaseName( ronaldPhase ) + ", Grimace: " + getPhaseName( grimacePhase );
+	{	return "Ronald: " + getPhaseName( RONALD_PHASE ) + ", Grimace: " + getPhaseName( GRIMACE_PHASE );
 	}
 
 	private static final String getPhaseName( int phase )
@@ -123,10 +124,13 @@ public class MoonPhaseDatabase
 	 * until the required functionality is added.
 	 */
 
-	public static final void displayMoonPhase()
+	private static final void displayMoonPhase()
 	{
 		JFrame display = new JFrame( getMoonPhase() );
 		display.getContentPane().setLayout( new CardLayout( 10, 10 ) );
+
+
+
 		display.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		display.pack();  display.setVisible( true );
 	}
