@@ -39,8 +39,10 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
 
 // containers
+import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -65,6 +67,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class CharsheetFrame extends KoLFrame
 {
 	private KoLCharacter characterData;
+	private JLabel [] equipment;
+	private JComboBox outfitSelect, effectSelect;
 
 	/**
 	 * Constructs a new character sheet, using the data located
@@ -85,7 +89,6 @@ public class CharsheetFrame extends KoLFrame
 		{
 			characterData = client.getCharacterData();
 			(new CharsheetRequest( client )).run();
-			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 		}
 		else
 			characterData = new KoLCharacter( "UI Test" );
@@ -102,7 +105,7 @@ public class CharsheetFrame extends KoLFrame
 		entirePanel.add( createStatsPanel(), BorderLayout.WEST );
 		entirePanel.add( createEquipPanel(), BorderLayout.EAST );
 		entirePanel.add( createImagePanel(), BorderLayout.CENTER );
-		entirePanel.add( createUneffectPanel(), BorderLayout.SOUTH );
+		entirePanel.add( createSouthPanel(), BorderLayout.SOUTH );
 
 		getContentPane().add( entirePanel, "" );
 		addWindowListener( new ReturnFocusAdapter() );
@@ -110,19 +113,47 @@ public class CharsheetFrame extends KoLFrame
 
 	/**
 	 * Utility method used for creating a panel displaying the character's current
-	 * effects.  Eventually, this panel will also contain the ability to remove
-	 * these effects (using soft greens).
+	 * effects and their available outfits, as well as the ability to change the
+	 * character's current effects and outfit.
 	 *
 	 * @return	a <code>JPanel</code> displaying the current effects
 	 */
 
-	private JPanel createUneffectPanel()
+	private JPanel createSouthPanel()
 	{
-		JPanel uneffectPanel = new JPanel();
-		uneffectPanel.setLayout( new BorderLayout( 0, 0 ) );
-		uneffectPanel.add( new JLabel( "Active Effects:    ", JLabel.RIGHT ), BorderLayout.CENTER );
-		uneffectPanel.add( new JComboBox( characterData.getEffects().getMirrorImage() ), BorderLayout.EAST );
-		return uneffectPanel;
+		JPanel southPanel = new JPanel();
+		southPanel.setLayout( new BorderLayout( 10, 10 ) );
+
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout( new BorderLayout() );
+		JLabel outfitLabel = new JLabel( "Outfits:  ", JLabel.RIGHT );
+		JComponentUtilities.setComponentSize( outfitLabel, 80, 24 );
+		labelPanel.add( outfitLabel, BorderLayout.NORTH );
+		JLabel effectLabel = new JLabel( "Effects:  ", JLabel.RIGHT );
+		JComponentUtilities.setComponentSize( effectLabel, 80, 24 );
+		labelPanel.add( effectLabel, BorderLayout.SOUTH );
+		southPanel.add( labelPanel, BorderLayout.WEST );
+
+		JPanel selectPanel = new JPanel();
+		selectPanel.setLayout( new BoxLayout( selectPanel, BoxLayout.Y_AXIS ) );
+		outfitSelect = new JComboBox( characterData.getOutfits().getMirrorImage() );
+		selectPanel.add( outfitSelect, "" );
+		selectPanel.add( Box.createVerticalStrut( 10 ) );
+		effectSelect = new JComboBox( characterData.getEffects().getMirrorImage() );
+		selectPanel.add( effectSelect, "" );
+		southPanel.add( selectPanel, BorderLayout.CENTER );
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout( new BorderLayout() );
+		JButton changeOutfitButton = new JButton( "change" );
+		JComponentUtilities.setComponentSize( changeOutfitButton, 84, 24 );
+		buttonPanel.add( changeOutfitButton, BorderLayout.NORTH );
+		JButton removeEffectButton = new JButton( "uneffect" );
+		JComponentUtilities.setComponentSize( removeEffectButton, 84, 24 );
+		buttonPanel.add( removeEffectButton, BorderLayout.SOUTH );
+		southPanel.add( buttonPanel, BorderLayout.EAST );
+
+		return southPanel;
 	}
 
 	/**
@@ -219,17 +250,18 @@ public class CharsheetFrame extends KoLFrame
 		fieldPanel.add( new JLabel( "Item:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Weight:  ", JLabel.RIGHT ) );
 
-
 		JPanel valuePanel = new JPanel();
 		valuePanel.setLayout( new GridLayout( 12, 1 ) );
 
 		valuePanel.add( new JLabel( "" ) );
-		valuePanel.add( new JLabel( characterData.getHat(), JLabel.LEFT ) );
-		valuePanel.add( new JLabel( characterData.getWeapon(), JLabel.LEFT ) );
-		valuePanel.add( new JLabel( characterData.getPants(), JLabel.LEFT ) );
-		valuePanel.add( new JLabel( characterData.getAccessory1(), JLabel.LEFT ) );
-		valuePanel.add( new JLabel( characterData.getAccessory2(), JLabel.LEFT ) );
-		valuePanel.add( new JLabel( characterData.getAccessory3(), JLabel.LEFT ) );
+
+		equipment = new JLabel[6];
+		for ( int i = 0; i < 6; ++i )
+		{
+			equipment[i] = new JLabel( "", JLabel.LEFT );
+			valuePanel.add( equipment[i] );
+		}
+
 		valuePanel.add( new JLabel( "" ) );
 		valuePanel.add( new JLabel( characterData.getFamiliarRace(), JLabel.LEFT ) );
 		valuePanel.add( new JLabel( characterData.getFamiliarItem(), JLabel.LEFT ) );
@@ -241,7 +273,18 @@ public class CharsheetFrame extends KoLFrame
 		equipPanel.add( fieldPanel, BorderLayout.WEST );
 		equipPanel.add( valuePanel, BorderLayout.EAST );
 
+		refreshEquipPanel();
 		return equipPanel;
+	}
+
+	private void refreshEquipPanel()
+	{
+		equipment[0].setText( characterData.getHat() );
+		equipment[1].setText( characterData.getWeapon() );
+		equipment[2].setText( characterData.getPants() );
+		equipment[3].setText( characterData.getAccessory1() );
+		equipment[4].setText( characterData.getAccessory2() );
+		equipment[5].setText( characterData.getAccessory3() );
 	}
 
 	/**
