@@ -107,6 +107,8 @@ public class FightRequest extends KoLRequest
 				// was completed.
 
 				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
+				if ( !client.permitsContinue() )
+					updateDisplay( KoLFrame.ENABLED_STATE, "Battle completed, adventures aborted." );
 			}
 			else if ( replyContent.indexOf( "You lose." ) != -1 )
 			{
