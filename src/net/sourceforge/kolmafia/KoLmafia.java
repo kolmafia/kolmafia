@@ -235,13 +235,7 @@ public class KoLmafia implements UtilityConstants
 	 */
 
 	public void addToResultTally( AdventureResult result )
-	{
-		int index = tally.indexOf( result );
-
-		if ( index == -1 )
-			tally.add( result );
-		else
-			tally.set( index, AdventureResult.add( result, (AdventureResult) tally.get( index ) ) );
+	{	AdventureResult.addResultToList( tally, result );
 	}
 
 	/**

@@ -172,40 +172,6 @@ public class AdventureResult implements Comparable
 	}
 
 	/**
-	 * A static method which adds the two <code>AdventureResult</code>s together to
-	 * produce a new <code>AdventureResult</code> containing the sum of the results.
-	 * Because addition is commutative, it doesn't matter which one is left or right;
-	 * it is named simply for convenience.  Note that if the left and right operands
-	 * do not have the same name, this method returns <code>null</code>; if either
-	 * operand is null, the method returns the other operand.
-	 *
-	 * @param	left	The left operand
-	 * @param	right	The right operand
-	 * @return	An <code>AdventureResult</code> containing the sum of the left and right operands
-	 */
-
-	public static AdventureResult add( AdventureResult left, AdventureResult right )
-	{
-		if ( left == null )
-			return right;
-		if ( right == null )
-			return left;
-
-		if ( !left.resultName.equals( right.resultName ) )
-			return null;
-
-		if ( left.resultCount.length == 1 )
-			return new AdventureResult( left.resultName, left.resultCount[0] + right.resultCount[0] );
-		else
-		{
-			int [] totals = new int[3];
-			for ( int i = 0; i < 3; ++i )
-				totals[i] = left.resultCount[i] + right.resultCount[i];
-			return new AdventureResult( left.resultName, totals );
-		}
-	}
-
-	/**
 	 * Converts the <code>AdventureResult</code> to a <code>String</code>.  This is
 	 * especially useful in debug, or if the <code>AdventureResult</code> is to
 	 * be displayed in a <code>ListModel</code>.
@@ -254,5 +220,57 @@ public class AdventureResult implements Comparable
 
 		int priorityDifference = resultPriority - ar.resultPriority;
 		return priorityDifference != 0 ? priorityDifference : resultName.compareToIgnoreCase( ar.resultName );
+	}
+
+	/**
+	 * Utility method used for adding a given <code>AdventureResult</code> to a
+	 * tally of <code>AdventureResult</code>s.
+	 *
+	 * @param	tally	The tally accumulating <code>AdventureResult</code>s
+	 * @param	result	The result to add to the tally
+	 */
+
+	public static void addResultToList( List tally, AdventureResult result )
+	{
+		int index = tally.indexOf( result );
+
+		if ( index == -1 )
+			tally.add( result );
+		else
+			tally.set( index, add( result, (AdventureResult) tally.get( index ) ) );
+	}
+
+	/**
+	 * A static method which adds the two <code>AdventureResult</code>s together to
+	 * produce a new <code>AdventureResult</code> containing the sum of the results.
+	 * Because addition is commutative, it doesn't matter which one is left or right;
+	 * it is named simply for convenience.  Note that if the left and right operands
+	 * do not have the same name, this method returns <code>null</code>; if either
+	 * operand is null, the method returns the other operand.
+	 *
+	 * @param	left	The left operand
+	 * @param	right	The right operand
+	 * @return	An <code>AdventureResult</code> containing the sum of the left and right operands
+	 */
+
+	private static AdventureResult add( AdventureResult left, AdventureResult right )
+	{
+		if ( left == null )
+			return right;
+		if ( right == null )
+			return left;
+
+		if ( !left.resultName.equals( right.resultName ) )
+			return null;
+
+		if ( left.resultCount.length == 1 )
+			return new AdventureResult( left.resultName, left.resultCount[0] + right.resultCount[0] );
+		else
+		{
+			int [] totals = new int[3];
+			for ( int i = 0; i < 3; ++i )
+				totals[i] = left.resultCount[i] + right.resultCount[i];
+			return new AdventureResult( left.resultName, totals );
+		}
 	}
 }

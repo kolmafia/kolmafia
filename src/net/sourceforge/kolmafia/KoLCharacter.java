@@ -33,7 +33,9 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * A container class representing the <code>KoLCharacter</code>.  This
@@ -56,7 +58,10 @@ public class KoLCharacter
 
 	private int [] adjustedStats;
 	private int [] totalSubpoints;
-	private String [] equipment;
+
+	private LockableListModel equipment;
+	private SortedListModel inventory;
+	private SortedListModel closet;
 
 	private int inebriety;
 	private int availableMeat;
@@ -79,10 +84,13 @@ public class KoLCharacter
 
 		this.adjustedStats = new int[3];
 		this.totalSubpoints = new int[3];
-		this.equipment = new String[7];
+
+		this.equipment = new LockableListModel();
+		this.inventory = new SortedListModel( AdventureResult.class );
+		this.closet = new SortedListModel( AdventureResult.class );
 
 		for ( int i = 0; i < 7; ++i )
-			equipment[i] = "none";
+			equipment.add( "none" );
 	}
 
 	/**
@@ -407,13 +415,13 @@ public class KoLCharacter
 
 	public void setEquipment( String hat, String weapon, String pants, String accessory1, String accessory2, String accessory3, String familiarItem )
 	{
-		equipment[0] = hat;
-		equipment[1] = weapon;
-		equipment[2] = pants;
-		equipment[3] = accessory1;
-		equipment[4] = accessory2;
-		equipment[5] = accessory3;
-		equipment[6] = familiarItem;
+		equipment.set( 0, hat );
+		equipment.set( 1, weapon );
+		equipment.set( 2, pants );
+		equipment.set( 3, accessory1 );
+		equipment.set( 4, accessory2 );
+		equipment.set( 5, accessory3 );
+		equipment.set( 6, familiarItem );
 	}
 
 	/**
@@ -422,7 +430,7 @@ public class KoLCharacter
 	 */
 
 	public String getHat()
-	{	return equipment[0];
+	{	return (String) equipment.get( 0 );
 	}
 
 	/**
@@ -431,7 +439,7 @@ public class KoLCharacter
 	 */
 
 	public String getWeapon()
-	{	return equipment[1];
+	{	return (String) equipment.get( 1 );
 	}
 
 	/**
@@ -440,7 +448,7 @@ public class KoLCharacter
 	 */
 
 	public String getPants()
-	{	return equipment[2];
+	{	return (String) equipment.get( 2 );
 	}
 
 	/**
@@ -451,7 +459,7 @@ public class KoLCharacter
 	 */
 
 	public String getAccessory1()
-	{	return equipment[3];
+	{	return (String) equipment.get( 3 );
 	}
 
 	/**
@@ -462,7 +470,7 @@ public class KoLCharacter
 	 */
 
 	public String getAccessory2()
-	{	return equipment[4];
+	{	return (String) equipment.get( 4 );
 	}
 
 	/**
@@ -473,7 +481,7 @@ public class KoLCharacter
 	 */
 
 	public String getAccessory3()
-	{	return equipment[5];
+	{	return (String) equipment.get( 5 );
 	}
 
 	/**
@@ -482,6 +490,55 @@ public class KoLCharacter
 	 */
 
 	public String getFamiliarItem()
-	{	return equipment[6];
+	{	return (String) equipment.get( 6 );
+	}
+
+	/**
+	 * Accessor method to retrieve a list of the items contained within the character's inventory.
+	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
+	 * and that any changes to the internal character inventory will be reflected in the returned
+	 * <code>LockableListModel</code>.
+	 *
+	 * @return	A <code>LockableListModel</code> of the items in the character's inventory
+	 */
+
+	public LockableListModel getInventory()
+	{	return inventory.getMirrorImage();
+	}
+
+	/**
+	 * Accessor method to add an item to the character's inventory.  Any mirror images will also
+	 * reflect the change if they have not already been modified.
+	 *
+	 * @param	inventoryItem	The item to add to the character's inventory
+	 */
+
+	public void addInventoryItem( AdventureResult inventoryItem )
+	{	AdventureResult.addResultToList( inventory, inventoryItem );
+	}
+
+	/**
+	 * Accessor method to retrieve a list of the items contained within the character's closet.
+	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
+	 * and that any changes to the internal character closet will be reflected in the returned
+	 * <code>LockableListModel</code>.
+	 *
+	 * @return	A <code>LockableListModel</code> of the items in the character's closet
+	 */
+
+	public LockableListModel getCloset()
+	{	return closet.getMirrorImage();
+	}
+
+	/**
+	 * Accessor method to add an item to the character's inventory.  Any mirror images will also
+	 * reflect the change if they have not already been modified (modification to mirror images
+	 * equals bad news).
+	 *
+	 * @param	closetItem	The item to add to the character's closet
+	 */
+
+	public void addClosetItem( AdventureResult closetItem )
+	{	AdventureResult.addResultToList( closet, closetItem );
 	}
 }
