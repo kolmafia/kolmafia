@@ -109,6 +109,7 @@ public class AutoSellRequest extends KoLRequest
 
 				int amount = df.parse( parsedResults.nextToken() ).intValue();
 				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, amount ) );
+				client.updateDisplay( ENABLED_STATE, "Autosold " + soldResult );
 			}
 			catch ( Exception e )
 			{
