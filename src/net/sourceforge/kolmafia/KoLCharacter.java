@@ -64,6 +64,7 @@ public class KoLCharacter
 	private SortedListModel closet;
 
 	private int availableMeat;
+	private int closetMeat;
 
 	private int inebriety;
 	private int adventuresLeft;
@@ -105,7 +106,6 @@ public class KoLCharacter
 		this.hasChef = true;
 		this.hasBartender = true;
 		this.familiarRace = "none";
-		this.familiarWeight = 0;
 	}
 
 	/**
@@ -251,6 +251,24 @@ public class KoLCharacter
 
 	public int getBaseMaxMP()
 	{	return baseMaxMP;
+	}
+
+	/**
+	 * Accessor method to set the amount of meat in the character's closet.
+	 * @param	closetMeat	The amount of meat in the character's closet.
+	 */
+
+	public void setClosetMeat( int closetMeat )
+	{	this.closetMeat = closetMeat;
+	}
+
+	/**
+	 * Accessor method to retrieve the amount of meat in the character's closet.
+	 * @return	The amount of meat in the character's closet.
+	 */
+
+	public int getClosetMeat()
+	{	return closetMeat;
 	}
 
 	/**

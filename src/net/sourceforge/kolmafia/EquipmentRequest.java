@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * An extension of <code>KoLRequest</code> which retrieves a list of
@@ -135,6 +137,23 @@ public class EquipmentRequest extends KoLRequest
 
 	private void parseCloset( StringTokenizer parsedContent )
 	{
+		// Try to find how much meat is in your character's closet -
+		// this way, the program's meat manager frame auto-updates
+
+		Matcher meatInClosetMatcher = Pattern.compile( "[\\d,]+ meat\\.</b>" ).matcher( replyContent );
+
+		if ( meatInClosetMatcher.find() )
+		{
+			try
+			{
+				String meatInCloset = meatInClosetMatcher.group();
+				client.getCharacterData().setClosetMeat( df.parse( meatInCloset ).intValue() );
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+
 		// The inventory officially starts when you see the
 		// token that starts with "Put"; therefore, continue
 		// skipping tokens until that token is encountered.
