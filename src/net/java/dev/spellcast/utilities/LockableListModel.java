@@ -154,7 +154,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	{
 		int lastIndex = size() - 1;
 		elements.clear();
-		if ( lastIndex > 0 )
+		if ( lastIndex >= 0 )
 			fireIntervalRemoved( this, 0, lastIndex );
 	}
 
@@ -730,7 +730,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		private synchronized void intervalAdded( LockableListModel source, int index0, int index1 )
 		{
-			if ( mirrorImage == null || source == null || index1 < 0 || index1 >= source.size() )
+			if ( mirrorImage == null || source == null || index0 < 0 || index1 < 0 || index1 >= source.size() )
 				return;
 
 			for ( int i = index0; i <= index1; ++i )
@@ -765,7 +765,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		private synchronized void intervalRemoved( LockableListModel source, int index0, int index1 )
 		{
-			if ( mirrorImage == null || source == null || index1 < 0 || index1 >= mirrorImage.size() )
+			if ( mirrorImage == null || source == null || index0 < 0 || index1 < 0 || index1 >= mirrorImage.size() )
 				return;
 
 			for ( int i = index1; i >= index0; --i )
