@@ -88,12 +88,6 @@ public class KoLCharacter
 		this.inventory = new SortedListModel( AdventureResult.class );
 		this.closet = new SortedListModel( AdventureResult.class );
 
-		addInventoryItem( new AdventureResult( AdventureResult.MEAT ) );
-		addInventoryItem( new AdventureResult( AdventureResult.DIVIDER ) );
-
-		addClosetItem( new AdventureResult( AdventureResult.MEAT ) );
-		addClosetItem( new AdventureResult( AdventureResult.DIVIDER ) );
-
 		for ( int i = 0; i < 7; ++i )
 			equipment.add( "none" );
 	}
