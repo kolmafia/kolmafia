@@ -196,7 +196,11 @@ public abstract class ActionVerifyPanel extends JRootPane
 			labelPanel.add( Box.createVerticalStrut( 5 ) );
 		}
 
-		return labelPanel;
+		JPanel alignedPanel = new JPanel();
+		alignedPanel.setLayout( new BorderLayout() );
+		alignedPanel.add( labelPanel, BorderLayout.NORTH );
+
+		return alignedPanel;
 	}
 
 	private JPanel constructFieldPanel( VerifiableElement [] elements )
@@ -221,7 +225,10 @@ public abstract class ActionVerifyPanel extends JRootPane
 				JPanel containerPanel = new JPanel();
 				containerPanel.setLayout( new BoxLayout( containerPanel, BoxLayout.X_AXIS ) );
 				containerPanel.add( inputField );
-				JComponentUtilities.setComponentSize( containerPanel, fieldSize );
+
+				if ( !(inputField instanceof javax.swing.JScrollPane) )
+					JComponentUtilities.setComponentSize( containerPanel, fieldSize );
+
 				fieldPanel.add( containerPanel );
 			}
 			fieldPanel.add( Box.createVerticalStrut( 5 ) );
