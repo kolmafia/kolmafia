@@ -147,6 +147,9 @@ public class CharsheetFrame extends KoLFrame
 		while ( parsedName.hasMoreTokens() )
 			imagename.append( parsedName.nextToken().toLowerCase() );
 
+		if ( !characterData.isMale() )
+			imagename.append( "_f" );
+
 		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( imagename.toString() + ".gif" ) ), BorderLayout.CENTER );
 
 		this.refreshButton = new JButton( "Refresh Status" );

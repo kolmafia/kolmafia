@@ -91,6 +91,8 @@ public class CharsheetRequest extends KoLRequest
 		// version.  This can be done through simple regular
 		// expression matching.
 
+
+		character.setGender( replyContent.indexOf( "_f.gif" ) == -1 );
 		StringTokenizer parsedContent = new StringTokenizer( replyContent, "<>" );
 
 		try

@@ -173,6 +173,7 @@ public class KoLCharacter
 	}
 
 	private String username;
+	private boolean isMale;
 	private int userID, level;
 	private String classname, classtype;
 
@@ -271,6 +272,24 @@ public class KoLCharacter
 
 	public int getUserID()
 	{	return userID;
+	}
+
+	/**
+	 * Accessor method to get the gender associated with this character.
+	 * @param	isMale	The gender of this character
+	 */
+
+	public void setGender( boolean isMale )
+	{	this.isMale = isMale;
+	}
+
+	/**
+	 * Accessor method to get the gender associated with this character.
+	 * @param	<code>true</code> if the player is male
+	 */
+
+	public boolean isMale()
+	{	return isMale;
 	}
 
 	/**
