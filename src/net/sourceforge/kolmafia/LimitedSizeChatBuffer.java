@@ -38,6 +38,8 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 public class LimitedSizeChatBuffer extends ChatBuffer
 {
 	private int maximumSize;
+	private int previousFontSize;
+
 	private static int fontSize = 3;
 	static
 	{
@@ -49,6 +51,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	{
 		super( title );
 		this.maximumSize = maximumSize;
+		previousFontSize = fontSize;
 	}
 
 	/**
@@ -59,30 +62,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	public static void setFontSize( int fontSize )
 	{
 		LimitedSizeChatBuffer.fontSize = fontSize;
-		BUFFER_INIT = "<body><font face=\"sans-serif\" size=" + fontSize + ">";
-	}
-
-	private static String getFontSizeAsString()
-	{
-		switch ( fontSize )
-		{
-			case 1:
-				return "xx-small";
-			case 2:
-				return "x-small";
-			case 3:
-				return "small";
-			case 4:
-				return "medium";
-			case 5:
-				return "large";
-			case 6:
-				return "x-large";
-			case 7:
-				return "xx-large";
-			default:
-				return "medium";
-		}
+		ChatBuffer.BUFFER_INIT = "<body><font face=\"sans-serif\" size=" + fontSize + ">";
 	}
 
 	/**
@@ -96,6 +76,11 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 
 	public void append( String message )
 	{
+		if ( previousFontSize != fontSize )
+		{
+			String currentBuffer = displayBuffer.toString();
+		}
+
 		int totalLength = displayBuffer.length() + message.length();
 		if ( totalLength > maximumSize )
 		{
@@ -106,5 +91,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		}
 
 		super.append( message );
+		previousFontSize = fontSize;
 	}
 }
