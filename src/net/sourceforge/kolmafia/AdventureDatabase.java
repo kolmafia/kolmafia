@@ -87,7 +87,7 @@ public class AdventureDatabase implements UtilityConstants
 		}
 	}
 
-	public static LockableListModel getAsLockableListModel( KoLmafia client )
+	public static final LockableListModel getAsLockableListModel( KoLmafia client )
 	{
 		LockableListModel adventures = new LockableListModel();
 		for ( int i = 0; i < adventureTable[0].size(); ++i )
@@ -107,5 +107,17 @@ public class AdventureDatabase implements UtilityConstants
 
 		return index == -1 ? null : new KoLAdventure( client, (String) adventureTable[0].get( index ),
 			(String) adventureTable[1].get( index ), (String) adventureTable[2].get( index ) );
+	}
+
+	public static final boolean contains( String adventureName )
+	{
+		int index = -1;
+		List adventureNames = adventureTable[2];
+
+		for ( int i = 0; index == -1 && i < adventureNames.size(); ++i )
+			if ( ((String) adventureNames.get(i)).toLowerCase().indexOf( adventureName.toLowerCase() ) != -1 )
+				return true;
+
+		return false;
 	}
 }
