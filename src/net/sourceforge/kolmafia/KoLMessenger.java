@@ -63,6 +63,7 @@ public class KoLMessenger
 	private SortedListModel onlineContacts;
 
 	private String currentChannel;
+	private static final int MAXIMUM_CHATSIZE = 30000;
 
 	public KoLMessenger( KoLmafia client )
 	{
@@ -571,8 +572,8 @@ public class KoLMessenger
 
 	public void openInstantMessage( String characterName )
 	{
-		ChatBuffer newBuffer = new ChatBuffer( client.getLoginName() + ": " + characterName + " - Started " +
-			Calendar.getInstance().getTime().toString() );
+		ChatBuffer newBuffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + characterName + " - Started " +
+			Calendar.getInstance().getTime().toString(), MAXIMUM_CHATSIZE );
 
 		ChatFrame newFrame = new ChatFrame( client, this, characterName );
 		newFrame.setVisible( true );
