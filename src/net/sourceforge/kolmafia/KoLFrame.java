@@ -40,6 +40,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JFileChooser;
 
 // layout
 import java.awt.Color;
@@ -116,6 +117,24 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		super.requestFocus();
 		if ( contentPanel != null )
 			contentPanel.requestFocus();
+	}
+
+	/**
+	 * Utility method used to add the default <code>KoLmafia</code>
+	 * scripting menu to the given menu bar.  The default menu contains
+	 * the ability to load scripts.
+	 */
+
+	protected final void addScriptMenu( JMenuBar menuBar )
+	{
+		JMenu scriptMenu = new JMenu("Script");
+		scriptMenu.setMnemonic( KeyEvent.VK_S );
+		menuBar.add( scriptMenu );
+
+		JMenuItem loadScriptMenuItem = new JMenuItem( "Load Script...", KeyEvent.VK_L );
+		loadScriptMenuItem.addActionListener( new LoadScriptListener() );
+
+		scriptMenu.add( loadScriptMenuItem );
 	}
 
 	/**
@@ -242,6 +261,53 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		{
 			if ( client != null && client != null )
 				client.requestFocus();
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for loading a script.
+	 */
+
+	private class LoadScriptListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new LoadScriptThread()).start();
+		}
+
+		private class LoadScriptThread extends Thread
+		{
+			public LoadScriptThread()
+			{
+				super( "Load-Script-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				JFileChooser chooser = new JFileChooser();
+				int returnVal = chooser.showOpenDialog( KoLFrame.this );
+
+				if ( chooser.getSelectedFile() == null )
+					return;
+
+				String filename = chooser.getSelectedFile().getAbsolutePath();
+
+				try
+				{
+					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+						(new KoLmafiaCLI( client, filename )).listenForCommands();
+				}
+				catch ( Exception e )
+				{
+					// Here, notify the display that the script
+					// file specified could not be loaded
+
+					updateDisplay( KoLFrame.ENABLED_STATE, "Script file <" + filename + "> could not be found." );
+					return;
+				}
+			}
 		}
 	}
 

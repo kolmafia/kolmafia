@@ -241,7 +241,7 @@ public class AdventureFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenuItem viewMenu = new JMenu("View");
+		JMenu viewMenu = new JMenu("View");
 		viewMenu.setMnemonic( KeyEvent.VK_V );
 		menuBar.add( viewMenu );
 
@@ -265,6 +265,7 @@ public class AdventureFrame extends KoLFrame
 
 		viewMenu.add( sendmailItem );
 
+		addScriptMenu( menuBar );
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
@@ -1251,11 +1252,24 @@ public class AdventureFrame extends KoLFrame
 	private class ViewGreenMessageComposerListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
+		{	(new ViewGreenMessageComposerThread()).start();
+		}
+
+		private class ViewGreenMessageComposerThread extends Thread
 		{
-			GreenMessageFrame composer = new GreenMessageFrame( client );
-			composer.pack();  composer.setVisible( true );
-			composer.requestFocus();
-			greenMessageFrames.add( composer );
+			public ViewGreenMessageComposerThread()
+			{
+				super( "View-Composer-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				GreenMessageFrame composer = new GreenMessageFrame( client );
+				composer.pack();  composer.setVisible( true );
+				composer.requestFocus();
+				greenMessageFrames.add( composer );
+			}
 		}
 	}
 
