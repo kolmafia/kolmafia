@@ -54,6 +54,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 
 // other imports
 import java.text.ParseException;
@@ -164,7 +165,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public ConsumeItemPanel()
 			{
-				super( "use one", "use all" );
+				super( "use one", "use #" );
 				setContent( null, null, null, null, true, true );
 
 				usableItems = client == null ? new LockableListModel() : client.getUsableItems().getMirrorImage();
@@ -205,13 +206,13 @@ public class ItemManageFrame extends KoLFrame
 
 			private class ConsumeItemRequestThread extends Thread
 			{
-				private boolean useAll;
+				private boolean useMultiple;
 
-				public ConsumeItemRequestThread( boolean useAll )
+				public ConsumeItemRequestThread( boolean useMultiple )
 				{
 					super( "Consume-Request-Thread" );
 					setDaemon( true );
-					this.useAll = useAll;
+					this.useMultiple = useMultiple;
 				}
 
 				public void run()
@@ -220,11 +221,36 @@ public class ItemManageFrame extends KoLFrame
 					Object [] items = usableItemList.getSelectedValues();
 					AdventureResult currentItem;  Runnable request;
 
-					for ( int i = 0; i < items.length; ++i )
+					try
 					{
-						currentItem = (AdventureResult) items[i];
-						request = new ConsumeItemRequest( client, TradeableItemDatabase.getConsumptionType( currentItem.getName() ), currentItem );
-						client.makeRequest( request, useAll ? currentItem.getCount() : 1 );
+						String itemName;
+						int consumptionType;
+						int consumptionCount;
+
+						for ( int i = 0; i < items.length; ++i )
+						{
+							currentItem = (AdventureResult) items[i];
+							itemName = currentItem.getName();
+							consumptionType = TradeableItemDatabase.getConsumptionType( itemName );
+
+							if ( useMultiple )
+							{
+								consumptionCount = df.parse( JOptionPane.showInputDialog( "Using multiple " + itemName + "..." ) ).intValue();
+								if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
+									(new ConsumeItemRequest( client, consumptionType, itemName, consumptionCount )).run();
+								else
+									client.makeRequest( new ConsumeItemRequest( client, consumptionType, itemName, 1 ), consumptionCount );
+							}
+							else
+								(new ConsumeItemRequest( client, consumptionType, itemName, 1 )).run();
+						}
+					}
+					catch ( Exception e )
+					{
+						// If the number placed inside of the count list was not
+						// an actual integer value, pretend nothing happened.
+						// Using exceptions for flow control is bad style, but
+						// this will be fixed once we add functionality.
 					}
 
 					refreshConcoctionsList();
@@ -572,6 +598,10 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ItemCreationRequestThread extends Thread
 		{
+			public ItemCreationRequestThread()
+			{	setDaemon( true );
+			}
+
 			public void run()
 			{
 				updateDisplay( DISABLED_STATE, "Creating item..." );
@@ -590,6 +620,10 @@ public class ItemManageFrame extends KoLFrame
 
 		private class RefreshListsRequestThread extends Thread
 		{
+			public RefreshListsRequestThread()
+			{	setDaemon( true );
+			}
+
 			public void run()
 			{
 				updateDisplay( DISABLED_STATE, "Refreshing lists..." );
