@@ -301,6 +301,20 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 		}
 
+		// Now that everything's been delayed, go ahead and execute
+		// the request (which is different from running now!)
+
+		execute();
+	}
+
+	/**
+	 * Utility method used to retry requests - this allows the KoLRequest
+	 * itself to rerun without calling the run method that instantiated
+	 * this request.
+	 */
+
+	private void execute()
+	{
 		boolean connectSuccess = false;
 		for ( int i = 0; i < MAX_RETRIES && !connectSuccess; ++i )
 			connectSuccess = prepareConnection();
@@ -513,7 +527,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 						if ( client.inLoginState() )
 						{
-							this.run();
+							this.execute();
 							return;
 						}
 					}
@@ -559,7 +573,7 @@ public class KoLRequest implements Runnable, KoLConstants
 						if ( line.indexOf( "()" ) != -1 )
 						{
 							logStream.println( "MySQL error.  Repeating request..." );
-							this.run();  return;
+							this.execute();  return;
 						}
 
 						logStream.println( "Skipping frame-nesting Javascript..." );
@@ -607,7 +621,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( client != null )
 				logStream.println( e );
 
-			this.run();
+			this.execute();
 			return;
 		}
 	}
