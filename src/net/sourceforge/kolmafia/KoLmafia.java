@@ -34,6 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.File;
+import java.io.PrintStream;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.util.StringTokenizer;
@@ -48,6 +50,10 @@ public class KoLmafia
 
 	private String loginname, password, sessionID, passwordHash;
 	private KoLFrame activeFrame;
+
+	private KoLSettings settings;
+	private PrintStream logStream;
+	private boolean isLogging;
 
 	private Runnable currentRequest;
 	private boolean permitContinue;
@@ -73,6 +79,10 @@ public class KoLmafia
 		activeFrame = new LoginFrame( this );
 		activeFrame.pack();  activeFrame.setVisible( true );
 		activeFrame.requestFocus();
+
+		settings = new KoLSettings();
+		logStream = System.out;
+		isLogging = false;
 	}
 
 	public KoLFrame getActiveFrame()
@@ -235,5 +245,40 @@ public class KoLmafia
 
 	public boolean permitsContinue()
 	{	return permitContinue;
+	}
+
+	public void initializeLogger()
+	{
+		try
+		{
+			File f = new File( "debug.txt" );
+
+			if ( !f.exists() )
+			{
+				f.getParentFile().mkdirs();
+				f.createNewFile();
+			}
+
+			logStream = new LogStream( "debug.txt" );
+		}
+		catch ( IOException e )
+		{
+			// This should not happen, unless the user
+			// security settings are too high to allow
+			// programs to write output; therefore,
+			// pretend for now that everything works.
+		}
+	}
+
+	public KoLSettings getSettings()
+	{	return settings;
+	}
+
+	public PrintStream getLogStream()
+	{	return logStream;
+	}
+
+	public boolean isLogging()
+	{	return isLogging;
 	}
 }
