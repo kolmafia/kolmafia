@@ -51,6 +51,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 // utilities
 import java.util.StringTokenizer;
@@ -71,15 +73,13 @@ public class OptionsFrame extends KoLFrame
 		// the content panel is arbitrary
 
 		this.client = client;
-		contentPanel = new LoginOptionsPanel();
+		contentPanel = null;
 
-		tabs.setBackground( contentPanel.getBackground() );
-		tabs.addTab( "Login", contentPanel );
+		tabs.addTab( "Login", new LoginOptionsPanel() );
 		tabs.addTab( "Sewer", new SewerOptionsPanel() );
+		tabs.addTab( "Hermit", new HermitOptionsPanel() );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
-
-		updateDisplay( ENABLED_STATE, " " );
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
@@ -94,6 +94,13 @@ public class OptionsFrame extends KoLFrame
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
+
+	/**
+	 * This panel handles all of the things related to login
+	 * options, including which server to use for login and
+	 * all other requests, as well as the user's proxy settings
+	 * (if applicable).
+	 */
 
 	private class LoginOptionsPanel extends KoLPanel
 	{
@@ -269,6 +276,13 @@ public class OptionsFrame extends KoLFrame
 		}
 	}
 
+	/**
+	 * This panel allows the user to select which item they would like
+	 * to trade with the gnomes in the sewers of Seaside Town, in
+	 * exchange for their ten-leaf clover.  These settings only apply
+	 * to the Lucky Sewer adventure.
+	 */
+
 	private class SewerOptionsPanel extends KoLPanel
 	{
 		private JCheckBox [] items;
@@ -375,6 +389,132 @@ public class OptionsFrame extends KoLFrame
 				}
 
 				client.getSettings().setProperty( "luckySewer", selected[0] + "," + selected[1] + "," + selected[2] );
+				client.getSettings().saveSettings();
+
+				(new StatusMessageChanger( "Settings saved." )).run();
+			}
+		}
+	}
+
+	/**
+	 * This panel allows the user to select which item they would like
+	 * to trade with the Hermit, in exchange for their worthless trinket.
+	 * These settings only apply to the Hermit adventure.
+	 */
+
+	private class HermitOptionsPanel extends KoLPanel
+	{
+		private ButtonGroup select;
+		private JRadioButton [] items;
+		private JLabel actionStatusLabel;
+		private JPanel actionStatusPanel;
+
+		private final String [] itemnames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
+			"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
+		private final int [] itemnumbers = { 24, 46, 47, 52, 55, 61, 66, 106, 107, 135, 140, 527 };
+
+		public HermitOptionsPanel()
+		{
+			super( "apply", "defaults", new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			items = new JRadioButton[ itemnames.length ];
+			select = new ButtonGroup();
+
+			for ( int i = 0; i < itemnames.length; ++i )
+			{
+				items[i] = new JRadioButton();
+				select.add( items[i] );
+			}
+
+			(new LoadDefaultSettingsThread()).run();
+
+			VerifiableElement [] elements = new VerifiableElement[ itemnames.length ];
+			for ( int i = 0; i < itemnames.length; ++i )
+				elements[i] = new VerifiableElement( itemnames[i], JLabel.LEFT, items[i] );
+
+			java.util.Arrays.sort( elements );
+			setContent( elements, false );
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		public void clear()
+		{	(new LoadDefaultSettingsThread()).start();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		protected void actionCancelled()
+		{	(new LoadDefaultSettingsThread()).start();
+		}
+
+		private class LoadDefaultSettingsThread extends Thread
+		{
+			public LoadDefaultSettingsThread()
+			{	setDaemon( true );
+			}
+
+			public void run()
+			{
+				String settings = client.getSettings().getProperty( "hermitTrade" );
+
+				// If there are no default sewer settings, simply skip the
+				// attempt at loading them.
+
+				if ( settings == null )
+					return;
+
+				// If there are default sewer settings, make sure that the
+				// appropriate checkboxes are checked.
+
+				for ( int i = 0; i < itemnames.length; ++i )
+					items[i].setSelected( false );
+
+				int itemnumber = Integer.parseInt( settings );
+				for ( int i = 0; i < itemnumbers.length; ++i )
+					if ( itemnumbers[i] == itemnumber )
+						items[i].setSelected( true );
+
+				(new StatusMessageChanger( "" )).run();
+			}
+		}
+
+		private class StoreSettingsThread extends Thread
+		{
+			public void run()
+			{
+				int selected = -1;
+				int selectedCount = 0;
+
+				for ( int i = 0; i < itemnames.length; ++i )
+				{
+					if ( items[i].isSelected() )
+					{
+						if ( selectedCount == 0 )
+							selected = itemnumbers[i];
+						++selectedCount;
+					}
+				}
+
+				if ( selectedCount != 1 )
+				{
+					(new StatusMessageChanger( "You did not select an item." )).run();
+					return;
+				}
+
+				client.getSettings().setProperty( "hermitTrade", "" + selected );
 				client.getSettings().saveSettings();
 
 				(new StatusMessageChanger( "Settings saved." )).run();

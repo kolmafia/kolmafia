@@ -37,14 +37,22 @@ import java.util.StringTokenizer;
 
 public class SewerRequest extends KoLRequest
 {
-	public SewerRequest( KoLmafia client )
+	private boolean isLuckySewer;
+
+	public SewerRequest( KoLmafia client, boolean isLuckySewer )
 	{
-		super( client, client.isLuckyCharacter() ? "luckysewer.php" : "sewer.php" );
+		super( client, isLuckySewer || client.isLuckyCharacter() ?
+			"luckysewer.php" : "sewer.php" );
+
+		this.isLuckySewer = isLuckySewer || client.isLuckyCharacter();
 	}
 
 	public void run()
 	{
-		runLuckySewer();
+		if ( isLuckySewer )
+			runLuckySewer();
+		else
+			runUnluckySewer();
 	}
 
 	private void runLuckySewer()
@@ -67,15 +75,30 @@ public class SewerRequest extends KoLRequest
 
 		super.run();
 
-		System.out.println( responseCode );
-		System.out.println( replyContent );
-
 		if ( isErrorState || responseCode != 200 )
 			return;
 
 		if ( !replyContent.contains( "acquire" ) )
 		{
 			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of ten-leaf clovers." );
+			client.updateAdventure( false, false );
+			return;
+		}
+
+		processResults( replyContent );
+		client.updateAdventure( true, true );
+	}
+
+	private void runUnluckySewer()
+	{
+		super.run();
+
+		if ( isErrorState || responseCode != 200 )
+			return;
+
+		if ( !replyContent.contains( "acquire" ) )
+		{
+			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of chewing gum." );
 			client.updateAdventure( false, false );
 			return;
 		}

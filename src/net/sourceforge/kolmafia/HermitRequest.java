@@ -33,33 +33,47 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.StringTokenizer;
 
-public class KoLAdventure implements Runnable
+public class HermitRequest extends KoLRequest
 {
-	private KoLmafia client;
-	private String adventureID, formSource, adventureName;
-
-	public KoLAdventure( KoLmafia client, String formSource, String adventureID, String adventureName )
+	public HermitRequest( KoLmafia client )
 	{
-		this.client = client;
-		this.formSource = formSource;
-		this.adventureID = adventureID;
-		this.adventureName = adventureName;
-	}
+		super( client, "hermit.php" );
 
-	public String toString()
-	{	return adventureName;
+		addFormField( "action", "Yep." );
+		addFormField( "hermitwants", "43" );
 	}
 
 	public void run()
 	{
-		if ( formSource.equals( "hermit.php" ) )
-			(new HermitRequest( client )).run();
-		else if ( formSource.equals( "sewer.php" ) )
-			(new SewerRequest( client, false )).run();
-		else if ( formSource.equals( "luckysewer.php" ) )
-			(new SewerRequest( client, true )).run();
-		else
-			(new AdventureRequest( client, formSource, adventureID )).run();
+		String item = client.getSettings().getProperty( "hermitTrade" );
+
+		if ( item == null )
+		{
+			frame.updateDisplay( KoLFrame.ENABLED_STATE, "No hermit trade settings found." );
+			client.updateAdventure( false, false );
+			return;
+		}
+
+		addFormField( "whichitem", item );
+
+		super.run();
+
+		System.out.println( responseCode );
+		System.out.println( replyContent );
+
+		if ( isErrorState || responseCode != 200 )
+			return;
+
+		if ( !replyContent.contains( "acquire" ) )
+		{
+			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of worthless trinkets." );
+			client.updateAdventure( false, false );
+			return;
+		}
+
+		processResults( replyContent );
+		client.updateAdventure( true, true );
 	}
 }
