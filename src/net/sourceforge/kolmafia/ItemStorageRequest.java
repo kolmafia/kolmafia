@@ -63,8 +63,7 @@ public class ItemStorageRequest extends KoLRequest
 		addFormField( "action",
 			moveType == INVENTORY_TO_CLOSET ? "put" :
 			moveType == CLOSET_TO_INVENTORY ? "take" :
-			moveType == INVENTORY_TO_STASH ? "addgoodies" :
-				"" );
+			moveType == INVENTORY_TO_STASH ? "addgoodies" : "" );
 
 		this.items = items;
 		this.moveType = moveType;
@@ -147,8 +146,14 @@ public class ItemStorageRequest extends KoLRequest
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			addFormField( "whichitem" + (i+1), "" + TradeableItemDatabase.getItemID( ((AdventureResult)items[i]).getResultName() ) );
-			addFormField( "howmany" + (i+1), "" + ((AdventureResult)items[i]).getResultCount() );
+			AdventureResult result = (AdventureResult) items[i];
+			int itemID = TradeableItemDatabase.getItemID( result.getName() );
+
+			if ( itemID != -1 )
+			{
+				addFormField( "whichitem" + (i+1), "" + itemID );
+				addFormField( "howmany" + (i+1), "" + result.getCount() );
+			}
 		}
 
 		// Once all the form fields are broken up, this
@@ -173,5 +178,38 @@ public class ItemStorageRequest extends KoLRequest
 
 	private void stash()
 	{
+		// First, check to see how many items are to be
+		// placed in the closet - if there's too many,
+		// then you'll need to break up the request
+
+		if ( items == null || items.length == 0 )
+			return;
+
+		if ( items.length > 1 )
+		{
+			Object [] itemHolder = new Object[1];
+			for ( int i = 0; i < items.length; ++i )
+			{
+				itemHolder[0] = items[i];
+				(new ItemStorageRequest( client, INVENTORY_TO_STASH, itemHolder )).run();
+			}
+
+			return;
+		}
+
+		AdventureResult result = (AdventureResult) items[0];
+		int itemID = TradeableItemDatabase.getItemID( result.getName() );
+
+		if ( itemID != -1 )
+		{
+			addFormField( "whichitem", "" + itemID );
+			addFormField( "quantity", "" + result.getCount() );
+
+			super.run();
+			source.remove( items[0] );
+		}
+
+
+System.out.println( replyContent );
 	}
 }

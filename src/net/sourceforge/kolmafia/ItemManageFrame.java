@@ -104,7 +104,6 @@ public class ItemManageFrame extends KoLFrame
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			tabs.setEnabledAt( i, isEnabled );
 	}
@@ -184,11 +183,11 @@ public class ItemManageFrame extends KoLFrame
 						switch ( sellType )
 						{
 							case AutoSellRequest.AUTOSELL:
-								updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getResultName() + "..." );
+								updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getName() + "..." );
 								break;
 
 							case AutoSellRequest.AUTOMALL:
-								updateDisplay( DISABLED_STATE, "Placing " + currentItem.getResultName() + " in the mall..." );
+								updateDisplay( DISABLED_STATE, "Placing " + currentItem.getName() + " in the mall..." );
 								break;
 						}
 
@@ -231,6 +230,13 @@ public class ItemManageFrame extends KoLFrame
 			add( panel, "" );
 		}
 
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			closetList.setEnabled( isEnabled );
+			availableList.setEnabled( isEnabled );
+		}
+
 		private class OutsideClosetPanel extends NonContentPanel
 		{
 			private LockableListModel inventory;
@@ -238,7 +244,7 @@ public class ItemManageFrame extends KoLFrame
 			public OutsideClosetPanel()
 			{
 				super( "put in closet", "put in stash" );
-				setContent( null );
+				setContent( null, null, null, null, true, true );
 
 				inventory = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
 				availableList = new JList( inventory );
@@ -272,7 +278,7 @@ public class ItemManageFrame extends KoLFrame
 			public InsideClosetPanel()
 			{
 				super( "take out", "put in stash" );
-				setContent( null );
+				setContent( null, null, null, null, true, true );
 
 				closet = client == null ? new LockableListModel() : client.getCloset().getMirrorImage();
 				closetList = new JList( closet );
@@ -319,7 +325,6 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
-				StoragePanel.this.setEnabled( false );
 				updateDisplay( DISABLED_STATE, "Moving items..." );
 				Object [] items =
 					moveType == ItemStorageRequest.INVENTORY_TO_CLOSET ? availableList.getSelectedValues() :
@@ -333,10 +338,7 @@ public class ItemManageFrame extends KoLFrame
 					(new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_STASH, items )).run();
 				}
 				else
-				{
 					(new ItemStorageRequest( client, moveType, items )).run();
-				}
-
 
 				updateDisplay( ENABLED_STATE, "Items successfully moved." );
 				StoragePanel.this.setEnabled( true );
@@ -380,7 +382,7 @@ public class ItemManageFrame extends KoLFrame
 				elements[0] = new VerifiableElement( "Item to Make: ", createField );
 				elements[1] = new VerifiableElement( "Quantity: ", countField );
 
-				setContent( elements );
+				setContent( elements, null, null, null, true, true );
 			}
 
 			public void clear()
