@@ -58,6 +58,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 {
 	private boolean contentSet;
 	private JComponent eastContainer;
+	private boolean bothDisabledOnClick;
 	private VerifyButtonPanel buttonPanel;
 	private Dimension labelSize, fieldSize;
 
@@ -77,19 +78,19 @@ public abstract class ActionVerifyPanel extends JRootPane
 	}
 
 	protected void setContent( VerifiableElement [] elements )
-	{	setContent( elements, null, null, null, true );
+	{	setContent( elements, null, null, null, true, false );
 	}
 
 
 	protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
-	{	setContent( elements, null, null, null, isLabelPreceeding );
+	{	setContent( elements, null, null, null, isLabelPreceeding, false );
 	}
 
 	protected void setContent( VerifiableElement [] elements, JPanel [] extras, JPanel westPanel, JPanel eastPanel )
-	{	setContent( elements, extras, westPanel, eastPanel, true );
+	{	setContent( elements, extras, westPanel, eastPanel, true, false );
 	}
 
-	protected void setContent( VerifiableElement [] elements, JPanel [] extras, JPanel westPanel, JPanel eastPanel, boolean isLabelPreceeding )
+	protected void setContent( VerifiableElement [] elements, JPanel [] extras, JPanel westPanel, JPanel eastPanel, boolean isLabelPreceeding, boolean bothDisabledOnClick )
 	{
 		if ( contentSet )
 			return;
@@ -131,7 +132,9 @@ public abstract class ActionVerifyPanel extends JRootPane
 
 		setLayout( new BorderLayout() );
 		add( cardContainer, BorderLayout.CENTER );
+
 		contentSet = true;
+		this.bothDisabledOnClick = bothDisabledOnClick;
 	}
 
 	private JPanel constructWestContainer( VerifiableElement [] elements, JPanel westPanel, boolean isLabelPreceeding )
@@ -304,7 +307,10 @@ public abstract class ActionVerifyPanel extends JRootPane
 		}
 
 		public void setEnabled( boolean isEnabled )
-		{	confirmedButton.setEnabled( isEnabled );
+		{
+			confirmedButton.setEnabled( isEnabled );
+			if ( bothDisabledOnClick )
+				cancelledButton.setEnabled( isEnabled );
 		}
 	}
 
