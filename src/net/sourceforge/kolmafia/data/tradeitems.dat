@@ -167,6 +167,7 @@
 187	loose teeth
 188	bat guano
 189	guano coffee cup
+193	birthday candle
 194	Mr. Accessory
 195	eXtreme nose ring
 196	disassembled clover
@@ -253,6 +254,7 @@
 278	jug-o-magicalness
 279	suntan lotion of moxiousness
 280	Pick-O-Matic lockpicks
+281	gasmask
 282	Boris's key
 283	Jarlsberg's key
 284	Sneaky Pete's key
@@ -266,6 +268,7 @@
 292	rubber axe
 293	chef's hat
 294	pail
+295	demonskin trousers
 296	dungeoneer's dungarees
 297	Single-Minty Gum
 298	Double-Minty Gum
@@ -582,7 +585,9 @@
 641	toast
 642	skeleton key
 643	skeleton key ring
+645	wrapping paper
 646	fruitcake
+647	present
 648	Crimbo sword
 649	Crimbo hat
 650	Crimbo pants
@@ -598,6 +603,7 @@
 663	star throwing star
 664	star starfish
 665	Richard's star key
+666	steaming evil
 668	spiked femur
 669	ghuol guolash
 670	lihc face
@@ -611,6 +617,7 @@
 682	a little sump'm sump'm
 683	horizontal tango
 684	pink pony
+685	Mr. Shirt
 686	enchanted brass knuckles
 687	blood of the Wereseal
 688	pixel hat
@@ -724,13 +731,19 @@
 871	meatcar model
 873	rolling pin
 874	unrolling pin
+875	crazy bastard sword
 876	incredibly dense meat gem
 877	Talisman of Baio
+878	hypnodisk
 894	Dark Jill-O-Lantern
 895	Ms. Accessory
 896	Mr. Accessory Jr.
 897	coffee sprite
+898	Cheshire Bitten
+899	custom avatar form
+900	smile-sharpening stone
 901	miniature espresso maker
+902	100-Watt bulb
 903	Spasmi Dolorosi Del Rene Champagne
 905	Yummy Tummy bean
 906	Rock Pops
@@ -741,10 +754,14 @@
 911	Senior Mints
 912	pixellated candy heart
 913	candied kobold
+914	hand turkey outline
+918	Radio Free Baseball Cap
+919	Radio Free Pants
 920	Radio Free Foil
 921	radio button candy
 922	severed rocking horse head
 923	broken cellular phone
+924	crimbo elfling
 925	dental pliers
 926	papotion of papower
 927	Ferita Del Petto Zinfandel
@@ -752,10 +769,16 @@
 932	eggnog
 933	candy cane
 934	gingerbread bugbear
+935	imitation nice watch
+936	Hanukkimbo dreidl
+937	menorette
 938	tiny plastic sword
 939	small Crimbo Pressie
 940	bow
 941	Crimbo stocking
+942	bowler
+943	bow staff
+944	bowlegged pants
 945	skewered olive
 946	skewered lime
 947	skewered cranberry
@@ -763,3 +786,4 @@
 949	grogtini
 950	cranmopolitan
 951	extra special Crimbo stocking
+952	spooky hockey mask
