@@ -338,22 +338,13 @@ public class KoLMessenger
 
 		String orderedTagsContent = noLinksContent.replaceAll( "<b><i>", "<i><b>" ).replaceAll(
 			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</font></b>", "</b></font>" ).replaceAll(
-				"</?br></b></font>", "</b></font><br>" ).replaceAll( "</?br></font>", "</font><br>" );
-
-		// Another problem is doubled tags and other weird content related
-		// to color (strangely, only colors suffer from this.  These tags
-		// need to be replaced and/or fixed as well.  And there's too many
-		// of them!  *sobs*
-
-		String correctedColorContent = orderedTagsContent.replaceAll(
-			"<font color=green><font color=green>", "<font color=green>" ).replaceAll(
-				"<font color=red><b><b>", "" );
+				"</?br></b></font>", "</b></font><br>" ).replaceAll( "</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" );
 
 		// Also, there is no such thing as "none" color - though this works in
 		// Java 1.4.2 and the latest update of 1.5.0, it shouldn't be here anyway,
 		// as it's not a real color.
 
-		String validColorsContent = correctedColorContent.replaceAll( "<font color=\"none\">", "<font color=black>" );
+		String validColorsContent = orderedTagsContent.replaceAll( "<font color=\"none\">", "<font color=black>" );
 
 		// Although it's not necessary, it cleans up the HTML if all of the
 		// last seen data is removed.  It makes the buffer smaller (for one),
@@ -503,13 +494,22 @@ public class KoLMessenger
 		// Also extract messages which indicate logon/logoff of players to
 		// update the contact list.
 
-		Matcher onlineNoticeMatcher = Pattern.compile( "<font color=green><b>.*?</font>" ).matcher( noContactListContent );
+		Matcher onlineNoticeMatcher = Pattern.compile( "<font color=green><b>.*?</b></font> logged on.</font>" ).matcher( noContactListContent );
 		lastFindIndex = 0;
 		while ( onlineNoticeMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = onlineNoticeMatcher.end();
 			String [] onlineNotice = onlineNoticeMatcher.group().split( "<.*?>" );
-			updateContactList( onlineNotice[2], onlineNotice[3].endsWith( "on." ) );
+			updateContactList( onlineNotice[2], true );
+		}
+
+		Matcher offlineNoticeMatcher = Pattern.compile( "<font color=green><b>.*?</b></font> logged off.</font>" ).matcher( noContactListContent );
+		lastFindIndex = 0;
+		while ( offlineNoticeMatcher.find( lastFindIndex ) )
+		{
+			lastFindIndex = offlineNoticeMatcher.end();
+			String [] offlineNotice = offlineNoticeMatcher.group().split( "<.*?>" );
+			updateContactList( offlineNotice[2], false );
 		}
 	}
 
@@ -642,11 +642,11 @@ public class KoLMessenger
 			redoneMessage.append( splitMessage.nextToken() );
 			redoneMessage.append( "<br>\n" );
 
-			// For now, just display the message inside of the
-			// main frame.
+			// Display the message in the appropriate chat
+			// buffer, based on who the contact is.
 
 			ChatBuffer messageBuffer = getChatBuffer( contactName );
-			if ( messageBuffer == null && contactName.startsWith( "/" ) )
+			if ( messageBuffer == null )
 			{
 				openInstantMessage( contactName );
 				messageBuffer = getChatBuffer( contactName );
