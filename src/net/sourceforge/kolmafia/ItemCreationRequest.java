@@ -52,6 +52,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int COOK = 2;
 	public static final int MIX = 3;
 	public static final int SMITH = 4;
+	public static final int COOK_REAGENT = 5;
+	public static final int COOK_PASTA = 6;
 
 	private int itemID, quantityNeeded, mixingMethod;
 
@@ -67,8 +69,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public ItemCreationRequest( KoLmafia client, int itemID, int mixingMethod, int quantityNeeded )
 	{
-		super( client, mixingMethod == COMBINE ? "combine.php" : mixingMethod == COOK ? "cook.php" :
-			mixingMethod == MIX ? "cocktail.php" : "" );
+		super( client, mixingMethod == COMBINE ? "combine.php" : mixingMethod == MIX ? "cocktail.php" :
+			(mixingMethod == COOK || mixingMethod == COOK_REAGENT || mixingMethod == COOK_PASTA) ? "cook.php" :
+			mixingMethod == SMITH ? "smith.php" : "" );
 
 		addFormField( "action", "combine" );
 		addFormField( "pwd", client.getPasswordHash() );
@@ -155,10 +158,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					case COMBINE:
 					case COOK:
 					case MIX:
-						combineItems();
-						break;
-
 					case SMITH:
+					case COOK_REAGENT:
+					case COOK_PASTA:
+						combineItems();
 						break;
 				}
 
