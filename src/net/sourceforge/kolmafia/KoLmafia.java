@@ -219,7 +219,7 @@ public class KoLmafia implements UtilityConstants
 		// possibly a ParseException to be thrown.  Catch them and
 		// do nothing (eventhough it's technically bad style).
 
-		if ( result.indexOf( "point" ) != -1 )
+		if ( result.startsWith( "You gain a" ) || result.startsWith( "You gain some" ) )
 			return;
 
 		try

@@ -134,10 +134,10 @@ public class ConsumeItemRequest extends KoLRequest
 				updateDisplay( KoLFrame.ENABLED_STATE, "You already have that familiar." );
 				return;
 			}
-			else if ( itemUsed.getName().startsWith( "scroll of d" ) )
+			else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
 			{
 				client.setContinuePermission( true );
-				client.parseResult( "You gain " + client.getCharacterData().getBaseMaxHP() + " hit points"  );
+				client.addToResultTally( new AdventureResult( AdventureResult.HP, client.getCharacterData().getBaseMaxHP() ) );
 				if ( replyContent.indexOf( "crumble" ) == -1 )
 					return;
 			}
