@@ -144,6 +144,15 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	}
 
 	/**
+	 * Retrieves the name of the item being purchased.
+	 * @return	The name of the item being purchased
+	 */
+
+	public String getItemName()
+	{	return itemName;
+	}
+
+	/**
 	 * Sets the maximum number of items that can be purchased through
 	 * this request.
 	 *
@@ -238,7 +247,14 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			// without doing anything; nothing left to do.
 
 			if ( result.indexOf( "may only buy" ) == -1 )
+			{
+				if ( replyContent.indexOf( "You can't afford" ) != -1 )
+				{
+					client.cancelRequest();
+					updateDisplay( KoLFrame.ENABLED_STATE, "Not enough funds." );
+				}
 				return;
+			}
 
 			// One error that might be encountered is that the user
 			// already purchased the item; if that's the case, and
