@@ -61,6 +61,12 @@ public abstract class KoLFrame extends javax.swing.JFrame
 	{	(new DisplayStatus( displayState, message )).run();
 	}
 
+	public void requestFocus()
+	{
+		super.requestFocus();
+		if ( contentPanel != null )
+			contentPanel.requestFocus();
+	}
 
 	protected abstract class KoLPanel extends ActionVerifyPanel
 	{
