@@ -665,6 +665,11 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		logStream.println( "Processing results..." );
 
+		if ( results.indexOf( "gains a pound!</b>" ) != -1 )
+			client.getCharacterData().setFamiliarDescription(
+					client.getCharacterData().getFamiliarRace(),
+						client.getCharacterData().getFamiliarWeight() + 1 );
+
 		String plainTextResult = results.replaceAll( "<.*?>", "\n" );
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
 		String lastToken = null;
