@@ -667,7 +667,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			else if ( lastToken.startsWith( "You acquire" ) )
 				client.parseResult( parsedResults.nextToken() );
-			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose" )) )
+			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 				client.parseResult( lastToken );
 		}
 	}
