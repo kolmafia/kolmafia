@@ -78,7 +78,6 @@ public class ChatFrame extends KoLFrame
 	private JMenuBar menuBar;
 	private ChatPanel mainPanel;
 	private KoLMessenger messenger;
-	protected String associatedContact;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code>.
@@ -100,23 +99,20 @@ public class ChatFrame extends KoLFrame
 		super( "", client );
 
 		this.messenger = messenger;
-		this.associatedContact = associatedContact;
+		initialize( associatedContact );
 
-		initialize();
-
-		if ( client != null &&
-			(client.getSettings().getProperty( "useTabbedChat" ) == null || client.getSettings().getProperty( "useTabbedChat" ).equals( "false" )) )
-				addWindowListener( new CloseChatListener() );
+		if ( client != null && mainPanel != null )
+			addWindowListener( new CloseChatListener() );
 		else
 			addWindowListener( new ExitChatListener() );
 
-		addMenuBar();
+		addMenuBar( associatedContact );
 
 		// Set the default size so that it doesn't appear super-small
 		// when it's first constructed
 
 		setSize( new Dimension( 400, 300 ) );
-		if ( associatedContact != null && !associatedContact.startsWith( "/" ) )
+		if ( mainPanel != null && associatedContact != null && !associatedContact.startsWith( "/" ) )
 			setTitle( "KoLmafia NSIPM: " + client.getLoginName() + " / " + associatedContact );
 	}
 
@@ -126,40 +122,43 @@ public class ChatFrame extends KoLFrame
 	 * <code>KoLmafia</code> and the ability to save the chat to a log.
 	 */
 
-	private void addMenuBar()
+	private void addMenuBar( String associatedContact )
 	{
 		menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu fileMenu = new JMenu("File");
-		fileMenu.setMnemonic( KeyEvent.VK_F );
-		menuBar.add( fileMenu );
-
-		JMenuItem loggerItem = new JMenuItem( "Log Chat", KeyEvent.VK_L );
-		loggerItem.addActionListener( new LogChatListener() );
-		fileMenu.add( loggerItem );
-
-		JMenuItem clearItem = new JMenuItem( "Clear Chat", KeyEvent.VK_C );
-		clearItem.addActionListener( new ClearChatBufferListener() );
-		fileMenu.add( clearItem );
-
-		if ( associatedContact != null && !associatedContact.startsWith( "/" ) && !associatedContact.startsWith( "[" ) )
+		if ( mainPanel != null )
 		{
-			JMenu peopleMenu = new JMenu("People");
-			peopleMenu.setMnemonic( KeyEvent.VK_P );
-			menuBar.add( peopleMenu );
+			JMenu fileMenu = new JMenu("File");
+			fileMenu.setMnemonic( KeyEvent.VK_F );
+			menuBar.add( fileMenu );
 
-			JMenuItem addFriendItem = new JMenuItem( "Add Friend", KeyEvent.VK_A );
-			addFriendItem.addActionListener( new AddFriendListener() );
-			peopleMenu.add( addFriendItem );
+			JMenuItem loggerItem = new JMenuItem( "Log Chat", KeyEvent.VK_L );
+			loggerItem.addActionListener( new LogChatListener() );
+			fileMenu.add( loggerItem );
 
-			JMenuItem ignoreFriendItem = new JMenuItem( "Ignore / Block", KeyEvent.VK_I );
-			ignoreFriendItem.addActionListener( new IgnoreFriendListener() );
-			peopleMenu.add( ignoreFriendItem );
+			JMenuItem clearItem = new JMenuItem( "Clear Chat", KeyEvent.VK_C );
+			clearItem.addActionListener( new ClearChatBufferListener() );
+			fileMenu.add( clearItem );
 
-			JMenuItem sendGreenItem = new JMenuItem( "Green Message", KeyEvent.VK_G );
-			sendGreenItem.addActionListener( new SendGreenListener() );
-			peopleMenu.add( sendGreenItem );
+			if ( associatedContact != null && !associatedContact.startsWith( "/" ) && !associatedContact.startsWith( "[" ) )
+			{
+				JMenu peopleMenu = new JMenu("People");
+				peopleMenu.setMnemonic( KeyEvent.VK_P );
+				menuBar.add( peopleMenu );
+
+				JMenuItem addFriendItem = new JMenuItem( "Add Friend", KeyEvent.VK_A );
+				addFriendItem.addActionListener( new AddFriendListener() );
+				peopleMenu.add( addFriendItem );
+
+				JMenuItem ignoreFriendItem = new JMenuItem( "Ignore / Block", KeyEvent.VK_I );
+				ignoreFriendItem.addActionListener( new IgnoreFriendListener() );
+				peopleMenu.add( ignoreFriendItem );
+
+				JMenuItem sendGreenItem = new JMenuItem( "Green Message", KeyEvent.VK_G );
+				sendGreenItem.addActionListener( new SendGreenListener() );
+				peopleMenu.add( sendGreenItem );
+			}
 		}
 
 		addConfigureMenu( menuBar );
@@ -172,10 +171,10 @@ public class ChatFrame extends KoLFrame
 	 * of initializing the content of the frame be needed.
 	 */
 
-	protected void initialize()
+	protected void initialize( String associatedContact )
 	{
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
-		this.mainPanel = new ChatPanel( this.associatedContact );
+		this.mainPanel = new ChatPanel( associatedContact );
 		getContentPane().add( mainPanel, "" );
 	}
 
@@ -190,11 +189,13 @@ public class ChatFrame extends KoLFrame
 	{
 		private JTextField entryField;
 		private JEditorPane chatDisplay;
+		private String associatedContact;
 
 		public ChatPanel( String associatedContact )
 		{
 			chatDisplay = new JEditorPane();
 			chatDisplay.setEditable( false );
+			this.associatedContact = associatedContact;
 
 			if ( !associatedContact.startsWith( "[" ) )
 				chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
@@ -219,6 +220,10 @@ public class ChatFrame extends KoLFrame
 
 		public JEditorPane getChatDisplay()
 		{	return chatDisplay;
+		}
+
+		public String getAssociatedContact()
+		{	return associatedContact;
 		}
 
 		public boolean hasFocus()
@@ -278,7 +283,7 @@ public class ChatFrame extends KoLFrame
 	 */
 
 	public String getAssociatedContact()
-	{	return associatedContact;
+	{	return mainPanel == null ? null : mainPanel.getAssociatedContact();
 	}
 
 	/**
@@ -286,7 +291,7 @@ public class ChatFrame extends KoLFrame
 	 */
 
 	public boolean hasFocus()
-	{	return super.hasFocus() || menuBar.isSelected() || mainPanel.hasFocus();
+	{	return super.hasFocus() || menuBar.isSelected() || (mainPanel != null && mainPanel.hasFocus());
 	}
 
 	/**
@@ -297,7 +302,8 @@ public class ChatFrame extends KoLFrame
 	public void requestFocus()
 	{
 		super.requestFocus();
-		mainPanel.requestFocus();
+		if ( mainPanel != null )
+			mainPanel.requestFocus();
 	}
 
 	/**
@@ -308,7 +314,7 @@ public class ChatFrame extends KoLFrame
 	 */
 
 	public JEditorPane getChatDisplay()
-	{	return mainPanel.getChatDisplay();
+	{	return mainPanel == null ? null : mainPanel.getChatDisplay();
 	}
 
 	/**
@@ -375,7 +381,7 @@ public class ChatFrame extends KoLFrame
 			}
 
 			public void run()
-			{	(new ChatRequest( client, associatedContact, "/friend" )).run();
+			{	(new ChatRequest( client, mainPanel.getAssociatedContact(), "/friend" )).run();
 			}
 		}
 	}
@@ -398,7 +404,7 @@ public class ChatFrame extends KoLFrame
 			}
 
 			public void run()
-			{	(new ChatRequest( client, associatedContact, "/ignore" )).run();
+			{	(new ChatRequest( client, mainPanel.getAssociatedContact(), "/ignore" )).run();
 			}
 		}
 	}
@@ -423,7 +429,7 @@ public class ChatFrame extends KoLFrame
 			public void run()
 			{
 				if ( client != null )
-					messenger.clearChatBuffer( associatedContact );
+					messenger.clearChatBuffer( mainPanel.getAssociatedContact() );
 			}
 		}
 	}
@@ -460,7 +466,7 @@ public class ChatFrame extends KoLFrame
 					filename += ".html";
 
 				if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-					messenger.getChatBuffer( associatedContact ).setActiveLogFile( filename,
+					messenger.getChatBuffer( mainPanel.getAssociatedContact() ).setActiveLogFile( filename,
 						"Loathing Chat: " + client.getLoginName() + " (" +
 						Calendar.getInstance().getTime().toString() + ")" );
 			}
@@ -493,7 +499,7 @@ public class ChatFrame extends KoLFrame
 	{
 		public void actionPerformed( ActionEvent e )
 		{
-			GreenMessageFrame composer = new GreenMessageFrame( client, associatedContact );
+			GreenMessageFrame composer = new GreenMessageFrame( client, mainPanel.getAssociatedContact() );
 			composer.pack();  composer.setVisible( true );
 			composer.requestFocus();
 		}
@@ -520,8 +526,8 @@ public class ChatFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( client != null && client.getMessenger() != null )
-					client.getMessenger().removeChat( associatedContact );
+				if ( client != null && client.getMessenger() != null && mainPanel != null )
+					client.getMessenger().removeChat( mainPanel.getAssociatedContact() );
 			}
 		}
 	}
@@ -547,9 +553,8 @@ public class ChatFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( client != null && client.getMessenger() != null && client.getSettings().getProperty( "useTabbedChat" ) != null &&
-					client.getSettings().getProperty( "useTabbedChat" ).equals( "true" ) )
-						client.deinitializeChat();
+				if ( client != null )
+					client.deinitializeChat();
 			}
 		}
 	}

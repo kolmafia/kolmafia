@@ -38,8 +38,6 @@ import java.awt.CardLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * An extension of <code>ChatFrame</code> used to display the current
@@ -48,7 +46,7 @@ import javax.swing.event.ChangeListener;
  * have that flexibility.
  */
 
-public class TabbedChatFrame extends ChatFrame implements ChangeListener
+public class TabbedChatFrame extends ChatFrame
 {
 	private JTabbedPane tabs;
 
@@ -62,20 +60,11 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener
 	 * of initializing the content of the frame be needed.
 	 */
 
-	protected void initialize()
+	protected void initialize( String associatedContact )
 	{
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
 		tabs = new JTabbedPane();
 		getContentPane().add( tabs, "" );
-	}
-
-	/**
-	 * Whenever the tab changes, this method is used to reset the
-	 * name of the current tab.
-	 */
-
-	public void stateChanged( ChangeEvent e )
-	{	this.associatedContact = tabs.getTitleAt( tabs.getSelectedIndex() );
 	}
 
 	/**
@@ -88,10 +77,6 @@ public class TabbedChatFrame extends ChatFrame implements ChangeListener
 	{
 		ChatPanel createdPanel = new ChatPanel( tabName );
 		(new AddTabRunnable( tabName, createdPanel )).run();
-
-		if ( associatedContact == null )
-			this.associatedContact = tabName;
-
 		return createdPanel.getChatDisplay();
 	}
 
