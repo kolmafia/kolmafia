@@ -34,8 +34,15 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.StringTokenizer;
+
 import javax.swing.JEditorPane;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
@@ -45,8 +52,13 @@ public class KoLMessenger
 {
 	private KoLmafia client;
 	private ContactListFrame contactsFrame;
-	private ChatFrame channelFrame;
-	private ChatBuffer loathingChat;
+
+	private ChatFrame mainChatFrame;
+	private ChatBuffer mainChatBuffer;
+
+	private Map instantMessageFrames;
+	private Map instantMessageBuffers;
+
 	private SortedListModel onlineContacts;
 
 	public KoLMessenger( KoLmafia client )
@@ -54,13 +66,16 @@ public class KoLMessenger
 		this.client = client;
 		this.onlineContacts = new SortedListModel();
 
-		channelFrame = new ChatFrame( client, this );
-		channelFrame.setVisible( true );
+		mainChatFrame = new ChatFrame( client, this );
+		mainChatFrame.setVisible( true );
 
-		loathingChat = new ChatBuffer( client.getLoginName() + ": Started " +
+		this.instantMessageFrames = new TreeMap();
+		this.instantMessageBuffers = new TreeMap();
+
+		mainChatBuffer = new ChatBuffer( client.getLoginName() + ": Started " +
 			Calendar.getInstance().getTime().toString() );
 
-		loathingChat.setChatDisplay( channelFrame.getChatDisplay() );
+		mainChatBuffer.setChatDisplay( mainChatFrame.getChatDisplay() );
 	}
 
 	/**
@@ -84,19 +99,19 @@ public class KoLMessenger
 
 	public void clearChatBuffer()
 	{
-		if ( loathingChat != null )
-			loathingChat.clearBuffer();
+		if ( mainChatBuffer != null )
+			mainChatBuffer.clearBuffer();
 	}
 
 	/**
 	 * Retrieves the chat buffer currently used for storing and
 	 * saving the currently running chat.
 	 *
-	 * @return	The current chat buffer
+	 * @return	The current chat buffer for the main chat
 	 */
 
 	public ChatBuffer getChatBuffer()
-	{	return loathingChat;
+	{	return mainChatBuffer;
 	}
 
 	/**
@@ -105,7 +120,7 @@ public class KoLMessenger
 	 */
 
 	public boolean isShowing()
-	{	return channelFrame == null ? false : channelFrame.isShowing();
+	{	return mainChatFrame == null ? false : mainChatFrame.isShowing();
 	}
 
 	/**
@@ -115,8 +130,8 @@ public class KoLMessenger
 
 	public void setVisible( boolean isVisible )
 	{
-		if ( channelFrame != null )
-			channelFrame.setVisible( isVisible );
+		if ( mainChatFrame != null )
+			mainChatFrame.setVisible( isVisible );
 	}
 
 	/**
@@ -125,11 +140,11 @@ public class KoLMessenger
 
 	public void dispose()
 	{
-		channelFrame.dispose();
-		channelFrame = null;
-		if ( loathingChat != null )
-			loathingChat.closeActiveLogFile();
-		loathingChat = null;
+		mainChatFrame.dispose();
+		mainChatFrame = null;
+		if ( mainChatBuffer != null )
+			mainChatBuffer.closeActiveLogFile();
+		mainChatBuffer = null;
 	}
 
 	/**
@@ -137,7 +152,7 @@ public class KoLMessenger
 	 */
 
 	public void requestFocus()
-	{	channelFrame.requestFocus();
+	{	mainChatFrame.requestFocus();
 	}
 
 	/**
@@ -168,6 +183,56 @@ public class KoLMessenger
 	}
 
 	/**
+	 * Updates the chat with the given information.  This method will
+	 * also handle instant message data.
+	 *
+	 * @param	content	The content with which to update the chat
+	 */
+
+	public void updateChat( String originalContent )
+	{
+		String orderedTagsContent = originalContent.replaceAll( "<b><i>", "<i><b>" );
+		String correctedTagsContent = orderedTagsContent.replaceAll( "</br>", "<br>" );
+		String validColorsContent = correctedTagsContent.replaceAll( "<font color=\"none\">", "" ).replaceAll( "</b></font>", "</b>" );
+		String noDoubleTagsContent = validColorsContent.replaceAll( "<font.*?><font.*?>", "<font color=green>" );
+		String noCommentsContent = noDoubleTagsContent.replaceAll( "<!.*?>", "" );
+		String noContactListContent = noCommentsContent.replaceAll( "<table>.*?</table>", "" );
+		String noLinksContent = noContactListContent.replaceAll( "</?a.*?>", "" );
+
+		// For now, update the main chat buffer with the entire
+		// content.  Instant message changes will follow.
+
+		mainChatBuffer.append( noLinksContent );
+
+		// Now, extract the contact list and update KoLMessenger to indicate
+		// the contact list found in the last /friends update
+
+		Matcher contactListMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( originalContent );
+		if ( contactListMatcher.find() )
+		{
+			StringTokenizer parsedContactList = new StringTokenizer( contactListMatcher.group().replaceAll( "<.*?>", "\n" ), "\n" );
+			parsedContactList.nextToken();
+
+			List newContactList = new ArrayList();
+			while ( parsedContactList.hasMoreTokens() )
+				newContactList.add( parsedContactList.nextToken() );
+			updateContactList( newContactList );
+		}
+
+		// Also extract messages which indicate logon/logoff of players to
+		// update the contact list.
+
+		Matcher onlineNoticeMatcher = Pattern.compile( "<font.*?><b>.*</font>" ).matcher( noLinksContent );
+		int lastFindIndex = 0;
+		while ( onlineNoticeMatcher.find( lastFindIndex ) )
+		{
+			lastFindIndex = onlineNoticeMatcher.end();
+			String [] onlineNotice = onlineNoticeMatcher.group().split( "<.*?>" );
+			updateContactList( onlineNotice[2], onlineNotice[3].endsWith( "on." ) );
+		}
+	}
+
+	/**
 	 * Opens an instant message window to the character with the
 	 * given name so that a private conversation can be started.
 	 *
@@ -176,5 +241,12 @@ public class KoLMessenger
 
 	public void openInstantMessage( String characterName )
 	{
+		ChatFrame newFrame = new ChatFrame( client, this, characterName );
+		ChatBuffer newBuffer = new ChatBuffer( client.getLoginName() + " (Blue Messages to " + characterName + ") : Started " +
+			Calendar.getInstance().getTime().toString() );
+
+		newBuffer.setChatDisplay( newFrame.getChatDisplay() );
+
+		newFrame.setVisible( true );
 	}
 }
