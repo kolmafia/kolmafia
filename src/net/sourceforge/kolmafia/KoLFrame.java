@@ -164,6 +164,16 @@ public abstract class KoLFrame extends javax.swing.JFrame
 			contentPanel.setEnabled( isEnabled );
 	}
 
+	/**
+	 * Overrides the default isEnabled() method, because the setEnabled()
+	 * method does not call the superclass's version.
+	 *
+	 * @return	Whether or not this KoLFrame is enabled.
+	 */
+
+	public boolean isEnabled()
+	{	return contentPanel.isEnabled();
+	}
 
 	/**
 	 * Utility method used to add the default <code>KoLmafia</code> Help
