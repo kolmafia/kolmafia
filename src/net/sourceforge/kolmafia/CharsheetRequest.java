@@ -68,7 +68,7 @@ public class CharsheetRequest extends KoLRequest
 		StringTokenizer parsedContent = new StringTokenizer(
 			replyContent.replaceAll( "<[^>]*>", "\n" ), "\n" );
 
-		// The first two tokesn in the stream contains the
+		// The first two tokens in the stream contains the
 		// name, but the character's name was known at login.
 		// Therefore, these tokens can be discarded.
 
@@ -100,7 +100,7 @@ public class CharsheetRequest extends KoLRequest
 
 		character.setMP( currentMP, maximumMP, baseMaxMP );
 
-		// Now, we get the character's parsedContentats and calculate
+		// Now, we get the character's stats and calculate
 		// the total of all subpoints they've gained so far,
 		// based on the base values.
 
