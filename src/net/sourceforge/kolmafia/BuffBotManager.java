@@ -80,7 +80,7 @@ import java.util.regex.Pattern;
 /**
  * Container class for <code>BuffBotManager</code>
  * Provides all aspects of BuffBot execution.
- * @author raney53
+ * 
  */
 public class BuffBotManager {
     private KoLMailManager BBmailbox;
@@ -228,14 +228,15 @@ public class BuffBotManager {
         // Figure out how much MP the buff will take,
         // and then identify the number of casts per request that this
         // character can handle.
-        
+        int castsPerEvent, MPperEvent ;
+       
         int buffID = buffEntry.buffID;
         int totalCasts = num2cast;
         int MPperCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
-        int castsPerEvent = Math.min(totalCasts, (me.getMaximumMP())/(MPperCast));
-        int MPperEvent = MPperCast * castsPerEvent;
         
         while (totalCasts > 0){
+			castsPerEvent = Math.min(totalCasts, (me.getMaximumMP())/(MPperCast));
+			MPperEvent = MPperCast * castsPerEvent;
             if (me.getCurrentMP() < MPperEvent){
                 //time to buff up
                 if (! recoverMP(MPperEvent)) return false;
