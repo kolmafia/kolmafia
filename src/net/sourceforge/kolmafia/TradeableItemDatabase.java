@@ -42,6 +42,10 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.StringTokenizer;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
@@ -119,6 +123,29 @@ public class TradeableItemDatabase implements UtilityConstants
 
 	public static final String getItemName( int itemID )
 	{	return itemByID[ itemID ];
+	}
+
+	/**
+	 * Returns a list of all items which contain the given
+	 * substring.  This is useful for people who are doing
+	 * lookups on items.
+	 */
+
+	public static final List getMatchingNames( String substring )
+	{
+		List substringList = new ArrayList();
+		String searchString = substring.toLowerCase();
+		String currentItemName;
+
+		Iterator completeItems = itemByName.keySet().iterator();
+		while ( completeItems.hasNext() )
+		{
+			currentItemName = (String) completeItems.next();
+			if ( currentItemName.indexOf( substring ) != -1 )
+				substringList.add( currentItemName );
+		}
+
+		return substringList;
 	}
 
 	/**

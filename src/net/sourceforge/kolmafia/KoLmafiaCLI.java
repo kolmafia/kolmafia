@@ -545,12 +545,72 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
+	 * Utility method which determines the first item which matches
+	 * the given parameter string.  Note that the string may also
+	 * specify an item quantity before the string.
+	 */
+
+	private AdventureResult getFirstMatchingItem( String parameters )
+	{
+		String itemName;  int itemCount;
+
+		// First, allow for the person to type without specifying
+		// the amount, if the amount is 1.
+
+		List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
+
+		if ( matchingNames.size() != 0 )
+		{
+			itemName = (String) matchingNames.get(0);
+			itemCount = 1;
+		}
+		else
+		{
+			String itemCountString = parameters.split( " " )[0];
+			matchingNames = TradeableItemDatabase.getMatchingNames( parameters.substring( itemCountString.length() ).trim() );
+
+			if ( matchingNames.size() == 0 )
+			{
+				updateDisplay( KoLFrame.ENABLED_STATE, "[" + parameters + "] does not match anything in the item database." );
+				return null;
+			}
+
+			try
+			{
+				itemName = (String) matchingNames.get(0);
+				itemCount = df.parse( itemCountString ).intValue();
+			}
+			catch ( Exception e )
+			{
+				// Technically, this exception should not be thrown, but if
+				// it is, then print an error message and return.
+
+				updateDisplay( KoLFrame.ENABLED_STATE, itemCountString + " is not a number." );
+				return null;
+			}
+		}
+
+		return new AdventureResult( itemName, itemCount );
+	}
+
+	/**
 	 * A special module used specifically for properly instantiating
 	 * ItemCreationRequests.
 	 */
 
 	private void executeItemCreationRequest( String parameters )
 	{
+		int itemID;  int mixingMethod;  int quantityNeeded;
+
+		AdventureResult firstMatch = getFirstMatchingItem( parameters );
+		if ( firstMatch == null )
+			return;
+
+		itemID = TradeableItemDatabase.getItemID( firstMatch.getName() );
+		mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
+		quantityNeeded = firstMatch.getCount();
+
+		(new ItemCreationRequest( scriptRequestor, itemID, mixingMethod, quantityNeeded )).run();
 	}
 
 	/**
@@ -562,42 +622,15 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		int consumptionType;  String itemName;  int itemCount;
 
-		// First, allow for the person to type without specifying
-		// the amount, if the amount is 1.
-
-		if ( TradeableItemDatabase.contains( parameters ) )
-		{
-			itemName = parameters;
-			itemCount = 1;
-		}
-
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
-		else
-		{
-			String itemCountString = parameters.split( " " )[0];
-			itemName = parameters.substring( itemCountString.length() ).trim();
+		AdventureResult firstMatch = getFirstMatchingItem( parameters );
+		if ( firstMatch == null )
+			return;
 
-			if ( !TradeableItemDatabase.contains( itemName ) )
-			{
-				updateDisplay( KoLFrame.ENABLED_STATE, itemName + " does not exist in the item database." );
-				return;
-			}
-
-			try
-			{
-				itemCount = df.parse( itemCountString ).intValue();
-			}
-			catch ( Exception e )
-			{
-				// Technically, this exception should not be thrown, but if
-				// it is, then print an error message and return.
-
-				updateDisplay( KoLFrame.ENABLED_STATE, itemCountString + " is not a number." );
-				return;
-			}
-		}
+		itemName = firstMatch.getName();
+		itemCount = firstMatch.getCount();
 
 		consumptionType = TradeableItemDatabase.getConsumptionType( itemName );
 		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
