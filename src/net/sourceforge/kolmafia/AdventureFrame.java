@@ -872,7 +872,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			elements[0] = new VerifiableElement( "Donate To: ", heroField );
 			elements[1] = new VerifiableElement( "Amount: ", amountField );
 
-			setContent( elements );
+			setContent( elements, null, null, null, true, true );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -1013,7 +1013,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			elements[0] = new VerifiableElement( "Transaction: ", amountField );
 			elements[1] = new VerifiableElement( "Inside Closet: ", inClosetField );
 
-			setContent( elements );
+			setContent( elements, null, null, null, true, true );
 		}
 
 		protected void setContent( VerifiableElement [] elements )
@@ -1099,7 +1099,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Effects: ", effects );
-			setContent( elements );
+			setContent( elements, null, null, null, true, true );
 		}
 
 		protected void actionConfirmed()
@@ -1161,7 +1161,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );
 			elements[1] = new VerifiableElement( "The Victim: ", targetField );
 			elements[2] = new VerifiableElement( "# of Times: ", countField );
-			setContent( elements );
+			setContent( elements, null, null, null, true, true );
 		}
 
 		protected void actionConfirmed()
