@@ -101,18 +101,16 @@ public abstract class KoLFrame extends javax.swing.JFrame
 			}
 
 			contentPanel.setStatusMessage( status );
-			showAppropriateCard();
-		}
 
-		private void showAppropriateCard()
-		{
 			switch ( displayState )
 			{
+				case PRE_LOGIN_STATE:
 				case LOGGED_IN_STATE:
 					contentPanel.setEnabled( true );
 					contentPanel.clear();
 					break;
 
+				case SENDING_LOGIN_STATE:
 				case ADVENTURING_STATE:
 					contentPanel.setEnabled( false );
 					break;
