@@ -63,7 +63,6 @@ public class FightRequest extends KoLRequest
 		super( client, "fight.php" );
 		this.roundCount = roundCount;
 
-
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
 
@@ -99,6 +98,11 @@ public class FightRequest extends KoLRequest
 		else if ( action.equals( "moxman" ) )
 		{
 			this.action = "moxman";
+			addFormField( "action", action );
+		}
+		else if ( action.equals( "attack" ) )
+		{
+			this.action = "attack";
 			addFormField( "action", action );
 		}
 		else
