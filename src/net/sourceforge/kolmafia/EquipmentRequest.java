@@ -150,11 +150,19 @@ public class EquipmentRequest extends KoLRequest
 
 			if ( parsedContent.countTokens() > 1 )
 			{
-				while ( parsedContent.hasMoreTokens() )
+				do
 				{
 					try
 					{
-						AdventureResult.addResultToList( inventory, AdventureResult.parseResult( lastToken ) );
+						AdventureResult result = AdventureResult.parseResult( lastToken );
+
+						// Make sure to only add the result if it exists
+						// in the item database; otherwise, it could cause
+						// problems when you're moving items around
+
+						if ( TradeableItemDatabase.contains( result.getResultName() ) )
+							AdventureResult.addResultToList( inventory, result );
+
 						skipTokens( parsedContent, 3 );
 
 						if ( parsedContent.hasMoreTokens() )
@@ -172,6 +180,7 @@ public class EquipmentRequest extends KoLRequest
 							parsedContent.nextToken();
 					}
 				}
+				while ( parsedContent.hasMoreTokens() );
 			}
 
 			logStream.println( "Parsing complete." );
