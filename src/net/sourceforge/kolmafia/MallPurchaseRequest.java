@@ -237,8 +237,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			int itemIndex = client.getInventory().indexOf( new AdventureResult( itemName, 0 ) );
 			int beforeCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
 
-			StringTokenizer st = new StringTokenizer( result.replaceAll( "</?b>", "\n" ), "\n" );
-			skipTokens( st, 3 );   client.parseResult( st.nextToken() );
+			processResults( result );
 
 			itemIndex = client.getInventory().indexOf( new AdventureResult( itemName, 0 ) );
 			int afterCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
