@@ -87,18 +87,7 @@ public class KoLmafia implements UtilityConstants
 	 */
 
 	public KoLmafia()
-	{
-		loginname = null;
-		sessionID = null;
-		passwordHash = null;
-		permitContinue = false;
-
-		settings = new KoLSettings();
-		logStream = new NullStream();
-
-		activeFrame = new LoginFrame( this );
-		activeFrame.pack();  activeFrame.setVisible( true );
-		activeFrame.requestFocus();
+	{	deinitialize();
 	}
 
 	/**
@@ -170,6 +159,28 @@ public class KoLmafia implements UtilityConstants
 		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
 
 		activeFrame = new AdventureFrame( this, adventures, tally );
+		activeFrame.pack();  activeFrame.setVisible( true );
+		activeFrame.requestFocus();
+	}
+
+	/**
+	 * Deinitializes the <code>KoLmafia</code> session.  Called after
+	 * the user has logged out.  Re-displays the <code>LoginFrame</code>
+	 * and sets all the values to their defaults.
+	 */
+
+	public void deinitialize()
+	{
+		loginname = null;
+		sessionID = null;
+		passwordHash = null;
+		permitContinue = false;
+
+		settings = new KoLSettings();
+		logStream = new NullStream();
+
+		activeFrame = null;
+		activeFrame = new LoginFrame( this );
 		activeFrame.pack();  activeFrame.setVisible( true );
 		activeFrame.requestFocus();
 	}
