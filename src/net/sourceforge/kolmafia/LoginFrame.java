@@ -71,6 +71,8 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
@@ -160,6 +162,8 @@ public class LoginFrame extends KoLFrame
 		private JTextField loginnameField;
 		private JPasswordField passwordField;
 		private JCheckBox getBreakfastCheckBox;
+		private JCheckBox savePasswordCheckBox;
+		private JCheckBox autoLoginCheckBox;
 
 		/**
 		 * Constructs a new <code>LoginPanel</code>, containing a place
@@ -181,21 +185,50 @@ public class LoginFrame extends KoLFrame
 
 			loginnameField = new JTextField();
 			passwordField = new JPasswordField();
+			savePasswordCheckBox = new JCheckBox();
+			autoLoginCheckBox = new JCheckBox();
 			getBreakfastCheckBox = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Login: ", loginnameField );
-			elements[1] = new VerifiableElement( "Password: ", passwordField );
-			elements[2] = new VerifiableElement( "Get Breakfast: ", getBreakfastCheckBox );
+			JPanel checkBoxPanels = new JPanel();
+			checkBoxPanels.setLayout( new BoxLayout( checkBoxPanels, BoxLayout.X_AXIS ) );
+			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
+			checkBoxPanels.add( new JLabel( "Save Password: " ), "" );
+			checkBoxPanels.add( savePasswordCheckBox );
+			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
+			checkBoxPanels.add( new JLabel( "Auto-Login: " ), "" );
+			checkBoxPanels.add( autoLoginCheckBox );
+			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
+			checkBoxPanels.add( new JLabel( "Get Breakfast: " ), "" );
+			checkBoxPanels.add( getBreakfastCheckBox );
 
-			setContent( elements );
-			add( actionStatusPanel, BorderLayout.SOUTH );
+			JPanel southPanel = new JPanel();
+			southPanel.setLayout( new BorderLayout( 10, 10 ) );
+			southPanel.add( checkBoxPanels, BorderLayout.NORTH );
+			southPanel.add( new JPanel(), BorderLayout.CENTER );
+			southPanel.add( actionStatusPanel, BorderLayout.SOUTH );
 
 			JPanel imagePanel = new JPanel();
 			imagePanel.setLayout( new BorderLayout( 0, 0 ) );
 			imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
 			imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.SOUTH );
+
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Login: ", loginnameField );
+			elements[1] = new VerifiableElement( "Password: ", passwordField );
+
+			setContent( elements );
 			add( imagePanel, BorderLayout.NORTH );
+			add( southPanel, BorderLayout.SOUTH );
+
+			String autoLoginSetting =  client.getSettings().getProperty( "autoLogin" );
+			if ( autoLoginSetting != null )
+			{
+				loginnameField.setText( autoLoginSetting );
+				passwordField.setText( client.getSaveState( autoLoginSetting ) );
+				savePasswordCheckBox.setSelected( true );
+				autoLoginCheckBox.setSelected( true );
+			}
 		}
 
 		public void setStatusMessage( String s )
@@ -207,13 +240,13 @@ public class LoginFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 			loginnameField.setEnabled( isEnabled );
 			passwordField.setEnabled( isEnabled );
+			savePasswordCheckBox.setEnabled( isEnabled );
+			autoLoginCheckBox.setEnabled( isEnabled );
+			getBreakfastCheckBox.setEnabled( isEnabled );
 		}
 
 		public void clear()
-		{
-			loginnameField.setText( "" );
-			passwordField.setText( "" );
-			requestFocus();
+		{	requestFocus();
 		}
 
 		protected void actionConfirmed()
@@ -256,8 +289,16 @@ public class LoginFrame extends KoLFrame
 					return;
 				}
 
+				if ( autoLoginCheckBox.isSelected() )
+					client.getSettings().setProperty( "autoLogin", loginname );
+				else
+				{
+					client.getSettings().remove( "autoLogin" );
+					client.getSettings().saveSettings();
+				}
+
 				updateDisplay( DISABLED_STATE, "Determining login settings..." );
-				(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected() )).run();
+				(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected() )).run();
 			}
 		}
 	}

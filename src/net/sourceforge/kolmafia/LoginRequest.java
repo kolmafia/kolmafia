@@ -47,6 +47,7 @@ public class LoginRequest extends KoLRequest
 	private String loginname;
 	private String password;
 	private boolean getBreakfast;
+	private boolean savePassword;
 
 	/**
 	 * Constructs a new <code>LoginRequest</code>.  The given
@@ -58,13 +59,14 @@ public class LoginRequest extends KoLRequest
 	 * @param	getBreakfast	Whether or not the client should retrieve breakfast after login
 	 */
 
-	public LoginRequest( KoLmafia client, String loginname, String password, boolean getBreakfast )
+	public LoginRequest( KoLmafia client, String loginname, String password, boolean getBreakfast, boolean savePassword )
 	{
 		super( client, "login.php" );
 
 		this.loginname = loginname;
 		this.password = password;
 		this.getBreakfast = getBreakfast;
+		this.savePassword = savePassword;
 
 		addFormField( "loggingin", "Yup." );
 		try
@@ -95,8 +97,11 @@ public class LoginRequest extends KoLRequest
 		if ( responseCode == 302 && !isErrorState )
 		{
 			// If the login is successful, you notify the client
-			// of success.  Password hashes are not currently
-			// calculated, since the algorithm hasn't been determined
+			// of success.  But first, if there was a desire to
+			// save the password, do so here.
+
+			if ( savePassword )
+				client.addSaveState( loginname, password );
 
 			client.initialize( loginname, formConnection.getHeaderField( "Set-Cookie" ), getBreakfast );
 		}

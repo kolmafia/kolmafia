@@ -39,6 +39,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.ArrayList;
+import java.net.URLEncoder;
+import java.net.URLDecoder;
+import java.math.BigInteger;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -73,6 +76,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected int [] currentStats;
 	protected int [] fullStatGain;
 
+	private List saveStateNames;
 	protected List recentEffects;
 	protected SortedListModel tally;
 	protected LockableListModel inventory, closet, usableItems;
@@ -109,9 +113,19 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	{
 		this.isLoggingIn = true;
 		deinitialize();
+
 		initialStats = new int[3];
 		currentStats = new int[3];
 		fullStatGain = new int[3];
+
+		saveStateNames = new ArrayList();
+		String saveStateSettings = settings.getProperty( "saveState" );
+		if ( saveStateSettings != null )
+		{
+			String [] currentNames = saveStateSettings.split( "//" );
+			for ( int i = 0; i < currentNames.length; ++i )
+				saveStateNames.add( currentNames[i] );
+		}
 	}
 
 	/**
@@ -444,7 +458,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 */
 
 	public boolean isLuckyCharacter()
-	{	return inventory.contains( new AdventureResult( "ten-leaf clover", 0 ) );
+	{	return inventory != null && inventory.contains( new AdventureResult( "ten-leaf clover", 0 ) );
 	}
 
 	/**
@@ -735,5 +749,82 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public boolean inLoginState()
 	{	return isLoggingIn;
+	}
+
+	/**
+	 * Utility method used to decode a saved password.
+	 * This should be called whenever a new password
+	 * intends to be stored in the global file.
+	 */
+
+	public void addSaveState( String loginname, String password )
+	{
+		try
+		{
+			if ( !saveStateNames.contains( loginname ) )
+			{
+				saveStateNames.add( loginname );
+				String currentNames = settings.getProperty( "saveState" );
+				settings.setProperty( "saveState", (currentNames == null ? "" : currentNames + "//") + loginname );
+			}
+
+			String encodedString = URLEncoder.encode( password, "UTF-8" ).replaceAll( "\\-", "%2D" ).replaceAll(
+				"\\.", "%2E" ).replaceAll( "\\*", "%2A" ).replaceAll( "_", "%5F" ).replaceAll( "\\+", "%20" );
+
+			String [] encodedParts = encodedString.split( "%" );
+
+			StringBuffer saveState = new StringBuffer();
+			for ( int i = 0; i < encodedParts.length; ++i )
+			{
+				if ( i != 0 )  saveState.append( ' ' );
+				saveState.append( (new BigInteger( encodedParts[i], 36 )).toString( 10 ) );
+			}
+
+			settings.setProperty( "saveState." + loginname, saveState.toString() );
+			settings.saveSettings();
+		}
+		catch ( java.io.UnsupportedEncodingException e )
+		{
+			// UTF-8 is a very generic encoding scheme; this
+			// exception should never be thrown.  But if it
+			// is, just ignore it for now.  Better exception
+			// handling when it becomes necessary.
+		}
+	}
+
+	/**
+	 * Utility method used to decode a saved password.
+	 * This should be called whenever a new password
+	 * intends to be stored in the global file.
+	 */
+
+	public String getSaveState( String loginname )
+	{
+		try
+		{
+			String password = settings.getProperty( "saveState." + loginname );
+			if ( password == null )
+				return null;
+
+			String [] decodedParts = password.split( " " );
+			StringBuffer saveState = new StringBuffer();
+
+			for ( int i = 0; i < decodedParts.length; ++i )
+			{
+				if ( i != 0 )  saveState.append( '%' );
+				saveState.append( (new BigInteger( decodedParts[i], 10 )).toString( 36 ) );
+			}
+
+			return URLDecoder.decode( saveState.toString(), "UTF-8" );
+		}
+		catch ( java.io.UnsupportedEncodingException e )
+		{
+			// UTF-8 is a very generic encoding scheme; this
+			// exception should never be thrown.  But if it
+			// is, just ignore it for now.  Better exception
+			// handling when it becomes necessary.
+
+			return null;
+		}
 	}
 }

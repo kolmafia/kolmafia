@@ -58,6 +58,10 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
     	KoLmafiaGUI session = new KoLmafiaGUI();
+
+		String autoLoginSetting =  session.settings.getProperty( "autoLogin" );
+		if ( autoLoginSetting != null )
+			(new LoginRequest( session, autoLoginSetting, session.getSaveState( autoLoginSetting ), false, false )).run();
 	}
 
 	/**
