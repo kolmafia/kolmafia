@@ -63,6 +63,10 @@ import java.util.regex.Pattern;
 
 public class KoLmafiaCLI extends KoLmafia
 {
+	private static final int PURCHASE = 0;
+	private static final int USAGE = 1;
+	private static final int CREATION = 2;
+
 	private String previousCommand;
 	private PrintStream outputStream;
 	private BufferedReader commandStream;
@@ -840,7 +844,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an item quantity before the string.
 	 */
 
-	private AdventureResult getFirstMatchingItem( String parameters, boolean isCreation )
+	private AdventureResult getFirstMatchingItem( String parameters, int matchType )
 	{
 		String itemName;  int itemCount;
 
@@ -867,7 +871,9 @@ public class KoLmafiaCLI extends KoLmafia
 				String itemNameString = parameters.substring( itemCountString.length() ).trim();
 
 				if ( itemNameString.startsWith( "\"" ) )
+				{
 					itemName = itemNameString.substring( 1, itemNameString.length() - 1 );
+				}
 				else
 				{
 					matchingNames = TradeableItemDatabase.getMatchingNames( itemNameString );
@@ -910,7 +916,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( itemCount <= 0 )
 		{
-			if ( !isCreation )
+			if ( matchType == USAGE )
 			{
 				if ( index == -1 )
 					return null;
@@ -918,15 +924,18 @@ public class KoLmafiaCLI extends KoLmafia
 				AdventureResult result = (AdventureResult) scriptRequestor.getInventory().get( index );
 				return result == null ? null : new AdventureResult( result.getName(), result.getCount() + itemCount );
 			}
+			else if ( matchType == CREATION )
+			{
+				List concoctions = ConcoctionsDatabase.getConcoctions( scriptRequestor, scriptRequestor.getInventory() );
+				ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
+				index = concoctions.indexOf( concoction );
 
-			List concoctions = ConcoctionsDatabase.getConcoctions( scriptRequestor, scriptRequestor.getInventory() );
-			ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
-			index = concoctions.indexOf( concoction );
-
-			return index == -1 ? null : new AdventureResult( itemName,
-				itemCount + ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
+				return index == -1 ? null : new AdventureResult( itemName,
+					itemCount + ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
+			}
 		}
 
+System.out.println( firstMatch );
 		return firstMatch;
 	}
 
@@ -942,7 +951,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, false );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, USAGE );
 		if ( firstMatch == null )
 			return;
 
@@ -958,9 +967,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeBuyCommand( String parameters )
 	{
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, true );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, PURCHASE );
 		ArrayList results = new ArrayList();
-		(new SearchMallRequest( scriptRequestor, firstMatch.getName(), 0, results )).run();
+		(new SearchMallRequest( scriptRequestor, '\"' + firstMatch.getName() + '\"', 0, results )).run();
 
 		Object [] purchases = results.toArray();
 
@@ -1016,7 +1025,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		int itemID;  int mixingMethod;  int quantityNeeded;
 
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, true );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, CREATION );
 		if ( firstMatch == null )
 			return;
 
@@ -1039,7 +1048,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, false );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, USAGE );
 		if ( firstMatch == null )
 			return;
 
