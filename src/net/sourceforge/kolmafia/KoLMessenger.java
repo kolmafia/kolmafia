@@ -137,6 +137,9 @@ public class KoLMessenger
 
 	public void removeChat( String contact )
 	{
+		if ( contact == null && mainChatBuffer == null )
+			return;
+
 		ChatFrame frameToRemove;
 		ChatBuffer bufferToRemove;
 
@@ -162,6 +165,9 @@ public class KoLMessenger
 
 		if ( bufferToRemove != null )
 			bufferToRemove.closeActiveLogFile();
+
+		if ( contact == null && mainChatBuffer == null && instantMessageBuffers.size() == 0 )
+			client.deinitializeChat();
 	}
 
 	/**
@@ -218,6 +224,17 @@ public class KoLMessenger
 			else
 				contactsFrame.setVisible( false );
 		}
+	}
+
+	/**
+	 * Notifies the messenger that the contact list was closed.  In order
+	 * to make sure that the GUI doesn't last forever, this is responsible
+	 * for understanding that the contact list has been removed and that
+	 * a new invisible frame should be created.
+	 */
+
+	public void notifyContactListClosed()
+	{	contactsFrame = new ContactListFrame( client, onlineContacts );
 	}
 
 	/**
