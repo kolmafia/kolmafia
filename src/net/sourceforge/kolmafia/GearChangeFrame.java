@@ -232,31 +232,18 @@ public class GearChangeFrame extends KoLFrame
 	}
 
 	private void refreshEquipPanel()
-	{	SwingUtilities.invokeLater( new EquipPanelRefresher() );
-	}
-
-	private class EquipPanelRefresher implements Runnable
 	{
-		public void run()
-		{
-			if ( !SwingUtilities.isEventDispatchThread() )
-			{
-				SwingUtilities.invokeLater( this );
-				return;
-			}
+		equipment[0].setText( characterData.getHat() );
+		equipment[1].setText( characterData.getWeapon() );
+		equipment[2].setText( characterData.getPants() );
+		equipment[3].setText( characterData.getAccessory1() );
+		equipment[4].setText( characterData.getAccessory2() );
+		equipment[5].setText( characterData.getAccessory3() );
 
-			equipment[0].setText( characterData.getHat() );
-			equipment[1].setText( characterData.getWeapon() );
-			equipment[2].setText( characterData.getPants() );
-			equipment[3].setText( characterData.getAccessory1() );
-			equipment[4].setText( characterData.getAccessory2() );
-			equipment[5].setText( characterData.getAccessory3() );
-
-			familiarData[0].setText( characterData.getFamiliarRace() );
-			familiarData[1].setText( characterData.getFamiliarItem() );
-			familiarData[2].setText( characterData.getFamiliarWeight() < 0 ? "unknown" :
-				"" + characterData.getFamiliarWeight() );
-		}
+		familiarData[0].setText( characterData.getFamiliarRace() );
+		familiarData[1].setText( characterData.getFamiliarItem() );
+		familiarData[2].setText( characterData.getFamiliarWeight() < 0 ? "unknown" :
+			"" + characterData.getFamiliarWeight() );
 	}
 
 	private class ChangeFamiliarListener implements ActionListener
