@@ -78,8 +78,8 @@ public class StatusEffectDatabase implements UtilityConstants
 				if ( strtok.countTokens() == 3 )
 				{
 					Integer effectID = Integer.valueOf( strtok.nextToken() );
+					strtok.nextToken();
 					String effectName = strtok.nextToken();
-
 					effectByID.put( effectID, effectName );
 					effectByName.put( effectName, effectID );
 				}
@@ -127,6 +127,6 @@ public class StatusEffectDatabase implements UtilityConstants
 	 */
 
 	public static final boolean contains( String effectName )
-	{	return getEffectID( effectName ) != -1;
+	{	return effectByName.containsKey( effectName );
 	}
 }
