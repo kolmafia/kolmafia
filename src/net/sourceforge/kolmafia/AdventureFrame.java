@@ -81,6 +81,8 @@ import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 // containers
 import javax.swing.JList;
@@ -119,6 +121,7 @@ public class AdventureFrame extends KoLFrame
 		getContentPane().add( tabs, BorderLayout.CENTER );
 
 		updateDisplay( ENABLED_STATE, " " );
+		addWindowListener( new LogoutRequestAdapter() );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		addMenuBar();
@@ -311,6 +314,13 @@ public class AdventureFrame extends KoLFrame
 		{
 			updateDisplay( NOCHANGE_STATE, "Retrieving character data..." );
 			this.start();
+		}
+	}
+
+	private class LogoutRequestAdapter extends WindowAdapter
+	{
+		public void windowClosed( WindowEvent e )
+		{	(new LogoutRequest( client )).run();
 		}
 	}
 }
