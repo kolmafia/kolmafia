@@ -661,7 +661,11 @@ public class KoLCharacter
 	 */
 
 	public void setInebriety( int inebriety )
-	{	this.inebriety = inebriety;
+	{
+		this.inebriety = inebriety;
+		Iterator listenerIterator = listenerList.iterator();
+		while ( listenerIterator.hasNext() )
+			((KoLCharacterListener)listenerIterator.next()).inebrietyChanged();
 	}
 
 	/**
@@ -683,7 +687,11 @@ public class KoLCharacter
 	 */
 
 	public void setAdventuresLeft( int adventuresLeft )
-	{	this.adventuresLeft = adventuresLeft;
+	{
+		this.adventuresLeft = adventuresLeft;
+		Iterator listenerIterator = listenerList.iterator();
+		while ( listenerIterator.hasNext() )
+			((KoLCharacterListener)listenerIterator.next()).adventuresLeftChanged();
 	}
 
 	/**
@@ -706,7 +714,11 @@ public class KoLCharacter
 	 */
 
 	public void setTotalTurnsUsed( int totalTurnsUsed )
-	{	this.totalTurnsUsed = totalTurnsUsed;
+	{
+		this.totalTurnsUsed = totalTurnsUsed;
+		Iterator listenerIterator = listenerList.iterator();
+		while ( listenerIterator.hasNext() )
+			((KoLCharacterListener)listenerIterator.next()).totalTurnsChanged();
 	}
 
 	/**
@@ -1093,22 +1105,23 @@ public class KoLCharacter
 			setMP( getCurrentMP() + result.getCount(), getMaximumMP(), getBaseMaxMP() );
 		else if ( resultName.equals( AdventureResult.MEAT ) )
 			setAvailableMeat( getAvailableMeat() + result.getCount() );
+		else if ( resultName.equals( AdventureResult.ADV ) )
+		{
+			setAdventuresLeft( getAdventuresLeft() + result.getCount() );
+			if ( result.getCount() < 0 )
+			{
+				AdventureResult.reduceTally( getEffects(), result.getCount() );
+				setTotalTurnsUsed( getTotalTurnsUsed() + result.getCount() );
+			}
 
-		if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
-			AdventureResult.reduceTally( getEffects(), result.getCount() );
-
-		// Also update the character data's information related to
-		// stats; for now, only drunkenness matters since the pane
-		// won't be automatically updated during changes, but the
-		// current drunkenness level is used for drunkenness tracking
-
-		if ( resultName.equals( AdventureResult.DRUNK ) )
+		}
+		else if ( resultName.equals( AdventureResult.DRUNK ) )
 			setInebriety( getInebriety() + result.getCount() );
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
 
-		if ( resultName.equals( AdventureResult.SUBSTATS ) )
+		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
 		{
 			if ( result.isMuscleGain() )
 				totalSubpoints[0] += result.getCount();

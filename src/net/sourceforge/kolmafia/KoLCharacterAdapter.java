@@ -75,4 +75,22 @@ public class KoLCharacterAdapter implements KoLCharacterListener
 		if ( toExecute != null )
 			toExecute.run();
 	}
+
+	public void adventuresLeftChanged()
+	{
+		if ( toExecute != null )
+			toExecute.run();
+	}
+
+	public void inebrietyChanged()
+	{
+		if ( toExecute != null )
+			toExecute.run();
+	}
+
+	public void totalTurnsChanged()
+	{
+		if ( toExecute != null )
+			toExecute.run();
+	}
 }
