@@ -468,9 +468,10 @@ public class AdventureFrame extends KoLFrame
 			{
 				try
 				{
+					int storeCount = countField.getText().trim().length() == 0 ? 0 :
+						Integer.parseInt( countField.getText() );
 					updateDisplay( DISABLED_STATE, "Searching for items..." );
-					(new SearchMallRequest( client, searchField.getText(),
-						Integer.parseInt( countField.getText() ), results )).run();
+					(new SearchMallRequest( client, searchField.getText(), storeCount, results )).run();
 				}
 				catch ( NumberFormatException e )
 				{
