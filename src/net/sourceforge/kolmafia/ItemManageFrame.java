@@ -166,7 +166,7 @@ public class ItemManageFrame extends KoLFrame
 				super( "use all", "cancel" );
 				setContent( null );
 
-				edibleItems = new LockableListModel();
+				edibleItems = client == null ? new LockableListModel() : client.getEdibleItems().getMirrorImage();
 				edibleItemList = new JList( edibleItems );
 				edibleItemList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				edibleItemList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
@@ -208,7 +208,7 @@ public class ItemManageFrame extends KoLFrame
 				super( "use all", "cancel" );
 				setContent( null );
 
-				usableItems = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
+				usableItems = client == null ? new LockableListModel() : client.getUsableItems().getMirrorImage();
 				usableItemList = new JList( usableItems );
 				usableItemList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				usableItemList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
@@ -225,7 +225,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ConsumeItemRequestThread(3)).start();
+			{	(new ConsumeItemRequestThread(2)).start();
 			}
 
 			protected void actionCancelled()
@@ -249,25 +249,25 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ConsumeItemRequestThread extends Thread
 		{
-			private int formID;
+			private int listID;
 
-			public ConsumeItemRequestThread( int formID )
+			public ConsumeItemRequestThread( int listID )
 			{
 				super( "Consume-Request-Thread" );
 				setDaemon( true );
-				this.formID = formID;
+				this.listID = listID;
 			}
 
 			public void run()
 			{
 				ItemManageFrame.this.setEnabled( false );
-				Object [] items = (formID == 1 ? edibleItemList : usableItemList).getSelectedValues();
+				Object [] items = (listID == 1 ? edibleItemList : usableItemList).getSelectedValues();
 				AdventureResult currentItem;  Runnable request;
 
 				for ( int i = 0; i < items.length; ++i )
 				{
 					currentItem = (AdventureResult) items[i];
-					request = new ConsumeItemRequest( client, formID, currentItem );
+					request = new ConsumeItemRequest( client, TradeableItemDatabase.getConsumptionType( currentItem.getName() ), currentItem );
 					client.makeRequest( request, currentItem.getCount() );
 				}
 

@@ -70,7 +70,7 @@ public class KoLmafia implements UtilityConstants
 	private boolean permitContinue;
 
 	private SortedListModel tally;
-	private LockableListModel inventory, closet;
+	private LockableListModel inventory, closet, edibleItems, usableItems;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -152,7 +152,24 @@ public class KoLmafia implements UtilityConstants
 		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory..." );
 		inventory = characterData.getInventory();
 		closet = characterData.getCloset();
+
+		edibleItems = new SortedListModel();
+		usableItems = new SortedListModel();
+
 		(new EquipmentRequest( this )).run();
+
+		for ( int i = 0; i < inventory.size(); ++i )
+		{
+			AdventureResult result = (AdventureResult) inventory.get(i);
+
+			if ( result.isItem() )
+			{
+				if ( TradeableItemDatabase.isEdible( result.getName() ) )
+					edibleItems.add( result );
+				else if ( TradeableItemDatabase.isUsable( result.getName() ) )
+					usableItems.add( result );
+			}
+		}
 
 		if ( !permitContinue )
 		{
@@ -247,7 +264,14 @@ public class KoLmafia implements UtilityConstants
 		AdventureResult.addResultToList( tally, result );
 
 		if ( result.isItem() )
+		{
 			characterData.addInventoryItem( result );
+
+			if ( TradeableItemDatabase.isEdible( result.getName() ) )
+				AdventureResult.addResultToList( edibleItems, result );
+			else if ( TradeableItemDatabase.isUsable( result.getName() ) )
+				AdventureResult.addResultToList( usableItems, result );
+		}
 	}
 
 	/**
@@ -345,6 +369,24 @@ public class KoLmafia implements UtilityConstants
 	}
 
 	/**
+	 * Retrieves the edible items in the character's inventory
+	 * @return	The character's edible items
+	 */
+
+	public LockableListModel getEdibleItems()
+	{	return edibleItems;
+	}
+
+	/**
+	 * Retrieves the usable items in the character's inventory
+	 * @return	The character's usable items
+	 */
+
+	public LockableListModel getUsableItems()
+	{	return usableItems;
+	}
+
+	/**
 	 * Returns whether or not the current user has a ten-leaf clover.
 	 * Because inventory management is not yet implemented, this
 	 * method always returns true.
@@ -353,7 +395,7 @@ public class KoLmafia implements UtilityConstants
 	 */
 
 	public boolean isLuckyCharacter()
-	{	return true;
+	{	return inventory.contains( new AdventureResult( "ten-leaf clover", 0 ) );
 	}
 
 	/**

@@ -59,6 +59,7 @@ public class TradeableItemDatabase implements UtilityConstants
 	private static final int ITEM_COUNT = 1000;
 
 	private static String [] itemByID = new String[ ITEM_COUNT ];
+	private static int [] consumptionID = new int[ ITEM_COUNT ];
 	private static Map itemByName = new TreeMap();
 
 	static
@@ -76,9 +77,11 @@ public class TradeableItemDatabase implements UtilityConstants
 			while ( (line = itemdata.readLine()) != null )
 			{
 				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 2 )
+				if ( strtok.countTokens() == 3 )
 				{
 					int itemID = Integer.parseInt( strtok.nextToken() );
+					consumptionID[ itemID ] = Integer.parseInt( strtok.nextToken() );
+
 					String itemName = strtok.nextToken();
 
 					itemByID[ itemID ] = itemName;
@@ -129,5 +132,45 @@ public class TradeableItemDatabase implements UtilityConstants
 
 	public static final boolean contains( String itemName )
 	{	return getItemID( itemName ) != -1;
+	}
+
+	/**
+	 * Returns whether or not the item with the given name
+	 * is edible.
+	 *
+	 * @return	<code>true</code> if the item is edible
+	 */
+
+	public static final boolean isEdible( String itemName )
+	{
+		int itemID = getItemID( itemName );
+		return itemID == -1 ? false :
+			consumptionID[ itemID ] == ConsumeItemRequest.CONSUME_EAT || consumptionID[ itemID ] == ConsumeItemRequest.CONSUME_DRINK;
+	}
+
+	/**
+	 * Returns whether or not the item with the given name
+	 * is usable (this includes edibility).
+	 *
+	 * @return	<code>true</code> if the item is usable
+	 */
+
+	public static final boolean isUsable( String itemName )
+	{
+		int itemID = getItemID( itemName );
+		return itemID == -1 ? false : consumptionID[ itemID ] != ConsumeItemRequest.NO_CONSUME;
+	}
+
+	/**
+	 * Returns the kind of consumption associated with the
+	 * item with the given name.
+	 *
+	 * @return	The consumption associated with the item
+	 */
+
+	public static final int getConsumptionType( String itemName )
+	{
+		int itemID = getItemID( itemName );
+		return itemID == -1 ? ConsumeItemRequest.NO_CONSUME : consumptionID[ itemID ];
 	}
 }
