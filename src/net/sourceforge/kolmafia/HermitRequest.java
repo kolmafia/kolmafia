@@ -35,8 +35,22 @@
 package net.sourceforge.kolmafia;
 import java.util.StringTokenizer;
 
+/**
+ * An extension of the generic <code>KoLRequest</code> class which handles
+ * adventures involving trading with the hermit.
+ */
+
 public class HermitRequest extends KoLRequest
 {
+	/**
+	 * Constructs a new <code>HermitRequest</code>.  Note that in order
+	 * for the hermit request to successfully run after creation, there
+	 * must be <code>KoLSettings</code> specifying the trade that takes
+	 * place.
+	 *
+	 * @param	client	The client to which this request will report errors/results
+	 */
+
 	public HermitRequest( KoLmafia client )
 	{
 		super( client, "hermit.php" );
@@ -44,6 +58,13 @@ public class HermitRequest extends KoLRequest
 		addFormField( "action", "Yep." );
 		addFormField( "hermitwants", "43" );
 	}
+
+	/**
+	 * Executes the <code>HermitRequest</code>.  This will trade the item
+	 * specified in the character's <code>KoLSettings</code> for their
+	 * worthless trinket; if the character has no worthless trinkets, this
+	 * method will report an error to the client.
+	 */
 
 	public void run()
 	{

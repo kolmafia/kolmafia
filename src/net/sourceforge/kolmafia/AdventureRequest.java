@@ -35,10 +35,27 @@
 package net.sourceforge.kolmafia;
 import java.util.StringTokenizer;
 
+/**
+ * An extension of a <code>KoLRequest</code> that handles generic adventures,
+ * such as those which involve fighting, vacations at the shore, or gambling
+ * at the casino.  It will not handle trips to the hermit or to the sewers,
+ * as these must be handled differently.
+ */
+
 public class AdventureRequest extends KoLRequest
 {
 	private String formSource;
 	private String adventureID;
+
+	/**
+	 * Constructs a new <code>AdventureRequest</code> which executes the
+	 * adventure designated by the given ID by posting to the provided form,
+	 * notifying the given client of results (or errors).
+	 *
+	 * @param	client	The client to which results will be reported
+	 * @param	formSource	The form to which the data will be posted
+	 * @param	adventureID	The identifer for the adventure to be executed
+	 */
 
 	public AdventureRequest( KoLmafia client, String formSource, String adventureID )
 	{
@@ -60,6 +77,14 @@ public class AdventureRequest extends KoLRequest
 			addFormField( "whichslot", adventureID );
 		}
 	}
+
+	/**
+	 * Executes the <code>AdventureRequest</code>.  All items and stats gained
+	 * or lost will be reported to the client, as well as any errors encountered
+	 * through adventuring.  Meat lost due to an adventure (such as those to
+	 * the casino, the shore, or the tavern) will also be reported.  Note that
+	 * adventure costs are not yet being reported.
+	 */
 
 	public void run()
 	{
