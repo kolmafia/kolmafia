@@ -35,14 +35,9 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
-import java.io.PrintStream;
 import java.io.IOException;
-import java.io.BufferedReader;
+import java.io.PrintStream;
 
-import javax.swing.JEditorPane;
-import java.util.StringTokenizer;
-
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
