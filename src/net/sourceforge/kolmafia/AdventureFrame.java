@@ -161,9 +161,18 @@ public class AdventureFrame extends KoLFrame
 		menuItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
-				CharsheetFrame csheet = new CharsheetFrame( client );
-				csheet.pack();  csheet.setVisible( true );
-				csheet.requestFocus();
+				updateDisplay( NOCHANGE_STATE, "Retrieving character data..." );
+				Runnable display = new Runnable()
+				{
+					public void run()
+					{
+						CharsheetFrame csheet = new CharsheetFrame( client );
+						csheet.pack();  csheet.setVisible( true );
+						csheet.requestFocus();
+						updateDisplay( NOCHANGE_STATE, "" );
+					}
+				};
+				SwingUtilities.invokeLater( display );
 			}
 		});
 

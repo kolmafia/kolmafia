@@ -372,4 +372,26 @@ public class KoLRequest extends Thread
 				client.parseResult( lastToken );
 		}
 	}
+
+	protected void skipTokens( StringTokenizer st, int tokenCount )
+	{
+		for ( int i = 0; i < tokenCount; ++i )
+			st.nextToken();
+	}
+
+	protected int intToken( StringTokenizer st )
+	{	return Integer.parseInt( st.nextToken() );
+	}
+
+	protected int intToken( StringTokenizer st, int fromStart )
+	{
+		String s = st.nextToken();
+		return Integer.parseInt( s.substring( fromStart ) );
+	}
+
+	protected int intToken( StringTokenizer st, int fromStart, int fromEnd )
+	{
+		String s = st.nextToken();
+		return Integer.parseInt( s.substring( fromStart, s.length() - 1 - fromEnd ) );
+	}
 }

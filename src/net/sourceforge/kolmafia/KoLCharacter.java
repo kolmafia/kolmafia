@@ -45,6 +45,7 @@ public class KoLCharacter
 
 	private int [] adjustedStats;
 	private int [] totalSubpoints;
+	private String [] equipment;
 
 	private int inebriety;
 	private int availableMeat;
@@ -56,6 +57,7 @@ public class KoLCharacter
 		this.username = username;
 		this.adjustedStats = new int[3];
 		this.totalSubpoints = new int[3];
+		this.equipment = new String[7];
 	}
 
 	public String getUsername()
@@ -178,5 +180,44 @@ public class KoLCharacter
 
 	public int getTotalTurnsUsed()
 	{	return totalTurnsUsed;
+	}
+
+	public void setEquipment( String hat, String weapon, String pants, String accessory1, String accessory2, String accessory3, String familiarItem )
+	{
+		equipment[0] = hat;
+		equipment[1] = weapon;
+		equipment[2] = pants;
+		equipment[3] = accessory1;
+		equipment[4] = accessory2;
+		equipment[5] = accessory3;
+		equipment[6] = familiarItem;
+	}
+
+	public String getHat()
+	{	return equipment[0];
+	}
+
+	public String getWeapon()
+	{	return equipment[1];
+	}
+
+	public String getPants()
+	{	return equipment[2];
+	}
+
+	public String getAccessory1()
+	{	return equipment[3];
+	}
+
+	public String getAccessory2()
+	{	return equipment[4];
+	}
+
+	public String getAccessory3()
+	{	return equipment[5];
+	}
+
+	public String getFamiliarItem()
+	{	return equipment[6];
 	}
 }

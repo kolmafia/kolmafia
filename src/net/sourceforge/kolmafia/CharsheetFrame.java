@@ -37,33 +37,84 @@ package net.sourceforge.kolmafia;
 // layout
 import java.awt.GridLayout;
 import java.awt.CardLayout;
+import java.awt.BorderLayout;
 
 // containers
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+
+// utilities
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.util.StringTokenizer;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CharsheetFrame extends javax.swing.JFrame
 {
 	public CharsheetFrame( KoLmafia client )
 	{
-		super( "KoLmafia" );
+		super( "KoLmafia: " + client.getLoginName() + " (Character Sheet)" );
 
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
 
 		KoLCharacter characterData = new KoLCharacter( client.getLoginName() );
 		(new CharsheetRequest( client, characterData )).run();
+		(new EquipmentRequest( client, characterData )).run();
 
 		setResizable( false );
 
 		CardLayout cards = new CardLayout( 10, 10 );
 		getContentPane().setLayout( cards );
 
-		JPanel statsPanel = new JPanel();
-		statsPanel.setLayout( new GridLayout( 11, 1 ) );
+		JPanel entirePanel = new JPanel();
+		entirePanel.setLayout( new BorderLayout( 20, 20 ) );
 
-		statsPanel.add( new JLabel( characterData.getUsername() + " (#" + characterData.getUserID() + ")", JLabel.CENTER ) );
-		statsPanel.add( new JLabel( "Level " + characterData.getLevel() + " " + characterData.getClassName(), JLabel.CENTER ) );
+		entirePanel.add( createStatsPanel( characterData ), BorderLayout.WEST );
+		entirePanel.add( createEquipPanel( characterData ), BorderLayout.EAST );
+		entirePanel.add( createImagePanel( characterData ), BorderLayout.CENTER );
+
+		getContentPane().add( entirePanel, "" );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+	}
+
+	private JPanel createImagePanel( KoLCharacter characterData )
+	{
+		JPanel imagePanel = new JPanel();
+		imagePanel.setLayout( new BorderLayout( 10, 10 ) );
+
+		JPanel namePanel = new JPanel();
+		namePanel.setLayout( new GridLayout( 2, 1 ) );
+		namePanel.add( new JLabel( characterData.getUsername() + " (#" + characterData.getUserID() + ")", JLabel.CENTER ) );
+		namePanel.add( new JLabel( "Level " + characterData.getLevel() + " " + characterData.getClassName(), JLabel.CENTER ) );
+
+		imagePanel.add( namePanel, BorderLayout.NORTH );
+
+		StringTokenizer parsedName = new StringTokenizer( characterData.getClassName() );
+		StringBuffer imagename = new StringBuffer();
+		while ( parsedName.hasMoreTokens() )
+			imagename.append( parsedName.nextToken().toLowerCase() );
+
+		try
+		{
+			imagePanel.add( new JLabel( new ImageIcon( new URL(
+				"http://images.kingdomofloathing.com/otherimages/" + imagename.toString() + ".gif" ) ) ), BorderLayout.CENTER );
+		}
+		catch ( MalformedURLException e )
+		{
+		}
+
+		imagePanel.add( new JLabel( " " ), BorderLayout.SOUTH );
+		return imagePanel;
+	}
+
+	private JPanel createStatsPanel( KoLCharacter characterData )
+	{
+		JPanel statsPanel = new JPanel();
+		statsPanel.setLayout( new GridLayout( 10, 1 ) );
+
 		statsPanel.add( new JLabel( " " ) );
 
 		statsPanel.add( new JLabel( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() + " (HP)", JLabel.CENTER ) );
@@ -80,7 +131,39 @@ public class CharsheetFrame extends javax.swing.JFrame
 		statsPanel.add( new JLabel( characterData.getInebriety() + " drunkenness", JLabel.CENTER ) );
 		statsPanel.add( new JLabel( characterData.getAdventuresLeft() + " adventures left", JLabel.CENTER ) );
 
-		getContentPane().add( statsPanel, "" );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		statsPanel.add( new JLabel( " " ) );
+
+		return statsPanel;
+	}
+
+	private JPanel createEquipPanel( KoLCharacter characterData )
+	{
+		JPanel equipPanel = new JPanel();
+		equipPanel.setLayout( new GridLayout( 9, 1 ) );
+
+		equipPanel.add( new JPanel() );
+
+		equipPanel.add( createEquipRowPanel( "Hat", characterData.getHat() ) );
+		equipPanel.add( createEquipRowPanel( "Weapon", characterData.getWeapon() ) );
+		equipPanel.add( createEquipRowPanel( "Pants", characterData.getPants() ) );
+		equipPanel.add( createEquipRowPanel( "Accessory", characterData.getAccessory1() ) );
+		equipPanel.add( createEquipRowPanel( "Accessory", characterData.getAccessory2() ) );
+		equipPanel.add( createEquipRowPanel( "Accessory", characterData.getAccessory3() ) );
+		equipPanel.add( createEquipRowPanel( "Familiar", characterData.getFamiliarItem() ) );
+
+		equipPanel.add( new JPanel() );
+
+		return equipPanel;
+	}
+
+	private JPanel createEquipRowPanel( String field, String value )
+	{
+		JPanel rowPanel = new JPanel();
+		rowPanel.setLayout( new GridLayout( 1, 2 ) );
+
+		rowPanel.add( new JLabel( field + ":  ", JLabel.RIGHT ) );
+		rowPanel.add( new JLabel( value, JLabel.LEFT ) );
+
+		return rowPanel;
 	}
 }
