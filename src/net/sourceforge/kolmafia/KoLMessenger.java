@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class KoLMessenger
 {
 	private KoLmafia client;
+	private ContactListFrame contactsFrame;
 	private ChatFrame channelFrame;
 	private ChatBuffer loathingChat;
 	private SortedListModel onlineContacts;
@@ -164,5 +165,16 @@ public class KoLMessenger
 			onlineContacts.add( characterName );
 		else if ( !isOnline )
 			onlineContacts.remove( characterName );
+	}
+
+	/**
+	 * Opens an instant message window to the character with the
+	 * given name so that a private conversation can be started.
+	 *
+	 * @param	characterName	The name of the person being messaged
+	 */
+
+	public void openInstantMessage( String characterName )
+	{
 	}
 }

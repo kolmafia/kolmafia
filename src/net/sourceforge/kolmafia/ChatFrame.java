@@ -74,18 +74,30 @@ public class ChatFrame extends KoLFrame
 	private JTextField entryField;
 	private JEditorPane chatDisplay;
 	private KoLMessenger messenger;
+	private String associatedContact;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code>.
 	 * @param	client	The client associated with the chat session
+	 * @param	messenger	The messenger associated with the chat session
 	 */
 
 	public ChatFrame( KoLmafia client, KoLMessenger messenger )
+	{	this( client, messenger, null );
+	}
+
+	/**
+	 * Constructs a new <code>ChatFrame</code> which is intended to be
+	 * used for instant messaging to the specified contact.
+	 */
+
+	public ChatFrame( KoLmafia client, KoLMessenger messenger, String associatedContact )
 	{
-		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
-			" (Chat)", client );
+		super( "", client );
 
 		this.messenger = messenger;
+		this.associatedContact = associatedContact;
+
 		chatDisplay = new JEditorPane();
 		chatDisplay.setEditable( false );
 		JScrollPane scrollArea = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -116,6 +128,11 @@ public class ChatFrame extends KoLFrame
 		// when it's first constructed
 
 		setSize( new Dimension( 400, 300 ) );
+
+		if ( associatedContact == null )
+			setTitle( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) + " (Chat)" );
+		else
+			setTitle( "KoLmafia: " + associatedContact + " : " + client.getLoginName() + " (Instant Message)" );
 	}
 
 	/**

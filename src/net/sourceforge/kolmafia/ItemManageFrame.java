@@ -87,8 +87,10 @@ public class ItemManageFrame extends KoLFrame
 			" (Item Management)", client );
 
 		setResizable( false );
-		concoctions = client == null ? new SortedListModel() :
-			ConcoctionsDatabase.getConcoctions( client, client.getInventory() );
+		concoctions = new SortedListModel();
+
+		if ( client != null )
+			refreshConcoctionsList();
 
 		tabs = new JTabbedPane();
 		using = new ConsumePanel();
@@ -517,7 +519,10 @@ public class ItemManageFrame extends KoLFrame
 	}
 
 	public void refreshConcoctionsList()
-	{	(new RefreshItemCreationListThread()).run();
+	{
+		concoctions.clear();
+		concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, client.getInventory() ) );
+		concoctions.add( AdventureResult.LAST_ELEMENT );
 	}
 
 	/**
@@ -555,7 +560,7 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	(new RefreshItemCreationListThread()).start();
+		{
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -580,21 +585,6 @@ public class ItemManageFrame extends KoLFrame
 				updateDisplay( ENABLED_STATE, "" );
 				ItemManageFrame.this.setEnabled( true );
 			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at
-	 * least appearing to freeze), this internal class is used
-	 * to refresh the items that can be created.
-	 */
-
-	private class RefreshItemCreationListThread extends Thread
-	{
-		public void run()
-		{
-			concoctions.clear();
-			concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, client.getInventory() ) );
 		}
 	}
 
