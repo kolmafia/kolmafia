@@ -195,6 +195,8 @@ public class KoLCharacter
 	private int adventuresLeft;
 	private int totalTurnsUsed;
 
+	private boolean hasToaster;
+	private boolean hasArches;
 	private boolean hasChef;
 	private boolean hasBartender;
 
@@ -228,8 +230,10 @@ public class KoLCharacter
 		for ( int i = 0; i < 7; ++i )
 			equipment.add( "none" );
 
-		this.hasChef = true;
-		this.hasBartender = true;
+		this.hasToaster = false;
+		this.hasArches = false;
+		this.hasChef = false;
+		this.hasBartender = false;
 		this.familiarRace = "none";
 	}
 
@@ -720,6 +724,42 @@ public class KoLCharacter
 	}
 
 	/**
+	 * Accessor method which indicates whether or not the character has a toaster
+	 * @return	<code>true</code> if the character has a toaster
+	 */
+
+	public boolean hasToaster()
+	{	return hasToaster;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the toaster.
+	 * @param	hasToaster	Whether or not the character currently has a toaster
+	 */
+
+	public void setToaster( boolean hasToaster )
+	{	this.hasToaster = hasToaster;
+	}
+
+	/**
+	 * Accessor method which indicates whether or not the character has golden arches
+	 * @return	<code>true</code> if the character has golden arches
+	 */
+
+	public boolean hasArches()
+	{	return hasArches;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the toaster.
+	 * @param	hasToaster	Whether or not the character currently has a toaster
+	 */
+
+	public void setArches( boolean hasArches )
+	{	this.hasArches = hasArches;
+	}
+
+	/**
 	 * Accessor method which indicates whether or not the character has a bartender-in-the-box.
 	 * @return	<code>true</code> if the character has a bartender-in-the-box
 	 */
@@ -790,6 +830,28 @@ public class KoLCharacter
 
 	public LockableListModel getAvailableSkills()
 	{	return availableSkills;
+	}
+
+	/**
+	 * Accessor method to look up whether or not the character can
+	 * summon noodles.
+	 *
+	 * @return	<code>true</code> if noodles can be summoned by this character
+	 */
+
+	public boolean canSummonNoodles()
+	{	return availableSkills.contains( "Pastamastery" );
+	}
+
+	/**
+	 * Accessor method to look up whether or not the character can
+	 * summon reagent.
+	 *
+	 * @return	<code>true</code> if reagent can be summoned by this character
+	 */
+
+	public boolean canSummonReagent()
+	{	return availableSkills.contains( "Advanced Saucecrafting" );
 	}
 
 	/**

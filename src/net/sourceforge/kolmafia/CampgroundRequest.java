@@ -84,8 +84,12 @@ public class CampgroundRequest extends KoLRequest
 		// For now, just set whether or not you have a
 		// bartender and chef.
 
-		client.getCharacterData().setChef( replyContent.indexOf( "cook.php" ) != -1 );
-		client.getCharacterData().setBartender( replyContent.indexOf( "cocktail.php" ) != -1 );
+		KoLCharacter characterData = client.getCharacterData();
+
+		characterData.setChef( replyContent.indexOf( "cook.php" ) != -1 );
+		characterData.setBartender( replyContent.indexOf( "cocktail.php" ) != -1 );
+		characterData.setToaster( replyContent.indexOf( "action=toast" ) != -1 );
+		characterData.setArches( replyContent.indexOf( "action=arches" ) != -1 );
 
 		processResults( replyContent.substring( 0, replyContent.indexOf( "Your Campsite" ) ) );
 
@@ -112,5 +116,11 @@ public class CampgroundRequest extends KoLRequest
 				client.cancelRequest();
 			}
 		}
+
+		// Make sure that the character received something if
+		// they were looking for toast
+
+		if ( action.equals( "toast" ) && replyContent.indexOf( "acquire" ) == -1 )
+			client.cancelRequest();
 	}
 }

@@ -85,13 +85,12 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
-import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
 
 // other imports
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -159,6 +158,7 @@ public class LoginFrame extends KoLFrame
 
 		private JTextField loginnameField;
 		private JPasswordField passwordField;
+		private JCheckBox getBreakfastCheckBox;
 
 		/**
 		 * Constructs a new <code>LoginPanel</code>, containing a place
@@ -180,10 +180,12 @@ public class LoginFrame extends KoLFrame
 
 			loginnameField = new JTextField();
 			passwordField = new JPasswordField();
+			getBreakfastCheckBox = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Login: ", loginnameField );
 			elements[1] = new VerifiableElement( "Password: ", passwordField );
+			elements[2] = new VerifiableElement( "Fetch Breakfast:", getBreakfastCheckBox );
 
 			setContent( elements );
 			add( actionStatusPanel, BorderLayout.SOUTH );
@@ -249,7 +251,7 @@ public class LoginFrame extends KoLFrame
 					return;
 				}
 
-				(new LoginRequest( client, loginname, password )).run();
+				(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected() )).run();
 			}
 		}
 	}

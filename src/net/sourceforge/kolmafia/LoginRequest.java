@@ -46,6 +46,7 @@ public class LoginRequest extends KoLRequest
 {
 	private String loginname;
 	private String password;
+	private boolean getBreakfast;
 
 	/**
 	 * Constructs a new <code>LoginRequest</code>.  The given
@@ -54,14 +55,16 @@ public class LoginRequest extends KoLRequest
 	 * @param	client	The client associated with this <code>LoginRequest</code>
 	 * @param	loginname	The name of the player to be logged in
 	 * @param	password	The password to be used in the login attempt
+	 * @param	getBreakfast	Whether or not the client should retrieve breakfast after login
 	 */
 
-	public LoginRequest( KoLmafia client, String loginname, String password )
+	public LoginRequest( KoLmafia client, String loginname, String password, boolean getBreakfast )
 	{
 		super( client, "login.php" );
 
 		this.loginname = loginname;
 		this.password = password;
+		this.getBreakfast = getBreakfast;
 
 		addFormField( "loggingin", "Yup." );
 		try
@@ -94,7 +97,7 @@ public class LoginRequest extends KoLRequest
 			// of success.  Password hashes are not currently
 			// calculated, since the algorithm hasn't been determined
 
-			client.initialize( loginname, formConnection.getHeaderField( "Set-Cookie" ) );
+			client.initialize( loginname, formConnection.getHeaderField( "Set-Cookie" ), getBreakfast );
 		}
 		else if ( !isErrorState )
 		{
