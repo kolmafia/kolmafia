@@ -151,7 +151,6 @@ public class KoLmafia implements UtilityConstants
 		closet = characterData.getCloset();
 
 		usableItems = new SortedListModel();
-		usableItems.add( AdventureResult.LAST_ELEMENT );
 
 		(new EquipmentRequest( this )).run();
 
@@ -174,7 +173,6 @@ public class KoLmafia implements UtilityConstants
 		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
 		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
 		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
-		addToResultTally( AdventureResult.LAST_ELEMENT );
 
 		activeFrame = new AdventureFrame( this, AdventureDatabase.getAsLockableListModel( this ), tally );
 		activeFrame.pack();  activeFrame.setVisible( true );

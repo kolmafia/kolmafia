@@ -163,11 +163,9 @@ public class EquipmentRequest extends KoLRequest
 			while ( !parsedContent.nextToken().startsWith( "Put:" ) );
 			List inventory = client.getInventory();
 			inventory.clear();
-			inventory.add( AdventureResult.LAST_ELEMENT );
 
 			List usableItems = client.getUsableItems();
 			usableItems.clear();
-			usableItems.add( AdventureResult.LAST_ELEMENT );
 
 			parseCloset( parsedContent, inventory, true );
 		}
@@ -183,7 +181,6 @@ public class EquipmentRequest extends KoLRequest
 		{
 			List closet = client.getCloset();
 			closet.clear();
-			closet.add( AdventureResult.LAST_ELEMENT );
 			parseCloset( parsedContent, closet, false );
 		}
 	}

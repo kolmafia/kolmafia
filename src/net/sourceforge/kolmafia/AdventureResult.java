@@ -58,16 +58,12 @@ public class AdventureResult implements Comparable
 	private static final int SUBSTAT_PRIORITY = 1;
 	private static final int DIVIDER_PRIORITY = 2;
 	private static final int ITEM_PRIORITY = 3;
-	private static final int LASTELEM_PRIORITY = 4;
 
 	private static final DecimalFormat df = new DecimalFormat();
 
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Stats";
 	public static final String DIVIDER = "";
-
-	public static final AdventureResult LAST_ELEMENT =
-		new AdventureResult( DIVIDER, new int[1], LASTELEM_PRIORITY );
 
 	private static List MUS_SUBSTAT = new ArrayList();
 	private static List MYS_SUBSTAT = new ArrayList();
