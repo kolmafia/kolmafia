@@ -735,6 +735,11 @@ public class KoLMessenger
 
 				actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
 					"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
+
+				// Jick's name appears in violet
+
+				if ( name.equals( "Jick" ) )
+					actualMessage = actualMessage.replaceFirst( "<a style=\"color:black;", "<a style=\"color:violet;" );
 			}
 
 			// Now to replace doubled instances of <font> to 1, and ensure that
