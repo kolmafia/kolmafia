@@ -77,10 +77,19 @@ public abstract class ActionVerifyPanel extends JRootPane
 	}
 
 	protected void setContent( VerifiableElement [] elements )
-	{	setContent( elements, null, null, null );
+	{	setContent( elements, null, null, null, true );
+	}
+
+
+	protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
+	{	setContent( elements, null, null, null, isLabelPreceeding );
 	}
 
 	protected void setContent( VerifiableElement [] elements, JPanel [] extras, JPanel westPanel, JPanel eastPanel )
+	{	setContent( elements, extras, westPanel, eastPanel, true );
+	}
+
+	protected void setContent( VerifiableElement [] elements, JPanel [] extras, JPanel westPanel, JPanel eastPanel, boolean isLabelPreceeding )
 	{
 		if ( contentSet )
 			return;
@@ -91,7 +100,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 		container.add( Box.createVerticalStrut( 2 ), BorderLayout.NORTH );
 
 		// add the west container
-		container.add( constructWestContainer( elements, westPanel ), BorderLayout.WEST );
+		container.add( constructWestContainer( elements, westPanel, isLabelPreceeding ), BorderLayout.WEST );
 
 		// add the extras panel
 		JPanel extrasPanel = constructExtrasPanel( extras );
@@ -125,7 +134,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 		contentSet = true;
 	}
 
-	private JPanel constructWestContainer( VerifiableElement [] elements, JPanel westPanel )
+	private JPanel constructWestContainer( VerifiableElement [] elements, JPanel westPanel, boolean isLabelPreceeding )
 	{
 		JPanel westContainer = new JPanel();
 		westContainer.setLayout( new BorderLayout() );
@@ -141,9 +150,19 @@ public abstract class ActionVerifyPanel extends JRootPane
 			JPanel elementsContainer = new JPanel();
 			elementsContainer.setLayout( new BoxLayout( elementsContainer, BoxLayout.X_AXIS ) );
 
-			elementsContainer.add( constructLabelPanel( elements ) );
-			elementsContainer.add( Box.createHorizontalStrut( 10 ) );
+			if ( isLabelPreceeding )
+			{
+				elementsContainer.add( constructLabelPanel( elements ) );
+				elementsContainer.add( Box.createHorizontalStrut( 10 ) );
+			}
+
 			elementsContainer.add( constructFieldPanel( elements ) );
+
+			if ( !isLabelPreceeding )
+			{
+				elementsContainer.add( Box.createHorizontalStrut( 10 ) );
+				elementsContainer.add( constructLabelPanel( elements ) );
+			}
 
 			westContainer.add( elementsContainer,
 				westPanel == null ? BorderLayout.NORTH : BorderLayout.SOUTH );
@@ -289,7 +308,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 		}
 	}
 
-	protected final class VerifiableElement
+	protected final class VerifiableElement implements Comparable
 	{
 		private JLabel label;
 		private JComponent inputField;
@@ -306,6 +325,12 @@ public abstract class ActionVerifyPanel extends JRootPane
 
 		public JComponent getInputField()
 		{	return inputField;
+		}
+
+		public int compareTo( Object o )
+		{
+			return (o == null || !(o instanceof VerifiableElement)) ? -1 :
+				label.getText().compareTo( ((VerifiableElement)o).label.getText() );
 		}
 	}
 }
