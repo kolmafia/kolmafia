@@ -871,7 +871,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				saveState.append( (new BigInteger( encodedParts[i], 36 )).toString( 10 ) );
 			}
 
-			settings.setProperty( "saveState." + loginname, saveState.toString() );
+			settings.setProperty( "saveState." + loginname.toLowerCase(), saveState.toString() );
 			settings.saveSettings();
 		}
 		catch ( java.io.UnsupportedEncodingException e )
@@ -888,30 +888,27 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		if ( loginname == null )
 			return;
 
-		Object [] saveStates = settings.keySet().toArray();
-		for ( int i = 0; i < saveStates.length; ++i )
-		{
-			if ( loginname.equalsIgnoreCase( (String) saveStates[i] ) )
+		for ( int i = 0; i < saveStateNames.size(); ++i )
+			if ( ((String)saveStateNames.get(i)).equalsIgnoreCase( loginname ) )
 			{
-				saveStateNames.remove( loginname );
+				saveStateNames.remove( i );
 				storeSaveStates();
 				return;
 			}
-		}
 	}
 
 	private void storeSaveStates()
 	{
 		StringBuffer saveStateBuffer = new StringBuffer();
-		Iterator saveStateIterator = saveStateNames.iterator();
+		Iterator nameIterator = saveStateNames.iterator();
 
-		if ( saveStateIterator.hasNext() )
+		if ( nameIterator.hasNext() )
 		{
-			saveStateBuffer.append( saveStateIterator.next() );
-			while ( saveStateIterator.hasNext() )
+			saveStateBuffer.append( nameIterator.next() );
+			while ( nameIterator.hasNext() )
 			{
 				saveStateBuffer.append( "//" );
-				saveStateBuffer.append( saveStateIterator.next() );
+				saveStateBuffer.append( nameIterator.next() );
 			}
 			settings.setProperty( "saveState", saveStateBuffer.toString() );
 		}
@@ -924,10 +921,16 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		String currentKey;
 		Object [] settingsArray = settings.keySet().toArray();
 
+		nameIterator = saveStateNames.iterator();
+		List lowerCaseNames = new ArrayList();
+
+		while ( nameIterator.hasNext() )
+			lowerCaseNames.add( ((String)nameIterator.next()).toLowerCase() );
+
 		for ( int i = 0; i < settingsArray.length; ++i )
 		{
 			currentKey = (String) settingsArray[i];
-			if ( currentKey.startsWith( "saveState." ) && !saveStateNames.contains( currentKey.substring( 10 ) ) )
+			if ( currentKey.startsWith( "saveState." ) && !lowerCaseNames.contains( currentKey.substring( 10 ) ) )
 				settings.remove( currentKey );
 		}
 
@@ -946,19 +949,14 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		{
 			Object [] settingKeys = settings.keySet().toArray();
 			String password = null;
-			String ignoreCaseKey = "saveState." + loginname;
+			String lowerCaseKey = "saveState." + loginname.toLowerCase();
 			String currentKey;
 
 			for ( int i = 0; i < settingKeys.length && password == null; ++i )
 			{
 				currentKey = (String) settingKeys[i];
-				if ( currentKey.equalsIgnoreCase( ignoreCaseKey ) )
-				{
+				if ( currentKey.equals( lowerCaseKey ) )
 					password = settings.getProperty( currentKey );
-					settings.remove( currentKey );
-					settings.setProperty( ignoreCaseKey, password );
-					settings.saveSettings();
-				}
 			}
 
 			if ( password == null )
