@@ -70,7 +70,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-	private JPanel selling, storing;
+	private JPanel using, selling, storing;
 	private SortedListModel concoctions;
 
 	/**
@@ -88,9 +88,11 @@ public class ItemManageFrame extends KoLFrame
 		setResizable( false );
 
 		tabs = new JTabbedPane();
+		using = new ConsumePanel();
 		selling = new SellPanel();
 		storing = new StoragePanel();
 
+		tabs.addTab( "Use Items", using );
 		tabs.addTab( "Sell & Create", selling );
 		tabs.addTab( "Closet & Stash", storing );
 
@@ -111,8 +113,169 @@ public class ItemManageFrame extends KoLFrame
 		super.setEnabled( isEnabled );
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			tabs.setEnabledAt( i, isEnabled );
+
+		using.setEnabled( isEnabled );
 		selling.setEnabled( isEnabled );
 		storing.setEnabled( isEnabled );
+	}
+
+	/**
+	 * Internal class used to handle everything related to
+	 * using up consumable items.
+	 */
+
+	private class ConsumePanel extends JPanel
+	{
+		private NonContentPanel foodPanel, miscPanel;
+		private JList edibleItemList, usableItemList;
+
+		public ConsumePanel()
+		{
+			JPanel panel = new JPanel();
+			panel.setLayout( new BorderLayout( 10, 10 ) );
+
+			foodPanel = new ConsumeFoodPanel();
+			miscPanel = new ConsumeMiscPanel();
+
+			panel.add( foodPanel, BorderLayout.NORTH );
+			panel.add( miscPanel, BorderLayout.SOUTH );
+
+			setLayout( new CardLayout( 10, 10 ) );
+			add( panel, "" );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			foodPanel.setEnabled( isEnabled );
+			miscPanel.setEnabled( isEnabled );
+		}
+
+		/**
+		 * Internal class used to handle everything related to
+		 * selling items; this allows autoselling of items as
+		 * well as placing item inside of a store.
+		 */
+
+		private class ConsumeFoodPanel extends NonContentPanel
+		{
+			private LockableListModel edibleItems;
+
+			public ConsumeFoodPanel()
+			{
+				super( "use all", "cancel" );
+				setContent( null );
+
+				edibleItems = new LockableListModel();
+				edibleItemList = new JList( edibleItems );
+				edibleItemList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+				edibleItemList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
+				edibleItemList.setVisibleRowCount( 8 );
+
+				add( JComponentUtilities.createLabel( "Edible Items", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+				add( new JScrollPane( edibleItemList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+			}
+
+			public void clear()
+			{
+			}
+
+			protected void actionConfirmed()
+			{	(new ConsumeItemRequestThread(1)).start();
+			}
+
+			protected void actionCancelled()
+			{
+				client.cancelRequest();
+				ItemManageFrame.this.setEnabled( true );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				edibleItemList.setEnabled( isEnabled );
+			}
+		}
+
+		private class ConsumeMiscPanel extends NonContentPanel
+		{
+			private LockableListModel usableItems;
+
+			public ConsumeMiscPanel()
+			{
+				super( "use all", "cancel" );
+				setContent( null );
+
+				usableItems = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
+				usableItemList = new JList( usableItems );
+				usableItemList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+				usableItemList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
+				usableItemList.setVisibleRowCount( 8 );
+
+				add( JComponentUtilities.createLabel( "Usable Items", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+				add( new JScrollPane( usableItemList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+			}
+
+			public void clear()
+			{
+			}
+
+			protected void actionConfirmed()
+			{	(new ConsumeItemRequestThread(3)).start();
+			}
+
+			protected void actionCancelled()
+			{
+				client.cancelRequest();
+				ItemManageFrame.this.setEnabled( true );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				usableItemList.setEnabled( isEnabled );
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually autosell the items.
+		 */
+
+		private class ConsumeItemRequestThread extends Thread
+		{
+			private int formID;
+
+			public ConsumeItemRequestThread( int formID )
+			{
+				super( "Consume-Request-Thread" );
+				setDaemon( true );
+				this.formID = formID;
+			}
+
+			public void run()
+			{
+				ItemManageFrame.this.setEnabled( false );
+				Object [] items = (formID == 1 ? edibleItemList : usableItemList).getSelectedValues();
+				AdventureResult currentItem;  Runnable request;
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					currentItem = (AdventureResult) items[i];
+					request = new ConsumeItemRequest( client, formID, currentItem );
+					client.makeRequest( request, currentItem.getCount() );
+				}
+
+				refreshConcoctionsList();
+				updateDisplay( ENABLED_STATE, "" );
+				ItemManageFrame.this.setEnabled( true );
+			}
+		}
 	}
 
 	/**
@@ -212,41 +375,31 @@ public class ItemManageFrame extends KoLFrame
 
 				public void run()
 				{
-					try
+					ItemManageFrame.this.setEnabled( false );
+					Object [] items = availableList.getSelectedValues();
+					AdventureResult currentItem;
+
+					for ( int i = 0; i < items.length; ++i )
 					{
-						SellItemPanel.this.setEnabled( false );
-						Object [] items = availableList.getSelectedValues();
-						AdventureResult currentItem;
+						currentItem = (AdventureResult) items[i];
 
-						for ( int i = 0; i < items.length; ++i )
+						switch ( sellType )
 						{
-							currentItem = (AdventureResult) items[i];
+							case AutoSellRequest.AUTOSELL:
+								updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getName() + "..." );
+								break;
 
-							switch ( sellType )
-							{
-								case AutoSellRequest.AUTOSELL:
-									updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getName() + "..." );
-									break;
-
-								case AutoSellRequest.AUTOMALL:
-									updateDisplay( DISABLED_STATE, "Placing " + currentItem.getName() + " in the mall..." );
-									break;
-							}
-
-							(new AutoSellRequest( client, sellType, currentItem )).run();
+							case AutoSellRequest.AUTOMALL:
+								updateDisplay( DISABLED_STATE, "Placing " + currentItem.getName() + " in the mall..." );
+								break;
 						}
 
-						refreshConcoctionsList();
-						updateDisplay( ENABLED_STATE, "" );
-						SellItemPanel.this.setEnabled( true );
+						(new AutoSellRequest( client, sellType, currentItem )).run();
 					}
-					catch ( NumberFormatException e )
-					{
-						// If the number placed inside of the count list was not
-						// an actual integer value, pretend nothing happened.
-						// Using exceptions for flow control is bad style, but
-						// this will be fixed once we add functionality.
-					}
+
+					refreshConcoctionsList();
+					updateDisplay( ENABLED_STATE, "" );
+					ItemManageFrame.this.setEnabled( true );
 				}
 			}
 		}
