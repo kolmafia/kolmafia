@@ -82,6 +82,9 @@ public class OptionsFrame extends KoLFrame
 
 	private class LoginOptionsPanel extends KoLPanel
 	{
+		private JLabel actionStatusLabel;
+		private JPanel actionStatusPanel;
+
 		private JComboBox serverSelect;
 		private JTextField proxyHost;
 		private JTextField proxyPort;
@@ -91,6 +94,13 @@ public class OptionsFrame extends KoLFrame
 		public LoginOptionsPanel()
 		{
 			super( "apply", "defaults", new Dimension( 120, 20 ), new Dimension( 165, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			LockableListModel servers = new LockableListModel();
 			servers.add( "(Auto Detect)" );
@@ -114,13 +124,11 @@ public class OptionsFrame extends KoLFrame
 			elements[4] = new VerifiableElement( "Proxy Password: ", proxyPassword );
 
 			setContent( elements );
+			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
 
 		public void setStatusMessage( String s )
-		{
-			// This panel ignores setStatusMessage, since it should never
-			// be the actual content panel.  In order to not be abstract,
-			// this method exists and does nothing.
+		{	actionStatusLabel.setText( s );
 		}
 
 		public void clear()
@@ -176,6 +184,8 @@ public class OptionsFrame extends KoLFrame
 					proxyLogin.setText( "" );
 					proxyPassword.setText( "" );
 				}
+
+				(new StatusMessageChanger( "" )).run();
 			}
 		}
 
@@ -227,6 +237,7 @@ public class OptionsFrame extends KoLFrame
 				// the next login can use them.
 
 				client.getSettings().saveSettings();
+				(new StatusMessageChanger( "Settings saved." )).run();
 			}
 
 			private void setProperty( String key, String value )
