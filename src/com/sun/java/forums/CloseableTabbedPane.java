@@ -462,18 +462,21 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener,
           }
 
           g.setColor(Color.black);
+/*
           g.drawLine(x+1, y_p, x+12, y_p);
           g.drawLine(x+1, y_p+13, x+12, y_p+13);
           g.drawLine(x, y_p+1, x, y_p+12);
           g.drawLine(x+13, y_p+1, x+13, y_p+12);
-          g.drawLine(x+3, y_p+3, x+10, y_p+10);
+*/
           if (mouseover)
             g.setColor(Color.GRAY);
-          g.drawLine(x+3, y_p+4, x+9, y_p+10);
-          g.drawLine(x+4, y_p+3, x+10, y_p+9);
-          g.drawLine(x+10, y_p+3, x+3, y_p+10);
-          g.drawLine(x+10, y_p+4, x+4, y_p+10);
-          g.drawLine(x+9, y_p+3, x+3, y_p+9);
+          g.drawLine( x+4, y_p+4, x+9, y_p+9 );
+          g.drawLine( x+4, y_p+5, x+8, y_p+9 );
+          g.drawLine( x+5, y_p+4, x+9, y_p+8 );
+          g.drawLine( x+9, y_p+4, x+4, y_p+9 );
+          g.drawLine( x+9, y_p+5, x+5, y_p+9 );
+          g.drawLine( x+8, y_p+4, x+4, y_p+8 );
+
           g.setColor(col);
           if (fileIcon != null) {
             fileIcon.paintIcon(c, g, x+width, y_p);
@@ -568,7 +571,7 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener,
                                          tabRect,
                                          iconRect,
                                          textRect,
-                                         textIconGap + 2);
+                                         textIconGap + 10);
 
       tabPane.putClientProperty("html", null);
 
@@ -640,7 +643,7 @@ public class CloseableTabbedPane extends JTabbedPane implements MouseListener,
                                          tabRect,
                                          iconRect,
                                          textRect,
-                                         textIconGap + 2);
+                                         textIconGap + 10);
 
       tabPane.putClientProperty("html", null);
 
