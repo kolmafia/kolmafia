@@ -176,7 +176,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		whiteListArray = settings.getProperty("whiteList") == null ? new String[0] :
 			settings.getProperty("whiteList").toLowerCase().split("\\s*,\\s*");
-
+		Arrays.sort(whiteListArray);
+		
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 
 		// The outer loop goes until user cancels
@@ -229,7 +230,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	}
 
 	private boolean onWhiteList(String userName)
-	{	return Arrays.binarySearch(whiteListArray, userName.toLowerCase()) != -1;
+	{	return Arrays.binarySearch(whiteListArray, userName.toLowerCase()) > -1;
 	}
 
 	private void sendRefund( String recipient, String reason, int amount )
