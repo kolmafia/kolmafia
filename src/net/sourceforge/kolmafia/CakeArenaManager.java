@@ -69,11 +69,13 @@ public class CakeArenaManager
 	 * description for the opponent.
 	 */
 
-	public void fightOpponent( String opponent, int eventID )
+	public void fightOpponent( String opponent, int eventID, int battleCount )
 	{
 		for ( int i = 0; i < opponentList.size(); ++i )
 			if ( opponent.equals( opponentList.get(i).toString() ) )
-				(new CakeArenaRequest( client, ((ArenaOpponent)opponentList.get(i)).getID(), eventID )).run();
+				client.makeRequest(
+					new CakeArenaRequest( client, ((ArenaOpponent)opponentList.get(i)).getID(), eventID ),
+						battleCount );
 	}
 
 	/**
