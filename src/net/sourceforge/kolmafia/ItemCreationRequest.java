@@ -112,17 +112,17 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case MEAT_PASTE:
 			{
-				while ( quantityNeeded > 1000 )
+				while ( quantityNeeded >= 1000 )
 				{
 					(new MeatPasteRequest( client, 1000 )).run();
 					quantityNeeded -= 1000;
 				}
-				while ( quantityNeeded > 100 )
+				while ( quantityNeeded >= 100 )
 				{
 					(new MeatPasteRequest( client, 100 )).run();
 					quantityNeeded -= 100;
 				}
-				while ( quantityNeeded > 10 )
+				while ( quantityNeeded >= 10 )
 				{
 					(new MeatPasteRequest( client, 10 )).run();
 					quantityNeeded -= 10;
@@ -283,7 +283,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				( actualQuantityNeeded > 10 ) ? 100 :
 				( actualQuantityNeeded > 1 ) ? 10 : 1;
 
-		if ( currentQuantity < quantityNeeded )
+		if ( actualQuantityNeeded > 0 )
 			(new ItemCreationRequest( client, ingredientID, mixingMethod, actualQuantityNeeded )).run();
 	}
 
