@@ -213,9 +213,11 @@ public class EquipmentRequest extends KoLRequest
 
 					// Make sure to only add the result if it exists
 					// in the item database; otherwise, it could cause
-					// problems when you're moving items around
+					// problems when you're moving items around.  Also,
+					// make sure that the item hasn't already been added,
+					// since some items appear in two places.
 
-					if ( TradeableItemDatabase.contains( result.getResultName() ) )
+					if ( TradeableItemDatabase.contains( result.getResultName() ) && inventory.indexOf( result ) == -1 )
 						AdventureResult.addResultToList( inventory, result );
 
 					lastToken = remainingTokens.nextToken();

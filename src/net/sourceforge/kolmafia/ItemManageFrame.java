@@ -101,14 +101,15 @@ public class ItemManageFrame extends KoLFrame
 	private class SellItemPanel extends NonContentPanel
 	{
 		private LockableListModel available;
+		private JList availableList;
 
 		public SellItemPanel()
 		{
 			super( "autosell", "automall" );
-			setContent( null );
+			setContent( null, null, null, null, true, true );
 
 			available = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
-			JList availableList = new JList( available );
+			availableList = new JList( available );
 			availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 
@@ -121,11 +122,56 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{
+		{	(new AutoSellRequestThread()).start();
 		}
 
 		protected void actionCancelled()
 		{
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			availableList.setEnabled( isEnabled );
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually autosell the item
+		 */
+
+		private class AutoSellRequestThread extends Thread
+		{
+			public AutoSellRequestThread()
+			{
+				super( "AutoSell-Request-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					SellItemPanel.this.setEnabled( false );
+					updateDisplay( DISABLED_STATE, "Autoselling items..." );
+
+					Object [] items = availableList.getSelectedValues();
+
+					for ( int i = 0; i < items.length; ++i )
+						(new AutoSellRequest( client, (AdventureResult) items[i] )).run();
+
+					updateDisplay( ENABLED_STATE, "Autoselling complete." );
+					SellItemPanel.this.setEnabled( true );
+				}
+				catch ( NumberFormatException e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+			}
 		}
 	}
 
@@ -137,7 +183,8 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ClosetPanel extends JPanel
 	{
-		private LockableListModel inventory;
+		private JList availableList;
+		private JList closetList;
 
 		public ClosetPanel()
 		{
@@ -152,13 +199,15 @@ public class ItemManageFrame extends KoLFrame
 
 		private class OutsideClosetPanel extends NonContentPanel
 		{
+			private LockableListModel inventory;
+
 			public OutsideClosetPanel()
 			{
 				super( "closet", "stash" );
 				setContent( null );
 
 				inventory = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
-				JList availableList = new JList( inventory );
+				availableList = new JList( inventory );
 				availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				availableList.setVisibleRowCount( 7 );
@@ -192,7 +241,7 @@ public class ItemManageFrame extends KoLFrame
 				setContent( null );
 
 				closet = client == null ? new LockableListModel() : client.getCloset().getMirrorImage();
-				JList closetList = new JList( closet );
+				closetList = new JList( closet );
 				closetList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				closetList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				closetList.setVisibleRowCount( 7 );
