@@ -164,14 +164,8 @@ public class KoLmafia implements UtilityConstants
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			AdventureResult result = (AdventureResult) inventory.get(i);
-
-			if ( result.isItem() )
-			{
-				if ( TradeableItemDatabase.isEdible( result.getName() ) )
-					edibleItems.add( result );
-				else if ( TradeableItemDatabase.isUsable( result.getName() ) )
+			if ( result.isItem() && TradeableItemDatabase.isUsable( result.getName() ) )
 					usableItems.add( result );
-			}
 		}
 
 		if ( !permitContinue )

@@ -136,20 +136,6 @@ public class TradeableItemDatabase implements UtilityConstants
 
 	/**
 	 * Returns whether or not the item with the given name
-	 * is edible.
-	 *
-	 * @return	<code>true</code> if the item is edible
-	 */
-
-	public static final boolean isEdible( String itemName )
-	{
-		int itemID = getItemID( itemName );
-		return itemID == -1 ? false :
-			consumptionID[ itemID ] == ConsumeItemRequest.CONSUME_EAT || consumptionID[ itemID ] == ConsumeItemRequest.CONSUME_DRINK;
-	}
-
-	/**
-	 * Returns whether or not the item with the given name
 	 * is usable (this includes edibility).
 	 *
 	 * @return	<code>true</code> if the item is usable
