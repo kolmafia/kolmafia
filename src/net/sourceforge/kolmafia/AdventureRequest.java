@@ -60,56 +60,31 @@ public class AdventureRequest extends KoLRequest
 
 		// Most of the time, you run into a battle sequence.  However,
 		// if not, you either run into an error state, or there was a
-		// special event taking place in that adventure.  This is where
-		// those events and error states would get parsed.
+		// special event taking place in that adventure.
 
-		if ( responseCode != 302 )
+		if ( !errorState && responseCode != 302 )
 		{
-			String formPath = formConnection.getURL().getPath();
+			// From preliminary tests, finding out whether or not the
+			// adventure was successful is equivalent to whether or
+			// not there is centered text in the results.
 
-			// The first set of stuff to take care of involves
-			// generic adventures.
+			int resultIndex = replyContent.indexOf( "<p><center>" );
 
-			if ( formPath.equals( "/adventure.php" ) )
+			if ( resultIndex == -1 )
 			{
-				if ( replyContent.contains( "You're out of adventures" ) )
-				{
-					// The easiest one is if you're out of adventures;
-					// then you need to notify the client of failure
-					// by telling it that the adventure did not take
-					// place and the client should not continue with
-					// the next iteration.
+				// Notify the client of failure by telling it that
+				// the adventure did not take place and the client
+				// should not continue with the next iteration.
 
-					client.updateAdventure( false, false );
-					frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Adventures aborted!" );
-					return;
-				}
+				client.updateAdventure( false, false );
+				frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Adventures aborted!" );
+				return;
 			}
 
-			// The next set of stuff to take care of involves
-			// vacations at the shore.
+			// Otherwise, it was a success, so the results of
+			// the adventure should be parsed.
 
-			if ( formPath.equals( "/shore.php" ) )
-			{
-				int resultIndex = replyContent.indexOf( "<p><center>" );
-
-				if ( resultIndex == -1 )
-				{
-					// The easiest one is if there were no results
-					// for the trip, which means it failed.  Here,
-					// just notify the client like for a standard
-					// adventure of the failure.
-
-					client.updateAdventure( false, false );
-					frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Adventures aborted!" );
-					return;
-				}
-
-				// If it gets this far, then everything is okay,
-				// so you parse the results of the vacation trip.
-
-				processResults( replyContent.substring( resultIndex + 12 ) );
-			}
+			processResult( replyContent.substring( resultIndex + 12 ) );
 		}
 	}
 }
