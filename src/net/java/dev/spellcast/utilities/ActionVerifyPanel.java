@@ -38,6 +38,7 @@ package net.java.dev.spellcast.utilities;
 import java.awt.Dimension;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
@@ -115,8 +116,12 @@ public abstract class ActionVerifyPanel extends JRootPane
 
 		container.add( eastContainer, BorderLayout.EAST );
 
+		JPanel cardContainer = new JPanel();
+		cardContainer.setLayout( new CardLayout( 10, 10 ) );
+		cardContainer.add( container, "" );
+
 		setLayout( new BorderLayout() );
-		add( container, BorderLayout.CENTER );
+		add( cardContainer, BorderLayout.CENTER );
 		contentSet = true;
 	}
 

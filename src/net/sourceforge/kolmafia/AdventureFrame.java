@@ -71,7 +71,7 @@ package net.sourceforge.kolmafia;
 
 // layout
 import java.awt.Color;
-import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
@@ -108,16 +108,13 @@ public class AdventureFrame extends KoLFrame
 		super( "KoLmafia: " + client.getLoginName(), client );
 		setResizable( false );
 
-		CardLayout cards = new CardLayout( 10, 10 );
-		getContentPane().setLayout( cards );
-
 		JTabbedPane tabs = new JTabbedPane();
 
 		addAdventuringPanel( tabs, availableAdventures, resultsTally );
 		addInventoryPanel( tabs );
 		addMallBrowsingPanel( tabs );
 
-		getContentPane().add( tabs, "" );
+		getContentPane().add( tabs, BorderLayout.CENTER );
 
 		updateDisplay( ENABLED_STATE, " " );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -174,7 +171,7 @@ public class AdventureFrame extends KoLFrame
 
 		public AdventureSelectPanel( LockableListModel list )
 		{
-			super( "begin", "cancel" );
+			super( "begin", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
