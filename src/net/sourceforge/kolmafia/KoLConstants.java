@@ -40,5 +40,5 @@ import java.text.DecimalFormatSymbols;
 public interface KoLConstants
 {
 	public static final DecimalFormat df = new DecimalFormat(
-		"#,##0;-#,###", new DecimalFormatSymbols( Locale.US ) );
+		"#,##0", new DecimalFormatSymbols( Locale.US ) );
 }
