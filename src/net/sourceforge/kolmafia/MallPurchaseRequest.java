@@ -182,7 +182,8 @@ public class MallPurchaseRequest extends KoLRequest
 			// second request to the server containing the correct
 			// number of items to buy.
 
-			StringTokenizer st = new StringTokenizer( result.replaceAll( "<.*?>", "" ), " " );
+			String plainTextResult = result.replaceAll( "<.*?>", "" );
+			StringTokenizer st = new StringTokenizer( plainTextResult, " " );
 			skipTokens( st, 4 );  int limit = intToken( st );
 			skipTokens( st, 11 );  int alreadyPurchased = intToken( st );
 

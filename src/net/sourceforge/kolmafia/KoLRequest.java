@@ -504,15 +504,14 @@ public class KoLRequest implements Runnable
 					while ( (line = istream.readLine()) != null )
 						replyBuffer.append( line );
 
-					replyContent = replyBuffer.toString();
+					replyContent = replyBuffer.toString().replaceAll( " pwd=[\'\"][0-9a-f]*[\'\"]", "" );
+					String plainTextContent = replyContent.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" );
 
 					logStream.println( "Reply content retrieved." );
 
 					logStream.println(
-						"\n ==== HYPERTEXT ====\n" +
-						replyContent.replaceAll( " pwd=[\'\"][0-9a-f]*[\'\"]", "" ) +
-						"\n ==== PLAINTEXT ====\n" +
-						replyContent.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ) +
+						"\n ==== HYPERTEXT ====\n" + replyContent +
+						"\n ==== PLAINTEXT ====\n" + plainTextContent +
 						"\n ==================="
 					);
 				}
@@ -557,7 +556,8 @@ public class KoLRequest implements Runnable
 	{
 		logStream.println( "Processing results..." );
 
-		StringTokenizer parsedResults = new StringTokenizer( results.replaceAll( "<.*?>", "\n" ), "\n" );
+		String plainTextResult = results.replaceAll( "<.*?>", "\n" );
+		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
 		String lastToken = null;
 
 		while ( parsedResults.hasMoreTokens() )

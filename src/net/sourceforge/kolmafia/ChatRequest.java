@@ -139,8 +139,7 @@ public class ChatRequest extends KoLRequest
 		}
 
 		if ( client.getChatBuffer() != null )
-			client.getChatBuffer().append(
-				replyContent.replaceAll( "</?a.*?>", "" ).replaceAll( "<!.*?>", "" ) );
+			client.getChatBuffer().append( replyContent );
 
 		if ( isContinuationRequest && client.getChatBuffer() != null )
 			(new ChatContinuationThread( currentSeen )).start();

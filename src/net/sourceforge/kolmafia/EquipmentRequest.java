@@ -88,8 +88,8 @@ public class EquipmentRequest extends KoLRequest
 		// version.  This can be done through simple regular
 		// expression matching.
 
-		StringTokenizer parsedContent = new StringTokenizer(
-			replyContent.replaceAll( "<.*?>", "\n" ), "\n" );
+		String plainTextContent = replyContent.replaceAll( "<.*?>", "\n" );
+		StringTokenizer parsedContent = new StringTokenizer( plainTextContent, "\n" );
 
 		logStream.println( "Parsing equipment data..." );
 

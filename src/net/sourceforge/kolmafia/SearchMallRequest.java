@@ -107,9 +107,9 @@ public class SearchMallRequest extends KoLRequest
 		// been reached (which have been greyed out), and then remove all non-anchor
 		// tags to make everything easy to parse.
 
-		StringTokenizer parsedResults = new StringTokenizer(
-			replyContent.substring( startIndex ).replaceAll( "<br>", " " ).replaceAll(
-				"<td style=.*?<tr>", "" ).replaceAll( "</?[^a].*?>", "\n" ), "\n" );
+		String plainTextResult = replyContent.substring( startIndex ).replaceAll( "<br>", " " ).replaceAll(
+				"<td style=.*?<tr>", "" ).replaceAll( "</?[^a].*?>", "\n" );
+		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
 
 		// The first four tokens are just the table
 		// headers, and so they can be discarded
