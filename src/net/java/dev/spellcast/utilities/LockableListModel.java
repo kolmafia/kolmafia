@@ -763,7 +763,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		private synchronized void intervalRemoved( LockableListModel source, int index0, int index1 )
 		{
-			if ( mirrorImage == null || source == null || index1 < 0 || index1 >= size() )
+			if ( mirrorImage == null || source == null || index1 < 0 || index1 >= mirrorImage.size() )
 				return;
 
 			for ( int i = index1; i >= index0; --i )
