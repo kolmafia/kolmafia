@@ -122,14 +122,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					setEnabled( true );
 					break;
 
-				case ENABLED_STATE:
+				case DISABLED_STATE:
+					setEnabled( false );
+					break;
+
+				default:
 					if ( !isExecutingScript )
 						setEnabled( true );
 					break;
 
-				case DISABLED_STATE:
-					setEnabled( false );
-					break;
 			}
 		}
 	}
