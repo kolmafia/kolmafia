@@ -335,12 +335,9 @@ public class KoLMessenger
 
 		// There's a lot of bad HTML used in KoL chat; in order to get Java
 		// to properly display everything, all of the bad HTML gets replaced
-		// with good HTML.
+		// with good HTML.  First, get rid of underlines for links.
 
-		// First, because linking is not currently handled, all link tags are
-		// also removed.
-
-		String noLinksContent = originalContent.replaceAll( "</?a.*?>", "" );
+		String noUnderlineLinksContent = originalContent.replaceAll( "<a href", "<a style=\"text-decoration:none;\" href" );
 
 		// Also, there's a problem with bold and italic tag ordering, as well
 		// as bold and font-color ordering.  This needs to be fixed, since
@@ -348,7 +345,7 @@ public class KoLMessenger
 		// that this requires several lines - this just shows you how far
 		// behind the default HTML handler is compared to a web browser.
 
-		String orderedTagsContent = noLinksContent.replaceAll( "<br>&nbsp;&nbsp;", " " ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
+		String orderedTagsContent = noUnderlineLinksContent.replaceAll( "<br>&nbsp;&nbsp;", " " ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
 			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</font></b>", "</b></font>" ).replaceAll(
 				"</?br></b>", "</b><br>" ).replaceAll( "</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" );
 
@@ -547,7 +544,7 @@ public class KoLMessenger
 		if ( message == null || message.trim().length() == 0 )
 			return;
 
-		String noLinksContent = message.replaceAll( "</?a.*?>", "" );
+		String noLinksContent = message.replaceAll( "<a target=mainpane .*?>", "" );
 
 		// If the message is coming from a listen channel, you
 		// need to place it in that channel.  Otherwise, place
@@ -717,15 +714,15 @@ public class KoLMessenger
 		{
 			String actualMessage = message.trim();
 
-			if ( !actualMessage.startsWith( "<font color=green>" ) && actualMessage.indexOf( "<b>" ) != -1 )
+			if ( !actualMessage.startsWith( "<font color=green>" ) && actualMessage.indexOf( "</a>" ) != -1 )
 			{
-				Matcher nameMatcher = Pattern.compile( "<b>.*?</b>" ).matcher( actualMessage );
+				Matcher nameMatcher = Pattern.compile( "<b>.*?</a>" ).matcher( actualMessage );
 				if ( nameMatcher.find() )
 				{
 					String name = nameMatcher.group();
-					name = name.substring( 3, name.indexOf( "</b>" ) );
+					name = name.substring( 3, name.indexOf( "</a>" ) );
 
-					actualMessage = actualMessage.replaceFirst( "</b>", "</a></b>" ).replaceFirst( "<b>",
+					actualMessage = actualMessage.replaceFirst( "<b>",
 						"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
 				}
 			}
