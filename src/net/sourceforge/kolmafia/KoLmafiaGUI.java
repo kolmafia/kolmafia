@@ -92,13 +92,13 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.initialize( loginname, sessionID, getBreakfast );
 
-		if ( permitContinue )
+		if ( !isLoggingIn )
 		{
 			KoLFrame previousActiveFrame = activeFrame;
 
 			activeFrame = new AdventureFrame( this, AdventureDatabase.getAsLockableListModel( this ), tally );
 			activeFrame.pack();
-			activeFrame.setLocationRelativeTo( null );
+			activeFrame.setLocationRelativeTo( previousActiveFrame );
 			activeFrame.setVisible( true );
 			previousActiveFrame.setVisible( false );
 
