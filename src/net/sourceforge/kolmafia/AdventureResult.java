@@ -340,11 +340,9 @@ public class AdventureResult implements Comparable
 
 	public static void reduceTally( List tally, int reductionAmount )
 	{
-		Iterator resultIterator = tally.iterator();
-
-		while ( resultIterator.hasNext() )
-			addResultToList( tally, new AdventureResult(
-				((AdventureResult)resultIterator.next()).name, reductionAmount ) );
+		Object [] tallyAsArray = tally.toArray();
+		for ( int i = 0; i < tallyAsArray.length; ++i )
+			addResultToList( tally, new AdventureResult( ((AdventureResult)tallyAsArray[i]).name, reductionAmount ) );
 	}
 
 	/**
@@ -391,10 +389,26 @@ public class AdventureResult implements Comparable
 		// to zero - if it did, then remove the item from the list if
 		// it's an item (non-items are exempt).
 
-		if ( (actualResult.isItem() && actualResult.getCount() == 0) || (actualResult.priority == ITEM_PRIORITY && actualResult.getCount() <= 0) )
+		if ( actualResult.getCount() == 0 )
 		{
-			tally.remove( actualResult );
-			return;
+			if ( actualResult.isItem() )
+			{
+				tally.remove( result );
+				return;
+			}
+			else if ( actualResult.isStatusEffect() )
+			{
+				tally.remove( result );
+				return;
+			}
+		}
+		else if ( actualResult.getCount() < 0 )
+		{
+			if ( actualResult.isStatusEffect() )
+			{
+				tally.remove( result );
+				return;
+			}
 		}
 
 		if ( actualResult.getName().equals( AdventureResult.ADV ) && actualResult.getCount() < 0 )
