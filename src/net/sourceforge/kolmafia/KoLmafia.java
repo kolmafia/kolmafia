@@ -77,12 +77,11 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected int [] currentStats;
 	protected int [] fullStatGain;
 
+	protected BuffBotHome buffBotHome;
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
 	protected SortedListModel tally;
 	protected LockableListModel inventory, closet, usableItems;
-
-        protected BuffBotHome BBHome;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -251,7 +250,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		this.isLoggingIn = false;
 		this.loathingMail = new KoLMailManager( this );
-                BBHome = new BuffBotHome(this);
 	}
 
 	/**
@@ -986,5 +984,16 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 			return null;
 		}
+	}
+
+	public void initializeBuffBot()
+	{
+		buffBotHome = new BuffBotHome(this);
+		buffBotHome.initialize();
+	}
+
+	public BuffBotHome.BuffBotLog getBuffBotLog()
+	{
+		return buffBotHome.getLog();
 	}
 }

@@ -111,7 +111,7 @@ public class BuffBotManager {
         this.MPRestoreSetting = settings.getProperty( "MPRestoreSelect" );
         client.updateDisplay( KoLFrame.DISABLED_STATE, "Buffbot Starting" );
         me =  client.getCharacterData();
-        BBLog = client.BBHome.getBBLog();
+        BBLog = client.getBuffBotLog();
 
     }
 

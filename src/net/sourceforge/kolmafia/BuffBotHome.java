@@ -77,13 +77,36 @@ public class BuffBotHome{
 	 * they don't already exist.
 	 */
 
-	public void initializeBBLogs(){
+	public void initialize(){
 		if (!(BBLog instanceof BuffBotLog))
 			BBLog = new BuffBotLog();
-		initializeBBLogFile();
+
+		// First, ensure that a BBlog stream has not already been
+		// initialized - this can be checked by observing what
+		// class the current log stream is.
+
+		if ( BBLogFile instanceof BuffBotLogStream )
+			return;
+
+		try {
+			String DayOfYear = logSDF.format(new Date());
+			String characterName = client.getLoginName();
+			String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
+			File f = new File( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + DayOfYear + ".log" );
+
+			if ( !f.exists() )
+				f.createNewFile();
+
+			BBLogFile = new BuffBotLogStream( f );
+		} catch ( IOException e ) {
+			// This should not happen, unless the user
+			// security settings are too high to allow
+			// programs to write output; therefore,
+			// pretend for now that everything works.
+		}
 	}
 
-	public BuffBotLog getBBLog(){
+	public BuffBotLog getLog(){
 		return BBLog;
 	}
 
@@ -112,38 +135,6 @@ public class BuffBotHome{
 			BBLog.replaceSelection("");
 		}
 	}
-	/**
-	 * Initializes a stream for logging debugging information.  This
-	 * method creates a <code>BuffBot.log</code> file in the default
-	 * data directory if one does not exist, or appends to the existing
-	 * log. A new file is opened each day.
-	 */
-
-	public void initializeBBLogFile() {
-		// First, ensure that a BBlog stream has not already been
-		// initialized - this can be checked by observing what
-		// class the current log stream is.
-
-		if ( BBLogFile instanceof BuffBotLogStream )
-			return;
-
-		try {
-			String DayOfYear = logSDF.format(new Date());
-			String characterName = client.getLoginName();
-			String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
-			File f = new File( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + DayOfYear + ".log" );
-
-			if ( !f.exists() )
-				f.createNewFile();
-
-			BBLogFile = new BuffBotLogStream( f );
-		} catch ( IOException e ) {
-			// This should not happen, unless the user
-			// security settings are too high to allow
-			// programs to write output; therefore,
-			// pretend for now that everything works.
-		}
-	}
 
 	/**
 	 * De-initializes the BBlog stream.  This method is not currently
@@ -151,7 +142,7 @@ public class BuffBotHome{
 	 * TODO Change to call when BuffBotPanel is closed.
 	 */
 
-	public void deinitializeBBLogFile() {
+	public void deinitialize() {
 		if ( BBLogFile != null )
 			BBLogFile.close();
 		BBLogFile = new NullStream();
