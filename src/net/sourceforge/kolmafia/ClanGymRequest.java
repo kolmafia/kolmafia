@@ -78,7 +78,7 @@ public class ClanGymRequest extends KoLRequest
 		// therefore, you can parse just that small segment.
 
 		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
-		updateDisplay( ENABLED_STATE, "Workout completed." );
+		updateDisplay( NOCHANGE, "Workout completed." );
 	}
 
 	/**

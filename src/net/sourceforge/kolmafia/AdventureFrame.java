@@ -238,10 +238,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 				contentPanel = mallSearch;
 				break;
 			case 2:
-				contentPanel = clanBuff;
-				break;
-			case 3:
-				contentPanel = removeEffects;
+				contentPanel = skillBuff;
 				break;
 		}
 	}

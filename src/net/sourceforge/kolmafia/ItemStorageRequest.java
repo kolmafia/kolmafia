@@ -152,13 +152,13 @@ public class ItemStorageRequest extends KoLRequest
 			case MEAT_TO_INVENTORY:
 				updateDisplay( DISABLED_STATE, "Executing transaction..." );
 				meat();
-				updateDisplay( ENABLED_STATE, " " );
+				updateDisplay( NOCHANGE, " " );
 				break;
 
 			case MEAT_TO_STASH:
 				updateDisplay( DISABLED_STATE, "Attempting clan donation..." );
 				super.run();
-				updateDisplay( ENABLED_STATE, "Clan donation attempt complete." );
+				updateDisplay( NOCHANGE, "Clan donation attempt complete." );
 				break;
 		}
 	}
