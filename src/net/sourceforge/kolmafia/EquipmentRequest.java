@@ -50,6 +50,7 @@ public class EquipmentRequest extends KoLRequest
 	private static final int FOOD_BOOZE = 1;
 	private static final int EQUIPMENT = 2;
 	private static final int MISCELLANEOUS = 3;
+	private static final int CLOSET = 4;
 
 	private KoLCharacter character;
 	private int requestType;
@@ -67,7 +68,7 @@ public class EquipmentRequest extends KoLRequest
 
 	private EquipmentRequest( KoLmafia client, int requestType )
 	{
-		super( client, "inventory.php" );
+		super( client, requestType == CLOSET ? "closet.php" : "inventory.php" );
 		this.character = client.getCharacterData();
 		this.requestType = requestType;
 	}
@@ -88,13 +89,16 @@ public class EquipmentRequest extends KoLRequest
 			(new EquipmentRequest( client, FOOD_BOOZE )).run();
 			(new EquipmentRequest( client, EQUIPMENT )).run();
 			(new EquipmentRequest( client, MISCELLANEOUS )).run();
+			(new EquipmentRequest( client, CLOSET )).run();
 			return;
 		}
 
 		// Otherwise, add the form field indicating which page
 		// of the inventory you want to request
 
-		addFormField( "which", "" + requestType );
+		if ( requestType != CLOSET )
+			addFormField( "which", "" + requestType );
+
 		super.run();
 
 		// If an error state occurred, return from this
@@ -118,6 +122,9 @@ public class EquipmentRequest extends KoLRequest
 		{
 			switch ( requestType )
 			{
+				case CLOSET:
+					parseCloset( parsedContent );
+
 				case FOOD_BOOZE:
 				case MISCELLANEOUS:
 					parseInventory( parsedContent );
@@ -132,6 +139,55 @@ public class EquipmentRequest extends KoLRequest
 		catch ( RuntimeException e )
 		{
 			logStream.println( e );
+		}
+	}
+
+	private void parseCloset( StringTokenizer parsedContent )
+	{
+		// The closet officially starts when you see the token
+		// "Take:"; therefore, continue skipping tokens until
+		// that token is encountered.
+
+		while ( parsedContent.hasMoreTokens() &&
+			!parsedContent.nextToken().startsWith( "Take:" ) );
+
+		if ( parsedContent.hasMoreTokens() )
+		{
+			String lastToken;
+			List closet = client.getCloset();
+
+			// The next two tokens are blank space and an
+			// indicator to show that the list is about
+			// to start.  Skip them both.
+
+			skipTokens( parsedContent, 2 );
+			lastToken = parsedContent.nextToken();
+
+			try
+			{
+				do
+				{
+					// Make sure to only add the result if it exists
+					// in the item database; otherwise, it could cause
+					// problems when you're moving items around.
+
+					AdventureResult result = AdventureResult.parseResult( lastToken );
+
+					if ( TradeableItemDatabase.contains( result.getResultName() ) )
+						AdventureResult.addResultToList( closet, result );
+
+					lastToken = parsedContent.nextToken();
+				}
+				while ( !lastToken.startsWith( "0" ) );
+			}
+			catch ( Exception e )
+			{
+				// If an exception occurs during the parsing, just
+				// continue after notifying the LogStream of the
+				// error.  This could be handled better, but not now.
+
+				logStream.println( e );
+			}
 		}
 	}
 
@@ -197,11 +253,11 @@ public class EquipmentRequest extends KoLRequest
 
 		List inventory = client.getInventory();
 
-		if ( remainingTokens.countTokens() > 1 )
+		if ( remainingTokens.hasMoreTokens() )
 		{
-			do
+			try
 			{
-				try
+				do
 				{
 					String resultAsString = lastToken;
 					lastToken = remainingTokens.nextToken();
@@ -230,19 +286,16 @@ public class EquipmentRequest extends KoLRequest
 							lastToken = remainingTokens.nextToken();
 					}
 				}
-				catch ( Exception e )
-				{
-					// If an exception occurs during the parsing, just
-					// continue after notifying the LogStream of the
-					// error.  This could be handled better, but not now.
-
-					logStream.println( e );
-
-					while ( remainingTokens.hasMoreTokens() )
-						remainingTokens.nextToken();
-				}
+				while ( remainingTokens.hasMoreTokens() && !lastToken.startsWith( "make:" ) );
 			}
-			while ( remainingTokens.hasMoreTokens() && !lastToken.startsWith( "make:" ) );
+			catch ( Exception e )
+			{
+				// If an exception occurs during the parsing, just
+				// continue after notifying the LogStream of the
+				// error.  This could be handled better, but not now.
+
+				logStream.println( e );
+			}
 		}
 	}
 }
