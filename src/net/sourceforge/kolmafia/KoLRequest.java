@@ -338,7 +338,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private void execute()
 	{
 		boolean connectSuccess = false;
-		this.logStream = client == null ? new NullStream() : client.getLogStream();
+		this.logStream = client == null || formURLString.indexOf( "chat" ) != -1 ? new NullStream() : client.getLogStream();
 
 		logStream.println( "Connecting to " + formURLString + "..." );
 		for ( int i = 0; i < MAX_RETRIES && !connectSuccess; ++i )
