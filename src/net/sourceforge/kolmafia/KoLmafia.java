@@ -185,7 +185,7 @@ public class KoLmafia
 			activeFrame.updateDisplay( KoLFrame.ADVENTURING_STATE, "Request " + currentIteration + " in progress..." );
 			currentRequest.run();
 		}
-		else if ( iterationsRemaining <= 0 )
+		else if ( iterationsRemaining <= 0 && activeFrame instanceof AdventureFrame )
 			activeFrame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Requests completed!" );
 	}
 
