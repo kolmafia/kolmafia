@@ -203,10 +203,10 @@
 228	0	Kentucky-fried meat staff
 229	0	Kentucky-fried meat crossbow
 230	0	dead guy's watch
-231	0	Doc Galaktik's Pungent Unguent
-232	0	Doc Galaktik's Ailment Ointment
-233	0	Doc Galaktik's Restorative Balm
-234	0	Doc Galaktik's Homeopathic Elixir
+231	4	Doc Galaktik's Pungent Unguent
+232	4	Doc Galaktik's Ailment Ointment
+233	4	Doc Galaktik's Restorative Balm
+234	4	Doc Galaktik's Homeopathic Elixir
 236	0	cocktailcrafting kit
 237	2	bottle of gin
 238	2	bottle of vodka
@@ -312,10 +312,10 @@
 341	0	Knob Goblin love potion
 342	0	Knob Goblin stink bomb
 343	0	Knob Goblin sharpening spray
-344	0	Knob Goblin seltzer
-345	0	Knob Goblin superseltzer
+344	4	Knob Goblin seltzer
+345	4	Knob Goblin superseltzer
 346	0	scrumptious reagent
-347	0	Dyspepsi-Cola
+347	4	Dyspepsi-Cola
 348	0	cold ninja mask
 349	0	icy katana hilt
 350	0	hot katana blade
@@ -384,15 +384,15 @@
 415	0	leotarrrd
 416	0	safarrri hat
 417	0	henna tattoo
-418	0	arse-a'fire elixir
-419	0	orangish aphrodisiac
-420	0	grapefruit juice of powerful power
-421	0	wrath serum
-422	0	drab potion
-423	0	tomato smoothie
-424	0	cosmic lemonade
-425	0	equilibrium juice
-426	0	potion of temporary gr8tness
+418	4	arse-a'fire elixir
+419	4	orangish aphrodisiac
+420	4	grapefruit juice of powerful power
+421	4	wrath serum
+422	4	drab potion
+423	4	tomato smoothie
+424	4	cosmic lemonade
+425	4	equilibrium juice
+426	4	potion of temporary gr8tness
 427	0	box
 428	0	nothing-in-the-box
 429	0	beanbag chair
@@ -423,9 +423,9 @@
 461	0	red pixel
 462	0	green pixel
 463	0	blue pixel
-464	0	red pixel potion
-465	0	blue pixel potion
-466	0	green pixel potion
+464	4	red pixel potion
+465	4	blue pixel potion
+466	4	green pixel potion
 467	1	purple pixel pie
 468	0	ruby W
 469	0	wussiness potion
@@ -433,7 +433,7 @@
 471	1	hot wing
 472	0	diamond-studded cane
 473	0	flaming crutch
-474	0	cast
+474	4	cast
 475	0	leather mask
 476	0	hellion cube
 477	0	infernal insoles
@@ -542,8 +542,8 @@
 589	1	cocoa eggshell fragment
 590	1	large cocoa eggshell fragment
 591	3	cocoa egg
-592	0	tiny house
-593	0	phonics down
+592	4	tiny house
+593	4	phonics down
 594	0	amulet of extreme plot significance
 595	3	scroll of drastic healing
 596	0	titanium assault umbrella
@@ -641,7 +641,7 @@
 764	1	spectral pickle
 765	0	briny vinegar
 766	3	ghost pickle on a stick
-767	0	dill potion
+767	4	dill potion
 768	0	spork
 770	0	basic meat fez
 771	0	tassel
@@ -661,8 +661,8 @@
 788	2	strawberry daiquiri
 789	2	rum and cola
 790	2	grog
-793	0	potion of chalky equality
-794	0	alarming strawberry juice
+793	4	potion of chalky equality
+794	4	alarming strawberry juice
 795	2	Acque Luride Grezze Cabernet
 797	2	rockin' wagon
 798	2	ocean motion
@@ -682,15 +682,15 @@
 815	1	rat appendix chow mein
 816	1	tofu chow mein
 817	1	pr0n chow mein
-819	0	milky potion
-820	0	swirly potion
-821	0	bubbly potion
-822	0	smoky potion
-823	0	cloudy potion
-824	0	effervescent potion
-825	0	fizzy potion
-826	0	dark potion
-827	0	murky potion
+819	4	milky potion
+820	4	swirly potion
+821	4	bubbly potion
+822	4	smoky potion
+823	4	cloudy potion
+824	4	effervescent potion
+825	4	fizzy potion
+826	4	dark potion
+827	4	murky potion
 828	3	baby killer bee
 829	0	anti-anti-antidote
 830	1	royal jelly
@@ -761,7 +761,7 @@
 923	0	broken cellular phone
 924	3	crimbo elfling
 925	0	dental pliers
-926	0	papotion of papower
+926	4	papotion of papower
 927	2	Ferita Del Petto Zinfandel
 931	2	spiced rum
 932	2	eggnog
