@@ -504,7 +504,7 @@ public class KoLCharacter
 	 */
 
 	public LockableListModel getInventory()
-	{	return inventory.getMirrorImage();
+	{	return inventory;
 	}
 
 	/**
@@ -528,7 +528,7 @@ public class KoLCharacter
 	 */
 
 	public LockableListModel getCloset()
-	{	return closet.getMirrorImage();
+	{	return closet;
 	}
 
 	/**
