@@ -248,7 +248,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 	}
 
 	public void refreshConcoctionsList()
-	{	itemManager.refreshConcoctionsList();
+	{
+		if ( itemManager != null )
+			itemManager.refreshConcoctionsList();
 	}
 
 	/**
