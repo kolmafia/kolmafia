@@ -57,6 +57,7 @@ import javax.swing.JTextField;
 public abstract class ActionVerifyPanel extends JRootPane
 {
 	private boolean contentSet;
+	private boolean isCenterPanel;
 	private JComponent eastContainer;
 	private boolean bothDisabledOnClick;
 	private VerifyButtonPanel buttonPanel;
@@ -68,14 +69,19 @@ public abstract class ActionVerifyPanel extends JRootPane
 	private static final Dimension DEFAULT_FIELD_SIZE = new Dimension( 165, 20 );
 
 	public ActionVerifyPanel( String confirmedText, String cancelledText )
-	{	this( confirmedText, cancelledText, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE );
+	{	this( confirmedText, cancelledText, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
 	}
 
 	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
+	{	this( confirmedText, cancelledText, labelSize, fieldSize, false );
+	}
+
+	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
 	{
 		contentSet = false;
 		this.labelSize = labelSize;
 		this.fieldSize = fieldSize;
+		this.isCenterPanel = isCenterPanel;
 		buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );
 	}
 
@@ -137,7 +143,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 		cardContainer.add( container, "" );
 
 		setLayout( new BorderLayout() );
-		add( cardContainer, BorderLayout.CENTER );
+		add( cardContainer, isCenterPanel ? BorderLayout.CENTER : BorderLayout.NORTH );
 
 		contentSet = true;
 		this.bothDisabledOnClick = bothDisabledOnClick;
