@@ -38,7 +38,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.BufferedReader;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.StringTokenizer;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -58,7 +59,7 @@ public class TradeableItemDatabase implements UtilityConstants
 	private static final int ITEM_COUNT = 1000;
 
 	private static String [] itemByID = new String[ ITEM_COUNT ];
-	private static HashMap itemByName = new HashMap( ITEM_COUNT );
+	private static Map itemByName = new TreeMap();
 
 	static
 	{
