@@ -337,7 +337,7 @@ public class KoLRequest extends Thread
 
 			isErrorState = true;
 			if ( frame != null )
-				frame.updateDisplay( "I/O error.  Please restart." );
+				frame.updateDisplay( KoLFrame.ENABLED_STATE, "I/O error.  Please restart." );
 			else if ( client != null )
 				client.updateAdventure( false, false );
 		}
