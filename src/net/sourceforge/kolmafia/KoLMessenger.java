@@ -84,7 +84,7 @@ public class KoLMessenger
 		seenPlayerNames = new TreeMap();
 		contactsFrame = new ContactListFrame( client, onlineContacts );
 
-		String tabbedFrameSetting = client.getSettings().getProperty( "useTabbedChat" );
+		String tabbedFrameSetting = client.getSettings().getProperty( "useTabbedFrame" );
 		setTabbedFrameSetting( tabbedFrameSetting != null && tabbedFrameSetting.equals( "true" ) );
 	}
 
@@ -701,7 +701,7 @@ public class KoLMessenger
 					currentFrame.requestFocus();
 			}
 
-			if ( useTabbedChat )
+			if ( useTabbedFrame )
 				tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 		}
 		else if ( message.indexOf( "<font color=blue>" ) == -1 || noLinksContent.startsWith( "<font color=green>" ) ||
