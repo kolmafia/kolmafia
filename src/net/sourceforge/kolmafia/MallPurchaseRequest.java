@@ -107,13 +107,13 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// First append the item ID.  Until the item database is done,
 		// there's no way to look up the item.
 
-		while ( whichItem.length() < 3 )
+		while ( whichItem.length() < 4 )
 			whichItem.insert( 0, '0' );
 
 		whichItem.append( price );
 
-		while ( whichItem.length() < 12 )
-			whichItem.insert( 3, '0' );
+		while ( whichItem.length() < 13 )
+			whichItem.insert( 4, '0' );
 
 		addFormField( "whichitem", whichItem.toString() );
 	}
@@ -176,6 +176,16 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 				willerPurchase.run();
 			}
 
+			return;
+		}
+
+		// If the item is not currently recognized, the user should
+		// be notified that the purchases cannot be made because of that
+
+		else if ( itemID == -1 )
+		{
+			client.updateDisplay( KoLFrame.ENABLED_STATE, "Item not recognized by KoLmafia database." );
+			client.cancelRequest();
 			return;
 		}
 
