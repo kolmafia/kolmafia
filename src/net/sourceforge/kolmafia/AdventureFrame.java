@@ -980,7 +980,7 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( kolchat == null || !kolchat.isShowing() )
+				if ( client.getMessenger() == null )
 				{
 					client.initializeChat();
 					kolchat = client.getMessenger();

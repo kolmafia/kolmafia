@@ -88,16 +88,14 @@ public class KoLMessenger
 	{
 		KoLFrame activeFrame = client.getActiveFrame();
 
-		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Connecting to chat..." );
-		(new ChatRequest( client, null, "/channel" )).run();
-
 		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving contact list..." );
 		(new ChatRequest( client, null, "/friends" )).run();
 
 		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Initializing chat..." );
-		(new ChatRequest( client )).run();
+		(new ChatRequest( client, null, "/channel" )).run();
 
-		setVisible( true );
+		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Starting chat..." );
+		(new ChatRequest( client )).run();
 	}
 
 	/**
@@ -144,16 +142,19 @@ public class KoLMessenger
 		frameToRemove = (ChatFrame) instantMessageFrames.remove( contact );
 		bufferToRemove = (ChatBuffer) instantMessageBuffers.remove( contact );
 
-		if ( frameToRemove != null )
+		if ( frameToRemove != null && frameToRemove.isShowing() )
 		{
 			frameToRemove.setVisible( false );
 			frameToRemove.dispose();
 		}
 
+		if ( contact.startsWith( "/" ) && !contact.equals( currentChannel ) )
+			(new ChatRequest( client, contact, "/listen " + contact.substring(1) )).run();
+
 		if ( bufferToRemove != null )
 			bufferToRemove.closeActiveLogFile();
 
-		if ( instantMessageBuffers.size() == 0 )
+		if ( contact.equals( currentChannel ) )
 			client.deinitializeChat();
 	}
 
@@ -319,17 +320,34 @@ public class KoLMessenger
 
 	public void updateChat( String originalContent )
 	{
+		// There's a lot of bad HTML used in KoL chat; in order to get Java
+		// to properly display everything, all of the bad HTML gets replaced.
+		// Also, because linking is not currently handled, all link tags are
+		// also removed.
+
 		String orderedTagsContent = originalContent.replaceAll( "<b><i>", "<i><b>" );
 		String correctedTagsContent = orderedTagsContent.replaceAll( "</br>", "<br>" );
-		String validColorsContent = correctedTagsContent.replaceAll( "<font color=\"none\">", "" ).replaceAll( "</b></font>", "</b>" );
-		String noDoubleTagsContent = validColorsContent.replaceAll( "<font[^>]*?><font[^>]*?>", "<font color=green>" );
-		String noCommentsContent = noDoubleTagsContent.replaceAll( "<!.*?>", "" );
+		String validColorsContent = correctedTagsContent.replaceAll(
+			"<font color=\"none\">", "" ).replaceAll( "</b></font>", "</b>" ).replaceAll(
+				"<font.*?><font.*?>", "<font color=green>" );
+		String noCommentsContent = validColorsContent.replaceAll( "<!.*?>", "" );
 		String noContactListContent = noCommentsContent.replaceAll( "<table>.*?</table>", "" );
 		String noLinksContent = noContactListContent.replaceAll( "</?a.*?>", "" );
 
-		// Process each line individually.
+		// Process each line individually.  But all the green messages
+		// should be processed first.
 
 		String [] lines = noContactListContent.split( "<br>" );
+		for ( int i = 0; i < lines.length; ++i )
+		{
+			lines[i] = lines[i].trim();
+			if ( lines[i].startsWith( "<font color=green>") )
+			{
+				processChatMessage( lines[i] );
+				lines[i] = null;
+			}
+		}
+
 		for ( int i = 0; i < lines.length; ++i )
 			processChatMessage( lines[i] );
 
@@ -430,7 +448,7 @@ public class KoLMessenger
 		// Also extract messages which indicate logon/logoff of players to
 		// update the contact list.
 
-		Matcher onlineNoticeMatcher = Pattern.compile( "<font.*?><b>.*</font>" ).matcher( noLinksContent );
+		Matcher onlineNoticeMatcher = Pattern.compile( "<font.*?><b>.*?</font>" ).matcher( noLinksContent );
 		lastFindIndex = 0;
 		while ( onlineNoticeMatcher.find( lastFindIndex ) )
 		{
@@ -474,7 +492,9 @@ public class KoLMessenger
 		{
 			String channel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) );
 			processChannelMessage( channel, noLinksContent );
-			((ChatFrame) instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (inactive)" );
+			ChatFrame frame = (ChatFrame) instantMessageFrames.get( channel );
+			if ( frame != null )
+				frame.setTitle( "KoLmafia Chat: " + channel + " (inactive)" );
 		}
 		else if ( noLinksContent.startsWith( "<font color=green>Now listening to channel: " ) )
 		{
@@ -560,13 +580,14 @@ public class KoLMessenger
 			// main frame.
 
 			ChatBuffer messageBuffer = getChatBuffer( contactName );
-			if ( messageBuffer == null )
+			if ( messageBuffer == null && contactName.startsWith( "/" ) )
 			{
 				openInstantMessage( contactName );
 				messageBuffer = getChatBuffer( contactName );
 			}
 
-			messageBuffer.append( redoneMessage.toString() );
+			if ( messageBuffer != null )
+				messageBuffer.append( redoneMessage.toString() );
 		}
 	}
 
@@ -584,7 +605,7 @@ public class KoLMessenger
 		// the channel content.  This can be done by opening an "instant message"
 		// window for the appropriate channel.
 
-		if ( channelBuffer == null )
+		if ( channelBuffer == null && (message == null || !message.startsWith( "<font color=green>No longer" )) )
 		{
 			openInstantMessage( channel );
 			channelBuffer = getChatBuffer( channel );
@@ -603,7 +624,7 @@ public class KoLMessenger
 			}
 		}
 
-		if ( message != null )
+		if ( message != null && channelBuffer != null )
 		{
 			channelBuffer.append( message.trim() );
 			channelBuffer.append( "<br>\n" );

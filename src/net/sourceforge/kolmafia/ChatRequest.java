@@ -163,19 +163,6 @@ public class ChatRequest extends KoLRequest
 
 		if ( associatedMessenger != null && associatedMessenger == client.getMessenger() )
 		{
-			// There's a lot of bad HTML used in KoL chat; in order to get Java
-			// to properly display everything, all of the bad HTML gets replaced.
-			// Also, because linking is not currently handled, all link tags are
-			// also removed.
-
-			String orderedTagsContent = replyContent.replaceAll( "<b><i>", "<i><b>" );
-			String correctedTagsContent = orderedTagsContent.replaceAll( "</br>", "<br>" );
-			String validColorsContent = correctedTagsContent.replaceAll( "<font color=\"none\">", "" ).replaceAll( "</b></font>", "</b>" );
-			String noDoubleTagsContent = validColorsContent.replaceAll( "<font.*?><font.*?>", "<font color=green>" );
-			String noCommentsContent = noDoubleTagsContent.replaceAll( "<!.*?>", "" );
-			String noContactListContent = noCommentsContent.replaceAll( "<table>.*?</table>", "" );
-			String noLinksContent = noContactListContent.replaceAll( "</?a.*?>", "" );
-
 			associatedMessenger.updateChat( replyContent );
 
 			if ( isContinuationRequest )
