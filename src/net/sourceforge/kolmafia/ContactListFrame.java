@@ -10,6 +10,8 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -34,7 +36,7 @@ public class ContactListFrame extends JFrame
 		this.contacts = contacts;
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( new ContactListPanel(), "" );
-		setDefaultCloseOperation( HIDE_ON_CLOSE );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 
 	private class ContactListPanel extends JPanel
@@ -51,19 +53,26 @@ public class ContactListFrame extends JFrame
 		}
 	}
 
+	private class NotifyMessengerAdapter extends WindowAdapter
+	{
+		public void windowClosed( WindowEvent e )
+		{	client.getMessenger().notifyContactListClosed();
+		}
+	}
+
 	private class SendInstantMessageAdapter extends MouseAdapter
 	{
-		public void mouseClicked( MouseEvent evt )
+		public void mouseClicked( MouseEvent e )
 		{
-			JList list = (JList) evt.getSource();
+			JList list = (JList) e.getSource();
 
 			// The only event handled by the adapter is a double-click;
 			// when a double-click is detected, a new ChatFrame is created
 			// for the specified player.
 
-			if ( evt.getClickCount() == 2 )
+			if ( e.getClickCount() == 2 )
 			{
-				int index = list.locationToIndex( evt.getPoint() );
+				int index = list.locationToIndex( e.getPoint() );
 
 				if ( index >= 0 && index < contacts.size() )
 				{
