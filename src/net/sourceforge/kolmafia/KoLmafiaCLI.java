@@ -146,6 +146,7 @@ public class KoLmafiaCLI extends KoLmafia
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
+		scriptRequestor.resetContinueState();
 	}
 
 	/**
