@@ -130,7 +130,7 @@ public class CharsheetRequest extends KoLRequest
 			int maximumMP = 0;
 			int baseMaxMP = 0;
 
-			if ( replyContent.contains( "Current Mana Points:" ) )
+			if ( replyContent.indexOf( "Current Mana Points:" ) != -1 )
 			{
 				currentMP = intToken( parsedContent );
 				skipTokens( parsedContent, 1 );
