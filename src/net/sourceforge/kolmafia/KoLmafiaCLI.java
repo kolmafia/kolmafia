@@ -74,8 +74,15 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			KoLmafiaCLI session = new KoLmafiaCLI( null, null );
-			session.attemptLogin();
+			String initialScript = null;
+			for ( int i = 0; i < args.length; ++i )
+				if ( args[i].startsWith( "script=" ) )
+					initialScript = args[i].substring( 7 );
+
+			KoLmafiaCLI session = new KoLmafiaCLI( null, initialScript );
+
+			if ( initialScript == null )
+				session.attemptLogin();
 		}
 		catch ( IOException e )
 		{
@@ -119,12 +126,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		outputStream = scriptLocation == null ? System.out : new NullStream();
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
-		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
 
-		if ( scriptRequestor instanceof KoLmafiaGUI )
-		{
+		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
+		if ( this.scriptRequestor != this )
 			listenForCommands();
-		}
 		else
 		{
 			outputStream.println();
@@ -248,8 +253,20 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCommand( String command, String parameters )
 	{
+		if ( command.equals( "login" ) )
+		{
+			attemptLogin();
+			return;
+		}
+
 		if ( command.equals( "exit" ) || command.equals( "quit" ) || command.equals( "logout" ) )
 		{
+			if ( !scriptRequestor.inLoginState() )
+			{
+				outputStream.println( "Logging out..." );
+				(new LogoutRequest( scriptRequestor )).run();
+			}
+
 			outputStream.println( "Exiting KoLmafia..." );
 			System.exit(0);
 		}
@@ -259,6 +276,7 @@ public class KoLmafiaCLI extends KoLmafia
 			try
 			{
 				(new KoLmafiaCLI( this, parameters )).listenForCommands();
+				return;
 			}
 			catch ( IOException e )
 			{
@@ -266,8 +284,17 @@ public class KoLmafiaCLI extends KoLmafia
 				// be loaded, since that's what the error probably was.
 
 				outputStream.println( "Script file <" + parameters + "> could not be found." );
+				return;
 			}
+		}
 
+		// If there's any commands which suggest that the
+		// client is in a login state, you should not do
+		// any commands listed beyond this point
+
+		if ( scriptRequestor.inLoginState() )
+		{
+			outputStream.println( "You have not yet logged in." );
 			return;
 		}
 
