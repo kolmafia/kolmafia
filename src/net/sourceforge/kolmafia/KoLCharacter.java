@@ -69,6 +69,9 @@ public class KoLCharacter
 	private int adventuresLeft;
 	private int totalTurnsUsed;
 
+	private boolean hasChef;
+	private boolean hasBartender;
+
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
 	 * All fields are initialized to their default values (nothing),
@@ -95,6 +98,9 @@ public class KoLCharacter
 
 		for ( int i = 0; i < 7; ++i )
 			equipment.add( "none" );
+
+		this.hasChef = true;
+		this.hasBartender = true;
 	}
 
 	/**
@@ -545,4 +551,45 @@ public class KoLCharacter
 	public void addClosetItem( AdventureResult closetItem )
 	{	AdventureResult.addResultToList( closet, closetItem );
 	}
+
+	/**
+	 * Accessor method which indicates whether or not the character has a bartender-in-the-box.
+	 * @return	<code>true</code> if the character has a bartender-in-the-box
+	 */
+
+	public boolean hasBartender()
+	{	return hasBartender;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the bartender-in-the-box.
+	 * @param	bartenderStateChange	Whether or not the character's state has changed
+	 */
+
+	public void setBartender( boolean bartenderStateChange )
+	{
+		if ( bartenderStateChange )
+			hasBartender = !hasBartender;
+	}
+
+	/**
+	 * Accessor method which indicates whether or not the character has a chef-in-the-box.
+	 * @return	<code>true</code> if the character has a chef-in-the-box
+	 */
+
+	public boolean hasChef()
+	{	return hasBartender;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the chef-in-the-box.
+	 * @param	chefStateChange	Whether or not the character's state has changed
+	 */
+
+	public void setChef( boolean chefStateChange )
+	{
+		if ( chefStateChange )
+			hasChef = !hasChef;
+	}
+
 }

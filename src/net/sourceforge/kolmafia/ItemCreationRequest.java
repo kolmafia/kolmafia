@@ -198,15 +198,54 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		addFormField( "item2", "" + ingredients[1][0] );
 		addFormField( "quantity", "" + quantityNeeded );
 
+		// Because bartenders and chefs might explode,
+		// one needs to catch that.  Most importantly,
+		// though, the player should be notified of
+		// educated guesses of the results, rather
+		// than the assumption that all things went well.
+
+		int index = client.getInventory().indexOf( new AdventureResult( TradeableItemDatabase.getItemName( itemID ) ) );
+		int beforeRequestQuantity = (index == -1) ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount();
+
 		super.run();
 
-		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[0][0] ), 0 - quantityNeeded ) );
-		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[1][0] ), 0 - quantityNeeded ) );
+		// Arbitrary results can happen - just throw the
+		// entire string to the results parser and let
+		// it figure out what was actually gained; note
+		// that this is potentially inaccurate, as you
+		// may get your initial creation attempt back.
+
+		processResults( replyContent );
+
+		index = client.getInventory().indexOf( new AdventureResult( TradeableItemDatabase.getItemName( itemID ) ) );
+		int createdQuantity =
+			((index == -1) ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount()) - beforeRequestQuantity;
+
+		// Because an explosion might have occurred, the
+		// quantity that has changed might not be accurate.
+		// Therefore, update with the actual value.
+
+		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[0][0] ), 0 - createdQuantity ) );
+		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[1][0] ), 0 - createdQuantity ) );
 
 		if ( mixingMethod == COMBINE )
-			client.addToResultTally( new AdventureResult( "meat paste", 0 - quantityNeeded ) );
+			client.addToResultTally( new AdventureResult( "meat paste", 0 - createdQuantity ) );
 
-		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( itemID ), quantityNeeded ) );
+		// Now, check to see if your box-servant was
+		// overworked and exploded.
+
+		switch ( mixingMethod )
+		{
+			case COOK:
+			case COOK_REAGENT:
+			case COOK_PASTA:
+				client.getCharacterData().setChef( replyContent.indexOf( "Smoke" ) != -1 );
+				break;
+
+			case MIX:
+				client.getCharacterData().setBartender( replyContent.indexOf( "Smoke" ) != -1 );
+				break;
+		}
 	}
 
 	/**
