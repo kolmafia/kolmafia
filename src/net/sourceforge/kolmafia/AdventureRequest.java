@@ -181,7 +181,7 @@ public class AdventureRequest extends KoLRequest
 		// machines and the shore vacations when you don't have
 		// enough meat, adventures or are too drunk to continue.
 
-		if ( !formSource.equals( "shore.php" ) )
+		if ( formSource.equals( "adventure.php" ) || formSource.equals( "lair3.php" ) )
 		{
 			if ( replyContent.indexOf( "againform.submit" ) == -1 )
 			{
