@@ -587,7 +587,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCampgroundRequest( String parameters )
 	{
-		String [] parameterList = parameters.split( "" );
+		String [] parameterList = parameters.split( " " );
 
 		try
 		{
@@ -617,7 +617,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		String firstParameter = parameters.split( "" )[0].toLowerCase();
+		String firstParameter = parameters.split( " " )[0].toLowerCase();
 		skillName = getSkillName( parameters.substring( firstParameter.length() ).trim().toLowerCase() );
 		if ( skillName == null )
 		{
@@ -653,7 +653,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		int heroID;  int amount = -1;  int increments;
 
-		String [] parameterList = parameters.split( "" );
+		String [] parameterList = parameters.split( " " );
 
 		if ( parameterList[0].startsWith( "boris" ) || parameterList[0].startsWith( "mus" ) )
 			heroID = HeroDonationRequest.BORIS;
@@ -715,7 +715,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		String [] parameterList = parameters.split( "" );
+		String [] parameterList = parameters.split( " " );
 		PrintStream desiredOutputStream;
 
 		if ( parameterList.length != 1 )
@@ -887,7 +887,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else
 			{
-				String itemCountString = parameters.split( "" )[0];
+				String itemCountString = parameters.split( " " )[0];
 				String itemNameString = parameters.substring( itemCountString.length() ).trim();
 
 				if ( itemNameString.startsWith( "\"" ) )
@@ -982,7 +982,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeAutoMallRequest( String parameters )
 	{
-		String [] tokens = parameters.split( "" );
+		String [] tokens = parameters.split( " " );
 		StringBuffer itemName = new StringBuffer();
 
 		itemName.append( '*' );
@@ -1143,7 +1143,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else
 		{
-			String adventureCountString = parameters.split( "" )[0];
+			String adventureCountString = parameters.split( " " )[0];
 			adventureName = parameters.substring( adventureCountString.length() ).trim();
 
 			if ( !AdventureDatabase.contains( adventureName ) )
@@ -1246,7 +1246,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	protected void makeHermitRequest( int tradeCount )
 	{
-		String item = previousCommand.split( "" )[2];
+		String item = previousCommand.split( " " )[2];
 		int itemNumber = -1;
 
 		for ( int i = 0; itemNumber == -1 && i < hermitItemNames.length; ++i )
