@@ -269,7 +269,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 							}
 							else
 							{
-								sendRefund( message.getSenderName(), "Too many drummers are marching in your head.  Please try again later.", meatSent );
+								sendRefund( message.getSenderName(), "The Buffbot is not currently able to process your request.  Please try again later.", meatSent );
 								deleteList.add( message );
 								return true;
 							}
