@@ -500,7 +500,7 @@ public class AdventureFrame extends KoLFrame
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Search String: ", searchField );
-			elements[1] = new VerifiableElement( "Limit Results: ", countField );
+			elements[1] = new VerifiableElement( "Search Limit: ", countField );
 			elements[2] = new VerifiableElement( "Limit Purchases: ", limitPurchasesField );
 
 			setContent( elements );
@@ -677,7 +677,8 @@ public class AdventureFrame extends KoLFrame
 							// Remove the purchase from the list!  Because you
 							// have already made a purchase from the store
 
-							results.remove( purchases[i] );
+							if ( client.permitsContinue() )
+								results.remove( purchases[i] );
 						}
 					}
 				}
