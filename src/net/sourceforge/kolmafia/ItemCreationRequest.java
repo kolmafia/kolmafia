@@ -248,11 +248,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// quantity that has changed might not be accurate.
 		// Therefore, update with the actual value.
 
-		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[0][0] ), 0 - createdQuantity ) );
-		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[1][0] ), 0 - createdQuantity ) );
+		client.processResult( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[0][0] ), 0 - createdQuantity ) );
+		client.processResult( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[1][0] ), 0 - createdQuantity ) );
 
 		if ( mixingMethod == COMBINE )
-			client.addToResultTally( new AdventureResult( "meat paste", 0 - createdQuantity ) );
+			client.processResult( new AdventureResult( "meat paste", 0 - createdQuantity ) );
 
 		// Now, check to see if your box-servant was
 		// overworked and exploded.
@@ -481,8 +481,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			if ( isErrorState || responseCode != 200 )
 				return;
 
-			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 * quantityNeeded ) );
-			client.addToResultTally( new AdventureResult( "meat paste", quantityNeeded ) );
+			client.processResult( new AdventureResult( AdventureResult.MEAT, -10 * quantityNeeded ) );
+			client.processResult( new AdventureResult( "meat paste", quantityNeeded ) );
 		}
 	}
 
@@ -516,8 +516,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			if ( isErrorState || responseCode != 200 )
 				return;
 
-			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, (isDense ? -1000 : -100) * quantityNeeded ) );
-			client.addToResultTally( new AdventureResult( (isDense ? "dense " : "") + "meat stack", 1 ) );
+			client.processResult( new AdventureResult( AdventureResult.MEAT, (isDense ? -1000 : -100) * quantityNeeded ) );
+			client.processResult( new AdventureResult( (isDense ? "dense " : "") + "meat stack", 1 ) );
 		}
 	}
 }

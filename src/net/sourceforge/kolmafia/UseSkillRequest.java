@@ -102,7 +102,7 @@ public class UseSkillRequest extends KoLRequest
 			return;
 		}
 
-		client.addToResultTally( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
+		client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
 
 		processResults( replyContent.replaceFirst(
 			"</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );

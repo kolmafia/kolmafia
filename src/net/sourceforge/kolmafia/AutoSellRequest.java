@@ -96,7 +96,7 @@ public class AutoSellRequest extends KoLRequest
 		// sold all the items of the given time, and acquired a certain amount
 		// of meat from the recipient.
 
-		client.addToResultTally( soldResult );
+		client.processResult( soldResult );
 
 		String plainTextResult = replyContent.replaceAll( "<.*?>", "" );
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, " " );
@@ -108,7 +108,7 @@ public class AutoSellRequest extends KoLRequest
 				while ( !parsedResults.nextToken().equals( "for" ) );
 
 				int amount = df.parse( parsedResults.nextToken() ).intValue();
-				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, amount ) );
+				client.processResult( new AdventureResult( AdventureResult.MEAT, amount ) );
 				client.updateDisplay( ENABLED_STATE, "Autosold " + soldResult );
 			}
 			catch ( Exception e )

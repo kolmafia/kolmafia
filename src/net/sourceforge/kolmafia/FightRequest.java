@@ -105,7 +105,7 @@ public class FightRequest extends KoLRequest
 		if ( !isErrorState )
 		{
 			if ( client.getSettings().getProperty( "battleAction" ).equals( "moxman" ) )
-				client.addToResultTally( new AdventureResult( AdventureResult.MP, -1 ) );
+				client.processResult( new AdventureResult( AdventureResult.MP, -1 ) );
 
 			processResults( replyContent );
 			int winmsgIndex = replyContent.indexOf( "WINWINWIN" );

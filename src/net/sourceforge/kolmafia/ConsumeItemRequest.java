@@ -108,12 +108,12 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( itemUsed.getName().startsWith( "chef-in" ) )
 			{
 				client.getCharacterData().setChef( true );
-				client.addToResultTally( itemUsed );
+				client.processResult( itemUsed );
 			}
 			else if ( itemUsed.getName().startsWith( "bartender-in" ) )
 			{
 				client.getCharacterData().setBartender( true );
-				client.addToResultTally( itemUsed );
+				client.processResult( itemUsed );
 			}
 			else
 				(new RetrieveResultRequest( client, redirectLocation )).run();
@@ -126,7 +126,7 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 		else
 		{
-			client.addToResultTally( itemUsed );
+			client.processResult( itemUsed );
 			processResults( replyContent );
 		}
 	}
@@ -178,7 +178,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 			else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
 			{
-				client.addToResultTally( new AdventureResult( AdventureResult.HP, client.getCharacterData().getMaximumHP() ) );
+				client.processResult( new AdventureResult( AdventureResult.HP, client.getCharacterData().getMaximumHP() ) );
 				updateDisplay( ENABLED_STATE, "Scroll didn't crumble!" );
 				if ( replyContent.indexOf( "crumble" ) == -1 )
 					return;
@@ -191,7 +191,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// long, the output/input's probably just fine.
 
 			if ( itemUsed.getName().indexOf( "rolling" ) == -1 && itemUsed.getName().indexOf( "Protest" ) == -1 )
-				client.addToResultTally( itemUsed );
+				client.processResult( itemUsed );
 
 			processResults( replyContent.substring( 0, replyContent.indexOf( "Inventory:" ) ) );
 
@@ -204,7 +204,7 @@ public class ConsumeItemRequest extends KoLRequest
 				int consumedItemIndex = client.getInventory().indexOf( new AdventureResult( consumedItemName, 0 ) );
 
 				if ( consumedItemIndex != -1 )
-					client.addToResultTally( new AdventureResult( consumedItemName,
+					client.processResult( new AdventureResult( consumedItemName,
 						0 - ((AdventureResult)client.getInventory().get( consumedItemIndex )).getCount() ) );
 			}
 

@@ -46,8 +46,8 @@ package net.sourceforge.kolmafia;
 
 public interface KoLCharacterListener
 {
-	public void notifyHPChanged();
-	public void notifyMPChanged();
-	public void notifyStatusPointsChanged();
-	public void notifyAvailableMeatChanged();
+	public void hpChanged();
+	public void mpChanged();
+	public void statusPointsChanged();
+	public void availableMeatChanged();
 }

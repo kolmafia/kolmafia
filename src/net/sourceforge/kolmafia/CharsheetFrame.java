@@ -112,6 +112,7 @@ public class CharsheetFrame extends KoLFrame
 		getContentPane().add( entirePanel, "" );
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
+		characterData.addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefreshRunnable() ) );
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -271,7 +272,6 @@ public class CharsheetFrame extends KoLFrame
 		if ( client != null )
 		{
 			characterData = client.getCharacterData();
-			(new CharsheetRequest( client )).run();
 			client.applyRecentEffects();
 		}
 		else
@@ -307,8 +307,17 @@ public class CharsheetFrame extends KoLFrame
 			}
 
 			public void run()
-			{	refreshStatus();
+			{
+				(new CharsheetRequest( client )).run();
+				refreshStatus();
 			}
+		}
+	}
+
+	private class StatusRefreshRunnable implements Runnable
+	{
+		public void run()
+		{	refreshStatus();
 		}
 	}
 

@@ -113,6 +113,6 @@ public class HeroDonationRequest extends KoLRequest
 		}
 
 		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
-		client.addToResultTally( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
+		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
 	}
 }

@@ -167,15 +167,10 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		// Fill the tally with junk information
 
-		addToResultTally( new AdventureResult( AdventureResult.HP ) );
-		addToResultTally( new AdventureResult( AdventureResult.MP ) );
-		addToResultTally( new AdventureResult( AdventureResult.ADV ) );
-		addToResultTally( new AdventureResult( AdventureResult.DRUNK ) );
-		addToResultTally( new AdventureResult( AdventureResult.SPACER ) );
-		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
-		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
-		addToResultTally( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
-		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
+		processResult( new AdventureResult( AdventureResult.MEAT ) );
+		processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
+		processResult( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+		processResult( new AdventureResult( AdventureResult.DIVIDER ) );
 
 		// Begin by loading the user-specific settings.
 
@@ -242,15 +237,10 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		// Initially the tally to the necessary values
 
-		addToResultTally( new AdventureResult( AdventureResult.HP, characterData.getCurrentHP() ) );
-		addToResultTally( new AdventureResult( AdventureResult.MP, characterData.getCurrentMP() ) );
-		addToResultTally( new AdventureResult( AdventureResult.ADV, characterData.getAdventuresLeft() ) );
-		addToResultTally( new AdventureResult( AdventureResult.DRUNK, characterData.getInebriety() ) );
-		addToResultTally( new AdventureResult( AdventureResult.SPACER, 0 ) );
-		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
-		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
-		addToResultTally( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
-		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
+		processResult( new AdventureResult( AdventureResult.MEAT ) );
+		processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
+		processResult( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+		processResult( new AdventureResult( AdventureResult.DIVIDER ) );
 
 		applyRecentEffects();
 
@@ -323,7 +313,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		try
 		{
 			logStream.println( "Parsing adventure result:\n\t" + result );
-			addToResultTally( AdventureResult.parseResult( result ) );
+			processResult( AdventureResult.parseResult( result ) );
 		}
 		catch ( Exception e )
 		{
@@ -340,51 +330,24 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 * @param	result	Result to add to the running tally of adventure results
 	 */
 
-	public void addToResultTally( AdventureResult result )
+	public void processResult( AdventureResult result )
 	{
 		String resultName = result.getName();
 		if ( result.isStatusEffect() )
 			recentEffects.add( result );
-		else
-			AdventureResult.addResultToList( tally, result, characterData.getMaximumHP(), characterData.getMaximumMP() );
+		else if ( result.isItem() || resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.MEAT ) )
+			AdventureResult.addResultToList( tally, result );
 
-		if ( result.isItem() && TradeableItemDatabase.contains( resultName ) )
-		{
-			AdventureResult.addResultToList( inventory, result );
-			if ( TradeableItemDatabase.isUsable( resultName ) )
-				AdventureResult.addResultToList( usableItems, result );
-		}
+		if ( result.isItem() && TradeableItemDatabase.contains( resultName ) && TradeableItemDatabase.isUsable( resultName ) )
+			AdventureResult.addResultToList( usableItems, result );
 
-		if ( resultName.equals( AdventureResult.HP ) )
-			characterData.setHP( ((AdventureResult)tally.get(0)).getCount(), characterData.getMaximumHP(), characterData.getBaseMaxHP() );
-		else if ( resultName.equals( AdventureResult.MP ) )
-			characterData.setMP( ((AdventureResult)tally.get(1)).getCount(), characterData.getMaximumMP(), characterData.getBaseMaxMP() );
-		else if ( resultName.equals( AdventureResult.MEAT ) )
-			characterData.setAvailableMeat( characterData.getAvailableMeat() + result.getCount() );
-
-		if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
-			AdventureResult.reduceTally( characterData.getEffects(), result.getCount() );
-
-		// Also update the character data's information related to
-		// stats; for now, only drunkenness matters since the pane
-		// won't be automatically updated during changes, but the
-		// current drunkenness level is used for drunkenness tracking
-
-		if ( tally.size() > 4 && resultName.equals( AdventureResult.DRUNK ) )
-			characterData.setInebriety( ((AdventureResult)tally.get( 3 )).getCount() );
+		characterData.processResult( result );
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
 
-		if ( result.getName().equals( AdventureResult.SUBSTATS ) )
+		if ( resultName.equals( AdventureResult.SUBSTATS ) )
 		{
-			if ( result.isMuscleGain() )
-				currentStats[0] += result.getCount();
-			else if ( result.isMysticalityGain() )
-				currentStats[1] += result.getCount();
-			else if ( result.isMoxieGain() )
-				currentStats[2] += result.getCount();
-
 			for ( int i = 0; i < 3; ++i )
 				fullStatGain[i] = KoLCharacter.calculateBasePoints( currentStats[i] ) -
 					KoLCharacter.calculateBasePoints( initialStats[i] );

@@ -251,8 +251,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			this.client = client;
 			this.sessionID = client.getSessionID();
-			this.logStream = formURLString.indexOf( "chat" ) != -1 ?
-				new NullStream() : client.getLogStream();
 		}
 		else
 			this.logStream = new NullStream();
@@ -329,6 +327,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	private void execute()
 	{
 		boolean connectSuccess = false;
+		this.logStream = client == null ? new NullStream() : client.getLogStream();
+
+		logStream.println( "Connecting to " + formURLString + "..." );
 		for ( int i = 0; i < MAX_RETRIES && !connectSuccess; ++i )
 			connectSuccess = prepareConnection();
 
@@ -360,7 +361,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		// Here, if you weren't doing output, translate the form data
 		// into a GET request.
 
-		logStream.println( "Connecting to " + formURLString + "..." );
 		if ( !doOutput && !data.isEmpty() )
 		{
 			formURLBuffer.append( '?' );
@@ -693,7 +693,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			else if ( lastToken.startsWith( "You acquire" ) )
 			{
 				if ( lastToken.indexOf( "effect" ) == -1 )
+				{
 					client.parseResult( parsedResults.nextToken() );
+				}
 				else
 				{
 					String effect = parsedResults.nextToken();

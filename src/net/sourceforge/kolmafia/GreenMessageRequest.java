@@ -157,7 +157,7 @@ public class GreenMessageRequest extends KoLRequest
 			else
 				negatedResult = new AdventureResult( AdventureResult.MEAT, 0 - currentResult.getCount() );
 
-			client.addToResultTally( negatedResult );
+			client.processResult( negatedResult );
 		}
 	}
 }

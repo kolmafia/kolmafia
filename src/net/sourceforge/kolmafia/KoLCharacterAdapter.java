@@ -41,10 +41,38 @@ package net.sourceforge.kolmafia;
  * class can simply override the methods it needs.
  */
 
-public abstract class KoLCharacterAdapter implements KoLCharacterListener
+public class KoLCharacterAdapter implements KoLCharacterListener
 {
-	public void notifyHPChanged() {}
-	public void notifyMPChanged() {}
-	public void notifyStatPointsChanged() {}
-	public void notifyAvailableMeatChanged() {}
+	private Runnable toExecute;
+
+	public KoLCharacterAdapter()
+	{	this( null );
+	}
+
+	public KoLCharacterAdapter( Runnable toExecute )
+	{	this.toExecute = toExecute;
+	}
+
+	public void hpChanged()
+	{
+		if ( toExecute != null )
+			toExecute.run();
+	}
+	public void mpChanged()
+	{
+		if ( toExecute != null )
+			toExecute.run();
+	}
+
+	public void statusPointsChanged()
+	{
+		if ( toExecute != null )
+			toExecute.run();
+	}
+
+	public void availableMeatChanged()
+	{
+		if ( toExecute != null )
+			toExecute.run();
+	}
 }

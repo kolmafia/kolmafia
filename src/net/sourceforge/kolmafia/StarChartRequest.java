@@ -133,9 +133,9 @@ public class StarChartRequest extends KoLRequest implements Comparable
 	private void makeConstellation()
 	{
 		super.run();
-		client.addToResultTally( new AdventureResult( "star chart", -1 ) );
-		client.addToResultTally( new AdventureResult( "star", 0 - stars ) );
-		client.addToResultTally( new AdventureResult( "line", 0 - lines ) );
-		client.addToResultTally( new AdventureResult( getName(), 1 ) );
+		client.processResult( new AdventureResult( "star chart", -1 ) );
+		client.processResult( new AdventureResult( "star", 0 - stars ) );
+		client.processResult( new AdventureResult( "line", 0 - lines ) );
+		client.processResult( new AdventureResult( getName(), 1 ) );
 	}
 }

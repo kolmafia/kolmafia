@@ -74,7 +74,7 @@ public class UneffectRequest extends KoLRequest
 		if ( replyContent != null && replyContent.indexOf( "Effect removed." ) != -1 )
 		{
 			client.getCharacterData().getEffects().remove( effect );
-			client.addToResultTally( REMEDY );
+			client.processResult( REMEDY );
 			client.updateDisplay( ENABLED_STATE, "Effect removed." );
 		}
 		else

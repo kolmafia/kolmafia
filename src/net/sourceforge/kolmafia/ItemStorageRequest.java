@@ -262,13 +262,13 @@ public class ItemStorageRequest extends KoLRequest
 
 				if ( moveType == INVENTORY_TO_CLOSET )
 				{
-					client.addToResultTally( negatedResult );
+					client.processResult( negatedResult );
 					AdventureResult.addResultToList( destination, currentResult );
 				}
 				else
 				{
 					AdventureResult.addResultToList( source, negatedResult );
-					client.addToResultTally( currentResult );
+					client.processResult( currentResult );
 				}
 			}
 		}
@@ -306,7 +306,7 @@ public class ItemStorageRequest extends KoLRequest
 			super.run();
 
 			AdventureResult negatedResult = new AdventureResult( result.getItemID(), 0 - result.getCount() );
-			client.addToResultTally( negatedResult );
+			client.processResult( negatedResult );
 		}
 	}
 }

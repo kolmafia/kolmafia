@@ -197,7 +197,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Once it reaches this point, you know that the
 		// request was executed.  Begin parsing the reply.
 
-		String result = replyContent.substring( 0, replyContent.indexOf( "</table>" ) );
+		String result = replyContent.substring( replyContent.indexOf( "<center>" ), replyContent.indexOf( "</table>" ) );
 
 		// One error that might be encountered is that the user
 		// already purchased the item; if that's the case, and
@@ -228,7 +228,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// purchasing the item.  If that's the case, just return
 		// without doing anything; nothing left to do.
 
-		if ( result.indexOf( "may only buy" ) == -1 )
+		if ( result.indexOf( "acquire" ) == -1 && result.indexOf( "may only buy" ) == -1 )
 		{
 			if ( replyContent.indexOf( "You can't afford" ) != -1 )
 			{
@@ -253,7 +253,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Also report how much meat you lost in the purchase
 		// so that gets updated in the session summary as well.
 
-		client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -1 * price * (afterCount - beforeCount) ) );
+		client.processResult( new AdventureResult( AdventureResult.MEAT, -1 * price * (afterCount - beforeCount) ) );
 	}
 
 	public int compareTo( Object o )

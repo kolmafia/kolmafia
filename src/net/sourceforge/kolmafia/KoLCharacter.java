@@ -344,13 +344,13 @@ public class KoLCharacter
 
 	public void setHP( int currentHP, int maximumHP, int baseMaxHP )
 	{
-		this.currentHP = currentHP;
+		this.currentHP = currentHP > baseMaxHP ? baseMaxHP : currentHP;
 		this.maximumHP = maximumHP;
 		this.baseMaxHP = baseMaxHP;
 
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).notifyHPChanged();
+			((KoLCharacterListener)listenerIterator.next()).hpChanged();
 	}
 
 	/**
@@ -389,13 +389,13 @@ public class KoLCharacter
 
 	public void setMP( int currentMP, int maximumMP, int baseMaxMP )
 	{
-		this.currentMP = currentMP;
+		this.currentMP = currentMP > baseMaxMP ? baseMaxMP : currentMP;
 		this.maximumMP = maximumMP;
 		this.baseMaxMP = baseMaxMP;
 
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).notifyMPChanged();
+			((KoLCharacterListener)listenerIterator.next()).mpChanged();
 	}
 
 	/**
@@ -456,7 +456,7 @@ public class KoLCharacter
 
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).notifyAvailableMeatChanged();
+			((KoLCharacterListener)listenerIterator.next()).availableMeatChanged();
 	}
 
 	/**
@@ -499,7 +499,7 @@ public class KoLCharacter
 
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).notifyStatusPointsChanged();
+			((KoLCharacterListener)listenerIterator.next()).statusPointsChanged();
 	}
 
 	/**
@@ -1074,5 +1074,53 @@ public class KoLCharacter
 
 	public void addKoLCharacterListener( KoLCharacterListener listener )
 	{	listenerList.add( listener );
+	}
+
+	/**
+	 * Processes a result.
+	 */
+
+	public void processResult( AdventureResult result )
+	{
+		String resultName = result.getName();
+
+		if ( result.isItem() && TradeableItemDatabase.contains( resultName ) )
+			AdventureResult.addResultToList( inventory, result );
+
+		if ( resultName.equals( AdventureResult.HP ) )
+			setHP( getCurrentHP() + result.getCount(), getMaximumHP(), getBaseMaxHP() );
+		else if ( resultName.equals( AdventureResult.MP ) )
+			setMP( getCurrentMP() + result.getCount(), getMaximumMP(), getBaseMaxMP() );
+		else if ( resultName.equals( AdventureResult.MEAT ) )
+			setAvailableMeat( getAvailableMeat() + result.getCount() );
+
+		if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
+			AdventureResult.reduceTally( getEffects(), result.getCount() );
+
+		// Also update the character data's information related to
+		// stats; for now, only drunkenness matters since the pane
+		// won't be automatically updated during changes, but the
+		// current drunkenness level is used for drunkenness tracking
+
+		if ( resultName.equals( AdventureResult.DRUNK ) )
+			setInebriety( getInebriety() + result.getCount() );
+
+		// Now, if it's an actual stat gain, be sure to update the
+		// list to reflect the current value of stats so far.
+
+		if ( resultName.equals( AdventureResult.SUBSTATS ) )
+		{
+			if ( result.isMuscleGain() )
+				totalSubpoints[0] += result.getCount();
+			else if ( result.isMysticalityGain() )
+				totalSubpoints[1] += result.getCount();
+			else if ( result.isMoxieGain() )
+				totalSubpoints[2] += result.getCount();
+
+			Iterator listenerIterator = listenerList.iterator();
+			while ( listenerIterator.hasNext() )
+				((KoLCharacterListener)listenerIterator.next()).statusPointsChanged();
+
+		}
 	}
 }

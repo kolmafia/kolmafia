@@ -118,7 +118,7 @@ public class KoLAdventure implements Runnable, KoLConstants
 		// Once the request is complete, be sure to deduct the
 		// used adventures from the tally
 
-		client.addToResultTally( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
+		client.processResult( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
 	}
 
 	/**

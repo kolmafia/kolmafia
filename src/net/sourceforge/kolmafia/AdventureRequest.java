@@ -199,7 +199,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "shore.php" ) )
 		{
-			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -500 ) );
+			client.processResult( new AdventureResult( AdventureResult.MEAT, -500 ) );
 			return;
 		}
 
@@ -207,26 +207,26 @@ public class AdventureRequest extends KoLRequest
 		// your running tally.
 
 		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "25" ) )
-			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -100 ) );
+			client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
 
 		// If you're at the casino, each of the different slot machines
 		// deducts meat from your tally
 
 		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "70" ) )
-			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "71" ) )
-			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -30 ) );
+			client.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
 		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "72" ) )
-			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 
 		if ( formSource.equals( "casino.php" ) )
 		{
 			if ( adventureID.equals( "1" ) )
-				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -5 ) );
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
 			else if ( adventureID.equals( "2" ) )
-				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 			else if ( adventureID.equals( "11" ) )
-				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 		}
 	}
 
