@@ -411,13 +411,17 @@ public class AdventureFrame extends KoLFrame
 				{
 					int count = df.parse( countField.getText() ).intValue();
 					Runnable request = (Runnable) locationField.getSelectedItem();
-					client.getSettings().setProperty( "lastAdventure", request.toString() );
-					client.getSettings().saveSettings();
 
-					client.makeRequest( request, count );
+					if ( request != null )
+					{
+						client.getSettings().setProperty( "lastAdventure", request.toString() );
+						client.getSettings().saveSettings();
 
-					if ( isheet != null )
-						isheet.refreshConcoctionsList();
+						client.makeRequest( request, count );
+
+						if ( isheet != null )
+							isheet.refreshConcoctionsList();
+					}
 				}
 				catch ( ParseException e )
 				{
@@ -1053,18 +1057,9 @@ public class AdventureFrame extends KoLFrame
 				if ( effect == null )
 					return;
 
-				LockableListModel effectsList = client.getCharacterData().getEffects();
-				int effectCount = effectsList.size();
-
 				RemoveEffectsPanel.this.setEnabled( false );
-				updateDisplay( DISABLED_STATE, "Using soft green whatever..." );
-
 				(new UneffectRequest( client, effect )).run();
-
 				boolean isEnabled = client.getInventory().contains( UneffectRequest.REMEDY );
-				String message = effectCount == effectsList.size() ? "Effect removal failed." : "Effect removed.";
-
-				updateDisplay( ENABLED_STATE, message );
 				RemoveEffectsPanel.this.setEnabled( isEnabled );
 			}
 		}
