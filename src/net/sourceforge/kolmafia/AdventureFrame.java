@@ -166,10 +166,15 @@ public class AdventureFrame extends KoLFrame
 		menu.setMnemonic( KeyEvent.VK_V );
 		menuBar.add( menu );
 
-		JMenuItem menuItem = new JMenuItem( "Character Sheet", KeyEvent.VK_C );
-		menuItem.addActionListener( new ViewCharacterSheetListener() );
+		JMenuItem csheetItem = new JMenuItem( "Character Sheet", KeyEvent.VK_C );
+		csheetItem.addActionListener( new ViewCharacterSheetListener() );
 
-		menu.add( menuItem );
+		menu.add( csheetItem );
+
+		JMenuItem imanageItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
+		imanageItem.addActionListener( new ViewItemManagerListener() );
+
+		menu.add( imanageItem );
 
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
@@ -538,6 +543,38 @@ public class AdventureFrame extends KoLFrame
 				CharsheetFrame csheet = new CharsheetFrame( client );
 				csheet.pack();  csheet.setVisible( true );
 				csheet.requestFocus();
+				updateDisplay( NOCHANGE_STATE, "" );
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing a character sheet.
+	 */
+
+	private class ViewItemManagerListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			updateDisplay( NOCHANGE_STATE, "Retrieving item data..." );
+			(new ViewItemManagerThread()).start();
+		}
+
+		private class ViewItemManagerThread extends Thread
+		{
+			public ViewItemManagerThread()
+			{
+				super( "Item-Display-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				ItemManageFrame isheet = new ItemManageFrame( client );
+				isheet.pack();  isheet.setVisible( true );
+				isheet.requestFocus();
 				updateDisplay( NOCHANGE_STATE, "" );
 			}
 		}

@@ -77,7 +77,7 @@ public class ItemManageFrame extends KoLFrame
 	public ItemManageFrame( KoLmafia client )
 	{
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
-			" Item Management", client );
+			" (Item Management)", client );
 
 		JTabbedPane inventoryTabs = new JTabbedPane();
 		inventoryTabs.addTab( "Use", new JPanel() );
