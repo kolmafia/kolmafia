@@ -180,7 +180,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( !formSource.equals( "shore.php" ) )
 		{
-			if ( formSource.indexOf( "againform.submit" ) == -1 )
+			if ( replyContent.indexOf( "againform.submit" ) == -1 )
 			{
 				// Notify the client of failure by telling it that
 				// the adventure did not take place and the client
