@@ -208,7 +208,7 @@ public class ChatRequest extends KoLRequest
 			{
 				if ( isFriendAdditionRequest )
 					(new ChatRequest( client, null, "/friends" )).run();
-				if ( client.getMessenger() != null )
+				else if ( client.getMessenger() != null && client.getMessenger() == associatedMessenger )
 					(new ChatRequest( client, lastSeen )).run();
 			}
 		}
