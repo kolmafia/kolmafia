@@ -106,6 +106,7 @@ public class MailboxRequest extends KoLRequest
 		if ( action != null )
 		{
 			updateDisplay( ENABLED_STATE, "Selected mail successfully " + action + "d" );
+			isRequesting = false;
 			return;
 		}
 
@@ -119,7 +120,10 @@ public class MailboxRequest extends KoLRequest
 		// so return from the method without doing anything.
 
 		if ( lastMessageIndex == -1 )
+		{
+			isRequesting = false;
 			return;
+		}
 
 		String currentMessage, currentPlainTextMessage;
 
@@ -150,6 +154,10 @@ public class MailboxRequest extends KoLRequest
 
 		currentMessage = replyContent.substring( lastMessageIndex, replyContent.lastIndexOf( "<b>" ) ).replaceAll(
 			"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll( "<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
+
+		if ( currentMessage.endsWith( "<a href=\"javascript:toggleall();\">" ) )
+			currentMessage = currentMessage.substring( 0, currentMessage.length() - 34 );
+
 		shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
 
 		// Determine how many messages there are, and how many there are left
