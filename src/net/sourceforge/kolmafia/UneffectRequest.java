@@ -51,7 +51,7 @@ public class UneffectRequest extends KoLRequest
 	/**
 	 * Constructs a new <code>UneffectRequest</code>.
 	 * @param	client	The client to be notified of completion
-	 * @param	effectID	The ID number for the effect to be removed
+	 * @param	effectDescription	The description of the effect to be removed
 	 */
 
 	public UneffectRequest( KoLmafia client, String effectDescription )
