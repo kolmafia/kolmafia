@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 public class KoLmafia
 {
 	private String loginname, password, sessionID, passwordHash;
+	private KoLFrame activeFrame;
 
 	public static void main( String [] args )
 	{
@@ -50,8 +51,12 @@ public class KoLmafia
 		sessionID = null;
 		passwordHash = null;
 
-		LoginFrame login = new LoginFrame( this );
-		login.pack();  login.setVisible( true );
+		activeFrame = new LoginFrame( this );
+		activeFrame.pack();  activeFrame.setVisible( true );
+	}
+
+	public KoLFrame getActiveFrame()
+	{	return activeFrame;
 	}
 
 	public void initialize()

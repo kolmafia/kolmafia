@@ -53,9 +53,9 @@ public class LoginRequest extends KoLRequest
 	private String loginname;
 	private String password;
 
-	public LoginRequest( KoLmafia client, KoLFrame frame, String loginname, String password )
+	public LoginRequest( KoLmafia client, String loginname, String password )
 	{
-		super( client, frame, "login.php" );
+		super( client, "login.php" );
 
 		this.loginname = loginname;
 		this.password = password;
@@ -89,7 +89,7 @@ public class LoginRequest extends KoLRequest
 			{
 				this.sleep( 10000 );
 				frame.updateDisplay( LoginFrame.SENDING_LOGIN_STATE, "Sending login..." );
-				(new LoginRequest( client, frame, loginname, password )).start();
+				(new LoginRequest( client, loginname, password )).start();
 			}
 			catch ( InterruptedException e )
 			{

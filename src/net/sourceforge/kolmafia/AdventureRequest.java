@@ -36,9 +36,9 @@ package net.sourceforge.kolmafia;
 
 public class AdventureRequest extends KoLRequest
 {
-	public AdventureRequest( KoLmafia client, KoLFrame frame, String adventureID )
+	public AdventureRequest( KoLmafia client, String adventureID )
 	{
-		super( client, frame, "adventure.php" );
+		super( client, "adventure.php" );
 
 		// The adventure ID is all you need to identify the adventure;
 		// posting it in the form sent to adventure.php will handle

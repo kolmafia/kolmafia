@@ -70,7 +70,7 @@ public class KoLRequest extends Thread
 		// server, rather than allowing users to specify the root;
 		// usually, this works out to the benefit of everyone.
 
-		KoLRequest root = new KoLRequest( null, null, "" );
+		KoLRequest root = new KoLRequest( null, "" );
 		root.run();
 		KOL_ROOT = "http://" + root.formConnection.getURL().getHost() + "/";
 	}
@@ -95,7 +95,7 @@ public class KoLRequest extends Thread
 	 * a generic KoLRequest will not be supported.
 	 */
 
-	protected KoLRequest( KoLmafia client, KoLFrame frame, String formURLString )
+	protected KoLRequest( KoLmafia client, String formURLString )
 	{
 		try
 		{
@@ -105,10 +105,10 @@ public class KoLRequest extends Thread
 		{
 		}
 
-		if ( client != null && frame != null )
+		if ( client != null )
 		{
 			this.client = client;
-			this.frame = frame;
+			this.frame = client.getActiveFrame();
 			this.sessionID = client.getSessionID();
 		}
 
@@ -249,7 +249,7 @@ public class KoLRequest extends Thread
 				new BufferedReader( new InputStreamReader(
 					formConnection.getInputStream() ) );
 
-			if ( client != null && frame != null )
+			if ( client != null )
 			{
 				if ( responseCode == 302 )
 				{
@@ -276,7 +276,7 @@ public class KoLRequest extends Thread
 						frame.updateDisplay( LoginFrame.LOGGED_IN_STATE, "Fighting battle..." );
 						isErrorState = false;
 
-						(new FightRequest( client, frame )).start();
+						(new FightRequest( client )).start();
 					}
 				}
 				else

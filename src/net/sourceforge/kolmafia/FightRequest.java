@@ -45,24 +45,14 @@ import java.util.StringTokenizer;
 
 public class FightRequest extends KoLRequest
 {
-	private boolean isVictorious;
-	private FightRequest previousRound;
-
-	public FightRequest( KoLmafia client, KoLFrame frame )
+	public FightRequest( KoLmafia client )
 	{
-		super( client, frame, "fight.php" );
+		super( client, "fight.php" );
 
 		// For now, there will not be any attempts to handle
 		// special skills - the user will simply attack.
 
-		this.previousRound = null;
 		addFormField( "action", "attack" );
-	}
-
-	public FightRequest( FightRequest previousRound )
-	{
-		this( previousRound.client, previousRound.frame );
-		this.previousRound = previousRound;
 	}
 
 	public void run()
@@ -104,12 +94,8 @@ public class FightRequest extends KoLRequest
 				// connection to an existing URL may cause unforeseen errors,
 				// start a new thread and allow this one to die.
 
-				(new FightRequest( client, frame )).start();
+				(new FightRequest( client )).start();
 			}
 		}
-	}
-
-	public boolean isVictory()
-	{	return isVictorious;
 	}
 }

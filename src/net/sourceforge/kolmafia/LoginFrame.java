@@ -221,7 +221,7 @@ public class LoginFrame extends KoLFrame
 				return;
 			}
 
-			(new LoginRequest( client, LoginFrame.this, loginname, password )).start();
+			(new LoginRequest( client, loginname, password )).start();
 		}
 
 		protected void actionCancelled()
