@@ -516,8 +516,7 @@ public class BuffBotFrame extends KoLFrame {
                         ((KoLSettings)settings).saveSettings();
                     setStatusMessage( ENABLED_STATE, "Settings saved." );
                     
-                    try { Thread.sleep( 5000 ); } catch ( Exception e ) {}
-                    
+                    KoLRequest.delay( 5000 );
                     setStatusMessage( ENABLED_STATE, "" );
                 }
             }

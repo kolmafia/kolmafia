@@ -165,7 +165,7 @@ public class BuffBotManager {
             try {
                 for(int i = 1 ; i <= BBSLEEPCOUNT; i = i + 1)
                     if (client.permitsContinue())
-                        Thread.sleep(BBSLEEPTIME);
+                        KoLRequest.delay(BBSLEEPTIME);
                     else return;
             }
             catch (Exception e){
