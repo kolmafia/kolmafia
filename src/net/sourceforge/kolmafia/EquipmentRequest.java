@@ -135,20 +135,20 @@ public class EquipmentRequest extends KoLRequest
 		String plainTextContent = replyContent.replaceAll( "<.*?>", "\n" );
 		StringTokenizer parsedContent = new StringTokenizer( plainTextContent, "\n" );
 
-		logStream.println( "Parsing data..." );
-
 		try
 		{
+			logStream.println( "Parsing data..." );
 			switch ( requestType )
 			{
 				case CLOSET:
 					parseCloset( parsedContent );
+					break;
 
 				case EQUIPMENT:
 					parseEquipment( parsedContent );
 					break;
 			}
-
+			logStream.println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )
 		{
@@ -248,47 +248,56 @@ public class EquipmentRequest extends KoLRequest
 
 	private void parseEquipment( StringTokenizer parsedContent )
 	{
-		while ( !parsedContent.nextToken().startsWith( "Hat:" ) );
-		String hat = parsedContent.nextToken();
-
-		while ( !parsedContent.nextToken().startsWith( "Weapon:" ) );
-		String weapon = parsedContent.nextToken();
-
-		while ( !parsedContent.nextToken().startsWith( "Pants:" ) );
-		String pants = parsedContent.nextToken();
-
-		String [] accessories = new String[3];
-		for ( int i = 0; i < 3; ++i )
-			accessories[i] = "none";
-		String familiarItem = "none";
-
-		int accessoryCount = 0;
-		String lastToken;
-
-		do
+		try
 		{
-			lastToken = parsedContent.nextToken();
+			while ( !parsedContent.nextToken().startsWith( "Hat:" ) );
+			String hat = parsedContent.nextToken();
 
-			if ( lastToken.startsWith( "Accessory:" ) )
-				accessories[ accessoryCount++ ] = parsedContent.nextToken();
-			else if ( lastToken.startsWith( "Familiar:" ) )
-				familiarItem = parsedContent.nextToken();
+			while ( !parsedContent.nextToken().startsWith( "Weapon:" ) );
+			String weapon = parsedContent.nextToken();
+
+			while ( !parsedContent.nextToken().startsWith( "Pants:" ) );
+			String pants = parsedContent.nextToken();
+
+			String [] accessories = new String[3];
+			for ( int i = 0; i < 3; ++i )
+				accessories[i] = "none";
+			String familiarItem = "none";
+
+			int accessoryCount = 0;
+			String lastToken;
+
+			do
+			{
+				lastToken = parsedContent.nextToken();
+
+				if ( lastToken.startsWith( "Accessory:" ) )
+					accessories[ accessoryCount++ ] = parsedContent.nextToken();
+				else if ( lastToken.startsWith( "Familiar:" ) )
+					familiarItem = parsedContent.nextToken();
+			}
+			while ( !lastToken.startsWith( "Outfit" ) && parsedContent.hasMoreTokens() );
+
+			// Now to determine which outfits are available.  The easiest
+			// way to do this is a straightforward regular expression and
+			// then use the static SpecialOutfit method to determine which
+			// items are available.
+
+			Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( replyContent );
+
+			LockableListModel outfits = outfitsMatcher.find() ?
+				SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();
+
+			character.setEquipment( hat, weapon, pants,
+				accessories[0], accessories[1], accessories[2], familiarItem, outfits );
 		}
-		while ( !lastToken.startsWith( "Outfit" ) && parsedContent.hasMoreTokens() );
+		catch ( Exception e )
+		{
+			// If an exception occurs during the parsing, just
+			// continue after notifying the LogStream of the
+			// error.  This could be handled better, but not now.
 
-		// Now to determine which outfits are available.  The easiest
-		// way to do this is a straightforward regular expression and
-		// then use the static SpecialOutfit method to determine which
-		// items are available.
-
-		Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( replyContent );
-
-		LockableListModel outfits = outfitsMatcher.find() ?
-			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();
-
-		character.setEquipment( hat, weapon, pants,
-			accessories[0], accessories[1], accessories[2], familiarItem, outfits );
-
-		logStream.println( "Parsing complete." );
+			logStream.println( e );
+		}
 	}
 }
