@@ -130,7 +130,7 @@ public class KoLMailManager
 		}
 
 		public String toString()
-		{	return "From " + senderName + " @ " + sdf.format( messageDate );
+		{	return senderName + " @ " + sdf.format( messageDate );
 		}
 
 		public boolean equals( Object o )
