@@ -349,8 +349,10 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		if ( resultName.equals( AdventureResult.HP ) )
 			characterData.setHP( ((AdventureResult)tally.get(0)).getCount(), characterData.getMaximumHP(), characterData.getBaseMaxHP() );
-		if ( resultName.equals( AdventureResult.MP ) )
+		else if ( resultName.equals( AdventureResult.MP ) )
 			characterData.setMP( ((AdventureResult)tally.get(1)).getCount(), characterData.getMaximumMP(), characterData.getBaseMaxMP() );
+		else if ( resultName.equals( AdventureResult.MEAT ) )
+			characterData.setAvailableMeat( characterData.getAvailableMeat() + result.getCount() );
 
 		if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
 			AdventureResult.reduceTally( characterData.getEffects(), result.getCount() );
