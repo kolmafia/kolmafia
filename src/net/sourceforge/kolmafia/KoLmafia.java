@@ -227,7 +227,7 @@ public class KoLmafia implements UtilityConstants
 			permitContinue = true;
 			int iterationsRemaining = iterations;
 
-			for ( int i = 0; permitContinue && iterationsRemaining > 0; ++i, --iterationsRemaining )
+			for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i, --iterationsRemaining )
 			{
 				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
 				request.run();
