@@ -347,7 +347,7 @@ public class AdventureResult implements Comparable
 
 		if ( index == -1 || result.getCount() == 0 )
 		{
-			if ( !result.isItem() || result.getCount() != 0 )
+			if ( !result.isItem() || result.getCount() > 0 )
 				tally.add( result );
 			return;
 		}
@@ -358,7 +358,7 @@ public class AdventureResult implements Comparable
 		// to zero - if it did, then remove the item from the list if
 		// it's an item (non-items are exempt).
 
-		if ( actualResult.isItem() && actualResult.getCount() == 0 )
+		if ( actualResult.isItem() && actualResult.getCount() <= 0 )
 		{
 			tally.remove( actualResult );
 			return;
