@@ -69,6 +69,9 @@ public class KoLMessenger
 	private String currentChannel;
 	private static final int MAXIMUM_CHATSIZE = 30000;
 
+	private boolean useTabbedFrame;
+	private TabbedChatFrame tabbedFrame;
+
 	public KoLMessenger( KoLmafia client )
 	{
 		this.client = client;
@@ -80,6 +83,57 @@ public class KoLMessenger
 		seenPlayerIDs = new TreeMap();
 		seenPlayerNames = new TreeMap();
 		contactsFrame = new ContactListFrame( client, onlineContacts );
+
+		String tabbedFrameSetting = client.getSettings().getProperty( "useTabbedChat" );
+		setTabbedFrameSetting( tabbedFrameSetting != null && tabbedFrameSetting.equals( "true" ) );
+	}
+
+	/**
+	 * Notifies the messenger that you should be able to use
+	 * tabbed chat (or undo it) by consolidating existing
+	 * frames into a single frame or splitting it, as desired.
+	 */
+
+	public void setTabbedFrameSetting( boolean useTabbedFrame )
+	{
+		if ( this.useTabbedFrame != useTabbedFrame )
+		{
+			Iterator keyIterator = instantMessageBuffers.keySet().iterator();
+			String currentKey;  ChatBuffer currentBuffer;  ChatFrame currentFrame;
+
+			if ( useTabbedFrame )
+			{
+				this.tabbedFrame = new TabbedChatFrame( client, this );
+				this.tabbedFrame.setVisible( true );
+			}
+			else
+			{
+				this.tabbedFrame.dispose();
+				this.tabbedFrame = null;
+			}
+
+
+			while ( keyIterator.hasNext() )
+			{
+				currentKey = (String) keyIterator.next();
+				currentBuffer = (ChatBuffer) instantMessageBuffers.get( currentKey );
+				currentFrame = (ChatFrame) instantMessageFrames.get( currentKey );
+
+				if ( useTabbedFrame )
+				{
+					currentBuffer.setChatDisplay( tabbedFrame.addTab( currentKey ) );
+					currentFrame.setVisible( false );
+				}
+				else
+				{
+					currentBuffer.setChatDisplay( currentFrame.getChatDisplay() );
+					currentFrame.setVisible( true );
+				}
+
+			}
+
+			this.useTabbedFrame = useTabbedFrame;
+		}
 	}
 
 	/**
@@ -120,11 +174,12 @@ public class KoLMessenger
 	public String getNameOfActiveFrame()
 	{
 		Iterator names = instantMessageBuffers.keySet().iterator();
-		String currentName;
+		String currentName;  ChatFrame currentFrame;
 		while ( names.hasNext() )
 		{
 			currentName = (String) names.next();
-			if ( ((ChatFrame)instantMessageFrames.get( currentName )).hasFocus() )
+			currentFrame = (ChatFrame) instantMessageFrames.get( currentName );
+			if ( currentFrame.isShowing() && currentFrame.hasFocus() )
 				return currentName;
 		}
 
@@ -234,9 +289,16 @@ public class KoLMessenger
 				return;
 			}
 
-			Iterator frames = instantMessageFrames.values().iterator();
-			while ( frames.hasNext() )
-				((ChatFrame) frames.next()).setVisible( isVisible );
+			if ( !useTabbedFrame )
+			{
+				Iterator frames = instantMessageFrames.values().iterator();
+				ChatFrame currentFrame;
+				while ( frames.hasNext() )
+				{
+					currentFrame = (ChatFrame) frames.next();
+					currentFrame.setVisible( isVisible );
+				}
+			}
 		}
 	}
 
@@ -246,6 +308,12 @@ public class KoLMessenger
 
 	public void dispose()
 	{
+		if ( tabbedFrame != null )
+		{
+			tabbedFrame.setVisible( false );
+			tabbedFrame.dispose();
+		}
+
 		while ( !instantMessageFrames.isEmpty() )
 			removeChat( (String) instantMessageFrames.firstKey() );
 
@@ -589,14 +657,16 @@ public class KoLMessenger
 			String channel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) );
 			processChannelMessage( channel, noLinksContent );
 			ChatFrame frame = (ChatFrame) instantMessageFrames.get( channel );
-			if ( frame != null )
+			if ( frame != null && frame.isShowing() )
 				frame.setTitle( "KoLmafia Chat: " + channel + " (inactive)" );
 		}
 		else if ( noLinksContent.startsWith( "<font color=green>Now listening to channel: " ) )
 		{
 			String channel = "/" + noLinksContent.substring( 44, noLinksContent.indexOf( "</font>" ) );
 			processChannelMessage( channel, noLinksContent );
-			((ChatFrame) instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (listening)" );
+			ChatFrame frame = (ChatFrame) instantMessageFrames.get( channel );
+			if ( frame != null && frame.isShowing() )
+				frame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
 		}
 		else if ( noLinksContent.startsWith( "<font color=green>You are now talking in channel: " ) )
 		{
@@ -612,7 +682,10 @@ public class KoLMessenger
 					currentChatBuffer.append( currentChannel.substring(1) );
 					currentChatBuffer.append( "." );
 					currentChatBuffer.append( "</font><br>\n" );
-					((ChatFrame) instantMessageFrames.get( currentChannel )).setTitle( "KoLmafia Chat: " + currentChannel + " (inactive)" );
+
+					ChatFrame frame = (ChatFrame) instantMessageFrames.get( currentChannel );
+					if ( frame != null && frame.isShowing() )
+						frame.setTitle( "KoLmafia Chat: " + currentChannel + " (inactive)" );
 				}
 			}
 
@@ -620,10 +693,16 @@ public class KoLMessenger
 			processChannelMessage( currentChannel, noLinksContent );
 
 			ChatFrame currentFrame = (ChatFrame) instantMessageFrames.get( currentChannel );
-			currentFrame.setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
 
-			if ( !currentFrame.hasFocus() )
-				currentFrame.requestFocus();
+			if ( currentFrame != null && currentFrame.isShowing() )
+			{
+				currentFrame.setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
+				if ( !currentFrame.hasFocus() )
+					currentFrame.requestFocus();
+			}
+
+			if ( useTabbedChat )
+				tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 		}
 		else if ( message.indexOf( "<font color=blue>" ) == -1 || noLinksContent.startsWith( "<font color=green>" ) ||
 			(message.indexOf( "<b>from " ) != -1 && message.indexOf( "(private)</b>:" ) == -1) )
@@ -711,14 +790,19 @@ public class KoLMessenger
 			// Make sure that the current channel doesn't lose focus by opening the
 			// instant message.  This can be accomplished by re-requesting focus.
 
-			((ChatFrame)instantMessageFrames.get( currentChannel )).requestFocus();
+			ChatFrame currentFrame = (ChatFrame) instantMessageFrames.get( currentChannel );
+			if ( currentFrame.isShowing() )
+				currentFrame.requestFocus();
 
 			if ( message == null )
 			{
 				channelBuffer.append( "<font color=green>You are listening to channel: " );
 				channelBuffer.append( channel.substring(1) );
 				channelBuffer.append( "</font><br>\n" );
-				((ChatFrame) instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (listening)" );
+
+				ChatFrame newFrame = (ChatFrame) instantMessageFrames.get( channel );
+				if ( newFrame.isShowing() )
+					newFrame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
 			}
 		}
 
@@ -795,9 +879,18 @@ public class KoLMessenger
 			Calendar.getInstance().getTime().toString(), MAXIMUM_CHATSIZE );
 
 		ChatFrame newFrame = new ChatFrame( client, this, windowName );
-		newFrame.setVisible( true );
 
-		newBuffer.setChatDisplay( newFrame.getChatDisplay() );
+		if ( useTabbedFrame )
+		{
+			newFrame.setVisible( false );
+			newBuffer.setChatDisplay( this.tabbedFrame.addTab( windowName ) );
+		}
+		else
+		{
+			newFrame.setVisible( true );
+			newBuffer.setChatDisplay( newFrame.getChatDisplay() );
+		}
+
 		instantMessageFrames.put( windowName, newFrame );
 		instantMessageBuffers.put( windowName, newBuffer );
 	}

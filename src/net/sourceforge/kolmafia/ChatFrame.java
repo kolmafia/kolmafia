@@ -42,6 +42,8 @@ import javax.swing.BoxLayout;
 
 // event listeners
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.ActionEvent;
@@ -74,10 +76,9 @@ import edu.stanford.ejalbert.BrowserLauncher;
 public class ChatFrame extends KoLFrame
 {
 	private JMenuBar menuBar;
-	private JTextField entryField;
-	private JEditorPane chatDisplay;
+	private ChatPanel mainPanel;
 	private KoLMessenger messenger;
-	private String associatedContact;
+	protected String associatedContact;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code>.
@@ -101,39 +102,13 @@ public class ChatFrame extends KoLFrame
 		this.messenger = messenger;
 		this.associatedContact = associatedContact;
 
-		chatDisplay = new JEditorPane();
-		chatDisplay.setEditable( false );
+		initialize();
 
-		if ( !associatedContact.startsWith( "[" ) )
-			chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
-
-		JScrollPane scrollArea = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JPanel entryPanel = new JPanel();
-		entryField = new JTextField();
-		entryField.setEnabled( !associatedContact.startsWith( "[" ) );
-
-		JButton entryButton = new JButton( "chat" );
-		entryButton.setEnabled( !associatedContact.startsWith( "[" ) );
-
-		rootPane.setDefaultButton( entryButton );
-
-		entryPanel.setLayout( new BoxLayout( entryPanel, BoxLayout.X_AXIS ) );
-		entryPanel.add( entryField, BorderLayout.CENTER );
-		entryPanel.add( entryButton, BorderLayout.EAST );
-
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout( new BorderLayout( 1, 1 ) );
-		mainPanel.add( scrollArea, BorderLayout.CENTER );
-		mainPanel.add( entryPanel, BorderLayout.SOUTH );
-
-		getContentPane().setLayout( new CardLayout( 5, 5 ) );
-		getContentPane().add( mainPanel, "" );
-		addWindowListener( new CloseChatListener() );
-
-		if ( !associatedContact.startsWith( "[" ) )
-			entryButton.addActionListener( new ChatEntryListener() );
+		if ( client != null &&
+			(client.getSettings().getProperty( "useTabbedChat" ) == null || client.getSettings().getProperty( "useTabbedChat" ).equals( "false" )) )
+				addWindowListener( new CloseChatListener() );
+		else
+			addWindowListener( new ExitChatListener() );
 
 		addMenuBar();
 
@@ -141,17 +116,8 @@ public class ChatFrame extends KoLFrame
 		// when it's first constructed
 
 		setSize( new Dimension( 400, 300 ) );
-
 		if ( associatedContact != null && !associatedContact.startsWith( "/" ) )
 			setTitle( "KoLmafia NSIPM: " + client.getLoginName() + " / " + associatedContact );
-	}
-
-	/**
-	 * Returns whether or not the chat frame has focus.
-	 */
-
-	public boolean hasFocus()
-	{	return super.hasFocus() || entryField.hasFocus() || chatDisplay.hasFocus() || menuBar.isSelected();
 	}
 
 	/**
@@ -177,7 +143,7 @@ public class ChatFrame extends KoLFrame
 		clearItem.addActionListener( new ClearChatBufferListener() );
 		fileMenu.add( clearItem );
 
-		if ( !associatedContact.startsWith( "/" ) && !associatedContact.startsWith( "[" ) )
+		if ( associatedContact != null && !associatedContact.startsWith( "/" ) && !associatedContact.startsWith( "[" ) )
 		{
 			JMenu peopleMenu = new JMenu("People");
 			peopleMenu.setMnemonic( KeyEvent.VK_P );
@@ -201,12 +167,126 @@ public class ChatFrame extends KoLFrame
 	}
 
 	/**
+	 * Utility method called to initialize the frame.  This
+	 * method should be overridden, should a different means
+	 * of initializing the content of the frame be needed.
+	 */
+
+	protected void initialize()
+	{
+		getContentPane().setLayout( new CardLayout( 5, 5 ) );
+		this.mainPanel = new ChatPanel( this.associatedContact );
+		getContentPane().add( mainPanel, "" );
+	}
+
+	/**
+	 * Utility method for creating a single panel containing the
+	 * chat display and the entry area.  Note that calling this
+	 * method changes the <code>JEditorPane</code> returned by
+	 * calling the <code>getChatDisplay()</code> method.
+	 */
+
+	protected class ChatPanel extends JPanel
+	{
+		private JTextField entryField;
+		private JEditorPane chatDisplay;
+
+		public ChatPanel( String associatedContact )
+		{
+			chatDisplay = new JEditorPane();
+			chatDisplay.setEditable( false );
+
+			if ( !associatedContact.startsWith( "[" ) )
+				chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
+
+			JScrollPane scrollArea = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			JPanel entryPanel = new JPanel();
+			entryField = new JTextField();
+			entryField.addKeyListener( new ChatEntryListener() );
+
+			JButton entryButton = new JButton( "chat" );
+			entryButton.addActionListener( new ChatEntryListener() );
+			entryPanel.setLayout( new BoxLayout( entryPanel, BoxLayout.X_AXIS ) );
+			entryPanel.add( entryField, BorderLayout.CENTER );
+			entryPanel.add( entryButton, BorderLayout.EAST );
+
+			setLayout( new BorderLayout( 1, 1 ) );
+			add( scrollArea, BorderLayout.CENTER );
+			add( entryPanel, BorderLayout.SOUTH );
+		}
+
+		public JEditorPane getChatDisplay()
+		{	return chatDisplay;
+		}
+
+		public boolean hasFocus()
+		{	return entryField.hasFocus() || chatDisplay.hasFocus();
+		}
+
+		public void requestFocus()
+		{	entryField.requestFocus();
+		}
+
+		/**
+		 * An action listener responsible for sending the text
+		 * contained within the entry panel to the KoL chat
+		 * server for processing.  This listener spawns a new
+		 * request to the server which then handles everything
+		 * that's needed.
+		 */
+
+		private class ChatEntryListener extends KeyAdapter implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{	submitChat();
+			}
+
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+					submitChat();
+			}
+
+			private void submitChat()
+			{
+				(new ChatEntryThread( entryField.getText().trim() )).start();
+				entryField.setText( "" );
+			}
+
+			private class ChatEntryThread extends Thread
+			{
+				private String message;
+
+				public ChatEntryThread( String message )
+				{
+					this.message = message;
+					setDaemon( true );
+				}
+
+				public void run()
+				{	(new ChatRequest( client, associatedContact, message )).run();
+				}
+			}
+		}
+	}
+
+	/**
 	 * Returns the name of the contact associated with this frame.
 	 * @return	The name of the contact associated with this frame
 	 */
 
 	public String getAssociatedContact()
 	{	return associatedContact;
+	}
+
+	/**
+	 * Returns whether or not the chat frame has focus.
+	 */
+
+	public boolean hasFocus()
+	{	return super.hasFocus() || menuBar.isSelected() || mainPanel.hasFocus();
 	}
 
 	/**
@@ -217,7 +297,7 @@ public class ChatFrame extends KoLFrame
 	public void requestFocus()
 	{
 		super.requestFocus();
-		entryField.requestFocus();
+		mainPanel.requestFocus();
 	}
 
 	/**
@@ -228,7 +308,7 @@ public class ChatFrame extends KoLFrame
 	 */
 
 	public JEditorPane getChatDisplay()
-	{	return chatDisplay;
+	{	return mainPanel.getChatDisplay();
 	}
 
 	/**
@@ -319,39 +399,6 @@ public class ChatFrame extends KoLFrame
 
 			public void run()
 			{	(new ChatRequest( client, associatedContact, "/ignore" )).run();
-			}
-		}
-	}
-
-
-	/**
-	 * An action listener responsible for sending the text
-	 * contained within the entry panel to the KoL chat
-	 * server for processing.  This listener spawns a new
-	 * request to the server which then handles everything
-	 * that's needed.
-	 */
-
-	private class ChatEntryListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			(new ChatEntryThread( entryField.getText().trim() )).start();
-			entryField.setText( "" );
-		}
-
-		private class ChatEntryThread extends Thread
-		{
-			private String message;
-
-			public ChatEntryThread( String message )
-			{
-				this.message = message;
-				setDaemon( true );
-			}
-
-			public void run()
-			{	(new ChatRequest( client, associatedContact, message )).run();
 			}
 		}
 	}
@@ -475,6 +522,34 @@ public class ChatFrame extends KoLFrame
 			{
 				if ( client != null && client.getMessenger() != null )
 					client.getMessenger().removeChat( associatedContact );
+			}
+		}
+	}
+
+	/**
+	 * Internal class to handle de-initializing the chat when
+	 * the window is closed.  This helps stop constantly
+	 * spamming the chat server with a request when nothing
+	 * is being done with the replies.
+	 */
+
+	private class ExitChatListener extends WindowAdapter
+	{
+		public void windowClosed( WindowEvent e )
+		{	(new CloseChatRequestThread()).start();
+		}
+
+		private class CloseChatRequestThread extends Thread
+		{
+			public CloseChatRequestThread()
+			{	setDaemon( true );
+			}
+
+			public void run()
+			{
+				if ( client != null && client.getMessenger() != null && client.getSettings().getProperty( "useTabbedChat" ) != null &&
+					client.getSettings().getProperty( "useTabbedChat" ).equals( "true" ) )
+						client.deinitializeChat();
 			}
 		}
 	}

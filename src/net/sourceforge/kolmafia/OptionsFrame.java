@@ -638,6 +638,7 @@ public class OptionsFrame extends KoLFrame
 	{
 		private JComboBox fontSizeSelect;
 		private JComboBox chatStyleSelect;
+		private JComboBox useTabsSelect;
 
 		public ChatOptionsPanel()
 		{
@@ -651,9 +652,15 @@ public class OptionsFrame extends KoLFrame
 			chatStyles.add( "Trivia hosting style" );
 			chatStyleSelect = new JComboBox( chatStyles );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			LockableListModel useTabs = new LockableListModel();
+			useTabs.add( "Use windowed chat interface" );
+			useTabs.add( "Use tabbed chat interface" );
+			useTabsSelect = new JComboBox( useTabs );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
+			elements[2] = new VerifiableElement( "Windowing: ", useTabsSelect );
 
 			setContent( elements );
 		}
@@ -696,6 +703,9 @@ public class OptionsFrame extends KoLFrame
 
 				String chatStyle = settings.getProperty( "chatStyle" );
 				chatStyleSelect.setSelectedIndex( (chatStyle != null) ? Integer.parseInt( chatStyle ) : 0 );
+
+				String useTabs = settings.getProperty( "useTabbedChat" );
+				useTabsSelect.setSelectedIndex( (useTabs != null) ? Integer.parseInt( chatStyle ) : 0 );
 			}
 		}
 
@@ -713,6 +723,11 @@ public class OptionsFrame extends KoLFrame
 				settings.setProperty( "fontSize", fontSize.toString() );
 				LimitedSizeChatBuffer.setFontSize( fontSize.intValue() );
 				settings.setProperty( "chatStyle", "" + chatStyleSelect.getSelectedIndex() );
+				settings.setProperty( "useTabbedChat", "" + useTabsSelect.getSelectedIndex() );
+
+				if ( client.getMessenger() != null )
+					client.getMessenger().setTabbedFrameSetting( useTabsSelect.getSelectedIndex() == 1 );
+
 				saveSettings();
 			}
 		}
