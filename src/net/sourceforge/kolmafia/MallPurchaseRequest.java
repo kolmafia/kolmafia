@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.StringTokenizer;
 
 /**
  * An extension of <code>KoLRequest</code> which handles the purchase of
@@ -43,7 +44,7 @@ public class MallPurchaseRequest extends KoLRequest
 {
 	private boolean wasExecuted;
 	private String itemName, shopName;
-	private int quantity, price;
+	private int shopID, quantity, price;
 
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> with the given values.
@@ -64,6 +65,7 @@ public class MallPurchaseRequest extends KoLRequest
 		super( client, "mallstore.php" );
 
 		this.itemName = itemName;
+		this.shopID = shopID;
 		this.shopName = shopName;
 		this.quantity = quantity;
 		this.price = price;
@@ -145,7 +147,7 @@ public class MallPurchaseRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( wasExecuted )
+		if ( wasExecuted || quantity < 1 )
 			return;
 
 		addFormField( "quantity", "" + quantity );
@@ -161,27 +163,38 @@ public class MallPurchaseRequest extends KoLRequest
 		// request was executed.  Therefore, reset state
 		// variables and begin parsing the reply.
 
-		if ( replyContent.indexOf( "acquire" ) != -1 )
+		wasExecuted = true;
+		String result = replyContent.substring( 0, replyContent.indexOf( "</table>" ) );
+
+		if ( result.indexOf( "acquire" ) == -1 )
 		{
 			// One error is that the item price changed, or the item
 			// is no longer available because someone was faster at
 			// purchasing the item.  If that's the case, just return
 			// without doing anything; nothing left to do.
 
-
+			if ( result.indexOf( "may only buy" ) == -1 )
+				return;
 
 			// One error that might be encountered is that the user
 			// already purchased the item; if that's the case, and
 			// the user hasn't exhausted their limit, then make a
 			// second request to the server containing the correct
 			// number of items to buy.
+
+			StringTokenizer st = new StringTokenizer( result.replaceAll( "<.*?>", "" ), " " );
+			skipTokens( st, 4 );  int limit = intToken( st );
+			skipTokens( st, 11 );  int alreadyPurchased = intToken( st );
+
+			(new MallPurchaseRequest( client, itemName, limit - alreadyPurchased, shopID, shopName, price )).run();
 		}
 		else
 		{
 			// Otherwise, you managed to purchase something!  Here,
 			// you report to the client whatever you gained.
-		}
 
-		wasExecuted = true;
+			StringTokenizer st = new StringTokenizer( result.replaceAll( "</?b>", "\n" ), "\n" );
+			skipTokens( st, 3 );   client.parseResult( st.nextToken() );
+		}
 	}
 }
