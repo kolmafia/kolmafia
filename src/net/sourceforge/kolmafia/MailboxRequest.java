@@ -38,10 +38,19 @@ import java.util.regex.Matcher;
 
 public class MailboxRequest extends KoLRequest
 {
+	private String boxname;
+
 	public MailboxRequest( KoLmafia client, String boxname )
+	{	this( client, boxname, 0 );
+	}
+
+	private MailboxRequest( KoLmafia client, String boxname, int startingIndex )
 	{
 		super( client, "messages.php" );
 		addFormField( "box", boxname );
+		addFormField( "begin", "" + startingIndex );
+
+		this.boxname = boxname;
 	}
 
 	public void run()
@@ -66,6 +75,30 @@ public class MailboxRequest extends KoLRequest
 			// At this point, a brand new KoLGreenMessage would be created and added
 			// to the list of items.  However, because the internal structure of a
 			// KoLGreenMessage has not yet been decided, do nothing.
+		}
+
+		// Determine how many messages there are, and how many there are left
+		// to go.  This will cause a lot of server load for those with lots
+		// of messages, though ... hopefully, people don't load things often.
+
+		try
+		{
+			Matcher messageCountMatcher = Pattern.compile( "[\\d]+" ).matcher(
+				replyContent.substring( replyContent.indexOf( " - " ) + 3, replyContent.indexOf( "</b>" ) ) );
+
+			messageCountMatcher.find();
+			int lastMessageID = df.parse( messageCountMatcher.group() ).intValue();
+
+			messageCountMatcher.find( 4 );
+			int totalMessages = df.parse( messageCountMatcher.group() ).intValue();
+
+			if ( lastMessageID != totalMessages )
+				(new MailboxRequest( client, boxname, lastMessageID )).run();
+		}
+		catch ( Exception e )
+		{
+			// If an exception is caught, do absolutely nothing because
+			// the page has somehow changed (HTML-wise)
 		}
 	}
 }
