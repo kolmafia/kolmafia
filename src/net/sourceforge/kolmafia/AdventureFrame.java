@@ -211,7 +211,7 @@ public class AdventureFrame extends KoLFrame
 
 		viewMenu.add( csheetItem );
 
-		JMenuItem imanageItem = new JMenuItem( "Item Manager", KeyEvent.VK_M );
+		JMenuItem imanageItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
 		imanageItem.addActionListener( new ViewItemManagerListener() );
 
 		viewMenu.add( imanageItem );
