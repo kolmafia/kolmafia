@@ -1,0 +1,191 @@
+<project name="KoLmafia" default="compile" basedir=".">
+
+
+  <!-- ========================================== -->
+  <!--  set the global properties for this build  -->
+  <!-- ========================================== -->
+
+  <property name="src" location="src"/>
+  <property name="lib" location="lib"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+  <property name="data" location="data"/>
+  <property name="cvscheck" location="cvscheck"/>
+
+  <property name="cvsroot" value=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/kolmafia"/>
+  <property name="jarfile" location="${dist}/${ant.project.name}.jar"/>
+  <property name="main-class" value="net.sourceforge.kolmafia.KoLmafia"/>
+
+
+<!-- ============================================================================== -->
+  <!--  set the timestamp, and create directories that will be used by other targets  -->
+  <!-- ============================================================================== -->
+
+  <target name="init"
+          description="set the timestamp, and create directories that will be used by other targets">
+
+    <tstamp/>
+    <mkdir dir="${build}"/>
+    <mkdir dir="${dist}"/>
+
+  </target>
+
+
+  <!-- ============================================= -->
+  <!--  compile the source and assemble other files  -->
+  <!-- ============================================= -->
+
+  <target name="compile"
+          depends="init"
+          description="compile the source and assemble other files">
+
+    <javac srcdir="${src}"
+           destdir="${build}"
+           classpath="${lib}/*.jar">
+
+           <compilerarg value="-Xlint:unchecked"/>
+
+    </javac>
+
+    <copy todir="${build}">
+       <fileset dir="${src}">
+          <exclude name="**/*.java"/>
+       </fileset>
+    </copy>
+
+  </target>
+
+
+  <!-- ================================== -->
+  <!--  generate the executable JAR file  -->
+  <!-- ================================== -->
+
+  <target name="createjar"
+          depends="recompile"
+          description="generate the executable JAR file">
+
+    <jar destfile="${jarfile}"
+         basedir="${build}"
+         update="true">
+
+      <manifest>
+        <attribute name="Main-Class" value="${main-class}"/>
+      </manifest>
+
+    </jar>
+
+  </target>
+
+
+  <!-- =========================== -->
+  <!--  generate the distribution  -->
+  <!-- =========================== -->
+
+  <target name="dist"
+          depends="createjar"
+          description="generate the distribution">
+
+    <ant target="javadoc"/>
+
+  </target>
+
+
+  <!-- ======================================= -->
+  <!--  generate the javadocs from sourcecode  -->
+  <!-- ======================================= -->
+
+  <target name="javadoc"
+          depends="compile"
+          description="generate javadocs from sourcecode">
+
+    <mkdir dir="${dist}/docs/api"/>
+
+    <javadoc sourcepath="${src}"
+             destdir="${dist}/docs/api"
+             packagenames="*">
+
+       <link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
+
+       <classpath>
+          <pathelement location="${lib}"/>
+          <pathelement location="${build}"/>
+       </classpath>
+
+    </javadoc>
+
+  </target>
+
+
+  <!-- ================================================================================== -->
+  <!--  runs program with all needed libraries in the path (avoids UnsatisfiedLinkError)  -->
+  <!-- ================================================================================== -->
+
+  <target name="exec"
+          depends="createjar"
+          description="runs program with all needed libraries in the path (avoids UnsatisfiedLinkError)">
+
+    <java fork="true" jar="${jarfile}">
+        <env key="PATH" path="${lib}/:${java.library.path}"/>
+        <env key="Path" path="${lib}/:${java.library.path}"/>
+    </java>
+
+  </target>
+
+
+  <!-- =========================== -->
+  <!--  clean up all object files  -->
+  <!-- =========================== -->
+
+  <target name="clean"
+          description="clean up all object files">
+
+    <delete dir="${data}"/>
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+
+  </target>
+
+
+  <!-- ========================================= -->
+  <!--  recompiles the project from clean state  -->
+  <!-- ========================================= -->
+
+  <target name="recompile"
+          description="recompiles the project from clean state">
+
+     <ant target="clean"/>
+     <ant target="compile"/>
+
+  </target>
+
+
+  <!-- =================================================== -->
+  <!--  checks to see if the current files in CVS compile  -->
+  <!-- =================================================== -->
+
+  <target name="cvscheck"
+          description="checks to see if the current files in CVS compile">
+
+     <delete dir="${cvscheck}"/>
+     <mkdir dir="${cvscheck}"/>
+
+     <cvspass passfile="${cvscheck}/.cvspass"
+              cvsroot="${cvsroot}"
+              password=""/>
+
+     <cvs passfile="${cvscheck}/.cvspass"
+          cvsRoot="${cvsroot}"
+          package="${ant.project.name}"
+          dest="${cvscheck}"/>
+
+     <ant antfile="build.xml"
+          inheritAll="false"
+          dir="${cvscheck}/${ant.project.name}/"
+          target="compile"/>
+
+     <delete dir="${cvscheck}"/>
+
+  </target>
+
+
+</project>
