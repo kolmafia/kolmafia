@@ -146,8 +146,46 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public void initialize( String loginname, String sessionID, boolean getBreakfast )
 	{
-		// Store the initialized variables
+		// Initialize the variables to their initial
+		// states to avoid null pointers getting thrown
+		// all over the place
+
 		this.sessionID = sessionID;
+		this.inventory = characterData.getInventory();
+		this.usableItems = new SortedListModel();
+		this.closet = characterData.getCloset();
+		this.tally = new SortedListModel();
+		this.characterData = new KoLCharacter( loginname );
+		this.recentEffects = new ArrayList();
+
+		// Fill the tally with junk information
+
+		addToResultTally( new AdventureResult( AdventureResult.HP ) );
+		addToResultTally( new AdventureResult( AdventureResult.MP ) );
+		addToResultTally( new AdventureResult( AdventureResult.ADV ) );
+		addToResultTally( new AdventureResult( AdventureResult.DRUNK ) );
+		addToResultTally( new AdventureResult( AdventureResult.SPACER ) );
+		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
+		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
+		addToResultTally( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
+
+		// Begin by loading the user-specific settings.
+
+		logStream.println( "Loading user settings for " + loginname + "..." );
+		this.settings = new KoLSettings( loginname );
+
+		// Remove the password data; it doesn't need to be stored
+		// in every single .kcs file.
+
+		Iterator nameIterator = saveStateNames.iterator();
+		settings.remove( "saveState" );
+		while ( nameIterator.hasNext() )
+			settings.remove( "saveState." + nameIterator.next() );
+		settings.saveSettings();
+
+		// Now!  Check to make sure the user didn't cancel
+		// during any of the actual loading of elements
 
 		if ( !permitContinue )
 		{
@@ -164,9 +202,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			this.permitContinue = true;
 			return;
 		}
-
-		characterData = new KoLCharacter( loginname );
-		recentEffects = new ArrayList();
 
 		if ( settings.getProperty( "skipCharacterData" ) == null )
 		{
@@ -188,11 +223,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			return;
 		}
 
-		inventory = characterData.getInventory();
-		closet = characterData.getCloset();
-
-		usableItems = new SortedListModel();
-
 		if ( settings.getProperty( "skipInventory" ) == null )
 			(new EquipmentRequest( this )).run();
 
@@ -206,21 +236,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		if ( settings.getProperty( "skipFamiliarData" ) == null )
 			(new FamiliarRequest( this )).run();
 
-		// Begin by loading the user-specific settings.
+		// Initially the tally to the necessary values
 
-		logStream.println( "Loading user settings for " + loginname + "..." );
-		settings = new KoLSettings( loginname );
-
-		// Remove the password data; it doesn't need to be stored
-		// in every single .kcs file.
-
-		Iterator nameIterator = saveStateNames.iterator();
-		settings.remove( "saveState" );
-		while ( nameIterator.hasNext() )
-			settings.remove( "saveState." + nameIterator.next() );
-		settings.saveSettings();
-
-		tally = new SortedListModel();
 		addToResultTally( new AdventureResult( AdventureResult.HP, characterData.getCurrentHP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.MP, characterData.getCurrentMP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.ADV, characterData.getAdventuresLeft() ) );
@@ -582,7 +599,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			updateDisplay( KoLFrame.ENABLED_STATE, "Unexpected error." );
 		}
 
-		this.permitContinue = true;
 	}
 
 	/**
