@@ -56,7 +56,7 @@ public class HermitRequest extends KoLRequest
 		super( client, "hermit.php" );
 
 		addFormField( "action", "Yep." );
-		addFormField( "hermitwants", "43" );
+		addFormField( "pwd", client.getPasswordHash() );
 	}
 
 	/**
@@ -71,9 +71,6 @@ public class HermitRequest extends KoLRequest
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode != 200 )
-			return;
-
 		String item = client.getSettings().getProperty( "hermitTrade" );
 
 		if ( item == null )
@@ -87,15 +84,12 @@ public class HermitRequest extends KoLRequest
 
 		super.run();
 
-		System.out.println( responseCode );
-		System.out.println( replyContent );
-
 		if ( isErrorState || responseCode != 200 )
 			return;
 
 		if ( replyContent.indexOf( "acquire" ) == -1 )
 		{
-			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of worthless trinkets." );
+			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of worthless junk." );
 			client.updateAdventure( false, false );
 			return;
 		}
