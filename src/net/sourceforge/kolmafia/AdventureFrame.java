@@ -98,6 +98,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 
 // other imports
 import java.util.List;
@@ -698,8 +699,10 @@ public class AdventureFrame extends KoLFrame
 			{
 				try
 				{
-					int buffCount = countField.getText().trim().length() == 0 ? 0 :
-						df.parse( countField.getText() ).intValue();
+					if ( countField.getText().trim().length() == 0 )
+						return;
+
+					int buffCount = df.parse( countField.getText() ).intValue();
 					Runnable buff = (Runnable) buffField.getSelectedItem();
 
 					client.makeRequest( buff, buffCount );
@@ -732,7 +735,7 @@ public class AdventureFrame extends KoLFrame
 
 		public HeroDonationPanel()
 		{
-			super( "donate to statue", "donate to clan", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( "lump sum", "increments", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -745,6 +748,7 @@ public class AdventureFrame extends KoLFrame
 			heroes.add( "Statue of Boris" );
 			heroes.add( "Statue of Jarlsberg" );
 			heroes.add( "Statue of Sneaky Pete" );
+			heroes.add( "Future Heroes of Your Clan" );
 
 			heroField = new JComboBox( heroes );
 			amountField = new JTextField();
@@ -782,13 +786,19 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			contentPanel = heroDonation;
-			(new HeroDonationThread()).start();
+			if ( heroField.getSelectedIndex() == 3 )
+				(new ClanDonationThread()).start();
+			else
+				(new HeroDonationThread( true )).start();
 		}
 
 		protected void actionCancelled()
 		{
 			contentPanel = heroDonation;
-			(new ClanDonationThread()).start();
+			if ( heroField.getSelectedIndex() == 3 )
+				(new ClanDonationThread()).start();
+			else
+				(new HeroDonationThread( false )).start();
 		}
 
 		public void requestFocus()
@@ -803,23 +813,46 @@ public class AdventureFrame extends KoLFrame
 
 		private class HeroDonationThread extends Thread
 		{
-			public HeroDonationThread()
+			private boolean breakUp;
+
+			public HeroDonationThread( boolean breakUp )
 			{
 				super( "Donation-Thread" );
 				setDaemon( true );
+				this.breakUp = breakUp;
 			}
 
 			public void run()
 			{
 				try
 				{
-					int amount = amountField.getText().trim().length() == 0 ? 0 :
-						df.parse( amountField.getText() ).intValue();
+					if ( amountField.getText().trim().length() == 0 )
+						return;
+
+					int amountRemaining = df.parse( amountField.getText() ).intValue();
+					int increments = breakUp ? df.parse( JOptionPane.showInputDialog(
+							"How many increments?" ) ).intValue() : 1;
+
+					if ( increments == 0 )
+					{
+						updateDisplay( ENABLED_STATE, "Donation cancelled." );
+						return;
+					}
 
 					if ( heroField.getSelectedIndex() != -1 )
 					{
-						updateDisplay( DISABLED_STATE, "Attempting donation to " + heroField.getSelectedItem() + "..." );
-						(new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, amount )).run();
+						int eachAmount = amountRemaining / increments;
+						int designatedHero = heroField.getSelectedIndex() + 1;
+
+						for ( int i = 1; i < increments; ++i )
+						{
+							updateDisplay( DISABLED_STATE, "Donation to " + heroField.getSelectedItem() +
+								", increment #" + i + "..." );
+							(new HeroDonationRequest( client, designatedHero, eachAmount )).run();
+							amountRemaining -= eachAmount;
+						}
+
+						(new HeroDonationRequest( client, designatedHero, amountRemaining )).run();
 					}
 				}
 				catch ( Exception e )
@@ -851,9 +884,10 @@ public class AdventureFrame extends KoLFrame
 			{
 				try
 				{
-					int amount = amountField.getText().trim().length() == 0 ? 0 :
-						df.parse( amountField.getText() ).intValue();
+					if ( amountField.getText().trim().length() == 0 )
+						return;
 
+					int amount = df.parse( amountField.getText() ).intValue();
 					updateDisplay( DISABLED_STATE, "Attempting clan donation..." );
 					(new ItemStorageRequest( client, amount, ItemStorageRequest.MEAT_TO_STASH )).run();
 					updateDisplay( ENABLED_STATE, "Clan donation attempt complete." );
@@ -956,9 +990,10 @@ public class AdventureFrame extends KoLFrame
 			{
 				try
 				{
-					int amount = amountField.getText().trim().length() == 0 ? 0 :
-						df.parse( amountField.getText() ).intValue();
+					if ( amountField.getText().trim().length() == 0 )
+						return;
 
+					int amount = df.parse( amountField.getText() ).intValue();
 					updateDisplay( DISABLED_STATE, "Executing transaction..." );
 					(new ItemStorageRequest( client, amount, isDeposit ? ItemStorageRequest.MEAT_TO_CLOSET : ItemStorageRequest.MEAT_TO_INVENTORY )).run();
 					updateDisplay( ENABLED_STATE, df.format( client == null ? amount : client.getCharacterData().getClosetMeat() ) );
