@@ -404,6 +404,10 @@ public class ChatFrame extends KoLFrame
 				JFileChooser chooser = new JFileChooser();
 				chooser.setFileFilter( new HTMLFileFilter() );
 				int returnVal = chooser.showSaveDialog( ChatFrame.this );
+
+				if ( chooser.getSelectedFile() == null )
+					return;
+
 				String filename = chooser.getSelectedFile().getAbsolutePath();
 				if ( !filename.endsWith( ".htm" ) && !filename.endsWith( ".html" ) )
 					filename += ".html";
