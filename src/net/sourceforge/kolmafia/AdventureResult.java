@@ -345,7 +345,7 @@ public class AdventureResult implements Comparable
 		// item, or something which may not result in a change in the
 		// state of the tally list.
 
-		if ( index == -1 || result.getCount() == 0 )
+		if ( index == -1 )
 		{
 			if ( !result.isItem() || result.getCount() > 0 )
 				tally.add( result );

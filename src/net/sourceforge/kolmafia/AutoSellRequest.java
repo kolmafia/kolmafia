@@ -59,7 +59,7 @@ public class AutoSellRequest extends KoLRequest
 	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell, int desiredPrice )
 	{
 		super( client, "managestore.php" );
-
+		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemToSell.getName() ) );
 		addFormField( "action", "additem" );
 		addFormField( "sellprice", "" + desiredPrice );
 		addFormField( "limit", "0" );
