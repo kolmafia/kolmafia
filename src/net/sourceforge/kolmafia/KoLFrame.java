@@ -153,6 +153,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		loadScriptMenuItem.addActionListener( new LoadScriptListener() );
 
 		scriptMenu.add( loadScriptMenuItem );
+
+		JMenuItem loggerItem = new JMenuItem( "", KeyEvent.VK_R );
+		loggerItem.addActionListener( new ToggleMacroListener( loggerItem ) );
+
+		scriptMenu.add( loggerItem );
 	}
 
 	/**
@@ -180,6 +185,73 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		loggerItem.addActionListener( new ToggleDebugListener( loggerItem ) );
 
 		configureMenu.add( loggerItem );
+	}
+
+	private class ToggleMacroListener implements ActionListener
+	{
+		private JMenuItem loggerItem;
+
+		public ToggleMacroListener( JMenuItem loggerItem )
+		{
+			this.loggerItem = loggerItem;
+			loggerItem.setText( client == null || client.getMacroStream() instanceof NullStream ?
+				"Record script..." : "Stop recording" );
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{	(new MacroRecordThread()).start();
+		}
+
+		private class MacroRecordThread extends Thread
+		{
+			public MacroRecordThread()
+			{	setDaemon( true );
+			}
+
+			public void run()
+			{
+				if ( client != null && client.getMacroStream() instanceof NullStream )
+				{
+					JFileChooser chooser = new JFileChooser();
+					chooser.setFileFilter( new TXTFileFilter() );
+					int returnVal = chooser.showSaveDialog( KoLFrame.this );
+
+					if ( chooser.getSelectedFile() == null )
+						return;
+
+					String filename = chooser.getSelectedFile().getAbsolutePath();
+					if ( !filename.endsWith( ".txt" ) )
+						filename += ".txt";
+
+					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+						client.initializeMacroStream( filename );
+
+					loggerItem.setText( "Stop recording" );
+				}
+				else if ( client != null )
+				{
+					client.deinitializeMacroStream();
+					loggerItem.setText( "Record script..." );
+				}
+			}
+		}
+
+		/**
+		 * Internal file descriptor to make sure files are
+		 * only saved to HTML format.
+		 */
+
+		private class TXTFileFilter extends javax.swing.filechooser.FileFilter
+		{
+			public boolean accept( java.io.File f )
+			{	return f.getPath().endsWith( ".txt" );
+			}
+
+			public String getDescription()
+			{	return "Text Documents";
+			}
+		}
+
 	}
 
 	private class ToggleDebugListener implements ActionListener

@@ -858,7 +858,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 			if ( !f.exists() )
 			{
-				f.mkdirs();
+				f.getParentFile().mkdirs();
 				f.createNewFile();
 			}
 
@@ -871,6 +871,15 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			// programs to write output; therefore,
 			// pretend for now that everything works.
 		}
+	}
+
+	/**
+	 * Retrieves the macro stream.
+	 * @return	The macro stream associated with this client
+	 */
+
+	public PrintStream getMacroStream()
+	{	return macroStream;
 	}
 
 	/**
