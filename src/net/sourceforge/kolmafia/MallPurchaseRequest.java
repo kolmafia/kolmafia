@@ -40,7 +40,7 @@ import java.util.StringTokenizer;
  * items from the Mall of Loathing.
  */
 
-public class MallPurchaseRequest extends KoLRequest
+public class MallPurchaseRequest extends KoLRequest implements Comparable
 {
 	private static final int BEER_SCHLITZ = 41;
 	private static final int BEER_WILLER = 81;
@@ -235,5 +235,15 @@ public class MallPurchaseRequest extends KoLRequest
 
 			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -1 * price * (afterCount - beforeCount) ) );
 		}
+	}
+
+	public int compareTo( Object o )
+	{
+		return ( o == null || !( o instanceof MallPurchaseRequest ) ) ? 1 :
+			compareTo( (MallPurchaseRequest) o );
+	}
+
+	public int compareTo( MallPurchaseRequest mpr )
+	{	return price - mpr.price;
 	}
 }
