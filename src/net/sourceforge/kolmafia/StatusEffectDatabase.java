@@ -97,8 +97,18 @@ public class StatusEffectDatabase implements UtilityConstants
 	}
 
 	/**
+	 * Returns the name for an effect, given its ID.
+	 * @param	effectID	The ID of the effect to lookup
+	 * @return	The name of the corresponding effect
+	 */
+
+	public static final String getEffectName( int effectID )
+	{	return effectByID[ effectID ];
+	}
+
+	/**
 	 * Returns the ID number for an effect, given its name.
-	 * @param	itemName	The name of the effect to lookup
+	 * @param	effectName	The name of the effect to lookup
 	 * @return	The ID number of the corresponding effect
 	 */
 

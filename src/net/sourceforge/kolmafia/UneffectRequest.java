@@ -44,6 +44,8 @@ package net.sourceforge.kolmafia;
 
 public class UneffectRequest extends KoLRequest
 {
+	private int effectID;
+
 	/**
 	 * Constructs a new <code>UneffectRequest</code>.
 	 * @param	client	The client to be notified of completion
@@ -56,5 +58,17 @@ public class UneffectRequest extends KoLRequest
 		addFormField( "using", "Yep." );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "whicheffect", "" + effectID );
+		this.effectID = effectID;
+	}
+
+	public void run()
+	{
+		super.run();
+
+		// If it notifies you that the effect was removed, delete it
+		// from the list of effects.
+
+		if ( replyContent != null && replyContent.indexOf( "Effect removed." ) != -1 )
+			client.getCharacterData().getEffects().remove( new AdventureResult( StatusEffectDatabase.getEffectName( effectID ), 0 ) );
 	}
 }
