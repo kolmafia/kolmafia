@@ -431,7 +431,7 @@ public class KoLMessenger implements KoLConstants
 		// fixed any other way will be fixed here.
 
 		String validColorsContent = orderedTagsContent.replaceAll( "<font color=\"none\">", "" ).replaceAll(
-			"<font color=blue>[link]</font>", "[link]" );
+			"<font color=blue>\\[link\\]<\\/font>", "[link]" );
 
 		// Although it's not necessary, it cleans up the HTML if all of the
 		// last seen data is removed.  It makes the buffer smaller (for one),
