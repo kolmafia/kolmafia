@@ -250,14 +250,25 @@ public class GreenMessageFrame extends KoLFrame
 	{
 		public void actionPerformed( ActionEvent e )
 		{
-			Object [] possibleValues = client.getInventory().toArray();
-			Object selectedValue = JOptionPane.showInputDialog(
-				null, "Attach one...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
-				possibleValues, possibleValues[0] );
+			try
+			{
+				Object [] possibleValues = client.getInventory().toArray();
+				String attachmentName = ((AdventureResult) JOptionPane.showInputDialog(
+					null, "Attach to message...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
+					possibleValues, possibleValues[0] )).getName();
 
-			AdventureResult.addResultToList( attachedItems, new AdventureResult(
-				((AdventureResult) selectedValue).getName(), 1 ) );
-			resetAttachedItemsDisplay();
+				int attachmentCount = df.parse( JOptionPane.showInputDialog(
+					"Attaching multiple " + attachmentName + "..." ) ).intValue();
+
+				AdventureResult.addResultToList( attachedItems, new AdventureResult(
+					attachmentName, attachmentCount ) );
+				resetAttachedItemsDisplay();
+			}
+			catch ( Exception e1 )
+			{
+				// If an exception happened, the attachment should not occur.
+				// Which means, if nothing is done, everything works great.
+			}
 		}
 	}
 
