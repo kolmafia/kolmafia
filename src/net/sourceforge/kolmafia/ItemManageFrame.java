@@ -522,7 +522,8 @@ public class ItemManageFrame extends KoLFrame
 	{
 		concoctions.clear();
 		concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, client.getInventory() ) );
-		concoctions.add( AdventureResult.LAST_ELEMENT );
+		if ( !concoctions.contains( AdventureResult.LAST_ELEMENT ) )
+			concoctions.add( AdventureResult.LAST_ELEMENT );
 	}
 
 	/**
