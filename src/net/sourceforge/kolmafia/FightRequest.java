@@ -86,6 +86,7 @@ public class FightRequest extends KoLRequest
 
 		if ( !isErrorState )
 		{
+			processResults( replyContent );
 			int winmsgIndex = replyContent.indexOf( "WINWINWIN" );
 
 			if ( winmsgIndex != -1 )
@@ -94,7 +95,6 @@ public class FightRequest extends KoLRequest
 				// reflect a victory and notify the client that an adventure
 				// was completed.
 
-				processResults( replyContent.substring( winmsgIndex + 16 ) );
 				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 				client.updateAdventure( true, true );
 			}
