@@ -442,7 +442,6 @@ public class KoLmafia implements UtilityConstants
 			Calendar.getInstance().getTime().toString() );
 
 		loathingChat.setChatDisplay( chatDisplay );
-		chatDisplay.setText( "Connecting to chat..." );
 
 		(new ChatRequest( this, "/channel" )).run();
 		(new ChatRequest( this )).run();

@@ -74,7 +74,6 @@ public class ChatRequest extends KoLRequest
 		super( client, "submitnewchat.php" );
 		addFormField( "playerid", "" + client.getUserID() );
 		addFormField( "pwd", client.getPasswordHash() );
-		this.associatedBuffer = client.getChatBuffer();
 
 		try
 		{
@@ -90,6 +89,7 @@ public class ChatRequest extends KoLRequest
 		}
 
 		this.isContinuationRequest = false;
+		this.associatedBuffer = client.getChatBuffer();
 	}
 
 	/**
@@ -107,6 +107,7 @@ public class ChatRequest extends KoLRequest
 
 		this.lastSeen = lastSeen;
 		this.isContinuationRequest = true;
+		this.associatedBuffer = client.getChatBuffer();
 	}
 
 	/**
@@ -127,12 +128,11 @@ public class ChatRequest extends KoLRequest
 			return;
 
 		int index = replyContent.indexOf( "lastseen" );
-		int currentSeen = lastSeen;
 
 		try
 		{
 			if ( index != -1 )
-				currentSeen = df.parse( replyContent.substring( index + 9, index + 19 ) ).intValue();
+				lastSeen = df.parse( replyContent.substring( index + 9, index + 19 ) ).intValue();
 		}
 		catch ( Exception e )
 		{
@@ -141,14 +141,22 @@ public class ChatRequest extends KoLRequest
 			// last seen value.
 		}
 
-		if ( client.getChatBuffer() != null )
+		if ( associatedBuffer == client.getChatBuffer() )
 		{
-			String noLinksContent = replyContent.replaceAll( "</?a.*?>", "" );
-			client.getChatBuffer().append( noLinksContent );
-		}
+			// There's a lot of bad HTML used in KoL chat; in order to get Java
+			// to properly display everything, all of the bad HTML gets replaced.
+			// Also, because linking is not currently handled, all link tags are
+			// also removed.
 
-		if ( isContinuationRequest && client.getChatBuffer() != null && associatedBuffer == client.getChatBuffer() )
-			(new ChatContinuationThread( currentSeen )).start();
+			String noLinksContent = replyContent.replaceAll( "</?a.*?>", "" ).replaceAll(
+				"<b><i>", "<i><b>" ).replaceAll( "</br>", "<br>" ).replaceAll(
+				"<font color=\"none\">", "" ).replaceAll( "</b></font>", "</b>" ).replaceAll( "<!.*?>", "" );
+
+			client.getChatBuffer().append( noLinksContent );
+
+			if ( isContinuationRequest )
+				(new ChatContinuationThread()).start();
+		}
 	}
 
 	/**
@@ -158,12 +166,8 @@ public class ChatRequest extends KoLRequest
 
 	private class ChatContinuationThread extends Thread
 	{
-		private int lastSeen;
-
-		public ChatContinuationThread( int lastSeen )
-		{
-			setDaemon( true );
-			this.lastSeen = lastSeen;
+		public ChatContinuationThread()
+		{	setDaemon( true );
 		}
 
 		public void run()
