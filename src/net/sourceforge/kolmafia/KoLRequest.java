@@ -640,7 +640,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// to the client, but another attempt will be made
 
 			isErrorState = true;
-			updateDisplay( DISABLED_STATE, "I/O error.  Retrying..." );
+			updateDisplay( NOCHANGE, "I/O error.  Retrying..." );
 
 			if ( client != null )
 			{

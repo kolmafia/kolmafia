@@ -381,7 +381,7 @@ public class KoLmafiaCLI extends KoLmafia
 			outputStream.println( "Ronald: " + MoonPhaseDatabase.getRonaldMoonPhase() );
 			outputStream.println( "Grimace: " + MoonPhaseDatabase.getGrimaceMoonPhase() );
 			outputStream.println();
-			scriptRequestor.updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+			scriptRequestor.updateDisplay( NOCHANGE, MoonPhaseDatabase.getMoonEffect() );
 			return;
 		}
 
@@ -697,7 +697,7 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.makeRequest( new HeroDonationRequest( scriptRequestor, heroID, amountRemaining ), 1 );
 
 			if ( scriptRequestor.permitsContinue() )
-				scriptRequestor.updateDisplay( ENABLED_STATE, "Requests complete!" );
+				scriptRequestor.updateDisplay( NOCHANGE, "Requests complete!" );
 		}
 	}
 
@@ -753,7 +753,7 @@ public class KoLmafiaCLI extends KoLmafia
 		executePrintCommand( parameterList[0].toLowerCase(), desiredOutputStream );
 
 		if ( parameterList.length != 1 )
-			scriptRequestor.updateDisplay( ENABLED_STATE, "Data has been printed to <" + parameterList[1] + ">" );
+			scriptRequestor.updateDisplay( NOCHANGE, "Data has been printed to <" + parameterList[1] + ">" );
 	}
 
 	/**

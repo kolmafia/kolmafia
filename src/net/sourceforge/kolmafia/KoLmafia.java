@@ -738,8 +738,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 				if ( permitContinue && iterations > 0 && iterationsRemaining <= 0 && !(request instanceof UseSkillRequest || request instanceof AutoSellRequest) )
 					updateDisplay( ENABLED_STATE, "Requests completed!" );
-				else if ( iterations <= 0 )
-					updateDisplay( ENABLED_STATE, "" );
 			}
 		}
 		catch ( RuntimeException e )
