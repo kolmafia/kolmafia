@@ -195,10 +195,9 @@ public class KoLmafia implements UtilityConstants
 		permitContinue = false;
 
 		settings = new KoLSettings();
-		logStream = new NullStream();
-
 		activeFrame = null;
 		deinitializeChat();
+		deinitializeLogStream();
 		this.permitContinue = true;
 	}
 
@@ -488,6 +487,16 @@ public class KoLmafia implements UtilityConstants
 			// programs to write output; therefore,
 			// pretend for now that everything works.
 		}
+	}
+
+	/**
+	 * De-initializes the log stream.  This method should only
+	 * be called when the user wishes to stop logging the session.
+	 */
+
+	public void deinitializeLogStream()
+	{
+		logStream = new NullStream();
 	}
 
 	/**

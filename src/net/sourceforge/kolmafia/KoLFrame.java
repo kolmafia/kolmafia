@@ -126,27 +126,50 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		menuBar.add( configureMenu );
 
 		JMenuItem settingsItem = new JMenuItem( "Preferences", KeyEvent.VK_P );
-		settingsItem.addActionListener( new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				OptionsFrame oframe = new OptionsFrame( client );
-				oframe.pack();  oframe.setVisible( true );
-				oframe.requestFocus();
-			}
-		});
+		settingsItem.addActionListener( new DisplayPreferencesListener() );
 
 		configureMenu.add( settingsItem );
 
-		final JMenuItem loggerItem = new JMenuItem( "Turn On Debug", KeyEvent.VK_D );
-		loggerItem.addActionListener( new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				client.initializeLogStream();
-				loggerItem.setEnabled( false );
-			}
-		});
+		JMenuItem loggerItem = new JMenuItem( "", KeyEvent.VK_D );
+		loggerItem.addActionListener( new ToggleDebugListener( loggerItem ) );
 
 		configureMenu.add( loggerItem );
+	}
+
+	private class ToggleDebugListener implements ActionListener
+	{
+		private JMenuItem loggerItem;
+
+		public ToggleDebugListener( JMenuItem loggerItem )
+		{
+			this.loggerItem = loggerItem;
+			loggerItem.setText( client.getLogStream() instanceof NullStream ?
+				"Turn On Debug" : "Turn Off Debug" );
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			if ( client.getLogStream() instanceof NullStream )
+			{
+				client.initializeLogStream();
+				loggerItem.setText( "Turn Off Debug" );
+			}
+			else
+			{
+				client.deinitializeLogStream();
+				loggerItem.setText( "Turn On Debug" );
+			}
+		}
+	}
+
+	private class DisplayPreferencesListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			OptionsFrame oframe = new OptionsFrame( client );
+			oframe.pack();  oframe.setVisible( true );
+			oframe.requestFocus();
+		}
 	}
 
 	/**
