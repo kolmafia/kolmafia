@@ -40,6 +40,7 @@ import java.io.BufferedReader;
 
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -124,14 +125,27 @@ public class FamiliarsDatabase
 
 	/**
 	 * Returns the ID number for an familiar, given its name.
-	 * @param	familiarName	The name of the familiar to lookup
+	 * @param	substring	The name of the familiar to lookup
 	 * @return	The ID number of the corresponding familiar
 	 */
 
-	public static final int getFamiliarID( String familiarName )
+	public static final int getFamiliarID( String substring )
 	{
-		Object familiarID = familiarByName.get( familiarName.toLowerCase() );
-		return familiarID == null ? -1 : ((Integer)familiarID).intValue();
+		String searchString = substring.toLowerCase();
+		String currentFamiliarName;
+
+		Iterator completeFamiliars = familiarByName.keySet().iterator();
+		while ( completeFamiliars.hasNext() )
+		{
+			currentFamiliarName = (String) completeFamiliars.next();
+			if ( currentFamiliarName.indexOf( searchString ) != -1 )
+			{
+				Object familiarID = familiarByName.get( currentFamiliarName );
+				return familiarID == null ? -1 : ((Integer)familiarID).intValue();
+			}
+		}
+
+		return -1;
 	}
 
 	public static final String getFamiliarItem( int familiarID )
