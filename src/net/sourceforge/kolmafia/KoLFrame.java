@@ -125,7 +125,7 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		configureMenu.setMnemonic( KeyEvent.VK_C );
 		menuBar.add( configureMenu );
 
-		JMenuItem settingsItem = new JMenuItem( "Preferences...", KeyEvent.VK_P );
+		JMenuItem settingsItem = new JMenuItem( "Preferences", KeyEvent.VK_P );
 		settingsItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
@@ -137,7 +137,7 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 		configureMenu.add( settingsItem );
 
-		final JMenuItem loggerItem = new JMenuItem( "Initialize Debugger", KeyEvent.VK_D );
+		final JMenuItem loggerItem = new JMenuItem( "Turn On Debug", KeyEvent.VK_D );
 		loggerItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
@@ -179,7 +179,7 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		helpMenu.setMnemonic( KeyEvent.VK_H );
 		menuBar.add( helpMenu );
 
-		JMenuItem aboutItem = new JMenuItem( "About KoLmafia", KeyEvent.VK_C );
+		JMenuItem aboutItem = new JMenuItem( "About KoLmafia..." );
 		aboutItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{	(new LicenseDisplay( "KoLmafia: Copyright Notice" )).requestFocus();
