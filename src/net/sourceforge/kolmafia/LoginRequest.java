@@ -53,6 +53,15 @@ public class LoginRequest extends KoLRequest
 	private String loginname;
 	private String password;
 
+	/**
+	 * Constructs a new <code>LoginRequest</code>.  The given
+	 * client will be notified in the event of success.
+	 *
+	 * @param	client	The client associated with this <code>LoginRequest</code>
+	 * @param	loginname	The name of the player to be logged in
+	 * @param	password	The password to be used in the login attempt
+	 */
+
 	public LoginRequest( KoLmafia client, String loginname, String password )
 	{
 		super( client, "login.php" );
@@ -65,6 +74,12 @@ public class LoginRequest extends KoLRequest
 		addFormField( "loginname", loginname );
 		addFormField( "password", password );
 	}
+
+	/**
+	 * Runs the <code>LoginRequest</code>.  This method determines
+	 * whether or not the login was successful, and updates the
+	 * display or notifies the client, as appropriate.
+	 */
 
 	public void run()
 	{
@@ -85,6 +100,11 @@ public class LoginRequest extends KoLRequest
 			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Login failed." );
 		}
 	}
+
+	/**
+	 * Utility method used to calculate and set an MD5 hash
+	 * of the character's password.
+	 */
 
 	private void setPasswordHash()
 	{

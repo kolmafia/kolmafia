@@ -58,8 +58,40 @@ import javax.swing.ButtonGroup;
 import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+/**
+ * <p>Handles all of the customizable user options in <code>KoLmafia</code>.
+ * This class presents all of the options that the user can customize
+ * in their adventuring and uses the appropriate <code>KoLSettings</code>
+ * in order to display them.  This class also uses <code>KoLSettings</code>
+ * to record the user's preferences for upcoming sessions.</p>
+ *
+ * <p>If this class is accessed before login, it will modify global settings
+ * ONLY, and if the character already has settings, any modification of
+ * global settings will not modify their own.  Accessing this class after
+ * login will result in modification of the character's own settings ONLY,
+ * and will not modify any global settings.</p>
+ *
+ * <p>Proxy settings are a special exception to this rule - because the
+ * Java Virtual Machine requires the proxy settings to be specified at
+ * a global level, though the settings are changed appropriately on disk,
+ * only the most recently loaded settings will be active on the current
+ * instance of the JVM.  If separate characters need separate proxies,
+ * they cannot be run in the same JVM instance.</p>
+ */
+
 public class OptionsFrame extends KoLFrame
 {
+	/**
+	 * Constructs a new <code>OptionsFrame</code> that will be
+	 * associated with the given client.  When this frame is
+	 * closed, it will attempt to return focus to the currently
+	 * active frame; note that if this is done while the client
+	 * is shuffling active frames, closing the window will not
+	 * properly transfer focus.
+	 *
+	 * @param	client	The client to be associated with this <code>OptionsFrame</code>
+	 */
+
 	public OptionsFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Preferences (Global)", client );
@@ -87,6 +119,12 @@ public class OptionsFrame extends KoLFrame
 		addMenuBar();
 	}
 
+	/**
+	 * Utility method used to add a menu bar to the <code>LoginFrame</code>.
+	 * The menu bar contains configuration options and the general license
+	 * information associated with <code>KoLmafia</code>.
+	 */
+
 	private void addMenuBar()
 	{
 		JMenuBar menuBar = new JMenuBar();
@@ -113,6 +151,12 @@ public class OptionsFrame extends KoLFrame
 		private JTextField proxyPort;
 		private JTextField proxyLogin;
 		private JTextField proxyPassword;
+
+		/**
+		 * Constructs a new <code>LoginOptionsPanel</code>, containing a
+		 * place for the users to select their desired server and for them
+		 * to modify any applicable proxy settings.
+		 */
 
 		public LoginOptionsPanel()
 		{
@@ -170,6 +214,12 @@ public class OptionsFrame extends KoLFrame
 			this.clear();
 		}
 
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
 		private class LoadDefaultSettingsThread extends Thread
 		{
 			public void run()
@@ -211,6 +261,12 @@ public class OptionsFrame extends KoLFrame
 				(new StatusMessageChanger( "" )).run();
 			}
 		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
 
 		private class StoreSettingsThread extends Thread
 		{
@@ -263,11 +319,26 @@ public class OptionsFrame extends KoLFrame
 				(new StatusMessageChanger( "Settings saved." )).run();
 			}
 
+			/**
+			 * Utility method which applies the given property to both the
+			 * current JVM instance and the character's preferences.
+			 *
+			 * @param	key	The key associated with the property to set
+			 * @param	value	The value associated with the property to set
+			 */
+
 			private void setProperty( String key, String value )
 			{
 				client.getSettings().setProperty( key, value );
 				System.getProperties().setProperty( key, value );
 			}
+
+			/**
+			 * Utility method which removes the given property from both the
+			 * current JVM instance and the character's preferences.
+			 *
+			 * @param	key	The key associated with the property to remove
+			 */
 
 			private void removeProperty( String key )
 			{
@@ -294,6 +365,12 @@ public class OptionsFrame extends KoLFrame
 
 		private ButtonGroup actionGroup;
 		private JRadioButton [] actions;
+
+		/**
+		 * Constructs a new <code>BattleOptionsPanel</code> containing a
+		 * way for the users to choose the way they want to fight battles
+		 * encountered during adventuring.
+		 */
 
 		public BattleOptionsPanel()
 		{
@@ -342,6 +419,12 @@ public class OptionsFrame extends KoLFrame
 		{	(new LoadDefaultSettingsThread()).start();
 		}
 
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
 		private class LoadDefaultSettingsThread extends Thread
 		{
 			public LoadDefaultSettingsThread()
@@ -371,6 +454,12 @@ public class OptionsFrame extends KoLFrame
 				(new StatusMessageChanger( "" )).run();
 			}
 		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
 
 		private class StoreSettingsThread extends Thread
 		{
@@ -402,6 +491,12 @@ public class OptionsFrame extends KoLFrame
 		private final String [] itemnames = { "seal-clubbing club", "seal tooth", "helmet turtle",
 			"scroll of turtle summoning", "pasta spoon", "ravioli hat", "saucepan", "spices", "disco mask",
 			"disco ball", "stolen accordion", "mariachi pants", "worthless trinket" };
+
+		/**
+		 * Constructs a new <code>SewerOptionsPanel</code> containing an
+		 * alphabetized list of items available through the lucky sewer
+		 * adventure.
+		 */
 
 		public SewerOptionsPanel()
 		{
@@ -445,6 +540,12 @@ public class OptionsFrame extends KoLFrame
 		{	(new LoadDefaultSettingsThread()).start();
 		}
 
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
 		private class LoadDefaultSettingsThread extends Thread
 		{
 			public LoadDefaultSettingsThread()
@@ -474,6 +575,12 @@ public class OptionsFrame extends KoLFrame
 				(new StatusMessageChanger( "" )).run();
 			}
 		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
 
 		private class StoreSettingsThread extends Thread
 		{
@@ -524,6 +631,13 @@ public class OptionsFrame extends KoLFrame
 			"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
 		private final int [] itemnumbers = { 24, 46, 47, 52, 55, 61, 66, 106, 107, 135, 140, 527 };
 
+
+		/**
+		 * Constructs a new <code>HermitOptionsPanel</code> containing
+		 * an alphabetized list of items the hermit has available for
+		 * trade, including ten-leaf clovers.
+		 */
+
 		public HermitOptionsPanel()
 		{
 			super( "apply", "defaults", new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
@@ -571,6 +685,12 @@ public class OptionsFrame extends KoLFrame
 		{	(new LoadDefaultSettingsThread()).start();
 		}
 
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
 		private class LoadDefaultSettingsThread extends Thread
 		{
 			public LoadDefaultSettingsThread()
@@ -601,6 +721,12 @@ public class OptionsFrame extends KoLFrame
 				(new StatusMessageChanger( "" )).run();
 			}
 		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
 
 		private class StoreSettingsThread extends Thread
 		{
