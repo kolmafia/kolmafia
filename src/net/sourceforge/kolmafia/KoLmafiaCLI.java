@@ -33,12 +33,17 @@
  */
 
 package net.sourceforge.kolmafia;
+
+// input and output
 import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.PrintStream;
 import java.io.IOException;
+
+// utility imports
+import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,6 +58,8 @@ import java.util.regex.Pattern;
 
 public class KoLmafiaCLI extends KoLmafia
 {
+	protected static final DecimalFormat df = new DecimalFormat();
+
 	private PrintStream outputStream;
 	private BufferedReader commandStream;
 
@@ -77,6 +84,25 @@ public class KoLmafiaCLI extends KoLmafia
 			e.printStackTrace();
 			System.exit(-1);
 		}
+	}
+
+	/**
+	 * Utility method to parse an individual adventuring result.
+	 * This method determines what the result actually was and
+	 * adds it to the tally.  Note that at the current time, it
+	 * will ignore anything with the word "points".
+	 *
+	 * @param	result	String to parse for the result
+	 */
+
+	public void parseResult( String result )
+	{
+		super.parseResult( result );
+
+		if ( result.startsWith( "You" ) )
+			outputStream.println( result );
+		else
+			outputStream.println( "You acquire: " + result );
 	}
 
 	/**
@@ -201,7 +227,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		String command = line.split( " " )[0].toLowerCase().trim();
-		String parameters = line.substring( command.length() - 1 ).trim();
+		String parameters = line.substring( command.length() ).trim();
 		executeCommand( command, parameters );
 	}
 
@@ -213,11 +239,75 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCommand( String command, String parameters )
 	{
-		if ( command.equals( "exit" ) )
+		if ( command.equals( "exit" ) || command.equals( "quit" ) || command.equals( "logout" ) )
 		{
 			outputStream.println( "Exiting KoLmafia..." );
 			System.exit(0);
 		}
+
+		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) )
+		{
+			executeConsumeItemRequest( parameters );
+			return;
+		}
+	}
+
+	/**
+	 * A special module used specifically for properly instantiating
+	 * ConsumeItemRequests.
+	 */
+
+	private void executeConsumeItemRequest( String parameters )
+	{
+		int consumptionType;  String itemName;  int itemCount;
+
+		// First, allow for the person to type without specifying
+		// the amount, if the amount is 1.
+
+		if ( TradeableItemDatabase.contains( parameters ) )
+		{
+			itemName = parameters;
+			itemCount = 1;
+		}
+
+		// Now, handle the instance where the first item is actually
+		// the quantity desired, and the next is the amount to use
+
+		else
+		{
+			String itemCountString = parameters.split( " " )[0];
+			itemName = parameters.substring( itemCountString.length() ).trim();
+
+			if ( !TradeableItemDatabase.contains( itemName ) )
+			{
+				outputStream.println( itemName + " does not exist in the item database." );
+				return;
+			}
+
+			try
+			{
+				itemCount = df.parse( itemCountString ).intValue();
+			}
+			catch ( Exception e )
+			{
+				// Technically, this exception should not be thrown, but if
+				// it is, then print an error message and return.
+
+				outputStream.println( itemCountString + " is not a number." );
+				return;
+			}
+		}
+
+		consumptionType = TradeableItemDatabase.getConsumptionType( itemName );
+		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
+			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
+
+		updateDisplay( 0, useTypeAsString + " " + itemCount + " " + itemName + "..." );
+
+		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
+			(new ConsumeItemRequest( this, consumptionType, itemName, itemCount )).run();
+		else
+			makeRequest( new ConsumeItemRequest( this, consumptionType, itemName, 1 ), itemCount );
 	}
 
 	/**
