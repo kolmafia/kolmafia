@@ -106,7 +106,7 @@ public class GearChangeFrame extends KoLFrame
 		JPanel entirePanel = new JPanel();
 		entirePanel.setLayout( new BorderLayout( 20, 20 ) );
 
-		entirePanel.add( createEquipPanel(), BorderLayout.EAST );
+		entirePanel.add( createEquipPanel(), BorderLayout.CENTER );
 		entirePanel.add( createSouthPanel(), BorderLayout.SOUTH );
 
 		getContentPane().add( entirePanel, "" );
