@@ -35,9 +35,10 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
-import javax.swing.JTabbedPane;
 import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
+import com.sun.java.forums.CloseableTabbedPane;
+import com.sun.java.forums.CloseableTabbedPaneListener;
 
 /**
  * An extension of <code>ChatFrame</code> used to display the current
@@ -46,9 +47,9 @@ import javax.swing.SwingUtilities;
  * have that flexibility.
  */
 
-public class TabbedChatFrame extends ChatFrame
+public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneListener
 {
-	private JTabbedPane tabs;
+	private CloseableTabbedPane tabs;
 
 	public TabbedChatFrame( KoLmafia client, KoLMessenger messenger )
 	{	super( client, messenger );
@@ -63,7 +64,8 @@ public class TabbedChatFrame extends ChatFrame
 	protected void initialize( String associatedContact )
 	{
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
-		tabs = new JTabbedPane();
+		tabs = new CloseableTabbedPane();
+		tabs.addCloseableTabbedPaneListener( this );
 		getContentPane().add( tabs, "" );
 	}
 
@@ -78,6 +80,12 @@ public class TabbedChatFrame extends ChatFrame
 		ChatPanel createdPanel = new ChatPanel( tabName );
 		(new AddTabRunnable( tabName, createdPanel )).run();
 		return createdPanel.getChatDisplay();
+	}
+
+	public boolean closeTab( int tabIndexToClose )
+	{
+		client.getMessenger().removeChat( tabs.getTitleAt( tabIndexToClose ) );
+		return true;
 	}
 
 	private class AddTabRunnable implements Runnable
