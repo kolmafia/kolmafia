@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
@@ -64,6 +65,7 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			KoLmafiaCLI session = new KoLmafiaCLI( null );
+			session.attemptLogin();
 		}
 		catch ( IOException e )
 		{
@@ -84,8 +86,61 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public KoLmafiaCLI( String scriptLocation ) throws IOException
 	{
-		commandStream = (scriptLocation == null) ? new BufferedReader( new InputStreamReader( System.in ) ) :
-			new BufferedReader( new InputStreamReader( new FileInputStream( scriptLocation ) ) );
+		InputStream istream = scriptLocation == null ? System.in : new FileInputStream( scriptLocation );
+		commandStream = new BufferedReader( new InputStreamReader( istream ) );
+	}
+
+	/**
+	 * Utility method used to prompt the user for their login and
+	 * password.  Later on, when profiles are added, prompting
+	 * for the user will automatically look up a password.
+	 */
+
+	private void attemptLogin()
+	{
+		try
+		{
+			System.out.print( "login: " );
+			String username = commandStream.readLine();
+			if ( username == null )
+				return;
+
+			System.out.print( "password: " );
+			String password = commandStream.readLine();
+
+			if ( password == null )
+				return;
+
+			System.out.println();
+
+			System.out.println( "Determining server..." );
+			KoLRequest.applySettings();
+			System.out.println( KoLRequest.getRootHostName() + " selected." );
+
+			System.out.println();
+			(new LoginRequest( this, username, password, true )).run();
+		}
+		catch ( IOException e )
+		{
+			// Something bad must of happened.  Blow up!
+			// Or rather, print the stack trace and exit
+			// with an error state.
+
+			e.printStackTrace();
+			System.exit(-1);
+		}
+	}
+
+	/**
+	 * Initializes the <code>KoLmafia</code> session.  Called after
+	 * the login has been confirmed to notify the client that the
+	 * login was successful, the user-specific settings should be
+	 * loaded, and the user can begin adventuring.
+	 */
+
+	public void initialize( String loginname, String sessionID, boolean getBreakfast )
+	{
+		super.initialize( loginname, sessionID, getBreakfast );
 		listenForCommands();
 	}
 
@@ -149,7 +204,14 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	public void updateDisplay( int state, String message )
-	{	System.out.println( message );
+	{
+		System.out.println( message );
+
+		// There's a special case to be handled if the login was not
+		// successful - in other words, attempt to prompt the user again
+
+		if ( message.equals( "Login failed." ) )
+			attemptLogin();
 	}
 
 	/**
