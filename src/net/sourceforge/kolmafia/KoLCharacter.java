@@ -33,6 +33,17 @@
  */
 
 package net.sourceforge.kolmafia;
+import net.java.dev.spellcast.utilities.SortedListModel;
+
+/**
+ * A container class representing the <code>KoLCharacter</code>.  This
+ * class also allows for data listeners that are updated whenever the
+ * character changes; ultimately, the purpose of this class is to shift
+ * away from the centralized-notification paradigm (inefficient) towards
+ * a listener paradigm, which is both cleaner and easier to manage with
+ * regards to extensions.  In addition, it loosens the coupling between
+ * the various aspects of <code>KoLmafia</code>, leading to extensibility.
+ */
 
 public class KoLCharacter
 {
@@ -52,6 +63,15 @@ public class KoLCharacter
 	private int adventuresLeft;
 	private int totalTurnsUsed;
 
+	/**
+	 * Constructs a new <code>KoLCharacter</code> with the given name.
+	 * All fields are initialized to their default values (nothing),
+	 * and it is the responsibility of other methods to initialize
+	 * the fields with their real values.
+	 *
+	 * @param	username	The name of the character this <code>KoLCharacter</code> represents
+	 */
+
 	public KoLCharacter( String username )
 	{
 		this.username = username;
@@ -65,33 +85,75 @@ public class KoLCharacter
 			equipment[i] = "none";
 	}
 
+	/**
+	 * Accessor method to retrieve the name of this character.
+	 * @return	The name of this character
+	 */
+
 	public String getUsername()
 	{	return username;
 	}
+
+	/**
+	 * Accessor method to set the user ID associated with this character.
+	 * @param	userID	The user ID associated with this character
+	 */
 
 	public void setUserID( int userID )
 	{	this.userID = userID;
 	}
 
+	/**
+	 * Accessor method to retrieve the user ID associated with this character.
+	 * @return	The user ID associated with this character
+	 */
+
 	public int getUserID()
 	{	return userID;
 	}
+
+	/**
+	 * Accessor method to set the level of this character.
+	 * @param	level	The level of this character
+	 */
 
 	public void setLevel( int level )
 	{	this.level = level;
 	}
 
+	/**
+	 * Accessor method to retrieve the level of this character.
+	 * @return	The level of this character
+	 */
+
 	public int getLevel()
 	{	return level;
 	}
+
+	/**
+	 * Accessor method to set the character's class.
+	 * @param	classname	The name of the character's class
+	 */
 
 	public void setClassName( String classname )
 	{	this.classname = classname;
 	}
 
+	/**
+	 * Accessor method to retrieve the name of the character's class.
+	 * @return	The name of the character's class
+	 */
+
 	public String getClassName()
 	{	return classname;
 	}
+
+	/**
+	 * Accessor method to set the character's current health state.
+	 * @param	currentHP	The character's current HP value
+	 * @param	maximumHP	The character's maximum HP value
+	 * @param	baseMaxHP	The base value for the character's maximum HP
+	 */
 
 	public void setHP( int currentHP, int maximumHP, int baseMaxHP )
 	{
@@ -100,17 +162,39 @@ public class KoLCharacter
 		this.baseMaxHP = baseMaxHP;
 	}
 
+	/**
+	 * Accessor method to retrieve the character's current HP.
+	 * @return	The character's current HP
+	 */
+
 	public int getCurrentHP()
 	{	return currentHP;
 	}
+
+	/**
+	 * Accessor method to retrieve the character's maximum HP.
+	 * @return	The character's maximum HP
+	 */
 
 	public int getMaximumHP()
 	{	return maximumHP;
 	}
 
+	/**
+	 * Accessor method to retrieve the base value for the character's maximum HP.
+	 * @return	The base value for the character's maximum HP
+	 */
+
 	public int getBaseMaxHP()
 	{	return baseMaxHP;
 	}
+
+	/**
+	 * Accessor method to set the character's current mana limits.
+	 * @param	currentMP	The character's current MP value
+	 * @param	maximumMP	The character's maximum MP value
+	 * @param	baseMaxMP	The base value for the character's maximum MP
+	 */
 
 	public void setMP( int currentMP, int maximumMP, int baseMaxMP )
 	{
@@ -119,25 +203,70 @@ public class KoLCharacter
 		this.baseMaxMP = baseMaxMP;
 	}
 
+	/**
+	 * Accessor method to retrieve the character's current MP.
+	 * @return	The character's current MP
+	 */
+
 	public int getCurrentMP()
 	{	return currentMP;
 	}
+
+	/**
+	 * Accessor method to retrieve the character's maximum MP.
+	 * @return	The character's maximum MP
+	 */
 
 	public int getMaximumMP()
 	{	return maximumMP;
 	}
 
+	/**
+	 * Accessor method to retrieve the base value for the character's maximum MP.
+	 * @return	The base value for the character's maximum MP
+	 */
+
 	public int getBaseMaxMP()
 	{	return baseMaxMP;
 	}
+
+	/**
+	 * Accessor method to set the character's current available meat for spending
+	 * (IE: meat that isn't currently in the character's closet).
+	 *
+	 * @param	availableMeat	The character's available meat for spending
+	 */
 
 	public void setAvailableMeat( int availableMeat )
 	{	this.availableMeat = availableMeat;
 	}
 
+	/**
+	 * Accessor method to retrieve the character's current available meat for
+	 * spending (IE: meat that isn't currently in the character's closet).
+	 *
+	 * @return	The character's available meat for spending
+	 */
+
 	public int getAvailableMeat()
 	{	return availableMeat;
 	}
+
+	/**
+	 * Sets the character's current stat values.  Each parameter in the list comes in
+	 * pairs: the adjusted value (based on equipment and spell effects) and the total
+	 * number of subpoints acquired through adventuring for that statistic.  This is
+	 * preferred over the character's current base and/or distance from base as it
+	 * allows for more accurate reporting of statistic gains and losses, as statistic
+	 * losses are not reported by KoL.
+	 *
+	 * @param	adjustedMuscle	The adjusted value for the character's muscle
+	 * @param	totalMuscle	The total number of muscle subpoints acquired thus far
+	 * @param	adjustedMysticality	The adjusted value for the character's mysticality
+	 * @param	totalMysticality	The total number of mysticality subpoints acquired thus far
+	 * @param	adjustedMoxie	The adjusted value for the character's moxie
+	 * @param	totalMoxie	The total number of moxie subpoints acquired thus far
+	 */
 
 	public void setStats( int adjustedMuscle, int totalMuscle,
 		int adjustedMysticality, int totalMysticality, int adjustedMoxie, int totalMoxie )
@@ -151,41 +280,130 @@ public class KoLCharacter
 		totalSubpoints[2] = totalMoxie;
 	}
 
+	/**
+	 * Utility method for calculating how many subpoints have been accumulated
+	 * thus far, given the current base point value of the statistic and how
+	 * many have been accumulate since the last gain.
+	 *
+	 * @param	baseValue	The current base point value
+	 * @param	sinceLastBase	Number of subpoints accumulate since the last base point gain
+	 * @return	The total number of subpoints acquired since creation
+	 */
+
+	public static int calculateSubpoints( int baseValue, int sinceLastBase )
+	{	return baseValue * baseValue + sinceLastBase - 1;
+	}
+
+	/**
+	 * Accessor method to retrieve the character's adjusted value for muscle.
+	 * @return	The character's adjusted value for muscle
+	 */
+
 	public int getAdjustedMuscle()
 	{	return adjustedStats[0];
 	}
+
+	/**
+	 * Accessor method to retrieve the character's adjusted value for mysticality.
+	 * @return	The character's adjusted value for mysticality
+	 */
 
 	public int getAdjustedMysticality()
 	{	return adjustedStats[1];
 	}
 
+	/**
+	 * Accessor method to retrieve the character's adjusted value for moxie.
+	 * @return	The character's adjusted value for moxie
+	 */
+
 	public int getAdjustedMoxie()
 	{	return adjustedStats[2];
 	}
+
+	/**
+	 * Accessor method to set the character's current inebriety (also known as
+	 * drunkenness, tipsiness, and various other names).
+	 *
+	 * @param	inebriety	The character's current inebriety level
+	 */
 
 	public void setInebriety( int inebriety )
 	{	this.inebriety = inebriety;
 	}
 
+	/**
+	 * Accessor method to retrieve the character's current inebriety (also known as
+	 * drunkenness, tipsiness, and various other names).
+	 *
+	 * @return	The character's current inebriety level
+	 */
+
 	public int getInebriety()
 	{	return inebriety;
 	}
+
+	/**
+	 * Accessor method to set the number of adventures the character has left to
+	 * spend in this session.
+	 *
+	 * @param	adventuresLeft	The number of adventures the character has left
+	 */
 
 	public void setAdventuresLeft( int adventuresLeft )
 	{	this.adventuresLeft = adventuresLeft;
 	}
 
+	/**
+	 * Accessor method to retrieve the number of adventures the character has left
+	 * to spend in this session.
+	 *
+	 * @return	The number of adventures the character has left
+	 */
+
 	public int getAdventuresLeft()
 	{	return adventuresLeft;
 	}
+
+	/**
+	 * Accessor method to set the total number of turns the character has used
+	 * since creation.  This method is only interesting from an averages point of
+	 * view, but sometimes, it's interesting to know.
+	 *
+	 * @param	totalTurnsUsed	The total number of turns used since creation
+	 */
 
 	public void setTotalTurnsUsed( int totalTurnsUsed )
 	{	this.totalTurnsUsed = totalTurnsUsed;
 	}
 
+	/**
+	 * Accessor method to retrieve the total number of turns the character has used
+	 * since creation.  This method is only interesting from an averages point of
+	 * view, but sometimes, it's interesting to know.
+	 *
+	 * @return	The total number of turns used since creation
+	 */
+
 	public int getTotalTurnsUsed()
 	{	return totalTurnsUsed;
 	}
+
+	/**
+	 * Accessor method to set the equipment the character is currently using.
+	 * This does not take into account the power of the item or anything of
+	 * that nature; only the item's name is stored.  Note that if no item is
+	 * equipped, the value should be <code>none</code>, not <code>null</code>
+	 * or the empty string.
+	 *
+	 * @param	hat	The name of the character's equipped hat
+	 * @param	weapon	The name of character's equipped weapon
+	 * @param	pants	The name of the character's equipped pants
+	 * @param	accessory1	The name of the accessory in the first accessory slot
+	 * @param	accessory2	The name of the accessory in the first accessory slot
+	 * @param	accessory3	The name of the accessory in the first accessory slot
+	 * @param	familiarItem	The name of the item equipped on the character's familiar
+	 */
 
 	public void setEquipment( String hat, String weapon, String pants, String accessory1, String accessory2, String accessory3, String familiarItem )
 	{
@@ -198,29 +416,70 @@ public class KoLCharacter
 		equipment[6] = familiarItem;
 	}
 
+	/**
+	 * Accessor method to retrieve the name of the hat the character has equipped.
+	 * @return	The name of the character's equipped hat, <code>none</code> if no such item exists
+	 */
+
 	public String getHat()
 	{	return equipment[0];
 	}
+
+	/**
+	 * Accessor method to retrieve the name of the weapon the character has equipped.
+	 * @return	The name of the character's equipped weapon, <code>none</code> if no such item exists
+	 */
 
 	public String getWeapon()
 	{	return equipment[1];
 	}
 
+	/**
+	 * Accessor method to retrieve the name of the pants the character has equipped.
+	 * @return	The name of the character's equipped pants, <code>none</code> if no such item exists
+	 */
+
 	public String getPants()
 	{	return equipment[2];
 	}
+
+	/**
+	 * Accessor method to retrieve the name of the accessory the character has equipped
+	 * in their first accessory slot.
+	 *
+	 * @return	The name of the accessory in the first accessory slot, <code>none</code> if no such item exists
+	 */
 
 	public String getAccessory1()
 	{	return equipment[3];
 	}
 
+	/**
+	 * Accessor method to retrieve the name of the accessory the character has equipped
+	 * in their second accessory slot.
+	 *
+	 * @return	The name of the accessory in the second accessory slot, <code>none</code> if no such item exists
+	 */
+
 	public String getAccessory2()
 	{	return equipment[4];
 	}
 
+	/**
+	 * Accessor method to retrieve the name of the accessory the character has equipped
+	 * in their third accessory slot.
+	 *
+	 * @return	The name of the accessory in the third accessory slot, <code>none</code> if no such item exists
+	 */
+
 	public String getAccessory3()
 	{	return equipment[5];
 	}
+
+	/**
+	 * Accessor method to retrieve the name of the item equipped on the character's familiar.
+	 * @return	The name of the item equipped on the character's familiar, <code>none</code> if no such item exists
+	 */
 
 	public String getFamiliarItem()
 	{	return equipment[6];
