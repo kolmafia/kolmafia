@@ -79,6 +79,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected KoLPanel contentPanel;
 	private boolean isExecutingScript;
 
+	protected CharsheetFrame statusPane;
+	protected GearChangeFrame gearChanger;
+	protected ItemManageFrame itemManager;
 	protected MailboxFrame mailboxDisplay;
 	protected KoLMessenger kolchat;
 
@@ -142,6 +145,28 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		super.requestFocus();
 		if ( contentPanel != null )
 			contentPanel.requestFocus();
+	}
+
+	protected final JMenu addStatusMenu( JMenuBar menuBar )
+	{
+		JMenu statusMenu = new JMenu( "My KoL" );
+		statusMenu.setMnemonic( KeyEvent.VK_M );
+		menuBar.add( statusMenu );
+
+		this.statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
+		statusMenuItem.addActionListener( new ViewStatusPaneListener() );
+		statusMenu.add( statusMenuItem );
+
+		JMenuItem gearMenuItem = new JMenuItem( "Gear Changer", KeyEvent.VK_G );
+		gearMenuItem.addActionListener( new ViewGearChangerListener() );
+
+		statusMenu.add( gearMenuItem );
+
+		JMenuItem itemMenuItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
+		itemMenuItem.addActionListener( new ViewItemManagerListener() );
+
+		statusMenu.add( itemMenuItem );
+		return statusMenu;
 	}
 
 	/**
@@ -638,6 +663,114 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 					e.printStackTrace( client.getLogStream() );
 					return;
+				}
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the status pane.
+	 */
+
+	private class ViewStatusPaneListener extends DisplayFrameListener
+	{
+		public ViewStatusPaneListener()
+		{	super( CharsheetFrame.class );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new ViewStatusPaneThread()).start();
+		}
+
+		private class ViewStatusPaneThread extends DisplayFrameThread
+		{
+			public void run()
+			{
+				if ( statusPane != null )
+				{
+					statusPane.setVisible( true );
+					statusPane.requestFocus();
+					statusPane.setEnabled( isEnabled );
+
+					if ( isEnabled )
+						statusPane.refreshStatus();
+				}
+				else
+				{
+					super.run();
+					statusPane = (CharsheetFrame) lastCreatedFrame;
+				}
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the gear changer.
+	 */
+
+	private class ViewGearChangerListener extends DisplayFrameListener
+	{
+		public ViewGearChangerListener()
+		{	super( GearChangeFrame.class );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new ViewGearChangerThread()).start();
+		}
+
+		private class ViewGearChangerThread extends DisplayFrameThread
+		{
+			public void run()
+			{
+				if ( gearChanger != null )
+				{
+					gearChanger.setVisible( true );
+					gearChanger.requestFocus();
+					gearChanger.setEnabled( isEnabled );
+				}
+				else
+				{
+					super.run();
+					gearChanger = (GearChangeFrame) lastCreatedFrame;
+				}
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the item manager.
+	 */
+
+	private class ViewItemManagerListener extends DisplayFrameListener
+	{
+		public ViewItemManagerListener()
+		{	super( ItemManageFrame.class );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new ViewItemManagerThread()).start();
+		}
+
+		private class ViewItemManagerThread extends DisplayFrameThread
+		{
+			public void run()
+			{
+				if ( itemManager != null )
+				{
+					itemManager.setVisible( true );
+					itemManager.requestFocus();
+					itemManager.setEnabled( isEnabled );
+				}
+				else
+				{
+					super.run();
+					itemManager = (ItemManageFrame) lastCreatedFrame;
 				}
 			}
 		}

@@ -79,11 +79,14 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 
 // event listeners
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 // containers
+import javax.swing.JMenuItem;
 import javax.swing.JCheckBox;
 import javax.swing.JMenuBar;
 import javax.swing.JList;
@@ -183,6 +186,11 @@ public class BuffBotFrame extends KoLFrame
 	{
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
+
+		JMenuItem adventureMenuItem = new JMenuItem( "" );
+		adventureMenuItem.addActionListener( new ToggleVisibility( adventureMenuItem ) );
+
+		addStatusMenu( menuBar ).add( adventureMenuItem, 0 );
 
 		addPeopleMenu( menuBar );
 		addHelpMenu( menuBar );
@@ -553,6 +561,27 @@ public class BuffBotFrame extends KoLFrame
 				KoLRequest.delay( 5000 );
 				setStatusMessage( ENABLED_STATE, "" );
 			}
+		}
+	}
+
+	private class ToggleVisibility implements ActionListener
+	{
+		private JMenuItem toggleItem;
+		private boolean isVisible;
+
+		public ToggleVisibility( JMenuItem toggleItem )
+		{
+			this.toggleItem = toggleItem;
+			toggleItem.setText( "Hide Main" );
+			this.isVisible = true;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			this.isVisible = !this.isVisible;
+			toggleItem.setText( isVisible ? "Hide Main" : "Seek Main" );
+			if ( client != null && client instanceof KoLmafiaGUI )
+				((KoLmafiaGUI)client).setVisible( this.isVisible );
 		}
 	}
 

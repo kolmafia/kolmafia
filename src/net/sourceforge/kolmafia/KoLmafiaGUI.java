@@ -172,7 +172,17 @@ public class KoLmafiaGUI extends KoLmafia
 			"You're not drunk!  You see flying penguins and a dancing hermit!", JOptionPane.YES_NO_OPTION );
 	}
 
+	public void setVisible( boolean isVisible )
+	{	activeFrame.setVisible( isVisible );
+	}
+
+	public boolean isVisible()
+	{	return activeFrame.isVisible();
+	}
+
 	public void deinitializeBuffBot()
-	{	activeFrame.setVisible( true );
+	{
+		super.deinitializeBuffBot();
+		activeFrame.setVisible( true );
 	}
 }
