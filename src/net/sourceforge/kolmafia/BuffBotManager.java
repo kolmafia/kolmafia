@@ -199,49 +199,48 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
         int num2use, MPShort;
         AdventureResult itemUsed;
 
-        int currentMP = me.getCurrentMP();
-        int maxMP = me.getMaximumMP();
-		// Don't go too far over (thus wasting Phonics downs)
-
+        int currentMP;
         //First try resting in the beanbag chair
         // TODO - implement beanbag chair recovery
 
 		// TODO Coompute the optimal use of Tiny Houses or Phonics first
+        // try to get there using tiny houses
+        if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Tiny Houses Only"))
+		{	useRestoralItem("tiny house", MPNeeded, TINYHOUSEMP);
+			currentMP = me.getCurrentMP();
+            if (currentMP >= MPNeeded) return true;
+        }
+
         // try to get there using phonics downs
+        if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Phonics Only"))
+		{	useRestoralItem("phonics down", MPNeeded, PHONICSMP);
+			currentMP = me.getCurrentMP();
+            if (currentMP >= MPNeeded) return true;
+        }
+        buffbotLog.append("Unable to acquire enough MP!<br>\n");
+        return false;
+    }
+	void useRestoralItem(String itemName, int MPNeeded, int MPperuse){
+
+        int num2use, MPShort;
+        AdventureResult itemUsed;
+        int currentMP = me.getCurrentMP();
+        int maxMP = me.getMaximumMP();
         // always buff as close to maxMP as possible, in order to
         //        go as easy on the server as possible
-        if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Phonics Only")){
-            MPShort = Math.max(maxMP + 5 - PHONICSMP, MPNeeded) - currentMP;
-			num2use = 1 + ((MPShort - 1) / PHONICSMP);
-            itemUsed = new AdventureResult( "phonics down", 0 - num2use);
+		// But, don't go too far over (thus wasting restorers)
+            MPShort = Math.max(maxMP + 5 - MPperuse, MPNeeded) - currentMP;
+			num2use = 1 + ((MPShort - 1) / MPperuse);
+            itemUsed = new AdventureResult( itemName, 0 - num2use);
             int itemIndex = client.getInventory().indexOf(itemUsed  );
             if  ( itemIndex > -1 ){
                 num2use = Math.min(num2use, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
                 if (num2use > 0){
-                    buffbotLog.append("Consuming " + num2use + " phonics downs.<br>\n");
+                    buffbotLog.append("Consuming " + num2use + " " + itemName + "s.<br>\n");
                     (new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE, new AdventureResult( itemUsed.getItemID(), num2use ) )).run();
-                    currentMP = me.getCurrentMP();
-                    if (currentMP >= MPNeeded) return true;
                 }
             }
-        }
-        // try to get there using tiny houses
-        if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Tiny Houses Only")){
-            MPShort = Math.max(maxMP + 5 - TINYHOUSEMP, MPNeeded) - currentMP;
-            num2use = 1 + ((MPShort - 1) / TINYHOUSEMP);
-            itemUsed = new AdventureResult( "tiny house", 0 - num2use);
-            int itemIndex = client.getInventory().indexOf( itemUsed );
-            if  ( itemIndex > -1 ){
-                num2use = Math.min(num2use, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
-                if (num2use > 0){
-                    buffbotLog.append("Consuming " + num2use + " tiny houses.<br>\n");
-                    (new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE, new AdventureResult( itemUsed.getItemID(), num2use ) )).run();
-                    if (me.getCurrentMP() >= MPNeeded) return true;
-                }
-            }
-        }
-
-        buffbotLog.append("Unable to acquire enough MP!<br>\n");
-        return false;
-    }
+        
+ 			
+	}
 }
