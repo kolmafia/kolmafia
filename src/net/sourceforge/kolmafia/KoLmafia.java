@@ -254,7 +254,7 @@ public abstract class KoLmafia implements UtilityConstants
 	public void addToResultTally( AdventureResult result )
 	{
 		String resultName = result.getName();
-		if ( !StatusEffectDatabase.contains( result.getName() ) )
+		if ( result.isStatusEffect() )
 			AdventureResult.addResultToList( tally, result, characterData.getBaseMaxHP(), characterData.getBaseMaxMP() );
 		else
 			recentEffects.add( result );
