@@ -190,6 +190,12 @@ public class LoginFrame extends KoLFrame
 
 			setContent( elements );
 			add( actionStatusPanel, BorderLayout.SOUTH );
+
+			JPanel imagePanel = new JPanel();
+			imagePanel.setLayout( new BorderLayout( 0, 0 ) );
+			imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
+			imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.SOUTH );
+			add( imagePanel, BorderLayout.NORTH );
 		}
 
 		public void setStatusMessage( String s )
