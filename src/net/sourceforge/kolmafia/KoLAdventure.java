@@ -37,11 +37,12 @@ package net.sourceforge.kolmafia;
 public class KoLAdventure implements Runnable
 {
 	private KoLmafia client;
-	private String adventureID, adventureName;
+	private String adventureID, formSource, adventureName;
 
-	public KoLAdventure( KoLmafia client, String adventureID, String adventureName )
+	public KoLAdventure( KoLmafia client, String formSource, String adventureID, String adventureName )
 	{
 		this.client = client;
+		this.formSource = formSource;
 		this.adventureID = adventureID;
 		this.adventureName = adventureName;
 	}
@@ -52,6 +53,6 @@ public class KoLAdventure implements Runnable
 
 	public void run()
 	{
-		(new AdventureRequest( client, adventureID )).start();
+		(new AdventureRequest( client, formSource, adventureID )).start();
 	}
 }

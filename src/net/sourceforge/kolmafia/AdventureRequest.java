@@ -36,15 +36,21 @@ package net.sourceforge.kolmafia;
 
 public class AdventureRequest extends KoLRequest
 {
-	public AdventureRequest( KoLmafia client, String adventureID )
+	private String formSource;
+
+	public AdventureRequest( KoLmafia client, String formSource, String adventureID )
 	{
-		super( client, "adventure.php" );
+		super( client, formSource );
+		this.formSource = formSource;
 
 		// The adventure ID is all you need to identify the adventure;
 		// posting it in the form sent to adventure.php will handle
 		// everything for you.
 
-		addFormField( "adv", adventureID );
+		if ( formSource.equals( "adventure.php" ) )
+			addFormField( "adv", adventureID );
+		else if ( formSource.equals( "shore.php" ) )
+			addFormField( "whichtrip", adventureID );
 	}
 
 	public void run()

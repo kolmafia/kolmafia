@@ -34,8 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.util.StringTokenizer;
@@ -47,23 +45,15 @@ public class KoLmafia
 {
 	private static final String ADV_DBASE_FILE = "adventures.dat";
 
-	private static List<String> MUS = new ArrayList<String>();
-	private static List<String> MYS = new ArrayList<String>();
-	private static List<String> MOX = new ArrayList<String>();
-
-	static
-	{
-		MUS.add( "Beefiness" );  MUS.add( "Fortitude" );  MUS.add( "Muscleboundness" );  MUS.add( "Strengthliness" );  MUS.add( "Strongness" );
-		MYS.add( "Enchantedness" );  MYS.add( "Magicalness" );  MYS.add( "Mysteriousness" );  MYS.add( "Wizardliness" );
-		MOX.add( "Cheek" );  MOX.add( "Chutzpah" );  MOX.add( "Roguishness" );  MOX.add( "Sarcasm" );  MOX.add( "Smarm" );
-	}
-
 	private String loginname, password, sessionID, passwordHash;
 	private KoLFrame activeFrame;
 
 	private Runnable currentRequest;
 	private boolean permitContinue;
 	private int currentIteration, iterationsRemaining;
+
+	private LockableListModel tally;
+	private AdventureResult meat_tally, mus_tally, mys_tally, mox_tally;
 
 	public static void main( String [] args )
 	{
@@ -95,9 +85,13 @@ public class KoLmafia
 
 		try
 		{
-			StringTokenizer strtok = new StringTokenizer( advdata.readLine(), "\t" );
-			String adventureID = strtok.nextToken();
-			adventures.add( new KoLAdventure( this, adventureID, strtok.nextToken() ) );
+			String line;
+			while ( (line = advdata.readLine()) != null )
+			{
+				StringTokenizer strtok = new StringTokenizer( line, "\t" );
+				if ( strtok.countTokens() == 3 )
+					adventures.add( new KoLAdventure( this, strtok.nextToken(), strtok.nextToken(), strtok.nextToken() ) );
+			}
 		}
 		catch ( IOException e )
 		{
@@ -114,6 +108,15 @@ public class KoLmafia
 		activeFrame.dispose();
 		activeFrame = null;
 
+		tally = new LockableListModel();
+		meat_tally = new AdventureResult( AdventureResult.MEAT );
+		mus_tally = new AdventureResult( AdventureResult.MUS );
+		mys_tally = new AdventureResult( AdventureResult.MYS );
+		mox_tally = new AdventureResult( AdventureResult.MOX );
+
+		tally.add( meat_tally );  tally.add( mus_tally );
+		tally.add( mys_tally );  tally.add( mox_tally );
+
 		activeFrame = new AdventureFrame( this, adventures );
 		activeFrame.pack();  activeFrame.setVisible( true );
 	}
@@ -128,12 +131,14 @@ public class KoLmafia
 
 	public void modifyStat( int increase, String statname )
 	{
-		if ( MUS.contains( statname ) )
-			;
-		if ( MYS.contains( statname ) )
-			;
-		if ( MOX.contains( statname ) )
-			;
+		if ( AdventureResult.MUS_SUBSTAT.contains( statname ) )
+			mus_tally.accumulate( increase );
+
+		if ( AdventureResult.MYS_SUBSTAT.contains( statname ) )
+			mys_tally.accumulate( increase );
+
+		if ( AdventureResult.MOX_SUBSTAT.contains( statname ) )
+			mox_tally.accumulate( increase );
 	}
 
 	public void updateAdventure( boolean isComplete, boolean permitContinue )
