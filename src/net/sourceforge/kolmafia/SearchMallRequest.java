@@ -109,7 +109,7 @@ public class SearchMallRequest extends KoLRequest
 
 		StringTokenizer parsedResults = new StringTokenizer(
 			replyContent.substring( startIndex ).replaceAll( "<br>", " " ).replaceAll(
-				"<td style=.*?<tr>", "" ).replaceAll( "</?[^a][^>]*>", "\n" ), "\n" );
+				"<td style=.*?<tr>", "" ).replaceAll( "</?[^a].*?>", "\n" ), "\n" );
 
 		// The first four tokens are just the table
 		// headers, and so they can be discarded

@@ -89,7 +89,7 @@ public class EquipmentRequest extends KoLRequest
 		// expression matching.
 
 		StringTokenizer parsedContent = new StringTokenizer(
-			replyContent.replaceAll( "<[^>]*>", "\n" ), "\n" );
+			replyContent.replaceAll( "<.*?>", "\n" ), "\n" );
 
 		logStream.println( "Parsing equipment data..." );
 
