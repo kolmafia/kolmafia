@@ -285,8 +285,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		// First try resting in the beanbag chair
 		// TODO - implement beanbag chair recovery
 
-		// TODO Compute the optimal use of Tiny Houses or Phonics first
-		// try to get there using tiny houses
+		
 
 		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
 		{
@@ -296,7 +295,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				AdventureResult item = new AdventureResult( itemName, 0 );
 				while ( inventory.contains( item ) )
 				{
-					((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP();
+					((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP(mpNeeded);
 					if ( characterData.getCurrentMP() >= mpNeeded )
 						return true;
 				}
@@ -369,6 +368,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			double currentMP;
 			int currentCast, mpPerEvent;
 
+			buffbotLog.append( BUFFCOLOR + "Casting " + buffName + ", " + castCount + " times on "
+					+ target + " for " + price + " meat... "+ ENDCOLOR + "<br>\n");
 			while ( totalCasts > 0 )
 			{
 				currentCast = Math.min(totalCasts, (int) (maximumMP/mpPerCast) );
@@ -378,10 +379,9 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 						return false;
 				(new UseSkillRequest( client, buffName, target, currentCast )).run();
 				totalCasts -= currentCast;
+				buffbotLog.append( BUFFCOLOR + " ---> Successfully cast: " + buffName + ", " + currentCast + " times." + ENDCOLOR + "<br>\n");
 			}
 
-			buffbotLog.append( BUFFCOLOR + "Cast " + buffName + ", " + castCount + " times on "
-					+ target + " for " + price + " meat. "+ ENDCOLOR + "<br>\n");
 			return true;
 		}
 
@@ -411,20 +411,20 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			// constant market value
 
 			this.add( new MPRestoreItem( "magical mystery juice", characterData.getLevel() + 4, 150 ) );
-			this.add( new MPRestoreItem( "soda water", 5, 70 ) );
+			this.add( new MPRestoreItem( "soda water", 4, 70 ) );
 
 			// On the other hand, these MP restores have a fairly
 			// arbitrary value and may be subject to arbitrary
 			// inflation, based on player spending habits.
 
-			this.add( new MPRestoreItem( "tiny house", 24, 400 ) );
-			this.add( new MPRestoreItem( "phonics down", 50, 800 ) );
-			this.add( new MPRestoreItem( "Knob Goblin superseltzer", 29, 900 ) );
-			this.add( new MPRestoreItem( "Mountain Stream soda", 20, 120 ) );
-			this.add( new MPRestoreItem( "Dyspepsi-Cola", 14, 250 ) );
-			this.add( new MPRestoreItem( "Knob Goblin seltzer", 14, 80 ) );
-			this.add( new MPRestoreItem( "green pixel potion", 6, 200 ) );
-			this.add( new MPRestoreItem( "blue pixel potion", 5, 200 ) );
+			this.add( new MPRestoreItem( "tiny house", 22, 400 ) );
+			this.add( new MPRestoreItem( "phonics down", 48, 800 ) );
+			this.add( new MPRestoreItem( "Knob Goblin superseltzer", 27, 900 ) );
+			this.add( new MPRestoreItem( "Mountain Stream soda", 9, 120 ) );
+			this.add( new MPRestoreItem( "Dyspepsi-Cola", 12, 250 ) );
+			this.add( new MPRestoreItem( "Knob Goblin seltzer", 5, 80 ) );
+			this.add( new MPRestoreItem( "green pixel potion", 5, 200 ) );
+			this.add( new MPRestoreItem( "blue pixel potion", 4, 200 ) );
 		}
 
 		public class MPRestoreItem implements Comparable
@@ -445,28 +445,26 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				this.itemUsed = new AdventureResult( itemName, 0 );
 			}
 
-			public void recoverMP()
+			public void recoverMP(int mpNeeded)
 			{
 				KoLCharacter characterData = client.getCharacterData();
 				int currentMP = characterData.getCurrentMP();
 				int maximumMP = characterData.getMaximumMP();
 
-				// Always buff as close to maxMP as possible, in order to
-				// go as easy on the server as possible.  But, don't go
-				// too far over (thus wasting restorers).
-
-				int mpNeeded = maximumMP - currentMP + 5;
-				int numberToUse = 1 + ((mpNeeded - 1) / mpPerUse);
-				int itemIndex = client.getInventory().indexOf( itemUsed );
-
+				// always buff as close to maxMP as possible, in order to
+				//        go as easy on the server as possible
+				// But, don't go too far over (thus wasting restorers)
+				int mpShort = Math.max(maximumMP + 5 - mpPerUse, mpNeeded) - currentMP;
+				int numberToUse = 1 + ((mpShort - 1) / mpPerUse);
+				int itemIndex = client.getInventory().indexOf(itemUsed  );
 				if  ( itemIndex > -1 )
 				{
-					numberToUse = Math.min( numberToUse, ((AdventureResult)inventory.get( itemIndex )).getCount() );
-					if ( numberToUse > 0 )
+					numberToUse = Math.min(numberToUse, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
+					if (numberToUse > 0)
 					{
-						buffbotLog.append( "Consuming " + numberToUse + " " + itemName + "s.<br>\n" );
-						(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE,
-							new AdventureResult( itemUsed.getItemID(), numberToUse ) )).run();
+						buffbotLog.append("Consuming " + numberToUse + " " + itemName + "s.<br>\n");
+						(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE, 
+								new AdventureResult( itemUsed.getItemID(), numberToUse ) )).run();
 					}
 				}
 			}
