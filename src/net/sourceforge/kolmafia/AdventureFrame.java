@@ -1210,6 +1210,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 					if ( buffName == null )
 						return;
 
+					buffName = buffName.replaceFirst( "ñ", "&ntilde;" );
 					String target = targetField.getText();
 
 					int buffCount = maxBuff ?
