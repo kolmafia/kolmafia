@@ -143,7 +143,7 @@ public class AdventureFrame extends KoLFrame
 		tabs.addTab( "Mall of Loathing", mallSearch );
 
 		clanBuff = new ClanBuffPanel();
-		tabs.addTab( "Go to Clan Hall", clanBuff );
+		tabs.addTab( "Other Activities", clanBuff );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
@@ -533,6 +533,8 @@ public class AdventureFrame extends KoLFrame
 
 	private class ClanBuffPanel extends KoLPanel
 	{
+		private boolean isBuffing;
+
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
@@ -541,7 +543,8 @@ public class AdventureFrame extends KoLFrame
 
 		public ClanBuffPanel()
 		{
-			super( "buy buffs", "refresh", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( "buy buffs", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			this.isBuffing = false;
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -550,7 +553,7 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
-			buffField = new JComboBox();
+			buffField = new JComboBox( ClanBuffRequest.getRequestList( client ) );
 			countField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
@@ -581,18 +584,71 @@ public class AdventureFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
+			super.setEnabled( isEnabled );
+			buffField.setEnabled( isEnabled );
+			countField.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
 		{
+			isBuffing = true;
+			contentPanel = clanBuff;
+			(new ClanBuffRequestThread()).start();
 		}
 
 		protected void actionCancelled()
 		{
+			isBuffing = false;
+			updateDisplay( ENABLED_STATE, "Purchases cancelled." );
 		}
 
 		public void requestFocus()
 		{
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually purchase the clan buffs.
+		 */
+
+		private class ClanBuffRequestThread extends Thread
+		{
+			public ClanBuffRequestThread()
+			{
+				super( "Clan-Buff-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					int buffCount = countField.getText().trim().length() == 0 ? 0 :
+						Integer.parseInt( countField.getText() );
+					Runnable buff = (Runnable) buffField.getSelectedItem();
+
+					int started = 1;
+					while ( started <= buffCount && isBuffing )
+					{
+						updateDisplay( DISABLED_STATE, "Purchasing buff " + (started++) + "..." );
+						buff.run();
+					}
+
+					if ( started == buffCount )
+						updateDisplay( ENABLED_STATE, "Purchases completed." );
+
+					isBuffing = false;
+				}
+				catch ( NumberFormatException e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+
+			}
 		}
 	}
 
