@@ -262,13 +262,13 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 						{
 							if ( client.permitsContinue() )
 							{
-								sendRefund( message.getSenderName(), "I ran out of MP.  Please try again later.", meatSent );
+								sendRefund( message.getSenderName(), "We're sorry.  The Buffbot you have dialed has gone insane and thinks it has run out of MP restores.  Please try again later.", meatSent );
 								deleteList.add( message );
 								return false;
 							}
 							else
 							{
-								sendRefund( message.getSenderName(), "Too many songs are stuck in your head.", meatSent );
+								sendRefund( message.getSenderName(), "Too many drummers are marching in your head.  Please try again later.", meatSent );
 								deleteList.add( message );
 								client.resetContinueState();
 								return true;
@@ -285,7 +285,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 						buffbotLog.append( NONBUFFCOLOR + "Request for restricted buff denied: from [" +
 								message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>\n");
 
-						sendRefund( message.getSenderName(), "Sorry, this buff is white-list restricted.", meatSent );
+						sendRefund( message.getSenderName(), "Sorry, this buff is white-list restricted.  Please try a different buff.", meatSent );
 						deleteList.add( message );
 						return true;
 					}
