@@ -53,7 +53,7 @@ public class KoLmafia
 	private boolean permitContinue;
 	private int currentIteration, iterationsRemaining;
 
-	private LockableListModel tally;
+	private SortedListModel tally;
 
 	public static void main( String [] args )
 	{
@@ -118,9 +118,7 @@ public class KoLmafia
 	{
 		tally = new SortedListModel();
 		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
-		addToResultTally( new AdventureResult( AdventureResult.MUS ) );
-		addToResultTally( new AdventureResult( AdventureResult.MYS ) );
-		addToResultTally( new AdventureResult( AdventureResult.MOX ) );
+		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
 		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
 	}
 
@@ -130,10 +128,10 @@ public class KoLmafia
 		// the list (which should appear after the stats, if the
 		// tally is sorted) and then clear the stat gains.
 
-		while ( tally.size() > 5 )
-			tally.remove( 5 );
+		while ( tally.size() > 3 )
+			tally.remove( 3 );
 
-		for ( int i = 0; i < 5; ++i )
+		for ( int i = 0; i < 3; ++i )
 		{
 			// Because the list won't update itself unless an
 			// event is fired, tally also resets itself in order

@@ -43,17 +43,15 @@ import java.text.ParseException;
 
 public class AdventureResult implements Comparable
 {
-	private int resultCount;
+	private int [] resultCount;
 	private String resultName;
 	private int resultPriority;
 
 	private static DecimalFormat df = new DecimalFormat();
 
 	public static final String MEAT = "Meat";
-	public static final String MUS = "Mus";
-	public static final String MYS = "Mys";
-	public static final String MOX = "Mox";
-	public static final String DIVIDER = "";
+	public static final String SUBSTATS = "Stats";
+	public static final String DIVIDER = "==========================";
 
 	private static List MUS_SUBSTAT = new ArrayList();
 	private static List MYS_SUBSTAT = new ArrayList();
@@ -67,16 +65,26 @@ public class AdventureResult implements Comparable
 	}
 
 	public AdventureResult( String resultName )
-	{	this( resultName, 0 );
+	{	this( resultName, resultName.equals(SUBSTATS) ? new int[3] : new int[1] );
 	}
 
 	public AdventureResult( String resultName, int resultCount )
 	{
 		this.resultName = resultName;
-		this.resultCount = resultCount;
+		this.resultCount = new int[1];
+		this.resultCount[0] = resultCount;
+		this.resultPriority = resultName.equals(MEAT) ? 0 : resultName.equals(SUBSTATS) ? 1 : resultName.equals(DIVIDER) ? 2 : 3;
+	}
 
-		this.resultPriority = resultName.equals( MEAT ) ? 0 : resultName.equals( MUS ) ? 1 :
-			resultName.equals( MYS ) ? 2 : resultName.equals( MOX ) ? 3 : 4;
+	private AdventureResult( String resultName, int [] resultCount )
+	{
+		this.resultName = resultName;
+		this.resultCount = new int[ resultCount.length ];
+
+		for ( int i = 0; i < resultCount.length; ++i )
+			this.resultCount[i] = resultCount[i];
+
+		this.resultPriority = resultName.equals(MEAT) ? 0 : resultName.equals(SUBSTATS) ? 1 : resultName.equals(DIVIDER) ? 2 : 3;
 	}
 
 	public static AdventureResult parseResult( String s )
@@ -101,14 +109,21 @@ public class AdventureResult implements Comparable
 				if ( statname.equals( MEAT ) )
 					return new AdventureResult( MEAT, modifier );
 
-				else if ( MUS_SUBSTAT.contains( statname ) )
-					return new AdventureResult( MUS, modifier );
+				else
+				{
+					// In the current implementations, all stats gains are located
+					// inside of a generic adventure which indicates how much of
+					// each substat is gained.
 
-				else if ( MYS_SUBSTAT.contains( statname ) )
-					return new AdventureResult( MYS, modifier );
+					int [] gained =
+					{
+						MUS_SUBSTAT.contains( statname ) ? modifier : 0,
+						MYS_SUBSTAT.contains( statname ) ? modifier : 0,
+						MOX_SUBSTAT.contains( statname ) ? modifier : 0
+					};
 
-				else if ( MOX_SUBSTAT.contains( statname ) )
-					return new AdventureResult( MOX, modifier );
+					return new AdventureResult( SUBSTATS, gained );
+				}
 			}
 			catch ( NumberFormatException e )
 			{
@@ -142,7 +157,9 @@ public class AdventureResult implements Comparable
 	}
 
 	public void clear()
-	{	resultCount = 0;
+	{
+		for ( int i = 0; i < resultCount.length; ++i )
+			resultCount[i] = 0;
 	}
 
 	public static AdventureResult add( AdventureResult left, AdventureResult right )
@@ -152,16 +169,26 @@ public class AdventureResult implements Comparable
 		if ( right == null )
 			return left;
 
-		return !left.resultName.equals( right.resultName ) ? null :
-			new AdventureResult( left.resultName, left.resultCount + right.resultCount );
+		if ( !left.resultName.equals( right.resultName ) )
+			return null;
+
+		if ( left.resultCount.length == 1 )
+			return new AdventureResult( left.resultName, left.resultCount[0] + right.resultCount[0] );
+		else
+		{
+			int [] totals = new int[3];
+			for ( int i = 0; i < 3; ++i )
+				totals[i] = left.resultCount[i] + right.resultCount[i];
+			return new AdventureResult( left.resultName, totals );
+		}
 	}
 
 	public String toString()
 	{
-		return (resultName.equals(MEAT) || resultName.equals(MUS) || resultName.equals(MYS) || resultName.equals(MOX)) ?
-			resultName + ": " + resultCount :
-				resultName.equals(DIVIDER) ? "--------------------------------" :
-					resultName + " (" + resultCount + ")";
+		return resultName.equals(MEAT) ? "Meat: " + resultCount[0] :
+			resultName.equals(SUBSTATS) ? "Substats: " + resultCount[0] + " / " + resultCount[1] + " / " + resultCount[2] :
+			resultName.equals(DIVIDER) ? DIVIDER :
+			resultName + " (" + resultCount[0] + ")";
 	}
 
 	public boolean equals( Object o )
