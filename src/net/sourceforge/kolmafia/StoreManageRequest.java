@@ -38,8 +38,20 @@ import java.util.regex.Pattern;
 
 public class StoreManageRequest extends KoLRequest
 {
+	private boolean isPriceManagement;
+
 	public StoreManageRequest( KoLmafia client )
-	{	super( client, "manageprices.php" );
+	{
+		super( client, "manageprices.php" );
+		this.isPriceManagement = true;
+	}
+
+	public StoreManageRequest( KoLmafia client, int itemID )
+	{
+		super( client, "managestore.php" );
+		addFormField( "action", "takeall" );
+		addFormField( "whichitem", "" + itemID );
+		this.isPriceManagement = false;
 	}
 
 	public StoreManageRequest( KoLmafia client, int [] itemID, int [] price, int [] limit )
@@ -47,6 +59,7 @@ public class StoreManageRequest extends KoLRequest
 		super( client, "manageprices.php" );
 		addFormField( "action", "update" );
 		addFormField( "pwd", client.getPasswordHash() );
+		this.isPriceManagement = true;
 
 		for ( int i = 0; i < itemID.length; ++i )
 		{
@@ -57,26 +70,56 @@ public class StoreManageRequest extends KoLRequest
 
 	public void run()
 	{
-		client.getStoreManager().clear();
+		updateDisplay( DISABLED_STATE, "Requesting store inventory..." );
+
 		super.run();
+		client.getStoreManager().clear();
 
 		// Use a fairly ugly regular expression in order to determine each price
 		// listed inside of the store manager.  This will be used to update the
 		// store manager information.
 
 		int lastFindIndex = 0;
-		Matcher priceMatcher = Pattern.compile(
-			"<tr>.*?value=\"(\\d+)\" name=price(\\d+)>.*?value=\"(\\d+)\".*?</tr>" ).matcher( replyContent );
 
-		while ( priceMatcher.find( lastFindIndex ) )
+		if ( isPriceManagement )
 		{
-			lastFindIndex = priceMatcher.end();
+			Matcher priceMatcher = Pattern.compile(
+				"<tr>.*?value=\"(\\d+)\" name=price(\\d+)>.*?value=\"(\\d+)\".*?</tr>" ).matcher( replyContent );
 
-			int price = Integer.parseInt( priceMatcher.group(1) );
-			int itemID = Integer.parseInt( priceMatcher.group(2) );
-			int limit = Integer.parseInt( priceMatcher.group(3) );
+			while ( priceMatcher.find( lastFindIndex ) )
+			{
+				lastFindIndex = priceMatcher.end();
 
-			client.getStoreManager().registerItem( itemID, price, limit );
+				int price = Integer.parseInt( priceMatcher.group(1) );
+				int itemID = Integer.parseInt( priceMatcher.group(2) );
+				int limit = Integer.parseInt( priceMatcher.group(3) );
+
+				client.getStoreManager().registerItem( itemID, price, limit );
+			}
 		}
+		else
+		{
+			Matcher itemMatcher = Pattern.compile(
+				"<tr><td>.*?</td><td>.*?</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( replyContent );
+
+			try
+			{
+				while ( itemMatcher.find( lastFindIndex ) )
+				{
+					lastFindIndex = itemMatcher.end();
+					int price = df.parse( itemMatcher.group(1) ).intValue();
+					int limit = itemMatcher.group(2).startsWith( "<" ) ? 0 :
+						Integer.parseInt( itemMatcher.group(2) );
+
+					int itemID = Integer.parseInt( itemMatcher.group(3) );
+					client.getStoreManager().registerItem( itemID, price, limit );
+				}
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+
+		updateDisplay( ENABLED_STATE, "Store inventory request complete." );
 	}
 }

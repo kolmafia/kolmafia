@@ -39,6 +39,9 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JList;
@@ -98,6 +101,7 @@ public class StoreManageFrame extends KoLFrame
 	{
 		sellingList.setEnabled( isEnabled );
 		priceField.setEnabled( isEnabled );
+		limitField.setEnabled( isEnabled );
 		storeManager.setEnabled( isEnabled );
 		searchResults.setEnabled( isEnabled );
 	}
@@ -130,7 +134,11 @@ public class StoreManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	(new SearchMallRequestThread()).start();
+		{
+			if ( sellingList.getSelectedItem() == null )
+				return;
+
+			(new SearchMallRequestThread( ((AdventureResult) sellingList.getSelectedItem()).getName() )).start();
 		}
 
 		private class AutoMallRequestThread extends Thread
@@ -159,30 +167,6 @@ public class StoreManageFrame extends KoLFrame
 				}
 			}
 		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually make the mall search request.
-		 */
-
-		private class SearchMallRequestThread extends Thread
-		{
-			public SearchMallRequestThread()
-			{
-				super( "Mall-Search-Request-Thread" );
-				setDaemon( true );
-			}
-
-			public void run()
-			{
-				if ( sellingList.getSelectedItem() == null )
-					return;
-
-				client.getStoreManager().searchMall( (AdventureResult) sellingList.getSelectedItem(), priceSummary );
-				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
-			}
-		}
 	}
 
 	/**
@@ -198,17 +182,19 @@ public class StoreManageFrame extends KoLFrame
 		{
 			setLayout( new BorderLayout() );
 			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-			searchLabel = JComponentUtilities.createLabel( "Price Summary", JLabel.CENTER,
+			searchLabel = JComponentUtilities.createLabel( "Mall Prices", JLabel.CENTER,
 				Color.black, Color.white );
+
+			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
 			add( searchLabel, BorderLayout.NORTH );
 
 			JList resultsDisplay = new JList( priceSummary );
 			resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-			resultsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-			resultsDisplay.setVisibleRowCount( 11 );
+			JScrollPane scrollArea = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			add( new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			JComponentUtilities.setComponentSize( scrollArea, 150, 100 );
+			add( scrollArea, BorderLayout.CENTER );
 		}
 	}
 
@@ -227,17 +213,22 @@ public class StoreManageFrame extends KoLFrame
 
 		private class StoreItemPanel extends PanelListCell
 		{
+			private int itemID;
 			private JLabel itemName;
 			private JTextField itemPrice, itemLimit;
 
 			public StoreItemPanel( StoreManager.SoldItem value )
 			{
-				itemName = new JLabel( TradeableItemDatabase.getItemName( value.getItemID() ), JLabel.RIGHT );
+				itemID = value.getItemID();
+				itemName = new JLabel( TradeableItemDatabase.getItemName( itemID ), JLabel.RIGHT );
 				itemPrice = new JTextField( "" + df.format( value.getPrice() ) );
 				itemLimit = new JTextField( "" + df.format( value.getLimit() ) );
 
 				JButton takeButton = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
+				takeButton.addActionListener( new TakeButtonListener() );
+
 				JButton searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
+				searchButton.addActionListener( new SearchButtonListener() );
 
 				JComponentUtilities.setComponentSize( itemName, 210, 20 );
 				JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
@@ -266,6 +257,51 @@ public class StoreManageFrame extends KoLFrame
 				itemPrice.setText( "" + df.format( smsi.getPrice() ) );
 				itemLimit.setText( "" + df.format( smsi.getLimit() ) );
 			}
+
+			private class TakeButtonListener implements ActionListener
+			{
+				public void actionPerformed( ActionEvent e )
+				{	(new TakeFromMallRequestThread()).start();
+				}
+
+				private class TakeFromMallRequestThread extends Thread
+				{
+					public void run()
+					{	client.getStoreManager().takeItem( itemID );
+					}
+				}
+			}
+
+			private class SearchButtonListener implements ActionListener
+			{
+				public void actionPerformed( ActionEvent e )
+				{	(new SearchMallRequestThread( itemName.getText() )).start();
+				}
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at
+	 * least appearing to freeze), this internal class is used
+	 * to actually make the mall search request.
+	 */
+
+	private class SearchMallRequestThread extends Thread
+	{
+		private String itemName;
+
+		public SearchMallRequestThread( String itemName )
+		{
+			super( "Mall-Search-Request-Thread" );
+			setDaemon( true );
+			this.itemName = itemName;
+		}
+
+		public void run()
+		{
+			client.getStoreManager().searchMall( itemName, priceSummary );
+			searchLabel.setText( itemName );
 		}
 	}
 }

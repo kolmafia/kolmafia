@@ -81,14 +81,17 @@ public class StoreManager implements KoLConstants
 	{	soldItemList.clear();
 	}
 
-	public void searchMall( AdventureResult searchItem, List priceSummary )
+	/**
+	 * Utility method used to search the mall for the
+	 * given item.
+	 */
+
+	public void searchMall( String itemName, List priceSummary )
 	{
-		if ( searchItem == null )
+		if ( itemName == null )
 			return;
 
-		String itemName = searchItem.getName();
 		ArrayList results = new ArrayList();
-
 		(new SearchMallRequest( client, "\'\'" + itemName + "\'\'", 0, results )).run();
 
 		TreeMap prices = new TreeMap();
@@ -117,6 +120,15 @@ public class StoreManager implements KoLConstants
 			priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
 				df.format( currentPrice.intValue() ) + " meat" );
 		}
+	}
+
+	/**
+	 * Utility method used to remove the given item from the
+	 * player's store.
+	 */
+
+	public void takeItem( int itemID )
+	{	(new StoreManageRequest( client, itemID )).run();
 	}
 
 	/**
