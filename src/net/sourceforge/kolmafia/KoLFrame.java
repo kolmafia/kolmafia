@@ -513,6 +513,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				{
 					if ( creator != null )
 					{
+						boolean wasEnabled = isEnabled;
 						KoLFrame.this.setEnabled( false );
 
 						lastCreatedFrame = (KoLFrame) creator.newInstance( parameters );
@@ -520,10 +521,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						lastCreatedFrame.setLocation( KoLFrame.this.getLocation() );
 						lastCreatedFrame.setVisible( true );
 						lastCreatedFrame.requestFocus();
-						lastCreatedFrame.setEnabled( isEnabled );
+						lastCreatedFrame.setEnabled( wasEnabled );
 						existingFrames.add( lastCreatedFrame );
 
 						updateDisplay( NOCHANGE_STATE, " " );
+						KoLFrame.this.setEnabled( wasEnabled );
 					}
 					else
 					{
