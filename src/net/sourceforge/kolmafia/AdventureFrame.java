@@ -301,7 +301,8 @@ public class AdventureFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Location: ", locationField );
 			elements[1] = new VerifiableElement( "# of turnips: ", countField );
 			elements[2] = new VerifiableElement( "Active Effects: ", new JComboBox(
-				client == null ? new LockableListModel() : client.getCharacterData().getEffects().getMirrorImage() ) );
+				client == null || client.getCharacterData() == null ? new LockableListModel() :
+					client.getCharacterData().getEffects().getMirrorImage() ) );
 
 			setContent( elements, resultsTally );
 
