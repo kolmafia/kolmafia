@@ -585,8 +585,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCastBuffRequest( String parameters )
 	{
-		String firstParameter = parameters.split( " " )[0].toLowerCase();
-		String skillName = getSkillName( firstParameter );
+		String skillName = getSkillName( parameters.toLowerCase() );
 
 		if ( skillName != null )
 		{
@@ -594,7 +593,8 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		skillName = getSkillName( parameters.substring( firstParameter.length() ).trim() );
+		String firstParameter = parameters.split( " " )[0].toLowerCase();
+		skillName = getSkillName( parameters.substring( firstParameter.length() ).trim().toLowerCase() );
 		if ( skillName == null )
 		{
 			scriptRequestor.cancelRequest();
