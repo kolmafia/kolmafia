@@ -248,6 +248,8 @@ public class LoginFrame extends KoLFrame
 				savePasswordCheckBox.setSelected( true );
 				autoLoginCheckBox.setSelected( true );
 			}
+
+			setDefaultButton( getDefaultButton() );
 		}
 
 		public void setStatusMessage( int displayState, String s )

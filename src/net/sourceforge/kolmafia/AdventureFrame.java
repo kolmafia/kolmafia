@@ -80,6 +80,8 @@ import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 
 // event listeners
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -412,6 +414,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			southPanel.add( actionStatusPanel, BorderLayout.NORTH );
 			southPanel.add( new AdventureResultsPanel( resultsTally ), BorderLayout.SOUTH );
 			add( southPanel, BorderLayout.SOUTH );
+			setDefaultButton( getDefaultButton() );
 		}
 
 		public void setStatusMessage( int displayState, String s )
@@ -589,6 +592,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			southPanel.add( actionStatusPanel, BorderLayout.NORTH );
 			southPanel.add( new SearchResultsPanel(), BorderLayout.SOUTH );
 			add( southPanel, BorderLayout.SOUTH );
+			setDefaultButton( getDefaultButton() );
 		}
 
 		public void setStatusMessage( int displayState, String s )
@@ -800,7 +804,10 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			this.isBuffing = false;
 
 			buffField = new JComboBox( ClanBuffRequest.getRequestList( client ) );
+			buffField.addFocusListener( new FocusShifter() );
+
 			countField = new JTextField();
+			countField.addFocusListener( new FocusShifter() );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Clan Buff: ", buffField );
@@ -831,6 +838,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 				contentPanel = clanBuff;
 				client.cancelRequest();
 				updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
+			}
+		}
+
+		private class FocusShifter extends FocusAdapter
+		{
+			public void focusGained( FocusEvent e )
+			{	getRootPane().setDefaultButton( clanBuff.getDefaultButton() );
 			}
 		}
 
@@ -894,7 +908,10 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			heroes.add( "Future Heroes of Your Clan" );
 
 			heroField = new JComboBox( heroes );
+			heroField.addFocusListener( new FocusShifter() );
+
 			amountField = new JTextField();
+			amountField.addFocusListener( new FocusShifter() );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Donate To: ", heroField );
@@ -926,6 +943,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 				(new ClanDonationThread()).start();
 			else
 				(new HeroDonationThread( true )).start();
+		}
+
+		private class FocusShifter extends FocusAdapter
+		{
+			public void focusGained( FocusEvent e )
+			{	getRootPane().setDefaultButton( heroDonation.getDefaultButton() );
+			}
 		}
 
 		/**
@@ -1042,7 +1066,10 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			super( "Meat Management (Closet)", "put in closet", "take from closet", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			amountField = new JTextField();
+			amountField.addFocusListener( new FocusShifter() );
+
 			inClosetField = new JTextField( df.format( client == null ? 0 : client.getCharacterData().getClosetMeat() ) );
+			inClosetField.addFocusListener( new FocusShifter() );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Transaction: ", amountField );
@@ -1079,6 +1106,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		{
 			contentPanel = meatStorage;
 			(new MeatStorageThread( false )).start();
+		}
+
+		private class FocusShifter extends FocusAdapter
+		{
+			public void focusGained( FocusEvent e )
+			{	getRootPane().setDefaultButton( meatStorage.getDefaultButton() );
+			}
 		}
 
 		/**
@@ -1136,6 +1170,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 			effects = new JComboBox( client == null ? new LockableListModel() :
 				client.getCharacterData().getEffects().getMirrorImage() );
+			effects.addFocusListener( new FocusShifter() );
 
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Active Effects: ", effects );
@@ -1151,6 +1186,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		protected void actionCancelled()
 		{
 			contentPanel = removeEffects;
+		}
+
+		private class FocusShifter extends FocusAdapter
+		{
+			public void focusGained( FocusEvent e )
+			{	getRootPane().setDefaultButton( removeEffects.getDefaultButton() );
+			}
 		}
 
 		private class RemoveEffectsThread extends Thread
@@ -1193,8 +1235,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 			skillSelect = new JComboBox( client == null ? new LockableListModel() :
 				client.getCharacterData().getAvailableSkills() );
+			skillSelect.addFocusListener( new FocusShifter() );
+
 			targetField = new JTextField();
+			targetField.addFocusListener( new FocusShifter() );
+
 			countField = new JTextField();
+			countField.addFocusListener( new FocusShifter() );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Using Skill: ", skillSelect );
@@ -1212,6 +1259,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		protected void actionCancelled()
 		{
 			contentPanel = skillBuff;
+		}
+
+		private class FocusShifter extends FocusAdapter
+		{
+			public void focusGained( FocusEvent e )
+			{	getRootPane().setDefaultButton( skillBuff.getDefaultButton() );
+			}
 		}
 
 		/**

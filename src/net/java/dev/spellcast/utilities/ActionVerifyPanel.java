@@ -62,6 +62,8 @@ public abstract class ActionVerifyPanel extends JRootPane
 	private VerifyButtonPanel buttonPanel;
 	private Dimension labelSize, fieldSize;
 
+	private JButton confirmedButton;
+
 	private static final Dimension DEFAULT_LABEL_SIZE = new Dimension( 100, 20 );
 	private static final Dimension DEFAULT_FIELD_SIZE = new Dimension( 165, 20 );
 
@@ -75,6 +77,10 @@ public abstract class ActionVerifyPanel extends JRootPane
 		this.labelSize = labelSize;
 		this.fieldSize = fieldSize;
 		buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );
+	}
+
+	public JButton getDefaultButton()
+	{	return confirmedButton;
 	}
 
 	protected void setContent( VerifiableElement [] elements )
@@ -267,7 +273,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 
 	private class VerifyButtonPanel extends JPanel
 	{
-		private JButton confirmedButton, cancelledButton;
+		private JButton cancelledButton;
 
 		public VerifyButtonPanel( String confirmedText, String cancelledText )
 		{
@@ -283,7 +289,6 @@ public abstract class ActionVerifyPanel extends JRootPane
 				} );
 
 			addButton( confirmedButton );
-			ActionVerifyPanel.this.setDefaultButton( confirmedButton );
 			add( Box.createVerticalStrut( 4 ) );
 
 			// add the "cancelled" button
