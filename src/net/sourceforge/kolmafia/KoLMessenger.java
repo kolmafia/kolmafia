@@ -748,7 +748,7 @@ public class KoLMessenger implements KoLConstants
 			// Next, split the message around the tags so you know
 			// how to display the message.
 
-			StringTokenizer splitMessage = new StringTokenizer( message.trim().replaceAll( "<.*?>", "" ), ":" );
+			StringTokenizer splitMessage = new StringTokenizer( message.trim().replaceAll( "<.*?>", "" ), ":", true );
 			StringBuffer redoneMessage = new StringBuffer();
 
 			// In traditional instant message style, your name
@@ -772,7 +772,10 @@ public class KoLMessenger implements KoLConstants
 				redoneMessage.append( "</b></font>: " );
 			}
 
-			redoneMessage.append( splitMessage.nextToken() );
+			splitMessage.nextToken();
+
+			while ( splitMessage.hasMoreTokens() )
+				redoneMessage.append( splitMessage.nextToken() );
 			redoneMessage.append( "<br>\n" );
 
 			// Display the message in the appropriate chat
