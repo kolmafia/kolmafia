@@ -117,7 +117,8 @@ public class CharsheetFrame extends KoLFrame
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-		refreshButton.setEnabled( isEnabled );
+		if ( refreshButton != null )
+			refreshButton.setEnabled( isEnabled );
 	}
 
 	/**
@@ -263,6 +264,7 @@ public class CharsheetFrame extends KoLFrame
 
 	public void refreshStatus()
 	{
+		this.setEnabled( false );
 		if ( client != null )
 		{
 			characterData = client.getCharacterData();
@@ -284,6 +286,7 @@ public class CharsheetFrame extends KoLFrame
 		statusLabel[10].setText( characterData.getAdventuresLeft() + " adventures left" );
 
 		client.updateDisplay( ENABLED_STATE, " " );
+		this.setEnabled( true );
 	}
 
 	private class StatusRefreshListener implements ActionListener
