@@ -73,6 +73,12 @@ public class HeroDonationRequest extends KoLRequest
 	{
 		super.run();
 
+		// If an error state occurred, return from this
+		// request, since there's no content to parse
+
+		if ( isErrorState || responseCode != 200 )
+			return;
+
 		// All the gains will be found before the first </center> tag;
 		// therefore, you can parse just that small segment.
 
