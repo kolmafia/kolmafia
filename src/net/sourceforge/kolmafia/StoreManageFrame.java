@@ -154,6 +154,11 @@ public class StoreManageFrame extends KoLFrame
 					limits[i] = currentPanel.getLimit();
 				}
 
+				// Adding in delay to make sure the GUI doesn't
+				// get overloaded with requests which could lock
+				// the Swing thread.
+
+				KoLRequest.delay( 5000 );
 				(new StoreManageRequest( client, itemID, prices, limits )).run();
 			}
 		}
