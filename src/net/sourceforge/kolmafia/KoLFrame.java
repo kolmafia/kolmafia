@@ -177,10 +177,6 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 	protected class ReturnFocusAdapter extends WindowAdapter
 	{
-		public ReturnFocusAdapter()
-		{
-		}
-
 		public void windowClosed( WindowEvent e )
 		{	client.getActiveFrame().requestFocus();
 		}
