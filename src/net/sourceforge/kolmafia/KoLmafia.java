@@ -1105,8 +1105,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 * for logging information related to the buffbut.
 	 */
 
-	public BuffBotHome.buffBotBuffer getBuffBotLog()
-	{	return buffBotHome.getLog();
+	public BuffBotHome getBuffBotLog()
+	{	return buffBotHome;
 	}
 
 	/**

@@ -126,7 +126,7 @@ public class BuffBotFrame extends KoLFrame
 	private WhiteListPanel whiteList;
 
 	private LockableListModel buffCostTable;
-	private BuffBotHome.buffBotBuffer buffbotLog;
+	private BuffBotHome buffbotLog;
 
 	/**
 	 * Constructs a new <code>BuffBotFrame</code> and inserts all
@@ -153,9 +153,8 @@ public class BuffBotFrame extends KoLFrame
 		// Initialize the display log buffer and the file log
 		if ( client == null )
 		{
-			BuffBotHome home = new BuffBotHome(null);
-			home.initialize();
-			buffbotLog = home.getLog();
+			BuffBotHome buffbogLog = new BuffBotHome(null);
+			buffbogLog.initialize();
 		}
 		else
 		{

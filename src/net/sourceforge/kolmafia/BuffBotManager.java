@@ -69,7 +69,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private String mpRestoreSetting;
 	private int messageDisposalSetting;
-	private BuffBotHome.buffBotBuffer buffbotLog;
+	private BuffBotHome buffbotLog;
 
 	private static final int SLEEP_TIME = 1000;       // Sleep this much each time
 	private static final int SHORT_SLEEP_COUNT = 75;  // This many times
