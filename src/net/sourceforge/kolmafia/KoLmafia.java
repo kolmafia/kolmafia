@@ -508,7 +508,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			return;
 		double autoRecover = Double.parseDouble( autoRecoverSettings ) * (double) characterData.getMaximumHP();
 
-		if ( characterData.getCurrentHP() < autoRecover && recoveryScriptSettings != null && recoveryScriptSettings.length() > 0 )
+		if ( (double) characterData.getCurrentHP() <= autoRecover && recoveryScriptSettings != null && recoveryScriptSettings.length() > 0 )
 		{
 			permitContinue = true;
 			updateDisplay( KoLFrame.DISABLED_STATE, "Executing HP auto-recovery script..." );
@@ -577,6 +577,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 					if ( permitContinue )
 					{
 						--iterationsRemaining;
+						autoRecoverHP();
 					}
 					else if ( request instanceof KoLAdventure )
 					{
