@@ -146,19 +146,32 @@ public class ChatFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu menu = new JMenu("File");
-		menu.setMnemonic( KeyEvent.VK_F );
-		menuBar.add( menu );
+		JMenu fileMenu = new JMenu("File");
+		fileMenu.setMnemonic( KeyEvent.VK_F );
+		menuBar.add( fileMenu );
 
 		JMenuItem loggerItem = new JMenuItem( "Log Chat", KeyEvent.VK_L );
 		loggerItem.addActionListener( new LogChatListener() );
-
-		menu.add( loggerItem );
+		fileMenu.add( loggerItem );
 
 		JMenuItem clearItem = new JMenuItem( "Clear Chat", KeyEvent.VK_C );
 		clearItem.addActionListener( new ClearChatBufferListener() );
+		fileMenu.add( clearItem );
 
-		menu.add( clearItem );
+		if ( associatedContact != null )
+		{
+			JMenu peopleMenu = new JMenu("People");
+			peopleMenu.setMnemonic( KeyEvent.VK_P );
+			menuBar.add( peopleMenu );
+
+			JMenuItem addFriendItem = new JMenuItem( "Add Friend", KeyEvent.VK_A );
+			addFriendItem.addActionListener( new AddFriendListener() );
+			peopleMenu.add( addFriendItem );
+
+			JMenuItem ignoreFriendItem = new JMenuItem( "Ignore / Block", KeyEvent.VK_I );
+			ignoreFriendItem.addActionListener( new IgnoreFriendListener() );
+			peopleMenu.add( ignoreFriendItem );
+		}
 
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
@@ -194,6 +207,45 @@ public class ChatFrame extends KoLFrame
 	public JEditorPane getChatDisplay()
 	{	return chatDisplay;
 	}
+
+	/**
+	 * Action listener responsible for adding the friend to the
+	 * contact list.
+	 */
+
+	private class AddFriendListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new AddFriendThread()).start();
+		}
+
+		private class AddFriendThread extends Thread
+		{
+			public void run()
+			{	(new ChatRequest( client, associatedContact, "/friend" )).run();
+			}
+		}
+	}
+
+	/**
+	 * Action listener responsible for placing someone on the
+	 * ignore (baleet) list.
+	 */
+
+	private class IgnoreFriendListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new IgnoreFriendThread()).start();
+		}
+
+		private class IgnoreFriendThread extends Thread
+		{
+			public void run()
+			{	(new ChatRequest( client, associatedContact, "/ignore" )).run();
+			}
+		}
+	}
+
 
 	/**
 	 * An action listener responsible for sending the text
