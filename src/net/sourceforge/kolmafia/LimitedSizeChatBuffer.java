@@ -38,7 +38,12 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 public class LimitedSizeChatBuffer extends ChatBuffer
 {
 	private int maximumSize;
-	private static int fontSize = 6;
+	private static int fontSize = 3;
+	static
+	{
+		setFontSize( fontSize );
+		BUFFER_STOP = "</font></body>";
+	}
 
 	public LimitedSizeChatBuffer( String title, int maximumSize )
 	{
@@ -46,11 +51,38 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		this.maximumSize = maximumSize;
 	}
 
+	/**
+	 * Used to change the font size for all current chat buffers.  Note that
+	 * this does not affect logging.
+	 */
+
 	public static void setFontSize( int fontSize )
 	{
 		LimitedSizeChatBuffer.fontSize = fontSize;
-		BUFFER_INIT = "<body style=\"font-family: sans-serif;\"><h" + fontSize + ">";
-		BUFFER_STOP = "</h" + fontSize + "></body>";
+		BUFFER_INIT = "<body><font face=\"sans-serif\" size=" + fontSize + ">";
+	}
+
+	private static String getFontSizeAsString()
+	{
+		switch ( fontSize )
+		{
+			case 1:
+				return "xx-small";
+			case 2:
+				return "x-small";
+			case 3:
+				return "small";
+			case 4:
+				return "medium";
+			case 5:
+				return "large";
+			case 6:
+				return "x-large";
+			case 7:
+				return "xx-large";
+			default:
+				return "medium";
+		}
 	}
 
 	/**
