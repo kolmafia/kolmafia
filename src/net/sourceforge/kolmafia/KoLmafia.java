@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.math.BigInteger;
+import java.util.StringTokenizer;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -561,6 +562,84 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		}
 
 		disableMacro = false;
+	}
+
+	/**
+	 * Utility method used to process the results of any adventure
+	 * in the Kingdom of Loathing.  This method searches for items,
+	 * stat gains, and losses within the provided string.
+	 *
+	 * @param	results	The string containing the results of the adventure
+	 */
+
+	public final void processResults( String results )
+	{
+		logStream.println( "Processing results..." );
+
+		if ( results.indexOf( "gains a pound!</b>" ) != -1 )
+			characterData.setFamiliarDescription(
+					characterData.getFamiliarRace(),
+						characterData.getFamiliarWeight() + 1 );
+
+		String plainTextResult = results.replaceAll( "<.*?>", "\n" );
+		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
+		String lastToken = null;
+
+		while ( parsedResults.hasMoreTokens() )
+		{
+			lastToken = parsedResults.nextToken();
+
+			// Skip effect acquisition - it's followed by a boldface
+			// which makes the parser think it's found an item.
+
+			if ( lastToken.startsWith( "FUMBLE!" ) )
+			{
+				try
+				{
+					StringTokenizer fumbleParser = new StringTokenizer( parsedResults.nextToken() );
+					String token1, token2;
+					token1 = fumbleParser.nextToken();
+					token2 = fumbleParser.nextToken();
+
+					while ( !token2.startsWith( "damage" ) && fumbleParser.hasMoreTokens() )
+					{
+						token1 = token2;
+						token2 = fumbleParser.nextToken();
+					}
+
+					parseResult( "You lose " + df.parse( token1 ).intValue() + " hit points" );
+				}
+				catch ( Exception e )
+				{
+					// Chances are, if there was no damage located in the
+					// the fumble parsing, something weird happened - but,
+					// let's just pretend nothing happened.
+				}
+			}
+
+			else if ( lastToken.startsWith( "You acquire" ) )
+			{
+				if ( lastToken.indexOf( "effect" ) == -1 )
+				{
+					parseResult( parsedResults.nextToken().trim() );
+				}
+				else
+				{
+					String effect = parsedResults.nextToken();
+					lastToken = parsedResults.nextToken();
+
+					if ( lastToken.indexOf( "duration" ) == -1 )
+						parseResult( effect.trim() );
+					else
+					{
+						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
+						parseResult( effect.trim() + " (" + duration + ")" );
+					}
+				}
+			}
+			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
+				parseResult( lastToken.indexOf( "." ) == -1 ? lastToken.trim() : lastToken.substring( 0, lastToken.indexOf( "." ) ).trim() );
+		}
 	}
 
 	/**

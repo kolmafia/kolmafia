@@ -662,73 +662,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected final void processResults( String results )
-	{
-		logStream.println( "Processing results..." );
-
-		if ( results.indexOf( "gains a pound!</b>" ) != -1 )
-			client.getCharacterData().setFamiliarDescription(
-					client.getCharacterData().getFamiliarRace(),
-						client.getCharacterData().getFamiliarWeight() + 1 );
-
-		String plainTextResult = results.replaceAll( "<.*?>", "\n" );
-		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
-		String lastToken = null;
-
-		while ( parsedResults.hasMoreTokens() )
-		{
-			lastToken = parsedResults.nextToken();
-
-			// Skip effect acquisition - it's followed by a boldface
-			// which makes the parser think it's found an item.
-
-			if ( lastToken.startsWith( "FUMBLE!" ) )
-			{
-				try
-				{
-					StringTokenizer fumbleParser = new StringTokenizer( parsedResults.nextToken() );
-					String token1, token2;
-					token1 = fumbleParser.nextToken();
-					token2 = fumbleParser.nextToken();
-
-					while ( !token2.startsWith( "damage" ) && fumbleParser.hasMoreTokens() )
-					{
-						token1 = token2;
-						token2 = fumbleParser.nextToken();
-					}
-
-					client.parseResult( "You lose " + df.parse( token1 ).intValue() + " hit points" );
-				}
-				catch ( Exception e )
-				{
-					// Chances are, if there was no damage located in the
-					// the fumble parsing, something weird happened - but,
-					// let's just pretend nothing happened.
-				}
-			}
-
-			else if ( lastToken.startsWith( "You acquire" ) )
-			{
-				if ( lastToken.indexOf( "effect" ) == -1 )
-				{
-					client.parseResult( parsedResults.nextToken().trim() );
-				}
-				else
-				{
-					String effect = parsedResults.nextToken();
-					lastToken = parsedResults.nextToken();
-
-					if ( lastToken.indexOf( "duration" ) == -1 )
-						client.parseResult( effect.trim() );
-					else
-					{
-						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
-						client.parseResult( effect.trim() + " (" + duration + ")" );
-					}
-				}
-			}
-			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
-				client.parseResult( lastToken.indexOf( "." ) == -1 ? lastToken.trim() : lastToken.substring( 0, lastToken.indexOf( "." ) ).trim() );
-		}
+	{	client.processResults( results );
 	}
 
 	/**
