@@ -433,19 +433,18 @@ public class KoLMessenger
 
 			if ( isRecipient )
 			{
-				String firstToken = splitMessage.nextToken();
-				contactName = firstToken.substring( 0, firstToken.length() - 11 );
-
+				contactName = splitMessage.nextToken().substring( 11 );
 				redoneMessage.append( "<font color=blue><b>" );
 				redoneMessage.append( client.getLoginName() );
-				redoneMessage.append( "</b></font>: " );
+				redoneMessage.append( "</b></font>" );
 			}
 			else
 			{
-				contactName = splitMessage.nextToken().substring( 11 );
+				String firstToken = splitMessage.nextToken();
+				contactName = firstToken.substring( 0, firstToken.length() - 11 );
 				redoneMessage.append( "<font color=red><b>" );
 				redoneMessage.append( contactName );
-				redoneMessage.append( "</b></font>" );
+				redoneMessage.append( "</b></font>: " );
 			}
 
 			redoneMessage.append( splitMessage.nextToken() );
