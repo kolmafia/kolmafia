@@ -345,9 +345,12 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			try
 			{
-				int repeatCount = parameters.length() == 0 ? 1 : df.parse( parameters ).intValue();
-				for ( int i = 0; i < repeatCount; ++i )
-					executeLine( previousCommand );
+				if ( previousCommand != null )
+				{
+					int repeatCount = parameters.length() == 0 ? 1 : df.parse( parameters ).intValue();
+					for ( int i = 0; i < repeatCount; ++i )
+						executeLine( previousCommand );
+				}
 
 				return;
 			}
