@@ -46,6 +46,7 @@ public class AdventureResult implements Comparable
 	public static final String MUS = "Mus";
 	public static final String MYS = "Mys";
 	public static final String MOX = "Mox";
+	public static final String DIVIDER = "";
 
 	public static List MUS_SUBSTAT = new ArrayList();
 	public static List MYS_SUBSTAT = new ArrayList();
@@ -87,7 +88,11 @@ public class AdventureResult implements Comparable
 	}
 
 	public String toString()
-	{	return resultName + ": " + resultCount;
+	{
+		return (resultName.equals(MEAT) || resultName.equals(MUS) || resultName.equals(MYS) || resultName.equals(MOX)) ?
+			resultName + ": " + resultCount :
+				resultName.equals(DIVIDER) ? "--------------------------------" :
+					resultName + "(" + resultCount + ")";
 	}
 
 	public boolean equals( Object o )
