@@ -197,6 +197,7 @@ public class BuffBotFrame extends KoLFrame
 		super.setEnabled( isEnabled );
 		mainBuff.setEnabled( isEnabled );
 		buffOptions.setEnabled( isEnabled );
+		whiteList.setEnabled( isEnabled );
 	}
 
 	/**
