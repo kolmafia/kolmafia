@@ -103,7 +103,9 @@ public class TradeableItemDatabase implements UtilityConstants
 	 */
 
 	public static int getItemID( String itemName )
-	{	return ((Integer)itemByName.get( itemName )).intValue();
+	{
+		Object itemID = itemByName.get( itemName );
+		return itemID == null ? -1 : ((Integer)itemID).intValue();
 	}
 
 	/**
@@ -114,5 +116,18 @@ public class TradeableItemDatabase implements UtilityConstants
 
 	public static String getItemName( int itemID )
 	{	return itemByID[ itemID ];
+	}
+
+	/**
+	 * Returns whether or not an item with a given name
+	 * exists in the database; this is useful in the
+	 * event that an item is encountered which is not
+	 * tradeable (and hence, should not be displayed).
+	 *
+	 * @return	<code>true</code> if the item is in the database
+	 */
+
+	public static boolean contains( String itemName )
+	{	return getItemID( itemName ) != -1;
 	}
 }
