@@ -66,7 +66,8 @@ import java.text.DecimalFormat;
 public class KoLRequest implements Runnable
 {
 	protected static final DecimalFormat df = new DecimalFormat();
-	private static String KOL_ROOT = "http://www.kingdomofloathing.com/";
+	private static String KOL_HOST = "www.kingdomofloathing.com";
+	private static String KOL_ROOT = "http://" + KOL_HOST + "/";
 	static
 	{	applySettings();
 	}
@@ -176,11 +177,24 @@ public class KoLRequest implements Runnable
 	{
 
 		try
-		{	KOL_ROOT = "http://" + InetAddress.getByName( server ).getHostAddress() + "/";
+		{
+			KOL_HOST = server;
+			KOL_ROOT = "http://" + InetAddress.getByName( server ).getHostAddress() + "/";
 		}
 		catch ( UnknownHostException e )
 		{	KOL_ROOT = "http://" + server + "/";
 		}
+	}
+
+	/**
+	 * Static method used to return the server currently used by
+	 * this KoLmafia session.
+	 *
+	 * @return	The host name for the current server
+	 */
+
+	public static String getRootHostName()
+	{	return KOL_HOST;
 	}
 
 	/**
