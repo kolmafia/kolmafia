@@ -335,12 +335,23 @@ public class KoLMessenger
 		String noLinksContent = noContactListContent.replaceAll( "</?a.*?>", "" );
 
 		// Process each line individually.  But all the green messages
-		// should be processed first.
+		// should be processed first after you check to make sure that
+		// an exit command was not issued.
 
 		String [] lines = noContactListContent.split( "<br>" );
+
 		for ( int i = 0; i < lines.length; ++i )
 		{
 			lines[i] = lines[i].trim();
+			if ( lines[i].startsWith( "<img" ) )
+			{
+				client.deinitializeChat();
+				return;
+			}
+		}
+
+		for ( int i = 0; i < lines.length; ++i )
+		{
 			if ( lines[i].startsWith( "<font color=green>") )
 			{
 				processChatMessage( lines[i] );

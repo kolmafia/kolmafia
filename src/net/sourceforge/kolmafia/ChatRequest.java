@@ -81,7 +81,7 @@ public class ChatRequest extends KoLRequest
 
 		String actualMessage = null;
 
-		if ( contact == null )
+		if ( contact == null || message.equals( "/exit" ) )
 			actualMessage = message;
 		else if ( message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) )
 			actualMessage = message + " " + contactID;
