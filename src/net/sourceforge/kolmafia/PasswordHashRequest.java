@@ -51,7 +51,14 @@ public class PasswordHashRequest extends KoLRequest
 		super.run();
 
 		StringTokenizer parsedContent = new StringTokenizer( replyContent, "\'" );
-		while ( !parsedContent.nextToken().endsWith( "value=" ) );
-		client.setPasswordHash( parsedContent.nextToken() );
+		while ( parsedContent.hasMoreTokens() && !parsedContent.nextToken().endsWith( "value=" ) );
+
+		if ( parsedContent.hasMoreTokens() )
+			client.setPasswordHash( parsedContent.nextToken() );
+		else
+		{
+			client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "I/O Error.  Please retry." );
+			client.updateAdventure( false, false );
+		}
 	}
 }
