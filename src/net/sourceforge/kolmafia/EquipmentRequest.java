@@ -188,7 +188,7 @@ public class EquipmentRequest extends KoLRequest
 
 				lastToken = parsedContent.nextToken();
 			}
-			while ( !lastToken.startsWith( "0" ) );
+			while ( lastToken.trim().length() != 0 );
 		}
 		catch ( Exception e )
 		{
