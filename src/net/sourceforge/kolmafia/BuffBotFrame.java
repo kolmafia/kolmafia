@@ -623,7 +623,9 @@ public class BuffBotFrame extends KoLFrame {
 			}
 
 			public void run()
-			{	client.deinitializeBuffBot();
+			{
+				if ( client != null )
+					client.deinitializeBuffBot();
 			}
 		}
 	}
