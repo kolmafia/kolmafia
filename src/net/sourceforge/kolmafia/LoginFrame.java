@@ -185,7 +185,7 @@ public class LoginFrame extends KoLFrame
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Login: ", loginnameField );
 			elements[1] = new VerifiableElement( "Password: ", passwordField );
-			elements[2] = new VerifiableElement( "Get Breakfast:", getBreakfastCheckBox );
+			elements[2] = new VerifiableElement( "Get Breakfast: ", getBreakfastCheckBox );
 
 			setContent( elements );
 			add( actionStatusPanel, BorderLayout.SOUTH );
