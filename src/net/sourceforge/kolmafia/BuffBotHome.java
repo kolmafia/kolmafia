@@ -52,7 +52,7 @@ import java.text.DateFormat;
 /**
  * Holder for the BuffBot log (which should survive outside of
  * the BuffBot Frame
- * @author raney53
+ *
  */
 public class BuffBotHome {
 	private BuffBotLog BBLog;
@@ -61,7 +61,6 @@ public class BuffBotHome {
 	private PrintStream BBLogFile;
 	private JTabbedPane advTabs;
 	private String LogFileName;
-	
 	
 	/** Creates a new instance of BuffBotHome */
 	public BuffBotHome(KoLmafia client) {
