@@ -107,11 +107,11 @@
   <!-- =========================== -->
 
   <target name="dist"
+          depends="createjar"/>
           description="generate the distribution">
 
-    <ant target="javadoc"/>
-    <ant target="createjar"/>
     <ant target="createtar"/>
+    <ant target="javadoc"/>
 
   </target>
 
