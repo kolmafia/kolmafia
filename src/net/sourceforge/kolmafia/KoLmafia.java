@@ -115,7 +115,7 @@ public class KoLmafia
 
 	private void initializeTally()
 	{
-		tally = new LockableListModel();
+		tally = new SortedListModel();
 		addToTally( new AdventureResult( AdventureResult.MEAT ) );
 		addToTally( new AdventureResult( AdventureResult.MUS ) );
 		addToTally( new AdventureResult( AdventureResult.MYS ) );
