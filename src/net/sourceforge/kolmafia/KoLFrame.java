@@ -443,21 +443,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				if ( chooser.getSelectedFile() == null )
 					return;
 
-				String filename = chooser.getSelectedFile().getAbsolutePath();
-
 				try
 				{
 					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
 					{
 						isExecutingScript = true;
-						(new KoLmafiaCLI( client, filename )).listenForCommands();
+						(new KoLmafiaCLI( client, chooser.getSelectedFile().getCanonicalPath() )).listenForCommands();
 					}
 
 					isExecutingScript = false;
 					if ( client.permitsContinue() )
 						updateDisplay( ENABLED_STATE, "Script completed successfully." );
 					else
-						updateDisplay( ERROR_STATE, "Script <" + filename + "> encountered an error." );
+						updateDisplay( ERROR_STATE, "Script <" + chooser.getSelectedFile().getName() + "> encountered an error." );
 				}
 				catch ( Exception e )
 				{
@@ -465,7 +463,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					// file specified could not be loaded
 
 					isExecutingScript = false;
-					updateDisplay( ERROR_STATE, "Script file <" + filename + "> could not be found." );
+					updateDisplay( ERROR_STATE, "Script file <" + chooser.getSelectedFile().getName() + "> could not be found." );
 					return;
 				}
 			}
