@@ -171,6 +171,10 @@ public class ChatFrame extends KoLFrame
 			JMenuItem ignoreFriendItem = new JMenuItem( "Ignore / Block", KeyEvent.VK_I );
 			ignoreFriendItem.addActionListener( new IgnoreFriendListener() );
 			peopleMenu.add( ignoreFriendItem );
+
+			JMenuItem sendGreenItem = new JMenuItem( "Green Message", KeyEvent.VK_G );
+			addFriendItem.addActionListener( new SendGreenListener() );
+			peopleMenu.add( sendGreenItem );
 		}
 
 		addHelpMenu( menuBar );
@@ -388,6 +392,22 @@ public class ChatFrame extends KoLFrame
 			public String getDescription()
 			{	return "Hypertext Documents";
 			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the composer window.
+	 */
+
+	private class SendGreenListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			GreenMessageFrame composer = new GreenMessageFrame( client, associatedContact );
+			composer.pack();  composer.setVisible( true );
+			composer.requestFocus();
 		}
 	}
 

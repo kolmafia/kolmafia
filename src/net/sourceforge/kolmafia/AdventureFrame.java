@@ -226,6 +226,11 @@ public class AdventureFrame extends KoLFrame
 
 		viewMenu.add( chatItem );
 
+		JMenuItem sendmailItem = new JMenuItem( "Green Composer", KeyEvent.VK_G );
+		sendmailItem.addActionListener( new ViewGreenMessageComposerListener() );
+
+		viewMenu.add( sendmailItem );
+
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
@@ -1070,6 +1075,22 @@ public class AdventureFrame extends KoLFrame
 				isheet.setEnabled( contentPanel.isEnabled() );
 				isheet.requestFocus();
 			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the composer window.
+	 */
+
+	private class ViewGreenMessageComposerListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			GreenMessageFrame composer = new GreenMessageFrame( client );
+			composer.pack();  composer.setVisible( true );
+			composer.requestFocus();
 		}
 	}
 
