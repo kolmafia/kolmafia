@@ -46,7 +46,13 @@ import java.util.StringTokenizer;
 
 public class EquipmentRequest extends KoLRequest
 {
+	private static final int REQUEST_ALL = 0;
+	private static final int FOOD_BOOZE = 1;
+	private static final int EQUIPMENT = 2;
+	private static final int MISCELLANEOUS = 3;
+
 	private KoLCharacter character;
+	private int requestType;
 
 	/**
 	 * Constructs a new <code>EquipmentRequest</code>, overwriting the
@@ -56,15 +62,14 @@ public class EquipmentRequest extends KoLRequest
 	 */
 
 	public EquipmentRequest( KoLmafia client )
-	{
-		// The only thing to do is to retrieve the page from
-		// the client - all variable initialization comes from
-		// when the request is actually run.
+	{	this( client, REQUEST_ALL );
+	}
 
+	private EquipmentRequest( KoLmafia client, int requestType )
+	{
 		super( client, "inventory.php" );
 		this.character = client.getCharacterData();
-
-		addFormField( "which", "2" );
+		this.requestType = requestType;
 	}
 
 	/**
@@ -75,6 +80,21 @@ public class EquipmentRequest extends KoLRequest
 
 	public void run()
 	{
+		// If this is a request all, instantiate each of the
+		// lesser requests and then return
+
+		if ( requestType == REQUEST_ALL )
+		{
+			(new EquipmentRequest( client, FOOD_BOOZE )).run();
+			(new EquipmentRequest( client, EQUIPMENT )).run();
+			(new EquipmentRequest( client, MISCELLANEOUS )).run();
+			return;
+		}
+
+		// Otherwise, add the form field indicating which page
+		// of the inventory you want to request
+
+		addFormField( "which", "" + requestType );
 		super.run();
 
 		// If an error state occurred, return from this
@@ -92,101 +112,130 @@ public class EquipmentRequest extends KoLRequest
 		String plainTextContent = replyContent.replaceAll( "<.*?>", "\n" );
 		StringTokenizer parsedContent = new StringTokenizer( plainTextContent, "\n" );
 
-		logStream.println( "Parsing equipment data..." );
+		logStream.println( "Parsing data..." );
 
 		try
 		{
-			while ( !parsedContent.nextToken().startsWith( "Hat:" ) );
-			String hat = parsedContent.nextToken();
-
-			while ( !parsedContent.nextToken().startsWith( "Weapon:" ) );
-			String weapon = parsedContent.nextToken();
-
-			while ( !parsedContent.nextToken().startsWith( "Pants:" ) );
-			String pants = parsedContent.nextToken();
-
-			String [] accessories = new String[3];
-			for ( int i = 0; i < 3; ++i )
-				accessories[i] = "none";
-			String familiarItem = "none";
-
-			int accessoryCount = 0;
-			String lastToken;
-
-			do
+			switch ( requestType )
 			{
-				lastToken = parsedContent.nextToken();
+				case FOOD_BOOZE:
+				case MISCELLANEOUS:
+					parseInventory( parsedContent );
+					break;
 
-				if ( lastToken.startsWith( "Accessory:" ) )
-					accessories[ accessoryCount++ ] = parsedContent.nextToken();
-				else if ( lastToken.startsWith( "Familiar:" ) )
-					familiarItem = parsedContent.nextToken();
-			}
-			while ( !lastToken.startsWith( "Outfits:" ) );
-
-			character.setEquipment( hat, weapon, pants, accessories[0], accessories[1], accessories[2], familiarItem );
-
-			// Now that the equipped items have been parsed, begin parsing for the items
-			// which are not currently equipped, but are listed in the equipment page.
-			// Normally, custom outfits would be parsed; for now, this part is skipped.
-
-			while ( !lastToken.equals( "Inventory:" ) )
-				lastToken = parsedContent.nextToken();
-			lastToken = parsedContent.nextToken();
-
-			// It's possible that there are other options available (such as cooking,
-			// cocktailing, combining and the like); these options should be skipped
-			// as well.
-
-			while ( lastToken.startsWith( "[" ) || lastToken.startsWith( "&" ) )
-				lastToken = parsedContent.nextToken();
-
-			// Now you have the actual items; these can be added to the character's
-			// inventory by parsing the item, skipping the next three tokens, and
-			// continuing this while you still have tokens.
-
-			List inventory = client.getInventory();
-
-			if ( parsedContent.countTokens() > 1 )
-			{
-				do
-				{
-					try
-					{
-						AdventureResult result = AdventureResult.parseResult( lastToken );
-
-						// Make sure to only add the result if it exists
-						// in the item database; otherwise, it could cause
-						// problems when you're moving items around
-
-						if ( TradeableItemDatabase.contains( result.getResultName() ) )
-							AdventureResult.addResultToList( inventory, result );
-
-						skipTokens( parsedContent, 3 );
-
-						if ( parsedContent.hasMoreTokens() )
-							lastToken = parsedContent.nextToken();
-					}
-					catch ( Exception e )
-					{
-						// If an exception occurs during the parsing, just
-						// continue after notifying the LogStream of the
-						// error.  This could be handled better, but not now.
-
-						logStream.println( e );
-
-						while ( parsedContent.hasMoreTokens() )
-							parsedContent.nextToken();
-					}
-				}
-				while ( parsedContent.hasMoreTokens() );
+				case EQUIPMENT:
+					parseEquipment( parsedContent );
+					break;
 			}
 
-			logStream.println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )
 		{
 			logStream.println( e );
+		}
+	}
+
+	private void parseEquipment( StringTokenizer parsedContent )
+	{
+		while ( !parsedContent.nextToken().startsWith( "Hat:" ) );
+		String hat = parsedContent.nextToken();
+
+		while ( !parsedContent.nextToken().startsWith( "Weapon:" ) );
+		String weapon = parsedContent.nextToken();
+
+		while ( !parsedContent.nextToken().startsWith( "Pants:" ) );
+		String pants = parsedContent.nextToken();
+
+		String [] accessories = new String[3];
+		for ( int i = 0; i < 3; ++i )
+			accessories[i] = "none";
+		String familiarItem = "none";
+
+		int accessoryCount = 0;
+		String lastToken;
+
+		do
+		{
+			lastToken = parsedContent.nextToken();
+
+			if ( lastToken.startsWith( "Accessory:" ) )
+				accessories[ accessoryCount++ ] = parsedContent.nextToken();
+			else if ( lastToken.startsWith( "Familiar:" ) )
+				familiarItem = parsedContent.nextToken();
+		}
+		while ( !lastToken.startsWith( "Outfits:" ) );
+
+		character.setEquipment( hat, weapon, pants, accessories[0], accessories[1], accessories[2], familiarItem );
+
+		// Now that the equipped items have been parsed, begin parsing for the items
+		// which are not currently equipped, but are listed in the equipment page.
+		// Normally, custom outfits would be parsed; for now, this part is skipped.
+		// Move directly to inventory parsing.
+
+		parseInventory( parsedContent );
+		logStream.println( "Parsing complete." );
+	}
+
+	private void parseInventory( StringTokenizer remainingTokens )
+	{
+		String lastToken = "";
+
+		while ( !lastToken.equals( "Inventory:" ) )
+			lastToken = remainingTokens.nextToken();
+		lastToken = remainingTokens.nextToken();
+
+		// It's possible that there are other options available (such as cooking,
+		// cocktailing, combining and the like); these options should be skipped
+		// as well.
+
+		while ( lastToken.startsWith( "[" ) || lastToken.startsWith( "&" ) )
+			lastToken = remainingTokens.nextToken();
+
+		// Now you have the actual items; these can be added to the character's
+		// inventory by parsing the item, skipping the next three tokens, and
+		// continuing this while you still have tokens.
+
+		List inventory = client.getInventory();
+
+		if ( remainingTokens.countTokens() > 1 )
+		{
+			do
+			{
+				try
+				{
+					String resultAsString = lastToken;
+					lastToken = remainingTokens.nextToken();
+
+					if ( lastToken.length() > 1 )
+						resultAsString += lastToken;
+
+					AdventureResult result = AdventureResult.parseResult( resultAsString );
+
+					// Make sure to only add the result if it exists
+					// in the item database; otherwise, it could cause
+					// problems when you're moving items around
+
+					if ( TradeableItemDatabase.contains( result.getResultName() ) )
+						AdventureResult.addResultToList( inventory, result );
+
+					skipTokens( remainingTokens, 2 );
+
+					if ( remainingTokens.hasMoreTokens() )
+						lastToken = remainingTokens.nextToken();
+				}
+				catch ( Exception e )
+				{
+					// If an exception occurs during the parsing, just
+					// continue after notifying the LogStream of the
+					// error.  This could be handled better, but not now.
+
+					logStream.println( e );
+
+					while ( remainingTokens.hasMoreTokens() )
+						remainingTokens.nextToken();
+				}
+			}
+			while ( remainingTokens.hasMoreTokens() );
 		}
 	}
 }
