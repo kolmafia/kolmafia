@@ -64,6 +64,7 @@ public class AdventureResult implements Comparable
 	private static final int SUBSTAT_PRIORITY = 6;
 	private static final int DIVIDER_PRIORITY = 7;
 	private static final int ITEM_PRIORITY = 8;
+	private static final int EFFECT_PRIORITY = 9;
 
 	private static final DecimalFormat df = new DecimalFormat();
 
@@ -137,7 +138,8 @@ public class AdventureResult implements Comparable
 			name.equals(SPACER) ? SPACER_PRIORITY :
 			name.equals(MEAT) ? MEAT_PRIORITY :
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
-			name.equals(DIVIDER) ? DIVIDER_PRIORITY : ITEM_PRIORITY );
+			name.equals(DIVIDER) ? DIVIDER_PRIORITY :
+			!StatusEffectDatabase.contains( name ) ? ITEM_PRIORITY : EFFECT_PRIORITY );
 	}
 
 	/**
@@ -167,7 +169,7 @@ public class AdventureResult implements Comparable
 	 */
 
 	public boolean isStatusEffect()
-	{	return StatusEffectDatabase.contains( name );
+	{	return priority == EFFECT_PRIORITY;
 	}
 
 	/**
@@ -178,7 +180,7 @@ public class AdventureResult implements Comparable
 	 */
 
 	public boolean isItem()
-	{	return priority == ITEM_PRIORITY && !isStatusEffect();
+	{	return priority == ITEM_PRIORITY;
 	}
 
 	/**
