@@ -98,6 +98,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( initialScript == null )
 				session.attemptLogin();
+			else
+				session.listenForCommands();
 		}
 		catch ( IOException e )
 		{
@@ -945,7 +947,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 			try
 			{
-				adventureCount = df.parse( adventureCountString ).intValue();
+				adventureCount = adventureCountString.equals( "*" ) ? scriptRequestor.getCharacterData().getAdventuresLeft() :
+					df.parse( adventureCountString ).intValue();
 			}
 			catch ( Exception e )
 			{
