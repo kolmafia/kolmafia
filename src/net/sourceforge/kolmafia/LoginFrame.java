@@ -303,7 +303,7 @@ public class LoginFrame extends KoLFrame
 				String loginname = ((String)loginnameField.getSelectedItem()).trim();
 				String password = new String( passwordField.getPassword() ).trim();
 
-				if ( loginname.equals("") || password.equals("") )
+				if ( loginname == null || password == null || loginname.equals("") || password.equals("") )
 				{
 					updateDisplay( ENABLED_STATE, "Invalid login." );
 					return;
