@@ -563,13 +563,11 @@ public class KoLCharacter
 
 	/**
 	 * Accessor method to indicate a change in state of the bartender-in-the-box.
-	 * @param	bartenderStateChange	Whether or not the character's state has changed
+	 * @param	hasBartender	Whether or not the character currently has a bartender
 	 */
 
-	public void setBartender( boolean bartenderStateChange )
-	{
-		if ( bartenderStateChange )
-			hasBartender = !hasBartender;
+	public void setBartender( boolean hasBartender )
+	{	this.hasBartender = hasBartender;
 	}
 
 	/**
@@ -578,18 +576,16 @@ public class KoLCharacter
 	 */
 
 	public boolean hasChef()
-	{	return hasBartender;
+	{	return hasChef;
 	}
 
 	/**
 	 * Accessor method to indicate a change in state of the chef-in-the-box.
-	 * @param	chefStateChange	Whether or not the character's state has changed
+	 * @param	hasChef	Whether or not the character currently has a chef
 	 */
 
-	public void setChef( boolean chefStateChange )
-	{
-		if ( chefStateChange )
-			hasChef = !hasChef;
+	public void setChef( boolean hasChef )
+	{	this.hasChef = hasChef;
 	}
 
 }
