@@ -136,6 +136,24 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	}
 
 	/**
+	 * Retrieves the price of the item being purchased.
+	 * @return	The price of the item being purchased
+	 */
+
+	public int getPrice()
+	{	return price;
+	}
+
+	/**
+	 * Retrieves the quantity of the item being purchased.
+	 * @return	The quantity of the item being purchased
+	 */
+
+	public int getQuantity()
+	{	return quantity;
+	}
+
+	/**
 	 * Sets the maximum number of items that can be purchased through
 	 * this request.
 	 *
