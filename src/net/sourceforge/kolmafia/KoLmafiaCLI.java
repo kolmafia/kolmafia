@@ -480,6 +480,11 @@ public class KoLmafiaCLI extends KoLmafia
 				executePrintCommand( "familiars " + parameters.substring(4).trim() );
 				return;
 			}
+			else if ( parameters.length() == 0 )
+			{
+				executePrintCommand( "familiars" );
+				return;
+			}
 
 			scriptRequestor.makeRequest( new FamiliarRequest( scriptRequestor, new FamiliarData( FamiliarsDatabase.getFamiliarID( parameters ) ) ), 1 );
 			return;
@@ -490,9 +495,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "outfit" ) )
 		{
-			if ( parameters.startsWith( "list" ) || parameters.length() == 0 )
+			if ( parameters.startsWith( "list" ) )
 			{
 				executePrintCommand( "outfits " + parameters.substring(4).trim() );
+				return;
+			}
+			else if ( parameters.length() == 0 )
+			{
+				executePrintCommand( "outfits" );
 				return;
 			}
 
@@ -1027,6 +1037,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeChangeOutfitCommand( String parameters )
 	{
+		String lowercaseOutfitName = parameters.toLowerCase().trim();
 		Iterator outfitIterator = scriptRequestor.characterData.getOutfits().iterator();
 		SpecialOutfit intendedOutfit = null;
 		SpecialOutfit currentOutfit;
@@ -1034,7 +1045,7 @@ public class KoLmafiaCLI extends KoLmafia
 		while ( intendedOutfit == null && outfitIterator.hasNext() )
 		{
 			currentOutfit = (SpecialOutfit) outfitIterator.next();
-			if ( currentOutfit.toString().toLowerCase().indexOf( parameters.toLowerCase() ) != -1 )
+			if ( currentOutfit.toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
 				intendedOutfit = currentOutfit;
 		}
 
