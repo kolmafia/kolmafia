@@ -77,7 +77,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected boolean permitContinue;
 
 	protected int [] initialStats;
-	protected int [] currentStats;
 	protected int [] fullStatGain;
 
 	protected BuffBotHome buffBotHome;
@@ -121,7 +120,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		this.isLoggingIn = true;
 
 		this.initialStats = new int[3];
-		this.currentStats = new int[3];
 		this.fullStatGain = new int[3];
 
 		this.settings = new KoLSettings();
@@ -213,12 +211,9 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			(new CharsheetRequest( this )).run();
 			(new CampgroundRequest( this )).run();
 
-			initialStats[0] = characterData.getTotalMuscle();
-			initialStats[1] = characterData.getTotalMysticality();
-			initialStats[2] = characterData.getTotalMoxie();
-
-			for ( int i = 0; i < 3; ++i )
-				currentStats[i] = initialStats[i];
+			initialStats[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() );
+			initialStats[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() );
+			initialStats[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() );
 		}
 
 		if ( !permitContinue )
@@ -355,13 +350,13 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
 
-		if ( resultName.equals( AdventureResult.SUBSTATS ) )
+		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() > 2 )
 		{
-			for ( int i = 0; i < 3; ++i )
-				fullStatGain[i] = KoLCharacter.calculateBasePoints( currentStats[i] ) -
-					KoLCharacter.calculateBasePoints( initialStats[i] );
+			fullStatGain[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() ) - initialStats[0];
+			fullStatGain[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() ) - initialStats[1];
+			fullStatGain[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() ) - initialStats[2];
 
-			if ( tally.size() > 7 )
+			if ( tally.size() > 2 )
 				tally.set( 2, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
 		}
 	}
