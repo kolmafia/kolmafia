@@ -73,7 +73,7 @@ public class MailboxRequest extends KoLRequest
 			// to the custom font sizes provided by LimitedSizeChatBuffer.
 
 			currentMessage = messageMatcher.group().replaceAll( "<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll(
-				"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
+				"<blockquote>", "<br><!-- -->" ).replaceAll( "</blockquote>", "" );
 
 			// At this point, the message is registered with the mail manager, which
 			// records the message and updates whether or not you should continue.
