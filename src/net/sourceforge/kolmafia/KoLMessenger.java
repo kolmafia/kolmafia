@@ -358,45 +358,6 @@ public class KoLMessenger
 
 		String noContactListContent = noCommentsContent.replaceAll( "<table>.*?</table>", "" );
 
-		// Process each line individually.  But all the green messages
-		// should be processed first after you check to make sure that
-		// an exit command was not issued.
-
-		String [] lines = noContactListContent.split( "</?br>" );
-
-		for ( int i = 0; i < lines.length; ++i )
-		{
-			lines[i] = lines[i].trim();
-			if ( lines[i].startsWith( "<img" ) && currentChannel != null )
-			{
-				removeChat( currentChannel );
-				return;
-			}
-
-			// Also, while parsing through the messages, fix the HTML
-			// on /whois notices.
-
-			if ( lines[i].indexOf( "</b>, the Level" ) != -1 )
-				lines[i] += "</font>";
-
-			if ( lines[i].startsWith( "</font>" ) )
-				lines[i] = lines[i].substring( 7 );
-		}
-
-		for ( int i = 0; i < lines.length; ++i )
-		{
-			if ( lines[i].indexOf( "<font color=green>") != -1 )
-			{
-				processChatMessage( lines[i] );
-				lines[i] = null;
-			}
-			else if ( lines[i].equals( "</b></font>" ) )
-				lines[i] = null;
-		}
-
-		for ( int i = 0; i < lines.length; ++i )
-			processChatMessage( lines[i] );
-
 		// Now, extract the contact list and update KoLMessenger to indicate
 		// the contact list found in the last /friends update
 
@@ -511,6 +472,54 @@ public class KoLMessenger
 			String [] offlineNotice = offlineNoticeMatcher.group().split( "<.*?>" );
 			updateContactList( offlineNotice[2], false );
 		}
+
+		// Now with all that information parsed, you can properly deal
+		// with all of the actual chat messages! :D  Process each line
+		// individually, keeping in mind that all the green messages
+		// should be processed first after you check to make sure that
+		// an exit command was not issued.
+
+		String [] lines = noContactListContent.split( "</?br>" );
+
+		for ( int i = 0; i < lines.length; ++i )
+		{
+			lines[i] = lines[i].trim();
+			if ( lines[i].startsWith( "<img" ) && currentChannel != null )
+			{
+				removeChat( currentChannel );
+				return;
+			}
+
+			// Also, while parsing through the messages, fix the HTML
+			// on /whois notices.
+
+			if ( lines[i].indexOf( "</b>, the Level" ) != -1 )
+				lines[i] += "</font>";
+
+			if ( lines[i].startsWith( "</font>" ) )
+				lines[i] = lines[i].substring( 7 );
+		}
+
+		// Now begin parsing the green messages, being sure
+		// to disable later parsing from parsing it again.
+
+		for ( int i = 0; i < lines.length; ++i )
+		{
+			if ( lines[i].indexOf( "<font color=green>") != -1 )
+			{
+				processChatMessage( lines[i] );
+				lines[i] = null;
+			}
+			else if ( lines[i].equals( "</b></font>" ) )
+				lines[i] = null;
+		}
+
+		// Now, parse the non-green messages and display them
+		// to the appropropriate frame.
+
+		for ( int i = 0; i < lines.length; ++i )
+			processChatMessage( lines[i] );
+
 	}
 
 	/**
