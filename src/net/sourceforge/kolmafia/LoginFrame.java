@@ -162,8 +162,6 @@ public class LoginFrame extends KoLFrame
 			serverReplyLabel = new JLabel( " ", JLabel.CENTER );
 			actionStatusPanel.add( serverReplyLabel );
 
-			JPanel labels = new JPanel();
-
 			loginnameField = new JTextField();
 			passwordField = new JPasswordField();
 
