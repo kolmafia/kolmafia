@@ -49,7 +49,7 @@ import java.text.DecimalFormat;
  * will be encapsulated at a later date.
  */
 
-public class AdventureResult implements Comparable
+public class AdventureResult implements Comparable, KoLConstants
 {
 	private int [] count;
 	private String name;
@@ -66,8 +66,6 @@ public class AdventureResult implements Comparable
 	private static final int DIVIDER_PRIORITY = 8;
 	private static final int ITEM_PRIORITY = 9;
 	private static final int EFFECT_PRIORITY = 10;
-
-	private static final DecimalFormat df = new DecimalFormat();
 
 	public static final String HP = "HP";
 	public static final String MP = "MP";

@@ -57,7 +57,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 
 // other stuff
-import java.text.DecimalFormat;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
@@ -69,12 +68,11 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
  * value and the message to use for updating.
  */
 
-public abstract class KoLFrame extends javax.swing.JFrame
+public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
 	public static final int NOCHANGE_STATE = 0;
 	public static final int ENABLED_STATE  = 1;
 	public static final int DISABLED_STATE = 2;
-	protected static final DecimalFormat df = new DecimalFormat();
 
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;

@@ -52,7 +52,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
-import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,9 +64,8 @@ import java.util.regex.Pattern;
  * is sent to the server through the <code>run()</code> method.
  */
 
-public class KoLRequest implements Runnable
+public class KoLRequest implements Runnable, KoLConstants
 {
-	protected static final DecimalFormat df = new DecimalFormat();
 	private static String KOL_HOST = "www.kingdomofloathing.com";
 	private static String KOL_ROOT = "http://" + KOL_HOST + "/";
 	static

@@ -62,8 +62,6 @@ import java.util.regex.Pattern;
 
 public class KoLmafiaCLI extends KoLmafia
 {
-	protected static final DecimalFormat df = new DecimalFormat();
-
 	private String previousCommand;
 	private PrintStream outputStream;
 	private BufferedReader commandStream;

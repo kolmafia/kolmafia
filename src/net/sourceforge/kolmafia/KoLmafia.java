@@ -40,9 +40,9 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.ArrayList;
 
+import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 /**
  * The main class for the <code>KoLmafia</code> package.  This
@@ -53,7 +53,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * of the interactions.
  */
 
-public abstract class KoLmafia implements UtilityConstants
+public abstract class KoLmafia implements KoLConstants, UtilityConstants
 {
 	protected static final String [] hermitItemNames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
 		"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
