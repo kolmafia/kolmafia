@@ -357,13 +357,12 @@ public class ChatFrame extends KoLFrame
 	 * is being done with the replies.
 	 */
 
-	private class CloseChatListener extends ReturnFocusAdapter
+	private class CloseChatListener extends WindowAdapter
 	{
 		public void windowClosed( WindowEvent e )
 		{
 			if ( client != null && client.getMessenger() != null )
 				client.getMessenger().removeChat( associatedContact );
-			super.windowClosed( e );
 		}
 	}
 
