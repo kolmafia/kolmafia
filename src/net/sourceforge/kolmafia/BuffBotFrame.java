@@ -125,7 +125,7 @@ public class BuffBotFrame extends KoLFrame
 	private WhiteListPanel whiteList;
 
 	private LockableListModel buffCostTable;
-	private LimitedSizeChatBuffer buffbotLog;
+	private BuffBotHome.buffBotBuffer buffbotLog;
 
 	/**
 	 * Constructs a new <code>BuffBotFrame</code> and inserts all
@@ -256,7 +256,7 @@ public class BuffBotFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			buffbotLog.append( "BuffBot Terminated.<br>\n\n\n" );
+			buffbotLog.timeStampedLogEntry( "BuffBot Terminated.<br>\n\n\n" );
 			client.setBuffBotActive(false);
 			client.updateDisplay( ENABLED_STATE, "BuffBot stopped." );
 		}
@@ -282,7 +282,7 @@ public class BuffBotFrame extends KoLFrame
 				else
 				{
 					client.updateDisplay( ENABLED_STATE, "Buffbotting started." );
-					buffbotLog.append( "<b>Starting a new session.</b><br>\n" );
+					buffbotLog.timeStampedLogEntry( "<b>Starting a new session.</b><br>\n" );
 					client.resetContinueState();
 					client.setBuffBotActive( true );
 					currentManager.runBuffBot();

@@ -69,7 +69,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private String mpRestoreSetting;
 	private int messageDisposalSetting;
-	private LimitedSizeChatBuffer buffbotLog;
+	private BuffBotHome.buffBotBuffer buffbotLog;
 
 	private static final int SLEEP_TIME = 1000;       // Sleep this much each time
 	private static final int SHORT_SLEEP_COUNT = 75;  // This many times
@@ -190,7 +190,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			// Next process each message in the Inbox
 			Object [] inbox = getMessages( "Inbox" ).toArray();
 			deleteList.clear();  saveList.clear();
-
+			if (inbox.length > 0) buffbotLog.timeStampedLogEntry("Mail received.<br>\n");
 			for ( int i = inbox.length - 1; client.isBuffBotActive() && i >= 0; --i )
 			{
 				client.resetContinueState();

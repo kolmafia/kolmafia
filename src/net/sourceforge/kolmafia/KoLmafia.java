@@ -1083,7 +1083,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		}
 	}
 
-	public LimitedSizeChatBuffer getBuffBotLog()
+	public BuffBotHome.buffBotBuffer getBuffBotLog()
 	{	return buffBotHome.getLog();
 	}
 
