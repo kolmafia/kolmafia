@@ -437,7 +437,7 @@ public class KoLRequest implements Runnable
 					// printed to), but for now, assume that it's the first line.
 
 
-					if ( line.contains( "()" ) )
+					if ( line.indexOf( "()" ) != -1 )
 					{
 						logStream.println( "MySQL error encountered.  Repeating request..." );
 

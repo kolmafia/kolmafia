@@ -104,7 +104,7 @@ public class SewerRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		if ( !replyContent.contains( "acquire" ) )
+		if ( replyContent.indexOf( "acquire" ) == -1 )
 		{
 			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of ten-leaf clovers." );
 			client.updateAdventure( false, false );
@@ -126,7 +126,7 @@ public class SewerRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		if ( !replyContent.contains( "acquire" ) )
+		if ( replyContent.indexOf( "acquire" ) == -1 )
 		{
 			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of chewing gum." );
 			client.updateAdventure( false, false );

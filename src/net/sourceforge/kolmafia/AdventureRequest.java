@@ -112,8 +112,8 @@ public class AdventureRequest extends KoLRequest
 
 		int resultIndex = replyContent.indexOf( "<p><center>" );
 
-		if ( resultIndex == -1 || replyContent.contains( "You can't afford" ) ||
-			replyContent.contains( "You don't have enough" ) || replyContent.contains( "You're too drunk" ) )
+		if ( resultIndex == -1 || replyContent.indexOf( "You can't afford" ) != -1 ||
+			replyContent.indexOf( "You don't have enough" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 )
 		{
 			// Notify the client of failure by telling it that
 			// the adventure did not take place and the client
@@ -129,7 +129,7 @@ public class AdventureRequest extends KoLRequest
 		// from a cave in, there are no results to process, so simply
 		// update the client without parsing the results.
 
-		if ( !replyContent.contains( "An inexpert swing of your Mattock" ) )
+		if ( replyContent.indexOf( "An inexpert swing of your Mattock" ) == -1 )
 			processResults( replyContent.substring( resultIndex + 12 ) );
 
 		client.updateAdventure( true, true );

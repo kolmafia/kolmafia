@@ -40,7 +40,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.util.Properties;
-import java.util.InvalidPropertiesFormatException;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 /**
@@ -141,7 +140,14 @@ public class KoLSettings extends Properties implements UtilityConstants
 			istream.close();
 			istream = null;
 		}
-		catch ( InvalidPropertiesFormatException e1 )
+		catch ( IOException e1 )
+		{
+			// This should not happen, because it should
+			// always be possible.  Therefore, no handling
+			// will take place at the current time unless a
+			// pressing need arises for it.
+		}
+		catch ( Exception e2 )
 		{
 			// Somehow, the settings were corrupted; this
 			// means that they will have to be created after
@@ -149,13 +155,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 			source.delete();
 			loadSettings( source );
-		}
-		catch ( IOException e2 )
-		{
-			// This should not happen, because it should
-			// always be possible.  Therefore, no handling
-			// will take place at the current time unless a
-			// pressing need arises for it.
 		}
 	}
 
