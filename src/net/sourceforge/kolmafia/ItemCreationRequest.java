@@ -264,13 +264,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_PASTA:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
 				{
-					updateDisplay( ERROR_STATE, "Chef explosion!" );
 					client.getCharacterData().setChef( false );
 
 					if ( autoRepairBoxServant() )
 						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
 					else
+					{
+						updateDisplay( ERROR_STATE, "Chef explosion!" );
 						client.cancelRequest();
+					}
 				}
 				else if ( client.permitsContinue() )
 					updateDisplay( NOCHANGE, "Successfully cooked " + quantityNeeded + " " + item.getName() );
@@ -281,13 +283,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case MIX_SPECIAL:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
 				{
-					updateDisplay( ERROR_STATE, "Bartender explosion!" );
 					client.getCharacterData().setBartender( false );
 
 					if ( autoRepairBoxServant() )
 						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
 					else
+					{
+						updateDisplay( ERROR_STATE, "Bartender explosion!" );
 						client.cancelRequest();
+					}
 				}
 				else if ( client.permitsContinue() )
 					updateDisplay( NOCHANGE, "Successfully mixed " + quantityNeeded + " " + item.getName() );
@@ -333,23 +337,22 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	{
 		AdventureResult [] servant = { toUse };
 
-		if ( client.getInventory().contains( servant[0] ) )
+		if ( !client.getInventory().contains( servant[0] ) )
 		{
-			updateDisplay( DISABLED_STATE, "Repairing " + toUse.getName() + "..." );
-			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, toUse )).run();
-			return true;
-		}
+			String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
+			if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) || !client.getCloset().contains( servant[0] ) )
+			{
+				updateDisplay( ERROR_STATE, "Could not auto-repair " + toUse.getName() + "." );
+				return false;
+			}
 
-		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
-		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) && client.getCloset().contains( servant[0] ) )
-		{
 			updateDisplay( DISABLED_STATE, "Retrieving " + toUse.getName() + " from closet..." );
 			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servant )).run();
-			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, toUse )).run();
-			return true;
 		}
 
-		return false;
+		updateDisplay( DISABLED_STATE, "Repairing " + toUse.getName() + "..." );
+		(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, toUse )).run();
+		return true;
 	}
 
 	/**
