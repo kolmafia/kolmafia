@@ -74,7 +74,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
 	protected boolean isEnabled;
-	protected List existingFrames;
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
 	private boolean isExecutingScript;
@@ -84,6 +83,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected static ItemManageFrame itemManager;
 	protected static MailboxFrame mailboxDisplay;
 	protected static KoLMessenger kolchat;
+	protected static List existingFrames = new ArrayList();
 
 	protected JMenuItem statusMenuItem;
 	protected JMenuItem mailMenuItem;
@@ -99,7 +99,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		this.client = client;
 		this.isEnabled = true;
-		this.existingFrames = new ArrayList();
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 

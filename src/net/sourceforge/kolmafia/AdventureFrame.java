@@ -1303,6 +1303,8 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 				itemManager = null;
 				mailboxDisplay = null;
 				kolchat = null;
+
+				existingFrames.clear();
 			}
 		}
 	}
