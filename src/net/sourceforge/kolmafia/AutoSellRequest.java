@@ -57,6 +57,10 @@ public class AutoSellRequest extends KoLRequest
 		this.soldResult = new AdventureResult( itemToSell.getItemID(), 0 - itemToSell.getCount() );
 	}
 
+	public String getName()
+	{	return soldResult.getName();
+	}
+
 	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell, int desiredPrice )
 	{
 		super( client, "managestore.php" );

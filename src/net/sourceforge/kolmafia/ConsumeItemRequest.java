@@ -70,6 +70,14 @@ public class ConsumeItemRequest extends KoLRequest
 		this.itemUsed = new AdventureResult( item.getItemID(), 0 - item.getCount() );
 	}
 
+	public int getConsumptionType()
+	{	return consumptionType;
+	}
+
+	public AdventureResult getItemUsed()
+	{	return itemUsed;
+	}
+
 	public void run()
 	{
 		// Note that requests for bartenders and chefs should

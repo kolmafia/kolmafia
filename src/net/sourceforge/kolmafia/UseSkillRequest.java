@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 public class UseSkillRequest extends KoLRequest
 {
+	private int buffCount;
 	private int consumedMP;
 	private String target;
 	private String skillName;
@@ -76,7 +77,16 @@ public class UseSkillRequest extends KoLRequest
 			addFormField( "quantity", "" + buffCount );
 
 		this.target = target;
+		this.buffCount = buffCount;
 		this.consumedMP = ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount;
+	}
+
+	public int getBuffCount()
+	{	return buffCount;
+	}
+
+	public String getSkillName()
+	{	return skillName;
 	}
 
 	public void run()

@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
@@ -70,8 +71,10 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected KoLMailManager loathingMail;
 	protected BuffBotManager buffBotMail;
 
+	private boolean disableMacro;
 	protected KoLSettings settings;
 	protected PrintStream logStream;
+	protected PrintStream macroStream;
 	protected boolean permitContinue;
 
 	protected int [] initialStats;
@@ -291,6 +294,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		deinitializeChat();
 		deinitializeLogStream();
+		deinitializeMacroStream();
 		this.permitContinue = true;
 	}
 
@@ -483,6 +487,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		if ( autoRecoverSettings == null )
 			return;
+
+		disableMacro = true;
 		double autoRecover = Double.parseDouble( autoRecoverSettings ) * (double) characterData.getMaximumHP();
 
 		if ( (double) characterData.getCurrentHP() <= autoRecover && recoveryScriptSettings != null && recoveryScriptSettings.length() > 0 )
@@ -504,9 +510,12 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			{
 				updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
 				permitContinue = false;
+				disableMacro = false;
 				return;
 			}
 		}
+
+		disableMacro = false;
 	}
 
 	/**
@@ -523,6 +532,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		if ( autoRecoverSettings == null )
 			return;
+
+		disableMacro = true;
 		double autoRecover = Double.parseDouble( autoRecoverSettings ) * (double) characterData.getMaximumMP();
 
 		if ( (double) characterData.getCurrentMP() <= autoRecover && recoveryScriptSettings != null && recoveryScriptSettings.length() > 0 )
@@ -544,30 +555,34 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			{
 				updateDisplay( ERROR_STATE, "Could not find MP auto-recovery script." );
 				permitContinue = false;
+				disableMacro = false;
 				return;
 			}
 		}
+
+		disableMacro = false;
 	}
 
 	/**
 	 * Makes the given request for the given number of iterations,
 	 * or until continues are no longer possible, either through
 	 * user cancellation or something occuring which prevents the
-	 * requests from resuming.  Overriding classes should make use
-	 * of the <code>permitContinue</code> variable to determine
-	 * if one of the requests has suggested that the user stop.
+	 * requests from resuming.
 	 *
 	 * @param	request	The request made by the user
 	 * @param	iterations	The number of times the request should be repeated
 	 */
 
-	public void makeRequest( Runnable request, int iterations )
+	public final void makeRequest( Runnable request, int iterations )
 	{
 		try
 		{
 			this.permitContinue = true;
 			boolean pulledOver = false;
 			int iterationsRemaining = iterations;
+
+			if ( !this.disableMacro )
+				macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
 
 			if ( request.toString().equals( "The Hermitage" ) )
 				makeHermitRequest( iterations );
@@ -817,6 +832,56 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			loathingChat.dispose();
 			loathingChat = null;
 		}
+	}
+
+	/**
+	 * Initializes the macro recording stream.  This will only
+	 * work if no macro streams are currently running.  If
+	 * a call is made while a macro stream exists, this method
+	 * does nothing.
+	 *
+	 * @param	filename	The name of the file to be created
+	 */
+
+	public void initializeMacroStream( String filename )
+	{
+		// First, ensure that a macro stream has not already been
+		// initialized - this can be checked by observing what
+		// class the current macro stream is.
+
+		if ( !(macroStream instanceof NullStream) )
+			return;
+
+		try
+		{
+			File f = new File( filename );
+
+			if ( !f.exists() )
+			{
+				f.mkdirs();
+				f.createNewFile();
+			}
+
+			macroStream = new PrintStream( new FileOutputStream( f, false ) );
+		}
+		catch ( IOException e )
+		{
+			// This should not happen, unless the user
+			// security settings are too high to allow
+			// programs to write output; therefore,
+			// pretend for now that everything works.
+		}
+	}
+
+	/**
+	 * Deinitializes the macro stream.
+	 */
+
+	public void deinitializeMacroStream()
+	{
+		if ( macroStream != null )
+			macroStream.close();
+		macroStream = new NullStream();
 	}
 
 	/**

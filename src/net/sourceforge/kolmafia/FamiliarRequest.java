@@ -60,6 +60,10 @@ public class FamiliarRequest extends KoLRequest
 		this.isChangingFamiliar = true;
 	}
 
+	public String getFamiliarChange()
+	{	return changeTo == null ? null : changeTo.toString();
+	}
+
 	public void run()
 	{
 		updateDisplay( DISABLED_STATE, "Retrieving familiar data..." );

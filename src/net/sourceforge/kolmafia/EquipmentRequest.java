@@ -57,6 +57,7 @@ public class EquipmentRequest extends KoLRequest
 
 	private KoLCharacter character;
 	private int requestType;
+	private String outfitName;
 
 	/**
 	 * Constructs a new <code>EquipmentRequest</code>, overwriting the
@@ -78,6 +79,7 @@ public class EquipmentRequest extends KoLRequest
 		// Otherwise, add the form field indicating which page
 		// of the inventory you want to request
 
+		this.outfitName = null;
 		if ( requestType == EQUIPMENT )
 			addFormField( "which", "2" );
 	}
@@ -89,6 +91,11 @@ public class EquipmentRequest extends KoLRequest
 		addFormField( "which", "2" );
 		addFormField( "whichoutfit", "" + change.getOutfitID() );
 		this.requestType = CHANGE_OUTFIT;
+		this.outfitName = change.toString();
+	}
+
+	public String getOutfitName()
+	{	return outfitName;
 	}
 
 	/**

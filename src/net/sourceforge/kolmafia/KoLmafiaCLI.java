@@ -481,7 +481,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			(new FamiliarRequest( scriptRequestor, new FamiliarData( FamiliarsDatabase.getFamiliarID( parameters ) ) )).run();
+			scriptRequestor.makeRequest( new FamiliarRequest( scriptRequestor, new FamiliarData( FamiliarsDatabase.getFamiliarID( parameters ) ) ), 1 );
 			return;
 		}
 
@@ -650,7 +650,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( scriptRequestor.permitsContinue() )
 		{
 			scriptRequestor.updateDisplay( DISABLED_STATE, "Request " + increments + " in progress..." );
-			(new HeroDonationRequest( scriptRequestor, heroID, amountRemaining )).run();
+			scriptRequestor.makeRequest( new HeroDonationRequest( scriptRequestor, heroID, amountRemaining ), 1 );
 
 			if ( scriptRequestor.permitsContinue() )
 				scriptRequestor.updateDisplay( ENABLED_STATE, "Requests complete!" );
@@ -919,7 +919,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
-		(new AutoSellRequest( scriptRequestor, firstMatch )).run();
+		scriptRequestor.makeRequest( new AutoSellRequest( scriptRequestor, firstMatch ), 1 );
 	}
 
 	/**
@@ -939,7 +939,7 @@ public class KoLmafiaCLI extends KoLmafia
 		mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
 		quantityNeeded = firstMatch.getCount();
 
-		(new ItemCreationRequest( scriptRequestor, itemID, mixingMethod, quantityNeeded )).run();
+		scriptRequestor.makeRequest( new ItemCreationRequest( scriptRequestor, itemID, mixingMethod, quantityNeeded ), 1 );
 	}
 
 	/**
@@ -968,7 +968,7 @@ public class KoLmafiaCLI extends KoLmafia
 		scriptRequestor.updateDisplay( DISABLED_STATE, useTypeAsString + " " + itemCount + " " + itemName + "..." );
 
 		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
-			(new ConsumeItemRequest( scriptRequestor, consumptionType, new AdventureResult( itemName, itemCount ) )).run();
+			scriptRequestor.makeRequest( new ConsumeItemRequest( scriptRequestor, consumptionType, new AdventureResult( itemName, itemCount ) ), 1 );
 		else
 			scriptRequestor.makeRequest( new ConsumeItemRequest( scriptRequestor, consumptionType, new AdventureResult( itemName, 1 ) ), itemCount );
 	}
@@ -1123,5 +1123,138 @@ public class KoLmafiaCLI extends KoLmafia
 		Iterator printingIterator = printing.iterator();
 		while ( printingIterator.hasNext() )
 			outputStream.println( printingIterator.next() );
+	}
+
+	/**
+	 * A utility command which determines, based on the
+	 * request, what KoLmafiaCLI command is used to redo
+	 * the execution of it.  Note that only post-login
+	 * scripts have derived commands.
+	 */
+
+	public static final String deriveCommand( Runnable request, int iterations )
+	{
+		StringBuffer commandString = new StringBuffer();
+
+		// Buffs are pretty neat, too - for now, it's
+		// just casts on self
+
+		if ( request instanceof UseSkillRequest )
+		{
+			commandString.append( "cast " );
+			commandString.append( ((UseSkillRequest)request).getBuffCount() );
+			commandString.append( ' ' );
+			commandString.append( ((UseSkillRequest)request).getSkillName() );
+		}
+
+		// One item-related command is an item consumption
+		// request.  In other words, eating, drinking, using.
+
+		if ( request instanceof ConsumeItemRequest )
+		{
+			ConsumeItemRequest crequest = (ConsumeItemRequest) request;
+			switch ( crequest.getConsumptionType() )
+			{
+				case ConsumeItemRequest.CONSUME_EAT:
+					commandString.append( "eat " );
+					break;
+
+				case ConsumeItemRequest.CONSUME_DRINK:
+					commandString.append( "drink " );
+					break;
+
+				default:
+					commandString.append( "use " );
+					break;
+			}
+
+			AdventureResult itemUsed = crequest.getItemUsed();
+			commandString.append( 0 - itemUsed.getCount() );
+			commandString.append( ' ' );
+			commandString.append( itemUsed.getName() );
+		}
+
+		// Another item-related command is a creation
+		// request.  These could vary based on item,
+		// but rather than do that, just using the
+		// generic "make" command.
+
+		if ( request instanceof ItemCreationRequest )
+		{
+			ItemCreationRequest irequest = (ItemCreationRequest) request;
+
+			commandString.append( "make " );
+			commandString.append( irequest.getQuantityNeeded() );
+			commandString.append( ' ' );
+			commandString.append( irequest.getName() );
+		}
+
+		// Another item-related command is the autosell
+		// request.  This one's simple, but it still
+		// gets its own utility method.
+
+		if ( request instanceof AutoSellRequest )
+		{
+			commandString.append( "autosell * " );
+			commandString.append( ((AutoSellRequest)request).getName() );
+		}
+
+		// One of the largest commands is adventuring,
+		// which (as usual) gets its own module.
+
+		if ( request instanceof KoLAdventure )
+		{
+			if ( !request.toString().equals( "The Hermitage" ) && !request.toString().startsWith( "Gym" ) )
+			{
+				commandString.append( "adventure " );
+				commandString.append( iterations );
+				commandString.append( ' ' );
+				commandString.append( request.toString() );
+			}
+		}
+
+		// Donations get their own command and module,
+		// too, which handles hero donations and basic
+		// clan donations.
+
+		if ( request instanceof HeroDonationRequest )
+		{
+			HeroDonationRequest hrequest = (HeroDonationRequest) request;
+
+			commandString.append( "donate " );
+			commandString.append( hrequest.getAmount() );
+			commandString.append( hrequest.getHero() );
+		}
+
+		// Another popular command involves changing
+		// your current familiar.
+
+		if ( request instanceof FamiliarRequest )
+		{
+			String familiarName = ((FamiliarRequest)request).getFamiliarChange();
+			if ( familiarName != null )
+			{
+				commandString.append( "familiar " );
+				commandString.append( familiarName );
+			}
+		}
+
+		// Yet another popular command involves changing
+		// your outfit.
+
+		if ( request instanceof EquipmentRequest )
+		{
+			String outfitName = ((EquipmentRequest)request).getOutfitName();
+			if ( outfitName != null )
+			{
+				commandString.append( "outfit " );
+				commandString.append( outfitName );
+			}
+		}
+
+		if ( commandString.length() > 0 )
+			commandString.append( System.getProperty( "line.separator" ) );
+
+		return commandString.toString();
 	}
 }

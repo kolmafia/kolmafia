@@ -55,6 +55,7 @@ public class HeroDonationRequest extends KoLRequest
 	};
 
 	private int amount;
+	public String statue;
 	private boolean hasStatueKey;
 
 	/**
@@ -76,7 +77,16 @@ public class HeroDonationRequest extends KoLRequest
 		addFormField( "howmuch", "" + amount );
 
 		this.amount = amount;
+		this.statue = heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "pete";
 		this.hasStatueKey = client.getInventory().contains( STATUE_KEYS[ heroID ] );
+	}
+
+	public String getHero()
+	{	return statue;
+	}
+
+	public int getAmount()
+	{	return amount;
 	}
 
 	/**
