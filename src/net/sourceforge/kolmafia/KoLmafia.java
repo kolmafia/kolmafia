@@ -127,6 +127,12 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			for ( int i = 0; i < currentNames.length; ++i )
 				saveStateNames.add( currentNames[i] );
 		}
+
+		// This line is added to clear out data from previous
+		// releases of KoLmafia - the extra disk access does
+		// affect performance, but not significantly.
+
+		storeSaveStates();
 	}
 
 	/**
