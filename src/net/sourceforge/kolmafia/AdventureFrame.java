@@ -137,8 +137,8 @@ public class AdventureFrame extends KoLFrame
 			countField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "# of turns: ", countField );
-			elements[1] = new VerifiableElement( "Location: ", locationField );
+			elements[0] = new VerifiableElement( "Location: ", locationField );
+			elements[1] = new VerifiableElement( "# of turns: ", countField );
 
 			setContent( elements );
 		}
@@ -184,7 +184,8 @@ public class AdventureFrame extends KoLFrame
 			try
 			{
 				int count = Integer.parseInt( countField.getText() );
-				updateDisplay( ADVENTURING_STATE, "Adventure 1 in progress..." );
+				updateDisplay( ADVENTURING_STATE, "Request 1 in progress..." );
+				client.makeRequest( request, count );
 			}
 			catch ( NumberFormatException e )
 			{
@@ -202,6 +203,7 @@ public class AdventureFrame extends KoLFrame
 			// there's no actual functionality, simply request focus
 
 			updateDisplay( LOGGED_IN_STATE, "Adventuring terminated." );
+			client.cancelRequest();
 			requestFocus();
 		}
 

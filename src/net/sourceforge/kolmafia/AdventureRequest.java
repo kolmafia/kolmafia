@@ -50,5 +50,25 @@ public class AdventureRequest extends KoLRequest
 	public void run()
 	{
 		super.run();
+
+		// Most of the time, you run into a battle sequence.  However,
+		// if not, you either run into an error state, or there was a
+		// special event taking place in that adventure.  This is where
+		// those events and error states would get parsed.
+
+		if ( responseCode != 302 )
+		{
+			if ( replyContent.contains( "You're out of adventures." ) )
+			{
+				// The easiest one is if you're out of adventures;
+				// then you need to notify the client of failure
+				// by telling it that the adventure did not take
+				// place and the client should not continue with
+				// the next iteration.
+
+				client.updateAdventure( false, false );
+				return;
+			}
+		}
 	}
 }

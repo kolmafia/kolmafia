@@ -72,7 +72,6 @@ public class FightRequest extends KoLRequest
 				// was completed.
 
 				completeIteration( new StringTokenizer( replyContent.substring( winmsgIndex ) ) );
-				frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "You were victorious!" );
 				client.updateAdventure( true, true );
 			}
 			else if ( replyContent.indexOf( "You lose." ) != -1 )
@@ -93,7 +92,8 @@ public class FightRequest extends KoLRequest
 				// connection to an existing URL may cause unforeseen errors,
 				// start a new thread and allow this one to die.
 
-				(new FightRequest( client )).start();
+				if ( client.permitsContinue() )
+					(new FightRequest( client )).start();
 			}
 		}
 	}

@@ -272,9 +272,7 @@ public class KoLRequest extends Thread
 						// You have been redirected to a fight!  Here, you need
 						// to complete the fight before you can continue
 
-						frame.updateDisplay( LoginFrame.LOGGED_IN_STATE, "Fighting battle..." );
 						isErrorState = false;
-
 						(new FightRequest( client )).start();
 					}
 				}
@@ -301,6 +299,11 @@ public class KoLRequest extends Thread
 
 					replyContent = replyBuffer.toString();
 				}
+
+				// If you've encountered an error state, then make sure the
+				// client knows that the request has been cancelled
+
+				client.updateAdventure( false, false );
 			}
 
 			// Now that you're done, close the stream and prepare it for
@@ -330,7 +333,7 @@ public class KoLRequest extends Thread
 				StringBuffer itemname = new StringBuffer();
 				itemname.append( lastToken );
 
-				while ( !lastToken.endsWith( "</b>" ) )
+				while ( !lastToken.contains( "</b>" ) )
 				{
 					itemname.append( ' ' );
 					itemname.append( lastToken );
@@ -338,14 +341,13 @@ public class KoLRequest extends Thread
 				}
 
 				client.acquireItem( itemname.substring( 3, itemname.length() - 4 ) );
-
 			}
 			else if ( lastToken.equals( "gain" ) || lastToken.equals( "lose" ) )
 			{
 				// Here, you add the stats just gained to the tally of stats
 				// gained in the adventure.
 
-				String increase = (lastToken.equals("gain") ? "+" : "-") + parsedContent.nextToken();
+				String increase = (lastToken.equals("gain") ? "" : "-") + parsedContent.nextToken();
 
 				// For now, this routine only measures subpoints gained; actual
 				// point gain indicators will be ignored

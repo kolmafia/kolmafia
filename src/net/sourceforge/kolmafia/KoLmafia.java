@@ -61,6 +61,10 @@ public class KoLmafia
 	private String loginname, password, sessionID, passwordHash;
 	private KoLFrame activeFrame;
 
+	private Runnable currentRequest;
+	private boolean permitContinue;
+	private int currentIteration, iterationsRemaining;
+
 	public static void main( String [] args )
 	{
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
@@ -72,6 +76,9 @@ public class KoLmafia
 		loginname = null;
 		sessionID = null;
 		passwordHash = null;
+
+		this.iterationsRemaining = 0;
+		this.permitContinue = false;
 
 		activeFrame = new LoginFrame( this );
 		activeFrame.pack();  activeFrame.setVisible( true );
@@ -131,6 +138,23 @@ public class KoLmafia
 
 	public void updateAdventure( boolean isComplete, boolean permitContinue )
 	{
+		if ( isComplete )
+		{
+			++currentIteration;
+			--iterationsRemaining;
+		}
+
+		// Adventuring will be permitted only if the user
+		// has not hit cancel, the adventure result claims
+		// it's okay to continue, and iterations remain.
+
+		if ( this.permitContinue && permitContinue && iterationsRemaining > 0 )
+		{
+			activeFrame.updateDisplay( KoLFrame.ADVENTURING_STATE, "Request " + currentIteration + " in progress..." );
+			currentRequest.run();
+		}
+		else if ( iterationsRemaining <= 0 )
+			activeFrame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Requests completed!" );
 	}
 
 	public void setLoginName( String loginname )
@@ -163,5 +187,22 @@ public class KoLmafia
 
 	public String getPasswordHash()
 	{	return passwordHash;
+	}
+
+	public void makeRequest( Runnable request, int iterations )
+	{
+		this.currentIteration = 1;
+		this.iterationsRemaining = iterations;
+		this.currentRequest = request;
+		this.permitContinue = true;
+		request.run();
+	}
+
+	public void cancelRequest()
+	{	this.permitContinue = false;
+	}
+
+	public boolean permitsContinue()
+	{	return permitContinue;
 	}
 }
