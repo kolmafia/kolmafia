@@ -90,6 +90,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( itemIndex == -1 || ((AdventureResult)client.getInventory().get( itemIndex )).getCount() + itemUsed.getCount() < 0 )
 		{
 			updateDisplay( KoLFrame.ENABLED_STATE, "You do not have enough " + itemUsed.getName() + "." );
+			client.cancelRequest();
 			return;
 		}
 
