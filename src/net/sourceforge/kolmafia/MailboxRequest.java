@@ -93,6 +93,11 @@ public class MailboxRequest extends KoLRequest
 
 		super.run();
 
+		if ( action != null )
+		{	updateDisplay( ENABLED_STATE, "Selected mail successfully " + action + "d" );
+			return;
+		}
+
 		boolean shouldContinueParsing = true;
 		KoLMailManager currentMailManager = client.getMailManager();
 
