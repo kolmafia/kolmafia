@@ -376,7 +376,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
+		{
+			if ( !actionStatusLabel.getText().equals( "Session timed out." ) && !actionStatusLabel.getText().equals( "Nightly maintenance." ) )
+				actionStatusLabel.setText( s );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -541,7 +543,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
+		{
+			if ( !actionStatusLabel.getText().equals( "Session timed out." ) && !actionStatusLabel.getText().equals( "Nightly maintenance." ) )
+				actionStatusLabel.setText( s );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -1009,7 +1013,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void setStatusMessage( String s )
-		{	inClosetField.setText( s );
+		{
+			if ( !inClosetField.getText().equals( "Session timed out." ) && !inClosetField.getText().equals( "Nightly maintenance." ) )
+				inClosetField.setText( s );
 		}
 
 		public void setEnabled( boolean isEnabled )
