@@ -164,11 +164,7 @@ public class ConsumeItemRequest extends KoLRequest
 					return;
 				}
 				else
-				{
 					client.getCharacterData().addFamiliar( FamiliarsDatabase.growFamiliarItem( itemUsed.getName() ) );
-					updateDisplay( NOCHANGE, "Larva used successfully (maybe)." );
-					return;
-				}
 			}
 
 			// Check to make sure that it wasn't a food or drink
@@ -187,7 +183,6 @@ public class ConsumeItemRequest extends KoLRequest
 			else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
 			{
 				client.processResult( new AdventureResult( AdventureResult.HP, client.getCharacterData().getMaximumHP() ) );
-				updateDisplay( NOCHANGE, "Scroll didn't crumble!" );
 				if ( replyContent.indexOf( "crumble" ) == -1 )
 					return;
 			}
@@ -215,9 +210,6 @@ public class ConsumeItemRequest extends KoLRequest
 					client.processResult( new AdventureResult( consumedItemName,
 						0 - ((AdventureResult)client.getInventory().get( consumedItemIndex )).getCount() ) );
 			}
-
-			updateDisplay( NOCHANGE, "Successfully used " + itemUsed.getName() );
 		}
-
 	}
 }
