@@ -538,7 +538,7 @@ public class ItemManageFrame extends KoLFrame
 
 		public CreateItemPanel()
 		{
-			super( "create", "refresh list" );
+			super( "create", "refresh lists" );
 			setContent( null, null, null, null, true, true );
 
 			concoctionsList = new JList( concoctions.getMirrorImage() );
@@ -561,7 +561,7 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
+		{	(new RefreshListsRequestThread()).start();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -582,6 +582,20 @@ public class ItemManageFrame extends KoLFrame
 				if ( selection != null )
 					((Runnable)selection).run();
 
+				refreshConcoctionsList();
+				updateDisplay( ENABLED_STATE, "" );
+				ItemManageFrame.this.setEnabled( true );
+			}
+		}
+
+		private class RefreshListsRequestThread extends Thread
+		{
+			public void run()
+			{
+				updateDisplay( DISABLED_STATE, "Refreshing lists..." );
+				ItemManageFrame.this.setEnabled( false );
+
+				(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();
 				refreshConcoctionsList();
 				updateDisplay( ENABLED_STATE, "" );
 				ItemManageFrame.this.setEnabled( true );
