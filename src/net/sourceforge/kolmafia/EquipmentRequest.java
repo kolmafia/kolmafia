@@ -109,6 +109,9 @@ public class EquipmentRequest extends KoLRequest
 			return;
 		}
 
+		if ( requestType == CHANGE_OUTFIT )
+			updateDisplay( KoLFrame.NOCHANGE_STATE, "Changing outfit..." );
+
 		super.run();
 
 		// If you changed your outfit, there will be a redirect

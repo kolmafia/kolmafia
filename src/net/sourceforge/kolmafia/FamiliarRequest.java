@@ -89,7 +89,5 @@ public class FamiliarRequest extends KoLRequest
 				if ( replyContent.indexOf( "which=" + i ) != -1 )
 					characterData.addFamiliar( i );
 		}
-
-		updateDisplay( KoLFrame.ENABLED_STATE, " " );
 	}
 }

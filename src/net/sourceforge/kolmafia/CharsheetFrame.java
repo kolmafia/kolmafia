@@ -384,11 +384,9 @@ public class CharsheetFrame extends KoLFrame
 
 				public void run()
 				{
-					if ( isStart )
-						client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Changing familiar..." );
-					else
+					if ( !isStart )
 					{
-						client.updateDisplay( KoLFrame.NOCHANGE_STATE, "" );
+						client.updateDisplay( KoLFrame.NOCHANGE_STATE, " " );
 						refreshEquipPanel();
 					}
 
@@ -435,11 +433,9 @@ public class CharsheetFrame extends KoLFrame
 
 				public void run()
 				{
-					if ( isStart )
-						client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Changing outfit..." );
-					else
+					if ( !isStart )
 					{
-						client.updateDisplay( KoLFrame.NOCHANGE_STATE, "" );
+						client.updateDisplay( KoLFrame.NOCHANGE_STATE, " " );
 						refreshEquipPanel();
 					}
 
