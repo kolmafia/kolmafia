@@ -41,6 +41,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 /**
  * Container class for <code>BuffBotManager</code>
@@ -59,6 +60,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private static final int BBSLEEPTIME = 1000; // Sleep this much each time
 	private static final int BBSLEEPCOUNT = 75;  // This many times
 	private static final int BBSLEEPCOUNTLONG = 300;  // This many times for slot needs
+	private	ArrayList deleteList, saveList;
 	
 	/**
 	 * Constructor for the <code>BuffBotManager</code> class.
@@ -104,6 +106,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			
 			//Next process each message in the Inbox
 			LockableListModel inbox = getMessages("Inbox");
+			deleteList = new ArrayList();
+			saveList = new ArrayList();
 			while (inbox.size() > 0)
 			{
 				firstmsg = (KoLMailMessage) inbox.get( 0 );
@@ -114,17 +118,21 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				{
 					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!");
 					client.cancelRequest();
+					client.setBuffBotActive(false);
 					buffbotLog.append("Unable to process a buff message.<br>\n");
-					return;
 				}
 				
 				// clear it out of the inbox
 				inbox.remove(firstmsg);
 				
 			}
-			
+			// do all the deletes and saves
+			if (!deleteList.isEmpty())
+				(new MailboxRequest( client, "Inbox", deleteList.toArray(), "delete" )).run();
+			if (!saveList.isEmpty()) 
+				(new MailboxRequest( client, "Inbox", saveList.toArray(), "save" )).run();
 			// otherwise sleep for a while and then try again
-			// (don't go away for more than 1 second
+			// (don't go away for more than 1 second at a time
 			client.updateDisplay(DISABLED_STATE, "BuffBot is sleeping");
 			for(int i = 1 ; i <= BBSLEEPCOUNT; i = i + 1)
 				if (client.isBuffBotActive())
@@ -175,14 +183,16 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		catch( Exception e )
 		{}
 		
-		//Now, either save or delete the message.
+		//Now, mark for either save or delete the message.
 		String msgDisp = ((!buffRequestFound) && saveNonBuffmsgs ? "save" : "delete");
 		if (!buffRequestFound)
 		{
 			buffbotLog.append("Received non-buff message from [" + myMsg.getSenderName() + "]<br>\n");
 			buffbotLog.append("Action: " + msgDisp + "<br>\n");
 		}
-		(new MailboxRequest(client, "inbox", myMsg, msgDisp)).run();
+		if (msgDisp == "save") saveList.add(myMsg);
+		else deleteList.add(myMsg);
+		
 		return true;
 	}
 	
