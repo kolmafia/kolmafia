@@ -280,7 +280,7 @@ public class GearChangeFrame extends KoLFrame
 
 			public void run()
 			{
-				(new FamiliarRequest( client, change )).run();
+				client.makeRequest( new FamiliarRequest( client, change ), 1 );
 				refreshEquipPanel();
 			}
 
@@ -328,7 +328,7 @@ public class GearChangeFrame extends KoLFrame
 
 			public void run()
 			{
-				(new EquipmentRequest( client, change )).run();
+				client.makeRequest( new EquipmentRequest( client, change ), 1 );
 				refreshEquipPanel();
 			}
 		}
