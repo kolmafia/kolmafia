@@ -116,11 +116,11 @@ public class BuffBotFrame extends KoLFrame {
 	/**
 	 * A data class <CODE>BuffDescriptor</CODE>to handle choices for each buff type.
 	 * Individual elements:
-	 * @buffCost Cost of this buff (1st column) in meat.
-	 * @buffCastCount Number of times to cast this buff (1st column)
-	 * @buffCost2 Cost of this buff (2nd column) in meat.
-	 * @buffCastCount2 Number of times to cast this buff (2nd column)
-	 * @buffCost2, @buffCount2txt Text versions of above
+	 * @param buffCost Cost of this buff (1st column) in meat.
+	 * @param buffCastCount Number of times to cast this buff (1st column)
+	 * @param buffCost2 Cost of this buff (2nd column) in meat.
+	 * @param buffCastCount2 Number of times to cast this buff (2nd column)
+	 * @param buffCost2, @buffCount2txt Text versions of above
 	 */
 	public class BuffDescriptor {
 		public int buffCost;
@@ -279,9 +279,9 @@ public class BuffBotFrame extends KoLFrame {
 			 */
 			public BuffBotResultsPanel( ) {
 				// TODO change the Stop to something useful - done, now test
-				super( "Start", "Clear Display" );
-				// Set content for "Label Preceeding & both disabled on click
-				setContent( null, null, null, null, true, true );
+				super( "Start", "Stop" );
+				// Set content for "Label Preceeding & ! both disabled on click
+				setContent( null, null, null, null, true, false );
 
 				JEditorPane buffbotLogDisplay = new JEditorPane();
 				buffbotLog.setChatDisplay( buffbotLogDisplay );
@@ -307,10 +307,10 @@ public class BuffBotFrame extends KoLFrame {
 			}
 
 			/**
-			 * Action, based on user selecting <B>Clear Display</B>
+			 * Action, based on user selecting <B>Stop</B>
 			 */
 			protected void actionCancelled() {
-				buffbotLog.clearBuffer();
+				client.setBuffBotActive(false);
 			}
 		}
 		/**
@@ -366,10 +366,12 @@ public class BuffBotFrame extends KoLFrame {
 					client.updateDisplay( ENABLED_STATE, "Buffbotting started." );
 					buffbotLog.append("Starting a new session.<br>\n");
 					client.resetContinueState();
+					client.setBuffBotActive(true);
 
 					(new BuffBotManager(client, BuffCostTable)).runBuffBot();
 					buffbotLog.append("BuffBot Terminated.<br>\n");
 					client.updateDisplay( ENABLED_STATE, "BuffBot stopped." );
+					client.setBuffBotActive(false);
 
 				}
 			}

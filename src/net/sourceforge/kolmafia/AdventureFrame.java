@@ -281,10 +281,8 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		for ( int i = 0; i < existingFrames.size(); ++i )
 		{
 			KoLFrame currentFrame = (KoLFrame) existingFrames.get(i);
-			if ( currentFrame.isShowing() && currentFrame != buffbotDisplay )
+			if ( currentFrame.isShowing())
 				currentFrame.setEnabled( this.isEnabled );
-			else if ( currentFrame == buffbotDisplay )
-				currentFrame.setEnabled( isEnabled );
 		}
 
 		if ( adventureSelect != null && adventureSelect.isShowing() )
@@ -304,6 +302,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		if ( skillBuff != null && skillBuff.isShowing() )
 			skillBuff.setEnabled( this.isEnabled );
+		
 	}
 
 	/**
@@ -468,7 +467,10 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			// Once the stubs are finished, this will notify the
 			// client to terminate the loop early.  For now, since
 			// there's no actual functionality, simply request focus
-
+			
+			//Don't do anything if the BuffBot is running
+			if (client.isBuffBotActive()) return;
+			
 			contentPanel = adventureSelect;
 			updateDisplay( ERROR_STATE, "Adventuring terminated." );
 			client.cancelRequest();
@@ -1608,7 +1610,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			{
 				tabs.setSelectedIndex(0);
 
-				if ( client.isBuffBotActive() )
+				if ( buffbotDisplay != null )
 				{
 					buffbotDisplay.setVisible( true );
 					buffbotDisplay.requestFocus();

@@ -59,6 +59,7 @@ public class BuffBotHome{
 
 	private KoLmafia client;
 	private LimitedSizeChatBuffer buffbotLog;
+	private Boolean isActive; 
 
 	/**
 	 * Creates a new instance of <code>BuffBotHome</code>.
@@ -70,7 +71,7 @@ public class BuffBotHome{
 	}
 
 	/**
-	 * Create the <code>BuffBotLog and its associated file, if
+	 * Create the <code>BuffBotLog</code> and its associated file, if
 	 * they don't already exist.
 	 */
 
@@ -84,6 +85,7 @@ public class BuffBotHome{
 
 		buffbotLog = new LimitedSizeChatBuffer( "Buffbot Log: " + noExtensionName, Integer.MAX_VALUE );
 		buffbotLog.setActiveLogFile( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + ".html", noExtensionName );
+		isActive = false;
 	}
 
 	public LimitedSizeChatBuffer getLog(){
@@ -97,5 +99,13 @@ public class BuffBotHome{
 	public void deinitialize() {
 		if ( buffbotLog != null )
 			buffbotLog.closeActiveLogFile();
+		isActive = false;
+	}
+	
+	public void setBuffBotActive(boolean isActive){
+		this.isActive = isActive;
+	}
+	public boolean isBuffBotActive(){
+		return isActive;
 	}
 }

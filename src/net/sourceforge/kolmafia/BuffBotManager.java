@@ -120,7 +120,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
             // otherwise sleep for a while and then try again
             // (don't go away for more than 1 second
             for(int i = 1 ; i <= BBSLEEPCOUNT; i = i + 1)
-                if (client.permitsContinue())
+                if (client.isBuffBotActive())
                     KoLRequest.delay(BBSLEEPTIME);
         }
     }
