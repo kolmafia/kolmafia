@@ -33,50 +33,77 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class StoreManageRequest extends KoLRequest
+public class StoreManager
 {
-	public StoreManageRequest( KoLmafia client )
-	{	super( client, "manageprices.php" );
+	private KoLmafia client;
+	private LockableListModel soldItemList;
+
+	public StoreManager( KoLmafia client )
+	{
+		this.client = client;
+		soldItemList = new LockableListModel();
 	}
 
-	public StoreManageRequest( KoLmafia client, int [] itemID, int [] price, int [] limit )
-	{
-		super( client, "manageprices.php" );
-		addFormField( "action", "update" );
-		addFormField( "pwd", client.getPasswordHash() );
+	/**
+	 * Registers an item inside of the store manager.  Note
+	 * that this includes the price of the item and the
+	 * limit which is used to sell the item.
+	 */
 
-		for ( int i = 0; i < itemID.length; ++i )
+	public void registerItem( int itemID, int price, int limit )
+	{	soldItemList.add( new SoldItem( itemID, price, limit ) );
+	}
+
+	/**
+	 * Returns a list of the items which are handled by
+	 * the current store manager.  Note that this list
+	 * may or may not be up-to-date.
+	 */
+
+	public LockableListModel getSoldItemList()
+	{	return soldItemList;
+	}
+
+	/**
+	 * Clears the list of items which are handled by the
+	 * current store manager.  Should be called prior to
+	 * running any store management requests.
+	 */
+
+	public void clear()
+	{	soldItemList.clear();
+	}
+
+	/**
+	 * Internal immutable class used to hold a single instance
+	 * of an item sold in a player's store.
+	 */
+
+	public static class SoldItem
+	{
+		private int itemID;
+		private int price;
+		private int limit;
+
+		public SoldItem( int itemID, int price, int limit )
 		{
-			addFormField( "price" + itemID[i], "" + price[i] );
-			addFormField( "limit" + itemID[i], "" + limit[i] );
+			this.itemID = itemID;
+			this.price = price;
+			this.limit = limit;
 		}
-	}
 
-	public void run()
-	{
-		client.getStoreManager().clear();
-		super.run();
+		public int getItemID()
+		{	return itemID;
+		}
 
-		// Use a fairly ugly regular expression in order to determine each price
-		// listed inside of the store manager.  This will be used to update the
-		// store manager information.
+		public int getPrice()
+		{	return price;
+		}
 
-		int lastFindIndex = 0;
-		Matcher priceMatcher = Pattern.compile(
-			"<tr>.*?value=\"(\\d+)\" name=price(\\d+)>.*?value=\"(\\d+)\".*?</tr>" ).matcher( replyContent );
-
-		while ( priceMatcher.find( lastFindIndex ) )
-		{
-			lastFindIndex = priceMatcher.end();
-
-			int price = Integer.parseInt( priceMatcher.group(1) );
-			int itemID = Integer.parseInt( priceMatcher.group(2) );
-			int limit = Integer.parseInt( priceMatcher.group(3) );
-
-			client.getStoreManager().registerItem( itemID, price, limit );
+		public int getLimit()
+		{	return limit;
 		}
 	}
 }

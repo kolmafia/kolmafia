@@ -82,6 +82,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected BuffBotHome buffBotHome;
 	protected BuffBotManager buffBotManager;
 	protected CakeArenaManager cakeArenaManager;
+	protected StoreManager storeManager;
 
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
@@ -252,6 +253,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		this.isLoggingIn = false;
 		this.loathingMail = new KoLMailManager( this );
 		this.cakeArenaManager = new CakeArenaManager( this );
+		this.storeManager = new StoreManager( this );
 		this.permitContinue = true;
 	}
 
@@ -1150,5 +1152,14 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public CakeArenaManager getCakeArenaManager()
 	{	return cakeArenaManager;
+	}
+
+	/**
+	 * Retrieves the <code>StoreManager</code> used for managing data relating
+	 * to the player's store.
+	 */
+
+	public StoreManager getStoreManager()
+	{	return storeManager;
 	}
 }
