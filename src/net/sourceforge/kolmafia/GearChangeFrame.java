@@ -280,9 +280,8 @@ public class GearChangeFrame extends KoLFrame
 
 			public void run()
 			{
-				SwingUtilities.invokeLater( new FamiliarChangeGUIUpdater( true ) );
 				(new FamiliarRequest( client, change )).run();
-				SwingUtilities.invokeLater( new FamiliarChangeGUIUpdater( false ) );
+				refreshEquipPanel();
 			}
 
 			private class FamiliarChangeGUIUpdater implements Runnable
@@ -329,30 +328,8 @@ public class GearChangeFrame extends KoLFrame
 
 			public void run()
 			{
-				SwingUtilities.invokeLater( new OutfitChangeGUIUpdater( true ) );
 				(new EquipmentRequest( client, change )).run();
-				SwingUtilities.invokeLater( new OutfitChangeGUIUpdater( false ) );
-			}
-
-			private class OutfitChangeGUIUpdater implements Runnable
-			{
-				private boolean isStart;
-
-				public OutfitChangeGUIUpdater( boolean isStart )
-				{	this.isStart = isStart;
-				}
-
-				public void run()
-				{
-					if ( !isStart )
-					{
-						client.updateDisplay( ENABLED_STATE, " " );
-						refreshEquipPanel();
-					}
-
-					GearChangeFrame.this.outfitSelect.setEnabled( !isStart );
-					GearChangeFrame.this.changeOutfitButton.setEnabled( !isStart );
-				}
+				refreshEquipPanel();
 			}
 		}
 	}

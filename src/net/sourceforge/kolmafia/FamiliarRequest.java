@@ -130,7 +130,9 @@ public class FamiliarRequest extends KoLRequest
 
 			characterData.setFamiliarDescription( changeTo.toString(), changeTo.getWeight() + addedWeight );
 			characterData.setFamiliarItem( changeTo.getItem() );
-
+			updateDisplay( ENABLED_STATE, "Familiar changed." );
 		}
+		else
+			updateDisplay( ENABLED_STATE, "Familiar data retrieved." );
 	}
 }

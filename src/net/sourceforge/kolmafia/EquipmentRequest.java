@@ -137,6 +137,7 @@ public class EquipmentRequest extends KoLRequest
 			switchItem( oldAccessory2, data.getAccessory2() );
 			switchItem( oldAccessory3, data.getAccessory3() );
 
+			updateDisplay( ENABLED_STATE, "Equipment changed." );
 			return;
 		}
 
@@ -160,15 +161,16 @@ public class EquipmentRequest extends KoLRequest
 				case CLOSET:
 					updateDisplay( DISABLED_STATE, "Retrieving inventory..." );
 					parseCloset();
+					updateDisplay( ENABLED_STATE, "Inventory retrieved." );
 					break;
 
 				case EQUIPMENT:
 					updateDisplay( DISABLED_STATE, "Retrieving equipment..." );
-
 					String plainTextContent = replyContent.replaceAll( "<.*?>", "\n" );
 					StringTokenizer parsedContent = new StringTokenizer( plainTextContent, "\n" );
 
 					parseEquipment( parsedContent );
+					updateDisplay( ENABLED_STATE, "Equipment retrieved." );
 					break;
 			}
 			logStream.println( "Parsing complete." );
@@ -257,6 +259,7 @@ public class EquipmentRequest extends KoLRequest
 				// error.  This could be handled better, but not now.
 
 				logStream.println( e );
+				e.printStackTrace( logStream );
 			}
 		}
 	}
@@ -313,6 +316,7 @@ public class EquipmentRequest extends KoLRequest
 			// error.  This could be handled better, but not now.
 
 			logStream.println( e );
+			e.printStackTrace( logStream );
 		}
 	}
 }
