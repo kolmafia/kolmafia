@@ -64,7 +64,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemName ) );
 
-		this.itemUsed = new AdventureResult( itemName, -1 );
+		this.itemUsed = new AdventureResult( itemName, 0 - itemCount );
 		this.resultRequest = new RetrieveResultRequest( client, consumptionType == CONSUME_USE ? 3 : 1 );
 	}
 
@@ -82,6 +82,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 		super.run();
 
+		if ( isErrorState )
+			return;
+
 		// You know you're successful if the server
 		// attempts to redirect you.
 
@@ -94,6 +97,8 @@ public class ConsumeItemRequest extends KoLRequest
 			else if ( itemUsed.getName().startsWith( "bartender-in" ) )
 				client.getCharacterData().setBartender( true );
 		}
+		else
+			client.addToResultTally( itemUsed );
 	}
 
 	private class RetrieveResultRequest extends KoLRequest
