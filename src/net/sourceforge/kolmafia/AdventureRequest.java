@@ -70,7 +70,10 @@ public class AdventureRequest extends KoLRequest
 		if ( formSource.equals( "adventure.php" ) )
 			addFormField( "adv", adventureID );
 		else if ( formSource.equals( "shore.php" ) )
+		{
 			addFormField( "whichtrip", adventureID );
+			addFormField( "pwd", client.getPasswordHash() );
+		}
 		else if ( formSource.equals( "casino.php" ) )
 		{
 			addFormField( "action", "slot" );
