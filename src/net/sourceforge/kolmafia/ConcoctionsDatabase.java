@@ -107,6 +107,11 @@ public class ConcoctionsDatabase implements UtilityConstants
 
 	public static SortedListModel getConcoctions( KoLmafia client, List availableIngredients )
 	{
+		// First, you look for all items which cannot be created through
+		// any creation method, and initialize their quantities.  This
+		// way, the data doesn't interfere with the dynamic programming
+		// algorithms used later.
+
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 		{
 			if ( concoctions[i] == null || !isPermittedMixtureMethod( concoctions[i].getMixingMethod(), client.getCharacterData() ) )
@@ -121,14 +126,19 @@ public class ConcoctionsDatabase implements UtilityConstants
 					quantityPossible[i] = 0;
 			}
 			else
-			{
 				quantityPossible[i] = -1;
-			}
 		}
+
+		// Next, determine how many of each item can be created through
+		// the available ingredients using dynamic programming.
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( concoctions[i] != null )
 				concoctions[i].calculateQuantityPossible( availableIngredients );
+
+		// Finally, remove the number you have now from how many can be
+		// made available - this means that the list will reflect only
+		// items that are genuinely created.
 
 		for ( int i = 0; i < availableIngredients.size(); ++i )
 		{
@@ -138,8 +148,11 @@ public class ConcoctionsDatabase implements UtilityConstants
 				quantityPossible[ TradeableItemDatabase.getItemID( result.getName() ) ] -= result.getCount();
 		}
 
-		SortedListModel concoctionsList = new SortedListModel();
+		// Finally, prepare the list that will be returned - the list
+		// should contained all items whose quantities are greater
+		// than zero.
 
+		SortedListModel concoctionsList = new SortedListModel();
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( quantityPossible[i] > 0 )
