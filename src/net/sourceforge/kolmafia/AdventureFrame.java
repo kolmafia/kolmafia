@@ -1029,14 +1029,14 @@ public class AdventureFrame extends KoLFrame
 					csheet = null;
 				}
 
-				if ( kolchat != null && csheet.isShowing() )
+				if ( kolchat != null && kolchat.isShowing() )
 				{
 					kolchat.setVisible( false );
 					kolchat.dispose();
 					kolchat = null;
 				}
 
-				if ( isheet != null && csheet.isShowing() )
+				if ( isheet != null && isheet.isShowing() )
 				{
 					isheet.setVisible( false );
 					isheet.dispose();
