@@ -33,19 +33,38 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.StringTokenizer;
+
+import java.util.Date;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLMailManager
 {
+	private static SimpleDateFormat sdf = new SimpleDateFormat( "EEEE, MMMM d, hh:mmaa", Locale.US );
+
 	private Map mailboxes;
 
 	public KoLMailManager( KoLmafia client )
 	{
 		mailboxes = new TreeMap();
-		mailboxes.put( "Inbox", new KoLMailbox() );
-		mailboxes.put( "Outbox", new KoLMailbox() );
-		mailboxes.put( "Sent", new KoLMailbox() );
+		mailboxes.put( "Inbox", new LockableListModel() );
+		mailboxes.put( "Outbox", new LockableListModel() );
+		mailboxes.put( "Sent", new LockableListModel() );
+	}
+
+	/**
+	 * Returns a list containing the messages within the
+	 * specified mailbox.
+	 */
+
+	public LockableListModel getMessages( String mailbox )
+	{	return (LockableListModel) mailboxes.get( mailbox );
 	}
 
 	/**
@@ -59,13 +78,54 @@ public class KoLMailManager
 	 */
 
 	public boolean addMessage( String boxname, String message )
-	{	return ((KoLMailbox)mailboxes.get( boxname )).addMessage( message );
+	{	return ((LockableListModel)mailboxes.get( boxname )).add( new KoLMailMessage( message ) );
 	}
 
-	private class KoLMailbox
+	private class KoLMailMessage
 	{
-		public boolean addMessage( String message )
-		{	return true;
+		private String completeMessage;
+
+		private String messageID;
+		private String senderID;
+		private String senderName;
+		private Date messageDate;
+		private String messageHTML;
+
+		public KoLMailMessage( String message )
+		{
+			this.completeMessage = message;
+			this.messageID = completeMessage.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
+			StringTokenizer messageParser = new StringTokenizer( message, "<>" );
+
+			String lastToken = messageParser.nextToken();
+			while ( !lastToken.startsWith( "a " ) )
+				lastToken = messageParser.nextToken();
+
+			this.senderID = lastToken.substring( lastToken.indexOf( "who=" ) + 4, lastToken.length() - 2 );
+			this.senderName = messageParser.nextToken();
+
+			while ( !messageParser.nextToken().startsWith( "Date" ) );
+			messageParser.nextToken();
+
+			try
+			{
+				// This attempts to parse the date from
+				// the given string; note it may throw
+				// an exception (but probably not)
+				this.messageDate = sdf.parse( messageParser.nextToken() );
+			}
+			catch ( Exception e )
+			{
+				// Initialize the date to the current time,
+				// since that's about as close as it gets
+				this.messageDate = new Date();
+			}
+
+			this.messageHTML = message.substring( message.indexOf( "<!-- -->" ) + 8 );
+		}
+
+		public String toString()
+		{	return "From " + senderName + " @ " + messageDate.toString();
 		}
 	}
 }
