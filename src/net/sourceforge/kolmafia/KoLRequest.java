@@ -331,6 +331,15 @@ public class KoLRequest extends Thread
 		}
 		catch ( IOException e )
 		{
+			// An IOException is clearly an error - maybe it
+			// should be reported as one, and the client
+			// should be notified
+
+			isErrorState = true;
+			if ( frame != null )
+				frame.updateDisplay( "I/O error.  Please restart." );
+			else if ( client != null )
+				client.updateAdventure( false, false );
 		}
 
 		// Here, you make sure all of the variables are non-null
