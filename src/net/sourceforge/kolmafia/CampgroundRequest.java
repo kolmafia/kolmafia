@@ -42,13 +42,17 @@ package net.sourceforge.kolmafia;
 
 public class CampgroundRequest extends KoLRequest
 {
+	private String action;
+
 	/**
 	 * Constructs a new <code>CampgroundRequest</code>.
 	 * @param	client	The client to be notified of all the information parsed
 	 */
 
 	public CampgroundRequest( KoLmafia client )
-	{	super( client, "campground.php" );
+	{
+		super( client, "campground.php" );
+		this.action = "";
 	}
 
 	/**
@@ -60,6 +64,7 @@ public class CampgroundRequest extends KoLRequest
 	{
 		super( client, "campground.php" );
 		addFormField( "action", action );
+		this.action = action;
 	}
 
 	/**
@@ -83,5 +88,35 @@ public class CampgroundRequest extends KoLRequest
 		client.getCharacterData().setBartender( replyContent.indexOf( "cocktail.php" ) != -1 );
 
 		processResults( replyContent.substring( 0, replyContent.indexOf( "Your Campsite" ) ) );
+
+		// Update adventure tally for resting and relaxing
+		// at the campground.
+
+		if ( action.equals( "rest" ) )
+		{
+			if ( replyContent.indexOf( "You sleep" ) != -1 )
+			{
+				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
+				client.updateAdventure( true, true );
+			}
+			else
+			{
+				client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Could not rest." );
+				client.updateAdventure( false, false );
+			}
+		}
+		else if ( action.equals( "relax" ) )
+		{
+			if ( replyContent.indexOf( "You relax" ) != -1 )
+			{
+				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
+				client.updateAdventure( true, true );
+			}
+			else
+			{
+				client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Could not relax." );
+				client.updateAdventure( false, false );
+			}
+		}
 	}
 }
