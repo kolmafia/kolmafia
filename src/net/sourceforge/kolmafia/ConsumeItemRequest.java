@@ -77,7 +77,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseCode == 302 && redirectLocation.endsWith( "action=message" ) )
 		{
-			client.addToResultTally( itemUsed );
 			resultRequest.run();
 
 			if ( itemUsed.getName().startsWith( "chef-in" ) )
@@ -103,12 +102,23 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( isErrorState || responseCode != 200 )
 				return;
 
+			// Check to make sure that it wasn't a food or drink
+			// that was consumed that resulted in nothing.
+
+			if ( replyContent.indexOf( "You're too" ) != -1 )
+			{
+				client.updateAdventure( false, false );
+				client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Consumption limit reached." );
+				return;
+			}
+
 			// Parse the reply, which can be found before the
 			// word "Inventory".  In theory, this could've caused
 			// problems in the inventory screen, but since Jick
 			// is probably smarter with error-checking after so
 			// long, the output/input's probably just fine.
 
+			client.addToResultTally( itemUsed );
 			processResults( replyContent.substring( 0, replyContent.indexOf( "Inventory:" ) ) );
 		}
 
