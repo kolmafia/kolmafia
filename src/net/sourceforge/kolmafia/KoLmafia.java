@@ -79,7 +79,20 @@ public abstract class KoLmafia implements UtilityConstants
 	 */
 
 	public static void main( String [] args )
-	{	KoLmafiaGUI.main( args );
+	{
+		boolean useGUI = true;
+		for ( int i = 0; i < args.length; ++i )
+		{
+			if ( args[i].equals( "--CLI" ) )
+				useGUI = false;
+			if ( args[i].equals( "--GUI" ) )
+				useGUI = true;
+		}
+
+		if ( useGUI )
+			KoLmafiaGUI.main( args );
+		else
+			KoLmafiaCLI.main( args );
 	}
 
 	/**
