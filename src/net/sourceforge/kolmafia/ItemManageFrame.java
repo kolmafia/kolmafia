@@ -360,12 +360,14 @@ public class ItemManageFrame extends KoLFrame
 			private class AutoSellRequestThread extends Thread
 			{
 				private int sellType;
+				private boolean finishedSelling;
 
 				public AutoSellRequestThread( int sellType )
 				{
 					super( "AutoSell-Request-Thread" );
 					setDaemon( true );
 					this.sellType = sellType;
+					this.finishedSelling = false;
 				}
 
 				public void run()
@@ -374,7 +376,7 @@ public class ItemManageFrame extends KoLFrame
 					Object [] items = availableList.getSelectedValues();
 					AdventureResult currentItem;
 
-					for ( int i = 0; i < items.length; ++i )
+					for ( int i = 0; !finishedSelling && i < items.length; ++i )
 						sell( (AdventureResult) items[i] );
 
 					refreshConcoctionsList();
@@ -388,14 +390,36 @@ public class ItemManageFrame extends KoLFrame
 					{
 						case AutoSellRequest.AUTOSELL:
 							updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getName() + "..." );
+							(new AutoSellRequest( client, currentItem )).run();
 							break;
-
 						case AutoSellRequest.AUTOMALL:
+						{
 							updateDisplay( DISABLED_STATE, "Placing " + currentItem.getName() + " in the mall..." );
+
+							try
+							{
+								int desiredPrice = df.parse( JOptionPane.showInputDialog(
+									"Price for " + currentItem.getName() + "?" ) ).intValue();
+
+								if ( desiredPrice >= 10 )
+									(new AutoSellRequest( client, currentItem, desiredPrice)).run();
+								else
+									finishedSelling = true;
+							}
+							catch ( Exception e )
+							{
+								// If the number placed inside of the count list was not
+								// an actual integer value, then the user is probably
+								// trying to break the input so that they can stop the
+								// sell process.  Therefore, assume they're done.
+
+								finishedSelling = true;
+							}
+
 							break;
+						}
 					}
 
-					(new AutoSellRequest( client, sellType, currentItem )).run();
 				}
 			}
 		}
