@@ -196,7 +196,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		peopleMenu.add( composeMenuItem );
 
 		this.mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_I );
-		mailMenuItem.addActionListener( new DisplayFrameListener( MailboxFrame.class ) );
+		mailMenuItem.addActionListener( new DisplayMailListener() );
 
 		peopleMenu.add( mailMenuItem );
 		return peopleMenu;
@@ -831,9 +831,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				}
 				else
 				{
-					(new MailboxRequest( client, "Inbox" )).run();
 					super.run();
 					mailboxDisplay = (MailboxFrame) lastCreatedFrame;
+					mailboxDisplay.stateChanged( null );
 				}
 			}
 		}
