@@ -54,15 +54,17 @@ public class AdventureResult implements Comparable
 	private String name;
 	private int priority;
 
-	private static final int MEAT_PRIORITY = 0;
-	private static final int SUBSTAT_PRIORITY = 1;
-	private static final int DIVIDER_PRIORITY = 2;
-	private static final int ITEM_PRIORITY = 3;
+	private static final int ADV_PRIORITY = 1;
+	private static final int MEAT_PRIORITY = 2;
+	private static final int SUBSTAT_PRIORITY = 3;
+	private static final int DIVIDER_PRIORITY = 4;
+	private static final int ITEM_PRIORITY = 5;
 
 	private static final DecimalFormat df = new DecimalFormat();
 
+	public static final String ADV = "Adv";
 	public static final String MEAT = "Meat";
-	public static final String SUBSTATS = "Stats";
+	public static final String SUBSTATS = "Substats";
 	public static final String DIVIDER = "";
 
 	private static List MUS_SUBSTAT = new ArrayList();
@@ -116,6 +118,7 @@ public class AdventureResult implements Comparable
 	private AdventureResult( String name, int [] count )
 	{
 		this( name, count,
+			name.equals(ADV) ? ADV_PRIORITY :
 			name.equals(MEAT) ? MEAT_PRIORITY :
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
 			name.equals(DIVIDER) ? DIVIDER_PRIORITY : ITEM_PRIORITY );
@@ -150,7 +153,7 @@ public class AdventureResult implements Comparable
 	 */
 
 	public boolean isItem()
-	{	return priority == 3;
+	{	return priority == ITEM_PRIORITY;
 	}
 
 	/**
@@ -207,7 +210,9 @@ public class AdventureResult implements Comparable
 			// Stats actually fall into one of four categories - simply pick the
 			// correct one and return the result.
 
-			if ( statname.equals( MEAT ) )
+			if ( statname.toLowerCase().startsWith( "adv" ) )
+				return new AdventureResult( ADV, modifier );
+			else if ( statname.equals( MEAT ) )
 				return new AdventureResult( MEAT, modifier );
 
 			else
@@ -242,7 +247,8 @@ public class AdventureResult implements Comparable
 
 	public String toString()
 	{
-		return name.equals(MEAT) ? " Meat: " + df.format(count[0]) :
+		return
+			name.equals(ADV) || name.equals(MEAT) ? " " + name + ": " + df.format(count[0]) :
 			name.equals(SUBSTATS) ? " Substats: " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]) :
 			name.equals(DIVIDER) ? DIVIDER :
 			" " + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
@@ -336,7 +342,14 @@ public class AdventureResult implements Comparable
 			return null;
 
 		if ( left.count.length == 1 )
-			return new AdventureResult( left.name, left.count[0] + right.count[0] );
+		{
+			int totalCount = left.count[0] + right.count[0];
+
+			if ( left.name.equals( ADV ) && totalCount < 0 )
+				totalCount = 0;
+
+			return new AdventureResult( left.name, totalCount );
+		}
 		else
 		{
 			int [] totals = new int[3];

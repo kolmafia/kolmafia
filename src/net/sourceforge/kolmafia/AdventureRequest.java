@@ -141,7 +141,11 @@ public class AdventureRequest extends KoLRequest
 		// from your running tally.
 
 		if ( formSource.equals( "shore.php" ) )
+		{
 			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -500 ) );
+			client.addToResultTally( new AdventureResult( AdventureResult.ADV, -3 ) );
+			return;
+		}
 
 		// If you went to the tavern, 100 meat should be deducted from
 		// your running tally.
@@ -166,7 +170,12 @@ public class AdventureRequest extends KoLRequest
 			else if ( adventureID.equals( "2" ) )
 				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
 			else if ( adventureID.equals( "11" ) )
+			{
 				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
+			}
 		}
+		else
+			client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 	}
 }

@@ -45,6 +45,8 @@ public class ClanGymRequest extends KoLRequest
 	public static final int BIGBOOK = 2;
 	public static final int TANULOTS = 3;
 
+	private int turnCount;
+
 	/**
 	 * Constructs a new <code>ClanGymRequest</code>.
 	 *
@@ -58,6 +60,8 @@ public class ClanGymRequest extends KoLRequest
 		super( client, "clan_gym.php" );
 		addFormField( "action", equipmentID == HOBOFLEX ? "hoboflex" : equipmentID == BIGBOOK ? "bigbook" : "tanningbed" );
 		addFormField( "numturns", "" + turnCount );
+
+		this.turnCount = turnCount;
 	}
 
 	/**
@@ -72,6 +76,7 @@ public class ClanGymRequest extends KoLRequest
 		// All the gains will be found before the first </center> tag;
 		// therefore, you can parse just that small segment.
 
+		client.addToResultTally( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
 		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
 	}
 }
