@@ -123,9 +123,9 @@ public class AdventureFrame extends KoLFrame
 
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
-	private ClanGymPanel clanGym;
 	private ClanBuffPanel clanBuff;
 	private HeroDonationPanel heroDonation;
+	private MeatStoragePanel meatStorage;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -139,7 +139,8 @@ public class AdventureFrame extends KoLFrame
 
 	public AdventureFrame( KoLmafia client, LockableListModel adventureList, LockableListModel resultsTally )
 	{
-		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()), client );
+		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
+			" (" + KoLRequest.getRootHostName() + ")", client );
 		setResizable( false );
 
 		tabs = new JTabbedPane();
@@ -150,15 +151,15 @@ public class AdventureFrame extends KoLFrame
 		mallSearch = new MallSearchPanel();
 		tabs.addTab( "Mall of Loathing", mallSearch );
 
-		clanGym = new ClanGymPanel();
 		clanBuff = new ClanBuffPanel();
 		heroDonation = new HeroDonationPanel();
+		meatStorage = new MeatStoragePanel();
 
 		JPanel otherStuffPanel = new JPanel();
-		otherStuffPanel.setLayout( new BorderLayout( 0, 0 ) );
-		otherStuffPanel.add( clanGym, BorderLayout.NORTH );
-		otherStuffPanel.add( clanBuff, BorderLayout.CENTER );
-		otherStuffPanel.add( heroDonation, BorderLayout.SOUTH );
+		otherStuffPanel.setLayout( new GridLayout( 3, 1 ) );
+		otherStuffPanel.add( clanBuff, "" );
+		otherStuffPanel.add( heroDonation, "" );
+		otherStuffPanel.add( meatStorage, "" );
 		tabs.addTab( "Other Activities", otherStuffPanel );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
@@ -240,7 +241,7 @@ public class AdventureFrame extends KoLFrame
 
 		public AdventureSelectPanel( LockableListModel adventureList, LockableListModel resultsTally )
 		{
-			super( "begin", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( "begin", "stop", new Dimension( 100, 20 ), new Dimension( 225, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -396,7 +397,7 @@ public class AdventureFrame extends KoLFrame
 
 		public MallSearchPanel()
 		{
-			super( "search", "purchase", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( "search", "purchase", new Dimension( 100, 20 ), new Dimension( 225, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -585,123 +586,6 @@ public class AdventureFrame extends KoLFrame
 	 * buffs in the <code>AdventureFrame</code>.
 	 */
 
-	private class ClanGymPanel extends KoLPanel
-	{
-		private JPanel actionStatusPanel;
-		private JLabel actionStatusLabel;
-
-		private JComboBox workoutField;
-		private JTextField countField;
-
-		public ClanGymPanel()
-		{
-			super( "exercise", "be random", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
-
-			LockableListModel equipment = new LockableListModel();
-			equipment.add( "Hobo-Flex Workout Machine" );
-			equipment.add( "Big Book of Magicalness" );
-			equipment.add( "Tan-U-Lots Tanning Bed" );
-
-			workoutField = new JComboBox( equipment );
-			countField = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Clan Gym: ", workoutField );
-			elements[1] = new VerifiableElement( "# of turns: ", countField );
-
-			setContent( elements );
-		}
-
-		protected void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements );
-			add( actionStatusPanel, BorderLayout.SOUTH );
-		}
-
-		public void clear()
-		{
-		}
-
-		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			workoutField.setEnabled( isEnabled );
-			countField.setEnabled( isEnabled );
-		}
-
-		protected void actionConfirmed()
-		{
-			contentPanel = clanGym;
-			updateDisplay( DISABLED_STATE, "Beginning exercise session..." );
-			(new ClanGymThread()).start();
-		}
-
-		protected void actionCancelled()
-		{
-			contentPanel = clanGym;
-			updateDisplay( NOCHANGE_STATE, "Insert witty-sounding random event here." );
-		}
-
-		public void requestFocus()
-		{
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually purchase the clan buffs.
-		 */
-
-		private class ClanGymThread extends Thread
-		{
-			public ClanGymThread()
-			{
-				super( "Clan-Gym-Thread" );
-				setDaemon( true );
-			}
-
-			public void run()
-			{
-				try
-				{
-					int turnCount = countField.getText().trim().length() == 0 ? 0 :
-						Integer.parseInt( countField.getText() );
-
-					if ( workoutField.getSelectedIndex() != -1 )
-					{
-						updateDisplay( DISABLED_STATE, "Beginning workout..." );
-						(new ClanGymRequest( client, workoutField.getSelectedIndex() + 1, turnCount )).run();
-						updateDisplay( ENABLED_STATE, "Workout attempt complete." );
-					}
-				}
-				catch ( NumberFormatException e )
-				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
-				}
-
-			}
-		}
-	}
-
-	/**
-	 * An internal class which represents the panel used for clan
-	 * buffs in the <code>AdventureFrame</code>.
-	 */
-
 	private class ClanBuffPanel extends KoLPanel
 	{
 		private boolean isBuffing;
@@ -714,7 +598,7 @@ public class AdventureFrame extends KoLFrame
 
 		public ClanBuffPanel()
 		{
-			super( "buy buffs", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( "purchase buffs", "stop purchases", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 			this.isBuffing = false;
 
 			actionStatusPanel = new JPanel();
@@ -766,6 +650,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			isBuffing = false;
 			contentPanel = clanBuff;
+			client.updateAdventure( false, false );
 			updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
 		}
 
@@ -795,16 +680,7 @@ public class AdventureFrame extends KoLFrame
 						Integer.parseInt( countField.getText() );
 					Runnable buff = (Runnable) buffField.getSelectedItem();
 
-					int started = 1;
-					while ( started <= buffCount && isBuffing )
-					{
-						updateDisplay( DISABLED_STATE, "Attempting to purchase buff " + (started++) + "..." );
-						buff.run();
-					}
-
-					if ( started >= buffCount )
-						updateDisplay( ENABLED_STATE, "Purchase attempts completed." );
-
+					client.makeRequest( buff, buffCount );
 					isBuffing = false;
 				}
 				catch ( NumberFormatException e )
@@ -917,7 +793,7 @@ public class AdventureFrame extends KoLFrame
 				try
 				{
 					int amount = amountField.getText().trim().length() == 0 ? 0 :
-						Integer.parseInt( amountField.getText() );
+						df.parse( amountField.getText() ).intValue();
 
 					if ( heroField.getSelectedIndex() != -1 )
 					{
@@ -926,7 +802,111 @@ public class AdventureFrame extends KoLFrame
 						updateDisplay( ENABLED_STATE, "Donation attempt complete." );
 					}
 				}
-				catch ( NumberFormatException e )
+				catch ( Exception e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+
+			}
+		}
+	}
+
+	private class MeatStoragePanel extends KoLPanel
+	{
+		private JPanel actionStatusPanel;
+
+		private JTextField amountField;
+		private JTextField inClosetField;
+
+		public MeatStoragePanel()
+		{
+			super( "put in closet", "take from closet", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			amountField = new JTextField();
+			inClosetField = new JTextField( df.format( client.getCharacterData().getClosetMeat() ) );
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Transaction: ", amountField );
+			elements[1] = new VerifiableElement( "Inside Closet: ", inClosetField );
+
+			setContent( elements );
+		}
+
+		protected void setContent( VerifiableElement [] elements )
+		{
+			super.setContent( elements, null, null, null, true, true );
+			inClosetField.setEnabled( false );
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+
+		public void clear()
+		{
+		}
+
+		public void setStatusMessage( String s )
+		{	inClosetField.setText( s );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			amountField.setEnabled( isEnabled );
+		}
+
+		protected void actionConfirmed()
+		{
+			contentPanel = meatStorage;
+			(new MeatStorageThread( true )).start();
+		}
+
+		protected void actionCancelled()
+		{
+			contentPanel = meatStorage;
+			(new MeatStorageThread( false )).start();
+		}
+
+		public void requestFocus()
+		{
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually purchase the clan buffs.
+		 */
+
+		private class MeatStorageThread extends Thread
+		{
+			private boolean isDeposit;
+
+			public MeatStorageThread( boolean isDeposit )
+			{
+				super( "Meat-Storage-Thread" );
+				setDaemon( true );
+				this.isDeposit = isDeposit;
+			}
+
+			public void run()
+			{
+				try
+				{
+					int amount = amountField.getText().trim().length() == 0 ? 0 :
+						df.parse( amountField.getText() ).intValue();
+
+					updateDisplay( DISABLED_STATE, "Executing transaction..." );
+					(new ItemStorageRequest( client, amount, isDeposit )).run();
+					updateDisplay( ENABLED_STATE, df.format( client.getCharacterData().getClosetMeat() ) );
+
+				}
+				catch ( Exception e )
 				{
 					// If the number placed inside of the count list was not
 					// an actual integer value, pretend nothing happened.
