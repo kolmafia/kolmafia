@@ -836,13 +836,32 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		StringBuffer saveStateBuffer = new StringBuffer();
 		Iterator saveStateIterator = saveStateNames.iterator();
 
-		saveStateBuffer.append( saveStateIterator.next() );
-		while ( saveStateIterator.hasNext() )
+		if ( saveStateIterator.hasNext() )
 		{
-			saveStateBuffer.append( "//" );
 			saveStateBuffer.append( saveStateIterator.next() );
+			while ( saveStateIterator.hasNext() )
+			{
+				saveStateBuffer.append( "//" );
+				saveStateBuffer.append( saveStateIterator.next() );
+			}
+			settings.setProperty( "saveState", saveStateBuffer.toString() );
 		}
-		settings.setProperty( "saveState", saveStateBuffer.toString() );
+		else
+			settings.remove( "saveState" );
+
+		// Now, removing any passwords that were stored
+		// which are no longer in the save state list
+
+		Iterator settingsIterator = settings.keySet().iterator();
+		String currentKey;
+
+		while ( settingsIterator.hasNext() )
+		{
+			currentKey = (String) settingsIterator.next();
+			if ( currentKey.startsWith( "saveState." ) && !saveStateNames.contains( currentKey.substring( 10 ) ) )
+				settings.remove( currentKey );
+		}
+
 		settings.saveSettings();
 	}
 
