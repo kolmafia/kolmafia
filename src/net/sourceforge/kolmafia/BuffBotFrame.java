@@ -265,11 +265,16 @@ public class BuffBotFrame extends KoLFrame
 
 			public void run()
 			{
-				client.updateDisplay( ENABLED_STATE, "Buffbotting started." );
-				buffbotLog.append( "<b>Starting a new session.</b><br>\n" );
-				client.resetContinueState();
-				client.setBuffBotActive( true );
-				currentManager.runBuffBot();
+				if (buffCostTable.isEmpty())
+					JOptionPane.showMessageDialog(null,"No Valid Buff Table Entries!");
+				else
+				{
+					client.updateDisplay( ENABLED_STATE, "Buffbotting started." );
+					buffbotLog.append( "<b>Starting a new session.</b><br>\n" );
+					client.resetContinueState();
+					client.setBuffBotActive( true );
+					currentManager.runBuffBot();
+				}
 			}
 		}
 	}
