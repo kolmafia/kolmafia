@@ -102,7 +102,7 @@ public class ChatFrame extends KoLFrame
 		initialize( associatedContact );
 
 		if ( client != null && mainPanel != null )
-			addWindowListener( new CloseChatListener() );
+			addWindowListener( new CloseChatListener( associatedContact ) );
 		else
 			addWindowListener( new ExitChatListener() );
 
@@ -512,8 +512,14 @@ public class ChatFrame extends KoLFrame
 	 * is being done with the replies.
 	 */
 
-	private class CloseChatListener extends WindowAdapter
+	protected final class CloseChatListener extends WindowAdapter
 	{
+		private String associatedContact;
+
+		public CloseChatListener( String associatedContact )
+		{	this.associatedContact = associatedContact;
+		}
+
 		public void windowClosed( WindowEvent e )
 		{	(new CloseChatRequestThread()).start();
 		}
@@ -526,8 +532,8 @@ public class ChatFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( client != null && client.getMessenger() != null && mainPanel != null )
-					client.getMessenger().removeChat( mainPanel.getAssociatedContact() );
+				if ( client != null && client.getMessenger() != null )
+					client.getMessenger().removeChat( associatedContact );
 			}
 		}
 	}
