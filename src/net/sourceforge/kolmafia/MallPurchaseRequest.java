@@ -68,6 +68,7 @@ public class MallPurchaseRequest extends KoLRequest
 		this.quantity = quantity;
 		this.price = price;
 
+		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "whichstore", "" + shopID );
 		addFormField( "buying", "Yep." );
 
@@ -160,8 +161,6 @@ public class MallPurchaseRequest extends KoLRequest
 		// request was executed.  Therefore, reset state
 		// variables and begin parsing the reply.
 
-		wasExecuted = true;
-
 		if ( replyContent.indexOf( "acquire" ) != -1 )
 		{
 			// One error is that the item price changed, or the item
@@ -182,5 +181,7 @@ public class MallPurchaseRequest extends KoLRequest
 			// Otherwise, you managed to purchase something!  Here,
 			// you report to the client whatever you gained.
 		}
+
+		wasExecuted = true;
 	}
 }
