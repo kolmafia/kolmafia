@@ -54,6 +54,10 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class KoLmafia implements UtilityConstants
 {
+	private static final String [] hermitItemNames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
+		"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
+	private static final int [] hermitItemNumbers = { 24, 46, 47, 52, 55, 61, 66, 106, 107, 135, 140, 527 };
+
 	private String password, sessionID, passwordHash;
 	private KoLCharacter characterData;
 	private KoLFrame activeFrame;
@@ -399,6 +403,24 @@ public class KoLmafia implements UtilityConstants
 
 			if ( request.toString().equals( "The Hermitage" ) )
 			{
+				// Prompt the user to select which item they want from the hermit
+				// because it's more intuitive this way.
+
+				Object selectedValue = JOptionPane.showInputDialog(
+					null, "I want this from the hermit...", "Hermit Trade!", JOptionPane.INFORMATION_MESSAGE, null,
+					hermitItemNames, hermitItemNames[0] );
+
+				int selected = -1;
+				for ( int i = 0; i < hermitItemNames.length; ++i )
+				{
+					if ( selectedValue.equals( hermitItemNames[i] ) )
+					{
+						settings.setProperty( "hermitTrade", "" + selected );
+						settings.saveSettings();
+						break;
+					}
+				}
+
 				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Robbing the hermit..." );
 				(new HermitRequest( this, iterations )).run();
 
