@@ -134,7 +134,7 @@
 149	0	eXtreme meat crossbow
 157	0	E-Z Cook Oven&trade;
 158	0	Gnollish pie tin
-159	0	wad of dough
+159	3	wad of dough
 160	0	pie crust
 161	1	ghuol egg
 162	1	ghuol egg quiche
@@ -272,7 +272,7 @@
 298	0	Double-Minty Gum
 299	0	Triple-Minty Gum
 300	0	Quadruple-Minty Gum
-301	0	flat dough
+301	3	flat dough
 302	1	Knob sausage
 303	1	Knob mushroom
 304	1	dry noodles
@@ -728,7 +728,7 @@
 864	0	brass stinger
 865	0	lead necklace
 871	0	meatcar model
-873	0	rolling pin
+873	3	rolling pin
 874	0	unrolling pin
 875	0	crazy bastard sword
 876	0	incredibly dense meat gem

@@ -143,8 +143,23 @@ public class ConsumeItemRequest extends KoLRequest
 			// is probably smarter with error-checking after so
 			// long, the output/input's probably just fine.
 
-			client.addToResultTally( itemUsed );
+			if ( itemUsed.getName().indexOf( "rolling" ) == -1 )
+				client.addToResultTally( itemUsed );
+
 			processResults( replyContent.substring( 0, replyContent.indexOf( "Inventory:" ) ) );
+
+			// Handle rolling and unrolling pins removing your
+			// dough from the inventory.
+
+			if ( itemUsed.getName().indexOf( "rolling" ) != -1 )
+			{
+				String consumedItemName = itemUsed.getName().startsWith( "r" ) ? "wad of dough" : "flat dough";
+				int consumedItemIndex = client.getInventory().indexOf( new AdventureResult( consumedItemName, 0 ) );
+
+				if ( consumedItemIndex != -1 )
+					client.addToResultTally( new AdventureResult( consumedItemName,
+						0 - ((AdventureResult)client.getInventory().get( consumedItemIndex )).getCount() ) );
+			}
 		}
 
 	}
