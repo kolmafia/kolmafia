@@ -298,7 +298,7 @@ public class BuffBotFrame extends KoLFrame
 			super( "Add Buff", "Remove Buff", new Dimension( 100, 20 ),  new Dimension( 240, 20 ));
 			int skillID;
 			String skill;
-			
+
 			LockableListModel skillSet = (client == null) ? new LockableListModel() :client.getCharacterData().getAvailableSkills();
 			LockableListModel buffSet = new LockableListModel();
 			for (int i = 0; (skill = (String) skillSet.get(i)) != null; ++i )
@@ -394,14 +394,17 @@ public class BuffBotFrame extends KoLFrame
 
 	private class WhiteListPanel extends NonContentPanel
 	{
-		private JComboBox mpRestoreSelect;
 		private JComboBox messageDisposalSelect;
-		private WhiteListEntry listPanel;
+		private WhiteListEntry whiteListEntry;
+
 		private JTextArea whiteListEditor;
+
+		private Object [] availableRestores;
+		private JCheckBox [] restoreCheckbox;
 
 		public WhiteListPanel()
 		{
-			super( "Apply", "Restore", new Dimension( 120, 20 ),  new Dimension( 200, 20 ));
+			super( "Apply", "Restore", new Dimension( 120, 20 ),  new Dimension( 240, 20 ));
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout() );
 
@@ -410,29 +413,56 @@ public class BuffBotFrame extends KoLFrame
 			messageDisposalChoices.add( "Save Non-buff requests");
 			messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
-			LockableListModel mpRestoreChoices = new LockableListModel();
-			mpRestoreChoices.add( "Phonics & Houses" );
-			mpRestoreChoices.add( "Phonics Only" );
-			mpRestoreChoices.add( "Tiny Houses Only" );
-			mpRestoreSelect = new JComboBox( mpRestoreChoices );
+			availableRestores = currentManager == null ? new Object[0] : currentManager.getMPRestoreItemList().toArray();
+			restoreCheckbox = new JCheckBox[ availableRestores.length ];
+
+			JPanel checkboxPanel = new JPanel();
+			checkboxPanel.setLayout( new GridLayout( restoreCheckbox.length, 1, 2, 5 ) );
+
+			for ( int i = 0; i < restoreCheckbox.length; ++i )
+			{
+				restoreCheckbox[i] = new JCheckBox();
+				checkboxPanel.add( restoreCheckbox[i] );
+			}
+
+			JPanel labelPanel = new JPanel();
+			labelPanel.setLayout( new GridLayout( availableRestores.length, 1, 2, 5 ) );
+			for ( int i = 0; i < availableRestores.length; ++i )
+				labelPanel.add( new JLabel( availableRestores[i].toString(), JLabel.LEFT ) );
+
+			JPanel restorePanel = new JPanel();
+			restorePanel.setLayout( new BorderLayout( 0, 0 ) );
+			restorePanel.add( checkboxPanel, BorderLayout.WEST );
+			restorePanel.add( labelPanel, BorderLayout.CENTER );
+
+			JScrollPane scrollArea = new JScrollPane( restorePanel,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			JComponentUtilities.setComponentSize( scrollArea, 240, 80 );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Message Disposal", messageDisposalSelect );
-			elements[1] = new VerifiableElement( "MP Restore Options ", mpRestoreSelect );
+			elements[0] = new VerifiableElement( "Message Disposal: ", messageDisposalSelect );
+			elements[1] = new VerifiableElement( "MP Restore Items: ", scrollArea );
 
 			setContent( elements );
-			listPanel = new WhiteListEntry();
-			add( listPanel, BorderLayout.SOUTH );
-
 			(new LoadDefaultSettingsThread()).start();
+		}
+
+		public void setContent( VerifiableElement [] elements )
+		{
+			super.setContent( elements );
+
+			whiteListEntry = new WhiteListEntry();
+			add( whiteListEntry, BorderLayout.SOUTH );
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			mpRestoreSelect.setEnabled( isEnabled );
 			messageDisposalSelect.setEnabled( isEnabled );
-			listPanel.setEnabled( isEnabled );
+			whiteListEntry.setEnabled( isEnabled );
+			for ( int i = 0; i < restoreCheckbox.length; ++i )
+				restoreCheckbox[i].setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
@@ -449,14 +479,12 @@ public class BuffBotFrame extends KoLFrame
 			{
 				this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 				JPanel panel = new JPanel(new BorderLayout());
-//				panel.add(new JLabel("Watch this space for the White List implementation"));
-//				add(panel);
-				
+
 				whiteListEditor = new JTextArea();
 				whiteListEditor.setEditable( true );
 				whiteListEditor.setLineWrap( true );
 				whiteListEditor.setWrapStyleWord( true );
-				
+
 				JScrollPane scrollArea = new JScrollPane( whiteListEditor,
 						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 						JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -466,8 +494,8 @@ public class BuffBotFrame extends KoLFrame
 
 				JComponentUtilities.setComponentSize( scrollArea, 400, 200 );
 				panel.add( scrollArea, BorderLayout.SOUTH );
-		
-				add(panel);
+
+				add( panel );
 			}
 		}
 
@@ -477,11 +505,17 @@ public class BuffBotFrame extends KoLFrame
 			{
 				String messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" );
 				String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
+				String whiteListSetting = settings.getProperty( "whiteList" );
+
+				if ( mpRestoreSetting != null )
+					for ( int i = 0; i < availableRestores.length; ++i )
+						if ( mpRestoreSetting.indexOf( availableRestores[i].toString() ) != -1 )
+							restoreCheckbox[i].setSelected( true );
 
 				messageDisposalSelect.setSelectedIndex( messageDisposalSetting == null || messageDisposalSetting.equals( "false" ) ? 0 : 1 );
-				mpRestoreSelect.setSelectedItem( mpRestoreSetting == null ? "Phonics & Houses" : mpRestoreSetting );
-				
-				whiteListEditor.setText(settings.getProperty("whiteList"));
+				if ( whiteListSetting != null )
+					whiteListEditor.setText( whiteListSetting );
+
 				setStatusMessage( ENABLED_STATE, "" );
 			}
 		}
@@ -491,22 +525,27 @@ public class BuffBotFrame extends KoLFrame
 			public void run()
 			{
 				settings.setProperty( "buffBotMessageDisposal", "" + (messageDisposalSelect.getSelectedIndex() == 1) );
-				settings.setProperty( "buffBotMPRestore", mpRestoreSelect.getSelectedItem().toString() );
+
+				StringBuffer mpRestoreSetting = new StringBuffer();
+				for ( int i = 0; i < restoreCheckbox.length; ++i )
+					if ( restoreCheckbox[i].isSelected() )
+					{
+						mpRestoreSetting.append( availableRestores[i].toString() );
+						mpRestoreSetting.append( ';' );
+					}
+				settings.setProperty( "buffBotMPRestore", mpRestoreSetting.toString() );
 
 				String[] whiteListString = whiteListEditor.getText().split("\\s*,\\s*");
-				java.util.Arrays.sort(whiteListString);
-				
-				whiteListEditor.setText(whiteListString[0]);
+				java.util.Arrays.sort( whiteListString );
+
+				whiteListEditor.setText( whiteListString[0] );
 				for (int i = 1; i < whiteListString.length; i++)
-				{
-					if (!whiteListString[i].equals("")) 
-						whiteListEditor.append(", " + whiteListString[i]);
-				}
+					if (!whiteListString[i].equals(""))
+						whiteListEditor.append( ", " + whiteListString[i] );
 				settings.setProperty( "whiteList", whiteListEditor.getText() );
-				
+
 				if ( settings instanceof KoLSettings )
 					((KoLSettings)settings).saveSettings();
-				
 
 				setStatusMessage( ENABLED_STATE, "Settings saved." );
 				KoLRequest.delay( 5000 );
