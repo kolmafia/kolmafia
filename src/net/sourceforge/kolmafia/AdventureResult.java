@@ -329,12 +329,11 @@ public class AdventureResult implements Comparable
 
 	public static void reduceTally( List tally, int reductionAmount )
 	{
-		int negatedReductionAmount = 0 - reductionAmount;
 		Iterator resultIterator = tally.iterator();
 
 		while ( resultIterator.hasNext() )
 			addResultToList( tally, new AdventureResult(
-				((AdventureResult)resultIterator.next()).name, negatedReductionAmount ) );
+				((AdventureResult)resultIterator.next()).name, reductionAmount ) );
 	}
 
 	/**
