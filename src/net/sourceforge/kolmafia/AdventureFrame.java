@@ -206,17 +206,17 @@ public class AdventureFrame extends KoLFrame
 		viewMenu.setMnemonic( KeyEvent.VK_V );
 		menuBar.add( viewMenu );
 
-		JMenuItem csheetItem = new JMenuItem( "Character Sheet", KeyEvent.VK_S );
+		JMenuItem csheetItem = new JMenuItem( "Status", KeyEvent.VK_S );
 		csheetItem.addActionListener( new ViewCharacterSheetListener() );
 
 		viewMenu.add( csheetItem );
 
-		JMenuItem imanageItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
+		JMenuItem imanageItem = new JMenuItem( "Items", KeyEvent.VK_I );
 		imanageItem.addActionListener( new ViewItemManagerListener() );
 
 		viewMenu.add( imanageItem );
 
-		JMenuItem chatItem = new JMenuItem( "Loathing Chat", KeyEvent.VK_C );
+		JMenuItem chatItem = new JMenuItem( "Chat", KeyEvent.VK_C );
 		chatItem.addActionListener( new ViewChatListener() );
 
 		viewMenu.add( chatItem );
