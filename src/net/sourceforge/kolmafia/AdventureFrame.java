@@ -117,6 +117,7 @@ public class AdventureFrame extends KoLFrame
 {
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
+	private ClanGymPanel clanGym;
 	private ClanBuffPanel clanBuff;
 	private HeroDonationPanel heroDonation;
 
@@ -143,12 +144,14 @@ public class AdventureFrame extends KoLFrame
 		mallSearch = new MallSearchPanel();
 		tabs.addTab( "Mall of Loathing", mallSearch );
 
+		clanGym = new ClanGymPanel();
 		clanBuff = new ClanBuffPanel();
 		heroDonation = new HeroDonationPanel();
 
 		JPanel otherStuffPanel = new JPanel();
 		otherStuffPanel.setLayout( new BorderLayout( 10, 10 ) );
-		otherStuffPanel.add( clanBuff, BorderLayout.NORTH );
+		otherStuffPanel.add( clanGym, BorderLayout.NORTH );
+		otherStuffPanel.add( clanBuff, BorderLayout.CENTER );
 		otherStuffPanel.add( heroDonation, BorderLayout.SOUTH );
 		tabs.addTab( "Other Activities", otherStuffPanel );
 
@@ -538,6 +541,123 @@ public class AdventureFrame extends KoLFrame
 	 * buffs in the <code>AdventureFrame</code>.
 	 */
 
+	private class ClanGymPanel extends KoLPanel
+	{
+		private JPanel actionStatusPanel;
+		private JLabel actionStatusLabel;
+
+		private JComboBox workoutField;
+		private JTextField countField;
+
+		public ClanGymPanel()
+		{
+			super( "exercise", "be random", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			LockableListModel equipment = new LockableListModel();
+			equipment.add( "Hobo-Flex" );
+			equipment.add( "Big Book of Magicalness" );
+			equipment.add( "Tan-U-Lots" );
+
+			workoutField = new JComboBox( equipment );
+			countField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Workout: ", workoutField );
+			elements[1] = new VerifiableElement( "# of turns: ", countField );
+
+			setContent( elements );
+		}
+
+		protected void setContent( VerifiableElement [] elements )
+		{
+			super.setContent( elements );
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+
+		public void clear()
+		{
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			workoutField.setEnabled( isEnabled );
+			countField.setEnabled( isEnabled );
+		}
+
+		protected void actionConfirmed()
+		{
+			contentPanel = clanGym;
+			updateDisplay( DISABLED_STATE, "Beginning exercise session..." );
+			(new ClanGymThread()).start();
+		}
+
+		protected void actionCancelled()
+		{
+			contentPanel = clanGym;
+			updateDisplay( NOCHANGE_STATE, "Insert witty-sounding random event here." );
+		}
+
+		public void requestFocus()
+		{
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually purchase the clan buffs.
+		 */
+
+		private class ClanGymThread extends Thread
+		{
+			public ClanGymThread()
+			{
+				super( "Clan-Gym-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					int turnCount = countField.getText().trim().length() == 0 ? 0 :
+						Integer.parseInt( countField.getText() );
+
+					if ( workoutField.getSelectedIndex() != -1 )
+					{
+						updateDisplay( DISABLED_STATE, "Beginning workout..." );
+						(new ClanGymRequest( client, workoutField.getSelectedIndex() + 1, turnCount )).run();
+						updateDisplay( ENABLED_STATE, "Workout attempt complete." );
+					}
+				}
+				catch ( NumberFormatException e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for clan
+	 * buffs in the <code>AdventureFrame</code>.
+	 */
+
 	private class ClanBuffPanel extends KoLPanel
 	{
 		private boolean isBuffing;
@@ -655,8 +775,8 @@ public class AdventureFrame extends KoLFrame
 	}
 
 	/**
-	 * An internal class which represents the panel used for clan
-	 * buffs in the <code>AdventureFrame</code>.
+	 * An internal class which represents the panel used for donations to
+	 * the statues in the shrine.
 	 */
 
 	private class HeroDonationPanel extends KoLPanel
@@ -756,9 +876,12 @@ public class AdventureFrame extends KoLFrame
 					int amount = amountField.getText().trim().length() == 0 ? 0 :
 						Integer.parseInt( amountField.getText() );
 
-					updateDisplay( DISABLED_STATE, "Attempting donation..." );
-					(new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, amount )).run();
-					updateDisplay( ENABLED_STATE, "Donation attempt complete." );
+					if ( heroField.getSelectedIndex() != -1 )
+					{
+						updateDisplay( DISABLED_STATE, "Attempting donation..." );
+						(new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, amount )).run();
+						updateDisplay( ENABLED_STATE, "Donation attempt complete." );
+					}
 				}
 				catch ( NumberFormatException e )
 				{
