@@ -13,7 +13,7 @@
 14	0	moxie weed
 15	0	strongness elixir
 16	0	magicalness-in-a-can
-17	0	spicy noodles
+17	1	spicy noodles
 18	0	tortoise's blessing
 19	0	asparagus knife
 20	0	Kentucky-style derby
@@ -38,9 +38,9 @@
 40	0	casino pass
 42	0	hermit permit
 46	0	wooden figurine
-47	0	hot buttered roll
+47	1	hot buttered roll
 48	0	heart of rock and roll
-49	0	bowl of cottage cheese
+49	1	bowl of cottage cheese
 50	0	Rock and Roll Legend
 51	0	Knob Goblin Uberpants
 52	0	banjo strings
@@ -92,9 +92,9 @@
 102	0	spooky shrunken head
 103	0	spooky staff
 104	0	spooky scarecrow
-105	0	bowl of lucky charms
-106	0	ketchup
-107	0	catsup
+105	1	bowl of lucky charms
+106	1	ketchup
+107	1	catsup
 108	0	big stick
 109	0	crossbow string
 110	0	basic meat staff
@@ -136,25 +136,25 @@
 158	0	Gnollish pie tin
 159	0	wad of dough
 160	0	pie crust
-161	0	ghuol egg
-162	0	ghuol egg quiche
+161	1	ghuol egg
+162	1	ghuol egg quiche
 163	0	skeleton bone
 164	0	smart skull
 165	0	skewer
 166	0	ghuol ears
-167	0	ghuol-ear kabob
+167	1	ghuol-ear kabob
 168	0	bone rattle
 169	0	bugbear beanie
 170	0	lihc eye
-171	0	lihc eye pie
+171	1	lihc eye pie
 172	0	gnoll lips
 173	0	taco shell
 174	0	Gnollish casserole dish
-175	0	uncooked chorizo
+175	1	uncooked chorizo
 176	0	disembodied brain
 177	0	brainy skull
 178	0	detective skull
-179	0	chorizo taco
+179	1	chorizo taco
 180	0	ice-cold fotie
 181	0	baseball
 182	0	batgut
@@ -172,11 +172,11 @@
 197	0	rat whisker
 198	0	rat appendix
 199	0	shiny ring
-200	0	rat appendix-kabob
-201	0	bat wing kabob
-202	0	carob chunks
+200	1	rat appendix-kabob
+201	1	bat wing kabob
+202	1	carob chunks
 203	0	herbs
-204	0	carob-chunk cookies
+204	1	carob-chunk cookies
 205	0	secret blend of herbs and spices
 206	0	piercing post
 207	0	hippy herbal tea
@@ -188,8 +188,8 @@
 213	0	filthy corduroys
 214	0	filthy knitted dread sack
 215	0	Uncle Jick's Brownie Mix
-216	0	carob brownies
-217	0	herb brownies
+216	1	carob brownies
+217	1	herb brownies
 218	0	hemp bracelet
 219	0	necklace chain
 220	0	gnoll teeth
@@ -197,7 +197,7 @@
 222	0	phat turquoise bead
 223	0	phat turquoise bracelet
 224	0	eyepatch
-225	0	tofu casserole
+225	1	tofu casserole
 226	0	can of Red Minotaur
 227	0	Kentucky-fried meat sword
 228	0	Kentucky-fried meat staff
@@ -208,36 +208,36 @@
 233	0	Doc Galaktik's Restorative Balm
 234	0	Doc Galaktik's Homeopathic Elixir
 236	0	cocktailcrafting kit
-237	0	bottle of gin
-238	0	bottle of vodka
+237	2	bottle of gin
+238	2	bottle of vodka
 239	0	Orcish baseball cap
 240	0	Orcish cargo shorts
 241	0	homoerotic frat-paddle
-242	0	orange
-243	0	grapefruit
-244	0	grapes
-245	0	olive
-246	0	tomato
+242	1	orange
+243	1	grapefruit
+244	1	grapes
+245	1	olive
+246	1	tomato
 247	0	fermenting powder
-248	0	salty dog
-249	0	bloody mary
-250	0	screwdriver
-251	0	martini
-252	0	bloody beer
-253	0	shot of orange schnapps
-254	0	shot of grapefruit schnapps
-255	0	fine wine
-256	0	shot of tomato schnapps
-257	0	extra-spicy bloody mary
+248	2	salty dog
+249	2	bloody mary
+250	2	screwdriver
+251	2	martini
+252	2	bloody beer
+253	2	shot of orange schnapps
+254	2	shot of grapefruit schnapps
+255	2	fine wine
+256	2	shot of tomato schnapps
+257	2	extra-spicy bloody mary
 258	0	dense meat stack
 259	0	whitesnake skin
-260	0	White Castle fries
-261	0	White Castle burger
-262	0	piece of wedding cake
-263	0	white chocolate chips
-264	0	white chocolate chip cookies
+260	1	White Castle fries
+261	1	White Castle burger
+262	1	piece of wedding cake
+263	1	white chocolate chips
+264	1	white chocolate chip cookies
 265	0	white satin pants
-266	0	white lightning
+266	2	white lightning
 267	0	mullet wig
 268	0	meat cowboy hat
 269	0	white sword
@@ -273,9 +273,9 @@
 299	0	Triple-Minty Gum
 300	0	Quadruple-Minty Gum
 301	0	flat dough
-302	0	Knob sausage
-303	0	Knob mushroom
-304	0	dry noodles
+302	1	Knob sausage
+303	1	Knob mushroom
+304	1	dry noodles
 305	0	Knob Goblin harem pants
 306	0	Knob Goblin harem veil
 307	0	Knob Goblin perfume
@@ -285,26 +285,26 @@
 311	0	beans
 312	0	Knob Goblin visor
 313	0	Crown of the Goblin King
-314	0	bean burrito
-315	0	spicy bean burrito
-316	0	insanely spicy bean burrito
-317	0	enchanted bean burrito
-318	0	spicy enchanted bean burrito
-319	0	insanely spicy enchanted bean burrito
-320	0	bat haggis
-321	0	menudo
-322	0	goat cheese
-323	0	plain pizza
-324	0	sausage pizza
-325	0	goat cheese pizza
-326	0	mushroom pizza
+314	1	bean burrito
+315	1	spicy bean burrito
+316	1	insanely spicy bean burrito
+317	1	enchanted bean burrito
+318	1	spicy enchanted bean burrito
+319	1	insanely spicy enchanted bean burrito
+320	1	bat haggis
+321	1	menudo
+322	1	goat cheese
+323	1	plain pizza
+324	1	sausage pizza
+325	1	goat cheese pizza
+326	1	mushroom pizza
 327	0	goat
-328	0	bottle of whiskey
+328	2	bottle of whiskey
 329	0	goat beard
 330	0	glass of goat's milk
-331	0	white Canadian
-332	0	lemon
-333	0	lime
+331	2	white Canadian
+332	1	lemon
+333	1	lime
 334	0	sabre teeth
 335	0	sabre-toothed lime cub
 338	0	tenderizing hammer
@@ -326,8 +326,8 @@
 355	0	eXtreme scarf
 356	0	snowboarder pants
 357	0	Mountain Stream soda
-358	0	gr8ps
-359	0	t8r tots
+358	1	gr8ps
+359	1	t8r tots
 360	0	miner's helmet
 361	0	miner's pants
 362	0	7-Foot Dwarven mattock
@@ -426,11 +426,11 @@
 464	0	red pixel potion
 465	0	blue pixel potion
 466	0	green pixel potion
-467	0	purple pixel pie
+467	1	purple pixel pie
 468	0	ruby W
 469	0	wussiness potion
-470	0	Imp Ale
-471	0	hot wing
+470	2	Imp Ale
+471	1	hot wing
 472	0	diamond-studded cane
 473	0	flaming crutch
 474	0	cast
@@ -454,30 +454,30 @@
 495	0	catgut
 496	0	cat appendix
 497	0	gnatwing
-498	0	papaya
+498	1	papaya
 499	0	denim axe
 500	0	Elf Farm Raffle ticket
-501	0	Elfin shortbread
+501	1	Elfin shortbread
 502	0	pagoda plans
-503	0	skewered cat appendix
+503	1	skewered cat appendix
 504	0	evil golden arches
 505	0	gnatwing earring
-506	0	Hell broth
+506	1	Hell broth
 507	0	heavy metal thunderrr guitarrr
 508	0	heavy metal sonata
 510	0	Boris's key lime
 511	0	Jarlsberg's key lime
 512	0	Sneaky Pete's key lime
-513	0	Boris's key lime pie
-514	0	Jarlsberg's key lime pie
-515	0	Sneaky Pete's key lime pie
+513	1	Boris's key lime pie
+514	1	Jarlsberg's key lime pie
+515	1	Sneaky Pete's key lime pie
 516	0	Hey Deze map
 517	0	bejeweled accordion strap
 519	0	moxie magnet
 521	0	kickback cookbook
 522	0	one-winged stab bat
 523	0	rewinged stab bat
-524	0	papaya sling
+524	2	papaya sling
 527	0	volleyball
 528	0	blood-faced volleyball
 529	0	fertilized ghuol egg
@@ -494,9 +494,9 @@
 540	0	Tasty Fun Good rice candy
 541	0	draggin' ball hat
 542	0	1337 7r0uZ0RZ
-543	0	Trollhouse cookies
+543	1	Trollhouse cookies
 544	0	flaming talons
-545	0	Spam Witch sammich
+545	1	Spam Witch sammich
 546	0	meat vortex
 547	0	334 scroll
 548	3	668 scroll
@@ -505,42 +505,42 @@
 551	0	64067 scroll
 552	0	64735 scroll
 553	3	31337 scroll
-554	0	pr0n cocktail
+554	1	pr0n cocktail
 555	0	drywall axe
 556	0	Pine-Fresh air freshener
-557	0	whiskey and cola
-558	0	papaya taco
+557	2	whiskey and cola
+558	1	papaya taco
 559	0	razor-sharp can lid
-560	0	stalk of asparagus
+560	1	stalk of asparagus
 561	0	pregnant mushroom
 562	0	ratgut
 563	0	sonar-in-a-biscuit
-564	0	Mad Train wine
+564	2	Mad Train wine
 565	0	dirty hobo gloves
 566	0	bum cheek
-568	0	Double Bacon Beelzeburger
-569	0	Lord of the Flies-sized fries
-570	0	Brimstone Chicken Sandwich
+568	1	Double Bacon Beelzeburger
+569	1	Lord of the Flies-sized fries
+570	1	Brimstone Chicken Sandwich
 571	0	Jumbo Dr. Lucifer
-572	0	Childrens' Meal of the Damned
-573	0	delicious noodles
-574	0	delicious spicy noodles
-575	0	painful penne pasta
-576	0	ravioli della hippy
-577	0	pr0n m4nic0tti
-578	0	Hell ramen
-579	0	boring spaghetti
+572	1	Childrens' Meal of the Damned
+573	1	delicious noodles
+574	1	delicious spicy noodles
+575	1	painful penne pasta
+576	1	ravioli della hippy
+577	1	pr0n m4nic0tti
+578	1	Hell ramen
+579	1	boring spaghetti
 580	0	sauce of the ages
 581	0	fancy schmancy cheese sauce
 582	0	Himalayan Hidalgo sauce
-583	0	fettucini Inconnu
-584	0	spaghetti with Skullheads
-585	0	gnocchetti di Nietzsche
+583	1	fettucini Inconnu
+584	1	spaghetti with Skullheads
+585	1	gnocchetti di Nietzsche
 586	0	ridiculously huge sword
 587	0	super-spikey hair gel
 588	0	soft green echo eyedrop antidote
-589	0	cocoa eggshell fragment
-590	0	large cocoa eggshell fragment
+589	1	cocoa eggshell fragment
+590	1	large cocoa eggshell fragment
 591	0	cocoa egg
 592	0	tiny house
 593	0	phonics down
@@ -578,13 +578,13 @@
 634	0	cool whip
 635	0	little paper umbrella
 638	0	asshat
-639	0	abominable snowcone
+639	1	abominable snowcone
 640	0	Ent cider
-641	0	toast
+641	1	toast
 642	0	skeleton key
 643	0	skeleton key ring
 645	0	wrapping paper
-646	0	fruitcake
+646	1	fruitcake
 647	0	present
 648	0	Crimbo sword
 649	0	Crimbo hat
@@ -603,18 +603,18 @@
 665	0	Richard's star key
 666	0	steaming evil
 668	0	spiked femur
-669	0	ghuol guolash
+669	1	ghuol guolash
 670	0	lihc face
 671	0	grave robbing shovel
-672	0	cranberries
-673	0	vodka and cranberry
-674	0	whiskey sour
-679	0	roll in the hay
-680	0	slap and tickle
-681	0	slip 'n' slide
-682	0	a little sump'm sump'm
-683	0	horizontal tango
-684	0	pink pony
+672	1	cranberries
+673	2	vodka and cranberry
+674	2	whiskey sour
+679	2	roll in the hay
+680	2	slap and tickle
+681	2	slip 'n' slide
+682	2	a little sump'm sump'm
+683	2	horizontal tango
+684	2	pink pony
 685	0	Mr. Shirt
 686	0	enchanted brass knuckles
 687	0	blood of the Wereseal
@@ -622,23 +622,23 @@
 689	0	pixel pants
 690	0	pixel sword
 691	0	digital key
-723	0	Knoll mushroom
-724	0	spooky mushroom
+723	1	Knoll mushroom
+724	1	spooky mushroom
 725	0	one million meat pancakes
 739	0	tambourine bells
 740	0	tambourine
 741	0	broken skull
-742	0	shroomkabob
-743	0	stuffed spooky mushroom
+742	1	shroomkabob
+743	1	stuffed spooky mushroom
 744	0	can of hair spray
 747	0	Knob Goblin firecracker
-758	0	ghost cucumber
+758	1	ghost cucumber
 759	0	dill
 760	0	vinegar
 761	0	brine
 762	0	especially salty dog
 763	0	ghostly pickling solution
-764	0	spectral pickle
+764	1	spectral pickle
 765	0	briny vinegar
 766	0	ghost pickle on a stick
 767	0	dill potion
@@ -655,15 +655,15 @@
 780	0	scroll of pasta summoning
 781	0	mafia aria
 783	0	'Villa' document
-784	0	Acqua Del Piatto Merlot
-786	0	strawberry
-787	0	bottle of rum
-788	0	strawberry daiquiri
-789	0	rum and cola
-790	0	grog
+784	2	Acqua Del Piatto Merlot
+786	1	strawberry
+787	2	bottle of rum
+788	2	strawberry daiquiri
+789	2	rum and cola
+790	2	grog
 793	0	potion of chalky equality
 794	0	alarming strawberry juice
-795	0	Acque Luride Grezze Cabernet
+795	2	Acque Luride Grezze Cabernet
 797	2	rockin' wagon
 798	2	ocean motion
 799	2	fuzzbump
@@ -693,21 +693,21 @@
 827	0	murky potion
 828	0	baby killer bee
 829	0	anti-anti-antidote
-830	0	royal jelly
+830	1	royal jelly
 831	0	small box
 832	0	large box
 833	0	vorpal blade
 834	0	cornuthaum
 835	0	ring of aggravate monster
-836	0	mind flayer corpse
-837	0	Uovo Marcio Shiraz
+836	1	mind flayer corpse
+837	2	Uovo Marcio Shiraz
 838	0	Mafia Stogie
-839	0	Maiali Sifilitici Pinot Noir
+839	2	Maiali Sifilitici Pinot Noir
 840	0	Mafia violin case
-841	0	tomato daiquiri
-842	0	beertini
-843	0	salty slug
-844	0	papaya slung
+841	2	tomato daiquiri
+842	2	beertini
+843	2	salty slug
+844	2	papaya slung
 848	0	hypodermic needle
 849	0	meat detector
 850	0	many-eyed glasses
@@ -742,13 +742,13 @@
 900	0	smile-sharpening stone
 901	0	miniature espresso maker
 902	0	100-Watt bulb
-903	0	Spasmi Dolorosi Del Rene Champagne
+903	2	Spasmi Dolorosi Del Rene Champagne
 905	0	Yummy Tummy bean
 906	0	Rock Pops
 907	0	Mr. Mediocrebar
 908	0	Cold Hots candy
 909	0	Wint-O-Fresh mint
-910	0	dwarf bread
+910	1	dwarf bread
 911	0	Senior Mints
 912	0	pixellated candy heart
 913	0	candied kobold
@@ -756,17 +756,17 @@
 918	0	Radio Free Baseball Cap
 919	0	Radio Free Pants
 920	0	Radio Free Foil
-921	0	radio button candy
+921	1	radio button candy
 922	0	severed rocking horse head
 923	0	broken cellular phone
 924	0	crimbo elfling
 925	0	dental pliers
 926	0	papotion of papower
-927	0	Ferita Del Petto Zinfandel
-931	0	spiced rum
-932	0	eggnog
-933	0	candy cane
-934	0	gingerbread bugbear
+927	2	Ferita Del Petto Zinfandel
+931	2	spiced rum
+932	2	eggnog
+933	1	candy cane
+934	1	gingerbread bugbear
 935	0	imitation nice watch
 936	0	Hanukkimbo dreidl
 937	0	menorette
