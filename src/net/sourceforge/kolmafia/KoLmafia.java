@@ -258,7 +258,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			getBreakfast();
 
 		this.isLoggingIn = false;
-		loathingMail = new KoLMailManager();
+		this.loathingMail = new KoLMailManager( this );
 	}
 
 	/**

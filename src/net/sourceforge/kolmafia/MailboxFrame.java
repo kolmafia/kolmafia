@@ -42,6 +42,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JEditorPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTabbedPane;
+import javax.swing.JOptionPane;
 
 // event listeners
 import javax.swing.SwingUtilities;
@@ -51,6 +52,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 
 // other imports
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -218,9 +223,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public MailSelectList( String mailboxName )
 		{
 			super( mailbox.getMessages( mailboxName ).getMirrorImage() );
-			setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			this.mailboxName = mailboxName;
 			addListSelectionListener( this );
+			addKeyListener( new DeleteKeyListener() );
 		}
 
 		public void valueChanged( ListSelectionEvent e )
@@ -228,10 +234,12 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			int newIndex = getSelectedIndex();
 			if ( newIndex >= 0 && getModel().getSize() > 0 )
 			{
-				String newContent = ((KoLMailManager.KoLMailMessage)mailbox.getMessages( mailboxName ).get(newIndex)).getMessageHTML();
+				String newContent = ((KoLMailMessage)mailbox.getMessages( mailboxName ).get(newIndex)).getMessageHTML();
 				mailBuffer.clearBuffer();
 				mailBuffer.append( newContent );
 			}
+			else
+				mailBuffer.clearBuffer();
 		}
 
 		private boolean isInitialized()
@@ -240,6 +248,36 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public void setInitialized( boolean initialized )
 		{	this.initialized = initialized;
+		}
+
+		private class DeleteKeyListener extends KeyAdapter
+		{
+			public void keyPressed( KeyEvent e )
+			{
+				if ( e.getKeyCode() == KeyEvent.VK_DELETE )
+				{
+					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
+							(new DeleteMessageThread()).start();
+
+				}
+			}
+
+			private class DeleteMessageThread extends Thread
+			{
+				public DeleteMessageThread()
+				{
+					super( "Delete-Message-Thread" );
+					setDaemon( true );
+				}
+
+				public void run()
+				{
+					client.updateDisplay( DISABLED_STATE, "Deleting messages..." );
+					mailbox.deleteMessages( mailboxName, getSelectedValues() );
+					client.updateDisplay( ENABLED_STATE, "Messages deleted." );
+				}
+			}
 		}
 	}
 
