@@ -169,9 +169,22 @@ public class KoLRequest implements Runnable
 		// server, rather than allowing users to specify the root;
 		// usually, this works out to the benefit of everyone.
 
-		KoLRequest root = new KoLRequest( null, "" );
+		(new KoLRequest( null, "", false )).run();
+		KoLRequest root = new KoLRequest( null, "login.php", false );
 		root.run();
-		setLoginServer( root.formConnection.getURL().getHost() );
+
+		// Actually, the autobalancing uses a redirect.  Oops.  So,
+		// determine the redirect location.
+
+		try
+		{
+			setLoginServer( (new URL( root.formConnection.getHeaderField( "Location" ) )).getHost() );
+		}
+		catch ( Exception e )
+		{
+			// If there's an exception caught while parsing the actual
+			// login server, just leave things as they are.
+		}
 	}
 
 	/**
