@@ -341,7 +341,7 @@ public class KoLRequest implements Runnable
 
 	protected void processResults( String results )
 	{
-		StringTokenizer parsedResults = new StringTokenizer( results, "<>" );
+		StringTokenizer parsedResults = new StringTokenizer( results.replaceAll( "<[^>]*>", "\n" ), "\n" );
 		String lastToken = null;
 
 		while ( parsedResults.hasMoreTokens() )
@@ -353,8 +353,7 @@ public class KoLRequest implements Runnable
 
 			if ( lastToken.startsWith( "You acquire an effect:" ) )
 				parsedResults.nextToken();
-
-			if ( lastToken.equals( "b" ) )
+			else if ( lastToken.startsWith( "You acquire" ) )
 				client.parseResult( parsedResults.nextToken() );
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose" )) && !lastToken.endsWith( "Drunkenness." ) )
 				client.parseResult( lastToken );
