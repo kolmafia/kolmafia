@@ -30,13 +30,11 @@ public class ContactListFrame extends JFrame
 
 	public ContactListFrame( KoLmafia client, SortedListModel contacts )
 	{
-		super( "KoLIM: " + client.getLoginName() );
-
 		this.client = client;
 		this.contacts = contacts;
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( new ContactListPanel(), "" );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		setDefaultCloseOperation( HIDE_ON_CLOSE );
 	}
 
 	private class ContactListPanel extends JPanel
@@ -50,13 +48,6 @@ public class ContactListFrame extends JFrame
 
 			add( new JScrollPane( contactsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
-		}
-	}
-
-	private class NotifyMessengerAdapter extends WindowAdapter
-	{
-		public void windowClosed( WindowEvent e )
-		{	client.getMessenger().notifyContactListClosed();
 		}
 	}
 

@@ -238,26 +238,7 @@ public class KoLMessenger
 			Iterator frames = instantMessageFrames.values().iterator();
 			while ( frames.hasNext() )
 				((ChatFrame) frames.next()).setVisible( isVisible );
-
-			if ( isVisible && !onlineContacts.isEmpty() )
-			{
-				contactsFrame.setSize( new Dimension( 150, 500 ) );
-				contactsFrame.setVisible( true );
-			}
-			else
-				contactsFrame.setVisible( false );
 		}
-	}
-
-	/**
-	 * Notifies the messenger that the contact list was closed.  In order
-	 * to make sure that the GUI doesn't last forever, this is responsible
-	 * for understanding that the contact list has been removed and that
-	 * a new invisible frame should be created.
-	 */
-
-	public void notifyContactListClosed()
-	{	contactsFrame = new ContactListFrame( client, onlineContacts );
 	}
 
 	/**
@@ -326,11 +307,18 @@ public class KoLMessenger
 	 * @param	currentContacts	A list of the contacts currently online.
 	 */
 
-	private void updateContactList( List currentContacts )
+	private void updateContactList( String contactListType, List currentContacts )
 	{
 		onlineContacts.clear();
 		onlineContacts.addAll( currentContacts );
-		contactsFrame.setVisible( true );
+
+		if ( !contactsFrame.isShowing() )
+		{
+			contactsFrame.setSize( 200, 500 );
+			contactsFrame.setVisible( true );
+		}
+
+		contactsFrame.setTitle( contactListType );
 	}
 
 	/**
@@ -451,7 +439,7 @@ public class KoLMessenger
 			else
 			{
 				StringTokenizer parsedContactList = new StringTokenizer( result.replaceAll( "<.*?>", "\n" ), "\n" );
-				parsedContactList.nextToken();
+				String contactListType = parsedContactList.nextToken();
 
 				List newContactList = new ArrayList();
 				while ( parsedContactList.hasMoreTokens() )
@@ -464,7 +452,7 @@ public class KoLMessenger
 					if ( parsedContactList.hasMoreTokens() )
 						parsedContactList.nextToken();
 				}
-				updateContactList( newContactList );
+				updateContactList( contactListType, newContactList );
 			}
 		}
 
@@ -770,6 +758,12 @@ public class KoLMessenger
 		else
 			windowName = characterName;
 
+
+		// If the window exists, don't open another one as it
+		// just confuses the disposal issue
+
+		if ( instantMessageBuffers.containsKey( windowName ) )
+			return;
 
 		ChatBuffer newBuffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + windowName + " - Started " +
 			Calendar.getInstance().getTime().toString(), MAXIMUM_CHATSIZE );
