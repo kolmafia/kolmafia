@@ -379,12 +379,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 				for ( int i = 0; i < skills.size(); ++i )
 				{
-					if ( messageContent.indexOf( skills.get(i).toString().replaceFirst( "ñ", "n" ) ) != -1 )
+					if ( messageContent.toLowerCase().indexOf( skills.get(i).toString().replaceFirst( "ñ", "n" ).toLowerCase() ) != -1 )
 					{
 						int castCount = housesSent * 20 / ClassSkillsDatabase.getMPConsumptionByID(
 							ClassSkillsDatabase.getSkillID( skills.get(i).toString().replaceFirst( "ñ", "&ntilde;" ) ) );
 
-						if ( !(new BuffBotCaster( skills.get(i).toString(), 0, castCount, false )).castOnTarget( message.getSenderName() ) )
+						if ( !(new BuffBotCaster( skills.get(i).toString(), -housesSent, castCount, false )).castOnTarget( message.getSenderName() ) )
 						{
 							sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  Please try again later.",
 								new AdventureResult( "tiny house", housesSent ) );
@@ -546,8 +546,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			double currentMP;
 			int currentCast, mpPerEvent;
 
-			buffbotLog.append( BUFFCOLOR + "Casting " + buffName + ", " + castCount + " times on "
+			if (price > 0)
+				buffbotLog.append( BUFFCOLOR + "Casting " + buffName + ", " + castCount + " times on "
 					+ target + " for " + price + " meat... "+ ENDCOLOR + "<br>");
+			else
+				buffbotLog.append( BUFFCOLOR + "Casting " + buffName + ", " + castCount + " times on "
+					+ target + " for " + (-price) + " tiny houses... "+ ENDCOLOR + "<br>");
 			while ( totalCasts > 0 )
 			{
 				currentCast = Math.min(totalCasts, (int) (maximumMP/mpPerCast) );
