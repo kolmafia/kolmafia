@@ -151,7 +151,12 @@ public class GreenMessageRequest extends KoLRequest
 		for ( int i = 0; i < attachments.length; ++i )
 		{
 			currentResult = (AdventureResult) attachments[i];
-			negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
+
+			if ( !currentResult.getName().equals( AdventureResult.MEAT ) )
+				negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
+			else
+				negatedResult = new AdventureResult( AdventureResult.MEAT, 0 - currentResult.getCount() );
+
 			client.addToResultTally( negatedResult );
 		}
 	}
