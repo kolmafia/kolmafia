@@ -507,6 +507,7 @@ public class OptionsFrame extends KoLFrame
 	private class ChatOptionsPanel extends OptionsPanel
 	{
 		private JComboBox fontSizeSelect;
+		private JComboBox chatStyleSelect;
 
 		public ChatOptionsPanel()
 		{
@@ -517,8 +518,14 @@ public class OptionsFrame extends KoLFrame
 				fontSizes.add( new Integer( i ) );
 			fontSizeSelect = new JComboBox( fontSizes );
 
-			VerifiableElement [] elements = new VerifiableElement[1];
+			LockableListModel chatStyles = new LockableListModel();
+			chatStyles.add( "Messenger style" );
+			chatStyles.add( "Trivia hosting style" );
+			chatStyleSelect = new JComboBox( chatStyles );
+
+			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
+			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 
 			setContent( elements, true );
 		}
@@ -541,6 +548,10 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
+				// Begin by loading the font size from the user
+				// settings - for backwards compatibility, this
+				// may not exist yet.
+
 				String fontSize = settings.getProperty( "fontSize" );
 
 				if ( fontSize != null )
@@ -550,6 +561,13 @@ public class OptionsFrame extends KoLFrame
 				}
 				else
 					fontSizeSelect.setSelectedItem( new Integer( 3 ) );
+
+				// Next, load the kind of chat style the user
+				// is using - again, for backwards compatibility,
+				// this may not exist yet.
+
+				String chatStyle = settings.getProperty( "chatStyle" );
+				chatStyleSelect.setSelectedIndex( (chatStyle != null) ? Integer.parseInt( chatStyle ) : 0 );
 			}
 		}
 
@@ -566,7 +584,7 @@ public class OptionsFrame extends KoLFrame
 				Integer fontSize = (Integer) fontSizeSelect.getSelectedItem();
 				settings.setProperty( "fontSize", fontSize.toString() );
 				LimitedSizeChatBuffer.setFontSize( fontSize.intValue() );
-
+				settings.setProperty( "chatStyle", "" + chatStyleSelect.getSelectedIndex() );
 				saveSettings();
 			}
 		}

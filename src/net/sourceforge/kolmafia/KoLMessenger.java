@@ -53,6 +53,9 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class KoLMessenger
 {
+	private static final String MESSENGER_STYLE = "0";
+	private static final String TRIVIA_STYLE = "1";
+
 	private KoLmafia client;
 	private ContactListFrame contactsFrame;
 
@@ -142,8 +145,19 @@ public class KoLMessenger
 
 	public ChatBuffer getChatBuffer( String contact )
 	{
-		return contact == null ? (ChatBuffer) instantMessageBuffers.get( currentChannel ) :
-			(ChatBuffer) instantMessageBuffers.get( contact );
+		String chatStyle = client.getSettings().getProperty( "chatStyle" );
+
+		if ( contact == null )
+			return (ChatBuffer) instantMessageBuffers.get( currentChannel );
+
+		else if ( chatStyle == null )
+			return (ChatBuffer) instantMessageBuffers.get( contact );
+
+		else if ( chatStyle.equals( TRIVIA_STYLE ) && !contact.startsWith( "/" ) )
+			return (ChatBuffer) instantMessageBuffers.get( "[nsipms]" );
+
+		else
+			return (ChatBuffer) instantMessageBuffers.get( contact );
 	}
 
 	/**
@@ -786,14 +800,30 @@ public class KoLMessenger
 
 	public void openInstantMessage( String characterName )
 	{
-		ChatBuffer newBuffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + characterName + " - Started " +
+		String chatStyle = client.getSettings().getProperty( "chatStyle" );
+		String windowName;
+
+		if ( characterName == null )
+			windowName = currentChannel;
+
+		else if ( chatStyle == null )
+			windowName = characterName;
+
+		else if ( chatStyle.equals( TRIVIA_STYLE ) && !characterName.startsWith( "/" ) )
+			windowName = "[nsipms]";
+
+		else
+			windowName = characterName;
+
+
+		ChatBuffer newBuffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + windowName + " - Started " +
 			Calendar.getInstance().getTime().toString(), MAXIMUM_CHATSIZE );
 
-		ChatFrame newFrame = new ChatFrame( client, this, characterName );
+		ChatFrame newFrame = new ChatFrame( client, this, windowName );
 		newFrame.setVisible( true );
 
 		newBuffer.setChatDisplay( newFrame.getChatDisplay() );
-		instantMessageFrames.put( characterName, newFrame );
-		instantMessageBuffers.put( characterName, newBuffer );
+		instantMessageFrames.put( windowName, newFrame );
+		instantMessageBuffers.put( windowName, newBuffer );
 	}
 }

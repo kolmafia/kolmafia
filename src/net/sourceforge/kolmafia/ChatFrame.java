@@ -102,13 +102,20 @@ public class ChatFrame extends KoLFrame
 
 		chatDisplay = new JEditorPane();
 		chatDisplay.setEditable( false );
-		chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
+
+		if ( !associatedContact.startsWith( "[" ) )
+			chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
+
 		JScrollPane scrollArea = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		JPanel entryPanel = new JPanel();
 		entryField = new JTextField();
+		entryField.setEnabled( !associatedContact.startsWith( "[" ) );
+
 		JButton entryButton = new JButton( "chat" );
+		entryButton.setEnabled( !associatedContact.startsWith( "[" ) );
+
 		rootPane.setDefaultButton( entryButton );
 
 		entryPanel.setLayout( new BoxLayout( entryPanel, BoxLayout.X_AXIS ) );
@@ -123,7 +130,9 @@ public class ChatFrame extends KoLFrame
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
 		getContentPane().add( mainPanel, "" );
 		addWindowListener( new CloseChatListener() );
-		entryButton.addActionListener( new ChatEntryListener() );
+
+		if ( !associatedContact.startsWith( "[" ) )
+			entryButton.addActionListener( new ChatEntryListener() );
 
 		addMenuBar();
 
@@ -167,7 +176,7 @@ public class ChatFrame extends KoLFrame
 		clearItem.addActionListener( new ClearChatBufferListener() );
 		fileMenu.add( clearItem );
 
-		if ( !associatedContact.startsWith( "/" ) )
+		if ( !associatedContact.startsWith( "/" ) && !associatedContact.startsWith( "[" ) )
 		{
 			JMenu peopleMenu = new JMenu("People");
 			peopleMenu.setMnemonic( KeyEvent.VK_P );
