@@ -138,7 +138,7 @@ public class LoginFrame extends KoLFrame
 
 		JPanel imagePanel = new JPanel();
 		imagePanel.setLayout( new BorderLayout( 0, 0 ) );
-		imagePanel.add( new JLabel( "" ), BorderLayout.NORTH );
+		imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
 		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.SOUTH );
 
 		getContentPane().add( imagePanel, BorderLayout.NORTH );
@@ -196,9 +196,9 @@ public class LoginFrame extends KoLFrame
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
 
-			actionStatusLabel = new JLabel( "", JLabel.CENTER );
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
 			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( "", JLabel.CENTER ) );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			loginnameField = client == null || client.getSettings().getProperty( "saveState" ) == null ||
 				client.getSettings().getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) :

@@ -171,11 +171,11 @@ public class CharsheetFrame extends KoLFrame
 		int index1 = ((displayIndex + 1) << 1);
 		int index2 = index1 + 1;
 
-		statusLabel[ index1 ] = new JLabel( "", JLabel.LEFT );
+		statusLabel[ index1 ] = new JLabel( " ", JLabel.LEFT );
 		statusLabel[ index1 ].setForeground( Color.BLUE );
 		statpointPanel[ displayIndex ].add( statusLabel[ index1 ], BorderLayout.WEST );
 
-		statusLabel[ index2 ] = new JLabel( "", JLabel.LEFT );
+		statusLabel[ index2 ] = new JLabel( " ", JLabel.LEFT );
 		statpointPanel[ displayIndex ].add( statusLabel[ index2 ], BorderLayout.CENTER );
 
 		return statpointPanel[ displayIndex ];
@@ -220,18 +220,18 @@ public class CharsheetFrame extends KoLFrame
 		JPanel statusLabelPanel = new JPanel();
 		statusLabelPanel.setLayout( new BoxLayout( statusLabelPanel, BoxLayout.Y_AXIS ) );
 
-		statusLabelPanel.add( new JLabel( "" ) );
+		statusLabelPanel.add( new JLabel( " " ) );
 
 		this.statusLabel = new JLabel[11];
 		for ( int i = 0; i < 11; ++i )
 		{
-			statusLabel[i] = new JLabel( "", JLabel.CENTER );
+			statusLabel[i] = new JLabel( " ", JLabel.CENTER );
 			if ( i == 1 )  i = 7;
 		}
 
 		statusLabelPanel.add( statusLabel[0], "");
 		statusLabelPanel.add( statusLabel[1], "" );
-		statusLabelPanel.add( new JLabel( "" ) );
+		statusLabelPanel.add( new JLabel( " " ) );
 
 		JPanel primeStatLabels = new JPanel();
 		primeStatLabels.setLayout( new GridLayout( 3, 1 ) );
@@ -252,12 +252,12 @@ public class CharsheetFrame extends KoLFrame
 		primeStatPanel.add( primeStatValues, BorderLayout.CENTER );
 		statusLabelPanel.add( primeStatPanel, "" );
 
-		statusLabelPanel.add( new JLabel( "" ), "" );
+		statusLabelPanel.add( new JLabel( " " ), "" );
 		statusLabelPanel.add( statusLabel[8], "" );
 		statusLabelPanel.add( statusLabel[9], "" );
 		statusLabelPanel.add( statusLabel[10], "" );
 
-		statusLabelPanel.add( new JLabel( "" ), "" );
+		statusLabelPanel.add( new JLabel( " " ), "" );
 		refreshStatus();
 
 		return statusLabelPanel;

@@ -118,7 +118,7 @@ public class GreenMessageFrame extends KoLFrame
 
 		this.sendMessageButton = new JButton( "Send" );
 		sendMessageButton.addActionListener( new SendGreenMessageListener() );
-		this.sendMessageStatus = new JLabel( "", JLabel.LEFT );
+		this.sendMessageStatus = new JLabel( " ", JLabel.LEFT );
 
 		JPanel sendMessagePanel = new JPanel();
 		sendMessagePanel.setLayout( new BorderLayout( 5, 5 ) );

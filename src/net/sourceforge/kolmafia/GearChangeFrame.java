@@ -189,14 +189,14 @@ public class GearChangeFrame extends KoLFrame
 		JPanel fieldPanel = new JPanel();
 		fieldPanel.setLayout( new GridLayout( 12, 1 ) );
 
-		fieldPanel.add( new JLabel( "" ) );
+		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Hat:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Weapon:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Pants:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
-		fieldPanel.add( new JLabel( "" ) );
+		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Familiar:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Item:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Weight:  ", JLabel.RIGHT ) );
@@ -204,21 +204,21 @@ public class GearChangeFrame extends KoLFrame
 		JPanel valuePanel = new JPanel();
 		valuePanel.setLayout( new GridLayout( 12, 1 ) );
 
-		valuePanel.add( new JLabel( "" ) );
+		valuePanel.add( new JLabel( " " ) );
 
 		equipment = new JLabel[6];
 		for ( int i = 0; i < 6; ++i )
 		{
-			equipment[i] = new JLabel( "", JLabel.LEFT );
+			equipment[i] = new JLabel( " ", JLabel.LEFT );
 			valuePanel.add( equipment[i] );
 		}
 
-		valuePanel.add( new JLabel( "" ) );
+		valuePanel.add( new JLabel( " " ) );
 
 		familiarData = new JLabel[3];
 		for ( int i = 0; i < 3; ++i )
 		{
-			familiarData[i] = new JLabel( "", JLabel.LEFT );
+			familiarData[i] = new JLabel( " ", JLabel.LEFT );
 			valuePanel.add( familiarData[i] );
 		}
 

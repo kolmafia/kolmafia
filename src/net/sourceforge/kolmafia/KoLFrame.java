@@ -560,9 +560,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
 
-			actionStatusLabel = new JLabel( "", JLabel.CENTER );
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
 			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( "", JLabel.CENTER ) );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			add( actionStatusPanel, BorderLayout.SOUTH );
 		}

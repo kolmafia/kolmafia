@@ -195,19 +195,19 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		compactPane.add( Box.createHorizontalStrut( 80 ) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
-		compactPane.add( hpLabel = new JLabel( "", JLabel.CENTER ) );
+		compactPane.add( hpLabel = new JLabel( " ", JLabel.CENTER ) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
-		compactPane.add( mpLabel = new JLabel( "", JLabel.CENTER ) );
+		compactPane.add( mpLabel = new JLabel( " ", JLabel.CENTER ) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
-		compactPane.add( meatLabel = new JLabel( "", JLabel.CENTER ) );
+		compactPane.add( meatLabel = new JLabel( " ", JLabel.CENTER ) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
-		compactPane.add( advLabel = new JLabel( "",  JLabel.CENTER) );
+		compactPane.add( advLabel = new JLabel( " ",  JLabel.CENTER) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER ) );
-		compactPane.add( drunkLabel = new JLabel( "",  JLabel.CENTER) );
+		compactPane.add( drunkLabel = new JLabel( " ",  JLabel.CENTER) );
 
 		this.sidePanel = new JPanel();
 		sidePanel.setLayout( new BorderLayout( 0, 0 ) );
@@ -363,9 +363,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
 
-			actionStatusLabel = new JLabel( "", JLabel.CENTER );
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
 			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( "", JLabel.CENTER ) );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			locationField = new JComboBox( adventureList );
 			countField = new JTextField();
@@ -543,9 +543,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
 
-			actionStatusLabel = new JLabel( "", JLabel.CENTER );
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
 			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( "", JLabel.CENTER ) );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			searchField = new JTextField();
 			countField = new JTextField();
