@@ -89,9 +89,9 @@ public class AutoSellRequest extends KoLRequest
 	public void run()
 	{
 		if ( sellType == AUTOSELL )
-			updateDisplay( DISABLED_STATE, "Autoselling " + soldResult.getName() + "..." );
+			updateDisplay( DISABLED_STATE, "Autoselling " + soldResult.getName().replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) + "..." );
 		else
-			updateDisplay( DISABLED_STATE, "Placing " + soldResult.getName() + " in the mall..." );
+			updateDisplay( DISABLED_STATE, "Placing " + soldResult.getName().replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) + " in the mall..." );
 
 		super.run();
 
