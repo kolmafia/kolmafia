@@ -442,17 +442,18 @@ public class KoLRequest implements Runnable
 					if ( line.indexOf( "()" ) != -1 )
 					{
 						logStream.println( "MySQL error encountered.  Repeating request..." );
-
-						this.run();
-						return;
+						this.run();  return;
 					}
 
-					logStream.println( "Skipping frame-nesting Javascript..." );
+					if ( !formURL.getPath().equals( "/charpane.php" ) && !formURL.getPath().equals( "/lchat.php" ) )
+					{
+						logStream.println( "Skipping frame-nesting Javascript..." );
 
-					for ( int i = 0; i < 9; ++i )
-						istream.readLine();
+						for ( int i = 0; i < 9; ++i )
+							istream.readLine();
 
-					logStream.println( "Skipping complete.  Reading page content..." );
+						logStream.println( "Skipping complete.  Reading page content..." );
+					}
 
 					// The remaining lines form the rest of the content.  In order
 					// to make it easier for string parsing, the line breaks will
@@ -469,7 +470,7 @@ public class KoLRequest implements Runnable
 
 					logStream.println(
 						"\n ==========================\n" +
-						replyContent.replaceAll( "><", "" ).replaceAll( "<[^>]*>", "\n" ) +
+						replyContent.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ) +
 						"\n ==========================\n"
 					);
 				}
