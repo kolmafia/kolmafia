@@ -73,14 +73,20 @@ public class CharsheetFrame extends KoLFrame
 
 	public CharsheetFrame( KoLmafia client )
 	{
-		super( "KoLmafia: " + client.getLoginName() + " (Character Sheet)", client );
+		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
+			" (Character Sheet)", client );
 
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
 
-		characterData = new KoLCharacter( client.getLoginName() );
-		(new CharsheetRequest( client, characterData )).run();
-		(new EquipmentRequest( client, characterData )).run();
+		if ( client != null )
+		{
+			characterData = new KoLCharacter( client.getLoginName() );
+			(new CharsheetRequest( client, characterData )).run();
+			(new EquipmentRequest( client, characterData )).run();
+		}
+		else
+			characterData = new KoLCharacter( "UI Test" );
 
 		setResizable( false );
 		contentPanel = null;
@@ -212,5 +218,17 @@ public class CharsheetFrame extends KoLFrame
 		equipPanel.add( valuePanel, BorderLayout.EAST );
 
 		return equipPanel;
+	}
+
+	/**
+	 * The main method used in the event of testing the way the
+	 * user interface looks.  This allows the UI to be tested
+	 * without having to constantly log in and out of KoL.
+	 */
+
+	public static void main( String [] args )
+	{
+		KoLFrame uitest = new CharsheetFrame( null );
+		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }

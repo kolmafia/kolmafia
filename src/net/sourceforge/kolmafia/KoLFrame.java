@@ -86,7 +86,7 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 	public void updateDisplay( int displayState, String message )
 	{
-		if ( contentPanel != null )
+		if ( contentPanel != null && client != null )
 		{
 			client.getLogStream().println( message );
 			(new DisplayStatus( displayState, message )).run();
@@ -178,7 +178,9 @@ public abstract class KoLFrame extends javax.swing.JFrame
 	protected class ReturnFocusAdapter extends WindowAdapter
 	{
 		public void windowClosed( WindowEvent e )
-		{	client.getActiveFrame().requestFocus();
+		{
+			if ( client != null )
+				client.getActiveFrame().requestFocus();
 		}
 	}
 

@@ -55,6 +55,7 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 
 // utilities
+import java.util.Properties;
 import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -94,7 +95,8 @@ public class OptionsFrame extends KoLFrame
 
 	public OptionsFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Preferences (Global)", client );
+		super( "KoLmafia: " + ((client == null) ? "UI Test" :
+			(client.getLoginName() == null) ? "Global" : client.getLoginName()) + " Preferences", client );
 		setResizable( false );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
@@ -207,11 +209,7 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		protected void actionCancelled()
-		{
-			// Clear the pane, which effectively loads
-			// the original default settings.
-
-			this.clear();
+		{	clear();
 		}
 
 		/**
@@ -224,31 +222,22 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				serverSelect.setSelectedIndex( Integer.parseInt( client.getSettings().getProperty( "loginServer" ) ) );
-				String http_proxySet = client.getSettings().getProperty( "proxySet" );
+				Properties settings = (client == null) ? System.getProperties() : client.getSettings();
 
-				if ( http_proxySet.equals( "true" ) )
+				if ( client == null )
 				{
-					System.setProperty( "proxySet", "true" );
+					System.setProperty( "loginServer", "0" );
+					System.setProperty( "proxySet", "false" );
+				}
 
-					String http_proxyHost = client.getSettings().getProperty( "http.proxyHost" );
-					System.setProperty( "http.proxyHost", http_proxyHost );
-					String http_proxyPort = client.getSettings().getProperty( "http.proxyPort" );
-					System.setProperty( "http.proxyPort", http_proxyPort );
+				serverSelect.setSelectedIndex( Integer.parseInt( settings.getProperty( "loginServer" ) ) );
 
-					String http_proxyUser = client.getSettings().getProperty( "http.proxyUser" );
-					String http_proxyPassword = client.getSettings().getProperty( "http.proxyPassword" );
-
-					if ( http_proxyUser != null )
-					{
-						System.setProperty( "http.proxyUser", http_proxyUser );
-						System.setProperty( "http.proxyPassword", http_proxyPassword );
-					}
-
-					proxyHost.setText( http_proxyHost );
-					proxyPort.setText( http_proxyPort );
-					proxyLogin.setText( http_proxyUser );
-					proxyPassword.setText( http_proxyPassword );
+				if ( settings.getProperty( "proxySet" ).equals( "true" ) )
+				{
+					proxyHost.setText( settings.getProperty( "http.proxyHost" ) );
+					proxyPort.setText( settings.getProperty( "http.proxyPort" ) );
+					proxyLogin.setText( settings.getProperty( "http.proxyUser" ) );
+					proxyPassword.setText( settings.getProperty( "http.proxyPassword" ) );
 				}
 				else
 				{
@@ -275,7 +264,7 @@ public class OptionsFrame extends KoLFrame
 				// First, determine what the proxy settings chosen
 				// by the user.
 
-				KoLSettings settings = client.getSettings();
+				Properties settings = (client == null) ? System.getProperties() : client.getSettings();
 
 				if ( proxyHost.getText().trim().length() != 0 )
 				{
@@ -311,7 +300,9 @@ public class OptionsFrame extends KoLFrame
 				// Save the settings that were just set; that way,
 				// the next login can use them.
 
-				settings.saveSettings();
+				if ( settings instanceof KoLSettings )
+					((KoLSettings)settings).saveSettings();
+
 				KoLRequest.applySettings();
 				(new StatusMessageChanger( "Settings saved." )).run();
 			}
@@ -403,7 +394,8 @@ public class OptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				String settings = client.getSettings().getProperty( "battleAction" );
+				String settings =  (client == null) ? null :
+					client.getSettings().getProperty( "battleAction" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
@@ -435,11 +427,15 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				for ( int i = 0; i < actions.length; ++i )
-					if ( actions[i].isSelected() )
-						client.getSettings().setProperty( "battleAction", actionnames[i] );
+				if ( client != null )
+				{
+					for ( int i = 0; i < actions.length; ++i )
+						if ( actions[i].isSelected() )
+							client.getSettings().setProperty( "battleAction", actionnames[i] );
 
-				client.getSettings().saveSettings();
+					client.getSettings().saveSettings();
+				}
+
 				(new StatusMessageChanger( "Settings saved." )).run();
 			}
 		}
@@ -524,7 +520,8 @@ public class OptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				String settings = client.getSettings().getProperty( "luckySewer" );
+				String settings = (client == null) ? null :
+					client.getSettings().getProperty( "luckySewer" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
@@ -575,8 +572,11 @@ public class OptionsFrame extends KoLFrame
 					return;
 				}
 
-				client.getSettings().setProperty( "luckySewer", selected[0] + "," + selected[1] + "," + selected[2] );
-				client.getSettings().saveSettings();
+				if ( client != null )
+				{
+					client.getSettings().setProperty( "luckySewer", selected[0] + "," + selected[1] + "," + selected[2] );
+					client.getSettings().saveSettings();
+				}
 
 				(new StatusMessageChanger( "Settings saved." )).run();
 			}
@@ -669,7 +669,8 @@ public class OptionsFrame extends KoLFrame
 
 			public void run()
 			{
-				String settings = client.getSettings().getProperty( "hermitTrade" );
+				String settings = (client == null) ? null :
+					client.getSettings().getProperty( "hermitTrade" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
@@ -721,11 +722,26 @@ public class OptionsFrame extends KoLFrame
 					return;
 				}
 
-				client.getSettings().setProperty( "hermitTrade", "" + selected );
-				client.getSettings().saveSettings();
+				if ( client != null )
+				{
+					client.getSettings().setProperty( "hermitTrade", "" + selected );
+					client.getSettings().saveSettings();
+				}
 
 				(new StatusMessageChanger( "Settings saved." )).run();
 			}
 		}
+	}
+
+	/**
+	 * The main method used in the event of testing the way the
+	 * user interface looks.  This allows the UI to be tested
+	 * without having to constantly log in and out of KoL.
+	 */
+
+	public static void main( String [] args )
+	{
+		KoLFrame uitest = new OptionsFrame( null );
+		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }
