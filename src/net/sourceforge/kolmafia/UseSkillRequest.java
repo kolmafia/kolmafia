@@ -61,9 +61,10 @@ public class UseSkillRequest extends KoLRequest
 		int skillID = ClassSkillsDatabase.getSkillID( skillName );
 		addFormField( "whichskill", "" + skillID );
 		addFormField( "quantity", "" + quantity );
+		addFormField( "bufftimes", "" + quantity );
 
 		if ( target == null || target.trim().length() == 0 )
-			addFormField( "specificplayer", "" + client.getCharacterData().getUserID() );
+			addFormField( "targetplayer", "" + client.getCharacterData().getUserID() );
 		else
 			addFormField( "specificplayer", target );
 
