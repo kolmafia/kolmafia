@@ -296,6 +296,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				{
 					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
 						(new KoLmafiaCLI( client, filename )).listenForCommands();
+					updateDisplay( KoLFrame.ENABLED_STATE, "Script completed successfully." );
 				}
 				catch ( Exception e )
 				{
