@@ -55,18 +55,20 @@ public class AdventureResult implements Comparable
 	private int priority;
 
 	private static final int HP_PRIORITY = 0;
-	private static final int MP_PRIORITY = 0;
-	private static final int ADV_PRIORITY = 1;
-	private static final int MEAT_PRIORITY = 2;
-	private static final int SUBSTAT_PRIORITY = 3;
-	private static final int DIVIDER_PRIORITY = 4;
-	private static final int ITEM_PRIORITY = 5;
+	private static final int MP_PRIORITY = 1;
+	private static final int ADV_PRIORITY = 2;
+	private static final int DRUNK_PRIORITY = 3;
+	private static final int MEAT_PRIORITY = 4;
+	private static final int SUBSTAT_PRIORITY = 5;
+	private static final int DIVIDER_PRIORITY = 6;
+	private static final int ITEM_PRIORITY = 7;
 
 	private static final DecimalFormat df = new DecimalFormat();
 
 	public static final String HP = "HP";
 	public static final String MP = "MP";
 	public static final String ADV = "Adv";
+	public static final String DRUNK = "Drunk";
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Substats";
 	public static final String DIVIDER = "";
@@ -128,6 +130,7 @@ public class AdventureResult implements Comparable
 			name.equals(HP) ? HP_PRIORITY :
 			name.equals(MP) ? MP_PRIORITY :
 			name.equals(ADV) ? ADV_PRIORITY :
+			name.equals(DRUNK) ? DRUNK_PRIORITY :
 			name.equals(MEAT) ? MEAT_PRIORITY :
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
 			name.equals(DIVIDER) ? DIVIDER_PRIORITY : ITEM_PRIORITY );
@@ -227,7 +230,9 @@ public class AdventureResult implements Comparable
 
 			if ( statname.startsWith( "Adv" ) )
 				return new AdventureResult( ADV, modifier );
-			else if ( statname.equals( MEAT ) )
+			else if ( statname.startsWith( "Dru" ) )
+				return new AdventureResult( DRUNK, modifier );
+			else if ( statname.startsWith( "Mea" ) )
 				return new AdventureResult( MEAT, modifier );
 
 			else
@@ -263,7 +268,8 @@ public class AdventureResult implements Comparable
 	public String toString()
 	{
 		return
-			name.equals(HP) || name.equals(MP) || name.equals(ADV) || name.equals(MEAT) ? " " + name + ": " + df.format(count[0]) :
+			name.equals(HP) || name.equals(MP) || name.equals(ADV) || name.equals(DRUNK) || name.equals(MEAT) ?
+				" " + name + ": " + df.format(count[0]) :
 			name.equals(SUBSTATS) ? " Substats: " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]) :
 			name.equals(DIVIDER) ? DIVIDER :
 			" " + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +

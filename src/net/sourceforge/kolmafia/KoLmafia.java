@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import javax.swing.JOptionPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -173,6 +174,7 @@ public class KoLmafia implements UtilityConstants
 		addToResultTally( new AdventureResult( AdventureResult.HP, characterData.getCurrentHP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.MP, characterData.getCurrentMP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.ADV, characterData.getAdventuresLeft() ) );
+		addToResultTally( new AdventureResult( AdventureResult.DRUNK, characterData.getInebriety() ) );
 		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
 		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
 		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
@@ -243,14 +245,23 @@ public class KoLmafia implements UtilityConstants
 
 	public void addToResultTally( AdventureResult result )
 	{
+		String resultName = result.getName();
 		AdventureResult.addResultToList( tally, result, characterData.getBaseMaxHP(), characterData.getBaseMaxMP() );
 
-		if ( result.isItem() && TradeableItemDatabase.contains( result.getName() ) )
+		if ( result.isItem() && TradeableItemDatabase.contains( resultName ) )
 		{
 			characterData.addInventoryItem( result );
-			if ( TradeableItemDatabase.isUsable( result.getName() ) )
+			if ( TradeableItemDatabase.isUsable( resultName ) )
 				AdventureResult.addResultToList( usableItems, result );
 		}
+
+		// Also update the character data's information related to
+		// stats; for now, only drunkenness matters since the pane
+		// won't be automatically updated during changes, but the
+		// current drunkenness level is used for drunkenness tracking
+
+		if ( resultName.equals( AdventureResult.DRUNK ) )
+			characterData.setInebriety( characterData.getInebriety() + result.getCount() );
 	}
 
 	/**
@@ -402,6 +413,11 @@ public class KoLmafia implements UtilityConstants
 			}
 			else
 			{
+				if ( characterData.getInebriety() > 19 )
+					permitContinue = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+						"The mafia has stolen your shoes!  Continue adventuring anyway?",
+						"You're not drunk!  You see flying penguins and a dancing hermit!", JOptionPane.YES_NO_OPTION );
+
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
 					activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
