@@ -185,15 +185,29 @@ public class AdventureRequest extends KoLRequest
 		{
 			if ( replyContent.indexOf( "againform.submit" ) == -1 )
 			{
-				// Notify the client of failure by telling it that
-				// the adventure did not take place and the client
-				// should not continue with the next iteration.
-				// Friendly error messages to come later.
+				if ( replyContent.indexOf( "No adventure data exists for this location" ) != -1 )
+				{
+					// In the event that no adventure data existed,
+					// this is a server, so KoLmafia should probably
+					// repeat the request and notify the client that
+					// a server error was encountered.
 
-				isErrorState = true;
-				client.cancelRequest();
-				updateDisplay( ERROR_STATE, "Adventures aborted!" );
-				return;
+					updateDisplay( NOCHANGE, "Server error.  Repeating request..." );
+					this.run();
+					return;
+				}
+				else
+				{
+					// Notify the client of failure by telling it that
+					// the adventure did not take place and the client
+					// should not continue with the next iteration.
+					// Friendly error messages to come later.
+
+					isErrorState = true;
+					client.cancelRequest();
+					updateDisplay( ERROR_STATE, "Adventures aborted!" );
+					return;
+				}
 			}
 		}
 		else if ( replyContent.indexOf( "You can't" ) != -1 || replyContent.indexOf( "You shouldn't" ) != -1 ||
