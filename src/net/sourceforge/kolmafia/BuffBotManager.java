@@ -246,7 +246,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		try
 		{
-			Matcher meatMatcher = Pattern.compile( "</td><td valign=center>You gain ([\\d,]+) Meat" ).matcher( message.getMessageHTML() );
+			Matcher meatMatcher = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" ).matcher( message.getMessageHTML() );
 			if ( meatMatcher.find() )
 			{
 				meatSent = df.parse( meatMatcher.group(1) ).intValue();
