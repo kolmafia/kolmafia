@@ -681,21 +681,22 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" )) || request instanceof UseSkillRequest )
 					autoRecoverMP();
 
-				if ( request instanceof ConsumeItemRequest )
-				{
-					int consumptionType = ((ConsumeItemRequest)request).getConsumptionType();
-					String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
-						(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
-
-					updateDisplay( DISABLED_STATE, useTypeAsString + " " +
-						(iterations == 1 ? ((ConsumeItemRequest)request).getItemUsed().getCount() : iterations) + " " +
-							((ConsumeItemRequest)request).getItemUsed().getName() + "..." );
-				}
-
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
 					if ( request instanceof KoLAdventure )
 						updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
+
+					else if ( request instanceof ConsumeItemRequest )
+					{
+						int consumptionType = ((ConsumeItemRequest)request).getConsumptionType();
+						String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
+							(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
+
+						updateDisplay( DISABLED_STATE, useTypeAsString + " " +
+							((ConsumeItemRequest)request).getItemUsed().getName() +
+							(iterations == 1 ? ("(" + ((ConsumeItemRequest)request).getItemUsed().getCount() + ")") :
+								("(" + i + " of " + iterations + ")")) + "..." );
+					}
 
 					request.run();
 					applyRecentEffects();
