@@ -84,6 +84,27 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 		public abstract void clear();
 		public abstract void setStatusMessage( String s );
+
+		protected final class StatusMessageChanger implements Runnable
+		{
+			private String status;
+
+			public StatusMessageChanger( String status )
+			{	this.status = status;
+			}
+
+			public void run()
+			{
+				if ( !SwingUtilities.isEventDispatchThread() )
+				{
+					SwingUtilities.invokeLater( this );
+					return;
+				}
+
+				setStatusMessage( status );
+			}
+		}
+
 	}
 
 	/**
