@@ -75,7 +75,7 @@ public class ChatRequest extends KoLRequest
 		addFormField( "playerid", "" + client.getUserID() );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		String actualMessage = contact == null ? message : "/msg " + contact.replaceAll( " ", "_" ) + message;
+		String actualMessage = contact == null ? message : "/msg " + contact.replaceAll( " ", "_" ) + " " + message;
 
 		try
 		{

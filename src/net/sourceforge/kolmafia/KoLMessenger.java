@@ -66,16 +66,14 @@ public class KoLMessenger
 		this.client = client;
 		this.onlineContacts = new SortedListModel();
 
-		mainChatFrame = new ChatFrame( client, this );
-		mainChatFrame.setVisible( true );
-
 		this.instantMessageFrames = new TreeMap();
 		this.instantMessageBuffers = new TreeMap();
 
+		mainChatFrame = new ChatFrame( client, this );
 		mainChatBuffer = new ChatBuffer( client.getLoginName() + ": Started " +
 			Calendar.getInstance().getTime().toString() );
-
 		mainChatBuffer.setChatDisplay( mainChatFrame.getChatDisplay() );
+
 	}
 
 	/**
@@ -90,6 +88,10 @@ public class KoLMessenger
 		(new ChatRequest( client, null, "/channel" )).run();
 		(new ChatRequest( client, null, "/friends" )).run();
 		(new ChatRequest( client )).run();
+
+		contactsFrame = new ContactListFrame( client, onlineContacts );
+		mainChatFrame.setVisible( true );
+		contactsFrame.setVisible( onlineContacts.isEmpty() );
 	}
 
 	/**
@@ -208,6 +210,7 @@ public class KoLMessenger
 	{
 		onlineContacts.clear();
 		onlineContacts.addAll( currentContacts );
+		contactsFrame.setVisible( onlineContacts.isEmpty() );
 	}
 
 	/**
@@ -222,13 +225,14 @@ public class KoLMessenger
 			onlineContacts.add( characterName );
 		else if ( !isOnline )
 			onlineContacts.remove( characterName );
+		contactsFrame.setVisible( onlineContacts.isEmpty() );
 	}
 
 	/**
 	 * Updates the chat with the given information.  This method will
 	 * also handle instant message data.
 	 *
-	 * @param	content	The content with which to update the chat
+	 * @param	originalContent	The content with which to update the chat
 	 */
 
 	public void updateChat( String originalContent )
@@ -286,6 +290,12 @@ public class KoLMessenger
 
 	public void processChatMessage( String message )
 	{
+		// Empty messages do not need to be processed; therefore,
+		// return if one was retrieved.
+
+		if ( message == null || message.trim().length() == 0 )
+			return;
+
 		if ( !message.startsWith( "<font color=blue>" ) )
 		{
 			// The easy case is if it's a normal chat message.
@@ -293,7 +303,7 @@ public class KoLMessenger
 			// provided that the main chat buffer is not null
 
 			if ( mainChatBuffer != null )
-				mainChatBuffer.append( message + "<br>\n" );
+				mainChatBuffer.append( message.trim() + "<br>\n" );
 		}
 		else
 		{
@@ -308,15 +318,45 @@ public class KoLMessenger
 			// Next, split the message around the tags so you know
 			// how to display the message.
 
-			StringTokenizer splitMessage = new StringTokenizer( message.replaceAll( "<.*?>", "\n" ), "\n" );
+			StringTokenizer splitMessage = new StringTokenizer( message.trim().replaceAll( "<.*?>", "\n" ), "\n" );
+			StringBuffer redoneMessage = new StringBuffer();
+
+			// In traditional instant message style, your name
+			// appears in red, and the other person in blue.
+
+			String contactName;
+
+			if ( isRecipient )
+			{
+				String firstToken = splitMessage.nextToken();
+				contactName = firstToken.substring( 0, firstToken.length() - 11 );
+
+				redoneMessage.append( "<font color=blue><b>" );
+				redoneMessage.append( client.getLoginName() );
+				redoneMessage.append( "</b></font>: " );
+			}
+			else
+			{
+				contactName = splitMessage.nextToken().substring( 11 );
+				redoneMessage.append( "<font color=red><b>" );
+				redoneMessage.append( contactName );
+				redoneMessage.append( "</b></font>" );
+			}
+
+			redoneMessage.append( splitMessage.nextToken() );
+			redoneMessage.append( "<br>\n" );
 
 			// For now, just display the message inside of the
 			// main frame.
 
-			ChatBuffer messageBuffer = mainChatBuffer;
+			ChatBuffer messageBuffer = getChatBuffer( contactName );
+			if ( messageBuffer == null )
+			{
+				openInstantMessage( contactName );
+				messageBuffer = getChatBuffer( contactName );
+			}
 
-			if ( messageBuffer != null )
-				messageBuffer.append( message + "<br>\n" );
+			messageBuffer.append( redoneMessage.toString() );
 		}
 	}
 
@@ -329,11 +369,14 @@ public class KoLMessenger
 
 	public void openInstantMessage( String characterName )
 	{
-		ChatFrame newFrame = new ChatFrame( client, this, characterName );
 		ChatBuffer newBuffer = new ChatBuffer( client.getLoginName() + " (Conversation with " + characterName + ") : Started " +
 			Calendar.getInstance().getTime().toString() );
 
-		newBuffer.setChatDisplay( newFrame.getChatDisplay() );
+		ChatFrame newFrame = new ChatFrame( client, this, characterName );
 		newFrame.setVisible( true );
+
+		newBuffer.setChatDisplay( newFrame.getChatDisplay() );
+		instantMessageFrames.put( characterName, newFrame );
+		instantMessageBuffers.put( characterName, newBuffer );
 	}
 }

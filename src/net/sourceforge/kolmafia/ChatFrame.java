@@ -297,7 +297,7 @@ public class ChatFrame extends KoLFrame
 	{
 		public void windowClosed( WindowEvent e )
 		{
-			if ( client != null )
+			if ( client != null && client.getMessenger() != null )
 				client.getMessenger().removeChat( associatedContact );
 			super.windowClosed( e );
 		}

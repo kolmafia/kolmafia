@@ -36,7 +36,7 @@ public class ContactListFrame extends JFrame
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( new ContactListPanel(), "" );
 
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		setDefaultCloseOperation( HIDE_ON_CLOSE );
 		setSize( new Dimension( 100, 500 ) );
 	}
 
