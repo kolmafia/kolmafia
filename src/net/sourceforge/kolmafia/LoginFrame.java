@@ -333,10 +333,16 @@ public class LoginFrame extends KoLFrame
 				// Look up to see if there's a password that's
 				// associated with the current name
 
+				if ( !saveStateNames.contains( anObject ) )
+					saveStateNames.add( anObject );
+
 				super.setSelectedItem( anObject );
-				String password = client.getSaveState( currentName );
+
+				String password = client.getSaveState( (String) anObject );
 				if ( password != null )
 					passwordField.setText( password );
+				else
+					passwordField.setText( "" );
 			}
 
 			public void focusGained( FocusEvent e )
@@ -345,11 +351,8 @@ public class LoginFrame extends KoLFrame
 
 			public void focusLost( FocusEvent e )
 			{
-				if ( currentName != null && currentName.length() > 0 && !saveStateNames.contains( currentName ) )
-				{
-					saveStateNames.add( currentName );
+				if ( currentName != null && currentName.length() > 0 )
 					setSelectedItem( currentName );
-				}
 			}
 
 			private class NameInputListener extends KeyAdapter

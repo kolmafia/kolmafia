@@ -207,8 +207,18 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			(new FamiliarRequest( this )).run();
 
 		// Begin by loading the user-specific settings.
+
 		logStream.println( "Loading user settings for " + loginname + "..." );
 		settings = new KoLSettings( loginname );
+
+		// Remove the password data; it doesn't need to be stored
+		// in every single .kcs file.
+
+		Iterator nameIterator = saveStateNames.iterator();
+		settings.remove( "saveState" );
+		while ( nameIterator.hasNext() )
+			settings.remove( "saveState." + nameIterator.next() );
+		settings.saveSettings();
 
 		tally = new SortedListModel();
 		addToResultTally( new AdventureResult( AdventureResult.HP, characterData.getCurrentHP() ) );
@@ -765,18 +775,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			if ( !saveStateNames.contains( loginname ) )
 				saveStateNames.add( loginname );
 
-			StringBuffer saveStateBuffer = new StringBuffer();
-			Iterator saveStateIterator = saveStateNames.iterator();
-
-			saveStateBuffer.append( saveStateIterator.next() );
-			while ( saveStateIterator.hasNext() )
-			{
-				saveStateBuffer.append( "//" );
-				saveStateBuffer.append( saveStateIterator.next() );
-			}
-
-			settings.setProperty( "saveState", saveStateBuffer.toString() );
-
+			storeSaveStates();
 			String encodedString = URLEncoder.encode( password, "UTF-8" ).replaceAll( "\\-", "%2D" ).replaceAll(
 				"\\.", "%2E" ).replaceAll( "\\*", "%2A" ).replaceAll( "_", "%5F" ).replaceAll( "\\+", "%20" );
 
@@ -799,6 +798,36 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			// is, just ignore it for now.  Better exception
 			// handling when it becomes necessary.
 		}
+	}
+
+	public void removeSaveState( String loginname )
+	{
+		if ( saveStateNames.contains( loginname ) )
+		{
+			saveStateNames.remove( loginname );
+			if ( saveStateNames.isEmpty() )
+			{
+				settings.remove( "saveState" );
+				settings.saveSettings();
+			}
+			else
+				storeSaveStates();
+		}
+	}
+
+	private void storeSaveStates()
+	{
+		StringBuffer saveStateBuffer = new StringBuffer();
+		Iterator saveStateIterator = saveStateNames.iterator();
+
+		saveStateBuffer.append( saveStateIterator.next() );
+		while ( saveStateIterator.hasNext() )
+		{
+			saveStateBuffer.append( "//" );
+			saveStateBuffer.append( saveStateIterator.next() );
+		}
+		settings.setProperty( "saveState", saveStateBuffer.toString() );
+		settings.saveSettings();
 	}
 
 	/**
@@ -824,7 +853,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				saveState.append( (new BigInteger( decodedParts[i], 10 )).toString( 36 ) );
 			}
 
-			return URLDecoder.decode( saveState.toString(), "UTF-8" );
+			return URLDecoder.decode( saveState.toString().replaceAll( "%20", "+" ).replaceAll( "%5F", "_" ).replaceAll(
+				"%2A", "*" ).replaceAll( "%2E", "." ).replaceAll( "%2D", "-" ), "UTF-8" );
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{

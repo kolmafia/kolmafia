@@ -102,6 +102,8 @@ public class LoginRequest extends KoLRequest
 
 			if ( savePassword )
 				client.addSaveState( loginname, password );
+			else
+				client.removeSaveState( loginname );
 
 			client.initialize( loginname, formConnection.getHeaderField( "Set-Cookie" ), getBreakfast );
 		}
