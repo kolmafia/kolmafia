@@ -443,7 +443,8 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) ||
-			command.equals( "outfits" ) || command.equals( "familiars" ) || command.equals( "summary" ) || command.startsWith( "equip" ) )
+			command.equals( "outfits" ) || command.equals( "familiars" ) || command.equals( "summary" ) ||
+			command.startsWith( "equip" ) || command.equals( "effects" ) )
 		{
 			executePrintCommand( command + " " + parameters );
 			return;
@@ -564,6 +565,14 @@ public class KoLmafiaCLI extends KoLmafia
 			printList( scriptRequestor.getCharacterData().getFamiliars(), outputStream );
 			return;
 		}
+
+		if ( desiredData.equals( "effects" ) )
+		{
+			printList( scriptRequestor.getCharacterData().getEffects(), outputStream );
+			return;
+		}
+
+		updateDisplay( KoLFrame.ENABLED_STATE, "Unknown data type: " + desiredData );
 	}
 
 	/**
