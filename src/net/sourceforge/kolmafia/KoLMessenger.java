@@ -65,6 +65,8 @@ public class KoLMessenger
 	private TreeMap seenPlayerIDs;
 	private SortedListModel onlineContacts;
 
+	private boolean isLastBlueRequest;
+
 	public KoLMessenger( KoLmafia client )
 	{
 		this.client = client;
@@ -359,7 +361,7 @@ public class KoLMessenger
 
 		// Process each line individually.
 
-		String [] lines = noLinksContent.split( "<br>" );
+		String [] lines = noContactListContent.split( "<br>" );
 		for ( int i = 0; i < lines.length; ++i )
 			processChatMessage( lines[i] );
 
@@ -367,7 +369,7 @@ public class KoLMessenger
 		// the contact list found in the last /friends update
 
 		Matcher contactListMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( originalContent );
-		int lastFindIndex = 0;  boolean addedHelp = false;
+		int lastFindIndex = 0;
 		while ( contactListMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = contactListMatcher.end();
@@ -375,9 +377,11 @@ public class KoLMessenger
 
 			// Ignore the help information, which gets spit out whenever you
 			// type /? when looking for the contact list - on the other hand,
-			// you can opt to append the result to the window itself.
+			// you can opt to append the result to the window itself.  Also
+			// dodge the list that resulted from /who.
 
-			if ( !Pattern.compile( "[^<]/" ).matcher( result ).find() )
+			boolean addingHelp = Pattern.compile( "[^<]/" ).matcher( result ).find();
+			if ( !addingHelp && result.indexOf( "Contacts Online:" ) != -1 )
 			{
 				StringTokenizer parsedContactList = new StringTokenizer( result.replaceAll( "<.*?>", "\n" ), "\n" );
 				parsedContactList.nextToken();
@@ -395,19 +399,21 @@ public class KoLMessenger
 				}
 				updateContactList( newContactList );
 			}
+			else if ( addingHelp )
+			{
+				mainChatBuffer.append( "<font color=orange>" );
+				mainChatBuffer.append( result.replaceAll( "><", "" ).replaceAll( "<.*?>", "<br>\n" ) );
+				mainChatBuffer.append( "</font><br>\n" );
+			}
 			else
 			{
-				mainChatBuffer.append( result.replaceAll( "><", "" ).replaceAll( "<.*?>", "<br>\n" ) );
-				addedHelp = true;
-			}
+				result = result.replaceAll( "><", "" ).replaceAll( "<.*?>", " " ).replaceAll( " , ", ", " ).replaceAll( ":", ":</b>" ).trim();
 
-			// Add an extra space inbetween the helper information and the
-			// subsequent text to make things easier to read.
-
-			if ( addedHelp )
-			{
-				mainChatBuffer.append( "<br>\n" );
-				addedHelp = false;
+				mainChatBuffer.append( "<font color=" );
+				mainChatBuffer.append( result.startsWith( "Players in" ) ? "purple" : "teal" );
+				mainChatBuffer.append( "><b>" );
+				mainChatBuffer.append( result );
+				mainChatBuffer.append( "</font><br>\n" );
 			}
 		}
 
@@ -451,14 +457,14 @@ public class KoLMessenger
 		if ( message == null || message.trim().length() == 0 )
 			return;
 
-		if ( !message.startsWith( "<font color=blue>" ) )
+		if ( !message.startsWith( "<font color=blue>" ) || message.indexOf( "<a" ) == -1 )
 		{
 			// The easy case is if it's a normal chat message.
 			// Then, it just gets updated to the main chat buffer,
 			// provided that the main chat buffer is not null
 
 			if ( mainChatBuffer != null )
-				mainChatBuffer.append( message.trim() + "<br>\n" );
+				mainChatBuffer.append( message.replaceAll( "</?a.*?>", "" ).trim() + "<br>\n" );
 		}
 		else
 		{
