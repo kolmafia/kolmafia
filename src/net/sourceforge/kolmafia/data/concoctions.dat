@@ -290,9 +290,9 @@ eXtreme meat staff	4	basic meat staff	stone of eXtreme power
 eXtreme meat sword	4	stone of eXtreme power	basic meat sword
 eXtreme nose ring	4	stone of eXtreme power	piercing post
 furry pants	4	furry fur	pants kit
-hippopotamus skin buckler	4	hippopotamus skin	buckler buckle
+hippo skin buckler	4	hippopotamus skin	buckler buckle
 hippopotamus pants	4	hippopotamus skin	pants kit
-hippopotamus whip	4	hippopotamus skin	whip kit
+hippo whip	4	hippopotamus skin	whip kit
 Kentucky-fried meat crossbow	4	secret blend of herbs and spices	basic meat crossbow
 Kentucky-fried meat staff	4	secret blend of herbs and spices	basic meat staff
 Kentucky-fried meat sword	4	secret blend of herbs and spices	basic meat sword
@@ -309,7 +309,9 @@ penguin shorts	4	penguin skin	pants kit
 penguin skin buckler	4	penguin skin	buckler buckle
 penguin whip	4	penguin skin	whip kit
 sticky meat pants	4	really really sticky spider web	basic meat pants
-yakskin pants	4	pants kit	yak skin
+yak skin buckler	4	yak skin	buckler buckle
+yakskin pants	4	yak skin	pants kit
+yak whip	4	yak skin	whip kit
 
 
 # Reagent potions.  Not to be confused with reagent broth mixtures
