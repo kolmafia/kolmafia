@@ -93,9 +93,10 @@ public class KoLmafiaCLI extends KoLmafia
 		outputStream = scriptLocation == null ? System.out : new NullStream();
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 
-		outputStream.println( "****************************************" );
-		outputStream.println( "* KoLmafia v2.1 Command Line Interface *" );
-		outputStream.println( "****************************************" );
+		outputStream.println();
+		outputStream.println( "****************" );
+		outputStream.println( "* KoLmafia CLI *" );
+		outputStream.println( "****************" );
 	}
 
 	/**
@@ -173,7 +174,7 @@ public class KoLmafiaCLI extends KoLmafia
 				executeLine( line );
 				outputStream.println();
 
-				outputStream.print( "> " );
+				outputStream.print( " > " );
 			}
 		}
 		catch ( IOException e )
@@ -199,10 +200,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( line.trim().length() == 0 )
 			return;
 
-		Matcher commandMatcher = Pattern.compile( ".*?\\s" ).matcher( line );
-		commandMatcher.find();
-
-		String command = commandMatcher.group().trim();
+		String command = line.split( " " )[0].toLowerCase().trim();
 		String parameters = line.substring( command.length() - 1 ).trim();
 		executeCommand( command, parameters );
 	}
@@ -215,6 +213,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCommand( String command, String parameters )
 	{
+		if ( command.equals( "exit" ) )
+		{
+			outputStream.println( "Exiting KoLmafia..." );
+			System.exit(0);
+		}
 	}
 
 	/**
