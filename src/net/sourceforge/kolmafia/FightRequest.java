@@ -94,6 +94,9 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( !client.permitsContinue() )
+			updateDisplay( KoLFrame.DISABLED_STATE, "Completing battle, round " + roundCount + "..." );
+
 		super.run();
 
 		// If there were no problems, then begin fighting the battle,
@@ -151,10 +154,6 @@ public class FightRequest extends KoLRequest
 				// start a new thread and allow this one to die.
 
 				++roundCount;
-
-				if ( !client.permitsContinue() )
-					updateDisplay( KoLFrame.DISABLED_STATE, "Completing battle..." );
-
 				this.run();
 			}
 		}
