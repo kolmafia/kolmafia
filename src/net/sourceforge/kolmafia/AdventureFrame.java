@@ -182,13 +182,17 @@ public class AdventureFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		super.setEnabled( isEnabled );
-
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			tabs.setEnabledAt( i, isEnabled );
 
 		if ( isheet != null && isheet.isShowing() )
 			isheet.setEnabled( isEnabled );
+
+		adventureSelect.setEnabled( isEnabled );
+		mallSearch.setEnabled( isEnabled );
+		clanBuff.setEnabled( isEnabled );
+		heroDonation.setEnabled( isEnabled );
+		meatStorage.setEnabled( isEnabled );
 	}
 
 	/**
@@ -333,7 +337,7 @@ public class AdventureFrame extends KoLFrame
 				JList tallyDisplay = new JList( resultsTally );
 				tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 				tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-				tallyDisplay.setVisibleRowCount( 11 );
+				tallyDisplay.setVisibleRowCount( 15 );
 
 				add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
@@ -487,7 +491,7 @@ public class AdventureFrame extends KoLFrame
 				resultsDisplay = new JList( results );
 				resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				resultsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-				resultsDisplay.setVisibleRowCount( 11 );
+				resultsDisplay.setVisibleRowCount( 15 );
 
 				add( new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
@@ -621,11 +625,13 @@ public class AdventureFrame extends KoLFrame
 		protected void setContent( VerifiableElement [] elements )
 		{
 			super.setContent( elements );
+			add( JComponentUtilities.createLabel( "Make Your Clan 1335", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
 			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
 
 		public void clear()
-		{
+		{	countField.setText( "" );
 		}
 
 		public void setStatusMessage( String s )
@@ -740,11 +746,13 @@ public class AdventureFrame extends KoLFrame
 		protected void setContent( VerifiableElement [] elements )
 		{
 			super.setContent( elements );
+			add( JComponentUtilities.createLabel( "The Hall of the Legends of the Times of Old", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
 			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
 
 		public void clear()
-		{
+		{	amountField.setText( "" );
 		}
 
 		public void setStatusMessage( String s )
@@ -837,7 +845,7 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			amountField = new JTextField();
-			inClosetField = new JTextField( df.format( client.getCharacterData().getClosetMeat() ) );
+			inClosetField = new JTextField( df.format( client == null ? 0 : client.getCharacterData().getClosetMeat() ) );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Transaction: ", amountField );
@@ -850,11 +858,13 @@ public class AdventureFrame extends KoLFrame
 		{
 			super.setContent( elements, null, null, null, true, true );
 			inClosetField.setEnabled( false );
+			add( JComponentUtilities.createLabel( "Meat Management (Closet)", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
 			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
 
 		public void clear()
-		{
+		{	amountField.setText( "" );
 		}
 
 		public void setStatusMessage( String s )
@@ -909,7 +919,7 @@ public class AdventureFrame extends KoLFrame
 
 					updateDisplay( DISABLED_STATE, "Executing transaction..." );
 					(new ItemStorageRequest( client, amount, isDeposit )).run();
-					updateDisplay( ENABLED_STATE, df.format( client.getCharacterData().getClosetMeat() ) );
+					updateDisplay( ENABLED_STATE, df.format( client == null ? amount : client.getCharacterData().getClosetMeat() ) );
 
 				}
 				catch ( Exception e )
@@ -957,7 +967,7 @@ public class AdventureFrame extends KoLFrame
 
 				csheet = new CharsheetFrame( client );
 				csheet.pack();  csheet.setVisible( true );
-				csheet.setEnabled( contentPanel.isEnabled() );
+
 				csheet.requestFocus();
 				updateDisplay( NOCHANGE_STATE, "" );
 			}
