@@ -145,7 +145,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * the ability to load scripts.
 	 */
 
-	protected final void addScriptMenu( JMenuBar menuBar )
+	protected final JMenu addScriptMenu( JMenuBar menuBar )
 	{
 		JMenu scriptMenu = new JMenu("Scripts");
 		scriptMenu.setMnemonic( KeyEvent.VK_S );
@@ -160,6 +160,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		loggerItem.addActionListener( new ToggleMacroListener( loggerItem ) );
 
 		scriptMenu.add( loggerItem );
+		return scriptMenu;
 	}
 
 	/**
@@ -172,7 +173,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * @param	menuBar	The <code>JMenuBar</code> to which the configuration menu will be attached
 	 */
 
-	protected final void addConfigureMenu( JMenuBar menuBar )
+	protected final JMenu addConfigureMenu( JMenuBar menuBar )
 	{
 		JMenu configureMenu = new JMenu("Configure");
 		configureMenu.setMnemonic( KeyEvent.VK_C );
@@ -187,6 +188,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		loggerItem.addActionListener( new ToggleDebugListener( loggerItem ) );
 
 		configureMenu.add( loggerItem );
+		return configureMenu;
 	}
 
 	private class ToggleMacroListener implements ActionListener
@@ -264,7 +266,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			this.loggerItem = loggerItem;
 			loggerItem.setText( client == null || client.getLogStream() instanceof NullStream ?
-				"Turn On Debug" : "Turn Off Debug" );
+				"Debug Mode ON" : "Debug Mode OFF" );
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -272,12 +274,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			if ( client != null && client.getLogStream() instanceof NullStream )
 			{
 				client.initializeLogStream();
-				loggerItem.setText( "Turn Off Debug" );
+				loggerItem.setText( "Debug Mode OFF" );
 			}
 			else if ( client != null )
 			{
 				client.deinitializeLogStream();
-				loggerItem.setText( "Turn On Debug" );
+				loggerItem.setText( "Debug Mode ON" );
 			}
 		}
 	}
@@ -328,13 +330,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * @param	menuBar	The <code>JMenuBar</code> to which the Help menu will be attached
 	 */
 
-	protected final void addHelpMenu( JMenuBar menuBar )
+	protected final JMenu addHelpMenu( JMenuBar menuBar )
 	{
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.setMnemonic( KeyEvent.VK_H );
 		menuBar.add( helpMenu );
 
-		JMenuItem aboutItem = new JMenuItem( "About KoLmafia..." );
+		JMenuItem aboutItem = new JMenuItem( "About KoLmafia...", VK_A );
 		aboutItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{	(new LicenseDisplay( "KoLmafia: Copyright Notice" )).requestFocus();
@@ -342,6 +344,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		});
 
 		helpMenu.add( aboutItem );
+		return helpMenu;
 	}
 
 	/**

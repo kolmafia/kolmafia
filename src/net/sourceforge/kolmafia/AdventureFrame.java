@@ -317,8 +317,8 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu statusMenu = new JMenu( "View" );
-		statusMenu.setMnemonic( KeyEvent.VK_V );
+		JMenu statusMenu = new JMenu( "My KoL" );
+		statusMenu.setMnemonic( KeyEvent.VK_M );
 		menuBar.add( statusMenu );
 
 		this.statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
@@ -342,10 +342,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		JMenuItem getBreakfastItem = new JMenuItem( "Breakfast Table", KeyEvent.VK_B );
 		getBreakfastItem.addActionListener( new GetBreakfastListener() );
-
-		statusMenu.add( getBreakfastItem );
-
-		addScriptMenu( menuBar );
+		addScriptMenu( menuBar ).add( getBreakfastItem );
 
 		JMenu peopleMenu = new JMenu( "People" );
 		peopleMenu.setMnemonic( KeyEvent.VK_P );
