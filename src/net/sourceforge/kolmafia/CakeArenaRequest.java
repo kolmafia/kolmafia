@@ -54,12 +54,27 @@ public class CakeArenaRequest extends KoLRequest
 		super.run();
 		processResults( replyContent );
 
+		if ( replyContent.indexOf( "You can't" ) != -1 || replyContent.indexOf( "You shouldn't" ) != -1 ||
+			replyContent.indexOf( "You don't" ) != -1 || replyContent.indexOf( "You need" ) != -1 ||
+			replyContent.indexOf( "You're way too beaten" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 )
+		{
+			// Notify the client of failure by telling it that
+			// the adventure did not take place and the client
+			// should not continue with the next iteration.
+			// Friendly error messages to come later.
+
+			isErrorState = true;
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Arena battles aborted!" );
+			return;
+		}
+
 		int lastMatchIndex = 0;
 		int [] opponentIDs = new int[4];
 		String [] opponents = new String[4];
 
 		Matcher opponentMatcher = Pattern.compile(
-			"<tr><td valign=center><input type=radio  checked name=whichopp value=(\\d+)>.*?</tr>" ).matcher( replyContent );
+			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?</tr>" ).matcher( replyContent );
 
 		for ( int i = 0; i < 4; ++i )
 		{
@@ -67,8 +82,19 @@ public class CakeArenaRequest extends KoLRequest
 			lastMatchIndex = opponentMatcher.end() + 1;
 
 			client.getCakeArenaManager().registerOpponent(
-				Integer.parseInt( opponentMatcher.group(1) ), opponentMatcher.group().replaceAll(
-					"<br>", "," ).replaceAll( "<.*?>", "" ) );
+				Integer.parseInt( opponentMatcher.group(1) ), opponentMatcher.group().substring( 0,
+						opponentMatcher.group().indexOf( "," ) ).replaceAll( "<.*?>", "" ) );
 		}
+	}
+	/**
+	 * An alternative method to doing adventure calculation is determining
+	 * how many adventures are used by the given request, and subtract
+	 * them after the request is done.
+	 *
+	 * @return	The number of adventures used by this request.
+	 */
+
+	public int getAdventuresUsed()
+	{	return isErrorState ? 0 : 1;
 	}
 }
