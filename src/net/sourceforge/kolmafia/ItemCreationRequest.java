@@ -92,9 +92,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return -1;
 
 		ItemCreationRequest icr = (ItemCreationRequest) o;
-
-		return (client == null) ? 1 : (icr.client == null) ? -1 :
-			getName().compareTo( icr.getName() );
+		return getName().compareTo( icr.getName() );
 	}
 
 	/**
@@ -104,9 +102,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( client == null )
-			return;
-
 		switch ( itemID )
 		{
 			// Requests for meat paste are handled separately; the
