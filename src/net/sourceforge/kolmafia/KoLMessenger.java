@@ -307,15 +307,11 @@ public class KoLMessenger
 		String noContactListContent = noCommentsContent.replaceAll( "<table>.*?</table>", "" );
 		String noLinksContent = noContactListContent.replaceAll( "</?a.*?>", "" );
 
-		// For now, update the main chat buffer with the entire
-		// content.  Instant message changes will follow.
+		// Process each line individually.
 
-		if ( mainChatBuffer != null )
-		{
-			String [] lines = noLinksContent.split( "<br>" );
-			for ( int i = 0; i < lines.length; ++i )
-				processChatMessage( lines[i] );
-		}
+		String [] lines = noLinksContent.split( "<br>" );
+		for ( int i = 0; i < lines.length; ++i )
+			processChatMessage( lines[i] );
 
 		// Now, extract the contact list and update KoLMessenger to indicate
 		// the contact list found in the last /friends update
