@@ -50,62 +50,69 @@ import java.text.DateFormat;
  * the BuffBot Frame
  */
 
-public class BuffBotHome{
-
+public class BuffBotHome
+{
+	
 	private static final DateFormat logDF =
-		DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-
+			DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+	
 	private static final SimpleDateFormat logSDF = new SimpleDateFormat("D");
-
+	
 	private KoLmafia client;
 	private LimitedSizeChatBuffer buffbotLog;
-	private Boolean isActive; 
-
+	private Boolean isActive;
+	
 	/**
 	 * Creates a new instance of <code>BuffBotHome</code>.
 	 */
-
-	public BuffBotHome(KoLmafia client){
+	
+	public BuffBotHome(KoLmafia client)
+	{
 		this.client = client;
 		initialize();
 	}
-
+	
 	/**
 	 * Create the <code>BuffBotLog</code> and its associated file, if
 	 * they don't already exist.
 	 */
-
-	public void initialize(){
+	
+	public void initialize()
+	{
 		if ( buffbotLog != null )
 			return;
-
+		
 		String dayOfYear = logSDF.format(new Date());
 		String characterName = client == null ? "" : client.getLoginName();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
-
+		
 		buffbotLog = new LimitedSizeChatBuffer( "Buffbot Log: " + noExtensionName, Integer.MAX_VALUE );
 		buffbotLog.setActiveLogFile( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + ".html", noExtensionName );
 		isActive = false;
 	}
-
-	public LimitedSizeChatBuffer getLog(){
+	
+	public LimitedSizeChatBuffer getLog()
+	{
 		return buffbotLog;
 	}
-
+	
 	/**
 	 * De-initializes the log for the buff bot.
 	 */
-
-	public void deinitialize() {
+	
+	public void deinitialize()
+	{
 		if ( buffbotLog != null )
 			buffbotLog.closeActiveLogFile();
 		isActive = false;
 	}
 	
-	public void setBuffBotActive(boolean isActive){
+	public void setBuffBotActive(boolean isActive)
+	{
 		this.isActive = isActive;
 	}
-	public boolean isBuffBotActive(){
+	public boolean isBuffBotActive()
+	{
 		return isActive;
 	}
 }

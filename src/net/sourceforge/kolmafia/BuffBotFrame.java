@@ -105,14 +105,15 @@ import java.text.ParseException;
  * requests, buffs the sender. It also maintains the MP level using phonics downs.
  */
 
-public class BuffBotFrame extends KoLFrame {
-
+public class BuffBotFrame extends KoLFrame
+{
+	
 	private JPanel buffOptions, mainBuff, whiteList;
 	private LockableListModel BuffCostTable = new LockableListModel();
 	private JComboBox NonBuffMsgSave;
 	private JComboBox MPRestoreSelect;
 	private LimitedSizeChatBuffer buffbotLog;
-
+	
 	/**
 	 * A data class <CODE>BuffDescriptor</CODE>to handle choices for each buff type.
 	 * Individual elements:
@@ -122,7 +123,8 @@ public class BuffBotFrame extends KoLFrame {
 	 * @param buffCastCount2 Number of times to cast this buff (2nd column)
 	 * @param buffCost2, @buffCount2txt Text versions of above
 	 */
-	public class BuffDescriptor {
+	public class BuffDescriptor
+	{
 		public int buffCost;
 		public int buffCastCount, buffID;
 		public String buffName;
@@ -134,7 +136,8 @@ public class BuffBotFrame extends KoLFrame {
 		 * @param skillName String description of the buff
 		 * @param skillID KoL ID for this buff
 		 */
-		public BuffDescriptor(String skillName, int skillID){
+		public BuffDescriptor(String skillName, int skillID)
+		{
 			buffName = skillName;
 			buffID = skillID;
 			buffCastCount = buffCost = 0;
@@ -145,49 +148,53 @@ public class BuffBotFrame extends KoLFrame {
 			buffCount2Txt = new JTextField("0", 5);
 		}
 	}
-
+	
 	/**
 	 * Constructs a new <code>BuffBotFrame</code> and inserts all
 	 * of the necessary panels into a tabular layout for accessibility.
 	 *
 	 * @param	client	The client to be notified in the event of error.
 	 */
-
-	public BuffBotFrame( KoLmafia client ) {
+	
+	public BuffBotFrame( KoLmafia client )
+	{
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 				" (BuffBot)", client );
-
+		
 		setResizable( false );
-
+		
 		//Initialize the display log buffer and the file log
-		if (client == null){
+		if (client == null)
+		{
 			BuffBotHome home = new BuffBotHome(null);
 			home.initialize();
 			buffbotLog = home.getLog();
-		} else {
+		}
+		else
+		{
 			client.initializeBuffBot();
 			buffbotLog = client.getBuffBotLog();
 		}
-
+		
 		JTabbedPane tabs = new JTabbedPane();
 		mainBuff = new MainBuffPanel();
 		buffOptions = new BuffOptionsPanel();
 		whiteList = new whiteListPanel();
-
+		
 		tabs.addTab( "Run BuffBot", mainBuff );
 		tabs.addTab( "BuffBot Options", buffOptions );
 		tabs.addTab( "White List", whiteList );
-
+		
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
 		getContentPane().add( tabs, " " );
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-
+		
 		addWindowListener( new DisableBuffBotAdapter() );
-
+		
 		/* addMenuBar();*/
 	}
-
+	
 	//    	TODO private void addMenuBar()
 	//	{
 	//		JMenuBar menuBar = new JMenuBar();
@@ -210,108 +217,120 @@ public class BuffBotFrame extends KoLFrame {
 	 *
 	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
 	 */
-
-	public void setEnabled( boolean isEnabled ) {
+	
+	public void setEnabled( boolean isEnabled )
+	{
 		super.setEnabled( isEnabled );
 		mainBuff.setEnabled( isEnabled );
 		buffOptions.setEnabled( isEnabled );
 	}
-
+	
 	/**
 	 * Internal class used to handle everything related to
 	 * operating the buffbot. This is the <CODE>mainBuffPanel</CODE>
 	 */
-
-	private class MainBuffPanel extends JPanel {
-
+	
+	private class MainBuffPanel extends JPanel
+	{
+		
 		private NonContentPanel buffbotResultsPanel;
 		private JLabel buffbotStatusLabel;
-
+		
 		/**
 		 * Constructor for <CODE>MainBuffPanel</CODE>
 		 */
-		public MainBuffPanel( ) {
-
+		public MainBuffPanel( )
+		{
+			
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout( 10, 10 ) );
-
+			
 			buffbotResultsPanel = new BuffBotResultsPanel( );
-
+			
 			panel.add( buffbotResultsPanel, BorderLayout.SOUTH );
-
+			
 			add( panel, " " );
-
+			
 		}
-
-
-
-		public void setStatusMessage( String s ) {
+		
+		
+		
+		public void setStatusMessage( String s )
+		{
 			buffbotStatusLabel.setText( s );
 		}
-
-		public void setEnabled( boolean isEnabled ) {
+		
+		public void setEnabled( boolean isEnabled )
+		{
 			super.setEnabled( isEnabled );
 			buffbotResultsPanel.setEnabled(isEnabled);
 		}
-
-		public void clear() {
+		
+		public void clear()
+		{
 		}
-
-		public void requestFocus() {
-
+		
+		public void requestFocus()
+		{
+			
 		}
-
-
+		
+		
 		/**
 		 * An internal class which represents the panel used for tallying the
 		 * results in the <code>BuffBotFrame</code>.  Note that all of the
 		 * tallying functionality is handled by the <code>LockableListModel</code>
 		 * provided, so this functions as a container for that list model.
 		 */
-
-		private class BuffBotResultsPanel extends NonContentPanel {
+		
+		private class BuffBotResultsPanel extends NonContentPanel
+		{
 			private JTextField BuffResultsField;
 			private JEditorPane BuffResultsDisplay;
-
-
+			
+			
 			private LockableListModel usableItems;
-
+			
 			/**
 			 * COnstructor for <CODE>BuffBotResults</CODE> class.
 			 */
-			public BuffBotResultsPanel( ) {
+			public BuffBotResultsPanel( )
+			{
 				// TODO change the Stop to something useful - done, now test
 				super( "Start", "Stop" );
 				// Set content for "Label Preceeding & ! both disabled on click
 				setContent( null, null, null, null, true, false );
-
+				
 				JEditorPane buffbotLogDisplay = new JEditorPane();
 				buffbotLog.setChatDisplay( buffbotLogDisplay );
-
+				
 				JScrollPane scrollArea = new JScrollPane( buffbotLogDisplay,
 						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 						JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-
+				
 				add( JComponentUtilities.createLabel( "BuffBot Activities", JLabel.CENTER,
 						Color.black, Color.white ), BorderLayout.NORTH );
-
+				
 				JComponentUtilities.setComponentSize( scrollArea, 400, 200 );
 				add( scrollArea, BorderLayout.WEST );
 			}
-			public void clear( ) {
+			public void clear( )
+			{
 			}
-
+			
 			/**
 			 * Action based on user pushing <B>Run</B>.
 			 */
-			protected void actionConfirmed() {
+			protected void actionConfirmed()
+			{
 				(new BuffBotRequestThread()).start();
 			}
-
+			
 			/**
 			 * Action, based on user selecting <B>Stop</B>
 			 */
-			protected void actionCancelled() {
+			protected void actionCancelled()
+			{
 				client.setBuffBotActive(false);
 			}
 		}
@@ -320,38 +339,44 @@ public class BuffBotFrame extends KoLFrame {
 		 * least appearing to freeze), this internal class is used
 		 * to actually make the adventuring requests.
 		 */
-
-		private class BuffBotRequestThread extends Thread {
-
-			public BuffBotRequestThread() {
+		
+		private class BuffBotRequestThread extends Thread
+		{
+			
+			public BuffBotRequestThread()
+			{
 				super( "BuffBot-Request-Thread" );
-
+				
 				setDaemon( true );
-
+				
 			}
-
-			public void run() {
+			
+			public void run()
+			{
 				LockableListModel costList = new LockableListModel();
 				LockableListModel buffIndexList = new LockableListModel();
-
+				
 				int buffSkillIndex, buffCostIndex;
 				BuffDescriptor buffEntry;
 				boolean duplicates;
-
-
+				
+				
 				// First, make sure there is a valid set of buff parameters
 				// TODO - make a tree map with cost as index for matching to meat amounts
 				duplicates = false;
-				for (buffSkillIndex = 0; buffSkillIndex < BuffCostTable.size(); buffSkillIndex++){
+				for (buffSkillIndex = 0; buffSkillIndex < BuffCostTable.size(); buffSkillIndex++)
+				{
 					buffEntry = (BuffDescriptor) BuffCostTable.get(buffSkillIndex);
-					if (buffEntry.buffCost > 0 && buffEntry.buffCastCount > 0){
+					if (buffEntry.buffCost > 0 && buffEntry.buffCastCount > 0)
+					{
 						//Make sure the buffcost is unique:
 						if(!costList.contains(buffEntry.buffCostTxt))
 							costList.add(buffEntry.buffCostTxt);
 						else
 							duplicates = true;
 					}
-					if (buffEntry.buffCost2 > 0 && buffEntry.buffCastCount2 > 0){
+					if (buffEntry.buffCost2 > 0 && buffEntry.buffCastCount2 > 0)
+					{
 						//Make sure the buffcost2 is also unique:
 						if(!costList.contains(buffEntry.buffCost2Txt))
 							costList.add(buffEntry.buffCost2Txt);
@@ -359,119 +384,132 @@ public class BuffBotFrame extends KoLFrame {
 							duplicates = true;
 					}
 				}
-
+				
 				if (costList.isEmpty())
 					JOptionPane.showMessageDialog(null,"No Valid Buff Table Entries!");
 				else if (duplicates)
 					JOptionPane.showMessageDialog(null,"Duplicate Buff Cost Entries!");
-				else   {
+				else
+				{
 					client.updateDisplay( ENABLED_STATE, "Buffbotting started." );
 					buffbotLog.append("Starting a new session.<br>\n");
 					client.resetContinueState();
 					client.setBuffBotActive(true);
 					
-					BuffBotManager bbMail = new BuffBotManager(client, BuffCostTable); 
+					BuffBotManager bbMail = new BuffBotManager(client, BuffCostTable);
 					client.setBuffBotMail(bbMail);
 					bbMail.runBuffBot();
 					buffbotLog.append("BuffBot Terminated.<br>\n");
 					client.updateDisplay( ENABLED_STATE, "BuffBot stopped." );
 					client.setBuffBotActive(false);
-
+					
 				}
 			}
 		}
-
+		
 	}
-
-
+	
+	
 	/**
 	 * Internal class used to handle everything related to
 	 * BuffBot options management
 	 */
-
-	private class BuffOptionsPanel extends JPanel {
+	
+	private class BuffOptionsPanel extends JPanel
+	{
 		private BuffOptionMgr TopPanel;
 		private BuffListPanel BottomPanel;
-
-
-		public BuffOptionsPanel() {
-
+		
+		
+		public BuffOptionsPanel()
+		{
+			
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout() );
-
+			
 			TopPanel = new BuffOptionMgr();
 			panel.add(TopPanel,BorderLayout.NORTH);
-
+			
 			BottomPanel = new BuffListPanel();
 			panel.add(BottomPanel,BorderLayout.SOUTH);
-
+			
 			add( panel, " " );
 		}
-
-		public void setEnabled( boolean isEnabled ) {
+		
+		public void setEnabled( boolean isEnabled )
+		{
 			super.setEnabled( isEnabled );
 			TopPanel.setEnabled(isEnabled);
 			BottomPanel.setEnabled(isEnabled);
 		}
-
-		private class BuffOptionMgr extends KoLPanel {
+		
+		private class BuffOptionMgr extends KoLPanel
+		{
 			protected Properties settings;
-
-			public BuffOptionMgr( ) {
+			
+			public BuffOptionMgr( )
+			{
 				super("Apply", "Restore", new Dimension( 120, 20 ),  new Dimension( 200, 20 ));
-
-
+				
+				
 				settings = (client == null) ? System.getProperties() : client.getSettings();
 				LockableListModel msgDisposalSetting = new LockableListModel();
 				msgDisposalSetting.add( "Delete Non-buff requests");
 				msgDisposalSetting.add( "Save Non-buff requests");
 				NonBuffMsgSave = new JComboBox( msgDisposalSetting );
-
+				
 				LockableListModel MPRestoreChoices = new LockableListModel();
 				MPRestoreChoices.add( "Phonics & Houses" );
 				MPRestoreChoices.add( "Phonics Only");
 				MPRestoreChoices.add( "Tiny Houses Only");
-
+				
 				MPRestoreSelect = new JComboBox( MPRestoreChoices );
 				VerifiableElement [] elements = new VerifiableElement[2];
 				elements[0] = new VerifiableElement( "Message Disposal", NonBuffMsgSave );
 				elements[1] = new VerifiableElement( "MP Restore Options ", MPRestoreSelect);
-
+				
 				setContent( elements, null, null, null, true, true );
 				clear();
 			}
-
-			public void setEnabled( boolean isEnabled ) {
+			
+			public void setEnabled( boolean isEnabled )
+			{
 				super.setEnabled( isEnabled );
 				NonBuffMsgSave.setEnabled(isEnabled);
 				MPRestoreSelect.setEnabled(isEnabled);
-
+				
 			}
-
-			public void setStatusMessage(int status, String Msg){
-
+			
+			public void setStatusMessage(int status, String Msg)
+			{
+				
 			}
-
-			public void clear(){
+			
+			public void clear()
+			{
 				(new LoadDefaultSettingsThread()).start();
 			}
-
-			public void actionCancelled(){
+			
+			public void actionCancelled()
+			{
 				clear();
 			}
-
-			protected void actionConfirmed(){
+			
+			protected void actionConfirmed()
+			{
 				(new StoreSettingsThread()).start();
 			}
-			private class LoadDefaultSettingsThread extends Thread {
-				public void run() {
+			private class LoadDefaultSettingsThread extends Thread
+			{
+				public void run()
+				{
 					int buffSkillIndex;
 					BuffDescriptor buffEntry;
 					String tempString;
-
+					
 					String msgDisposalSetting = settings.getProperty( "NonBuffMsgSave" );
 					String MPRestoreSetting = settings.getProperty( "MPRestoreSelect" );
-
+					
 					if ( msgDisposalSetting == null || msgDisposalSetting.equals( "false" ) )
 						NonBuffMsgSave.setSelectedIndex( 0 );
 					else
@@ -480,8 +518,9 @@ public class BuffBotFrame extends KoLFrame {
 						MPRestoreSelect.setSelectedIndex( 0 );
 					else
 						MPRestoreSelect.setSelectedItem( MPRestoreSetting );
-
-					for (buffSkillIndex = 0; buffSkillIndex < BuffCostTable.size(); buffSkillIndex++){
+					
+					for (buffSkillIndex = 0; buffSkillIndex < BuffCostTable.size(); buffSkillIndex++)
+					{
 						buffEntry = (BuffDescriptor) BuffCostTable.get(buffSkillIndex);
 						tempString = settings.getProperty( "BuffCost#"+buffEntry.buffID);
 						buffEntry.buffCostTxt.setText((tempString == null)? "0": tempString);
@@ -489,7 +528,7 @@ public class BuffBotFrame extends KoLFrame {
 						buffEntry.buffCountTxt.setText((tempString == null)? "0": tempString);
 						buffEntry.buffCost = Integer.parseInt(buffEntry.buffCostTxt.getText());
 						buffEntry.buffCastCount = Integer.parseInt(buffEntry.buffCountTxt.getText());
-
+						
 						// now the same again for the #2 fields
 						tempString = settings.getProperty( "BuffCost2#"+buffEntry.buffID);
 						buffEntry.buffCost2Txt.setText((tempString == null)? "0": tempString);
@@ -497,28 +536,31 @@ public class BuffBotFrame extends KoLFrame {
 						buffEntry.buffCount2Txt.setText((tempString == null)? "0": tempString);
 						buffEntry.buffCost2 = Integer.parseInt(buffEntry.buffCost2Txt.getText());
 						buffEntry.buffCastCount2 = Integer.parseInt(buffEntry.buffCount2Txt.getText());
-
+						
 						BuffCostTable.set(buffSkillIndex, buffEntry);
 					}
-
+					
 					setStatusMessage( ENABLED_STATE, "" );
-
+					
 				}
 			}
-			private class StoreSettingsThread extends Thread {
-				public void run() {
+			private class StoreSettingsThread extends Thread
+			{
+				public void run()
+				{
 					int buffSkillIndex;
 					BuffDescriptor buffEntry;
-
+					
 					settings.setProperty( "NonBuffMsgSave", "" + (NonBuffMsgSave.getSelectedIndex() == 1) );
 					settings.setProperty( "MPRestoreSelect", "" + (MPRestoreSelect.getSelectedItem()) );
-					for (buffSkillIndex = 0; buffSkillIndex < BuffCostTable.size(); buffSkillIndex++){
+					for (buffSkillIndex = 0; buffSkillIndex < BuffCostTable.size(); buffSkillIndex++)
+					{
 						buffEntry = (BuffDescriptor) BuffCostTable.get(buffSkillIndex);
 						settings.setProperty( "BuffCost#"+buffEntry.buffID, buffEntry.buffCostTxt.getText());
 						settings.setProperty( "BuffCount#"+buffEntry.buffID, buffEntry.buffCountTxt.getText());
 						buffEntry.buffCost = Integer.parseInt(buffEntry.buffCostTxt.getText());
 						buffEntry.buffCastCount = Integer.parseInt(buffEntry.buffCountTxt.getText());
-
+						
 						// Now do the #2 fields:
 						settings.setProperty( "BuffCost2#"+buffEntry.buffID, buffEntry.buffCost2Txt.getText());
 						settings.setProperty( "BuffCount2#"+buffEntry.buffID, buffEntry.buffCount2Txt.getText());
@@ -526,33 +568,36 @@ public class BuffBotFrame extends KoLFrame {
 						buffEntry.buffCastCount2 = Integer.parseInt(buffEntry.buffCount2Txt.getText());
 						BuffCostTable.set(buffSkillIndex, buffEntry);
 					}
-
+					
 					if ( settings instanceof KoLSettings )
 						((KoLSettings)settings).saveSettings();
 					setStatusMessage( ENABLED_STATE, "Settings saved." );
-
+					
 					KoLRequest.delay( 5000 );
 					setStatusMessage( ENABLED_STATE, "" );
 				}
 			}
-
-
+			
+			
 		}
-		private class BuffListPanel extends JPanel {
-
-
-			public BuffListPanel( ) {
+		private class BuffListPanel extends JPanel
+		{
+			
+			
+			public BuffListPanel( )
+			{
 				LockableListModel skillset = new LockableListModel();
 				String skill;
 				int skillID;
 				JLabel skillLabel;
 				BuffDescriptor buffEntry;
-
+				
 				this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 				JPanel panel = new JPanel();
-
+				
 				skillset = (client == null) ? new LockableListModel() : client.getCharacterData().getAvailableSkills();
-				if (client == null){// Dummy data for UI debug
+				if (client == null)
+				{// Dummy data for UI debug
 					skillset.add("Cletus's Canticle of Celerity");
 					skillset.add("Jackasses' Symphony of Destruction");
 					skillset.add("The Power Ballad of the Arrowsmith");
@@ -562,7 +607,7 @@ public class BuffBotFrame extends KoLFrame {
 					skillset.add("Stevedave's Shanty of Superiority");
 					skillset.add("The Ode to Booze");
 				}
-
+				
 				JPanel ltPanel = new JPanel(new GridLayout(0,1));
 				JPanel rtPanel;
 				rtPanel = new JPanel(new GridLayout(0,4,5,5));
@@ -571,15 +616,17 @@ public class BuffBotFrame extends KoLFrame {
 				rtPanel.add(new JLabel("# Casts"));
 				rtPanel.add(new JLabel("Cost #2"));
 				rtPanel.add(new JLabel("# Casts"));
-
-
-				for (int i = 0; (skill = (String) skillset.get(i)) != null; ++i ){
+				
+				
+				for (int i = 0; (skill = (String) skillset.get(i)) != null; ++i )
+				{
 					skillID = ClassSkillsDatabase.getSkillID( skill.replaceFirst( "ñ", "&ntilde;" ) );
-					if (ClassSkillsDatabase.isBuff( skillID )){
+					if (ClassSkillsDatabase.isBuff( skillID ))
+					{
 						buffEntry = new BuffDescriptor(skill, skillID);
 						skillLabel = new JLabel(skill,JLabel.TRAILING);
 						skillLabel.setFont(new Font("Serif", Font.PLAIN, 10));
-
+						
 						ltPanel.add(skillLabel);
 						rtPanel.add(buffEntry.buffCostTxt);
 						rtPanel.add(buffEntry.buffCountTxt);
@@ -587,15 +634,18 @@ public class BuffBotFrame extends KoLFrame {
 						rtPanel.add(buffEntry.buffCount2Txt);
 						panel.add(rtPanel);
 						BuffCostTable.add(buffEntry);
-
+						
 					}
 				}
 				// Special message for the non-buffers
-				if (BuffCostTable.isEmpty()){
+				if (BuffCostTable.isEmpty())
+				{
 					panel = new JPanel(new GridLayout(0,1,5,5));
 					panel.add(new JLabel("You have no buffing skills!"));
 					add(panel);
-				} else {
+				}
+				else
+				{
 					//Force the left panel to have the same height as the right one:
 					ltPanel.setPreferredSize(new Dimension(ltPanel.getPreferredSize().width, 5+rtPanel.getPreferredSize().height));
 					panel.add(ltPanel);
@@ -605,44 +655,49 @@ public class BuffBotFrame extends KoLFrame {
 			}
 		}
 	}
-/**
+	/**
 	 * Internal class used to handle everything related to
 	 * BuffBot White List management
 	 */
-
-	private class whiteListPanel extends JPanel {
+	
+	private class whiteListPanel extends JPanel
+	{
 		private whiteListMgr TopPanel;
 		private whiteListEntry BottomPanel;
-
-
-		public whiteListPanel() {
-
+		
+		
+		public whiteListPanel()
+		{
+			
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout() );
-
+			
 			TopPanel = new whiteListMgr();
 			panel.add(TopPanel,BorderLayout.NORTH);
-
+			
 			BottomPanel = new whiteListEntry();
 			panel.add(BottomPanel,BorderLayout.SOUTH);
-
+			
 			add( panel, " " );
 		}
-
-		public void setEnabled( boolean isEnabled ) {
+		
+		public void setEnabled( boolean isEnabled )
+		{
 			super.setEnabled( isEnabled );
 			TopPanel.setEnabled(isEnabled);
 			BottomPanel.setEnabled(isEnabled);
 		}
-
-		private class whiteListMgr extends KoLPanel {
+		
+		private class whiteListMgr extends KoLPanel
+		{
 			protected Properties settings;
 			protected JComboBox List1WhiteListOnly, List2WhiteListOnly;
-
-			public whiteListMgr( ) {
+			
+			public whiteListMgr( )
+			{
 				super("Apply", "Restore", new Dimension( 120, 20 ),  new Dimension( 200, 20 ));
-
-
+				
+				
 				settings = (client == null) ? System.getProperties() : client.getSettings();
 				LockableListModel List1Scope = new LockableListModel();
 				List1Scope.add( "Cast on anyone");
@@ -654,38 +709,45 @@ public class BuffBotFrame extends KoLFrame {
 				List2Scope.add( "Restrict to White List");
 				List2WhiteListOnly = new JComboBox( List2Scope );
 				List2WhiteListOnly.setSelectedIndex(0);
-
+				
 				VerifiableElement [] elements = new VerifiableElement[2];
 				elements[0] = new VerifiableElement( "Buff Table 1 ", List1WhiteListOnly );
 				elements[1] = new VerifiableElement( "Buff Table 2 ", List2WhiteListOnly );
-
+				
 				setContent( elements, null, null, null, true, true );
 				clear();
 			}
-
-			public void setEnabled( boolean isEnabled ) {
+			
+			public void setEnabled( boolean isEnabled )
+			{
 				super.setEnabled( isEnabled );
 				List1WhiteListOnly.setEnabled(isEnabled);
 				List1WhiteListOnly.setEnabled(isEnabled);
 			}
-
-			public void setStatusMessage(int status, String Msg){
-
+			
+			public void setStatusMessage(int status, String Msg)
+			{
+				
 			}
-
-			public void clear(){
+			
+			public void clear()
+			{
 				(new LoadDefaultSettingsThread()).start();
 			}
-
-			public void actionCancelled(){
+			
+			public void actionCancelled()
+			{
 				clear();
 			}
-
-			protected void actionConfirmed(){
+			
+			protected void actionConfirmed()
+			{
 				(new StoreSettingsThread()).start();
 			}
-			private class LoadDefaultSettingsThread extends Thread {
-				public void run() {
+			private class LoadDefaultSettingsThread extends Thread
+			{
+				public void run()
+				{
 					String tempSetting = settings.getProperty( "List1WhiteListOnly" );
 					if ( tempSetting == null || tempSetting.equals( "false" ) )
 						List1WhiteListOnly.setSelectedIndex( 0 );
@@ -697,30 +759,34 @@ public class BuffBotFrame extends KoLFrame {
 					else
 						List2WhiteListOnly.setSelectedIndex( 1 );
 					setStatusMessage( ENABLED_STATE, "" );
-
+					
 				}
 			}
-			private class StoreSettingsThread extends Thread {
-				public void run() {
+			private class StoreSettingsThread extends Thread
+			{
+				public void run()
+				{
 					settings.setProperty( "List1WhiteListOnly", "" + (List1WhiteListOnly.getSelectedIndex() == 1) );
 					settings.setProperty( "List2WhiteListOnly", "" + (List2WhiteListOnly.getSelectedIndex() == 1) );
-
+					
 					if ( settings instanceof KoLSettings )
 						((KoLSettings)settings).saveSettings();
 					setStatusMessage( ENABLED_STATE, "Settings saved." );
-
+					
 					KoLRequest.delay( 5000 );
 					setStatusMessage( ENABLED_STATE, "" );
 				}
 			}
-
-
+			
+			
 		}
-		private class whiteListEntry extends JPanel {
-
-
-			public whiteListEntry( ) {
-
+		private class whiteListEntry extends JPanel
+		{
+			
+			
+			public whiteListEntry( )
+			{
+				
 				this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 				JPanel panel = new JPanel();
 				panel.add(new JLabel("Watch this space for the White List implementation"));
@@ -729,13 +795,13 @@ public class BuffBotFrame extends KoLFrame {
 			}
 		}
 	}
-
+	
 	/**
 	 * An internal class used to handle logout whenever the window
 	 * is closed.  An instance of this class is added to the window
 	 * listener list.
 	 */
-
+	
 	private class DisableBuffBotAdapter extends WindowAdapter
 	{
 		public void windowClosed( WindowEvent e )
@@ -743,13 +809,13 @@ public class BuffBotFrame extends KoLFrame {
 			if ( client != null )
 				(new DisableBuffBotThread()).start();
 		}
-
+		
 		private class DisableBuffBotThread extends Thread
 		{
 			public DisableBuffBotThread()
 			{	setDaemon( true );
 			}
-
+			
 			public void run()
 			{
 				if ( client != null )
@@ -757,14 +823,15 @@ public class BuffBotFrame extends KoLFrame {
 			}
 		}
 	}
-
+	
 	/**
 	 * The main method used in the event of testing the way the
 	 * user interface looks.  This allows the UI to be tested
 	 * without having to constantly log in and out of KoL.
 	 */
-
-	public static void main( String [] args ) {
+	
+	public static void main( String [] args )
+	{
 		KoLFrame uitest = new BuffBotFrame( null);
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
