@@ -117,6 +117,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
+	private boolean isEnabled;
 	private JTabbedPane tabs;
 	private KoLMessenger kolchat;
 	private ItemManageFrame itemManager;
@@ -145,6 +146,7 @@ public class AdventureFrame extends KoLFrame
 			" (" + KoLRequest.getRootHostName() + ")", client );
 
 		setResizable( false );
+		this.isEnabled = true;
 		this.tabs = new JTabbedPane();
 
 		this.adventureSelect = new AdventureSelectPanel( adventureList, resultsTally );
@@ -193,6 +195,8 @@ public class AdventureFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
+		this.isEnabled = isEnabled;
+
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			tabs.setEnabledAt( i, isEnabled );
 
@@ -1155,12 +1159,17 @@ public class AdventureFrame extends KoLFrame
 			public void run()
 			{
 				if ( itemManager != null )
+				{
 					itemManager.setVisible( true );
+					itemManager.requestFocus();
+				}
 				else
 				{
 					super.run();
 					itemManager = (ItemManageFrame) lastCreatedFrame;
 				}
+
+				itemManager.setEnabled( isEnabled );
 			}
 		}
 	}
