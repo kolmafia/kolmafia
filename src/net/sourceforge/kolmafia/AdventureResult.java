@@ -117,6 +117,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		this( name, new int[1] );
 		this.count[0] = count;
+		this.itemID = TradeableItemDatabase.getItemID( name );
 	}
 
 	public AdventureResult( int itemID, int count )
@@ -511,6 +512,6 @@ public class AdventureResult implements Comparable, KoLConstants
 		for ( int i = 0; i < left.count.length; ++i )
 			totals[i] = left.count[i] + right.count[i];
 
-		return left.isItem() && left.itemID != 0 ? new AdventureResult( left.itemID, totals[0] ) : new AdventureResult( left.name, totals );
+		return left.isItem() ? new AdventureResult( left.itemID, totals[0] ) : new AdventureResult( left.name, totals );
 	}
 }
