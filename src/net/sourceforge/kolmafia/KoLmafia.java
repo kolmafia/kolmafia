@@ -304,8 +304,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	/**
 	 * Utility method to parse an individual adventuring result.
 	 * This method determines what the result actually was and
-	 * adds it to the tally.  Note that at the current time, it
-	 * will ignore anything with the word "points".
+	 * adds it to the tally.
 	 *
 	 * @param	result	String to parse for the result
 	 */
