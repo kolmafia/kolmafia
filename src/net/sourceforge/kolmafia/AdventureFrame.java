@@ -201,7 +201,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		compactPane.setOpaque( false );
 		compactPane.setLayout( new GridLayout( 11, 1 ) );
 
-		compactPane.add( Box.createHorizontalStrut( 100 ) );
+		compactPane.add( Box.createHorizontalStrut( 80 ) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
 		compactPane.add( hpLabel = new JLabel( " ", JLabel.CENTER ) );
@@ -1596,7 +1596,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 	private class ViewBuffBotPanelListener extends DisplayFrameListener
 	{
             private JTabbedPane advTabs;
-            
+
 		public ViewBuffBotPanelListener()
 		{	super( BuffBotFrame.class );
                         client.BBHome.setAdventureTabs(tabs);
