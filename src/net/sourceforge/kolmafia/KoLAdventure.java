@@ -85,7 +85,7 @@ public class KoLAdventure implements Runnable
 	public void run()
 	{
 		if ( formSource.equals( "hermit.php" ) )
-			(new HermitRequest( client )).run();
+			(new HermitRequest( client, 1 )).run();
 		else if ( formSource.equals( "sewer.php" ) )
 			(new SewerRequest( client, false )).run();
 		else if ( formSource.equals( "luckysewer.php" ) )

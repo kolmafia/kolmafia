@@ -51,11 +51,12 @@ public class HermitRequest extends KoLRequest
 	 * @param	client	The client to which this request will report errors/results
 	 */
 
-	public HermitRequest( KoLmafia client )
+	public HermitRequest( KoLmafia client, int quantity )
 	{
 		super( client, "hermit.php" );
 
-		addFormField( "action", "Yep." );
+		addFormField( "action", "trade" );
+		addFormField( "quantity", "" + quantity );
 		addFormField( "pwd", client.getPasswordHash() );
 	}
 
@@ -89,9 +90,30 @@ public class HermitRequest extends KoLRequest
 
 		if ( replyContent.indexOf( "acquire" ) == -1 )
 		{
-			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of worthless junk." );
-			client.updateAdventure( false, false );
-			return;
+			// Figure out how many you were REALLY supposed to run,
+			// since you clearly didn't have enough trinkets for
+			// what you did run. ;)
+
+			int index = replyContent.indexOf( "You have" );
+			if ( index == -1 )
+			{
+				frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of worthless junk." );
+				client.updateAdventure( false, false );
+				return;
+			}
+
+			try
+			{
+				int actualQuantity = df.parse( replyContent.substring( index + 9 ) ).intValue();
+				(new HermitRequest( client, actualQuantity )).run();
+			}
+			catch ( Exception e )
+			{
+				// Should not happen.  Theoretically, some weird
+				// error message should be logged, but why add an
+				// extra line of code?  A row of comment lines is
+				// much more interesting.
+			}
 		}
 
 		processResults( replyContent );

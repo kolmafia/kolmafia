@@ -410,24 +410,35 @@ public class KoLmafia implements UtilityConstants
 			this.permitContinue = true;
 			int iterationsRemaining = iterations;
 
-			for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
+			if ( request.toString().indexOf( "Hermit" ) == -1 )
 			{
-				if ( request instanceof KoLAdventure )
-					activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
+				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
+				{
+					if ( request instanceof KoLAdventure )
+						activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
 
-				request.run();
+					request.run();
 
-				// Make sure you only decrement iterations if the
-				// continue was permitted.  This resolves the issue
-				// of incorrectly updating the client if something
-				// occurred on the last iteration.
+					// Make sure you only decrement iterations if the
+					// continue was permitted.  This resolves the issue
+					// of incorrectly updating the client if something
+					// occurred on the last iteration.
+
+					if ( permitContinue )
+						--iterationsRemaining;
+				}
+
+				if ( iterationsRemaining <= 0 && request instanceof KoLAdventure )
+					activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
+			}
+			else
+			{
+				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Robbing the hermit..." );
+				(new HermitRequest( this, iterations )).run();
 
 				if ( permitContinue )
-					--iterationsRemaining;
+					activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Hermit successfully looted!" );
 			}
-
-			if ( iterationsRemaining <= 0 && request instanceof KoLAdventure )
-				activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
 		}
 		catch ( RuntimeException e )
 		{
