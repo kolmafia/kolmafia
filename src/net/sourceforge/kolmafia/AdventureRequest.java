@@ -38,11 +38,13 @@ import java.util.StringTokenizer;
 public class AdventureRequest extends KoLRequest
 {
 	private String formSource;
+	private String adventureID;
 
 	public AdventureRequest( KoLmafia client, String formSource, String adventureID )
 	{
 		super( client, formSource );
 		this.formSource = formSource;
+		this.adventureID = adventureID;
 
 		// The adventure ID is all you need to identify the adventure;
 		// posting it in the form sent to adventure.php will handle
@@ -81,10 +83,21 @@ public class AdventureRequest extends KoLRequest
 				return;
 			}
 
-			// Otherwise, it was a success, so the results of
-			// the adventure should be parsed.
+			// Also, during the mining adventure, if you lose hit points
+			// from a cave in, there are no results to process, so simply
+			// update the client without parsing the results.
 
-			processResults( replyContent.substring( resultIndex + 12 ) );
+			if ( !replyContent.contains( "An inexpert swing of your Mattock" ) )
+				processResults( replyContent.substring( resultIndex + 12 ) );
+
+			client.updateAdventure( true, true );
+		}
+		else if ( !isErrorState && redirectLocation.equals( "choice.php" ) )
+		{
+			// In the case of a denim axe (which redirects you to a
+			// different URL), you can actually skip the adventure.
+
+			(new AdventureRequest( client, formSource, adventureID )).start();
 		}
 	}
 }
