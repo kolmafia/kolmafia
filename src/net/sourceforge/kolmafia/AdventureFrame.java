@@ -103,22 +103,42 @@ import javax.swing.JMenu;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+/**
+ * An extended <code>KoLFrame</code> which presents the user with the ability to
+ * adventure in the Kingdom of Loathing.  As the class is developed, it will also
+ * provide other adventure-related functionality, such as inventory management
+ * and mall purchases.  Its content panel will also change, pending the activity
+ * executed at that moment.
+ */
+
 public class AdventureFrame extends KoLFrame
 {
+	private JTabbedPane tabs;
 	private AdventureSelectPanel adventureSelect;
+
+	/**
+	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
+	 * are placed into their corresponding tabs, with the content panel being
+	 * defaulted to the adventure selection panel.
+	 *
+	 * @param	client	Client/session associated with this frame
+	 * @param	availableAdventures	Adventures available to the user
+	 * @param	resultsTally	Tally of adventuring results
+	 */
 
 	public AdventureFrame( KoLmafia client, LockableListModel availableAdventures, LockableListModel resultsTally )
 	{
 		super( "KoLmafia: " + client.getLoginName(), client );
 		setResizable( false );
 
-		JTabbedPane tabs = new JTabbedPane();
+		tabs = new JTabbedPane();
 
-		addAdventuringPanel( tabs, availableAdventures, resultsTally );
-		addInventoryPanel( tabs );  tabs.setEnabledAt( 1, false );
-		addMallBrowsingPanel( tabs );  tabs.setEnabledAt( 2, false );
+		addAdventuringPanel( availableAdventures, resultsTally );
+		addInventoryPanel();  tabs.setEnabledAt( 1, false );
+		addMallBrowsingPanel();  tabs.setEnabledAt( 2, false );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
+		contentPanel = adventureSelectPanel;
 
 		updateDisplay( ENABLED_STATE, " " );
 		addWindowListener( new LogoutRequestAdapter() );
@@ -127,12 +147,20 @@ public class AdventureFrame extends KoLFrame
 		addMenuBar();
 	}
 
-	private void addAdventuringPanel( JTabbedPane tabs, LockableListModel availableAdventures, LockableListModel resultsTally )
+	/**
+	 * Utility method which adds the adventure selection panel to the
+	 * pre-constructed tabs.  The adventure selection panel also keeps
+	 * track of the tally of results and the adventures which are
+	 * available to the user.
+	 *
+	 * @param	availableAdventures	Adventures available to the user
+	 * @param	resultsTally	Tally of adventuring results
+	 */
+
+	private void addAdventuringPanel( LockableListModel availableAdventures, LockableListModel resultsTally )
 	{
 		JPanel summaryPanel = new AdventureResultsPanel( resultsTally );
 		adventureSelect = new AdventureSelectPanel( availableAdventures );
-
-		contentPanel = adventureSelect;
 
 		JPanel adventuringPanel = new JPanel();
 		adventuringPanel.setLayout( new BorderLayout( 10, 10 ) );
@@ -142,15 +170,34 @@ public class AdventureFrame extends KoLFrame
 		tabs.addTab( "Adventure Select", adventuringPanel );
 	}
 
-	private void addInventoryPanel( JTabbedPane tabs )
+	/**
+	 * Utility method which adds the inventory management panel to the
+	 * pre-constructed tabs.  Because inventory management has not yet
+	 * been implemented, this method adds a blank panel.
+	 */
+
+	private void addInventoryPanel()
 	{
 		tabs.addTab( "Inventory / Equipment", new JPanel() );
 	}
 
-	private void addMallBrowsingPanel( JTabbedPane tabs )
+	/**
+	 * Utility method which adds the mall browsing panel to the
+	 * pre-constructed tabs.  Because mall browsing has not yet
+	 * been implemented, this method adds a blank panel.
+	 */
+
+	private void addMallBrowsingPanel()
 	{
 		tabs.addTab( "Mall of Loathing", new JPanel() );
 	}
+
+	/**
+	 * Utility method used to add a menu bar to the <code>AdventureFrame</code>.
+	 * The menu bar contains configuration options and the general license
+	 * information associated with <code>KoLmafia</code>.  In addition, the
+	 * method adds an item which allows the user to view their character sheet.
+	 */
 
 	private void addMenuBar()
 	{
@@ -169,6 +216,11 @@ public class AdventureFrame extends KoLFrame
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
+
+	/**
+	 * An internal class which represents the panel used for adventure
+	 * selection in the <code>AdventureFrame</code>.
+	 */
 
 	protected class AdventureSelectPanel extends KoLPanel
 	{
@@ -230,6 +282,7 @@ public class AdventureFrame extends KoLFrame
 			// client to begin adventuring based on the values
 			// placed in the input fields.
 
+			contentPanel = adventureSelect;
 			(new AdventureRequestThread()).start();
 		}
 
@@ -247,6 +300,12 @@ public class AdventureFrame extends KoLFrame
 		public void requestFocus()
 		{	locationField.requestFocus();
 		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually make the adventuring requests.
+		 */
 
 		private class AdventureRequestThread extends Thread
 		{
@@ -276,6 +335,13 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
+	/**
+	 * An internal class which represents the panel used for tallying the
+	 * results in the <code>AdventureFrame</code>.  Note that all of the
+	 * tallying functionality is handled by the <code>LockableListModel</code>
+	 * provided, so this functions as a container for that list model.
+	 */
+
 	protected class AdventureResultsPanel extends JPanel
 	{
 		public AdventureResultsPanel( LockableListModel tally )
@@ -293,6 +359,12 @@ public class AdventureFrame extends KoLFrame
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 		}
 	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing a character sheet.
+	 */
 
 	private class ViewCharacterSheetListener extends Thread implements ActionListener
 	{
@@ -316,6 +388,12 @@ public class AdventureFrame extends KoLFrame
 			this.start();
 		}
 	}
+
+	/**
+	 * An internal class used to handle logout whenever the window
+	 * is closed.  An instance of this class is added to the window
+	 * listener list.
+	 */
 
 	private class LogoutRequestAdapter extends WindowAdapter
 	{
