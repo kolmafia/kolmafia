@@ -1573,8 +1573,8 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		public void run()
 		{
 			KoLCharacter characterData = client == null ? new KoLCharacter( "UI Test" ) : client.getCharacterData();
-			hpLabel.setText( characterData.getCurrentHP() + " / " + characterData.getBaseMaxHP() );
-			mpLabel.setText( characterData.getCurrentMP() + " / " + characterData.getBaseMaxMP() );
+			hpLabel.setText( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() );
+			mpLabel.setText( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() );
 			meatLabel.setText( "" + df.format( characterData.getAvailableMeat() ) );
 			advLabel.setText( "" + characterData.getAdventuresLeft() );
 			drunkLabel.setText( "" + characterData.getInebriety() );
