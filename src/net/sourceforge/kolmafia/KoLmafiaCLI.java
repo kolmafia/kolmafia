@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -57,7 +58,19 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	public static void main( String [] args )
-	{	KoLmafiaCLI session = new KoLmafiaCLI();
+	{
+		try
+		{
+			KoLmafiaCLI session = new KoLmafiaCLI( null );
+		}
+		catch ( IOException e )
+		{
+			// If an exception occurs, exit with an error code
+			// to notify the user that something happened.
+
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 
 	/**
@@ -67,9 +80,10 @@ public class KoLmafiaCLI extends KoLmafia
 	 * to allow the user to login.
 	 */
 
-	public KoLmafiaCLI()
+	public KoLmafiaCLI( String scriptLocation ) throws IOException
 	{
-		commandStream = new BufferedReader( new InputStreamReader( System.in ) );
+		commandStream = (scriptLocation == null) ? new BufferedReader( new InputStreamReader( System.in ) ) :
+			new BufferedReader( new InputStreamReader( new FileInputStream( scriptLocation ) ) );
 		listenForCommands();
 	}
 
@@ -106,6 +120,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCommand( String command )
 	{
+		if ( command.trim().length() == 0 )
+			return;
+
 	}
 
 	/**
