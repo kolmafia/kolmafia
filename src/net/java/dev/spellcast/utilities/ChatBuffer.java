@@ -55,6 +55,7 @@ public class ChatBuffer
 	private static final int DISPLAY_CHANGE = 1;
 	private static final int LOGFILE_CHANGE = 2;
 
+	private String title;
 	private StringBuffer displayBuffer;
 	private JEditorPane displayPane;
 	private PrintWriter activeLogWriter;
@@ -74,11 +75,25 @@ public class ChatBuffer
 	public ChatBuffer( String title )
 	{
 		displayBuffer = new StringBuffer();
+		this.title = title;
+		clearBuffer();
+	}
 
+	/**
+	 * Method used for clearing the buffer so it can start fresh.  This
+	 * is used whenever you want to clear the editor pane from being too
+	 * full (in the event that it ever happens).
+	 */
+
+	public void clearBuffer()
+	{
+		displayBuffer.setLength( 0 );
 		displayBuffer.append( "<html><head>" + NEW_LINE );
 		displayBuffer.append( "<title>" + title + "</title>" + NEW_LINE );
 		displayBuffer.append( "</head>" + NEW_LINE + NEW_LINE );
 		displayBuffer.append( BUFFER_INIT + NEW_LINE );
+
+		fireBufferChanged( DISPLAY_CHANGE, null );
 	}
 
 	/**
