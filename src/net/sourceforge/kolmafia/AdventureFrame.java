@@ -334,28 +334,30 @@ public class AdventureFrame extends KoLFrame
 
 	private class InventoryManagementPanel extends KoLPanel
 	{
-		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
+		private LockableListModel creationQueue;
 
 		public InventoryManagementPanel()
 		{
 			super( null, null );
 
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
+			creationQueue = new LockableListModel();
 			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			JTabbedPane inventoryTabs = new JTabbedPane();
-			inventoryTabs.addTab( "Make Items", new ItemCreationPanel() );
-			inventoryTabs.addTab( "Manage Meat", new MeatManagementPanel() );
+			inventoryTabs.addTab( "Use", new JPanel() );
+			inventoryTabs.addTab( "Equip", new JPanel() );
+			inventoryTabs.addTab( "Sell", new JPanel() );
+			inventoryTabs.addTab( "Store", new JPanel() );
+			inventoryTabs.addTab( "Create", new ItemCreationPanel() );
+			inventoryTabs.addTab( "Meat Paste", new MeatManagementPanel() );
+			inventoryTabs.addTab( "Execute", new JPanel() );
 
 			JPanel mainPanel = new JPanel();
 			mainPanel.setLayout( new BorderLayout( 10, 10 ) );
 			mainPanel.add( inventoryTabs, BorderLayout.NORTH );
-			mainPanel.add( actionStatusPanel, BorderLayout.SOUTH );
+			mainPanel.add( actionStatusLabel, BorderLayout.CENTER );
+			mainPanel.add( new ManagementQueuePanel(), BorderLayout.SOUTH );
 
 			JPanel cardPanel = new JPanel();
 			cardPanel.setLayout( new CardLayout( 10, 10 ) );
@@ -382,28 +384,49 @@ public class AdventureFrame extends KoLFrame
 		}
 
 		/**
+		 * An internal class which represents the panel used for displaying
+		 * the management actions which are queued so far.
+		 */
+
+		private class ManagementQueuePanel extends JPanel
+		{
+			public ManagementQueuePanel()
+			{
+				setLayout( new BorderLayout() );
+				setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+				add( JComponentUtilities.createLabel( "Item Management Queue", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+
+				JList queueDisplay = new JList( creationQueue );
+				queueDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+				queueDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+				queueDisplay.setVisibleRowCount( 8 );
+
+				add( new JScrollPane( queueDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			}
+		}
+
+		/**
 		 * An internal class used to handle item creation for
 		 * the inventory screen.
 		 */
 
 		private class ItemCreationPanel extends KoLPanel
 		{
-			private JComboBox [] createField;
+			private JComboBox createField;
 			private JTextField countField;
 
 			public ItemCreationPanel()
 			{
-				super( "create", "refresh" );
+				super( "add", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
-				createField = new JComboBox[2];
-				createField[0] = new JComboBox();
-				createField[1] = new JComboBox();
+				createField = new JComboBox();
 				countField = new JTextField();
 
-				VerifiableElement [] elements = new VerifiableElement[3];
-				elements[0] = new VerifiableElement( "Ingredient 1: ", createField[0] );
-				elements[1] = new VerifiableElement( "Ingredient 2: ", createField[1] );
-				elements[2] = new VerifiableElement( "Quantity: ", countField );
+				VerifiableElement [] elements = new VerifiableElement[2];
+				elements[0] = new VerifiableElement( "Result: ", createField );
+				elements[1] = new VerifiableElement( "Quantity: ", countField );
 
 				setContent( elements );
 			}
@@ -414,7 +437,7 @@ public class AdventureFrame extends KoLFrame
 
 			public void clear()
 			{
-				createField[0].setSelectedIndex( 0 );
+				createField.setSelectedIndex( 0 );
 				countField.setText( "" );
 			}
 
@@ -429,7 +452,7 @@ public class AdventureFrame extends KoLFrame
 			public void requestFocus()
 			{
 				super.requestFocus();
-				createField[0].requestFocus();
+				createField.requestFocus();
 			}
 		}
 
@@ -446,14 +469,14 @@ public class AdventureFrame extends KoLFrame
 
 			public MeatManagementPanel()
 			{
-				super( "execute", "refresh" );
+				super( "add", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 				LockableListModel actions = new LockableListModel();
 				actions.add( "Deposit Meat" );
 				actions.add( "Withdraw Meat" );
-				actions.add( "Meat Paste" );
-				actions.add( "Meat Stacks" );
-				actions.add( "Dense Meat Stacks" );
+				actions.add( "Make Meat Paste" );
+				actions.add( "Make Meat Stack" );
+				actions.add( "Make Dense Stack" );
 
 				actionField = new JComboBox( actions );
 				countField = new JTextField();
@@ -477,7 +500,36 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new MeatManagementThread()).start();
+			{
+				try
+				{
+					int quantity = df.parse( countField.getText() ).intValue();
+
+					switch ( actionField.getSelectedIndex() )
+					{
+						case 0:
+						case 1:
+						case 2:
+							creationQueue.add( new ItemCreationRequest( client,
+								ItemCreationRequest.MEAT_PASTE, quantity ) );
+							break;
+						case 3:
+							creationQueue.add( new ItemCreationRequest( client,
+								ItemCreationRequest.MEAT_STACK, quantity ) );
+							break;
+						case 4:
+							creationQueue.add( new ItemCreationRequest( client,
+								ItemCreationRequest.DENSE_STACK, quantity ) );
+							break;
+					}
+				}
+				catch ( ParseException e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
 			}
 
 			protected void actionCancelled()
@@ -489,46 +541,6 @@ public class AdventureFrame extends KoLFrame
 				super.requestFocus();
 				actionField.requestFocus();
 			}
-
-			/**
-			 * In order to keep the user interface from freezing (or at
-			 * least appearing to freeze), this internal class is used
-			 * to actually make the management request.
-			 */
-
-			private class MeatManagementThread extends Thread
-			{
-				public void run()
-				{
-					try
-					{
-						int quantity = df.parse( countField.getText() ).intValue();
-
-						switch ( actionField.getSelectedIndex() )
-						{
-							case 0:
-							case 1:
-							case 2:
-								(new ItemCreationRequest( client, ItemCreationRequest.MEAT_PASTE, quantity )).run();
-								break;
-							case 3:
-								(new ItemCreationRequest( client, ItemCreationRequest.MEAT_STACK, quantity )).run();
-								break;
-							case 4:
-								(new ItemCreationRequest( client, ItemCreationRequest.DENSE_STACK, quantity )).run();
-								break;
-						}
-					}
-					catch ( ParseException e )
-					{
-						// If the number placed inside of the count list was not
-						// an actual integer value, pretend nothing happened.
-						// Using exceptions for flow control is bad style, but
-						// this will be fixed once we add functionality.
-					}
-				}
-			}
-
 		}
 	}
 
@@ -552,7 +564,7 @@ public class AdventureFrame extends KoLFrame
 
 		public MallSearchPanel()
 		{
-			super( "search", "buy", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( "search", "buy selected", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
