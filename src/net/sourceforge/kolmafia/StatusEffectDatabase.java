@@ -80,7 +80,7 @@ public class StatusEffectDatabase
 					strtok.nextToken();
 					String effectName = strtok.nextToken();
 					effectByID.put( effectID, effectName );
-					effectByName.put( effectName.toLowerCase(), effectID );
+					effectByName.put( effectName, effectID );
 				}
 			}
 		}
