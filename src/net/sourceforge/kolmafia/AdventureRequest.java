@@ -54,6 +54,11 @@ public class AdventureRequest extends KoLRequest
 			addFormField( "adv", adventureID );
 		else if ( formSource.equals( "shore.php" ) )
 			addFormField( "whichtrip", adventureID );
+		else if ( formSource.equals( "casino.php" ) )
+		{
+			addFormField( "action", "slot" );
+			addFormField( "whichslot", adventureID );
+		}
 	}
 
 	public void run()
@@ -68,15 +73,20 @@ public class AdventureRequest extends KoLRequest
 		{
 			// From preliminary tests, finding out whether or not the
 			// adventure was successful is equivalent to whether or
-			// not there is centered text in the results.
+			// not there is centered text in the results.  This is
+			// true except for two cases: the casino's standard slot
+			// machines and the shore vacations when you don't have
+			// enough meat, adventures or are too drunk to continue.
 
 			int resultIndex = replyContent.indexOf( "<p><center>" );
 
-			if ( resultIndex == -1 )
+			if ( resultIndex == -1 || replyContent.contains( "You can't afford" ) ||
+				replyContent.contains( "You don't have enough" ) || replyContent.contains( "You're too drunk" ) )
 			{
 				// Notify the client of failure by telling it that
 				// the adventure did not take place and the client
 				// should not continue with the next iteration.
+				// Friendly error messages to come later.
 
 				client.updateAdventure( false, false );
 				frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Adventures aborted!" );
@@ -103,6 +113,26 @@ public class AdventureRequest extends KoLRequest
 
 			if ( formSource.equals( "adventure.php" ) && adventureID.equals( "25" ) )
 				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -100 ) );
+
+			// If you're at the casino, each of the different slot machines
+			// deducts meat from your tally
+
+			if ( formSource.equals( "adventure.php" ) && adventureID.equals( "70" ) )
+				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			if ( formSource.equals( "adventure.php" ) && adventureID.equals( "71" ) )
+				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -30 ) );
+			if ( formSource.equals( "adventure.php" ) && adventureID.equals( "72" ) )
+				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+
+			if ( formSource.equals( "casino.php" ) )
+			{
+				if ( adventureID.equals( "1" ) )
+					client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -5 ) );
+				else if ( adventureID.equals( "2" ) )
+					client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+				else if ( adventureID.equals( "11" ) )
+					client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			}
 		}
 		else if ( !isErrorState && redirectLocation.equals( "choice.php" ) )
 		{
