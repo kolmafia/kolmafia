@@ -76,11 +76,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 
 	public void append( String message )
 	{
-		if ( previousFontSize != fontSize )
-		{
-			String currentBuffer = displayBuffer.toString();
-		}
-
 		int totalLength = displayBuffer.length() + message.length();
 		if ( totalLength > maximumSize )
 		{
