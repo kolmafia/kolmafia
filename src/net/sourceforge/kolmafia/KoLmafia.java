@@ -589,7 +589,11 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
-					updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
+					if ( iterationsRemaining == 1 )
+						updateDisplay( DISABLED_STATE, "Final request in progress..." );
+					else
+						updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
+
 					request.run();
 					applyRecentEffects();
 
@@ -1014,11 +1018,11 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	public boolean isBuffBotActive()
 	{	return (buffBotHome == null) ? false : buffBotHome.isBuffBotActive();
 	}
-	
+
 	public void setBuffBotActive(boolean isActive)
 	{	if (buffBotHome != null) buffBotHome.setBuffBotActive(isActive);
 	}
-	
+
 	public void setBuffBotMail(BuffBotManager buffBotMail)
 	{	this.buffBotMail = buffBotMail;
 	}
