@@ -162,6 +162,15 @@ public class AdventureResult implements Comparable
 	}
 
 	/**
+	 * Accessor method to determine if this result is a status effect.
+	 * @return	<code>true</code> if this result represents a status effect
+	 */
+
+	public boolean isStatusEffect()
+	{	return StatusEffectDatabase.contains( name );
+	}
+
+	/**
 	 * Accessor method to determine if this result is an item, as opposed
 	 * to meat, drunkenness, adventure or substat gains.
 	 *
@@ -169,7 +178,7 @@ public class AdventureResult implements Comparable
 	 */
 
 	public boolean isItem()
-	{	return priority == ITEM_PRIORITY && !StatusEffectDatabase.contains( name );
+	{	return priority == ITEM_PRIORITY && !isStatusEffect();
 	}
 
 	/**
@@ -369,7 +378,7 @@ public class AdventureResult implements Comparable
 
 		if ( index == -1 )
 		{
-			if ( !result.isItem() || result.getCount() > 0 )
+			if ( !result.isItem() || result.getCount() != 0 )
 				tally.add( result );
 			return;
 		}
@@ -380,7 +389,7 @@ public class AdventureResult implements Comparable
 		// to zero - if it did, then remove the item from the list if
 		// it's an item (non-items are exempt).
 
-		if ( actualResult.priority == ITEM_PRIORITY && actualResult.getCount() <= 0 )
+		if ( (actualResult.isItem() && actualResult.getCount() == 0) || (actualResult.priority == ITEM_PRIORITY && actualResult.getCount() <= 0) )
 		{
 			tally.remove( actualResult );
 			return;
