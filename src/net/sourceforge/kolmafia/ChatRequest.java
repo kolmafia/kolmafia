@@ -79,9 +79,18 @@ public class ChatRequest extends KoLRequest
 		associatedMessenger = client.getMessenger();
 		String contactID = associatedMessenger == null ? null : associatedMessenger.getPlayerID( contact );
 
-		String actualMessage = contactID == null ? message :
-			message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) ? message + " " + contactID :
-				message.startsWith( "/" ) ? message : "/msg " + contactID + " " + message;
+		String actualMessage = null;
+
+		if ( contact == null )
+			actualMessage = message;
+		else if ( message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) )
+			actualMessage = message + " " + contactID;
+		else if ( contact.startsWith( "/" ) && (!message.startsWith( "/" ) || message.startsWith( "/me" )) )
+			actualMessage = contact + " " + message;
+		else if ( contact.startsWith( "/" ) )
+			actualMessage = message;
+		else
+			actualMessage = "/msg " + contactID + " " + message;
 
 		try
 		{

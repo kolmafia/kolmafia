@@ -322,7 +322,7 @@ public class KoLMessenger
 		String orderedTagsContent = originalContent.replaceAll( "<b><i>", "<i><b>" );
 		String correctedTagsContent = orderedTagsContent.replaceAll( "</br>", "<br>" );
 		String validColorsContent = correctedTagsContent.replaceAll( "<font color=\"none\">", "" ).replaceAll( "</b></font>", "</b>" );
-		String noDoubleTagsContent = validColorsContent.replaceAll( "<font.*?><font.*?>", "<font color=green>" );
+		String noDoubleTagsContent = validColorsContent.replaceAll( "<font[^>]*?><font[^>]*?>", "<font color=green>" );
 		String noCommentsContent = noDoubleTagsContent.replaceAll( "<!.*?>", "" );
 		String noContactListContent = noCommentsContent.replaceAll( "<table>.*?</table>", "" );
 		String noLinksContent = noContactListContent.replaceAll( "</?a.*?>", "" );
@@ -435,35 +435,30 @@ public class KoLMessenger
 
 		if ( noLinksContent.startsWith( "<font color=green>[" ) )
 		{
-			String channel = noLinksContent.substring( 19, noLinksContent.indexOf( "]" ) );
-			ChatBuffer channelBuffer = getChatBuffer( "/" + channel );
+			String channel = "/" + noLinksContent.substring( 19, noLinksContent.indexOf( "]" ) );
 
-			if ( channelBuffer == null )
-			{
-				openInstantMessage( "/" + channel );
-				channelBuffer = getChatBuffer( "/" + channel );
-				channelBuffer.append( "<font color=green>You are listening to channel: " );
-				channelBuffer.append( channel );
-				channelBuffer.append( "." );
-				channelBuffer.append( "</font><br>\n" );
-			}
+			int startIndex = noLinksContent.indexOf( "<i>" );
+			if ( startIndex == -1 )
+				startIndex = noLinksContent.indexOf( "<b>" );
 
-			channelBuffer.append( noLinksContent.substring( noLinksContent.indexOf( "<b>" ) ) );
-			channelBuffer.append( "<br>\n" );
+			processChannelMessage( channel, null );
+			processChannelMessage( channel, noLinksContent.substring( startIndex ) );
+		}
+		else if ( noLinksContent.startsWith( "<font color=green>No longer listening to channel: " ) )
+		{
+			String channel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) );
+			processChannelMessage( channel, noLinksContent );
+		}
+		else if ( noLinksContent.startsWith( "<font color=green>Now listening to channel: " ) )
+		{
+			String channel = "/" + noLinksContent.substring( 44, noLinksContent.indexOf( "</font>" ) );
+			processChannelMessage( channel, noLinksContent );
 		}
 		else if ( noLinksContent.startsWith( "<font color=green>You are now talking in channel: " ) )
 		{
 			currentChannel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) - 1 );
-			ChatBuffer channelBuffer = getChatBuffer( currentChannel );
-
-			if ( channelBuffer == null )
-			{
-				openInstantMessage( currentChannel );
-				channelBuffer = getChatBuffer( currentChannel );
-			}
-
-			channelBuffer.append( noLinksContent );
-			channelBuffer.append( "<br>\n" );
+			processChannelMessage( currentChannel, noLinksContent );
+			((ChatFrame)instantMessageFrames.get( currentChannel )).requestFocus();
 		}
 		else if ( !message.startsWith( "<font color=blue>" ) || message.indexOf( "<a" ) == -1 )
 		{
@@ -471,8 +466,7 @@ public class KoLMessenger
 			// Then, it just gets updated to the main chat buffer,
 			// provided that the main chat buffer is not null
 
-			ChatBuffer currentChannelBuffer = getChatBuffer( currentChannel );
-			currentChannelBuffer.append( noLinksContent.trim() + "<br>\n" );
+			processChannelMessage( currentChannel, noLinksContent );
 		}
 		else
 		{
@@ -525,6 +519,46 @@ public class KoLMessenger
 			}
 
 			messageBuffer.append( redoneMessage.toString() );
+		}
+	}
+
+	/**
+	 * Private method for handling individual channel methods.
+	 * @param	channel	The name of the channel
+	 * @param	message	The message that was sent to the channel
+	 */
+
+	private void processChannelMessage( String channel, String message )
+	{
+		ChatBuffer channelBuffer = getChatBuffer( channel );
+
+		// If a channel buffer does not exist, create a new window handling
+		// the channel content.  This can be done by opening an "instant message"
+		// window for the appropriate channel.
+
+		if ( channelBuffer == null )
+		{
+			openInstantMessage( channel );
+			channelBuffer = getChatBuffer( channel );
+
+			// Make sure that the current channel doesn't lose focus by opening the
+			// instant message.  This can be accomplished by re-requesting focus.
+
+			((ChatFrame)instantMessageFrames.get( currentChannel )).requestFocus();
+
+			if ( message == null )
+			{
+				channelBuffer.append( "<font color=green>You are listening to channel: " );
+				channelBuffer.append( channel );
+				channelBuffer.append( "." );
+				channelBuffer.append( "</font><br>\n" );
+			}
+		}
+
+		if ( message != null )
+		{
+			channelBuffer.append( message.trim() );
+			channelBuffer.append( "<br>\n" );
 		}
 	}
 
