@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * An extension of <code>KoLRequest</code> which retrieves a list of
@@ -49,8 +50,10 @@ import java.util.regex.Pattern;
 public class EquipmentRequest extends KoLRequest
 {
 	private static final int REQUEST_ALL = 0;
-	public static final int EQUIPMENT = 2;
-	public static final int CLOSET = 4;
+
+	public static final int EQUIPMENT = 1;
+	public static final int CLOSET = 2;
+	public static final int CHANGE_OUTFIT = 3;
 
 	private KoLCharacter character;
 	private int requestType;
@@ -71,6 +74,11 @@ public class EquipmentRequest extends KoLRequest
 		super( client, requestType == CLOSET ? "closet.php" : "inventory.php" );
 		this.character = client.getCharacterData();
 		this.requestType = requestType;
+	}
+
+	public EquipmentRequest( KoLmafia client, SpecialOutfit change )
+	{
+		super( client, "inv_equip.php" );
 	}
 
 	/**
@@ -94,8 +102,8 @@ public class EquipmentRequest extends KoLRequest
 		// Otherwise, add the form field indicating which page
 		// of the inventory you want to request
 
-		if ( requestType != CLOSET )
-			addFormField( "which", "" + requestType );
+		if ( requestType == EQUIPMENT )
+			addFormField( "which", "2" );
 
 		super.run();
 
@@ -253,13 +261,20 @@ public class EquipmentRequest extends KoLRequest
 			else if ( lastToken.startsWith( "Familiar:" ) )
 				familiarItem = parsedContent.nextToken();
 		}
-		while ( !lastToken.startsWith( "Outfit" ) );
+		while ( !lastToken.startsWith( "Outfit" ) && parsedContent.hasMoreTokens() );
 
-		character.setEquipment( hat, weapon, pants, accessories[0], accessories[1], accessories[2], familiarItem );
+		// Now to determine which outfits are available.  The easiest
+		// way to do this is a straightforward regular expression and
+		// then use the static SpecialOutfit method to determine which
+		// items are available.
 
-		// Now that the equipped items have been parsed, begin parsing for the items
-		// which are not currently equipped, but are listed in the equipment page.
-		// Normally, custom outfits would be parsed; for now, this part is skipped.
+		Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( replyContent );
+
+		LockableListModel outfits = outfitsMatcher.find() ?
+			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();
+
+		character.setEquipment( hat, weapon, pants,
+			accessories[0], accessories[1], accessories[2], familiarItem, outfits );
 
 		logStream.println( "Parsing complete." );
 	}
