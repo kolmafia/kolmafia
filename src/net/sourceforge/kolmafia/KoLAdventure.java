@@ -72,7 +72,7 @@ public class KoLAdventure implements Runnable
 			this.request = new SewerRequest( client, true );
 		else if ( formSource.equals( "campground.php" ) )
 			this.request = new CampgroundRequest( client, adventureID );
-		else if ( formSource.equals( "casino.php" ) || formSource.equals( "adventure.php" ) )
+		else if ( formSource.equals( "casino.php" ) || formSource.equals( "adventure.php" ) || formSource.equals( "shore.php" ) )
 			this.request = new AdventureRequest( client, formSource, adventureID );
 	}
 
