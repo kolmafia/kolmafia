@@ -78,7 +78,12 @@ public class UseSkillRequest extends KoLRequest
 
 		if ( replyContent == null || replyContent.indexOf( "You don't have enough" ) != -1 )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "Attempt to cast " + skillName + " failed. (Low MP?)" );
+			updateDisplay( KoLFrame.ENABLED_STATE, "You don't have enough mana." );
+			return;
+		}
+		else if ( replyContent.indexOf( "You can only conjure" ) != -1 )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "Summon limited exceeded." );
 			return;
 		}
 
@@ -88,6 +93,6 @@ public class UseSkillRequest extends KoLRequest
 			"</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );
 
  		client.applyRecentEffects();
-		updateDisplay( KoLFrame.ENABLED_STATE, skillName + "was successfully cast." );
+		updateDisplay( KoLFrame.ENABLED_STATE, skillName + " was successfully cast." );
 	}
 }
