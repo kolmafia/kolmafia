@@ -108,9 +108,7 @@ public class ItemManageFrame extends KoLFrame
 			super( "autosell", "place in mall" );
 			setContent( null );
 
-			LockableListModel available = new LockableListModel();
-
-			JList availableList = new JList( available );
+			JList availableList = new JList( client.getInventory() );
 			availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 
@@ -157,9 +155,7 @@ public class ItemManageFrame extends KoLFrame
 				super( "put", "refresh" );
 				setContent( null );
 
-				LockableListModel available = new LockableListModel();
-
-				JList availableList = new JList( available );
+				JList availableList = new JList( client.getInventory() );
 				availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				availableList.setVisibleRowCount( 7 );
@@ -188,9 +184,7 @@ public class ItemManageFrame extends KoLFrame
 				super( "take", "refresh" );
 				setContent( null );
 
-				LockableListModel closet = new LockableListModel();
-
-				JList closetList = new JList( closet );
+				JList closetList = new JList( client.getCloset() );
 				closetList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				closetList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				closetList.setVisibleRowCount( 7 );

@@ -187,7 +187,6 @@ public class AdventureFrame extends KoLFrame
 
 		JMenuItem imanageItem = new JMenuItem( "Item Manager", KeyEvent.VK_M );
 		imanageItem.addActionListener( new ViewItemManagerListener() );
-		imanageItem.setEnabled( false );
 
 		menu.add( imanageItem );
 
