@@ -132,5 +132,11 @@ public class LoginRequest extends KoLRequest
 		catch ( UnsupportedEncodingException e2 )
 		{
 		}
+
+		// Update the client to show that the password hash calculation
+		// is complete and that the client is now formally initialized
+
+		frame.updateDisplay( LoginFrame.LOGGED_IN_STATE, "Calculation complete." );
+		client.initialize();
 	}
 }

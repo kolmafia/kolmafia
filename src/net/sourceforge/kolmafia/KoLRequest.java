@@ -251,10 +251,20 @@ public class KoLRequest extends Thread
 						frame.updateDisplay( LoginFrame.PRE_LOGIN_STATE, "Nightly maintenance." );
 						isErrorState = true;
 					}
-					else if ( redirectLocation.equals( "login.php" ) )
+					else if ( redirectLocation.startsWith( "login.php" ) )
 					{
 						frame.updateDisplay( LoginFrame.PRE_LOGIN_STATE, "Session timed out." );
 						isErrorState = true;
+					}
+					else if ( redirectLocation.equals( "fight.php" ) )
+					{
+						// You have been redirected to a fight!  Here, you need
+						// to complete the fight before you can continue
+
+						frame.updateDisplay( LoginFrame.LOGGED_IN_STATE, "Fighting battle..." );
+						isErrorState = false;
+
+						(new FightRequest( client, frame )).start();
 					}
 				}
 				else
@@ -319,12 +329,12 @@ public class KoLRequest extends Thread
 				client.acquireItem( itemname.substring( 3, itemname.length() - 4 ) );
 
 			}
-			else if ( lastToken.equals( "gain" ) )
+			else if ( lastToken.equals( "gain" ) || lastToken.equals( "lose" ) )
 			{
 				// Here, you add the stats just gained to the tally of stats
 				// gained in the adventure.
 
-				String increase = parsedContent.nextToken();
+				String increase = (lastToken.equals("gain") ? "+" : "-") + parsedContent.nextToken();
 
 				// For now, this routine only measures subpoints gained; actual
 				// point gain indicators will be ignored

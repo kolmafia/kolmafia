@@ -54,11 +54,19 @@ public class KoLmafia
 		login.pack();  login.setVisible( true );
 	}
 
+	public void initialize()
+	{
+	}
+
 	public void acquireItem( String itemname )
 	{
 	}
 
 	public void modifyStat( int increase, String statname )
+	{
+	}
+
+	public void updateAdventure( boolean isComplete, boolean permitContinue )
 	{
 	}
 
