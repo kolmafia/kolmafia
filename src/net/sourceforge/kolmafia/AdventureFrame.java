@@ -444,12 +444,14 @@ public class AdventureFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 			searchField.setEnabled( isEnabled );
 			countField.setEnabled( isEnabled );
+			maxPerStoreField.setEnabled( isEnabled );
 			resultsDisplay.setEnabled( isEnabled );
 		}
 
 		public void clear()
 		{
 			searchField.setText( "" );
+			maxPerStoreField.setText( "" );
 			requestFocus();
 		}
 
