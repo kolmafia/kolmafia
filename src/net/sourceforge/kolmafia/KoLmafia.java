@@ -72,13 +72,13 @@ public class KoLmafia implements UtilityConstants
 		passwordHash = null;
 		permitContinue = false;
 
-		activeFrame = new LoginFrame( this );
-		activeFrame.pack();  activeFrame.setVisible( true );
-		activeFrame.requestFocus();
-
 		settings = new KoLSettings();
 		logStream = System.out;
 		isLogging = false;
+
+		activeFrame = new LoginFrame( this );
+		activeFrame.pack();  activeFrame.setVisible( true );
+		activeFrame.requestFocus();
 	}
 
 	public KoLFrame getActiveFrame()

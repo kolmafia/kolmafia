@@ -93,7 +93,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JComboBox;
 
-// spellcast-related imports
+// other imports
+import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -272,28 +273,29 @@ public class LoginFrame extends KoLFrame
 	private class LoginOptionsPanel extends KoLPanel
 	{
 		private JComboBox serverSelect;
-		private JTextField proxyHost;
-		private JTextField proxyPort;
+		private JTextField proxyAddress;
+		private JTextField proxyLogin;
 
 		public LoginOptionsPanel()
 		{
-			super( "confirm", "cancel" );
+			super( "apply", "defaults" );
 
 			LockableListModel servers = new LockableListModel();
 			servers.add( "(Auto Detect)" );
 			servers.add( "Use Login Server 1" );
 			servers.add( "Use Login Server 2" );
 			servers.add( "Use Login Server 3" );
-			servers.setSelectedIndex(0);
 
 			serverSelect = new JComboBox( servers );
-			proxyHost = new JTextField();
-			proxyPort = new JTextField();
+			proxyAddress = new JTextField();
+			proxyLogin = new JTextField();
+
+			(new LoadDefaultSettingsThread()).run();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "KoL Server: ", serverSelect );
-			elements[1] = new VerifiableElement( "Proxy Host: ", proxyHost );
-			elements[2] = new VerifiableElement( "Proxy Port: ", proxyPort );
+			elements[1] = new VerifiableElement( "Proxy Address: ", proxyAddress );
+			elements[2] = new VerifiableElement( "Proxy Login: ", proxyLogin );
 
 			setContent( elements );
 		}
@@ -306,31 +308,126 @@ public class LoginFrame extends KoLFrame
 		}
 
 		public void clear()
-		{	serverSelect.setSelectedIndex(0);
+		{	(new LoadDefaultSettingsThread()).run();
 		}
 
 		protected void actionConfirmed()
-		{
-			if ( serverSelect.getSelectedIndex() == 0 )
-				KoLRequest.autoDetectServer();
-			else
-				KoLRequest.setLoginServer( "www." + serverSelect.getSelectedIndex() + ".kingdomofloathing.com" );
-
-			// Finally, switch the card display back to the
-			// login card so the user can login with their
-			// new login preferences.
-
-			(new SwitchCardDisplay( LOGIN_CARD )).run();
+		{	(new StoreSettingsThread()).start();
 		}
 
 		protected void actionCancelled()
 		{
-			// Switch the card display back to the login
-			// card, without passing any values onto the
-			// client.  For now, clear/reset the values.
+			// Clear the pane, which effectively loads
+			// the original default settings.
 
 			this.clear();
-			(new SwitchCardDisplay( LOGIN_CARD )).run();
+		}
+
+		private class LoadDefaultSettingsThread extends Thread
+		{
+			public void run()
+			{
+				serverSelect.setSelectedIndex( Integer.parseInt( client.getSettings().getProperty( "loginServer" ) ) );
+				String http_proxySet = client.getSettings().getProperty( "proxySet" );
+
+				if ( http_proxySet.equals( "true" ) )
+				{
+					System.setProperty( "proxySet", "true" );
+
+					String http_proxyHost = client.getSettings().getProperty( "http.proxyHost" );
+					System.setProperty( "http.proxyHost", http_proxyHost );
+					String http_proxyPort = client.getSettings().getProperty( "http.proxyPort" );
+					System.setProperty( "http.proxyPort", http_proxyPort );
+
+					String http_proxyUser = client.getSettings().getProperty( "http.proxyUser" );
+					String http_proxyPassword = client.getSettings().getProperty( "http.proxyPassword" );
+
+					if ( http_proxyUser != null )
+					{
+						System.setProperty( "http.proxyUser", http_proxyUser );
+						System.setProperty( "http.proxyPassword", http_proxyPassword );
+					}
+
+					proxyAddress.setText( http_proxyHost + ":" + http_proxyPort );
+					proxyLogin.setText( http_proxyUser + ":" + http_proxyPassword );
+				}
+				else
+				{
+					proxyAddress.setText( "" );
+					proxyLogin.setText( "" );
+				}
+			}
+		}
+
+		private class StoreSettingsThread extends Thread
+		{
+			public void run()
+			{
+				// First, determine what the proxy settings chosen
+				// by the user.
+
+				StringTokenizer proxy1 = new StringTokenizer( proxyAddress.getText(), ":" );
+				StringTokenizer proxy2 = new StringTokenizer( proxyLogin.getText(), ":" );
+
+				if ( proxy1.hasMoreTokens() )
+				{
+					setProperty( "proxySet", "true" );
+					setProperty( "http.proxyHost", proxy1.nextToken() );
+					setProperty( "http.proxyPort", proxy1.hasMoreTokens() ? proxy1.nextToken() : "80" );
+
+					if ( proxy2.hasMoreTokens() )
+					{
+						setProperty( "http.proxyUser", proxy2.nextToken() );
+						setProperty( "http.proxyPassword", proxy2.hasMoreTokens() ? proxy2.nextToken() : "anonymoususer@defaultmailserver.com" );
+					}
+					else
+					{
+						removeProperty( "http.proxyUser" );
+						removeProperty( "http.proxyPassword" );
+					}
+				}
+				else
+				{
+					client.getSettings().setProperty( "proxySet", "false" );
+					removeProperty( "http.proxyHost" );
+					removeProperty( "http.proxyPort" );
+					removeProperty( "http.proxyUser" );
+					removeProperty( "http.proxyPassword" );
+				}
+
+				// Next, change the server that's used to login;
+				// find out the selected index.
+
+				if ( serverSelect.getSelectedIndex() == 0 )
+					KoLRequest.autoDetectServer();
+				else
+					KoLRequest.setLoginServer( "www." + serverSelect.getSelectedIndex() + ".kingdomofloathing.com" );
+
+				client.getSettings().setProperty( "loginServer", "" + serverSelect.getSelectedIndex() );
+
+				// Save the settings that were just set; that way,
+				// the next login can use them.
+
+				client.getSettings().saveSettings();
+
+				// Finally, switch the card display back to the
+				// login card so the user can login with their
+				// new login preferences.
+
+				(new SwitchCardDisplay( LOGIN_CARD )).run();
+			}
+
+			private void setProperty( String key, String value )
+			{
+				client.getSettings().setProperty( key, value );
+				System.getProperties().setProperty( key, value );
+			}
+
+			private void removeProperty( String key )
+			{
+				client.getSettings().remove( key );
+				System.getProperties().remove( key );
+			}
 		}
 	}
 

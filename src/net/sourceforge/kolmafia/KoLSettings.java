@@ -81,6 +81,11 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 				if ( !source.getName().equals( "~.xml" ) )
 					loadSettings( new File( DATA_DIRECTORY + "~.xml" ) );
+				else
+				{
+					setProperty( "proxySet", "false" );
+					setProperty( "loginServer", "0" );
+				}
 
 				// Then, store the results into the designated
 				// file by calling the appropriate subroutine.
