@@ -350,7 +350,7 @@ public class KoLMessenger
 
 		String correctedColorContent = orderedTagsContent.replaceAll(
 			"<font color=green><font color=green>", "<font color=green>" ).replaceAll(
-				"<font color=red><b><b>", "" ).replaceAll( "<font color=red><font color=green>", "<font color=green>" );
+				"<font color=red><b><b>", "" );
 
 		// Also, there is no such thing as "none" color - though this works in
 		// Java 1.4.2 and the latest update of 1.5.0, it shouldn't be here anyway,
@@ -545,6 +545,17 @@ public class KoLMessenger
 
 			processChannelMessage( channel, null );
 			processChannelMessage( channel, noLinksContent.substring( startIndex ) );
+		}
+		else if ( noLinksContent.startsWith( "<font color=red><font color=green>[" ) )
+		{
+			String channel = "/" + noLinksContent.substring( 35, noLinksContent.indexOf( "]" ) );
+
+			int startIndex = noLinksContent.indexOf( "<i>" );
+			if ( startIndex == -1 )
+				startIndex = noLinksContent.indexOf( "<b>" );
+
+			processChannelMessage( channel, null );
+			processChannelMessage( channel, noLinksContent.substring( startIndex ).replaceFirst( "</font>", "" ) );
 		}
 		else if ( noLinksContent.startsWith( "<font color=green>No longer listening to channel: " ) )
 		{
