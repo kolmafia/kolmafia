@@ -168,7 +168,7 @@ public class AdventureResult implements Comparable
 	 */
 
 	public boolean isItem()
-	{	return priority == ITEM_PRIORITY;
+	{	return priority == ITEM_PRIORITY && !StatusEffectDatabase.contains( name );
 	}
 
 	/**

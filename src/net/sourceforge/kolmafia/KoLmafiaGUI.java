@@ -182,6 +182,10 @@ public class KoLmafiaGUI extends KoLmafia
 					updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
 					request.run();
 
+					for ( int j = 0; j < recentEffects.size(); ++j )
+						AdventureResult.addResultToList( characterData.getEffects(), (AdventureResult) recentEffects.get(j) );
+					recentEffects.clear();
+
 					// Make sure you only decrement iterations if the
 					// continue was permitted.  This resolves the issue
 					// of incorrectly updating the client if something

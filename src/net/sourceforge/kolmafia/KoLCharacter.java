@@ -615,15 +615,6 @@ public class KoLCharacter
 	}
 
 	/**
-	 * Accessor method to add an effect to the list of effects.
-	 * @param	effect	The effect to add
-	 */
-
-	public void addEffect( String effect )
-	{	activeEffects.add( effect );
-	}
-
-	/**
 	 * Accessor method to add a listing of the current effects.
 	 * @return	A list of current effects
 	 */

@@ -369,12 +369,12 @@ public class CharsheetFrame extends KoLFrame
 
 	private class RemoveEffectListener implements ActionListener
 	{
-		private String effectDescription;
+		private AdventureResult effect;
 
 		public void actionPerformed( ActionEvent e )
 		{
-			effectDescription = (String) effectSelect.getSelectedItem();
-			if ( effectDescription != null )
+			effect = (AdventureResult) effectSelect.getSelectedItem();
+			if ( effect != null )
 				(new RemoveEffectThread()).start();
 		}
 
@@ -390,7 +390,7 @@ public class CharsheetFrame extends KoLFrame
 			{
 				SwingUtilities.invokeLater( new EffectRemoveGUIUpdater() );
 				int effectCount = characterData.getEffects().size();
-				(new UneffectRequest( client, effectDescription )).run();
+				(new UneffectRequest( client, effect )).run();
 
 				if ( effectCount != characterData.getEffects().size() )
 					client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Effect removed." );

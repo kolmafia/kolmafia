@@ -37,6 +37,8 @@ package net.sourceforge.kolmafia;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
+import java.util.ArrayList;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -65,6 +67,7 @@ public abstract class KoLmafia implements UtilityConstants
 	protected PrintStream logStream;
 	protected boolean permitContinue;
 
+	protected List recentEffects;
 	protected SortedListModel tally;
 	protected LockableListModel inventory, closet, usableItems;
 
@@ -156,7 +159,9 @@ public abstract class KoLmafia implements UtilityConstants
 		logStream.println( "Loading user settings for " + loginname + "..." );
 		settings = new KoLSettings( loginname );
 
+		recentEffects = new ArrayList();
 		tally = new SortedListModel();
+
 		addToResultTally( new AdventureResult( AdventureResult.HP, characterData.getCurrentHP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.MP, characterData.getCurrentMP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.ADV, characterData.getAdventuresLeft() ) );
@@ -226,7 +231,11 @@ public abstract class KoLmafia implements UtilityConstants
 	public void addToResultTally( AdventureResult result )
 	{
 		String resultName = result.getName();
-		AdventureResult.addResultToList( tally, result, characterData.getBaseMaxHP(), characterData.getBaseMaxMP() );
+
+		if ( !StatusEffectDatabase.contains( result.getName() ) )
+			AdventureResult.addResultToList( tally, result, characterData.getBaseMaxHP(), characterData.getBaseMaxMP() );
+		else
+			recentEffects.add( result );
 
 		if ( result.isItem() && TradeableItemDatabase.contains( resultName ) )
 		{
