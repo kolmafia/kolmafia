@@ -603,7 +603,16 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 					{
 						autoRecoverHP();
 						if ( permitContinue )
-							--iterationsRemaining;
+						{
+							if ( characterData.getInebriety() > 19 && !pulledOver )
+							{
+								permitContinue = confirmDrunkenRequest();
+								pulledOver = true;
+							}
+
+							if ( permitContinue )
+								--iterationsRemaining;
+						}
 					}
 				}
 
