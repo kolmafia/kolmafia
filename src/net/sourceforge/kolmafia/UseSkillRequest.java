@@ -100,9 +100,8 @@ public class UseSkillRequest extends KoLRequest
 
 		super.run();
 
-		// If it does not notify you that you didn't have enough mana points,
-		// then the skill was successfully used.
-
+		// If a reply was obtained, check to see if it was a success message
+		//     Otherwise, try to figure out why it was unsuccessful
 		if ( replyContent == null )
 		{
 			client.cancelRequest();
