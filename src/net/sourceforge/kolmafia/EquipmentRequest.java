@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -124,6 +126,54 @@ public class EquipmentRequest extends KoLRequest
 			while ( !lastToken.startsWith( "Outfits:" ) );
 
 			character.setEquipment( hat, weapon, pants, accessories[0], accessories[1], accessories[2], familiarItem );
+
+			// Now that the equipped items have been parsed, begin parsing for the items
+			// which are not currently equipped, but are listed in the equipment page.
+			// Normally, custom outfits would be parsed; for now, this part is skipped.
+
+			while ( !lastToken.equals( "Inventory:" ) )
+				lastToken = parsedContent.nextToken();
+			lastToken = parsedContent.nextToken();
+
+			// It's possible that there are other options available (such as cooking,
+			// cocktailing, combining and the like); these options should be skipped
+			// as well.
+
+			while ( lastToken.startsWith( "[" ) || lastToken.startsWith( "&" ) )
+				lastToken = parsedContent.nextToken();
+
+			// Now you have the actual items; these can be added to the character's
+			// inventory by parsing the item, skipping the next three tokens, and
+			// continuing this while you still have tokens.
+
+			List inventory = client.getInventory();
+
+			if ( parsedContent.countTokens() > 1 )
+			{
+				while ( parsedContent.hasMoreTokens() )
+				{
+					try
+					{
+						AdventureResult.addResultToList( inventory, AdventureResult.parseResult( lastToken ) );
+						skipTokens( parsedContent, 3 );
+
+						if ( parsedContent.hasMoreTokens() )
+							lastToken = parsedContent.nextToken();
+					}
+					catch ( Exception e )
+					{
+						// If an exception occurs during the parsing, just
+						// continue after notifying the LogStream of the
+						// error.  This could be handled better, but not now.
+
+						logStream.println( e );
+
+						while ( parsedContent.hasMoreTokens() )
+							parsedContent.nextToken();
+					}
+				}
+			}
+
 			logStream.println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )

@@ -72,6 +72,7 @@ public class KoLmafia implements UtilityConstants
 	private boolean permitContinue;
 
 	private SortedListModel tally;
+	private LockableListModel inventory, closet;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -125,6 +126,11 @@ public class KoLmafia implements UtilityConstants
 		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
 		characterData = new KoLCharacter( loginname );
 		(new CharsheetRequest( this )).run();
+
+		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory and closet..." );
+		inventory = characterData.getInventory();
+		closet = characterData.getCloset();
+		(new EquipmentRequest( this )).run();
 
 		// Begin by loading the user-specific settings.
 		logStream.println( "Loading user settings for " + loginname + "..." );
@@ -308,6 +314,24 @@ public class KoLmafia implements UtilityConstants
 	}
 
 	/**
+	 * Retrieves the character's inventory.
+	 * @return	The character's inventory
+	 */
+
+	public LockableListModel getInventory()
+	{	return inventory;
+	}
+
+	/**
+	 * Retrieves the character's closet.
+	 * @return	The character's closet
+	 */
+
+	public LockableListModel getCloset()
+	{	return closet;
+	}
+
+	/**
 	 * Returns whether or not the current user has a ten-leaf clover.
 	 * Because inventory management is not yet implemented, this
 	 * method always returns true.
@@ -338,13 +362,20 @@ public class KoLmafia implements UtilityConstants
 			permitContinue = true;
 			int iterationsRemaining = iterations;
 
-			for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i, --iterationsRemaining )
+			for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 			{
 				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
 				request.run();
+
+				// Make sure you only decrement iterations if the
+				// continue was permitted.  This resolves the issue
+				// of incorrectly updating the client if something
+				// occurred on the last iteration.
+
+				if ( permitContinue )
+					--iterationsRemaining;
 			}
 
-			permitContinue = false;
 			if ( iterationsRemaining <= 0 )
 				activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
 		}
