@@ -186,6 +186,7 @@ public class ChatFrame extends KoLFrame
 			peopleMenu.add( sendGreenItem );
 		}
 
+		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
 
