@@ -129,7 +129,7 @@ public class StoreManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
+		{	(new ApplyPricesThread()).start();
 		}
 
 		public void actionCancelled()
@@ -138,6 +138,24 @@ public class StoreManageFrame extends KoLFrame
 
 		private class ApplyPricesThread extends Thread
 		{
+			public void run()
+			{
+				java.awt.Component [] components = storeItemList.getComponents();
+				int [] itemID = new int[ components.length ];
+				int [] prices = new int[ components.length ];
+				int [] limits = new int[ components.length ];
+
+				StoreItemPanel currentPanel;
+				for ( int i = 0; i < components.length; ++i )
+				{
+					currentPanel = (StoreItemPanel) components[i];
+					itemID[i] = currentPanel.getItemID();
+					prices[i] = currentPanel.getPrice();
+					limits[i] = currentPanel.getLimit();
+				}
+
+				(new StoreManageRequest( client, itemID, prices, limits )).run();
+			}
 		}
 
 		private class RefreshStoreThread extends Thread
@@ -221,6 +239,7 @@ public class StoreManageFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			itemPrice.setEnabled( isEnabled );
+			itemLimit.setEnabled( isEnabled );
 			addButton.setEnabled( isEnabled );
 			searchButton.setEnabled( isEnabled );
 		}
@@ -283,85 +302,111 @@ public class StoreManageFrame extends KoLFrame
 			toConstruct.updateDisplay( this, value, index );
 			return toConstruct;
 		}
+	}
 
-		private class StoreItemPanel extends PanelListCell
+	private class StoreItemPanel extends PanelListCell
+	{
+		private int itemID;
+		private JLabel itemName;
+		private JTextField itemPrice, itemLimit;
+		private JButton takeButton, searchButton;
+
+		public StoreItemPanel( StoreManager.SoldItem value )
 		{
-			private int itemID;
-			private JLabel itemName;
-			private JTextField itemPrice, itemLimit;
-			private JButton takeButton, searchButton;
+			itemID = value.getItemID();
+			itemName = new JLabel( TradeableItemDatabase.getItemName( itemID ), JLabel.RIGHT );
+			itemPrice = new JTextField( "" + df.format( value.getPrice() ) );
+			itemLimit = new JTextField( "" + df.format( value.getLimit() ) );
 
-			public StoreItemPanel( StoreManager.SoldItem value )
-			{
-				itemID = value.getItemID();
-				itemName = new JLabel( TradeableItemDatabase.getItemName( itemID ), JLabel.RIGHT );
-				itemPrice = new JTextField( "" + df.format( value.getPrice() ) );
-				itemLimit = new JTextField( "" + df.format( value.getLimit() ) );
+			takeButton = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
+			takeButton.addActionListener( new TakeButtonListener() );
 
-				takeButton = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
-				takeButton.addActionListener( new TakeButtonListener() );
+			searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
+			searchButton.addActionListener( new SearchButtonListener() );
 
-				searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
-				searchButton.addActionListener( new SearchButtonListener() );
+			JComponentUtilities.setComponentSize( itemName, 280, 20 );
+			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
+			JComponentUtilities.setComponentSize( itemLimit, 40, 20 );
+			JComponentUtilities.setComponentSize( takeButton, 30, 20 );
+			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
 
-				JComponentUtilities.setComponentSize( itemName, 280, 20 );
-				JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
-				JComponentUtilities.setComponentSize( itemLimit, 40, 20 );
-				JComponentUtilities.setComponentSize( takeButton, 30, 20 );
-				JComponentUtilities.setComponentSize( searchButton, 30, 20 );
+			JPanel corePanel = new JPanel();
+			corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
+			corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( itemName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( itemLimit ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( takeButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 
-				JPanel corePanel = new JPanel();
-				corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
-				corePanel.add( itemName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-				corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-				corePanel.add( itemLimit ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-				corePanel.add( takeButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-				corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			add( Box.createVerticalStrut( 5 ) );
+			add( corePanel );
+		}
 
-				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-				add( Box.createVerticalStrut( 5 ) );
-				add( corePanel );
+		public synchronized void updateDisplay( PanelList list, Object value, int index )
+		{
+			StoreManager.SoldItem smsi = (StoreManager.SoldItem) value;
+
+			itemName.setText( TradeableItemDatabase.getItemName( smsi.getItemID() ) );
+			itemPrice.setText( "" + df.format( smsi.getPrice() ) );
+			itemLimit.setText( "" + df.format( smsi.getLimit() ) );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			itemPrice.setEnabled( isEnabled );
+			itemLimit.setEnabled( isEnabled );
+			takeButton.setEnabled( isEnabled );
+			searchButton.setEnabled( isEnabled );
+		}
+
+		public int getItemID()
+		{	return itemID;
+		}
+
+		public int getPrice()
+		{
+			try
+			{	return df.parse( itemPrice.getText() ).intValue();
+			}
+			catch ( Exception e )
+			{	return 0;
+			}
+		}
+
+		public int getLimit()
+		{
+			try
+			{	return df.parse( itemLimit.getText() ).intValue();
+			}
+			catch ( Exception e )
+			{	return 0;
+			}
+		}
+
+		private class TakeButtonListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{	(new TakeFromMallRequestThread()).start();
 			}
 
-			public synchronized void updateDisplay( PanelList list, Object value, int index )
+			private class TakeFromMallRequestThread extends Thread
 			{
-				StoreManager.SoldItem smsi = (StoreManager.SoldItem) value;
-
-				itemName.setText( TradeableItemDatabase.getItemName( smsi.getItemID() ) );
-				itemPrice.setText( "" + df.format( smsi.getPrice() ) );
-				itemLimit.setText( "" + df.format( smsi.getLimit() ) );
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				itemPrice.setEnabled( isEnabled );
-				itemLimit.setEnabled( isEnabled );
-				takeButton.setEnabled( isEnabled );
-				searchButton.setEnabled( isEnabled );
-			}
-
-			private class TakeButtonListener implements ActionListener
-			{
-				public void actionPerformed( ActionEvent e )
-				{	(new TakeFromMallRequestThread()).start();
-				}
-
-				private class TakeFromMallRequestThread extends Thread
-				{
-					public void run()
-					{	client.getStoreManager().takeItem( itemID );
-					}
-				}
-			}
-
-			private class SearchButtonListener implements ActionListener
-			{
-				public void actionPerformed( ActionEvent e )
-				{	(new SearchMallRequestThread( itemName.getText() )).start();
+				public void run()
+				{	client.getStoreManager().takeItem( itemID );
 				}
 			}
 		}
+
+		private class SearchButtonListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{	(new SearchMallRequestThread( itemName.getText() )).start();
+			}
+		}
 	}
+
 
 	/**
 	 * In order to keep the user interface from freezing (or at
