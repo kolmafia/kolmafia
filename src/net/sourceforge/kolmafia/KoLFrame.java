@@ -198,7 +198,7 @@ public abstract class KoLFrame extends javax.swing.JFrame
 	{
 		public void windowClosed( WindowEvent e )
 		{
-			if ( client != null )
+			if ( client != null && client.getActiveFrame() != null )
 				client.getActiveFrame().requestFocus();
 		}
 	}
