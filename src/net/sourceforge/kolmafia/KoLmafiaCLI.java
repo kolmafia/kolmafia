@@ -242,6 +242,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 				outputStream.print( " > " );
 			}
+
+			commandStream.close();
 		}
 		catch ( IOException e )
 		{
