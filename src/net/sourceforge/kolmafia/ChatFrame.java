@@ -46,6 +46,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.event.HyperlinkEvent;
 
 // containers
 import javax.swing.JPanel;
@@ -60,7 +62,6 @@ import javax.swing.JMenuItem;
 
 // other imports
 import java.util.Calendar;
-
 
 /**
  * An extension of <code>KoLFrame</code> used to display the current
@@ -100,6 +101,7 @@ public class ChatFrame extends KoLFrame
 
 		chatDisplay = new JEditorPane();
 		chatDisplay.setEditable( false );
+		chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
 		JScrollPane scrollArea = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
@@ -203,6 +205,35 @@ public class ChatFrame extends KoLFrame
 
 	public JEditorPane getChatDisplay()
 	{	return chatDisplay;
+	}
+
+	/**
+	 * Action listener responsible for displaying private message
+	 * window when a username is clicked, or opening the page in
+	 * a browser if you're clicking something other than the username.
+	 */
+
+	private class ChatLinkClickedListener implements HyperlinkListener
+	{
+		public void hyperlinkUpdate( HyperlinkEvent e )
+		{
+			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
+			{
+				String location = e.getDescription();
+
+				// If it's a link to a player's profile, link to a PM to
+				// the player instead.  Granted, this is probably not
+				// good if someone copy-pastes the link directly to
+				// their profile, but it's a small bug that we can deal
+				// with (for now).
+
+				if ( !location.startsWith( "http://" ) && !location.startsWith( "https://" ) )
+				{
+					KoLMessenger messenger = client.getMessenger();
+					messenger.openInstantMessage( location );
+				}
+			}
+		}
 	}
 
 	/**

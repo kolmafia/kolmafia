@@ -60,6 +60,7 @@ public class KoLMessenger
 	private TreeMap instantMessageBuffers;
 
 	private TreeMap seenPlayerIDs;
+	private TreeMap seenPlayerNames;
 	private SortedListModel onlineContacts;
 
 	private String currentChannel;
@@ -74,6 +75,7 @@ public class KoLMessenger
 		this.instantMessageBuffers = new TreeMap();
 
 		seenPlayerIDs = new TreeMap();
+		seenPlayerNames = new TreeMap();
 		contactsFrame = new ContactListFrame( client, onlineContacts );
 	}
 
@@ -240,6 +242,19 @@ public class KoLMessenger
 	 * Returns the string form of the player ID associated
 	 * with the given player name.
 	 *
+	 * @param	playerID	The ID of the player
+	 * @return	The player's name if it has been seen, or null if it has not
+	 *          yet appeared in the chat (not likely, but possible).
+	 */
+
+	public String getPlayerName( String playerID )
+	{	return (String) seenPlayerNames.get( playerID );
+	}
+
+	/**
+	 * Returns the string form of the player ID associated
+	 * with the given player name.
+	 *
 	 * @param	playerName	The name of the player
 	 * @return	The player's ID if the player has been seen, or the player's name
 	 *			with spaces replaced with underscores and other elements encoded
@@ -256,7 +271,7 @@ public class KoLMessenger
 		try
 		{
 			return playerID != null ? playerID :
-				URLEncoder.encode( playerName, "UTF-8" );
+				URLEncoder.encode( playerName.replaceAll( " ", "_" ), "UTF-8" );
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
@@ -344,7 +359,7 @@ public class KoLMessenger
 		// Java 1.4.2 and the latest update of 1.5.0, it shouldn't be here anyway,
 		// as it's not a real color.
 
-		String validColorsContent = orderedTagsContent.replaceAll( "<font color=\"none\">", "<font color=black>" );
+		String validColorsContent = orderedTagsContent.replaceAll( "<font color=\"none\">", "" );
 
 		// Although it's not necessary, it cleans up the HTML if all of the
 		// last seen data is removed.  It makes the buffer smaller (for one),
@@ -449,7 +464,9 @@ public class KoLMessenger
 			StringTokenizer parsedLink = new StringTokenizer( playerIDMatcher.group(), "<>=\'\"" );
 			parsedLink.nextToken();  parsedLink.nextToken();
 			String playerID = parsedLink.nextToken();
-			seenPlayerIDs.put( parsedLink.nextToken(), playerID );
+			String playerName = parsedLink.nextToken();
+			seenPlayerIDs.put( playerName, playerID );
+			seenPlayerNames.put( playerID, playerName );
 		}
 
 		// Also extract messages which indicate logon/logoff of players to
@@ -703,7 +720,18 @@ public class KoLMessenger
 
 		if ( message != null && channelBuffer != null )
 		{
-			channelBuffer.append( message.trim() );
+			String actualMessage = message.trim();
+			Matcher nameMatcher = Pattern.compile( "<b>.*?</b>" ).matcher( message );
+			if ( nameMatcher.find() )
+			{
+				String name = nameMatcher.group();
+				name = name.substring( 3, name.indexOf( "</b>" ) );
+
+				actualMessage = actualMessage.replaceFirst( "</b>", "</a></b>" ).replaceFirst( "<b>",
+					"<b><a style=\"text-decoration:none\" href=\"" + name + "\">" );
+			}
+
+			channelBuffer.append( actualMessage );
 			channelBuffer.append( "<br>\n" );
 		}
 	}
