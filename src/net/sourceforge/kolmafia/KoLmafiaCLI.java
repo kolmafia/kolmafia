@@ -769,7 +769,7 @@ public class KoLmafiaCLI extends KoLmafia
 			settings.remove( "hermitTrade" );
 
 		settings.saveSettings();
-		(new HermitRequest( scriptRequestor, itemCount )).run();
+		(new HermitRequest( scriptRequestor, tradeCount )).run();
 	}
 
 	/**

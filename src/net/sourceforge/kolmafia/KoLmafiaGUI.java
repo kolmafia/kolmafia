@@ -156,7 +156,7 @@ public class KoLmafiaGUI extends KoLmafia
 			settings.setProperty( "hermitTrade", "" + selected );
 
 		settings.saveSettings();
-		(new HermitRequest( this, itemCount )).run();
+		(new HermitRequest( this, tradeCount )).run();
 	}
 
 	/**
