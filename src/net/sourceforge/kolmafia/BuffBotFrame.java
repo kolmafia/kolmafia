@@ -164,7 +164,7 @@ public class BuffBotFrame extends KoLFrame
 		buffOptions = new BuffOptionsPanel();
 		whiteList = new WhiteListPanel();
 
-		tabs.addTab( "View Buff Log", mainBuff );
+		tabs.addTab( "Run BuffBot", mainBuff );
 		tabs.addTab( "Configure Buffs", buffOptions );
 		tabs.addTab( "Change Settings", whiteList );
 
@@ -289,9 +289,19 @@ public class BuffBotFrame extends KoLFrame
 		public BuffOptionsPanel()
 		{
 			super( "Add Buff", "Remove Buff", new Dimension( 100, 20 ),  new Dimension( 240, 20 ));
-
-			skillSelect = new JComboBox( client == null ? new LockableListModel() :
-				client.getCharacterData().getAvailableSkills() );
+			int skillID;
+			String skill;
+			
+			LockableListModel skillSet = (client == null) ? new LockableListModel() :client.getCharacterData().getAvailableSkills();
+			LockableListModel buffSet = new LockableListModel();
+			for (int i = 0; (skill = (String) skillSet.get(i)) != null; ++i )
+			{
+				skill = (String) skillSet.get(i);
+				skillID = ClassSkillsDatabase.getSkillID( skill.replaceFirst( "ñ", "&ntilde;" ) );
+				if (ClassSkillsDatabase.isBuff( skillID ))
+					buffSet.add(skill);
+			}
+			skillSelect = new JComboBox( buffSet );
 
 			priceField = new JTextField();
 			countField = new JTextField();
@@ -302,7 +312,7 @@ public class BuffBotFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Buff Name: ", skillSelect );
 			elements[1] = new VerifiableElement( "Buff Price: ", priceField );
 			elements[2] = new VerifiableElement( "Cast Count: ", countField );
-			elements[3] = new VerifiableElement( "Restrict?", restrictBox );
+			elements[3] = new VerifiableElement( "White List Only?", restrictBox );
 			setContent( elements );
 		}
 
