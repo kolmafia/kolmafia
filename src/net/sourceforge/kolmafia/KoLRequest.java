@@ -76,6 +76,7 @@ public class KoLRequest implements Runnable
 
 	private static final int MAX_RETRIES = 4;
 
+	private String formURLString;
 	private URL formURL;
 	private StringBuffer formURLBuffer;
 	private String sessionID;
@@ -197,7 +198,6 @@ public class KoLRequest implements Runnable
 
 	private static void setLoginServer( String server )
 	{
-
 		try
 		{
 			KOL_HOST = server;
@@ -244,6 +244,7 @@ public class KoLRequest implements Runnable
 
 	protected KoLRequest( KoLmafia client, String formURLString, boolean doOutput )
 	{
+		this.formURLString = formURLString;
 		this.formURLBuffer = new StringBuffer( formURLString );
 
 		if ( client != null )
@@ -491,8 +492,15 @@ public class KoLRequest implements Runnable
 						// instance of an AdventureRequest), then you need to
 						// re-run the request to get the correct data.
 
-						if ( !(this instanceof AdventureRequest) )
-							this.run();
+						KoLRequest rerun = new KoLRequest( client, formURLString, doOutput );
+						rerun.data.addAll( this.data );
+						rerun.run();
+
+						this.responseCode = rerun.responseCode;
+						this.isErrorState = rerun.isErrorState;
+						this.redirectLocation = rerun.redirectLocation;
+						this.formConnection = rerun.formConnection;
+						this.replyContent = rerun.replyContent;
 					}
 				}
 				else if ( responseCode != 200 )
