@@ -784,14 +784,16 @@ public class KoLMessenger
 
 		if ( channelBuffer == null && (message == null || !message.startsWith( "<font color=green>No longer" )) )
 		{
+			ChatFrame currentFrame = (ChatFrame) instantMessageFrames.get( currentChannel );
+			boolean hadFocus = currentFrame != null && currentFrame.hasFocus();
+
 			openInstantMessage( channel );
 			channelBuffer = getChatBuffer( channel );
 
 			// Make sure that the current channel doesn't lose focus by opening the
 			// instant message.  This can be accomplished by re-requesting focus.
 
-			ChatFrame currentFrame = (ChatFrame) instantMessageFrames.get( currentChannel );
-			if ( currentFrame.isShowing() )
+			if ( hadFocus && currentFrame != null && currentFrame.isShowing() )
 				currentFrame.requestFocus();
 
 			if ( message == null )
