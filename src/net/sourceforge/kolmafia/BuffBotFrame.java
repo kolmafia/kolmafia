@@ -107,7 +107,7 @@ import java.text.ParseException;
 
 public class BuffBotFrame extends KoLFrame {
 
-	private JPanel buffOptions, mainBuff;
+	private JPanel buffOptions, mainBuff, whiteList;
 	private LockableListModel BuffCostTable = new LockableListModel();
 	private JComboBox NonBuffMsgSave;
 	private JComboBox MPRestoreSelect;
@@ -172,9 +172,11 @@ public class BuffBotFrame extends KoLFrame {
 		JTabbedPane tabs = new JTabbedPane();
 		mainBuff = new MainBuffPanel();
 		buffOptions = new BuffOptionsPanel();
+		whiteList = new whiteListPanel();
 
 		tabs.addTab( "Run BuffBot", mainBuff );
 		tabs.addTab( "BuffBot Options", buffOptions );
+		tabs.addTab( "White List", whiteList );
 
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
 		getContentPane().add( tabs, " " );
@@ -384,7 +386,7 @@ public class BuffBotFrame extends KoLFrame {
 
 	/**
 	 * Internal class used to handle everything related to
-	 * Buff Option management
+	 * BuffBot options management
 	 */
 
 	private class BuffOptionsPanel extends JPanel {
@@ -600,6 +602,130 @@ public class BuffBotFrame extends KoLFrame {
 					panel.add(rtPanel);
 					add(panel);
 				}
+			}
+		}
+	}
+/**
+	 * Internal class used to handle everything related to
+	 * BuffBot White List management
+	 */
+
+	private class whiteListPanel extends JPanel {
+		private whiteListMgr TopPanel;
+		private whiteListEntry BottomPanel;
+
+
+		public whiteListPanel() {
+
+			JPanel panel = new JPanel();
+			panel.setLayout( new BorderLayout() );
+
+			TopPanel = new whiteListMgr();
+			panel.add(TopPanel,BorderLayout.NORTH);
+
+			BottomPanel = new whiteListEntry();
+			panel.add(BottomPanel,BorderLayout.SOUTH);
+
+			add( panel, " " );
+		}
+
+		public void setEnabled( boolean isEnabled ) {
+			super.setEnabled( isEnabled );
+			TopPanel.setEnabled(isEnabled);
+			BottomPanel.setEnabled(isEnabled);
+		}
+
+		private class whiteListMgr extends KoLPanel {
+			protected Properties settings;
+			protected JComboBox List1WhiteListOnly, List2WhiteListOnly;
+
+			public whiteListMgr( ) {
+				super("Apply", "Restore", new Dimension( 120, 20 ),  new Dimension( 200, 20 ));
+
+
+				settings = (client == null) ? System.getProperties() : client.getSettings();
+				LockableListModel List1Scope = new LockableListModel();
+				List1Scope.add( "Cast on anyone");
+				List1Scope.add( "Restrict to White List");
+				List1WhiteListOnly = new JComboBox( List1Scope );
+				List1WhiteListOnly.setSelectedIndex(0);
+				LockableListModel List2Scope = new LockableListModel();
+				List2Scope.add( "Cast on anyone");
+				List2Scope.add( "Restrict to White List");
+				List2WhiteListOnly = new JComboBox( List2Scope );
+				List2WhiteListOnly.setSelectedIndex(0);
+
+				VerifiableElement [] elements = new VerifiableElement[2];
+				elements[0] = new VerifiableElement( "Buff Table 1 ", List1WhiteListOnly );
+				elements[1] = new VerifiableElement( "Buff Table 2 ", List2WhiteListOnly );
+
+				setContent( elements, null, null, null, true, true );
+				clear();
+			}
+
+			public void setEnabled( boolean isEnabled ) {
+				super.setEnabled( isEnabled );
+				List1WhiteListOnly.setEnabled(isEnabled);
+				List1WhiteListOnly.setEnabled(isEnabled);
+			}
+
+			public void setStatusMessage(int status, String Msg){
+
+			}
+
+			public void clear(){
+				(new LoadDefaultSettingsThread()).start();
+			}
+
+			public void actionCancelled(){
+				clear();
+			}
+
+			protected void actionConfirmed(){
+				(new StoreSettingsThread()).start();
+			}
+			private class LoadDefaultSettingsThread extends Thread {
+				public void run() {
+					String tempSetting = settings.getProperty( "List1WhiteListOnly" );
+					if ( tempSetting == null || tempSetting.equals( "false" ) )
+						List1WhiteListOnly.setSelectedIndex( 0 );
+					else
+						List1WhiteListOnly.setSelectedIndex( 1 );
+					tempSetting = settings.getProperty( "List2WhiteListOnly" );
+					if ( tempSetting == null || tempSetting.equals( "false" ) )
+						List2WhiteListOnly.setSelectedIndex( 0 );
+					else
+						List2WhiteListOnly.setSelectedIndex( 1 );
+					setStatusMessage( ENABLED_STATE, "" );
+
+				}
+			}
+			private class StoreSettingsThread extends Thread {
+				public void run() {
+					settings.setProperty( "List1WhiteListOnly", "" + (List1WhiteListOnly.getSelectedIndex() == 1) );
+					settings.setProperty( "List2WhiteListOnly", "" + (List2WhiteListOnly.getSelectedIndex() == 1) );
+
+					if ( settings instanceof KoLSettings )
+						((KoLSettings)settings).saveSettings();
+					setStatusMessage( ENABLED_STATE, "Settings saved." );
+
+					KoLRequest.delay( 5000 );
+					setStatusMessage( ENABLED_STATE, "" );
+				}
+			}
+
+
+		}
+		private class whiteListEntry extends JPanel {
+
+
+			public whiteListEntry( ) {
+
+				this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+				JPanel panel = new JPanel();
+				panel.add(new JLabel("Watch this space for the White List implementation"));
+				add(panel);
+				
 			}
 		}
 	}
