@@ -509,7 +509,7 @@ public class KoLRequest implements Runnable, KoLConstants
 						// instance of an AdventureRequest), then you need to
 						// re-run the request to get the correct data.
 
-						if ( !formURLString.equals( "adventure.php" ) )
+						if ( client.inLoginState() )
 						{
 							KoLRequest rerun = new KoLRequest( client, formURLString, doOutput );
 							rerun.data.addAll( this.data );
