@@ -184,9 +184,8 @@ public class KoLmafiaCLI extends KoLmafia
 			outputStream.print( "breakfast?: " );
 			String breakfast = commandStream.readLine();
 
-			boolean getBreakfast = true;
-			if ( breakfast == null || breakfast.length() == 0 || breakfast.charAt(0) != 'y' || breakfast.charAt(0) != 'Y' )
-				getBreakfast = false;
+			boolean getBreakfast = breakfast != null && breakfast.length() != 0 &&
+				Character.toUpperCase(breakfast.charAt(0)) == 'Y';
 
 			outputStream.println();
 			scriptRequestor.deinitialize();
