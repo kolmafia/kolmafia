@@ -139,7 +139,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 	private GearChangeFrame gearChanger;
 	private ItemManageFrame itemManager;
 	private MailboxFrame mailboxDisplay;
-        private BuffBotFrame buffbotDisplay;
+	private BuffBotFrame buffbotDisplay;
 
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
@@ -281,8 +281,10 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		for ( int i = 0; i < existingFrames.size(); ++i )
 		{
 			KoLFrame currentFrame = (KoLFrame) existingFrames.get(i);
-			if ( currentFrame.isShowing() )
+			if ( currentFrame.isShowing() && currentFrame != buffbotDisplay )
 				currentFrame.setEnabled( this.isEnabled );
+			else if ( currentFrame == buffbotDisplay )
+				currentFrame.setEnabled( isEnabled );
 		}
 
 		if ( adventureSelect != null && adventureSelect.isShowing() )
