@@ -751,10 +751,10 @@ public class KoLmafiaCLI extends KoLmafia
 	 * item to retrieve the hermit, if no default has been specified
 	 * in the user settings.
 	 *
-	 * @param	itemCount	The number of items to request
+	 * @param	tradeCount	The number of items to request
 	 */
 
-	protected void makeHermitRequest( int itemCount )
+	protected void makeHermitRequest( int tradeCount )
 	{
 		String item = previousCommand.split( " " )[2];
 		int itemNumber = -1;

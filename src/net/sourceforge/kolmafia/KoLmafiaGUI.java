@@ -135,10 +135,10 @@ public class KoLmafiaGUI extends KoLmafia
 	 * item to retrieve the hermit, if no default has been specified
 	 * in the user settings.
 	 *
-	 * @param	itemCount	The number of items to request
+	 * @param	tradeCount	The number of items to request
 	 */
 
-	protected void makeHermitRequest( int itemCount )
+	protected void makeHermitRequest( int tradeCount )
 	{
 		Object selectedValue = JOptionPane.showInputDialog(
 			null, "I want this from the hermit...", "Hermit Trade!", JOptionPane.INFORMATION_MESSAGE, null,

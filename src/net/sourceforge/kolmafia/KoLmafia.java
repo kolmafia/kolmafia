@@ -474,7 +474,7 @@ public abstract class KoLmafia implements UtilityConstants
 	 * item to retrieve the hermit, if no default has been specified
 	 * in the user settings.
 	 *
-	 * @param	itemCount	The number of items to request
+	 * @param	tradeCount	The number of items to request
 	 */
 
 	protected abstract void makeHermitRequest( int tradeCount );
