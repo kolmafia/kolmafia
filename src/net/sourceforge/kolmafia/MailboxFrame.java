@@ -83,27 +83,31 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		this.messageListInbox = new MailSelectList( "Inbox" );
 		JScrollPane messageListInboxDisplay = new JScrollPane( messageListInbox,
-			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		this.messageListOutbox = new MailSelectList( "Outbox" );
 		JScrollPane messageListOutboxDisplay = new JScrollPane( messageListOutbox,
-			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		this.messageListSaved = new MailSelectList( "Saved" );
 		JScrollPane messageListSavedDisplay = new JScrollPane( messageListSaved,
-			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		this.tabbedListDisplay = new JTabbedPane();
-		tabbedListDisplay.addTab( "Inbox", messageListInbox );
-		tabbedListDisplay.addTab( "Outbox", messageListOutbox );
-		tabbedListDisplay.addTab( "Saved", messageListSaved );
+		tabbedListDisplay.addTab( "Inbox", messageListInboxDisplay );
+		tabbedListDisplay.addTab( "Outbox", messageListOutboxDisplay );
+		tabbedListDisplay.addTab( "Saved", messageListSavedDisplay );
 		tabbedListDisplay.addChangeListener( this );
+
+		tabbedListDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
 		this.messageContent = new JEditorPane();
 		messageContent.setEditable( false );
 		messageContent.addHyperlinkListener( new MailLinkClickedListener() );
 		JScrollPane messageContentDisplay = new JScrollPane( messageContent,
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		messageContentDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
 		this.mailBuffer = new LimitedSizeChatBuffer( "KoL Mail Message", MAXIMUM_MESSAGE_SIZE );
 		mailBuffer.setChatDisplay( messageContent );
