@@ -179,6 +179,7 @@ public class KoLmafia implements UtilityConstants
 		addToResultTally( new AdventureResult( AdventureResult.MP, characterData.getCurrentMP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.ADV, characterData.getAdventuresLeft() ) );
 		addToResultTally( new AdventureResult( AdventureResult.DRUNK, characterData.getInebriety() ) );
+		addToResultTally( new AdventureResult( AdventureResult.SPACER, 0 ) );
 		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
 		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
 		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
