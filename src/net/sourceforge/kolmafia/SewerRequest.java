@@ -43,6 +43,8 @@ import java.util.StringTokenizer;
 public class SewerRequest extends KoLRequest
 {
 	private boolean isLuckySewer;
+	private static final AdventureResult CLOVER = new AdventureResult( "ten-leaf clover", -1 );
+	private static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
 
 	/**
 	 * Constructs a new <code>SewerRequest</code>.  This method will
@@ -84,6 +86,13 @@ public class SewerRequest extends KoLRequest
 
 	private void runLuckySewer()
 	{
+		if ( !client.isLuckyCharacter() )
+		{
+			updateDisplay( ENABLED_STATE, "Ran out of ten-leaf clovers." );
+			client.cancelRequest();
+			return;
+		}
+
 		String items = client.getSettings().getProperty( "luckySewer" );
 
 		if ( items == null )
@@ -102,19 +111,22 @@ public class SewerRequest extends KoLRequest
 
 		super.run();
 
-		if ( isErrorState || responseCode != 200 )
+		// Update if you're redirected to a page the client does not
+		// yet recognize.
+
+		if ( isErrorState )
 			return;
 
-		if ( replyContent.indexOf( "acquire" ) == -1 )
+		if ( responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
 		{
-			updateDisplay( ENABLED_STATE, "Ran out of ten-leaf clovers." );
+			updateDisplay( ENABLED_STATE, "Redirected to unknown page: " + redirectLocation );
 			client.cancelRequest();
 			return;
 		}
 
 		processResults( replyContent );
 		client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
-		client.addToResultTally( new AdventureResult( "ten-leaf clover", -1 ) );
+		client.addToResultTally( CLOVER );
 	}
 
 	/**
@@ -123,24 +135,47 @@ public class SewerRequest extends KoLRequest
 
 	private void runUnluckySewer()
 	{
-		super.run();
-
-		if ( isErrorState || responseCode != 200 )
+		if ( client.isLuckyCharacter() )
 		{
 			updateDisplay( ENABLED_STATE, "You have a ten-leaf clover." );
 			client.cancelRequest();
 			return;
 		}
 
-		if ( replyContent.indexOf( "acquire" ) == -1 )
+		if ( !client.getInventory().contains( GUM ) )
 		{
 			updateDisplay( ENABLED_STATE, "Ran out of chewing gum." );
 			client.cancelRequest();
 			return;
 		}
 
+		super.run();
+
+		if ( isErrorState )
+			return;
+
+		// You may have randomly received a clover from some other
+		// source - detect this occurence and notify the user
+
+		if ( responseCode == 302 && redirectLocation.equals( "luckysewer.php" ) )
+		{
+			updateDisplay( ENABLED_STATE, "You have an unaccounted for ten-leaf clover." );
+			client.cancelRequest();
+			return;
+		}
+
+		// Update if you're redirected to a page the client does not
+		// yet recognize.
+
+		if ( responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
+		{
+			updateDisplay( ENABLED_STATE, "Redirected to unknown page: " + redirectLocation );
+			client.cancelRequest();
+			return;
+		}
+
 		processResults( replyContent );
 		client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
-		client.addToResultTally( new AdventureResult( "chewing gum on a string", -1 ) );
+		client.addToResultTally( GUM );
 	}
 }
