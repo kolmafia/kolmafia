@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+// layout and containers
 import java.awt.Dimension;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -42,14 +43,25 @@ import javax.swing.JEditorPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTabbedPane;
 
+// event listeners
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.event.HyperlinkEvent;
 
+// other imports
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import edu.stanford.ejalbert.BrowserLauncher;
+
+/**
+ * An extension of <code>KoLFrame</code> used to display the current
+ * maiblox contents.  This updates whenever the user wishes to retrieve
+ * more mail from their mailbox but otherwise does nothing.
+ */
 
 public class MailboxFrame extends KoLFrame implements ChangeListener
 {
@@ -88,6 +100,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		tabbedListDisplay.addChangeListener( this );
 
 		this.messageContent = new JEditorPane();
+		messageContent.setEditable( false );
+		messageContent.addHyperlinkListener( new MailLinkClickedListener() );
 		JScrollPane messageContentDisplay = new JScrollPane( messageContent,
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
@@ -195,6 +209,39 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public void setInitialized( boolean initialized )
 		{	this.initialized = initialized;
+		}
+	}
+
+	/**
+	 * Action listener responsible for displaying reply and quoted message
+	 * windows when a username is clicked, or opening the page in
+	 * a browser if you're clicking something other than the username.
+	 */
+
+	private class MailLinkClickedListener implements HyperlinkListener
+	{
+		public void hyperlinkUpdate( HyperlinkEvent e )
+		{
+			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
+			{
+				String location = e.getDescription();
+
+				// If it's a link to an external website, attempt
+				// to open the URL on the system's default browser.
+
+				if ( location.startsWith( "http://" ) || location.startsWith( "https://" ) )
+				{
+					try
+					{
+						BrowserLauncher.openURL( location );
+					}
+					catch ( java.io.IOException e1 )
+					{
+						client.getLogStream().println( "Failed to open browser:" );
+						client.getLogStream().print( e );
+					}
+				}
+			}
 		}
 	}
 
