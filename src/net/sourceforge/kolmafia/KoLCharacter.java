@@ -96,6 +96,7 @@ public class KoLCharacter
 		this.totalSubpoints = new int[3];
 
 		this.equipment = new LockableListModel();
+		this.outfits = new LockableListModel();
 		this.inventory = new SortedListModel( AdventureResult.class );
 		this.closet = new SortedListModel( AdventureResult.class );
 		this.activeEffects = new LockableListModel();
@@ -458,7 +459,8 @@ public class KoLCharacter
 		equipment.set( 5, accessory3 );
 		equipment.set( 6, familiarItem );
 
-		this.outfits = outfits;
+		this.outfits.clear();
+		this.outfits.addAll( outfits );
 	}
 
 	/**
