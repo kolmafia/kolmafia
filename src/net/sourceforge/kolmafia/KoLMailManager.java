@@ -84,6 +84,7 @@ public class KoLMailManager
 			return false;
 
 		mailbox.add( toadd );
+		client.processResults( toadd.getMessageHTML() );
 		return true;
 	}
 
