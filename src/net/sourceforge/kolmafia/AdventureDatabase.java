@@ -99,10 +99,10 @@ public class AdventureDatabase implements UtilityConstants
 	public static KoLAdventure getAdventure( KoLmafia client, String adventureName )
 	{
 		int index = -1;
-		List adventureNames = adventureTable[0];
+		List adventureNames = adventureTable[2];
 
 		for ( int i = 0; index == -1 && i < adventureNames.size(); ++i )
-			if ( adventureName.equalsIgnoreCase( (String) adventureNames.get(i) ) )
+			if ( ((String) adventureNames.get(i)).toLowerCase().indexOf( adventureName.toLowerCase() ) != -1 )
 				index = i;
 
 		return index == -1 ? null : new KoLAdventure( client, (String) adventureTable[0].get( index ),
