@@ -178,7 +178,7 @@ public class GreenMessageFrame extends KoLFrame
 				if ( client.permitsContinue() )
 					sendMessageStatus.setText( "Message sent to " + recipientEntry.getText() );
 				else
-					sendMessageStatus.setText( recipientEntry.getText() + " does not exist." );
+					sendMessageStatus.setText( "Failed to send message to " + recipientEntry.getText() );
 
 				GreenMessageFrame.this.setEnabled( true );
 			}

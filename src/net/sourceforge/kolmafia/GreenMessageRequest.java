@@ -153,26 +153,28 @@ public class GreenMessageRequest extends KoLRequest
 		// Make sure that the message was actually sent -
 		// the person could have input an invalid player ID
 
-		if ( replyContent.indexOf( "Invalid PlayerID." ) != -1 )
+		if ( replyContent.indexOf( "<center>Message Sent.</center>" ) != -1 )
+		{
+			// With that done, the client needs to be updated
+			// to note that the items were sent.
+
+			AdventureResult currentResult, negatedResult;
+			for ( int i = 0; i < attachments.length; ++i )
+			{
+				currentResult = (AdventureResult) attachments[i];
+
+				if ( !currentResult.getName().equals( AdventureResult.MEAT ) )
+					negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
+				else
+					negatedResult = new AdventureResult( AdventureResult.MEAT, 0 - currentResult.getCount() );
+
+				client.processResult( negatedResult );
+			}
+		}
+		else
 		{
 			client.cancelRequest();
 			return;
-		}
-
-		// With that done, the client needs to be updated
-		// to note that the items were sent.
-
-		AdventureResult currentResult, negatedResult;
-		for ( int i = 0; i < attachments.length; ++i )
-		{
-			currentResult = (AdventureResult) attachments[i];
-
-			if ( !currentResult.getName().equals( AdventureResult.MEAT ) )
-				negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
-			else
-				negatedResult = new AdventureResult( AdventureResult.MEAT, 0 - currentResult.getCount() );
-
-			client.processResult( negatedResult );
 		}
 	}
 }
