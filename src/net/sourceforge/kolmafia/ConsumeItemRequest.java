@@ -170,7 +170,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 			else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
 			{
-				client.addToResultTally( new AdventureResult( AdventureResult.HP, client.getCharacterData().getBaseMaxHP() ) );
+				client.addToResultTally( new AdventureResult( AdventureResult.HP, client.getCharacterData().getMaximumHP() ) );
 				if ( replyContent.indexOf( "crumble" ) == -1 )
 					return;
 			}
