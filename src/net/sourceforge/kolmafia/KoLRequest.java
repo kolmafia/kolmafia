@@ -318,18 +318,20 @@ public class KoLRequest extends Thread
 		}
 	}
 
-	protected void completeIteration( StringTokenizer parsedContent )
+	protected void processResults( String results )
 	{
+		StringTokenizer parsedResults = new StringTokenizer( results, "<>" );
 		String lastToken = null;
-		while ( parsedContent.hasMoreTokens() )
+
+		while ( parsedResults.hasMoreTokens() )
 		{
-			lastToken = parsedContent.nextToken();
+			lastToken = parsedResults.nextToken();
 			if ( lastToken.equals( "b" ) )
 			{
 				// Here, you add the item just gained to the list of things
 				// acquired in the adventure.
 
-				client.acquireItem( parsedContent.nextToken() );
+				client.acquireItem( parsedResults.nextToken() );
 			}
 			else if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose" ) )
 			{

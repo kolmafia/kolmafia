@@ -108,8 +108,7 @@ public class AdventureRequest extends KoLRequest
 				// If it gets this far, then everything is okay,
 				// so you parse the results of the vacation trip.
 
-				completeIteration(
-					new StringTokenizer( replyContent.substring( resultIndex + 12 ) ) );
+				processResults( replyContent.substring( resultIndex + 12 ) );
 			}
 		}
 	}

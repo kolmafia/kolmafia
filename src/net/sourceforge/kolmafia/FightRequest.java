@@ -71,7 +71,7 @@ public class FightRequest extends KoLRequest
 				// reflect a victory and notify the client that an adventure
 				// was completed.
 
-				completeIteration( new StringTokenizer( replyContent.substring( winmsgIndex + 16 ), "<>" ) );
+				processResults( replyContent.substring( winmsgIndex + 16 ) );
 				client.updateAdventure( true, true );
 			}
 			else if ( replyContent.indexOf( "You lose." ) != -1 )
@@ -81,7 +81,7 @@ public class FightRequest extends KoLRequest
 				// also notify the client that an adventure was completed,
 				// but that the loop should be halted.
 
-				completeIteration( new StringTokenizer( "" ) );
+				processResults( "" );
 				frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "You were defeated!" );
 				client.updateAdventure( true, false );
 			}

@@ -108,10 +108,10 @@ public class KoLmafia
 		activeFrame = null;
 
 		tally = new LockableListModel();
-		processResult( new AdventureResult( AdventureResult.MEAT ) );
-		processResult( new AdventureResult( AdventureResult.MUS ) );
-		processResult( new AdventureResult( AdventureResult.MYS ) );
-		processResult( new AdventureResult( AdventureResult.MOX ) );
+		updateResult( new AdventureResult( AdventureResult.MEAT ) );
+		updateResult( new AdventureResult( AdventureResult.MUS ) );
+		updateResult( new AdventureResult( AdventureResult.MYS ) );
+		updateResult( new AdventureResult( AdventureResult.MOX ) );
 
 		activeFrame = new AdventureFrame( this, adventures );
 		activeFrame.pack();  activeFrame.setVisible( true );
@@ -127,26 +127,26 @@ public class KoLmafia
 			return;
 
 		StringTokenizer strtok = new StringTokenizer( itemname, "()" );
-		processResult( new AdventureResult( strtok.nextToken().trim(),
+		updateResult( new AdventureResult( strtok.nextToken().trim(),
 			strtok.hasMoreTokens() ? Integer.parseInt( strtok.nextToken() ) : 1 ) );
 	}
 
 	public void modifyStat( int increase, String statname )
 	{
 		if ( statname.equals( AdventureResult.MEAT ) )
-			processResult( new AdventureResult( AdventureResult.MEAT, increase ) );
+			updateResult( new AdventureResult( AdventureResult.MEAT, increase ) );
 
 		else if ( AdventureResult.MUS_SUBSTAT.contains( statname ) )
-			processResult( new AdventureResult( AdventureResult.MUS, increase ) );
+			updateResult( new AdventureResult( AdventureResult.MUS, increase ) );
 
 		else if ( AdventureResult.MYS_SUBSTAT.contains( statname ) )
-			processResult( new AdventureResult( AdventureResult.MYS, increase ) );
+			updateResult( new AdventureResult( AdventureResult.MYS, increase ) );
 
 		else if ( AdventureResult.MOX_SUBSTAT.contains( statname ) )
-			processResult( new AdventureResult( AdventureResult.MOX, increase ) );
+			updateResult( new AdventureResult( AdventureResult.MOX, increase ) );
 	}
 
-	private void processResult( AdventureResult result )
+	private void updateResult( AdventureResult result )
 	{
 		int index = tally.indexOf( result );
 
