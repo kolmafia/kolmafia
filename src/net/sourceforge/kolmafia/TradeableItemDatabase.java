@@ -102,7 +102,7 @@ public class TradeableItemDatabase implements UtilityConstants
 	 * @return	The ID number of the corresponding item
 	 */
 
-	public static int getItemID( String itemName )
+	public static final int getItemID( String itemName )
 	{
 		Object itemID = itemByName.get( itemName );
 		return itemID == null ? -1 : ((Integer)itemID).intValue();
@@ -114,7 +114,7 @@ public class TradeableItemDatabase implements UtilityConstants
 	 * @return	The name of the corresponding item
 	 */
 
-	public static String getItemName( int itemID )
+	public static final String getItemName( int itemID )
 	{	return itemByID[ itemID ];
 	}
 
@@ -127,7 +127,7 @@ public class TradeableItemDatabase implements UtilityConstants
 	 * @return	<code>true</code> if the item is in the database
 	 */
 
-	public static boolean contains( String itemName )
+	public static final boolean contains( String itemName )
 	{	return getItemID( itemName ) != -1;
 	}
 }
