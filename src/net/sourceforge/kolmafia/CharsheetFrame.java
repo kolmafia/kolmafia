@@ -81,9 +81,9 @@ public class CharsheetFrame extends KoLFrame
 
 		if ( client != null )
 		{
-			characterData = new KoLCharacter( client.getLoginName() );
-			(new CharsheetRequest( client, characterData )).run();
-			(new EquipmentRequest( client, characterData )).run();
+			characterData = client.getCharacterData();
+			(new CharsheetRequest( client )).run();
+			(new EquipmentRequest( client )).run();
 		}
 		else
 			characterData = new KoLCharacter( "UI Test" );

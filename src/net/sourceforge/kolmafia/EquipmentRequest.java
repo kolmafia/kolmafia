@@ -54,14 +54,14 @@ public class EquipmentRequest extends KoLRequest
 	 * @param	character	The character to which this will record the retrieved equipment
 	 */
 
-	public EquipmentRequest( KoLmafia client, KoLCharacter character )
+	public EquipmentRequest( KoLmafia client )
 	{
 		// The only thing to do is to retrieve the page from
 		// the client - all variable initialization comes from
 		// when the request is actually run.
 
 		super( client, "inventory.php" );
-		this.character = character;
+		this.character = client.getCharacterData();
 
 		addFormField( "which", "2" );
 	}

@@ -124,7 +124,7 @@ public class KoLmafia implements UtilityConstants
 		// Grab the character data
 		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
 		characterData = new KoLCharacter( loginname );
-		(new CharsheetRequest( this, characterData )).run();
+		(new CharsheetRequest( this )).run();
 
 		// Begin by loading the user-specific settings.
 		logStream.println( "Loading user settings for " + loginname + "..." );
@@ -235,7 +235,9 @@ public class KoLmafia implements UtilityConstants
 	 */
 
 	public void addToResultTally( AdventureResult result )
-	{	AdventureResult.addResultToList( tally, result );
+	{
+		AdventureResult.addResultToList( tally, result );
+		characterData.addInventoryItem( result );
 	}
 
 	/**
@@ -259,8 +261,19 @@ public class KoLmafia implements UtilityConstants
 	}
 
 	/**
-	 * Retrieves the user ID for the character of this <code>KoLmafia</code> session.
-	 * @return	the login name of the current user
+	 * Retrieves the character data for the character associated with the current
+	 * gaming session.
+	 *
+	 * @return	The character data for this character
+	 */
+
+	public KoLCharacter getCharacterData()
+	{	return characterData;
+	}
+
+	/**
+	 * Retrieves the user ID for the character of the current gaming session.
+	 * @return	The user ID of the current user
 	 */
 
 	public int getUserID()
@@ -269,7 +282,7 @@ public class KoLmafia implements UtilityConstants
 
 	/**
 	 * Retrieves the login name for this <code>KoLmafia</code> session.
-	 * @return	the login name of the current user
+	 * @return	The login name of the current user
 	 */
 
 	public String getLoginName()
@@ -278,7 +291,7 @@ public class KoLmafia implements UtilityConstants
 
 	/**
 	 * Retrieves the session ID for this <code>KoLmafia</code> session.
-	 * @return	the session ID of the current session
+	 * @return	The session ID of the current session
 	 */
 
 	public String getSessionID()
@@ -287,7 +300,7 @@ public class KoLmafia implements UtilityConstants
 
 	/**
 	 * Retrieves the password hash for this <code>KoLmafia</code> session.
-	 * @return	the password hash of the current session
+	 * @return	The password hash of the current session
 	 */
 
 	public String getPasswordHash()

@@ -119,6 +119,32 @@ public class AdventureResult implements Comparable
 	}
 
 	/**
+	 * Accessor method to retrieve the name associated with the result.
+	 * @return	The name of the result
+	 */
+
+	public String getResultName()
+	{	return resultName;
+	}
+
+	/**
+	 * Accessor method to retrieve the total value associated with the result.
+	 * In the event of substat points, this returns the total subpoints within
+	 * the <code>AdventureResult</code>; in the event of an item or meat gains,
+	 * this will return the total number of meat/items in this result.
+	 *
+	 * @return	The amount associated with this result
+	 */
+
+	public int getResultCount()
+	{
+		int totalCount = 0;
+		for ( int i = 0; i < resultCount.length; ++i )
+			totalCount += resultCount[i];
+		return totalCount;
+	}
+
+	/**
 	 * A static method which parses the given string for any content
 	 * which might be applicable to an <code>AdventureResult</code>,
 	 * and returns the resulting <code>AdventureResult</code>.

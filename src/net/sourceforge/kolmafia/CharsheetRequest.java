@@ -57,14 +57,14 @@ public class CharsheetRequest extends KoLRequest
 	 * @param	character	The character whose data will be overridden by the request
 	 */
 
-	public CharsheetRequest( KoLmafia client, KoLCharacter character )
+	public CharsheetRequest( KoLmafia client )
 	{
 		// The only thing to do is to retrieve the page from
 		// the client - all variable initialization comes from
 		// when the request is actually run.
 
 		super( client, "charsheet.php" );
-		this.character = character;
+		this.character = client.getCharacterData();
 	}
 
 	/**

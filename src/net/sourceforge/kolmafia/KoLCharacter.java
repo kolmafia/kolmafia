@@ -64,7 +64,6 @@ public class KoLCharacter
 	private SortedListModel closet;
 
 	private int inebriety;
-	private int availableMeat;
 	private int adventuresLeft;
 	private int totalTurnsUsed;
 
@@ -88,6 +87,12 @@ public class KoLCharacter
 		this.equipment = new LockableListModel();
 		this.inventory = new SortedListModel( AdventureResult.class );
 		this.closet = new SortedListModel( AdventureResult.class );
+
+		addInventoryItem( new AdventureResult( AdventureResult.MEAT ) );
+		addInventoryItem( new AdventureResult( AdventureResult.DIVIDER ) );
+
+		addClosetItem( new AdventureResult( AdventureResult.MEAT ) );
+		addClosetItem( new AdventureResult( AdventureResult.DIVIDER ) );
 
 		for ( int i = 0; i < 7; ++i )
 			equipment.add( "none" );
@@ -246,7 +251,7 @@ public class KoLCharacter
 	 */
 
 	public void setAvailableMeat( int availableMeat )
-	{	this.availableMeat = availableMeat;
+	{	inventory.set( 0, new AdventureResult( AdventureResult.MEAT, availableMeat ) );
 	}
 
 	/**
@@ -257,7 +262,7 @@ public class KoLCharacter
 	 */
 
 	public int getAvailableMeat()
-	{	return availableMeat;
+	{	return ((AdventureResult) inventory.get(0)).getResultCount();
 	}
 
 	/**
