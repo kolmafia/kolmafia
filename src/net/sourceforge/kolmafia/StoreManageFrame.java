@@ -43,7 +43,9 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JLabel;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
 import javax.swing.ListSelectionModel;
@@ -57,7 +59,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class StoreManageFrame extends KoLFrame
 {
 	private JLabel searchLabel;
-	private JList sellingList;
+	private JComboBox sellingList;
 	private JTextField priceField;
 	private JTextField limitField;
 	private LockableListModel priceSummary;
@@ -73,12 +75,12 @@ public class StoreManageFrame extends KoLFrame
 		storeManager = new StoreManagePanel();
 		searchResults = new SearchResultsPanel();
 
-		JPanel westPanel = new JPanel();
-		westPanel.setLayout( new BorderLayout() );
-		westPanel.add( storeManager, BorderLayout.NORTH );
+		JPanel northPanel = new JPanel();
+		northPanel.setLayout( new BorderLayout() );
+		northPanel.add( storeManager, BorderLayout.NORTH );
 
 		getContentPane().setLayout( new BorderLayout( 20, 20 ) );
-		getContentPane().add( westPanel, BorderLayout.NORTH );
+		getContentPane().add( northPanel, BorderLayout.NORTH );
 		getContentPane().add( searchResults, BorderLayout.EAST );
 
 		JScrollPane scrollArea = new JScrollPane( new StoreItemPanelList(),
@@ -104,19 +106,20 @@ public class StoreManageFrame extends KoLFrame
 	{
 		public StoreManagePanel()
 		{
-			super( "add item", "search", new Dimension( 100, 20 ), new Dimension( 360, 20 ) );
+			super( "add item", "search", new Dimension( 100, 20 ), new Dimension( 420, 20 ) );
 
 			priceSummary = new LockableListModel();
-			sellingList = new JList( client.getInventory().getMirrorImage() );
-			sellingList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
-			sellingList.setVisibleRowCount( 1 );
+			sellingList = new JComboBox( client.getInventory().getMirrorImage() );
+			sellingList.setRenderer( AdventureResult.getAutoSellCellRenderer() );
+
+			if ( client.getInventory().size() > 0 )
+				sellingList.setSelectedIndex( 0 );
 
 			priceField = new JTextField();
 			limitField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Item to Sell: ", new JScrollPane( sellingList,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
+			elements[0] = new VerifiableElement( "Item to Sell: ", sellingList );
 			elements[1] = new VerifiableElement( "Desired Price: ", priceField );
 			elements[2] = new VerifiableElement( "Desired Limit: ", limitField );
 			setContent( elements, null, null, null, true, true );
@@ -136,7 +139,7 @@ public class StoreManageFrame extends KoLFrame
 			{
 				try
 				{
-					AdventureResult soldItem = (AdventureResult) sellingList.getSelectedValue();
+					AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
 					if ( soldItem == null )
 						return;
 
@@ -173,11 +176,11 @@ public class StoreManageFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( sellingList.getSelectedValue() == null )
+				if ( sellingList.getSelectedItem() == null )
 					return;
 
-				client.getStoreManager().searchMall( (AdventureResult) sellingList.getSelectedValue(), priceSummary );
-				searchLabel.setText( ((AdventureResult)sellingList.getSelectedValue()).getName() );
+				client.getStoreManager().searchMall( (AdventureResult) sellingList.getSelectedItem(), priceSummary );
+				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
 			}
 		}
 	}
@@ -212,7 +215,7 @@ public class StoreManageFrame extends KoLFrame
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 8, 360, 25, client.getStoreManager().getSoldItemList() );
+		{	super( 8, 440, 25, client.getStoreManager().getSoldItemList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -233,15 +236,22 @@ public class StoreManageFrame extends KoLFrame
 				itemPrice = new JTextField( "" + df.format( value.getPrice() ) );
 				itemLimit = new JTextField( "" + df.format( value.getLimit() ) );
 
+				JButton takeButton = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
+				JButton searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
+
 				JComponentUtilities.setComponentSize( itemName, 210, 20 );
 				JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
 				JComponentUtilities.setComponentSize( itemLimit, 40, 20 );
+				JComponentUtilities.setComponentSize( takeButton, 30, 20 );
+				JComponentUtilities.setComponentSize( searchButton, 30, 20 );
 
 				JPanel corePanel = new JPanel();
 				corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
 				corePanel.add( itemName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 				corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 				corePanel.add( itemLimit ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+				corePanel.add( takeButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+				corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 
 				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 				add( Box.createVerticalStrut( 5 ) );
