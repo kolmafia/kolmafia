@@ -38,11 +38,16 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+
 public class AdventureResult implements Comparable
 {
 	private int resultCount;
 	private String resultName;
 	private int resultPriority;
+
+	private static DecimalFormat df = new DecimalFormat();
 
 	public static final String MEAT = "Meat";
 	public static final String MUS = "Mus";
@@ -120,9 +125,20 @@ public class AdventureResult implements Comparable
 			// bizarre things - let it fall through.
 		}
 
-		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
-		return new AdventureResult( parsedItem.nextToken().trim(),
-			parsedItem.hasMoreTokens() ? Integer.parseInt( parsedItem.nextToken() ) : 1 );
+		try
+		{
+			StringTokenizer parsedItem = new StringTokenizer( s, "()" );
+			return new AdventureResult( parsedItem.nextToken().trim(),
+				parsedItem.hasMoreTokens() ? df.parse(parsedItem.nextToken()).intValue() : 1 );
+		}
+		catch ( ParseException e )
+		{
+			// If a parse still manages to fail (because a non-numeric number
+			// is enclosed in parenthesis in the item's name), pretend the
+			// whole thing (including parenthesis) is the item's name.
+
+			return new AdventureResult( s, 1 );
+		}
 	}
 
 	public void clear()
