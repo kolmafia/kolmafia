@@ -390,9 +390,10 @@ public class KoLMessenger
 		// Although it's not necessary, it cleans up the HTML if all of the
 		// last seen data is removed.  It makes the buffer smaller (for one),
 		// and it gives room to other chat messages, since the buffer is
-		// limited in size to begin with.
+		// limited in size to begin with.  Also replace the initial text
+		// that gives you a description of your channel.
 
-		String noCommentsContent = validColorsContent.replaceAll( "<!--lastseen:[\\d]+-->", "" );
+		String noCommentsContent = validColorsContent.replaceAll( "<p>.*?</font>", "</font>" ).replaceAll( "<!--lastseen:[\\d]+-->", "" );
 
 		// Finally, there's lots of contact list and help file information that
 		// needs to get removed - this should be done here.
@@ -437,10 +438,19 @@ public class KoLMessenger
 			else
 			{
 				result = result.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ).trim();
+
+				// If the user has clicked into a menu, then there's a chance that
+				// the active frame will not be recognized - therefore, simply
+				// put the messages into the current channel instead.
+
 				if ( nameOfActiveFrame == null )
 					nameOfActiveFrame = currentChannel;
 
 				ChatBuffer currentChatBuffer = getChatBuffer( nameOfActiveFrame );
+
+				// This error should not happen, but it's better to be safe than
+				// sorry, so there's a check to make sure that the chat buffer
+				// exists before doing anything with the messages.
 
 				if ( currentChatBuffer == null )
 				{
@@ -562,12 +572,12 @@ public class KoLMessenger
 		// the focus to the originally active window (if the window
 		// lost focus during any of this).
 
-		if ( nameOfActiveFrame == null )
-			nameOfActiveFrame = currentChannel;
-
-		ChatFrame activeFrame = (ChatFrame) instantMessageFrames.get( nameOfActiveFrame );
-		if ( activeFrame != null && !activeFrame.hasFocus() )
-			activeFrame.requestFocus();
+		if ( nameOfActiveFrame != null )
+		{
+			ChatFrame activeFrame = (ChatFrame) instantMessageFrames.get( nameOfActiveFrame );
+			if ( activeFrame != null && !activeFrame.hasFocus() )
+				activeFrame.requestFocus();
+		}
 	}
 
 	/**
@@ -759,7 +769,7 @@ public class KoLMessenger
 				name = name.substring( 3, name.indexOf( "</b>" ) );
 
 				actualMessage = actualMessage.replaceFirst( "</b>", "</a></b>" ).replaceFirst( "<b>",
-					"<b><a style=\"text-decoration:none\" href=\"" + name + "\">" );
+					"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
 			}
 
 			channelBuffer.append( actualMessage );
