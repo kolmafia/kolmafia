@@ -710,7 +710,7 @@ public class KoLmafiaCLI extends KoLmafia
 					outputFile.createNewFile();
 				}
 
-				desiredOutputStream = new PrintStream( new FileOutputStream( outputFile ), true );
+				desiredOutputStream = new PrintStream( new FileOutputStream( outputFile, true ), true );
 			}
 			catch ( IOException e )
 			{
