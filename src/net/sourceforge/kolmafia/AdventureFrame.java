@@ -1155,7 +1155,7 @@ public class AdventureFrame extends KoLFrame
 				// Thread.
 
 				(new LogoutRequestThread()).start();
-				new KoLmafia();
+				new KoLmafiaGUI();
 			}
 		}
 

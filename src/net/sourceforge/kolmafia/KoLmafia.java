@@ -52,49 +52,40 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * of the interactions.
  */
 
-public class KoLmafia implements UtilityConstants
+public abstract class KoLmafia implements UtilityConstants
 {
-	private static final String [] hermitItemNames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
+	protected static final String [] hermitItemNames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
 		"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
-	private static final int [] hermitItemNumbers = { 24, 46, 47, 52, 55, 61, 66, 106, 107, 135, 140, 527 };
+	protected static final int [] hermitItemNumbers = { 24, 46, 47, 52, 55, 61, 66, 106, 107, 135, 140, 527 };
 
-	private String password, sessionID, passwordHash;
-	private KoLCharacter characterData;
-	private KoLFrame activeFrame;
-	private KoLMessenger loathingChat;
+	protected String password, sessionID, passwordHash;
+	protected KoLCharacter characterData;
+	protected KoLMessenger loathingChat;
 
-	private KoLSettings settings;
-	private PrintStream logStream;
-	private boolean permitContinue;
+	protected KoLSettings settings;
+	protected PrintStream logStream;
+	protected boolean permitContinue;
 
-	private SortedListModel tally;
-	private LockableListModel inventory, closet, usableItems;
+	protected SortedListModel tally;
+	protected LockableListModel inventory, closet, usableItems;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
-	 * of the <code>KoLmafia</code> client after setting the default
-	 * look and feel of all <code>JFrame</code> objects to decorated.
+	 * of the <code>KoLmafiaGUI</code>.
 	 */
 
 	public static void main( String [] args )
-	{
-		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
-    	KoLmafia session = new KoLmafia();
+	{	KoLmafiaGUI.main( args );
 	}
 
 	/**
 	 * Constructs a new <code>KoLmafia</code> object.  All data fields
 	 * are initialized to their default values, the global settings
-	 * are loaded from disk, and a <code>LoginFrame</code> is created
-	 * to allow the user to login.
+	 * are loaded from disk.
 	 */
 
 	public KoLmafia()
-	{
-		deinitialize();
-		activeFrame = new LoginFrame( this );
-		activeFrame.pack();  activeFrame.setVisible( true );
-		activeFrame.requestFocus();
+	{	deinitialize();
 	}
 
 	/**
@@ -102,13 +93,8 @@ public class KoLmafia implements UtilityConstants
 	 * session.
 	 */
 
-	public void updateDisplay( int state, String message )
-	{	activeFrame.updateDisplay( state, message );
-	}
-
-	public void requestFocus()
-	{	activeFrame.requestFocus();
-	}
+	public abstract void updateDisplay( int state, String message );
+	public abstract void requestFocus();
 
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
@@ -129,7 +115,7 @@ public class KoLmafia implements UtilityConstants
 			return;
 		}
 
-		activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
+		updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
 		(new PasswordHashRequest( this )).run();
 
 		if ( !permitContinue )
@@ -140,7 +126,7 @@ public class KoLmafia implements UtilityConstants
 		}
 
 		// Grab the character data
-		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
+		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
 		characterData = new KoLCharacter( loginname );
 		(new CharsheetRequest( this )).run();
 		(new CampgroundRequest( this )).run();
@@ -152,7 +138,7 @@ public class KoLmafia implements UtilityConstants
 			return;
 		}
 
-		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory..." );
+		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory..." );
 		inventory = characterData.getInventory();
 		closet = characterData.getCloset();
 
@@ -171,10 +157,6 @@ public class KoLmafia implements UtilityConstants
 		logStream.println( "Loading user settings for " + loginname + "..." );
 		settings = new KoLSettings( loginname );
 
-		activeFrame.setVisible( false );
-		activeFrame.dispose();
-		activeFrame = null;
-
 		tally = new SortedListModel();
 		addToResultTally( new AdventureResult( AdventureResult.HP, characterData.getCurrentHP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.MP, characterData.getCurrentMP() ) );
@@ -184,17 +166,11 @@ public class KoLmafia implements UtilityConstants
 		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
 		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
 		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
-
-		activeFrame = new AdventureFrame( this, AdventureDatabase.getAsLockableListModel( this ), tally );
-		activeFrame.pack();  activeFrame.setVisible( true );
-		activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
-		activeFrame.requestFocus();
 	}
 
 	/**
 	 * Deinitializes the <code>KoLmafia</code> session.  Called after
-	 * the user has logged out.  Re-displays the <code>LoginFrame</code>
-	 * and sets all the values to their defaults.
+	 * the user has logged out.
 	 */
 
 	public void deinitialize()
@@ -204,7 +180,6 @@ public class KoLmafia implements UtilityConstants
 		permitContinue = false;
 
 		settings = new KoLSettings();
-		activeFrame = null;
 		deinitializeChat();
 		deinitializeLogStream();
 		this.permitContinue = true;
@@ -369,91 +344,15 @@ public class KoLmafia implements UtilityConstants
 	 * Makes the given request for the given number of iterations,
 	 * or until continues are no longer possible, either through
 	 * user cancellation or something occuring which prevents the
-	 * requests from resuming.  Because this method does not create
-	 * new threads, any GUI invoking this method should create a
-	 * separate thread for calling it.
+	 * requests from resuming.  Overriding classes should make use
+	 * of the <code>permitContinue</code> variable to determine
+	 * if one of the requests has suggested that the user stop.
 	 *
 	 * @param	request	The request made by the user
 	 * @param	iterations	The number of times the request should be repeated
 	 */
 
-	public void makeRequest( Runnable request, int iterations )
-	{
-		try
-		{
-			this.permitContinue = true;
-			int iterationsRemaining = iterations;
-
-			if ( request.toString().equals( "The Hermitage" ) )
-			{
-				// Prompt the user to select which item they want from the hermit
-				// because it's more intuitive this way.
-
-				Object selectedValue = JOptionPane.showInputDialog(
-					null, "I want this from the hermit...", "Hermit Trade!", JOptionPane.INFORMATION_MESSAGE, null,
-					hermitItemNames, hermitItemNames[0] );
-
-				int selected = -1;
-				for ( int i = 0; i < hermitItemNames.length; ++i )
-				{
-					if ( selectedValue.equals( hermitItemNames[i] ) )
-					{
-						settings.setProperty( "hermitTrade", "" + selected );
-						settings.saveSettings();
-						break;
-					}
-				}
-
-				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Robbing the hermit..." );
-				(new HermitRequest( this, iterations )).run();
-
-				if ( permitContinue )
-					activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Hermit successfully looted!" );
-			}
-			else if ( request.toString().startsWith( "Gym" ) )
-			{
-				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Beginning workout..." );
-				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
-				activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Workout completed." );
-			}
-			else
-			{
-				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campground" ) == -1 && characterData.getInebriety() > 19 )
-					permitContinue = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-						"The mafia has stolen your shoes!  Continue adventuring anyway?",
-						"You're not drunk!  You see flying penguins and a dancing hermit!", JOptionPane.YES_NO_OPTION );
-
-				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
-				{
-					activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
-					request.run();
-
-					// Make sure you only decrement iterations if the
-					// continue was permitted.  This resolves the issue
-					// of incorrectly updating the client if something
-					// occurred on the last iteration.
-
-					if ( permitContinue )
-						--iterationsRemaining;
-				}
-
-				if ( permitContinue && iterationsRemaining <= 0 )
-					activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
-			}
-		}
-		catch ( RuntimeException e )
-		{
-			// In the event that an exception occurs during the
-			// request processing, catch it here, print it to
-			// the logger (whatever it may be), and notify the
-			// user that an error was encountered.
-
-			logStream.println( e );
-			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Unexpected error." );
-		}
-
-		this.permitContinue = true;
-	}
+	public abstract void makeRequest( Runnable request, int iterations );
 
 	/**
 	 * Cancels the user's current request.  Note that if there are
