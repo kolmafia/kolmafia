@@ -100,8 +100,8 @@ public class KoLmafiaCLI extends KoLmafia
 				session.attemptLogin();
 			else
 			{
+				(new KoLmafiaCLI( session, initialScript )).listenForCommands();
 				session.listenForCommands();
-				session.executeCommand( "call", initialScript );
 			}
 		}
 		catch ( IOException e )
