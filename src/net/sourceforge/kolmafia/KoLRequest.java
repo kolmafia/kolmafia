@@ -428,9 +428,26 @@ public class KoLRequest implements Runnable
 					// ten lines on every KoL site contains a script that tells the
 					// browser to renest the page in frames (and hence is useless).
 
+					String line = istream.readLine();
+
+					// Check for MySQL errors, since those have been getting more
+					// frequent, and would cause an I/O Exception to be thrown
+					// unnecessarily, when a re-request would do.  I'm not sure
+					// how they work right now (which line the MySQL error is
+					// printed to), but for now, assume that it's the first line.
+
+
+					if ( line.contains( "()" ) )
+					{
+						logStream.println( "MySQL error encountered.  Repeating request..." );
+
+						this.run();
+						return;
+					}
+
 					logStream.println( "Skipping frame-nesting Javascript..." );
 
-					for ( int i = 0; i < 10; ++i )
+					for ( int i = 0; i < 9; ++i )
 						istream.readLine();
 
 					logStream.println( "Skipping complete.  Reading page content..." );
@@ -440,7 +457,6 @@ public class KoLRequest implements Runnable
 					// ultimately be preserved.
 
 					StringBuffer replyBuffer = new StringBuffer();
-					String line;
 
 					while ( (line = istream.readLine()) != null )
 						replyBuffer.append( line );
@@ -479,7 +495,10 @@ public class KoLRequest implements Runnable
 			if ( frame != null )
 				frame.updateDisplay( KoLFrame.ENABLED_STATE, "I/O error.  Please restart." );
 			else if ( client != null )
+			{
 				client.updateAdventure( false, false );
+				logStream.println( e );
+			}
 		}
 	}
 
