@@ -246,40 +246,45 @@ public class AdventureFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu viewMenu = new JMenu("View");
-		viewMenu.setMnemonic( KeyEvent.VK_V );
-		menuBar.add( viewMenu );
+		JMenu statusMenu = new JMenu( "Gameplay" );
+		statusMenu.setMnemonic( KeyEvent.VK_T );
+		menuBar.add( statusMenu );
 
 		this.statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
 		statusMenuItem.addActionListener( new DisplayFrameListener( CharsheetFrame.class ) );
-		viewMenu.add( statusMenuItem );
+		statusMenu.add( statusMenuItem );
 
 		JMenuItem gearMenuItem = new JMenuItem( "Gear Changer", KeyEvent.VK_G );
 		gearMenuItem.addActionListener( new DisplayFrameListener( GearChangeFrame.class ) );
 
-		viewMenu.add( gearMenuItem );
+		statusMenu.add( gearMenuItem );
 
 		JMenuItem itemMenuItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
 		itemMenuItem.addActionListener( new ViewItemManagerListener() );
 
-		viewMenu.add( itemMenuItem );
+		statusMenu.add( itemMenuItem );
+
+		addScriptMenu( menuBar );
+
+		JMenu peopleMenu = new JMenu( "People" );
+		peopleMenu.setMnemonic( KeyEvent.VK_P );
+		menuBar.add( peopleMenu );
 
 		JMenuItem chatMenuItem = new JMenuItem( "Chat of Loathing", KeyEvent.VK_C );
 		chatMenuItem.addActionListener( new ViewChatListener() );
 
-		viewMenu.add( chatMenuItem );
+		peopleMenu.add( chatMenuItem );
 
 		JMenuItem composeMenuItem = new JMenuItem( "Green Composer", KeyEvent.VK_G );
 		composeMenuItem.addActionListener( new DisplayFrameListener( GreenMessageFrame.class ) );
 
-		viewMenu.add( composeMenuItem );
+		peopleMenu.add( composeMenuItem );
 
-		this.mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_P );
+		this.mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_I );
 		mailMenuItem.addActionListener( new DisplayFrameListener( MailboxFrame.class ) );
 
-		viewMenu.add( mailMenuItem );
+		peopleMenu.add( mailMenuItem );
 
-		addScriptMenu( menuBar );
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
 	}

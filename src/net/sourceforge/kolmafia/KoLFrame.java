@@ -134,7 +134,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected final void addScriptMenu( JMenuBar menuBar )
 	{
-		JMenu scriptMenu = new JMenu("Script");
+		JMenu scriptMenu = new JMenu("Scripts");
 		scriptMenu.setMnemonic( KeyEvent.VK_S );
 		menuBar.add( scriptMenu );
 
