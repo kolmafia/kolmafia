@@ -194,7 +194,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			{
 				if ( !processMessage( (KoLMailMessage) inbox[i] ) )
 				{
-					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!");
+					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!" );
 					client.setBuffBotActive( false );
 					buffbotLog.append( ERRORCOLOR + "Unable to process a buff message." + ENDCOLOR + "<br>\n" );
 				}
@@ -260,9 +260,20 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 						// We have a genuine buff request, so do it!
 						if ( !buff.castOnTarget( message.getSenderName(), meatSent ))
 						{
-							sendRefund( message.getSenderName(), "I ran out of MP.  Please try again later.", meatSent );
-							deleteList.add( message );
-							return false;
+							if ( client.permitsContinue() )
+							{
+								sendRefund( message.getSenderName(), "I ran out of MP.  Please try again later.", meatSent );
+								deleteList.add( message );
+								return false;
+							}
+							else
+							{
+								sendRefund( message.getSenderName(), "Too many songs are stuck in your head.", meatSent );
+								deleteList.add( message );
+								client.resetContinueState();
+								return true;
+							}
+
 						}
 
 						deleteList.add( message );
@@ -410,9 +421,17 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				mpPerEvent = (int) (mpPerCast * currentCast);
 				currentMP = (double) characterData.getCurrentMP();
 				if ( !recoverMP( mpPerEvent ) )
-						return false;
+					return false;
+
 				(new UseSkillRequest( client, buffName, target, currentCast )).run();
 				totalCasts -= currentCast;
+
+				if ( !client.permitsContinue() )
+				{
+				buffbotLog.append( ERRORCOLOR + " ---> " + target + " had too many buffs." + ENDCOLOR + "<br>\n");
+					return false;
+				}
+
 				buffbotLog.append( BUFFCOLOR + " ---> Successfully cast: " + buffName + ", " + currentCast + " times." + ENDCOLOR + "<br>\n");
 			}
 
