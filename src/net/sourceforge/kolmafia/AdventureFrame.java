@@ -445,8 +445,6 @@ public class AdventureFrame extends KoLFrame
 		public void clear()
 		{
 			searchField.setText( "" );
-			countField.setText( "" );
-			maxPerStoreField.setText( "" );
 			requestFocus();
 		}
 
