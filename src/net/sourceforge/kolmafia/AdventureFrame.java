@@ -117,6 +117,7 @@ public class AdventureFrame extends KoLFrame
 {
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
+	private ClanBuffPanel clanBuff;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -140,6 +141,9 @@ public class AdventureFrame extends KoLFrame
 
 		mallSearch = new MallSearchPanel();
 		tabs.addTab( "Mall of Loathing", mallSearch );
+
+		clanBuff = new ClanBuffPanel();
+		tabs.addTab( "Go to Clan Hall", clanBuff );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
@@ -519,6 +523,76 @@ public class AdventureFrame extends KoLFrame
 					// this will be fixed once we add functionality.
 				}
 			}
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for clan
+	 * buffs in the <code>AdventureFrame</code>.
+	 */
+
+	private class ClanBuffPanel extends KoLPanel
+	{
+		private JPanel actionStatusPanel;
+		private JLabel actionStatusLabel;
+
+		private JComboBox buffField;
+		private JTextField countField;
+
+		public ClanBuffPanel()
+		{
+			super( "buy buffs", "refresh", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			buffField = new JComboBox();
+			countField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Clan Buff: ", buffField );
+			elements[1] = new VerifiableElement( "# of times: ", countField );
+
+			setContent( elements );
+		}
+
+		protected void setContent( VerifiableElement [] elements )
+		{
+			super.setContent( elements );
+
+			JPanel southPanel = new JPanel();
+			southPanel.setLayout( new BorderLayout( 10, 10 ) );
+			southPanel.add( actionStatusPanel, BorderLayout.NORTH );
+			southPanel.add( new JPanel(), BorderLayout.SOUTH );
+			add( southPanel, BorderLayout.SOUTH );
+		}
+
+		public void clear()
+		{
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+		}
+
+		protected void actionConfirmed()
+		{
+		}
+
+		protected void actionCancelled()
+		{
+		}
+
+		public void requestFocus()
+		{
 		}
 	}
 
