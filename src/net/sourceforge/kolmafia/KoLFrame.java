@@ -416,8 +416,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
+		{	setContent( elements, true, false );
+		}
+
+		protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding, boolean bothDisabledOnClick )
 		{
-			super.setContent( elements, isLabelPreceeding );
+			super.setContent( elements, null, null, null, isLabelPreceeding, bothDisabledOnClick );
 
 			if ( panelTitle != null )
 				add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER,

@@ -185,11 +185,11 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		this.skillBuff = new SkillBuffPanel();
 
 		JPanel otherStuffPanel = new JPanel();
-		otherStuffPanel.setLayout( new GridLayout( 5, 1 ) );
+		otherStuffPanel.setLayout( new BoxLayout( otherStuffPanel, BoxLayout.Y_AXIS ) );
+		otherStuffPanel.add( skillBuff );
 		otherStuffPanel.add( meatStorage );
 		otherStuffPanel.add( heroDonation );
 		otherStuffPanel.add( removeEffects );
-		otherStuffPanel.add( skillBuff );
 		otherStuffPanel.add( clanBuff );
 
 		JScrollPane otherStuffScroller = new JScrollPane( otherStuffPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -1168,7 +1168,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public RemoveEffectsPanel()
 		{
-			super( "Uneffective", "uneffect", "description", new Dimension( 80, 20 ), new Dimension( 210, 20 ) );
+			super( "Uneffective", "uneffect", "kill hermit", new Dimension( 80, 20 ), new Dimension( 210, 20 ) );
 
 			effects = new JComboBox( client == null ? new LockableListModel() :
 				client.getCharacterData().getEffects().getMirrorImage() );
@@ -1188,6 +1188,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		protected void actionCancelled()
 		{
 			contentPanel = removeEffects;
+			updateDisplay( ENABLED_STATE, "We're sorry.  The hermit cannot be killed." );
 		}
 
 		private class FocusShifter extends FocusAdapter
@@ -1233,7 +1234,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public SkillBuffPanel()
 		{
-			super( "Got Skills?", "cast buff", "description", new Dimension( 80, 20 ), new Dimension( 210, 20 ) );
+			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 210, 20 ) );
 
 			skillSelect = new JComboBox( client == null ? new LockableListModel() :
 				client.getCharacterData().getAvailableSkills() );
@@ -1255,12 +1256,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		protected void actionConfirmed()
 		{
 			contentPanel = skillBuff;
-			(new SkillBuffRequestThread()).start();
+			(new SkillBuffRequestThread( false )).start();
 		}
 
 		protected void actionCancelled()
 		{
 			contentPanel = skillBuff;
+			(new SkillBuffRequestThread( true )).start();
 		}
 
 		private class FocusShifter extends FocusAdapter
@@ -1278,10 +1280,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		private class SkillBuffRequestThread extends Thread
 		{
-			public SkillBuffRequestThread()
+			private boolean maxBuff;
+
+			public SkillBuffRequestThread( boolean maxBuff )
 			{
 				super( "Skill-Buff-Thread" );
 				setDaemon( true );
+				this.maxBuff = maxBuff;
 			}
 
 			public void run()
@@ -1293,10 +1298,12 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 						return;
 
 					String target = targetField.getText();
-					if ( countField.getText().trim().length() == 0 )
-						return;
 
-					int buffCount = df.parse( countField.getText() ).intValue();
+					int buffCount = maxBuff ?
+						(int) ( client.getCharacterData().getCurrentMP() /
+							ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) :
+								df.parse( countField.getText() ).intValue();
+
 					client.makeRequest( new UseSkillRequest( client, buffName, target, buffCount ), 1 );
 
 				}
