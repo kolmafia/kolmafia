@@ -215,10 +215,10 @@ public class AdventureResult implements Comparable
 
 	public String toString()
 	{
-		return resultName.equals(MEAT) ? " Meat: " + resultCount[0] :
-			resultName.equals(SUBSTATS) ? " Substats: " + resultCount[0] + " / " + resultCount[1] + " / " + resultCount[2] :
+		return resultName.equals(MEAT) ? " Meat: " + df.format(resultCount[0]) :
+			resultName.equals(SUBSTATS) ? " Substats: " + df.format(resultCount[0]) + " / " + df.format(resultCount[1]) + " / " + df.format(resultCount[2]) :
 			resultName.equals(DIVIDER) ? DIVIDER :
-			" " + resultName + " (" + resultCount[0] + ")";
+			" " + resultName + " (" + df.format(resultCount[0]) + ")";
 	}
 
 	/**
