@@ -874,7 +874,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				try
 				{
-					itemCount = itemCountString.equals( "*" ) ? Integer.MAX_VALUE : df.parse( itemCountString ).intValue();
+					itemCount = itemCountString.equals( "*" ) ? 0 : df.parse( itemCountString ).intValue();
 				}
 				catch ( Exception e )
 				{
@@ -898,16 +898,23 @@ public class KoLmafiaCLI extends KoLmafia
 		AdventureResult firstMatch = new AdventureResult( itemName, itemCount );
 		int index = scriptRequestor.getInventory().indexOf( firstMatch );
 
-		if ( itemCount == Integer.MAX_VALUE )
+		if ( itemCount <= 0 )
 		{
 			if ( !isCreation )
-				return (AdventureResult) scriptRequestor.getInventory().get( index );
+			{
+				if ( index == -1 )
+					return null;
+
+				AdventureResult result = (AdventureResult) scriptRequestor.getInventory().get( index );
+				return result == null ? null : new AdventureResult( result.getName(), result.getCount() + itemCount );
+			}
 
 			List concoctions = ConcoctionsDatabase.getConcoctions( scriptRequestor, scriptRequestor.getInventory() );
 			ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
 			index = concoctions.indexOf( concoction );
 
-			return index == -1 ? null : new AdventureResult( itemName, ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
+			return index == -1 ? null : new AdventureResult( itemName,
+				itemCount + ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
 		}
 
 		return firstMatch;
@@ -1017,6 +1024,9 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( adventureCountString.equals( "*" ) &&
 					AdventureDatabase.getAdventure( scriptRequestor, adventureName ).toString().startsWith( "Shore" ) )
 						adventureCount /= 3;
+
+				if ( adventureCount <= 0 )
+					adventureCount += scriptRequestor.getCharacterData().getAdventuresLeft();
 			}
 			catch ( Exception e )
 			{
