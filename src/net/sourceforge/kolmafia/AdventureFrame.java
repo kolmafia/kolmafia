@@ -92,6 +92,10 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
 // spellcast-related imports
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -107,18 +111,62 @@ public class AdventureFrame extends KoLFrame
 		CardLayout cards = new CardLayout( 10, 10 );
 		getContentPane().setLayout( cards );
 
+		JTabbedPane tabs = new JTabbedPane();
+
+		addAdventuringPanel( tabs, availableAdventures, resultsTally );
+		addInventoryPanel( tabs );
+		addMallBrowsingPanel( tabs );
+
+		getContentPane().add( tabs, "" );
+
+		updateDisplay( ENABLED_STATE, " " );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+
+		addMenuBar();
+	}
+
+	private void addAdventuringPanel( JTabbedPane tabs, LockableListModel availableAdventures, LockableListModel resultsTally )
+	{
 		JPanel summaryPanel = new AdventureResultsPanel( resultsTally );
 		contentPanel = new AdventureSelectPanel( availableAdventures );
 
-		JPanel completePanel = new JPanel();
-		completePanel.setLayout( new BorderLayout() );
-		completePanel.add( summaryPanel, BorderLayout.WEST );
-		completePanel.add( contentPanel, BorderLayout.EAST );
+		JPanel adventuringPanel = new JPanel();
+		adventuringPanel.setLayout( new BorderLayout() );
+		adventuringPanel.add( summaryPanel, BorderLayout.WEST );
+		adventuringPanel.add( contentPanel, BorderLayout.EAST );
 
-		getContentPane().add( completePanel, "" );
+		tabs.add( adventuringPanel, "Adventure Select" );
+	}
 
-		updateDisplay( LOGGED_IN_STATE, " " );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+	private void addInventoryPanel( JTabbedPane tabs )
+	{
+		tabs.add( new JPanel(), "Inventory / Equipment" );
+	}
+
+	private void addMallBrowsingPanel( JTabbedPane tabs )
+	{
+		tabs.add( new JPanel(), "Mall of Loathing" );
+	}
+
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		JMenu menu = new JMenu("View");
+		menu.setMnemonic( KeyEvent.VK_V );
+		menuBar.add( menu );
+
+		JMenuItem menuItem = new JMenuItem( "Character Sheet", KeyEvent.VK_C );
+		menuItem.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				CharsheetFrame csheet = new CharsheetFrame( client );
+				csheet.pack();  csheet.setVisible( true );
+			}
+		});
+
+		menu.add( menuItem );
 	}
 
 	protected class AdventureSelectPanel extends KoLPanel
@@ -193,7 +241,7 @@ public class AdventureFrame extends KoLFrame
 			try
 			{
 				int count = Integer.parseInt( countField.getText() );
-				updateDisplay( ADVENTURING_STATE, "Request 1 in progress..." );
+				updateDisplay( DISABLED_STATE, "Request 1 in progress..." );
 				client.makeRequest( request, count );
 			}
 			catch ( NumberFormatException e )
@@ -211,7 +259,7 @@ public class AdventureFrame extends KoLFrame
 			// client to terminate the loop early.  For now, since
 			// there's no actual functionality, simply request focus
 
-			updateDisplay( LOGGED_IN_STATE, "Adventuring terminated." );
+			updateDisplay( ENABLED_STATE, "Adventuring terminated." );
 			client.cancelRequest();
 			requestFocus();
 		}

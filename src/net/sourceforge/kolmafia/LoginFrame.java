@@ -117,19 +117,28 @@ public class LoginFrame extends KoLFrame
 		contentPanel = new LoginPanel();
 		getContentPane().add( contentPanel, "" );
 
-		updateDisplay( PRE_LOGIN_STATE, " " );
+		updateDisplay( ENABLED_STATE, " " );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
-		// adding a menu
+		addMenuBar();
+	}
 
-		JMenuBar menuBar = new JMenuBar();  setJMenuBar( menuBar );
-		JMenu menu = new JMenu("Help");  menu.setMnemonic( KeyEvent.VK_H );  menuBar.add( menu );
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		JMenu menu = new JMenu("Help");
+		menu.setMnemonic( KeyEvent.VK_H );
+		menuBar.add( menu );
+
 		JMenuItem menuItem = new JMenuItem( "Copyright", KeyEvent.VK_C );
 		menuItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{	new LicenseDisplay( "KoLmafia: Copyright Notice" );
 			}
 		});
+
 		menu.add( menuItem );
 	}
 
@@ -196,14 +205,14 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			updateDisplay( SENDING_LOGIN_STATE, "Sending login..." );
+			updateDisplay( DISABLED_STATE, "Sending login..." );
 
 			String loginname = loginnameField.getText();
 			String password = new String( passwordField.getPassword() );
 
 			if ( loginname.equals("") || password.equals("") )
 			{
-				updateDisplay( PRE_LOGIN_STATE, "Invalid login." );
+				updateDisplay( ENABLED_STATE, "Invalid login." );
 				return;
 			}
 
@@ -212,7 +221,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			updateDisplay( PRE_LOGIN_STATE, "Login cancelled." );
+			updateDisplay( ENABLED_STATE, "Login cancelled." );
 			requestFocus();
 		}
 

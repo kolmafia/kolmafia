@@ -45,10 +45,8 @@ import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
 public abstract class KoLFrame extends javax.swing.JFrame
 {
-	public static final int PRE_LOGIN_STATE     = 1;
-	public static final int SENDING_LOGIN_STATE = 2;
-	public static final int LOGGED_IN_STATE     = 3;
-	public static final int ADVENTURING_STATE   = 4;
+	public static final int ENABLED_STATE  = 1;
+	public static final int DISABLED_STATE = 2;
 
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
@@ -104,14 +102,12 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 			switch ( displayState )
 			{
-				case PRE_LOGIN_STATE:
-				case LOGGED_IN_STATE:
+				case ENABLED_STATE:
 					contentPanel.setEnabled( true );
 					contentPanel.clear();
 					break;
 
-				case SENDING_LOGIN_STATE:
-				case ADVENTURING_STATE:
+				case DISABLED_STATE:
 					contentPanel.setEnabled( false );
 					break;
 			}

@@ -89,7 +89,7 @@ public class AdventureRequest extends KoLRequest
 				// Friendly error messages to come later.
 
 				client.updateAdventure( false, false );
-				frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Adventures aborted!" );
+				frame.updateDisplay( KoLFrame.ENABLED_STATE, "Adventures aborted!" );
 				return;
 			}
 

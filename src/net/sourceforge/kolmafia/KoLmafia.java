@@ -80,9 +80,6 @@ public class KoLmafia
 
 	public void initialize()
 	{
-		activeFrame.updateDisplay( KoLFrame.SENDING_LOGIN_STATE, "Retrieving character data..." );
-		(new CharsheetRequest( this )).run();
-
 		BufferedReader advdata = DataUtilities.getReaderForSharedDataFile( ADV_DBASE_FILE );
 		LockableListModel adventures = new LockableListModel();
 
@@ -182,11 +179,11 @@ public class KoLmafia
 
 		if ( this.permitContinue && permitContinue && iterationsRemaining > 0 )
 		{
-			activeFrame.updateDisplay( KoLFrame.ADVENTURING_STATE, "Request " + currentIteration + " in progress..." );
+			activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + currentIteration + " in progress..." );
 			currentRequest.run();
 		}
 		else if ( iterationsRemaining <= 0 && activeFrame instanceof AdventureFrame )
-			activeFrame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Requests completed!" );
+			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
 	}
 
 	public void setLoginName( String loginname )

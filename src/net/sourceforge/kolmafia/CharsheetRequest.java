@@ -37,13 +37,16 @@ import java.util.StringTokenizer;
 
 public class CharsheetRequest extends KoLRequest
 {
-	public CharsheetRequest( KoLmafia client )
+	private KoLCharacter character;
+
+	public CharsheetRequest( KoLmafia client, KoLCharacter character )
 	{
 		// The only thing to do is to retrieve the page from
 		// the client - all variable initialization comes from
 		// when the request is actually run.
 
 		super( client, "charsheet.php" );
+		this.character = character;
 	}
 
 	public void run()
@@ -65,19 +68,18 @@ public class CharsheetRequest extends KoLRequest
 		StringTokenizer parsedContent = new StringTokenizer(
 			replyContent.replaceAll( "<[^>]*>", "\n" ), "\n" );
 
-		// The first token in the stream contains the character's
-		// name, but so does the second - discard the first so
-		// that the code can appear in blocks.
+		// The first two tokesn in the stream contains the
+		// name, but the character's name was known at login.
+		// Therefore, these tokens can be discarded.
 
-		skipTokens( parsedContent, 1 );
+		skipTokens( parsedContent, 2 );
 
-		// The next four tokens contain the character's name and
+		// The next three tokens contain the character's name and
 		// other things which identify the character.
 
-		String name = parsedContent.nextToken();
-		int userID = intToken( parsedContent, 3, 1 );
-		int level = intToken( parsedContent, 6 );
-		String classname = parsedContent.nextToken().trim();
+		character.setUserID( intToken( parsedContent, 3, 1 ) );
+		character.setLevel( intToken( parsedContent, 6 ) );
+		character.setClassName( parsedContent.nextToken().trim() );
 
 		// The next block of tokens contains the character's
 		// hit point and mana point information (with possible
@@ -87,47 +89,54 @@ public class CharsheetRequest extends KoLRequest
 		int currentHP = intToken( parsedContent );
 		skipTokens( parsedContent, 1 );
 		int maximumHP = intToken( parsedContent );
-		int baseHP = retrieveBase( parsedContent, maximumHP );
+		int baseMaxHP = retrieveBase( parsedContent, maximumHP );
+
+		character.setHP( currentHP, maximumHP, baseMaxHP );
 
 		int currentMP = intToken( parsedContent );
 		skipTokens( parsedContent, 1 );
 		int maximumMP = intToken( parsedContent );
-		int baseMP = retrieveBase( parsedContent, maximumMP );
+		int baseMaxMP = retrieveBase( parsedContent, maximumMP );
+
+		character.setMP( currentMP, maximumMP, baseMaxMP );
 
 		// Now, we get the character's parsedContentats and calculate
 		// the total of all subpoints they've gained so far,
 		// based on the base values.
 
-		int adjMus = intToken( parsedContent );
-		int subMus = calculateSubpoints( retrieveBase( parsedContent, adjMus ), intToken( parsedContent ) );
+		int adjustedMuscle = intToken( parsedContent );
+		int totalMuscle = calculateSubpoints( retrieveBase( parsedContent, adjustedMuscle ), intToken( parsedContent ) );
 
 		skipTokens( parsedContent, 4 );
-		int adjMys = intToken( parsedContent );
-		int subMys = calculateSubpoints( retrieveBase( parsedContent, adjMys ), intToken( parsedContent ) );
+		int adjustedMysticality = intToken( parsedContent );
+		int totalMysticality = calculateSubpoints( retrieveBase( parsedContent, adjustedMysticality ), intToken( parsedContent ) );
 
 		skipTokens( parsedContent, 4 );
-		int adjMox = intToken( parsedContent );
-		int subMox = calculateSubpoints( retrieveBase( parsedContent, adjMox ), intToken( parsedContent ) );
+		int adjustedMoxie = intToken( parsedContent );
+		int totalMoxie = calculateSubpoints( retrieveBase( parsedContent, adjustedMoxie ), intToken( parsedContent ) );
+
+		character.setStats( adjustedMuscle, totalMuscle,
+			adjustedMysticality, totalMysticality, adjustedMoxie, totalMoxie );
 
 		// Now, retrieve how drunk the character is and how
 		// many adventures they have remaining, remembering
 		// to discard any notes in parenthesis.  Meat and
 		// turns played so far are also found.
 
-		int drunk = 0;
+		character.setInebriety( 0 );
 		skipTokens( parsedContent, 3 );
 		if ( !parsedContent.nextToken().startsWith( "Adv" ) )
 		{
-			drunk = intToken( parsedContent );
+			character.setInebriety( intToken( parsedContent ) );
 			if ( !parsedContent.nextToken().startsWith( "Adv" ) )
 				skipTokens( parsedContent, 1 );
 		}
 
-		int adv = intToken( parsedContent );
+		character.setAdventuresLeft( intToken( parsedContent ) );
 		skipTokens( parsedContent, 1 );
-		int meat = intToken( parsedContent );
+		character.setAvailableMeat( intToken( parsedContent ) );
 		skipTokens( parsedContent, 1 );
-		int turns = intToken( parsedContent );
+		character.setTotalTurnsUsed( intToken( parsedContent ) );
 
 		// The remaining information is not necessarily easy
 		// to parse (since it may or may not exist).  Therefore,
@@ -145,7 +154,7 @@ public class CharsheetRequest extends KoLRequest
 		if ( s.startsWith( " (base: " ) )
 		{
 			st.nextToken();
-			return Integer.parseInt( s.substring( 8, s.length() - 2 ) );
+			return Integer.parseInt( s.substring( 8, s.length() - 1 ) );
 		}
 		else
 			return defaultBase;

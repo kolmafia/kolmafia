@@ -83,12 +83,12 @@ public class LoginRequest extends KoLRequest
 			// can go ahead and try again after waiting for about ten seconds
 			// for the old session ID to clear.
 
-			frame.updateDisplay( KoLFrame.SENDING_LOGIN_STATE, "Deactivating old session..." );
+			frame.updateDisplay( KoLFrame.DISABLED_STATE, "Deactivating old session..." );
 
 			try
 			{
 				this.sleep( 10000 );
-				frame.updateDisplay( KoLFrame.SENDING_LOGIN_STATE, "Sending login..." );
+				frame.updateDisplay( KoLFrame.DISABLED_STATE, "Sending login..." );
 				(new LoginRequest( client, loginname, password )).start();
 			}
 			catch ( InterruptedException e )
@@ -100,7 +100,7 @@ public class LoginRequest extends KoLRequest
 			// This means that the login failed.  Therefore, the user should
 			// re-input their username and password.
 
-			frame.updateDisplay( KoLFrame.PRE_LOGIN_STATE, "Login failed." );
+			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Login failed." );
 		}
 	}
 

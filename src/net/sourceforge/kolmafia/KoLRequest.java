@@ -145,7 +145,7 @@ public class KoLRequest extends Thread
 
 		if ( !connectSuccess )
 		{
-			frame.updateDisplay( LoginFrame.PRE_LOGIN_STATE, "Connection timed out." );
+			frame.updateDisplay( LoginFrame.ENABLED_STATE, "Connection timed out." );
 			return;
 		}
 
@@ -259,12 +259,12 @@ public class KoLRequest extends Thread
 
 					if ( redirectLocation.equals( "maint.php" ) )
 					{
-						frame.updateDisplay( KoLFrame.PRE_LOGIN_STATE, "Nightly maintenance." );
+						frame.updateDisplay( KoLFrame.ENABLED_STATE, "Nightly maintenance." );
 						isErrorState = true;
 					}
 					else if ( redirectLocation.startsWith( "login.php" ) )
 					{
-						frame.updateDisplay( KoLFrame.PRE_LOGIN_STATE, "Session timed out." );
+						frame.updateDisplay( KoLFrame.ENABLED_STATE, "Session timed out." );
 						isErrorState = true;
 					}
 					else if ( redirectLocation.equals( "fight.php" ) )

@@ -34,10 +34,53 @@
 
 package net.sourceforge.kolmafia;
 
-public class CharsheetFrame extends KoLFrame
+// layout
+import java.awt.GridLayout;
+import java.awt.CardLayout;
+
+// containers
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+
+public class CharsheetFrame extends javax.swing.JFrame
 {
 	public CharsheetFrame( KoLmafia client )
 	{
-		super( client.getLoginName() + ": Character Sheet", client );
+		super( "KoLmafia" );
+
+		// For now, because character listeners haven't been implemented
+		// yet, re-request the character sheet from the server
+
+		KoLCharacter characterData = new KoLCharacter( client.getLoginName() );
+		(new CharsheetRequest( client, characterData )).run();
+
+		setResizable( false );
+
+		CardLayout cards = new CardLayout( 10, 10 );
+		getContentPane().setLayout( cards );
+
+		JPanel statsPanel = new JPanel();
+		statsPanel.setLayout( new GridLayout( 11, 1 ) );
+
+		statsPanel.add( new JLabel( characterData.getUsername() + " (#" + characterData.getUserID() + ")", JLabel.CENTER ) );
+		statsPanel.add( new JLabel( "Level " + characterData.getLevel() + " " + characterData.getClassName(), JLabel.CENTER ) );
+		statsPanel.add( new JLabel( " " ) );
+
+		statsPanel.add( new JLabel( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() + " (HP)", JLabel.CENTER ) );
+		statsPanel.add( new JLabel( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() + " (MP)", JLabel.CENTER ) );
+		statsPanel.add( new JLabel( " " ) );
+
+		statsPanel.add( new JLabel(
+			characterData.getAdjustedMuscle() + " / " +
+				characterData.getAdjustedMysticality() + " / " +
+					characterData.getAdjustedMoxie(), JLabel.CENTER ) );
+
+		statsPanel.add( new JLabel( " " ) );
+		statsPanel.add( new JLabel( characterData.getAvailableMeat() + " meat", JLabel.CENTER ) );
+		statsPanel.add( new JLabel( characterData.getInebriety() + " drunkenness", JLabel.CENTER ) );
+		statsPanel.add( new JLabel( characterData.getAdventuresLeft() + " adventures left", JLabel.CENTER ) );
+
+		getContentPane().add( statsPanel, "" );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 }
