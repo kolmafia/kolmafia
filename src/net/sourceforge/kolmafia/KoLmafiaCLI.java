@@ -164,7 +164,7 @@ public class KoLmafiaCLI extends KoLmafia
 			outputStream.println( KoLRequest.getRootHostName() + " selected." );
 
 			outputStream.println();
-			(new LoginRequest( this, username, password, true )).run();
+			(new LoginRequest( scriptRequestor, username, password, true )).run();
 		}
 		catch ( IOException e )
 		{
