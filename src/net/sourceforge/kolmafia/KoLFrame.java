@@ -197,7 +197,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			this.loggerItem = loggerItem;
 			loggerItem.setText( client == null || client.getMacroStream() instanceof NullStream ?
-				"Record script..." : "Stop recording" );
+				"Record Script..." : "Stop Recording" );
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -228,12 +228,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
 						client.initializeMacroStream( filename );
 
-					loggerItem.setText( "Stop recording" );
+					loggerItem.setText( "Stop Recording" );
 				}
 				else if ( client != null )
 				{
 					client.deinitializeMacroStream();
-					loggerItem.setText( "Record script..." );
+					loggerItem.setText( "Record Script..." );
 				}
 			}
 		}
