@@ -59,6 +59,7 @@ public abstract class KoLmafia implements UtilityConstants
 		"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
 	protected static final int [] hermitItemNumbers = { 24, 46, 47, 52, 55, 61, 66, 106, 107, 135, 140, 527 };
 
+	protected boolean isLoggingIn;
 	protected String password, sessionID, passwordHash;
 	protected KoLCharacter characterData;
 	protected KoLMessenger loathingChat;
@@ -87,7 +88,9 @@ public abstract class KoLmafia implements UtilityConstants
 	 */
 
 	public KoLmafia()
-	{	deinitialize();
+	{
+		this.isLoggingIn = true;
+		deinitialize();
 	}
 
 	/**
@@ -194,6 +197,8 @@ public abstract class KoLmafia implements UtilityConstants
 			if ( characterData.canSummonReagent() )
 				(new UseSkillRequest( this, "Advanced Saucecrafting", "", 3 )).run();
 		}
+
+		this.isLoggingIn = false;
 	}
 
 	/**
@@ -602,5 +607,15 @@ public abstract class KoLmafia implements UtilityConstants
 			loathingChat.dispose();
 			loathingChat = null;
 		}
+	}
+
+	/**
+	 * Returns whether or not the client is current in a login state.
+	 * While the client is in a login state, only login-related
+	 * activities should be permitted.
+	 */
+
+	public boolean inLoginState()
+	{	return isLoggingIn;
 	}
 }

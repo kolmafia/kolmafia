@@ -265,7 +265,7 @@ public class LoginFrame extends KoLFrame
 	{
 		public void windowClosed( WindowEvent e )
 		{
-			if ( client == null || client.getLoginName() == null )
+			if ( client == null || client.inLoginState() )
 				System.exit( 0 );
 		}
 	}
