@@ -1198,7 +1198,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 						return;
 
 					int buffCount = df.parse( countField.getText() ).intValue();
-					(new UseSkillRequest( client, buffName, target, buffCount )).run();
+					client.makeRequest( new UseSkillRequest( client, buffName, target, buffCount ), 1 );
 
 				}
 				catch ( Exception e )
