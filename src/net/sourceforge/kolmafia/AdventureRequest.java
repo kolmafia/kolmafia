@@ -65,81 +65,80 @@ public class AdventureRequest extends KoLRequest
 	{
 		super.run();
 
-		// Most of the time, you run into a battle sequence.  However,
-		// if not, you either run into an error state, or there was a
-		// special event taking place in that adventure.
+		// In the case of a denim axe (which redirects you to a
+		// different URL), you can actually skip the adventure.
 
-		if ( !isErrorState && responseCode != 302 )
-		{
-			// From preliminary tests, finding out whether or not the
-			// adventure was successful is equivalent to whether or
-			// not there is centered text in the results.  This is
-			// true except for two cases: the casino's standard slot
-			// machines and the shore vacations when you don't have
-			// enough meat, adventures or are too drunk to continue.
-
-			int resultIndex = replyContent.indexOf( "<p><center>" );
-
-			if ( resultIndex == -1 || replyContent.contains( "You can't afford" ) ||
-				replyContent.contains( "You don't have enough" ) || replyContent.contains( "You're too drunk" ) )
-			{
-				// Notify the client of failure by telling it that
-				// the adventure did not take place and the client
-				// should not continue with the next iteration.
-				// Friendly error messages to come later.
-
-				client.updateAdventure( false, false );
-				frame.updateDisplay( KoLFrame.ENABLED_STATE, "Adventures aborted!" );
-				return;
-			}
-
-			// Also, during the mining adventure, if you lose hit points
-			// from a cave in, there are no results to process, so simply
-			// update the client without parsing the results.
-
-			if ( !replyContent.contains( "An inexpert swing of your Mattock" ) )
-				processResults( replyContent.substring( resultIndex + 12 ) );
-
-			client.updateAdventure( true, true );
-
-			// If you took a trip to the shore, 500 meat should be deducted
-			// from your running tally.
-
-			if ( formSource.equals( "shore.php" ) )
-				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -500 ) );
-
-			// If you went to the tavern, 100 meat should be deducted from
-			// your running tally.
-
-			if ( formSource.equals( "adventure.php" ) && adventureID.equals( "25" ) )
-				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -100 ) );
-
-			// If you're at the casino, each of the different slot machines
-			// deducts meat from your tally
-
-			if ( formSource.equals( "adventure.php" ) && adventureID.equals( "70" ) )
-				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
-			if ( formSource.equals( "adventure.php" ) && adventureID.equals( "71" ) )
-				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -30 ) );
-			if ( formSource.equals( "adventure.php" ) && adventureID.equals( "72" ) )
-				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
-
-			if ( formSource.equals( "casino.php" ) )
-			{
-				if ( adventureID.equals( "1" ) )
-					client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -5 ) );
-				else if ( adventureID.equals( "2" ) )
-					client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
-				else if ( adventureID.equals( "11" ) )
-					client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
-			}
-		}
-		else if ( !isErrorState && redirectLocation.equals( "choice.php" ) )
-		{
-			// In the case of a denim axe (which redirects you to a
-			// different URL), you can actually skip the adventure.
-
+		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "choice.php" ) )
 			(new AdventureRequest( client, formSource, adventureID )).start();
+
+		// From here on out, there will only be data handling
+		// if you've encountered a non-redirect request, and
+		// an error hasn't occurred.
+
+		if ( isErrorState || responseCode != 200 )
+			return;
+
+		// From preliminary tests, finding out whether or not the
+		// adventure was successful is equivalent to whether or
+		// not there is centered text in the results.  This is
+		// true except for two cases: the casino's standard slot
+		// machines and the shore vacations when you don't have
+		// enough meat, adventures or are too drunk to continue.
+
+		int resultIndex = replyContent.indexOf( "<p><center>" );
+
+		if ( resultIndex == -1 || replyContent.contains( "You can't afford" ) ||
+			replyContent.contains( "You don't have enough" ) || replyContent.contains( "You're too drunk" ) )
+		{
+			// Notify the client of failure by telling it that
+			// the adventure did not take place and the client
+			// should not continue with the next iteration.
+			// Friendly error messages to come later.
+
+			client.updateAdventure( false, false );
+			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Adventures aborted!" );
+			return;
+		}
+
+		// Also, during the mining adventure, if you lose hit points
+		// from a cave in, there are no results to process, so simply
+		// update the client without parsing the results.
+
+		if ( !replyContent.contains( "An inexpert swing of your Mattock" ) )
+			processResults( replyContent.substring( resultIndex + 12 ) );
+
+		client.updateAdventure( true, true );
+
+		// If you took a trip to the shore, 500 meat should be deducted
+		// from your running tally.
+
+		if ( formSource.equals( "shore.php" ) )
+			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -500 ) );
+
+		// If you went to the tavern, 100 meat should be deducted from
+		// your running tally.
+
+		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "25" ) )
+			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -100 ) );
+
+		// If you're at the casino, each of the different slot machines
+		// deducts meat from your tally
+
+		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "70" ) )
+			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "71" ) )
+			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -30 ) );
+		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "72" ) )
+			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+
+		if ( formSource.equals( "casino.php" ) )
+		{
+			if ( adventureID.equals( "1" ) )
+				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -5 ) );
+			else if ( adventureID.equals( "2" ) )
+				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			else if ( adventureID.equals( "11" ) )
+				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
 		}
 	}
 }

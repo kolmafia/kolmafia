@@ -56,7 +56,7 @@ public class CharsheetRequest extends KoLRequest
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode == 302 )
+		if ( isErrorState || responseCode != 200 )
 			return;
 
 		// The easiest way to retrieve the character sheet
