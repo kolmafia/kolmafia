@@ -747,7 +747,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( desiredData.startsWith( "equipment" ) )
+		if ( desiredData.startsWith( "equip" ) )
 		{
 			outputStream.println( "       Hat: " + data.getHat() );
 			outputStream.println( "    Weapon: " + data.getWeapon() );
