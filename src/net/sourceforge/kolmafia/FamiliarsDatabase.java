@@ -83,7 +83,7 @@ public class FamiliarsDatabase implements UtilityConstants
 					String familiarName = strtok.nextToken();
 
 					familiarByID.put( familiarID, familiarName );
-					familiarByName.put( familiarName, familiarID );
+					familiarByName.put( familiarName.toLowerCase(), familiarID );
 					familiarByLarva.put( familiarLarva, familiarID );
 				}
 			}
@@ -128,7 +128,7 @@ public class FamiliarsDatabase implements UtilityConstants
 
 	public static final int getFamiliarID( String familiarName )
 	{
-		Object familiarID = familiarByName.get( familiarName );
+		Object familiarID = familiarByName.get( familiarName.toLowerCase() );
 		return familiarID == null ? -1 : ((Integer)familiarID).intValue();
 	}
 
@@ -142,6 +142,6 @@ public class FamiliarsDatabase implements UtilityConstants
 	 */
 
 	public static final boolean contains( String familiarName )
-	{	return familiarByName.containsKey( familiarName );
+	{	return familiarByName.containsKey( familiarName.toLowerCase() );
 	}
 }

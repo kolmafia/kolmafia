@@ -309,7 +309,7 @@ public class AdventureResult implements Comparable
 		if ( !(o instanceof AdventureResult) || o == null )
 			return false;
 
-		return name.equals( ((AdventureResult)o).name );
+		return name.equalsIgnoreCase( ((AdventureResult)o).name );
 	}
 
 	/**

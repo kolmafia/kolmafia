@@ -85,7 +85,7 @@ public class TradeableItemDatabase implements UtilityConstants
 					String itemName = strtok.nextToken();
 
 					itemByID[ itemID ] = itemName;
-					itemByName.put( itemName, new Integer( itemID ) );
+					itemByName.put( itemName.toLowerCase(), new Integer( itemID ) );
 				}
 			}
 		}
@@ -107,7 +107,7 @@ public class TradeableItemDatabase implements UtilityConstants
 
 	public static final int getItemID( String itemName )
 	{
-		Object itemID = itemByName.get( itemName );
+		Object itemID = itemByName.get( itemName.toLowerCase() );
 		return itemID == null ? -1 : ((Integer)itemID).intValue();
 	}
 
@@ -131,7 +131,7 @@ public class TradeableItemDatabase implements UtilityConstants
 	 */
 
 	public static final boolean contains( String itemName )
-	{	return itemByName.containsKey( itemName );
+	{	return itemByName.containsKey( itemName.toLowerCase() );
 	}
 
 	/**

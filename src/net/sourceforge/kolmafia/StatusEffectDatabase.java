@@ -81,7 +81,7 @@ public class StatusEffectDatabase implements UtilityConstants
 					strtok.nextToken();
 					String effectName = strtok.nextToken();
 					effectByID.put( effectID, effectName );
-					effectByName.put( effectName, effectID );
+					effectByName.put( effectName.toLowerCase(), effectID );
 				}
 			}
 		}
@@ -113,7 +113,7 @@ public class StatusEffectDatabase implements UtilityConstants
 
 	public static final int getEffectID( String effectName )
 	{
-		Object effectID = effectByName.get( effectName );
+		Object effectID = effectByName.get( effectName.toLowerCase() );
 		return effectID == null ? -1 : ((Integer)effectID).intValue();
 	}
 
@@ -127,6 +127,6 @@ public class StatusEffectDatabase implements UtilityConstants
 	 */
 
 	public static final boolean contains( String effectName )
-	{	return effectByName.containsKey( effectName );
+	{	return effectByName.containsKey( effectName.toLowerCase() );
 	}
 }

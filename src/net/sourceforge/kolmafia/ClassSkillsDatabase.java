@@ -83,7 +83,7 @@ public class ClassSkillsDatabase implements UtilityConstants
 					String skillName = strtok.nextToken();
 
 					skillByID.put( skillID, skillName );
-					skillByName.put( skillName, skillID );
+					skillByName.put( skillName.toLowerCase(), skillID );
 					mpConsumptionByID.put( skillID, mpConsumption );
 				}
 			}
@@ -116,7 +116,7 @@ public class ClassSkillsDatabase implements UtilityConstants
 
 	public static final int getSkillID( String skillName )
 	{
-		Object skillID = skillByName.get( skillName );
+		Object skillID = skillByName.get( skillName.toLowerCase() );
 		return skillID == null ? -1 : ((Integer)skillID).intValue();
 	}
 
@@ -144,6 +144,6 @@ public class ClassSkillsDatabase implements UtilityConstants
 	 */
 
 	public static final boolean contains( String skillName )
-	{	return skillByName.containsKey( skillName );
+	{	return skillByName.containsKey( skillName.toLowerCase() );
 	}
 }
