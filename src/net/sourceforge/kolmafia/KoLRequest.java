@@ -227,7 +227,8 @@ public class KoLRequest implements Runnable
 		{
 			this.client = client;
 			this.sessionID = client.getSessionID();
-			this.logStream = client.getLogStream();
+			this.logStream = formURLString.indexOf( "chat" ) != -1 ?
+				new NullStream() : client.getLogStream();
 		}
 		else
 			this.logStream = new NullStream();
