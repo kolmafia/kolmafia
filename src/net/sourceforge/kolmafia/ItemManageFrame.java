@@ -83,15 +83,52 @@ public class ItemManageFrame extends KoLFrame
 		setResizable( false );
 
 		JTabbedPane inventoryTabs = new JTabbedPane();
-		inventoryTabs.addTab( "Use", new JPanel() );
-		inventoryTabs.addTab( "Equip", new JPanel() );
-		inventoryTabs.addTab( "Sell", new JPanel() );
-		inventoryTabs.addTab( "Closet", new ClosetPanel() );
-		inventoryTabs.addTab( "Create", new CreationPanel() );
+		inventoryTabs.addTab( "Eat/Drink", new JPanel() );
+		inventoryTabs.addTab( "Equipment", new JPanel() );
+		inventoryTabs.addTab( "Use Items", new JPanel() );
+		inventoryTabs.addTab( "Sell Items", new SellItemPanel() );
+		inventoryTabs.addTab( "Use Closet", new ClosetPanel() );
+		inventoryTabs.addTab( "Create Items", new CreationPanel() );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( inventoryTabs, "" );
 		addWindowListener( new ReturnFocusAdapter() );
+	}
+
+	/**
+	 * Internal class used to handle everything related to
+	 * selling items; this allows autoselling of items as
+	 * well as placing item inside of a store.
+	 */
+
+	private class SellItemPanel extends NonContentPanel
+	{
+		public SellItemPanel()
+		{
+			super( "autosell", "place in mall" );
+			setContent( null );
+
+			LockableListModel available = new LockableListModel();
+
+			JList availableList = new JList( available );
+			availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+			availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
+
+			add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+		}
+
+		public void clear()
+		{
+		}
+
+		protected void actionConfirmed()
+		{
+		}
+
+		protected void actionCancelled()
+		{
+		}
 	}
 
 	/**
@@ -124,7 +161,7 @@ public class ItemManageFrame extends KoLFrame
 
 				JList availableList = new JList( available );
 				availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%&" );
+				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				availableList.setVisibleRowCount( 7 );
 
 				add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -155,7 +192,7 @@ public class ItemManageFrame extends KoLFrame
 
 				JList closetList = new JList( closet );
 				closetList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				closetList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%&" );
+				closetList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				closetList.setVisibleRowCount( 7 );
 
 				add( new JScrollPane( closetList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -203,7 +240,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public CombineItemPanel()
 			{
-				super( "make", "refresh", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+				super( "make", "refresh", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
 				createField = new JComboBox();
 				countField = new JTextField();
@@ -245,7 +282,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public MeatManagementPanel()
 			{
-				super( "execute", "refresh", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+				super( "execute", "refresh", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
 				LockableListModel actions = new LockableListModel();
 				actions.add( "Deposit Meat" );
