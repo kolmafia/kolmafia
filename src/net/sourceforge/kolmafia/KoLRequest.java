@@ -492,15 +492,19 @@ public class KoLRequest implements Runnable
 						// instance of an AdventureRequest), then you need to
 						// re-run the request to get the correct data.
 
-						KoLRequest rerun = new KoLRequest( client, formURLString, doOutput );
-						rerun.data.addAll( this.data );
-						rerun.run();
+						if ( !formURLString.equals( "adventure.php" ) )
+						{
+							KoLRequest rerun = new KoLRequest( client, formURLString, doOutput );
+							rerun.data.addAll( this.data );
+							rerun.run();
 
-						this.responseCode = rerun.responseCode;
-						this.isErrorState = rerun.isErrorState;
-						this.redirectLocation = rerun.redirectLocation;
-						this.formConnection = rerun.formConnection;
-						this.replyContent = rerun.replyContent;
+							this.responseCode = rerun.responseCode;
+							this.isErrorState = rerun.isErrorState;
+							this.redirectLocation = rerun.redirectLocation;
+							this.formConnection = rerun.formConnection;
+							this.replyContent = rerun.replyContent;
+							return;
+						}
 					}
 				}
 				else if ( responseCode != 200 )
