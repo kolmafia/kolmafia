@@ -51,8 +51,26 @@ import java.net.MalformedURLException;
 import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+/**
+ * An extension of <code>KoLFrame</code> used to display the character
+ * sheet for the current user.  Note that this can only be instantiated
+ * when the character is logged in; if the character has logged out,
+ * this method will contain blank data.  Note also that the avatar that
+ * is currently displayed will be the default avatar from the class and
+ * will not reflect outfits or customizations.
+ */
+
 public class CharsheetFrame extends KoLFrame
 {
+	private KoLCharacter characterData;
+
+	/**
+	 * Constructs a new character sheet, using the data located
+	 * in the provided session.
+	 *
+	 * @param	client	The client containing the data associated with the character
+	 */
+
 	public CharsheetFrame( KoLmafia client )
 	{
 		super( "KoLmafia: " + client.getLoginName() + " (Character Sheet)", client );
@@ -60,7 +78,7 @@ public class CharsheetFrame extends KoLFrame
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
 
-		KoLCharacter characterData = new KoLCharacter( client.getLoginName() );
+		characterData = new KoLCharacter( client.getLoginName() );
 		(new CharsheetRequest( client, characterData )).run();
 		(new EquipmentRequest( client, characterData )).run();
 
@@ -73,16 +91,24 @@ public class CharsheetFrame extends KoLFrame
 		JPanel entirePanel = new JPanel();
 		entirePanel.setLayout( new BorderLayout( 20, 20 ) );
 
-		entirePanel.add( createStatsPanel( characterData ), BorderLayout.WEST );
-		entirePanel.add( createEquipPanel( characterData ), BorderLayout.EAST );
-		entirePanel.add( createImagePanel( characterData ), BorderLayout.CENTER );
+		entirePanel.add( createStatsPanel(), BorderLayout.WEST );
+		entirePanel.add( createEquipPanel(), BorderLayout.EAST );
+		entirePanel.add( createImagePanel(), BorderLayout.CENTER );
 
 		getContentPane().add( entirePanel, "" );
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 
-	private JPanel createImagePanel( KoLCharacter characterData )
+	/**
+	 * Utility method used for creating a panel displaying the character's avatar.
+	 * Because image retrieval has not been implemented, this method displays
+	 * only the default avatar for the character's class.
+	 *
+	 * @return	a <code>JPanel</code> displaying the class-specific avatar
+	 */
+
+	private JPanel createImagePanel()
 	{
 		JPanel imagePanel = new JPanel();
 		imagePanel.setLayout( new BorderLayout( 10, 10 ) );
@@ -112,7 +138,14 @@ public class CharsheetFrame extends KoLFrame
 		return imagePanel;
 	}
 
-	private JPanel createStatsPanel( KoLCharacter characterData )
+	/**
+	 * Utility method for creating a panel displaying the character's vital
+	 * statistics, including a basic stat overview and available turns/meat.
+	 *
+	 * @return	a <code>JPanel</code> displaying the character's statistics
+	 */
+
+	private JPanel createStatsPanel()
 	{
 		JPanel statsPanel = new JPanel();
 		statsPanel.setLayout( new GridLayout( 10, 1 ) );
@@ -138,7 +171,14 @@ public class CharsheetFrame extends KoLFrame
 		return statsPanel;
 	}
 
-	private JPanel createEquipPanel( KoLCharacter characterData )
+	/**
+	 * Utility method for creating a panel displaying the character's current
+	 * equipment, accessories and familiar item.
+	 *
+	 * @return	a <code>JPanel</code> displaying the character's equipment
+	 */
+
+	private JPanel createEquipPanel()
 	{
 		JPanel fieldPanel = new JPanel();
 		fieldPanel.setLayout( new GridLayout( 9, 1 ) );
