@@ -78,6 +78,15 @@ public class BuffBotHome extends LimitedSizeChatBuffer
 	}
 
 	/**
+	 * Appends the given message to the chat buffer.
+	 * @param	message	The message to be appended to this <code>ChatBuffer</code>
+	 */
+
+	public void append( String message )
+	{	super.append( message + System.getProperty( "line.separator" ) );
+	}
+
+	/**
 	 * Create the <code>BuffBotLog</code> and its associated file, if
 	 * they don't already exist.
 	 */
