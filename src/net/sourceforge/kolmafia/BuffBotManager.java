@@ -187,11 +187,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				(new MailboxRequest( client, "Inbox" )).run();
 
 			// Next process each message in the Inbox
-			Object [] inbox = getMessages("Inbox").toArray();
+			Object [] inbox = getMessages( "Inbox" ).toArray();
 			deleteList.clear();  saveList.clear();
 
-			for ( int i = inbox.length - 1; i >= 0; --i )
+			for ( int i = inbox.length - 1; client.isBuffBotActive() && i >= 0; --i )
 			{
+				client.resetContinueState();
 				if ( !processMessage( (KoLMailMessage) inbox[i] ) )
 				{
 					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!" );
@@ -270,7 +271,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 							{
 								sendRefund( message.getSenderName(), "Too many drummers are marching in your head.  Please try again later.", meatSent );
 								deleteList.add( message );
-								client.resetContinueState();
 								return true;
 							}
 
