@@ -90,6 +90,7 @@ public class KoLMailManager
 	public void deleteMessage( String boxname, KoLMailMessage message )
 	{
 		(new MailboxRequest( client, boxname, message, "delete" )).run();
+
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
 		mailbox.remove( mailbox.indexOf( message ) );
 	}
@@ -101,5 +102,29 @@ public class KoLMailManager
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
 		for ( int i = 0; i < messages.length; ++i )
 			mailbox.remove( mailbox.indexOf( messages[i] ) );
+	}
+
+	public void saveMessage( KoLMailMessage message )
+	{
+		(new MailboxRequest( client, "Inbox", message, "save" )).run();
+
+		LockableListModel mailbox = (LockableListModel) mailboxes.get( "Inbox" );
+		mailbox.remove( mailbox.indexOf( message ) );
+
+		mailbox = (LockableListModel) mailboxes.get( "Saved" );
+		mailbox.add( message );
+	}
+
+	public void saveMessages( Object [] messages )
+	{
+		(new MailboxRequest( client, "Inbox", messages, "save" )).run();
+
+		LockableListModel mailbox = (LockableListModel) mailboxes.get( "Inbox" );
+		for ( int i = 0; i < messages.length; ++i )
+			mailbox.remove( mailbox.indexOf( messages[i] ) );
+
+		mailbox = (LockableListModel) mailboxes.get( "Saved" );
+		for ( int i = 0; i < messages.length; ++i )
+			mailbox.add( messages[i] );
 	}
 }
