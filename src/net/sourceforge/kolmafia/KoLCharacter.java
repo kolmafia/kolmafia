@@ -1103,8 +1103,7 @@ public class KoLCharacter
 
 		if ( result.isItem() && TradeableItemDatabase.contains( resultName ) )
 			AdventureResult.addResultToList( inventory, result );
-
-		if ( resultName.equals( AdventureResult.HP ) )
+		else if ( resultName.equals( AdventureResult.HP ) )
 			setHP( getCurrentHP() + result.getCount(), getMaximumHP(), getBaseMaxHP() );
 		else if ( resultName.equals( AdventureResult.MP ) )
 			setMP( getCurrentMP() + result.getCount(), getMaximumMP(), getBaseMaxMP() );

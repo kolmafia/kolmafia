@@ -336,8 +336,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	{
 		String resultName = result.getName();
 		if ( result.isStatusEffect() )
-			recentEffects.add( result );
-		else if ( result.isItem() || resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.MEAT ) )
+			AdventureResult.addResultToList( recentEffects, result );
+		else if ( resultName.equals( AdventureResult.MEAT ) || resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.FULLSTATS ) )
 			AdventureResult.addResultToList( tally, result );
 
 		if ( result.isItem() && TradeableItemDatabase.contains( resultName ) && TradeableItemDatabase.isUsable( resultName ) )
@@ -355,7 +355,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 					KoLCharacter.calculateBasePoints( initialStats[i] );
 
 			if ( tally.size() > 7 )
-				tally.set( 7, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+				tally.set( 2, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
 		}
 	}
 

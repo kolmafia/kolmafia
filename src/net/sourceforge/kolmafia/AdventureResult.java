@@ -361,7 +361,8 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( !(o instanceof AdventureResult) || o == null )
 			return false;
 
-		return name.equalsIgnoreCase( ((AdventureResult)o).name ) && itemID == ((AdventureResult)o).itemID;
+		return name.equalsIgnoreCase( ((AdventureResult)o).name ) &&
+			(((AdventureResult)o).isItem() ? itemID == ((AdventureResult)o).itemID : true);
 	}
 
 	/**
@@ -379,7 +380,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		int priorityDifference = priority - ar.priority;
 		int nameComparison = name.compareToIgnoreCase( ar.name );
-		return priorityDifference != 0 ? priorityDifference : nameComparison != 0 ? nameComparison : itemID - ar.itemID;
+		return priorityDifference != 0 ? priorityDifference : nameComparison != 0 ? nameComparison : isItem() ? itemID - ar.itemID : 0;
 	}
 
 	/**
