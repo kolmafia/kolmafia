@@ -143,13 +143,13 @@ public class KoLMessenger
 		bufferToRemove = (ChatBuffer) instantMessageBuffers.remove( contact );
 
 		if ( frameToRemove != null && frameToRemove.isShowing() )
-		{
 			frameToRemove.setVisible( false );
-			frameToRemove.dispose();
-		}
 
-		if ( contact.startsWith( "/" ) && !contact.equals( currentChannel ) )
+		if ( contact.startsWith( "/" ) && !contact.equals( currentChannel ) && frameToRemove != null && !frameToRemove.getTitle().endsWith( "(inactive)" ) )
 			(new ChatRequest( client, contact, "/listen " + contact.substring(1) )).run();
+
+		if ( frameToRemove != null )
+			frameToRemove.dispose();
 
 		if ( bufferToRemove != null )
 			bufferToRemove.closeActiveLogFile();
@@ -321,24 +321,48 @@ public class KoLMessenger
 	public void updateChat( String originalContent )
 	{
 		// There's a lot of bad HTML used in KoL chat; in order to get Java
-		// to properly display everything, all of the bad HTML gets replaced.
-		// Also, because linking is not currently handled, all link tags are
+		// to properly display everything, all of the bad HTML gets replaced
+		// with good HTML.
+
+		// First, because linking is not currently handled, all link tags are
 		// also removed.
 
-		String orderedTagsContent = originalContent.replaceAll( "<b><i>", "<i><b>" );
-		String correctedTagsContent = orderedTagsContent.replaceAll( "</br>", "<br>" );
-		String validColorsContent = correctedTagsContent.replaceAll(
-			"<font color=\"none\">", "" ).replaceAll( "</b></font>", "</b>" ).replaceAll(
-				"<font.*?><font.*?>", "<font color=green>" );
-		String noCommentsContent = validColorsContent.replaceAll( "<!.*?>", "" );
+		String noLinksContent = originalContent.replaceAll( "</?a.*?>", "" );
+
+		// Also, there's a problem with bold and italic tag ordering, as well
+		// as bold and font-color ordering.  This needs to be fixed, since
+		// the default HTML handler in Java is really rigid about it.  Note
+		// that this requires several lines - this just shows you how far
+		// behind the default HTML handler is compared to a web browser.
+
+		String orderedTagsContent = noLinksContent.replaceAll( "<b><i>", "<i><b>" ).replaceAll(
+			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</b></font>", "</b>" ).replaceAll(
+				"<font color=green><font color=green>", "<font color=green>" ).replaceAll(
+					"<font color=red><b><b>", "" ).replaceAll( "<font color=red>", "<font color=red><b>" );
+
+		// Also, there is no such thing as "none" color - though this works in
+		// Java 1.4.2 and the latest update of 1.5.0, it shouldn't be here anyway,
+		// as it's not a real color.
+
+		String validColorsContent = orderedTagsContent.replaceAll( "<font color=\"none\">", "" );
+
+		// Although it's not necessary, it cleans up the HTML if all of the
+		// last seen data is removed.  It makes the buffer smaller (for one),
+		// and it gives room to other chat messages, since the buffer is
+		// limited in size to begin with.
+
+		String noCommentsContent = validColorsContent.replaceAll( "<!--lastseen:[\\d]+-->", "" );
+
+		// Finally, there's lots of contact list and help file information that
+		// needs to get removed - this should be done here.
+
 		String noContactListContent = noCommentsContent.replaceAll( "<table>.*?</table>", "" );
-		String noLinksContent = noContactListContent.replaceAll( "</?a.*?>", "" );
 
 		// Process each line individually.  But all the green messages
 		// should be processed first after you check to make sure that
 		// an exit command was not issued.
 
-		String [] lines = noContactListContent.split( "<br>" );
+		String [] lines = noContactListContent.split( "</?br>" );
 
 		for ( int i = 0; i < lines.length; ++i )
 		{
@@ -348,15 +372,23 @@ public class KoLMessenger
 				client.deinitializeChat();
 				return;
 			}
+
+			// Also, while parsing through the messages, fix the HTML
+			// on /whois notices.
+
+			if ( lines[i].indexOf( "</b>, the Level" ) != -1 )
+				lines[i] += "</font>";
 		}
 
 		for ( int i = 0; i < lines.length; ++i )
 		{
-			if ( lines[i].startsWith( "<font color=green>") )
+			if ( lines[i].indexOf( "<font color=green>") != -1 )
 			{
 				processChatMessage( lines[i] );
 				lines[i] = null;
 			}
+			else if ( lines[i].equals( "</b></font>" ) )
+				lines[i] = null;
 		}
 
 		for ( int i = 0; i < lines.length; ++i )
@@ -538,7 +570,7 @@ public class KoLMessenger
 			currentFrame.setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
 			currentFrame.requestFocus();
 		}
-		else if ( message.indexOf( "<font color=blue>" ) == -1 ||
+		else if ( message.indexOf( "<font color=blue>" ) == -1 || noLinksContent.startsWith( "<font color=green>" ) ||
 			(message.indexOf( "<b>from " ) != -1 && message.indexOf( "(private)</b>:" ) == -1) )
 		{
 			// The easy case is if it's a normal chat message.
