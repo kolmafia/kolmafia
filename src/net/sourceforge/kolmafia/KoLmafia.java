@@ -674,6 +674,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 					permitContinue = confirmDrunkenRequest();
 					pulledOver = true;
 				}
+				else if ( characterData.getInebriety() > 19 )
+					pulledOver = true;
 
 				if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
 					autoRecoverHP();
@@ -712,7 +714,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 						autoRecoverHP();
 						autoRecoverMP();
 
-						if ( request instanceof KoLAdventure && characterData.getInebriety() > 19 && !pulledOver )
+						if ( characterData.getInebriety() > 19 && !pulledOver )
 						{
 							permitContinue = confirmDrunkenRequest();
 							pulledOver = true;
