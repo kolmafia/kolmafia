@@ -350,7 +350,10 @@ public class AdventureResult implements Comparable
 		// it's an item (non-items are exempt).
 
 		if ( actualResult.isItem() && actualResult.getCount() == 0 )
+		{
 			tally.remove( actualResult );
+			return;
+		}
 
 		if ( actualResult.getName().equals( AdventureResult.ADV ) && actualResult.getCount() < 0 )
 			actualResult = new AdventureResult( AdventureResult.ADV, 0 );
