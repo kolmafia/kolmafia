@@ -314,8 +314,12 @@ public abstract class ActionVerifyPanel extends JRootPane
 		private JComponent inputField;
 
 		public VerifiableElement( String label, JComponent inputField )
+		{	this( label, JLabel.RIGHT, inputField );
+		}
+
+		public VerifiableElement( String label, int direction, JComponent inputField )
 		{
-			this.label = new JLabel( label, JLabel.RIGHT );
+			this.label = new JLabel( label, direction );
 			this.inputField = inputField;
 		}
 
