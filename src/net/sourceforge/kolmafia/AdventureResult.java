@@ -257,8 +257,11 @@ public class AdventureResult implements Comparable
 		}
 
 		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
-		return new AdventureResult( parsedItem.nextToken().trim(),
-			parsedItem.hasMoreTokens() ? df.parse(parsedItem.nextToken()).intValue() : 1 );
+		String parsedItemName = parsedItem.nextToken().trim();
+		String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
+
+		return new AdventureResult( parsedItemName, Character.isDigit( parsedItemCount.charAt(0) ) ?
+			df.parse(parsedItem.nextToken()).intValue() : Integer.MAX_VALUE );
 	}
 
 	/**
