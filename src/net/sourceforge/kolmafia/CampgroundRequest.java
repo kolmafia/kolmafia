@@ -73,6 +73,9 @@ public class CampgroundRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( action.equals( "relax" ) && client.getCharacterData().getCurrentMP() == client.getCharacterData().getMaximumMP() )
+			return;
+
 		super.run();
 
 		// If an error state occurred, return from this
