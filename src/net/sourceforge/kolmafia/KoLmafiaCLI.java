@@ -230,7 +230,7 @@ public class KoLmafiaCLI extends KoLmafia
 			outputStream.print( " > " );
 			String line;
 
-			while ( (line = commandStream.readLine()) != null )
+			while ( scriptRequestor.permitsContinue() && (line = commandStream.readLine()) != null )
 			{
 				outputStream.println();
 				executeLine( line );
@@ -324,6 +324,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// be loaded, since that's what the error probably was.
 
 				updateDisplay( KoLFrame.ENABLED_STATE, "Script file <" + parameters + "> could not be found." );
+				scriptRequestor.cancelRequest();
 				return;
 			}
 		}
@@ -347,6 +348,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// the given number of times.
 
 				updateDisplay( KoLFrame.ENABLED_STATE, parameters + " is not a number." );
+				scriptRequestor.cancelRequest();
 				return;
 			}
 		}
@@ -370,6 +372,16 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( scriptRequestor.inLoginState() )
 		{
 			updateDisplay( KoLFrame.ENABLED_STATE, "You have not yet logged in." );
+			scriptRequestor.cancelRequest();
+			return;
+		}
+
+		// Campground activities are fairly common, so
+		// they will be listed first.
+
+		if ( command.equals( "campground" ) )
+		{
+			executeCampgroundRequest( parameters );
 			return;
 		}
 
@@ -465,6 +477,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "toast" ) || command.equals( "rest" ) || command.equals( "relax" ) || command.equals( "arches" ) )
+		{
+			executeCampgroundRequest( command + " " + parameters );
+			return;
+		}
+
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) ||
 			command.equals( "outfits" ) || command.equals( "familiars" ) || command.equals( "summary" ) ||
 			command.startsWith( "equip" ) || command.equals( "effects" ) || command.startsWith( "stat" ) )
@@ -474,6 +492,29 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		updateDisplay( KoLFrame.ENABLED_STATE, "Unknown command: " + command );
+		scriptRequestor.cancelRequest();
+	}
+
+	/**
+	 * A special module used to handle campground requests, such
+	 * as toast retrieval, resting, relaxing, and the like.
+	 */
+
+	private void executeCampgroundRequest( String parameters )
+	{
+		String [] parameterList = parameters.split( " " );
+
+		try
+		{
+			makeRequest( new CampgroundRequest( scriptRequestor, parameterList[0] ),
+				parameterList.length == 1 ? 1 : df.parse( parameterList[1] ).intValue() );
+		}
+		catch ( Exception e )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, parameterList[1] + " is not a number." );
+			scriptRequestor.cancelRequest();
+			return;
+		}
 	}
 
 	/**
@@ -496,6 +537,7 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 		{
 			updateDisplay( KoLFrame.ENABLED_STATE, parameters + " is not a statue." );
+			scriptRequestor.cancelRequest();
 			return;
 		}
 
@@ -510,6 +552,8 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( KoLFrame.ENABLED_STATE, parameterList[1] + " is not a number." );
 			else
 				updateDisplay( KoLFrame.ENABLED_STATE, parameterList[2] + " is not a number." );
+
+			scriptRequestor.cancelRequest();
 			return;
 		}
 
@@ -540,6 +584,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( parameters.length() == 0 )
 		{
 			updateDisplay( KoLFrame.ENABLED_STATE, "Print what?" );
+			scriptRequestor.cancelRequest();
 			return;
 		}
 
@@ -571,6 +616,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// bad happening, print an error message.
 
 				updateDisplay( KoLFrame.ENABLED_STATE, "I/O error in opening file <" + parameterList[1] + ">" );
+				scriptRequestor.cancelRequest();
 				return;
 			}
 		}
@@ -667,6 +713,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		updateDisplay( KoLFrame.ENABLED_STATE, "Unknown data type: " + desiredData );
+		scriptRequestor.cancelRequest();
 	}
 
 	private static String getStatString( int base, int adjusted, int tnp )
@@ -711,6 +758,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( matchingNames.size() == 0 )
 			{
 				updateDisplay( KoLFrame.ENABLED_STATE, "[" + parameters + "] does not match anything in the item database." );
+				scriptRequestor.cancelRequest();
 				return null;
 			}
 
@@ -725,6 +773,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// it is, then print an error message and return.
 
 				updateDisplay( KoLFrame.ENABLED_STATE, itemCountString + " is not a number." );
+				scriptRequestor.cancelRequest();
 				return null;
 			}
 		}
@@ -805,6 +854,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( !AdventureDatabase.contains( adventureName ) )
 			{
 				updateDisplay( KoLFrame.ENABLED_STATE, adventureName + " does not exist in the adventure database." );
+				scriptRequestor.cancelRequest();
 				return;
 			}
 
@@ -818,6 +868,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// it is, then print an error message and return.
 
 				updateDisplay( KoLFrame.ENABLED_STATE, adventureCountString + " is not a number." );
+				scriptRequestor.cancelRequest();
 				return;
 			}
 		}
@@ -848,6 +899,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( intendedOutfit == null )
 		{
 			updateDisplay( KoLFrame.ENABLED_STATE, "You can't wear that outfit." );
+			scriptRequestor.cancelRequest();
 			return;
 		}
 
