@@ -88,8 +88,8 @@ public class ItemManageFrame extends KoLFrame
 
 		tabs = new JTabbedPane();
 
-		tabs.addTab( "Sell", new SellPanel() );
-		tabs.addTab( "Put Away", new StoragePanel() );
+		tabs.addTab( "Sell & Create", new SellPanel() );
+		tabs.addTab( "Closet & Stash", new StoragePanel() );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -164,7 +164,7 @@ public class ItemManageFrame extends KoLFrame
 				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				availableList.setVisibleRowCount( 8 );
 
-				add( JComponentUtilities.createLabel( "Inside Inventory", JLabel.CENTER,
+				add( JComponentUtilities.createLabel( "Tradeable Items", JLabel.CENTER,
 					Color.black, Color.white ), BorderLayout.NORTH );
 				add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
