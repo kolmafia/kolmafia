@@ -179,9 +179,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( ingredients != null )
 		{
-			makeIngredient( ingredients[0][0], ingredients[0][1] );
+			makeIngredient( ingredients[0][0], ingredients[0][1], ingredients[0][0] == ingredients[1][0] );
 			if ( ingredients[0][0] != ingredients[1][0] )
-	 			makeIngredient( ingredients[1][0], ingredients[1][1] );
+	 			makeIngredient( ingredients[1][0], ingredients[1][1], false );
 		}
 
 		// Check to see if you need meat paste in order
@@ -189,7 +189,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// create any needed meat paste.
 
 		if ( mixingMethod == COMBINE )
-			makeIngredient( MEAT_PASTE, COMBINE );
+			makeIngredient( MEAT_PASTE, COMBINE, false );
 
 		// Now that the item's been created, you can
 		// actually do the request!
@@ -268,15 +268,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 *
 	 * @param	ingredientID	The ingredient to make
 	 * @param	mixingMethod	How the ingredient is prepared
+	 * @param	makeDouble	Whether or not you need to make double (two of same ingredient)
 	 */
 
-	private void makeIngredient( int ingredientID, int mixingMethod )
+	private void makeIngredient( int ingredientID, int mixingMethod, boolean makeDouble )
 	{
 		List inventory = client.getInventory();
 		int index = inventory.indexOf( new AdventureResult( TradeableItemDatabase.getItemName( ingredientID ), 0 ) );
 		int currentQuantity = (index == -1) ? 0 : ((AdventureResult)inventory.get( index )).getCount();
 
-		int actualQuantityNeeded = quantityNeeded - currentQuantity;
+		int actualQuantityNeeded = (makeDouble ? quantityNeeded << 1 : quantityNeeded) - currentQuantity;
 
 		// In order to minimize server overload by making exact quantities,
 		// the client will attempt to overcompensate by making more meat
