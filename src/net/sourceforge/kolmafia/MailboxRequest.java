@@ -40,9 +40,22 @@ public class MailboxRequest extends KoLRequest
 {
 	private String boxname;
 	private int startingIndex;
+	private String action;
 
 	public MailboxRequest( KoLmafia client, String boxname )
 	{	this( client, boxname, 0 );
+	}
+
+	public MailboxRequest( KoLmafia client, String boxname, KoLMailMessage message, String action )
+	{
+		super( client, "messages.php" );
+		addFormField( "box", boxname );
+		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "action", action );
+
+		this.action = action;
+		this.boxname = boxname;
+		addFormField( message.getMessageID(), "on" );
 	}
 
 	public MailboxRequest( KoLmafia client, String boxname, Object [] messages, String action )
@@ -52,6 +65,7 @@ public class MailboxRequest extends KoLRequest
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "action", action );
 
+		this.action = action;
 		this.boxname = boxname;
 		for ( int i = 0; i < messages.length; ++i )
 			addFormField( ((KoLMailMessage) messages[i]).getMessageID(), "on" );
@@ -65,13 +79,18 @@ public class MailboxRequest extends KoLRequest
 		if ( startingIndex != 0 )
 			addFormField( "begin", "" + startingIndex );
 
+		this.action = null;
 		this.boxname = boxname;
 		this.startingIndex = startingIndex;
 	}
 
 	public void run()
 	{
-		updateDisplay( DISABLED_STATE, "Retrieving mail from " + boxname + "..." );
+		if ( action == null )
+			updateDisplay( DISABLED_STATE, "Retrieving mail from " + boxname + "..." );
+		else
+			updateDisplay( DISABLED_STATE, "Executing " + action + " request for " + boxname + "..." );
+
 		super.run();
 
 		boolean shouldContinueParsing = true;
@@ -145,6 +164,9 @@ public class MailboxRequest extends KoLRequest
 			}
 		}
 
-		updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
+		if ( action == null )
+			updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname + "" );
+		else
+			updateDisplay( ENABLED_STATE, "Selected mail successfully " + action + "d" );
 	}
 }
