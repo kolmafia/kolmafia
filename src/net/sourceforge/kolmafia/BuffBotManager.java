@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Arrays;
 
 /**
  * Container class for <code>BuffBotManager</code>
@@ -71,6 +72,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private Map costMap;
 	private LockableListModel buffCostTable;
+	private String[] whiteListArray;
 
 	private static final String BUFFCOLOR = "<font color=green>";
 	private static final String NONBUFFCOLOR = "<font color=blue>";
@@ -95,6 +97,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		saveList = new ArrayList();
 		deleteList = new ArrayList();
+	
 	}
 
 	/**
@@ -242,11 +245,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		(new CharsheetRequest( client )).run();
 		
 		// get all current buffbot settings
-		this.messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) != null &&
+		messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) != null &&
 			settings.getProperty( "buffBotMessageDisposal" ).equals("true");
-		this.mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "Phonics & Houses" :
+		mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "Phonics & Houses" :
 			settings.getProperty( "buffBotMPRestore" );
-
+		whiteListArray = settings.getProperty("whiteList").toLowerCase().split("\\s*,\\s*");
+		
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 
 		// The outer loop goes until user cancels
@@ -286,7 +290,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					KoLRequest.delay( SLEEP_TIME );
 		}
 	}
-
+	
+	private boolean onWhiteList(String userName)
+	{
+		return (Arrays.binarySearch(whiteListArray, userName) > -1);
+	}
+	
 	private boolean processMessage( KoLMailMessage message )
 	{
 		Integer meatSent;
@@ -304,11 +313,27 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				buff = (BuffBotCaster) costMap.get( meatSent );
 				if ( buff != null )
 				{
-					// We have a genuine buff request, so do it!
-					if (!buff.castOnTarget( message.getSenderName(), meatSent ))
-						return false;
-					deleteList.add( message );
-					return true;
+					//See if this is a restricted buff, and the sender qualifies
+					if ((!buff.restricted) || onWhiteList(message.getSenderName())) 
+					{
+						// We have a genuine buff request, so do it!
+						if (!buff.castOnTarget( message.getSenderName(), meatSent ))
+							return false;
+						deleteList.add( message );
+						return true;
+					}
+					else // this is a restricted buff for a non-allowed user.
+					{
+						buffbotLog.append( NONBUFFCOLOR + "Request for resricted buff denied: from [" + 
+								message.getSenderName() + "] meat sent: " + meatSent + ENDCOLOR + "<br>\n");
+						buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "save" : "delete") + ENDCOLOR + "<br>\n");
+					}
+				}
+				else
+				{
+					// Must not be a buff request message, so notify user and save/delete
+					buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
+					buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "save" : "delete") + ENDCOLOR + "<br>\n");
 				}
 			}
 		}
@@ -317,10 +342,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			return false;
 		}
 		
-		// Must not be a buff request message, so notify user and save/delete
-		buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
-		buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "save" : "delete") + ENDCOLOR + "<br>\n");
-
 		// Now, mark for either save or delete the message.
 		if ( messageDisposalSetting )
 			saveList.add( message );

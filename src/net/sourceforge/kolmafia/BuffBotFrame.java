@@ -89,6 +89,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
+import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -312,7 +313,6 @@ public class BuffBotFrame extends KoLFrame
 			priceField = new JTextField();
 			countField = new JTextField();
 			restrictBox = new JCheckBox();
-			restrictBox.setEnabled( false );
 
 			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Buff Name: ", skillSelect );
@@ -397,6 +397,7 @@ public class BuffBotFrame extends KoLFrame
 		private JComboBox mpRestoreSelect;
 		private JComboBox messageDisposalSelect;
 		private WhiteListEntry listPanel;
+		private JTextArea whiteListEditor;
 
 		public WhiteListPanel()
 		{
@@ -447,8 +448,25 @@ public class BuffBotFrame extends KoLFrame
 			public WhiteListEntry()
 			{
 				this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-				JPanel panel = new JPanel();
-				panel.add(new JLabel("Watch this space for the White List implementation"));
+				JPanel panel = new JPanel(new BorderLayout());
+//				panel.add(new JLabel("Watch this space for the White List implementation"));
+//				add(panel);
+				
+				whiteListEditor = new JTextArea();
+				whiteListEditor.setEditable( true );
+				whiteListEditor.setLineWrap( true );
+				whiteListEditor.setWrapStyleWord( true );
+				
+				JScrollPane scrollArea = new JScrollPane( whiteListEditor,
+						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+						JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+				panel.add( JComponentUtilities.createLabel( "Enter List of Names, separated by commas:", JLabel.CENTER,
+						Color.black, Color.white ), BorderLayout.NORTH );
+
+				JComponentUtilities.setComponentSize( scrollArea, 400, 200 );
+				panel.add( scrollArea, BorderLayout.SOUTH );
+		
 				add(panel);
 			}
 		}
@@ -462,7 +480,8 @@ public class BuffBotFrame extends KoLFrame
 
 				messageDisposalSelect.setSelectedIndex( messageDisposalSetting == null || messageDisposalSetting.equals( "false" ) ? 0 : 1 );
 				mpRestoreSelect.setSelectedItem( mpRestoreSetting == null ? "Phonics & Houses" : mpRestoreSetting );
-
+				
+				whiteListEditor.setText(settings.getProperty("whiteList"));
 				setStatusMessage( ENABLED_STATE, "" );
 			}
 		}
@@ -476,6 +495,18 @@ public class BuffBotFrame extends KoLFrame
 
 				if ( settings instanceof KoLSettings )
 					((KoLSettings)settings).saveSettings();
+				
+				String[] whiteListString = whiteListEditor.getText().split("\\s*,\\s*");
+				java.util.Arrays.sort(whiteListString);
+				
+				whiteListEditor.setText(whiteListString[0]);
+				for (int i = 1; i < whiteListString.length; i++)
+				{
+					if (!whiteListString[i].equals("")) 
+						whiteListEditor.append(", " + whiteListString[i]);
+				}
+				settings.setProperty( "whiteList", whiteListEditor.getText() );
+				
 
 				setStatusMessage( ENABLED_STATE, "Settings saved." );
 				KoLRequest.delay( 5000 );
