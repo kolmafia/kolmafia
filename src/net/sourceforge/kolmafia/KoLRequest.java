@@ -142,10 +142,18 @@ public class KoLRequest implements Runnable
 
 		switch ( Integer.parseInt( currentSettings.getProperty( "loginServer" ) ) )
 		{
-			case 0:	autoDetectServer();
-			case 1:	setLoginServer( "www.kingdomofloathing.com" );
-			case 2:	setLoginServer( "www2.kingdomofloathing.com" );
-			case 3:	setLoginServer( "www3.kingdomofloathing.com" );
+			case 0:
+				autoDetectServer();
+				break;
+			case 1:
+				setLoginServer( "www.kingdomofloathing.com" );
+				break;
+			case 2:
+				setLoginServer( "www2.kingdomofloathing.com" );
+				break;
+			case 3:
+				setLoginServer( "www3.kingdomofloathing.com" );
+				break;
 		}
 	}
 
