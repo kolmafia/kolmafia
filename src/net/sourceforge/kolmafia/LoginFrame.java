@@ -130,7 +130,8 @@ public class LoginFrame extends KoLFrame
 		setResizable( false );
 
 		this.client = client;
-		this.saveStateNames = saveStateNames;
+		this.saveStateNames = new SortedListModel();
+		this.saveStateNames.addAll( saveStateNames );
 		contentPanel = new LoginPanel();
 		getContentPane().add( contentPanel, BorderLayout.CENTER );
 
@@ -351,8 +352,9 @@ public class LoginFrame extends KoLFrame
 
 			public void focusLost( FocusEvent e )
 			{
-				if ( currentName != null && currentName.length() > 0 )
-					setSelectedItem( currentName );
+				if ( (getSelectedItem() == null || ((String)getSelectedItem()).length() == 0) &&
+					currentName != null && currentName.length() > 0 )
+						setSelectedItem( currentName );
 			}
 
 			private class NameInputListener extends KeyAdapter
