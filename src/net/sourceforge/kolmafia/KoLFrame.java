@@ -92,7 +92,7 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		if ( contentPanel != null && client != null )
 		{
 			client.getLogStream().println( message );
-			(new DisplayStatus( displayState, message )).run();
+			(new DisplayStatus( contentPanel, displayState, message )).run();
 		}
 	}
 
@@ -278,11 +278,13 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 	protected class DisplayStatus implements Runnable
 	{
+		private KoLPanel contentPanel;
 		private int displayState;
 		private String status;
 
-		public DisplayStatus( int displayState, String status )
+		public DisplayStatus( KoLPanel contentPanel, int displayState, String status )
 		{
+			this.contentPanel = contentPanel;
 			this.displayState = displayState;
 			this.status = status;
 		}
@@ -295,13 +297,13 @@ public abstract class KoLFrame extends javax.swing.JFrame
 				return;
 			}
 
-			contentPanel.setStatusMessage( status );
+			this.contentPanel.setStatusMessage( status );
 
 			switch ( displayState )
 			{
 				case ENABLED_STATE:
 					KoLFrame.this.setEnabled( true );
-					contentPanel.clear();
+					this.contentPanel.clear();
 					break;
 
 				case DISABLED_STATE:
