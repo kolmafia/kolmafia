@@ -38,6 +38,7 @@ import java.awt.Color;
 import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
 
@@ -122,7 +123,10 @@ public class ChatBuffer
 	{
 		try
 		{
-			activeLogWriter = new PrintWriter( new FileOutputStream( filename, false ), true );
+			File file = new File( filename );
+			file.getParentFile().mkdirs();
+
+			activeLogWriter = new PrintWriter( new FileOutputStream( file, false ), true );
 			updateLogFile( header );
 			updateLogFile( BUFFER_INIT );
 			fireBufferChanged( LOGFILE_CHANGE, null );
