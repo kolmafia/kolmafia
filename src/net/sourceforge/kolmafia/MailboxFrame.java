@@ -141,11 +141,23 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		boolean requestMailbox;
 
 		if ( currentTabName.equals( "Inbox" ) )
+		{
+			if ( messageListInbox.isInitialized() )
+				messageListInbox.valueChanged( null );
 			requestMailbox = !messageListInbox.isInitialized();
+		}
 		else if ( currentTabName.equals( "Outbox" ) )
+		{
+			if ( messageListOutbox.isInitialized() )
+				messageListOutbox.valueChanged( null );
 			requestMailbox = !messageListOutbox.isInitialized();
+		}
 		else
+		{
+			if ( messageListSaved.isInitialized() )
+				messageListSaved.valueChanged( null );
 			requestMailbox = !messageListSaved.isInitialized();
+		}
 
 		if ( requestMailbox )
 			(new RequestMailboxThread( currentTabName )).start();
@@ -214,9 +226,12 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public void valueChanged( ListSelectionEvent e )
 		{
 			int newIndex = getSelectedIndex();
-			String newContent = ((KoLMailManager.KoLMailMessage)mailbox.getMessages( mailboxName ).get(newIndex)).getMessageHTML();
-			mailBuffer.clearBuffer();
-			mailBuffer.append( newContent );
+			if ( newIndex >= 0 && getModel().getSize() > 0 )
+			{
+				String newContent = ((KoLMailManager.KoLMailMessage)mailbox.getMessages( mailboxName ).get(newIndex)).getMessageHTML();
+				mailBuffer.clearBuffer();
+				mailBuffer.append( newContent );
+			}
 		}
 
 		private boolean isInitialized()
