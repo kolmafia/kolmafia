@@ -125,16 +125,7 @@ public class SearchMallRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		// If the request failed to find any items,
-		// then return from this method; there's no
-		// parsing to be done.
-
-		int startIndex = replyContent.indexOf( "<p><center>" );
-		if ( startIndex == -1 )
-		{
-			updateDisplay( ENABLED_STATE, "No results found." );
-			return;
-		}
+		int startIndex = replyContent.indexOf( "Search Results:" );
 
 		// Change all multi-line store names into single line store names so that the
 		// parser doesn't get confused; remove all stores where limits have already
@@ -142,29 +133,31 @@ public class SearchMallRequest extends KoLRequest
 		// tags to make everything easy to parse.
 
 		String plainTextResult = replyContent.substring( startIndex ).replaceAll( "<br>", " " ).replaceAll(
-				"<td style=.*?<tr>", "" ).replaceAll( "</?[^a].*?>", "\n" );
+			"</?b>", "\n" ).replaceAll( "</?p>", "" ).replaceAll( "</c.*?>", "" ).replaceAll( "</?t.*?>", "\n" ).replaceAll(
+				"</a>", "\n" ).replaceAll( "<td style=.*?<tr>", "" );
+
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
+
+		// Now, check to see if there was actually
+		// no results in a limited search
+
+		if ( parsedResults.countTokens() < 9 )
+		{
+			updateDisplay( ENABLED_STATE, "No results found." );
+			return;
+		}
 
 		// The first four tokens are just the table
 		// headers, and so they can be discarded
 
 		skipTokens( parsedResults, 4 );
 
-		// Now, check to see if there was actually
-		// no results in a limited search
-
-		if ( parsedResults.countTokens() == 1 )
-		{
-			updateDisplay( ENABLED_STATE, "No results found." );
-			return;
-		}
-
 		String lastItemName = "";
 		boolean npcStoreAdded = true;
 		int npcStorePrice = -1;
 
 		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
-		while ( parsedResults.hasMoreTokens() )
+		while ( parsedResults.countTokens() > 1 )
 		{
 			// The first token contains the item name
 
@@ -196,15 +189,18 @@ public class SearchMallRequest extends KoLRequest
 			int purchaseLimit = (limit == 0 || total < limit) ? total : limit;
 
 			// The next token contains data which identifies the shop
+			// and the item (which will be used later), and the price!
+			// which means you don't need to consult thenext token.
 
 			String shopDetails = parsedResults.nextToken();
-			int borderIndex = shopDetails.indexOf( "\">" );
-			int shopID = Integer.parseInt( shopDetails.substring( 35, borderIndex ) );
-			String shopName = shopDetails.substring( borderIndex + 2 );
+			int shopID = Integer.parseInt( shopDetails.substring( shopDetails.indexOf( "store=" ) + 6, shopDetails.indexOf( "&" ) ) );
+			String shopName = shopDetails.substring( shopDetails.indexOf( "\">" ) + 2 );
+			int price = Integer.parseInt( shopDetails.substring( shopDetails.indexOf( "price=" ) + 6, shopDetails.indexOf( "\">" ) ) );
 
-			// The last token contains the price of the item
+			// The last token contains the price of the item, but
+			// you need to discard it.
 
-			int price = intToken( parsedResults, 0, 10 );
+			parsedResults.nextToken();
 
 			// Now, check to see if you should add the NPC
 			// store at the current time
