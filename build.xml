@@ -10,7 +10,6 @@
   <property name="lib" location="lib"/>
   <property name="build" location="build"/>
   <property name="dist" location="dist"/>
-  <property name="data" location="data"/>
   <property name="cvscheck" location="cvscheck"/>
 
   <property name="cvsroot" value=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/kolmafia"/>
@@ -65,7 +64,6 @@
 
     <tar destfile="${tarfile}"
          basedir="${root}"
-         excludes="CVS/**"
          compression="gzip">
 
        <exclude name="CVS/**"/>
@@ -146,7 +144,7 @@
           depends="createjar"
           description="runs program with all needed libraries in the path (avoids UnsatisfiedLinkError)">
 
-    <java fork="true" jar="${jarfile}">
+    <java fork="true" jar="${jarfile}" dir="${dist}">
         <env key="PATH" path="${lib}/:${java.library.path}"/>
         <env key="Path" path="${lib}/:${java.library.path}"/>
     </java>
@@ -161,7 +159,6 @@
   <target name="clean"
           description="clean up all object files">
 
-    <delete dir="${data}"/>
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
 
