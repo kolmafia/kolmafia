@@ -90,7 +90,11 @@ public class KoLmafia implements UtilityConstants
 	 */
 
 	public KoLmafia()
-	{	deinitialize();
+	{
+		deinitialize();
+		activeFrame = new LoginFrame( this );
+		activeFrame.pack();  activeFrame.setVisible( true );
+		activeFrame.requestFocus();
 	}
 
 	/**
@@ -208,9 +212,6 @@ public class KoLmafia implements UtilityConstants
 		logStream = new NullStream();
 
 		activeFrame = null;
-		activeFrame = new LoginFrame( this );
-		activeFrame.pack();  activeFrame.setVisible( true );
-		activeFrame.requestFocus();
 		deinitializeChat();
 		this.permitContinue = true;
 	}

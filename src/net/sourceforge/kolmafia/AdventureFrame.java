@@ -1052,8 +1052,25 @@ public class AdventureFrame extends KoLFrame
 		{
 			if ( client != null )
 			{
-				client.deinitialize();
+				// Create a new instance of a client, and allow
+				// the current client to run down in a separate
+				// thread.
+
 				(new LogoutRequestThread()).start();
+				new KoLmafia();
+			}
+		}
+
+		private class LogoutRequestThread extends Thread
+		{
+			public LogoutRequestThread()
+			{	setDaemon( false );
+			}
+
+			public void run()
+			{
+				(new LogoutRequest( client )).run();
+				client.deinitialize();
 
 				if ( csheet != null && csheet.isShowing() )
 				{
@@ -1075,13 +1092,6 @@ public class AdventureFrame extends KoLFrame
 					isheet.dispose();
 					isheet = null;
 				}
-			}
-		}
-
-		private class LogoutRequestThread extends Thread
-		{
-			public void run()
-			{	(new LogoutRequest( client )).run();
 			}
 		}
 	}
