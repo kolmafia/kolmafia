@@ -39,11 +39,9 @@ import java.io.PrintStream;
 import java.io.IOException;
 import java.io.BufferedReader;
 
-import java.util.Calendar;
 import javax.swing.JEditorPane;
 import java.util.StringTokenizer;
 
-import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -63,7 +61,7 @@ public class KoLmafia implements UtilityConstants
 	private String password, sessionID, passwordHash;
 	private KoLCharacter characterData;
 	private KoLFrame activeFrame;
-	private ChatBuffer loathingChat;
+	private KoLMessenger loathingChat;
 
 	private KoLSettings settings;
 	private PrintStream logStream;
@@ -519,30 +517,27 @@ public class KoLmafia implements UtilityConstants
 	}
 
 	/**
+	 * Returns the messaging client associated with the current
+	 * session of KoLmafia.
+	 *
+	 * @return	The messaging client for the current session
+	 */
+
+	public KoLMessenger getMessenger()
+	{	return loathingChat;
+	}
+
+	/**
 	 * Initializes the chat buffer with the provided chat pane.
 	 * Note that the chat refresher will also be initialized
 	 * by calling this method; to stop the chat refresher, call
 	 * the <code>deinitializeChat()</code> method.
 	 */
 
-	public void initializeChat( JEditorPane chatDisplay )
+	public void initializeChat()
 	{
-		loathingChat = new ChatBuffer( getLoginName() + ": Started " +
-			Calendar.getInstance().getTime().toString() );
-
-		loathingChat.setChatDisplay( chatDisplay );
-
-		(new ChatRequest( this, "/channel" )).run();
-		(new ChatRequest( this )).run();
-	}
-
-	/**
-	 * Clears the contents of the chat buffer.  This is called
-	 * whenever the user wishes for there to be less text.
-	 */
-
-	public void clearChatBuffer()
-	{	loathingChat.clearBuffer();
+		loathingChat = new KoLMessenger( this );
+		loathingChat.initialize();
 	}
 
 	/**
@@ -555,18 +550,9 @@ public class KoLmafia implements UtilityConstants
 	public void deinitializeChat()
 	{
 		if ( loathingChat != null )
-			loathingChat.closeActiveLogFile();
-		loathingChat = null;
-	}
-
-	/**
-	 * Retrieves the chat buffer currently used for storing and
-	 * saving the currently running chat.
-	 *
-	 * @return	The current chat buffer
-	 */
-
-	public ChatBuffer getChatBuffer()
-	{	return loathingChat;
+		{
+			loathingChat.dispose();
+			loathingChat = null;
+		}
 	}
 }

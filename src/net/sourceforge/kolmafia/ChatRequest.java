@@ -89,7 +89,8 @@ public class ChatRequest extends KoLRequest
 		}
 
 		this.isContinuationRequest = false;
-		this.associatedBuffer = client.getChatBuffer();
+		this.associatedBuffer = client.getMessenger() == null ? null :
+			client.getMessenger().getChatBuffer();
 	}
 
 	/**
@@ -107,7 +108,8 @@ public class ChatRequest extends KoLRequest
 
 		this.lastSeen = lastSeen;
 		this.isContinuationRequest = true;
-		this.associatedBuffer = client.getChatBuffer();
+		this.associatedBuffer = client.getMessenger() == null ? null :
+			client.getMessenger().getChatBuffer();
 	}
 
 	/**
@@ -141,7 +143,7 @@ public class ChatRequest extends KoLRequest
 			// last seen value.
 		}
 
-		if ( associatedBuffer == client.getChatBuffer() )
+		if ( client.getMessenger() != null && associatedBuffer == client.getMessenger().getChatBuffer() )
 		{
 			// There's a lot of bad HTML used in KoL chat; in order to get Java
 			// to properly display everything, all of the bad HTML gets replaced.
@@ -152,7 +154,7 @@ public class ChatRequest extends KoLRequest
 				"<b><i>", "<i><b>" ).replaceAll( "</br>", "<br>" ).replaceAll(
 				"<font color=\"none\">", "" ).replaceAll( "</b></font>", "</b>" ).replaceAll( "<!.*?>", "" );
 
-			client.getChatBuffer().append( noLinksContent );
+			associatedBuffer.append( noLinksContent );
 
 			if ( isContinuationRequest )
 				(new ChatContinuationThread()).start();
@@ -191,7 +193,7 @@ public class ChatRequest extends KoLRequest
 			// the next chat request should be run.  Note that this is
 			// only possible if the chat buffer has not been nulled.
 
-			if ( client.getChatBuffer() != null )
+			if ( client.getMessenger() != null && client.getMessenger().getChatBuffer() != null )
 				(new ChatRequest( client, lastSeen )).run();
 		}
 	}

@@ -117,7 +117,7 @@ public class AdventureFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
 
-	private ChatFrame kolchat;
+	private KoLMessenger kolchat;
 	private ItemManageFrame isheet;
 	private CharsheetFrame csheet;
 
@@ -953,12 +953,15 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( csheet == null || !csheet.isShowing() )
+				if ( csheet != null && csheet.isShowing() )
 				{
-					csheet = new CharsheetFrame( client );
-					csheet.pack();  csheet.setVisible( true );
+					csheet.setVisible( false );
+					csheet.dispose();
+					csheet = null;
 				}
 
+				csheet = new CharsheetFrame( client );
+				csheet.pack();  csheet.setVisible( true );
 				csheet.setEnabled( contentPanel.isEnabled() );
 				csheet.requestFocus();
 				updateDisplay( NOCHANGE_STATE, "" );
@@ -990,11 +993,8 @@ public class AdventureFrame extends KoLFrame
 			{
 				if ( kolchat == null || !kolchat.isShowing() )
 				{
-					kolchat = new ChatFrame( client );
-					kolchat.setVisible( true );
-
-					if ( client != null )
-						client.initializeChat( kolchat.getChatDisplay() );
+					client.initializeChat();
+					kolchat = client.getMessenger();
 				}
 
 				kolchat.requestFocus();

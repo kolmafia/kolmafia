@@ -73,17 +73,19 @@ public class ChatFrame extends KoLFrame
 {
 	private JTextField entryField;
 	private JEditorPane chatDisplay;
+	private KoLMessenger messenger;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code>.
 	 * @param	client	The client associated with the chat session
 	 */
 
-	public ChatFrame( KoLmafia client )
+	public ChatFrame( KoLmafia client, KoLMessenger messenger )
 	{
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 			" (Chat)", client );
 
+		this.messenger = messenger;
 		chatDisplay = new JEditorPane();
 		chatDisplay.setEditable( false );
 		JScrollPane scrollArea = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -213,7 +215,7 @@ public class ChatFrame extends KoLFrame
 			public void run()
 			{
 				if ( client != null )
-					client.clearChatBuffer();
+					messenger.clearChatBuffer();
 			}
 		}
 	}
@@ -236,7 +238,7 @@ public class ChatFrame extends KoLFrame
 				filename += ".html";
 
 			if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-				client.getChatBuffer().setActiveLogFile( filename,
+				messenger.getChatBuffer().setActiveLogFile( filename,
 					"Loathing Chat: " + client.getLoginName() + " (" +
 					Calendar.getInstance().getTime().toString() + ")" );
 		}
@@ -282,7 +284,7 @@ public class ChatFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new ChatFrame( null );
+		KoLFrame uitest = new ChatFrame( null, null );
 		uitest.setVisible( true );  uitest.requestFocus();
 	}
 }
