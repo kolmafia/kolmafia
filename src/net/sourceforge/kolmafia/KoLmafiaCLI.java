@@ -129,13 +129,11 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		InputStream inputStream = scriptLocation == null ? System.in : new FileInputStream( scriptLocation );
 
-		outputStream = scriptLocation == null ? System.out : new NullStream();
+		outputStream = scriptRequestor == null ? System.out : new NullStream();
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
-		if ( this.scriptRequestor != this )
-			listenForCommands();
-		else
+		if ( this.scriptRequestor == this )
 		{
 			outputStream.println();
 			outputStream.println( "****************" );
@@ -197,13 +195,14 @@ public class KoLmafiaCLI extends KoLmafia
 	public void initialize( String loginname, String sessionID, boolean getBreakfast )
 	{
 		if ( scriptRequestor != this )
-		{
 			scriptRequestor.initialize( loginname, sessionID, getBreakfast );
-			return;
-		}
+		else
+			super.initialize( loginname, sessionID, getBreakfast );
 
-		super.initialize( loginname, sessionID, getBreakfast );
 		outputStream.println();
+		executeCommand( "moons", "" );
+		outputStream.println();
+
 		listenForCommands();
 	}
 
@@ -212,7 +211,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * executing each command as it arrives.
 	 */
 
-	private void listenForCommands()
+	public void listenForCommands()
 	{
 		try
 		{
@@ -340,6 +339,18 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
+		// Next, print out the moon phase, if the user
+		// wishes to know what moon phase it is.
+
+		if ( command.startsWith( "moon" ) )
+		{
+			outputStream.println( "Ronald: " + MoonPhaseDatabase.getRonaldMoonPhase() );
+			outputStream.println( "Grimace: " + MoonPhaseDatabase.getGrimaceMoonPhase() );
+			outputStream.println();
+			updateDisplay( KoLFrame.ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+			return;
+		}
+
 		// If there's any commands which suggest that the
 		// client is in a login state, you should not do
 		// any commands listed beyond this point
@@ -368,6 +379,16 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) )
 		{
 			executeConsumeItemRequest( parameters );
+			return;
+		}
+
+		// Another item-related command is a creation
+		// request.  Again, complicated request, so
+		// delegate to the appropriate utility method.
+
+		if ( command.equals( "create" ) || command.equals( "make" ) || command.equals( "bake" ) || command.equals( "mix" ) || command.equals( "smith" ) )
+		{
+			executeItemCreationRequest( parameters );
 			return;
 		}
 
@@ -448,6 +469,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( parameterList.length != 1 )
 		{
 			File outputFile = new File( parameterList[1] );
+			outputFile = new File( outputFile.getAbsolutePath() );
 
 			// If the output file does not exist, create it first
 			// to avoid FileNotFoundExceptions being thrown.
@@ -493,33 +515,42 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( desiredData.startsWith( "inv" ) )
 		{
-			printList( inventory, outputStream );
+			printList( scriptRequestor.getInventory(), outputStream );
 			return;
 		}
 
 		if ( desiredData.equals( "closet" ) )
 		{
-			printList( closet, outputStream );
+			printList( scriptRequestor.getCloset(), outputStream );
 			return;
 		}
 
 		if ( desiredData.equals( "session" ) )
 		{
-			printList( tally, outputStream );
+			printList( scriptRequestor.tally, outputStream );
 			return;
 		}
 
 		if ( desiredData.equals( "outfits" ) )
 		{
-			printList( characterData.getOutfits(), outputStream );
+			printList( scriptRequestor.getCharacterData().getOutfits(), outputStream );
 			return;
 		}
 
 		if ( desiredData.equals( "familiars" ) )
 		{
-			printList( characterData.getFamiliars(), outputStream );
+			printList( scriptRequestor.getCharacterData().getFamiliars(), outputStream );
 			return;
 		}
+	}
+
+	/**
+	 * A special module used specifically for properly instantiating
+	 * ItemCreationRequests.
+	 */
+
+	private void executeItemCreationRequest( String parameters )
+	{
 	}
 
 	/**
@@ -658,7 +689,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
-		if ( scriptRequestor instanceof KoLmafiaGUI )
+		if ( scriptRequestor != this )
 			scriptRequestor.updateDisplay( state, message );
 		else
 		{
