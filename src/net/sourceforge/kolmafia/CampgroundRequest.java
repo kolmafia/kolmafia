@@ -95,27 +95,21 @@ public class CampgroundRequest extends KoLRequest
 		if ( action.equals( "rest" ) )
 		{
 			if ( replyContent.indexOf( "You sleep" ) != -1 )
-			{
 				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
-				client.setContinuePermission( true );
-			}
 			else
 			{
 				updateDisplay( KoLFrame.ENABLED_STATE, "Could not rest." );
-				client.setContinuePermission( false );
+				client.cancelRequest();
 			}
 		}
 		else if ( action.equals( "relax" ) )
 		{
 			if ( replyContent.indexOf( "You relax" ) != -1 )
-			{
 				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
-				client.setContinuePermission( true );
-			}
 			else
 			{
 				updateDisplay( KoLFrame.ENABLED_STATE, "Could not relax." );
-				client.setContinuePermission( false );
+				client.cancelRequest();
 			}
 		}
 	}

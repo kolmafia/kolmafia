@@ -671,7 +671,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				isBuffing = false;
 				contentPanel = clanBuff;
-				client.setContinuePermission( false );
+				client.cancelRequest();
 				updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
 			}
 		}

@@ -74,7 +74,7 @@ public class HermitRequest extends KoLRequest
 		if ( item == null )
 		{
 			updateDisplay( KoLFrame.ENABLED_STATE, "No hermit trade settings found." );
-			client.setContinuePermission( false );
+			client.cancelRequest();
 			return;
 		}
 
@@ -98,7 +98,7 @@ public class HermitRequest extends KoLRequest
 			if ( index == -1 )
 			{
 				updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of worthless junk." );
-				client.setContinuePermission( false );
+				client.cancelRequest();
 				return;
 			}
 
@@ -117,6 +117,5 @@ public class HermitRequest extends KoLRequest
 		}
 
 		processResults( replyContent );
-		client.setContinuePermission( true );
 	}
 }

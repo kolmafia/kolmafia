@@ -250,6 +250,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Chef explosion!" );
 					client.getCharacterData().setChef( false );
+					client.cancelRequest();
 				}
 				break;
 
@@ -259,6 +260,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Bartender explosion!" );
 					client.getCharacterData().setBartender( false );
+					client.cancelRequest();
 				}
 				break;
 		}

@@ -270,25 +270,6 @@ public class KoLmafia implements UtilityConstants
 	}
 
 	/**
-	 * Utility method used to notify the client that an adventure
-	 * condition has been updated.  It is used to indicate whether
-	 * or not an adventure was completed successfully, and whether
-	 * or not another adventure is possible.
-	 *
-	 * @param	permitContinue	<code>true</code> if another adventure is possible
-	 */
-
-	public void setContinuePermission( boolean permitContinue )
-	{
-		// For now, the isComplete variable has no meaning
-		// because adventure usage is not being tracked.
-		// However, permitContinue does - here, reset the
-		// permitContinue to the value indicated here.
-
-		this.permitContinue &= permitContinue;
-	}
-
-	/**
 	 * Retrieves the character data for the character associated with the current
 	 * gaming session.
 	 *
@@ -455,7 +436,7 @@ public class KoLmafia implements UtilityConstants
 						--iterationsRemaining;
 				}
 
-				if ( iterationsRemaining <= 0 )
+				if ( permitContinue && iterationsRemaining <= 0 )
 					activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
 			}
 		}
