@@ -1185,8 +1185,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 			AdventureResult itemUsed = crequest.getItemUsed();
 			commandString.append( 0 - itemUsed.getCount() );
-			commandString.append( ' ' );
+			commandString.append( " \"" );
 			commandString.append( itemUsed.getName() );
+			commandString.append( "\"" );
 		}
 
 		// Another item-related command is a creation
@@ -1200,8 +1201,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 			commandString.append( "make " );
 			commandString.append( irequest.getQuantityNeeded() );
-			commandString.append( ' ' );
+			commandString.append( " \"" );
 			commandString.append( irequest.getName() );
+			commandString.append( "\"" );
 		}
 
 		// Another item-related command is the autosell
@@ -1210,8 +1212,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( request instanceof AutoSellRequest )
 		{
-			commandString.append( "autosell * " );
+			commandString.append( "autosell * \"" );
 			commandString.append( ((AutoSellRequest)request).getName() );
+			commandString.append( "\"" );
 		}
 
 		// One of the largest commands is adventuring,
