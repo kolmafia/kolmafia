@@ -95,4 +95,17 @@ public class AdventureDatabase implements UtilityConstants
 				(String) adventureTable[1].get(i), (String) adventureTable[2].get(i) ) );
 		return adventures;
 	}
+
+	public static KoLAdventure getAdventure( KoLmafia client, String adventureName )
+	{
+		int index = -1;
+		List adventureNames = adventureTable[0];
+
+		for ( int i = 0; index == -1 && i < adventureNames.size(); ++i )
+			if ( adventureName.equalsIgnoreCase( (String) adventureNames.get(i) ) )
+				index = i;
+
+		return index == -1 ? null : new KoLAdventure( client, (String) adventureTable[0].get( index ),
+			(String) adventureTable[1].get( index ), (String) adventureTable[2].get( index ) );
+	}
 }
