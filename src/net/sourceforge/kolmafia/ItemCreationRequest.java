@@ -209,6 +209,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		super.run();
 
+		// If an error state occurred, return from this
+		// request, since there's no content to parse
+
+		if ( isErrorState || responseCode != 200 )
+			return;
+
 		// Arbitrary results can happen - just throw the
 		// entire string to the results parser and let
 		// it figure out what was actually gained; note
@@ -239,11 +245,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK:
 			case COOK_REAGENT:
 			case COOK_PASTA:
-				client.getCharacterData().setChef( replyContent.indexOf( "Smoke" ) != -1 );
+				if ( replyContent.indexOf( "Smoke" ) != -1 )
+					client.getCharacterData().setChef( false );
 				break;
 
 			case MIX:
-				client.getCharacterData().setBartender( replyContent.indexOf( "Smoke" ) != -1 );
+				if ( replyContent.indexOf( "Smoke" ) != -1 )
+					client.getCharacterData().setBartender( false );
 				break;
 		}
 	}
@@ -314,6 +322,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		public void run()
 		{
 			super.run();
+
+			// If an error state occurred, return from this
+			// request, since there's no content to parse
+
+			if ( isErrorState || responseCode != 200 )
+				return;
+
 			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 * quantityNeeded ) );
 			client.addToResultTally( new AdventureResult( "meat paste", quantityNeeded ) );
 		}
@@ -342,6 +357,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		public void run()
 		{
 			super.run();
+
+			// If an error state occurred, return from this
+			// request, since there's no content to parse
+
+			if ( isErrorState || responseCode != 200 )
+				return;
+
 			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, (isDense ? -1000 : -100) * quantityNeeded ) );
 			client.addToResultTally( new AdventureResult( (isDense ? "dense " : "") + "meat stack", 1 ) );
 		}
