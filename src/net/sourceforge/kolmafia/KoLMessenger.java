@@ -748,7 +748,7 @@ public class KoLMessenger implements KoLConstants
 				// This is determined by where the colon is - in a
 				// send, it is not bolded, while in a receive, it is.
 
-				boolean isRecipient = message.indexOf( ":</b>" ) != -1;
+				boolean isRecipient = message.indexOf( "<a" ) != -1;
 
 				// Next, split the message around the tags so you know
 				// how to display the message.
