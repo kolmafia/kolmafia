@@ -602,15 +602,21 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" )) || request instanceof UseSkillRequest )
 					autoRecoverMP();
 
+				if ( request instanceof ConsumeItemRequest )
+				{
+					int consumptionType = ((ConsumeItemRequest)request).getConsumptionType();
+					String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
+						(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
+
+					updateDisplay( DISABLED_STATE, useTypeAsString + " " +
+						(iterations == 1 ? ((ConsumeItemRequest)request).getItemUsed().getCount() : iterations) + " " +
+							((ConsumeItemRequest)request).getItemUsed().getName() + "..." );
+				}
+
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
-					if ( !(request instanceof UseSkillRequest || request instanceof AutoSellRequest) )
-					{
-						if ( iterationsRemaining == 1 )
-							updateDisplay( DISABLED_STATE, "Final request in progress..." );
-						else
-							updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
-					}
+					if ( request instanceof KoLAdventure )
+						updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
 
 					request.run();
 					applyRecentEffects();

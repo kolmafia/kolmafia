@@ -935,7 +935,6 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-System.out.println( firstMatch );
 		return firstMatch;
 	}
 
@@ -1056,10 +1055,6 @@ System.out.println( firstMatch );
 		itemCount = firstMatch.getCount();
 
 		consumptionType = TradeableItemDatabase.getConsumptionType( itemName );
-		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
-			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
-
-		scriptRequestor.updateDisplay( DISABLED_STATE, useTypeAsString + " " + itemCount + " " + itemName + "..." );
 
 		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
 			scriptRequestor.makeRequest( new ConsumeItemRequest( scriptRequestor, consumptionType, new AdventureResult( itemName, itemCount ) ), 1 );
