@@ -268,6 +268,11 @@ public class AdventureFrame extends KoLFrame
 
 		statusMenu.add( itemMenuItem );
 
+		JMenuItem getBreakfastItem = new JMenuItem( "Breakfast Table", KeyEvent.VK_B );
+		getBreakfastItem.addActionListener( new GetBreakfastListener() );
+
+		statusMenu.add( getBreakfastItem );
+
 		addScriptMenu( menuBar );
 
 		JMenu peopleMenu = new JMenu( "People" );
@@ -1335,6 +1340,34 @@ public class AdventureFrame extends KoLFrame
 					kolchat = client.getMessenger();
 				}
 
+				updateDisplay( NOCHANGE_STATE, " " );
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for fetching breakfast.
+	 */
+
+	private class GetBreakfastListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new GetBreakfastThread()).start();
+		}
+
+		private class GetBreakfastThread extends Thread
+		{
+			public GetBreakfastThread()
+			{
+				super( "Get-Breakfast-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				client.getBreakfast();
 				updateDisplay( NOCHANGE_STATE, " " );
 			}
 		}

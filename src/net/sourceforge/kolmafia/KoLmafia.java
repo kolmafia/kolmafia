@@ -255,26 +255,34 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		applyRecentEffects();
 
 		if ( getBreakfast )
-		{
-			updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving breakfast..." );
-
-			if ( characterData.hasToaster() )
-				for ( int i = 0; i < 3 && permitContinue; ++i )
-					(new CampgroundRequest( this, "toast" )).run();
-
-			permitContinue = true;
-
-			if ( characterData.hasArches() )
-				(new CampgroundRequest( this, "arches" )).run();
-
-			if ( characterData.canSummonNoodles() )
-				(new UseSkillRequest( this, "Pastamastery", "", 3 )).run();
-			if ( characterData.canSummonReagent() )
-				(new UseSkillRequest( this, "Advanced Saucecrafting", "", 3 )).run();
-		}
+			getBreakfast();
 
 		this.isLoggingIn = false;
 		loathingMail = new KoLMailManager();
+	}
+
+	/**
+	 * Utility method used to notify the client that it should attempt
+	 * to retrieve breakfast.
+	 */
+
+	public void getBreakfast()
+	{
+		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving breakfast..." );
+
+		if ( characterData.hasToaster() )
+			for ( int i = 0; i < 3 && permitContinue; ++i )
+				(new CampgroundRequest( this, "toast" )).run();
+
+		permitContinue = true;
+
+		if ( characterData.hasArches() )
+			(new CampgroundRequest( this, "arches" )).run();
+
+		if ( characterData.canSummonNoodles() )
+			(new UseSkillRequest( this, "Pastamastery", "", 3 )).run();
+		if ( characterData.canSummonReagent() )
+			(new UseSkillRequest( this, "Advanced Saucecrafting", "", 3 )).run();
 	}
 
 	/**
