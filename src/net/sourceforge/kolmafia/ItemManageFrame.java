@@ -659,6 +659,7 @@ public class ItemManageFrame extends KoLFrame
 	private abstract class ItemManagePanel extends JPanel
 	{
 		protected JList elementList;
+		private VerifyButtonPanel buttonPanel;
 
 		public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
 		{
@@ -675,10 +676,12 @@ public class ItemManageFrame extends KoLFrame
 			centerPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
+			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );
+
 			JPanel actualPanel = new JPanel();
 			actualPanel.setLayout( new BorderLayout( 20, 10 ) );
 			actualPanel.add( centerPanel, BorderLayout.CENTER );
-			actualPanel.add( new VerifyButtonPanel( confirmedText, cancelledText ), BorderLayout.EAST );
+			actualPanel.add( buttonPanel, BorderLayout.EAST );
 
 			setLayout( new CardLayout( 10, 10 ) );
 			add( actualPanel, " " );
@@ -686,6 +689,12 @@ public class ItemManageFrame extends KoLFrame
 
 		protected abstract void actionConfirmed();
 		protected abstract void actionCancelled();
+
+		public void setEnabled( boolean isEnabled )
+		{
+			elementList.setEnabled( isEnabled );
+			buttonPanel.setEnabled( isEnabled );
+		}
 
 		private class VerifyButtonPanel extends JPanel
 		{
