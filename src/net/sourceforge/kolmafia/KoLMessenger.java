@@ -381,7 +381,7 @@ public class KoLMessenger
 			lines[i] = lines[i].trim();
 			if ( lines[i].startsWith( "<img" ) && currentChannel != null )
 			{
-				client.deinitializeChat();
+				removeChat( currentChannel );
 				return;
 			}
 
