@@ -33,29 +33,54 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.StringTokenizer;
 
-public class KoLAdventure implements Runnable
+public class SewerRequest extends KoLRequest
 {
-	private KoLmafia client;
-	private String adventureID, formSource, adventureName;
-
-	public KoLAdventure( KoLmafia client, String formSource, String adventureID, String adventureName )
+	public SewerRequest( KoLmafia client )
 	{
-		this.client = client;
-		this.formSource = formSource;
-		this.adventureID = adventureID;
-		this.adventureName = adventureName;
-	}
-
-	public String toString()
-	{	return adventureName;
+		super( client, client.isLuckyCharacter() ? "luckysewer.php" : "sewer.php" );
 	}
 
 	public void run()
 	{
-		if ( formSource.equals( "sewer.php" ) || formSource.equals( "luckysewer.php" ) )
-			(new SewerRequest( client )).run();
-		else
-			(new AdventureRequest( client, formSource, adventureID )).run();
+		runLuckySewer();
+	}
+
+	private void runLuckySewer()
+	{
+		String items = client.getSettings().getProperty( "luckySewer" );
+
+		if ( items == null )
+		{
+			frame.updateDisplay( KoLFrame.ENABLED_STATE, "No lucky sewer settings found." );
+			client.updateAdventure( false, false );
+			return;
+		}
+
+		StringTokenizer parsedItems = new StringTokenizer( items, "," );
+
+		addFormField( "action", "take" );
+		addFormField( "i" + parsedItems.nextToken(), "on" );
+		addFormField( "i" + parsedItems.nextToken(), "on" );
+		addFormField( "i" + parsedItems.nextToken(), "on" );
+
+		super.run();
+
+		System.out.println( responseCode );
+		System.out.println( replyContent );
+
+		if ( isErrorState || responseCode != 200 )
+			return;
+
+		if ( !replyContent.contains( "acquire" ) )
+		{
+			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of ten-leaf clovers." );
+			client.updateAdventure( false, false );
+			return;
+		}
+
+		processResults( replyContent );
+		client.updateAdventure( true, true );
 	}
 }

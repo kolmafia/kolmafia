@@ -220,6 +220,18 @@ public class KoLmafia implements UtilityConstants
 	{	return passwordHash;
 	}
 
+	public boolean isLuckyCharacter()
+	{
+		// This is used by the sewer request to see whether or
+		// not the player should adventure.  It may also be used
+		// by other adventures to make sure you're not lucky
+		// before adventuring (which would waste clovers);
+		// until character data is implemented, though, it will
+		// always return true.
+
+		return true;
+	}
+
 	public void makeRequest( Runnable request, int iterations )
 	{
 		try

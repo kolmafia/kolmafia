@@ -41,9 +41,12 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 // containers
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
 
 // utilities
@@ -69,6 +72,7 @@ public class OptionsFrame extends KoLFrame
 
 		tabs.setBackground( contentPanel.getBackground() );
 		tabs.addTab( "Login", contentPanel );
+		tabs.addTab( "Sewer", new SewerOptionsPanel() );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 
@@ -235,6 +239,119 @@ public class OptionsFrame extends KoLFrame
 			{
 				client.getSettings().remove( key );
 				System.getProperties().remove( key );
+			}
+		}
+	}
+
+	private class SewerOptionsPanel extends KoLPanel
+	{
+		private JCheckBox [] items;
+		private JLabel actionStatusLabel;
+		private JPanel actionStatusPanel;
+
+		private final String [] itemnames = { "seal-clubbing club", "seal tooth", "helmet turtle",
+			"scroll of turtle summoning", "pasta spoon", "ravioli hat", "saucepan", "spices", "disco mask",
+			"disco ball", "stolen accordion", "mariachi pants", "worthless trinket" };
+
+		public SewerOptionsPanel()
+		{
+			super( "apply", "defaults", new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			items = new JCheckBox[ itemnames.length ];
+			for ( int i = 0; i < itemnames.length; ++i )
+				items[i] = new JCheckBox();
+
+			(new LoadDefaultSettingsThread()).run();
+
+			VerifiableElement [] elements = new VerifiableElement[ itemnames.length ];
+			for ( int i = 0; i < itemnames.length; ++i )
+				elements[i] = new VerifiableElement( itemnames[i], JLabel.LEFT, items[i] );
+
+			java.util.Arrays.sort( elements );
+			setContent( elements, false );
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		public void clear()
+		{	(new LoadDefaultSettingsThread()).start();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		protected void actionCancelled()
+		{	(new LoadDefaultSettingsThread()).start();
+		}
+
+		private class LoadDefaultSettingsThread extends Thread
+		{
+			public LoadDefaultSettingsThread()
+			{	setDaemon( true );
+			}
+
+			public void run()
+			{
+				String settings = client.getSettings().getProperty( "luckySewer" );
+
+				// If there are no default sewer settings, simply skip the
+				// attempt at loading them.
+
+				if ( settings == null )
+					return;
+
+				// If there are default sewer settings, make sure that the
+				// appropriate checkboxes are checked.
+
+				StringTokenizer st = new StringTokenizer( settings, "," );
+				for ( int i = 0; i < itemnames.length; ++i )
+					items[i].setSelected( false );
+
+				for ( int i = 0; i < 3; ++i )
+					items[ Integer.parseInt( st.nextToken() ) ].setSelected( true );
+
+				(new StatusMessageChanger( "" )).run();
+			}
+		}
+
+		private class StoreSettingsThread extends Thread
+		{
+			public void run()
+			{
+				int [] selected = new int[3];
+				int selectedCount = 0;
+
+				for ( int i = 0; i < itemnames.length; ++i )
+				{
+					if ( items[i].isSelected() )
+					{
+						if ( selectedCount < 3 )
+							selected[selectedCount] = i;
+						++selectedCount;
+					}
+				}
+
+				if ( selectedCount != 3 )
+				{
+					(new StatusMessageChanger( "You did not select exactly three items." )).run();
+					return;
+				}
+
+				client.getSettings().setProperty( "luckySewer", selected[0] + "," + selected[1] + "," + selected[2] );
+				client.getSettings().saveSettings();
+
+				(new StatusMessageChanger( "Settings saved." )).run();
 			}
 		}
 	}
