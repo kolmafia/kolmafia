@@ -135,24 +135,11 @@ public class CharsheetFrame extends KoLFrame
 		JLabel outfitLabel = new JLabel( "Outfits:  ", JLabel.RIGHT );
 		JComponentUtilities.setComponentSize( outfitLabel, 80, 24 );
 		labelPanel.add( outfitLabel, BorderLayout.NORTH );
-		JLabel effectLabel = new JLabel( "Effects:  ", JLabel.RIGHT );
-		JComponentUtilities.setComponentSize( effectLabel, 80, 24 );
-		labelPanel.add( effectLabel, BorderLayout.SOUTH );
-		southPanel.add( labelPanel, BorderLayout.WEST );
-
-		boolean hasRemedy = client.getInventory().contains( UneffectRequest.REMEDY );
 
 		JPanel selectPanel = new JPanel();
 		selectPanel.setLayout( new BoxLayout( selectPanel, BoxLayout.Y_AXIS ) );
 		outfitSelect = new JComboBox( characterData.getOutfits().getMirrorImage() );
 		selectPanel.add( outfitSelect, "" );
-
-		selectPanel.add( Box.createVerticalStrut( 10 ) );
-
-		effectSelect = new JComboBox( characterData.getEffects().getMirrorImage() );
-		effectSelect.setEnabled( hasRemedy );
-		selectPanel.add( effectSelect, "" );
-		southPanel.add( selectPanel, BorderLayout.CENTER );
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout( new BorderLayout() );
@@ -160,13 +147,6 @@ public class CharsheetFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( changeOutfitButton, 84, 24 );
 		changeOutfitButton.addActionListener( new ChangeOutfitListener() );
 		buttonPanel.add( changeOutfitButton, BorderLayout.NORTH );
-
-		removeEffectButton = new JButton( "uneffect" );
-		JComponentUtilities.setComponentSize( removeEffectButton, 84, 24 );
-		removeEffectButton.addActionListener( new RemoveEffectListener() );
-		removeEffectButton.setEnabled( hasRemedy );
-		buttonPanel.add( removeEffectButton, BorderLayout.SOUTH );
-
 		southPanel.add( buttonPanel, BorderLayout.EAST );
 
 		return southPanel;
@@ -362,70 +342,6 @@ public class CharsheetFrame extends KoLFrame
 
 					CharsheetFrame.this.outfitSelect.setEnabled( !isStart );
 					CharsheetFrame.this.changeOutfitButton.setEnabled( !isStart );
-				}
-			}
-		}
-	}
-
-	private class RemoveEffectListener implements ActionListener
-	{
-		private AdventureResult effect;
-
-		public void actionPerformed( ActionEvent e )
-		{
-			effect = (AdventureResult) effectSelect.getSelectedItem();
-			if ( effect != null )
-				(new RemoveEffectThread()).start();
-		}
-
-		private class RemoveEffectThread extends Thread
-		{
-			public RemoveEffectThread()
-			{
-				super( "Remove-Effect-Thread" );
-				setDaemon( true );
-			}
-
-			public void run()
-			{
-				SwingUtilities.invokeLater( new EffectRemoveGUIUpdater() );
-				int effectCount = characterData.getEffects().size();
-				(new UneffectRequest( client, effect )).run();
-
-				if ( effectCount != characterData.getEffects().size() )
-					client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Effect removed." );
-				else
-					client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Effect removal failed." );
-
-				SwingUtilities.invokeLater( new EffectRemoveGUIUpdater(
-					client.getInventory().contains( UneffectRequest.REMEDY ) ) );
-
-			}
-
-			private class EffectRemoveGUIUpdater implements Runnable
-			{
-				private boolean isStart;
-				private boolean hasRemedy;
-
-				public EffectRemoveGUIUpdater()
-				{
-					this.isStart = true;
-					this.hasRemedy = true;
-				}
-
-				public EffectRemoveGUIUpdater( boolean hasRemedy )
-				{
-					this.isStart = false;
-					this.hasRemedy = hasRemedy;
-				}
-
-				public void run()
-				{
-					CharsheetFrame.this.effectSelect.setEnabled( !isStart && hasRemedy );
-					CharsheetFrame.this.removeEffectButton.setEnabled( !isStart && hasRemedy );
-
-					if ( isStart )
-						client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Removing effect..." );
 				}
 			}
 		}

@@ -129,6 +129,8 @@ public class AdventureFrame extends KoLFrame
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
 	private ClanBuffPanel clanBuff;
+	private RemoveEffectsPanel removeEffects;
+	private SkillBuffPanel skillBuff;
 	private HeroDonationPanel heroDonation;
 	private MeatStoragePanel meatStorage;
 
@@ -159,6 +161,15 @@ public class AdventureFrame extends KoLFrame
 		tabs.addTab( "Mall of Loathing", mallSearch );
 
 		clanBuff = new ClanBuffPanel();
+		removeEffects = new RemoveEffectsPanel();
+		skillBuff = new SkillBuffPanel();
+
+		JPanel effectsPanel = new JPanel();
+		effectsPanel.setLayout( new BorderLayout( 10, 10 ) );
+		effectsPanel.add( removeEffects, BorderLayout.NORTH );
+		effectsPanel.add( skillBuff, BorderLayout.CENTER );
+		tabs.addTab( "Effects & Buffs", effectsPanel );
+
 		heroDonation = new HeroDonationPanel();
 		meatStorage = new MeatStoragePanel();
 
@@ -269,9 +280,11 @@ public class AdventureFrame extends KoLFrame
 			locationField = new JComboBox( adventureList );
 			countField = new JTextField();
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Location: ", locationField );
 			elements[1] = new VerifiableElement( "# of turnips: ", countField );
+			elements[2] = new VerifiableElement( "Active Effects: ", new JComboBox(
+				client == null ? new LockableListModel() : client.getCharacterData().getEffects().getMirrorImage() ) );
 
 			setContent( elements, resultsTally );
 		}
@@ -906,6 +919,11 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
+	/**
+	 * An internal class which represents the panel used for storing and
+	 * removing meat from the closet.
+	 */
+
 	private class MeatStoragePanel extends KoLPanel
 	{
 		private JPanel actionStatusPanel;
@@ -1010,6 +1028,120 @@ public class AdventureFrame extends KoLFrame
 				}
 
 			}
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for removing
+	 * effects from the character.
+	 */
+
+	private class RemoveEffectsPanel extends KoLPanel
+	{
+		private JPanel actionStatusPanel;
+		private JLabel actionStatusLabel;
+
+		public RemoveEffectsPanel()
+		{
+			super( "uneffect", "description", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Active Effects: ", new JComboBox(
+				client == null ? new LockableListModel() : client.getCharacterData().getEffects().getMirrorImage() ) );
+			setContent( elements );
+		}
+
+		protected void setContent( VerifiableElement [] elements )
+		{
+			super.setContent( elements, null, null, null, true, true );
+			add( JComponentUtilities.createLabel( "Uneffective", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+
+		public void clear()
+		{
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		protected void actionConfirmed()
+		{
+			contentPanel = removeEffects;
+		}
+
+		protected void actionCancelled()
+		{
+			contentPanel = removeEffects;
+		}
+
+		public void requestFocus()
+		{
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for adding
+	 * effects to a character (yourself or others).
+	 */
+
+	private class SkillBuffPanel extends KoLPanel
+	{
+		private JPanel actionStatusPanel;
+		private JLabel actionStatusLabel;
+
+		public SkillBuffPanel()
+		{
+			super( "cast buff", "description", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Special Skills: ", new JComboBox(
+				client == null ? new LockableListModel() : client.getCharacterData().getEffects().getMirrorImage() ) );
+			setContent( elements );
+		}
+
+		protected void setContent( VerifiableElement [] elements )
+		{
+			super.setContent( elements, null, null, null, true, true );
+			add( JComponentUtilities.createLabel( "Got Skills?", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+
+		public void clear()
+		{
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		protected void actionConfirmed()
+		{
+			contentPanel = skillBuff;
+		}
+
+		protected void actionCancelled()
+		{
+			contentPanel = skillBuff;
+		}
+
+		public void requestFocus()
+		{
 		}
 	}
 
