@@ -161,7 +161,7 @@ public class AdventureResult implements Comparable
 		return (resultName.equals(MEAT) || resultName.equals(MUS) || resultName.equals(MYS) || resultName.equals(MOX)) ?
 			resultName + ": " + resultCount :
 				resultName.equals(DIVIDER) ? "--------------------------------" :
-					resultName + "(" + resultCount + ")";
+					resultName + " (" + resultCount + ")";
 	}
 
 	public boolean equals( Object o )
