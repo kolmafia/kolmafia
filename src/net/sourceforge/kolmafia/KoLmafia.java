@@ -265,8 +265,8 @@ public class KoLmafia implements UtilityConstants
 		// won't be automatically updated during changes, but the
 		// current drunkenness level is used for drunkenness tracking
 
-		if ( resultName.equals( AdventureResult.DRUNK ) )
-			characterData.setInebriety( ((AdventureResult)inventory.get( 3 )).getCount() );
+		if ( tally.size() > 4 )
+			characterData.setInebriety( ((AdventureResult)tally.get( 3 )).getCount() );
 	}
 
 	/**
