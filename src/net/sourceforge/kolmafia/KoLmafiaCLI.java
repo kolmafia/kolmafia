@@ -552,7 +552,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "hermit" ) )
 		{
-			executeAdventureRequest( (parameters.length() > 0 ? parameters + "" : "" ) + command );
+			executeAdventureRequest( (parameters.length() > 0 ? parameters + " " : "" ) + command );
 			return;
 		}
 
@@ -564,14 +564,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "toast" ) || command.equals( "rest" ) || command.equals( "relax" ) || command.equals( "arches" ) )
 		{
-			executeCampgroundRequest( command + "" + parameters );
+			executeCampgroundRequest( command + " " + parameters );
 			return;
 		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
 			command.startsWith( "equip" ) || command.equals( "effects" ) || command.startsWith( "status" ) )
 		{
-			executePrintCommand( command + "" + parameters );
+			executePrintCommand( command + " " + parameters );
 			return;
 		}
 
