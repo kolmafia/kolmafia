@@ -419,7 +419,7 @@ public class BuffBotFrame extends KoLFrame
 			restoreCheckbox = new JCheckBox[ availableRestores.length ];
 
 			JPanel checkboxPanel = new JPanel();
-			checkboxPanel.setLayout( new GridLayout( restoreCheckbox.length, 1, 2, 5 ) );
+			checkboxPanel.setLayout( new GridLayout( restoreCheckbox.length, 1 ) );
 
 			for ( int i = 0; i < restoreCheckbox.length; ++i )
 			{
@@ -428,7 +428,7 @@ public class BuffBotFrame extends KoLFrame
 			}
 
 			JPanel labelPanel = new JPanel();
-			labelPanel.setLayout( new GridLayout( availableRestores.length, 1, 2, 5 ) );
+			labelPanel.setLayout( new GridLayout( availableRestores.length, 1 ) );
 			for ( int i = 0; i < availableRestores.length; ++i )
 				labelPanel.add( new JLabel( availableRestores[i].toString(), JLabel.LEFT ) );
 
@@ -440,7 +440,7 @@ public class BuffBotFrame extends KoLFrame
 			JScrollPane scrollArea = new JScrollPane( restorePanel,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			JComponentUtilities.setComponentSize( scrollArea, 240, 80 );
+			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Message Disposal: ", messageDisposalSelect );
