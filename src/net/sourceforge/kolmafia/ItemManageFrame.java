@@ -244,8 +244,6 @@ public class ItemManageFrame extends KoLFrame
 						consumeItem( (AdventureResult) items[i] );
 
 					refreshConcoctionsList();
-					if ( client.permitsContinue() )
-						client.updateDisplay( ENABLED_STATE, " " );
 					ItemManageFrame.this.setEnabled( true );
 				}
 
