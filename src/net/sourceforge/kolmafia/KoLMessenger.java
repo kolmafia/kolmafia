@@ -85,7 +85,7 @@ public class KoLMessenger
 		contactsFrame = new ContactListFrame( client, onlineContacts );
 
 		String tabbedFrameSetting = client.getSettings().getProperty( "useTabbedFrame" );
-		setTabbedFrameSetting( tabbedFrameSetting != null && tabbedFrameSetting.equals( "true" ) );
+		setTabbedFrameSetting( tabbedFrameSetting != null && tabbedFrameSetting.equals( "1" ) );
 	}
 
 	/**
@@ -105,6 +105,7 @@ public class KoLMessenger
 			{
 				this.tabbedFrame = new TabbedChatFrame( client, this );
 				this.tabbedFrame.setVisible( true );
+				this.tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 			}
 			else
 			{
@@ -308,17 +309,20 @@ public class KoLMessenger
 
 	public void dispose()
 	{
+		while ( !instantMessageFrames.isEmpty() )
+			removeChat( (String) instantMessageFrames.firstKey() );
+
+		if ( contactsFrame != null )
+		{
+			contactsFrame.setVisible( false );
+			contactsFrame.dispose();
+		}
+
 		if ( tabbedFrame != null )
 		{
 			tabbedFrame.setVisible( false );
 			tabbedFrame.dispose();
 		}
-
-		while ( !instantMessageFrames.isEmpty() )
-			removeChat( (String) instantMessageFrames.firstKey() );
-
-		contactsFrame.setVisible( false );
-		contactsFrame.dispose();
 	}
 
 	/**
@@ -694,7 +698,7 @@ public class KoLMessenger
 
 			ChatFrame currentFrame = (ChatFrame) instantMessageFrames.get( currentChannel );
 
-			if ( currentFrame != null && currentFrame.isShowing() )
+			if ( !useTabbedFrame && currentFrame != null && currentFrame.isShowing() )
 			{
 				currentFrame.setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
 				if ( !currentFrame.hasFocus() )
