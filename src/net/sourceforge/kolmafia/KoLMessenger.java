@@ -63,7 +63,6 @@ public class KoLMessenger
 	private SortedListModel onlineContacts;
 
 	private String currentChannel;
-	private boolean isLastBlueRequest;
 
 	public KoLMessenger( KoLmafia client )
 	{
@@ -460,7 +459,8 @@ public class KoLMessenger
 			processChannelMessage( currentChannel, noLinksContent );
 			((ChatFrame)instantMessageFrames.get( currentChannel )).requestFocus();
 		}
-		else if ( !message.startsWith( "<font color=blue>" ) || message.indexOf( "<a" ) == -1 )
+		else if ( message.indexOf( "<font color=blue>" ) == -1 ||
+			(message.indexOf( "<b>from " ) != -1 && message.indexOf( "(private)</b>:" ) == -1) )
 		{
 			// The easy case is if it's a normal chat message.
 			// Then, it just gets updated to the main chat buffer,
@@ -476,7 +476,7 @@ public class KoLMessenger
 			// This is determined by where the colon is - in a
 			// send, it is not bolded, while in a receive, it is.
 
-			boolean isRecipient = message.indexOf( "</b>:" ) != -1;
+			boolean isRecipient = message.indexOf( ":</b>" ) != -1;
 
 			// Next, split the message around the tags so you know
 			// how to display the message.
@@ -491,18 +491,18 @@ public class KoLMessenger
 
 			if ( isRecipient )
 			{
-				contactName = splitMessage.nextToken().substring( 11 );
+				String firstToken = splitMessage.nextToken();
+				contactName = firstToken.substring( 0, firstToken.length() - 11 );
 				redoneMessage.append( "<font color=blue><b>" );
-				redoneMessage.append( client.getLoginName() );
-				redoneMessage.append( "</b></font>" );
+				redoneMessage.append( contactName );
+				redoneMessage.append( "</b></font>: " );
 			}
 			else
 			{
-				String firstToken = splitMessage.nextToken();
-				contactName = firstToken.substring( 0, firstToken.length() - 11 );
+				contactName = splitMessage.nextToken().substring( 11 );
 				redoneMessage.append( "<font color=red><b>" );
-				redoneMessage.append( contactName );
-				redoneMessage.append( "</b></font>: " );
+				redoneMessage.append( client.getLoginName() );
+				redoneMessage.append( "</b></font>" );
 			}
 
 			redoneMessage.append( splitMessage.nextToken() );
