@@ -78,7 +78,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( (itemUsed.getName().startsWith( "chef-in" ) && client.getCharacterData().hasChef()) ||
 			itemUsed.getName().startsWith( "bartender-in" ) && client.getCharacterData().hasBartender() )
 		{
-			client.updateAdventure( false, false );
+			client.setContinuePermission( false );
 			return;
 		}
 
@@ -124,20 +124,20 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( replyContent.indexOf( "too full" ) != -1 || replyContent.indexOf( "too drunk" ) != -1 )
 			{
-				client.updateAdventure( false, false );
+				client.setContinuePermission( false );
 				updateDisplay( KoLFrame.ENABLED_STATE, "Consumption limit reached." );
 				return;
 			}
 			else if ( replyContent.indexOf( "You've already got a familiar of that type." ) != -1 )
 			{
-				client.updateAdventure( false, false );
+				client.setContinuePermission( false );
 				updateDisplay( KoLFrame.ENABLED_STATE, "You already have that familiar." );
 				return;
 			}
 			else if ( itemUsed.getName().startsWith( "scroll of d" ) )
 			{
-				client.updateAdventure( true, true );
-				client.parseResult( "You gain " + client.getCharacterData().getMaximumHP() + " hit points"  );
+				client.setContinuePermission( true );
+				client.parseResult( "You gain " + client.getCharacterData().getBaseMaxHP() + " hit points"  );
 				if ( replyContent.indexOf( "crumble" ) == -1 )
 					return;
 			}

@@ -58,7 +58,7 @@ public class PasswordHashRequest extends KoLRequest
 		else
 		{
 			client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "I/O Error.  Please retry." );
-			client.updateAdventure( false, false );
+			client.setContinuePermission( false );
 		}
 	}
 }

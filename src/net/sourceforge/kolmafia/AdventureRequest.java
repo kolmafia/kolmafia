@@ -123,7 +123,7 @@ public class AdventureRequest extends KoLRequest
 			// should not continue with the next iteration.
 			// Friendly error messages to come later.
 
-			client.updateAdventure( false, false );
+			client.setContinuePermission( false );
 			updateDisplay( KoLFrame.ENABLED_STATE, "Adventures aborted!" );
 			return;
 		}
@@ -135,7 +135,7 @@ public class AdventureRequest extends KoLRequest
 		if ( replyContent.indexOf( "An inexpert swing of your Mattock" ) == -1 )
 			processResults( replyContent.substring( resultIndex + 12 ) );
 
-		client.updateAdventure( true, true );
+		client.setContinuePermission( true );
 
 		// If you took a trip to the shore, 500 meat should be deducted
 		// from your running tally.

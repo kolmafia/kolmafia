@@ -257,11 +257,10 @@ public class KoLmafia implements UtilityConstants
 	 * or not an adventure was completed successfully, and whether
 	 * or not another adventure is possible.
 	 *
-	 * @param	isComplete	<code>true</code> if the adventure was successfully completed
 	 * @param	permitContinue	<code>true</code> if another adventure is possible
 	 */
 
-	public void updateAdventure( boolean isComplete, boolean permitContinue )
+	public void setContinuePermission( boolean permitContinue )
 	{
 		// For now, the isComplete variable has no meaning
 		// because adventure usage is not being tracked.

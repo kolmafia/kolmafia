@@ -536,7 +536,7 @@ public class KoLRequest implements Runnable
 				// client knows that the request has been cancelled
 
 				if ( isErrorState )
-					client.updateAdventure( false, false );
+					client.setContinuePermission( false );
 			}
 
 			// Now that you're done, close the stream and prepare it for
