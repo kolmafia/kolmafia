@@ -120,16 +120,21 @@ public class KoLmafiaCLI extends KoLmafia
 	 * @param	result	String to parse for the result
 	 */
 
-	public void addToResultTally( AdventureResult result )
+	public void parseResult( String result )
 	{
 		if ( scriptRequestor == this )
 		{
-			super.addToResultTally( result );
+			super.parseResult( result );
 			if ( !inLoginState() )
-				outputStream.println( "Adventure result: " + result );
+			{
+				if ( result.startsWith( "You" ) )
+					outputStream.println( result );
+				else
+					outputStream.println( "Adventure result: " + result );
+			}
 		}
 		else
-			scriptRequestor.addToResultTally( result );
+			scriptRequestor.parseResult( result );
 	}
 
 	/**
@@ -884,9 +889,6 @@ public class KoLmafiaCLI extends KoLmafia
 			List concoctions = ConcoctionsDatabase.getConcoctions( scriptRequestor, scriptRequestor.getInventory() );
 			ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
 			index = concoctions.indexOf( concoction );
-
-for ( int i = 0; i < concoctions.size(); ++i )
-	System.out.println( concoctions.get(i) + ": " + concoctions.get(i).equals( concoction ) );
 
 			return index == -1 ? null : new AdventureResult( itemName, ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
 		}
