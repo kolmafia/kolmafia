@@ -34,10 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.CardLayout;
-
 /**
  * A special class used to determine the current moon phase.
  * Theoretically, the calculations are simple enough to be
@@ -83,11 +79,22 @@ public class MoonPhaseDatabase
 	 * Method to return which phase of the moon is currently
 	 * appearing over the Kingdom of Loathing, as a string.
 	 *
-	 * @return	The current phases of Ronald and Grimace
+	 * @return	The current phase of Ronald
 	 */
 
-	public static final String getMoonPhase()
-	{	return "Ronald: " + getPhaseName( RONALD_PHASE ) + ", Grimace: " + getPhaseName( GRIMACE_PHASE );
+	public static final String getRonaldMoonPhase()
+	{	return getPhaseName( RONALD_PHASE );
+	}
+
+	/**
+	 * Method to return which phase of the moon is currently
+	 * appearing over the Kingdom of Loathing, as a string.
+	 *
+	 * @return	The current phase of Ronald
+	 */
+
+	public static final String getGrimaceMoonPhase()
+	{	return getPhaseName( GRIMACE_PHASE );
 	}
 
 	private static final String getPhaseName( int phase )
@@ -116,22 +123,5 @@ public class MoonPhaseDatabase
 
 	public static final String getMoonEffect()
 	{	return STAT_EFFECT[ PHASE_STEP ];
-	}
-
-	/**
-	 * Creates a frame which displays detailed statistics about
-	 * the current moon phase.  This currently is made private
-	 * until the required functionality is added.
-	 */
-
-	private static final void displayMoonPhase()
-	{
-		JFrame display = new JFrame( getMoonPhase() );
-		display.getContentPane().setLayout( new CardLayout( 10, 10 ) );
-
-
-
-		display.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-		display.pack();  display.setVisible( true );
 	}
 }
