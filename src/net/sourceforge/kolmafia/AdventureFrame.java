@@ -1582,7 +1582,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-                /**
+	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
 	 * the request for viewing the item manager.
@@ -1590,11 +1590,10 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 	private class ViewBuffBotPanelListener extends DisplayFrameListener
 	{
-            private JTabbedPane advTabs;
+		private JTabbedPane advTabs;
 
 		public ViewBuffBotPanelListener()
 		{	super( BuffBotFrame.class );
-                        client.BBHome.setAdventureTabs(tabs);
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -1605,6 +1604,8 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		{
 			public void run()
 			{
+				tabs.setSelectedIndex(0);
+
 				if ( buffbotDisplay != null )
 				{
 					buffbotDisplay.setVisible( true );

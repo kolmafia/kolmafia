@@ -80,7 +80,7 @@ import java.util.regex.Pattern;
 /**
  * Container class for <code>BuffBotManager</code>
  * Provides all aspects of BuffBot execution.
- * 
+ *
  */
 public class BuffBotManager {
     private KoLMailManager BBmailbox;
@@ -94,14 +94,14 @@ public class BuffBotManager {
     private static final int BBSLEEPTIME = 1000; // Sleep this much each time
     private static final int BBSLEEPCOUNT = 60;  // This many times
 
-    
+
     /**
      * Constructor for the <code>BuffBotManager</code> class.
      */
-    public BuffBotManager(KoLmafia client, 
+    public BuffBotManager(KoLmafia client,
             LockableListModel buffCostTable){
         //for now, use the KoL mail manager
-        this.BBmailbox = (client == null) ? new KoLMailManager() : client.getMailManager(); 
+        this.BBmailbox = (client == null) ? new KoLMailManager() : client.getMailManager();
         this.client = client;
         this.buffCostTable = buffCostTable;
 
@@ -112,37 +112,33 @@ public class BuffBotManager {
         client.updateDisplay( KoLFrame.DISABLED_STATE, "Buffbot Starting" );
         me =  client.getCharacterData();
         BBLog = client.BBHome.getBBLog();
-       
+
     }
-    
+
     /**
-     * This is the main BuffBot method. 
+     * This is the main BuffBot method.
      * It loops until the user cancels, or an exception (such as not enough MP to continue).
-     * 
+     *
      * On each pass, it gets all messages from the mailbox, then iterates on the mailbox.
      */
     public void runBuffBot( ){
         KoLMailMessage firstmsg;
-        
-        
-        // A  Kluge to force the main adventure panel to be selected
-        client.BBHome.getAdventureTabs().setSelectedIndex(0);
-		
+
 		//Now, make sure the MP is up to date:
 		(new CharsheetRequest( client )).run();
         // The outer loop goes until user cancels
         while( client.permitsContinue() ){
-         
+
             //First, retrieve all messages in the mailbox (If there are any)
             if ( client != null ){
 //                BBLog.BBLogEntry("Checking the mail.");
                 MailboxRequest MBRequest = new MailboxRequest( client, "Inbox" );
                 MBRequest.run();
-                if (client.permitsContinue()) 
+                if (client.permitsContinue())
 					client.updateDisplay( KoLFrame.DISABLED_STATE, "");
 				else return;
             }
-            
+
             //Next process each message in the Inbox
             LockableListModel inbox = BBmailbox.getMessages("Inbox");
             while (inbox.size() > 0){
@@ -156,28 +152,28 @@ public class BuffBotManager {
                     BBLog.BBLogEntry("Unable to process a buff message.");
                     return;
                 }
-                
+
                 // clear it out of the inbox
                 inbox.remove(firstmsg);
-                
+
             }
-            
-                       
+
+
             // otherwise sleep for a while and then try again
-            // (don't go away for more than 1 second    
+            // (don't go away for more than 1 second
             for(int i = 1 ; i <= BBSLEEPCOUNT; i = i + 1)
                 if (client.permitsContinue())
                     KoLRequest.delay(BBSLEEPTIME);
                 else return;
         }
     }
-    
+
     boolean BBProcessMessage(KoLMailMessage myMsg ){
         String meatSentTxt, myMsgHTML;
         int meatSent;
         BuffBotFrame.buffDescriptor buffEntry;
         boolean buffRequestFound = false;
-        
+
         myMsgHTML = myMsg.getMessageHTML().replaceAll(",","");
 		Matcher meatMatcher = Pattern.compile( ">You gain \\d+ Meat" ).matcher( myMsgHTML );
         if (meatMatcher.find()){
@@ -190,12 +186,12 @@ public class BuffBotManager {
             }
             else //This should never happen
                 meatSent = -1;
-            
+
             //look for this amount in the buff table
             int myIndex = 0;
             while ((myIndex < buffCostTable.size()) && !buffRequestFound){
                 buffEntry = (BuffBotFrame.buffDescriptor) buffCostTable.get(myIndex);
-                // Look for a match of both buffCost and buffCost2 
+                // Look for a match of both buffCost and buffCost2
                 if (meatSent == buffEntry.buffCost){
                     // We have a genuine buff request, so do it!
                     buffRequestFound = true;
@@ -212,7 +208,7 @@ public class BuffBotManager {
                 }
                 myIndex++;
             }
-            
+
         }
         //Now, either save or delete the message.
         String msgDisp = ((!buffRequestFound) && saveNonBuffmsgs ? "save" : "delete");
@@ -229,11 +225,11 @@ public class BuffBotManager {
         // and then identify the number of casts per request that this
         // character can handle.
         int castsPerEvent, MPperEvent ;
-       
+
         int buffID = buffEntry.buffID;
         int totalCasts = num2cast;
         int MPperCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
-        
+
         while (totalCasts > 0){
 			castsPerEvent = Math.min(totalCasts, (me.getMaximumMP())/(MPperCast));
 			MPperEvent = MPperCast * castsPerEvent;
@@ -247,21 +243,21 @@ public class BuffBotManager {
         BBLog.BBLogEntry("Cast " + buffEntry.buffName + ", " + num2cast + " times on " + bufftarget + ".");
         return true;
     }
-    
+
     private boolean recoverMP(int MPNeeded){
         final int PHONICSMP = 46, TINYHOUSEMP = 20, BEANBAGMP = 80;
         int num2use, MPShort;
         AdventureResult itemUsed;
-        
+
         int currentMP = me.getCurrentMP();
         int maxMP = me.getMaximumMP();
 		// Don't go too far over (thus wasting Phonics downs)
-        
+
         //First try resting in the beanbag chair
         // TODO - implement beanbag chair recovery
-        
+
 		// TODO Coompute the optimal use of Tiny Houses or Phonics first
-        // try to get there using phonics downs 
+        // try to get there using phonics downs
         // always buff as close to maxMP as possible, in order to
         //        go as easy on the server as possible
         if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Phonics Only")){
@@ -294,7 +290,7 @@ public class BuffBotManager {
                 }
             }
         }
-        
+
         BBLog.BBLogEntry("Unable to acquire enough MP!");
         return false;
     }
@@ -302,7 +298,7 @@ public class BuffBotManager {
         private int consumedMP;
         private String target;
         private String buffName;
-        
+
         /**   Creates a new instance of <code>castBuffRequest</code>
          *    to do a single instance of a buff
          *    skillName and target are validated by the caller
@@ -315,7 +311,7 @@ public class BuffBotManager {
             super( client, "skills.php");
             addFormField( "action", "Skillz." );
             addFormField( "pwd", client.getPasswordHash() );
-            
+
             this.buffName = buffName;
             this.target = target;
             int skillID = ClassSkillsDatabase.getSkillID( buffName.replaceFirst( "ñ", "&ntilde;" ) );
@@ -323,16 +319,16 @@ public class BuffBotManager {
             addFormField( "bufftimes", "" + buffCount );
             addFormField( "specificplayer", target );
             this.consumedMP = ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount;
-            
+
         }
-        
+
         public void run(){
             updateDisplay( KoLFrame.DISABLED_STATE, "Casting " + buffName + " on user: " + target);
             super.run();
-            
+
             // If it does not notify you that you didn't have enough mana points,
             // then the skill was successfully used.
-            
+
             if ( replyContent == null || replyContent.indexOf( "You don't have enough" ) != -1 ) {
                 updateDisplay( KoLFrame.ENABLED_STATE, "You don't have enough mana." );
                 client.cancelRequest();
@@ -342,23 +338,23 @@ public class BuffBotManager {
                 client.cancelRequest();
                 return;
             }
-            
+
             client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
             processResults( replyContent.replaceFirst(
                     "</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );
             client.applyRecentEffects();
-                        
+
         }
-        
+
     }
-    
+
    private class dropMsgRequest extends KoLRequest {
        String msgID, msgDisp, msgSender;
-               
-        public dropMsgRequest(KoLmafia client, String msgDisp, 
+
+        public dropMsgRequest(KoLmafia client, String msgDisp,
                 KoLMailMessage myMsg){
             super(client, "messages.php");
-            
+
             this.msgDisp = msgDisp;
             addFormField( "action", msgDisp);
             addFormField( "pwd", client.getPasswordHash() );
@@ -366,11 +362,11 @@ public class BuffBotManager {
             addFormField( msgID, "on");
 			msgSender = myMsg.getSenderName();
         }
-        
+
         public void run(){
             updateDisplay( KoLFrame.DISABLED_STATE, "Removing message from " + msgSender + ", dispensation =" + msgDisp);
             super.run();
-                        
+
             if ( replyContent == null || replyContent.indexOf( "Invalid" ) != -1 ) {
                 updateDisplay( KoLFrame.ENABLED_STATE, "Unable to drop" + msgID );
                 BBLog.BBLogEntry("Unable to drop" + msgID);
@@ -379,8 +375,8 @@ public class BuffBotManager {
             }
             updateDisplay( KoLFrame.DISABLED_STATE, "");
         }
-        
+
     }
-   
+
 
 }
