@@ -103,6 +103,12 @@ public class AdventureRequest extends KoLRequest
 		if ( NEEDED_DELAY > 0 )
 			delay( NEEDED_DELAY );
 
+		// Prevent the request from happening if the client attempted
+		// to cancel in the delay period.
+
+		if ( !client.permitsContinue() )
+			return;
+
 		super.run();
 
 		// In the case of a denim axe (which redirects you to a
