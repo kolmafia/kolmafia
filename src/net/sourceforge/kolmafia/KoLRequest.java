@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
+import java.text.DecimalFormat;
 
 /**
  * Most aspects of Kingdom of Loathing are accomplished by submitting
@@ -64,6 +65,7 @@ import java.util.StringTokenizer;
 
 public class KoLRequest implements Runnable
 {
+	private static DecimalFormat df = new DecimalFormat();
 	private static String KOL_ROOT = "http://www.kingdomofloathing.com/";
 	static
 	{	applySettings();
@@ -556,10 +558,11 @@ public class KoLRequest implements Runnable
 	 * globally to all instances of <code>KoLRequest</code>.
 	 *
 	 * @param	st	The <code>StringTokenizer</code> whose next token is to be retrieved
+	 * @return	The integer token, if it exists, or 0, if the token was not a number
 	 */
 
 	protected static final int intToken( StringTokenizer st )
-	{	return Integer.parseInt( st.nextToken() );
+	{	return intToken( st, 0 );
 	}
 
 	/**
@@ -572,12 +575,19 @@ public class KoLRequest implements Runnable
 	 *
 	 * @param	st	The <code>StringTokenizer</code> whose next token is to be retrieved
 	 * @param	fromStart	The index at which the integer to parse begins
+	 * @return	The integer token, if it exists, or 0, if the token was not a number
 	 */
 
 	protected static final int intToken( StringTokenizer st, int fromStart )
 	{
-		String s = st.nextToken();
-		return Integer.parseInt( s.substring( fromStart ) );
+		try
+		{
+			String token = st.nextToken().substring( fromStart );
+			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : df.parse( token ).intValue();
+		}
+		catch ( Exception e )
+		{	return 0;
+		}
 	}
 
 	/**
@@ -591,11 +601,19 @@ public class KoLRequest implements Runnable
 	 * @param	st	The <code>StringTokenizer</code> whose next token is to be retrieved
 	 * @param	fromStart	The index at which the integer to parse begins
 	 * @param	fromEnd	The distance from the end at which the first non-numeric character is found
+	 * @return	The integer token, if it exists, or 0, if the token was not a number
 	 */
 
 	protected int intToken( StringTokenizer st, int fromStart, int fromEnd )
 	{
-		String s = st.nextToken();
-		return Integer.parseInt( s.substring( fromStart, s.length() - 1 - fromEnd ) );
+		try
+		{
+			String token = st.nextToken();
+			token = token.substring( fromStart, token.length() - 1 - fromEnd );
+			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : df.parse( token ).intValue();
+		}
+		catch ( Exception e )
+		{	return 0;
+		}
 	}
 }
