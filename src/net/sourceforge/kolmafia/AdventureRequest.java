@@ -91,6 +91,18 @@ public class AdventureRequest extends KoLRequest
 				processResults( replyContent.substring( resultIndex + 12 ) );
 
 			client.updateAdventure( true, true );
+
+			// If you took a trip to the shore, 500 meat should be deducted
+			// from your running tally.
+
+			if ( formSource.equals( "shore.php" ) )
+				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -500 ) );
+
+			// If you went to the tavern, 100 meat should be deducted from
+			// your running tally.
+
+			if ( formSource.equals( "adventure.php" ) && adventureID.equals( "25" ) )
+				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -100 ) );
 		}
 		else if ( !isErrorState && redirectLocation.equals( "choice.php" ) )
 		{
