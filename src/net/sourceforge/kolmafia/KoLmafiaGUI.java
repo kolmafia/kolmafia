@@ -152,7 +152,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedValue != null )
 			for ( int i = 0; selected == -1 && i < hermitItemNames.length; ++i )
 				if ( selectedValue.equals( hermitItemNames[i] ) )
-					selected = i;
+					selected = hermitItemNumbers[i];
 
 		if ( selected == -1 )
 			settings.remove( "hermitTrade" );
