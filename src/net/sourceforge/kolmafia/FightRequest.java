@@ -94,13 +94,6 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
-		// If the user has already specified that fighting should not
-		// continue, break here - although, in theory, the difference
-		// is very small, you might as well handle it.
-
-		if ( !client.permitsContinue() )
-			return;
-
 		super.run();
 
 		// If there were no problems, then begin fighting the battle,
