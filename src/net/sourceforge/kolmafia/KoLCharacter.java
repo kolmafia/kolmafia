@@ -63,6 +63,8 @@ public class KoLCharacter
 	private SortedListModel inventory;
 	private SortedListModel closet;
 
+	private int availableMeat;
+
 	private int inebriety;
 	private int adventuresLeft;
 	private int totalTurnsUsed;
@@ -245,7 +247,7 @@ public class KoLCharacter
 	 */
 
 	public void setAvailableMeat( int availableMeat )
-	{	inventory.set( 0, new AdventureResult( AdventureResult.MEAT, availableMeat ) );
+	{	this.availableMeat = availableMeat;
 	}
 
 	/**
@@ -256,7 +258,7 @@ public class KoLCharacter
 	 */
 
 	public int getAvailableMeat()
-	{	return ((AdventureResult) inventory.get(0)).getResultCount();
+	{	return availableMeat;
 	}
 
 	/**
