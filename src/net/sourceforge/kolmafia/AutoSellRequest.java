@@ -49,7 +49,8 @@ public class AutoSellRequest extends KoLRequest
 		super( client, "sellstuff.php" );
 		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemToSell.getName() ) );
 		addFormField( "action", "sell" );
-		addFormField( "type", "all" );
+		addFormField( "type", "quant" );
+		addFormField( "howmany", "" + itemToSell.getCount() );
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.sellType = AUTOSELL;
