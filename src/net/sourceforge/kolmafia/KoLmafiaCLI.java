@@ -84,6 +84,17 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( args[i].startsWith( "script=" ) )
 					initialScript = args[i].substring( 7 );
 
+			System.out.println();
+			System.out.println( "****************" );
+			System.out.println( "* KoLmafia CLI *" );
+			System.out.println( "****************" );
+			System.out.println();
+
+			System.out.println( "Determining server..." );
+			KoLRequest.applySettings();
+			System.out.println( KoLRequest.getRootHostName() + " selected." );
+			System.out.println();
+
 			KoLmafiaCLI session = new KoLmafiaCLI( null, initialScript );
 
 			if ( initialScript == null )
@@ -133,13 +144,6 @@ public class KoLmafiaCLI extends KoLmafia
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
-		if ( this.scriptRequestor == this )
-		{
-			outputStream.println();
-			outputStream.println( "****************" );
-			outputStream.println( "* KoLmafia CLI *" );
-			outputStream.println( "****************" );
-		}
 	}
 
 	/**
@@ -156,23 +160,32 @@ public class KoLmafiaCLI extends KoLmafia
 
 			outputStream.print( "login: " );
 			String username = commandStream.readLine();
-			if ( username == null )
+			if ( username == null || login.length() == 0 )
+			{
+				outputStream.println( "Invalid login." );
+				attemptLogin();
 				return;
+			}
 
 			outputStream.print( "password: " );
 			String password = commandStream.readLine();
 
-			if ( password == null )
+			if ( password == null || password.length() == 0 )
+			{
+				outputStream.println( "Invalid password." );
+				attemptLogin();
 				return;
+			}
+
+			outputStream.print( "breakfast?: " );
+			String breakfast = commandStream.readLine();
+
+			boolean getBreakfast = true;
+			if ( breakfast == null || breakfast.length() == 0 || breakfast.charAt(0) == 'n' || breakfast.charAt(0) == 'N' )
+				getBreakfast = false;
 
 			outputStream.println();
-
-			updateDisplay( KoLFrame.DISABLED_STATE, "Determining server..." );
-			KoLRequest.applySettings();
-			updateDisplay( KoLFrame.DISABLED_STATE, KoLRequest.getRootHostName() + " selected." );
-
-			outputStream.println();
-			(new LoginRequest( scriptRequestor, username, password, true )).run();
+			(new LoginRequest( scriptRequestor, username, password, getBreakfast )).run();
 		}
 		catch ( IOException e )
 		{
@@ -406,7 +419,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "familiar" ) )
 		{
-			if ( parameters.startsWith( "list" ) )
+			if ( parameters.startsWith( "list" ) || parameters.length() == 0 )
 			{
 				executePrintCommand( "familiars " + parameters.substring( 4 ).trim() );
 				return;
@@ -421,13 +434,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "outfit" ) )
 		{
-			if ( parameters.startsWith( "list" ) )
+			if ( parameters.startsWith( "list" ) || parameters.length() == 0 )
 			{
 				executePrintCommand( "outfits " + parameters.substring( 4 ).trim() );
 				return;
 			}
 
 			executeChangeOutfitCommand( parameters );
+			executePrintCommand( "equip" );
 			return;
 		}
 
@@ -444,7 +458,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) ||
 			command.equals( "outfits" ) || command.equals( "familiars" ) || command.equals( "summary" ) ||
-			command.startsWith( "equip" ) || command.equals( "effects" ) )
+			command.startsWith( "equip" ) || command.equals( "effects" ) || command.startsWith( "stat" ) )
 		{
 			executePrintCommand( command + " " + parameters );
 			return;
@@ -516,6 +530,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, PrintStream outputStream )
 	{
+		KoLCharacter data = scriptRequestor.getCharacterData();
+
 		if ( desiredData.equals( "session" ) )
 		{
 			outputStream.println( "Player: " + scriptRequestor.getLoginName() );
@@ -524,9 +540,24 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( desiredData.startsWith( "stat" ) )
+		{
+			outputStream.println( "HP: " + data.getCurrentHP() + " / " + data.getMaximumHP() );
+			outputStream.println( "MP: " + data.getCurrentMP() + " / " + data.getMaximumMP() );
+			outputStream.println();
+			outputStream.println( "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
+			outputStream.println( "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
+			outputStream.println( "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
+			outputStream.println();
+			outputStream.println( "Meat: " + data.getAvailableMeat() );
+			outputStream.println( "Drunk: " + data.getInebriety() );
+			outputStream.println( "Adv: " + data.getAdventuresLeft() );
+			outputStream.println( "Fam: " + data.getFamiliarRace() );
+			return;
+		}
+
 		if ( desiredData.startsWith( "equip" ) )
 		{
-			KoLCharacter data = scriptRequestor.getCharacterData();
 			outputStream.println( "       Hat: " + data.getHat() );
 			outputStream.println( "    Weapon: " + data.getWeapon() );
 			outputStream.println( "     Pants: " + data.getPants() );
@@ -556,23 +587,37 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( desiredData.equals( "outfits" ) )
 		{
-			printList( scriptRequestor.getCharacterData().getOutfits(), outputStream );
+			printList( data.getOutfits(), outputStream );
 			return;
 		}
 
 		if ( desiredData.equals( "familiars" ) )
 		{
-			printList( scriptRequestor.getCharacterData().getFamiliars(), outputStream );
+			printList( data.getFamiliars(), outputStream );
 			return;
 		}
 
 		if ( desiredData.equals( "effects" ) )
 		{
-			printList( scriptRequestor.getCharacterData().getEffects(), outputStream );
+			printList( data.getEffects(), outputStream );
 			return;
 		}
 
 		updateDisplay( KoLFrame.ENABLED_STATE, "Unknown data type: " + desiredData );
+	}
+
+	private static String getStatString( int base, int adjusted, int tnp )
+	{
+		StringBuffer statString = new StringBuffer();
+		statString.append( adjusted );
+
+		if ( base != adjusted )
+			statString.append( " (" + base + ")" );
+
+		statString.append( ", tnp = " );
+		statString.append( tnp );
+
+		return statString.toString();
 	}
 
 	/**
