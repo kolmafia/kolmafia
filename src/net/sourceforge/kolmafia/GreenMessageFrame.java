@@ -220,22 +220,24 @@ public class GreenMessageFrame extends KoLFrame
 					possibleValues[i] = possibleValues[i-1];
 				possibleValues[0] = new AdventureResult( AdventureResult.MEAT, client.getCharacterData().getAvailableMeat() );
 
-				int attachmentID = ((AdventureResult) JOptionPane.showInputDialog(
+				AdventureResult attachment = (AdventureResult) JOptionPane.showInputDialog(
 					null, "Attach to message...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
-					possibleValues, possibleValues[0] )).getItemID();
+					possibleValues, possibleValues[0] );
 
-				AdventureResult blankAttachment = new AdventureResult( attachmentID, 0 );
-				int existingIndex = attachedItems.indexOf( blankAttachment );
-				int defaultCount = existingIndex != -1 ? 0 : blankAttachment.getName().equals( AdventureResult.MEAT ) ? 0 :
-					((AdventureResult)client.getInventory().get( client.getInventory().indexOf( blankAttachment ) )).getCount();
+				int existingIndex = attachedItems.indexOf( attachment );
+				int defaultCount = attachment.getName().equals( AdventureResult.MEAT ) ? 0 : existingIndex != -1 ? 0 :
+					((AdventureResult)client.getInventory().get( client.getInventory().indexOf( attachment ) )).getCount();
 
 				int attachmentCount = df.parse( JOptionPane.showInputDialog(
-					"Attaching " + blankAttachment.getName() + "...", "" + defaultCount ) ).intValue();
+					"Attaching " + attachment.getName() + "...", "" + defaultCount ) ).intValue();
 
 				if ( existingIndex != -1 )
 					attachedItems.remove( existingIndex );
 
-				AdventureResult.addResultToList( attachedItems, new AdventureResult( attachmentID, attachmentCount ) );
+				if ( attachment.getName().equals( AdventureResult.MEAT ) )
+					AdventureResult.addResultToList( attachedItems, new AdventureResult( AdventureResult.MEAT, attachmentCount ) );
+				else
+					AdventureResult.addResultToList( attachedItems, new AdventureResult( attachment.getItemID(), attachmentCount ) );
 				resetAttachedItemsDisplay();
 			}
 			catch ( Exception e1 )
