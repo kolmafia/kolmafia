@@ -800,12 +800,33 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			String encodedString = URLEncoder.encode( password, "UTF-8" ).replaceAll( "\\-", "%2D" ).replaceAll(
 				"\\.", "%2E" ).replaceAll( "\\*", "%2A" ).replaceAll( "_", "%5F" ).replaceAll( "\\+", "%20" );
 
-			String [] encodedParts = encodedString.split( "%" );
+			// Handle capital letters
+
+			StringBuffer encodedCaseSensitiveString = new StringBuffer();
+			char currentCharacter;
+			for ( int i = 0; i < encodedString.length(); ++i )
+			{
+				currentCharacter = encodedString.charAt(i);
+				if ( currentCharacter >= 'A' && currentCharacter <= 'Z' )
+				{
+					encodedCaseSensitiveString.append( '%' );
+					encodedCaseSensitiveString.append( Integer.toHexString( (int) currentCharacter ) );
+				}
+				else
+					encodedCaseSensitiveString.append( currentCharacter );
+			}
+
+			String [] encodedParts = encodedCaseSensitiveString.toString().split( "%" );
+
+			// Complete the encoding process
 
 			StringBuffer saveState = new StringBuffer();
-			for ( int i = 0; i < encodedParts.length; ++i )
+			if ( encodedParts[0].length() != 0 )
+				saveState.append( (new BigInteger( encodedParts[0], 36 )).toString( 10 ) );
+
+			for ( int i = 1; i < encodedParts.length; ++i )
 			{
-				if ( i != 0 )  saveState.append( ' ' );
+				saveState.append( ' ' );
 				saveState.append( (new BigInteger( encodedParts[i], 36 )).toString( 10 ) );
 			}
 
@@ -905,9 +926,12 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			String [] decodedParts = password.split( " " );
 			StringBuffer saveState = new StringBuffer();
 
-			for ( int i = 0; i < decodedParts.length; ++i )
+			if ( decodedParts[0].length() != 0 )
+				saveState.append( (new BigInteger( decodedParts[0], 10 )).toString( 36 ) );
+
+			for ( int i = 1; i < decodedParts.length; ++i )
 			{
-				if ( i != 0 )  saveState.append( '%' );
+				saveState.append( '%' );
 				saveState.append( (new BigInteger( decodedParts[i], 10 )).toString( 36 ) );
 			}
 
