@@ -246,8 +246,8 @@
 272	0	concentrated magicalness pill
 273	0	giant moxie weed
 274	0	Familiar-Gro&trade; Terrarium
-275	0	mosquito larva
-276	0	leprechaun hatchling
+275	3	mosquito larva
+276	3	leprechaun hatchling
 277	0	extra-strength strongness elixir
 278	0	jug-o-magicalness
 279	0	suntan lotion of moxiousness
@@ -259,7 +259,7 @@
 285	0	walrus-tusk earring
 286	0	ring of half-assed regeneration
 287	0	Boris's ring
-288	0	potato sprout
+288	3	potato sprout
 289	0	Jarlsberg's earring
 290	0	Sneaky Pete's breath spray
 291	0	can of maces
@@ -298,7 +298,7 @@
 324	1	sausage pizza
 325	1	goat cheese pizza
 326	1	mushroom pizza
-327	0	goat
+327	3	goat
 328	2	bottle of whiskey
 329	0	goat beard
 330	0	glass of goat's milk
@@ -306,7 +306,7 @@
 332	1	lemon
 333	1	lime
 334	0	sabre teeth
-335	0	sabre-toothed lime cub
+335	3	sabre-toothed lime cub
 338	0	tenderizing hammer
 340	0	Knob Goblin steroids
 341	0	Knob Goblin love potion
@@ -374,11 +374,11 @@
 405	0	sunken chest
 406	0	pirate pelvis
 407	0	pirate skull
-408	0	spooky pirate skeleton
+408	3	spooky pirate skeleton
 409	0	vial of patchouli oil
 410	0	sk8board
 411	0	charrrm
-412	0	barrnacle
+412	3	barrnacle
 413	0	charrrm bracelet
 414	0	crowbarrr
 415	0	leotarrrd
@@ -476,11 +476,11 @@
 519	0	moxie magnet
 521	0	kickback cookbook
 522	0	one-winged stab bat
-523	0	rewinged stab bat
+523	3	rewinged stab bat
 524	2	papaya sling
 527	0	volleyball
-528	0	blood-faced volleyball
-529	0	fertilized ghuol egg
+528	3	blood-faced volleyball
+529	3	fertilized ghuol egg
 530	0	spray paint
 531	0	special sauce glove
 532	0	ladle of mystery
@@ -512,7 +512,7 @@
 558	1	papaya taco
 559	0	razor-sharp can lid
 560	1	stalk of asparagus
-561	0	pregnant mushroom
+561	3	pregnant mushroom
 562	0	ratgut
 563	0	sonar-in-a-biscuit
 564	2	Mad Train wine
@@ -541,11 +541,11 @@
 588	0	soft green echo eyedrop antidote
 589	1	cocoa eggshell fragment
 590	1	large cocoa eggshell fragment
-591	0	cocoa egg
+591	3	cocoa egg
 592	0	tiny house
 593	0	phonics down
 594	0	amulet of extreme plot significance
-595	0	scroll of drastic healing
+595	3	scroll of drastic healing
 596	0	titanium assault umbrella
 597	0	Mohawk wig
 599	0	pants of the Slug Lord
@@ -599,7 +599,7 @@
 661	0	star hat
 662	0	star buckler
 663	0	star throwing star
-664	0	star starfish
+664	3	star starfish
 665	0	Richard's star key
 666	0	steaming evil
 668	0	spiked femur
@@ -640,7 +640,7 @@
 763	0	ghostly pickling solution
 764	1	spectral pickle
 765	0	briny vinegar
-766	0	ghost pickle on a stick
+766	3	ghost pickle on a stick
 767	0	dill potion
 768	0	spork
 770	0	basic meat fez
@@ -691,7 +691,7 @@
 825	0	fizzy potion
 826	0	dark potion
 827	0	murky potion
-828	0	baby killer bee
+828	3	baby killer bee
 829	0	anti-anti-antidote
 830	1	royal jelly
 831	0	small box
@@ -733,11 +733,11 @@
 876	0	incredibly dense meat gem
 877	0	Talisman of Baio
 878	0	hypnodisk
-894	0	Dark Jill-O-Lantern
+894	3	Dark Jill-O-Lantern
 895	0	Ms. Accessory
 896	0	Mr. Accessory Jr.
-897	0	coffee sprite
-898	0	Cheshire Bitten
+897	3	coffee sprite
+898	3	Cheshire Bitten
 899	0	custom avatar form
 900	0	smile-sharpening stone
 901	0	miniature espresso maker
@@ -752,14 +752,14 @@
 911	0	Senior Mints
 912	0	pixellated candy heart
 913	0	candied kobold
-914	0	hand turkey outline
+914	3	hand turkey outline
 918	0	Radio Free Baseball Cap
 919	0	Radio Free Pants
 920	0	Radio Free Foil
 921	1	radio button candy
 922	0	severed rocking horse head
 923	0	broken cellular phone
-924	0	crimbo elfling
+924	3	crimbo elfling
 925	0	dental pliers
 926	0	papotion of papower
 927	2	Ferita Del Petto Zinfandel
@@ -768,7 +768,7 @@
 933	1	candy cane
 934	1	gingerbread bugbear
 935	0	imitation nice watch
-936	0	Hanukkimbo dreidl
+936	3	Hanukkimbo dreidl
 937	0	menorette
 938	0	tiny plastic sword
 939	3	small Crimbo Pressie
@@ -786,7 +786,7 @@
 951	3	extra special Crimbo stocking
 952	0	spooky hockey mask
 953	0	penguin-smacking club
-954	0	orphan baby yeti
+954	3	orphan baby yeti
 955	0	fez of etymology
 956	1	carob chunk noodles
 957	1	chorizo brownies
