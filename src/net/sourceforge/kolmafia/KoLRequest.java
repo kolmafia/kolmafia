@@ -619,7 +619,7 @@ public class KoLRequest implements Runnable
 				}
 			}
 
-			else if ( lastToken.startsWith( "You acquire" ) )
+			else if ( lastToken.startsWith( "You acquire" ) && lastToken.indexOf( "effect" ) == -1 )
 				client.parseResult( parsedResults.nextToken() );
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose" )) )
 				client.parseResult( lastToken );
