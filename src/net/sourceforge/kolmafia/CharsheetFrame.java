@@ -138,20 +138,36 @@ public class CharsheetFrame extends javax.swing.JFrame
 
 	private JPanel createEquipPanel( KoLCharacter characterData )
 	{
+		JPanel fieldPanel = new JPanel();
+		fieldPanel.setLayout( new GridLayout( 9, 1 ) );
+
+		fieldPanel.add( new JLabel( "" ) );
+		fieldPanel.add( new JLabel( "Hat:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "Weapon:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "Pants:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "Familiar:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "" ) );
+
+		JPanel valuePanel = new JPanel();
+		valuePanel.setLayout( new GridLayout( 9, 1 ) );
+
+		valuePanel.add( new JLabel( "" ) );
+		valuePanel.add( new JLabel( characterData.getHat(), JLabel.LEFT ) );
+		valuePanel.add( new JLabel( characterData.getWeapon(), JLabel.LEFT ) );
+		valuePanel.add( new JLabel( characterData.getPants(), JLabel.LEFT ) );
+		valuePanel.add( new JLabel( characterData.getAccessory1(), JLabel.LEFT ) );
+		valuePanel.add( new JLabel( characterData.getAccessory2(), JLabel.LEFT ) );
+		valuePanel.add( new JLabel( characterData.getAccessory3(), JLabel.LEFT ) );
+		valuePanel.add( new JLabel( characterData.getFamiliarItem(), JLabel.LEFT ) );
+		valuePanel.add( new JLabel( "" ) );
+
 		JPanel equipPanel = new JPanel();
-		equipPanel.setLayout( new GridLayout( 9, 1 ) );
-
-		equipPanel.add( new JPanel() );
-
-		equipPanel.add( createEquipRowPanel( "Hat", characterData.getHat() ) );
-		equipPanel.add( createEquipRowPanel( "Weapon", characterData.getWeapon() ) );
-		equipPanel.add( createEquipRowPanel( "Pants", characterData.getPants() ) );
-		equipPanel.add( createEquipRowPanel( "Accessory", characterData.getAccessory1() ) );
-		equipPanel.add( createEquipRowPanel( "Accessory", characterData.getAccessory2() ) );
-		equipPanel.add( createEquipRowPanel( "Accessory", characterData.getAccessory3() ) );
-		equipPanel.add( createEquipRowPanel( "Familiar", characterData.getFamiliarItem() ) );
-
-		equipPanel.add( new JPanel() );
+		equipPanel.setLayout( new BorderLayout() );
+		equipPanel.add( fieldPanel, BorderLayout.WEST );
+		equipPanel.add( valuePanel, BorderLayout.EAST );
 
 		return equipPanel;
 	}
