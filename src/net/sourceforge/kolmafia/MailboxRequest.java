@@ -68,16 +68,17 @@ public class MailboxRequest extends KoLRequest
 		int lastMessageIndex = 0;
 		String currentMessage, currentPlainTextMessage;
 
-		Matcher messageMatcher = Pattern.compile( "<tr><td valign=top>.*?</tr>" ).matcher( replyContent );
+		Matcher messageMatcher = Pattern.compile( "<td valign=top>.*?<td valign=top>" ).matcher( replyContent );
 		while ( shouldContinueParsing && messageMatcher.find( lastMessageIndex ) )
 		{
-			lastMessageIndex = messageMatcher.end();
+			lastMessageIndex = messageMatcher.end() - 15;
+			currentMessage = messageMatcher.group();
 
 			// This replaces all of the HTML contained within the message to something
 			// that can be rendered with the default JEditorPane, and also be subject
 			// to the custom font sizes provided by LimitedSizeChatBuffer.
 
-			currentMessage = messageMatcher.group().replaceAll( "<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll(
+			currentMessage = currentMessage.replaceAll( "<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll(
 				"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
 
 			currentMessage = "<html><head><title>Message " + startingIndex + "</title></head><body>" +
