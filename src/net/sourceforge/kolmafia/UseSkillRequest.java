@@ -56,20 +56,24 @@ public class UseSkillRequest extends KoLRequest
 
 		this.skillName = skillName;
 		int skillID = ClassSkillsDatabase.getSkillID( skillName.replaceFirst( "ñ", "&ntilde;" ) );
-
 		addFormField( "whichskill", "" + skillID );
-		addFormField( "quantity", "" + buffCount );
-		addFormField( "bufftimes", "" + buffCount );
 
-		if ( target == null || target.trim().length() == 0 )
+		if ( ClassSkillsDatabase.isBuff( skillID ) )
 		{
-			if ( client.getCharacterData().getUserID() != 0 )
-				addFormField( "targetplayer", "" + client.getCharacterData().getUserID() );
+			addFormField( "bufftimes", "" + buffCount );
+
+			if ( target == null || target.trim().length() == 0 )
+			{
+				if ( client.getCharacterData().getUserID() != 0 )
+					addFormField( "targetplayer", "" + client.getCharacterData().getUserID() );
+				else
+					addFormField( "specificplayer", client.getLoginName() );
+			}
 			else
-				addFormField( "specificplayer", client.getLoginName() );
+				addFormField( "specificplayer", target );
 		}
 		else
-			addFormField( "specificplayer", target );
+			addFormField( "quantity", "" + buffCount );
 
 		this.consumedMP = ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount;
 	}

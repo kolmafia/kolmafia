@@ -60,6 +60,7 @@ public class ClassSkillsDatabase implements UtilityConstants
 	private static Map skillByID = new TreeMap();
 	private static Map skillByName = new TreeMap();
 	private static Map mpConsumptionByID = new TreeMap();
+	private static Map buffOrSkillByID = new TreeMap();
 
 	static
 	{
@@ -76,15 +77,17 @@ public class ClassSkillsDatabase implements UtilityConstants
 			while ( (line = skillsdata.readLine()) != null )
 			{
 				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 3 )
+				if ( strtok.countTokens() == 4 )
 				{
 					Integer skillID = Integer.valueOf( strtok.nextToken() );
+					Integer buffOrSkill = Integer.valueOf( strtok.nextToken() );
 					Integer mpConsumption = Integer.valueOf( strtok.nextToken() );
 					String skillName = strtok.nextToken();
 
 					skillByID.put( skillID, skillName );
 					skillByName.put( skillName.toLowerCase(), skillID );
 					mpConsumptionByID.put( skillID, mpConsumption );
+					buffOrSkillByID.put( skillID, buffOrSkill );
 				}
 			}
 		}
@@ -132,6 +135,19 @@ public class ClassSkillsDatabase implements UtilityConstants
 	{
 		Object mpConsumption = mpConsumptionByID.get( new Integer( skillID ) );
 		return mpConsumption == null ? 0 : ((Integer)mpConsumption).intValue();
+	}
+
+	/**
+	 * Returns whether or not the skill is a buff (ie: can be
+	 * used on others).
+	 *
+	 * @return	<code>true</code> if the skill can target other players
+	 */
+
+	public static final boolean isBuff( int skillID )
+	{
+		Object buffOrSkill = buffOrSkillByID.get( new Integer( skillID ) );
+		return buffOrSkill == null ? false : ((Integer)buffOrSkill).intValue() == 1;
 	}
 
 	/**
