@@ -116,18 +116,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					(new MeatPasteRequest( client, 1000 )).run();
 					quantityNeeded -= 1000;
 				}
-				while ( quantityNeeded >= 100 )
+
+				if ( quantityNeeded == 100 )
 				{
 					(new MeatPasteRequest( client, 100 )).run();
 					quantityNeeded -= 100;
 				}
-				while ( quantityNeeded >= 10 )
-				{
-					(new MeatPasteRequest( client, 10 )).run();
-					quantityNeeded -= 10;
-				}
-				for ( int i = 0; i < quantityNeeded; ++i )
-					(new MeatPasteRequest( client, 1 )).run();
+
 				break;
 			}
 
@@ -379,9 +374,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// paste than is necessary.
 
 		if ( ingredientID == MEAT_PASTE && actualQuantityNeeded > 0 )
-			actualQuantityNeeded =
-				actualQuantityNeeded > 1000 ? ((int) Math.ceil( actualQuantityNeeded / 1000 )) * 1000 :
-				actualQuantityNeeded > 100 ? 1000 : actualQuantityNeeded > 10 ? 100 : 10;
+			actualQuantityNeeded = actualQuantityNeeded > 1000 ? ((int) Math.ceil( actualQuantityNeeded / 1000 )) * 1000 : 100;
 
 		if ( actualQuantityNeeded > 0 )
 		{
@@ -406,8 +399,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				}
 			}
 
-			// If more items are still needed, then initiate a request to retrieve
-			// those items from the closet
+			// If more items are still needed, then attempt to create the desired
+			// item (since that's really the only way).
 
 			if ( actualQuantityNeeded > 0 )
 				(new ItemCreationRequest( client, ingredientID, mixingMethod, actualQuantityNeeded )).run();
