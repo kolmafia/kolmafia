@@ -143,6 +143,8 @@ public class StoreManageFrame extends KoLFrame
 		{
 			public void run()
 			{
+				client.updateDisplay( DISABLED_STATE, "Compiling reprice data..." );
+
 				java.awt.Component [] components = storeItemList.getComponents();
 				int [] itemID = new int[ components.length ];
 				int [] prices = new int[ components.length ];
