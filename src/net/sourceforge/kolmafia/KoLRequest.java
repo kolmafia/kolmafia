@@ -254,15 +254,19 @@ public class KoLRequest extends Thread
 
 			if ( client != null )
 			{
-				if ( responseCode == 302 )
+				if ( responseCode >= 300 && responseCode <= 399 )
 				{
-					// If the system is down for maintenance, the user must be
-					// notified that they should try again later.
+					// Redirect codes are all the ones that occur between
+					// 300 and 399.  All these notify the user of a location
+					// to return to; deal with the ones which are errors.
 
 					redirectLocation = formConnection.getHeaderField( "Location" );
 
 					if ( redirectLocation.equals( "maint.php" ) )
 					{
+						// If the system is down for maintenance, the user must be
+						// notified that they should try again later.
+
 						frame.updateDisplay( KoLFrame.ENABLED_STATE, "Nightly maintenance." );
 						isErrorState = true;
 					}
@@ -279,6 +283,14 @@ public class KoLRequest extends Thread
 						isErrorState = false;
 						(new FightRequest( client )).start();
 					}
+				}
+				else if ( responseCode != 200 )
+				{
+					// Other error states occur when the server does not return
+					// an "OK" reply.  For example, there is a reported issue
+					// where the server returns 500.
+
+					isErrorState = true;
 				}
 				else
 				{
@@ -320,6 +332,14 @@ public class KoLRequest extends Thread
 		catch ( IOException e )
 		{
 		}
+
+		// Here, you make sure all of the variables are non-null
+		// before returning (which would cause bizarre NPs.
+
+		if ( replyContent == null )
+			replyContent = "";
+		if ( redirectLocation == null )
+			redirectLocation = "";
 	}
 
 	protected void processResults( String results )
