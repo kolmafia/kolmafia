@@ -266,7 +266,7 @@ public class KoLmafia implements UtilityConstants
 		// current drunkenness level is used for drunkenness tracking
 
 		if ( resultName.equals( AdventureResult.DRUNK ) )
-			characterData.setInebriety( characterData.getInebriety() + result.getCount() );
+			characterData.setInebriety( ((AdventureResult)inventory.get( 3 )).getCount() );
 	}
 
 	/**
@@ -436,7 +436,7 @@ public class KoLmafia implements UtilityConstants
 			}
 			else
 			{
-				if ( characterData.getInebriety() > 19 )
+				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campground" ) == -1 && characterData.getInebriety() > 19 )
 					permitContinue = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"The mafia has stolen your shoes!  Continue adventuring anyway?",
 						"You're not drunk!  You see flying penguins and a dancing hermit!", JOptionPane.YES_NO_OPTION );
