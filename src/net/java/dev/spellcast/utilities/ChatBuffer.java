@@ -206,7 +206,10 @@ public class ChatBuffer
 	private void updateLogFile( String chatContent )
 	{
 		if ( activeLogWriter != null )
+		{
 			activeLogWriter.print( chatContent );
+			activeLogWriter.flush();
+		}
 	}
 
 	/**
