@@ -659,18 +659,37 @@ public class ItemManageFrame extends KoLFrame
 			public void run()
 			{
 				ItemManageFrame.this.setEnabled( false );
-				ItemCreationRequest selection = (ItemCreationRequest) concoctionsList.getSelectedValue();
+				Object selected = concoctionsList.getSelectedValue();
 
 				try
 				{
-					String itemName = selection.getName();
-					int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
-						"Creating multiple " + itemName + "...", "" + selection.getQuantityNeeded() ) ).intValue() : 1;
-
-					if ( creationCount > 0 )
+					if ( selected instanceof ItemCreationRequest )
 					{
-						selection.setQuantityNeeded( creationCount );
-						selection.run();
+						ItemCreationRequest selection = (ItemCreationRequest) selected;
+
+						String itemName = selection.getName();
+						int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
+							"Creating multiple " + itemName + "...", "" + selection.getQuantityNeeded() ) ).intValue() : 1;
+
+						if ( creationCount > 0 )
+						{
+							selection.setQuantityNeeded( creationCount );
+							selection.run();
+						}
+					}
+					else
+					{
+						StarChartRequest selection = (StarChartRequest) selected;
+
+						String itemName = selection.getName();
+						int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
+							"Creating multiple " + itemName + "...", "" + selection.getQuantityNeeded() ) ).intValue() : 1;
+
+						if ( creationCount > 0 )
+						{
+							selection.setQuantityNeeded( creationCount );
+							selection.run();
+						}
 					}
 
 					if ( client.permitsContinue() )

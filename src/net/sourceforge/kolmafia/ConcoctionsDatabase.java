@@ -157,6 +157,7 @@ public class ConcoctionsDatabase
 			if ( quantityPossible[i] > 0 && concoctions[i] != null )
 				concoctionsList.add( new ItemCreationRequest( client, i, concoctions[i].getMixingMethod(), quantityPossible[i] ) );
 
+		concoctionsList.addAll( StarChartRequest.getPossibleCombinations( client ) );
 		return concoctionsList;
 	}
 

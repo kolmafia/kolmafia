@@ -82,19 +82,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		this.quantityNeeded = quantityNeeded;
 	}
 
-	/**
-	 * Compares the <code>AdventureResult</code> with the given object for name
-	 * equality and priority differences.  Return values are consistent with the
-	 * rules laid out in {@link java.lang.Comparable#compareTo(Object)}.
-	 */
-
 	public int compareTo( Object o )
 	{
-		if ( !(o instanceof ItemCreationRequest) || o == null )
-			return -1;
-
-		ItemCreationRequest icr = (ItemCreationRequest) o;
-		return getName().compareTo( icr.getName() );
+		return o == null ? -1 :
+			this.toString().compareToIgnoreCase( o.toString() );
 	}
 
 	/**
