@@ -77,7 +77,7 @@ public class UseSkillRequest extends KoLRequest
 			addFormField( "quantity", "" + buffCount );
 
 		this.target = target;
-		this.buffCount = buffCount;
+		this.buffCount = buffCount < 1 ? 1 : buffCount;
 		this.consumedMP = ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount;
 	}
 
