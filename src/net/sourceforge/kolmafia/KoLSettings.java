@@ -125,9 +125,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 				// a character's settings, load them from the
 				// default file.
 
-				if ( !source.getName().equals( "~.kcs" ) )
-					loadSettings( new File( DATA_DIRECTORY + "~.kcs" ) );
-				else
+				if ( source.getName().equals( "~.kcs" ) )
 				{
 					setProperty( "loginServer", "0" );
 					setProperty( "proxySet", "false" );
