@@ -54,10 +54,7 @@ public class KoLmafia
 	private KoLSettings settings;
 	private PrintStream logStream;
 	private boolean isLogging;
-
-	private Runnable currentRequest;
 	private boolean permitContinue;
-	private int currentIteration, iterationsRemaining;
 
 	private SortedListModel tally;
 
@@ -72,9 +69,7 @@ public class KoLmafia
 		loginname = null;
 		sessionID = null;
 		passwordHash = null;
-
-		this.iterationsRemaining = 0;
-		this.permitContinue = false;
+		permitContinue = false;
 
 		activeFrame = new LoginFrame( this );
 		activeFrame.pack();  activeFrame.setVisible( true );
@@ -179,23 +174,12 @@ public class KoLmafia
 
 	public void updateAdventure( boolean isComplete, boolean permitContinue )
 	{
-		if ( isComplete )
-		{
-			++currentIteration;
-			--iterationsRemaining;
-		}
+		// For now, the isComplete variable has no meaning
+		// because adventure usage is not being tracked.
+		// However, permitContinue does - here, reset the
+		// permitContinue to the value indicated here.
 
-		// Adventuring will be permitted only if the user
-		// has not hit cancel, the adventure result claims
-		// it's okay to continue, and iterations remain.
-
-		if ( this.permitContinue && permitContinue && iterationsRemaining > 0 )
-		{
-			activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + currentIteration + " in progress..." );
-			currentRequest.run();
-		}
-		else if ( iterationsRemaining <= 0 && activeFrame instanceof AdventureFrame )
-			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
+		this.permitContinue &= permitContinue;
 	}
 
 	public void setLoginName( String loginname )
@@ -232,11 +216,18 @@ public class KoLmafia
 
 	public void makeRequest( Runnable request, int iterations )
 	{
-		this.currentIteration = 1;
-		this.iterationsRemaining = iterations;
-		this.currentRequest = request;
-		this.permitContinue = true;
-		request.run();
+		permitContinue = true;
+		int iterationsRemaining = iterations;
+
+		for ( int i = 0; permitContinue && iterationsRemaining > 0; ++i, --iterationsRemaining )
+		{
+			activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
+			request.run();
+		}
+
+		permitContinue = false;
+		if ( iterationsRemaining <= 0 )
+			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
 	}
 
 	public void cancelRequest()
