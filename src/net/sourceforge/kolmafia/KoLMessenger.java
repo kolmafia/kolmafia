@@ -420,7 +420,7 @@ public class KoLMessenger implements KoLConstants
 
 		String orderedTagsContent = noUnderlineLinksContent.replaceAll( "<br>&nbsp;&nbsp;", " " ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
 			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</font></b>", "</b></font>" ).replaceAll(
-				"</?br></b>", "</b><br>" ).replaceAll( "</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" );
+				"</?br></b>", "</b><br>" ).replaceAll( "</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" ).replaceAll( "</b></a>", "</a></b>" );
 
 		if ( orderedTagsContent.startsWith( "</font>" ) )
 			orderedTagsContent = orderedTagsContent.substring( 7 );
