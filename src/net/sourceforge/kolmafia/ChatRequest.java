@@ -147,12 +147,12 @@ public class ChatRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		int index = replyContent.indexOf( "lastseen" );
+		int index = replyContent.indexOf( "<!--lastseen:" );
 
 		try
 		{
 			if ( index != -1 )
-				lastSeen = df.parse( replyContent.substring( index + 9, index + 19 ) ).intValue();
+				lastSeen = df.parse( replyContent.substring( index + 13, index + 23 ) ).intValue();
 		}
 		catch ( Exception e )
 		{
