@@ -92,7 +92,7 @@ public class StoreManageFrame extends KoLFrame
 	{
 		public StoreManagePanel()
 		{
-			super( "add item", "search", new Dimension( 100, 20 ), new Dimension( 360, 20 ) );
+			super( "add item", "search", new Dimension( 100, 20 ), new Dimension( 320, 20 ) );
 
 			priceSummary = new LockableListModel();
 			sellingList = new JComboBox( client.getInventory().getMirrorImage() );

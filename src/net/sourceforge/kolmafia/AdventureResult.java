@@ -41,6 +41,12 @@ import java.util.StringTokenizer;
 import java.text.ParseException;
 import java.text.DecimalFormat;
 
+import java.awt.Color;
+import javax.swing.ListCellRenderer;
+import javax.swing.JLabel;
+import java.awt.Component;
+import javax.swing.JList;
+
 /**
  * A container class which encapsulates the results from an adventure and
  * handles the transformation of these results into a string.  At the
@@ -344,9 +350,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		String stringName = itemID == 41 ? "ice-cold beer (Schlitz)" : itemID == 81 ? "ice-cold beer (Willer)" :
 			name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
 
-		int autosell = TradeableItemDatabase.getPriceByID( itemID );
-		return " " + stringName + ((autosell == 0) ? "" : (" (" + df.format(autosell) + " meat)")) +
-			((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
+		return " " + stringName + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
 	}
 
 	/**
@@ -487,5 +491,39 @@ public class AdventureResult implements Comparable, KoLConstants
 			totals[i] = left.count[i] + right.count[i];
 
 		return left.isItem() ? new AdventureResult( left.itemID, totals[0] ) : new AdventureResult( left.name, totals );
+	}
+
+	public static ListCellRenderer getAutoSellCellRenderer()
+	{	return new AutoSellCellRenderer();
+	}
+
+	private static class AutoSellCellRenderer extends JLabel implements ListCellRenderer
+	{
+		public AutoSellCellRenderer()
+		{	setOpaque( true );
+		}
+
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+		{
+			if ( value instanceof AdventureResult )
+			{
+				AdventureResult ar = (AdventureResult) value;
+
+				String stringName = ar.itemID == 41 ? "ice-cold beer (Schlitz)" : ar.itemID == 81 ? "ice-cold beer (Willer)" :
+					ar.name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
+
+				int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
+				String stringForm = " " + stringName + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
+					((ar.count[0] == 1) ? "" : (" (" + df.format(ar.count[0]) + ")"));
+
+				setText( stringForm );
+			}
+			else
+				setText( value.toString() );
+
+			setBackground( isSelected ? list.getSelectionBackground() : Color.white );
+			setForeground( isSelected ? list.getSelectionForeground() : Color.black );
+			return this;
+		}
 	}
 }

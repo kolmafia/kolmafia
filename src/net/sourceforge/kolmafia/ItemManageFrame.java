@@ -320,7 +320,9 @@ public class ItemManageFrame extends KoLFrame
 		private class SellItemPanel extends ItemManagePanel
 		{
 			public SellItemPanel()
-			{	super( "Tradeable Items", "autosell", "send to store", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+			{
+				super( "Inside Inventory", "autosell", "send to store", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			}
 
 			protected void actionConfirmed()
