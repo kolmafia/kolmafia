@@ -204,6 +204,8 @@ public class KoLCharacter
 	private String familiarRace;
 	private int familiarWeight;
 
+    private String advancement;
+
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
 	 * All fields are initialized to their default values (nothing),
@@ -237,6 +239,8 @@ public class KoLCharacter
 		this.hasBartender = false;
 		this.familiarRace = "none";
 		this.familiars = new LockableListModel();
+
+		this.advancement = "none";
 	}
 
 	/**
@@ -283,6 +287,7 @@ public class KoLCharacter
 	public int getLevel()
 	{	return level;
 	}
+
 
 	/**
 	 * Accessor method to set the character's class.
@@ -1019,5 +1024,13 @@ public class KoLCharacter
 
 	public LockableListModel getFamiliars()
 	{	return familiars;
+	}
+
+	public void setAdvancement( String advancement )
+	{	this.advancement = advancement;
+	}
+
+	public String getAdvancement()
+	{	return advancement;
 	}
 }

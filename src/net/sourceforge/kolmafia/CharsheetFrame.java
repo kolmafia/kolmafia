@@ -138,7 +138,7 @@ public class CharsheetFrame extends KoLFrame
 		namePanel.setLayout( new GridLayout( 2, 1 ) );
 		namePanel.add( new JLabel( characterData.getUsername() + " (#" + characterData.getUserID() + ")", JLabel.CENTER ) );
 		namePanel.add( new JLabel( "Level " + characterData.getLevel() + " " + characterData.getClassName(), JLabel.CENTER ) );
-
+		namePanel.setToolTipText( characterData.getAdvancement() );
 		imagePanel.add( namePanel, BorderLayout.NORTH );
 
 		StringTokenizer parsedName = new StringTokenizer( characterData.getClassType() );

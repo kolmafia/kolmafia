@@ -185,6 +185,10 @@ public class CharsheetRequest extends KoLRequest
 			skipTokens( parsedContent, 3 );
 			character.setTotalTurnsUsed( intToken( parsedContent ) );
 
+			while ( !token.startsWith( "You must" ) )
+				token = parsedContent.nextToken();
+			character.setAdvancement( token );
+
 			// Determine whether or not the player has any
 			// active effects - if so, retrieve them.
 
