@@ -58,6 +58,7 @@ public class FamiliarRequest extends KoLRequest
 
 	public void run()
 	{
+		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving familiar data..." );
 		super.run();
 
 		// There's nothing to parse if an error was encountered,
@@ -88,5 +89,7 @@ public class FamiliarRequest extends KoLRequest
 				if ( replyContent.indexOf( "which=" + i ) != -1 )
 					characterData.addFamiliar( i );
 		}
+
+		updateDisplay( KoLFrame.ENABLED_STATE, " " );
 	}
 }

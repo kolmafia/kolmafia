@@ -141,10 +141,12 @@ public class EquipmentRequest extends KoLRequest
 			switch ( requestType )
 			{
 				case CLOSET:
+					updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory..." );
 					parseCloset( parsedContent );
 					break;
 
 				case EQUIPMENT:
+					updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving equipment..." );
 					parseEquipment( parsedContent );
 					break;
 			}

@@ -117,7 +117,6 @@ public abstract class KoLmafia implements UtilityConstants
 			return;
 		}
 
-		updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
 		(new PasswordHashRequest( this )).run();
 
 		if ( !permitContinue )
@@ -132,7 +131,6 @@ public abstract class KoLmafia implements UtilityConstants
 
 		if ( settings.getProperty( "skipCharacterData" ) == null )
 		{
-			updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
 			(new CharsheetRequest( this )).run();
 			(new CampgroundRequest( this )).run();
 		}
@@ -150,10 +148,7 @@ public abstract class KoLmafia implements UtilityConstants
 		usableItems = new SortedListModel();
 
 		if ( settings.getProperty( "skipInventory" ) == null )
-		{
-			updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory..." );
 			(new EquipmentRequest( this )).run();
-		}
 
 		if ( !permitContinue )
 		{
@@ -163,10 +158,7 @@ public abstract class KoLmafia implements UtilityConstants
 		}
 
 		if ( settings.getProperty( "skipFamiliarData" ) == null )
-		{
-			updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving familiar data..." );
 			(new FamiliarRequest( this )).run();
-		}
 
 		// Begin by loading the user-specific settings.
 		logStream.println( "Loading user settings for " + loginname + "..." );

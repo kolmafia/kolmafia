@@ -45,6 +45,7 @@ package net.sourceforge.kolmafia;
 public class UseSkillRequest extends KoLRequest
 {
 	private int consumedMP;
+	private String skillName;
 
 	/**
 	 * Constructs a new <code>UseSkillRequest</code>.
@@ -60,7 +61,9 @@ public class UseSkillRequest extends KoLRequest
 		addFormField( "action", "Skillz." );
 		addFormField( "pwd", client.getPasswordHash() );
 
+		this.skillName = skillName;
 		int skillID = ClassSkillsDatabase.getSkillID( skillName.replaceFirst( "ñ", "&ntilde;" ) );
+
 		addFormField( "whichskill", "" + skillID );
 		addFormField( "quantity", "" + buffCount );
 		addFormField( "bufftimes", "" + buffCount );
@@ -75,6 +78,7 @@ public class UseSkillRequest extends KoLRequest
 
 	public void run()
 	{
+		updateDisplay( KoLFrame.DISABLED_STATE, "Casting " + skillName + "..." );
 		super.run();
 
 		// If it does not notify you that you didn't have enough mana points,
@@ -82,7 +86,7 @@ public class UseSkillRequest extends KoLRequest
 
 		if ( replyContent == null || replyContent.indexOf( "You don't have enough" ) != -1 )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "Buff attempt failed (Low MP?)" );
+			updateDisplay( KoLFrame.ENABLED_STATE, "Attempt to cast " + skillName + " failed. (Low MP?)" );
 			return;
 		}
 
@@ -92,6 +96,6 @@ public class UseSkillRequest extends KoLRequest
 			"</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );
 
  		client.applyRecentEffects();
-		updateDisplay( KoLFrame.ENABLED_STATE, "Buff attempt completed." );
+		updateDisplay( KoLFrame.ENABLED_STATE, skillName + "was successfully cast." );
 	}
 }

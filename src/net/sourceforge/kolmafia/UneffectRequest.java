@@ -67,6 +67,12 @@ public class UneffectRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( !client.getInventory().contains( REMEDY ) )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "You don't have any soft green fluffy martians." );
+			return;
+		}
+
 		client.updateDisplay( KoLFrame.DISABLED_STATE, "Using soft green whatever..." );
 		super.run();
 

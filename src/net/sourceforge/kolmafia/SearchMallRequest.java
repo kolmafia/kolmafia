@@ -110,6 +110,8 @@ public class SearchMallRequest extends KoLRequest
 
 	public void run()
 	{
+		updateDisplay( KoLFrame.DISABLED_STATE, "Searching for items..." );
+
 		super.run();
 		results.clear();
 

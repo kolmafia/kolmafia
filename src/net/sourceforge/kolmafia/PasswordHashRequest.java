@@ -48,6 +48,7 @@ public class PasswordHashRequest extends KoLRequest
 
 	public void run()
 	{
+		updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
 		super.run();
 
 		StringTokenizer parsedContent = new StringTokenizer( replyContent, "\'" );

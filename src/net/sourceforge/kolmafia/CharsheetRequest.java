@@ -76,6 +76,7 @@ public class CharsheetRequest extends KoLRequest
 
 	public void run()
 	{
+		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
 		super.run();
 
 		// If an error state occurred, return from this

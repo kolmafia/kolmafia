@@ -575,8 +575,6 @@ public class AdventureFrame extends KoLFrame
 					int storeCount = countField.getText().trim().length() == 0 ? -1 :
 						df.parse( countField.getText() ).intValue();
 
-					updateDisplay( DISABLED_STATE, "Searching for items..." );
-
 					if ( storeCount == -1 )
 						(new SearchMallRequest( client, searchField.getText(), results )).run();
 					else
@@ -608,7 +606,6 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				updateDisplay( DISABLED_STATE, "Purchasing items..." );
 				Object [] purchases = resultsDisplay.getSelectedValues();
 
 				try
@@ -886,9 +883,7 @@ public class AdventureFrame extends KoLFrame
 						return;
 
 					int amount = df.parse( amountField.getText() ).intValue();
-					updateDisplay( DISABLED_STATE, "Attempting clan donation..." );
 					(new ItemStorageRequest( client, amount, ItemStorageRequest.MEAT_TO_STASH )).run();
-					updateDisplay( ENABLED_STATE, "Clan donation attempt complete." );
 				}
 				catch ( Exception e )
 				{
@@ -983,9 +978,7 @@ public class AdventureFrame extends KoLFrame
 						return;
 
 					int amount = df.parse( amountField.getText() ).intValue();
-					updateDisplay( DISABLED_STATE, "Executing transaction..." );
 					(new ItemStorageRequest( client, amount, isDeposit ? ItemStorageRequest.MEAT_TO_CLOSET : ItemStorageRequest.MEAT_TO_INVENTORY )).run();
-					updateDisplay( ENABLED_STATE, df.format( client == null ? amount : client.getCharacterData().getClosetMeat() ) );
 
 				}
 				catch ( Exception e )
@@ -1046,12 +1039,6 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( !client.getInventory().contains( UneffectRequest.REMEDY ) )
-				{
-					updateDisplay( ENABLED_STATE, "You don't have any soft green fluffy martians." );
-					return;
-				}
-
 				AdventureResult effect = (AdventureResult) effects.getSelectedItem();
 
 				if ( effect == null )
@@ -1134,8 +1121,6 @@ public class AdventureFrame extends KoLFrame
 						return;
 
 					int buffCount = df.parse( countField.getText() ).intValue();
-
-					updateDisplay( DISABLED_STATE, "Beginning buffing..." );
 					(new UseSkillRequest( client, buffName, target, buffCount )).run();
 
 				}
@@ -1160,9 +1145,7 @@ public class AdventureFrame extends KoLFrame
 	private class ViewCharacterSheetListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{
-			updateDisplay( NOCHANGE_STATE, "Retrieving character data..." );
-			(new ViewCharacterSheetThread()).start();
+		{	(new ViewCharacterSheetThread()).start();
 		}
 
 		private class ViewCharacterSheetThread extends Thread
