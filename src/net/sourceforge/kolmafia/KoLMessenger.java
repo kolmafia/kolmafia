@@ -43,7 +43,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
 
+import java.awt.Dimension;
 import javax.swing.JEditorPane;
+import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -69,11 +71,12 @@ public class KoLMessenger
 		this.instantMessageFrames = new TreeMap();
 		this.instantMessageBuffers = new TreeMap();
 
+		contactsFrame = new ContactListFrame( client, onlineContacts );
+
 		mainChatFrame = new ChatFrame( client, this );
 		mainChatBuffer = new ChatBuffer( client.getLoginName() + ": Started " +
 			Calendar.getInstance().getTime().toString() );
 		mainChatBuffer.setChatDisplay( mainChatFrame.getChatDisplay() );
-
 	}
 
 	/**
@@ -85,13 +88,18 @@ public class KoLMessenger
 
 	public void initialize()
 	{
+		KoLFrame activeFrame = client.getActiveFrame();
+
+		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Connecting to chat..." );
 		(new ChatRequest( client, null, "/channel" )).run();
+
+		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving contact list..." );
 		(new ChatRequest( client, null, "/friends" )).run();
+
+		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Initializing chat..." );
 		(new ChatRequest( client )).run();
 
-		contactsFrame = new ContactListFrame( client, onlineContacts );
-		mainChatFrame.setVisible( true );
-		contactsFrame.setVisible( onlineContacts.isEmpty() );
+		setVisible( true );
 	}
 
 	/**
@@ -171,13 +179,45 @@ public class KoLMessenger
 	 */
 
 	public void setVisible( boolean isVisible )
-	{
-		if ( mainChatFrame != null )
-			mainChatFrame.setVisible( isVisible );
+	{	(new ResetVisibilityState( isVisible )).run();
+	}
 
-		Iterator frames = instantMessageFrames.values().iterator();
-		while ( frames.hasNext() )
-			((ChatFrame) frames.next()).setVisible( isVisible );
+	/**
+	 * Runnable to ensure that the visibility is reset only
+	 * inside of the Swing thread.
+	 */
+
+	private class ResetVisibilityState implements Runnable
+	{
+		private boolean isVisible;
+
+		public ResetVisibilityState( boolean isVisible )
+		{	this.isVisible = true;
+		}
+
+		public void run()
+		{
+			if ( !SwingUtilities.isEventDispatchThread() )
+			{
+				SwingUtilities.invokeLater( this );
+				return;
+			}
+
+			if ( mainChatFrame != null )
+				mainChatFrame.setVisible( isVisible );
+
+			Iterator frames = instantMessageFrames.values().iterator();
+			while ( frames.hasNext() )
+				((ChatFrame) frames.next()).setVisible( isVisible );
+
+			if ( isVisible && !onlineContacts.isEmpty() )
+			{
+				contactsFrame.setSize( new Dimension( 150, 500 ) );
+				contactsFrame.setVisible( true );
+			}
+			else
+				contactsFrame.setVisible( false );
+		}
 	}
 
 	/**
@@ -189,6 +229,9 @@ public class KoLMessenger
 		removeChat( null );
 		while ( !instantMessageFrames.isEmpty() )
 			removeChat( (String) instantMessageFrames.firstKey() );
+
+		contactsFrame.setVisible( false );
+		contactsFrame.dispose();
 	}
 
 	/**
@@ -196,7 +239,9 @@ public class KoLMessenger
 	 */
 
 	public void requestFocus()
-	{	mainChatFrame.requestFocus();
+	{
+		if ( mainChatFrame != null )
+			mainChatFrame.requestFocus();
 	}
 
 	/**
@@ -210,7 +255,7 @@ public class KoLMessenger
 	{
 		onlineContacts.clear();
 		onlineContacts.addAll( currentContacts );
-		contactsFrame.setVisible( onlineContacts.isEmpty() );
+		contactsFrame.setVisible( !onlineContacts.isEmpty() );
 	}
 
 	/**
@@ -225,7 +270,7 @@ public class KoLMessenger
 			onlineContacts.add( characterName );
 		else if ( !isOnline )
 			onlineContacts.remove( characterName );
-		contactsFrame.setVisible( onlineContacts.isEmpty() );
+		contactsFrame.setVisible( !onlineContacts.isEmpty() );
 	}
 
 	/**
@@ -259,22 +304,47 @@ public class KoLMessenger
 		// the contact list found in the last /friends update
 
 		Matcher contactListMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( originalContent );
-		if ( contactListMatcher.find() )
+		int lastFindIndex = 0;  boolean addedHelp = false;
+		while ( contactListMatcher.find( lastFindIndex ) )
 		{
-			StringTokenizer parsedContactList = new StringTokenizer( contactListMatcher.group().replaceAll( "<.*?>", "\n" ), "\n" );
-			parsedContactList.nextToken();
+			lastFindIndex = contactListMatcher.end();
+			String result = contactListMatcher.group();
 
-			List newContactList = new ArrayList();
-			while ( parsedContactList.hasMoreTokens() )
-				newContactList.add( parsedContactList.nextToken() );
-			updateContactList( newContactList );
+			// Ignore the help information, which gets spit out whenever you
+			// type /? when looking for the contact list - on the other hand,
+			// you can opt to append the result to the window itself.
+
+			if ( !Pattern.compile( "[^<]/" ).matcher( result ).find() )
+			{
+				StringTokenizer parsedContactList = new StringTokenizer( result.replaceAll( "<.*?>", "\n" ), "\n" );
+				parsedContactList.nextToken();
+
+				List newContactList = new ArrayList();
+				while ( parsedContactList.hasMoreTokens() )
+					newContactList.add( parsedContactList.nextToken() );
+				updateContactList( newContactList );
+			}
+			else
+			{
+				mainChatBuffer.append( result.replaceAll( "><", "" ).replaceAll( "<.*?>", "<br>\n" ) );
+				addedHelp = true;
+			}
+
+			// Add an extra space inbetween the helper information and the
+			// subsequent text to make things easier to read.
+
+			if ( addedHelp )
+			{
+				mainChatBuffer.append( "<br>\n" );
+				addedHelp = false;
+			}
 		}
 
 		// Also extract messages which indicate logon/logoff of players to
 		// update the contact list.
 
 		Matcher onlineNoticeMatcher = Pattern.compile( "<font.*?><b>.*</font>" ).matcher( noLinksContent );
-		int lastFindIndex = 0;
+		lastFindIndex = 0;
 		while ( onlineNoticeMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = onlineNoticeMatcher.end();
