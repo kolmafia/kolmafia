@@ -246,12 +246,18 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_REAGENT:
 			case COOK_PASTA:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
+				{
+					client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Chef explosion!" );
 					client.getCharacterData().setChef( false );
+				}
 				break;
 
 			case MIX:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
+				{
+					client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Bartender explosion!" );
 					client.getCharacterData().setBartender( false );
+				}
 				break;
 		}
 	}
