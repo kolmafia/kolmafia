@@ -152,12 +152,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public synchronized void clear()
 	{
-		if ( size() == 0 )
-			return;
-
-		int lastIndex = size() - 1;
-		elements.clear();
-		fireIntervalRemoved( this, 0, lastIndex );
+		while ( size() != 0 )
+			remove( 0 );
 	}
 
 	/**
@@ -175,12 +171,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public synchronized boolean containsAll( Collection c )
-	{
-		Iterator myIterator = c.iterator();
-		while ( myIterator.hasNext() )
-			if ( !contains( myIterator.next() ) )
-				return false;
-		return true;
+	{	return elements.containsAll( c );
 	}
 
 	/**
