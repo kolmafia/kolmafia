@@ -52,16 +52,4 @@ public class LogoutRequest extends KoLRequest
 	public LogoutRequest( KoLmafia client )
 	{	super( client, "logout.php" );
 	}
-
-	/**
-	 * Runs the logout request.  This method attempts to
-	 * retrieve the logout page, and then notifies the
-	 * client of the successful logout.
-	 */
-
-	public void run()
-	{
-		super.run();
-		client.deinitialize();
-	}
 }
