@@ -209,7 +209,6 @@ public class AdventureFrame extends KoLFrame
 		viewMenu = new JMenu("View");
 		viewMenu.setMnemonic( KeyEvent.VK_V );
 		menuBar.add( viewMenu );
-		viewMenu.setEnabled( false );
 
 		JMenuItem csheetItem = new JMenuItem( "Character Sheet", KeyEvent.VK_S );
 		csheetItem.addActionListener( new ViewCharacterSheetListener() );
