@@ -468,8 +468,11 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			// client to terminate the loop early.  For now, since
 			// there's no actual functionality, simply request focus
 			
-			//Don't do anything if the BuffBot is running
-			if (client.isBuffBotActive()) return;
+			//Let the BuffBot deactivate itself
+			if (client.isBuffBotActive()) 
+			{	client.setBuffBotActive(false);
+				return;
+			}
 			
 			contentPanel = adventureSelect;
 			updateDisplay( ERROR_STATE, "Adventuring terminated." );
