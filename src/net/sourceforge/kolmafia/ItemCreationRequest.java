@@ -339,6 +339,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	}
 
 	/**
+	 * Returns the quantity of items to be created by this request
+	 * if it were to run right now.
+	 */
+
+	public int getQuantityNeeded()
+	{	return quantityNeeded;
+	}
+
+	/**
 	 * Sets the quantity of items to be created by this request.
 	 * This method is used whenever the original quantity intended
 	 * by the request changes.
