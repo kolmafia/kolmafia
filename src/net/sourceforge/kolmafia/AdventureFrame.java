@@ -978,9 +978,7 @@ public class AdventureFrame extends KoLFrame
 	private class ViewChatListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{
-			updateDisplay( NOCHANGE_STATE, "Initializing chat..." );
-			(new ViewChatThread()).start();
+		{	(new ViewChatThread()).start();
 		}
 
 		private class ViewChatThread extends Thread
