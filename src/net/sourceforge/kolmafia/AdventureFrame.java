@@ -115,6 +115,10 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
+	private ChatFrame kolchat;
+	private ItemManageFrame isheet;
+	private CharsheetFrame csheet;
+
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
 	private ClanGymPanel clanGym;
@@ -918,8 +922,12 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				CharsheetFrame csheet = new CharsheetFrame( client );
-				csheet.pack();  csheet.setVisible( true );
+				if ( csheet == null )
+				{
+					csheet = new CharsheetFrame( client );
+					csheet.pack();  csheet.setVisible( true );
+				}
+
 				csheet.requestFocus();
 				updateDisplay( NOCHANGE_STATE, "" );
 			}
@@ -948,13 +956,16 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				ChatFrame kolchat = new ChatFrame( client );
-				kolchat.setVisible( true );
+				if ( kolchat == null )
+				{
+					kolchat = new ChatFrame( client );
+					kolchat.setVisible( true );
+
+					if ( client != null )
+						client.initializeChat( kolchat.getChatDisplay() );
+				}
+
 				kolchat.requestFocus();
-
-				if ( client != null )
-					client.initializeChat( kolchat.getChatDisplay() );
-
 				updateDisplay( NOCHANGE_STATE, "" );
 			}
 		}
@@ -984,8 +995,12 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				ItemManageFrame isheet = new ItemManageFrame( client );
-				isheet.pack();  isheet.setVisible( true );
+				if ( isheet == null )
+				{
+					isheet = new ItemManageFrame( client );
+					isheet.pack();  isheet.setVisible( true );
+				}
+
 				isheet.requestFocus();
 				updateDisplay( NOCHANGE_STATE, "" );
 			}
@@ -1006,6 +1021,27 @@ public class AdventureFrame extends KoLFrame
 			{
 				client.deinitialize();
 				(new LogoutRequestThread()).start();
+
+				if ( csheet != null )
+				{
+					csheet.setVisible( false );
+					csheet.dispose();
+					csheet = null;
+				}
+
+				if ( kolchat != null )
+				{
+					kolchat.setVisible( false );
+					kolchat.dispose();
+					kolchat = null;
+				}
+
+				if ( isheet != null )
+				{
+					isheet.setVisible( false );
+					isheet.dispose();
+					isheet = null;
+				}
 			}
 		}
 
