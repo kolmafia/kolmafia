@@ -37,10 +37,9 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 /**
- * An extension of <code>KoLRequest</code> which handles logins.
- * A new instance is created and started for every login attempt,
- * and in the event that it is successful, will attempt to spawn
- * another thread which will retrieve the password hash.
+ * An extension of <code>KoLRequest</code> which handles fights
+ * and battles.  A new instance is created and started for every
+ * round of battle.
  */
 
 public class FightRequest extends KoLRequest
@@ -73,7 +72,7 @@ public class FightRequest extends KoLRequest
 				// was completed.
 
 				completeIteration( new StringTokenizer( replyContent.substring( winmsgIndex ) ) );
-				frame.updateDisplay( LoginFrame.LOGGED_IN_STATE, "You were victorious!" );
+				frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "You were victorious!" );
 				client.updateAdventure( true, true );
 			}
 			else if ( replyContent.indexOf( "You lose." ) != -1 )
@@ -84,7 +83,7 @@ public class FightRequest extends KoLRequest
 				// but that the loop should be halted.
 
 				completeIteration( new StringTokenizer( "" ) );
-				frame.updateDisplay( LoginFrame.LOGGED_IN_STATE, "You were defeated!" );
+				frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "You were defeated!" );
 				client.updateAdventure( true, false );
 			}
 			else

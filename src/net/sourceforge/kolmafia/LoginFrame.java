@@ -106,10 +106,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class LoginFrame extends KoLFrame
 {
-	public static final int PRE_LOGIN_STATE     = 1;
-	public static final int SENDING_LOGIN_STATE = 2;
-	public static final int LOGGED_IN_STATE     = 3;
-
 	private LoginPanel contentPanel;
 	private KoLmafia client;
 

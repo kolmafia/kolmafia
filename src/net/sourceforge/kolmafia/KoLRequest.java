@@ -259,12 +259,12 @@ public class KoLRequest extends Thread
 
 					if ( redirectLocation.equals( "maint.php" ) )
 					{
-						frame.updateDisplay( LoginFrame.PRE_LOGIN_STATE, "Nightly maintenance." );
+						frame.updateDisplay( KoLFrame.PRE_LOGIN_STATE, "Nightly maintenance." );
 						isErrorState = true;
 					}
 					else if ( redirectLocation.startsWith( "login.php" ) )
 					{
-						frame.updateDisplay( LoginFrame.PRE_LOGIN_STATE, "Session timed out." );
+						frame.updateDisplay( KoLFrame.PRE_LOGIN_STATE, "Session timed out." );
 						isErrorState = true;
 					}
 					else if ( redirectLocation.equals( "fight.php" ) )

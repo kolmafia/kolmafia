@@ -44,8 +44,8 @@ import java.security.NoSuchAlgorithmException;
 /**
  * An extension of <code>KoLRequest</code> which handles logins.
  * A new instance is created and started for every login attempt,
- * and in the event that it is successful, will attempt to spawn
- * another thread which will retrieve the password hash.
+ * and in the event that it is successful, the client provided
+ * at construction time will be notified of the success.
  */
 
 public class LoginRequest extends KoLRequest
@@ -83,12 +83,12 @@ public class LoginRequest extends KoLRequest
 			// can go ahead and try again after waiting for about ten seconds
 			// for the old session ID to clear.
 
-			frame.updateDisplay( LoginFrame.PRE_LOGIN_STATE, "Deactivating old session..." );
+			frame.updateDisplay( KoLFrame.PRE_LOGIN_STATE, "Deactivating old session..." );
 
 			try
 			{
 				this.sleep( 10000 );
-				frame.updateDisplay( LoginFrame.SENDING_LOGIN_STATE, "Sending login..." );
+				frame.updateDisplay( KoLFrame.SENDING_LOGIN_STATE, "Sending login..." );
 				(new LoginRequest( client, loginname, password )).start();
 			}
 			catch ( InterruptedException e )
@@ -100,7 +100,7 @@ public class LoginRequest extends KoLRequest
 			// This means that the login failed.  Therefore, the user should
 			// re-input their username and password.
 
-			frame.updateDisplay( LoginFrame.PRE_LOGIN_STATE, "Login failed." );
+			frame.updateDisplay( KoLFrame.PRE_LOGIN_STATE, "Login failed." );
 		}
 	}
 
@@ -110,7 +110,7 @@ public class LoginRequest extends KoLRequest
 		// login card to reflect this fact and calculate the appropriate
 		// password hash to send in for other activities
 
-		frame.updateDisplay( LoginFrame.LOGGED_IN_STATE, "Calculating password hash..." );
+		frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Calculating password hash..." );
 
 		client.setLoginName( loginname );
 		client.setPassword( password );
@@ -136,7 +136,7 @@ public class LoginRequest extends KoLRequest
 		// Update the client to show that the password hash calculation
 		// is complete and that the client is now formally initialized
 
-		frame.updateDisplay( LoginFrame.LOGGED_IN_STATE, "Hash calculation complete." );
+		frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Hash calculation complete." );
 		client.initialize();
 	}
 }
