@@ -88,7 +88,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
     private boolean saveNonBuffmsgs;
     private String MPRestoreSetting;
     private KoLCharacter me;
-    private BuffBotHome.BuffBotLog BBLog;
+    private LimitedSizeChatBuffer buffbotLog;
     private static final int BBSLEEPTIME = 1000; // Sleep this much each time
     private static final int BBSLEEPCOUNT = 60;  // This many times
 
@@ -109,7 +109,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
         this.MPRestoreSetting = settings.getProperty( "MPRestoreSelect" );
         client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
         me =  client.getCharacterData();
-        BBLog = client.getBuffBotLog();
+        buffbotLog = client.getBuffBotLog();
 
     }
 
@@ -141,7 +141,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
                 if (!processMessage(firstmsg)){
                     client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!");
                     client.cancelRequest();
-                    BBLog.BBLogEntry("Unable to process a buff message.");
+                    buffbotLog.append("Unable to process a buff message.<br>\n");
                     return;
                 }
 
@@ -196,7 +196,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
         //Now, either save or delete the message.
         String msgDisp = ((!buffRequestFound) && saveNonBuffmsgs ? "save" : "delete");
         if (!buffRequestFound) {
-            BBLog.BBLogEntry("Received non-buff message from [" + myMsg.getSenderName() + "] Action: " + msgDisp);
+            buffbotLog.append("Received non-buff message from [" + myMsg.getSenderName() + "]<br>\n");
+            buffbotLog.append("Action: " + msgDisp + "<br>\n");
         }
         (new MailboxRequest(client, "inbox", myMsg, msgDisp)).run();
         return true;
@@ -223,7 +224,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
             (new UseSkillRequest(client, buffEntry.buffName, bufftarget, castsPerEvent)).run();
             totalCasts = totalCasts - castsPerEvent;
         }
-        BBLog.BBLogEntry("Cast " + buffEntry.buffName + ", " + num2cast + " times on " + bufftarget + ".");
+        buffbotLog.append("Cast " + buffEntry.buffName + ", " + num2cast + " times on " + bufftarget + ".<br>\n");
         return true;
     }
 
@@ -251,7 +252,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
             if  ( itemIndex > -1 ){
                 num2use = Math.min(num2use, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
                 if (num2use > 0){
-                    BBLog.BBLogEntry("Consuming " + num2use + " phonics downs.");
+                    buffbotLog.append("Consuming " + num2use + " phonics downs.<br>\n");
                     (new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE, new AdventureResult( itemUsed.getItemID(), num2use ) )).run();
                     currentMP = me.getCurrentMP();
                     if (currentMP >= MPNeeded) return true;
@@ -267,14 +268,14 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
             if  ( itemIndex > -1 ){
                 num2use = Math.min(num2use, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
                 if (num2use > 0){
-                    BBLog.BBLogEntry("Consuming " + num2use + " tiny houses.");
+                    buffbotLog.append("Consuming " + num2use + " tiny houses.<br>\n");
                     (new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE, new AdventureResult( itemUsed.getItemID(), num2use ) )).run();
                     if (me.getCurrentMP() >= MPNeeded) return true;
                 }
             }
         }
 
-        BBLog.BBLogEntry("Unable to acquire enough MP!");
+        buffbotLog.append("Unable to acquire enough MP!<br>\n");
         return false;
     }
 }

@@ -111,8 +111,7 @@ public class BuffBotFrame extends KoLFrame {
     private LockableListModel BuffCostTable = new LockableListModel();
     private JComboBox NonBuffMsgSave;
     private JComboBox MPRestoreSelect;
-    private BuffBotHome.BuffBotLog BBLog;
-    private BuffBotFrame mainBBFrame;
+    private LimitedSizeChatBuffer buffbotLog;
 
     /**
      * A data class <CODE>buffDescriptor</CODE>to handle choices for each buff type.
@@ -158,15 +157,14 @@ public class BuffBotFrame extends KoLFrame {
         super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
                 " (BuffBot)", client );
 
-        mainBBFrame = this;
         setResizable( false );
 
         //Initialize the display log buffer and the file log
         if (client == null){
-            BBLog = new BuffBotHome(null).getLog();
+            buffbotLog = new BuffBotHome(null).getLog();
         } else {
             client.initializeBuffBot();
-            BBLog = client.getBuffBotLog();
+            buffbotLog = client.getBuffBotLog();
         }
 
         tabs = new JTabbedPane();
@@ -283,7 +281,10 @@ public class BuffBotFrame extends KoLFrame {
                 // Set content for "Label Preceeding & both disabled on click
                 setContent( null, null, null, null, true, true );
 
-                JScrollPane scrollArea = new JScrollPane( BBLog,
+				JEditorPane buffbotLogDisplay = new JEditorPane();
+				buffbotLog.setChatDisplay( buffbotLogDisplay );
+
+                JScrollPane scrollArea = new JScrollPane( buffbotLogDisplay,
                         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 
@@ -307,7 +308,7 @@ public class BuffBotFrame extends KoLFrame {
              * Action, based on user selecting <B>Clear Display</B>
              */
             protected void actionCancelled() {
-                BBLog.ClearLogDisplay();
+                buffbotLog.clearBuffer();
             }
         }
         /**
@@ -360,12 +361,12 @@ public class BuffBotFrame extends KoLFrame {
                 else if (duplicates)
                     JOptionPane.showMessageDialog(null,"Duplicate Buff Cost Entries!");
                 else   {
-                    mainBBFrame.setEnabled(true);
-                    client.updateDisplay( DISABLED_STATE, "Buffbotting started." );
-                    BBLog.BBLogEntry("Starting a new session.");
+                    client.updateDisplay( ENABLED_STATE, "Buffbotting started." );
+                    buffbotLog.append("Starting a new session.<br>\n");
                     client.resetContinueState();
-                    (new BuffBotManager(client, BuffCostTable)).runBuffBot( );
-                    BBLog.BBLogEntry("BuffBot Terminated.");
+
+                    (new BuffBotManager(client, BuffCostTable)).runBuffBot();
+                    buffbotLog.append("BuffBot Terminated.<br>\n");
 					client.updateDisplay( ENABLED_STATE, "BuffBot stopped." );
 
                 }

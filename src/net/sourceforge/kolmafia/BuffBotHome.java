@@ -40,9 +40,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.io.IOException;
 
-
-import javax.swing.JTextArea;
-import javax.swing.JTabbedPane;
+import javax.swing.JEditorPane;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
@@ -60,9 +58,7 @@ public class BuffBotHome{
 	private static final SimpleDateFormat logSDF = new SimpleDateFormat("D");
 
 	private KoLmafia client;
-	private BuffBotLog BBLog;
-	private PrintStream BBLogFile;
-	private JTabbedPane advTabs;
+	private LimitedSizeChatBuffer buffbotLog;
 
 	/**
 	 * Creates a new instance of <code>BuffBotHome</code>.
@@ -78,98 +74,27 @@ public class BuffBotHome{
 	 */
 
 	public void initialize(){
-		if (!(BBLog instanceof BuffBotLog))
-			BBLog = new BuffBotLog();
-
-		// First, ensure that a BBlog stream has not already been
-		// initialized - this can be checked by observing what
-		// class the current log stream is.
-
-		if ( BBLogFile instanceof BuffBotLogStream )
+		if ( buffbotLog != null )
 			return;
 
-		try {
-			String DayOfYear = logSDF.format(new Date());
-			String characterName = client.getLoginName();
-			String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
-			File f = new File( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + DayOfYear + ".log" );
+		String dayOfYear = logSDF.format(new Date());
+		String characterName = client.getLoginName();
+		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 
-			if ( !f.exists() )
-				f.createNewFile();
-
-			BBLogFile = new BuffBotLogStream( f );
-		} catch ( IOException e ) {
-			// This should not happen, unless the user
-			// security settings are too high to allow
-			// programs to write output; therefore,
-			// pretend for now that everything works.
-		}
+		buffbotLog = new LimitedSizeChatBuffer( "Buffbot Log: " + noExtensionName, Integer.MAX_VALUE );
+		buffbotLog.setActiveLogFile( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + ".html", noExtensionName );
 	}
 
-	public BuffBotLog getLog(){
-		return BBLog;
+	public LimitedSizeChatBuffer getLog(){
+		return buffbotLog;
 	}
 
 	/**
-	 * For now, this will be a simple JTextArea.
-	 * Future upgrades may support formatted text .
-	 */
-	public class BuffBotLog extends JTextArea {
-
-		private BuffBotLog(){
-			this.setEditable( false );
-		}
-
-		public void BBLogEntry(String logEntry){
-			String ExtendedLogEntry = logDF.format(new Date()) + " " + logEntry + "\n";
-			this.append(ExtendedLogEntry);
-			BBLogFile.println(ExtendedLogEntry);
-//            Not currently adding to system log. Remove comments to do this.
-//            if (client != null){
-//                client.getLogStream().println("BuffBot:" + ExtendedLogEntry );
-//            }
-		}
-
-		public void ClearLogDisplay(){
-			BBLog.selectAll();
-			BBLog.replaceSelection("");
-		}
-	}
-
-	/**
-	 * De-initializes the BBlog stream.  This method is not currently
-	 * ever called.
-	 * TODO Change to call when BuffBotPanel is closed.
+	 * De-initializes the log for the buff bot.
 	 */
 
 	public void deinitialize() {
-		if ( BBLogFile != null )
-			BBLogFile.close();
-		BBLogFile = new NullStream();
+		if ( buffbotLog != null )
+			buffbotLog.closeActiveLogFile();
 	}
-
-
-	/**
-	 * An extension of {@link java.io.PrintStream} which handles BuffBot
-	 * logging message. All logs generated
-	 * by this class will be appended to provided files.
-	 */
-
-	private class BuffBotLogStream extends java.io.PrintStream{
-
-		public BuffBotLogStream( String fileName ) throws FileNotFoundException{
-			this( new File(fileName ) );
-		}
-		public BuffBotLogStream( File file ) throws FileNotFoundException{
-			super( new FileOutputStream( file, true ) );
-			println();
-			println();
-			println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-			println( "          Beginning New BuffBot Logging Session          " );
-			println( "                  " + logDF.format(new Date()) + "       " );
-			println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-			println();
-		}
-	}
-
 }
