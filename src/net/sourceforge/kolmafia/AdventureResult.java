@@ -518,11 +518,15 @@ public class AdventureResult implements Comparable, KoLConstants
 
 				setText( stringForm );
 			}
-			else
+			else if ( value != null )
 				setText( value.toString() );
 
-			setBackground( isSelected ? list.getSelectionBackground() : Color.white );
-			setForeground( isSelected ? list.getSelectionForeground() : Color.black );
+			if ( list != null )
+			{
+				setBackground( isSelected ? list.getSelectionBackground() : Color.white );
+				setForeground( isSelected ? list.getSelectionForeground() : Color.black );
+			}
+
 			return this;
 		}
 	}
