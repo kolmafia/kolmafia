@@ -33,7 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * An extension of <code>KoLRequest</code> which handles the purchase of
@@ -198,55 +199,61 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		String result = replyContent.substring( 0, replyContent.indexOf( "</table>" ) );
 
-		if ( result.indexOf( "acquire" ) == -1 )
-		{
-			// One error is that the item price changed, or the item
-			// is no longer available because someone was faster at
-			// purchasing the item.  If that's the case, just return
-			// without doing anything; nothing left to do.
+		// One error that might be encountered is that the user
+		// already purchased the item; if that's the case, and
+		// the user hasn't exhausted their limit, then make a
+		// second request to the server containing the correct
+		// number of items to buy.
 
-			if ( result.indexOf( "may only buy" ) == -1 )
+		Matcher quantityMatcher = Pattern.compile(
+			"You may only buy ([\\d,]+) of this item per day from this store.You have already purchased ([\\d,]+)" ).matcher( result );
+
+		try
+		{
+			if ( quantityMatcher.find() )
 			{
-				if ( replyContent.indexOf( "You can't afford" ) != -1 )
-				{
-					client.cancelRequest();
-					updateDisplay( ENABLED_STATE, "Not enough funds." );
-				}
+				int limit = df.parse( quantityMatcher.group(1) ).intValue();
+				int alreadyPurchased = df.parse( quantityMatcher.group(2) ).intValue();
+
+				(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price )).run();
 				return;
 			}
-
-			// One error that might be encountered is that the user
-			// already purchased the item; if that's the case, and
-			// the user hasn't exhausted their limit, then make a
-			// second request to the server containing the correct
-			// number of items to buy.
-
-			String plainTextResult = result.replaceAll( "<.*?>", "" );
-			StringTokenizer st = new StringTokenizer( plainTextResult, " " );
-			skipTokens( st, 4 );  int limit = intToken( st );
-			skipTokens( st, 11 );  int alreadyPurchased = intToken( st );
-
-			(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price )).run();
 		}
-		else
+		catch ( Exception e )
 		{
-			// Otherwise, you managed to purchase something!  Here,
-			// you report to the client whatever you gained.
-
-			this.successful = true;
-			int itemIndex = client.getInventory().indexOf( new AdventureResult( itemName, 0 ) );
-			int beforeCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
-
-			processResults( result );
-
-			itemIndex = client.getInventory().indexOf( new AdventureResult( itemName, 0 ) );
-			int afterCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
-
-			// Also report how much meat you lost in the purchase
-			// so that gets updated in the session summary as well.
-
-			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -1 * price * (afterCount - beforeCount) ) );
 		}
+
+		// One error is that the item price changed, or the item
+		// is no longer available because someone was faster at
+		// purchasing the item.  If that's the case, just return
+		// without doing anything; nothing left to do.
+
+		if ( result.indexOf( "may only buy" ) == -1 )
+		{
+			if ( replyContent.indexOf( "You can't afford" ) != -1 )
+			{
+				client.cancelRequest();
+				updateDisplay( ENABLED_STATE, "Not enough funds." );
+			}
+			return;
+		}
+
+		// Otherwise, you managed to purchase something!  Here,
+		// you report to the client whatever you gained.
+
+		this.successful = true;
+		int itemIndex = client.getInventory().indexOf( new AdventureResult( itemID, 0 ) );
+		int beforeCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
+
+		processResults( result );
+
+		itemIndex = client.getInventory().indexOf( new AdventureResult( itemID, 0 ) );
+		int afterCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
+
+		// Also report how much meat you lost in the purchase
+		// so that gets updated in the session summary as well.
+
+		client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -1 * price * (afterCount - beforeCount) ) );
 	}
 
 	public int compareTo( Object o )
