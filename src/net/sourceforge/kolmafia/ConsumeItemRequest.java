@@ -60,6 +60,16 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public void run()
 	{
+		// Note that requests for bartenders and chefs should
+		// not be run if the character already has one
+
+		if ( (itemUsed.getName().startsWith( "chef-in" ) && client.getCharacterData().hasChef()) ||
+			itemUsed.getName().startsWith( "bartender-in" ) && client.getCharacterData().hasBartender() )
+		{
+			client.updateAdventure( false, false );
+			return;
+		}
+
 		super.run();
 
 		// You know you're successful if the server
