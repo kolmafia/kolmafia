@@ -130,9 +130,9 @@ public class ChatFrame extends KoLFrame
 		setSize( new Dimension( 400, 300 ) );
 
 		if ( associatedContact == null )
-			setTitle( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) + " (Chat)" );
+			setTitle( "KoLmafia Chat: " + ((client == null) ? "UI Test" : client.getLoginName()) );
 		else
-			setTitle( "KoLmafia: " + associatedContact + " : " + client.getLoginName() + " (Instant Message)" );
+			setTitle( "KoLmafia NSIPM: " + associatedContact + " / " + client.getLoginName() );
 	}
 
 	/**
