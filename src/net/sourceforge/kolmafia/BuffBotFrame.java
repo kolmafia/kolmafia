@@ -692,7 +692,8 @@ public class BuffBotFrame extends KoLFrame
 			public void setEnabled( boolean isEnabled )
 			{
 				confirmedButton.setEnabled( isEnabled );
-				cancelledButton.setEnabled( isEnabled );
+				//removing this, so that cancelledButton stays enabled
+				//cancelledButton.setEnabled( isEnabled );
 			}
 		}
 	}
