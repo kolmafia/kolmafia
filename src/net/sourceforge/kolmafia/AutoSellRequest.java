@@ -58,6 +58,7 @@ public class AutoSellRequest extends KoLRequest
 		addFormField( "action", "sell" );
 		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemToSell.getResultName() ) );
 		addFormField( "type", "all" );
+		addFormField( "pwd", client.getPasswordHash() );
 		soldResult = new AdventureResult( itemToSell.getResultName(), 0 - itemToSell.getResultCount() );
 	}
 
