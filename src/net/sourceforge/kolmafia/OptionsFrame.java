@@ -141,11 +141,8 @@ public class OptionsFrame extends KoLFrame
 	 * (if applicable).
 	 */
 
-	private class LoginOptionsPanel extends KoLPanel
+	private class LoginOptionsPanel extends OptionsPanel
 	{
-		private JLabel actionStatusLabel;
-		private JPanel actionStatusPanel;
-
 		private JComboBox serverSelect;
 		private JTextField proxyHost;
 		private JTextField proxyPort;
@@ -160,14 +157,7 @@ public class OptionsFrame extends KoLFrame
 
 		public LoginOptionsPanel()
 		{
-			super( "apply", "defaults", new Dimension( 120, 20 ), new Dimension( 165, 20 ) );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			super( new Dimension( 120, 20 ), new Dimension( 165, 20 ) );
 
 			LockableListModel servers = new LockableListModel();
 			servers.add( "(Auto Detect)" );
@@ -191,11 +181,6 @@ public class OptionsFrame extends KoLFrame
 			elements[4] = new VerifiableElement( "Proxy Password: ", proxyPassword );
 
 			setContent( elements );
-			add( actionStatusPanel, BorderLayout.SOUTH );
-		}
-
-		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
 		}
 
 		public void clear()
@@ -206,26 +191,16 @@ public class OptionsFrame extends KoLFrame
 		{	(new StoreSettingsThread()).start();
 		}
 
-		protected void actionCancelled()
-		{	clear();
-		}
-
 		/**
 		 * In order to keep the user interface from freezing (or at
 		 * least appearing to freeze), this internal class is used
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends Thread
+		private class LoadDefaultSettingsThread extends OptionsThread
 		{
-			public LoadDefaultSettingsThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
-				Properties settings = (client == null) ? System.getProperties() : client.getSettings();
-
 				if ( client == null )
 				{
 					System.setProperty( "loginServer", "0" );
@@ -259,19 +234,10 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends Thread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public StoreSettingsThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
-				// First, determine what the proxy settings chosen
-				// by the user.
-
-				Properties settings = (client == null) ? System.getProperties() : client.getSettings();
-
 				if ( proxyHost.getText().trim().length() != 0 )
 				{
 					settings.setProperty( "proxySet", "true" );
@@ -322,11 +288,8 @@ public class OptionsFrame extends KoLFrame
 	 * finalized.  For now, however, it only customizes attacks.
 	 */
 
-	private class BattleOptionsPanel extends KoLPanel
+	private class BattleOptionsPanel extends OptionsPanel
 	{
-		private JLabel actionStatusLabel;
-		private JPanel actionStatusPanel;
-
 		private final String [] actionnames = { "attack", "moxman" };
 		private final String [] actiondescs = { "Attack with Weapon", "Moxious Maneuver" };
 
@@ -341,14 +304,7 @@ public class OptionsFrame extends KoLFrame
 
 		public BattleOptionsPanel()
 		{
-			super( "apply", "defaults", new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			super( new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
 
 			actions = new JRadioButton[ actionnames.length ];
 			actionGroup = new ButtonGroup();
@@ -366,12 +322,7 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( actiondescs[i], JLabel.LEFT, actions[i] );
 
 			java.util.Arrays.sort( elements );
-			setContent( elements, false );
-			add( actionStatusPanel, BorderLayout.SOUTH );
-		}
-
-		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
+			setContent( elements );
 		}
 
 		public void clear()
@@ -382,31 +333,23 @@ public class OptionsFrame extends KoLFrame
 		{	(new StoreSettingsThread()).start();
 		}
 
-		protected void actionCancelled()
-		{	(new LoadDefaultSettingsThread()).start();
-		}
-
 		/**
 		 * In order to keep the user interface from freezing (or at
 		 * least appearing to freeze), this internal class is used
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends Thread
+		private class LoadDefaultSettingsThread extends OptionsThread
 		{
-			public LoadDefaultSettingsThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
-				String settings =  (client == null) ? null :
-					client.getSettings().getProperty( "battleAction" );
+				String battleSettings = (client == null) ? null :
+					settings.getProperty( "battleAction" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
 
-				if ( settings == null )
+				if ( battleSettings == null )
 					return;
 
 				// If there are default settings, make sure that the
@@ -416,7 +359,7 @@ public class OptionsFrame extends KoLFrame
 					actions[i].setSelected( false );
 
 				for ( int i = 0; i < actions.length; ++i )
-					if ( actionnames[i].equals( settings ) )
+					if ( actionnames[i].equals( battleSettings ) )
 						actions[i].setSelected( true );
 
 				(new StatusMessageChanger( "" )).run();
@@ -429,21 +372,18 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends Thread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public StoreSettingsThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client != null )
 				{
 					for ( int i = 0; i < actions.length; ++i )
 						if ( actions[i].isSelected() )
-							client.getSettings().setProperty( "battleAction", actionnames[i] );
+							settings.setProperty( "battleAction", actionnames[i] );
 
-					client.getSettings().saveSettings();
+					if ( settings instanceof KoLSettings )
+						((KoLSettings)settings).saveSettings();
 				}
 
 				(new StatusMessageChanger( "Settings saved." )).run();
@@ -458,11 +398,9 @@ public class OptionsFrame extends KoLFrame
 	 * to the Lucky Sewer adventure.
 	 */
 
-	private class SewerOptionsPanel extends KoLPanel
+	private class SewerOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] items;
-		private JLabel actionStatusLabel;
-		private JPanel actionStatusPanel;
 
 		private final String [] itemnames = { "seal-clubbing club", "seal tooth", "helmet turtle",
 			"scroll of turtle summoning", "pasta spoon", "ravioli hat", "saucepan", "spices", "disco mask",
@@ -476,14 +414,7 @@ public class OptionsFrame extends KoLFrame
 
 		public SewerOptionsPanel()
 		{
-			super( "apply", "defaults", new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			super( new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
 
 			items = new JCheckBox[ itemnames.length ];
 			for ( int i = 0; i < items.length; ++i )
@@ -496,12 +427,7 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( itemnames[i], JLabel.LEFT, items[i] );
 
 			java.util.Arrays.sort( elements );
-			setContent( elements, false );
-			add( actionStatusPanel, BorderLayout.SOUTH );
-		}
-
-		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
+			setContent( elements );
 		}
 
 		public void clear()
@@ -512,37 +438,29 @@ public class OptionsFrame extends KoLFrame
 		{	(new StoreSettingsThread()).start();
 		}
 
-		protected void actionCancelled()
-		{	(new LoadDefaultSettingsThread()).start();
-		}
-
 		/**
 		 * In order to keep the user interface from freezing (or at
 		 * least appearing to freeze), this internal class is used
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends Thread
+		private class LoadDefaultSettingsThread extends OptionsThread
 		{
-			public LoadDefaultSettingsThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
-				String settings = (client == null) ? null :
-					client.getSettings().getProperty( "luckySewer" );
+				String sewerSettings = (client == null) ? null :
+					settings.getProperty( "luckySewer" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
 
-				if ( settings == null )
+				if ( sewerSettings == null )
 					return;
 
 				// If there are default settings, make sure that the
 				// appropriate check box is checked.
 
-				StringTokenizer st = new StringTokenizer( settings, "," );
+				StringTokenizer st = new StringTokenizer( sewerSettings, "," );
 				for ( int i = 0; i < items.length; ++i )
 					items[i].setSelected( false );
 
@@ -559,12 +477,8 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends Thread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public StoreSettingsThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
 				int [] selected = new int[3];
@@ -588,11 +502,110 @@ public class OptionsFrame extends KoLFrame
 
 				if ( client != null )
 				{
-					client.getSettings().setProperty( "luckySewer", selected[0] + "," + selected[1] + "," + selected[2] );
-					client.getSettings().saveSettings();
+					settings.setProperty( "luckySewer", selected[0] + "," + selected[1] + "," + selected[2] );
+					if ( settings instanceof KoLSettings )
+						((KoLSettings)settings).saveSettings();
 				}
 
 				(new StatusMessageChanger( "Settings saved." )).run();
+			}
+		}
+	}
+
+	/**
+	 * Panel used for handling chat-related options and preferences,
+	 * including font size, window management and maybe, eventually,
+	 * coloring options for contacts.
+	 */
+
+	private class ChatOptionsPanel extends OptionsPanel
+	{
+		public ChatOptionsPanel()
+		{
+			super( new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
+		}
+
+		public void clear()
+		{	(new LoadDefaultSettingsThread()).start();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
+		private class LoadDefaultSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
+
+		private class StoreSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+			}
+		}
+	}
+
+	/**
+	 * A generic panel which adds a label to the bottom of the KoLPanel
+	 * to update the panel's status.  It also provides a thread which is
+	 * guaranteed to be a daemon thread for updating the frame which
+	 * also retrieves a reference to the client's current settings.
+	 */
+
+	private abstract class OptionsPanel extends KoLPanel
+	{
+		private JPanel actionStatusPanel;
+		private JLabel actionStatusLabel;
+
+		public OptionsPanel( Dimension left, Dimension right )
+		{
+			super( "apply", "defaults", left, right );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+		}
+
+		public void setContent( VerifiableElement [] elements )
+		{
+			setContent( elements, false );
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		protected void actionCancelled()
+		{	clear();
+		}
+
+		protected abstract class OptionsThread extends Thread
+		{
+			protected Properties settings;
+
+			public OptionsThread()
+			{
+				setDaemon( true );
+				settings = (client == null) ? System.getProperties() : client.getSettings();
 			}
 		}
 	}
