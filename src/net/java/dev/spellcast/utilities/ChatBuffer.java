@@ -204,7 +204,7 @@ public class ChatBuffer
 	private void updateLogFile( String chatContent )
 	{
 		if ( activeLogWriter != null )
-			activeLogWriter.println( chatContent );
+			activeLogWriter.print( chatContent );
 	}
 
 	/**
