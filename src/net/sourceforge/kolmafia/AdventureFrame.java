@@ -265,6 +265,11 @@ public class AdventureFrame extends KoLFrame
 
 		viewMenu.add( sendmailItem );
 
+		JMenuItem readmailItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_P );
+		readmailItem.addActionListener( new ViewMailboxListener() );
+
+		viewMenu.add( readmailItem );
+
 		addScriptMenu( menuBar );
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
@@ -581,6 +586,9 @@ public class AdventureFrame extends KoLFrame
 						(new SearchMallRequest( client, searchField.getText(), results )).run();
 					else
 						(new SearchMallRequest( client, searchField.getText(), storeCount, results )).run();
+
+					if ( results.size() > 0 )
+						resultsDisplay.ensureIndexIsVisible( 0 );
 				}
 				catch ( Exception e )
 				{
@@ -1275,6 +1283,36 @@ public class AdventureFrame extends KoLFrame
 	}
 
 	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the composer window.
+	 */
+
+	private class ViewMailboxListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new ViewMailboxThread()).start();
+		}
+
+		private class ViewMailboxThread extends Thread
+		{
+			public ViewMailboxThread()
+			{
+				super( "View-Mailbox-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				MailboxFrame mailDisplay = new MailboxFrame( client );
+				mailDisplay.pack();  mailDisplay.setVisible( true );
+				mailDisplay.requestFocus();
+				greenMessageFrames.add( mailDisplay );
+			}
+		}
+	}
+
+	/**
 	 * An internal class used to handle logout whenever the window
 	 * is closed.  An instance of this class is added to the window
 	 * listener list.
@@ -1328,10 +1366,10 @@ public class AdventureFrame extends KoLFrame
 				}
 
 				Iterator greens = greenMessageFrames.iterator();
-				GreenMessageFrame currentGreen;
+				KoLFrame currentGreen;
 				while ( greens.hasNext() )
 				{
-					currentGreen = (GreenMessageFrame) greens.next();
+					currentGreen = (KoLFrame) greens.next();
 					currentGreen.setVisible( false );
 					currentGreen.dispose();
 					greens.remove();

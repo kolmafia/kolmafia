@@ -39,20 +39,38 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JEditorPane;
+import javax.swing.ListSelectionModel;
+
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MailboxFrame extends KoLFrame
 {
-	public MailboxFrame( KoLmafia client, KoLMailManager mailbox )
-	{
-		super( "KoLmafia IcyPenguin Express", client );
+	private static final int MAXIMUM_MESSAGE_SIZE = 4000;
 
-		JList messageList = new JList( client.getMailManager().getMessages( "Inbox" ) );
+	private KoLMailManager mailbox;
+	private JEditorPane messageContent;
+	private LimitedSizeChatBuffer mailBuffer;
+
+	public MailboxFrame( KoLmafia client )
+	{
+		super( "KoLmafia IcePenguin Express", client );
+		(new MailboxRequest( client, "Inbox" )).run();
+
+		this.mailbox = (client == null) ? new KoLMailManager() : client.getMailManager();
+		JList messageList = new MailSelectList( "Inbox" );
 		JScrollPane messageListDisplay = new JScrollPane( messageList,
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 
-		JEditorPane messageContent = new JEditorPane();
+		this.messageContent = new JEditorPane();
 		JScrollPane messageContentDisplay = new JScrollPane( messageContent,
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		this.mailBuffer = new LimitedSizeChatBuffer( "KoL Mail Message", MAXIMUM_MESSAGE_SIZE );
+		mailBuffer.setChatDisplay( messageContent );
 
 		JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true,
 			messageListDisplay, messageContentDisplay );
@@ -61,9 +79,30 @@ public class MailboxFrame extends KoLFrame
 		getContentPane().add( splitPane );
 	}
 
+	private class MailSelectList extends JList implements ListSelectionListener
+	{
+		private String mailboxName;
+
+		public MailSelectList( String mailboxName )
+		{
+			super( mailbox.getMessages( mailboxName ) );
+			setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			this.mailboxName = mailboxName;
+			addListSelectionListener( this );
+		}
+
+		public void valueChanged( ListSelectionEvent e )
+		{
+			int firstIndex = e.getFirstIndex();
+			String newContent = ((KoLMailManager.KoLMailMessage)mailbox.getMessages( mailboxName ).get(firstIndex)).getMessageHTML();
+			mailBuffer.clearBuffer();
+			mailBuffer.append( newContent );
+		}
+	}
+
 	public static void main( String [] args )
 	{
-		KoLFrame mailboxFrame = new MailboxFrame( null, null );
+		KoLFrame mailboxFrame = new MailboxFrame( null );
 		mailboxFrame.pack();  mailboxFrame.setVisible( true );
 		mailboxFrame.requestFocus();
 	}

@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 public class MailboxRequest extends KoLRequest
 {
 	private String boxname;
+	private int startingIndex;
 
 	public MailboxRequest( KoLmafia client, String boxname )
 	{	this( client, boxname, 0 );
@@ -48,13 +49,17 @@ public class MailboxRequest extends KoLRequest
 	{
 		super( client, "messages.php" );
 		addFormField( "box", boxname );
-		addFormField( "begin", "" + startingIndex );
+
+		if ( startingIndex != 0 )
+			addFormField( "begin", "" + startingIndex );
 
 		this.boxname = boxname;
+		this.startingIndex = startingIndex;
 	}
 
 	public void run()
 	{
+		updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving mail from " + boxname + "..." );
 		super.run();
 
 		boolean shouldContinueParsing = true;
@@ -73,7 +78,10 @@ public class MailboxRequest extends KoLRequest
 			// to the custom font sizes provided by LimitedSizeChatBuffer.
 
 			currentMessage = messageMatcher.group().replaceAll( "<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll(
-				"<blockquote>", "<br><!-- -->" ).replaceAll( "</blockquote>", "" );
+				"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
+
+			currentMessage = "<html><head><title>Message " + startingIndex + "</title></head><body>" +
+				currentMessage + "</body></html>";
 
 			// At this point, the message is registered with the mail manager, which
 			// records the message and updates whether or not you should continue.
@@ -108,5 +116,7 @@ public class MailboxRequest extends KoLRequest
 				// the page has somehow changed (HTML-wise)
 			}
 		}
+
+		updateDisplay( KoLFrame.ENABLED_STATE, " " );
 	}
 }

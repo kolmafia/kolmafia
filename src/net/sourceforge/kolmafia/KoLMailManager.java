@@ -47,10 +47,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class KoLMailManager
 {
 	private static SimpleDateFormat sdf = new SimpleDateFormat( "EEEE, MMMM d, hh:mmaa", Locale.US );
-
 	private Map mailboxes;
 
-	public KoLMailManager( KoLmafia client )
+	public KoLMailManager()
 	{
 		mailboxes = new TreeMap();
 		mailboxes.put( "Inbox", new LockableListModel() );
@@ -81,20 +80,19 @@ public class KoLMailManager
 	{	return ((LockableListModel)mailboxes.get( boxname )).add( new KoLMailMessage( message ) );
 	}
 
-	private class KoLMailMessage
+	public class KoLMailMessage
 	{
-		private String completeMessage;
+		private String messageHTML;
 
 		private String messageID;
 		private String senderID;
 		private String senderName;
 		private Date messageDate;
-		private String messageHTML;
 
 		public KoLMailMessage( String message )
 		{
-			this.completeMessage = message;
-			this.messageID = completeMessage.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
+			this.messageHTML = message.substring( message.indexOf( "\">" ) + 2 );
+			this.messageID = message.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
 			StringTokenizer messageParser = new StringTokenizer( message, "<>" );
 
 			String lastToken = messageParser.nextToken();
@@ -120,12 +118,14 @@ public class KoLMailManager
 				// since that's about as close as it gets
 				this.messageDate = new Date();
 			}
-
-			this.messageHTML = message.substring( message.indexOf( "<!-- -->" ) + 8 );
 		}
 
 		public String toString()
 		{	return "From " + senderName + " @ " + messageDate.toString();
+		}
+
+		public String getMessageHTML()
+		{	return messageHTML;
 		}
 	}
 }
