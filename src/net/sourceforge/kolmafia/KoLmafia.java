@@ -73,8 +73,10 @@ public class KoLmafia implements UtilityConstants
 
 	public static void main( String [] args )
 	{
-		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
-    	KoLmafia session = new KoLmafia();
+
+System.out.println( MoonPhaseDatabase.getMoonEffect() );
+//		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
+//    	KoLmafia session = new KoLmafia();
 	}
 
 	/**
@@ -178,6 +180,7 @@ public class KoLmafia implements UtilityConstants
 
 		activeFrame = new AdventureFrame( this, AdventureDatabase.getAsLockableListModel( this ), tally );
 		activeFrame.pack();  activeFrame.setVisible( true );
+		activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
 		activeFrame.requestFocus();
 	}
 
