@@ -89,7 +89,7 @@ public class ChatRequest extends KoLRequest
 			actualMessage = contact + " " + message;
 		else if ( message.equals( "/who" ) && contact.startsWith( "/" ) )
 			actualMessage = "/who " + contact.substring(1);
-		else if ( contact.startsWith( "/" ) )
+		else if ( contact.startsWith( "/" ) || message.startsWith( "/" ) )
 			actualMessage = message;
 		else
 			actualMessage = "/msg " + contactID + " " + message;
