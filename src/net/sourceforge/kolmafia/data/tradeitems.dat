@@ -797,7 +797,7 @@
 797	2	rockin' wagon
 798	2	ocean motion
 799	2	fuzzbump
-800	1	poutine
+800
 801	1	Knob stir-fry
 802
 803
@@ -999,7 +999,7 @@
 999	0	maid head
 1000	0	Meat maid
 1001
-1002
+1002	0	Xlyinia's notebook
 1003	2	soda water
 1004	2	bottle of tequila
 1005	2	boxed wine
@@ -1043,3 +1043,5 @@
 1043	0	string of blue beads
 1044	0	string of green beads
 1045	0	cheap plastic bottle opener
+1046
+1047	0	N. O. Beer
