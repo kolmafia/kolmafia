@@ -65,20 +65,6 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	/**
-	 * Constructs a new <code>KoLmafia</code> object.  All data fields
-	 * are initialized to their default values, the global settings
-	 * are loaded from disk, and a <code>LoginFrame</code> is created
-	 * to allow the user to login.
-	 */
-
-	public KoLmafiaGUI()
-	{
-		activeFrame = new LoginFrame( this, saveStateNames );
-		activeFrame.pack();  activeFrame.setVisible( true );
-		activeFrame.requestFocus();
-	}
-
-	/**
 	 * Updates the currently active display in the <code>KoLmafia</code>
 	 * session.
 	 */
@@ -116,9 +102,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 			activeFrame.requestFocus();
 			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
-
 			previousActiveFrame.dispose();
-			previousActiveFrame = null;
 		}
 	}
 
@@ -130,7 +114,13 @@ public class KoLmafiaGUI extends KoLmafia
 	public void deinitialize()
 	{
 		super.deinitialize();
-		activeFrame = null;
+
+		if ( activeFrame == null )
+		{
+			activeFrame = new LoginFrame( this, saveStateNames );
+			activeFrame.pack();  activeFrame.setVisible( true );
+			activeFrame.requestFocus();
+		}
 	}
 
 	/**

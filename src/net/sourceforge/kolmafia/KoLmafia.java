@@ -113,13 +113,13 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	public KoLmafia()
 	{
 		this.isLoggingIn = true;
-		deinitialize();
 
-		initialStats = new int[3];
-		currentStats = new int[3];
-		fullStatGain = new int[3];
+		this.initialStats = new int[3];
+		this.currentStats = new int[3];
+		this.fullStatGain = new int[3];
 
-		saveStateNames = new SortedListModel();
+		this.settings = new KoLSettings();
+		this.saveStateNames = new SortedListModel();
 		String saveStateSettings = settings.getProperty( "saveState" );
 		if ( saveStateSettings != null )
 		{
@@ -133,6 +133,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		// affect performance, but not significantly.
 
 		storeSaveStates();
+		deinitialize();
 	}
 
 	/**
@@ -287,7 +288,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		passwordHash = null;
 		permitContinue = false;
 
-		settings = new KoLSettings();
 		deinitializeChat();
 		deinitializeLogStream();
 		this.permitContinue = true;

@@ -188,6 +188,7 @@ public class KoLmafiaCLI extends KoLmafia
 				getBreakfast = false;
 
 			outputStream.println();
+			scriptRequestor.deinitialize();
 			(new LoginRequest( scriptRequestor, username, password, getBreakfast, false )).run();
 		}
 		catch ( IOException e )
