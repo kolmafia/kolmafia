@@ -108,39 +108,6 @@ public class MallPurchaseRequest extends KoLRequest
 	}
 
 	/**
-	 * Accessor method to set the quantity of items to be purchased to the
-	 * given value.  This is useful when the user does not want to purchase
-	 * the maximum number of items available to them.
-	 *
-	 * @param	quantity	The number of items to be purchased
-	 */
-
-	public void setQuantity( int quantity )
-	{	this.quantity = quantity;
-	}
-
-	/**
-	 * Accessor method which returns the total number of items which
-	 * will be purchased when this <code>MallPurchaseRequest</code>
-	 * is finally run.
-	 */
-
-	public int getQuantity()
-	{	return quantity;
-	}
-
-	/**
-	 * Accessor method which returns the total cost of running this
-	 * purchase request.
-	 *
-	 * @return	The total cost of running this <code>MallPurchaseRequest</code>
-	 */
-
-	public int getRequestCost()
-	{	return quantity * price;
-	}
-
-	/**
 	 * Executes the purchase request.  This calculates the number
 	 * of items which will be purchased and adds it to the list.
 	 * Note that it marks whether or not it's already been run
@@ -196,8 +163,19 @@ public class MallPurchaseRequest extends KoLRequest
 			// Otherwise, you managed to purchase something!  Here,
 			// you report to the client whatever you gained.
 
+			int itemIndex = client.getInventory().indexOf( new AdventureResult( itemName, 0 ) );
+			int beforeCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
+
 			StringTokenizer st = new StringTokenizer( result.replaceAll( "</?b>", "\n" ), "\n" );
 			skipTokens( st, 3 );   client.parseResult( st.nextToken() );
+
+			itemIndex = client.getInventory().indexOf( new AdventureResult( itemName, 0 ) );
+			int afterCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
+
+			// Also report how much meat you lost in the purchase
+			// so that gets updated in the session summary as well.
+
+			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -1 * price * (afterCount - beforeCount) ) );
 		}
 	}
 }
