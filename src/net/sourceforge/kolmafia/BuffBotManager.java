@@ -162,7 +162,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	 * mailbox, then iterates on the mailbox.
 	 */
 
-	public void runBuffBot()
+	public synchronized void runBuffBot()
 	{
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 
