@@ -84,16 +84,9 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		super( client );
 		this.client = client;
 		this.buffCostTable = buffCostTable;
-
-		this.costMap = new TreeMap();
 		settings = (client == null) ? System.getProperties() : client.getSettings();
 
-		this.messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) != null &&
-			settings.getProperty( "buffBotMessageDisposal" ).equals("true");
-		this.mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "Phonics & Houses" :
-			settings.getProperty( "buffBotMPRestore" );
-
-		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
+		this.costMap = new TreeMap();
 
 		characterData =  client.getCharacterData();
 		buffbotLog = client.getBuffBotLog();
@@ -193,7 +186,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			this.settingString = buffID + ":" + price + ":" + castCount + ":" + restricted;
 		}
 
-		public boolean castOnTarget( String target )
+		public boolean castOnTarget( String target, int price )
 		{
 			// Figure out how much MP the buff will take, and then identify
 			// the number of casts per request that this character can handle.
@@ -204,21 +197,21 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			double mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
 
 			double currentMP;
-			int currentCast;
+			int currentCast, mpPerEvent;
 
 			while ( totalCasts > 0 )
 			{
-				if ( !recoverMP( Math.min( (int)maximumMP, (int)(totalCasts * mpPerCast) ) ) )
-					return false;
-
+				currentCast = Math.min(totalCasts, (int) (maximumMP/mpPerCast) );
+				mpPerEvent = (int) (mpPerCast * currentCast);
 				currentMP = (double) characterData.getCurrentMP();
-				currentCast = Math.min( totalCasts, (int)(currentMP / mpPerCast) );
-
+				if ( !recoverMP( mpPerEvent ) )
+						return false;
 				(new UseSkillRequest( client, buffName, target, currentCast )).run();
 				totalCasts -= currentCast;
 			}
 
-			buffbotLog.append( BUFFCOLOR + "Cast " + buffName + ", " + castCount + " times on " + target + "." + ENDCOLOR + "<br>\n");
+			buffbotLog.append( BUFFCOLOR + "Cast " + buffName + ", " + castCount + " times on " 
+					+ target + " for " + price + " meat. "+ ENDCOLOR + "<br>\n");
 			return true;
 		}
 
@@ -243,8 +236,16 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	public void runBuffBot()
 	{
-		// Now, make sure the MP is up to date
+		// need to make sure the MP is up to date
 		(new CharsheetRequest( client )).run();
+		
+		// get all current buffbot settings
+		this.messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) != null &&
+			settings.getProperty( "buffBotMessageDisposal" ).equals("true");
+		this.mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "Phonics & Houses" :
+			settings.getProperty( "buffBotMPRestore" );
+
+		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 
 		// The outer loop goes until user cancels
 		while( client.isBuffBotActive() )
@@ -288,6 +289,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	{
 		Integer meatSent;
 		BuffBotCaster buff;
+		boolean buffFound = false;
 
 		try
 		{
@@ -298,28 +300,30 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 				// Look for this amount in the buff table
 				buff = (BuffBotCaster) costMap.get( meatSent );
-				if ( buff == null )
-					return false;
-
-				// We have a genuine buff request, so do it!
-				buff.castOnTarget( message.getSenderName() );
-				deleteList.add( message );
-			}
-			else
-			{
-				buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
-				buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "delete" : "save") + ENDCOLOR + "<br>\n");
-
-				// Now, mark for either save or delete the message.
-				if ( messageDisposalSetting )
-					saveList.add( message );
-				else
+				if ( buff != null )
+				{
+					// We have a genuine buff request, so do it!
+					if (!buff.castOnTarget( message.getSenderName(), meatSent ))
+						return false;
 					deleteList.add( message );
+					return true;
+				}
 			}
 		}
 		catch( Exception e )
 		{
+			return false;
 		}
+		
+		// Must not be a buff request message, so notify user and save/delete
+		buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
+		buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "delete" : "save") + ENDCOLOR + "<br>\n");
+
+		// Now, mark for either save or delete the message.
+		if ( messageDisposalSetting )
+			saveList.add( message );
+		else
+			deleteList.add( message );
 
 		return true;
 	}
