@@ -116,7 +116,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class AdventureFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-	private JMenuItem viewMenu;
 
 	private ChatFrame kolchat;
 	private ItemManageFrame isheet;
@@ -184,9 +183,6 @@ public class AdventureFrame extends KoLFrame
 	{
 		super.setEnabled( isEnabled );
 
-		if ( viewMenu != null )
-			viewMenu.setEnabled( isEnabled );
-
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			tabs.setEnabledAt( i, isEnabled );
 
@@ -206,7 +202,7 @@ public class AdventureFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		viewMenu = new JMenu("View");
+		JMenuItem viewMenu = new JMenu("View");
 		viewMenu.setMnemonic( KeyEvent.VK_V );
 		menuBar.add( viewMenu );
 
@@ -307,6 +303,7 @@ public class AdventureFrame extends KoLFrame
 			// client to terminate the loop early.  For now, since
 			// there's no actual functionality, simply request focus
 
+			contentPanel = adventureSelect;
 			updateDisplay( ENABLED_STATE, "Adventuring terminated." );
 			client.cancelRequest();
 			requestFocus();
@@ -759,6 +756,7 @@ public class AdventureFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			isBuffing = false;
+			contentPanel = clanBuff;
 			updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
 		}
 
@@ -880,11 +878,9 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
+			contentPanel = heroDonation;
 			if ( heroField.getSelectedIndex() != -1 )
-			{
-				contentPanel = heroDonation;
 				updateDisplay( NOCHANGE_STATE, "You have killed the Hermit hiding behind the " + heroField.getSelectedItem() );
-			}
 			else
 				updateDisplay( NOCHANGE_STATE, "Blow up which statue?" );
 		}
@@ -963,6 +959,7 @@ public class AdventureFrame extends KoLFrame
 					csheet.pack();  csheet.setVisible( true );
 				}
 
+				csheet.setEnabled( contentPanel.isEnabled() );
 				csheet.requestFocus();
 				updateDisplay( NOCHANGE_STATE, "" );
 			}
@@ -1036,6 +1033,7 @@ public class AdventureFrame extends KoLFrame
 					isheet.pack();  isheet.setVisible( true );
 				}
 
+				isheet.setEnabled( contentPanel.isEnabled() );
 				isheet.requestFocus();
 				updateDisplay( NOCHANGE_STATE, "" );
 			}
