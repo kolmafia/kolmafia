@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Dimension;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
@@ -74,6 +75,11 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		protected KoLPanel( String confirmedText, String cancelledText )
 		{
 			super( confirmedText, cancelledText );
+		}
+
+		protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
+		{
+			super( confirmedText, cancelledText, labelSize, fieldSize );
 		}
 
 		public abstract void clear();
