@@ -66,6 +66,8 @@ import java.util.regex.Pattern;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
+	protected static final int REFRESH_RATE = 4800;
+
 	private static String KOL_HOST = "www.kingdomofloathing.com";
 	private static String KOL_ROOT = "http://" + KOL_HOST + "/";
 	static
@@ -282,6 +284,19 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
+		// Adding in a delay inbetween run requests - this means that
+		// all requests, not just chat requests, have a delay before
+		// running to be friendlier on the server.
+
+		try
+		{
+			if ( !formURLString.equals( "" ) && !formURLString.equals( "login.php" ) && !client.inLoginState() )
+				Thread.sleep( REFRESH_RATE );
+		}
+		catch ( InterruptedException e )
+		{
+		}
+
 		boolean connectSuccess = false;
 		for ( int i = 0; i < MAX_RETRIES && !connectSuccess; ++i )
 			connectSuccess = prepareConnection();
