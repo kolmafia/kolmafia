@@ -97,6 +97,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JCheckBox;
+import javax.swing.text.JTextComponent;
 
 // other imports
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -163,7 +164,7 @@ public class LoginFrame extends KoLFrame
 	 * inside of the <code>LoginFrame</code>.
 	 */
 
-	private class LoginPanel extends KoLPanel
+	private class LoginPanel extends KoLPanel implements ActionListener
 	{
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
@@ -197,6 +198,8 @@ public class LoginFrame extends KoLFrame
 
 			passwordField = new JPasswordField();
 			savePasswordCheckBox = new JCheckBox();
+			savePasswordCheckBox.addActionListener( this );
+
 			autoLoginCheckBox = new JCheckBox();
 			getBreakfastCheckBox = new JCheckBox();
 
@@ -275,6 +278,12 @@ public class LoginFrame extends KoLFrame
 		{	loginnameField.requestFocus();
 		}
 
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( !savePasswordCheckBox.isSelected() )
+				client.removeSaveState( (String) loginnameField.getSelectedItem() );
+		}
+
 		/**
 		 * In order to keep the user interface from freezing (or at
 		 * least appearing to freeze), this internal class is used
@@ -321,6 +330,8 @@ public class LoginFrame extends KoLFrame
 		private class LoginNameComboBox extends JComboBox implements FocusListener
 		{
 			private String currentName;
+			private String currentMatch;
+
 			public LoginNameComboBox()
 			{
 				super( saveStateNames );
@@ -353,23 +364,83 @@ public class LoginFrame extends KoLFrame
 			}
 
 			public void focusGained( FocusEvent e )
-			{
+			{	getEditor().selectAll();
 			}
 
 			public void focusLost( FocusEvent e )
-			{
-				if ( (getSelectedItem() == null || ((String)getSelectedItem()).length() == 0) &&
-					currentName != null && currentName.length() > 0 )
-						setSelectedItem( currentName );
+			{	setSelectedItem( (currentMatch == null) ? currentName : currentMatch );
 			}
 
 			private class NameInputListener extends KeyAdapter
 			{
-				public void keyPressed( KeyEvent e )
+				public void keyReleased( KeyEvent e )
 				{
-					currentName = ((String) getEditor().getItem() + e.getKeyChar()).toLowerCase().trim();
 					if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+					{
 						passwordField.requestFocus();
+						return;
+					}
+					else if ( e.getKeyChar() == KeyEvent.CHAR_UNDEFINED )
+					{
+						System.out.println( e.getKeyCode() == KeyEvent.VK_DELETE );
+						return;
+					}
+
+					// If it wasn't the enter key that was being released,
+					// then make sure that the current name is stored
+					// before the key typed event is fired
+
+					currentName = ((String) getEditor().getItem()).trim();
+					currentMatch = null;
+
+					// Autohighlight and popup - note that this
+					// should only happen for standard typing
+					// keys, or the delete and backspace keys.
+
+					boolean matchNotFound = true;
+					Object [] currentNames = saveStateNames.toArray();
+
+					if ( currentName.length() > 0 )
+					{
+						for ( int i = 0; i < currentNames.length && matchNotFound; ++i )
+						{
+							if ( ((String)currentNames[i]).toLowerCase().startsWith( currentName.toLowerCase() ) )
+							{
+								showPopup();
+								setSelectedIndex(i);
+								matchNotFound = false;
+
+								if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE )
+								{
+									// If this was an undefined character, then it
+									// was a backspace or a delete - in this case,
+									// you retain the original name after selecting
+									// the index.
+
+									getEditor().setItem( currentName );
+								}
+								else
+								{
+									// If this wasn't an undefined character, then
+									// the user wants autocompletion!  Highlight
+									// the rest of the possible name.
+
+									currentMatch = (String) currentNames[i];
+									getEditor().setItem( currentMatch );
+									JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
+									editor.setSelectionStart( currentName.length() );
+									editor.setSelectionEnd( currentMatch.length() );
+								}
+							}
+						}
+					}
+
+					// In the event that no match was found (or the
+					// user hasn't entered anything), there is no
+					// need to enter the loop
+
+					if ( matchNotFound )
+						hidePopup();
 				}
 			}
 		}

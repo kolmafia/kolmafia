@@ -822,16 +822,18 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public void removeSaveState( String loginname )
 	{
-		if ( saveStateNames.contains( loginname ) )
+		if ( loginname == null )
+			return;
+
+		Object [] saveStates = settings.keySet().toArray();
+		for ( int i = 0; i < saveStates.length; ++i )
 		{
-			saveStateNames.remove( loginname );
-			if ( saveStateNames.isEmpty() )
+			if ( loginname.equalsIgnoreCase( (String) saveStates[i] ) )
 			{
-				settings.remove( "saveState" );
-				settings.saveSettings();
-			}
-			else
+				saveStateNames.remove( loginname );
 				storeSaveStates();
+				return;
+			}
 		}
 	}
 
@@ -879,7 +881,23 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	{
 		try
 		{
-			String password = settings.getProperty( "saveState." + loginname );
+			Object [] settingKeys = settings.keySet().toArray();
+			String password = null;
+			String ignoreCaseKey = "saveState." + loginname;
+			String currentKey;
+
+			for ( int i = 0; i < settingKeys.length && password == null; ++i )
+			{
+				currentKey = (String) settingKeys[i];
+				if ( currentKey.equalsIgnoreCase( ignoreCaseKey ) )
+				{
+					password = settings.getProperty( currentKey );
+					settings.remove( currentKey );
+					settings.setProperty( ignoreCaseKey, password );
+					settings.saveSettings();
+				}
+			}
+
 			if ( password == null )
 				return null;
 
