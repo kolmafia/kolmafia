@@ -139,7 +139,7 @@ public class SearchMallRequest extends KoLRequest
 
 			// The last token contains the price of the item
 
-			int price = intToken( parsedResults, 0, 9 );
+			int price = intToken( parsedResults, 0, 8 );
 
 			results.add( new MallPurchaseRequest( client, itemName, purchaseLimit, shopID, shopName, price ) );
 		}

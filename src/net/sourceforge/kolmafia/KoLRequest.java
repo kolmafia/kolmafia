@@ -607,12 +607,12 @@ public class KoLRequest implements Runnable
 	 * @return	The integer token, if it exists, or 0, if the token was not a number
 	 */
 
-	protected int intToken( StringTokenizer st, int fromStart, int fromEnd )
+	protected static final int intToken( StringTokenizer st, int fromStart, int fromEnd )
 	{
 		try
 		{
 			String token = st.nextToken();
-			token = token.substring( fromStart, token.length() - 1 - fromEnd );
+			token = token.substring( fromStart, token.length() - fromEnd );
 			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : df.parse( token ).intValue();
 		}
 		catch ( Exception e )
