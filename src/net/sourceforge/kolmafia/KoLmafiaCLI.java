@@ -244,7 +244,7 @@ public class KoLmafiaCLI extends KoLmafia
 			while ( (scriptRequestor.permitsContinue() || scriptRequestor == this) && (line = commandStream.readLine()) != null )
 			{
 				outputStream.println();
-				executeLine( line );
+				executeLine( line.trim() );
 				outputStream.println();
 
 				outputStream.print( " > " );
@@ -275,7 +275,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( line.trim().length() == 0 )
 			return;
 
-		String command = line.split( " " )[0].toLowerCase().trim();
+		String command = line.trim().split( " " )[0].toLowerCase().trim();
 		String parameters = line.substring( command.length() ).trim();
 
 		if ( !command.equals( "repeat" ) )
@@ -508,6 +508,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 			executeChangeOutfitCommand( parameters );
 			executePrintCommand( "equip" );
+			return;
+		}
+
+		// Purchases from the mall are really popular,
+		// as far as scripts go.  Nobody is sure why,
+		// but they're popular, so they're implemented.
+
+		if ( command.equals( "buy" ) || command.equals( "mallbuy" ) )
+		{
+			executeBuyCommand( parameters );
 			return;
 		}
 
@@ -940,6 +950,64 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
+	 * Utility method used to make a purchase from the
+	 * Kingdom of Loathing mall.  What this does is
+	 * create a mall search request, and buys the
+	 * given quantity of items.
+	 */
+
+	private void executeBuyCommand( String parameters )
+	{
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, true );
+		ArrayList results = new ArrayList();
+		(new SearchMallRequest( scriptRequestor, firstMatch.getName(), 0, results )).run();
+
+		Object [] purchases = results.toArray();
+
+		MallPurchaseRequest currentRequest;
+		scriptRequestor.resetContinueState();
+
+		int maxPurchases = firstMatch.getCount();
+
+		for ( int i = 0; i < purchases.length && maxPurchases > 0 && scriptRequestor.permitsContinue(); ++i )
+		{
+			if ( purchases[i] instanceof MallPurchaseRequest )
+			{
+				currentRequest = (MallPurchaseRequest) purchases[i];
+
+				// Keep track of how many of the item you had before
+				// you run the purchase request
+
+				AdventureResult oldResult = new AdventureResult( currentRequest.getItemName(), 0 );
+				int oldResultIndex = scriptRequestor.getInventory().indexOf( oldResult );
+
+				if ( oldResultIndex != -1 )
+					oldResult = (AdventureResult) scriptRequestor.getInventory().get( oldResultIndex );
+
+				currentRequest.setMaximumQuantity( maxPurchases );
+				currentRequest.run();
+
+				// Calculate how many of the item you have now after
+				// you run the purchase request
+
+				int newResultIndex = scriptRequestor.getInventory().indexOf( oldResult );
+				if ( newResultIndex != -1 )
+				{
+					AdventureResult newResult = (AdventureResult) scriptRequestor.getInventory().get( newResultIndex );
+					maxPurchases -= newResult.getCount() - oldResult.getCount();
+				}
+
+				// Remove the purchase from the list!  Because you
+				// have already made a purchase from the store
+
+				if ( scriptRequestor.permitsContinue() )
+					results.remove( purchases[i] );
+			}
+		}
+
+	}
+
+	/**
 	 * A special module used specifically for properly instantiating
 	 * ItemCreationRequests.
 	 */
@@ -1286,3 +1354,4 @@ public class KoLmafiaCLI extends KoLmafia
 		return commandString.toString();
 	}
 }
+
