@@ -491,7 +491,7 @@ public class KoLMessenger
 		// Also extract messages which indicate logon/logoff of players to
 		// update the contact list.
 
-		Matcher onlineNoticeMatcher = Pattern.compile( "<font.*?><b>.*?</font>" ).matcher( noLinksContent );
+		Matcher onlineNoticeMatcher = Pattern.compile( "<font color=green><b>.*?</font>" ).matcher( noContactListContent );
 		lastFindIndex = 0;
 		while ( onlineNoticeMatcher.find( lastFindIndex ) )
 		{
