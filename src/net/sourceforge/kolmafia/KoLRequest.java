@@ -53,6 +53,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.text.DecimalFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Most aspects of Kingdom of Loathing are accomplished by submitting
@@ -581,11 +583,24 @@ public class KoLRequest implements Runnable
 			// Skip effect acquisition - it's followed by a boldface
 			// which makes the parser think it's found an item.
 
-			if ( lastToken.startsWith( "You acquire an effect:" ) )
-				parsedResults.nextToken();
+			if ( lastToken.equals( "FUMBLE!" ) )
+			{
+				try
+				{
+					Matcher damageMatcher = Pattern.compile( "[\\d,]+" ).matcher( parsedResults.nextToken() );
+					client.parseResult( "You lose " + df.parse( damageMatcher.group() ).intValue() + " hit points." );
+				}
+				catch ( Exception e )
+				{
+					// Chances are, if there was no damage located in the
+					// the fumble parsing, something weird happened - but,
+					// let's just pretend nothing happened.
+				}
+			}
+
 			else if ( lastToken.startsWith( "You acquire" ) )
 				client.parseResult( parsedResults.nextToken() );
-			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose" )) && !lastToken.endsWith( "Drunkenness." ) )
+			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose" )) && lastToken.indexOf( "Drunkenness" ) == -1 )
 				client.parseResult( lastToken );
 		}
 	}
