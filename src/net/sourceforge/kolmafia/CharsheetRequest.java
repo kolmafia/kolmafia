@@ -120,10 +120,23 @@ public class CharsheetRequest extends KoLRequest
 
 			character.setHP( currentHP, maximumHP, baseMaxHP );
 
-			int currentMP = intToken( parsedContent );
-			skipTokens( parsedContent, 1 );
-			int maximumMP = intToken( parsedContent );
-			int baseMaxMP = retrieveBase( parsedContent, maximumMP );
+			// Here it gets tricky - there's a chance that the user
+			// has absolutely no MP, and KoL skips sending MP data
+			// to save bandwidth.  So, to avoid being tricked, you
+			// scan to see if the player had MP before arbitrarily
+			// skipping tokens.
+
+			int currentMP = 0;
+			int maximumMP = 0;
+			int baseMaxMP = 0;
+
+			if ( replyContent.contains( "Current Mana Points:" ) )
+			{
+				currentMP = intToken( parsedContent );
+				skipTokens( parsedContent, 1 );
+				maximumMP = intToken( parsedContent );
+				baseMaxMP = retrieveBase( parsedContent, maximumMP );
+			}
 
 			character.setMP( currentMP, maximumMP, baseMaxMP );
 
