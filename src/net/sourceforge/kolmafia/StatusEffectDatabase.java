@@ -56,9 +56,8 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 public class StatusEffectDatabase implements UtilityConstants
 {
 	private static final String EFFECT_DBASE_FILE = "statuseffects.dat";
-	public static final int EFFECT_COUNT = 1200;
 
-	private static String [] effectByID = new String[ EFFECT_COUNT ];
+	private static Map effectByID = new TreeMap();
 	private static Map effectByName = new TreeMap();
 
 	static
@@ -78,11 +77,11 @@ public class StatusEffectDatabase implements UtilityConstants
 				StringTokenizer strtok = new StringTokenizer( line, "\t" );
 				if ( strtok.countTokens() == 2 )
 				{
-					int effectID = Integer.parseInt( strtok.nextToken() );
+					Integer effectID = Integer.valueOf( strtok.nextToken() );
 					String effectName = strtok.nextToken();
 
-					effectByID[ effectID ] = effectName;
-					effectByName.put( effectName, new Integer( effectID ) );
+					effectByID.put( effectID, effectName );
+					effectByName.put( effectName, effectID );
 				}
 			}
 		}
@@ -103,7 +102,7 @@ public class StatusEffectDatabase implements UtilityConstants
 	 */
 
 	public static final String getEffectName( int effectID )
-	{	return effectByID[ effectID ];
+	{	return (String) effectByID.get( new Integer( effectID ) );
 	}
 
 	/**
