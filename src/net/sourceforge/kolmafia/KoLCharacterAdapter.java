@@ -76,6 +76,12 @@ public class KoLCharacterAdapter implements KoLCharacterListener
 			toExecute.run();
 	}
 
+	public void closetMeatChanged()
+	{
+		if ( toExecute != null )
+			toExecute.run();
+	}
+
 	public void adventuresLeftChanged()
 	{
 		if ( toExecute != null )

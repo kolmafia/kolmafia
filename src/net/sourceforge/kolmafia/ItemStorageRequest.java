@@ -152,7 +152,7 @@ public class ItemStorageRequest extends KoLRequest
 			case MEAT_TO_INVENTORY:
 				updateDisplay( DISABLED_STATE, "Executing transaction..." );
 				meat();
-				updateDisplay( ENABLED_STATE, df.format( client.getCharacterData().getClosetMeat() ) );
+				updateDisplay( ENABLED_STATE, " " );
 				break;
 
 			case MEAT_TO_STASH:

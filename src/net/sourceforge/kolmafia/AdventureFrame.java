@@ -133,6 +133,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 	private JPanel sidePanel;
 	private JLabel hpLabel, mpLabel, advLabel, meatLabel, drunkLabel;
+	private JTextField inClosetField;
 
 	private CharsheetFrame statusPane;
 	private GearChangeFrame gearChanger;
@@ -1065,7 +1066,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 	private class MeatStoragePanel extends LabeledKoLPanel
 	{
 		private JTextField amountField;
-		private JTextField inClosetField;
 
 		public MeatStoragePanel()
 		{
@@ -1088,12 +1088,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		{
 			super.setContent( elements );
 			inClosetField.setEnabled( false );
-		}
-
-		public void setStatusMessage( int displayState, String s )
-		{
-			if ( !inClosetField.getText().equals( "Session timed out." ) && !inClosetField.getText().equals( "Nightly maintenance." ) )
-				inClosetField.setText( s );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -1584,6 +1578,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			meatLabel.setText( "" + df.format( characterData.getAvailableMeat() ) );
 			advLabel.setText( "" + characterData.getAdventuresLeft() );
 			drunkLabel.setText( "" + characterData.getInebriety() );
+			inClosetField.setText( "" + df.format( characterData.getClosetMeat() ) );
 		}
 	}
 

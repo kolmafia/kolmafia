@@ -50,6 +50,7 @@ public interface KoLCharacterListener
 	public void mpChanged();
 	public void statusPointsChanged();
 	public void availableMeatChanged();
+	public void closetMeatChanged();
 	public void adventuresLeftChanged();
 	public void inebrietyChanged();
 	public void totalTurnsChanged();

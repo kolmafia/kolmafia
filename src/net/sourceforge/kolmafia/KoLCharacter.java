@@ -431,7 +431,12 @@ public class KoLCharacter
 	 */
 
 	public void setClosetMeat( int closetMeat )
-	{	this.closetMeat = closetMeat;
+	{
+		this.closetMeat = closetMeat;
+
+		Iterator listenerIterator = listenerList.iterator();
+		while ( listenerIterator.hasNext() )
+			((KoLCharacterListener)listenerIterator.next()).closetMeatChanged();
 	}
 
 	/**
