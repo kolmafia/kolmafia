@@ -78,6 +78,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected List existingFrames;
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
+	private boolean isExecutingScript;
 
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
@@ -105,7 +106,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( contentPanel != null && client != null )
 		{
 			client.getLogStream().println( message );
-			contentPanel.setStatusMessage( displayState, message );
+			contentPanel.setStatusMessage( isExecutingScript && displayState != ERROR_STATE ? DISABLED_STATE : displayState, message );
 
 			switch ( displayState )
 			{
@@ -114,7 +115,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					break;
 
 				case ENABLED_STATE:
-					setEnabled( true );
+					if ( !isExecutingScript )
+						setEnabled( true );
 					break;
 
 				case DISABLED_STATE:
@@ -390,8 +392,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				try
 				{
 					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+					{
+						isExecutingScript = true;
 						(new KoLmafiaCLI( client, filename )).listenForCommands();
+					}
 
+					isExecutingScript = false;
 					if ( client.permitsContinue() )
 						updateDisplay( ENABLED_STATE, "Script completed successfully." );
 					else
@@ -402,6 +408,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					// Here, notify the display that the script
 					// file specified could not be loaded
 
+					isExecutingScript = false;
 					updateDisplay( ERROR_STATE, "Script file <" + filename + "> could not be found." );
 					return;
 				}
