@@ -160,8 +160,6 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		super.setEnabled( isEnabled );
-
 		if ( contentPanel != null )
 			contentPanel.setEnabled( isEnabled );
 	}
