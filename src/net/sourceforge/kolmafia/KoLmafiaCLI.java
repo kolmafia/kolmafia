@@ -469,7 +469,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Another popular command involves changing
 		// your current familiar.
 
-		if ( command.equals( "familiar" ) )
+		if ( command.startsWith( "familiar" ) )
 		{
 			if ( parameters.startsWith( "list" ) || parameters.length() == 0 )
 			{
@@ -484,7 +484,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Yet another popular command involves changing
 		// your outfit.
 
-		if ( command.equals( "outfit" ) )
+		if ( command.startsWith( "outfit" ) )
 		{
 			if ( parameters.startsWith( "list" ) || parameters.length() == 0 )
 			{
@@ -504,7 +504,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "hermit" ) || command.equals( "gym" ) )
 		{
-			executeAdventureRequest( command + " " + parameters );
+			executeAdventureRequest( (parameters.length() > 0 ? parameters + " " : "" ) + command );
 			return;
 		}
 
@@ -514,9 +514,8 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) ||
-			command.equals( "outfits" ) || command.equals( "familiars" ) || command.equals( "summary" ) ||
-			command.startsWith( "equip" ) || command.equals( "effects" ) || command.startsWith( "stat" ) )
+		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
+			command.startsWith( "equipment" ) || command.equals( "effects" ) || command.startsWith( "status" ) )
 		{
 			executePrintCommand( command + " " + parameters );
 			return;
@@ -739,7 +738,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( desiredData.startsWith( "equip" ) )
+		if ( desiredData.startsWith( "equipment" ) )
 		{
 			outputStream.println( "       Hat: " + data.getHat() );
 			outputStream.println( "    Weapon: " + data.getWeapon() );
