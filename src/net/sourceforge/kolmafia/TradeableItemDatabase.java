@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 import java.io.File;
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -184,5 +185,14 @@ public class TradeableItemDatabase
 	{
 		int itemID = getItemID( itemName );
 		return itemID == -1 ? ConsumeItemRequest.NO_CONSUME : consumptionID[ itemID ];
+	}
+
+	public static void main( String [] args ) throws Exception
+	{
+		BufferedReader buf = new BufferedReader( new InputStreamReader( System.in ) );
+		String line;
+
+		while ( (line = buf.readLine()) != null )
+			System.out.println( getItemID( line ) );
 	}
 }
