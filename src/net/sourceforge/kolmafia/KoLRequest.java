@@ -513,7 +513,7 @@ public class KoLRequest implements Runnable
 					while ( (line = istream.readLine()) != null )
 						replyBuffer.append( line );
 
-					replyContent = replyBuffer.toString().replaceAll( " pwd=[\'\"][0-9a-f]*[\'\"]", "" );
+					replyContent = replyBuffer.toString();
 					logStream.println( replyContent );
 				}
 
