@@ -37,7 +37,10 @@ package net.java.dev.spellcast.utilities;
 /**
  * An extension of the {@link net.java.dev.spellcast.utilities.LockableListModel} which maintains
  * elements in ascending order, where elements can only be added and replaced if they do not
- * disturb the sorted property of the <code>List</code>.
+ * disturb the sorted property of the <code>List</code>.  The <code>SortedListModel</code> adds
+ * the additional restriction that, if an element <tt>e2</tt> is added to the list after another
+ * element <tt>e1</tt> is added, and <tt>e1.equals(e2)</tt> returns <tt>true</tt>, then <tt>e2</tt>
+ * must appear in the list after <tt>e1</tt>.
  */
 
 public class SortedListModel extends LockableListModel
@@ -101,8 +104,13 @@ public class SortedListModel extends LockableListModel
 
 	public synchronized void add( int index, Object element )
 	{
+		boolean needsSort = ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 ) ||
+			( index < size() && ((Comparable)element).compareTo( get( index ) ) >= 0 );
+
 		super.add( index, element );
-		java.util.Collections.sort( this );
+
+		if ( needsSort )
+			java.util.Collections.sort( this );
 	}
 
     /**
@@ -164,8 +172,14 @@ public class SortedListModel extends LockableListModel
 
 	public synchronized Object set( int index, Object element )
 	{
+		boolean needsSort = ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 ) ||
+			( index + 1 < size() && ((Comparable)element).compareTo( get( index + 1 ) ) >= 0 );
+
 		Object oldvalue = super.set( index, element );
-		java.util.Collections.sort( this );
+
+		if ( needsSort )
+			java.util.Collections.sort( this );
+
 		return oldvalue;
 	}
 
