@@ -39,6 +39,7 @@ import java.net.URLConnection;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 
+import java.io.PrintStream;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
@@ -69,6 +70,7 @@ public class KoLRequest implements Runnable
 
 	protected KoLmafia client;
 	protected KoLFrame frame;
+	protected PrintStream logStream;
 
 	protected int responseCode;
 	protected boolean isErrorState;
@@ -113,7 +115,10 @@ public class KoLRequest implements Runnable
 			this.client = client;
 			this.frame = client.getActiveFrame();
 			this.sessionID = client.getSessionID();
+			this.logStream = client.getLogStream();
 		}
+		else
+			this.logStream = new NullStream();
 
 		data = new ArrayList();
 	}
@@ -163,6 +168,7 @@ public class KoLRequest implements Runnable
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
 
+			logStream.println( "Attempting to establish KoL connection..." );
 			formConnection = (HttpURLConnection) formURL.openConnection();
 		}
 		catch ( IOException e )
@@ -173,6 +179,8 @@ public class KoLRequest implements Runnable
 
 			return false;
 		}
+
+		logStream.println( "Connection established." );
 
 		formConnection.setDoInput( true );
 		formConnection.setDoOutput( !data.isEmpty() );
@@ -197,6 +205,8 @@ public class KoLRequest implements Runnable
 		if ( data.isEmpty() )
 			return true;
 
+		logStream.println( "Posting form data..." );
+
 		try
 		{
 			BufferedWriter ostream =
@@ -218,6 +228,8 @@ public class KoLRequest implements Runnable
 			ostream.close();
 			ostream = null;
 
+			logStream.println( "Posting data posted." );
+
 			return true;
 		}
 		catch ( IOException e )
@@ -235,6 +247,8 @@ public class KoLRequest implements Runnable
 			// one that results in something happening), or an error-type one
 			// (ie: maintenance).
 
+			logStream.println( "Retrieving server reply..." );
+
 			isErrorState = false;
 			responseCode = formConnection.getResponseCode();
 			replyContent = "";
@@ -250,6 +264,8 @@ public class KoLRequest implements Runnable
 
 			if ( client != null )
 			{
+				logStream.println( "Server response code: " + responseCode );
+
 				if ( responseCode >= 300 && responseCode <= 399 )
 				{
 					// Redirect codes are all the ones that occur between
@@ -296,8 +312,12 @@ public class KoLRequest implements Runnable
 					// ten lines on every KoL site contains a script that tells the
 					// browser to renest the page in frames (and hence is useless).
 
+					logStream.println( "Skipping frame-nesting Javascript..." );
+
 					for ( int i = 0; i < 10; ++i )
 						istream.readLine();
+
+					logStream.println( "Skipping complete.  Reading page content..." );
 
 					// The remaining lines form the rest of the content.  In order
 					// to make it easier for string parsing, the line breaks will
@@ -310,6 +330,14 @@ public class KoLRequest implements Runnable
 						replyBuffer.append( line );
 
 					replyContent = replyBuffer.toString();
+
+					logStream.println( "Reply content retrieved." );
+
+					logStream.println(
+						"\n ==========================\n" +
+						replyContent.replaceAll( "><", "" ).replaceAll( "<[^>]*>", "\n" ) +
+						"\n ==========================\n"
+					);
 				}
 
 				// If you've encountered an error state, then make sure the
@@ -341,6 +369,8 @@ public class KoLRequest implements Runnable
 
 	protected void processResults( String results )
 	{
+		logStream.println( "Processing results..." );
+
 		StringTokenizer parsedResults = new StringTokenizer( results.replaceAll( "<[^>]*>", "\n" ), "\n" );
 		String lastToken = null;
 

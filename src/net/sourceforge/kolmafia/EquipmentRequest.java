@@ -70,34 +70,44 @@ public class EquipmentRequest extends KoLRequest
 		StringTokenizer parsedContent = new StringTokenizer(
 			replyContent.replaceAll( "<[^>]*>", "\n" ), "\n" );
 
-		while ( !parsedContent.nextToken().startsWith( "Hat:" ) );
-		String hat = parsedContent.nextToken();
+		logStream.println( "Parsing equipment data..." );
 
-		while ( !parsedContent.nextToken().startsWith( "Weapon:" ) );
-		String weapon = parsedContent.nextToken();
-
-		while ( !parsedContent.nextToken().startsWith( "Pants:" ) );
-		String pants = parsedContent.nextToken();
-
-		String [] accessories = new String[3];
-		for ( int i = 0; i < 3; ++i )
-			accessories[i] = "none";
-		String familiarItem = "none";
-
-		int accessoryCount = 0;
-		String lastToken;
-
-		do
+		try
 		{
-			lastToken = parsedContent.nextToken();
+			while ( !parsedContent.nextToken().startsWith( "Hat:" ) );
+			String hat = parsedContent.nextToken();
 
-			if ( lastToken.startsWith( "Accessory:" ) )
-				accessories[ accessoryCount++ ] = parsedContent.nextToken();
-			else if ( lastToken.startsWith( "Familiar:" ) )
-				familiarItem = parsedContent.nextToken();
+			while ( !parsedContent.nextToken().startsWith( "Weapon:" ) );
+			String weapon = parsedContent.nextToken();
+
+			while ( !parsedContent.nextToken().startsWith( "Pants:" ) );
+			String pants = parsedContent.nextToken();
+
+			String [] accessories = new String[3];
+			for ( int i = 0; i < 3; ++i )
+				accessories[i] = "none";
+			String familiarItem = "none";
+
+			int accessoryCount = 0;
+			String lastToken;
+
+			do
+			{
+				lastToken = parsedContent.nextToken();
+
+				if ( lastToken.startsWith( "Accessory:" ) )
+					accessories[ accessoryCount++ ] = parsedContent.nextToken();
+				else if ( lastToken.startsWith( "Familiar:" ) )
+					familiarItem = parsedContent.nextToken();
+			}
+			while ( !lastToken.startsWith( "Outfits:" ) );
+
+			character.setEquipment( hat, weapon, pants, accessories[0], accessories[1], accessories[2], familiarItem );
+			logStream.println( "Parsing complete." );
 		}
-		while ( !lastToken.startsWith( "Outfits:" ) );
-
-		character.setEquipment( hat, weapon, pants, accessories[0], accessories[1], accessories[2], familiarItem );
+		catch ( RuntimeException e )
+		{
+			logStream.println( e );
+		}
 	}
 }

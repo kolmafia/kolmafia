@@ -66,15 +66,19 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
+	protected java.io.PrintStream logStream;
 
 	protected KoLFrame( String title, KoLmafia client )
 	{
 		super( title );
 		this.client = client;
+		this.logStream = client.getLogStream();
 	}
 
 	public void updateDisplay( int displayState, String message )
-	{	(new DisplayStatus( displayState, message )).run();
+	{
+		logStream.println( message );
+		(new DisplayStatus( displayState, message )).run();
 	}
 
 	public void requestFocus()
@@ -102,7 +106,7 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 		configureMenu.add( settingsItem );
 
-		final JMenuItem loggerItem = new JMenuItem( "Initialize Logger", KeyEvent.VK_L );
+		final JMenuItem loggerItem = new JMenuItem( "Initialize Debugger", KeyEvent.VK_D );
 		loggerItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{

@@ -73,7 +73,7 @@ public class KoLmafia implements UtilityConstants
 		permitContinue = false;
 
 		settings = new KoLSettings();
-		logStream = System.out;
+		logStream = new NullStream();
 		isLogging = false;
 
 		activeFrame = new LoginFrame( this );
@@ -87,6 +87,11 @@ public class KoLmafia implements UtilityConstants
 
 	public void initialize()
 	{
+		// Begin by loading the user-specific settings.
+		logStream.println( "Loading user settings for " + loginname + "..." );
+		settings = new KoLSettings( loginname );
+
+		logStream.println( "Settings successfully loaded.  Reading adventure database..." );
 		BufferedReader advdata = DataUtilities.getReaderForSharedDataFile( ADV_DBASE_FILE );
 		LockableListModel adventures = new LockableListModel();
 
@@ -99,6 +104,8 @@ public class KoLmafia implements UtilityConstants
 				if ( strtok.countTokens() == 3 )
 					adventures.add( new KoLAdventure( this, strtok.nextToken(), strtok.nextToken(), strtok.nextToken() ) );
 			}
+
+			logStream.println( "Adventure database loaded successfully." );
 		}
 		catch ( IOException e )
 		{
@@ -109,6 +116,8 @@ public class KoLmafia implements UtilityConstants
 
 			// The exception is strange enough that it won't be
 			// handled at the current time.
+
+			logStream.println( "I/O error in reading adventure database.  Continuing anyway." );
 		}
 
 		activeFrame.setVisible( false );
@@ -161,10 +170,12 @@ public class KoLmafia implements UtilityConstants
 
 		try
 		{
+			logStream.println( "Parsing adventure result:\n\t" + result );
 			addToResultTally( AdventureResult.parseResult( result ) );
 		}
 		catch ( Exception e )
 		{
+			logStream.println( e );
 		}
 	}
 

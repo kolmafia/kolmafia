@@ -34,53 +34,123 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
+/**
+ * A <code>NullStream</code> is the rough equivalent of redirecting
+ * all output to <code>/dev/null</code> on some variants of *NIX.
+ * The effect is that nothing gets put onto any output stream.
+ * This can be used by debugging mechanisms to eliminate all output,
+ * should the overhead of function calls not be severe.  Note that
+ * checking state variables is probably still the best way to handle
+ * debug functionality; this is merely a sub-optimal alternative.
+ */
 
-public class LogStream extends java.io.PrintStream
+public class NullStream extends java.io.PrintStream
 {
-	public LogStream( String fileName ) throws FileNotFoundException
-	{	this( new File( fileName ) );
+	private boolean errorState;
+
+	public NullStream()
+	{
+		super( System.out );
+		this.errorState = false;
 	}
 
-	public LogStream( File file ) throws FileNotFoundException
-	{
-		super( new FileOutputStream( file, true ) );
-		println();
-		println();
-		println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-		println( "                  Beginning New Logging Session" );
-		println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-		println();
-		println();
+	public boolean checkError()
+	{	return errorState;
 	}
 
-	public void println( Exception e )
+	public void close()
 	{
-		println();
-		println( "****************************" );
-		println( "  General Exception:" );
-		println();
-
-		e.printStackTrace( this );
-
-		println( "****************************" );
-		println();
-		println();
 	}
 
-	public void println( RuntimeException e )
+	public void flush()
 	{
-		println();
-		println( "****************************" );
-		println( "  Runtime Exception:" );
-		println();
+	}
 
-		e.printStackTrace( this );
+	public void print( boolean b )
+	{
+	}
 
-		println( "****************************" );
-		println();
-		println();
+	public void print( char c )
+	{
+	}
+
+	public void print( char [] s )
+	{
+	}
+
+	public void print( double d )
+	{
+	}
+
+	public void print( float f )
+	{
+	}
+
+	public void print( int i )
+	{
+	}
+
+	public void print( long l )
+	{
+	}
+
+	public void print( String s )
+	{
+	}
+
+	public void println()
+	{
+	}
+
+	public void println( boolean x )
+	{
+	}
+
+	public void println( char x )
+	{
+	}
+
+	public void println( char [] x )
+	{
+	}
+
+	public void println( double x )
+	{
+	}
+
+	public void println( float x )
+	{
+	}
+
+	public void println( int x )
+	{
+	}
+
+	public void println( long x )
+	{
+	}
+
+	public void println( Object x )
+	{
+	}
+
+	public void println( String x )
+	{
+	}
+
+	public void setError()
+	{	this.errorState = true;
+	}
+
+	public void write( byte [] b )
+	{
+	}
+
+	public void write( byte [] buf, int off, int len )
+	{
+	}
+
+	public void write( int b )
+	{
 	}
 }
