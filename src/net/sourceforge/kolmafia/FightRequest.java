@@ -131,8 +131,17 @@ public class FightRequest extends KoLRequest
 				// also notify the client that an adventure was completed,
 				// but that the loop should be halted.
 
-				processResults( "" );
 				updateDisplay( KoLFrame.ENABLED_STATE, "You were defeated!" );
+				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
+				client.cancelRequest();
+			}
+			else if ( replyContent.indexOf( "You run away," ) != -1 )
+			{
+				// If you successfully run away, then you should update
+				// the display to indicate that you ran away and adventuring
+				// should terminate.
+
+				updateDisplay( KoLFrame.ENABLED_STATE, "Autoflee succeeded." );
 				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 				client.cancelRequest();
 			}
