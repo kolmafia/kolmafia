@@ -244,12 +244,15 @@ public abstract class KoLmafia implements UtilityConstants
 				AdventureResult.addResultToList( usableItems, result );
 		}
 
+		if ( resultName.equals( AdventureResult.ADV ) )
+			AdventureResult.reduceTally( characterData.getEffects(), result.getCount() );
+
 		// Also update the character data's information related to
 		// stats; for now, only drunkenness matters since the pane
 		// won't be automatically updated during changes, but the
 		// current drunkenness level is used for drunkenness tracking
 
-		if ( tally.size() > 4 )
+		if ( tally.size() > 4 && resultName.equals( AdventureResult.DRUNK ) )
 			characterData.setInebriety( ((AdventureResult)tally.get( 3 )).getCount() );
 	}
 

@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.text.ParseException;
 import java.text.DecimalFormat;
@@ -312,6 +313,25 @@ public class AdventureResult implements Comparable
 
 		int priorityDifference = priority - ar.priority;
 		return priorityDifference != 0 ? priorityDifference : name.compareToIgnoreCase( ar.name );
+	}
+
+	/**
+	 * Utility method for decrementing every value of the list by the
+	 * given amount.  This is used specifically by effect management,
+	 * but can be applied elsewhere.
+	 *
+	 * @param	tally	The tally accumulating <code>AdventureResult</code>s
+	 * @param	reductionAmount	The amount to reduce the tally by
+	 */
+
+	public static void reduceTally( List tally, int reductionAmount )
+	{
+		int negatedReductionAmount = 0 - reductionAmount;
+		Iterator resultIterator = tally.iterator();
+
+		while ( resultIterator.hasNext() )
+			addResultToList( tally, new AdventureResult(
+				((AdventureResult)resultIterator.next()).name, negatedReductionAmount ) );
 	}
 
 	/**
