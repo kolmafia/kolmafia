@@ -308,7 +308,7 @@ public class BuffBotFrame extends KoLFrame
 
 		public void setContent( VerifiableElement [] elements )
 		{
-			super.setContent( elements );
+			super.setContent( elements, null, null, null, true, true );
 
 			JPanel southPanel = new JPanel();
 			southPanel.setLayout( new BoxLayout( southPanel, BoxLayout.Y_AXIS ) );
@@ -339,7 +339,7 @@ public class BuffBotFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{
+		{	client.getBuffBotManager().removeBuffs( buffListDisplay.getSelectedValues() );
 		}
 
 		private class BuffListPanel extends JPanel

@@ -132,7 +132,22 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		settings.setProperty( "buffBotCasting", sellerSetting.toString() );
 		if ( settings instanceof KoLSettings )
 			((KoLSettings)settings).saveSettings();
+	}
 
+	/**
+	 * An internal method which removes the list of selected buffs
+	 * from the current mappings.
+	 */
+
+	public void removeBuffs( Object [] buffs )
+	{
+		BuffBotCaster toRemove;
+		for ( int i = 0; i < buffs.length; ++i )
+		{
+			toRemove = (BuffBotCaster) buffs[i];
+			buffCostTable.remove( toRemove );
+			costMap.remove( new Integer( toRemove.getPrice() ) );
+		}
 	}
 
 	/**
@@ -205,6 +220,10 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 			buffbotLog.append( BUFFCOLOR + "Cast " + buffName + ", " + castCount + " times on " + target + "." + ENDCOLOR + "<br>\n");
 			return true;
+		}
+
+		public int getPrice()
+		{	return price;
 		}
 
 		public String toString()
