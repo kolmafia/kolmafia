@@ -34,10 +34,29 @@
 
 package net.sourceforge.kolmafia;
 
+/**
+ * An auxiliary class which stores runnable adventures so that they
+ * can be created directly from a database.  Encapsulates the nature
+ * of the adventure so that they can be easily listed inside of a
+ * <code>ListModel</code>, with the potential to be extended to fit
+ * other requests to the Kingdom of Loathing which need to be stored
+ * within a database.
+ */
+
 public class KoLAdventure implements Runnable
 {
 	private KoLmafia client;
 	private String adventureID, formSource, adventureName;
+
+	/**
+	 * Constructs a new <code>KoLAdventure</code> with the given
+	 * specifications.
+	 *
+	 * @param	client	The client to which the results of the adventure are reported
+	 * @param	formSource	The form associated with the given adventure
+	 * @param	adventureID	The identifier for this adventure, relative to its form
+	 * @param	adventureName	The string form, or name of this adventure
+	 */
 
 	public KoLAdventure( KoLmafia client, String formSource, String adventureID, String adventureName )
 	{
@@ -47,9 +66,21 @@ public class KoLAdventure implements Runnable
 		this.adventureName = adventureName;
 	}
 
+	/**
+	 * Retrieves the string form of the adventure contained within this
+	 * encapsulation, which is generally the name of the adventure.
+	 *
+	 * @return	The string form of the adventure
+	 */
+
 	public String toString()
 	{	return adventureName;
 	}
+
+	/**
+	 * Executes the appropriate <code>KoLRequest</code> for the adventure
+	 * encapsulated by this <code>KoLAdventure</code>.
+	 */
 
 	public void run()
 	{

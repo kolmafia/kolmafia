@@ -35,9 +35,27 @@
 package net.sourceforge.kolmafia;
 import java.util.StringTokenizer;
 
+/**
+ * An extension of <code>KoLRequest</code> which retrieves the character's
+ * information from the server.  Note that this request only retrieves the
+ * character's statistics at the current time; skills and effects will be
+ * retrieved at a later date.  Equipment retrieval takes place through a
+ * different request.
+ */
+
 public class CharsheetRequest extends KoLRequest
 {
 	private KoLCharacter character;
+
+	/**
+	 * Constructs a new <code>CharsheetRequest</code>.  This also
+	 * stores the reference to the character to be provided; the
+	 * data found in that character will be overridden over the
+	 * course of this request.
+	 *
+	 * @param	client	The client to be notified in case of errors
+	 * @param	character	The character whose data will be overridden by the request
+	 */
 
 	public CharsheetRequest( KoLmafia client, KoLCharacter character )
 	{
@@ -48,6 +66,11 @@ public class CharsheetRequest extends KoLRequest
 		super( client, "charsheet.php" );
 		this.character = character;
 	}
+
+	/**
+	 * Runs the request.  Note that only the character's statistics
+	 * are retrieved via this retrieval.
+	 */
 
 	public void run()
 	{
@@ -155,9 +178,31 @@ public class CharsheetRequest extends KoLRequest
 		}
 	}
 
+	/**
+	 * Utility method for calculating how many subpoints have been accumulated
+	 * thus far, given the current base point value of the statistic and how
+	 * many have been accumulate since the last gain.
+	 *
+	 * @param	baseValue	The current base point value
+	 * @param	sinceLastBase	Number of subpoints accumulate since the last base point gain
+	 * @return	The total number of subpoints acquired since creation
+	 */
+
 	private int calculateSubpoints( int baseValue, int sinceLastBase )
 	{	return baseValue * baseValue + sinceLastBase - 1;
 	}
+
+	/**
+	 * Utility method for retrieving the base value for a statistic, given
+	 * the tokenizer, and assuming that the base might be located in the
+	 * next token.  If it isn't, the default value is returned instead.
+	 * Note that this advances the <code>StringTokenizer</code> one token
+	 * ahead of the base value for the statistic.
+	 *
+	 * @param	st	The <code>StringTokenizer</code> possibly containing the base value
+	 * @param	defaultBase	The value to return, if no base value is found
+	 * @return	The parsed base value, or the default value if no base value is found
+	 */
 
 	private int retrieveBase( StringTokenizer st, int defaultBase )
 	{
