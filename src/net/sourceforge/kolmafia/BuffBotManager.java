@@ -61,24 +61,24 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private static final int BBSLEEPCOUNT = 75;  // This many times
 	private static final int BBSLEEPCOUNTLONG = 300;  // This many times for slot needs
 	private	ArrayList deleteList, saveList;
-	
-	private static final String BUFFCOLOR = "<font color = \"darkgreen\">";
-	private static final String NONBUFFCOLOR = "<font color = \"darkblue\">";
-	private static final String ERRORCOLOR = "<font color = \"darkblue\">";
+
+	private static final String BUFFCOLOR = "<font color=green>";
+	private static final String NONBUFFCOLOR = "<font color=blue>";
+	private static final String ERRORCOLOR = "<font color=red>";
 	private static final String ENDCOLOR = "</font>";
-	
+
 	/**
 	 * Constructor for the <code>BuffBotManager</code> class.
 	 */
-	
+
 	public BuffBotManager(KoLmafia client,
 			LockableListModel buffCostTable)
 	{
-		
+
 		super( client );
 		this.client = client;
 		this.buffCostTable = buffCostTable;
-		
+
 		settings = (client == null) ? System.getProperties() : client.getSettings();
 		String tempStr = settings.getProperty( "NonBuffMsgSave" );
 		this.saveNonBuffmsgs = settings.getProperty( "NonBuffMsgSave" ).equals("true");
@@ -86,9 +86,9 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 		me =  client.getCharacterData();
 		buffbotLog = client.getBuffBotLog();
-		
+
 	}
-	
+
 	/**
 	 * This is the main BuffBot method.
 	 * It loops until the user cancels, or an exception (such as not enough MP to continue).
@@ -98,17 +98,17 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	public void runBuffBot( )
 	{
 		KoLMailMessage firstmsg;
-		
+
 		//Now, make sure the MP is up to date:
 		(new CharsheetRequest( client )).run();
 		// The outer loop goes until user cancels
 		while( client.isBuffBotActive() )
 		{
-			
+
 			//First, retrieve all messages in the mailbox (If there are any)
 			if ( client != null )
 				(new MailboxRequest( client, "Inbox" )).run();
-			
+
 			//Next process each message in the Inbox
 			LockableListModel inbox = getMessages("Inbox");
 			deleteList = new ArrayList();
@@ -124,17 +124,17 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!");
 					client.cancelRequest();
 					client.setBuffBotActive(false);
-					buffbotLog.append(ERRORCOLOR + "Unable to process a buff message.</font><br>\n");
+					buffbotLog.append(ERRORCOLOR + "Unable to process a buff message." + ENDCOLOR + "<br>\n");
 				}
-				
+
 				// clear it out of the inbox
 				inbox.remove(firstmsg);
-				
+
 			}
 			// do all the deletes and saves
 			if (!deleteList.isEmpty())
 				(new MailboxRequest( client, "Inbox", deleteList.toArray(), "delete" )).run();
-			if (!saveList.isEmpty()) 
+			if (!saveList.isEmpty())
 				(new MailboxRequest( client, "Inbox", saveList.toArray(), "save" )).run();
 			// otherwise sleep for a while and then try again
 			// (don't go away for more than 1 second at a time
@@ -144,20 +144,20 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					KoLRequest.delay(BBSLEEPTIME);
 		}
 	}
-	
+
 	private boolean processMessage(KoLMailMessage myMsg )
 	{
 		int meatSent;
 		BuffBotFrame.BuffDescriptor buffEntry;
 		boolean buffRequestFound = false;
-		
+
 		try
 		{
 			Matcher meatMatcher = Pattern.compile( ">You gain ([\\d,]+) Meat" ).matcher( myMsg.getMessageHTML() );
 			if (meatMatcher.find())
 			{
 				meatSent = df.parse( meatMatcher.group(1) ).intValue();
-				
+
 				//look for this amount in the buff table
 				for ( int i = 0; i < buffCostTable.size() && !buffRequestFound; ++i)
 				{
@@ -182,25 +182,25 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 						}
 					}
 				}
-				
+
 			}
 		}
 		catch( Exception e )
 		{}
-		
+
 		//Now, mark for either save or delete the message.
 		String msgDisp = ((!buffRequestFound) && saveNonBuffmsgs ? "save" : "delete");
 		if (!buffRequestFound)
 		{
-			buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + myMsg.getSenderName() + "]</font><br>\n");
-			buffbotLog.append( NONBUFFCOLOR + "Action: " + msgDisp + "</font><br>\n");
+			buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + myMsg.getSenderName() + "]" + ENDCOLOR + "<br>\n");
+			buffbotLog.append( NONBUFFCOLOR + "Action: " + msgDisp + ENDCOLOR + "<br>\n");
 		}
 		if (msgDisp == "save") saveList.add(myMsg);
 		else deleteList.add(myMsg);
-		
+
 		return true;
 	}
-	
+
 	private boolean castThatBuff(String bufftarget, BuffBotFrame.BuffDescriptor buffEntry,
 			int num2cast)
 	{
@@ -208,11 +208,11 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		// and then identify the number of casts per request that this
 		// character can handle.
 		int castsPerEvent, MPperEvent ;
-		
+
 		int buffID = buffEntry.buffID;
 		int totalCasts = num2cast;
 		int MPperCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
-		
+
 		while (totalCasts > 0)
 		{
 			castsPerEvent = Math.min(totalCasts, (me.getMaximumMP())/(MPperCast));
@@ -225,20 +225,20 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			(new UseSkillRequest(client, buffEntry.buffName, bufftarget, castsPerEvent)).run();
 			totalCasts = totalCasts - castsPerEvent;
 		}
-		buffbotLog.append( BUFFCOLOR + "Cast " + buffEntry.buffName + ", " + num2cast + " times on " + bufftarget + ".</font><br>\n");
+		buffbotLog.append( BUFFCOLOR + "Cast " + buffEntry.buffName + ", " + num2cast + " times on " + bufftarget + "." + ENDCOLOR + "<br>\n");
 		return true;
 	}
-	
+
 	private boolean recoverMP(int MPNeeded)
 	{
 		final int PHONICSMP = 46, TINYHOUSEMP = 20, BEANBAGMP = 80;
 		int num2use, MPShort;
 		AdventureResult itemUsed;
-		
+
 		int currentMP;
 		//First try resting in the beanbag chair
 		// TODO - implement beanbag chair recovery
-		
+
 		// TODO Coompute the optimal use of Tiny Houses or Phonics first
 		// try to get there using tiny houses
 		if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Tiny Houses Only"))
@@ -246,19 +246,19 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			currentMP = me.getCurrentMP();
 			if (currentMP >= MPNeeded) return true;
 		}
-		
+
 		// try to get there using phonics downs
 		if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Phonics Only"))
 		{	useRestoralItem("phonics down", MPNeeded, PHONICSMP);
 			currentMP = me.getCurrentMP();
 			if (currentMP >= MPNeeded) return true;
 		}
-		buffbotLog.append( ERRORCOLOR + "Unable to acquire enough MP!</font><br>\n");
+		buffbotLog.append( ERRORCOLOR + "Unable to acquire enough MP!" + ENDCOLOR + "<br>\n");
 		return false;
 	}
 	void useRestoralItem(String itemName, int MPNeeded, int MPperuse)
 	{
-		
+
 		int num2use, MPShort;
 		AdventureResult itemUsed;
 		int currentMP = me.getCurrentMP();
@@ -279,7 +279,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE, new AdventureResult( itemUsed.getItemID(), num2use ) )).run();
 			}
 		}
-		
-		
+
+
 	}
 }
