@@ -788,7 +788,6 @@ public class OptionsFrame extends KoLFrame
 	{
 		private JTextField defaultLimitField;
 		private JComboBox forceSortSelect;
-		private JComboBox promptForPriceSelect;
 		private JComboBox useClosetForCreationSelect;
 		private JComboBox autoRepairBoxesSelect;
 
@@ -802,12 +801,6 @@ public class OptionsFrame extends KoLFrame
 
 			forceSortSelect = new JComboBox( forceSorting );
 
-			LockableListModel promptForPrices = new LockableListModel();
-			promptForPrices.add( "Prompt for Price" );
-			promptForPrices.add( "Instant Billionaire" );
-
-			promptForPriceSelect = new JComboBox( promptForPrices );
-
 			LockableListModel useClosetForCreation = new LockableListModel();
 			useClosetForCreation.add( "Inventory only" );
 			useClosetForCreation.add( "Closet and inventory" );
@@ -820,12 +813,11 @@ public class OptionsFrame extends KoLFrame
 
 			autoRepairBoxesSelect = new JComboBox( autoRepairBoxes );
 
-			VerifiableElement [] elements = new VerifiableElement[5];
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Default Limit: ", defaultLimitField );
 			elements[1] = new VerifiableElement( "Sorting Style: ", forceSortSelect );
-			elements[2] = new VerifiableElement( "Automall Style: ", promptForPriceSelect );
-			elements[3] = new VerifiableElement( "Ingredient Source: ", useClosetForCreationSelect );
-			elements[4] = new VerifiableElement( "Auto-Repair: ", autoRepairBoxesSelect );
+			elements[2] = new VerifiableElement( "Ingredient Source: ", useClosetForCreationSelect );
+			elements[3] = new VerifiableElement( "Auto-Repair: ", autoRepairBoxesSelect );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -847,7 +839,6 @@ public class OptionsFrame extends KoLFrame
 			{
 				String defaultLimitSetting = settings.getProperty( "defaultLimit" );
 				String forceSortSetting = settings.getProperty( "forceSorting" );
-				String promptForPriceSetting = settings.getProperty( "promptForPrice" );
 				String useClosetForCreationSetting = settings.getProperty( "useClosetForCreation" );
 				String autoRepairBoxesSetting = settings.getProperty( "autoRepairBoxes" );
 
@@ -861,12 +852,7 @@ public class OptionsFrame extends KoLFrame
 				else
 					forceSortSelect.setSelectedIndex( 1 );
 
-				if ( promptForPriceSetting == null || promptForPriceSetting.equals( "true" ) )
-					promptForPriceSelect.setSelectedIndex( 0 );
-				else
-					promptForPriceSelect.setSelectedIndex( 1 );
-
-				if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) )
+ 				if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) )
 					useClosetForCreationSelect.setSelectedIndex( 0 );
 				else
 					useClosetForCreationSelect.setSelectedIndex( 1 );
@@ -892,7 +878,6 @@ public class OptionsFrame extends KoLFrame
 			{
 				settings.setProperty( "defaultLimit", defaultLimitField.getText().length() == 0 ? "13" : defaultLimitField.getText() );
 				settings.setProperty( "forceSorting", "" + (forceSortSelect.getSelectedIndex() == 1) );
-				settings.setProperty( "promptForPrice", "" + (promptForPriceSelect.getSelectedIndex() == 0) );
 				settings.setProperty( "useClosetForCreation", "" + (useClosetForCreationSelect.getSelectedIndex() == 1) );
 				settings.setProperty( "autoRepairBoxes", "" + (autoRepairBoxesSelect.getSelectedIndex() == 1) );
 				saveSettings();

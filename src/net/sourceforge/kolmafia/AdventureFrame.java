@@ -310,20 +310,25 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
+		JMenuItem mallItem = new JMenuItem( "Manipulate Mall", KeyEvent.VK_M );
+		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
+
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
 
-		JMenuItem buffbotMenuItem = new JMenuItem( "Do the BuffBot", KeyEvent.VK_D );
-		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
-
 		JMenu statusMenu = addStatusMenu( menuBar );
+		statusMenu.add( mallItem );
 		statusMenu.add( arenaItem );
-		statusMenu.add( buffbotMenuItem );
 
 		JMenuItem getBreakfastItem = new JMenuItem( "Breakfast Table", KeyEvent.VK_B );
 		getBreakfastItem.addActionListener( new GetBreakfastListener() );
 
-		addScriptMenu( menuBar ).add( getBreakfastItem );
+		JMenuItem buffbotMenuItem = new JMenuItem( "Do the BuffBot", KeyEvent.VK_D );
+		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
+
+		JMenu scriptMenu = addScriptMenu( menuBar );
+		scriptMenu.add( getBreakfastItem );
+		scriptMenu.add( buffbotMenuItem );
 
 		addPeopleMenu( menuBar );
 		addConfigureMenu( menuBar );

@@ -375,33 +375,8 @@ public class ItemManageFrame extends KoLFrame
 							client.makeRequest( new AutoSellRequest( client, currentItem ), 1 );
 							break;
 						case AutoSellRequest.AUTOMALL:
-						{
-							try
-							{
-								String promptForPriceString = client.getSettings().getProperty( "promptForPrice" );
-								boolean promptForPrice = promptForPriceString == null ? true :
-									Boolean.valueOf( promptForPriceString ).booleanValue();
-
-								int desiredPrice = promptForPrice ? df.parse( JOptionPane.showInputDialog(
-									"Price for " + currentItem.getName() + "?" ) ).intValue() : 999999999;
-
-								if ( desiredPrice >= 10 )
-									client.makeRequest( new AutoSellRequest( client, currentItem, desiredPrice ), 1 );
-								else
-									finishedSelling = true;
-							}
-							catch ( Exception e )
-							{
-								// If the number placed inside of the count list was not
-								// an actual integer value, then the user is probably
-								// trying to break the input so that they can stop the
-								// sell process.  Therefore, assume they're done.
-
-								finishedSelling = true;
-							}
-
+							client.makeRequest( new AutoSellRequest( client, currentItem, 999999999 ), 1 );
 							break;
-						}
 					}
 
 				}
