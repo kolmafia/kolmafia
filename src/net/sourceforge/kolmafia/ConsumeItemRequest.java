@@ -105,7 +105,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// Check to make sure that it wasn't a food or drink
 			// that was consumed that resulted in nothing.
 
-			if ( replyContent.indexOf( "You're too" ) != -1 )
+			if ( replyContent.indexOf( "too full" ) != -1 || replyContent.indexOf( "too drunk" ) != -1 )
 			{
 				client.updateAdventure( false, false );
 				client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Consumption limit reached." );
