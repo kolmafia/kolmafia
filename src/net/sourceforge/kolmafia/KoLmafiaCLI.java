@@ -1013,6 +1013,10 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				adventureCount = adventureCountString.equals( "*" ) ? scriptRequestor.getCharacterData().getAdventuresLeft() :
 					df.parse( adventureCountString ).intValue();
+
+				if ( adventureCountString.equals( "*" ) &&
+					AdventureDatabase.getAdventure( scriptRequestor, adventureName ).toString().startsWith( "Shore" ) )
+						adventureCount /= 3;
 			}
 			catch ( Exception e )
 			{
