@@ -95,6 +95,7 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
+		updateDisplay( DISABLED_STATE, "Using " + itemUsed.getName() + "..." );
 		super.run();
 
 		if ( isErrorState )
@@ -152,6 +153,7 @@ public class ConsumeItemRequest extends KoLRequest
 				else
 				{
 					client.getCharacterData().addFamiliar( FamiliarsDatabase.growFamiliarItem( itemUsed.getName() ) );
+					updateDisplay( ENABLED_STATE, "Larva used successfully (maybe)." );
 					return;
 				}
 			}
@@ -179,6 +181,7 @@ public class ConsumeItemRequest extends KoLRequest
 			else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
 			{
 				client.addToResultTally( new AdventureResult( AdventureResult.HP, client.getCharacterData().getMaximumHP() ) );
+				updateDisplay( ENABLED_STATE, "Scroll didn't crumble!" );
 				if ( replyContent.indexOf( "crumble" ) == -1 )
 					return;
 			}
@@ -206,6 +209,8 @@ public class ConsumeItemRequest extends KoLRequest
 					client.addToResultTally( new AdventureResult( consumedItemName,
 						0 - ((AdventureResult)client.getInventory().get( consumedItemIndex )).getCount() ) );
 			}
+
+			updateDisplay( ENABLED_STATE, itemUsed.getName() + " successfully used." );
 		}
 
 	}
