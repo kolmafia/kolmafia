@@ -80,6 +80,7 @@ public class HermitRequest extends KoLRequest
 
 		addFormField( "whichitem", item );
 
+		updateDisplay( KoLFrame.DISABLED_STATE, "Robbing the hermit..." );
 		super.run();
 
 		// If an error state occurred, return from this
@@ -106,6 +107,7 @@ public class HermitRequest extends KoLRequest
 			{
 				int actualQuantity = df.parse( replyContent.substring( index + 9 ) ).intValue();
 				(new HermitRequest( client, actualQuantity )).run();
+				return;
 			}
 			catch ( Exception e )
 			{
@@ -117,5 +119,6 @@ public class HermitRequest extends KoLRequest
 		}
 
 		processResults( replyContent );
+		updateDisplay( KoLFrame.ENABLED_STATE, "Hermit successfully looted!" );
 	}
 }
