@@ -561,15 +561,15 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			LockableListModel equipment = new LockableListModel();
-			equipment.add( "Hobo-Flex" );
+			equipment.add( "Hobo-Flex Workout Machine" );
 			equipment.add( "Big Book of Magicalness" );
-			equipment.add( "Tan-U-Lots" );
+			equipment.add( "Tan-U-Lots Tanning Bed" );
 
 			workoutField = new JComboBox( equipment );
 			countField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Workout: ", workoutField );
+			elements[0] = new VerifiableElement( "Gym Item: ", workoutField );
 			elements[1] = new VerifiableElement( "# of turns: ", countField );
 
 			setContent( elements );
