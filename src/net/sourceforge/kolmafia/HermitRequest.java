@@ -68,9 +68,6 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
 		String item = client.getSettings().getProperty( "hermitTrade" );
 
 		if ( item == null )
@@ -83,6 +80,9 @@ public class HermitRequest extends KoLRequest
 		addFormField( "whichitem", item );
 
 		super.run();
+
+		// If an error state occurred, return from this
+		// request, since there's no content to parse
 
 		if ( isErrorState || responseCode != 200 )
 			return;
