@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.net.URLEncoder;
 
 /**
  * An extension of <code>KoLRequest</code> which handles logins.
@@ -63,8 +64,18 @@ public class LoginRequest extends KoLRequest
 		this.password = password;
 
 		addFormField( "loggingin", "Yup." );
-		addFormField( "loginname", loginname );
-		addFormField( "password", password );
+		try
+		{
+			addFormField( "loginname", URLEncoder.encode( loginname, "UTF-8" ) );
+			addFormField( "password", URLEncoder.encode( password, "UTF-8" ) );
+		}
+		catch ( java.io.UnsupportedEncodingException e )
+		{
+			// UTF-8 is a very generic encoding scheme; this
+			// exception should never be thrown.  But if it
+			// is, just ignore it for now.  Better exception
+			// handling when it becomes necessary.
+		}
 	}
 
 	/**
