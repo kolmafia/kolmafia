@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AdventureResult implements Comparable<AdventureResult>
+public class AdventureResult implements Comparable
 {
 	private int resultCount;
 	private String resultName;
@@ -47,9 +47,9 @@ public class AdventureResult implements Comparable<AdventureResult>
 	public static final String MYS = "Mys";
 	public static final String MOX = "Mox";
 
-	public static List<String> MUS_SUBSTAT = new ArrayList<String>();
-	public static List<String> MYS_SUBSTAT = new ArrayList<String>();
-	public static List<String> MOX_SUBSTAT = new ArrayList<String>();
+	public static List MUS_SUBSTAT = new ArrayList();
+	public static List MYS_SUBSTAT = new ArrayList();
+	public static List MOX_SUBSTAT = new ArrayList();
 
 	static
 	{
@@ -98,9 +98,14 @@ public class AdventureResult implements Comparable<AdventureResult>
 		return resultName.equals( ((AdventureResult)o).resultName );
 	}
 
-	public int compareTo( AdventureResult o )
+	public int compareTo( Object o )
 	{
-		int priorityDifference = resultPriority - o.resultPriority;
-		return priorityDifference != 0 ? priorityDifference : resultName.compareToIgnoreCase( o.resultName );
+		if ( !(o instanceof AdventureResult) || o == null )
+			return -1;
+
+		AdventureResult ar = (AdventureResult) o;
+
+		int priorityDifference = resultPriority - ar.resultPriority;
+		return priorityDifference != 0 ? priorityDifference : resultName.compareToIgnoreCase( ar.resultName );
 	}
 }

@@ -1,4 +1,4 @@
-<project name="KoLmafia" default="compile" basedir=".">
+<project name="KoLmafia" default="createjar" basedir=".">
 
 
   <!-- ========================================== -->
@@ -39,7 +39,8 @@
           depends="init"
           description="compile the source and assemble other files">
 
-    <javac srcdir="${src}"
+    <javac source="1.4"
+           srcdir="${src}"
            destdir="${build}"
            classpath="${lib}/*.jar">
 

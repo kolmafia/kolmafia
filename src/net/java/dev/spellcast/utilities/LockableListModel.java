@@ -61,10 +61,10 @@ import javax.swing.event.ListDataEvent;
  */
 
 public class LockableListModel extends javax.swing.AbstractListModel
-	implements Cloneable, java.util.List<Object>, javax.swing.ListModel, javax.swing.ComboBoxModel, LockableObject
+	implements Cloneable, java.util.List, javax.swing.ListModel, javax.swing.ComboBoxModel, LockableObject
 {
 	private ObjectLock lock;
-	private List<Object> elements;
+	private List elements;
 	private int selectedIndex;
 
 	/**
@@ -75,7 +75,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public LockableListModel()
 	{
-		elements = new ArrayList<Object>();
+		elements = new ArrayList();
 		selectedIndex = -1;
 	}
 
@@ -241,7 +241,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized Iterator<Object> iterator()
+	public synchronized Iterator iterator()
 	{	return elements.iterator();
 	}
 
@@ -259,7 +259,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized ListIterator<Object> listIterator()
+	public synchronized ListIterator listIterator()
 	{	return elements.listIterator();
 	}
 
@@ -268,7 +268,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized ListIterator<Object> listIterator( int index )
+	public synchronized ListIterator listIterator( int index )
 	{	return elements.listIterator( index );
 	}
 
@@ -370,7 +370,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized List<Object> subList( int fromIndex, int toIndex )
+	public synchronized List subList( int fromIndex, int toIndex )
 	{	return elements.subList( fromIndex, toIndex );
 	}
 
@@ -388,7 +388,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized <T> T [] toArray( T[] a )
+	public synchronized Object [] toArray( Object[] a )
 	{	return elements.toArray(a);
 	}
 
@@ -501,9 +501,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * @return	as deep a copy of the object as can be obtained
 	 */
 
-	private List<Object> cloneList()
+	private List cloneList()
 	{
-		List<Object> clonedList = new ArrayList<Object>();
+		List clonedList = new ArrayList();
 		java.lang.reflect.Method cloneMethod;  Object toClone;
 
 		for ( int i = 0; i < size(); ++i )
@@ -539,7 +539,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			// is implementation and specification dependent, and is used
 			// with the traditional rule about null for a parameter list in
 			// Class and Method indicating a zero-length parameter list.
-			cloneMethod = o.getClass().getDeclaredMethod( "clone" );
+			cloneMethod = o.getClass().getDeclaredMethod( "clone", null );
 		}
 		catch ( SecurityException e )
 		{
@@ -565,7 +565,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			// is implementation and specification dependent, and is used
 			// with the traditional rule about null for a parameter list in
 			// Class and Method indicating a zero-length parameter list.
-			return cloneMethod.invoke( o );
+			return cloneMethod.invoke( o, null );
 		}
 		catch ( IllegalAccessException e )
 		{

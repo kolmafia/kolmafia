@@ -76,7 +76,7 @@ public class KoLRequest extends Thread
 
 	private URL formURL;
 	private String sessionID;
-	private List<String> data;
+	private List data;
 
 	protected KoLmafia client;
 	protected KoLFrame frame;
@@ -111,7 +111,7 @@ public class KoLRequest extends Thread
 			this.sessionID = client.getSessionID();
 		}
 
-		data = new ArrayList<String>();
+		data = new ArrayList();
 		setDaemon( true );
 	}
 
@@ -199,15 +199,15 @@ public class KoLRequest extends Thread
 					new BufferedWriter( new OutputStreamWriter(
 						formConnection.getOutputStream() ) );
 
-				Iterator<String> iterator = data.iterator();
+				Iterator iterator = data.iterator();
 
 				if ( iterator.hasNext() )
-					ostream.write( iterator.next() );
+					ostream.write( iterator.next().toString() );
 
 				while ( iterator.hasNext() )
 				{
 					ostream.write( "&" );
-					ostream.write( iterator.next() );
+					ostream.write( iterator.next().toString() );
 				}
 
 				ostream.flush();
