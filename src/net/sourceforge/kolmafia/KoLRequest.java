@@ -285,9 +285,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( client != null && !formURLString.equals( "fight.php" ) )
-			client.resetContinueState();
-
 		// Adding in a delay inbetween run requests - this means that
 		// all requests, not just chat requests, have a delay before
 		// running to be friendlier on the server.
