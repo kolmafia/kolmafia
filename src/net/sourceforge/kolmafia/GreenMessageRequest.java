@@ -54,7 +54,7 @@ public class GreenMessageRequest extends KoLRequest
 		addFormField( "savecopy", "on" );
 		addFormField( "message", message );
 
-		this.recipient = recipient;
+		this.recipient = client.getMessenger() == null ? recipient : client.getMessenger().getPlayerID( recipient );
 		this.message = message;
 		this.attachments = attachments;
 	}
@@ -89,7 +89,7 @@ public class GreenMessageRequest extends KoLRequest
 					// For each broken-up request, you create a new ItemStorage request
 					// which will create the appropriate data to post.
 
-					(new GreenMessageRequest( client, recipient, message, itemHolder )).run();
+					(new GreenMessageRequest( client, recipient, "(item sending continuation)", itemHolder )).run();
 
 					currentBaseIndex += 11;
 					remainingItems -= 11;
