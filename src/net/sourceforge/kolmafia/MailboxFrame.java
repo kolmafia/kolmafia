@@ -197,8 +197,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public void valueChanged( ListSelectionEvent e )
 		{
-			int firstIndex = e.getFirstIndex();
-			String newContent = ((KoLMailManager.KoLMailMessage)mailbox.getMessages( mailboxName ).get(firstIndex)).getMessageHTML();
+			int newIndex = getSelectedIndex();
+			String newContent = ((KoLMailManager.KoLMailMessage)mailbox.getMessages( mailboxName ).get(newIndex)).getMessageHTML();
 			mailBuffer.clearBuffer();
 			mailBuffer.append( newContent );
 		}
