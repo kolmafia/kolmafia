@@ -109,7 +109,18 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( contentPanel != null && client != null )
 		{
 			client.getLogStream().println( message );
-			(new DisplayStatus( contentPanel, displayState, message )).run();
+
+			switch ( displayState )
+			{
+				case ENABLED_STATE:
+					KoLFrame.this.setEnabled( true );
+					this.contentPanel.clear();
+					break;
+
+				case DISABLED_STATE:
+					KoLFrame.this.setEnabled( false );
+					break;
+			}
 		}
 	}
 
@@ -451,52 +462,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
-	 * A <code>Runnable</code> object which can be placed inside of
-	 * a call to <code>javax.swing.SwingUtilities.invokeLater()</code>
-	 * to ensure that the GUI is only modified inside of the AWT thread.
-	 */
-
-	protected class DisplayStatus implements Runnable
-	{
-		private KoLPanel contentPanel;
-		private int displayState;
-		private String status;
-
-		public DisplayStatus( KoLPanel contentPanel, int displayState, String status )
-		{
-			this.contentPanel = contentPanel;
-			this.displayState = displayState;
-			this.status = status;
-		}
-
-		public void run()
-		{
-			if ( this.contentPanel == null )
-				return;
-
-			if ( !SwingUtilities.isEventDispatchThread() )
-			{
-				SwingUtilities.invokeLater( this );
-				return;
-			}
-
-			this.contentPanel.setStatusMessage( status );
-
-			switch ( displayState )
-			{
-				case ENABLED_STATE:
-					KoLFrame.this.setEnabled( true );
-					this.contentPanel.clear();
-					break;
-
-				case DISABLED_STATE:
-					KoLFrame.this.setEnabled( false );
-					break;
-			}
-		}
-	}
-
-	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
 	 * the request for viewing a character sheet.
@@ -547,6 +512,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				{
 					if ( creator != null )
 					{
+						KoLFrame.this.setEnabled( false );
+
 						lastCreatedFrame = (KoLFrame) creator.newInstance( parameters );
 						lastCreatedFrame.pack();
 						lastCreatedFrame.setLocation( KoLFrame.this.getLocation() );
