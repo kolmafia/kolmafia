@@ -5,6 +5,7 @@
   <!--  set the global properties for this build  -->
   <!-- ========================================== -->
 
+  <property name="root" location="."/>
   <property name="src" location="src"/>
   <property name="lib" location="lib"/>
   <property name="build" location="build"/>
@@ -14,6 +15,7 @@
 
   <property name="cvsroot" value=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/kolmafia"/>
   <property name="jarfile" location="${dist}/${ant.project.name}.jar"/>
+  <property name="tarfile" location="${dist}/${ant.project.name}.tar.gz"/>
   <property name="main-class" value="net.sourceforge.kolmafia.KoLmafia"/>
 
 
@@ -56,6 +58,28 @@
 
   </target>
 
+  <!-- ================================== -->
+  <!--  generate the TAR of source files  -->
+  <!-- ================================== -->
+
+  <target name="createtar"
+          description="generate the TAR of source files">
+
+    <ant target="init"/>
+
+    <tar destfile="${tarfile}"
+         basedir="${root}"
+         excludes="CVS/**"
+         compression="gzip">
+
+       <exclude name="CVS/**"/>
+       <exclude name="build/**"/>
+       <exclude name="dist/**"/>
+
+    </tar>
+
+  </target>
+
 
   <!-- ================================== -->
   <!--  generate the executable JAR file  -->
@@ -83,10 +107,11 @@
   <!-- =========================== -->
 
   <target name="dist"
-          depends="createjar"
           description="generate the distribution">
 
     <ant target="javadoc"/>
+    <ant target="createjar"/>
+    <ant target="createtar"/>
 
   </target>
 
