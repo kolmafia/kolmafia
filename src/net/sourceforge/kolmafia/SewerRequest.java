@@ -114,6 +114,7 @@ public class SewerRequest extends KoLRequest
 
 		processResults( replyContent );
 		client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
+		client.addToResultTally( new AdventureResult( "ten-leaf clover", -1 ) );
 	}
 
 	/**
@@ -136,5 +137,6 @@ public class SewerRequest extends KoLRequest
 
 		processResults( replyContent );
 		client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
+		client.addToResultTally( new AdventureResult( "chewing gum on a string", -1 ) );
 	}
 }
