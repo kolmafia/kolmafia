@@ -560,7 +560,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campground" ) == -1 && characterData.getInebriety() > 19 )
 					permitContinue = confirmDrunkenRequest();
 
-				if ( request instanceof KoLAdventure )
+				if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
 					autoRecoverHP();
 
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
@@ -579,13 +579,12 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 						--iterationsRemaining;
 						autoRecoverHP();
 					}
-					else if ( request instanceof KoLAdventure )
+					else if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
 					{
 						autoRecoverHP();
 						if ( permitContinue )
 							--iterationsRemaining;
 					}
-
 				}
 
 				if ( permitContinue && iterationsRemaining <= 0 )
