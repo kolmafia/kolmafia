@@ -107,9 +107,11 @@ public class ConcoctionsDatabase implements UtilityConstants
 
 	public static SortedListModel getConcoctions( KoLmafia client, List availableIngredients )
 	{
+		String classname = client.getCharacterData().getClassName();
+
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 		{
-			if ( concoctions[i] == null )
+			if ( concoctions[i] == null || !isPermittedMixtureMethod( concoctions[i].getMixingMethod(), classname ) )
 			{
 				String itemName = TradeableItemDatabase.getItemName(i);
 				if ( itemName != null )
@@ -121,7 +123,9 @@ public class ConcoctionsDatabase implements UtilityConstants
 					quantityPossible[i] = 0;
 			}
 			else
+			{
 				quantityPossible[i] = -1;
+			}
 		}
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
@@ -138,11 +142,36 @@ public class ConcoctionsDatabase implements UtilityConstants
 
 		SortedListModel concoctionsList = new SortedListModel();
 
+
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( quantityPossible[i] > 0 )
 				concoctionsList.add( new ItemCreationRequest( client, i, concoctions[i].getMixingMethod(), quantityPossible[i] ) );
 
 		return concoctionsList;
+	}
+
+	/**
+	 * Helper method to determine whether or not the given mixing
+	 * method is permitted, provided the state of the boolean
+	 * variables is as specified.
+	 */
+
+	private static boolean isPermittedMixtureMethod( int mixingMethod, String classname )
+	{
+		switch ( mixingMethod )
+		{
+			case ItemCreationRequest.SMITH:
+				return classname.startsWith( "Se" );
+
+			case ItemCreationRequest.COOK_REAGENT:
+				return classname.startsWith( "Sa" );
+
+			case ItemCreationRequest.COOK_PASTA:
+				return classname.startsWith( "Pa" );
+
+			default:
+				return true;
+		}
 	}
 
 	/**
