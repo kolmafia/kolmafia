@@ -1066,13 +1066,14 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( isheet == null || !isheet.isShowing() )
+				if ( isheet == null )
 				{
 					isheet = new ItemManageFrame( client );
-					isheet.pack();  isheet.setVisible( true );
+					isheet.pack();
 				}
 
-				isheet.setEnabled( contentPanel.isEnabled() );
+				isheet.setVisible( true );
+				isheet.setEnabled( true );
 				isheet.requestFocus();
 			}
 		}
