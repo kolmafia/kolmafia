@@ -63,108 +63,87 @@ public class StoreManageFrame extends KoLFrame
 {
 	private JLabel searchLabel;
 	private JComboBox sellingList;
-	private JTextField priceField;
-	private JTextField limitField;
 	private LockableListModel priceSummary;
 
-	private NonContentPanel storeManager;
+	private StoreManagePanel storeManager;
+	private AddItemPanel addItem;
+	private StoreItemPanelList storeItemList;
 	private JPanel searchResults;
 
 	public StoreManageFrame( KoLmafia client )
 	{
-		super( "Watch Out for Dropkicking Prices", client );
+		super( "KoLmafia: Watch Out for Dropkicking Prices", client );
 		(new StoreManageRequest( client )).run();
 
+		setResizable( false );
 		storeManager = new StoreManagePanel();
-		searchResults = new SearchResultsPanel();
-
-		JPanel northPanel = new JPanel();
-		northPanel.setLayout( new BorderLayout() );
-		northPanel.add( storeManager, BorderLayout.NORTH );
-
-		getContentPane().setLayout( new BorderLayout( 20, 20 ) );
-		getContentPane().add( northPanel, BorderLayout.NORTH );
-		getContentPane().add( searchResults, BorderLayout.EAST );
-
-		JScrollPane scrollArea = new JScrollPane( new StoreItemPanelList(),
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout( new BorderLayout() );
-		centerPanel.add( JComponentUtilities.createLabel( "Manage Store", JLabel.CENTER,
-			Color.black, Color.white ), BorderLayout.NORTH );
-		centerPanel.add( scrollArea, BorderLayout.CENTER );
-		getContentPane().add( centerPanel, BorderLayout.CENTER );
+		getContentPane().add( storeManager, BorderLayout.CENTER );
 	}
 
 	public void setEnabled( boolean isEnabled )
 	{
 		sellingList.setEnabled( isEnabled );
-		priceField.setEnabled( isEnabled );
-		limitField.setEnabled( isEnabled );
 		storeManager.setEnabled( isEnabled );
-		searchResults.setEnabled( isEnabled );
+		addItem.setEnabled( isEnabled );
+		storeItemList.setEnabled( isEnabled );
 	}
 
-	private class StoreManagePanel extends NonContentPanel
+	private class StoreManagePanel extends LabeledKoLPanel
 	{
 		public StoreManagePanel()
 		{
-			super( "add item", "search", new Dimension( 100, 20 ), new Dimension( 420, 20 ) );
+			super( "Manage Your Store", "apply new prices", "refresh store", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
 
 			priceSummary = new LockableListModel();
-			sellingList = new JComboBox( client.getInventory().getMirrorImage() );
-			sellingList.setRenderer( AdventureResult.getAutoSellCellRenderer() );
+			JPanel elementsPanel = new JPanel();
+			elementsPanel.setLayout( new BoxLayout( elementsPanel, BoxLayout.Y_AXIS ) );
 
-			if ( client.getInventory().size() > 0 )
-				sellingList.setSelectedIndex( 0 );
+			JPanel labelPanel1 = new JPanel();
+			labelPanel1.setLayout( new BorderLayout() );
+			labelPanel1.add( JComponentUtilities.createLabel( "Add to Your Store", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.CENTER );
 
-			priceField = new JTextField();
-			limitField = new JTextField();
+			elementsPanel.add( labelPanel1 );
+			addItem = new AddItemPanel();
+			elementsPanel.add( addItem );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Item to Sell: ", sellingList );
-			elements[1] = new VerifiableElement( "Desired Price: ", priceField );
-			elements[2] = new VerifiableElement( "Desired Limit: ", limitField );
-			setContent( elements, null, null, null, true, true );
+			elementsPanel.add( Box.createVerticalStrut( 20 ) );
+
+			JPanel labelPanel2 = new JPanel();
+			labelPanel2.setLayout( new BorderLayout() );
+			labelPanel2.add( JComponentUtilities.createLabel( "Price Management", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.CENTER );
+
+			elementsPanel.add( labelPanel2 );
+			storeItemList = new StoreItemPanelList();
+			elementsPanel.add( storeItemList );
+
+			JScrollPane scrollArea = new JScrollPane( elementsPanel,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "", scrollArea );
+
+			searchResults = new SearchResultsPanel();
+			setContent( elements, null, null, searchResults, true, true );
 		}
 
 		public void actionConfirmed()
-		{	(new AutoMallRequestThread()).start();
+		{
 		}
 
 		public void actionCancelled()
-		{
-			if ( sellingList.getSelectedItem() == null )
-				return;
-
-			(new SearchMallRequestThread( ((AdventureResult) sellingList.getSelectedItem()).getName() )).start();
+		{	(new RefreshStoreThread()).start();
 		}
 
-		private class AutoMallRequestThread extends Thread
+		private class ApplyPricesThread extends Thread
+		{
+		}
+
+		private class RefreshStoreThread extends Thread
 		{
 			public void run()
-			{
-				try
-				{
-					AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
-					if ( soldItem == null )
-						return;
-
-					int price = priceField.getText() == null ? 0 : priceField.getText().length() == 0 ? 0 :
-						df.parse( priceField.getText() ).intValue();
-
-					int limit = limitField.getText() == null ? 0 : limitField.getText().length() == 0 ? 0 :
-						df.parse( limitField.getText() ).intValue();
-
-					if ( price > 10 )
-						client.makeRequest( new AutoSellRequest( client, soldItem, price, limit ), 1 );
-
-					client.updateDisplay( ENABLED_STATE, "" );
-				}
-				catch ( Exception e )
-				{
-				}
+			{	(new StoreManageRequest( client )).run();
 			}
 		}
 	}
@@ -193,15 +172,109 @@ public class StoreManageFrame extends KoLFrame
 			JScrollPane scrollArea = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			JComponentUtilities.setComponentSize( scrollArea, 150, 100 );
+			JComponentUtilities.setComponentSize( scrollArea, 150, 160 );
 			add( scrollArea, BorderLayout.CENTER );
+		}
+	}
+
+	private class AddItemPanel extends JPanel
+	{
+		private JTextField itemPrice, itemLimit;
+		private JButton addButton, searchButton;
+
+		public AddItemPanel()
+		{
+			sellingList = new JComboBox( client.getInventory().getMirrorImage() );
+			sellingList.setRenderer( AdventureResult.getAutoSellCellRenderer() );
+			if ( client.getInventory().size() > 0 )
+				sellingList.setSelectedIndex( 0 );
+
+			itemPrice = new JTextField( "" );
+			itemLimit = new JTextField( "" );
+
+			addButton = new JButton( JComponentUtilities.getSharedImage( "icon_success_sml.gif" ) );
+			addButton.addActionListener( new AddButtonListener() );
+
+			searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
+			searchButton.addActionListener( new SearchButtonListener() );
+
+			JComponentUtilities.setComponentSize( sellingList, 280, 20 );
+			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
+			JComponentUtilities.setComponentSize( itemLimit, 40, 20 );
+			JComponentUtilities.setComponentSize( addButton, 30, 20 );
+			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
+
+			JPanel corePanel = new JPanel();
+			corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
+			corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( sellingList ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( itemLimit ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( addButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+
+			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			add( Box.createVerticalStrut( 5 ) );
+			add( corePanel );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			itemPrice.setEnabled( isEnabled );
+			addButton.setEnabled( isEnabled );
+			searchButton.setEnabled( isEnabled );
+		}
+
+		private class AddButtonListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{	(new AutoMallRequestThread()).start();
+			}
+
+			private class AutoMallRequestThread extends Thread
+			{
+				public void run()
+				{
+					try
+					{
+						AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
+						if ( soldItem == null )
+							return;
+
+						int price = itemPrice.getText() == null ? 0 : itemPrice.getText().length() == 0 ? 0 :
+							df.parse( itemPrice.getText() ).intValue();
+
+						int limit = itemLimit.getText() == null ? 0 : itemLimit.getText().length() == 0 ? 0 :
+							df.parse( itemLimit.getText() ).intValue();
+
+						if ( price > 10 )
+							client.makeRequest( new AutoSellRequest( client, soldItem, price, limit ), 1 );
+
+						client.updateDisplay( ENABLED_STATE, "" );
+					}
+					catch ( Exception e )
+					{
+					}
+				}
+			}
+		}
+
+		private class SearchButtonListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( sellingList.getSelectedItem() == null )
+					return;
+
+				(new SearchMallRequestThread( ((AdventureResult)sellingList.getSelectedItem()).getName() )).start();
+			}
 		}
 	}
 
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 8, 440, 25, client.getStoreManager().getSoldItemList() );
+		{	super( 12, 520, 25, client.getStoreManager().getSoldItemList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -216,6 +289,7 @@ public class StoreManageFrame extends KoLFrame
 			private int itemID;
 			private JLabel itemName;
 			private JTextField itemPrice, itemLimit;
+			private JButton takeButton, searchButton;
 
 			public StoreItemPanel( StoreManager.SoldItem value )
 			{
@@ -224,13 +298,13 @@ public class StoreManageFrame extends KoLFrame
 				itemPrice = new JTextField( "" + df.format( value.getPrice() ) );
 				itemLimit = new JTextField( "" + df.format( value.getLimit() ) );
 
-				JButton takeButton = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
+				takeButton = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
 				takeButton.addActionListener( new TakeButtonListener() );
 
-				JButton searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
+				searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
 				searchButton.addActionListener( new SearchButtonListener() );
 
-				JComponentUtilities.setComponentSize( itemName, 210, 20 );
+				JComponentUtilities.setComponentSize( itemName, 280, 20 );
 				JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
 				JComponentUtilities.setComponentSize( itemLimit, 40, 20 );
 				JComponentUtilities.setComponentSize( takeButton, 30, 20 );
@@ -256,6 +330,14 @@ public class StoreManageFrame extends KoLFrame
 				itemName.setText( TradeableItemDatabase.getItemName( smsi.getItemID() ) );
 				itemPrice.setText( "" + df.format( smsi.getPrice() ) );
 				itemLimit.setText( "" + df.format( smsi.getLimit() ) );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				itemPrice.setEnabled( isEnabled );
+				itemLimit.setEnabled( isEnabled );
+				takeButton.setEnabled( isEnabled );
+				searchButton.setEnabled( isEnabled );
 			}
 
 			private class TakeButtonListener implements ActionListener
