@@ -710,7 +710,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				if ( lastToken.indexOf( "effect" ) == -1 )
 				{
-					client.parseResult( parsedResults.nextToken() );
+					client.parseResult( parsedResults.nextToken().trim() );
 				}
 				else
 				{
@@ -718,16 +718,16 @@ public class KoLRequest implements Runnable, KoLConstants
 					lastToken = parsedResults.nextToken();
 
 					if ( lastToken.indexOf( "duration" ) == -1 )
-						client.parseResult( effect );
+						client.parseResult( effect.trim() );
 					else
 					{
 						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
-						client.parseResult( effect + " (" + duration + ")" );
+						client.parseResult( effect.trim() + " (" + duration + ")" );
 					}
 				}
 			}
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
-				client.parseResult( lastToken.indexOf( "." ) == -1 ? lastToken : lastToken.substring( 0, lastToken.indexOf( "." ) ) );
+				client.parseResult( lastToken.indexOf( "." ) == -1 ? lastToken.trim() : lastToken.substring( 0, lastToken.indexOf( "." ) ).trim() );
 		}
 	}
 
