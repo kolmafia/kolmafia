@@ -77,6 +77,7 @@ public class OptionsFrame extends KoLFrame
 		getContentPane().add( tabs, BorderLayout.CENTER );
 
 		updateDisplay( ENABLED_STATE, " " );
+		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 

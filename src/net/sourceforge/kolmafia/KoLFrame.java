@@ -35,6 +35,8 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
@@ -68,6 +70,17 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		super.requestFocus();
 		if ( contentPanel != null )
 			contentPanel.requestFocus();
+	}
+
+	protected class ReturnFocusAdapter extends WindowAdapter
+	{
+		public ReturnFocusAdapter()
+		{
+		}
+
+		public void windowClosed( WindowEvent e )
+		{	client.getActiveFrame().requestFocus();
+		}
 	}
 
 	protected abstract class KoLPanel extends ActionVerifyPanel

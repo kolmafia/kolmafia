@@ -77,6 +77,7 @@ public class CharsheetFrame extends javax.swing.JFrame
 		entirePanel.add( createImagePanel( characterData ), BorderLayout.CENTER );
 
 		getContentPane().add( entirePanel, "" );
+		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 
