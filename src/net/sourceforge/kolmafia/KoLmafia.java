@@ -151,11 +151,11 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		// all over the place
 
 		this.sessionID = sessionID;
+		this.characterData = new KoLCharacter( loginname );
 		this.inventory = characterData.getInventory();
 		this.usableItems = new SortedListModel();
 		this.closet = characterData.getCloset();
 		this.tally = new SortedListModel();
-		this.characterData = new KoLCharacter( loginname );
 		this.recentEffects = new ArrayList();
 
 		// Fill the tally with junk information
