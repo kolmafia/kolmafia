@@ -163,6 +163,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				CharsheetFrame csheet = new CharsheetFrame( client );
 				csheet.pack();  csheet.setVisible( true );
+				csheet.requestFocus();
 			}
 		});
 

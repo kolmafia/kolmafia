@@ -72,6 +72,7 @@ public class KoLmafia
 
 		activeFrame = new LoginFrame( this );
 		activeFrame.pack();  activeFrame.setVisible( true );
+		activeFrame.requestFocus();
 	}
 
 	public KoLFrame getActiveFrame()
@@ -112,6 +113,7 @@ public class KoLmafia
 
 		activeFrame = new AdventureFrame( this, adventures, tally );
 		activeFrame.pack();  activeFrame.setVisible( true );
+		activeFrame.requestFocus();
 	}
 
 	private void initializeTally()
