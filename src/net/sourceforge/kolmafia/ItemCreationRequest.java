@@ -357,12 +357,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// the client will attempt to overcompensate by making more meat
 		// paste than is necessary.
 
-		if ( ingredientID == MEAT_PASTE )
+		if ( ingredientID == MEAT_PASTE && actualQuantityNeeded > 0 )
 			actualQuantityNeeded =
-				( actualQuantityNeeded > 1000 ) ? ((int) Math.ceil( actualQuantityNeeded / 1000 )) * 1000 :
-				( actualQuantityNeeded > 100 ) ? 1000 :
-				( actualQuantityNeeded > 10 ) ? 100 :
-				( actualQuantityNeeded > 1 ) ? 10 : 1;
+				actualQuantityNeeded > 1000 ? ((int) Math.ceil( actualQuantityNeeded / 1000 )) * 1000 :
+				actualQuantityNeeded > 100 ? 1000 : actualQuantityNeeded > 10 ? 100 : 10;
 
 		if ( actualQuantityNeeded > 0 )
 		{
