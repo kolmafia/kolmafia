@@ -310,10 +310,15 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
+		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
+		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
+
 		JMenuItem buffbotMenuItem = new JMenuItem( "Do the BuffBot", KeyEvent.VK_D );
 		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
 
-		addStatusMenu( menuBar ).add( buffbotMenuItem );
+		JMenu statusMenu = addStatusMenu( menuBar );
+		statusMenu.add( arenaItem );
+		statusMenu.add( buffbotMenuItem );
 
 		JMenuItem getBreakfastItem = new JMenuItem( "Breakfast Table", KeyEvent.VK_B );
 		getBreakfastItem.addActionListener( new GetBreakfastListener() );
@@ -422,12 +427,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			// Once the stubs are finished, this will notify the
 			// client to terminate the loop early.  For now, since
 			// there's no actual functionality, simply request focus
-
-			//Let the BuffBot deactivate itself
-			if (client.isBuffBotActive())
-			{	client.setBuffBotActive(false);
-				return;
-			}
 
 			contentPanel = adventureSelect;
 			updateDisplay( ERROR_STATE, "Adventuring terminated." );
