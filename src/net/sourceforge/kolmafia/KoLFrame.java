@@ -286,7 +286,7 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 			public void run()
 			{
-				JFileChooser chooser = new JFileChooser();
+				JFileChooser chooser = new JFileChooser( "." );
 				int returnVal = chooser.showOpenDialog( KoLFrame.this );
 
 				if ( chooser.getSelectedFile() == null )
