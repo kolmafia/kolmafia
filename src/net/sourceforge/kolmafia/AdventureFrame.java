@@ -978,7 +978,9 @@ public class AdventureFrame extends KoLFrame
 	private class ViewChatListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new ViewChatThread()).start();
+		{
+			updateDisplay( NOCHANGE_STATE, "Initializing chat..." );
+			(new ViewChatThread()).start();
 		}
 
 		private class ViewChatThread extends Thread
@@ -1012,9 +1014,7 @@ public class AdventureFrame extends KoLFrame
 	private class ViewItemManagerListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{
-			updateDisplay( NOCHANGE_STATE, "Retrieving item data..." );
-			(new ViewItemManagerThread()).start();
+		{	(new ViewItemManagerThread()).start();
 		}
 
 		private class ViewItemManagerThread extends Thread
@@ -1035,7 +1035,6 @@ public class AdventureFrame extends KoLFrame
 
 				isheet.setEnabled( contentPanel.isEnabled() );
 				isheet.requestFocus();
-				updateDisplay( NOCHANGE_STATE, "" );
 			}
 		}
 	}
