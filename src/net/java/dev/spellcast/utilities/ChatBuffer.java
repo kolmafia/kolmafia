@@ -124,6 +124,7 @@ public class ChatBuffer
 		{
 			activeLogWriter = new PrintWriter( new FileOutputStream( filename, false ), true );
 			updateLogFile( header );
+			updateLogFile( BUFFER_INIT );
 			fireBufferChanged( LOGFILE_CHANGE, null );
 		}
 		catch ( java.io.FileNotFoundException e )
