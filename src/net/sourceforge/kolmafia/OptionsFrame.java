@@ -289,10 +289,8 @@ public class OptionsFrame extends KoLFrame
 	private class StartupOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
-		private final String [] optionKeys = { "skipPasswordHash", "skipCharacterData",
-			"skipInventory", "skipFamiliarData" };
-		private final String [] optionNames = { "Skip password hash retrieval",
-			"Skip character data retrieval", "Skip inventory retrieval", "Skip familiar data retrieval" };
+		private final String [] optionKeys = { "skipCharacterData", "skipInventory", "skipFamiliarData" };
+		private final String [] optionNames = { "Skip character data retrieval", "Skip inventory retrieval", "Skip familiar data retrieval" };
 
 		/**
 		 * Constructs a new <code>SewerOptionsPanel</code> containing an

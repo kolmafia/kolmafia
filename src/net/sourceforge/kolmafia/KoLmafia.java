@@ -117,11 +117,8 @@ public abstract class KoLmafia implements UtilityConstants
 			return;
 		}
 
-		if ( settings.getProperty( "skipPasswordHash" ) == null )
-		{
-			updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
-			(new PasswordHashRequest( this )).run();
-		}
+		updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
+		(new PasswordHashRequest( this )).run();
 
 		if ( !permitContinue )
 		{
