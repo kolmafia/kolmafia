@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 public class StoreManageRequest extends KoLRequest
 {
+	private int takenItemID;
 	private boolean isPriceManagement;
 
 	public StoreManageRequest( KoLmafia client )
@@ -52,6 +53,7 @@ public class StoreManageRequest extends KoLRequest
 		addFormField( "action", "takeall" );
 		addFormField( "whichitem", "" + itemID );
 		this.isPriceManagement = false;
+		this.takenItemID = itemID;
 	}
 
 	public StoreManageRequest( KoLmafia client, int [] itemID, int [] prices, int [] limits )
@@ -99,6 +101,11 @@ public class StoreManageRequest extends KoLRequest
 		}
 		else
 		{
+			Matcher takenItemMatcher = Pattern.compile(
+				"<option value=" + takenItemID + ">(.*?)</option>" ).matcher( replyContent );
+			takenItemMatcher.find();
+			client.parseResult( takenItemMatcher.group(1).replaceAll( "\\(.*? Meat\\) ", "" ) );
+
 			Matcher itemMatcher = Pattern.compile(
 				"<tr><td>.*?</td><td>.*?</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( replyContent );
 
