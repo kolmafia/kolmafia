@@ -38,6 +38,8 @@ import java.util.regex.Matcher;
 
 public class MailboxRequest extends KoLRequest
 {
+	private static boolean isRequesting = false;
+
 	private String boxname;
 	private int startingIndex;
 	private String action;
@@ -86,6 +88,14 @@ public class MailboxRequest extends KoLRequest
 
 	public void run()
 	{
+		// In order to prevent multiple mailbox requests from running,
+		// a test is made on a static variable to halt concurrent requests.
+
+		if ( isRequesting )
+			return;
+
+		isRequesting = true;
+
 		if ( action == null )
 			updateDisplay( DISABLED_STATE, "Retrieving mail from " + boxname + "..." );
 		else
@@ -171,5 +181,6 @@ public class MailboxRequest extends KoLRequest
 		}
 
 		updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname + "" );
+		isRequesting = false;
 	}
 }
