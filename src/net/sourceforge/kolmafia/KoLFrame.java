@@ -78,6 +78,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	public static final int ENABLED_STATE  = 1;
 	public static final int DISABLED_STATE = 2;
 
+	protected boolean isEnabled;
 	protected List existingFrames;
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
@@ -205,6 +206,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	public void setEnabled( boolean isEnabled )
 	{
+		this.isEnabled = isEnabled;
+
 		if ( contentPanel != null )
 			contentPanel.setEnabled( isEnabled );
 
@@ -227,7 +230,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 */
 
 	public boolean isEnabled()
-	{	return contentPanel == null || contentPanel.isEnabled();
+	{	return isEnabled;
 	}
 
 	/**
@@ -546,6 +549,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						lastCreatedFrame.pack();
 						lastCreatedFrame.setVisible( true );
 						lastCreatedFrame.requestFocus();
+						lastCreatedFrame.setEnabled( isEnabled );
 						existingFrames.add( lastCreatedFrame );
 
 						updateDisplay( NOCHANGE_STATE, " " );

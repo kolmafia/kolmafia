@@ -117,7 +117,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
-	private boolean isEnabled;
 	private JTabbedPane tabs;
 	private KoLMessenger kolchat;
 	private ItemManageFrame itemManager;
@@ -200,6 +199,13 @@ public class AdventureFrame extends KoLFrame
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			tabs.setEnabledAt( i, isEnabled );
 
+		for ( int i = 0; i < existingFrames.size(); ++i )
+		{
+			KoLFrame currentFrame = (KoLFrame) existingFrames.get(i);
+			if ( currentFrame.isShowing() )
+				currentFrame.setEnabled( isEnabled );
+		}
+
 		if ( adventureSelect != null && adventureSelect.isShowing() )
 			adventureSelect.setEnabled( isEnabled );
 
@@ -237,7 +243,6 @@ public class AdventureFrame extends KoLFrame
 
 		JMenuItem statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
 		statusMenuItem.addActionListener( new DisplayFrameListener( CharsheetFrame.class ) );
-
 		viewMenu.add( statusMenuItem );
 
 		JMenuItem gearMenuItem = new JMenuItem( "Gear Changer", KeyEvent.VK_G );
@@ -1162,14 +1167,13 @@ public class AdventureFrame extends KoLFrame
 				{
 					itemManager.setVisible( true );
 					itemManager.requestFocus();
+					itemManager.setEnabled( isEnabled );
 				}
 				else
 				{
 					super.run();
 					itemManager = (ItemManageFrame) lastCreatedFrame;
 				}
-
-				itemManager.setEnabled( isEnabled );
 			}
 		}
 	}
