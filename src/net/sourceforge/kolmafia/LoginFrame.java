@@ -135,6 +135,13 @@ public class LoginFrame extends KoLFrame
 		this.saveStateNames = new SortedListModel();
 		this.saveStateNames.addAll( saveStateNames );
 		contentPanel = new LoginPanel();
+
+		JPanel imagePanel = new JPanel();
+		imagePanel.setLayout( new BorderLayout( 0, 0 ) );
+		imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
+		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.SOUTH );
+
+		getContentPane().add( imagePanel, BorderLayout.NORTH );
 		getContentPane().add( contentPanel, BorderLayout.CENTER );
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -225,18 +232,11 @@ public class LoginFrame extends KoLFrame
 			southPanel.add( new JPanel(), BorderLayout.CENTER );
 			southPanel.add( actionStatusPanel, BorderLayout.SOUTH );
 
-			JPanel imagePanel = new JPanel();
-			imagePanel.setLayout( new BorderLayout( 0, 0 ) );
-			imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
-			imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.SOUTH );
-
-
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Login: ", loginnameField );
 			elements[1] = new VerifiableElement( "Password: ", passwordField );
 
 			setContent( elements );
-			add( imagePanel, BorderLayout.NORTH );
 			add( southPanel, BorderLayout.SOUTH );
 
 			String autoLoginSetting =  client.getSettings().getProperty( "autoLogin" );

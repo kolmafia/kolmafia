@@ -32,6 +32,40 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * Copyright (c) 2003, Spellcast development team
+ * http://spellcast.dev.java.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "Spellcast development team" nor the names of
+ *      its contributors may be used to endorse or promote products
+ *      derived from this software without specific prior written
+ *      permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package net.sourceforge.kolmafia;
 
 // layout
@@ -40,6 +74,7 @@ import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
 
 // event listeners
 import javax.swing.ListSelectionModel;
@@ -48,9 +83,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 // containers
+import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
@@ -93,7 +130,6 @@ public class ItemManageFrame extends KoLFrame
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 			" (Item Management)", client );
 
-		setResizable( false );
 		concoctions = new SortedListModel();
 
 		if ( client != null )
@@ -154,22 +190,18 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ConsumePanel extends JPanel
 	{
-		private NonContentPanel consumePanel, createPanel;
+		private ItemManagePanel consumePanel, createPanel;
 		private JList usableItemList;
 
 		public ConsumePanel()
 		{
-			JPanel panel = new JPanel();
-			panel.setLayout( new BorderLayout( 10, 10 ) );
+			setLayout( new GridLayout( 2, 1, 10, 10 ) );
 
 			consumePanel = new ConsumeItemPanel();
 			createPanel = new CreateItemPanel();
 
-			panel.add( consumePanel, BorderLayout.NORTH );
-			panel.add( createPanel, BorderLayout.SOUTH );
-
-			setLayout( new CardLayout( 10, 10 ) );
-			add( panel, " " );
+			add( consumePanel );
+			add( createPanel );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -179,25 +211,10 @@ public class ItemManageFrame extends KoLFrame
 			createPanel.setEnabled( isEnabled );
 		}
 
-		private class ConsumeItemPanel extends NonContentPanel
+		private class ConsumeItemPanel extends ItemManagePanel
 		{
-			private LockableListModel usableItems;
-
 			public ConsumeItemPanel()
-			{
-				super( "use one", "use #" );
-				setContent( null, null, null, null, true, true );
-
-				usableItems = client == null ? new LockableListModel() : client.getUsableItems().getMirrorImage();
-				usableItemList = new JList( usableItems );
-				usableItemList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				usableItemList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
-				usableItemList.setVisibleRowCount( 8 );
-
-				add( JComponentUtilities.createLabel( "Usable Items", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-				add( new JScrollPane( usableItemList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+			{	super( "Usable Items", "use one", "use multiple", client == null ? new LockableListModel() : client.getUsableItems().getMirrorImage() );
 			}
 
 			protected void actionConfirmed()
@@ -211,7 +228,7 @@ public class ItemManageFrame extends KoLFrame
 			public void setEnabled( boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
-				usableItemList.setEnabled( isEnabled );
+				elementList.setEnabled( isEnabled );
 			}
 
 			/**
@@ -234,7 +251,7 @@ public class ItemManageFrame extends KoLFrame
 				public void run()
 				{
 					ItemManageFrame.this.setEnabled( false );
-					Object [] items = usableItemList.getSelectedValues();
+					Object [] items = elementList.getSelectedValues();
 
 					for ( int i = 0; i < items.length; ++i )
 						consumeItem( (AdventureResult) items[i] );
@@ -277,22 +294,17 @@ public class ItemManageFrame extends KoLFrame
 
 	private class SellPanel extends JPanel
 	{
-		private NonContentPanel sellPanel, createPanel;
-		private JList availableList;
+		private ItemManagePanel sellPanel, createPanel;
 
 		public SellPanel()
 		{
-			JPanel panel = new JPanel();
-			panel.setLayout( new BorderLayout( 10, 10 ) );
+			setLayout( new GridLayout( 2, 1, 10, 10 ) );
 
 			sellPanel = new SellItemPanel();
 			createPanel = new CreateItemPanel();
 
-			panel.add( sellPanel, BorderLayout.NORTH );
-			panel.add( createPanel, BorderLayout.SOUTH );
-
-			setLayout( new CardLayout( 10, 10 ) );
-			add( panel, " " );
+			add( sellPanel );
+			add( createPanel );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -308,25 +320,10 @@ public class ItemManageFrame extends KoLFrame
 		 * well as placing item inside of a store.
 		 */
 
-		private class SellItemPanel extends NonContentPanel
+		private class SellItemPanel extends ItemManagePanel
 		{
-			private LockableListModel available;
-
 			public SellItemPanel()
-			{
-				super( "autosell", "send to store" );
-				setContent( null, null, null, null, true, true );
-
-				available = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
-				availableList = new JList( available );
-				availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
-				availableList.setVisibleRowCount( 8 );
-
-				add( JComponentUtilities.createLabel( "Tradeable Items", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-				add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+			{	super( "Tradeable Items", "autosell", "send to store", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
 			}
 
 			protected void actionConfirmed()
@@ -340,7 +337,7 @@ public class ItemManageFrame extends KoLFrame
 			public void setEnabled( boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
-				availableList.setEnabled( isEnabled );
+				elementList.setEnabled( isEnabled );
 			}
 
 			/**
@@ -365,7 +362,7 @@ public class ItemManageFrame extends KoLFrame
 				public void run()
 				{
 					ItemManageFrame.this.setEnabled( false );
-					Object [] items = availableList.getSelectedValues();
+					Object [] items = elementList.getSelectedValues();
 					AdventureResult currentItem;
 
 					for ( int i = 0; !finishedSelling && i < items.length; ++i )
@@ -425,22 +422,18 @@ public class ItemManageFrame extends KoLFrame
 
 	private class StoragePanel extends JPanel
 	{
-		private NonContentPanel inventoryPanel, closetPanel;
-		private JList availableList;
-		private JList closetList;
+		private JList availableList, closetList;
+		private ItemManagePanel inventoryPanel, closetPanel;
 
 		public StoragePanel()
 		{
-			JPanel panel = new JPanel();
-			panel.setLayout( new BorderLayout( 10, 10 ) );
+			setLayout( new GridLayout( 2, 1, 10, 10 ) );
+
 			inventoryPanel = new OutsideClosetPanel();
 			closetPanel = new InsideClosetPanel();
 
-			panel.add( inventoryPanel, BorderLayout.NORTH );
-			panel.add( closetPanel, BorderLayout.SOUTH );
-
-			setLayout( new CardLayout( 10, 10 ) );
-			add( panel, " " );
+			add( inventoryPanel );
+			add( closetPanel );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -450,25 +443,12 @@ public class ItemManageFrame extends KoLFrame
 			closetPanel.setEnabled( isEnabled );
 		}
 
-		private class OutsideClosetPanel extends NonContentPanel
+		private class OutsideClosetPanel extends ItemManagePanel
 		{
-			private LockableListModel inventory;
-
 			public OutsideClosetPanel()
 			{
-				super( "put in closet", "put in stash" );
-				setContent( null, null, null, null, true, true );
-
-				inventory = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
-				availableList = new JList( inventory );
-				availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
-				availableList.setVisibleRowCount( 8 );
-
-				add( JComponentUtilities.createLabel( "Inside Inventory", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-				add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+				super( "Inside Inventory", "put in closet", "put in stash", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+				availableList = elementList;
 			}
 
 			protected void actionConfirmed()
@@ -486,25 +466,12 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		private class InsideClosetPanel extends NonContentPanel
+		private class InsideClosetPanel extends ItemManagePanel
 		{
-			private LockableListModel closet;
-
 			public InsideClosetPanel()
 			{
-				super( "take out", "put in stash" );
-				setContent( null, null, null, null, true, true );
-
-				closet = client == null ? new LockableListModel() : client.getCloset().getMirrorImage();
-				closetList = new JList( closet );
-				closetList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				closetList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
-				closetList.setVisibleRowCount( 8 );
-
-				add( JComponentUtilities.createLabel( "Inside Closet", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-				add( new JScrollPane( closetList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+				super( "Inside Closet", "take out", "put in stash", client == null ? new LockableListModel() : client.getCloset().getMirrorImage() );
+				closetList = elementList;
 			}
 
 			protected void actionConfirmed()
@@ -587,24 +554,10 @@ public class ItemManageFrame extends KoLFrame
 	 * which usually get resold in malls.
 	 */
 
-	private class CreateItemPanel extends NonContentPanel
+	private class CreateItemPanel extends ItemManagePanel
 	{
-		private JList concoctionsList;
-
 		public CreateItemPanel()
-		{
-			super( "create one", "create #" );
-			setContent( null, null, null, null, true, true );
-
-			concoctionsList = new JList( concoctions.getMirrorImage() );
-			concoctionsList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			concoctionsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
-			concoctionsList.setVisibleRowCount( 8 );
-
-			add( JComponentUtilities.createLabel( "Create an Item", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
-			add( new JScrollPane( concoctionsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+		{	super( "Create an Item", "create one", "create multiple", concoctions.getMirrorImage() );
 		}
 
 		protected void actionConfirmed()
@@ -618,7 +571,7 @@ public class ItemManageFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			concoctionsList.setEnabled( isEnabled );
+			elementList.setEnabled( isEnabled );
 		}
 
 		private class ItemCreationRequestThread extends Thread
@@ -635,7 +588,7 @@ public class ItemManageFrame extends KoLFrame
 			public void run()
 			{
 				ItemManageFrame.this.setEnabled( false );
-				Object selected = concoctionsList.getSelectedValue();
+				Object selected = elementList.getSelectedValue();
 
 				try
 				{
@@ -703,6 +656,96 @@ public class ItemManageFrame extends KoLFrame
 				refreshConcoctionsList();
 				client.updateDisplay( ENABLED_STATE, " " );
 				ItemManageFrame.this.setEnabled( true );
+			}
+		}
+	}
+
+	/**
+	 * An internal class which creates a panel which manages items.
+	 * This is done because most of the item management displays
+	 * are replicated.  Note that a lot of this code was borrowed
+	 * directly from the ActionVerifyPanel class in the utilities
+	 * package for Spellcast.
+	 */
+
+	private abstract class ItemManagePanel extends JPanel
+	{
+		protected JList elementList;
+
+		public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
+		{
+			elementList = new JList( elements );
+			elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+			elementList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
+			elementList.setVisibleRowCount( 8 );
+
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BorderLayout() );
+
+			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			centerPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			JPanel actualPanel = new JPanel();
+			actualPanel.setLayout( new BorderLayout( 20, 10 ) );
+			actualPanel.add( centerPanel, BorderLayout.CENTER );
+			actualPanel.add( new VerifyButtonPanel( confirmedText, cancelledText ), BorderLayout.EAST );
+
+			setLayout( new CardLayout( 10, 10 ) );
+			add( actualPanel, " " );
+		}
+
+		protected abstract void actionConfirmed();
+		protected abstract void actionCancelled();
+
+		private class VerifyButtonPanel extends JPanel
+		{
+			private JButton confirmedButton;
+			private JButton cancelledButton;
+
+			public VerifyButtonPanel( String confirmedText, String cancelledText )
+			{
+				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+
+				// add the "confirmed" button
+				confirmedButton = new JButton( confirmedText );
+				confirmedButton.addActionListener(
+					new ActionListener() {
+						public void actionPerformed( ActionEvent e ) {
+							actionConfirmed();
+						}
+					} );
+
+				addButton( confirmedButton );
+				add( Box.createVerticalStrut( 4 ) );
+
+				// add the "cancelled" button
+				cancelledButton = new JButton( cancelledText );
+				cancelledButton.addActionListener(
+					new ActionListener() {
+						public void actionPerformed( ActionEvent e ) {
+							actionCancelled();
+						}
+					} );
+				addButton( cancelledButton );
+
+				JComponentUtilities.setComponentSize( this, 120, 100 );
+			}
+
+			private void addButton( JButton buttonToAdd )
+			{
+				JPanel container = new JPanel();
+				container.setLayout( new GridLayout() );
+				container.add( buttonToAdd );
+				container.setMaximumSize( new Dimension( Integer.MAX_VALUE, 24 ) );
+				add( container );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				confirmedButton.setEnabled( isEnabled );
+				cancelledButton.setEnabled( isEnabled );
 			}
 		}
 	}

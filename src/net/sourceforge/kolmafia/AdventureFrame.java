@@ -158,7 +158,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 			" (" + KoLRequest.getRootHostName() + ")", client );
 
-		setResizable( false );
 		this.isEnabled = true;
 		this.tabs = new JTabbedPane();
 		tabs.addChangeListener( this );
@@ -183,7 +182,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		otherStuffPanel.add( removeEffects );
 		otherStuffPanel.add( clanBuff );
 
-		JScrollPane otherStuffScroller = new JScrollPane( otherStuffPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+		JScrollPane otherStuffScroller = new JScrollPane( otherStuffPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		JComponentUtilities.setComponentSize( otherStuffScroller, 440, 300 );
@@ -376,11 +375,11 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		{
 			super.setContent( elements );
 
-			JPanel southPanel = new JPanel();
-			southPanel.setLayout( new BorderLayout( 10, 10 ) );
-			southPanel.add( actionStatusPanel, BorderLayout.NORTH );
-			southPanel.add( new AdventureResultsPanel( resultsTally ), BorderLayout.SOUTH );
-			add( southPanel, BorderLayout.SOUTH );
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BorderLayout( 10, 10 ) );
+			centerPanel.add( actionStatusPanel, BorderLayout.NORTH );
+			centerPanel.add( new AdventureResultsPanel( resultsTally ), BorderLayout.CENTER );
+			add( centerPanel, BorderLayout.CENTER );
 			setDefaultButton( getDefaultButton() );
 		}
 
@@ -556,11 +555,11 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		{
 			super.setContent( elements, null, null, null, true, true );
 
-			JPanel southPanel = new JPanel();
-			southPanel.setLayout( new BorderLayout( 10, 10 ) );
-			southPanel.add( actionStatusPanel, BorderLayout.NORTH );
-			southPanel.add( new SearchResultsPanel(), BorderLayout.SOUTH );
-			add( southPanel, BorderLayout.SOUTH );
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BorderLayout( 10, 10 ) );
+			centerPanel.add( actionStatusPanel, BorderLayout.NORTH );
+			centerPanel.add( new SearchResultsPanel(), BorderLayout.CENTER );
+			add( centerPanel, BorderLayout.CENTER );
 			setDefaultButton( getDefaultButton() );
 		}
 

@@ -323,8 +323,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public void windowClosing( WindowEvent e )
 		{
-			if ( client != null && client != null )
+			if ( client != null )
 				client.requestFocus();
+			else
+				System.exit(0);
 		}
 	}
 
@@ -495,6 +497,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super( confirmedText, cancelledText, labelSize, fieldSize );
 		}
 
+		protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
+		{
+			super( confirmedText, cancelledText, labelSize, fieldSize, isCenterPanel );
+		}
+
 		public abstract void setStatusMessage( int displayState, String s );
 	}
 
@@ -540,7 +547,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public LabeledKoLPanel( String panelTitle, String confirmButton, String cancelButton, Dimension left, Dimension right )
 		{
-			super( confirmButton, cancelButton, left, right );
+			super( confirmButton, cancelButton, left, right, true );
 			this.panelTitle = panelTitle;
 
 			actionStatusPanel = new JPanel();
@@ -556,7 +563,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
-		{	setContent( elements, true, false );
+		{	setContent( elements, isLabelPreceeding, false );
 		}
 
 		protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding, boolean bothDisabledOnClick )
@@ -564,8 +571,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super.setContent( elements, null, null, null, isLabelPreceeding, bothDisabledOnClick );
 
 			if ( panelTitle != null )
-				add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER,
-						Color.black, Color.white ), BorderLayout.NORTH );
+				add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
 			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
