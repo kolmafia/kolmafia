@@ -71,7 +71,6 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
@@ -94,7 +93,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JComboBox;
 
 // other imports
-import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -108,23 +106,14 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class LoginFrame extends KoLFrame
 {
-	private static final String LOGIN_CARD   = "Login";
-	private static final String OPTIONS_CARD = "Options";
-
-	private CardLayout cards;
-
 	public LoginFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Login", client );
 		setResizable( false );
 
-		cards = new CardLayout( 10, 10 );
-		getContentPane().setLayout( cards );
-
 		this.client = client;
 		contentPanel = new LoginPanel();
-		getContentPane().add( contentPanel, LOGIN_CARD );
-		getContentPane().add( new LoginOptionsPanel(), OPTIONS_CARD );
+		getContentPane().add( contentPanel, BorderLayout.CENTER );
 
 		updateDisplay( ENABLED_STATE, " " );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -144,7 +133,10 @@ public class LoginFrame extends KoLFrame
 		JMenuItem settingsItem = new JMenuItem( "Preferences...", KeyEvent.VK_P );
 		settingsItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
-			{	(new SwitchCardDisplay( OPTIONS_CARD )).run();
+			{
+				OptionsFrame oframe = new OptionsFrame( client );
+				oframe.pack();  oframe.setVisible( true );
+				oframe.requestFocus();
 			}
 		});
 
@@ -267,187 +259,6 @@ public class LoginFrame extends KoLFrame
 
 				(new LoginRequest( client, loginname, password )).run();
 			}
-		}
-	}
-
-	private class LoginOptionsPanel extends KoLPanel
-	{
-		private JComboBox serverSelect;
-		private JTextField proxyAddress;
-		private JTextField proxyLogin;
-
-		public LoginOptionsPanel()
-		{
-			super( "apply", "defaults" );
-
-			LockableListModel servers = new LockableListModel();
-			servers.add( "(Auto Detect)" );
-			servers.add( "Use Login Server 1" );
-			servers.add( "Use Login Server 2" );
-			servers.add( "Use Login Server 3" );
-
-			serverSelect = new JComboBox( servers );
-			proxyAddress = new JTextField();
-			proxyLogin = new JTextField();
-
-			(new LoadDefaultSettingsThread()).run();
-
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "KoL Server: ", serverSelect );
-			elements[1] = new VerifiableElement( "Proxy Address: ", proxyAddress );
-			elements[2] = new VerifiableElement( "Proxy Login: ", proxyLogin );
-
-			setContent( elements );
-		}
-
-		public void setStatusMessage( String s )
-		{
-			// This panel ignores setStatusMessage, since it should never
-			// be the actual content panel.  In order to not be abstract,
-			// this method exists and does nothing.
-		}
-
-		public void clear()
-		{	(new LoadDefaultSettingsThread()).run();
-		}
-
-		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
-		}
-
-		protected void actionCancelled()
-		{
-			// Clear the pane, which effectively loads
-			// the original default settings.
-
-			this.clear();
-		}
-
-		private class LoadDefaultSettingsThread extends Thread
-		{
-			public void run()
-			{
-				serverSelect.setSelectedIndex( Integer.parseInt( client.getSettings().getProperty( "loginServer" ) ) );
-				String http_proxySet = client.getSettings().getProperty( "proxySet" );
-
-				if ( http_proxySet.equals( "true" ) )
-				{
-					System.setProperty( "proxySet", "true" );
-
-					String http_proxyHost = client.getSettings().getProperty( "http.proxyHost" );
-					System.setProperty( "http.proxyHost", http_proxyHost );
-					String http_proxyPort = client.getSettings().getProperty( "http.proxyPort" );
-					System.setProperty( "http.proxyPort", http_proxyPort );
-
-					String http_proxyUser = client.getSettings().getProperty( "http.proxyUser" );
-					String http_proxyPassword = client.getSettings().getProperty( "http.proxyPassword" );
-
-					if ( http_proxyUser != null )
-					{
-						System.setProperty( "http.proxyUser", http_proxyUser );
-						System.setProperty( "http.proxyPassword", http_proxyPassword );
-					}
-
-					proxyAddress.setText( http_proxyHost + ":" + http_proxyPort );
-					proxyLogin.setText( http_proxyUser + ":" + http_proxyPassword );
-				}
-				else
-				{
-					proxyAddress.setText( "" );
-					proxyLogin.setText( "" );
-				}
-			}
-		}
-
-		private class StoreSettingsThread extends Thread
-		{
-			public void run()
-			{
-				// First, determine what the proxy settings chosen
-				// by the user.
-
-				StringTokenizer proxy1 = new StringTokenizer( proxyAddress.getText(), ":" );
-				StringTokenizer proxy2 = new StringTokenizer( proxyLogin.getText(), ":" );
-
-				if ( proxy1.hasMoreTokens() )
-				{
-					setProperty( "proxySet", "true" );
-					setProperty( "http.proxyHost", proxy1.nextToken() );
-					setProperty( "http.proxyPort", proxy1.hasMoreTokens() ? proxy1.nextToken() : "80" );
-
-					if ( proxy2.hasMoreTokens() )
-					{
-						setProperty( "http.proxyUser", proxy2.nextToken() );
-						setProperty( "http.proxyPassword", proxy2.hasMoreTokens() ? proxy2.nextToken() : "anonymoususer@defaultmailserver.com" );
-					}
-					else
-					{
-						removeProperty( "http.proxyUser" );
-						removeProperty( "http.proxyPassword" );
-					}
-				}
-				else
-				{
-					client.getSettings().setProperty( "proxySet", "false" );
-					removeProperty( "http.proxyHost" );
-					removeProperty( "http.proxyPort" );
-					removeProperty( "http.proxyUser" );
-					removeProperty( "http.proxyPassword" );
-				}
-
-				// Next, change the server that's used to login;
-				// find out the selected index.
-
-				if ( serverSelect.getSelectedIndex() == 0 )
-					KoLRequest.autoDetectServer();
-				else
-					KoLRequest.setLoginServer( "www." + serverSelect.getSelectedIndex() + ".kingdomofloathing.com" );
-
-				client.getSettings().setProperty( "loginServer", "" + serverSelect.getSelectedIndex() );
-
-				// Save the settings that were just set; that way,
-				// the next login can use them.
-
-				client.getSettings().saveSettings();
-
-				// Finally, switch the card display back to the
-				// login card so the user can login with their
-				// new login preferences.
-
-				(new SwitchCardDisplay( LOGIN_CARD )).run();
-			}
-
-			private void setProperty( String key, String value )
-			{
-				client.getSettings().setProperty( key, value );
-				System.getProperties().setProperty( key, value );
-			}
-
-			private void removeProperty( String key )
-			{
-				client.getSettings().remove( key );
-				System.getProperties().remove( key );
-			}
-		}
-	}
-
-	private class SwitchCardDisplay implements Runnable
-	{
-		private String card;
-
-		public SwitchCardDisplay( String card )
-		{	this.card = card;
-		}
-
-		public void run()
-		{
-			if ( !SwingUtilities.isEventDispatchThread() )
-			{
-				SwingUtilities.invokeLater( this );
-				return;
-			}
-
-			cards.show( getContentPane(), card );
 		}
 	}
 }
