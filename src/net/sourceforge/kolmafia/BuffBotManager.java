@@ -76,14 +76,12 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 /**
  * Container class for <code>BuffBotManager</code>
  * Provides all aspects of BuffBot execution.
- *
  */
-public class BuffBotManager {
-    private KoLMailManager BBmailbox;
+
+public class BuffBotManager extends KoLMailManager implements KoLConstants {
     private KoLmafia client;
     private Properties settings;
     private LockableListModel buffCostTable;
@@ -94,14 +92,14 @@ public class BuffBotManager {
     private static final int BBSLEEPTIME = 1000; // Sleep this much each time
     private static final int BBSLEEPCOUNT = 60;  // This many times
 
-
     /**
      * Constructor for the <code>BuffBotManager</code> class.
      */
+
     public BuffBotManager(KoLmafia client,
             LockableListModel buffCostTable){
-        //for now, use the KoL mail manager
-        this.BBmailbox = (client == null) ? new KoLMailManager() : client.getMailManager();
+
+        super( client );
         this.client = client;
         this.buffCostTable = buffCostTable;
 
@@ -109,7 +107,7 @@ public class BuffBotManager {
         String tempStr = settings.getProperty( "NonBuffMsgSave" );
         this.saveNonBuffmsgs = settings.getProperty( "NonBuffMsgSave" ).equals("true");
         this.MPRestoreSetting = settings.getProperty( "MPRestoreSelect" );
-        client.updateDisplay( KoLFrame.DISABLED_STATE, "Buffbot Starting" );
+        client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
         me =  client.getCharacterData();
         BBLog = client.getBuffBotLog();
 
@@ -127,27 +125,21 @@ public class BuffBotManager {
 		//Now, make sure the MP is up to date:
 		(new CharsheetRequest( client )).run();
         // The outer loop goes until user cancels
-        while( client.permitsContinue() ){
+        while( client.isBuffBotActive() ){
 
             //First, retrieve all messages in the mailbox (If there are any)
-            if ( client != null ){
-//                BBLog.BBLogEntry("Checking the mail.");
-                MailboxRequest MBRequest = new MailboxRequest( client, "Inbox" );
-                MBRequest.run();
-                if (client.permitsContinue())
-					client.updateDisplay( KoLFrame.DISABLED_STATE, "");
-				else return;
-            }
+            if ( client != null )
+                (new MailboxRequest( client, "Inbox" )).run();
 
             //Next process each message in the Inbox
-            LockableListModel inbox = BBmailbox.getMessages("Inbox");
+            LockableListModel inbox = getMessages("Inbox");
             while (inbox.size() > 0){
                 firstmsg = (KoLMailMessage) inbox.get( 0 );
                 // determine if this is a buff request (and if so, which one)
                 // if it is a buff request, cast the buff,
                 // otherwise either save it or delete it.
-                if (!BBProcessMessage(firstmsg)){
-                    client.updateDisplay( KoLFrame.ENABLED_STATE, "Unable to continue BuffBot!");
+                if (!processMessage(firstmsg)){
+                    client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!");
                     client.cancelRequest();
                     BBLog.BBLogEntry("Unable to process a buff message.");
                     return;
@@ -164,58 +156,49 @@ public class BuffBotManager {
             for(int i = 1 ; i <= BBSLEEPCOUNT; i = i + 1)
                 if (client.permitsContinue())
                     KoLRequest.delay(BBSLEEPTIME);
-                else return;
         }
     }
 
-    boolean BBProcessMessage(KoLMailMessage myMsg ){
-        String meatSentTxt, myMsgHTML;
+	private boolean processMessage(KoLMailMessage myMsg ){
         int meatSent;
         BuffBotFrame.buffDescriptor buffEntry;
         boolean buffRequestFound = false;
 
-        myMsgHTML = myMsg.getMessageHTML().replaceAll(",","");
-		Matcher meatMatcher = Pattern.compile( ">You gain \\d+ Meat" ).matcher( myMsgHTML );
-        if (meatMatcher.find()){
-            meatSentTxt = meatMatcher.group();
-            meatSentTxt = meatSentTxt;
-            Matcher meatAmtMatcher = Pattern.compile("\\d+").matcher( meatSentTxt);
-            if (meatAmtMatcher.find()){
-                meatSentTxt = meatAmtMatcher.group();
-                meatSent = Integer.parseInt(meatSentTxt);
-            }
-            else //This should never happen
-                meatSent = -1;
+		try{
+			Matcher meatMatcher = Pattern.compile( ">You gain ([\\d,]+) Meat" ).matcher( myMsg.getMessageHTML() );
+			if (meatMatcher.find()){
+				meatSent = df.parse( meatMatcher.group(1) ).intValue();
 
-            //look for this amount in the buff table
-            int myIndex = 0;
-            while ((myIndex < buffCostTable.size()) && !buffRequestFound){
-                buffEntry = (BuffBotFrame.buffDescriptor) buffCostTable.get(myIndex);
-                // Look for a match of both buffCost and buffCost2
-                if (meatSent == buffEntry.buffCost){
-                    // We have a genuine buff request, so do it!
-                    buffRequestFound = true;
-                    if (! castThatBuff(myMsg.getSenderName(), buffEntry, buffEntry.buffCastCount)){
-                        return false;
-                    }
-                }
-                else if (meatSent == buffEntry.buffCost2) {
-                    // We have a genuine buff request, so do it!
-                    buffRequestFound = true;
-                    if (! castThatBuff(myMsg.getSenderName(), buffEntry, buffEntry.buffCastCount2)){
-                        return false;
-                    }
-                }
-                myIndex++;
-            }
+				//look for this amount in the buff table
+				for ( int i = 0; i < buffCostTable.size() && !buffRequestFound; ++i){
+					buffEntry = (BuffBotFrame.buffDescriptor) buffCostTable.get(i);
+					// Look for a match of both buffCost and buffCost2
+					if (meatSent == buffEntry.buffCost){
+						// We have a genuine buff request, so do it!
+						buffRequestFound = true;
+						if (! castThatBuff(myMsg.getSenderName(), buffEntry, buffEntry.buffCastCount)){
+							return false;
+						}
+					}
+					else if (meatSent == buffEntry.buffCost2) {
+						// We have a genuine buff request, so do it!
+						buffRequestFound = true;
+						if (! castThatBuff(myMsg.getSenderName(), buffEntry, buffEntry.buffCastCount2)){
+							return false;
+						}
+					}
+				}
 
-        }
+			}
+		}
+		catch( Exception e ) {}
+
         //Now, either save or delete the message.
         String msgDisp = ((!buffRequestFound) && saveNonBuffmsgs ? "save" : "delete");
         if (!buffRequestFound) {
             BBLog.BBLogEntry("Received non-buff message from [" + myMsg.getSenderName() + "] Action: " + msgDisp);
         }
-        (new dropMsgRequest(client, msgDisp, myMsg)).run();
+        (new MailboxRequest(client, "inbox", myMsg, msgDisp)).run();
         return true;
     }
 
@@ -237,7 +220,7 @@ public class BuffBotManager {
                 //time to buff up
                 if (! recoverMP(MPperEvent)) return false;
             }
-            (new castBuffRequest(client, buffEntry.buffName, bufftarget, castsPerEvent)).run();
+            (new UseSkillRequest(client, buffEntry.buffName, bufftarget, castsPerEvent)).run();
             totalCasts = totalCasts - castsPerEvent;
         }
         BBLog.BBLogEntry("Cast " + buffEntry.buffName + ", " + num2cast + " times on " + bufftarget + ".");
@@ -294,89 +277,4 @@ public class BuffBotManager {
         BBLog.BBLogEntry("Unable to acquire enough MP!");
         return false;
     }
-    private class castBuffRequest extends KoLRequest {
-        private int consumedMP;
-        private String target;
-        private String buffName;
-
-        /**   Creates a new instance of <code>castBuffRequest</code>
-         *    to do a single instance of a buff
-         *    skillName and target are validated by the caller
-         * @param	client	The client to be notified of completion
-         * @param	buffName	The name of the buff to be used
-         * @param	target	The name of the target of the skill
-         * @param	buffCount	The number of times the target is affected by this skill
-         */
-        public castBuffRequest(KoLmafia client, String buffName, String target, int buffCount ) {
-            super( client, "skills.php");
-            addFormField( "action", "Skillz." );
-            addFormField( "pwd", client.getPasswordHash() );
-
-            this.buffName = buffName;
-            this.target = target;
-            int skillID = ClassSkillsDatabase.getSkillID( buffName.replaceFirst( "ñ", "&ntilde;" ) );
-            addFormField( "whichskill", "" + skillID );
-            addFormField( "bufftimes", "" + buffCount );
-            addFormField( "specificplayer", target );
-            this.consumedMP = ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount;
-
-        }
-
-        public void run(){
-            updateDisplay( KoLFrame.DISABLED_STATE, "Casting " + buffName + " on user: " + target);
-            super.run();
-
-            // If it does not notify you that you didn't have enough mana points,
-            // then the skill was successfully used.
-
-            if ( replyContent == null || replyContent.indexOf( "You don't have enough" ) != -1 ) {
-                updateDisplay( KoLFrame.ENABLED_STATE, "You don't have enough mana." );
-                client.cancelRequest();
-                return;
-            } else if ( replyContent.indexOf( "Invalid target" ) != -1 ) {
-                updateDisplay( KoLFrame.ENABLED_STATE, "Invalid target: " + target );
-                client.cancelRequest();
-                return;
-            }
-
-            client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
-            processResults( replyContent.replaceFirst(
-                    "</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );
-            client.applyRecentEffects();
-
-        }
-
-    }
-
-   private class dropMsgRequest extends KoLRequest {
-       String msgID, msgDisp, msgSender;
-
-        public dropMsgRequest(KoLmafia client, String msgDisp,
-                KoLMailMessage myMsg){
-            super(client, "messages.php");
-
-            this.msgDisp = msgDisp;
-            addFormField( "action", msgDisp);
-            addFormField( "pwd", client.getPasswordHash() );
-            msgID = myMsg.getMessageID();
-            addFormField( msgID, "on");
-			msgSender = myMsg.getSenderName();
-        }
-
-        public void run(){
-            updateDisplay( KoLFrame.DISABLED_STATE, "Removing message from " + msgSender + ", dispensation =" + msgDisp);
-            super.run();
-
-            if ( replyContent == null || replyContent.indexOf( "Invalid" ) != -1 ) {
-                updateDisplay( KoLFrame.ENABLED_STATE, "Unable to drop" + msgID );
-                BBLog.BBLogEntry("Unable to drop" + msgID);
-                client.cancelRequest();
-                return;
-            }
-            updateDisplay( KoLFrame.DISABLED_STATE, "");
-        }
-
-    }
-
-
 }
