@@ -152,9 +152,6 @@ public class EquipmentRequest extends KoLRequest
 		// version.  This can be done through simple regular
 		// expression matching.
 
-		String plainTextContent = replyContent.replaceAll( "<.*?>", "\n" );
-		StringTokenizer parsedContent = new StringTokenizer( plainTextContent, "\n" );
-
 		try
 		{
 			logStream.println( "Parsing data..." );
@@ -162,11 +159,15 @@ public class EquipmentRequest extends KoLRequest
 			{
 				case CLOSET:
 					updateDisplay( DISABLED_STATE, "Retrieving inventory..." );
-					parseCloset( parsedContent );
+					parseCloset();
 					break;
 
 				case EQUIPMENT:
 					updateDisplay( DISABLED_STATE, "Retrieving equipment..." );
+
+					String plainTextContent = replyContent.replaceAll( "<.*?>", "\n" );
+					StringTokenizer parsedContent = new StringTokenizer( plainTextContent, "\n" );
+
 					parseEquipment( parsedContent );
 					break;
 			}
@@ -187,7 +188,7 @@ public class EquipmentRequest extends KoLRequest
 		}
 	}
 
-	private void parseCloset( StringTokenizer parsedContent )
+	private void parseCloset()
 	{
 		// Try to find how much meat is in your character's closet -
 		// this way, the program's meat manager frame auto-updates
