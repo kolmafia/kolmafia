@@ -84,6 +84,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 // containers
 import javax.swing.JList;
@@ -116,7 +118,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
  * executed at that moment.
  */
 
-public class AdventureFrame extends KoLFrame
+public class AdventureFrame extends KoLFrame implements ChangeListener
 {
 	private JTabbedPane tabs;
 	private KoLMessenger kolchat;
@@ -155,6 +157,7 @@ public class AdventureFrame extends KoLFrame
 		setResizable( false );
 		this.isEnabled = true;
 		this.tabs = new JTabbedPane();
+		tabs.addChangeListener( this );
 
 		this.adventureSelect = new AdventureSelectPanel( adventureList, resultsTally );
 		tabs.addTab( "Adventure Select", adventureSelect );
@@ -189,6 +192,25 @@ public class AdventureFrame extends KoLFrame
 		addWindowListener( new LogoutRequestAdapter() );
 
 		addMenuBar();
+	}
+
+	public void stateChanged( ChangeEvent e )
+	{
+		switch ( tabs.getSelectedIndex() )
+		{
+			case 0:
+				contentPanel = adventureSelect;
+				break;
+			case 1:
+				contentPanel = mallSearch;
+				break;
+			case 2:
+				contentPanel = clanBuff;
+				break;
+			case 3:
+				contentPanel = removeEffects;
+				break;
+		}
 	}
 
 	/**
