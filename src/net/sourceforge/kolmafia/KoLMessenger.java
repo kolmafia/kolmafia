@@ -592,6 +592,25 @@ public class KoLMessenger implements KoLConstants
 				lines[i] = null;
 		}
 
+		// Process the /last command, since it appears in blue,
+		// but then the font colors get stripped.
+
+		for ( int i = 0; i < lines.length; ++i )
+		{
+			if ( lines[i] != null && lines[i].startsWith( "<font color=blue><b>from " ) && lines[i].indexOf( ":</b>" ) != -1 )
+			{
+				processChannelMessage( currentChannel, lines[i] + "</font>" );
+				lines[i++] = null;
+				while ( !lines[i].endsWith( "</font>" ) )
+				{
+					processChannelMessage( currentChannel, "<font color=blue>" + lines[i] + "</font>" );
+					lines[i++] = null;
+				}
+				processChannelMessage( currentChannel, "<font color=blue>" + lines[i] );
+				lines[i++] = null;
+			}
+		}
+
 		// Now, parse the non-green messages and display them
 		// to the appropropriate frame.
 
@@ -708,8 +727,7 @@ public class KoLMessenger implements KoLConstants
 			if ( useTabbedFrame )
 				tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 		}
-		else if ( message.indexOf( "<font color=blue>" ) == -1 || noLinksContent.startsWith( "<font color=green>" ) ||
-			(message.indexOf( "<b>from " ) != -1 && message.indexOf( "(private)</b>:" ) == -1) )
+		else if ( message.indexOf( "<font color=blue>" ) == -1 )
 		{
 			// The easy case is if it's a normal chat message.
 			// Then, it just gets updated to the main chat buffer,
@@ -812,7 +830,12 @@ public class KoLMessenger implements KoLConstants
 			}
 		}
 
-		if ( message != null && channelBuffer != null )
+		if ( message != null && channelBuffer != null && message.startsWith( "<font color=blue>" ) )
+		{
+			channelBuffer.append( message );
+			channelBuffer.append( "<br>\n" );
+		}
+		else if ( message != null && channelBuffer != null )
 		{
 			String actualMessage = message.trim();
 
