@@ -66,7 +66,7 @@ import java.util.regex.Pattern;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
-	protected static final int REFRESH_RATE = 800;
+	protected static final int REFRESH_RATE = 1200;
 
 	private static String KOL_HOST = "www.kingdomofloathing.com";
 	private static String KOL_ROOT = "http://" + KOL_HOST + "/";
