@@ -69,6 +69,11 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			client.addToResultTally( itemUsed );
 			resultRequest.run();
+
+			if ( itemUsed.getName().startsWith( "chef-in" ) )
+				client.getCharacterData().setChef( true );
+			else if ( itemUsed.getName().startsWith( "bartender-in" ) )
+				client.getCharacterData().setBartender( true );
 		}
 	}
 

@@ -404,9 +404,9 @@
 435	0	balloon sword
 436	0	balloon monkey
 437	0	chef skull
-438	0	chef-in-the-box
+438	3	chef-in-the-box
 439	0	bartender skull
-440	0	bartender-in-the-box
+440	3	bartender-in-the-box
 441	0	chef-skull-in-the-box
 442	0	bartender-skull-in-the-box
 443	0	beer lens
