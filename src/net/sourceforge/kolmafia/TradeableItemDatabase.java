@@ -122,7 +122,7 @@ public class TradeableItemDatabase
 	 */
 
 	public static final String getItemName( int itemID )
-	{	return itemByID[ itemID ];
+	{	return itemID < 0 ? null : itemByID[ itemID ];
 	}
 
 	/**
