@@ -69,7 +69,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.shopName = storeName;
 		this.itemID = itemID;
 		this.shopID = 0;
-		this.quantity = Integer.MAX_VALUE;
+		this.quantity = Integer.MAX_VALUE >> 1;
 		this.price = price;
 		this.isNPCStore = true;
 	}
