@@ -127,9 +127,13 @@ public class FightRequest extends KoLRequest
 				// connection to an existing URL may cause unforeseen errors,
 				// start a new thread and allow this one to die.
 
-				if ( client.permitsContinue() && roundCount <= 30 )
+				if ( roundCount <= 30 )
 				{
 					++roundCount;
+
+					if ( !client.permitsContinue() )
+						updateDisplay( KoLFrame.DISABLED_STATE, "Completing battle..." );
+
 					this.run();
 				}
 				else if ( roundCount > 30 )
