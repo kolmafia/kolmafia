@@ -115,6 +115,7 @@ public class AdventureFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
 	private AdventureSelectPanel adventureSelect;
+	private MallSearchPanel mallSearch;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -135,7 +136,7 @@ public class AdventureFrame extends KoLFrame
 
 		addAdventuringPanel( availableAdventures, resultsTally );
 		addInventoryPanel();  tabs.setEnabledAt( 1, false );
-		addMallBrowsingPanel();  tabs.setEnabledAt( 2, false );
+		addMallBrowsingPanel();
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
@@ -189,7 +190,13 @@ public class AdventureFrame extends KoLFrame
 
 	private void addMallBrowsingPanel()
 	{
-		tabs.addTab( "Mall of Loathing", new JPanel() );
+		mallSearch = new MallSearchPanel();
+
+		JPanel mallBrowsingPanel = new JPanel();
+		mallBrowsingPanel.setLayout( new BorderLayout( 10, 10 ) );
+		mallBrowsingPanel.add( mallSearch, BorderLayout.NORTH );
+
+		tabs.addTab( "Mall of Loathing", mallBrowsingPanel );
 	}
 
 	/**
@@ -226,7 +233,6 @@ public class AdventureFrame extends KoLFrame
 	{
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
-		private JLabel serverReplyLabel;
 
 		JComboBox locationField;
 		JTextField countField;
@@ -240,8 +246,7 @@ public class AdventureFrame extends KoLFrame
 
 			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
 			actionStatusPanel.add( actionStatusLabel );
-			serverReplyLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( serverReplyLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			locationField = new JComboBox( list );
 			countField = new JTextField();
@@ -320,7 +325,6 @@ public class AdventureFrame extends KoLFrame
 				try
 				{
 					int count = Integer.parseInt( countField.getText() );
-					updateDisplay( DISABLED_STATE, "Request 1 in progress..." );
 					Runnable request = (Runnable) locationField.getSelectedItem();
 					client.makeRequest( request, count );
 				}
@@ -353,10 +357,126 @@ public class AdventureFrame extends KoLFrame
 
 			JList tallyDisplay = new JList( tally );
 			tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			tallyDisplay.setVisibleRowCount( 5 );
+			tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+			tallyDisplay.setVisibleRowCount( 10 );
 
 			add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for mall
+	 * searches in the <code>AdventureFrame</code>.
+	 */
+
+	protected class MallSearchPanel extends KoLPanel
+	{
+		private JPanel actionStatusPanel;
+		private JLabel actionStatusLabel;
+
+		JTextField searchField;
+		JTextField countField;
+
+		public MallSearchPanel()
+		{
+			super( "search", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			searchField = new JTextField();
+			countField = new JTextField( "0" );
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Search String: ", searchField );
+			elements[1] = new VerifiableElement( "Limit Results: ", countField );
+
+			setContent( elements );
+		}
+
+		protected void setContent( VerifiableElement [] elements )
+		{
+			super.setContent( elements );
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			searchField.setEnabled( isEnabled );
+			countField.setEnabled( isEnabled );
+		}
+
+		public void clear()
+		{
+			searchField.setText( "" );
+			countField.setText( "0" );
+			requestFocus();
+		}
+
+		protected void actionConfirmed()
+		{
+			// Once the stubs are finished, this will notify the
+			// client to begin adventuring based on the values
+			// placed in the input fields.
+
+			contentPanel = mallSearch;
+			(new SearchMallRequestThread()).start();
+		}
+
+		protected void actionCancelled()
+		{
+			// Once the stubs are finished, this will notify the
+			// client to terminate the loop early.  For now, since
+			// there's no actual functionality, simply request focus
+
+			updateDisplay( ENABLED_STATE, "" );
+			requestFocus();
+		}
+
+		public void requestFocus()
+		{	searchField.requestFocus();
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually make the adventuring requests.
+		 */
+
+		private class SearchMallRequestThread extends Thread
+		{
+			public SearchMallRequestThread()
+			{
+				super( "Mall-Search-Request-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					updateDisplay( DISABLED_STATE, "Searching for items..." );
+					LockableListModel results = new LockableListModel();
+					(new SearchMallRequest( client, searchField.getText(), Integer.parseInt( countField.getText() ), results )).run();
+				}
+				catch ( NumberFormatException e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+			}
 		}
 	}
 
