@@ -74,8 +74,10 @@ public class KoLRequest implements Runnable
 	private static final int MAX_RETRIES = 4;
 
 	private URL formURL;
+	private StringBuffer formURLBuffer;
 	private String sessionID;
 	private List data;
+	private boolean doOutput;
 
 	protected KoLmafia client;
 	protected KoLFrame frame;
@@ -187,18 +189,26 @@ public class KoLRequest implements Runnable
 	 * a generic KoLRequest will not be supported.
 	 *
 	 * @param	client	The client associated with this <code>KoLRequest</code>
-	 * @param	formURLString	The form to be used in posting data
+	 * @param	formURLBuffer	The form to be used in posting data
 	 */
 
 	protected KoLRequest( KoLmafia client, String formURLString )
+	{	this( client, formURLString, true );
+	}
+
+	/**
+	 * Constructs a new KoLRequest.  The class is not declared abstract so that
+	 * the static routine can run without problems, but for all intents and purposes,
+	 * a generic KoLRequest will not be supported.
+	 *
+	 * @param	client	The client associated with this <code>KoLRequest</code>
+	 * @param	formURLBuffer	The form to be used in posting data
+	 * @param	doOutput	Whether or not this will post data
+	 */
+
+	protected KoLRequest( KoLmafia client, String formURLString, boolean doOutput )
 	{
-		try
-		{
-			this.formURL = new URL( KOL_ROOT + formURLString );
-		}
-		catch ( MalformedURLException e )
-		{
-		}
+		this.formURLBuffer = new StringBuffer( formURLString );
 
 		if ( client != null )
 		{
@@ -211,6 +221,7 @@ public class KoLRequest implements Runnable
 			this.logStream = new NullStream();
 
 		data = new ArrayList();
+		this.doOutput = doOutput;
 	}
 
 	/**
@@ -264,6 +275,33 @@ public class KoLRequest implements Runnable
 
 	private boolean prepareConnection()
 	{
+		// Here, if you weren't doing output, translate the form data
+		// into a GET request.
+
+		if ( !doOutput && !data.isEmpty() )
+		{
+			formURLBuffer.append( '?' );
+			Iterator iterator = data.iterator();
+			formURLBuffer.append( iterator.next().toString() );
+
+			while ( iterator.hasNext() )
+			{
+				formURLBuffer.append( '&' );
+				formURLBuffer.append( iterator.next().toString() );
+			}
+		}
+
+		// With that taken care of, determine the actual URL that you
+		// are about to request.
+
+		try
+		{
+			this.formURL = new URL( KOL_ROOT + formURLBuffer.toString() );
+		}
+		catch ( MalformedURLException e )
+		{
+		}
+
 		try
 		{
 			// For now, because there isn't HTTPS support, just open the
@@ -284,7 +322,7 @@ public class KoLRequest implements Runnable
 		logStream.println( "Connection established." );
 
 		formConnection.setDoInput( true );
-		formConnection.setDoOutput( !data.isEmpty() );
+		formConnection.setDoOutput( !data.isEmpty() && doOutput );
 		formConnection.setUseCaches( false );
 		formConnection.setInstanceFollowRedirects( false );
 
@@ -312,7 +350,7 @@ public class KoLRequest implements Runnable
 		// data to post - otherwise, opening an input stream
 		// should be enough
 
-		if ( data.isEmpty() )
+		if ( data.isEmpty() || !doOutput )
 			return true;
 
 		logStream.println( "Posting form data..." );
@@ -424,29 +462,31 @@ public class KoLRequest implements Runnable
 				}
 				else
 				{
-					// In this case, there is actual content, and you're not being
-					// redirected - therefore, store the server's reply inside of
-					// the designated string for this purpose.  Note that the first
-					// ten lines on every KoL site contains a script that tells the
-					// browser to renest the page in frames (and hence is useless).
+					String line;
 
-					String line = istream.readLine();
-
-					// Check for MySQL errors, since those have been getting more
-					// frequent, and would cause an I/O Exception to be thrown
-					// unnecessarily, when a re-request would do.  I'm not sure
-					// how they work right now (which line the MySQL error is
-					// printed to), but for now, assume that it's the first line.
-
-
-					if ( line.indexOf( "()" ) != -1 )
+					if ( formURL.getPath().indexOf( "chat" ) == -1 )
 					{
-						logStream.println( "MySQL error encountered.  Repeating request..." );
-						this.run();  return;
-					}
+						// In this case, there is actual content, and you're not being
+						// redirected - therefore, store the server's reply inside of
+						// the designated string for this purpose.  Note that the first
+						// ten lines on every KoL site contains a script that tells the
+						// browser to renest the page in frames (and hence is useless).
 
-					if ( !formURL.getPath().equals( "/charpane.php" ) && !formURL.getPath().equals( "/lchat.php" ) )
-					{
+						line = istream.readLine();
+
+						// Check for MySQL errors, since those have been getting more
+						// frequent, and would cause an I/O Exception to be thrown
+						// unnecessarily, when a re-request would do.  I'm not sure
+						// how they work right now (which line the MySQL error is
+						// printed to), but for now, assume that it's the first line.
+
+
+						if ( line.indexOf( "()" ) != -1 )
+						{
+							logStream.println( "MySQL error encountered.  Repeating request..." );
+							this.run();  return;
+						}
+
 						logStream.println( "Skipping frame-nesting Javascript..." );
 
 						for ( int i = 0; i < 9; ++i )

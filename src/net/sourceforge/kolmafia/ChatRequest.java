@@ -57,6 +57,35 @@ public class ChatRequest extends KoLRequest
 	}
 
 	/**
+	 * Constructs a new <code>ChatRequest</code> that will send the given
+	 * string to the server.
+	 *
+	 * @param	client	The client to be updated
+	 * @param	message	The message to be sent
+	 */
+
+	public ChatRequest( KoLmafia client, String message )
+	{
+		super( client, "submitnewchat.php" );
+		addFormField( "playerid", "" + client.getUserID() );
+		addFormField( "pwd", client.getPasswordHash() );
+
+		try
+		{
+			addFormField( "graf", java.net.URLEncoder.encode( message, "UTF-8" ) );
+		}
+		catch ( java.io.UnsupportedEncodingException e )
+		{
+			// UTF-8 is a very generic encoding scheme; this
+			// exception should never be thrown.  But if it
+			// is, just ignore it for now.  Better exception
+			// handling when it becomes necessary.
+		}
+
+		this.isContinuationRequest = false;
+	}
+
+	/**
 	 * Constructs a new <code>ChatRequest</code> where the given parameter
 	 * will be passed to the PHP file to indicate where you left off.  Note
 	 * that this constructor is only available to the <code>ChatRequest</code>;
@@ -66,11 +95,11 @@ public class ChatRequest extends KoLRequest
 
 	private ChatRequest( KoLmafia client, int lastSeen )
 	{
-		super( client, "newchatmessages.php" );
+		super( client, "newchatmessages.php", false );
 		addFormField( "lasttime", "" + lastSeen );
 
 		this.lastSeen = lastSeen;
-		this.isContinuationRequest = false;
+		this.isContinuationRequest = true;
 	}
 
 	/**

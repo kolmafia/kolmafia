@@ -61,7 +61,7 @@ public class ChatBuffer
 
 	private static final String EMPTY_STRING = "";
 	private static final String NEW_LINE = System.getProperty( "line.separator" );
-	private static final String BUFFER_INIT = "<body style=\"font-family: Sans-serif; font-size: 12pt\">";
+	private static final String BUFFER_INIT = "<body style=\"font-family: sans-serif; font-size:12pt;\">";
 	private static final String BUFFER_STOP = "</body>";
 
 	/**
@@ -149,54 +149,7 @@ public class ChatBuffer
 	{
 		if ( message == null || message.equals( EMPTY_STRING ) )
 			return;
-
-		StringBuffer newMessage = beginHTMLMessage( Color.black );
-		newMessage.append( DataUtilities.convertToHTML( message ) );
-		endHTMLMessage( newMessage );
-		fireBufferChanged( CONTENT_CHANGE, newMessage.toString() );
-	}
-
-	/**
-	 * An internal function used to begin a message.  The method will
-	 * return a <code>StringBuffer</code> with all of the HTML needed
-	 * to display a message with the given color.  Note that the
-	 * <code>endHTMLMessage()</code> should be called in order to properly
-	 * close off the HTML message.
-	 *
-	 * @param	c	The color with which the message should be displayed
-	 */
-
-	private StringBuffer beginHTMLMessage( Color c )
-	{
-		StringBuffer message = new StringBuffer( 28 );
-		message.append( "<div" );
-
-		if ( c != null )
-		{
-			message.append( " style=\"color: " );
-			message.append( DataUtilities.toHexString( c ) );
-		}
-
-		message.append( "\">" );
-		return message;
-	}
-
-	/**
-	 * An internal function used to end a message.  The method is provided
-	 * the <code>StringBuffer</code> which has been used to display the
-	 * message thus far, and the method will be able to determine what other
-	 * HTML must be added in order to properly close off the message.  Note
-	 * that at the current time, this merely closes off the &lt;div&gt; tag
-	 * that was created by the <code>beginHTMLMethod()</code> method and no
-	 * actual HTML validation takes place.
-	 *
-	 * @param	message	The HTML message which needs to be finalized
-	 */
-
-	private void endHTMLMessage( StringBuffer newMessage )
-	{
-		displayBuffer.append( "</div>" );
-		displayBuffer.append( NEW_LINE );
+		fireBufferChanged( CONTENT_CHANGE, message );
 	}
 
 	/**

@@ -62,7 +62,8 @@ public class KoLmafia implements UtilityConstants
 {
 	private static final String ADV_DBASE_FILE = "adventures.dat";
 
-	private String loginname, password, sessionID, passwordHash;
+	private String password, sessionID, passwordHash;
+	private KoLCharacter characterData;
 	private KoLFrame activeFrame;
 	private ChatBuffer loathingChat;
 
@@ -117,9 +118,13 @@ public class KoLmafia implements UtilityConstants
 	public void initialize( String loginname, String passwordHash, String sessionID )
 	{
 		// Store the initialized variables
-		this.loginname = loginname;
 		this.passwordHash = passwordHash;
 		this.sessionID = sessionID;
+
+		// Grab the character data
+		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
+		characterData = new KoLCharacter( loginname );
+		(new CharsheetRequest( this, characterData )).run();
 
 		// Begin by loading the user-specific settings.
 		logStream.println( "Loading user settings for " + loginname + "..." );
@@ -176,7 +181,6 @@ public class KoLmafia implements UtilityConstants
 
 	public void deinitialize()
 	{
-		loginname = null;
 		sessionID = null;
 		passwordHash = null;
 		permitContinue = false;
@@ -260,12 +264,21 @@ public class KoLmafia implements UtilityConstants
 	}
 
 	/**
+	 * Retrieves the user ID for the character of this <code>KoLmafia</code> session.
+	 * @return	the login name of the current user
+	 */
+
+	public int getUserID()
+	{	return characterData.getUserID();
+	}
+
+	/**
 	 * Retrieves the login name for this <code>KoLmafia</code> session.
 	 * @return	the login name of the current user
 	 */
 
 	public String getLoginName()
-	{	return loginname;
+	{	return (characterData == null) ? null : characterData.getUsername();
 	}
 
 	/**
@@ -424,10 +437,11 @@ public class KoLmafia implements UtilityConstants
 
 	public void initializeChat( JEditorPane chatDisplay )
 	{
-		loathingChat = new ChatBuffer( loginname + ": Started " +
+		loathingChat = new ChatBuffer( getLoginName() + ": Started " +
 			Calendar.getInstance().getTime().toString() );
 
 		loathingChat.setChatDisplay( chatDisplay );
+		(new ChatRequest( this )).run();
 	}
 
 	/**

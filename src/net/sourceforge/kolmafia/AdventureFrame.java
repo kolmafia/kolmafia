@@ -166,15 +166,21 @@ public class AdventureFrame extends KoLFrame
 		menu.setMnemonic( KeyEvent.VK_V );
 		menuBar.add( menu );
 
-		JMenuItem csheetItem = new JMenuItem( "Character Sheet", KeyEvent.VK_C );
+		JMenuItem csheetItem = new JMenuItem( "Character Sheet", KeyEvent.VK_S );
 		csheetItem.addActionListener( new ViewCharacterSheetListener() );
 
 		menu.add( csheetItem );
 
-		JMenuItem imanageItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
+		JMenuItem imanageItem = new JMenuItem( "Item Manager", KeyEvent.VK_M );
 		imanageItem.addActionListener( new ViewItemManagerListener() );
+		imanageItem.setEnabled( false );
 
 		menu.add( imanageItem );
+
+		JMenuItem chatItem = new JMenuItem( "Loathing Chat", KeyEvent.VK_C );
+		chatItem.addActionListener( new ViewChatListener() );
+
+		menu.add( chatItem );
 
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
@@ -551,7 +557,40 @@ public class AdventureFrame extends KoLFrame
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing a character sheet.
+	 * the request for viewing the chat window.
+	 */
+
+	private class ViewChatListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			updateDisplay( NOCHANGE_STATE, "Connecting to chat..." );
+			(new ViewChatThread()).start();
+		}
+
+		private class ViewChatThread extends Thread
+		{
+			public ViewChatThread()
+			{
+				super( "Chat-Display-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				ChatFrame kolchat = new ChatFrame( client );
+				kolchat.setSize( new Dimension( 400, 300 ) );
+				kolchat.setVisible( true );
+				kolchat.requestFocus();
+				updateDisplay( NOCHANGE_STATE, "" );
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the item manager.
 	 */
 
 	private class ViewItemManagerListener implements ActionListener
