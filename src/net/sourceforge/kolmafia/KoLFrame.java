@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
 /**
  * An extended <code>JFrame</code> which provides all the frames in
@@ -46,13 +47,25 @@ public abstract class KoLFrame extends javax.swing.JFrame
 	public static final int SENDING_LOGIN_STATE = 2;
 	public static final int LOGGED_IN_STATE     = 3;
 
-	protected KoLFrame()
-	{
-	}
+	protected KoLmafia client;
+	protected KoLPanel contentPanel;
 
-	protected KoLFrame( String title )
-	{	super( title );
+	protected KoLFrame( String title, KoLmafia client )
+	{
+		super( title );
+		this.client = client;
 	}
 
 	public abstract void updateDisplay( int displayState, String message );
+
+	protected abstract class KoLPanel extends ActionVerifyPanel
+	{
+		protected KoLPanel( String confirmedText, String cancelledText )
+		{
+			super( confirmedText, cancelledText );
+		}
+
+		public abstract void clear();
+		public abstract void setStatusMessage( String s );
+	}
 }

@@ -94,7 +94,6 @@ import javax.swing.JMenuBar;
 
 // spellcast-related imports
 import net.java.dev.spellcast.utilities.LicenseDisplay;
-import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -106,12 +105,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class LoginFrame extends KoLFrame
 {
-	private LoginPanel contentPanel;
-	private KoLmafia client;
-
 	public LoginFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Login" );
+		super( "KoLmafia: Login", client );
 		setResizable( false );
 
 		CardLayout cards = new CardLayout( 10, 10 );
@@ -141,7 +137,7 @@ public class LoginFrame extends KoLFrame
 	{	(new DisplayLoginStatus( displayState, message )).run();
 	}
 
-	private class LoginPanel extends ActionVerifyPanel
+	private class LoginPanel extends KoLPanel
 	{
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
@@ -194,8 +190,8 @@ public class LoginFrame extends KoLFrame
 			Runnable updateAComponent = new Runnable() {
 				public void run()
 				{
-					loginnameField.setText("");
-					passwordField.setText("");
+					loginnameField.setText( "" );
+					passwordField.setText( "" );
 					requestFocus();
 				}
 			};
