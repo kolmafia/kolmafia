@@ -58,8 +58,22 @@ import java.text.ParseException;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+/**
+ * An extension of <code>KoLFrame</code> which handles all the item
+ * management functionality of Kingdom of Loathing.  This ranges from
+ * basic transfer to and from the closet to item creation, cooking,
+ * item use, and equipment.
+ */
+
 public class ItemManageFrame extends KoLFrame
 {
+	/**
+	 * Constructs a new <code>ItemManageFrame</code> and inserts all
+	 * of the necessary panels into a tabular layout for accessibility.
+	 *
+	 * @param	client	The client to be notified in the event of error.
+	 */
+
 	public ItemManageFrame( KoLmafia client )
 	{
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
@@ -69,7 +83,7 @@ public class ItemManageFrame extends KoLFrame
 		inventoryTabs.addTab( "Use", new JPanel() );
 		inventoryTabs.addTab( "Equip", new JPanel() );
 		inventoryTabs.addTab( "Sell", new JPanel() );
-		inventoryTabs.addTab( "Store", new JPanel() );
+		inventoryTabs.addTab( "Closet", new JPanel() );
 		inventoryTabs.addTab( "Create", new ItemCreationPanel() );
 		inventoryTabs.addTab( "Meat Paste", new MeatManagementPanel() );
 		inventoryTabs.addTab( "Execute", new JPanel() );
