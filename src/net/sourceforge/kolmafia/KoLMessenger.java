@@ -128,7 +128,7 @@ public class KoLMessenger
 				return currentName;
 		}
 
-		return currentChannel;
+		return null;
 	}
 
 	/**
@@ -398,10 +398,9 @@ public class KoLMessenger
 				// the active frame will not be recognized - therefore, simply
 				// put the messages into the current channel instead.
 
-				if ( nameOfActiveFrame == null )
-					nameOfActiveFrame = currentChannel;
+				String updateChannel = nameOfActiveFrame == null ? currentChannel : nameOfActiveFrame;
 
-				ChatBuffer currentChatBuffer = getChatBuffer( nameOfActiveFrame );
+				ChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
 
 				// This error should not happen, but it's better to be safe than
 				// sorry, so there's a check to make sure that the chat buffer
@@ -409,8 +408,8 @@ public class KoLMessenger
 
 				if ( currentChatBuffer == null )
 				{
-					openInstantMessage( nameOfActiveFrame );
-					currentChatBuffer = getChatBuffer( nameOfActiveFrame );
+					openInstantMessage( updateChannel );
+					currentChatBuffer = getChatBuffer( updateChannel );
 				}
 
 				StringTokenizer helpString = new StringTokenizer( result, "\n" );
