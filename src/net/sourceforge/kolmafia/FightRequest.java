@@ -44,6 +44,13 @@ import java.util.StringTokenizer;
 
 public class FightRequest extends KoLRequest
 {
+	/**
+	 * Constructs a new <code>FightRequest</code>.  The client provided will
+	 * be used to determine whether or not the fight should be started and/or
+	 * continued, and the user settings will be used to determine the kind
+	 * of action to be taken during the battle.
+	 */
+
 	public FightRequest( KoLmafia client )
 	{
 		super( client, "fight.php" );
@@ -54,8 +61,24 @@ public class FightRequest extends KoLRequest
 		addFormField( "action", client.getSettings().getProperty( "battleAction" ) );
 	}
 
+	/**
+	 * Executes the single round of the fight.  If the user wins or loses,
+	 * the client will be notified; otherwise, the next battle will be run
+	 * automatically.  All fighting terminates if the client cancels their
+	 * request; note that battles are not automatically completed.  However,
+	 * the battle's execution will be reported in the statistics for the
+	 * requests, and will count against any outstanding requests.
+	 */
+
 	public void run()
 	{
+		// If the user has already specified that fighting should not
+		// continue, break here - although, in theory, the difference
+		// is very small, you might as well handle it.
+
+		if ( !client.permitsContinue() )
+			return;
+
 		super.run();
 
 		// If there were no problems, then begin fighting the battle,

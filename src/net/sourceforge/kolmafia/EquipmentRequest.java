@@ -35,9 +35,24 @@
 package net.sourceforge.kolmafia;
 import java.util.StringTokenizer;
 
+/**
+ * An extension of <code>KoLRequest</code> which retrieves a list of
+ * the character's equipment from the server.  At the current time,
+ * there is no support for actually equipping items, so only the items
+ * which are currently equipped are retrieved.
+ */
+
 public class EquipmentRequest extends KoLRequest
 {
 	private KoLCharacter character;
+
+	/**
+	 * Constructs a new <code>EquipmentRequest</code>, overwriting the
+	 * data located in the provided character.
+	 *
+	 * @param	client	The client to be notified in the event of an error
+	 * @param	character	The character to which this will record the retrieved equipment
+	 */
 
 	public EquipmentRequest( KoLmafia client, KoLCharacter character )
 	{
@@ -50,6 +65,12 @@ public class EquipmentRequest extends KoLRequest
 
 		addFormField( "which", "2" );
 	}
+
+	/**
+	 * Executes the <code>EquipmentRequest</code>.  Note that at the current
+	 * time, only the character's currently equipped items and familiar item
+	 * will be stored.
+	 */
 
 	public void run()
 	{
