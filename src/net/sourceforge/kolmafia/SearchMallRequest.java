@@ -155,11 +155,29 @@ public class SearchMallRequest extends KoLRequest
 			return;
 		}
 
+		String lastItemName = "";
+		boolean npcStoreAdded = true;
+		int npcStorePrice = -1;
+
 		while ( parsedResults.hasMoreTokens() )
 		{
 			// The first token contains the item name
 
 			String itemName = parsedResults.nextToken().trim();
+
+			if ( !itemName.equals( lastItemName ) )
+			{
+				// Theoretically, you could do a check to see if you
+				// should add in the NPC store price; however, if
+				// it wasn't in the top list, then don't bother.
+				// Now, figure out if an NPC item exists for the
+				// most recently encountered item type.
+
+				lastItemName = itemName;
+				npcStoreAdded = !NPCStoreDatabase.contains( itemName );
+				if ( !npcStoreAdded )
+					npcStorePrice = NPCStoreDatabase.getNPCStorePrice( itemName );
+			}
 
 			// The next token contains the number of items being sold
 			// in addition to any limits imposed on those items
@@ -179,12 +197,22 @@ public class SearchMallRequest extends KoLRequest
 			// The last token contains the price of the item
 
 			int price = intToken( parsedResults, 0, 10 );
-			results.add( new MallPurchaseRequest( client, itemName, purchaseLimit, shopID, shopName, price ) );
 
-			String forceSortingString = client.getSettings().getProperty( "forceSorting" );
-			if ( forceSortingString != null && forceSortingString.equals( "true" ) )
-				java.util.Collections.sort( results );
+			// Now, check to see if you should add the NPC
+			// store at the current time
+
+			if ( !npcStoreAdded && npcStorePrice < price )
+			{
+				npcStoreAdded = true;
+				results.add( NPCStoreDatabase.getPurchaseRequest( client, itemName ) );
+			}
+
+			results.add( new MallPurchaseRequest( client, itemName, purchaseLimit, shopID, shopName, price ) );
 		}
+
+		String forceSortingString = client.getSettings().getProperty( "forceSorting" );
+		if ( forceSortingString != null && forceSortingString.equals( "true" ) )
+			java.util.Collections.sort( results );
 
 		results.add( "" );
 		updateDisplay( KoLFrame.ENABLED_STATE, "Search complete." );

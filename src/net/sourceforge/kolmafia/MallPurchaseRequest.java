@@ -48,6 +48,30 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	private boolean successful;
 	private String itemName, shopName;
 	private int itemID, shopID, quantity, price;
+	private boolean isNPCStore;
+
+	/**
+	 * Constructs a new <code>MallPurchaseRequest</code> which retrieves
+	 * things from NPC stores.
+	 */
+
+	public MallPurchaseRequest( KoLmafia client, String storeName, String storeID, int itemID, int price )
+	{
+		super( client, "store.php" );
+
+		addFormField( "whichstore", storeID );
+		addFormField( "phash", client.getPasswordHash() );
+		addFormField( "buying", "Yep." );
+		addFormField( "whichitem", "" + itemID );
+
+		this.itemName = TradeableItemDatabase.getItemName( itemID );
+		this.shopName = storeName;
+		this.itemID = itemID;
+		this.shopID = 0;
+		this.quantity = Integer.MAX_VALUE;
+		this.price = price;
+		this.isNPCStore = true;
+	}
 
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> with the given values.
@@ -92,6 +116,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.shopName = shopName;
 		this.quantity = quantity;
 		this.price = price;
+		this.isNPCStore = false;
 
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "whichstore", "" + shopID );
@@ -153,7 +178,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( quantity < 1 )
 			return;
 
-		addFormField( "quantity", "" + quantity );
+		addFormField( isNPCStore ? "howmany" : "quantity", "" + quantity );
 		this.successful = false;
 
 		// The special case of ice-cold beer is that it does not show

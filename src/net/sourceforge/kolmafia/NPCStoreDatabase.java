@@ -47,75 +47,77 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
- * A static class which retrieves all the adventures currently
+ * A static class which retrieves all the NPC stores currently
  * available to <code>KoLmafia</code>.
  */
 
-public class AdventureDatabase implements UtilityConstants
+public class NPCStoreDatabase implements UtilityConstants
 {
-	private static final String ADV_DBASE_FILE = "adventures.dat";
-	private static List [] adventureTable;
+	private static final String NPC_DBASE_FILE = "npcstores.dat";
+	private static List [] npcstoreTable;
 
 	static
 	{
-		BufferedReader advdata = DataUtilities.getReaderForSharedDataFile( ADV_DBASE_FILE );
+		BufferedReader npcdata = DataUtilities.getReaderForSharedDataFile( NPC_DBASE_FILE );
 
-		adventureTable = new ArrayList[3];
-		for ( int i = 0; i < 3; ++i )
-			adventureTable[i] = new ArrayList();
+		npcstoreTable = new ArrayList[4];
+		for ( int i = 0; i < 4; ++i )
+			npcstoreTable[i] = new ArrayList();
 
 		try
 		{
 			String line;
-			while ( (line = advdata.readLine()) != null )
+			while ( (line = npcdata.readLine()) != null )
 			{
 				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 3 )
-					for ( int i = 0; i < 3; ++i )
-						adventureTable[i].add( strtok.nextToken() );
+				if ( strtok.countTokens() == 4 )
+					for ( int i = 0; i < 4; ++i )
+						npcstoreTable[i].add( strtok.nextToken() );
 			}
 		}
 		catch ( IOException e )
 		{
 			// If an IOException is thrown, that means there was
 			// a problem reading in the appropriate data file;
-			// that means that no adventures can be done.  However,
-			// the adventures data file should always be present.
+			// that means that no npcstores can be done.  However,
+			// the npcstores data file should always be present.
 
 			// The exception is strange enough that it won't be
 			// handled at the current time.
 		}
 	}
 
-	public static final LockableListModel getAsLockableListModel( KoLmafia client )
+	public static final MallPurchaseRequest getPurchaseRequest( KoLmafia client, String itemName )
 	{
-		LockableListModel adventures = new LockableListModel();
-		for ( int i = 0; i < adventureTable[0].size(); ++i )
-			adventures.add( new KoLAdventure( client, (String) adventureTable[0].get(i),
-				(String) adventureTable[1].get(i), (String) adventureTable[2].get(i) ) );
-		return adventures;
-	}
+		List itemIDs = npcstoreTable[2];
 
-	public static KoLAdventure getAdventure( KoLmafia client, String adventureName )
-	{
-		List adventureNames = adventureTable[2];
-
-		for ( int i = 0; i < adventureNames.size(); ++i )
-			if ( ((String) adventureNames.get(i)).toLowerCase().indexOf( adventureName.toLowerCase() ) != -1 )
-				return new KoLAdventure( client, (String) adventureTable[0].get(i),
-					(String) adventureTable[1].get(i), (String) adventureTable[2].get(i) );
+		for ( int i = 0; i < itemIDs.size(); ++i )
+			if ( itemName.equals( TradeableItemDatabase.getItemName( Integer.parseInt( (String) itemIDs.get(i) ) ) ) )
+				return new MallPurchaseRequest( client, (String) npcstoreTable[1].get(i), (String) npcstoreTable[0].get(i),
+					Integer.parseInt( (String) npcstoreTable[2].get(i) ), Integer.parseInt( (String) npcstoreTable[3].get(i) ) );
 
 		return null;
 	}
 
-	public static final boolean contains( String adventureName )
+	public static final boolean contains( String itemName )
 	{
-		List adventureNames = adventureTable[2];
+		List itemIDs = npcstoreTable[2];
 
-		for ( int i = 0; i < adventureNames.size(); ++i )
-			if ( ((String) adventureNames.get(i)).toLowerCase().indexOf( adventureName.toLowerCase() ) != -1 )
+		for ( int i = 0; i < itemIDs.size(); ++i )
+			if ( itemName.equals( TradeableItemDatabase.getItemName( Integer.parseInt( (String) itemIDs.get(i) ) ) ) )
 				return true;
 
 		return false;
+	}
+
+	public static final int getNPCStorePrice( String itemName )
+	{
+		List itemIDs = npcstoreTable[2];
+
+		for ( int i = 0; i < itemIDs.size(); ++i )
+			if ( itemName.equals( TradeableItemDatabase.getItemName( Integer.parseInt( (String) itemIDs.get(i) ) ) ) )
+				return Integer.parseInt( (String) npcstoreTable[3].get(i) );
+
+		return 0;
 	}
 }
