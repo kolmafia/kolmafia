@@ -789,7 +789,7 @@ public class AdventureFrame extends KoLFrame
 			if ( heroField.getSelectedIndex() == 3 )
 				(new ClanDonationThread()).start();
 			else
-				(new HeroDonationThread( true )).start();
+				(new HeroDonationThread( false )).start();
 		}
 
 		protected void actionCancelled()
@@ -798,7 +798,7 @@ public class AdventureFrame extends KoLFrame
 			if ( heroField.getSelectedIndex() == 3 )
 				(new ClanDonationThread()).start();
 			else
-				(new HeroDonationThread( false )).start();
+				(new HeroDonationThread( true )).start();
 		}
 
 		public void requestFocus()
@@ -813,13 +813,13 @@ public class AdventureFrame extends KoLFrame
 
 		private class HeroDonationThread extends Thread
 		{
-			private boolean breakUp;
+			private boolean useIncrements;
 
-			public HeroDonationThread( boolean breakUp )
+			public HeroDonationThread( boolean useIncrements )
 			{
 				super( "Donation-Thread" );
 				setDaemon( true );
-				this.breakUp = breakUp;
+				this.useIncrements = useIncrements;
 			}
 
 			public void run()
@@ -830,7 +830,7 @@ public class AdventureFrame extends KoLFrame
 						return;
 
 					int amountRemaining = df.parse( amountField.getText() ).intValue();
-					int increments = breakUp ? df.parse( JOptionPane.showInputDialog(
+					int increments = useIncrements ? df.parse( JOptionPane.showInputDialog(
 							"How many increments?" ) ).intValue() : 1;
 
 					if ( increments == 0 )
@@ -844,15 +844,17 @@ public class AdventureFrame extends KoLFrame
 						int eachAmount = amountRemaining / increments;
 						int designatedHero = heroField.getSelectedIndex() + 1;
 
-						for ( int i = 1; i < increments; ++i )
-						{
-							updateDisplay( DISABLED_STATE, "Donation to " + heroField.getSelectedItem() +
-								", increment #" + i + "..." );
-							(new HeroDonationRequest( client, designatedHero, eachAmount )).run();
-							amountRemaining -= eachAmount;
-						}
+						client.makeRequest( new HeroDonationRequest( client, designatedHero, eachAmount ), increments - 1 );
+						amountRemaining -= eachAmount * (increments - 1);
 
-						(new HeroDonationRequest( client, designatedHero, amountRemaining )).run();
+						if ( client.permitsContinue() )
+						{
+							updateDisplay( DISABLED_STATE, "Request " + increments + " in progress..." );
+							(new HeroDonationRequest( client, designatedHero, amountRemaining )).run();
+
+							if ( client.permitsContinue() )
+								updateDisplay( KoLFrame.ENABLED_STATE, "Requests complete!" );
+						}
 					}
 				}
 				catch ( Exception e )

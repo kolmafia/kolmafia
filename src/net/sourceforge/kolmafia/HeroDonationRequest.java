@@ -42,17 +42,19 @@ import java.util.List;
 
 public class HeroDonationRequest extends KoLRequest
 {
-	public static final int BORIS = 0;
-	public static final int JARLSBERG = 1;
-	public static final int PETE = 2;
+	public static final int BORIS = 1;
+	public static final int JARLSBERG = 2;
+	public static final int PETE = 3;
 
 	private static final AdventureResult [] STATUE_KEYS =
 	{
+		null,
 		new AdventureResult( "Boris's key", 0 ),
 		new AdventureResult( "Jarlsberg's key", 0 ),
 		new AdventureResult( "Sneaky Pete's key", 0 )
 	};
 
+	private int amount;
 	private boolean hasStatueKey;
 
 	/**
@@ -72,6 +74,8 @@ public class HeroDonationRequest extends KoLRequest
 
 		addFormField( "action", heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "sneakypete" );
 		addFormField( "howmuch", "" + amount );
+
+		this.amount = amount;
 		this.hasStatueKey = client.getInventory().contains( STATUE_KEYS[ heroID ] );
 	}
 
@@ -99,7 +103,15 @@ public class HeroDonationRequest extends KoLRequest
 		// All the gains will be found before the first </center> tag;
 		// therefore, you can parse just that small segment.
 
+		if ( replyContent.indexOf( "You gain" ) == -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( KoLFrame.ENABLED_STATE, replyContent.indexOf( "That's not enough" ) == -1 ?
+				"Donation limit exceeded." : "Donation must be larger." );
+			return;
+		}
+
 		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
-		updateDisplay( KoLFrame.ENABLED_STATE, "Statue donation attempt complete." );
+		client.addToResultTally( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
 	}
 }
