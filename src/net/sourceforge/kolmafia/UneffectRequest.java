@@ -69,6 +69,9 @@ public class UneffectRequest extends KoLRequest
 		// from the list of effects.
 
 		if ( replyContent != null && replyContent.indexOf( "Effect removed." ) != -1 )
+		{
 			client.getCharacterData().getEffects().remove( new AdventureResult( StatusEffectDatabase.getEffectName( effectID ), 0 ) );
+			client.addToResultTally( new AdventureResult( "soft green echo eyedrop antidote", -1 ) );
+		}
 	}
 }
