@@ -81,6 +81,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	protected BuffBotHome buffBotHome;
 	protected BuffBotManager buffBotManager;
+	protected CakeArenaManager cakeArenaManager;
 
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
@@ -250,6 +251,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		this.isLoggingIn = false;
 		this.loathingMail = new KoLMailManager( this );
+		this.cakeArenaManager = new CakeArenaManager( this );
 		this.permitContinue = true;
 	}
 
@@ -1068,6 +1070,11 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		}
 	}
 
+	/**
+	 * Utility method used to initialize the buffbot and the
+	 * buffbot logs.
+	 */
+
 	public void initializeBuffBot()
 	{
 		if ( buffBotHome == null )
@@ -1076,6 +1083,11 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			buffBotHome.initialize();
 		}
 	}
+
+	/**
+	 * Utility method used to deinitialize the buffbot and the
+	 * buffbot logs.
+	 */
 
 	public void deinitializeBuffBot()
 	{
@@ -1086,23 +1098,57 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		}
 	}
 
+	/**
+	 * Utility method used to retrieve the actual logger used
+	 * for logging information related to the buffbut.
+	 */
+
 	public BuffBotHome.buffBotBuffer getBuffBotLog()
 	{	return buffBotHome.getLog();
 	}
+
+	/**
+	 * Returns whether or not the buffbot is active.
+	 * @return	<code>true</code> if the buffbot is active
+	 */
 
 	public boolean isBuffBotActive()
 	{	return (buffBotHome == null) ? false : buffBotHome.isBuffBotActive();
 	}
 
+	/**
+	 * Sets the active state of the buffbot.
+	 * @param	isActive	The active state of the buffbot
+	 */
+
 	public void setBuffBotActive(boolean isActive)
 	{	if (buffBotHome != null) buffBotHome.setBuffBotActive(isActive);
 	}
 
-	public void setBuffBotManager( BuffBotManager BuffBotManager )
-	{	this.buffBotManager = BuffBotManager;
+	/**
+	 * Sets the <code>BuffBotManager</code> used for managing the buffbot.
+	 * @param	buffBotManager	The <code>BuffBotManager</code> to be used
+	 */
+
+	public void setBuffBotManager( BuffBotManager buffBotManager )
+	{	this.buffBotManager = buffBotManager;
 	}
+
+	/**
+	 * Retrieves the <code>BuffBotManager</code> used for managing the buffbot.
+	 * @return	The <code>BuffBotManager</code> used for managing the buffbot
+	 */
 
 	public BuffBotManager getBuffBotManager()
 	{	return buffBotManager;
+	}
+
+	/**
+	 * Retrieves the <code>CakeArenaManager</code> used for managing requests
+	 * to the cake-shaped arena.
+	 */
+
+	public CakeArenaManager getCakeArenaManager()
+	{	return cakeArenaManager;
 	}
 }
