@@ -158,26 +158,20 @@ public abstract class ActionVerifyPanel extends JRootPane
 		if ( elements != null && elements.length > 0 )
 		{
 			JPanel elementsContainer = new JPanel();
-
-			if ( elements.length == 1 )
-				elementsContainer.setLayout( new BorderLayout() );
-			else
-				elementsContainer.setLayout( new BoxLayout( elementsContainer, BoxLayout.X_AXIS ) );
+			elementsContainer.setLayout( new BoxLayout( elementsContainer, BoxLayout.X_AXIS ) );
 
 			if ( isLabelPreceeding )
 			{
 				elementsContainer.add( constructLabelPanel( elements ) );
-				if ( elements.length > 1 )
-					elementsContainer.add( Box.createHorizontalStrut( 10 ), BorderLayout.WEST );
+				elementsContainer.add( Box.createHorizontalStrut( 10 ) );
 			}
 
 			elementsContainer.add( constructFieldPanel( elements ), BorderLayout.CENTER );
 
 			if ( !isLabelPreceeding )
 			{
-				if ( elements.length > 1 )
-					elementsContainer.add( Box.createHorizontalStrut( 10 ) );
-				elementsContainer.add( constructLabelPanel( elements ), BorderLayout.EAST );
+				elementsContainer.add( Box.createHorizontalStrut( 10 ) );
+				elementsContainer.add( constructLabelPanel( elements ) );
 			}
 
 			westContainer.add( elementsContainer,
