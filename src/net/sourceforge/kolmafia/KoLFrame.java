@@ -34,63 +34,21 @@
 
 package net.sourceforge.kolmafia;
 
-public class KoLmafia
+/**
+ * An extended <code>JFrame</code> which provides all the frames in
+ * KoLmafia the ability to update their displays, given some integer
+ * value and the message to use for updating.
+ */
+
+public abstract class KoLFrame extends javax.swing.JFrame
 {
-	private String loginname, password, sessionID, passwordHash;
-
-	public static void main( String [] args )
-	{
-		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
-    	KoLmafia session = new KoLmafia();
-	}
-
-	public KoLmafia()
-	{
-		loginname = null;
-		sessionID = null;
-		passwordHash = null;
-
-		LoginFrame login = new LoginFrame( this );
-		login.pack();  login.setVisible( true );
-	}
-
-	public void acquireItem( String itemname )
+	protected KoLFrame()
 	{
 	}
 
-	public void modifyStat( int increase, String statname )
-	{
+	protected KoLFrame( String title )
+	{	super( title );
 	}
 
-	public void setLoginName( String loginname )
-	{	this.loginname = loginname;
-	}
-
-	public String getLoginName()
-	{	return loginname;
-	}
-
-	public void setPassword( String password )
-	{	this.password = password;
-	}
-
-	public String getPassword()
-	{	return password;
-	}
-
-	public void setSessionID( String sessionID )
-	{	this.sessionID = sessionID;
-	}
-
-	public String getSessionID()
-	{	return sessionID;
-	}
-
-	public void setPasswordHash( String passwordHash )
-	{	this.passwordHash = passwordHash;
-	}
-
-	public String getPasswordHash()
-	{	return passwordHash;
-	}
+	public abstract void updateDisplay( int displayState, String message );
 }
