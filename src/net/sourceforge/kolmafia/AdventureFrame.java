@@ -120,7 +120,7 @@ public class AdventureFrame extends KoLFrame
 		getContentPane().add( tabs, "" );
 
 		updateDisplay( ENABLED_STATE, " " );
-		setDefaultCloseOperation( EXIT_ON_CLOSE );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		addMenuBar();
 	}
@@ -131,9 +131,9 @@ public class AdventureFrame extends KoLFrame
 		contentPanel = new AdventureSelectPanel( availableAdventures );
 
 		JPanel adventuringPanel = new JPanel();
-		adventuringPanel.setLayout( new BorderLayout() );
-		adventuringPanel.add( summaryPanel, BorderLayout.WEST );
-		adventuringPanel.add( contentPanel, BorderLayout.EAST );
+		adventuringPanel.setLayout( new BorderLayout( 10, 10 ) );
+		adventuringPanel.add( summaryPanel, BorderLayout.SOUTH );
+		adventuringPanel.add( contentPanel, BorderLayout.NORTH );
 
 		tabs.add( adventuringPanel, "Adventure Select" );
 	}
@@ -285,11 +285,10 @@ public class AdventureFrame extends KoLFrame
 		{
 			setLayout( new BorderLayout() );
 			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-			add( JComponentUtilities.createLabel( "Results", JLabel.CENTER,
+			add( JComponentUtilities.createLabel( "Adventure Results", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
 
 			JList tallyDisplay = new JList( tally );
-			tallyDisplay.setPrototypeCellValue( AdventureResult.DIVIDER );
 			tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			tallyDisplay.setVisibleRowCount( 5 );
 

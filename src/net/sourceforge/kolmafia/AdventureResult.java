@@ -51,7 +51,7 @@ public class AdventureResult implements Comparable
 
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Stats";
-	public static final String DIVIDER = "==========================";
+	public static final String DIVIDER = "";
 
 	private static List MUS_SUBSTAT = new ArrayList();
 	private static List MYS_SUBSTAT = new ArrayList();
@@ -185,10 +185,10 @@ public class AdventureResult implements Comparable
 
 	public String toString()
 	{
-		return resultName.equals(MEAT) ? "Meat: " + resultCount[0] :
-			resultName.equals(SUBSTATS) ? "Substats: " + resultCount[0] + " / " + resultCount[1] + " / " + resultCount[2] :
+		return resultName.equals(MEAT) ? " Meat: " + resultCount[0] :
+			resultName.equals(SUBSTATS) ? " Substats: " + resultCount[0] + " / " + resultCount[1] + " / " + resultCount[2] :
 			resultName.equals(DIVIDER) ? DIVIDER :
-			resultName + " (" + resultCount[0] + ")";
+			" " + resultName + " (" + resultCount[0] + ")";
 	}
 
 	public boolean equals( Object o )
