@@ -58,6 +58,7 @@ public class ChatBuffer
 	private String title;
 	private JEditorPane displayPane;
 	private PrintWriter activeLogWriter;
+	private String header;
 
 	protected StringBuffer displayBuffer;
 
@@ -77,6 +78,10 @@ public class ChatBuffer
 	{
 		displayBuffer = new StringBuffer();
 		this.title = title;
+
+		this.header = "<html><head>" + NEW_LINE + "<title>" + title + "</title>" + NEW_LINE +
+			"</head>" + NEW_LINE + NEW_LINE;
+
 		clearBuffer();
 	}
 
@@ -89,11 +94,6 @@ public class ChatBuffer
 	public void clearBuffer()
 	{
 		displayBuffer.setLength( 0 );
-		displayBuffer.append( "<html><head>" + NEW_LINE );
-		displayBuffer.append( "<title>" + title + "</title>" + NEW_LINE );
-		displayBuffer.append( "</head>" + NEW_LINE + NEW_LINE );
-		displayBuffer.append( BUFFER_INIT + NEW_LINE );
-
 		fireBufferChanged( DISPLAY_CHANGE, null );
 	}
 
@@ -123,6 +123,7 @@ public class ChatBuffer
 		try
 		{
 			activeLogWriter = new PrintWriter( new FileOutputStream( filename, false ), true );
+			updateLogFile( header );
 			fireBufferChanged( LOGFILE_CHANGE, null );
 		}
 		catch ( java.io.FileNotFoundException e )
@@ -227,7 +228,7 @@ public class ChatBuffer
 
 			// update the display
 			displayPane.setContentType( "text/html" );
-			displayPane.setText( BUFFER_INIT + displayBuffer.toString() + BUFFER_STOP );
+			displayPane.setText( header + BUFFER_INIT + displayBuffer.toString() + BUFFER_STOP );
 		}
 	}
 }
