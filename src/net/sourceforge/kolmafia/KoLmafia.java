@@ -45,6 +45,15 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
+/**
+ * The main class for the <code>KoLmafia</code> package.  This
+ * class encapsulates most of the data relevant to any given
+ * session of <code>Kingdom of Loathing</code> and currently
+ * functions as the blackboard in the architecture.  When data
+ * listeners are implemented, it will continue to manage most
+ * of the interactions.
+ */
+
 public class KoLmafia implements UtilityConstants
 {
 	private static final String ADV_DBASE_FILE = "adventures.dat";
@@ -54,16 +63,28 @@ public class KoLmafia implements UtilityConstants
 
 	private KoLSettings settings;
 	private PrintStream logStream;
-	private boolean isLogging;
 	private boolean permitContinue;
 
 	private SortedListModel tally;
+
+	/**
+	 * The main method.  Currently, it instantiates a single instance
+	 * of the <code>KoLmafia</code> client after setting the default
+	 * look and feel of all <code>JFrame</code> objects to decorated.
+	 */
 
 	public static void main( String [] args )
 	{
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
     	KoLmafia session = new KoLmafia();
 	}
+
+	/**
+	 * Constructs a new <code>KoLmafia</code> object.  All data fields
+	 * are initialized to their default values, the global settings
+	 * are loaded from disk, and a <code>LoginFrame</code> is created
+	 * to allow the user to login.
+	 */
 
 	public KoLmafia()
 	{
@@ -74,19 +95,38 @@ public class KoLmafia implements UtilityConstants
 
 		settings = new KoLSettings();
 		logStream = new NullStream();
-		isLogging = false;
 
 		activeFrame = new LoginFrame( this );
 		activeFrame.pack();  activeFrame.setVisible( true );
 		activeFrame.requestFocus();
 	}
 
+	/**
+	 * Returns the currently active frame in the <code>KoLmafia</code>
+	 * session.  This frame is often used in display updates, and is
+	 * therefore made accessible.
+	 *
+	 * @return	the currently active frame in this <code>KoLmafia</code> session
+	 */
+
 	public KoLFrame getActiveFrame()
 	{	return activeFrame;
 	}
 
-	public void initialize()
+	/**
+	 * Initializes the <code>KoLmafia</code> session.  Called after
+	 * the login has been confirmed to notify the client that the
+	 * login was successful, the user-specific settings should be
+	 * loaded, and the user can begin adventuring.
+	 */
+
+	public void initialize( String loginname, String passwordHash, String sessionID )
 	{
+		// Store the initialized variables
+		this.loginname = loginname;
+		this.passwordHash = passwordHash;
+		this.sessionID = sessionID;
+
 		// Begin by loading the user-specific settings.
 		logStream.println( "Loading user settings for " + loginname + "..." );
 		settings = new KoLSettings( loginname );
@@ -124,41 +164,24 @@ public class KoLmafia implements UtilityConstants
 		activeFrame.dispose();
 		activeFrame = null;
 
-		initializeTally();
+		tally = new SortedListModel();
+		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
+		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
+		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
 
 		activeFrame = new AdventureFrame( this, adventures, tally );
 		activeFrame.pack();  activeFrame.setVisible( true );
 		activeFrame.requestFocus();
 	}
 
-	private void initializeTally()
-	{
-		tally = new SortedListModel();
-		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
-		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
-		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
-	}
-
-	private void resetTally()
-	{
-		// When reseting the tally, first remove all the items from
-		// the list (which should appear after the stats, if the
-		// tally is sorted) and then clear the stat gains.
-
-		while ( tally.size() > 3 )
-			tally.remove( 3 );
-
-		for ( int i = 0; i < 3; ++i )
-		{
-			// Because the list won't update itself unless an
-			// event is fired, tally also resets itself in order
-			// to force the list model to fire the appropritate
-			// change event.
-
-			((AdventureResult)tally.get(i)).clear();
-			tally.set( i, tally.get(i) );
-		}
-	}
+	/**
+	 * Utility method to parse an individual adventuring result.
+	 * This method determines what the result actually was and
+	 * adds it to the tally.  Note that at the current time, it
+	 * will ignore anything with the word "points".
+	 *
+	 * @param	result	String to parse for the result
+	 */
 
 	public void parseResult( String result )
 	{
@@ -167,6 +190,9 @@ public class KoLmafia implements UtilityConstants
 		// includes the word "a" or "some"), which causes a NFE or
 		// possibly a ParseException to be thrown.  Catch them and
 		// do nothing (eventhough it's technically bad style).
+
+		if ( result.contains( "point" ) )
+			return;
 
 		try
 		{
@@ -179,6 +205,14 @@ public class KoLmafia implements UtilityConstants
 		}
 	}
 
+	/**
+	 * Utility method used to add an adventure result to the
+	 * tally directly.  This is used whenever the nature of the
+	 * result is already known and no additional parsing is needed.
+	 *
+	 * @param	result	Result to add to the running tally of adventure results
+	 */
+
 	public void addToResultTally( AdventureResult result )
 	{
 		int index = tally.indexOf( result );
@@ -188,6 +222,16 @@ public class KoLmafia implements UtilityConstants
 		else
 			tally.set( index, AdventureResult.add( result, (AdventureResult) tally.get( index ) ) );
 	}
+
+	/**
+	 * Utility method used to notify the client that an adventure
+	 * condition has been updated.  It is used to indicate whether
+	 * or not an adventure was completed successfully, and whether
+	 * or not another adventure is possible.
+	 *
+	 * @param	isComplete	<code>true</code> if the adventure was successfully completed
+	 * @param	permitContinue	<code>true</code> if another adventure is possible
+	 */
 
 	public void updateAdventure( boolean isComplete, boolean permitContinue )
 	{
@@ -199,49 +243,56 @@ public class KoLmafia implements UtilityConstants
 		this.permitContinue &= permitContinue;
 	}
 
-	public void setLoginName( String loginname )
-	{	this.loginname = loginname;
-	}
+	/**
+	 * Retrieves the login name for this <code>KoLmafia</code> session.
+	 * @return	the login name of the current user
+	 */
 
 	public String getLoginName()
 	{	return loginname;
 	}
 
-	public void setPassword( String password )
-	{	this.password = password;
-	}
-
-	public String getPassword()
-	{	return password;
-	}
-
-	public void setSessionID( String sessionID )
-	{	this.sessionID = sessionID;
-	}
+	/**
+	 * Retrieves the session ID for this <code>KoLmafia</code> session.
+	 * @return	the session ID of the current session
+	 */
 
 	public String getSessionID()
 	{	return sessionID;
 	}
 
-	public void setPasswordHash( String passwordHash )
-	{	this.passwordHash = passwordHash;
-	}
+	/**
+	 * Retrieves the password hash for this <code>KoLmafia</code> session.
+	 * @return	the password hash of the current session
+	 */
 
 	public String getPasswordHash()
 	{	return passwordHash;
 	}
 
-	public boolean isLuckyCharacter()
-	{
-		// This is used by the sewer request to see whether or
-		// not the player should adventure.  It may also be used
-		// by other adventures to make sure you're not lucky
-		// before adventuring (which would waste clovers);
-		// until character data is implemented, though, it will
-		// always return true.
+	/**
+	 * Returns whether or not the current user has a ten-leaf clover.
+	 * Because inventory management is not yet implemented, this
+	 * method always returns true.
+	 *
+	 * @return	<code>true</code>
+	 */
 
-		return true;
+	public boolean isLuckyCharacter()
+	{	return true;
 	}
+
+	/**
+	 * Makes the given request for the given number of iterations,
+	 * or until continues are no longer possible, either through
+	 * user cancellation or something occuring which prevents the
+	 * requests from resuming.  Because this method does not create
+	 * new threads, any GUI invoking this method should create a
+	 * separate thread for calling it.
+	 *
+	 * @param	request	The request made by the user
+	 * @param	iterations	The number of times the request should be repeated
+	 */
 
 	public void makeRequest( Runnable request, int iterations )
 	{
@@ -272,16 +323,43 @@ public class KoLmafia implements UtilityConstants
 		}
 	}
 
+	/**
+	 * Cancels the user's current request.  Note that if there are
+	 * no requests running, this method does nothing.
+	 */
+
 	public void cancelRequest()
 	{	this.permitContinue = false;
 	}
+
+	/**
+	 * Retrieves whether or not continuation of an adventure or request
+	 * is permitted by the client, or by current circumstances in-game.
+	 *
+	 * @return	<code>true</code> if requests are allowed to continue
+	 */
 
 	public boolean permitsContinue()
 	{	return permitContinue;
 	}
 
+	/**
+	 * Initializes a stream for logging debugging information.  This
+	 * method creates a <code>KoLmafia.log</code> file in the default
+	 * data directory if one does not exist, or appends to the existing
+	 * log.  This method should only be invoked if the user wishes to
+	 * assist in beta testing because the output is VERY verbose.
+	 */
+
 	public void initializeLogStream()
 	{
+		// First, ensure that a log stream has not already been
+		// initialized - this can be checked by observing what
+		// class the current log stream is.
+
+		if ( logStream instanceof LogStream )
+			return;
+
 		try
 		{
 			File f = new File( DATA_DIRECTORY + "KoLmafia.log" );
@@ -300,15 +378,24 @@ public class KoLmafia implements UtilityConstants
 		}
 	}
 
+	/**
+	 * Retrieves the current settings for the current session.  Note
+	 * that if this is invoked before initialization, this method
+	 * will return the global settings.
+	 *
+	 * @return	The settings for the current session
+	 */
+
 	public KoLSettings getSettings()
 	{	return settings;
 	}
 
+	/**
+	 * Retrieves the stream currently used for logging debug output.
+	 * @return	the stream used for debug output
+	 */
+
 	public PrintStream getLogStream()
 	{	return logStream;
-	}
-
-	public boolean isLogging()
-	{	return isLogging;
 	}
 }

@@ -68,7 +68,6 @@ public class LoginRequest extends KoLRequest
 
 		this.loginname = loginname;
 		this.password = password;
-		client.setSessionID( null );
 
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", loginname );
@@ -88,9 +87,29 @@ public class LoginRequest extends KoLRequest
 		if ( responseCode == 302 && !isErrorState )
 		{
 			// If the login is successful, you set the password hash so that
-			// it can be reused by other parts of the KoLmafia session
+			// it can be reused by other parts of the KoLmafia session.
+			// The password hash is an MD5 digest of the actual value, as
+			// evidenced in KwiKoL's documentation; therefore, compute the
+			// MD5 sum rather than going to a different page to find it.
 
-			setPasswordHash();
+			try
+			{
+				MessageDigest md5 = MessageDigest.getInstance( "MD5" );
+				md5.update( password.getBytes( "ISO-8859-1" ) );
+
+				// Formally initialize the client, now that the password hash
+				// has been calculated
+
+				client.initialize( loginname, new BigInteger( md5.digest() ).toString( 16 ),
+					formConnection.getHeaderField( "Set-Cookie" ) );
+			}
+			catch ( NoSuchAlgorithmException e1 )
+			{
+			}
+			catch ( UnsupportedEncodingException e2 )
+			{
+			}
+
 		}
 		else if ( !isErrorState )
 		{
@@ -99,43 +118,5 @@ public class LoginRequest extends KoLRequest
 
 			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Login failed." );
 		}
-	}
-
-	/**
-	 * Utility method used to calculate and set an MD5 hash
-	 * of the character's password.
-	 */
-
-	private void setPasswordHash()
-	{
-		// When the login is successful, you temporarily update the
-		// login card to reflect this fact and calculate the appropriate
-		// password hash to send in for other activities
-
-		client.setLoginName( loginname );
-		client.setPassword( password );
-		client.setSessionID( formConnection.getHeaderField( "Set-Cookie" ) );
-
-		// The password hash is an MD5 digest of the actual value, as
-		// evidenced in KwiKoL's documentation; therefore, compute the
-		// MD5 sum rather than going to a different page to find it.
-
-		try
-		{
-			MessageDigest md5 = MessageDigest.getInstance( "MD5" );
-			md5.update( client.getPassword().getBytes( "ISO-8859-1" ) );
-			client.setPasswordHash( new BigInteger( md5.digest() ).toString( 16 ) );
-		}
-		catch ( NoSuchAlgorithmException e1 )
-		{
-		}
-		catch ( UnsupportedEncodingException e2 )
-		{
-		}
-
-		// Formally initialize the client, now that the password hash
-		// has been calculated
-
-		client.initialize();
 	}
 }
