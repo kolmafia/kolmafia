@@ -210,9 +210,7 @@ public class LoginFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{
-			updateDisplay( DISABLED_STATE, "Sending login..." );
-			(new LoginRequestThread()).start();
+		{	(new LoginRequestThread()).start();
 		}
 
 		protected void actionCancelled()
@@ -242,8 +240,8 @@ public class LoginFrame extends KoLFrame
 
 			public void run()
 			{
-				String loginname = loginnameField.getText();
-				String password = new String( passwordField.getPassword() );
+				String loginname = loginnameField.getText().trim();
+				String password = new String( passwordField.getPassword() ).trim();
 
 				if ( loginname.equals("") || password.equals("") )
 				{

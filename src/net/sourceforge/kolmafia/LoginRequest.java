@@ -89,6 +89,7 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
+		updateDisplay( KoLFrame.DISABLED_STATE, "Sending login..." );
 		super.run();
 
 		if ( responseCode == 302 && !isErrorState )
