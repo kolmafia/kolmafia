@@ -591,7 +591,9 @@ public class KoLMessenger
 
 			ChatFrame currentFrame = (ChatFrame) instantMessageFrames.get( currentChannel );
 			currentFrame.setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
-			currentFrame.requestFocus();
+
+			if ( !currentFrame.hasFocus() )
+				currentFrame.requestFocus();
 		}
 		else if ( message.indexOf( "<font color=blue>" ) == -1 || noLinksContent.startsWith( "<font color=green>" ) ||
 			(message.indexOf( "<b>from " ) != -1 && message.indexOf( "(private)</b>:" ) == -1) )
