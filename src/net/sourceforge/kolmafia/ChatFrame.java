@@ -62,6 +62,7 @@ import javax.swing.JMenuItem;
 
 // other imports
 import java.util.Calendar;
+import edu.stanford.ejalbert.BrowserLauncher;
 
 /**
  * An extension of <code>KoLFrame</code> used to display the current
@@ -254,6 +255,23 @@ public class ChatFrame extends KoLFrame
 				{
 					KoLMessenger messenger = client.getMessenger();
 					messenger.openInstantMessage( location );
+				}
+				else
+				{
+					// Attempt to open the URL on the system's default
+					// browser.  This could theoretically cause problems,
+					// but for now, let's just do a try-catch and cross
+					// our fingers.
+
+					try
+					{
+						BrowserLauncher.openURL( location );
+					}
+					catch ( java.io.IOException e1 )
+					{
+						client.getLogStream().println( "Failed to open browser:" );
+						client.getLogStream().print( e );
+					}
 				}
 			}
 		}

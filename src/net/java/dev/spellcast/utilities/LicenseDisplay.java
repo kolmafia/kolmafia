@@ -38,7 +38,7 @@ package net.java.dev.spellcast.utilities;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.JTextArea;
+import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
@@ -48,9 +48,9 @@ public class LicenseDisplay extends javax.swing.JFrame
 	private static final int DATA_FILE  = 0;
 	private static final int IMAGE_FILE = 1;
 
-	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif" };
-	private static final int [] LICENSE_FILETYPE = { IMAGE_FILE, IMAGE_FILE };
-	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD" };
+	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
+	private static final int [] LICENSE_FILETYPE = { IMAGE_FILE, IMAGE_FILE, DATA_FILE };
+	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher" };
 
 	public LicenseDisplay( String title )
 	{
@@ -82,9 +82,7 @@ public class LicenseDisplay extends javax.swing.JFrame
 		{
 			case DATA_FILE:
 			{
-				licenseDisplay = new JTextArea( 20, 74 );
-				licenseDisplay.setFont( new java.awt.Font( "Monospaced", java.awt.Font.PLAIN, 12 ) );
-
+				licenseDisplay = new JEditorPane();
 				java.io.BufferedReader buf = DataUtilities.getReaderForSharedDataFile( LICENSE_FILENAME[index] );
 
 				// in the event that the license display could not be found, return a blank
@@ -92,17 +90,16 @@ public class LicenseDisplay extends javax.swing.JFrame
 				if ( buf == null )
 					return getNoLicenseNotice();
 
+				StringBuffer licenseText = new StringBuffer();
 				String line;
 
 				try
 				{
 					while ( (line = buf.readLine()) != null )
-					{
-						((JTextArea)licenseDisplay).append( "  " );
-						((JTextArea)licenseDisplay).append( line );
-						((JTextArea)licenseDisplay).append( System.getProperty( "line.separator" ) );
-					}
+						licenseText.append( line );
 
+					((JEditorPane)licenseDisplay).setContentType( "text/html" );
+					((JEditorPane)licenseDisplay).setText( licenseText.toString() );
 				}
 				catch ( java.io.IOException e )  {}
 				break;
