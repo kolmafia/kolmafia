@@ -315,6 +315,7 @@ public class KoLRequest implements Runnable
 		// Here, if you weren't doing output, translate the form data
 		// into a GET request.
 
+		logStream.println( "Connecting to " + formURLString + "..." );
 		if ( !doOutput && !data.isEmpty() )
 		{
 			formURLBuffer.append( '?' );
