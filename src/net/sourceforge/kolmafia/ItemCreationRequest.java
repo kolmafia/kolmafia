@@ -204,7 +204,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// educated guesses of the results, rather
 		// than the assumption that all things went well.
 
-		AdventureResult item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ) );
+		AdventureResult item = new AdventureResult( itemID, 0 );
 		int index = client.getInventory().indexOf( item );
 		int beforeRequestQuantity = (index == -1) ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount();
 
@@ -248,8 +248,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// quantity that has changed might not be accurate.
 		// Therefore, update with the actual value.
 
-		client.processResult( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[0][0] ), 0 - createdQuantity ) );
-		client.processResult( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[1][0] ), 0 - createdQuantity ) );
+		client.processResult( new AdventureResult( ingredients[0][0], 0 - createdQuantity ) );
+		client.processResult( new AdventureResult( ingredients[1][0], 0 - createdQuantity ) );
 
 		if ( mixingMethod == COMBINE )
 			client.processResult( new AdventureResult( "meat paste", 0 - createdQuantity ) );
