@@ -134,7 +134,7 @@ public class ChatFrame extends KoLFrame
 	}
 
 	/**
-	 * Utility method used to add a menu bar to the <code>AdventureFrame</code>.
+	 * Utility method used to add a menu bar to the <code>ChatFrame</code>.
 	 * The menu bar contains the general license information associated with
 	 * <code>KoLmafia</code> and the ability to save the chat to a log.
 	 */
