@@ -49,8 +49,9 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * involving compatibility (J2SE 1.4 does not support XML output directly),
  * all data is written using {@link java.util.Properties#store(OutputStream,String)}.
  * Files are named according to the following convention: a tilde (<code>~</code>)
- * preceeds the name of the character whose settings this object represents.
- * All global settings are stored in <code>~.dat</code>.
+ * preceeds the name of the character whose settings this object represents,
+ * with the 'kcs' extension (KoLmafia Character Settings).  All global settings
+ * are stored in <code>~.kcs</code>.
  */
 
 public class KoLSettings extends Properties implements UtilityConstants
@@ -79,7 +80,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	{
 		this.characterName = characterName;
 		this.settingsFile = new File( DATA_DIRECTORY + "~" +
-			this.characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ) + ".dat" );
+			this.characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ) + ".kcs" );
 		loadSettings( this.settingsFile );
 	}
 
@@ -117,8 +118,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 				// a character's settings, load them from the
 				// default file.
 
-				if ( !source.getName().equals( "~.xml" ) )
-					loadSettings( new File( DATA_DIRECTORY + "~.xml" ) );
+				if ( !source.getName().equals( "~.kcs" ) )
+					loadSettings( new File( DATA_DIRECTORY + "~.kcs" ) );
 				else
 				{
 					setProperty( "loginServer", "0" );
