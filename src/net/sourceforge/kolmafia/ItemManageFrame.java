@@ -62,6 +62,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 // other imports
+import java.util.List;
 import java.text.ParseException;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -589,7 +590,18 @@ public class ItemManageFrame extends KoLFrame
 	public void refreshConcoctionsList()
 	{
 		concoctions.clear();
-		concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, client.getInventory() ) );
+
+		List materialsList = (List) client.getInventory().clone();
+		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
+
+		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
+		{
+			List closetList = (List) client.getCloset();
+			for ( int i = 0; i < closetList.size(); ++i )
+				AdventureResult.addResultToList( materialsList, (AdventureResult) closetList.get(i) );
+		}
+
+		concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, materialsList ) );
 	}
 
 	/**
@@ -665,6 +677,9 @@ public class ItemManageFrame extends KoLFrame
 						selection.setQuantityNeeded( creationCount );
 						selection.run();
 					}
+
+					if ( client.permitsContinue() )
+						updateDisplay( ENABLED_STATE, "Item creation complete." );
 				}
 				catch ( Exception e )
 				{

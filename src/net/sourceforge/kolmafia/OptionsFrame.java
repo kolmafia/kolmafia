@@ -424,8 +424,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				String battleSettings = (client == null) ? null :
-					settings.getProperty( "battleAction" );
+				String battleSettings = settings.getProperty( "battleAction" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
@@ -672,6 +671,7 @@ public class OptionsFrame extends KoLFrame
 		private JTextField defaultLimitField;
 		private JComboBox forceSortSelect;
 		private JComboBox promptForPriceSelect;
+		private JComboBox useClosetForCreationSelect;
 
 		public ResultsOptionsPanel()
 		{
@@ -691,10 +691,17 @@ public class OptionsFrame extends KoLFrame
 
 			promptForPriceSelect = new JComboBox( promptForPrices );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			LockableListModel useClosetForCreation = new LockableListModel();
+			useClosetForCreation.add( "Inventory only" );
+			useClosetForCreation.add( "Closet and inventory" );
+
+			useClosetForCreationSelect = new JComboBox( useClosetForCreation );
+
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Default Limit: ", defaultLimitField );
 			elements[1] = new VerifiableElement( "Sorting Style: ", forceSortSelect );
 			elements[2] = new VerifiableElement( "Automall Style: ", promptForPriceSelect );
+			elements[3] = new VerifiableElement( "Ingredient Source: ", useClosetForCreationSelect );
 
 			setContent( elements );
 		}
@@ -717,14 +724,10 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				String defaultLimitSetting = (client == null) ? null :
-					settings.getProperty( "defaultLimit" );
-
-				String forceSortSetting = (client == null) ? null :
-					settings.getProperty( "forceSorting" );
-
-				String promptForPriceSetting = (client == null) ? null :
-					settings.getProperty( "promptForPrice" );
+				String defaultLimitSetting = settings.getProperty( "defaultLimit" );
+				String forceSortSetting = settings.getProperty( "forceSorting" );
+				String promptForPriceSetting = settings.getProperty( "promptForPrice" );
+				String useClosetForCreationSetting = settings.getProperty( "useClosetForCreation" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
@@ -740,6 +743,11 @@ public class OptionsFrame extends KoLFrame
 					promptForPriceSelect.setSelectedIndex( 0 );
 				else
 					promptForPriceSelect.setSelectedIndex( 1 );
+
+				if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) )
+					useClosetForCreationSelect.setSelectedIndex( 0 );
+				else
+					useClosetForCreationSelect.setSelectedIndex( 1 );
 
 				(new StatusMessageChanger( "" )).run();
 			}
@@ -758,6 +766,7 @@ public class OptionsFrame extends KoLFrame
 				settings.setProperty( "defaultLimit", defaultLimitField.getText().length() == 0 ? "13" : defaultLimitField.getText() );
 				settings.setProperty( "forceSorting", "" + (forceSortSelect.getSelectedIndex() == 1) );
 				settings.setProperty( "promptForPrice", "" + (promptForPriceSelect.getSelectedIndex() == 0) );
+				settings.setProperty( "useClosetForCreation", "" + (useClosetForCreationSelect.getSelectedIndex() == 1) );
 				saveSettings();
 			}
 		}

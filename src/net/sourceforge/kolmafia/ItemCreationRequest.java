@@ -205,8 +205,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// educated guesses of the results, rather
 		// than the assumption that all things went well.
 
-		int index = client.getInventory().indexOf( new AdventureResult( TradeableItemDatabase.getItemName( itemID ) ) );
+		AdventureResult item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ) );
+		int index = client.getInventory().indexOf( item );
 		int beforeRequestQuantity = (index == -1) ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount();
+		updateDisplay( KoLFrame.NOCHANGE_STATE, "Creating " + item.getName() + " (" + quantityNeeded + ")..." );
 
 		super.run();
 
@@ -224,7 +226,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		processResults( replyContent );
 
-		index = client.getInventory().indexOf( new AdventureResult( TradeableItemDatabase.getItemName( itemID ) ) );
+		index = client.getInventory().indexOf( item );
 		int createdQuantity =
 			((index == -1) ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount()) - beforeRequestQuantity;
 
@@ -248,7 +250,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_PASTA:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
 				{
-					client.updateDisplay( KoLFrame.ENABLED_STATE, "Chef explosion!" );
+					updateDisplay( KoLFrame.ENABLED_STATE, "Chef explosion!" );
 					client.getCharacterData().setChef( false );
 					client.cancelRequest();
 				}
@@ -258,7 +260,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case MIX_SPECIAL:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
 				{
-					client.updateDisplay( KoLFrame.ENABLED_STATE, "Bartender explosion!" );
+					updateDisplay( KoLFrame.ENABLED_STATE, "Bartender explosion!" );
 					client.getCharacterData().setBartender( false );
 					client.cancelRequest();
 				}
@@ -278,7 +280,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private void makeIngredient( int ingredientID, int mixingMethod, boolean makeDouble )
 	{
 		List inventory = client.getInventory();
-		int index = inventory.indexOf( new AdventureResult( TradeableItemDatabase.getItemName( ingredientID ), 0 ) );
+		AdventureResult ingredient = new AdventureResult( TradeableItemDatabase.getItemName( ingredientID ), 0 );
+
+		int index = inventory.indexOf( ingredient );
 		int currentQuantity = (index == -1) ? 0 : ((AdventureResult)inventory.get( index )).getCount();
 
 		int actualQuantityNeeded = (makeDouble ? quantityNeeded << 1 : quantityNeeded) - currentQuantity;
@@ -295,7 +299,34 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				( actualQuantityNeeded > 1 ) ? 10 : 1;
 
 		if ( actualQuantityNeeded > 0 )
-			(new ItemCreationRequest( client, ingredientID, mixingMethod, actualQuantityNeeded )).run();
+		{
+			// Now, if you are to retrieve an item from the closet, this is where
+			// that retrieval would be done.
+
+			String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
+			if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
+			{
+				List closet = client.getCloset();
+				index = closet.indexOf( ingredient );
+
+				if ( index != -1 )
+				{
+					AdventureResult [] retrieval = new AdventureResult[1];
+					retrieval[0] = new AdventureResult( ingredient.getName(),
+						Math.min( actualQuantityNeeded, ((AdventureResult)closet.get( index )).getCount() ) );
+
+					updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving " + retrieval[0].toString() + " from closet..." );
+					(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, retrieval )).run();
+					actualQuantityNeeded -= retrieval[0].getCount();
+				}
+			}
+
+			// If more items are still needed, then initiate a request to retrieve
+			// those items from the closet
+
+			if ( actualQuantityNeeded > 0 )
+				(new ItemCreationRequest( client, ingredientID, mixingMethod, actualQuantityNeeded )).run();
+		}
 	}
 
 	/**
