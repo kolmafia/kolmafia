@@ -382,6 +382,7 @@ public class OptionsFrame extends KoLFrame
 		private LockableListModel actionNames;
 
 		private JComboBox actionSelect;
+		private JComboBox hpAutoFleeSelect;
 		private JComboBox hpAutoRecoverSelect;
 		private JTextField hpRecoveryScriptField;
 
@@ -403,6 +404,13 @@ public class OptionsFrame extends KoLFrame
 
 			actionSelect = new JComboBox( actionNames );
 
+			LockableListModel hpAutoFlee = new LockableListModel();
+			hpAutoFlee.add( "Never run from combat" );
+			for ( int i = 1; i <= 9; ++i )
+				hpAutoFlee.add( "Autoflee at " + (i*10) + "% HP" );
+
+			hpAutoFleeSelect = new JComboBox( hpAutoFlee );
+
 			LockableListModel hpAutoRecover = new LockableListModel();
 			hpAutoRecover.add( "Do not autorecover HP" );
 			for ( int i = 0; i <= 9; ++i )
@@ -419,10 +427,11 @@ public class OptionsFrame extends KoLFrame
 			hpRecoveryScriptButton.addActionListener( new hpRecoveryScriptSelectListener() );
 			hpRecoveryScriptPanel.add( hpRecoveryScriptButton, BorderLayout.EAST );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Battle Style: ", actionSelect );
-			elements[1] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
-			elements[2] = new VerifiableElement( "HP Recovery Script: ", hpRecoveryScriptPanel );
+			elements[1] = new VerifiableElement( "Lion Roar Setting: ", hpAutoFleeSelect );
+			elements[2] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
+			elements[3] = new VerifiableElement( "HP Recovery Script: ", hpRecoveryScriptPanel );
 
 			setContent( elements );
 		}
@@ -446,6 +455,7 @@ public class OptionsFrame extends KoLFrame
 			public void run()
 			{
 				String battleSettings = settings.getProperty( "battleAction" );
+				String hpAutoFleeSettings = settings.getProperty( "hpAutoFlee" );
 				String hpAutoRecoverSettings = settings.getProperty( "hpAutoRecover" );
 				String hpRecoveryScriptSettings = settings.getProperty( "hpRecoveryScript" );
 
@@ -453,6 +463,8 @@ public class OptionsFrame extends KoLFrame
 				// attempt at loading them.
 
 				actionNames.setSelectedIndex( battleSettings == null ? 0 : actions.indexOf( battleSettings ) );
+				hpAutoFleeSelect.setSelectedIndex( hpAutoFleeSettings == null ? 0 :
+					(int)(Double.parseDouble( hpAutoFleeSettings ) * 10) );
 				hpAutoRecoverSelect.setSelectedIndex( hpAutoRecoverSettings == null ? 0 :
 					(int)(Double.parseDouble( hpAutoRecoverSettings ) * 10) + 1 );
 				hpRecoveryScriptField.setText( hpRecoveryScriptSettings == null ? "" : hpRecoveryScriptSettings );
@@ -471,6 +483,7 @@ public class OptionsFrame extends KoLFrame
 			public void run()
 			{
 				settings.setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
+				settings.setProperty( "hpAutoFlee", "" + ((double)(hpAutoFleeSelect.getSelectedIndex()) / 10.0) );
 				settings.setProperty( "hpAutoRecover", "" + ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) );
 				settings.setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
 				saveSettings();

@@ -62,11 +62,25 @@ public class FightRequest extends KoLRequest
 		super( client, "fight.php" );
 		this.roundCount = roundCount;
 
-		// For now, there will not be any attempts to handle
-		// special skills - the user will simply attack.
 
-		addFormField( "action", client.getCharacterData().getCurrentMP() == 0 ? "attack" :
-			client.getSettings().getProperty( "battleAction" ) );
+		// Now, to test if the user should run away from the
+		// battle - this is an HP test.
+
+		String hpAutoFleeSettings = client.getSettings().getProperty( "hpAutoFlee" );
+		int fleeTolerance = hpAutoFleeSettings == null ? 0 :
+			(int)( Double.parseDouble( hpAutoFleeSettings ) * (double) client.getCharacterData().getMaximumHP() );
+
+		if ( fleeTolerance == 0 )
+			fleeTolerance = -1;
+
+		// For now, there will not be any attempts to handle
+		// special skills - the user will simply attack, use
+		// a moxious maneuver, or run away.
+
+		addFormField( "action",
+			client.getCharacterData().getCurrentHP() <= fleeTolerance ? "runaway" :
+				client.getCharacterData().getCurrentMP() == 0 ? "attack" :
+					client.getSettings().getProperty( "battleAction" ) );
 	}
 
 	/**

@@ -696,6 +696,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public void deinitializeLogStream()
 	{
+		logStream.close();
 		logStream = new NullStream();
 	}
 
