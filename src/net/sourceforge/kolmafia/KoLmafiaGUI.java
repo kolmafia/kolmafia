@@ -185,4 +185,10 @@ public class KoLmafiaGUI extends KoLmafia
 		super.deinitializeBuffBot();
 		activeFrame.setVisible( true );
 	}
+
+	public void makeRequest( Runnable request, int iterations )
+	{
+		super.makeRequest( request, iterations );
+		((AdventureFrame)activeFrame).refreshConcoctionsList();
+	}
 }

@@ -574,7 +574,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 * @param	iterations	The number of times the request should be repeated
 	 */
 
-	public final void makeRequest( Runnable request, int iterations )
+	public void makeRequest( Runnable request, int iterations )
 	{
 		try
 		{

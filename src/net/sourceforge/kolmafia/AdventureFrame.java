@@ -247,6 +247,10 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
+	public void refreshConcoctionsList()
+	{	itemManager.refreshConcoctionsList();
+	}
+
 	/**
 	 * Auxilary method used to enable and disable a frame.  By default,
 	 * this attempts to toggle the enable/disable status on all tabs
@@ -488,11 +492,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 					{
 						client.getSettings().setProperty( "lastAdventure", request.toString() );
 						client.getSettings().saveSettings();
-
 						client.makeRequest( request, count );
-
-						if ( itemManager != null )
-							itemManager.refreshConcoctionsList();
 					}
 				}
 				catch ( ParseException e )
@@ -733,6 +733,8 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 							if ( client.permitsContinue() )
 								results.remove( purchases[i] );
+
+							refreshConcoctionsList();
 						}
 					}
 				}
@@ -743,9 +745,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 					// Using exceptions for flow control is bad style, but
 					// this will be fixed once we add functionality.
 				}
-
-				if ( itemManager != null )
-					itemManager.refreshConcoctionsList();
 
 				if ( client.permitsContinue() )
 					updateDisplay( ENABLED_STATE, "Purchases complete." );

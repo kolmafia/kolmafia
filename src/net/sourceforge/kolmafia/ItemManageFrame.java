@@ -239,7 +239,6 @@ public class ItemManageFrame extends KoLFrame
 					for ( int i = 0; i < items.length; ++i )
 						consumeItem( (AdventureResult) items[i] );
 
-					refreshConcoctionsList();
 					ItemManageFrame.this.setEnabled( true );
 				}
 
@@ -372,7 +371,6 @@ public class ItemManageFrame extends KoLFrame
 					for ( int i = 0; !finishedSelling && i < items.length; ++i )
 						sell( (AdventureResult) items[i] );
 
-					refreshConcoctionsList();
 					client.updateDisplay( ENABLED_STATE, " " );
 					ItemManageFrame.this.setEnabled( true );
 				}
@@ -560,7 +558,6 @@ public class ItemManageFrame extends KoLFrame
 				else
 					client.makeRequest( new ItemStorageRequest( client, moveType, items ), 1 );
 
-				refreshConcoctionsList();
 				client.updateDisplay( ENABLED_STATE, " " );
 				ItemManageFrame.this.setEnabled( true );
 			}
@@ -679,7 +676,6 @@ public class ItemManageFrame extends KoLFrame
 					// this will be fixed once we add functionality.
 				}
 
-				refreshConcoctionsList();
 				client.updateDisplay( ENABLED_STATE, " " );
 				ItemManageFrame.this.setEnabled( true );
 			}
