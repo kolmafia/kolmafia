@@ -548,7 +548,7 @@ public class AdventureFrame extends KoLFrame
 
 				try
 				{
-					int maxPerStore = countField.getText().trim().length() == 0 ? Integer.MAX_VALUE :
+					int maxPerStore = maxPerStoreField.getText().trim().length() == 0 ? Integer.MAX_VALUE :
 						Integer.parseInt( maxPerStoreField.getText() );
 
 					MallPurchaseRequest currentRequest;
