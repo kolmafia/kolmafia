@@ -54,7 +54,7 @@ public class AdventureResult implements Comparable
 	private String resultName;
 	private int resultPriority;
 
-	private static DecimalFormat df = new DecimalFormat();
+	private static final DecimalFormat df = new DecimalFormat();
 
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Stats";

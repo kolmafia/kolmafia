@@ -65,7 +65,7 @@ import java.text.DecimalFormat;
 
 public class KoLRequest implements Runnable
 {
-	private static DecimalFormat df = new DecimalFormat();
+	protected static final DecimalFormat df = new DecimalFormat();
 	private static String KOL_ROOT = "http://www.kingdomofloathing.com/";
 	static
 	{	applySettings();
