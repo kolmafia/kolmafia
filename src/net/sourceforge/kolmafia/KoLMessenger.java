@@ -145,8 +145,9 @@ public class KoLMessenger
 		if ( frameToRemove != null && frameToRemove.isShowing() )
 			frameToRemove.setVisible( false );
 
-		if ( contact.startsWith( "/" ) && !contact.equals( currentChannel ) && frameToRemove != null && !frameToRemove.getTitle().endsWith( "(inactive)" ) )
-			(new ChatRequest( client, contact, "/listen " + contact.substring(1) )).run();
+		if ( contact.startsWith( "/" ) && currentChannel != null && !contact.equals( currentChannel ) &&
+			frameToRemove != null &&!frameToRemove.getTitle().endsWith( "(inactive)" ) )
+				(new ChatRequest( client, contact, "/listen " + contact.substring(1) )).run();
 
 		if ( frameToRemove != null )
 			frameToRemove.dispose();
@@ -155,7 +156,10 @@ public class KoLMessenger
 			bufferToRemove.closeActiveLogFile();
 
 		if ( contact.equals( currentChannel ) )
+		{
+			currentChannel = null;
 			client.deinitializeChat();
+		}
 	}
 
 	/**
