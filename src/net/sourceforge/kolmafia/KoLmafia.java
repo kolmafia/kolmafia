@@ -412,7 +412,9 @@ public class KoLmafia implements UtilityConstants
 
 			for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 			{
-				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
+				if ( request instanceof KoLAdventure )
+					activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
+
 				request.run();
 
 				// Make sure you only decrement iterations if the
@@ -424,7 +426,7 @@ public class KoLmafia implements UtilityConstants
 					--iterationsRemaining;
 			}
 
-			if ( iterationsRemaining <= 0 )
+			if ( iterationsRemaining <= 0 && request instanceof KoLAdventure )
 				activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
 		}
 		catch ( RuntimeException e )
