@@ -56,8 +56,8 @@ public class SewerRequest extends KoLRequest
 
 	public SewerRequest( KoLmafia client, boolean isLuckySewer )
 	{
-		super( client, isLuckySewer || client.isLuckyCharacter() ? "luckysewer.php" : "adventure.php" );
-		this.isLuckySewer = isLuckySewer || client.isLuckyCharacter();
+		super( client, isLuckySewer ? "luckysewer.php" : "adventure.php" );
+		this.isLuckySewer = isLuckySewer;
 
 		if ( !this.isLuckySewer )
 			addFormField( "adv", "12" );
@@ -126,7 +126,11 @@ public class SewerRequest extends KoLRequest
 		super.run();
 
 		if ( isErrorState || responseCode != 200 )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "You have a ten-leaf clover." );
+			client.cancelRequest();
 			return;
+		}
 
 		if ( replyContent.indexOf( "acquire" ) == -1 )
 		{
