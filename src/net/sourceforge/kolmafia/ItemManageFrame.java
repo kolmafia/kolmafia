@@ -43,6 +43,9 @@ import java.awt.BorderLayout;
 
 // event listeners
 import javax.swing.ListSelectionModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 // containers
 import javax.swing.JList;
@@ -54,6 +57,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 // other imports
@@ -106,9 +111,22 @@ public class ItemManageFrame extends KoLFrame
 		getContentPane().add( tabs, "" );
 		addWindowListener( new ReturnFocusAdapter() );
 
+		addMenuBar();
+	}
+
+	private void addMenuBar()
+	{
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
-		addConfigureMenu( menuBar );
+
+		JMenu fileMenu = new JMenu("File");
+		fileMenu.setMnemonic( KeyEvent.VK_F );
+		menuBar.add( fileMenu );
+
+		JMenuItem refreshItem = new JMenuItem( "Refresh Lists", KeyEvent.VK_R );
+		refreshItem.addActionListener( new ListRefreshListener() );
+		fileMenu.add( refreshItem );
+
 		addHelpMenu( menuBar );
 	}
 
@@ -219,28 +237,29 @@ public class ItemManageFrame extends KoLFrame
 				{
 					ItemManageFrame.this.setEnabled( false );
 					Object [] items = usableItemList.getSelectedValues();
-					AdventureResult currentItem;  Runnable request;
 
+					for ( int i = 0; i < items.length; ++i )
+						consumeItem( (AdventureResult) items[i] );
+
+					refreshConcoctionsList();
+					updateDisplay( ENABLED_STATE, "" );
+					ItemManageFrame.this.setEnabled( true );
+				}
+
+				private void consumeItem( AdventureResult currentItem )
+				{
 					try
 					{
-						String itemName;
-						int consumptionType;
-						int consumptionCount;
+						String itemName = currentItem.getName();
+						int consumptionType = TradeableItemDatabase.getConsumptionType( itemName );
+						int consumptionCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
+							"Using multiple " + itemName + "..." ) ).intValue() : 1;
 
-						for ( int i = 0; i < items.length; ++i )
-						{
-							currentItem = (AdventureResult) items[i];
-							itemName = currentItem.getName();
-							consumptionType = TradeableItemDatabase.getConsumptionType( itemName );
+						if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
+							(new ConsumeItemRequest( client, consumptionType, itemName, consumptionCount )).run();
+						else
+							client.makeRequest( new ConsumeItemRequest( client, consumptionType, itemName, 1 ), consumptionCount );
 
-							consumptionCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
-								"Using multiple " + itemName + "..." ) ).intValue() : 1;
-
-							if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
-								(new ConsumeItemRequest( client, consumptionType, itemName, consumptionCount )).run();
-							else
-								client.makeRequest( new ConsumeItemRequest( client, consumptionType, itemName, 1 ), consumptionCount );
-						}
 					}
 					catch ( Exception e )
 					{
@@ -249,10 +268,6 @@ public class ItemManageFrame extends KoLFrame
 						// Using exceptions for flow control is bad style, but
 						// this will be fixed once we add functionality.
 					}
-
-					refreshConcoctionsList();
-					updateDisplay( ENABLED_STATE, "" );
-					ItemManageFrame.this.setEnabled( true );
 				}
 			}
 		}
@@ -359,26 +374,27 @@ public class ItemManageFrame extends KoLFrame
 					AdventureResult currentItem;
 
 					for ( int i = 0; i < items.length; ++i )
-					{
-						currentItem = (AdventureResult) items[i];
-
-						switch ( sellType )
-						{
-							case AutoSellRequest.AUTOSELL:
-								updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getName() + "..." );
-								break;
-
-							case AutoSellRequest.AUTOMALL:
-								updateDisplay( DISABLED_STATE, "Placing " + currentItem.getName() + " in the mall..." );
-								break;
-						}
-
-						(new AutoSellRequest( client, sellType, currentItem )).run();
-					}
+						sell( (AdventureResult) items[i] );
 
 					refreshConcoctionsList();
 					updateDisplay( ENABLED_STATE, "" );
 					ItemManageFrame.this.setEnabled( true );
+				}
+
+				private void sell( AdventureResult currentItem )
+				{
+					switch ( sellType )
+					{
+						case AutoSellRequest.AUTOSELL:
+							updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getName() + "..." );
+							break;
+
+						case AutoSellRequest.AUTOMALL:
+							updateDisplay( DISABLED_STATE, "Placing " + currentItem.getName() + " in the mall..." );
+							break;
+					}
+
+					(new AutoSellRequest( client, sellType, currentItem )).run();
 				}
 			}
 		}
@@ -545,8 +561,6 @@ public class ItemManageFrame extends KoLFrame
 	{
 		concoctions.clear();
 		concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, client.getInventory() ) );
-		if ( !concoctions.contains( AdventureResult.LAST_ELEMENT ) )
-			concoctions.add( AdventureResult.LAST_ELEMENT );
 	}
 
 	/**
@@ -561,7 +575,7 @@ public class ItemManageFrame extends KoLFrame
 
 		public CreateItemPanel()
 		{
-			super( "create", "refresh lists" );
+			super( "create one", "create #" );
 			setContent( null, null, null, null, true, true );
 
 			concoctionsList = new JList( concoctions.getMirrorImage() );
@@ -580,11 +594,11 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new ItemCreationRequestThread()).start();
+		{	(new ItemCreationRequestThread(false)).start();
 		}
 
 		public void actionCancelled()
-		{	(new RefreshListsRequestThread()).start();
+		{	(new ItemCreationRequestThread(true)).start();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -595,8 +609,13 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ItemCreationRequestThread extends Thread
 		{
-			public ItemCreationRequestThread()
-			{	setDaemon( true );
+			private boolean useMultiple;
+
+			public ItemCreationRequestThread( boolean useMultiple )
+			{
+				super( "Create-Item-Thread" );
+				setDaemon( true );
+				this.useMultiple = useMultiple;
 			}
 
 			public void run()
@@ -604,21 +623,47 @@ public class ItemManageFrame extends KoLFrame
 				updateDisplay( DISABLED_STATE, "Creating item..." );
 				ItemManageFrame.this.setEnabled( false );
 
-				Object selection = concoctionsList.getSelectedValue();
+				ItemCreationRequest selection = (ItemCreationRequest) concoctionsList.getSelectedValue();
 
-				if ( selection != null )
-					((Runnable)selection).run();
+				try
+				{
+					String itemName = selection.getName();
+					int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
+						"Creating multiple " + itemName + "..." ) ).intValue() : 1;
+
+					if ( creationCount > 0 )
+					{
+						selection.setQuantityNeeded( creationCount );
+						selection.run();
+					}
+				}
+				catch ( Exception e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
 
 				refreshConcoctionsList();
 				updateDisplay( ENABLED_STATE, "" );
 				ItemManageFrame.this.setEnabled( true );
 			}
 		}
+	}
 
-		private class RefreshListsRequestThread extends Thread
+	private class ListRefreshListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new ListRefreshThread()).start();
+		}
+
+		private class ListRefreshThread extends Thread
 		{
-			public RefreshListsRequestThread()
-			{	setDaemon( true );
+			public ListRefreshThread()
+			{
+				super( "List-Refresh-Thread" );
+				setDaemon( true );
 			}
 
 			public void run()
