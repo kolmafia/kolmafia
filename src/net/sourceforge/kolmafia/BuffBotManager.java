@@ -191,7 +191,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			Object [] inbox = getMessages( "Inbox" ).toArray();
 			deleteList.clear();  saveList.clear();
 			if (inbox.length > 0) buffbotLog.timeStampedLogEntry("Mail received.<br>\n");
-			for ( int i = inbox.length - 1; client.isBuffBotActive() && i >= 0; --i )
+			for ( int i = inbox.length - 1; i >= 0; --i )
 			{
 				client.resetContinueState();
 				if ( !processMessage( (KoLMailMessage) inbox[i] ) )
