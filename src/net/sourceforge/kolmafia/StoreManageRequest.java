@@ -54,7 +54,7 @@ public class StoreManageRequest extends KoLRequest
 		this.isPriceManagement = false;
 	}
 
-	public StoreManageRequest( KoLmafia client, int [] itemID, int [] price, int [] limit )
+	public StoreManageRequest( KoLmafia client, int [] itemID, int [] prices, int [] limits )
 	{
 		super( client, "manageprices.php" );
 		addFormField( "action", "update" );
@@ -63,8 +63,8 @@ public class StoreManageRequest extends KoLRequest
 
 		for ( int i = 0; i < itemID.length; ++i )
 		{
-			addFormField( "price" + itemID[i], "" + price[i] );
-			addFormField( "limit" + itemID[i], "" + limit[i] );
+			addFormField( "price" + itemID[i], "" + prices[i] );
+			addFormField( "limit" + itemID[i], "" + limits[i] );
 		}
 	}
 
