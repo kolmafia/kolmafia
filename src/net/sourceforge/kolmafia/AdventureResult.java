@@ -50,9 +50,15 @@ import java.text.DecimalFormat;
 
 public class AdventureResult implements Comparable
 {
-	private int [] resultCount;
-	private String resultName;
-	private int resultPriority;
+	private int [] count;
+	private String name;
+	private int priority;
+
+	private static final int MEAT_PRIORITY = 0;
+	private static final int SUBSTAT_PRIORITY = 1;
+	private static final int DIVIDER_PRIORITY = 2;
+	private static final int ITEM_PRIORITY = 3;
+	private static final int LASTELEM_PRIORITY = 4;
 
 	private static final DecimalFormat df = new DecimalFormat();
 
@@ -60,8 +66,8 @@ public class AdventureResult implements Comparable
 	public static final String SUBSTATS = "Stats";
 	public static final String DIVIDER = "";
 
-	public static final AdventureResult LAST_ELEMENT = new AdventureResult( DIVIDER, 0 );
-	static { LAST_ELEMENT.resultPriority = 4; }
+	public static final AdventureResult LAST_ELEMENT =
+		new AdventureResult( DIVIDER, new int[1], LASTELEM_PRIORITY );
 
 	private static List MUS_SUBSTAT = new ArrayList();
 	private static List MYS_SUBSTAT = new ArrayList();
@@ -79,11 +85,11 @@ public class AdventureResult implements Comparable
 	 * The amount of gain will default to zero.  This constructor should
 	 * only be used for initializing a field.
 	 *
-	 * @param	resultName	The name of the result
+	 * @param	name	The name of the result
 	 */
 
-	public AdventureResult( String resultName )
-	{	this( resultName, resultName.equals(SUBSTATS) ? new int[3] : new int[1] );
+	public AdventureResult( String name )
+	{	this( name, name.equals(SUBSTATS) ? new int[3] : new int[1] );
 	}
 
 	/**
@@ -91,16 +97,14 @@ public class AdventureResult implements Comparable
 	 * which increased/decreased by the given value.  This constructor
 	 * should be used for most results.
 	 *
-	 * @param	resultName	The name of the result
-	 * @param	resultCount	How many of the noted result were gained
+	 * @param	name	The name of the result
+	 * @param	count	How many of the noted result were gained
 	 */
 
-	public AdventureResult( String resultName, int resultCount )
+	public AdventureResult( String name, int count )
 	{
-		this.resultName = resultName;
-		this.resultCount = new int[1];
-		this.resultCount[0] = resultCount;
-		this.resultPriority = resultName.equals(MEAT) ? 0 : resultName.equals(SUBSTATS) ? 1 : resultName.equals(DIVIDER) ? 2 : 3;
+		this( name, new int[1] );
+		this.count[0] = count;
 	}
 
 	/**
@@ -108,17 +112,38 @@ public class AdventureResult implements Comparable
 	 * and increase in stat gains.  This method is used internally to
 	 * represent stat gains, and potentially health and mana gains in
 	 * future versions.
+	 *
+	 * @param	name	The name of the result
+	 * @param	count	How many of the noted result were gained
 	 */
 
-	private AdventureResult( String resultName, int [] resultCount )
+	private AdventureResult( String name, int [] count )
 	{
-		this.resultName = resultName;
-		this.resultCount = new int[ resultCount.length ];
+		this( name, count,
+			name.equals(MEAT) ? MEAT_PRIORITY :
+			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
+			name.equals(DIVIDER) ? DIVIDER_PRIORITY : ITEM_PRIORITY );
+	}
 
-		for ( int i = 0; i < resultCount.length; ++i )
-			this.resultCount[i] = resultCount[i];
+	/**
+	 * Constructs a new <code>AdventureResult</code> with the given name
+	 * and increase in stat gains.  This also manually sets the priority
+	 * of the element to the given value.  This method is used internally.
+	 *
+	 * @param	name	The name of the result
+	 * @param	count	How many of the noted result were gained
+	 * @param	priority	The priority of this result
+	 */
 
-		this.resultPriority = resultName.equals(MEAT) ? 0 : resultName.equals(SUBSTATS) ? 1 : resultName.equals(DIVIDER) ? 2 : 3;
+	private AdventureResult( String name, int [] count, int priority )
+	{
+		this.name = name;
+		this.count = new int[ count.length ];
+
+		for ( int i = 0; i < count.length; ++i )
+			this.count[i] = count[i];
+
+		this.priority = priority;
 	}
 
 	/**
@@ -129,7 +154,7 @@ public class AdventureResult implements Comparable
 	 */
 
 	public boolean isItem()
-	{	return !resultName.equals( SUBSTATS ) && !resultName.equals( MEAT ) && !resultName.equals( DIVIDER );
+	{	return priority == 3;
 	}
 
 	/**
@@ -137,8 +162,8 @@ public class AdventureResult implements Comparable
 	 * @return	The name of the result
 	 */
 
-	public String getResultName()
-	{	return resultName;
+	public String getName()
+	{	return name;
 	}
 
 	/**
@@ -150,11 +175,11 @@ public class AdventureResult implements Comparable
 	 * @return	The amount associated with this result
 	 */
 
-	public int getResultCount()
+	public int getCount()
 	{
 		int totalCount = 0;
-		for ( int i = 0; i < resultCount.length; ++i )
-			totalCount += resultCount[i];
+		for ( int i = 0; i < count.length; ++i )
+			totalCount += count[i];
 		return totalCount;
 	}
 
@@ -221,11 +246,11 @@ public class AdventureResult implements Comparable
 
 	public String toString()
 	{
-		return resultName.equals(MEAT) ? " Meat: " + df.format(resultCount[0]) :
-			resultName.equals(SUBSTATS) ? " Substats: " + df.format(resultCount[0]) + " / " + df.format(resultCount[1]) + " / " + df.format(resultCount[2]) :
-			resultName.equals(DIVIDER) ? DIVIDER :
-			" " + resultName.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
-				((resultCount[0] == 1) ? "" : (" (" + df.format(resultCount[0]) + ")"));
+		return name.equals(MEAT) ? " Meat: " + df.format(count[0]) :
+			name.equals(SUBSTATS) ? " Substats: " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]) :
+			name.equals(DIVIDER) ? DIVIDER :
+			" " + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
+				((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
 	}
 
 	/**
@@ -243,7 +268,7 @@ public class AdventureResult implements Comparable
 		if ( !(o instanceof AdventureResult) || o == null )
 			return false;
 
-		return resultName.equals( ((AdventureResult)o).resultName );
+		return name.equals( ((AdventureResult)o).name );
 	}
 
 	/**
@@ -259,8 +284,8 @@ public class AdventureResult implements Comparable
 
 		AdventureResult ar = (AdventureResult) o;
 
-		int priorityDifference = resultPriority - ar.resultPriority;
-		return priorityDifference != 0 ? priorityDifference : resultName.compareToIgnoreCase( ar.resultName );
+		int priorityDifference = priority - ar.priority;
+		return priorityDifference != 0 ? priorityDifference : name.compareToIgnoreCase( ar.name );
 	}
 
 	/**
@@ -287,7 +312,7 @@ public class AdventureResult implements Comparable
 		// to zero - if it did, then remove the item from the list.
 
 		AdventureResult netWorth = (AdventureResult) tally.get( index );
-		if ( netWorth.isItem() && netWorth.getResultCount() == 0 )
+		if ( netWorth.isItem() && netWorth.getCount() == 0 )
 			tally.remove( netWorth );
 	}
 
@@ -311,17 +336,17 @@ public class AdventureResult implements Comparable
 		if ( right == null )
 			return left;
 
-		if ( !left.resultName.equals( right.resultName ) )
+		if ( !left.name.equals( right.name ) )
 			return null;
 
-		if ( left.resultCount.length == 1 )
-			return new AdventureResult( left.resultName, left.resultCount[0] + right.resultCount[0] );
+		if ( left.count.length == 1 )
+			return new AdventureResult( left.name, left.count[0] + right.count[0] );
 		else
 		{
 			int [] totals = new int[3];
 			for ( int i = 0; i < 3; ++i )
-				totals[i] = left.resultCount[i] + right.resultCount[i];
-			return new AdventureResult( left.resultName, totals );
+				totals[i] = left.count[i] + right.count[i];
+			return new AdventureResult( left.name, totals );
 		}
 	}
 }

@@ -51,7 +51,7 @@ public class AutoSellRequest extends KoLRequest
 	public AutoSellRequest( KoLmafia client, int sellType, AdventureResult itemToSell )
 	{
 		super( client, sellType == AUTOSELL ? "sellstuff.php" : sellType == AUTOMALL ? "managestore.php" : "" );
-		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemToSell.getResultName() ) );
+		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemToSell.getName() ) );
 
 		switch ( sellType )
 		{
@@ -71,7 +71,7 @@ public class AutoSellRequest extends KoLRequest
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.sellType = sellType;
-		this.soldResult = new AdventureResult( itemToSell.getResultName(), 0 - itemToSell.getResultCount() );
+		this.soldResult = new AdventureResult( itemToSell.getName(), 0 - itemToSell.getCount() );
 	}
 
 	/**

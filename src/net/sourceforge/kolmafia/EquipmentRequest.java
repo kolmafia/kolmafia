@@ -173,7 +173,7 @@ public class EquipmentRequest extends KoLRequest
 
 					AdventureResult result = AdventureResult.parseResult( lastToken );
 
-					if ( TradeableItemDatabase.contains( result.getResultName() ) )
+					if ( TradeableItemDatabase.contains( result.getName() ) )
 						AdventureResult.addResultToList( closet, result );
 
 					lastToken = parsedContent.nextToken();
@@ -273,7 +273,7 @@ public class EquipmentRequest extends KoLRequest
 					// make sure that the item hasn't already been added,
 					// since some items appear in two places.
 
-					if ( TradeableItemDatabase.contains( result.getResultName() ) && inventory.indexOf( result ) == -1 )
+					if ( TradeableItemDatabase.contains( result.getName() ) && inventory.indexOf( result ) == -1 )
 						AdventureResult.addResultToList( inventory, result );
 
 					lastToken = remainingTokens.nextToken();
