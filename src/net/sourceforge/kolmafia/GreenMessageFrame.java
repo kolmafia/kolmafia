@@ -41,6 +41,8 @@ import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 
 // event listeners
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 // containers
@@ -56,6 +58,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 // other imports
+import java.util.List;
+import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GreenMessageFrame extends KoLFrame
@@ -63,31 +67,38 @@ public class GreenMessageFrame extends KoLFrame
 	private static final int COLS = 32;
 	private static final int ROWS = 8;
 
-	private KoLmafia client;
 	private JTextField recipientEntry;
-	private JLabel attachedItems;
 	private JTextArea messageEntry;
 
+	private List attachedItems;
+	private JLabel attachedItemsDisplay;
+
 	public GreenMessageFrame( KoLmafia client )
+	{	this( client, "" );
+	}
+
+	public GreenMessageFrame( KoLmafia client, String recipient )
 	{
 		super( "KoLmafia: Send a Green Message", client );
+
+		this.attachedItems = new ArrayList();
 
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
 
-		this.recipientEntry = new JTextField();
+		this.recipientEntry = new JTextField( recipient );
 		JPanel recipientPanel = new JPanel();
 		recipientPanel.setLayout( new BoxLayout( recipientPanel, BoxLayout.X_AXIS ) );
 		recipientPanel.add( new JLabel( "To:  ", JLabel.LEFT ), "" );
 		recipientPanel.add( recipientEntry, "" );
 
-		this.attachedItems = new JLabel( "(none)" );
+		this.attachedItemsDisplay = new JLabel( "(none)" );
 		JPanel attachmentPanel = new JPanel();
 		attachmentPanel.setLayout( new BorderLayout() );
 		JLabel attachLabel = new JLabel( "Attachments:  ", JLabel.LEFT );
 		attachLabel.setForeground( new Color( 0, 0, 128 ) );
 		attachmentPanel.add( attachLabel, BorderLayout.WEST );
-		attachmentPanel.add( attachedItems, BorderLayout.CENTER );
+		attachmentPanel.add( attachedItemsDisplay, BorderLayout.CENTER );
 
 		this.messageEntry = new JTextArea( ROWS, COLS );
 		messageEntry.setLineWrap( true );
@@ -108,7 +119,6 @@ public class GreenMessageFrame extends KoLFrame
 		setResizable( false );
 	}
 
-
 	/**
 	 * Utility method used to add a menu bar to the <code>GreenMessageFrame</code>.
 	 * The menu bar contains the general license information associated with
@@ -126,6 +136,7 @@ public class GreenMessageFrame extends KoLFrame
 		menuBar.add( fileMenu );
 
 		JMenuItem sendItem = new JMenuItem( "Send Message", KeyEvent.VK_S );
+		sendItem.addActionListener( new SendGreenMessageListener() );
 		fileMenu.add( sendItem );
 
 		JMenuItem attachItem = new JMenuItem( "Attach Item...", KeyEvent.VK_A );
@@ -133,6 +144,50 @@ public class GreenMessageFrame extends KoLFrame
 
 		addHelpMenu( menuBar );
 	}
+
+	/**
+	 * Sets all of the internal panels to a disabled or enabled state; this
+	 * prevents the user from modifying the data as it's getting sent, leading
+	 * to uncertainty and generally bad things.
+	 */
+
+	public void setEnabled( boolean isEnabled )
+	{
+		recipientEntry.setEnabled( isEnabled );
+		messageEntry.setEnabled( isEnabled );
+	}
+
+	/**
+	 * Internal class used to handle sending a green message to the server.
+	 */
+
+	private class SendGreenMessageListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new SendGreenMessageThread()).start();
+		}
+
+		private class SendGreenMessageThread extends Thread
+		{
+			public SendGreenMessageThread()
+			{
+				super( "Green-Message-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				GreenMessageFrame.this.setEnabled( false );
+				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
+				GreenMessageFrame.this.setEnabled( true );
+			}
+		}
+	}
+
+	/**
+	 * Main class used to view the user interface without having to actually
+	 * start the program.  Used primarily for user interface testing.
+	 */
 
 	public static void main( String [] args )
 	{
