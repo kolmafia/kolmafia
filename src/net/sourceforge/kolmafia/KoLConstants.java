@@ -33,9 +33,12 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.Locale;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 public interface KoLConstants
 {
-	public static final DecimalFormat df = new DecimalFormat();
+	public static final DecimalFormat df = new DecimalFormat(
+		"#,##0;-#,###", new DecimalFormatSymbols( Locale.US ) );
 }
