@@ -62,6 +62,11 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private static final int BBSLEEPCOUNTLONG = 300;  // This many times for slot needs
 	private	ArrayList deleteList, saveList;
 	
+	private static final String BUFFCOLOR = "<font color = \"darkgreen\">";
+	private static final String NONBUFFCOLOR = "<font color = \"darkblue\">";
+	private static final String ERRORCOLOR = "<font color = \"darkblue\">";
+	private static final String ENDCOLOR = "</font>";
+	
 	/**
 	 * Constructor for the <code>BuffBotManager</code> class.
 	 */
@@ -119,7 +124,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!");
 					client.cancelRequest();
 					client.setBuffBotActive(false);
-					buffbotLog.append("Unable to process a buff message.<br>\n");
+					buffbotLog.append(ERRORCOLOR + "Unable to process a buff message.</font><br>\n");
 				}
 				
 				// clear it out of the inbox
@@ -187,8 +192,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		String msgDisp = ((!buffRequestFound) && saveNonBuffmsgs ? "save" : "delete");
 		if (!buffRequestFound)
 		{
-			buffbotLog.append("Received non-buff message from [" + myMsg.getSenderName() + "]<br>\n");
-			buffbotLog.append("Action: " + msgDisp + "<br>\n");
+			buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + myMsg.getSenderName() + "]</font><br>\n");
+			buffbotLog.append( NONBUFFCOLOR + "Action: " + msgDisp + "</font><br>\n");
 		}
 		if (msgDisp == "save") saveList.add(myMsg);
 		else deleteList.add(myMsg);
@@ -220,7 +225,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			(new UseSkillRequest(client, buffEntry.buffName, bufftarget, castsPerEvent)).run();
 			totalCasts = totalCasts - castsPerEvent;
 		}
-		buffbotLog.append("Cast " + buffEntry.buffName + ", " + num2cast + " times on " + bufftarget + ".<br>\n");
+		buffbotLog.append( BUFFCOLOR + "Cast " + buffEntry.buffName + ", " + num2cast + " times on " + bufftarget + ".</font><br>\n");
 		return true;
 	}
 	
@@ -248,7 +253,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			currentMP = me.getCurrentMP();
 			if (currentMP >= MPNeeded) return true;
 		}
-		buffbotLog.append("Unable to acquire enough MP!<br>\n");
+		buffbotLog.append( ERRORCOLOR + "Unable to acquire enough MP!</font><br>\n");
 		return false;
 	}
 	void useRestoralItem(String itemName, int MPNeeded, int MPperuse)
