@@ -832,6 +832,8 @@ public class KoLMessenger implements KoLConstants
 		try
 		{
 			ChatBuffer channelBuffer = getChatBuffer( channel );
+			if ( useTabbedFrame )
+				tabbedFrame.highlightTab( channel );
 
 			// If a channel buffer does not exist, create a new window handling
 			// the channel content.  This can be done by opening an "instant message"

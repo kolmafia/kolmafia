@@ -34,9 +34,12 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Color;
 import java.awt.CardLayout;
 import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import com.sun.java.forums.CloseableTabbedPane;
 import com.sun.java.forums.CloseableTabbedPaneListener;
 
@@ -47,12 +50,20 @@ import com.sun.java.forums.CloseableTabbedPaneListener;
  * have that flexibility.
  */
 
-public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneListener
+public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneListener, ChangeListener
 {
 	private CloseableTabbedPane tabs;
 
 	public TabbedChatFrame( KoLmafia client, KoLMessenger messenger )
-	{	super( client, messenger );
+	{
+		super( client, messenger );
+		tabs.addChangeListener( this );
+	}
+
+	public void stateChanged( ChangeEvent e )
+	{
+		tabs.setBackgroundAt( tabs.getSelectedIndex(), null );
+		tabs.setForegroundAt( tabs.getSelectedIndex(), null );
 	}
 
 	/**
@@ -86,6 +97,22 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 	{
 		(new CloseChatListener( tabs.getTitleAt( tabIndexToClose ) )).windowClosed( null );
 		return true;
+	}
+
+	public void highlightTab( String tabName )
+	{
+		if ( tabName == null )
+			return;
+
+		for ( int i = 0; i < tabs.getTabCount(); ++i )
+			if ( tabName.equals( tabs.getTitleAt(i) ) )
+			{
+				if ( tabs.getSelectedIndex() == i )
+					return;
+
+				tabs.setBackgroundAt( i, new Color( 0, 0, 128 ) );
+				tabs.setForegroundAt( i, Color.white );
+			}
 	}
 
 	private class AddTabRunnable implements Runnable
