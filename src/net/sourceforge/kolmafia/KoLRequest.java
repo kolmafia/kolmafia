@@ -470,7 +470,7 @@ public class KoLRequest implements Runnable
 
 					logStream.println(
 						"\n ==== HYPERTEXT ====\n" +
-						replyContent.replaceAll( " pwd=\'[\\d]*\'", "" ) +
+						replyContent.replaceAll( " pwd=[\'\"][\\d]*[\'\"]", "" ) +
 						"\n ==== PLAINTEXT ====\n" +
 						replyContent.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ) +
 						"\n ==================="
