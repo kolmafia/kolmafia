@@ -226,7 +226,7 @@ public class AdventureResult implements Comparable
 	 * equality.  Note that this will still return <code>true</code> if the values
 	 * do not match; this merely matches on names.
 	 *
-	 * @param	The <code>Object</code> to be compared with this <code>AdventureResult</code>
+	 * @param	o	The <code>Object</code> to be compared with this <code>AdventureResult</code>
 	 * @return	<code>true</code> if the <code>Object</code> is an <code>AdventureResult</code>
 	 *			and has the same name as this one
 	 */

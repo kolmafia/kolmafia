@@ -64,7 +64,7 @@ public class LogStream extends java.io.PrintStream
 	 * log data to the specified file.  Note that the file must exist
 	 * prior to calling this method.
 	 *
-	 * @param	fileName	The file used as a log
+	 * @param	file	The file used as a log
 	 * @throws	FileNotFoundException	The file does not exist
 	 */
 
