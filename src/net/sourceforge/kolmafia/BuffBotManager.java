@@ -298,7 +298,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	
 	private boolean processMessage( KoLMailMessage message )
 	{
-		Integer meatSent;
+		Integer meatSent = 0;
 		BuffBotCaster buff;
 		boolean buffFound = false;
 
@@ -324,16 +324,16 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					}
 					else // this is a restricted buff for a non-allowed user.
 					{
+						//TODO offer a refund option for this (instead of just save/delete)
 						buffbotLog.append( NONBUFFCOLOR + "Request for resricted buff denied: from [" + 
-								message.getSenderName() + "] meat sent: " + meatSent + ENDCOLOR + "<br>\n");
+								message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>\n");
 						buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "save" : "delete") + ENDCOLOR + "<br>\n");
+						if ( messageDisposalSetting )
+							saveList.add( message );
+						else
+							deleteList.add( message );
+						return true;
 					}
-				}
-				else
-				{
-					// Must not be a buff request message, so notify user and save/delete
-					buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
-					buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "save" : "delete") + ENDCOLOR + "<br>\n");
 				}
 			}
 		}
@@ -342,12 +342,17 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			return false;
 		}
 		
+		// Must not be a buff request message, so notify user and save/delete
+		String meatString = (meatSent > 0) ? " (meat recvd: " + meatSent + ")" : "";
+		buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + meatString + ENDCOLOR + "<br>\n");
+		buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "save" : "delete") + ENDCOLOR + "<br>\n");
+
 		// Now, mark for either save or delete the message.
 		if ( messageDisposalSetting )
 			saveList.add( message );
 		else
 			deleteList.add( message );
-
+				
 		return true;
 	}
 
