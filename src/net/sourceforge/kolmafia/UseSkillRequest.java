@@ -132,6 +132,6 @@ public class UseSkillRequest extends KoLRequest
 			"</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );
 
  		client.applyRecentEffects();
-		updateDisplay( NOCHANGE, skillName + " was successfully cast." );
+		updateDisplay( ENABLED_STATE, skillName + " was successfully cast." );
 	}
 }
