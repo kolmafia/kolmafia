@@ -270,27 +270,6 @@ public class GearChangeFrame extends KoLFrame
 				client.makeRequest( new FamiliarRequest( client, change ), 1 );
 				refreshEquipPanel();
 			}
-
-			private class FamiliarChangeGUIUpdater implements Runnable
-			{
-				private boolean isStart;
-
-				public FamiliarChangeGUIUpdater( boolean isStart )
-				{	this.isStart = isStart;
-				}
-
-				public void run()
-				{
-					if ( !isStart )
-					{
-						client.updateDisplay( ENABLED_STATE, " " );
-						refreshEquipPanel();
-					}
-
-					GearChangeFrame.this.familiarSelect.setEnabled( !isStart );
-					GearChangeFrame.this.changeFamiliarButton.setEnabled( !isStart );
-				}
-			}
 		}
 	}
 
