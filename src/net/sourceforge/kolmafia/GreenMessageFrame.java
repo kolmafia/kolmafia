@@ -56,11 +56,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 // other imports
-import java.util.List;
-import java.util.ArrayList;
-import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class GreenMessageFrame extends KoLFrame
 {
@@ -70,8 +69,9 @@ public class GreenMessageFrame extends KoLFrame
 	private JTextField recipientEntry;
 	private JTextArea messageEntry;
 
-	private List attachedItems;
+	private SortedListModel attachedItems;
 	private JLabel attachedItemsDisplay;
+	private JLabel sendMessageStatus;
 
 	public GreenMessageFrame( KoLmafia client )
 	{	this( client, "" );
@@ -81,7 +81,7 @@ public class GreenMessageFrame extends KoLFrame
 	{
 		super( "KoLmafia: Send a Green Message", client );
 
-		this.attachedItems = new ArrayList();
+		this.attachedItems = new SortedListModel();
 
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
@@ -110,6 +110,11 @@ public class GreenMessageFrame extends KoLFrame
 		centerPanel.add( Box.createVerticalStrut( 16 ) );
 		centerPanel.add( attachmentPanel, "" );
 		centerPanel.add( scrollArea, "" );
+		centerPanel.add( Box.createVerticalStrut( 16 ) );
+
+		this.sendMessageStatus = new JLabel( " ", JLabel.CENTER );
+		centerPanel.add( sendMessageStatus );
+		centerPanel.add( Box.createVerticalStrut( 4 ) );
 
 		addMenuBar();
 
@@ -139,7 +144,12 @@ public class GreenMessageFrame extends KoLFrame
 		sendItem.addActionListener( new SendGreenMessageListener() );
 		fileMenu.add( sendItem );
 
-		JMenuItem attachItem = new JMenuItem( "Attach Item...", KeyEvent.VK_A );
+		JMenuItem meatItem = new JMenuItem( "Attach Meat...", KeyEvent.VK_M );
+		meatItem.addActionListener( new AttachMeatListener() );
+		fileMenu.add( meatItem );
+
+		JMenuItem attachItem = new JMenuItem( "Attach Item...", KeyEvent.VK_I );
+		attachItem.addActionListener( new AttachItemListener() );
 		fileMenu.add( attachItem );
 
 		addHelpMenu( menuBar );
@@ -179,8 +189,75 @@ public class GreenMessageFrame extends KoLFrame
 			{
 				GreenMessageFrame.this.setEnabled( false );
 				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
+				sendMessageStatus.setText( "Finished attempt to send message to " + recipientEntry.getText() );
 				GreenMessageFrame.this.setEnabled( true );
 			}
+		}
+	}
+
+	private void resetAttachedItemsDisplay()
+	{
+		if ( attachedItems.size() == 0 )
+			attachedItemsDisplay.setText( "(none)" );
+		else
+		{
+			StringBuffer text = new StringBuffer( attachedItems.get(0).toString() );
+			for ( int i = 1; i < attachedItems.size(); ++i )
+			{
+				text.append( ", " );
+				text.append( attachedItems.get(i).toString() );
+			}
+			attachedItemsDisplay.setText( text.toString() );
+		}
+	}
+
+	/**
+	 * Internal class used to handle attaching meat to the message.  This
+	 * is done by prompting the user with a dialog box where they choose
+	 * the amount of meat they wish to attach.  Note that all effects are
+	 * cumulative.
+	 */
+
+	private class AttachMeatListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			try
+			{
+				int amount = df.parse( JOptionPane.showInputDialog(
+					"Attaching meat..." ) ).intValue();
+				AdventureResult.addResultToList( attachedItems, new AdventureResult(
+					AdventureResult.MEAT, amount ) );
+				resetAttachedItemsDisplay();
+			}
+			catch ( Exception e1 )
+			{
+				// Ignore the exception - this effectively kills
+				// the request, which is exactly what you want to
+				// happen in the event of bad input
+			}
+		}
+	}
+
+	/**
+	 * Internal class used to handle attaching items to the message.  This
+	 * is done by prompting the user with a dialog box where they choose
+	 * the item they wish to attach.  Note that only one of the item will
+	 * be attached at a time.  This item cannot be removed after attaching.
+	 */
+
+	private class AttachItemListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			Object [] possibleValues = client.getInventory().toArray();
+			Object selectedValue = JOptionPane.showInputDialog(
+				null, "Attach one...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
+				possibleValues, possibleValues[0] );
+
+			AdventureResult.addResultToList( attachedItems, new AdventureResult(
+				((AdventureResult) selectedValue).getName(), 1 ) );
+			resetAttachedItemsDisplay();
 		}
 	}
 
