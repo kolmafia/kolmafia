@@ -117,6 +117,11 @@ public class FightRequest extends KoLRequest
 				if ( !client.permitsContinue() )
 					updateDisplay( KoLFrame.ENABLED_STATE, "Battle completed, adventures aborted." );
 			}
+			else if ( roundCount > 30 )
+			{
+				updateDisplay( KoLFrame.ENABLED_STATE, "Battle exceeded 30 rounds." );
+				client.cancelRequest();
+			}
 			else if ( replyContent.indexOf( "You lose." ) != -1 )
 			{
 				// If you lose the battle, you should update the display to
@@ -145,20 +150,12 @@ public class FightRequest extends KoLRequest
 				// connection to an existing URL may cause unforeseen errors,
 				// start a new thread and allow this one to die.
 
-				if ( roundCount <= 30 )
-				{
-					++roundCount;
+				++roundCount;
 
-					if ( !client.permitsContinue() )
-						updateDisplay( KoLFrame.DISABLED_STATE, "Completing battle..." );
+				if ( !client.permitsContinue() )
+					updateDisplay( KoLFrame.DISABLED_STATE, "Completing battle..." );
 
-					this.run();
-				}
-				else if ( roundCount > 30 )
-				{
-					updateDisplay( KoLFrame.ENABLED_STATE, "Battle exceeded 30 rounds." );
-					client.cancelRequest();
-				}
+				this.run();
 			}
 		}
 	}
