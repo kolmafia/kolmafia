@@ -964,9 +964,9 @@ public class KoLmafiaCLI extends KoLmafia
 		scriptRequestor.updateDisplay( DISABLED_STATE, useTypeAsString + " " + itemCount + " " + itemName + "..." );
 
 		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
-			(new ConsumeItemRequest( scriptRequestor, consumptionType, itemName, itemCount )).run();
+			(new ConsumeItemRequest( scriptRequestor, consumptionType, new AdventureResult( itemName, itemCount ) )).run();
 		else
-			scriptRequestor.makeRequest( new ConsumeItemRequest( scriptRequestor, consumptionType, itemName, 1 ), itemCount );
+			scriptRequestor.makeRequest( new ConsumeItemRequest( scriptRequestor, consumptionType, new AdventureResult( itemName, 1 ) ), itemCount );
 	}
 
 	/**

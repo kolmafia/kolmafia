@@ -51,6 +51,7 @@ import java.text.DecimalFormat;
 
 public class AdventureResult implements Comparable, KoLConstants
 {
+	private int itemID;
 	private int [] count;
 	private String name;
 	private int priority;
@@ -116,6 +117,13 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		this( name, new int[1] );
 		this.count[0] = count;
+	}
+
+	public AdventureResult( int itemID, int count )
+	{
+		this( TradeableItemDatabase.getItemName( itemID ), new int[1] );
+		this.count[0] = count;
+		this.itemID = itemID;
 	}
 
 	/**
@@ -218,6 +226,17 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public String getName()
 	{	return name;
+	}
+
+	/**
+	 * Accessor method to retrieve the item ID associated with the result,
+	 * if this is an item and the item ID is known.
+	 *
+	 * @return	The item ID associated with this item
+	 */
+
+	public int getItemID()
+	{	return itemID == 0 ? TradeableItemDatabase.getItemID( name ) : itemID;
 	}
 
 	/**
@@ -338,7 +357,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( !(o instanceof AdventureResult) || o == null )
 			return false;
 
-		return name.equalsIgnoreCase( ((AdventureResult)o).name );
+		return name.equalsIgnoreCase( ((AdventureResult)o).name ) && itemID == ((AdventureResult)o).itemID;
 	}
 
 	/**

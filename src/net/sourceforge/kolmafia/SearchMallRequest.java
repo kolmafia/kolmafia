@@ -193,7 +193,8 @@ public class SearchMallRequest extends KoLRequest
 			// which means you don't need to consult thenext token.
 
 			String shopDetails = parsedResults.nextToken();
-			int shopID = Integer.parseInt( shopDetails.substring( shopDetails.indexOf( "store=" ) + 6, shopDetails.indexOf( "&" ) ) );
+			int shopID = Integer.parseInt( shopDetails.substring( shopDetails.indexOf( "store=" ) + 6, shopDetails.indexOf( "&searchitem" ) ) );
+			int itemID = Integer.parseInt( shopDetails.substring( shopDetails.indexOf( "item=" ) + 5, shopDetails.indexOf( "&searchprice" ) ) );
 			String shopName = shopDetails.substring( shopDetails.indexOf( "\">" ) + 2 );
 			int price = Integer.parseInt( shopDetails.substring( shopDetails.indexOf( "price=" ) + 6, shopDetails.indexOf( "\">" ) ) );
 
@@ -211,7 +212,7 @@ public class SearchMallRequest extends KoLRequest
 				results.add( NPCStoreDatabase.getPurchaseRequest( client, itemName ) );
 			}
 
-			results.add( new MallPurchaseRequest( client, itemName, purchaseLimit, shopID, shopName, price ) );
+			results.add( new MallPurchaseRequest( client, itemName, itemID, purchaseLimit, shopID, shopName, price ) );
 		}
 
 		// Now, for the items which matched, check to see if there are

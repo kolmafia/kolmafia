@@ -233,7 +233,7 @@ public class ItemStorageRequest extends KoLRequest
 		for ( int i = 0; i < items.length; ++i )
 		{
 			AdventureResult result = (AdventureResult) items[i];
-			int itemID = TradeableItemDatabase.getItemID( result.getName() );
+			int itemID = result.getItemID();
 
 			if ( itemID != -1 )
 			{
@@ -258,7 +258,7 @@ public class ItemStorageRequest extends KoLRequest
 			currentResult = (AdventureResult) items[i];
 			if ( currentResult.isItem() )
 			{
-				negatedResult = new AdventureResult( currentResult.getName(), 0 - currentResult.getCount() );
+				negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
 
 				if ( moveType == INVENTORY_TO_CLOSET )
 				{
@@ -296,7 +296,7 @@ public class ItemStorageRequest extends KoLRequest
 		}
 
 		AdventureResult result = (AdventureResult) items[0];
-		int itemID = TradeableItemDatabase.getItemID( result.getName() );
+		int itemID = result.getItemID();
 
 		if ( itemID != -1 )
 		{
@@ -305,7 +305,7 @@ public class ItemStorageRequest extends KoLRequest
 
 			super.run();
 
-			AdventureResult negatedResult = new AdventureResult( result.getName(), 0 - result.getCount() );
+			AdventureResult negatedResult = new AdventureResult( result.getItemID(), 0 - result.getCount() );
 			client.addToResultTally( negatedResult );
 		}
 	}

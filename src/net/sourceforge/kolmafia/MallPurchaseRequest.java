@@ -81,24 +81,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 *
 	 * @param	client	The client to which this request reports errors
 	 * @param	itemName	The name of the item to be purchased
-	 * @param	quantity	The quantity of items to be purchased
-	 * @param	shopID	The integer identifier for the shop from which the item will be purchased
-	 * @param	shopName	The name of the shop
-	 * @param	price	The price at which the item will be purchased
-	 */
-
-	public MallPurchaseRequest( KoLmafia client, String itemName, int quantity, int shopID, String shopName, int price )
-	{	this( client, itemName, TradeableItemDatabase.getItemID( itemName ), quantity, shopID, shopName, price );
-	}
-
-	/**
-	 * Constructs a new <code>MallPurchaseRequest</code> with the given values.
-	 * Note that the only value which can be modified at a later time is the
-	 * quantity of items being purchases; all others are consistent through
-	 * the time when the purchase is actually executed.
-	 *
-	 * @param	client	The client to which this request reports errors
-	 * @param	itemName	The name of the item to be purchased
 	 * @param	itemID	The database ID for the item to be purchased
 	 * @param	quantity	The quantity of items to be purchased
 	 * @param	shopID	The integer identifier for the shop from which the item will be purchased
@@ -106,7 +88,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 * @param	price	The price at which the item will be purchased
 	 */
 
-	private MallPurchaseRequest( KoLmafia client, String itemName, int itemID, int quantity, int shopID, String shopName, int price )
+	public MallPurchaseRequest( KoLmafia client, String itemName, int itemID, int quantity, int shopID, String shopName, int price )
 	{
 		super( client, "mallstore.php" );
 
@@ -190,33 +172,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		addFormField( isNPCStore ? "howmany" : "quantity", "" + quantity );
 		this.successful = false;
 
-		// The special case of ice-cold beer is that it does not show
-		// up in the item database (since it appears twice, it'd be
-		// weird to put it in there), but there's no way to find out
-		// which one the store is selling without visiting the store.
-		// Effectively, two database hits will happen in the worst
-		// case, and only one will occur in the best.
-
-		if ( itemName.equals( "ice-cold beer" ) && itemID == -1 )
-		{
-			MallPurchaseRequest schlitzPurchase =
-				new MallPurchaseRequest( client, itemName, BEER_SCHLITZ, quantity, shopID, shopName, price );
-			schlitzPurchase.run();
-
-			if ( !schlitzPurchase.successful )
-			{
-				MallPurchaseRequest willerPurchase =
-					new MallPurchaseRequest( client, itemName, BEER_WILLER, quantity, shopID, shopName, price );
-				willerPurchase.run();
-			}
-
-			return;
-		}
-
 		// If the item is not currently recognized, the user should
 		// be notified that the purchases cannot be made because of that
 
-		else if ( itemID == -1 )
+		if ( itemID == -1 )
 		{
 			client.updateDisplay( ENABLED_STATE, "Item not recognized by KoLmafia database." );
 			client.cancelRequest();

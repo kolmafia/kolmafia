@@ -47,20 +47,20 @@ public class AutoSellRequest extends KoLRequest
 	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell )
 	{
 		super( client, "sellstuff.php" );
-		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemToSell.getName() ) );
+		addFormField( "whichitem", "" + itemToSell.getItemID() );
 		addFormField( "action", "sell" );
 		addFormField( "type", "quant" );
 		addFormField( "howmany", "" + itemToSell.getCount() );
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.sellType = AUTOSELL;
-		this.soldResult = new AdventureResult( itemToSell.getName(), 0 - itemToSell.getCount() );
+		this.soldResult = new AdventureResult( itemToSell.getItemID(), 0 - itemToSell.getCount() );
 	}
 
 	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell, int desiredPrice )
 	{
 		super( client, "managestore.php" );
-		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemToSell.getName() ) );
+		addFormField( "whichitem", "" + itemToSell.getItemID() );
 		addFormField( "action", "additem" );
 		addFormField( "sellprice", "" + desiredPrice );
 		addFormField( "limit", "0" );
@@ -68,7 +68,7 @@ public class AutoSellRequest extends KoLRequest
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.sellType = AUTOMALL;
-		this.soldResult = new AdventureResult( itemToSell.getName(), 0 - itemToSell.getCount() );
+		this.soldResult = new AdventureResult( itemToSell.getItemID(), 0 - itemToSell.getCount() );
 	}
 
 	/**

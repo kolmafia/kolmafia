@@ -56,6 +56,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int COOK_PASTA = 6;
 	public static final int MIX_SPECIAL = 7;
 
+	private static final AdventureResult CHEF = new AdventureResult( "chef-in-the-box", 1 );
+	private static final AdventureResult BARTENDER = new AdventureResult( "bartender-in-the-box", 1 );
+
 	private int itemID, quantityNeeded, mixingMethod;
 
 	/**
@@ -314,35 +317,35 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_PASTA:
 
 				if ( !client.getCharacterData().hasChef() )
-					return useBoxServant( "chef-in-the-box" );
+					return useBoxServant( CHEF );
 
 			case MIX:
 			case MIX_SPECIAL:
 
 				if ( !client.getCharacterData().hasBartender() )
-					return useBoxServant( "bartender-in-the-box" );
+					return useBoxServant( BARTENDER );
 		}
 
 		return false;
 	}
 
-	private boolean useBoxServant( String servantName )
+	private boolean useBoxServant( AdventureResult toUse )
 	{
-		AdventureResult [] servant = { new AdventureResult( servantName, 1 ) };
+		AdventureResult [] servant = { toUse };
 
 		if ( client.getInventory().contains( servant[0] ) )
 		{
-			updateDisplay( DISABLED_STATE, "Repairing " + servantName + "..." );
-			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, servantName, 1 )).run();
+			updateDisplay( DISABLED_STATE, "Repairing " + toUse.getName() + "..." );
+			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, toUse )).run();
 			return true;
 		}
 
 		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
 		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) && client.getCloset().contains( servant[0] ) )
 		{
-			updateDisplay( DISABLED_STATE, "Retrieving " + servantName + " from closet..." );
+			updateDisplay( DISABLED_STATE, "Retrieving " + toUse.getName() + " from closet..." );
 			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servant )).run();
-			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, servantName, 1 )).run();
+			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, toUse )).run();
 			return true;
 		}
 

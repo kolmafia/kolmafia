@@ -107,15 +107,14 @@ public class GreenMessageRequest extends KoLRequest
 			for ( int i = 0; i < attachments.length; ++i )
 			{
 				AdventureResult result = (AdventureResult) attachments[i];
-				int itemID = TradeableItemDatabase.getItemID( result.getName() );
 
-				if ( itemID != -1 )
+				if ( !result.getName().equals( AdventureResult.MEAT ) )
 				{
 					int index = attachedMeat ? i : i + 1;
-					addFormField( "whichitem" + index, "" + itemID );
+					addFormField( "whichitem" + index, "" + result.getItemID() );
 					addFormField( "howmany" + index, "" + result.getCount() );
 				}
-				else if ( result.getName().equals( AdventureResult.MEAT ) )
+				else
 				{
 					addFormField( "sendmeat", "" + result.getCount() );
 					attachedMeat = true;

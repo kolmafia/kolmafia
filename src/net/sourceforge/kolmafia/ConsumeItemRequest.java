@@ -51,7 +51,7 @@ public class ConsumeItemRequest extends KoLRequest
 	 * @param	client	The client to be notified of the logout
 	 */
 
-	public ConsumeItemRequest( KoLmafia client, int consumptionType, String itemName, int itemCount )
+	public ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
 	{
 		super( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
 			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" :
@@ -61,13 +61,13 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			addFormField( "action", "useitem" );
 			addFormField( "pwd", client.getPasswordHash() );
-			addFormField( "quantity", "" + itemCount );
+			addFormField( "quantity", "" + item.getCount() );
 		}
 
-		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemName ) );
+		addFormField( "whichitem", "" + item.getItemID() );
 
 		this.consumptionType = consumptionType;
-		this.itemUsed = new AdventureResult( itemName, 0 - itemCount );
+		this.itemUsed = new AdventureResult( item.getItemID(), 0 - item.getCount() );
 	}
 
 	public void run()

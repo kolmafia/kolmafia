@@ -206,74 +206,56 @@ public class EquipmentRequest extends KoLRequest
 			}
 		}
 
-		// The inventory officially starts when you see the
-		// token that starts with "Put"; therefore, continue
-		// skipping tokens until that token is encountered.
-
-		if ( replyContent.indexOf( "You have no items in your inventory." ) == -1 )
+		Matcher inventoryMatcher = Pattern.compile( "<b>Put:.*?</select>" ).matcher( replyContent );
+		if ( inventoryMatcher.find() )
 		{
-			while ( !parsedContent.nextToken().startsWith( "Put:" ) );
 			List inventory = client.getInventory();
 			inventory.clear();
 
 			List usableItems = client.getUsableItems();
 			usableItems.clear();
 
-			parseCloset( parsedContent, inventory, true );
+			parseCloset( inventoryMatcher.group(), inventory, true );
 		}
 
-		// The closet officially starts when you see the token
-		// "Take:"; therefore, continue skipping tokens until
-		// that token is encountered.
-
-		while ( parsedContent.hasMoreTokens() &&
-			!parsedContent.nextToken().startsWith( "Take:" ) );
-
-		if ( parsedContent.hasMoreTokens() )
+		Matcher closetMatcher = Pattern.compile( "<b>Take:.*?</select>" ).matcher( replyContent );
+		if ( closetMatcher.find() )
 		{
 			List closet = client.getCloset();
 			closet.clear();
-			parseCloset( parsedContent, closet, false );
+			parseCloset( closetMatcher.group(), closet, false );
 		}
 	}
 
-	private void parseCloset( StringTokenizer parsedContent, List resultList, boolean updateUsableList )
+	private void parseCloset( String content, List resultList, boolean updateUsableList )
 	{
 		// The next two tokens are blank space and an
 		// indicator to show that the list is about
 		// to start.  Skip them both.
 
 		List usableItems = client.getUsableItems();
-		skipTokens( parsedContent, 2 );
-		String lastToken;
+		int lastFindIndex = 0;
 
-		try
+		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>.*?\\(([\\d,]+)\\)" ).matcher( content );
+		while ( optionMatcher.find() )
 		{
-			do
+			try
 			{
-				// Make sure to only add the result if it exists
-				// in the item database; otherwise, it could cause
-				// problems when you're moving items around.
+				lastFindIndex = optionMatcher.end();
+				AdventureResult result = new AdventureResult( df.parse( optionMatcher.group(1) ).intValue(), df.parse( optionMatcher.group(2) ).intValue() );
+				AdventureResult.addResultToList( resultList, result );
 
-				lastToken = parsedContent.nextToken();
-				AdventureResult result = AdventureResult.parseResult( lastToken );
-
-				if ( TradeableItemDatabase.contains( result.getName() ) )
-				{
-					AdventureResult.addResultToList( resultList, result );
-					if ( updateUsableList && TradeableItemDatabase.isUsable( result.getName() ) )
-						usableItems.add( result );
-				}
+				if ( TradeableItemDatabase.isUsable( result.getName() ) && updateUsableList )
+					AdventureResult.addResultToList( usableItems, result );
 			}
-			while ( lastToken.trim().length() != 0 );
-		}
-		catch ( Exception e )
-		{
-			// If an exception occurs during the parsing, just
-			// continue after notifying the LogStream of the
-			// error.  This could be handled better, but not now.
+			catch ( Exception e )
+			{
+				// If an exception occurs during the parsing, just
+				// continue after notifying the LogStream of the
+				// error.  This could be handled better, but not now.
 
-			logStream.println( e );
+				logStream.println( e );
+			}
 		}
 	}
 
