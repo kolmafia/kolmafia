@@ -43,7 +43,7 @@ package net.sourceforge.kolmafia;
  * within a database.
  */
 
-public class KoLAdventure implements Runnable
+public class KoLAdventure implements Runnable, KoLConstants
 {
 	private KoLmafia client;
 	private String adventureID, formSource, adventureName;
