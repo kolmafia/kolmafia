@@ -407,7 +407,75 @@ public abstract class KoLmafia implements UtilityConstants
 	 * @param	iterations	The number of times the request should be repeated
 	 */
 
-	public abstract void makeRequest( Runnable request, int iterations );
+	public void makeRequest( Runnable request, int iterations )
+	{
+		try
+		{
+			this.permitContinue = true;
+			int iterationsRemaining = iterations;
+
+			if ( request.toString().equals( "The Hermitage" ) )
+				makeHermitRequest( iterations );
+			else if ( request.toString().startsWith( "Gym" ) )
+				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
+			else
+			{
+				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campground" ) == -1 && characterData.getInebriety() > 19 )
+					permitContinue = confirmDrunkenRequest();
+
+				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
+				{
+					updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
+					request.run();
+					applyRecentEffects();
+
+					// Make sure you only decrement iterations if the
+					// continue was permitted.  This resolves the issue
+					// of incorrectly updating the client if something
+					// occurred on the last iteration.
+
+					if ( permitContinue )
+						--iterationsRemaining;
+				}
+
+				if ( permitContinue && iterationsRemaining <= 0 )
+					updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
+			}
+		}
+		catch ( RuntimeException e )
+		{
+			// In the event that an exception occurs during the
+			// request processing, catch it here, print it to
+			// the logger (whatever it may be), and notify the
+			// user that an error was encountered.
+
+			logStream.println( e );
+			updateDisplay( KoLFrame.ENABLED_STATE, "Unexpected error." );
+		}
+
+		this.permitContinue = true;
+	}
+
+	/**
+	 * Makes a request to the hermit, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the hermit, if no default has been specified
+	 * in the user settings.
+	 *
+	 * @param	itemCount	The number of items to request
+	 */
+
+	protected abstract void makeHermitRequest( int tradeCount );
+
+	/**
+	 * Confirms whether or not the user wants to make a drunken
+	 * request.  This should be called before doing requests when
+	 * the user is in an inebrieted state.
+	 *
+	 * @return	<code>true</code> if the user wishes to adventure drunk
+	 */
+
+	protected abstract boolean confirmDrunkenRequest();
 
 	/**
 	 * For requests that do not use the client's "makeRequest()"

@@ -162,16 +162,27 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * Makes the given request for the given number of iterations,
-	 * or until continues are no longer possible, either through
-	 * user cancellation or something occuring which prevents the
-	 * requests from resuming.
+	 * Makes a request to the hermit, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the hermit, if no default has been specified
+	 * in the user settings.
 	 *
-	 * @param	request	The request made by the user
-	 * @param	iterations	The number of times the request should be repeated
+	 * @param	itemCount	The number of items to request
 	 */
 
-	public void makeRequest( Runnable request, int iterations )
+	protected void makeHermitRequest( int itemCount )
 	{
+	}
+
+	/**
+	 * Confirms whether or not the user wants to make a drunken
+	 * request.  This should be called before doing requests when
+	 * the user is in an inebrieted state.
+	 *
+	 * @return	<code>true</code> if the user wishes to adventure drunk
+	 */
+
+	protected boolean confirmDrunkenRequest()
+	{	return false;
 	}
 }

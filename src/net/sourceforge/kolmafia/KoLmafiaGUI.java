@@ -104,14 +104,17 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( permitContinue )
 		{
-			activeFrame.setVisible( false );
-			activeFrame.dispose();
-			activeFrame = null;
+			KoLFrame previousActiveFrame = activeFrame;
 
 			activeFrame = new AdventureFrame( this, AdventureDatabase.getAsLockableListModel( this ), tally );
 			activeFrame.pack();  activeFrame.setVisible( true );
-			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+			previousActiveFrame.setVisible( false );
+
 			activeFrame.requestFocus();
+			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+
+			previousActiveFrame.dispose();
+			previousActiveFrame = null;
 		}
 	}
 
@@ -127,93 +130,46 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	/**
-	 * Makes the given request for the given number of iterations,
-	 * or until continues are no longer possible, either through
-	 * user cancellation or something occuring which prevents the
-	 * requests from resuming.  Because this method does not create
-	 * new threads, any GUI invoking this method should create a
-	 * separate thread for calling it.
+	 * Makes a request to the hermit, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the hermit, if no default has been specified
+	 * in the user settings.
 	 *
-	 * @param	request	The request made by the user
-	 * @param	iterations	The number of times the request should be repeated
+	 * @param	itemCount	The number of items to request
 	 */
 
-	public void makeRequest( Runnable request, int iterations )
+	protected void makeHermitRequest( int itemCount )
 	{
-		try
+		Object selectedValue = JOptionPane.showInputDialog(
+			null, "I want this from the hermit...", "Hermit Trade!", JOptionPane.INFORMATION_MESSAGE, null,
+			hermitItemNames, hermitItemNames[0] );
+
+		int selected = -1;
+		for ( int i = 0; i < hermitItemNames.length; ++i )
 		{
-			this.permitContinue = true;
-			int iterationsRemaining = iterations;
-
-			if ( request.toString().equals( "The Hermitage" ) )
+			if ( selectedValue.equals( hermitItemNames[i] ) )
 			{
-				// Prompt the user to select which item they want from the hermit
-				// because it's more intuitive this way.
-
-				Object selectedValue = JOptionPane.showInputDialog(
-					null, "I want this from the hermit...", "Hermit Trade!", JOptionPane.INFORMATION_MESSAGE, null,
-					hermitItemNames, hermitItemNames[0] );
-
-				int selected = -1;
-				for ( int i = 0; i < hermitItemNames.length; ++i )
-				{
-					if ( selectedValue.equals( hermitItemNames[i] ) )
-					{
-						settings.setProperty( "hermitTrade", "" + selected );
-						settings.saveSettings();
-						break;
-					}
-				}
-
-				updateDisplay( KoLFrame.DISABLED_STATE, "Robbing the hermit..." );
-				(new HermitRequest( this, iterations )).run();
-
-				if ( permitContinue )
-					updateDisplay( KoLFrame.ENABLED_STATE, "Hermit successfully looted!" );
-			}
-			else if ( request.toString().startsWith( "Gym" ) )
-			{
-				updateDisplay( KoLFrame.DISABLED_STATE, "Beginning workout..." );
-				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
-				updateDisplay( KoLFrame.ENABLED_STATE, "Workout completed." );
-			}
-			else
-			{
-				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campground" ) == -1 && characterData.getInebriety() > 19 )
-					permitContinue = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-						"The mafia has stolen your shoes!  Continue adventuring anyway?",
-						"You're not drunk!  You see flying penguins and a dancing hermit!", JOptionPane.YES_NO_OPTION );
-
-				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
-				{
-					updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
-					request.run();
-					applyRecentEffects();
-
-					// Make sure you only decrement iterations if the
-					// continue was permitted.  This resolves the issue
-					// of incorrectly updating the client if something
-					// occurred on the last iteration.
-
-					if ( permitContinue )
-						--iterationsRemaining;
-				}
-
-				if ( permitContinue && iterationsRemaining <= 0 )
-					updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
+				settings.setProperty( "hermitTrade", "" + selected );
+				settings.saveSettings();
+				break;
 			}
 		}
-		catch ( RuntimeException e )
-		{
-			// In the event that an exception occurs during the
-			// request processing, catch it here, print it to
-			// the logger (whatever it may be), and notify the
-			// user that an error was encountered.
 
-			logStream.println( e );
-			updateDisplay( KoLFrame.ENABLED_STATE, "Unexpected error." );
-		}
+		(new HermitRequest( this, itemCount )).run();
+	}
 
-		this.permitContinue = true;
+	/**
+	 * Confirms whether or not the user wants to make a drunken
+	 * request.  This should be called before doing requests when
+	 * the user is in an inebrieted state.
+	 *
+	 * @return	<code>true</code> if the user wishes to adventure drunk
+	 */
+
+	protected boolean confirmDrunkenRequest()
+	{
+		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+			"The mafia has stolen your shoes!  Continue adventuring anyway?",
+			"You're not drunk!  You see flying penguins and a dancing hermit!", JOptionPane.YES_NO_OPTION );
 	}
 }
