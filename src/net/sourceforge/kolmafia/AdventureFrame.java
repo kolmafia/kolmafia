@@ -922,7 +922,7 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( csheet == null )
+				if ( csheet == null || !csheet.isShowing() )
 				{
 					csheet = new CharsheetFrame( client );
 					csheet.pack();  csheet.setVisible( true );
@@ -956,7 +956,7 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( kolchat == null )
+				if ( kolchat == null || !kolchat.isShowing() )
 				{
 					kolchat = new ChatFrame( client );
 					kolchat.setVisible( true );
@@ -995,7 +995,7 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( isheet == null )
+				if ( isheet == null || !isheet.isShowing() )
 				{
 					isheet = new ItemManageFrame( client );
 					isheet.pack();  isheet.setVisible( true );
@@ -1022,21 +1022,21 @@ public class AdventureFrame extends KoLFrame
 				client.deinitialize();
 				(new LogoutRequestThread()).start();
 
-				if ( csheet != null )
+				if ( csheet != null && csheet.isShowing() )
 				{
 					csheet.setVisible( false );
 					csheet.dispose();
 					csheet = null;
 				}
 
-				if ( kolchat != null )
+				if ( kolchat != null && csheet.isShowing() )
 				{
 					kolchat.setVisible( false );
 					kolchat.dispose();
 					kolchat = null;
 				}
 
-				if ( isheet != null )
+				if ( isheet != null && csheet.isShowing() )
 				{
 					isheet.setVisible( false );
 					isheet.dispose();
