@@ -54,6 +54,7 @@ public class AdventureResult implements Comparable
 	private String name;
 	private int priority;
 
+	private static final int HPMP_PRIORITY = 0;
 	private static final int ADV_PRIORITY = 1;
 	private static final int MEAT_PRIORITY = 2;
 	private static final int SUBSTAT_PRIORITY = 3;
@@ -62,6 +63,7 @@ public class AdventureResult implements Comparable
 
 	private static final DecimalFormat df = new DecimalFormat();
 
+	public static final String HPMP = "HP/MP";
 	public static final String ADV = "Adv";
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Substats";
@@ -87,7 +89,11 @@ public class AdventureResult implements Comparable
 	 */
 
 	public AdventureResult( String name )
-	{	this( name, name.equals(SUBSTATS) ? new int[3] : new int[1] );
+	{
+		this( name,
+			name.equals(SUBSTATS) ? new int[3] :
+			name.equals(HPMP) ? new int[2] :
+			new int[1] );
 	}
 
 	/**
@@ -118,6 +124,7 @@ public class AdventureResult implements Comparable
 	private AdventureResult( String name, int [] count )
 	{
 		this( name, count,
+			name.equals(HPMP) ? HPMP_PRIORITY :
 			name.equals(ADV) ? ADV_PRIORITY :
 			name.equals(MEAT) ? MEAT_PRIORITY :
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
@@ -210,7 +217,19 @@ public class AdventureResult implements Comparable
 			// Stats actually fall into one of four categories - simply pick the
 			// correct one and return the result.
 
-			if ( statname.toLowerCase().startsWith( "adv" ) )
+			if ( parsedGain.hasMoreTokens() )
+			{
+				char identifier = statname.charAt(0);
+				int [] gained =
+				{
+					(identifier == 'H' || identifier == 'h') ? modifier : 0,
+					(identifier == 'M' || identifier == 'm') ? modifier : 0
+				};
+
+				return new AdventureResult( HPMP, gained );
+			}
+
+			if ( statname.startsWith( "Adv" ) )
 				return new AdventureResult( ADV, modifier );
 			else if ( statname.equals( MEAT ) )
 				return new AdventureResult( MEAT, modifier );
@@ -249,6 +268,7 @@ public class AdventureResult implements Comparable
 	{
 		return
 			name.equals(ADV) || name.equals(MEAT) ? " " + name + ": " + df.format(count[0]) :
+			name.equals(HPMP) ? " HP/MP: " + df.format(count[0]) + " / " + df.format(count[1]) :
 			name.equals(SUBSTATS) ? " Substats: " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]) :
 			name.equals(DIVIDER) ? DIVIDER :
 			" " + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
