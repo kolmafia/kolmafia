@@ -267,41 +267,41 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 	public void setEnabled( boolean isEnabled )
 	{
-		this.isEnabled = isEnabled;
+		this.isEnabled = isEnabled && !client.isBuffBotActive();
 
 		if ( statusMenuItem != null )
-			statusMenuItem.setEnabled( isEnabled );
+			statusMenuItem.setEnabled( this.isEnabled );
 
 		if ( mailMenuItem != null )
-			mailMenuItem.setEnabled( isEnabled );
+			mailMenuItem.setEnabled( this.isEnabled );
 
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
-			tabs.setEnabledAt( i, isEnabled );
+			tabs.setEnabledAt( i, this.isEnabled );
 
 		for ( int i = 0; i < existingFrames.size(); ++i )
 		{
 			KoLFrame currentFrame = (KoLFrame) existingFrames.get(i);
 			if ( currentFrame.isShowing() )
-				currentFrame.setEnabled( isEnabled );
+				currentFrame.setEnabled( this.isEnabled );
 		}
 
 		if ( adventureSelect != null && adventureSelect.isShowing() )
-			adventureSelect.setEnabled( isEnabled );
+			adventureSelect.setEnabled( this.isEnabled );
 
 		if ( mallSearch != null && mallSearch.isShowing() )
-			mallSearch.setEnabled( isEnabled );
+			mallSearch.setEnabled( this.isEnabled );
 
 		if ( clanBuff != null && clanBuff.isShowing() )
-			clanBuff.setEnabled( isEnabled );
+			clanBuff.setEnabled( this.isEnabled );
 
 		if ( heroDonation != null && heroDonation.isShowing() )
-			heroDonation.setEnabled( isEnabled );
+			heroDonation.setEnabled( this.isEnabled );
 
 		if ( meatStorage != null && meatStorage.isShowing() )
-			meatStorage.setEnabled( isEnabled );
+			meatStorage.setEnabled( this.isEnabled );
 
 		if ( skillBuff != null && skillBuff.isShowing() )
-			skillBuff.setEnabled( isEnabled );
+			skillBuff.setEnabled( this.isEnabled );
 	}
 
 	/**

@@ -988,12 +988,27 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public void initializeBuffBot()
 	{
-		buffBotHome = new BuffBotHome(this);
-		buffBotHome.initialize();
+		if ( buffBotHome == null )
+		{
+			buffBotHome = new BuffBotHome(this);
+			buffBotHome.initialize();
+		}
+	}
+
+	public void deinitializeBuffBot()
+	{
+		if ( buffBotHome != null )
+		{
+			buffBotHome.deinitialize();
+			buffBotHome = null;
+		}
 	}
 
 	public BuffBotHome.BuffBotLog getBuffBotLog()
-	{
-		return buffBotHome.getLog();
+	{	return buffBotHome.getLog();
+	}
+
+	public boolean isBuffBotActive()
+	{	return buffBotHome != null;
 	}
 }
