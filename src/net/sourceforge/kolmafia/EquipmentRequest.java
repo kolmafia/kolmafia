@@ -53,7 +53,6 @@ public class EquipmentRequest extends KoLRequest
 	 * data located in the provided character.
 	 *
 	 * @param	client	The client to be notified in the event of an error
-	 * @param	character	The character to which this will record the retrieved equipment
 	 */
 
 	public EquipmentRequest( KoLmafia client )

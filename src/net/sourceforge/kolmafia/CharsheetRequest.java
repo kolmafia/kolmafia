@@ -54,7 +54,6 @@ public class CharsheetRequest extends KoLRequest
 	 * course of this request.
 	 *
 	 * @param	client	The client to be notified in case of errors
-	 * @param	character	The character whose data will be overridden by the request
 	 */
 
 	public CharsheetRequest( KoLmafia client )
