@@ -76,6 +76,7 @@ public class OptionsFrame extends KoLFrame
 		contentPanel = null;
 
 		tabs.addTab( "Login", new LoginOptionsPanel() );
+		tabs.addTab( "Battle", new BattleOptionsPanel() );
 		tabs.addTab( "Sewer", new SewerOptionsPanel() );
 		tabs.addTab( "Hermit", new HermitOptionsPanel() );
 
@@ -277,6 +278,115 @@ public class OptionsFrame extends KoLFrame
 	}
 
 	/**
+	 * This panel allows the user to select how they would like to fight
+	 * their battles.  Everything from attacks, attack items, recovery items,
+	 * retreat, and battle skill usage will be supported when this panel is
+	 * finalized.  For now, however, it only customizes attacks.
+	 */
+
+	private class BattleOptionsPanel extends KoLPanel
+	{
+		private JLabel actionStatusLabel;
+		private JPanel actionStatusPanel;
+
+		private final String [] actionnames = { "attack", "moxman" };
+		private final String [] actiondescs = { "Attack with Weapon", "Moxious Maneuver" };
+
+		private ButtonGroup actionGroup;
+		private JRadioButton [] actions;
+
+		public BattleOptionsPanel()
+		{
+			super( "apply", "defaults", new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			actions = new JRadioButton[ actionnames.length ];
+			actionGroup = new ButtonGroup();
+
+			for ( int i = 0; i < actions.length; ++i )
+			{
+				actions[i] = new JRadioButton();
+				actionGroup.add( actions[i] );
+			}
+
+			(new LoadDefaultSettingsThread()).run();
+
+			VerifiableElement [] elements = new VerifiableElement[ actions.length ];
+			for ( int i = 0; i < actions.length; ++i )
+				elements[i] = new VerifiableElement( actiondescs[i], JLabel.LEFT, actions[i] );
+
+			java.util.Arrays.sort( elements );
+			setContent( elements, false );
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		public void clear()
+		{	(new LoadDefaultSettingsThread()).start();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		protected void actionCancelled()
+		{	(new LoadDefaultSettingsThread()).start();
+		}
+
+		private class LoadDefaultSettingsThread extends Thread
+		{
+			public LoadDefaultSettingsThread()
+			{	setDaemon( true );
+			}
+
+			public void run()
+			{
+				String settings = client.getSettings().getProperty( "battleAction" );
+
+				// If there are no default settings, simply skip the
+				// attempt at loading them.
+
+				if ( settings == null )
+					return;
+
+				// If there are default settings, make sure that the
+				// appropriate radio box is checked.
+
+				for ( int i = 0; i < actions.length; ++i )
+					actions[i].setSelected( false );
+
+				for ( int i = 0; i < actions.length; ++i )
+					if ( actionnames[i].equals( settings ) )
+						actions[i].setSelected( true );
+
+				(new StatusMessageChanger( "" )).run();
+			}
+		}
+
+		private class StoreSettingsThread extends Thread
+		{
+			public void run()
+			{
+				for ( int i = 0; i < actions.length; ++i )
+					if ( actions[i].isSelected() )
+						client.getSettings().setProperty( "battleAction", actionnames[i] );
+
+				client.getSettings().saveSettings();
+				(new StatusMessageChanger( "Settings saved." )).run();
+			}
+		}
+	}
+
+	/**
 	 * This panel allows the user to select which item they would like
 	 * to trade with the gnomes in the sewers of Seaside Town, in
 	 * exchange for their ten-leaf clover.  These settings only apply
@@ -305,13 +415,13 @@ public class OptionsFrame extends KoLFrame
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			items = new JCheckBox[ itemnames.length ];
-			for ( int i = 0; i < itemnames.length; ++i )
+			for ( int i = 0; i < items.length; ++i )
 				items[i] = new JCheckBox();
 
 			(new LoadDefaultSettingsThread()).run();
 
-			VerifiableElement [] elements = new VerifiableElement[ itemnames.length ];
-			for ( int i = 0; i < itemnames.length; ++i )
+			VerifiableElement [] elements = new VerifiableElement[ items.length ];
+			for ( int i = 0; i < items.length; ++i )
 				elements[i] = new VerifiableElement( itemnames[i], JLabel.LEFT, items[i] );
 
 			java.util.Arrays.sort( elements );
@@ -345,20 +455,20 @@ public class OptionsFrame extends KoLFrame
 			{
 				String settings = client.getSettings().getProperty( "luckySewer" );
 
-				// If there are no default sewer settings, simply skip the
+				// If there are no default settings, simply skip the
 				// attempt at loading them.
 
 				if ( settings == null )
 					return;
 
-				// If there are default sewer settings, make sure that the
-				// appropriate checkboxes are checked.
+				// If there are default settings, make sure that the
+				// appropriate check box is checked.
 
 				StringTokenizer st = new StringTokenizer( settings, "," );
-				for ( int i = 0; i < itemnames.length; ++i )
+				for ( int i = 0; i < items.length; ++i )
 					items[i].setSelected( false );
 
-				for ( int i = 0; i < 3; ++i )
+				while ( st.hasMoreTokens() )
 					items[ Integer.parseInt( st.nextToken() ) - 1 ].setSelected( true );
 
 				(new StatusMessageChanger( "" )).run();
@@ -372,7 +482,7 @@ public class OptionsFrame extends KoLFrame
 				int [] selected = new int[3];
 				int selectedCount = 0;
 
-				for ( int i = 0; i < itemnames.length; ++i )
+				for ( int i = 0; i < items.length; ++i )
 				{
 					if ( items[i].isSelected() )
 					{
@@ -404,10 +514,11 @@ public class OptionsFrame extends KoLFrame
 
 	private class HermitOptionsPanel extends KoLPanel
 	{
-		private ButtonGroup select;
-		private JRadioButton [] items;
 		private JLabel actionStatusLabel;
 		private JPanel actionStatusPanel;
+
+		private ButtonGroup itemGroup;
+		private JRadioButton [] items;
 
 		private final String [] itemnames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
 			"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
@@ -425,18 +536,18 @@ public class OptionsFrame extends KoLFrame
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			items = new JRadioButton[ itemnames.length ];
-			select = new ButtonGroup();
+			itemGroup = new ButtonGroup();
 
-			for ( int i = 0; i < itemnames.length; ++i )
+			for ( int i = 0; i < items.length; ++i )
 			{
 				items[i] = new JRadioButton();
-				select.add( items[i] );
+				itemGroup.add( items[i] );
 			}
 
 			(new LoadDefaultSettingsThread()).run();
 
-			VerifiableElement [] elements = new VerifiableElement[ itemnames.length ];
-			for ( int i = 0; i < itemnames.length; ++i )
+			VerifiableElement [] elements = new VerifiableElement[ items.length ];
+			for ( int i = 0; i < items.length; ++i )
 				elements[i] = new VerifiableElement( itemnames[i], JLabel.LEFT, items[i] );
 
 			java.util.Arrays.sort( elements );
@@ -470,16 +581,16 @@ public class OptionsFrame extends KoLFrame
 			{
 				String settings = client.getSettings().getProperty( "hermitTrade" );
 
-				// If there are no default sewer settings, simply skip the
+				// If there are no default settings, simply skip the
 				// attempt at loading them.
 
 				if ( settings == null )
 					return;
 
-				// If there are default sewer settings, make sure that the
-				// appropriate checkboxes are checked.
+				// If there are default settings, make sure that the
+				// appropriate radio box is checked.
 
-				for ( int i = 0; i < itemnames.length; ++i )
+				for ( int i = 0; i < items.length; ++i )
 					items[i].setSelected( false );
 
 				int itemnumber = Integer.parseInt( settings );
@@ -498,7 +609,7 @@ public class OptionsFrame extends KoLFrame
 				int selected = -1;
 				int selectedCount = 0;
 
-				for ( int i = 0; i < itemnames.length; ++i )
+				for ( int i = 0; i < items.length; ++i )
 				{
 					if ( items[i].isSelected() )
 					{

@@ -51,7 +51,7 @@ public class FightRequest extends KoLRequest
 		// For now, there will not be any attempts to handle
 		// special skills - the user will simply attack.
 
-		addFormField( "action", "attack" );
+		addFormField( "action", client.getSettings().getProperty( "battleAction" ) );
 	}
 
 	public void run()

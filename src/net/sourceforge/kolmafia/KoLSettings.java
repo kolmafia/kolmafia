@@ -83,8 +83,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 					loadSettings( new File( DATA_DIRECTORY + "~.xml" ) );
 				else
 				{
-					setProperty( "proxySet", "false" );
 					setProperty( "loginServer", "0" );
+					setProperty( "proxySet", "false" );
+					setProperty( "battleAction", "attack" );
 				}
 
 				// Then, store the results into the designated
