@@ -205,8 +205,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// Auto-create chef or bartender if one doesn't
 		// exist and the user has opted to repair.
 
-		if ( !client.getCharacterData().hasChef() || !client.getCharacterData().hasBartender() )
-			autoRepairBoxServant();
+		autoRepairBoxServant();
 
 		super.run();
 
@@ -290,12 +289,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_REAGENT:
 			case COOK_PASTA:
 
-				return useBoxServant( "chef-in-the-box" );
+				if ( !client.getCharacterData().hasChef() )
+					return useBoxServant( "chef-in-the-box" );
 
 			case MIX:
 			case MIX_SPECIAL:
 
-				return useBoxServant( "bartender-in-the-box" );
+				if ( !client.getCharacterData().hasBartender() )
+					return useBoxServant( "bartender-in-the-box" );
 		}
 
 		return false;
