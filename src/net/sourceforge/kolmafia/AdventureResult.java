@@ -313,10 +313,6 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public String toString()
 	{
-		if ( name.equals( FULLSTATS ) )
-		{
-		}
-
 		return
 			name.equals(HP) || name.equals(MP) || name.equals(ADV) || name.equals(DRUNK) || name.equals(MEAT) ?
 				" " + name + ": " + df.format(count[0]) :
