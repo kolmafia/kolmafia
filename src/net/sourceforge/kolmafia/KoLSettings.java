@@ -78,7 +78,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	public KoLSettings( String characterName )
 	{
 		this.characterName = characterName;
-		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" );
+		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 		this.settingsFile = new File( DATA_DIRECTORY + "~" + noExtensionName + ".kcs" );
 
 		// Make sure that any settings that were applied in the default
