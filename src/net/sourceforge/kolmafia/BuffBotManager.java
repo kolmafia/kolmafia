@@ -125,8 +125,11 @@ public class BuffBotManager {
         KoLMailMessage firstmsg;
         
         
-        // A temporary Kluge to force the main adventure panel to be selected
+        // A  Kluge to force the main adventure panel to be selected
         client.BBHome.getAdventureTabs().setSelectedIndex(0);
+		
+		//Now, make sure the MP is up to date:
+		(new CharsheetRequest( client )).run();
         // The outer loop goes until user cancels
         while( client.permitsContinue() ){
          
@@ -245,22 +248,24 @@ public class BuffBotManager {
     }
     
     private boolean recoverMP(int MPNeeded){
-        final int phonicsMP = 46, tinyhouseMP = 20, beanbagMP = 80;
-        int num2use;
+        final int PHONICSMP = 46, TINYHOUSEMP = 20, BEANBAGMP = 80;
+        int num2use, MPShort;
         AdventureResult itemUsed;
         
         int currentMP = me.getCurrentMP();
         int maxMP = me.getMaximumMP();
-        int MPShort = maxMP - currentMP;
+		// Don't go too far over (thus wasting Phonics downs)
         
         //First try resting in the beanbag chair
         // TODO - implement beanbag chair recovery
         
+		// TODO Coompute the optimal use of Tiny Houses or Phonics first
         // try to get there using phonics downs 
         // always buff as close to maxMP as possible, in order to
         //        go as easy on the server as possible
         if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Phonics Only")){
-            num2use = 1 + ((MPShort - 1) / phonicsMP);
+            MPShort = Math.max(maxMP + 5 - PHONICSMP, MPNeeded) - currentMP;
+			num2use = 1 + ((MPShort - 1) / PHONICSMP);
             itemUsed = new AdventureResult( "phonics down", 0 - num2use);
             int itemIndex = client.getInventory().indexOf(itemUsed  );
             if  ( itemIndex > -1 ){
@@ -275,8 +280,8 @@ public class BuffBotManager {
         }
         // try to get there using tiny houses
         if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Tiny Houses Only")){
-            MPShort = maxMP - currentMP;
-            num2use = 1 + ((MPShort - 1) / tinyhouseMP);
+            MPShort = Math.max(maxMP + 5 - TINYHOUSEMP, MPNeeded) - currentMP;
+            num2use = 1 + ((MPShort - 1) / TINYHOUSEMP);
             itemUsed = new AdventureResult( "tiny house", 0 - num2use);
             int itemIndex = client.getInventory().indexOf( itemUsed );
             if  ( itemIndex > -1 ){
