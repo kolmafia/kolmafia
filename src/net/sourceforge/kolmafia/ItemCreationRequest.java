@@ -161,6 +161,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					case SMITH:
 					case COOK_REAGENT:
 					case COOK_PASTA:
+					case MIX_SPECIAL:
 						combineItems();
 						break;
 				}
@@ -253,6 +254,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				break;
 
 			case MIX:
+			case MIX_SPECIAL:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
 				{
 					client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Bartender explosion!" );
