@@ -236,6 +236,7 @@ public class KoLmafiaCLI extends KoLmafia
 			outputStream.print( " > " );
 			String line;
 
+			scriptRequestor.resetContinueState();
 			while ( (scriptRequestor.permitsContinue() || scriptRequestor == this) && (line = commandStream.readLine()) != null )
 			{
 				outputStream.println();
