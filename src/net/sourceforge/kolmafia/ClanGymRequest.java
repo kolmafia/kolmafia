@@ -77,8 +77,21 @@ public class ClanGymRequest extends KoLRequest
 		// All the gains will be found before the first </center> tag;
 		// therefore, you can parse just that small segment.
 
-		client.addToResultTally( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
 		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
 		updateDisplay( ENABLED_STATE, "Workout completed." );
+	}
+
+	/**
+	 * An alternative method to doing adventure calculation is determining
+	 * how many adventures are used by the given request, and subtract
+	 * them after the request is done.  This number defaults to <code>zero</code>;
+	 * overriding classes should change this value to the appropriate
+	 * amount.
+	 *
+	 * @return	The number of adventures used by this request.
+	 */
+
+	public int getAdventuresUsed()
+	{	return turnCount;
 	}
 }

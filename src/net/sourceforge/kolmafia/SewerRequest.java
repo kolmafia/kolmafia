@@ -88,6 +88,7 @@ public class SewerRequest extends KoLRequest
 	{
 		if ( !client.isLuckyCharacter() )
 		{
+			isErrorState = true;
 			updateDisplay( ENABLED_STATE, "Ran out of ten-leaf clovers." );
 			client.cancelRequest();
 			return;
@@ -97,6 +98,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( items == null )
 		{
+			isErrorState = true;
 			updateDisplay( ENABLED_STATE, "No lucky sewer settings found." );
 			client.cancelRequest();
 			return;
@@ -125,7 +127,6 @@ public class SewerRequest extends KoLRequest
 		}
 
 		processResults( replyContent );
-		client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 		client.addToResultTally( CLOVER );
 	}
 
@@ -137,6 +138,7 @@ public class SewerRequest extends KoLRequest
 	{
 		if ( client.isLuckyCharacter() )
 		{
+			isErrorState = true;
 			updateDisplay( ENABLED_STATE, "You have a ten-leaf clover." );
 			client.cancelRequest();
 			return;
@@ -144,6 +146,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( !client.getInventory().contains( GUM ) )
 		{
+			isErrorState = true;
 			updateDisplay( ENABLED_STATE, "Ran out of chewing gum." );
 			client.cancelRequest();
 			return;
@@ -159,6 +162,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( responseCode == 302 && redirectLocation.equals( "luckysewer.php" ) )
 		{
+			isErrorState = true;
 			updateDisplay( ENABLED_STATE, "You have an unaccounted for ten-leaf clover." );
 			client.cancelRequest();
 			return;
@@ -169,13 +173,27 @@ public class SewerRequest extends KoLRequest
 
 		if ( responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
 		{
+			isErrorState = true;
 			updateDisplay( ENABLED_STATE, "Redirected to unknown page: " + redirectLocation );
 			client.cancelRequest();
 			return;
 		}
 
 		processResults( replyContent );
-		client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 		client.addToResultTally( GUM );
+	}
+
+	/**
+	 * An alternative method to doing adventure calculation is determining
+	 * how many adventures are used by the given request, and subtract
+	 * them after the request is done.  This number defaults to <code>zero</code>;
+	 * overriding classes should change this value to the appropriate
+	 * amount.
+	 *
+	 * @return	The number of adventures used by this request.
+	 */
+
+	public int getAdventuresUsed()
+	{	return isErrorState ? 0 : 1;
 	}
 }

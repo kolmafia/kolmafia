@@ -801,4 +801,18 @@ public class KoLRequest implements Runnable, KoLConstants
 		{	return 0;
 		}
 	}
+
+	/**
+	 * An alternative method to doing adventure calculation is determining
+	 * how many adventures are used by the given request, and subtract
+	 * them after the request is done.  This number defaults to <code>zero</code>;
+	 * overriding classes should change this value to the appropriate
+	 * amount.
+	 *
+	 * @return	The number of adventures used by this request.
+	 */
+
+	public int getAdventuresUsed()
+	{	return 0;
+	}
 }

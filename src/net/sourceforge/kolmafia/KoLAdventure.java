@@ -47,7 +47,7 @@ public class KoLAdventure implements Runnable
 {
 	private KoLmafia client;
 	private String adventureID, formSource, adventureName;
-	private Runnable request;
+	private KoLRequest request;
 
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given
@@ -103,7 +103,35 @@ public class KoLAdventure implements Runnable
 
 	public void run()
 	{
+		if ( client.getCharacterData().getAdventuresLeft() < request.getAdventuresUsed() )
+		{
+			client.cancelRequest();
+			client.updateDisplay( ENABLED_STATE, "Insufficient adventures to continue." );
+		}
+
+		// If the test is successful, then it is safe to run the
+		// request (without spamming the server).
+
 		if ( request != null )
 			request.run();
+
+		// Once the request is complete, be sure to deduct the
+		// used adventures from the tally
+
+		client.addToResultTally( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
+	}
+
+	/**
+	 * An alternative method to doing adventure calculation is determining
+	 * how many adventures are used by the given request, and subtract
+	 * them after the request is done.  This number defaults to <code>zero</code>;
+	 * overriding classes should change this value to the appropriate
+	 * amount.
+	 *
+	 * @return	The number of adventures used by this request.
+	 */
+
+	public int getAdventuresUsed()
+	{	return request.getAdventuresUsed();
 	}
 }

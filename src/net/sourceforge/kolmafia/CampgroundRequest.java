@@ -98,20 +98,18 @@ public class CampgroundRequest extends KoLRequest
 
 		if ( action.equals( "rest" ) )
 		{
-			if ( replyContent.indexOf( "You sleep" ) != -1 )
-				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
-			else
+			if ( replyContent.indexOf( "You sleep" ) == -1 )
 			{
+				isErrorState = true;
 				updateDisplay( ENABLED_STATE, "Could not rest." );
 				client.cancelRequest();
 			}
 		}
 		else if ( action.equals( "relax" ) )
 		{
-			if ( replyContent.indexOf( "You relax" ) != -1 )
-				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
-			else
+			if ( replyContent.indexOf( "You relax" ) == -1 )
 			{
+				isErrorState = true;
 				updateDisplay( ENABLED_STATE, "Could not relax." );
 				client.cancelRequest();
 			}
@@ -122,5 +120,19 @@ public class CampgroundRequest extends KoLRequest
 
 		if ( action.equals( "toast" ) && replyContent.indexOf( "acquire" ) == -1 )
 			client.cancelRequest();
+	}
+
+	/**
+	 * An alternative method to doing adventure calculation is determining
+	 * how many adventures are used by the given request, and subtract
+	 * them after the request is done.  This number defaults to <code>zero</code>;
+	 * overriding classes should change this value to the appropriate
+	 * amount.
+	 *
+	 * @return	The number of adventures used by this request.
+	 */
+
+	public int getAdventuresUsed()
+	{	return action.equals( "rest" ) || action.equals( "relax" ) ? 1 : 0;
 	}
 }

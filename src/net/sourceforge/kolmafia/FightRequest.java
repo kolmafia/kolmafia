@@ -116,7 +116,6 @@ public class FightRequest extends KoLRequest
 				// reflect a victory and notify the client that an adventure
 				// was completed.
 
-				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 				if ( !client.permitsContinue() )
 					updateDisplay( ENABLED_STATE, "Battle completed, adventures aborted." );
 			}
@@ -133,7 +132,6 @@ public class FightRequest extends KoLRequest
 				// but that the loop should be halted.
 
 				updateDisplay( ENABLED_STATE, "You were defeated!" );
-				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 				client.cancelRequest();
 			}
 			else if ( replyContent.indexOf( "You run away," ) != -1 )
@@ -143,7 +141,6 @@ public class FightRequest extends KoLRequest
 				// should terminate.
 
 				updateDisplay( ENABLED_STATE, "Autoflee succeeded." );
-				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 				client.cancelRequest();
 			}
 			else

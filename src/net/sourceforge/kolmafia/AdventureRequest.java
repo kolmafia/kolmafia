@@ -49,6 +49,7 @@ public class AdventureRequest extends KoLRequest
 
 	private String formSource;
 	private String adventureID;
+	private int adventuresUsed;
 
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the
@@ -90,6 +91,20 @@ public class AdventureRequest extends KoLRequest
 		}
 		else
 			addFormField( "action", adventureID );
+
+		// If you took a trip to the shore, you would use up 3 adventures
+		// for each trip
+
+		this.adventuresUsed = 0;
+		if ( formSource.equals( "shore.php" ) )
+			this.adventuresUsed = 3;
+		else if ( formSource.equals( "casino.php" ) )
+		{
+			if ( adventureID.equals( "11" ) )
+				this.adventuresUsed = 1;
+		}
+		else
+			this.adventuresUsed = 1;
 	}
 
 	/**
@@ -122,7 +137,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "choice.php" ) )
 		{
-			(new AdventureRequest( client, formSource, adventureID )).run();
+			this.run();
 			return;
 		}
 
@@ -132,6 +147,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "haiku.php" ) )
 		{
+			isErrorState = true;
 			updateDisplay( ENABLED_STATE, "Encountered haiku subquest." );
 			client.cancelRequest();
 			return;
@@ -142,6 +158,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( !isErrorState && responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
 		{
+			isErrorState = true;
 			updateDisplay( ENABLED_STATE, "Redirected to unknown page: " + redirectLocation );
 			client.cancelRequest();
 			return;
@@ -171,6 +188,7 @@ public class AdventureRequest extends KoLRequest
 			// should not continue with the next iteration.
 			// Friendly error messages to come later.
 
+			isErrorState = true;
 			client.cancelRequest();
 			updateDisplay( ENABLED_STATE, "Adventures aborted!" );
 			return;
@@ -182,7 +200,6 @@ public class AdventureRequest extends KoLRequest
 		if ( formSource.equals( "shore.php" ) )
 		{
 			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -500 ) );
-			client.addToResultTally( new AdventureResult( AdventureResult.ADV, -3 ) );
 			return;
 		}
 
@@ -209,12 +226,21 @@ public class AdventureRequest extends KoLRequest
 			else if ( adventureID.equals( "2" ) )
 				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
 			else if ( adventureID.equals( "11" ) )
-			{
 				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 ) );
-				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
-			}
 		}
-		else
-			client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
+	}
+
+	/**
+	 * An alternative method to doing adventure calculation is determining
+	 * how many adventures are used by the given request, and subtract
+	 * them after the request is done.  This number defaults to <code>zero</code>;
+	 * overriding classes should change this value to the appropriate
+	 * amount.
+	 *
+	 * @return	The number of adventures used by this request.
+	 */
+
+	public int getAdventuresUsed()
+	{	return isErrorState ? 0 : adventuresUsed;
 	}
 }
