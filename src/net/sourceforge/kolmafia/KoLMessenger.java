@@ -504,7 +504,7 @@ public class KoLMessenger
 
 		for ( int i = 0; i < lines.length; ++i )
 		{
-			if ( lines[i].indexOf( "<font color=green>") != -1 )
+			if ( lines[i].startsWith( "<font color=green>" ) && !lines[i].startsWith( "<font color=green>[" ) )
 			{
 				processChatMessage( lines[i] );
 				lines[i] = null;
@@ -517,7 +517,12 @@ public class KoLMessenger
 		// to the appropropriate frame.
 
 		for ( int i = 0; i < lines.length; ++i )
-			processChatMessage( lines[i] );
+		{
+			if ( lines[i] != null && lines[i].startsWith( "<font color=green>[haiku]" ) )
+				processChatMessage( lines[i] + "<br>" + lines[++i].replaceAll( "<Br>", "<br>" ) );
+			else
+				processChatMessage( lines[i] );
+		}
 
 		// Now that all the messages have been processed, return
 		// the focus to the originally active window (if the window
