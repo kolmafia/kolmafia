@@ -290,7 +290,9 @@ eXtreme meat staff	4	basic meat staff	stone of eXtreme power
 eXtreme meat sword	4	stone of eXtreme power	basic meat sword
 eXtreme nose ring	4	stone of eXtreme power	piercing post
 furry pants	4	furry fur	pants kit
-hippopotamus pants	4	pants kit	hippopotamus skin
+hippopotamus skin buckler	4	hippopotamus skin	buckler buckle
+hippopotamus pants	4	hippopotamus skin	pants kit
+hippopotamus whip	4	hippopotamus skin	whip kit
 Kentucky-fried meat crossbow	4	secret blend of herbs and spices	basic meat crossbow
 Kentucky-fried meat staff	4	secret blend of herbs and spices	basic meat staff
 Kentucky-fried meat sword	4	secret blend of herbs and spices	basic meat sword
@@ -304,6 +306,8 @@ linoleum sword	4	linoleum meat stack	linoleum sword hilt
 linoleum sword hilt	4	linoleum ore	sword hilt
 meatloaf helmet	4	basic meat helmet	ketchup
 penguin shorts	4	penguin skin	pants kit
+penguin skin buckler	4	penguin skin	buckler buckle
+penguin whip	4	penguin skin	whip kit
 sticky meat pants	4	really really sticky spider web	basic meat pants
 yakskin pants	4	pants kit	yak skin
 
