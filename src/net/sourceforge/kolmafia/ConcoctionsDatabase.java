@@ -111,9 +111,12 @@ public class ConcoctionsDatabase
 		// way, the data doesn't interfere with the dynamic programming
 		// algorithms used later.
 
+		boolean autoRepair = client.getSettings().getProperty( "autoRepairBoxes" ) != null &&
+			client.getSettings().getProperty( "autoRepairBoxes" ).equals( "true" );
+
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 		{
-			if ( concoctions[i] == null || !isPermittedMixtureMethod( concoctions[i].getMixingMethod(), client.getCharacterData() ) )
+			if ( concoctions[i] == null || !isPermittedMixtureMethod( concoctions[i].getMixingMethod(), client.getCharacterData(), autoRepair ) )
 			{
 				String itemName = TradeableItemDatabase.getItemName(i);
 				if ( itemName != null )
@@ -167,29 +170,29 @@ public class ConcoctionsDatabase
 	 * variables is as specified.
 	 */
 
-	private static boolean isPermittedMixtureMethod( int mixingMethod, KoLCharacter data )
+	private static boolean isPermittedMixtureMethod( int mixingMethod, KoLCharacter data, boolean autoRepair )
 	{
 		String classtype = data.getClassType();
 
 		switch ( mixingMethod )
 		{
 			case ItemCreationRequest.COOK:
-				return data.hasChef();
+				return (data.hasChef() || autoRepair);
 
 			case ItemCreationRequest.MIX:
-				return data.hasBartender();
+				return (data.hasBartender() || autoRepair);
 
 			case ItemCreationRequest.SMITH:
-				return data.hasChef() && classtype.startsWith( "Se" );
+				return (data.hasChef() || autoRepair) && classtype.startsWith( "Se" );
 
 			case ItemCreationRequest.COOK_REAGENT:
-				return data.hasChef() && classtype.startsWith( "Sa" );
+				return (data.hasChef() || autoRepair) && classtype.startsWith( "Sa" );
 
 			case ItemCreationRequest.COOK_PASTA:
-				return data.hasChef() && classtype.startsWith( "Pa" );
+				return (data.hasChef() || autoRepair) && classtype.startsWith( "Pa" );
 
 			case ItemCreationRequest.MIX_SPECIAL:
-				return data.hasBartender() && classtype.startsWith( "Di" );
+				return (data.hasBartender() || autoRepair) && classtype.startsWith( "Di" );
 
 			default:
 				return true;

@@ -199,7 +199,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		AdventureResult item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ) );
 		int index = client.getInventory().indexOf( item );
 		int beforeRequestQuantity = (index == -1) ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount();
+
 		updateDisplay( NOCHANGE_STATE, "Creating " + item.getName() + " (" + quantityNeeded + ")..." );
+
+		// Auto-create chef or bartender if one doesn't
+		// exist and the user has opted to repair.
+
+		if ( !client.getCharacterData().hasChef() || !client.getCharacterData().hasBartender() )
+			autoRepairBoxServant();
 
 		super.run();
 
