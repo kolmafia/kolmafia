@@ -38,11 +38,35 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 
+/**
+ * An extension of {@link java.io.PrintStream} which handles the
+ * special cases of <code>Exception</code>s.  All logs generated
+ * by this class will be appended to provided files.
+ */
+
 public class LogStream extends java.io.PrintStream
 {
+	/**
+	 * Constructs a new <code>LogStream</code> which will append all
+	 * log data to the file of the specified name.  Note that the
+	 * file must exist prior to calling this method.
+	 *
+	 * @param	fileName	The name of the file used as a log
+	 * @throws	FileNotFoundException	The file does not exist
+	 */
+
 	public LogStream( String fileName ) throws FileNotFoundException
 	{	this( new File( fileName ) );
 	}
+
+	/**
+	 * Constructs a new <code>LogStream</code> which will append all
+	 * log data to the specified file.  Note that the file must exist
+	 * prior to calling this method.
+	 *
+	 * @param	fileName	The file used as a log
+	 * @throws	FileNotFoundException	The file does not exist
+	 */
 
 	public LogStream( File file ) throws FileNotFoundException
 	{
@@ -56,11 +80,18 @@ public class LogStream extends java.io.PrintStream
 		println();
 	}
 
+	/**
+	 * Prints the given exception to the current <code>LogStream</code>,
+	 * along with the stack trace.
+	 *
+	 * @param	e	The <code>Exception</code> to be printed to this <code>LogStream</code>.
+	 */
+
 	public void println( Exception e )
 	{
 		println();
 		println( "****************************" );
-		println( "  General Exception:" );
+		println( "  General Exception: " + e.toString() );
 		println();
 
 		e.printStackTrace( this );
@@ -70,11 +101,21 @@ public class LogStream extends java.io.PrintStream
 		println();
 	}
 
+	/**
+	 * Prints the given exception to the current <code>LogStream</code>,
+	 * along with the stack trace.  Note that there is no difference
+	 * between this method and the corresponding method for generic
+	 * <code>Exceptions</code> other than the fact that "Runtime"
+	 * is used instead of "General".
+	 *
+	 * @param	e	The <code>RuntimeException</code> to be printed to this <code>LogStream</code>.
+	 */
+
 	public void println( RuntimeException e )
 	{
 		println();
 		println( "****************************" );
-		println( "  Runtime Exception:" );
+		println( "  Runtime Exception: " + e.toString() );
 		println();
 
 		e.printStackTrace( this );
