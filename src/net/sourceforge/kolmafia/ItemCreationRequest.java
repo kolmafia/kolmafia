@@ -220,8 +220,21 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		int index = inventory.indexOf( new AdventureResult( TradeableItemDatabase.getItemName( ingredientID ), 0 ) );
 		int currentQuantity = (index == -1) ? 0 : ((AdventureResult)inventory.get( index )).getCount();
 
+		int actualQuantityNeeded = quantityNeeded - currentQuantity;
+
+		// In order to minimize server overload by making exact quantities,
+		// the client will attempt to overcompensate by making more meat
+		// paste than is necessary.
+
+		if ( ingredientID == MEAT_PASTE )
+			actualQuantityNeeded =
+				( actualQuantityNeeded > 1000 ) ? ((int) Math.ceil( actualQuantityNeeded / 1000 )) * 1000 :
+				( actualQuantityNeeded > 100 ) ? 1000 :
+				( actualQuantityNeeded > 10 ) ? 100 :
+				( actualQuantityNeeded > 1 ) ? 10 : 1;
+
 		if ( currentQuantity < quantityNeeded )
-			(new ItemCreationRequest( client, ingredientID, mixingMethod, quantityNeeded - currentQuantity )).run();
+			(new ItemCreationRequest( client, ingredientID, mixingMethod, actualQuantityNeeded )).run();
 	}
 
 	/**
