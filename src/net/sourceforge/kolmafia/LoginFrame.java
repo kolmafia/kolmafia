@@ -149,6 +149,17 @@ public class LoginFrame extends KoLFrame
 
 		fileMenu.add( settingsItem );
 
+		final JMenuItem loggerItem = new JMenuItem( "Initialize Logger", KeyEvent.VK_L );
+		loggerItem.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				client.initializeLogStream();
+				loggerItem.setEnabled( false );
+			}
+		});
+
+		fileMenu.add( loggerItem );
+
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.setMnemonic( KeyEvent.VK_H );
 		menuBar.add( helpMenu );

@@ -43,8 +43,9 @@ import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 
-public class KoLmafia
+public class KoLmafia implements UtilityConstants
 {
 	private static final String ADV_DBASE_FILE = "adventures.dat";
 
@@ -239,7 +240,7 @@ public class KoLmafia
 			// user that an error was encountered.
 
 			logStream.println( e );
-			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Unexpected error.  Log saved." );
+			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Unexpected error." );
 		}
 	}
 
@@ -255,13 +256,10 @@ public class KoLmafia
 	{
 		try
 		{
-			File f = new File( "debug.txt" );
+			File f = new File( DATA_DIRECTORY + "KoLmafia.log" );
 
 			if ( !f.exists() )
-			{
-				f.getParentFile().mkdirs();
 				f.createNewFile();
-			}
 
 			logStream = new LogStream( f );
 		}
