@@ -307,8 +307,13 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		}
 
 		// Must not be a buff request message, so notify user and save/delete
+		// check to see if it was an attempted scam
+		Matcher meatMatcher = Pattern.compile( "You gain ([\\d,]+) Meat" ).matcher( message.getMessageHTML() );
+		if ( meatMatcher.find() )
+			buffbotLog.append( NONBUFFCOLOR + "Attempted scam message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
+		else
+			buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
 
-		buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
 		buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting == INBOX ? "ignore" :
 			messageDisposalSetting == SAVEBOX ? "save" : "delete") + ENDCOLOR + "<br>\n");
 
