@@ -59,9 +59,13 @@ public class AdventureResult implements Comparable<AdventureResult>
 	}
 
 	public AdventureResult( String resultName )
+	{	this( resultName, 0 );
+	}
+
+	public AdventureResult( String resultName, int resultCount )
 	{
 		this.resultName = resultName;
-		this.resultCount = 0;
+		this.resultCount = resultCount;
 
 		this.resultPriority = resultName.equals( MEAT ) ? 0 : resultName.equals( MUS ) ? 1 :
 			resultName.equals( MYS ) ? 2 : resultName.equals( MOX ) ? 3 : 4;
@@ -71,8 +75,15 @@ public class AdventureResult implements Comparable<AdventureResult>
 	{	resultCount = 0;
 	}
 
-	public void accumulate( int added )
-	{	resultCount += added;
+	public static AdventureResult add( AdventureResult left, AdventureResult right )
+	{
+		if ( left == null )
+			return right;
+		if ( right == null )
+			return left;
+
+		return !left.resultName.equals( right.resultName ) ? null :
+			new AdventureResult( left.resultName, left.resultCount + right.resultCount );
 	}
 
 	public String toString()

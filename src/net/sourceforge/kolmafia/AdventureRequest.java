@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.StringTokenizer;
 
 public class AdventureRequest extends KoLRequest
 {
@@ -64,16 +65,51 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseCode != 302 )
 		{
-			if ( replyContent.contains( "You're out of adventures." ) )
-			{
-				// The easiest one is if you're out of adventures;
-				// then you need to notify the client of failure
-				// by telling it that the adventure did not take
-				// place and the client should not continue with
-				// the next iteration.
+			String formPath = formConnection.getURL().getPath();
 
-				client.updateAdventure( false, false );
-				return;
+			// The first set of stuff to take care of involves
+			// generic adventures.
+
+			if ( formPath.equals( "/adventure.php" ) )
+			{
+				if ( replyContent.contains( "You're out of adventures" ) )
+				{
+					// The easiest one is if you're out of adventures;
+					// then you need to notify the client of failure
+					// by telling it that the adventure did not take
+					// place and the client should not continue with
+					// the next iteration.
+
+					client.updateAdventure( false, false );
+					frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Adventures aborted!" );
+					return;
+				}
+			}
+
+			// The next set of stuff to take care of involves
+			// vacations at the shore.
+
+			if ( formPath.equals( "/shore.php" ) )
+			{
+				int resultIndex = replyContent.indexOf( "<p><center>" );
+
+				if ( resultIndex == -1 )
+				{
+					// The easiest one is if there were no results
+					// for the trip, which means it failed.  Here,
+					// just notify the client like for a standard
+					// adventure of the failure.
+
+					client.updateAdventure( false, false );
+					frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Adventures aborted!" );
+					return;
+				}
+
+				// If it gets this far, then everything is okay,
+				// so you parse the results of the vacation trip.
+
+				completeIteration(
+					new StringTokenizer( replyContent.substring( resultIndex + 12 ) ) );
 			}
 		}
 	}

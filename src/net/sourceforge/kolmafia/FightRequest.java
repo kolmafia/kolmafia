@@ -71,7 +71,7 @@ public class FightRequest extends KoLRequest
 				// reflect a victory and notify the client that an adventure
 				// was completed.
 
-				completeIteration( new StringTokenizer( replyContent.substring( winmsgIndex ) ) );
+				completeIteration( new StringTokenizer( replyContent.substring( winmsgIndex + 16 ), "<>" ) );
 				client.updateAdventure( true, true );
 			}
 			else if ( replyContent.indexOf( "You lose." ) != -1 )

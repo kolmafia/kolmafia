@@ -53,7 +53,6 @@ public class KoLmafia
 	private int currentIteration, iterationsRemaining;
 
 	private LockableListModel tally;
-	private AdventureResult meat_tally, mus_tally, mys_tally, mox_tally;
 
 	public static void main( String [] args )
 	{
@@ -109,13 +108,10 @@ public class KoLmafia
 		activeFrame = null;
 
 		tally = new LockableListModel();
-		meat_tally = new AdventureResult( AdventureResult.MEAT );
-		mus_tally = new AdventureResult( AdventureResult.MUS );
-		mys_tally = new AdventureResult( AdventureResult.MYS );
-		mox_tally = new AdventureResult( AdventureResult.MOX );
-
-		tally.add( meat_tally );  tally.add( mus_tally );
-		tally.add( mys_tally );  tally.add( mox_tally );
+		processResult( new AdventureResult( AdventureResult.MEAT ) );
+		processResult( new AdventureResult( AdventureResult.MUS ) );
+		processResult( new AdventureResult( AdventureResult.MYS ) );
+		processResult( new AdventureResult( AdventureResult.MOX ) );
 
 		activeFrame = new AdventureFrame( this, adventures );
 		activeFrame.pack();  activeFrame.setVisible( true );
@@ -123,22 +119,41 @@ public class KoLmafia
 
 	public void acquireItem( String itemname )
 	{
-		StringTokenizer strtok = new StringTokenizer( itemname, "()" );
+		// Because of the simplified parsing, there's a chance that
+		// the "item" acquired was a stat point (which should not
+		// be added at all).
 
-		String item = strtok.nextToken();
-		int increase = strtok.hasMoreTokens() ? Integer.parseInt( strtok.nextToken() ) : 1;
+		if ( itemname.endsWith( "point!" ) )
+			return;
+
+		StringTokenizer strtok = new StringTokenizer( itemname, "()" );
+		processResult( new AdventureResult( strtok.nextToken().trim(),
+			strtok.hasMoreTokens() ? Integer.parseInt( strtok.nextToken() ) : 1 ) );
 	}
 
 	public void modifyStat( int increase, String statname )
 	{
-		if ( AdventureResult.MUS_SUBSTAT.contains( statname ) )
-			mus_tally.accumulate( increase );
+		if ( statname.equals( AdventureResult.MEAT ) )
+			processResult( new AdventureResult( AdventureResult.MEAT, increase ) );
 
-		if ( AdventureResult.MYS_SUBSTAT.contains( statname ) )
-			mys_tally.accumulate( increase );
+		else if ( AdventureResult.MUS_SUBSTAT.contains( statname ) )
+			processResult( new AdventureResult( AdventureResult.MUS, increase ) );
 
-		if ( AdventureResult.MOX_SUBSTAT.contains( statname ) )
-			mox_tally.accumulate( increase );
+		else if ( AdventureResult.MYS_SUBSTAT.contains( statname ) )
+			processResult( new AdventureResult( AdventureResult.MYS, increase ) );
+
+		else if ( AdventureResult.MOX_SUBSTAT.contains( statname ) )
+			processResult( new AdventureResult( AdventureResult.MOX, increase ) );
+	}
+
+	private void processResult( AdventureResult result )
+	{
+		int index = tally.indexOf( result );
+
+		if ( index == -1 )
+			tally.add( result );
+		else
+			tally.set( index, AdventureResult.add( result, (AdventureResult) tally.get( index ) ) );
 	}
 
 	public void updateAdventure( boolean isComplete, boolean permitContinue )

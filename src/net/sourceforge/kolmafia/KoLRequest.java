@@ -303,7 +303,8 @@ public class KoLRequest extends Thread
 				// If you've encountered an error state, then make sure the
 				// client knows that the request has been cancelled
 
-				client.updateAdventure( false, false );
+				if ( isErrorState )
+					client.updateAdventure( false, false );
 			}
 
 			// Now that you're done, close the stream and prepare it for
@@ -323,40 +324,23 @@ public class KoLRequest extends Thread
 		while ( parsedContent.hasMoreTokens() )
 		{
 			lastToken = parsedContent.nextToken();
-			if ( lastToken.equals( "item:" ) )
+			if ( lastToken.equals( "b" ) )
 			{
 				// Here, you add the item just gained to the list of things
 				// acquired in the adventure.
 
-				lastToken = parsedContent.nextToken();
-
-				StringBuffer itemname = new StringBuffer();
-				itemname.append( lastToken );
-
-				while ( !lastToken.contains( "</b>" ) )
-				{
-					itemname.append( ' ' );
-					itemname.append( lastToken );
-					lastToken = parsedContent.nextToken();
-				}
-
-				client.acquireItem( itemname.substring( 3, itemname.length() - 4 ) );
+				client.acquireItem( parsedContent.nextToken() );
 			}
-			else if ( lastToken.equals( "gain" ) || lastToken.equals( "lose" ) )
+			else if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose" ) )
 			{
 				// Here, you add the stats just gained to the tally of stats
 				// gained in the adventure.
 
-				String increase = (lastToken.equals("gain") ? "" : "-") + parsedContent.nextToken();
+				StringTokenizer parsedGain = new StringTokenizer( lastToken, " ." );
+				parsedGain.nextToken();
 
-				// For now, this routine only measures subpoints gained; actual
-				// point gain indicators will be ignored
-
-				if ( increase.equals( "some" ) || increase.equals( "a" ) )
-					continue;
-
-				String statname = parsedContent.nextToken();
-				client.modifyStat( Integer.parseInt( increase ), statname );
+				client.modifyStat( Integer.parseInt(
+					(parsedGain.nextToken().equals("gain") ? "" : "-") + parsedGain.nextToken() ), parsedGain.nextToken() );
 			}
 		}
 	}
