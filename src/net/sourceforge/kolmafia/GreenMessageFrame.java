@@ -226,6 +226,11 @@ public class GreenMessageFrame extends KoLFrame
 			{
 				int amount = df.parse( JOptionPane.showInputDialog(
 					"Attaching meat..." ) ).intValue();
+
+				int existingIndex = attachedItems.indexOf( new AdventureResult( AdventureResult.MEAT, 0 ) );
+				if ( existingIndex != -1 )
+					attachedItems.remove( existingIndex );
+
 				AdventureResult.addResultToList( attachedItems, new AdventureResult(
 					AdventureResult.MEAT, amount ) );
 				resetAttachedItemsDisplay();
@@ -259,12 +264,14 @@ public class GreenMessageFrame extends KoLFrame
 
 				AdventureResult blankAttachment = new AdventureResult( attachmentName, 0 );
 				int existingIndex = attachedItems.indexOf( blankAttachment );
-				int defaultCount = existingIndex != -1 ? 0 - ((AdventureResult)attachedItems.get(
-					existingIndex )).getCount() : ((AdventureResult)client.getInventory().get(
-						client.getInventory().indexOf( blankAttachment ) )).getCount();
+				int defaultCount = existingIndex != -1 ? 0 :
+					((AdventureResult)client.getInventory().get( client.getInventory().indexOf( blankAttachment ) )).getCount();
 
 				int attachmentCount = df.parse( JOptionPane.showInputDialog(
 					"Attaching multiple " + attachmentName + "...", "" + defaultCount ) ).intValue();
+
+				if ( existingIndex != -1 )
+					attachedItems.remove( existingIndex );
 
 				AdventureResult.addResultToList( attachedItems, new AdventureResult(
 					attachmentName, attachmentCount ) );
