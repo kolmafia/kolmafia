@@ -505,6 +505,9 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 		{
+			if ( value == null )
+				return this;
+
 			if ( value instanceof AdventureResult )
 			{
 				AdventureResult ar = (AdventureResult) value;
