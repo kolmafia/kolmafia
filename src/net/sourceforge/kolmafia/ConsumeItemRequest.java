@@ -44,7 +44,6 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int GROW_FAMILIAR = 5;
 
 	private AdventureResult itemUsed;
-	private RetrieveResultRequest resultRequest;
 
 	/**
 	 * Constructs a new <code>ConsumeItemRequest</code>.
@@ -65,9 +64,7 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemName ) );
-
 		this.itemUsed = new AdventureResult( itemName, 0 - itemCount );
-		this.resultRequest = new RetrieveResultRequest( client, consumptionType == CONSUME_USE ? 3 : 1 );
 	}
 
 	public void run()
@@ -90,26 +87,26 @@ public class ConsumeItemRequest extends KoLRequest
 		// You know you're successful if the server
 		// attempts to redirect you.
 
-		if ( responseCode == 302 && redirectLocation.endsWith( "action=message" ) )
+		if ( responseCode == 302 && !isErrorState )
 		{
-			resultRequest.run();
-
 			if ( itemUsed.getName().startsWith( "chef-in" ) )
 				client.getCharacterData().setChef( true );
 			else if ( itemUsed.getName().startsWith( "bartender-in" ) )
 				client.getCharacterData().setBartender( true );
+			else
+				(new RetrieveResultRequest( client, redirectLocation )).run();
 		}
 		else
+		{
 			client.addToResultTally( itemUsed );
+			processResults( replyContent );
+		}
 	}
 
 	private class RetrieveResultRequest extends KoLRequest
 	{
-		public RetrieveResultRequest( KoLmafia client, int formID )
-		{
-			super( client, "inventory.php" );
-			addFormField( "which", "" + formID );
-			addFormField( "action", "message" );
+		public RetrieveResultRequest( KoLmafia client, String redirectLocation )
+		{	super( client, redirectLocation, false );
 		}
 
 		public void run()
