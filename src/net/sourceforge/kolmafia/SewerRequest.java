@@ -56,10 +56,11 @@ public class SewerRequest extends KoLRequest
 
 	public SewerRequest( KoLmafia client, boolean isLuckySewer )
 	{
-		super( client, isLuckySewer || client.isLuckyCharacter() ?
-			"luckysewer.php" : "sewer.php" );
-
+		super( client, isLuckySewer || client.isLuckyCharacter() ? "luckysewer.php" : "adventure.php" );
 		this.isLuckySewer = isLuckySewer || client.isLuckyCharacter();
+
+		if ( !this.isLuckySewer )
+			addFormField( "adv", "12" );
 	}
 
 	/**
