@@ -748,7 +748,7 @@ public class KoLMessenger implements KoLConstants
 			// Next, split the message around the tags so you know
 			// how to display the message.
 
-			StringTokenizer splitMessage = new StringTokenizer( message.trim().replaceAll( "<.*?>", "\n" ), "\n" );
+			StringTokenizer splitMessage = new StringTokenizer( message.trim().replaceAll( "<.*?>", "" ), ":" );
 			StringBuffer redoneMessage = new StringBuffer();
 
 			// In traditional instant message style, your name
@@ -759,7 +759,7 @@ public class KoLMessenger implements KoLConstants
 			if ( isRecipient )
 			{
 				String firstToken = splitMessage.nextToken();
-				contactName = firstToken.substring( 0, firstToken.length() - 11 );
+				contactName = firstToken.substring( 0, firstToken.length() - 10 );
 				redoneMessage.append( "<font color=blue><b>" );
 				redoneMessage.append( contactName );
 				redoneMessage.append( "</b></font>: " );
@@ -769,7 +769,7 @@ public class KoLMessenger implements KoLConstants
 				contactName = splitMessage.nextToken().substring( 11 );
 				redoneMessage.append( "<font color=red><b>" );
 				redoneMessage.append( client.getLoginName() );
-				redoneMessage.append( "</b></font>" );
+				redoneMessage.append( "</b></font>: " );
 			}
 
 			redoneMessage.append( splitMessage.nextToken() );
