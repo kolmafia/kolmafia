@@ -81,7 +81,7 @@ public class UseSkillRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( target == null )
+		if ( target == null || target.trim().length() == 0 )
 			updateDisplay( DISABLED_STATE, "Casting " + skillName + "..." );
 		else
 			updateDisplay( DISABLED_STATE, "Casting " + skillName + " on " + target );
