@@ -183,7 +183,9 @@ public class AdventureFrame extends KoLFrame
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-		viewMenu.setEnabled( isEnabled );
+
+		if ( viewMenu != null )
+			viewMenu.setEnabled( isEnabled );
 
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			tabs.setEnabledAt( i, isEnabled );
