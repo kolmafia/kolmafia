@@ -34,20 +34,25 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.List;
 import java.util.Calendar;
 import javax.swing.JEditorPane;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class KoLMessenger
 {
 	private KoLmafia client;
 	private ChatFrame channelFrame;
 	private ChatBuffer loathingChat;
+	private SortedListModel onlineContacts;
 
 	public KoLMessenger( KoLmafia client )
 	{
 		this.client = client;
+		this.onlineContacts = new SortedListModel();
+
 		channelFrame = new ChatFrame( client, this );
 		channelFrame.setVisible( true );
 
@@ -67,6 +72,7 @@ public class KoLMessenger
 	public void initialize()
 	{
 		(new ChatRequest( client, "/channel" )).run();
+		(new ChatRequest( client, "/friends" )).run();
 		(new ChatRequest( client )).run();
 	}
 
@@ -92,15 +98,29 @@ public class KoLMessenger
 	{	return loathingChat;
 	}
 
+	/**
+	 * Returns whether or not the messenger is showing on screen.
+	 * @return	<code>true</code> if the messenger is showing.
+	 */
+
 	public boolean isShowing()
 	{	return channelFrame == null ? false : channelFrame.isShowing();
 	}
+
+	/**
+	 * Sets the messenger's current visibility status.
+	 * @param	isVisible	<code>true</code> if the messenger should be visible
+	 */
 
 	public void setVisible( boolean isVisible )
 	{
 		if ( channelFrame != null )
 			channelFrame.setVisible( isVisible );
 	}
+
+	/**
+	 * Disposes the messenger's frames.
+	 */
 
 	public void dispose()
 	{
@@ -111,7 +131,38 @@ public class KoLMessenger
 		loathingChat = null;
 	}
 
+	/**
+	 * Requests forcus for the messenger's primary window.
+	 */
+
 	public void requestFocus()
 	{	channelFrame.requestFocus();
+	}
+
+	/**
+	 * Replaces the current contact list with the given contact
+	 * list.  This is used after every call to /friends.
+	 *
+	 * @param	currentContacts	A list of the contacts currently online.
+	 */
+
+	public void updateContactList( List currentContacts )
+	{
+		onlineContacts.clear();
+		onlineContacts.addAll( currentContacts );
+	}
+
+	/**
+	 * Updates a single online/offline state for a character.
+	 * @param	characterName	The character whose state has changed
+	 * @param	isOnline	Whether or not they are online
+	 */
+
+	public void updateContactList( String characterName, boolean isOnline )
+	{
+		if ( isOnline && !onlineContacts.contains( characterName ) )
+			onlineContacts.add( characterName );
+		else if ( !isOnline )
+			onlineContacts.remove( characterName );
 	}
 }

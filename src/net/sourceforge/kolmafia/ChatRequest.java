@@ -34,7 +34,14 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import java.net.URLEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.StringTokenizer;
+
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
@@ -50,6 +57,7 @@ public class ChatRequest extends KoLRequest
 
 	private int lastSeen;
 	private ChatBuffer associatedBuffer;
+	private KoLMessenger associatedMessenger;
 	private boolean isContinuationRequest;
 
 	/**
@@ -88,9 +96,9 @@ public class ChatRequest extends KoLRequest
 			// handling when it becomes necessary.
 		}
 
-		this.isContinuationRequest = false;
-		this.associatedBuffer = client.getMessenger() == null ? null :
-			client.getMessenger().getChatBuffer();
+		isContinuationRequest = false;
+		associatedMessenger = client.getMessenger();
+		associatedBuffer = associatedMessenger == null ? null : associatedMessenger.getChatBuffer();
 	}
 
 	/**
@@ -107,9 +115,9 @@ public class ChatRequest extends KoLRequest
 		addFormField( "lasttime", "" + lastSeen );
 
 		this.lastSeen = lastSeen;
-		this.isContinuationRequest = true;
-		this.associatedBuffer = client.getMessenger() == null ? null :
-			client.getMessenger().getChatBuffer();
+		isContinuationRequest = true;
+		associatedMessenger = client.getMessenger();
+		associatedBuffer = associatedMessenger == null ? null : associatedMessenger.getChatBuffer();
 	}
 
 	/**
@@ -143,18 +151,49 @@ public class ChatRequest extends KoLRequest
 			// last seen value.
 		}
 
-		if ( client.getMessenger() != null && associatedBuffer == client.getMessenger().getChatBuffer() )
+		if ( associatedMessenger == client.getMessenger() && associatedMessenger != null )
 		{
 			// There's a lot of bad HTML used in KoL chat; in order to get Java
 			// to properly display everything, all of the bad HTML gets replaced.
 			// Also, because linking is not currently handled, all link tags are
 			// also removed.
 
-			String noLinksContent = replyContent.replaceAll( "</?a.*?>", "" ).replaceAll(
-				"<b><i>", "<i><b>" ).replaceAll( "</br>", "<br>" ).replaceAll(
-				"<font color=\"none\">", "" ).replaceAll( "</b></font>", "</b>" ).replaceAll( "<!.*?>", "" );
+			String orderedTagsContent = replyContent.replaceAll( "<b><i>", "<i><b>" );
+			String correctedTagsContent = orderedTagsContent.replaceAll( "</br>", "<br>" );
+			String validColorsContent = correctedTagsContent.replaceAll( "<font color=\"none\">", "" ).replaceAll( "</b></font>", "</b>" );
+			String noDoubleTagsContent = validColorsContent.replaceAll( "<font.*?><font.*?>", "<font color=green>" );
+			String noCommentsContent = noDoubleTagsContent.replaceAll( "<!.*?>", "" );
+			String noContactListContent = noCommentsContent.replaceAll( "<table>.*?</table>", "" );
+			String noLinksContent = noContactListContent.replaceAll( "</?a.*?>", "" );
 
 			associatedBuffer.append( noLinksContent );
+
+			// Now, extract the contact list and update KoLMessenger to indicate
+			// the contact list found in the last /friends update
+
+			Matcher contactListMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( replyContent );
+			if ( contactListMatcher.find() )
+			{
+				StringTokenizer parsedContactList = new StringTokenizer( contactListMatcher.group().replaceAll( "<.*?>", "\n" ), "\n" );
+				skipTokens( parsedContactList, 1 );
+
+				List contactList = new ArrayList();
+				while ( parsedContactList.hasMoreTokens() )
+					contactList.add( parsedContactList.nextToken() );
+				associatedMessenger.updateContactList( contactList );
+			}
+
+			// Also extract messages which indicate logon/logoff of players to
+			// update the contact list.
+
+			Matcher onlineNoticeMatcher = Pattern.compile( "<font.*?><b>.*</font>" ).matcher( noLinksContent );
+			int lastFindIndex = 0;
+			while ( onlineNoticeMatcher.find( lastFindIndex ) )
+			{
+				lastFindIndex = onlineNoticeMatcher.end();
+				String [] onlineNotice = onlineNoticeMatcher.group().split( "<.*?>" );
+				associatedMessenger.updateContactList( onlineNotice[2], onlineNotice[3].endsWith( "on." ) );
+			}
 
 			if ( isContinuationRequest )
 				(new ChatContinuationThread()).start();
@@ -193,7 +232,7 @@ public class ChatRequest extends KoLRequest
 			// the next chat request should be run.  Note that this is
 			// only possible if the chat buffer has not been nulled.
 
-			if ( client.getMessenger() != null && client.getMessenger().getChatBuffer() != null )
+			if ( client.getMessenger() != null )
 				(new ChatRequest( client, lastSeen )).run();
 		}
 	}
