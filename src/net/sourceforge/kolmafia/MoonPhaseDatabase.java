@@ -34,6 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.CardLayout;
+
 /**
  * A special class used to determine the current moon phase.
  * Theoretically, the calculations are simple enough to be
@@ -82,7 +86,23 @@ public class MoonPhaseDatabase
 		int ronaldPhase = PHASE_STEP % 8;
 		int grimacePhase = ((int)Math.floor( PHASE_STEP / 2 )) % 8;
 
-		return "Ronald: " + ronaldPhase + ", Grimace: " + grimacePhase;
+		return "Ronald: " + getPhaseName( ronaldPhase ) + ", Grimace: " + getPhaseName( grimacePhase );
+	}
+
+	private static final String getPhaseName( int phase )
+	{
+		switch ( phase )
+		{
+			case 0:  return "new moon";
+			case 1:  return "waxing crescent";
+			case 2:  return "first quarter";
+			case 3:  return "waxing gibbous";
+			case 4:  return "full moon";
+			case 5:  return "waning gibbous";
+			case 6:  return "third quarter";
+			case 7:  return "waning crescent";
+			default:  return null;
+		}
 	}
 
 	/**
@@ -95,5 +115,19 @@ public class MoonPhaseDatabase
 
 	public static final String getMoonEffect()
 	{	return STAT_EFFECT[ PHASE_STEP ];
+	}
+
+	/**
+	 * Creates a frame which displays detailed statistics about
+	 * the current moon phase.  This currently is made private
+	 * until the required functionality is added.
+	 */
+
+	public static final void displayMoonPhase()
+	{
+		JFrame display = new JFrame( getMoonPhase() );
+		display.getContentPane().setLayout( new CardLayout( 10, 10 ) );
+		display.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+		display.pack();  display.setVisible( true );
 	}
 }
