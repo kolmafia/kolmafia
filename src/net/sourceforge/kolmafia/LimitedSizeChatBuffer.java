@@ -66,11 +66,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	}
 
 	/**
-	 * Appends the given <code>SpellcastMessage</code> to the chat buffer.  Note
-	 * that though the parameter allows for <i>any</i> <code>SpellcastMessage</code>
-	 * to be appended to the buffer, the truth is, only pre-specified messages will
-	 * actually be displayed while others will simply be ignored.
-	 *
+	 * Appends the given message to the chat buffer.
 	 * @param	message	The message to be appended to this <code>ChatBuffer</code>
 	 */
 
