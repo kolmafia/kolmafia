@@ -98,15 +98,16 @@ public class KoLmafia implements UtilityConstants
 	}
 
 	/**
-	 * Returns the currently active frame in the <code>KoLmafia</code>
-	 * session.  This frame is often used in display updates, and is
-	 * therefore made accessible.
-	 *
-	 * @return	the currently active frame in this <code>KoLmafia</code> session
+	 * Updates the currently active display in the <code>KoLmafia</code>
+	 * session.
 	 */
 
-	public KoLFrame getActiveFrame()
-	{	return activeFrame;
+	public void updateDisplay( int state, String message )
+	{	activeFrame.updateDisplay( state, message );
+	}
+
+	public void requestFocus()
+	{	activeFrame.requestFocus();
 	}
 
 	/**

@@ -91,12 +91,10 @@ public class KoLMessenger
 
 	public void initialize()
 	{
-		KoLFrame activeFrame = client.getActiveFrame();
-
-		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Initializing chat..." );
+		client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Initializing chat..." );
 		(new ChatRequest( client, null, "/channel" )).run();
 
-		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Starting chat..." );
+		client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Starting chat..." );
 		(new ChatRequest( client )).run();
 	}
 

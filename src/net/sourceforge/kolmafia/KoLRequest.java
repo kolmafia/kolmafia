@@ -687,8 +687,8 @@ public class KoLRequest implements Runnable
 
 	protected final void updateDisplay( int displayState, String message )
 	{
-		if ( client.getActiveFrame() != null )
-			client.getActiveFrame().updateDisplay( displayState, message );
+		if ( client != null )
+			client.updateDisplay( displayState, message );
 	}
 
 	/**

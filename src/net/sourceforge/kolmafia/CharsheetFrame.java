@@ -353,10 +353,10 @@ public class CharsheetFrame extends KoLFrame
 				public void run()
 				{
 					if ( isStart )
-						client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "Changing outfit..." );
+						client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Changing outfit..." );
 					else
 					{
-						client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "" );
+						client.updateDisplay( KoLFrame.NOCHANGE_STATE, "" );
 						refreshEquipPanel();
 					}
 
@@ -393,9 +393,9 @@ public class CharsheetFrame extends KoLFrame
 				(new UneffectRequest( client, effectDescription )).run();
 
 				if ( effectCount != characterData.getEffects().size() )
-					client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "Effect removed." );
+					client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Effect removed." );
 				else
-					client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "Effect removal failed." );
+					client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Effect removal failed." );
 
 				SwingUtilities.invokeLater( new EffectRemoveGUIUpdater(
 					client.getInventory().contains( UneffectRequest.REMEDY ) ) );
@@ -425,7 +425,7 @@ public class CharsheetFrame extends KoLFrame
 					CharsheetFrame.this.removeEffectButton.setEnabled( !isStart && hasRemedy );
 
 					if ( isStart )
-						client.getActiveFrame().updateDisplay( KoLFrame.NOCHANGE_STATE, "Removing effect..." );
+						client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Removing effect..." );
 				}
 			}
 		}
