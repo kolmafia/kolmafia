@@ -40,6 +40,14 @@ import java.util.StringTokenizer;
 import java.text.ParseException;
 import java.text.DecimalFormat;
 
+/**
+ * A container class which encapsulates the results from an adventure and
+ * handles the transformation of these results into a string.  At the
+ * current time, only monetary gains, stat gains and item gains (and losses)
+ * can be encapsulated; hit point, mana point and adventure gains/losses
+ * will be encapsulated at a later date.
+ */
+
 public class AdventureResult implements Comparable
 {
 	private int [] resultCount;
@@ -63,9 +71,26 @@ public class AdventureResult implements Comparable
 		MOX_SUBSTAT.add( "Cheek" );  MOX_SUBSTAT.add( "Chutzpah" );  MOX_SUBSTAT.add( "Roguishness" );  MOX_SUBSTAT.add( "Sarcasm" );  MOX_SUBSTAT.add( "Smarm" );
 	}
 
+	/**
+	 * Constructs a new <code>AdventureResult</code> with the given name.
+	 * The amount of gain will default to zero.  This constructor should
+	 * only be used for initializing a field.
+	 *
+	 * @param	resultName	The name of the result
+	 */
+
 	public AdventureResult( String resultName )
 	{	this( resultName, resultName.equals(SUBSTATS) ? new int[3] : new int[1] );
 	}
+
+	/**
+	 * Constructs a new <code>AdventureResult</code> with the given name
+	 * which increased/decreased by the given value.  This constructor
+	 * should be used for most results.
+	 *
+	 * @param	resultName	The name of the result
+	 * @param	resultCount	How many of the noted result were gained
+	 */
 
 	public AdventureResult( String resultName, int resultCount )
 	{
@@ -74,6 +99,13 @@ public class AdventureResult implements Comparable
 		this.resultCount[0] = resultCount;
 		this.resultPriority = resultName.equals(MEAT) ? 0 : resultName.equals(SUBSTATS) ? 1 : resultName.equals(DIVIDER) ? 2 : 3;
 	}
+
+	/**
+	 * Constructs a new <code>AdventureResult</code> with the given name
+	 * and increase in stat gains.  This method is used internally to
+	 * represent stat gains, and potentially health and mana gains in
+	 * future versions.
+	 */
 
 	private AdventureResult( String resultName, int [] resultCount )
 	{
@@ -85,6 +117,17 @@ public class AdventureResult implements Comparable
 
 		this.resultPriority = resultName.equals(MEAT) ? 0 : resultName.equals(SUBSTATS) ? 1 : resultName.equals(DIVIDER) ? 2 : 3;
 	}
+
+	/**
+	 * A static method which parses the given string for any content
+	 * which might be applicable to an <code>AdventureResult</code>,
+	 * and returns the resulting <code>AdventureResult</code>.
+	 *
+	 * @param	s	The string suspected of being an <code>AdventureResult</code>
+	 * @return	An <code>AdventureResult</code> with the appropriate data
+	 * @throws	NumberFormatException	The string was not a recognized <code>AdventureResult</code>
+	 * @throws	ParseException	The value enclosed within parentheses was not a number.
+	 */
 
 	public static AdventureResult parseResult( String s ) throws NumberFormatException, ParseException
 	{
@@ -128,11 +171,18 @@ public class AdventureResult implements Comparable
 			parsedItem.hasMoreTokens() ? df.parse(parsedItem.nextToken()).intValue() : 1 );
 	}
 
-	public void clear()
-	{
-		for ( int i = 0; i < resultCount.length; ++i )
-			resultCount[i] = 0;
-	}
+	/**
+	 * A static method which adds the two <code>AdventureResult</code>s together to
+	 * produce a new <code>AdventureResult</code> containing the sum of the results.
+	 * Because addition is commutative, it doesn't matter which one is left or right;
+	 * it is named simply for convenience.  Note that if the left and right operands
+	 * do not have the same name, this method returns <code>null</code>; if either
+	 * operand is null, the method returns the other operand.
+	 *
+	 * @param	left	The left operand
+	 * @param	right	The right operand
+	 * @return	An <code>AdventureResult</code> containing the sum of the left and right operands
+	 */
 
 	public static AdventureResult add( AdventureResult left, AdventureResult right )
 	{
@@ -155,6 +205,14 @@ public class AdventureResult implements Comparable
 		}
 	}
 
+	/**
+	 * Converts the <code>AdventureResult</code> to a <code>String</code>.  This is
+	 * especially useful in debug, or if the <code>AdventureResult</code> is to
+	 * be displayed in a <code>ListModel</code>.
+	 *
+	 * @return	The string version of this <code>AdventureResult</code>
+	 */
+
 	public String toString()
 	{
 		return resultName.equals(MEAT) ? " Meat: " + resultCount[0] :
@@ -163,6 +221,16 @@ public class AdventureResult implements Comparable
 			" " + resultName + " (" + resultCount[0] + ")";
 	}
 
+	/**
+	 * Compares the <code>AdventureResult</code> with the given object for name
+	 * equality.  Note that this will still return <code>true</code> if the values
+	 * do not match; this merely matches on names.
+	 *
+	 * @param	The <code>Object</code> to be compared with this <code>AdventureResult</code>
+	 * @return	<code>true</code> if the <code>Object</code> is an <code>AdventureResult</code>
+	 *			and has the same name as this one
+	 */
+
 	public boolean equals( Object o )
 	{
 		if ( !(o instanceof AdventureResult) || o == null )
@@ -170,6 +238,12 @@ public class AdventureResult implements Comparable
 
 		return resultName.equals( ((AdventureResult)o).resultName );
 	}
+
+	/**
+	 * Compares the <code>AdventureResult</code> with the given object for name
+	 * equality and priority differences.  Return values are consistent with the
+	 * rules laid out in {@link java.lang.Comparable#compareTo(Object)}.
+	 */
 
 	public int compareTo( Object o )
 	{
