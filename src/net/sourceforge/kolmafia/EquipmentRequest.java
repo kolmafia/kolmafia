@@ -74,11 +74,21 @@ public class EquipmentRequest extends KoLRequest
 		super( client, requestType == CLOSET ? "closet.php" : "inventory.php" );
 		this.character = client.getCharacterData();
 		this.requestType = requestType;
+
+		// Otherwise, add the form field indicating which page
+		// of the inventory you want to request
+
+		if ( requestType == EQUIPMENT )
+			addFormField( "which", "2" );
 	}
 
 	public EquipmentRequest( KoLmafia client, SpecialOutfit change )
 	{
 		super( client, "inv_equip.php" );
+		addFormField( "action", "outfit" );
+		addFormField( "which", "2" );
+		addFormField( "whichoutfit", "" + change.getOutfitID() );
+		this.requestType = CHANGE_OUTFIT;
 	}
 
 	/**
@@ -99,13 +109,16 @@ public class EquipmentRequest extends KoLRequest
 			return;
 		}
 
-		// Otherwise, add the form field indicating which page
-		// of the inventory you want to request
-
-		if ( requestType == EQUIPMENT )
-			addFormField( "which", "2" );
-
 		super.run();
+
+		// If you changed your outfit, there will be a redirect
+		// to the equipment page - therefore, do so.
+
+		if ( requestType == CHANGE_OUTFIT )
+		{
+			(new EquipmentRequest( client, EQUIPMENT )).run();
+			return;
+		}
 
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
