@@ -138,7 +138,7 @@ public class MallPurchaseRequest extends KoLRequest
 	public String toString()
 	{
 		return itemName.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
-			" (" + quantity + " @ " + price + "): " + shopName;
+			" (" + df.format( quantity ) + " @ " + df.format( price ) + "): " + shopName;
 	}
 
 	/**
