@@ -183,7 +183,7 @@ public class ConcoctionsDatabase
 				return (data.hasBartender() || autoRepair);
 
 			case ItemCreationRequest.SMITH:
-				return (data.hasChef() || autoRepair) && classtype.startsWith( "Se" );
+				return classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" );
 
 			case ItemCreationRequest.COOK_REAGENT:
 				return (data.hasChef() || autoRepair) && classtype.startsWith( "Sa" );
