@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -42,6 +44,12 @@ import java.util.StringTokenizer;
 
 public class HermitRequest extends KoLRequest
 {
+	private static final AdventureResult TRINKET = new AdventureResult( 43, 0 );
+	private static final AdventureResult GEWGAW = new AdventureResult( 44, 0 );
+	private static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 0 );
+
+	private int quantity;
+
 	/**
 	 * Constructs a new <code>HermitRequest</code>.  Note that in order
 	 * for the hermit request to successfully run after creation, there
@@ -55,6 +63,7 @@ public class HermitRequest extends KoLRequest
 	{
 		super( client, "hermit.php" );
 
+		this.quantity = quantity;
 		addFormField( "action", "trade" );
 		addFormField( "quantity", "" + quantity );
 		addFormField( "pwd", client.getPasswordHash() );
@@ -119,6 +128,27 @@ public class HermitRequest extends KoLRequest
 		}
 
 		processResults( replyContent );
+
+		List inventory = client.getInventory();
+
+		// Subtract the worthless items in order of their priority;
+		// as far as we know, the priority is the item ID.
+
+		quantity -= subtractWorthlessItems( TRINKET, inventory, quantity );
+		quantity -= subtractWorthlessItems( GEWGAW, inventory, quantity );
+		subtractWorthlessItems( KNICK_KNACK, inventory, quantity );
+
 		updateDisplay( ENABLED_STATE, "Hermit successfully looted!" );
+	}
+
+	private int subtractWorthlessItems( AdventureResult item, List inventory, int total )
+	{
+		int index = inventory.indexOf( item );
+		if ( index == -1 )
+			return 0;
+
+		int count = 0 - Math.min( total, ((AdventureResult)inventory.get( index )).getCount() );
+		client.processResult( new AdventureResult( item.getItemID(), count ) );
+		return count;
 	}
 }
