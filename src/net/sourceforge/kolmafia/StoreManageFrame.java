@@ -37,7 +37,9 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -50,6 +52,10 @@ import javax.swing.ListSelectionModel;
 import java.util.TreeMap;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+// spellcast-related imports
+import net.java.dev.spellcast.utilities.PanelList;
+import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -76,9 +82,19 @@ public class StoreManageFrame extends KoLFrame
 		westPanel.setLayout( new BorderLayout() );
 		westPanel.add( storeManager, BorderLayout.NORTH );
 
-		getContentPane().setLayout( new BorderLayout() );
+		getContentPane().setLayout( new BorderLayout( 20, 20 ) );
 		getContentPane().add( westPanel, BorderLayout.NORTH );
 		getContentPane().add( searchResults, BorderLayout.EAST );
+
+		JScrollPane scrollArea = new JScrollPane( new StoreItemPanelList(),
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout( new BorderLayout() );
+		centerPanel.add( JComponentUtilities.createLabel( "Manage Store", JLabel.CENTER,
+			Color.black, Color.white ), BorderLayout.NORTH );
+		centerPanel.add( scrollArea, BorderLayout.CENTER );
+		getContentPane().add( centerPanel, BorderLayout.CENTER );
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -223,6 +239,56 @@ public class StoreManageFrame extends KoLFrame
 
 			add( new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+		}
+	}
+
+	private class StoreItemPanelList extends PanelList
+	{
+		public StoreItemPanelList()
+		{	super( 8, 360, 25, client.getStoreManager().getSoldItemList() );
+		}
+
+		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
+		{
+			StoreItemPanel toConstruct = new StoreItemPanel( (StoreManager.SoldItem) value );
+			toConstruct.updateDisplay( this, value, index );
+			return toConstruct;
+		}
+
+		private class StoreItemPanel extends PanelListCell
+		{
+			private JLabel itemName;
+			private JTextField itemPrice, itemLimit;
+
+			public StoreItemPanel( StoreManager.SoldItem value )
+			{
+				itemName = new JLabel( TradeableItemDatabase.getItemName( value.getItemID() ), JLabel.RIGHT );
+				itemPrice = new JTextField( "" + df.format( value.getPrice() ) );
+				itemLimit = new JTextField( "" + df.format( value.getLimit() ) );
+
+				JComponentUtilities.setComponentSize( itemName, 210, 20 );
+				JComponentUtilities.setComponentSize( itemPrice, 90, 20 );
+				JComponentUtilities.setComponentSize( itemLimit, 30, 20 );
+
+				JPanel corePanel = new JPanel();
+				corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
+				corePanel.add( itemName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+				corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+				corePanel.add( itemLimit ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+
+				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+				add( Box.createVerticalStrut( 5 ) );
+				add( corePanel );
+			}
+
+			public synchronized void updateDisplay( PanelList list, Object value, int index )
+			{
+				StoreManager.SoldItem smsi = (StoreManager.SoldItem) value;
+
+				itemName.setText( TradeableItemDatabase.getItemName( smsi.getItemID() ) );
+				itemPrice.setText( "" + df.format( smsi.getPrice() ) );
+				itemLimit.setText( "" + df.format( smsi.getLimit() ) );
+			}
 		}
 	}
 }
