@@ -340,17 +340,18 @@ public class KoLMessenger
 		// behind the default HTML handler is compared to a web browser.
 
 		String orderedTagsContent = noLinksContent.replaceAll( "<b><i>", "<i><b>" ).replaceAll(
-			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</font></b>", "</b></font>" );
-
+			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</font></b>", "</b></font>" ).replaceAll(
+				"</?br></b></font>", "</b></font><br>" );
 
 		// Another problem is doubled tags and other weird content related
 		// to color (strangely, only colors suffer from this.  These tags
-		// need to be replaced and/or fixed as well.
+		// need to be replaced and/or fixed as well.  And there's too many
+		// of them!  *sobs*
 
 		String correctedColorContent = orderedTagsContent.replaceAll(
 			"<font color=green><font color=green>", "<font color=green>" ).replaceAll(
 				"<font color=red><b><b>", "" ).replaceAll( "<font color=red><b>", "" ).replaceAll(
-					"<font color=red>", "<font color=red><b>" );
+					"<font color=red>", "<font color=red><b>" ).replaceAll( "<font color=red><b><font color=green>", "<font color=green>" );
 
 		// Also, there is no such thing as "none" color - though this works in
 		// Java 1.4.2 and the latest update of 1.5.0, it shouldn't be here anyway,
