@@ -326,24 +326,11 @@ public class KoLRequest extends Thread
 		while ( parsedResults.hasMoreTokens() )
 		{
 			lastToken = parsedResults.nextToken();
+
 			if ( lastToken.equals( "b" ) )
-			{
-				// Here, you add the item just gained to the list of things
-				// acquired in the adventure.
-
-				client.acquireItem( parsedResults.nextToken() );
-			}
+				client.parseResult( parsedResults.nextToken() );
 			else if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose" ) )
-			{
-				// Here, you add the stats just gained to the tally of stats
-				// gained in the adventure.
-
-				StringTokenizer parsedGain = new StringTokenizer( lastToken, " ." );
-				parsedGain.nextToken();
-
-				client.modifyStat( Integer.parseInt(
-					(parsedGain.nextToken().equals("gain") ? "" : "-") + parsedGain.nextToken() ), parsedGain.nextToken() );
-			}
+				client.parseResult( lastToken );
 		}
 	}
 }

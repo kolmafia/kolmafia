@@ -33,8 +33,10 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.List;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class AdventureResult implements Comparable
 {
@@ -48,9 +50,9 @@ public class AdventureResult implements Comparable
 	public static final String MOX = "Mox";
 	public static final String DIVIDER = "";
 
-	public static List MUS_SUBSTAT = new ArrayList();
-	public static List MYS_SUBSTAT = new ArrayList();
-	public static List MOX_SUBSTAT = new ArrayList();
+	private static List MUS_SUBSTAT = new ArrayList();
+	private static List MYS_SUBSTAT = new ArrayList();
+	private static List MOX_SUBSTAT = new ArrayList();
 
 	static
 	{
@@ -70,6 +72,57 @@ public class AdventureResult implements Comparable
 
 		this.resultPriority = resultName.equals( MEAT ) ? 0 : resultName.equals( MUS ) ? 1 :
 			resultName.equals( MYS ) ? 2 : resultName.equals( MOX ) ? 3 : 4;
+	}
+
+	public static AdventureResult parseResult( String s )
+	{
+		if ( s.startsWith("You gain") || s.startsWith("You lose") )
+		{
+			// A stat has been modified - now you figure out which one it was,
+			// how much it's been modified by, and return the appropriate value
+
+			StringTokenizer parsedGain = new StringTokenizer( s, " ." );
+			parsedGain.nextToken();
+
+			try
+			{
+				int modifier = Integer.parseInt(
+					(parsedGain.nextToken().equals("gain") ? "" : "-") + parsedGain.nextToken() );
+				String statname = parsedGain.nextToken();
+
+				// Stats actually fall into one of four categories - simply pick the
+				// correct one and return the result.
+
+				if ( statname.equals( MEAT ) )
+					return new AdventureResult( MEAT, modifier );
+
+				else if ( MUS_SUBSTAT.contains( statname ) )
+					return new AdventureResult( MUS, modifier );
+
+				else if ( MYS_SUBSTAT.contains( statname ) )
+					return new AdventureResult( MYS, modifier );
+
+				else if ( MOX_SUBSTAT.contains( statname ) )
+					return new AdventureResult( MOX, modifier );
+			}
+			catch ( NumberFormatException e )
+			{
+				// If any integer parsing was ruined as a result of the
+				// initial parse, let it fall through - it was probably
+				// a strange result, but you might as well return whatever
+				// adventure result object would have been returned, had
+				// it been an item.
+			}
+
+			// If for some bizarre reason it's gotten this far, it was probably
+			// some brand-new item whose name started with "You gain" or even
+			// "You lose," has a number as its third token, and lots of other
+			// bizarre things - let it fall through.
+		}
+
+		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
+		return new AdventureResult( parsedItem.nextToken().trim(),
+			parsedItem.hasMoreTokens() ? Integer.parseInt( parsedItem.nextToken() ) : 1 );
 	}
 
 	public void clear()

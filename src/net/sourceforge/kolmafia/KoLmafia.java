@@ -40,6 +40,7 @@ import java.util.StringTokenizer;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class KoLmafia
 {
@@ -123,33 +124,16 @@ public class KoLmafia
 		addToTally( new AdventureResult( AdventureResult.DIVIDER ) );
 	}
 
-	public void acquireItem( String itemname )
+	public void parseResult( String result )
 	{
 		// Because of the simplified parsing, there's a chance that
 		// the "item" acquired was a stat point (which should not
 		// be added at all).
 
-		if ( itemname.endsWith( "point!" ) )
+		if ( result.endsWith( "point!" ) )
 			return;
 
-		StringTokenizer strtok = new StringTokenizer( itemname, "()" );
-		addToTally( new AdventureResult( strtok.nextToken().trim(),
-			strtok.hasMoreTokens() ? Integer.parseInt( strtok.nextToken() ) : 1 ) );
-	}
-
-	public void modifyStat( int increase, String statname )
-	{
-		if ( statname.equals( AdventureResult.MEAT ) )
-			addToTally( new AdventureResult( AdventureResult.MEAT, increase ) );
-
-		else if ( AdventureResult.MUS_SUBSTAT.contains( statname ) )
-			addToTally( new AdventureResult( AdventureResult.MUS, increase ) );
-
-		else if ( AdventureResult.MYS_SUBSTAT.contains( statname ) )
-			addToTally( new AdventureResult( AdventureResult.MYS, increase ) );
-
-		else if ( AdventureResult.MOX_SUBSTAT.contains( statname ) )
-			addToTally( new AdventureResult( AdventureResult.MOX, increase ) );
+		addToTally( AdventureResult.parseResult( result ) );
 	}
 
 	private void addToTally( AdventureResult result )
