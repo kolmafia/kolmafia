@@ -78,7 +78,7 @@ public class ChatRequest extends KoLRequest
 
 		String actualMessage = contact == null ? message :
 			message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) ? message + " " + contact :
-				"/msg " + contact.replaceAll( " ", "_" ) + " " + message;
+				message.startsWith( "/" ) ? message : "/msg " + contact.replaceAll( " ", "_" ) + " " + message;
 
 		try
 		{
