@@ -236,6 +236,11 @@ public class AdventureFrame extends KoLFrame
 
 		viewMenu.add( statusMenuItem );
 
+		JMenuItem gearMenuItem = new JMenuItem( "Gear Changer", KeyEvent.VK_G );
+		gearMenuItem.addActionListener( new DisplayFrameListener( GearChangeFrame.class ) );
+
+		viewMenu.add( gearMenuItem );
+
 		JMenuItem itemMenuItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
 		itemMenuItem.addActionListener( new ViewItemManagerListener() );
 
