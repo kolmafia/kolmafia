@@ -257,7 +257,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ItemStorageRequestThread( ItemStorageRequest.MOVE_TO_CLOSET )).run();
+			{	(new ItemStorageRequestThread( ItemStorageRequest.MOVE_TO_CLOSET )).start();
 			}
 
 			protected void actionCancelled()
