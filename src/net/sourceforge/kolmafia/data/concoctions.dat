@@ -1,11 +1,254 @@
-31337 scroll	1	30669 scroll	668 scroll
+# Christmas-specific items which can be created through combination.
+# Seal-clubber items are also included in this list.
+
+present	1	box	wrapping paper
+bow staff	4	big stick	bow
+bowlegged pants	4	basic meat pants	bow
+bowler	4	basic meat helmet	bow
+
+
+# Quest items which are created by combination and their subparts.
+
+abridged dictionary	1	bridge	dictionary
+bone rattle	1	skeleton bone	broken skull
+cog and sprocket assembly	1	cog	sprocket assembly
+dope wheels	1	tires	sweet rims
+full meat tank	1	empty meat tank	meat stack
+heart of rock and roll	1	big rock	hot buttered roll
+heavy metal sonata	1	chrome ore	drab sonata
+heavy metal thunderrr guitarrr	1	acoustic guitarrr	chrome ore
+heavy hot sauce	1	big rock	jaba&ntilde;ero pepper
+Rock and Roll Legend	1	heart of rock and roll	stolen accordion
+really really sticky spider web	1	really sticky spider web	really sticky spider web
+really sticky spider web	1	spider web	spider web
+skeleton key	1	skeleton bone	loose teeth
+stone banjo	1	big rock	banjo strings
+T-bone key	1	rusty L-shaped piece of metal	crusty L-shaped piece of metal
+tambourine	1	Gnollish pie tin	tambourine bells
+
+
+# Items involved with the campground, or subcomponents involved in the
+# creation of campground items.
+
+barskin tent	1	bar skin	wooden stakes
+beanbag chair	1	beans	filthy knitted dread sack
+cottage	1	anticheese	bowl of cottage cheese
+evil golden arches	1	evil golden arch	evil golden arch
+lifeless meat doll	1	meat face	wooden figurine
+maid head	1	brainy skull	maiden wig
+meat engine	1	full meat tank	cog and sprocket assembly
+meat face	1	fairy gravy	dried face
+meat golem	1	lifeless meat doll	magicalness-in-a-can
+Meat maid	1	maid head	Meat maid body
+Meat maid body	1	frilly skirt	meat engine
+pretty bouquet	1	pretty flower	pretty flower
+spooky scarecrow	1	wooden stakes	spooky staff
+
+
+# Weapons and accessories that can be created by non-seal clubbers by
+# combining items.
+
 5-Alarm Saucepan	1	heavy hot sauce	saucepan
+asshat	1	bum cheek	bum cheek
+Bjorn's Hammer	1	seal-clubbing club	seal-toothed rock
+charrrm bracelet	1	hemp bracelet	charrrm
+detective skull	1	gnoll	lips	brainy skull
+Disco Banjo	1	disco ball	stone banjo
+enchanted eyepatch	1	eyepatch	lihc eye
+gnatwing earring	1	gnatwing	piercing post
+gnoll-tooth necklace	1	gnoll teeth	necklace chain
+Gnollish autoplunger	1	Gnollish plunger	meat engine
+icy-hot katana	1	icy katana hilt	hot katana blade
+meat cowboy hat	1	basic meat helmet	whitesnake skin
+phat turquoise bracelet	1	hemp bracelet	phat turquoise bead
+pimpin' meat hat	1	basic meat helmet	bling-bling
+spooky staff	1	spooky shrunken head	spooky stick
+Talisman o' Nam	1	snakehead charrrm	snakehead charrrm
+Turtleslinger	1	slingshot	turtle factory
+
+
+# Familiar items and their subcomponents which do not serve any other
+# recalled purpose.
+
+balloon helmet	1	long skinny balloon	long skinny balloon
+balloon monkey	1	balloon sword	long skinny balloon
+balloon sword	1	balloon helmet	long skinny balloon
+cocoa egg	2	large cocoa eggshell fragment	large cocoa eggshell fragment
+fertilized ghuol egg	1	ghuol egg	Spooky-Gro fertilizer
+goat	1	anticheese	goat cheese
+large cocoa eggshell fragment	2	cocoa eggshell fragment	cocoa eggshell fragment
+one-winged stab bat	1	batblade	bat wing
+pirate skull	1	eyepatch	brainy skull
+pregnant mushroom	2	Knob mushroom	fairy gravy
+rewinged stab bat	1	bat wing	one-winged stab bat
+sabre-toothed lime cub	1	lime	sabre teeth
+
+
+# Box parts and things that go into boxes or become boxes or are involved
+# in some way with boxes and the things that become/go into them.
+
+bartender skull	1	brainy skull	beer goggles
+bartender-in-the-box	1	bartender-skull-in-the-box	cocktailcrafting kit
+bartender-skull-in-the-box	1	nothing-in-the-box	bartender skull
+beer goggles	1	beer lens	beer lens
+box-in-the-box	1	box	nothing-in-the-box
+box-in-the-box-in-the-box	1	box	nothing-in-the-box-in-the-box
+brainy skull	1	disembodied brain	smart skull
+chef skull	1	brainy skull	chef's hat
+chef-in-the-box	1	chef-skull-in-the-box	E-Z Cook Oven&trade;
+chef-skull-in-the-box	1	nothing-in-the-box	chef skull
+nothing-in-the-box	1	box	spring
+nothing-in-the-box-in-the-box	1	box-in-the-box	spring
+sprocket assembly	1	sprocket	spring
+
+
+# Items created by combining letters and/or numbers.
+
+31337 scroll	1	30669 scroll	668 scroll
 64067 scroll	1	30669 scroll	33398 scroll
 64735 scroll	1	64067 scroll	668 scroll
 668 scroll	1	334 scroll	334 scroll
-abridged dictionary	1	bridge	dictionary
-alarming strawberry juice	5	scrumptious reagent	strawberry
-arse-a'fire elixir	5	jaba&ntilde;ero pepper	scrumptious reagent
+ND	1	lowercase N	heavy D
+NG	1	lowercase N	original G
+WA	1	metallic A	ruby W
+Wand of Nagamar	1	WA	ND
+wang	1	WA	NG
+
+
+# Items with no remembered purpose.
+
+Pasta of Peril	1	spaghetti with rock-balls	pasta spoon
+pie crust	1	Gnollish pie tin	wad of dough
+seal-toothed rock	1	big rock	seal tooth
+spaghetti with rock-balls	1	big rock	ravioli hat
+turtle factory	1	big rock	tortoise's blessing
+
+
+# Burritos, pizza and statue lime pies.  These are a class all their own
+# because of their popularity.  Other really popular items, like spectral
+# pickles, are also included.
+
+bean burrito	2	flat dough	beans
+Boris's key lime	2	Boris's key	lime
+Boris's key lime pie	2	Boris's key lime	pie crust
+briny vinegar	2	brine	vinegar
+enchanted bean burrito	2	flat dough	enchanted bean
+ghostly pickling solution	2	briny vinegar	dill
+goat cheese pizza	2	plain pizza	goat cheese
+herb brownies	2	herbs	Uncle Jick's Brownie Mix
+hippy herbal tea	2	guano coffee cup	herbs
+insanely spicy bean burrito	2	spicy bean burrito	jaba&ntilde;ero pepper
+insanely spicy enchanted bean burrito	2	spicy enchanted bean burrito	jaba&ntilde;ero pepper
+Jarlsberg's key lime	2	Jarlsberg's key	lime
+Jarlsberg's key lime pie	2	Jarlsberg's key lime	pie crust
+Lucky Surprise Egg	2	ten-leaf clover	cocoa egg
+mushroom pizza	2	plain pizza	Knob mushroom
+plain pizza	2	flat dough	tomato
+sausage pizza	2	plain pizza	Knob sausage
+spicy bean burrito	2	bean burrito	spices
+spicy enchanted bean burrito	2	enchanted bean burrito	spices
+Sneaky Pete's key lime	2	Sneaky Pete's key	lime
+Sneaky Pete's key lime pie	2	Sneaky Pete's key lime	pie crust
+spectral pickle	2	ghost cucumber	ghostly pickling solution
+
+
+# Other recipes which aren't popular but can be created.  There is no
+# real reason why they aren't popular - they just aren't.
+
+bat haggis	2	batgut	spices
+bat wing kabob	2	bat wing	skewer
+carob brownies	2	carob chunks	Uncle Jick's Brownie Mix
+carob-chunk cookies	2	carob chunks	wad of dough
+chorizo taco	2	uncooked chorizo	taco shell
+ghuol egg quiche	2	ghuol egg	pie crust
+ghuol-ear kabob	2	ghuol ears	skewer
+lihc eye pie	2	lihc eye	pie crust
+menudo	2	catgut	spices
+papaya taco	2	papaya	taco shell
+pr0n cocktail	2	pr0n legs	ketchup
+rat appendix-kabob	2	rat appendix	skewer
+shroomkabob	2	Knoll mushroom	skewer
+skewered cat appendix	2	cat appendix	skewer
+stuffed spooky mushroom	2	spooky mushroom	goat cheese
+tofu casserole	2	wad of tofu	Gnollish casserole dish
+white chocolate chip cookies	2	white chocolate chips	wad of dough
+
+
+# Standard, tier 1 and tier 2 beverages.  Nothing special about
+# these mixtures except everyone can make them.
+
+bloody mary	3	tomato	bottle of vodka
+eggnog	3	ghuol egg	spiced rum
+fine wine	3	grapes	fermenting powder
+papaya sling	3	papaya	bottle of gin
+shot of grapefruit schnapps	3	grapefruit	fermenting powder
+shot of orange schnapps	3	orange	fermenting powder
+shot of tomato schnapps	3	fermenting powder	tomato
+
+
+# Tier 3 and tier 4 beverages which can be made by anyone.  These are
+# believed to be the best creatable drinks without buying a DB's skills or
+# using a tiny plastic sword.
+
+extra-spicy bloody mary	3	bloody mary	spices
+especially salty dog	3	salty dog	brine
+martini	3	bottle of gin	olive
+monkey wrench	bottle of rum	grapefruit
+salty dog	3	bottle of gin	grapefruit
+rum and cola	3	bottle of rum	Dyspepsi-Cola
+screwdriver	3	bottle of vodka	orange
+spiced rum	3	bottle of rum	spices
+strawberry daiquiri	3	bottle of rum	strawberry
+strawberry wine	3	boxed wine	strawberry
+vodka and cranberry	3	bottle of vodka	cranberries
+vodka martini	3	bottle of vodka	olive
+whiskey and cola	3	bottle of whiskey	Dyspepsi-Cola
+whiskey and soda	3	bottle of whiskey	soda water
+whiskey sour	3	bottle of whiskey	lemon
+white Canadian	3	bottle of vodka	glass of goat's milk
+wine spritzer	3	boxed wine	soda water
+
+
+# Tier 3, 4 and 5 beverages which can only be made by DBs.
+# These include the popular umbrella, coconut and ice drinks.
+
+a little sump'm sump'm	7	martini	little paper umbrella
+horizontal tango	7	wine spritzer	little paper umbrella
+roll in the hay	7	whiskey and soda	little paper umbrella
+
+fuzzbump	7	whiskey sour	coconut shell
+slip 'n' slide	7	screwdriver	coconut shell
+ocean motion	7	monkey wrench	coconut shell
+pink pony	7	strawberry wine	coconut shell
+
+slap and tickle	7	salty dog	magical ice cubes
+rockin' wagon	7	vodka martini	magical ice cubes
+perpendicular hula	7	straberry daiquiri	magical ice cubes
+
+
+# Tiny plastic sword drinks which can be made by anyone.  Also
+# includes skewered items and subingredients.
+
+grog	3	bottle of rum	lime
+skewered lime	3	lime	tiny plastic sword
+grogtini	3	grog	skewered lime
+
+sangria	3	boxed wine	cherry
+old-fashioned	3	bottle of whiskey	cherry
+skewered cherry	3	cherry	tiny plastic sword
+sangria del diablo	3	sangria	skewered cherry
+cherry bomb	3	old-fashioned	skewered cherry
+
+dry martini	3	bottle of gin	jumbo olive
+dry vodka martini	3	bottle of vodka	jumbo olive
+skewered olive	3	jumbo olive	tiny plastic sword
+dirty martini	3	dry martini	skewered olive
+vesper	3	dry vodka martini	skewered olive
+
+
+# Meat-smithing items that aren't holiday-oriented.  These are
+# basic weapons and items.
+
 asbestos crossbow	4	asbestos crossbow string	asbestos meat stack
 asbestos crossbow string	4	crossbow string	asbestos ore
 asbestos helmet turtle	4	helmet turtle	asbestos meat stack
@@ -14,15 +257,6 @@ asbestos staff	4	asbestos stick	asbestos meat stack
 asbestos stick	4	big stick	asbestos ore
 asbestos sword	4	asbestos meat stack	asbestos sword hilt
 asbestos sword hilt	4	asbestos ore	sword hilt
-asparagus stir-fry	2	stalk of asparagus	secret blend of herbs and spices
-asshat	1	bum cheek	bum cheek
-balloon helmet	1	long skinny balloon	long skinny balloon
-balloon monkey	1	balloon sword	long skinny balloon
-balloon sword	1	balloon helmet	long skinny balloon
-barskin tent	1	bar skin	wooden stakes
-bartender skull	1	brainy skull	beer goggles
-bartender-in-the-box	1	bartender-skull-in-the-box	cocktailcrafting kit
-bartender-skull-in-the-box	1	nothing-in-the-box	bartender skull
 basic meat crossbow	4	crossbow string	meat stack
 basic meat fez	4	basic meat helmet	tassel
 basic meat foon	4	foon	meat stack
@@ -31,33 +265,6 @@ basic meat pants	4	meat stack	pants kit
 basic meat spork	4	meat stack	spork
 basic meat staff	4	big stick	meat stack
 basic meat sword	4	sword hilt	meat stack
-bat haggis	2	batgut	spices
-bat wing chow mein	6	bat wing stir-fry	dry noodles
-bat wing kabob	2	bat wing	skewer
-bat wing stir-fry	2	bat wing	Knoll stir-fry
-bean burrito	2	flat dough	beans
-beanbag chair	1	beans	filthy knitted dread sack
-beer goggles	1	beer lens	beer lens
-Bjorn's Hammer	1	seal-clubbing club	seal-toothed rock
-bloody mary	3	tomato	bottle of vodka
-bone rattle	1	skeleton bone	broken skull
-boring spaghetti	6	dry noodles	tomato
-Boris's key lime	2	Boris's key	lime
-Boris's key lime pie	2	Boris's key lime	pie crust
-bow staff	4	big stick	bow
-bowlegged pants	4	basic meat pants	bow
-bowler	4	basic meat helmet	bow
-box-in-the-box	1	box	nothing-in-the-box
-box-in-the-box-in-the-box	1	box	nothing-in-the-box-in-the-box
-brainy skull	1	disembodied brain	smart skull
-briny vinegar	2	brine	vinegar
-carob brownies	2	carob chunks	Uncle Jick's Brownie Mix
-carob-chunk cookies	2	carob chunks	wad of dough
-charrrm bracelet	1	hemp bracelet	charrrm
-chef skull	1	brainy skull	chef's hat
-chef-in-the-box	1	chef-skull-in-the-box	E-Z Cook Oven&trade;
-chef-skull-in-the-box	1	nothing-in-the-box	chef skull
-chorizo taco	2	uncooked chorizo	taco shell
 chrome crossbow	4	chrome crossbow string	chrome meat stack
 chrome crossbow string	4	chrome ore	crossbow string
 chrome helmet turtle	4	chrome meat stack	helmet turtle
@@ -66,77 +273,21 @@ chrome staff	4	chrome stick	chrome meat stack
 chrome stick	4	big stick	chrome ore
 chrome sword	4	chrome sword hilt	chrome meat stack
 chrome sword hilt	4	chrome ore	sword hilt
-Meat maid body	1	frilly skirt	meat engine
-cocoa egg	2	large cocoa eggshell fragment	large cocoa eggshell fragment
-cog and sprocket assembly	1	cog	sprocket assembly
-cosmic lemonade	5	lemon	scrumptious reagent
-cottage	1	anticheese	bowl of cottage cheese
 Crimbo hat	4	wrapping paper	helmet recipe
 Crimbo pants	4	wrapping paper	pants kit
 Crimbo sword	4	wrapping paper	sword hilt
-delicious noodles	6	dry noodles	herbs
-delicious spicy noodles	6	dry noodles	secret blend of herbs and spices
-detective skull	1	gnoll	lips	brainy skull
-dill potion	5	dill	scrumptious reagent
-Disco Banjo	1	disco ball	stone banjo
-dope wheels	1	tires	sweet rims
-drab potion	5	olive	scrumptious reagent
 dripping meat crossbow	4	basic meat crossbow	ketchup
 dripping meat staff	4	basic meat staff	ketchup
 dripping meat sword	4	basic meat sword	ketchup
-eggnog	3	ghuol egg	spiced rum
-enchanted bean burrito	2	flat dough	enchanted bean
-enchanted eyepatch	1	eyepatch	lihc eye
-equilibrium juice	5	scrumptious reagent	lime
-especially salty dog	3	salty dog	brine
-evil golden arches	1	evil golden arch	evil golden arch
-extra-spicy bloody mary	3	bloody mary	spices
 eXtreme meat crossbow	4	basic meat crossbow	stone of eXtreme power
 eXtreme meat staff	4	basic meat staff	stone of eXtreme power
 eXtreme meat sword	4	stone of eXtreme power	basic meat sword
 eXtreme nose ring	4	stone of eXtreme power	piercing post
-fancy schmancy cheese sauce	5	scrumptious reagent	goat cheese
-fertilized ghuol egg	1	ghuol egg	Spooky-Gro fertilizer
-fettucini Inconnu	6	fancy schmancy cheese sauce	dry noodles
-fine wine	3	grapes	fermenting powder
-full meat tank	1	empty meat tank	meat stack
 furry pants	4	furry fur	pants kit
-ghostly pickling solution	2	briny vinegar	dill
-ghuol egg quiche	2	ghuol egg	pie crust
-ghuol-ear kabob	2	ghuol ears	skewer
-gnatwing earring	1	gnatwing	piercing post
-gnocchetti di Nietzsche	6	Himalayan Hidalgo sauce	dry noodles
-gnoll-tooth necklace	1	gnoll teeth	necklace chain
-Gnollish autoplunger	1	Gnollish plunger	meat engine
-goat	1	anticheese	goat cheese
-goat cheese pizza	2	plain pizza	goat cheese
-grapefruit juice of powerful power	5	grapefruit	scrumptious reagent
-grog	3	bottle of rum	lime
-heart of rock and roll	1	big rock	hot buttered roll
-heavy hot sauce	1	big rock	jaba&ntilde;ero pepper
-heavy metal sonata	1	chrome ore	drab sonata
-heavy metal thunderrr guitarrr	1	acoustic guitarrr	chrome ore
-Hell broth	5	scrumptious reagent	hellion cube
-Hell ramen	6	Hell broth	dry noodles
-herb brownies	2	herbs	Uncle Jick's Brownie Mix
-Himalayan Hidalgo sauce	5	Knob mushroom	scrumptious reagent
 hippopotamus pants	4	pants kit	hippopotamus skin
-hippy herbal tea	2	guano coffee cup	herbs
-icy-hot katana	1	icy katana hilt	hot katana blade
-insanely spicy bean burrito	2	spicy bean burrito	jaba&ntilde;ero pepper
-insanely spicy enchanted bean burrito	2	spicy enchanted bean burrito	jaba&ntilde;ero pepper
-Jarlsberg's key lime	2	Jarlsberg's key	lime
-Jarlsberg's key lime pie	2	Jarlsberg's key lime	pie crust
 Kentucky-fried meat crossbow	4	secret blend of herbs and spices	basic meat crossbow
 Kentucky-fried meat staff	4	secret blend of herbs and spices	basic meat staff
 Kentucky-fried meat sword	4	secret blend of herbs and spices	basic meat sword
-Knob sausage chow mein	6	Knob sausage stir-fry	dry noodles
-Knob sausage stir-fry	2	Knob sausage	Knob stir-fry
-Knob stir-fry	2	Knob mushroom	secret blend of herbs and spices
-Knoll stir-fry	2	Knoll mushroom	secret blend of herbs and spices
-large cocoa eggshell fragment	2	cocoa eggshell fragment	cocoa eggshell fragment
-lifeless meat doll	1	meat face	wooden figurine
-lihc eye pie	2	lihc eye	pie crust
 linoleum crossbow	4	linoleum meat stack	linoleum crossbow string
 linoleum crossbow string	4	linoleum ore	crossbow string
 linoleum helmet turtle	4	helmet turtle	linoleum meat stack
@@ -145,99 +296,76 @@ linoleum staff	4	linoleum meat stack	linoleum stick
 linoleum stick	4	big stick	linoleum ore
 linoleum sword	4	linoleum meat stack	linoleum sword hilt
 linoleum sword hilt	4	linoleum ore	sword hilt
-Lucky Surprise Egg	2	ten-leaf clover	cocoa egg
-maid head	1	brainy skull	maiden wig
-martini	3	olive	bottle of gin
-meat cowboy hat	1	basic meat helmet	whitesnake skin
-meat engine	1	full meat tank	cog and sprocket assembly
-meat face	1	fairy gravy	dried face
-meat golem	1	lifeless meat doll	magicalness-in-a-can
-Meat maid	1	maid head	Meat maid body
 meatloaf helmet	4	basic meat helmet	ketchup
-menudo	2	catgut	spices
-mushroom pizza	2	plain pizza	Knob mushroom
-ND	1	lowercase N	heavy D
-NG	1	lowercase N	original G
-nothing-in-the-box	1	box	spring
-nothing-in-the-box-in-the-box	1	box-in-the-box	spring
-olive stir-fry	2	secret blend of herbs and spices	olive
-one-winged stab bat	1	batblade	bat wing
-orangish aphrodisiac	5	orange	scrumptious reagent
-painful penne pasta	6	dry noodles	jaba&ntilde;ero pepper
-papaya sling	3	papaya	bottle of gin
-papaya taco	2	papaya	taco shell
-papotion of papower	5	papaya	scrumptious reagent
-Pasta of Peril	1	spaghetti with rock-balls	pasta spoon
 penguin shorts	4	penguin skin	pants kit
-phat turquoise bracelet	1	hemp bracelet	phat turquoise bead
-pie crust	1	Gnollish pie tin	wad of dough
-pimpin' meat hat	1	basic meat helmet	bling-bling
-pirate skull	1	eyepatch	brainy skull
-plain pizza	2	flat dough	tomato
+sticky meat pants	4	really really sticky spider web	basic meat pants
+yakskin pants	4	pants kit	yak skin
+
+
+# Reagent potions.  Not to be confused with reagent broth mixtures
+# which can be combined with pasta by pastamancers.
+
+alarming strawberry juice	5	scrumptious reagent	strawberry
+arse-a'fire elixir	5	jaba&ntilde;ero pepper	scrumptious reagent
+cosmic lemonade	5	lemon	scrumptious reagent
+dill potion	5	dill	scrumptious reagent
+drab potion	5	olive	scrumptious reagent
+equilibrium juice	5	scrumptious reagent	lime
+grapefruit juice of powerful power	5	grapefruit	scrumptious reagent
+orangish aphrodisiac	5	orange	scrumptious reagent
+papotion of papower	5	papaya	scrumptious reagent
 potion of chalky equality	5	scrumptious reagent	cranberries
 potion of temporary gr8tness	5	scrumptious reagent	gr8ps
-pr0n chow mein	6	pr0n stir-fry	dry noodles
-pr0n cocktail	2	pr0n legs	ketchup
-pr0n m4nic0tti	6	dry noodles	pr0n legs
-pr0n stir-fry	2	pr0n legs	olive stir-fry
-pregnant mushroom	2	Knob mushroom	fairy gravy
-present	1	box	wrapping paper
-pretty bouquet	1	pretty flower	pretty flower
-rat appendix chow mein	6	rat appendix stir-fry	dry noodles
-rat appendix stir-fry	2	rat appendix	spooky stir-fry
-rat appendix-kabob	2	rat appendix	skewer
-ravioli della hippy	6	wad of tofu	dry noodles
-really really sticky spider web	1	really sticky spider web	really sticky spider web
-really sticky spider web	1	spider web	spider web
-rewinged stab bat	1	bat wing	one-winged stab bat
-Rock and Roll Legend	1	heart of rock and roll	stolen accordion
-rum and cola	3	bottle of rum	Dyspepsi-Cola
-sabre-toothed lime cub	1	lime	sabre teeth
-salty dog	3	bottle of gin	grapefruit
-sauce of the ages	5	Knob sausage	scrumptious reagent
-sausage pizza	2	plain pizza	Knob sausage
-screwdriver	3	bottle of vodka	orange
-seal-toothed rock	1	big rock	seal tooth
-secret blend of herbs and spices	2	herbs	spices
-shot of grapefruit schnapps	3	grapefruit	fermenting powder
-shot of orange schnapps	3	orange	fermenting powder
-shot of tomato schnapps	3	fermenting powder	tomato
-shroomkabob	2	Knoll mushroom	skewer
-skeleton key	1	skeleton bone	loose teeth
-skewered cat appendix	2	cat appendix	skewer
-Sneaky Pete's key lime	2	Sneaky Pete's key	lime
-Sneaky Pete's key lime pie	2	Sneaky Pete's key lime	pie crust
-spaghetti with rock-balls	1	big rock	ravioli hat
-spaghetti with Skullheads	6	sauce of the ages	dry noodles
-spectral pickle	2	ghost cucumber	ghostly pickling solution
-spiced rum	3	bottle of rum	spices
-spicy bean burrito	2	bean burrito	spices
-spicy enchanted bean burrito	2	enchanted bean burrito	spices
-spicy noodles	6	dry noodles	spices
-spooky scarecrow	1	wooden stakes	spooky staff
-spooky staff	1	spooky shrunken head	spooky stick
-spooky stir-fry	2	spooky mushroom	secret blend of herbs and spices
-sprocket assembly	1	sprocket	spring
-sticky meat pants	4	really really sticky spider web	basic meat pants
-stone banjo	1	big rock	banjo strings
-strawberry daiquiri	3	bottle of rum	strawberry
-stuffed spooky mushroom	2	spooky mushroom	goat cheese
-T-bone key	1	rusty L-shaped piece of metal	crusty L-shaped piece of metal
-Talisman o' Nam	1	snakehead charrrm	snakehead charrrm
-tambourine	1	Gnollish pie tin	tambourine bells
-tofu casserole	2	wad of tofu	Gnollish casserole dish
-tofu chow mein	6	tofu stir-fry	dry noodles
-tofu stir-fry	2	wad of tofu	asparagus stir-fry
 tomato smoothie	5	tomato	scrumptious reagent
-turtle factory	1	big rock	tortoise's blessing
-Turtleslinger	1	slingshot	turtle factory
-vodka and cranberry	3	bottle of vodka	cranberries
-WA	1	metallic A	ruby W
-Wand of Nagamar	1	WA	ND
-wang	1	WA	NG
-whiskey and cola	3	Dyspepsi-Cola	bottle of whiskey
-whiskey sour	3	bottle of whiskey	lemon
-white Canadian	3	bottle of vodka	glass of goat's milk
-white chocolate chip cookies	2	white chocolate chips	wad of dough
 wrath serum	5	grapes	scrumptious reagent
-yakskin pants	4	pants kit	yak skin
+
+
+# Simple pastamancer recipes.  Available to pastamancers only, and
+# creates pasta if you don't have finer ingredients.
+
+boring spaghetti	6	dry noodles	tomato
+delicious noodles	6	dry noodles	herbs
+delicious spicy noodles	6	dry noodles	secret blend of herbs and spices
+painful penne pasta	6	dry noodles	jaba&ntilde;ero pepper
+pr0n m4nic0tti	6	dry noodles	pr0n legs
+ravioli della hippy	6	wad of tofu	dry noodles
+spicy noodles	6	dry noodles	spices
+
+
+# Items involved in the famous pastamancer-sauceror lunch creation
+# duo - end items and non-end items.
+
+fancy schmancy cheese sauce	5	scrumptious reagent	goat cheese
+Hell broth	5	scrumptious reagent	hellion cube
+Himalayan Hidalgo sauce	5	Knob mushroom	scrumptious reagent
+sauce of the ages	5	Knob sausage	scrumptious reagent
+fettucini Inconnu	6	fancy schmancy cheese sauce	dry noodles
+gnocchetti di Nietzsche	6	Himalayan Hidalgo sauce	dry noodles
+Hell ramen	6	Hell broth	dry noodles
+spaghetti with Skullheads	6	sauce of the ages	dry noodles
+
+
+# Stir-fry items.  These are the main ingredients or are sub-ingredients
+# of chow mein items.
+
+asparagus stir-fry	2	stalk of asparagus	secret blend of herbs and spices
+bat wing stir-fry	2	bat wing	Knoll stir-fry
+Knob sausage stir-fry	2	Knob sausage	Knob stir-fry
+Knob stir-fry	2	Knob mushroom	secret blend of herbs and spices
+Knoll stir-fry	2	Knoll mushroom	secret blend of herbs and spices
+olive stir-fry	2	secret blend of herbs and spices	olive
+pr0n stir-fry	2	pr0n legs	olive stir-fry
+rat appendix stir-fry	2	rat appendix	spooky stir-fry
+secret blend of herbs and spices	2	herbs	spices
+spooky stir-fry	2	spooky mushroom	secret blend of herbs and spices
+tofu stir-fry	2	wad of tofu	asparagus stir-fry
+
+
+# Easily the most popular food items in the game (next to spectral
+# pickles), these are the stir-fry chow meins in the game.
+
+bat wing chow mein	6	bat wing stir-fry	dry noodles
+Knob sausage chow mein	6	Knob sausage stir-fry	dry noodles
+pr0n chow mein	6	pr0n stir-fry	dry noodles
+rat appendix chow mein	6	rat appendix stir-fry	dry noodles
+tofu chow mein	6	tofu stir-fry	dry noodles

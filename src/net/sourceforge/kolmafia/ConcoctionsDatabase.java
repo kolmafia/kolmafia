@@ -188,6 +188,9 @@ public class ConcoctionsDatabase implements UtilityConstants
 			case ItemCreationRequest.COOK_PASTA:
 				return data.hasChef() && classname.startsWith( "Pa" );
 
+			case ItemCreationRequest.MIX_SPECIAL:
+				return data.hasBartender() && classname.startsWith( "Di" );
+
 			default:
 				return true;
 		}
