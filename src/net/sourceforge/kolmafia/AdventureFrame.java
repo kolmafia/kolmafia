@@ -70,6 +70,8 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.CardLayout;
@@ -122,6 +124,8 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 {
 	private JTabbedPane tabs;
 	private KoLMessenger kolchat;
+
+	private JLabel hpLabel, mpLabel, advLabel, meatLabel, drunkLabel;
 
 	private CharsheetFrame statusPane;
 	private GearChangeFrame gearChanger;
@@ -185,8 +189,37 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		effectsPanel.add( skillBuff, BorderLayout.CENTER );
 		tabs.addTab( "Effects & Buffs", effectsPanel );
 
+		JPanel compactPane = new JPanel();
+		compactPane.setLayout( new GridLayout( 11, 1 ) );
+
+		compactPane.add( Box.createHorizontalStrut( 100 ) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
+		compactPane.add( hpLabel = new JLabel( " ", JLabel.CENTER ) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
+		compactPane.add( mpLabel = new JLabel( " ", JLabel.CENTER ) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
+		compactPane.add( meatLabel = new JLabel( " ", JLabel.CENTER ) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
+		compactPane.add( advLabel = new JLabel( " ",  JLabel.CENTER) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER ) );
+		compactPane.add( drunkLabel = new JLabel( " ",  JLabel.CENTER) );
+
+		JPanel sidePanel = new JPanel();
+		sidePanel.setLayout( new BorderLayout( 0, 0 ) );
+		sidePanel.add( compactPane, BorderLayout.NORTH );
+
+		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
+		getContentPane().add( sidePanel, BorderLayout.WEST );
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
+
+		(new StatusRefresher()).run();
+		client.getCharacterData().addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
 
 		updateDisplay( ENABLED_STATE, " " );
 		addWindowListener( new LogoutRequestAdapter() );
@@ -1444,6 +1477,19 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 					currentFrame.dispose();
 				}
 			}
+		}
+	}
+
+	private class StatusRefresher implements Runnable
+	{
+		public void run()
+		{
+			KoLCharacter characterData = client == null ? new KoLCharacter( "UI Test" ) : client.getCharacterData();
+			hpLabel.setText( characterData.getCurrentHP() + " / " + characterData.getBaseMaxHP() );
+			mpLabel.setText( characterData.getCurrentMP() + " / " + characterData.getBaseMaxMP() );
+			meatLabel.setText( "" + df.format( characterData.getAvailableMeat() ) );
+			advLabel.setText( "" + characterData.getAdventuresLeft() );
+			drunkLabel.setText( "" + characterData.getInebriety() );
 		}
 	}
 
