@@ -216,18 +216,31 @@ public class KoLmafia
 
 	public void makeRequest( Runnable request, int iterations )
 	{
-		permitContinue = true;
-		int iterationsRemaining = iterations;
-
-		for ( int i = 0; permitContinue && iterationsRemaining > 0; ++i, --iterationsRemaining )
+		try
 		{
-			activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
-			request.run();
-		}
+			permitContinue = true;
+			int iterationsRemaining = iterations;
 
-		permitContinue = false;
-		if ( iterationsRemaining <= 0 )
-			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
+			for ( int i = 0; permitContinue && iterationsRemaining > 0; ++i, --iterationsRemaining )
+			{
+				activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
+				request.run();
+			}
+
+			permitContinue = false;
+			if ( iterationsRemaining <= 0 )
+				activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
+		}
+		catch ( RuntimeException e )
+		{
+			// In the event that an exception occurs during the
+			// request processing, catch it here, print it to
+			// the logger (whatever it may be), and notify the
+			// user that an error was encountered.
+
+			logStream.println( e );
+			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Unexpected error.  Log saved." );
+		}
 	}
 
 	public void cancelRequest()
@@ -238,7 +251,7 @@ public class KoLmafia
 	{	return permitContinue;
 	}
 
-	public void initializeLogger()
+	public void initializeLogStream()
 	{
 		try
 		{
