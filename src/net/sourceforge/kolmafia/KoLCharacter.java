@@ -1005,7 +1005,7 @@ public class KoLCharacter
 
 	/**
 	 * Adds the given familiar to the list of available familiars.
-	 * @param	familiarID	The ID of the familiar to be added
+	 * @param	newFamiliar	The ID of the familiar to be added
 	 */
 
 	public void addFamiliar( FamiliarData newFamiliar )
