@@ -384,7 +384,9 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox actionSelect;
 		private JComboBox hpAutoFleeSelect;
 		private JComboBox hpAutoRecoverSelect;
+		private JComboBox mpAutoRecoverSelect;
 		private JTextField hpRecoveryScriptField;
+		private JTextField mpRecoveryScriptField;
 
 		/**
 		 * Constructs a new <code>BattleOptionsPanel</code> containing a
@@ -411,6 +413,8 @@ public class OptionsFrame extends KoLFrame
 
 			hpAutoFleeSelect = new JComboBox( hpAutoFlee );
 
+			// All the components of HP autorecover
+
 			LockableListModel hpAutoRecover = new LockableListModel();
 			hpAutoRecover.add( "Do not autorecover HP" );
 			for ( int i = 0; i <= 9; ++i )
@@ -424,14 +428,42 @@ public class OptionsFrame extends KoLFrame
 			hpRecoveryScriptPanel.add( hpRecoveryScriptField, BorderLayout.CENTER );
 			JButton hpRecoveryScriptButton = new JButton( "..." );
 			JComponentUtilities.setComponentSize( hpRecoveryScriptButton, 20, 20 );
-			hpRecoveryScriptButton.addActionListener( new hpRecoveryScriptSelectListener() );
+			hpRecoveryScriptButton.addActionListener( new HPRecoveryScriptSelectListener() );
 			hpRecoveryScriptPanel.add( hpRecoveryScriptButton, BorderLayout.EAST );
 
-			VerifiableElement [] elements = new VerifiableElement[4];
+			// All the components of MP autorecover
+
+			LockableListModel mpAutoRecover = new LockableListModel();
+			mpAutoRecover.add( "Do not autorecover MP" );
+			for ( int i = 0; i <= 9; ++i )
+				mpAutoRecover.add( "Autorecover MP at " + (i * 10) + "%" );
+
+			mpAutoRecoverSelect = new JComboBox( mpAutoRecover );
+
+			JPanel mpRecoveryScriptPanel = new JPanel();
+			mpRecoveryScriptPanel.setLayout( new BorderLayout( 0, 0 ) );
+			mpRecoveryScriptField = new JTextField();
+			mpRecoveryScriptPanel.add( mpRecoveryScriptField, BorderLayout.CENTER );
+			JButton mpRecoveryScriptButton = new JButton( "..." );
+			JComponentUtilities.setComponentSize( mpRecoveryScriptButton, 20, 20 );
+			mpRecoveryScriptButton.addActionListener( new MPRecoveryScriptSelectListener() );
+			mpRecoveryScriptPanel.add( mpRecoveryScriptButton, BorderLayout.EAST );
+
+			// Add the elements to the panel
+
+			VerifiableElement [] elements = new VerifiableElement[8];
 			elements[0] = new VerifiableElement( "Battle Style: ", actionSelect );
 			elements[1] = new VerifiableElement( "Lion Roar Setting: ", hpAutoFleeSelect );
-			elements[2] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
-			elements[3] = new VerifiableElement( "HP Recovery Script: ", hpRecoveryScriptPanel );
+
+			elements[2] = new VerifiableElement( "", new JLabel() );
+
+			elements[3] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
+			elements[4] = new VerifiableElement( "HP Recovery Script: ", hpRecoveryScriptPanel );
+
+			elements[5] = new VerifiableElement( "", new JLabel() );
+
+			elements[6] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
+			elements[7] = new VerifiableElement( "MP Recovery Script: ", mpRecoveryScriptPanel );
 
 			setContent( elements );
 		}
@@ -458,6 +490,8 @@ public class OptionsFrame extends KoLFrame
 				String hpAutoFleeSettings = settings.getProperty( "hpAutoFlee" );
 				String hpAutoRecoverSettings = settings.getProperty( "hpAutoRecover" );
 				String hpRecoveryScriptSettings = settings.getProperty( "hpRecoveryScript" );
+				String mpAutoRecoverSettings = settings.getProperty( "mpAutoRecover" );
+				String mpRecoveryScriptSettings = settings.getProperty( "mpRecoveryScript" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
@@ -465,9 +499,15 @@ public class OptionsFrame extends KoLFrame
 				actionNames.setSelectedIndex( battleSettings == null ? 0 : actions.indexOf( battleSettings ) );
 				hpAutoFleeSelect.setSelectedIndex( hpAutoFleeSettings == null ? 0 :
 					(int)(Double.parseDouble( hpAutoFleeSettings ) * 10) );
+
 				hpAutoRecoverSelect.setSelectedIndex( hpAutoRecoverSettings == null ? 0 :
 					(int)(Double.parseDouble( hpAutoRecoverSettings ) * 10) + 1 );
 				hpRecoveryScriptField.setText( hpRecoveryScriptSettings == null ? "" : hpRecoveryScriptSettings );
+
+				mpAutoRecoverSelect.setSelectedIndex( mpAutoRecoverSettings == null ? 0 :
+					(int)(Double.parseDouble( mpAutoRecoverSettings ) * 10) + 1 );
+				mpRecoveryScriptField.setText( mpRecoveryScriptSettings == null ? "" : mpRecoveryScriptSettings );
+
 				(new StatusMessageChanger( "" )).run();
 			}
 		}
@@ -486,6 +526,8 @@ public class OptionsFrame extends KoLFrame
 				settings.setProperty( "hpAutoFlee", "" + ((double)(hpAutoFleeSelect.getSelectedIndex()) / 10.0) );
 				settings.setProperty( "hpAutoRecover", "" + ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) );
 				settings.setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
+				settings.setProperty( "mpAutoRecover", "" + ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) );
+				settings.setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
 				saveSettings();
 			}
 		}
@@ -495,7 +537,7 @@ public class OptionsFrame extends KoLFrame
 		 * a recovery script.
 		 */
 
-		private class hpRecoveryScriptSelectListener implements ActionListener
+		private class HPRecoveryScriptSelectListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
 			{
@@ -506,6 +548,25 @@ public class OptionsFrame extends KoLFrame
 					return;
 
 				hpRecoveryScriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
+			}
+		}
+
+		/**
+		 * This internal class is used to process the request for selecting
+		 * a recovery script.
+		 */
+
+		private class MPRecoveryScriptSelectListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				JFileChooser chooser = new JFileChooser( "." );
+				int returnVal = chooser.showOpenDialog( OptionsFrame.this );
+
+				if ( chooser.getSelectedFile() == null )
+					return;
+
+				mpRecoveryScriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
 			}
 		}
 	}

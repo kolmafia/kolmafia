@@ -543,6 +543,46 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	}
 
 	/**
+	 * Utility method called inbetween commands.  This method
+	 * checks to see if the character's MP has dropped below
+	 * the tolerance value, and autorecovers if it has (if
+	 * the user has specified this in their settings).
+	 */
+
+	private void autoRecoverMP()
+	{
+		String autoRecoverSettings = settings.getProperty( "mpAutoRecover" );
+		String recoveryScriptSettings = settings.getProperty( "mpRecoveryScript" );
+
+		if ( autoRecoverSettings == null )
+			return;
+		double autoRecover = Double.parseDouble( autoRecoverSettings ) * (double) characterData.getMaximumMP();
+
+		if ( (double) characterData.getCurrentMP() <= autoRecover && recoveryScriptSettings != null && recoveryScriptSettings.length() > 0 )
+		{
+			permitContinue = true;
+			updateDisplay( DISABLED_STATE, "Executing MP auto-recovery script..." );
+			try
+			{
+				(new KoLmafiaCLI( this, recoveryScriptSettings )).listenForCommands();
+
+				if ( permitContinue )
+				{
+					permitContinue = characterData.getCurrentMP() >= autoRecover;
+					if ( !permitContinue )
+						updateDisplay( ENABLED_STATE, "Insufficient MP to continue" );
+				}
+			}
+			catch ( Exception e )
+			{
+				updateDisplay( ENABLED_STATE, "Could not find MP auto-recovery script." );
+				permitContinue = false;
+				return;
+			}
+		}
+	}
+
+	/**
 	 * Makes the given request for the given number of iterations,
 	 * or until continues are no longer possible, either through
 	 * user cancellation or something occuring which prevents the
@@ -577,6 +617,9 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
 					autoRecoverHP();
 
+				if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" )) || request instanceof UseSkillRequest )
+					autoRecoverMP();
+
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
 					updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
@@ -592,6 +635,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 					{
 						--iterationsRemaining;
 						autoRecoverHP();
+						autoRecoverMP();
 
 						if ( request instanceof KoLAdventure && characterData.getInebriety() > 19 && !pulledOver )
 						{
@@ -599,9 +643,10 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 							pulledOver = true;
 						}
 					}
-					else if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
+					else if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" )) || request instanceof UseSkillRequest )
 					{
 						autoRecoverHP();
+						autoRecoverMP();
 						if ( permitContinue )
 						{
 							if ( characterData.getInebriety() > 19 && !pulledOver )
