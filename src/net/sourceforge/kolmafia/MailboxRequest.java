@@ -90,6 +90,13 @@ public class MailboxRequest extends KoLRequest
 			shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
 		}
 
+		if ( lastMessageIndex != 0 )
+		{
+			currentMessage = replyContent.substring( lastMessageIndex, replyContent.lastIndexOf( "<b>" ) ).replaceAll(
+				"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll( "<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
+			shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
+		}
+
 		// Determine how many messages there are, and how many there are left
 		// to go.  This will cause a lot of server load for those with lots
 		// of messages.  But!  This can be fixed by testing the mail manager
