@@ -499,7 +499,7 @@ public class KoLCharacter
 	 * @return	The base points associated with the subpoint value
 	 */
 
-	private static int calculateBasePoints( int totalSubpoints )
+	public static int calculateBasePoints( int totalSubpoints )
 	{	return (int) Math.floor( Math.sqrt( totalSubpoints + 1 ) );
 	}
 
@@ -510,8 +510,8 @@ public class KoLCharacter
 
 	private static int calculateTillNextPoint( int totalSubpoints )
 	{
-		int basePoints = calculateBasePoints( totalSubpoints );
-		return totalSubpoints - basePoints * basePoints + 1;
+		int basePoints = calculateBasePoints( totalSubpoints ) + 1;
+		return basePoints * basePoints - totalSubpoints - 1;
 	}
 
 	/**
@@ -521,6 +521,17 @@ public class KoLCharacter
 
 	public int getBaseMuscle()
 	{	return calculateBasePoints( totalSubpoints[0] );
+	}
+
+	/**
+	 * Accessor method to retrieve the total subpoints accumulted so far
+	 * in muscle.
+	 *
+	 * @return	The total muscle subpoints so far
+	 */
+
+	public int getTotalMuscle()
+	{	return totalSubpoints[0];
 	}
 
 	/**
@@ -551,6 +562,17 @@ public class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to retrieve the total subpoints accumulted so far
+	 * in mysticality.
+	 *
+	 * @return	The total mysticality subpoints so far
+	 */
+
+	public int getTotalMysticality()
+	{	return totalSubpoints[1];
+	}
+
+	/**
 	 * Accessor method to retrieve the number of subpoints required
 	 * before the character gains another full point of mysticality.
 	 */
@@ -575,6 +597,17 @@ public class KoLCharacter
 
 	public int getBaseMoxie()
 	{	return calculateBasePoints( totalSubpoints[2] );
+	}
+
+	/**
+	 * Accessor method to retrieve the total subpoints accumulted so far
+	 * in moxie.
+	 *
+	 * @return	The total moxie subpoints so far
+	 */
+
+	public int getTotalMoxie()
+	{	return totalSubpoints[2];
 	}
 
 	/**

@@ -62,9 +62,10 @@ public class AdventureResult implements Comparable
 	private static final int SPACER_PRIORITY = 4;
 	private static final int MEAT_PRIORITY = 5;
 	private static final int SUBSTAT_PRIORITY = 6;
-	private static final int DIVIDER_PRIORITY = 7;
-	private static final int ITEM_PRIORITY = 8;
-	private static final int EFFECT_PRIORITY = 9;
+	private static final int FULLSTAT_PRIORITY = 7;
+	private static final int DIVIDER_PRIORITY = 8;
+	private static final int ITEM_PRIORITY = 9;
+	private static final int EFFECT_PRIORITY = 10;
 
 	private static final DecimalFormat df = new DecimalFormat();
 
@@ -75,6 +76,7 @@ public class AdventureResult implements Comparable
 	public static final String SPACER = " ";
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Substats";
+	public static final String FULLSTATS = "Fullstats";
 	public static final String DIVIDER = "";
 
 	private static List MUS_SUBSTAT = new ArrayList();
@@ -121,14 +123,14 @@ public class AdventureResult implements Comparable
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name
 	 * and increase in stat gains.  This method is used internally to
-	 * represent stat gains, and potentially health and mana gains in
-	 * future versions.
+	 * represent stat gains, but if there are any other results which
+	 * should be represented this way, this constructor is also accessible.
 	 *
 	 * @param	name	The name of the result
 	 * @param	count	How many of the noted result were gained
 	 */
 
-	private AdventureResult( String name, int [] count )
+	public AdventureResult( String name, int [] count )
 	{
 		this( name, count,
 			name.equals(HP) ? HP_PRIORITY :
@@ -138,6 +140,7 @@ public class AdventureResult implements Comparable
 			name.equals(SPACER) ? SPACER_PRIORITY :
 			name.equals(MEAT) ? MEAT_PRIORITY :
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
+			name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
 			name.equals(DIVIDER) ? DIVIDER_PRIORITY :
 			!StatusEffectDatabase.contains( name ) ? ITEM_PRIORITY : EFFECT_PRIORITY );
 	}
@@ -170,6 +173,33 @@ public class AdventureResult implements Comparable
 
 	public boolean isStatusEffect()
 	{	return priority == EFFECT_PRIORITY;
+	}
+
+	/**
+	 * Accessor method to determine if this result is a muscle gain.
+	 * @return	<code>true</code> if this result represents muscle subpoint gain
+	 */
+
+	public boolean isMuscleGain()
+	{	return priority == SUBSTAT_PRIORITY && count[0] != 0;
+	}
+
+	/**
+	 * Accessor method to determine if this result is a mysticality gain.
+	 * @return	<code>true</code> if this result represents mysticality subpoint gain
+	 */
+
+	public boolean isMysticalityGain()
+	{	return priority == SUBSTAT_PRIORITY && count[1] != 0;
+	}
+
+	/**
+	 * Accessor method to determine if this result is a muscle gain.
+	 * @return	<code>true</code> if this result represents muscle subpoint gain
+	 */
+
+	public boolean isMoxieGain()
+	{	return priority == SUBSTAT_PRIORITY && count[2] != 0;
 	}
 
 	/**
@@ -285,13 +315,18 @@ public class AdventureResult implements Comparable
 
 	public String toString()
 	{
+		if ( name.equals( FULLSTATS ) )
+		{
+		}
+
 		return
 			name.equals(HP) || name.equals(MP) || name.equals(ADV) || name.equals(DRUNK) || name.equals(MEAT) ?
 				" " + name + ": " + df.format(count[0]) :
-			name.equals(SUBSTATS) ? " Substats: " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]) :
+			name.equals(SUBSTATS) || name.equals(FULLSTATS) ?
+				" " + name + ": " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]) :
 			name.equals(DIVIDER) || name.equals(SPACER) ? DIVIDER :
-			" " + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
-				((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
+				" " + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
+					((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
 	}
 
 	/**

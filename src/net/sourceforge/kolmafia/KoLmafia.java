@@ -69,6 +69,10 @@ public abstract class KoLmafia implements UtilityConstants
 	protected PrintStream logStream;
 	protected boolean permitContinue;
 
+	protected int [] initialStats;
+	protected int [] currentStats;
+	protected int [] fullStatGain;
+
 	protected List recentEffects;
 	protected SortedListModel tally;
 	protected LockableListModel inventory, closet, usableItems;
@@ -105,6 +109,9 @@ public abstract class KoLmafia implements UtilityConstants
 	{
 		this.isLoggingIn = true;
 		deinitialize();
+		initialStats = new int[3];
+		currentStats = new int[3];
+		fullStatGain = new int[3];
 	}
 
 	/**
@@ -150,6 +157,13 @@ public abstract class KoLmafia implements UtilityConstants
 		{
 			(new CharsheetRequest( this )).run();
 			(new CampgroundRequest( this )).run();
+
+			initialStats[0] = characterData.getTotalMuscle();
+			initialStats[1] = characterData.getTotalMysticality();
+			initialStats[2] = characterData.getTotalMoxie();
+
+			for ( int i = 0; i < 3; ++i )
+				currentStats[i] = initialStats[i];
 		}
 
 		if ( !permitContinue )
@@ -189,6 +203,7 @@ public abstract class KoLmafia implements UtilityConstants
 		addToResultTally( new AdventureResult( AdventureResult.SPACER, 0 ) );
 		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
 		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
+		addToResultTally( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
 		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
 
 		applyRecentEffects();
@@ -297,6 +312,26 @@ public abstract class KoLmafia implements UtilityConstants
 
 		if ( tally.size() > 4 && resultName.equals( AdventureResult.DRUNK ) )
 			characterData.setInebriety( ((AdventureResult)tally.get( 3 )).getCount() );
+
+		// Now, if it's an actual stat gain, be sure to update the
+		// list to reflect the current value of stats so far.
+
+		if ( result.getName().equals( AdventureResult.SUBSTATS ) )
+		{
+			if ( result.isMuscleGain() )
+				currentStats[0] += result.getCount();
+			else if ( result.isMysticalityGain() )
+				currentStats[1] += result.getCount();
+			else if ( result.isMoxieGain() )
+				currentStats[2] += result.getCount();
+
+			for ( int i = 0; i < 3; ++i )
+				fullStatGain[i] = KoLCharacter.calculateBasePoints( currentStats[i] ) -
+					KoLCharacter.calculateBasePoints( initialStats[i] );
+
+			if ( tally.size() > 7 )
+				tally.set( 7, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+		}
 	}
 
 	/**
