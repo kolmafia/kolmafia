@@ -65,7 +65,7 @@ public class MailboxRequest extends KoLRequest
 		boolean shouldContinueParsing = true;
 		KoLMailManager currentMailManager = client.getMailManager();
 
-		int lastMessageIndex = 0;
+		int lastMessageIndex = replyContent.indexOf( "<td valign=top>" );
 		String currentMessage, currentPlainTextMessage;
 
 		Matcher messageMatcher = Pattern.compile( "<td valign=top>.*?<td valign=top>" ).matcher( replyContent );
@@ -90,7 +90,7 @@ public class MailboxRequest extends KoLRequest
 			shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
 		}
 
-		if ( lastMessageIndex != 0 )
+		if ( lastMessageIndex != -1 )
 		{
 			currentMessage = replyContent.substring( lastMessageIndex, replyContent.lastIndexOf( "<b>" ) ).replaceAll(
 				"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll( "<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
