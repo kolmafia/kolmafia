@@ -131,7 +131,7 @@ public class TradeableItemDatabase implements UtilityConstants
 	 */
 
 	public static final boolean contains( String itemName )
-	{	return getItemID( itemName ) != -1;
+	{	return itemByName.containsKey( itemName );
 	}
 
 	/**

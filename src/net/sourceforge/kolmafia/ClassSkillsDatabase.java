@@ -144,6 +144,6 @@ public class ClassSkillsDatabase implements UtilityConstants
 	 */
 
 	public static final boolean contains( String skillName )
-	{	return getSkillID( skillName ) != -1;
+	{	return skillByName.containsKey( skillName );
 	}
 }
