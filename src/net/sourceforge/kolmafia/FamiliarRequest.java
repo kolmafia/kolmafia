@@ -79,7 +79,7 @@ public class FamiliarRequest extends KoLRequest
 
 		characterData.getFamiliars().clear();
 		int whichIndex;
-		for ( int i = 1; i < 30; ++i )
+		for ( int i = 1; i < 50; ++i )
 		{
 			whichIndex = replyContent.indexOf( "<input type=radio name=newfam value=" + i );
 			if ( whichIndex != -1 )
