@@ -664,7 +664,7 @@ public class ItemManageFrame extends KoLFrame
 				{
 					String itemName = selection.getName();
 					int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
-						"Creating multiple " + itemName + "..." ) ).intValue() : 1;
+						"Creating multiple " + itemName + "...", "" + selection.getQuantityNeeded() ) ).intValue() : 1;
 
 					if ( creationCount > 0 )
 					{
