@@ -40,7 +40,12 @@ import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
+// events
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 // containers
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -51,13 +56,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
+import javax.swing.JFileChooser;
 
 // utilities
 import java.util.Properties;
 import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * <p>Handles all of the customizable user options in <code>KoLmafia</code>.
@@ -160,8 +165,6 @@ public class OptionsFrame extends KoLFrame
 
 		public LoginOptionsPanel()
 		{
-			super( new Dimension( 120, 20 ), new Dimension( 165, 20 ) );
-
 			LockableListModel servers = new LockableListModel();
 			servers.add( "(Auto Detect)" );
 			servers.add( "Use Login Server 1" );
@@ -379,6 +382,8 @@ public class OptionsFrame extends KoLFrame
 		private LockableListModel actionNames;
 
 		private JComboBox actionSelect;
+		private JComboBox hpAutoRecoverSelect;
+		private JTextField hpRecoveryScriptField;
 
 		/**
 		 * Constructs a new <code>BattleOptionsPanel</code> containing a
@@ -388,8 +393,6 @@ public class OptionsFrame extends KoLFrame
 
 		public BattleOptionsPanel()
 		{
-			super( new Dimension( 120, 20 ), new Dimension( 165, 20 ) );
-
 			actions = new LockableListModel();
 			actions.add( "attack" );
 			actions.add( "moxman" );
@@ -400,8 +403,26 @@ public class OptionsFrame extends KoLFrame
 
 			actionSelect = new JComboBox( actionNames );
 
-			VerifiableElement [] elements = new VerifiableElement[1];
+			LockableListModel hpAutoRecover = new LockableListModel();
+			hpAutoRecover.add( "Do not autorecover HP" );
+			for ( int i = 0; i <= 9; ++i )
+				hpAutoRecover.add( "Autorecover HP at " + (i * 10) + "%" );
+
+			hpAutoRecoverSelect = new JComboBox( hpAutoRecover );
+
+			JPanel hpRecoveryScriptPanel = new JPanel();
+			hpRecoveryScriptPanel.setLayout( new BorderLayout( 0, 0 ) );
+			hpRecoveryScriptField = new JTextField();
+			hpRecoveryScriptPanel.add( hpRecoveryScriptField, BorderLayout.CENTER );
+			JButton hpRecoveryScriptButton = new JButton( "..." );
+			JComponentUtilities.setComponentSize( hpRecoveryScriptButton, 20, 20 );
+			hpRecoveryScriptButton.addActionListener( new hpRecoveryScriptSelectListener() );
+			hpRecoveryScriptPanel.add( hpRecoveryScriptButton, BorderLayout.EAST );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Battle Style: ", actionSelect );
+			elements[1] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
+			elements[2] = new VerifiableElement( "HP Recovery Script: ", hpRecoveryScriptPanel );
 
 			setContent( elements );
 		}
@@ -425,11 +446,16 @@ public class OptionsFrame extends KoLFrame
 			public void run()
 			{
 				String battleSettings = settings.getProperty( "battleAction" );
+				String hpAutoRecoverSettings = settings.getProperty( "hpAutoRecover" );
+				String hpRecoveryScriptSettings = settings.getProperty( "hpRecoveryScript" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
 
 				actionNames.setSelectedIndex( battleSettings == null ? 0 : actions.indexOf( battleSettings ) );
+				hpAutoRecoverSelect.setSelectedIndex( hpAutoRecoverSettings == null ? 0 :
+					(int)(Double.parseDouble( hpAutoRecoverSettings ) * 10) + 1 );
+				hpRecoveryScriptField.setText( hpRecoveryScriptSettings == null ? "" : hpRecoveryScriptSettings );
 				(new StatusMessageChanger( "" )).run();
 			}
 		}
@@ -445,7 +471,28 @@ public class OptionsFrame extends KoLFrame
 			public void run()
 			{
 				settings.setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
+				settings.setProperty( "hpAutoRecover", "" + ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) );
+				settings.setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
 				saveSettings();
+			}
+		}
+
+		/**
+		 * This internal class is used to process the request for selecting
+		 * a recovery script.
+		 */
+
+		private class hpRecoveryScriptSelectListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				JFileChooser chooser = new JFileChooser( "." );
+				int returnVal = chooser.showOpenDialog( OptionsFrame.this );
+
+				if ( chooser.getSelectedFile() == null )
+					return;
+
+				hpRecoveryScriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
 			}
 		}
 	}
@@ -474,7 +521,6 @@ public class OptionsFrame extends KoLFrame
 		public SewerOptionsPanel()
 		{
 			super( new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
-
 			items = new JCheckBox[ itemnames.length ];
 			for ( int i = 0; i < items.length; ++i )
 				items[i] = new JCheckBox();
@@ -582,8 +628,6 @@ public class OptionsFrame extends KoLFrame
 
 		public ChatOptionsPanel()
 		{
-			super( new Dimension( 120, 20 ), new Dimension( 165, 20 ) );
-
 			LockableListModel fontSizes = new LockableListModel();
 			for ( int i = 1; i <= 7; ++i )
 				fontSizes.add( new Integer( i ) );
@@ -676,8 +720,6 @@ public class OptionsFrame extends KoLFrame
 
 		public ResultsOptionsPanel()
 		{
-			super( new Dimension( 120, 20 ), new Dimension( 165, 20 ) );
-
 			defaultLimitField = new JTextField( "13" );
 
 			LockableListModel forceSorting = new LockableListModel();
@@ -797,6 +839,10 @@ public class OptionsFrame extends KoLFrame
 	private abstract class OptionsPanel extends LabeledKoLPanel
 	{
 		protected Properties settings;
+
+		public OptionsPanel()
+		{	this( new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
+		}
 
 		public OptionsPanel( Dimension left, Dimension right )
 		{	this( null, left, right );

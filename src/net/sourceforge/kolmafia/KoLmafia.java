@@ -302,7 +302,12 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				AdventureResult.addResultToList( usableItems, result );
 		}
 
-		if ( resultName.equals( AdventureResult.ADV ) )
+		if ( resultName.equals( AdventureResult.HP ) )
+			characterData.setHP( ((AdventureResult)tally.get(0)).getCount(), characterData.getMaximumHP(), characterData.getBaseMaxHP() );
+		if ( resultName.equals( AdventureResult.MP ) )
+			characterData.setMP( ((AdventureResult)tally.get(1)).getCount(), characterData.getMaximumMP(), characterData.getBaseMaxMP() );
+
+		if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
 			AdventureResult.reduceTally( characterData.getEffects(), result.getCount() );
 
 		// Also update the character data's information related to
@@ -443,6 +448,46 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	}
 
 	/**
+	 * Utility method called inbetween battles.  This method
+	 * checks to see if the character's HP has dropped below
+	 * the tolerance value, and autorecovers if it has (if
+	 * the user has specified this in their settings).
+	 */
+
+	private void autoRecoverHP()
+	{
+		String autoRecoverSettings = settings.getProperty( "hpAutoRecover" );
+		String recoveryScriptSettings = settings.getProperty( "hpRecoveryScript" );
+
+		if ( autoRecoverSettings == null )
+			return;
+		double autoRecover = Double.parseDouble( autoRecoverSettings ) * (double) characterData.getBaseMaxHP();
+
+		if ( characterData.getCurrentHP() < autoRecover && recoveryScriptSettings != null && recoveryScriptSettings.length() > 0 )
+		{
+			permitContinue = true;
+			updateDisplay( KoLFrame.DISABLED_STATE, "Executing HP auto-recovery script..." );
+			try
+			{
+				(new KoLmafiaCLI( this, recoveryScriptSettings )).listenForCommands();
+
+				if ( permitContinue )
+				{
+					permitContinue = characterData.getCurrentHP() >= autoRecover;
+					if ( !permitContinue )
+						updateDisplay( KoLFrame.ENABLED_STATE, "Insufficient HP to continue" );
+				}
+			}
+			catch ( Exception e )
+			{
+				updateDisplay( KoLFrame.ENABLED_STATE, "Could not find HP auto-recovery script." );
+				permitContinue = false;
+				return;
+			}
+		}
+	}
+
+	/**
 	 * Makes the given request for the given number of iterations,
 	 * or until continues are no longer possible, either through
 	 * user cancellation or something occuring which prevents the
@@ -470,6 +515,9 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campground" ) == -1 && characterData.getInebriety() > 19 )
 					permitContinue = confirmDrunkenRequest();
 
+				if ( request instanceof KoLAdventure )
+					autoRecoverHP();
+
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
 					updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
@@ -482,7 +530,16 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 					// occurred on the last iteration.
 
 					if ( permitContinue )
+					{
 						--iterationsRemaining;
+					}
+					else if ( request instanceof KoLAdventure )
+					{
+						autoRecoverHP();
+						if ( permitContinue )
+							--iterationsRemaining;
+					}
+
 				}
 
 				if ( permitContinue && iterationsRemaining <= 0 )
