@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.List;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -64,6 +65,7 @@ public class KoLCharacter
 	private SortedListModel inventory;
 	private SortedListModel closet;
 	private LockableListModel activeEffects;
+	private LockableListModel availableSkills;
 
 	private int availableMeat;
 	private int closetMeat;
@@ -100,6 +102,7 @@ public class KoLCharacter
 		this.inventory = new SortedListModel( AdventureResult.class );
 		this.closet = new SortedListModel( AdventureResult.class );
 		this.activeEffects = new LockableListModel();
+		this.availableSkills = new LockableListModel();
 
 		for ( int i = 0; i < 7; ++i )
 			equipment.add( "none" );
@@ -449,7 +452,7 @@ public class KoLCharacter
 	 */
 
 	public void setEquipment( String hat, String weapon, String pants,
-		String accessory1, String accessory2, String accessory3, String familiarItem, LockableListModel outfits )
+		String accessory1, String accessory2, String accessory3, String familiarItem, List outfits )
 	{
 		equipment.set( 0, hat );
 		equipment.set( 1, weapon );
@@ -621,6 +624,26 @@ public class KoLCharacter
 
 	public LockableListModel getEffects()
 	{	return activeEffects;
+	}
+
+	/**
+	 * Accessor method to set the list of available skills.
+	 * @param	The list of the names of available skills
+	 */
+
+	public void setAvailableSkills( List availableSkills )
+	{
+		this.availableSkills.clear();
+		this.availableSkills.addAll( availableSkills );
+	}
+
+	/**
+	 * Accessor method to look up the list of available skills.
+	 * @return	A list of the names of available skills
+	 */
+
+	public LockableListModel getAvailableSkills()
+	{	return availableSkills;
 	}
 
 	/**

@@ -52,23 +52,23 @@ public class UseSkillRequest extends KoLRequest
 	 * @param	effectDescription	The description of the effect to be removed
 	 */
 
-	public UseSkillRequest( KoLmafia client, String skillName, String target, int quantity )
+	public UseSkillRequest( KoLmafia client, String skillName, String target, int buffCount )
 	{
 		super( client, "skills.php" );
 		addFormField( "action", "Skillz." );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		int skillID = ClassSkillsDatabase.getSkillID( skillName );
+		int skillID = ClassSkillsDatabase.getSkillID( skillName.replaceFirst( "ñ", "&ntilde;" ) );
 		addFormField( "whichskill", "" + skillID );
-		addFormField( "quantity", "" + quantity );
-		addFormField( "bufftimes", "" + quantity );
+		addFormField( "quantity", "" + buffCount );
+		addFormField( "bufftimes", "" + buffCount );
 
 		if ( target == null || target.trim().length() == 0 )
 			addFormField( "targetplayer", "" + client.getCharacterData().getUserID() );
 		else
 			addFormField( "specificplayer", target );
 
-		this.consumedMP = ClassSkillsDatabase.getMPConsumptionByID( skillID ) * quantity;
+		this.consumedMP = ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount;
 	}
 
 	public void run()
@@ -78,7 +78,18 @@ public class UseSkillRequest extends KoLRequest
 		// If it does not notify you that you didn't have enough mana points,
 		// then the skill was successfully used.
 
-		if ( replyContent != null && replyContent.indexOf( "You don't have enough" ) == -1 )
-			client.addToResultTally( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
+		if ( replyContent == null || replyContent.indexOf( "You don't have enough" ) != -1 )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "Buff attempt failed (Low MP?)" );
+			return;
+		}
+
+		client.addToResultTally( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
+
+		processResults( replyContent.replaceFirst(
+			"</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );
+
+ 		client.applyRecentEffects();
+		updateDisplay( KoLFrame.ENABLED_STATE, "Buff attempt completed." );
 	}
 }

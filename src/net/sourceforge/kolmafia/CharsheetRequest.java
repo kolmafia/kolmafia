@@ -33,6 +33,9 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.List;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
@@ -197,6 +200,25 @@ public class CharsheetRequest extends KoLRequest
 					skipTokens( parsedContent, 7 );
 					token = parsedContent.nextToken();
 				}
+			}
+
+			if ( replyContent.indexOf( "Skills:" ) != -1 )
+			{
+				while ( !parsedContent.nextToken().startsWith( "Ski" ) );
+
+				token = parsedContent.nextToken();
+				List availableSkills = new ArrayList();
+				while ( !token.equals( "/table" ) )
+				{
+					if ( token.startsWith( "a" ) )
+					{
+						String skillName = parsedContent.nextToken().trim();
+						if ( ClassSkillsDatabase.contains( skillName ) )
+							availableSkills.add( skillName.replaceFirst( "&ntilde;", "ñ" ) );
+					}
+					token = parsedContent.nextToken();
+				}
+				character.setAvailableSkills( availableSkills );
 			}
 
 			// Now, a hack to determine which familiar you have:

@@ -1141,6 +1141,10 @@ public class AdventureFrame extends KoLFrame
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
+		private JComboBox skillSelect;
+		private JTextField targetField;
+		private JTextField countField;
+
 		public SkillBuffPanel()
 		{
 			super( "cast buff", "description", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
@@ -1151,9 +1155,15 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Special Skills: ", new JComboBox(
-				client == null ? new LockableListModel() : client.getCharacterData().getEffects().getMirrorImage() ) );
+			skillSelect = new JComboBox( client == null ? new LockableListModel() :
+				client.getCharacterData().getAvailableSkills() );
+			targetField = new JTextField();
+			countField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Using Skill: ", skillSelect );
+			elements[1] = new VerifiableElement( "(Blank is YOU!): ", targetField );
+			elements[2] = new VerifiableElement( "# of Times: ", countField );
 			setContent( elements );
 		}
 
@@ -1176,6 +1186,7 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			contentPanel = skillBuff;
+			(new SkillBuffRequestThread()).start();
 		}
 
 		protected void actionCancelled()
@@ -1185,6 +1196,49 @@ public class AdventureFrame extends KoLFrame
 
 		public void requestFocus()
 		{
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually do the spellcasting.
+		 */
+
+		private class SkillBuffRequestThread extends Thread
+		{
+			public SkillBuffRequestThread()
+			{
+				super( "Skill-Buff-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					String buffName = (String) skillSelect.getSelectedItem();
+					if ( buffName == null )
+						return;
+
+					String target = targetField.getText();
+					if ( countField.getText().trim().length() == 0 )
+						return;
+
+					int buffCount = df.parse( countField.getText() ).intValue();
+
+					updateDisplay( DISABLED_STATE, "Beginning buffing..." );
+					(new UseSkillRequest( client, buffName, target, buffCount )).run();
+
+				}
+				catch ( Exception e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+
+			}
 		}
 	}
 

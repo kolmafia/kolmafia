@@ -262,7 +262,7 @@ public abstract class KoLmafia implements UtilityConstants
 	 * if adventuring took place.
 	 */
 
-	protected void applyRecentEffects()
+	public void applyRecentEffects()
 	{
 		for ( int j = 0; j < recentEffects.size(); ++j )
 			AdventureResult.addResultToList( characterData.getEffects(), (AdventureResult) recentEffects.get(j) );
