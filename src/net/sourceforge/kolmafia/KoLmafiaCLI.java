@@ -829,7 +829,7 @@ public class KoLmafiaCLI extends KoLmafia
 		updateDisplay( KoLFrame.DISABLED_STATE, useTypeAsString + " " + itemCount + " " + itemName + "..." );
 
 		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
-			(new ConsumeItemRequest( this, consumptionType, itemName, itemCount )).run();
+			(new ConsumeItemRequest( scriptRequestor, consumptionType, itemName, itemCount )).run();
 		else
 			makeRequest( new ConsumeItemRequest( scriptRequestor, consumptionType, itemName, 1 ), itemCount );
 	}
@@ -887,7 +887,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeChangeOutfitCommand( String parameters )
 	{
-		Iterator outfitIterator = characterData.getOutfits().iterator();
+		Iterator outfitIterator = scriptRequestor.characterData.getOutfits().iterator();
 		SpecialOutfit intendedOutfit = null;
 		SpecialOutfit currentOutfit;
 
