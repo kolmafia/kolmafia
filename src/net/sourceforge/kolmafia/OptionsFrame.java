@@ -112,6 +112,7 @@ public class OptionsFrame extends KoLFrame
 		tabs.addTab( "Login", new LoginOptionsPanel() );
 		tabs.addTab( "Battle", new BattleOptionsPanel() );
 		tabs.addTab( "Sewer", new SewerOptionsPanel() );
+		tabs.addTab( "Chat", new ChatOptionsPanel() );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		addWindowListener( new ReturnFocusAdapter() );
@@ -585,8 +586,12 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void setContent( VerifiableElement [] elements )
+		{	setContent( elements, false );
+		}
+
+		public void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
 		{
-			setContent( elements, false );
+			super.setContent( elements, isLabelPreceeding );
 			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
 
