@@ -600,6 +600,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					// this should never have happened)
 
 					updateDisplay( ERROR_STATE, "Frame could not be loaded." );
+					e.printStackTrace( client.getLogStream() );
 					return;
 				}
 			}
