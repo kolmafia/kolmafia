@@ -53,6 +53,6 @@ public class KoLAdventure implements Runnable
 
 	public void run()
 	{
-		(new AdventureRequest( client, formSource, adventureID )).start();
+		(new AdventureRequest( client, formSource, adventureID )).run();
 	}
 }

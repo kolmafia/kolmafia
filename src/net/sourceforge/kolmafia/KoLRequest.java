@@ -58,7 +58,7 @@ import java.util.StringTokenizer;
  * <code>submitData</code> method.
  */
 
-public class KoLRequest extends Thread
+public class KoLRequest implements Runnable
 {
 	private static String KOL_ROOT = "http://www.kingdomofloathing.com/";
 	private static final int MAX_RETRIES = 4;
@@ -116,7 +116,6 @@ public class KoLRequest extends Thread
 		}
 
 		data = new ArrayList();
-		setDaemon( true );
 	}
 
 	/**
@@ -195,41 +194,36 @@ public class KoLRequest extends Thread
 		// data to post - otherwise, opening an input stream
 		// should be enough
 
-		if ( !data.isEmpty() )
+		if ( data.isEmpty() )
+			return true;
+
+		try
 		{
-			try
+			BufferedWriter ostream =
+				new BufferedWriter( new OutputStreamWriter(
+					formConnection.getOutputStream() ) );
+
+			Iterator iterator = data.iterator();
+
+			if ( iterator.hasNext() )
+				ostream.write( iterator.next().toString() );
+
+			while ( iterator.hasNext() )
 			{
-				BufferedWriter ostream =
-					new BufferedWriter( new OutputStreamWriter(
-						formConnection.getOutputStream() ) );
-
-				Iterator iterator = data.iterator();
-
-				if ( iterator.hasNext() )
-					ostream.write( iterator.next().toString() );
-
-				while ( iterator.hasNext() )
-				{
-					ostream.write( "&" );
-					ostream.write( iterator.next().toString() );
-				}
-
-				ostream.flush();
-				ostream.close();
-				ostream = null;
-
-				return true;
+				ostream.write( "&" );
+				ostream.write( iterator.next().toString() );
 			}
-			catch ( IOException e )
-			{
-				return false;
-			}
+
+			ostream.flush();
+			ostream.close();
+			ostream = null;
+
+			return true;
 		}
-
-		// If there was no data to post, then obviously all the
-		// data was posted successfully?  Return true.
-
-		return true;
+		catch ( IOException e )
+		{
+			return false;
+		}
 	}
 
 	private void retrieveServerReply()
@@ -243,6 +237,8 @@ public class KoLRequest extends Thread
 
 			isErrorState = false;
 			responseCode = formConnection.getResponseCode();
+			replyContent = "";
+			redirectLocation = "";
 
 			// Store any cookies that might be found in the headers of the
 			// reply - there really is only one cookie to worry about, so
@@ -281,7 +277,7 @@ public class KoLRequest extends Thread
 						// to complete the fight before you can continue
 
 						isErrorState = false;
-						(new FightRequest( client )).start();
+						(new FightRequest( client )).run();
 					}
 				}
 				else if ( responseCode != 200 )
@@ -341,14 +337,6 @@ public class KoLRequest extends Thread
 			else if ( client != null )
 				client.updateAdventure( false, false );
 		}
-
-		// Here, you make sure all of the variables are non-null
-		// before returning (which would cause bizarre NPs.
-
-		if ( replyContent == null )
-			replyContent = "";
-		if ( redirectLocation == null )
-			redirectLocation = "";
 	}
 
 	protected void processResults( String results )

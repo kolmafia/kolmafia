@@ -150,7 +150,6 @@ public class LoginFrame extends KoLFrame
 		private JLabel actionStatusLabel;
 		private JLabel serverReplyLabel;
 
-		JComboBox serverSelect;
 		JTextField loginnameField;
 		JPasswordField passwordField;
 
@@ -169,19 +168,9 @@ public class LoginFrame extends KoLFrame
 			loginnameField = new JTextField();
 			passwordField = new JPasswordField();
 
-			LockableListModel servers = new LockableListModel();
-			servers.add( "(Auto Detect)" );
-			servers.add( "Use Login Server 1" );
-			servers.add( "Use Login Server 2" );
-			servers.add( "Use Login Server 3" );
-			servers.setSelectedIndex(0);
-
-			serverSelect = new JComboBox( servers );
-
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Server: ", serverSelect );
-			elements[1] = new VerifiableElement( "Login: ", loginnameField );
-			elements[2] = new VerifiableElement( "Password: ", passwordField );
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Login: ", loginnameField );
+			elements[1] = new VerifiableElement( "Password: ", passwordField );
 
 			setContent( elements );
 		}
@@ -199,44 +188,21 @@ public class LoginFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			serverSelect.setEnabled( isEnabled );
 			loginnameField.setEnabled( isEnabled );
 			passwordField.setEnabled( isEnabled );
 		}
 
 		public void clear()
 		{
-			Runnable updateAComponent = new Runnable() {
-				public void run()
-				{
-					serverSelect.setSelectedIndex(0);
-					loginnameField.setText( "" );
-					passwordField.setText( "" );
-					requestFocus();
-				}
-			};
-			SwingUtilities.invokeLater(updateAComponent);
+			loginnameField.setText( "" );
+			passwordField.setText( "" );
+			requestFocus();
 		}
 
 		protected void actionConfirmed()
 		{
 			updateDisplay( DISABLED_STATE, "Sending login..." );
-
-			if ( serverSelect.getSelectedIndex() == 0 )
-				KoLRequest.autoDetectServer();
-			else
-				KoLRequest.setLoginServer( "www." + serverSelect.getSelectedIndex() + ".kingdomofloathing.com" );
-
-			String loginname = loginnameField.getText();
-			String password = new String( passwordField.getPassword() );
-
-			if ( loginname.equals("") || password.equals("") )
-			{
-				updateDisplay( ENABLED_STATE, "Invalid login." );
-				return;
-			}
-
-			(new LoginRequest( client, loginname, password )).start();
+			(new LoginRequestThread()).start();
 		}
 
 		protected void actionCancelled()
@@ -247,6 +213,76 @@ public class LoginFrame extends KoLFrame
 
 		public void requestFocus()
 		{	loginnameField.requestFocus();
+		}
+
+		private class LoginRequestThread extends Thread
+		{
+			public LoginRequestThread()
+			{
+				super( "Login-Request-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				String loginname = loginnameField.getText();
+				String password = new String( passwordField.getPassword() );
+
+				if ( loginname.equals("") || password.equals("") )
+				{
+					updateDisplay( ENABLED_STATE, "Invalid login." );
+					return;
+				}
+
+				(new LoginRequest( client, loginname, password )).run();
+			}
+		}
+	}
+
+	private class LoginOptionsPanel extends KoLPanel
+	{
+		private JComboBox serverSelect;
+
+		public LoginOptionsPanel()
+		{
+			super( "confirm", "cancel" );
+
+			LockableListModel servers = new LockableListModel();
+			servers.add( "(Auto Detect)" );
+			servers.add( "Use Login Server 1" );
+			servers.add( "Use Login Server 2" );
+			servers.add( "Use Login Server 3" );
+			servers.setSelectedIndex(0);
+
+			serverSelect = new JComboBox( servers );
+
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Server: ", serverSelect );
+
+			setContent( elements );
+		}
+
+		public void setStatusMessage( String s )
+		{
+			// This panel ignores setStatusMessage, since it should never
+			// be the actual content panel.  In order to not be abstract,
+			// this method exists and does nothing.
+		}
+
+		public void clear()
+		{	serverSelect.setSelectedIndex(0);
+		}
+
+		protected void actionConfirmed()
+		{
+			if ( serverSelect.getSelectedIndex() == 0 )
+				KoLRequest.autoDetectServer();
+			else
+				KoLRequest.setLoginServer( "www." + serverSelect.getSelectedIndex() + ".kingdomofloathing.com" );
+		}
+
+		protected void actionCancelled()
+		{
 		}
 	}
 }

@@ -69,7 +69,7 @@ public class AdventureRequest extends KoLRequest
 		// different URL), you can actually skip the adventure.
 
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "choice.php" ) )
-			(new AdventureRequest( client, formSource, adventureID )).start();
+			(new AdventureRequest( client, formSource, adventureID )).run();
 
 		// From here on out, there will only be data handling
 		// if you've encountered a non-redirect request, and

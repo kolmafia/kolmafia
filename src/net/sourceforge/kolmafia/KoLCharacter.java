@@ -55,9 +55,14 @@ public class KoLCharacter
 	public KoLCharacter( String username )
 	{
 		this.username = username;
+		this.classname = "";
+
 		this.adjustedStats = new int[3];
 		this.totalSubpoints = new int[3];
 		this.equipment = new String[7];
+
+		for ( int i = 0; i < 7; ++i )
+			equipment[i] = "none";
 	}
 
 	public String getUsername()

@@ -158,23 +158,7 @@ public class AdventureFrame extends KoLFrame
 		menuBar.add( menu );
 
 		JMenuItem menuItem = new JMenuItem( "Character Sheet", KeyEvent.VK_C );
-		menuItem.addActionListener( new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				updateDisplay( NOCHANGE_STATE, "Retrieving character data..." );
-				Runnable display = new Runnable()
-				{
-					public void run()
-					{
-						CharsheetFrame csheet = new CharsheetFrame( client );
-						csheet.pack();  csheet.setVisible( true );
-						csheet.requestFocus();
-						updateDisplay( NOCHANGE_STATE, "" );
-					}
-				};
-				SwingUtilities.invokeLater( display );
-			}
-		});
+		menuItem.addActionListener( new ViewCharacterSheetListener() );
 
 		menu.add( menuItem );
 	}
@@ -229,38 +213,17 @@ public class AdventureFrame extends KoLFrame
 
 		public void clear()
 		{
-			Runnable updateAComponent = new Runnable() {
-				public void run()
-				{
-					countField.setText( "" );
-					requestFocus();
-				}
-			};
-			SwingUtilities.invokeLater(updateAComponent);
+			countField.setText( "" );
+			requestFocus();
 		}
 
 		protected void actionConfirmed()
 		{
 			// Once the stubs are finished, this will notify the
 			// client to begin adventuring based on the values
-			// placed in the input fields.  For now, since there's
-			// no actual functionality, simply parse the values.
+			// placed in the input fields.
 
-			Runnable request = (Runnable) locationField.getSelectedItem();
-
-			try
-			{
-				int count = Integer.parseInt( countField.getText() );
-				updateDisplay( DISABLED_STATE, "Request 1 in progress..." );
-				client.makeRequest( request, count );
-			}
-			catch ( NumberFormatException e )
-			{
-				// If the number placed inside of the count list was not
-				// an actual integer value, pretend nothing happened.
-				// Using exceptions for flow control is bad style, but
-				// this will be fixed once we add functionality.
-			}
+			(new AdventureRequestThread()).start();
 		}
 
 		protected void actionCancelled()
@@ -276,6 +239,33 @@ public class AdventureFrame extends KoLFrame
 
 		public void requestFocus()
 		{	locationField.requestFocus();
+		}
+
+		private class AdventureRequestThread extends Thread
+		{
+			public AdventureRequestThread()
+			{
+				super( "Adv-Request-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					int count = Integer.parseInt( countField.getText() );
+					updateDisplay( DISABLED_STATE, "Request 1 in progress..." );
+					Runnable request = (Runnable) locationField.getSelectedItem();
+					client.makeRequest( request, count );
+				}
+				catch ( NumberFormatException e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+			}
 		}
 	}
 
@@ -294,6 +284,29 @@ public class AdventureFrame extends KoLFrame
 
 			add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+		}
+	}
+
+	private class ViewCharacterSheetListener extends Thread implements ActionListener
+	{
+		public ViewCharacterSheetListener()
+		{
+			super( "CSheet-Display-Thread" );
+			setDaemon( true );
+		}
+
+		public void run()
+		{
+			CharsheetFrame csheet = new CharsheetFrame( client );
+			csheet.pack();  csheet.setVisible( true );
+			csheet.requestFocus();
+			updateDisplay( NOCHANGE_STATE, "" );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			updateDisplay( NOCHANGE_STATE, "Retrieving character data..." );
+			this.start();
 		}
 	}
 }

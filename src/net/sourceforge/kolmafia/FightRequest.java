@@ -93,7 +93,7 @@ public class FightRequest extends KoLRequest
 				// start a new thread and allow this one to die.
 
 				if ( client.permitsContinue() )
-					(new FightRequest( client )).start();
+					(new FightRequest( client )).run();
 			}
 		}
 	}

@@ -77,24 +77,6 @@ public class LoginRequest extends KoLRequest
 
 			setPasswordHash();
 		}
-		else if ( !isErrorState && replyContent.indexOf( "Login failed." ) == -1 )
-		{
-			// In this case, it's just a timeout of an old session, so you
-			// can go ahead and try again after waiting for about ten seconds
-			// for the old session ID to clear.
-
-			frame.updateDisplay( KoLFrame.DISABLED_STATE, "Deactivating old session..." );
-
-			try
-			{
-				this.sleep( 10000 );
-				frame.updateDisplay( KoLFrame.DISABLED_STATE, "Sending login..." );
-				(new LoginRequest( client, loginname, password )).start();
-			}
-			catch ( InterruptedException e )
-			{
-			}
-		}
 		else if ( !isErrorState )
 		{
 			// This means that the login failed.  Therefore, the user should
