@@ -72,6 +72,7 @@ package net.sourceforge.kolmafia;
 // layout
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
@@ -86,7 +87,6 @@ import java.awt.event.WindowEvent;
 
 // containers
 import javax.swing.JList;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -106,15 +106,15 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 /**
  * An extended <code>KoLFrame</code> which presents the user with the ability to
  * adventure in the Kingdom of Loathing.  As the class is developed, it will also
- * provide other adventure-related functionality, such as inventory management
+ * provide other adventure-related functionality, such as inventoryManage management
  * and mall purchases.  Its content panel will also change, pending the activity
  * executed at that moment.
  */
 
 public class AdventureFrame extends KoLFrame
 {
-	private JTabbedPane tabs;
 	private AdventureSelectPanel adventureSelect;
+	private InventoryManagementPanel inventoryManage;
 	private MallSearchPanel mallSearch;
 
 	/**
@@ -129,15 +129,16 @@ public class AdventureFrame extends KoLFrame
 
 	public AdventureFrame( KoLmafia client, LockableListModel adventureList, LockableListModel resultsTally )
 	{
-		super( "KoLmafia: " + client.getLoginName(), client );
+		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()), client );
 		setResizable( false );
 
-		tabs = new JTabbedPane();
+		JTabbedPane tabs = new JTabbedPane();
 
 		adventureSelect = new AdventureSelectPanel( adventureList, resultsTally );
 		tabs.addTab( "Adventure Select", adventureSelect );
 
-		addInventoryPanel();  tabs.setEnabledAt( 1, false );
+		inventoryManage = new InventoryManagementPanel();
+		tabs.addTab( "Inventory / Equipment", inventoryManage );
 
 		mallSearch = new MallSearchPanel();
 		tabs.addTab( "Mall of Loathing", mallSearch );
@@ -150,17 +151,6 @@ public class AdventureFrame extends KoLFrame
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		addMenuBar();
-	}
-
-	/**
-	 * Utility method which adds the inventory management panel to the
-	 * pre-constructed tabs.  Because inventory management has not yet
-	 * been implemented, this method adds a blank panel.
-	 */
-
-	private void addInventoryPanel()
-	{
-		tabs.addTab( "Inventory / Equipment", new JPanel() );
 	}
 
 	/**
@@ -330,6 +320,97 @@ public class AdventureFrame extends KoLFrame
 					// Using exceptions for flow control is bad style, but
 					// this will be fixed once we add functionality.
 				}
+			}
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for all
+	 * inventory management.
+	 */
+
+	private class InventoryManagementPanel extends KoLPanel
+	{
+		private JPanel actionStatusPanel;
+		private JLabel actionStatusLabel;
+
+		public InventoryManagementPanel()
+		{
+			super( "", "" );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			JTabbedPane inventoryTabs = new JTabbedPane();
+			inventoryTabs.addTab( "Invention", new ItemCreationPanel() );
+
+			setLayout( new CardLayout( 10, 10 ) );
+
+			JPanel mainPanel = new JPanel();
+			mainPanel.add( inventoryTabs, BorderLayout.NORTH );
+			mainPanel.add( actionStatusPanel, BorderLayout.SOUTH );
+
+			add( mainPanel, "" );
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		public void clear()
+		{	requestFocus();
+		}
+
+		protected void actionConfirmed()
+		{
+		}
+
+		protected void actionCancelled()
+		{
+		}
+
+		/**
+		 * An internal class used to handle item creation for
+		 * the inventory screen.
+		 */
+
+		private class ItemCreationPanel extends KoLPanel
+		{
+			private JComboBox createField;
+			private JTextField countField;
+
+			public ItemCreationPanel()
+			{
+				super( "create", "untinker" );
+
+				createField = new JComboBox();
+				countField = new JTextField();
+
+				VerifiableElement [] elements = new VerifiableElement[2];
+				elements[0] = new VerifiableElement( "Item to Make: ", createField );
+				elements[1] = new VerifiableElement( "Quantity: ", countField );
+
+				setContent( elements );
+			}
+
+			public void setStatusMessage( String s )
+			{
+			}
+
+			public void clear()
+			{
+			}
+
+			protected void actionConfirmed()
+			{
+			}
+
+			protected void actionCancelled()
+			{
 			}
 		}
 	}
@@ -566,8 +647,11 @@ public class AdventureFrame extends KoLFrame
 	{
 		public void windowClosed( WindowEvent e )
 		{
-			client.deinitialize();
-			(new LogoutRequestThread()).start();
+			if ( client != null )
+			{
+				client.deinitialize();
+				(new LogoutRequestThread()).start();
+			}
 		}
 
 		private class LogoutRequestThread extends Thread
@@ -576,5 +660,17 @@ public class AdventureFrame extends KoLFrame
 			{	(new LogoutRequest( client )).run();
 			}
 		}
+	}
+
+	/**
+	 * The main method used in the event of testing the way the
+	 * user interface looks.  This allows the UI to be tested
+	 * without having to constantly log in and out of KoL.
+	 */
+
+	public static void main( String [] args )
+	{
+		KoLFrame uitest = new AdventureFrame( null, new LockableListModel(), new LockableListModel() );
+		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }
