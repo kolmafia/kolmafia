@@ -114,11 +114,14 @@ public class CharsheetRequest extends KoLRequest
 		// to discard any notes in parenthesis.  Meat and
 		// turns played so far are also found.
 
-		skipTokens( parsedContent, 4 );
-		int drunk = intToken( parsedContent );
-
+		int drunk = 0;
+		skipTokens( parsedContent, 3 );
 		if ( !parsedContent.nextToken().startsWith( "Adv" ) )
-			skipTokens( parsedContent, 1 );
+		{
+			drunk = intToken( parsedContent );
+			if ( !parsedContent.nextToken().startsWith( "Adv" ) )
+				skipTokens( parsedContent, 1 );
+		}
 
 		int adv = intToken( parsedContent );
 		skipTokens( parsedContent, 1 );
