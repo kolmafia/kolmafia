@@ -76,6 +76,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private static final int LONG_SLEEP_COUNT = 300;  // This many times for slot needs
 
 	private Map buffCostMap;
+	private boolean itemBasedBuffing;
 	private MPRestoreItemList mpRestoreItemList;
 	private LockableListModel buffCostTable;
 	private String [] whiteListArray;
@@ -164,13 +165,18 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	public synchronized void runBuffBot()
 	{
+		boolean newMessages = false;
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 
 		// need to make sure the MP is up to date
 		(new CharsheetRequest( client )).run();
 
 		// get all current buffbot settings
-		messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) == null ? 0 :
+
+		itemBasedBuffing = settings.getProperty( "buffBotItemBasedBuffing" ) == null ? false :
+			settings.getProperty( "buffBotItemBasedBuffing" ).equals( "true" );
+
+		messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) == null ? SAVEBOX :
 			Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) );
 
 		mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "tiny house" :
@@ -181,36 +187,42 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		Arrays.sort(whiteListArray);
 
 		// The outer loop goes until user cancels
+
 		while( client.isBuffBotActive() )
 		{
-			// First, retrieve all messages in the mailbox (If there are any)
-			if ( client != null )
-				(new MailboxRequest( client, "Inbox" )).run();
+			// Request the inbox for the user.  Each call
+			// to add message will trigger the actual
+			// buffing attempt sequence, so all that
+			// needs to be done is clear the lists and
+			// initiate the mailbox request.
 
-			// Next process each message in the Inbox
-			Object [] inbox = getMessages( "Inbox" ).toArray();
+			newMessages = false;
 			deleteList.clear();  saveList.clear();
-			if (inbox.length > 0) buffbotLog.timeStampedLogEntry("Mail received.<br>\n");
-			for ( int i = inbox.length - 1; i >= 0; --i )
-			{
-				client.resetContinueState();
-				if ( !processMessage( (KoLMailMessage) inbox[i] ) )
-				{
-					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!" );
-					client.setBuffBotActive( false );
-					buffbotLog.append( ERRORCOLOR + "Unable to process a buff message." + ENDCOLOR + "<br>\n" );
-				}
-			}
+			(new MailboxRequest( client, "Inbox" )).run();
 
-			// Do all the deletes and saves
+			// Do all the deletes and saves now that all
+			// the buffbot activity has been processed.
 
 			if ( !deleteList.isEmpty() )
+			{
+				newMessages = true;
 				deleteMessages( "Inbox", deleteList.toArray() );
+			}
+
 			if ( !saveList.isEmpty() )
+			{
+				newMessages = true;
 				saveMessages( saveList.toArray() );
+			}
 
 			// Otherwise sleep for a while and then try again
 			// (don't go away for more than 1 second at a time
+
+			if ( newMessages )
+			{
+				buffbotLog.timeStampedLogEntry( "Message processing complete.<br>");
+				buffbotLog.timeStampedLogEntry( "Buffbot is sleeping.<br>");
+			}
 
 			client.updateDisplay( DISABLED_STATE, "BuffBot is sleeping" );
 
@@ -229,17 +241,43 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		}
 	}
 
+	public boolean addMessage( String boxname, String message )
+	{
+		boolean success = super.addMessage( boxname, message );
+		if ( success && boxname.equals( "Inbox" ) )
+		{
+			client.resetContinueState();
+			LockableListModel messages = getMessages( "Inbox" );
+			if ( !processMessage( (KoLMailMessage) messages.get( messages.size() - 1 ) ) )
+			{
+				client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!" );
+				client.setBuffBotActive( false );
+				buffbotLog.append( ERRORCOLOR + "Unable to process a buff message." + ENDCOLOR + "<br>" );
+			}
+		}
+
+		return success;
+	}
+
 	private boolean onWhiteList(String userName)
 	{	return Arrays.binarySearch(whiteListArray, userName.toLowerCase()) > -1;
 	}
 
 	private void sendRefund( String recipient, String reason, int amount )
+	{	sendRefund( recipient, reason, new AdventureResult( AdventureResult.MEAT, amount ) );
+	}
+
+	private void sendRefund( String recipient, String reason, AdventureResult refund )
 	{
-		(new GreenMessageRequest( client, recipient, reason, new AdventureResult( AdventureResult.MEAT, amount ) )).run();
-		buffbotLog.append( NONBUFFCOLOR + "Sent refund to [" + recipient + "] meat sent: " + amount + ENDCOLOR + "<br>\n");
+		(new GreenMessageRequest( client, recipient, reason, refund )).run();
+		buffbotLog.append( NONBUFFCOLOR + "Sent refund to [" + recipient + "], " + refund.toString() + ENDCOLOR + "<br>");
 	}
 
 	private boolean processMessage( KoLMailMessage message )
+	{	return itemBasedBuffing ? findTinyHouse( message ) : findMeat( message );
+	}
+
+	private boolean findMeat( KoLMailMessage message )
 	{
 		int meatSent = 0;
 		BuffBotCaster buff;
@@ -259,17 +297,17 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					if ((!buff.restricted) || onWhiteList(message.getSenderName()))
 					{
 						// We have a genuine buff request, so do it!
-						if ( !buff.castOnTarget( message.getSenderName(), meatSent ))
+						if ( !buff.castOnTarget( message.getSenderName() ))
 						{
 							if ( client.permitsContinue() )
 							{
-								sendRefund( message.getSenderName(), "We're sorry.  The Buffbot you have dialed has gone insane and thinks it has run out of MP restores.  Please try again later.", meatSent );
+								sendRefund( message.getSenderName(), "This buffbot has run out of the mana restoration items.  Please try again later.", meatSent );
 								deleteList.add( message );
 								return false;
 							}
 							else
 							{
-								sendRefund( message.getSenderName(), "The Buffbot is not currently able to process your request.  Please try again later.", meatSent );
+								sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  Please try again later.", meatSent );
 								deleteList.add( message );
 								return true;
 							}
@@ -283,7 +321,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					{
 						// This is a restricted buff for a non-allowed user.
 						buffbotLog.append( NONBUFFCOLOR + "Request for restricted buff denied: from [" +
-								message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>\n");
+								message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>");
 
 						sendRefund( message.getSenderName(), "Sorry, this buff is white-list restricted.  Please try a different buff.", meatSent );
 						deleteList.add( message );
@@ -293,7 +331,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				else
 				{
 					buffbotLog.append( NONBUFFCOLOR + "Meat received does not match anything in database: from [" +
-							message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>\n");
+							message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>");
 
 					sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price.", meatSent );
 					deleteList.add( message );
@@ -306,26 +344,109 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			return false;
 		}
 
-		// Must not be a buff request message, so notify user and save/delete
-		// check to see if it was an attempted scam
-		Matcher meatMatcher = Pattern.compile( "You gain ([\\d,]+) Meat" ).matcher( message.getMessageHTML() );
-		if ( meatMatcher.find() )
-			buffbotLog.append( NONBUFFCOLOR + "Possible attempted scam message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
-		else
-			buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
+		// Must not be a buff request message, so notify user and save/delete;
+		// also check to see if it was an attempted scam
 
-		buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting == INBOX ? "ignore" :
-			messageDisposalSetting == SAVEBOX ? "save" : "delete") + ENDCOLOR + "<br>\n");
-
-		// Now, mark for either save or delete the message.
-
-		if ( messageDisposalSetting == SAVEBOX )
-			saveList.add( message );
-		else if ( messageDisposalSetting == DISPOSE )
-			deleteList.add( message );
-
+		detectScam( message, "You gain ([\\d,]+) Meat" );
 		return true;
 	}
+
+	private boolean findTinyHouse( KoLMailMessage message )
+	{
+		int housesSent = 0;
+		BuffBotCaster buff;
+
+		try
+		{
+			String messageContent = message.getMessageHTML();
+
+			// First, test for multiple houses being sent
+			// to do a buff request
+
+			Matcher houseMatcher = Pattern.compile( "<b>tiny house \\(([\\d,]+)\\)" ).matcher( messageContent );
+			if ( houseMatcher.find() )
+				housesSent = df.parse( houseMatcher.group(1) ).intValue();
+
+			// It's possible the user sent only one house!
+			// In which case, you test for just that.
+
+			else if ( messageContent.indexOf( "<b>tiny house" ) != -1 )
+				housesSent = 1;
+
+			if ( housesSent > 0 )
+			{
+				LockableListModel skills = characterData.getAvailableSkills();
+
+				for ( int i = 0; i < skills.size(); ++i )
+				{
+					if ( messageContent.indexOf( skills.get(i).toString().replaceFirst( "ñ", "n" ) ) != -1 )
+					{
+						int castCount = housesSent * 20 / ClassSkillsDatabase.getMPConsumptionByID(
+							ClassSkillsDatabase.getSkillID( skills.get(i).toString().replaceFirst( "ñ", "&ntilde;" ) ) );
+
+						if ( !(new BuffBotCaster( skills.get(i).toString(), 0, castCount, false )).castOnTarget( message.getSenderName() ) )
+						{
+							sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  Please try again later.",
+								new AdventureResult( "tiny house", housesSent ) );
+
+							deleteList.add( message );
+							return true;
+						}
+
+						// If it gets this far, then the buff was successfully
+						// cast!  Therefore, delete the message and return.
+
+						deleteList.add( message );
+						return true;
+					}
+				}
+
+				// If it gets this far, that means the user forgot
+				// to specify a buff!  Therefore, send them a refund.
+
+				sendRefund( message.getSenderName(), "No buff was specified.  Please try again.", new AdventureResult( "tiny house", housesSent ) );
+				deleteList.add( message );
+				return true;
+			}
+		}
+		catch( Exception e )
+		{
+			return false;
+		}
+
+		// Must not be a buff request message, so notify user and save/delete;
+		// also check to see if it was an attempted scam
+
+		detectScam( message, "You acquire some items: tiny house" );
+		return true;
+	}
+
+	private void detectScam( KoLMailMessage message, String scamString )
+	{
+		// For scam messages, leave the scam messages in
+		// the player's inbox until further notice.
+
+		Matcher scamMatcher = Pattern.compile( scamString ).matcher( message.getMessageHTML() );
+		if ( scamMatcher.find() )
+			buffbotLog.append( NONBUFFCOLOR + "Ignoring possible attempted scam message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>");
+
+		// Now, mark for either save or delete the message,
+		// or ignore the message, if applicable.
+
+		else if ( messageDisposalSetting == SAVEBOX )
+		{
+			saveList.add( message );
+			buffbotLog.append( NONBUFFCOLOR + "Saving non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>");
+		}
+		else if ( messageDisposalSetting == DISPOSE )
+		{
+			deleteList.add( message );
+			buffbotLog.append( NONBUFFCOLOR + "Deleting non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>");
+		}
+		else
+			buffbotLog.append( NONBUFFCOLOR + "Ignoring non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>");
+	}
+
 
 	private boolean recoverMP( int mpNeeded )
 	{
@@ -359,7 +480,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			}
 		}
 
-		buffbotLog.append( ERRORCOLOR + "Unable to acquire enough MP!" + ENDCOLOR + "<br>\n");
+		buffbotLog.append( ERRORCOLOR + "Unable to acquire enough MP!" + ENDCOLOR + "<br>");
 		return false;
 	}
 
@@ -412,7 +533,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			this.settingString = buffID + ":" + price + ":" + castCount + ":" + restricted;
 		}
 
-		public boolean castOnTarget( String target, int price )
+		public boolean castOnTarget( String target )
 		{
 			// Figure out how much MP the buff will take, and then identify
 			// the number of casts per request that this character can handle.
@@ -426,7 +547,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			int currentCast, mpPerEvent;
 
 			buffbotLog.append( BUFFCOLOR + "Casting " + buffName + ", " + castCount + " times on "
-					+ target + " for " + price + " meat... "+ ENDCOLOR + "<br>\n");
+					+ target + " for " + price + " meat... "+ ENDCOLOR + "<br>");
 			while ( totalCasts > 0 )
 			{
 				currentCast = Math.min(totalCasts, (int) (maximumMP/mpPerCast) );
@@ -440,11 +561,11 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 				if ( !client.permitsContinue() )
 				{
-					buffbotLog.append( ERRORCOLOR + " ---> " + target + " had too many buffs." + ENDCOLOR + "<br>\n");
+					buffbotLog.append( ERRORCOLOR + " ---> " + target + " had too many buffs." + ENDCOLOR + "<br>");
 					return false;
 				}
 
-				buffbotLog.append( BUFFCOLOR + " ---> Successfully cast: " + buffName + ", " + currentCast + " times." + ENDCOLOR + "<br>\n");
+				buffbotLog.append( BUFFCOLOR + " ---> Successfully cast: " + buffName + ", " + currentCast + " times." + ENDCOLOR + "<br>");
 			}
 
 			return true;
@@ -478,7 +599,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			// constant market value
 
 			this.add( BEANBAG );
-			this.add( new MPRestoreItem( "magical mystery juice", characterData.getLevel() + 4, 150 ) );
+			this.add( new MPRestoreItem( "magical mystery juice", characterData.getLevel() + 2, 150 ) );
 			this.add( new MPRestoreItem( "soda water", 4, 70 ) );
 
 			// On the other hand, these MP restores have a fairly
@@ -536,7 +657,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					numberToUse = Math.min(numberToUse, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
 					if (numberToUse > 0)
 					{
-						buffbotLog.append("Consuming " + numberToUse + " " + itemName + "s.<br>\n");
+						buffbotLog.append("Consuming " + numberToUse + " " + itemName + "s.<br>");
 						(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE,
 								new AdventureResult( itemUsed.getItemID(), numberToUse ) )).run();
 					}

@@ -241,7 +241,7 @@ public class BuffBotFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			buffbotLog.timeStampedLogEntry( "BuffBot Terminated.<br>\n\n\n" );
+			buffbotLog.timeStampedLogEntry( "BuffBot Terminated.<br>" );
 			client.setBuffBotActive(false);
 			client.updateDisplay( ENABLED_STATE, "BuffBot stopped." );
 		}
@@ -262,15 +262,10 @@ public class BuffBotFrame extends KoLFrame
 
 			public void run()
 			{
-				if (buffCostTable.isEmpty())
-				{
-					JOptionPane.showMessageDialog(null,"No Valid Buff Table Entries!");
-					return;
-				}
-				else if ( client.isBuffBotActive() )
+				if ( client.isBuffBotActive() )
 					return;
 
-				buffbotLog.timeStampedLogEntry( "<b>Starting a new session.</b><br>\n" );
+				buffbotLog.timeStampedLogEntry( "<b>Starting a new session.</b><br>" );
 				client.resetContinueState();
 				client.setBuffBotActive( true );
 				currentManager.runBuffBot();
@@ -391,6 +386,7 @@ public class BuffBotFrame extends KoLFrame
 
 	private class WhiteListPanel extends NonContentPanel
 	{
+		private JComboBox buffBotModeSelect;
 		private JComboBox messageDisposalSelect;
 		private WhiteListEntry whiteListEntry;
 
@@ -404,6 +400,11 @@ public class BuffBotFrame extends KoLFrame
 			super( "Apply", "Restore", new Dimension( 120, 20 ),  new Dimension( 240, 20 ));
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout() );
+
+			LockableListModel buffBotModeChoices = new LockableListModel();
+			buffBotModeChoices.add( "Standard configuration" );
+			buffBotModeChoices.add( "Minimal MP restore mode" );
+			buffBotModeSelect = new JComboBox( buffBotModeChoices );
 
 			LockableListModel messageDisposalChoices = new LockableListModel();
 			messageDisposalChoices.add( "Auto-save non-buff requests" );
@@ -438,9 +439,10 @@ public class BuffBotFrame extends KoLFrame
 
 			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Message Disposal: ", messageDisposalSelect );
-			elements[1] = new VerifiableElement( "MP Restore Items: ", scrollArea );
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Buff Bot Mode: ", buffBotModeSelect );
+			elements[1] = new VerifiableElement( "Message Disposal: ", messageDisposalSelect );
+			elements[2] = new VerifiableElement( "MP Restore Items: ", scrollArea );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -497,6 +499,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			public void run()
 			{
+				String itemBasedBuffingSetting = settings.getProperty( "buffBotItemBasedBuffing" );
 				String messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" );
 				String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
 				String whiteListSetting = settings.getProperty( "whiteList" );
@@ -507,6 +510,9 @@ public class BuffBotFrame extends KoLFrame
 							restoreCheckbox[i].setSelected( true );
 
 				messageDisposalSelect.setSelectedIndex( messageDisposalSetting == null ? 0 : Integer.parseInt( messageDisposalSetting ) );
+				buffBotModeSelect.setSelectedIndex( (messageDisposalSetting == null || itemBasedBuffingSetting.equals( "false" )) ? 0 : 1 );
+
+
 				if ( whiteListSetting != null )
 					whiteListEditor.setText( whiteListSetting );
 
@@ -518,6 +524,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			public void run()
 			{
+				settings.setProperty( "buffBotItemBasedBuffing", "" + (buffBotModeSelect.getSelectedIndex() == 1) );
 				settings.setProperty( "buffBotMessageDisposal", "" + messageDisposalSelect.getSelectedIndex() );
 
 				StringBuffer mpRestoreSetting = new StringBuffer();
