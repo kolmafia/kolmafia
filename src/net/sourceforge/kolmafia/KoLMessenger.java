@@ -34,10 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,8 +56,8 @@ public class KoLMessenger
 	private ChatFrame mainChatFrame;
 	private ChatBuffer mainChatBuffer;
 
-	private Map instantMessageFrames;
-	private Map instantMessageBuffers;
+	private TreeMap instantMessageFrames;
+	private TreeMap instantMessageBuffers;
 
 	private SortedListModel onlineContacts;
 
@@ -87,8 +87,8 @@ public class KoLMessenger
 
 	public void initialize()
 	{
-		(new ChatRequest( client, "/channel" )).run();
-		(new ChatRequest( client, "/friends" )).run();
+		(new ChatRequest( client, null, "/channel" )).run();
+		(new ChatRequest( client, null, "/friends" )).run();
 		(new ChatRequest( client )).run();
 	}
 
@@ -97,21 +97,61 @@ public class KoLMessenger
 	 * whenever the user wishes for there to be less text.
 	 */
 
-	public void clearChatBuffer()
+	public void clearChatBuffer( String contact )
 	{
-		if ( mainChatBuffer != null )
-			mainChatBuffer.clearBuffer();
+		ChatBuffer bufferToClear = getChatBuffer( contact );
+		if ( bufferToClear != null )
+			bufferToClear.clearBuffer();
 	}
 
 	/**
 	 * Retrieves the chat buffer currently used for storing and
-	 * saving the currently running chat.
+	 * saving the currently running chat associated with the
+	 * given contact.  If the contact is <code>null</code>, this
+	 * method returns the main chat.
 	 *
-	 * @return	The current chat buffer for the main chat
+	 * @param	contact	Name of the contact
+	 * @return	The chat buffer for the given contact
 	 */
 
-	public ChatBuffer getChatBuffer()
-	{	return mainChatBuffer;
+	public ChatBuffer getChatBuffer( String contact )
+	{
+		return contact == null ? mainChatBuffer :
+			(ChatBuffer) instantMessageBuffers.get( contact );
+	}
+
+	/**
+	 * Removes the chat associated with the given contact.  This
+	 * method is called whenever a window is closed.
+	 */
+
+	public void removeChat( String contact )
+	{
+		ChatFrame frameToRemove;
+		ChatBuffer bufferToRemove;
+
+		if ( contact == null )
+		{
+			frameToRemove = mainChatFrame;
+			mainChatFrame = null;
+
+			bufferToRemove = mainChatBuffer;
+			mainChatBuffer = null;
+		}
+		else
+		{
+			frameToRemove = (ChatFrame) instantMessageFrames.remove( contact );
+			bufferToRemove = (ChatBuffer) instantMessageBuffers.remove( contact );
+		}
+
+		if ( frameToRemove != null )
+		{
+			frameToRemove.setVisible( false );
+			frameToRemove.dispose();
+		}
+
+		if ( bufferToRemove != null )
+			bufferToRemove.closeActiveLogFile();
 	}
 
 	/**
@@ -132,6 +172,10 @@ public class KoLMessenger
 	{
 		if ( mainChatFrame != null )
 			mainChatFrame.setVisible( isVisible );
+
+		Iterator frames = instantMessageFrames.values().iterator();
+		while ( frames.hasNext() )
+			((ChatFrame) frames.next()).setVisible( isVisible );
 	}
 
 	/**
@@ -140,11 +184,9 @@ public class KoLMessenger
 
 	public void dispose()
 	{
-		mainChatFrame.dispose();
-		mainChatFrame = null;
-		if ( mainChatBuffer != null )
-			mainChatBuffer.closeActiveLogFile();
-		mainChatBuffer = null;
+		removeChat( null );
+		while ( !instantMessageFrames.isEmpty() )
+			removeChat( (String) instantMessageFrames.firstKey() );
 	}
 
 	/**
@@ -162,7 +204,7 @@ public class KoLMessenger
 	 * @param	currentContacts	A list of the contacts currently online.
 	 */
 
-	public void updateContactList( List currentContacts )
+	private void updateContactList( List currentContacts )
 	{
 		onlineContacts.clear();
 		onlineContacts.addAll( currentContacts );
@@ -174,7 +216,7 @@ public class KoLMessenger
 	 * @param	isOnline	Whether or not they are online
 	 */
 
-	public void updateContactList( String characterName, boolean isOnline )
+	private void updateContactList( String characterName, boolean isOnline )
 	{
 		if ( isOnline && !onlineContacts.contains( characterName ) )
 			onlineContacts.add( characterName );
@@ -202,7 +244,12 @@ public class KoLMessenger
 		// For now, update the main chat buffer with the entire
 		// content.  Instant message changes will follow.
 
-		mainChatBuffer.append( noLinksContent );
+		if ( mainChatBuffer != null )
+		{
+			String [] lines = noLinksContent.split( "<br>" );
+			for ( int i = 0; i < lines.length; ++i )
+				processChatMessage( lines[i] );
+		}
 
 		// Now, extract the contact list and update KoLMessenger to indicate
 		// the contact list found in the last /friends update
@@ -233,6 +280,47 @@ public class KoLMessenger
 	}
 
 	/**
+	 * Utility method to update the appropriate chat window with the
+	 * given message.
+	 */
+
+	public void processChatMessage( String message )
+	{
+		if ( !message.startsWith( "<font color=blue>" ) )
+		{
+			// The easy case is if it's a normal chat message.
+			// Then, it just gets updated to the main chat buffer,
+			// provided that the main chat buffer is not null
+
+			if ( mainChatBuffer != null )
+				mainChatBuffer.append( message + "<br>\n" );
+		}
+		else
+		{
+			// The harder case is if you have a private message.
+			// First, you have to determine who sent the message;
+			// either the client is the recipient or was the sender.
+			// This is determined by where the colon is - in a
+			// send, it is not bolded, while in a receive, it is.
+
+			boolean isRecipient = message.indexOf( "</b>:" ) == -1;
+
+			// Next, split the message around the tags so you know
+			// how to display the message.
+
+			StringTokenizer splitMessage = new StringTokenizer( message.replaceAll( "<.*?>", "\n" ), "\n" );
+
+			// For now, just display the message inside of the
+			// main frame.
+
+			ChatBuffer messageBuffer = mainChatBuffer;
+
+			if ( messageBuffer != null )
+				messageBuffer.append( message + "<br>\n" );
+		}
+	}
+
+	/**
 	 * Opens an instant message window to the character with the
 	 * given name so that a private conversation can be started.
 	 *
@@ -242,11 +330,10 @@ public class KoLMessenger
 	public void openInstantMessage( String characterName )
 	{
 		ChatFrame newFrame = new ChatFrame( client, this, characterName );
-		ChatBuffer newBuffer = new ChatBuffer( client.getLoginName() + " (Blue Messages to " + characterName + ") : Started " +
+		ChatBuffer newBuffer = new ChatBuffer( client.getLoginName() + " (Conversation with " + characterName + ") : Started " +
 			Calendar.getInstance().getTime().toString() );
 
 		newBuffer.setChatDisplay( newFrame.getChatDisplay() );
-
 		newFrame.setVisible( true );
 	}
 }
