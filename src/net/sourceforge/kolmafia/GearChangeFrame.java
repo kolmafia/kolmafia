@@ -87,7 +87,7 @@ public class GearChangeFrame extends KoLFrame
 	public GearChangeFrame( KoLmafia client )
 	{
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
-			" (Loaded Gear)", client );
+			" (Weltall Config)", client );
 
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
@@ -106,7 +106,7 @@ public class GearChangeFrame extends KoLFrame
 		JPanel entirePanel = new JPanel();
 		entirePanel.setLayout( new BorderLayout( 20, 20 ) );
 
-		entirePanel.add( createEquipPanel(), BorderLayout.CENTER );
+		entirePanel.add( createEquipPanel(), BorderLayout.WEST );
 		entirePanel.add( createSouthPanel(), BorderLayout.SOUTH );
 
 		getContentPane().add( entirePanel, "" );
