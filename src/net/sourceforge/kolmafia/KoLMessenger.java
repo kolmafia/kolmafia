@@ -110,6 +110,27 @@ public class KoLMessenger
 	}
 
 	/**
+	 * Returns the name of the currently active frame.  This is
+	 * used to ensure that messages either (a) get delivered to
+	 * the currently active frame, or (b) ensure that focus is
+	 * returned to the currently active frame at a later time.
+	 */
+
+	public String getNameOfActiveFrame()
+	{
+		Iterator names = instantMessageBuffers.keySet().iterator();
+		String currentName;
+		while ( names.hasNext() )
+		{
+			currentName = (String) names.next();
+			if ( ((ChatFrame)instantMessageFrames.get( currentName )).hasFocus() )
+				return currentName;
+		}
+
+		return currentChannel;
+	}
+
+	/**
 	 * Retrieves the chat buffer currently used for storing and
 	 * saving the currently running chat associated with the
 	 * given contact.  If the contact is <code>null</code>, this
@@ -336,6 +357,11 @@ public class KoLMessenger
 
 	public void updateChat( String originalContent )
 	{
+		// First, retrieve the currently active window - that way, the
+		// focus can be returned once the chat's been updated.
+
+		String nameOfActiveFrame = getNameOfActiveFrame();
+
 		// There's a lot of bad HTML used in KoL chat; in order to get Java
 		// to properly display everything, all of the bad HTML gets replaced
 		// with good HTML.
@@ -410,19 +436,21 @@ public class KoLMessenger
 			}
 			else
 			{
-				result = result.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" );
+				result = result.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ).trim();
+				if ( nameOfActiveFrame == null )
+					nameOfActiveFrame = currentChannel;
 
-				if ( result.startsWith( "\nPlayers in" ) )
+				ChatBuffer currentChatBuffer = getChatBuffer( nameOfActiveFrame );
+
+				if ( currentChatBuffer == null )
+				{
+					openInstantMessage( nameOfActiveFrame );
+					currentChatBuffer = getChatBuffer( nameOfActiveFrame );
+				}
+
+				if ( result.startsWith( "Players" ) )
 				{
 					result = result.replaceAll( "<br>", " " ).replaceAll( " , ", ", " ).replaceFirst( ":", ":</b>" ).trim();
-
-					String channel = "/" + result.substring( 19, result.indexOf( ":" ) );
-					ChatBuffer currentChatBuffer = getChatBuffer( channel );
-					if ( currentChatBuffer == null )
-					{
-						openInstantMessage( channel );
-						currentChatBuffer = getChatBuffer( channel );
-					}
 
 					currentChatBuffer.append( "<font color=teal><b>" );
 					currentChatBuffer.append( result.replaceAll( "\n", " " ).replaceAll( " , ", ", " ).replaceFirst( ":", ":</b>" ).trim() );
@@ -430,13 +458,6 @@ public class KoLMessenger
 				}
 				else
 				{
-					ChatBuffer currentChatBuffer = getChatBuffer( currentChannel );
-					if ( currentChatBuffer == null )
-					{
-						openInstantMessage( currentChannel );
-						currentChatBuffer = getChatBuffer( currentChannel );
-					}
-
 					if ( addingHelp )
 					{
 						currentChatBuffer.append( "<font color=orange>" );
@@ -537,6 +558,16 @@ public class KoLMessenger
 		for ( int i = 0; i < lines.length; ++i )
 			processChatMessage( lines[i] );
 
+		// Now that all the messages have been processed, return
+		// the focus to the originally active window (if the window
+		// lost focus during any of this).
+
+		if ( nameOfActiveFrame == null )
+			nameOfActiveFrame = currentChannel;
+
+		ChatFrame activeFrame = (ChatFrame) instantMessageFrames.get( nameOfActiveFrame );
+		if ( activeFrame != null && !activeFrame.hasFocus() )
+			activeFrame.requestFocus();
 	}
 
 	/**
