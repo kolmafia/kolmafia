@@ -40,30 +40,52 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JEditorPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.JTabbedPane;
 
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class MailboxFrame extends KoLFrame
+public class MailboxFrame extends KoLFrame implements ChangeListener
 {
 	private static final int MAXIMUM_MESSAGE_SIZE = 4000;
 
 	private KoLMailManager mailbox;
 	private JEditorPane messageContent;
+	private JTabbedPane tabbedListDisplay;
 	private LimitedSizeChatBuffer mailBuffer;
+
+	private MailSelectList messageListInbox;
+	private MailSelectList messageListOutbox;
+	private MailSelectList messageListSaved;
 
 	public MailboxFrame( KoLmafia client )
 	{
 		super( "KoLmafia IcePenguin Express", client );
-		(new MailboxRequest( client, "Inbox" )).run();
-
 		this.mailbox = (client == null) ? new KoLMailManager() : client.getMailManager();
-		JList messageList = new MailSelectList( "Inbox" );
-		JScrollPane messageListDisplay = new JScrollPane( messageList,
+
+		this.messageListInbox = new MailSelectList( "Inbox" );
+		JScrollPane messageListInboxDisplay = new JScrollPane( messageListInbox,
 			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+
+		this.messageListOutbox = new MailSelectList( "Outbox" );
+		JScrollPane messageListOutboxDisplay = new JScrollPane( messageListOutbox,
+			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+
+		this.messageListSaved = new MailSelectList( "Saved" );
+		JScrollPane messageListSavedDisplay = new JScrollPane( messageListSaved,
+			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+
+		this.tabbedListDisplay = new JTabbedPane();
+		tabbedListDisplay.addTab( "Inbox", messageListInbox );
+		tabbedListDisplay.addTab( "Outbox", messageListOutbox );
+		tabbedListDisplay.addTab( "Saved", messageListSaved );
+		tabbedListDisplay.addChangeListener( this );
 
 		this.messageContent = new JEditorPane();
 		JScrollPane messageContentDisplay = new JScrollPane( messageContent,
@@ -73,15 +95,77 @@ public class MailboxFrame extends KoLFrame
 		mailBuffer.setChatDisplay( messageContent );
 
 		JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true,
-			messageListDisplay, messageContentDisplay );
+			tabbedListDisplay, messageContentDisplay );
 
 		splitPane.setOneTouchExpandable( true );
+		JComponentUtilities.setComponentSize( splitPane, 500, 300 );
 		getContentPane().add( splitPane );
+
+		(new RequestMailboxThread( "Inbox" )).start();
 	}
+
+	/**
+	 * Whenever the tab changes, this method is used to retrieve
+	 * the messages from the appropriate client, if the mailbox
+	 * is currently empty.
+	 */
+
+	public void stateChanged( ChangeEvent e )
+	{
+		mailBuffer.clearBuffer();
+		String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+		boolean requestMailbox;
+
+		if ( currentTabName.equals( "Inbox" ) )
+			requestMailbox = !messageListInbox.isInitialized();
+		else if ( currentTabName.equals( "Outbox" ) )
+			requestMailbox = !messageListOutbox.isInitialized();
+		else
+			requestMailbox = !messageListSaved.isInitialized();
+
+		if ( requestMailbox )
+			(new RequestMailboxThread( currentTabName )).start();
+	}
+
+	private class RequestMailboxThread extends Thread
+	{
+		private String mailboxName;
+
+		public RequestMailboxThread( String mailboxName )
+		{
+			super( "Request-Mailbox-Thread" );
+			setDaemon( true );
+			this.mailboxName = mailboxName;
+		}
+
+		public void run()
+		{
+			mailBuffer.append( "Retrieving messages from server..." );
+
+			if ( client != null )
+				(new MailboxRequest( client, mailboxName )).run();
+
+			MailboxFrame.this.requestFocus();
+			mailBuffer.clearBuffer();
+
+			if ( mailboxName.equals( "Inbox" ) )
+				messageListInbox.setInitialized( true );
+			else if ( mailboxName.equals( "Outbox" ) )
+				messageListOutbox.setInitialized( true );
+			else
+				messageListSaved.setInitialized( true );
+		}
+	}
+
+	/**
+	 * An internal class used to handle selection of a specific
+	 * message from the mailbox list.
+	 */
 
 	private class MailSelectList extends JList implements ListSelectionListener
 	{
 		private String mailboxName;
+		private boolean initialized;
 
 		public MailSelectList( String mailboxName )
 		{
@@ -97,6 +181,14 @@ public class MailboxFrame extends KoLFrame
 			String newContent = ((KoLMailManager.KoLMailMessage)mailbox.getMessages( mailboxName ).get(firstIndex)).getMessageHTML();
 			mailBuffer.clearBuffer();
 			mailBuffer.append( newContent );
+		}
+
+		private boolean isInitialized()
+		{	return initialized;
+		}
+
+		public void setInitialized( boolean initialized )
+		{	this.initialized = initialized;
 		}
 	}
 

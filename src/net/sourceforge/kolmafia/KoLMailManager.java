@@ -54,7 +54,7 @@ public class KoLMailManager
 		mailboxes = new TreeMap();
 		mailboxes.put( "Inbox", new LockableListModel() );
 		mailboxes.put( "Outbox", new LockableListModel() );
-		mailboxes.put( "Sent", new LockableListModel() );
+		mailboxes.put( "Saved", new LockableListModel() );
 	}
 
 	/**
