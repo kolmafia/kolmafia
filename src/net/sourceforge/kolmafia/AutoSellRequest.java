@@ -38,20 +38,40 @@ import java.util.StringTokenizer;
 public class AutoSellRequest extends KoLRequest
 {
 	private AdventureResult soldResult;
+	private int sellType;
+
+	public static final int AUTOSELL = 1;
+	public static final int AUTOMALL = 2;
 
 	/**
 	 * Constructs a new <code>AutoSellRequest</code>.
 	 * @param	client	The client to be notified of the results
 	 */
 
-	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell )
+	public AutoSellRequest( KoLmafia client, int sellType, AdventureResult itemToSell )
 	{
-		super( client, "sellstuff.php" );
-		addFormField( "action", "sell" );
+		super( client, sellType == AUTOSELL ? "sellstuff.php" : sellType == AUTOMALL ? "managestore.php" : "" );
 		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemToSell.getResultName() ) );
-		addFormField( "type", "all" );
+
+		switch ( sellType )
+		{
+			case AUTOSELL:
+				addFormField( "action", "sell" );
+				addFormField( "type", "all" );
+				break;
+
+			case AUTOMALL:
+				addFormField( "action", "additem" );
+				addFormField( "sellprice", "999999999" );
+				addFormField( "limit", "0" );
+				addFormField( "addtype", "addall" );
+				break;
+		}
+
 		addFormField( "pwd", client.getPasswordHash() );
-		soldResult = new AdventureResult( itemToSell.getResultName(), 0 - itemToSell.getResultCount() );
+
+		this.sellType = sellType;
+		this.soldResult = new AdventureResult( itemToSell.getResultName(), 0 - itemToSell.getResultCount() );
 	}
 
 	/**
@@ -79,20 +99,23 @@ public class AutoSellRequest extends KoLRequest
 		String plainTextResult = replyContent.replaceAll( "<.*?>", "" );
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, " " );
 
-		try
+		if ( sellType == AUTOSELL )
 		{
-			while ( !parsedResults.nextToken().equals( "for" ) );
+			try
+			{
+				while ( !parsedResults.nextToken().equals( "for" ) );
 
-			int amount = df.parse( parsedResults.nextToken() ).intValue();
-			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, amount ) );
-		}
-		catch ( Exception e )
-		{
-			// If an exception is caught, then this is a situation that isn't
-			// currently handled by the parser.  Report it to the LogStream
-			// and continue on.
+				int amount = df.parse( parsedResults.nextToken() ).intValue();
+				client.addToResultTally( new AdventureResult( AdventureResult.MEAT, amount ) );
+			}
+			catch ( Exception e )
+			{
+				// If an exception is caught, then this is a situation that isn't
+				// currently handled by the parser.  Report it to the LogStream
+				// and continue on.
 
-			logStream.println( e );
+				logStream.println( e );
+			}
 		}
 	}
 }

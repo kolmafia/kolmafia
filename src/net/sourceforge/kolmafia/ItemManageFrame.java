@@ -139,11 +139,11 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new AutoSellRequestThread()).start();
+		{	(new AutoSellRequestThread( AutoSellRequest.AUTOSELL )).start();
 		}
 
 		protected void actionCancelled()
-		{
+		{	(new AutoSellRequestThread( AutoSellRequest.AUTOMALL )).start();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -160,10 +160,13 @@ public class ItemManageFrame extends KoLFrame
 
 		private class AutoSellRequestThread extends Thread
 		{
-			public AutoSellRequestThread()
+			private int sellType;
+
+			public AutoSellRequestThread( int sellType )
 			{
 				super( "AutoSell-Request-Thread" );
 				setDaemon( true );
+				this.sellType = sellType;
 			}
 
 			public void run()
@@ -171,14 +174,30 @@ public class ItemManageFrame extends KoLFrame
 				try
 				{
 					SellItemPanel.this.setEnabled( false );
-					updateDisplay( DISABLED_STATE, "Autoselling items..." );
+
 
 					Object [] items = availableList.getSelectedValues();
+					AdventureResult currentItem;
 
 					for ( int i = 0; i < items.length; ++i )
-						(new AutoSellRequest( client, (AdventureResult) items[i] )).run();
+					{
+						currentItem = (AdventureResult) items[i];
 
-					updateDisplay( ENABLED_STATE, "Autoselling complete." );
+						switch ( sellType )
+						{
+							case AutoSellRequest.AUTOSELL:
+								updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getResultName() + "..." );
+								break;
+
+							case AutoSellRequest.AUTOMALL:
+								updateDisplay( DISABLED_STATE, "Placing " + currentItem.getResultName() + " in the mall..." );
+								break;
+						}
+
+						(new AutoSellRequest( client, sellType, currentItem )).run();
+					}
+
+					updateDisplay( ENABLED_STATE, "Requests complete." );
 					SellItemPanel.this.setEnabled( true );
 				}
 				catch ( NumberFormatException e )
