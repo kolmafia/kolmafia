@@ -119,6 +119,7 @@ public class CharsheetFrame extends KoLFrame
 
 		getContentPane().add( entirePanel, "" );
 		addWindowListener( new ReturnFocusAdapter() );
+		setDefaultCloseOperation( HIDE_ON_CLOSE );
 	}
 
 	/**
