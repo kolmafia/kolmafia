@@ -393,7 +393,7 @@ public class KoLMessenger
 		// limited in size to begin with.  Also replace the initial text
 		// that gives you a description of your channel.
 
-		String noCommentsContent = validColorsContent.replaceAll( "<p>.*?</font>", "</font>" ).replaceAll( "<!--lastseen:[\\d]+-->", "" );
+		String noCommentsContent = validColorsContent.replaceAll( "<p><p>", "</font><br><font color=green>" ).replaceAll( "<!--lastseen:[\\d]+-->", "" );
 
 		// Finally, there's lots of contact list and help file information that
 		// needs to get removed - this should be done here.
