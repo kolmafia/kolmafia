@@ -35,9 +35,24 @@
 package net.sourceforge.kolmafia;
 import java.util.StringTokenizer;
 
+/**
+ * An extension of the generic <code>KoLRequest</code> class which handles
+ * adventures in the Kingdom of Loathing sewer.
+ */
+
 public class SewerRequest extends KoLRequest
 {
 	private boolean isLuckySewer;
+
+	/**
+	 * Constructs a new <code>SewerRequest</code>.  This method will
+	 * also determine what kind of adventure to request, based on
+	 * whether or not the character is currently lucky, and whether
+	 * or not the desired location is the lucky sewer adventure.
+	 *
+	 * @param	client	The client associated with this <code>KoLRequest</code>
+	 * @param	isLuckySewer	Whether or not the user intends to go the lucky sewer
+	 */
 
 	public SewerRequest( KoLmafia client, boolean isLuckySewer )
 	{
@@ -47,6 +62,13 @@ public class SewerRequest extends KoLRequest
 		this.isLuckySewer = isLuckySewer || client.isLuckyCharacter();
 	}
 
+	/**
+	 * Runs the <code>SewerRequest</code>.  This method determines
+	 * whether or not the lucky sewer adventure will be used and
+	 * attempts to run the appropriate adventure.  Note that the
+	 * display will be updated in the event of failure.
+	 */
+
 	public void run()
 	{
 		if ( isLuckySewer )
@@ -54,6 +76,10 @@ public class SewerRequest extends KoLRequest
 		else
 			runUnluckySewer();
 	}
+
+	/**
+	 * Utility method which runs the lucky sewer adventure.
+	 */
 
 	private void runLuckySewer()
 	{
@@ -88,6 +114,10 @@ public class SewerRequest extends KoLRequest
 		processResults( replyContent );
 		client.updateAdventure( true, true );
 	}
+
+	/**
+	 * Utility method which runs the normal sewer adventure.
+	 */
 
 	private void runUnluckySewer()
 	{

@@ -113,6 +113,9 @@ public class KoLRequest implements Runnable
 	 * Constructs a new KoLRequest.  The class is not declared abstract so that
 	 * the static routine can run without problems, but for all intents and purposes,
 	 * a generic KoLRequest will not be supported.
+	 *
+	 * @param	client	The client associated with this <code>KoLRequest</code>
+	 * @param	formURLString	The form to be used in posting data
 	 */
 
 	protected KoLRequest( KoLmafia client, String formURLString )
@@ -143,6 +146,9 @@ public class KoLRequest implements Runnable
 	 * use this method if they plan on submitting forms to Kingdom of Loathing
 	 * before a call to the <code>super.run()</code> method.  Ideally, these
 	 * fields can be added at construction time.
+	 *
+	 * @param	name	The name of the field to be added
+	 * @param	value	The value of the field to be added
 	 */
 
 	protected void addFormField( String name, String value )
