@@ -66,6 +66,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private static final int SLEEP_TIME = 1000;       // Sleep this much each time
 	private static final int SHORT_SLEEP_COUNT = 75;  // This many times
 	private static final int LONG_SLEEP_COUNT = 300;  // This many times for slot needs
+	private static final int TINYHOUSEMP = 20;
+	private static final int PHONICSMP = 46;
 
 	private Map costMap;
 	private LockableListModel buffCostTable;
@@ -317,7 +319,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		
 		// Must not be a buff request message, so notify user and save/delete
 		buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
-		buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "delete" : "save") + ENDCOLOR + "<br>\n");
+		buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "save" : "delete") + ENDCOLOR + "<br>\n");
 
 		// Now, mark for either save or delete the message.
 		if ( messageDisposalSetting )
@@ -344,7 +346,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			AdventureResult item = new AdventureResult( "tiny house", 0 );
 			while ( client.getInventory().contains( item ) )
 			{
-				useRestoreItem( "tiny house", 20 );
+				useRestoreItem( "tiny house", TINYHOUSEMP );
 				if ( characterData.getCurrentMP() >= mpNeeded )
 					return true;
 			}
@@ -356,7 +358,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			AdventureResult item = new AdventureResult( "phonics down", 0 );
 			while ( client.getInventory().contains( item ) )
 			{
-				useRestoreItem( "phonics down", 46 );
+				useRestoreItem( "phonics down", PHONICSMP );
 				if ( characterData.getCurrentMP() >= mpNeeded )
 					return true;
 			}
