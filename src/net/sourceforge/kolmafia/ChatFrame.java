@@ -191,7 +191,7 @@ public class ChatFrame extends KoLFrame
 			peopleMenu.add( ignoreFriendItem );
 
 			JMenuItem sendGreenItem = new JMenuItem( "Green Message", KeyEvent.VK_G );
-			addFriendItem.addActionListener( new SendGreenListener() );
+			sendGreenItem.addActionListener( new SendGreenListener() );
 			peopleMenu.add( sendGreenItem );
 		}
 
