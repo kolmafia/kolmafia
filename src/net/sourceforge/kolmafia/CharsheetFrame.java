@@ -49,11 +49,15 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 // event listeners
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingUtilities;
+import java.awt.event.KeyEvent;
 
 // utilities
 import java.net.URL;
@@ -112,6 +116,24 @@ public class CharsheetFrame extends KoLFrame
 
 		getContentPane().add( entirePanel, "" );
 		addWindowListener( new ReturnFocusAdapter() );
+
+		addMenuBar();
+	}
+
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		JMenu fileMenu = new JMenu("File");
+		fileMenu.setMnemonic( KeyEvent.VK_F );
+		menuBar.add( fileMenu );
+
+		JMenuItem refreshItem = new JMenuItem( "Refresh Status", KeyEvent.VK_R );
+		refreshItem.addActionListener( new StatusRefreshListener() );
+		fileMenu.add( refreshItem );
+
+		addHelpMenu( menuBar );
 	}
 
 	/**
@@ -210,6 +232,13 @@ public class CharsheetFrame extends KoLFrame
 
 		statsPanel.add( new JLabel( " " ), "" );
 		return statsPanel;
+	}
+
+	private class StatusRefreshListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+		}
 	}
 
 	/**
