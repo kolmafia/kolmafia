@@ -391,12 +391,36 @@ public class OptionsFrame extends KoLFrame
 		public BattleOptionsPanel()
 		{
 			actions = new LockableListModel();
-			actions.add( "attack" );
-			actions.add( "moxman" );
-
 			actionNames = new LockableListModel();
-			actionNames.add( "Attack with Weapon" );
-			actionNames.add( "Moxious Maneuver" );
+
+			actions.add( "attack" );  actionNames.add( "Attack with Weapon" );
+			actions.add( "moxman" );  actionNames.add( "Moxious Maneuver" );
+
+			// Seal clubber skills
+			actions.add( "1003" );  actionNames.add( "Seal: Thrust-Smack" );
+			actions.add( "1004" );  actionNames.add( "Seal: Lunge-Smack" );
+			actions.add( "1007" );  actionNames.add( "Seal: Lunge Thrust-Smack" );
+
+			// Turtle tamer skills
+			actions.add( "2003" );  actionNames.add( "Turt: Headbutt" );
+			actions.add( "2005" );  actionNames.add( "Turt: Spectral Snapper" );
+
+			// Pastamancer skills
+			actions.add( "3003" );  actionNames.add( "Past: Minor Ray of Something" );
+			actions.add( "3005" );  actionNames.add( "Past: eXtreme Ray of Something" );
+			actions.add( "3007" );  actionNames.add( "Past: Cone of Whatever" );
+			actions.add( "3008" );  actionNames.add( "Past: Weapon of the Pastalord" );
+
+			// Sauceror skills
+			actions.add( "4003" );  actionNames.add( "Sauc: Stream of Sauce" );
+			actions.add( "4005" );  actionNames.add( "Sauc: Saucestorm" );
+			actions.add( "4009" );  actionNames.add( "Sauc: Wave of Sauce" );
+			actions.add( "4012" );  actionNames.add( "Sauc: Saucegeyser" );
+
+			// Disco bandit skills
+			actions.add( "5003" );  actionNames.add( "Disc: Disco Eye-Poke" );
+			actions.add( "5005" );  actionNames.add( "Disc: Disco Dance of Doom" );
+			actions.add( "5012" );  actionNames.add( "Disc: Disco Face Stab" );
 
 			actionSelect = new JComboBox( actionNames );
 
@@ -897,7 +921,7 @@ public class OptionsFrame extends KoLFrame
 		protected Properties settings;
 
 		public OptionsPanel()
-		{	this( new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
+		{	this( new Dimension( 120, 20 ), new Dimension( 240, 20 ) );
 		}
 
 		public OptionsPanel( Dimension left, Dimension right )

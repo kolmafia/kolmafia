@@ -44,6 +44,7 @@ import java.util.StringTokenizer;
 
 public class FightRequest extends KoLRequest
 {
+	private String action;
 	private int roundCount;
 
 	/**
@@ -77,10 +78,34 @@ public class FightRequest extends KoLRequest
 		// special skills - the user will simply attack, use
 		// a moxious maneuver, or run away.
 
-		addFormField( "action",
-			client.getCharacterData().getCurrentHP() <= fleeTolerance ? "runaway" :
-				client.getCharacterData().getCurrentMP() == 0 ? "attack" :
-					client.getSettings().getProperty( "battleAction" ) );
+		this.action = client.getSettings().getProperty( "battleAction" );
+
+		if ( roundCount == 0 )
+		{
+			// If this is the first round, you
+			// actually wind up submitting no
+			// extra data.
+		}
+		else if ( client.getCharacterData().getCurrentHP() <= fleeTolerance )
+		{
+			this.action = "runaway";
+			addFormField( "action", action );
+		}
+		else if ( client.getCharacterData().getCurrentMP() < getMPCost() )
+		{
+			this.action = "attack";
+			addFormField( "action", action );
+		}
+		else if ( action.equals( "moxman" ) )
+		{
+			this.action = "moxman";
+			addFormField( "action", action );
+		}
+		else
+		{
+			addFormField( "action", "skill" );
+			addFormField( "whichskill", action );
+		}
 	}
 
 	/**
@@ -104,8 +129,7 @@ public class FightRequest extends KoLRequest
 
 		if ( !isErrorState )
 		{
-			if ( client.getSettings().getProperty( "battleAction" ).equals( "moxman" ) )
-				client.processResult( new AdventureResult( AdventureResult.MP, -1 ) );
+			client.processResult( new AdventureResult( AdventureResult.MP, getMPCost() ) );
 
 			processResults( replyContent );
 			int winmsgIndex = replyContent.indexOf( "WINWINWIN" );
@@ -150,9 +174,50 @@ public class FightRequest extends KoLRequest
 				// connection to an existing URL may cause unforeseen errors,
 				// start a new thread and allow this one to die.
 
-				++roundCount;
-				this.run();
+				(new FightRequest( client, roundCount + 1 )).run();
 			}
 		}
+	}
+
+	private int getMPCost()
+	{
+		if ( action.equals( "attack" ) || action.equals( "runaway" ) )
+			return 0;
+
+		if ( action.equals( "moxman" ) )
+			return -1;
+
+		switch ( Integer.parseInt( action ) )
+		{
+			case 3003:
+			case 4003:
+				return -2;
+
+			case 1003:
+			case 2003:
+			case 3005:
+			case 4005:
+			case 5003:
+				return -3;
+
+			case 3007:
+			case 4009:
+				return -4;
+
+			case 1004:
+			case 2005:
+			case 3008:
+			case 4012:
+			case 5005:
+				return -5;
+
+			case 1007:
+				return -7;
+
+			case 5012:
+				return -10;
+		}
+
+		return 0;
 	}
 }
