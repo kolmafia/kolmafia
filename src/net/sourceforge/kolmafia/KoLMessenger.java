@@ -189,8 +189,9 @@ public class KoLMessenger
 
 		if ( contact.equals( currentChannel ) )
 		{
-			currentChannel = null;
 			client.deinitializeChat();
+			currentChannel = null;
+			(new ChatRequest( client, currentChannel, "/exit" )).run();
 		}
 	}
 
@@ -726,21 +727,29 @@ public class KoLMessenger
 		{
 			String actualMessage = message.trim();
 
-			if ( !actualMessage.startsWith( "<font color=green>" ) && actualMessage.indexOf( "</a>" ) != -1 )
+			Matcher nameMatcher = Pattern.compile( "<b>.*?</a>" ).matcher( actualMessage );
+			if ( nameMatcher.find() )
 			{
-				Matcher nameMatcher = Pattern.compile( "<b>.*?</a>" ).matcher( actualMessage );
-				if ( nameMatcher.find() )
-				{
-					String name = nameMatcher.group();
-					name = name.substring( 3, name.indexOf( "</a>" ) );
-					name = name.replaceAll( "</b>", "" ).replaceAll( "</font>", "" );
+				String name = nameMatcher.group();
+				name = name.substring( 3, name.indexOf( "</a>" ) );
+				name = name.replaceAll( "</b>", "" ).replaceAll( "</font>", "" );
 
-					actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
-						"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
-				}
+				actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
+					"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
 			}
-			else if ( actualMessage.startsWith( "<font color=green>" ) && actualMessage.indexOf( "</font>" ) == -1 )
-				actualMessage += "</font>";
+
+			// Now to replace doubled instances of <font> to 1, and ensure that
+			// there's an </font> at the very end.
+
+			int indexRed = actualMessage.indexOf( "<font color=red>" );
+			int indexGreen = actualMessage.indexOf( "<font color=green>" );
+
+			actualMessage = actualMessage.replaceAll( "</?font.*?>", "" );
+
+			if ( indexRed != -1 )
+				actualMessage = "<font color=red>" + actualMessage.replaceFirst( "<a style=\"color:black; ", "<a style=\"color:red; " ) + "</font>";
+			else if ( indexGreen != -1 )
+				actualMessage = "<font color=green>" + actualMessage.replaceFirst( "<a style=\"color:black; ", "<a style=\"color:green; " ) + "</font>";
 
 			channelBuffer.append( actualMessage );
 			channelBuffer.append( "<br>\n" );
