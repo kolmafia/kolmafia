@@ -89,7 +89,8 @@ public class GreenMessageRequest extends KoLRequest
 					// For each broken-up request, you create a new ItemStorage request
 					// which will create the appropriate data to post.
 
-					(new GreenMessageRequest( client, recipient, "(item sending continuation)", itemHolder )).run();
+					if ( client.permitsContinue() )
+						(new GreenMessageRequest( client, recipient, "(item sending continuation)", itemHolder )).run();
 
 					currentBaseIndex += 11;
 					remainingItems -= 11;
@@ -126,6 +127,7 @@ public class GreenMessageRequest extends KoLRequest
 		// just calls the normal run method from KoLRequest
 		// to execute the request.
 
+		client.resetContinueState();
 		super.run();
 
 		// If an error state occurred, return from this
@@ -133,6 +135,15 @@ public class GreenMessageRequest extends KoLRequest
 
 		if ( isErrorState || responseCode != 200 )
 			return;
+
+		// Make sure that the message was actually sent -
+		// the person could have input an invalid player ID
+
+		if ( replyContent.indexOf( "Invalid PlayerID." ) != -1 )
+		{
+			client.cancelRequest();
+			return;
+		}
 
 		// With that done, the client needs to be updated
 		// to note that the items were sent.
