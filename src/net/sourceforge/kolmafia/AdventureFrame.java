@@ -389,6 +389,7 @@ public class AdventureFrame extends KoLFrame
 
 		private JTextField searchField;
 		private JTextField countField;
+		private JTextField maxPerStoreField;
 
 		private LockableListModel results;
 		private JList resultsDisplay;
@@ -406,11 +407,13 @@ public class AdventureFrame extends KoLFrame
 
 			searchField = new JTextField();
 			countField = new JTextField();
+			maxPerStoreField = new JTextField();
 			results = new LockableListModel();
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Search String: ", searchField );
 			elements[1] = new VerifiableElement( "Limit Results: ", countField );
+			elements[2] = new VerifiableElement( "Per Store Limit: ", maxPerStoreField );
 
 			setContent( elements );
 			currentlyBuying = false;
@@ -443,6 +446,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			searchField.setText( "" );
 			countField.setText( "" );
+			maxPerStoreField.setText( "" );
 			requestFocus();
 		}
 
@@ -509,8 +513,9 @@ public class AdventureFrame extends KoLFrame
 			{
 				try
 				{
-					int storeCount = countField.getText().trim().length() == 0 ? 0 :
+					int storeCount = countField.getText().trim().length() == 0 ? 13 :
 						Integer.parseInt( countField.getText() );
+
 					updateDisplay( DISABLED_STATE, "Searching for items..." );
 					(new SearchMallRequest( client, searchField.getText(), storeCount, results )).run();
 				}
@@ -545,12 +550,18 @@ public class AdventureFrame extends KoLFrame
 					updateDisplay( DISABLED_STATE, "Purchasing items..." );
 
 					Object [] purchases = resultsDisplay.getSelectedValues();
+					int maxPerStore = countField.getText().trim().length() == 0 ? 0 :
+						Integer.parseInt( maxPerStoreField.getText() );
+
+					MallPurchaseRequest currentRequest;
 
 					for ( int i = 0; i < purchases.length; ++i )
 					{
-						if ( purchases[i] instanceof Runnable )
+						if ( purchases[i] instanceof MallPurchaseRequest )
 						{
-							((Runnable)purchases[i]).run();
+							currentRequest = (MallPurchaseRequest) purchases[i];
+							currentRequest.setMaximumQuantity( maxPerStore );
+							currentRequest.run();
 							results.remove( purchases[i] );
 						}
 					}

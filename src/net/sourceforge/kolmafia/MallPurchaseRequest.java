@@ -96,6 +96,17 @@ public class MallPurchaseRequest extends KoLRequest
 	}
 
 	/**
+	 * Sets the maximum number of items that can be purchased through
+	 * this request.
+	 *
+	 * @param	maximumQuantity	The maximum number of items to be purchased with this request
+	 */
+
+	public void setMaximumQuantity( int maximumQuantity )
+	{	this.quantity = Math.min( maximumQuantity, this.quantity );
+	}
+
+	/**
 	 * Converts this request into a readable string.  This is useful for
 	 * debugging and as a temporary substitute for a list panel, in the
 	 * event that a suitable list cell renderer has not been created.
