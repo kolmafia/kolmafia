@@ -337,7 +337,6 @@ public class KoLMessenger
 		// the contact list found in the last /friends update
 
 		Matcher contactListMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( originalContent );
-		ChatBuffer mainChatBuffer = getChatBuffer( currentChannel );
 
 		int lastFindIndex = 0;
 		while ( contactListMatcher.find( lastFindIndex ) )
@@ -369,21 +368,48 @@ public class KoLMessenger
 				}
 				updateContactList( newContactList );
 			}
-			else if ( addingHelp )
-			{
-				mainChatBuffer.append( "<font color=orange>" );
-				mainChatBuffer.append( result.replaceAll( "><", "" ).replaceAll( "<.*?>", "<br>\n" ) );
-				mainChatBuffer.append( "</font><br>\n" );
-			}
 			else
 			{
-				result = result.replaceAll( "><", "" ).replaceAll( "<.*?>", " " ).replaceAll( " , ", ", " ).replaceAll( ":", ":</b>" ).trim();
+				result = result.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" );
 
-				mainChatBuffer.append( "<font color=" );
-				mainChatBuffer.append( result.startsWith( "Players in" ) ? "purple" : "teal" );
-				mainChatBuffer.append( "><b>" );
-				mainChatBuffer.append( result );
-				mainChatBuffer.append( "</font><br>\n" );
+				if ( result.startsWith( "\nPlayers in" ) )
+				{
+					result = result.replaceAll( "<br>", " " ).replaceAll( " , ", ", " ).replaceFirst( ":", ":</b>" ).trim();
+
+					String channel = "/" + result.substring( 19, result.indexOf( ":" ) );
+					ChatBuffer currentChatBuffer = getChatBuffer( channel );
+					if ( currentChatBuffer == null )
+					{
+						openInstantMessage( channel );
+						currentChatBuffer = getChatBuffer( channel );
+					}
+
+					currentChatBuffer.append( "<font color=teal><b>" );
+					currentChatBuffer.append( result.replaceAll( "\n", " " ).replaceAll( " , ", ", " ).replaceFirst( ":", ":</b>" ).trim() );
+					currentChatBuffer.append( "</font><br>\n" );
+				}
+				else
+				{
+					ChatBuffer currentChatBuffer = getChatBuffer( currentChannel );
+					if ( currentChatBuffer == null )
+					{
+						openInstantMessage( currentChannel );
+						currentChatBuffer = getChatBuffer( currentChannel );
+					}
+
+					if ( addingHelp )
+					{
+						currentChatBuffer.append( "<font color=orange>" );
+						currentChatBuffer.append( result.replaceAll( "\n", "<br>" ) );
+						currentChatBuffer.append( "</font><br>\n" );
+					}
+					else
+					{
+						currentChatBuffer.append( "<font color=teal><b>" );
+						currentChatBuffer.append( result.replaceAll( "\n", " " ).replaceAll( " , ", ", " ).replaceFirst( ":", ":</b>" ).trim() );
+						currentChatBuffer.append( "</font><br>\n" );
+					}
+				}
 			}
 		}
 
@@ -456,6 +482,21 @@ public class KoLMessenger
 		}
 		else if ( noLinksContent.startsWith( "<font color=green>You are now talking in channel: " ) )
 		{
+			// You should notify the channel you're switching away from
+			// that you're no longer listening to it.
+
+			if ( currentChannel != null )
+			{
+				ChatBuffer currentChatBuffer = getChatBuffer( currentChannel );
+				if ( currentChatBuffer != null )
+				{
+					currentChatBuffer.append( "<font color=green>No longer talking in channel: " );
+					currentChatBuffer.append( currentChannel.substring(1) );
+					currentChatBuffer.append( "." );
+					currentChatBuffer.append( "</font><br>\n" );
+				}
+			}
+
 			currentChannel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) - 1 );
 			processChannelMessage( currentChannel, noLinksContent );
 			((ChatFrame)instantMessageFrames.get( currentChannel )).requestFocus();
@@ -550,8 +591,7 @@ public class KoLMessenger
 			if ( message == null )
 			{
 				channelBuffer.append( "<font color=green>You are listening to channel: " );
-				channelBuffer.append( channel );
-				channelBuffer.append( "." );
+				channelBuffer.append( channel.substring(1) );
 				channelBuffer.append( "</font><br>\n" );
 			}
 		}
