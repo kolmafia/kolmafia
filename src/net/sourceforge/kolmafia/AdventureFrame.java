@@ -115,6 +115,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
+	private JTabbedPane tabs;
+	private JMenuItem viewMenu;
+
 	private ChatFrame kolchat;
 	private ItemManageFrame isheet;
 	private CharsheetFrame csheet;
@@ -140,7 +143,7 @@ public class AdventureFrame extends KoLFrame
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()), client );
 		setResizable( false );
 
-		JTabbedPane tabs = new JTabbedPane();
+		tabs = new JTabbedPane();
 
 		adventureSelect = new AdventureSelectPanel( adventureList, resultsTally );
 		tabs.addTab( "Adventure Select", adventureSelect );
@@ -169,6 +172,27 @@ public class AdventureFrame extends KoLFrame
 	}
 
 	/**
+	 * Auxilary method used to enable and disable a frame.  By default,
+	 * this attempts to toggle the enable/disable status on all tabs
+	 * and the view menu item, as well as the item manager if it's
+	 * currently visible.
+	 *
+	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
+	 */
+
+	public void setEnabled( boolean isEnabled )
+	{
+		super.setEnabled( isEnabled );
+		viewMenu.setEnabled( isEnabled );
+
+		for ( int i = 0; i < tabs.getTabCount(); ++i )
+			tabs.setEnabledAt( i, isEnabled );
+
+		if ( isheet != null && isheet.isShowing() )
+			isheet.setEnabled( isEnabled );
+	}
+
+	/**
 	 * Utility method used to add a menu bar to the <code>AdventureFrame</code>.
 	 * The menu bar contains configuration options and the general license
 	 * information associated with <code>KoLmafia</code>.  In addition, the
@@ -180,24 +204,25 @@ public class AdventureFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu menu = new JMenu("View");
-		menu.setMnemonic( KeyEvent.VK_V );
-		menuBar.add( menu );
+		viewMenu = new JMenu("View");
+		viewMenu.setMnemonic( KeyEvent.VK_V );
+		menuBar.add( viewMenu );
+		viewMenu.setEnabled( false );
 
 		JMenuItem csheetItem = new JMenuItem( "Character Sheet", KeyEvent.VK_S );
 		csheetItem.addActionListener( new ViewCharacterSheetListener() );
 
-		menu.add( csheetItem );
+		viewMenu.add( csheetItem );
 
 		JMenuItem imanageItem = new JMenuItem( "Item Manager", KeyEvent.VK_M );
 		imanageItem.addActionListener( new ViewItemManagerListener() );
 
-		menu.add( imanageItem );
+		viewMenu.add( imanageItem );
 
 		JMenuItem chatItem = new JMenuItem( "Loathing Chat", KeyEvent.VK_C );
 		chatItem.addActionListener( new ViewChatListener() );
 
-		menu.add( chatItem );
+		viewMenu.add( chatItem );
 
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );

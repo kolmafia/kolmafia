@@ -68,6 +68,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ItemManageFrame extends KoLFrame
 {
+	private JTabbedPane tabs;
+
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
 	 * of the necessary panels into a tabular layout for accessibility.
@@ -82,14 +84,29 @@ public class ItemManageFrame extends KoLFrame
 
 		setResizable( false );
 
-		JTabbedPane inventoryTabs = new JTabbedPane();
-		inventoryTabs.addTab( "Sell", new SellItemPanel() );
-		inventoryTabs.addTab( "Create", new CreationPanel() );
-		inventoryTabs.addTab( "Put Away", new ClosetPanel() );
+		tabs = new JTabbedPane();
+		tabs.addTab( "Sell", new SellItemPanel() );
+		tabs.addTab( "Create", new CreationPanel() );
+		tabs.addTab( "Put Away", new ClosetPanel() );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( inventoryTabs, "" );
+		getContentPane().add( tabs, "" );
 		addWindowListener( new ReturnFocusAdapter() );
+	}
+
+	/**
+	 * Auxilary method used to enable and disable a frame.  By default,
+	 * this attempts to toggle the enable/disable status on all tabs.
+	 *
+	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
+	 */
+
+	public void setEnabled( boolean isEnabled )
+	{
+		super.setEnabled( isEnabled );
+
+		for ( int i = 0; i < tabs.getTabCount(); ++i )
+			tabs.setEnabledAt( i, isEnabled );
 	}
 
 	/**

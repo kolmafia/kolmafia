@@ -150,6 +150,24 @@ public abstract class KoLFrame extends javax.swing.JFrame
 	}
 
 	/**
+	 * Auxilary method used to enable and disable a frame.  By default,
+	 * this attempts to toggle the enable/disable status on the core
+	 * content panel.  It is advised that descendants override this
+	 * behavior whenever necessary.
+	 *
+	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
+	 */
+
+	public void setEnabled( boolean isEnabled )
+	{
+		super.setEnabled( isEnabled );
+
+		if ( contentPanel != null )
+			contentPanel.setEnabled( isEnabled );
+	}
+
+
+	/**
 	 * Utility method used to add the default <code>KoLmafia</code> Help
 	 * menu to the given menu bar.  The default Help menu contains the
 	 * copyright statement for <code>KoLmafia</code>.
@@ -284,12 +302,12 @@ public abstract class KoLFrame extends javax.swing.JFrame
 			switch ( displayState )
 			{
 				case ENABLED_STATE:
-					contentPanel.setEnabled( true );
+					KoLFrame.this.setEnabled( true );
 					contentPanel.clear();
 					break;
 
 				case DISABLED_STATE:
-					contentPanel.setEnabled( false );
+					KoLFrame.this.setEnabled( false );
 					break;
 			}
 		}
