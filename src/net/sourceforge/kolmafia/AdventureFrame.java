@@ -1387,7 +1387,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 					kolchat = client.getMessenger();
 				}
 
-				updateDisplay( NOCHANGE_STATE, " " );
+				updateDisplay( ENABLED_STATE, " " );
 			}
 		}
 	}
@@ -1415,7 +1415,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			public void run()
 			{
 				client.getBreakfast();
-				updateDisplay( NOCHANGE_STATE, " " );
+				updateDisplay( ENABLED_STATE, " " );
 			}
 		}
 	}

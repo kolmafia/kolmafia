@@ -314,7 +314,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
 		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) && client.getCloset().contains( servant[0] ) )
 		{
-			updateDisplay( NOCHANGE_STATE, "Retrieving " + servantName + " from closet..." );
+			updateDisplay( DISABLED_STATE, "Retrieving " + servantName + " from closet..." );
 			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servant )).run();
 			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, servantName, 1 )).run();
 			return true;
@@ -370,7 +370,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					retrieval[0] = new AdventureResult( ingredient.getName(),
 						Math.min( actualQuantityNeeded, ((AdventureResult)closet.get( index )).getCount() ) );
 
-					updateDisplay( NOCHANGE_STATE, "Retrieving " + retrieval[0].toString() + " from closet..." );
+					updateDisplay( DISABLED_STATE, "Retrieving " + retrieval[0].toString() + " from closet..." );
 					(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, retrieval )).run();
 					actualQuantityNeeded -= retrieval[0].getCount();
 				}

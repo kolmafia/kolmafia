@@ -268,7 +268,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public void getBreakfast()
 	{
-		updateDisplay( NOCHANGE_STATE, "Retrieving breakfast..." );
+		updateDisplay( DISABLED_STATE, "Retrieving breakfast..." );
 
 		if ( characterData.hasToaster() )
 			for ( int i = 0; i < 3 && permitContinue; ++i )

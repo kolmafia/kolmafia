@@ -110,7 +110,7 @@ public class EquipmentRequest extends KoLRequest
 		}
 
 		if ( requestType == CHANGE_OUTFIT )
-			updateDisplay( NOCHANGE_STATE, "Changing outfit..." );
+			updateDisplay( DISABLED_STATE, "Changing outfit..." );
 
 		KoLCharacter data = client.getCharacterData();
 
@@ -161,12 +161,12 @@ public class EquipmentRequest extends KoLRequest
 			switch ( requestType )
 			{
 				case CLOSET:
-					updateDisplay( NOCHANGE_STATE, "Retrieving inventory..." );
+					updateDisplay( DISABLED_STATE, "Retrieving inventory..." );
 					parseCloset( parsedContent );
 					break;
 
 				case EQUIPMENT:
-					updateDisplay( NOCHANGE_STATE, "Retrieving equipment..." );
+					updateDisplay( DISABLED_STATE, "Retrieving equipment..." );
 					parseEquipment( parsedContent );
 					break;
 			}

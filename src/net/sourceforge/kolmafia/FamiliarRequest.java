@@ -62,7 +62,7 @@ public class FamiliarRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( NOCHANGE_STATE, "Retrieving familiar data..." );
+		updateDisplay( DISABLED_STATE, "Retrieving familiar data..." );
 		super.run();
 
 		// There's nothing to parse if an error was encountered,

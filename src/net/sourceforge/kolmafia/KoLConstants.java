@@ -42,7 +42,6 @@ public interface KoLConstants
 	public static final DecimalFormat df = new DecimalFormat(
 		"#,##0", new DecimalFormatSymbols( Locale.US ) );
 
-	public static final int NOCHANGE_STATE = 0;
 	public static final int ENABLED_STATE  = 1;
 	public static final int DISABLED_STATE = 2;
 }

@@ -522,7 +522,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						lastCreatedFrame.setEnabled( wasEnabled );
 						existingFrames.add( lastCreatedFrame );
 
-						updateDisplay( NOCHANGE_STATE, " " );
+						updateDisplay( ENABLED_STATE, " " );
 						KoLFrame.this.setEnabled( wasEnabled );
 					}
 					else
