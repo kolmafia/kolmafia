@@ -177,7 +177,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( ingredients != null )
 		{
 			makeIngredient( ingredients[0][0], ingredients[0][1] );
-			makeIngredient( ingredients[1][0], ingredients[1][1] );
+			if ( ingredients[0][0] != ingredients[1][0] )
+	 			makeIngredient( ingredients[1][0], ingredients[1][1] );
 		}
 
 		// Check to see if you need meat paste in order
@@ -198,6 +199,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[0][0] ), 0 - quantityNeeded ) );
 		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[1][0] ), 0 - quantityNeeded ) );
+
+		if ( mixingMethod == COMBINE )
+			client.addToResultTally( new AdventureResult( "meat paste", 0 - quantityNeeded ) );
+
 		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( itemID ), quantityNeeded ) );
 	}
 
@@ -216,7 +221,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		int currentQuantity = (index == -1) ? 0 : ((AdventureResult)inventory.get( index )).getCount();
 
 		if ( currentQuantity < quantityNeeded )
-			(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - currentQuantity )).run();
+			(new ItemCreationRequest( client, ingredientID, mixingMethod, quantityNeeded - currentQuantity )).run();
 	}
 
 	/**
