@@ -733,7 +733,7 @@ public class KoLMessenger
 				{
 					String name = nameMatcher.group();
 					name = name.substring( 3, name.indexOf( "</a>" ) );
-					name = name.replaceAll( "</b>", "" );
+					name = name.replaceAll( "</b>", "" ).replaceAll( "</font>", "" );
 
 					actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
 						"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
