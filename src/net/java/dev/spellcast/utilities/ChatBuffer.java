@@ -62,7 +62,7 @@ public class ChatBuffer
 
 	private static final String EMPTY_STRING = "";
 	private static final String NEW_LINE = System.getProperty( "line.separator" );
-	private static final String BUFFER_INIT = "<body style=\"font-family: sans-serif; font-size:12pt;\">";
+	private static final String BUFFER_INIT = "<body style=\"font-family: sans-serif; font-size: 12pt;\">";
 	private static final String BUFFER_STOP = "</body>";
 
 	/**
