@@ -58,7 +58,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class ConcoctionsDatabase implements UtilityConstants
 {
 	private static final String ITEM_DBASE_FILE = "concoctions.dat";
-	private static final int ITEM_COUNT = 1000;
+	public static final int ITEM_COUNT = TradeableItemDatabase.ITEM_COUNT;
 
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
 	private static int [] quantityPossible = new int[ ITEM_COUNT ];
