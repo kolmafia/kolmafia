@@ -493,9 +493,6 @@ public class BuffBotFrame extends KoLFrame
 				settings.setProperty( "buffBotMessageDisposal", "" + (messageDisposalSelect.getSelectedIndex() == 1) );
 				settings.setProperty( "buffBotMPRestore", mpRestoreSelect.getSelectedItem().toString() );
 
-				if ( settings instanceof KoLSettings )
-					((KoLSettings)settings).saveSettings();
-				
 				String[] whiteListString = whiteListEditor.getText().split("\\s*,\\s*");
 				java.util.Arrays.sort(whiteListString);
 				
@@ -506,6 +503,9 @@ public class BuffBotFrame extends KoLFrame
 						whiteListEditor.append(", " + whiteListString[i]);
 				}
 				settings.setProperty( "whiteList", whiteListEditor.getText() );
+				
+				if ( settings instanceof KoLSettings )
+					((KoLSettings)settings).saveSettings();
 				
 
 				setStatusMessage( ENABLED_STATE, "Settings saved." );

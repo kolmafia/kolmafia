@@ -168,8 +168,10 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		public BuffBotCaster( String buffName, int price, int castCount, boolean restricted )
 		{
-			this.buffID = ClassSkillsDatabase.getSkillID( buffName );
-			this.buffName = buffName;
+			// string may come from either the id lookup database or the skill list, so 
+			//		need to be prepared for either orientation of ñ
+			this.buffID = ClassSkillsDatabase.getSkillID( buffName.replaceFirst( "ñ", "&ntilde;" ) );
+			this.buffName = buffName.replaceFirst("&ntilde;","ñ");
 			this.price = price;
 			this.castCount = castCount;
 
@@ -177,7 +179,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( "Cast " );
-			stringForm.append( buffName );
+			stringForm.append( this.buffName );
 			stringForm.append( ' ' );
 			stringForm.append( castCount );
 			stringForm.append( " times for " );
