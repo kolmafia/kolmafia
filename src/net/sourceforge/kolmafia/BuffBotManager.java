@@ -55,9 +55,9 @@ import java.util.Arrays;
 
 public class BuffBotManager extends KoLMailManager implements KoLConstants
 {
-	public static final int INBOX = 0;
-	public static final int SAVEBOX = 1;
-	public static final int DISPOSE = 2;
+	public static final int SAVEBOX = 0;
+	public static final int DISPOSE = 1;
+	public static final int INBOX = 2;
 
 	private KoLmafia client;
 	private KoLCharacter characterData;
@@ -168,7 +168,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		(new CharsheetRequest( client )).run();
 
 		// get all current buffbot settings
-		messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) != null ? 0 :
+		messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) == null ? 0 :
 			Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) );
 
 		mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "tiny house" :
