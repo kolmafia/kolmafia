@@ -162,15 +162,10 @@ public class BuffBotManager {
                        
             // otherwise sleep for a while and then try again
             // (don't go away for more than 1 second    
-            try {
-                for(int i = 1 ; i <= BBSLEEPCOUNT; i = i + 1)
-                    if (client.permitsContinue())
-                        KoLRequest.delay(BBSLEEPTIME);
-                    else return;
-            }
-            catch (Exception e){
-            // don't need to do anything here    
-            }
+            for(int i = 1 ; i <= BBSLEEPCOUNT; i = i + 1)
+                if (client.permitsContinue())
+                    KoLRequest.delay(BBSLEEPTIME);
+                else return;
         }
     }
     
