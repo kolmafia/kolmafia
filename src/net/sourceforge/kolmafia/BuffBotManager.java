@@ -92,7 +92,7 @@ public class BuffBotManager {
     private KoLCharacter me;
     private BuffBotHome.BuffBotLog BBLog;
     private static final int BBSLEEPTIME = 1000; // Sleep this much each time
-    private static final int BBSLEEPCOUNT = 10;  // This many times
+    private static final int BBSLEEPCOUNT = 60;  // This many times
 
     
     /**
@@ -135,9 +135,7 @@ public class BuffBotManager {
 //                BBLog.BBLogEntry("Checking the mail.");
                 MailboxRequest MBRequest = new MailboxRequest( client, "Inbox" );
                 MBRequest.run();
-                if (client.permitsContinue())
-                    client.updateDisplay( KoLFrame.DISABLED_STATE, "Got Mail.");
-                else return;
+                if (!client.permitsContinue()) return;
             }
             
             //Next process each message in the Inbox
@@ -176,7 +174,7 @@ public class BuffBotManager {
         boolean buffRequestFound = false;
         
         myMsgHTML = myMsg.getMessageHTML().replaceAll(",","");
-	Matcher meatMatcher = Pattern.compile( ">You gain \\d+ Meat" ).matcher( myMsgHTML );
+		Matcher meatMatcher = Pattern.compile( ">You gain \\d+ Meat" ).matcher( myMsgHTML );
         if (meatMatcher.find()){
             meatSentTxt = meatMatcher.group();
             meatSentTxt = meatSentTxt;
@@ -347,7 +345,7 @@ public class BuffBotManager {
     }
     
    private class dropMsgRequest extends KoLRequest {
-       String msgID, msgDisp;
+       String msgID, msgDisp, msgSender;
                
         public dropMsgRequest(KoLmafia client, String msgDisp, 
                 KoLMailMessage myMsg){
@@ -358,10 +356,11 @@ public class BuffBotManager {
             addFormField( "pwd", client.getPasswordHash() );
             msgID = myMsg.getMessageID();
             addFormField( msgID, "on");
+			msgSender = myMsg.getSenderName();
         }
         
         public void run(){
-            updateDisplay( KoLFrame.DISABLED_STATE, "Removing message  " + msgID + ", dispensation =" + msgDisp);
+            updateDisplay( KoLFrame.DISABLED_STATE, "Removing message from " + msgSender + ", dispensation =" + msgDisp);
             super.run();
                         
             if ( replyContent == null || replyContent.indexOf( "Invalid" ) != -1 ) {
@@ -370,6 +369,7 @@ public class BuffBotManager {
                 client.cancelRequest();
                 return;
             }
+            updateDisplay( KoLFrame.DISABLED_STATE, "");
         }
         
     }
