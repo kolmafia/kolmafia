@@ -419,8 +419,9 @@ public class BuffBotFrame extends KoLFrame
 			panel.setLayout( new BorderLayout() );
 
 			LockableListModel messageDisposalChoices = new LockableListModel();
-			messageDisposalChoices.add( "Delete Non-buff requests");
-			messageDisposalChoices.add( "Save Non-buff requests");
+			messageDisposalChoices.add( "Do nothing with non-buff requests" );
+			messageDisposalChoices.add( "Auto-save non-buff requests" );
+			messageDisposalChoices.add( "Auto-delete non-buff requests" );
 			messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
 			availableRestores = currentManager == null ? new Object[0] : currentManager.getMPRestoreItemList().toArray();
@@ -522,7 +523,7 @@ public class BuffBotFrame extends KoLFrame
 						if ( mpRestoreSetting.indexOf( availableRestores[i].toString() ) != -1 )
 							restoreCheckbox[i].setSelected( true );
 
-				messageDisposalSelect.setSelectedIndex( messageDisposalSetting == null || messageDisposalSetting.equals( "false" ) ? 0 : 1 );
+				messageDisposalSelect.setSelectedIndex( messageDisposalSetting == null ? 0 : Integer.parseInt( messageDisposalSetting ) );
 				if ( whiteListSetting != null )
 					whiteListEditor.setText( whiteListSetting );
 
@@ -534,7 +535,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			public void run()
 			{
-				settings.setProperty( "buffBotMessageDisposal", "" + (messageDisposalSelect.getSelectedIndex() == 1) );
+				settings.setProperty( "buffBotMessageDisposal", "" + messageDisposalSelect.getSelectedIndex() );
 
 				StringBuffer mpRestoreSetting = new StringBuffer();
 				for ( int i = 0; i < restoreCheckbox.length; ++i )

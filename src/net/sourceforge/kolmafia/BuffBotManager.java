@@ -55,6 +55,10 @@ import java.util.Arrays;
 
 public class BuffBotManager extends KoLMailManager implements KoLConstants
 {
+	public static final int INBOX = 0;
+	public static final int SAVEBOX = 1;
+	public static final int DISPOSE = 2;
+
 	private KoLmafia client;
 	private KoLCharacter characterData;
 	private List inventory;
@@ -64,7 +68,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private ArrayList deleteList;
 
 	private String mpRestoreSetting;
-	private boolean messageDisposalSetting;
+	private int messageDisposalSetting;
 	private LimitedSizeChatBuffer buffbotLog;
 
 	private static final int SLEEP_TIME = 1000;       // Sleep this much each time
@@ -164,11 +168,14 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		(new CharsheetRequest( client )).run();
 
 		// get all current buffbot settings
-		messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) != null &&
-			settings.getProperty( "buffBotMessageDisposal" ).equals("true");
-		mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "Phonics & Houses" :
+		messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) != null ? 0 :
+			Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) );
+
+		mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "tiny house" :
 			settings.getProperty( "buffBotMPRestore" );
-		whiteListArray = settings.getProperty("whiteList").toLowerCase().split("\\s*,\\s*");
+
+		whiteListArray = settings.getProperty("whiteList") == null ? new String[0] :
+			settings.getProperty("whiteList").toLowerCase().split("\\s*,\\s*");
 
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 
@@ -204,15 +211,24 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			// (don't go away for more than 1 second at a time
 
 			client.updateDisplay( DISABLED_STATE, "BuffBot is sleeping" );
-			for( int i = 0; i < SHORT_SLEEP_COUNT; ++i )
-				if ( client.isBuffBotActive() )
-					KoLRequest.delay( SLEEP_TIME );
+
+			if ( messageDisposalSetting == INBOX )
+			{
+				for ( int i = 0; i < LONG_SLEEP_COUNT; ++i )
+					if ( client.isBuffBotActive() )
+						KoLRequest.delay( SLEEP_TIME );
+			}
+			else
+			{
+				for ( int i = 0; i < SHORT_SLEEP_COUNT; ++i )
+					if ( client.isBuffBotActive() )
+						KoLRequest.delay( SLEEP_TIME );
+			}
 		}
 	}
 
 	private boolean onWhiteList(String userName)
-	{
-		return (Arrays.binarySearch(whiteListArray, userName) > -1);
+	{	return Arrays.binarySearch(whiteListArray, userName.toLowerCase()) != -1;
 	}
 
 	private void sendRefund( String recipient, String reason, int amount )
@@ -282,12 +298,14 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		// Must not be a buff request message, so notify user and save/delete
 
 		buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
-		buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "save" : "delete") + ENDCOLOR + "<br>\n");
+		buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting == INBOX ? "ignore" :
+			messageDisposalSetting == SAVEBOX ? "save" : "delete") + ENDCOLOR + "<br>\n");
 
 		// Now, mark for either save or delete the message.
-		if ( messageDisposalSetting )
+
+		if ( messageDisposalSetting == SAVEBOX )
 			saveList.add( message );
-		else
+		else if ( messageDisposalSetting == DISPOSE )
 			deleteList.add( message );
 
 		return true;
