@@ -249,13 +249,19 @@ public class EquipmentRequest extends KoLRequest
 		List usableItems = client.getUsableItems();
 		int lastFindIndex = 0;
 
-		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>.*?\\(([\\d,]+)\\)" ).matcher( content );
+		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( content );
 		while ( optionMatcher.find() )
 		{
 			try
 			{
 				lastFindIndex = optionMatcher.end();
-				AdventureResult result = new AdventureResult( df.parse( optionMatcher.group(1) ).intValue(), df.parse( optionMatcher.group(2) ).intValue() );
+				int itemID = df.parse( optionMatcher.group(1) ).intValue();
+
+				AdventureResult result =
+					TradeableItemDatabase.getItemName( itemID ) != null ?
+						new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() ) :
+							new AdventureResult( optionMatcher.group(2).trim(), df.parse( optionMatcher.group(3) ).intValue() );
+
 				AdventureResult.addResultToList( resultList, result );
 
 				if ( TradeableItemDatabase.isUsable( result.getName() ) && updateUsableList )

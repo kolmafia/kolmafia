@@ -346,7 +346,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.FULLSTATS ) )
 				AdventureResult.addResultToList( tally, result );
 
-		if ( result.isItem() && TradeableItemDatabase.contains( resultName ) && TradeableItemDatabase.isUsable( resultName ) )
+		if ( result.isItem() && TradeableItemDatabase.isUsable( resultName ) )
 			AdventureResult.addResultToList( usableItems, result );
 
 		characterData.processResult( result );

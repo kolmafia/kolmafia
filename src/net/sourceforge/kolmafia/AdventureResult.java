@@ -239,7 +239,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public int getItemID()
-	{	return itemID == 0 ? TradeableItemDatabase.getItemID( name ) : itemID;
+	{	return itemID;
 	}
 
 	/**
@@ -490,7 +490,8 @@ public class AdventureResult implements Comparable, KoLConstants
 		for ( int i = 0; i < left.count.length; ++i )
 			totals[i] = left.count[i] + right.count[i];
 
-		return left.isItem() ? new AdventureResult( left.itemID, totals[0] ) : new AdventureResult( left.name, totals );
+		return left.isItem() && TradeableItemDatabase.contains( left.name ) ?
+			new AdventureResult( left.itemID, totals[0] ) : new AdventureResult( left.name, totals );
 	}
 
 	public static ListCellRenderer getAutoSellCellRenderer()

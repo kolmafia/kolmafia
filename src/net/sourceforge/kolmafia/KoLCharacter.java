@@ -1120,7 +1120,7 @@ public class KoLCharacter
 	{
 		String resultName = result.getName();
 
-		if ( result.isItem() && TradeableItemDatabase.contains( resultName ) )
+		if ( result.isItem() )
 			AdventureResult.addResultToList( inventory, result );
 		else if ( resultName.equals( AdventureResult.HP ) )
 			setHP( getCurrentHP() + result.getCount(), getMaximumHP(), getBaseMaxHP() );

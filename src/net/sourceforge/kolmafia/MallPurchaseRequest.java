@@ -260,12 +260,14 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// you report to the client whatever you gained.
 
 		this.successful = true;
-		int itemIndex = client.getInventory().indexOf( new AdventureResult( itemID, 0 ) );
+		AdventureResult searchItem = TradeableItemDatabase.getItemName( itemID ) != null ?
+			new AdventureResult( itemID, 0 ) : new AdventureResult( itemName, 0 );
+		int itemIndex = client.getInventory().indexOf( searchItem );
 		int beforeCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
 
 		processResults( result );
 
-		itemIndex = client.getInventory().indexOf( new AdventureResult( itemID, 0 ) );
+		itemIndex = client.getInventory().indexOf( searchItem );
 		int afterCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
 
 		// Also report how much meat you lost in the purchase
