@@ -318,8 +318,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		String parsedItemName = parsedItem.nextToken().trim();
 		String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
 
-		return new AdventureResult( parsedItemName, Character.isDigit( parsedItemCount.charAt(0) ) ?
-			df.parse( parsedItemCount ).intValue() : 0 );
+		return new AdventureResult( parsedItemName, df.parse( parsedItemCount ).intValue() );
 	}
 
 	/**
