@@ -44,6 +44,9 @@ import java.util.StringTokenizer;
 
 public class AdventureRequest extends KoLRequest
 {
+	private static final int NEEDED_DELAY = 3200;
+	private static final int ACTUAL_DELAY = NEEDED_DELAY - REFRESH_RATE;
+
 	private String formSource;
 	private String adventureID;
 
@@ -93,6 +96,22 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
+		try
+		{
+			// Before running the next request, you should wait for the
+			// refresh rate indicated - this is likely the default rate
+			// used for the KoLChat.
+
+			if ( NEEDED_DELAY > 0 )
+				Thread.sleep( NEEDED_DELAY );
+		}
+		catch ( InterruptedException e )
+		{
+			// Because this thread is never passed to the outside world,
+			// this should only happen on close - but since this is a
+			// daemon thread, it'll automatically die anyway.
+		}
+
 		super.run();
 
 		// In the case of a denim axe (which redirects you to a
