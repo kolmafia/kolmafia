@@ -502,9 +502,15 @@ public class KoLmafiaCLI extends KoLmafia
 		// their own commands, but are actually commands
 		// which are derived from other commands.
 
-		if ( command.equals( "hermit" ) || command.equals( "gym" ) )
+		if ( command.equals( "hermit" ) )
 		{
 			executeAdventureRequest( (parameters.length() > 0 ? parameters + " " : "" ) + command );
+			return;
+		}
+
+		if ( command.equals( "gym" ) )
+		{
+			executeAdventureRequest( parameters );
 			return;
 		}
 
