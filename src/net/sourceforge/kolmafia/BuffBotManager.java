@@ -177,7 +177,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		whiteListArray = settings.getProperty("whiteList") == null ? new String[0] :
 			settings.getProperty("whiteList").toLowerCase().split("\\s*,\\s*");
 		Arrays.sort(whiteListArray);
-		
+
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 
 		// The outer loop goes until user cancels
@@ -243,11 +243,10 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	{
 		int meatSent = 0;
 		BuffBotCaster buff;
-		boolean buffFound = false;
 
 		try
 		{
-			Matcher meatMatcher = Pattern.compile( ">You gain ([\\d,]+) Meat" ).matcher( message.getMessageHTML() );
+			Matcher meatMatcher = Pattern.compile( "</td><td valign=center>You gain ([\\d,]+) Meat" ).matcher( message.getMessageHTML() );
 			if ( meatMatcher.find() )
 			{
 				meatSent = df.parse( meatMatcher.group(1) ).intValue();
