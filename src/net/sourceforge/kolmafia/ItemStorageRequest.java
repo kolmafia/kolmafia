@@ -37,6 +37,8 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ItemStorageRequest extends KoLRequest
 {
@@ -47,6 +49,26 @@ public class ItemStorageRequest extends KoLRequest
 	public static final int INVENTORY_TO_CLOSET = 1;
 	public static final int CLOSET_TO_INVENTORY = 2;
 	public static final int INVENTORY_TO_STASH = 3;
+
+	public static final int MEAT_TRANSACTION = 4;
+
+	/**
+	 * Constructs a new <code>ItemStorageRequest</code>.
+	 * @param	client	The client to be notified of the results
+	 * @param	amount	The amount of meat involved in this transaction
+	 * @param	isDeposit	Whether or not this is a deposit or withdrawal
+	 */
+
+	public ItemStorageRequest( KoLmafia client, int amount, boolean isDeposit )
+	{
+		super( client, "closet.php" );
+		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "amt", "" + amount );
+		addFormField( "action", isDeposit ? "addmeat" : "takemeat" );
+
+		this.items = null;
+		this.moveType = MEAT_TRANSACTION;
+	}
 
 	/**
 	 * Constructs a new <code>ItemStorageRequest</code>.
@@ -103,6 +125,39 @@ public class ItemStorageRequest extends KoLRequest
 			case INVENTORY_TO_STASH:
 				stash();
 				break;
+
+			case MEAT_TRANSACTION:
+				meat();
+				break;
+		}
+	}
+
+	private void meat()
+	{
+		super.run();
+
+		// If an error state occurred, return from this
+		// request, since there's no content to parse
+
+		if ( isErrorState || responseCode != 200 )
+			return;
+
+		// Now, determine how much is left in your closet
+		// by locating "Your closet contains x meat" and
+		// update the display with that information.
+
+		Matcher meatInClosetMatcher = Pattern.compile( "[\\d,]+ meat\\.</b>" ).matcher( replyContent );
+
+		if ( meatInClosetMatcher.find() )
+		{
+			try
+			{
+				String meatInCloset = meatInClosetMatcher.group();
+				client.getCharacterData().setClosetMeat( df.parse( meatInCloset ).intValue() );
+			}
+			catch ( Exception e )
+			{
+			}
 		}
 	}
 
