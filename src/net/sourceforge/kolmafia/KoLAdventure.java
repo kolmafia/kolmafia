@@ -47,6 +47,7 @@ public class KoLAdventure implements Runnable
 {
 	private KoLmafia client;
 	private String adventureID, formSource, adventureName;
+	private Runnable request;
 
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given
@@ -64,6 +65,15 @@ public class KoLAdventure implements Runnable
 		this.formSource = formSource;
 		this.adventureID = adventureID;
 		this.adventureName = adventureName;
+
+		if ( formSource.equals( "sewer.php" ) )
+			this.request = new SewerRequest( client, false );
+		else if ( formSource.equals( "luckysewer.php" ) )
+			this.request = new SewerRequest( client, true );
+		else if ( formSource.equals( "campground.php" ) )
+			this.request = new CampgroundRequest( client, adventureID );
+		else if ( formSource.equals( "casino.php" ) || formSource.equals( "adventure.php" ) )
+			this.request = new AdventureRequest( client, formSource, adventureID );
 	}
 
 	/**
@@ -93,11 +103,7 @@ public class KoLAdventure implements Runnable
 
 	public void run()
 	{
-		if ( formSource.equals( "sewer.php" ) )
-			(new SewerRequest( client, false )).run();
-		else if ( formSource.equals( "luckysewer.php" ) )
-			(new SewerRequest( client, true )).run();
-		else if ( formSource.equals( "casino.php" ) || formSource.equals( "adventure.php" ) )
-			(new AdventureRequest( client, formSource, adventureID )).run();
+		if ( request != null )
+			request.run();
 	}
 }

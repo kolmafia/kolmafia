@@ -1,6 +1,15 @@
-shore.php	1	Muscle Vacation
-shore.php	2	Mysticality Vacation
-shore.php	3	Moxie Vacation
+shore.php	1	Shore: Muscle Vacation
+shore.php	2	Shore: Mysticality Vacation
+shore.php	3	Shore: Moxie Vacation
+
+campground.php	rest	Campsite: Rest Up!
+campground.php	relax	Campsite: Kick Back, Relax
+campground.php	toast	Campsite: Burn Bread
+campground.php	arches	Campsite: Golden Arches
+
+clangym.php	1	Gym: Hobo-Flex Workout Machine
+clangym.php	2	Gym: Big Book of Magicalness
+clangym.php	3	Gym: Tan-U-Lots Tanning Bed
 
 hermit.php	0	The Hermitage
 luckysewer.php	0	The Sewer (Lucky)

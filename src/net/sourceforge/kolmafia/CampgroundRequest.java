@@ -52,6 +52,17 @@ public class CampgroundRequest extends KoLRequest
 	}
 
 	/**
+	 * Constructs a new <code>CampgroundRequest</code> with the
+	 * specified action in mind.
+	 */
+
+	public CampgroundRequest( KoLmafia client, String action )
+	{
+		super( client, "campground.php" );
+		addFormField( "action", action );
+	}
+
+	/**
 	 * Runs the campground request, updating the client as appropriate.
 	 */
 
@@ -70,5 +81,7 @@ public class CampgroundRequest extends KoLRequest
 
 		client.getCharacterData().setChef( replyContent.indexOf( "cook.php" ) != -1 );
 		client.getCharacterData().setBartender( replyContent.indexOf( "cocktail.php" ) != -1 );
+
+		processResults( replyContent.substring( 0, replyContent.indexOf( "Your Campsite" ) ) );
 	}
 }
