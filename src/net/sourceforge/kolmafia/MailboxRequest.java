@@ -94,7 +94,8 @@ public class MailboxRequest extends KoLRequest
 		super.run();
 
 		if ( action != null )
-		{	updateDisplay( NOCHANGE, "Selected mail successfully " + action + "d" );
+		{
+			updateDisplay( ENABLED_STATE, "Selected mail successfully " + action + "d" );
 			return;
 		}
 
@@ -169,9 +170,6 @@ public class MailboxRequest extends KoLRequest
 			}
 		}
 
-		if ( action == null )
-			updateDisplay( NOCHANGE, "Mail retrieved from " + boxname + "" );
-		else
-			updateDisplay( NOCHANGE, "Selected mail successfully " + action + "d" );
+		updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname + "" );
 	}
 }
