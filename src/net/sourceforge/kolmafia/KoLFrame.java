@@ -110,30 +110,30 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	public void updateDisplay( int displayState, String message )
 	{
-		if ( contentPanel != null && client != null )
-		{
+		if ( client != null )
 			client.getLogStream().println( message );
+
+		if ( contentPanel != null )
 			contentPanel.setStatusMessage( isExecutingScript && displayState != ERROR_STATE ? DISABLED_STATE : displayState, message );
 
-			switch ( displayState )
-			{
-				case ERROR_STATE:
+		switch ( displayState )
+		{
+			case ERROR_STATE:
+				setEnabled( true );
+				break;
+
+			case DISABLED_STATE:
+				setEnabled( false );
+				break;
+
+			case NOCHANGE:
+				break;
+
+			default:
+				if ( !isExecutingScript )
 					setEnabled( true );
-					break;
+				break;
 
-				case DISABLED_STATE:
-					setEnabled( false );
-					break;
-
-				case NOCHANGE:
-					break;
-
-				default:
-					if ( !isExecutingScript )
-						setEnabled( true );
-					break;
-
-			}
 		}
 	}
 
@@ -540,13 +540,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			super( confirmButton, cancelButton, left, right, true );
 			this.panelTitle = panelTitle;
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 		}
 
 		protected void setContent( VerifiableElement [] elements )
@@ -563,6 +556,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			if ( panelTitle != null )
 				add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
