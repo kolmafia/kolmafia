@@ -323,6 +323,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 					if ( client.permitsContinue() )
 						updateDisplay( KoLFrame.ENABLED_STATE, "Script completed successfully." );
+					else
+						KoLFrame.this.setEnabled( true );
 				}
 				catch ( Exception e )
 				{
