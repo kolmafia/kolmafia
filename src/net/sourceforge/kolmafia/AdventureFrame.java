@@ -793,7 +793,7 @@ public class AdventureFrame extends KoLFrame
 						buff.run();
 					}
 
-					if ( started == buffCount )
+					if ( started >= buffCount )
 						updateDisplay( ENABLED_STATE, "Purchase attempts completed." );
 
 					isBuffing = false;
