@@ -1287,7 +1287,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 				{
 					kolchat.setVisible( false );
 					kolchat.dispose();
-					kolchat = null;
 				}
 
 				Iterator frames = existingFrames.iterator();
@@ -1298,6 +1297,12 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 					currentFrame.setVisible( false );
 					currentFrame.dispose();
 				}
+
+				statusPane = null;
+				gearChanger = null;
+				itemManager = null;
+				mailboxDisplay = null;
+				kolchat = null;
 			}
 		}
 	}

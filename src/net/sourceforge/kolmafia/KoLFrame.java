@@ -79,11 +79,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected KoLPanel contentPanel;
 	private boolean isExecutingScript;
 
-	protected CharsheetFrame statusPane;
-	protected GearChangeFrame gearChanger;
-	protected ItemManageFrame itemManager;
-	protected MailboxFrame mailboxDisplay;
-	protected KoLMessenger kolchat;
+	protected static CharsheetFrame statusPane;
+	protected static GearChangeFrame gearChanger;
+	protected static ItemManageFrame itemManager;
+	protected static MailboxFrame mailboxDisplay;
+	protected static KoLMessenger kolchat;
 
 	protected JMenuItem statusMenuItem;
 	protected JMenuItem mailMenuItem;
