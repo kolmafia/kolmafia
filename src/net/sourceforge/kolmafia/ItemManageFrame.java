@@ -398,8 +398,12 @@ public class ItemManageFrame extends KoLFrame
 
 							try
 							{
-								int desiredPrice = df.parse( JOptionPane.showInputDialog(
-									"Price for " + currentItem.getName() + "?" ) ).intValue();
+								String promptForPriceString = client.getSettings().getProperty( "promptForPrice" );
+								boolean promptForPrice = promptForPriceString == null ? true :
+									Boolean.valueOf( promptForPriceString ).booleanValue();
+
+								int desiredPrice = promptForPrice ? df.parse( JOptionPane.showInputDialog(
+									"Price for " + currentItem.getName() + "?" ) ).intValue() : 999999999;
 
 								if ( desiredPrice >= 10 )
 									(new AutoSellRequest( client, currentItem, desiredPrice)).run();

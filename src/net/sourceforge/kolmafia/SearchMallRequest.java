@@ -51,7 +51,35 @@ public class SearchMallRequest extends KoLRequest
 	 * Constructs a new <code>SearchMallRequest</code> which searches for
 	 * the given item, storing the results in the given <code>ListModel</code>.
 	 * Note that the search string is exactly the same as the way KoL does
-	 * it at the current time - exact matches only, wild cards permissible.
+	 * it at the current time.
+	 *
+	 * @param	client	The client to be notified in case of error
+	 * @param	searchString	The string (including wildcards) for the item to be found
+	 * @param	results	The sorted list in which to store the results
+	 */
+
+	public SearchMallRequest( KoLmafia client, String searchString, List results )
+	{
+		super( client, "searchmall.php" );
+		addFormField( "whichitem", searchString );
+
+		String cheapestCountString = client.getSettings().getProperty( "defaultLimit" );
+		int cheapestCount = cheapestCountString == null ? 13 : Integer.parseInt( cheapestCountString );
+
+		if ( cheapestCount > 0 )
+		{
+			addFormField( "cheaponly", "on" );
+			addFormField( "shownum", "" + cheapestCount );
+		}
+
+		this.results = results;
+	}
+
+	/**
+	 * Constructs a new <code>SearchMallRequest</code> which searches for
+	 * the given item, storing the results in the given <code>ListModel</code>.
+	 * Note that the search string is exactly the same as the way KoL does
+	 * it at the current time.
 	 *
 	 * @param	client	The client to be notified in case of error
 	 * @param	searchString	The string (including wildcards) for the item to be found
@@ -150,6 +178,10 @@ public class SearchMallRequest extends KoLRequest
 
 			int price = intToken( parsedResults, 0, 10 );
 			results.add( new MallPurchaseRequest( client, itemName, purchaseLimit, shopID, shopName, price ) );
+
+			String forceSortingString = client.getSettings().getProperty( "forceSorting" );
+			if ( forceSortingString != null && forceSortingString.equals( "true" ) )
+				java.util.Collections.sort( results );
 		}
 
 		results.add( "" );

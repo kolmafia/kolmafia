@@ -111,6 +111,7 @@ public class OptionsFrame extends KoLFrame
 
 		tabs.addTab( "Login", new LoginOptionsPanel() );
 		tabs.addTab( "Battle", new BattleOptionsPanel() );
+		tabs.addTab( "Mall", new ResultsOptionsPanel() );
 		tabs.addTab( "Sewer", new SewerOptionsPanel() );
 		tabs.addTab( "Chat", new ChatOptionsPanel() );
 
@@ -341,13 +342,7 @@ public class OptionsFrame extends KoLFrame
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
 
-				if ( battleSettings == null )
-					return;
-
-				// If there are default settings, make sure that the
-				// appropriate radio box is checked.
-
-				actionNames.setSelectedIndex( actions.indexOf( battleSettings ) );
+				actionNames.setSelectedIndex( battleSettings == null ? 0 : actions.indexOf( battleSettings ) );
 				(new StatusMessageChanger( "" )).run();
 			}
 		}
@@ -574,6 +569,107 @@ public class OptionsFrame extends KoLFrame
 				settings.setProperty( "fontSize", fontSize.toString() );
 				LimitedSizeChatBuffer.setFontSize( fontSize.intValue() );
 				settings.setProperty( "chatStyle", "" + chatStyleSelect.getSelectedIndex() );
+				saveSettings();
+			}
+		}
+	}
+
+	/**
+	 * An internal class used for handling mall options.  This includes
+	 * default mall limiting, mall sorting and sending items to the mall.
+	 */
+
+	private class ResultsOptionsPanel extends OptionsPanel
+	{
+		private JTextField defaultLimitField;
+		private JComboBox forceSortSelect;
+		private JComboBox promptForPriceSelect;
+
+		public ResultsOptionsPanel()
+		{
+			super( new Dimension( 120, 20 ), new Dimension( 165, 20 ) );
+
+			defaultLimitField = new JTextField( "13" );
+
+			LockableListModel forceSorting = new LockableListModel();
+			forceSorting.add( "No Sorting" );
+			forceSorting.add( "Force Price Sort" );
+
+			forceSortSelect = new JComboBox( forceSorting );
+
+			LockableListModel promptForPrices = new LockableListModel();
+			promptForPrices.add( "Prompt for Price" );
+			promptForPrices.add( "Instant Billionaire" );
+
+			promptForPriceSelect = new JComboBox( promptForPrices );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Default Limit: ", defaultLimitField );
+			elements[1] = new VerifiableElement( "Sorting Style: ", forceSortSelect );
+			elements[2] = new VerifiableElement( "Automall Style: ", promptForPriceSelect );
+
+			setContent( elements );
+		}
+
+		public void clear()
+		{	(new LoadDefaultSettingsThread()).start();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
+		private class LoadDefaultSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				String defaultLimitSetting = (client == null) ? null :
+					settings.getProperty( "defaultLimit" );
+
+				String forceSortSetting = (client == null) ? null :
+					settings.getProperty( "forceSorting" );
+
+				String promptForPriceSetting = (client == null) ? null :
+					settings.getProperty( "promptForPrice" );
+
+				// If there are no default settings, simply skip the
+				// attempt at loading them.
+
+				defaultLimitField.setText( defaultLimitSetting == null ? "13" : defaultLimitSetting );
+
+				if ( forceSortSetting == null || forceSortSetting.equals( "false" ) )
+					forceSortSelect.setSelectedIndex( 0 );
+				else
+					forceSortSelect.setSelectedIndex( 1 );
+
+				if ( promptForPriceSetting == null || promptForPriceSetting.equals( "true" ) )
+					promptForPriceSelect.setSelectedIndex( 0 );
+				else
+					promptForPriceSelect.setSelectedIndex( 1 );
+
+				(new StatusMessageChanger( "" )).run();
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
+
+		private class StoreSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				settings.setProperty( "defaultLimit", defaultLimitField.getText().length() == 0 ? "13" : defaultLimitField.getText() );
+				settings.setProperty( "forceSorting", "" + (forceSortSelect.getSelectedIndex() == 1) );
+				settings.setProperty( "promptForPrice", "" + (promptForPriceSelect.getSelectedIndex() == 0) );
 				saveSettings();
 			}
 		}

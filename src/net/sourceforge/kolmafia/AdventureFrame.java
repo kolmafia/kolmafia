@@ -544,11 +544,15 @@ public class AdventureFrame extends KoLFrame
 			{
 				try
 				{
-					int storeCount = countField.getText().trim().length() == 0 ? 13 :
+					int storeCount = countField.getText().trim().length() == 0 ? -1 :
 						df.parse( countField.getText() ).intValue();
 
 					updateDisplay( DISABLED_STATE, "Searching for items..." );
-					(new SearchMallRequest( client, searchField.getText(), storeCount, results )).run();
+
+					if ( storeCount == -1 )
+						(new SearchMallRequest( client, searchField.getText(), results )).run();
+					else
+						(new SearchMallRequest( client, searchField.getText(), storeCount, results )).run();
 				}
 				catch ( Exception e )
 				{
