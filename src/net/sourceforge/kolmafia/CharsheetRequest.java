@@ -148,7 +148,7 @@ public class CharsheetRequest extends KoLRequest
 			int [] mys = findStatPoints( parsedContent, "Mys" );
 			int [] mox = findStatPoints( parsedContent, "Mox" );
 
-			character.setStats( mus[0], mus[1], mys[0], mys[1], mox[0], mox[1] );
+			character.setStatPoints( mus[0], mus[1], mys[0], mys[1], mox[0], mox[1] );
 
 			// Drunkenness may or may not exist (in other words,
 			// if the character is not drunk, nothing will show

@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -205,6 +206,7 @@ public class KoLCharacter
 	private int familiarWeight;
 
     private String advancement;
+	private List listenerList;
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
@@ -241,6 +243,7 @@ public class KoLCharacter
 		this.familiars = new LockableListModel();
 
 		this.advancement = "none";
+		this.listenerList = new ArrayList();
 	}
 
 	/**
@@ -344,6 +347,10 @@ public class KoLCharacter
 		this.currentHP = currentHP;
 		this.maximumHP = maximumHP;
 		this.baseMaxHP = baseMaxHP;
+
+		Iterator listenerIterator = listenerList.iterator();
+		while ( listenerIterator.hasNext() )
+			((KoLCharacterListener)listenerIterator.next()).notifyHPChanged();
 	}
 
 	/**
@@ -385,6 +392,10 @@ public class KoLCharacter
 		this.currentMP = currentMP;
 		this.maximumMP = maximumMP;
 		this.baseMaxMP = baseMaxMP;
+
+		Iterator listenerIterator = listenerList.iterator();
+		while ( listenerIterator.hasNext() )
+			((KoLCharacterListener)listenerIterator.next()).notifyMPChanged();
 	}
 
 	/**
@@ -440,7 +451,12 @@ public class KoLCharacter
 	 */
 
 	public void setAvailableMeat( int availableMeat )
-	{	this.availableMeat = availableMeat;
+	{
+		this.availableMeat = availableMeat;
+
+		Iterator listenerIterator = listenerList.iterator();
+		while ( listenerIterator.hasNext() )
+			((KoLCharacterListener)listenerIterator.next()).notifyAvailableMeatChanged();
 	}
 
 	/**
@@ -470,7 +486,7 @@ public class KoLCharacter
 	 * @param	totalMoxie	The total number of moxie subpoints acquired thus far
 	 */
 
-	public void setStats( int adjustedMuscle, int totalMuscle,
+	public void setStatPoints( int adjustedMuscle, int totalMuscle,
 		int adjustedMysticality, int totalMysticality, int adjustedMoxie, int totalMoxie )
 	{
 		adjustedStats[0] = adjustedMuscle;
@@ -480,6 +496,10 @@ public class KoLCharacter
 		totalSubpoints[0] = totalMuscle;
 		totalSubpoints[1] = totalMysticality;
 		totalSubpoints[2] = totalMoxie;
+
+		Iterator listenerIterator = listenerList.iterator();
+		while ( listenerIterator.hasNext() )
+			((KoLCharacterListener)listenerIterator.next()).notifyStatusPointsChanged();
 	}
 
 	/**
@@ -1044,5 +1064,15 @@ public class KoLCharacter
 
 	public String getAdvancement()
 	{	return advancement;
+	}
+
+	/**
+	 * Adds a new <code>KoLCharacterListener</code> to the
+	 * list of listeners listening to this <code>KoLCharacter</code>.
+	 * @param	listener	The listener to be added to the listener list
+	 */
+
+	public void addKoLCharacterListener( KoLCharacterListener listener )
+	{	listenerList.add( listener );
 	}
 }
