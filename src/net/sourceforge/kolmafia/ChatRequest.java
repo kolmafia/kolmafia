@@ -76,9 +76,12 @@ public class ChatRequest extends KoLRequest
 		addFormField( "playerid", "" + client.getUserID() );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		String actualMessage = contact == null ? message :
-			message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) ? message + " " + contact :
-				message.startsWith( "/" ) ? message : "/msg " + contact.replaceAll( " ", "_" ) + " " + message;
+		associatedMessenger = client.getMessenger();
+		String contactID = associatedMessenger == null ? null : associatedMessenger.getPlayerID( contact );
+
+		String actualMessage = contactID == null ? message :
+			message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) ? message + " " + contactID :
+				message.startsWith( "/" ) ? message : "/msg " + contactID + " " + message;
 
 		try
 		{
@@ -94,7 +97,6 @@ public class ChatRequest extends KoLRequest
 		}
 
 		isContinuationRequest = false;
-		associatedMessenger = client.getMessenger();
 		isFriendAdditionRequest = actualMessage.trim().startsWith( "/friend " );
 	}
 

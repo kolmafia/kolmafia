@@ -42,6 +42,7 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
+import java.net.URLEncoder;
 
 import java.awt.Dimension;
 import javax.swing.JEditorPane;
@@ -61,6 +62,7 @@ public class KoLMessenger
 	private TreeMap instantMessageFrames;
 	private TreeMap instantMessageBuffers;
 
+	private TreeMap seenPlayerIDs;
 	private SortedListModel onlineContacts;
 
 	public KoLMessenger( KoLmafia client )
@@ -71,6 +73,7 @@ public class KoLMessenger
 		this.instantMessageFrames = new TreeMap();
 		this.instantMessageBuffers = new TreeMap();
 
+		seenPlayerIDs = new TreeMap();
 		contactsFrame = new ContactListFrame( client, onlineContacts );
 
 		mainChatFrame = new ChatFrame( client, this );
@@ -262,6 +265,39 @@ public class KoLMessenger
 	}
 
 	/**
+	 * Returns the string form of the player ID associated
+	 * with the given player name.
+	 *
+	 * @param	playerName	The name of the player
+	 * @return	The player's ID if the player has been seen, or the player's name
+	 *			with spaces replaced with underscores and other elements encoded
+	 *			if the player's ID has not been seen.
+	 */
+
+	public String getPlayerID( String playerName )
+	{
+		if ( playerName == null )
+			return null;
+
+		String playerID = (String) seenPlayerIDs.get( playerName );
+
+		try
+		{
+			return playerID != null ? playerID :
+				URLEncoder.encode( playerName, "UTF-8" );
+		}
+		catch ( java.io.UnsupportedEncodingException e )
+		{
+			// UTF-8 is a very generic encoding scheme; this
+			// exception should never be thrown.  But if it
+			// is, just ignore it for now.  Better exception
+			// handling when it becomes necessary.
+
+			return null;
+		}
+	}
+
+	/**
 	 * Replaces the current contact list with the given contact
 	 * list.  This is used after every call to /friends.
 	 *
@@ -373,6 +409,20 @@ public class KoLMessenger
 				mainChatBuffer.append( "<br>\n" );
 				addedHelp = false;
 			}
+		}
+
+		// Extract player IDs for all players who have spoken in chat, or
+		// those that were listed on a /friends request.
+
+		Matcher playerIDMatcher = Pattern.compile( "<a [^>]*?showplayer.php.*?>.*?</a>" ).matcher( originalContent );
+		lastFindIndex = 0;
+		while( playerIDMatcher.find( lastFindIndex ) )
+		{
+			lastFindIndex = playerIDMatcher.end();
+			StringTokenizer parsedLink = new StringTokenizer( playerIDMatcher.group(), "<>=\'\"" );
+			parsedLink.nextToken();  parsedLink.nextToken();
+			String playerID = parsedLink.nextToken();
+			seenPlayerIDs.put( parsedLink.nextToken(), playerID );
 		}
 
 		// Also extract messages which indicate logon/logoff of players to
