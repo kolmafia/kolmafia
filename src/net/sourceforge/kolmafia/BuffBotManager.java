@@ -164,6 +164,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	public void runBuffBot()
 	{
+		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
+
 		// need to make sure the MP is up to date
 		(new CharsheetRequest( client )).run();
 
@@ -177,8 +179,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		whiteListArray = settings.getProperty("whiteList") == null ? new String[0] :
 			settings.getProperty("whiteList").toLowerCase().split("\\s*,\\s*");
 		Arrays.sort(whiteListArray);
-
-		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 
 		// The outer loop goes until user cancels
 		while( client.isBuffBotActive() )
