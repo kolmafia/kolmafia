@@ -117,11 +117,32 @@ public class KoLmafia
 	private void initializeTally()
 	{
 		tally = new SortedListModel();
-		addToTally( new AdventureResult( AdventureResult.MEAT ) );
-		addToTally( new AdventureResult( AdventureResult.MUS ) );
-		addToTally( new AdventureResult( AdventureResult.MYS ) );
-		addToTally( new AdventureResult( AdventureResult.MOX ) );
-		addToTally( new AdventureResult( AdventureResult.DIVIDER ) );
+		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
+		addToResultTally( new AdventureResult( AdventureResult.MUS ) );
+		addToResultTally( new AdventureResult( AdventureResult.MYS ) );
+		addToResultTally( new AdventureResult( AdventureResult.MOX ) );
+		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
+	}
+
+	private void resetTally()
+	{
+		// When reseting the tally, first remove all the items from
+		// the list (which should appear after the stats, if the
+		// tally is sorted) and then clear the stat gains.
+
+		while ( tally.size() > 5 )
+			tally.remove( 5 );
+
+		for ( int i = 0; i < 5; ++i )
+		{
+			// Because the list won't update itself unless an
+			// event is fired, tally also resets itself in order
+			// to force the list model to fire the appropritate
+			// change event.
+
+			((AdventureResult)tally.get(i)).clear();
+			tally.set( i, tally.get(i) );
+		}
 	}
 
 	public void parseResult( String result )
@@ -133,10 +154,10 @@ public class KoLmafia
 		if ( result.endsWith( "point!" ) )
 			return;
 
-		addToTally( AdventureResult.parseResult( result ) );
+		addToResultTally( AdventureResult.parseResult( result ) );
 	}
 
-	private void addToTally( AdventureResult result )
+	public void addToResultTally( AdventureResult result )
 	{
 		int index = tally.indexOf( result );
 
