@@ -97,7 +97,10 @@ public class KoLmafiaCLI extends KoLmafia
 			KoLmafiaCLI session = new KoLmafiaCLI( null, null );
 
 			if ( initialScript == null )
+			{
 				session.attemptLogin();
+				session.listenForCommands();
+			}
 			else
 			{
 				(new KoLmafiaCLI( session, initialScript )).listenForCommands();
@@ -223,8 +226,6 @@ public class KoLmafiaCLI extends KoLmafia
 		outputStream.println();
 		executeCommand( "moons", "" );
 		outputStream.println();
-
-		listenForCommands();
 	}
 
 	/**
