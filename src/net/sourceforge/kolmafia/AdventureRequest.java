@@ -178,10 +178,24 @@ public class AdventureRequest extends KoLRequest
 		// machines and the shore vacations when you don't have
 		// enough meat, adventures or are too drunk to continue.
 
-		if ( replyContent.indexOf( "You can't" ) != -1 || replyContent.indexOf( "You shouldn't" ) != -1 ||
+		if ( !formSource.equals( "shore.php" ) )
+		{
+			if ( formSource.indexOf( "againform.submit" ) == -1 )
+			{
+				// Notify the client of failure by telling it that
+				// the adventure did not take place and the client
+				// should not continue with the next iteration.
+				// Friendly error messages to come later.
+
+				isErrorState = true;
+				client.cancelRequest();
+				updateDisplay( ERROR_STATE, "Adventures aborted!" );
+				return;
+			}
+		}
+		else if ( replyContent.indexOf( "You can't" ) != -1 || replyContent.indexOf( "You shouldn't" ) != -1 ||
 			replyContent.indexOf( "You don't" ) != -1 || replyContent.indexOf( "You need" ) != -1 ||
-			replyContent.indexOf( "You're way too beaten" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 ||
-			replyContent.indexOf( "You have reached the bottom of today's Dungeon." ) != -1 )
+			replyContent.indexOf( "You're way too beaten" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 )
 		{
 			// Notify the client of failure by telling it that
 			// the adventure did not take place and the client
@@ -190,7 +204,7 @@ public class AdventureRequest extends KoLRequest
 
 			isErrorState = true;
 			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Adventures aborted!" );
+			updateDisplay( ERROR_STATE, "Shore trips aborted!" );
 			return;
 		}
 
