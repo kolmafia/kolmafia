@@ -184,11 +184,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		// Remove the password data; it doesn't need to be stored
 		// in every single .kcs file.
 
-		Iterator nameIterator = saveStateNames.iterator();
-		settings.remove( "saveState" );
-		while ( nameIterator.hasNext() )
-			settings.remove( "saveState." + nameIterator.next() );
-		settings.saveSettings();
+		saveStateNames.clear();
+		storeSaveStates();
 
 		// Now!  Check to make sure the user didn't cancel
 		// during any of the actual loading of elements
@@ -509,7 +506,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		if ( autoRecoverSettings == null )
 			return;
-		double autoRecover = Double.parseDouble( autoRecoverSettings ) * (double) characterData.getBaseMaxHP();
+		double autoRecover = Double.parseDouble( autoRecoverSettings ) * (double) characterData.getMaximumHP();
 
 		if ( characterData.getCurrentHP() < autoRecover && recoveryScriptSettings != null && recoveryScriptSettings.length() > 0 )
 		{
@@ -858,12 +855,12 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		// Now, removing any passwords that were stored
 		// which are no longer in the save state list
 
-		Iterator settingsIterator = settings.keySet().iterator();
 		String currentKey;
+		Object [] settingsArray = settings.keySet().toArray();
 
-		while ( settingsIterator.hasNext() )
+		for ( int i = 0; i < settingsArray.length; ++i )
 		{
-			currentKey = (String) settingsIterator.next();
+			currentKey = (String) settingsArray[i];
 			if ( currentKey.startsWith( "saveState." ) && !saveStateNames.contains( currentKey.substring( 10 ) ) )
 				settings.remove( currentKey );
 		}
