@@ -76,7 +76,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private static final int LONG_SLEEP_COUNT = 300;  // This many times for slot needs
 
 	private Map buffCostMap;
-	private List mpRestoreItemList;
+	private MPRestoreItemList mpRestoreItemList;
 	private LockableListModel buffCostTable;
 	private String [] whiteListArray;
 
@@ -327,22 +327,29 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		if ( characterData.getCurrentMP() >= mpNeeded )
 			return true;
 
-		// First try resting in the beanbag chair
-		// TODO - implement beanbag chair recovery
-
-
-
 		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
 		{
 			String itemName = mpRestoreItemList.get(i).toString();
 			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
 			{
-				AdventureResult item = new AdventureResult( itemName, 0 );
-				while ( inventory.contains( item ) )
+				if ( itemName.equals( mpRestoreItemList.BEANBAG.toString() ) )
 				{
-					((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP(mpNeeded);
-					if ( characterData.getCurrentMP() >= mpNeeded )
-						return true;
+					while ( characterData.getAdventuresLeft() > 0 )
+					{
+						mpRestoreItemList.BEANBAG.recoverMP(mpNeeded);
+						if ( characterData.getCurrentMP() >= mpNeeded )
+							return true;
+					}
+				}
+				else
+				{
+					AdventureResult item = new AdventureResult( itemName, 0 );
+					while ( inventory.contains( item ) )
+					{
+						((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP(mpNeeded);
+						if ( characterData.getCurrentMP() >= mpNeeded )
+							return true;
+					}
 				}
 			}
 		}
@@ -428,7 +435,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 				if ( !client.permitsContinue() )
 				{
-				buffbotLog.append( ERRORCOLOR + " ---> " + target + " had too many buffs." + ENDCOLOR + "<br>\n");
+					buffbotLog.append( ERRORCOLOR + " ---> " + target + " had too many buffs." + ENDCOLOR + "<br>\n");
 					return false;
 				}
 
@@ -458,11 +465,14 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private class MPRestoreItemList extends SortedListModel
 	{
+		public final MPRestoreItem BEANBAG = new MPRestoreItem( "rest in beanbag chair", 80, -1 );
+
 		public MPRestoreItemList()
 		{
 			// These MP restores come from NPCs, so they have a
 			// constant market value
 
+			this.add( BEANBAG );
 			this.add( new MPRestoreItem( "magical mystery juice", characterData.getLevel() + 4, 150 ) );
 			this.add( new MPRestoreItem( "soda water", 4, 70 ) );
 
@@ -498,8 +508,14 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				this.itemUsed = new AdventureResult( itemName, 0 );
 			}
 
-			public void recoverMP(int mpNeeded)
+			public void recoverMP( int mpNeeded )
 			{
+				if ( this == BEANBAG )
+				{
+					(new CampgroundRequest( client, "relax" )).run();
+					return;
+				}
+
 				KoLCharacter characterData = client.getCharacterData();
 				int currentMP = characterData.getCurrentMP();
 				int maximumMP = characterData.getMaximumMP();
@@ -509,7 +525,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				// But, don't go too far over (thus wasting restorers)
 				int mpShort = Math.max(maximumMP + 5 - mpPerUse, mpNeeded) - currentMP;
 				int numberToUse = 1 + ((mpShort - 1) / mpPerUse);
-				int itemIndex = client.getInventory().indexOf(itemUsed  );
+				int itemIndex = client.getInventory().indexOf( itemUsed );
 				if  ( itemIndex > -1 )
 				{
 					numberToUse = Math.min(numberToUse, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
