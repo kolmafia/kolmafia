@@ -38,11 +38,19 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 public class LimitedSizeChatBuffer extends ChatBuffer
 {
 	private int maximumSize;
+	private static int fontSize = 6;
 
 	public LimitedSizeChatBuffer( String title, int maximumSize )
 	{
 		super( title );
 		this.maximumSize = maximumSize;
+	}
+
+	public static void setFontSize( int fontSize )
+	{
+		LimitedSizeChatBuffer.fontSize = fontSize;
+		BUFFER_INIT = "<body style=\"font-family: sans-serif;\"><h" + fontSize + ">";
+		BUFFER_STOP = "</h" + fontSize + "></body>";
 	}
 
 	/**
