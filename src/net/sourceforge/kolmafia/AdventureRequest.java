@@ -44,7 +44,7 @@ import java.util.StringTokenizer;
 
 public class AdventureRequest extends KoLRequest
 {
-	private static final int NEEDED_DELAY = 3200;
+	private static final int NEEDED_DELAY = 1600;
 	private static final int ACTUAL_DELAY = NEEDED_DELAY - REFRESH_RATE;
 
 	private String formSource;
