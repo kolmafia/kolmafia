@@ -41,6 +41,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int CONSUME_DRINK = 2;
 	public static final int CONSUME_USE = 3;
 	public static final int CONSUME_MULTIPLE = 4;
+	public static final int GROW_FAMILIAR = 5;
 
 	private AdventureResult itemUsed;
 	private RetrieveResultRequest resultRequest;
@@ -53,7 +54,8 @@ public class ConsumeItemRequest extends KoLRequest
 	public ConsumeItemRequest( KoLmafia client, int consumptionType, String itemName, int itemCount )
 	{
 		super( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
-			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : "inv_use.php", false );
+			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" :
+				"inv_use.php", false );
 
 		if ( consumptionType == CONSUME_MULTIPLE )
 		{
