@@ -44,11 +44,7 @@
     <javac source="1.4"
            srcdir="${src}"
            destdir="${build}"
-           classpath="${lib}/*.jar">
-
-           <compilerarg value="-Xlint:unchecked"/>
-
-    </javac>
+           classpath="${lib}/*.jar" />
 
     <copy todir="${build}">
        <fileset dir="${src}">
