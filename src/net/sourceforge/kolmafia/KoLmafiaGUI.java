@@ -80,11 +80,15 @@ public class KoLmafiaGUI extends KoLmafia
 	 */
 
 	public void updateDisplay( int state, String message )
-	{	activeFrame.updateDisplay( state, message );
+	{
+		if ( activeFrame != null )
+			activeFrame.updateDisplay( state, message );
 	}
 
 	public void requestFocus()
-	{	activeFrame.requestFocus();
+	{
+		if ( activeFrame != null )
+			activeFrame.requestFocus();
 	}
 
 	/**
