@@ -70,9 +70,11 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import javax.swing.BorderFactory;
 
 // event listeners
 import javax.swing.SwingUtilities;
@@ -81,19 +83,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 // containers
+import javax.swing.JList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
 
 // spellcast-related imports
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
-	public AdventureFrame( KoLmafia client, LockableListModel list )
+	public AdventureFrame( KoLmafia client, LockableListModel availableAdventures, LockableListModel resultsTally )
 	{
 		super( "KoLmafia: " + client.getLoginName(), client );
 		setResizable( false );
@@ -101,16 +107,20 @@ public class AdventureFrame extends KoLFrame
 		CardLayout cards = new CardLayout( 10, 10 );
 		getContentPane().setLayout( cards );
 
-		contentPanel = new AdventurePanel( list );
+		JPanel summaryPanel = new AdventureResultsPanel( resultsTally );
+		contentPanel = new AdventureSelectPanel( availableAdventures );
 
+		JPanel completePanel = new JPanel();
+		completePanel.add( summaryPanel );
+		completePanel.add( contentPanel );
 
-		getContentPane().add( contentPanel, "" );
+		getContentPane().add( completePanel, "" );
 
 		updateDisplay( LOGGED_IN_STATE, " " );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 
-	protected class AdventurePanel extends KoLPanel
+	protected class AdventureSelectPanel extends KoLPanel
 	{
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
@@ -119,7 +129,7 @@ public class AdventureFrame extends KoLFrame
 		JComboBox locationField;
 		JTextField countField;
 
-		public AdventurePanel( LockableListModel list )
+		public AdventureSelectPanel( LockableListModel list )
 		{
 			super( "begin", "cancel" );
 
@@ -207,6 +217,25 @@ public class AdventureFrame extends KoLFrame
 
 		public void requestFocus()
 		{	locationField.requestFocus();
+		}
+	}
+
+	protected class AdventureResultsPanel extends JPanel
+	{
+		public AdventureResultsPanel( LockableListModel tally )
+		{
+			setLayout( new BorderLayout() );
+			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+			add( JComponentUtilities.createLabel( "Results", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+
+			JList tallyDisplay = new JList( tally );
+			tallyDisplay.setPrototypeCellValue( "@@@@@@@@@@" );
+			tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			tallyDisplay.setVisibleRowCount( 4 );
+
+			add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.SOUTH );
 		}
 	}
 }

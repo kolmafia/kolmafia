@@ -113,7 +113,7 @@ public class KoLmafia
 		updateResult( new AdventureResult( AdventureResult.MYS ) );
 		updateResult( new AdventureResult( AdventureResult.MOX ) );
 
-		activeFrame = new AdventureFrame( this, adventures );
+		activeFrame = new AdventureFrame( this, adventures, tally );
 		activeFrame.pack();  activeFrame.setVisible( true );
 	}
 
