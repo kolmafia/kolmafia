@@ -624,12 +624,22 @@ public class KoLRequest implements Runnable
 			// Skip effect acquisition - it's followed by a boldface
 			// which makes the parser think it's found an item.
 
-			if ( lastToken.equals( "FUMBLE!" ) )
+			if ( lastToken.startsWith( "FUMBLE!" ) )
 			{
 				try
 				{
-					Matcher damageMatcher = Pattern.compile( "[\\d,]+" ).matcher( parsedResults.nextToken() );
-					client.parseResult( "You lose " + df.parse( damageMatcher.group() ).intValue() + " hit points." );
+					StringTokenizer fumbleParser = new StringTokenizer( parsedResults.nextToken() );
+					String token1, token2;
+					token1 = fumbleParser.nextToken();
+					token2 = fumbleParser.nextToken();
+
+					while ( !token2.startsWith( "damage" ) && fumbleParser.hasMoreTokens() )
+					{
+						token1 = token2;
+						token2 = fumbleParser.nextToken();
+					}
+
+					client.parseResult( "You lose " + df.parse( token1 ).intValue() + " hit points" );
 				}
 				catch ( Exception e )
 				{
