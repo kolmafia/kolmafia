@@ -171,7 +171,6 @@ public class LoginFrame extends KoLFrame
 	{
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
-		private JLabel serverReplyLabel;
 
 		JTextField loginnameField;
 		JPasswordField passwordField;
@@ -185,8 +184,7 @@ public class LoginFrame extends KoLFrame
 
 			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
 			actionStatusPanel.add( actionStatusLabel );
-			serverReplyLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( serverReplyLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			loginnameField = new JTextField();
 			passwordField = new JPasswordField();
@@ -196,11 +194,6 @@ public class LoginFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Password: ", passwordField );
 
 			setContent( elements );
-		}
-
-		protected void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements );
 			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
 
