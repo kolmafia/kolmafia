@@ -47,6 +47,7 @@ import java.io.IOException;
 // utility imports
 import java.util.List;
 import java.util.Iterator;
+import java.util.ArrayList;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -752,38 +753,54 @@ public class KoLmafiaCLI extends KoLmafia
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
 
-		List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
-
-		if ( matchingNames.size() != 0 )
+		if ( parameters.startsWith( "\"" ) )
 		{
-			itemName = (String) matchingNames.get(0);
+			itemName = parameters.substring( 1, parameters.length() - 1 );
 			itemCount = 1;
 		}
 		else
 		{
-			String itemCountString = parameters.split( " " )[0];
-			matchingNames = TradeableItemDatabase.getMatchingNames( parameters.substring( itemCountString.length() ).trim() );
+			List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
 
-			if ( matchingNames.size() == 0 )
-			{
-				scriptRequestor.updateDisplay( ENABLED_STATE, "[" + parameters + "] does not match anything in the item database." );
-				scriptRequestor.cancelRequest();
-				return null;
-			}
-
-			try
+			if ( matchingNames.size() != 0 )
 			{
 				itemName = (String) matchingNames.get(0);
-				itemCount = df.parse( itemCountString ).intValue();
+				itemCount = 1;
 			}
-			catch ( Exception e )
+			else
 			{
-				// Technically, this exception should not be thrown, but if
-				// it is, then print an error message and return.
+				String itemCountString = parameters.split( " " )[0];
+				String itemNameString = parameters.substring( itemCountString.length() ).trim();
 
-				scriptRequestor.updateDisplay( ENABLED_STATE, itemCountString + " is not a number." );
-				scriptRequestor.cancelRequest();
-				return null;
+				if ( itemNameString.startsWith( "\"" ) )
+					itemName = itemNameString.substring( 1, itemNameString.length() - 1 );
+				else
+				{
+					matchingNames = TradeableItemDatabase.getMatchingNames( itemNameString );
+
+					if ( matchingNames.size() == 0 )
+					{
+						scriptRequestor.updateDisplay( ENABLED_STATE, "[" + parameters + "] does not match anything in the item database." );
+						scriptRequestor.cancelRequest();
+						return null;
+					}
+
+					itemName = (String) matchingNames.get(0);
+				}
+
+				try
+				{
+					itemCount = df.parse( itemCountString ).intValue();
+				}
+				catch ( Exception e )
+				{
+					// Technically, this exception should not be thrown, but if
+					// it is, then print an error message and return.
+
+					scriptRequestor.updateDisplay( ENABLED_STATE, itemCountString + " is not a number." );
+					scriptRequestor.cancelRequest();
+					return null;
+				}
 			}
 		}
 
