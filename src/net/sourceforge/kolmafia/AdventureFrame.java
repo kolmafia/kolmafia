@@ -246,8 +246,8 @@ public class AdventureFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu statusMenu = new JMenu( "Gameplay" );
-		statusMenu.setMnemonic( KeyEvent.VK_G );
+		JMenu statusMenu = new JMenu( "View" );
+		statusMenu.setMnemonic( KeyEvent.VK_V );
 		menuBar.add( statusMenu );
 
 		this.statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
