@@ -79,6 +79,8 @@ public class AdventureRequest extends KoLRequest
 			addFormField( "action", "slot" );
 			addFormField( "whichslot", adventureID );
 		}
+		else
+			addFormField( "action", adventureID );
 	}
 
 	/**
