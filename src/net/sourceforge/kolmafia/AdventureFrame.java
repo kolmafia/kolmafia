@@ -118,6 +118,7 @@ public class AdventureFrame extends KoLFrame
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
 	private ClanBuffPanel clanBuff;
+	private HeroDonationPanel heroDonation;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -143,7 +144,13 @@ public class AdventureFrame extends KoLFrame
 		tabs.addTab( "Mall of Loathing", mallSearch );
 
 		clanBuff = new ClanBuffPanel();
-		tabs.addTab( "Other Activities", clanBuff );
+		heroDonation = new HeroDonationPanel();
+
+		JPanel otherStuffPanel = new JPanel();
+		otherStuffPanel.setLayout( new BorderLayout( 10, 10 ) );
+		otherStuffPanel.add( clanBuff, BorderLayout.NORTH );
+		otherStuffPanel.add( heroDonation, BorderLayout.SOUTH );
+		tabs.addTab( "Other Activities", otherStuffPanel );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
@@ -566,12 +573,7 @@ public class AdventureFrame extends KoLFrame
 		protected void setContent( VerifiableElement [] elements )
 		{
 			super.setContent( elements );
-
-			JPanel southPanel = new JPanel();
-			southPanel.setLayout( new BorderLayout( 10, 10 ) );
-			southPanel.add( actionStatusPanel, BorderLayout.NORTH );
-			southPanel.add( new JPanel(), BorderLayout.SOUTH );
-			add( southPanel, BorderLayout.SOUTH );
+			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
 
 		public void clear()
@@ -599,7 +601,7 @@ public class AdventureFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			isBuffing = false;
-			updateDisplay( ENABLED_STATE, "Purchases cancelled." );
+			updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
 		}
 
 		public void requestFocus()
@@ -631,14 +633,132 @@ public class AdventureFrame extends KoLFrame
 					int started = 1;
 					while ( started <= buffCount && isBuffing )
 					{
-						updateDisplay( DISABLED_STATE, "Purchasing buff " + (started++) + "..." );
+						updateDisplay( DISABLED_STATE, "Attempting to purchasing buff " + (started++) + "..." );
 						buff.run();
 					}
 
 					if ( started == buffCount )
-						updateDisplay( ENABLED_STATE, "Purchases completed." );
+						updateDisplay( ENABLED_STATE, "Purchase attempts completed." );
 
 					isBuffing = false;
+				}
+				catch ( NumberFormatException e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for clan
+	 * buffs in the <code>AdventureFrame</code>.
+	 */
+
+	private class HeroDonationPanel extends KoLPanel
+	{
+		private JPanel actionStatusPanel;
+		private JLabel actionStatusLabel;
+
+		private JComboBox heroField;
+		private JTextField amountField;
+
+		public HeroDonationPanel()
+		{
+			super( "worship statue", "blow up statue", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			LockableListModel heroes = new LockableListModel();
+			heroes.add( "Statue of Boris" );
+			heroes.add( "Statue of Jarlsberg" );
+			heroes.add( "Statue of Sneaky Pete" );
+
+			heroField = new JComboBox( heroes );
+			amountField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Donate To: ", heroField );
+			elements[1] = new VerifiableElement( "Amount: ", amountField );
+
+			setContent( elements );
+		}
+
+		protected void setContent( VerifiableElement [] elements )
+		{
+			super.setContent( elements );
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+
+		public void clear()
+		{
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			heroField.setEnabled( isEnabled );
+			amountField.setEnabled( isEnabled );
+		}
+
+		protected void actionConfirmed()
+		{
+			contentPanel = heroDonation;
+			(new HeroDonationThread()).start();
+		}
+
+		protected void actionCancelled()
+		{
+			if ( heroField.getSelectedIndex() != -1 )
+			{
+				contentPanel = heroDonation;
+				updateDisplay( NOCHANGE_STATE, "You have killed the Hermit hiding behind the " + heroField.getSelectedItem() );
+			}
+			else
+				updateDisplay( NOCHANGE_STATE, "Blow up which statue?" );
+		}
+
+		public void requestFocus()
+		{
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually purchase the clan buffs.
+		 */
+
+		private class HeroDonationThread extends Thread
+		{
+			public HeroDonationThread()
+			{
+				super( "Donation-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					int amount = amountField.getText().trim().length() == 0 ? 0 :
+						Integer.parseInt( amountField.getText() );
+
+					updateDisplay( DISABLED_STATE, "Attempting donation..." );
+					(new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, amount )).run();
+					updateDisplay( ENABLED_STATE, "Donation attempt complete." );
 				}
 				catch ( NumberFormatException e )
 				{
