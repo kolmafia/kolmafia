@@ -138,7 +138,7 @@ public class AdventureFrame extends KoLFrame
 		addMallBrowsingPanel();  tabs.setEnabledAt( 2, false );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
-		contentPanel = adventureSelectPanel;
+		contentPanel = adventureSelect;
 
 		updateDisplay( ENABLED_STATE, " " );
 		addWindowListener( new LogoutRequestAdapter() );
