@@ -331,9 +331,15 @@ public class KoLRequest extends Thread
 		{
 			lastToken = parsedResults.nextToken();
 
+			// Skip effect acquisition - it's followed by a boldface
+			// which makes the parser think it's found an item.
+
+			if ( lastToken.startsWith( "You acquire an effect:" ) )
+				parsedResults.nextToken();
+
 			if ( lastToken.equals( "b" ) )
 				client.parseResult( parsedResults.nextToken() );
-			else if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose" ) )
+			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose" )) && !lastToken.endsWith( "Drunkenness." ) )
 				client.parseResult( lastToken );
 		}
 	}
