@@ -79,10 +79,10 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		int totalLength = displayBuffer.length() + message.length();
 		if ( totalLength > maximumSize )
 		{
-			int index = 0;
+			int index = 1;
 			while ( totalLength - index > maximumSize )
-				index = displayBuffer.indexOf( "<br>", index );
-			displayBuffer.delete( 0 , index + 4 );
+				index = displayBuffer.indexOf( "\n", index ) + 1 ;
+			displayBuffer.delete( 0 , index );
 		}
 
 		super.append( message );
