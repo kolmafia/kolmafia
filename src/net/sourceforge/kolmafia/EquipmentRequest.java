@@ -112,6 +112,15 @@ public class EquipmentRequest extends KoLRequest
 		if ( requestType == CHANGE_OUTFIT )
 			updateDisplay( KoLFrame.NOCHANGE_STATE, "Changing outfit..." );
 
+		KoLCharacter data = client.getCharacterData();
+
+		String oldHat = data.getHat();
+		String oldWeapon = data.getWeapon();
+		String oldPants = data.getPants();
+		String oldAccessory1 = data.getAccessory1();
+		String oldAccessory2 = data.getAccessory2();
+		String oldAccessory3 = data.getAccessory3();
+
 		super.run();
 
 		// If you changed your outfit, there will be a redirect
@@ -120,6 +129,14 @@ public class EquipmentRequest extends KoLRequest
 		if ( requestType == CHANGE_OUTFIT )
 		{
 			(new EquipmentRequest( client, EQUIPMENT )).run();
+
+			switchItem( oldHat, data.getHat() );
+			switchItem( oldWeapon, data.getWeapon() );
+			switchItem( oldPants, data.getPants() );
+			switchItem( oldAccessory1, data.getAccessory1() );
+			switchItem( oldAccessory2, data.getAccessory2() );
+			switchItem( oldAccessory3, data.getAccessory3() );
+
 			return;
 		}
 
@@ -158,6 +175,15 @@ public class EquipmentRequest extends KoLRequest
 		catch ( RuntimeException e )
 		{
 			logStream.println( e );
+		}
+	}
+
+	private void switchItem( String oldItem, String newItem )
+	{
+		if ( !oldItem.equals( newItem ) )
+		{
+			AdventureResult.addResultToList( client.getInventory(), new AdventureResult( oldItem, 1 ) );
+			AdventureResult.addResultToList( client.getInventory(), new AdventureResult( newItem, -1 ) );
 		}
 	}
 
