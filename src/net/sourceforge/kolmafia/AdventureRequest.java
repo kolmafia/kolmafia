@@ -62,7 +62,7 @@ public class AdventureRequest extends KoLRequest
 		// if not, you either run into an error state, or there was a
 		// special event taking place in that adventure.
 
-		if ( !errorState && responseCode != 302 )
+		if ( !isErrorState && responseCode != 302 )
 		{
 			// From preliminary tests, finding out whether or not the
 			// adventure was successful is equivalent to whether or
@@ -84,7 +84,7 @@ public class AdventureRequest extends KoLRequest
 			// Otherwise, it was a success, so the results of
 			// the adventure should be parsed.
 
-			processResult( replyContent.substring( resultIndex + 12 ) );
+			processResults( replyContent.substring( resultIndex + 12 ) );
 		}
 	}
 }
