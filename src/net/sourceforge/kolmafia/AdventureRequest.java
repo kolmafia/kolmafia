@@ -104,7 +104,7 @@ public class AdventureRequest extends KoLRequest
 		// will be ignored as well
 
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "haiku.php" ) )
-			(new AdventureRequest( client, formSource, adventureID )).run();
+			client.cancelRequest();
 
 		// From here on out, there will only be data handling
 		// if you've encountered a non-redirect request, and
