@@ -123,6 +123,7 @@ public class AdventureFrame extends KoLFrame
 	private CharsheetFrame statusPane;
 	private GearChangeFrame gearChanger;
 	private ItemManageFrame itemManager;
+	private MailboxFrame mailboxDisplay;
 
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
@@ -1185,7 +1186,9 @@ public class AdventureFrame extends KoLFrame
 					statusPane.setVisible( true );
 					statusPane.requestFocus();
 					statusPane.setEnabled( isEnabled );
-					statusPane.refreshStatus();
+
+					if ( isEnabled )
+						statusPane.refreshStatus();
 				}
 				else
 				{
@@ -1261,6 +1264,44 @@ public class AdventureFrame extends KoLFrame
 				{
 					super.run();
 					itemManager = (ItemManageFrame) lastCreatedFrame;
+				}
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the item manager.
+	 */
+
+	private class DisplayMailListener extends DisplayFrameListener
+	{
+		public DisplayMailListener()
+		{	super( MailboxFrame.class );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new DisplayMailThread()).start();
+		}
+
+		private class DisplayMailThread extends DisplayFrameThread
+		{
+			public void run()
+			{
+				if ( mailboxDisplay != null )
+				{
+					mailboxDisplay.setVisible( true );
+					mailboxDisplay.requestFocus();
+					mailboxDisplay.setEnabled( isEnabled );
+
+					if ( isEnabled )
+						mailboxDisplay.refreshMailbox();
+				}
+				else
+				{
+					super.run();
+					mailboxDisplay = (MailboxFrame) lastCreatedFrame;
 				}
 			}
 		}
