@@ -54,7 +54,8 @@ public class AdventureResult implements Comparable
 	private String name;
 	private int priority;
 
-	private static final int HPMP_PRIORITY = 0;
+	private static final int HP_PRIORITY = 0;
+	private static final int MP_PRIORITY = 0;
 	private static final int ADV_PRIORITY = 1;
 	private static final int MEAT_PRIORITY = 2;
 	private static final int SUBSTAT_PRIORITY = 3;
@@ -63,7 +64,8 @@ public class AdventureResult implements Comparable
 
 	private static final DecimalFormat df = new DecimalFormat();
 
-	public static final String HPMP = "HP/MP";
+	public static final String HP = "HP";
+	public static final String MP = "MP";
 	public static final String ADV = "Adv";
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Substats";
@@ -92,7 +94,6 @@ public class AdventureResult implements Comparable
 	{
 		this( name,
 			name.equals(SUBSTATS) ? new int[3] :
-			name.equals(HPMP) ? new int[2] :
 			new int[1] );
 	}
 
@@ -124,7 +125,8 @@ public class AdventureResult implements Comparable
 	private AdventureResult( String name, int [] count )
 	{
 		this( name, count,
-			name.equals(HPMP) ? HPMP_PRIORITY :
+			name.equals(HP) ? HP_PRIORITY :
+			name.equals(MP) ? MP_PRIORITY :
 			name.equals(ADV) ? ADV_PRIORITY :
 			name.equals(MEAT) ? MEAT_PRIORITY :
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
@@ -211,7 +213,7 @@ public class AdventureResult implements Comparable
 			parsedGain.nextToken();
 
 			int modifier = Integer.parseInt(
-				(parsedGain.nextToken().equals("gain") ? "" : "-") + parsedGain.nextToken() );
+				(parsedGain.nextToken().startsWith("gain") ? "" : "-") + parsedGain.nextToken() );
 			String statname = parsedGain.nextToken();
 
 			// Stats actually fall into one of four categories - simply pick the
@@ -220,13 +222,7 @@ public class AdventureResult implements Comparable
 			if ( parsedGain.hasMoreTokens() )
 			{
 				char identifier = statname.charAt(0);
-				int [] gained =
-				{
-					(identifier == 'H' || identifier == 'h') ? modifier : 0,
-					(identifier == 'M' || identifier == 'm') ? modifier : 0
-				};
-
-				return new AdventureResult( HPMP, gained );
+				return new AdventureResult( ( identifier == 'H' || identifier == 'h' ) ? HP : MP, modifier );
 			}
 
 			if ( statname.startsWith( "Adv" ) )
@@ -267,8 +263,7 @@ public class AdventureResult implements Comparable
 	public String toString()
 	{
 		return
-			name.equals(ADV) || name.equals(MEAT) ? " " + name + ": " + df.format(count[0]) :
-			name.equals(HPMP) ? " HP/MP: " + df.format(count[0]) + " / " + df.format(count[1]) :
+			name.equals(HP) || name.equals(MP) || name.equals(ADV) || name.equals(MEAT) ? " " + name + ": " + df.format(count[0]) :
 			name.equals(SUBSTATS) ? " Substats: " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]) :
 			name.equals(DIVIDER) ? DIVIDER :
 			" " + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
@@ -322,20 +317,30 @@ public class AdventureResult implements Comparable
 	{
 		int index = tally.indexOf( result );
 
-		if ( index == -1 )
+		// First, filter out things where it's a simple addition of an
+		// item, or something which may not result in a change in the
+		// state of the tally list.
+
+		if ( index == -1 || result.getCount() == 0 )
 		{
-			index = tally.size();
-			tally.add( result );
+			if ( !result.isItem() || result.getCount() != 0 )
+				tally.add( result );
+			return;
 		}
-		else
-			tally.set( index, add( result, (AdventureResult) tally.get( index ) ) );
+
+		AdventureResult actualResult = add( result, (AdventureResult) tally.get( index ) );
 
 		// Check to make sure that the result didn't transform the value
-		// to zero - if it did, then remove the item from the list.
+		// to zero - if it did, then remove the item from the list if
+		// it's an item (non-items are exempt).
 
-		AdventureResult netWorth = (AdventureResult) tally.get( index );
-		if ( netWorth.isItem() && netWorth.getCount() == 0 )
-			tally.remove( netWorth );
+		if ( actualResult.isItem() && actualResult.getCount() == 0 )
+			tally.remove( actualResult );
+
+		if ( result.getName().equals( AdventureResult.ADV ) && actualResult.getCount() < 0 )
+			actualResult = new AdventureResult( AdventureResult.ADV, 0 );
+
+		tally.set( index, actualResult );
 	}
 
 	/**
@@ -361,21 +366,10 @@ public class AdventureResult implements Comparable
 		if ( !left.name.equals( right.name ) )
 			return null;
 
-		if ( left.count.length == 1 )
-		{
-			int totalCount = left.count[0] + right.count[0];
+		int [] totals = new int[ left.count.length ];
+		for ( int i = 0; i < left.count.length; ++i )
+			totals[i] = left.count[i] + right.count[i];
 
-			if ( left.name.equals( ADV ) && totalCount < 0 )
-				totalCount = 0;
-
-			return new AdventureResult( left.name, totalCount );
-		}
-		else
-		{
-			int [] totals = new int[3];
-			for ( int i = 0; i < 3; ++i )
-				totals[i] = left.count[i] + right.count[i];
-			return new AdventureResult( left.name, totals );
-		}
+		return new AdventureResult( left.name, totals );
 	}
 }
