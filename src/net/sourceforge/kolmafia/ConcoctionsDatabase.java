@@ -134,7 +134,7 @@ public class ConcoctionsDatabase implements UtilityConstants
 		{
 			AdventureResult result = (AdventureResult) availableIngredients.get(i);
 
-			if ( result.isItem() )
+			if ( result.isItem() && TradeableItemDatabase.contains( result.getName() ) )
 				quantityPossible[ TradeableItemDatabase.getItemID( result.getName() ) ] -= result.getCount();
 		}
 
