@@ -87,6 +87,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 // containers
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -169,7 +170,7 @@ public class LoginFrame extends KoLFrame
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
-		private JComboBox loginnameField;
+		private JComponent loginnameField;
 		private JPasswordField passwordField;
 		private JCheckBox getBreakfastCheckBox;
 		private JCheckBox savePasswordCheckBox;
@@ -193,8 +194,12 @@ public class LoginFrame extends KoLFrame
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
-			loginnameField = new LoginNameComboBox();
-			loginnameField.setEditable( true );
+			loginnameField = client == null || client.getSettings().getProperty( "saveState" ) == null ||
+				client.getSettings().getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) :
+					(JComponent)(new LoginNameComboBox());
+
+			if ( loginnameField instanceof JComboBox )
+				((JComboBox)loginnameField).setEditable( true );
 
 			passwordField = new JPasswordField();
 			savePasswordCheckBox = new JCheckBox();
@@ -238,7 +243,8 @@ public class LoginFrame extends KoLFrame
 			String autoLoginSetting =  client.getSettings().getProperty( "autoLogin" );
 			if ( autoLoginSetting != null )
 			{
-				loginnameField.setSelectedItem( autoLoginSetting );
+				if ( loginnameField instanceof JComboBox )
+					((JComboBox)loginnameField).setSelectedItem( autoLoginSetting );
 				passwordField.setText( client.getSaveState( autoLoginSetting ) );
 				savePasswordCheckBox.setSelected( true );
 				autoLoginCheckBox.setSelected( true );
@@ -280,8 +286,8 @@ public class LoginFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( !savePasswordCheckBox.isSelected() )
-				client.removeSaveState( (String) loginnameField.getSelectedItem() );
+			if ( !savePasswordCheckBox.isSelected() && loginnameField instanceof JComboBox )
+				client.removeSaveState( (String) ((JComboBox)loginnameField).getSelectedItem() );
 		}
 
 		/**
@@ -300,7 +306,9 @@ public class LoginFrame extends KoLFrame
 
 			public void run()
 			{
-				String loginname = ((String)loginnameField.getSelectedItem()).trim();
+				String loginname = ((String)(loginnameField instanceof JComboBox ?
+					((JComboBox)loginnameField).getSelectedItem() : ((JTextField)loginnameField).getText() )).trim();
+
 				String password = new String( passwordField.getPassword() ).trim();
 
 				if ( loginname == null || password == null || loginname.equals("") || password.equals("") )
