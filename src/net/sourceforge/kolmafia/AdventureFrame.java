@@ -103,6 +103,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
+	private AdventureSelectPanel adventureSelect;
+
 	public AdventureFrame( KoLmafia client, LockableListModel availableAdventures, LockableListModel resultsTally )
 	{
 		super( "KoLmafia: " + client.getLoginName(), client );
@@ -111,8 +113,8 @@ public class AdventureFrame extends KoLFrame
 		JTabbedPane tabs = new JTabbedPane();
 
 		addAdventuringPanel( tabs, availableAdventures, resultsTally );
-		addInventoryPanel( tabs );
-		addMallBrowsingPanel( tabs );
+		addInventoryPanel( tabs );  tabs.setEnabledAt( 1, false );
+		addMallBrowsingPanel( tabs );  tabs.setEnabledAt( 2, false );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 
@@ -125,24 +127,26 @@ public class AdventureFrame extends KoLFrame
 	private void addAdventuringPanel( JTabbedPane tabs, LockableListModel availableAdventures, LockableListModel resultsTally )
 	{
 		JPanel summaryPanel = new AdventureResultsPanel( resultsTally );
-		contentPanel = new AdventureSelectPanel( availableAdventures );
+		adventureSelect = new AdventureSelectPanel( availableAdventures );
+
+		contentPanel = adventureSelect;
 
 		JPanel adventuringPanel = new JPanel();
 		adventuringPanel.setLayout( new BorderLayout( 10, 10 ) );
 		adventuringPanel.add( summaryPanel, BorderLayout.SOUTH );
 		adventuringPanel.add( contentPanel, BorderLayout.NORTH );
 
-		tabs.add( adventuringPanel, "Adventure Select" );
+		tabs.addTab( "Adventure Select", adventuringPanel );
 	}
 
 	private void addInventoryPanel( JTabbedPane tabs )
 	{
-		tabs.add( new JPanel(), "Inventory / Equipment" );
+		tabs.addTab( "Inventory / Equipment", new JPanel() );
 	}
 
 	private void addMallBrowsingPanel( JTabbedPane tabs )
 	{
-		tabs.add( new JPanel(), "Mall of Loathing" );
+		tabs.addTab( "Mall of Loathing", new JPanel() );
 	}
 
 	private void addMenuBar()
@@ -158,6 +162,9 @@ public class AdventureFrame extends KoLFrame
 		menuItem.addActionListener( new ViewCharacterSheetListener() );
 
 		menu.add( menuItem );
+
+		addConfigureMenu( menuBar );
+		addHelpMenu( menuBar );
 	}
 
 	protected class AdventureSelectPanel extends KoLPanel

@@ -48,6 +48,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 // utilities
 import java.util.StringTokenizer;
@@ -60,7 +63,7 @@ public class OptionsFrame extends KoLFrame
 		super( "KoLmafia: Preferences (Global)", client );
 		setResizable( false );
 
-		getContentPane().setLayout( new BorderLayout() );
+		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 
 		JTabbedPane tabs = new JTabbedPane();
 
@@ -79,6 +82,17 @@ public class OptionsFrame extends KoLFrame
 		updateDisplay( ENABLED_STATE, " " );
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+
+		addMenuBar();
+	}
+
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		addConfigureMenu( menuBar );
+		addHelpMenu( menuBar );
 	}
 
 	private class LoginOptionsPanel extends KoLPanel

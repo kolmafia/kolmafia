@@ -93,7 +93,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JComboBox;
 
 // other imports
-import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -126,45 +125,8 @@ public class LoginFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu fileMenu = new JMenu("Configure");
-		fileMenu.setMnemonic( KeyEvent.VK_C );
-		menuBar.add( fileMenu );
-
-		JMenuItem settingsItem = new JMenuItem( "Preferences...", KeyEvent.VK_P );
-		settingsItem.addActionListener( new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				OptionsFrame oframe = new OptionsFrame( client );
-				oframe.pack();  oframe.setVisible( true );
-				oframe.requestFocus();
-			}
-		});
-
-		fileMenu.add( settingsItem );
-
-		final JMenuItem loggerItem = new JMenuItem( "Initialize Logger", KeyEvent.VK_L );
-		loggerItem.addActionListener( new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				client.initializeLogStream();
-				loggerItem.setEnabled( false );
-			}
-		});
-
-		fileMenu.add( loggerItem );
-
-		JMenu helpMenu = new JMenu("Help");
-		helpMenu.setMnemonic( KeyEvent.VK_H );
-		menuBar.add( helpMenu );
-
-		JMenuItem aboutItem = new JMenuItem( "About KoLmafia", KeyEvent.VK_C );
-		aboutItem.addActionListener( new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{	(new LicenseDisplay( "KoLmafia: Copyright Notice" )).requestFocus();
-			}
-		});
-
-		helpMenu.add( aboutItem );
+		addConfigureMenu( menuBar );
+		addHelpMenu( menuBar );
 	}
 
 	private class LoginPanel extends KoLPanel

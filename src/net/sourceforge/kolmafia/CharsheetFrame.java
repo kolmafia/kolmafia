@@ -51,11 +51,11 @@ import java.net.MalformedURLException;
 import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class CharsheetFrame extends javax.swing.JFrame
+public class CharsheetFrame extends KoLFrame
 {
 	public CharsheetFrame( KoLmafia client )
 	{
-		super( "KoLmafia: " + client.getLoginName() + " (Character Sheet)" );
+		super( "KoLmafia: " + client.getLoginName() + " (Character Sheet)", client );
 
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
@@ -65,6 +65,7 @@ public class CharsheetFrame extends javax.swing.JFrame
 		(new EquipmentRequest( client, characterData )).run();
 
 		setResizable( false );
+		contentPanel = null;
 
 		CardLayout cards = new CardLayout( 10, 10 );
 		getContentPane().setLayout( cards );

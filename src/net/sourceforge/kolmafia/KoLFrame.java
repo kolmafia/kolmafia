@@ -34,10 +34,22 @@
 
 package net.sourceforge.kolmafia;
 
+// layout and containers
 import java.awt.Dimension;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+// event listeners
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
+
+// other stuff
 import javax.swing.SwingUtilities;
+import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
 /**
@@ -70,6 +82,52 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		super.requestFocus();
 		if ( contentPanel != null )
 			contentPanel.requestFocus();
+	}
+
+	protected final void addConfigureMenu( JMenuBar menuBar )
+	{
+		JMenu configureMenu = new JMenu("Configure");
+		configureMenu.setMnemonic( KeyEvent.VK_C );
+		menuBar.add( configureMenu );
+
+		JMenuItem settingsItem = new JMenuItem( "Preferences...", KeyEvent.VK_P );
+		settingsItem.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				OptionsFrame oframe = new OptionsFrame( client );
+				oframe.pack();  oframe.setVisible( true );
+				oframe.requestFocus();
+			}
+		});
+
+		configureMenu.add( settingsItem );
+
+		final JMenuItem loggerItem = new JMenuItem( "Initialize Logger", KeyEvent.VK_L );
+		loggerItem.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				client.initializeLogStream();
+				loggerItem.setEnabled( false );
+			}
+		});
+
+		configureMenu.add( loggerItem );
+	}
+
+	protected final void addHelpMenu( JMenuBar menuBar )
+	{
+		JMenu helpMenu = new JMenu("Help");
+		helpMenu.setMnemonic( KeyEvent.VK_H );
+		menuBar.add( helpMenu );
+
+		JMenuItem aboutItem = new JMenuItem( "About KoLmafia", KeyEvent.VK_C );
+		aboutItem.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{	(new LicenseDisplay( "KoLmafia: Copyright Notice" )).requestFocus();
+			}
+		});
+
+		helpMenu.add( aboutItem );
 	}
 
 	protected class ReturnFocusAdapter extends WindowAdapter
