@@ -112,7 +112,7 @@ public class StatusEffectDatabase
 
 	public static final int getEffectID( String effectName )
 	{
-		Object effectID = effectByName.get( effectName.toLowerCase() );
+		Object effectID = effectByName.get( effectName );
 		return effectID == null ? -1 : ((Integer)effectID).intValue();
 	}
 
@@ -126,6 +126,6 @@ public class StatusEffectDatabase
 	 */
 
 	public static final boolean contains( String effectName )
-	{	return effectByName.containsKey( effectName.toLowerCase() );
+	{	return effectByName.containsKey( effectName );
 	}
 }
