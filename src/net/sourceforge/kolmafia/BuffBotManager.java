@@ -161,7 +161,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
 
 	private boolean processMessage(KoLMailMessage myMsg ){
         int meatSent;
-        BuffBotFrame.buffDescriptor buffEntry;
+        BuffBotFrame.BuffDescriptor buffEntry;
         boolean buffRequestFound = false;
 
 		try{
@@ -171,7 +171,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
 
 				//look for this amount in the buff table
 				for ( int i = 0; i < buffCostTable.size() && !buffRequestFound; ++i){
-					buffEntry = (BuffBotFrame.buffDescriptor) buffCostTable.get(i);
+					buffEntry = (BuffBotFrame.BuffDescriptor) buffCostTable.get(i);
 					// Look for a match of both buffCost and buffCost2
 					if (meatSent == buffEntry.buffCost){
 						// We have a genuine buff request, so do it!
@@ -203,7 +203,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants {
         return true;
     }
 
-    private boolean castThatBuff(String bufftarget, BuffBotFrame.buffDescriptor buffEntry,
+    private boolean castThatBuff(String bufftarget, BuffBotFrame.BuffDescriptor buffEntry,
                                 int num2cast){
         // Figure out how much MP the buff will take,
         // and then identify the number of casts per request that this

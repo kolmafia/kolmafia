@@ -114,7 +114,7 @@ public class BuffBotFrame extends KoLFrame {
     private LimitedSizeChatBuffer buffbotLog;
 
     /**
-     * A data class <CODE>buffDescriptor</CODE>to handle choices for each buff type.
+     * A data class <CODE>BuffDescriptor</CODE>to handle choices for each buff type.
      * Individual elements:
      * @buffCost Cost of this buff (1st column) in meat.
      * @buffCastCount Number of times to cast this buff (1st column)
@@ -122,7 +122,7 @@ public class BuffBotFrame extends KoLFrame {
      * @buffCastCount2 Number of times to cast this buff (2nd column)
      * @buffCost2, @buffCount2txt Text versions of above
      */
-    public class buffDescriptor {
+    public class BuffDescriptor {
         public int buffCost;
         public int buffCastCount, buffID;
         public String buffName;
@@ -130,11 +130,11 @@ public class BuffBotFrame extends KoLFrame {
         public int buffCost2, buffCastCount2;
         public JTextField buffCost2Txt, buffCount2Txt;
         /**
-         * Constructor for the @buffDescriptor class.
+         * Constructor for the @BuffDescriptor class.
          * @param skillName String description of the buff
          * @param skillID KoL ID for this buff
          */
-        public buffDescriptor(String skillName, int skillID){
+        public BuffDescriptor(String skillName, int skillID){
             buffName = skillName;
             buffID = skillID;
             buffCastCount = buffCost = 0;
@@ -161,7 +161,9 @@ public class BuffBotFrame extends KoLFrame {
 
         //Initialize the display log buffer and the file log
         if (client == null){
-            buffbotLog = new BuffBotHome(null).getLog();
+			BuffBotHome home = new BuffBotHome(null);
+			home.initialize();
+            buffbotLog = home.getLog();
         } else {
             client.initializeBuffBot();
             buffbotLog = client.getBuffBotLog();
@@ -331,7 +333,7 @@ public class BuffBotFrame extends KoLFrame {
                 LockableListModel buffIndexList = new LockableListModel();
 
                 int buffSkillIndex, buffCostIndex;
-                buffDescriptor buffEntry;
+                BuffDescriptor buffEntry;
                 boolean duplicates;
 
 
@@ -339,7 +341,7 @@ public class BuffBotFrame extends KoLFrame {
                 // TODO - make a tree map with cost as index for matching to meat amounts
                 duplicates = false;
                 for (buffSkillIndex = 0; buffSkillIndex < BuffCostTable.size(); buffSkillIndex++){
-                    buffEntry = (buffDescriptor) BuffCostTable.get(buffSkillIndex);
+                    buffEntry = (BuffDescriptor) BuffCostTable.get(buffSkillIndex);
                     if (buffEntry.buffCost > 0 && buffEntry.buffCastCount > 0){
                         //Make sure the buffcost is unique:
                         if(!costList.contains(buffEntry.buffCostTxt))
@@ -458,7 +460,7 @@ public class BuffBotFrame extends KoLFrame {
             private class LoadDefaultSettingsThread extends Thread {
                 public void run() {
                     int buffSkillIndex;
-                    buffDescriptor buffEntry;
+                    BuffDescriptor buffEntry;
                     String tempString;
 
                     String msgDisposalSetting = settings.getProperty( "NonBuffMsgSave" );
@@ -474,7 +476,7 @@ public class BuffBotFrame extends KoLFrame {
                         MPRestoreSelect.setSelectedItem( MPRestoreSetting );
 
                     for (buffSkillIndex = 0; buffSkillIndex < BuffCostTable.size(); buffSkillIndex++){
-                        buffEntry = (buffDescriptor) BuffCostTable.get(buffSkillIndex);
+                        buffEntry = (BuffDescriptor) BuffCostTable.get(buffSkillIndex);
                         tempString = settings.getProperty( "BuffCost#"+buffEntry.buffID);
                         buffEntry.buffCostTxt.setText((tempString == null)? "0": tempString);
                         tempString = settings.getProperty( "BuffCount#"+buffEntry.buffID);
@@ -500,12 +502,12 @@ public class BuffBotFrame extends KoLFrame {
             private class StoreSettingsThread extends Thread {
                 public void run() {
                     int buffSkillIndex;
-                    buffDescriptor buffEntry;
+                    BuffDescriptor buffEntry;
 
                     settings.setProperty( "NonBuffMsgSave", "" + (NonBuffMsgSave.getSelectedIndex() == 1) );
                     settings.setProperty( "MPRestoreSelect", "" + (MPRestoreSelect.getSelectedItem()) );
                     for (buffSkillIndex = 0; buffSkillIndex < BuffCostTable.size(); buffSkillIndex++){
-                        buffEntry = (buffDescriptor) BuffCostTable.get(buffSkillIndex);
+                        buffEntry = (BuffDescriptor) BuffCostTable.get(buffSkillIndex);
                         settings.setProperty( "BuffCost#"+buffEntry.buffID, buffEntry.buffCostTxt.getText());
                         settings.setProperty( "BuffCount#"+buffEntry.buffID, buffEntry.buffCountTxt.getText());
                         buffEntry.buffCost = Integer.parseInt(buffEntry.buffCostTxt.getText());
@@ -538,7 +540,7 @@ public class BuffBotFrame extends KoLFrame {
                 String skill;
                 int skillID;
                 JLabel skillLabel;
-                buffDescriptor buffEntry;
+                BuffDescriptor buffEntry;
 
                 this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
                 JPanel panel = new JPanel();
@@ -568,7 +570,7 @@ public class BuffBotFrame extends KoLFrame {
 				while ((skill = (String) skillset.get(skillIndex)) != null){
 					skillID = ClassSkillsDatabase.getSkillID( skill.replaceFirst( "ñ", "&ntilde;" ) );
 					if (ClassSkillsDatabase.isBuff( skillID )){
-						buffEntry = new buffDescriptor(skill, skillID);
+						buffEntry = new BuffDescriptor(skill, skillID);
 						skillLabel = new JLabel(skill,JLabel.TRAILING);
 						skillLabel.setFont(new Font("Serif", Font.PLAIN, 10));
 
