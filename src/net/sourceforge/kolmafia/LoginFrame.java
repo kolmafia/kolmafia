@@ -107,17 +107,23 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class LoginFrame extends KoLFrame
 {
+	private static final String LOGIN_CARD   = "Login";
+	private static final String OPTIONS_CARD = "Options";
+
+	private CardLayout cards;
+
 	public LoginFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Login", client );
 		setResizable( false );
 
-		CardLayout cards = new CardLayout( 10, 10 );
+		cards = new CardLayout( 10, 10 );
 		getContentPane().setLayout( cards );
 
 		this.client = client;
 		contentPanel = new LoginPanel();
-		getContentPane().add( contentPanel, "" );
+		getContentPane().add( contentPanel, LOGIN_CARD );
+		getContentPane().add( new LoginOptionsPanel(), OPTIONS_CARD );
 
 		updateDisplay( ENABLED_STATE, " " );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -130,18 +136,31 @@ public class LoginFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu menu = new JMenu("Help");
-		menu.setMnemonic( KeyEvent.VK_H );
-		menuBar.add( menu );
+		JMenu fileMenu = new JMenu("Configure");
+		fileMenu.setMnemonic( KeyEvent.VK_C );
+		menuBar.add( fileMenu );
 
-		JMenuItem menuItem = new JMenuItem( "Copyright", KeyEvent.VK_C );
-		menuItem.addActionListener( new ActionListener() {
+		JMenuItem settingsItem = new JMenuItem( "Preferences...", KeyEvent.VK_P );
+		settingsItem.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{	(new SwitchCardDisplay( OPTIONS_CARD )).run();
+			}
+		});
+
+		fileMenu.add( settingsItem );
+
+		JMenu helpMenu = new JMenu("Help");
+		helpMenu.setMnemonic( KeyEvent.VK_H );
+		menuBar.add( helpMenu );
+
+		JMenuItem aboutItem = new JMenuItem( "About KoLmafia", KeyEvent.VK_C );
+		aboutItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{	(new LicenseDisplay( "KoLmafia: Copyright Notice" )).requestFocus();
 			}
 		});
 
-		menu.add( menuItem );
+		helpMenu.add( aboutItem );
 	}
 
 	private class LoginPanel extends KoLPanel
@@ -242,6 +261,8 @@ public class LoginFrame extends KoLFrame
 	private class LoginOptionsPanel extends KoLPanel
 	{
 		private JComboBox serverSelect;
+		private JTextField proxyHost;
+		private JTextField proxyPort;
 
 		public LoginOptionsPanel()
 		{
@@ -255,9 +276,13 @@ public class LoginFrame extends KoLFrame
 			servers.setSelectedIndex(0);
 
 			serverSelect = new JComboBox( servers );
+			proxyHost = new JTextField();
+			proxyPort = new JTextField();
 
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Server: ", serverSelect );
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "KoL Server: ", serverSelect );
+			elements[1] = new VerifiableElement( "Proxy Host: ", proxyHost );
+			elements[2] = new VerifiableElement( "Proxy Port: ", proxyPort );
 
 			setContent( elements );
 		}
@@ -279,10 +304,42 @@ public class LoginFrame extends KoLFrame
 				KoLRequest.autoDetectServer();
 			else
 				KoLRequest.setLoginServer( "www." + serverSelect.getSelectedIndex() + ".kingdomofloathing.com" );
+
+			// Finally, switch the card display back to the
+			// login card so the user can login with their
+			// new login preferences.
+
+			(new SwitchCardDisplay( LOGIN_CARD )).run();
 		}
 
 		protected void actionCancelled()
 		{
+			// Switch the card display back to the login
+			// card, without passing any values onto the
+			// client.  For now, clear/reset the values.
+
+			this.clear();
+			(new SwitchCardDisplay( LOGIN_CARD )).run();
+		}
+	}
+
+	private class SwitchCardDisplay implements Runnable
+	{
+		private String card;
+
+		public SwitchCardDisplay( String card )
+		{	this.card = card;
+		}
+
+		public void run()
+		{
+			if ( !SwingUtilities.isEventDispatchThread() )
+			{
+				SwingUtilities.invokeLater( this );
+				return;
+			}
+
+			cards.show( getContentPane(), card );
 		}
 	}
 }
