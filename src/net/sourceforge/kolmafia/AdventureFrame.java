@@ -341,6 +341,8 @@ public class AdventureFrame extends KoLFrame
 
 	private class MallSearchPanel extends KoLPanel
 	{
+		private boolean currentlyBuying;
+
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
@@ -348,10 +350,11 @@ public class AdventureFrame extends KoLFrame
 		private JTextField countField;
 
 		private LockableListModel results;
+		private JList resultsDisplay;
 
 		public MallSearchPanel()
 		{
-			super( "search", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( "search", "buy", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -369,6 +372,7 @@ public class AdventureFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Limit Results: ", countField );
 
 			setContent( elements );
+			currentlyBuying = false;
 		}
 
 		protected void setContent( VerifiableElement [] elements )
@@ -391,6 +395,7 @@ public class AdventureFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 			searchField.setEnabled( isEnabled );
 			countField.setEnabled( isEnabled );
+			resultsDisplay.setEnabled( isEnabled );
 		}
 
 		public void clear()
@@ -402,22 +407,17 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			// Once the stubs are finished, this will notify the
-			// client to begin adventuring based on the values
-			// placed in the input fields.
-
 			contentPanel = mallSearch;
 			(new SearchMallRequestThread()).start();
 		}
 
 		protected void actionCancelled()
 		{
-			// Once the stubs are finished, this will notify the
-			// client to terminate the loop early.  For now, since
-			// there's no actual functionality, simply request focus
+			if ( currentlyBuying )
+				return;
 
-			updateDisplay( ENABLED_STATE, "" );
-			requestFocus();
+			contentPanel = mallSearch;
+			(new PurchaseRequestThread()).start();
 		}
 
 		public void requestFocus()
@@ -440,8 +440,8 @@ public class AdventureFrame extends KoLFrame
 				add( JComponentUtilities.createLabel( "Search Results", JLabel.CENTER,
 					Color.black, Color.white ), BorderLayout.NORTH );
 
-				JList resultsDisplay = new JList( results );
-				resultsDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+				resultsDisplay = new JList( results );
+				resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				resultsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 				resultsDisplay.setVisibleRowCount( 10 );
 
@@ -453,7 +453,7 @@ public class AdventureFrame extends KoLFrame
 		/**
 		 * In order to keep the user interface from freezing (or at
 		 * least appearing to freeze), this internal class is used
-		 * to actually make the adventuring requests.
+		 * to actually make the mall search request.
 		 */
 
 		private class SearchMallRequestThread extends Thread
@@ -472,6 +472,46 @@ public class AdventureFrame extends KoLFrame
 						Integer.parseInt( countField.getText() );
 					updateDisplay( DISABLED_STATE, "Searching for items..." );
 					(new SearchMallRequest( client, searchField.getText(), storeCount, results )).run();
+				}
+				catch ( NumberFormatException e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually make the mall search request.
+		 */
+
+		private class PurchaseRequestThread extends Thread
+		{
+			public PurchaseRequestThread()
+			{
+				super( "Purchase-Request-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					updateDisplay( DISABLED_STATE, "Purchasing items..." );
+
+					Object [] purchases = resultsDisplay.getSelectedValues();
+
+					for ( int i = 0; i < purchases.length; ++i )
+					{
+						((Runnable)purchases[i]).run();
+						results.remove( purchases[i] );
+					}
+
+					updateDisplay( ENABLED_STATE, "Purchases complete." );
 				}
 				catch ( NumberFormatException e )
 				{
