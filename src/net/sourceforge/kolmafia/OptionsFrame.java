@@ -319,7 +319,7 @@ public class OptionsFrame extends KoLFrame
 					items[i].setSelected( false );
 
 				for ( int i = 0; i < 3; ++i )
-					items[ Integer.parseInt( st.nextToken() ) ].setSelected( true );
+					items[ Integer.parseInt( st.nextToken() ) - 1 ].setSelected( true );
 
 				(new StatusMessageChanger( "" )).run();
 			}
@@ -337,7 +337,7 @@ public class OptionsFrame extends KoLFrame
 					if ( items[i].isSelected() )
 					{
 						if ( selectedCount < 3 )
-							selected[selectedCount] = i;
+							selected[selectedCount] = i + 1;
 						++selectedCount;
 					}
 				}
