@@ -284,7 +284,7 @@ public class AdventureFrame extends KoLFrame
 
 		public AdventureSelectPanel( LockableListModel adventureList, LockableListModel resultsTally )
 		{
-			super( "begin", "stop", new Dimension( 100, 20 ), new Dimension( 225, 20 ) );
+			super( "begin", "stop", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
