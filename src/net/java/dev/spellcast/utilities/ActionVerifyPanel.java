@@ -60,7 +60,8 @@ public abstract class ActionVerifyPanel extends JRootPane
 	private VerifyButtonPanel buttonPanel;
 
 	private static final Dimension LABEL_SIZE = new Dimension ( 100, 20 );
-	private static final Dimension TEXTFIELD_SIZE = new Dimension( 165, 20 );
+	private static final Dimension TEXTFIELD_SIZE = new Dimension( 200, 20 );
+//	private static final Dimension TEXTFIELD_SIZE = new Dimension( 165, 20 );
 
 	public ActionVerifyPanel( String confirmedText, String cancelledText )
 	{
