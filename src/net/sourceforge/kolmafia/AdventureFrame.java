@@ -388,10 +388,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			countField.setEnabled( isEnabled );
 		}
 
-		public void clear()
-		{	countField.setText( "" );
-		}
-
 		protected void actionConfirmed()
 		{
 			// Once the stubs are finished, this will notify the
@@ -555,12 +551,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			countField.setEnabled( isEnabled );
 			limitPurchasesField.setEnabled( isEnabled );
 			resultsDisplay.setEnabled( isEnabled );
-		}
-
-		public void clear()
-		{
-			searchField.setText( "" );
-			limitPurchasesField.setText( "" );
 		}
 
 		protected void actionConfirmed()
@@ -752,10 +742,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			setContent( elements );
 		}
 
-		public void clear()
-		{	countField.setText( "" );
-		}
-
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
@@ -848,10 +834,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			elements[1] = new VerifiableElement( "Amount: ", amountField );
 
 			setContent( elements );
-		}
-
-		public void clear()
-		{	amountField.setText( "" );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -1008,10 +990,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			inClosetField.setEnabled( false );
 		}
 
-		public void clear()
-		{	amountField.setText( "" );
-		}
-
 		public void setStatusMessage( String s )
 		{
 			if ( !inClosetField.getText().equals( "Session timed out." ) && !inClosetField.getText().equals( "Nightly maintenance." ) )
@@ -1097,10 +1075,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			setContent( elements );
 		}
 
-		public void clear()
-		{
-		}
-
 		protected void actionConfirmed()
 		{
 			contentPanel = removeEffects;
@@ -1160,10 +1134,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			elements[1] = new VerifiableElement( "(Blank is YOU!): ", targetField );
 			elements[2] = new VerifiableElement( "# of Times: ", countField );
 			setContent( elements );
-		}
-
-		public void clear()
-		{
 		}
 
 		protected void actionConfirmed()

@@ -265,10 +265,6 @@ public class LoginFrame extends KoLFrame
 			getBreakfastCheckBox.setEnabled( isEnabled );
 		}
 
-		public void clear()
-		{	requestFocus();
-		}
-
 		protected void actionConfirmed()
 		{	(new LoginRequestThread()).start();
 		}

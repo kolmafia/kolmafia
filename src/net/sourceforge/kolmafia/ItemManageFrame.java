@@ -200,10 +200,6 @@ public class ItemManageFrame extends KoLFrame
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
 			}
 
-			public void clear()
-			{
-			}
-
 			protected void actionConfirmed()
 			{	(new ConsumeItemRequestThread(false)).start();
 			}
@@ -330,10 +326,6 @@ public class ItemManageFrame extends KoLFrame
 					Color.black, Color.white ), BorderLayout.NORTH );
 				add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
-			}
-
-			public void clear()
-			{
 			}
 
 			protected void actionConfirmed()
@@ -479,10 +471,6 @@ public class ItemManageFrame extends KoLFrame
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
 			}
 
-			public void clear()
-			{
-			}
-
 			protected void actionConfirmed()
 			{	(new ItemStorageRequestThread( ItemStorageRequest.INVENTORY_TO_CLOSET )).start();
 			}
@@ -517,10 +505,6 @@ public class ItemManageFrame extends KoLFrame
 					Color.black, Color.white ), BorderLayout.NORTH );
 				add( new JScrollPane( closetList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
-			}
-
-			public void clear()
-			{
 			}
 
 			protected void actionConfirmed()
@@ -622,10 +606,6 @@ public class ItemManageFrame extends KoLFrame
 				Color.black, Color.white ), BorderLayout.NORTH );
 			add( new JScrollPane( concoctionsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
-		}
-
-		public void clear()
-		{
 		}
 
 		protected void actionConfirmed()

@@ -111,7 +111,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				case ENABLED_STATE:
 					setEnabled( true );
-					contentPanel.clear();
 					break;
 
 				case DISABLED_STATE:
@@ -337,9 +336,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	/**
 	 * An internal class used as the basis for content panels.  This
 	 * class builds upon the <code>ActionVerifyPanel</code> by adding
-	 * <code>setStatusMessage()</code> and <code>clear()</code> methods
-	 * as well as a method which allows GUIs to make sure that all
-	 * status-message updating occurs within the AWT thread.
+	 * a <code>setStatusMessage()</code>.
 	 */
 
 	protected abstract class KoLPanel extends ActionVerifyPanel
@@ -354,28 +351,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super( confirmedText, cancelledText, labelSize, fieldSize );
 		}
 
-		public abstract void clear();
 		public abstract void setStatusMessage( String s );
-
-		protected final class StatusMessageChanger implements Runnable
-		{
-			private String status;
-
-			public StatusMessageChanger( String status )
-			{	this.status = status;
-			}
-
-			public void run()
-			{
-				if ( !SwingUtilities.isEventDispatchThread() )
-				{
-					SwingUtilities.invokeLater( this );
-					return;
-				}
-
-				setStatusMessage( status );
-			}
-		}
 	}
 
 	/**
@@ -444,7 +420,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						Color.black, Color.white ), BorderLayout.NORTH );
 
 			add( actionStatusPanel, BorderLayout.SOUTH );
-			clear();
 		}
 
 		public void setStatusMessage( String s )
@@ -452,7 +427,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		protected void actionCancelled()
-		{	clear();
+		{
 		}
 
 		public void requestFocus()

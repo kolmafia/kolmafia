@@ -185,10 +185,7 @@ public class OptionsFrame extends KoLFrame
 			elements[4] = new VerifiableElement( "Proxy Password: ", proxyPassword );
 
 			setContent( elements, true );
-		}
-
-		public void clear()
-		{	(new LoadDefaultSettingsThread()).run();
+			(new LoadDefaultSettingsThread()).run();
 		}
 
 		protected void actionConfirmed()
@@ -228,7 +225,7 @@ public class OptionsFrame extends KoLFrame
 					proxyPassword.setText( "" );
 				}
 
-				(new StatusMessageChanger( "" )).run();
+				setStatusMessage( "" );
 			}
 		}
 
@@ -314,10 +311,7 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements, false );
-		}
-
-		public void clear()
-		{	(new LoadDefaultSettingsThread()).start();
+			(new LoadDefaultSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -336,7 +330,7 @@ public class OptionsFrame extends KoLFrame
 			{
 				for ( int i = 0; i < optionKeys.length; ++i )
 					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null );
-				(new StatusMessageChanger( "" )).run();
+				setStatusMessage( "" );
 			}
 		}
 
@@ -466,10 +460,7 @@ public class OptionsFrame extends KoLFrame
 			elements[7] = new VerifiableElement( "MP Recovery Script: ", mpRecoveryScriptPanel );
 
 			setContent( elements );
-		}
-
-		public void clear()
-		{	(new LoadDefaultSettingsThread()).start();
+			(new LoadDefaultSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -508,7 +499,7 @@ public class OptionsFrame extends KoLFrame
 					(int)(Double.parseDouble( mpAutoRecoverSettings ) * 10) + 1 );
 				mpRecoveryScriptField.setText( mpRecoveryScriptSettings == null ? "" : mpRecoveryScriptSettings );
 
-				(new StatusMessageChanger( "" )).run();
+				setStatusMessage( "" );
 			}
 		}
 
@@ -605,10 +596,7 @@ public class OptionsFrame extends KoLFrame
 
 			java.util.Arrays.sort( elements );
 			setContent( elements, false );
-		}
-
-		public void clear()
-		{	(new LoadDefaultSettingsThread()).start();
+			(new LoadDefaultSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -644,7 +632,7 @@ public class OptionsFrame extends KoLFrame
 				while ( st.hasMoreTokens() )
 					items[ Integer.parseInt( st.nextToken() ) - 1 ].setSelected( true );
 
-				(new StatusMessageChanger( "" )).run();
+				setStatusMessage( "" );
 			}
 		}
 
@@ -673,7 +661,7 @@ public class OptionsFrame extends KoLFrame
 
 				if ( selectedCount != 3 )
 				{
-					(new StatusMessageChanger( "You did not select exactly three items." )).run();
+					setStatusMessage( "You did not select exactly three items." );
 					return;
 				}
 
@@ -724,10 +712,7 @@ public class OptionsFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "Windowing: ", useTabsSelect );
 
 			setContent( elements );
-		}
-
-		public void clear()
-		{	(new LoadDefaultSettingsThread()).start();
+			(new LoadDefaultSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -843,10 +828,7 @@ public class OptionsFrame extends KoLFrame
 			elements[4] = new VerifiableElement( "Auto-Repair: ", autoRepairBoxesSelect );
 
 			setContent( elements );
-		}
-
-		public void clear()
-		{	(new LoadDefaultSettingsThread()).start();
+			(new LoadDefaultSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -894,7 +876,7 @@ public class OptionsFrame extends KoLFrame
 				else
 					autoRepairBoxesSelect.setSelectedIndex( 1 );
 
-				(new StatusMessageChanger( "" )).run();
+				setStatusMessage( "" );
 			}
 		}
 
@@ -947,7 +929,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			if ( settings instanceof KoLSettings )
 				((KoLSettings)settings).saveSettings();
-			(new StatusMessageChanger( "Settings saved." )).run();
+			setStatusMessage( "Settings saved." );
 
 			Object waitObject = new Object();
 			try
@@ -962,7 +944,7 @@ public class OptionsFrame extends KoLFrame
 			{
 			}
 
-			(new StatusMessageChanger( "" )).run();
+			setStatusMessage( "" );
 		}
 
 		protected abstract class OptionsThread extends Thread
