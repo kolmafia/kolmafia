@@ -43,6 +43,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int CONSUME_MULTIPLE = 4;
 	public static final int GROW_FAMILIAR = 5;
 
+	private int consumptionType;
 	private AdventureResult itemUsed;
 
 	/**
@@ -64,6 +65,8 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		addFormField( "whichitem", "" + TradeableItemDatabase.getItemID( itemName ) );
+
+		this.consumptionType = consumptionType;
 		this.itemUsed = new AdventureResult( itemName, 0 - itemCount );
 	}
 
@@ -116,21 +119,37 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( isErrorState || responseCode != 200 )
 				return;
 
+			// Check for familiar growth - if a familiar is added,
+			// make sure to update the client.
+
+			if ( consumptionType == GROW_FAMILIAR )
+			{
+				if ( replyContent.indexOf( "You've already got a familiar of that type." ) != -1 )
+				{
+					client.cancelRequest();
+					updateDisplay( KoLFrame.ENABLED_STATE, "You already have that familiar." );
+					return;
+				}
+				else
+				{
+					client.getCharacterData().addFamiliar( FamiliarsDatabase.growFamiliarItem( itemUsed.getName() ) );
+					return;
+				}
+			}
+
 			// Check to make sure that it wasn't a food or drink
 			// that was consumed that resulted in nothing.
 
-			if ( replyContent.indexOf( "too full" ) != -1 || replyContent.indexOf( "too drunk" ) != -1 )
+			else if ( replyContent.indexOf( "too full" ) != -1 || replyContent.indexOf( "too drunk" ) != -1 )
 			{
 				client.cancelRequest();
 				updateDisplay( KoLFrame.ENABLED_STATE, "Consumption limit reached." );
 				return;
 			}
-			else if ( replyContent.indexOf( "You've already got a familiar of that type." ) != -1 )
-			{
-				client.cancelRequest();
-				updateDisplay( KoLFrame.ENABLED_STATE, "You already have that familiar." );
-				return;
-			}
+
+			// Check to make sure that if a scroll of drastic healing
+			// were used and didn't dissolve, the scroll is not consumed
+
 			else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
 			{
 				client.addToResultTally( new AdventureResult( AdventureResult.HP, client.getCharacterData().getBaseMaxHP() ) );
