@@ -70,8 +70,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private static final int SLEEP_TIME = 1000;       // Sleep this much each time
 	private static final int SHORT_SLEEP_COUNT = 75;  // This many times
 	private static final int LONG_SLEEP_COUNT = 300;  // This many times for slot needs
-	private static final int TINYHOUSEMP = 20;
-	private static final int PHONICSMP = 46;
 
 	private Map buffCostMap;
 	private List mpRestoreItemList;
@@ -217,6 +215,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		return (Arrays.binarySearch(whiteListArray, userName) > -1);
 	}
 
+	private void sendRefund( String recipient, String reason, int amount )
+	{
+		(new GreenMessageRequest( client, recipient, reason, new AdventureResult( AdventureResult.MEAT, amount ) )).run();
+		buffbotLog.append( NONBUFFCOLOR + "Sent refund to [" + recipient + "] meat sent: " + amount + ENDCOLOR + "<br>\n");
+	}
+
 	private boolean processMessage( KoLMailMessage message )
 	{
 		int meatSent = 0;
@@ -234,27 +238,39 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				buff = (BuffBotCaster) buffCostMap.get( new Integer( meatSent ) );
 				if ( buff != null )
 				{
-					//See if this is a restricted buff, and the sender qualifies
+					// See if this is a restricted buff, and the sender qualifies
 					if ((!buff.restricted) || onWhiteList(message.getSenderName()))
 					{
 						// We have a genuine buff request, so do it!
-						if (!buff.castOnTarget( message.getSenderName(), meatSent ))
+						if ( !buff.castOnTarget( message.getSenderName(), meatSent ))
+						{
+							sendRefund( message.getSenderName(), "I ran out of MP.  Please try again later.", meatSent );
+							deleteList.add( message );
 							return false;
+						}
+
 						deleteList.add( message );
 						return true;
 					}
-					else // this is a restricted buff for a non-allowed user.
+					else
 					{
-						//TODO offer a refund option for this (instead of just save/delete)
-						buffbotLog.append( NONBUFFCOLOR + "Request for resricted buff denied: from [" +
+						// This is a restricted buff for a non-allowed user.
+						buffbotLog.append( NONBUFFCOLOR + "Request for restricted buff denied: from [" +
 								message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>\n");
-						buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "save" : "delete") + ENDCOLOR + "<br>\n");
-						if ( messageDisposalSetting )
-							saveList.add( message );
-						else
-							deleteList.add( message );
+
+						sendRefund( message.getSenderName(), "Sorry, this buff is white-list restricted.", meatSent );
+						deleteList.add( message );
 						return true;
 					}
+				}
+				else
+				{
+					buffbotLog.append( NONBUFFCOLOR + "Meat received does not match anything in database: from [" +
+							message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>\n");
+
+					sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price.", meatSent );
+					deleteList.add( message );
+					return true;
 				}
 			}
 		}
@@ -264,8 +280,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		}
 
 		// Must not be a buff request message, so notify user and save/delete
-		String meatString = (meatSent > 0) ? " (meat received: " + meatSent + ")" : "";
-		buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + meatString + ENDCOLOR + "<br>\n");
+
+		buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
 		buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "save" : "delete") + ENDCOLOR + "<br>\n");
 
 		// Now, mark for either save or delete the message.
@@ -285,7 +301,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		// First try resting in the beanbag chair
 		// TODO - implement beanbag chair recovery
 
-		
+
 
 		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
 		{
@@ -463,7 +479,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					if (numberToUse > 0)
 					{
 						buffbotLog.append("Consuming " + numberToUse + " " + itemName + "s.<br>\n");
-						(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE, 
+						(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE,
 								new AdventureResult( itemUsed.getItemID(), numberToUse ) )).run();
 					}
 				}
