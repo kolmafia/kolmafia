@@ -513,12 +513,12 @@ public class AdventureFrame extends KoLFrame
 				try
 				{
 					int storeCount = countField.getText().trim().length() == 0 ? 13 :
-						Integer.parseInt( countField.getText() );
+						df.parse( countField.getText() ).intValue();
 
 					updateDisplay( DISABLED_STATE, "Searching for items..." );
 					(new SearchMallRequest( client, searchField.getText(), storeCount, results )).run();
 				}
-				catch ( NumberFormatException e )
+				catch ( Exception e )
 				{
 					// If the number placed inside of the count list was not
 					// an actual integer value, pretend nothing happened.
@@ -550,7 +550,7 @@ public class AdventureFrame extends KoLFrame
 				try
 				{
 					int maxPerStore = maxPerStoreField.getText().trim().length() == 0 ? Integer.MAX_VALUE :
-						Integer.parseInt( maxPerStoreField.getText() );
+						df.parse( maxPerStoreField.getText() ).intValue();
 
 					MallPurchaseRequest currentRequest;
 
@@ -677,7 +677,7 @@ public class AdventureFrame extends KoLFrame
 				try
 				{
 					int buffCount = countField.getText().trim().length() == 0 ? 0 :
-						Integer.parseInt( countField.getText() );
+						df.parse( countField.getText() ).intValue();
 					Runnable buff = (Runnable) buffField.getSelectedItem();
 
 					client.makeRequest( buff, buffCount );
