@@ -97,6 +97,8 @@ public class StoreManageFrame extends KoLFrame
 
 			priceSummary = new LockableListModel();
 			sellingList = new JComboBox( client.getInventory().getMirrorImage() );
+			sellingList.setRenderer( AdventureResult.getAutoSellCellRenderer() );
+
 			priceField = new JTextField();
 			limitField = new JTextField();
 
@@ -189,7 +191,7 @@ public class StoreManageFrame extends KoLFrame
 				while ( i.hasNext() )
 				{
 					currentPrice = (Integer) i.next();
-					priceSummary.add( df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
+					priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
 						df.format( currentPrice.intValue() ) + " meat" );
 				}
 				searchLabel.setText( searchItem.getName() );
