@@ -415,6 +415,16 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Donations get their own command and module,
+		// too, which handles hero donations and basic
+		// clan donations.
+
+		if ( command.equals( "donate" ) )
+		{
+			executeDonateCommand( parameters );
+			return;
+		}
+
 		// Another popular command involves changing
 		// your current familiar.
 
@@ -466,6 +476,60 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		updateDisplay( KoLFrame.ENABLED_STATE, "Unknown command: " + command );
+	}
+
+	/**
+	 * A special module used specifically for handling donations,
+	 * including donations to the statues and donations to the clan.
+	 */
+
+	private void executeDonateCommand( String parameters )
+	{
+		int heroID;  int amount = -1;  int increments;
+
+		String [] parameterList = parameters.split( " " );
+
+		if ( parameterList[0].startsWith( "boris" ) || parameterList[0].startsWith( "mus" ) )
+			heroID = HeroDonationRequest.BORIS;
+		else if ( parameterList[0].startsWith( "jarl" ) || parameterList[0].startsWith( "mys" ) )
+			heroID = HeroDonationRequest.JARLSBERG;
+		else if ( parameterList[0].startsWith( "pete" ) || parameterList[0].startsWith( "mox" ) )
+			heroID = HeroDonationRequest.PETE;
+		else
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, parameters + " is not a statue." );
+			return;
+		}
+
+		try
+		{
+			amount = df.parse( parameterList[1] ).intValue();
+			increments = parameterList.length > 2 ? df.parse( parameterList[2] ).intValue() : 1;
+		}
+		catch ( Exception e )
+		{
+			if ( amount == -1 )
+				updateDisplay( KoLFrame.ENABLED_STATE, parameterList[1] + " is not a number." );
+			else
+				updateDisplay( KoLFrame.ENABLED_STATE, parameterList[2] + " is not a number." );
+			return;
+		}
+
+		int amountRemaining = amount;
+		int eachAmount = amountRemaining / increments;
+
+		updateDisplay( KoLFrame.DISABLED_STATE, "Donating " + amount + " to the shrine..." );
+		makeRequest( new HeroDonationRequest( scriptRequestor, heroID, eachAmount ), increments - 1 );
+		amountRemaining -= eachAmount * (increments - 1);
+
+		if ( scriptRequestor.permitsContinue() )
+		{
+			updateDisplay( KoLFrame.DISABLED_STATE, "Request " + increments + " in progress..." );
+			(new HeroDonationRequest( scriptRequestor, heroID, amountRemaining )).run();
+
+			if ( scriptRequestor.permitsContinue() )
+				updateDisplay( KoLFrame.ENABLED_STATE, "Requests complete!" );
+		}
 	}
 
 	/**
