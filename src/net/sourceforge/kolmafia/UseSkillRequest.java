@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 public class UseSkillRequest extends KoLRequest
 {
 	private int consumedMP;
+	private String target;
 	private String skillName;
 
 	/**
@@ -61,7 +62,12 @@ public class UseSkillRequest extends KoLRequest
 		addFormField( "bufftimes", "" + buffCount );
 
 		if ( target == null || target.trim().length() == 0 )
-			addFormField( "targetplayer", "" + client.getCharacterData().getUserID() );
+		{
+			if ( client.getCharacterData().getUserID() != 0 )
+				addFormField( "targetplayer", "" + client.getCharacterData().getUserID() );
+			else
+				addFormField( "specificplayer", client.getLoginName() );
+		}
 		else
 			addFormField( "specificplayer", target );
 
@@ -84,6 +90,11 @@ public class UseSkillRequest extends KoLRequest
 		else if ( replyContent.indexOf( "You can only conjure" ) != -1 )
 		{
 			updateDisplay( KoLFrame.ENABLED_STATE, "Summon limited exceeded." );
+			return;
+		}
+		else if ( replyContent.indexOf( "Invalid target" ) != -1 )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "Invalid target: " + target );
 			return;
 		}
 
