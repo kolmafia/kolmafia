@@ -285,7 +285,7 @@ public class KoLCharacter
 
 	/**
 	 * Accessor method to get the gender associated with this character.
-	 * @param	<code>true</code> if the player is male
+	 * @return	<code>true</code> if the player is male
 	 */
 
 	public boolean isMale()
