@@ -45,6 +45,7 @@ package net.sourceforge.kolmafia;
 
 public class KoLAdventure implements Runnable, KoLConstants
 {
+	private boolean isErrorState;
 	private KoLmafia client;
 	private String adventureID, formSource, adventureName;
 	private KoLRequest request;
@@ -105,6 +106,7 @@ public class KoLAdventure implements Runnable, KoLConstants
 	{
 		if ( client.getCharacterData().getAdventuresLeft() < request.getAdventuresUsed() )
 		{
+			isErrorState = true;
 			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
 		}
@@ -132,6 +134,6 @@ public class KoLAdventure implements Runnable, KoLConstants
 	 */
 
 	public int getAdventuresUsed()
-	{	return request.getAdventuresUsed();
+	{	return isErrorState ? 0 : request.getAdventuresUsed();
 	}
 }

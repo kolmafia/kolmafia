@@ -128,7 +128,10 @@ public class AdventureRequest extends KoLRequest
 		// to cancel in the delay period.
 
 		if ( !client.permitsContinue() )
+		{
+			isErrorState = true;
 			return;
+		}
 
 		super.run();
 
