@@ -67,7 +67,7 @@ chrome staff	4	chrome stick	chrome meat stack
 chrome stick	4	big stick	chrome ore
 chrome sword	4	chrome sword hilt	chrome meat stack
 chrome sword hilt	4	chrome ore	sword hilt
-Clockwork Maid	1	frilly skirt	meat engine
+Meat maid body	1	frilly skirt	meat engine
 cocoa egg	2	large cocoa eggshell fragment	large cocoa eggshell fragment
 cog and sprocket assembly	1	cog	sprocket assembly
 cosmic lemonade	5	lemon	scrumptious reagent
@@ -151,12 +151,14 @@ linoleum staff	4	linoleum meat stack	linoleum stick
 linoleum stick	4	big stick	linoleum ore
 linoleum sword	4	linoleum meat stack	linoleum sword hilt
 linoleum sword hilt	4	linoleum ore	sword hilt
-Lucky Surprise Egg	3	ten-leaf clover	cocoa egg
+Lucky Surprise Egg	2	ten-leaf clover	cocoa egg
+maid head	1	brainy skull	maiden wig
 martini	3	olive	bottle of gin
 meat cowboy hat	1	basic meat helmet	whitesnake skin
 meat engine	1	full meat tank	cog and sprocket assembly
 meat face	1	fairy gravy	dried face
 meat golem	1	lifeless meat doll	magicalness-in-a-can
+Meat maid	1	maid head	Meat maid body
 meatloaf helmet	4	basic meat helmet	ketchup
 menudo	2	catgut	spices
 mushroom pizza	2	plain pizza	Knob mushroom

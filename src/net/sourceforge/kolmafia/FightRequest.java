@@ -105,7 +105,7 @@ public class FightRequest extends KoLRequest
 				// but that the loop should be halted.
 
 				processResults( "" );
-				frame.updateDisplay( KoLFrame.ENABLED_STATE, "You were defeated!" );
+				updateDisplay( KoLFrame.ENABLED_STATE, "You were defeated!" );
 				client.updateAdventure( true, false );
 			}
 			else

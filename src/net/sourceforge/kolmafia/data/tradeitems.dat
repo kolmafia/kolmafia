@@ -118,7 +118,7 @@
 129	0	Gnollish nunchaku
 130	0	enchanted eyepatch
 131	0	frilly skirt
-132	0	Clockwork Maid
+132	0	Meat maid body
 135	0	sweet rims
 136	0	tires
 137	0	dope wheels
@@ -643,6 +643,7 @@
 766	5	ghost pickle on a stick
 767	4	dill potion
 768	0	spork
+769	0	voodoo doll
 770	0	basic meat fez
 771	0	tassel
 772	0	foon
@@ -825,4 +826,7 @@
 992	0	tiny plastic Jarlsberg
 993	0	tiny plastic Sneaky Pete
 994	0	tiny plastic Suzie
-995	0	Lucky Surprise Egg
+995	1	Lucky Surprise Egg
+998	0	maiden wig
+999	0	maid head
+1000	0	Meat maid

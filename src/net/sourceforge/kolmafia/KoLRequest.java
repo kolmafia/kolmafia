@@ -81,7 +81,6 @@ public class KoLRequest implements Runnable
 	private boolean doOutput;
 
 	protected KoLmafia client;
-	protected KoLFrame frame;
 	protected PrintStream logStream;
 
 	protected int responseCode;
@@ -227,7 +226,6 @@ public class KoLRequest implements Runnable
 		if ( client != null )
 		{
 			this.client = client;
-			this.frame = client.getActiveFrame();
 			this.sessionID = client.getSessionID();
 			this.logStream = client.getLogStream();
 		}
@@ -271,7 +269,7 @@ public class KoLRequest implements Runnable
 
 		if ( !connectSuccess )
 		{
-			frame.updateDisplay( LoginFrame.ENABLED_STATE, "Connection timed out." );
+			updateDisplay( LoginFrame.ENABLED_STATE, "Connection timed out." );
 			return;
 		}
 
@@ -449,12 +447,12 @@ public class KoLRequest implements Runnable
 						// If the system is down for maintenance, the user must be
 						// notified that they should try again later.
 
-						frame.updateDisplay( KoLFrame.ENABLED_STATE, "Nightly maintenance." );
+						updateDisplay( KoLFrame.ENABLED_STATE, "Nightly maintenance." );
 						isErrorState = true;
 					}
 					else if ( redirectLocation.startsWith( "login.php" ) )
 					{
-						frame.updateDisplay( KoLFrame.ENABLED_STATE, "Session timed out." );
+						updateDisplay( KoLFrame.ENABLED_STATE, "Session timed out." );
 						isErrorState = true;
 					}
 					else if ( redirectLocation.equals( "fight.php" ) )
@@ -550,9 +548,9 @@ public class KoLRequest implements Runnable
 			// to the client, but another attempt will be made
 
 			isErrorState = true;
-			if ( frame != null )
-				frame.updateDisplay( KoLFrame.ENABLED_STATE, "I/O error.  Retrying..." );
-			else if ( client != null )
+			updateDisplay( KoLFrame.ENABLED_STATE, "I/O error.  Retrying..." );
+
+			if ( client != null )
 				logStream.println( e );
 
 			this.run();
@@ -644,6 +642,16 @@ public class KoLRequest implements Runnable
 		catch ( Exception e )
 		{	return 0;
 		}
+	}
+
+	/**
+	 * Updates the display.
+	 */
+
+	protected final void updateDisplay( int displayState, String message )
+	{
+		if ( client.getActiveFrame() != null )
+			client.getActiveFrame().updateDisplay( displayState, message );
 	}
 
 	/**

@@ -101,7 +101,7 @@ public class LoginRequest extends KoLRequest
 			// This means that the login failed.  Therefore, the user should
 			// re-input their username and password.
 
-			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Login failed." );
+			updateDisplay( KoLFrame.ENABLED_STATE, "Login failed." );
 		}
 	}
 }

@@ -73,7 +73,7 @@ public class HermitRequest extends KoLRequest
 
 		if ( item == null )
 		{
-			frame.updateDisplay( KoLFrame.ENABLED_STATE, "No hermit trade settings found." );
+			updateDisplay( KoLFrame.ENABLED_STATE, "No hermit trade settings found." );
 			client.updateAdventure( false, false );
 			return;
 		}
@@ -97,7 +97,7 @@ public class HermitRequest extends KoLRequest
 			int index = replyContent.indexOf( "You have" );
 			if ( index == -1 )
 			{
-				frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of worthless junk." );
+				updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of worthless junk." );
 				client.updateAdventure( false, false );
 				return;
 			}

@@ -98,7 +98,7 @@ public class SearchMallRequest extends KoLRequest
 		int startIndex = replyContent.indexOf( "<p><center>" );
 		if ( startIndex == -1 )
 		{
-			frame.updateDisplay( KoLFrame.ENABLED_STATE, "No results found." );
+			updateDisplay( KoLFrame.ENABLED_STATE, "No results found." );
 			return;
 		}
 
@@ -121,7 +121,7 @@ public class SearchMallRequest extends KoLRequest
 
 		if ( parsedResults.countTokens() == 1 )
 		{
-			frame.updateDisplay( KoLFrame.ENABLED_STATE, "No results found." );
+			updateDisplay( KoLFrame.ENABLED_STATE, "No results found." );
 			return;
 		}
 
@@ -153,6 +153,6 @@ public class SearchMallRequest extends KoLRequest
 		}
 
 		results.add( "" );
-		frame.updateDisplay( KoLFrame.ENABLED_STATE, "Search complete." );
+		updateDisplay( KoLFrame.ENABLED_STATE, "Search complete." );
 	}
 }

@@ -88,7 +88,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( items == null )
 		{
-			frame.updateDisplay( KoLFrame.ENABLED_STATE, "No lucky sewer settings found." );
+			updateDisplay( KoLFrame.ENABLED_STATE, "No lucky sewer settings found." );
 			client.updateAdventure( false, false );
 			return;
 		}
@@ -107,7 +107,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( replyContent.indexOf( "acquire" ) == -1 )
 		{
-			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of ten-leaf clovers." );
+			updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of ten-leaf clovers." );
 			client.updateAdventure( false, false );
 			return;
 		}
@@ -129,7 +129,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( replyContent.indexOf( "acquire" ) == -1 )
 		{
-			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of chewing gum." );
+			updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of chewing gum." );
 			client.updateAdventure( false, false );
 			return;
 		}
