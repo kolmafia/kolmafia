@@ -211,8 +211,11 @@ public class ConcoctionsDatabase implements UtilityConstants
 			if ( concoctions[ ingredient2 ] != null )
 				concoctions[ ingredient2 ].calculateQuantityPossible( availableIngredients );
 
-			quantityPossible[ concoctionID ] +=
-				Math.min( quantityPossible[ ingredient1 ], quantityPossible[ ingredient2 ] );
+			int additionalPossible = Math.min( quantityPossible[ ingredient1 ], quantityPossible[ ingredient2 ] );
+			if ( ingredient1 == ingredient2 )
+				additionalPossible >>= 1;
+
+			quantityPossible[ concoctionID ] += additionalPossible;
 		}
 	}
 }
