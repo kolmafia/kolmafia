@@ -56,9 +56,10 @@ public class ChatBuffer
 	private static final int LOGFILE_CHANGE = 2;
 
 	private String title;
-	private StringBuffer displayBuffer;
 	private JEditorPane displayPane;
 	private PrintWriter activeLogWriter;
+
+	protected StringBuffer displayBuffer;
 
 	private static final String EMPTY_STRING = "";
 	private static final String NEW_LINE = System.getProperty( "line.separator" );
