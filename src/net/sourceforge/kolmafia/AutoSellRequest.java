@@ -38,8 +38,8 @@ import javax.swing.JOptionPane;
 
 public class AutoSellRequest extends KoLRequest
 {
-	private AdventureResult soldResult;
 	private int sellType;
+	private AdventureResult soldResult;
 
 	public static final int AUTOSELL = 1;
 	public static final int AUTOMALL = 2;
@@ -78,6 +78,11 @@ public class AutoSellRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( sellType == AUTOSELL )
+			updateDisplay( KoLFrame.DISABLED_STATE, "Autoselling " + soldResult.getName() + "..." );
+		else
+			updateDisplay( KoLFrame.DISABLED_STATE, "Placing " + soldResult.getName() + " in the mall..." );
+
 		super.run();
 
 		// If an error state occurred, return from this

@@ -139,10 +139,12 @@ public class ItemStorageRequest extends KoLRequest
 		{
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
+				updateDisplay( KoLFrame.DISABLED_STATE, "Doing closet management..." );
 				closet();
 				break;
 
 			case INVENTORY_TO_STASH:
+				updateDisplay( KoLFrame.DISABLED_STATE, "Moving items to clan stash..." );
 				stash();
 				break;
 

@@ -390,13 +390,10 @@ public class ItemManageFrame extends KoLFrame
 					switch ( sellType )
 					{
 						case AutoSellRequest.AUTOSELL:
-							updateDisplay( DISABLED_STATE, "Autoselling " + currentItem.getName() + "..." );
 							(new AutoSellRequest( client, currentItem )).run();
 							break;
 						case AutoSellRequest.AUTOMALL:
 						{
-							updateDisplay( DISABLED_STATE, "Placing " + currentItem.getName() + " in the mall..." );
-
 							try
 							{
 								String promptForPriceString = client.getSettings().getProperty( "promptForPrice" );
@@ -563,7 +560,6 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
-				updateDisplay( DISABLED_STATE, "Moving items..." );
 				ItemManageFrame.this.setEnabled( false );
 
 				Object [] items =
@@ -661,9 +657,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
-				updateDisplay( DISABLED_STATE, "Creating item..." );
 				ItemManageFrame.this.setEnabled( false );
-
 				ItemCreationRequest selection = (ItemCreationRequest) concoctionsList.getSelectedValue();
 
 				try
@@ -712,9 +706,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
-				updateDisplay( DISABLED_STATE, "Refreshing lists..." );
 				ItemManageFrame.this.setEnabled( false );
-
 				(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();
 				refreshConcoctionsList();
 				updateDisplay( ENABLED_STATE, "" );
