@@ -449,6 +449,16 @@ public class KoLmafiaCLI extends KoLmafia
 		// request.  This one's simple, but it still
 		// gets its own utility method.
 
+		if ( command.equals( "automall" ) )
+		{
+			executeAutoMallRequest( parameters );
+			return;
+		}
+
+		// Another item-related command is the autosell
+		// request.  This one's simple, but it still
+		// gets its own utility method.
+
 		if ( command.equals( "sell" ) || command.equals( "autosell" ) )
 		{
 			executeAutoSellRequest( parameters );
@@ -940,16 +950,44 @@ public class KoLmafiaCLI extends KoLmafia
 
 	/**
 	 * A special module used specifically for properly instantiating
-	 * AutoSellRequests.
+	 * AutoSellRequests which send things to the mall.
+	 */
+
+	private void executeAutoMallRequest( String parameters )
+	{
+		String [] tokens = parameters.split( " " );
+		StringBuffer itemName = new StringBuffer();
+
+		itemName.append( '*' );
+		for ( int i = 0; i < tokens.length - 2; ++i )
+		{
+			itemName.append( ' ' );
+			itemName.append( tokens[i] );
+		}
+
+		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), USAGE );
+		if ( firstMatch == null )
+			return;
+
+		try
+		{
+			scriptRequestor.makeRequest( new AutoSellRequest( scriptRequestor, firstMatch,
+				df.parse( tokens[ tokens.length - 2 ] ).intValue(), df.parse( tokens[ tokens.length - 1 ] ).intValue() ), 1 );
+		}
+		catch ( Exception e )
+		{
+			updateDisplay( ERROR_STATE, "Invalid price/limit for automall request." );
+			return;
+		}
+	}
+
+	/**
+	 * A special module used specifically for properly instantiating
+	 * AutoSellRequests for just autoselling items.
 	 */
 
 	private void executeAutoSellRequest( String parameters )
 	{
-		String itemName;
-
-		// Now, handle the instance where the first item is actually
-		// the quantity desired, and the next is the amount to use
-
 		AdventureResult firstMatch = getFirstMatchingItem( parameters, USAGE );
 		if ( firstMatch == null )
 			return;
@@ -1294,9 +1332,23 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( request instanceof AutoSellRequest )
 		{
-			commandString.append( "autosell * \"" );
+			AutoSellRequest asr = (AutoSellRequest) request;
+
+			if ( asr.getSellType() == AutoSellRequest.AUTOSELL )
+				commandString.append( "autosell * \"" );
+			else
+				commandString.append( "automall \"" );
+
 			commandString.append( ((AutoSellRequest)request).getName() );
 			commandString.append( "\"" );
+
+			if ( asr.getSellType() == AutoSellRequest.AUTOMALL )
+			{
+				commandString.append( ' ' );
+				commandString.append( df.format( asr.getPrice() ) );
+				commandString.append( ' ' );
+				commandString.append( df.format( asr.getLimit() ) );
+			}
 		}
 
 		// One of the largest commands is adventuring,

@@ -40,6 +40,7 @@ import java.util.StringTokenizer;
 public class AutoSellRequest extends KoLRequest
 {
 	private int sellType;
+	private int price, limit;
 	private AdventureResult soldResult;
 
 	public static final int AUTOSELL = 1;
@@ -54,6 +55,8 @@ public class AutoSellRequest extends KoLRequest
 		addFormField( "howmany", "" + itemToSell.getCount() );
 		addFormField( "pwd", client.getPasswordHash() );
 
+		this.limit = 0;
+		this.price = TradeableItemDatabase.getPriceByID( itemToSell.getItemID() );
 		this.sellType = AUTOSELL;
 		this.soldResult = new AdventureResult( itemToSell.getItemID(), 0 - itemToSell.getCount() );
 	}
@@ -76,8 +79,22 @@ public class AutoSellRequest extends KoLRequest
 		addFormField( "addtype", "addall" );
 		addFormField( "pwd", client.getPasswordHash() );
 
+		this.limit = limit;
+		this.price = desiredPrice;
 		this.sellType = AUTOMALL;
 		this.soldResult = new AdventureResult( itemToSell.getItemID(), 0 - itemToSell.getCount() );
+	}
+
+	public int getSellType()
+	{	return sellType;
+	}
+
+	public int getPrice()
+	{	return price;
+	}
+
+	public int getLimit()
+	{	return limit;
 	}
 
 	/**
