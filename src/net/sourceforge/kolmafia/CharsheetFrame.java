@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.CardLayout;
@@ -198,6 +199,29 @@ public class CharsheetFrame extends KoLFrame
 	}
 
 	/**
+	 * Utility method for creating a panel that displays the given stats,
+	 * using formatting if the values are different.
+	 */
+
+	private JPanel createValuePanel( int baseValue, int adjustedValue, int tillNextPoint )
+	{
+		JPanel displayPanel = new JPanel();
+		displayPanel.setLayout( new BorderLayout( 0, 0 ) );
+		if ( baseValue != adjustedValue )
+		{
+			JLabel adjustedLabel = new JLabel( "" + adjustedValue, JLabel.LEFT );
+			adjustedLabel.setForeground( Color.BLUE );
+			displayPanel.add( adjustedLabel, BorderLayout.WEST );
+			displayPanel.add( new JLabel( " (" + baseValue + ")", JLabel.LEFT ), BorderLayout.CENTER );
+		}
+		else
+			displayPanel.add( new JLabel( "" + baseValue, JLabel.LEFT ), BorderLayout.CENTER );
+
+		displayPanel.setToolTipText( "" + tillNextPoint + " until " + (baseValue + 1) );
+		return displayPanel;
+	}
+
+	/**
 	 * Utility method for creating a panel displaying the character's vital
 	 * statistics, including a basic stat overview and available turns/meat.
 	 *
@@ -207,25 +231,38 @@ public class CharsheetFrame extends KoLFrame
 	private JPanel createStatsPanel()
 	{
 		JPanel statsPanel = new JPanel();
-		statsPanel.setLayout( new GridLayout( 10, 1 ) );
+		statsPanel.setLayout( new BoxLayout( statsPanel, BoxLayout.Y_AXIS ) );
 
 		statsPanel.add( new JLabel( " " ) );
 
-		statsPanel.add( new JLabel( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() + " (HP)", JLabel.CENTER ) );
-		statsPanel.add( new JLabel( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() + " (MP)", JLabel.CENTER ) );
+		statsPanel.add( new JLabel( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() + " (HP)", JLabel.CENTER ), "");
+		statsPanel.add( new JLabel( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() + " (MP)", JLabel.CENTER ), "" );
 		statsPanel.add( new JLabel( " " ) );
 
-		statsPanel.add( new JLabel(
-			characterData.getAdjustedMuscle() + " / " +
-				characterData.getAdjustedMysticality() + " / " +
-					characterData.getAdjustedMoxie(), JLabel.CENTER ) );
+		JPanel primeStatLabels = new JPanel();
+		primeStatLabels.setLayout( new GridLayout( 3, 1 ) );
+		primeStatLabels.add( new JLabel( "Mus: ", JLabel.RIGHT ) );
+		primeStatLabels.add( new JLabel( "Mys: ", JLabel.RIGHT ) );
+		primeStatLabels.add( new JLabel( "Mox: ", JLabel.RIGHT ) );
 
-		statsPanel.add( new JLabel( " " ) );
-		statsPanel.add( new JLabel( characterData.getAvailableMeat() + " meat", JLabel.CENTER ) );
-		statsPanel.add( new JLabel( characterData.getInebriety() + " drunkenness", JLabel.CENTER ) );
-		statsPanel.add( new JLabel( characterData.getAdventuresLeft() + " adventures left", JLabel.CENTER ) );
+		JPanel primeStatValues = new JPanel();
+		primeStatValues.setLayout( new GridLayout( 3, 1 ) );
+		primeStatValues.add( createValuePanel( characterData.getBaseMuscle(), characterData.getAdjustedMuscle(), characterData.getMuscleTNP() ) );
+		primeStatValues.add( createValuePanel( characterData.getBaseMysticality(), characterData.getAdjustedMysticality(), characterData.getMysticalityTNP() ) );
+		primeStatValues.add( createValuePanel( characterData.getBaseMoxie(), characterData.getAdjustedMoxie(), characterData.getMoxieTNP() ) );
 
-		statsPanel.add( new JLabel( " " ) );
+		JPanel primeStatPanel = new JPanel();
+		primeStatPanel.setLayout( new BoxLayout( primeStatPanel, BoxLayout.X_AXIS ) );
+		primeStatPanel.add( primeStatLabels, BorderLayout.WEST );
+		primeStatPanel.add( primeStatValues, BorderLayout.CENTER );
+		statsPanel.add( primeStatPanel, "" );
+
+		statsPanel.add( new JLabel( " " ), "" );
+		statsPanel.add( new JLabel( characterData.getAvailableMeat() + " meat", JLabel.CENTER ), "" );
+		statsPanel.add( new JLabel( characterData.getInebriety() + " drunkenness", JLabel.CENTER ), "" );
+		statsPanel.add( new JLabel( characterData.getAdventuresLeft() + " adventures left", JLabel.CENTER ), "" );
+
+		statsPanel.add( new JLabel( " " ), "" );
 		return statsPanel;
 	}
 

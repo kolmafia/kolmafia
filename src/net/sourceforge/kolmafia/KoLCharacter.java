@@ -488,7 +488,48 @@ public class KoLCharacter
 	 */
 
 	public static int calculateSubpoints( int baseValue, int sinceLastBase )
-	{	return baseValue * baseValue + sinceLastBase - 1;
+	{	return baseValue * baseValue - 1 + sinceLastBase;
+	}
+
+	/**
+	 * Utility method for calculating how many actual points are associated
+	 * with the given number of subpoints.
+	 *
+	 * @param	totalSubpoints	The total number of subpoints accumulated
+	 * @return	The base points associated with the subpoint value
+	 */
+
+	private static int calculateBasePoints( int totalSubpoints )
+	{	return (int) Math.floor( Math.sqrt( totalSubpoints + 1 ) );
+	}
+
+	/**
+	 * Utility method to calculate the "till next point" value, given
+	 * the total number of subpoints accumulated.
+	 */
+
+	private static int calculateTillNextPoint( int totalSubpoints )
+	{
+		int basePoints = calculateBasePoints( totalSubpoints );
+		return totalSubpoints - basePoints * basePoints + 1;
+	}
+
+	/**
+	 * Accessor method to retrieve the character's base value for muscle.
+	 * @return	The character's base value for muscle
+	 */
+
+	public int getBaseMuscle()
+	{	return calculateBasePoints( totalSubpoints[0] );
+	}
+
+	/**
+	 * Accessor method to retrieve the number of subpoints required
+	 * before the character gains another full point of muscle.
+	 */
+
+	public int getMuscleTNP()
+	{	return calculateTillNextPoint( totalSubpoints[0] );
 	}
 
 	/**
@@ -501,12 +542,48 @@ public class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to retrieve the character's base value for mysticality.
+	 * @return	The character's base value for muscle
+	 */
+
+	public int getBaseMysticality()
+	{	return calculateBasePoints( totalSubpoints[1] );
+	}
+
+	/**
+	 * Accessor method to retrieve the number of subpoints required
+	 * before the character gains another full point of mysticality.
+	 */
+
+	public int getMysticalityTNP()
+	{	return calculateTillNextPoint( totalSubpoints[1] );
+	}
+
+	/**
 	 * Accessor method to retrieve the character's adjusted value for mysticality.
 	 * @return	The character's adjusted value for mysticality
 	 */
 
 	public int getAdjustedMysticality()
 	{	return adjustedStats[1];
+	}
+
+	/**
+	 * Accessor method to retrieve the character's base value for moxie.
+	 * @return	The character's base value for moxie
+	 */
+
+	public int getBaseMoxie()
+	{	return calculateBasePoints( totalSubpoints[2] );
+	}
+
+	/**
+	 * Accessor method to retrieve the number of subpoints required
+	 * before the character gains another full point of moxie.
+	 */
+
+	public int getMoxieTNP()
+	{	return calculateTillNextPoint( totalSubpoints[2] );
 	}
 
 	/**

@@ -293,7 +293,7 @@ public class CharsheetRequest extends KoLRequest
 	private static int retrieveBase( StringTokenizer st, int defaultBase )
 	{
 		skipTokens( st, 1 );
-		int possibleBase = intToken( st, 8, 0 );
+		int possibleBase = intToken( st, 8, 1 );
 		return possibleBase == 0 ? defaultBase : possibleBase;
 	}
 }
