@@ -68,7 +68,7 @@ public class KoLmafia implements UtilityConstants
 	private boolean permitContinue;
 
 	private SortedListModel tally;
-	private LockableListModel inventory, closet, edibleItems, usableItems;
+	private LockableListModel inventory, closet, usableItems;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -155,20 +155,10 @@ public class KoLmafia implements UtilityConstants
 		inventory = characterData.getInventory();
 		closet = characterData.getCloset();
 
-		edibleItems = new SortedListModel();
-		edibleItems.add( AdventureResult.LAST_ELEMENT );
-
 		usableItems = new SortedListModel();
 		usableItems.add( AdventureResult.LAST_ELEMENT );
 
 		(new EquipmentRequest( this )).run();
-
-		for ( int i = 0; i < inventory.size(); ++i )
-		{
-			AdventureResult result = (AdventureResult) inventory.get(i);
-			if ( result.isItem() && TradeableItemDatabase.isUsable( result.getName() ) )
-					usableItems.add( result );
-		}
 
 		if ( !permitContinue )
 		{
@@ -359,15 +349,6 @@ public class KoLmafia implements UtilityConstants
 
 	public LockableListModel getCloset()
 	{	return closet;
-	}
-
-	/**
-	 * Retrieves the edible items in the character's inventory
-	 * @return	The character's edible items
-	 */
-
-	public LockableListModel getEdibleItems()
-	{	return edibleItems;
 	}
 
 	/**

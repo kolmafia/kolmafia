@@ -145,7 +145,12 @@ public class EquipmentRequest extends KoLRequest
 			List inventory = client.getInventory();
 			inventory.clear();
 			inventory.add( AdventureResult.LAST_ELEMENT );
-			parseCloset( parsedContent, inventory );
+
+			List usableItems = client.getUsableItems();
+			usableItems.clear();
+			usableItems.add( AdventureResult.LAST_ELEMENT );
+
+			parseCloset( parsedContent, inventory, true );
 		}
 
 		// The closet officially starts when you see the token
@@ -160,16 +165,17 @@ public class EquipmentRequest extends KoLRequest
 			List closet = client.getCloset();
 			closet.clear();
 			closet.add( AdventureResult.LAST_ELEMENT );
-			parseCloset( parsedContent, closet );
+			parseCloset( parsedContent, closet, false );
 		}
 	}
 
-	private void parseCloset( StringTokenizer parsedContent, List resultList )
+	private void parseCloset( StringTokenizer parsedContent, List resultList, boolean updateUsableList )
 	{
 		// The next two tokens are blank space and an
 		// indicator to show that the list is about
 		// to start.  Skip them both.
 
+		List usableItems = client.getUsableItems();
 		skipTokens( parsedContent, 2 );
 		String lastToken;
 
@@ -185,7 +191,11 @@ public class EquipmentRequest extends KoLRequest
 				AdventureResult result = AdventureResult.parseResult( lastToken );
 
 				if ( TradeableItemDatabase.contains( result.getName() ) )
+				{
 					AdventureResult.addResultToList( resultList, result );
+					if ( updateUsableList && TradeableItemDatabase.isUsable( result.getName() ) )
+						usableItems.add( result );
+				}
 			}
 			while ( lastToken.trim().length() != 0 );
 		}
