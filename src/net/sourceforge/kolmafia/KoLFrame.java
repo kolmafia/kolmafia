@@ -650,8 +650,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						lastCreatedFrame.requestFocus();
 						lastCreatedFrame.setEnabled( isEnabled() );
 						existingFrames.add( lastCreatedFrame );
-
-						updateDisplay( ENABLED_STATE, " " );
 					}
 					else
 					{
