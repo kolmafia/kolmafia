@@ -80,6 +80,9 @@ public class KoLmafia
 
 	public void initialize()
 	{
+		activeFrame.updateDisplay( KoLFrame.SENDING_LOGIN_STATE, "Retrieving character data..." );
+		(new CharsheetRequest( this )).run();
+
 		BufferedReader advdata = DataUtilities.getReaderForSharedDataFile( ADV_DBASE_FILE );
 		LockableListModel adventures = new LockableListModel();
 
