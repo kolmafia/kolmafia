@@ -37,6 +37,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The main class for the <code>KoLmafia</code> package.  This
@@ -94,11 +96,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void listenForCommands()
 	{
-		String nextCommand;
+		String line;
 		try
 		{
-			while ( (nextCommand = commandStream.readLine()) != null )
-				executeCommand( nextCommand );
+			while ( (line = commandStream.readLine()) != null )
+				executeLine( line );
 		}
 		catch ( IOException e )
 		{
@@ -112,17 +114,33 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * A utility method which executes commands input by the user.
+	 * A utility method which executes a line input by the user.
 	 * This method actually parses the command for the desired
-	 * information, instantiating the appropriate response based
-	 * on the user's input.
+	 * information, and delegates the actual command choice to
+	 * yet another method.
 	 */
 
-	private void executeCommand( String command )
+	private void executeLine( String line )
 	{
-		if ( command.trim().length() == 0 )
+		if ( line.trim().length() == 0 )
 			return;
 
+		Matcher commandMatcher = Pattern.compile( ".*?\\s" ).matcher( line );
+		commandMatcher.find();
+
+		String command = commandMatcher.group().trim();
+		String parameters = line.substring( command.length() - 1 ).trim();
+		executeCommand( command, parameters );
+	}
+
+	/**
+	 * A utility command which decides, based on the command
+	 * to be executed, what to be done with it.  It can either
+	 * delegate this to other functions, or do it itself.
+	 */
+
+	private void executeCommand( String command, String parameters )
+	{
 	}
 
 	/**
@@ -133,6 +151,11 @@ public class KoLmafiaCLI extends KoLmafia
 	public void updateDisplay( int state, String message )
 	{	System.out.println( message );
 	}
+
+	/**
+	 * This does nothing, since requesting focus for a command line
+	 * equates to doing nothing.
+	 */
 
 	public void requestFocus()
 	{
