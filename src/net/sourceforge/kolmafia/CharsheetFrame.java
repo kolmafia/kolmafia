@@ -106,8 +106,8 @@ public class CharsheetFrame extends KoLFrame
 		JPanel entirePanel = new JPanel();
 		entirePanel.setLayout( new BorderLayout( 20, 20 ) );
 
-		entirePanel.add( createImagePanel(), BorderLayout.WEST );
 		entirePanel.add( createStatusPanel(), BorderLayout.CENTER );
+		entirePanel.add( createImagePanel(), BorderLayout.WEST );
 
 		getContentPane().add( entirePanel, "" );
 		addWindowListener( new ReturnFocusAdapter() );
