@@ -37,6 +37,7 @@ import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
+import java.io.PrintStream;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,6 +53,7 @@ import java.util.regex.Pattern;
 
 public class KoLmafiaCLI extends KoLmafia
 {
+	private PrintStream outputStream;
 	private BufferedReader commandStream;
 
 	/**
@@ -86,8 +88,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public KoLmafiaCLI( String scriptLocation ) throws IOException
 	{
-		InputStream istream = scriptLocation == null ? System.in : new FileInputStream( scriptLocation );
-		commandStream = new BufferedReader( new InputStreamReader( istream ) );
+		InputStream inputStream = scriptLocation == null ? System.in : new FileInputStream( scriptLocation );
+
+		outputStream = scriptLocation == null ? System.out : new NullStream();
+		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
+
+		outputStream.println( "****************************************" );
+		outputStream.println( "* KoLmafia v2.1 Command Line Interface *" );
+		outputStream.println( "****************************************" );
 	}
 
 	/**
@@ -100,24 +108,26 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			System.out.print( "login: " );
+			outputStream.println();
+
+			outputStream.print( "login: " );
 			String username = commandStream.readLine();
 			if ( username == null )
 				return;
 
-			System.out.print( "password: " );
+			outputStream.print( "password: " );
 			String password = commandStream.readLine();
 
 			if ( password == null )
 				return;
 
-			System.out.println();
+			outputStream.println();
 
-			System.out.println( "Determining server..." );
+			outputStream.println( "Determining server..." );
 			KoLRequest.applySettings();
-			System.out.println( KoLRequest.getRootHostName() + " selected." );
+			outputStream.println( KoLRequest.getRootHostName() + " selected." );
 
-			System.out.println();
+			outputStream.println();
 			(new LoginRequest( this, username, password, true )).run();
 		}
 		catch ( IOException e )
@@ -141,6 +151,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public void initialize( String loginname, String sessionID, boolean getBreakfast )
 	{
 		super.initialize( loginname, sessionID, getBreakfast );
+		outputStream.println();
 		listenForCommands();
 	}
 
@@ -151,11 +162,19 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void listenForCommands()
 	{
-		String line;
 		try
 		{
+			outputStream.print( " > " );
+			String line;
+
 			while ( (line = commandStream.readLine()) != null )
+			{
+				outputStream.println();
 				executeLine( line );
+				outputStream.println();
+
+				outputStream.print( "> " );
+			}
 		}
 		catch ( IOException e )
 		{
@@ -205,7 +224,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
-		System.out.println( message );
+		outputStream.println( message );
 
 		// There's a special case to be handled if the login was not
 		// successful - in other words, attempt to prompt the user again
