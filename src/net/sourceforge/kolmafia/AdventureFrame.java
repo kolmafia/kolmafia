@@ -254,11 +254,11 @@ public class AdventureFrame extends KoLFrame
 		menuBar.add( statusMenu );
 
 		this.statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
-		statusMenuItem.addActionListener( new DisplayFrameListener( CharsheetFrame.class ) );
+		statusMenuItem.addActionListener( new ViewStatusPaneListener() );
 		statusMenu.add( statusMenuItem );
 
 		JMenuItem gearMenuItem = new JMenuItem( "Gear Changer", KeyEvent.VK_G );
-		gearMenuItem.addActionListener( new DisplayFrameListener( GearChangeFrame.class ) );
+		gearMenuItem.addActionListener( new ViewGearChangerListener() );
 
 		statusMenu.add( gearMenuItem );
 
