@@ -918,7 +918,7 @@ public class AdventureFrame extends KoLFrame
 						df.parse( amountField.getText() ).intValue();
 
 					updateDisplay( DISABLED_STATE, "Executing transaction..." );
-					(new ItemStorageRequest( client, amount, isDeposit )).run();
+					(new ItemStorageRequest( client, amount, isDeposit ? ItemStorageRequest.MEAT_TO_CLOSET : ItemStorageRequest.MEAT_TO_INVENTORY )).run();
 					updateDisplay( ENABLED_STATE, df.format( client == null ? amount : client.getCharacterData().getClosetMeat() ) );
 
 				}

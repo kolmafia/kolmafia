@@ -50,24 +50,44 @@ public class ItemStorageRequest extends KoLRequest
 	public static final int CLOSET_TO_INVENTORY = 2;
 	public static final int INVENTORY_TO_STASH = 3;
 
-	public static final int MEAT_TRANSACTION = 4;
+	public static final int MEAT_TO_CLOSET = 4;
+	public static final int MEAT_TO_INVENTORY = 5;
+	public static final int MEAT_TO_STASH = 6;
 
 	/**
 	 * Constructs a new <code>ItemStorageRequest</code>.
 	 * @param	client	The client to be notified of the results
 	 * @param	amount	The amount of meat involved in this transaction
-	 * @param	isDeposit	Whether or not this is a deposit or withdrawal
+	 * @param	transactionType	Whether or not this is a deposit or withdrawal, or if it's to the clan stash
 	 */
 
-	public ItemStorageRequest( KoLmafia client, int amount, boolean isDeposit )
+	public ItemStorageRequest( KoLmafia client, int amount, int transactionType )
 	{
-		super( client, "closet.php" );
-		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "amt", "" + amount );
-		addFormField( "action", isDeposit ? "addmeat" : "takemeat" );
+		super( client, transactionType == MEAT_TO_STASH ? "clan_stash.php" : "closet.php" );
+
+		if ( transactionType != MEAT_TO_STASH )
+		{
+			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "amt", "" + amount );
+		}
+		else
+			addFormField( "howmuch", "" + amount );
+
+		switch ( transactionType )
+		{
+			case MEAT_TO_CLOSET:
+				addFormField( "action", "addmeat" );
+				break;
+			case MEAT_TO_INVENTORY:
+				addFormField( "action", "takemeat" );
+				break;
+			case MEAT_TO_STASH:
+				addFormField( "action", "contribute" );
+				break;
+		}
 
 		this.items = null;
-		this.moveType = MEAT_TRANSACTION;
+		this.moveType = transactionType;
 	}
 
 	/**
@@ -126,8 +146,13 @@ public class ItemStorageRequest extends KoLRequest
 				stash();
 				break;
 
-			case MEAT_TRANSACTION:
+			case MEAT_TO_CLOSET:
+			case MEAT_TO_INVENTORY:
 				meat();
+				break;
+
+			case MEAT_TO_STASH:
+				super.run();
 				break;
 		}
 	}
