@@ -163,7 +163,7 @@ public class EquipmentRequest extends KoLRequest
 			else if ( lastToken.startsWith( "Familiar:" ) )
 				familiarItem = parsedContent.nextToken();
 		}
-		while ( !lastToken.startsWith( "Outfits:" ) );
+		while ( !lastToken.startsWith( "Outfit" ) );
 
 		character.setEquipment( hat, weapon, pants, accessories[0], accessories[1], accessories[2], familiarItem );
 
