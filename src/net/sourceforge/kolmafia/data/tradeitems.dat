@@ -10,6 +10,7 @@
 10	0	disco ball
 11	0	stolen accordion
 12	0	mariachi pants
+13
 14	0	moxie weed
 15	0	strongness elixir
 16	0	magicalness-in-a-can
@@ -22,6 +23,7 @@
 23	0	chewing gum on a string
 24	0	ten-leaf clover
 25	0	meat paste
+26	0	the Dolphin King's map
 27	0	spider web
 28	0	really sticky spider web
 29	0	really really sticky spider web
@@ -36,7 +38,11 @@
 38	0	Knob Goblin pants
 39	0	pretty flower
 40	0	casino pass
+41
 42	0	hermit permit
+43	0	worthless trinket
+44	0	worthless gewgaw
+45	0	worthless knick-knack
 46	0	wooden figurine
 47	1	hot buttered roll
 48	0	heart of rock and roll
@@ -54,6 +60,9 @@
 60	0	Turtleslinger
 61	0	fortune cookie
 62	0	oriole-feather headdress
+63	0	action figure head
+64	0	action figure body
+65	0	Mighty Bjorn action figure
 66	0	golden twig
 67	0	spaghetti with rock-balls
 68	0	Pasta of Peril
@@ -69,6 +78,7 @@
 78	0	pretty bouquet
 79	0	bugbear bungguard
 80	0	fairy gravy
+81
 82	0	rusty L-shaped piece of metal
 83	0	crusty L-shaped piece of metal
 84	0	locked Orcish meat locker
@@ -103,6 +113,7 @@
 113	0	dripping meat sword
 114	0	dripping meat staff
 115	0	dripping meat crossbow
+116	0	Bugfinder Blade
 117	0	Gnollish plunger
 118	0	spring
 119	0	sprocket
@@ -119,19 +130,30 @@
 130	0	enchanted eyepatch
 131	0	frilly skirt
 132	0	Meat maid body
+133	0	Certificate of Participation
+134	0	bitchin' meatcar
 135	0	sweet rims
 136	0	tires
 137	0	dope wheels
 138	0	ice-cold six-pack
 139	0	valuable trinket
 140	0	dingy planks
+141	0	dingy dinghy
 142	0	anticheese
 143	0	cottage
 144	0	stone of eXtreme power
 145	0	barbed-wire fence
+146	0	dinghy plans
 147	0	eXtreme meat sword
 148	0	eXtreme meat staff
 149	0	eXtreme meat crossbow
+150	0	The Scalp of Gorgolok
+151	0	Elder Turtle Shell
+152	0	The Colander of Em-er'il
+153	0	Ancient Saucehelm
+154	0	Disco 'Fro Pick
+155	0	El Sombrero De Lopez
+156	0	guild application
 157	0	E-Z Cook Oven&trade;
 158	0	Gnollish pie tin
 159	3	wad of dough
@@ -165,6 +187,9 @@
 187	0	loose teeth
 188	0	bat guano
 189	0	guano coffee cup
+190
+191	0	Boss Bat bandana
+192	0	batskin belt
 193	0	birthday candle
 194	0	Mr. Accessory
 195	0	eXtreme nose ring
@@ -207,6 +232,7 @@
 232	4	Doc Galaktik's Ailment Ointment
 233	4	Doc Galaktik's Restorative Balm
 234	4	Doc Galaktik's Homeopathic Elixir
+235	0	Bigger Bugfinder Blade
 236	0	cocktailcrafting kit
 237	2	bottle of gin
 238	2	bottle of vodka
@@ -307,7 +333,10 @@
 333	1	lime
 334	0	sabre teeth
 335	5	sabre-toothed lime cub
+336	0	consolation ribbon
+337	0	big ol' trophy
 338	0	tenderizing hammer
+339	0	Cobb's Knob lab key
 340	0	Knob Goblin steroids
 341	0	Knob Goblin love potion
 342	0	Knob Goblin stink bomb
@@ -355,7 +384,9 @@
 384	0	chrome sword
 385	0	chrome staff
 386	0	chrome crossbow
+387	5	fuzzy dice
 388	0	yeti fur
+389	0	meaty helmet turtle
 390	0	asbestos helmet turtle
 391	0	linoleum helmet turtle
 392	0	chrome helmet turtle
@@ -416,10 +447,15 @@
 447	0	box-in-the-box-in-the-box
 448	0	foolscap fool's cap
 449	0	big red clown nose
+450	0	pretentious paintbrush
+451	0	pretentious paint
 452	0	disease
+453	0	sober pill
+454	0	rusty screwdriver
 455	0	jumbo olive
 456	0	dry martini
 457	0	ye olde golde frontes
+458	0	continuum transfunctioner
 459	0	white pixel
 460	0	black pixel
 461	0	red pixel
@@ -440,6 +476,9 @@
 476	0	hellion cube
 477	0	infernal insoles
 478	0	evil golden arch
+479	0	dodecagram
+480	0	box of birthday candles
+481	0	eldritch butterknife
 482	0	Mr. Container
 483	0	Newbiesport&trade; backpack
 484	0	hemp backpack
@@ -467,6 +506,7 @@
 506	1	Hell broth
 507	0	heavy metal thunderrr guitarrr
 508	0	heavy metal sonata
+509	0	Hey Deze nuts
 510	0	Boris's key lime
 511	0	Jarlsberg's key lime
 512	0	Sneaky Pete's key lime
@@ -475,11 +515,15 @@
 515	1	Sneaky Pete's key lime pie
 516	0	Hey Deze map
 517	0	bejeweled accordion strap
+518	4	magical mystery juice
 519	0	moxie magnet
+520	0	strange leaflet
 521	0	kickback cookbook
 522	0	one-winged stab bat
 523	5	rewinged stab bat
 524	2	papaya sling
+525	5	grue egg
+526	0	Frobozz Real-Estate Company Instant House (TM)
 527	0	volleyball
 528	5	blood-faced volleyball
 529	5	fertilized ghuol egg
@@ -520,6 +564,7 @@
 564	2	Mad Train wine
 565	0	dirty hobo gloves
 566	0	bum cheek
+567	0	hermit script
 568	1	Double Bacon Beelzeburger
 569	1	Lord of the Flies-sized fries
 570	1	Brimstone Chicken Sandwich
@@ -550,9 +595,18 @@
 595	3	scroll of drastic healing
 596	0	titanium assault umbrella
 597	0	Mohawk wig
+598	0	the Slug Lord's map
 599	0	pants of the Slug Lord
 600	0	Dr. Hobo's scalpel
+601	0	Dr. Hobo's map
+602	0	Degrassi Knoll shopping list
+603	0	Item #13
 604	4	Penultimate Fantasy chest
+605	0	Tissue Paper Immateria
+606	0	Tin Foil Immateria
+607	0	Gauze Immateria
+608	0	Plastic Wrap Immateria
+609	0	S.O.C.K.
 610	0	procrastination potion
 611	0	heavy D
 612	0	original G
@@ -579,18 +633,24 @@
 633	0	wolf mask
 634	0	cool whip
 635	0	little paper umbrella
+636	0	meat globe
+637	0	cheap toaster
 638	0	asshat
 639	1	abominable snowcone
 640	0	Ent cider
 641	1	toast
 642	0	skeleton key
 643	0	skeleton key ring
+644	0	Crimbo pressie
 645	0	wrapping paper
 646	1	fruitcake
 647	0	present
 648	0	Crimbo sword
 649	0	Crimbo hat
 650	0	Crimbo pants
+651	0	exclusive ultra-rare item
+652	0	quantum egg
+653	0	intragalactic rowboat
 654	0	star
 655	0	line
 656	0	star chart
@@ -604,6 +664,7 @@
 664	5	star starfish
 665	0	Richard's star key
 666	0	steaming evil
+667	0	giant castle map
 668	0	spiked femur
 669	1	ghuol guolash
 670	0	lihc face
@@ -611,6 +672,10 @@
 672	1	cranberries
 673	2	vodka and cranberry
 674	2	whiskey sour
+675	0	skull of the Bonerdagon
+676	0	dragonbone belt buckle
+677	0	badass belt
+678	0	chest of the Bonerdagon
 679	2	roll in the hay
 680	2	slap and tickle
 681	2	slip 'n' slide
@@ -624,16 +689,72 @@
 689	0	pixel pants
 690	0	pixel sword
 691	0	digital key
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
 723	1	Knoll mushroom
 724	1	spooky mushroom
 725	0	one million meat pancakes
+726	0	huge mirror shard
+727	0	hedge maze puzzle
+728	0	hedge maze key
+729	0	fishbowl
+730	0	fishtank
+731	0	fish hose
+732	0	hosed tank
+733	0	hosed fishbowl
+734	0	makeshift SCUBA gear
+735	0	easter egg balloon
+736	0	stone tablet (Sinister Strumming)
+737	0	stone tablet (Squeezings of Woe)
+738	0	stone tablet (Really Evil Rhythm)
 739	0	tambourine bells
 740	0	tambourine
 741	0	broken skull
 742	1	shroomkabob
 743	1	stuffed spooky mushroom
 744	0	can of hair spray
+745
+746	0	stat script
 747	0	Knob Goblin firecracker
+748	0	gourd potion
+749
+750
+751
+752
+753
+754
+755
+756
+757
 758	1	ghost cucumber
 759	0	dill
 760	0	vinegar
@@ -651,26 +772,35 @@
 772	0	foon
 773	0	basic meat spork
 774	0	basic meat foon
+775	3	Yeti Protest Sign
 776	0	kneecapping stick
 777	0	iron pasta spoon
 778	0	support cummerbund
 779	0	Mob Penguin cellular phone
 780	0	scroll of pasta summoning
 781	0	mafia aria
+782	0	Mr. Exploiter
 783	0	'Villa' document
 784	2	Acqua Del Piatto Merlot
+785
 786	1	strawberry
 787	2	bottle of rum
 788	2	strawberry daiquiri
 789	2	rum and cola
 790	2	grog
+791	0	Mafia bow tie
+792	0	Golden Mr. Accessory
 793	4	potion of chalky equality
 794	4	alarming strawberry juice
 795	2	Acque Luride Grezze Cabernet
+796	0	cement shoes
 797	2	rockin' wagon
 798	2	ocean motion
 799	2	fuzzbump
+800	1	poutine
 801	1	Knob stir-fry
+802
+803
 804	1	Knoll stir-fry
 805	1	spooky stir-fry
 806	1	asparagus stir-fry
@@ -685,6 +815,7 @@
 815	1	rat appendix chow mein
 816	1	tofu chow mein
 817	1	pr0n chow mein
+818	0	plus sign
 819	4	milky potion
 820	4	swirly potion
 821	4	bubbly potion
@@ -711,6 +842,9 @@
 842	2	beertini
 843	2	salty slug
 844	2	papaya slung
+845	0	MAHI fez
+846	0	especially homoerotic frat-paddle
+847	0	homoerotic frat-paddle
 848	0	hypodermic needle
 849	0	meat detector
 850	0	many-eyed glasses
@@ -729,13 +863,34 @@
 863	0	skewer-mounted razor blade
 864	0	brass stinger
 865	0	lead necklace
+866
+867
+868
+869
+870	0	fetus-smashing club
 871	0	meatcar model
+872	0	Time Juice
 873	3	rolling pin
 874	0	unrolling pin
 875	0	crazy bastard sword
 876	0	incredibly dense meat gem
 877	0	Talisman of Baio
 878	0	hypnodisk
+879	0	goofballs
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891	0	Warehouse 23 bling
+892	0	bugbear-smiting sword
+893
 894	5	Dark Jill-O-Lantern
 895	0	Ms. Accessory
 896	0	Mr. Accessory Jr.
@@ -746,6 +901,7 @@
 901	0	miniature espresso maker
 902	0	100-Watt bulb
 903	2	Spasmi Dolorosi Del Rene Champagne
+904	0	old school Mafia knickerbockers
 905	0	Yummy Tummy bean
 906	0	Rock Pops
 907	0	Mr. Mediocrebar
@@ -756,6 +912,9 @@
 912	0	pixellated candy heart
 913	0	candied kobold
 914	5	hand turkey outline
+915	0	candied yam pinky ring
+916	0	intergalactic pom poms
+917	0	Mob Penguin protection contract
 918	0	Radio Free Baseball Cap
 919	0	Radio Free Pants
 920	0	Radio Free Foil
@@ -766,6 +925,9 @@
 925	0	dental pliers
 926	4	papotion of papower
 927	2	Ferita Del Petto Zinfandel
+928	0	fuzzy bracelets
+929	0	arse-shooting crossbow
+930
 931	2	spiced rum
 932	2	eggnog
 933	1	candy cane
@@ -794,6 +956,8 @@
 956	1	carob chunk noodles
 957	1	chorizo brownies
 958	1	white chocolate and tomato pizza 
+959
+960
 961	5	silk garter snake
 962	0	velvet choker
 963	0	tiny plastic seal clubber
@@ -829,9 +993,13 @@
 993	0	tiny plastic Sneaky Pete
 994	0	tiny plastic Suzie
 995	1	Lucky Surprise Egg
+996
+997
 998	0	maiden wig
 999	0	maid head
 1000	0	Meat maid
+1001
+1002
 1003	2	soda water
 1004	2	bottle of tequila
 1005	2	boxed wine
