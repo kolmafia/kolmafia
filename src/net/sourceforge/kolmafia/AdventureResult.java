@@ -221,7 +221,8 @@ public class AdventureResult implements Comparable
 		return resultName.equals(MEAT) ? " Meat: " + df.format(resultCount[0]) :
 			resultName.equals(SUBSTATS) ? " Substats: " + df.format(resultCount[0]) + " / " + df.format(resultCount[1]) + " / " + df.format(resultCount[2]) :
 			resultName.equals(DIVIDER) ? DIVIDER :
-			" " + resultName + ((resultCount[0] == 1) ? "" : (" (" + df.format(resultCount[0]) + ")"));
+			" " + resultName.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
+				((resultCount[0] == 1) ? "" : (" (" + df.format(resultCount[0]) + ")"));
 	}
 
 	/**

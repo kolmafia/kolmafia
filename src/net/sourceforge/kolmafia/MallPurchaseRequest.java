@@ -102,7 +102,9 @@ public class MallPurchaseRequest extends KoLRequest
 	 */
 
 	public String toString()
-	{	return itemName + " (" + quantity + " @ " + price + "): " + shopName;
+	{
+		return itemName.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
+			" (" + quantity + " @ " + price + "): " + shopName;
 	}
 
 	/**
