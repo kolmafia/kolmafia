@@ -392,7 +392,7 @@ public class AdventureFrame extends KoLFrame
 
 		protected void setContent( VerifiableElement [] elements )
 		{
-			super.setContent( elements );
+			super.setContent( elements, null, null, null, true, true );
 
 			JPanel southPanel = new JPanel();
 			southPanel.setLayout( new BorderLayout( 10, 10 ) );
