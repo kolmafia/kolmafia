@@ -179,7 +179,7 @@ public class OptionsFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Proxy Login: ", proxyLogin );
 			elements[4] = new VerifiableElement( "Proxy Password: ", proxyPassword );
 
-			setContent( elements );
+			setContent( elements, true );
 		}
 
 		public void clear()
@@ -286,11 +286,10 @@ public class OptionsFrame extends KoLFrame
 
 	private class BattleOptionsPanel extends OptionsPanel
 	{
-		private final String [] actionnames = { "attack", "moxman" };
-		private final String [] actiondescs = { "Attack with Weapon", "Moxious Maneuver" };
+		private LockableListModel actions;
+		private LockableListModel actionNames;
 
-		private ButtonGroup actionGroup;
-		private JRadioButton [] actions;
+		private JComboBox actionSelect;
 
 		/**
 		 * Constructs a new <code>BattleOptionsPanel</code> containing a
@@ -300,22 +299,21 @@ public class OptionsFrame extends KoLFrame
 
 		public BattleOptionsPanel()
 		{
-			super( new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
+			super( new Dimension( 120, 20 ), new Dimension( 165, 20 ) );
 
-			actions = new JRadioButton[ actionnames.length ];
-			actionGroup = new ButtonGroup();
+			actions = new LockableListModel();
+			actions.add( "attack" );
+			actions.add( "moxman" );
 
-			for ( int i = 0; i < actions.length; ++i )
-			{
-				actions[i] = new JRadioButton();
-				actionGroup.add( actions[i] );
-			}
+			actionNames = new LockableListModel();
+			actionNames.add( "Attack with Weapon" );
+			actionNames.add( "Moxious Maneuver" );
 
-			VerifiableElement [] elements = new VerifiableElement[ actions.length ];
-			for ( int i = 0; i < actions.length; ++i )
-				elements[i] = new VerifiableElement( actiondescs[i], JLabel.LEFT, actions[i] );
+			actionSelect = new JComboBox( actionNames );
 
-			java.util.Arrays.sort( elements );
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Battle Style: ", actionSelect );
+
 			setContent( elements );
 		}
 
@@ -349,13 +347,7 @@ public class OptionsFrame extends KoLFrame
 				// If there are default settings, make sure that the
 				// appropriate radio box is checked.
 
-				for ( int i = 0; i < actions.length; ++i )
-					actions[i].setSelected( false );
-
-				for ( int i = 0; i < actions.length; ++i )
-					if ( actionnames[i].equals( battleSettings ) )
-						actions[i].setSelected( true );
-
+				actionNames.setSelectedIndex( actions.indexOf( battleSettings ) );
 				(new StatusMessageChanger( "" )).run();
 			}
 		}
@@ -370,10 +362,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				if ( client != null )
-					for ( int i = 0; i < actions.length; ++i )
-						if ( actions[i].isSelected() )
-							settings.setProperty( "battleAction", actionnames[i] );
+				settings.setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
 				saveSettings();
 			}
 		}
@@ -413,7 +402,7 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( itemnames[i], JLabel.LEFT, items[i] );
 
 			java.util.Arrays.sort( elements );
-			setContent( elements );
+			setContent( elements, false );
 		}
 
 		public void clear()
@@ -527,7 +516,7 @@ public class OptionsFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 
-			setContent( elements, true );
+			setContent( elements );
 		}
 
 		public void clear()
@@ -597,42 +586,18 @@ public class OptionsFrame extends KoLFrame
 	 * also retrieves a reference to the client's current settings.
 	 */
 
-	private abstract class OptionsPanel extends KoLPanel
+	private abstract class OptionsPanel extends LabeledKoLPanel
 	{
 		protected Properties settings;
-		private JPanel actionStatusPanel;
-		private JLabel actionStatusLabel;
 
 		public OptionsPanel( Dimension left, Dimension right )
+		{	this( null, left, right );
+		}
+
+		public OptionsPanel( String panelTitle, Dimension left, Dimension right )
 		{
-			super( "apply", "defaults", left, right );
+			super( panelTitle, left, right );
 			settings = (client == null) ? System.getProperties() : client.getSettings();
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
-		}
-
-		public void setContent( VerifiableElement [] elements )
-		{	setContent( elements, false );
-		}
-
-		public void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
-		{
-			super.setContent( elements, isLabelPreceeding );
-			add( actionStatusPanel, BorderLayout.SOUTH );
-			clear();
-		}
-
-		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
-		}
-
-		protected void actionCancelled()
-		{	clear();
 		}
 
 		protected void saveSettings()
@@ -649,7 +614,6 @@ public class OptionsFrame extends KoLFrame
 
 		protected abstract class OptionsThread extends Thread
 		{
-
 			public OptionsThread()
 			{	setDaemon( true );
 			}
