@@ -33,8 +33,9 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.StringTokenizer;
-import javax.swing.JOptionPane;
 
 public class AutoSellRequest extends KoLRequest
 {
@@ -127,6 +128,33 @@ public class AutoSellRequest extends KoLRequest
 				logStream.println( e );
 				e.printStackTrace( logStream );
 			}
+		}
+		else
+			updateStoreManager();
+	}
+
+	private void updateStoreManager()
+	{
+		client.getStoreManager().clear();
+		int lastFindIndex = 0;
+		Matcher itemMatcher = Pattern.compile(
+			"<tr><td>.*?</td><td>.*?</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( replyContent );
+
+		try
+		{
+			while ( itemMatcher.find( lastFindIndex ) )
+			{
+				lastFindIndex = itemMatcher.end();
+				int price = df.parse( itemMatcher.group(1) ).intValue();
+				int limit = itemMatcher.group(2).startsWith( "<" ) ? 0 :
+					Integer.parseInt( itemMatcher.group(2) );
+
+				int itemID = Integer.parseInt( itemMatcher.group(3) );
+				client.getStoreManager().registerItem( itemID, price, limit );
+			}
+		}
+		catch ( Exception e )
+		{
 		}
 	}
 }
