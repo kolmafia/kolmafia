@@ -97,14 +97,24 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
- * An extended <code>JFrame</code> which presents the user with the ability to
+ * An extended <code>KoLFrame</code> which presents the user with the ability to
  * login to the Kingdom of Loathing.  Essentially, this class is a modification
- * of the <code>LoginDialog</code> class from the Spellcast project to contain
- * a single panel and to be properly named.
+ * of the <code>LoginDialog</code> class from the Spellcast project.
  */
 
 public class LoginFrame extends KoLFrame
 {
+	/**
+	 * Constructs a new <code>LoginFrame</code> which allows the user to
+	 * log into the Kingdom of Loathing.  The <code>LoginFrame</code>
+	 * assigns its <code>LoginPanel</code> as the content panel used by
+	 * <code>KoLPanel</code> and other classes for updating its display,
+	 * and derived classes may access the <code>LoginPanel</code> indirectly
+	 * in this fashion.
+	 *
+	 * @param	client	The client associated with this <code>LoginFrame</code>.
+	 */
+
 	public LoginFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Login", client );
@@ -120,6 +130,12 @@ public class LoginFrame extends KoLFrame
 		addMenuBar();
 	}
 
+	/**
+	 * Utility method used to add a menu bar to the <code>LoginFrame</code>.
+	 * The menu bar contains configuration options and the general license
+	 * information associated with <code>KoLmafia</code>.
+	 */
+
 	private void addMenuBar()
 	{
 		JMenuBar menuBar = new JMenuBar();
@@ -129,13 +145,25 @@ public class LoginFrame extends KoLFrame
 		addHelpMenu( menuBar );
 	}
 
+	/**
+	 * An internal class which represents the panel which is nested
+	 * inside of the <code>LoginFrame</code>.
+	 */
+
 	private class LoginPanel extends KoLPanel
 	{
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
-		JTextField loginnameField;
-		JPasswordField passwordField;
+		private JTextField loginnameField;
+		private JPasswordField passwordField;
+
+		/**
+		 * Constructs a new <code>LoginPanel</code>, containing a place
+		 * for the users to input their login name and password.  This
+		 * panel, because it is intended to be the content panel for
+		 * status message updates, also has a status label.
+		 */
 
 		public LoginPanel()
 		{
@@ -192,6 +220,12 @@ public class LoginFrame extends KoLFrame
 		public void requestFocus()
 		{	loginnameField.requestFocus();
 		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually make the login attempt.
+		 */
 
 		private class LoginRequestThread extends Thread
 		{
