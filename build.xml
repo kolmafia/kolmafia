@@ -107,7 +107,7 @@
   <!-- =========================== -->
 
   <target name="dist"
-          depends="createjar"/>
+          depends="createjar"
           description="generate the distribution">
 
     <ant target="createtar"/>
