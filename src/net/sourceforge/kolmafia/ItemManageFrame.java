@@ -38,6 +38,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.CardLayout;
+import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 // event listeners
@@ -79,165 +80,243 @@ public class ItemManageFrame extends KoLFrame
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 			" (Item Management)", client );
 
+		setResizable( false );
+
 		JTabbedPane inventoryTabs = new JTabbedPane();
 		inventoryTabs.addTab( "Use", new JPanel() );
 		inventoryTabs.addTab( "Equip", new JPanel() );
 		inventoryTabs.addTab( "Sell", new JPanel() );
-		inventoryTabs.addTab( "Closet", new JPanel() );
-		inventoryTabs.addTab( "Create", new ItemCreationPanel() );
-		inventoryTabs.addTab( "Meat Paste", new MeatManagementPanel() );
-		inventoryTabs.addTab( "Execute", new JPanel() );
+		inventoryTabs.addTab( "Closet", new ClosetPanel() );
+		inventoryTabs.addTab( "Create", new CreationPanel() );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( inventoryTabs, "" );
 		addWindowListener( new ReturnFocusAdapter() );
 	}
 
-	public void setStatusMessage( String s )
-	{
-	}
-
-	public void clear()
-	{	requestFocus();
-	}
-
-	protected void actionConfirmed()
-	{
-	}
-
-	protected void actionCancelled()
-	{
-	}
-
 	/**
-	 * An internal class used to handle item creation for
-	 * the inventory screen.
+	 * Internal class used to handle everything related to
+	 * placing items into the closet and taking items from
+	 * the closet.
 	 */
 
-	private class ItemCreationPanel extends KoLPanel
+	private class ClosetPanel extends JPanel
 	{
-		private JComboBox createField;
-		private JTextField countField;
-
-		public ItemCreationPanel()
+		public ClosetPanel()
 		{
-			super( "add", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			JPanel panel = new JPanel();
+			panel.setLayout( new BorderLayout( 10, 10 ) );
+			panel.add( new OutsideClosetPanel(), BorderLayout.NORTH );
+			panel.add( new InsideClosetPanel(), BorderLayout.SOUTH );
 
-			createField = new JComboBox();
-			countField = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Result: ", createField );
-			elements[1] = new VerifiableElement( "Quantity: ", countField );
-
-			setContent( elements );
+			setLayout( new CardLayout( 10, 10 ) );
+			add( panel, "" );
 		}
 
-		public void setStatusMessage( String s )
+		private class OutsideClosetPanel extends NonContentPanel
 		{
-		}
-
-		public void clear()
-		{
-			createField.setSelectedIndex( 0 );
-			countField.setText( "" );
-		}
-
-		protected void actionConfirmed()
-		{
-		}
-
-		protected void actionCancelled()
-		{
-		}
-
-		public void requestFocus()
-		{
-			super.requestFocus();
-			createField.requestFocus();
-		}
-	}
-
-	/**
-	 * An internal class used to handle meat management for
-	 * the inventory screen.
-	 */
-
-	private class MeatManagementPanel extends KoLPanel
-	{
-		private JComboBox actionField;
-		private JTextField countField;
-		private LockableListModel actions;
-
-		public MeatManagementPanel()
-		{
-			super( "add", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
-
-			LockableListModel actions = new LockableListModel();
-			actions.add( "Deposit Meat" );
-			actions.add( "Withdraw Meat" );
-			actions.add( "Make Meat Paste" );
-			actions.add( "Make Meat Stack" );
-			actions.add( "Make Dense Stack" );
-
-			actionField = new JComboBox( actions );
-			countField = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Action: ", actionField );
-			elements[1] = new VerifiableElement( "Amount: ", countField );
-
-			setContent( elements );
-		}
-
-		public void setStatusMessage( String s )
-		{
-		}
-
-		public void clear()
-		{
-			actionField.setSelectedIndex( 0 );
-			countField.setText( "" );
-			requestFocus();
-		}
-
-		protected void actionConfirmed()
-		{
-			try
+			public OutsideClosetPanel()
 			{
-				int quantity = df.parse( countField.getText() ).intValue();
+				super( "put", "refresh" );
+				setContent( null );
 
-				switch ( actionField.getSelectedIndex() )
+				LockableListModel available = new LockableListModel();
+
+				JList availableList = new JList( available );
+				availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%&" );
+				availableList.setVisibleRowCount( 7 );
+
+				add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+			}
+
+			public void clear()
+			{
+			}
+
+			protected void actionConfirmed()
+			{
+			}
+
+			protected void actionCancelled()
+			{
+			}
+		}
+
+		private class InsideClosetPanel extends NonContentPanel
+		{
+			public InsideClosetPanel()
+			{
+				super( "take", "refresh" );
+				setContent( null );
+
+				LockableListModel closet = new LockableListModel();
+
+				JList closetList = new JList( closet );
+				closetList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+				closetList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%&" );
+				closetList.setVisibleRowCount( 7 );
+
+				add( new JScrollPane( closetList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+			}
+
+			public void clear()
+			{
+			}
+
+			protected void actionConfirmed()
+			{
+			}
+
+			protected void actionCancelled()
+			{
+			}
+		}
+	}
+
+
+	/**
+	 * Internal class used to handle everything related to
+	 * item creation.
+	 */
+
+	private class CreationPanel extends JPanel
+	{
+		public CreationPanel()
+		{
+			setLayout( new BorderLayout( 10, 10 ) );
+			add( new CombineItemPanel(), BorderLayout.NORTH );
+			add( new MeatManagementPanel(), BorderLayout.CENTER );
+		}
+
+		/**
+		 * An internal class used to handle item creation for
+		 * the inventory screen.
+		 */
+
+		private class CombineItemPanel extends NonContentPanel
+		{
+			private JComboBox createField;
+			private JTextField countField;
+
+			public CombineItemPanel()
+			{
+				super( "make", "refresh", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+
+				createField = new JComboBox();
+				countField = new JTextField();
+
+				VerifiableElement [] elements = new VerifiableElement[2];
+				elements[0] = new VerifiableElement( "Item to Make: ", createField );
+				elements[1] = new VerifiableElement( "Quantity: ", countField );
+
+				setContent( elements );
+			}
+
+			public void clear()
+			{
+				createField.setSelectedIndex( 0 );
+				countField.setText( "" );
+			}
+
+			protected void actionConfirmed()
+			{
+			}
+
+			protected void actionCancelled()
+			{
+			}
+		}
+
+		/**
+		 * An internal class used to handle meat management for
+		 * the inventory screen.
+		 */
+
+		private class MeatManagementPanel extends NonContentPanel
+		{
+			private JLabel availableLabel;
+			private JLabel insideClosetLabel;
+			private JComboBox actionField;
+			private JTextField countField;
+			private LockableListModel actions;
+
+			public MeatManagementPanel()
+			{
+				super( "execute", "refresh", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+
+				LockableListModel actions = new LockableListModel();
+				actions.add( "Deposit Meat" );
+				actions.add( "Withdraw Meat" );
+				actions.add( "Make Meat Paste" );
+				actions.add( "Make Meat Stack" );
+				actions.add( "Make Dense Stack" );
+
+				actionField = new JComboBox( actions );
+				countField = new JTextField();
+
+				VerifiableElement [] elements = new VerifiableElement[2];
+				elements[0] = new VerifiableElement( "Action: ", actionField );
+				elements[1] = new VerifiableElement( "Amount: ", countField );
+
+				setContent( elements );
+			}
+
+			protected void setContent( VerifiableElement [] elements )
+			{
+				super.setContent( elements );
+
+				JPanel labelPanel = new JPanel();
+				labelPanel.setLayout( new GridLayout( 2, 1 ) );
+				availableLabel = new JLabel( "You have [x] meat available.", JLabel.CENTER );
+				insideClosetLabel = new JLabel( "You have [x] meat inside your closet.", JLabel.CENTER );
+				labelPanel.add( availableLabel );
+				labelPanel.add( insideClosetLabel );
+
+				this.add( labelPanel, BorderLayout.NORTH );
+			}
+
+			public void clear()
+			{
+				actionField.setSelectedIndex( 0 );
+				countField.setText( "" );
+				requestFocus();
+			}
+
+			protected void actionConfirmed()
+			{
+				try
 				{
-					case 0:
-						break;
-					case 1:
-						break;
-					case 2:
-						break;
-					case 3:
-						break;
-					case 4:
-						break;
+					int quantity = df.parse( countField.getText() ).intValue();
+
+					switch ( actionField.getSelectedIndex() )
+					{
+						case 0:
+							break;
+						case 1:
+							break;
+						case 2:
+							break;
+						case 3:
+							break;
+						case 4:
+							break;
+					}
+				}
+				catch ( ParseException e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
 				}
 			}
-			catch ( ParseException e )
+
+			protected void actionCancelled()
 			{
-				// If the number placed inside of the count list was not
-				// an actual integer value, pretend nothing happened.
-				// Using exceptions for flow control is bad style, but
-				// this will be fixed once we add functionality.
 			}
-		}
-
-		protected void actionCancelled()
-		{
-		}
-
-		public void requestFocus()
-		{
-			super.requestFocus();
-			actionField.requestFocus();
 		}
 	}
 

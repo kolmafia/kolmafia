@@ -229,7 +229,29 @@ public abstract class KoLFrame extends javax.swing.JFrame
 				setStatusMessage( status );
 			}
 		}
+	}
 
+	/**
+	 * An internal class used as the basis for non-content panels. This
+	 * class builds upon the <code>KoLPanel</code>, but specifically
+	 * defines the abstract methods to not do anything.
+	 */
+
+	protected abstract class NonContentPanel extends KoLPanel
+	{
+		protected NonContentPanel( String confirmedText, String cancelledText )
+		{
+			super( confirmedText, cancelledText );
+		}
+
+		protected NonContentPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
+		{
+			super( confirmedText, cancelledText, labelSize, fieldSize );
+		}
+
+		public void setStatusMessage( String s )
+		{
+		}
 	}
 
 	/**
