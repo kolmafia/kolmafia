@@ -120,7 +120,7 @@ public class AdventureFrame extends KoLFrame
 		getContentPane().add( tabs, "" );
 
 		updateDisplay( ENABLED_STATE, " " );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		setDefaultCloseOperation( EXIT_ON_CLOSE );
 
 		addMenuBar();
 	}
