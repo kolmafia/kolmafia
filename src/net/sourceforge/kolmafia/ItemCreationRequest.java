@@ -56,7 +56,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int COOK_PASTA = 6;
 
 	private int itemID, quantityNeeded, mixingMethod;
-
 	/**
 	 * Constructs a new <code>ItemCreationRequest</code> where you create
 	 * the given number of items.
@@ -93,7 +92,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return -1;
 
 		ItemCreationRequest icr = (ItemCreationRequest) o;
-		return TradeableItemDatabase.getItemName( itemID ).compareTo( TradeableItemDatabase.getItemName( icr.itemID ) );
+
+		return (client == null) ? 1 : (icr.client == null) ? -1 :
+			getName().compareTo( icr.getName() );
 	}
 
 	/**
@@ -103,9 +104,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
+		if ( client == null )
+			return;
+
 		switch ( itemID )
 		{
-
 			// Requests for meat paste are handled separately; the
 			// full request is broken into increments of 1000, 100
 			// and 10 and then submitted to the server.
@@ -295,6 +298,25 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	}
 
 	/**
+	 * Returns the name of the item created by this request.
+	 * @return	The name of the item being created
+	 */
+
+	public String getName()
+	{	return TradeableItemDatabase.getItemName( itemID );
+	}
+
+	/**
+	 * Sets the quantity of items to be created by this request.
+	 * This method is used whenever the original quantity intended
+	 * by the request changes.
+	 */
+
+	public void setQuantityNeeded( int quantityNeeded )
+	{	this.quantityNeeded = quantityNeeded;
+	}
+
+	/**
 	 * Returns the string form of this item creation request.
 	 * This displays the item name, and the amount that will
 	 * be created by this request.
@@ -303,7 +325,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public String toString()
-	{	return TradeableItemDatabase.getItemName( itemID ) + " (" + quantityNeeded + ")";
+	{	return getName() + " (" + quantityNeeded + ")";
 	}
 
 	/**
