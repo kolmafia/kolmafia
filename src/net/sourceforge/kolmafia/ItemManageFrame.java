@@ -53,6 +53,7 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.BorderFactory;
+import javax.swing.JMenuBar;
 
 // other imports
 import java.text.ParseException;
@@ -86,19 +87,26 @@ public class ItemManageFrame extends KoLFrame
 			" (Item Management)", client );
 
 		setResizable( false );
+		concoctions = client == null ? new SortedListModel() :
+			ConcoctionsDatabase.getConcoctions( client, client.getInventory() );
 
 		tabs = new JTabbedPane();
 		using = new ConsumePanel();
 		selling = new SellPanel();
 		storing = new StoragePanel();
 
-		tabs.addTab( "Use Items", using );
+		tabs.addTab( "Use & Create", using );
 		tabs.addTab( "Sell & Create", selling );
 		tabs.addTab( "Closet & Stash", storing );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
 		addWindowListener( new ReturnFocusAdapter() );
+
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+		addConfigureMenu( menuBar );
+		addHelpMenu( menuBar );
 	}
 
 	/**
@@ -126,19 +134,19 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ConsumePanel extends JPanel
 	{
-		private NonContentPanel foodPanel, miscPanel;
-		private JList edibleItemList, usableItemList;
+		private NonContentPanel consumePanel, createPanel;
+		private JList usableItemList;
 
 		public ConsumePanel()
 		{
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout( 10, 10 ) );
 
-			foodPanel = new ConsumeFoodPanel();
-			miscPanel = new ConsumeMiscPanel();
+			consumePanel = new ConsumeItemPanel();
+			createPanel = new CreateItemPanel();
 
-			panel.add( foodPanel, BorderLayout.NORTH );
-			panel.add( miscPanel, BorderLayout.SOUTH );
+			panel.add( consumePanel, BorderLayout.NORTH );
+			panel.add( createPanel, BorderLayout.SOUTH );
 
 			setLayout( new CardLayout( 10, 10 ) );
 			add( panel, "" );
@@ -147,61 +155,15 @@ public class ItemManageFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			foodPanel.setEnabled( isEnabled );
-			miscPanel.setEnabled( isEnabled );
+			consumePanel.setEnabled( isEnabled );
+			createPanel.setEnabled( isEnabled );
 		}
 
-		/**
-		 * Internal class used to handle everything related to
-		 * selling items; this allows autoselling of items as
-		 * well as placing item inside of a store.
-		 */
-
-		private class ConsumeFoodPanel extends NonContentPanel
-		{
-			private LockableListModel edibleItems;
-
-			public ConsumeFoodPanel()
-			{
-				super( "use one", "use all" );
-				setContent( null, null, null, null, true, true );
-
-				edibleItems = client == null ? new LockableListModel() : client.getEdibleItems().getMirrorImage();
-				edibleItemList = new JList( edibleItems );
-				edibleItemList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				edibleItemList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
-				edibleItemList.setVisibleRowCount( 8 );
-
-				add( JComponentUtilities.createLabel( "Edible Items", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-				add( new JScrollPane( edibleItemList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
-			}
-
-			public void clear()
-			{
-			}
-
-			protected void actionConfirmed()
-			{	(new ConsumeItemRequestThread(true, false)).start();
-			}
-
-			protected void actionCancelled()
-			{	(new ConsumeItemRequestThread(true, true)).start();
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				edibleItemList.setEnabled( isEnabled );
-			}
-		}
-
-		private class ConsumeMiscPanel extends NonContentPanel
+		private class ConsumeItemPanel extends NonContentPanel
 		{
 			private LockableListModel usableItems;
 
-			public ConsumeMiscPanel()
+			public ConsumeItemPanel()
 			{
 				super( "use one", "use all" );
 				setContent( null, null, null, null, true, true );
@@ -223,11 +185,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ConsumeItemRequestThread(false, false)).start();
+			{	(new ConsumeItemRequestThread(false)).start();
 			}
 
 			protected void actionCancelled()
-			{	(new ConsumeItemRequestThread(false, true)).start();
+			{	(new ConsumeItemRequestThread(true)).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -235,42 +197,41 @@ public class ItemManageFrame extends KoLFrame
 				super.setEnabled( isEnabled );
 				usableItemList.setEnabled( isEnabled );
 			}
-		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually autosell the items.
-		 */
+			/**
+			 * In order to keep the user interface from freezing (or at
+			 * least appearing to freeze), this internal class is used
+			 * to actually autosell the items.
+			 */
 
-		private class ConsumeItemRequestThread extends Thread
-		{
-			private boolean isEdibleItemRequest, useAll;
-
-			public ConsumeItemRequestThread( boolean isEdibleItemRequest, boolean useAll )
+			private class ConsumeItemRequestThread extends Thread
 			{
-				super( "Consume-Request-Thread" );
-				setDaemon( true );
-				this.isEdibleItemRequest = isEdibleItemRequest;
-				this.useAll = useAll;
-			}
+				private boolean useAll;
 
-			public void run()
-			{
-				ItemManageFrame.this.setEnabled( false );
-				Object [] items = (isEdibleItemRequest ? edibleItemList : usableItemList).getSelectedValues();
-				AdventureResult currentItem;  Runnable request;
-
-				for ( int i = 0; i < items.length; ++i )
+				public ConsumeItemRequestThread( boolean useAll )
 				{
-					currentItem = (AdventureResult) items[i];
-					request = new ConsumeItemRequest( client, TradeableItemDatabase.getConsumptionType( currentItem.getName() ), currentItem );
-					client.makeRequest( request, useAll ? currentItem.getCount() : 1 );
+					super( "Consume-Request-Thread" );
+					setDaemon( true );
+					this.useAll = useAll;
 				}
 
-				refreshConcoctionsList();
-				updateDisplay( ENABLED_STATE, "" );
-				ItemManageFrame.this.setEnabled( true );
+				public void run()
+				{
+					ItemManageFrame.this.setEnabled( false );
+					Object [] items = usableItemList.getSelectedValues();
+					AdventureResult currentItem;  Runnable request;
+
+					for ( int i = 0; i < items.length; ++i )
+					{
+						currentItem = (AdventureResult) items[i];
+						request = new ConsumeItemRequest( client, TradeableItemDatabase.getConsumptionType( currentItem.getName() ), currentItem );
+						client.makeRequest( request, useAll ? currentItem.getCount() : 1 );
+					}
+
+					refreshConcoctionsList();
+					updateDisplay( ENABLED_STATE, "" );
+					ItemManageFrame.this.setEnabled( true );
+				}
 			}
 		}
 	}
@@ -284,7 +245,6 @@ public class ItemManageFrame extends KoLFrame
 	{
 		private NonContentPanel sellPanel, createPanel;
 		private JList availableList;
-		private JList concoctionsList;
 
 		public SellPanel()
 		{
@@ -393,68 +353,6 @@ public class ItemManageFrame extends KoLFrame
 
 						(new AutoSellRequest( client, sellType, currentItem )).run();
 					}
-
-					refreshConcoctionsList();
-					updateDisplay( ENABLED_STATE, "" );
-					ItemManageFrame.this.setEnabled( true );
-				}
-			}
-		}
-
-		/**
-		 * Internal class used to handle everything related to
-		 * creating items; this allows creating of items,
-		 * which usually get resold in malls.
-		 */
-
-		private class CreateItemPanel extends NonContentPanel
-		{
-			public CreateItemPanel()
-			{
-				super( "create", "refresh list" );
-				setContent( null, null, null, null, true, true );
-
-				concoctions = client == null ? new SortedListModel() : ConcoctionsDatabase.getConcoctions( client, client.getInventory() );
-				concoctionsList = new JList( concoctions );
-				concoctionsList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-				concoctionsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
-				concoctionsList.setVisibleRowCount( 8 );
-
-				add( JComponentUtilities.createLabel( "Create an Item", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-				add( new JScrollPane( concoctionsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
-			}
-
-			public void clear()
-			{
-			}
-
-			protected void actionConfirmed()
-			{	(new ItemCreationRequestThread()).start();
-			}
-
-			public void actionCancelled()
-			{	(new RefreshItemCreationListThread()).start();
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				concoctionsList.setEnabled( isEnabled );
-			}
-
-			private class ItemCreationRequestThread extends Thread
-			{
-				public void run()
-				{
-					updateDisplay( DISABLED_STATE, "Creating item..." );
-					ItemManageFrame.this.setEnabled( false );
-
-					Object selection = concoctionsList.getSelectedValue();
-
-					if ( selection != null )
-						((Runnable)selection).run();
 
 					refreshConcoctionsList();
 					updateDisplay( ENABLED_STATE, "" );
@@ -623,6 +521,69 @@ public class ItemManageFrame extends KoLFrame
 
 	public void refreshConcoctionsList()
 	{	(new RefreshItemCreationListThread()).run();
+	}
+
+	/**
+	 * Internal class used to handle everything related to
+	 * creating items; this allows creating of items,
+	 * which usually get resold in malls.
+	 */
+
+	private class CreateItemPanel extends NonContentPanel
+	{
+		private JList concoctionsList;
+
+		public CreateItemPanel()
+		{
+			super( "create", "refresh list" );
+			setContent( null, null, null, null, true, true );
+
+			concoctionsList = new JList( concoctions.getMirrorImage() );
+			concoctionsList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			concoctionsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
+			concoctionsList.setVisibleRowCount( 8 );
+
+			add( JComponentUtilities.createLabel( "Create an Item", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			add( new JScrollPane( concoctionsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
+		}
+
+		public void clear()
+		{
+		}
+
+		protected void actionConfirmed()
+		{	(new ItemCreationRequestThread()).start();
+		}
+
+		public void actionCancelled()
+		{	(new RefreshItemCreationListThread()).start();
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			concoctionsList.setEnabled( isEnabled );
+		}
+
+		private class ItemCreationRequestThread extends Thread
+		{
+			public void run()
+			{
+				updateDisplay( DISABLED_STATE, "Creating item..." );
+				ItemManageFrame.this.setEnabled( false );
+
+				Object selection = concoctionsList.getSelectedValue();
+
+				if ( selection != null )
+					((Runnable)selection).run();
+
+				refreshConcoctionsList();
+				updateDisplay( ENABLED_STATE, "" );
+				ItemManageFrame.this.setEnabled( true );
+			}
+		}
 	}
 
 	/**
