@@ -127,16 +127,20 @@ public class AdventureFrame extends KoLFrame
 	 * @param	resultsTally	Tally of adventuring results
 	 */
 
-	public AdventureFrame( KoLmafia client, LockableListModel availableAdventures, LockableListModel resultsTally )
+	public AdventureFrame( KoLmafia client, LockableListModel adventureList, LockableListModel resultsTally )
 	{
 		super( "KoLmafia: " + client.getLoginName(), client );
 		setResizable( false );
 
 		tabs = new JTabbedPane();
 
-		addAdventuringPanel( availableAdventures, resultsTally );
+		adventureSelect = new AdventureSelectPanel( adventureList, resultsTally );
+		tabs.addTab( "Adventure Select", adventureSelect );
+
 		addInventoryPanel();  tabs.setEnabledAt( 1, false );
-		addMallBrowsingPanel();
+
+		mallSearch = new MallSearchPanel();
+		tabs.addTab( "Mall of Loathing", mallSearch );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
@@ -149,29 +153,6 @@ public class AdventureFrame extends KoLFrame
 	}
 
 	/**
-	 * Utility method which adds the adventure selection panel to the
-	 * pre-constructed tabs.  The adventure selection panel also keeps
-	 * track of the tally of results and the adventures which are
-	 * available to the user.
-	 *
-	 * @param	availableAdventures	Adventures available to the user
-	 * @param	resultsTally	Tally of adventuring results
-	 */
-
-	private void addAdventuringPanel( LockableListModel availableAdventures, LockableListModel resultsTally )
-	{
-		JPanel resultsPanel = new AdventureResultsPanel( resultsTally );
-		adventureSelect = new AdventureSelectPanel( availableAdventures );
-
-		JPanel adventuringPanel = new JPanel();
-		adventuringPanel.setLayout( new BorderLayout( 10, 10 ) );
-		adventuringPanel.add( resultsPanel, BorderLayout.SOUTH );
-		adventuringPanel.add( adventureSelect, BorderLayout.NORTH );
-
-		tabs.addTab( "Adventure Select", adventuringPanel );
-	}
-
-	/**
 	 * Utility method which adds the inventory management panel to the
 	 * pre-constructed tabs.  Because inventory management has not yet
 	 * been implemented, this method adds a blank panel.
@@ -180,23 +161,6 @@ public class AdventureFrame extends KoLFrame
 	private void addInventoryPanel()
 	{
 		tabs.addTab( "Inventory / Equipment", new JPanel() );
-	}
-
-	/**
-	 * Utility method which adds the mall browsing panel to the
-	 * pre-constructed tabs.  Because mall browsing has not yet
-	 * been implemented, this method adds a blank panel.
-	 */
-
-	private void addMallBrowsingPanel()
-	{
-		mallSearch = new MallSearchPanel();
-
-		JPanel mallBrowsingPanel = new JPanel();
-		mallBrowsingPanel.setLayout( new BorderLayout( 10, 10 ) );
-		mallBrowsingPanel.add( mallSearch, BorderLayout.NORTH );
-
-		tabs.addTab( "Mall of Loathing", mallBrowsingPanel );
 	}
 
 	/**
@@ -229,15 +193,15 @@ public class AdventureFrame extends KoLFrame
 	 * selection in the <code>AdventureFrame</code>.
 	 */
 
-	protected class AdventureSelectPanel extends KoLPanel
+	private class AdventureSelectPanel extends KoLPanel
 	{
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
-		JComboBox locationField;
-		JTextField countField;
+		private JComboBox locationField;
+		private JTextField countField;
 
-		public AdventureSelectPanel( LockableListModel list )
+		public AdventureSelectPanel( LockableListModel adventureList, LockableListModel resultsTally )
 		{
 			super( "begin", "cancel", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
@@ -248,20 +212,25 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
-			locationField = new JComboBox( list );
+			locationField = new JComboBox( adventureList );
 			countField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Location: ", locationField );
 			elements[1] = new VerifiableElement( "# of turns: ", countField );
 
-			setContent( elements );
+			setContent( elements, resultsTally );
 		}
 
-		protected void setContent( VerifiableElement [] elements )
+		protected void setContent( VerifiableElement [] elements, LockableListModel resultsTally )
 		{
 			super.setContent( elements );
-			add( actionStatusPanel, BorderLayout.SOUTH );
+
+			JPanel southPanel = new JPanel();
+			southPanel.setLayout( new BorderLayout( 10, 10 ) );
+			southPanel.add( actionStatusPanel, BorderLayout.NORTH );
+			southPanel.add( new AdventureResultsPanel( resultsTally ), BorderLayout.SOUTH );
+			add( southPanel, BorderLayout.SOUTH );
 		}
 
 		public void setStatusMessage( String s )
@@ -307,6 +276,32 @@ public class AdventureFrame extends KoLFrame
 		}
 
 		/**
+		 * An internal class which represents the panel used for tallying the
+		 * results in the <code>AdventureFrame</code>.  Note that all of the
+		 * tallying functionality is handled by the <code>LockableListModel</code>
+		 * provided, so this functions as a container for that list model.
+		 */
+
+		protected class AdventureResultsPanel extends JPanel
+		{
+			public AdventureResultsPanel( LockableListModel resultsTally )
+			{
+				setLayout( new BorderLayout() );
+				setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+				add( JComponentUtilities.createLabel( "Adventure Results", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+
+				JList tallyDisplay = new JList( resultsTally );
+				tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+				tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+				tallyDisplay.setVisibleRowCount( 10 );
+
+				add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			}
+		}
+
+		/**
 		 * In order to keep the user interface from freezing (or at
 		 * least appearing to freeze), this internal class is used
 		 * to actually make the adventuring requests.
@@ -340,43 +335,17 @@ public class AdventureFrame extends KoLFrame
 	}
 
 	/**
-	 * An internal class which represents the panel used for tallying the
-	 * results in the <code>AdventureFrame</code>.  Note that all of the
-	 * tallying functionality is handled by the <code>LockableListModel</code>
-	 * provided, so this functions as a container for that list model.
-	 */
-
-	protected class AdventureResultsPanel extends JPanel
-	{
-		public AdventureResultsPanel( LockableListModel tally )
-		{
-			setLayout( new BorderLayout() );
-			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-			add( JComponentUtilities.createLabel( "Adventure Results", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
-
-			JList tallyDisplay = new JList( tally );
-			tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-			tallyDisplay.setVisibleRowCount( 10 );
-
-			add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-		}
-	}
-
-	/**
 	 * An internal class which represents the panel used for mall
 	 * searches in the <code>AdventureFrame</code>.
 	 */
 
-	protected class MallSearchPanel extends KoLPanel
+	private class MallSearchPanel extends KoLPanel
 	{
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
-		JTextField searchField;
-		JTextField countField;
+		private JTextField searchField;
+		private JTextField countField;
 
 		public MallSearchPanel()
 		{
@@ -467,7 +436,8 @@ public class AdventureFrame extends KoLFrame
 				{
 					updateDisplay( DISABLED_STATE, "Searching for items..." );
 					LockableListModel results = new LockableListModel();
-					(new SearchMallRequest( client, searchField.getText(), Integer.parseInt( countField.getText() ), results )).run();
+					(new SearchMallRequest( client, searchField.getText(),
+						Integer.parseInt( countField.getText() ), results )).run();
 				}
 				catch ( NumberFormatException e )
 				{
@@ -521,7 +491,16 @@ public class AdventureFrame extends KoLFrame
 	private class LogoutRequestAdapter extends WindowAdapter
 	{
 		public void windowClosed( WindowEvent e )
-		{	(new LogoutRequest( client )).run();
+		{
+			client.deinitialize();
+			(new LogoutRequestThread()).start();
+		}
+
+		private class LogoutRequestThread extends Thread
+		{
+			public void run()
+			{	(new LogoutRequest( client )).run();
+			}
 		}
 	}
 }
