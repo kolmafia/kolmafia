@@ -34,8 +34,17 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.util.StringTokenizer;
+
+import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 public class KoLmafia
 {
+	private static final String ADV_DBASE_FILE = "adventures.dat";
+
 	private String loginname, password, sessionID, passwordHash;
 	private KoLFrame activeFrame;
 
@@ -61,6 +70,21 @@ public class KoLmafia
 
 	public void initialize()
 	{
+		BufferedReader buf = DataUtilities.getReaderForSharedDataFile( ADV_DBASE_FILE );
+		LockableListModel adventures = new LockableListModel();
+
+		try
+		{
+			StringTokenizer strtok = new StringTokenizer( buf.readLine(), "\t" );
+			String adventureID = strtok.nextToken();
+			adventures.add( new KoLAdventure( this, adventureID, strtok.nextToken() ) );
+		}
+		catch ( IOException e )
+		{
+			// If an IOException is thrown, that means there was
+			// a problem reading in the appropriate data file;
+			// that means that no adventures can be done.
+		}
 	}
 
 	public void acquireItem( String itemname )
