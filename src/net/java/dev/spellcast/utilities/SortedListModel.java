@@ -105,7 +105,7 @@ public class SortedListModel extends LockableListModel
 	public synchronized void add( int index, Object element )
 	{
 		boolean needsSort = ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 ) ||
-			( index < size() && ((Comparable)element).compareTo( get( index ) ) >= 0 );
+			( index < size() && ((Comparable)element).compareTo( get( index ) ) > 0 );
 
 		super.add( index, element );
 
@@ -173,7 +173,7 @@ public class SortedListModel extends LockableListModel
 	public synchronized Object set( int index, Object element )
 	{
 		boolean needsSort = ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 ) ||
-			( index + 1 < size() && ((Comparable)element).compareTo( get( index + 1 ) ) >= 0 );
+			( index + 1 < size() && ((Comparable)element).compareTo( get( index + 1 ) ) > 0 );
 
 		Object oldvalue = super.set( index, element );
 
