@@ -338,6 +338,10 @@ public class AdventureResult implements Comparable, KoLConstants
 			name.equals(SUBSTATS) || name.equals(FULLSTATS) ?
 				" " + name + ": " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]) :
 			name.equals(DIVIDER) || name.equals(SPACER) ? DIVIDER :
+
+			itemID == 41 ? " " + "ice-cold beer (Schlitz)" + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")")) :
+			itemID == 81 ? " " + "ice-cold beer (Willer)" + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")")) :
+
 				" " + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
 					((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
 	}
@@ -374,7 +378,8 @@ public class AdventureResult implements Comparable, KoLConstants
 		AdventureResult ar = (AdventureResult) o;
 
 		int priorityDifference = priority - ar.priority;
-		return priorityDifference != 0 ? priorityDifference : name.compareToIgnoreCase( ar.name );
+		int nameComparison = name.compareToIgnoreCase( ar.name );
+		return priorityDifference != 0 ? priorityDifference : nameComparison != 0 ? nameComparison : itemID - ar.itemID;
 	}
 
 	/**
@@ -507,6 +512,6 @@ public class AdventureResult implements Comparable, KoLConstants
 		for ( int i = 0; i < left.count.length; ++i )
 			totals[i] = left.count[i] + right.count[i];
 
-		return new AdventureResult( left.name, totals );
+		return left.isItem() ? new AdventureResult( left.itemID, totals[0] ) : new AdventureResult( left.name, totals );
 	}
 }
