@@ -296,6 +296,15 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		if ( skillBuff != null && skillBuff.isShowing() )
 			skillBuff.setEnabled( this.isEnabled );
 
+		Iterator framesIterator = existingFrames.iterator();
+		KoLFrame currentFrame;
+
+		while ( framesIterator.hasNext() )
+		{
+			currentFrame = (KoLFrame) framesIterator.next();
+			if ( currentFrame.isShowing() )
+				currentFrame.setEnabled( isEnabled );
+		}
 	}
 
 	/**
@@ -1280,7 +1289,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 			public void run()
 			{
-				(new LogoutRequest( client )).run();
 				client.deinitialize();
 
 				if ( kolchat != null && kolchat.isShowing() )
@@ -1305,6 +1313,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 				kolchat = null;
 
 				existingFrames.clear();
+				(new LogoutRequest( client )).run();
 			}
 		}
 	}
