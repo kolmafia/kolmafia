@@ -330,36 +330,7 @@ public class KoLMessenger
 	{
 		onlineContacts.clear();
 		onlineContacts.addAll( currentContacts );
-
-		if ( !onlineContacts.isEmpty() )
-		{
-			contactsFrame.setSize( new Dimension( 150, 500 ) );
-			contactsFrame.setVisible( true );
-		}
-		else
-			contactsFrame.setVisible( false );
-	}
-
-	/**
-	 * Updates a single online/offline state for a character.
-	 * @param	characterName	The character whose state has changed
-	 * @param	isOnline	Whether or not they are online
-	 */
-
-	private void updateContactList( String characterName, boolean isOnline )
-	{
-		if ( isOnline && !onlineContacts.contains( characterName ) )
-			onlineContacts.add( characterName );
-		else if ( !isOnline )
-			onlineContacts.remove( characterName );
-
-		if ( !onlineContacts.isEmpty() )
-		{
-			contactsFrame.setSize( new Dimension( 150, 500 ) );
-			contactsFrame.setVisible( true );
-		}
-		else
-			contactsFrame.setVisible( false );
+		contactsFrame.setVisible( true );
 	}
 
 	/**
@@ -391,13 +362,17 @@ public class KoLMessenger
 		// that this requires several lines - this just shows you how far
 		// behind the default HTML handler is compared to a web browser.
 
-		String orderedTagsContent = noLinksContent.replaceAll( "<b><i>", "<i><b>" ).replaceAll(
+		String orderedTagsContent = noLinksContent.replaceAll( "<br>&nbsp;&nbsp;", " " ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
 			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</font></b>", "</b></font>" ).replaceAll(
-				"</?br></b></font>", "</b></font><br>" ).replaceAll( "</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" );
+				"</?br></b>", "</b><br>" ).replaceAll( "</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" );
+
+		if ( orderedTagsContent.startsWith( "</font>" ) )
+			orderedTagsContent = orderedTagsContent.substring( 7 );
 
 		// Also, there is no such thing as "none" color - though this works in
 		// Java 1.4.2 and the latest update of 1.5.0, it shouldn't be here anyway,
-		// as it's not a real color.
+		// as it's not a real color.  Also, color bleeding fixes which can't be
+		// fixed any other way will be fixed here.
 
 		String validColorsContent = orderedTagsContent.replaceAll( "<font color=\"none\">", "" );
 
@@ -407,7 +382,8 @@ public class KoLMessenger
 		// limited in size to begin with.  Also replace the initial text
 		// that gives you a description of your channel.
 
-		String noCommentsContent = validColorsContent.replaceAll( "<p><p>", "</font><br><font color=green>" ).replaceAll( "<!--lastseen:[\\d]+-->", "" );
+		String noCommentsContent = validColorsContent.replaceAll( "<p><p>", "</font><br><font color=green>" ).replaceAll(
+			"<!--lastseen:[\\d]+-->", "" );
 
 		// Finally, there's lots of contact list and help file information that
 		// needs to get removed - this should be done here.
@@ -430,28 +406,9 @@ public class KoLMessenger
 			// you can opt to append the result to the window itself.  Also
 			// dodge the list that resulted from /who.
 
-			boolean addingHelp = Pattern.compile( "[^<]/" ).matcher( result ).find();
-			if ( !addingHelp && result.indexOf( "Contacts Online:" ) != -1 )
+			if ( Pattern.compile( "[^<]/" ).matcher( result ).find() )
 			{
-				StringTokenizer parsedContactList = new StringTokenizer( result.replaceAll( "<.*?>", "\n" ), "\n" );
-				parsedContactList.nextToken();
-
-				List newContactList = new ArrayList();
-				while ( parsedContactList.hasMoreTokens() )
-				{
-					newContactList.add( parsedContactList.nextToken() );
-
-					// The name is usually followed by a comma; the comma is skipped
-					// so that you don't have commas appearing in the contact list
-
-					if ( parsedContactList.hasMoreTokens() )
-						parsedContactList.nextToken();
-				}
-				updateContactList( newContactList );
-			}
-			else
-			{
-				result = result.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ).trim();
+				result = result.replaceAll( "<.*?>", "\n" ).replaceAll( "[\\n]+", "\n" ).trim();
 
 				// If the user has clicked into a menu, then there's a chance that
 				// the active frame will not be recognized - therefore, simply
@@ -472,29 +429,42 @@ public class KoLMessenger
 					currentChatBuffer = getChatBuffer( nameOfActiveFrame );
 				}
 
-				if ( result.startsWith( "Players" ) )
-				{
-					result = result.replaceAll( "<br>", " " ).replaceAll( " , ", ", " ).replaceFirst( ":", ":</b>" ).trim();
+				StringTokenizer helpString = new StringTokenizer( result, "\n" );
+				String currentToken;
 
-					currentChatBuffer.append( "<font color=teal><b>" );
-					currentChatBuffer.append( result.replaceAll( "\n", " " ).replaceAll( " , ", ", " ).replaceFirst( ":", ":</b>" ).trim() );
-					currentChatBuffer.append( "</font><br>\n" );
-				}
-				else
+				currentChatBuffer.append( "<font color=purple>" );
+				while ( helpString.hasMoreTokens() )
 				{
-					if ( addingHelp )
+					currentToken = helpString.nextToken();
+					if ( currentToken.startsWith( "/" ) )
 					{
-						currentChatBuffer.append( "<font color=orange>" );
-						currentChatBuffer.append( result.replaceAll( "\n", "<br>" ) );
-						currentChatBuffer.append( "</font><br>\n" );
+						currentChatBuffer.append( "</font><br><font color=purple><b>" );
+						currentChatBuffer.append( currentToken );
+						currentChatBuffer.append( "</b>" );
 					}
-					else
-					{
-						currentChatBuffer.append( "<font color=teal><b>" );
-						currentChatBuffer.append( result.replaceAll( "\n", " " ).replaceAll( " , ", ", " ).replaceFirst( ":", ":</b>" ).trim() );
-						currentChatBuffer.append( "</font><br>\n" );
-					}
+					else if ( !currentToken.endsWith( ":" ) && helpString.hasMoreTokens() )
+						currentChatBuffer.append( currentToken );
 				}
+
+				currentChatBuffer.append( "</font><br><br>\n" );
+			}
+			else
+			{
+				StringTokenizer parsedContactList = new StringTokenizer( result.replaceAll( "<.*?>", "\n" ), "\n" );
+				parsedContactList.nextToken();
+
+				List newContactList = new ArrayList();
+				while ( parsedContactList.hasMoreTokens() )
+				{
+					newContactList.add( parsedContactList.nextToken() );
+
+					// The name is usually followed by a comma; the comma is skipped
+					// so that you don't have commas appearing in the contact list
+
+					if ( parsedContactList.hasMoreTokens() )
+						parsedContactList.nextToken();
+				}
+				updateContactList( newContactList );
 			}
 		}
 
@@ -507,32 +477,11 @@ public class KoLMessenger
 		{
 			lastFindIndex = playerIDMatcher.end();
 			StringTokenizer parsedLink = new StringTokenizer( playerIDMatcher.group(), "<>=\'\"" );
-			parsedLink.nextToken();  parsedLink.nextToken();
+			parsedLink.nextToken();  parsedLink.nextToken();  parsedLink.nextToken();
 			String playerID = parsedLink.nextToken();
 			String playerName = parsedLink.nextToken();
 			seenPlayerIDs.put( playerName, playerID );
 			seenPlayerNames.put( playerID, playerName );
-		}
-
-		// Also extract messages which indicate logon/logoff of players to
-		// update the contact list.
-
-		Matcher onlineNoticeMatcher = Pattern.compile( "<font color=green><b>.*?</b></font> logged on.</font>" ).matcher( noContactListContent );
-		lastFindIndex = 0;
-		while ( onlineNoticeMatcher.find( lastFindIndex ) )
-		{
-			lastFindIndex = onlineNoticeMatcher.end();
-			String [] onlineNotice = onlineNoticeMatcher.group().split( "<.*?>" );
-			updateContactList( onlineNotice[2], true );
-		}
-
-		Matcher offlineNoticeMatcher = Pattern.compile( "<font color=green><b>.*?</b></font> logged off.</font>" ).matcher( noContactListContent );
-		lastFindIndex = 0;
-		while ( offlineNoticeMatcher.find( lastFindIndex ) )
-		{
-			lastFindIndex = offlineNoticeMatcher.end();
-			String [] offlineNotice = offlineNoticeMatcher.group().split( "<.*?>" );
-			updateContactList( offlineNotice[2], false );
 		}
 
 		// Now with all that information parsed, you can properly deal
@@ -776,15 +725,21 @@ public class KoLMessenger
 		if ( message != null && channelBuffer != null )
 		{
 			String actualMessage = message.trim();
-			Matcher nameMatcher = Pattern.compile( "<b>.*?</b>" ).matcher( message );
-			if ( nameMatcher.find() )
-			{
-				String name = nameMatcher.group();
-				name = name.substring( 3, name.indexOf( "</b>" ) );
 
-				actualMessage = actualMessage.replaceFirst( "</b>", "</a></b>" ).replaceFirst( "<b>",
-					"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
+			if ( !actualMessage.startsWith( "<font color=green>" ) && actualMessage.indexOf( "<b>" ) != -1 )
+			{
+				Matcher nameMatcher = Pattern.compile( "<b>.*?</b>" ).matcher( actualMessage );
+				if ( nameMatcher.find() )
+				{
+					String name = nameMatcher.group();
+					name = name.substring( 3, name.indexOf( "</b>" ) );
+
+					actualMessage = actualMessage.replaceFirst( "</b>", "</a></b>" ).replaceFirst( "<b>",
+						"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
+				}
 			}
+			else if ( actualMessage.indexOf( "</font>" ) == -1 )
+				actualMessage = actualMessage + "</font>";
 
 			channelBuffer.append( actualMessage );
 			channelBuffer.append( "<br>\n" );
