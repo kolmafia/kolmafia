@@ -130,6 +130,8 @@ public abstract class KoLmafia implements UtilityConstants
 		// Grab the character data
 		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
 		characterData = new KoLCharacter( loginname );
+
+		recentEffects = new ArrayList();
 		(new CharsheetRequest( this )).run();
 		(new CampgroundRequest( this )).run();
 
@@ -145,7 +147,6 @@ public abstract class KoLmafia implements UtilityConstants
 		closet = characterData.getCloset();
 
 		usableItems = new SortedListModel();
-
 		(new EquipmentRequest( this )).run();
 
 		if ( !permitContinue )
@@ -159,9 +160,7 @@ public abstract class KoLmafia implements UtilityConstants
 		logStream.println( "Loading user settings for " + loginname + "..." );
 		settings = new KoLSettings( loginname );
 
-		recentEffects = new ArrayList();
 		tally = new SortedListModel();
-
 		addToResultTally( new AdventureResult( AdventureResult.HP, characterData.getCurrentHP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.MP, characterData.getCurrentMP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.ADV, characterData.getAdventuresLeft() ) );
@@ -170,6 +169,8 @@ public abstract class KoLmafia implements UtilityConstants
 		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
 		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
 		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
+
+		applyRecentEffects();
 	}
 
 	/**
@@ -231,7 +232,6 @@ public abstract class KoLmafia implements UtilityConstants
 	public void addToResultTally( AdventureResult result )
 	{
 		String resultName = result.getName();
-
 		if ( !StatusEffectDatabase.contains( result.getName() ) )
 			AdventureResult.addResultToList( tally, result, characterData.getBaseMaxHP(), characterData.getBaseMaxMP() );
 		else
@@ -254,6 +254,19 @@ public abstract class KoLmafia implements UtilityConstants
 
 		if ( tally.size() > 4 && resultName.equals( AdventureResult.DRUNK ) )
 			characterData.setInebriety( ((AdventureResult)tally.get( 3 )).getCount() );
+	}
+
+	/**
+	 * Adds the recent effects accumulated so far to the actual effects.
+	 * This should be called after the previous effects were decremented,
+	 * if adventuring took place.
+	 */
+
+	protected void applyRecentEffects()
+	{
+		for ( int j = 0; j < recentEffects.size(); ++j )
+			AdventureResult.addResultToList( characterData.getEffects(), (AdventureResult) recentEffects.get(j) );
+		recentEffects.clear();
 	}
 
 	/**

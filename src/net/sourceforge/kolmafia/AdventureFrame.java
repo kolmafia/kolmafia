@@ -161,15 +161,6 @@ public class AdventureFrame extends KoLFrame
 		tabs.addTab( "Mall of Loathing", mallSearch );
 
 		clanBuff = new ClanBuffPanel();
-		removeEffects = new RemoveEffectsPanel();
-		skillBuff = new SkillBuffPanel();
-
-		JPanel effectsPanel = new JPanel();
-		effectsPanel.setLayout( new BorderLayout( 10, 10 ) );
-		effectsPanel.add( removeEffects, BorderLayout.NORTH );
-		effectsPanel.add( skillBuff, BorderLayout.CENTER );
-		tabs.addTab( "Effects & Buffs", effectsPanel );
-
 		heroDonation = new HeroDonationPanel();
 		meatStorage = new MeatStoragePanel();
 
@@ -179,6 +170,15 @@ public class AdventureFrame extends KoLFrame
 		otherStuffPanel.add( heroDonation, "" );
 		otherStuffPanel.add( meatStorage, "" );
 		tabs.addTab( "Other Activities", otherStuffPanel );
+
+		removeEffects = new RemoveEffectsPanel();
+		skillBuff = new SkillBuffPanel();
+
+		JPanel effectsPanel = new JPanel();
+		effectsPanel.setLayout( new BorderLayout( 10, 10 ) );
+		effectsPanel.add( removeEffects, BorderLayout.NORTH );
+		effectsPanel.add( skillBuff, BorderLayout.CENTER );
+		tabs.addTab( "Effects & Buffs", effectsPanel );
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
@@ -211,6 +211,7 @@ public class AdventureFrame extends KoLFrame
 		clanBuff.setEnabled( isEnabled );
 		heroDonation.setEnabled( isEnabled );
 		meatStorage.setEnabled( isEnabled );
+		skillBuff.setEnabled( isEnabled );
 	}
 
 	/**
@@ -1041,6 +1042,8 @@ public class AdventureFrame extends KoLFrame
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
+		private JComboBox effects;
+
 		public RemoveEffectsPanel()
 		{
 			super( "uneffect", "description", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
@@ -1051,9 +1054,11 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
+			effects = new JComboBox( client == null ? new LockableListModel() :
+				client.getCharacterData().getEffects().getMirrorImage() );
+
 			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Active Effects: ", new JComboBox(
-				client == null ? new LockableListModel() : client.getCharacterData().getEffects().getMirrorImage() ) );
+			elements[0] = new VerifiableElement( "Active Effects: ", effects );
 			setContent( elements );
 		}
 
@@ -1076,6 +1081,7 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			contentPanel = removeEffects;
+			(new RemoveEffectsThread()).start();
 		}
 
 		protected void actionCancelled()
@@ -1085,6 +1091,43 @@ public class AdventureFrame extends KoLFrame
 
 		public void requestFocus()
 		{
+		}
+
+		private class RemoveEffectsThread extends Thread
+		{
+			public RemoveEffectsThread()
+			{
+				super( "Remove-Effects-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				if ( !client.getInventory().contains( UneffectRequest.REMEDY ) )
+				{
+					updateDisplay( ENABLED_STATE, "You don't have any soft green fluffy martians." );
+					return;
+				}
+
+				AdventureResult effect = (AdventureResult) effects.getSelectedItem();
+
+				if ( effect == null )
+					return;
+
+				LockableListModel effectsList = client.getCharacterData().getEffects();
+				int effectCount = effectsList.size();
+
+				RemoveEffectsPanel.this.setEnabled( false );
+				updateDisplay( DISABLED_STATE, "Using soft green whatever..." );
+
+				(new UneffectRequest( client, effect )).run();
+
+				boolean isEnabled = client.getInventory().contains( UneffectRequest.REMEDY );
+				String message = effectCount == effectsList.size() ? "Effect removal failed." : "Effect removed.";
+
+				updateDisplay( ENABLED_STATE, message );
+				RemoveEffectsPanel.this.setEnabled( isEnabled );
+			}
 		}
 	}
 

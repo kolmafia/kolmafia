@@ -378,7 +378,7 @@ public class AdventureResult implements Comparable
 		// to zero - if it did, then remove the item from the list if
 		// it's an item (non-items are exempt).
 
-		if ( actualResult.isItem() && actualResult.getCount() <= 0 )
+		if ( actualResult.priority == ITEM_PRIORITY && actualResult.getCount() <= 0 )
 		{
 			tally.remove( actualResult );
 			return;

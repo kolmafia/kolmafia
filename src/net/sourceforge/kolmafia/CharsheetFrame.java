@@ -130,24 +130,17 @@ public class CharsheetFrame extends KoLFrame
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout( new BorderLayout( 10, 10 ) );
 
-		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout( new BorderLayout() );
 		JLabel outfitLabel = new JLabel( "Outfits:  ", JLabel.RIGHT );
 		JComponentUtilities.setComponentSize( outfitLabel, 80, 24 );
-		labelPanel.add( outfitLabel, BorderLayout.NORTH );
+		southPanel.add( outfitLabel, BorderLayout.WEST );
 
-		JPanel selectPanel = new JPanel();
-		selectPanel.setLayout( new BoxLayout( selectPanel, BoxLayout.Y_AXIS ) );
 		outfitSelect = new JComboBox( characterData.getOutfits().getMirrorImage() );
-		selectPanel.add( outfitSelect, "" );
+		southPanel.add( outfitSelect, BorderLayout.CENTER );
 
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout( new BorderLayout() );
 		changeOutfitButton = new JButton( "change" );
 		JComponentUtilities.setComponentSize( changeOutfitButton, 84, 24 );
 		changeOutfitButton.addActionListener( new ChangeOutfitListener() );
-		buttonPanel.add( changeOutfitButton, BorderLayout.NORTH );
-		southPanel.add( buttonPanel, BorderLayout.EAST );
+		southPanel.add( changeOutfitButton, BorderLayout.EAST );
 
 		return southPanel;
 	}
