@@ -120,6 +120,7 @@ public class AdventureFrame extends KoLFrame
 	private JTabbedPane tabs;
 	private KoLMessenger kolchat;
 
+	private CharsheetFrame statusPane;
 	private GearChangeFrame gearChanger;
 	private ItemManageFrame itemManager;
 
@@ -1162,7 +1163,42 @@ public class AdventureFrame extends KoLFrame
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the item manager.
+	 * the request for viewing the status pane.
+	 */
+
+	private class ViewStatusPaneListener extends DisplayFrameListener
+	{
+		public ViewStatusPaneListener()
+		{	super( CharsheetFrame.class );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new ViewStatusPaneThread()).start();
+		}
+
+		private class ViewStatusPaneThread extends DisplayFrameThread
+		{
+			public void run()
+			{
+				if ( statusPane != null )
+				{
+					statusPane.setVisible( true );
+					statusPane.requestFocus();
+					statusPane.setEnabled( isEnabled );
+				}
+				else
+				{
+					super.run();
+					statusPane = (CharsheetFrame) lastCreatedFrame;
+				}
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the gear changer.
 	 */
 
 	private class ViewGearChangerListener extends DisplayFrameListener
