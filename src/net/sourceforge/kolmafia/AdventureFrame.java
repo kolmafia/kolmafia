@@ -618,27 +618,16 @@ public class AdventureFrame extends KoLFrame
 	 * buffs in the <code>AdventureFrame</code>.
 	 */
 
-	private class ClanBuffPanel extends KoLPanel
+	private class ClanBuffPanel extends LabeledKoLPanel
 	{
 		private boolean isBuffing;
-
-		private JPanel actionStatusPanel;
-		private JLabel actionStatusLabel;
-
 		private JComboBox buffField;
 		private JTextField countField;
 
 		public ClanBuffPanel()
 		{
-			super( "purchase buffs", "stop purchases", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( "Make Your Clan 1335", "purchase buffs", "stop purchases", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 			this.isBuffing = false;
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			buffField = new JComboBox( ClanBuffRequest.getRequestList( client ) );
 			countField = new JTextField();
@@ -650,20 +639,8 @@ public class AdventureFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		protected void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements );
-			add( JComponentUtilities.createLabel( "Make Your Clan 1335", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-			add( actionStatusPanel, BorderLayout.SOUTH );
-		}
-
 		public void clear()
 		{	countField.setText( "" );
-		}
-
-		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -689,10 +666,6 @@ public class AdventureFrame extends KoLFrame
 				client.cancelRequest();
 				updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
 			}
-		}
-
-		public void requestFocus()
-		{
 		}
 
 		/**
@@ -739,24 +712,14 @@ public class AdventureFrame extends KoLFrame
 	 * the statues in the shrine.
 	 */
 
-	private class HeroDonationPanel extends KoLPanel
+	private class HeroDonationPanel extends LabeledKoLPanel
 	{
-		private JPanel actionStatusPanel;
-		private JLabel actionStatusLabel;
-
 		private JComboBox heroField;
 		private JTextField amountField;
 
 		public HeroDonationPanel()
 		{
-			super( "lump sum", "increments", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			super( "Donations to the Greater Good", "lump sum", "increments", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			LockableListModel heroes = new LockableListModel();
 			heroes.add( "Statue of Boris" );
@@ -774,20 +737,8 @@ public class AdventureFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		protected void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements, null, null, null, true, true );
-			add( JComponentUtilities.createLabel( "Donations to the Greater Good", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-			add( actionStatusPanel, BorderLayout.SOUTH );
-		}
-
 		public void clear()
 		{	amountField.setText( "" );
-		}
-
-		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -813,10 +764,6 @@ public class AdventureFrame extends KoLFrame
 				(new ClanDonationThread()).start();
 			else
 				(new HeroDonationThread( true )).start();
-		}
-
-		public void requestFocus()
-		{
 		}
 
 		/**
@@ -925,21 +872,14 @@ public class AdventureFrame extends KoLFrame
 	 * removing meat from the closet.
 	 */
 
-	private class MeatStoragePanel extends KoLPanel
+	private class MeatStoragePanel extends LabeledKoLPanel
 	{
-		private JPanel actionStatusPanel;
-
 		private JTextField amountField;
 		private JTextField inClosetField;
 
 		public MeatStoragePanel()
 		{
-			super( "put in closet", "take from closet", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			super( "Meat Management (Closet)", "put in closet", "take from closet", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			amountField = new JTextField();
 			inClosetField = new JTextField( df.format( client == null ? 0 : client.getCharacterData().getClosetMeat() ) );
@@ -953,11 +893,8 @@ public class AdventureFrame extends KoLFrame
 
 		protected void setContent( VerifiableElement [] elements )
 		{
-			super.setContent( elements, null, null, null, true, true );
+			super.setContent( elements );
 			inClosetField.setEnabled( false );
-			add( JComponentUtilities.createLabel( "Meat Management (Closet)", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
 
 		public void clear()
@@ -984,10 +921,6 @@ public class AdventureFrame extends KoLFrame
 		{
 			contentPanel = meatStorage;
 			(new MeatStorageThread( false )).start();
-		}
-
-		public void requestFocus()
-		{
 		}
 
 		/**
@@ -1037,22 +970,13 @@ public class AdventureFrame extends KoLFrame
 	 * effects from the character.
 	 */
 
-	private class RemoveEffectsPanel extends KoLPanel
+	private class RemoveEffectsPanel extends LabeledKoLPanel
 	{
-		private JPanel actionStatusPanel;
-		private JLabel actionStatusLabel;
-
 		private JComboBox effects;
 
 		public RemoveEffectsPanel()
 		{
-			super( "uneffect", "description", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			super( "Uneffective", "uneffect", "description", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			effects = new JComboBox( client == null ? new LockableListModel() :
 				client.getCharacterData().getEffects().getMirrorImage() );
@@ -1062,20 +986,8 @@ public class AdventureFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		protected void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements, null, null, null, true, true );
-			add( JComponentUtilities.createLabel( "Uneffective", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-			add( actionStatusPanel, BorderLayout.SOUTH );
-		}
-
 		public void clear()
 		{
-		}
-
-		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
 		}
 
 		protected void actionConfirmed()
@@ -1087,10 +999,6 @@ public class AdventureFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			contentPanel = removeEffects;
-		}
-
-		public void requestFocus()
-		{
 		}
 
 		private class RemoveEffectsThread extends Thread
@@ -1136,24 +1044,15 @@ public class AdventureFrame extends KoLFrame
 	 * effects to a character (yourself or others).
 	 */
 
-	private class SkillBuffPanel extends KoLPanel
+	private class SkillBuffPanel extends LabeledKoLPanel
 	{
-		private JPanel actionStatusPanel;
-		private JLabel actionStatusLabel;
-
 		private JComboBox skillSelect;
 		private JTextField targetField;
 		private JTextField countField;
 
 		public SkillBuffPanel()
 		{
-			super( "cast buff", "description", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			super( "Got Skills?", "cast buff", "description", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			skillSelect = new JComboBox( client == null ? new LockableListModel() :
 				client.getCharacterData().getAvailableSkills() );
@@ -1167,20 +1066,8 @@ public class AdventureFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		protected void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements, null, null, null, true, true );
-			add( JComponentUtilities.createLabel( "Got Skills?", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-			add( actionStatusPanel, BorderLayout.SOUTH );
-		}
-
 		public void clear()
 		{
-		}
-
-		public void setStatusMessage( String s )
-		{	actionStatusLabel.setText( s );
 		}
 
 		protected void actionConfirmed()
@@ -1192,10 +1079,6 @@ public class AdventureFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			contentPanel = skillBuff;
-		}
-
-		public void requestFocus()
-		{
 		}
 
 		/**

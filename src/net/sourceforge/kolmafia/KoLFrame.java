@@ -34,11 +34,19 @@
 
 package net.sourceforge.kolmafia;
 
-// layout and containers
-import java.awt.Dimension;
+// containers
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+
+// layout
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+
 
 // event listeners
 import java.awt.event.KeyEvent;
@@ -52,6 +60,7 @@ import java.text.DecimalFormat;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extended <code>JFrame</code> which provides all the frames in
@@ -299,6 +308,65 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		}
 
 		public void setStatusMessage( String s )
+		{
+		}
+	}
+
+	/**
+	 * A generic panel which adds a label to the bottom of the KoLPanel
+	 * to update the panel's status.  It also provides a thread which is
+	 * guaranteed to be a daemon thread for updating the frame which
+	 * also retrieves a reference to the client's current settings.
+	 */
+
+	protected abstract class LabeledKoLPanel extends KoLPanel
+	{
+		private String panelTitle;
+		private JPanel actionStatusPanel;
+		private JLabel actionStatusLabel;
+
+		public LabeledKoLPanel( String panelTitle, Dimension left, Dimension right )
+		{	this( panelTitle, "apply", "defaults", left, right );
+		}
+
+		public LabeledKoLPanel( String panelTitle, String confirmButton, String cancelButton, Dimension left, Dimension right )
+		{
+			super( confirmButton, cancelButton, left, right );
+			this.panelTitle = panelTitle;
+
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+		}
+
+		protected void setContent( VerifiableElement [] elements )
+		{	setContent( elements, true );
+		}
+
+		protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
+		{
+			super.setContent( elements, isLabelPreceeding );
+
+			if ( panelTitle != null )
+				add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER,
+						Color.black, Color.white ), BorderLayout.NORTH );
+
+			add( actionStatusPanel, BorderLayout.SOUTH );
+			clear();
+		}
+
+		public void setStatusMessage( String s )
+		{	actionStatusLabel.setText( s );
+		}
+
+		protected void actionCancelled()
+		{	clear();
+		}
+
+		public void requestFocus()
 		{
 		}
 	}
