@@ -97,7 +97,9 @@ public class SpecialOutfit
 		// The first outfit is always "select an outfit"; to make
 		// things easier, just remove it from the list.
 
-		outfits.remove(0);
+		if ( !outfits.isEmpty() )
+			outfits.remove(0);
+
 		return outfits;
 	}
 }
