@@ -56,7 +56,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 public class TradeableItemDatabase implements UtilityConstants
 {
 	private static final String ITEM_DBASE_FILE = "tradeitems.dat";
-	private static final int ITEM_COUNT = 1000;
+	public static final int ITEM_COUNT = 1200;
 
 	private static String [] itemByID = new String[ ITEM_COUNT ];
 	private static int [] consumptionID = new int[ ITEM_COUNT ];
