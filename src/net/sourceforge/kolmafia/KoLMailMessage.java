@@ -10,11 +10,10 @@ public class KoLMailMessage
 	private static SimpleDateFormat sdf = new SimpleDateFormat( "EEEE, MMMM d, hh:mmaa", Locale.US );
 
 	private String messageHTML;
-
 	private String messageID;
 	private String senderID;
 	private String senderName;
-	private Date messageDate;
+	private String messageDate;
 
 	public KoLMailMessage( String message )
 	{
@@ -38,18 +37,18 @@ public class KoLMailMessage
 			// the given string; note it may throw
 			// an exception (but probably not)
 
-			this.messageDate = sdf.parse( messageParser.nextToken().trim() );
+			this.messageDate = messageParser.nextToken().trim();
 		}
 		catch ( Exception e )
 		{
 			// Initialize the date to the current time,
 			// since that's about as close as it gets
-			this.messageDate = new Date();
+			this.messageDate = sdf.format( new Date() );
 		}
 	}
 
 	public String toString()
-	{	return senderName + " @ " + sdf.format( messageDate );
+	{	return senderName + " @ " + messageDate;
 	}
 
 	public boolean equals( Object o )
