@@ -500,7 +500,7 @@ public class BuffBotFrame extends KoLFrame
 						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 						JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-				panel.add( JComponentUtilities.createLabel( "Enter List of Names, separated by commas:", JLabel.CENTER,
+				panel.add( JComponentUtilities.createLabel( "White List (please separate names with commas):", JLabel.CENTER,
 						Color.black, Color.white ), BorderLayout.NORTH );
 
 				JComponentUtilities.setComponentSize( scrollArea, 400, 200 );
