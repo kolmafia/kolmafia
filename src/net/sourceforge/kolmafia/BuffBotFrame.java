@@ -78,6 +78,8 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Font;
 
+// event listeners
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -97,13 +99,12 @@ import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.border.EtchedBorder;
 
-import javax.swing.ListSelectionModel;
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-
 // utilities
 import java.util.Properties;
 import java.text.ParseException;
+import javax.swing.ListSelectionModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> which acts as a buffbot in Kingdom of Loathing.
@@ -172,10 +173,9 @@ public class BuffBotFrame extends KoLFrame
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
 		getContentPane().add( tabs, " " );
 		addWindowListener( new ReturnFocusAdapter() );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		setDefaultCloseOperation( HIDE_ON_CLOSE );
 
 		addWindowListener( new DisableBuffBotAdapter() );
-
 		addMenuBar();
 	}
 
@@ -183,6 +183,8 @@ public class BuffBotFrame extends KoLFrame
 	{
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
+
+		addPeopleMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
 
@@ -562,10 +564,12 @@ public class BuffBotFrame extends KoLFrame
 
 	private class DisableBuffBotAdapter extends WindowAdapter
 	{
-		public void windowClosed( WindowEvent e )
+		public void windowClosing( WindowEvent e )
 		{
 			if ( client != null )
 				(new DisableBuffBotThread()).start();
+			else
+				System.exit(0);
 		}
 
 		private class DisableBuffBotThread extends Thread

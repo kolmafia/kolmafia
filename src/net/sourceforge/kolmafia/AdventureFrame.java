@@ -129,8 +129,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 	private static final Color DISABLED_COLOR = null;
 
 	private JTabbedPane tabs;
-	private KoLMessenger kolchat;
-
 	private JPanel sidePanel;
 	private JLabel hpLabel, mpLabel, advLabel, meatLabel, drunkLabel;
 	private JTextField inClosetField;
@@ -138,7 +136,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 	private CharsheetFrame statusPane;
 	private GearChangeFrame gearChanger;
 	private ItemManageFrame itemManager;
-	private MailboxFrame mailboxDisplay;
 	private BuffBotFrame buffbotDisplay;
 
 	private AdventureSelectPanel adventureSelect;
@@ -148,9 +145,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 	private SkillBuffPanel skillBuff;
 	private HeroDonationPanel heroDonation;
 	private MeatStoragePanel meatStorage;
-
-	private JMenuItem statusMenuItem;
-	private JMenuItem mailMenuItem;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -342,27 +336,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		JMenuItem getBreakfastItem = new JMenuItem( "Breakfast Table", KeyEvent.VK_B );
 		getBreakfastItem.addActionListener( new GetBreakfastListener() );
+
 		addScriptMenu( menuBar ).add( getBreakfastItem );
-
-		JMenu peopleMenu = new JMenu( "People" );
-		peopleMenu.setMnemonic( KeyEvent.VK_P );
-		menuBar.add( peopleMenu );
-
-		JMenuItem chatMenuItem = new JMenuItem( "Chat of Loathing", KeyEvent.VK_C );
-		chatMenuItem.addActionListener( new ViewChatListener() );
-
-		peopleMenu.add( chatMenuItem );
-
-		JMenuItem composeMenuItem = new JMenuItem( "Green Composer", KeyEvent.VK_G );
-		composeMenuItem.addActionListener( new DisplayFrameListener( GreenMessageFrame.class ) );
-
-		peopleMenu.add( composeMenuItem );
-
-		this.mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_I );
-		mailMenuItem.addActionListener( new DisplayFrameListener( MailboxFrame.class ) );
-
-		peopleMenu.add( mailMenuItem );
-
+		addPeopleMenu( menuBar );
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
@@ -1427,77 +1403,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the item manager.
-	 */
-
-	private class DisplayMailListener extends DisplayFrameListener
-	{
-		public DisplayMailListener()
-		{	super( MailboxFrame.class );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new DisplayMailThread()).start();
-		}
-
-		private class DisplayMailThread extends DisplayFrameThread
-		{
-			public void run()
-			{
-				if ( mailboxDisplay != null )
-				{
-					mailboxDisplay.setVisible( true );
-					mailboxDisplay.requestFocus();
-					mailboxDisplay.setEnabled( isEnabled );
-
-					if ( isEnabled )
-						mailboxDisplay.refreshMailbox();
-				}
-				else
-				{
-					super.run();
-					mailboxDisplay = (MailboxFrame) lastCreatedFrame;
-				}
-			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the chat window.
-	 */
-
-	private class ViewChatListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new ViewChatThread()).start();
-		}
-
-		private class ViewChatThread extends Thread
-		{
-			public ViewChatThread()
-			{
-				super( "Chat-Display-Thread" );
-				setDaemon( true );
-			}
-
-			public void run()
-			{
-				if ( client.getMessenger() == null )
-				{
-					client.initializeChat();
-					kolchat = client.getMessenger();
-				}
-
-				updateDisplay( ENABLED_STATE, " " );
-			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
 	 * the request for fetching breakfast.
 	 */
 
@@ -1617,13 +1522,15 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 					buffbotDisplay.setVisible( true );
 					buffbotDisplay.requestFocus();
 					buffbotDisplay.setEnabled( isEnabled );
-
+					client.initializeBuffBot();
 				}
 				else
 				{
 					super.run();
 					buffbotDisplay = (BuffBotFrame) lastCreatedFrame;
 				}
+
+				AdventureFrame.this.setVisible( false );
 			}
 		}
 	}

@@ -171,4 +171,8 @@ public class KoLmafiaGUI extends KoLmafia
 			"The mafia has stolen your shoes!  Continue adventuring anyway?",
 			"You're not drunk!  You see flying penguins and a dancing hermit!", JOptionPane.YES_NO_OPTION );
 	}
+
+	public void deinitializeBuffBot()
+	{	activeFrame.setVisible( true );
+	}
 }

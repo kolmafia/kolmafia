@@ -48,7 +48,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
-
 // event listeners
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
@@ -79,6 +78,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
 	private boolean isExecutingScript;
+
+	protected MailboxFrame mailboxDisplay;
+	protected KoLMessenger kolchat;
+
+	protected JMenuItem statusMenuItem;
+	protected JMenuItem mailMenuItem;
 
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
@@ -141,6 +146,36 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	/**
 	 * Utility method used to add the default <code>KoLmafia</code>
+	 * people menu to the given menu bar.  The default menu contains
+	 * the ability to open chat, compose green messages, and read
+	 * current mail.
+	 */
+
+	protected final JMenu addPeopleMenu( JMenuBar menuBar )
+	{
+		JMenu peopleMenu = new JMenu( "People" );
+		peopleMenu.setMnemonic( KeyEvent.VK_P );
+		menuBar.add( peopleMenu );
+
+		JMenuItem chatMenuItem = new JMenuItem( "Chat of Loathing", KeyEvent.VK_C );
+		chatMenuItem.addActionListener( new ViewChatListener() );
+
+		peopleMenu.add( chatMenuItem );
+
+		JMenuItem composeMenuItem = new JMenuItem( "Green Composer", KeyEvent.VK_G );
+		composeMenuItem.addActionListener( new DisplayFrameListener( GreenMessageFrame.class ) );
+
+		peopleMenu.add( composeMenuItem );
+
+		this.mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_I );
+		mailMenuItem.addActionListener( new DisplayFrameListener( MailboxFrame.class ) );
+
+		peopleMenu.add( mailMenuItem );
+		return peopleMenu;
+	}
+
+	/**
+	 * Utility method used to add the default <code>KoLmafia</code>
 	 * scripting menu to the given menu bar.  The default menu contains
 	 * the ability to load scripts.
 	 */
@@ -189,6 +224,83 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		configureMenu.add( loggerItem );
 		return configureMenu;
+	}
+
+	/**
+	 * Utility method used to add the default <code>KoLmafia</code> Help
+	 * menu to the given menu bar.  The default Help menu contains the
+	 * copyright statement for <code>KoLmafia</code>.
+	 *
+	 * @param	menuBar	The <code>JMenuBar</code> to which the Help menu will be attached
+	 */
+
+	protected final JMenu addHelpMenu( JMenuBar menuBar )
+	{
+		JMenu helpMenu = new JMenu("Help");
+		helpMenu.setMnemonic( KeyEvent.VK_H );
+		menuBar.add( helpMenu );
+
+		JMenuItem aboutItem = new JMenuItem( "About KoLmafia...", KeyEvent.VK_A );
+		aboutItem.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{	(new LicenseDisplay( "KoLmafia: Copyright Notice" )).requestFocus();
+			}
+		});
+
+		helpMenu.add( aboutItem );
+		return helpMenu;
+	}
+
+	/**
+	 * Auxilary method used to enable and disable a frame.  By default,
+	 * this attempts to toggle the enable/disable status on the core
+	 * content panel.  It is advised that descendants override this
+	 * behavior whenever necessary.
+	 *
+	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
+	 */
+
+	public void setEnabled( boolean isEnabled )
+	{
+		this.isEnabled = isEnabled;
+
+		if ( contentPanel != null )
+			contentPanel.setEnabled( isEnabled );
+
+		Iterator framesIterator = existingFrames.iterator();
+		KoLFrame currentFrame;
+
+		while ( framesIterator.hasNext() )
+		{
+			currentFrame = (KoLFrame) framesIterator.next();
+			if ( currentFrame.isShowing() )
+				currentFrame.setEnabled( isEnabled );
+		}
+	}
+
+	/**
+	 * Overrides the default isEnabled() method, because the setEnabled()
+	 * method does not call the superclass's version.
+	 *
+	 * @return	Whether or not this KoLFrame is enabled.
+	 */
+
+	public boolean isEnabled()
+	{	return isEnabled;
+	}
+
+	/**
+	 * An internal class which allows focus to be returned to the
+	 * client's active frame when auxiliary windows are closed.
+	 */
+
+	protected class ReturnFocusAdapter extends WindowAdapter
+	{
+		public void windowClosing( WindowEvent e )
+		{
+			if ( client != null && client != null )
+				client.requestFocus();
+		}
 	}
 
 	private class ToggleMacroListener implements ActionListener
@@ -255,7 +367,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{	return "Text Documents";
 			}
 		}
-
 	}
 
 	private class ToggleDebugListener implements ActionListener
@@ -283,84 +394,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 		}
 	}
-
-	/**
-	 * Auxilary method used to enable and disable a frame.  By default,
-	 * this attempts to toggle the enable/disable status on the core
-	 * content panel.  It is advised that descendants override this
-	 * behavior whenever necessary.
-	 *
-	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
-	 */
-
-	public void setEnabled( boolean isEnabled )
-	{
-		this.isEnabled = isEnabled;
-
-		if ( contentPanel != null )
-			contentPanel.setEnabled( isEnabled );
-
-		Iterator framesIterator = existingFrames.iterator();
-		KoLFrame currentFrame;
-
-		while ( framesIterator.hasNext() )
-		{
-			currentFrame = (KoLFrame) framesIterator.next();
-			if ( currentFrame.isShowing() )
-				currentFrame.setEnabled( isEnabled );
-		}
-	}
-
-	/**
-	 * Overrides the default isEnabled() method, because the setEnabled()
-	 * method does not call the superclass's version.
-	 *
-	 * @return	Whether or not this KoLFrame is enabled.
-	 */
-
-	public boolean isEnabled()
-	{	return isEnabled;
-	}
-
-	/**
-	 * Utility method used to add the default <code>KoLmafia</code> Help
-	 * menu to the given menu bar.  The default Help menu contains the
-	 * copyright statement for <code>KoLmafia</code>.
-	 *
-	 * @param	menuBar	The <code>JMenuBar</code> to which the Help menu will be attached
-	 */
-
-	protected final JMenu addHelpMenu( JMenuBar menuBar )
-	{
-		JMenu helpMenu = new JMenu("Help");
-		helpMenu.setMnemonic( KeyEvent.VK_H );
-		menuBar.add( helpMenu );
-
-		JMenuItem aboutItem = new JMenuItem( "About KoLmafia...", VK_A );
-		aboutItem.addActionListener( new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{	(new LicenseDisplay( "KoLmafia: Copyright Notice" )).requestFocus();
-			}
-		});
-
-		helpMenu.add( aboutItem );
-		return helpMenu;
-	}
-
-	/**
-	 * An internal class which allows focus to be returned to the
-	 * client's active frame when auxiliary windows are closed.
-	 */
-
-	protected class ReturnFocusAdapter extends WindowAdapter
-	{
-		public void windowClosed( WindowEvent e )
-		{
-			if ( client != null && client != null )
-				client.requestFocus();
-		}
-	}
-
 
 	/**
 	 * In order to keep the user interface from freezing (or at least
@@ -605,6 +638,77 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 					e.printStackTrace( client.getLogStream() );
 					return;
+				}
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the chat window.
+	 */
+
+	private class ViewChatListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new ViewChatThread()).start();
+		}
+
+		private class ViewChatThread extends Thread
+		{
+			public ViewChatThread()
+			{
+				super( "Chat-Display-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				if ( client.getMessenger() == null )
+				{
+					client.initializeChat();
+					kolchat = client.getMessenger();
+				}
+
+				updateDisplay( ENABLED_STATE, " " );
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the item manager.
+	 */
+
+	private class DisplayMailListener extends DisplayFrameListener
+	{
+		public DisplayMailListener()
+		{	super( MailboxFrame.class );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new DisplayMailThread()).start();
+		}
+
+		private class DisplayMailThread extends DisplayFrameThread
+		{
+			public void run()
+			{
+				if ( mailboxDisplay != null )
+				{
+					mailboxDisplay.setVisible( true );
+					mailboxDisplay.requestFocus();
+					mailboxDisplay.setEnabled( isEnabled );
+
+					if ( isEnabled )
+						mailboxDisplay.refreshMailbox();
+				}
+				else
+				{
+					super.run();
+					mailboxDisplay = (MailboxFrame) lastCreatedFrame;
 				}
 			}
 		}
