@@ -1026,9 +1026,21 @@ public class KoLCharacter
 	{	return familiars;
 	}
 
+	/**
+	 * Sets the string used on the character pane to determine
+	 * how many points remain until the character's next level.
+	 * @param	advancement	The string indicating the TNP advancement
+	 */
+
 	public void setAdvancement( String advancement )
 	{	this.advancement = advancement;
 	}
+
+	/**
+	 * Returns the string used on the character pane to detrmine
+	 * how many points remain until the character's next level.
+	 * @return	The string indicating the TNP advancement
+	 */
 
 	public String getAdvancement()
 	{	return advancement;
