@@ -99,6 +99,13 @@ public class AdventureRequest extends KoLRequest
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "choice.php" ) )
 			(new AdventureRequest( client, formSource, adventureID )).run();
 
+		// Also, if you're using KoLmafia, you're probably not
+		// trying to complete the /haiku subquest, so the subquest
+		// will be ignored as well
+
+		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "haiku.php" ) )
+			(new AdventureRequest( client, formSource, adventureID )).run();
+
 		// From here on out, there will only be data handling
 		// if you've encountered a non-redirect request, and
 		// an error hasn't occurred.
