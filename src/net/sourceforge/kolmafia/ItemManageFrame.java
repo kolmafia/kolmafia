@@ -689,9 +689,6 @@ public class ItemManageFrame extends KoLFrame
 							selection.run();
 						}
 					}
-
-					if ( client.permitsContinue() )
-						client.updateDisplay( ENABLED_STATE, "Item creation complete." );
 				}
 				catch ( Exception e )
 				{

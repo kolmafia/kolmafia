@@ -95,7 +95,6 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( DISABLED_STATE, "Using " + itemUsed.getName() + "..." );
 		super.run();
 
 		if ( isErrorState )

@@ -254,6 +254,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					else
 						client.cancelRequest();
 				}
+				else if ( client.permitsContinue() )
+					updateDisplay( ENABLED_STATE, item.getName() + " successfully cooked." );
+
 				break;
 
 			case MIX:
@@ -268,7 +271,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					else
 						client.cancelRequest();
 				}
+				else if ( client.permitsContinue() )
+					updateDisplay( ENABLED_STATE, item.getName() + " successfully mixed." );
+
 				break;
+
+			default:
+				if ( client.permitsContinue() )
+					updateDisplay( ENABLED_STATE, item.getName() + " successfully created." );
 		}
 	}
 
@@ -307,6 +317,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( client.getInventory().contains( servant[0] ) )
 		{
+			updateDisplay( DISABLED_STATE, "Repairing " + servantName + "..." );
 			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, servantName, 1 )).run();
 			return true;
 		}
