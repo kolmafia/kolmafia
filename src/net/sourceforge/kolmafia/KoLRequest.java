@@ -532,18 +532,16 @@ public class KoLRequest implements Runnable
 		}
 		catch ( IOException e )
 		{
-			// An IOException is clearly an error - maybe it
-			// should be reported as one, and the client
-			// should be notified
+			// An IOException is clearly an error; here it will be reported
+			// to the client, but another attempt will be made
 
 			isErrorState = true;
 			if ( frame != null )
-				frame.updateDisplay( KoLFrame.ENABLED_STATE, "I/O error.  Please restart." );
+				frame.updateDisplay( KoLFrame.ENABLED_STATE, "I/O error.  Retrying..." );
 			else if ( client != null )
-			{
-				client.updateAdventure( false, false );
 				logStream.println( e );
-			}
+
+			this.run();
 		}
 	}
 

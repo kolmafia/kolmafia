@@ -352,7 +352,7 @@ public class AdventureFrame extends KoLFrame
 
 		public MallSearchPanel()
 		{
-			super( "search", "buy selected", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( "search", "purchase", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -563,9 +563,7 @@ public class AdventureFrame extends KoLFrame
 	private class ViewChatListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{
-			updateDisplay( NOCHANGE_STATE, "Connecting to chat..." );
-			(new ViewChatThread()).start();
+		{	(new ViewChatThread()).start();
 		}
 
 		private class ViewChatThread extends Thread
@@ -579,9 +577,12 @@ public class AdventureFrame extends KoLFrame
 			public void run()
 			{
 				ChatFrame kolchat = new ChatFrame( client );
-				kolchat.setSize( new Dimension( 400, 300 ) );
 				kolchat.setVisible( true );
 				kolchat.requestFocus();
+
+				if ( client != null )
+					client.initializeChat( kolchat.getChatDisplay() );
+
 				updateDisplay( NOCHANGE_STATE, "" );
 			}
 		}

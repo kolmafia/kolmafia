@@ -72,6 +72,7 @@ import java.util.Calendar;
 public class ChatFrame extends KoLFrame
 {
 	private JTextField entryField;
+	private JEditorPane chatDisplay;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code>.
@@ -83,16 +84,15 @@ public class ChatFrame extends KoLFrame
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 			" (Chat)", client );
 
-		JEditorPane chatDisplay = new JEditorPane();
+		chatDisplay = new JEditorPane();
 		chatDisplay.setEditable( false );
 		JScrollPane scrollArea = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		JPanel entryPanel = new JPanel();
 		entryField = new JTextField();
-		entryField.addActionListener( new ChatEntryListener() );
 		JButton entryButton = new JButton( "chat" );
-		entryButton.addActionListener( new ChatEntryListener() );
+		rootPane.setDefaultButton( entryButton );
 
 		entryPanel.setLayout( new BoxLayout( entryPanel, BoxLayout.X_AXIS ) );
 		entryPanel.add( entryField, BorderLayout.CENTER );
@@ -106,11 +106,14 @@ public class ChatFrame extends KoLFrame
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
 		getContentPane().add( mainPanel, "" );
 		addWindowListener( new CloseChatListener() );
-
-		if ( client != null )
-			client.initializeChat( chatDisplay );
+		entryButton.addActionListener( new ChatEntryListener() );
 
 		addMenuBar();
+
+		// Set the default size so that it doesn't appear super-small
+		// when it's first constructed
+
+		setSize( new Dimension( 400, 300 ) );
 	}
 
 	/**
@@ -133,6 +136,11 @@ public class ChatFrame extends KoLFrame
 
 		menu.add( loggerItem );
 
+		JMenuItem clearItem = new JMenuItem( "Clear Chat", KeyEvent.VK_C );
+		clearItem.addActionListener( new ClearChatBufferListener() );
+
+		menu.add( clearItem );
+
 		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
@@ -146,6 +154,17 @@ public class ChatFrame extends KoLFrame
 	{
 		super.requestFocus();
 		entryField.requestFocus();
+	}
+
+	/**
+	 * Returns the <code>JEditorPane</code> being used to display
+	 * the chat contents.
+	 *
+	 * @return	The <code>JEditorPane</code> used to display the chat
+	 */
+
+	public JEditorPane getChatDisplay()
+	{	return chatDisplay;
 	}
 
 	/**
@@ -179,6 +198,27 @@ public class ChatFrame extends KoLFrame
 	}
 
 	/**
+	 * Internal class to handle clearing the chat pane
+	 * whenever the user wishes it.
+	 */
+
+	private class ClearChatBufferListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new ClearChatBufferThread()).start();
+		}
+
+		private class ClearChatBufferThread extends Thread
+		{
+			public void run()
+			{
+				if ( client != null )
+					client.clearChatBuffer();
+			}
+		}
+	}
+
+	/**
 	 * Internal class to handle logging the chat when the
 	 * user wishes to log the chat.  This opens a file
 	 * selector window.
@@ -189,13 +229,32 @@ public class ChatFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			JFileChooser chooser = new JFileChooser();
+			chooser.setFileFilter( new HTMLFileFilter() );
 			int returnVal = chooser.showSaveDialog( ChatFrame.this );
+			String filename = chooser.getSelectedFile().getAbsolutePath();
+			if ( !filename.endsWith( ".htm" ) && !filename.endsWith( ".html" ) )
+				filename += ".html";
 
-			if ( returnVal == JFileChooser.APPROVE_OPTION )
-				client.getChatBuffer().setActiveLogFile(
-					chooser.getSelectedFile().getAbsolutePath(),
+			if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+				client.getChatBuffer().setActiveLogFile( filename,
 					"Loathing Chat: " + client.getLoginName() + " (" +
 					Calendar.getInstance().getTime().toString() + ")" );
+		}
+
+		/**
+		 * Internal file descriptor to make sure files are
+		 * only saved to HTML format.
+		 */
+
+		private class HTMLFileFilter extends javax.swing.filechooser.FileFilter
+		{
+			public boolean accept( java.io.File f )
+			{	return f.getPath().endsWith( ".htm" ) || f.getPath().endsWith( ".html" );
+			}
+
+			public String getDescription()
+			{	return "Hypertext Documents";
+			}
 		}
 	}
 
@@ -224,7 +283,6 @@ public class ChatFrame extends KoLFrame
 	public static void main( String [] args )
 	{
 		KoLFrame uitest = new ChatFrame( null );
-		uitest.setSize( new Dimension( 400, 300 ) );
 		uitest.setVisible( true );  uitest.requestFocus();
 	}
 }

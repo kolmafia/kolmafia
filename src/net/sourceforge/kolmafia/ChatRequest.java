@@ -34,6 +34,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.net.URLEncoder;
+import net.java.dev.spellcast.utilities.DataUtilities;
+
 /**
  * Responsible for handling all requests related to the Kingdom of Loathing
  * chat.  Note that once this thread is started, it will only stop if the
@@ -72,7 +75,8 @@ public class ChatRequest extends KoLRequest
 
 		try
 		{
-			addFormField( "graf", java.net.URLEncoder.encode( message, "UTF-8" ) );
+			addFormField( "graf", URLEncoder.encode(
+				message.startsWith( "/msg" ) ? DataUtilities.convertToHTML( message ) : message, "UTF-8" ) );
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
@@ -112,6 +116,12 @@ public class ChatRequest extends KoLRequest
 	public void run()
 	{
 		super.run();
+
+		// In the event of an error, anything can be the cause; for
+		// now, simply return
+
+		if ( isErrorState || responseCode != 200 )
+			return;
 
 		int index = replyContent.indexOf( "lastseen" );
 		int currentSeen = lastSeen;

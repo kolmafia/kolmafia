@@ -192,6 +192,7 @@ public class KoLmafia implements UtilityConstants
 		activeFrame = new LoginFrame( this );
 		activeFrame.pack();  activeFrame.setVisible( true );
 		activeFrame.requestFocus();
+		deinitializeChat();
 	}
 
 	/**
@@ -441,7 +442,19 @@ public class KoLmafia implements UtilityConstants
 			Calendar.getInstance().getTime().toString() );
 
 		loathingChat.setChatDisplay( chatDisplay );
+		chatDisplay.setText( "Connecting to chat..." );
+
+		(new ChatRequest( this, "/channel" )).run();
 		(new ChatRequest( this )).run();
+	}
+
+	/**
+	 * Clears the contents of the chat buffer.  This is called
+	 * whenever the user wishes for there to be less text.
+	 */
+
+	public void clearChatBuffer()
+	{	loathingChat.clearBuffer();
 	}
 
 	/**
@@ -453,7 +466,8 @@ public class KoLmafia implements UtilityConstants
 
 	public void deinitializeChat()
 	{
-		loathingChat.closeActiveLogFile();
+		if ( loathingChat != null )
+			loathingChat.closeActiveLogFile();
 		loathingChat = null;
 	}
 
