@@ -243,7 +243,9 @@ public class KoLmafia implements UtilityConstants
 	public void addToResultTally( AdventureResult result )
 	{
 		AdventureResult.addResultToList( tally, result );
-		characterData.addInventoryItem( result );
+
+		if ( result.isItem() )
+			characterData.addInventoryItem( result );
 	}
 
 	/**

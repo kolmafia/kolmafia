@@ -119,6 +119,17 @@ public class AdventureResult implements Comparable
 	}
 
 	/**
+	 * Accessor method to determine if this result is an item, as opposed
+	 * to meat, drunkenness, adventure or substat gains.
+	 *
+	 * @return	<code>true</code> if this result represents an item
+	 */
+
+	public boolean isItem()
+	{	return !resultName.equals( SUBSTATS ) && !resultName.equals( MEAT ) && !resultName.equals( DIVIDER );
+	}
+
+	/**
 	 * Accessor method to retrieve the name associated with the result.
 	 * @return	The name of the result
 	 */
