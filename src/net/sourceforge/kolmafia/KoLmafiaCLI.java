@@ -94,12 +94,15 @@ public class KoLmafiaCLI extends KoLmafia
 			System.out.println( KoLRequest.getRootHostName() + " selected." );
 			System.out.println();
 
-			KoLmafiaCLI session = new KoLmafiaCLI( null, initialScript );
+			KoLmafiaCLI session = new KoLmafiaCLI( null, null );
 
 			if ( initialScript == null )
 				session.attemptLogin();
 			else
+			{
+				session.executeCommand( "call", initialScript );
 				session.listenForCommands();
+			}
 		}
 		catch ( IOException e )
 		{
