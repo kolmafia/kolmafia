@@ -136,7 +136,7 @@ public class LoginRequest extends KoLRequest
 		// Update the client to show that the password hash calculation
 		// is complete and that the client is now formally initialized
 
-		frame.updateDisplay( LoginFrame.LOGGED_IN_STATE, "Calculation complete." );
+		frame.updateDisplay( LoginFrame.LOGGED_IN_STATE, "Hash calculation complete." );
 		client.initialize();
 	}
 }
