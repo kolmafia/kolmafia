@@ -339,7 +339,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( !connectSuccess )
 		{
 			this.isErrorState = true;
-			updateDisplay( LoginFrame.ENABLED_STATE, "Connection timed out." );
+			updateDisplay( KoLFrame.ENABLED_STATE, "Connection timed out." );
 			return;
 		}
 
