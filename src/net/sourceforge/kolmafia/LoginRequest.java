@@ -110,8 +110,6 @@ public class LoginRequest extends KoLRequest
 		// login card to reflect this fact and calculate the appropriate
 		// password hash to send in for other activities
 
-		frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Calculating password hash..." );
-
 		client.setLoginName( loginname );
 		client.setPassword( password );
 		client.setSessionID( formConnection.getHeaderField( "Set-Cookie" ) );
@@ -133,10 +131,9 @@ public class LoginRequest extends KoLRequest
 		{
 		}
 
-		// Update the client to show that the password hash calculation
-		// is complete and that the client is now formally initialized
+		// Formally initialize the client, now that the password hash
+		// has been calculated
 
-		frame.updateDisplay( KoLFrame.LOGGED_IN_STATE, "Hash calculation complete." );
 		client.initialize();
 	}
 }
