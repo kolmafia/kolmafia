@@ -250,13 +250,10 @@ public class ItemManageFrame extends KoLFrame
 
 				public void run()
 				{
-					ItemManageFrame.this.setEnabled( false );
 					Object [] items = elementList.getSelectedValues();
 
 					for ( int i = 0; i < items.length; ++i )
 						consumeItem( (AdventureResult) items[i] );
-
-					ItemManageFrame.this.setEnabled( true );
 				}
 
 				private void consumeItem( AdventureResult currentItem )
@@ -361,7 +358,6 @@ public class ItemManageFrame extends KoLFrame
 
 				public void run()
 				{
-					ItemManageFrame.this.setEnabled( false );
 					Object [] items = elementList.getSelectedValues();
 					AdventureResult currentItem;
 
@@ -369,7 +365,6 @@ public class ItemManageFrame extends KoLFrame
 						sell( (AdventureResult) items[i] );
 
 					client.updateDisplay( ENABLED_STATE, " " );
-					ItemManageFrame.this.setEnabled( true );
 				}
 
 				private void sell( AdventureResult currentItem )
@@ -509,8 +504,6 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
-				ItemManageFrame.this.setEnabled( false );
-
 				Object [] items =
 					moveType == ItemStorageRequest.INVENTORY_TO_CLOSET ? availableList.getSelectedValues() :
 					moveType == ItemStorageRequest.CLOSET_TO_INVENTORY ? closetList.getSelectedValues() :
@@ -526,7 +519,6 @@ public class ItemManageFrame extends KoLFrame
 					client.makeRequest( new ItemStorageRequest( client, moveType, items ), 1 );
 
 				client.updateDisplay( ENABLED_STATE, " " );
-				ItemManageFrame.this.setEnabled( true );
 			}
 		}
 	}
@@ -587,7 +579,6 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
-				ItemManageFrame.this.setEnabled( false );
 				Object selected = elementList.getSelectedValue();
 
 				try
@@ -630,7 +621,6 @@ public class ItemManageFrame extends KoLFrame
 				}
 
 				client.updateDisplay( ENABLED_STATE, " " );
-				ItemManageFrame.this.setEnabled( true );
 			}
 		}
 	}
@@ -651,11 +641,9 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
-				ItemManageFrame.this.setEnabled( false );
 				(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();
 				refreshConcoctionsList();
 				client.updateDisplay( ENABLED_STATE, " " );
-				ItemManageFrame.this.setEnabled( true );
 			}
 		}
 	}

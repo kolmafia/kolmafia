@@ -600,10 +600,13 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
-					if ( iterationsRemaining == 1 )
-						updateDisplay( DISABLED_STATE, "Final request in progress..." );
-					else
-						updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
+					if ( !(request instanceof UseSkillRequest || request instanceof AutoSellRequest) )
+					{
+						if ( iterationsRemaining == 1 )
+							updateDisplay( DISABLED_STATE, "Final request in progress..." );
+						else
+							updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
+					}
 
 					request.run();
 					applyRecentEffects();
@@ -643,7 +646,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 					}
 				}
 
-				if ( permitContinue && iterations > 0 && iterationsRemaining <= 0 && !(request instanceof UseSkillRequest) )
+				if ( permitContinue && iterations > 0 && iterationsRemaining <= 0 && !!(request instanceof UseSkillRequest || request instanceof AutoSellRequest) )
 					updateDisplay( ENABLED_STATE, "Requests completed!" );
 				else if ( iterations <= 0 )
 					updateDisplay( ENABLED_STATE, "" );
