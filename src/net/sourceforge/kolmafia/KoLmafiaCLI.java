@@ -1262,7 +1262,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			AdventureResult itemUsed = crequest.getItemUsed();
-			commandString.append( 0 - itemUsed.getCount() );
+			commandString.append( iterations == 1 ? itemUsed.getCount() : iterations );
 			commandString.append( " \"" );
 			commandString.append( itemUsed.getName() );
 			commandString.append( "\"" );
