@@ -141,7 +141,7 @@ public class TradeableItemDatabase
 		{
 			currentItemName = (String) completeItems.next();
 			if ( currentItemName.indexOf( substring ) != -1 )
-				substringList.add( currentItemName );
+				substringList.add( getItemName( getItemID( currentItemName ) ) );
 		}
 
 		return substringList;
