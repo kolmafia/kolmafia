@@ -80,6 +80,7 @@ public class CharsheetFrame extends KoLFrame
 
 	private JLabel [] statusLabel;
 	private JPanel [] statpointPanel;
+	private JButton refreshButton;
 
 	/**
 	 * Constructs a new character sheet, using the data located
@@ -113,6 +114,12 @@ public class CharsheetFrame extends KoLFrame
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 	}
 
+	public void setEnabled( boolean isEnabled )
+	{
+		super.setEnabled( isEnabled );
+		refreshButton.setEnabled( isEnabled );
+	}
+
 	/**
 	 * Utility method used for creating a panel displaying the character's avatar.
 	 * Because image retrieval has not been implemented, this method displays
@@ -140,7 +147,7 @@ public class CharsheetFrame extends KoLFrame
 
 		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( imagename.toString() + ".gif" ) ), BorderLayout.CENTER );
 
-		JButton refreshButton = new JButton( "Refresh Status" );
+		this.refreshButton = new JButton( "Refresh Status" );
 		refreshButton.addActionListener( new StatusRefreshListener() );
 		imagePanel.add( refreshButton, BorderLayout.SOUTH );
 		return imagePanel;
