@@ -143,18 +143,18 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		public ToggleDebugListener( JMenuItem loggerItem )
 		{
 			this.loggerItem = loggerItem;
-			loggerItem.setText( client.getLogStream() instanceof NullStream ?
+			loggerItem.setText( client == null || client.getLogStream() instanceof NullStream ?
 				"Turn On Debug" : "Turn Off Debug" );
 		}
 
 		public void actionPerformed(ActionEvent e)
 		{
-			if ( client.getLogStream() instanceof NullStream )
+			if ( client != null && client.getLogStream() instanceof NullStream )
 			{
 				client.initializeLogStream();
 				loggerItem.setText( "Turn Off Debug" );
 			}
-			else
+			else if ( client != null )
 			{
 				client.deinitializeLogStream();
 				loggerItem.setText( "Turn On Debug" );
