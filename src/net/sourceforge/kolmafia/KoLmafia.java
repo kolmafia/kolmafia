@@ -263,7 +263,7 @@ public class KoLmafia
 				f.createNewFile();
 			}
 
-			logStream = new LogStream( "debug.txt" );
+			logStream = new LogStream( f );
 		}
 		catch ( IOException e )
 		{
