@@ -189,7 +189,7 @@ public class KoLRequest implements Runnable
 	 * a generic KoLRequest will not be supported.
 	 *
 	 * @param	client	The client associated with this <code>KoLRequest</code>
-	 * @param	formURLBuffer	The form to be used in posting data
+	 * @param	formURLString	The form to be used in posting data
 	 */
 
 	protected KoLRequest( KoLmafia client, String formURLString )
@@ -202,7 +202,7 @@ public class KoLRequest implements Runnable
 	 * a generic KoLRequest will not be supported.
 	 *
 	 * @param	client	The client associated with this <code>KoLRequest</code>
-	 * @param	formURLBuffer	The form to be used in posting data
+	 * @param	formURLString	The form to be used in posting data
 	 * @param	doOutput	Whether or not this will post data
 	 */
 
