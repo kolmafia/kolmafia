@@ -590,7 +590,8 @@ public class AdventureFrame extends KoLFrame
 
 					MallPurchaseRequest currentRequest;
 
-					for ( int i = 0; i < purchases.length; ++i )
+					client.resetContinueState();
+					for ( int i = 0; i < purchases.length && client.permitsContinue(); ++i )
 					{
 						if ( purchases[i] instanceof MallPurchaseRequest )
 						{
@@ -612,7 +613,9 @@ public class AdventureFrame extends KoLFrame
 				if ( isheet != null )
 					isheet.refreshConcoctionsList();
 
-				updateDisplay( ENABLED_STATE, "Purchases complete." );
+				if ( client.permitsContinue() )
+					updateDisplay( ENABLED_STATE, "Purchases complete." );
+				client.resetContinueState();
 			}
 		}
 	}
