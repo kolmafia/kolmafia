@@ -335,7 +335,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		statusMenu.add( itemMenuItem );
 
-		JMenuItem buffbotMenuItem = new JMenuItem( "Do the BuffBot", KeyEvent.VK_R );
+		JMenuItem buffbotMenuItem = new JMenuItem( "Do the BuffBot", KeyEvent.VK_D );
 		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
 
 		statusMenu.add( buffbotMenuItem );
