@@ -87,7 +87,6 @@ public class CharsheetRequest extends KoLRequest
 		// version.  This can be done through simple regular
 		// expression matching.
 
-		frame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Parsing character data..." );
 		StringTokenizer parsedContent = new StringTokenizer( replyContent, "<>" );
 
 		try

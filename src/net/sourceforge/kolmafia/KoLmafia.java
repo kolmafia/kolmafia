@@ -124,15 +124,36 @@ public class KoLmafia implements UtilityConstants
 		activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
 		(new PasswordHashRequest( this )).run();
 
+		if ( !permitContinue )
+		{
+			this.sessionID = null;
+			this.permitContinue = true;
+			return;
+		}
+
 		// Grab the character data
 		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
 		characterData = new KoLCharacter( loginname );
 		(new CharsheetRequest( this )).run();
 
+		if ( !permitContinue )
+		{
+			this.sessionID = null;
+			this.permitContinue = true;
+			return;
+		}
+
 		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory..." );
 		inventory = characterData.getInventory();
 		closet = characterData.getCloset();
 		(new EquipmentRequest( this )).run();
+
+		if ( !permitContinue )
+		{
+			this.sessionID = null;
+			this.permitContinue = true;
+			return;
+		}
 
 		// Begin by loading the user-specific settings.
 		logStream.println( "Loading user settings for " + loginname + "..." );
@@ -202,6 +223,7 @@ public class KoLmafia implements UtilityConstants
 		activeFrame.pack();  activeFrame.setVisible( true );
 		activeFrame.requestFocus();
 		deinitializeChat();
+		this.permitContinue = true;
 	}
 
 	/**
@@ -373,7 +395,7 @@ public class KoLmafia implements UtilityConstants
 	{
 		try
 		{
-			permitContinue = true;
+			this.permitContinue = true;
 			int iterationsRemaining = iterations;
 
 			for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
@@ -403,6 +425,8 @@ public class KoLmafia implements UtilityConstants
 			logStream.println( e );
 			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, "Unexpected error." );
 		}
+
+		this.permitContinue = true;
 	}
 
 	/**
