@@ -118,8 +118,8 @@ public class ConcoctionsDatabase implements UtilityConstants
 	{
 		private int concoctionID;
 		private int mixingMethod;
-		private int [] ingredientIDs;
 		private AdventureResult asResult;
+		private int ingredient1, ingredient2;
 
 		public Concoction( int concoctionID, int mixingMethod, String ingredient1, String ingredient2 )
 		{
@@ -128,9 +128,8 @@ public class ConcoctionsDatabase implements UtilityConstants
 
 			this.asResult = new AdventureResult( TradeableItemDatabase.getItemName( concoctionID ), 0 );
 
-			this.ingredientIDs = new int[2];
-			this.ingredientIDs[0] = TradeableItemDatabase.getItemID( ingredient1 );
-			this.ingredientIDs[1] = TradeableItemDatabase.getItemID( ingredient2 );
+			this.ingredient1 = TradeableItemDatabase.getItemID( ingredient1 );
+			this.ingredient2 = TradeableItemDatabase.getItemID( ingredient2 );
 		}
 
 		public int getMixingMethod()
@@ -143,16 +142,16 @@ public class ConcoctionsDatabase implements UtilityConstants
 				return;
 
 			int index = availableIngredients.indexOf( asResult );
-			quantityPossible[ concoctionID ] = (index == -1) ? 0 :((AdventureResult)availableIngredients.get( index )).getCount();
+			quantityPossible[ concoctionID ] = (index == -1) ? 0 : ((AdventureResult)availableIngredients.get( index )).getCount();
 
-			if ( concoctions[ ingredientIDs[0] ] != null )
-				concoctions[ ingredientIDs[0] ].calculateQuantityPossible( availableIngredients );
+			if ( concoctions[ ingredient1 ] != null )
+				concoctions[ ingredient1 ].calculateQuantityPossible( availableIngredients );
 
-			if ( concoctions[ ingredientIDs[1] ] != null )
-				concoctions[ ingredientIDs[1] ].calculateQuantityPossible( availableIngredients );
+			if ( concoctions[ ingredient2 ] != null )
+				concoctions[ ingredient2 ].calculateQuantityPossible( availableIngredients );
 
 			quantityPossible[ concoctionID ] +=
-				Math.min( quantityPossible[ ingredientIDs[0] ], quantityPossible[ ingredientIDs[1] ] );
+				Math.min( quantityPossible[ ingredient1 ], quantityPossible[ ingredient2 ] );
 		}
 	}
 }
