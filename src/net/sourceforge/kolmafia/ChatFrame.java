@@ -171,7 +171,6 @@ public class ChatFrame extends KoLFrame
 			peopleMenu.add( ignoreFriendItem );
 		}
 
-		addConfigureMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
 
