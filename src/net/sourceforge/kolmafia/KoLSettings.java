@@ -135,7 +135,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 				// Then, store the results into the designated
 				// file by calling the appropriate subroutine.
 
-				storeSettings( source );
+				if ( source != settingsFile )
+					storeSettings( source );
 			}
 
 			// Now that it is guaranteed that an XML file exists
