@@ -83,7 +83,6 @@ public class CharsheetFrame extends KoLFrame
 		{
 			characterData = client.getCharacterData();
 			(new CharsheetRequest( client )).run();
-			(new EquipmentRequest( client )).run();
 		}
 		else
 			characterData = new KoLCharacter( "UI Test" );
