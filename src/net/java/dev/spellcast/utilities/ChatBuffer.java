@@ -118,15 +118,18 @@ public class ChatBuffer
 	 * stored in the buffer.  Note that whenever modifications are made to
 	 * the buffer, the file will also be modified to reflect these changes.
 	 */
-
 	public void setActiveLogFile( String filename, String title )
+	{
+		setActiveLogFile(filename, title, false);
+	}
+	public void setActiveLogFile( String filename, String title, boolean toAppend )
 	{
 		try
 		{
 			File file = new File( filename );
 			file.getParentFile().mkdirs();
 
-			activeLogWriter = new PrintWriter( new FileOutputStream( file, false ), true );
+			activeLogWriter = new PrintWriter( new FileOutputStream( file, toAppend ), true );
 			updateLogFile( header );
 			updateLogFile( BUFFER_INIT );
 			fireBufferChanged( LOGFILE_CHANGE, null );
