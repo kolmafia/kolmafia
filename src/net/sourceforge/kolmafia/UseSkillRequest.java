@@ -34,6 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Pattern;
+
 public class UseSkillRequest extends KoLRequest
 {
 	private int buffCount;
@@ -101,7 +103,23 @@ public class UseSkillRequest extends KoLRequest
 		// If it does not notify you that you didn't have enough mana points,
 		// then the skill was successfully used.
 
-		if ( replyContent == null || replyContent.indexOf( "You don't have enough" ) != -1 )
+		if ( replyContent == null )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "No response to skill request." );
+			return;
+		}
+		else if ( Pattern.compile( "You (conjure|play|make|muster|call)" ).matcher( replyContent ).find() )
+		{
+			client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
+
+			processResults( replyContent.replaceFirst(
+				"</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );
+
+			client.applyRecentEffects();
+			updateDisplay( ENABLED_STATE, skillName + " was successfully cast." );
+		}
+		else if ( replyContent == null || replyContent.indexOf( "You don't have enough" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You don't have enough mana." );
@@ -125,13 +143,12 @@ public class UseSkillRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "Invalid target: " + target );
 			return;
 		}
+		else 
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Unknown Skill Cast Error " + target );
+			return;
+		}
 
-		client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
-
-		processResults( replyContent.replaceFirst(
-			"</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );
-
- 		client.applyRecentEffects();
-		updateDisplay( ENABLED_STATE, skillName + " was successfully cast." );
 	}
 }
