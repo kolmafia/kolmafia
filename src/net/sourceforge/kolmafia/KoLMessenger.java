@@ -358,7 +358,7 @@ public class KoLMessenger implements KoLConstants
 		try
 		{
 			return playerID != null ? playerID :
-				URLEncoder.encode( playerName.replaceAll( " ", "_" ), "UTF-8" );
+				URLEncoder.encode( playerName.replaceAll( "", "_" ), "UTF-8" );
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
@@ -418,7 +418,7 @@ public class KoLMessenger implements KoLConstants
 		// that this requires several lines - this just shows you how far
 		// behind the default HTML handler is compared to a web browser.
 
-		String orderedTagsContent = noUnderlineLinksContent.replaceAll( "<br>&nbsp;&nbsp;", " " ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
+		String orderedTagsContent = noUnderlineLinksContent.replaceAll( "<br>&nbsp;&nbsp;", "" ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
 			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</font></b>", "</b></font>" ).replaceAll(
 				"</?br></b>", "</b><br>" ).replaceAll( "</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" ).replaceAll( "</b></a>", "</a></b>" );
 

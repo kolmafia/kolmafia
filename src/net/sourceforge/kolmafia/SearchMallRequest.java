@@ -165,7 +165,7 @@ public class SearchMallRequest extends KoLRequest
 		String storeListResult = replyContent.substring( startIndex );
 		if ( !retainAll )  storeListResult = storeListResult.replaceAll( "<td style=.*?<tr>", "" );
 
-		String plainTextResult = storeListResult.replaceAll( "<br>", " " ).replaceAll(
+		String plainTextResult = storeListResult.replaceAll( "<br>", "" ).replaceAll(
 			"</?b>", "\n" ).replaceAll( "</?p>", "" ).replaceAll( "</c.*?>", "" ).replaceAll( "</?t.*?>", "\n" ).replaceAll(
 				"</a>", "\n" );
 

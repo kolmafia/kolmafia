@@ -138,7 +138,7 @@ public class CharsheetFrame extends KoLFrame
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout( new GridLayout( 2, 1 ) );
 		namePanel.add( new JLabel( characterData.getUsername() + " (#" + characterData.getUserID() + ")", JLabel.CENTER ) );
-		namePanel.add( new JLabel( "Level " + characterData.getLevel() + " " + characterData.getClassName(), JLabel.CENTER ) );
+		namePanel.add( new JLabel( "Level " + characterData.getLevel() + "" + characterData.getClassName(), JLabel.CENTER ) );
 		namePanel.setToolTipText( characterData.getAdvancement() );
 		imagePanel.add( namePanel, BorderLayout.NORTH );
 
@@ -220,7 +220,7 @@ public class CharsheetFrame extends KoLFrame
 		JPanel statusLabelPanel = new JPanel();
 		statusLabelPanel.setLayout( new BoxLayout( statusLabelPanel, BoxLayout.Y_AXIS ) );
 
-		statusLabelPanel.add( new JLabel( " " ) );
+		statusLabelPanel.add( new JLabel( "" ) );
 
 		this.statusLabel = new JLabel[11];
 		for ( int i = 0; i < 11; ++i )
@@ -231,7 +231,7 @@ public class CharsheetFrame extends KoLFrame
 
 		statusLabelPanel.add( statusLabel[0], "");
 		statusLabelPanel.add( statusLabel[1], "" );
-		statusLabelPanel.add( new JLabel( " " ) );
+		statusLabelPanel.add( new JLabel( "" ) );
 
 		JPanel primeStatLabels = new JPanel();
 		primeStatLabels.setLayout( new GridLayout( 3, 1 ) );
@@ -252,12 +252,12 @@ public class CharsheetFrame extends KoLFrame
 		primeStatPanel.add( primeStatValues, BorderLayout.CENTER );
 		statusLabelPanel.add( primeStatPanel, "" );
 
-		statusLabelPanel.add( new JLabel( " " ), "" );
+		statusLabelPanel.add( new JLabel( "" ), "" );
 		statusLabelPanel.add( statusLabel[8], "" );
 		statusLabelPanel.add( statusLabel[9], "" );
 		statusLabelPanel.add( statusLabel[10], "" );
 
-		statusLabelPanel.add( new JLabel( " " ), "" );
+		statusLabelPanel.add( new JLabel( "" ), "" );
 		refreshStatus();
 
 		return statusLabelPanel;
@@ -291,7 +291,7 @@ public class CharsheetFrame extends KoLFrame
 		statusLabel[9].setText( characterData.getInebriety() + " drunkenness" );
 		statusLabel[10].setText( characterData.getAdventuresLeft() + " adventures left" );
 
-		client.updateDisplay( ENABLED_STATE, " " );
+		client.updateDisplay( ENABLED_STATE, "" );
 		this.setEnabled( true );
 	}
 

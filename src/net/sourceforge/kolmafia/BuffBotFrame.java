@@ -172,7 +172,7 @@ public class BuffBotFrame extends KoLFrame
 		tabs.addTab( "Change Settings", whiteList );
 
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
-		getContentPane().add( tabs, " " );
+		getContentPane().add( tabs, "" );
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 
@@ -638,7 +638,7 @@ public class BuffBotFrame extends KoLFrame
 			actualPanel.add( buttonPanel, BorderLayout.EAST );
 
 			setLayout( new CardLayout( 10, 10 ) );
-			add( actualPanel, " " );
+			add( actualPanel, "" );
 		}
 
 		public JComponent getScrollComponent()

@@ -152,7 +152,7 @@ public class ItemStorageRequest extends KoLRequest
 			case MEAT_TO_INVENTORY:
 				updateDisplay( DISABLED_STATE, "Executing transaction..." );
 				meat();
-				updateDisplay( NOCHANGE, " " );
+				updateDisplay( NOCHANGE, "" );
 				break;
 
 			case MEAT_TO_STASH:

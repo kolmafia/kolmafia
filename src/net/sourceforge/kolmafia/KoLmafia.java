@@ -692,8 +692,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 						String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
 							(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
 
-						updateDisplay( DISABLED_STATE, useTypeAsString + " " +
-							((ConsumeItemRequest)request).getItemUsed().getName() + " " +
+						updateDisplay( DISABLED_STATE, useTypeAsString + "" +
+							((ConsumeItemRequest)request).getItemUsed().getName() + "" +
 							(iterations == 1 ? ("(" + (0 - ((ConsumeItemRequest)request).getItemUsed().getCount()) + ")") :
 								("(" + i + " of " + iterations + ")")) + "..." );
 					}
@@ -1130,7 +1130,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			if ( password == null )
 				return null;
 
-			String [] decodedParts = password.split( " " );
+			String [] decodedParts = password.split( "" );
 			StringBuffer saveState = new StringBuffer();
 
 			if ( decodedParts[0].length() != 0 )

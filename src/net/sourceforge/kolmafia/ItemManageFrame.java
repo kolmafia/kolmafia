@@ -145,7 +145,7 @@ public class ItemManageFrame extends KoLFrame
 		tabs.addTab( "Closet & Stash", storing );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( tabs, " " );
+		getContentPane().add( tabs, "" );
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 
@@ -366,7 +366,7 @@ public class ItemManageFrame extends KoLFrame
 					for ( int i = 0; !finishedSelling && i < items.length; ++i )
 						sell( (AdventureResult) items[i] );
 
-					client.updateDisplay( ENABLED_STATE, " " );
+					client.updateDisplay( ENABLED_STATE, "" );
 				}
 
 				private void sell( AdventureResult currentItem )
@@ -495,7 +495,7 @@ public class ItemManageFrame extends KoLFrame
 				else
 					client.makeRequest( new ItemStorageRequest( client, moveType, items ), 1 );
 
-				client.updateDisplay( ENABLED_STATE, " " );
+				client.updateDisplay( ENABLED_STATE, "" );
 			}
 		}
 	}
@@ -597,7 +597,7 @@ public class ItemManageFrame extends KoLFrame
 					// this will be fixed once we add functionality.
 				}
 
-				client.updateDisplay( ENABLED_STATE, " " );
+				client.updateDisplay( ENABLED_STATE, "" );
 			}
 		}
 	}
@@ -620,7 +620,7 @@ public class ItemManageFrame extends KoLFrame
 			{
 				(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();
 				refreshConcoctionsList();
-				client.updateDisplay( ENABLED_STATE, " " );
+				client.updateDisplay( ENABLED_STATE, "" );
 			}
 		}
 	}
@@ -661,7 +661,7 @@ public class ItemManageFrame extends KoLFrame
 			actualPanel.add( buttonPanel, BorderLayout.EAST );
 
 			setLayout( new CardLayout( 10, 10 ) );
-			add( actualPanel, " " );
+			add( actualPanel, "" );
 		}
 
 		protected abstract void actionConfirmed();

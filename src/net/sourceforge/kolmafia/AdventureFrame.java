@@ -195,19 +195,19 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		compactPane.add( Box.createHorizontalStrut( 80 ) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
-		compactPane.add( hpLabel = new JLabel( " ", JLabel.CENTER ) );
+		compactPane.add( hpLabel = new JLabel( "", JLabel.CENTER ) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
-		compactPane.add( mpLabel = new JLabel( " ", JLabel.CENTER ) );
+		compactPane.add( mpLabel = new JLabel( "", JLabel.CENTER ) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
-		compactPane.add( meatLabel = new JLabel( " ", JLabel.CENTER ) );
+		compactPane.add( meatLabel = new JLabel( "", JLabel.CENTER ) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
-		compactPane.add( advLabel = new JLabel( " ",  JLabel.CENTER) );
+		compactPane.add( advLabel = new JLabel( "",  JLabel.CENTER) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER ) );
-		compactPane.add( drunkLabel = new JLabel( " ",  JLabel.CENTER) );
+		compactPane.add( drunkLabel = new JLabel( "",  JLabel.CENTER) );
 
 		this.sidePanel = new JPanel();
 		sidePanel.setLayout( new BorderLayout( 0, 0 ) );
@@ -223,7 +223,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		if ( client != null )
 			client.getCharacterData().addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
 
-		updateDisplay( ENABLED_STATE, " " );
+		updateDisplay( ENABLED_STATE, "" );
 		addWindowListener( new LogoutRequestAdapter() );
 
 		addMenuBar();
@@ -363,9 +363,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
 
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusLabel = new JLabel( "", JLabel.CENTER );
 			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			actionStatusPanel.add( new JLabel( "", JLabel.CENTER ) );
 
 			locationField = new JComboBox( adventureList );
 			countField = new JTextField();
@@ -409,7 +409,8 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 						sidePanel.setBackground( ERROR_COLOR );
 						break;
 					case ENABLED_STATE:
-						sidePanel.setBackground( ENABLED_COLOR );
+						if ( !isExecutingScript )
+							sidePanel.setBackground( ENABLED_COLOR );
 						break;
 					case DISABLED_STATE:
 						sidePanel.setBackground( DISABLED_COLOR );
@@ -542,9 +543,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
 
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusLabel = new JLabel( "", JLabel.CENTER );
 			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			actionStatusPanel.add( new JLabel( "", JLabel.CENTER ) );
 
 			searchField = new JTextField();
 			countField = new JTextField();
@@ -1255,7 +1256,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			public void run()
 			{
 				client.getBreakfast();
-				updateDisplay( ENABLED_STATE, " " );
+				updateDisplay( ENABLED_STATE, "" );
 			}
 		}
 	}

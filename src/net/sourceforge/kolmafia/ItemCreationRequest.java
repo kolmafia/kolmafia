@@ -270,7 +270,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					}
 				}
 				else if ( client.permitsContinue() )
-					updateDisplay( NOCHANGE, "Successfully cooked " + quantityNeeded + " " + item.getName() );
+					updateDisplay( NOCHANGE, "Successfully cooked " + quantityNeeded + "" + item.getName() );
 
 				break;
 
@@ -289,13 +289,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					}
 				}
 				else if ( client.permitsContinue() )
-					updateDisplay( NOCHANGE, "Successfully mixed " + quantityNeeded + " " + item.getName() );
+					updateDisplay( NOCHANGE, "Successfully mixed " + quantityNeeded + "" + item.getName() );
 
 				break;
 
 			default:
 				if ( client.permitsContinue() )
-					updateDisplay( NOCHANGE,  "Successfully created " + quantityNeeded + " " + item.getName() );
+					updateDisplay( NOCHANGE,  "Successfully created " + quantityNeeded + "" + item.getName() );
 		}
 	}
 
