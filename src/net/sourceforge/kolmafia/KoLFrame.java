@@ -66,20 +66,38 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
-	protected java.io.PrintStream logStream;
+
+	/**
+	 * Constructs a new <code>KoLFrame</code> with the given title,
+	 * to be associated with the given client.
+	 */
 
 	protected KoLFrame( String title, KoLmafia client )
 	{
 		super( title );
 		this.client = client;
-		this.logStream = client.getLogStream();
 	}
+
+	/**
+	 * Updates the display to reflect the given display state and
+	 * to contain the given message.  Note that if there is no
+	 * content panel, this method does nothing.
+	 */
 
 	public void updateDisplay( int displayState, String message )
 	{
-		logStream.println( message );
-		(new DisplayStatus( displayState, message )).run();
+		if ( contentPanel != null )
+		{
+			client.getLogStream().println( message );
+			(new DisplayStatus( displayState, message )).run();
+		}
 	}
+
+	/**
+	 * Utility method used to give the content panel for this
+	 * <code>KoLFrame</code> focus.  Note that if the content
+	 * panel is <code>null</code>< this method does nothing.
+	 */
 
 	public void requestFocus()
 	{
@@ -87,6 +105,16 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		if ( contentPanel != null )
 			contentPanel.requestFocus();
 	}
+
+	/**
+	 * Utility method used to add the default <code>KoLmafia</code>
+	 * configuration menu to the given menu bar.  The default menu
+	 * contains the ability to customize preferences (global if it
+	 * is invoked before login, character-specific if after) and
+	 * initialize the debugger.
+	 *
+	 * @param	menuBar	The <code>JMenuBar</code> to which the configuration menu will be attached
+	 */
 
 	protected final void addConfigureMenu( JMenuBar menuBar )
 	{
@@ -118,6 +146,14 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		configureMenu.add( loggerItem );
 	}
 
+	/**
+	 * Utility method used to add the default <code>KoLmafia</code> Help
+	 * menu to the given menu bar.  The default Help menu contains the
+	 * copyright statement for <code>KoLmafia</code>.
+	 *
+	 * @param	menuBar	The <code>JMenuBar</code> to which the Help menu will be attached
+	 */
+
 	protected final void addHelpMenu( JMenuBar menuBar )
 	{
 		JMenu helpMenu = new JMenu("Help");
@@ -134,6 +170,11 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		helpMenu.add( aboutItem );
 	}
 
+	/**
+	 * An internal class which allows focus to be returned to the
+	 * client's active frame when auxiliary windows are closed.
+	 */
+
 	protected class ReturnFocusAdapter extends WindowAdapter
 	{
 		public ReturnFocusAdapter()
@@ -144,6 +185,14 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		{	client.getActiveFrame().requestFocus();
 		}
 	}
+
+	/**
+	 * An internal class used as the basis for content panels.  This
+	 * class builds upon the <code>ActionVerifyPanel</code> by adding
+	 * <code>setStatusMessage()</code> and <code>clear()</code> methods
+	 * as well as a method which allows GUIs to make sure that all
+	 * status-message updating occurs within the AWT thread.
+	 */
 
 	protected abstract class KoLPanel extends ActionVerifyPanel
 	{
