@@ -185,7 +185,7 @@ public class CharsheetFrame extends KoLFrame
 	private JPanel createEquipPanel()
 	{
 		JPanel fieldPanel = new JPanel();
-		fieldPanel.setLayout( new GridLayout( 9, 1 ) );
+		fieldPanel.setLayout( new GridLayout( 12, 1 ) );
 
 		fieldPanel.add( new JLabel( "" ) );
 		fieldPanel.add( new JLabel( "Hat:  ", JLabel.RIGHT ) );
@@ -194,11 +194,14 @@ public class CharsheetFrame extends KoLFrame
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "" ) );
 		fieldPanel.add( new JLabel( "Familiar:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "Item:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "Weight:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "" ) );
 
 		JPanel valuePanel = new JPanel();
-		valuePanel.setLayout( new GridLayout( 9, 1 ) );
+		valuePanel.setLayout( new GridLayout( 12, 1 ) );
 
 		valuePanel.add( new JLabel( "" ) );
 		valuePanel.add( new JLabel( characterData.getHat(), JLabel.LEFT ) );
@@ -207,7 +210,10 @@ public class CharsheetFrame extends KoLFrame
 		valuePanel.add( new JLabel( characterData.getAccessory1(), JLabel.LEFT ) );
 		valuePanel.add( new JLabel( characterData.getAccessory2(), JLabel.LEFT ) );
 		valuePanel.add( new JLabel( characterData.getAccessory3(), JLabel.LEFT ) );
+		valuePanel.add( new JLabel( "" ) );
+		valuePanel.add( new JLabel( characterData.getFamiliarRace(), JLabel.LEFT ) );
 		valuePanel.add( new JLabel( characterData.getFamiliarItem(), JLabel.LEFT ) );
+		valuePanel.add( new JLabel( "" + characterData.getFamiliarWeight(), JLabel.LEFT ) );
 		valuePanel.add( new JLabel( "" ) );
 
 		JPanel equipPanel = new JPanel();

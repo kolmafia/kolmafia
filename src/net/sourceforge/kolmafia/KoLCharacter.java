@@ -72,6 +72,9 @@ public class KoLCharacter
 	private boolean hasChef;
 	private boolean hasBartender;
 
+	private String familiarRace;
+	private int familiarWeight;
+
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
 	 * All fields are initialized to their default values (nothing),
@@ -101,6 +104,8 @@ public class KoLCharacter
 
 		this.hasChef = true;
 		this.hasBartender = true;
+		this.familiarRace = "none";
+		this.familiarWeight = 0;
 	}
 
 	/**
@@ -588,4 +593,33 @@ public class KoLCharacter
 	{	this.hasChef = hasChef;
 	}
 
+	/**
+	 * Accessor method to set the description of the current familiar.
+	 * @param	familiarRace	The race of the current familiar
+	 * @param	familiarWeight	The weight of the current familiar
+	 */
+
+	public void setFamiliarDescription( String familiarRace, int familiarWeight )
+	{
+		this.familiarRace = familiarRace;
+		this.familiarWeight = familiarWeight;
+	}
+
+	/**
+	 * Accessor method to retrieve the race of the current familiar.
+	 * @return	The race of the current familiar
+	 */
+
+	public String getFamiliarRace()
+	{	return familiarRace;
+	}
+
+	/**
+	 * Accessor method to retrieve the weight of the current familiar.
+	 * @return	The weight of the current familiar
+	 */
+
+	public int getFamiliarWeight()
+	{	return familiarWeight;
+	}
 }

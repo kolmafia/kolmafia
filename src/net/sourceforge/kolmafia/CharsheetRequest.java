@@ -181,6 +181,29 @@ public class CharsheetRequest extends KoLRequest
 			skipTokens( parsedContent, 3 );
 			character.setTotalTurnsUsed( intToken( parsedContent ) );
 
+
+			// Now, a hack to determine which familiar you have:
+			// it appears after the word "Current", skipping
+			// two tokens thereafter.  The exact type is found
+			// after skipping 5 characters.
+
+			while ( parsedContent.hasMoreTokens() && !token.startsWith( ", " ) )
+				token = parsedContent.nextToken();
+
+			if ( parsedContent.hasMoreTokens() )
+			{
+				StringTokenizer familiarData = new StringTokenizer( token.substring( 6 ), " ()", true );
+				StringBuffer familiarDescription = new StringBuffer();
+
+				String weight = familiarData.nextToken();
+				skipTokens( familiarData, 3 );
+
+				while ( familiarData.countTokens() > 5 )
+					familiarDescription.append( familiarData.nextToken() );
+
+				character.setFamiliarDescription( familiarDescription.toString(), Integer.parseInt( weight ) );
+			}
+
 			logStream.println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )
