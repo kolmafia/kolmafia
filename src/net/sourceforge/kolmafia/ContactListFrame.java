@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 
@@ -35,9 +34,7 @@ public class ContactListFrame extends JFrame
 		this.contacts = contacts;
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( new ContactListPanel(), "" );
-
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
-		setSize( new Dimension( 100, 500 ) );
 	}
 
 	private class ContactListPanel extends JPanel
