@@ -171,15 +171,4 @@ public class CharsheetFrame extends javax.swing.JFrame
 
 		return equipPanel;
 	}
-
-	private JPanel createEquipRowPanel( String field, String value )
-	{
-		JPanel rowPanel = new JPanel();
-		rowPanel.setLayout( new GridLayout( 1, 2 ) );
-
-		rowPanel.add( new JLabel( field + ":  ", JLabel.RIGHT ) );
-		rowPanel.add( new JLabel( value, JLabel.LEFT ) );
-
-		return rowPanel;
-	}
 }
