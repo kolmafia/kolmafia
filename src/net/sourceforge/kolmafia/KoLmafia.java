@@ -255,9 +255,9 @@ public abstract class KoLmafia implements UtilityConstants
 	{
 		String resultName = result.getName();
 		if ( result.isStatusEffect() )
-			AdventureResult.addResultToList( tally, result, characterData.getBaseMaxHP(), characterData.getBaseMaxMP() );
-		else
 			recentEffects.add( result );
+		else
+			AdventureResult.addResultToList( tally, result, characterData.getBaseMaxHP(), characterData.getBaseMaxMP() );
 
 		if ( result.isItem() && TradeableItemDatabase.contains( resultName ) )
 		{
@@ -399,6 +399,15 @@ public abstract class KoLmafia implements UtilityConstants
 	 */
 
 	public abstract void makeRequest( Runnable request, int iterations );
+
+	/**
+	 * For requests that do not use the client's "makeRequest()"
+	 * method, this method is used to reset the continue state.
+	 */
+
+	public void resetContinueState()
+	{	this.permitContinue = true;
+	}
 
 	/**
 	 * Cancels the user's current request.  Note that if there are
