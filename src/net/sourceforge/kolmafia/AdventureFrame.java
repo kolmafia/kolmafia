@@ -363,6 +363,9 @@ public class AdventureFrame extends KoLFrame
 					int count = df.parse( countField.getText() ).intValue();
 					Runnable request = (Runnable) locationField.getSelectedItem();
 					client.makeRequest( request, count );
+
+					if ( isheet != null )
+						isheet.refreshConcoctionsList();
 				}
 				catch ( ParseException e )
 				{
@@ -554,6 +557,9 @@ public class AdventureFrame extends KoLFrame
 							results.remove( purchases[i] );
 						}
 					}
+
+					if ( isheet != null )
+						isheet.refreshConcoctionsList();
 
 					updateDisplay( ENABLED_STATE, "Purchases complete." );
 				}

@@ -231,7 +231,7 @@ public class ItemManageFrame extends KoLFrame
 							(new AutoSellRequest( client, sellType, currentItem )).run();
 						}
 
-						(new RefreshItemCreationListThread()).run();
+						refreshConcoctionsList();
 						updateDisplay( ENABLED_STATE, "" );
 						SellItemPanel.this.setEnabled( true );
 					}
@@ -301,8 +301,7 @@ public class ItemManageFrame extends KoLFrame
 					if ( selection != null )
 						((Runnable)selection).run();
 
-					(new RefreshItemCreationListThread()).run();
-
+					refreshConcoctionsList();
 					updateDisplay( ENABLED_STATE, "" );
 					ItemManageFrame.this.setEnabled( true );
 				}
@@ -460,11 +459,15 @@ public class ItemManageFrame extends KoLFrame
 				else
 					(new ItemStorageRequest( client, moveType, items )).run();
 
-				(new RefreshItemCreationListThread()).run();
+				refreshConcoctionsList();
 				updateDisplay( ENABLED_STATE, "" );
 				ItemManageFrame.this.setEnabled( true );
 			}
 		}
+	}
+
+	public void refreshConcoctionsList()
+	{	(new RefreshItemCreationListThread()).run();
 	}
 
 	/**
