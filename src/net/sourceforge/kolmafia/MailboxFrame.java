@@ -176,6 +176,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		if ( messageListSaved.isInitialized() )
 			(new RequestMailboxThread( "Saved" )).run();
+
+		updateDisplay( ENABLED_STATE, "" );
 	}
 
 	private class RequestMailboxThread extends Thread
