@@ -154,7 +154,10 @@ public class KoLmafia implements UtilityConstants
 		closet = characterData.getCloset();
 
 		edibleItems = new SortedListModel();
+		edibleItems.add( AdventureResult.LAST_ELEMENT );
+
 		usableItems = new SortedListModel();
+		usableItems.add( AdventureResult.LAST_ELEMENT );
 
 		(new EquipmentRequest( this )).run();
 
