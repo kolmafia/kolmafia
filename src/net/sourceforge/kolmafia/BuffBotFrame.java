@@ -402,8 +402,8 @@ public class BuffBotFrame extends KoLFrame
 			panel.setLayout( new BorderLayout() );
 
 			LockableListModel buffBotModeChoices = new LockableListModel();
-			buffBotModeChoices.add( "Standard configuration" );
-			buffBotModeChoices.add( "Minimal MP restore mode" );
+			buffBotModeChoices.add( "Accept meat for buffs" );
+			buffBotModeChoices.add( "Accept tiny houses for buffs" );
 			buffBotModeSelect = new JComboBox( buffBotModeChoices );
 
 			LockableListModel messageDisposalChoices = new LockableListModel();
