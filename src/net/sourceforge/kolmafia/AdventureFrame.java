@@ -820,7 +820,6 @@ public class AdventureFrame extends KoLFrame
 					{
 						updateDisplay( DISABLED_STATE, "Attempting donation to " + heroField.getSelectedItem() + "..." );
 						(new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, amount )).run();
-						updateDisplay( ENABLED_STATE, "Statue donation attempt complete." );
 					}
 				}
 				catch ( Exception e )

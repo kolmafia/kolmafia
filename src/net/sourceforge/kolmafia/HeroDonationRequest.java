@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.List;
 
 /**
  * An extension of a <code>KoLRequest</code> which specifically handles
@@ -41,9 +42,18 @@ package net.sourceforge.kolmafia;
 
 public class HeroDonationRequest extends KoLRequest
 {
-	public static final int BORIS = 1;
-	public static final int JARLSBERG = 2;
-	public static final int PETE = 3;
+	public static final int BORIS = 0;
+	public static final int JARLSBERG = 1;
+	public static final int PETE = 2;
+
+	private static final AdventureResult [] STATUE_KEYS =
+	{
+		new AdventureResult( "Boris's key", 0 ),
+		new AdventureResult( "Jarlsberg's key", 0 ),
+		new AdventureResult( "Sneaky Pete's key", 0 )
+	};
+
+	private boolean hasStatueKey;
 
 	/**
 	 * Constructs a new <code>HeroDonationRequest</code>.
@@ -62,6 +72,7 @@ public class HeroDonationRequest extends KoLRequest
 
 		addFormField( "action", heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "sneakypete" );
 		addFormField( "howmuch", "" + amount );
+		this.hasStatueKey = client.getInventory().contains( STATUE_KEYS[ heroID ] );
 	}
 
 	/**
@@ -71,6 +82,12 @@ public class HeroDonationRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( !this.hasStatueKey )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "You don't have the appropriate key." );
+			return;
+		}
+
 		super.run();
 
 		// If an error state occurred, return from this
@@ -83,5 +100,6 @@ public class HeroDonationRequest extends KoLRequest
 		// therefore, you can parse just that small segment.
 
 		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
+		updateDisplay( KoLFrame.ENABLED_STATE, "Statue donation attempt complete." );
 	}
 }
