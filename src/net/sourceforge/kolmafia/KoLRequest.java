@@ -486,6 +486,13 @@ public class KoLRequest implements Runnable
 
 						isErrorState = false;
 						(new FightRequest( client )).run();
+
+						// If it's not a straightforward adventure (it's not an
+						// instance of an AdventureRequest), then you need to
+						// re-run the request to get the correct data.
+
+						if ( !(this instanceof AdventureRequest) )
+							this.run();
 					}
 				}
 				else if ( responseCode != 200 )
