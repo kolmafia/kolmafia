@@ -69,16 +69,18 @@ public class ChatRequest extends KoLRequest
 	 * @param	message	The message to be sent
 	 */
 
-	public ChatRequest( KoLmafia client, String message )
+	public ChatRequest( KoLmafia client, String contact, String message )
 	{
 		super( client, "submitnewchat.php" );
 		addFormField( "playerid", "" + client.getUserID() );
 		addFormField( "pwd", client.getPasswordHash() );
 
+		String actualMessage = contact == null ? message : "/msg " + contact.replaceAll( " ", "_" ) + message;
+
 		try
 		{
 			addFormField( "graf", URLEncoder.encode(
-				message.startsWith( "/msg" ) ? DataUtilities.convertToHTML( message ) : message, "UTF-8" ) );
+				actualMessage.startsWith( "/msg" ) ? DataUtilities.convertToHTML( actualMessage ) : actualMessage, "UTF-8" ) );
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{

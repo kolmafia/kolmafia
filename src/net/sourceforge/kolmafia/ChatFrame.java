@@ -165,6 +165,15 @@ public class ChatFrame extends KoLFrame
 	}
 
 	/**
+	 * Returns the name of the contact associated with this frame.
+	 * @return	The name of the contact associated with this frame
+	 */
+
+	public String getAssociatedContact()
+	{	return associatedContact;
+	}
+
+	/**
 	 * Requests focus to be placed on this chat frame.  It should
 	 * be called whenever this window is first created.
 	 */
@@ -211,7 +220,7 @@ public class ChatFrame extends KoLFrame
 			}
 
 			public void run()
-			{	(new ChatRequest( client, message )).run();
+			{	(new ChatRequest( client, associatedContact, message )).run();
 			}
 		}
 	}
@@ -232,7 +241,7 @@ public class ChatFrame extends KoLFrame
 			public void run()
 			{
 				if ( client != null )
-					messenger.clearChatBuffer();
+					messenger.clearChatBuffer( associatedContact );
 			}
 		}
 	}
@@ -255,7 +264,7 @@ public class ChatFrame extends KoLFrame
 				filename += ".html";
 
 			if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-				messenger.getChatBuffer().setActiveLogFile( filename,
+				messenger.getChatBuffer( associatedContact ).setActiveLogFile( filename,
 					"Loathing Chat: " + client.getLoginName() + " (" +
 					Calendar.getInstance().getTime().toString() + ")" );
 		}
@@ -289,7 +298,7 @@ public class ChatFrame extends KoLFrame
 		public void windowClosed( WindowEvent e )
 		{
 			if ( client != null )
-				client.deinitializeChat();
+				client.getMessenger().removeChat( associatedContact );
 			super.windowClosed( e );
 		}
 	}
