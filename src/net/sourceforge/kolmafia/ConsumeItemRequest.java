@@ -118,6 +118,12 @@ public class ConsumeItemRequest extends KoLRequest
 			else
 				(new RetrieveResultRequest( client, redirectLocation )).run();
 		}
+		else if ( replyContent.indexOf( "Too much" ) != -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( ENABLED_STATE, "Your spleen might go kabooie." );
+			return;
+		}
 		else
 		{
 			client.addToResultTally( itemUsed );
@@ -164,13 +170,6 @@ public class ConsumeItemRequest extends KoLRequest
 			{
 				client.cancelRequest();
 				updateDisplay( ENABLED_STATE, "Consumption limit reached." );
-				return;
-			}
-
-			else if ( replyContent.indexOf( "Too much" ) != -1 )
-			{
-				client.cancelRequest();
-				updateDisplay( ENABLED_STATE, "Your spleen might go kabooie." );
 				return;
 			}
 
