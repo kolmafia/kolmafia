@@ -254,7 +254,7 @@ public class AdventureFrame extends KoLFrame
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Location: ", locationField );
-			elements[1] = new VerifiableElement( "# of turns: ", countField );
+			elements[1] = new VerifiableElement( "# of turnips: ", countField );
 
 			setContent( elements, resultsTally );
 		}
@@ -550,7 +550,7 @@ public class AdventureFrame extends KoLFrame
 					updateDisplay( DISABLED_STATE, "Purchasing items..." );
 
 					Object [] purchases = resultsDisplay.getSelectedValues();
-					int maxPerStore = countField.getText().trim().length() == 0 ? 0 :
+					int maxPerStore = countField.getText().trim().length() == 0 ? Integer.MAX_VALUE :
 						Integer.parseInt( maxPerStoreField.getText() );
 
 					MallPurchaseRequest currentRequest;
