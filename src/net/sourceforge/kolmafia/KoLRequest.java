@@ -608,6 +608,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				logStream.println( e );
 
 			this.run();
+			return;
 		}
 	}
 
