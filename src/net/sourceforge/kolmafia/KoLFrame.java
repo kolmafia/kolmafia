@@ -57,7 +57,11 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 
 // other stuff
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.SwingUtilities;
+import java.lang.reflect.Constructor;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -74,6 +78,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	public static final int ENABLED_STATE  = 1;
 	public static final int DISABLED_STATE = 2;
 
+	protected List existingFrames;
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
 
@@ -86,6 +91,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		super( title );
 		this.client = client;
+		this.existingFrames = new ArrayList();
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 
@@ -152,7 +158,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menuBar.add( configureMenu );
 
 		JMenuItem settingsItem = new JMenuItem( "Preferences", KeyEvent.VK_P );
-		settingsItem.addActionListener( new DisplayPreferencesListener() );
+		settingsItem.addActionListener( new DisplayFrameListener( OptionsFrame.class ) );
 
 		configureMenu.add( settingsItem );
 
@@ -188,16 +194,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
-	private class DisplayPreferencesListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			OptionsFrame oframe = new OptionsFrame( client );
-			oframe.pack();  oframe.setVisible( true );
-			oframe.requestFocus();
-		}
-	}
-
 	/**
 	 * Auxilary method used to enable and disable a frame.  By default,
 	 * this attempts to toggle the enable/disable status on the core
@@ -211,6 +207,16 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		if ( contentPanel != null )
 			contentPanel.setEnabled( isEnabled );
+
+		Iterator framesIterator = existingFrames.iterator();
+		KoLFrame currentFrame;
+
+		while ( framesIterator.hasNext() )
+		{
+			currentFrame = (KoLFrame) framesIterator.next();
+			if ( currentFrame.isShowing() )
+				currentFrame.setEnabled( isEnabled );
+		}
 	}
 
 	/**
@@ -261,6 +267,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				client.requestFocus();
 		}
 	}
+
 
 	/**
 	 * In order to keep the user interface from freezing (or at least
@@ -480,6 +487,84 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				case DISABLED_STATE:
 					KoLFrame.this.setEnabled( false );
 					break;
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing a character sheet.
+	 */
+
+	protected class DisplayFrameListener implements ActionListener
+	{
+		private Constructor creator;
+		private KoLmafia [] parameters;
+		protected KoLFrame lastCreatedFrame;
+
+		public DisplayFrameListener( Class frameClass )
+		{
+			try
+			{
+				Class [] fields = new Class[1];
+				fields[0] = KoLmafia.class;
+				this.creator = frameClass.getConstructor( fields );
+			}
+			catch ( NoSuchMethodException e )
+			{
+				// If this happens, this is the programmer's
+				// fault for not noticing that the frame was
+				// more complex than is allowed by this
+				// displayer.  The creator stays null, which
+				// is harmless, so do nothing for now.
+			}
+
+			this.parameters = new KoLmafia[1];
+			parameters[0] = KoLFrame.this.client;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new DisplayFrameThread()).start();
+		}
+
+		protected class DisplayFrameThread extends Thread
+		{
+			public DisplayFrameThread()
+			{
+				super( "DisplayFrame-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					if ( creator != null )
+					{
+						lastCreatedFrame = (KoLFrame) creator.newInstance( parameters );
+						lastCreatedFrame.pack();
+						lastCreatedFrame.setVisible( true );
+						lastCreatedFrame.requestFocus();
+						existingFrames.add( lastCreatedFrame );
+
+						updateDisplay( NOCHANGE_STATE, " " );
+					}
+					else
+					{
+						updateDisplay( ENABLED_STATE, "Frame could not be loaded." );
+						return;
+					}
+				}
+				catch ( Exception e )
+				{
+					// If this happens, update the display to indicate
+					// that it failed to happen (eventhough technically,
+					// this should never have happened)
+
+					updateDisplay( ENABLED_STATE, "Frame could not be loaded." );
+					return;
+				}
 			}
 		}
 	}

@@ -101,9 +101,7 @@ import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 
 // other imports
-import java.util.List;
 import java.util.Iterator;
-import java.util.ArrayList;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -120,12 +118,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class AdventureFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-
 	private KoLMessenger kolchat;
-	private ItemManageFrame isheet;
-	private CharsheetFrame csheet;
-	private List greenMessageFrames;
-	private JMenuItem csheetMenuItem;
+	private ItemManageFrame itemManager;
 
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
@@ -151,19 +145,17 @@ public class AdventureFrame extends KoLFrame
 			" (" + KoLRequest.getRootHostName() + ")", client );
 
 		setResizable( false );
-		greenMessageFrames = new ArrayList();
+		this.tabs = new JTabbedPane();
 
-		tabs = new JTabbedPane();
-
-		adventureSelect = new AdventureSelectPanel( adventureList, resultsTally );
+		this.adventureSelect = new AdventureSelectPanel( adventureList, resultsTally );
 		tabs.addTab( "Adventure Select", adventureSelect );
 
-		mallSearch = new MallSearchPanel();
+		this.mallSearch = new MallSearchPanel();
 		tabs.addTab( "Mall of Loathing", mallSearch );
 
-		clanBuff = new ClanBuffPanel();
-		heroDonation = new HeroDonationPanel();
-		meatStorage = new MeatStoragePanel();
+		this.clanBuff = new ClanBuffPanel();
+		this.heroDonation = new HeroDonationPanel();
+		this.meatStorage = new MeatStoragePanel();
 
 		JPanel otherStuffPanel = new JPanel();
 		otherStuffPanel.setLayout( new GridLayout( 3, 1 ) );
@@ -172,8 +164,8 @@ public class AdventureFrame extends KoLFrame
 		otherStuffPanel.add( meatStorage, " " );
 		tabs.addTab( "Other Activities", otherStuffPanel );
 
-		removeEffects = new RemoveEffectsPanel();
-		skillBuff = new SkillBuffPanel();
+		this.removeEffects = new RemoveEffectsPanel();
+		this.skillBuff = new SkillBuffPanel();
 
 		JPanel effectsPanel = new JPanel();
 		effectsPanel.setLayout( new BorderLayout( 10, 10 ) );
@@ -203,12 +195,6 @@ public class AdventureFrame extends KoLFrame
 	{
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			tabs.setEnabledAt( i, isEnabled );
-
-		if ( isheet != null && isheet.isShowing() )
-			isheet.setEnabled( isEnabled );
-
-		if ( csheetMenuItem != null && csheetMenuItem.isShowing() )
-			csheetMenuItem.setEnabled( isEnabled );
 
 		if ( adventureSelect != null && adventureSelect.isShowing() )
 			adventureSelect.setEnabled( isEnabled );
@@ -245,30 +231,30 @@ public class AdventureFrame extends KoLFrame
 		viewMenu.setMnemonic( KeyEvent.VK_V );
 		menuBar.add( viewMenu );
 
-		csheetMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
-		csheetMenuItem.addActionListener( new ViewCharacterSheetListener() );
+		JMenuItem statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
+		statusMenuItem.addActionListener( new DisplayFrameListener( CharsheetFrame.class ) );
 
-		viewMenu.add( csheetMenuItem );
+		viewMenu.add( statusMenuItem );
 
-		JMenuItem imanageItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
-		imanageItem.addActionListener( new ViewItemManagerListener() );
+		JMenuItem itemMenuItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
+		itemMenuItem.addActionListener( new ViewItemManagerListener() );
 
-		viewMenu.add( imanageItem );
+		viewMenu.add( itemMenuItem );
 
-		JMenuItem chatItem = new JMenuItem( "Chat of Loathing", KeyEvent.VK_C );
-		chatItem.addActionListener( new ViewChatListener() );
+		JMenuItem chatMenuItem = new JMenuItem( "Chat of Loathing", KeyEvent.VK_C );
+		chatMenuItem.addActionListener( new ViewChatListener() );
 
-		viewMenu.add( chatItem );
+		viewMenu.add( chatMenuItem );
 
-		JMenuItem sendmailItem = new JMenuItem( "Green Composer", KeyEvent.VK_G );
-		sendmailItem.addActionListener( new ViewGreenMessageComposerListener() );
+		JMenuItem composeMenuItem = new JMenuItem( "Green Composer", KeyEvent.VK_G );
+		composeMenuItem.addActionListener( new DisplayFrameListener( GreenMessageFrame.class ) );
 
-		viewMenu.add( sendmailItem );
+		viewMenu.add( composeMenuItem );
 
-		JMenuItem readmailItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_P );
-		readmailItem.addActionListener( new ViewMailboxListener() );
+		JMenuItem mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_P );
+		mailMenuItem.addActionListener( new DisplayFrameListener( MailboxFrame.class ) );
 
-		viewMenu.add( readmailItem );
+		viewMenu.add( mailMenuItem );
 
 		addScriptMenu( menuBar );
 		addConfigureMenu( menuBar );
@@ -424,8 +410,8 @@ public class AdventureFrame extends KoLFrame
 
 						client.makeRequest( request, count );
 
-						if ( isheet != null )
-							isheet.refreshConcoctionsList();
+						if ( itemManager != null )
+							itemManager.refreshConcoctionsList();
 					}
 				}
 				catch ( ParseException e )
@@ -642,8 +628,8 @@ public class AdventureFrame extends KoLFrame
 					// this will be fixed once we add functionality.
 				}
 
-				if ( isheet != null )
-					isheet.refreshConcoctionsList();
+				if ( itemManager != null )
+					itemManager.refreshConcoctionsList();
 
 				if ( client.permitsContinue() )
 					updateDisplay( ENABLED_STATE, "Purchases complete." );
@@ -1146,37 +1132,30 @@ public class AdventureFrame extends KoLFrame
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing a character sheet.
+	 * the request for viewing the item manager.
 	 */
 
-	private class ViewCharacterSheetListener implements ActionListener
+	private class ViewItemManagerListener extends DisplayFrameListener
 	{
-		public void actionPerformed( ActionEvent e )
-		{	(new ViewCharacterSheetThread()).start();
+		public ViewItemManagerListener()
+		{	super( ItemManageFrame.class );
 		}
 
-		private class ViewCharacterSheetThread extends Thread
-		{
-			public ViewCharacterSheetThread()
-			{
-				super( "CSheet-Display-Thread" );
-				setDaemon( true );
-			}
+		public void actionPerformed( ActionEvent e )
+		{	(new ViewItemManagerThread()).start();
+		}
 
+		private class ViewItemManagerThread extends DisplayFrameThread
+		{
 			public void run()
 			{
-				if ( csheet != null && csheet.isShowing() )
+				if ( itemManager != null )
+					itemManager.setVisible( true );
+				else
 				{
-					csheet.setVisible( false );
-					csheet.dispose();
-					csheet = null;
+					super.run();
+					itemManager = (ItemManageFrame) lastCreatedFrame;
 				}
-
-				csheet = new CharsheetFrame( client );
-				csheet.pack();  csheet.setVisible( true );
-
-				csheet.requestFocus();
-				updateDisplay( NOCHANGE_STATE, " " );
 			}
 		}
 	}
@@ -1215,101 +1194,6 @@ public class AdventureFrame extends KoLFrame
 	}
 
 	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the item manager.
-	 */
-
-	private class ViewItemManagerListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new ViewItemManagerThread()).start();
-		}
-
-		private class ViewItemManagerThread extends Thread
-		{
-			public ViewItemManagerThread()
-			{
-				super( "Item-Display-Thread" );
-				setDaemon( true );
-			}
-
-			public void run()
-			{
-				if ( isheet == null )
-				{
-					isheet = new ItemManageFrame( client );
-					isheet.pack();
-				}
-
-				isheet.setVisible( true );
-				isheet.setEnabled( true );
-				isheet.requestFocus();
-			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the composer window.
-	 */
-
-	private class ViewGreenMessageComposerListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new ViewGreenMessageComposerThread()).start();
-		}
-
-		private class ViewGreenMessageComposerThread extends Thread
-		{
-			public ViewGreenMessageComposerThread()
-			{
-				super( "View-Composer-Thread" );
-				setDaemon( true );
-			}
-
-			public void run()
-			{
-				GreenMessageFrame composer = new GreenMessageFrame( client );
-				composer.pack();  composer.setVisible( true );
-				composer.requestFocus();
-				greenMessageFrames.add( composer );
-			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the composer window.
-	 */
-
-	private class ViewMailboxListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new ViewMailboxThread()).start();
-		}
-
-		private class ViewMailboxThread extends Thread
-		{
-			public ViewMailboxThread()
-			{
-				super( "View-Mailbox-Thread" );
-				setDaemon( true );
-			}
-
-			public void run()
-			{
-				MailboxFrame mailDisplay = new MailboxFrame( client );
-				mailDisplay.pack();  mailDisplay.setVisible( true );
-				mailDisplay.requestFocus();
-				greenMessageFrames.add( mailDisplay );
-			}
-		}
-	}
-
-	/**
 	 * An internal class used to handle logout whenever the window
 	 * is closed.  An instance of this class is added to the window
 	 * listener list.
@@ -1341,13 +1225,6 @@ public class AdventureFrame extends KoLFrame
 				(new LogoutRequest( client )).run();
 				client.deinitialize();
 
-				if ( csheet != null && csheet.isShowing() )
-				{
-					csheet.setVisible( false );
-					csheet.dispose();
-					csheet = null;
-				}
-
 				if ( kolchat != null && kolchat.isShowing() )
 				{
 					kolchat.setVisible( false );
@@ -1355,21 +1232,13 @@ public class AdventureFrame extends KoLFrame
 					kolchat = null;
 				}
 
-				if ( isheet != null && isheet.isShowing() )
+				Iterator frames = existingFrames.iterator();
+				KoLFrame currentFrame;
+				while ( frames.hasNext() )
 				{
-					isheet.setVisible( false );
-					isheet.dispose();
-					isheet = null;
-				}
-
-				Iterator greens = greenMessageFrames.iterator();
-				KoLFrame currentGreen;
-				while ( greens.hasNext() )
-				{
-					currentGreen = (KoLFrame) greens.next();
-					currentGreen.setVisible( false );
-					currentGreen.dispose();
-					greens.remove();
+					currentFrame = (KoLFrame) frames.next();
+					currentFrame.setVisible( false );
+					currentFrame.dispose();
 				}
 			}
 		}
