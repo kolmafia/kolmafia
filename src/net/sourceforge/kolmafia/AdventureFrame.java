@@ -159,13 +159,13 @@ public class AdventureFrame extends KoLFrame
 
 	private void addAdventuringPanel( LockableListModel availableAdventures, LockableListModel resultsTally )
 	{
-		JPanel summaryPanel = new AdventureResultsPanel( resultsTally );
+		JPanel resultsPanel = new AdventureResultsPanel( resultsTally );
 		adventureSelect = new AdventureSelectPanel( availableAdventures );
 
 		JPanel adventuringPanel = new JPanel();
 		adventuringPanel.setLayout( new BorderLayout( 10, 10 ) );
-		adventuringPanel.add( summaryPanel, BorderLayout.SOUTH );
-		adventuringPanel.add( contentPanel, BorderLayout.NORTH );
+		adventuringPanel.add( resultsPanel, BorderLayout.SOUTH );
+		adventuringPanel.add( adventureSelect, BorderLayout.NORTH );
 
 		tabs.addTab( "Adventure Select", adventuringPanel );
 	}
@@ -366,26 +366,29 @@ public class AdventureFrame extends KoLFrame
 	 * the request for viewing a character sheet.
 	 */
 
-	private class ViewCharacterSheetListener extends Thread implements ActionListener
+	private class ViewCharacterSheetListener implements ActionListener
 	{
-		public ViewCharacterSheetListener()
-		{
-			super( "CSheet-Display-Thread" );
-			setDaemon( true );
-		}
-
-		public void run()
-		{
-			CharsheetFrame csheet = new CharsheetFrame( client );
-			csheet.pack();  csheet.setVisible( true );
-			csheet.requestFocus();
-			updateDisplay( NOCHANGE_STATE, "" );
-		}
-
 		public void actionPerformed( ActionEvent e )
 		{
 			updateDisplay( NOCHANGE_STATE, "Retrieving character data..." );
-			this.start();
+			(new ViewCharacterSheetThread()).start();
+		}
+
+		private class ViewCharacterSheetThread extends Thread
+		{
+			public ViewCharacterSheetThread()
+			{
+				super( "CSheet-Display-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				CharsheetFrame csheet = new CharsheetFrame( client );
+				csheet.pack();  csheet.setVisible( true );
+				csheet.requestFocus();
+				updateDisplay( NOCHANGE_STATE, "" );
+			}
 		}
 	}
 
