@@ -47,6 +47,7 @@ import java.util.StringTokenizer;
 public class SearchMallRequest extends KoLRequest
 {
 	private List results;
+	private boolean retainAll;
 	private String searchString;
 
 	/**
@@ -61,21 +62,25 @@ public class SearchMallRequest extends KoLRequest
 	 */
 
 	public SearchMallRequest( KoLmafia client, String searchString, List results )
+	{	this( client, searchString, results, false );
+	}
+
+	/**
+	 * Constructs a new <code>SearchMallRequest</code> which searches for
+	 * the given item, storing the results in the given <code>ListModel</code>.
+	 * Note that the search string is exactly the same as the way KoL does
+	 * it at the current time.
+	 *
+	 * @param	client	The client to be notified in case of error
+	 * @param	searchString	The string (including wildcards) for the item to be found
+	 * @param	results	The sorted list in which to store the results
+	 */
+
+	public SearchMallRequest( KoLmafia client, String searchString, List results, boolean retainAll )
 	{
-		super( client, "searchmall.php" );
-		addFormField( "whichitem", searchString );
-
-		String cheapestCountString = client.getSettings().getProperty( "defaultLimit" );
-		int cheapestCount = cheapestCountString == null ? 13 : Integer.parseInt( cheapestCountString );
-
-		if ( cheapestCount > 0 )
-		{
-			addFormField( "cheaponly", "on" );
-			addFormField( "shownum", "" + cheapestCount );
-		}
-
-		this.searchString = searchString;
-		this.results = results;
+		this( client, searchString,
+			client.getSettings().getProperty( "defaultLimit" ) == null ? 13 :
+				Integer.parseInt( client.getSettings().getProperty( "defaultLimit" ) ), results, retainAll );
 	}
 
 	/**
@@ -91,6 +96,22 @@ public class SearchMallRequest extends KoLRequest
 	 */
 
 	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results )
+	{	this( client, searchString, cheapestCount, results, false );
+	}
+
+	/**
+	 * Constructs a new <code>SearchMallRequest</code> which searches for
+	 * the given item, storing the results in the given <code>ListModel</code>.
+	 * Note that the search string is exactly the same as the way KoL does
+	 * it at the current time.
+	 *
+	 * @param	client	The client to be notified in case of error
+	 * @param	searchString	The string (including wildcards) for the item to be found
+	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
+	 * @param	results	The sorted list in which to store the results
+	 */
+
+	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results, boolean retainAll )
 	{
 		super( client, "searchmall.php" );
 		addFormField( "whichitem", searchString );
@@ -103,6 +124,7 @@ public class SearchMallRequest extends KoLRequest
 
 		this.searchString = searchString;
 		this.results = results;
+		this.retainAll = retainAll;
 	}
 
 	/**
@@ -132,7 +154,10 @@ public class SearchMallRequest extends KoLRequest
 		// been reached (which have been greyed out), and then remove all non-anchor
 		// tags to make everything easy to parse.
 
-		String plainTextResult = replyContent.substring( startIndex ).replaceAll( "<td style=.*?<tr>", "" ).replaceAll( "<br>", " " ).replaceAll(
+		String storeListResult = replyContent.substring( startIndex );
+		if ( !retainAll )  storeListResult = storeListResult.replaceAll( "<td style=.*?<tr>", "" );
+
+		String plainTextResult = storeListResult.replaceAll( "<br>", " " ).replaceAll(
 			"</?b>", "\n" ).replaceAll( "</?p>", "" ).replaceAll( "</c.*?>", "" ).replaceAll( "</?t.*?>", "\n" ).replaceAll(
 				"</a>", "\n" );
 
