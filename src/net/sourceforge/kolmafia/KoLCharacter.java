@@ -128,7 +128,7 @@ public class KoLCharacter
 		SAUCEROR.add( "Bay Leaf Brujo" );
 		SAUCEROR.add( "Sesame Soothsayer" );
 		SAUCEROR.add( "Marinara Mage" );
-		SAUCEROR.add( "Alfredo Archmarge" );
+		SAUCEROR.add( "Alfredo Archmage" );
 		SAUCEROR.add( "Sauceror" );
 	}
 
