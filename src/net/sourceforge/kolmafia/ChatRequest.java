@@ -51,6 +51,7 @@ public class ChatRequest extends KoLRequest
 	private int lastSeen;
 	private KoLMessenger associatedMessenger;
 	private boolean isContinuationRequest;
+	private boolean isFriendAdditionRequest;
 
 	/**
 	 * Constructs a new <code>ChatRequest</code>.
@@ -75,7 +76,9 @@ public class ChatRequest extends KoLRequest
 		addFormField( "playerid", "" + client.getUserID() );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		String actualMessage = contact == null ? message : "/msg " + contact.replaceAll( " ", "_" ) + " " + message;
+		String actualMessage = contact == null ? message :
+			message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) ? message + " " + contact :
+				"/msg " + contact.replaceAll( " ", "_" ) + " " + message;
 
 		try
 		{
@@ -92,6 +95,7 @@ public class ChatRequest extends KoLRequest
 
 		isContinuationRequest = false;
 		associatedMessenger = client.getMessenger();
+		isFriendAdditionRequest = actualMessage.trim().startsWith( "/friend " );
 	}
 
 	/**
@@ -110,6 +114,7 @@ public class ChatRequest extends KoLRequest
 		this.lastSeen = lastSeen;
 		isContinuationRequest = true;
 		associatedMessenger = client.getMessenger();
+		isFriendAdditionRequest = false;
 	}
 
 	/**
@@ -197,8 +202,13 @@ public class ChatRequest extends KoLRequest
 			// the next chat request should be run.  Note that this is
 			// only possible if the chat buffer has not been nulled.
 
-			if ( client.getMessenger() != null )
-				(new ChatRequest( client, lastSeen )).run();
+			if ( associatedMessenger == client.getMessenger() )
+			{
+				if ( isFriendAdditionRequest )
+					(new ChatRequest( client, null, "/friends" )).run();
+				if ( client.getMessenger() != null )
+					(new ChatRequest( client, lastSeen )).run();
+			}
 		}
 	}
 }
