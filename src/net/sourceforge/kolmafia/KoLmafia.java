@@ -694,7 +694,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 						updateDisplay( DISABLED_STATE, useTypeAsString + " " +
 							((ConsumeItemRequest)request).getItemUsed().getName() + " " +
-							(iterations == 1 ? ("(" + ((ConsumeItemRequest)request).getItemUsed().getCount() + ")") :
+							(iterations == 1 ? ("(" + (0 - ((ConsumeItemRequest)request).getItemUsed().getCount()) + ")") :
 								("(" + i + " of " + iterations + ")")) + "..." );
 					}
 
