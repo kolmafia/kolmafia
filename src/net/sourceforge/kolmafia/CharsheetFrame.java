@@ -96,15 +96,6 @@ public class CharsheetFrame extends KoLFrame
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
 
-		if ( client != null )
-		{
-			characterData = client.getCharacterData();
-			(new CharsheetRequest( client )).run();
-			client.applyRecentEffects();
-		}
-		else
-			characterData = new KoLCharacter( "UI Test" );
-
 		setResizable( false );
 		contentPanel = null;
 
@@ -257,8 +248,23 @@ public class CharsheetFrame extends KoLFrame
 		return statusLabelPanel;
 	}
 
-	private void refreshStatus()
+	/**
+	 * Utility method used to refresh the status of the pane.  This
+	 * method is made public so that the same frame can be hidden and
+	 * reused at a later time.
+	 */
+
+	public void refreshStatus()
 	{
+		if ( client != null )
+		{
+			characterData = client.getCharacterData();
+			(new CharsheetRequest( client )).run();
+			client.applyRecentEffects();
+		}
+		else
+			characterData = new KoLCharacter( "UI Test" );
+
 		statusLabel[0].setText( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() + " (HP)" );
 		statusLabel[1].setText( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() + " (MP)" );
 
@@ -269,6 +275,8 @@ public class CharsheetFrame extends KoLFrame
 		statusLabel[8].setText( characterData.getAvailableMeat() + " meat" );
 		statusLabel[9].setText( characterData.getInebriety() + " drunkenness" );
 		statusLabel[10].setText( characterData.getAdventuresLeft() + " adventures left" );
+
+		client.updateDisplay( ENABLED_STATE, " " );
 	}
 
 	private class StatusRefreshListener implements ActionListener
@@ -286,10 +294,7 @@ public class CharsheetFrame extends KoLFrame
 			}
 
 			public void run()
-			{
-				(new CharsheetRequest( client )).run();
-				refreshStatus();
-				client.updateDisplay( ENABLED_STATE, " " );
+			{	refreshStatus();
 			}
 		}
 	}

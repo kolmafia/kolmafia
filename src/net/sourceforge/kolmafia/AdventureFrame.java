@@ -1185,6 +1185,7 @@ public class AdventureFrame extends KoLFrame
 					statusPane.setVisible( true );
 					statusPane.requestFocus();
 					statusPane.setEnabled( isEnabled );
+					statusPane.refreshStatus();
 				}
 				else
 				{
