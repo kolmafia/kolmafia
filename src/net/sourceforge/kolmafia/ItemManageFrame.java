@@ -100,12 +100,15 @@ public class ItemManageFrame extends KoLFrame
 
 	private class SellItemPanel extends NonContentPanel
 	{
+		private LockableListModel available;
+
 		public SellItemPanel()
 		{
 			super( "autosell", "automall" );
 			setContent( null );
 
-			JList availableList = new JList( client == null ? new LockableListModel() : client.getInventory() );
+			available = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
+			JList availableList = new JList( available );
 			availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 
@@ -134,6 +137,8 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ClosetPanel extends JPanel
 	{
+		private LockableListModel inventory;
+
 		public ClosetPanel()
 		{
 			JPanel panel = new JPanel();
@@ -152,7 +157,8 @@ public class ItemManageFrame extends KoLFrame
 				super( "closet", "stash" );
 				setContent( null );
 
-				JList availableList = new JList( client == null ? new LockableListModel() : client.getInventory() );
+				inventory = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
+				JList availableList = new JList( inventory );
 				availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				availableList.setVisibleRowCount( 7 );
@@ -178,12 +184,15 @@ public class ItemManageFrame extends KoLFrame
 
 		private class InsideClosetPanel extends NonContentPanel
 		{
+			private LockableListModel closet;
+
 			public InsideClosetPanel()
 			{
 				super( "take one", "take all" );
 				setContent( null );
 
-				JList closetList = new JList( client == null ? new LockableListModel() : client.getCloset() );
+				closet = client == null ? new LockableListModel() : client.getCloset().getMirrorImage();
+				JList closetList = new JList( closet );
 				closetList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				closetList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				closetList.setVisibleRowCount( 7 );
@@ -280,8 +289,6 @@ public class ItemManageFrame extends KoLFrame
 				super( "execute", "refresh", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
 				LockableListModel actions = new LockableListModel();
-				actions.add( "Deposit Meat" );
-				actions.add( "Withdraw Meat" );
 				actions.add( "Make Meat Paste" );
 				actions.add( "Make Meat Stack" );
 				actions.add( "Make Dense Stack" );
