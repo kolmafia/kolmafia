@@ -705,7 +705,7 @@ public class OptionsFrame extends KoLFrame
 				chatStyleSelect.setSelectedIndex( (chatStyle != null) ? Integer.parseInt( chatStyle ) : 0 );
 
 				String useTabs = settings.getProperty( "useTabbedChat" );
-				useTabsSelect.setSelectedIndex( (useTabs != null) ? Integer.parseInt( chatStyle ) : 0 );
+				useTabsSelect.setSelectedIndex( (useTabs != null) ? Integer.parseInt( useTabs ) : 0 );
 			}
 		}
 

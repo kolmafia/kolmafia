@@ -84,8 +84,8 @@ public class KoLMessenger implements KoLConstants
 		seenPlayerNames = new TreeMap();
 		contactsFrame = new ContactListFrame( client, onlineContacts );
 
-		String tabbedFrameSetting = client.getSettings().getProperty( "useTabbedFrame" );
-		setTabbedFrameSetting( tabbedFrameSetting != null && tabbedFrameSetting.equals( "1" ) );
+		String tabsSetting = client.getSettings().getProperty( "useTabbedChat" );
+		setTabbedFrameSetting( tabsSetting != null && tabsSetting.equals( "1" ) );
 	}
 
 	/**
@@ -890,6 +890,7 @@ public class KoLMessenger implements KoLConstants
 		{
 			newFrame.setVisible( false );
 			newBuffer.setChatDisplay( this.tabbedFrame.addTab( windowName ) );
+			this.tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 		}
 		else
 		{
