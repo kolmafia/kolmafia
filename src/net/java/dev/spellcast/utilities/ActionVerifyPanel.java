@@ -58,14 +58,20 @@ public abstract class ActionVerifyPanel extends JRootPane
 	private boolean contentSet;
 	private JComponent eastContainer;
 	private VerifyButtonPanel buttonPanel;
+	private Dimension labelSize, fieldSize;
 
-	private static final Dimension LABEL_SIZE = new Dimension ( 100, 20 );
-	private static final Dimension TEXTFIELD_SIZE = new Dimension( 200, 20 );
-//	private static final Dimension TEXTFIELD_SIZE = new Dimension( 165, 20 );
+	private static final Dimension DEFAULT_LABEL_SIZE = new Dimension( 100, 20 );
+	private static final Dimension DEFAULT_FIELD_SIZE = new Dimension( 165, 20 );
 
 	public ActionVerifyPanel( String confirmedText, String cancelledText )
+	{	this( confirmedText, cancelledText, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE );
+	}
+
+	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
 	{
 		contentSet = false;
+		this.labelSize = labelSize;
+		this.fieldSize = fieldSize;
 		buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );
 	}
 
@@ -78,16 +84,18 @@ public abstract class ActionVerifyPanel extends JRootPane
 		if ( contentSet )
 			return;
 
-		setLayout( new BorderLayout( 10, 10 ) );
-		add( Box.createVerticalStrut( 2 ), BorderLayout.NORTH );
+		JPanel container = new JPanel();
+
+		container.setLayout( new BorderLayout( 10, 10 ) );
+		container.add( Box.createVerticalStrut( 2 ), BorderLayout.NORTH );
 
 		// add the west container
-		add( constructWestContainer( elements, westPanel ), BorderLayout.WEST );
+		container.add( constructWestContainer( elements, westPanel ), BorderLayout.WEST );
 
 		// add the extras panel
 		JPanel extrasPanel = constructExtrasPanel( extras );
 		if ( extrasPanel != null )
-			add( extrasPanel, BorderLayout.CENTER );
+			container.add( extrasPanel, BorderLayout.CENTER );
 
 		// construct the east container, which usually consists of only the
 		// button panel, if an east panel is not specified; if one happens
@@ -105,7 +113,10 @@ public abstract class ActionVerifyPanel extends JRootPane
 		else
 			eastContainer.add( buttonPanel, BorderLayout.NORTH );
 
-		add( eastContainer, BorderLayout.EAST );
+		container.add( eastContainer, BorderLayout.EAST );
+
+		setLayout( new BorderLayout() );
+		add( container, BorderLayout.CENTER );
 		contentSet = true;
 	}
 
@@ -147,7 +158,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 		{
 			label = elements[i].getLabel();
 
-			JComponentUtilities.setComponentSize( label, LABEL_SIZE );
+			JComponentUtilities.setComponentSize( label, labelSize );
 			labelPanel.add( label );
 			labelPanel.add( Box.createVerticalStrut( 5 ) );
 		}
@@ -169,7 +180,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 
 			if ( inputField instanceof JTextField )
 			{
-				JComponentUtilities.setComponentSize( inputField, TEXTFIELD_SIZE );
+				JComponentUtilities.setComponentSize( inputField, fieldSize );
 				fieldPanel.add( inputField );
 			}
 			else
@@ -177,7 +188,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 				JPanel containerPanel = new JPanel();
 				containerPanel.setLayout( new BoxLayout( containerPanel, BoxLayout.X_AXIS ) );
 				containerPanel.add( inputField );
-				JComponentUtilities.setComponentSize( containerPanel, TEXTFIELD_SIZE );
+				JComponentUtilities.setComponentSize( containerPanel, fieldSize );
 				fieldPanel.add( containerPanel );
 			}
 			fieldPanel.add( Box.createVerticalStrut( 5 ) );
