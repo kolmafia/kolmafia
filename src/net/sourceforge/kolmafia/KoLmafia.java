@@ -173,6 +173,7 @@ public class KoLmafia implements UtilityConstants
 		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
 		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
 		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
+		addToResultTally( AdventureResult.LAST_ELEMENT );
 
 		activeFrame = new AdventureFrame( this, adventures, tally );
 		activeFrame.pack();  activeFrame.setVisible( true );

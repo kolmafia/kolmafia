@@ -60,6 +60,9 @@ public class AdventureResult implements Comparable
 	public static final String SUBSTATS = "Stats";
 	public static final String DIVIDER = "";
 
+	public static final AdventureResult LAST_ELEMENT = new AdventureResult( DIVIDER, 0 );
+	static { LAST_ELEMENT.resultPriority = 4; }
+
 	private static List MUS_SUBSTAT = new ArrayList();
 	private static List MYS_SUBSTAT = new ArrayList();
 	private static List MOX_SUBSTAT = new ArrayList();
@@ -273,9 +276,19 @@ public class AdventureResult implements Comparable
 		int index = tally.indexOf( result );
 
 		if ( index == -1 )
+		{
+			index = tally.size();
 			tally.add( result );
+		}
 		else
 			tally.set( index, add( result, (AdventureResult) tally.get( index ) ) );
+
+		// Check to make sure that the result didn't transform the value
+		// to zero - if it did, then remove the item from the list.
+
+		AdventureResult netWorth = (AdventureResult) tally.get( index );
+		if ( netWorth.isItem() && netWorth.getResultCount() == 0 )
+			tally.remove( netWorth );
 	}
 
 	/**

@@ -90,6 +90,9 @@ public class KoLCharacter
 		this.inventory = new SortedListModel( AdventureResult.class );
 		this.closet = new SortedListModel( AdventureResult.class );
 
+		inventory.add( AdventureResult.LAST_ELEMENT );
+		closet.add( AdventureResult.LAST_ELEMENT );
+
 		for ( int i = 0; i < 7; ++i )
 			equipment.add( "none" );
 	}
