@@ -113,6 +113,7 @@ public class SewerRequest extends KoLRequest
 		}
 
 		processResults( replyContent );
+		client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 	}
 
 	/**
@@ -134,5 +135,6 @@ public class SewerRequest extends KoLRequest
 		}
 
 		processResults( replyContent );
+		client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 	}
 }
