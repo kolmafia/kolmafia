@@ -344,7 +344,7 @@ public class KoLCharacter
 
 	public void setHP( int currentHP, int maximumHP, int baseMaxHP )
 	{
-		this.currentHP = currentHP > baseMaxHP ? baseMaxHP : currentHP;
+		this.currentHP = currentHP > maximumHP ? baseMaxHP : currentHP;
 		this.maximumHP = maximumHP;
 		this.baseMaxHP = baseMaxHP;
 
@@ -389,7 +389,7 @@ public class KoLCharacter
 
 	public void setMP( int currentMP, int maximumMP, int baseMaxMP )
 	{
-		this.currentMP = currentMP > baseMaxMP ? baseMaxMP : currentMP;
+		this.currentMP = currentMP > maximumMP ? baseMaxMP : currentMP;
 		this.maximumMP = maximumMP;
 		this.baseMaxMP = baseMaxMP;
 
