@@ -114,6 +114,20 @@ public class GearChangeFrame extends KoLFrame
 	}
 
 	/**
+	 * Sets all of the internal panels to a disabled or enabled state; this
+	 * prevents the user from modifying the data as it's getting sent, leading
+	 * to uncertainty and generally bad things.
+	 */
+
+	public void setEnabled( boolean isEnabled )
+	{
+		if ( changeOutfitButton != null )
+			changeOutfitButton.setEnabled( isEnabled );
+		if ( changeFamiliarButton != null )
+			changeFamiliarButton.setEnabled( isEnabled );
+	}
+
+	/**
 	 * Utility method used for creating a panel displaying the character's current
 	 * effects and their available outfits, as well as the ability to change the
 	 * character's current effects and outfit.

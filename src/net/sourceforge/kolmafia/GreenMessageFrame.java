@@ -72,6 +72,7 @@ public class GreenMessageFrame extends KoLFrame
 	private SortedListModel attachedItems;
 	private JLabel attachedItemsDisplay;
 	private JLabel sendMessageStatus;
+	private JMenuItem sendMenuItem;
 
 	public GreenMessageFrame( KoLmafia client )
 	{	this( client, "" );
@@ -140,9 +141,9 @@ public class GreenMessageFrame extends KoLFrame
 		fileMenu.setMnemonic( KeyEvent.VK_F );
 		menuBar.add( fileMenu );
 
-		JMenuItem sendItem = new JMenuItem( "Send Message", KeyEvent.VK_S );
-		sendItem.addActionListener( new SendGreenMessageListener() );
-		fileMenu.add( sendItem );
+		this.sendMenuItem = new JMenuItem( "Send Message", KeyEvent.VK_S );
+		sendMenuItem.addActionListener( new SendGreenMessageListener() );
+		fileMenu.add( sendMenuItem );
 
 		JMenuItem meatItem = new JMenuItem( "Attach Meat...", KeyEvent.VK_M );
 		meatItem.addActionListener( new AttachMeatListener() );
@@ -163,8 +164,14 @@ public class GreenMessageFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		recipientEntry.setEnabled( isEnabled );
-		messageEntry.setEnabled( isEnabled );
+		if ( recipientEntry != null )
+			recipientEntry.setEnabled( isEnabled );
+
+		if ( messageEntry != null )
+			messageEntry.setEnabled( isEnabled );
+
+		if ( sendMenuItem != null )
+			sendMenuItem.setEnabled( isEnabled );
 	}
 
 	/**

@@ -104,6 +104,12 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		(new RequestMailboxThread( "Inbox" )).start();
 	}
 
+	public void setEnabled( boolean isEnabled )
+	{
+		for ( int i = 0; i < tabbedListDisplay.getTabCount(); ++i )
+			tabbedListDisplay.setEnabledAt( i, isEnabled );
+	}
+
 	/**
 	 * Whenever the tab changes, this method is used to retrieve
 	 * the messages from the appropriate client, if the mailbox

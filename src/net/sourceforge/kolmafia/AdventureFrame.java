@@ -129,6 +129,9 @@ public class AdventureFrame extends KoLFrame
 	private HeroDonationPanel heroDonation;
 	private MeatStoragePanel meatStorage;
 
+	private JMenuItem statusMenuItem;
+	private JMenuItem mailMenuItem;
+
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
 	 * are placed into their corresponding tabs, with the content panel being
@@ -196,6 +199,12 @@ public class AdventureFrame extends KoLFrame
 	{
 		this.isEnabled = isEnabled;
 
+		if ( statusMenuItem != null )
+			statusMenuItem.setEnabled( isEnabled );
+
+		if ( mailMenuItem != null )
+			mailMenuItem.setEnabled( isEnabled );
+
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			tabs.setEnabledAt( i, isEnabled );
 
@@ -241,7 +250,7 @@ public class AdventureFrame extends KoLFrame
 		viewMenu.setMnemonic( KeyEvent.VK_V );
 		menuBar.add( viewMenu );
 
-		JMenuItem statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
+		this.statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
 		statusMenuItem.addActionListener( new DisplayFrameListener( CharsheetFrame.class ) );
 		viewMenu.add( statusMenuItem );
 
@@ -265,7 +274,7 @@ public class AdventureFrame extends KoLFrame
 
 		viewMenu.add( composeMenuItem );
 
-		JMenuItem mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_P );
+		this.mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_P );
 		mailMenuItem.addActionListener( new DisplayFrameListener( MailboxFrame.class ) );
 
 		viewMenu.add( mailMenuItem );
