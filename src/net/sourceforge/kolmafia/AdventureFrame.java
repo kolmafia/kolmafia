@@ -92,6 +92,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -476,7 +477,7 @@ public class AdventureFrame extends KoLFrame
 
 		private JTextField searchField;
 		private JTextField countField;
-		private JTextField maxPerStoreField;
+		private JCheckBox limitPurchasesField;
 
 		private LockableListModel results;
 		private JList resultsDisplay;
@@ -494,13 +495,13 @@ public class AdventureFrame extends KoLFrame
 
 			searchField = new JTextField();
 			countField = new JTextField();
-			maxPerStoreField = new JTextField();
+			limitPurchasesField = new JCheckBox();
 			results = new LockableListModel();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Search String: ", searchField );
 			elements[1] = new VerifiableElement( "Limit Results: ", countField );
-			elements[2] = new VerifiableElement( "Per Store Limit: ", maxPerStoreField );
+			elements[2] = new VerifiableElement( "Limit Purchases: ", limitPurchasesField );
 
 			setContent( elements );
 			currentlyBuying = false;
@@ -526,14 +527,14 @@ public class AdventureFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 			searchField.setEnabled( isEnabled );
 			countField.setEnabled( isEnabled );
-			maxPerStoreField.setEnabled( isEnabled );
+			limitPurchasesField.setEnabled( isEnabled );
 			resultsDisplay.setEnabled( isEnabled );
 		}
 
 		public void clear()
 		{
 			searchField.setText( "" );
-			maxPerStoreField.setText( "" );
+			limitPurchasesField.setText( "" );
 		}
 
 		protected void actionConfirmed()
@@ -640,19 +641,42 @@ public class AdventureFrame extends KoLFrame
 
 				try
 				{
-					int maxPerStore = maxPerStoreField.getText().trim().length() == 0 ? Integer.MAX_VALUE :
-						df.parse( maxPerStoreField.getText() ).intValue();
-
 					MallPurchaseRequest currentRequest;
-
 					client.resetContinueState();
-					for ( int i = 0; i < purchases.length && client.permitsContinue(); ++i )
+
+					int maxPurchases = limitPurchasesField.isSelected() ?
+						df.parse( JOptionPane.showInputDialog( "Maximum number of items to purchase?" ) ).intValue() : Integer.MAX_VALUE;
+
+					for ( int i = 0; i < purchases.length && maxPurchases > 0 && client.permitsContinue(); ++i )
 					{
 						if ( purchases[i] instanceof MallPurchaseRequest )
 						{
 							currentRequest = (MallPurchaseRequest) purchases[i];
-							currentRequest.setMaximumQuantity( maxPerStore );
+
+							// Keep track of how many of the item you had before
+							// you run the purchase request
+
+							AdventureResult oldResult = new AdventureResult( currentRequest.getItemName(), 0 );
+							int oldResultIndex = client.getInventory().indexOf( oldResult );
+							if ( oldResultIndex != -1 )
+								oldResult = (AdventureResult) client.getInventory().get( oldResultIndex );
+
+							currentRequest.setMaximumQuantity( maxPurchases );
 							currentRequest.run();
+
+							// Calculate how many of the item you have now after
+							// you run the purchase request
+
+							int newResultIndex = client.getInventory().indexOf( oldResult );
+							if ( newResultIndex != -1 )
+							{
+								AdventureResult newResult = (AdventureResult) client.getInventory().get( newResultIndex );
+								maxPurchases -= newResult.getCount() - oldResult.getCount();
+							}
+
+							// Remove the purchase from the list!  Because you
+							// have already made a purchase from the store
+
 							results.remove( purchases[i] );
 						}
 					}
