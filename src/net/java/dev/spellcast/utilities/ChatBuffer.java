@@ -61,10 +61,10 @@ public class ChatBuffer
 
 	protected StringBuffer displayBuffer;
 
-	private static final String EMPTY_STRING = "";
-	private static final String NEW_LINE = System.getProperty( "line.separator" );
-	private static final String BUFFER_INIT = "<body style=\"font-family: sans-serif; font-size: 12pt;\">";
-	private static final String BUFFER_STOP = "</body>";
+	protected static final String EMPTY_STRING = "";
+	protected static final String NEW_LINE = System.getProperty( "line.separator" );
+	protected static String BUFFER_INIT = "<body style=\"font-family: sans-serif;\">";
+	protected static String BUFFER_STOP = "</body>";
 
 	/**
 	 * Constructs a new <code>ChatBuffer</code>.  However, note that this
