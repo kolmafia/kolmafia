@@ -60,8 +60,8 @@ public class FamiliarData
 		this.weight = Integer.parseInt( (new StringTokenizer( token.substring( 6 ), " ()", true )).nextToken() );
 		this.race = FamiliarsDatabase.getFamiliarName( id );
 		this.item = html.indexOf( "<img" ) == -1 ? "none" :
-			html.indexOf( "<img src=\"http://images.kingdomofloathing.com/itemimages/lnecklace.gif\"" ) == -1 ?
-				FamiliarsDatabase.getFamiliarItem( id ) : "lead necklace";
+			html.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" : html.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" :
+				FamiliarsDatabase.getFamiliarItem( id );
 	}
 
 	public int getID()
