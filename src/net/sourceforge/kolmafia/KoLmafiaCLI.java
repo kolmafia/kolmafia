@@ -524,7 +524,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
-			command.startsWith( "equipment" ) || command.equals( "effects" ) || command.startsWith( "status" ) )
+			command.startsWith( "equip" ) || command.equals( "effects" ) || command.startsWith( "status" ) )
 		{
 			executePrintCommand( command + " " + parameters );
 			return;
