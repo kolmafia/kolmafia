@@ -79,6 +79,7 @@ public class ConsumeItemRequest extends KoLRequest
 			itemUsed.getName().startsWith( "bartender-in" ) && client.getCharacterData().hasBartender() )
 		{
 			client.cancelRequest();
+			updateDisplay( ENABLED_STATE, "You already have one installed." );
 			return;
 		}
 
