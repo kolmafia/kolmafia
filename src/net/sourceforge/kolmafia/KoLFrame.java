@@ -244,7 +244,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		configureMenu.add( settingsItem );
 
-		JMenuItem loggerItem = new JMenuItem( "", KeyEvent.VK_D );
+		JMenuItem loggerItem = new JMenuItem( "", KeyEvent.VK_S );
 		loggerItem.addActionListener( new ToggleDebugListener( loggerItem ) );
 
 		configureMenu.add( loggerItem );
@@ -402,7 +402,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			this.loggerItem = loggerItem;
 			loggerItem.setText( client == null || client.getLogStream() instanceof NullStream ?
-				"Debug Mode ON" : "Debug Mode OFF" );
+				"Start Debug Logging" : "Stop Debug Logging" );
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -410,12 +410,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			if ( client != null && client.getLogStream() instanceof NullStream )
 			{
 				client.initializeLogStream();
-				loggerItem.setText( "Debug Mode OFF" );
+				loggerItem.setText( "Stop Debug Logging" );
 			}
 			else if ( client != null )
 			{
 				client.deinitializeLogStream();
-				loggerItem.setText( "Debug Mode ON" );
+				loggerItem.setText( "Start Debug Logging" );
 			}
 		}
 	}
