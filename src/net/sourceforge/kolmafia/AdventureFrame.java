@@ -1608,7 +1608,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			{
 				tabs.setSelectedIndex(0);
 
-				if ( buffbotDisplay != null )
+				if ( client.isBuffBotActive() )
 				{
 					buffbotDisplay.setVisible( true );
 					buffbotDisplay.requestFocus();

@@ -179,7 +179,7 @@ public class BuffBotFrame extends KoLFrame {
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
 		getContentPane().add( tabs, " " );
 		addWindowListener( new ReturnFocusAdapter() );
-		setDefaultCloseOperation( HIDE_ON_CLOSE );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		addWindowListener( new DisableBuffBotAdapter() );
 
