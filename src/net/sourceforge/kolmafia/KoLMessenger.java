@@ -366,7 +366,7 @@ public class KoLMessenger
 		// that gives you a description of your channel.
 
 		String noCommentsContent = validColorsContent.replaceAll( "<p><p>", "</font><br><font color=green>" ).replaceAll(
-			"<!--lastseen:[\\d]+-->", "" );
+			"<p></p><p>", "<br>" ).replaceAll( "</p>", "" ).replaceAll( "<!--lastseen:[\\d]+-->", "" );
 
 		// Finally, there's lots of contact list and help file information that
 		// needs to get removed - this should be done here.
@@ -499,7 +499,19 @@ public class KoLMessenger
 
 		for ( int i = 0; i < lines.length; ++i )
 		{
-			if ( lines[i].startsWith( "<font color=green>" ) && !lines[i].startsWith( "<font color=green>[" ) )
+			// Haiku's introduction starts with several lines,
+			// so be sure to string the lines together.
+
+			if ( lines[i].startsWith( "<font color=green>Speak" ) )
+			{
+				processChatMessage( lines[i] + "</font>" );
+				lines[i] = null;
+				processChatMessage( "<font color=green>" + lines[++i] + "</font>" );
+				lines[i] = null;
+				processChatMessage( "<font color=green>" + lines[++i] );
+				lines[i] = null;
+			}
+			else if ( lines[i].startsWith( "<font color=green>" ) && !lines[i].startsWith( "<font color=green>[" ) )
 			{
 				processChatMessage( lines[i] );
 				lines[i] = null;
@@ -721,13 +733,14 @@ public class KoLMessenger
 				{
 					String name = nameMatcher.group();
 					name = name.substring( 3, name.indexOf( "</a>" ) );
+					name = name.replaceAll( "</b>", "" );
 
-					actualMessage = actualMessage.replaceFirst( "<b>",
+					actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
 						"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
 				}
 			}
-			else if ( actualMessage.indexOf( "</font>" ) == -1 )
-				actualMessage = actualMessage + "</font>";
+			else if ( actualMessage.startsWith( "<font color=green>" ) && actualMessage.indexOf( "</font>" ) == -1 )
+				actualMessage += "</font>";
 
 			channelBuffer.append( actualMessage );
 			channelBuffer.append( "<br>\n" );
