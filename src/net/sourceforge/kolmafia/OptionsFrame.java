@@ -888,8 +888,18 @@ public class OptionsFrame extends KoLFrame
 				((KoLSettings)settings).saveSettings();
 			(new StatusMessageChanger( "Settings saved." )).run();
 
-			try { Thread.sleep( 5000 ); }
-			catch ( Exception e ) {}
+			Object waitObject = new Object();
+			try
+			{
+				synchronized ( waitObject )
+				{
+					waitObject.wait( 5000 );
+					waitObject.notifyAll();
+				}
+			}
+			catch ( InterruptedException e )
+			{
+			}
 
 			(new StatusMessageChanger( "" )).run();
 		}
