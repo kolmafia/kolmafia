@@ -207,7 +207,7 @@ public class AdventureRequest extends KoLRequest
 
 			isErrorState = true;
 			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Shore trips aborted!" );
+			updateDisplay( ERROR_STATE, "Turn usage aborted!" );
 			return;
 		}
 
