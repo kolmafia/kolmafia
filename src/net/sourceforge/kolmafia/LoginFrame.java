@@ -342,6 +342,9 @@ public class LoginFrame extends KoLFrame
 
 			public void setSelectedItem( Object anObject )
 			{
+				if ( anObject == null )
+					return;
+
 				// Look up to see if there's a password that's
 				// associated with the current name
 
@@ -356,7 +359,7 @@ public class LoginFrame extends KoLFrame
 					passwordField.setText( password );
 					savePasswordCheckBox.setSelected( true );
 				}
-				else
+				else if ( !savePasswordCheckBox.isSelected() )
 				{
 					passwordField.setText( "" );
 					savePasswordCheckBox.setSelected( false );
