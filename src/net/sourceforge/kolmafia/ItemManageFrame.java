@@ -70,6 +70,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
+	private JPanel selling, storing;
 	private SortedListModel concoctions;
 
 	/**
@@ -87,9 +88,11 @@ public class ItemManageFrame extends KoLFrame
 		setResizable( false );
 
 		tabs = new JTabbedPane();
+		selling = new SellPanel();
+		storing = new StoragePanel();
 
-		tabs.addTab( "Sell & Create", new SellPanel() );
-		tabs.addTab( "Closet & Stash", new StoragePanel() );
+		tabs.addTab( "Sell & Create", selling );
+		tabs.addTab( "Closet & Stash", storing );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -108,6 +111,8 @@ public class ItemManageFrame extends KoLFrame
 		super.setEnabled( isEnabled );
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			tabs.setEnabledAt( i, isEnabled );
+		selling.setEnabled( isEnabled );
+		storing.setEnabled( isEnabled );
 	}
 
 	/**
