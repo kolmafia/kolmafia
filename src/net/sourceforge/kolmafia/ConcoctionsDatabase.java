@@ -61,6 +61,7 @@ public class ConcoctionsDatabase implements UtilityConstants
 	private static final int ITEM_COUNT = 1000;
 
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
+	private static int [] quantityPossible = new int[ ITEM_COUNT ];
 
 	static
 	{
@@ -81,9 +82,7 @@ public class ConcoctionsDatabase implements UtilityConstants
 				if ( strtok.countTokens() == 4 )
 				{
 					int itemID = TradeableItemDatabase.getItemID( strtok.nextToken() );
-
-					concoctions[ itemID ] = new Concoction( Integer.parseInt( strtok.nextToken() ),
-						strtok.nextToken(), strtok.nextToken() );
+					concoctions[ itemID ] = new Concoction( itemID, Integer.parseInt( strtok.nextToken() ), strtok.nextToken(), strtok.nextToken() );
 				}
 			}
 		}
@@ -99,63 +98,61 @@ public class ConcoctionsDatabase implements UtilityConstants
 
 	public static LockableListModel getConcoctions( KoLmafia client, List availableIngredients )
 	{
+		for ( int i = 0; i < ITEM_COUNT; ++i )
+			quantityPossible[i] = -1;
+
+		for ( int i = 0; i < ITEM_COUNT; ++i )
+			if ( concoctions[i] != null )
+				concoctions[i].calculateQuantityPossible( availableIngredients );
+
 		LockableListModel concoctionsList = new LockableListModel();
 
-		for ( int i = 0; i < concoctions.length; ++i )
-		{
-			if ( concoctions[i] != null )
-			{
-				int quantityPossible = concoctions[i].getQuantityPossible( availableIngredients );
-				if ( quantityPossible > 0 )
-					concoctionsList.add( new ItemCreationRequest( client, i, concoctions[i].getMixingMethod(), quantityPossible ) );
-			}
-		}
+		for ( int i = 0; i < ITEM_COUNT; ++i )
+			if ( quantityPossible[i] > 0 )
+				concoctionsList.add( new ItemCreationRequest( client, i, concoctions[i].getMixingMethod(), quantityPossible[i] ) );
 
 		return concoctionsList;
 	}
 
 	private static class Concoction
 	{
+		private int concoctionID;
 		private int mixingMethod;
-		private List ingredients;
 		private int [] ingredientIDs;
+		private AdventureResult asResult;
 
-		public Concoction( int mixingMethod, String ingredient1, String ingredient2 )
+		public Concoction( int concoctionID, int mixingMethod, String ingredient1, String ingredient2 )
 		{
+			this.concoctionID = concoctionID;
 			this.mixingMethod = mixingMethod;
 
-			ingredients = new ArrayList();
-			ingredients.add( new AdventureResult( ingredient1, 0 ) );
-			ingredients.add( new AdventureResult( ingredient2, 0 ) );
+			this.asResult = new AdventureResult( TradeableItemDatabase.getItemName( concoctionID ), 0 );
 
-			ingredientIDs = new int[2];
-			ingredientIDs[0] = TradeableItemDatabase.getItemID( ingredient1 );
-			ingredientIDs[1] = TradeableItemDatabase.getItemID( ingredient2 );
+			this.ingredientIDs = new int[2];
+			this.ingredientIDs[0] = TradeableItemDatabase.getItemID( ingredient1 );
+			this.ingredientIDs[1] = TradeableItemDatabase.getItemID( ingredient2 );
 		}
 
 		public int getMixingMethod()
 		{	return mixingMethod;
 		}
 
-		public int getQuantityPossible( List availableIngredients )
+		public void calculateQuantityPossible( List availableIngredients )
 		{
-			return Math.min(
-				getQuantityPossible( availableIngredients,
-					(AdventureResult) ingredients.get(0), ingredientIDs[0] ),
-				getQuantityPossible( availableIngredients,
-					(AdventureResult) ingredients.get(1), ingredientIDs[1] ) );
-		}
+			if ( quantityPossible[ concoctionID ] != -1 )
+				return;
 
-		private int getQuantityPossible( List availableIngredients, AdventureResult ingredient, int ingredientID )
-		{
-			int index = availableIngredients.indexOf( ingredient );
-			int quantity = (index == -1) ? 0 :
-				((AdventureResult)availableIngredients.get( index )).getCount();
+			int index = availableIngredients.indexOf( asResult );
+			quantityPossible[ concoctionID ] = (index == -1) ? 0 :((AdventureResult)availableIngredients.get( index )).getCount();
 
-			if ( concoctions[ ingredientID ] != null )
-				quantity += concoctions[ ingredientID ].getQuantityPossible( availableIngredients );
+			if ( concoctions[ ingredientIDs[0] ] != null )
+				concoctions[ ingredientIDs[0] ].calculateQuantityPossible( availableIngredients );
 
-			return quantity;
+			if ( concoctions[ ingredientIDs[1] ] != null )
+				concoctions[ ingredientIDs[1] ].calculateQuantityPossible( availableIngredients );
+
+			quantityPossible[ concoctionID ] +=
+				Math.min( quantityPossible[ ingredientIDs[0] ], quantityPossible[ ingredientIDs[1] ] );
 		}
 	}
 }
