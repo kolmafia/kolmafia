@@ -136,6 +136,9 @@ public class SearchMallRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( searchString == null || searchString.trim().length() == 0 )
+			return;
+
 		updateDisplay( DISABLED_STATE, "Searching for items..." );
 
 		super.run();
