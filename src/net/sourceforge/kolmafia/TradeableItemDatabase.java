@@ -47,7 +47,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -57,7 +56,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * load, this item list is stored within the JAR archive.
  */
 
-public class TradeableItemDatabase implements UtilityConstants
+public class TradeableItemDatabase
 {
 	private static final String ITEM_DBASE_FILE = "tradeitems.dat";
 	public static final int ITEM_COUNT = 1200;

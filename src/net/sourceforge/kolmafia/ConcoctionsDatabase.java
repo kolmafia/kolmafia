@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
@@ -55,7 +54,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
  * flow-control using exceptions, but that hasn't been changed.
  */
 
-public class ConcoctionsDatabase implements UtilityConstants
+public class ConcoctionsDatabase
 {
 	private static final String ITEM_DBASE_FILE = "concoctions.dat";
 	public static final int ITEM_COUNT = TradeableItemDatabase.ITEM_COUNT;

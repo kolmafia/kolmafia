@@ -43,7 +43,6 @@ import java.util.TreeMap;
 import java.util.StringTokenizer;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -53,7 +52,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * load, this item list is stored within the JAR archive.
  */
 
-public class FamiliarsDatabase implements UtilityConstants
+public class FamiliarsDatabase
 {
 	private static final String FAMILIAR_DBASE_FILE = "familiars.dat";
 
