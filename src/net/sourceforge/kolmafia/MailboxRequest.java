@@ -45,16 +45,16 @@ public class MailboxRequest extends KoLRequest
 	{	this( client, boxname, 0 );
 	}
 
-	public MailboxRequest( KoLmafia client, String boxname, Object [] messagesToDelete )
+	public MailboxRequest( KoLmafia client, String boxname, Object [] messages, String action )
 	{
 		super( client, "messages.php" );
 		addFormField( "box", boxname );
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "action", "delete" );
+		addFormField( "action", action );
 
 		this.boxname = boxname;
-		for ( int i = 0; i < messagesToDelete.length; ++i )
-			addFormField( ((KoLMailMessage) messagesToDelete[i]).getMessageID(), "on" );
+		for ( int i = 0; i < messages.length; ++i )
+			addFormField( ((KoLMailMessage) messages[i]).getMessageID(), "on" );
 	}
 
 	private MailboxRequest( KoLmafia client, String boxname, int startingIndex )

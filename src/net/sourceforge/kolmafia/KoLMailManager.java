@@ -89,7 +89,7 @@ public class KoLMailManager
 
 	public void deleteMessages( String boxname, Object [] messages )
 	{
-		(new MailboxRequest( client, boxname, messages )).run();
+		(new MailboxRequest( client, boxname, messages, "delete" )).run();
 
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
 		for ( int i = 0; i < messages.length; ++i )
