@@ -272,56 +272,68 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public static AdventureResult parseResult( String s ) throws NumberFormatException, ParseException
 	{
-		if ( s.startsWith("You gain") || s.startsWith("You lose") )
+		try
 		{
-			// A stat has been modified - now you figure out which one it was,
-			// how much it's been modified by, and return the appropriate value
-
-			StringTokenizer parsedGain = new StringTokenizer( s, " ." );
-			parsedGain.nextToken();
-
-			int modifier = Integer.parseInt(
-				(parsedGain.nextToken().startsWith("gain") ? "" : "-") + parsedGain.nextToken() );
-			String statname = parsedGain.nextToken();
-
-			// Stats actually fall into one of four categories - simply pick the
-			// correct one and return the result.
-
-			if ( parsedGain.hasMoreTokens() )
+			if ( s.startsWith("You gain") || s.startsWith("You lose") )
 			{
-				char identifier = statname.charAt(0);
-				return new AdventureResult( ( identifier == 'H' || identifier == 'h' ) ? HP : MP, modifier );
-			}
+				// A stat has been modified - now you figure out which one it was,
+				// how much it's been modified by, and return the appropriate value
 
-			if ( statname.startsWith( "Adv" ) )
-				return new AdventureResult( ADV, modifier );
-			else if ( statname.startsWith( "Dru" ) )
-				return new AdventureResult( DRUNK, modifier );
-			else if ( statname.startsWith( "Mea" ) )
-				return new AdventureResult( MEAT, modifier );
+				StringTokenizer parsedGain = new StringTokenizer( s, " ." );
+				parsedGain.nextToken();
 
-			else
-			{
-				// In the current implementations, all stats gains are located
-				// inside of a generic adventure which indicates how much of
-				// each substat is gained.
+				int modifier = df.parse(
+					(parsedGain.nextToken().startsWith("gain") ? "" : "-") + parsedGain.nextToken() ).intValue();
+				String statname = parsedGain.nextToken();
 
-				int [] gained =
+				// Stats actually fall into one of four categories - simply pick the
+				// correct one and return the result.
+
+				if ( parsedGain.hasMoreTokens() )
 				{
-					MUS_SUBSTAT.contains( statname ) ? modifier : 0,
-					MYS_SUBSTAT.contains( statname ) ? modifier : 0,
-					MOX_SUBSTAT.contains( statname ) ? modifier : 0
-				};
+					char identifier = statname.charAt(0);
+					return new AdventureResult( ( identifier == 'H' || identifier == 'h' ) ? HP : MP, modifier );
+				}
 
-				return new AdventureResult( SUBSTATS, gained );
+				if ( statname.startsWith( "Adv" ) )
+					return new AdventureResult( ADV, modifier );
+				else if ( statname.startsWith( "Dru" ) )
+					return new AdventureResult( DRUNK, modifier );
+				else if ( statname.startsWith( "Mea" ) )
+					return new AdventureResult( MEAT, modifier );
+
+				else
+				{
+					// In the current implementations, all stats gains are located
+					// inside of a generic adventure which indicates how much of
+					// each substat is gained.
+
+					int [] gained =
+					{
+						MUS_SUBSTAT.contains( statname ) ? modifier : 0,
+						MYS_SUBSTAT.contains( statname ) ? modifier : 0,
+						MOX_SUBSTAT.contains( statname ) ? modifier : 0
+					};
+
+					return new AdventureResult( SUBSTATS, gained );
+				}
 			}
+
+			StringTokenizer parsedItem = new StringTokenizer( s, "()" );
+			String parsedItemName = parsedItem.nextToken().trim();
+			String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
+
+			return new AdventureResult( parsedItemName, df.parse( parsedItemCount ).intValue() );
 		}
+		catch ( Exception e )
+		{
+			// If some weird exception occurs somewhere inbetween,
+			// simply return null.  Strangely, this exception
+			// should never occur (like all other parsed exceptions),
+			// but is caught as a matter of formality.
 
-		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
-		String parsedItemName = parsedItem.nextToken().trim();
-		String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
-
-		return new AdventureResult( parsedItemName, df.parse( parsedItemCount ).intValue() );
+			return null;
+		}
 	}
 
 	/**
