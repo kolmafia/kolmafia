@@ -56,7 +56,8 @@ import java.util.StringTokenizer;
  * forms and their accompanying data.  This abstract class is designed
  * to encapsulate this behavior by providing all descendant classes
  * (which simulate specific aspects of Kingdom of Loathing) with the
- * <code>submitData</code> method.
+ * <code>addFormField()</code> method.  Note that the actual information
+ * is sent to the server through the <code>run()</code> method.
  */
 
 public class KoLRequest implements Runnable
@@ -79,6 +80,12 @@ public class KoLRequest implements Runnable
 	protected String replyContent;
 	protected HttpURLConnection formConnection;
 
+	/**
+	 * Static method used to auto detect the server to be used as
+	 * the root for all requests by all KoLmafia clients running
+	 * on the current JVM instance.
+	 */
+
 	public static void autoDetectServer()
 	{
 		// This test uses the Kingdom of Loathing automatic balancing
@@ -87,8 +94,16 @@ public class KoLRequest implements Runnable
 
 		KoLRequest root = new KoLRequest( null, "" );
 		root.run();
-		KOL_ROOT = "http://" + root.formConnection.getURL().getHost() + "/";
+		setLoginServer( root.formConnection.getURL().getHost() );
 	}
+
+	/**
+	 * Static method used to manually set the server to be used as
+	 * the root for all requests by all KoLmafia clients running
+	 * on the current JVM instance.
+	 *
+	 * @param	server	The hostname of the server to be used.
+	 */
 
 	public static void setLoginServer( String server )
 	{	KOL_ROOT = "http://" + server + "/";
@@ -161,6 +176,14 @@ public class KoLRequest implements Runnable
 		retrieveServerReply();
 	}
 
+	/**
+	 * Utility method used to prepare the connection for input and output
+	 * (if output is necessary).  The method attempts to open the connection,
+	 * and then apply the needed settings.
+	 *
+	 * @return	<code>true</code> if the connection was successfully prepared
+	 */
+
 	private boolean prepareConnection()
 	{
 		try
@@ -195,6 +218,15 @@ public class KoLRequest implements Runnable
 
 		return true;
 	}
+
+	/**
+	 * Utility method used to post the client's data to the Kingdom of
+	 * Loathing server.  The method grabs all form fields added so far
+	 * and posts them using the traditional ampersand style of HTTP
+	 * requests.
+	 *
+	 * @return	<code>true</code> if all data was successfully posted
+	 */
 
 	private boolean postClientData()
 	{
@@ -237,6 +269,14 @@ public class KoLRequest implements Runnable
 			return false;
 		}
 	}
+
+	/**
+	 * Utility method used to retrieve the server's reply.  This method
+	 * detects the nature of the reply via the response code provided
+	 * by the server, and also detects the unusual states of server
+	 * maintenance and session timeout.  All data retrieved by this
+	 * method is stored in the instance variables for this class.
+	 */
 
 	private void retrieveServerReply()
 	{
@@ -367,7 +407,15 @@ public class KoLRequest implements Runnable
 		}
 	}
 
-	protected void processResults( String results )
+	/**
+	 * Utility method used to process the results of any adventure
+	 * in the Kingdom of Loathing.  This method searches for items,
+	 * stat gains, and losses within the provided string.
+	 *
+	 * @param	results	The string containing the results of the adventure
+	 */
+
+	protected final void processResults( String results )
 	{
 		logStream.println( "Processing results..." );
 
@@ -390,21 +438,65 @@ public class KoLRequest implements Runnable
 		}
 	}
 
-	protected void skipTokens( StringTokenizer st, int tokenCount )
+	/**
+	 * Utility method used to skip the given number of tokens within
+	 * the provided <code>StringTokenizer</code>.  This method is used
+	 * in order to clarify what's being done, rather than calling
+	 * <code>st.nextToken()</code> repeatedly.
+	 *
+	 * @param	st	The <code>StringTokenizer</code> whose tokens are to be skipped
+	 * @param	tokenCount	The number of tokens to skip
+	 */
+
+	protected static final void skipTokens( StringTokenizer st, int tokenCount )
 	{
 		for ( int i = 0; i < tokenCount; ++i )
 			st.nextToken();
 	}
 
-	protected int intToken( StringTokenizer st )
+	/**
+	 * Utility method used to transform the next token on the given
+	 * <code>StringTokenizer</code> into an integer.  Because this
+	 * is used repeatedly in parsing, its functionality is provided
+	 * globally to all instances of <code>KoLRequest</code>.
+	 *
+	 * @param	st	The <code>StringTokenizer</code> whose next token is to be retrieved
+	 */
+
+	protected static final int intToken( StringTokenizer st )
 	{	return Integer.parseInt( st.nextToken() );
 	}
 
-	protected int intToken( StringTokenizer st, int fromStart )
+	/**
+	 * Utility method used to transform the next token on the given
+	 * <code>StringTokenizer</code> into an integer; however, this
+	 * differs in the single-argument version in that only a part
+	 * of the next token is needed.  Because this is also used
+	 * repeatedly in parsing, its functionality is provided globally
+	 * to all instances of <code>KoLRequest</code>.
+	 *
+	 * @param	st	The <code>StringTokenizer</code> whose next token is to be retrieved
+	 * @param	fromStart	The index at which the integer to parse begins
+	 */
+
+	protected static final int intToken( StringTokenizer st, int fromStart )
 	{
 		String s = st.nextToken();
 		return Integer.parseInt( s.substring( fromStart ) );
 	}
+
+	/**
+	 * Utility method used to transform part of the next token on the
+	 * given <code>StringTokenizer</code> into an integer.  This differs
+	 * from the two-argument in that part of the end of the string is
+	 * expected to contain non-numeric values as well.  Because this is
+	 * also repeatedly in parsing, its functionality is provided globally
+	 * to all instances of <code>KoLRequest</code>.
+	 *
+	 * @param	st	The <code>StringTokenizer</code> whose next token is to be retrieved
+	 * @param	fromStart	The index at which the integer to parse begins
+	 * @param	fromEnd	The distance from the end at which the first non-numeric character is found
+	 */
 
 	protected int intToken( StringTokenizer st, int fromStart, int fromEnd )
 	{
