@@ -474,11 +474,13 @@ public class KoLMessenger
 		{
 			String channel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) );
 			processChannelMessage( channel, noLinksContent );
+			((ChatFrame) instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (inactive)" );
 		}
 		else if ( noLinksContent.startsWith( "<font color=green>Now listening to channel: " ) )
 		{
 			String channel = "/" + noLinksContent.substring( 44, noLinksContent.indexOf( "</font>" ) );
 			processChannelMessage( channel, noLinksContent );
+			((ChatFrame) instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (listening)" );
 		}
 		else if ( noLinksContent.startsWith( "<font color=green>You are now talking in channel: " ) )
 		{
@@ -494,12 +496,16 @@ public class KoLMessenger
 					currentChatBuffer.append( currentChannel.substring(1) );
 					currentChatBuffer.append( "." );
 					currentChatBuffer.append( "</font><br>\n" );
+					((ChatFrame) instantMessageFrames.get( currentChannel )).setTitle( "KoLmafia Chat: " + currentChannel + " (inactive)" );
 				}
 			}
 
 			currentChannel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) - 1 );
 			processChannelMessage( currentChannel, noLinksContent );
-			((ChatFrame)instantMessageFrames.get( currentChannel )).requestFocus();
+
+			ChatFrame currentFrame = (ChatFrame) instantMessageFrames.get( currentChannel );
+			currentFrame.setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
+			currentFrame.requestFocus();
 		}
 		else if ( message.indexOf( "<font color=blue>" ) == -1 ||
 			(message.indexOf( "<b>from " ) != -1 && message.indexOf( "(private)</b>:" ) == -1) )
@@ -593,6 +599,7 @@ public class KoLMessenger
 				channelBuffer.append( "<font color=green>You are listening to channel: " );
 				channelBuffer.append( channel.substring(1) );
 				channelBuffer.append( "</font><br>\n" );
+				((ChatFrame) instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (listening)" );
 			}
 		}
 
