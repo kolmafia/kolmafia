@@ -259,6 +259,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		data = new ArrayList();
 		this.doOutput = doOutput;
+		this.isErrorState = true;
 	}
 
 	/**
@@ -297,6 +298,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 		}
 
+		if ( client != null && !formURLString.equals( "fight.php" ) )
+			client.resetContinueState();
+
 		boolean connectSuccess = false;
 		for ( int i = 0; i < MAX_RETRIES && !connectSuccess; ++i )
 			connectSuccess = prepareConnection();
@@ -307,6 +311,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( !connectSuccess )
 		{
+			this.isErrorState = true;
 			updateDisplay( LoginFrame.ENABLED_STATE, "Connection timed out." );
 			return;
 		}
@@ -447,9 +452,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private void retrieveServerReply()
 	{
-		if ( client != null )
-			client.resetContinueState();
-
 		try
 		{
 			// In the event of redirects, the appropriate flags should be set

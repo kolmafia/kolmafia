@@ -151,16 +151,14 @@ public class AdventureRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		// From preliminary tests, finding out whether or not the
-		// adventure was successful is equivalent to whether or
-		// not there is centered text in the results.  This is
+		processResults( replyContent );
+
+		// You could be beaten up, which halts adventures.  This is
 		// true except for two cases: the casino's standard slot
 		// machines and the shore vacations when you don't have
 		// enough meat, adventures or are too drunk to continue.
 
-		int resultIndex = replyContent.indexOf( "<p><center>" );
-
-		if ( resultIndex == -1 || replyContent.indexOf( "You can't afford" ) != -1 || replyContent.indexOf( "You shouldn't be here" ) != -1 ||
+		if ( replyContent.indexOf( "You can't afford" ) != -1 || replyContent.indexOf( "You shouldn't be here" ) != -1 ||
 			replyContent.indexOf( "You don't have enough" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 ||
 			replyContent.indexOf( "You can't adventure" ) != -1 || replyContent.indexOf( "You're way too beaten" ) != -1 )
 		{
@@ -173,13 +171,6 @@ public class AdventureRequest extends KoLRequest
 			updateDisplay( KoLFrame.ENABLED_STATE, "Adventures aborted!" );
 			return;
 		}
-
-		// Also, during the mining adventure, if you lose hit points
-		// from a cave in, there are no results to process, so simply
-		// update the client without parsing the results.
-
-		if ( replyContent.indexOf( "An inexpert swing of your Mattock" ) == -1 )
-			processResults( replyContent.substring( resultIndex + 12 ) );
 
 		// If you took a trip to the shore, 500 meat should be deducted
 		// from your running tally.
