@@ -172,8 +172,6 @@ public class OptionsFrame extends KoLFrame
 			proxyLogin = new JTextField();
 			proxyPassword = new JPasswordField();
 
-			(new LoadDefaultSettingsThread()).run();
-
 			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "KoL Server: ", serverSelect );
 			elements[1] = new VerifiableElement( "Proxy Host: ", proxyHost );
@@ -273,11 +271,8 @@ public class OptionsFrame extends KoLFrame
 				// Save the settings that were just set; that way,
 				// the next login can use them.
 
-				if ( settings instanceof KoLSettings )
-					((KoLSettings)settings).saveSettings();
-
+				saveSettings();
 				KoLRequest.applySettings();
-				(new StatusMessageChanger( "Settings saved." )).run();
 			}
 		}
 	}
@@ -315,8 +310,6 @@ public class OptionsFrame extends KoLFrame
 				actions[i] = new JRadioButton();
 				actionGroup.add( actions[i] );
 			}
-
-			(new LoadDefaultSettingsThread()).run();
 
 			VerifiableElement [] elements = new VerifiableElement[ actions.length ];
 			for ( int i = 0; i < actions.length; ++i )
@@ -378,16 +371,10 @@ public class OptionsFrame extends KoLFrame
 			public void run()
 			{
 				if ( client != null )
-				{
 					for ( int i = 0; i < actions.length; ++i )
 						if ( actions[i].isSelected() )
 							settings.setProperty( "battleAction", actionnames[i] );
-
-					if ( settings instanceof KoLSettings )
-						((KoLSettings)settings).saveSettings();
-				}
-
-				(new StatusMessageChanger( "Settings saved." )).run();
+				saveSettings();
 			}
 		}
 	}
@@ -420,8 +407,6 @@ public class OptionsFrame extends KoLFrame
 			items = new JCheckBox[ itemnames.length ];
 			for ( int i = 0; i < items.length; ++i )
 				items[i] = new JCheckBox();
-
-			(new LoadDefaultSettingsThread()).run();
 
 			VerifiableElement [] elements = new VerifiableElement[ items.length ];
 			for ( int i = 0; i < items.length; ++i )
@@ -508,7 +493,7 @@ public class OptionsFrame extends KoLFrame
 						((KoLSettings)settings).saveSettings();
 				}
 
-				(new StatusMessageChanger( "Settings saved." )).run();
+				saveSettings();
 			}
 		}
 	}
@@ -521,9 +506,21 @@ public class OptionsFrame extends KoLFrame
 
 	private class ChatOptionsPanel extends OptionsPanel
 	{
+		private JComboBox fontSizeSelect;
+
 		public ChatOptionsPanel()
 		{
-			super( new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
+			super( new Dimension( 120, 20 ), new Dimension( 165, 20 ) );
+
+			LockableListModel fontSizes = new LockableListModel();
+			for ( int i = 1; i <= 7; ++i )
+				fontSizes.add( new Integer( i ) );
+			fontSizeSelect = new JComboBox( fontSizes );
+
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
+
+			setContent( elements, true );
 		}
 
 		public void clear()
@@ -544,6 +541,15 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
+				String fontSize = settings.getProperty( "fontSize" );
+
+				if ( fontSize != null )
+				{
+					fontSizeSelect.setSelectedItem( Integer.valueOf( fontSize ) );
+					LimitedSizeChatBuffer.setFontSize( Integer.parseInt( fontSize ) );
+				}
+				else
+					fontSizeSelect.setSelectedItem( new Integer( 3 ) );
 			}
 		}
 
@@ -557,6 +563,11 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
+				Integer fontSize = (Integer) fontSizeSelect.getSelectedItem();
+				settings.setProperty( "fontSize", fontSize.toString() );
+				LimitedSizeChatBuffer.setFontSize( fontSize.intValue() );
+
+				saveSettings();
 			}
 		}
 	}
@@ -570,12 +581,14 @@ public class OptionsFrame extends KoLFrame
 
 	private abstract class OptionsPanel extends KoLPanel
 	{
+		protected Properties settings;
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
 		public OptionsPanel( Dimension left, Dimension right )
 		{
 			super( "apply", "defaults", left, right );
+			settings = (client == null) ? System.getProperties() : client.getSettings();
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -593,6 +606,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			super.setContent( elements, isLabelPreceeding );
 			add( actionStatusPanel, BorderLayout.SOUTH );
+			clear();
 		}
 
 		public void setStatusMessage( String s )
@@ -603,14 +617,23 @@ public class OptionsFrame extends KoLFrame
 		{	clear();
 		}
 
+		protected void saveSettings()
+		{
+			if ( settings instanceof KoLSettings )
+				((KoLSettings)settings).saveSettings();
+			(new StatusMessageChanger( "Settings saved." )).run();
+
+			try { Thread.sleep( 5000 ); }
+			catch ( Exception e ) {}
+
+			(new StatusMessageChanger( "" )).run();
+		}
+
 		protected abstract class OptionsThread extends Thread
 		{
-			protected Properties settings;
 
 			public OptionsThread()
-			{
-				setDaemon( true );
-				settings = (client == null) ? System.getProperties() : client.getSettings();
+			{	setDaemon( true );
 			}
 		}
 	}
