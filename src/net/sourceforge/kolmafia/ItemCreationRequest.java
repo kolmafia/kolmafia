@@ -362,7 +362,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private void makeIngredient( int ingredientID, int mixingMethod, boolean makeDouble )
 	{
 		List inventory = client.getInventory();
-		AdventureResult ingredient = new AdventureResult( TradeableItemDatabase.getItemName( ingredientID ), 0 );
+		AdventureResult ingredient = new AdventureResult( ingredientID, 0 );
 
 		int index = inventory.indexOf( ingredient );
 		int currentQuantity = (index == -1) ? 0 : ((AdventureResult)inventory.get( index )).getCount();
