@@ -261,11 +261,11 @@ public class GearChangeFrame extends KoLFrame
 
 	private class ChangeFamiliarListener implements ActionListener
 	{
-		private String change;
+		private FamiliarData change;
 
 		public void actionPerformed( ActionEvent e )
 		{
-			change = (String) familiarSelect.getSelectedItem();
+			change = (FamiliarData) familiarSelect.getSelectedItem();
 			if ( change != null )
 				(new ChangeFamiliarThread()).start();
 		}

@@ -36,23 +36,27 @@ package net.sourceforge.kolmafia;
 
 public class FamiliarRequest extends KoLRequest
 {
-	private int familiarID;
+	private FamiliarData changeTo;
+	private FamiliarData changeFrom;
 	private boolean isChangingFamiliar;
+	private KoLCharacter characterData;
 
 	public FamiliarRequest( KoLmafia client )
 	{
 		super( client, "familiar.php", false );
-		this.familiarID = 0;
 		this.isChangingFamiliar = false;
+		this.characterData = client.getCharacterData();
 	}
 
-	public FamiliarRequest( KoLmafia client, String familiarName )
+	public FamiliarRequest( KoLmafia client, FamiliarData changeTo )
 	{
 		super( client, "familiar.php" );
 		addFormField( "action", "newfam" );
+		this.characterData = client.getCharacterData();
 
-		this.familiarID = FamiliarsDatabase.getFamiliarID( familiarName );
-		addFormField( "newfam", "" + familiarID );
+		this.changeTo = changeTo;
+		this.changeFrom = new FamiliarData( FamiliarsDatabase.getFamiliarID( characterData.getFamiliarRace() ) );
+		addFormField( "newfam", "" + changeTo.getID() );
 		this.isChangingFamiliar = true;
 	}
 
@@ -67,27 +71,29 @@ public class FamiliarRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
+		// Determine which familiars are present.
+
+		characterData.getFamiliars().clear();
+		int whichIndex;
+		for ( int i = 1; i < 30; ++i )
+		{
+			whichIndex = replyContent.indexOf( "<input type=radio name=newfam value=" + i );
+			if ( whichIndex != -1 )
+				characterData.addFamiliar( new FamiliarData( i, replyContent.substring( whichIndex, replyContent.indexOf( "</tr>", whichIndex ) ) ) );
+		}
+
 		// If there was a change, then make sure that the character
-		// has an updated familiar on their display.  Note that all
-		// the other familiar data (such as familiar weight) needs
-		// to be retrieved as well.  This can actually be done on
-		// the reply page.
+		// has an updated familiar on their display.
 
 		if ( isChangingFamiliar )
 		{
-			KoLCharacter characterData = client.getCharacterData();
-			characterData.setFamiliarDescription( FamiliarsDatabase.getFamiliarName( familiarID ), -1 );
-		}
+			int previousWeight = characterData.getFamiliarWeight();
+			int registeredIndex = characterData.getFamiliars().indexOf( changeFrom );
+			int registeredWeight = ((FamiliarData)characterData.getFamiliars().get( registeredIndex )).getWeight();
 
-		// Otherwise, determine which familiars are present on the
-		// frame (since there was no change) and add them.
+			characterData.setFamiliarDescription( changeTo.toString(), changeTo.getWeight() + (previousWeight - registeredWeight) );
+			characterData.setFamiliarItem( changeTo.getItem() );
 
-		else
-		{
-			KoLCharacter characterData = client.getCharacterData();
-			for ( int i = 1; i < 30; ++i )
-				if ( replyContent.indexOf( "which=" + i ) != -1 )
-					characterData.addFamiliar( i );
 		}
 	}
 }

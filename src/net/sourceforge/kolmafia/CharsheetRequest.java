@@ -241,7 +241,7 @@ public class CharsheetRequest extends KoLRequest
 				while ( familiarData.countTokens() > 5 )
 					familiarDescription.append( familiarData.nextToken() );
 
-				character.setFamiliarDescription( familiarDescription.toString(), Integer.parseInt( weight ) );
+				character.setFamiliarDescription( familiarDescription.toString().trim(), Integer.parseInt( weight ) );
 			}
 
 			logStream.println( "Parsing complete." );

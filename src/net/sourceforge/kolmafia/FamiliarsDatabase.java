@@ -59,6 +59,7 @@ public class FamiliarsDatabase
 	private static Map familiarByID = new TreeMap();
 	private static Map familiarByName = new TreeMap();
 	private static Map familiarByLarva = new TreeMap();
+	private static Map familiarItemByID = new TreeMap();
 
 	static
 	{
@@ -75,15 +76,17 @@ public class FamiliarsDatabase
 			while ( (line = familiardata.readLine()) != null )
 			{
 				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 3 )
+				if ( strtok.countTokens() == 4 )
 				{
 					Integer familiarID = Integer.valueOf( strtok.nextToken() );
 					String familiarLarva = TradeableItemDatabase.getItemName( Integer.parseInt( strtok.nextToken() ) );
 					String familiarName = strtok.nextToken();
+					String familiarItem = strtok.nextToken();
 
 					familiarByID.put( familiarID, familiarName );
 					familiarByName.put( familiarName.toLowerCase(), familiarID );
 					familiarByLarva.put( familiarLarva, familiarID );
+					familiarItemByID.put( familiarID, familiarItem );
 				}
 			}
 		}
@@ -113,10 +116,10 @@ public class FamiliarsDatabase
 	 * @return	The ID number of the corresponding familiar
 	 */
 
-	public static final int growFamiliarItem( String larvaStage )
+	public static final FamiliarData growFamiliarItem( String larvaStage )
 	{
 		Object familiarID = familiarByLarva.get( larvaStage );
-		return familiarID == null ? -1 : ((Integer)familiarID).intValue();
+		return familiarID == null ? null : new FamiliarData( ((Integer)familiarID).intValue() );
 	}
 
 	/**
@@ -129,6 +132,10 @@ public class FamiliarsDatabase
 	{
 		Object familiarID = familiarByName.get( familiarName.toLowerCase() );
 		return familiarID == null ? -1 : ((Integer)familiarID).intValue();
+	}
+
+	public static final String getFamiliarItem( int familiarID )
+	{	return (String) familiarItemByID.get( new Integer( familiarID ) );
 	}
 
 	/**
