@@ -170,6 +170,8 @@ public class KoLmafia implements UtilityConstants
 		activeFrame = null;
 
 		tally = new SortedListModel();
+		addToResultTally( new AdventureResult( AdventureResult.HP, characterData.getCurrentHP() ) );
+		addToResultTally( new AdventureResult( AdventureResult.MP, characterData.getCurrentMP() ) );
 		addToResultTally( new AdventureResult( AdventureResult.ADV, characterData.getAdventuresLeft() ) );
 		addToResultTally( new AdventureResult( AdventureResult.MEAT ) );
 		addToResultTally( new AdventureResult( AdventureResult.SUBSTATS ) );
@@ -241,7 +243,7 @@ public class KoLmafia implements UtilityConstants
 
 	public void addToResultTally( AdventureResult result )
 	{
-		AdventureResult.addResultToList( tally, result );
+		AdventureResult.addResultToList( tally, result, characterData.getBaseMaxHP(), characterData.getBaseMaxMP() );
 
 		if ( result.isItem() && TradeableItemDatabase.contains( result.getName() ) )
 		{

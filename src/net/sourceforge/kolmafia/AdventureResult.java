@@ -314,6 +314,21 @@ public class AdventureResult implements Comparable
 	 */
 
 	public static void addResultToList( List tally, AdventureResult result )
+	{	addResultToList( tally, result, Integer.MAX_VALUE, Integer.MAX_VALUE );
+	}
+
+	/**
+	 * Utility method used for adding a given <code>AdventureResult</code> to a
+	 * tally of <code>AdventureResult</code>s, with the specified maximum limits
+	 * to hit points and mana points to be applied if this is an HP or MP result.
+	 *
+	 * @param	tally	The tally accumulating <code>AdventureResult</code>s
+	 * @param	result	The result to add to the tally
+	 * @param	maximumHP	The maximum amount of HP permitted by this result
+	 * @param	maximumMP	The maximum amount of MP permitted by this result
+	 */
+
+	public static void addResultToList( List tally, AdventureResult result, int maximumHP, int maximumMP )
 	{
 		int index = tally.indexOf( result );
 
@@ -337,8 +352,23 @@ public class AdventureResult implements Comparable
 		if ( actualResult.isItem() && actualResult.getCount() == 0 )
 			tally.remove( actualResult );
 
-		if ( result.getName().equals( AdventureResult.ADV ) && actualResult.getCount() < 0 )
+		if ( actualResult.getName().equals( AdventureResult.ADV ) && actualResult.getCount() < 0 )
 			actualResult = new AdventureResult( AdventureResult.ADV, 0 );
+
+		else if ( actualResult.getName().equals( AdventureResult.HP ) )
+		{
+			if ( actualResult.getCount() < 0 )
+				actualResult = new AdventureResult( AdventureResult.HP, 0 );
+			else if ( actualResult.getCount() > maximumHP )
+				actualResult = new AdventureResult( AdventureResult.HP, maximumHP );
+		}
+		else if ( actualResult.getName().equals( AdventureResult.MP ) )
+		{
+			if ( actualResult.getCount() < 0 )
+				actualResult = new AdventureResult( AdventureResult.MP, 0 );
+			else if ( actualResult.getCount() > maximumMP )
+				actualResult = new AdventureResult( AdventureResult.MP, maximumMP );
+		}
 
 		tally.set( index, actualResult );
 	}
