@@ -197,6 +197,14 @@ public class ConcoctionsDatabase implements UtilityConstants
 	}
 
 	/**
+	 * Returns the mixing method for the item with the given ID.
+	 */
+
+	public static int getMixingMethod( int itemID )
+	{	return concoctions[itemID] == null ? -1 : concoctions[itemID].getMixingMethod();
+	}
+
+	/**
 	 * Returns the item IDs of the ingredients for the given item.
 	 * Note that if there are no ingredients, then <code>null</code>
 	 * will be returned instead.
