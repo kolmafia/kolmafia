@@ -219,7 +219,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		contentPanel = adventureSelect;
 
 		(new StatusRefresher()).run();
-		client.getCharacterData().addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
+
+		if ( client != null )
+			client.getCharacterData().addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
 
 		updateDisplay( ENABLED_STATE, " " );
 		addWindowListener( new LogoutRequestAdapter() );
@@ -267,9 +269,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		if ( mailMenuItem != null )
 			mailMenuItem.setEnabled( this.isEnabled );
-
-		for ( int i = 0; i < tabs.getTabCount(); ++i )
-			tabs.setEnabledAt( i, this.isEnabled );
 
 		for ( int i = 0; i < existingFrames.size(); ++i )
 		{
@@ -380,7 +379,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 			setContent( elements, resultsTally );
 
-			String lastAdventure = client.getSettings().getProperty( "lastAdventure" );
+			String lastAdventure = client == null ? "" : client.getSettings().getProperty( "lastAdventure" );
 			if ( lastAdventure != null )
 				for ( int i = 0; i < adventureList.size(); ++i )
 					if ( adventureList.get(i).toString().equals( lastAdventure ) )
@@ -881,7 +880,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			elements[0] = new VerifiableElement( "Donate To: ", heroField );
 			elements[1] = new VerifiableElement( "Amount: ", amountField );
 
-			setContent( elements, null, null, null, true, true );
+			setContent( elements, true, true );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -1022,7 +1021,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			elements[0] = new VerifiableElement( "Transaction: ", amountField );
 			elements[1] = new VerifiableElement( "Inside Closet: ", inClosetField );
 
-			setContent( elements, null, null, null, true, true );
+			setContent( elements, true, true );
 		}
 
 		protected void setContent( VerifiableElement [] elements )
@@ -1108,7 +1107,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Effects: ", effects );
-			setContent( elements, null, null, null, true, true );
+			setContent( elements, true, true );
 		}
 
 		protected void actionConfirmed()
@@ -1170,7 +1169,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );
 			elements[1] = new VerifiableElement( "The Victim: ", targetField );
 			elements[2] = new VerifiableElement( "# of Times: ", countField );
-			setContent( elements, null, null, null, true, true );
+			setContent( elements, true, true );
 		}
 
 		protected void actionConfirmed()
