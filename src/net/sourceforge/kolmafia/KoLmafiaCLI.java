@@ -279,7 +279,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( line.trim().length() == 0 )
 			return;
 
-		String command = line.trim().split( "" )[0].toLowerCase().trim();
+		String command = line.trim().split( " " )[0].toLowerCase().trim();
 		String parameters = line.substring( command.length() ).trim();
 
 		if ( !command.equals( "repeat" ) )
