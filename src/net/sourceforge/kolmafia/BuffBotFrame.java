@@ -419,9 +419,9 @@ public class BuffBotFrame extends KoLFrame
 			panel.setLayout( new BorderLayout() );
 
 			LockableListModel messageDisposalChoices = new LockableListModel();
-			messageDisposalChoices.add( "Do nothing with non-buff requests" );
 			messageDisposalChoices.add( "Auto-save non-buff requests" );
 			messageDisposalChoices.add( "Auto-delete non-buff requests" );
+			messageDisposalChoices.add( "Do nothing with non-buff requests" );
 			messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
 			availableRestores = currentManager == null ? new Object[0] : currentManager.getMPRestoreItemList().toArray();
