@@ -66,6 +66,7 @@ public class BuffBotHome{
 
 	public BuffBotHome(KoLmafia client){
 		this.client = client;
+		initialize();
 	}
 
 	/**
@@ -78,7 +79,7 @@ public class BuffBotHome{
 			return;
 
 		String dayOfYear = logSDF.format(new Date());
-		String characterName = client.getLoginName();
+		String characterName = client == null ? "" : client.getLoginName();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 
 		buffbotLog = new LimitedSizeChatBuffer( "Buffbot Log: " + noExtensionName, Integer.MAX_VALUE );
