@@ -172,7 +172,7 @@ public abstract class KoLFrame extends javax.swing.JFrame
 	 */
 
 	public boolean isEnabled()
-	{	return contentPanel.isEnabled();
+	{	return contentPanel == null || contentPanel.isEnabled();
 	}
 
 	/**
@@ -301,6 +301,9 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 		public void run()
 		{
+			if ( this.contentPanel == null )
+				return;
+
 			if ( !SwingUtilities.isEventDispatchThread() )
 			{
 				SwingUtilities.invokeLater( this );
