@@ -254,6 +254,23 @@ public class KoLmafiaCLI extends KoLmafia
 			System.exit(0);
 		}
 
+		if ( command.equals( "call" ) || command.equals( "run" ) || command.equals( "exec" ) || command.equals( "load" ) )
+		{
+			try
+			{
+				(new KoLmafiaCLI( this, parameters )).listenForCommands();
+			}
+			catch ( IOException e )
+			{
+				// Print a message indicating that the file failed to
+				// be loaded, since that's what the error probably was.
+
+				outputStream.println( "Script file <" + parameters + "> could not be found." );
+			}
+
+			return;
+		}
+
 		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) )
 		{
 			executeConsumeItemRequest( parameters );
