@@ -116,18 +116,20 @@ public class KoLmafia implements UtilityConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String passwordHash, String sessionID )
+	public void initialize( String loginname, String sessionID )
 	{
 		// Store the initialized variables
-		this.passwordHash = passwordHash;
 		this.sessionID = sessionID;
+
+		activeFrame.updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
+		(new PasswordHashRequest( this )).run();
 
 		// Grab the character data
 		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
 		characterData = new KoLCharacter( loginname );
 		(new CharsheetRequest( this )).run();
 
-		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory and closet..." );
+		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory..." );
 		inventory = characterData.getInventory();
 		closet = characterData.getCloset();
 		(new EquipmentRequest( this )).run();
@@ -305,6 +307,15 @@ public class KoLmafia implements UtilityConstants
 
 	public String getSessionID()
 	{	return sessionID;
+	}
+
+	/**
+	 * Stores the password hash for this <code>KoLmafia</code> session.
+	 * @param	passwordHash	The password hash for this session
+	 */
+
+	public void setPasswordHash( String passwordHash )
+	{	this.passwordHash = passwordHash;
 	}
 
 	/**

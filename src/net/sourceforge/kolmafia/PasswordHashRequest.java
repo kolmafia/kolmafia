@@ -33,64 +33,25 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.StringTokenizer;
 
-/**
- * An extension of <code>KoLRequest</code> which handles logins.
- * A new instance is created and started for every login attempt,
- * and in the event that it is successful, the client provided
- * at construction time will be notified of the success.
- */
-
-public class LoginRequest extends KoLRequest
+public class PasswordHashRequest extends KoLRequest
 {
-	private String loginname;
-	private String password;
-
 	/**
-	 * Constructs a new <code>LoginRequest</code>.  The given
-	 * client will be notified in the event of success.
-	 *
-	 * @param	client	The client associated with this <code>LoginRequest</code>
-	 * @param	loginname	The name of the player to be logged in
-	 * @param	password	The password to be used in the login attempt
+	 * Constructs a new <code>PasswordHashRequest</code>.
+	 * @param	client	The client where the hash will be stored
 	 */
 
-	public LoginRequest( KoLmafia client, String loginname, String password )
-	{
-		super( client, "login.php" );
-
-		this.loginname = loginname;
-		this.password = password;
-
-		addFormField( "loggingin", "Yup." );
-		addFormField( "loginname", loginname );
-		addFormField( "password", password );
+	public PasswordHashRequest( KoLmafia client )
+	{	super( client, "account_changecap.php" );
 	}
-
-	/**
-	 * Runs the <code>LoginRequest</code>.  This method determines
-	 * whether or not the login was successful, and updates the
-	 * display or notifies the client, as appropriate.
-	 */
 
 	public void run()
 	{
 		super.run();
 
-		if ( responseCode == 302 && !isErrorState )
-		{
-			// If the login is successful, you notify the client
-			// of success.  Password hashes are not currently
-			// calculated, since the algorithm hasn't been determined
-
-			client.initialize( loginname, formConnection.getHeaderField( "Set-Cookie" ) );
-		}
-		else if ( !isErrorState )
-		{
-			// This means that the login failed.  Therefore, the user should
-			// re-input their username and password.
-
-			frame.updateDisplay( KoLFrame.ENABLED_STATE, "Login failed." );
-		}
+		StringTokenizer parsedContent = new StringTokenizer( replyContent, "\'" );
+		while ( !parsedContent.nextToken().endsWith( "value=" ) );
+		client.setPasswordHash( parsedContent.nextToken() );
 	}
 }
