@@ -34,6 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.util.StringTokenizer;
@@ -44,6 +46,17 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class KoLmafia
 {
 	private static final String ADV_DBASE_FILE = "adventures.dat";
+
+	private static List<String> MUS = new ArrayList<String>();
+	private static List<String> MYS = new ArrayList<String>();
+	private static List<String> MOX = new ArrayList<String>();
+
+	static
+	{
+		MUS.add( "Beefiness" );  MUS.add( "Fortitude" );  MUS.add( "Muscleboundness" );  MUS.add( "Strengthliness" );  MUS.add( "Strongness" );
+		MYS.add( "Enchantedness" );  MYS.add( "Magicalness" );  MYS.add( "Mysteriousness" );  MYS.add( "Wizardliness" );
+		MOX.add( "Cheek" );  MOX.add( "Chutzpah" );  MOX.add( "Roguishness" );  MOX.add( "Sarcasm" );  MOX.add( "Smarm" );
+	}
 
 	private String loginname, password, sessionID, passwordHash;
 	private KoLFrame activeFrame;
@@ -70,12 +83,12 @@ public class KoLmafia
 
 	public void initialize()
 	{
-		BufferedReader buf = DataUtilities.getReaderForSharedDataFile( ADV_DBASE_FILE );
+		BufferedReader advdata = DataUtilities.getReaderForSharedDataFile( ADV_DBASE_FILE );
 		LockableListModel adventures = new LockableListModel();
 
 		try
 		{
-			StringTokenizer strtok = new StringTokenizer( buf.readLine(), "\t" );
+			StringTokenizer strtok = new StringTokenizer( advdata.readLine(), "\t" );
 			String adventureID = strtok.nextToken();
 			adventures.add( new KoLAdventure( this, adventureID, strtok.nextToken() ) );
 		}
@@ -83,16 +96,37 @@ public class KoLmafia
 		{
 			// If an IOException is thrown, that means there was
 			// a problem reading in the appropriate data file;
-			// that means that no adventures can be done.
+			// that means that no adventures can be done.  However,
+			// the adventures data file should always be present.
+
+			// The exception is strange enough that it won't be
+			// handled at the current time.
 		}
+
+		activeFrame.setVisible( false );
+		activeFrame.dispose();
+		activeFrame = null;
+
+		activeFrame = new AdventureFrame( this, adventures );
+		activeFrame.pack();  activeFrame.setVisible( true );
 	}
 
 	public void acquireItem( String itemname )
 	{
+		StringTokenizer strtok = new StringTokenizer( itemname, "()" );
+
+		String item = strtok.nextToken();
+		int increase = strtok.hasMoreTokens() ? Integer.parseInt( strtok.nextToken() ) : 1;
 	}
 
 	public void modifyStat( int increase, String statname )
 	{
+		if ( MUS.contains( statname ) )
+			;
+		if ( MYS.contains( statname ) )
+			;
+		if ( MOX.contains( statname ) )
+			;
 	}
 
 	public void updateAdventure( boolean isComplete, boolean permitContinue )
