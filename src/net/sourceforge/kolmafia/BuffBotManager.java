@@ -135,7 +135,9 @@ public class BuffBotManager {
 //                BBLog.BBLogEntry("Checking the mail.");
                 MailboxRequest MBRequest = new MailboxRequest( client, "Inbox" );
                 MBRequest.run();
-                if (!client.permitsContinue()) return;
+                if (client.permitsContinue()) 
+					client.updateDisplay( KoLFrame.ENABLED_STATE, "");
+				else return;
             }
             
             //Next process each message in the Inbox

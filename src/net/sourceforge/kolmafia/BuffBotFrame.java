@@ -361,6 +361,7 @@ public class BuffBotFrame extends KoLFrame {
                     client.resetContinueState();
                     (new BuffBotManager(client, BuffCostTable)).runBuffBot( );
                     BBLog.BBLogEntry("BuffBot Terminated.");
+					client.updateDisplay( ENABLED_STATE, "BuffBot stopped." );
                     
                 }
             }
