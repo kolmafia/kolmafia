@@ -69,4 +69,7 @@ public class KoLMailMessage
 	public String getMessageHTML()
 	{	return messageHTML;
 	}
+	public String getSenderName()
+	{	return senderName;
+	}
 }

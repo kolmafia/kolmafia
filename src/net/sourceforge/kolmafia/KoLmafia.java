@@ -82,6 +82,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected SortedListModel tally;
 	protected LockableListModel inventory, closet, usableItems;
 
+        protected BuffBotHome BBHome;
+
 	/**
 	 * The main method.  Currently, it instantiates a single instance
 	 * of the <code>KoLmafiaGUI</code>.
@@ -249,6 +251,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		this.isLoggingIn = false;
 		this.loathingMail = new KoLMailManager( this );
+                BBHome = new BuffBotHome(this);
 	}
 
 	/**

@@ -138,6 +138,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 	private GearChangeFrame gearChanger;
 	private ItemManageFrame itemManager;
 	private MailboxFrame mailboxDisplay;
+        private BuffBotFrame buffbotDisplay;
 
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
@@ -331,6 +332,11 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		itemMenuItem.addActionListener( new ViewItemManagerListener() );
 
 		statusMenu.add( itemMenuItem );
+
+		JMenuItem buffbotMenuItem = new JMenuItem( "Do the BuffBot", KeyEvent.VK_R );
+		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
+
+		statusMenu.add( buffbotMenuItem );
 
 		JMenuItem getBreakfastItem = new JMenuItem( "Breakfast Table", KeyEvent.VK_B );
 		getBreakfastItem.addActionListener( new GetBreakfastListener() );
@@ -1578,6 +1584,45 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			meatLabel.setText( "" + df.format( characterData.getAvailableMeat() ) );
 			advLabel.setText( "" + characterData.getAdventuresLeft() );
 			drunkLabel.setText( "" + characterData.getInebriety() );
+		}
+	}
+
+                /**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the item manager.
+	 */
+
+	private class ViewBuffBotPanelListener extends DisplayFrameListener
+	{
+            private JTabbedPane advTabs;
+            
+		public ViewBuffBotPanelListener()
+		{	super( BuffBotFrame.class );
+                        client.BBHome.setAdventureTabs(tabs);
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new BuffBotThread()).start();
+		}
+
+		private class BuffBotThread extends DisplayFrameThread
+		{
+			public void run()
+			{
+				if ( buffbotDisplay != null )
+				{
+					buffbotDisplay.setVisible( true );
+					buffbotDisplay.requestFocus();
+					buffbotDisplay.setEnabled( isEnabled );
+
+				}
+				else
+				{
+					super.run();
+					buffbotDisplay = (BuffBotFrame) lastCreatedFrame;
+				}
+			}
 		}
 	}
 
