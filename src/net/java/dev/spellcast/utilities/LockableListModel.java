@@ -152,8 +152,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public synchronized void clear()
 	{
-		while ( size() != 0 )
-			remove( 0 );
+		int originalSize = size();
+		elements.clear();
+		fireIntervalRemoved( this, 0, originalSize );
 	}
 
 	/**
@@ -798,7 +799,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		private synchronized void contentsChanged( LockableListModel source, int index0, int index1 )
 		{
-			if ( mirrorImage == null || source == null || index1 < 0 || index1 >= size() )
+			if ( mirrorImage == null || source == null || index1 < 0 || index1 >= mirrorImage.size() )
 				return;
 
 			for ( int i = index1; i >= index0; --i )
