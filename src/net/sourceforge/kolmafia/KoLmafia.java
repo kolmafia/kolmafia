@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Iterator;
 import java.util.ArrayList;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
@@ -76,7 +77,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected int [] currentStats;
 	protected int [] fullStatGain;
 
-	private List saveStateNames;
+	protected SortedListModel saveStateNames;
 	protected List recentEffects;
 	protected SortedListModel tally;
 	protected LockableListModel inventory, closet, usableItems;
@@ -118,7 +119,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		currentStats = new int[3];
 		fullStatGain = new int[3];
 
-		saveStateNames = new ArrayList();
+		saveStateNames = new SortedListModel();
 		String saveStateSettings = settings.getProperty( "saveState" );
 		if ( saveStateSettings != null )
 		{
@@ -762,11 +763,19 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		try
 		{
 			if ( !saveStateNames.contains( loginname ) )
-			{
 				saveStateNames.add( loginname );
-				String currentNames = settings.getProperty( "saveState" );
-				settings.setProperty( "saveState", (currentNames == null ? "" : currentNames + "//") + loginname );
+
+			StringBuffer saveStateBuffer = new StringBuffer();
+			Iterator saveStateIterator = saveStateNames.iterator();
+
+			saveStateBuffer.append( saveStateIterator.next() );
+			while ( saveStateIterator.hasNext() )
+			{
+				saveStateBuffer.append( "//" );
+				saveStateBuffer.append( saveStateIterator.next() );
 			}
+
+			settings.setProperty( "saveState", saveStateBuffer.toString() );
 
 			String encodedString = URLEncoder.encode( password, "UTF-8" ).replaceAll( "\\-", "%2D" ).replaceAll(
 				"\\.", "%2E" ).replaceAll( "\\*", "%2A" ).replaceAll( "_", "%5F" ).replaceAll( "\\+", "%20" );

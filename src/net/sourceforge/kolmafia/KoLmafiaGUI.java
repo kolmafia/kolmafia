@@ -73,7 +73,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public KoLmafiaGUI()
 	{
-		activeFrame = new LoginFrame( this );
+		activeFrame = new LoginFrame( this, saveStateNames );
 		activeFrame.pack();  activeFrame.setVisible( true );
 		activeFrame.requestFocus();
 	}

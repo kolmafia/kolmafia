@@ -77,9 +77,12 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 // event listeners
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -89,12 +92,14 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JCheckBox;
 
 // other imports
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -106,6 +111,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class LoginFrame extends KoLFrame
 {
+	private SortedListModel saveStateNames;
+
 	/**
 	 * Constructs a new <code>LoginFrame</code> which allows the user to
 	 * log into the Kingdom of Loathing.  The <code>LoginFrame</code>
@@ -117,12 +124,13 @@ public class LoginFrame extends KoLFrame
 	 * @param	client	The client associated with this <code>LoginFrame</code>.
 	 */
 
-	public LoginFrame( KoLmafia client )
+	public LoginFrame( KoLmafia client, SortedListModel saveStateNames )
 	{
 		super( "KoLmafia: Login", client );
 		setResizable( false );
 
 		this.client = client;
+		this.saveStateNames = saveStateNames;
 		contentPanel = new LoginPanel();
 		getContentPane().add( contentPanel, BorderLayout.CENTER );
 
@@ -159,7 +167,7 @@ public class LoginFrame extends KoLFrame
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
-		private JTextField loginnameField;
+		private JComboBox loginnameField;
 		private JPasswordField passwordField;
 		private JCheckBox getBreakfastCheckBox;
 		private JCheckBox savePasswordCheckBox;
@@ -183,7 +191,9 @@ public class LoginFrame extends KoLFrame
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
-			loginnameField = new JTextField();
+			loginnameField = new LoginNameComboBox();
+			loginnameField.setEditable( true );
+
 			passwordField = new JPasswordField();
 			savePasswordCheckBox = new JCheckBox();
 			autoLoginCheckBox = new JCheckBox();
@@ -224,7 +234,7 @@ public class LoginFrame extends KoLFrame
 			String autoLoginSetting =  client.getSettings().getProperty( "autoLogin" );
 			if ( autoLoginSetting != null )
 			{
-				loginnameField.setText( autoLoginSetting );
+				loginnameField.setSelectedItem( autoLoginSetting );
 				passwordField.setText( client.getSaveState( autoLoginSetting ) );
 				savePasswordCheckBox.setSelected( true );
 				autoLoginCheckBox.setSelected( true );
@@ -280,7 +290,7 @@ public class LoginFrame extends KoLFrame
 
 			public void run()
 			{
-				String loginname = loginnameField.getText().trim();
+				String loginname = ((String)loginnameField.getSelectedItem()).trim();
 				String password = new String( passwordField.getPassword() ).trim();
 
 				if ( loginname.equals("") || password.equals("") )
@@ -299,6 +309,57 @@ public class LoginFrame extends KoLFrame
 
 				updateDisplay( DISABLED_STATE, "Determining login settings..." );
 				(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected() )).run();
+			}
+		}
+
+		/**
+		 * Special instance of a JComboBox which overrides the default
+		 * key events of a JComboBox to allow you to catch key events.
+		 */
+
+		private class LoginNameComboBox extends JComboBox implements FocusListener
+		{
+			private String currentName;
+			public LoginNameComboBox()
+			{
+				super( saveStateNames );
+				setEditable( true );
+				getEditor().getEditorComponent().addFocusListener( this );
+				getEditor().getEditorComponent().addKeyListener( new NameInputListener() );
+			}
+
+			public void setSelectedItem( Object anObject )
+			{
+				// Look up to see if there's a password that's
+				// associated with the current name
+
+				super.setSelectedItem( anObject );
+				String password = client.getSaveState( currentName );
+				if ( password != null )
+					passwordField.setText( password );
+			}
+
+			public void focusGained( FocusEvent e )
+			{
+			}
+
+			public void focusLost( FocusEvent e )
+			{
+				if ( currentName != null && currentName.length() > 0 && !saveStateNames.contains( currentName ) )
+				{
+					saveStateNames.add( currentName );
+					setSelectedItem( currentName );
+				}
+			}
+
+			private class NameInputListener extends KeyAdapter
+			{
+				public void keyPressed( KeyEvent e )
+				{
+					currentName = ((String) getEditor().getItem() + e.getKeyChar()).toLowerCase().trim();
+					if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+						passwordField.requestFocus();
+				}
 			}
 		}
 	}
