@@ -43,7 +43,6 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JLabel;
-import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
@@ -58,7 +57,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class StoreManageFrame extends KoLFrame
 {
 	private JLabel searchLabel;
-	private JComboBox sellingList;
+	private JList sellingList;
 	private JTextField priceField;
 	private JTextField limitField;
 	private LockableListModel priceSummary;
@@ -108,14 +107,16 @@ public class StoreManageFrame extends KoLFrame
 			super( "add item", "search", new Dimension( 100, 20 ), new Dimension( 360, 20 ) );
 
 			priceSummary = new LockableListModel();
-			sellingList = new JComboBox( client.getInventory().getMirrorImage() );
-			sellingList.setRenderer( AdventureResult.getAutoSellCellRenderer() );
+			sellingList = new JList( client.getInventory().getMirrorImage() );
+			sellingList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+			sellingList.setVisibleRowCount( 1 );
 
 			priceField = new JTextField();
 			limitField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Item to Sell: ", sellingList );
+			elements[0] = new VerifiableElement( "Item to Sell: ", new JScrollPane( sellingList,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
 			elements[1] = new VerifiableElement( "Desired Price: ", priceField );
 			elements[2] = new VerifiableElement( "Desired Limit: ", limitField );
 			setContent( elements, null, null, null, true, true );
@@ -135,7 +136,7 @@ public class StoreManageFrame extends KoLFrame
 			{
 				try
 				{
-					AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
+					AdventureResult soldItem = (AdventureResult) sellingList.getSelectedValue();
 					if ( soldItem == null )
 						return;
 
@@ -172,11 +173,11 @@ public class StoreManageFrame extends KoLFrame
 
 			public void run()
 			{
-				if ( sellingList.getSelectedItem() == null )
+				if ( sellingList.getSelectedValue() == null )
 					return;
 
-				client.getStoreManager().searchMall( (AdventureResult) sellingList.getSelectedItem(), priceSummary );
-				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
+				client.getStoreManager().searchMall( (AdventureResult) sellingList.getSelectedValue(), priceSummary );
+				searchLabel.setText( ((AdventureResult)sellingList.getSelectedValue()).getName() );
 			}
 		}
 	}
@@ -233,8 +234,8 @@ public class StoreManageFrame extends KoLFrame
 				itemLimit = new JTextField( "" + df.format( value.getLimit() ) );
 
 				JComponentUtilities.setComponentSize( itemName, 210, 20 );
-				JComponentUtilities.setComponentSize( itemPrice, 90, 20 );
-				JComponentUtilities.setComponentSize( itemLimit, 30, 20 );
+				JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
+				JComponentUtilities.setComponentSize( itemLimit, 40, 20 );
 
 				JPanel corePanel = new JPanel();
 				corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
