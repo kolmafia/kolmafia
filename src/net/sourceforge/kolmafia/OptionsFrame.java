@@ -110,6 +110,7 @@ public class OptionsFrame extends KoLFrame
 		contentPanel = null;
 
 		tabs.addTab( "Login", new LoginOptionsPanel() );
+		tabs.addTab( "Startup", new StartupOptionsPanel() );
 		tabs.addTab( "Battle", new BattleOptionsPanel() );
 		tabs.addTab( "Mall", new ResultsOptionsPanel() );
 		tabs.addTab( "Sewer", new SewerOptionsPanel() );
@@ -274,6 +275,95 @@ public class OptionsFrame extends KoLFrame
 
 				saveSettings();
 				KoLRequest.applySettings();
+			}
+		}
+	}
+
+	/**
+	 * This panel allows the user to select which things they would
+	 * like to do on startup.  Some people only use this for doing
+	 * small things, not full-blown character management.  This
+	 * screen allows users to customize their login sequence.
+	 */
+
+	private class StartupOptionsPanel extends OptionsPanel
+	{
+		private JCheckBox [] optionBoxes;
+		private final String [] optionKeys = { "skipPasswordHash", "skipCharacterData",
+			"skipInventory", "skipFamiliarData" };
+		private final String [] optionNames = { "Skip password hash retrieval",
+			"Skip character data retrieval", "Skip inventory retrieval", "Skip familiar data retrieval" };
+
+		/**
+		 * Constructs a new <code>SewerOptionsPanel</code> containing an
+		 * alphabetized list of items available through the lucky sewer
+		 * adventure.
+		 */
+
+		public StartupOptionsPanel()
+		{
+			super( new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
+
+			optionBoxes = new JCheckBox[ optionNames.length ];
+			for ( int i = 0; i < optionNames.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
+			for ( int i = 0; i < optionNames.length; ++i )
+				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
+		}
+
+		public void clear()
+		{	(new LoadDefaultSettingsThread()).start();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
+		private class LoadDefaultSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				for ( int i = 0; i < optionKeys.length; ++i )
+					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null );
+				(new StatusMessageChanger( "" )).run();
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
+
+		private class StoreSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				if ( client != null )
+				{
+					for ( int i = 0; i < optionKeys.length; ++i )
+					{
+						if ( optionBoxes[i].isSelected() )
+							settings.setProperty( optionKeys[i], "true" );
+						else
+							settings.remove( optionKeys[i] );
+					}
+
+					if ( settings instanceof KoLSettings )
+						((KoLSettings)settings).saveSettings();
+				}
+
+				saveSettings();
 			}
 		}
 	}

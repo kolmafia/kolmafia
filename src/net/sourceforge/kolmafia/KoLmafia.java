@@ -117,8 +117,11 @@ public abstract class KoLmafia implements UtilityConstants
 			return;
 		}
 
-		updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
-		(new PasswordHashRequest( this )).run();
+		if ( settings.getProperty( "skipPasswordHash" ) == null )
+		{
+			updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
+			(new PasswordHashRequest( this )).run();
+		}
 
 		if ( !permitContinue )
 		{
@@ -127,13 +130,15 @@ public abstract class KoLmafia implements UtilityConstants
 			return;
 		}
 
-		// Grab the character data
-		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
 		characterData = new KoLCharacter( loginname );
-
 		recentEffects = new ArrayList();
-		(new CharsheetRequest( this )).run();
-		(new CampgroundRequest( this )).run();
+
+		if ( settings.getProperty( "skipCharacterData" ) == null )
+		{
+			updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving character data..." );
+			(new CharsheetRequest( this )).run();
+			(new CampgroundRequest( this )).run();
+		}
 
 		if ( !permitContinue )
 		{
@@ -142,12 +147,16 @@ public abstract class KoLmafia implements UtilityConstants
 			return;
 		}
 
-		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory..." );
 		inventory = characterData.getInventory();
 		closet = characterData.getCloset();
 
 		usableItems = new SortedListModel();
-		(new EquipmentRequest( this )).run();
+
+		if ( settings.getProperty( "skipInventory" ) == null )
+		{
+			updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving inventory..." );
+			(new EquipmentRequest( this )).run();
+		}
 
 		if ( !permitContinue )
 		{
@@ -156,8 +165,11 @@ public abstract class KoLmafia implements UtilityConstants
 			return;
 		}
 
-		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving familiar data..." );
-		(new FamiliarRequest( this )).run();
+		if ( settings.getProperty( "skipFamiliarData" ) == null )
+		{
+			updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving familiar data..." );
+			(new FamiliarRequest( this )).run();
+		}
 
 		// Begin by loading the user-specific settings.
 		logStream.println( "Loading user settings for " + loginname + "..." );
