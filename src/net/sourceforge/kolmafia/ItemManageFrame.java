@@ -109,7 +109,7 @@ public class ItemManageFrame extends KoLFrame
 		tabs.addTab( "Closet & Stash", storing );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( tabs, "" );
+		getContentPane().add( tabs, " " );
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 
@@ -169,7 +169,7 @@ public class ItemManageFrame extends KoLFrame
 			panel.add( createPanel, BorderLayout.SOUTH );
 
 			setLayout( new CardLayout( 10, 10 ) );
-			add( panel, "" );
+			add( panel, " " );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -244,7 +244,7 @@ public class ItemManageFrame extends KoLFrame
 						consumeItem( (AdventureResult) items[i] );
 
 					refreshConcoctionsList();
-					updateDisplay( ENABLED_STATE, "" );
+					client.updateDisplay( ENABLED_STATE, " " );
 					ItemManageFrame.this.setEnabled( true );
 				}
 
@@ -297,7 +297,7 @@ public class ItemManageFrame extends KoLFrame
 			panel.add( createPanel, BorderLayout.SOUTH );
 
 			setLayout( new CardLayout( 10, 10 ) );
-			add( panel, "" );
+			add( panel, " " );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -381,7 +381,7 @@ public class ItemManageFrame extends KoLFrame
 						sell( (AdventureResult) items[i] );
 
 					refreshConcoctionsList();
-					updateDisplay( ENABLED_STATE, "" );
+					client.updateDisplay( ENABLED_STATE, " " );
 					ItemManageFrame.this.setEnabled( true );
 				}
 
@@ -404,7 +404,7 @@ public class ItemManageFrame extends KoLFrame
 									"Price for " + currentItem.getName() + "?" ) ).intValue() : 999999999;
 
 								if ( desiredPrice >= 10 )
-									(new AutoSellRequest( client, currentItem, desiredPrice)).run();
+									(new AutoSellRequest( client, currentItem, desiredPrice )).run();
 								else
 									finishedSelling = true;
 							}
@@ -450,7 +450,7 @@ public class ItemManageFrame extends KoLFrame
 			panel.add( closetPanel, BorderLayout.SOUTH );
 
 			setLayout( new CardLayout( 10, 10 ) );
-			add( panel, "" );
+			add( panel, " " );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -577,7 +577,7 @@ public class ItemManageFrame extends KoLFrame
 					(new ItemStorageRequest( client, moveType, items )).run();
 
 				refreshConcoctionsList();
-				updateDisplay( ENABLED_STATE, "" );
+				client.updateDisplay( ENABLED_STATE, " " );
 				ItemManageFrame.this.setEnabled( true );
 			}
 		}
@@ -673,7 +673,7 @@ public class ItemManageFrame extends KoLFrame
 					}
 
 					if ( client.permitsContinue() )
-						updateDisplay( ENABLED_STATE, "Item creation complete." );
+						client.updateDisplay( ENABLED_STATE, "Item creation complete." );
 				}
 				catch ( Exception e )
 				{
@@ -684,7 +684,7 @@ public class ItemManageFrame extends KoLFrame
 				}
 
 				refreshConcoctionsList();
-				updateDisplay( ENABLED_STATE, "" );
+				client.updateDisplay( ENABLED_STATE, " " );
 				ItemManageFrame.this.setEnabled( true );
 			}
 		}
@@ -709,7 +709,7 @@ public class ItemManageFrame extends KoLFrame
 				ItemManageFrame.this.setEnabled( false );
 				(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();
 				refreshConcoctionsList();
-				updateDisplay( ENABLED_STATE, "" );
+				client.updateDisplay( ENABLED_STATE, " " );
 				ItemManageFrame.this.setEnabled( true );
 			}
 		}

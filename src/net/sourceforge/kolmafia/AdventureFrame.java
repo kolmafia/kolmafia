@@ -167,9 +167,9 @@ public class AdventureFrame extends KoLFrame
 
 		JPanel otherStuffPanel = new JPanel();
 		otherStuffPanel.setLayout( new GridLayout( 3, 1 ) );
-		otherStuffPanel.add( clanBuff, "" );
-		otherStuffPanel.add( heroDonation, "" );
-		otherStuffPanel.add( meatStorage, "" );
+		otherStuffPanel.add( clanBuff, " " );
+		otherStuffPanel.add( heroDonation, " " );
+		otherStuffPanel.add( meatStorage, " " );
 		tabs.addTab( "Other Activities", otherStuffPanel );
 
 		removeEffects = new RemoveEffectsPanel();
@@ -1169,7 +1169,7 @@ public class AdventureFrame extends KoLFrame
 				csheet.pack();  csheet.setVisible( true );
 
 				csheet.requestFocus();
-				updateDisplay( NOCHANGE_STATE, "" );
+				updateDisplay( NOCHANGE_STATE, " " );
 			}
 		}
 	}
@@ -1202,7 +1202,7 @@ public class AdventureFrame extends KoLFrame
 					kolchat = client.getMessenger();
 				}
 
-				updateDisplay( NOCHANGE_STATE, "" );
+				updateDisplay( NOCHANGE_STATE, " " );
 			}
 		}
 	}
