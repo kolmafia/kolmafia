@@ -850,6 +850,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				}
 				else
 				{
+					(new MailboxRequest( client, "Inbox" )).run();
 					super.run();
 					mailboxDisplay = (MailboxFrame) lastCreatedFrame;
 				}

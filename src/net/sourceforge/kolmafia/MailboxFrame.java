@@ -123,8 +123,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		splitPane.setOneTouchExpandable( true );
 		JComponentUtilities.setComponentSize( splitPane, 500, 300 );
 		getContentPane().add( splitPane );
-
-		(new RequestMailboxThread( "Inbox" )).start();
 	}
 
 	public void setEnabled( boolean isEnabled )
