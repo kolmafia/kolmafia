@@ -443,11 +443,13 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) ||
-			command.equals( "outfits" ) || command.equals( "familiars" ) )
+			command.equals( "outfits" ) || command.equals( "familiars" ) || command.equals( "summary" ) || command.startsWith( "equip" ) )
 		{
 			executePrintCommand( command + " " + parameters );
 			return;
 		}
+
+		updateDisplay( KoLFrame.ENABLED_STATE, "Unknown command: " + command );
 	}
 
 	/**
@@ -513,6 +515,26 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, PrintStream outputStream )
 	{
+		if ( desiredData.equals( "session" ) )
+		{
+			outputStream.println( "Player: " + scriptRequestor.getLoginName() );
+			outputStream.println( "Session ID: " + scriptRequestor.getSessionID() );
+			outputStream.println( "Password Hash: " + scriptRequestor.getPasswordHash() );
+			return;
+		}
+
+		if ( desiredData.startsWith( "equip" ) )
+		{
+			KoLCharacter data = scriptRequestor.getCharacterData();
+			outputStream.println( "       Hat: " + data.getHat() );
+			outputStream.println( "    Weapon: " + data.getWeapon() );
+			outputStream.println( "     Pants: " + data.getPants() );
+			outputStream.println( " Accessory: " + data.getAccessory1() );
+			outputStream.println( " Accessory: " + data.getAccessory2() );
+			outputStream.println( " Accessory: " + data.getAccessory3() );
+			return;
+		}
+
 		if ( desiredData.startsWith( "inv" ) )
 		{
 			printList( scriptRequestor.getInventory(), outputStream );
@@ -525,7 +547,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( desiredData.equals( "session" ) )
+		if ( desiredData.equals( "summary" ) )
 		{
 			printList( scriptRequestor.tally, outputStream );
 			return;
