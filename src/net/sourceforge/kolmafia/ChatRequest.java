@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.net.URLEncoder;
+import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 /**
@@ -48,6 +49,7 @@ public class ChatRequest extends KoLRequest
 	private static final int REFRESH_RATE = 8000;
 
 	private int lastSeen;
+	private ChatBuffer associatedBuffer;
 	private boolean isContinuationRequest;
 
 	/**
@@ -72,6 +74,7 @@ public class ChatRequest extends KoLRequest
 		super( client, "submitnewchat.php" );
 		addFormField( "playerid", "" + client.getUserID() );
 		addFormField( "pwd", client.getPasswordHash() );
+		this.associatedBuffer = client.getChatBuffer();
 
 		try
 		{
@@ -139,9 +142,12 @@ public class ChatRequest extends KoLRequest
 		}
 
 		if ( client.getChatBuffer() != null )
-			client.getChatBuffer().append( replyContent );
+		{
+			String noLinksContent = replyContent.replaceAll( "</?a.*?>", "" );
+			client.getChatBuffer().append( noLinksContent );
+		}
 
-		if ( isContinuationRequest && client.getChatBuffer() != null )
+		if ( isContinuationRequest && client.getChatBuffer() != null && associatedBuffer == client.getChatBuffer() )
 			(new ChatContinuationThread( currentSeen )).start();
 	}
 
