@@ -43,25 +43,63 @@ import java.util.Properties;
 import java.util.InvalidPropertiesFormatException;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
+/**
+ * An extension of {@link java.util.Properties} which handles all the
+ * user settings of <code>KoLmafia</code>.  In order to maintain issues
+ * involving compatibility (J2SE 1.4 does not support XML output directly),
+ * all data is written using {@link java.util.Properties#store(OutputStream,String)}.
+ * Files are named according to the following convention: a tilde (<code>~</code>)
+ * preceeds the name of the character whose settings this object represents.
+ * All global settings are stored in <code>~.dat</code>.
+ */
+
 public class KoLSettings extends Properties implements UtilityConstants
 {
 	private File settingsFile;
 	private String characterName;
 
+	/**
+	 * Constructs a global settings file.
+	 */
+
 	public KoLSettings()
 	{	this( "" );
 	}
 
+	/**
+	 * Constructs a settings file for a character with the specified name.
+	 * Note that in the data file created, all spaces in the character name
+	 * will be replaced with an underscore, and all other punctuation will
+	 * be removed.
+	 *
+	 * @param	characterName	The name of the character this settings file represents
+	 */
+
 	public KoLSettings( String characterName )
 	{
 		this.characterName = characterName;
-		this.settingsFile = new File( DATA_DIRECTORY + "~" + this.characterName + ".xml" );
+		this.settingsFile = new File( DATA_DIRECTORY + "~" +
+			this.characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ) + ".dat" );
 		loadSettings( this.settingsFile );
 	}
+
+	/**
+	 * Stores the settings maintained in this <code>KoLSettings</code>
+	 * object to disk for later retrieval.
+	 */
 
 	public void saveSettings()
 	{	storeSettings( settingsFile );
 	}
+
+	/**
+	 * Loads the settings located in the given file into this object.
+	 * Note that all settings are overridden; if the given file does
+	 * not exist, the current global settings will also be rewritten
+	 * into the appropriate file.
+	 *
+	 * @param	source	The file that contains (or will contain) the character data
+	 */
 
 	private void loadSettings( File source )
 	{
@@ -98,7 +136,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 			// with the appropriate properties, load the file.
 
 			FileInputStream istream = new FileInputStream( source );
-			loadFromXML( istream );
+			load( istream );
 			istream.close();
 			istream = null;
 		}
@@ -120,12 +158,20 @@ public class KoLSettings extends Properties implements UtilityConstants
 		}
 	}
 
+	/**
+	 * Stores the settings maintained in this <code>KoLSettings</code>
+	 * to the noted file.  Note that this method ALWAYS overwrites
+	 * the given file.
+	 *
+	 * @param	destination	The file to which the settings will be stored.
+	 */
+
 	private void storeSettings( File destination )
 	{
 		try
 		{
 			FileOutputStream ostream = new FileOutputStream( destination );
-			storeToXML( ostream, "KoLmafia Settings" );
+			store( ostream, "KoLmafia Settings" );
 			ostream.close();
 			ostream = null;
 		}
