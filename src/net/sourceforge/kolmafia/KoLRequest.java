@@ -68,8 +68,15 @@ public class KoLRequest implements Runnable, KoLConstants
 {
 	protected static final int REFRESH_RATE = 800;
 
-	private static String KOL_HOST = "www.kingdomofloathing.com";
-	private static String KOL_ROOT = "http://" + KOL_HOST + "/";
+	private static final String [] HOSTNAMES = {
+		"www.kingdomofloathing.com", "www2.kingdomofloathing.com", "www3.kingdomofloathing.com" };
+
+	private static final String [] DNS_NAMES = {
+		"67.18.115.2", "67.18.223.170", "67.18.223.194" };
+
+	private static String KOL_HOST = HOSTNAMES[0];
+	private static String KOL_ROOT = "http://" + DNS_NAMES[0] + "/";
+
 	static
 	{	applySettings();
 	}
@@ -184,7 +191,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		catch ( Exception e )
 		{
 			// If there's an exception caught while parsing the actual
-			// login server, just leave things as they are.
+			// login server, redirect the person to a random server.
+			setLoginServer( HOSTNAMES[ ((int) (Math.random() * 3.0)) % 3 ] );
 		}
 	}
 
@@ -198,14 +206,17 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private static void setLoginServer( String server )
 	{
-		try
-		{
-			KOL_HOST = server;
-			KOL_ROOT = "http://" + InetAddress.getByName( server ).getHostAddress() + "/";
-		}
-		catch ( UnknownHostException e )
-		{	KOL_ROOT = "http://" + server + "/";
-		}
+		KOL_HOST = server;
+		for ( int i = 0; KOL_ROOT == null && i < HOSTNAMES.length; ++i )
+			if ( HOSTNAMES[i].equals( server ) )
+				KOL_ROOT = "http://" + DNS_NAMES[i] + "/";
+
+		// If, for any reason, the redirect doesn't match any of
+		// the known names, set the login server to a random
+		// known server, in the interest of speed.
+
+		if ( KOL_ROOT == null )
+			setLoginServer( HOSTNAMES[ ((int) (Math.random() * 3.0)) % 3 ] );
 	}
 
 	/**
