@@ -60,8 +60,6 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class KoLmafia implements UtilityConstants
 {
-	private static final String ADV_DBASE_FILE = "adventures.dat";
-
 	private String password, sessionID, passwordHash;
 	private KoLCharacter characterData;
 	private KoLFrame activeFrame;
@@ -166,35 +164,6 @@ public class KoLmafia implements UtilityConstants
 		logStream.println( "Loading user settings for " + loginname + "..." );
 		settings = new KoLSettings( loginname );
 
-		logStream.println( "Settings successfully loaded.  Reading adventure database..." );
-		BufferedReader advdata = DataUtilities.getReaderForSharedDataFile( ADV_DBASE_FILE );
-		LockableListModel adventures = new LockableListModel();
-
-		try
-		{
-			String line;
-			while ( (line = advdata.readLine()) != null )
-			{
-				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 3 )
-					adventures.add( new KoLAdventure( this, strtok.nextToken(), strtok.nextToken(), strtok.nextToken() ) );
-			}
-
-			logStream.println( "Adventure database loaded successfully." );
-		}
-		catch ( IOException e )
-		{
-			// If an IOException is thrown, that means there was
-			// a problem reading in the appropriate data file;
-			// that means that no adventures can be done.  However,
-			// the adventures data file should always be present.
-
-			// The exception is strange enough that it won't be
-			// handled at the current time.
-
-			logStream.println( "I/O error in reading adventure database.  Continuing anyway." );
-		}
-
 		activeFrame.setVisible( false );
 		activeFrame.dispose();
 		activeFrame = null;
@@ -205,7 +174,7 @@ public class KoLmafia implements UtilityConstants
 		addToResultTally( new AdventureResult( AdventureResult.DIVIDER ) );
 		addToResultTally( AdventureResult.LAST_ELEMENT );
 
-		activeFrame = new AdventureFrame( this, adventures, tally );
+		activeFrame = new AdventureFrame( this, AdventureDatabase.getAsLockableListModel( this ), tally );
 		activeFrame.pack();  activeFrame.setVisible( true );
 		activeFrame.requestFocus();
 	}
