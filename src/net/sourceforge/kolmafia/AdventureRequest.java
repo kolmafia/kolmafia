@@ -125,7 +125,8 @@ public class AdventureRequest extends KoLRequest
 		int resultIndex = replyContent.indexOf( "<p><center>" );
 
 		if ( resultIndex == -1 || replyContent.indexOf( "You can't afford" ) != -1 || replyContent.indexOf( "You shouldn't be here" ) != -1 ||
-			replyContent.indexOf( "You don't have enough" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 )
+			replyContent.indexOf( "You don't have enough" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 ||
+			replyContent.indexOf( "You can't adventure" ) != -1 || replyContent.indexOf( "You're way too beaten" ) != -1 )
 		{
 			// Notify the client of failure by telling it that
 			// the adventure did not take place and the client
