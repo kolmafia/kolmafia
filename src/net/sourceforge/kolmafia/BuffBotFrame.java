@@ -551,43 +551,45 @@ public class BuffBotFrame extends KoLFrame {
                 
                 JPanel ltPanel = new JPanel(new GridLayout(0,1));
                 JPanel rtPanel;
-                if (skillset.isEmpty()){
-                    rtPanel = new JPanel(new GridLayout(0,1,5,5));
-                    rtPanel.add(new JLabel("You have no buffing skills!"));
-                } else {
-                    rtPanel = new JPanel(new GridLayout(0,4,5,5));
-                    ltPanel.add(new JLabel("Buff Title",JLabel.CENTER));
-                    rtPanel.add(new JLabel("Cost #1"));
-                    rtPanel.add(new JLabel("# Casts"));
-                    rtPanel.add(new JLabel("Cost #2"));
-                    rtPanel.add(new JLabel("# Casts"));
-                    
-                    int skillIndex = 0;
-                    while ((skill = (String) skillset.get(skillIndex)) != null){
-                        skillID = ClassSkillsDatabase.getSkillID( skill.replaceFirst( "ñ", "&ntilde;" ) );
-                        if (ClassSkillsDatabase.isBuff( skillID )){
-                            buffEntry = new buffDescriptor(skill, skillID);
-                            skillLabel = new JLabel(skill,JLabel.TRAILING);
-                            skillLabel.setFont(new Font("Serif", Font.PLAIN, 10));
-                            
-                            ltPanel.add(skillLabel);
-                            rtPanel.add(buffEntry.buffCostTxt);
-                            rtPanel.add(buffEntry.buffCountTxt);
-                            rtPanel.add(buffEntry.buffCost2Txt);
-                            rtPanel.add(buffEntry.buffCount2Txt);
-                            panel.add(rtPanel);
-                            BuffCostTable.add(buffEntry);
-                            
-                        }
-                        
-                        skillIndex++;
-                    }
-                }
-                //Force the left panel to have the same height as the right one:
-                ltPanel.setPreferredSize(new Dimension(ltPanel.getPreferredSize().width, 5+rtPanel.getPreferredSize().height));
-                panel.add(ltPanel);
-                panel.add(rtPanel);
-                add(panel);
+				rtPanel = new JPanel(new GridLayout(0,4,5,5));
+				ltPanel.add(new JLabel("Buff Title",JLabel.CENTER));
+				rtPanel.add(new JLabel("Cost #1"));
+				rtPanel.add(new JLabel("# Casts"));
+				rtPanel.add(new JLabel("Cost #2"));
+				rtPanel.add(new JLabel("# Casts"));
+				
+				int skillIndex = 0;
+				while ((skill = (String) skillset.get(skillIndex)) != null){
+					skillID = ClassSkillsDatabase.getSkillID( skill.replaceFirst( "ñ", "&ntilde;" ) );
+					if (ClassSkillsDatabase.isBuff( skillID )){
+						buffEntry = new buffDescriptor(skill, skillID);
+						skillLabel = new JLabel(skill,JLabel.TRAILING);
+						skillLabel.setFont(new Font("Serif", Font.PLAIN, 10));
+						
+						ltPanel.add(skillLabel);
+						rtPanel.add(buffEntry.buffCostTxt);
+						rtPanel.add(buffEntry.buffCountTxt);
+						rtPanel.add(buffEntry.buffCost2Txt);
+						rtPanel.add(buffEntry.buffCount2Txt);
+						panel.add(rtPanel);
+						BuffCostTable.add(buffEntry);
+						
+					}
+					
+					skillIndex++;
+				}
+                // Special message for the non-buffers
+				if (BuffCostTable.isEmpty()){
+                    panel = new JPanel(new GridLayout(0,1,5,5));
+                    panel.add(new JLabel("You have no buffing skills!"));
+					add(panel);
+				} else {
+					//Force the left panel to have the same height as the right one:
+					ltPanel.setPreferredSize(new Dimension(ltPanel.getPreferredSize().width, 5+rtPanel.getPreferredSize().height));
+					panel.add(ltPanel);
+					panel.add(rtPanel);
+					add(panel);
+				}
             }
             
             public void setEnabled( boolean isEnabled ) {

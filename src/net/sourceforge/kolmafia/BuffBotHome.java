@@ -60,12 +60,14 @@ public class BuffBotHome {
 	private KoLmafia client;
 	private PrintStream BBLogFile;
 	private JTabbedPane advTabs;
+	private String LogFileName;
 	
 	
 	/** Creates a new instance of BuffBotHome */
 	public BuffBotHome(KoLmafia client) {
 		this.client = client;
 		LogDF = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+		LogFileName = "BuffBot??.log";
 		
 	}
 	
@@ -78,6 +80,7 @@ public class BuffBotHome {
 			BBLog = new BuffBotLog();
 		}
 		initializeBBLogFile();
+		BBLog.append("Today's Log: " + LogFileName + " \n");
 	}
 	
 	public BuffBotLog getBBLog(){
@@ -137,8 +140,11 @@ public class BuffBotHome {
 		
 		try {
 			String DayOfYear = (new SimpleDateFormat("D")).format(new Date());
-			File f = new File( KoLmafia.DATA_DIRECTORY + "BuffBot" + DayOfYear + ".log" );
+			String characterName = client.getLoginName();
+			String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" );
+			File f = new File( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + DayOfYear + ".log" );
 			
+			LogFileName = f.getName();
 			if ( !f.exists() )
 				f.createNewFile();
 			
