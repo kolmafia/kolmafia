@@ -318,18 +318,29 @@ public class ChatFrame extends KoLFrame
 	private class LogChatListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{
-			JFileChooser chooser = new JFileChooser();
-			chooser.setFileFilter( new HTMLFileFilter() );
-			int returnVal = chooser.showSaveDialog( ChatFrame.this );
-			String filename = chooser.getSelectedFile().getAbsolutePath();
-			if ( !filename.endsWith( ".htm" ) && !filename.endsWith( ".html" ) )
-				filename += ".html";
+		{	(new LogChatRequestThread()).start();
+		}
 
-			if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-				messenger.getChatBuffer( associatedContact ).setActiveLogFile( filename,
-					"Loathing Chat: " + client.getLoginName() + " (" +
-					Calendar.getInstance().getTime().toString() + ")" );
+		private class LogChatRequestThread extends Thread
+		{
+			public LogChatRequestThread()
+			{	setDaemon( true );
+			}
+
+			public void run()
+			{
+				JFileChooser chooser = new JFileChooser();
+				chooser.setFileFilter( new HTMLFileFilter() );
+				int returnVal = chooser.showSaveDialog( ChatFrame.this );
+				String filename = chooser.getSelectedFile().getAbsolutePath();
+				if ( !filename.endsWith( ".htm" ) && !filename.endsWith( ".html" ) )
+					filename += ".html";
+
+				if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+					messenger.getChatBuffer( associatedContact ).setActiveLogFile( filename,
+						"Loathing Chat: " + client.getLoginName() + " (" +
+						Calendar.getInstance().getTime().toString() + ")" );
+			}
 		}
 
 		/**
@@ -359,9 +370,20 @@ public class ChatFrame extends KoLFrame
 	private class CloseChatListener extends WindowAdapter
 	{
 		public void windowClosed( WindowEvent e )
+		{	(new CloseChatRequestThread()).start();
+		}
+
+		private class CloseChatRequestThread extends Thread
 		{
-			if ( client != null && client.getMessenger() != null )
-				client.getMessenger().removeChat( associatedContact );
+			public CloseChatRequestThread()
+			{	setDaemon( true );
+			}
+
+			public void run()
+			{
+				if ( client != null && client.getMessenger() != null )
+					client.getMessenger().removeChat( associatedContact );
+			}
 		}
 	}
 
