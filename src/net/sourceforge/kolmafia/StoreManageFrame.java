@@ -49,10 +49,6 @@ import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
 import javax.swing.ListSelectionModel;
 
-import java.util.TreeMap;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 // spellcast-related imports
 import net.java.dev.spellcast.utilities.PanelList;
 import net.java.dev.spellcast.utilities.PanelListCell;
@@ -176,41 +172,11 @@ public class StoreManageFrame extends KoLFrame
 
 			public void run()
 			{
-				AdventureResult searchItem = (AdventureResult) sellingList.getSelectedItem();
-				if ( searchItem == null )
+				if ( sellingList.getSelectedItem() == null )
 					return;
 
-				String itemName = searchItem.getName();
-				ArrayList results = new ArrayList();
-				(new SearchMallRequest( client, "\'\'" + itemName + "\'\'", 0, results )).run();
-
-				TreeMap prices = new TreeMap();
-				MallPurchaseRequest currentItem;
-				Integer currentQuantity, currentPrice;
-
-				Iterator i = results.iterator();
-				while ( i.hasNext() )
-				{
-					currentItem = (MallPurchaseRequest) i.next();
-					currentPrice = new Integer( currentItem.getPrice() );
-
-					currentQuantity = (Integer) prices.get( currentPrice );
-					if ( currentQuantity == null )
-						prices.put( currentPrice, new Integer( currentItem.getQuantity() ) );
-					else
-						prices.put( currentPrice, new Integer( currentQuantity.intValue() + currentItem.getQuantity() ) );
-				}
-
-				priceSummary.clear();
-				i = prices.keySet().iterator();
-
-				while ( i.hasNext() )
-				{
-					currentPrice = (Integer) i.next();
-					priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
-						df.format( currentPrice.intValue() ) + " meat" );
-				}
-				searchLabel.setText( searchItem.getName() );
+				client.getStoreManager().searchMall( (AdventureResult) sellingList.getSelectedItem(), priceSummary );
+				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
 			}
 		}
 	}

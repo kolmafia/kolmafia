@@ -33,9 +33,14 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.TreeMap;
+import java.util.Iterator;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class StoreManager
+public class StoreManager implements KoLConstants
 {
 	private KoLmafia client;
 	private LockableListModel soldItemList;
@@ -74,6 +79,44 @@ public class StoreManager
 
 	public void clear()
 	{	soldItemList.clear();
+	}
+
+	public void searchMall( AdventureResult searchItem, List priceSummary )
+	{
+		if ( searchItem == null )
+			return;
+
+		String itemName = searchItem.getName();
+		ArrayList results = new ArrayList();
+
+		(new SearchMallRequest( client, "\'\'" + itemName + "\'\'", 0, results )).run();
+
+		TreeMap prices = new TreeMap();
+		MallPurchaseRequest currentItem;
+		Integer currentQuantity, currentPrice;
+
+		Iterator i = results.iterator();
+		while ( i.hasNext() )
+		{
+			currentItem = (MallPurchaseRequest) i.next();
+			currentPrice = new Integer( currentItem.getPrice() );
+
+			currentQuantity = (Integer) prices.get( currentPrice );
+			if ( currentQuantity == null )
+				prices.put( currentPrice, new Integer( currentItem.getQuantity() ) );
+			else
+				prices.put( currentPrice, new Integer( currentQuantity.intValue() + currentItem.getQuantity() ) );
+		}
+
+		priceSummary.clear();
+		i = prices.keySet().iterator();
+
+		while ( i.hasNext() )
+		{
+			currentPrice = (Integer) i.next();
+			priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
+				df.format( currentPrice.intValue() ) + " meat" );
+		}
 	}
 
 	/**
