@@ -136,7 +136,7 @@ public class BuffBotManager {
                 MailboxRequest MBRequest = new MailboxRequest( client, "Inbox" );
                 MBRequest.run();
                 if (client.permitsContinue()) 
-					client.updateDisplay( KoLFrame.ENABLED_STATE, "");
+					client.updateDisplay( KoLFrame.DISABLED_STATE, "");
 				else return;
             }
             
