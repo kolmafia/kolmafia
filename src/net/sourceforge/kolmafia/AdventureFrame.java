@@ -719,7 +719,7 @@ public class AdventureFrame extends KoLFrame
 
 		public HeroDonationPanel()
 		{
-			super( "worship statue", "blow up statue", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
+			super( "donate to statue", "donate to clan", new Dimension( 100, 20 ), new Dimension( 200, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -745,8 +745,8 @@ public class AdventureFrame extends KoLFrame
 
 		protected void setContent( VerifiableElement [] elements )
 		{
-			super.setContent( elements );
-			add( JComponentUtilities.createLabel( "The Hall of the Legends of the Times of Old", JLabel.CENTER,
+			super.setContent( elements, null, null, null, true, true );
+			add( JComponentUtilities.createLabel( "Donations to the Greater Good", JLabel.CENTER,
 					Color.black, Color.white ), BorderLayout.NORTH );
 			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
@@ -774,14 +774,8 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			if ( AdventureFrame.this.isEnabled() )
-			{
-				contentPanel = heroDonation;
-				if ( heroField.getSelectedIndex() != -1 )
-					updateDisplay( NOCHANGE_STATE, "You have killed the Hermit hiding behind the " + heroField.getSelectedItem() );
-				else
-					updateDisplay( NOCHANGE_STATE, "Blow up which statue?" );
-			}
+			contentPanel = heroDonation;
+			(new ClanDonationThread()).start();
 		}
 
 		public void requestFocus()
@@ -791,7 +785,7 @@ public class AdventureFrame extends KoLFrame
 		/**
 		 * In order to keep the user interface from freezing (or at
 		 * least appearing to freeze), this internal class is used
-		 * to actually purchase the clan buffs.
+		 * to actually donate to the statues.
 		 */
 
 		private class HeroDonationThread extends Thread
@@ -811,10 +805,46 @@ public class AdventureFrame extends KoLFrame
 
 					if ( heroField.getSelectedIndex() != -1 )
 					{
-						updateDisplay( DISABLED_STATE, "Attempting donation..." );
+						updateDisplay( DISABLED_STATE, "Attempting donation to " + heroField.getSelectedItem() + "..." );
 						(new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, amount )).run();
-						updateDisplay( ENABLED_STATE, "Donation attempt complete." );
+						updateDisplay( ENABLED_STATE, "Statue donation attempt complete." );
 					}
+				}
+				catch ( Exception e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually donate to the clan.
+		 */
+
+		private class ClanDonationThread extends Thread
+		{
+			public ClanDonationThread()
+			{
+				super( "Donation-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					int amount = amountField.getText().trim().length() == 0 ? 0 :
+						df.parse( amountField.getText() ).intValue();
+
+					updateDisplay( DISABLED_STATE, "Attempting clan donation..." );
+					(new ItemStorageRequest( client, amount, ItemStorageRequest.MEAT_TO_STASH )).run();
+					updateDisplay( ENABLED_STATE, "Clan donation attempt complete." );
 				}
 				catch ( Exception e )
 				{
