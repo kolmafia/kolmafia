@@ -83,7 +83,7 @@ public class LoginRequest extends KoLRequest
 			// can go ahead and try again after waiting for about ten seconds
 			// for the old session ID to clear.
 
-			frame.updateDisplay( KoLFrame.PRE_LOGIN_STATE, "Deactivating old session..." );
+			frame.updateDisplay( KoLFrame.SENDING_LOGIN_STATE, "Deactivating old session..." );
 
 			try
 			{
