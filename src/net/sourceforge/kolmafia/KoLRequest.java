@@ -173,7 +173,7 @@ public class KoLRequest extends Thread
 		}
 
 		formConnection.setDoInput( true );
-		formConnection.setDoOutput( true );
+		formConnection.setDoOutput( !data.isEmpty() );
 		formConnection.setUseCaches( false );
 		formConnection.setInstanceFollowRedirects( false );
 
@@ -188,33 +188,45 @@ public class KoLRequest extends Thread
 
 	private boolean postClientData()
 	{
-		try
+		// Only attempt to post something if there's actually
+		// data to post - otherwise, opening an input stream
+		// should be enough
+
+		if ( !data.isEmpty() )
 		{
-			BufferedWriter ostream =
-				new BufferedWriter( new OutputStreamWriter(
-					formConnection.getOutputStream() ) );
-
-			Iterator<String> iterator = data.iterator();
-
-			if ( iterator.hasNext() )
-				ostream.write( iterator.next() );
-
-			while ( iterator.hasNext() )
+			try
 			{
-				ostream.write( "&" );
-				ostream.write( iterator.next() );
+				BufferedWriter ostream =
+					new BufferedWriter( new OutputStreamWriter(
+						formConnection.getOutputStream() ) );
+
+				Iterator<String> iterator = data.iterator();
+
+				if ( iterator.hasNext() )
+					ostream.write( iterator.next() );
+
+				while ( iterator.hasNext() )
+				{
+					ostream.write( "&" );
+					ostream.write( iterator.next() );
+				}
+
+				ostream.flush();
+				ostream.close();
+				ostream = null;
+
+				return true;
 			}
-
-			ostream.flush();
-			ostream.close();
-			ostream = null;
-
-			return true;
+			catch ( IOException e )
+			{
+				return false;
+			}
 		}
-		catch ( IOException e )
-		{
-			return false;
-		}
+
+		// If there was no data to post, then obviously all the
+		// data was posted successfully?  Return true.
+
+		return true;
 	}
 
 	private void retrieveServerReply()
