@@ -69,6 +69,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
+	private LockableListModel concoctions;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -85,6 +86,7 @@ public class ItemManageFrame extends KoLFrame
 		setResizable( false );
 
 		tabs = new JTabbedPane();
+
 		tabs.addTab( "Sell", new SellPanel() );
 		tabs.addTab( "Put Away", new StoragePanel() );
 
@@ -107,9 +109,14 @@ public class ItemManageFrame extends KoLFrame
 			tabs.setEnabledAt( i, isEnabled );
 	}
 
+	/**
+	 * Internal class used to handle everything related to
+	 * selling items, including item creation.
+	 */
 
 	private class SellPanel extends JPanel
 	{
+		private JPanel sellPanel, createPanel;
 		private JList availableList;
 		private JList concoctionsList;
 
@@ -117,8 +124,12 @@ public class ItemManageFrame extends KoLFrame
 		{
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout( 10, 10 ) );
-			panel.add( new SellItemPanel(), BorderLayout.NORTH );
-			panel.add( new CreateItemPanel(), BorderLayout.SOUTH );
+
+			sellPanel = new SellItemPanel();
+			createPanel = new CreateItemPanel();
+
+			panel.add( sellPanel, BorderLayout.NORTH );
+			panel.add( createPanel, BorderLayout.SOUTH );
 
 			setLayout( new CardLayout( 10, 10 ) );
 			add( panel, "" );
@@ -127,8 +138,8 @@ public class ItemManageFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			availableList.setEnabled( isEnabled );
-			concoctionsList.setEnabled( isEnabled );
+			sellPanel.setEnabled( isEnabled );
+			createPanel.setEnabled( isEnabled );
 		}
 
 		/**
@@ -143,7 +154,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public SellItemPanel()
 			{
-				super( "autosell", "sell in mall" );
+				super( "autosell", "send to store" );
 				setContent( null, null, null, null, true, true );
 
 				available = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
@@ -219,7 +230,8 @@ public class ItemManageFrame extends KoLFrame
 							(new AutoSellRequest( client, sellType, currentItem )).run();
 						}
 
-						updateDisplay( ENABLED_STATE, "Requests complete." );
+						(new RefreshItemCreationListThread()).run();
+						updateDisplay( ENABLED_STATE, "" );
 						SellItemPanel.this.setEnabled( true );
 					}
 					catch ( NumberFormatException e )
@@ -241,11 +253,9 @@ public class ItemManageFrame extends KoLFrame
 
 		private class CreateItemPanel extends NonContentPanel
 		{
-			private LockableListModel concoctions;
-
 			public CreateItemPanel()
 			{
-				super( "create items", "refresh list" );
+				super( "create", "refresh list" );
 				setContent( null, null, null, null, true, true );
 
 				concoctions = client == null ? new LockableListModel() : ConcoctionsDatabase.getConcoctions( client, client.getInventory() );
@@ -265,11 +275,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{
+			{	(new ItemCreationRequestThread()).start();
 			}
 
-			protected void actionCancelled()
-			{	(new RefreshListThread()).start();
+			public void actionCancelled()
+			{	(new RefreshItemCreationListThread()).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -278,18 +288,22 @@ public class ItemManageFrame extends KoLFrame
 				concoctionsList.setEnabled( isEnabled );
 			}
 
-			/**
-			 * In order to keep the user interface from freezing (or at
-			 * least appearing to freeze), this internal class is used
-			 * to actually autosell the items.
-			 */
-
-			private class RefreshListThread extends Thread
+			private class ItemCreationRequestThread extends Thread
 			{
 				public void run()
 				{
-					concoctions.clear();
-					concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, client.getInventory() ) );
+					updateDisplay( DISABLED_STATE, "Creating item..." );
+					ItemManageFrame.this.setEnabled( false );
+
+					Object selection = concoctionsList.getSelectedValue();
+
+					if ( selection != null )
+						((Runnable)selection).run();
+
+					(new RefreshItemCreationListThread()).run();
+
+					updateDisplay( ENABLED_STATE, "" );
+					ItemManageFrame.this.setEnabled( true );
 				}
 			}
 		}
@@ -303,6 +317,7 @@ public class ItemManageFrame extends KoLFrame
 
 	private class StoragePanel extends JPanel
 	{
+		private JPanel inventoryPanel, closetPanel;
 		private JList availableList;
 		private JList closetList;
 
@@ -310,8 +325,11 @@ public class ItemManageFrame extends KoLFrame
 		{
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout( 10, 10 ) );
-			panel.add( new OutsideClosetPanel(), BorderLayout.NORTH );
-			panel.add( new InsideClosetPanel(), BorderLayout.SOUTH );
+			inventoryPanel = new OutsideClosetPanel();
+			closetPanel = new InsideClosetPanel();
+
+			panel.add( inventoryPanel, BorderLayout.NORTH );
+			panel.add( closetPanel, BorderLayout.SOUTH );
 
 			setLayout( new CardLayout( 10, 10 ) );
 			add( panel, "" );
@@ -320,8 +338,8 @@ public class ItemManageFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			closetList.setEnabled( isEnabled );
-			availableList.setEnabled( isEnabled );
+			inventoryPanel.setEnabled( isEnabled );
+			closetPanel.setEnabled( isEnabled );
 		}
 
 		private class OutsideClosetPanel extends NonContentPanel
@@ -355,6 +373,12 @@ public class ItemManageFrame extends KoLFrame
 
 			protected void actionCancelled()
 			{	(new ItemStorageRequestThread( ItemStorageRequest.INVENTORY_TO_STASH )).start();
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				availableList.setEnabled( isEnabled );
 			}
 		}
 
@@ -390,6 +414,12 @@ public class ItemManageFrame extends KoLFrame
 			protected void actionCancelled()
 			{	(new ItemStorageRequestThread( ItemStorageRequestThread.CLOSET_TO_STASH )).start();
 			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				closetList.setEnabled( isEnabled );
+			}
 		}
 
 		/**
@@ -413,6 +443,8 @@ public class ItemManageFrame extends KoLFrame
 			public void run()
 			{
 				updateDisplay( DISABLED_STATE, "Moving items..." );
+				ItemManageFrame.this.setEnabled( false );
+
 				Object [] items =
 					moveType == ItemStorageRequest.INVENTORY_TO_CLOSET ? availableList.getSelectedValues() :
 					moveType == ItemStorageRequest.CLOSET_TO_INVENTORY ? closetList.getSelectedValues() :
@@ -427,9 +459,25 @@ public class ItemManageFrame extends KoLFrame
 				else
 					(new ItemStorageRequest( client, moveType, items )).run();
 
-				updateDisplay( ENABLED_STATE, "Items successfully moved." );
-				StoragePanel.this.setEnabled( true );
+				(new RefreshItemCreationListThread()).run();
+				updateDisplay( ENABLED_STATE, "" );
+				ItemManageFrame.this.setEnabled( true );
 			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at
+	 * least appearing to freeze), this internal class is used
+	 * to refresh the items that can be created.
+	 */
+
+	private class RefreshItemCreationListThread extends Thread
+	{
+		public void run()
+		{
+			concoctions.clear();
+			concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, client.getInventory() ) );
 		}
 	}
 

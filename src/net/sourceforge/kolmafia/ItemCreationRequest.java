@@ -180,6 +180,10 @@ public class ItemCreationRequest extends KoLRequest
 		addFormField( "quantity", "" + quantityNeeded );
 
 		super.run();
+
+		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[0][0] ), 0 - quantityNeeded ) );
+		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( ingredients[1][0] ), 0 - quantityNeeded ) );
+		client.addToResultTally( new AdventureResult( TradeableItemDatabase.getItemName( itemID ), quantityNeeded ) );
 	}
 
 	/**
@@ -221,11 +225,22 @@ public class ItemCreationRequest extends KoLRequest
 
 	private class MeatPasteRequest extends KoLRequest
 	{
+		private int quantityNeeded;
+
 		public MeatPasteRequest( KoLmafia client, int quantityNeeded )
 		{
 			super( client, "inventory.php" );
 			addFormField( "which", "3" );
 			addFormField( "action", ((quantityNeeded == 1) ? "meat" : "" + quantityNeeded) + "paste" );
+
+			this.quantityNeeded = quantityNeeded;
+		}
+
+		public void run()
+		{
+			super.run();
+			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, -10 * quantityNeeded ) );
+			client.addToResultTally( new AdventureResult( "meat paste", quantityNeeded ) );
 		}
 	}
 
@@ -239,11 +254,21 @@ public class ItemCreationRequest extends KoLRequest
 
 	private class MeatStackRequest extends KoLRequest
 	{
+		private boolean isDense;
+
 		public MeatStackRequest( KoLmafia client, boolean isDense )
 		{
 			super( client, "inventory.php" );
 			addFormField( "which", "3" );
 			addFormField( "action", isDense ? "densestack" : "meatstack" );
+			this.isDense = isDense;
+		}
+
+		public void run()
+		{
+			super.run();
+			client.addToResultTally( new AdventureResult( AdventureResult.MEAT, (isDense ? -1000 : -100) * quantityNeeded ) );
+			client.addToResultTally( new AdventureResult( (isDense ? "dense " : "") + "meat stack", 1 ) );
 		}
 	}
 }
