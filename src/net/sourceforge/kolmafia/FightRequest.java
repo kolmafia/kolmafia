@@ -44,6 +44,8 @@ import java.util.StringTokenizer;
 
 public class FightRequest extends KoLRequest
 {
+	private int roundCount;
+
 	/**
 	 * Constructs a new <code>FightRequest</code>.  The client provided will
 	 * be used to determine whether or not the fight should be started and/or
@@ -52,13 +54,19 @@ public class FightRequest extends KoLRequest
 	 */
 
 	public FightRequest( KoLmafia client )
+	{	this( client, 0 );
+	}
+
+	private FightRequest( KoLmafia client, int roundCount )
 	{
 		super( client, "fight.php" );
+		this.roundCount = roundCount;
 
 		// For now, there will not be any attempts to handle
 		// special skills - the user will simply attack.
 
-		addFormField( "action", client.getSettings().getProperty( "battleAction" ) );
+		addFormField( "action", client.getCharacterData().getCurrentMP() == 0 ? "attack" :
+			client.getSettings().getProperty( "battleAction" ) );
 	}
 
 	/**
@@ -119,8 +127,16 @@ public class FightRequest extends KoLRequest
 				// connection to an existing URL may cause unforeseen errors,
 				// start a new thread and allow this one to die.
 
-				if ( client.permitsContinue() )
+				if ( client.permitsContinue() && roundCount < 30 )
+				{
+					++roundCount;
 					this.run();
+				}
+				else if ( roundCount == 30 )
+				{
+					updateDisplay( KoLFrame.ENABLED_STATE, "Battle exceeded 30 rounds." );
+					client.cancelRequest();
+				}
 			}
 		}
 	}
