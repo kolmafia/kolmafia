@@ -83,7 +83,7 @@ public class MoonPhaseDatabase
 	 * Method to return which phase of the moon is currently
 	 * appearing over the Kingdom of Loathing, as a string.
 	 *
-	 * @param	The current phases of Ronald and Grimace
+	 * @return	The current phases of Ronald and Grimace
 	 */
 
 	public static final String getMoonPhase()
