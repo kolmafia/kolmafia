@@ -86,6 +86,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 // containers
+import javax.swing.JComponent;
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JCheckBox;
 import javax.swing.JMenuBar;
@@ -100,7 +102,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
-import javax.swing.border.EtchedBorder;
 
 // utilities
 import java.util.Properties;
@@ -148,8 +149,6 @@ public class BuffBotFrame extends KoLFrame
 			currentManager = new BuffBotManager( client, buffCostTable );
 			client.setBuffBotManager( currentManager );
 		}
-
-		setResizable( false );
 
 		// Initialize the display log buffer and the file log
 		if ( client == null )
@@ -216,7 +215,7 @@ public class BuffBotFrame extends KoLFrame
 	 * operating the buffbot. This is the <CODE>mainBuffPanel</CODE>
 	 */
 
-	private class MainBuffPanel extends NonContentPanel
+	private class MainBuffPanel extends LabeledScrollPanel
 	{
 		/**
 		 * Constructor for <CODE>MainBuffPanel</CODE>
@@ -224,22 +223,10 @@ public class BuffBotFrame extends KoLFrame
 
 		public MainBuffPanel()
 		{
-			super( "Start", "Stop" );
-			setContent( null );
-
-			JEditorPane buffbotLogDisplay = new JEditorPane();
-			buffbotLog.setChatDisplay( buffbotLogDisplay );
+			super( "BuffBot Activities", "Start", "Stop", new JEditorPane() );
+			JEditorPane buffbotLogDisplay = (JEditorPane) getScrollComponent();
+			buffbotLog.setChatDisplay(buffbotLogDisplay  );
 			buffbotLogDisplay.setEditable( false );
-
-			JScrollPane scrollArea = new JScrollPane( buffbotLogDisplay,
-					JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-
-			add( JComponentUtilities.createLabel( "BuffBot Activities", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
-
-			JComponentUtilities.setComponentSize( scrollArea, 400, 200 );
-			add( scrollArea, BorderLayout.WEST );
 		}
 
 		/**
@@ -336,11 +323,11 @@ public class BuffBotFrame extends KoLFrame
 		{
 			super.setContent( elements, null, null, null, true, true );
 
-			JPanel southPanel = new JPanel();
-			southPanel.setLayout( new BoxLayout( southPanel, BoxLayout.Y_AXIS ) );
-			southPanel.add( Box.createVerticalStrut( 40 ) );
-			southPanel.add( new BuffListPanel() );
-			add( southPanel, BorderLayout.SOUTH );
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
+			centerPanel.add( Box.createVerticalStrut( 40 ) );
+			centerPanel.add( new BuffListPanel() );
+			add( centerPanel, BorderLayout.CENTER );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -462,9 +449,8 @@ public class BuffBotFrame extends KoLFrame
 		public void setContent( VerifiableElement [] elements )
 		{
 			super.setContent( elements );
-
 			whiteListEntry = new WhiteListEntry();
-			add( whiteListEntry, BorderLayout.SOUTH );
+			add( whiteListEntry, BorderLayout.CENTER );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -488,8 +474,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			public WhiteListEntry()
 			{
-				this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
-				JPanel panel = new JPanel(new BorderLayout());
+				setLayout( new BorderLayout() );
 
 				whiteListEditor = new JTextArea();
 				whiteListEditor.setEditable( true );
@@ -500,13 +485,11 @@ public class BuffBotFrame extends KoLFrame
 						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 						JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-				panel.add( JComponentUtilities.createLabel( "White List (please separate names with commas):", JLabel.CENTER,
+				add( JComponentUtilities.createLabel( "White List (please separate names with commas):", JLabel.CENTER,
 						Color.black, Color.white ), BorderLayout.NORTH );
 
 				JComponentUtilities.setComponentSize( scrollArea, 400, 200 );
-				panel.add( scrollArea, BorderLayout.SOUTH );
-
-				add( panel );
+				add( scrollArea, BorderLayout.CENTER );
 			}
 		}
 
@@ -613,6 +596,96 @@ public class BuffBotFrame extends KoLFrame
 				if ( client != null )
 					client.deinitializeBuffBot();
 				client.updateDisplay( ENABLED_STATE, "Buffbot deactivated." );
+			}
+		}
+	}
+
+	/**
+	 * An internal class which creates a panel which displays
+	 * a generic scroll pane.  Note that the code for this
+	 * frame was lifted from the ActionVerifyPanel found in
+	 * the Spellcast package.
+	 */
+
+	private abstract class LabeledScrollPanel extends JPanel
+	{
+		private JComponent scrollComponent;
+
+		public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent )
+		{
+			this.scrollComponent = scrollComponent;
+
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BorderLayout() );
+
+			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			JPanel actualPanel = new JPanel();
+			actualPanel.setLayout( new BorderLayout( 20, 10 ) );
+			actualPanel.add( centerPanel, BorderLayout.CENTER );
+			actualPanel.add( new VerifyButtonPanel( confirmedText, cancelledText ), BorderLayout.EAST );
+
+			setLayout( new CardLayout( 10, 10 ) );
+			add( actualPanel, " " );
+		}
+
+		public JComponent getScrollComponent()
+		{	return scrollComponent;
+		}
+
+		protected abstract void actionConfirmed();
+		protected abstract void actionCancelled();
+
+		private class VerifyButtonPanel extends JPanel
+		{
+			private JButton confirmedButton;
+			private JButton cancelledButton;
+
+			public VerifyButtonPanel( String confirmedText, String cancelledText )
+			{
+				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+
+				// add the "confirmed" button
+				confirmedButton = new JButton( confirmedText );
+				confirmedButton.addActionListener(
+					new ActionListener() {
+						public void actionPerformed( ActionEvent e ) {
+							actionConfirmed();
+						}
+					} );
+
+				addButton( confirmedButton );
+				add( Box.createVerticalStrut( 4 ) );
+
+				// add the "cancelled" button
+				cancelledButton = new JButton( cancelledText );
+				cancelledButton.addActionListener(
+					new ActionListener() {
+						public void actionPerformed( ActionEvent e ) {
+							actionCancelled();
+						}
+					} );
+				addButton( cancelledButton );
+
+				JComponentUtilities.setComponentSize( this, 80, 100 );
+			}
+
+			private void addButton( JButton buttonToAdd )
+			{
+				JPanel container = new JPanel();
+				container.setLayout( new GridLayout() );
+				container.add( buttonToAdd );
+				container.setMaximumSize( new Dimension( Integer.MAX_VALUE, 24 ) );
+				add( container );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				confirmedButton.setEnabled( isEnabled );
+				cancelledButton.setEnabled( isEnabled );
 			}
 		}
 	}
