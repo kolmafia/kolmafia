@@ -42,6 +42,8 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Container class for <code>BuffBotManager</code>
@@ -51,16 +53,22 @@ import java.util.ArrayList;
 public class BuffBotManager extends KoLMailManager implements KoLConstants
 {
 	private KoLmafia client;
+	private KoLCharacter characterData;
 	private Properties settings;
-	private LockableListModel buffCostTable;
-	private boolean saveNonBuffmsgs;
-	private String MPRestoreSetting;
-	private KoLCharacter me;
+
+	private ArrayList saveList;
+	private ArrayList deleteList;
+
+	private String mpRestoreSetting;
+	private boolean messageDisposalSetting;
 	private LimitedSizeChatBuffer buffbotLog;
-	private static final int BBSLEEPTIME = 1000; // Sleep this much each time
-	private static final int BBSLEEPCOUNT = 75;  // This many times
-	private static final int BBSLEEPCOUNTLONG = 300;  // This many times for slot needs
-	private	ArrayList deleteList, saveList;
+
+	private static final int SLEEP_TIME = 1000;       // Sleep this much each time
+	private static final int SHORT_SLEEP_COUNT = 75;  // This many times
+	private static final int LONG_SLEEP_COUNT = 300;  // This many times for slot needs
+
+	private Map costMap;
+	private LockableListModel buffCostTable;
 
 	private static final String BUFFCOLOR = "<font color=green>";
 	private static final String NONBUFFCOLOR = "<font color=blue>";
@@ -71,215 +79,294 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	 * Constructor for the <code>BuffBotManager</code> class.
 	 */
 
-	public BuffBotManager(KoLmafia client,
-			LockableListModel buffCostTable)
+	public BuffBotManager( KoLmafia client, LockableListModel buffCostTable )
 	{
-
 		super( client );
 		this.client = client;
 		this.buffCostTable = buffCostTable;
 
+		this.costMap = new TreeMap();
 		settings = (client == null) ? System.getProperties() : client.getSettings();
-		String tempStr = settings.getProperty( "NonBuffMsgSave" );
-		this.saveNonBuffmsgs = settings.getProperty( "NonBuffMsgSave" ).equals("true");
-		this.MPRestoreSetting = settings.getProperty( "MPRestoreSelect" );
+
+		this.messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) != null &&
+			settings.getProperty( "buffBotMessageDisposal" ).equals("true");
+		this.mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "Phonics & Houses" :
+			settings.getProperty( "buffBotMPRestore" );
+
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
-		me =  client.getCharacterData();
+
+		characterData =  client.getCharacterData();
 		buffbotLog = client.getBuffBotLog();
+
+		saveList = new ArrayList();
+		deleteList = new ArrayList();
+	}
+
+	/**
+	 * An internal method which adds a buff to the list of available
+	 * buffs.  This also registers the buff inside of the list of
+	 * available buffs.
+	 */
+
+	public void addBuff( String skillName, int price, int castCount, boolean restricted )
+	{
+		BuffBotCaster newCast = new BuffBotCaster( skillName, price, castCount, restricted );
+		buffCostTable.add( newCast );
+		Object oldCast = costMap.put( new Integer( price ), newCast );
+
+		if ( oldCast != null )
+			buffCostTable.remove( oldCast );
+
+		StringBuffer sellerSetting = new StringBuffer();
+		BuffBotManager.BuffBotCaster currentCast;
+
+		if ( buffCostTable.size() > 0 )
+			sellerSetting.append( ((BuffBotManager.BuffBotCaster) buffCostTable.get(0)).toSettingString() );
+
+		for ( int i = 1; i < buffCostTable.size(); ++i )
+		{
+			sellerSetting.append( ';' );
+			sellerSetting.append( ((BuffBotManager.BuffBotCaster) buffCostTable.get(i)).toSettingString() );
+		}
+
+		settings.setProperty( "buffBotCasting", sellerSetting.toString() );
+		if ( settings instanceof KoLSettings )
+			((KoLSettings)settings).saveSettings();
 
 	}
 
 	/**
-	 * This is the main BuffBot method.
-	 * It loops until the user cancels, or an exception (such as not enough MP to continue).
-	 *
-	 * On each pass, it gets all messages from the mailbox, then iterates on the mailbox.
+	 * An internal class used to represent a single instance of casting a
+	 * buff.  This is used to manage buffs inside of the BuffBotManager
+	 * class by simply calling a method after a simple lookup.
 	 */
-	public void runBuffBot( )
-	{
-		KoLMailMessage firstmsg;
 
-		//Now, make sure the MP is up to date:
+	public class BuffBotCaster
+	{
+		private int price;
+		private int buffID;
+		private String buffName;
+		private int castCount;
+
+		private String target;
+		private boolean restricted;
+		private String stringForm;
+		private String settingString;
+
+		public BuffBotCaster( String buffName, int price, int castCount, boolean restricted )
+		{
+			this.buffID = ClassSkillsDatabase.getSkillID( buffName );
+			this.buffName = buffName;
+			this.price = price;
+			this.castCount = castCount;
+
+			this.restricted = restricted;
+
+			StringBuffer stringForm = new StringBuffer();
+			stringForm.append( "Cast " );
+			stringForm.append( buffName );
+			stringForm.append( ' ' );
+			stringForm.append( castCount );
+			stringForm.append( " times for " );
+			stringForm.append( price );
+			stringForm.append( " meat" );
+
+			if ( restricted )
+				stringForm.append( " (white list only)" );
+
+			this.stringForm = stringForm.toString();
+			this.settingString = buffID + ":" + price + ":" + castCount + ":" + restricted;
+		}
+
+		public boolean castOnTarget( String target )
+		{
+			// Figure out how much MP the buff will take, and then identify
+			// the number of casts per request that this character can handle.
+
+			int totalCasts = castCount;
+
+			double maximumMP = characterData.getMaximumMP();
+			double mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
+
+			double currentMP;
+			int currentCast;
+
+			while ( totalCasts > 0 )
+			{
+				if ( !recoverMP( Math.min( (int)maximumMP, (int)(totalCasts * mpPerCast) ) ) )
+					return false;
+
+				currentMP = (double) characterData.getCurrentMP();
+				currentCast = Math.min( totalCasts, (int)(currentMP / mpPerCast) );
+
+				(new UseSkillRequest( client, buffName, target, currentCast )).run();
+				totalCasts -= currentCast;
+			}
+
+			buffbotLog.append( BUFFCOLOR + "Cast " + buffName + ", " + castCount + " times on " + target + "." + ENDCOLOR + "<br>\n");
+			return true;
+		}
+
+		public String toString()
+		{	return stringForm;
+		}
+
+		public String toSettingString()
+		{	return settingString;
+		}
+	}
+
+	/**
+	 * This is the main BuffBot method. It loops until the user cancels, or an exception
+	 * (such as not enough MP to continue).  On each pass, it gets all messages from the
+	 * mailbox, then iterates on the mailbox.
+	 */
+
+	public void runBuffBot()
+	{
+		// Now, make sure the MP is up to date
 		(new CharsheetRequest( client )).run();
+
 		// The outer loop goes until user cancels
 		while( client.isBuffBotActive() )
 		{
-
-			//First, retrieve all messages in the mailbox (If there are any)
+			// First, retrieve all messages in the mailbox (If there are any)
 			if ( client != null )
 				(new MailboxRequest( client, "Inbox" )).run();
 
-			//Next process each message in the Inbox
-			LockableListModel inbox = getMessages("Inbox");
-			deleteList = new ArrayList();
-			saveList = new ArrayList();
-			while (inbox.size() > 0)
+			// Next process each message in the Inbox
+			Object [] inbox = getMessages("Inbox").toArray();
+			deleteList.clear();  saveList.clear();
+
+			for ( int i = inbox.length - 1; i >= 0; --i )
 			{
-				firstmsg = (KoLMailMessage) inbox.get( 0 );
-				// determine if this is a buff request (and if so, which one)
-				// if it is a buff request, cast the buff,
-				// otherwise either save it or delete it.
-				if (!processMessage(firstmsg))
+				if ( !processMessage( (KoLMailMessage) inbox[i] ) )
 				{
 					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!");
-					client.cancelRequest();
-					client.setBuffBotActive(false);
-					buffbotLog.append(ERRORCOLOR + "Unable to process a buff message." + ENDCOLOR + "<br>\n");
+					client.setBuffBotActive( false );
+					buffbotLog.append( ERRORCOLOR + "Unable to process a buff message." + ENDCOLOR + "<br>\n" );
 				}
-
-				// clear it out of the inbox
-				inbox.remove(firstmsg);
-
 			}
-			// do all the deletes and saves
-			if (!deleteList.isEmpty())
-				(new MailboxRequest( client, "Inbox", deleteList.toArray(), "delete" )).run();
-			if (!saveList.isEmpty())
-				(new MailboxRequest( client, "Inbox", saveList.toArray(), "save" )).run();
-			// otherwise sleep for a while and then try again
+
+			// Do all the deletes and saves
+
+			if ( !deleteList.isEmpty() )
+				deleteMessages( "Inbox", deleteList.toArray() );
+			if ( !saveList.isEmpty() )
+				saveMessages( saveList.toArray() );
+
+			// Otherwise sleep for a while and then try again
 			// (don't go away for more than 1 second at a time
-			client.updateDisplay(DISABLED_STATE, "BuffBot is sleeping");
-			for(int i = 1 ; i <= BBSLEEPCOUNT; i = i + 1)
-				if (client.isBuffBotActive())
-					KoLRequest.delay(BBSLEEPTIME);
+
+			client.updateDisplay( DISABLED_STATE, "BuffBot is sleeping" );
+			for( int i = 0; i < SHORT_SLEEP_COUNT; ++i )
+				if ( client.isBuffBotActive() )
+					KoLRequest.delay( SLEEP_TIME );
 		}
 	}
 
-	private boolean processMessage(KoLMailMessage myMsg )
+	private boolean processMessage( KoLMailMessage message )
 	{
-		int meatSent;
-		BuffBotFrame.BuffDescriptor buffEntry;
-		boolean buffRequestFound = false;
+		Integer meatSent;
+		BuffBotCaster buff;
 
 		try
 		{
-			Matcher meatMatcher = Pattern.compile( ">You gain ([\\d,]+) Meat" ).matcher( myMsg.getMessageHTML() );
-			if (meatMatcher.find())
+			Matcher meatMatcher = Pattern.compile( ">You gain ([\\d,]+) Meat" ).matcher( message.getMessageHTML() );
+			if ( meatMatcher.find() )
 			{
-				meatSent = df.parse( meatMatcher.group(1) ).intValue();
+				meatSent = new Integer( df.parse( meatMatcher.group(1) ).intValue() );
 
-				//look for this amount in the buff table
-				for ( int i = 0; i < buffCostTable.size() && !buffRequestFound; ++i)
-				{
-					buffEntry = (BuffBotFrame.BuffDescriptor) buffCostTable.get(i);
-					// Look for a match of both buffCost and buffCost2
-					if (meatSent == buffEntry.buffCost)
-					{
-						// We have a genuine buff request, so do it!
-						buffRequestFound = true;
-						if (! castThatBuff(myMsg.getSenderName(), buffEntry, buffEntry.buffCastCount))
-						{
-							return false;
-						}
-					}
-					else if (meatSent == buffEntry.buffCost2)
-					{
-						// We have a genuine buff request, so do it!
-						buffRequestFound = true;
-						if (! castThatBuff(myMsg.getSenderName(), buffEntry, buffEntry.buffCastCount2))
-						{
-							return false;
-						}
-					}
-				}
+				// Look for this amount in the buff table
+				buff = (BuffBotCaster) costMap.get( meatSent );
+				if ( buff == null )
+					return false;
 
+				// We have a genuine buff request, so do it!
+				buff.castOnTarget( message.getSenderName() );
+				deleteList.add( message );
+			}
+			else
+			{
+				buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>\n");
+				buffbotLog.append( NONBUFFCOLOR + "Action: " + (messageDisposalSetting ? "delete" : "save") + ENDCOLOR + "<br>\n");
+
+				// Now, mark for either save or delete the message.
+				if ( messageDisposalSetting )
+					saveList.add( message );
+				else
+					deleteList.add( message );
 			}
 		}
 		catch( Exception e )
-		{}
-
-		//Now, mark for either save or delete the message.
-		String msgDisp = ((!buffRequestFound) && saveNonBuffmsgs ? "save" : "delete");
-		if (!buffRequestFound)
 		{
-			buffbotLog.append( NONBUFFCOLOR + "Received non-buff message from [" + myMsg.getSenderName() + "]" + ENDCOLOR + "<br>\n");
-			buffbotLog.append( NONBUFFCOLOR + "Action: " + msgDisp + ENDCOLOR + "<br>\n");
 		}
-		if (msgDisp == "save") saveList.add(myMsg);
-		else deleteList.add(myMsg);
 
 		return true;
 	}
 
-	private boolean castThatBuff(String bufftarget, BuffBotFrame.BuffDescriptor buffEntry,
-			int num2cast)
+	private boolean recoverMP( int mpNeeded )
 	{
-		// Figure out how much MP the buff will take,
-		// and then identify the number of casts per request that this
-		// character can handle.
-		int castsPerEvent, MPperEvent ;
+		if ( characterData.getCurrentMP() >= mpNeeded )
+			return true;
 
-		int buffID = buffEntry.buffID;
-		int totalCasts = num2cast;
-		int MPperCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
-
-		while (totalCasts > 0)
-		{
-			castsPerEvent = Math.min(totalCasts, (me.getMaximumMP())/(MPperCast));
-			MPperEvent = MPperCast * castsPerEvent;
-			if (me.getCurrentMP() < MPperEvent)
-			{
-				//time to buff up
-				if (! recoverMP(MPperEvent)) return false;
-			}
-			(new UseSkillRequest(client, buffEntry.buffName, bufftarget, castsPerEvent)).run();
-			totalCasts = totalCasts - castsPerEvent;
-		}
-		buffbotLog.append( BUFFCOLOR + "Cast " + buffEntry.buffName + ", " + num2cast + " times on " + bufftarget + "." + ENDCOLOR + "<br>\n");
-		return true;
-	}
-
-	private boolean recoverMP(int MPNeeded)
-	{
-		final int PHONICSMP = 46, TINYHOUSEMP = 20, BEANBAGMP = 80;
-		int num2use, MPShort;
-		AdventureResult itemUsed;
-
-		int currentMP;
-		//First try resting in the beanbag chair
+		// First try resting in the beanbag chair
 		// TODO - implement beanbag chair recovery
 
-		// TODO Coompute the optimal use of Tiny Houses or Phonics first
+		// TODO Compute the optimal use of Tiny Houses or Phonics first
 		// try to get there using tiny houses
-		if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Tiny Houses Only"))
-		{	useRestoralItem("tiny house", MPNeeded, TINYHOUSEMP);
-			currentMP = me.getCurrentMP();
-			if (currentMP >= MPNeeded) return true;
+
+		if ( mpRestoreSetting.equals( "Phonics & Houses" ) || mpRestoreSetting.equals( "Tiny Houses Only" ) )
+		{
+			AdventureResult item = new AdventureResult( "tiny house", 0 );
+			while ( client.getInventory().contains( item ) )
+			{
+				useRestoreItem( "tiny house", 20 );
+				if ( characterData.getCurrentMP() >= mpNeeded )
+					return true;
+			}
 		}
 
 		// try to get there using phonics downs
-		if (MPRestoreSetting.equals("Phonics & Houses") | MPRestoreSetting.equals("Phonics Only"))
-		{	useRestoralItem("phonics down", MPNeeded, PHONICSMP);
-			currentMP = me.getCurrentMP();
-			if (currentMP >= MPNeeded) return true;
-		}
-		buffbotLog.append( ERRORCOLOR + "Unable to acquire enough MP!" + ENDCOLOR + "<br>\n");
-		return false;
-	}
-	void useRestoralItem(String itemName, int MPNeeded, int MPperuse)
-	{
-
-		int num2use, MPShort;
-		AdventureResult itemUsed;
-		int currentMP = me.getCurrentMP();
-		int maxMP = me.getMaximumMP();
-		// always buff as close to maxMP as possible, in order to
-		//        go as easy on the server as possible
-		// But, don't go too far over (thus wasting restorers)
-		MPShort = Math.max(maxMP + 5 - MPperuse, MPNeeded) - currentMP;
-		num2use = 1 + ((MPShort - 1) / MPperuse);
-		itemUsed = new AdventureResult( itemName, 0 - num2use);
-		int itemIndex = client.getInventory().indexOf(itemUsed  );
-		if  ( itemIndex > -1 )
+		if ( mpRestoreSetting.equals( "Phonics & Houses" ) || mpRestoreSetting.equals( "Phonics Only" ) )
 		{
-			num2use = Math.min(num2use, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
-			if (num2use > 0)
+			AdventureResult item = new AdventureResult( "phonics down", 0 );
+			while ( client.getInventory().contains( item ) )
 			{
-				buffbotLog.append("Consuming " + num2use + " " + itemName + "s.<br>\n");
-				(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE, new AdventureResult( itemUsed.getItemID(), num2use ) )).run();
+				useRestoreItem( "phonics down", 46 );
+				if ( characterData.getCurrentMP() >= mpNeeded )
+					return true;
 			}
 		}
 
+		buffbotLog.append( ERRORCOLOR + "Unable to acquire enough MP!" + ENDCOLOR + "<br>\n");
+		return false;
+	}
 
+	private void useRestoreItem( String itemName, int mpPerUse )
+	{
+		int currentMP = characterData.getCurrentMP();
+		int maximumMP = characterData.getMaximumMP();
+
+		// Always buff as close to maxMP as possible, in order to
+		// go as easy on the server as possible.  But, don't go
+		// too far over (thus wasting restorers).
+
+		int mpNeeded = maximumMP - currentMP + 5;
+		int numberToUse = 1 + ((mpNeeded - 1) / mpPerUse);
+
+		AdventureResult itemUsed = new AdventureResult( itemName, 0 );
+		int itemIndex = client.getInventory().indexOf( itemUsed );
+
+		if  ( itemIndex > -1 )
+		{
+			numberToUse = Math.min( numberToUse, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
+			if ( numberToUse > 0 )
+			{
+				buffbotLog.append( "Consuming " + numberToUse + " " + itemName + "s.<br>\n" );
+				(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE,
+					new AdventureResult( itemUsed.getItemID(), numberToUse ) )).run();
+			}
+		}
 	}
 }

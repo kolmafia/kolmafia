@@ -69,7 +69,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected KoLCharacter characterData;
 	protected KoLMessenger loathingChat;
 	protected KoLMailManager loathingMail;
-	protected BuffBotManager buffBotMail;
 
 	private boolean disableMacro;
 	protected KoLSettings settings;
@@ -82,6 +81,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected int [] fullStatGain;
 
 	protected BuffBotHome buffBotHome;
+	protected BuffBotManager buffBotManager;
+
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
 	protected SortedListModel tally;
@@ -802,7 +803,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 */
 
 	public KoLMailManager getMailManager()
-	{	return (isBuffBotActive() ? buffBotMail : loathingMail);
+	{	return isBuffBotActive() ? buffBotManager : loathingMail;
 	}
 
 	/**
@@ -1097,7 +1098,11 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	{	if (buffBotHome != null) buffBotHome.setBuffBotActive(isActive);
 	}
 
-	public void setBuffBotMail(BuffBotManager buffBotMail)
-	{	this.buffBotMail = buffBotMail;
+	public void setBuffBotManager( BuffBotManager BuffBotManager )
+	{	this.buffBotManager = BuffBotManager;
+	}
+
+	public BuffBotManager getBuffBotManager()
+	{	return buffBotManager;
 	}
 }
