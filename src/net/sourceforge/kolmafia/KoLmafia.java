@@ -266,7 +266,7 @@ public class KoLmafia implements UtilityConstants
 	{
 		AdventureResult.addResultToList( tally, result );
 
-		if ( result.isItem() )
+		if ( result.isItem() && TradeableItemDatabase.contains( result.getName() ) )
 		{
 			characterData.addInventoryItem( result );
 
