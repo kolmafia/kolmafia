@@ -88,9 +88,6 @@ public class KoLMessenger
 	{
 		KoLFrame activeFrame = client.getActiveFrame();
 
-		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving contact list..." );
-		(new ChatRequest( client, null, "/friends" )).run();
-
 		activeFrame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Initializing chat..." );
 		(new ChatRequest( client, null, "/channel" )).run();
 
