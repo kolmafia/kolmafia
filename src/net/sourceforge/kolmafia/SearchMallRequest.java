@@ -132,10 +132,10 @@ public class SearchMallRequest extends KoLRequest
 
 			// The next token contains data which identifies the shop
 
-			StringTokenizer shopDetails = new StringTokenizer( parsedResults.nextToken(), "\"=" );
-			skipTokens( shopDetails, 2 );
-			int shopID = intToken( shopDetails );
-			String shopName = (new StringTokenizer( shopDetails.nextToken(), "<>" )).nextToken();
+			String shopDetails = parsedResults.nextToken();
+			int borderIndex = shopDetails.indexOf( "\">" );
+			int shopID = Integer.parseInt( shopDetails.substring( 35, borderIndex ) );
+			String shopName = shopDetails.substring( borderIndex + 2 );
 
 			// The last token contains the price of the item
 
