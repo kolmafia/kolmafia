@@ -67,6 +67,15 @@ public class KoLAdventure implements Runnable
 	}
 
 	/**
+	 * Returns the adventure ID for this adventure.
+	 * @return	The adventure ID for this adventure
+	 */
+
+	public String getAdventureID()
+	{	return adventureID;
+	}
+
+	/**
 	 * Retrieves the string form of the adventure contained within this
 	 * encapsulation, which is generally the name of the adventure.
 	 *
@@ -84,13 +93,11 @@ public class KoLAdventure implements Runnable
 
 	public void run()
 	{
-		if ( formSource.equals( "hermit.php" ) )
-			(new HermitRequest( client, 1 )).run();
-		else if ( formSource.equals( "sewer.php" ) )
+		if ( formSource.equals( "sewer.php" ) )
 			(new SewerRequest( client, false )).run();
 		else if ( formSource.equals( "luckysewer.php" ) )
 			(new SewerRequest( client, true )).run();
-		else
+		else if ( formSource.equals( "casino.php" ) || formSource.equals( "adventure.php" ) )
 			(new AdventureRequest( client, formSource, adventureID )).run();
 	}
 }
