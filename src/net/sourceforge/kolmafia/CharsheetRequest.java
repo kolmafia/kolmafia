@@ -88,10 +88,8 @@ public class CharsheetRequest extends KoLRequest
 		// version.  This can be done through simple regular
 		// expression matching.
 
-		StringTokenizer parsedContent = new StringTokenizer(
-			replyContent.replaceAll( "<[^>]*>", "\n" ), "\n" );
-
-		logStream.println( "Parsing character data..." );
+		frame.updateDisplay( KoLFrame.NOCHANGE_STATE, "Parsing character data..." );
+		StringTokenizer parsedContent = new StringTokenizer( replyContent, "<>" );
 
 		try
 		{
@@ -99,89 +97,91 @@ public class CharsheetRequest extends KoLRequest
 			// name, but the character's name was known at login.
 			// Therefore, these tokens can be discarded.
 
-			skipTokens( parsedContent, 2 );
+			String token = parsedContent.nextToken();
+			while ( !token.toLowerCase().equals( client.getLoginName().toLowerCase() ) )
+				token = parsedContent.nextToken();
 
-			// The next three tokens contain the character's name and
-			// other things which identify the character.
-
+			skipTokens( parsedContent, 15 );
 			character.setUserID( intToken( parsedContent, 3, 1 ) );
+			skipTokens( parsedContent, 1 );
 			character.setLevel( intToken( parsedContent, 6 ) );
+			skipTokens( parsedContent, 1 );
 			character.setClassName( parsedContent.nextToken().trim() );
 
-			// The next block of tokens contains the character's
-			// hit point and mana point information (with possible
-			// information about whether or not it's the base.
+			// Hit point parsing begins with the first index of
+			// the words indicating that the upcoming token will
+			// show the HP values (Current, Maximum).
 
-			skipTokens( parsedContent, 2 );
-			int currentHP = intToken( parsedContent );
-			skipTokens( parsedContent, 1 );
-			int maximumHP = intToken( parsedContent );
-			int baseMaxHP = retrieveBase( parsedContent, maximumHP );
-
-			character.setHP( currentHP, maximumHP, baseMaxHP );
-
-			// Here it gets tricky - there's a chance that the user
-			// has absolutely no MP, and KoL skips sending MP data
-			// to save bandwidth.  So, to avoid being tricked, you
-			// scan to see if the player had MP before arbitrarily
-			// skipping tokens.
-
-			int currentMP = 0;
-			int maximumMP = 0;
-			int baseMaxMP = 0;
-
-			if ( replyContent.indexOf( "Current Mana Points:" ) != -1 )
-			{
-				currentMP = intToken( parsedContent );
-				skipTokens( parsedContent, 1 );
-				maximumMP = intToken( parsedContent );
-				baseMaxMP = retrieveBase( parsedContent, maximumMP );
-			}
-
-			character.setMP( currentMP, maximumMP, baseMaxMP );
-
-			// Now, we get the character's stats and calculate
-			// the total of all subpoints they've gained so far,
-			// based on the base values.
-
-			int adjustedMuscle = intToken( parsedContent );
-			int totalMuscle = KoLCharacter.calculateSubpoints( retrieveBase( parsedContent, adjustedMuscle ), intToken( parsedContent ) );
-
-			skipTokens( parsedContent, 4 );
-			int adjustedMysticality = intToken( parsedContent );
-			int totalMysticality = KoLCharacter.calculateSubpoints( retrieveBase( parsedContent, adjustedMysticality ), intToken( parsedContent ) );
-
-			skipTokens( parsedContent, 4 );
-			int adjustedMoxie = intToken( parsedContent );
-			int totalMoxie = KoLCharacter.calculateSubpoints( retrieveBase( parsedContent, adjustedMoxie ), intToken( parsedContent ) );
-
-			character.setStats( adjustedMuscle, totalMuscle,
-				adjustedMysticality, totalMysticality, adjustedMoxie, totalMoxie );
-
-			// Now, retrieve how drunk the character is and how
-			// many adventures they have remaining, remembering
-			// to discard any notes in parenthesis.  Meat and
-			// turns played so far are also found.
-
-			character.setInebriety( 0 );
+			while ( !token.startsWith( "Current" ) )
+				token = parsedContent.nextToken();
 			skipTokens( parsedContent, 3 );
-			if ( !parsedContent.nextToken().startsWith( "Adv" ) )
+			int currentHP = intToken( parsedContent );
+
+			while ( !token.startsWith( "Maximum" ) )
+				token = parsedContent.nextToken();
+			skipTokens( parsedContent, 3 );
+			int maximumHP = intToken( parsedContent );
+			character.setHP( currentHP, maximumHP, retrieveBase( parsedContent, maximumHP ) );
+
+			// Mana point parsing is exactly the same as hit point
+			// parsing - so this is just a copy-paste of the code.
+
+			while ( !token.startsWith( "Current" ) )
+				token = parsedContent.nextToken();
+			skipTokens( parsedContent, 3 );
+			int currentMP = intToken( parsedContent );
+
+			while ( !token.startsWith( "Maximum" ) )
+				token = parsedContent.nextToken();
+			skipTokens( parsedContent, 3 );
+			int maximumMP = intToken( parsedContent );
+			character.setMP( currentMP, maximumMP, retrieveBase( parsedContent, maximumMP ) );
+
+			// Next, you begin parsing the different stat points;
+			// this involves hunting for the stat point's name,
+			// skipping the appropriate number of tokens, and then
+			// reading in the numbers.
+
+			int [] mus = findStatPoints( parsedContent, "Mus" );
+			int [] mys = findStatPoints( parsedContent, "Mys" );
+			int [] mox = findStatPoints( parsedContent, "Mox" );
+
+			character.setStats( mus[0], mus[1], mys[0], mys[1], mox[0], mox[1] );
+
+			// Drunkenness may or may not exist (in other words,
+			// if the character is not drunk, nothing will show
+			// up).  Therefore, parse it if it exists; otherwise,
+			// parse until the "Adventures remaining:" token.
+
+			while ( !token.startsWith("Temul") && !token.startsWith("Inebr") && !token.startsWith("Tipsi") &&
+				!token.startsWith("Drunk") && !token.startsWith("Adven") )
+					token = parsedContent.nextToken();
+
+			if ( !token.startsWith( "Adven" ) )
 			{
+				skipTokens( parsedContent, 3 );
 				character.setInebriety( intToken( parsedContent ) );
-				if ( !parsedContent.nextToken().startsWith( "Adv" ) )
-					skipTokens( parsedContent, 1 );
+
+				while ( !token.startsWith( "Adven" ) )
+					token = parsedContent.nextToken();
 			}
 
-			character.setAdventuresLeft( intToken( parsedContent ) );
-			skipTokens( parsedContent, 1 );
-			character.setAvailableMeat( intToken( parsedContent ) );
-			skipTokens( parsedContent, 1 );
-			character.setTotalTurnsUsed( intToken( parsedContent ) );
+			// Now parse the number of adventures remaining,
+			// the monetary value in the character's pocket,
+			// and the number of turns accumulated.
 
-			// The remaining information is not necessarily easy
-			// to parse (since it may or may not exist).  Therefore,
-			// it is actually more useful to use different requests
-			// to retrieve the desired data.
+			skipTokens( parsedContent, 3 );
+			character.setAdventuresLeft( intToken( parsedContent ) );
+
+			while ( !token.startsWith( "Meat" ) )
+				token = parsedContent.nextToken();
+			skipTokens( parsedContent, 3 );
+			character.setAvailableMeat( intToken( parsedContent ) );
+
+			while ( !token.startsWith( "Turns" ) )
+				token = parsedContent.nextToken();
+			skipTokens( parsedContent, 3 );
+			character.setTotalTurnsUsed( intToken( parsedContent ) );
 
 			logStream.println( "Parsing complete." );
 		}
@@ -189,6 +189,33 @@ public class CharsheetRequest extends KoLRequest
 		{
 			logStream.println( e );
 		}
+	}
+
+	/**
+	 * Helper method used to find the statistic points.  This method was
+	 * created because statistic-point finding is exactly the same for
+	 * every statistic point.
+	 *
+	 * @param	st	The <code>StringTokenizer</code> containing the tokens to be parsed
+	 * @param	searchString	The search string indicating the beginning of the statistic
+	 * @return	The 2-element array containing the parsed statistics
+	 */
+
+	private static int [] findStatPoints( StringTokenizer st, String searchString )
+	{
+		int [] stats = new int[2];
+		String token = st.nextToken();
+
+		while ( !token.startsWith( searchString ) )
+			token = st.nextToken();
+		skipTokens( st, 6 );
+		stats[0] = intToken( st );
+		int base = retrieveBase( st, stats[0] );
+		while ( !token.equals( "b" ) )
+			token = st.nextToken();
+		stats[1] = KoLCharacter.calculateSubpoints( base, intToken( st ) );
+
+		return stats;
 	}
 
 	/**
@@ -203,15 +230,10 @@ public class CharsheetRequest extends KoLRequest
 	 * @return	The parsed base value, or the default value if no base value is found
 	 */
 
-	private int retrieveBase( StringTokenizer st, int defaultBase )
+	private static int retrieveBase( StringTokenizer st, int defaultBase )
 	{
-		String s = st.nextToken();
-		if ( s.startsWith( " (base: " ) )
-		{
-			st.nextToken();
-			return Integer.parseInt( s.substring( 8, s.length() - 1 ) );
-		}
-		else
-			return defaultBase;
+		skipTokens( st, 1 );
+		int possibleBase = intToken( st, 8, 0 );
+		return possibleBase == 0 ? defaultBase : possibleBase;
 	}
 }
