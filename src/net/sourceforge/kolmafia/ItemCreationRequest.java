@@ -199,7 +199,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		AdventureResult item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ) );
 		int index = client.getInventory().indexOf( item );
 		int beforeRequestQuantity = (index == -1) ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount();
-		updateDisplay( KoLFrame.NOCHANGE_STATE, "Creating " + item.getName() + " (" + quantityNeeded + ")..." );
+		updateDisplay( NOCHANGE_STATE, "Creating " + item.getName() + " (" + quantityNeeded + ")..." );
 
 		super.run();
 
@@ -241,7 +241,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_PASTA:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
 				{
-					updateDisplay( KoLFrame.ENABLED_STATE, "Chef explosion!" );
+					updateDisplay( ENABLED_STATE, "Chef explosion!" );
 					client.getCharacterData().setChef( false );
 
 					if ( autoRepairBoxServant() )
@@ -255,7 +255,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case MIX_SPECIAL:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
 				{
-					updateDisplay( KoLFrame.ENABLED_STATE, "Bartender explosion!" );
+					updateDisplay( ENABLED_STATE, "Bartender explosion!" );
 					client.getCharacterData().setBartender( false );
 
 					if ( autoRepairBoxServant() )
@@ -307,7 +307,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
 		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) && client.getCloset().contains( servant[0] ) )
 		{
-			updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving " + servantName + " from closet..." );
+			updateDisplay( NOCHANGE_STATE, "Retrieving " + servantName + " from closet..." );
 			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servant )).run();
 			(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, servantName, 1 )).run();
 			return true;
@@ -363,7 +363,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					retrieval[0] = new AdventureResult( ingredient.getName(),
 						Math.min( actualQuantityNeeded, ((AdventureResult)closet.get( index )).getCount() ) );
 
-					updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving " + retrieval[0].toString() + " from closet..." );
+					updateDisplay( NOCHANGE_STATE, "Retrieving " + retrieval[0].toString() + " from closet..." );
 					(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, retrieval )).run();
 					actualQuantityNeeded -= retrieval[0].getCount();
 				}

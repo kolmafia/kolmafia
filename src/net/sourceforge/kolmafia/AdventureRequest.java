@@ -126,7 +126,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "haiku.php" ) )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "Encountered haiku subquest." );
+			updateDisplay( ENABLED_STATE, "Encountered haiku subquest." );
 			client.cancelRequest();
 			return;
 		}
@@ -136,7 +136,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( !isErrorState && responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "Redirected to unknown page: " + redirectLocation );
+			updateDisplay( ENABLED_STATE, "Redirected to unknown page: " + redirectLocation );
 			client.cancelRequest();
 			return;
 		}
@@ -165,7 +165,7 @@ public class AdventureRequest extends KoLRequest
 			// Friendly error messages to come later.
 
 			client.cancelRequest();
-			updateDisplay( KoLFrame.ENABLED_STATE, "Adventures aborted!" );
+			updateDisplay( ENABLED_STATE, "Adventures aborted!" );
 			return;
 		}
 

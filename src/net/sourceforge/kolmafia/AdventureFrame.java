@@ -923,7 +923,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 							(new HeroDonationRequest( client, designatedHero, amountRemaining )).run();
 
 							if ( client.permitsContinue() )
-								updateDisplay( KoLFrame.ENABLED_STATE, "Requests complete!" );
+								updateDisplay( ENABLED_STATE, "Requests complete!" );
 						}
 					}
 				}

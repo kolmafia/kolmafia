@@ -218,12 +218,12 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		else if ( itemID == -1 )
 		{
-			client.updateDisplay( KoLFrame.ENABLED_STATE, "Item not recognized by KoLmafia database." );
+			client.updateDisplay( ENABLED_STATE, "Item not recognized by KoLmafia database." );
 			client.cancelRequest();
 			return;
 		}
 
-		updateDisplay( KoLFrame.DISABLED_STATE, "Purchasing " + itemName.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
+		updateDisplay( DISABLED_STATE, "Purchasing " + itemName.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
 			" (" + df.format( quantity ) + " @ " + df.format( price ) + ")" );
 
 		super.run();
@@ -251,7 +251,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 				if ( replyContent.indexOf( "You can't afford" ) != -1 )
 				{
 					client.cancelRequest();
-					updateDisplay( KoLFrame.ENABLED_STATE, "Not enough funds." );
+					updateDisplay( ENABLED_STATE, "Not enough funds." );
 				}
 				return;
 			}

@@ -103,7 +103,7 @@ public class KoLmafiaGUI extends KoLmafia
 			previousActiveFrame.setVisible( false );
 
 			activeFrame.requestFocus();
-			activeFrame.updateDisplay( KoLFrame.ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+			activeFrame.updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
 			previousActiveFrame.dispose();
 		}
 	}

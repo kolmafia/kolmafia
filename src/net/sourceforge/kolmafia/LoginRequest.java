@@ -91,7 +91,7 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( KoLFrame.DISABLED_STATE, "Sending login..." );
+		updateDisplay( DISABLED_STATE, "Sending login..." );
 		super.run();
 
 		if ( responseCode == 302 && !isErrorState )
@@ -112,7 +112,7 @@ public class LoginRequest extends KoLRequest
 			// This means that the login failed.  Therefore, the user should
 			// re-input their username and password.
 
-			updateDisplay( KoLFrame.ENABLED_STATE, "Login failed." );
+			updateDisplay( ENABLED_STATE, "Login failed." );
 		}
 	}
 }

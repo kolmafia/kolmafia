@@ -305,11 +305,11 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( !scriptRequestor.inLoginState() )
 			{
-				scriptRequestor.updateDisplay( KoLFrame.DISABLED_STATE, "Logging out..." );
+				scriptRequestor.updateDisplay( DISABLED_STATE, "Logging out..." );
 				(new LogoutRequest( scriptRequestor )).run();
 			}
 
-			scriptRequestor.updateDisplay( KoLFrame.DISABLED_STATE, "Exiting KoLmafia..." );
+			scriptRequestor.updateDisplay( DISABLED_STATE, "Exiting KoLmafia..." );
 			System.exit(0);
 		}
 
@@ -330,7 +330,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Print a message indicating that the file failed to
 				// be loaded, since that's what the error probably was.
 
-				scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, "Script file <" + parameters + "> could not be found." );
+				scriptRequestor.updateDisplay( ENABLED_STATE, "Script file <" + parameters + "> could not be found." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -354,7 +354,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Notify the client that the command could not be repeated
 				// the given number of times.
 
-				scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, parameters + " is not a number." );
+				scriptRequestor.updateDisplay( ENABLED_STATE, parameters + " is not a number." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -368,7 +368,7 @@ public class KoLmafiaCLI extends KoLmafia
 			outputStream.println( "Ronald: " + MoonPhaseDatabase.getRonaldMoonPhase() );
 			outputStream.println( "Grimace: " + MoonPhaseDatabase.getGrimaceMoonPhase() );
 			outputStream.println();
-			scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+			scriptRequestor.updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
 			return;
 		}
 
@@ -378,7 +378,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( scriptRequestor.inLoginState() )
 		{
-			scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, "You have not yet logged in." );
+			scriptRequestor.updateDisplay( ENABLED_STATE, "You have not yet logged in." );
 			scriptRequestor.cancelRequest();
 			return;
 		}
@@ -498,7 +498,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, "Unknown command: " + command );
+		scriptRequestor.updateDisplay( ENABLED_STATE, "Unknown command: " + command );
 		if ( scriptRequestor != this )
 			scriptRequestor.cancelRequest();
 	}
@@ -519,7 +519,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
-			scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, parameterList[1] + " is not a number." );
+			scriptRequestor.updateDisplay( ENABLED_STATE, parameterList[1] + " is not a number." );
 			scriptRequestor.cancelRequest();
 			return;
 		}
@@ -544,7 +544,7 @@ public class KoLmafiaCLI extends KoLmafia
 			heroID = HeroDonationRequest.PETE;
 		else
 		{
-			scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, parameters + " is not a statue." );
+			scriptRequestor.updateDisplay( ENABLED_STATE, parameters + " is not a statue." );
 			scriptRequestor.cancelRequest();
 			return;
 		}
@@ -557,9 +557,9 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( Exception e )
 		{
 			if ( amount == -1 )
-				scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, parameterList[1] + " is not a number." );
+				scriptRequestor.updateDisplay( ENABLED_STATE, parameterList[1] + " is not a number." );
 			else
-				scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, parameterList[2] + " is not a number." );
+				scriptRequestor.updateDisplay( ENABLED_STATE, parameterList[2] + " is not a number." );
 
 			scriptRequestor.cancelRequest();
 			return;
@@ -568,17 +568,17 @@ public class KoLmafiaCLI extends KoLmafia
 		int amountRemaining = amount;
 		int eachAmount = amountRemaining / increments;
 
-		scriptRequestor.updateDisplay( KoLFrame.DISABLED_STATE, "Donating " + amount + " to the shrine..." );
+		scriptRequestor.updateDisplay( DISABLED_STATE, "Donating " + amount + " to the shrine..." );
 		scriptRequestor.makeRequest( new HeroDonationRequest( scriptRequestor, heroID, eachAmount ), increments - 1 );
 		amountRemaining -= eachAmount * (increments - 1);
 
 		if ( scriptRequestor.permitsContinue() )
 		{
-			scriptRequestor.updateDisplay( KoLFrame.DISABLED_STATE, "Request " + increments + " in progress..." );
+			scriptRequestor.updateDisplay( DISABLED_STATE, "Request " + increments + " in progress..." );
 			(new HeroDonationRequest( scriptRequestor, heroID, amountRemaining )).run();
 
 			if ( scriptRequestor.permitsContinue() )
-				scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, "Requests complete!" );
+				scriptRequestor.updateDisplay( ENABLED_STATE, "Requests complete!" );
 		}
 	}
 
@@ -591,7 +591,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( parameters.length() == 0 )
 		{
-			scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, "Print what?" );
+			scriptRequestor.updateDisplay( ENABLED_STATE, "Print what?" );
 			scriptRequestor.cancelRequest();
 			return;
 		}
@@ -623,7 +623,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// occur.  However, since there could still be something
 				// bad happening, print an error message.
 
-				scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, "I/O error in opening file <" + parameterList[1] + ">" );
+				scriptRequestor.updateDisplay( ENABLED_STATE, "I/O error in opening file <" + parameterList[1] + ">" );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -634,7 +634,7 @@ public class KoLmafiaCLI extends KoLmafia
 		executePrintCommand( parameterList[0].toLowerCase(), desiredOutputStream );
 
 		if ( parameterList.length != 1 )
-			scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, "Data has been printed to <" + parameterList[1] + ">" );
+			scriptRequestor.updateDisplay( ENABLED_STATE, "Data has been printed to <" + parameterList[1] + ">" );
 	}
 
 	/**
@@ -720,7 +720,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, "Unknown data type: " + desiredData );
+		scriptRequestor.updateDisplay( ENABLED_STATE, "Unknown data type: " + desiredData );
 		if ( scriptRequestor != this )
 			scriptRequestor.cancelRequest();
 	}
@@ -766,7 +766,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( matchingNames.size() == 0 )
 			{
-				scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, "[" + parameters + "] does not match anything in the item database." );
+				scriptRequestor.updateDisplay( ENABLED_STATE, "[" + parameters + "] does not match anything in the item database." );
 				scriptRequestor.cancelRequest();
 				return null;
 			}
@@ -781,7 +781,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Technically, this exception should not be thrown, but if
 				// it is, then print an error message and return.
 
-				scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, itemCountString + " is not a number." );
+				scriptRequestor.updateDisplay( ENABLED_STATE, itemCountString + " is not a number." );
 				scriptRequestor.cancelRequest();
 				return null;
 			}
@@ -833,7 +833,7 @@ public class KoLmafiaCLI extends KoLmafia
 		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
 			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
 
-		scriptRequestor.updateDisplay( KoLFrame.DISABLED_STATE, useTypeAsString + " " + itemCount + " " + itemName + "..." );
+		scriptRequestor.updateDisplay( DISABLED_STATE, useTypeAsString + " " + itemCount + " " + itemName + "..." );
 
 		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
 			(new ConsumeItemRequest( scriptRequestor, consumptionType, itemName, itemCount )).run();
@@ -862,7 +862,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( !AdventureDatabase.contains( adventureName ) )
 			{
-				scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, adventureName + " does not exist in the adventure database." );
+				scriptRequestor.updateDisplay( ENABLED_STATE, adventureName + " does not exist in the adventure database." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -876,14 +876,14 @@ public class KoLmafiaCLI extends KoLmafia
 				// Technically, this exception should not be thrown, but if
 				// it is, then print an error message and return.
 
-				scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, adventureCountString + " is not a number." );
+				scriptRequestor.updateDisplay( ENABLED_STATE, adventureCountString + " is not a number." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
 		}
 
 		KoLAdventure adventure = AdventureDatabase.getAdventure( scriptRequestor, adventureName );
-		scriptRequestor.updateDisplay( KoLFrame.DISABLED_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
+		scriptRequestor.updateDisplay( DISABLED_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
 		scriptRequestor.makeRequest( adventure, adventureCount );
 	}
 
@@ -907,7 +907,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( intendedOutfit == null )
 		{
-			scriptRequestor.updateDisplay( KoLFrame.ENABLED_STATE, "You can't wear that outfit." );
+			scriptRequestor.updateDisplay( ENABLED_STATE, "You can't wear that outfit." );
 			scriptRequestor.cancelRequest();
 			return;
 		}

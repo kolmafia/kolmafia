@@ -74,10 +74,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
-	public static final int NOCHANGE_STATE = 0;
-	public static final int ENABLED_STATE  = 1;
-	public static final int DISABLED_STATE = 2;
-
 	protected boolean isEnabled;
 	protected List existingFrames;
 	protected KoLmafia client;
@@ -322,7 +318,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						(new KoLmafiaCLI( client, filename )).listenForCommands();
 
 					if ( client.permitsContinue() )
-						updateDisplay( KoLFrame.ENABLED_STATE, "Script completed successfully." );
+						updateDisplay( ENABLED_STATE, "Script completed successfully." );
 					else
 						KoLFrame.this.setEnabled( true );
 				}
@@ -331,7 +327,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					// Here, notify the display that the script
 					// file specified could not be loaded
 
-					updateDisplay( KoLFrame.ENABLED_STATE, "Script file <" + filename + "> could not be found." );
+					updateDisplay( ENABLED_STATE, "Script file <" + filename + "> could not be found." );
 					return;
 				}
 			}

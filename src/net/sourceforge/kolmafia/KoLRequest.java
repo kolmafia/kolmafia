@@ -339,7 +339,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( !connectSuccess )
 		{
 			this.isErrorState = true;
-			updateDisplay( KoLFrame.ENABLED_STATE, "Connection timed out." );
+			updateDisplay( ENABLED_STATE, "Connection timed out." );
 			return;
 		}
 
@@ -518,12 +518,12 @@ public class KoLRequest implements Runnable, KoLConstants
 						// If the system is down for maintenance, the user must be
 						// notified that they should try again later.
 
-						updateDisplay( KoLFrame.ENABLED_STATE, "Nightly maintenance." );
+						updateDisplay( ENABLED_STATE, "Nightly maintenance." );
 						isErrorState = true;
 					}
 					else if ( redirectLocation.startsWith( "login.php" ) )
 					{
-						updateDisplay( KoLFrame.ENABLED_STATE, "Session timed out." );
+						updateDisplay( ENABLED_STATE, "Session timed out." );
 						isErrorState = true;
 					}
 					else if ( redirectLocation.equals( "fight.php" ) )
@@ -629,7 +629,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// to the client, but another attempt will be made
 
 			isErrorState = true;
-			updateDisplay( KoLFrame.ENABLED_STATE, "I/O error.  Retrying..." );
+			updateDisplay( ENABLED_STATE, "I/O error.  Retrying..." );
 
 			if ( client != null )
 				logStream.println( e );

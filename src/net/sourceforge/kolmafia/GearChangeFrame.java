@@ -297,7 +297,7 @@ public class GearChangeFrame extends KoLFrame
 				{
 					if ( !isStart )
 					{
-						client.updateDisplay( KoLFrame.NOCHANGE_STATE, " " );
+						client.updateDisplay( NOCHANGE_STATE, " " );
 						refreshEquipPanel();
 					}
 
@@ -346,7 +346,7 @@ public class GearChangeFrame extends KoLFrame
 				{
 					if ( !isStart )
 					{
-						client.updateDisplay( KoLFrame.NOCHANGE_STATE, " " );
+						client.updateDisplay( NOCHANGE_STATE, " " );
 						refreshEquipPanel();
 					}
 

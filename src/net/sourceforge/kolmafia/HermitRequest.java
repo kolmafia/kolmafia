@@ -73,14 +73,14 @@ public class HermitRequest extends KoLRequest
 
 		if ( item == null )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "No hermit trade settings found." );
+			updateDisplay( ENABLED_STATE, "No hermit trade settings found." );
 			client.cancelRequest();
 			return;
 		}
 
 		addFormField( "whichitem", item );
 
-		updateDisplay( KoLFrame.DISABLED_STATE, "Robbing the hermit..." );
+		updateDisplay( DISABLED_STATE, "Robbing the hermit..." );
 		super.run();
 
 		// If an error state occurred, return from this
@@ -98,7 +98,7 @@ public class HermitRequest extends KoLRequest
 			int index = replyContent.indexOf( "You have" );
 			if ( index == -1 )
 			{
-				updateDisplay( KoLFrame.ENABLED_STATE, "Ran out of worthless junk." );
+				updateDisplay( ENABLED_STATE, "Ran out of worthless junk." );
 				client.cancelRequest();
 				return;
 			}
@@ -119,6 +119,6 @@ public class HermitRequest extends KoLRequest
 		}
 
 		processResults( replyContent );
-		updateDisplay( KoLFrame.ENABLED_STATE, "Hermit successfully looted!" );
+		updateDisplay( ENABLED_STATE, "Hermit successfully looted!" );
 	}
 }

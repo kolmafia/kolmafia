@@ -80,7 +80,7 @@ public class UseSkillRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( KoLFrame.DISABLED_STATE, "Casting " + skillName + "..." );
+		updateDisplay( DISABLED_STATE, "Casting " + skillName + "..." );
 		super.run();
 
 		// If it does not notify you that you didn't have enough mana points,
@@ -88,17 +88,17 @@ public class UseSkillRequest extends KoLRequest
 
 		if ( replyContent == null || replyContent.indexOf( "You don't have enough" ) != -1 )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "You don't have enough mana." );
+			updateDisplay( ENABLED_STATE, "You don't have enough mana." );
 			return;
 		}
 		else if ( replyContent.indexOf( "You can only conjure" ) != -1 )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "Summon limited exceeded." );
+			updateDisplay( ENABLED_STATE, "Summon limited exceeded." );
 			return;
 		}
 		else if ( replyContent.indexOf( "Invalid target" ) != -1 )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "Invalid target: " + target );
+			updateDisplay( ENABLED_STATE, "Invalid target: " + target );
 			return;
 		}
 
@@ -108,6 +108,6 @@ public class UseSkillRequest extends KoLRequest
 			"</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );
 
  		client.applyRecentEffects();
-		updateDisplay( KoLFrame.ENABLED_STATE, skillName + " was successfully cast." );
+		updateDisplay( ENABLED_STATE, skillName + " was successfully cast." );
 	}
 }

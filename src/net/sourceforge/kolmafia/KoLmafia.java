@@ -268,7 +268,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public void getBreakfast()
 	{
-		updateDisplay( KoLFrame.NOCHANGE_STATE, "Retrieving breakfast..." );
+		updateDisplay( NOCHANGE_STATE, "Retrieving breakfast..." );
 
 		if ( characterData.hasToaster() )
 			for ( int i = 0; i < 3 && permitContinue; ++i )
@@ -521,7 +521,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		if ( (double) characterData.getCurrentHP() <= autoRecover && recoveryScriptSettings != null && recoveryScriptSettings.length() > 0 )
 		{
 			permitContinue = true;
-			updateDisplay( KoLFrame.DISABLED_STATE, "Executing HP auto-recovery script..." );
+			updateDisplay( DISABLED_STATE, "Executing HP auto-recovery script..." );
 			try
 			{
 				(new KoLmafiaCLI( this, recoveryScriptSettings )).listenForCommands();
@@ -530,12 +530,12 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				{
 					permitContinue = characterData.getCurrentHP() >= autoRecover;
 					if ( !permitContinue )
-						updateDisplay( KoLFrame.ENABLED_STATE, "Insufficient HP to continue" );
+						updateDisplay( ENABLED_STATE, "Insufficient HP to continue" );
 				}
 			}
 			catch ( Exception e )
 			{
-				updateDisplay( KoLFrame.ENABLED_STATE, "Could not find HP auto-recovery script." );
+				updateDisplay( ENABLED_STATE, "Could not find HP auto-recovery script." );
 				permitContinue = false;
 				return;
 			}
@@ -579,7 +579,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
-					updateDisplay( KoLFrame.DISABLED_STATE, "Request " + i + " in progress..." );
+					updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
 					request.run();
 					applyRecentEffects();
 
@@ -617,7 +617,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				}
 
 				if ( permitContinue && iterationsRemaining <= 0 )
-					updateDisplay( KoLFrame.ENABLED_STATE, "Requests completed!" );
+					updateDisplay( ENABLED_STATE, "Requests completed!" );
 			}
 		}
 		catch ( RuntimeException e )
@@ -628,7 +628,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			// user that an error was encountered.
 
 			logStream.println( e );
-			updateDisplay( KoLFrame.ENABLED_STATE, "Unexpected error." );
+			updateDisplay( ENABLED_STATE, "Unexpected error." );
 		}
 
 	}

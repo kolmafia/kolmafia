@@ -88,7 +88,7 @@ public class HeroDonationRequest extends KoLRequest
 	{
 		if ( !this.hasStatueKey )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "You don't have the appropriate key." );
+			updateDisplay( ENABLED_STATE, "You don't have the appropriate key." );
 			client.cancelRequest();
 			return;
 		}
@@ -106,7 +106,7 @@ public class HeroDonationRequest extends KoLRequest
 
 		if ( replyContent.indexOf( "You gain" ) == -1 )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, replyContent.indexOf( "That's not enough" ) == -1 ?
+			updateDisplay( ENABLED_STATE, replyContent.indexOf( "That's not enough" ) == -1 ?
 				"Donation limit exceeded." : "Donation must be larger." );
 			client.cancelRequest();
 			return;

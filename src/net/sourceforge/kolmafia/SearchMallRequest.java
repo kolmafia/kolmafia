@@ -114,7 +114,7 @@ public class SearchMallRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( KoLFrame.DISABLED_STATE, "Searching for items..." );
+		updateDisplay( DISABLED_STATE, "Searching for items..." );
 
 		super.run();
 		results.clear();
@@ -132,7 +132,7 @@ public class SearchMallRequest extends KoLRequest
 		int startIndex = replyContent.indexOf( "<p><center>" );
 		if ( startIndex == -1 )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "No results found." );
+			updateDisplay( ENABLED_STATE, "No results found." );
 			return;
 		}
 
@@ -155,7 +155,7 @@ public class SearchMallRequest extends KoLRequest
 
 		if ( parsedResults.countTokens() == 1 )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "No results found." );
+			updateDisplay( ENABLED_STATE, "No results found." );
 			return;
 		}
 
@@ -236,6 +236,6 @@ public class SearchMallRequest extends KoLRequest
 			java.util.Collections.sort( results );
 
 		results.add( "" );
-		updateDisplay( KoLFrame.ENABLED_STATE, "Search complete." );
+		updateDisplay( ENABLED_STATE, "Search complete." );
 	}
 }

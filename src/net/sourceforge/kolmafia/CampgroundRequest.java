@@ -102,7 +102,7 @@ public class CampgroundRequest extends KoLRequest
 				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 			else
 			{
-				updateDisplay( KoLFrame.ENABLED_STATE, "Could not rest." );
+				updateDisplay( ENABLED_STATE, "Could not rest." );
 				client.cancelRequest();
 			}
 		}
@@ -112,7 +112,7 @@ public class CampgroundRequest extends KoLRequest
 				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
 			else
 			{
-				updateDisplay( KoLFrame.ENABLED_STATE, "Could not relax." );
+				updateDisplay( ENABLED_STATE, "Could not relax." );
 				client.cancelRequest();
 			}
 		}

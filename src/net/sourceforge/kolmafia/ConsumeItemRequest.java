@@ -89,7 +89,7 @@ public class ConsumeItemRequest extends KoLRequest
 		int itemIndex = client.getInventory().indexOf( itemUsed );
 		if ( itemIndex == -1 || ((AdventureResult)client.getInventory().get( itemIndex )).getCount() + itemUsed.getCount() < 0 )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "You do not have enough " + itemUsed.getName() + "." );
+			updateDisplay( ENABLED_STATE, "You do not have enough " + itemUsed.getName() + "." );
 			client.cancelRequest();
 			return;
 		}
@@ -145,7 +145,7 @@ public class ConsumeItemRequest extends KoLRequest
 				if ( replyContent.indexOf( "You've already got a familiar of that type." ) != -1 )
 				{
 					client.cancelRequest();
-					updateDisplay( KoLFrame.ENABLED_STATE, "You already have that familiar." );
+					updateDisplay( ENABLED_STATE, "You already have that familiar." );
 					return;
 				}
 				else
@@ -161,7 +161,7 @@ public class ConsumeItemRequest extends KoLRequest
 			else if ( replyContent.indexOf( "too full" ) != -1 || replyContent.indexOf( "too drunk" ) != -1 )
 			{
 				client.cancelRequest();
-				updateDisplay( KoLFrame.ENABLED_STATE, "Consumption limit reached." );
+				updateDisplay( ENABLED_STATE, "Consumption limit reached." );
 				return;
 			}
 

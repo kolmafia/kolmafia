@@ -48,7 +48,7 @@ public class PasswordHashRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving password hash..." );
+		updateDisplay( DISABLED_STATE, "Retrieving password hash..." );
 		super.run();
 
 		StringTokenizer parsedContent = new StringTokenizer( replyContent, "\'" );
@@ -58,7 +58,7 @@ public class PasswordHashRequest extends KoLRequest
 			client.setPasswordHash( parsedContent.nextToken() );
 		else
 		{
-			client.updateDisplay( KoLFrame.ENABLED_STATE, "I/O Error.  Please retry." );
+			client.updateDisplay( ENABLED_STATE, "I/O Error.  Please retry." );
 			client.cancelRequest();
 		}
 	}

@@ -61,11 +61,11 @@ public class UneffectRequest extends KoLRequest
 	{
 		if ( !client.getInventory().contains( REMEDY ) )
 		{
-			updateDisplay( KoLFrame.ENABLED_STATE, "You don't have any soft green fluffy martians." );
+			updateDisplay( ENABLED_STATE, "You don't have any soft green fluffy martians." );
 			return;
 		}
 
-		client.updateDisplay( KoLFrame.DISABLED_STATE, "Using soft green whatever..." );
+		client.updateDisplay( DISABLED_STATE, "Using soft green whatever..." );
 		super.run();
 
 		// If it notifies you that the effect was removed, delete it
@@ -75,10 +75,10 @@ public class UneffectRequest extends KoLRequest
 		{
 			client.getCharacterData().getEffects().remove( effect );
 			client.addToResultTally( REMEDY );
-			client.updateDisplay( KoLFrame.ENABLED_STATE, "Effect removed." );
+			client.updateDisplay( ENABLED_STATE, "Effect removed." );
 		}
 		else
-			client.updateDisplay( KoLFrame.ENABLED_STATE, "Effect removal failed." );
+			client.updateDisplay( ENABLED_STATE, "Effect removal failed." );
 
 	}
 }

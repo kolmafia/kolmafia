@@ -59,7 +59,7 @@ public class MailboxRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( KoLFrame.DISABLED_STATE, "Retrieving mail from " + boxname + "..." );
+		updateDisplay( DISABLED_STATE, "Retrieving mail from " + boxname + "..." );
 		super.run();
 
 		boolean shouldContinueParsing = true;
@@ -117,6 +117,6 @@ public class MailboxRequest extends KoLRequest
 			}
 		}
 
-		updateDisplay( KoLFrame.ENABLED_STATE, " " );
+		updateDisplay( ENABLED_STATE, " " );
 	}
 }

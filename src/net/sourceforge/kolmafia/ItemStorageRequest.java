@@ -139,26 +139,26 @@ public class ItemStorageRequest extends KoLRequest
 		{
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
-				updateDisplay( KoLFrame.DISABLED_STATE, "Doing closet management..." );
+				updateDisplay( DISABLED_STATE, "Doing closet management..." );
 				closet();
 				break;
 
 			case INVENTORY_TO_STASH:
-				updateDisplay( KoLFrame.DISABLED_STATE, "Moving items to clan stash..." );
+				updateDisplay( DISABLED_STATE, "Moving items to clan stash..." );
 				stash();
 				break;
 
 			case MEAT_TO_CLOSET:
 			case MEAT_TO_INVENTORY:
-				updateDisplay( KoLFrame.DISABLED_STATE, "Executing transaction..." );
+				updateDisplay( DISABLED_STATE, "Executing transaction..." );
 				meat();
-				updateDisplay( KoLFrame.ENABLED_STATE, df.format( client.getCharacterData().getClosetMeat() ) );
+				updateDisplay( ENABLED_STATE, df.format( client.getCharacterData().getClosetMeat() ) );
 				break;
 
 			case MEAT_TO_STASH:
-				updateDisplay( KoLFrame.DISABLED_STATE, "Attempting clan donation..." );
+				updateDisplay( DISABLED_STATE, "Attempting clan donation..." );
 				super.run();
-				updateDisplay( KoLFrame.ENABLED_STATE, "Clan donation attempt complete." );
+				updateDisplay( ENABLED_STATE, "Clan donation attempt complete." );
 				break;
 		}
 	}

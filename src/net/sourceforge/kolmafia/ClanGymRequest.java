@@ -71,7 +71,7 @@ public class ClanGymRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( KoLFrame.DISABLED_STATE, "Beginning workout..." );
+		updateDisplay( DISABLED_STATE, "Beginning workout..." );
 		super.run();
 
 		// All the gains will be found before the first </center> tag;
@@ -79,6 +79,6 @@ public class ClanGymRequest extends KoLRequest
 
 		client.addToResultTally( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
 		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
-		updateDisplay( KoLFrame.ENABLED_STATE, "Workout completed." );
+		updateDisplay( ENABLED_STATE, "Workout completed." );
 	}
 }

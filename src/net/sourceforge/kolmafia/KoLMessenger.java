@@ -51,7 +51,7 @@ import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class KoLMessenger
+public class KoLMessenger implements KoLConstants
 {
 	private static final String MESSENGER_STYLE = "0";
 	private static final String TRIVIA_STYLE = "1";
@@ -146,10 +146,10 @@ public class KoLMessenger
 
 	public void initialize()
 	{
-		client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Initializing chat..." );
+		client.updateDisplay( NOCHANGE_STATE, "Initializing chat..." );
 		(new ChatRequest( client, null, "/channel" )).run();
 
-		client.updateDisplay( KoLFrame.NOCHANGE_STATE, "Starting chat..." );
+		client.updateDisplay( NOCHANGE_STATE, "Starting chat..." );
 		(new ChatRequest( client )).run();
 	}
 
