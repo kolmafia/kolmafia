@@ -125,6 +125,7 @@ public class AdventureFrame extends KoLFrame
 	private ItemManageFrame isheet;
 	private CharsheetFrame csheet;
 	private List greenMessageFrames;
+	private JMenuItem csheetMenuItem;
 
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
@@ -206,6 +207,7 @@ public class AdventureFrame extends KoLFrame
 		if ( isheet != null && isheet.isShowing() )
 			isheet.setEnabled( isEnabled );
 
+		csheetMenuItem.setEnabled( isEnabled );
 		adventureSelect.setEnabled( isEnabled );
 		mallSearch.setEnabled( isEnabled );
 		clanBuff.setEnabled( isEnabled );
@@ -230,10 +232,10 @@ public class AdventureFrame extends KoLFrame
 		viewMenu.setMnemonic( KeyEvent.VK_V );
 		menuBar.add( viewMenu );
 
-		JMenuItem csheetItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
-		csheetItem.addActionListener( new ViewCharacterSheetListener() );
+		csheetMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
+		csheetMenuItem.addActionListener( new ViewCharacterSheetListener() );
 
-		viewMenu.add( csheetItem );
+		viewMenu.add( csheetMenuItem );
 
 		JMenuItem imanageItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
 		imanageItem.addActionListener( new ViewItemManagerListener() );
