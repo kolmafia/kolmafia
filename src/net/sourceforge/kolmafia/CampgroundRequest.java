@@ -101,7 +101,7 @@ public class CampgroundRequest extends KoLRequest
 			}
 			else
 			{
-				client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Could not rest." );
+				updateDisplay( KoLFrame.ENABLED_STATE, "Could not rest." );
 				client.updateAdventure( false, false );
 			}
 		}
@@ -114,7 +114,7 @@ public class CampgroundRequest extends KoLRequest
 			}
 			else
 			{
-				client.getActiveFrame().updateDisplay( KoLFrame.ENABLED_STATE, "Could not relax." );
+				updateDisplay( KoLFrame.ENABLED_STATE, "Could not relax." );
 				client.updateAdventure( false, false );
 			}
 		}
