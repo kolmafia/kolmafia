@@ -37,9 +37,8 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-
-import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.DecimalFormat;
 
 public class AdventureResult implements Comparable
 {
@@ -87,7 +86,7 @@ public class AdventureResult implements Comparable
 		this.resultPriority = resultName.equals(MEAT) ? 0 : resultName.equals(SUBSTATS) ? 1 : resultName.equals(DIVIDER) ? 2 : 3;
 	}
 
-	public static AdventureResult parseResult( String s )
+	public static AdventureResult parseResult( String s ) throws NumberFormatException, ParseException
 	{
 		if ( s.startsWith("You gain") || s.startsWith("You lose") )
 		{
@@ -97,63 +96,36 @@ public class AdventureResult implements Comparable
 			StringTokenizer parsedGain = new StringTokenizer( s, " ." );
 			parsedGain.nextToken();
 
-			try
+			int modifier = Integer.parseInt(
+				(parsedGain.nextToken().equals("gain") ? "" : "-") + parsedGain.nextToken() );
+			String statname = parsedGain.nextToken();
+
+			// Stats actually fall into one of four categories - simply pick the
+			// correct one and return the result.
+
+			if ( statname.equals( MEAT ) )
+				return new AdventureResult( MEAT, modifier );
+
+			else
 			{
-				int modifier = Integer.parseInt(
-					(parsedGain.nextToken().equals("gain") ? "" : "-") + parsedGain.nextToken() );
-				String statname = parsedGain.nextToken();
+				// In the current implementations, all stats gains are located
+				// inside of a generic adventure which indicates how much of
+				// each substat is gained.
 
-				// Stats actually fall into one of four categories - simply pick the
-				// correct one and return the result.
-
-				if ( statname.equals( MEAT ) )
-					return new AdventureResult( MEAT, modifier );
-
-				else
+				int [] gained =
 				{
-					// In the current implementations, all stats gains are located
-					// inside of a generic adventure which indicates how much of
-					// each substat is gained.
+					MUS_SUBSTAT.contains( statname ) ? modifier : 0,
+					MYS_SUBSTAT.contains( statname ) ? modifier : 0,
+					MOX_SUBSTAT.contains( statname ) ? modifier : 0
+				};
 
-					int [] gained =
-					{
-						MUS_SUBSTAT.contains( statname ) ? modifier : 0,
-						MYS_SUBSTAT.contains( statname ) ? modifier : 0,
-						MOX_SUBSTAT.contains( statname ) ? modifier : 0
-					};
-
-					return new AdventureResult( SUBSTATS, gained );
-				}
+				return new AdventureResult( SUBSTATS, gained );
 			}
-			catch ( NumberFormatException e )
-			{
-				// If any integer parsing was ruined as a result of the
-				// initial parse, let it fall through - it was probably
-				// a strange result, but you might as well return whatever
-				// adventure result object would have been returned, had
-				// it been an item.
-			}
-
-			// If for some bizarre reason it's gotten this far, it was probably
-			// some brand-new item whose name started with "You gain" or even
-			// "You lose," has a number as its third token, and lots of other
-			// bizarre things - let it fall through.
 		}
 
-		try
-		{
-			StringTokenizer parsedItem = new StringTokenizer( s, "()" );
-			return new AdventureResult( parsedItem.nextToken().trim(),
-				parsedItem.hasMoreTokens() ? df.parse(parsedItem.nextToken()).intValue() : 1 );
-		}
-		catch ( ParseException e )
-		{
-			// If a parse still manages to fail (because a non-numeric number
-			// is enclosed in parenthesis in the item's name), pretend the
-			// whole thing (including parenthesis) is the item's name.
-
-			return new AdventureResult( s, 1 );
-		}
+		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
+		return new AdventureResult( parsedItem.nextToken().trim(),
+			parsedItem.hasMoreTokens() ? df.parse(parsedItem.nextToken()).intValue() : 1 );
 	}
 
 	public void clear()

@@ -154,13 +154,18 @@ public class KoLmafia implements UtilityConstants
 	public void parseResult( String result )
 	{
 		// Because of the simplified parsing, there's a chance that
-		// the "item" acquired was a stat point (which should not
-		// be added at all).
+		// the "gain" acquired wasn't a subpoint (in other words, it
+		// includes the word "a" or "some"), which causes a NFE or
+		// possibly a ParseException to be thrown.  Catch them and
+		// do nothing (eventhough it's technically bad style).
 
-		if ( result.endsWith( "point!" ) )
-			return;
-
-		addToResultTally( AdventureResult.parseResult( result ) );
+		try
+		{
+			addToResultTally( AdventureResult.parseResult( result ) );
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	public void addToResultTally( AdventureResult result )
