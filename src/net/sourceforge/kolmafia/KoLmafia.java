@@ -559,6 +559,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		try
 		{
 			this.permitContinue = true;
+			boolean pulledOver = false;
 			int iterationsRemaining = iterations;
 
 			if ( request.toString().equals( "The Hermitage" ) )
@@ -568,7 +569,10 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			else
 			{
 				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campground" ) == -1 && characterData.getInebriety() > 19 )
+				{
 					permitContinue = confirmDrunkenRequest();
+					pulledOver = true;
+				}
 
 				if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
 					autoRecoverHP();
@@ -589,8 +593,11 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 						--iterationsRemaining;
 						autoRecoverHP();
 
-						if ( request instanceof KoLAdventure && request.toString().indexOf( "Tavern" ) != -1 && characterData.getInebriety() > 19 )
+						if ( characterData.getInebriety() > 19 && !pulledOver )
+						{
 							permitContinue = confirmDrunkenRequest();
+							pulledOver = true;
+						}
 					}
 					else if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
 					{
