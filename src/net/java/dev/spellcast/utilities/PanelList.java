@@ -110,6 +110,22 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 	}
 
 	/**
+	 * Overridden so that individual components may be enabled and disabled.
+	 * This is different from the behavior of a normal JPanel, because the
+	 * children of a <code>PanelList</code> should be enabled and disabled
+	 * with the parent list.
+	 *
+	 * @param	isEnabled	<code>true</code> if the list should be enabled
+	 */
+
+	public void setEnabled( boolean isEnabled )
+	{
+		int componentCount = getComponentCount();
+		for ( int i = 0; i < componentCount; ++i )
+			getComponent( i ).setEnabled( isEnabled );
+	}
+
+	/**
 	 * Returns a <code>PanelListCell</code> constructed from the given Object, to be
 	 * positioned at the given index in the <code>PanelList</code>.
 	 *
@@ -135,7 +151,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 		int displayedRows = getComponentCount() > visibleRows ? getComponentCount() : visibleRows;
 		int appropriateHeight = displayedRows * getScrollableUnitIncrement( null, SwingConstants.VERTICAL, 1 );
 		JComponentUtilities.setComponentSize( this, cellWidth, appropriateHeight );
-		invalidate();  validate();
+		invalidate();  validate();  repaint();
 	}
 
 	/**
@@ -247,6 +263,8 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 				return;
 			for ( int i = index0; i <= index1; ++i )
 				associatedPanelList.add( constructPanelListCell( source.get(i), i ), i );
+
+			associatedPanelList.validatePanelList();
 		}
 
 		/**
@@ -275,8 +293,11 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 		{
 			if ( index1 >= getComponentCount() )
 				return;
+
 			for ( int i = index1; i >= index0; --i )
 				associatedPanelList.remove(i);
+
+			associatedPanelList.validatePanelList();
 		}
 
 		/**
@@ -308,6 +329,8 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 				return;
 			for ( int i = index1; i >= index0; --i )
 				((PanelListCell)associatedPanelList.getComponent(i)).updateDisplay( associatedPanelList, source.get(i), i );
+
+			associatedPanelList.validatePanelList();
 		}
 
 		/**
