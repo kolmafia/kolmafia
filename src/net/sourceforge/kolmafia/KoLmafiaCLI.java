@@ -492,7 +492,8 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		updateDisplay( KoLFrame.ENABLED_STATE, "Unknown command: " + command );
-		scriptRequestor.cancelRequest();
+		if ( scriptRequestor != this )
+			scriptRequestor.cancelRequest();
 	}
 
 	/**
@@ -713,7 +714,8 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		updateDisplay( KoLFrame.ENABLED_STATE, "Unknown data type: " + desiredData );
-		scriptRequestor.cancelRequest();
+		if ( scriptRequestor != this )
+			scriptRequestor.cancelRequest();
 	}
 
 	private static String getStatString( int base, int adjusted, int tnp )
