@@ -152,9 +152,10 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public synchronized void clear()
 	{
-		int originalSize = size();
+		int lastIndex = size() - 1;
 		elements.clear();
-		fireIntervalRemoved( this, 0, originalSize );
+		if ( lastIndex > 0 )
+			fireIntervalRemoved( this, 0, lastIndex );
 	}
 
 	/**
