@@ -133,10 +133,6 @@ public class LoginFrame extends KoLFrame
 		menu.add( menuItem );
 	}
 
-	public void updateDisplay( int displayState, String message )
-	{	(new DisplayLoginStatus( displayState, message )).run();
-	}
-
 	private class LoginPanel extends KoLPanel
 	{
 		private JPanel actionStatusPanel;
@@ -222,54 +218,6 @@ public class LoginFrame extends KoLFrame
 
 		public void requestFocus()
 		{	loginnameField.requestFocus();
-		}
-	}
-
-	/**
-	 * A <code>Runnable</code> object which can be placed inside of
-	 * a call to <code>javax.swing.SwingUtilities.invokeLater()</code>
-	 * to ensure that the GUI is only modified inside of the AWT thread.
-	 */
-
-	private class DisplayLoginStatus implements Runnable
-	{
-		private int displayState;
-		private String status;
-
-		public DisplayLoginStatus( int displayState, String status )
-		{
-			this.displayState = displayState;
-			this.status = status;
-		}
-
-		public void run()
-		{
-			if ( !SwingUtilities.isEventDispatchThread() )
-			{
-				SwingUtilities.invokeLater( this );
-				return;
-			}
-
-			contentPanel.setStatusMessage( status );
-			showAppropriateCard();
-		}
-
-		private void showAppropriateCard()
-		{
-			switch ( displayState )
-			{
-				case PRE_LOGIN_STATE:
-					contentPanel.setEnabled( true );
-					contentPanel.clear();
-					break;
-
-				case SENDING_LOGIN_STATE:
-					contentPanel.setEnabled( false );
-					break;
-
-				case LOGGED_IN_STATE:
-					break;
-			}
 		}
 	}
 }

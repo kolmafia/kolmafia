@@ -102,14 +102,12 @@ public class AdventureFrame extends KoLFrame
 		getContentPane().setLayout( cards );
 
 		contentPanel = new AdventurePanel( list );
+
+
 		getContentPane().add( contentPanel, "" );
 
 		updateDisplay( LOGGED_IN_STATE, " " );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-	}
-
-	public void updateDisplay( int displayState, String message )
-	{	(new DisplayAdventureStatus( displayState, message )).run();
 	}
 
 	protected class AdventurePanel extends KoLPanel
@@ -209,45 +207,6 @@ public class AdventureFrame extends KoLFrame
 
 		public void requestFocus()
 		{	locationField.requestFocus();
-		}
-	}
-
-	private class DisplayAdventureStatus implements Runnable
-	{
-		private int displayState;
-		private String status;
-
-		public DisplayAdventureStatus( int displayState, String status )
-		{
-			this.displayState = displayState;
-			this.status = status;
-		}
-
-		public void run()
-		{
-			if ( !SwingUtilities.isEventDispatchThread() )
-			{
-				SwingUtilities.invokeLater( this );
-				return;
-			}
-
-			contentPanel.setStatusMessage( status );
-			showAppropriateCard();
-		}
-
-		private void showAppropriateCard()
-		{
-			switch ( displayState )
-			{
-				case LOGGED_IN_STATE:
-					contentPanel.setEnabled( true );
-					contentPanel.clear();
-					break;
-
-				case ADVENTURING_STATE:
-					contentPanel.setEnabled( false );
-					break;
-			}
 		}
 	}
 }

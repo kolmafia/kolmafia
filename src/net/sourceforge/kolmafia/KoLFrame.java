@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
 /**
@@ -57,7 +59,10 @@ public abstract class KoLFrame extends javax.swing.JFrame
 		this.client = client;
 	}
 
-	public abstract void updateDisplay( int displayState, String message );
+	public void updateDisplay( int displayState, String message )
+	{	(new DisplayStatus( displayState, message )).run();
+	}
+
 
 	protected abstract class KoLPanel extends ActionVerifyPanel
 	{
@@ -68,5 +73,50 @@ public abstract class KoLFrame extends javax.swing.JFrame
 
 		public abstract void clear();
 		public abstract void setStatusMessage( String s );
+	}
+
+	/**
+	 * A <code>Runnable</code> object which can be placed inside of
+	 * a call to <code>javax.swing.SwingUtilities.invokeLater()</code>
+	 * to ensure that the GUI is only modified inside of the AWT thread.
+	 */
+
+	protected class DisplayStatus implements Runnable
+	{
+		private int displayState;
+		private String status;
+
+		public DisplayStatus( int displayState, String status )
+		{
+			this.displayState = displayState;
+			this.status = status;
+		}
+
+		public void run()
+		{
+			if ( !SwingUtilities.isEventDispatchThread() )
+			{
+				SwingUtilities.invokeLater( this );
+				return;
+			}
+
+			contentPanel.setStatusMessage( status );
+			showAppropriateCard();
+		}
+
+		private void showAppropriateCard()
+		{
+			switch ( displayState )
+			{
+				case LOGGED_IN_STATE:
+					contentPanel.setEnabled( true );
+					contentPanel.clear();
+					break;
+
+				case ADVENTURING_STATE:
+					contentPanel.setEnabled( false );
+					break;
+			}
+		}
 	}
 }
