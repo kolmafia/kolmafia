@@ -119,9 +119,6 @@ public class ItemManageFrame extends KoLFrame
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-		for ( int i = 0; i < tabs.getTabCount(); ++i )
-			tabs.setEnabledAt( i, isEnabled );
-
 		using.setEnabled( isEnabled );
 		selling.setEnabled( isEnabled );
 		storing.setEnabled( isEnabled );
