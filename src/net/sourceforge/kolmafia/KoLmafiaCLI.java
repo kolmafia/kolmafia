@@ -471,9 +471,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "familiar" ) )
 		{
-			if ( parameters.startsWith( "list" ) || parameters.length() == 0 )
+			if ( parameters.startsWith( "list" ) )
 			{
-				executePrintCommand( "familiars" );
+				executePrintCommand( "familiars " + parameters.substring(4).trim() );
 				return;
 			}
 
@@ -488,7 +488,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( parameters.startsWith( "list" ) || parameters.length() == 0 )
 			{
-				executePrintCommand( "outfits" );
+				executePrintCommand( "outfits " + parameters.substring(4).trim() );
 				return;
 			}
 
