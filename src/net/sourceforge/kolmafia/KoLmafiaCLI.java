@@ -119,12 +119,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void parseResult( String result )
 	{
-		super.parseResult( result );
-
-		if ( result.startsWith( "You" ) )
-			outputStream.println( result );
+		if ( scriptRequestor == this )
+		{
+			super.parseResult( result );
+			if ( result.startsWith( "You" ) )
+				outputStream.println( result );
+			else
+				outputStream.println( "You acquire: " + result );
+		}
 		else
-			outputStream.println( "You acquire: " + result );
+			scriptRequestor.parseResult( result );
 	}
 
 	/**
@@ -315,7 +319,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			try
 			{
-				(new KoLmafiaCLI( this, parameters )).listenForCommands();
+				(new KoLmafiaCLI( scriptRequestor, parameters )).listenForCommands();
 				return;
 			}
 			catch ( IOException e )
@@ -442,7 +446,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( parameters.startsWith( "list" ) || parameters.length() == 0 )
 			{
-				executePrintCommand( "familiars " + parameters.substring( 4 ).trim() );
+				executePrintCommand( "familiars" );
 				return;
 			}
 
@@ -457,7 +461,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( parameters.startsWith( "list" ) || parameters.length() == 0 )
 			{
-				executePrintCommand( "outfits " + parameters.substring( 4 ).trim() );
+				executePrintCommand( "outfits" );
 				return;
 			}
 
@@ -507,7 +511,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		try
 		{
-			makeRequest( new CampgroundRequest( scriptRequestor, parameterList[0] ),
+			scriptRequestor.makeRequest( new CampgroundRequest( scriptRequestor, parameterList[0] ),
 				parameterList.length == 1 ? 1 : df.parse( parameterList[1] ).intValue() );
 		}
 		catch ( Exception e )
@@ -562,7 +566,7 @@ public class KoLmafiaCLI extends KoLmafia
 		int eachAmount = amountRemaining / increments;
 
 		updateDisplay( KoLFrame.DISABLED_STATE, "Donating " + amount + " to the shrine..." );
-		makeRequest( new HeroDonationRequest( scriptRequestor, heroID, eachAmount ), increments - 1 );
+		scriptRequestor.makeRequest( new HeroDonationRequest( scriptRequestor, heroID, eachAmount ), increments - 1 );
 		amountRemaining -= eachAmount * (increments - 1);
 
 		if ( scriptRequestor.permitsContinue() )
@@ -831,7 +835,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
 			(new ConsumeItemRequest( scriptRequestor, consumptionType, itemName, itemCount )).run();
 		else
-			makeRequest( new ConsumeItemRequest( scriptRequestor, consumptionType, itemName, 1 ), itemCount );
+			scriptRequestor.makeRequest( new ConsumeItemRequest( scriptRequestor, consumptionType, itemName, 1 ), itemCount );
 	}
 
 	/**
@@ -877,7 +881,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		KoLAdventure adventure = AdventureDatabase.getAdventure( scriptRequestor, adventureName );
 		updateDisplay( KoLFrame.DISABLED_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
-		makeRequest( adventure, adventureCount );
+		scriptRequestor.makeRequest( adventure, adventureCount );
 	}
 
 	/**
@@ -957,11 +961,11 @@ public class KoLmafiaCLI extends KoLmafia
 				itemNumber = hermitItemNumbers[i];
 
 		if ( itemNumber != -1 )
-			settings.setProperty( "hermitTrade", "" + itemNumber );
+			scriptRequestor.settings.setProperty( "hermitTrade", "" + itemNumber );
 		else
-			settings.remove( "hermitTrade" );
+			scriptRequestor.settings.remove( "hermitTrade" );
 
-		settings.saveSettings();
+		scriptRequestor.settings.saveSettings();
 		(new HermitRequest( scriptRequestor, tradeCount )).run();
 	}
 
