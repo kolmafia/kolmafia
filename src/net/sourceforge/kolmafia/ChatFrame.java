@@ -72,6 +72,7 @@ import java.util.Calendar;
 
 public class ChatFrame extends KoLFrame
 {
+	private JMenuBar menuBar;
 	private JTextField entryField;
 	private JEditorPane chatDisplay;
 	private KoLMessenger messenger;
@@ -140,7 +141,7 @@ public class ChatFrame extends KoLFrame
 	 */
 
 	public boolean hasFocus()
-	{	return super.hasFocus() || entryField.hasFocus() || chatDisplay.hasFocus();
+	{	return super.hasFocus() || entryField.hasFocus() || chatDisplay.hasFocus() || menuBar.isSelected();
 	}
 
 	/**
@@ -151,7 +152,7 @@ public class ChatFrame extends KoLFrame
 
 	private void addMenuBar()
 	{
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
 		JMenu fileMenu = new JMenu("File");
