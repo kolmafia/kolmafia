@@ -34,25 +34,55 @@
 
 package net.sourceforge.kolmafia;
 
+/**
+ * An extension of <code>KoLRequest</code> designed to handle all the
+ * item creation requests.  At the current time, it is only made to
+ * handle items which use meat paste and are tradeable in-game.
+ */
+
 public class ItemCreationRequest extends KoLRequest
 {
-	public static final int MEAT_PASTE = 1;
-	public static final int MEAT_STACK = 2;
-	public static final int DENSE_STACK = 3;
+	public static final int MEAT_PASTE = 25;
+	public static final int MEAT_STACK = 88;
+	public static final int DENSE_STACK = 258;
 
-	private int item, quantity;
+	public static final int COMBINE = 1;
+	public static final int COOK = 2;
+	public static final int MIX = 3;
+	public static final int SMITH = 4;
 
-	public ItemCreationRequest( KoLmafia client, int item, int quantity )
+	private int itemID, quantity, creationType;
+
+	/**
+	 * Constructs a new <code>ItemCreationRequest</code> where you create
+	 * the given number of items.
+	 *
+	 * @param	client	The client to be notified of the item creation
+	 * @param	itemID	The identifier for the item to be created
+	 */
+
+	public ItemCreationRequest( KoLmafia client, int itemID, int creationType, int quantity )
 	{
 		super( client, "" );
-		this.item = item;
+		this.itemID = itemID;
+		this.creationType = creationType;
 		this.quantity = quantity;
 	}
 
+	/**
+	 * Runs the item creation request.  Note that if another item needs
+	 * to be created for the request to succeed, this method will fail.
+	 */
+
 	public void run()
 	{
-		switch ( item )
+		switch ( itemID )
 		{
+
+			// Requests for meat paste are handled separately; the
+			// full request is broken into increments of 1000, 100
+			// and 10 and then submitted to the server.
+
 			case MEAT_PASTE:
 			{
 				while ( quantity > 1000 )
@@ -75,19 +105,57 @@ public class ItemCreationRequest extends KoLRequest
 				break;
 			}
 
+			// Requests for meat stacks are handled separately; the
+			// full request must be done one at a time (there is no
+			// way to make more than 1 meat stack at a time in KoL).
+
 			case MEAT_STACK:
 			case DENSE_STACK:
 			{
-				boolean isDense = (item == DENSE_STACK);
+				boolean isDense = (itemID == DENSE_STACK);
 				for ( int i = 0; i < quantity; ++i )
 					(new MeatStackRequest( client, isDense )).run();
 				break;
 			}
 
+			// In order to make indentation cleaner, an internal class
+			// a secondary method is called to handle standard item
+			// creation requests.  Note that smithing is not currently
+			// handled because I don't have a SC and have no idea
+			// which page is requested for smithing.
+
 			default:
+
+				switch ( creationType )
+				{
+					case COMBINE:
+						combineItems();
+						break;
+
+					case COOK:
+					case MIX:
+					case SMITH:
+						break;
+				}
+
 				break;
 		}
 	}
+
+	/**
+	 * Helper routine which actually does the item combination.
+	 */
+
+	private void combineItems()
+	{
+	}
+
+	/**
+	 * An internal class made to create meat paste.  This class
+	 * takes only values of 10, 100, or 1000; it is the job of
+	 * other classes to break up the request to create as much
+	 * meat paste as is desired.
+	 */
 
 	private class MeatPasteRequest extends KoLRequest
 	{
@@ -95,10 +163,17 @@ public class ItemCreationRequest extends KoLRequest
 		{
 			super( client, "inventory.php" );
 			addFormField( "which", "3" );
-
 			addFormField( "action", ((quantity == 1) ? "meat" : "" + quantity) + "paste" );
 		}
 	}
+
+	/**
+	 * An internal class made to create meat stacks and dense
+	 * meat stacks.  Note that this only creates one meat stack
+	 * of the type desired; it is the job of other classes to
+	 * break up the request to create as many meat stacks as is
+	 * actually desired.
+	 */
 
 	private class MeatStackRequest extends KoLRequest
 	{
@@ -106,7 +181,6 @@ public class ItemCreationRequest extends KoLRequest
 		{
 			super( client, "inventory.php" );
 			addFormField( "which", "3" );
-
 			addFormField( "action", isDense ? "densestack" : "meatstack" );
 		}
 	}
