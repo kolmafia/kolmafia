@@ -83,12 +83,9 @@ public class ItemManageFrame extends KoLFrame
 		setResizable( false );
 
 		JTabbedPane inventoryTabs = new JTabbedPane();
-		inventoryTabs.addTab( "Eat/Drink", new JPanel() );
-		inventoryTabs.addTab( "Equipment", new JPanel() );
-		inventoryTabs.addTab( "Use Items", new JPanel() );
-		inventoryTabs.addTab( "Sell Items", new SellItemPanel() );
-		inventoryTabs.addTab( "Use Closet", new ClosetPanel() );
-		inventoryTabs.addTab( "Create Items", new CreationPanel() );
+		inventoryTabs.addTab( "Sell", new SellItemPanel() );
+		inventoryTabs.addTab( "Create", new CreationPanel() );
+		inventoryTabs.addTab( "Put Away", new ClosetPanel() );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( inventoryTabs, "" );
@@ -105,14 +102,14 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public SellItemPanel()
 		{
-			super( "autosell", "place in mall" );
+			super( "autosell", "automall" );
 			setContent( null );
 
-			JList availableList = new JList( client.getInventory() );
+			JList availableList = new JList( client == null ? new LockableListModel() : client.getInventory() );
 			availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 
-			add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
 		}
 
@@ -152,15 +149,17 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public OutsideClosetPanel()
 			{
-				super( "put", "refresh" );
+				super( "closet", "stash" );
 				setContent( null );
 
-				JList availableList = new JList( client.getInventory() );
+				JList availableList = new JList( client == null ? new LockableListModel() : client.getInventory() );
 				availableList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				availableList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				availableList.setVisibleRowCount( 7 );
 
-				add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				add( JComponentUtilities.createLabel( "Inside Inventory", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+				add( new JScrollPane( availableList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
 			}
 
@@ -181,15 +180,17 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public InsideClosetPanel()
 			{
-				super( "take", "refresh" );
+				super( "take one", "take all" );
 				setContent( null );
 
-				JList closetList = new JList( client.getCloset() );
+				JList closetList = new JList( client == null ? new LockableListModel() : client.getCloset() );
 				closetList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				closetList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 				closetList.setVisibleRowCount( 7 );
 
-				add( new JScrollPane( closetList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				add( JComponentUtilities.createLabel( "Inside Closet", JLabel.CENTER,
+					Color.black, Color.white ), BorderLayout.NORTH );
+				add( new JScrollPane( closetList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.WEST );
 			}
 
