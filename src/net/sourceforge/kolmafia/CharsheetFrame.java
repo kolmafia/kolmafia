@@ -162,6 +162,7 @@ public class CharsheetFrame extends KoLFrame
 
 		removeEffectButton = new JButton( "uneffect" );
 		JComponentUtilities.setComponentSize( removeEffectButton, 84, 24 );
+		removeEffectButton.addActionListener( new RemoveEffectListener() );
 		removeEffectButton.setEnabled( hasRemedy );
 		buttonPanel.add( removeEffectButton, BorderLayout.SOUTH );
 
