@@ -77,7 +77,15 @@ public class KoLMailManager
 	 */
 
 	public boolean addMessage( String boxname, String message )
-	{	return ((LockableListModel)mailboxes.get( boxname )).add( new KoLMailMessage( message ) );
+	{
+		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
+		KoLMailMessage toadd = new KoLMailMessage( message );
+
+		if ( mailbox.contains( toadd ) )
+			return false;
+
+		mailbox.add( toadd );
+		return true;
 	}
 
 	public class KoLMailMessage
@@ -110,7 +118,8 @@ public class KoLMailManager
 				// This attempts to parse the date from
 				// the given string; note it may throw
 				// an exception (but probably not)
-				this.messageDate = sdf.parse( messageParser.nextToken() );
+
+				this.messageDate = sdf.parse( messageParser.nextToken().trim() );
 			}
 			catch ( Exception e )
 			{
@@ -121,7 +130,17 @@ public class KoLMailManager
 		}
 
 		public String toString()
-		{	return "From " + senderName + " @ " + messageDate.toString();
+		{	return "From " + senderName + " @ " + sdf.format( messageDate );
+		}
+
+		public boolean equals( Object o )
+		{
+			return o == null ? false :
+				o instanceof KoLMailMessage ? equals( (KoLMailMessage)o ) : false;
+		}
+
+		public boolean equals( KoLMailMessage kmm )
+		{	return messageID.equals( kmm.messageID );
 		}
 
 		public String getMessageHTML()

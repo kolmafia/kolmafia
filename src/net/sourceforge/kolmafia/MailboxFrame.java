@@ -175,7 +175,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public MailSelectList( String mailboxName )
 		{
-			super( mailbox.getMessages( mailboxName ) );
+			super( mailbox.getMessages( mailboxName ).getMirrorImage() );
 			setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			this.mailboxName = mailboxName;
 			addListSelectionListener( this );
