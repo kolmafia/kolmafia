@@ -141,7 +141,7 @@ public class TradeableItemDatabase
 		while ( completeItems.hasNext() )
 		{
 			currentItemName = (String) completeItems.next();
-			if ( currentItemName.indexOf( substring ) != -1 )
+			if ( currentItemName.indexOf( searchString ) != -1 )
 				substringList.add( getItemName( getItemID( currentItemName ) ) );
 		}
 
@@ -193,6 +193,13 @@ public class TradeableItemDatabase
 		String line;
 
 		while ( (line = buf.readLine()) != null )
-			System.out.println( getItemID( line ) );
+		{
+			List matchingNames = getMatchingNames( line );
+			for ( int i = 0; i < matchingNames.size(); ++i )
+				System.out.println( getItemID( (String) matchingNames.get(i) ) + ": " + matchingNames.get(i) );
+
+			if ( matchingNames.size() == 0 )
+				System.out.println( "No matching items found." );
+		}
 	}
 }
