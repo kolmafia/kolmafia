@@ -166,20 +166,12 @@ public class CharsheetFrame extends KoLFrame
 
 		imagePanel.add( namePanel, BorderLayout.NORTH );
 
-		StringTokenizer parsedName = new StringTokenizer( characterData.getClassName() );
+		StringTokenizer parsedName = new StringTokenizer( characterData.getClassType() );
 		StringBuffer imagename = new StringBuffer();
 		while ( parsedName.hasMoreTokens() )
 			imagename.append( parsedName.nextToken().toLowerCase() );
 
-		try
-		{
-			imagePanel.add( new JLabel( new ImageIcon( new URL(
-				"http://images.kingdomofloathing.com/otherimages/" + imagename.toString() + ".gif" ) ) ), BorderLayout.CENTER );
-		}
-		catch ( MalformedURLException e )
-		{
-		}
-
+		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( imagename.toString() + ".gif" ) ), BorderLayout.CENTER );
 		imagePanel.add( new JLabel( " " ), BorderLayout.SOUTH );
 		return imagePanel;
 	}
