@@ -294,16 +294,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		if ( contentPanel != null )
 			contentPanel.setEnabled( isEnabled );
-
-		Iterator framesIterator = existingFrames.iterator();
-		KoLFrame currentFrame;
-
-		while ( framesIterator.hasNext() )
-		{
-			currentFrame = (KoLFrame) framesIterator.next();
-			if ( currentFrame.isShowing() )
-				currentFrame.setEnabled( isEnabled );
-		}
 	}
 
 	/**
