@@ -66,6 +66,14 @@ public class MailboxRequest extends KoLRequest
 		KoLMailManager currentMailManager = client.getMailManager();
 
 		int lastMessageIndex = replyContent.indexOf( "<td valign=top>" );
+
+		// Test to see if there weren't any messages; if there
+		// weren't any messages, there are no messages to parse,
+		// so return from the method without doing anything.
+
+		if ( lastMessageIndex == -1 )
+			return;
+
 		String currentMessage, currentPlainTextMessage;
 
 		Matcher messageMatcher = Pattern.compile( "<td valign=top>.*?<td valign=top>" ).matcher( replyContent );
@@ -90,12 +98,12 @@ public class MailboxRequest extends KoLRequest
 			shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
 		}
 
-		if ( lastMessageIndex != -1 )
-		{
-			currentMessage = replyContent.substring( lastMessageIndex, replyContent.lastIndexOf( "<b>" ) ).replaceAll(
-				"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll( "<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
-			shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
-		}
+		// Handle the last message in the mailbox, because this one doesn't
+		// have an additional <td valign=top> after it
+
+		currentMessage = replyContent.substring( lastMessageIndex, replyContent.lastIndexOf( "<b>" ) ).replaceAll(
+			"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll( "<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
+		shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
 
 		// Determine how many messages there are, and how many there are left
 		// to go.  This will cause a lot of server load for those with lots
