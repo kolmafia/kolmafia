@@ -174,11 +174,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 			processResults( replyContent.substring( 0, replyContent.indexOf( "Inventory:" ) ) );
 
-			// Handle Yeti Protest sign removing an adventure
-
-			if ( itemUsed.getName().indexOf( "Protest" ) != -1 )
-				client.addToResultTally( new AdventureResult( AdventureResult.ADV, -1 ) );
-
 			// Handle rolling and unrolling pins removing your
 			// dough from the inventory.
 
