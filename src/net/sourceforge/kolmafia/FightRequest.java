@@ -117,11 +117,11 @@ public class FightRequest extends KoLRequest
 				// was completed.
 
 				if ( !client.permitsContinue() )
-					updateDisplay( ENABLED_STATE, "Battle completed, adventures aborted." );
+					updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
 			}
 			else if ( roundCount > 30 )
 			{
-				updateDisplay( ENABLED_STATE, "Battle exceeded 30 rounds." );
+				updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
 				client.cancelRequest();
 			}
 			else if ( replyContent.indexOf( "You lose." ) != -1 )
@@ -131,7 +131,7 @@ public class FightRequest extends KoLRequest
 				// also notify the client that an adventure was completed,
 				// but that the loop should be halted.
 
-				updateDisplay( ENABLED_STATE, "You were defeated!" );
+				updateDisplay( ERROR_STATE, "You were defeated!" );
 				client.cancelRequest();
 			}
 			else if ( replyContent.indexOf( "You run away," ) != -1 )
@@ -140,7 +140,7 @@ public class FightRequest extends KoLRequest
 				// the display to indicate that you ran away and adventuring
 				// should terminate.
 
-				updateDisplay( ENABLED_STATE, "Autoflee succeeded." );
+				updateDisplay( ERROR_STATE, "Autoflee succeeded." );
 				client.cancelRequest();
 			}
 			else

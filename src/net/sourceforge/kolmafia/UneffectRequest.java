@@ -61,7 +61,7 @@ public class UneffectRequest extends KoLRequest
 	{
 		if ( !client.getInventory().contains( REMEDY ) )
 		{
-			updateDisplay( ENABLED_STATE, "You don't have any soft green fluffy martians." );
+			updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
 			return;
 		}
 
@@ -78,7 +78,7 @@ public class UneffectRequest extends KoLRequest
 			client.updateDisplay( ENABLED_STATE, "Effect removed." );
 		}
 		else
-			client.updateDisplay( ENABLED_STATE, "Effect removal failed." );
+			client.updateDisplay( ERROR_STATE, "Effect removal failed." );
 
 	}
 }

@@ -89,7 +89,7 @@ public class SewerRequest extends KoLRequest
 		if ( !client.isLuckyCharacter() )
 		{
 			isErrorState = true;
-			updateDisplay( ENABLED_STATE, "Ran out of ten-leaf clovers." );
+			updateDisplay( ERROR_STATE, "Ran out of ten-leaf clovers." );
 			client.cancelRequest();
 			return;
 		}
@@ -99,7 +99,7 @@ public class SewerRequest extends KoLRequest
 		if ( items == null )
 		{
 			isErrorState = true;
-			updateDisplay( ENABLED_STATE, "No lucky sewer settings found." );
+			updateDisplay( ERROR_STATE, "No lucky sewer settings found." );
 			client.cancelRequest();
 			return;
 		}
@@ -139,7 +139,7 @@ public class SewerRequest extends KoLRequest
 		if ( client.isLuckyCharacter() )
 		{
 			isErrorState = true;
-			updateDisplay( ENABLED_STATE, "You have a ten-leaf clover." );
+			updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
 			client.cancelRequest();
 			return;
 		}
@@ -147,7 +147,7 @@ public class SewerRequest extends KoLRequest
 		if ( !client.getInventory().contains( GUM ) )
 		{
 			isErrorState = true;
-			updateDisplay( ENABLED_STATE, "Ran out of chewing gum." );
+			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
 			client.cancelRequest();
 			return;
 		}
@@ -163,7 +163,7 @@ public class SewerRequest extends KoLRequest
 		if ( responseCode == 302 && redirectLocation.equals( "luckysewer.php" ) )
 		{
 			isErrorState = true;
-			updateDisplay( ENABLED_STATE, "You have an unaccounted for ten-leaf clover." );
+			updateDisplay( ERROR_STATE, "You have an unaccounted for ten-leaf clover." );
 			client.cancelRequest();
 			return;
 		}
@@ -174,7 +174,7 @@ public class SewerRequest extends KoLRequest
 		if ( responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
 		{
 			isErrorState = true;
-			updateDisplay( ENABLED_STATE, "Redirected to unknown page: " + redirectLocation );
+			updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
 			client.cancelRequest();
 			return;
 		}

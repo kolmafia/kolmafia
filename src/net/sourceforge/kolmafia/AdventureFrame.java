@@ -122,9 +122,14 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame implements ChangeListener
 {
+	private static final Color ERROR_COLOR = new Color( 255, 128, 128 );
+	private static final Color ENABLED_COLOR = new Color( 128, 255, 128 );
+	private static final Color DISABLED_COLOR = null;
+
 	private JTabbedPane tabs;
 	private KoLMessenger kolchat;
 
+	private JPanel sidePanel;
 	private JLabel hpLabel, mpLabel, advLabel, meatLabel, drunkLabel;
 
 	private CharsheetFrame statusPane;
@@ -190,6 +195,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		tabs.addTab( "Effects & Buffs", effectsPanel );
 
 		JPanel compactPane = new JPanel();
+		compactPane.setOpaque( false );
 		compactPane.setLayout( new GridLayout( 11, 1 ) );
 
 		compactPane.add( Box.createHorizontalStrut( 100 ) );
@@ -209,7 +215,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER ) );
 		compactPane.add( drunkLabel = new JLabel( " ",  JLabel.CENTER) );
 
-		JPanel sidePanel = new JPanel();
+		this.sidePanel = new JPanel();
 		sidePanel.setLayout( new BorderLayout( 0, 0 ) );
 		sidePanel.add( compactPane, BorderLayout.NORTH );
 
@@ -408,10 +414,24 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			add( southPanel, BorderLayout.SOUTH );
 		}
 
-		public void setStatusMessage( String s )
+		public void setStatusMessage( int displayState, String s )
 		{
 			if ( !actionStatusLabel.getText().equals( "Session timed out." ) && !actionStatusLabel.getText().equals( "Nightly maintenance." ) )
+			{
 				actionStatusLabel.setText( s );
+				switch ( displayState )
+				{
+					case ERROR_STATE:
+						sidePanel.setBackground( ERROR_COLOR );
+						break;
+					case ENABLED_STATE:
+						sidePanel.setBackground( ENABLED_COLOR );
+						break;
+					case DISABLED_STATE:
+						sidePanel.setBackground( DISABLED_COLOR );
+						break;
+				}
+			}
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -438,7 +458,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			// there's no actual functionality, simply request focus
 
 			contentPanel = adventureSelect;
-			updateDisplay( ENABLED_STATE, "Adventuring terminated." );
+			updateDisplay( ERROR_STATE, "Adventuring terminated." );
 			client.cancelRequest();
 			requestFocus();
 		}
@@ -571,10 +591,24 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			add( southPanel, BorderLayout.SOUTH );
 		}
 
-		public void setStatusMessage( String s )
+		public void setStatusMessage( int displayState, String s )
 		{
 			if ( !actionStatusLabel.getText().equals( "Session timed out." ) && !actionStatusLabel.getText().equals( "Nightly maintenance." ) )
+			{
 				actionStatusLabel.setText( s );
+				switch ( displayState )
+				{
+					case ERROR_STATE:
+						sidePanel.setBackground( ERROR_COLOR );
+						break;
+					case ENABLED_STATE:
+						sidePanel.setBackground( ENABLED_COLOR );
+						break;
+					case DISABLED_STATE:
+						sidePanel.setBackground( DISABLED_COLOR );
+						break;
+				}
+			}
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -1023,7 +1057,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			inClosetField.setEnabled( false );
 		}
 
-		public void setStatusMessage( String s )
+		public void setStatusMessage( int displayState, String s )
 		{
 			if ( !inClosetField.getText().equals( "Session timed out." ) && !inClosetField.getText().equals( "Nightly maintenance." ) )
 				inClosetField.setText( s );

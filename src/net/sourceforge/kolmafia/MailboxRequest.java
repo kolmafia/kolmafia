@@ -145,6 +145,6 @@ public class MailboxRequest extends KoLRequest
 			}
 		}
 
-		updateDisplay( ENABLED_STATE, " " );
+		updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
 	}
 }

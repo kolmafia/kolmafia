@@ -105,10 +105,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( contentPanel != null && client != null )
 		{
 			client.getLogStream().println( message );
-			contentPanel.setStatusMessage( message );
+			contentPanel.setStatusMessage( displayState, message );
 
 			switch ( displayState )
 			{
+				case ERROR_STATE:
+					setEnabled( true );
+					break;
+
 				case ENABLED_STATE:
 					setEnabled( true );
 					break;
@@ -326,7 +330,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					// Here, notify the display that the script
 					// file specified could not be loaded
 
-					updateDisplay( ENABLED_STATE, "Script file <" + filename + "> could not be found." );
+					updateDisplay( ERROR_STATE, "Script file <" + filename + "> could not be found." );
 					return;
 				}
 			}
@@ -351,7 +355,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super( confirmedText, cancelledText, labelSize, fieldSize );
 		}
 
-		public abstract void setStatusMessage( String s );
+		public abstract void setStatusMessage( int displayState, String s );
 	}
 
 	/**
@@ -372,7 +376,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super( confirmedText, cancelledText, labelSize, fieldSize );
 		}
 
-		public void setStatusMessage( String s )
+		public void setStatusMessage( int displayState, String s )
 		{
 		}
 	}
@@ -422,7 +426,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			add( actionStatusPanel, BorderLayout.SOUTH );
 		}
 
-		public void setStatusMessage( String s )
+		public void setStatusMessage( int displayState, String s )
 		{	actionStatusLabel.setText( s );
 		}
 
@@ -502,7 +506,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					}
 					else
 					{
-						updateDisplay( ENABLED_STATE, "Frame could not be loaded." );
+						updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 						return;
 					}
 				}
@@ -512,7 +516,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					// that it failed to happen (eventhough technically,
 					// this should never have happened)
 
-					updateDisplay( ENABLED_STATE, "Frame could not be loaded." );
+					updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 					return;
 				}
 			}

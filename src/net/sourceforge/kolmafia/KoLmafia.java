@@ -493,12 +493,12 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				{
 					permitContinue = characterData.getCurrentHP() >= autoRecover;
 					if ( !permitContinue )
-						updateDisplay( ENABLED_STATE, "Insufficient HP to continue" );
+						updateDisplay( ERROR_STATE, "Insufficient HP to continue" );
 				}
 			}
 			catch ( Exception e )
 			{
-				updateDisplay( ENABLED_STATE, "Could not find HP auto-recovery script." );
+				updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
 				permitContinue = false;
 				return;
 			}
@@ -533,12 +533,12 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				{
 					permitContinue = characterData.getCurrentMP() >= autoRecover;
 					if ( !permitContinue )
-						updateDisplay( ENABLED_STATE, "Insufficient MP to continue" );
+						updateDisplay( ERROR_STATE, "Insufficient MP to continue" );
 				}
 			}
 			catch ( Exception e )
 			{
-				updateDisplay( ENABLED_STATE, "Could not find MP auto-recovery script." );
+				updateDisplay( ERROR_STATE, "Could not find MP auto-recovery script." );
 				permitContinue = false;
 				return;
 			}
@@ -637,7 +637,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 			logStream.println( e );
 			e.printStackTrace( logStream );
-			updateDisplay( ENABLED_STATE, "Unexpected error." );
+			updateDisplay( ERROR_STATE, "Unexpected error." );
 		}
 
 	}

@@ -112,7 +112,7 @@ public class LoginRequest extends KoLRequest
 			// This means that the login failed.  Therefore, the user should
 			// re-input their username and password.
 
-			updateDisplay( ENABLED_STATE, "Login failed." );
+			updateDisplay( ERROR_STATE, "Login failed." );
 		}
 	}
 }

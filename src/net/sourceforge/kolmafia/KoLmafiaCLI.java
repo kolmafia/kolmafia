@@ -335,7 +335,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Print a message indicating that the file failed to
 				// be loaded, since that's what the error probably was.
 
-				scriptRequestor.updateDisplay( ENABLED_STATE, "Script file <" + parameters + "> could not be found." );
+				scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -362,7 +362,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Notify the client that the command could not be repeated
 				// the given number of times.
 
-				scriptRequestor.updateDisplay( ENABLED_STATE, parameters + " is not a number." );
+				scriptRequestor.updateDisplay( ERROR_STATE, parameters + " is not a number." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -386,7 +386,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( scriptRequestor.inLoginState() )
 		{
-			scriptRequestor.updateDisplay( ENABLED_STATE, "You have not yet logged in." );
+			scriptRequestor.updateDisplay( ERROR_STATE, "You have not yet logged in." );
 			scriptRequestor.cancelRequest();
 			return;
 		}
@@ -530,7 +530,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		scriptRequestor.updateDisplay( ENABLED_STATE, "Unknown command: " + command );
+		scriptRequestor.updateDisplay( ERROR_STATE, "Unknown command: " + command );
 		if ( scriptRequestor != this )
 			scriptRequestor.cancelRequest();
 	}
@@ -551,7 +551,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
-			scriptRequestor.updateDisplay( ENABLED_STATE, parameterList[1] + " is not a number." );
+			scriptRequestor.updateDisplay( ERROR_STATE, parameterList[1] + " is not a number." );
 			scriptRequestor.cancelRequest();
 			return;
 		}
@@ -577,7 +577,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( skillName == null )
 		{
 			scriptRequestor.cancelRequest();
-			scriptRequestor.updateDisplay( ENABLED_STATE, "Skill not available" );
+			scriptRequestor.updateDisplay( ERROR_STATE, "Skill not available" );
 			return;
 		}
 
@@ -618,7 +618,7 @@ public class KoLmafiaCLI extends KoLmafia
 			heroID = HeroDonationRequest.PETE;
 		else
 		{
-			scriptRequestor.updateDisplay( ENABLED_STATE, parameters + " is not a statue." );
+			scriptRequestor.updateDisplay( ERROR_STATE, parameters + " is not a statue." );
 			scriptRequestor.cancelRequest();
 			return;
 		}
@@ -631,9 +631,9 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( Exception e )
 		{
 			if ( amount == -1 )
-				scriptRequestor.updateDisplay( ENABLED_STATE, parameterList[1] + " is not a number." );
+				scriptRequestor.updateDisplay( ERROR_STATE, parameterList[1] + " is not a number." );
 			else
-				scriptRequestor.updateDisplay( ENABLED_STATE, parameterList[2] + " is not a number." );
+				scriptRequestor.updateDisplay( ERROR_STATE, parameterList[2] + " is not a number." );
 
 			scriptRequestor.cancelRequest();
 			return;
@@ -665,7 +665,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( parameters.length() == 0 )
 		{
-			scriptRequestor.updateDisplay( ENABLED_STATE, "Print what?" );
+			scriptRequestor.updateDisplay( ERROR_STATE, "Print what?" );
 			scriptRequestor.cancelRequest();
 			return;
 		}
@@ -697,7 +697,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// occur.  However, since there could still be something
 				// bad happening, print an error message.
 
-				scriptRequestor.updateDisplay( ENABLED_STATE, "I/O error in opening file <" + parameterList[1] + ">" );
+				scriptRequestor.updateDisplay( ERROR_STATE, "I/O error in opening file <" + parameterList[1] + ">" );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -794,7 +794,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		scriptRequestor.updateDisplay( ENABLED_STATE, "Unknown data type: " + desiredData );
+		scriptRequestor.updateDisplay( ERROR_STATE, "Unknown data type: " + desiredData );
 		if ( scriptRequestor != this )
 			scriptRequestor.cancelRequest();
 	}
@@ -853,7 +853,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 					if ( matchingNames.size() == 0 )
 					{
-						scriptRequestor.updateDisplay( ENABLED_STATE, "[" + itemNameString + "] does not match anything in the item database." );
+						scriptRequestor.updateDisplay( ERROR_STATE, "[" + itemNameString + "] does not match anything in the item database." );
 						scriptRequestor.cancelRequest();
 						return null;
 					}
@@ -870,7 +870,7 @@ public class KoLmafiaCLI extends KoLmafia
 					// Technically, this exception should not be thrown, but if
 					// it is, then print an error message and return.
 
-					scriptRequestor.updateDisplay( ENABLED_STATE, itemCountString + " is not a number." );
+					scriptRequestor.updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
 					scriptRequestor.cancelRequest();
 					return null;
 				}
@@ -879,7 +879,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( !TradeableItemDatabase.contains( itemName ) )
 		{
-			scriptRequestor.updateDisplay( ENABLED_STATE, "[" + itemName + "] does not match anything in the item database." );
+			scriptRequestor.updateDisplay( ERROR_STATE, "[" + itemName + "] does not match anything in the item database." );
 			scriptRequestor.cancelRequest();
 			return null;
 		}
@@ -993,7 +993,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( !AdventureDatabase.contains( adventureName ) )
 			{
-				scriptRequestor.updateDisplay( ENABLED_STATE, adventureName + " does not exist in the adventure database." );
+				scriptRequestor.updateDisplay( ERROR_STATE, adventureName + " does not exist in the adventure database." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -1008,7 +1008,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Technically, this exception should not be thrown, but if
 				// it is, then print an error message and return.
 
-				scriptRequestor.updateDisplay( ENABLED_STATE, adventureCountString + " is not a number." );
+				scriptRequestor.updateDisplay( ERROR_STATE, adventureCountString + " is not a number." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -1039,7 +1039,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( intendedOutfit == null )
 		{
-			scriptRequestor.updateDisplay( ENABLED_STATE, "You can't wear that outfit." );
+			scriptRequestor.updateDisplay( ERROR_STATE, "You can't wear that outfit." );
 			scriptRequestor.cancelRequest();
 			return;
 		}

@@ -101,7 +101,7 @@ public class CampgroundRequest extends KoLRequest
 			if ( replyContent.indexOf( "You sleep" ) == -1 )
 			{
 				isErrorState = true;
-				updateDisplay( ENABLED_STATE, "Could not rest." );
+				updateDisplay( ERROR_STATE, "Could not rest." );
 				client.cancelRequest();
 			}
 		}
@@ -110,7 +110,7 @@ public class CampgroundRequest extends KoLRequest
 			if ( replyContent.indexOf( "You relax" ) == -1 )
 			{
 				isErrorState = true;
-				updateDisplay( ENABLED_STATE, "Could not relax." );
+				updateDisplay( ERROR_STATE, "Could not relax." );
 				client.cancelRequest();
 			}
 		}

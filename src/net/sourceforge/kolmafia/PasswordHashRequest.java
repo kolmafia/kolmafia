@@ -58,7 +58,7 @@ public class PasswordHashRequest extends KoLRequest
 			client.setPasswordHash( parsedContent.nextToken() );
 		else
 		{
-			client.updateDisplay( ENABLED_STATE, "I/O Error.  Please retry." );
+			client.updateDisplay( ERROR_STATE, "I/O Error.  Please retry." );
 			client.cancelRequest();
 		}
 	}

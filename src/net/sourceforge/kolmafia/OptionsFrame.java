@@ -225,7 +225,7 @@ public class OptionsFrame extends KoLFrame
 					proxyPassword.setText( "" );
 				}
 
-				setStatusMessage( "" );
+				setStatusMessage( ENABLED_STATE, "" );
 			}
 		}
 
@@ -330,7 +330,7 @@ public class OptionsFrame extends KoLFrame
 			{
 				for ( int i = 0; i < optionKeys.length; ++i )
 					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null );
-				setStatusMessage( "" );
+				setStatusMessage( ENABLED_STATE, "" );
 			}
 		}
 
@@ -499,7 +499,7 @@ public class OptionsFrame extends KoLFrame
 					(int)(Double.parseDouble( mpAutoRecoverSettings ) * 10) + 1 );
 				mpRecoveryScriptField.setText( mpRecoveryScriptSettings == null ? "" : mpRecoveryScriptSettings );
 
-				setStatusMessage( "" );
+				setStatusMessage( ENABLED_STATE, "" );
 			}
 		}
 
@@ -632,7 +632,7 @@ public class OptionsFrame extends KoLFrame
 				while ( st.hasMoreTokens() )
 					items[ Integer.parseInt( st.nextToken() ) - 1 ].setSelected( true );
 
-				setStatusMessage( "" );
+				setStatusMessage( ENABLED_STATE, "" );
 			}
 		}
 
@@ -661,7 +661,7 @@ public class OptionsFrame extends KoLFrame
 
 				if ( selectedCount != 3 )
 				{
-					setStatusMessage( "You did not select exactly three items." );
+					setStatusMessage( ERROR_STATE, "You did not select exactly three items." );
 					return;
 				}
 
@@ -876,7 +876,7 @@ public class OptionsFrame extends KoLFrame
 				else
 					autoRepairBoxesSelect.setSelectedIndex( 1 );
 
-				setStatusMessage( "" );
+				setStatusMessage( ENABLED_STATE, "" );
 			}
 		}
 
@@ -929,7 +929,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			if ( settings instanceof KoLSettings )
 				((KoLSettings)settings).saveSettings();
-			setStatusMessage( "Settings saved." );
+			setStatusMessage( ENABLED_STATE, "Settings saved." );
 
 			Object waitObject = new Object();
 			try
@@ -944,7 +944,7 @@ public class OptionsFrame extends KoLFrame
 			{
 			}
 
-			setStatusMessage( "" );
+			setStatusMessage( ENABLED_STATE, "" );
 		}
 
 		protected abstract class OptionsThread extends Thread

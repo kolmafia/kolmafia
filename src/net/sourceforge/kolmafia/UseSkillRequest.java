@@ -88,17 +88,17 @@ public class UseSkillRequest extends KoLRequest
 
 		if ( replyContent == null || replyContent.indexOf( "You don't have enough" ) != -1 )
 		{
-			updateDisplay( ENABLED_STATE, "You don't have enough mana." );
+			updateDisplay( ERROR_STATE, "You don't have enough mana." );
 			return;
 		}
 		else if ( replyContent.indexOf( "You can only conjure" ) != -1 )
 		{
-			updateDisplay( ENABLED_STATE, "Summon limited exceeded." );
+			updateDisplay( ERROR_STATE, "Summon limited exceeded." );
 			return;
 		}
 		else if ( replyContent.indexOf( "Invalid target" ) != -1 )
 		{
-			updateDisplay( ENABLED_STATE, "Invalid target: " + target );
+			updateDisplay( ERROR_STATE, "Invalid target: " + target );
 			return;
 		}
 

@@ -137,7 +137,6 @@ public class LoginFrame extends KoLFrame
 		contentPanel = new LoginPanel();
 		getContentPane().add( contentPanel, BorderLayout.CENTER );
 
-		updateDisplay( ENABLED_STATE, " " );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		addWindowListener( new ExitRequestAdapter() );
 
@@ -251,7 +250,7 @@ public class LoginFrame extends KoLFrame
 			}
 		}
 
-		public void setStatusMessage( String s )
+		public void setStatusMessage( int displayState, String s )
 		{	actionStatusLabel.setText( s );
 		}
 
@@ -309,7 +308,7 @@ public class LoginFrame extends KoLFrame
 
 				if ( loginname == null || password == null || loginname.equals("") || password.equals("") )
 				{
-					updateDisplay( ENABLED_STATE, "Invalid login." );
+					updateDisplay( ERROR_STATE, "Invalid login." );
 					return;
 				}
 

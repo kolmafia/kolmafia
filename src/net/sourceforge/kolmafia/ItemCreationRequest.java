@@ -228,7 +228,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( replyContent.indexOf( "You don't have" ) != -1 )
 		{
 			client.cancelRequest();
-			updateDisplay( ENABLED_STATE, "You're missing ingredients." );
+			updateDisplay( ERROR_STATE, "You're missing ingredients." );
 			return;
 		}
 
@@ -264,7 +264,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_PASTA:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
 				{
-					updateDisplay( ENABLED_STATE, "Chef explosion!" );
+					updateDisplay( ERROR_STATE, "Chef explosion!" );
 					client.getCharacterData().setChef( false );
 
 					if ( autoRepairBoxServant() )
@@ -281,7 +281,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case MIX_SPECIAL:
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
 				{
-					updateDisplay( ENABLED_STATE, "Bartender explosion!" );
+					updateDisplay( ERROR_STATE, "Bartender explosion!" );
 					client.getCharacterData().setBartender( false );
 
 					if ( autoRepairBoxServant() )

@@ -106,7 +106,7 @@ public class KoLAdventure implements Runnable, KoLConstants
 		if ( client.getCharacterData().getAdventuresLeft() < request.getAdventuresUsed() )
 		{
 			client.cancelRequest();
-			client.updateDisplay( ENABLED_STATE, "Insufficient adventures to continue." );
+			client.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
 		}
 
 		// If the test is successful, then it is safe to run the
