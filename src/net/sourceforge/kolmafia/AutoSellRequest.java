@@ -62,12 +62,16 @@ public class AutoSellRequest extends KoLRequest
 	}
 
 	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell, int desiredPrice )
+	{	this( client, itemToSell, desiredPrice, 0 );
+	}
+
+	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell, int desiredPrice, int limit )
 	{
 		super( client, "managestore.php" );
 		addFormField( "whichitem", "" + itemToSell.getItemID() );
 		addFormField( "action", "additem" );
 		addFormField( "sellprice", "" + desiredPrice );
-		addFormField( "limit", "0" );
+		addFormField( "limit", "" + limit );
 		addFormField( "addtype", "addall" );
 		addFormField( "pwd", client.getPasswordHash() );
 

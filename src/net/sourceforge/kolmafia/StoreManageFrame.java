@@ -58,6 +58,7 @@ public class StoreManageFrame extends KoLFrame
 	private JLabel searchLabel;
 	private JComboBox sellingList;
 	private JTextField priceField;
+	private JTextField limitField;
 	private LockableListModel priceSummary;
 
 	private NonContentPanel storeManager;
@@ -92,15 +93,17 @@ public class StoreManageFrame extends KoLFrame
 	{
 		public StoreManagePanel()
 		{
-			super( "add item", "search", new Dimension( 100, 20 ), new Dimension( 320, 20 ) );
+			super( "add item", "search", new Dimension( 100, 20 ), new Dimension( 360, 20 ) );
 
 			priceSummary = new LockableListModel();
 			sellingList = new JComboBox( client.getInventory().getMirrorImage() );
 			priceField = new JTextField();
+			limitField = new JTextField();
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Item to Sell: ", sellingList );
 			elements[1] = new VerifiableElement( "Desired Price: ", priceField );
+			elements[2] = new VerifiableElement( "Desired Limit: ", limitField );
 			setContent( elements, null, null, null, true, true );
 		}
 
@@ -125,8 +128,11 @@ public class StoreManageFrame extends KoLFrame
 					int price = priceField.getText() == null ? 0 : priceField.getText().length() == 0 ? 0 :
 						df.parse( priceField.getText() ).intValue();
 
+					int limit = limitField.getText() == null ? 0 : limitField.getText().length() == 0 ? 0 :
+						df.parse( limitField.getText() ).intValue();
+
 					if ( price > 10 )
-						client.makeRequest( new AutoSellRequest( client, soldItem, price ), 1 );
+						client.makeRequest( new AutoSellRequest( client, soldItem, price, limit ), 1 );
 
 					client.updateDisplay( ENABLED_STATE, "" );
 				}
