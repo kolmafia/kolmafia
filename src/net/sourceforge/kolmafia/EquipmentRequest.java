@@ -47,10 +47,8 @@ import java.util.StringTokenizer;
 public class EquipmentRequest extends KoLRequest
 {
 	private static final int REQUEST_ALL = 0;
-	private static final int FOOD_BOOZE = 1;
-	private static final int EQUIPMENT = 2;
-	private static final int MISCELLANEOUS = 3;
-	private static final int CLOSET = 4;
+	public static final int EQUIPMENT = 2;
+	public static final int CLOSET = 4;
 
 	private KoLCharacter character;
 	private int requestType;
@@ -66,7 +64,7 @@ public class EquipmentRequest extends KoLRequest
 	{	this( client, REQUEST_ALL );
 	}
 
-	private EquipmentRequest( KoLmafia client, int requestType )
+	public EquipmentRequest( KoLmafia client, int requestType )
 	{
 		super( client, requestType == CLOSET ? "closet.php" : "inventory.php" );
 		this.character = client.getCharacterData();
@@ -86,9 +84,7 @@ public class EquipmentRequest extends KoLRequest
 
 		if ( requestType == REQUEST_ALL )
 		{
-			(new EquipmentRequest( client, FOOD_BOOZE )).run();
 			(new EquipmentRequest( client, EQUIPMENT )).run();
-			(new EquipmentRequest( client, MISCELLANEOUS )).run();
 			(new EquipmentRequest( client, CLOSET )).run();
 			return;
 		}
@@ -125,11 +121,6 @@ public class EquipmentRequest extends KoLRequest
 				case CLOSET:
 					parseCloset( parsedContent );
 
-				case FOOD_BOOZE:
-				case MISCELLANEOUS:
-					parseInventory( parsedContent );
-					break;
-
 				case EQUIPMENT:
 					parseEquipment( parsedContent );
 					break;
@@ -144,6 +135,18 @@ public class EquipmentRequest extends KoLRequest
 
 	private void parseCloset( StringTokenizer parsedContent )
 	{
+		// The inventory officially starts when you see the
+		// token that starts with "Put"; therefore, continue
+		// skipping tokens until that token is encountered.
+
+		if ( replyContent.indexOf( "You have no items in your inventory." ) == -1 )
+		{
+			while ( !parsedContent.nextToken().startsWith( "Put:" ) );
+			List inventory = client.getInventory();
+			inventory.clear();
+			parseCloset( parsedContent, inventory );
+		}
+
 		// The closet officially starts when you see the token
 		// "Take:"; therefore, continue skipping tokens until
 		// that token is encountered.
@@ -153,41 +156,45 @@ public class EquipmentRequest extends KoLRequest
 
 		if ( parsedContent.hasMoreTokens() )
 		{
-			String lastToken;
 			List closet = client.getCloset();
+			closet.clear();
+			parseCloset( parsedContent, closet );
+		}
+	}
 
-			// The next two tokens are blank space and an
-			// indicator to show that the list is about
-			// to start.  Skip them both.
+	private void parseCloset( StringTokenizer parsedContent, List resultList )
+	{
+		// The next two tokens are blank space and an
+		// indicator to show that the list is about
+		// to start.  Skip them both.
 
-			skipTokens( parsedContent, 2 );
-			lastToken = parsedContent.nextToken();
+		skipTokens( parsedContent, 2 );
+		String lastToken = parsedContent.nextToken();
 
-			try
+		try
+		{
+			do
 			{
-				do
-				{
-					// Make sure to only add the result if it exists
-					// in the item database; otherwise, it could cause
-					// problems when you're moving items around.
+				// Make sure to only add the result if it exists
+				// in the item database; otherwise, it could cause
+				// problems when you're moving items around.
 
-					AdventureResult result = AdventureResult.parseResult( lastToken );
+				AdventureResult result = AdventureResult.parseResult( lastToken );
 
-					if ( TradeableItemDatabase.contains( result.getName() ) )
-						AdventureResult.addResultToList( closet, result );
+				if ( TradeableItemDatabase.contains( result.getName() ) )
+					AdventureResult.addResultToList( resultList, result );
 
-					lastToken = parsedContent.nextToken();
-				}
-				while ( !lastToken.startsWith( "0" ) );
+				lastToken = parsedContent.nextToken();
 			}
-			catch ( Exception e )
-			{
-				// If an exception occurs during the parsing, just
-				// continue after notifying the LogStream of the
-				// error.  This could be handled better, but not now.
+			while ( !lastToken.startsWith( "0" ) );
+		}
+		catch ( Exception e )
+		{
+			// If an exception occurs during the parsing, just
+			// continue after notifying the LogStream of the
+			// error.  This could be handled better, but not now.
 
-				logStream.println( e );
-			}
+			logStream.println( e );
 		}
 	}
 
@@ -226,76 +233,7 @@ public class EquipmentRequest extends KoLRequest
 		// Now that the equipped items have been parsed, begin parsing for the items
 		// which are not currently equipped, but are listed in the equipment page.
 		// Normally, custom outfits would be parsed; for now, this part is skipped.
-		// Move directly to inventory parsing.
 
-		parseInventory( parsedContent );
 		logStream.println( "Parsing complete." );
-	}
-
-	private void parseInventory( StringTokenizer remainingTokens )
-	{
-		String lastToken = "";
-
-		while ( !lastToken.equals( "Inventory:" ) )
-			lastToken = remainingTokens.nextToken();
-		lastToken = remainingTokens.nextToken();
-
-		// It's possible that there are other options available (such as cooking,
-		// cocktailing, combining and the like); these options should be skipped
-		// as well.
-
-		while ( lastToken.startsWith( "[" ) || lastToken.startsWith( "&" ) )
-			lastToken = remainingTokens.nextToken();
-
-		// Now you have the actual items; these can be added to the character's
-		// inventory by parsing the item, skipping the next three tokens, and
-		// continuing this while you still have tokens.
-
-		List inventory = client.getInventory();
-
-		if ( remainingTokens.hasMoreTokens() )
-		{
-			try
-			{
-				do
-				{
-					String resultAsString = lastToken;
-					lastToken = remainingTokens.nextToken();
-
-					if ( lastToken.length() > 1 )
-						resultAsString += lastToken;
-
-					AdventureResult result = AdventureResult.parseResult( resultAsString );
-
-					// Make sure to only add the result if it exists
-					// in the item database; otherwise, it could cause
-					// problems when you're moving items around.  Also,
-					// make sure that the item hasn't already been added,
-					// since some items appear in two places.
-
-					if ( TradeableItemDatabase.contains( result.getName() ) && inventory.indexOf( result ) == -1 )
-						AdventureResult.addResultToList( inventory, result );
-
-					lastToken = remainingTokens.nextToken();
-
-					if ( lastToken.startsWith( "[" ) && remainingTokens.hasMoreTokens() )
-					{
-						skipTokens( remainingTokens, 1 );
-
-						if ( remainingTokens.hasMoreTokens() )
-							lastToken = remainingTokens.nextToken();
-					}
-				}
-				while ( remainingTokens.hasMoreTokens() && !lastToken.startsWith( "make:" ) );
-			}
-			catch ( Exception e )
-			{
-				// If an exception occurs during the parsing, just
-				// continue after notifying the LogStream of the
-				// error.  This could be handled better, but not now.
-
-				logStream.println( e );
-			}
-		}
 	}
 }
