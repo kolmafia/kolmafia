@@ -119,6 +119,8 @@ public class AdventureFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
 	private KoLMessenger kolchat;
+
+	private GearChangeFrame gearChanger;
 	private ItemManageFrame itemManager;
 
 	private AdventureSelectPanel adventureSelect;
@@ -1153,6 +1155,41 @@ public class AdventureFrame extends KoLFrame
 					// this will be fixed once we add functionality.
 				}
 
+			}
+		}
+	}
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing the item manager.
+	 */
+
+	private class ViewGearChangerListener extends DisplayFrameListener
+	{
+		public ViewGearChangerListener()
+		{	super( GearChangeFrame.class );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new ViewGearChangerThread()).start();
+		}
+
+		private class ViewGearChangerThread extends DisplayFrameThread
+		{
+			public void run()
+			{
+				if ( gearChanger != null )
+				{
+					gearChanger.setVisible( true );
+					gearChanger.requestFocus();
+					gearChanger.setEnabled( isEnabled );
+				}
+				else
+				{
+					super.run();
+					gearChanger = (GearChangeFrame) lastCreatedFrame;
+				}
 			}
 		}
 	}
