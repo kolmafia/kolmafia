@@ -628,7 +628,7 @@ public class KoLCharacter
 
 	/**
 	 * Accessor method to set the list of available skills.
-	 * @param	The list of the names of available skills
+	 * @param	availableSkills	The list of the names of available skills
 	 */
 
 	public void setAvailableSkills( List availableSkills )

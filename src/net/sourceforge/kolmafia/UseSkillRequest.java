@@ -47,9 +47,11 @@ public class UseSkillRequest extends KoLRequest
 	private int consumedMP;
 
 	/**
-	 * Constructs a new <code>UneffectRequest</code>.
+	 * Constructs a new <code>UseSkillRequest</code>.
 	 * @param	client	The client to be notified of completion
-	 * @param	effectDescription	The description of the effect to be removed
+	 * @param	skillName	The name of the skill to be used
+	 * @param	target	The name of the target of the skill
+	 * @param	buffCount	The number of times the target is affected by this skill
 	 */
 
 	public UseSkillRequest( KoLmafia client, String skillName, String target, int buffCount )
