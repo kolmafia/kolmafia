@@ -100,6 +100,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 
 // other imports
+import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -120,6 +123,7 @@ public class AdventureFrame extends KoLFrame
 	private KoLMessenger kolchat;
 	private ItemManageFrame isheet;
 	private CharsheetFrame csheet;
+	private List greenMessageFrames;
 
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
@@ -141,7 +145,9 @@ public class AdventureFrame extends KoLFrame
 	{
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 			" (" + KoLRequest.getRootHostName() + ")", client );
+
 		setResizable( false );
+		greenMessageFrames = new ArrayList();
 
 		tabs = new JTabbedPane();
 
@@ -1092,6 +1098,7 @@ public class AdventureFrame extends KoLFrame
 			GreenMessageFrame composer = new GreenMessageFrame( client );
 			composer.pack();  composer.setVisible( true );
 			composer.requestFocus();
+			greenMessageFrames.add( composer );
 		}
 	}
 
@@ -1146,6 +1153,16 @@ public class AdventureFrame extends KoLFrame
 					isheet.setVisible( false );
 					isheet.dispose();
 					isheet = null;
+				}
+
+				Iterator greens = greenMessageFrames.iterator();
+				GreenMessageFrame currentGreen;
+				while ( greens.hasNext() )
+				{
+					currentGreen = (GreenMessageFrame) greens.next();
+					currentGreen.setVisible( false );
+					currentGreen.dispose();
+					greens.remove();
 				}
 			}
 		}
