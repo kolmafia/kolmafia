@@ -111,8 +111,9 @@ public class AdventureFrame extends KoLFrame
 		contentPanel = new AdventureSelectPanel( availableAdventures );
 
 		JPanel completePanel = new JPanel();
-		completePanel.add( summaryPanel );
-		completePanel.add( contentPanel );
+		completePanel.setLayout( new BorderLayout() );
+		completePanel.add( summaryPanel, BorderLayout.WEST );
+		completePanel.add( contentPanel, BorderLayout.EAST );
 
 		getContentPane().add( completePanel, "" );
 
@@ -230,12 +231,12 @@ public class AdventureFrame extends KoLFrame
 				Color.black, Color.white ), BorderLayout.NORTH );
 
 			JList tallyDisplay = new JList( tally );
-			tallyDisplay.setPrototypeCellValue( "@@@@@@@@@@@@@" );
+			tallyDisplay.setPrototypeCellValue( AdventureResult.DIVIDER );
 			tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			tallyDisplay.setVisibleRowCount( 4 );
+			tallyDisplay.setVisibleRowCount( 5 );
 
 			add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.SOUTH );
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 		}
 	}
 }
