@@ -66,7 +66,7 @@ import java.util.regex.Pattern;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
-	protected static final int REFRESH_RATE = 4800;
+	protected static final int REFRESH_RATE = 1600;
 
 	private static String KOL_HOST = "www.kingdomofloathing.com";
 	private static String KOL_ROOT = "http://" + KOL_HOST + "/";
@@ -447,6 +447,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private void retrieveServerReply()
 	{
+		if ( client != null )
+			client.resetContinueState();
+
 		try
 		{
 			// In the event of redirects, the appropriate flags should be set
