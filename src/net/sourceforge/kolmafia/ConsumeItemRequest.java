@@ -82,6 +82,17 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
+		// Check to make sure the character has the item in their
+		// inventory first - if not, report the error message and
+		// return from the method.
+
+		int itemIndex = client.getInventory().indexOf( itemUsed );
+		if ( itemIndex == -1 || ((AdventureResult)client.getInventory().get( itemIndex )).getCount() + itemUsed.getCount() < 0 )
+		{
+			updateDisplay( KoLFrame.ENABLED_STATE, "You do not have enough " + itemUsed.getName() + "." );
+			return;
+		}
+
 		super.run();
 
 		if ( isErrorState )
