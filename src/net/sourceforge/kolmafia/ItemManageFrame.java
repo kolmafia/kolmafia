@@ -237,7 +237,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public OutsideClosetPanel()
 			{
-				super( "closet", "stash" );
+				super( "put in closet", "put in stash" );
 				setContent( null );
 
 				inventory = client == null ? new LockableListModel() : client.getInventory().getMirrorImage();
@@ -257,11 +257,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ItemStorageRequestThread( ItemStorageRequest.MOVE_TO_CLOSET )).start();
+			{	(new ItemStorageRequestThread( ItemStorageRequest.INVENTORY_TO_CLOSET )).start();
 			}
 
 			protected void actionCancelled()
-			{
+			{	(new ItemStorageRequestThread( ItemStorageRequest.INVENTORY_TO_STASH )).start();
 			}
 		}
 
@@ -271,7 +271,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public InsideClosetPanel()
 			{
-				super( "option 1", "option 2" );
+				super( "take out", "put in stash" );
 				setContent( null );
 
 				closet = client == null ? new LockableListModel() : client.getCloset().getMirrorImage();
@@ -291,11 +291,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{
+			{	(new ItemStorageRequestThread( ItemStorageRequest.CLOSET_TO_INVENTORY )).start();
 			}
 
 			protected void actionCancelled()
-			{
+			{	(new ItemStorageRequestThread( ItemStorageRequestThread.CLOSET_TO_STASH )).start();
 			}
 		}
 
@@ -308,6 +308,7 @@ public class ItemManageFrame extends KoLFrame
 		private class ItemStorageRequestThread extends Thread
 		{
 			private int moveType;
+			public static final int CLOSET_TO_STASH = Integer.MAX_VALUE;
 
 			public ItemStorageRequestThread( int moveType )
 			{
@@ -318,26 +319,27 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
-				try
-				{
-					StoragePanel.this.setEnabled( false );
-					updateDisplay( DISABLED_STATE, "Moving items..." );
-					Object [] items =
-						moveType == ItemStorageRequest.MOVE_TO_CLOSET ? availableList.getSelectedValues() :
-						moveType == ItemStorageRequest.MOVE_TO_INVENTORY ? closetList.getSelectedValues() :
-						moveType == ItemStorageRequest.MOVE_TO_STASH ? availableList.getSelectedValues() : null;
+				StoragePanel.this.setEnabled( false );
+				updateDisplay( DISABLED_STATE, "Moving items..." );
+				Object [] items =
+					moveType == ItemStorageRequest.INVENTORY_TO_CLOSET ? availableList.getSelectedValues() :
+					moveType == ItemStorageRequest.CLOSET_TO_INVENTORY ? closetList.getSelectedValues() :
+					moveType == ItemStorageRequest.INVENTORY_TO_STASH ? availableList.getSelectedValues() : null;
 
-					updateDisplay( DISABLED_STATE, "Items successfully moved." );
-					(new ItemStorageRequest( client, moveType, items )).run();
-					StoragePanel.this.setEnabled( true );
-				}
-				catch ( NumberFormatException e )
+				if ( moveType == CLOSET_TO_STASH )
 				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
+					items = closetList.getSelectedValues();
+					(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items )).run();
+					(new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_STASH, items )).run();
 				}
+				else
+				{
+					(new ItemStorageRequest( client, moveType, items )).run();
+				}
+
+
+				updateDisplay( ENABLED_STATE, "Items successfully moved." );
+				StoragePanel.this.setEnabled( true );
 			}
 		}
 	}

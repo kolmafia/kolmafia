@@ -548,8 +548,11 @@ public class AdventureFrame extends KoLFrame
 
 					for ( int i = 0; i < purchases.length; ++i )
 					{
-						((Runnable)purchases[i]).run();
-						results.remove( purchases[i] );
+						if ( purchases[i] instanceof Runnable )
+						{
+							((Runnable)purchases[i]).run();
+							results.remove( purchases[i] );
+						}
 					}
 
 					updateDisplay( ENABLED_STATE, "Purchases complete." );

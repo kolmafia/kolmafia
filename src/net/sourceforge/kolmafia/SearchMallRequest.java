@@ -143,6 +143,7 @@ public class SearchMallRequest extends KoLRequest
 			results.add( new MallPurchaseRequest( client, itemName, purchaseLimit, shopID, shopName, price ) );
 		}
 
+		results.add( "" );
 		frame.updateDisplay( KoLFrame.ENABLED_STATE, "Search complete." );
 	}
 }

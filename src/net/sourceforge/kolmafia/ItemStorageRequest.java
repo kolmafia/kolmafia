@@ -44,9 +44,9 @@ public class ItemStorageRequest extends KoLRequest
 	private Object [] items;
 	private List source, destination;
 
-	public static final int MOVE_TO_CLOSET = 1;
-	public static final int MOVE_TO_INVENTORY = 2;
-	public static final int MOVE_TO_STASH = 3;
+	public static final int INVENTORY_TO_CLOSET = 1;
+	public static final int CLOSET_TO_INVENTORY = 2;
+	public static final int INVENTORY_TO_STASH = 3;
 
 	/**
 	 * Constructs a new <code>ItemStorageRequest</code>.
@@ -57,13 +57,13 @@ public class ItemStorageRequest extends KoLRequest
 
 	public ItemStorageRequest( KoLmafia client, int moveType, Object [] items )
 	{
-		super( client, moveType == MOVE_TO_STASH ? "clan_stash.php" : "closet.php" );
+		super( client, moveType == INVENTORY_TO_STASH ? "clan_stash.php" : "closet.php" );
 
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "action",
-			moveType == MOVE_TO_CLOSET ? "put" :
-			moveType == MOVE_TO_INVENTORY ? "take" :
-			moveType == MOVE_TO_STASH ? "addgoodies" :
+			moveType == INVENTORY_TO_CLOSET ? "put" :
+			moveType == CLOSET_TO_INVENTORY ? "take" :
+			moveType == INVENTORY_TO_STASH ? "addgoodies" :
 				"" );
 
 		this.items = items;
@@ -71,17 +71,17 @@ public class ItemStorageRequest extends KoLRequest
 
 		switch ( moveType )
 		{
-			case MOVE_TO_CLOSET:
+			case INVENTORY_TO_CLOSET:
 				source = client.getInventory();
 				destination = client.getCloset();
 				break;
 
-			case MOVE_TO_INVENTORY:
+			case CLOSET_TO_INVENTORY:
 				source = client.getCloset();
 				destination = client.getInventory();
 				break;
 
-			case MOVE_TO_STASH:
+			case INVENTORY_TO_STASH:
 				source = client.getInventory();
 				destination = new ArrayList();
 				break;
@@ -96,12 +96,12 @@ public class ItemStorageRequest extends KoLRequest
 	{
 		switch ( moveType )
 		{
-			case MOVE_TO_CLOSET:
-			case MOVE_TO_INVENTORY:
+			case INVENTORY_TO_CLOSET:
+			case CLOSET_TO_INVENTORY:
 				closet();
 				break;
 
-			case MOVE_TO_STASH:
+			case INVENTORY_TO_STASH:
 				stash();
 				break;
 		}
@@ -148,7 +148,7 @@ public class ItemStorageRequest extends KoLRequest
 		for ( int i = 0; i < items.length; ++i )
 		{
 			addFormField( "whichitem" + (i+1), "" + TradeableItemDatabase.getItemID( ((AdventureResult)items[i]).getResultName() ) );
-			addFormField( "howmany" + (i+1), "" );
+			addFormField( "howmany" + (i+1), "" + ((AdventureResult)items[i]).getResultCount() );
 		}
 
 		// Once all the form fields are broken up, this
@@ -163,8 +163,11 @@ public class ItemStorageRequest extends KoLRequest
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			source.remove( items[i] );
-			AdventureResult.addResultToList( destination, (AdventureResult) items[i] );
+			if ( ((AdventureResult) items[i]).isItem() )
+			{
+				source.remove( items[i] );
+				AdventureResult.addResultToList( destination, (AdventureResult) items[i] );
+			}
 		}
 	}
 
