@@ -64,6 +64,7 @@ public class TradeableItemDatabase
 
 	private static String [] itemByID = new String[ ITEM_COUNT ];
 	private static int [] consumptionID = new int[ ITEM_COUNT ];
+	private static int [] priceByID = new int[ ITEM_COUNT ];
 	private static Map itemByName = new TreeMap();
 
 	static
@@ -81,12 +82,13 @@ public class TradeableItemDatabase
 			while ( (line = itemdata.readLine()) != null )
 			{
 				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 3 )
+				if ( strtok.countTokens() == 4 )
 				{
 					int itemID = Integer.parseInt( strtok.nextToken() );
-					consumptionID[ itemID ] = Integer.parseInt( strtok.nextToken() );
-
 					String itemName = strtok.nextToken();
+
+					consumptionID[ itemID ] = Integer.parseInt( strtok.nextToken() );
+					priceByID[ itemID ] = Integer.parseInt( strtok.nextToken() );
 
 					itemByID[ itemID ] = itemName;
 					itemByName.put( itemName.toLowerCase(), new Integer( itemID ) );
@@ -113,6 +115,15 @@ public class TradeableItemDatabase
 	{
 		Object itemID = itemByName.get( itemName.toLowerCase() );
 		return itemID == null ? -1 : ((Integer)itemID).intValue();
+	}
+
+	/**
+	 * Returns the price for the item with the given ID.
+	 * @return	The price associated with the item
+	 */
+
+	public static final int getPriceByID( int itemID )
+	{	return itemID < 0 ? 0 : priceByID[ itemID ];
 	}
 
 	/**

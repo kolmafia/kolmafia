@@ -60,19 +60,17 @@ public class AdventureResult implements Comparable, KoLConstants
 	private static final int MP_PRIORITY = 1;
 	private static final int ADV_PRIORITY = 2;
 	private static final int DRUNK_PRIORITY = 3;
-	private static final int SPACER_PRIORITY = 4;
-	private static final int MEAT_PRIORITY = 5;
-	private static final int SUBSTAT_PRIORITY = 6;
-	private static final int FULLSTAT_PRIORITY = 7;
-	private static final int DIVIDER_PRIORITY = 8;
-	private static final int ITEM_PRIORITY = 9;
-	private static final int EFFECT_PRIORITY = 10;
+	private static final int MEAT_PRIORITY = 4;
+	private static final int SUBSTAT_PRIORITY = 5;
+	private static final int FULLSTAT_PRIORITY = 6;
+	private static final int DIVIDER_PRIORITY = 7;
+	private static final int ITEM_PRIORITY = 8;
+	private static final int EFFECT_PRIORITY = 9;
 
 	public static final String HP = "HP";
 	public static final String MP = "MP";
 	public static final String ADV = "Adv";
 	public static final String DRUNK = "Drunk";
-	public static final String SPACER = " ";
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Substats";
 	public static final String FULLSTATS = "Fullstats";
@@ -143,7 +141,6 @@ public class AdventureResult implements Comparable, KoLConstants
 			name.equals(MP) ? MP_PRIORITY :
 			name.equals(ADV) ? ADV_PRIORITY :
 			name.equals(DRUNK) ? DRUNK_PRIORITY :
-			name.equals(SPACER) ? SPACER_PRIORITY :
 			name.equals(MEAT) ? MEAT_PRIORITY :
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
 			name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
@@ -331,18 +328,25 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public String toString()
 	{
-		return
-			name.equals(HP) || name.equals(MP) || name.equals(ADV) || name.equals(DRUNK) || name.equals(MEAT) ?
-				" " + name + ": " + df.format(count[0]) :
-			name.equals(SUBSTATS) || name.equals(FULLSTATS) ?
-				" " + name + ": " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]) :
-			name.equals(DIVIDER) || name.equals(SPACER) ? DIVIDER :
+		if ( name.equals(HP) || name.equals(MP) || name.equals(ADV) || name.equals(DRUNK) || name.equals(MEAT) )
+			return " " + name + ": " + df.format(count[0]);
 
-			itemID == 41 ? " " + "ice-cold beer (Schlitz)" + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")")) :
-			itemID == 81 ? " " + "ice-cold beer (Willer)" + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")")) :
+		if ( name.equals(SUBSTATS) || name.equals(FULLSTATS) )
+			return " " + name + ": " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]);
 
-				" " + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
-					((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
+		if ( name.equals(DIVIDER) )
+			return DIVIDER;
+
+		if ( itemID == 0 )
+			return " " + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
+				((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
+
+		String stringName = itemID == 41 ? "ice-cold beer (Schlitz)" : itemID == 81 ? "ice-cold beer (Willer)" :
+			name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
+
+		int autosell = TradeableItemDatabase.getPriceByID( itemID );
+		return " " + stringName + ((autosell == 0) ? "" : (" (" + df.format(autosell) + " meat)")) +
+			((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
 	}
 
 	/**
