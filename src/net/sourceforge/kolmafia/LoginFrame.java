@@ -341,9 +341,15 @@ public class LoginFrame extends KoLFrame
 
 				String password = client.getSaveState( (String) anObject );
 				if ( password != null )
+				{
 					passwordField.setText( password );
+					savePasswordCheckBox.setSelected( true );
+				}
 				else
+				{
 					passwordField.setText( "" );
+					savePasswordCheckBox.setSelected( false );
+				}
 			}
 
 			public void focusGained( FocusEvent e )
