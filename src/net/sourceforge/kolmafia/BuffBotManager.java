@@ -565,11 +565,11 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 				if ( !client.permitsContinue() )
 				{
-					buffbotLog.append( ERRORCOLOR + " ---> " + target + " had too many buffs." + ENDCOLOR + "<br>");
+					buffbotLog.append( ERRORCOLOR + " ---> Could not cast " + buffName + " on " + target + ENDCOLOR + "<br>");
 					return false;
 				}
 
-				buffbotLog.append( BUFFCOLOR + " ---> Successfully cast: " + buffName + ", " + currentCast + " times." + ENDCOLOR + "<br>");
+				buffbotLog.append( BUFFCOLOR + " ---> Successfully cast " + buffName + " " + currentCast + " times" + ENDCOLOR + "<br>");
 			}
 
 			return true;
