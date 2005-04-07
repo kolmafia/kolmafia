@@ -795,7 +795,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					kolchat = client.getMessenger();
 				}
 
-				updateDisplay( ENABLED_STATE, "" );
+				updateDisplay( ENABLED_STATE, "Chat successfully loaded." );
 			}
 		}
 	}

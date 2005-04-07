@@ -176,8 +176,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		if ( messageListSaved.isInitialized() )
 			(new RequestMailboxThread( "Saved" )).run();
-
-		updateDisplay( ENABLED_STATE, "" );
 	}
 
 	private class RequestMailboxThread extends Thread
@@ -272,7 +270,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				{
 					client.updateDisplay( DISABLED_STATE, "Deleting messages..." );
 					mailbox.deleteMessages( mailboxName, getSelectedValues() );
-					client.updateDisplay( ENABLED_STATE, "Messages deleted." );
 				}
 			}
 		}

@@ -223,9 +223,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		if ( client != null )
 			client.getCharacterData().addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
 
-		updateDisplay( ENABLED_STATE, "" );
 		addWindowListener( new LogoutRequestAdapter() );
-
 		addMenuBar();
 	}
 
@@ -1253,7 +1251,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			public void run()
 			{
 				client.getBreakfast();
-				updateDisplay( ENABLED_STATE, "" );
+				updateDisplay( ENABLED_STATE, "Breakfast retrieved." );
 			}
 		}
 	}

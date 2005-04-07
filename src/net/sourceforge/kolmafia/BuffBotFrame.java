@@ -517,7 +517,7 @@ public class BuffBotFrame extends KoLFrame
 				if ( whiteListSetting != null )
 					whiteListEditor.setText( whiteListSetting );
 
-				setStatusMessage( ENABLED_STATE, "" );
+				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
 		}
 

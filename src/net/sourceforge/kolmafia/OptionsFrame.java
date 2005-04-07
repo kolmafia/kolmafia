@@ -225,7 +225,7 @@ public class OptionsFrame extends KoLFrame
 					proxyPassword.setText( "" );
 				}
 
-				setStatusMessage( ENABLED_STATE, "" );
+				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
 		}
 
@@ -330,7 +330,7 @@ public class OptionsFrame extends KoLFrame
 			{
 				for ( int i = 0; i < optionKeys.length; ++i )
 					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null );
-				setStatusMessage( ENABLED_STATE, "" );
+				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
 		}
 
@@ -523,7 +523,7 @@ public class OptionsFrame extends KoLFrame
 					(int)(Double.parseDouble( mpAutoRecoverSettings ) * 10) + 1 );
 				mpRecoveryScriptField.setText( mpRecoveryScriptSettings == null ? "" : mpRecoveryScriptSettings );
 
-				setStatusMessage( ENABLED_STATE, "" );
+				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
 		}
 
@@ -656,7 +656,7 @@ public class OptionsFrame extends KoLFrame
 				while ( st.hasMoreTokens() )
 					items[ Integer.parseInt( st.nextToken() ) - 1 ].setSelected( true );
 
-				setStatusMessage( ENABLED_STATE, "" );
+				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
 		}
 
@@ -886,7 +886,7 @@ public class OptionsFrame extends KoLFrame
 				else
 					autoRepairBoxesSelect.setSelectedIndex( 1 );
 
-				setStatusMessage( ENABLED_STATE, "" );
+				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
 		}
 

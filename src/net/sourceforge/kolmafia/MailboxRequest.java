@@ -188,7 +188,7 @@ public class MailboxRequest extends KoLRequest
 			}
 		}
 
-		updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname + "" );
+		updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
 		isRequesting = false;
 	}
 }

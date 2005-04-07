@@ -279,7 +279,7 @@ public class StoreManageFrame extends KoLFrame
 						if ( price > 10 )
 							client.makeRequest( new AutoSellRequest( client, soldItem, price, limit ), 1 );
 
-						client.updateDisplay( ENABLED_STATE, "" );
+						client.updateDisplay( ENABLED_STATE, "Items were placed in the mall." );
 					}
 					catch ( Exception e )
 					{

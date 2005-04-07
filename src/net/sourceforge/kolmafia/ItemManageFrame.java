@@ -366,7 +366,7 @@ public class ItemManageFrame extends KoLFrame
 					for ( int i = 0; !finishedSelling && i < items.length; ++i )
 						sell( (AdventureResult) items[i] );
 
-					client.updateDisplay( ENABLED_STATE, "" );
+					client.updateDisplay( ENABLED_STATE, "Transaction complete." );
 				}
 
 				private void sell( AdventureResult currentItem )
@@ -495,7 +495,7 @@ public class ItemManageFrame extends KoLFrame
 				else
 					client.makeRequest( new ItemStorageRequest( client, moveType, items ), 1 );
 
-				client.updateDisplay( ENABLED_STATE, "" );
+				client.updateDisplay( ENABLED_STATE, "Items moved." );
 			}
 		}
 	}
@@ -597,7 +597,7 @@ public class ItemManageFrame extends KoLFrame
 					// this will be fixed once we add functionality.
 				}
 
-				client.updateDisplay( ENABLED_STATE, "" );
+				client.updateDisplay( ENABLED_STATE, "Items created." );
 			}
 		}
 	}
@@ -620,7 +620,7 @@ public class ItemManageFrame extends KoLFrame
 			{
 				(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();
 				refreshConcoctionsList();
-				client.updateDisplay( ENABLED_STATE, "" );
+				client.updateDisplay( ENABLED_STATE, "Lists refreshed." );
 			}
 		}
 	}

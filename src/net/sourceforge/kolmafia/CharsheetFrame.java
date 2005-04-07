@@ -291,7 +291,6 @@ public class CharsheetFrame extends KoLFrame
 		statusLabel[9].setText( characterData.getInebriety() + " drunkenness" );
 		statusLabel[10].setText( characterData.getAdventuresLeft() + " adventures left" );
 
-		client.updateDisplay( ENABLED_STATE, "" );
 		this.setEnabled( true );
 	}
 
