@@ -101,19 +101,20 @@ public class UseSkillRequest extends KoLRequest
 		super.run();
 
 		// If a reply was obtained, check to see if it was a success message
-		//     Otherwise, try to figure out why it was unsuccessful
+		// Otherwise, try to figure out why it was unsuccessful.
+
 		if ( replyContent == null )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "No response to skill request." );
 			return;
 		}
-		else if ( Pattern.compile( "You (conjure|play|make|muster|call)" ).matcher( replyContent ).find() )
+		else if ( replyContent.indexOf( "Adventures" ) != -1 )
 		{
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
 
 			processResults( replyContent.replaceFirst(
-				"</b><br>\\(duration: ", " (" ).replaceFirst( " Adventures", "" ) );
+				"</b><br>\\(duration: ", " (" ).replaceAll( " Adventures", "" ) );
 
 			client.applyRecentEffects();
 			updateDisplay( ENABLED_STATE, skillName + " was successfully cast." );
@@ -142,7 +143,7 @@ public class UseSkillRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "Invalid target: " + target );
 			return;
 		}
-		else 
+		else
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Unknown Skill Cast Error " + target );
