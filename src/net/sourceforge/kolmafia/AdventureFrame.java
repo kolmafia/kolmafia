@@ -264,9 +264,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 	{
 		this.isEnabled = isEnabled && !client.isBuffBotActive();
 
-		if ( statusMenuItem != null )
-			statusMenuItem.setEnabled( this.isEnabled );
-
 		if ( mailMenuItem != null )
 			mailMenuItem.setEnabled( this.isEnabled );
 
