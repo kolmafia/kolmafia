@@ -109,17 +109,7 @@ public class UseSkillRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "No response to skill request." );
 			return;
 		}
-		else if ( replyContent.indexOf( "Adventures" ) != -1 )
-		{
-			client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
-
-			processResults( replyContent.replaceFirst(
-				"</b><br>\\(duration: ", " (" ).replaceAll( " Adventures", "" ) );
-
-			client.applyRecentEffects();
-			updateDisplay( ENABLED_STATE, skillName + " was successfully cast." );
-		}
-		else if ( replyContent == null || replyContent.indexOf( "You don't have enough" ) != -1 )
+		else if ( replyContent.indexOf( "You don't have enough" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You don't have enough mana." );
@@ -134,21 +124,30 @@ public class UseSkillRequest extends KoLRequest
 		else if ( replyContent.indexOf( "too many songs" ) != -1 )
 		{
 			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Too many songs in their head." );
+			updateDisplay( ERROR_STATE, "Overbuffed target." );
 			return;
 		}
 		else if ( replyContent.indexOf( "Invalid target" ) != -1 )
 		{
 			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Invalid target: " + target );
+			updateDisplay( ERROR_STATE, "Invalid target." );
+			return;
+		}
+		else if ( replyContent.indexOf( "busy fighting" ) != -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Target is fighting." + target );
 			return;
 		}
 		else
 		{
-			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Unknown Skill Cast Error " + target );
-			return;
-		}
+			client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
 
+			processResults( replyContent.replaceFirst(
+				"</b><br>\\(duration: ", " (" ).replaceAll( " Adventures", "" ) );
+
+			client.applyRecentEffects();
+			updateDisplay( ENABLED_STATE, skillName + " was successfully cast." );
+		}
 	}
 }
