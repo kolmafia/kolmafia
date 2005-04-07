@@ -320,7 +320,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		try
 		{
-			logStream.println( "Parsing adventure result:\n\t" + result );
+			logStream.println( "Parsing adventure result: " + result );
 			processResult( AdventureResult.parseResult( result ) );
 		}
 		catch ( Exception e )
