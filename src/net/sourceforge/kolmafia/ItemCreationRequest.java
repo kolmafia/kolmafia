@@ -261,7 +261,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					client.getCharacterData().setChef( false );
 
-					if ( autoRepairBoxServant() )
+					if ( autoRepairBoxServant() && quantityNeeded < createdQuantity )
 						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
 					else
 					{
@@ -280,7 +280,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					client.getCharacterData().setBartender( false );
 
-					if ( autoRepairBoxServant() )
+					if ( autoRepairBoxServant() && quantityNeeded < createdQuantity )
 						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
 					else
 					{
