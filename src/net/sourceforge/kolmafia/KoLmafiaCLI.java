@@ -514,6 +514,26 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Another popular command involves managing
+		// your player's closet!  Which can be fun.
+
+		if ( command.startsWith( "closet" ) )
+		{
+			if ( parameters.startsWith( "list" ) )
+			{
+				executePrintCommand( "closet " + parameters.substring(4).trim() );
+				return;
+			}
+			else if ( parameters.length() == 0 )
+			{
+				executePrintCommand( "closet" );
+				return;
+			}
+
+			executeClosetManageRequest( parameters );
+			return;
+		}
+
 		// Yet another popular command involves changing
 		// your outfit.
 
@@ -545,6 +565,18 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// If you just want to see what's in the mall,
+		// then execute a search from here.
+
+		if ( command.equals( "searchmall" ) )
+		{
+			List results = new ArrayList();
+			(new SearchMallRequest( scriptRequestor, parameters, results )).run();
+			outputStream.println();
+			printList( results, outputStream );
+			return;
+		}
+
 		// Finally, handle command abbreviations - in
 		// other words, commands that look like they're
 		// their own commands, but are actually commands
@@ -568,7 +600,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
+		if ( command.startsWith( "inv" ) || command.equals( "session" ) || command.equals( "summary" ) ||
 			command.startsWith( "equip" ) || command.equals( "effects" ) || command.startsWith( "status" ) )
 		{
 			executePrintCommand( command + " " + parameters );
@@ -973,6 +1005,41 @@ public class KoLmafiaCLI extends KoLmafia
 		items[0] = firstMatch;
 
 		scriptRequestor.makeRequest( new ItemStorageRequest( scriptRequestor, ItemStorageRequest.INVENTORY_TO_STASH, items ), 1 );
+	}
+
+	/**
+	 * A special module used specifically for properly instantiating
+	 * ItemManageRequests which manage the closet.
+	 */
+
+	private void executeClosetManageRequest( String parameters )
+	{
+		if ( !parameters.startsWith( "take" ) && !parameters.startsWith( "put" ) )
+		{
+			updateDisplay( ERROR_STATE, "Invalid closet command." );
+			return;
+		}
+
+		String [] tokens = parameters.split( " " );
+		StringBuffer itemName = new StringBuffer();
+
+		itemName.append( '*' );
+		for ( int i = 1; i < tokens.length - 2; ++i )
+		{
+			itemName.append( ' ' );
+			itemName.append( tokens[i] );
+		}
+
+		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), USAGE );
+		if ( firstMatch == null )
+			return;
+
+
+		Object [] items = new Object[1];
+		items[0] = firstMatch;
+
+		scriptRequestor.makeRequest( new ItemStorageRequest( scriptRequestor,
+			parameters.startsWith( "take" ) ? ItemStorageRequest.CLOSET_TO_INVENTORY : ItemStorageRequest.INVENTORY_TO_CLOSET, items ), 1 );
 	}
 
 	/**
