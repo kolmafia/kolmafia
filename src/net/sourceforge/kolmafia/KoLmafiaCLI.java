@@ -662,7 +662,18 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, Integer.parseInt( firstParameter ) ), 1 );
+		try
+		{
+			int buffCount = firstParameter.equals( "*" ) ?
+				(int) ( scriptRequestor.getCharacterData().getCurrentMP() /
+					ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) ) :
+						df.parse( firstParameter ).intValue();
+
+			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, buffCount ), 1 );
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	/**
