@@ -772,7 +772,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public ClanBuffPanel()
 		{
-			super( "Make Your Clan 1335", "purchase", "halt", new Dimension( 80, 20 ), new Dimension( 210, 20 ) );
+			super( "Make Your Clan 1335", "purchase", "halt", new Dimension( 80, 20 ), new Dimension( 250, 20 ) );
 			this.isBuffing = false;
 
 			buffField = new JComboBox( ClanBuffRequest.getRequestList( client ) );
@@ -861,7 +861,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public HeroDonationPanel()
 		{
-			super( "Donations to the Greater Good", "lump sum", "increments", new Dimension( 80, 20 ), new Dimension( 210, 20 ) );
+			super( "Donations to the Greater Good", "lump sum", "increments", new Dimension( 80, 20 ), new Dimension( 250, 20 ) );
 
 			LockableListModel heroes = new LockableListModel();
 			heroes.add( "Statue of Boris" );
@@ -1008,7 +1008,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public MeatStoragePanel()
 		{
-			super( "Meat Management (Closet)", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 210, 20 ) );
+			super( "Meat Management (Closet)", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 250, 20 ) );
 
 			amountField = new JTextField();
 			inClosetField = new JTextField( df.format( client == null ? 0 : client.getCharacterData().getClosetMeat() ) );
@@ -1096,7 +1096,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public RemoveEffectsPanel()
 		{
-			super( "Uneffective", "uneffect", "kill hermit", new Dimension( 80, 20 ), new Dimension( 210, 20 ) );
+			super( "Uneffective", "uneffect", "kill hermit", new Dimension( 80, 20 ), new Dimension( 250, 20 ) );
 
 			effects = new JComboBox( client == null ? new LockableListModel() :
 				client.getCharacterData().getEffects().getMirrorImage() );
@@ -1153,7 +1153,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public SkillBuffPanel()
 		{
-			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 210, 20 ) );
+			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 250, 20 ) );
 
 			skillSelect = new JComboBox( client == null ? new LockableListModel() :
 				client.getCharacterData().getAvailableSkills() );
