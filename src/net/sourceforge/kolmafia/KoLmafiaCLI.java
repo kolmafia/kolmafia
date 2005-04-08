@@ -247,6 +247,10 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.resetContinueState();
 			while ( (scriptRequestor.permitsContinue() || scriptRequestor == this) && (line = commandStream.readLine()) != null )
 			{
+				// Skip comment lines
+				while ( line.startsWith( "#" ) )
+					line = commandStream.readLine();
+
 				outputStream.println();
 				executeLine( line.trim() );
 				outputStream.println();
