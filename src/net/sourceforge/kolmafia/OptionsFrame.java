@@ -115,7 +115,6 @@ public class OptionsFrame extends KoLFrame
 		contentPanel = null;
 
 		tabs.addTab( "Login", new LoginOptionsPanel() );
-		tabs.addTab( "Startup", new StartupOptionsPanel() );
 		tabs.addTab( "Battle", new BattleOptionsPanel() );
 		tabs.addTab( "Mall", new ResultsOptionsPanel() );
 		tabs.addTab( "Sewer", new SewerOptionsPanel() );
@@ -152,10 +151,9 @@ public class OptionsFrame extends KoLFrame
 	private class LoginOptionsPanel extends OptionsPanel
 	{
 		private JComboBox serverSelect;
-		private JTextField proxyHost;
-		private JTextField proxyPort;
-		private JTextField proxyLogin;
-		private JTextField proxyPassword;
+		private JCheckBox [] optionBoxes;
+		private final String [] optionKeys = { "skipCharacterData", "skipInventory", "skipFamiliarData" };
+		private final String [] optionNames = { "Skip character data retrieval", "Skip inventory retrieval", "Skip familiar data retrieval" };
 
 		/**
 		 * Constructs a new <code>LoginOptionsPanel</code>, containing a
@@ -172,17 +170,15 @@ public class OptionsFrame extends KoLFrame
 			servers.add( "Use Login Server 3" );
 
 			serverSelect = new JComboBox( servers );
-			proxyHost = new JTextField();
-			proxyPort = new JTextField();
-			proxyLogin = new JTextField();
-			proxyPassword = new JPasswordField();
-
-			VerifiableElement [] elements = new VerifiableElement[5];
+			VerifiableElement [] elements = new VerifiableElement[ 1 + optionNames.length ];
 			elements[0] = new VerifiableElement( "KoL Server: ", serverSelect );
-			elements[1] = new VerifiableElement( "Proxy Host: ", proxyHost );
-			elements[2] = new VerifiableElement( "Proxy Port: ", proxyPort );
-			elements[3] = new VerifiableElement( "Proxy Login: ", proxyLogin );
-			elements[4] = new VerifiableElement( "Proxy Password: ", proxyPassword );
+
+			optionBoxes = new JCheckBox[ optionNames.length ];
+			for ( int i = 0; i < optionNames.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			for ( int i = 0; i < optionNames.length; ++i )
+				elements[i+1] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements, true );
 			(new LoadDefaultSettingsThread()).run();
@@ -203,27 +199,10 @@ public class OptionsFrame extends KoLFrame
 			public void run()
 			{
 				if ( client == null )
-				{
 					System.setProperty( "loginServer", "0" );
-					System.setProperty( "proxySet", "false" );
-				}
 
-				serverSelect.setSelectedIndex( Integer.parseInt( settings.getProperty( "loginServer" ) ) );
-
-				if ( settings.getProperty( "proxySet" ).equals( "true" ) )
-				{
-					proxyHost.setText( settings.getProperty( "http.proxyHost" ) );
-					proxyPort.setText( settings.getProperty( "http.proxyPort" ) );
-					proxyLogin.setText( settings.getProperty( "http.proxyUser" ) );
-					proxyPassword.setText( settings.getProperty( "http.proxyPassword" ) );
-				}
-				else
-				{
-					proxyHost.setText( "" );
-					proxyPort.setText( "" );
-					proxyLogin.setText( "" );
-					proxyPassword.setText( "" );
-				}
+				for ( int i = 0; i < optionKeys.length; ++i )
+					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null );
 
 				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
@@ -239,126 +218,23 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				if ( proxyHost.getText().trim().length() != 0 )
-				{
-					settings.setProperty( "proxySet", "true" );
-					settings.setProperty( "http.proxyHost", proxyHost.getText() );
-					settings.setProperty( "http.proxyPort", proxyPort.getText() );
-
-					if ( proxyLogin.getText().trim().length() != 0 )
-					{
-						settings.setProperty( "http.proxyUser", proxyLogin.getText() );
-						settings.setProperty( "http.proxyPassword", proxyPassword.getText() );
-					}
-					else
-					{
-						settings.remove( "http.proxyUser" );
-						settings.remove( "http.proxyPassword" );
-					}
-				}
-				else
-				{
-					settings.setProperty( "proxySet", "false" );
-					settings.remove( "http.proxyHost" );
-					settings.remove( "http.proxyPort" );
-					settings.remove( "http.proxyUser" );
-					settings.remove( "http.proxyPassword" );
-				}
-
 				// Next, change the server that's used to login;
 				// find out the selected index.
 
 				settings.setProperty( "loginServer", "" + serverSelect.getSelectedIndex() );
+				for ( int i = 0; i < optionKeys.length; ++i )
+				{
+					if ( optionBoxes[i].isSelected() )
+						settings.setProperty( optionKeys[i], "true" );
+					else
+						settings.remove( optionKeys[i] );
+				}
 
 				// Save the settings that were just set; that way,
 				// the next login can use them.
 
 				saveSettings();
 				KoLRequest.applySettings();
-			}
-		}
-	}
-
-	/**
-	 * This panel allows the user to select which things they would
-	 * like to do on startup.  Some people only use this for doing
-	 * small things, not full-blown character management.  This
-	 * screen allows users to customize their login sequence.
-	 */
-
-	private class StartupOptionsPanel extends OptionsPanel
-	{
-		private JCheckBox [] optionBoxes;
-		private final String [] optionKeys = { "skipCharacterData", "skipInventory", "skipFamiliarData" };
-		private final String [] optionNames = { "Skip character data retrieval", "Skip inventory retrieval", "Skip familiar data retrieval" };
-
-		/**
-		 * Constructs a new <code>SewerOptionsPanel</code> containing an
-		 * alphabetized list of items available through the lucky sewer
-		 * adventure.
-		 */
-
-		public StartupOptionsPanel()
-		{
-			super( new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
-
-			optionBoxes = new JCheckBox[ optionNames.length ];
-			for ( int i = 0; i < optionNames.length; ++i )
-				optionBoxes[i] = new JCheckBox();
-
-			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
-			for ( int i = 0; i < optionNames.length; ++i )
-				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
-
-			setContent( elements, false );
-			(new LoadDefaultSettingsThread()).start();
-		}
-
-		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadDefaultSettingsThread extends OptionsThread
-		{
-			public void run()
-			{
-				for ( int i = 0; i < optionKeys.length; ++i )
-					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null );
-				setStatusMessage( ENABLED_STATE, "Settings loaded." );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
-		{
-			public void run()
-			{
-				if ( client != null )
-				{
-					for ( int i = 0; i < optionKeys.length; ++i )
-					{
-						if ( optionBoxes[i].isSelected() )
-							settings.setProperty( optionKeys[i], "true" );
-						else
-							settings.remove( optionKeys[i] );
-					}
-
-					if ( settings instanceof KoLSettings )
-						((KoLSettings)settings).saveSettings();
-				}
-
-				saveSettings();
 			}
 		}
 	}
