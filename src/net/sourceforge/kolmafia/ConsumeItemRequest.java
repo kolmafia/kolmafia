@@ -123,8 +123,8 @@ public class ConsumeItemRequest extends KoLRequest
 				client.getCharacterData().setBartender( true );
 				client.processResult( itemUsed );
 			}
-			else
-				(new RetrieveResultRequest( client, redirectLocation )).run();
+
+			(new RetrieveResultRequest( client, redirectLocation )).run();
 		}
 		else if ( replyContent.indexOf( "Too much" ) != -1 )
 		{
