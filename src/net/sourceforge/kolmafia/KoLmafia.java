@@ -309,19 +309,21 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public void parseResult( String result )
 	{
+		String trimResult = result.trim();
+
 		// Because of the simplified parsing, there's a chance that
 		// the "gain" acquired wasn't a subpoint (in other words, it
 		// includes the word "a" or "some"), which causes a NFE or
 		// possibly a ParseException to be thrown.  Catch them and
 		// do nothing (eventhough it's technically bad style).
 
-		if ( result.startsWith( "You gain a" ) || result.startsWith( "You gain some" ) )
+		if ( trimResult.startsWith( "You gain a" ) || trimResult.startsWith( "You gain some" ) )
 			return;
 
 		try
 		{
-			logStream.println( "Parsing adventure result: " + result );
-			processResult( AdventureResult.parseResult( result ) );
+			logStream.println( "Parsing result: " + trimResult );
+			processResult( AdventureResult.parseResult( trimResult ) );
 		}
 		catch ( Exception e )
 		{
@@ -621,7 +623,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			{
 				if ( lastToken.indexOf( "effect" ) == -1 )
 				{
-					parseResult( parsedResults.nextToken().trim() );
+					parseResult( parsedResults.nextToken() );
 				}
 				else
 				{
@@ -629,16 +631,16 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 					lastToken = parsedResults.nextToken();
 
 					if ( lastToken.indexOf( "duration" ) == -1 )
-						parseResult( effect.trim() );
+						parseResult( effect );
 					else
 					{
 						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
-						parseResult( effect.trim() + " (" + duration + ")" );
+						parseResult( effect + " (" + duration + ")" );
 					}
 				}
 			}
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
-				parseResult( lastToken.indexOf( "." ) == -1 ? lastToken.trim() : lastToken.substring( 0, lastToken.indexOf( "." ) ).trim() );
+				parseResult( lastToken.indexOf( "." ) == -1 ? lastToken : lastToken.substring( 0, lastToken.indexOf( "." ) ) );
 		}
 	}
 
