@@ -687,7 +687,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
-					if ( request instanceof KoLAdventure )
+					if ( request instanceof KoLAdventure || request instanceof HeroDonationRequest )
 						updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
 
 					else if ( request instanceof ConsumeItemRequest )
