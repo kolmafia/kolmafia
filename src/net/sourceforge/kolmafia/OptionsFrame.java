@@ -57,6 +57,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JFileChooser;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 // utilities
 import java.util.Properties;
@@ -150,8 +152,11 @@ public class OptionsFrame extends KoLFrame
 
 	private class LoginOptionsPanel extends OptionsPanel
 	{
-		private JComboBox serverSelect;
+		private static final int SERVER_COUNT = 3;
+
+		private JRadioButton [] servers;
 		private JCheckBox [] optionBoxes;
+		private JCheckBox sortAdventuresBox;
 		private final String [] optionKeys = { "skipCharacterData", "skipInventory", "skipFamiliarData" };
 		private final String [] optionNames = { "Skip character data retrieval", "Skip inventory retrieval", "Skip familiar data retrieval" };
 
@@ -163,24 +168,34 @@ public class OptionsFrame extends KoLFrame
 
 		public LoginOptionsPanel()
 		{
-			LockableListModel servers = new LockableListModel();
-			servers.add( "(Auto Detect)" );
-			servers.add( "Use Login Server 1" );
-			servers.add( "Use Login Server 2" );
-			servers.add( "Use Login Server 3" );
+			super( new Dimension( 200, 16 ), new Dimension( 20, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ 3 + SERVER_COUNT + optionNames.length ];
 
-			serverSelect = new JComboBox( servers );
-			VerifiableElement [] elements = new VerifiableElement[ 1 + optionNames.length ];
-			elements[0] = new VerifiableElement( "KoL Server: ", serverSelect );
+			servers = new JRadioButton[ SERVER_COUNT + 1 ];
+			ButtonGroup serverGroup = new ButtonGroup();
+			for ( int i = 0; i <= SERVER_COUNT; ++i )
+			{
+				servers[i] = new JRadioButton();
+				serverGroup.add( servers[i] );
+			}
+
+			elements[0] = new VerifiableElement( "Auto-detect login server", JLabel.LEFT, servers[0] );
+			for ( int i = 1; i <= SERVER_COUNT; ++i )
+				elements[i] = new VerifiableElement( "Use login server " + i, JLabel.LEFT, servers[i] );
 
 			optionBoxes = new JCheckBox[ optionNames.length ];
 			for ( int i = 0; i < optionNames.length; ++i )
 				optionBoxes[i] = new JCheckBox();
 
-			for ( int i = 0; i < optionNames.length; ++i )
-				elements[i+1] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
+			elements[ SERVER_COUNT + 1 ] = new VerifiableElement( " ", new JPanel() );
 
-			setContent( elements, true );
+			for ( int i = 0; i < optionNames.length; ++i )
+				elements[i + 2 + SERVER_COUNT ] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
+
+			sortAdventuresBox = new JCheckBox();
+			elements[ elements.length - 1 ] = new VerifiableElement( "Sort adventure list by name", JLabel.LEFT, sortAdventuresBox );
+
+			setContent( elements, false );
 			(new LoadDefaultSettingsThread()).run();
 		}
 
@@ -201,8 +216,14 @@ public class OptionsFrame extends KoLFrame
 				if ( client == null )
 					System.setProperty( "loginServer", "0" );
 
+				servers[ Integer.parseInt( settings.getProperty( "loginServer" ) ) ].setSelected( true );
+
 				for ( int i = 0; i < optionKeys.length; ++i )
-					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null );
+					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null &&
+						settings.getProperty( optionKeys[i] ).equals( "true" ) );
+
+				sortAdventuresBox.setSelected( settings.getProperty( "sortAdventures" ) != null &&
+					settings.getProperty( "sortAdventures" ).equals( "true" ) );
 
 				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
@@ -221,14 +242,14 @@ public class OptionsFrame extends KoLFrame
 				// Next, change the server that's used to login;
 				// find out the selected index.
 
-				settings.setProperty( "loginServer", "" + serverSelect.getSelectedIndex() );
+				for ( int i = 0; i < 4; ++i )
+					if ( servers[i].isSelected() )
+						settings.setProperty( "loginServer", "" + i );
+
 				for ( int i = 0; i < optionKeys.length; ++i )
-				{
-					if ( optionBoxes[i].isSelected() )
-						settings.setProperty( optionKeys[i], "true" );
-					else
-						settings.remove( optionKeys[i] );
-				}
+					settings.setProperty( optionKeys[i], "" + optionBoxes[i].isSelected() );
+
+				settings.setProperty( "sortAdventures", "" + sortAdventuresBox.isSelected() );
 
 				// Save the settings that were just set; that way,
 				// the next login can use them.
