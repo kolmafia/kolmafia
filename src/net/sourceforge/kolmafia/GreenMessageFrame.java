@@ -142,12 +142,6 @@ public class GreenMessageFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( recipientEntry != null )
-			recipientEntry.setEnabled( isEnabled );
-
-		if ( messageEntry != null )
-			messageEntry.setEnabled( isEnabled );
-
 		if ( sendMessageButton != null )
 			sendMessageButton.setEnabled( isEnabled );
 	}
@@ -172,7 +166,10 @@ public class GreenMessageFrame extends KoLFrame
 
 			public void run()
 			{
-				GreenMessageFrame.this.setEnabled( false );
+				recipientEntry.setEnabled( false );
+				messageEntry.setEnabled( false );
+				sendMessageButton.setEnabled( false );
+
 				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
 
 				if ( client.permitsContinue() )
@@ -180,7 +177,9 @@ public class GreenMessageFrame extends KoLFrame
 				else
 					sendMessageStatus.setText( "Failed to send message to " + recipientEntry.getText() );
 
-				GreenMessageFrame.this.setEnabled( true );
+				recipientEntry.setEnabled( true );
+				messageEntry.setEnabled( true );
+				sendMessageButton.setEnabled( true );
 			}
 		}
 	}
