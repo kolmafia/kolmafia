@@ -311,6 +311,7 @@ public class CharsheetFrame extends KoLFrame
 			public void run()
 			{
 				(new CharsheetRequest( client )).run();
+				updateDisplay( ENABLED_STATE, "Status refreshed." );
 				refreshStatus();
 			}
 		}
