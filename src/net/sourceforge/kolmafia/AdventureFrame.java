@@ -183,9 +183,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		otherStuffPanel.add( clanBuff );
 
 		JScrollPane otherStuffScroller = new JScrollPane( otherStuffPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 
-		JComponentUtilities.setComponentSize( otherStuffScroller, 440, 300 );
+		JComponentUtilities.setComponentSize( otherStuffScroller, 500, 300 );
 		tabs.addTab( "Other Activities", otherStuffScroller );
 
 		JPanel compactPane = new JPanel();
@@ -353,7 +353,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public AdventureSelectPanel( LockableListModel adventureList, LockableListModel resultsTally )
 		{
-			super( "begin", "stop", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
+			super( "begin", "stop", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -533,7 +533,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public MallSearchPanel()
 		{
-			super( "search", "purchase", new Dimension( 100, 20 ), new Dimension( 225, 20 ) );
+			super( "search", "purchase", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -772,7 +772,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public ClanBuffPanel()
 		{
-			super( "Make Your Clan 1335", "purchase", "halt", new Dimension( 80, 20 ), new Dimension( 250, 20 ) );
+			super( "Make Your Clan 1335", "purchase", "halt", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 			this.isBuffing = false;
 
 			buffField = new JComboBox( ClanBuffRequest.getRequestList( client ) );
@@ -861,7 +861,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public HeroDonationPanel()
 		{
-			super( "Donations to the Greater Good", "lump sum", "increments", new Dimension( 80, 20 ), new Dimension( 250, 20 ) );
+			super( "Donations to the Greater Good", "lump sum", "increments", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			LockableListModel heroes = new LockableListModel();
 			heroes.add( "Statue of Boris" );
@@ -1008,7 +1008,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public MeatStoragePanel()
 		{
-			super( "Meat Management (Closet)", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 250, 20 ) );
+			super( "Meat Management (Closet)", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			amountField = new JTextField();
 			inClosetField = new JTextField( df.format( client == null ? 0 : client.getCharacterData().getClosetMeat() ) );
@@ -1096,7 +1096,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public RemoveEffectsPanel()
 		{
-			super( "Uneffective", "uneffect", "kill hermit", new Dimension( 80, 20 ), new Dimension( 250, 20 ) );
+			super( "Uneffective", "uneffect", "kill hermit", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			effects = new JComboBox( client == null ? new LockableListModel() :
 				client.getCharacterData().getEffects().getMirrorImage() );
@@ -1153,7 +1153,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		public SkillBuffPanel()
 		{
-			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 250, 20 ) );
+			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			skillSelect = new JComboBox( client == null ? new LockableListModel() :
 				client.getCharacterData().getAvailableSkills() );
