@@ -43,7 +43,7 @@ package net.sourceforge.kolmafia;
  * within a database.
  */
 
-public class KoLAdventure implements Runnable, KoLConstants
+public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
 	private boolean isErrorState;
 	private KoLmafia client;
@@ -136,5 +136,15 @@ public class KoLAdventure implements Runnable, KoLConstants
 
 	public int getAdventuresUsed()
 	{	return isErrorState ? 0 : request.getAdventuresUsed();
+	}
+
+	public int compareTo( Object o )
+	{
+		return ( o == null || !( o instanceof KoLAdventure ) ) ? 1 :
+			compareTo( (KoLAdventure) o );
+	}
+
+	public int compareTo( KoLAdventure ka )
+	{	return adventureName.compareToIgnoreCase( ka.adventureName );
 	}
 }
