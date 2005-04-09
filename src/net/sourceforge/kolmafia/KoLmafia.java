@@ -209,7 +209,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			return;
 		}
 
-		if ( settings.getProperty( "skipCharacterData" ) == null )
+		if ( settings.getProperty( "skipCharacterData" ) == null || settings.getProperty( "skipCharacterData" ).equals( "false" ) )
 		{
 			(new CharsheetRequest( this )).run();
 			(new CampgroundRequest( this )).run();
@@ -226,7 +226,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			return;
 		}
 
-		if ( settings.getProperty( "skipInventory" ) == null )
+		if ( settings.getProperty( "skipInventory" ) == null || settings.getProperty( "skipInventory" ).equals( "false" ) )
 			(new EquipmentRequest( this )).run();
 
 		if ( !permitContinue )
@@ -236,7 +236,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			return;
 		}
 
-		if ( settings.getProperty( "skipFamiliarData" ) == null )
+		if ( settings.getProperty( "skipFamiliarData" ) == null || settings.getProperty( "skipFamiliarData" ).equals( "false" ) )
 			(new FamiliarRequest( this )).run();
 
 		// Initially the tally to the necessary values
