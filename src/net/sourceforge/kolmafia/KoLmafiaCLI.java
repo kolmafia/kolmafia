@@ -1011,7 +1011,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	/**
 	 * A special module used specifically for properly instantiating
-	 * ItemStorageRequests which send things to the clan stash.
+	 * ClanStorageRequests which send things to the clan stash.
 	 */
 
 	private void executeStashRequest( String parameters )
@@ -1023,7 +1023,7 @@ public class KoLmafiaCLI extends KoLmafia
 		Object [] items = new Object[1];
 		items[0] = firstMatch;
 
-		scriptRequestor.makeRequest( new ItemStorageRequest( scriptRequestor, ItemStorageRequest.INVENTORY_TO_STASH, items ), 1 );
+		scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items ), 1 );
 	}
 
 	/**

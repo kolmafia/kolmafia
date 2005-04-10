@@ -48,11 +48,9 @@ public class ItemStorageRequest extends KoLRequest
 
 	public static final int INVENTORY_TO_CLOSET = 1;
 	public static final int CLOSET_TO_INVENTORY = 2;
-	public static final int INVENTORY_TO_STASH = 3;
 
 	public static final int MEAT_TO_CLOSET = 4;
 	public static final int MEAT_TO_INVENTORY = 5;
-	public static final int MEAT_TO_STASH = 6;
 
 	/**
 	 * Constructs a new <code>ItemStorageRequest</code>.
@@ -63,28 +61,10 @@ public class ItemStorageRequest extends KoLRequest
 
 	public ItemStorageRequest( KoLmafia client, int amount, int transactionType )
 	{
-		super( client, transactionType == MEAT_TO_STASH ? "clan_stash.php" : "closet.php" );
-
-		if ( transactionType != MEAT_TO_STASH )
-		{
-			addFormField( "pwd", client.getPasswordHash() );
-			addFormField( "amt", "" + amount );
-		}
-		else
-			addFormField( "howmuch", "" + amount );
-
-		switch ( transactionType )
-		{
-			case MEAT_TO_CLOSET:
-				addFormField( "action", "addmeat" );
-				break;
-			case MEAT_TO_INVENTORY:
-				addFormField( "action", "takemeat" );
-				break;
-			case MEAT_TO_STASH:
-				addFormField( "action", "contribute" );
-				break;
-		}
+		super( client, "closet.php" );
+		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "amt", "" + amount );
+		addFormField( "action", "takemeat" );
 
 		this.items = null;
 		this.moveType = transactionType;
@@ -99,13 +79,12 @@ public class ItemStorageRequest extends KoLRequest
 
 	public ItemStorageRequest( KoLmafia client, int moveType, Object [] items )
 	{
-		super( client, moveType == INVENTORY_TO_STASH ? "clan_stash.php" : "closet.php" );
+		super( client, "closet.php" );
 
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "action",
 			moveType == INVENTORY_TO_CLOSET ? "put" :
-			moveType == CLOSET_TO_INVENTORY ? "take" :
-			moveType == INVENTORY_TO_STASH ? "addgoodies" : "" );
+			moveType == CLOSET_TO_INVENTORY ? "take" : "" );
 
 		this.items = items;
 		this.moveType = moveType;
@@ -120,11 +99,6 @@ public class ItemStorageRequest extends KoLRequest
 			case CLOSET_TO_INVENTORY:
 				source = client.getCloset();
 				destination = client.getInventory();
-				break;
-
-			case INVENTORY_TO_STASH:
-				source = client.getInventory();
-				destination = new ArrayList();
 				break;
 		}
 	}
@@ -143,22 +117,11 @@ public class ItemStorageRequest extends KoLRequest
 				closet();
 				break;
 
-			case INVENTORY_TO_STASH:
-				updateDisplay( DISABLED_STATE, "Moving items to clan stash..." );
-				stash();
-				break;
-
 			case MEAT_TO_CLOSET:
 			case MEAT_TO_INVENTORY:
 				updateDisplay( DISABLED_STATE, "Executing transaction..." );
 				meat();
 				updateDisplay( NOCHANGE, "" );
-				break;
-
-			case MEAT_TO_STASH:
-				updateDisplay( DISABLED_STATE, "Attempting clan donation..." );
-				super.run();
-				updateDisplay( NOCHANGE, "Clan donation attempt complete." );
 				break;
 		}
 	}
@@ -274,42 +237,6 @@ public class ItemStorageRequest extends KoLRequest
 					client.processResult( currentResult );
 				}
 			}
-		}
-	}
-
-	private void stash()
-	{
-		// First, check to see how many items are to be
-		// placed in the closet - if there's too many,
-		// then you'll need to break up the request
-
-		if ( items == null || items.length == 0 )
-			return;
-
-		if ( items.length > 1 )
-		{
-			Object [] itemHolder = new Object[1];
-			for ( int i = 0; i < items.length; ++i )
-			{
-				itemHolder[0] = items[i];
-				(new ItemStorageRequest( client, INVENTORY_TO_STASH, itemHolder )).run();
-			}
-
-			return;
-		}
-
-		AdventureResult result = (AdventureResult) items[0];
-		int itemID = result.getItemID();
-
-		if ( itemID != -1 )
-		{
-			addFormField( "whichitem", "" + itemID );
-			addFormField( "quantity", "" + result.getCount() );
-
-			super.run();
-
-			AdventureResult negatedResult = new AdventureResult( result.getItemID(), 0 - result.getCount() );
-			client.processResult( negatedResult );
 		}
 	}
 }

@@ -983,7 +983,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 						return;
 
 					int amount = df.parse( amountField.getText() ).intValue();
-					client.makeRequest( new ItemStorageRequest( client, amount, ItemStorageRequest.MEAT_TO_STASH ), 1 );
+					client.makeRequest( new ClanStashRequest( client, amount ), 1 );
 				}
 				catch ( Exception e )
 				{

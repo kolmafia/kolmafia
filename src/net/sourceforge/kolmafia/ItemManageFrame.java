@@ -424,11 +424,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ItemStorageRequestThread( ItemStorageRequest.INVENTORY_TO_CLOSET )).start();
+			{	(new InventoryStorageThread( false )).start();
 			}
 
 			protected void actionCancelled()
-			{	(new ItemStorageRequestThread( ItemStorageRequest.INVENTORY_TO_STASH )).start();
+			{	(new InventoryStorageThread( true )).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -447,11 +447,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ItemStorageRequestThread( ItemStorageRequest.CLOSET_TO_INVENTORY )).start();
+			{	(new ClosetStorageThread( false )).start();
 			}
 
 			protected void actionCancelled()
-			{	(new ItemStorageRequestThread( ItemStorageRequestThread.CLOSET_TO_STASH )).start();
+			{	(new ClosetStorageThread( true )).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -464,36 +464,55 @@ public class ItemManageFrame extends KoLFrame
 		/**
 		 * In order to keep the user interface from freezing (or at
 		 * least appearing to freeze), this internal class is used
-		 * to actually autosell the item
+		 * to actually move items around in the inventory.
 		 */
 
-		private class ItemStorageRequestThread extends Thread
+		private class InventoryStorageThread extends Thread
 		{
-			private int moveType;
-			public static final int CLOSET_TO_STASH = Integer.MAX_VALUE;
+			private boolean isStash;
 
-			public ItemStorageRequestThread( int moveType )
+			public InventoryStorageThread( boolean isStash )
 			{
-				super( "Closet-Request-Thread" );
+				super( "Inventory-Storage-Thread" );
 				setDaemon( true );
-				this.moveType = moveType;
+				this.isStash = isStash;
 			}
 
 			public void run()
 			{
-				Object [] items =
-					moveType == ItemStorageRequest.INVENTORY_TO_CLOSET ? availableList.getSelectedValues() :
-					moveType == ItemStorageRequest.CLOSET_TO_INVENTORY ? closetList.getSelectedValues() :
-					moveType == ItemStorageRequest.INVENTORY_TO_STASH ? availableList.getSelectedValues() : null;
+				Object [] items = availableList.getSelectedValues();
+				Runnable request = isStash ? (Runnable) new ClanStashRequest( client, items ) :
+					(Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
-				if ( moveType == CLOSET_TO_STASH )
-				{
-					items = closetList.getSelectedValues();
-					client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ), 1 );
-					client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_STASH, items ), 1 );
-				}
-				else
-					client.makeRequest( new ItemStorageRequest( client, moveType, items ), 1 );
+				request.run();
+				client.updateDisplay( ENABLED_STATE, "Items moved." );
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually move items around in the inventory.
+		 */
+
+		private class ClosetStorageThread extends Thread
+		{
+			private boolean isStash;
+
+			public ClosetStorageThread( boolean isStash )
+			{
+				super( "Inventory-Storage-Thread" );
+				setDaemon( true );
+				this.isStash = isStash;
+			}
+
+			public void run()
+			{
+				Object [] items = closetList.getSelectedValues();
+				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items )).run();
+
+				if ( isStash )
+					(new ClanStashRequest( client, items )).run();
 
 				client.updateDisplay( ENABLED_STATE, "Items moved." );
 			}
