@@ -66,7 +66,7 @@ public class ClanStashRequest extends KoLRequest
 	}
 
 	/**
-	 * Constructs a new <code>ItemStorageRequest</code>.
+	 * Constructs a new <code>ClanStashRequest</code>.
 	 * @param	client	The client to be notified of the results
 	 * @param	items	The list of items involved in the request
 	 */
@@ -86,7 +86,7 @@ public class ClanStashRequest extends KoLRequest
 	}
 
 	/**
-	 * Executes the <code>ItemStorageRequest</code>.
+	 * Executes the <code>ClanStashRequest</code>.
 	 */
 
 	public void run()
@@ -109,7 +109,7 @@ public class ClanStashRequest extends KoLRequest
 	private void stash()
 	{
 		// First, check to see how many items are to be
-		// placed in the closet - if there's too many,
+		// placed in the stash - if there's too many,
 		// then you'll need to break up the request
 
 		if ( items == null || items.length == 0 )

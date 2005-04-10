@@ -88,7 +88,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
 	protected SortedListModel tally;
-	protected LockableListModel inventory, closet, usableItems;
+	protected LockableListModel inventory, closet, usableItems, collection;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -168,6 +168,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		this.characterData = new KoLCharacter( loginname );
 		this.inventory = characterData.getInventory();
 		this.usableItems = new SortedListModel();
+		this.collection = characterData.getCollection();
 		this.closet = characterData.getCloset();
 		this.tally = new SortedListModel();
 		this.recentEffects = new ArrayList();
@@ -453,6 +454,15 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public LockableListModel getCloset()
 	{	return closet;
+	}
+
+	/**
+	 * Retrieves the character's collection.
+	 * @return	The character's collection
+	 */
+
+	public LockableListModel getCollection()
+	{	return collection;
 	}
 
 	/**

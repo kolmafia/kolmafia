@@ -319,14 +319,18 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
 
+		JMenuItem caseItem = new JMenuItem( "Cannon Museum", KeyEvent.VK_C );
+		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
+
 		JMenu statusMenu = addStatusMenu( menuBar );
 		statusMenu.add( mallItem );
 		statusMenu.add( arenaItem );
+		statusMenu.add( caseItem );
 
-		JMenuItem getBreakfastItem = new JMenuItem( "Breakfast Table", KeyEvent.VK_B );
+		JMenuItem getBreakfastItem = new JMenuItem( "Fetch Breakfast!", KeyEvent.VK_F );
 		getBreakfastItem.addActionListener( new GetBreakfastListener() );
 
-		JMenuItem buffbotMenuItem = new JMenuItem( "Do the BuffBot", KeyEvent.VK_D );
+		JMenuItem buffbotMenuItem = new JMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E );
 		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
 
 		JMenu scriptMenu = addScriptMenu( menuBar );
@@ -1115,7 +1119,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		protected void actionCancelled()
 		{
 			contentPanel = removeEffects;
-			updateDisplay( ENABLED_STATE, "We're sorry.  The hermit cannot be killed." );
+			updateDisplay( ERROR_STATE, "You mistake Toot Oriole for the Hermit!  You lose the battle." );
 		}
 
 		private class RemoveEffectsThread extends Thread

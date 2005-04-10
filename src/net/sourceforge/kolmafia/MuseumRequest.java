@@ -48,20 +48,112 @@ import java.util.regex.Pattern;
 
 public class MuseumRequest extends KoLRequest
 {
-	private int requestType;
-	private String outfitName;
+	private Object [] items;
+	private boolean isDeposit;
+	private boolean isManagement;
+	private List source, destination;
 
 	public MuseumRequest( KoLmafia client )
 	{
 		super( client, "managecollection.php" );
+		this.isManagement = false;
+	}
+
+	public MuseumRequest( KoLmafia client, boolean isDeposit, Object [] items )
+	{
+		super( client, "managecollection.php" );
+		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "action", isDeposit ? "put" : "take" );
+
+		this.items = items;
+		this.isManagement = true;
+		this.isDeposit = isDeposit;
+
+		this.source = isDeposit ? client.getInventory() : client.getCollection();
+		this.destination = isDeposit ? client.getCollection() : client.getInventory();
+
 	}
 
 	public void run()
 	{
+		if ( isManagement )
+		{
+			if ( items == null || items.length == 0 )
+				return;
+
+			if ( items.length > 11 )
+			{
+				int currentBaseIndex = 0;
+				int remainingItems = items.length;
+
+				Object [] itemHolder = null;
+
+				while ( remainingItems > 0 )
+				{
+					itemHolder = new Object[ remainingItems < 11 ? remainingItems : 11 ];
+
+					for ( int i = 0; i < itemHolder.length; ++i )
+						itemHolder[i] = items[ currentBaseIndex + i ];
+
+					// For each broken-up request, you create a new ItemStorage request
+					// which will create the appropriate data to post.
+
+					(new MuseumRequest( client, isDeposit, itemHolder )).run();
+
+					currentBaseIndex += 11;
+					remainingItems -= 11;
+				}
+
+				// Since all the sub-requests were run, there's nothing left
+				// to do - simply return from this method.
+
+				return;
+			}
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				AdventureResult result = (AdventureResult) items[i];
+				int itemID = result.getItemID();
+
+				if ( itemID != -1 )
+				{
+					addFormField( "whichitem" + (i+1), "" + itemID );
+					addFormField( "howmany" + (i+1), "" + result.getCount() );
+				}
+			}
+		}
+
+		if ( isManagement && isDeposit )
+			updateDisplay( DISABLED_STATE, "Placing items inside display case..." );
+		else if ( isManagement )
+			updateDisplay( DISABLED_STATE, "Removing items from display case..." );
+
 		super.run();
 
-		// If you changed your outfit, there will be a redirect
-		// to the equipment page - therefore, do so.
+		// With that done, the items need to be formally
+		// removed from the appropriate list and then
+		// replaced into the opposing list.
+
+		if ( isManagement )
+		{
+			AdventureResult currentResult, negatedResult;
+			for ( int i = 0; i < items.length; ++i )
+			{
+				currentResult = (AdventureResult) items[i];
+				negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
+
+				if ( isDeposit )
+				{
+					client.processResult( negatedResult );
+					AdventureResult.addResultToList( destination, currentResult );
+				}
+				else
+				{
+					AdventureResult.addResultToList( source, negatedResult );
+					client.processResult( currentResult );
+				}
+			}
+		}
 
 		Matcher displayMatcher = Pattern.compile( "<b>Take:.*?</select>" ).matcher( replyContent );
 		if ( displayMatcher.find() )
@@ -72,7 +164,7 @@ public class MuseumRequest extends KoLRequest
 
 			int lastFindIndex = 0;
 			Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( content );
-			while ( optionMatcher.find() )
+			while ( optionMatcher.find( lastFindIndex ) )
 			{
 				try
 				{
