@@ -35,7 +35,7 @@
 package net.sourceforge.kolmafia;
 import java.util.StringTokenizer;
 
-public class FamiliarData
+public class FamiliarData implements Comparable
 {
 	private int id, weight;
 	private String race, item;
@@ -82,5 +82,13 @@ public class FamiliarData
 
 	public boolean equals( Object o )
 	{	return o != null && o instanceof FamiliarData && id == ((FamiliarData)o).id;
+	}
+
+	public int compareTo( Object o )
+	{	return o == null || !(o instanceof FamiliarData) ? 1 : compareTo( (FamiliarData)o );
+	}
+
+	public int compareTo( FamiliarData fd )
+	{	return race.compareToIgnoreCase( fd.race );
 	}
 }
