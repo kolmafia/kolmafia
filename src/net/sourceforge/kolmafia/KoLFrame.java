@@ -41,12 +41,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JFileChooser;
+import javax.swing.JButton;
+import javax.swing.Box;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
 
 // layout
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
 
 // event listeners
 import java.awt.event.KeyEvent;
@@ -54,6 +60,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
+import javax.swing.ListSelectionModel;
 
 // other stuff
 import java.util.List;
@@ -64,6 +71,7 @@ import java.lang.reflect.Constructor;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * An extended <code>JFrame</code> which provides all the frames in
@@ -577,6 +585,105 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public void requestFocus()
 		{
+		}
+	}
+
+	/**
+	 * An internal class which creates a panel which manages items.
+	 * This is done because most of the item management displays
+	 * are replicated.  Note that a lot of this code was borrowed
+	 * directly from the ActionVerifyPanel class in the utilities
+	 * package for Spellcast.
+	 */
+
+	protected abstract class ItemManagePanel extends JPanel
+	{
+		protected JList elementList;
+		private VerifyButtonPanel buttonPanel;
+
+		public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
+		{
+			elementList = new JList( elements );
+			elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+			elementList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
+			elementList.setVisibleRowCount( 8 );
+
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BorderLayout() );
+
+			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			centerPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );
+
+			JPanel actualPanel = new JPanel();
+			actualPanel.setLayout( new BorderLayout( 20, 10 ) );
+			actualPanel.add( centerPanel, BorderLayout.CENTER );
+			actualPanel.add( buttonPanel, BorderLayout.EAST );
+
+			setLayout( new CardLayout( 10, 10 ) );
+			add( actualPanel, "" );
+		}
+
+		protected abstract void actionConfirmed();
+		protected abstract void actionCancelled();
+
+		public void setEnabled( boolean isEnabled )
+		{
+			elementList.setEnabled( isEnabled );
+			buttonPanel.setEnabled( isEnabled );
+		}
+
+		private class VerifyButtonPanel extends JPanel
+		{
+			private JButton confirmedButton;
+			private JButton cancelledButton;
+
+			public VerifyButtonPanel( String confirmedText, String cancelledText )
+			{
+				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+
+				// add the "confirmed" button
+				confirmedButton = new JButton( confirmedText );
+				confirmedButton.addActionListener(
+					new ActionListener() {
+						public void actionPerformed( ActionEvent e ) {
+							actionConfirmed();
+						}
+					} );
+
+				addButton( confirmedButton );
+				add( Box.createVerticalStrut( 4 ) );
+
+				// add the "cancelled" button
+				cancelledButton = new JButton( cancelledText );
+				cancelledButton.addActionListener(
+					new ActionListener() {
+						public void actionPerformed( ActionEvent e ) {
+							actionCancelled();
+						}
+					} );
+				addButton( cancelledButton );
+
+				JComponentUtilities.setComponentSize( this, 120, 100 );
+			}
+
+			private void addButton( JButton buttonToAdd )
+			{
+				JPanel container = new JPanel();
+				container.setLayout( new GridLayout() );
+				container.add( buttonToAdd );
+				container.setMaximumSize( new Dimension( Integer.MAX_VALUE, 24 ) );
+				add( container );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				confirmedButton.setEnabled( isEnabled );
+				cancelledButton.setEnabled( isEnabled );
+			}
 		}
 	}
 
