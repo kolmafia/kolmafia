@@ -75,15 +75,11 @@ public class CakeArenaRequest extends KoLRequest
 
 
 		int lastMatchIndex = 0;
-		int [] opponentIDs = new int[4];
-		String [] opponents = new String[4];
-
 		Matcher opponentMatcher = Pattern.compile(
 			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?</tr>" ).matcher( replyContent );
 
-		for ( int i = 0; i < 4; ++i )
+		while ( opponentMatcher.find( lastMatchIndex ) )
 		{
-			opponentMatcher.find( lastMatchIndex );
 			lastMatchIndex = opponentMatcher.end() + 1;
 
 			client.getCakeArenaManager().registerOpponent(
