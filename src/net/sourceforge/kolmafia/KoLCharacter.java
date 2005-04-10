@@ -204,7 +204,7 @@ public class KoLCharacter
 	private boolean hasChef;
 	private boolean hasBartender;
 
-	private LockableListModel familiars;
+	private SortedListModel familiars;
 	private String familiarRace;
 	private int familiarWeight;
 
@@ -244,7 +244,7 @@ public class KoLCharacter
 		this.hasChef = false;
 		this.hasBartender = false;
 		this.familiarRace = "none";
-		this.familiars = new LockableListModel();
+		this.familiars = new SortedListModel( FamiliarData.class );
 
 		this.advancement = "none";
 		this.listenerList = new ArrayList();
@@ -1060,6 +1060,8 @@ public class KoLCharacter
 	{
 		this.familiarRace = familiarRace;
 		this.familiarWeight = familiarWeight;
+
+		addFamiliar( new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ) ) );
 	}
 
 	/**
@@ -1086,7 +1088,9 @@ public class KoLCharacter
 	 */
 
 	public void addFamiliar( FamiliarData newFamiliar )
-	{	familiars.add( newFamiliar );
+	{
+		if ( !familiars.contains( newFamiliar ) )
+			familiars.add( newFamiliar );
 	}
 
 	/**
