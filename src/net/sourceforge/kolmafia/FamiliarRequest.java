@@ -137,6 +137,9 @@ public class FamiliarRequest extends KoLRequest
 			updateDisplay( NOCHANGE, "Familiar changed." );
 		}
 		else
+		{
+			characterData.setFamiliarDescription( characterData.getFamiliarRace(), characterData.getFamiliarWeight() );
 			updateDisplay( NOCHANGE, "Familiar data retrieved." );
+		}
 	}
 }
