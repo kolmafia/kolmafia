@@ -85,15 +85,15 @@ public class ChatRequest extends KoLRequest
 		if ( contact == null || message.equals( "/exit" ) )
 			actualMessage = message;
 		else if ( message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) )
-			actualMessage = message + "" + contactID;
+			actualMessage = message + " " + contactID;
 		else if ( contact.startsWith( "/" ) && (!message.startsWith( "/" ) || message.startsWith( "/me" )) )
-			actualMessage = contact + "" + message;
+			actualMessage = contact + " " + message;
 		else if ( (message.equals( "/who" ) || message.equals( "/w" )) && contact.startsWith( "/" ) )
 			actualMessage = "/who " + contact.substring(1);
 		else if ( contact.startsWith( "/" ) || (message.startsWith( "/" ) && !message.startsWith( "/me" )) )
 			actualMessage = message;
 		else
-			actualMessage = "/msg " + contactID + "" + message;
+			actualMessage = "/msg " + contactID + " " + message;
 
 		try
 		{
