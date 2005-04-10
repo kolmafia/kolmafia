@@ -158,7 +158,6 @@ public class BuffBotFrame extends KoLFrame
 		}
 		else
 		{
-			client.initializeBuffBot();
 			buffbotLog = client.getBuffBotLog();
 		}
 
