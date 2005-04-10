@@ -42,7 +42,7 @@ import java.text.ParseException;
 import java.text.DecimalFormat;
 
 import java.awt.Color;
-import javax.swing.ListCellRenderer;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import java.awt.Component;
 import javax.swing.JList;
@@ -506,11 +506,11 @@ public class AdventureResult implements Comparable, KoLConstants
 			new AdventureResult( left.itemID, totals[0] ) : new AdventureResult( left.name, totals );
 	}
 
-	public static ListCellRenderer getAutoSellCellRenderer()
+	public static AutoSellCellRenderer getAutoSellCellRenderer()
 	{	return new AutoSellCellRenderer();
 	}
 
-	private static class AutoSellCellRenderer extends JLabel implements ListCellRenderer
+	private static class AutoSellCellRenderer extends DefaultListCellRenderer
 	{
 		public AutoSellCellRenderer()
 		{	setOpaque( true );
@@ -518,32 +518,22 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 		{
-			if ( value == null )
-				return this;
+			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
-			if ( value instanceof AdventureResult )
-			{
-				AdventureResult ar = (AdventureResult) value;
+			if ( value == null || !(value instanceof AdventureResult) )
+				return defaultComponent;
 
-				String stringName = ar.itemID == 41 ? "ice-cold beer (Schlitz)" : ar.itemID == 81 ? "ice-cold beer (Willer)" :
-					ar.name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
+			AdventureResult ar = (AdventureResult) value;
 
-				int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
-				String stringForm = "" + stringName + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
-					((ar.count[0] == 1) ? "" : (" (" + df.format(ar.count[0]) + ")"));
+			String stringName = ar.itemID == 41 ? "ice-cold beer (Schlitz)" : ar.itemID == 81 ? "ice-cold beer (Willer)" :
+				ar.name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
 
-				setText( stringForm );
-			}
-			else if ( value != null )
-				setText( value.toString() );
+			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
+			String stringForm = "" + stringName + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
+				((ar.count[0] == 1) ? "" : (" (" + df.format(ar.count[0]) + ")"));
 
-			if ( list != null )
-			{
-				setBackground( isSelected ? list.getSelectionBackground() : Color.white );
-				setForeground( isSelected ? list.getSelectionForeground() : Color.black );
-			}
-
-			return this;
+			((JLabel) defaultComponent).setText( stringForm );
+			return defaultComponent;
 		}
 	}
 }
