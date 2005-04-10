@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * An extension of <code>KoLRequest</code> designed to handle all the
@@ -330,19 +331,44 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private boolean useBoxServant( AdventureResult toUse )
 	{
+		// Just in case, determine which items can be
+		// created, to see if a box can be created
+		// from the necessary materials.
+
+		List concoctions = new ArrayList();
+		List materialsList = (List) client.getInventory().clone();
+		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
+
+		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
+		{
+			List closetList = (List) client.getCloset();
+			for ( int i = 0; i < closetList.size(); ++i )
+				AdventureResult.addResultToList( materialsList, (AdventureResult) closetList.get(i) );
+		}
+
+		concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, materialsList ) );
+		ItemCreationRequest boxServantCreationRequest = new ItemCreationRequest( client, toUse.getItemID(), COMBINE, 1 );
+		boolean canCreateBoxServant = concoctions.contains( boxServantCreationRequest );
+
 		AdventureResult [] servant = { toUse };
 
 		if ( !client.getInventory().contains( servant[0] ) )
 		{
-			String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
 			if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) || !client.getCloset().contains( servant[0] ) )
 			{
-				updateDisplay( ERROR_STATE, "Could not auto-repair " + toUse.getName() + "." );
-				return false;
+				if ( canCreateBoxServant )
+					boxServantCreationRequest.run();
+				else
+				{
+					updateDisplay( ERROR_STATE, "Could not auto-repair " + toUse.getName() + "." );
+					return false;
+				}
 			}
-
-			updateDisplay( DISABLED_STATE, "Retrieving " + toUse.getName() + " from closet..." );
-			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servant )).run();
+			else
+			{
+				updateDisplay( DISABLED_STATE, "Retrieving " + toUse.getName() + " from closet..." );
+				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servant )).run();
+			}
 		}
 
 		updateDisplay( DISABLED_STATE, "Repairing " + toUse.getName() + "..." );
