@@ -76,6 +76,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
+	private JMenuItem refreshItem;
 	private JPanel using, selling, storing;
 	private SortedListModel concoctions;
 
@@ -118,11 +119,11 @@ public class ItemManageFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu fileMenu = new JMenu("File");
-		fileMenu.setMnemonic( KeyEvent.VK_F );
+		JMenu fileMenu = new JMenu( "Refresh" );
+		fileMenu.setMnemonic( KeyEvent.VK_R );
 		menuBar.add( fileMenu );
 
-		JMenuItem refreshItem = new JMenuItem( "Refresh Lists", KeyEvent.VK_R );
+		refreshItem = new JMenuItem( "Lists", KeyEvent.VK_I );
 		refreshItem.addActionListener( new ListRefreshListener() );
 		fileMenu.add( refreshItem );
 
@@ -139,6 +140,7 @@ public class ItemManageFrame extends KoLFrame
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
+		refreshItem.setEnabled( isEnabled );
 		using.setEnabled( isEnabled );
 		selling.setEnabled( isEnabled );
 		storing.setEnabled( isEnabled );
