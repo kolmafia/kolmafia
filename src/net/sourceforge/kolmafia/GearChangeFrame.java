@@ -35,30 +35,25 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
 
 // containers
-import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.ImageIcon;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 // event listeners
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.SwingUtilities;
 
 // utilities
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -72,10 +67,11 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class GearChangeFrame extends KoLFrame
 {
+	private boolean isChanging;
 	private KoLCharacter characterData;
 	private JLabel [] equipment, familiarData;
 	private JComboBox outfitSelect, familiarSelect;
-	private JButton changeOutfitButton, changeFamiliarButton;
+	private JMenuItem gearItem, familiarItem;
 
 	/**
 	 * Constructs a new character sheet, using the data located
@@ -103,15 +99,29 @@ public class GearChangeFrame extends KoLFrame
 		CardLayout cards = new CardLayout( 10, 10 );
 		getContentPane().setLayout( cards );
 
-		JPanel entirePanel = new JPanel();
-		entirePanel.setLayout( new BorderLayout( 20, 20 ) );
+		getContentPane().add( createEquipPanel(), "" );
+		refreshEquipPanel();
 
-		entirePanel.add( createEquipPanel(), BorderLayout.WEST );
-		entirePanel.add( createSouthPanel(), BorderLayout.SOUTH );
-
-		getContentPane().add( entirePanel, "" );
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
+	}
+
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		JMenu fileMenu = new JMenu( "Refresh" );
+		fileMenu.setMnemonic( KeyEvent.VK_R );
+		menuBar.add( fileMenu );
+
+		gearItem = new JMenuItem( "Equipment", KeyEvent.VK_E );
+		fileMenu.add( gearItem );
+
+		familiarItem = new JMenuItem( "Familiars", KeyEvent.VK_F );
+		fileMenu.add( familiarItem );
+
+		addHelpMenu( menuBar );
 	}
 
 	/**
@@ -122,59 +132,19 @@ public class GearChangeFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( changeOutfitButton != null )
-			changeOutfitButton.setEnabled( isEnabled );
-		if ( changeFamiliarButton != null )
-			changeFamiliarButton.setEnabled( isEnabled );
-	}
+		super.setEnabled( isEnabled );
 
-	/**
-	 * Utility method used for creating a panel displaying the character's current
-	 * effects and their available outfits, as well as the ability to change the
-	 * character's current effects and outfit.
-	 *
-	 * @return	a <code>JPanel</code> displaying the current effects
-	 */
+		if ( gearItem != null )
+			gearItem.setEnabled( isEnabled );
 
-	private JPanel createSouthPanel()
-	{
-		JPanel southPanel = new JPanel();
-		southPanel.setLayout( new BorderLayout( 10, 10 ) );
+		if ( familiarItem != null )
+			familiarItem.setEnabled( isEnabled );
 
-		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout( new BorderLayout( 5, 5 ) );
-		JLabel outfitLabel = new JLabel( "Outfits:  ", JLabel.RIGHT );
-		JComponentUtilities.setComponentSize( outfitLabel, 80, 24 );
-		labelPanel.add( outfitLabel, BorderLayout.NORTH );
-		JLabel familiarLabel = new JLabel( "Familiar:  ", JLabel.RIGHT );
-		JComponentUtilities.setComponentSize( familiarLabel, 80, 24 );
-		labelPanel.add( familiarLabel, BorderLayout.SOUTH );
+		if ( outfitSelect != null )
+			outfitSelect.setEnabled( isEnabled );
 
-		southPanel.add( labelPanel, BorderLayout.WEST );
-
-		JPanel selectPanel = new JPanel();
-		selectPanel.setLayout( new GridLayout( 2, 1 ) );
-		outfitSelect = new JComboBox( characterData.getOutfits().getMirrorImage() );
-		selectPanel.add( outfitSelect, "" );
-		familiarSelect = new JComboBox( characterData.getFamiliars().getMirrorImage() );
-		selectPanel.add( familiarSelect, "" );
-
-		southPanel.add( selectPanel, BorderLayout.CENTER );
-
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout( new BorderLayout( 5, 5 ) );
-		changeOutfitButton = new JButton( "change" );
-		JComponentUtilities.setComponentSize( changeOutfitButton, 84, 24 );
-		changeOutfitButton.addActionListener( new ChangeOutfitListener() );
-		buttonPanel.add( changeOutfitButton, BorderLayout.NORTH );
-		changeFamiliarButton = new JButton( "change" );
-		JComponentUtilities.setComponentSize( changeFamiliarButton, 84, 24 );
-		changeFamiliarButton.addActionListener( new ChangeFamiliarListener() );
-		buttonPanel.add( changeFamiliarButton, BorderLayout.SOUTH );
-
-		southPanel.add( buttonPanel, BorderLayout.EAST );
-
-		return southPanel;
+		if ( familiarSelect != null )
+			familiarSelect.setEnabled( isEnabled );
 	}
 
 	/**
@@ -187,7 +157,7 @@ public class GearChangeFrame extends KoLFrame
 	private JPanel createEquipPanel()
 	{
 		JPanel fieldPanel = new JPanel();
-		fieldPanel.setLayout( new GridLayout( 12, 1 ) );
+		fieldPanel.setLayout( new GridLayout( 14, 1 ) );
 
 		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Hat:  ", JLabel.RIGHT ) );
@@ -200,9 +170,11 @@ public class GearChangeFrame extends KoLFrame
 		fieldPanel.add( new JLabel( "Familiar:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Item:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Weight:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( " " ) );
+		fieldPanel.add( new JLabel( "Outfit:  ", JLabel.RIGHT ) );
 
 		JPanel valuePanel = new JPanel();
-		valuePanel.setLayout( new GridLayout( 12, 1 ) );
+		valuePanel.setLayout( new GridLayout( 14, 1 ) );
 
 		valuePanel.add( new JLabel( " " ) );
 
@@ -215,19 +187,30 @@ public class GearChangeFrame extends KoLFrame
 
 		valuePanel.add( new JLabel( " " ) );
 
-		familiarData = new JLabel[3];
-		for ( int i = 0; i < 3; ++i )
+		familiarSelect = new JComboBox( characterData.getFamiliars().getMirrorImage() );
+		familiarSelect.addActionListener( new ChangeFamiliarListener() );
+		JComponentUtilities.setComponentSize( familiarSelect, 240, 20 );
+		valuePanel.add( familiarSelect );
+
+		familiarData = new JLabel[2];
+		for ( int i = 0; i < 2; ++i )
 		{
 			familiarData[i] = new JLabel( " ", JLabel.LEFT );
 			valuePanel.add( familiarData[i] );
 		}
+
+		valuePanel.add( new JLabel( " " ) );
+
+		outfitSelect = new JComboBox( characterData.getOutfits().getMirrorImage() );
+		outfitSelect.addActionListener( new ChangeOutfitListener() );
+		JComponentUtilities.setComponentSize( outfitSelect, 240, 20 );
+		valuePanel.add( outfitSelect );
 
 		JPanel equipPanel = new JPanel();
 		equipPanel.setLayout( new BorderLayout() );
 		equipPanel.add( fieldPanel, BorderLayout.WEST );
 		equipPanel.add( valuePanel, BorderLayout.EAST );
 
-		refreshEquipPanel();
 		return equipPanel;
 	}
 
@@ -240,10 +223,12 @@ public class GearChangeFrame extends KoLFrame
 		equipment[4].setText( characterData.getAccessory2() );
 		equipment[5].setText( characterData.getAccessory3() );
 
-		familiarData[0].setText( characterData.getFamiliarRace() );
-		familiarData[1].setText( characterData.getFamiliarItem() );
-		familiarData[2].setText( characterData.getFamiliarWeight() < 0 ? "unknown" :
-			"" + characterData.getFamiliarWeight() );
+		this.isChanging = true;
+		familiarSelect.setSelectedItem( new FamiliarData( FamiliarsDatabase.getFamiliarID( characterData.getFamiliarRace() ) ) );
+		this.isChanging = false;
+
+		familiarData[0].setText( characterData.getFamiliarItem() );
+		familiarData[1].setText( "" + characterData.getFamiliarWeight() );
 	}
 
 	private class ChangeFamiliarListener implements ActionListener
@@ -253,7 +238,7 @@ public class GearChangeFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			change = (FamiliarData) familiarSelect.getSelectedItem();
-			if ( change != null )
+			if ( !isChanging && change != null )
 				(new ChangeFamiliarThread()).start();
 		}
 
@@ -280,7 +265,7 @@ public class GearChangeFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			change = (SpecialOutfit) outfitSelect.getSelectedItem();
-			if ( change != null )
+			if ( !isChanging && change != null )
 				(new ChangeEquipmentThread()).start();
 		}
 
