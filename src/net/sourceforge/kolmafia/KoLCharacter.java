@@ -185,6 +185,8 @@ public class KoLCharacter
 
 	private LockableListModel equipment;
 	private LockableListModel outfits;
+	private LockableListModel collection;
+
 	private SortedListModel inventory;
 	private SortedListModel closet;
 	private LockableListModel activeEffects;
@@ -230,6 +232,7 @@ public class KoLCharacter
 		this.outfits = new LockableListModel();
 		this.inventory = new SortedListModel( AdventureResult.class );
 		this.closet = new SortedListModel( AdventureResult.class );
+		this.collection = new SortedListModel( AdventureResult.class );
 		this.activeEffects = new LockableListModel();
 		this.availableSkills = new LockableListModel();
 
@@ -901,6 +904,19 @@ public class KoLCharacter
 
 	public LockableListModel getCloset()
 	{	return closet;
+	}
+
+	/**
+	 * Accessor method to retrieve a list of the items contained within the character's collection.
+	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
+	 * and that any changes to the internal character collection will be reflected in the returned
+	 * <code>LockableListModel</code>.
+	 *
+	 * @return	A <code>LockableListModel</code> of the items in the character's collection
+	 */
+
+	public LockableListModel getCollection()
+	{	return collection;
 	}
 
 	/**
