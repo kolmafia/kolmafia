@@ -528,15 +528,14 @@ public class KoLMessenger implements KoLConstants
 		// Extract player IDs for all players who have spoken in chat, or
 		// those that were listed on a /friends request.
 
-		Matcher playerIDMatcher = Pattern.compile( "<a [^>]*?showplayer.php.*?>.*?</a>" ).matcher( originalContent );
+		Matcher playerIDMatcher = Pattern.compile( "<a [^>]*?showplayer.php\\?who\\=(\\d+)\">(.*?)</a>" ).matcher( originalContent );
 		lastFindIndex = 0;
 		while( playerIDMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = playerIDMatcher.end();
-			StringTokenizer parsedLink = new StringTokenizer( playerIDMatcher.group(), "<>=\'\"" );
-			parsedLink.nextToken();  parsedLink.nextToken();  parsedLink.nextToken();
-			String playerID = parsedLink.nextToken();
-			String playerName = parsedLink.nextToken();
+			String playerID = playerIDMatcher.group(1);
+			String playerName = playerIDMatcher.group(2).replaceAll( "<.*?>", "" );
+
 			seenPlayerIDs.put( playerName, playerID );
 			seenPlayerNames.put( playerID, playerName );
 		}
@@ -880,8 +879,10 @@ public class KoLMessenger implements KoLConstants
 				if ( nameMatcher.find() )
 				{
 					String name = nameMatcher.group();
-					name = name.substring( 3, name.indexOf( "</a>" ) );
-					name = name.replaceAll( "</b>", "" ).replaceAll( "</font>", "" );
+					name = name.replaceAll( "<.*?>", "" );
+
+					if ( name.indexOf( " (" ) != -1 )
+						name = name.substring( 0, name.indexOf( " (" ) );
 
 					actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
 						"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
