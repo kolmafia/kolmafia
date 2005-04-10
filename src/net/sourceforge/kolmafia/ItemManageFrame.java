@@ -462,7 +462,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public ClosetStorageThread( boolean isStash )
 			{
-				super( "Inventory-Storage-Thread" );
+				super( "Closet-Storage-Thread" );
 				setDaemon( true );
 				this.isStash = isStash;
 			}
