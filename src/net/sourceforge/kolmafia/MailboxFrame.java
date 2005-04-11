@@ -58,6 +58,7 @@ import java.awt.event.KeyEvent;
 
 
 // other imports
+import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
@@ -73,6 +74,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	private static final int MAXIMUM_MESSAGE_SIZE = 4000;
 
 	private KoLMailManager mailbox;
+	private KoLMailMessage displayed;
 	private JEditorPane messageContent;
 	private JTabbedPane tabbedListDisplay;
 	private LimitedSizeChatBuffer mailBuffer;
@@ -229,9 +231,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			int newIndex = getSelectedIndex();
 			if ( newIndex >= 0 && getModel().getSize() > 0 )
 			{
-				String newContent = ((KoLMailMessage)mailbox.getMessages( mailboxName ).get(newIndex)).getMessageHTML();
+				displayed = ((KoLMailMessage)mailbox.getMessages( mailboxName ).get( newIndex ));
 				mailBuffer.clearBuffer();
-				mailBuffer.append( newContent );
+				mailBuffer.append( displayed.getMessageHTML() );
 			}
 			else
 				mailBuffer.clearBuffer();
@@ -304,6 +306,23 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						client.getLogStream().print( e1 );
 						e1.printStackTrace( client.getLogStream() );
 					}
+				}
+				else
+				{
+					StringTokenizer tokens = new StringTokenizer( location, "?=&" );
+					tokens.nextToken();  tokens.nextToken();
+					String recipient = tokens.nextToken();
+
+					String quotedMessage = displayed.getMessageHTML().substring(
+						displayed.getMessageHTML().indexOf( "<br><br>" ) + 8 ).replaceAll( "<b>", " " ).replaceAll(
+							"><", "" ).replaceAll( "<.*?>", System.getProperty( "line.separator" ) );
+
+					GreenMessageFrame composer = !tokens.hasMoreTokens() ? new GreenMessageFrame( client, recipient ) :
+						new GreenMessageFrame( client, recipient, quotedMessage );
+
+					composer.pack();  composer.setVisible( true );
+					composer.requestFocus();
+					existingFrames.add( composer );
 				}
 			}
 		}
