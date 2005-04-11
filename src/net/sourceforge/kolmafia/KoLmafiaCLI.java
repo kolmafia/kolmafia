@@ -573,11 +573,12 @@ public class KoLmafiaCLI extends KoLmafia
 			executeBuyCommand( parameters );
 			return;
 		}
-		
+
 		// The BuffBot may never get called from the CLI,
 		// but we'll include it here for completeness sake
 
-		if ( command.equals( "buffbot" )){
+		if ( command.equals( "buffbot" ))
+		{
 			executeBuffBotCommand( parameters );
 			return;
 		}
@@ -1312,7 +1313,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeBuffBotCommand( String parameters )
 	{
 		LockableListModel buffCostTable = new LockableListModel();
-		
+
 		scriptRequestor.initializeBuffBot();
 		BuffBotHome buffbotLog = scriptRequestor.getBuffBotLog();
 		BuffBotManager currentManager = new BuffBotManager( scriptRequestor, buffCostTable );
@@ -1331,7 +1332,7 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.cancelRequest();
 			return;
 		}
-		
+
 		int buffBotIterations;
 		try
 		{
@@ -1345,9 +1346,9 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.updateDisplay( ERROR_STATE, parameters + " is not a number." );
 			scriptRequestor.cancelRequest();
 			return;
-			
+
 		}
-		
+
 		if (buffBotIterations <= 0)
 		{
 			scriptRequestor.updateDisplay( ERROR_STATE, "Must have a positive number of buffbot iterations.");
@@ -1531,6 +1532,57 @@ public class KoLmafiaCLI extends KoLmafia
 				commandString.append( df.format( asr.getPrice() ) );
 				commandString.append( ' ' );
 				commandString.append( df.format( asr.getLimit() ) );
+			}
+		}
+
+		// Item storage script recording is also a
+		// little interesting.
+
+		if ( request instanceof ItemStorageRequest )
+		{
+			ItemStorageRequest isr = (ItemStorageRequest) request;
+			int moveType = isr.getMoveType();
+
+			if ( moveType == ItemStorageRequest.INVENTORY_TO_CLOSET || moveType == ItemStorageRequest.CLOSET_TO_INVENTORY )
+			{
+				List itemList = isr.getItems();
+				for ( int i = 0; i < itemList.size(); ++i )
+				{
+					if ( i != 0 )
+						commandString.append( System.getProperty( "line.separator" ) );
+
+					commandString.append( moveType == ItemStorageRequest.INVENTORY_TO_CLOSET ? "closet put " : "closet take " );
+
+					commandString.append( '\"' );
+					commandString.append( ((AdventureResult)itemList.get(i)).getName() );
+					commandString.append( '\"' );
+				}
+			}
+		}
+
+		// Deposits to the clan stash are also interesting
+		// for people who like to regularly deposit to the
+		// clan stash.
+
+		if ( request instanceof ClanStashRequest )
+		{
+			ClanStashRequest csr = (ClanStashRequest) request;
+			int moveType = csr.getMoveType();
+
+			if ( moveType == ClanStashRequest.ITEMS_TO_STASH )
+			{
+				List itemList = csr.getItems();
+				for ( int i = 0; i < itemList.size(); ++i )
+				{
+					if ( i != 0 )
+						commandString.append( System.getProperty( "line.separator" ) );
+
+					commandString.append( "stash " );
+
+					commandString.append( '\"' );
+					commandString.append( ((AdventureResult)itemList.get(i)).getName() );
+					commandString.append( '\"' );
+				}
 			}
 		}
 

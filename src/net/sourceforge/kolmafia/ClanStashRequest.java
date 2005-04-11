@@ -85,6 +85,23 @@ public class ClanStashRequest extends KoLRequest
 		destination = new ArrayList();
 	}
 
+	public int getMoveType()
+	{	return moveType;
+	}
+
+	public List getItems()
+	{
+		List itemList = new ArrayList();
+
+		if ( items == null )
+			return itemList;
+
+		for ( int i = 0; i < items.length; ++i )
+			itemList.add( items[i] );
+
+		return itemList;
+	}
+
 	/**
 	 * Executes the <code>ClanStashRequest</code>.
 	 */

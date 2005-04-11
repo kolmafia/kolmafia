@@ -447,7 +447,7 @@ public class ItemManageFrame extends KoLFrame
 				Runnable request = isStash ? (Runnable) new ClanStashRequest( client, items ) :
 					(Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
-				request.run();
+				client.makeRequest( request, 1 );
 				client.updateDisplay( ENABLED_STATE, "Items moved." );
 			}
 		}
@@ -472,10 +472,10 @@ public class ItemManageFrame extends KoLFrame
 			public void run()
 			{
 				Object [] items = closetList.getSelectedValues();
-				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items )).run();
+				client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ), 1 );
 
 				if ( isStash )
-					(new ClanStashRequest( client, items )).run();
+					client.makeRequest( new ClanStashRequest( client, items ), 1 );
 
 				client.updateDisplay( ENABLED_STATE, "Items moved." );
 			}
