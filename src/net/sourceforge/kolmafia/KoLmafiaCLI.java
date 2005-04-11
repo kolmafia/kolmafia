@@ -1361,6 +1361,8 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.setBuffBotActive( true );
 			currentManager.runBuffBot(buffBotIterations);
 			buffbotLog.timeStampedLogEntry( "<b>Completed CLI buffbot session.</b><br>" );
+			scriptRequestor.updateDisplay( ENABLED_STATE, "BuffBot Completed." );
+			scriptRequestor.cancelRequest();
 		}
 	}
 

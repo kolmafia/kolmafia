@@ -84,6 +84,8 @@ public class BuffBotHome extends LimitedSizeChatBuffer
 
 	public void append( String message )
 	{	super.append( message + System.getProperty( "line.separator" ) );
+	if ( client instanceof KoLmafiaCLI ) 
+		client.updateDisplay( client.ENABLED_STATE, message.replaceAll( "<.*?>", "" ) ); 
 	}
 
 	/**
