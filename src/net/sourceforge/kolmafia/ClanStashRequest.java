@@ -138,7 +138,7 @@ public class ClanStashRequest extends KoLRequest
 			for ( int i = 0; i < items.length; ++i )
 			{
 				itemHolder[0] = items[i];
-				(new ItemStorageRequest( client, ITEMS_TO_STASH, itemHolder )).run();
+				(new ClanStashRequest( client, itemHolder )).run();
 			}
 
 			return;
