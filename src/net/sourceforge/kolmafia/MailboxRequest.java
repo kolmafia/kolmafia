@@ -122,6 +122,7 @@ public class MailboxRequest extends KoLRequest
 		if ( lastMessageIndex == -1 )
 		{
 			isRequesting = false;
+			updateDisplay( ENABLED_STATE, "Your mailbox is empty." );
 			return;
 		}
 
