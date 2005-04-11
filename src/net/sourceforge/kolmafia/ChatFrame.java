@@ -503,6 +503,7 @@ public class ChatFrame extends KoLFrame
 			GreenMessageFrame composer = new GreenMessageFrame( client, mainPanel.getAssociatedContact() );
 			composer.pack();  composer.setVisible( true );
 			composer.requestFocus();
+			existingFrames.add( composer );
 		}
 	}
 
