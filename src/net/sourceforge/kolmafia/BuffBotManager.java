@@ -163,7 +163,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	 * mailbox, then iterates on the mailbox.
 	 */
 
-	public synchronized void runBuffBot()
+	public synchronized void runBuffBot(int runIterations)
 	{
 		boolean newMessages = false;
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
@@ -188,7 +188,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		// The outer loop goes until user cancels
 
-		while( client.isBuffBotActive() )
+		while( client.isBuffBotActive() && runIterations-- != 0)
 		{
 			// Request the inbox for the user.  Each call
 			// to add message will trigger the actual

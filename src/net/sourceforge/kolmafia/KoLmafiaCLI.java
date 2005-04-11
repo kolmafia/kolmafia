@@ -52,6 +52,7 @@ import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
 /**
  * The main class for the <code>KoLmafia</code> package.  This
  * class encapsulates most of the data relevant to any given
@@ -570,6 +571,14 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "buy" ) || command.equals( "mallbuy" ) )
 		{
 			executeBuyCommand( parameters );
+			return;
+		}
+		
+		// The BuffBot may never get called from the CLI,
+		// but we'll include it here for completeness sake
+
+		if ( command.equals( "buffbot" )){
+			executeBuffBotCommand( parameters );
 			return;
 		}
 
@@ -1294,6 +1303,65 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		(new EquipmentRequest( scriptRequestor, intendedOutfit )).run();
+	}
+	/**
+	 * A special module used specifically for properly instantiating
+	 * the BuffBot and running it
+	 */
+
+	private void executeBuffBotCommand( String parameters )
+	{
+		LockableListModel buffCostTable = new LockableListModel();
+		
+		scriptRequestor.initializeBuffBot();
+		BuffBotHome buffbotLog = scriptRequestor.getBuffBotLog();
+		BuffBotManager currentManager = new BuffBotManager( scriptRequestor, buffCostTable );
+		scriptRequestor.setBuffBotManager( currentManager );
+		String sellerSetting = scriptRequestor.settings.getProperty( "buffBotCasting" );
+		if ( sellerSetting != null )
+		{
+			String [] soldBuffs = sellerSetting.split( "[;:]" );
+			for ( int i = 0; i < soldBuffs.length; ++i )
+				currentManager.addBuff( ClassSkillsDatabase.getSkillName( Integer.parseInt( soldBuffs[i] ) ),
+					Integer.parseInt( soldBuffs[++i] ), Integer.parseInt( soldBuffs[++i] ), soldBuffs[++i].equals("true") );
+		}
+		else
+		{
+			scriptRequestor.updateDisplay( ERROR_STATE, "No sellable buffs defined.");
+			scriptRequestor.cancelRequest();
+			return;
+		}
+		
+		int buffBotIterations;
+		try
+		{
+			buffBotIterations = df.parse( parameters ).intValue();
+		}
+		catch (Exception e)
+		{
+			// Technically, this exception should not be thrown, but if
+			// it is, then print an error message and return.
+
+			scriptRequestor.updateDisplay( ERROR_STATE, parameters + " is not a number." );
+			scriptRequestor.cancelRequest();
+			return;
+			
+		}
+		
+		if (buffBotIterations <= 0)
+		{
+			scriptRequestor.updateDisplay( ERROR_STATE, "Must have a positive number of buffbot iterations.");
+			scriptRequestor.cancelRequest();
+			return;
+		}
+		else
+		{
+			buffbotLog.timeStampedLogEntry( "<b>Starting a new CLI buffbot session.</b><br>" );
+			scriptRequestor.resetContinueState();
+			scriptRequestor.setBuffBotActive( true );
+			currentManager.runBuffBot(buffBotIterations);
+			buffbotLog.timeStampedLogEntry( "<b>Completed CLI buffbot session.</b><br>" );
+		}
 	}
 
 	/**

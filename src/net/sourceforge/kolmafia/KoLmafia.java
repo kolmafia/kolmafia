@@ -1181,7 +1181,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		if ( buffBotHome == null )
 		{
 			buffBotHome = new BuffBotHome(this);
-			buffBotHome.initialize();
 		}
 	}
 

@@ -267,7 +267,7 @@ public class BuffBotFrame extends KoLFrame
 				buffbotLog.timeStampedLogEntry( "<b>Starting a new session.</b><br>" );
 				client.resetContinueState();
 				client.setBuffBotActive( true );
-				currentManager.runBuffBot();
+				currentManager.runBuffBot(-1);
 			}
 		}
 	}
