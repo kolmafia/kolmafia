@@ -80,6 +80,10 @@ public class GreenMessageFrame extends KoLFrame
 	}
 
 	public GreenMessageFrame( KoLmafia client, String recipient )
+	{	this( client, recipient, "" );
+	}
+
+	public GreenMessageFrame( KoLmafia client, String recipient, String quotedMessage )
 	{
 		super( "KoLmafia: Send a Green Message", client );
 
@@ -106,6 +110,7 @@ public class GreenMessageFrame extends KoLFrame
 		this.messageEntry = new JTextArea( ROWS, COLS );
 		messageEntry.setLineWrap( true );
 		messageEntry.setWrapStyleWord( true );
+		messageEntry.setText( quotedMessage );
 		JScrollPane scrollArea = new JScrollPane( messageEntry,
 			JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
