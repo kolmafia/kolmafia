@@ -128,7 +128,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 				if ( source.getName().equals( "~.kcs" ) )
 				{
 					setProperty( "loginServer", "0" );
-					setProperty( "proxySet", "false" );
 					setProperty( "battleAction", "attack" );
 				}
 
