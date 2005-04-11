@@ -142,7 +142,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public AdventureResult( String name, int [] count )
 	{
-		this( name, count,
+		this( name, count, name == null ? ITEM_PRIORITY :
 			name.equals(HP) ? HP_PRIORITY :
 			name.equals(MP) ? MP_PRIORITY :
 			name.equals(ADV) ? ADV_PRIORITY :
@@ -166,7 +166,8 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private AdventureResult( String name, int [] count, int priority )
 	{
-		this.name = name;
+		this.name = name == null ? name : "(unrecognized item)";
+
 		this.count = new int[ count.length ];
 
 		for ( int i = 0; i < count.length; ++i )
