@@ -67,6 +67,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private static final int PURCHASE = 0;
 	private static final int USAGE = 1;
 	private static final int CREATION = 2;
+	private static final int CLOSET = 3;
 
 	private String previousCommand;
 	private PrintStream outputStream;
@@ -993,26 +994,33 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		AdventureResult firstMatch = new AdventureResult( itemName, itemCount );
-		int index = scriptRequestor.getInventory().indexOf( firstMatch );
+		int index = (matchType == CLOSET ? scriptRequestor.getCloset() : scriptRequestor.getInventory()).indexOf( firstMatch );
 
 		if ( itemCount <= 0 )
 		{
-			if ( matchType == USAGE )
+			switch ( matchType )
 			{
-				if ( index == -1 )
-					return null;
+				case USAGE:
+					if ( index == -1 )
+						return null;
 
-				AdventureResult result = (AdventureResult) scriptRequestor.getInventory().get( index );
-				return result == null ? null : new AdventureResult( result.getName(), result.getCount() + itemCount );
-			}
-			else if ( matchType == CREATION )
-			{
-				List concoctions = ConcoctionsDatabase.getConcoctions( scriptRequestor, scriptRequestor.getInventory() );
-				ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
-				index = concoctions.indexOf( concoction );
+					firstMatch = (AdventureResult) scriptRequestor.getInventory().get( index );
+					return firstMatch == null ? null : new AdventureResult( firstMatch.getName(), firstMatch.getCount() + itemCount );
 
-				return index == -1 ? null : new AdventureResult( itemName,
-					itemCount + ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
+				case CLOSET:
+					if ( index == -1 )
+						return null;
+
+					firstMatch = (AdventureResult) scriptRequestor.getCloset().get( index );
+					return firstMatch == null ? null : new AdventureResult( firstMatch.getName(), firstMatch.getCount() + itemCount );
+
+				case CREATION:
+					List concoctions = ConcoctionsDatabase.getConcoctions( scriptRequestor, scriptRequestor.getInventory() );
+					ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
+					index = concoctions.indexOf( concoction );
+
+					return index == -1 ? null : new AdventureResult( itemName,
+						itemCount + ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
 			}
 		}
 
@@ -1059,7 +1067,7 @@ public class KoLmafiaCLI extends KoLmafia
 			itemName.append( tokens[i] );
 		}
 
-		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), USAGE );
+		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), CLOSET );
 		if ( firstMatch == null )
 			return;
 
