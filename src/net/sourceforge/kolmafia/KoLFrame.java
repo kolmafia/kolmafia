@@ -144,6 +144,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 
+	public void setExtendedState( int state )
+	{	super.setExtendedState( state == ICONIFIED ? ICONIFIED : NORMAL );
+	}
+
 	/**
 	 * Updates the display to reflect the given display state and
 	 * to contain the given message.  Note that if there is no
