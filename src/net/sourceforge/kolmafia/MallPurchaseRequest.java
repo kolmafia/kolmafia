@@ -93,8 +93,12 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	{
 		super( client, "mallstore.php" );
 
-		this.itemName = itemName;
 		this.itemID = itemID;
+
+		if ( TradeableItemDatabase.getItemName( itemID ) == null )
+			TradeableItemDatabase.registerItem( itemID, itemName );
+
+		this.itemName = TradeableItemDatabase.getItemName( this.itemID );
 		this.shopID = shopID;
 		this.shopName = shopName;
 		this.quantity = quantity;

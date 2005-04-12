@@ -166,7 +166,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private AdventureResult( String name, int [] count, int priority )
 	{
-		this.name = name == null ? name : "(unrecognized item)";
+		this.name = name == null ? "(unrecognized item)" : name;
 
 		this.count = new int[ count.length ];
 
@@ -360,10 +360,10 @@ public class AdventureResult implements Comparable, KoLConstants
 			return "" + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
 				((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
 
-		String stringName = itemID == 41 ? "ice-cold beer (Schlitz)" : itemID == 81 ? "ice-cold beer (Willer)" :
+		String stringName = itemID == 41 ? "ice-cold beer - Shiltz" : itemID == 81 ? "ice-cold beer - Willer" :
 			name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
 
-		return "" + stringName + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
+		return stringName + " (" + df.format(count[0]) + ")";
 	}
 
 	/**

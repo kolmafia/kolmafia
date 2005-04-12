@@ -257,11 +257,11 @@ public class EquipmentRequest extends KoLRequest
 				lastFindIndex = optionMatcher.end();
 				int itemID = df.parse( optionMatcher.group(1) ).intValue();
 
-				AdventureResult result =
-					TradeableItemDatabase.getItemName( itemID ) != null ?
-						new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() ) :
-							new AdventureResult( optionMatcher.group(2).trim(), df.parse( optionMatcher.group(3) ).intValue() );
+				if ( TradeableItemDatabase.getItemName( itemID ) == null )
+					TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
 
+
+				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
 				AdventureResult.addResultToList( resultList, result );
 
 				if ( TradeableItemDatabase.isUsable( result.getName() ) && updateUsableList )

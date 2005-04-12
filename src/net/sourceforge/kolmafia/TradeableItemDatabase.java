@@ -106,6 +106,21 @@ public class TradeableItemDatabase
 	}
 
 	/**
+	 * Temporarily adds an item to the item database.  This
+	 * is used whenever KoLmafia encounters an unknown item
+	 * in the mall or in the player's inventory.
+	 */
+
+	public static void registerItem( int itemID, String itemName )
+	{
+		consumptionID[ itemID ] = 0;
+		priceByID[ itemID ] = 0;
+
+		itemByID[ itemID ] = itemName;
+		itemByName.put( itemName.toLowerCase(), new Integer( itemID ) );
+	}
+
+	/**
 	 * Returns the ID number for an item, given its name.
 	 * @param	itemName	The name of the item to lookup
 	 * @return	The ID number of the corresponding item
