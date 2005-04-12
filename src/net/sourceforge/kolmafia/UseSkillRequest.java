@@ -91,6 +91,10 @@ public class UseSkillRequest extends KoLRequest
 	{	return skillName;
 	}
 
+	public String toString()
+	{	return skillName + " (" + consumedMP + " mp)";
+	}
+
 	public void run()
 	{
 		if ( target == null || target.trim().length() == 0 )

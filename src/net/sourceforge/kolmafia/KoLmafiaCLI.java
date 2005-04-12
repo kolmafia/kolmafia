@@ -700,7 +700,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		List skills = scriptRequestor.getCharacterData().getAvailableSkills();
 		for ( int i = 0; i < skills.size(); ++i )
-			if ( ((String)skills.get(i)).toLowerCase().indexOf( substring ) != -1 )
+			if ( ((UseSkillRequest)skills.get(i)).getSkillName().toLowerCase().indexOf( substring ) != -1 )
 				return (String) skills.get(i);
 
 		return null;

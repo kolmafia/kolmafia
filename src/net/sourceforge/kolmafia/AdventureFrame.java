@@ -1209,7 +1209,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			{
 				try
 				{
-					String buffName = (String) skillSelect.getSelectedItem();
+					String buffName = ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName();
 					if ( buffName == null )
 						return;
 

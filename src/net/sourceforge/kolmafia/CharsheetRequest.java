@@ -221,7 +221,7 @@ public class CharsheetRequest extends KoLRequest
 					{
 						String skillName = parsedContent.nextToken().trim();
 						if ( ClassSkillsDatabase.contains( skillName ) )
-							availableSkills.add( skillName.replaceFirst( "&ntilde;", "ñ" ) );
+							availableSkills.add( new UseSkillRequest( client, skillName.replaceFirst( "&ntilde;", "ñ" ), "", 1 ) );
 					}
 					token = parsedContent.nextToken();
 				}
