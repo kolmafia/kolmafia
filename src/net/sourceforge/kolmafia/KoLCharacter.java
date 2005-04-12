@@ -1061,7 +1061,7 @@ public class KoLCharacter
 		this.familiarRace = familiarRace;
 		this.familiarWeight = familiarWeight;
 
-		addFamiliar( new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ) ) );
+		addFamiliar( new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ), familiarWeight ) );
 	}
 
 	/**

@@ -69,9 +69,9 @@ public class GearChangeFrame extends KoLFrame
 {
 	private boolean isChanging;
 	private KoLCharacter characterData;
-	private JLabel [] equipment, familiarData;
+	private JLabel [] equipment;
 	private JComboBox outfitSelect, familiarSelect;
-	private JMenuItem gearItem, familiarItem;
+	private JMenuItem gearRefresh, familiarRefresh;
 
 	/**
 	 * Constructs a new character sheet, using the data located
@@ -115,11 +115,11 @@ public class GearChangeFrame extends KoLFrame
 		fileMenu.setMnemonic( KeyEvent.VK_R );
 		menuBar.add( fileMenu );
 
-		gearItem = new JMenuItem( "Equipment", KeyEvent.VK_E );
-		fileMenu.add( gearItem );
+		gearRefresh = new JMenuItem( "Equipment", KeyEvent.VK_E );
+		fileMenu.add( gearRefresh );
 
-		familiarItem = new JMenuItem( "Familiars", KeyEvent.VK_F );
-		fileMenu.add( familiarItem );
+		familiarRefresh = new JMenuItem( "Familiars", KeyEvent.VK_F );
+		fileMenu.add( familiarRefresh );
 
 		addHelpMenu( menuBar );
 	}
@@ -134,11 +134,11 @@ public class GearChangeFrame extends KoLFrame
 	{
 		super.setEnabled( isEnabled );
 
-		if ( gearItem != null )
-			gearItem.setEnabled( isEnabled );
+		if ( gearRefresh != null )
+			gearRefresh.setEnabled( isEnabled );
 
-		if ( familiarItem != null )
-			familiarItem.setEnabled( isEnabled );
+		if ( familiarRefresh != null )
+			familiarRefresh.setEnabled( isEnabled );
 
 		if ( outfitSelect != null )
 			outfitSelect.setEnabled( isEnabled );
@@ -157,7 +157,7 @@ public class GearChangeFrame extends KoLFrame
 	private JPanel createEquipPanel()
 	{
 		JPanel fieldPanel = new JPanel();
-		fieldPanel.setLayout( new GridLayout( 14, 1 ) );
+		fieldPanel.setLayout( new GridLayout( 13, 1 ) );
 
 		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Hat:  ", JLabel.RIGHT ) );
@@ -169,16 +169,15 @@ public class GearChangeFrame extends KoLFrame
 		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Familiar:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Item:  ", JLabel.RIGHT ) );
-		fieldPanel.add( new JLabel( "Weight:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Outfit:  ", JLabel.RIGHT ) );
 
 		JPanel valuePanel = new JPanel();
-		valuePanel.setLayout( new GridLayout( 14, 1 ) );
+		valuePanel.setLayout( new GridLayout( 13, 1 ) );
 
 		valuePanel.add( new JLabel( " " ) );
 
-		equipment = new JLabel[6];
+		equipment = new JLabel[7];
 		for ( int i = 0; i < 6; ++i )
 		{
 			equipment[i] = new JLabel( " ", JLabel.LEFT );
@@ -192,12 +191,8 @@ public class GearChangeFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( familiarSelect, 240, 20 );
 		valuePanel.add( familiarSelect );
 
-		familiarData = new JLabel[2];
-		for ( int i = 0; i < 2; ++i )
-		{
-			familiarData[i] = new JLabel( " ", JLabel.LEFT );
-			valuePanel.add( familiarData[i] );
-		}
+		equipment[6] = new JLabel( " ", JLabel.LEFT );
+		valuePanel.add( equipment[6] );
 
 		valuePanel.add( new JLabel( " " ) );
 
@@ -222,13 +217,11 @@ public class GearChangeFrame extends KoLFrame
 		equipment[3].setText( characterData.getAccessory1() );
 		equipment[4].setText( characterData.getAccessory2() );
 		equipment[5].setText( characterData.getAccessory3() );
+		equipment[6].setText( characterData.getFamiliarItem() );
 
 		this.isChanging = true;
 		familiarSelect.setSelectedItem( new FamiliarData( FamiliarsDatabase.getFamiliarID( characterData.getFamiliarRace() ) ) );
 		this.isChanging = false;
-
-		familiarData[0].setText( characterData.getFamiliarItem() );
-		familiarData[1].setText( "" + characterData.getFamiliarWeight() );
 	}
 
 	private class ChangeFamiliarListener implements ActionListener

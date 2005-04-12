@@ -132,7 +132,7 @@ public class FamiliarRequest extends KoLRequest
 			if ( characterData.getEffects().contains( new AdventureResult( "Leash of Linguini", 0 ) ) )
 				addedWeight += 5;
 
-			characterData.setFamiliarDescription( changeTo.toString(), changeTo.getWeight() + addedWeight );
+			characterData.setFamiliarDescription( changeTo.getRace(), changeTo.getWeight() + addedWeight );
 			characterData.setFamiliarItem( changeTo.getItem() );
 			updateDisplay( NOCHANGE, "Familiar changed." );
 		}

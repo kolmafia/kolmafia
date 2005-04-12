@@ -64,6 +64,13 @@ public class FamiliarData implements Comparable
 				FamiliarsDatabase.getFamiliarItem( id );
 	}
 
+	public FamiliarData( int id, int weight )
+	{
+		this.id = id;
+		this.weight = weight;
+		this.race = FamiliarsDatabase.getFamiliarName( id );
+	}
+
 	public int getID()
 	{	return id;
 	}
@@ -76,8 +83,12 @@ public class FamiliarData implements Comparable
 	{	return weight;
 	}
 
-	public String toString()
+	public String getRace()
 	{	return race;
+	}
+
+	public String toString()
+	{	return race + " (" + weight + " lbs)";
 	}
 
 	public boolean equals( Object o )
