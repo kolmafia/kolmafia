@@ -184,7 +184,7 @@ public class BuffBotFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenuItem adventureMenuItem = new JMenuItem( "" );
+		JMenuItem adventureMenuItem = new JMenuItem( "", KeyEvent.VK_M );
 		adventureMenuItem.addActionListener( new ToggleVisibility( adventureMenuItem ) );
 
 		addStatusMenu( menuBar ).add( adventureMenuItem, 0 );

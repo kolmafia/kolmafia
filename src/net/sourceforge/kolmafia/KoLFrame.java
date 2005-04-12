@@ -71,7 +71,7 @@ package net.sourceforge.kolmafia;
 // containers
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
+import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JFileChooser;
@@ -192,11 +192,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			contentPanel.requestFocus();
 	}
 
-	protected final JMenu addStatusMenu( JMenuBar menuBar )
+	protected final JMenu addStatusMenu( JComponent menu )
 	{
 		JMenu statusMenu = new JMenu( "My KoL" );
 		statusMenu.setMnemonic( KeyEvent.VK_M );
-		menuBar.add( statusMenu );
+		menu.add( statusMenu );
 
 		this.statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
 		statusMenuItem.addActionListener( new ViewStatusPaneListener() );
@@ -221,11 +221,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * current mail.
 	 */
 
-	protected final JMenu addPeopleMenu( JMenuBar menuBar )
+	protected final JMenu addPeopleMenu( JComponent menu )
 	{
 		JMenu peopleMenu = new JMenu( "People" );
 		peopleMenu.setMnemonic( KeyEvent.VK_P );
-		menuBar.add( peopleMenu );
+		menu.add( peopleMenu );
 
 		JMenuItem chatMenuItem = new JMenuItem( "Chat of Loathing", KeyEvent.VK_C );
 		chatMenuItem.addActionListener( new ViewChatListener() );
@@ -250,11 +250,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * the ability to load scripts.
 	 */
 
-	protected final JMenu addScriptMenu( JMenuBar menuBar )
+	protected final JMenu addScriptMenu( JComponent menu )
 	{
-		JMenu scriptMenu = new JMenu("Scripts");
+		JMenu scriptMenu = new JMenu( "Scripts" );
 		scriptMenu.setMnemonic( KeyEvent.VK_S );
-		menuBar.add( scriptMenu );
 
 		JMenuItem loadScriptMenuItem = new JMenuItem( "Load Script...", KeyEvent.VK_L );
 		loadScriptMenuItem.addActionListener( new LoadScriptListener() );
@@ -265,6 +264,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		loggerItem.addActionListener( new ToggleMacroListener( loggerItem ) );
 
 		scriptMenu.add( loggerItem );
+		menu.add( scriptMenu );
 		return scriptMenu;
 	}
 
@@ -275,14 +275,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * is invoked before login, character-specific if after) and
 	 * initialize the debugger.
 	 *
-	 * @param	menuBar	The <code>JMenuBar</code> to which the configuration menu will be attached
+	 * @param	menu	The <code>JMenuBar</code> to which the configuration menu will be attached
 	 */
 
-	protected final JMenu addConfigureMenu( JMenuBar menuBar )
+	protected final JMenu addConfigureMenu( JComponent menu )
 	{
 		JMenu configureMenu = new JMenu("Configure");
 		configureMenu.setMnemonic( KeyEvent.VK_C );
-		menuBar.add( configureMenu );
+		menu.add( configureMenu );
 
 		JMenuItem settingsItem = new JMenuItem( "Preferences", KeyEvent.VK_P );
 		settingsItem.addActionListener( new DisplayFrameListener( OptionsFrame.class ) );
@@ -301,14 +301,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * menu to the given menu bar.  The default Help menu contains the
 	 * copyright statement for <code>KoLmafia</code>.
 	 *
-	 * @param	menuBar	The <code>JMenuBar</code> to which the Help menu will be attached
+	 * @param	menu	The <code>JMenuBar</code> to which the Help menu will be attached
 	 */
 
-	protected final JMenu addHelpMenu( JMenuBar menuBar )
+	protected final JMenu addHelpMenu( JComponent menu )
 	{
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.setMnemonic( KeyEvent.VK_H );
-		menuBar.add( helpMenu );
+		menu.add( helpMenu );
 
 		JMenuItem aboutItem = new JMenuItem( "About KoLmafia...", KeyEvent.VK_A );
 		aboutItem.addActionListener( new ActionListener() {
@@ -390,16 +390,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				if ( client != null && client.getMacroStream() instanceof NullStream )
 				{
-					JFileChooser chooser = new JFileChooser();
-					chooser.setFileFilter( new TXTFileFilter() );
+					JFileChooser chooser = new JFileChooser( "." );
 					int returnVal = chooser.showSaveDialog( KoLFrame.this );
 
 					if ( chooser.getSelectedFile() == null )
 						return;
 
 					String filename = chooser.getSelectedFile().getAbsolutePath();
-					if ( !filename.endsWith( ".txt" ) )
-						filename += ".txt";
 
 					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
 						client.initializeMacroStream( filename );
@@ -413,22 +410,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				}
 			}
 		}
-
-		/**
-		 * Internal file descriptor to make sure files are
-		 * only saved to HTML format.
-		 */
-
-		private class TXTFileFilter extends javax.swing.filechooser.FileFilter
-		{
-			public boolean accept( java.io.File f )
-			{	return f.getPath().endsWith( ".txt" );
-			}
-
-			public String getDescription()
-			{	return "Text Documents";
-			}
-		}
 	}
 
 	private class ToggleDebugListener implements ActionListener
@@ -439,7 +420,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			this.loggerItem = loggerItem;
 			loggerItem.setText( client == null || client.getLogStream() instanceof NullStream ?
-				"Start Debug Logging" : "Stop Debug Logging" );
+				"Start Debug" : "Stop Debug" );
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -447,12 +428,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			if ( client != null && client.getLogStream() instanceof NullStream )
 			{
 				client.initializeLogStream();
-				loggerItem.setText( "Stop Debug Logging" );
+				loggerItem.setText( "Stop Debug" );
 			}
 			else if ( client != null )
 			{
 				client.deinitializeLogStream();
-				loggerItem.setText( "Start Debug Logging" );
+				loggerItem.setText( "Start Debug" );
 			}
 		}
 	}

@@ -316,26 +316,30 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		JMenuItem mallItem = new JMenuItem( "Manipulate Mall", KeyEvent.VK_M );
 		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
 
-		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
-		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
-
-		JMenuItem caseItem = new JMenuItem( "Cannon Museum", KeyEvent.VK_C );
-		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
-
 		JMenu statusMenu = addStatusMenu( menuBar );
 		statusMenu.add( mallItem );
-		statusMenu.add( arenaItem );
-		statusMenu.add( caseItem );
-
-		JMenuItem getBreakfastItem = new JMenuItem( "Fetch Breakfast!", KeyEvent.VK_F );
-		getBreakfastItem.addActionListener( new GetBreakfastListener() );
 
 		JMenuItem buffbotMenuItem = new JMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E );
 		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
 
 		JMenu scriptMenu = addScriptMenu( menuBar );
-		scriptMenu.add( getBreakfastItem );
 		scriptMenu.add( buffbotMenuItem );
+
+		JMenu visitMenu = new JMenu( "Travel" );
+		visitMenu.setMnemonic( KeyEvent.VK_T );
+
+		JMenuItem foodItem = new JMenuItem( "Fetch Breakfast!", KeyEvent.VK_F );
+		foodItem.addActionListener( new GetBreakfastListener() );
+		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
+		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
+		JMenuItem caseItem = new JMenuItem( "Cannon Museum", KeyEvent.VK_C );
+		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
+
+		visitMenu.add( foodItem );
+		visitMenu.add( arenaItem );
+		visitMenu.add( caseItem );
+
+		menuBar.add( visitMenu );
 
 		addPeopleMenu( menuBar );
 		addConfigureMenu( menuBar );
