@@ -203,9 +203,6 @@ public class LoginFrame extends KoLFrame
 				client.getSettings().getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) :
 					(JComponent)(new LoginNameComboBox());
 
-			if ( loginnameField instanceof JComboBox )
-				((JComboBox)loginnameField).setEditable( true );
-
 			passwordField = new JPasswordField();
 			savePasswordCheckBox = new JCheckBox();
 			savePasswordCheckBox.addActionListener( this );
@@ -339,9 +336,9 @@ public class LoginFrame extends KoLFrame
 			public LoginNameComboBox()
 			{
 				super( saveStateNames );
-				setEditable( true );
-				getEditor().getEditorComponent().addFocusListener( this );
-				getEditor().getEditorComponent().addKeyListener( new NameInputListener() );
+				this.setEditable( true );
+				this.getEditor().getEditorComponent().addFocusListener( this );
+				this.getEditor().getEditorComponent().addKeyListener( new NameInputListener() );
 			}
 
 			public void setSelectedItem( Object anObject )
