@@ -136,25 +136,26 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private static void autoDetectServer()
 	{
-		// This test uses the Kingdom of Loathing automatic balancing
-		// server, rather than allowing users to specify the root;
-		// usually, this works out to the benefit of everyone.
-
-		(new KoLRequest( null, "", false )).run();
-		KoLRequest root = new KoLRequest( null, "login.php", false );
-		root.run();
-
-		// Actually, the autobalancing uses a redirect.  Oops.  So,
-		// determine the redirect location.
-
 		try
 		{
+			// This test uses the Kingdom of Loathing automatic balancing
+			// server, rather than allowing users to specify the root;
+			// usually, this works out to the benefit of everyone.
+
+			(new KoLRequest( null, "", false )).run();
+			KoLRequest root = new KoLRequest( null, "login.php", false );
+			root.run();
+
+			// Actually, the autobalancing uses a redirect.  Oops.  So,
+			// determine the redirect location.
+
 			setLoginServer( (new URL( root.formConnection.getHeaderField( "Location" ) )).getHost() );
 		}
 		catch ( Exception e )
 		{
 			// If there's an exception caught while parsing the actual
 			// login server, redirect the person to a random server.
+
 			setLoginServer( HOSTNAMES[ ((int) (Math.random() * 3.0)) % 3 ] );
 		}
 	}
