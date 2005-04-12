@@ -481,7 +481,7 @@ public class ChatFrame extends KoLFrame
 		private class HTMLFileFilter extends javax.swing.filechooser.FileFilter
 		{
 			public boolean accept( java.io.File f )
-			{	return f.getPath().endsWith( ".htm" ) || f.getPath().endsWith( ".html" );
+			{	return f.getPath().endsWith( ".htm" ) || f.getPath().endsWith( ".html" ) || f.isDirectory();
 			}
 
 			public String getDescription()
