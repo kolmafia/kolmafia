@@ -676,7 +676,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
 
 			if ( request.toString().equals( "The Hermitage" ) )
-				makeHermitRequest( iterations );
+				makeHermitRequest();
 			else if ( request.toString().startsWith( "Gym" ) )
 				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
 			else
@@ -774,11 +774,9 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 * items.  This method should prompt the user to determine which
 	 * item to retrieve the hermit, if no default has been specified
 	 * in the user settings.
-	 *
-	 * @param	tradeCount	The number of items to request
 	 */
 
-	protected abstract void makeHermitRequest( int tradeCount );
+	protected abstract void makeHermitRequest();
 
 	/**
 	 * Confirms whether or not the user wants to make a drunken

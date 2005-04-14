@@ -603,7 +603,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "hermit" ) )
 		{
-			executeAdventureRequest( (parameters.length() > 0 ? parameters + " " : "" ) + command );
+			scriptRequestor.makeRequest( new KoLAdventure( scriptRequestor, "hermit.php", "", "The Hermitage" ), 1 );
 			return;
 		}
 
@@ -1405,26 +1405,33 @@ public class KoLmafiaCLI extends KoLmafia
 	 * items.  This method should prompt the user to determine which
 	 * item to retrieve the hermit, if no default has been specified
 	 * in the user settings.
-	 *
-	 * @param	tradeCount	The number of items to request
 	 */
 
-	protected void makeHermitRequest( int tradeCount )
+	protected void makeHermitRequest()
 	{
-		String item = previousCommand.split( " " )[2];
-		int itemNumber = -1;
+		try
+		{
+			String [] command = previousCommand.split( " " );
 
-		for ( int i = 0; itemNumber == -1 && i < hermitItemNames.length; ++i )
-			if ( hermitItemNames[i].indexOf( item ) != -1 )
-				itemNumber = hermitItemNumbers[i];
+			int tradeCount = df.parse( command[1] ).intValue();
+			String item = command[2];
+			int itemNumber = -1;
 
-		if ( itemNumber != -1 )
-			scriptRequestor.settings.setProperty( "hermitTrade", "" + itemNumber );
-		else
-			scriptRequestor.settings.remove( "hermitTrade" );
+			for ( int i = 0; itemNumber == -1 && i < hermitItemNames.length; ++i )
+				if ( hermitItemNames[i].indexOf( item ) != -1 )
+					itemNumber = hermitItemNumbers[i];
 
-		scriptRequestor.settings.saveSettings();
-		(new HermitRequest( scriptRequestor, tradeCount )).run();
+			if ( itemNumber != -1 )
+				scriptRequestor.settings.setProperty( "hermitTrade", "" + itemNumber );
+			else
+				scriptRequestor.settings.remove( "hermitTrade" );
+
+			scriptRequestor.settings.saveSettings();
+			(new HermitRequest( scriptRequestor, tradeCount )).run();
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	/**

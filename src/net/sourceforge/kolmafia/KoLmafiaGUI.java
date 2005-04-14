@@ -132,11 +132,9 @@ public class KoLmafiaGUI extends KoLmafia
 	 * items.  This method should prompt the user to determine which
 	 * item to retrieve the hermit, if no default has been specified
 	 * in the user settings.
-	 *
-	 * @param	tradeCount	The number of items to request
 	 */
 
-	protected void makeHermitRequest( int tradeCount )
+	protected void makeHermitRequest()
 	{
 		Object selectedValue = JOptionPane.showInputDialog(
 			null, "I want this from the hermit...", "Mugging Hermit for...", JOptionPane.INFORMATION_MESSAGE, null,
@@ -155,11 +153,11 @@ public class KoLmafiaGUI extends KoLmafia
 
 		try
 		{
-			int actualTradeCount = df.parse( JOptionPane.showInputDialog(
+			int tradeCount = df.parse( JOptionPane.showInputDialog(
 				null, "How many " + selectedValue + " to get?", "I want this many!", JOptionPane.INFORMATION_MESSAGE ) ).intValue();
 
 			settings.saveSettings();
-			(new HermitRequest( this, actualTradeCount )).run();
+			(new HermitRequest( this, tradeCount )).run();
 		}
 		catch ( Exception e )
 		{
