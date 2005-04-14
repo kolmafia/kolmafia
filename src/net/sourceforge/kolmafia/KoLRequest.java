@@ -109,22 +109,68 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public static void applySettings()
 	{
-		KoLSettings currentSettings = new KoLSettings();
-
-		switch ( Integer.parseInt( currentSettings.getProperty( "loginServer" ) ) )
+		try
 		{
-			case 0:
-				autoDetectServer();
-				break;
-			case 1:
-				setLoginServer( "www.kingdomofloathing.com" );
-				break;
-			case 2:
-				setLoginServer( "www2.kingdomofloathing.com" );
-				break;
-			case 3:
-				setLoginServer( "www3.kingdomofloathing.com" );
-				break;
+			KoLSettings currentSettings = new KoLSettings();
+
+			if ( currentSettings.getProperty( "proxySet" ) != null && currentSettings.getProperty( "proxySet" ).equals( "true" ) )
+			{
+				System.setProperty( "proxySet", "true" );
+
+				String proxyHost = currentSettings.getProperty( "http.proxyHost" );
+
+				try
+				{	System.setProperty( "http.proxyHost", InetAddress.getByName( proxyHost ).getHostAddress() );
+				}
+				catch ( UnknownHostException e )
+				{	System.setProperty( "http.proxyHost", proxyHost );
+				}
+
+				System.setProperty( "http.proxyPort", currentSettings.getProperty( "http.proxyPort" ) );
+				String proxyUser = currentSettings.getProperty( "http.proxyUser" );
+
+				if ( proxyUser != null )
+				{
+					System.setProperty( "http.proxyUser", proxyUser );
+					System.setProperty( "http.proxyPassword", currentSettings.getProperty( "http.proxyPassword" ) );
+				}
+				else
+				{
+					System.getProperties().remove( "http.proxyUser" );
+					System.getProperties().remove( "http.proxyPassword" );
+				}
+			}
+			else
+			{
+				System.setProperty( "proxySet", "false" );
+				System.getProperties().remove( "http.proxyHost" );
+				System.getProperties().remove( "http.proxyPort" );
+				System.getProperties().remove( "http.proxyUser" );
+				System.getProperties().remove( "http.proxyPassword" );
+			}
+
+			switch ( Integer.parseInt( currentSettings.getProperty( "loginServer" ) ) )
+			{
+				case 0:
+					autoDetectServer();
+					break;
+				case 1:
+					setLoginServer( "www.kingdomofloathing.com" );
+					break;
+				case 2:
+					setLoginServer( "www2.kingdomofloathing.com" );
+					break;
+				case 3:
+					setLoginServer( "www3.kingdomofloathing.com" );
+					break;
+			}
+		}
+		catch ( Exception e )
+		{
+			// An exception here means that the attempt to set up the proxy
+			// server failed or the attempt to set the login server failed.
+			// Because these result in default values,, pretend nothing
+			// happened and carry on with business.
 		}
 	}
 
