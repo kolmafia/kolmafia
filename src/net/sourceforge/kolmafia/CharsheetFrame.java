@@ -271,7 +271,6 @@ public class CharsheetFrame extends KoLFrame
 
 	public void refreshStatus()
 	{
-		this.setEnabled( false );
 		if ( client != null )
 		{
 			characterData = client.getCharacterData();
@@ -290,8 +289,6 @@ public class CharsheetFrame extends KoLFrame
 		statusLabel[8].setText( characterData.getAvailableMeat() + " meat" );
 		statusLabel[9].setText( characterData.getInebriety() + " drunkenness" );
 		statusLabel[10].setText( characterData.getAdventuresLeft() + " adventures left" );
-
-		this.setEnabled( true );
 	}
 
 	private class StatusRefreshListener implements ActionListener
@@ -311,8 +308,8 @@ public class CharsheetFrame extends KoLFrame
 			public void run()
 			{
 				(new CharsheetRequest( client )).run();
-				updateDisplay( ENABLED_STATE, "Status refreshed." );
 				refreshStatus();
+				client.updateDisplay( ENABLED_STATE, "Status refreshed." );
 			}
 		}
 	}
