@@ -1036,7 +1036,11 @@ public class KoLCharacter
 	 */
 
 	public boolean canSummonNoodles()
-	{	return availableSkills.contains( "Pastamastery" );
+	{
+		for ( int i = 0; i < availableSkills.size(); ++i )
+			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( "Pastamastery" ) )
+				return true;
+		return false;
 	}
 
 	/**
@@ -1047,7 +1051,11 @@ public class KoLCharacter
 	 */
 
 	public boolean canSummonReagent()
-	{	return availableSkills.contains( "Advanced Saucecrafting" );
+	{
+		for ( int i = 0; i < availableSkills.size(); ++i )
+			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( "Advanced Saucecrafting" ) )
+				return true;
+		return false;
 	}
 
 	/**
