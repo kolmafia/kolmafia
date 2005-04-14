@@ -175,9 +175,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public String toString()
-	{
-		return itemName.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
-			" (" + df.format( quantity ) + " @ " + df.format( price ) + "): " + shopName;
+	{	return itemName + " (" + df.format( quantity ) + " @ " + df.format( price ) + "): " + shopName;
 	}
 
 	/**

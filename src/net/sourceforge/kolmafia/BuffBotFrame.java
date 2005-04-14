@@ -295,7 +295,7 @@ public class BuffBotFrame extends KoLFrame
 			for (int i = 0; (skill = (String) skillSet.get(i)) != null; ++i )
 			{
 				skill = (String) skillSet.get(i);
-				skillID = ClassSkillsDatabase.getSkillID( skill.replaceFirst( "ñ", "&ntilde;" ) );
+				skillID = ClassSkillsDatabase.getSkillID( skill );
 				if (ClassSkillsDatabase.isBuff( skillID ))
 					buffSet.add(skill);
 			}

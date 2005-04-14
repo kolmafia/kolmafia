@@ -114,7 +114,11 @@ public class SearchMallRequest extends KoLRequest
 	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results, boolean retainAll )
 	{
 		super( client, "searchmall.php" );
-		addFormField( "whichitem", searchString );
+
+		String searchRequest = searchString.indexOf( "ñ" ) != -1 || searchString.indexOf( "©" ) != -1 ?
+			searchString.replaceAll( "[\"\']", "" ).replaceAll( "ñ", "" ).replaceAll( "©", "" ) : searchString;
+
+		addFormField( "whichitem", searchRequest );
 
 		if ( cheapestCount > 0 )
 		{

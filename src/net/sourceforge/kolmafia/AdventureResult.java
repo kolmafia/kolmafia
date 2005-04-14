@@ -357,8 +357,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			return DIVIDER;
 
 		if ( itemID == 0 )
-			return "" + name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
-				((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
+			return "" + name + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
 
 		String stringName = itemID == 41 ? "ice-cold beer - Shiltz" : itemID == 81 ? "ice-cold beer - Willer" :
 			name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );

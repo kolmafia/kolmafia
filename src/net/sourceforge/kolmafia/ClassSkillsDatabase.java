@@ -107,7 +107,7 @@ public class ClassSkillsDatabase
 	 */
 
 	public static final String getSkillName( int skillID )
-	{	return (String) skillByID.get( new Integer( skillID ) );
+	{	return ((String) skillByID.get( new Integer( skillID ) )).replaceAll( "&ntilde;", "ñ" );
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class ClassSkillsDatabase
 
 	public static final int getSkillID( String skillName )
 	{
-		Object skillID = skillByName.get( skillName.toLowerCase() );
+		Object skillID = skillByName.get( skillName.toLowerCase().replaceAll( "ñ", "&ntilde;" ) );
 		return skillID == null ? -1 : ((Integer)skillID).intValue();
 	}
 

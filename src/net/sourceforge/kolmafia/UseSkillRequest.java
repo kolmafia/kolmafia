@@ -57,8 +57,8 @@ public class UseSkillRequest extends KoLRequest
 		addFormField( "action", "Skillz." );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		this.skillName = skillName;
-		int skillID = ClassSkillsDatabase.getSkillID( skillName.replaceFirst( "ñ", "&ntilde;" ) );
+		int skillID = ClassSkillsDatabase.getSkillID( skillName );
+		this.skillName = ClassSkillsDatabase.getSkillName( skillID );
 		addFormField( "whichskill", "" + skillID );
 
 		if ( ClassSkillsDatabase.isBuff( skillID ) )
@@ -151,7 +151,7 @@ public class UseSkillRequest extends KoLRequest
 				"</b><br>\\(duration: ", " (" ).replaceAll( " Adventures", "" ) );
 
 			client.applyRecentEffects();
-			updateDisplay( ENABLED_STATE, skillName.replaceFirst( "&ntilde;", "ñ" ) + " was successfully cast." );
+			updateDisplay( ENABLED_STATE, skillName + " was successfully cast." );
 		}
 	}
 }

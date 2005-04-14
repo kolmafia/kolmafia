@@ -60,8 +60,8 @@ public class NPCStoreDatabase implements UtilityConstants
 	{
 		BufferedReader npcdata = DataUtilities.getReaderForSharedDataFile( NPC_DBASE_FILE );
 
-		npcstoreTable = new ArrayList[4];
-		for ( int i = 0; i < 4; ++i )
+		npcstoreTable = new ArrayList[5];
+		for ( int i = 0; i < 5; ++i )
 			npcstoreTable[i] = new ArrayList();
 
 		try
@@ -71,8 +71,13 @@ public class NPCStoreDatabase implements UtilityConstants
 			{
 				StringTokenizer strtok = new StringTokenizer( line, "\t" );
 				if ( strtok.countTokens() == 4 )
+				{
 					for ( int i = 0; i < 4; ++i )
 						npcstoreTable[i].add( strtok.nextToken() );
+
+					npcstoreTable[4].add( TradeableItemDatabase.getItemName( Integer.parseInt( (String) npcstoreTable[2].get(
+						npcstoreTable[2].size() - 1 ) ) ).replaceAll( "ñ", "&ntilde;" ).replaceAll( "©", "&trade;" ) );
+				}
 			}
 		}
 		catch ( IOException e )
@@ -89,35 +94,23 @@ public class NPCStoreDatabase implements UtilityConstants
 
 	public static final MallPurchaseRequest getPurchaseRequest( KoLmafia client, String itemName )
 	{
-		List itemIDs = npcstoreTable[2];
+		List itemNames = npcstoreTable[4];
+		int itemIndex = itemNames.indexOf( itemName );
 
-		for ( int i = 0; i < itemIDs.size(); ++i )
-			if ( itemName.equals( TradeableItemDatabase.getItemName( Integer.parseInt( (String) itemIDs.get(i) ) ) ) )
-				return new MallPurchaseRequest( client, (String) npcstoreTable[1].get(i), (String) npcstoreTable[0].get(i),
-					Integer.parseInt( (String) npcstoreTable[2].get(i) ), Integer.parseInt( (String) npcstoreTable[3].get(i) ) );
-
-		return null;
+		return itemIndex == -1 ? null :
+			new MallPurchaseRequest( client, (String) npcstoreTable[1].get(itemIndex), (String) npcstoreTable[0].get(itemIndex),
+				Integer.parseInt( (String) npcstoreTable[2].get(itemIndex) ), Integer.parseInt( (String) npcstoreTable[3].get(itemIndex) ) );
 	}
 
 	public static final boolean contains( String itemName )
-	{
-		List itemIDs = npcstoreTable[2];
-
-		for ( int i = 0; i < itemIDs.size(); ++i )
-			if ( itemName.equals( TradeableItemDatabase.getItemName( Integer.parseInt( (String) itemIDs.get(i) ) ) ) )
-				return true;
-
-		return false;
+	{	return npcstoreTable[4].contains( itemName );
 	}
 
 	public static final int getNPCStorePrice( String itemName )
 	{
-		List itemIDs = npcstoreTable[2];
+		List itemNames = npcstoreTable[2];
+		int itemIndex = itemNames.indexOf( itemName );
 
-		for ( int i = 0; i < itemIDs.size(); ++i )
-			if ( itemName.equals( TradeableItemDatabase.getItemName( Integer.parseInt( (String) itemIDs.get(i) ) ) ) )
-				return Integer.parseInt( (String) npcstoreTable[3].get(i) );
-
-		return 0;
+		return itemIndex == -1 ? 0 : Integer.parseInt( (String) npcstoreTable[3].get(itemIndex) );
 	}
 }

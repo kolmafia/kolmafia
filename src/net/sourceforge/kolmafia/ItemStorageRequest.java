@@ -64,7 +64,7 @@ public class ItemStorageRequest extends KoLRequest
 		super( client, "closet.php" );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "amt", "" + amount );
-		addFormField( "action", "takemeat" );
+		addFormField( "action", transactionType == MEAT_TO_INVENTORY ? "takemeat" : "addmeat" );
 
 		this.items = null;
 		this.moveType = transactionType;

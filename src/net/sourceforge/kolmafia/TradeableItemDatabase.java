@@ -128,7 +128,7 @@ public class TradeableItemDatabase
 
 	public static final int getItemID( String itemName )
 	{
-		Object itemID = itemByName.get( itemName.toLowerCase() );
+		Object itemID = itemByName.get( itemName.toLowerCase().replaceAll( "ñ", "&ntilde;" ).replaceAll( "©", "&trade;" ) );
 		return itemID == null ? -1 : ((Integer)itemID).intValue();
 	}
 
@@ -148,7 +148,9 @@ public class TradeableItemDatabase
 	 */
 
 	public static final String getItemName( int itemID )
-	{	return itemID < 0 ? null : itemByID[ itemID ];
+	{
+		return itemID < 0 || itemID > ITEM_COUNT ? null : itemByID[ itemID ] == null ? null :
+			itemByID[ itemID ].replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
 	}
 
 	/**
@@ -196,7 +198,7 @@ public class TradeableItemDatabase
 
 	public static final boolean isUsable( String itemName )
 	{
-		int itemID = getItemID( itemName );
+		int itemID = getItemID( itemName.replaceAll( "ñ", "&ntilde;" ).replaceAll( "©", "&trade;" ) );
 		return itemID == -1 ? false : consumptionID[ itemID ] != ConsumeItemRequest.NO_CONSUME;
 	}
 
