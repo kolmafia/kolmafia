@@ -71,6 +71,13 @@ public class ClanGymRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( client.getCharacterData().getAdventuresLeft() < turnCount )
+		{
+			updateDisplay( ERROR_STATE, "Insufficient adventures." );
+			client.cancelRequest();
+			return;
+		}
+
 		updateDisplay( DISABLED_STATE, "Beginning workout..." );
 		super.run();
 
@@ -78,7 +85,8 @@ public class ClanGymRequest extends KoLRequest
 		// therefore, you can parse just that small segment.
 
 		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
-		updateDisplay( NOCHANGE, "Workout completed." );
+		client.processResult( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
+		updateDisplay( ENABLED_STATE, "Workout completed." );
 	}
 
 	/**
