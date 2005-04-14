@@ -1219,7 +1219,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 					int buffCount = maxBuff ?
 						(int) ( client.getCharacterData().getCurrentMP() /
 							ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) :
-								df.parse( countField.getText() ).intValue();
+								countField.getText().trim().length() == 0 ? 1 : df.parse( countField.getText() ).intValue();
 
 					client.makeRequest( new UseSkillRequest( client, buffName, target, buffCount ), 1 );
 
