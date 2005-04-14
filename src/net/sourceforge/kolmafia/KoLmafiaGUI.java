@@ -139,7 +139,7 @@ public class KoLmafiaGUI extends KoLmafia
 	protected void makeHermitRequest( int tradeCount )
 	{
 		Object selectedValue = JOptionPane.showInputDialog(
-			null, "I want this from the hermit...", "Hermit Trade!", JOptionPane.INFORMATION_MESSAGE, null,
+			null, "I want this from the hermit...", "Mugging Hermit for...", JOptionPane.INFORMATION_MESSAGE, null,
 			hermitItemNames, hermitItemNames[0] );
 
 		int selected = -1;
@@ -153,8 +153,17 @@ public class KoLmafiaGUI extends KoLmafia
 		else
 			settings.setProperty( "hermitTrade", "" + selected );
 
-		settings.saveSettings();
-		(new HermitRequest( this, tradeCount )).run();
+		try
+		{
+			int actualTradeCount = df.parse( JOptionPane.showInputDialog(
+				null, "How many " + selectedValue + " to get?", "I want this many!", JOptionPane.INFORMATION_MESSAGE ) ).intValue();
+
+			settings.saveSettings();
+			(new HermitRequest( this, actualTradeCount )).run();
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	/**

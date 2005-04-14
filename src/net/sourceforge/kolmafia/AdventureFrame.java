@@ -334,10 +334,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
 		JMenuItem caseItem = new JMenuItem( "Cannon Museum", KeyEvent.VK_C );
 		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
+		JMenuItem hermitItem = new JMenuItem( "Hermit Hunting", KeyEvent.VK_H );
+		hermitItem.addActionListener( new HermitRequestListener() );
 
 		visitMenu.add( foodItem );
 		visitMenu.add( arenaItem );
 		visitMenu.add( caseItem );
+		visitMenu.add( hermitItem );
 
 		menuBar.add( visitMenu );
 
@@ -1372,6 +1375,26 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 					super.run();
 					buffbotDisplay = (BuffBotFrame) lastCreatedFrame;
 				}
+			}
+		}
+	}
+
+	private class HermitRequestListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new HermitRequestThread()).start();
+		}
+
+		private class HermitRequestThread extends Thread
+		{
+			public HermitRequestThread()
+			{
+				super( "Hermit-Request-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{	client.makeRequest( new KoLAdventure( client, "hermit.php", "", "The Hermitage" ), 1 );
 			}
 		}
 	}
