@@ -125,7 +125,7 @@ public class AutoSellRequest extends KoLRequest
 		client.processResult( soldResult );
 
 		String plainTextResult = replyContent.replaceAll( "<.*?>", "" );
-		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "" );
+		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, " " );
 
 		if ( sellType == AUTOSELL )
 		{
