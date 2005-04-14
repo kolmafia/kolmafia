@@ -723,8 +723,12 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 					if ( permitContinue )
 					{
 						--iterationsRemaining;
-						autoRecoverHP();
-						autoRecoverMP();
+
+						if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
+							autoRecoverHP();
+
+						if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" )) || request instanceof UseSkillRequest )
+							autoRecoverMP();
 
 						if ( request instanceof KoLAdventure && characterData.getInebriety() > 19 && !pulledOver )
 						{
