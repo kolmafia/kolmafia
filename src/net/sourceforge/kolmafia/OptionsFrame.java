@@ -117,6 +117,7 @@ public class OptionsFrame extends KoLFrame
 		contentPanel = null;
 
 		tabs.addTab( "Login", new LoginOptionsPanel() );
+		tabs.addTab( "Proxy", new ProxyOptionsPanel() );
 		tabs.addTab( "Battle", new BattleOptionsPanel() );
 		tabs.addTab( "Mall", new ResultsOptionsPanel() );
 		tabs.addTab( "Sewer", new SewerOptionsPanel() );
@@ -802,6 +803,122 @@ public class OptionsFrame extends KoLFrame
 				settings.setProperty( "useClosetForCreation", "" + (useClosetForCreationSelect.getSelectedIndex() == 1) );
 				settings.setProperty( "autoRepairBoxes", "" + (autoRepairBoxesSelect.getSelectedIndex() == 1) );
 				saveSettings();
+			}
+		}
+	}
+
+	/**
+	 * This panel handles all of the things related to proxy
+	 * options (if applicable).
+	 */
+
+	private class ProxyOptionsPanel extends OptionsPanel
+	{
+		private JTextField proxyHost;
+		private JTextField proxyPort;
+		private JTextField proxyLogin;
+		private JTextField proxyPassword;
+
+		/**
+		 * Constructs a new <code>ProxyOptionsPanel</code>, containing a
+		 * place for the users to select their desired server and for them
+		 * to modify any applicable proxy settings.
+		 */
+
+		public ProxyOptionsPanel()
+		{
+			proxyHost = new JTextField();
+			proxyPort = new JTextField();
+			proxyLogin = new JTextField();
+			proxyPassword = new JPasswordField();
+
+			VerifiableElement [] elements = new VerifiableElement[4];
+			elements[0] = new VerifiableElement( "Proxy Host: ", proxyHost );
+			elements[1] = new VerifiableElement( "Proxy Port: ", proxyPort );
+			elements[2] = new VerifiableElement( "Proxy Login: ", proxyLogin );
+			elements[3] = new VerifiableElement( "Proxy Password: ", proxyPassword );
+
+			setContent( elements, true );
+			(new LoadDefaultSettingsThread()).run();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
+		private class LoadDefaultSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				if ( client == null )
+					System.setProperty( "proxySet", "false" );
+
+				if ( settings.getProperty( "proxySet" ) != null && settings.getProperty( "proxySet" ).equals( "true" ) )
+				{
+					proxyHost.setText( settings.getProperty( "http.proxyHost" ) );
+					proxyPort.setText( settings.getProperty( "http.proxyPort" ) );
+					proxyLogin.setText( settings.getProperty( "http.proxyUser" ) );
+					proxyPassword.setText( settings.getProperty( "http.proxyPassword" ) );
+				}
+				else
+				{
+					proxyHost.setText( "" );
+					proxyPort.setText( "" );
+					proxyLogin.setText( "" );
+					proxyPassword.setText( "" );
+				}
+
+				setStatusMessage( ENABLED_STATE, "" );
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
+
+		private class StoreSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				if ( proxyHost.getText().trim().length() != 0 )
+				{
+					settings.setProperty( "proxySet", "true" );
+					settings.setProperty( "http.proxyHost", proxyHost.getText() );
+					settings.setProperty( "http.proxyPort", proxyPort.getText() );
+
+					if ( proxyLogin.getText().trim().length() != 0 )
+					{
+						settings.setProperty( "http.proxyUser", proxyLogin.getText() );
+						settings.setProperty( "http.proxyPassword", proxyPassword.getText() );
+					}
+					else
+					{
+						settings.remove( "http.proxyUser" );
+						settings.remove( "http.proxyPassword" );
+					}
+				}
+				else
+				{
+					settings.setProperty( "proxySet", "false" );
+					settings.remove( "http.proxyHost" );
+					settings.remove( "http.proxyPort" );
+					settings.remove( "http.proxyUser" );
+					settings.remove( "http.proxyPassword" );
+				}
+
+				// Save the settings that were just set; that way,
+				// the next login can use them.
+
+				saveSettings();
+				KoLRequest.applySettings();
 			}
 		}
 	}
