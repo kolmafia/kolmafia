@@ -102,11 +102,10 @@ public class CharsheetRequest extends KoLRequest
 			// Therefore, these tokens can be discarded.
 
 			String token = parsedContent.nextToken();
-			while ( !token.toLowerCase().equals( client.getLoginName().toLowerCase() ) )
+			while ( !token.startsWith( " (" ) )
 				token = parsedContent.nextToken();
 
-			skipTokens( parsedContent, 15 );
-			character.setUserID( intToken( parsedContent, 3, 1 ) );
+			character.setUserID( Integer.parseInt( token.substring( 3, token.length() - 2 ) ) );
 			skipTokens( parsedContent, 1 );
 			character.setLevel( intToken( parsedContent, 6 ) );
 			skipTokens( parsedContent, 1 );
