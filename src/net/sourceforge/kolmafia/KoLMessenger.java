@@ -358,7 +358,7 @@ public class KoLMessenger implements KoLConstants
 		try
 		{
 			return playerID != null ? playerID :
-				URLEncoder.encode( playerName.replaceAll( "", "_" ), "UTF-8" );
+				URLEncoder.encode( playerName.replaceAll( " ", "_" ), "UTF-8" );
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
