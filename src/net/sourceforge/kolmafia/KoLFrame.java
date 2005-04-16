@@ -510,14 +510,29 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super( confirmedText, cancelledText );
 		}
 
+		protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2 )
+		{
+			super( confirmedText, cancelledText1, cancelledText2 );
+		}
+
 		protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
 		{
 			super( confirmedText, cancelledText, labelSize, fieldSize );
 		}
 
+		protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize )
+		{
+			super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize );
+		}
+
 		protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
 		{
 			super( confirmedText, cancelledText, labelSize, fieldSize, isCenterPanel );
+		}
+
+		protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
+		{
+			super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize, isCenterPanel );
 		}
 
 		public abstract void setStatusMessage( int displayState, String s );

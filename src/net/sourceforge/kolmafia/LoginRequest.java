@@ -48,6 +48,7 @@ public class LoginRequest extends KoLRequest
 	private String password;
 	private boolean getBreakfast;
 	private boolean savePassword;
+	private boolean isQuickLogin;
 
 	/**
 	 * Constructs a new <code>LoginRequest</code>.  The given
@@ -57,9 +58,10 @@ public class LoginRequest extends KoLRequest
 	 * @param	loginname	The name of the player to be logged in
 	 * @param	password	The password to be used in the login attempt
 	 * @param	getBreakfast	Whether or not the client should retrieve breakfast after login
+	 * @param	isQuickLogin	Whether or not this is a quick login attempt
 	 */
 
-	public LoginRequest( KoLmafia client, String loginname, String password, boolean getBreakfast, boolean savePassword )
+	public LoginRequest( KoLmafia client, String loginname, String password, boolean getBreakfast, boolean savePassword, boolean isQuickLogin )
 	{
 		super( client, "login.php" );
 
@@ -67,6 +69,7 @@ public class LoginRequest extends KoLRequest
 		this.password = password;
 		this.getBreakfast = getBreakfast;
 		this.savePassword = savePassword;
+		this.isQuickLogin = isQuickLogin;
 
 		addFormField( "loggingin", "Yup." );
 		try
@@ -105,7 +108,7 @@ public class LoginRequest extends KoLRequest
 			else
 				client.removeSaveState( loginname );
 
-			client.initialize( loginname, formConnection.getHeaderField( "Set-Cookie" ), getBreakfast );
+			client.initialize( loginname, formConnection.getHeaderField( "Set-Cookie" ), getBreakfast, isQuickLogin );
 		}
 		else if ( !isErrorState )
 		{

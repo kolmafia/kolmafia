@@ -202,7 +202,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			outputStream.println();
 			scriptRequestor.deinitialize();
-			(new LoginRequest( scriptRequestor, username, password, getBreakfast, false )).run();
+			(new LoginRequest( scriptRequestor, username, password, getBreakfast, false, false )).run();
 		}
 		catch ( IOException e )
 		{
@@ -222,12 +222,12 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID, boolean getBreakfast )
+	public void initialize( String loginname, String sessionID, boolean getBreakfast, boolean isQuickLogin )
 	{
 		if ( scriptRequestor != this )
-			scriptRequestor.initialize( loginname, sessionID, getBreakfast );
+			scriptRequestor.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 		else
-			super.initialize( loginname, sessionID, getBreakfast );
+			super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
 		outputStream.println();
 		executeCommand( "moons", "" );

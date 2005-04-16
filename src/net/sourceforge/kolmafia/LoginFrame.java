@@ -190,7 +190,8 @@ public class LoginFrame extends KoLFrame
 
 		public LoginPanel()
 		{
-			super( "login", "cancel" );
+			super( "login", "qlogin", "cancel" );
+			setDefaultButton( confirmedButton );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -263,14 +264,20 @@ public class LoginFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new LoginRequestThread()).start();
+		{	(new LoginRequestThread(false)).start();
 		}
 
 		protected void actionCancelled()
 		{
-			updateDisplay( ENABLED_STATE, "Login cancelled." );
-			client.cancelRequest();
-			requestFocus();
+			if ( loginnameField.isEnabled() )
+			{	(new LoginRequestThread(true)).start();
+			}
+			else
+			{
+				updateDisplay( ENABLED_STATE, "Login cancelled." );
+				client.cancelRequest();
+				requestFocus();
+			}
 		}
 
 		public void requestFocus()
@@ -291,10 +298,14 @@ public class LoginFrame extends KoLFrame
 
 		private class LoginRequestThread extends Thread
 		{
-			public LoginRequestThread()
+			private boolean isQuickLogin;
+
+			public LoginRequestThread( boolean isQuickLogin )
 			{
 				super( "Login-Request-Thread" );
 				setDaemon( true );
+
+				this.isQuickLogin = isQuickLogin;
 			}
 
 			public void run()
@@ -319,7 +330,7 @@ public class LoginFrame extends KoLFrame
 				}
 
 				updateDisplay( DISABLED_STATE, "Determining login settings..." );
-				(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected() )).run();
+				(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected(), isQuickLogin )).run();
 			}
 		}
 

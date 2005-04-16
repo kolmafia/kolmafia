@@ -158,7 +158,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID, boolean getBreakfast )
+	public void initialize( String loginname, String sessionID, boolean getBreakfast, boolean isQuickLogin )
 	{
 		// Initialize the variables to their initial
 		// states to avoid null pointers getting thrown
@@ -210,14 +210,60 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			return;
 		}
 
-		if ( settings.getProperty( "skipCharacterData" ) == null || settings.getProperty( "skipCharacterData" ).equals( "false" ) )
-		{
-			(new CharsheetRequest( this )).run();
-			(new CampgroundRequest( this )).run();
+		// Check to see if the user wanted to do a quick login;
+		// if there is a quick login sequence, then ignore the
+		// pages which are loaded by default.
 
-			initialStats[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() );
-			initialStats[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() );
-			initialStats[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() );
+		if ( !isQuickLogin )
+		{
+			if ( settings.getProperty( "skipCharacterData" ) == null || settings.getProperty( "skipCharacterData" ).equals( "false" ) )
+			{
+				(new CharsheetRequest( this )).run();
+				(new CampgroundRequest( this )).run();
+
+				initialStats[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() );
+				initialStats[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() );
+				initialStats[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() );
+			}
+
+			if ( !permitContinue )
+			{
+				this.sessionID = null;
+				this.permitContinue = true;
+				return;
+			}
+
+			if ( settings.getProperty( "skipInventory" ) == null || settings.getProperty( "skipInventory" ).equals( "false" ) )
+				(new EquipmentRequest( this )).run();
+
+			if ( !permitContinue )
+			{
+				this.sessionID = null;
+				this.permitContinue = true;
+				return;
+			}
+
+			if ( settings.getProperty( "skipFamiliarData" ) == null || settings.getProperty( "skipFamiliarData" ).equals( "false" ) )
+				(new FamiliarRequest( this )).run();
+
+			if ( !permitContinue )
+			{
+				this.sessionID = null;
+				this.permitContinue = true;
+				return;
+			}
+
+			// Initially the tally to the necessary values
+
+			processResult( new AdventureResult( AdventureResult.MEAT ) );
+			processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
+			processResult( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+			processResult( new AdventureResult( AdventureResult.DIVIDER ) );
+
+			applyRecentEffects();
+
+			if ( getBreakfast )
+				getBreakfast();
 		}
 
 		if ( !permitContinue )
@@ -226,31 +272,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			this.permitContinue = true;
 			return;
 		}
-
-		if ( settings.getProperty( "skipInventory" ) == null || settings.getProperty( "skipInventory" ).equals( "false" ) )
-			(new EquipmentRequest( this )).run();
-
-		if ( !permitContinue )
-		{
-			this.sessionID = null;
-			this.permitContinue = true;
-			return;
-		}
-
-		if ( settings.getProperty( "skipFamiliarData" ) == null || settings.getProperty( "skipFamiliarData" ).equals( "false" ) )
-			(new FamiliarRequest( this )).run();
-
-		// Initially the tally to the necessary values
-
-		processResult( new AdventureResult( AdventureResult.MEAT ) );
-		processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
-		processResult( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
-		processResult( new AdventureResult( AdventureResult.DIVIDER ) );
-
-		applyRecentEffects();
-
-		if ( getBreakfast )
-			getBreakfast();
 
 		this.isLoggingIn = false;
 		this.loathingMail = new KoLMailManager( this );

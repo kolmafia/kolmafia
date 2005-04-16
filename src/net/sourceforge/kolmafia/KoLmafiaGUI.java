@@ -61,7 +61,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		String autoLoginSetting =  session.settings.getProperty( "autoLogin" );
 		if ( autoLoginSetting != null )
-			(new LoginRequest( session, autoLoginSetting, session.getSaveState( autoLoginSetting ), false, false )).run();
+			(new LoginRequest( session, autoLoginSetting, session.getSaveState( autoLoginSetting ), false, false, false )).run();
 	}
 
 	/**
@@ -88,9 +88,9 @@ public class KoLmafiaGUI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID, boolean getBreakfast )
+	public void initialize( String loginname, String sessionID, boolean getBreakfast, boolean isQuickLogin )
 	{
-		super.initialize( loginname, sessionID, getBreakfast );
+		super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
 		if ( !isLoggingIn )
 		{
