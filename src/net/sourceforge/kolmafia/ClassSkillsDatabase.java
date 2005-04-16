@@ -159,6 +159,6 @@ public class ClassSkillsDatabase
 	 */
 
 	public static final boolean contains( String skillName )
-	{	return skillByName.containsKey( skillName.toLowerCase() );
+	{	return skillByName.containsKey( skillName.toLowerCase().replaceAll( "ñ", "&ntilde;" ) );
 	}
 }
