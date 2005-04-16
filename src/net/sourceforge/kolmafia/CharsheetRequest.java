@@ -105,7 +105,7 @@ public class CharsheetRequest extends KoLRequest
 			while ( !token.startsWith( " (" ) )
 				token = parsedContent.nextToken();
 
-			character.setUserID( Integer.parseInt( token.substring( 3, token.length() - 2 ) ) );
+			character.setUserID( Integer.parseInt( token.substring( 3, token.length() - 1 ) ) );
 			skipTokens( parsedContent, 1 );
 			character.setLevel( intToken( parsedContent, 6 ) );
 			skipTokens( parsedContent, 1 );
