@@ -287,18 +287,14 @@ public class BuffBotFrame extends KoLFrame
 		public BuffOptionsPanel()
 		{
 			super( "Add Buff", "Remove Buff", new Dimension( 100, 20 ),  new Dimension( 240, 20 ));
-			int skillID;
-			String skill;
+			UseSkillRequest skill;
 
-			LockableListModel skillSet = (client == null) ? new LockableListModel() :client.getCharacterData().getAvailableSkills();
+			LockableListModel skillSet = (client == null) ? new LockableListModel() : client.getCharacterData().getAvailableSkills();
 			LockableListModel buffSet = new LockableListModel();
-			for (int i = 0; (skill = (String) skillSet.get(i)) != null; ++i )
-			{
-				skill = (String) skillSet.get(i);
-				skillID = ClassSkillsDatabase.getSkillID( skill );
-				if (ClassSkillsDatabase.isBuff( skillID ))
-					buffSet.add(skill);
-			}
+			for (int i = 0; (skill = (UseSkillRequest) skillSet.get(i)) != null; ++i )
+				if (ClassSkillsDatabase.isBuff( ClassSkillsDatabase.getSkillID( skill.getSkillName() ) ))
+					buffSet.add( skill );
+
 			skillSelect = new JComboBox( buffSet );
 
 			priceField = new JTextField();
@@ -337,7 +333,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			try
 			{
-				client.getBuffBotManager().addBuff( (String) skillSelect.getSelectedItem(),
+				client.getBuffBotManager().addBuff( ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName(),
 					df.parse( priceField.getText() ).intValue(), df.parse( countField.getText() ).intValue(), restrictBox.isSelected() );
 			}
 			catch ( Exception e )
