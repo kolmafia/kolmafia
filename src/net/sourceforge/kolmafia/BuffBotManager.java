@@ -511,7 +511,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			// string may come from either the id lookup database or the skill list, so
 			//		need to be prepared for either orientation of ñ
 			this.buffID = ClassSkillsDatabase.getSkillID( buffName );
-			this.buffName = buffName
+			this.buffName = buffName;
 			this.price = price;
 			this.castCount = castCount;
 
