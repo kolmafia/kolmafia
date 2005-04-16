@@ -130,8 +130,7 @@ public class KoLmafiaGUI extends KoLmafia
 	/**
 	 * Makes a request to the hermit, looking for the given number of
 	 * items.  This method should prompt the user to determine which
-	 * item to retrieve the hermit, if no default has been specified
-	 * in the user settings.
+	 * item to retrieve the hermit.
 	 */
 
 	protected void makeHermitRequest()
@@ -146,22 +145,37 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( selectedValue.equals( hermitItemNames[i] ) )
 					selected = hermitItemNumbers[i];
 
-		if ( selected == -1 )
-			settings.remove( "hermitTrade" );
-		else
-			settings.setProperty( "hermitTrade", "" + selected );
-
 		try
 		{
 			int tradeCount = df.parse( JOptionPane.showInputDialog(
 				null, "How many " + selectedValue + " to get?", "I want this many!", JOptionPane.INFORMATION_MESSAGE ) ).intValue();
 
-			settings.saveSettings();
-			(new HermitRequest( this, tradeCount )).run();
+			(new HermitRequest( this, selected, tradeCount )).run();
 		}
 		catch ( Exception e )
 		{
 		}
+	}
+
+	/**
+	 * Makes a request to the trapper, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the trapper.
+	 */
+
+	protected void makeTrapperRequest()
+	{
+		Object selectedValue = JOptionPane.showInputDialog(
+			null, "I want this from the trapper...", "1337ing Trapper for...", JOptionPane.INFORMATION_MESSAGE, null,
+			trapperItemNames, trapperItemNames[0] );
+
+		if ( selectedValue != null )
+			for ( int i = 0; i < trapperItemNames.length; ++i )
+				if ( selectedValue.equals( trapperItemNames[i] ) )
+				{
+					(new TrapperRequest( this, trapperItemNumbers[i] )).run();
+					return;
+				}
 	}
 
 	/**

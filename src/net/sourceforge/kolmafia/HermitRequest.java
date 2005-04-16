@@ -48,7 +48,7 @@ public class HermitRequest extends KoLRequest
 	private static final AdventureResult GEWGAW = new AdventureResult( 44, 0 );
 	private static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 0 );
 
-	private int quantity;
+	private int itemID, quantity;
 
 	/**
 	 * Constructs a new <code>HermitRequest</code>.  Note that in order
@@ -59,13 +59,16 @@ public class HermitRequest extends KoLRequest
 	 * @param	client	The client to which this request will report errors/results
 	 */
 
-	public HermitRequest( KoLmafia client, int quantity )
+	public HermitRequest( KoLmafia client, int itemID, int quantity )
 	{
 		super( client, "hermit.php" );
 
+		this.itemID = itemID;
 		this.quantity = quantity;
+
 		addFormField( "action", "trade" );
 		addFormField( "quantity", "" + quantity );
+		addFormField( "whichitem", "" + itemID );
 		addFormField( "pwd", client.getPasswordHash() );
 	}
 
@@ -78,17 +81,6 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
-		String item = client.getSettings().getProperty( "hermitTrade" );
-
-		if ( item == null )
-		{
-			updateDisplay( ERROR_STATE, "No hermit trade settings found." );
-			client.cancelRequest();
-			return;
-		}
-
-		addFormField( "whichitem", item );
-
 		updateDisplay( DISABLED_STATE, "Robbing the hermit..." );
 		super.run();
 
@@ -115,7 +107,7 @@ public class HermitRequest extends KoLRequest
 			try
 			{
 				int actualQuantity = df.parse( replyContent.substring( index + 9 ) ).intValue();
-				(new HermitRequest( client, actualQuantity )).run();
+				(new HermitRequest( client, itemID, actualQuantity )).run();
 				return;
 			}
 			catch ( Exception e )

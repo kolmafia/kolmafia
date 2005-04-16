@@ -1,0 +1,99 @@
+/**
+ * Copyright (c) 2005, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "KoLmafia development team" nor the names of
+ *      its contributors may be used to endorse or promote products
+ *      derived from this software without specific prior written
+ *      permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.sourceforge.kolmafia;
+
+import java.util.List;
+import java.util.StringTokenizer;
+
+/**
+ * An extension of the generic <code>KoLRequest</code> class which handles
+ * adventures involving trading with the trapper.
+ */
+
+public class TrapperRequest extends KoLRequest
+{
+	private int quantity;
+	private static final AdventureResult YETI_FUR = new AdventureResult( 388, 0 );
+
+	/**
+	 * Constructs a new <code>TrapperRequest</code>.
+	 *
+	 * @param	client	The client to which this request will report errors/results
+	 * @param	itemID	The item which will be traded at the trapper
+	 */
+
+	public TrapperRequest( KoLmafia client, int itemID )
+	{
+		super( client, "trapper.php" );
+
+		int index = client.getInventory().indexOf( YETI_FUR );
+		this.quantity = index == -1 ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount();
+
+		addFormField( "action", "Yep." );
+		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "whichitem", "" + itemID );
+		addFormField( "tradeall", "on" );
+	}
+
+	/**
+	 * Executes the <code>TrapperRequest</code>.  This will trade the item
+	 * specified in the character's <code>KoLSettings</code> for their
+	 * worthless trinket; if the character has no worthless trinkets, this
+	 * method will report an error to the client.
+	 */
+
+	public void run()
+	{
+		if ( quantity == 0 )
+		{
+			updateDisplay( ERROR_STATE, "You do not have any furs." );
+			client.cancelRequest();
+			return;
+		}
+
+		updateDisplay( DISABLED_STATE, "Robbing the trapper..." );
+		super.run();
+
+		// If an error state occurred, return from this
+		// request, since there's no content to parse
+
+		if ( isErrorState || responseCode != 200 )
+			return;
+
+		processResults( replyContent );
+		client.processResult( new AdventureResult( YETI_FUR.getItemID(), 0 - quantity ) );
+		updateDisplay( ENABLED_STATE, "Trapper successfully looted!" );
+	}
+}

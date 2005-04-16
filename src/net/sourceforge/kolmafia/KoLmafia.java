@@ -65,6 +65,9 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
 	protected static final int [] hermitItemNumbers = { 24, 46, 47, 52, 55, 61, 66, 106, 107, 135, 140, 527 };
 
+	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
+	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
+
 	protected boolean isLoggingIn;
 	protected String password, sessionID, passwordHash;
 	protected KoLCharacter characterData;
@@ -698,6 +701,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 			if ( request.toString().equals( "The Hermitage" ) )
 				makeHermitRequest();
+			else if ( request.toString().equals( "The 1337 Trapper" ) )
+				makeTrapperRequest();
 			else if ( request.toString().startsWith( "Gym" ) )
 				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
 			else
@@ -797,11 +802,18 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	/**
 	 * Makes a request to the hermit, looking for the given number of
 	 * items.  This method should prompt the user to determine which
-	 * item to retrieve the hermit, if no default has been specified
-	 * in the user settings.
+	 * item to retrieve the hermit.
 	 */
 
 	protected abstract void makeHermitRequest();
+
+	/**
+	 * Makes a request to the trapper, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the trapper.
+	 */
+
+	protected abstract void makeTrapperRequest();
 
 	/**
 	 * Confirms whether or not the user wants to make a drunken

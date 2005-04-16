@@ -334,13 +334,16 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
 		JMenuItem caseItem = new JMenuItem( "Cannon Museum", KeyEvent.VK_C );
 		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
-		JMenuItem hermitItem = new JMenuItem( "Hermit Hunting", KeyEvent.VK_H );
+		JMenuItem hermitItem = new JMenuItem( "Hermit's Hideaway", KeyEvent.VK_H );
 		hermitItem.addActionListener( new HermitRequestListener() );
+		JMenuItem trapperItem = new JMenuItem( "Mountain Trapper", KeyEvent.VK_M );
+		trapperItem.addActionListener( new TrapperRequestListener() );
 
 		visitMenu.add( foodItem );
 		visitMenu.add( arenaItem );
 		visitMenu.add( caseItem );
 		visitMenu.add( hermitItem );
+		visitMenu.add( trapperItem );
 
 		menuBar.add( visitMenu );
 
@@ -1394,6 +1397,26 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 			public void run()
 			{	client.makeRequest( new KoLAdventure( client, "hermit.php", "", "The Hermitage" ), 1 );
+			}
+		}
+	}
+
+	private class TrapperRequestListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new TrapperRequestThread()).start();
+		}
+
+		private class TrapperRequestThread extends Thread
+		{
+			public TrapperRequestThread()
+			{
+				super( "Hermit-Request-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{	client.makeRequest( new KoLAdventure( client, "trapper.php", "", "The 1337 Trapper" ), 1 );
 			}
 		}
 	}

@@ -1419,19 +1419,29 @@ public class KoLmafiaCLI extends KoLmafia
 
 			for ( int i = 0; itemNumber == -1 && i < hermitItemNames.length; ++i )
 				if ( hermitItemNames[i].indexOf( item ) != -1 )
-					itemNumber = hermitItemNumbers[i];
-
-			if ( itemNumber != -1 )
-				scriptRequestor.settings.setProperty( "hermitTrade", "" + itemNumber );
-			else
-				scriptRequestor.settings.remove( "hermitTrade" );
-
-			scriptRequestor.settings.saveSettings();
-			(new HermitRequest( scriptRequestor, tradeCount )).run();
+					(new HermitRequest( scriptRequestor, hermitItemNumbers[i], tradeCount )).run();
 		}
 		catch ( Exception e )
 		{
 		}
+	}
+
+	/**
+	 * Makes a request to the trapper, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the trapper.
+	 */
+
+	protected void makeTrapperRequest()
+	{
+		String item = previousCommand.split( " " )[2];
+
+		for ( int i = 0; i < trapperItemNames.length; ++i )
+			if ( trapperItemNames[i].indexOf( item ) != -1 )
+			{
+				(new TrapperRequest( scriptRequestor, trapperItemNumbers[i] )).run();
+				return;
+			}
 	}
 
 	/**
