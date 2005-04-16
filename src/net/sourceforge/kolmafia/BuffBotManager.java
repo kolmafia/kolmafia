@@ -522,7 +522,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			stringForm.append( this.buffName );
 			stringForm.append( ' ' );
 			stringForm.append( castCount );
-			stringForm.append( " times for " );
+			stringForm.append( " time" );
+
+			if ( castCount != 1 )
+				stringForm.append( 's' );
+
+			stringForm.append( " for " );
 			stringForm.append( price );
 			stringForm.append( " meat" );
 
