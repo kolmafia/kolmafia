@@ -224,6 +224,7 @@ public class KoLCharacter
 	{
 		this.username = username;
 		this.classname = "";
+		this.classtype = "";
 
 		this.adjustedStats = new int[3];
 		this.totalSubpoints = new int[3];
