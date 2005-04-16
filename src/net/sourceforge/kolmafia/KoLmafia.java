@@ -176,12 +176,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		this.tally = new SortedListModel();
 		this.recentEffects = new ArrayList();
 
-		// Fill the tally with junk information
-
-		processResult( new AdventureResult( AdventureResult.MEAT ) );
-		processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
-		processResult( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
-		processResult( new AdventureResult( AdventureResult.DIVIDER ) );
+		resetSessionTally();
 
 		// Begin by loading the user-specific settings.
 
@@ -223,10 +218,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			{
 				(new CharsheetRequest( this )).run();
 				(new CampgroundRequest( this )).run();
-
-				initialStats[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() );
-				initialStats[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() );
-				initialStats[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() );
 			}
 
 			if ( !permitContinue )
@@ -258,11 +249,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 			// Initially the tally to the necessary values
 
-			processResult( new AdventureResult( AdventureResult.MEAT ) );
-			processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
-			processResult( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
-			processResult( new AdventureResult( AdventureResult.DIVIDER ) );
-
+			resetSessionTally();
 			applyRecentEffects();
 
 			if ( getBreakfast )
@@ -322,6 +309,24 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		deinitializeLogStream();
 		deinitializeMacroStream();
 		this.permitContinue = true;
+	}
+
+	/**
+	 * Used to reset the session tally to its original values.
+	 */
+
+	public void resetSessionTally()
+	{
+		tally.clear();
+
+		initialStats[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() );
+		initialStats[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() );
+		initialStats[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() );
+
+		processResult( new AdventureResult( AdventureResult.MEAT ) );
+		processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
+		processResult( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+		processResult( new AdventureResult( AdventureResult.DIVIDER ) );
 	}
 
 	/**
