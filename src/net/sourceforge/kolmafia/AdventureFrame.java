@@ -314,9 +314,12 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		JMenuItem mallItem = new JMenuItem( "Manipulate Mall", KeyEvent.VK_M );
 		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
+		JMenuItem resetItem = new JMenuItem( "Reset Session", KeyEvent.VK_R );
+		resetItem.addActionListener( new ResetSessionListener() );
 
 		JMenu statusMenu = addStatusMenu( menuBar );
 		statusMenu.add( mallItem );
+		statusMenu.add( resetItem );
 
 		JMenuItem buffbotMenuItem = new JMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E );
 		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
@@ -547,6 +550,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		public MallSearchPanel()
 		{
 			super( "search", "purchase", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
+			setDefaultButton( confirmedButton );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -1237,6 +1241,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 				}
 
 			}
+		}
+	}
+
+	private class ResetSessionListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	client.resetSessionTally();
 		}
 	}
 
