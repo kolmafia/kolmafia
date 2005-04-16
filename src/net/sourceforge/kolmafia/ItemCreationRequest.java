@@ -262,16 +262,19 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					client.getCharacterData().setChef( false );
 
-					if ( autoRepairBoxServant() && quantityNeeded < createdQuantity )
-						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
-					else
+					if ( quantityNeeded < createdQuantity )
 					{
-						updateDisplay( ERROR_STATE, "Chef explosion!" );
-						client.cancelRequest();
+						if ( autoRepairBoxServant() )
+							(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
+						else
+						{
+							updateDisplay( ERROR_STATE, "Chef explosion!" );
+							client.cancelRequest();
+						}
 					}
 				}
 				else if ( client.permitsContinue() )
-					updateDisplay( NOCHANGE, "Successfully cooked " + quantityNeeded + "" + item.getName() );
+					updateDisplay( NOCHANGE, "Successfully cooked " + quantityNeeded + " " + item.getName() );
 
 				break;
 
@@ -281,22 +284,25 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					client.getCharacterData().setBartender( false );
 
-					if ( autoRepairBoxServant() && quantityNeeded < createdQuantity )
-						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
-					else
+					if ( quantityNeeded < createdQuantity )
 					{
-						updateDisplay( ERROR_STATE, "Bartender explosion!" );
-						client.cancelRequest();
+						if ( autoRepairBoxServant() )
+							(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
+						else
+						{
+							updateDisplay( ERROR_STATE, "Bartender explosion!" );
+							client.cancelRequest();
+						}
 					}
 				}
 				else if ( client.permitsContinue() )
-					updateDisplay( NOCHANGE, "Successfully mixed " + quantityNeeded + "" + item.getName() );
+					updateDisplay( NOCHANGE, "Successfully mixed " + quantityNeeded + " " + item.getName() );
 
 				break;
 
 			default:
 				if ( client.permitsContinue() )
-					updateDisplay( NOCHANGE,  "Successfully created " + quantityNeeded + "" + item.getName() );
+					updateDisplay( NOCHANGE,  "Successfully created " + quantityNeeded + " " + item.getName() );
 		}
 	}
 
