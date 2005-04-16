@@ -101,7 +101,7 @@ public class StatusEffectDatabase
 	 */
 
 	public static final String getEffectName( int effectID )
-	{	return (String) effectByID.get( new Integer( effectID ) );
+	{	return ((String) effectByID.get( new Integer( effectID ) )).replaceAll( "&ntilde;", "ñ" );
 	}
 
 	/**
@@ -126,6 +126,6 @@ public class StatusEffectDatabase
 	 */
 
 	public static final boolean contains( String effectName )
-	{	return effectByName.containsKey( effectName );
+	{	return effectByName.containsKey( effectName.replaceAll( "ñ", "&ntilde;" ) );
 	}
 }
