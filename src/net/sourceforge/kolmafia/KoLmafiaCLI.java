@@ -194,7 +194,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			outputStream.print( "breakfast?: " );
+			outputStream.print( "campground?: " );
 			String breakfast = commandStream.readLine();
 
 			boolean getBreakfast = breakfast != null && breakfast.length() != 0 &&

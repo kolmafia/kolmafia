@@ -221,7 +221,7 @@ public class LoginFrame extends KoLFrame
 			checkBoxPanels.add( new JLabel( "Auto-Login: " ), "" );
 			checkBoxPanels.add( autoLoginCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
-			checkBoxPanels.add( new JLabel( "Get Breakfast: " ), "" );
+			checkBoxPanels.add( new JLabel( "Camp Routine: " ), "" );
 			checkBoxPanels.add( getBreakfastCheckBox );
 
 			JPanel southPanel = new JPanel();

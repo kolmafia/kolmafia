@@ -327,7 +327,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		JMenu visitMenu = new JMenu( "Travel" );
 		visitMenu.setMnemonic( KeyEvent.VK_T );
 
-		JMenuItem foodItem = new JMenuItem( "Fetch Breakfast!", KeyEvent.VK_F );
+		JMenuItem foodItem = new JMenuItem( "Daily Campground", KeyEvent.VK_D );
 		foodItem.addActionListener( new GetBreakfastListener() );
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
