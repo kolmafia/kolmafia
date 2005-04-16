@@ -272,22 +272,22 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 				currentFrame.setEnabled( this.isEnabled );
 		}
 
-		if ( adventureSelect != null && adventureSelect.isShowing() )
+		if ( adventureSelect != null )
 			adventureSelect.setEnabled( this.isEnabled );
 
-		if ( mallSearch != null && mallSearch.isShowing() )
+		if ( mallSearch != null )
 			mallSearch.setEnabled( this.isEnabled );
 
-		if ( clanBuff != null && clanBuff.isShowing() )
+		if ( clanBuff != null )
 			clanBuff.setEnabled( this.isEnabled );
 
-		if ( heroDonation != null && heroDonation.isShowing() )
+		if ( heroDonation != null )
 			heroDonation.setEnabled( this.isEnabled );
 
-		if ( meatStorage != null && meatStorage.isShowing() )
+		if ( meatStorage != null )
 			meatStorage.setEnabled( this.isEnabled );
 
-		if ( skillBuff != null && skillBuff.isShowing() )
+		if ( skillBuff != null )
 			skillBuff.setEnabled( this.isEnabled );
 
 		Iterator framesIterator = existingFrames.iterator();
@@ -296,8 +296,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		while ( framesIterator.hasNext() )
 		{
 			currentFrame = (KoLFrame) framesIterator.next();
-			if ( currentFrame.isShowing() )
-				currentFrame.setEnabled( isEnabled );
+			currentFrame.setEnabled( isEnabled );
 		}
 	}
 
