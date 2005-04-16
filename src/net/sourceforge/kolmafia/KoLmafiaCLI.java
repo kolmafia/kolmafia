@@ -607,6 +607,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "trapper" ) )
+		{
+			scriptRequestor.makeRequest( new KoLAdventure( scriptRequestor, "trapper.php", "", "The 1337 Trapper" ), 1 );
+			return;
+		}
+
 		if ( command.equals( "gym" ) )
 		{
 			executeAdventureRequest( parameters );
@@ -1434,7 +1440,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	protected void makeTrapperRequest()
 	{
-		String item = previousCommand.split( " " )[2];
+		String item = previousCommand.split( " " )[1];
 
 		for ( int i = 0; i < trapperItemNames.length; ++i )
 			if ( trapperItemNames[i].indexOf( item ) != -1 )
@@ -1616,7 +1622,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( request instanceof KoLAdventure )
 		{
-			if ( !request.toString().equals( "The Hermitage" ) && !request.toString().startsWith( "Gym" ) )
+			if ( !request.toString().equals( "The 1337 Trapper" ) && !request.toString().equals( "The Hermitage" ) &&
+				!request.toString().startsWith( "Gym" ) )
 			{
 				commandString.append( "adventure " );
 				commandString.append( iterations );
