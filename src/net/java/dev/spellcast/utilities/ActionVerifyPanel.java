@@ -63,7 +63,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 	private VerifyButtonPanel buttonPanel;
 	private Dimension labelSize, fieldSize;
 
-	private JButton confirmedButton;
+	protected JButton confirmedButton, cancelledButton;
 
 	private static final Dimension DEFAULT_LABEL_SIZE = new Dimension( 100, 20 );
 	private static final Dimension DEFAULT_FIELD_SIZE = new Dimension( 165, 20 );
@@ -72,21 +72,29 @@ public abstract class ActionVerifyPanel extends JRootPane
 	{	this( confirmedText, cancelledText, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
 	}
 
+	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2 )
+	{	this( confirmedText, cancelledText1, cancelledText2, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
+	}
+
 	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
 	{	this( confirmedText, cancelledText, labelSize, fieldSize, false );
 	}
 
+	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize )
+	{	this( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize, false );
+	}
+
 	public ActionVerifyPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
+	{	this( confirmedText, cancelledText, cancelledText, labelSize, fieldSize, isCenterPanel );
+	}
+
+	public ActionVerifyPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
 	{
 		contentSet = false;
 		this.labelSize = labelSize;
 		this.fieldSize = fieldSize;
 		this.isCenterPanel = isCenterPanel;
-		buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );
-	}
-
-	public JButton getDefaultButton()
-	{	return confirmedButton;
+		buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText1, cancelledText2 );
 	}
 
 	protected void setContent( VerifiableElement [] elements )
@@ -281,11 +289,13 @@ public abstract class ActionVerifyPanel extends JRootPane
 
 	private class VerifyButtonPanel extends JPanel
 	{
-		private JButton cancelledButton;
+		private String cancelledText1, cancelledText2;
 
-		public VerifyButtonPanel( String confirmedText, String cancelledText )
+		public VerifyButtonPanel( String confirmedText, String cancelledText1, String cancelledText2 )
 		{
  			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+ 			this.cancelledText1 = cancelledText1;
+ 			this.cancelledText2 = cancelledText2;
 
 			// add the "confirmed" button
 			confirmedButton = new JButton( confirmedText );
@@ -300,7 +310,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 			add( Box.createVerticalStrut( 4 ) );
 
 			// add the "cancelled" button
-			cancelledButton = new JButton( cancelledText );
+			cancelledButton = new JButton( cancelledText1 );
 			cancelledButton.addActionListener(
 				new ActionListener() {
 					public void actionPerformed( ActionEvent e ) {
@@ -324,6 +334,8 @@ public abstract class ActionVerifyPanel extends JRootPane
 			confirmedButton.setEnabled( isEnabled );
 			if ( bothDisabledOnClick )
 				cancelledButton.setEnabled( isEnabled );
+
+			cancelledButton.setText( isEnabled ? cancelledText1 : cancelledText2 );
 		}
 	}
 
