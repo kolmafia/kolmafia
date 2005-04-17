@@ -139,11 +139,13 @@ public class KoLmafiaGUI extends KoLmafia
 			null, "I want this from the hermit...", "Mugging Hermit for...", JOptionPane.INFORMATION_MESSAGE, null,
 			hermitItemNames, hermitItemNames[0] );
 
+		if ( selectedValue == null )
+			return;
+
 		int selected = -1;
-		if ( selectedValue != null )
-			for ( int i = 0; selected == -1 && i < hermitItemNames.length; ++i )
-				if ( selectedValue.equals( hermitItemNames[i] ) )
-					selected = hermitItemNumbers[i];
+		for ( int i = 0; selected == -1 && i < hermitItemNames.length; ++i )
+			if ( selectedValue.equals( hermitItemNames[i] ) )
+				selected = hermitItemNumbers[i];
 
 		try
 		{
@@ -169,13 +171,15 @@ public class KoLmafiaGUI extends KoLmafia
 			null, "I want this from the trapper...", "1337ing Trapper for...", JOptionPane.INFORMATION_MESSAGE, null,
 			trapperItemNames, trapperItemNames[0] );
 
-		if ( selectedValue != null )
-			for ( int i = 0; i < trapperItemNames.length; ++i )
-				if ( selectedValue.equals( trapperItemNames[i] ) )
-				{
-					(new TrapperRequest( this, trapperItemNumbers[i] )).run();
-					return;
-				}
+		if ( selectedValue == null )
+			return;
+
+		for ( int i = 0; i < trapperItemNames.length; ++i )
+			if ( selectedValue.equals( trapperItemNames[i] ) )
+			{
+				(new TrapperRequest( this, trapperItemNumbers[i] )).run();
+				return;
+			}
 	}
 
 	/**
