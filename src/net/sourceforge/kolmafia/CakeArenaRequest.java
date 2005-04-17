@@ -38,8 +38,12 @@ import java.util.regex.Pattern;
 
 public class CakeArenaRequest extends KoLRequest
 {
+	private boolean isCompetition;
+
 	public CakeArenaRequest( KoLmafia client )
-	{	super( client, "arena.php" );
+	{
+		super( client, "arena.php" );
+		this.isCompetition = false;
 	}
 
 	public CakeArenaRequest( KoLmafia client, int opponentID, int eventID )
@@ -48,6 +52,7 @@ public class CakeArenaRequest extends KoLRequest
 		addFormField( "action", "go" );
 		addFormField( "whichopp", "" + opponentID );
 		addFormField( "event", "" + eventID );
+		this.isCompetition = true;
 	}
 
 	public void run()
@@ -69,10 +74,12 @@ public class CakeArenaRequest extends KoLRequest
 			return;
 		}
 
-		processResults( replyContent );
-		client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
-		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-
+		if ( isCompetition )
+		{
+			processResults( replyContent );
+			client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
+			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+		}
 
 		int lastMatchIndex = 0;
 		Matcher opponentMatcher = Pattern.compile(
