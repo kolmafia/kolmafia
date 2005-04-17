@@ -88,10 +88,12 @@ public class CakeArenaRequest extends KoLRequest
 		while ( opponentMatcher.find( lastMatchIndex ) )
 		{
 			lastMatchIndex = opponentMatcher.end() + 1;
+			String opponentName = opponentMatcher.group();
+			opponentName = opponentName.substring( 0, opponentName.indexOf( ",", opponentName.indexOf(
+				"<br>" ) ) ).replaceFirst( "<br>", " (" ).replaceAll( "<.*?>", "" ) + ")";
 
-			client.getCakeArenaManager().registerOpponent(
-				Integer.parseInt( opponentMatcher.group(1) ), opponentMatcher.group().substring( 0,
-						opponentMatcher.group().indexOf( "," ) ).replaceFirst( "<br>", " (" ).replaceAll( "<.*?>", "" ) + ")" );
+
+			client.getCakeArenaManager().registerOpponent( Integer.parseInt( opponentMatcher.group(1) ), opponentName );
 		}
 	}
 	/**
