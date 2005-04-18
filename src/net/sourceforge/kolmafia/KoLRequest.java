@@ -628,7 +628,11 @@ public class KoLRequest implements Runnable, KoLConstants
 						replyBuffer.append( line );
 
 					replyContent = replyBuffer.toString();
-					logStream.println( replyContent );
+
+					if ( client.getPasswordHash() == null )
+						logStream.println( replyContent );
+					else
+						logStream.println( replyContent.replaceAll( client.getPasswordHash(), "" ) );
 				}
 
 				// If you've encountered an error state, then make sure the
