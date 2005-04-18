@@ -525,8 +525,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			AdventureResult ar = (AdventureResult) value;
 
-			String stringName = ar.itemID == 41 ? "ice-cold beer (Schlitz)" : ar.itemID == 81 ? "ice-cold beer (Willer)" :
-				ar.name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
+			String stringName = ar.itemID == 41 ? "ice-cold beer (Schlitz)" : ar.itemID == 81 ? "ice-cold beer (Willer)" : ar.name;
 
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
 			String stringForm = "" + stringName + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
