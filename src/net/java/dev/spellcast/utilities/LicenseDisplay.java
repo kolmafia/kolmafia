@@ -45,27 +45,35 @@ import javax.swing.JTabbedPane;
 
 public class LicenseDisplay extends javax.swing.JFrame
 {
-	private static final int DATA_FILE  = 0;
-	private static final int IMAGE_FILE = 1;
+	public static final int DATA_FILE  = 0;
+	public static final int IMAGE_FILE = 1;
 
-	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
-	private static final int [] LICENSE_FILETYPE = { IMAGE_FILE, IMAGE_FILE, DATA_FILE };
-	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher" };
+	private String [] fileNames;
+	private int [] fileTypes;
+	private String [] tabNames;
 
-	public LicenseDisplay( String title )
+	public LicenseDisplay( String title, String [] fileNames, String [] tabNames )
 	{
 		super( title );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
+		this.fileNames = fileNames;
+
+		this.fileTypes = new int[ fileNames.length ];
+		for ( int i = 0; i < fileNames.length; ++i )
+			this.fileTypes[i] = fileNames[i].endsWith( ".htm" ) || fileNames[i].endsWith( ".html" ) ? DATA_FILE : IMAGE_FILE;
+
+		this.tabNames = tabNames;
+
 		JPanel contentPanel = (JPanel) getContentPane();
 		JTabbedPane tabbedPane = new JTabbedPane();
 
-		for ( int i = 0; i < LICENSE_FILENAME.length; ++i )
+		for ( int i = 0; i < fileNames.length; ++i )
 		{
 			JComponent nextLicense = new JScrollPane( getLicenseDisplay(i),
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 			JComponentUtilities.setComponentSize( nextLicense, 540, 400 );
-			tabbedPane.addTab( LICENSE_NAME[i], nextLicense );
+			tabbedPane.addTab( tabNames[i], nextLicense );
 		}
 
 		contentPanel.add( tabbedPane );
@@ -78,12 +86,12 @@ public class LicenseDisplay extends javax.swing.JFrame
 	{
 		JComponent licenseDisplay = null;
 
-		switch ( LICENSE_FILETYPE[index] )
+		switch ( fileTypes[index] )
 		{
 			case DATA_FILE:
 			{
 				licenseDisplay = new JEditorPane();
-				java.io.BufferedReader buf = DataUtilities.getReaderForSharedDataFile( LICENSE_FILENAME[index] );
+				java.io.BufferedReader buf = DataUtilities.getReaderForSharedDataFile( fileNames[index] );
 
 				// in the event that the license display could not be found, return a blank
 				// label indicating that the license could not be found
@@ -100,13 +108,14 @@ public class LicenseDisplay extends javax.swing.JFrame
 
 					((JEditorPane)licenseDisplay).setContentType( "text/html" );
 					((JEditorPane)licenseDisplay).setText( licenseText.toString() );
+					((JEditorPane)licenseDisplay).setCaretPosition( 0 );
 				}
 				catch ( java.io.IOException e )  {}
 				break;
 			}
 			case IMAGE_FILE:
 			{
-				javax.swing.ImageIcon licenseImage = JComponentUtilities.getSharedImage( LICENSE_FILENAME[index] );
+				javax.swing.ImageIcon licenseImage = JComponentUtilities.getSharedImage( fileNames[index] );
 
 				if ( licenseImage == null )
 					return getNoLicenseNotice();

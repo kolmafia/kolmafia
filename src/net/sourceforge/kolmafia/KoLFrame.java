@@ -115,6 +115,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
+	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
+	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher" };
+
 	protected boolean isEnabled;
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
@@ -317,7 +320,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenuItem aboutItem = new JMenuItem( "About KoLmafia...", KeyEvent.VK_A );
 		aboutItem.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e)
-			{	(new LicenseDisplay( "KoLmafia: Copyright Notice" )).requestFocus();
+			{	(new LicenseDisplay( "KoLmafia: Copyright Notice", LICENSE_FILENAME, LICENSE_NAME )).requestFocus();
 			}
 		});
 
