@@ -98,7 +98,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( TradeableItemDatabase.getItemName( itemID ) == null )
 			TradeableItemDatabase.registerItem( itemID, itemName );
 
-		this.itemName = TradeableItemDatabase.getItemName( this.itemID );
+		this.itemName = itemID == 41 ? "ice-cold beer (Schlitz)" : itemID == 81 ? "ice-cold beer (Willer)" :
+			TradeableItemDatabase.getItemName( this.itemID );
+
 		this.shopID = shopID;
 		this.shopName = shopName;
 		this.quantity = quantity;
