@@ -379,7 +379,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 				for ( int i = 0; i < skills.size(); ++i )
 				{
-					if ( messageContent.toLowerCase().indexOf( ((UseSkillRequest)skills.get(i)).getSkillName().toLowerCase() ) != -1 )
+					if ( messageContent.toLowerCase().indexOf( ((UseSkillRequest)skills.get(i)).getSkillName().replaceFirst( "ñ", "n" ).toLowerCase() ) != -1 )
 					{
 						int castCount = housesSent * 20 / ClassSkillsDatabase.getMPConsumptionByID(
 							ClassSkillsDatabase.getSkillID( ((UseSkillRequest)skills.get(i)).getSkillName() ) );
