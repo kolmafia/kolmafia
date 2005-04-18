@@ -38,6 +38,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 
 // event listeners
@@ -69,7 +70,7 @@ public class GreenMessageFrame extends KoLFrame
 
 	private JTextField recipientEntry;
 	private JTextArea messageEntry;
-	private JButton sendMessageButton;
+	private JMenuItem sendMessageItem;
 
 	private SortedListModel attachedItems;
 	private JLabel attachedItemsDisplay;
@@ -98,14 +99,10 @@ public class GreenMessageFrame extends KoLFrame
 		recipientPanel.add( new JLabel( "To:  ", JLabel.LEFT ), "" );
 		recipientPanel.add( recipientEntry, "" );
 
-		this.attachedItemsDisplay = new JLabel( "(none)" );
-		JPanel attachmentPanel = new JPanel();
-		attachmentPanel.setLayout( new BorderLayout( 5, 5 ) );
-		JButton attachButton = new JButton( "Attach" );
-		attachButton.addActionListener( new AttachItemListener() );
-		attachButton.setForeground( new Color( 0, 0, 128 ) );
-		attachmentPanel.add( attachButton, BorderLayout.WEST );
-		attachmentPanel.add( attachedItemsDisplay, BorderLayout.CENTER );
+		this.attachedItemsDisplay = new JLabel( "Attached: (none)", JLabel.LEFT );
+		JPanel attachedItemsPanel = new JPanel();
+		attachedItemsPanel.setLayout( new GridLayout( 1, 1 ) );
+		attachedItemsPanel.add( attachedItemsDisplay );
 
 		this.messageEntry = new JTextArea( ROWS, COLS );
 		messageEntry.setLineWrap( true );
@@ -116,27 +113,44 @@ public class GreenMessageFrame extends KoLFrame
 
 		centerPanel.add( recipientPanel, "" );
 		centerPanel.add( Box.createVerticalStrut( 4 ) );
-		centerPanel.add( attachmentPanel, "" );
+		centerPanel.add( attachedItemsPanel, "" );
 		centerPanel.add( Box.createVerticalStrut( 4 ) );
 		centerPanel.add( scrollArea, "" );
 		centerPanel.add( Box.createVerticalStrut( 16 ) );
 
-		this.sendMessageButton = new JButton( "Send" );
-		sendMessageButton.addActionListener( new SendGreenMessageListener() );
 		this.sendMessageStatus = new JLabel( " ", JLabel.LEFT );
-
-		JPanel sendMessagePanel = new JPanel();
-		sendMessagePanel.setLayout( new BorderLayout( 5, 5 ) );
-		sendMessagePanel.add( sendMessageButton, BorderLayout.WEST );
-		sendMessagePanel.add( sendMessageStatus, BorderLayout.CENTER );
-
-		centerPanel.add( sendMessagePanel );
+		centerPanel.add( sendMessageStatus );
 		centerPanel.add( Box.createVerticalStrut( 4 ) );
 
 		this.getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		this.getContentPane().add( centerPanel, "" );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		setResizable( false );
+		addMenuBar();
+	}
+
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		JMenu messageMenu = new JMenu( "Message" );
+		messageMenu.setMnemonic( KeyEvent.VK_M );
+
+		sendMessageItem = new JMenuItem( "Send Message", KeyEvent.VK_S );
+		sendMessageItem.addActionListener( new SendGreenMessageListener() );
+
+		JMenuItem attachItemsItem = new JMenuItem( "Attach Item(s)", KeyEvent.VK_A );
+		attachItemsItem.addActionListener( new AttachItemListener() );
+
+		JMenuItem clearMessageItem = new JMenuItem( "Clear Message", KeyEvent.VK_C );
+		clearMessageItem.addActionListener( new ClearMessageListener() );
+
+		messageMenu.add( sendMessageItem );
+		messageMenu.add( attachItemsItem );
+		messageMenu.add( clearMessageItem );
+
+		menuBar.add( messageMenu );
 	}
 
 	/**
@@ -147,8 +161,8 @@ public class GreenMessageFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( sendMessageButton != null )
-			sendMessageButton.setEnabled( isEnabled );
+		if ( sendMessageItem != null )
+			sendMessageItem.setEnabled( isEnabled );
 	}
 
 	/**
@@ -173,7 +187,7 @@ public class GreenMessageFrame extends KoLFrame
 			{
 				recipientEntry.setEnabled( false );
 				messageEntry.setEnabled( false );
-				sendMessageButton.setEnabled( false );
+				sendMessageItem.setEnabled( false );
 
 				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
 
@@ -184,7 +198,7 @@ public class GreenMessageFrame extends KoLFrame
 
 				recipientEntry.setEnabled( true );
 				messageEntry.setEnabled( true );
-				sendMessageButton.setEnabled( true );
+				sendMessageItem.setEnabled( true );
 			}
 		}
 	}
@@ -192,13 +206,16 @@ public class GreenMessageFrame extends KoLFrame
 	private void resetAttachedItemsDisplay()
 	{
 		if ( attachedItems.size() == 0 )
-			attachedItemsDisplay.setText( "(none)" );
+			attachedItemsDisplay.setText( "Attached: (none)" );
 		else
 		{
-			StringBuffer text = new StringBuffer( attachedItems.get(0).toString() );
-			for ( int i = 1; i < attachedItems.size(); ++i )
+			StringBuffer text = new StringBuffer( "Attached:" );
+			for ( int i = 0; i < attachedItems.size(); ++i )
 			{
-				text.append( ", " );
+				if ( i != 0 )
+					text.append( ',' );
+
+				text.append( ' ' );
 				text.append( attachedItems.get(i).toString() );
 			}
 			attachedItemsDisplay.setText( text.toString() );
@@ -249,6 +266,17 @@ public class GreenMessageFrame extends KoLFrame
 				// If an exception happened, the attachment should not occur.
 				// Which means, if nothing is done, everything works great.
 			}
+		}
+	}
+
+	private class ClearMessageListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			recipientEntry.setText( "" );
+			messageEntry.setText( "" );
+			attachedItems.clear();
+			resetAttachedItemsDisplay();
 		}
 	}
 
