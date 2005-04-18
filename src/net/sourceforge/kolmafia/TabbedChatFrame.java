@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.CardLayout;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
@@ -86,11 +87,11 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 	 * first tab added, the name of the contact will be reset.
 	 */
 
-	public JEditorPane addTab( String tabName )
+	public ChatPanel addTab( String tabName )
 	{
 		ChatPanel createdPanel = new ChatPanel( tabName );
 		(new AddTabRunnable( tabName, createdPanel )).run();
-		return createdPanel.getChatDisplay();
+		return createdPanel;
 	}
 
 	public boolean closeTab( int tabIndexToClose )

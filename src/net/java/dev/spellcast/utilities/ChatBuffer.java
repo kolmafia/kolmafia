@@ -34,8 +34,11 @@
 
 package net.java.dev.spellcast.utilities;
 
-import java.awt.Color;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
+import javax.swing.text.Element;
+import javax.swing.text.html.HTMLDocument;
 import javax.swing.SwingUtilities;
 
 import java.io.File;
@@ -52,21 +55,23 @@ import java.io.FileOutputStream;
 
 public class ChatBuffer
 {
-	private static final int CONTENT_CHANGE = 0;
-	private static final int DISPLAY_CHANGE = 1;
-	private static final int LOGFILE_CHANGE = 2;
+	protected static final int CONTENT_CHANGE = 0;
+	protected static final int DISPLAY_CHANGE = 1;
+	protected static final int LOGFILE_CHANGE = 2;
 
 	private String title;
-	private JEditorPane displayPane;
-	private PrintWriter activeLogWriter;
 	private String header;
+
+	private JEditorPane displayPane;
+	private JScrollBar verticalScrollBar;
+	private Runnable scrollBarResizer;
+	private PrintWriter activeLogWriter;
 
 	protected StringBuffer displayBuffer;
 
 	protected static final String EMPTY_STRING = "";
 	protected static final String NEW_LINE = System.getProperty( "line.separator" );
-	protected static String BUFFER_INIT = "<body style=\"font-family: sans-serif;\">";
-	protected static String BUFFER_STOP = "</body>";
+	protected static String BUFFER_STYLE = "body { font-family: sans-serif; }";
 
 	/**
 	 * Constructs a new <code>ChatBuffer</code>.  However, note that this
@@ -80,9 +85,7 @@ public class ChatBuffer
 		displayBuffer = new StringBuffer();
 		this.title = title;
 
-		this.header = "<html><head>" + NEW_LINE + "<title>" + title + "</title>" + NEW_LINE +
-			"</head>" + NEW_LINE + NEW_LINE;
-
+		this.header = "<html><head>" + NEW_LINE + "<title>" + title + "</title>" + NEW_LINE;
 		clearBuffer();
 	}
 
@@ -110,7 +113,14 @@ public class ChatBuffer
 	public void setChatDisplay( JEditorPane display )
 	{
 		displayPane = display;
+		displayPane.setContentType( "text/html" );
 		fireBufferChanged( DISPLAY_CHANGE, null );
+	}
+
+	public void setScrollPane( JScrollPane scrollPane )
+	{
+		this.verticalScrollBar = scrollPane.getVerticalScrollBar();
+		scrollBarResizer = new ScrollBarResizer();
 	}
 
 	/**
@@ -118,10 +128,12 @@ public class ChatBuffer
 	 * stored in the buffer.  Note that whenever modifications are made to
 	 * the buffer, the file will also be modified to reflect these changes.
 	 */
+
 	public void setActiveLogFile( String filename, String title )
 	{
-		setActiveLogFile(filename, title, false);
+		setActiveLogFile( filename, title, false );
 	}
+
 	public void setActiveLogFile( String filename, String title, boolean toAppend )
 	{
 		try
@@ -131,7 +143,9 @@ public class ChatBuffer
 
 			activeLogWriter = new PrintWriter( new FileOutputStream( file, toAppend ), true );
 			updateLogFile( header );
-			updateLogFile( BUFFER_INIT );
+			updateLogFile( "<style>" );
+			updateLogFile( BUFFER_STYLE );
+			updateLogFile( "</style>" );
 			fireBufferChanged( LOGFILE_CHANGE, null );
 		}
 		catch ( java.io.FileNotFoundException e )
@@ -154,7 +168,7 @@ public class ChatBuffer
 		if ( activeLogWriter != null )
 		{
 			updateLogFile( NEW_LINE + NEW_LINE );
-			updateLogFile( BUFFER_STOP + "</html>" );
+			updateLogFile( "</body></html>" );
 
 			activeLogWriter.close();
 			activeLogWriter = null;
@@ -172,8 +186,9 @@ public class ChatBuffer
 
 	public void append( String message )
 	{
-		if ( message == null || message.equals( EMPTY_STRING ) )
+		if ( message == null || message.trim().length() == 0 )
 			return;
+
 		fireBufferChanged( CONTENT_CHANGE, message );
 	}
 
@@ -186,13 +201,42 @@ public class ChatBuffer
 	 * @param	message	The HTML message which needs to be finalized
 	 */
 
-	private void fireBufferChanged( int changeType, String newContents )
+	protected void fireBufferChanged( int changeType, String newContents )
 	{
 		if ( newContents != null )
 			displayBuffer.append( newContents );
 
 		if ( changeType != LOGFILE_CHANGE && displayPane != null )
-			(new DisplayUpdate()).run();
+		{
+			if ( newContents == null )
+			{
+				displayPane.setContentType( "text/html" );
+				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style><body>" + displayBuffer.toString() );
+			}
+			else
+			{
+				try
+				{
+					HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+					Element parentElement = currentHTML.getDefaultRootElement();
+
+					while ( !parentElement.isLeaf() )
+						parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
+
+					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+
+					if ( scrollBarResizer != null )
+						scrollBarResizer.run();
+				}
+				catch ( Exception e )
+				{
+					// Eventhough this shouldn't happen, this
+					// catch is made just in case.
+
+					displayPane.setText( header + BUFFER_STYLE + "</head><body>" + displayBuffer.toString() );
+				}
+			}
+		}
 
 		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && !newContents.equals( null ) )
 			updateLogFile( newContents );
@@ -220,26 +264,23 @@ public class ChatBuffer
 	}
 
 	/**
-	 * An internal class used to update the display.  In order to run the display
-	 * update, all that is needed is to create a new instance of this class and
-	 * call the <code>run()</code> method, which ensures that all of the modifications
-	 * to the display occur in the event dispatch thread.
+	 * An internal runnable which attempts to scroll the scrollbar.
+	 * This occurs inside of the Swing thread in order to prevent
+	 * the user interface from locking.
 	 */
 
-	private class DisplayUpdate implements Runnable
+	private class ScrollBarResizer implements Runnable
 	{
 		public void run()
 		{
-			// ensure that this is the correct thread
 			if ( !SwingUtilities.isEventDispatchThread() )
 			{
 				SwingUtilities.invokeLater( this );
 				return;
 			}
 
-			// update the display
-			displayPane.setContentType( "text/html" );
-			displayPane.setText( header + BUFFER_INIT + displayBuffer.toString() + BUFFER_STOP );
+			if ( verticalScrollBar != null )
+				verticalScrollBar.setValue( verticalScrollBar.getMaximum() - verticalScrollBar.getVisibleAmount() );
 		}
 	}
 }

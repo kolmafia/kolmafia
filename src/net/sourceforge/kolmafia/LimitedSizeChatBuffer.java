@@ -37,20 +37,15 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 
 public class LimitedSizeChatBuffer extends ChatBuffer
 {
-	private int maximumSize;
 	private int previousFontSize;
-
 	private static int fontSize = 3;
 	static
-	{
-		setFontSize( fontSize );
-		BUFFER_STOP = "</font></body>";
+	{	setFontSize( fontSize );
 	}
 
-	public LimitedSizeChatBuffer( String title, int maximumSize )
+	public LimitedSizeChatBuffer( String title )
 	{
 		super( title );
-		this.maximumSize = maximumSize;
 		previousFontSize = fontSize;
 	}
 
@@ -62,7 +57,44 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	public static void setFontSize( int fontSize )
 	{
 		LimitedSizeChatBuffer.fontSize = fontSize;
-		ChatBuffer.BUFFER_INIT = "<body><font face=\"sans-serif\" size=" + fontSize + ">";
+		ChatBuffer.BUFFER_STYLE = "body { font-family: sans-serif; font-size: ";
+
+		switch ( fontSize )
+		{
+			case 7:
+				ChatBuffer.BUFFER_STYLE += "xx-large";
+				break;
+
+			case 6:
+				ChatBuffer.BUFFER_STYLE += "x-large";
+				break;
+
+			case 5:
+				ChatBuffer.BUFFER_STYLE += "large";
+				break;
+
+			case 4:
+				ChatBuffer.BUFFER_STYLE += "medium";
+				break;
+
+			case 3:
+				ChatBuffer.BUFFER_STYLE += "small";
+				break;
+
+			case 2:
+				ChatBuffer.BUFFER_STYLE += "x-small";
+				break;
+
+			case 1:
+				ChatBuffer.BUFFER_STYLE += "xx-small";
+				break;
+
+			default:
+				ChatBuffer.BUFFER_STYLE += "100%";
+				break;
+		}
+
+		ChatBuffer.BUFFER_STYLE += " }";
 	}
 
 	/**
@@ -72,14 +104,8 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 
 	public void append( String message )
 	{
-		int totalLength = displayBuffer.length() + message.length();
-		if ( totalLength > maximumSize )
-		{
-			int index = 1;
-			while ( totalLength - index > maximumSize )
-				index = displayBuffer.indexOf( "\n", index ) + 1 ;
-			displayBuffer.delete( 0 , index );
-		}
+		if ( previousFontSize != fontSize )
+			fireBufferChanged( CONTENT_CHANGE, null );
 
 		super.append( message );
 		previousFontSize = fontSize;

@@ -67,8 +67,6 @@ public class KoLMessenger implements KoLConstants
 	private SortedListModel onlineContacts;
 
 	private String currentChannel;
-	private static final int MAXIMUM_CHATSIZE = 30000;
-
 	private boolean useTabbedFrame;
 	private TabbedChatFrame tabbedFrame;
 
@@ -122,12 +120,15 @@ public class KoLMessenger implements KoLConstants
 
 				if ( useTabbedFrame )
 				{
-					currentBuffer.setChatDisplay( tabbedFrame.addTab( currentKey ) );
+					ChatFrame.ChatPanel panel = tabbedFrame.addTab( currentKey );
+					currentBuffer.setChatDisplay( panel.getChatDisplay() );
+					currentBuffer.setScrollPane( panel.getScrollPane() );
 					currentFrame.setVisible( false );
 				}
 				else
 				{
 					currentBuffer.setChatDisplay( currentFrame.getChatDisplay() );
+					currentBuffer.setScrollPane( currentFrame.getScrollPane() );
 					currentFrame.setVisible( true );
 				}
 
@@ -967,20 +968,23 @@ public class KoLMessenger implements KoLConstants
 			return;
 
 		ChatBuffer newBuffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + windowName + " - Started " +
-			Calendar.getInstance().getTime().toString(), MAXIMUM_CHATSIZE );
+			Calendar.getInstance().getTime().toString() );
 
 		ChatFrame newFrame = new ChatFrame( client, this, windowName );
 
 		if ( useTabbedFrame )
 		{
 			newFrame.setVisible( false );
-			newBuffer.setChatDisplay( this.tabbedFrame.addTab( windowName ) );
+			ChatFrame.ChatPanel panel = this.tabbedFrame.addTab( windowName );
+			newBuffer.setChatDisplay( panel.getChatDisplay() );
+			newBuffer.setScrollPane( panel.getScrollPane() );
 			this.tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 		}
 		else
 		{
 			newFrame.setVisible( true );
 			newBuffer.setChatDisplay( newFrame.getChatDisplay() );
+			newBuffer.setScrollPane( newFrame.getScrollPane() );
 		}
 
 		instantMessageFrames.put( windowName, newFrame );

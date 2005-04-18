@@ -48,6 +48,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 
@@ -56,6 +59,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -185,9 +189,10 @@ public class ChatFrame extends KoLFrame
 	 * calling the <code>getChatDisplay()</code> method.
 	 */
 
-	protected class ChatPanel extends JPanel
+	public class ChatPanel extends JPanel
 	{
 		private JTextField entryField;
+		private JScrollPane scrollPane;
 		private JEditorPane chatDisplay;
 		private String associatedContact;
 
@@ -200,8 +205,10 @@ public class ChatFrame extends KoLFrame
 			if ( !associatedContact.startsWith( "[" ) )
 				chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
 
-			JScrollPane scrollArea = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+			scrollPane = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			scrollPane.setVerticalScrollBar( new ChatScrollBar() );
 
 			JPanel entryPanel = new JPanel();
 			entryField = new JTextField();
@@ -214,8 +221,46 @@ public class ChatFrame extends KoLFrame
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
 			setLayout( new BorderLayout( 1, 1 ) );
-			add( scrollArea, BorderLayout.CENTER );
+			add( scrollPane, BorderLayout.CENTER );
 			add( entryPanel, BorderLayout.SOUTH );
+		}
+
+		private class ChatScrollBar extends JScrollBar
+		{
+			private boolean autoscroll;
+
+			public ChatScrollBar()
+			{
+				super( VERTICAL );
+				this.autoscroll = true;
+			}
+
+			public void setValue( int value )
+			{
+				if ( getValueIsAdjusting() )
+					autoscroll = getMaximum() - getVisibleAmount() - getValue() < 10;
+
+				if ( autoscroll || getValueIsAdjusting() )
+					super.setValue( value );
+			}
+
+			protected void fireAdjustmentValueChanged( int id, int type, int value )
+			{
+				if ( autoscroll || getValueIsAdjusting() )
+					super.fireAdjustmentValueChanged( id, type, value );
+			}
+
+			public void setValues( int newValue, int newExtent, int newMin, int newMax )
+			{
+				if ( autoscroll || getValueIsAdjusting() )
+					super.setValues( newValue, newExtent, newMin, newMax );
+				else
+					super.setValues( getValue(), newExtent, newMin, newMax );
+			}
+		}
+
+		public JScrollPane getScrollPane()
+		{	return scrollPane;
 		}
 
 		public JEditorPane getChatDisplay()
@@ -315,6 +360,17 @@ public class ChatFrame extends KoLFrame
 
 	public JEditorPane getChatDisplay()
 	{	return mainPanel == null ? null : mainPanel.getChatDisplay();
+	}
+
+	/**
+	 * Returns the <code>JScrollPane</code> being used to display
+	 * the chat contents.
+	 *
+	 * @return	The <code>JScrollPane</code> used to display the chat
+	 */
+
+	public JScrollPane getScrollPane()
+	{	return mainPanel == null ? null : mainPanel.getScrollPane();
 	}
 
 	/**

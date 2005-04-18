@@ -71,8 +71,6 @@ import edu.stanford.ejalbert.BrowserLauncher;
 
 public class MailboxFrame extends KoLFrame implements ChangeListener
 {
-	private static final int MAXIMUM_MESSAGE_SIZE = 4000;
-
 	private KoLMailManager mailbox;
 	private KoLMailMessage displayed;
 	private JEditorPane messageContent;
@@ -116,7 +114,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		messageContentDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
-		this.mailBuffer = new LimitedSizeChatBuffer( "KoL Mail Message", MAXIMUM_MESSAGE_SIZE );
+		this.mailBuffer = new LimitedSizeChatBuffer( "KoL Mail Message" );
 		mailBuffer.setChatDisplay( messageContent );
 
 		JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true,
