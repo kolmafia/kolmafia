@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import javax.swing.JOptionPane;
 
 /**
  * An extension of <code>KoLRequest</code> which handles the purchase of
@@ -221,6 +222,75 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		String result = replyContent.substring( replyContent.indexOf( "<center>" ), replyContent.indexOf( "</table>" ) );
 
+		// One error is that the item price changed, or the item
+		// is no longer available because someone was faster at
+		// purchasing the item.  If that's the case, just return
+		// without doing anything; nothing left to do.
+
+		if ( replyContent.indexOf( "You can't afford" ) != -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Not enough funds." );
+			return;
+		}
+
+		// Another thing to search for is to see if the person
+		// swapped the price on the item, or you got a "failed
+		// to yield" message.  In that case, you may wish to
+		// re-attempt the purchase.
+
+		if ( replyContent.indexOf( "This store doesn't" ) != -1 || replyContent.indexOf( "failed to yield" ) != -1 )
+		{
+			Matcher itemChangedMatcher = Pattern.compile(
+				"<td valign=center><b>" + itemName + "</b> \\(([\\d,]+)\\) </td><td>([\\d,]+) Meat" ).matcher( result );
+
+			try
+			{
+				if ( itemChangedMatcher.find() )
+				{
+					int limit = df.parse( itemChangedMatcher.group(1) ).intValue();
+					int newPrice = df.parse( itemChangedMatcher.group(2) ).intValue();
+
+					// If the item exists at a lower or equivalent
+					// price, then you should re-attempt the purchase
+					// of the item.
+
+					if ( price >= newPrice )
+					{
+						updateDisplay( NOCHANGE, "Failed to yield.  Attempting repurchase..." );
+						(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice )).run();
+					}
+					else
+					{
+						// In the event of a price switch, give the
+						// player the option to report it.
+
+						String alertMessage = "Store #" + shopID + " (" + shopName + ") has changed its price on " + itemName + ": " +
+							df.format( price ) + " -> " + df.format( newPrice ) + ".  Would you like to continue onto the next store?";
+
+						if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, alertMessage, "Price switch detected", JOptionPane.YES_NO_OPTION ) )
+						{
+							client.cancelRequest();
+							updateDisplay( ERROR_STATE, "#" + shopID + ": " + itemName + " @ " + df.format( price ) + " -> " + df.format( newPrice ) );
+						}
+					}
+				}
+				else
+				{
+					// If the item was not found, just make sure to
+					// notify the user temporarily that the store
+					// failed to yield the item.
+
+					updateDisplay( NOCHANGE, "Failed to yield.  Skipping..." );
+				}
+			}
+			catch ( Exception e )
+			{
+			}
+
+			return;
+		}
+
 		// One error that might be encountered is that the user
 		// already purchased the item; if that's the case, and
 		// the user hasn't exhausted their limit, then make a
@@ -228,7 +298,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// number of items to buy.
 
 		Matcher quantityMatcher = Pattern.compile(
-			"You may only buy ([\\d,]+) of this item per day from this store.You have already purchased ([\\d,]+)" ).matcher( result );
+			"You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" ).matcher( result );
 
 		try
 		{
@@ -243,20 +313,11 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		}
 		catch ( Exception e )
 		{
-		}
+			// If an exception occurs, you may wish to report
+			// it to the log stream and then return from the
+			// run call, for future reference.
 
-		// One error is that the item price changed, or the item
-		// is no longer available because someone was faster at
-		// purchasing the item.  If that's the case, just return
-		// without doing anything; nothing left to do.
-
-		if ( result.indexOf( "acquire" ) == -1 && result.indexOf( "may only buy" ) == -1 )
-		{
-			if ( replyContent.indexOf( "You can't afford" ) != -1 )
-			{
-				client.cancelRequest();
-				updateDisplay( ERROR_STATE, "Not enough funds." );
-			}
+			e.printStackTrace( logStream );
 			return;
 		}
 
@@ -264,8 +325,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// you report to the client whatever you gained.
 
 		this.successful = true;
-		AdventureResult searchItem = TradeableItemDatabase.getItemName( itemID ) != null ?
-			new AdventureResult( itemID, 0 ) : new AdventureResult( itemName, 0 );
+		AdventureResult searchItem = new AdventureResult( itemID, 0 );
+
 		int itemIndex = client.getInventory().indexOf( searchItem );
 		int beforeCount = ( itemIndex == -1 ) ? 0 : ((AdventureResult)client.getInventory().get(itemIndex)).getCount();
 
