@@ -457,6 +457,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( data.isEmpty() || !doOutput )
 			return true;
 
+		StringBuffer dataBuffer = new StringBuffer();
 		logStream.println( "Posting form data..." );
 
 		try
@@ -468,14 +469,24 @@ public class KoLRequest implements Runnable, KoLConstants
 			Iterator iterator = data.iterator();
 
 			if ( iterator.hasNext() )
-				ostream.write( iterator.next().toString() );
+				dataBuffer.append( iterator.next().toString() );
 
 			while ( iterator.hasNext() )
 			{
-				ostream.write( "&" );
-				ostream.write( iterator.next().toString() );
+				dataBuffer.append( '&' );
+				dataBuffer.append( iterator.next().toString() );
 			}
 
+			if ( client != null && !formURLString.equals( "login.php" ) )
+			{
+				if ( client.getPasswordHash() == null )
+					logStream.println( dataBuffer.toString() );
+				else
+					logStream.println( dataBuffer.toString().replaceAll(
+						client.getPasswordHash(), "" ) );
+			}
+
+			ostream.write( dataBuffer.toString() );
 			ostream.flush();
 			ostream.close();
 			ostream = null;
@@ -629,10 +640,13 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					replyContent = replyBuffer.toString();
 
-					if ( client.getPasswordHash() == null )
-						logStream.println( replyContent );
-					else
-						logStream.println( replyContent.replaceAll( client.getPasswordHash(), "" ) );
+					if ( client != null )
+					{
+						if ( client.getPasswordHash() == null )
+							logStream.println( replyContent );
+						else
+							logStream.println( replyContent.replaceAll( client.getPasswordHash(), "" ) );
+					}
 				}
 
 				// If you've encountered an error state, then make sure the
