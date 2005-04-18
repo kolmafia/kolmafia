@@ -288,10 +288,17 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		if ( characterData.hasArches() )
 			(new CampgroundRequest( this, "arches" )).run();
 
+		permitContinue = true;
+
 		if ( characterData.canSummonNoodles() )
 			(new UseSkillRequest( this, "Pastamastery", "", 3 )).run();
+
+		permitContinue = true;
+
 		if ( characterData.canSummonReagent() )
 			(new UseSkillRequest( this, "Advanced Saucecrafting", "", 3 )).run();
+
+		permitContinue = true;
 	}
 
 	/**
