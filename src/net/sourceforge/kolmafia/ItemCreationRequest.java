@@ -229,8 +229,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		processResults( replyContent );
 
-System.out.println( "Checkpoint 1" );
-
 		String itemName = TradeableItemDatabase.getItemName( itemID );
 		Matcher resultMatcher = Pattern.compile(
 			"You acquire some items: <b>" + itemName + " \\(([\\d,]+)\\)" ).matcher( replyContent );
