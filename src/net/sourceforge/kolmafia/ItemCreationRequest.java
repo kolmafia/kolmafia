@@ -33,8 +33,11 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.List;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * An extension of <code>KoLRequest</code> designed to handle all the
@@ -57,8 +60,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int COOK_PASTA = 6;
 	public static final int MIX_SPECIAL = 7;
 
-	private static final AdventureResult CHEF = new AdventureResult( "chef-in-the-box", 1 );
-	private static final AdventureResult BARTENDER = new AdventureResult( "bartender-in-the-box", 1 );
+	private static final AdventureResult CHEF = new AdventureResult( 437, 1 );
+	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
 
 	private int itemID, quantityNeeded, mixingMethod;
 
@@ -194,21 +197,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		addFormField( "item2", "" + ingredients[1][0] );
 		addFormField( "quantity", "" + quantityNeeded );
 
-		// Because bartenders and chefs might explode,
-		// one needs to catch that.  Most importantly,
-		// though, the player should be notified of
-		// educated guesses of the results, rather
-		// than the assumption that all things went well.
-
-		AdventureResult item = new AdventureResult( itemID, 0 );
-		int index = client.getInventory().indexOf( item );
-		int beforeRequestQuantity = (index == -1) ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount();
-
 		// Auto-create chef or bartender if one doesn't
 		// exist and the user has opted to repair.
 
 		autoRepairBoxServant();
-		updateDisplay( DISABLED_STATE, "Creating " + item.getName() + " (" + quantityNeeded + ")..." );
+		updateDisplay( DISABLED_STATE, "Creating " + toString() + "..." );
 
 		super.run();
 
@@ -236,9 +229,22 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		processResults( replyContent );
 
-		index = client.getInventory().indexOf( item );
-		int createdQuantity =
-			((index == -1) ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount()) - beforeRequestQuantity;
+System.out.println( "Checkpoint 1" );
+
+		String itemName = TradeableItemDatabase.getItemName( itemID );
+		Matcher resultMatcher = Pattern.compile(
+			"You acquire some items: <b>" + itemName + " \\(([\\d,]+)\\)" ).matcher( replyContent );
+
+		int createdQuantity = 0;
+
+		try
+		{
+			if ( resultMatcher.find() )
+				createdQuantity = df.parse( resultMatcher.group(1) ).intValue();
+		}
+		catch ( Exception e )
+		{
+		}
 
 		// Because an explosion might have occurred, the
 		// quantity that has changed might not be accurate.
@@ -258,23 +264,31 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK:
 			case COOK_REAGENT:
 			case COOK_PASTA:
+
 				if ( replyContent.indexOf( "Smoke" ) != -1 )
 				{
 					client.getCharacterData().setChef( false );
 
-					if ( quantityNeeded < createdQuantity )
+					if ( quantityNeeded > createdQuantity )
 					{
 						if ( autoRepairBoxServant() )
+						{
 							(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
+							return;
+						}
 						else
 						{
 							updateDisplay( ERROR_STATE, "Chef explosion!" );
 							client.cancelRequest();
+							return;
 						}
 					}
 				}
 				else if ( client.permitsContinue() )
-					updateDisplay( NOCHANGE, "Successfully cooked " + quantityNeeded + " " + item.getName() );
+				{
+					updateDisplay( NOCHANGE, "Successfully cooked " + quantityNeeded + " " + itemName );
+					return;
+				}
 
 				break;
 
@@ -284,25 +298,35 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					client.getCharacterData().setBartender( false );
 
-					if ( quantityNeeded < createdQuantity )
+					if ( quantityNeeded > createdQuantity )
 					{
 						if ( autoRepairBoxServant() )
+						{
 							(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
+							return;
+						}
 						else
 						{
 							updateDisplay( ERROR_STATE, "Bartender explosion!" );
 							client.cancelRequest();
+							return;
 						}
 					}
 				}
 				else if ( client.permitsContinue() )
-					updateDisplay( NOCHANGE, "Successfully mixed " + quantityNeeded + " " + item.getName() );
+				{
+					updateDisplay( NOCHANGE, "Successfully mixed " + quantityNeeded + " " + itemName );
+					return;
+				}
 
 				break;
 
 			default:
 				if ( client.permitsContinue() )
-					updateDisplay( NOCHANGE,  "Successfully created " + quantityNeeded + " " + item.getName() );
+				{
+					updateDisplay( NOCHANGE,  "Successfully created " + quantityNeeded + " " + itemName );
+					return;
+				}
 		}
 	}
 
@@ -322,14 +346,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_REAGENT:
 			case COOK_PASTA:
 
-				if ( !client.getCharacterData().hasChef() )
-					return useBoxServant( CHEF );
+				return client.getCharacterData().hasChef() || useBoxServant( CHEF );
 
 			case MIX:
 			case MIX_SPECIAL:
 
-				if ( !client.getCharacterData().hasBartender() )
-					return useBoxServant( BARTENDER );
+				return client.getCharacterData().hasBartender() || useBoxServant( BARTENDER );
 		}
 
 		return false;
@@ -358,9 +380,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		AdventureResult [] servant = { toUse };
 
-		if ( !client.getInventory().contains( servant[0] ) )
+		if ( !client.getInventory().contains( toUse ) )
 		{
-			if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) || !client.getCloset().contains( servant[0] ) )
+			if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) || !client.getCloset().contains( toUse ) )
 			{
 				if ( canCreateBoxServant )
 					boxServantCreationRequest.run();
