@@ -108,7 +108,7 @@ public class NPCStoreDatabase implements UtilityConstants
 
 	public static final int getNPCStorePrice( String itemName )
 	{
-		List itemNames = npcstoreTable[2];
+		List itemNames = npcstoreTable[4];
 		int itemIndex = itemNames.indexOf( itemName );
 
 		return itemIndex == -1 ? 0 : Integer.parseInt( (String) npcstoreTable[3].get(itemIndex) );
