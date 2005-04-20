@@ -579,7 +579,8 @@ public class ItemManageFrame extends KoLFrame
 					// this will be fixed once we add functionality.
 				}
 
-				client.updateDisplay( ENABLED_STATE, "Items created." );
+				if ( client.permitsContinue() )
+					client.updateDisplay( ENABLED_STATE, "Items created." );
 			}
 		}
 	}

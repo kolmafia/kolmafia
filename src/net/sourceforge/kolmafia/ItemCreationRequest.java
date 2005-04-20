@@ -107,6 +107,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
+		if ( !client.permitsContinue() || quantityNeeded <= 0 )
+			return;
+
 		switch ( itemID )
 		{
 			// Requests for meat paste are handled separately; the
@@ -267,19 +270,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					client.getCharacterData().setChef( false );
 
-					if ( quantityNeeded > createdQuantity )
+					if ( autoRepairBoxServant() )
 					{
-						if ( autoRepairBoxServant() )
-						{
-							(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
-							return;
-						}
-						else
-						{
-							updateDisplay( ERROR_STATE, "Chef explosion!" );
-							client.cancelRequest();
-							return;
-						}
+						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
+						return;
+					}
+					else
+					{
+						updateDisplay( ERROR_STATE, "Chef explosion!" );
+						client.cancelRequest();
+						return;
 					}
 				}
 				else if ( client.permitsContinue() )
@@ -296,19 +296,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					client.getCharacterData().setBartender( false );
 
-					if ( quantityNeeded > createdQuantity )
+					if ( autoRepairBoxServant() )
 					{
-						if ( autoRepairBoxServant() )
-						{
-							(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
-							return;
-						}
-						else
-						{
-							updateDisplay( ERROR_STATE, "Bartender explosion!" );
-							client.cancelRequest();
-							return;
-						}
+						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
+						return;
+					}
+					else
+					{
+						updateDisplay( ERROR_STATE, "Bartender explosion!" );
+						client.cancelRequest();
+						return;
 					}
 				}
 				else if ( client.permitsContinue() )
