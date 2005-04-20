@@ -1022,11 +1022,21 @@ public class KoLmafiaCLI extends KoLmafia
 
 				case CREATION:
 					List concoctions = ConcoctionsDatabase.getConcoctions( scriptRequestor, scriptRequestor.getInventory() );
-					ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
-					index = concoctions.indexOf( concoction );
 
-					return index == -1 ? null : new AdventureResult( itemName,
-						itemCount + ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
+					if ( firstMatch.getItemID() > 656 && firstMatch.getItemID() < 666 )
+					{
+						for ( int i = 0; i < concoctions.size(); ++i )
+							if ( TradeableItemDatabase.getItemID( ((StarChartRequest)concoctions.get(i)).getName() ) == firstMatch.getItemID() )
+								return new AdventureResult( itemName, ((StarChartRequest)concoctions.get(i)).getQuantityNeeded() );
+					}
+					else
+					{
+						ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
+						index = concoctions.indexOf( concoction );
+
+						return index == -1 ? null : new AdventureResult( itemName,
+							itemCount + ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
+					}
 			}
 		}
 
@@ -1204,10 +1214,20 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		itemID = TradeableItemDatabase.getItemID( firstMatch.getName() );
-		mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
 		quantityNeeded = firstMatch.getCount();
 
-		scriptRequestor.makeRequest( new ItemCreationRequest( scriptRequestor, itemID, mixingMethod, quantityNeeded ), 1 );
+		if ( itemID > 656 && itemID < 666 )
+		{
+			List combinations = StarChartRequest.getPossibleCombinations( scriptRequestor );
+			for ( int i = 0; i < combinations.size(); ++i )
+				if ( TradeableItemDatabase.getItemID( ((StarChartRequest)combinations.get(i)).getName() ) == itemID )
+					scriptRequestor.makeRequest( new StarChartRequest( scriptRequestor, (StarChartRequest) combinations.get(i), quantityNeeded ), 1 );
+		}
+		else
+		{
+			mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
+			scriptRequestor.makeRequest( new ItemCreationRequest( scriptRequestor, itemID, mixingMethod, quantityNeeded ), 1 );
+		}
 	}
 
 	/**
@@ -1538,6 +1558,16 @@ public class KoLmafiaCLI extends KoLmafia
 			commandString.append( irequest.getQuantityNeeded() );
 			commandString.append( " \"" );
 			commandString.append( irequest.getName() );
+			commandString.append( "\"" );
+		}
+		else if ( request instanceof StarChartRequest )
+		{
+			StarChartRequest screquest = (StarChartRequest) request;
+
+			commandString.append( "make " );
+			commandString.append( screquest.getQuantityNeeded() );
+			commandString.append( " \"" );
+			commandString.append( screquest.getName() );
 			commandString.append( "\"" );
 		}
 

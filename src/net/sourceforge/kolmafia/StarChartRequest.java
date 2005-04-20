@@ -65,7 +65,7 @@ public class StarChartRequest extends KoLRequest implements Comparable
 		this.lines = lines;
 	}
 
-	private StarChartRequest( KoLmafia client, StarChartRequest baseRequest, int quantityNeeded )
+	public StarChartRequest( KoLmafia client, StarChartRequest baseRequest, int quantityNeeded )
 	{
 		super( client, "starchart.php" );
 		addFormField( "action", "makesomething" );
