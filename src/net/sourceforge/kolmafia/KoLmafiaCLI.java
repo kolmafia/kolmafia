@@ -1073,7 +1073,7 @@ public class KoLmafiaCLI extends KoLmafia
 			itemName.append( tokens[i] );
 		}
 
-		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), CLOSET );
+		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), parameters.startsWith( "take" ) ? CLOSET : USAGE );
 		if ( firstMatch == null )
 			return;
 
