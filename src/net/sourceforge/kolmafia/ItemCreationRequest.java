@@ -258,10 +258,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			client.processResult( new AdventureResult( "meat paste", 0 - createdQuantity ) );
 
 		// Now, check to see if your box-servant was
-		// overworked and exploded.
+		// overworked and exploded.  Also handle the
+		// possibility of smithing reducing adventures.
 
 		switch ( mixingMethod )
 		{
+			case SMITH:
+				client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
+				break;
+
 			case COOK:
 			case COOK_REAGENT:
 			case COOK_PASTA:
