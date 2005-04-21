@@ -244,7 +244,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				createdQuantity = df.parse( resultMatcher.group(1) ).intValue();
 			else
 			{
-				resultMatcher = Pattern.compile( "You acquire some items: <b>" + itemName + "</b>" ).matcher( replyContent );
+				resultMatcher = Pattern.compile( "You acquire an item: <b>" + itemName + "</b>" ).matcher( replyContent );
 				if ( resultMatcher.find() )
 					createdQuantity = 1;
 			}
