@@ -384,7 +384,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 						int castCount = housesSent * 20 / ClassSkillsDatabase.getMPConsumptionByID(
 							ClassSkillsDatabase.getSkillID( ((UseSkillRequest)skills.get(i)).getSkillName() ) );
 
-						if ( !(new BuffBotCaster( skills.get(i).toString(), -housesSent, castCount, false )).castOnTarget( message.getSenderName() ) )
+						if ( !(new BuffBotCaster( ((UseSkillRequest)skills.get(i)).getSkillName(), -housesSent, castCount, false )).castOnTarget( message.getSenderName() ) )
 						{
 							sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  Please try again later.",
 								new AdventureResult( "tiny house", housesSent ) );
