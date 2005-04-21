@@ -79,6 +79,7 @@ public class CakeArenaRequest extends KoLRequest
 			processResults( replyContent );
 			client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
 			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			return;
 		}
 
 		int lastMatchIndex = 0;
