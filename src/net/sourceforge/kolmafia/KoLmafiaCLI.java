@@ -613,6 +613,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "hunter" ) )
+		{
+			scriptRequestor.makeRequest( new KoLAdventure( scriptRequestor, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ), 1 );
+			return;
+		}
+
 		if ( command.equals( "gym" ) )
 		{
 			executeAdventureRequest( parameters );
