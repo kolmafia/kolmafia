@@ -384,8 +384,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		ItemCreationRequest boxServantCreationRequest = new ItemCreationRequest( client, toUse.getItemID(), COMBINE, 1 );
 		boolean canCreateBoxServant = concoctions.contains( boxServantCreationRequest );
 
-		AdventureResult [] servant = { toUse };
-
 		if ( !client.getInventory().contains( toUse ) )
 		{
 			if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) || !client.getCloset().contains( toUse ) )
@@ -401,6 +399,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			else
 			{
 				updateDisplay( DISABLED_STATE, "Retrieving " + toUse.getName() + " from closet..." );
+
+				AdventureResult [] servant = { toUse };
 				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servant )).run();
 			}
 		}
