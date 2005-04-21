@@ -60,7 +60,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int COOK_PASTA = 6;
 	public static final int MIX_SPECIAL = 7;
 
-	private static final AdventureResult CHEF = new AdventureResult( 437, 1 );
+	private static final AdventureResult CHEF = new AdventureResult( 438, 1 );
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
 
 	private int itemID, quantityNeeded, mixingMethod;
@@ -233,8 +233,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		processResults( replyContent );
 
 		String itemName = TradeableItemDatabase.getItemName( itemID );
+
 		Matcher resultMatcher = Pattern.compile(
-			"You acquire some items: <b>" + itemName + " \\(([\\d,]+)\\)" ).matcher( replyContent );
+			"You acquire some items\\: <b>" + itemName + " \\(([\\d,]+)\\)</b>" ).matcher( replyContent );
 
 		int createdQuantity = 0;
 
@@ -244,7 +245,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				createdQuantity = df.parse( resultMatcher.group(1) ).intValue();
 			else
 			{
-				resultMatcher = Pattern.compile( "You acquire an item: <b>" + itemName + "</b>" ).matcher( replyContent );
+				resultMatcher = Pattern.compile( "You acquire an item\\: <b>" + itemName + "</b>" ).matcher( replyContent );
 				if ( resultMatcher.find() )
 					createdQuantity = 1;
 			}
