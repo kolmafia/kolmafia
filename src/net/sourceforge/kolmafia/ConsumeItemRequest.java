@@ -60,11 +60,11 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( consumptionType == CONSUME_MULTIPLE )
 		{
 			addFormField( "action", "useitem" );
-			addFormField( "pwd", client.getPasswordHash() );
 			addFormField( "quantity", "" + item.getCount() );
 		}
 
 		addFormField( "whichitem", "" + item.getItemID() );
+		addFormField( "pwd", client.getPasswordHash() );
 
 		this.consumptionType = consumptionType;
 		this.itemUsed = new AdventureResult( item.getItemID(), 0 - item.getCount() );
