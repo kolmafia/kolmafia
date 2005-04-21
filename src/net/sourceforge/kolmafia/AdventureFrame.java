@@ -409,7 +409,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			centerPanel.add( actionStatusPanel, BorderLayout.NORTH );
 			centerPanel.add( new AdventureResultsPanel( resultsTally ), BorderLayout.CENTER );
 			add( centerPanel, BorderLayout.CENTER );
-			setDefaultButton( getDefaultButton() );
+			setDefaultButton( confirmedButton );
 		}
 
 		public void setStatusMessage( int displayState, String s )
@@ -585,7 +585,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			centerPanel.add( actionStatusPanel, BorderLayout.NORTH );
 			centerPanel.add( new SearchResultsPanel(), BorderLayout.CENTER );
 			add( centerPanel, BorderLayout.CENTER );
-			setDefaultButton( getDefaultButton() );
+			setDefaultButton( confirmedButton );
 		}
 
 		public void setStatusMessage( int displayState, String s )
