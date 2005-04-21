@@ -181,6 +181,12 @@ public class ConsumeItemRequest extends KoLRequest
 					return;
 			}
 
+			// Check to see if you were using a Jumbo Dr. Lucifer, which
+			// reduces your hit points to 1.
+
+			else if ( itemUsed.getName().equals( "Jumbo Dr. Lucifer" ) )
+				client.processResult( new AdventureResult( AdventureResult.HP, 1 - client.getCharacterData().getCurrentHP() ) );
+
 			// Parse the reply, which can be found before the
 			// word "Inventory".  In theory, this could've caused
 			// problems in the inventory screen, but since Jick
