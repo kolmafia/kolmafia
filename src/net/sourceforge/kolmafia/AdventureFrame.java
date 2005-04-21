@@ -330,22 +330,25 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		JMenu visitMenu = new JMenu( "Travel" );
 		visitMenu.setMnemonic( KeyEvent.VK_T );
 
-		JMenuItem foodItem = new JMenuItem( "Daily Campground", KeyEvent.VK_D );
+		JMenuItem foodItem = new JMenuItem( "Daily Camping", KeyEvent.VK_D );
 		foodItem.addActionListener( new GetBreakfastListener() );
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
 		JMenuItem caseItem = new JMenuItem( "Cannon Museum", KeyEvent.VK_C );
 		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
-		JMenuItem hermitItem = new JMenuItem( "Hermit's Hideaway", KeyEvent.VK_H );
+		JMenuItem hermitItem = new JMenuItem( "Hermit Hideout", KeyEvent.VK_H );
 		hermitItem.addActionListener( new HermitRequestListener() );
 		JMenuItem trapperItem = new JMenuItem( "Mountain Trapper", KeyEvent.VK_M );
 		trapperItem.addActionListener( new TrapperRequestListener() );
+		JMenuItem hunterItem = new JMenuItem( "Town Towel Guy", KeyEvent.VK_M );
+		hunterItem.addActionListener( new HunterRequestListener() );
 
 		visitMenu.add( foodItem );
 		visitMenu.add( arenaItem );
 		visitMenu.add( caseItem );
 		visitMenu.add( hermitItem );
 		visitMenu.add( trapperItem );
+		visitMenu.add( hunterItem );
 
 		menuBar.add( visitMenu );
 
@@ -1132,7 +1135,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		protected void actionCancelled()
 		{
 			contentPanel = removeEffects;
-			updateDisplay( ERROR_STATE, "You mistake Toot Oriole for the Hermit!  You lose the battle." );
+			updateDisplay( ERROR_STATE, "Unfortunately, you do not have a Valuable Trinket Crossbow." );
 		}
 
 		private class RemoveEffectsThread extends Thread
@@ -1421,12 +1424,32 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		{
 			public TrapperRequestThread()
 			{
-				super( "Hermit-Request-Thread" );
+				super( "Trapper-Request-Thread" );
 				setDaemon( true );
 			}
 
 			public void run()
 			{	client.makeRequest( new KoLAdventure( client, "trapper.php", "", "The 1337 Trapper" ), 1 );
+			}
+		}
+	}
+
+	private class HunterRequestListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new HunterRequestThread()).start();
+		}
+
+		private class HunterRequestThread extends Thread
+		{
+			public HunterRequestThread()
+			{
+				super( "Hunter-Request-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{	client.makeRequest( new KoLAdventure( client, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ), 1 );
 			}
 		}
 	}

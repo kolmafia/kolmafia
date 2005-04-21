@@ -1471,6 +1471,29 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
+	 * Makes a request to the hunter, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the hunter.
+	 */
+
+	protected void makeHunterRequest()
+	{
+		if ( hunterItems.isEmpty() )
+			(new BountyHunterRequest( scriptRequestor )).run();
+
+		if ( previousCommand.indexOf( " " ) == -1 )
+		{
+			printList( hunterItems, outputStream );
+			return;
+		}
+
+		String item = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
+		for ( int i = 0; i < hunterItems.size(); ++i )
+			if ( ((String)hunterItems.get(i)).indexOf( item ) != -1 )
+				(new BountyHunterRequest( scriptRequestor, TradeableItemDatabase.getItemID( (String) hunterItems.get(i) ) )).run();
+	}
+
+	/**
 	 * Confirms whether or not the user wants to make a drunken
 	 * request.  This should be called before doing requests when
 	 * the user is in an inebrieted state.

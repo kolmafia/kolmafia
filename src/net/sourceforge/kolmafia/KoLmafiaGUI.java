@@ -183,6 +183,28 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	/**
+	 * Makes a request to the hunter, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the hunter.
+	 */
+
+	protected void makeHunterRequest()
+	{
+		if ( hunterItems.isEmpty() )
+			(new BountyHunterRequest( this )).run();
+
+		Object [] hunterItemArray = hunterItems.toArray();
+
+		String selectedValue = (String) JOptionPane.showInputDialog(
+			null, "I want to sell this to the hunter...", "The Quilted Thicker Picker Upper!", JOptionPane.INFORMATION_MESSAGE, null,
+			hunterItemArray, hunterItemArray[0] );
+
+		if ( selectedValue != null )
+			(new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) )).run();
+
+	}
+
+	/**
 	 * Confirms whether or not the user wants to make a drunken
 	 * request.  This should be called before doing requests when
 	 * the user is in an inebrieted state.

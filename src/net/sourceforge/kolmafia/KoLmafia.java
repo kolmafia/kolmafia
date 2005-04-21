@@ -91,7 +91,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
 	protected SortedListModel tally;
-	protected LockableListModel inventory, closet, usableItems, collection;
+	protected LockableListModel inventory, closet, usableItems, hunterItems, collection;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -171,6 +171,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		this.characterData = new KoLCharacter( loginname );
 		this.inventory = characterData.getInventory();
 		this.usableItems = new SortedListModel();
+		this.hunterItems = new SortedListModel();
 		this.collection = characterData.getCollection();
 		this.closet = characterData.getCloset();
 		this.tally = new SortedListModel();
@@ -511,6 +512,15 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	}
 
 	/**
+	 * Returns the list of items which are available from the
+	 * bounty hunter hunter today.
+	 */
+
+	public LockableListModel getBountyHunterItems()
+	{	return hunterItems;
+	}
+
+	/**
 	 * Returns whether or not the current user has a ten-leaf clover.
 	 * Because inventory management is not yet implemented, this
 	 * method always returns true.
@@ -715,6 +725,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				makeHermitRequest();
 			else if ( request.toString().equals( "The 1337 Trapper" ) )
 				makeTrapperRequest();
+			else if ( request.toString().equals( "The Bounty Hunter" ) )
+				makeHunterRequest();
 			else if ( request.toString().startsWith( "Gym" ) )
 				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
 			else
@@ -826,6 +838,14 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 */
 
 	protected abstract void makeTrapperRequest();
+
+	/**
+	 * Makes a request to the hunter, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the hunter.
+	 */
+
+	protected abstract void makeHunterRequest();
 
 	/**
 	 * Confirms whether or not the user wants to make a drunken
