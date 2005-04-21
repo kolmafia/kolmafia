@@ -470,7 +470,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				else
 				{
 					AdventureResult item = new AdventureResult( itemName, 0 );
-					while ( inventory.contains( item ) )
+					while ( inventory.contains( item ) && client.permitsContinue())
 					{
 						((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP(mpNeeded);
 						if ( characterData.getCurrentMP() >= mpNeeded )
