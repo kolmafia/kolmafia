@@ -81,6 +81,9 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( !client.permitsContinue() )
+			return;
+
 		updateDisplay( DISABLED_STATE, "Robbing the hermit..." );
 		super.run();
 
@@ -107,6 +110,13 @@ public class HermitRequest extends KoLRequest
 			try
 			{
 				int actualQuantity = df.parse( replyContent.substring( index + 9 ) ).intValue();
+
+				if ( quantity == actualQuantity )
+				{
+					updateDisplay( ERROR_STATE, "Today is not a clover day." );
+					return;
+				}
+
 				(new HermitRequest( client, itemID, actualQuantity )).run();
 				return;
 			}
