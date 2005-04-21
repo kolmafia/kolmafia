@@ -46,12 +46,16 @@ public class ConsumeItemRequest extends KoLRequest
 	private int consumptionType;
 	private AdventureResult itemUsed;
 
+	public ConsumeItemRequest( KoLmafia client, AdventureResult item )
+	{	this( client, TradeableItemDatabase.getConsumptionType( item.getName() ), item );
+	}
+
 	/**
 	 * Constructs a new <code>ConsumeItemRequest</code>.
 	 * @param	client	The client to be notified of the logout
 	 */
 
-	public ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
+	private ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
 	{
 		super( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
 			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" :

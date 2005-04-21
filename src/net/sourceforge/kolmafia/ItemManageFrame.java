@@ -228,11 +228,9 @@ public class ItemManageFrame extends KoLFrame
 							"Using multiple " + currentItem.getName() + "..." ) ).intValue() : 1;
 
 						if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
-							client.makeRequest( new ConsumeItemRequest( client, consumptionType,
-								new AdventureResult( currentItem.getItemID(), consumptionCount ) ), 1 );
+							client.makeRequest( new ConsumeItemRequest( client, new AdventureResult( currentItem.getItemID(), consumptionCount ) ), 1 );
 						else
-							client.makeRequest( new ConsumeItemRequest( client, consumptionType,
-								new AdventureResult( currentItem.getItemID(), 1 ) ), consumptionCount );
+							client.makeRequest( new ConsumeItemRequest( client, new AdventureResult( currentItem.getItemID(), 1 ) ), consumptionCount );
 
 					}
 					catch ( Exception e )

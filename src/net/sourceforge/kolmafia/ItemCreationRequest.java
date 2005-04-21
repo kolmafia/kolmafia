@@ -400,7 +400,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 
 		updateDisplay( DISABLED_STATE, "Repairing " + toUse.getName() + "..." );
-		(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_USE, toUse )).run();
+		(new ConsumeItemRequest( client, toUse )).run();
 		return true;
 	}
 

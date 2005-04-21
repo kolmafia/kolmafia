@@ -666,9 +666,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					numberToUse = Math.min(numberToUse, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
 					if (numberToUse > 0)
 					{
-						buffbotLog.append("Consuming " + numberToUse + "" + itemName + "s.<br>");
-						(new ConsumeItemRequest( client, ConsumeItemRequest.CONSUME_MULTIPLE,
-								new AdventureResult( itemUsed.getItemID(), numberToUse ) )).run();
+						buffbotLog.append("Consuming " + numberToUse + " " + itemName + "s.<br>");
+						(new ConsumeItemRequest( client, new AdventureResult( itemUsed.getItemID(), numberToUse ) )).run();
 					}
 				}
 			}
