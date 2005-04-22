@@ -187,8 +187,9 @@ public class GreenMessageFrame extends KoLFrame
 				AdventureResult [] possibleValues =
 					client == null ? new AdventureResult[1] : new AdventureResult[ client.getInventory().size() + 1 ];
 
-				for ( int i = possibleValues.length - 1; i > 0; --i )
-					possibleValues[i] = possibleValues[i-1];
+				Object [] items = client.getInventory().toArray();
+				for ( int i = 0; i < items.length; ++i )
+					possibleValues[i+1] = (AdventureResult) items[i];
 				possibleValues[0] = new AdventureResult( AdventureResult.MEAT, client == null ? 0 :
 					client.getCharacterData().getAvailableMeat() );
 
