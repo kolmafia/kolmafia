@@ -174,6 +174,16 @@ public class AdventureRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
+		// Sometimes, there's no response from the server.
+		// In this case, simply rerun the request.
+
+		if ( replyContent.trim().length() == 0 )
+		{
+			updateDisplay( DISABLED_STATE, "Empty response from server.  Retrying..." );
+			this.run();
+			return;
+		}
+
 		processResults( replyContent );
 
 		// You could be beaten up, which halts adventures.  This is
