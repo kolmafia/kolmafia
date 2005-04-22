@@ -610,6 +610,7 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox fontSizeSelect;
 		private JComboBox chatStyleSelect;
 		private JComboBox useTabsSelect;
+		private JComboBox nameClickSelect;
 
 		public ChatOptionsPanel()
 		{
@@ -628,10 +629,17 @@ public class OptionsFrame extends KoLFrame
 			useTabs.add( "Use tabbed chat interface" );
 			useTabsSelect = new JComboBox( useTabs );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			LockableListModel nameClick = new LockableListModel();
+			nameClick.add( "Open blue message" );
+			nameClick.add( "Open green message" );
+			nameClick.add( "Open player profile" );
+			nameClickSelect = new JComboBox( nameClick );
+
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 			elements[2] = new VerifiableElement( "Windowing: ", useTabsSelect );
+			elements[3] = new VerifiableElement( "Name Clicks: ", nameClickSelect );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -674,6 +682,9 @@ public class OptionsFrame extends KoLFrame
 
 				String useTabs = settings.getProperty( "useTabbedChat" );
 				useTabsSelect.setSelectedIndex( (useTabs != null) ? Integer.parseInt( useTabs ) : 0 );
+
+				String nameClick = settings.getProperty( "chatNameClick" );
+				nameClickSelect.setSelectedIndex( (nameClick != null) ? Integer.parseInt( nameClick ) : 0 );
 			}
 		}
 
@@ -692,6 +703,7 @@ public class OptionsFrame extends KoLFrame
 				LimitedSizeChatBuffer.setFontSize( fontSize.intValue() );
 				settings.setProperty( "chatStyle", "" + chatStyleSelect.getSelectedIndex() );
 				settings.setProperty( "useTabbedChat", "" + useTabsSelect.getSelectedIndex() );
+				settings.setProperty( "chatNameClick", "" + nameClickSelect.getSelectedIndex() );
 
 				if ( client.getMessenger() != null )
 					client.getMessenger().setTabbedFrameSetting( useTabsSelect.getSelectedIndex() == 1 );

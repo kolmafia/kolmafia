@@ -55,6 +55,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 
 // containers
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -395,8 +396,29 @@ public class ChatFrame extends KoLFrame
 
 				if ( !location.startsWith( "http://" ) && !location.startsWith( "https://" ) )
 				{
-					KoLMessenger messenger = client.getMessenger();
-					messenger.openInstantMessage( location );
+					int nameClickMode = client.getSettings().getProperty( "chatNameClick" ) == null ? 0 :
+						Integer.parseInt( client.getSettings().getProperty( "chatNameClick" ) );
+
+					switch ( nameClickMode )
+					{
+						case 0:
+							client.getMessenger().openInstantMessage( location );
+							break;
+
+						case 1:
+							GreenMessageFrame composer = new GreenMessageFrame( client, location );
+							composer.pack();  composer.setVisible( true );
+							composer.requestFocus();
+							existingFrames.add( composer );
+							break;
+
+						case 2:
+							ProfileFrame profile = new ProfileFrame( client, location );
+							profile.pack();  profile.setVisible( true );
+							profile.requestFocus();
+							existingFrames.add( profile );
+							break;
+					}
 				}
 				else
 				{
