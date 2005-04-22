@@ -97,7 +97,7 @@ public class BuffBotHome extends LimitedSizeChatBuffer
 	{
 		String dayOfYear = logSDF.format(new Date());
 		String characterName = client == null ? "" : client.getLoginName();
-		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( "", "_" ).toLowerCase();
+		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 
 		setActiveLogFile( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + ".html", noExtensionName, true );
 		isActive = false;
