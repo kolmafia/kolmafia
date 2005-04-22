@@ -56,7 +56,7 @@ public class BuffBotHome extends LimitedSizeChatBuffer
 	private static final DateFormat logDF =
 			DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
-	private static final SimpleDateFormat logSDF = new SimpleDateFormat("D");
+	private static final SimpleDateFormat logSDF = new SimpleDateFormat( "yyyyMMdd" );
 
 	private KoLmafia client;
 	private boolean isActive;
