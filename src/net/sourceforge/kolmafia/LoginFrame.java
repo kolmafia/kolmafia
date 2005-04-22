@@ -192,7 +192,6 @@ public class LoginFrame extends KoLFrame
 		public LoginPanel()
 		{
 			super( "login", "qlogin", "cancel" );
-			setDefaultButton( confirmedButton );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -247,7 +246,7 @@ public class LoginFrame extends KoLFrame
 				autoLoginCheckBox.setSelected( true );
 			}
 
-			setDefaultButton( getDefaultButton() );
+			setDefaultButton( confirmedButton );
 		}
 
 		public void setStatusMessage( int displayState, String s )
