@@ -50,6 +50,7 @@ import java.io.BufferedReader;
 
 // Java utilities
 import java.util.StringTokenizer;
+import java.math.BigInteger;
 
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common
@@ -156,6 +157,24 @@ public class DataUtilities implements UtilityConstants
 		hexString.append( '#' );  int bitmask = (1 << 24) - 1;
 		hexString.append( toHexString( c.getRGB() & bitmask, 6 ) );
 		return hexString.toString();
+	}
+
+	/**
+	 * In a lot of HTML documents and still others, colors are represented using
+	 * the RGB values, concatenated as hexadecimal strings.  This function is
+	 * used to create a color object from such a hexadecimal string.
+	 *
+	 * @param	hexString	The hexadecimal string (with # prefix) to be translated to a color
+	 * @return	The color represented by this hexadecimal string
+	 */
+
+	public static Color toColor( String hexString )
+	{
+		String r = hexString.substring( 1, 3 );
+		String g = hexString.substring( 3, 5 );
+		String b = hexString.substring( 5 );
+
+		return new Color( (new BigInteger( r, 16 )).intValue(), (new BigInteger( g, 16 )).intValue(), (new BigInteger( b, 16 )).intValue() );
 	}
 
 	/**

@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.awt.Color;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 
 public class LimitedSizeChatBuffer extends ChatBuffer
@@ -94,7 +96,21 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 				break;
 		}
 
-		ChatBuffer.BUFFER_STYLE += " }";
+		ChatBuffer.BUFFER_STYLE += "; } a { color: black; text-decoration: none; } .pid1 { color: violet; }";
+	}
+
+	public static void setChatColors( String colorSetting )
+	{
+		if ( colorSetting == null )
+			return;
+
+		String [] colorArray = colorSetting.split( "[;:]" );
+
+		setFontSize( fontSize );
+		for ( int i = 0; i < colorArray.length; ++i )
+			ChatBuffer.BUFFER_STYLE += " .pid" + colorArray[i] + " { color: " + colorArray[++i] + "; }";
+
+		fontSize = 0 - fontSize;
 	}
 
 	/**
@@ -105,7 +121,12 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	public void append( String message )
 	{
 		if ( previousFontSize != fontSize )
+		{
+			if ( fontSize < 0 )
+				fontSize = 0 - fontSize;
+
 			fireBufferChanged( CONTENT_CHANGE, null );
+		}
 
 		super.append( message );
 		previousFontSize = fontSize;

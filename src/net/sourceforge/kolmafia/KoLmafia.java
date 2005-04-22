@@ -209,6 +209,9 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			return;
 		}
 
+		if ( settings.getProperty( "skipCharacterData" ) == null || settings.getProperty( "skipCharacterData" ).equals( "false" ) )
+			(new CharsheetRequest( this )).run();
+
 		// Check to see if the user wanted to do a quick login;
 		// if there is a quick login sequence, then ignore the
 		// pages which are loaded by default.
@@ -216,10 +219,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		if ( !isQuickLogin )
 		{
 			if ( settings.getProperty( "skipCharacterData" ) == null || settings.getProperty( "skipCharacterData" ).equals( "false" ) )
-			{
-				(new CharsheetRequest( this )).run();
 				(new CampgroundRequest( this )).run();
-			}
 
 			if ( !permitContinue )
 			{

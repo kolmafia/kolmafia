@@ -1,4 +1,38 @@
 /**
+ * Copyright (c) 2003, Spellcast development team
+ * http://spellcast.dev.java.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "Spellcast development team" nor the names of
+ *      its contributors may be used to endorse or promote products
+ *      derived from this software without specific prior written
+ *      permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/**
  * Copyright (c) 2005, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -35,16 +69,20 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import javax.swing.BoxLayout;
 
 // events
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.SwingUtilities;
 
 // containers
+import javax.swing.JComponent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -59,11 +97,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JColorChooser;
+import javax.swing.JScrollPane;
 
 // utilities
 import java.util.Properties;
 import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -611,6 +652,7 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox chatStyleSelect;
 		private JComboBox useTabsSelect;
 		private JComboBox nameClickSelect;
+		private JPanel colorPanel;
 
 		public ChatOptionsPanel()
 		{
@@ -635,11 +677,15 @@ public class OptionsFrame extends KoLFrame
 			nameClick.add( "Open player profile" );
 			nameClickSelect = new JComboBox( nameClick );
 
-			VerifiableElement [] elements = new VerifiableElement[4];
+			colorPanel = new JPanel();
+			colorPanel.setLayout( new BoxLayout( colorPanel, BoxLayout.Y_AXIS ) );
+
+			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 			elements[2] = new VerifiableElement( "Windowing: ", useTabsSelect );
 			elements[3] = new VerifiableElement( "Name Clicks: ", nameClickSelect );
+			elements[4] = new VerifiableElement( "Chat Colors: ", colorPanel );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -685,6 +731,18 @@ public class OptionsFrame extends KoLFrame
 
 				String nameClick = settings.getProperty( "chatNameClick" );
 				nameClickSelect.setSelectedIndex( (nameClick != null) ? Integer.parseInt( nameClick ) : 0 );
+
+				String nameColor = settings.getProperty( "chatNameColors" );
+
+				if ( colorPanel.getComponentCount() == 0 && nameColor != null )
+				{
+					String [] colors = nameColor.split( "[:;]" );
+ 					colorPanel.add( new PlayerColorPanel( "You", DataUtilities.toColor( colors[1] ) ) );
+				}
+				else if ( colorPanel.getComponentCount() == 0 )
+				{
+ 					colorPanel.add( new PlayerColorPanel( "You" ) );
+				}
 			}
 		}
 
@@ -708,6 +766,26 @@ public class OptionsFrame extends KoLFrame
 				if ( client.getMessenger() != null )
 					client.getMessenger().setTabbedFrameSetting( useTabsSelect.getSelectedIndex() == 1 );
 
+				PlayerColorPanel currentPanel = (PlayerColorPanel) colorPanel.getComponent(0);
+				StringBuffer nameColor = new StringBuffer();
+
+				nameColor.append( "0:" );
+				nameColor.append( DataUtilities.toHexString( currentPanel.selectedColor ) );
+
+				for ( int i = 1; i < colorPanel.getComponentCount(); ++i )
+				{
+					currentPanel = (PlayerColorPanel) colorPanel.getComponent( i );
+					if ( currentPanel.playerIDField instanceof JLabel )
+						nameColor.append( ((JLabel)currentPanel.playerIDField).getText() );
+					else
+						nameColor.append( ((JTextField)currentPanel.playerIDField).getText() );
+
+					nameColor.append( ':' );
+					nameColor.append( DataUtilities.toHexString( currentPanel.selectedColor ) );
+				}
+
+				settings.setProperty( "chatNameColors", nameColor.toString() );
+				LimitedSizeChatBuffer.setChatColors( nameColor.toString() );
 				saveSettings();
 			}
 		}
@@ -986,6 +1064,72 @@ public class OptionsFrame extends KoLFrame
 		{
 			public OptionsThread()
 			{	setDaemon( true );
+			}
+		}
+	}
+
+	/**
+	 * Internal class which represents the color being used
+	 * for a single player in chat.
+	 */
+
+	private class PlayerColorPanel extends JPanel
+	{
+		private Color selectedColor;
+		private JButton colorSelect;
+		private JComponent playerIDField;
+
+		public PlayerColorPanel()
+		{
+			selectedColor = Color.black;
+			setLayout( new BorderLayout( 5, 5 ) );
+
+			colorSelect = new JButton();
+			JComponentUtilities.setComponentSize( colorSelect, 20, 20 );
+			colorSelect.setBackground( selectedColor );
+			colorSelect.addActionListener( new ChatColorChanger() );
+
+			add( colorSelect, BorderLayout.WEST );
+
+			playerIDField = new JTextField( "[insert player ID here]" );
+			add( playerIDField, BorderLayout.CENTER );
+			JComponentUtilities.setComponentSize( this, 200, 20 );
+		}
+
+		public PlayerColorPanel( String label )
+		{	this( label, Color.black );
+		}
+
+		public PlayerColorPanel( String label, Color c )
+		{
+			selectedColor = c;
+			setLayout( new BorderLayout( 5, 5 ) );
+
+			colorSelect = new JButton();
+			JComponentUtilities.setComponentSize( colorSelect, 20, 20 );
+			colorSelect.setBackground( selectedColor );
+			colorSelect.addActionListener( new ChatColorChanger() );
+
+			add( colorSelect, BorderLayout.WEST );
+
+			playerIDField = new JLabel( label, JLabel.LEFT );
+			add( playerIDField, BorderLayout.CENTER );
+			JComponentUtilities.setComponentSize( this, 200, 20 );
+		}
+
+		/**
+		 * An internal class that processes all the information related to
+		 * changing the color of the names for players in chat.
+		 */
+
+		private class ChatColorChanger implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				selectedColor = JColorChooser.showDialog( OptionsFrame.this, "Choose color...", selectedColor );
+				colorSelect.setBackground( selectedColor );
+				playerIDField.setForeground( selectedColor );
+				playerIDField.requestFocus();
 			}
 		}
 	}

@@ -84,6 +84,7 @@ public class KoLMessenger implements KoLConstants
 
 		String tabsSetting = client.getSettings().getProperty( "useTabbedChat" );
 		setTabbedFrameSetting( tabsSetting != null && tabsSetting.equals( "1" ) );
+		LimitedSizeChatBuffer.setChatColors( client.getSettings().getProperty( "chatNameColors" ) );
 	}
 
 	/**
@@ -407,19 +408,13 @@ public class KoLMessenger implements KoLConstants
 
 		String nameOfActiveFrame = getNameOfActiveFrame();
 
-		// There's a lot of bad HTML used in KoL chat; in order to get Java
-		// to properly display everything, all of the bad HTML gets replaced
-		// with good HTML.  First, get rid of underlines for links.
-
-		String noUnderlineLinksContent = originalContent.replaceAll( "<a href", "<a style=\"text-decoration:none;\" href" );
-
 		// Also, there's a problem with bold and italic tag ordering, as well
 		// as bold and font-color ordering.  This needs to be fixed, since
 		// the default HTML handler in Java is really rigid about it.  Note
 		// that this requires several lines - this just shows you how far
 		// behind the default HTML handler is compared to a web browser.
 
-		String orderedTagsContent = noUnderlineLinksContent.replaceAll( "<br>&nbsp;&nbsp;", "" ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
+		String orderedTagsContent = originalContent.replaceAll( "<br>&nbsp;&nbsp;", "" ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
 			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</font></b>", "</b></font>" ).replaceAll(
 				"</?br></b>", "</b><br>" ).replaceAll( "</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" ).replaceAll( "</b></a>", "</a></b>" );
 
@@ -885,13 +880,16 @@ public class KoLMessenger implements KoLConstants
 					if ( name.indexOf( " (" ) != -1 )
 						name = name.substring( 0, name.indexOf( " (" ) );
 
+					int playerID = Integer.parseInt( getPlayerID( name ) );
+
+					// In order to make the stylesheet work as intended,
+					// the user's player ID is defined with class pid0.
+
+					if ( playerID == client.getUserID() )
+						playerID = 0;
+
 					actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
-						"<b><a style=\"color:black; text-decoration:none;\" href=\"" + name + "\">" );
-
-					// Jick's name appears in violet
-
-					if ( name.equals( "Jick" ) )
-						actualMessage = actualMessage.replaceFirst( "<a style=\"color:black;", "<a style=\"color:violet;" );
+						"<b class=\"pid" + playerID + "\"><a href=\"" + name + "\">" );
 				}
 
 				// Now to replace doubled instances of <font> to 1, and ensure that
@@ -903,9 +901,9 @@ public class KoLMessenger implements KoLConstants
 				actualMessage = actualMessage.replaceAll( "</?font.*?>", "" );
 
 				if ( indexRed != -1 )
-					actualMessage = "<font color=red>" + actualMessage.replaceFirst( "<a style=\"color:black; ", "<a style=\"color:red; " ) + "</font>";
+					actualMessage = "<font color=red>" + actualMessage.replaceFirst( "<a ", "<a style=\"color:red\"" ) + "</font>";
 				else if ( indexGreen != -1 )
-					actualMessage = "<font color=green>" + actualMessage.replaceFirst( "<a style=\"color:black; ", "<a style=\"color:green; " ) + "</font>";
+					actualMessage = "<font color=green>" + actualMessage.replaceFirst( "<a ", "<a style=\"color:green\"" ) + "</font>";
 
 				channelBuffer.append( actualMessage );
 				channelBuffer.append( "<br>" );
