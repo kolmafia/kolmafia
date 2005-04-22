@@ -197,8 +197,6 @@ public class ChatBuffer
 	 * regards to the <code>ChatBuffer</code>.  This includes any addition
 	 * to the chat buffer itself and a change in state, such as changing the
 	 * display window or the file to which the data is being logged.
-	 *
-	 * @param	message	The HTML message which needs to be finalized
 	 */
 
 	protected void fireBufferChanged( int changeType, String newContents )
