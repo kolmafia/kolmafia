@@ -122,7 +122,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
  * executed at that moment.
  */
 
-public class AdventureFrame extends KoLFrame implements ChangeListener
+public class AdventureFrame extends KoLFrame
 {
 	private static final Color ERROR_COLOR = new Color( 255, 128, 128 );
 	private static final Color ENABLED_COLOR = new Color( 128, 255, 128 );
@@ -159,7 +159,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		this.isEnabled = true;
 		this.tabs = new JTabbedPane();
-		tabs.addChangeListener( this );
 
 		this.adventureSelect = new AdventureSelectPanel( adventureList, resultsTally );
 		tabs.addTab( "Adventure Select", adventureSelect );
@@ -222,22 +221,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		addWindowListener( new LogoutRequestAdapter() );
 		addMenuBar();
-	}
-
-	public void stateChanged( ChangeEvent e )
-	{
-		switch ( tabs.getSelectedIndex() )
-		{
-			case 0:
-				contentPanel = adventureSelect;
-				break;
-			case 1:
-				contentPanel = mallSearch;
-				break;
-			case 2:
-				contentPanel = skillBuff;
-				break;
-		}
 	}
 
 	public void refreshConcoctionsList()
@@ -311,7 +294,7 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		JMenuItem mallItem = new JMenuItem( "Manipulate Mall", KeyEvent.VK_M );
 		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
-		JMenuItem clanItem = new JMenuItem( "Clan Manager", KeyEvent.VK_C );
+		JMenuItem clanItem = new JMenuItem( "Clan Management", KeyEvent.VK_C );
 		clanItem.addActionListener( new DisplayFrameListener( ClanManageFrame.class ) );
 		JMenuItem resetItem = new JMenuItem( "Reset Session", KeyEvent.VK_R );
 		resetItem.addActionListener( new ResetSessionListener() );
