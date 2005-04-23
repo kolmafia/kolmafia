@@ -181,7 +181,7 @@
 181	baseball	0	11
 182	batgut	0	12
 183	bat wing	0	14
-184	briefcase	0	15
+184	briefcase	3	15
 185	fat stacks of cash	0	150
 186	enchanted bean	0	25
 187	loose teeth	0	17
@@ -828,8 +828,8 @@
 828	baby killer bee	5	76
 829	anti-anti-antidote	0	20
 830	royal jelly	1	77
-831	small box	0	65
-832	large box	0	85
+831	small box	4	65
+832	large box	4	85
 833	vorpal blade	0	100
 834	cornuthaum	0	95
 835	ring of aggravate monster	0	70
