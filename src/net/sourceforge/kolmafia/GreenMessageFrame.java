@@ -161,9 +161,9 @@ public class GreenMessageFrame extends KoLFrame
 				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
 
 				if ( client.permitsContinue() )
-					sendMessageStatus.setText( "Message sent to " + recipientEntry.getText() );
+					JOptionPane.showMessageDialog( null, "Message sent to " + recipientEntry.getText() );
 				else
-					sendMessageStatus.setText( "Failed to send message to " + recipientEntry.getText() );
+					JOptionPane.showMessageDialog( null, "Failed to send message to " + recipientEntry.getText() );
 
 				recipientEntry.setEnabled( true );
 				messageEntry.setEnabled( true );
