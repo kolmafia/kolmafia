@@ -104,7 +104,7 @@ public class ItemManageFrame extends KoLFrame
 
 		tabs.addTab( "Use & Create", using );
 		tabs.addTab( "Sell & Create", selling );
-		tabs.addTab( "Closet & Stash", storing );
+		tabs.addTab( "Closet & Case", storing );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -380,7 +380,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public OutsideClosetPanel()
 			{
-				super( "Inside Inventory", "put in closet", "put in stash", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+				super( "Inside Inventory", "put in closet", "put in case", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
 				availableList = elementList;
 			}
 
@@ -403,7 +403,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public InsideClosetPanel()
 			{
-				super( "Inside Closet", "take out", "put in stash", client == null ? new LockableListModel() : client.getCloset().getMirrorImage() );
+				super( "Inside Closet", "put in bag", "put in case", client == null ? new LockableListModel() : client.getCloset().getMirrorImage() );
 				closetList = elementList;
 			}
 
@@ -430,19 +430,19 @@ public class ItemManageFrame extends KoLFrame
 
 		private class InventoryStorageThread extends Thread
 		{
-			private boolean isStash;
+			private boolean isDisplayCase;
 
-			public InventoryStorageThread( boolean isStash )
+			public InventoryStorageThread( boolean isDisplayCase )
 			{
 				super( "Inventory-Storage-Thread" );
 				setDaemon( true );
-				this.isStash = isStash;
+				this.isDisplayCase = isDisplayCase;
 			}
 
 			public void run()
 			{
 				Object [] items = availableList.getSelectedValues();
-				Runnable request = isStash ? (Runnable) new ClanStashRequest( client, items ) :
+				Runnable request = isDisplayCase ? (Runnable) new MuseumRequest( client, true, items ) :
 					(Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
 				client.makeRequest( request, 1 );
@@ -458,13 +458,13 @@ public class ItemManageFrame extends KoLFrame
 
 		private class ClosetStorageThread extends Thread
 		{
-			private boolean isStash;
+			private boolean isDisplayCase;
 
-			public ClosetStorageThread( boolean isStash )
+			public ClosetStorageThread( boolean isDisplayCase )
 			{
 				super( "Closet-Storage-Thread" );
 				setDaemon( true );
-				this.isStash = isStash;
+				this.isDisplayCase = isDisplayCase;
 			}
 
 			public void run()
@@ -472,8 +472,8 @@ public class ItemManageFrame extends KoLFrame
 				Object [] items = closetList.getSelectedValues();
 				client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ), 1 );
 
-				if ( isStash )
-					client.makeRequest( new ClanStashRequest( client, items ), 1 );
+				if ( isDisplayCase )
+					client.makeRequest( new MuseumRequest( client, true, items ), 1 );
 
 				client.updateDisplay( ENABLED_STATE, "Items moved." );
 			}

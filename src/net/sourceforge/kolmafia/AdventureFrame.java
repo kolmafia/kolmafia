@@ -137,7 +137,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
-	private ClanBuffPanel clanBuff;
 	private RemoveEffectsPanel removeEffects;
 	private SkillBuffPanel skillBuff;
 	private HeroDonationPanel heroDonation;
@@ -168,7 +167,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		this.mallSearch = new MallSearchPanel();
 		tabs.addTab( "Mall of Loathing", mallSearch );
 
-		this.clanBuff = new ClanBuffPanel();
 		this.heroDonation = new HeroDonationPanel();
 		this.meatStorage = new MeatStoragePanel();
 		this.removeEffects = new RemoveEffectsPanel();
@@ -180,7 +178,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		otherStuffPanel.add( meatStorage );
 		otherStuffPanel.add( heroDonation );
 		otherStuffPanel.add( removeEffects );
-		otherStuffPanel.add( clanBuff );
 
 		JScrollPane otherStuffScroller = new JScrollPane( otherStuffPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
@@ -278,9 +275,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		if ( mallSearch != null )
 			mallSearch.setEnabled( this.isEnabled );
 
-		if ( clanBuff != null )
-			clanBuff.setEnabled( this.isEnabled );
-
 		if ( heroDonation != null )
 			heroDonation.setEnabled( this.isEnabled );
 
@@ -289,6 +283,9 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		if ( skillBuff != null )
 			skillBuff.setEnabled( this.isEnabled );
+
+		if ( removeEffects != null )
+			removeEffects.setEnabled( this.isEnabled );
 
 		Iterator framesIterator = existingFrames.iterator();
 		KoLFrame currentFrame;
@@ -314,36 +311,39 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 
 		JMenuItem mallItem = new JMenuItem( "Manipulate Mall", KeyEvent.VK_M );
 		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
+		JMenuItem clanItem = new JMenuItem( "Clan Manager", KeyEvent.VK_C );
+		clanItem.addActionListener( new DisplayFrameListener( ClanManageFrame.class ) );
 		JMenuItem resetItem = new JMenuItem( "Reset Session", KeyEvent.VK_R );
 		resetItem.addActionListener( new ResetSessionListener() );
 
 		JMenu statusMenu = addStatusMenu( menuBar );
 		statusMenu.add( mallItem );
+		statusMenu.add( clanItem );
 		statusMenu.add( resetItem );
 
+		JMenuItem foodItem = new JMenuItem( "Camping Routine", KeyEvent.VK_C );
+		foodItem.addActionListener( new GetBreakfastListener() );
 		JMenuItem buffbotMenuItem = new JMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E );
 		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
 
 		JMenu scriptMenu = addScriptMenu( menuBar );
+		scriptMenu.add( foodItem );
 		scriptMenu.add( buffbotMenuItem );
 
 		JMenu visitMenu = new JMenu( "Travel" );
 		visitMenu.setMnemonic( KeyEvent.VK_T );
 
-		JMenuItem foodItem = new JMenuItem( "Daily Camping", KeyEvent.VK_D );
-		foodItem.addActionListener( new GetBreakfastListener() );
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
-		JMenuItem caseItem = new JMenuItem( "Cannon Museum", KeyEvent.VK_C );
+		JMenuItem caseItem = new JMenuItem( "Yeti's Museum", KeyEvent.VK_Y );
 		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
 		JMenuItem hermitItem = new JMenuItem( "Hermit Hideout", KeyEvent.VK_H );
 		hermitItem.addActionListener( new HermitRequestListener() );
 		JMenuItem trapperItem = new JMenuItem( "Mountain Trapper", KeyEvent.VK_M );
 		trapperItem.addActionListener( new TrapperRequestListener() );
-		JMenuItem hunterItem = new JMenuItem( "Town Towel Guy", KeyEvent.VK_M );
+		JMenuItem hunterItem = new JMenuItem( "Seaside Towels", KeyEvent.VK_S );
 		hunterItem.addActionListener( new HunterRequestListener() );
 
-		visitMenu.add( foodItem );
 		visitMenu.add( arenaItem );
 		visitMenu.add( caseItem );
 		visitMenu.add( hermitItem );
@@ -779,95 +779,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	/**
-	 * An internal class which represents the panel used for clan
-	 * buffs in the <code>AdventureFrame</code>.
-	 */
-
-	private class ClanBuffPanel extends LabeledKoLPanel
-	{
-		private boolean isBuffing;
-		private JComboBox buffField;
-		private JTextField countField;
-
-		public ClanBuffPanel()
-		{
-			super( "Make Your Clan 1335", "purchase", "halt", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-			this.isBuffing = false;
-
-			buffField = new JComboBox( ClanBuffRequest.getRequestList( client ) );
-			countField = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Clan Buff: ", buffField );
-			elements[1] = new VerifiableElement( "# of times: ", countField );
-
-			setContent( elements );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			buffField.setEnabled( isEnabled );
-			countField.setEnabled( isEnabled );
-		}
-
-		protected void actionConfirmed()
-		{
-			isBuffing = true;
-			contentPanel = clanBuff;
-			(new ClanBuffRequestThread()).start();
-		}
-
-		protected void actionCancelled()
-		{
-			if ( isBuffing )
-			{
-				isBuffing = false;
-				contentPanel = clanBuff;
-				client.cancelRequest();
-				updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually purchase the clan buffs.
-		 */
-
-		private class ClanBuffRequestThread extends Thread
-		{
-			public ClanBuffRequestThread()
-			{
-				super( "Clan-Buff-Thread" );
-				setDaemon( true );
-			}
-
-			public void run()
-			{
-				try
-				{
-					if ( countField.getText().trim().length() == 0 )
-						return;
-
-					int buffCount = df.parse( countField.getText() ).intValue();
-					Runnable buff = (Runnable) buffField.getSelectedItem();
-
-					client.makeRequest( buff, buffCount );
-					isBuffing = false;
-				}
-				catch ( Exception e )
-				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
-				}
-
-			}
-		}
-	}
 
 	/**
 	 * An internal class which represents the panel used for donations to
@@ -887,7 +798,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 			heroes.add( "Statue of Boris" );
 			heroes.add( "Statue of Jarlsberg" );
 			heroes.add( "Statue of Sneaky Pete" );
-			heroes.add( "Future Heroes of Your Clan" );
 
 			heroField = new JComboBox( heroes );
 			amountField = new JTextField();
@@ -909,19 +819,13 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 		protected void actionConfirmed()
 		{
 			contentPanel = heroDonation;
-			if ( heroField.getSelectedIndex() == 3 )
-				(new ClanDonationThread()).start();
-			else
-				(new HeroDonationThread( false )).start();
+			(new HeroDonationThread( false )).start();
 		}
 
 		protected void actionCancelled()
 		{
 			contentPanel = heroDonation;
-			if ( heroField.getSelectedIndex() == 3 )
-				(new ClanDonationThread()).start();
-			else
-				(new HeroDonationThread( true )).start();
+			(new HeroDonationThread( true )).start();
 		}
 
 		/**
@@ -969,41 +873,6 @@ public class AdventureFrame extends KoLFrame implements ChangeListener
 						if ( client.permitsContinue() )
 							client.makeRequest( new HeroDonationRequest( client, designatedHero, amountRemaining ), 1 );
 					}
-				}
-				catch ( Exception e )
-				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
-				}
-
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually donate to the clan.
-		 */
-
-		private class ClanDonationThread extends Thread
-		{
-			public ClanDonationThread()
-			{
-				super( "Donation-Thread" );
-				setDaemon( true );
-			}
-
-			public void run()
-			{
-				try
-				{
-					if ( amountField.getText().trim().length() == 0 )
-						return;
-
-					int amount = df.parse( amountField.getText() ).intValue();
-					client.makeRequest( new ClanStashRequest( client, amount ), 1 );
 				}
 				catch ( Exception e )
 				{
