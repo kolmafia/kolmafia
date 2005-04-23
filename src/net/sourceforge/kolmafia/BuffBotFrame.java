@@ -124,6 +124,7 @@ public class BuffBotFrame extends KoLFrame
 	private BuffOptionsPanel buffOptions;
 	private MainBuffPanel mainBuff;
 	private WhiteListPanel whiteList;
+	private InvalidBuffPanel invalidBuff;
 
 	private LockableListModel buffCostTable;
 	private BuffBotHome buffbotLog;
@@ -165,10 +166,12 @@ public class BuffBotFrame extends KoLFrame
 		mainBuff = new MainBuffPanel();
 		buffOptions = new BuffOptionsPanel();
 		whiteList = new WhiteListPanel();
+		invalidBuff = new InvalidBuffPanel();
 
 		tabs.addTab( "Run BuffBot", mainBuff );
 		tabs.addTab( "Configure Buffs", buffOptions );
 		tabs.addTab( "Change Settings", whiteList );
+		tabs.addTab( "Refund Message", invalidBuff );
 
 		getContentPane().setLayout( new CardLayout( 5, 5 ) );
 		getContentPane().add( tabs, "" );
@@ -205,6 +208,7 @@ public class BuffBotFrame extends KoLFrame
 		mainBuff.setEnabled( isEnabled );
 		buffOptions.setEnabled( isEnabled );
 		whiteList.setEnabled( isEnabled );
+		invalidBuff.setEnabled( isEnabled );
 	}
 
 	/**
@@ -240,7 +244,7 @@ public class BuffBotFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			buffbotLog.timeStampedLogEntry( "BuffBot Terminated.<br>" );
+			buffbotLog.timeStampedLogEntry( "BuffBot stopped.<br>" );
 			client.setBuffBotActive(false);
 			client.updateDisplay( ENABLED_STATE, "BuffBot stopped." );
 		}
@@ -601,6 +605,21 @@ public class BuffBotFrame extends KoLFrame
 		}
 	}
 
+	private class InvalidBuffPanel extends LabeledScrollPanel
+	{
+		public InvalidBuffPanel()
+		{	super( "Invalid Buff Price Message", "Save", "Default", new JTextArea() );
+		}
+
+		public void actionConfirmed()
+		{	client.getSettings().setProperty( "invalidBuffMessage", ((JTextArea) getScrollComponent()).getText() );
+		}
+
+		public void actionCancelled()
+		{	((JTextArea) getScrollComponent()).setText( client.getSettings().getProperty( "invalidBuffMessage" ) );
+		}
+	}
+
 	/**
 	 * An internal class which creates a panel which displays
 	 * a generic scroll pane.  Note that the code for this
@@ -691,10 +710,7 @@ public class BuffBotFrame extends KoLFrame
 			}
 
 			public void setEnabled( boolean isEnabled )
-			{
-				confirmedButton.setEnabled( isEnabled );
-				//removing this, so that cancelledButton stays enabled
-				//cancelledButton.setEnabled( isEnabled );
+			{	confirmedButton.setEnabled( isEnabled );
 			}
 		}
 	}

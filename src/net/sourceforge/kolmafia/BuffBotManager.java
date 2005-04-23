@@ -70,6 +70,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private String mpRestoreSetting;
 	private int messageDisposalSetting;
 	private BuffBotHome buffbotLog;
+	private String refundMessage;
 
 	private static final int SLEEP_TIME = 1000;       // Sleep this much each time
 	private static final int SHORT_SLEEP_COUNT = 75;  // This many times
@@ -185,6 +186,10 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		whiteListArray = settings.getProperty("whiteList") == null ? new String[0] :
 			settings.getProperty("whiteList").toLowerCase().split("\\s*,\\s*");
 		Arrays.sort(whiteListArray);
+
+		refundMessage = client.getSettings().getProperty( "invalidBuffMessage" ) == null ? "" :
+			System.getProperty( "line.separator" ) + System.getProperty( "line.separator" ) +
+				client.getSettings().getProperty( "invalidBuffMessage" );
 
 		// The outer loop goes until user cancels
 
@@ -323,7 +328,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 						buffbotLog.append( NONBUFFCOLOR + "Request for restricted buff denied: from [" +
 								message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>");
 
-						sendRefund( message.getSenderName(), "Sorry, this buff is white-list restricted.  Please try a different buff.", meatSent );
+						sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price." + refundMessage, meatSent );
 						deleteList.add( message );
 						return true;
 					}
@@ -333,7 +338,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					buffbotLog.append( NONBUFFCOLOR + "Meat received does not match anything in database: from [" +
 							message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>");
 
-					sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price.", meatSent );
+					sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price." + refundMessage, meatSent );
 					deleteList.add( message );
 					return true;
 				}

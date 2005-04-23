@@ -107,7 +107,7 @@ public class UseSkillRequest extends KoLRequest
 		// If a reply was obtained, check to see if it was a success message
 		// Otherwise, try to figure out why it was unsuccessful.
 
-		if ( replyContent == null )
+		if ( replyContent == null || replyContent.trim().length() == 0 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "No response to skill request." );
@@ -128,10 +128,10 @@ public class UseSkillRequest extends KoLRequest
 		else if ( replyContent.indexOf( "too many songs" ) != -1 )
 		{
 			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Overbuffed target." );
+			updateDisplay( ERROR_STATE, target + " is overbuffed." );
 			return;
 		}
-		else if ( replyContent.indexOf( "Invalid target" ) != -1 )
+		else if ( replyContent.indexOf( target + " is not a valid target." ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Invalid target." );
@@ -140,7 +140,7 @@ public class UseSkillRequest extends KoLRequest
 		else if ( replyContent.indexOf( "busy fighting" ) != -1 )
 		{
 			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Target is fighting." + target );
+			updateDisplay( ERROR_STATE, target + " is busy fighting." );
 			return;
 		}
 		else
