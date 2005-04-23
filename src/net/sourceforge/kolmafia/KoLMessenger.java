@@ -104,7 +104,8 @@ public class KoLMessenger implements KoLConstants
 			{
 				this.tabbedFrame = new TabbedChatFrame( client, this );
 				this.tabbedFrame.setVisible( true );
-				this.tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
+				if ( currentChannel != null )
+					this.tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 			}
 			else
 			{
@@ -232,7 +233,7 @@ public class KoLMessenger implements KoLConstants
 		frameToRemove = (ChatFrame) instantMessageFrames.remove( contact );
 		bufferToRemove = (ChatBuffer) instantMessageBuffers.remove( contact );
 
-		if ( frameToRemove != null && frameToRemove.isShowing() )
+		if ( frameToRemove != null )
 			frameToRemove.setVisible( false );
 
 		if ( contact.startsWith( "/" ) && currentChannel != null && !contact.equals( currentChannel ) &&
@@ -679,7 +680,7 @@ public class KoLMessenger implements KoLConstants
 				String channel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) );
 				processChannelMessage( channel, noLinksContent );
 				ChatFrame frame = (ChatFrame) instantMessageFrames.get( channel );
-				if ( frame != null && frame.isShowing() )
+				if ( frame != null )
 					frame.setTitle( "KoLmafia Chat: " + channel + " (inactive)" );
 			}
 			else if ( noLinksContent.startsWith( "<font color=green>Now listening to channel: " ) )
@@ -687,7 +688,7 @@ public class KoLMessenger implements KoLConstants
 				String channel = "/" + noLinksContent.substring( 44, noLinksContent.indexOf( "</font>" ) );
 				processChannelMessage( channel, noLinksContent );
 				ChatFrame frame = (ChatFrame) instantMessageFrames.get( channel );
-				if ( frame != null && frame.isShowing() )
+				if ( frame != null )
 					frame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
 			}
 			else if ( noLinksContent.startsWith( "<font color=green>You are now talking in channel: " ) )
@@ -700,14 +701,8 @@ public class KoLMessenger implements KoLConstants
 					ChatBuffer currentChatBuffer = getChatBuffer( currentChannel );
 					if ( currentChatBuffer != null )
 					{
-						currentChatBuffer.append( "<font color=green>No longer talking in channel: " );
-						currentChatBuffer.append( currentChannel.substring(1) );
-						currentChatBuffer.append( "." );
-						currentChatBuffer.append( "</font><br>" );
-						currentChatBuffer.append( System.getProperty( "line.separator" ) );
-
 						ChatFrame frame = (ChatFrame) instantMessageFrames.get( currentChannel );
-						if ( frame != null && frame.isShowing() )
+						if ( frame != null )
 							frame.setTitle( "KoLmafia Chat: " + currentChannel + " (inactive)" );
 					}
 				}
@@ -717,14 +712,14 @@ public class KoLMessenger implements KoLConstants
 
 				ChatFrame currentFrame = (ChatFrame) instantMessageFrames.get( currentChannel );
 
-				if ( !useTabbedFrame && currentFrame != null && currentFrame.isShowing() )
+				if ( !useTabbedFrame && currentFrame != null )
 				{
 					currentFrame.setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
 					if ( !currentFrame.hasFocus() )
 						currentFrame.requestFocus();
 				}
 
-				if ( useTabbedFrame )
+				if ( useTabbedFrame && currentChannel != null )
 					tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 			}
 			else if ( message.indexOf( "<font color=blue>" ) == -1 )
@@ -845,7 +840,7 @@ public class KoLMessenger implements KoLConstants
 				// Make sure that the current channel doesn't lose focus by opening the
 				// instant message.  This can be accomplished by re-requesting focus.
 
-				if ( hadFocus && currentFrame != null && currentFrame.isShowing() )
+				if ( hadFocus && currentFrame != null )
 					currentFrame.requestFocus();
 
 				if ( message == null )
@@ -856,8 +851,7 @@ public class KoLMessenger implements KoLConstants
 					channelBuffer.append( System.getProperty( "line.separator" ) );
 
 					ChatFrame newFrame = (ChatFrame) instantMessageFrames.get( channel );
-					if ( newFrame.isShowing() )
-						newFrame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
+					newFrame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
 				}
 			}
 
@@ -976,7 +970,9 @@ public class KoLMessenger implements KoLConstants
 			ChatFrame.ChatPanel panel = this.tabbedFrame.addTab( windowName );
 			newBuffer.setChatDisplay( panel.getChatDisplay() );
 			newBuffer.setScrollPane( panel.getScrollPane() );
-			this.tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
+
+			if ( currentChannel != null )
+				this.tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 		}
 		else
 		{

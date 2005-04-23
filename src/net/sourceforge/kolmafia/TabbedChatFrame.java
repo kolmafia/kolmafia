@@ -63,8 +63,11 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 
 	public void stateChanged( ChangeEvent e )
 	{
-		tabs.setBackgroundAt( tabs.getSelectedIndex(), null );
-		tabs.setForegroundAt( tabs.getSelectedIndex(), null );
+		if ( tabs.getSelectedIndex() != -1 )
+		{
+			tabs.setBackgroundAt( tabs.getSelectedIndex(), null );
+			tabs.setForegroundAt( tabs.getSelectedIndex(), null );
+		}
 	}
 
 	/**
@@ -89,6 +92,10 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 
 	public ChatPanel addTab( String tabName )
 	{
+		for ( int i = 0; i < tabs.getTabCount(); ++i )
+			if ( tabs.getTitleAt(i).equals( tabName ) )
+				return (ChatPanel) tabs.getComponentAt(i);
+
 		ChatPanel createdPanel = new ChatPanel( tabName );
 		(new AddTabRunnable( tabName, createdPanel )).run();
 		return createdPanel;

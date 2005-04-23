@@ -100,7 +100,8 @@ public class ClanManageFrame extends KoLFrame
 		this.clanBuff = new ClanBuffPanel();
 
 		this.tabs = new JTabbedPane();
-		tabs.addTab( "Stash Deposits", storing );
+		tabs.addTab( "Deposit Items", storing );
+		tabs.addTab( "Clan Kitchen", new JLabel( "Not yet implemented.", JLabel.CENTER ) );
 		tabs.addTab( "Clan Purchases", clanBuff );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
