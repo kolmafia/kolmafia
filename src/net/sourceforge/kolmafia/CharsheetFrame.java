@@ -91,8 +91,7 @@ public class CharsheetFrame extends KoLFrame
 
 	public CharsheetFrame( KoLmafia client )
 	{
-		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
-			" (Character Sheet)", client );
+		super( "KoLmafia: Character Sheet", client );
 
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server

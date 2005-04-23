@@ -143,8 +143,7 @@ public class OptionsFrame extends KoLFrame
 
 	public OptionsFrame( KoLmafia client )
 	{
-		super( "KoLmafia: " + ((client == null) ? "UI Test" :
-			(client.getLoginName() == null) ? "Global" : client.getLoginName()) + " Preferences", client );
+		super( "KoLmafia: Preferences", client );
 		setResizable( false );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );

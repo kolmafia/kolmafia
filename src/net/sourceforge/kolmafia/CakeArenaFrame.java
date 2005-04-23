@@ -43,7 +43,7 @@ public class CakeArenaFrame extends KoLFrame
 {
 	public CakeArenaFrame( KoLmafia client )
 	{
-		super( "Susie's Secret Bedroom!", client );
+		super( "KoLmafia: Susie's Secret Bedroom!", client );
 		if ( client.getCakeArenaManager().getOpponentList().isEmpty() )
 			(new CakeArenaRequest( client )).run();
 

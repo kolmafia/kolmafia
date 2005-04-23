@@ -89,8 +89,7 @@ public class ItemManageFrame extends KoLFrame
 
 	public ItemManageFrame( KoLmafia client )
 	{
-		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
-			" (Item Management)", client );
+		super( "KoLmafia: Item Management", client );
 
 		concoctions = new SortedListModel();
 

@@ -82,8 +82,7 @@ public class GearChangeFrame extends KoLFrame
 
 	public GearChangeFrame( KoLmafia client )
 	{
-		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
-			" (Weltall Config)", client );
+		super( "KoLmafia: Changing Gears", client );
 
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
