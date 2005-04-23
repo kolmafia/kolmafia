@@ -268,7 +268,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 				public void run()
 				{
-					client.updateDisplay( DISABLED_STATE, "Deleting messages..." );
 					mailbox.deleteMessages( mailboxName, getSelectedValues() );
 				}
 			}
