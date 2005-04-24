@@ -416,8 +416,9 @@ public class KoLMessenger implements KoLConstants
 		// behind the default HTML handler is compared to a web browser.
 
 		String orderedTagsContent = originalContent.replaceAll( "<br>&nbsp;&nbsp;", "" ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
-			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "</font></b>", "</b></font>" ).replaceAll(
-				"</?br></b>", "</b><br>" ).replaceAll( "</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" ).replaceAll( "</b></a>", "</a></b>" );
+			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "<b><font color=.*?>", "<b>" ).replaceAll(
+				"</font></b>", "</b></font>" ).replaceAll( "</b></font></a>", "</b></a>" ).replaceAll( "</?br></b>", "</b><br>" ).replaceAll(
+					"</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" ).replaceAll( "</b></a>", "</a></b>" );
 
 		if ( orderedTagsContent.startsWith( "</font>" ) )
 			orderedTagsContent = orderedTagsContent.substring( 7 );

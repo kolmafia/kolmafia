@@ -678,13 +678,17 @@ public class OptionsFrame extends KoLFrame
 
 			colorPanel = new JPanel();
 			colorPanel.setLayout( new BoxLayout( colorPanel, BoxLayout.Y_AXIS ) );
+			JScrollPane scrollArea = new JScrollPane( colorPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+
+			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
 
 			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 			elements[2] = new VerifiableElement( "Windowing: ", useTabsSelect );
 			elements[3] = new VerifiableElement( "Name Clicks: ", nameClickSelect );
-			elements[4] = new VerifiableElement( "Chat Colors: ", colorPanel );
+			elements[4] = new VerifiableElement( "Chat Colors: ", scrollArea );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -737,10 +741,23 @@ public class OptionsFrame extends KoLFrame
 				{
 					String [] colors = nameColor.split( "[:;]" );
  					colorPanel.add( new PlayerColorPanel( "You", DataUtilities.toColor( colors[1] ) ) );
+
+ 					PlayerColorPanel currentPanel;
+ 					for ( int i = 2; i < colors.length && i < 16; i += 2 )
+ 					{
+						currentPanel = new PlayerColorPanel( DataUtilities.toColor( colors[i+1] ) );
+ 						((JTextField)currentPanel.playerIDField).setText( colors[i] );
+ 						colorPanel.add( currentPanel );
+					}
+
+					for ( int j = colors.length; j < 16; j += 2 )
+						colorPanel.add( new PlayerColorPanel() );
 				}
 				else if ( colorPanel.getComponentCount() == 0 )
 				{
  					colorPanel.add( new PlayerColorPanel( "You" ) );
+ 					for ( int i = 1; i < 8; ++i )
+	 					colorPanel.add( new PlayerColorPanel() );
 				}
 			}
 		}
@@ -774,13 +791,24 @@ public class OptionsFrame extends KoLFrame
 				for ( int i = 1; i < colorPanel.getComponentCount(); ++i )
 				{
 					currentPanel = (PlayerColorPanel) colorPanel.getComponent( i );
-					if ( currentPanel.playerIDField instanceof JLabel )
-						nameColor.append( ((JLabel)currentPanel.playerIDField).getText() );
-					else
-						nameColor.append( ((JTextField)currentPanel.playerIDField).getText() );
+					String playerID = ((JTextField)currentPanel.playerIDField).getText().trim().replaceAll( "[\\[\\]\\#]", "" );
 
-					nameColor.append( ':' );
-					nameColor.append( DataUtilities.toHexString( currentPanel.selectedColor ) );
+					if ( playerID.length() > 0 )
+					{
+						try
+						{
+							Integer.parseInt( playerID );
+							nameColor.append( ';' );
+							nameColor.append( playerID );
+							nameColor.append( ':' );
+							nameColor.append( DataUtilities.toHexString( currentPanel.selectedColor ) );
+						}
+						catch ( Exception e )
+						{
+							// If an exception is caught, then it was not
+							// a valid player ID.
+						}
+					}
 				}
 
 				settings.setProperty( "chatNameColors", nameColor.toString() );
@@ -1079,8 +1107,12 @@ public class OptionsFrame extends KoLFrame
 		private JComponent playerIDField;
 
 		public PlayerColorPanel()
+		{	this( Color.black );
+		}
+
+		public PlayerColorPanel( Color c )
 		{
-			selectedColor = Color.black;
+			selectedColor = c;
 			setLayout( new BorderLayout( 5, 5 ) );
 
 			colorSelect = new JButton();
@@ -1090,7 +1122,7 @@ public class OptionsFrame extends KoLFrame
 
 			add( colorSelect, BorderLayout.WEST );
 
-			playerIDField = new JTextField( "[insert player ID here]" );
+			playerIDField = new JTextField( "[######]" );
 			add( playerIDField, BorderLayout.CENTER );
 			JComponentUtilities.setComponentSize( this, 200, 20 );
 		}
