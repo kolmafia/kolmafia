@@ -294,14 +294,11 @@ public class AdventureFrame extends KoLFrame
 
 		JMenuItem mallItem = new JMenuItem( "Manipulate Mall", KeyEvent.VK_M );
 		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
-		JMenuItem clanItem = new JMenuItem( "Clan Management", KeyEvent.VK_C );
-		clanItem.addActionListener( new DisplayFrameListener( ClanManageFrame.class ) );
 		JMenuItem resetItem = new JMenuItem( "Reset Session", KeyEvent.VK_R );
 		resetItem.addActionListener( new ResetSessionListener() );
 
 		JMenu statusMenu = addStatusMenu( menuBar );
 		statusMenu.add( mallItem );
-		statusMenu.add( clanItem );
 		statusMenu.add( resetItem );
 
 		JMenuItem foodItem = new JMenuItem( "Camping Routine", KeyEvent.VK_C );
@@ -316,17 +313,20 @@ public class AdventureFrame extends KoLFrame
 		JMenu visitMenu = new JMenu( "Travel" );
 		visitMenu.setMnemonic( KeyEvent.VK_T );
 
+		JMenuItem clanItem = new JMenuItem( "Clan District", KeyEvent.VK_C );
+		clanItem.addActionListener( new DisplayFrameListener( ClanManageFrame.class ) );
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
 		JMenuItem caseItem = new JMenuItem( "Yeti's Museum", KeyEvent.VK_Y );
 		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
 		JMenuItem hermitItem = new JMenuItem( "Hermit Hideout", KeyEvent.VK_H );
 		hermitItem.addActionListener( new HermitRequestListener() );
-		JMenuItem trapperItem = new JMenuItem( "Mountain Trapper", KeyEvent.VK_M );
+		JMenuItem trapperItem = new JMenuItem( "Mountain Traps", KeyEvent.VK_M );
 		trapperItem.addActionListener( new TrapperRequestListener() );
 		JMenuItem hunterItem = new JMenuItem( "Seaside Towels", KeyEvent.VK_S );
 		hunterItem.addActionListener( new HunterRequestListener() );
 
+		visitMenu.add( clanItem );
 		visitMenu.add( arenaItem );
 		visitMenu.add( caseItem );
 		visitMenu.add( hermitItem );
