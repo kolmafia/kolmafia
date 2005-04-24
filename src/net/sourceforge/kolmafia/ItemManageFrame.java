@@ -320,6 +320,11 @@ public class ItemManageFrame extends KoLFrame
 
 				public void run()
 				{
+					if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+						"Are you sure you would like to sell the selected items?",
+							"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
+								return;
+
 					Object [] items = elementList.getSelectedValues();
 					AdventureResult currentItem;
 
