@@ -109,8 +109,8 @@ public class ClanManageFrame extends KoLFrame
 		meatSinkPanel.add( donation );
 		meatSinkPanel.add( clanBuff );
 
-		JScrollPane meatSinkScroller = new JScrollPane( meatSinkPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+		JScrollPane meatSinkScroller = new JScrollPane( meatSinkPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		JComponentUtilities.setComponentSize( meatSinkScroller, 500, 300 );
 		tabs.addTab( "Meat Sinking", meatSinkScroller );

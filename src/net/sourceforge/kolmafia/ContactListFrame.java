@@ -46,7 +46,7 @@ public class ContactListFrame extends JFrame
 			contactsDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			contactsDisplay.addMouseListener( new SendInstantMessageAdapter() );
 
-			add( new JScrollPane( contactsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+			add( new JScrollPane( contactsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
 		}
 	}

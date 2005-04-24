@@ -650,7 +650,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
-			centerPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+			centerPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
 			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );

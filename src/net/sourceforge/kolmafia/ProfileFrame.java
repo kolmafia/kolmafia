@@ -55,7 +55,7 @@ public class ProfileFrame extends KoLFrame
 		profileDisplay.setText( "Retrieving profile..." );
 
 		JScrollPane scrollPane = new JScrollPane( profileDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 		getContentPane().setLayout( new GridLayout( 1, 1 ) );

@@ -178,8 +178,8 @@ public class AdventureFrame extends KoLFrame
 		otherStuffPanel.add( heroDonation );
 		otherStuffPanel.add( removeEffects );
 
-		JScrollPane otherStuffScroller = new JScrollPane( otherStuffPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+		JScrollPane otherStuffScroller = new JScrollPane( otherStuffPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		JComponentUtilities.setComponentSize( otherStuffScroller, 500, 300 );
 		tabs.addTab( "Other Activities", otherStuffScroller );
@@ -470,7 +470,7 @@ public class AdventureFrame extends KoLFrame
 				tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 				tallyDisplay.setVisibleRowCount( 11 );
 
-				add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 			}
 		}
@@ -640,7 +640,7 @@ public class AdventureFrame extends KoLFrame
 				resultsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 				resultsDisplay.setVisibleRowCount( 11 );
 
-				add( new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				add( new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 			}
 		}

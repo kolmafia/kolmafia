@@ -371,7 +371,7 @@ public class BuffBotFrame extends KoLFrame
 				buffListDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 				buffListDisplay.setVisibleRowCount( 11 );
 
-				add( new JScrollPane( buffListDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				add( new JScrollPane( buffListDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 			}
 		}
@@ -433,7 +433,7 @@ public class BuffBotFrame extends KoLFrame
 			restorePanel.add( labelPanel, BorderLayout.CENTER );
 
 			JScrollPane scrollArea = new JScrollPane( restorePanel,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
 
@@ -483,7 +483,7 @@ public class BuffBotFrame extends KoLFrame
 				whiteListEditor.setWrapStyleWord( true );
 
 				JScrollPane scrollArea = new JScrollPane( whiteListEditor,
-						JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+						JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 						JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 				add( JComponentUtilities.createLabel( "White List (please separate names with commas):", JLabel.CENTER,
@@ -640,7 +640,7 @@ public class BuffBotFrame extends KoLFrame
 
 			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
-			centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+			centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
 			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );

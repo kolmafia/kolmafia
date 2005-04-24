@@ -88,15 +88,15 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		this.messageListInbox = new MailSelectList( "Inbox" );
 		JScrollPane messageListInboxDisplay = new JScrollPane( messageListInbox,
-			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		this.messageListOutbox = new MailSelectList( "Outbox" );
 		JScrollPane messageListOutboxDisplay = new JScrollPane( messageListOutbox,
-			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		this.messageListSaved = new MailSelectList( "Saved" );
 		JScrollPane messageListSavedDisplay = new JScrollPane( messageListSaved,
-			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		this.tabbedListDisplay = new JTabbedPane();
 		tabbedListDisplay.addTab( "Inbox", messageListInboxDisplay );
@@ -110,7 +110,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		messageContent.setEditable( false );
 		messageContent.addHyperlinkListener( new MailLinkClickedListener() );
 		JScrollPane messageContentDisplay = new JScrollPane( messageContent,
-			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		messageContentDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 

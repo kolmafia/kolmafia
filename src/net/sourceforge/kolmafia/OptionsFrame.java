@@ -678,8 +678,8 @@ public class OptionsFrame extends KoLFrame
 
 			colorPanel = new JPanel();
 			colorPanel.setLayout( new BoxLayout( colorPanel, BoxLayout.Y_AXIS ) );
-			JScrollPane scrollArea = new JScrollPane( colorPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+			JScrollPane scrollArea = new JScrollPane( colorPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
 

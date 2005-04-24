@@ -197,7 +197,7 @@ public class StoreManageFrame extends KoLFrame
 
 			JList resultsDisplay = new JList( priceSummary );
 			resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-			JScrollPane scrollArea = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+			JScrollPane scrollArea = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			JComponentUtilities.setComponentSize( scrollArea, 150, 160 );
