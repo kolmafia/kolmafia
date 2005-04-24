@@ -798,15 +798,7 @@ public class KoLMessenger implements KoLConstants
 			ChatBuffer messageBuffer = getChatBuffer( currentChannel );
 			if ( messageBuffer != null )
 			{
-				messageBuffer.append( "<br><br><font color=magenta>" );
-				messageBuffer.append( "KoLmafia's chat engine encountered an unexpected error.  " );
-				messageBuffer.append( "Please log the chat associated with this error, " );
-				messageBuffer.append( "find this line in the resulting HTML file, " );
-				messageBuffer.append( "and send the data enclosed in &lt;!-- --> tags to shwei@users.sourceforge.net.  " );
-				messageBuffer.append( "Thank you for your assistance!</font><br>\n" );
-				messageBuffer.append( "<!-- " );
-				messageBuffer.append( message );
-				messageBuffer.append( "--><br><br>" );
+				messageBuffer.append( "<br><br><font color=magenta>Unexpected error.</font><br>\n" );
 				messageBuffer.append( System.getProperty( "line.separator" ) );
 			}
 		}
@@ -866,25 +858,28 @@ public class KoLMessenger implements KoLConstants
 			{
 				String actualMessage = message.trim();
 
-				Matcher nameMatcher = Pattern.compile( "<b>.*?</a>" ).matcher( actualMessage );
-				if ( nameMatcher.find() )
+				if ( message.indexOf( ":" ) != -1 )
 				{
-					String name = nameMatcher.group();
-					name = name.replaceAll( "<.*?>", "" );
+					Matcher nameMatcher = Pattern.compile( "<b>.*?</a>" ).matcher( actualMessage );
+					if ( nameMatcher.find() )
+					{
+						String name = nameMatcher.group();
+						name = name.replaceAll( "<.*?>", "" );
 
-					if ( name.indexOf( " (" ) != -1 )
-						name = name.substring( 0, name.indexOf( " (" ) );
+						if ( name.indexOf( " (" ) != -1 )
+							name = name.substring( 0, name.indexOf( " (" ) );
 
-					int playerID = Integer.parseInt( getPlayerID( name ) );
+						int playerID = Integer.parseInt( getPlayerID( name ) );
 
-					// In order to make the stylesheet work as intended,
-					// the user's player ID is defined with class pid0.
+						// In order to make the stylesheet work as intended,
+						// the user's player ID is defined with class pid0.
 
-					if ( playerID == client.getUserID() )
-						playerID = 0;
+						if ( playerID == client.getUserID() )
+							playerID = 0;
 
-					actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
-						"<b class=\"pid" + playerID + "\"><a href=\"" + name + "\">" );
+						actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
+							"<b class=\"pid" + playerID + "\"><a href=\"" + name + "\">" );
+					}
 				}
 
 				// Now to replace doubled instances of <font> to 1, and ensure that
@@ -914,15 +909,7 @@ public class KoLMessenger implements KoLConstants
 			ChatBuffer messageBuffer = getChatBuffer( currentChannel );
 			if ( messageBuffer != null )
 			{
-				messageBuffer.append( "<br><br><font color=magenta>" );
-				messageBuffer.append( "KoLmafia's chat engine encountered an unexpected error.  " );
-				messageBuffer.append( "Please log the chat associated with this error, " );
-				messageBuffer.append( "find this line in the resulting HTML file, " );
-				messageBuffer.append( "and send the data enclosed in &lt;!-- --> tags to shwei@users.sourceforge.net.  " );
-				messageBuffer.append( "Thank you for your assistance!</font><br>\n" );
-				messageBuffer.append( "<!-- " );
-				messageBuffer.append( message );
-				messageBuffer.append( "--><br><br>" );
+				messageBuffer.append( "<br><br><font color=magenta>Unexpected error.</font><br>\n" );
 				messageBuffer.append( System.getProperty( "line.separator" ) );
 			}
 		}
