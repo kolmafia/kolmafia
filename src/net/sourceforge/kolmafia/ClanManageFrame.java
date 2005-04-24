@@ -91,6 +91,7 @@ public class ClanManageFrame extends KoLFrame
 	private JTabbedPane tabs;
 	private ClanBuffPanel clanBuff;
 	private StoragePanel storing;
+	private DonationPanel donation;
 
 	public ClanManageFrame( KoLmafia client )
 	{
@@ -98,11 +99,21 @@ public class ClanManageFrame extends KoLFrame
 
 		this.storing = new StoragePanel();
 		this.clanBuff = new ClanBuffPanel();
+		this.donation = new DonationPanel();
 
 		this.tabs = new JTabbedPane();
 		tabs.addTab( "Deposit Items", storing );
-		tabs.addTab( "Clan Kitchen", new JLabel( "Not yet implemented.", JLabel.CENTER ) );
-		tabs.addTab( "Clan Purchases", clanBuff );
+
+		JPanel meatSinkPanel = new JPanel();
+		meatSinkPanel.setLayout( new BoxLayout( meatSinkPanel, BoxLayout.Y_AXIS ) );
+		meatSinkPanel.add( donation );
+		meatSinkPanel.add( clanBuff );
+
+		JScrollPane meatSinkScroller = new JScrollPane( meatSinkPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+			JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+
+		JComponentUtilities.setComponentSize( meatSinkScroller, 500, 300 );
+		tabs.addTab( "Meat Sinking", meatSinkScroller );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -131,7 +142,7 @@ public class ClanManageFrame extends KoLFrame
 
 		public ClanBuffPanel()
 		{
-			super( "Training Buffs", "purchase", "halt", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Hire Trainers for the Clan", "purchase", "take break", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 			this.isBuffing = false;
 
 			buffField = new JComboBox( ClanBuffRequest.getRequestList( client ) );
@@ -195,6 +206,78 @@ public class ClanManageFrame extends KoLFrame
 
 					client.makeRequest( buff, buffCount );
 					isBuffing = false;
+				}
+				catch ( Exception e )
+				{
+					// If the number placed inside of the count list was not
+					// an actual integer value, pretend nothing happened.
+					// Using exceptions for flow control is bad style, but
+					// this will be fixed once we add functionality.
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for donations to
+	 * the statues in the shrine.
+	 */
+
+	private class DonationPanel extends LabeledKoLPanel
+	{
+		private JTextField amountField;
+
+		public DonationPanel()
+		{
+			super( "Filling the Coffer", "donate meat", "loot clan", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			amountField = new JTextField();
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Amount: ", amountField );
+			setContent( elements, true, true );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			amountField.setEnabled( isEnabled );
+		}
+
+		protected void actionConfirmed()
+		{
+			contentPanel = donation;
+			(new DonationThread()).start();
+		}
+
+		protected void actionCancelled()
+		{
+			contentPanel = donation;
+			updateDisplay( ERROR_STATE, "The Hermit beat you to it.  ARGH!" );
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually donate to the statues.
+		 */
+
+		private class DonationThread extends Thread
+		{
+			public DonationThread()
+			{
+				super( "Donation-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				try
+				{
+					if ( amountField.getText().trim().length() == 0 )
+						return;
+
+					client.makeRequest( new ClanStashRequest( client, df.parse( amountField.getText() ).intValue() ), 1 );
 				}
 				catch ( Exception e )
 				{
