@@ -119,6 +119,10 @@ public class AdventureResult implements Comparable, KoLConstants
 	public AdventureResult( String name, int count )
 	{
 		this( name, new int[1] );
+
+		if ( isStatusEffect() )
+			name = StatusEffectDatabase.getEffectName( StatusEffectDatabase.getEffectID( name ) );
+
 		this.count[0] = count;
 		this.itemID = TradeableItemDatabase.getItemID( name );
 	}
