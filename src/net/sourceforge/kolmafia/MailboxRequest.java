@@ -160,7 +160,6 @@ public class MailboxRequest extends KoLRequest
 			).replaceAll( "</?t.*?>" , "" ).replaceAll( "<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" ).replaceAll(
 				"\n", "" ).replaceAll( "<center>", "<br><center>" );
 
-		currentMessage = currentMessage.substring( 0, currentMessage.length() - 34 );
 		shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
 
 		// Determine how many messages there are, and how many there are left
