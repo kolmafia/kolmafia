@@ -232,6 +232,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				displayed = ((KoLMailMessage)mailbox.getMessages( mailboxName ).get( newIndex ));
 				mailBuffer.clearBuffer();
 				mailBuffer.append( displayed.getMessageHTML() );
+				messageContent.setCaretPosition( 0 );
 			}
 			else
 				mailBuffer.clearBuffer();
