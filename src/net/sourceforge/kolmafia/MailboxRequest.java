@@ -44,6 +44,10 @@ public class MailboxRequest extends KoLRequest
 	private int startingIndex;
 	private String action;
 
+	public static boolean isRequesting()
+	{	return isRequesting;
+	}
+
 	public MailboxRequest( KoLmafia client, String boxname )
 	{	this( client, boxname, 0 );
 	}
@@ -94,13 +98,15 @@ public class MailboxRequest extends KoLRequest
 		if ( isRequesting )
 			return;
 
-		isRequesting = true;
+		// Now you know that there is a request in progress, so you
+		// reset the variable (to avoid concurrent requests).
 
 		if ( action == null )
 			updateDisplay( DISABLED_STATE, "Retrieving mail from " + boxname + "..." );
 		else
 			updateDisplay( DISABLED_STATE, "Executing " + action + " request for " + boxname + "..." );
 
+		isRequesting = true;
 		super.run();
 
 		if ( action != null )
@@ -121,28 +127,25 @@ public class MailboxRequest extends KoLRequest
 
 		if ( lastMessageIndex == -1 )
 		{
-			isRequesting = false;
 			updateDisplay( ENABLED_STATE, "Your mailbox is empty." );
+			isRequesting = false;
 			return;
 		}
 
-		String currentMessage, currentPlainTextMessage;
+		String currentMessage;
 
-		Matcher messageMatcher = Pattern.compile( "<td valign=top>.*?<td valign=top>" ).matcher( replyContent );
+		Matcher messageMatcher = Pattern.compile( "<td valign=top>(.*?)<td valign=top>" ).matcher( replyContent );
 		while ( shouldContinueParsing && messageMatcher.find( lastMessageIndex ) )
 		{
 			lastMessageIndex = messageMatcher.end() - 15;
-			currentMessage = messageMatcher.group();
+			currentMessage = messageMatcher.group(1);
 
 			// This replaces all of the HTML contained within the message to something
 			// that can be rendered with the default JEditorPane, and also be subject
 			// to the custom font sizes provided by LimitedSizeChatBuffer.
 
-			currentMessage = currentMessage.replaceAll( "<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll(
-				"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
-
-			currentMessage = "<html><head><title>Message " + startingIndex + "</title></head><body>" +
-				currentMessage + "</body></html>";
+			currentMessage = currentMessage.replaceAll( "<br />" , "<br>" ).replaceAll( "</?t.*?>" , "\n" ).replaceAll(
+				"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "<center>", "<br><center>" );
 
 			// At this point, the message is registered with the mail manager, which
 			// records the message and updates whether or not you should continue.
@@ -153,12 +156,11 @@ public class MailboxRequest extends KoLRequest
 		// Handle the last message in the mailbox, because this one doesn't
 		// have an additional <td valign=top> after it
 
-		currentMessage = replyContent.substring( lastMessageIndex, replyContent.lastIndexOf( "<b>" ) ).replaceAll(
-			"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "" ).replaceAll( "<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" );
+		currentMessage = replyContent.substring( lastMessageIndex, replyContent.lastIndexOf( "<a href" ) ).replaceAll( "<br />" , "<br>"
+			).replaceAll( "</?t.*?>" , "" ).replaceAll( "<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" ).replaceAll(
+				"\n", "" ).replaceAll( "<center>", "<br><center>" );
 
-		if ( currentMessage.endsWith( "<a href=\"javascript:toggleall();\">" ) )
-			currentMessage = currentMessage.substring( 0, currentMessage.length() - 34 );
-
+		currentMessage = currentMessage.substring( 0, currentMessage.length() - 34 );
 		shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
 
 		// Determine how many messages there are, and how many there are left
@@ -166,11 +168,12 @@ public class MailboxRequest extends KoLRequest
 		// of messages.  But!  This can be fixed by testing the mail manager
 		// to see if it thinks all the new messages have been retrieved.
 
+		isRequesting = false;
 		if ( shouldContinueParsing )
 		{
 			try
 			{
-				Matcher messageCountMatcher = Pattern.compile( "[\\d]+" ).matcher(
+				Matcher messageCountMatcher = Pattern.compile( "\\d+" ).matcher(
 					replyContent.substring( replyContent.indexOf( " - " ) + 3, replyContent.indexOf( "</b>" ) ) );
 
 				messageCountMatcher.find();
@@ -181,6 +184,8 @@ public class MailboxRequest extends KoLRequest
 
 				if ( lastMessageID != totalMessages )
 					(new MailboxRequest( client, boxname, lastMessageID )).run();
+				else
+					updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
 			}
 			catch ( Exception e )
 			{
@@ -188,8 +193,7 @@ public class MailboxRequest extends KoLRequest
 				// the page has somehow changed (HTML-wise)
 			}
 		}
-
-		updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
-		isRequesting = false;
+		else
+			updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
 	}
 }
