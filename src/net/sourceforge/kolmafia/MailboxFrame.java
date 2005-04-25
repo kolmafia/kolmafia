@@ -127,6 +127,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	public void setEnabled( boolean isEnabled )
 	{
+		refreshMailManager();
 		for ( int i = 0; i < tabbedListDisplay.getTabCount(); ++i )
 			tabbedListDisplay.setEnabledAt( i, isEnabled );
 	}
@@ -139,6 +140,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	public void stateChanged( ChangeEvent e )
 	{
+		refreshMailManager();
 		mailBuffer.clearBuffer();
 		String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
 		boolean requestMailbox;
@@ -166,8 +168,17 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			(new RequestMailboxThread( currentTabName )).start();
 	}
 
+	private void refreshMailManager()
+	{
+		mailbox = client.getMailManager();
+		messageListInbox.setModel( mailbox.getMessages( "Inbox" ).getMirrorImage() );
+		messageListOutbox.setModel( mailbox.getMessages( "Outbox" ).getMirrorImage() );
+		messageListSaved.setModel( mailbox.getMessages( "Saved" ).getMirrorImage() );
+	}
+
 	public void refreshMailbox()
 	{
+		refreshMailManager();
 		if ( messageListInbox.isInitialized() )
 			(new RequestMailboxThread( "Inbox" )).run();
 
@@ -188,6 +199,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public void run()
 		{
+			refreshMailManager();
 			mailBuffer.append( "Retrieving messages from server..." );
 
 			if ( client != null )
