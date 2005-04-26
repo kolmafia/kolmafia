@@ -178,7 +178,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	public void refreshMailbox()
 	{
-		refreshMailManager();
 		if ( messageListInbox.isInitialized() )
 			(new RequestMailboxThread( "Inbox" )).run();
 
