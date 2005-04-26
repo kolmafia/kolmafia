@@ -86,6 +86,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private static final String NONBUFFCOLOR = "<font color=blue>";
 	private static final String ERRORCOLOR = "<font color=red>";
 	private static final String ENDCOLOR = "</font>";
+	private static final String MEAT_REGEX = "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat";
 
 	/**
 	 * Constructor for the <code>BuffBotManager</code> class.
@@ -278,6 +279,31 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		buffbotLog.append( NONBUFFCOLOR + "Sent refund to [" + recipient + "], " + refund.toString() + ENDCOLOR + "<br>");
 	}
 
+	/**
+	 * Checks to see if there's an attached donation  by seeing if there's
+	 * an image tag, with width of 30.  Valentine images have width of 100
+	 * so we don't mark those as a false positive.
+	 *
+	 * @return	<code>true</code> if there is a donation
+	 */
+
+	private static boolean containsDonation( KoLMailMessage message )
+	{
+	    Matcher donationMatcher = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/.*width=30>").matcher(
+			message.getMessageHTML().replaceAll( MEAT_REGEX, "") );
+	    return donationMatcher.find();
+	}
+
+	private void sendThankYou( String recipient, String messageHTML )
+	{
+		String reason = "Thank you very much for your generosity! Your donation is greatly appreciated. " +
+			"If this was not intended as a donation, please contact the maintainer of this buffbot.\n\n" +
+			"&gt;  " + messageHTML;
+
+		(new GreenMessageRequest( client, recipient, reason, new AdventureResult( AdventureResult.MEAT, 0 ) )).run();
+		buffbotLog.append( NONBUFFCOLOR + "Sent thank you to [" + recipient + "] " + ENDCOLOR + "<br>");
+	}
+
 	private boolean processMessage( KoLMailMessage message )
 	{	return itemBasedBuffing ? findTinyHouse( message ) : findMeat( message );
 	}
@@ -289,9 +315,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		try
 		{
-			Matcher meatMatcher = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" ).matcher( message.getMessageHTML() );
+			Matcher meatMatcher = Pattern.compile( MEAT_REGEX ).matcher( message.getMessageHTML() );
 			if ( meatMatcher.find() )
 			{
+				if ( BuffBotManager.containsDonation( message ) )
+					sendThankYou( message.getSenderName(), message.getMessageHTML() );
+
 				meatSent = df.parse( meatMatcher.group(1) ).intValue();
 
 				// Look for this amount in the buff table
