@@ -43,7 +43,7 @@ public class FamiliarRequest extends KoLRequest
 
 	public FamiliarRequest( KoLmafia client )
 	{
-		super( client, "familiar.php", false );
+		super( client, "familiar.php" );
 		this.isChangingFamiliar = false;
 		this.characterData = client.getCharacterData();
 	}

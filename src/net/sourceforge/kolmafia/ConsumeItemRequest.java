@@ -58,8 +58,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
 	{
 		super( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
-			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" :
-				"inv_use.php", false );
+			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" : "inv_use.php" );
 
 		if ( consumptionType == CONSUME_MULTIPLE )
 		{
@@ -140,7 +139,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private class RetrieveResultRequest extends KoLRequest
 	{
 		public RetrieveResultRequest( KoLmafia client, String redirectLocation )
-		{	super( client, redirectLocation, false );
+		{	super( client, redirectLocation );
 		}
 
 		public void run()

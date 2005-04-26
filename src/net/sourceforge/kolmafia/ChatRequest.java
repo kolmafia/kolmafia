@@ -122,7 +122,7 @@ public class ChatRequest extends KoLRequest
 
 	private ChatRequest( KoLmafia client, int lastSeen )
 	{
-		super( client, "newchatmessages.php", false );
+		super( client, "newchatmessages.php" );
 		addFormField( "lasttime", "" + lastSeen );
 
 		this.lastSeen = lastSeen;

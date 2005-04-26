@@ -88,7 +88,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	private StringBuffer formURLBuffer;
 	private String sessionID;
 	private List data;
-	private boolean doOutput;
 
 	protected KoLmafia client;
 	protected PrintStream logStream;
@@ -188,8 +187,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			// server, rather than allowing users to specify the root;
 			// usually, this works out to the benefit of everyone.
 
-			(new KoLRequest( null, "", false )).run();
-			KoLRequest root = new KoLRequest( null, "login.php", false );
+			(new KoLRequest( null, "" )).run();
+			KoLRequest root = new KoLRequest( null, "login.php" );
 			root.run();
 
 			// Actually, the autobalancing uses a redirect.  Oops.  So,
@@ -250,20 +249,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected KoLRequest( KoLmafia client, String formURLString )
-	{	this( client, formURLString, true );
-	}
-
-	/**
-	 * Constructs a new KoLRequest.  The class is not declared abstract so that
-	 * the static routine can run without problems, but for all intents and purposes,
-	 * a generic KoLRequest will not be supported.
-	 *
-	 * @param	client	The client associated with this <code>KoLRequest</code>
-	 * @param	formURLString	The form to be used in posting data
-	 * @param	doOutput	Whether or not this will post data
-	 */
-
-	protected KoLRequest( KoLmafia client, String formURLString, boolean doOutput )
 	{
 		this.formURLString = formURLString;
 		this.formURLBuffer = new StringBuffer( formURLString );
@@ -277,7 +262,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			this.logStream = new NullStream();
 
 		data = new ArrayList();
-		this.doOutput = doOutput;
 		this.isErrorState = true;
 	}
 
@@ -379,22 +363,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean prepareConnection()
 	{
-		// Here, if you weren't doing output, translate the form data
-		// into a GET request.
-
-		if ( !doOutput && !data.isEmpty() )
-		{
-			formURLBuffer.append( '?' );
-			Iterator iterator = data.iterator();
-			formURLBuffer.append( iterator.next().toString() );
-
-			while ( iterator.hasNext() )
-			{
-				formURLBuffer.append( '&' );
-				formURLBuffer.append( iterator.next().toString() );
-			}
-		}
-
 		// With that taken care of, determine the actual URL that you
 		// are about to request.
 
@@ -426,7 +394,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		logStream.println( "Connection established." );
 
 		formConnection.setDoInput( true );
-		formConnection.setDoOutput( !data.isEmpty() && doOutput );
+		formConnection.setDoOutput( !data.isEmpty() );
 		formConnection.setUseCaches( false );
 		formConnection.setInstanceFollowRedirects( false );
 
@@ -454,7 +422,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// data to post - otherwise, opening an input stream
 		// should be enough
 
-		if ( data.isEmpty() || !doOutput )
+		if ( data.isEmpty() )
 			return true;
 
 		StringBuffer dataBuffer = new StringBuffer();
@@ -462,10 +430,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		try
 		{
-			BufferedWriter ostream =
-				new BufferedWriter( new OutputStreamWriter(
-					formConnection.getOutputStream() ) );
-
 			Iterator iterator = data.iterator();
 
 			if ( iterator.hasNext() )
@@ -485,6 +449,13 @@ public class KoLRequest implements Runnable, KoLConstants
 					logStream.println( dataBuffer.toString().replaceAll(
 						client.getPasswordHash(), "" ) );
 			}
+
+			formConnection.setRequestMethod( "POST" );
+			formConnection.setFixedLengthStreamingMode( dataBuffer.length() );
+
+			BufferedWriter ostream =
+				new BufferedWriter( new OutputStreamWriter(
+					formConnection.getOutputStream() ) );
 
 			ostream.write( dataBuffer.toString() );
 			ostream.flush();
