@@ -494,22 +494,14 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			{
 				if ( itemName.equals( mpRestoreItemList.BEANBAG.toString() ) )
 				{
-					while ( characterData.getAdventuresLeft() > 0 )
-					{
-						mpRestoreItemList.BEANBAG.recoverMP(mpNeeded);
-						if ( characterData.getCurrentMP() >= mpNeeded )
-							return true;
-					}
+					mpRestoreItemList.BEANBAG.recoverMP(mpNeeded);
+					return true;
 				}
 				else
 				{
 					AdventureResult item = new AdventureResult( itemName, 0 );
-					while ( inventory.contains( item ) && client.permitsContinue())
-					{
-						((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP(mpNeeded);
-						if ( characterData.getCurrentMP() >= mpNeeded )
-							return true;
-					}
+					((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP( mpNeeded );
+					return true;
 				}
 			}
 		}
@@ -578,8 +570,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			// the number of casts per request that this character can handle.
 
 			int totalCasts = castCount;
-
-			double maximumMP = characterData.getMaximumMP();
 			double mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
 
 			double currentMP;
@@ -593,9 +583,9 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					+ target + " for " + (-price) + " tiny houses... "+ ENDCOLOR + "<br>");
 			while ( totalCasts > 0 )
 			{
-				currentCast = Math.min(totalCasts, (int) (maximumMP/mpPerCast) );
-				mpPerEvent = (int) (mpPerCast * currentCast);
 				currentMP = (double) characterData.getCurrentMP();
+				currentCast = Math.min( totalCasts, (int) (currentMP / mpPerCast) );
+				mpPerEvent = (int) (mpPerCast * currentCast);
 				if ( !recoverMP( mpPerEvent ) )
 					return false;
 
@@ -693,11 +683,10 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				//        go as easy on the server as possible
 				// But, don't go too far over (thus wasting restorers)
 				int mpShort = Math.max(maximumMP + 5 - mpPerUse, mpNeeded) - currentMP;
-				int numberToUse = 1 + ((mpShort - 1) / mpPerUse);
 				int itemIndex = client.getInventory().indexOf( itemUsed );
 				if  ( itemIndex > -1 )
 				{
-					numberToUse = Math.min(numberToUse, ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
+					int numberToUse = Math.min(1 + ((mpShort - 1) / mpPerUse), ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
 					if (numberToUse > 0)
 					{
 						buffbotLog.append("Consuming " + numberToUse + " " + itemName + "s.<br>");
