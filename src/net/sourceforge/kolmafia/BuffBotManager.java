@@ -699,6 +699,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			{
 				if ( this == BEANBAG )
 				{
+					buffbotLog.append("Relaxing in my beanbag chair." + "<br>");
 					(new CampgroundRequest( client, "relax" )).run();
 					return;
 				}
