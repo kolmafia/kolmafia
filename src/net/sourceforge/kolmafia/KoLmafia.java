@@ -731,7 +731,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
 			else
 			{
-				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campground" ) == -1 && characterData.getInebriety() > 19 )
+				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campsite" ) == -1 && characterData.getInebriety() > 19 )
 				{
 					permitContinue = confirmDrunkenRequest();
 					pulledOver = true;
