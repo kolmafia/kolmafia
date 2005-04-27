@@ -74,7 +74,10 @@ public class CampgroundRequest extends KoLRequest
 	public void run()
 	{
 		if ( action.equals( "relax" ) && client.getCharacterData().getCurrentMP() == client.getCharacterData().getMaximumMP() )
+		{
+			isErrorState = true;
 			return;
+		}
 
 		super.run();
 
@@ -136,6 +139,6 @@ public class CampgroundRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return action.equals( "rest" ) || action.equals( "relax" ) ? 1 : 0;
+	{	return isErrorState || (!action.equals( "rest" ) && !action.equals( "relax" )) ? 0 : 1;
 	}
 }
