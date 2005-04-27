@@ -491,24 +491,44 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private boolean recoverMP( int mpNeeded )
 	{
+		boolean keepTrying;
+		int previousMP;
+		
 		if ( characterData.getCurrentMP() >= mpNeeded )
 			return true;
 
 		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
 		{
 			String itemName = mpRestoreItemList.get(i).toString();
+
 			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
 			{
 				if ( itemName.equals( mpRestoreItemList.BEANBAG.toString() ) )
 				{
-					mpRestoreItemList.BEANBAG.recoverMP(mpNeeded);
-					return true;
+ 					keepTrying = (characterData.getAdventuresLeft() > 0);
+					while ( keepTrying )
+					{
+						previousMP = characterData.getCurrentMP();
+ 						mpRestoreItemList.BEANBAG.recoverMP(mpNeeded);
+ 						if ( characterData.getCurrentMP() >= mpNeeded )
+ 							return true;
+						keepTrying = (characterData.getAdventuresLeft() > 0) &
+								( characterData.getCurrentMP() > previousMP );
+ 					}
 				}
 				else
 				{
 					AdventureResult item = new AdventureResult( itemName, 0 );
-					((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP( mpNeeded );
-					return true;
+					keepTrying = ( inventory.contains( item ) );
+ 					while ( keepTrying )
+ 					{
+ 						previousMP = characterData.getCurrentMP();
+ 						((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP(mpNeeded);
+ 						if ( characterData.getCurrentMP() >= mpNeeded )
+ 							return true;
+						keepTrying = inventory.contains( item ) & 
+								( characterData.getCurrentMP() > previousMP );
+ 					}
 				}
 			}
 		}
@@ -578,6 +598,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 			int totalCasts = castCount;
 			double mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
+			double maximumMP = characterData.getMaximumMP();
 
 			double currentMP;
 			int currentCast, mpPerEvent;
@@ -591,7 +612,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			while ( totalCasts > 0 )
 			{
 				currentMP = (double) characterData.getCurrentMP();
-				currentCast = Math.min( totalCasts, (int) (currentMP / mpPerCast) );
+				currentCast = Math.min( totalCasts, (int) (maximumMP / mpPerCast) );
 				mpPerEvent = (int) (mpPerCast * currentCast);
 				if ( !recoverMP( mpPerEvent ) )
 					return false;
