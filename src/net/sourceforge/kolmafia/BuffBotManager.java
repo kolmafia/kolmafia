@@ -296,18 +296,16 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private static boolean containsDonation( KoLMailMessage message )
 	{
-	    Matcher donationMatcher = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/.*width=30").matcher(
-			message.getMessageHTML().replaceAll( MEAT_REGEX, "") );
-	    return donationMatcher.find();
+	    return message.getMessageHTML().replaceAll( MEAT_REGEX, "" ).indexOf( "width=30" ) != -1;
 	}
 
 	private void sendThankYou( String recipient, String messageHTML )
 	{
 		String reason = "Thank you very much for your generosity! Your donation is greatly appreciated. " +
 			"If this was not intended as a donation, please contact the maintainer of this buffbot.\n\n" +
-			"&gt;  " + messageHTML;
+			"&gt;  " + messageHTML.replaceAll( "<.*?>", " " ).replaceAll( "[ ]+", " " );
 
-		(new GreenMessageRequest( client, recipient, reason, new AdventureResult( AdventureResult.MEAT, 0 ) )).run();
+		(new GreenMessageRequest( client, recipient, reason, new Object[0] )).run();
 		buffbotLog.append( NONBUFFCOLOR + "Sent thank you to [" + recipient + "] " + ENDCOLOR + "<br>");
 	}
 
@@ -320,14 +318,14 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		int meatSent = 0;
 		BuffBotCaster buff;
 
+		if ( containsDonation( message ) )
+			sendThankYou( message.getSenderName(), message.getMessageHTML() );
+
 		try
 		{
 			Matcher meatMatcher = Pattern.compile( MEAT_REGEX ).matcher( message.getMessageHTML() );
 			if ( meatMatcher.find() )
 			{
-				if ( containsDonation( message ) )
-					sendThankYou( message.getSenderName(), message.getMessageHTML() );
-
 				meatSent = df.parse( meatMatcher.group(1) ).intValue();
 
 				// Look for this amount in the buff table
@@ -378,12 +376,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					deleteList.add( message );
 					return true;
 				}
-			}
-			else
-			{
-				if ( containsDonation( message ) )
-					sendThankYou( message.getSenderName(), message.getMessageHTML() );
-
 			}
 		}
 		catch( Exception e )
