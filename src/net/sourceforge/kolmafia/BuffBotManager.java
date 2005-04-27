@@ -296,7 +296,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private static boolean containsDonation( KoLMailMessage message )
 	{
-	    Matcher donationMatcher = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/.*width=30>").matcher(
+	    Matcher donationMatcher = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/.*width=30").matcher(
 			message.getMessageHTML().replaceAll( MEAT_REGEX, "") );
 	    return donationMatcher.find();
 	}
@@ -325,7 +325,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			Matcher meatMatcher = Pattern.compile( MEAT_REGEX ).matcher( message.getMessageHTML() );
 			if ( meatMatcher.find() )
 			{
-				if ( BuffBotManager.containsDonation( message ) )
+				if ( containsDonation( message ) )
 					sendThankYou( message.getSenderName(), message.getMessageHTML() );
 
 				meatSent = df.parse( meatMatcher.group(1) ).intValue();
@@ -378,6 +378,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					deleteList.add( message );
 					return true;
 				}
+			}
+			else
+			{
+				if ( containsDonation( message ) )
+					sendThankYou( message.getSenderName(), message.getMessageHTML() );
+
 			}
 		}
 		catch( Exception e )
