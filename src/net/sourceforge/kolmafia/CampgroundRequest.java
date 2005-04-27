@@ -107,6 +107,8 @@ public class CampgroundRequest extends KoLRequest
 				updateDisplay( ERROR_STATE, "Could not rest." );
 				client.cancelRequest();
 			}
+			else
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );			
 		}
 		else if ( action.equals( "relax" ) )
 		{
@@ -116,6 +118,8 @@ public class CampgroundRequest extends KoLRequest
 				updateDisplay( ERROR_STATE, "Could not relax." );
 				client.cancelRequest();
 			}
+			else
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );			
 		}
 
 		// Make sure that the character received something if
