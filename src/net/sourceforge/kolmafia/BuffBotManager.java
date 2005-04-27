@@ -126,21 +126,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		if ( oldCast != null )
 			buffCostTable.remove( oldCast );
 
-		StringBuffer sellerSetting = new StringBuffer();
-		BuffBotManager.BuffBotCaster currentCast;
-
-		if ( buffCostTable.size() > 0 )
-			sellerSetting.append( ((BuffBotManager.BuffBotCaster) buffCostTable.get(0)).toSettingString() );
-
-		for ( int i = 1; i < buffCostTable.size(); ++i )
-		{
-			sellerSetting.append( ';' );
-			sellerSetting.append( ((BuffBotManager.BuffBotCaster) buffCostTable.get(i)).toSettingString() );
-		}
-
-		settings.setProperty( "buffBotCasting", sellerSetting.toString() );
-		if ( settings instanceof KoLSettings )
-			((KoLSettings)settings).saveSettings();
+		saveBuffs();
 	}
 
 	/**
@@ -157,6 +143,27 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			buffCostTable.remove( toRemove );
 			buffCostMap.remove( new Integer( toRemove.getPrice() ) );
 		}
+
+		saveBuffs();
+	}
+
+	private void saveBuffs()
+	{
+		StringBuffer sellerSetting = new StringBuffer();
+		BuffBotManager.BuffBotCaster currentCast;
+
+		if ( buffCostTable.size() > 0 )
+			sellerSetting.append( ((BuffBotManager.BuffBotCaster) buffCostTable.get(0)).toSettingString() );
+
+		for ( int i = 1; i < buffCostTable.size(); ++i )
+		{
+			sellerSetting.append( ';' );
+			sellerSetting.append( ((BuffBotManager.BuffBotCaster) buffCostTable.get(i)).toSettingString() );
+		}
+
+		settings.setProperty( "buffBotCasting", sellerSetting.toString() );
+		if ( settings instanceof KoLSettings )
+			((KoLSettings)settings).saveSettings();
 	}
 
 	/**
