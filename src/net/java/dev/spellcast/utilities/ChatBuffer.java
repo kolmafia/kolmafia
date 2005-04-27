@@ -236,7 +236,7 @@ public class ChatBuffer
 			}
 		}
 
-		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && !newContents.equals( null ) )
+		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
 			updateLogFile( newContents );
 
 		if ( changeType == LOGFILE_CHANGE && activeLogWriter != null )
