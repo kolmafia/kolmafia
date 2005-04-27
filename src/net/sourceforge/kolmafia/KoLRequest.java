@@ -586,7 +586,7 @@ public class KoLRequest implements Runnable, KoLConstants
 						// how they work right now (which line the MySQL error is
 						// printed to), but for now, assume that it's the first line.
 
-						if ( line.indexOf( "()" ) != -1 )
+						if ( line.startsWith( "<br" ) )
 						{
 							logStream.println( "MySQL error.  Repeating request..." );
 							this.execute();  return;
