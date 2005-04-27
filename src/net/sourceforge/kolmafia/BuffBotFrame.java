@@ -609,10 +609,14 @@ public class BuffBotFrame extends KoLFrame
 	{
 		public InvalidBuffPanel()
 		{	super( "Invalid Buff Price Message", "Save", "Default", new JTextArea() );
+			actionCancelled(); // Load the default settings
 		}
 
 		public void actionConfirmed()
 		{	client.getSettings().setProperty( "invalidBuffMessage", ((JTextArea) getScrollComponent()).getText() );
+			client.getSettings().saveSettings();
+
+			JOptionPane.showMessageDialog( null, "Settings have been saved!" );
 		}
 
 		public void actionCancelled()
