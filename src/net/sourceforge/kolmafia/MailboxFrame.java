@@ -170,10 +170,13 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	private void refreshMailManager()
 	{
-		mailbox = client.getMailManager();
-		messageListInbox.setModel( mailbox.getMessages( "Inbox" ).getMirrorImage() );
-		messageListOutbox.setModel( mailbox.getMessages( "Outbox" ).getMirrorImage() );
-		messageListSaved.setModel( mailbox.getMessages( "Saved" ).getMirrorImage() );
+		if ( mailbox != client.getMailManager() )
+		{
+			mailbox = client.getMailManager();
+			messageListInbox.setModel( mailbox.getMessages( "Inbox" ).getMirrorImage() );
+			messageListOutbox.setModel( mailbox.getMessages( "Outbox" ).getMirrorImage() );
+			messageListSaved.setModel( mailbox.getMessages( "Saved" ).getMirrorImage() );
+		}
 	}
 
 	public void refreshMailbox()
