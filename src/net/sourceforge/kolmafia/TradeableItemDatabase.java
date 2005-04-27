@@ -60,7 +60,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 public class TradeableItemDatabase
 {
 	private static final String ITEM_DBASE_FILE = "tradeitems.dat";
-	public static final int ITEM_COUNT = 1200;
+	public static final int ITEM_COUNT = 1300;
 
 	private static String [] itemByID = new String[ ITEM_COUNT ];
 	private static int [] consumptionID = new int[ ITEM_COUNT ];
