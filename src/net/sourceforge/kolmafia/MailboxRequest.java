@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 public class MailboxRequest extends KoLRequest
 {
 	private static boolean isRequesting = false;
+	private static long lastRequest = System.currentTimeMillis();
 
 	private String boxname;
 	private int startingIndex;
@@ -46,6 +47,10 @@ public class MailboxRequest extends KoLRequest
 
 	public static boolean isRequesting()
 	{	return isRequesting;
+	}
+
+	public static long getLastRequest()
+	{	return lastRequest;
 	}
 
 	public MailboxRequest( KoLmafia client, String boxname )
@@ -102,16 +107,18 @@ public class MailboxRequest extends KoLRequest
 		// reset the variable (to avoid concurrent requests).
 
 		if ( action == null )
-			updateDisplay( DISABLED_STATE, "Retrieving mail from " + boxname + "..." );
+			updateDisplay( NOCHANGE, "Retrieving mail from " + boxname + "..." );
 		else
-			updateDisplay( DISABLED_STATE, "Executing " + action + " request for " + boxname + "..." );
+			updateDisplay( NOCHANGE, "Executing " + action + " request for " + boxname + "..." );
 
+		lastRequest = System.currentTimeMillis();
 		isRequesting = true;
+
 		super.run();
 
 		if ( action != null )
 		{
-			updateDisplay( ENABLED_STATE, "Selected mail successfully " + action + "d" );
+			updateDisplay( NOCHANGE, "Selected mail successfully " + action + "d" );
 			isRequesting = false;
 			return;
 		}
@@ -120,6 +127,7 @@ public class MailboxRequest extends KoLRequest
 		KoLMailManager currentMailManager = client.getMailManager();
 
 		int lastMessageIndex = replyContent.indexOf( "<td valign=top>" );
+		int nextMessageIndex = lastMessageIndex;
 
 		// Test to see if there weren't any messages; if there
 		// weren't any messages, there are no messages to parse,
@@ -127,18 +135,28 @@ public class MailboxRequest extends KoLRequest
 
 		if ( lastMessageIndex == -1 )
 		{
-			updateDisplay( ENABLED_STATE, "Your mailbox is empty." );
+			updateDisplay( NOCHANGE, "Your mailbox is empty." );
 			isRequesting = false;
 			return;
 		}
 
 		String currentMessage;
-
-		Matcher messageMatcher = Pattern.compile( "<td valign=top>(.*?)<td valign=top>" ).matcher( replyContent );
-		while ( shouldContinueParsing && messageMatcher.find( lastMessageIndex ) )
+		while ( shouldContinueParsing )
 		{
-			lastMessageIndex = messageMatcher.end() - 15;
-			currentMessage = messageMatcher.group(1);
+			lastMessageIndex = nextMessageIndex;
+			nextMessageIndex = replyContent.indexOf( "<td valign=top>", lastMessageIndex + 15 );
+
+			// The last message in the inbox has no "next message index".
+			// In this case, locate the last index of the link tag and
+			// use that as the last message index.
+
+			if ( nextMessageIndex == -1 )
+			{
+				nextMessageIndex = replyContent.lastIndexOf( "<a" );
+				shouldContinueParsing = false;
+			}
+
+			currentMessage = replyContent.substring( lastMessageIndex, nextMessageIndex );
 
 			// This replaces all of the HTML contained within the message to something
 			// that can be rendered with the default JEditorPane, and also be subject
@@ -150,17 +168,8 @@ public class MailboxRequest extends KoLRequest
 			// At this point, the message is registered with the mail manager, which
 			// records the message and updates whether or not you should continue.
 
-			shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
+			shouldContinueParsing &= currentMailManager.addMessage( boxname, currentMessage );
 		}
-
-		// Handle the last message in the mailbox, because this one doesn't
-		// have an additional <td valign=top> after it
-
-		currentMessage = replyContent.substring( lastMessageIndex, replyContent.lastIndexOf( "<a href" ) ).replaceAll( "<br />" , "<br>"
-			).replaceAll( "</?t.*?>" , "" ).replaceAll( "<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" ).replaceAll(
-				"\n", "" ).replaceAll( "<center>", "<br><center>" );
-
-		shouldContinueParsing = currentMailManager.addMessage( boxname, currentMessage );
 
 		// Determine how many messages there are, and how many there are left
 		// to go.  This will cause a lot of server load for those with lots
@@ -168,7 +177,7 @@ public class MailboxRequest extends KoLRequest
 		// to see if it thinks all the new messages have been retrieved.
 
 		isRequesting = false;
-		if ( shouldContinueParsing )
+		if ( nextMessageIndex != -1 )
 		{
 			try
 			{
@@ -184,7 +193,7 @@ public class MailboxRequest extends KoLRequest
 				if ( lastMessageID != totalMessages )
 					(new MailboxRequest( client, boxname, lastMessageID )).run();
 				else
-					updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
+					updateDisplay( NOCHANGE, "Mail retrieved from " + boxname );
 			}
 			catch ( Exception e )
 			{
@@ -193,6 +202,6 @@ public class MailboxRequest extends KoLRequest
 			}
 		}
 		else
-			updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
+			updateDisplay( NOCHANGE, "Mail retrieved from " + boxname );
 	}
 }
