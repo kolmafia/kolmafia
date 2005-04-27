@@ -170,7 +170,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	private void refreshMailManager()
 	{
-		if ( mailbox != client.getMailManager() )
+		if ( mailbox != client.getMailManager() || client.isBuffBotActive() )
 		{
 			mailbox = client.getMailManager();
 			messageListInbox.setModel( mailbox.getMessages( "Inbox" ).getMirrorImage() );
