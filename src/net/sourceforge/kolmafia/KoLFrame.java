@@ -130,6 +130,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected static KoLMessenger kolchat;
 	protected static List existingFrames = new ArrayList();
 
+	protected JPanel sidePanel;
+	protected JLabel hpLabel, mpLabel, advLabel;
+	protected JLabel meatLabel, closetLabel, drunkLabel;
+
 	protected JMenuItem statusMenuItem;
 	protected JMenuItem mailMenuItem;
 
@@ -145,6 +149,61 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		this.client = client;
 		this.isEnabled = true;
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+	}
+
+	public void addCompactPane()
+	{
+		JPanel compactPane = new JPanel();
+		compactPane.setOpaque( false );
+		compactPane.setLayout( new GridLayout( 14, 1 ) );
+
+		compactPane.add( Box.createHorizontalStrut( 80 ) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
+		compactPane.add( hpLabel = new JLabel( " ", JLabel.CENTER ) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
+		compactPane.add( mpLabel = new JLabel( " ", JLabel.CENTER ) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
+		compactPane.add( meatLabel = new JLabel( " ", JLabel.CENTER ) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "closet.gif" ), JLabel.CENTER ) );
+		compactPane.add( closetLabel = new JLabel( " ", JLabel.CENTER ) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
+		compactPane.add( advLabel = new JLabel( " ",  JLabel.CENTER) );
+
+		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER ) );
+		compactPane.add( drunkLabel = new JLabel( " ",  JLabel.CENTER) );
+
+		compactPane.add( Box.createHorizontalStrut( 80 ) );
+
+		this.sidePanel = new JPanel();
+		sidePanel.setLayout( new BorderLayout( 0, 0 ) );
+		sidePanel.add( compactPane, BorderLayout.NORTH );
+
+		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
+		getContentPane().add( sidePanel, BorderLayout.WEST );
+
+		(new StatusRefresher()).run();
+
+		if ( client != null )
+			client.getCharacterData().addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
+	}
+
+	protected class StatusRefresher implements Runnable
+	{
+		public void run()
+		{
+			KoLCharacter characterData = client == null ? new KoLCharacter( "UI Test" ) : client.getCharacterData();
+			hpLabel.setText( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() );
+			mpLabel.setText( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() );
+			meatLabel.setText( "" + df.format( characterData.getAvailableMeat() ) );
+			closetLabel.setText( "" + characterData.getClosetMeat() );
+			advLabel.setText( "" + characterData.getAdventuresLeft() );
+			drunkLabel.setText( "" + characterData.getInebriety() );
+		}
 	}
 
 	public void setExtendedState( int state )

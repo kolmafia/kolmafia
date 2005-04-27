@@ -129,8 +129,6 @@ public class AdventureFrame extends KoLFrame
 	private static final Color DISABLED_COLOR = null;
 
 	private JTabbedPane tabs;
-	private JPanel sidePanel;
-	private JLabel hpLabel, mpLabel, advLabel, meatLabel, drunkLabel;
 	private JTextField inClosetField;
 
 	private BuffBotFrame buffbotDisplay;
@@ -184,40 +182,9 @@ public class AdventureFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( otherStuffScroller, 500, 300 );
 		tabs.addTab( "Other Activities", otherStuffScroller );
 
-		JPanel compactPane = new JPanel();
-		compactPane.setOpaque( false );
-		compactPane.setLayout( new GridLayout( 11, 1 ) );
-
-		compactPane.add( Box.createHorizontalStrut( 80 ) );
-
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
-		compactPane.add( hpLabel = new JLabel( " ", JLabel.CENTER ) );
-
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
-		compactPane.add( mpLabel = new JLabel( " ", JLabel.CENTER ) );
-
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
-		compactPane.add( meatLabel = new JLabel( " ", JLabel.CENTER ) );
-
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
-		compactPane.add( advLabel = new JLabel( " ",  JLabel.CENTER) );
-
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER ) );
-		compactPane.add( drunkLabel = new JLabel( " ",  JLabel.CENTER) );
-
-		this.sidePanel = new JPanel();
-		sidePanel.setLayout( new BorderLayout( 0, 0 ) );
-		sidePanel.add( compactPane, BorderLayout.NORTH );
-
-		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
-		getContentPane().add( sidePanel, BorderLayout.WEST );
+		addCompactPane();
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
-
-		(new StatusRefresher()).run();
-
-		if ( client != null )
-			client.getCharacterData().addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
 
 		addWindowListener( new LogoutRequestAdapter() );
 		addMenuBar();
@@ -885,17 +852,9 @@ public class AdventureFrame extends KoLFrame
 			amountField = new JTextField();
 			inClosetField = new JTextField( df.format( client == null ? 0 : client.getCharacterData().getClosetMeat() ) );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Transaction: ", amountField );
-			elements[1] = new VerifiableElement( "Inside Closet: ", inClosetField );
-
 			setContent( elements, true, true );
-		}
-
-		protected void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements );
-			inClosetField.setEnabled( false );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -1189,20 +1148,6 @@ public class AdventureFrame extends KoLFrame
 				existingFrames.clear();
 				(new LogoutRequest( client )).run();
 			}
-		}
-	}
-
-	private class StatusRefresher implements Runnable
-	{
-		public void run()
-		{
-			KoLCharacter characterData = client == null ? new KoLCharacter( "UI Test" ) : client.getCharacterData();
-			hpLabel.setText( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() );
-			mpLabel.setText( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() );
-			meatLabel.setText( "" + df.format( characterData.getAvailableMeat() ) );
-			advLabel.setText( "" + characterData.getAdventuresLeft() );
-			drunkLabel.setText( "" + characterData.getInebriety() );
-			inClosetField.setText( "" + df.format( characterData.getClosetMeat() ) );
 		}
 	}
 
