@@ -172,8 +172,9 @@ public class BuffBotFrame extends KoLFrame
 		tabs.addTab( "Change Settings", whiteList );
 		tabs.addTab( "Refund Message", invalidBuff );
 
-		getContentPane().setLayout( new CardLayout( 5, 5 ) );
-		getContentPane().add( tabs, "" );
+		addCompactPane();
+		getContentPane().add( tabs, BorderLayout.CENTER );
+
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 
