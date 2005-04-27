@@ -68,6 +68,8 @@ public class GreenMessageFrame extends KoLFrame
 
 	private JTextField recipientEntry;
 	private JTextArea messageEntry;
+	private JComboBox attachSelect;
+	private JButton attachButton;
 
 	private SortedListModel attachedItems;
 	private JLabel sendMessageStatus;
@@ -95,6 +97,10 @@ public class GreenMessageFrame extends KoLFrame
 		setResizable( false );
 	}
 
+	public void setEnabled( boolean isEnabled )
+	{
+	}
+
 	private class GreenMessagePanel extends NonContentPanel
 	{
 		public GreenMessagePanel( String recipient, String quotedMessage )
@@ -105,9 +111,9 @@ public class GreenMessageFrame extends KoLFrame
 
 			JPanel attachPanel = new JPanel();
 			attachPanel.setLayout( new BorderLayout( 0, 0 ) );
-			JComboBox attachSelect = new JComboBox( attachedItems );
+			attachSelect = new JComboBox( attachedItems );
 			attachPanel.add( attachSelect, BorderLayout.CENTER );
-			JButton attachButton = new JButton( JComponentUtilities.getSharedImage( "icon_plus.gif" ) );
+			attachButton = new JButton( JComponentUtilities.getSharedImage( "icon_plus.gif" ) );
 			JComponentUtilities.setComponentSize( attachButton, 20, 20 );
 			attachButton.addActionListener( new AttachItemListener() );
 			attachPanel.add( attachButton, BorderLayout.EAST );
@@ -142,6 +148,15 @@ public class GreenMessageFrame extends KoLFrame
 			attachedItems.clear();
 		}
 
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			recipientEntry.setEnabled( isEnabled );
+			messageEntry.setEnabled( isEnabled );
+			attachSelect.setEnabled( isEnabled );
+			attachButton.setEnabled( isEnabled );
+		}
+
 		private class SendGreenMessageThread extends Thread
 		{
 			public SendGreenMessageThread()
@@ -155,18 +170,12 @@ public class GreenMessageFrame extends KoLFrame
 				if ( client == null )
 					return;
 
-				recipientEntry.setEnabled( false );
-				messageEntry.setEnabled( false );
-
+				GreenMessagePanel.this.setEnabled( false );
 				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
+				GreenMessagePanel.this.setEnabled( true );
+				JOptionPane.showMessageDialog( null,  client.permitsContinue() ? "Message sent to " + recipientEntry.getText() :
+					"Failed to send message to " + recipientEntry.getText() );
 
-				if ( client.permitsContinue() )
-					JOptionPane.showMessageDialog( null, "Message sent to " + recipientEntry.getText() );
-				else
-					JOptionPane.showMessageDialog( null, "Failed to send message to " + recipientEntry.getText() );
-
-				recipientEntry.setEnabled( true );
-				messageEntry.setEnabled( true );
 			}
 		}
 	}
