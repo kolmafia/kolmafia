@@ -499,7 +499,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	{
 		boolean keepTrying;
 		int previousMP;
-		
+
 		if ( characterData.getCurrentMP() >= mpNeeded )
 			return true;
 
@@ -532,7 +532,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
  						((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP(mpNeeded);
  						if ( characterData.getCurrentMP() >= mpNeeded )
  							return true;
-						keepTrying = inventory.contains( item ) & 
+						keepTrying = inventory.contains( item ) &
 								( characterData.getCurrentMP() > previousMP );
  					}
 				}
@@ -706,7 +706,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				if ( this == BEANBAG )
 				{
 					buffbotLog.append("Relaxing in my beanbag chair." + "<br>");
-					(new CampgroundRequest( client, "relax" )).run();
+					(new KoLAdventure( client, "campground.php", "relax", "Campsite: To the Beanbag!" )).run();
 					return;
 				}
 
