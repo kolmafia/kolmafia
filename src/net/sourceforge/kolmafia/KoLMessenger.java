@@ -526,13 +526,13 @@ public class KoLMessenger implements KoLConstants
 		// Extract player IDs for all players who have spoken in chat, or
 		// those that were listed on a /friends request.
 
-		Matcher playerIDMatcher = Pattern.compile( "<a [^>]*?showplayer.php\\?who\\=(\\d+)\">(.*?)</a>" ).matcher( originalContent );
+		Matcher playerIDMatcher = Pattern.compile( "showplayer.php\\?who\\=(\\d+)[\'\"]>(.*?)</a>" ).matcher( originalContent );
 		lastFindIndex = 0;
 		while( playerIDMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = playerIDMatcher.end();
 			String playerID = playerIDMatcher.group(1);
-			String playerName = playerIDMatcher.group(2).replaceAll( "<.*?>", "" );
+			String playerName = playerIDMatcher.group(2).replaceAll( "<.*?>", "" ).replaceAll( " \\(.*?\\)", "" );
 
 			seenPlayerIDs.put( playerName, playerID );
 			seenPlayerNames.put( playerID, playerName );
@@ -858,28 +858,25 @@ public class KoLMessenger implements KoLConstants
 			{
 				String actualMessage = message.trim();
 
-				if ( message.indexOf( ":" ) != -1 )
+				Matcher nameMatcher = Pattern.compile( "<b>.*?</a>" ).matcher( actualMessage );
+				if ( nameMatcher.find() )
 				{
-					Matcher nameMatcher = Pattern.compile( "<b>.*?</a>" ).matcher( actualMessage );
-					if ( nameMatcher.find() )
-					{
-						String name = nameMatcher.group();
-						name = name.replaceAll( "<.*?>", "" );
+					String name = nameMatcher.group();
+					name = name.replaceAll( "<.*?>", "" );
 
-						if ( name.indexOf( " (" ) != -1 )
-							name = name.substring( 0, name.indexOf( " (" ) );
+					if ( name.indexOf( " (" ) != -1 )
+						name = name.substring( 0, name.indexOf( " (" ) );
 
-						int playerID = Integer.parseInt( getPlayerID( name ) );
+					int playerID = Integer.parseInt( getPlayerID( name ) );
 
-						// In order to make the stylesheet work as intended,
-						// the user's player ID is defined with class pid0.
+					// In order to make the stylesheet work as intended,
+					// the user's player ID is defined with class pid0.
 
-						if ( playerID == client.getUserID() )
-							playerID = 0;
+					if ( playerID == client.getUserID() )
+						playerID = 0;
 
-						actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
-							"<b class=\"pid" + playerID + "\"><a href=\"" + name + "\">" );
-					}
+					actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
+						"<b class=\"pid" + playerID + "\"><a href=\"" + name + "\">" );
 				}
 
 				// Now to replace doubled instances of <font> to 1, and ensure that
