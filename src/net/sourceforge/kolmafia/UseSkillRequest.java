@@ -131,10 +131,10 @@ public class UseSkillRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, target + " is overbuffed." );
 			return;
 		}
-		else if ( replyContent.indexOf( target + " is not a valid target." ) != -1 )
+		else if ( replyContent.indexOf( "Invalid target player" ) != -1 )
 		{
 			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Invalid target." );
+			updateDisplay( ERROR_STATE, target + " is not a valid target." );
 			return;
 		}
 		else if ( replyContent.indexOf( "busy fighting" ) != -1 )
