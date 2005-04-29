@@ -63,7 +63,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( consumptionType == CONSUME_MULTIPLE )
 		{
 			addFormField( "action", "useitem" );
-			addFormField( "quantity", "" + item.getCount() );
+			addFormField( "quantity", String.valueOf( item.getCount() ) );
 		}
 
 		addFormField( "whichitem", "" + item.getItemID() );

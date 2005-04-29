@@ -63,7 +63,7 @@ public class TrapperRequest extends KoLRequest
 
 		addFormField( "action", "Yep." );
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "whichitem", "" + itemID );
+		addFormField( "whichitem", String.valueOf( itemID ) );
 		addFormField( "tradeall", "on" );
 	}
 

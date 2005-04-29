@@ -74,7 +74,7 @@ public class ChatRequest extends KoLRequest
 	public ChatRequest( KoLmafia client, String contact, String message )
 	{
 		super( client, "submitnewchat.php" );
-		addFormField( "playerid", "" + client.getUserID() );
+		addFormField( "playerid", String.valueOf( client.getUserID() ) );
 		addFormField( "pwd", client.getPasswordHash() );
 
 		associatedMessenger = client.getMessenger();
@@ -123,7 +123,7 @@ public class ChatRequest extends KoLRequest
 	private ChatRequest( KoLmafia client, int lastSeen )
 	{
 		super( client, "newchatmessages.php" );
-		addFormField( "lasttime", "" + lastSeen );
+		addFormField( "lasttime", String.valueOf( lastSeen ) );
 
 		this.lastSeen = lastSeen;
 		isContinuationRequest = true;

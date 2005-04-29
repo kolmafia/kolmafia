@@ -51,7 +51,7 @@ public class StoreManageRequest extends KoLRequest
 	{
 		super( client, "managestore.php" );
 		addFormField( "action", "takeall" );
-		addFormField( "whichitem", "" + itemID );
+		addFormField( "whichitem", String.valueOf( itemID ) );
 		this.isPriceManagement = false;
 		this.takenItemID = itemID;
 	}
@@ -65,8 +65,8 @@ public class StoreManageRequest extends KoLRequest
 
 		for ( int i = 0; i < itemID.length; ++i )
 		{
-			addFormField( "price" + itemID[i], "" + prices[i] );
-			addFormField( "limit" + itemID[i], "" + limits[i] );
+			addFormField( "price" + itemID[i], String.valueOf( prices[i] ) );
+			addFormField( "limit" + itemID[i], String.valueOf( limits[i] ) );
 		}
 	}
 

@@ -524,8 +524,8 @@ public class BuffBotFrame extends KoLFrame
 		{
 			public void run()
 			{
-				settings.setProperty( "buffBotItemBasedBuffing", "" + (buffBotModeSelect.getSelectedIndex() == 1) );
-				settings.setProperty( "buffBotMessageDisposal", "" + messageDisposalSelect.getSelectedIndex() );
+				settings.setProperty( "buffBotItemBasedBuffing", String.valueOf( buffBotModeSelect.getSelectedIndex() == 1 ) );
+				settings.setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
 
 				StringBuffer mpRestoreSetting = new StringBuffer();
 				for ( int i = 0; i < restoreCheckbox.length; ++i )

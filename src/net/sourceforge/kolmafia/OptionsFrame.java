@@ -285,12 +285,12 @@ public class OptionsFrame extends KoLFrame
 
 				for ( int i = 0; i < 4; ++i )
 					if ( servers[i].isSelected() )
-						settings.setProperty( "loginServer", "" + i );
+						settings.setProperty( "loginServer", String.valueOf( i ) );
 
 				for ( int i = 0; i < optionKeys.length; ++i )
-					settings.setProperty( optionKeys[i], "" + optionBoxes[i].isSelected() );
+					settings.setProperty( optionKeys[i], String.valueOf( optionBoxes[i].isSelected() ) );
 
-				settings.setProperty( "sortAdventures", "" + sortAdventuresBox.isSelected() );
+				settings.setProperty( "sortAdventures", String.valueOf( sortAdventuresBox.isSelected() ) );
 
 				// Save the settings that were just set; that way,
 				// the next login can use them.
@@ -476,10 +476,10 @@ public class OptionsFrame extends KoLFrame
 			public void run()
 			{
 				settings.setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
-				settings.setProperty( "hpAutoFlee", "" + ((double)(hpAutoFleeSelect.getSelectedIndex()) / 10.0) );
-				settings.setProperty( "hpAutoRecover", "" + ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) );
+				settings.setProperty( "hpAutoFlee", String.valueOf( ((double)(hpAutoFleeSelect.getSelectedIndex()) / 10.0) ) );
+				settings.setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 				settings.setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
-				settings.setProperty( "mpAutoRecover", "" + ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) );
+				settings.setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 				settings.setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
 				saveSettings();
 			}
@@ -775,9 +775,9 @@ public class OptionsFrame extends KoLFrame
 				Integer fontSize = (Integer) fontSizeSelect.getSelectedItem();
 				settings.setProperty( "fontSize", fontSize.toString() );
 				LimitedSizeChatBuffer.setFontSize( fontSize.intValue() );
-				settings.setProperty( "chatStyle", "" + chatStyleSelect.getSelectedIndex() );
-				settings.setProperty( "useTabbedChat", "" + useTabsSelect.getSelectedIndex() );
-				settings.setProperty( "chatNameClick", "" + nameClickSelect.getSelectedIndex() );
+				settings.setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
+				settings.setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
+				settings.setProperty( "chatNameClick", String.valueOf( nameClickSelect.getSelectedIndex() ) );
 
 				if ( client.getMessenger() != null )
 					client.getMessenger().setTabbedFrameSetting( useTabsSelect.getSelectedIndex() == 1 );
@@ -916,9 +916,9 @@ public class OptionsFrame extends KoLFrame
 			public void run()
 			{
 				settings.setProperty( "defaultLimit", defaultLimitField.getText().length() == 0 ? "13" : defaultLimitField.getText() );
-				settings.setProperty( "forceSorting", "" + (forceSortSelect.getSelectedIndex() == 1) );
-				settings.setProperty( "useClosetForCreation", "" + (useClosetForCreationSelect.getSelectedIndex() == 1) );
-				settings.setProperty( "autoRepairBoxes", "" + (autoRepairBoxesSelect.getSelectedIndex() == 1) );
+				settings.setProperty( "forceSorting", String.valueOf( forceSortSelect.getSelectedIndex() == 1 ) );
+				settings.setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationSelect.getSelectedIndex() == 1 ) );
+				settings.setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesSelect.getSelectedIndex() == 1 ) );
 				saveSettings();
 			}
 		}

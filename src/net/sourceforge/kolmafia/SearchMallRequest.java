@@ -123,7 +123,7 @@ public class SearchMallRequest extends KoLRequest
 		if ( cheapestCount > 0 )
 		{
 			addFormField( "cheaponly", "on" );
-			addFormField( "shownum", "" + cheapestCount );
+			addFormField( "shownum", String.valueOf( cheapestCount ) );
 		}
 
 		this.searchString = searchString;

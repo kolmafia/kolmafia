@@ -196,9 +196,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// Now that the item's been created, you can
 		// actually do the request!
 
-		addFormField( "item1", "" + ingredients[0][0] );
-		addFormField( "item2", "" + ingredients[1][0] );
-		addFormField( "quantity", "" + quantityNeeded );
+		addFormField( "item1", String.valueOf( ingredients[0][0] ) );
+		addFormField( "item2", String.valueOf( ingredients[1][0] ) );
+		addFormField( "quantity", String.valueOf( quantityNeeded ) );
 
 		// Auto-create chef or bartender if one doesn't
 		// exist and the user has opted to repair.
@@ -524,7 +524,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			super( client, "inventory.php" );
 			addFormField( "which", "3" );
-			addFormField( "action", ((quantityNeeded == 1) ? "meat" : "" + quantityNeeded) + "paste" );
+			addFormField( "action", ((quantityNeeded == 1) ? "meat" : String.valueOf( quantityNeeded )) + "paste" );
 
 			this.quantityNeeded = quantityNeeded;
 		}

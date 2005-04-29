@@ -59,7 +59,7 @@ public class UseSkillRequest extends KoLRequest
 
 		int skillID = ClassSkillsDatabase.getSkillID( skillName );
 		this.skillName = ClassSkillsDatabase.getSkillName( skillID );
-		addFormField( "whichskill", "" + skillID );
+		addFormField( "whichskill", String.valueOf( skillID ) );
 
 		if ( ClassSkillsDatabase.isBuff( skillID ) )
 		{

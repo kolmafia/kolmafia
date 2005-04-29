@@ -117,8 +117,8 @@ public class MuseumRequest extends KoLRequest
 
 				if ( itemID != -1 )
 				{
-					addFormField( "whichitem" + (i+1), "" + itemID );
-					addFormField( "howmany" + (i+1), "" + result.getCount() );
+					addFormField( "whichitem" + (i+1), String.valueOf( itemID ) );
+					addFormField( "howmany" + (i+1), String.valueOf( result.getCount() ) );
 				}
 			}
 		}

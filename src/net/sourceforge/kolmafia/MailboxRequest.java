@@ -88,7 +88,7 @@ public class MailboxRequest extends KoLRequest
 		addFormField( "box", boxname );
 
 		if ( startingIndex != 0 )
-			addFormField( "begin", "" + startingIndex );
+			addFormField( "begin", String.valueOf( startingIndex ) );
 
 		this.action = null;
 		this.boxname = boxname;

@@ -53,7 +53,7 @@ public class BountyHunterRequest extends KoLRequest
 		super( client, "town_wrong.php" );
 		addFormField( "place", "bountyhunter" );
 		addFormField( "action", "bsellall" );
-		addFormField( "what", "" + itemID );
+		addFormField( "what", String.valueOf( itemID ) );
 
 		this.itemID = itemID;
 		this.isExchange = true;

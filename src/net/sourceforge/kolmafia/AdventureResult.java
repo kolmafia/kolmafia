@@ -352,21 +352,21 @@ public class AdventureResult implements Comparable, KoLConstants
 	public String toString()
 	{
 		if ( name.equals(HP) || name.equals(MP) || name.equals(ADV) || name.equals(DRUNK) || name.equals(MEAT) )
-			return "" + name + ": " + df.format(count[0]);
+			return " " + name + ": " + df.format(count[0]);
 
 		if ( name.equals(SUBSTATS) || name.equals(FULLSTATS) )
-			return "" + name + ": " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]);
+			return " " + name + ": " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]);
 
 		if ( name.equals(DIVIDER) )
 			return DIVIDER;
 
 		if ( itemID == 0 )
-			return "" + name + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
+			return " " + name + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
 
 		String stringName = itemID == 41 ? "ice-cold beer (Shiltz)" : itemID == 81 ? "ice-cold beer (Willer)" :
 			name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
 
-		return stringName + " (" + df.format(count[0]) + ")";
+		return " " + stringName + " (" + df.format(count[0]) + ")";
 	}
 
 	/**
@@ -532,7 +532,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			String stringName = ar.itemID == 41 ? "ice-cold beer (Schlitz)" : ar.itemID == 81 ? "ice-cold beer (Willer)" : ar.name;
 
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
-			String stringForm = "" + stringName + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
+			String stringForm = " " + stringName + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
 				((ar.count[0] == 1) ? "" : (" (" + df.format(ar.count[0]) + ")"));
 
 			((JLabel) defaultComponent).setText( stringForm );

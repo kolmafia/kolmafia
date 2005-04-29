@@ -89,7 +89,7 @@ public class EquipmentRequest extends KoLRequest
 		super( client, "inv_equip.php" );
 		addFormField( "action", "outfit" );
 		addFormField( "which", "2" );
-		addFormField( "whichoutfit", "" + change.getOutfitID() );
+		addFormField( "whichoutfit", String.valueOf( change.getOutfitID() ) );
 		this.requestType = CHANGE_OUTFIT;
 		this.outfitName = change.toString();
 	}

@@ -66,8 +66,8 @@ public class ClanBuffRequest extends KoLRequest
 
 		this.buffID = buffID;
 		addFormField( "action", "buyround" );
-		addFormField( "size", "" + (buffID % 10) );
-		addFormField( "whichgift", "" + ((int) ( buffID / 10 )) );
+		addFormField( "size", String.valueOf( buffID % 10 ) );
+		addFormField( "whichgift", String.valueOf( (int) ( buffID / 10 ) ) );
 	}
 
 	/**

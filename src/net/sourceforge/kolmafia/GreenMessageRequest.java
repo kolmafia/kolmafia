@@ -126,12 +126,12 @@ public class GreenMessageRequest extends KoLRequest
 				if ( !result.getName().equals( AdventureResult.MEAT ) )
 				{
 					int index = attachedMeat ? i : i + 1;
-					addFormField( "whichitem" + index, "" + result.getItemID() );
-					addFormField( "howmany" + index, "" + result.getCount() );
+					addFormField( "whichitem" + index, String.valueOf( result.getItemID() ) );
+					addFormField( "howmany" + index, String.valueOf( result.getCount() ) );
 				}
 				else
 				{
-					addFormField( "sendmeat", "" + result.getCount() );
+					addFormField( "sendmeat", String.valueOf( result.getCount() ) );
 					attachedMeat = true;
 				}
 			}

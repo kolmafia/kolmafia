@@ -54,7 +54,7 @@ public class UneffectRequest extends KoLRequest
 
 		this.effect = effect;
 		this.effectID = StatusEffectDatabase.getEffectID( effect.getName() );
-		addFormField( "whicheffect", "" + effectID );
+		addFormField( "whicheffect", String.valueOf( effectID ) );
 	}
 
 	public void run()

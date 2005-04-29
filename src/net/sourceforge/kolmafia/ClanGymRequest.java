@@ -59,7 +59,7 @@ public class ClanGymRequest extends KoLRequest
 	{
 		super( client, "clan_gym.php" );
 		addFormField( "action", equipmentID == HOBOFLEX ? "hoboflex" : equipmentID == BIGBOOK ? "bigbook" : "tanningbed" );
-		addFormField( "numturns", "" + turnCount );
+		addFormField( "numturns", String.valueOf( turnCount ) );
 
 		this.turnCount = turnCount;
 	}

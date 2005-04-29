@@ -195,13 +195,13 @@ public class CharsheetFrame extends KoLFrame
 
 		if ( baseValue != adjustedValue )
 		{
-			adjustedLabel.setText( "" + adjustedValue );
+			adjustedLabel.setText( String.valueOf( adjustedValue ) );
 			baseLabel.setText( " (" + baseValue + ")" );
 		}
 		else
 		{
 			adjustedLabel.setText( "" );
-			baseLabel.setText( "" + baseValue );
+			baseLabel.setText( String.valueOf( baseValue ) );
 		}
 
 		statpointPanel[ displayIndex ].setToolTipText( "" + tillNextPoint + " until " + (baseValue + 1) );

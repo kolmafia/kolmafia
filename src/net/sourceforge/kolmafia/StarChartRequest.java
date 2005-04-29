@@ -70,8 +70,8 @@ public class StarChartRequest extends KoLRequest implements Comparable
 		super( client, "starchart.php" );
 		addFormField( "action", "makesomething" );
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "numstars", "" + baseRequest.stars );
-		addFormField( "numlines", "" + baseRequest.lines );
+		addFormField( "numstars", String.valueOf( baseRequest.stars ) );
+		addFormField( "numlines", String.valueOf( baseRequest.lines ) );
 
 		this.name = baseRequest.name;
 		this.stars = baseRequest.stars;

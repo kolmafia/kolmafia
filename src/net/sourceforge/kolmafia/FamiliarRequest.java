@@ -56,7 +56,7 @@ public class FamiliarRequest extends KoLRequest
 
 		this.changeTo = changeTo;
 		this.changeFrom = new FamiliarData( FamiliarsDatabase.getFamiliarID( characterData.getFamiliarRace() ) );
-		addFormField( "newfam", "" + changeTo.getID() );
+		addFormField( "newfam", String.valueOf( changeTo.getID() ) );
 		this.isChangingFamiliar = true;
 	}
 

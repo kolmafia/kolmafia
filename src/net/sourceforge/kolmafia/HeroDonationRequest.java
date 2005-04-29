@@ -74,7 +74,7 @@ public class HeroDonationRequest extends KoLRequest
 			addFormField( "pwd", client.getPasswordHash() );
 
 		addFormField( "action", heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "sneakypete" );
-		addFormField( "howmuch", "" + amount );
+		addFormField( "howmuch", String.valueOf( amount ) );
 
 		this.amount = amount;
 		this.statue = heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "pete";

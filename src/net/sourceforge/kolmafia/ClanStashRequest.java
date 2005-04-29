@@ -59,7 +59,7 @@ public class ClanStashRequest extends KoLRequest
 	{
 		super( client, "clan_stash.php" );
 		addFormField( "action", "contribute" );
-		addFormField( "howmuch", "" + amount );
+		addFormField( "howmuch", String.valueOf( amount ) );
 
 		this.items = null;
 		this.moveType = MEAT_TO_STASH;

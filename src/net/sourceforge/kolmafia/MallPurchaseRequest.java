@@ -64,7 +64,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		addFormField( "whichstore", storeID );
 		addFormField( "phash", client.getPasswordHash() );
 		addFormField( "buying", "Yep." );
-		addFormField( "whichitem", "" + itemID );
+		addFormField( "whichitem", String.valueOf( itemID ) );
 
 		this.itemName = TradeableItemDatabase.getItemName( itemID );
 		this.shopName = storeName;
@@ -109,7 +109,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.isNPCStore = false;
 
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "whichstore", "" + shopID );
+		addFormField( "whichstore", String.valueOf( shopID ) );
 		addFormField( "buying", "Yep." );
 
 		// With the basic fields out of the way, you need to construct
@@ -193,7 +193,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( quantity < 1 )
 			return;
 
-		addFormField( isNPCStore ? "howmany" : "quantity", "" + quantity );
+		addFormField( isNPCStore ? "howmany" : "quantity", String.valueOf( quantity ) );
 		this.successful = false;
 
 		// If the item is not currently recognized, the user should

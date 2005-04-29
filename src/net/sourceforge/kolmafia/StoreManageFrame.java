@@ -325,8 +325,8 @@ public class StoreManageFrame extends KoLFrame
 		{
 			itemID = value.getItemID();
 			itemName = new JLabel( TradeableItemDatabase.getItemName( itemID ), JLabel.RIGHT );
-			itemPrice = new JTextField( "" + df.format( value.getPrice() ) );
-			itemLimit = new JTextField( "" + df.format( value.getLimit() ) );
+			itemPrice = new JTextField( df.format( value.getPrice() ) );
+			itemLimit = new JTextField( df.format( value.getLimit() ) );
 
 			takeButton = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
 			takeButton.addActionListener( new TakeButtonListener() );
@@ -359,8 +359,8 @@ public class StoreManageFrame extends KoLFrame
 			StoreManager.SoldItem smsi = (StoreManager.SoldItem) value;
 
 			itemName.setText( TradeableItemDatabase.getItemName( smsi.getItemID() ) );
-			itemPrice.setText( "" + df.format( smsi.getPrice() ) );
-			itemLimit.setText( "" + df.format( smsi.getLimit() ) );
+			itemPrice.setText( df.format( smsi.getPrice() ) );
+			itemLimit.setText( df.format( smsi.getLimit() ) );
 		}
 
 		public void setEnabled( boolean isEnabled )
