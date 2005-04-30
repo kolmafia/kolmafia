@@ -45,9 +45,7 @@ package net.java.dev.spellcast.utilities;
 public interface UtilityConstants
 {
 	public static final ClassLoader SYSTEM_CLASSLOADER    = ClassLoader.getSystemClassLoader();
-
-//	public static final ClassLoader MAINCLASS_CLASSLOADER = net.java.dev.spellcast.Spellcast.class.getClassLoader();
-	public static final ClassLoader MAINCLASS_CLASSLOADER = net.sourceforge.kolmafia.KoLmafia.class.getClassLoader();
+	public static final ClassLoader MAINCLASS_CLASSLOADER = net.java.dev.spellcast.utilities.UtilityConstants.class.getClassLoader();
 
 //	public static final String SHARED_MODULE_DIRECTORY = "net/java/dev/spellcast/shared/";
 	public static final String SHARED_MODULE_DIRECTORY = "net/sourceforge/kolmafia/";
