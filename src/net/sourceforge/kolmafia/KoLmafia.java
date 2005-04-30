@@ -1088,40 +1088,33 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 				saveStateNames.add( loginname );
 
 			storeSaveStates();
-			String encodedString = URLEncoder.encode( password, "UTF-8" ).replaceAll( "\\-", "%2D" ).replaceAll(
-				"\\.", "%2E" ).replaceAll( "\\*", "%2A" ).replaceAll( "_", "%5F" ).replaceAll( "\\+", "%20" );
+			String utfString = URLEncoder.encode( password, "UTF-8" );
 
-			// Handle capital letters
-
-			StringBuffer encodedCaseSensitiveString = new StringBuffer();
+			StringBuffer encodedString = new StringBuffer();
 			char currentCharacter;
-			for ( int i = 0; i < encodedString.length(); ++i )
+			for ( int i = 0; i < utfString.length(); ++i )
 			{
-				currentCharacter = encodedString.charAt(i);
-				if ( currentCharacter >= 'A' && currentCharacter <= 'Z' )
+				currentCharacter = utfString.charAt(i);
+				switch ( currentCharacter )
 				{
-					encodedCaseSensitiveString.append( '%' );
-					encodedCaseSensitiveString.append( Integer.toHexString( (int) currentCharacter ) );
+					case '-':  encodedString.append( "2D" );  break;
+					case '.':  encodedString.append( "2E" );  break;
+					case '*':  encodedString.append( "2A" );  break;
+					case '_':  encodedString.append( "5F" );  break;
+					case '+':  encodedString.append( "20" );  break;
+
+					case '%':
+						encodedString.append( utfString.charAt( ++i ) );
+						encodedString.append( utfString.charAt( ++i ) );
+						break;
+
+					default:
+						encodedString.append( Integer.toHexString( (int) currentCharacter ).toUpperCase() );
+						break;
 				}
-				else
-					encodedCaseSensitiveString.append( currentCharacter );
 			}
 
-			String [] encodedParts = encodedCaseSensitiveString.toString().split( "%" );
-
-			// Complete the encoding process
-
-			StringBuffer saveState = new StringBuffer();
-			if ( encodedParts[0].length() != 0 )
-				saveState.append( (new BigInteger( encodedParts[0], 36 )).toString( 10 ) );
-
-			for ( int i = 1; i < encodedParts.length; ++i )
-			{
-				saveState.append( ' ' );
-				saveState.append( (new BigInteger( encodedParts[i], 36 )).toString( 10 ) );
-			}
-
-			settings.setProperty( "saveState." + loginname.toLowerCase(), saveState.toString() );
+			settings.setProperty( "saveState." + loginname.toLowerCase(), (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
 			settings.saveSettings();
 		}
 		catch ( java.io.UnsupportedEncodingException e )
@@ -1212,20 +1205,16 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			if ( password == null )
 				return null;
 
-			String [] decodedParts = password.split( " " );
-			StringBuffer saveState = new StringBuffer();
-
-			if ( decodedParts[0].length() != 0 )
-				saveState.append( (new BigInteger( decodedParts[0], 10 )).toString( 36 ) );
-
-			for ( int i = 1; i < decodedParts.length; ++i )
+			String hexString = (new BigInteger( password, 10 )).toString( 36 );
+			StringBuffer utfString = new StringBuffer();
+			for ( int i = 0; i < hexString.length(); ++i )
 			{
-				saveState.append( '%' );
-				saveState.append( (new BigInteger( decodedParts[i], 10 )).toString( 36 ) );
+				utfString.append( '%' );
+				utfString.append( hexString.charAt(i) );
+				utfString.append( hexString.charAt(++i) );
 			}
 
-			return URLDecoder.decode( saveState.toString().replaceAll( "%20", "+" ).replaceAll( "%5F", "_" ).replaceAll(
-				"%2A", "*" ).replaceAll( "%2E", "." ).replaceAll( "%2D", "-" ), "UTF-8" );
+			return URLDecoder.decode( utfString.toString(), "UTF-8" );
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
