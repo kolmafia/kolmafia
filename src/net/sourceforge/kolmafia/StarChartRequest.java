@@ -128,7 +128,7 @@ public class StarChartRequest extends KoLRequest implements Comparable
 	{
 		for ( int i = 0; i < quantityNeeded; ++i )
 		{
-			updateDisplay( DISABLED_STATE, "Creating " + name + " (" + (i+1) + "of " + quantityNeeded + ")..." );
+			updateDisplay( DISABLED_STATE, "Creating " + name + " (" + (i+1) + " of " + quantityNeeded + ")..." );
 			makeConstellation();
 		}
 	}
