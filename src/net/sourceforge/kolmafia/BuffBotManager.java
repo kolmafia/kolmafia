@@ -97,11 +97,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		super( client );
 		this.client = client;
 
-		settings = (client == null) ? System.getProperties() : client.getSettings();
-
 		this.buffCostMap = new TreeMap();
 		this.buffCostTable = buffCostTable;
-		this.inventory = client == null ? new LockableListModel() : client.getInventory();
 
 		this.characterData =  client.getCharacterData();
 		this.mpRestoreItemList = new MPRestoreItemList();
@@ -178,10 +175,13 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		client.setBuffBotActive( true );
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 
-		// need to make sure the MP is up to date
-		(new CharsheetRequest( client )).run();
+		// Need to make sure everything is up to date.
+		// This includes character status, inventory
+		// data and current settings.
 
-		// get all current buffbot settings
+		(new CharsheetRequest( client )).run();
+		this.settings = (client == null) ? System.getProperties() : client.getSettings();
+		this.inventory = client == null ? new LockableListModel() : client.getInventory();
 
 		itemBasedBuffing = settings.getProperty( "buffBotItemBasedBuffing" ) == null ? false :
 			settings.getProperty( "buffBotItemBasedBuffing" ).equals( "true" );
