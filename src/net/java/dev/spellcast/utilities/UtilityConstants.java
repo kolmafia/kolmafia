@@ -47,15 +47,6 @@ public interface UtilityConstants
 	public static final ClassLoader SYSTEM_CLASSLOADER    = ClassLoader.getSystemClassLoader();
 	public static final ClassLoader MAINCLASS_CLASSLOADER = net.java.dev.spellcast.utilities.UtilityConstants.class.getClassLoader();
 
-//	public static final String SHARED_MODULE_DIRECTORY = "net/java/dev/spellcast/shared/";
-	public static final String SHARED_MODULE_DIRECTORY = "net/sourceforge/kolmafia/";
-
-//	public static final String CLIENT_MODULE_DIRECTORY = "net/java/dev/spellcast/client/";
-	public static final String CLIENT_MODULE_DIRECTORY = "net/sourceforge/kolmafia/";
-
-//	public static final String SERVER_MODULE_DIRECTORY = "net/java/dev/spellcast/server/";
-	public static final String SERVER_MODULE_DIRECTORY = "net/sourceforge/kolmafia/";
-
 	public static final String DATA_DIRECTORY = "data/";
 	public static final String IMAGE_DIRECTORY = "images/";
 }

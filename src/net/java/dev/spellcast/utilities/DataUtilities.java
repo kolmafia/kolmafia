@@ -75,10 +75,12 @@ public class DataUtilities implements UtilityConstants
 
 	public static BufferedReader getReaderForSharedDataFile( String filename )
 	{
+		String shareDirectory = System.getProperty( "SHARED_MODULE_DIRECTORY" );
+
 		try
 		{
 			return new BufferedReader( new InputStreamReader(
-				getFileInputStream( SHARED_MODULE_DIRECTORY, DATA_DIRECTORY, filename ) ) );
+				getFileInputStream( shareDirectory == null ? "" : shareDirectory, DATA_DIRECTORY, filename ) ) );
 		}
 		catch ( FileNotFoundException e )
 		{

@@ -122,8 +122,10 @@ public class JComponentUtilities implements UtilityConstants
 
 	public static ImageIcon getSharedImage( String filename )
 	{
+		String shareDirectory = System.getProperty( "SHARED_MODULE_DIRECTORY" );
+
 		try
-		{	return getImage( SHARED_MODULE_DIRECTORY, IMAGE_DIRECTORY, filename );
+		{	return getImage( shareDirectory == null ? "" : shareDirectory, IMAGE_DIRECTORY, filename );
 		}
 		catch ( FileNotFoundException e )
 		{
