@@ -379,11 +379,78 @@ public class LoginFrame extends KoLFrame
 			}
 
 			public void focusGained( FocusEvent e )
-			{	getEditor().selectAll();
+			{
+				getEditor().selectAll();
+				findMatch( KeyEvent.VK_DELETE );
 			}
 
 			public void focusLost( FocusEvent e )
-			{	setSelectedItem( (currentMatch == null) ? currentName : currentMatch );
+			{
+				setSelectedItem( (currentMatch == null) ? currentName : currentMatch );
+				hidePopup();
+			}
+
+			private void findMatch( int keycode )
+			{
+				// If it wasn't the enter key that was being released,
+				// then make sure that the current name is stored
+				// before the key typed event is fired
+
+				currentName = ((String) getEditor().getItem()).trim();
+				currentMatch = null;
+
+				// Autohighlight and popup - note that this
+				// should only happen for standard typing
+				// keys, or the delete and backspace keys.
+
+				boolean matchNotFound = true;
+				Object [] currentNames = saveStateNames.toArray();
+
+				if ( currentName.length() > 0 )
+				{
+					for ( int i = 0; i < currentNames.length && matchNotFound; ++i )
+					{
+						if ( ((String)currentNames[i]).toLowerCase().startsWith( currentName.toLowerCase() ) )
+						{
+							showPopup();
+							matchNotFound = false;
+
+							if ( ((String)currentNames[i]).toLowerCase().equals( currentName.toLowerCase() ) )
+								setSelectedIndex(i);
+							else
+								setSelectedItem(null);
+
+							if ( keycode == KeyEvent.VK_BACK_SPACE || keycode == KeyEvent.VK_DELETE )
+							{
+								// If this was an undefined character, then it
+								// was a backspace or a delete - in this case,
+								// you retain the original name after selecting
+								// the index.
+
+								getEditor().setItem( currentName );
+							}
+							else
+							{
+								// If this wasn't an undefined character, then
+								// the user wants autocompletion!  Highlight
+								// the rest of the possible name.
+
+								currentMatch = (String) currentNames[i];
+								getEditor().setItem( currentMatch );
+								JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
+								editor.setSelectionStart( currentName.length() );
+								editor.setSelectionEnd( currentMatch.length() );
+							}
+						}
+					}
+				}
+
+				// In the event that no match was found (or the
+				// user hasn't entered anything), there is no
+				// need to enter the loop
+
+				if ( matchNotFound )
+					hidePopup();
 			}
 
 			private class NameInputListener extends KeyAdapter
@@ -398,61 +465,7 @@ public class LoginFrame extends KoLFrame
 					else if ( e.getKeyChar() == KeyEvent.CHAR_UNDEFINED )
 						return;
 
-					// If it wasn't the enter key that was being released,
-					// then make sure that the current name is stored
-					// before the key typed event is fired
-
-					currentName = ((String) getEditor().getItem()).trim();
-					currentMatch = null;
-
-					// Autohighlight and popup - note that this
-					// should only happen for standard typing
-					// keys, or the delete and backspace keys.
-
-					boolean matchNotFound = true;
-					Object [] currentNames = saveStateNames.toArray();
-
-					if ( currentName.length() > 0 )
-					{
-						for ( int i = 0; i < currentNames.length && matchNotFound; ++i )
-						{
-							if ( ((String)currentNames[i]).toLowerCase().startsWith( currentName.toLowerCase() ) )
-							{
-								showPopup();
-								setSelectedIndex(i);
-								matchNotFound = false;
-
-								if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE )
-								{
-									// If this was an undefined character, then it
-									// was a backspace or a delete - in this case,
-									// you retain the original name after selecting
-									// the index.
-
-									getEditor().setItem( currentName );
-								}
-								else
-								{
-									// If this wasn't an undefined character, then
-									// the user wants autocompletion!  Highlight
-									// the rest of the possible name.
-
-									currentMatch = (String) currentNames[i];
-									getEditor().setItem( currentMatch );
-									JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
-									editor.setSelectionStart( currentName.length() );
-									editor.setSelectionEnd( currentMatch.length() );
-								}
-							}
-						}
-					}
-
-					// In the event that no match was found (or the
-					// user hasn't entered anything), there is no
-					// need to enter the loop
-
-					if ( matchNotFound )
-						hidePopup();
+					findMatch( e.getKeyCode() );
 				}
 			}
 		}
