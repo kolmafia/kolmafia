@@ -101,6 +101,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	public static void main( String [] args )
 	{
 		boolean useGUI = true;
+		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
 		for ( int i = 0; i < args.length; ++i )
 		{
 			if ( args[i].equals( "--CLI" ) )
