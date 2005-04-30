@@ -1033,8 +1033,9 @@ public class KoLmafiaCLI extends KoLmafia
 					if ( firstMatch.getItemID() > 656 && firstMatch.getItemID() < 666 )
 					{
 						for ( int i = 0; i < concoctions.size(); ++i )
-							if ( TradeableItemDatabase.getItemID( ((StarChartRequest)concoctions.get(i)).getName() ) == firstMatch.getItemID() )
-								return new AdventureResult( itemName, ((StarChartRequest)concoctions.get(i)).getQuantityNeeded() );
+							if ( concoctions.get(i) instanceof StarChartRequest )
+								if ( TradeableItemDatabase.getItemID( ((StarChartRequest)concoctions.get(i)).getName() ) == firstMatch.getItemID() )
+									return new AdventureResult( itemName, ((StarChartRequest)concoctions.get(i)).getQuantityNeeded() );
 					}
 					else
 					{
