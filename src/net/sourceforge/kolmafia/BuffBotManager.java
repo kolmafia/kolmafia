@@ -175,6 +175,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	public synchronized void runBuffBot(int runIterations)
 	{
 		boolean newMessages = false;
+		client.setBuffBotActive( true );
 		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
 
 		// need to make sure the MP is up to date
