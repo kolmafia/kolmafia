@@ -656,6 +656,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			scriptRequestor.makeRequest( new KoLAdventure( scriptRequestor, "campground.php", parameterList[0], "Campsite" ),
 				parameterList.length == 1 ? 1 : df.parse( parameterList[1] ).intValue() );
+			scriptRequestor.resetContinueState();
 		}
 		catch ( Exception e )
 		{
