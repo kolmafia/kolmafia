@@ -490,49 +490,54 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private boolean recoverMP( int mpNeeded )
 	{
-		boolean keepTrying;
-		int previousMP;
-
 		if ( characterData.getCurrentMP() >= mpNeeded )
 			return true;
 
+		int previousMP = -1;
 		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
 		{
-			String itemName = mpRestoreItemList.get(i).toString();
+			MPRestoreItemList.MPRestoreItem restorer = (MPRestoreItemList.MPRestoreItem) mpRestoreItemList.get(i);
+			String itemName = restorer.toString();
 
 			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
 			{
 				if ( itemName.equals( mpRestoreItemList.BEANBAG.toString() ) )
 				{
- 					keepTrying = (characterData.getAdventuresLeft() > 0);
-					while ( keepTrying )
+					while ( characterData.getAdventuresLeft() > 0 && characterData.getCurrentMP() > previousMP )
 					{
 						previousMP = characterData.getCurrentMP();
- 						mpRestoreItemList.BEANBAG.recoverMP(mpNeeded);
+ 						restorer.recoverMP( mpNeeded );
  						if ( characterData.getCurrentMP() >= mpNeeded )
  							return true;
-						keepTrying = (characterData.getAdventuresLeft() > 0) &
-								( characterData.getCurrentMP() > previousMP );
+
+						if ( characterData.getCurrentMP() == previousMP )
+						{
+							buffbotLog.append( ERRORCOLOR + "Detected no MP change.  Refreshing status to verify..." + ENDCOLOR + "<br>" );
+							(new CharsheetRequest( client )).run();
+						}
  					}
 				}
 				else
 				{
 					AdventureResult item = new AdventureResult( itemName, 0 );
-					keepTrying = ( inventory.contains( item ) );
- 					while ( keepTrying )
+ 					while ( inventory.contains( item ) && characterData.getCurrentMP() > previousMP )
  					{
  						previousMP = characterData.getCurrentMP();
- 						((MPRestoreItemList.MPRestoreItem)mpRestoreItemList.get(i)).recoverMP(mpNeeded);
+ 						restorer.recoverMP( mpNeeded );
  						if ( characterData.getCurrentMP() >= mpNeeded )
  							return true;
-						keepTrying = inventory.contains( item ) &
-								( characterData.getCurrentMP() > previousMP );
+
+						if ( characterData.getCurrentMP() == previousMP )
+						{
+							buffbotLog.append( ERRORCOLOR + "Detected no MP change.  Refreshing status to verify..." + ENDCOLOR + "<br>" );
+							(new CharsheetRequest( client )).run();
+						}
  					}
 				}
 			}
 		}
 
-		buffbotLog.append( ERRORCOLOR + "Unable to acquire enough MP!" + ENDCOLOR + "<br>");
+		buffbotLog.append( ERRORCOLOR + "Unable to acquire enough MP!" + ENDCOLOR + "<br>" );
 		return false;
 	}
 
@@ -560,8 +565,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		public BuffBotCaster( String buffName, int price, int castCount, boolean restricted )
 		{
-			// string may come from either the id lookup database or the skill list, so
-			//		need to be prepared for either orientation of ñ
 			this.buffID = ClassSkillsDatabase.getSkillID( buffName );
 			this.buffName = buffName;
 			this.price = price;
