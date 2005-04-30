@@ -83,9 +83,10 @@ public class BuffBotHome extends LimitedSizeChatBuffer
 	 */
 
 	public void append( String message )
-	{	super.append( message + System.getProperty( "line.separator" ) );
-	if ( client instanceof KoLmafiaCLI )
-		client.updateDisplay( client.ENABLED_STATE, message.replaceAll( "<.*?>", "" ) );
+	{
+		super.append( message + System.getProperty( "line.separator" ) );
+		if ( client instanceof KoLmafiaCLI )
+			client.updateDisplay( client.ENABLED_STATE, message.replaceAll( "<.*?>", "" ) );
 	}
 
 	/**
@@ -99,7 +100,7 @@ public class BuffBotHome extends LimitedSizeChatBuffer
 		String characterName = client == null ? "" : client.getLoginName();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 
-		setActiveLogFile( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + ".html", noExtensionName, true );
+		setActiveLogFile( "data/" + noExtensionName + "_BuffBot" + dayOfYear + ".html", noExtensionName, true );
 		isActive = false;
 	}
 
