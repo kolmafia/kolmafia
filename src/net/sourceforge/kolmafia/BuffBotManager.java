@@ -181,6 +181,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		(new CharsheetRequest( client )).run();
 		this.settings = (client == null) ? System.getProperties() : client.getSettings();
+		this.characterData =  client.getCharacterData();
 		this.inventory = client == null ? new LockableListModel() : client.getInventory();
 
 		itemBasedBuffing = settings.getProperty( "buffBotItemBasedBuffing" ) == null ? false :
