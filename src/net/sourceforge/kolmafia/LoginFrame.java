@@ -354,28 +354,9 @@ public class LoginFrame extends KoLFrame
 
 			public void setSelectedItem( Object anObject )
 			{
-				if ( anObject == null )
-					return;
-
-				// Look up to see if there's a password that's
-				// associated with the current name
-
-				if ( !saveStateNames.contains( anObject ) )
-					saveStateNames.add( anObject );
-
 				super.setSelectedItem( anObject );
-
-				String password = client.getSaveState( (String) anObject );
-				if ( password != null )
-				{
-					passwordField.setText( password );
-					savePasswordCheckBox.setSelected( true );
-				}
-				else if ( !savePasswordCheckBox.isSelected() )
-				{
-					passwordField.setText( "" );
-					savePasswordCheckBox.setSelected( false );
-				}
+				currentMatch = (String) anObject;
+				setPassword();
 			}
 
 			public void focusGained( FocusEvent e )
@@ -386,8 +367,36 @@ public class LoginFrame extends KoLFrame
 
 			public void focusLost( FocusEvent e )
 			{
-				setSelectedItem( (currentMatch == null) ? currentName : currentMatch );
+				if ( currentMatch == null )
+				{
+					saveStateNames.add( currentName );
+					currentMatch = currentName;
+				}
+
+				setSelectedItem( currentMatch );
+				setPassword();
 				hidePopup();
+			}
+
+			private void setPassword()
+			{
+				if ( currentMatch == null )
+				{
+					passwordField.setText( "" );
+					savePasswordCheckBox.setSelected( false );
+				}
+
+				String password = client.getSaveState( currentMatch );
+				if ( password != null )
+				{
+					passwordField.setText( password );
+					savePasswordCheckBox.setSelected( true );
+				}
+				else
+				{
+					passwordField.setText( "" );
+					savePasswordCheckBox.setSelected( false );
+				}
 			}
 
 			private void findMatch( int keycode )
@@ -417,8 +426,6 @@ public class LoginFrame extends KoLFrame
 
 							if ( ((String)currentNames[i]).toLowerCase().equals( currentName.toLowerCase() ) )
 								setSelectedIndex(i);
-							else
-								setSelectedItem(null);
 
 							if ( keycode == KeyEvent.VK_BACK_SPACE || keycode == KeyEvent.VK_DELETE )
 							{
