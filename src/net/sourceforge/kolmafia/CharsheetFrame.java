@@ -77,6 +77,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class CharsheetFrame extends KoLFrame
 {
 	private KoLCharacter characterData;
+	private JPanel namePanel;
+	private JLabel levelLabel;
 
 	private JLabel [] statusLabel;
 	private JPanel [] statpointPanel;
@@ -92,6 +94,7 @@ public class CharsheetFrame extends KoLFrame
 	public CharsheetFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Character Sheet", client );
+		this.characterData = client == null ? new KoLCharacter( "UI Test" ) : client.getCharacterData();
 
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
@@ -107,6 +110,8 @@ public class CharsheetFrame extends KoLFrame
 
 		entirePanel.add( createStatusPanel(), BorderLayout.CENTER );
 		entirePanel.add( createImagePanel(), BorderLayout.WEST );
+
+		refreshStatus();
 
 		getContentPane().add( entirePanel, "" );
 		addWindowListener( new ReturnFocusAdapter() );
@@ -134,11 +139,12 @@ public class CharsheetFrame extends KoLFrame
 		JPanel imagePanel = new JPanel();
 		imagePanel.setLayout( new BorderLayout( 10, 10 ) );
 
-		JPanel namePanel = new JPanel();
+		this.namePanel = new JPanel();
 		namePanel.setLayout( new GridLayout( 2, 1 ) );
 		namePanel.add( new JLabel( characterData.getUsername() + " (#" + characterData.getUserID() + ")", JLabel.CENTER ) );
-		namePanel.add( new JLabel( "Level " + characterData.getLevel() + " " + characterData.getClassName(), JLabel.CENTER ) );
-		namePanel.setToolTipText( characterData.getAdvancement() );
+
+		this.levelLabel = new JLabel( "Level " + characterData.getLevel() + " " + characterData.getClassName(), JLabel.CENTER );
+		namePanel.add( levelLabel );
 		imagePanel.add( namePanel, BorderLayout.NORTH );
 
 		StringTokenizer parsedName = new StringTokenizer( characterData.getClassType() );
@@ -257,8 +263,6 @@ public class CharsheetFrame extends KoLFrame
 		statusLabelPanel.add( statusLabel[10], "" );
 
 		statusLabelPanel.add( new JLabel( " " ), "" );
-		refreshStatus();
-
 		return statusLabelPanel;
 	}
 
@@ -271,13 +275,9 @@ public class CharsheetFrame extends KoLFrame
 	public void refreshStatus()
 	{
 		if ( client != null )
-		{
-			characterData = client.getCharacterData();
 			client.applyRecentEffects();
-		}
-		else
-			characterData = new KoLCharacter( "UI Test" );
 
+		levelLabel.setText( "Level " + characterData.getLevel() + " " + characterData.getClassName() );
 		statusLabel[0].setText( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() + " (HP)" );
 		statusLabel[1].setText( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() + " (MP)" );
 
@@ -288,6 +288,9 @@ public class CharsheetFrame extends KoLFrame
 		statusLabel[8].setText( characterData.getAvailableMeat() + " meat" );
 		statusLabel[9].setText( characterData.getInebriety() + " drunkenness" );
 		statusLabel[10].setText( characterData.getAdventuresLeft() + " adventures left" );
+
+		if ( namePanel != null )
+			namePanel.setToolTipText( characterData.getAdvancement() );
 	}
 
 	private class StatusRefreshListener implements ActionListener

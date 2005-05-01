@@ -106,9 +106,7 @@ public class CharsheetRequest extends KoLRequest
 				token = parsedContent.nextToken();
 
 			character.setUserID( Integer.parseInt( token.substring( 3, token.length() - 1 ) ) );
-			skipTokens( parsedContent, 1 );
-			character.setLevel( intToken( parsedContent, 6 ) );
-			skipTokens( parsedContent, 1 );
+			skipTokens( parsedContent, 3 );
 			character.setClassName( parsedContent.nextToken().trim() );
 
 			// Hit point parsing begins with the first index of
@@ -185,10 +183,6 @@ public class CharsheetRequest extends KoLRequest
 				token = parsedContent.nextToken();
 			skipTokens( parsedContent, 3 );
 			character.setTotalTurnsUsed( intToken( parsedContent ) );
-
-			while ( !token.startsWith( "You must" ) )
-				token = parsedContent.nextToken();
-			character.setAdvancement( token );
 
 			// Determine whether or not the player has any
 			// active effects - if so, retrieve them.

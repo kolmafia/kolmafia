@@ -174,7 +174,7 @@ public class KoLCharacter
 
 	private String username;
 	private boolean isMale;
-	private int userID, level;
+	private int userID;
 	private String classname, classtype;
 
 	private int currentHP, maximumHP, baseMaxHP;
@@ -297,21 +297,17 @@ public class KoLCharacter
 	}
 
 	/**
-	 * Accessor method to set the level of this character.
-	 * @param	level	The level of this character
-	 */
-
-	public void setLevel( int level )
-	{	this.level = level;
-	}
-
-	/**
 	 * Accessor method to retrieve the level of this character.
 	 * @return	The level of this character
 	 */
 
 	public int getLevel()
-	{	return level;
+	{
+		int currentPrime = classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? calculateBasePoints( totalSubpoints[0] ) :
+			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? calculateBasePoints( totalSubpoints[1] ) :
+				calculateBasePoints( totalSubpoints[2] );
+
+		return (int) Math.sqrt( currentPrime - 4 ) + 1;
 	}
 
 
@@ -1112,23 +1108,22 @@ public class KoLCharacter
 	}
 
 	/**
-	 * Sets the string used on the character pane to determine
-	 * how many points remain until the character's next level.
-	 * @param	advancement	The string indicating the TNP advancement
-	 */
-
-	public void setAdvancement( String advancement )
-	{	this.advancement = advancement;
-	}
-
-	/**
 	 * Returns the string used on the character pane to detrmine
 	 * how many points remain until the character's next level.
 	 * @return	The string indicating the TNP advancement
 	 */
 
 	public String getAdvancement()
-	{	return advancement;
+	{
+		int currentPrime = classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? calculateBasePoints( totalSubpoints[0] ) :
+			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? calculateBasePoints( totalSubpoints[1] ) :
+				calculateBasePoints( totalSubpoints[2] );
+
+		String primeStat = classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? "Muscle" :
+			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? "Mysticality" : "Moxie";
+
+		int level = getLevel();
+		return (level * level + 4 - currentPrime) + " " + primeStat + " until level " + (level + 1);
 	}
 
 	/**
