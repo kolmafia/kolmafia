@@ -547,6 +547,11 @@ public class KoLRequest implements Runnable, KoLConstants
 							return;
 						}
 					}
+					else
+					{
+						logStream.println( "Redirected: " + redirectLocation );
+						return;
+					}
 				}
 				else if ( responseCode != 200 )
 				{
