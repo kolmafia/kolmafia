@@ -1584,7 +1584,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			ItemCreationRequest irequest = (ItemCreationRequest) request;
 
-			commandString.append( "make " );
+			commandString.append( "create " );
 			commandString.append( irequest.getQuantityNeeded() );
 			commandString.append( " \"" );
 			commandString.append( irequest.getName() );
@@ -1594,7 +1594,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			StarChartRequest screquest = (StarChartRequest) request;
 
-			commandString.append( "make " );
+			commandString.append( "create " );
 			commandString.append( screquest.getQuantityNeeded() );
 			commandString.append( " \"" );
 			commandString.append( screquest.getName() );
@@ -1612,7 +1612,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( asr.getSellType() == AutoSellRequest.AUTOSELL )
 				commandString.append( "autosell * \"" );
 			else
-				commandString.append( "automall \"" );
+				commandString.append( "mallsell \"" );
 
 			commandString.append( ((AutoSellRequest)request).getName() );
 			commandString.append( "\"" );
