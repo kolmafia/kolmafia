@@ -451,7 +451,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			formConnection.setRequestMethod( "POST" );
-			formConnection.setFixedLengthStreamingMode( dataBuffer.length() );
 
 			BufferedWriter ostream =
 				new BufferedWriter( new OutputStreamWriter(
