@@ -60,7 +60,7 @@ public class KoLmafiaGUI extends KoLmafia
     	KoLmafiaGUI session = new KoLmafiaGUI();
 
 		String autoLoginSetting =  session.settings.getProperty( "autoLogin" );
-		if ( autoLoginSetting != null )
+		if ( autoLoginSetting != null && autoLoginSetting.equals( "true" ) )
 			(new LoginRequest( session, autoLoginSetting, session.getSaveState( autoLoginSetting ), false, false, false )).run();
 	}
 
