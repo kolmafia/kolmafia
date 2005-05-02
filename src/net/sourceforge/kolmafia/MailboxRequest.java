@@ -131,6 +131,11 @@ public class MailboxRequest extends KoLRequest
 			return;
 		}
 
+		// Determine how many messages there are, and how many there are left
+		// to go.  This will cause a lot of server load for those with lots
+		// of messages.  But!  This can be fixed by testing the mail manager
+		// to see if it thinks all the new messages have been retrieved.
+
 		int lastMessageID = 0;
 		int totalMessages = Integer.MAX_VALUE;
 
@@ -147,9 +152,19 @@ public class MailboxRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
-			// If an exception is caught, then there were no
-			// messages in the person's inbox.  Return!
+			// If an exception is caught, then something bad
+			// probably happened.  Return. :D
 
+			updateDisplay( NOCHANGE, "Error occurred in mail retrieval." );
+			isRequesting = false;
+			return;
+		}
+
+
+		int nextMessageIndex = replyContent.indexOf( "<td valign=top>" );
+
+		if ( nextMessageIndex == -1 )
+		{
 			updateDisplay( NOCHANGE, "Your mailbox is empty." );
 			isRequesting = false;
 			return;
@@ -159,13 +174,8 @@ public class MailboxRequest extends KoLRequest
 		// recent message sending (which would cause early
 		// termination of the retrieval loop).
 
-		int nextMessageIndex = processMessage( totalMessages - endingIndex, replyContent.indexOf( "<td valign=top>" ), false );
+		nextMessageIndex = processMessage( totalMessages - endingIndex, nextMessageIndex, false );
 		nextMessageIndex = processMessage( Integer.MAX_VALUE, nextMessageIndex, true );
-
-		// Determine how many messages there are, and how many there are left
-		// to go.  This will cause a lot of server load for those with lots
-		// of messages.  But!  This can be fixed by testing the mail manager
-		// to see if it thinks all the new messages have been retrieved.
 
 		isRequesting = false;
 
@@ -199,20 +209,26 @@ public class MailboxRequest extends KoLRequest
 				shouldContinueParsing = false;
 			}
 
-			currentMessage = replyContent.substring( lastMessageIndex, nextMessageIndex );
+			// If the next message index is still non-positive, that
+			// means there aren't any messages left to parse.
 
-			// This replaces all of the HTML contained within the message to something
-			// that can be rendered with the default JEditorPane, and also be subject
-			// to the custom font sizes provided by LimitedSizeChatBuffer.
+			if ( nextMessageIndex != -1 )
+			{
+				currentMessage = replyContent.substring( lastMessageIndex, nextMessageIndex );
 
-			currentMessage = currentMessage.replaceAll( "<br />" , "<br>" ).replaceAll( "</?t.*?>" , "\n" ).replaceAll(
-				"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "<center>", "<br><center>" );
+				// This replaces all of the HTML contained within the message to something
+				// that can be rendered with the default JEditorPane, and also be subject
+				// to the custom font sizes provided by LimitedSizeChatBuffer.
 
-			// At this point, the message is registered with the mail manager, which
-			// records the message and updates whether or not you should continue.
+				currentMessage = currentMessage.replaceAll( "<br />" , "<br>" ).replaceAll( "</?t.*?>" , "\n" ).replaceAll(
+					"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "<center>", "<br><center>" );
 
-			if ( addMessage )
-				shouldContinueParsing &= currentMailManager.addMessage( boxname, currentMessage );
+				// At this point, the message is registered with the mail manager, which
+				// records the message and updates whether or not you should continue.
+
+				if ( addMessage )
+					shouldContinueParsing &= currentMailManager.addMessage( boxname, currentMessage );
+			}
 		}
 
 		return nextMessageIndex;
