@@ -40,9 +40,11 @@ public class MailboxRequest extends KoLRequest
 {
 	private static boolean isRequesting = false;
 	private static long lastRequest = System.currentTimeMillis();
+	private KoLMailManager currentMailManager;
 
 	private String boxname;
 	private int startingIndex;
+	private int endingIndex;
 	private String action;
 
 	public static boolean isRequesting()
@@ -83,6 +85,10 @@ public class MailboxRequest extends KoLRequest
 	}
 
 	private MailboxRequest( KoLmafia client, String boxname, int startingIndex )
+	{	this( client, boxname, startingIndex, Integer.MAX_VALUE );
+	}
+
+	private MailboxRequest( KoLmafia client, String boxname, int startingIndex, int endingIndex )
 	{
 		super( client, "messages.php" );
 		addFormField( "box", boxname );
@@ -93,6 +99,8 @@ public class MailboxRequest extends KoLRequest
 		this.action = null;
 		this.boxname = boxname;
 		this.startingIndex = startingIndex;
+		this.endingIndex = endingIndex;
+		this.currentMailManager = client.getMailManager();
 	}
 
 	public void run()
@@ -123,26 +131,61 @@ public class MailboxRequest extends KoLRequest
 			return;
 		}
 
-		boolean shouldContinueParsing = true;
-		KoLMailManager currentMailManager = client.getMailManager();
+		int lastMessageID = 0;
+		int totalMessages = Integer.MAX_VALUE;
 
-		int lastMessageIndex = replyContent.indexOf( "<td valign=top>" );
-		int nextMessageIndex = lastMessageIndex;
-
-		// Test to see if there weren't any messages; if there
-		// weren't any messages, there are no messages to parse,
-		// so return from the method without doing anything.
-
-		if ( lastMessageIndex == -1 )
+		try
 		{
+			Matcher messageCountMatcher = Pattern.compile( "\\d+" ).matcher(
+				replyContent.substring( replyContent.indexOf( " - " ) + 3, replyContent.indexOf( "</b>" ) ) );
+
+			messageCountMatcher.find();
+			lastMessageID = df.parse( messageCountMatcher.group() ).intValue();
+
+			messageCountMatcher.find( 4 );
+			totalMessages = df.parse( messageCountMatcher.group() ).intValue();
+		}
+		catch ( Exception e )
+		{
+			// If an exception is caught, then there were no
+			// messages in the person's inbox.  Return!
+
 			updateDisplay( NOCHANGE, "Your mailbox is empty." );
 			isRequesting = false;
 			return;
 		}
 
+		// First, skip over any messages which resulted from a
+		// recent message sending (which would cause early
+		// termination of the retrieval loop).
+
+		int nextMessageIndex = processMessage( totalMessages - endingIndex, replyContent.indexOf( "<td valign=top>" ), false );
+		nextMessageIndex = processMessage( Integer.MAX_VALUE, nextMessageIndex, true );
+
+		// Determine how many messages there are, and how many there are left
+		// to go.  This will cause a lot of server load for those with lots
+		// of messages.  But!  This can be fixed by testing the mail manager
+		// to see if it thinks all the new messages have been retrieved.
+
+		isRequesting = false;
+
+		if ( nextMessageIndex != -1 && lastMessageID != totalMessages )
+			(new MailboxRequest( client, boxname, lastMessageID )).run();
+		else
+			updateDisplay( NOCHANGE, "Mail retrieved from " + boxname );
+	}
+
+	private int processMessage( int iterations, int startIndex, boolean addMessage )
+	{
+		boolean shouldContinueParsing = true;
+		int remainingIterations = iterations;
+		int lastMessageIndex = startIndex;
+		int nextMessageIndex = lastMessageIndex;
+
 		String currentMessage;
-		while ( shouldContinueParsing )
+		while ( remainingIterations > 0 && shouldContinueParsing )
 		{
+			--remainingIterations;
 			lastMessageIndex = nextMessageIndex;
 			nextMessageIndex = replyContent.indexOf( "<td valign=top>", lastMessageIndex + 15 );
 
@@ -168,40 +211,10 @@ public class MailboxRequest extends KoLRequest
 			// At this point, the message is registered with the mail manager, which
 			// records the message and updates whether or not you should continue.
 
-			shouldContinueParsing &= currentMailManager.addMessage( boxname, currentMessage );
+			if ( addMessage )
+				shouldContinueParsing &= currentMailManager.addMessage( boxname, currentMessage );
 		}
 
-		// Determine how many messages there are, and how many there are left
-		// to go.  This will cause a lot of server load for those with lots
-		// of messages.  But!  This can be fixed by testing the mail manager
-		// to see if it thinks all the new messages have been retrieved.
-
-		isRequesting = false;
-		if ( nextMessageIndex != -1 )
-		{
-			try
-			{
-				Matcher messageCountMatcher = Pattern.compile( "\\d+" ).matcher(
-					replyContent.substring( replyContent.indexOf( " - " ) + 3, replyContent.indexOf( "</b>" ) ) );
-
-				messageCountMatcher.find();
-				int lastMessageID = df.parse( messageCountMatcher.group() ).intValue();
-
-				messageCountMatcher.find( 4 );
-				int totalMessages = df.parse( messageCountMatcher.group() ).intValue();
-
-				if ( lastMessageID != totalMessages )
-					(new MailboxRequest( client, boxname, lastMessageID )).run();
-				else
-					updateDisplay( NOCHANGE, "Mail retrieved from " + boxname );
-			}
-			catch ( Exception e )
-			{
-				// If an exception is caught, do absolutely nothing because
-				// the page has somehow changed (HTML-wise)
-			}
-		}
-		else
-			updateDisplay( NOCHANGE, "Mail retrieved from " + boxname );
+		return nextMessageIndex;
 	}
 }
