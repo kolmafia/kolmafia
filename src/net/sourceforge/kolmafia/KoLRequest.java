@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.net.URL;
+import java.net.URLEncoder;
 import java.net.URLConnection;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -276,7 +277,21 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected void addFormField( String name, String value )
-	{	data.add( name + "=" + value );
+	{
+		try
+		{
+			data.add( URLEncoder.encode( name, "UTF-8" ) + "=" + URLEncoder.encode( value, "UTF-8" ) );
+		}
+		catch ( Exception e )
+		{
+			// In this case, you failed to encode the appropriate
+			// name and value data.  So, just print this to the
+			// appropriate log stream and add in the unencoded
+			// data (in case it's fine).
+
+			logStream.println( "Could not encode: " + name + "=" + value );
+			data.add( name + "=" + value );
+		}
 	}
 
 	/**
