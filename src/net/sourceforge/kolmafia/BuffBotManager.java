@@ -664,7 +664,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			// constant market value
 
 			this.add( BEANBAG );
-			this.add( new MPRestoreItem( "magical mystery juice", characterData.getLevel() + 2, 150 ) );
+			this.add( new MPRestoreItem( "magical mystery juice", (int) (characterData.getLevel() * 1.5 + 4.0), 150 ) );
 			this.add( new MPRestoreItem( "soda water", 4, 70 ) );
 
 			// On the other hand, these MP restores have a fairly
