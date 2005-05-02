@@ -114,9 +114,6 @@ public class KoLMailManager
 
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( "Inbox" );
 		mailbox.remove( mailbox.indexOf( message ) );
-
-		mailbox = (LockableListModel) mailboxes.get( "Saved" );
-		mailbox.add( message );
 	}
 
 	public void saveMessages( Object [] messages )
@@ -126,9 +123,5 @@ public class KoLMailManager
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( "Inbox" );
 		for ( int i = 0; i < messages.length; ++i )
 			mailbox.remove( mailbox.indexOf( messages[i] ) );
-
-		mailbox = (LockableListModel) mailboxes.get( "Saved" );
-		for ( int i = 0; i < messages.length; ++i )
-			mailbox.add( messages[i] );
 	}
 }
