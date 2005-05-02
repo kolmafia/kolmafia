@@ -228,7 +228,7 @@ public class ConcoctionsDatabase
 			this.concoctionID = concoctionID;
 			this.mixingMethod = mixingMethod;
 
-			this.asResult = new AdventureResult( TradeableItemDatabase.getItemName( concoctionID ), 0 );
+			this.asResult = new AdventureResult( concoctionID, 0 );
 
 			this.ingredient1 = TradeableItemDatabase.getItemID( ingredient1 );
 			this.ingredient2 = TradeableItemDatabase.getItemID( ingredient2 );
