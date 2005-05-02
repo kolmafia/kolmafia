@@ -300,6 +300,9 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		if ( characterData.canSummonReagent() )
 			(new UseSkillRequest( this, "Advanced Saucecrafting", "", 3 )).run();
 
+		if ( characterData.canSummonShore() )
+			(new UseSkillRequest( this, "Advanced Cocktailcrafting", "", 3 )).run();
+
 		permitContinue = true;
 	}
 

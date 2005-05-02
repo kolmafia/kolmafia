@@ -1056,6 +1056,21 @@ public class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to look up whether or not the character can
+	 * summon shore-based items.
+	 *
+	 * @return	<code>true</code> if shore-based items can be summoned by this character
+	 */
+
+	public boolean canSummonShore()
+	{
+		for ( int i = 0; i < availableSkills.size(); ++i )
+			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( "Advanced Cocktailcrafting" ) )
+				return true;
+		return false;
+	}
+
+	/**
 	 * Accessor method to set the description of the current familiar.
 	 * @param	familiarRace	The race of the current familiar
 	 * @param	familiarWeight	The weight of the current familiar

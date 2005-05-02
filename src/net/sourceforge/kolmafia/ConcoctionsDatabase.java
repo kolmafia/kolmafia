@@ -179,17 +179,14 @@ public class ConcoctionsDatabase
 			case ItemCreationRequest.MIX:
 				return data.hasBartender();
 
-			case ItemCreationRequest.SMITH:
-				return classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" );
-
 			case ItemCreationRequest.COOK_REAGENT:
-				return data.hasChef() && classtype.startsWith( "Sa" );
+				return data.hasChef() && data.canSummonReagent();
 
 			case ItemCreationRequest.COOK_PASTA:
-				return data.hasChef() && classtype.startsWith( "Pa" );
+				return data.hasChef() && data.canSummonNoodles();
 
 			case ItemCreationRequest.MIX_SPECIAL:
-				return data.hasBartender() && classtype.startsWith( "Di" );
+				return data.hasBartender() && data.canSummonShore();
 
 			default:
 				return true;
