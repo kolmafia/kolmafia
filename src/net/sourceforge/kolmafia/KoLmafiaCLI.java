@@ -1085,7 +1085,7 @@ public class KoLmafiaCLI extends KoLmafia
 		StringBuffer itemName = new StringBuffer();
 
 		itemName.append( '*' );
-		for ( int i = 1; i < tokens.length - 2; ++i )
+		for ( int i = 1; i < tokens.length; ++i )
 		{
 			itemName.append( ' ' );
 			itemName.append( tokens[i] );
@@ -1094,7 +1094,6 @@ public class KoLmafiaCLI extends KoLmafia
 		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), parameters.startsWith( "take" ) ? CLOSET : USAGE );
 		if ( firstMatch == null )
 			return;
-
 
 		Object [] items = new Object[1];
 		items[0] = firstMatch;
