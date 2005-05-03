@@ -42,7 +42,6 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
-import java.net.URLEncoder;
 
 import java.awt.Dimension;
 import javax.swing.JEditorPane;
@@ -357,21 +356,7 @@ public class KoLMessenger implements KoLConstants
 			return null;
 
 		String playerID = (String) seenPlayerIDs.get( playerName );
-
-		try
-		{
-			return playerID != null ? playerID :
-				URLEncoder.encode( playerName.replaceAll( " ", "_" ), "UTF-8" );
-		}
-		catch ( java.io.UnsupportedEncodingException e )
-		{
-			// UTF-8 is a very generic encoding scheme; this
-			// exception should never be thrown.  But if it
-			// is, just ignore it for now.  Better exception
-			// handling when it becomes necessary.
-
-			return null;
-		}
+		return playerID != null ? playerID : playerName.replaceAll( " ", "_" );
 	}
 
 	/**

@@ -33,8 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-
-import java.net.URLEncoder;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
@@ -95,21 +93,8 @@ public class ChatRequest extends KoLRequest
 		else
 			actualMessage = "/msg " + contactID + " " + message;
 
-		addFormField( "graf", 
+		addFormField( "graf",
 			actualMessage.startsWith( "/msg" ) ? DataUtilities.convertToHTML( actualMessage ) : actualMessage );
-// Leaving this commented code in, until Holatuwol decides it's ok to remove
-//		try
-//		{
-//			addFormField( "graf", URLEncoder.encode(
-//				actualMessage.startsWith( "/msg" ) ? DataUtilities.convertToHTML( actualMessage ) : actualMessage, "UTF-8" ) );
-//		}
-//		catch ( java.io.UnsupportedEncodingException e )
-//		{
-//			// UTF-8 is a very generic encoding scheme; this
-//			// exception should never be thrown.  But if it
-//			// is, just ignore it for now.  Better exception
-//			// handling when it becomes necessary.
-//		}
 
 		isContinuationRequest = false;
 		isFriendAdditionRequest = actualMessage.trim().startsWith( "/friend " );
