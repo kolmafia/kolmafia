@@ -82,11 +82,11 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private LockableListModel buffCostTable;
 	private String [] whiteListArray;
 
-	private static final String BUFFCOLOR = "<font color=green>";
-	private static final String NONBUFFCOLOR = "<font color=blue>";
-	private static final String ERRORCOLOR = "<font color=red>";
-	private static final String ENDCOLOR = "</font>";
-	private static final String MEAT_REGEX = "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat";
+	public static final String BUFFCOLOR = "<font color=green>";
+	public static final String NONBUFFCOLOR = "<font color=blue>";
+	public static final String ERRORCOLOR = "<font color=red>";
+	public static final String ENDCOLOR = "</font>";
+	public static final String MEAT_REGEX = "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat";
 
 	/**
 	 * Constructor for the <code>BuffBotManager</code> class.

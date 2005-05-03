@@ -111,36 +111,66 @@ public class UseSkillRequest extends KoLRequest
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "No response to skill request." );
+
+			if ( client.isBuffBotActive() )
+				client.getBuffBotLog().timeStampedLogEntry(
+					BuffBotManager.ERRORCOLOR + "No response to skill request." + BuffBotManager.ENDCOLOR );
+
 			return;
 		}
 		else if ( replyContent.indexOf( "You don't have enough" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You don't have enough mana." );
+
+			if ( client.isBuffBotActive() )
+				client.getBuffBotLog().timeStampedLogEntry(
+					BuffBotManager.ERRORCOLOR + "You don't have enough mana." + BuffBotManager.ENDCOLOR );
+
 			return;
 		}
 		else if ( replyContent.indexOf( "You can only conjure" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Summon limited exceeded." );
+
+			if ( client.isBuffBotActive() )
+				client.getBuffBotLog().timeStampedLogEntry(
+					BuffBotManager.ERRORCOLOR + "Summon limit exceeded." + BuffBotManager.ENDCOLOR );
+
 			return;
 		}
 		else if ( replyContent.indexOf( "too many songs" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, target + " is overbuffed." );
+
+			if ( client.isBuffBotActive() )
+				client.getBuffBotLog().timeStampedLogEntry(
+					BuffBotManager.ERRORCOLOR + target + " is overbuffed." + BuffBotManager.ENDCOLOR );
+
 			return;
 		}
 		else if ( replyContent.indexOf( "Invalid target player" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, target + " is not a valid target." );
+
+			if ( client.isBuffBotActive() )
+				client.getBuffBotLog().timeStampedLogEntry(
+					BuffBotManager.ERRORCOLOR + target + " is not a valid target." + BuffBotManager.ENDCOLOR );
+
 			return;
 		}
 		else if ( replyContent.indexOf( "busy fighting" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, target + " is busy fighting." );
+
+			if ( client.isBuffBotActive() )
+				client.getBuffBotLog().timeStampedLogEntry(
+					BuffBotManager.ERRORCOLOR + target + " is busy fighting." + BuffBotManager.ENDCOLOR );
+
 			return;
 		}
 		else
