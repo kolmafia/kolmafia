@@ -209,30 +209,20 @@ public class ChatBuffer
 			if ( newContents == null )
 			{
 				displayPane.setContentType( "text/html" );
-				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style><body>" + displayBuffer.toString() );
+				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style><body>" + displayBuffer.toString() + "</body></html>" );
 			}
 			else
 			{
-				try
-				{
-					HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-					Element parentElement = currentHTML.getDefaultRootElement();
+				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+				Element parentElement = currentHTML.getDefaultRootElement();
 
-					while ( !parentElement.isLeaf() )
-						parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
+				while ( !parentElement.isLeaf() )
+					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
 
-					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
 
-					if ( scrollBarResizer != null )
-						scrollBarResizer.run();
-				}
-				catch ( Exception e )
-				{
-					// Eventhough this shouldn't happen, this
-					// catch is made just in case.
-
-					displayPane.setText( header + BUFFER_STYLE + "</head><body>" + displayBuffer.toString() );
-				}
+				if ( scrollBarResizer != null )
+					scrollBarResizer.run();
 			}
 		}
 
