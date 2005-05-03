@@ -43,6 +43,8 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int CONSUME_MULTIPLE = 4;
 	public static final int GROW_FAMILIAR = 5;
 
+	public static final int EQUIP_FAMILIAR = 6;
+
 	private int consumptionType;
 	private AdventureResult itemUsed;
 

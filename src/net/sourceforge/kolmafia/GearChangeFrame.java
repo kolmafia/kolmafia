@@ -70,7 +70,7 @@ public class GearChangeFrame extends KoLFrame
 	private boolean isChanging;
 	private KoLCharacter characterData;
 	private JLabel [] equipment;
-	private JComboBox outfitSelect, familiarSelect;
+	private JComboBox outfitSelect, familiarSelect, familiarItemSelect;
 	private JMenuItem gearRefresh, familiarRefresh;
 
 	/**
@@ -101,6 +101,7 @@ public class GearChangeFrame extends KoLFrame
 		getContentPane().add( createEquipPanel(), "" );
 		refreshEquipPanel();
 
+		addMenuBar();
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 	}
@@ -144,6 +145,9 @@ public class GearChangeFrame extends KoLFrame
 
 		if ( familiarSelect != null )
 			familiarSelect.setEnabled( isEnabled );
+
+		if ( familiarItemSelect != null )
+			familiarItemSelect.setEnabled( isEnabled );
 	}
 
 	/**
@@ -190,8 +194,10 @@ public class GearChangeFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( familiarSelect, 240, 20 );
 		valuePanel.add( familiarSelect );
 
-		equipment[6] = new JLabel( " ", JLabel.LEFT );
-		valuePanel.add( equipment[6] );
+		familiarItemSelect = new JComboBox( characterData.getFamiliarItems() );
+		familiarItemSelect.addActionListener( new ChangeEquipmentListener() );
+		JComponentUtilities.setComponentSize( familiarItemSelect, 240, 20 );
+		valuePanel.add( familiarItemSelect );
 
 		valuePanel.add( new JLabel( " " ) );
 
@@ -216,10 +222,10 @@ public class GearChangeFrame extends KoLFrame
 		equipment[3].setText( characterData.getAccessory1() );
 		equipment[4].setText( characterData.getAccessory2() );
 		equipment[5].setText( characterData.getAccessory3() );
-		equipment[6].setText( characterData.getFamiliarItem() );
 
 		this.isChanging = true;
 		familiarSelect.setSelectedItem( new FamiliarData( FamiliarsDatabase.getFamiliarID( characterData.getFamiliarRace() ) ) );
+		familiarItemSelect.setSelectedItem( characterData.getFamiliarItem() );
 		this.isChanging = false;
 	}
 
@@ -250,13 +256,13 @@ public class GearChangeFrame extends KoLFrame
 		}
 	}
 
-	private class ChangeOutfitListener implements ActionListener
+	private class ChangeEquipmentListener implements ActionListener
 	{
-		private SpecialOutfit change;
+		private String change;
 
 		public void actionPerformed( ActionEvent e )
 		{
-			change = (SpecialOutfit) outfitSelect.getSelectedItem();
+			change = (String) familiarItemSelect.getSelectedItem();
 			if ( !isChanging && change != null )
 				(new ChangeEquipmentThread()).start();
 		}
@@ -266,6 +272,33 @@ public class GearChangeFrame extends KoLFrame
 			public ChangeEquipmentThread()
 			{
 				super( "Change-Equipment-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				client.makeRequest( new EquipmentRequest( client, change ), 1 );
+				refreshEquipPanel();
+			}
+		}
+	}
+
+	private class ChangeOutfitListener implements ActionListener
+	{
+		private SpecialOutfit change;
+
+		public void actionPerformed( ActionEvent e )
+		{
+			change = (SpecialOutfit) outfitSelect.getSelectedItem();
+			if ( !isChanging && change != null )
+				(new ChangeOutfitThread()).start();
+		}
+
+		private class ChangeOutfitThread extends Thread
+		{
+			public ChangeOutfitThread()
+			{
+				super( "Change-Outfit-Thread" );
 				setDaemon( true );
 			}
 

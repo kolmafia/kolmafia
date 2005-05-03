@@ -866,6 +866,27 @@ public class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to retrieve a list of all available items which can be equipped
+	 * by familiars.  Note this lists items which the current familiar cannot equip.
+	 */
+
+	public LockableListModel getFamiliarItems()
+	{
+		String currentItem;
+		LockableListModel items = new LockableListModel();
+		items.add( getFamiliarItem() );
+
+		for ( int i = 0; i < inventory.size(); ++i )
+		{
+			currentItem = ((AdventureResult)inventory.get(i)).getName();
+			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == ConsumeItemRequest.EQUIP_FAMILIAR )
+				items.add( currentItem );
+		}
+
+		return items;
+	}
+
+	/**
 	 * Accessor method to retrieve a list of the outfits available to this character, based
 	 * on the last time the equipment screen was requested.  Note that this list may be outdated
 	 * or outright wrong because of changes to the character's status.

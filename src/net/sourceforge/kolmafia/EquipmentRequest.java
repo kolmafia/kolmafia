@@ -54,6 +54,7 @@ public class EquipmentRequest extends KoLRequest
 	public static final int EQUIPMENT = 1;
 	public static final int CLOSET = 2;
 	public static final int CHANGE_OUTFIT = 3;
+	public static final int CHANGE_ITEM = 4;
 
 	private KoLCharacter character;
 	private int requestType;
@@ -82,6 +83,16 @@ public class EquipmentRequest extends KoLRequest
 		this.outfitName = null;
 		if ( requestType == EQUIPMENT )
 			addFormField( "which", "2" );
+	}
+
+	public EquipmentRequest( KoLmafia client, String change )
+	{
+		super( client, "inv_equip.php" );
+		addFormField( "action", "equip" );
+		addFormField( "which", "2" );
+		addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( change ) ) );
+		addFormField( "pwd", client.getPasswordHash() );
+		this.requestType = CHANGE_ITEM;
 	}
 
 	public EquipmentRequest( KoLmafia client, SpecialOutfit change )
@@ -118,32 +129,18 @@ public class EquipmentRequest extends KoLRequest
 
 		if ( requestType == CHANGE_OUTFIT )
 			updateDisplay( DISABLED_STATE, "Changing outfit..." );
+		else if ( requestType == CHANGE_ITEM )
+			updateDisplay( DISABLED_STATE, "Updating equipment..." );
 
 		KoLCharacter data = client.getCharacterData();
-
-		String oldHat = data.getHat();
-		String oldWeapon = data.getWeapon();
-		String oldPants = data.getPants();
-		String oldAccessory1 = data.getAccessory1();
-		String oldAccessory2 = data.getAccessory2();
-		String oldAccessory3 = data.getAccessory3();
-
 		super.run();
 
 		// If you changed your outfit, there will be a redirect
 		// to the equipment page - therefore, do so.
 
-		if ( requestType == CHANGE_OUTFIT )
+		if ( requestType == CHANGE_OUTFIT || requestType == CHANGE_ITEM )
 		{
 			(new EquipmentRequest( client, EQUIPMENT )).run();
-
-			switchItem( oldHat, data.getHat() );
-			switchItem( oldWeapon, data.getWeapon() );
-			switchItem( oldPants, data.getPants() );
-			switchItem( oldAccessory1, data.getAccessory1() );
-			switchItem( oldAccessory2, data.getAccessory2() );
-			switchItem( oldAccessory3, data.getAccessory3() );
-
 			updateDisplay( NOCHANGE, "Equipment changed." );
 			return;
 		}
@@ -176,8 +173,26 @@ public class EquipmentRequest extends KoLRequest
 					String plainTextContent = replyContent.replaceAll( "<.*?>", "\n" );
 					StringTokenizer parsedContent = new StringTokenizer( plainTextContent, "\n" );
 
+					String oldHat = data.getHat();
+					String oldWeapon = data.getWeapon();
+					String oldPants = data.getPants();
+					String oldAccessory1 = data.getAccessory1();
+					String oldAccessory2 = data.getAccessory2();
+					String oldAccessory3 = data.getAccessory3();
+					String oldFamiliarItem = data.getFamiliarItem();
+
 					parseEquipment( parsedContent );
+
+					switchItem( oldHat, data.getHat() );
+					switchItem( oldWeapon, data.getWeapon() );
+					switchItem( oldPants, data.getPants() );
+					switchItem( oldAccessory1, data.getAccessory1() );
+					switchItem( oldAccessory2, data.getAccessory2() );
+					switchItem( oldAccessory3, data.getAccessory3() );
+					switchItem( oldFamiliarItem, data.getFamiliarItem() );
+
 					updateDisplay( NOCHANGE, "Equipment retrieved." );
+
 					break;
 			}
 			logStream.println( "Parsing complete." );
