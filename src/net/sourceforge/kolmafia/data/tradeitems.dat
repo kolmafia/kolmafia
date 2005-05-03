@@ -850,19 +850,19 @@
 850	many-eyed glasses	0	75
 851	prosthetic forehead	0	75
 852	tiny shaker of salt	0	75
-853	blundarrrbus	0	75
-854	sucky decal	0	75
-855	tiny balloon knife	0	75
-856	shock collar	0	75
-857	moonglasses	0	75
-858	palm-frond toupee	0	75
-859	tiny knife and fork	0	75
-860	eye-pod	0	75
-861	chocolate spurs	0	75
-862	magnifying glass	0	75
-863	skewer-mounted razor blade	0	75
-864	brass stinger	0	75
-865	lead necklace	0	75
+853	blundarrrbus	6	75
+854	sucky decal	6	75
+855	tiny balloon knife	6	75
+856	shock collar	6	75
+857	moonglasses	6	75
+858	palm-frond toupee	6	75
+859	tiny knife and fork	6	75
+860	eye-pod	6	75
+861	chocolate spurs	6	75
+862	magnifying glass	6	75
+863	skewer-mounted razor blade	6	75
+864	brass stinger	6	75
+865	lead necklace	6	75
 866
 867
 868
@@ -897,9 +897,9 @@
 897	coffee sprite	5	0
 898	Cheshire Bitten	5	0
 899	custom avatar form	0	0
-900	smile-sharpening stone	0	75
-901	miniature espresso maker	0	75
-902	100-Watt bulb	0	75
+900	smile-sharpening stone	6	75
+901	miniature espresso maker	6	75
+902	100-Watt bulb	6	75
 903	Spasmi Dolorosi Del Rene Champagne	2	0
 904	old school Mafia knickerbockers	0	0
 905	Yummy Tummy bean	0	0
@@ -912,7 +912,7 @@
 912	pixellated candy heart	0	0
 913	candied kobold	0	0
 914	hand turkey outline	5	0
-915	candied yam pinky ring	0	75
+915	candied yam pinky ring	6	75
 916	intergalactic pom poms	0	0
 917	Mob Penguin protection contract	0	0
 918	Radio Free Baseball Cap	0	0
@@ -922,7 +922,7 @@
 922	severed rocking horse head	0	0
 923	broken cellular phone	0	0
 924	crimbo elfling	5	0
-925	dental pliers	0	75
+925	dental pliers	6	75
 926	papotion of papower	4	38
 927	Ferita Del Petto Zinfandel	2	0
 928	fuzzy bracelets	0	0
@@ -934,7 +934,7 @@
 934	gingerbread bugbear	1	0
 935	imitation nice watch	0	0
 936	Hanukkimbo dreidl	5	0
-937	menorette	0	70
+937	menorette	6	70
 938	tiny plastic sword	0	0
 939	small Crimbo Pressie	3	0
 940	bow	0	0
@@ -950,7 +950,7 @@
 950	cherry bomb	2	0
 951	extra special Crimbo stocking	3	0
 952	spooky hockey mask	0	0
-953	penguin-smacking club	0	70
+953	penguin-smacking club	6	70
 954	orphan baby yeti	5	0
 955	fez of etymology	0	142
 956	carob chunk noodles	1	75
@@ -959,7 +959,7 @@
 959
 960
 961	silk garter snake	5	0
-962	velvet choker	0	70
+962	velvet choker	6	70
 963	tiny plastic seal clubber	0	30
 964	tiny plastic turtle tamer	0	30
 965	tiny plastic pastamancer	0	30
@@ -1037,7 +1037,7 @@
 1037
 1038	maraschino moxiosity potion	4	38
 1039
-1040	lucky Tam O'Shanter	0	0
+1040	lucky Tam O'Shanter	6	0
 1041	green beer	2	100
 1042	string of red beads	0	75
 1043	string of blue beads	0	75
@@ -1079,9 +1079,9 @@
 1079	yellow plastic oyster egg	0	50
 1080	oyster basket	0	150
 1081	emo roe	5	0
-1082	gazing shoes	0	70
+1082	gazing shoes	6	70
 1083	personal raindrop	5	0
-1084	rainbow tie	0	70
+1084	rainbow tie	6	70
 1085
 1086
 1087
@@ -1147,3 +1147,6 @@
 1147
 1148	shot of flower schnapps	2	120
 1149	flower petal pie	1	45
+1150
+1151	giant discarded plastic fork	0	205
+1152	miniature gravy-covered maypole	6	0
