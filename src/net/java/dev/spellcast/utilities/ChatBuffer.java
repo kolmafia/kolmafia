@@ -219,7 +219,20 @@ public class ChatBuffer
 				while ( !parentElement.isLeaf() )
 					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
 
-				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+				try
+				{
+					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+				}
+				catch ( Exception e )
+				{
+					// In the event that an exception is thrown, just
+					// pretend that it never happened.  But, in case
+					// someone happens to be running with a console,
+					// print the debug information to the screen.
+
+					e.printStackTrace();
+					return;
+				}
 
 				if ( scrollBarResizer != null )
 					scrollBarResizer.run();
