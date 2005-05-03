@@ -193,33 +193,38 @@ public class FightRequest extends KoLRequest
 
 		switch ( Integer.parseInt( action ) )
 		{
-			case 3003:
 			case 4003:
 				return -2;
 
 			case 1003:
 			case 2003:
-			case 3005:
+			case 3004:
 			case 4005:
 			case 5003:
 				return -3;
 
-			case 3007:
+			case 3003:
 			case 4009:
 				return -4;
 
 			case 1004:
 			case 2005:
-			case 3008:
 			case 4012:
 			case 5005:
 				return -5;
 
 			case 1007:
+			case 3005:
 				return -7;
 
 			case 5012:
 				return -10;
+
+			case 3007:
+				return -19;
+
+			case 3008:
+				return -35;
 		}
 
 		return 0;
