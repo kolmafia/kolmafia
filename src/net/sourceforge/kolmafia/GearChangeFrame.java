@@ -216,6 +216,7 @@ public class GearChangeFrame extends KoLFrame
 
 	private void refreshEquipPanel()
 	{
+		isChanging = true;
 		equipment[0].setText( characterData.getHat() );
 		equipment[1].setText( characterData.getWeapon() );
 		equipment[2].setText( characterData.getPants() );
@@ -223,10 +224,10 @@ public class GearChangeFrame extends KoLFrame
 		equipment[4].setText( characterData.getAccessory2() );
 		equipment[5].setText( characterData.getAccessory3() );
 
-		this.isChanging = true;
 		familiarSelect.setSelectedItem( new FamiliarData( FamiliarsDatabase.getFamiliarID( characterData.getFamiliarRace() ) ) );
+		familiarItemSelect.setModel( characterData.getFamiliarItems() );
 		familiarItemSelect.setSelectedItem( characterData.getFamiliarItem() );
-		this.isChanging = false;
+		isChanging = false;
 	}
 
 	private class ChangeFamiliarListener implements ActionListener
@@ -250,8 +251,10 @@ public class GearChangeFrame extends KoLFrame
 
 			public void run()
 			{
+				isChanging = true;
 				client.makeRequest( new FamiliarRequest( client, change ), 1 );
 				refreshEquipPanel();
+				isChanging = false;
 			}
 		}
 	}
@@ -277,8 +280,10 @@ public class GearChangeFrame extends KoLFrame
 
 			public void run()
 			{
+				isChanging = true;
 				client.makeRequest( new EquipmentRequest( client, change ), 1 );
 				refreshEquipPanel();
+				isChanging = false;
 			}
 		}
 	}
@@ -304,8 +309,10 @@ public class GearChangeFrame extends KoLFrame
 
 			public void run()
 			{
+				isChanging = true;
 				client.makeRequest( new EquipmentRequest( client, change ), 1 );
 				refreshEquipPanel();
+				isChanging = false;
 			}
 		}
 	}

@@ -91,54 +91,15 @@ public class FamiliarRequest extends KoLRequest
 
 		if ( isChangingFamiliar )
 		{
-			int addedWeight = 0;
-
-			// First update the weight changes due to the
-			// accessories the character is wearing
-
-			int [] accessoryID = new int[3];
-			accessoryID[0] = TradeableItemDatabase.getItemID( characterData.getAccessory1() );
-			accessoryID[1] = TradeableItemDatabase.getItemID( characterData.getAccessory2() );
-			accessoryID[2] = TradeableItemDatabase.getItemID( characterData.getAccessory3() );
-
-			for ( int i = 0; i < 3; ++i )
-				if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
-					++addedWeight;
-
-			// Next, update the weight due to the accessory
-			// that the familiar is wearing
-
-			if ( !changeTo.getItem().equals( "" ) )
-			{
-				if ( changeTo.getItem().startsWith( "lead" ) )
-					addedWeight += 3;
-				else if ( !changeTo.getItem().startsWith( "lucky T" ) )
-					addedWeight += 5;
-			}
-
-			// Finally, update the weight due to the affects
-			// which are impacting the character; empathy and
-			// leash of linguini are the only ones that
-			// need to be watched for (at the moment).
-
-			if ( characterData.getEffects().contains( new AdventureResult( "Empathy", 0 ) ) )
-			{
-				if ( characterData.getClassType().startsWith( "Tu" ) )
-					addedWeight += 10;
-				else
-					addedWeight += 5;
-			}
-
-			if ( characterData.getEffects().contains( new AdventureResult( "Leash of Linguini", 0 ) ) )
-				addedWeight += 5;
-
-			characterData.setFamiliarDescription( changeTo.getRace(), changeTo.getWeight() + addedWeight );
+			characterData.setFamiliarDescription( changeTo.getRace(), changeTo.getWeight() );
 			characterData.setFamiliarItem( changeTo.getItem() );
 			updateDisplay( NOCHANGE, "Familiar changed." );
 		}
 		else
 		{
-			characterData.setFamiliarDescription( characterData.getFamiliarRace(), characterData.getFamiliarWeight() );
+			characterData.setFamiliarDescription( characterData.getFamiliarRace(),
+				characterData.getFamiliarWeight() - characterData.getAdditionalWeight() );
+			characterData.setFamiliarItem( characterData.getFamiliarItem() );
 			updateDisplay( NOCHANGE, "Familiar data retrieved." );
 		}
 	}

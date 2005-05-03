@@ -853,7 +853,9 @@ public class KoLCharacter
 	 */
 
 	public void setFamiliarItem( String familiarItem )
-	{	equipment.set( 6, familiarItem );
+	{
+		equipment.set( 6, familiarItem == null ? "none" : familiarItem );
+		setFamiliarDescription( familiarRace, familiarWeight );
 	}
 
 	/**
@@ -1102,7 +1104,8 @@ public class KoLCharacter
 		this.familiarRace = familiarRace;
 		this.familiarWeight = familiarWeight;
 
-		addFamiliar( new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ), familiarWeight ) );
+		addFamiliar( new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ),
+			familiarWeight + getAdditionalWeight() ) );
 	}
 
 	/**
@@ -1124,14 +1127,67 @@ public class KoLCharacter
 	}
 
 	/**
+	 * Returns the amount of additional weight that is present
+	 * due to buffs and related things.
+	 */
+
+	public int getAdditionalWeight()
+	{
+		int addedWeight = 0;
+
+		// First update the weight changes due to the
+		// accessories the character is wearing
+
+		int [] accessoryID = new int[3];
+		accessoryID[0] = TradeableItemDatabase.getItemID( getAccessory1() );
+		accessoryID[1] = TradeableItemDatabase.getItemID( getAccessory2() );
+		accessoryID[2] = TradeableItemDatabase.getItemID( getAccessory3() );
+
+		for ( int i = 0; i < 3; ++i )
+			if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
+				++addedWeight;
+
+		// Next, update the weight due to the accessory
+		// that the familiar is wearing
+
+		switch ( TradeableItemDatabase.getItemID( getFamiliarItem() ) )
+		{
+			case -1:
+			case 1040:
+			case 1152:
+				break;
+			case 865:
+				addedWeight += 3;
+				break;
+			default:
+				addedWeight += 5;
+		}
+
+		// Finally, update the weight due to the affects
+		// which are impacting the character; empathy and
+		// leash of linguini are the only ones that
+		// need to be watched for (at the moment).
+
+		if ( getEffects().contains( new AdventureResult( "Empathy", 0 ) ) )
+			addedWeight += getClassType().startsWith( "Tu" ) ? 10 : 5;
+
+		if ( getEffects().contains( new AdventureResult( "Leash of Linguini", 0 ) ) )
+			addedWeight += 5;
+
+		return addedWeight;
+	}
+
+	/**
 	 * Adds the given familiar to the list of available familiars.
 	 * @param	newFamiliar	The ID of the familiar to be added
 	 */
 
 	public void addFamiliar( FamiliarData newFamiliar )
 	{
-		if ( !familiars.contains( newFamiliar ) )
-			familiars.add( newFamiliar );
+		if ( familiars.contains( newFamiliar ) )
+			familiars.remove( familiars.indexOf( newFamiliar ) );
+
+		familiars.add( newFamiliar );
 	}
 
 	/**
