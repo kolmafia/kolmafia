@@ -119,7 +119,7 @@ public class ConcoctionsDatabase
 				String itemName = TradeableItemDatabase.getItemName(i);
 				if ( itemName != null )
 				{
-					int index = availableIngredients.indexOf( new AdventureResult( itemName, 0 ) );
+					int index = availableIngredients.indexOf( new AdventureResult( i, 0 ) );
 					quantityPossible[i] = (index == -1) ? 0 : ((AdventureResult)availableIngredients.get( index )).getCount();
 				}
 				else
