@@ -193,38 +193,31 @@ public class FightRequest extends KoLRequest
 
 		switch ( Integer.parseInt( action ) )
 		{
-			case 4003:
-				return -2;
+			// Seal clubber skills
+			case 1003:	return -3;
+			case 1004:	return -5;
+			case 1005:	return -8;
 
-			case 1003:
-			case 2003:
-			case 3004:
-			case 4005:
-			case 5003:
-				return -3;
+			// Turtle tamer skills
+			case 2003:	return -3;
+			case 2005:	return -6;
 
-			case 3003:
-			case 4009:
-				return -4;
+			// Pastamancer skills
+			case 3003:	return -4;
+			case 3005:	return -7;
+			case 3007:	return -19;
+			case 3008:	return -35;
 
-			case 1004:
-			case 2005:
-			case 4012:
-			case 5005:
-				return -5;
+			// Sauceror skills
+			case 4003:	return -3;
+			case 4005:	return -12;
+			case 4009:	return -23;
+			case 4012:	return -40;
 
-			case 1007:
-			case 3005:
-				return -7;
-
-			case 5012:
-				return -10;
-
-			case 3007:
-				return -19;
-
-			case 3008:
-				return -35;
+			// Disco bandit skills
+			case 5003:	return -3;
+			case 5005:	return -5;
+			case 5012:	return -10;
 		}
 
 		return 0;

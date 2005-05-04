@@ -335,30 +335,30 @@ public class OptionsFrame extends KoLFrame
 			actions.add( "moxman" );  actionNames.add( "Moxious Maneuver" );
 
 			// Seal clubber skills
-			actions.add( "1003" );  actionNames.add( "Seal: Thrust-Smack" );
-			actions.add( "1004" );  actionNames.add( "Seal: Lunge-Smack" );
-			actions.add( "1007" );  actionNames.add( "Seal: Lunge Thrust-Smack" );
+			actions.add( "1003" );  actionNames.add( "SC: Thrust-Smack" );
+			actions.add( "1004" );  actionNames.add( "SC: Lunge-Smack" );
+			actions.add( "1005" );  actionNames.add( "SC: Lunging Thrust-Smack" );
 
 			// Turtle tamer skills
-			actions.add( "2003" );  actionNames.add( "Turt: Headbutt" );
-			actions.add( "2005" );  actionNames.add( "Turt: Spectral Snapper" );
+			actions.add( "2003" );  actionNames.add( "TT: Headbutt" );
+			actions.add( "2005" );  actionNames.add( "TT: Spectral Snapper" );
 
 			// Pastamancer skills
-			actions.add( "3003" );  actionNames.add( "Past: Minor Ray of Something" );
-			actions.add( "3005" );  actionNames.add( "Past: eXtreme Ray of Something" );
-			actions.add( "3007" );  actionNames.add( "Past: Cone of Whatever" );
-			actions.add( "3008" );  actionNames.add( "Past: Weapon of the Pastalord" );
+			actions.add( "3003" );  actionNames.add( "PM: Minor Ray of Something" );
+			actions.add( "3005" );  actionNames.add( "PM: eXtreme Ray of Something" );
+			actions.add( "3007" );  actionNames.add( "PM: Cone of Whatever" );
+			actions.add( "3008" );  actionNames.add( "PM: Weapon of the Pastalord" );
 
 			// Sauceror skills
-			actions.add( "4003" );  actionNames.add( "Sauc: Stream of Sauce" );
-			actions.add( "4005" );  actionNames.add( "Sauc: Saucestorm" );
-			actions.add( "4009" );  actionNames.add( "Sauc: Wave of Sauce" );
-			actions.add( "4012" );  actionNames.add( "Sauc: Saucegeyser" );
+			actions.add( "4003" );  actionNames.add( "SR: Stream of Sauce" );
+			actions.add( "4005" );  actionNames.add( "SR: Saucestorm" );
+			actions.add( "4009" );  actionNames.add( "SR: Wave of Sauce" );
+			actions.add( "4012" );  actionNames.add( "SR: Saucegeyser" );
 
 			// Disco bandit skills
-			actions.add( "5003" );  actionNames.add( "Disc: Disco Eye-Poke" );
-			actions.add( "5005" );  actionNames.add( "Disc: Disco Dance of Doom" );
-			actions.add( "5012" );  actionNames.add( "Disc: Disco Face Stab" );
+			actions.add( "5003" );  actionNames.add( "DB: Disco Eye-Poke" );
+			actions.add( "5005" );  actionNames.add( "DB: Disco Dance of Doom" );
+			actions.add( "5012" );  actionNames.add( "DB: Disco Face Stab" );
 
 			actionSelect = new JComboBox( actionNames );
 
