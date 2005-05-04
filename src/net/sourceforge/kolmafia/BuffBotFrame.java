@@ -160,7 +160,7 @@ public class BuffBotFrame extends KoLFrame
 		invalidBuff = new InvalidBuffPanel();
 
 		tabs.addTab( "Run BuffBot", mainBuff );
-		tabs.addTab( "Configure Buffs", buffOptions );
+		tabs.addTab( "Edit Buff List", buffOptions );
 		tabs.addTab( "Change Settings", whiteList );
 		tabs.addTab( "Refund Message", invalidBuff );
 
@@ -216,7 +216,7 @@ public class BuffBotFrame extends KoLFrame
 
 		public MainBuffPanel()
 		{
-			super( "BuffBot Activities", "Start", "Stop", new JList() );
+			super( "BuffBot Activities", "start", "stop", new JList() );
 			JList buffbotLogDisplay = (JList) getScrollComponent();
 			buffbotLogDisplay.setCellRenderer( BuffBotHome.getBuffMessageRenderer() );
 			if ( client != null )
@@ -279,7 +279,7 @@ public class BuffBotFrame extends KoLFrame
 
 		public BuffOptionsPanel()
 		{
-			super( "Add Buff", "Remove Buff", new Dimension( 100, 20 ),  new Dimension( 240, 20 ));
+			super( "add", "remove", new Dimension( 60, 20 ),  new Dimension( 240, 20 ));
 			UseSkillRequest skill;
 
 			LockableListModel skillSet = (client == null) ? new LockableListModel() : client.getCharacterData().getAvailableSkills();
@@ -295,10 +295,10 @@ public class BuffBotFrame extends KoLFrame
 			restrictBox = new JCheckBox();
 
 			VerifiableElement [] elements = new VerifiableElement[4];
-			elements[0] = new VerifiableElement( "Buff Name: ", skillSelect );
-			elements[1] = new VerifiableElement( "Buff Price: ", priceField );
-			elements[2] = new VerifiableElement( "Cast Count: ", countField );
-			elements[3] = new VerifiableElement( "White List Only?", restrictBox );
+			elements[0] = new VerifiableElement( "Name: ", skillSelect );
+			elements[1] = new VerifiableElement( "Price: ", priceField );
+			elements[2] = new VerifiableElement( "Casts: ", countField );
+			elements[3] = new VerifiableElement( "W-List?", restrictBox );
 			setContent( elements );
 		}
 
@@ -348,7 +348,7 @@ public class BuffBotFrame extends KoLFrame
 					String [] soldBuffs = sellerSetting.split( "[;:]" );
 					for ( int i = 0; i < soldBuffs.length; ++i )
 						currentManager.addBuff( ClassSkillsDatabase.getSkillName( Integer.parseInt( soldBuffs[i] ) ),
-							Integer.parseInt( soldBuffs[++i] ), Integer.parseInt( soldBuffs[++i] ), soldBuffs[++i].equals("true") );
+							Integer.parseInt( soldBuffs[++i] ), Integer.parseInt( soldBuffs[++i] ), soldBuffs[++i].equals( "true" ) );
 				}
 
 				setLayout( new BorderLayout() );
@@ -358,8 +358,6 @@ public class BuffBotFrame extends KoLFrame
 
 				buffListDisplay = new JList( buffCostTable.getMirrorImage() );
 				buffListDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				buffListDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-				buffListDisplay.setVisibleRowCount( 11 );
 
 				add( new JScrollPane( buffListDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
@@ -385,19 +383,19 @@ public class BuffBotFrame extends KoLFrame
 
 		public WhiteListPanel()
 		{
-			super( "Apply", "Restore", new Dimension( 120, 20 ),  new Dimension( 240, 20 ));
+			super( "apply", "defaults", new Dimension( 60, 20 ),  new Dimension( 240, 20 ));
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout() );
 
 			LockableListModel buffBotModeChoices = new LockableListModel();
-			buffBotModeChoices.add( "Accept meat for buffs" );
-			buffBotModeChoices.add( "Accept tiny houses for buffs" );
+			buffBotModeChoices.add( "Use buff cost list" );
+			buffBotModeChoices.add( "Use tiny house mode" );
 			buffBotModeSelect = new JComboBox( buffBotModeChoices );
 
 			LockableListModel messageDisposalChoices = new LockableListModel();
-			messageDisposalChoices.add( "Auto-save non-buff requests" );
-			messageDisposalChoices.add( "Auto-delete non-buff requests" );
-			messageDisposalChoices.add( "Do nothing with non-buff requests" );
+			messageDisposalChoices.add( "Auto-save non-requests" );
+			messageDisposalChoices.add( "Auto-delete non-requests" );
+			messageDisposalChoices.add( "Do nothing to non-requests" );
 			messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
 			availableRestores = currentManager == null ? new Object[0] : currentManager.getMPRestoreItemList().toArray();
@@ -428,9 +426,9 @@ public class BuffBotFrame extends KoLFrame
 			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Buff Bot Mode: ", buffBotModeSelect );
-			elements[1] = new VerifiableElement( "Message Disposal: ", messageDisposalSelect );
-			elements[2] = new VerifiableElement( "MP Restore Items: ", scrollArea );
+			elements[0] = new VerifiableElement( "Buffmode: ", buffBotModeSelect );
+			elements[1] = new VerifiableElement( "Messages: ", messageDisposalSelect );
+			elements[2] = new VerifiableElement( "Restores: ", scrollArea );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -476,10 +474,10 @@ public class BuffBotFrame extends KoLFrame
 						JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 						JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-				add( JComponentUtilities.createLabel( "White List (please separate names with commas):", JLabel.CENTER,
+				add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
 						Color.black, Color.white ), BorderLayout.NORTH );
 
-				JComponentUtilities.setComponentSize( scrollArea, 400, 200 );
+				JComponentUtilities.setComponentSize( scrollArea, 300, 120 );
 				add( scrollArea, BorderLayout.CENTER );
 			}
 		}
@@ -597,19 +595,26 @@ public class BuffBotFrame extends KoLFrame
 	private class InvalidBuffPanel extends LabeledScrollPanel
 	{
 		public InvalidBuffPanel()
-		{	super( "Invalid Buff Price Message", "Save", "Default", new JTextArea() );
-			actionCancelled(); // Load the default settings
+		{
+			super( "Invalid Buff Price Message", "save", "defaults", new JTextArea() );
+			actionCancelled();
 		}
 
 		public void actionConfirmed()
-		{	client.getSettings().setProperty( "invalidBuffMessage", ((JTextArea) getScrollComponent()).getText() );
-			client.getSettings().saveSettings();
+		{
+			if ( client != null )
+			{
+				client.getSettings().setProperty( "invalidBuffMessage", ((JTextArea) getScrollComponent()).getText() );
+				client.getSettings().saveSettings();
+			}
 
 			JOptionPane.showMessageDialog( null, "Settings have been saved!" );
 		}
 
 		public void actionCancelled()
-		{	((JTextArea) getScrollComponent()).setText( client.getSettings().getProperty( "invalidBuffMessage" ) );
+		{
+			if ( client != null )
+				((JTextArea) getScrollComponent()).setText( client.getSettings().getProperty( "invalidBuffMessage" ) );
 		}
 	}
 
