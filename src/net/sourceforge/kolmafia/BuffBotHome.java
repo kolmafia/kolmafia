@@ -170,6 +170,9 @@ public class BuffBotHome
 			messages.add( 0, new BuffMessage( c, entry ) );
 			activeLogWriter.println( "<font color=" + DataUtilities.toHexString( c ) + ">" + entry + "</font>" );
 			activeLogWriter.flush();
+
+			if ( client instanceof KoLmafiaCLI )
+				System.out.println( entry );
 		}
 	}
 
