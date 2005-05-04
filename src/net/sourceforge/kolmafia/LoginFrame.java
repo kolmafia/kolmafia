@@ -367,7 +367,10 @@ public class LoginFrame extends KoLFrame
 
 			public void focusLost( FocusEvent e )
 			{
-				if ( currentMatch == null )
+				if ( currentMatch == null || currentMatch.length() == 0 || currentName == null || currentName.trim().length() == 0 )
+					return;
+
+				if ( !saveStateNames.contains( currentName ) )
 				{
 					saveStateNames.add( currentName );
 					currentMatch = currentName;
