@@ -82,10 +82,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private LockableListModel buffCostTable;
 	private String [] whiteListArray;
 
-	public static final String BUFFCOLOR = "<font color=green>";
-	public static final String NONBUFFCOLOR = "<font color=blue>";
-	public static final String ERRORCOLOR = "<font color=red>";
-	public static final String ENDCOLOR = "</font>";
 	public static final String MEAT_REGEX = "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat";
 
 	/**
@@ -174,7 +170,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	{
 		boolean newMessages = false;
 		client.setBuffBotActive( true );
-		client.updateDisplay( DISABLED_STATE, "Buffbot Starting" );
+		client.updateDisplay( DISABLED_STATE, "Buffbot started." );
+		buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
 
 		// Need to make sure everything is up to date.
 		// This includes character status, inventory
@@ -236,8 +233,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 			if ( newMessages )
 			{
-				buffbotLog.timeStampedLogEntry( "Message processing complete.<br>");
-				buffbotLog.timeStampedLogEntry( "Buffbot is sleeping.<br>");
+				buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete." );
+				buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot is sleeping." );
 			}
 
 			client.updateDisplay( DISABLED_STATE, "BuffBot is sleeping" );
@@ -255,6 +252,9 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 						KoLRequest.delay( SLEEP_TIME );
 			}
 		}
+
+		buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
+		client.updateDisplay( ENABLED_STATE, "Buffbot stopped." );
 	}
 
 	public boolean addMessage( String boxname, String message )
@@ -268,7 +268,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			{
 				client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!" );
 				client.setBuffBotActive( false );
-				buffbotLog.append( ERRORCOLOR + "Unable to process a buff message." + ENDCOLOR + "<br>" );
+				buffbotLog.update( BuffBotHome.ERRORCOLOR, "Unable to process a buff message." );
 			}
 		}
 
@@ -286,7 +286,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private void sendRefund( String recipient, String reason, AdventureResult refund )
 	{
 		(new GreenMessageRequest( client, recipient, reason, refund )).run();
-		buffbotLog.append( NONBUFFCOLOR + "Sent refund to [" + recipient + "], " + refund.toString() + ENDCOLOR + "<br>");
+		buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Sent refund to [" + recipient + "], " + refund.toString() );
 	}
 
 	/**
@@ -309,7 +309,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			"&gt;  " + messageHTML.replaceAll( "<.*?>", " " ).replaceAll( "[ ]+", " " );
 
 		(new GreenMessageRequest( client, recipient, reason, new Object[0] )).run();
-		buffbotLog.append( NONBUFFCOLOR + "Sent thank you to [" + recipient + "] " + ENDCOLOR + "<br>");
+		buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Sent thank you to [" + recipient + "]" );
 	}
 
 	private boolean processMessage( KoLMailMessage message )
@@ -330,6 +330,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			if ( meatMatcher.find() )
 			{
 				meatSent = df.parse( meatMatcher.group(1) ).intValue();
+				buffbotLog.update( BuffBotHome.NOCOLOR, "Received " + meatSent + " meat from [" + message.getSenderName() + "]" );
 
 				// Look for this amount in the buff table
 				buff = (BuffBotCaster) buffCostMap.get( new Integer( meatSent ) );
@@ -362,9 +363,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					else
 					{
 						// This is a restricted buff for a non-allowed user.
-						buffbotLog.append( NONBUFFCOLOR + "Request for restricted buff denied: from [" +
-								message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>");
-
+						buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Request for restricted buff denied" );
 						sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price." + refundMessage, meatSent );
 						deleteList.add( message );
 						return true;
@@ -372,9 +371,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				}
 				else
 				{
-					buffbotLog.append( NONBUFFCOLOR + "Meat received does not match anything in database: from [" +
-							message.getSenderName() + "] meat received: " + meatSent + ENDCOLOR + "<br>");
-
+					buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "No database match for meat sent" );
 					sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price." + refundMessage, meatSent );
 					deleteList.add( message );
 					return true;
@@ -470,7 +467,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		Matcher scamMatcher = Pattern.compile( scamString ).matcher( message.getMessageHTML() );
 		if ( scamMatcher.find() )
-			buffbotLog.append( NONBUFFCOLOR + "Ignoring possible attempted scam message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>");
+			buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Possible attempted scam message from [" + message.getSenderName() + "]" );
 
 		// Now, mark for either save or delete the message,
 		// or ignore the message, if applicable.
@@ -478,15 +475,15 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		else if ( messageDisposalSetting == SAVEBOX )
 		{
 			saveList.add( message );
-			buffbotLog.append( NONBUFFCOLOR + "Saving non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>");
+			buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Saving non-buff message from [" + message.getSenderName() + "]" );
 		}
 		else if ( messageDisposalSetting == DISPOSE )
 		{
 			deleteList.add( message );
-			buffbotLog.append( NONBUFFCOLOR + "Deleting non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>");
+			buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Deleting non-buff message from [" + message.getSenderName() + "]" );
 		}
 		else
-			buffbotLog.append( NONBUFFCOLOR + "Ignoring non-buff message from [" + message.getSenderName() + "]" + ENDCOLOR + "<br>");
+			buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Ignoring non-buff message from [" + message.getSenderName() + "]" );
 	}
 
 
@@ -514,7 +511,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 						if ( characterData.getCurrentMP() == previousMP )
 						{
-							buffbotLog.append( ERRORCOLOR + "Detected no MP change.  Refreshing status to verify..." + ENDCOLOR + "<br>" );
+							buffbotLog.update( BuffBotHome.ERRORCOLOR, "Detected no MP change.  Refreshing status to verify..." );
 							(new CharsheetRequest( client )).run();
 						}
  					}
@@ -531,7 +528,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 						if ( characterData.getCurrentMP() == previousMP )
 						{
-							buffbotLog.append( ERRORCOLOR + "Detected no MP change.  Refreshing status to verify..." + ENDCOLOR + "<br>" );
+							buffbotLog.update( BuffBotHome.ERRORCOLOR, "Detected no MP change.  Refreshing status to verify..." );
 							(new CharsheetRequest( client )).run();
 						}
  					}
@@ -539,7 +536,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			}
 		}
 
-		buffbotLog.append( ERRORCOLOR + "Unable to acquire enough MP!" + ENDCOLOR + "<br>" );
+		buffbotLog.update( BuffBotHome.ERRORCOLOR, "Unable to acquire enough MP!" );
 		return false;
 	}
 
@@ -608,11 +605,11 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			int currentCast, mpPerEvent;
 
 			if (price > 0)
-				buffbotLog.append( BUFFCOLOR + "Casting " + buffName + ", " + castCount + " times on "
-					+ target + " for " + price + " meat... "+ ENDCOLOR + "<br>");
+				buffbotLog.update( BuffBotHome.BUFFCOLOR, "Casting " + buffName + ", " + castCount + " times on "
+					+ target + " for " + price + " meat... " );
 			else
-				buffbotLog.append( BUFFCOLOR + "Casting " + buffName + ", " + castCount + " times on "
-					+ target + " for " + (-price) + " tiny houses... "+ ENDCOLOR + "<br>");
+				buffbotLog.update( BuffBotHome.BUFFCOLOR, "Casting " + buffName + ", " + castCount + " times on "
+					+ target + " for " + (-price) + " tiny houses... " );
 			while ( totalCasts > 0 )
 			{
 				currentMP = (double) characterData.getCurrentMP();
@@ -626,11 +623,11 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 				if ( !client.permitsContinue() )
 				{
-					buffbotLog.append( ERRORCOLOR + " ---> Could not cast " + buffName + " on " + target + ENDCOLOR + "<br>");
+					buffbotLog.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buffName + " on " + target );
 					return false;
 				}
 
-				buffbotLog.append( BUFFCOLOR + " ---> Successfully cast " + buffName + " " + currentCast + " times" + ENDCOLOR + "<br>");
+				buffbotLog.update( BuffBotHome.BUFFCOLOR, " ---> Successfully cast " + buffName + " " + currentCast + " times" );
 			}
 
 			return true;
@@ -703,7 +700,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			{
 				if ( this == BEANBAG )
 				{
-					buffbotLog.append("Relaxing in my beanbag chair." + "<br>");
+					buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Relaxing in my beanbag chair." );
 					(new KoLAdventure( client, "campground.php", "relax", "Campsite: To the Beanbag!" )).run();
 					return;
 				}
@@ -722,7 +719,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					int numberToUse = Math.min(1 + ((mpShort - 1) / mpPerUse), ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
 					if (numberToUse > 0)
 					{
-						buffbotLog.append("Consuming " + numberToUse + " " + itemName + "s.<br>");
+						buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Consuming " + numberToUse + " " + itemName + "s." );
 						(new ConsumeItemRequest( client, new AdventureResult( itemUsed.getItemID(), numberToUse ) )).run();
 					}
 				}

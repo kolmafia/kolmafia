@@ -113,8 +113,7 @@ public class UseSkillRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "No response to skill request." );
 
 			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry(
-					BuffBotManager.ERRORCOLOR + "No response to skill request." + BuffBotManager.ENDCOLOR );
+				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "No response to skill request." );
 
 			return;
 		}
@@ -124,8 +123,7 @@ public class UseSkillRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "You don't have enough mana." );
 
 			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry(
-					BuffBotManager.ERRORCOLOR + "You don't have enough mana." + BuffBotManager.ENDCOLOR );
+				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "You don't have enough mana." );
 
 			return;
 		}
@@ -135,8 +133,7 @@ public class UseSkillRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "Summon limited exceeded." );
 
 			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry(
-					BuffBotManager.ERRORCOLOR + "Summon limit exceeded." + BuffBotManager.ENDCOLOR );
+				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "Summon limit exceeded." );
 
 			return;
 		}
@@ -146,8 +143,7 @@ public class UseSkillRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, target + " is overbuffed." );
 
 			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry(
-					BuffBotManager.ERRORCOLOR + target + " is overbuffed." + BuffBotManager.ENDCOLOR );
+				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is overbuffed." );
 
 			return;
 		}
@@ -157,8 +153,7 @@ public class UseSkillRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, target + " is not a valid target." );
 
 			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry(
-					BuffBotManager.ERRORCOLOR + target + " is not a valid target." + BuffBotManager.ENDCOLOR );
+				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is not a valid target." );
 
 			return;
 		}
@@ -168,8 +163,7 @@ public class UseSkillRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, target + " is busy fighting." );
 
 			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry(
-					BuffBotManager.ERRORCOLOR + target + " is busy fighting." + BuffBotManager.ENDCOLOR );
+				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is busy fighting." );
 
 			return;
 		}

@@ -1360,6 +1360,7 @@ public class KoLmafiaCLI extends KoLmafia
 		BuffBotManager currentManager = new BuffBotManager( scriptRequestor, buffCostTable );
 		scriptRequestor.setBuffBotManager( currentManager );
 		String sellerSetting = scriptRequestor.settings.getProperty( "buffBotCasting" );
+
 		if ( sellerSetting != null )
 		{
 			String [] soldBuffs = sellerSetting.split( "[;:]" );
@@ -1369,12 +1370,13 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else
 		{
-			scriptRequestor.updateDisplay( ERROR_STATE, "No sellable buffs defined.");
+			scriptRequestor.updateDisplay( ERROR_STATE, "No sellable buffs defined." );
 			scriptRequestor.cancelRequest();
 			return;
 		}
 
 		int buffBotIterations;
+
 		try
 		{
 			buffBotIterations = df.parse( parameters ).intValue();
@@ -1387,25 +1389,20 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.updateDisplay( ERROR_STATE, parameters + " is not a number." );
 			scriptRequestor.cancelRequest();
 			return;
-
 		}
 
-		if (buffBotIterations <= 0)
+		if ( buffBotIterations <= 0 )
 		{
 			scriptRequestor.updateDisplay( ERROR_STATE, "Must have a positive number of buffbot iterations.");
 			scriptRequestor.cancelRequest();
 			return;
 		}
-		else
-		{
-			buffbotLog.timeStampedLogEntry( "<b>Starting a new CLI buffbot session.</b><br>" );
-			scriptRequestor.resetContinueState();
-			scriptRequestor.setBuffBotActive( true );
-			currentManager.runBuffBot(buffBotIterations);
-			buffbotLog.timeStampedLogEntry( "<b>Completed CLI buffbot session.</b><br>" );
-			scriptRequestor.updateDisplay( ENABLED_STATE, "BuffBot Completed." );
-			scriptRequestor.cancelRequest();
-		}
+
+		scriptRequestor.resetContinueState();
+		scriptRequestor.setBuffBotActive( true );
+		currentManager.runBuffBot(buffBotIterations);
+		scriptRequestor.updateDisplay( ENABLED_STATE, "BuffBot execution complete." );
+		scriptRequestor.cancelRequest();
 	}
 
 	/**

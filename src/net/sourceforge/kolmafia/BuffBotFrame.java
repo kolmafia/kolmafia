@@ -151,15 +151,7 @@ public class BuffBotFrame extends KoLFrame
 		}
 
 		// Initialize the display log buffer and the file log
-		if ( client == null )
-		{
-			BuffBotHome buffbogLog = new BuffBotHome(null);
-			buffbogLog.initialize();
-		}
-		else
-		{
-			buffbotLog = client.getBuffBotLog();
-		}
+		buffbotLog = client == null ? new BuffBotHome( null ) : client.getBuffBotLog();
 
 		JTabbedPane tabs = new JTabbedPane();
 		mainBuff = new MainBuffPanel();
@@ -224,10 +216,11 @@ public class BuffBotFrame extends KoLFrame
 
 		public MainBuffPanel()
 		{
-			super( "BuffBot Activities", "Start", "Stop", new JEditorPane() );
-			JEditorPane buffbotLogDisplay = (JEditorPane) getScrollComponent();
-			buffbotLog.setChatDisplay(buffbotLogDisplay  );
-			buffbotLogDisplay.setEditable( false );
+			super( "BuffBot Activities", "Start", "Stop", new JList() );
+			JList buffbotLogDisplay = (JList) getScrollComponent();
+			buffbotLogDisplay.setCellRenderer( BuffBotHome.getBuffMessageRenderer() );
+			if ( client != null )
+				buffbotLogDisplay.setModel( buffbotLog.getMessages() );
 		}
 
 		/**
@@ -243,10 +236,7 @@ public class BuffBotFrame extends KoLFrame
 		 */
 
 		protected void actionCancelled()
-		{
-			buffbotLog.timeStampedLogEntry( "BuffBot stopped.<br>" );
-			client.setBuffBotActive(false);
-			client.updateDisplay( ENABLED_STATE, "BuffBot stopped." );
+		{	client.setBuffBotActive( false );
 		}
 
 		/**
@@ -268,7 +258,6 @@ public class BuffBotFrame extends KoLFrame
 				if ( client.isBuffBotActive() )
 					return;
 
-				buffbotLog.timeStampedLogEntry( "<b>Starting a new session.</b><br>" );
 				client.resetContinueState();
 				client.setBuffBotActive( true );
 				currentManager.runBuffBot(-1);
@@ -599,7 +588,7 @@ public class BuffBotFrame extends KoLFrame
 			public void run()
 			{
 				if ( client != null )
-					client.deinitializeBuffBot();
+					client.setBuffBotActive( false );
 				client.updateDisplay( ENABLED_STATE, "Buffbot deactivated." );
 			}
 		}
