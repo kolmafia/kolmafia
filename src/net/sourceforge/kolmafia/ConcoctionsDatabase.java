@@ -80,7 +80,8 @@ public class ConcoctionsDatabase
 				if ( strtok.countTokens() == 4 )
 				{
 					int itemID = TradeableItemDatabase.getItemID( strtok.nextToken() );
-					concoctions[ itemID ] = new Concoction( itemID, Integer.parseInt( strtok.nextToken() ), strtok.nextToken(), strtok.nextToken() );
+					if ( itemID != -1 )
+						concoctions[ itemID ] = new Concoction( itemID, Integer.parseInt( strtok.nextToken() ), strtok.nextToken(), strtok.nextToken() );
 				}
 			}
 		}
