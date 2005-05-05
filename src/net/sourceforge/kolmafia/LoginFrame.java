@@ -220,7 +220,7 @@ public class LoginFrame extends KoLFrame
 			checkBoxPanels.add( new JLabel( "Auto-Login: " ), "" );
 			checkBoxPanels.add( autoLoginCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
-			checkBoxPanels.add( new JLabel( "Camp Routine: " ), "" );
+			checkBoxPanels.add( new JLabel( "Get Breakfast: " ), "" );
 			checkBoxPanels.add( getBreakfastCheckBox );
 
 			JPanel southPanel = new JPanel();
@@ -367,10 +367,10 @@ public class LoginFrame extends KoLFrame
 
 			public void focusLost( FocusEvent e )
 			{
-				if ( currentMatch == null || currentMatch.length() == 0 || currentName == null || currentName.trim().length() == 0 )
+				if ( currentName == null || currentName.trim().length() == 0 )
 					return;
 
-				if ( !saveStateNames.contains( currentName ) )
+				if ( currentMatch == null && !saveStateNames.contains( currentName ) )
 				{
 					saveStateNames.add( currentName );
 					currentMatch = currentName;
