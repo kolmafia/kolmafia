@@ -45,6 +45,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 // utility imports
+import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -841,6 +842,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, PrintStream outputStream )
 	{
+		outputStream.println( new Date() );
+		outputStream.println();
+
 		KoLCharacter data = scriptRequestor.getCharacterData();
 
 		if ( desiredData.equals( "session" ) )
