@@ -294,10 +294,10 @@
 294	pail	0	35
 295	demonskin trousers	0	55
 296	dungeoneer's dungarees	0	35
-297	Single-Minty Gum	0	25
-298	Double-Minty Gum	0	50
-299	Triple-Minty Gum	0	75
-300	Quadruple-Minty Gum	0	100
+297	tamarind-flavored chewing gum	0	0
+298	lime-and-chile-flavored chewing gum	0	0
+299	pickle-flavored chewing gum	0	0
+300	jaba&ntilde;ero-flavored chewing gum	0	0
 301	flat dough	3	35
 302	Knob sausage	1	17
 303	Knob mushroom	1	16
@@ -1150,3 +1150,17 @@
 1150
 1151	giant discarded plastic fork	0	205
 1152	miniature gravy-covered maypole	6	0
+1153
+1154
+1155
+1156
+1157
+1158	Meleegra&trade; pills	0	0
+1159	mariachi G-string	0	0
+1160	irate sombrero	0	0
+1161	pile of candy	0	0
+1162	handsomeness potion	0	0
+1163	marzipan skull	0	0
+1164	poultrygeist	0	0
+1165	hovering sombrero	0	0
+1166	tiny maracas	0	0
