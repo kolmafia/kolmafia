@@ -45,6 +45,8 @@ import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.math.BigInteger;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -640,13 +642,29 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		logStream.println( "Processing results..." );
 
 		if ( results.indexOf( "gains a pound!</b>" ) != -1 )
-			characterData.setFamiliarDescription(
-					characterData.getFamiliarRace(),
-						characterData.getFamiliarWeight() + 1 );
+			characterData.setFamiliarDescription( characterData.getFamiliarRace(), characterData.getFamiliarWeight() + 1 );
 
 		String plainTextResult = results.replaceAll( "<.*?>", "\n" );
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
 		String lastToken = null;
+
+		Matcher damageMatcher = Pattern.compile( "([\\d,]+) damage" ).matcher( plainTextResult.replaceAll( "\n", " " ) );
+		int lastDamageIndex = 0;
+
+		while ( damageMatcher.find( lastDamageIndex ) )
+		{
+			try
+			{
+				lastDamageIndex = damageMatcher.end();
+				parseResult( "You lose " + df.parse( damageMatcher.group(1) ).intValue() + " hit points" );
+			}
+			catch ( Exception e )
+			{
+				// This really should not happen, because you found
+				// a number, and you're parsing it.  So, continue
+				// as normal if this happens.
+			}
+		}
 
 		while ( parsedResults.hasMoreTokens() )
 		{
@@ -655,32 +673,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			// Skip effect acquisition - it's followed by a boldface
 			// which makes the parser think it's found an item.
 
-			if ( lastToken.startsWith( "FUMBLE!" ) )
-			{
-				try
-				{
-					StringTokenizer fumbleParser = new StringTokenizer( parsedResults.nextToken() );
-					String token1, token2;
-					token1 = fumbleParser.nextToken();
-					token2 = fumbleParser.nextToken();
-
-					while ( !token2.startsWith( "damage" ) && fumbleParser.hasMoreTokens() )
-					{
-						token1 = token2;
-						token2 = fumbleParser.nextToken();
-					}
-
-					parseResult( "You lose " + df.parse( token1 ).intValue() + " hit points" );
-				}
-				catch ( Exception e )
-				{
-					// Chances are, if there was no damage located in the
-					// the fumble parsing, something weird happened - but,
-					// let's just pretend nothing happened.
-				}
-			}
-
-			else if ( lastToken.startsWith( "You acquire" ) )
+			if ( lastToken.startsWith( "You acquire" ) )
 			{
 				if ( lastToken.indexOf( "effect" ) == -1 )
 				{
