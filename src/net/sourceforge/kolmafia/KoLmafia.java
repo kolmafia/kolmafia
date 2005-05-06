@@ -648,22 +648,13 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
 		String lastToken = null;
 
-		Matcher damageMatcher = Pattern.compile( "([\\d,]+) damage" ).matcher( plainTextResult.replaceAll( "\n", " " ) );
+		Matcher damageMatcher = Pattern.compile( "you for ([\\d,]+) damage" ).matcher( plainTextResult );
 		int lastDamageIndex = 0;
 
 		while ( damageMatcher.find( lastDamageIndex ) )
 		{
-			try
-			{
-				lastDamageIndex = damageMatcher.end();
-				parseResult( "You lose " + df.parse( damageMatcher.group(1) ).intValue() + " hit points" );
-			}
-			catch ( Exception e )
-			{
-				// This really should not happen, because you found
-				// a number, and you're parsing it.  So, continue
-				// as normal if this happens.
-			}
+			lastDamageIndex = damageMatcher.end();
+			parseResult( "You lose " + damageMatcher.group(1) + " hit points" );
 		}
 
 		while ( parsedResults.hasMoreTokens() )
