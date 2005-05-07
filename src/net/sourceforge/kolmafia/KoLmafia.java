@@ -390,26 +390,24 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		String resultName = result.getName();
 		if ( result.isStatusEffect() )
 			AdventureResult.addResultToList( recentEffects, result );
-		else if ( result.isItem() || resultName.equals( AdventureResult.MEAT ) ||
-			resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.FULLSTATS ) )
-				AdventureResult.addResultToList( tally, result );
-
-		if ( result.isItem() && TradeableItemDatabase.isUsable( resultName ) )
-			AdventureResult.addResultToList( usableItems, result );
+		else
+		{
+			AdventureResult.addResultToList( tally, result );
+			if ( result.isItem() && TradeableItemDatabase.isUsable( resultName ) )
+				AdventureResult.addResultToList( usableItems, result );
+		}
 
 		characterData.processResult( result );
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
 
-		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() > 2 )
+		if ( resultName.equals( AdventureResult.SUBSTATS ) )
 		{
 			fullStatGain[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() ) - initialStats[0];
 			fullStatGain[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() ) - initialStats[1];
 			fullStatGain[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() ) - initialStats[2];
-
-			if ( tally.size() > 2 )
-				tally.set( 2, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+			tally.set( 2, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
 		}
 	}
 
