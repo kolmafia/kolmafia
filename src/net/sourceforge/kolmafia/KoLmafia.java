@@ -338,6 +338,10 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		initialStats[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() );
 		initialStats[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() );
 
+		fullStatGain[0] = 0;
+		fullStatGain[1] = 0;
+		fullStatGain[2] = 0;
+
 		processResult( new AdventureResult( AdventureResult.MEAT ) );
 		processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
 		processResult( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
@@ -387,7 +391,24 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public void processResult( AdventureResult result )
 	{
+		// This should not happen, but check just in case and
+		// return if the result was null.
+
+		if ( result == null )
+			return;
+
 		String resultName = result.getName();
+
+		// This should not happen, but check just in case and
+		// return if the result name was null.
+
+		if ( resultName == null )
+			return;
+
+		// Process the adventure result in this section; if
+		// it's a status effect, then add it to the recent
+		// effect list.  Otherwise, add it to the tally.
+
 		if ( result.isStatusEffect() )
 			AdventureResult.addResultToList( recentEffects, result );
 		else
