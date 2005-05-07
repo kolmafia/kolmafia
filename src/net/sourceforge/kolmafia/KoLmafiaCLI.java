@@ -506,6 +506,29 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		// Another popular command involves changing
+		// a specific piece of equipment.
+
+		if ( command.startsWith( "equip" ) )
+		{
+			if ( parameters.startsWith( "list" ) )
+			{
+				executePrintCommand( "equipment " + parameters.substring(4).trim() );
+				return;
+			}
+			else if ( parameters.length() == 0 )
+			{
+				executePrintCommand( "equipment" );
+				return;
+			}
+
+			AdventureResult match = getFirstMatchingItem( parameters, USAGE );
+			if ( match != null )
+				scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, match.getName() ), 1 );
+
+			return;
+		}
+
+		// Another popular command involves changing
 		// your current familiar.
 
 		if ( command.startsWith( "familiar" ) )
@@ -633,7 +656,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "session" ) || command.equals( "summary" ) ||
-			command.startsWith( "equip" ) || command.equals( "effects" ) || command.startsWith( "status" ) )
+			command.equals( "effects" ) || command.startsWith( "status" ) )
 		{
 			executePrintCommand( command + " " + parameters );
 			return;
