@@ -82,7 +82,7 @@ public class KoLMessenger implements KoLConstants
 		contactsFrame = new ContactListFrame( client, onlineContacts );
 
 		String tabsSetting = client.getSettings().getProperty( "useTabbedChat" );
-		setTabbedFrameSetting( tabsSetting != null && tabsSetting.equals( "1" ) );
+		setTabbedFrameSetting( tabsSetting == null || tabsSetting.equals( "1" ) );
 		LimitedSizeChatBuffer.setChatColors( client.getSettings().getProperty( "chatNameColors" ) );
 	}
 
