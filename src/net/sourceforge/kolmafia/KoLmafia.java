@@ -402,7 +402,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
 
-		if ( resultName.equals( AdventureResult.SUBSTATS ) )
+		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() > 2 )
 		{
 			fullStatGain[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() ) - initialStats[0];
 			fullStatGain[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() ) - initialStats[1];
