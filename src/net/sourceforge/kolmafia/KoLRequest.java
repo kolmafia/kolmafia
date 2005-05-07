@@ -608,13 +608,9 @@ public class KoLRequest implements Runnable, KoLConstants
 						if ( line.startsWith( "<br" ) )
 						{
 							logStream.println( "MySQL error.  Repeating request..." );
-							this.execute();  return;
+							this.execute();
+							return;
 						}
-
-						logStream.println( "Skipping frame-nesting Javascript..." );
-
-						for ( int i = 0; i < 9; ++i )
-							istream.readLine();
 
 						logStream.println( "Reading page content..." );
 					}
@@ -628,7 +624,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					while ( (line = istream.readLine()) != null )
 						replyBuffer.append( line );
 
-					replyContent = replyBuffer.toString();
+					replyContent = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
 					if ( client != null )
 					{
