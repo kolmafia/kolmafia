@@ -205,8 +205,7 @@ public class KoLCharacter
 	private boolean hasBartender;
 
 	private SortedListModel familiars;
-	private String familiarRace;
-	private int familiarWeight;
+	private FamiliarData currentFamiliar;
 
     private String advancement;
 	private List listenerList;
@@ -237,14 +236,13 @@ public class KoLCharacter
 		this.activeEffects = new LockableListModel();
 		this.availableSkills = new LockableListModel();
 
-		for ( int i = 0; i < 7; ++i )
+		for ( int i = 0; i < 6; ++i )
 			equipment.add( "none" );
 
 		this.hasToaster = false;
 		this.hasArches = false;
 		this.hasChef = false;
 		this.hasBartender = false;
-		this.familiarRace = "none";
 		this.familiars = new SortedListModel( FamiliarData.class );
 
 		this.advancement = "none";
@@ -854,8 +852,8 @@ public class KoLCharacter
 
 	public void setFamiliarItem( String familiarItem )
 	{
-		equipment.set( 6, familiarItem == null ? "none" : familiarItem );
-		setFamiliarDescription( familiarRace, familiarWeight );
+		currentFamiliar.setItem( familiarItem == null ? "none" : familiarItem );
+		currentFamiliar.setWeight( currentFamiliar.getWeight() + getAdditionalWeight() );
 	}
 
 	/**
@@ -864,7 +862,7 @@ public class KoLCharacter
 	 */
 
 	public String getFamiliarItem()
-	{	return (String) equipment.get( 6 );
+	{	return currentFamiliar == null ? "none" : currentFamiliar.getItem();
 	}
 
 	/**
@@ -1101,29 +1099,28 @@ public class KoLCharacter
 
 	public void setFamiliarDescription( String familiarRace, int familiarWeight )
 	{
-		this.familiarRace = familiarRace;
-		this.familiarWeight = familiarWeight;
+		if ( currentFamiliar != null && currentFamiliar.getRace().equals( familiarRace ) )
+		{
+			String currentItem = currentFamiliar.getItem();
+			currentFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ), familiarWeight - getAdditionalWeight() );
+			setFamiliarItem( currentItem );
+		}
+		else
+		{
+			currentFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ), familiarWeight - getAdditionalWeight() );
+			addFamiliar( currentFamiliar );
+		}
 
-		addFamiliar( new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ),
-			familiarWeight + getAdditionalWeight() ) );
+		familiars.setSelectedIndex( familiars.indexOf( currentFamiliar ) );
 	}
 
 	/**
-	 * Accessor method to retrieve the race of the current familiar.
-	 * @return	The race of the current familiar
+	 * Accessor method to increment the weight of the current familiar
+	 * by one.
 	 */
 
-	public String getFamiliarRace()
-	{	return familiarRace;
-	}
-
-	/**
-	 * Accessor method to retrieve the weight of the current familiar.
-	 * @return	The weight of the current familiar
-	 */
-
-	public int getFamiliarWeight()
-	{	return familiarWeight;
+	public void incrementFamilarWeight()
+	{	currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
 	}
 
 	/**

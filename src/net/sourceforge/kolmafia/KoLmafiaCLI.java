@@ -891,7 +891,7 @@ public class KoLmafiaCLI extends KoLmafia
 			outputStream.println( "Meat: " + data.getAvailableMeat() );
 			outputStream.println( "Drunk: " + data.getInebriety() );
 			outputStream.println( "Adv: " + data.getAdventuresLeft() );
-			outputStream.println( "Fam: " + data.getFamiliarRace() );
+			outputStream.println( "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
 			return;
 		}
 

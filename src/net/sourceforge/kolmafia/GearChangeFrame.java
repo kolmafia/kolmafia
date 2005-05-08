@@ -224,7 +224,6 @@ public class GearChangeFrame extends KoLFrame
 		equipment[4].setText( characterData.getAccessory2() );
 		equipment[5].setText( characterData.getAccessory3() );
 
-		familiarSelect.setSelectedItem( new FamiliarData( FamiliarsDatabase.getFamiliarID( characterData.getFamiliarRace() ) ) );
 		familiarItemSelect.setModel( characterData.getFamiliarItems() );
 		familiarItemSelect.setSelectedItem( characterData.getFamiliarItem() );
 		isChanging = false;

@@ -60,8 +60,8 @@ public class FamiliarData implements Comparable
 		this.weight = Integer.parseInt( (new StringTokenizer( token.substring( 6 ), " ()", true )).nextToken() );
 		this.race = FamiliarsDatabase.getFamiliarName( id );
 		this.item = html.indexOf( "<img" ) == -1 ? "none" :
-			html.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" : html.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" :
-				FamiliarsDatabase.getFamiliarItem( id );
+			html.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" : html.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
+				html.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" : FamiliarsDatabase.getFamiliarItem( id );
 	}
 
 	public FamiliarData( int id, int weight )
@@ -75,8 +75,16 @@ public class FamiliarData implements Comparable
 	{	return id;
 	}
 
+	public void setItem( String item )
+	{	this.item = item;
+	}
+
 	public String getItem()
 	{	return item;
+	}
+
+	public void setWeight( int weight )
+	{	this.weight = weight;
 	}
 
 	public int getWeight()

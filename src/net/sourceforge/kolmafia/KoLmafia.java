@@ -661,7 +661,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		logStream.println( "Processing results..." );
 
 		if ( results.indexOf( "gains a pound!</b>" ) != -1 )
-			characterData.setFamiliarDescription( characterData.getFamiliarRace(), characterData.getFamiliarWeight() + 1 );
+			characterData.incrementFamilarWeight();
 
 		String plainTextResult = results.replaceAll( "<.*?>", "\n" );
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );

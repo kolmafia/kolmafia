@@ -33,11 +33,12 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class FamiliarRequest extends KoLRequest
 {
 	private FamiliarData changeTo;
-	private FamiliarData changeFrom;
 	private boolean isChangingFamiliar;
 	private KoLCharacter characterData;
 
@@ -55,7 +56,6 @@ public class FamiliarRequest extends KoLRequest
 		this.characterData = client.getCharacterData();
 
 		this.changeTo = changeTo;
-		this.changeFrom = new FamiliarData( FamiliarsDatabase.getFamiliarID( characterData.getFamiliarRace() ) );
 		addFormField( "newfam", String.valueOf( changeTo.getID() ) );
 		this.isChangingFamiliar = true;
 	}
@@ -77,7 +77,6 @@ public class FamiliarRequest extends KoLRequest
 
 		// Determine which familiars are present.
 
-		characterData.getFamiliars().clear();
 		int whichIndex;
 		for ( int i = 1; i < 50; ++i )
 		{
@@ -91,15 +90,16 @@ public class FamiliarRequest extends KoLRequest
 
 		if ( isChangingFamiliar )
 		{
-			characterData.setFamiliarDescription( changeTo.getRace(), changeTo.getWeight() );
+			characterData.setFamiliarDescription( changeTo.getRace(), changeTo.getWeight() + characterData.getAdditionalWeight() );
 			characterData.setFamiliarItem( changeTo.getItem() );
 			updateDisplay( NOCHANGE, "Familiar changed." );
 		}
 		else
 		{
-			characterData.setFamiliarDescription( characterData.getFamiliarRace(),
-				characterData.getFamiliarWeight() - characterData.getAdditionalWeight() );
-			characterData.setFamiliarItem( characterData.getFamiliarItem() );
+			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?)<p>" ).matcher( replyContent );
+			if ( currentMatcher.find() )
+				characterData.setFamiliarDescription( currentMatcher.group(2), Integer.parseInt( currentMatcher.group(1) ) );
+
 			updateDisplay( NOCHANGE, "Familiar data retrieved." );
 		}
 	}
