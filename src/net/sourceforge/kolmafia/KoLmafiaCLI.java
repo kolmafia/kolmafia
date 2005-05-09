@@ -396,6 +396,24 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Next, handle requests to start or stop
+		// debug mode.
+
+		if ( command.startsWith( "debug" ) )
+		{
+			if ( parameters.startsWith( "on" ) )
+				initializeLogStream();
+			else if ( parameters.startsWith( "off" ) )
+				deinitializeLogStream();
+			else
+			{
+				scriptRequestor.updateDisplay( ERROR_STATE, parameters + " is not a valid option." );
+				scriptRequestor.cancelRequest();
+			}
+
+			return;
+		}
+
 		// If there's any commands which suggest that the
 		// client is in a login state, you should not do
 		// any commands listed beyond this point
@@ -1441,6 +1459,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public void updateDisplay( int state, String message )
 	{
 		outputStream.println( message );
+		scriptRequestor.getLogStream().println( message );
 
 		// There's a special case to be handled if the login was not
 		// successful - in other words, attempt to prompt the user again
