@@ -784,6 +784,101 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
+	 * An internal class which creates a panel which displays
+	 * a generic scroll pane.  Note that the code for this
+	 * frame was lifted from the ActionVerifyPanel found in
+	 * the Spellcast package.
+	 */
+
+	protected abstract class LabeledScrollPanel extends JPanel
+	{
+		private JComponent scrollComponent;
+		private JPanel buttonPanel;
+
+		public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent )
+		{
+			this.scrollComponent = scrollComponent;
+
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BorderLayout() );
+
+			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );
+
+			JPanel actualPanel = new JPanel();
+			actualPanel.setLayout( new BorderLayout( 20, 10 ) );
+			actualPanel.add( centerPanel, BorderLayout.CENTER );
+			actualPanel.add( buttonPanel, BorderLayout.EAST );
+
+			setLayout( new CardLayout( 10, 10 ) );
+			add( actualPanel, "" );
+		}
+
+		public JComponent getScrollComponent()
+		{	return scrollComponent;
+		}
+
+		protected abstract void actionConfirmed();
+		protected abstract void actionCancelled();
+
+		public void setEnabled( boolean isEnabled )
+		{	buttonPanel.setEnabled( isEnabled );
+		}
+
+		private class VerifyButtonPanel extends JPanel
+		{
+			private JButton confirmedButton;
+			private JButton cancelledButton;
+
+			public VerifyButtonPanel( String confirmedText, String cancelledText )
+			{
+				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+
+				// add the "confirmed" button
+				confirmedButton = new JButton( confirmedText );
+				confirmedButton.addActionListener(
+					new ActionListener() {
+						public void actionPerformed( ActionEvent e ) {
+							actionConfirmed();
+						}
+					} );
+
+				addButton( confirmedButton );
+				add( Box.createVerticalStrut( 4 ) );
+
+				// add the "cancelled" button
+				cancelledButton = new JButton( cancelledText );
+				cancelledButton.addActionListener(
+					new ActionListener() {
+						public void actionPerformed( ActionEvent e ) {
+							actionCancelled();
+						}
+					} );
+				addButton( cancelledButton );
+
+				JComponentUtilities.setComponentSize( this, 80, 100 );
+			}
+
+			private void addButton( JButton buttonToAdd )
+			{
+				JPanel container = new JPanel();
+				container.setLayout( new GridLayout() );
+				container.add( buttonToAdd );
+				container.setMaximumSize( new Dimension( Integer.MAX_VALUE, 24 ) );
+				add( container );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{	confirmedButton.setEnabled( isEnabled );
+			}
+		}
+	}
+
+	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
 	 * the request for viewing a character sheet.
