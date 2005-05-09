@@ -69,6 +69,7 @@ public class FamiliarData implements Comparable
 		this.id = id;
 		this.weight = weight;
 		this.race = FamiliarsDatabase.getFamiliarName( id );
+		this.item = "none";
 	}
 
 	public int getID()
