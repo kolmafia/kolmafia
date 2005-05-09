@@ -236,7 +236,7 @@ public class LoginFrame extends KoLFrame
 			setContent( elements );
 			add( southPanel, BorderLayout.SOUTH );
 
-			String autoLoginSetting =  client.getSettings().getProperty( "autoLogin" );
+			String autoLoginSetting = client == null ? null : client.getSettings().getProperty( "autoLogin" );
 			if ( autoLoginSetting != null )
 			{
 				if ( loginnameField instanceof JComboBox )
@@ -493,5 +493,12 @@ public class LoginFrame extends KoLFrame
 			if ( client == null || client.inLoginState() )
 				System.exit( 0 );
 		}
+	}
+
+	public static void main( String [] args )
+	{
+		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
+		KoLFrame uitest = new LoginFrame( null, new SortedListModel() );
+		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }

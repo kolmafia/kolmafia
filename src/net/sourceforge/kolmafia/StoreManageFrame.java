@@ -51,7 +51,11 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
+import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 // spellcast-related imports
 import net.java.dev.spellcast.utilities.PanelList;
@@ -73,11 +77,22 @@ public class StoreManageFrame extends KoLFrame
 	public StoreManageFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Dropkicking Prices", client );
-		(new StoreManageRequest( client )).run();
+
+		if ( client != null )
+			(new StoreManageRequest( client )).run();
 
 		setResizable( false );
 		storeManager = new StoreManagePanel();
 		getContentPane().add( storeManager, BorderLayout.CENTER );
+	}
+
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		addConfigureMenu( menuBar );
+		addHelpMenu( menuBar );
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -212,9 +227,9 @@ public class StoreManageFrame extends KoLFrame
 
 		public AddItemPanel()
 		{
-			sellingList = new JComboBox( client.getInventory().getMirrorImage() );
+			sellingList = new JComboBox( client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
 			sellingList.setRenderer( AdventureResult.getAutoSellCellRenderer() );
-			if ( client.getInventory().size() > 0 )
+			if ( client != null && client.getInventory().size() > 0 )
 				sellingList.setSelectedIndex( 0 );
 
 			itemPrice = new JTextField( "" );
@@ -303,7 +318,7 @@ public class StoreManageFrame extends KoLFrame
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 12, 520, 25, client.getStoreManager().getSoldItemList() );
+		{	super( 12, 520, 25, client == null ? new LockableListModel() : client.getStoreManager().getSoldItemList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -417,7 +432,6 @@ public class StoreManageFrame extends KoLFrame
 		}
 	}
 
-
 	/**
 	 * In order to keep the user interface from freezing (or at
 	 * least appearing to freeze), this internal class is used
@@ -440,5 +454,11 @@ public class StoreManageFrame extends KoLFrame
 			client.getStoreManager().searchMall( itemName, priceSummary );
 			searchLabel.setText( itemName );
 		}
+	}
+
+	public static void main( String [] args )
+	{
+		KoLFrame uitest = new StoreManageFrame( null );
+		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }

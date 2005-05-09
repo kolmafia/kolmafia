@@ -38,13 +38,14 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class CakeArenaFrame extends KoLFrame
 {
 	public CakeArenaFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Susie's Secret Bedroom!", client );
-		if ( client.getCakeArenaManager().getOpponentList().isEmpty() )
+		if ( client != null && client.getCakeArenaManager().getOpponentList().isEmpty() )
 			(new CakeArenaRequest( client )).run();
 
 		getContentPane().setLayout( new BorderLayout() );
@@ -61,7 +62,7 @@ public class CakeArenaFrame extends KoLFrame
 		{
 			super( "fight!", "stop!", new Dimension( 80, 20 ), new Dimension( 400, 20 ) );
 
-			opponentSelect = new JComboBox( client.getCakeArenaManager().getOpponentList() );
+			opponentSelect = new JComboBox( client == null ? new LockableListModel() : client.getCakeArenaManager().getOpponentList() );
 
 			fightOptions = new JComboBox();
 			fightOptions.addItem( "Ultimate Cage Match" );
@@ -108,5 +109,11 @@ public class CakeArenaFrame extends KoLFrame
 				client.getCakeArenaManager().fightOpponent( opponent.toString(), eventID, battleCount );
 			}
 		}
+	}
+
+	public static void main( String [] args )
+	{
+		KoLFrame uitest = new CakeArenaFrame( null );
+		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }

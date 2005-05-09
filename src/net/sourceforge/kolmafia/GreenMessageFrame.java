@@ -50,7 +50,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
@@ -238,7 +237,7 @@ public class GreenMessageFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		JFrame test = new GreenMessageFrame( null );
+		KoLFrame test = new GreenMessageFrame( null );
 		test.pack();  test.setVisible( true );  test.requestFocus();
 	}
 }

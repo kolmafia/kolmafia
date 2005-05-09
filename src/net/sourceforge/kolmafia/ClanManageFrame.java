@@ -423,4 +423,10 @@ public class ClanManageFrame extends KoLFrame
 			}
 		}
 	}
+
+	public static void main( String [] args )
+	{
+		KoLFrame uitest = new ClanManageFrame( null );
+		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
+	}
 }

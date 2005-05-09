@@ -930,10 +930,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					if ( creator != null )
 					{
 						lastCreatedFrame = (KoLFrame) creator.newInstance( parameters );
-						lastCreatedFrame.pack();
 						lastCreatedFrame.setLocation( KoLFrame.this.getLocation() );
+						lastCreatedFrame.pack();
 						lastCreatedFrame.setVisible( true );
-						lastCreatedFrame.requestFocus();
 						lastCreatedFrame.setEnabled( isEnabled() );
 						existingFrames.add( lastCreatedFrame );
 					}

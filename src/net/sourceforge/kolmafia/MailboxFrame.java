@@ -342,8 +342,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	public static void main( String [] args )
 	{
-		KoLFrame mailboxFrame = new MailboxFrame( null );
-		mailboxFrame.pack();  mailboxFrame.setVisible( true );
-		mailboxFrame.requestFocus();
+		KoLFrame uitest = new MailboxFrame( null );
+		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }

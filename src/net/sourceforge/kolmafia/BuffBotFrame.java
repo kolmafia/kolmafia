@@ -590,7 +590,8 @@ public class BuffBotFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new BuffBotFrame( null);
+		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
+		KoLFrame uitest = new BuffBotFrame( null );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }

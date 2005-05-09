@@ -87,7 +87,7 @@ public class MuseumFrame extends KoLFrame
 	{
 		super( "KoLmafia: Display Case", client );
 
-		if ( client.getCollection().isEmpty() )
+		if ( client != null && client.getCollection().isEmpty() )
 			(new MuseumRequest( client )).run();
 
 		storing = new StoragePanel();
@@ -137,7 +137,7 @@ public class MuseumFrame extends KoLFrame
 		{
 			public OutsideDisplayPanel()
 			{
-				super( "Inventory", "display", "closet", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+				super( "Inventory", "add to display", "put in closet", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
 				availableList = elementList;
 			}
 
@@ -160,7 +160,7 @@ public class MuseumFrame extends KoLFrame
 		{
 			public InsideDisplayPanel()
 			{
-				super( "Display Case", "inventory", "closet", client == null ? new LockableListModel() : client.getCollection().getMirrorImage() );
+				super( "Display Case", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getCollection().getMirrorImage() );
 				displayList = elementList;
 			}
 
