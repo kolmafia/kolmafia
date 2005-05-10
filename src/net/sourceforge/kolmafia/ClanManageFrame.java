@@ -540,7 +540,9 @@ public class ClanManageFrame extends KoLFrame
 				}
 
 				public int compareTo( ClanAttackRequest car )
-				{	return name.compareToIgnoreCase( car.name );
+				{
+					int goodiesDifference = car.goodies - goodies;
+					return goodiesDifference != 0 ? goodiesDifference : name.compareToIgnoreCase( car.name );
 				}
 			}
 
