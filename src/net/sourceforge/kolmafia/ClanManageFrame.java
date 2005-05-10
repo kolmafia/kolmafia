@@ -73,7 +73,12 @@ import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 
 // other imports
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Collections;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -119,6 +124,24 @@ public class ClanManageFrame extends KoLFrame
 		getContentPane().add( tabs, "" );
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
+
+		addMenuBar();
+	}
+
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		JMenu optionsMenu = new JMenu( "Options" );
+		optionsMenu.setMnemonic( KeyEvent.VK_O );
+		menuBar.add( optionsMenu );
+
+		JMenuItem attackItem = new JMenuItem( "Attack Clan...", KeyEvent.VK_A );
+		attackItem.addActionListener( new ClanListListener() );
+		optionsMenu.add( attackItem );
+
+		addHelpMenu( menuBar );
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -421,6 +444,106 @@ public class ClanManageFrame extends KoLFrame
 
 				client.updateDisplay( ENABLED_STATE, "Items moved." );
 			}
+		}
+	}
+
+	private class ClanListListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new ClanListThread()).start();
+		}
+
+		private class ClanListThread extends Thread
+		{
+			public ClanListThread()
+			{
+				super( "Clan-List-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{	(new ClanListRequest()).run();
+			}
+		}
+
+		private class ClanListRequest extends KoLRequest
+		{
+			public ClanListRequest()
+			{	super( ClanManageFrame.this.client, "clan_attack.php" );
+			}
+
+			public void run()
+			{
+				client.updateDisplay( DISABLED_STATE, "Retrieving list of attackable clans..." );
+
+				super.run();
+
+				if ( isErrorState )
+					return;
+
+				List enemyClans = new ArrayList();
+				Matcher clanMatcher = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" ).matcher( replyContent );
+				int lastMatchIndex = 0;
+
+				while ( clanMatcher.find( lastMatchIndex ) )
+				{
+					lastMatchIndex = clanMatcher.end();
+					enemyClans.add( new ClanAttackRequest( clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );
+				}
+
+				Collections.sort( enemyClans );
+				Object [] enemies = enemyClans.toArray();
+				ClanAttackRequest enemy = (ClanAttackRequest) JOptionPane.showInputDialog( null,
+					"Attack the following clan...", "Clans With Goodies", JOptionPane.INFORMATION_MESSAGE, null, enemies, enemies[0] );
+
+				if ( enemy == null )
+				{
+					client.updateDisplay( ENABLED_STATE, "" );
+					return;
+				}
+
+				enemy.run();
+			}
+
+			private class ClanAttackRequest extends KoLRequest implements Comparable
+			{
+				private String name;
+				private int goodies;
+
+				public ClanAttackRequest( String id, String name, int goodies )
+				{
+					super( ClanManageFrame.this.client, "clan_attack.php" );
+					addFormField( "whichclan", id );
+
+					this.name = name;
+					this.goodies = goodies;
+				}
+
+				public void run()
+				{
+					client.updateDisplay( DISABLED_STATE, "Attacking " + name + "..." );
+
+					super.run();
+
+					// Theoretically, there should be a test for error state,
+					// but because I'm lazy, that's not happening.
+
+					client.updateDisplay( ENABLED_STATE, "Attack request processed." );
+				}
+
+				public String toString()
+				{	return name + " (" + goodies + " " + (goodies == 1 ? "bag" : "bags") + ")";
+				}
+
+				public int compareTo( Object o )
+				{	return o == null || !(o instanceof ClanAttackRequest) ? -1 : compareTo( (ClanAttackRequest) o );
+				}
+
+				public int compareTo( ClanAttackRequest car )
+				{	return name.compareToIgnoreCase( car.name );
+				}
+			}
+
 		}
 	}
 
