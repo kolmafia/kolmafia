@@ -85,10 +85,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
- * An extension of <code>KoLFrame</code> which handles all the item
- * management functionality of Kingdom of Loathing.  This ranges from
- * basic transfer to and from the closet to item creation, cooking,
- * item use, and equipment.
+ * An extension of <code>KoLFrame</code> which handles all the clan
+ * management functionality of Kingdom of Loathing.
  */
 
 public class ClanManageFrame extends KoLFrame
@@ -97,6 +95,7 @@ public class ClanManageFrame extends KoLFrame
 	private ClanBuffPanel clanBuff;
 	private StoragePanel storing;
 	private DonationPanel donation;
+	private WarfarePanel warfare;
 
 	public ClanManageFrame( KoLmafia client )
 	{
@@ -105,6 +104,7 @@ public class ClanManageFrame extends KoLFrame
 		this.storing = new StoragePanel();
 		this.clanBuff = new ClanBuffPanel();
 		this.donation = new DonationPanel();
+		this.warfare = new WarfarePanel();
 
 		this.tabs = new JTabbedPane();
 
@@ -118,6 +118,7 @@ public class ClanManageFrame extends KoLFrame
 		JPanel purchasePanel = new JPanel();
 		purchasePanel.setLayout( new BoxLayout( purchasePanel, BoxLayout.Y_AXIS ) );
 		purchasePanel.add( clanBuff );
+		purchasePanel.add( warfare );
 
 		tabs.addTab( "Purchases", purchasePanel );
 
@@ -155,7 +156,7 @@ public class ClanManageFrame extends KoLFrame
 
 	/**
 	 * An internal class which represents the panel used for clan
-	 * buffs in the <code>AdventureFrame</code>.
+	 * buffs in the <code>ClanManageFrame</code>.
 	 */
 
 	private class ClanBuffPanel extends LabeledKoLPanel
@@ -220,41 +221,80 @@ public class ClanManageFrame extends KoLFrame
 
 			public void run()
 			{
-				try
-				{
-					if ( countField.getText().trim().length() == 0 )
-						return;
+				int buffCount = getValue( countField );
+				Runnable buff = (Runnable) buffField.getSelectedItem();
 
-					int buffCount = df.parse( countField.getText() ).intValue();
-					Runnable buff = (Runnable) buffField.getSelectedItem();
-
-					client.makeRequest( buff, buffCount );
-					isBuffing = false;
-				}
-				catch ( Exception e )
-				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
-				}
-
+				client.makeRequest( buff, buffCount );
+				isBuffing = false;
 			}
+		}
+	}
+
+	private class WarfarePanel extends LabeledKoLPanel
+	{
+		private JTextField goodies;
+		private JTextField oatmeal, recliners;
+		private JTextField ground, airborne, archers;
+
+		public WarfarePanel()
+		{
+			super( "Prepare for WAR!!!", "purchase", "calculate", new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
+
+			goodies = new JTextField();
+			oatmeal = new JTextField();
+			recliners = new JTextField();
+			ground = new JTextField();
+			airborne = new JTextField();
+			archers = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[6];
+			elements[0] = new VerifiableElement( "Goodies: ", goodies );
+			elements[1] = new VerifiableElement( "Oatmeal: ", oatmeal );
+			elements[2] = new VerifiableElement( "Recliners: ", recliners );
+			elements[3] = new VerifiableElement( "Ground Troops: ", ground );
+			elements[4] = new VerifiableElement( "Airborne Troops: ", airborne );
+			elements[5] = new VerifiableElement( "La-Z-Archers: ", archers );
+
+			setContent( elements );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+
+			goodies.setEnabled( isEnabled );
+			oatmeal.setEnabled( isEnabled );
+			recliners.setEnabled( isEnabled );
+			ground.setEnabled( isEnabled );
+			airborne.setEnabled( isEnabled );
+			archers.setEnabled( isEnabled );
+		}
+
+		public void actionConfirmed()
+		{
+		}
+
+		public void actionCancelled()
+		{
+			int totalValue = getValue( goodies ) * 1000 + getValue( oatmeal ) * 3 + getValue( recliners ) * 1500 +
+				getValue( ground ) * 300 + getValue( airborne ) * 500 + getValue( archers ) * 500;
+
+			JOptionPane.showMessageDialog( null, String.valueOf( totalValue ) );
 		}
 	}
 
 	/**
 	 * An internal class which represents the panel used for donations to
-	 * the statues in the shrine.
+	 * the clan coffer.
 	 */
 
-	private class DonationPanel extends LabeledKoLPanel
+	private class DonationPanel extends NonContentPanel
 	{
 		private JTextField amountField;
 
 		public DonationPanel()
 		{
-			super( "", "donate meat", "loot clan", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "donate meat", "loot clan", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			amountField = new JTextField();
 			VerifiableElement [] elements = new VerifiableElement[1];
@@ -269,15 +309,11 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{
-			contentPanel = donation;
-			(new DonationThread()).start();
+		{	(new DonationThread()).start();
 		}
 
 		protected void actionCancelled()
-		{
-			contentPanel = donation;
-			updateDisplay( ERROR_STATE, "The Hermit beat you to it.  ARGH!" );
+		{	JOptionPane.showMessageDialog( null, "The Hermit beat you to it.  ARGH!" );
 		}
 
 		/**
@@ -295,30 +331,14 @@ public class ClanManageFrame extends KoLFrame
 			}
 
 			public void run()
-			{
-				try
-				{
-					if ( amountField.getText().trim().length() == 0 )
-						return;
-
-					client.makeRequest( new ClanStashRequest( client, df.parse( amountField.getText() ).intValue() ), 1 );
-				}
-				catch ( Exception e )
-				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
-				}
-
+			{	client.makeRequest( new ClanStashRequest( client, getValue( amountField ) ), 1 );
 			}
 		}
 	}
 
 	/**
 	 * Internal class used to handle everything related to
-	 * placing items into the closet and taking items from
-	 * the closet.
+	 * placing items into the stash.
 	 */
 
 	private class StoragePanel extends ItemManagePanel
