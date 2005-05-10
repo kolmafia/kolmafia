@@ -262,12 +262,12 @@ public class AdventureFrame extends KoLFrame
 
 		JMenuItem mallItem = new JMenuItem( "Manipulate Mall", KeyEvent.VK_M );
 		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
-		JMenuItem resetItem = new JMenuItem( "Reset Session", KeyEvent.VK_R );
-		resetItem.addActionListener( new ResetSessionListener() );
+		JMenuItem caseItem = new JMenuItem( "Yeti's Museum", KeyEvent.VK_Y );
+		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
 
 		JMenu statusMenu = addStatusMenu( menuBar );
 		statusMenu.add( mallItem );
-		statusMenu.add( resetItem );
+		statusMenu.add( caseItem );
 
 		JMenuItem foodItem = new JMenuItem( "Camping Routine", KeyEvent.VK_C );
 		foodItem.addActionListener( new GetBreakfastListener() );
@@ -281,12 +281,8 @@ public class AdventureFrame extends KoLFrame
 		JMenu visitMenu = new JMenu( "Travel" );
 		visitMenu.setMnemonic( KeyEvent.VK_T );
 
-		JMenuItem clanItem = new JMenuItem( "Clan District", KeyEvent.VK_C );
-		clanItem.addActionListener( new DisplayFrameListener( ClanManageFrame.class ) );
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
-		JMenuItem caseItem = new JMenuItem( "Yeti's Museum", KeyEvent.VK_Y );
-		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
 		JMenuItem hermitItem = new JMenuItem( "Hermit Hideout", KeyEvent.VK_H );
 		hermitItem.addActionListener( new HermitRequestListener() );
 		JMenuItem trapperItem = new JMenuItem( "Mountain Traps", KeyEvent.VK_M );
@@ -294,17 +290,25 @@ public class AdventureFrame extends KoLFrame
 		JMenuItem hunterItem = new JMenuItem( "Seaside Towels", KeyEvent.VK_S );
 		hunterItem.addActionListener( new HunterRequestListener() );
 
-		visitMenu.add( clanItem );
 		visitMenu.add( arenaItem );
-		visitMenu.add( caseItem );
 		visitMenu.add( hermitItem );
 		visitMenu.add( trapperItem );
 		visitMenu.add( hunterItem );
 
 		menuBar.add( visitMenu );
 
-		addPeopleMenu( menuBar );
-		addConfigureMenu( menuBar );
+		JMenuItem clanItem = new JMenuItem( "Manage Your Clan", KeyEvent.VK_M );
+		clanItem.addActionListener( new DisplayFrameListener( ClanManageFrame.class ) );
+
+		JMenu peopleMenu = addPeopleMenu( menuBar );
+		peopleMenu.add( clanItem );
+
+		JMenuItem resetItem = new JMenuItem( "Reset Session", KeyEvent.VK_R );
+		resetItem.addActionListener( new ResetSessionListener() );
+
+		JMenu configMenu = addConfigureMenu( menuBar );
+		configMenu.add( resetItem );
+
 		addHelpMenu( menuBar );
 	}
 
