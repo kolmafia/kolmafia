@@ -107,18 +107,19 @@ public class ClanManageFrame extends KoLFrame
 		this.donation = new DonationPanel();
 
 		this.tabs = new JTabbedPane();
-		tabs.addTab( "Deposit Items", storing );
 
-		JPanel meatSinkPanel = new JPanel();
-		meatSinkPanel.setLayout( new BoxLayout( meatSinkPanel, BoxLayout.Y_AXIS ) );
-		meatSinkPanel.add( donation );
-		meatSinkPanel.add( clanBuff );
+		JPanel karmaPanel = new JPanel();
+		karmaPanel.setLayout( new BorderLayout() );
+		karmaPanel.add( donation, BorderLayout.NORTH );
+		karmaPanel.add( storing, BorderLayout.CENTER );
 
-		JScrollPane meatSinkScroller = new JScrollPane( meatSinkPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		tabs.addTab( "Boost Karma", karmaPanel );
 
-		JComponentUtilities.setComponentSize( meatSinkScroller, 500, 300 );
-		tabs.addTab( "Meat Sinking", meatSinkScroller );
+		JPanel purchasePanel = new JPanel();
+		purchasePanel.setLayout( new BoxLayout( purchasePanel, BoxLayout.Y_AXIS ) );
+		purchasePanel.add( clanBuff );
+
+		tabs.addTab( "Purchases", purchasePanel );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -165,7 +166,7 @@ public class ClanManageFrame extends KoLFrame
 
 		public ClanBuffPanel()
 		{
-			super( "Hire Trainers for the Clan", "purchase", "take break", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Hire Trainers", "purchase", "take break", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 			this.isBuffing = false;
 
 			buffField = new JComboBox( ClanBuffRequest.getRequestList( client ) );
@@ -253,12 +254,12 @@ public class ClanManageFrame extends KoLFrame
 
 		public DonationPanel()
 		{
-			super( "Filling the Coffer", "donate meat", "loot clan", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "", "donate meat", "loot clan", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			amountField = new JTextField();
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Amount: ", amountField );
-			setContent( elements, true, true );
+			setContent( elements );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -320,73 +321,24 @@ public class ClanManageFrame extends KoLFrame
 	 * the closet.
 	 */
 
-	private class StoragePanel extends JPanel
+	private class StoragePanel extends ItemManagePanel
 	{
-		private JList availableList, closetList;
-		private ItemManagePanel inventoryPanel, closetPanel;
-
 		public StoragePanel()
-		{
-			setLayout( new GridLayout( 2, 1, 10, 10 ) );
+		{	super( "", "put in stash", "put in closet", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+		}
 
-			inventoryPanel = new OutsideClosetPanel();
-			closetPanel = new InsideClosetPanel();
+		protected void actionConfirmed()
+		{	(new InventoryStorageThread( true )).start();
+		}
 
-			add( inventoryPanel );
-			add( closetPanel );
+		protected void actionCancelled()
+		{	(new InventoryStorageThread( false )).start();
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			inventoryPanel.setEnabled( isEnabled );
-			closetPanel.setEnabled( isEnabled );
-		}
-
-		private class OutsideClosetPanel extends ItemManagePanel
-		{
-			public OutsideClosetPanel()
-			{
-				super( "Inside Inventory", "put in closet", "put in stash", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
-				availableList = elementList;
-			}
-
-			protected void actionConfirmed()
-			{	(new InventoryStorageThread( false )).start();
-			}
-
-			protected void actionCancelled()
-			{	(new InventoryStorageThread( true )).start();
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				availableList.setEnabled( isEnabled );
-			}
-		}
-
-		private class InsideClosetPanel extends ItemManagePanel
-		{
-			public InsideClosetPanel()
-			{
-				super( "Inside Closet", "put in bag", "put in stash", client == null ? new LockableListModel() : client.getCloset().getMirrorImage() );
-				closetList = elementList;
-			}
-
-			protected void actionConfirmed()
-			{	(new ClosetStorageThread( false )).start();
-			}
-
-			protected void actionCancelled()
-			{	(new ClosetStorageThread( true )).start();
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				closetList.setEnabled( isEnabled );
-			}
+			elementList.setEnabled( isEnabled );
 		}
 
 		/**
@@ -408,40 +360,11 @@ public class ClanManageFrame extends KoLFrame
 
 			public void run()
 			{
-				Object [] items = availableList.getSelectedValues();
+				Object [] items = elementList.getSelectedValues();
 				Runnable request = isStash ? (Runnable) new ClanStashRequest( client, items ) :
 					(Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
 				client.makeRequest( request, 1 );
-				client.updateDisplay( ENABLED_STATE, "Items moved." );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually move items around in the inventory.
-		 */
-
-		private class ClosetStorageThread extends Thread
-		{
-			private boolean isStash;
-
-			public ClosetStorageThread( boolean isStash )
-			{
-				super( "Closet-Storage-Thread" );
-				setDaemon( true );
-				this.isStash = isStash;
-			}
-
-			public void run()
-			{
-				Object [] items = closetList.getSelectedValues();
-				client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ), 1 );
-
-				if ( isStash )
-					client.makeRequest( new ClanStashRequest( client, items ), 1 );
-
 				client.updateDisplay( ENABLED_STATE, "Items moved." );
 			}
 		}
