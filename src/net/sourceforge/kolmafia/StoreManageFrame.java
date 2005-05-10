@@ -285,11 +285,8 @@ public class StoreManageFrame extends KoLFrame
 						if ( soldItem == null )
 							return;
 
-						int price = itemPrice.getText() == null ? 0 : itemPrice.getText().length() == 0 ? 0 :
-							df.parse( itemPrice.getText() ).intValue();
-
-						int limit = itemLimit.getText() == null ? 0 : itemLimit.getText().length() == 0 ? 0 :
-							df.parse( itemLimit.getText() ).intValue();
+						int price = getValue( itemPrice );
+						int limit = getValue( itemLimit );
 
 						if ( price > 10 )
 							client.makeRequest( new AutoSellRequest( client, soldItem, price, limit ), 1 );

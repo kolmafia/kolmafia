@@ -71,6 +71,7 @@ package net.sourceforge.kolmafia;
 // containers
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -1133,6 +1134,26 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					mailboxDisplay.stateChanged( null );
 				}
 			}
+		}
+	}
+
+	protected static final int getValue( JTextField field )
+	{	return getValue( field, 0 );
+	}
+
+	protected static final int getValue( JTextField field, int defaultValue )
+	{
+		try
+		{
+			return field.getText() == null || field.getText().length() == 0 ?
+				defaultValue : df.parse( field.getText() ).intValue();
+		}
+		catch ( Exception e )
+		{
+			// If something's wrong with the parsing, assume
+			// that the person wanted the default value.
+
+			return defaultValue;
 		}
 	}
 }

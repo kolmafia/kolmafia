@@ -463,24 +463,14 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				try
-				{
-					int count = df.parse( countField.getText() ).intValue();
-					Runnable request = (Runnable) locationField.getSelectedItem();
+				int count = getValue( countField );
+				Runnable request = (Runnable) locationField.getSelectedItem();
 
-					if ( request != null )
-					{
-						client.getSettings().setProperty( "lastAdventure", request.toString() );
-						client.getSettings().saveSettings();
-						client.makeRequest( request, count );
-					}
-				}
-				catch ( ParseException e )
+				if ( request != null )
 				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
+					client.getSettings().setProperty( "lastAdventure", request.toString() );
+					client.getSettings().saveSettings();
+					client.makeRequest( request, count );
 				}
 			}
 		}
@@ -633,26 +623,15 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				try
-				{
-					int storeCount = countField.getText().trim().length() == 0 ? -1 :
-						df.parse( countField.getText() ).intValue();
+				int searchCount = getValue( countField, -1 );
 
-					if ( storeCount == -1 )
-						(new SearchMallRequest( client, searchField.getText(), results )).run();
-					else
-						(new SearchMallRequest( client, searchField.getText(), storeCount, results )).run();
+				if ( searchCount == -1 )
+					(new SearchMallRequest( client, searchField.getText(), results )).run();
+				else
+					(new SearchMallRequest( client, searchField.getText(), searchCount, results )).run();
 
-					if ( results.size() > 0 )
-						resultsDisplay.ensureIndexIsVisible( 0 );
-				}
-				catch ( Exception e )
-				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
-				}
+				if ( results.size() > 0 )
+					resultsDisplay.ensureIndexIsVisible( 0 );
 			}
 		}
 
@@ -804,10 +783,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				try
 				{
-					if ( amountField.getText().trim().length() == 0 )
-						return;
-
-					int amountRemaining = df.parse( amountField.getText() ).intValue();
+					int amountRemaining = getValue( amountField );
 					int increments = useIncrements ? df.parse( JOptionPane.showInputDialog(
 							"How many increments?" ) ).intValue() : 1;
 
@@ -831,12 +807,11 @@ public class AdventureFrame extends KoLFrame
 				}
 				catch ( Exception e )
 				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
+					// If an exception is caught, that means the
+					// person did not input a number.  Which means
+					// do nothing, which is exactly what would
+					// happen at this point.
 				}
-
 			}
 		}
 	}
@@ -899,24 +874,9 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				try
-				{
-					if ( amountField.getText().trim().length() == 0 )
-						return;
-
-					int amount = df.parse( amountField.getText() ).intValue();
-					client.makeRequest( new ItemStorageRequest( client, amount, isDeposit ?
-						ItemStorageRequest.MEAT_TO_CLOSET : ItemStorageRequest.MEAT_TO_INVENTORY ), 1 );
-
-				}
-				catch ( Exception e )
-				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
-				}
-
+				int amount = getValue( amountField );
+				client.makeRequest( new ItemStorageRequest( client, amount, isDeposit ?
+					ItemStorageRequest.MEAT_TO_CLOSET : ItemStorageRequest.MEAT_TO_INVENTORY ), 1 );
 			}
 		}
 	}
@@ -1035,30 +995,17 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				try
-				{
-					String buffName = ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName();
-					if ( buffName == null )
-						return;
+				String buffName = ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName();
+				if ( buffName == null )
+					return;
 
-					String target = targetField.getText().trim();
+				String target = targetField.getText().trim();
 
-					int buffCount = maxBuff ?
-						(int) ( client.getCharacterData().getCurrentMP() /
-							ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) :
-								countField.getText().trim().length() == 0 ? 1 : df.parse( countField.getText() ).intValue();
+				int buffCount = maxBuff ?
+					(int) ( client.getCharacterData().getCurrentMP() /
+						ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) : getValue( countField, 1 );
 
-					client.makeRequest( new UseSkillRequest( client, buffName, target, buffCount ), 1 );
-
-				}
-				catch ( Exception e )
-				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
-				}
-
+				client.makeRequest( new UseSkillRequest( client, buffName, target, buffCount ), 1 );
 			}
 		}
 	}

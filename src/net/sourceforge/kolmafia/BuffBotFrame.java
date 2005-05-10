@@ -288,14 +288,8 @@ public class BuffBotFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			try
-			{
-				client.getBuffBotManager().addBuff( ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName(),
-					df.parse( priceField.getText() ).intValue(), df.parse( countField.getText() ).intValue(), restrictBox.isSelected() );
-			}
-			catch ( Exception e )
-			{
-			}
+			client.getBuffBotManager().addBuff( ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName(),
+				getValue( priceField ), getValue( countField ), restrictBox.isSelected() );
 		}
 
 		public void actionCancelled()
