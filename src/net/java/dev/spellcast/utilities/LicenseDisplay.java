@@ -104,10 +104,14 @@ public class LicenseDisplay extends javax.swing.JFrame
 				try
 				{
 					while ( (line = buf.readLine()) != null )
+					{
 						licenseText.append( line );
+						licenseText.append( System.getProperty( "line.separator" ) );
+					}
 
 					((JEditorPane)licenseDisplay).setContentType( "text/html" );
 					((JEditorPane)licenseDisplay).setText( licenseText.toString() );
+					((JEditorPane)licenseDisplay).setEditable( false );
 					((JEditorPane)licenseDisplay).setCaretPosition( 0 );
 				}
 				catch ( java.io.IOException e )  {}
