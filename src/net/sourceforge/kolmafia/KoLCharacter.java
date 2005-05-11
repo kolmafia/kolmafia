@@ -185,10 +185,11 @@ public class KoLCharacter
 
 	private LockableListModel equipment;
 	private LockableListModel outfits;
-	private LockableListModel collection;
 
 	private SortedListModel inventory;
 	private SortedListModel closet;
+	private SortedListModel collection;
+
 	private LockableListModel activeEffects;
 	private LockableListModel availableSkills;
 
@@ -902,12 +903,12 @@ public class KoLCharacter
 	 * Accessor method to retrieve a list of the items contained within the character's inventory.
 	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
 	 * and that any changes to the internal character inventory will be reflected in the returned
-	 * <code>LockableListModel</code>.
+	 * <code>SortedListModel</code>.
 	 *
-	 * @return	A <code>LockableListModel</code> of the items in the character's inventory
+	 * @return	A <code>SortedListModel</code> of the items in the character's inventory
 	 */
 
-	public LockableListModel getInventory()
+	public SortedListModel getInventory()
 	{	return inventory;
 	}
 
@@ -917,10 +918,10 @@ public class KoLCharacter
 	 * and that any changes to the internal character closet will be reflected in the returned
 	 * <code>LockableListModel</code>.
 	 *
-	 * @return	A <code>LockableListModel</code> of the items in the character's closet
+	 * @return	A <code>SortedListModel</code> of the items in the character's closet
 	 */
 
-	public LockableListModel getCloset()
+	public SortedListModel getCloset()
 	{	return closet;
 	}
 
@@ -930,10 +931,10 @@ public class KoLCharacter
 	 * and that any changes to the internal character collection will be reflected in the returned
 	 * <code>LockableListModel</code>.
 	 *
-	 * @return	A <code>LockableListModel</code> of the items in the character's collection
+	 * @return	A <code>SortedListModel</code> of the items in the character's collection
 	 */
 
-	public LockableListModel getCollection()
+	public SortedListModel getCollection()
 	{	return collection;
 	}
 

@@ -95,7 +95,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
 	protected SortedListModel tally;
-	protected LockableListModel inventory, closet, usableItems, hunterItems, collection;
+	protected SortedListModel inventory, closet, usableItems, hunterItems, collection;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -512,7 +512,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 * @return	The character's inventory
 	 */
 
-	public LockableListModel getInventory()
+	public SortedListModel getInventory()
 	{	return inventory;
 	}
 
@@ -521,7 +521,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 * @return	The character's closet
 	 */
 
-	public LockableListModel getCloset()
+	public SortedListModel getCloset()
 	{	return closet;
 	}
 
@@ -530,7 +530,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 * @return	The character's collection
 	 */
 
-	public LockableListModel getCollection()
+	public SortedListModel getCollection()
 	{	return collection;
 	}
 
@@ -539,7 +539,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 * @return	The character's usable items
 	 */
 
-	public LockableListModel getUsableItems()
+	public SortedListModel getUsableItems()
 	{	return usableItems;
 	}
 
@@ -548,7 +548,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	 * bounty hunter hunter today.
 	 */
 
-	public LockableListModel getBountyHunterItems()
+	public SortedListModel getBountyHunterItems()
 	{	return hunterItems;
 	}
 

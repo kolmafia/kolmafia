@@ -78,7 +78,7 @@ public class ItemManageFrame extends KoLFrame
 	private JTabbedPane tabs;
 	private JMenuItem refreshItem;
 	private JPanel using, selling, storing;
-	private SortedListModel concoctions;
+	private SortedListModel inventory, closet, usableItems, concoctions;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -91,7 +91,10 @@ public class ItemManageFrame extends KoLFrame
 	{
 		super( "KoLmafia: Item Management", client );
 
-		concoctions = new SortedListModel();
+		this.inventory = client == null ? new SortedListModel() : client.getInventory();
+		this.closet = client == null ? new SortedListModel() : client.getCloset();
+		this.usableItems = client == null ? new SortedListModel() : client.getUsableItems();
+		this.concoctions = new SortedListModel();
 
 		if ( client != null )
 			refreshConcoctionsList();
@@ -176,7 +179,7 @@ public class ItemManageFrame extends KoLFrame
 		private class ConsumeItemPanel extends ItemManagePanel
 		{
 			public ConsumeItemPanel()
-			{	super( "Usable Items", "use one", "use multiple", client == null ? new LockableListModel() : client.getUsableItems().getMirrorImage() );
+			{	super( "Usable Items", "use one", "use multiple", usableItems.getMirrorImage() );
 			}
 
 			protected void actionConfirmed()
@@ -281,7 +284,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public SellItemPanel()
 			{
-				super( "Inside Inventory", "autosell", "send to store", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+				super( "Inside Inventory", "autosell", "send to store", inventory.getMirrorImage() );
 				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			}
 
@@ -384,7 +387,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public OutsideClosetPanel()
 			{
-				super( "Inside Inventory", "put in closet", "put in case", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+				super( "Inside Inventory", "put in closet", "put in case", inventory.getMirrorImage() );
 				availableList = elementList;
 			}
 
@@ -407,7 +410,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public InsideClosetPanel()
 			{
-				super( "Inside Closet", "put in bag", "put in case", client == null ? new LockableListModel() : client.getCloset().getMirrorImage() );
+				super( "Inside Closet", "put in bag", "put in case", closet.getMirrorImage() );
 				closetList = elementList;
 			}
 
@@ -488,14 +491,18 @@ public class ItemManageFrame extends KoLFrame
 	{
 		concoctions.clear();
 
-		List materialsList = (List) client.getInventory().clone();
-		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
+		List materialsList = (List) inventory.clone();
 
-		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
+		if ( client != null )
 		{
-			List closetList = (List) client.getCloset();
-			for ( int i = 0; i < closetList.size(); ++i )
-				AdventureResult.addResultToList( materialsList, (AdventureResult) closetList.get(i) );
+			String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
+
+			if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
+			{
+				List closetList = (List) client.getCloset();
+				for ( int i = 0; i < closetList.size(); ++i )
+					AdventureResult.addResultToList( materialsList, (AdventureResult) closetList.get(i) );
+			}
 		}
 
 		concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, materialsList ) );
