@@ -214,7 +214,18 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		}
 
 		if ( settings.getProperty( "skipCharacterData" ) == null || settings.getProperty( "skipCharacterData" ).equals( "false" ) )
+		{
 			(new CharsheetRequest( this )).run();
+
+			if ( !permitContinue )
+			{
+				this.sessionID = null;
+				this.permitContinue = true;
+				return;
+			}
+
+			(new CampgroundRequest( this )).run();
+		}
 
 		// Check to see if the user wanted to do a quick login;
 		// if there is a quick login sequence, then ignore the
@@ -222,9 +233,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		if ( !isQuickLogin )
 		{
-			if ( settings.getProperty( "skipCharacterData" ) == null || settings.getProperty( "skipCharacterData" ).equals( "false" ) )
-				(new CampgroundRequest( this )).run();
-
 			if ( !permitContinue )
 			{
 				this.sessionID = null;
@@ -244,22 +252,20 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 			if ( settings.getProperty( "skipFamiliarData" ) == null || settings.getProperty( "skipFamiliarData" ).equals( "false" ) )
 				(new FamiliarRequest( this )).run();
-
-			if ( !permitContinue )
-			{
-				this.sessionID = null;
-				this.permitContinue = true;
-				return;
-			}
-
-			// Initially the tally to the necessary values
-
-			resetSessionTally();
-			applyRecentEffects();
-
-			if ( getBreakfast )
-				getBreakfast();
 		}
+
+		resetSessionTally();
+		applyRecentEffects();
+
+		if ( !permitContinue )
+		{
+			this.sessionID = null;
+			this.permitContinue = true;
+			return;
+		}
+
+		if ( getBreakfast )
+			getBreakfast();
 
 		if ( !permitContinue )
 		{
