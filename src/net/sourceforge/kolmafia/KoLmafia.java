@@ -676,7 +676,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			parseResult( "You lose " + damageMatcher.group(1) + " hit points" );
 		}
 
-		damageMatcher = Pattern.compile( "FUMBLE\\!.*? ([\\d,]+) damage" ).matcher( plainTextResult );
+		damageMatcher = Pattern.compile( "You drop .*? ([\\d,]+) damage" ).matcher( plainTextResult );
 		lastDamageIndex = 0;
 
 		while ( damageMatcher.find( lastDamageIndex ) )
