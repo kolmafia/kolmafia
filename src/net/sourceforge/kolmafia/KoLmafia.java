@@ -350,7 +350,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		processResult( new AdventureResult( AdventureResult.MEAT ) );
 		processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
-		processResult( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
 		processResult( new AdventureResult( AdventureResult.DIVIDER ) );
 	}
 
@@ -429,12 +428,16 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
 
-		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() > 2 )
+		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() >= 2 )
 		{
 			fullStatGain[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() ) - initialStats[0];
 			fullStatGain[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() ) - initialStats[1];
 			fullStatGain[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() ) - initialStats[2];
-			tally.set( 2, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+
+			if ( tally.size() > 2 )
+				tally.set( 2, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+			else
+				tally.add( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
 		}
 	}
 
