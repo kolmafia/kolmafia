@@ -271,7 +271,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{
+		{	(new ClanMaterialsThread()).start();
 		}
 
 		public void actionCancelled()
@@ -279,7 +279,47 @@ public class ClanManageFrame extends KoLFrame
 			int totalValue = getValue( goodies ) * 1000 + getValue( oatmeal ) * 3 + getValue( recliners ) * 1500 +
 				getValue( ground ) * 300 + getValue( airborne ) * 500 + getValue( archers ) * 500;
 
-			JOptionPane.showMessageDialog( null, String.valueOf( totalValue ) );
+			JOptionPane.showMessageDialog( null, "This purchase will cost " + totalValue + " meat" );
+		}
+
+		private class ClanMaterialsThread extends Thread
+		{
+			public ClanMaterialsThread()
+			{
+				super( "Clan-Materials-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{	(new ClanMaterialsRequest()).run();
+			}
+
+			private class ClanMaterialsRequest extends KoLRequest
+			{
+				public ClanMaterialsRequest()
+				{
+					super( ClanManageFrame.this.client, "clan_war.php" );
+					addFormField( "action", "Yep." );
+					addFormField( "goodies", String.valueOf( getValue( goodies ) ) );
+					addFormField( "oatmeal", String.valueOf( getValue( oatmeal ) ) );
+					addFormField( "recliners", String.valueOf( getValue( recliners ) ) );
+					addFormField( "grunts", String.valueOf( getValue( ground ) ) );
+					addFormField( "flyers", String.valueOf( getValue( airborne ) ) );
+					addFormField( "archers", String.valueOf( getValue( archers ) ) );
+				}
+
+				public void run()
+				{
+					client.updateDisplay( DISABLED_STATE, "Purchasing clan materials..." );
+
+					super.run();
+
+					// Theoretically, there should be a test for error state,
+					// but because I'm lazy, that's not happening.
+
+					client.updateDisplay( ENABLED_STATE, "Purchase request processed." );
+				}
+			}
 		}
 	}
 
