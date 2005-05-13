@@ -402,9 +402,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.startsWith( "debug" ) )
 		{
 			if ( parameters.startsWith( "on" ) )
-				initializeLogStream();
+				scriptRequestor.initializeLogStream();
 			else if ( parameters.startsWith( "off" ) )
-				deinitializeLogStream();
+				scriptRequestor.deinitializeLogStream();
 			else
 			{
 				scriptRequestor.updateDisplay( ERROR_STATE, parameters + " is not a valid option." );
