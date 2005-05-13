@@ -422,7 +422,10 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.startsWith( "mirror" ) )
 		{
 			if ( parameters.length() == 0 )
+			{
+				this.mirrorStream.close();
 				this.mirrorStream = new NullStream();
+			}
 			else
 			{
 				File outputFile = new File( parameters );
