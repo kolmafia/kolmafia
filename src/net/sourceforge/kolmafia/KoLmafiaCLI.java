@@ -72,6 +72,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private String previousCommand;
 	private PrintStream outputStream;
+	private PrintStream mirrorStream;
 	private BufferedReader commandStream;
 	private KoLmafia scriptRequestor;
 
@@ -158,6 +159,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		outputStream = scriptRequestor == null ? System.out : new NullStream();
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
+		mirrorStream = new NullStream();
 
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
 		this.scriptRequestor.resetContinueState();
@@ -409,6 +411,46 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				scriptRequestor.updateDisplay( ERROR_STATE, parameters + " is not a valid option." );
 				scriptRequestor.cancelRequest();
+			}
+
+			return;
+		}
+
+		// Next, handle requests to start or stop
+		// debug mode.
+
+		if ( command.startsWith( "mirror" ) )
+		{
+			if ( parameters.length() == 0 )
+				this.mirrorStream = new NullStream();
+			else
+			{
+				File outputFile = new File( parameters );
+				outputFile = new File( outputFile.getAbsolutePath() );
+
+				// If the output file does not exist, create it first
+				// to avoid FileNotFoundExceptions being thrown.
+
+				try
+				{
+					if ( !outputFile.exists() )
+					{
+						outputFile.getParentFile().mkdirs();
+						outputFile.createNewFile();
+					}
+
+					this.mirrorStream = new PrintStream( new FileOutputStream( outputFile, true ), true );
+				}
+				catch ( IOException e )
+				{
+					// Because you created a file, no I/O errors should
+					// occur.  However, since there could still be something
+					// bad happening, print an error message.
+
+					scriptRequestor.updateDisplay( ERROR_STATE, "I/O error in opening file <" + parameters + ">" );
+					scriptRequestor.cancelRequest();
+					return;
+				}
 			}
 
 			return;
@@ -1459,6 +1501,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public void updateDisplay( int state, String message )
 	{
 		outputStream.println( message );
+		mirrorStream.println( message );
 		scriptRequestor.getLogStream().println( message );
 
 		// There's a special case to be handled if the login was not
