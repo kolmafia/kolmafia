@@ -265,14 +265,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 						// In the event of a price switch, give the
 						// player the option to report it.
 
-						String alertMessage = "Store #" + shopID + " (" + shopName + ") has changed its price on " + itemName + ": " +
-							df.format( price ) + " -> " + df.format( newPrice ) + ".  Would you like to continue onto the next store?";
-
-						if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, alertMessage, "Price switch detected", JOptionPane.YES_NO_OPTION ) )
-						{
-							client.cancelRequest();
-							updateDisplay( ERROR_STATE, "#" + shopID + ": " + itemName + " @ " + df.format( price ) + " -> " + df.format( newPrice ) );
-						}
+						updateDisplay( NOCHANGE, "Price switch detected (#" + shopID + ").  Skipping..." );
+						return;
 					}
 				}
 				else
