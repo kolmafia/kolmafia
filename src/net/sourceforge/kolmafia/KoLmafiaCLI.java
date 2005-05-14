@@ -155,14 +155,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public KoLmafiaCLI( KoLmafia scriptRequestor, String scriptLocation ) throws IOException
 	{
-		InputStream inputStream = scriptLocation == null ? System.in : new FileInputStream( scriptLocation );
-
-		outputStream = scriptRequestor == null ? System.out : new NullStream();
-		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
-		mirrorStream = new NullStream();
-
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
 		this.scriptRequestor.resetContinueState();
+
+		InputStream inputStream = scriptLocation == null ? System.in : new FileInputStream( scriptLocation );
+
+		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : new NullStream();
+		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
+		mirrorStream = new NullStream();
 	}
 
 	/**
@@ -175,9 +175,12 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			outputStream.println();
+			if ( scriptRequestor == this )
+			{
+				outputStream.println();
+				outputStream.print( "login: " );
+			}
 
-			outputStream.print( "login: " );
 			String username = commandStream.readLine();
 
 			if ( username == null || username.length() == 0 )
@@ -187,7 +190,9 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			outputStream.print( "password: " );
+			if ( scriptRequestor == this )
+				outputStream.print( "password: " );
+
 			String password = commandStream.readLine();
 
 			if ( password == null || password.length() == 0 )
@@ -197,13 +202,17 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			outputStream.print( "campground?: " );
+			if ( scriptRequestor == this )
+				outputStream.print( "campground?: " );
+
 			String breakfast = commandStream.readLine();
 
 			boolean getBreakfast = breakfast != null && breakfast.length() != 0 &&
 				Character.toUpperCase(breakfast.charAt(0)) == 'Y';
 
-			outputStream.println();
+			if ( scriptRequestor == this )
+				outputStream.println();
+
 			scriptRequestor.deinitialize();
 			(new LoginRequest( scriptRequestor, username, password, getBreakfast, false, false )).run();
 		}
@@ -232,9 +241,12 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 			super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
-		outputStream.println();
-		executeCommand( "moons", "" );
-		outputStream.println();
+		if ( scriptRequestor == this )
+		{
+			outputStream.println();
+			executeCommand( "moons", "" );
+			outputStream.println();
+		}
 	}
 
 	/**
@@ -246,10 +258,12 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			outputStream.print( " > " );
-			String line;
+			if ( scriptRequestor == this )
+				outputStream.print( " > " );
 
+			String line;
 			scriptRequestor.resetContinueState();
+
 			while ( (scriptRequestor.permitsContinue() || scriptRequestor == this) && (line = commandStream.readLine()) != null )
 			{
 				// Skip comment lines
@@ -260,11 +274,16 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( line == null )
 					return;
 
-				outputStream.println();
-				executeLine( line.trim() );
-				outputStream.println();
+				if ( scriptRequestor == this )
+					outputStream.println();
 
-				outputStream.print( " > " );
+				executeLine( line.trim() );
+
+				if ( scriptRequestor == this )
+				{
+					outputStream.println();
+					outputStream.print( " > " );
+				}
 			}
 
 			commandStream.close();
@@ -928,7 +947,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, PrintStream outputStream )
 	{
-		outputStream.println();
 		outputStream.println( new Date() );
 		outputStream.println();
 
