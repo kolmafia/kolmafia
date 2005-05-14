@@ -123,7 +123,7 @@ public class SearchMallRequest extends KoLRequest
 		if ( cheapestCount > 0 )
 		{
 			addFormField( "cheaponly", "on" );
-			addFormField( "shownum", String.valueOf( cheapestCount ) );
+			addFormField( "shownum", "" + cheapestCount );
 		}
 
 		this.searchString = searchString;
@@ -155,9 +155,11 @@ public class SearchMallRequest extends KoLRequest
 			return;
 
 		int startIndex = replyContent.indexOf( "Search Results:" );
+		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
+
 		if ( startIndex == -1 )
 		{
-			updateDisplay( ENABLED_STATE, "No results found." );
+			finalizeList( itemNames );
 			return;
 		}
 
@@ -180,7 +182,7 @@ public class SearchMallRequest extends KoLRequest
 
 		if ( parsedResults.countTokens() < 9 )
 		{
-			updateDisplay( ENABLED_STATE, "No results found." );
+			finalizeList( itemNames );
 			return;
 		}
 
@@ -193,7 +195,6 @@ public class SearchMallRequest extends KoLRequest
 		boolean npcStoreAdded = true;
 		int npcStorePrice = -1;
 
-		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
 		while ( parsedResults.countTokens() > 1 )
 		{
 			// The first token contains the item name
@@ -252,10 +253,20 @@ public class SearchMallRequest extends KoLRequest
 			results.add( new MallPurchaseRequest( client, itemName, itemID, purchaseLimit, shopID, shopName, price ) );
 		}
 
+		// Once the search is complete, add in any remaining NPC
+		// store data and finalize the list.
+
+		finalizeList( itemNames );
+	}
+
+	private void finalizeList( List itemNames )
+	{
 		// Now, for the items which matched, check to see if there are
 		// any entries inside of the NPC store database for them and
 		// add - this is just in case some of the items become notrade
 		// so items can still be bought from the NPC stores.
+
+		String lastItemName;
 
 		Iterator itemNameIterator = itemNames.iterator();
 		while ( itemNameIterator.hasNext() )
@@ -269,6 +280,6 @@ public class SearchMallRequest extends KoLRequest
 		if ( forceSortingString != null && forceSortingString.equals( "true" ) )
 			java.util.Collections.sort( results );
 
-		updateDisplay( ENABLED_STATE, "Search complete." );
+		updateDisplay( ENABLED_STATE, results.size() == 0 ? "No results found." : "Search complete." );
 	}
 }
