@@ -162,7 +162,7 @@ public class TradeableItemDatabase
 	public static final List getMatchingNames( String substring )
 	{
 		List substringList = new ArrayList();
-		String searchString = substring.toLowerCase();
+		String searchString = substring.toLowerCase().replaceAll( "\"", "" );
 		String currentItemName;
 
 		Iterator completeItems = itemByName.keySet().iterator();
