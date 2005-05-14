@@ -366,7 +366,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		String stringName = itemID == 41 ? "ice-cold beer (Shlitz)" : itemID == 81 ? "ice-cold beer (Willer)" :
 			name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
 
-		return " " + stringName + " (" + df.format(count[0]) + ")";
+		return stringName + " (" + df.format(count[0]) + ")";
 	}
 
 	/**
@@ -532,7 +532,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			String stringName = ar.itemID == 41 ? "ice-cold beer (Schlitz)" : ar.itemID == 81 ? "ice-cold beer (Willer)" : ar.name;
 
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
-			String stringForm = " " + stringName + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
+			String stringForm = stringName + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
 				((ar.count[0] == 1) ? "" : (" (" + df.format(ar.count[0]) + ")"));
 
 			((JLabel) defaultComponent).setText( stringForm );
