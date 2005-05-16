@@ -96,8 +96,7 @@ public class FamiliarRequest extends KoLRequest
 		}
 		else
 		{
-//			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?)<p>" ).matcher( replyContent );
-			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?)<table>" ).matcher( replyContent );
+			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?)<" ).matcher( replyContent );
 			if ( currentMatcher.find() )
 				characterData.setFamiliarDescription( currentMatcher.group(2), Integer.parseInt( currentMatcher.group(1) ) );
 
