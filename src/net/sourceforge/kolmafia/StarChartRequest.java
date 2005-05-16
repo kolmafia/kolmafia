@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class StarChartRequest extends KoLRequest implements Comparable
 {
@@ -87,7 +88,7 @@ public class StarChartRequest extends KoLRequest implements Comparable
 
 	public static List getPossibleCombinations( KoLmafia client )
 	{
-		List inventory = client.getInventory();
+		SortedListModel inventory = client.getInventory();
 
 		int chartIndex = inventory.indexOf( new AdventureResult( "star chart", 0 ) );
 		int starsIndex = inventory.indexOf( new AdventureResult( "star", 0 ) );
