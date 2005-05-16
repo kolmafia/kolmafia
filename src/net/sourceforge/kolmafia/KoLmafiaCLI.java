@@ -962,6 +962,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( desiredData.startsWith( "stat" ) )
 		{
+			outputStream.println( "Lv: " + data.getLevel() );
 			outputStream.println( "HP: " + data.getCurrentHP() + " / " + data.getMaximumHP() );
 			outputStream.println( "MP: " + data.getCurrentMP() + " / " + data.getMaximumMP() );
 			outputStream.println();
