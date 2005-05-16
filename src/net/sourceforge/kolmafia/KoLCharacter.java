@@ -853,8 +853,12 @@ public class KoLCharacter
 
 	public void setFamiliarItem( String familiarItem )
 	{
-		currentFamiliar.setItem( familiarItem == null ? "none" : familiarItem );
-		currentFamiliar.setWeight( currentFamiliar.getWeight() + getAdditionalWeight() );
+		if ( currentFamiliar != null )
+		{
+			int previousAdditionalWeight = getAdditionalWeight();
+			currentFamiliar.setItem( familiarItem == null ? "none" : familiarItem );
+			currentFamiliar.setWeight( currentFamiliar.getWeight() - previousAdditionalWeight + getAdditionalWeight() );
+		}
 	}
 
 	/**

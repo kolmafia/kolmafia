@@ -229,20 +229,6 @@ public class CharsheetRequest extends KoLRequest
 			while ( parsedContent.hasMoreTokens() && !token.startsWith( ", " ) )
 				token = parsedContent.nextToken();
 
-			if ( parsedContent.hasMoreTokens() )
-			{
-				StringTokenizer familiarData = new StringTokenizer( token.substring( 6 ), " ()", true );
-				StringBuffer familiarDescription = new StringBuffer();
-
-				String weight = familiarData.nextToken();
-				skipTokens( familiarData, 3 );
-
-				while ( familiarData.countTokens() > 5 )
-					familiarDescription.append( familiarData.nextToken() );
-
-				character.setFamiliarDescription( familiarDescription.toString().trim(), Integer.parseInt( weight ) );
-			}
-
 			logStream.println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )

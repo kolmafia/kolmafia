@@ -96,9 +96,12 @@ public class FamiliarRequest extends KoLRequest
 		}
 		else
 		{
-			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?)<" ).matcher( replyContent );
+			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?)<table><tr><td valign=center>Equipment:.*?<td valign=center>(.*?)</td>" ).matcher( replyContent );
 			if ( currentMatcher.find() )
+			{
 				characterData.setFamiliarDescription( currentMatcher.group(2), Integer.parseInt( currentMatcher.group(1) ) );
+				characterData.setFamiliarItem( currentMatcher.group(3) );
+			}
 
 			updateDisplay( NOCHANGE, "Familiar data retrieved." );
 		}
