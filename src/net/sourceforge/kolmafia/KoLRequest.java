@@ -82,8 +82,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	applySettings();
 	}
 
-	private static final int MAX_RETRIES = 4;
-
 	private String formURLString;
 	private URL formURL;
 	private StringBuffer formURLBuffer;
@@ -124,6 +122,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				}
 				catch ( UnknownHostException e )
 				{	System.setProperty( "http.proxyHost", proxyHost );
+
 				}
 
 				System.setProperty( "http.proxyPort", currentSettings.getProperty( "http.proxyPort" ) );
@@ -346,26 +345,14 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private void execute()
 	{
-		boolean connectSuccess = false;
 		this.logStream = client == null || formURLString.indexOf( "chat" ) != -1 ? new NullStream() : client.getLogStream();
-
 		logStream.println( "Connecting to " + formURLString + "..." );
-		for ( int i = 0; i < MAX_RETRIES && !connectSuccess; ++i )
-			connectSuccess = prepareConnection();
 
-		// If the maximum number of retries elapsed and the connection was
-		// still unsuccessful, notify the display and return; continuing
-		// will likely cause some bizarre exception
-
-		if ( !connectSuccess )
+		do
 		{
-			this.isErrorState = true;
-			updateDisplay( ERROR_STATE, "Connection timed out." );
-			return;
+			this.isErrorState = false;
 		}
-
-		postClientData();
-		retrieveServerReply();
+		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 	}
 
 	/**
@@ -387,6 +374,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( MalformedURLException e )
 		{
+			this.isErrorState = true;
+			updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLBuffer.toString() );
+			return false;
 		}
 
 		try
@@ -394,7 +384,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
 
-			logStream.println( "Attempting to establish KoL connection..." );
+			logStream.println( "Attempting to establish connection..." );
 			formConnection = (HttpURLConnection) formURL.openConnection();
 		}
 		catch ( IOException e )
@@ -403,6 +393,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			// that there was a timeout; return false and let the loop
 			// attempt to connect again
 
+			this.isErrorState = true;
+			updateDisplay( ERROR_STATE, "Error opening connection.  Retrying..." );
 			return false;
 		}
 
@@ -477,11 +469,19 @@ public class KoLRequest implements Runnable, KoLConstants
 			ostream = null;
 
 			logStream.println( "Posting data posted." );
-
 			return true;
 		}
 		catch ( IOException e )
 		{
+			this.isErrorState = true;
+			updateDisplay( ERROR_STATE, "Connection timed out.  Retrying..." );
+
+			if ( client != null )
+			{
+				logStream.println( e );
+				e.printStackTrace( logStream );
+			}
+
 			return false;
 		}
 	}
@@ -492,10 +492,15 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * by the server, and also detects the unusual states of server
 	 * maintenance and session timeout.  All data retrieved by this
 	 * method is stored in the instance variables for this class.
+	 *
+	 * @return	<code>true</code> if the data was successfully retrieved, or retrying is permissible
 	 */
 
-	private void retrieveServerReply()
+	private boolean retrieveServerReply()
 	{
+		BufferedReader istream;
+		this.isErrorState = true;
+
 		try
 		{
 			// In the event of redirects, the appropriate flags should be set
@@ -505,7 +510,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			logStream.println( "Retrieving server reply..." );
 
-			isErrorState = false;
 			responseCode = formConnection.getResponseCode();
 			replyContent = "";
 			redirectLocation = "";
@@ -514,71 +518,81 @@ public class KoLRequest implements Runnable, KoLConstants
 			// reply - there really is only one cookie to worry about, so
 			// it will be stored here.
 
-			BufferedReader istream =
-				new BufferedReader( new InputStreamReader(
-					formConnection.getInputStream() ) );
+			istream = new BufferedReader( new InputStreamReader( formConnection.getInputStream() ) );
+		}
+		catch ( IOException e )
+		{
+			updateDisplay( ERROR_STATE, "Connection timed out.  Retrying..." );
 
 			if ( client != null )
 			{
-				logStream.println( "Server response code: " + responseCode );
+				logStream.println( e );
+				e.printStackTrace( logStream );
+			}
 
-				if ( responseCode >= 300 && responseCode <= 399 )
+			return true;
+		}
+
+		if ( client != null )
+		{
+			logStream.println( "Server response code: " + responseCode );
+
+			if ( responseCode >= 300 && responseCode <= 399 )
+			{
+				// Redirect codes are all the ones that occur between
+				// 300 and 399.  All these notify the user of a location
+				// to return to; deal with the ones which are errors.
+
+				redirectLocation = formConnection.getHeaderField( "Location" );
+
+				if ( redirectLocation.equals( "maint.php" ) )
 				{
-					// Redirect codes are all the ones that occur between
-					// 300 and 399.  All these notify the user of a location
-					// to return to; deal with the ones which are errors.
+					// If the system is down for maintenance, the user must be
+					// notified that they should try again later.
 
-					redirectLocation = formConnection.getHeaderField( "Location" );
-
-					if ( redirectLocation.equals( "maint.php" ) )
-					{
-						// If the system is down for maintenance, the user must be
-						// notified that they should try again later.
-
-						updateDisplay( ERROR_STATE, "Nightly maintenance." );
-						isErrorState = true;
-					}
-					else if ( redirectLocation.startsWith( "login.php" ) )
-					{
-						updateDisplay( ERROR_STATE, "Session timed out." );
-						isErrorState = true;
-					}
-					else if ( redirectLocation.equals( "fight.php" ) )
-					{
-						// You have been redirected to a fight!  Here, you need
-						// to complete the fight before you can continue
-
-						isErrorState = false;
-						(new FightRequest( client )).run();
-
-						// If it's not a straightforward adventure (it's not an
-						// instance of an AdventureRequest), then you need to
-						// re-run the request to get the correct data.
-
-						if ( client.inLoginState() )
-						{
-							this.execute();
-							return;
-						}
-					}
-					else
-					{
-						logStream.println( "Redirected: " + redirectLocation );
-						return;
-					}
+					updateDisplay( ERROR_STATE, "Nightly maintenance." );
+					return false;
 				}
-				else if ( responseCode != 200 )
+				else if ( redirectLocation.startsWith( "login.php" ) )
 				{
-					// Other error states occur when the server does not return
-					// an "OK" reply.  For example, there is a reported issue
-					// where the server returns 500.
+					updateDisplay( ERROR_STATE, "Session timed out." );
+					return false;
+				}
+				else if ( redirectLocation.equals( "fight.php" ) )
+				{
+					// You have been redirected to a fight!  Here, you need
+					// to complete the fight before you can continue
 
-					isErrorState = true;
+					(new FightRequest( client )).run();
+
+					// If it's not a straightforward adventure, then you
+					// need to re-run the request to get the correct data.
+
+					if ( client.inLoginState() )
+						return true;
 				}
 				else
 				{
-					String line;
+					this.isErrorState = false;
+					logStream.println( "Redirected: " + redirectLocation );
+					return false;
+				}
+			}
+			else if ( responseCode != 200 )
+			{
+				// Other error states occur when the server does not return
+				// an "OK" reply.  For example, there is a reported issue
+				// where the server returns 500.
 
+				return true;
+			}
+			else
+			{
+				String line;
+				StringBuffer replyBuffer = new StringBuffer();
+
+				try
+				{
 					if ( formURL.getPath().indexOf( "chat" ) == -1 )
 					{
 						// In this case, there is actual content, and you're not being
@@ -596,7 +610,8 @@ public class KoLRequest implements Runnable, KoLConstants
 						if ( line == null )
 						{
 							isErrorState = true;
-							return;
+							logStream.println( "No reply content.  Retrying..." );
+							return true;
 						}
 
 						// Check for MySQL errors, since those have been getting more
@@ -605,11 +620,11 @@ public class KoLRequest implements Runnable, KoLConstants
 						// how they work right now (which line the MySQL error is
 						// printed to), but for now, assume that it's the first line.
 
-						if ( line.startsWith( "<br" ) )
+						if ( line.indexOf( "error" ) != -1 )
 						{
-							logStream.println( "MySQL error.  Repeating request..." );
-							this.execute();
-							return;
+							isErrorState = true;
+							logStream.println( "Encountered MySQL error.  Retrying..." );
+							return true;
 						}
 
 						logStream.println( "Reading page content..." );
@@ -619,52 +634,66 @@ public class KoLRequest implements Runnable, KoLConstants
 					// to make it easier for string parsing, the line breaks will
 					// ultimately be preserved.
 
-					StringBuffer replyBuffer = new StringBuffer();
-
 					while ( (line = istream.readLine()) != null )
 						replyBuffer.append( line );
+				}
+				catch ( IOException e )
+				{
+					// An IOException is clearly an error; here it will be reported
+					// to the client, but another attempt will be made
 
-					replyContent = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
+					updateDisplay( NOCHANGE, "Error reading server reply.  Retrying..." );
 
 					if ( client != null )
 					{
-						if ( client.getPasswordHash() == null )
-							logStream.println( replyContent );
-						else
-							logStream.println( replyContent.replaceAll( client.getPasswordHash(), "" ) );
+						logStream.println( e );
+						e.printStackTrace( logStream );
 					}
+
+					return true;
 				}
 
-				// If you've encountered an error state, then make sure the
-				// client knows that the request has been cancelled
+				replyContent = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
-				if ( isErrorState )
-					client.cancelRequest();
+				if ( client != null )
+				{
+					if ( client.getPasswordHash() == null )
+						logStream.println( replyContent );
+					else
+						logStream.println( replyContent.replaceAll( client.getPasswordHash(), "" ) );
+				}
 			}
+		}
 
-			// Now that you're done, close the stream and prepare it for
-			// garbage collection by setting it to null
+		try
+		{
+			// Now that you're done, close the stream,
+			// making sure to catch the exception if
+			// it happens.
 
 			istream.close();
-			istream = null;
 		}
 		catch ( IOException e )
 		{
-			// An IOException is clearly an error; here it will be reported
-			// to the client, but another attempt will be made
-
-			isErrorState = true;
-			updateDisplay( NOCHANGE, "I/O error.  Retrying..." );
+			// An IOException here is unusual, but it means that
+			// something happened which disallowed closing of the
+			// input stream.  Print the error to the log and
+			// pretend nothing happened.
 
 			if ( client != null )
 			{
 				logStream.println( e );
 				e.printStackTrace( logStream );
 			}
-
-			this.execute();
-			return;
 		}
+
+		// Null the pointer to help the garbage collector
+		// identify this as discardable data and return
+		// from the function call.
+
+		istream = null;
+		this.isErrorState = false;
+		return true;
 	}
 
 	/**
@@ -742,6 +771,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		if ( client != null )
 			client.updateDisplay( displayState, message );
+		else
+			System.out.println( message );
 	}
 
 	/**
