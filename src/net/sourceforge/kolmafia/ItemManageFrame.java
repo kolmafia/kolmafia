@@ -121,11 +121,11 @@ public class ItemManageFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu fileMenu = new JMenu( "Refresh" );
-		fileMenu.setMnemonic( KeyEvent.VK_R );
+		JMenu fileMenu = new JMenu( "Options" );
+		fileMenu.setMnemonic( KeyEvent.VK_O );
 		menuBar.add( fileMenu );
 
-		refreshItem = new JMenuItem( "Lists", KeyEvent.VK_I );
+		refreshItem = new JMenuItem( "Refresh Lists", KeyEvent.VK_R );
 		refreshItem.addActionListener( new ListRefreshListener() );
 		fileMenu.add( refreshItem );
 
