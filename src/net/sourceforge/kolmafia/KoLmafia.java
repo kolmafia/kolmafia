@@ -213,6 +213,19 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			return;
 		}
 
+		if ( !isQuickLogin )
+		{
+			if ( !permitContinue )
+			{
+				this.sessionID = null;
+				this.permitContinue = true;
+				return;
+			}
+
+			if ( settings.getProperty( "skipFamiliarData" ) == null || settings.getProperty( "skipFamiliarData" ).equals( "false" ) )
+				(new FamiliarRequest( this )).run();
+		}
+
 		if ( settings.getProperty( "skipCharacterData" ) == null || settings.getProperty( "skipCharacterData" ).equals( "false" ) )
 		{
 			(new CharsheetRequest( this )).run();
@@ -227,10 +240,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			(new CampgroundRequest( this )).run();
 		}
 
-		// Check to see if the user wanted to do a quick login;
-		// if there is a quick login sequence, then ignore the
-		// pages which are loaded by default.
-
 		if ( !isQuickLogin )
 		{
 			if ( !permitContinue )
@@ -242,16 +251,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 			if ( settings.getProperty( "skipInventory" ) == null || settings.getProperty( "skipInventory" ).equals( "false" ) )
 				(new EquipmentRequest( this )).run();
-
-			if ( !permitContinue )
-			{
-				this.sessionID = null;
-				this.permitContinue = true;
-				return;
-			}
-
-			if ( settings.getProperty( "skipFamiliarData" ) == null || settings.getProperty( "skipFamiliarData" ).equals( "false" ) )
-				(new FamiliarRequest( this )).run();
 		}
 
 		resetSessionTally();
