@@ -66,6 +66,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 
 // utilities
 import java.util.Properties;
@@ -126,7 +127,7 @@ public class BuffBotFrame extends KoLFrame
 		tabs.addTab( "Run BuffBot", mainBuff );
 		tabs.addTab( "Edit Buff List", buffOptions );
 		tabs.addTab( "Change Settings", whiteList );
-		tabs.addTab( "Refund Message", invalidBuff );
+		tabs.addTab( "Reply Messages", invalidBuff );
 
 		addCompactPane();
 		getContentPane().add( tabs, BorderLayout.CENTER );
@@ -550,11 +551,44 @@ public class BuffBotFrame extends KoLFrame
 		}
 	}
 
-	private class InvalidBuffPanel extends LabeledScrollPanel
+	private class InvalidBuffPanel extends JPanel
 	{
+		private JTextArea invalidPriceMessage, thanksMessage;
+		private JPanel buttonPanel;
+
 		public InvalidBuffPanel()
 		{
-			super( "Invalid Buff Price Message", "save", "defaults", new JTextArea() );
+			invalidPriceMessage = new JTextArea();
+			thanksMessage = new JTextArea();
+			
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout(new GridLayout(2,1,0,10));
+			
+			JPanel centerTopPanel = new JPanel();
+			centerTopPanel.setLayout( new BorderLayout() );
+			centerTopPanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			centerTopPanel.add( new JScrollPane( invalidPriceMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			
+			JPanel centerBottomPanel = new JPanel();
+			centerBottomPanel.setLayout( new BorderLayout() );
+			centerBottomPanel.add( JComponentUtilities.createLabel( "Donation Thanks Message", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			centerBottomPanel.add( new JScrollPane( thanksMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			centerPanel.add(centerTopPanel);
+			centerPanel.add(centerBottomPanel);
+			buttonPanel = new VerifyButtonPanel( "save", "defaults" );
+
+			JPanel actualPanel = new JPanel();
+			actualPanel.setLayout( new BorderLayout( 20, 10 ) );
+			actualPanel.add( centerPanel, BorderLayout.CENTER );
+			actualPanel.add( buttonPanel, BorderLayout.EAST );
+
+			setLayout( new CardLayout( 10, 10 ) );
+			add( actualPanel, "" );			
 			actionCancelled();
 		}
 
@@ -562,7 +596,8 @@ public class BuffBotFrame extends KoLFrame
 		{
 			if ( client != null )
 			{
-				client.getSettings().setProperty( "invalidBuffMessage", ((JTextArea) getScrollComponent()).getText() );
+				client.getSettings().setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
+				client.getSettings().setProperty( "thanksMessage", thanksMessage.getText() );
 				client.getSettings().saveSettings();
 			}
 
@@ -572,7 +607,77 @@ public class BuffBotFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			if ( client != null )
-				((JTextArea) getScrollComponent()).setText( client.getSettings().getProperty( "invalidBuffMessage" ) );
+			{
+				String tempString = client.getSettings().getProperty( "invalidBuffMessage" );
+				if (tempString != null)
+					invalidPriceMessage.setText( tempString );
+				else
+				{
+					invalidPriceMessage.setText( "You sent an amount which was not a valid buff amount.");
+					client.getSettings().setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
+				}
+				tempString = client.getSettings().getProperty( "thanksMessage" );
+				if (tempString != null)
+					thanksMessage.setText( tempString );
+				else
+				{
+					thanksMessage.setText( "Thank you for the donation. \n" + 
+							"If this was not intended as a donation, \n please contact the operator of this buffbot.");
+					client.getSettings().setProperty( "thanksMessage", thanksMessage.getText() );
+				}
+			}	
+		}
+				
+		public void setEnabled( boolean isEnabled )
+		{	buttonPanel.setEnabled( isEnabled );
+		}
+
+		private class VerifyButtonPanel extends JPanel
+		{
+			private JButton confirmedButton;
+			private JButton cancelledButton;
+
+			public VerifyButtonPanel( String confirmedText, String cancelledText )
+			{
+				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+
+				// add the "confirmed" button
+				confirmedButton = new JButton( confirmedText );
+				confirmedButton.addActionListener(
+					new ActionListener() {
+						public void actionPerformed( ActionEvent e ) {
+							actionConfirmed();
+						}
+					} );
+
+				addButton( confirmedButton );
+				add( Box.createVerticalStrut( 4 ) );
+
+				// add the "cancelled" button
+				cancelledButton = new JButton( cancelledText );
+				cancelledButton.addActionListener(
+					new ActionListener() {
+						public void actionPerformed( ActionEvent e ) {
+							actionCancelled();
+						}
+					} );
+				addButton( cancelledButton );
+
+				JComponentUtilities.setComponentSize( this, 80, 100 );
+			}
+
+			private void addButton( JButton buttonToAdd )
+			{
+				JPanel container = new JPanel();
+				container.setLayout( new GridLayout() );
+				container.add( buttonToAdd );
+				container.setMaximumSize( new Dimension( Integer.MAX_VALUE, 24 ) );
+				add( container );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{	confirmedButton.setEnabled( isEnabled );
+			}
 		}
 	}
 

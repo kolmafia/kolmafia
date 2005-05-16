@@ -71,6 +71,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private int messageDisposalSetting;
 	private BuffBotHome buffbotLog;
 	private String refundMessage;
+	private String thanksMessage;
 
 	private static final int SLEEP_TIME = 1000;       // Sleep this much each time
 	private static final int SHORT_SLEEP_COUNT = 75;  // This many times
@@ -198,6 +199,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		refundMessage = client.getSettings().getProperty( "invalidBuffMessage" ) == null ? "" :
 			System.getProperty( "line.separator" ) + System.getProperty( "line.separator" ) +
 				client.getSettings().getProperty( "invalidBuffMessage" );
+		thanksMessage = client.getSettings().getProperty( "thanksMessage" ) == null ? "" :
+				client.getSettings().getProperty( "thanksMessage" );
 
 		// The outer loop goes until user cancels
 
@@ -304,12 +307,18 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private void sendThankYou( String recipient, String messageHTML )
 	{
-		String reason = "Thank you very much for your generosity! Your donation is greatly appreciated. " +
-			"If this was not intended as a donation, please contact the maintainer of this buffbot.\n\n" +
-			"&gt;  " + messageHTML.replaceAll( "<.*?>", " " ).replaceAll( "[ ]+", " " );
+		if ( !thanksMessage.equals("") )
+		{
+			String reason = thanksMessage +
+				System.getProperty( "line.separator" ) + System.getProperty( "line.separator" ) +
+				">" + messageHTML.replaceAll( "<.*?>", " " ).replaceAll( "[ ]+", " " );
 
-		(new GreenMessageRequest( client, recipient, reason, new Object[0] )).run();
-		buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Sent thank you to [" + recipient + "]" );
+			(new GreenMessageRequest( client, recipient, reason, new Object[0] )).run();
+			buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Sent thank you to [" + recipient + "]" );
+		}
+		else
+			buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Thank you message NOT sent to [" + recipient + "]" );
+
 	}
 
 	private boolean processMessage( KoLMailMessage message )
