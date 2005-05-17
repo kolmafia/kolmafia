@@ -39,8 +39,7 @@ public class ProfileRequest extends KoLRequest
 	public ProfileRequest( KoLmafia client, String playerName )
 	{
 		super( client, "showplayer.php" );
-		if ( client.getMessenger() != null )
-			addFormField( "who", client.getPlayerID( playerName ) );
+		addFormField( "who", client.getPlayerID( playerName ) );
 	}
 
 	public void run()
@@ -59,7 +58,7 @@ public class ProfileRequest extends KoLRequest
 				"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[ctplhi].*?>", "" ).replaceAll(
 				"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ) + "<br>" +
 					replyContent.substring( secondTableIndex, replyContent.lastIndexOf( "send" ) ).replaceAll(
-					"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[atplh].*?>", "" ).replaceAll(
+					"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[tplh].*?>", "" ).replaceAll(
 					"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ).replaceAll( "<[cC]enter>.*?</center>", "" ).replaceAll(
 					"onClick=\'.*?\'", "" ).replaceFirst( "<br> Familiar:", "" ).replaceFirst(
 					"</b>,", "</b><br>" ).replaceFirst( "<b>\\(</b>.*?<b>\\)</b>", "<br>" ).replaceFirst(
