@@ -510,7 +510,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		if ( playerName == null )
 			return null;
 
-		String playerID = (String) seenPlayerIDs.get( playerName );
+		String playerID = (String) seenPlayerIDs.get( playerName.toLowerCase() );
 		return playerID != null ? playerID : playerName.replaceAll( " ", "_" );
 	}
 
@@ -524,7 +524,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public void registerPlayer( String playerName, String playerID )
 	{
-		seenPlayerIDs.put( playerName, playerID );
+		seenPlayerIDs.put( playerName.toLowerCase(), playerID );
 		seenPlayerNames.put( playerID, playerName );
 	}
 
