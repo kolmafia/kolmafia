@@ -51,9 +51,8 @@ import java.util.Collections;
 
 public class ClanMembersRequest extends KoLRequest
 {
-	private static final long THIRTY_DAYS =  86400000L * 30;
-	private static final Date THIRTY_DAYS_AGO = new Date( System.currentTimeMillis() - THIRTY_DAYS );
-
+	private Date daysAgo;
+	
 	public ClanMembersRequest( KoLmafia client )
 	{	super( client, "showclan.php" );
 	}
@@ -74,7 +73,15 @@ public class ClanMembersRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
 			return;
 		}
-
+		try
+		{	int daysIdle = df.parse( JOptionPane.showInputDialog(
+							"How many days since last login?", 30 ) ).intValue();
+			long millisecondsIdle = 86400000L * daysIdle;
+			daysAgo = new Date( System.currentTimeMillis() - millisecondsIdle );
+		}
+		catch ( Exception e ) // If user doesn't enter an integer, than just return
+		{	return;
+		}
 		addFormField( "whichclan", clanIDMatcher.group(1) );
 		updateDisplay( DISABLED_STATE, "Retrieving clan member list..." );
 		super.run();
@@ -98,7 +105,7 @@ public class ClanMembersRequest extends KoLRequest
 		updateDisplay( ENABLED_STATE, "Member list retrieved." );
 
 		boolean continueProcessing = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-			"This process should take " + ((int)(memberList.size() / 20) + 1) + " minutes to complete.\nAre you sure you want to continue?",
+			"This process should take " + ((int)(memberList.size() / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
 			"Member list retrieved!", JOptionPane.YES_NO_OPTION );
 
 		if ( !continueProcessing )
@@ -127,7 +134,7 @@ public class ClanMembersRequest extends KoLRequest
 
 			try
 			{
-				if ( THIRTY_DAYS_AGO.after( sdf.parse( lastonMatcher.group(1) ) ) )
+				if ( daysAgo.after( sdf.parse( lastonMatcher.group(1) ) ) )
 					idleList.add( currentMember );
 			}
 			catch ( Exception e )
