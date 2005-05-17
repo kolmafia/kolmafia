@@ -163,7 +163,7 @@ public class ClanMembersRequest extends KoLRequest
 					PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
 
 					for ( int i = 0; i < idleList.size(); ++i )
-						ostream.println( idleList.get(0) );
+						ostream.println( idleList.get(i) );
 				}
 				catch ( Exception e )
 				{	throw new RuntimeException( "The file <" + file.getAbsolutePath() + "> could not be opened for writing" );
