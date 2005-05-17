@@ -702,7 +702,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			elementList = new JList( elements );
 			elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-			elementList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*" );
 			elementList.setVisibleRowCount( 8 );
 
 			JPanel centerPanel = new JPanel();

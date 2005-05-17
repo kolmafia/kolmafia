@@ -38,6 +38,8 @@ import java.util.regex.Pattern;
 
 public class UseSkillRequest extends KoLRequest
 {
+	protected static String lastUpdate = "";
+
 	private int buffCount;
 	private int consumedMP;
 	private String target;
@@ -110,6 +112,7 @@ public class UseSkillRequest extends KoLRequest
 		if ( responseText == null || responseText.trim().length() == 0 )
 		{
 			client.cancelRequest();
+			lastUpdate = "I had lag problems.";
 			updateDisplay( ERROR_STATE, "No response to skill request." );
 
 			if ( client.isBuffBotActive() )
@@ -120,6 +123,7 @@ public class UseSkillRequest extends KoLRequest
 		else if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			client.cancelRequest();
+			lastUpdate = "I don't have enough mana to continue.";
 			updateDisplay( ERROR_STATE, "You don't have enough mana." );
 
 			if ( client.isBuffBotActive() )
@@ -130,6 +134,7 @@ public class UseSkillRequest extends KoLRequest
 		else if ( responseText.indexOf( "You can only conjure" ) != -1 )
 		{
 			client.cancelRequest();
+			lastUpdate = "I can't cast that spell that many times.";
 			updateDisplay( ERROR_STATE, "Summon limited exceeded." );
 
 			if ( client.isBuffBotActive() )
@@ -140,6 +145,7 @@ public class UseSkillRequest extends KoLRequest
 		else if ( responseText.indexOf( "too many songs" ) != -1 )
 		{
 			client.cancelRequest();
+			lastUpdate = "You have 3 AT buffs already.";
 			updateDisplay( ERROR_STATE, target + " is overbuffed." );
 
 			if ( client.isBuffBotActive() )
@@ -150,6 +156,7 @@ public class UseSkillRequest extends KoLRequest
 		else if ( responseText.indexOf( "Invalid target player" ) != -1 )
 		{
 			client.cancelRequest();
+			lastUpdate = "KoL did not recognize you as a valid player.";
 			updateDisplay( ERROR_STATE, target + " is not a valid target." );
 
 			if ( client.isBuffBotActive() )
@@ -160,6 +167,7 @@ public class UseSkillRequest extends KoLRequest
 		else if ( responseText.indexOf( "busy fighting" ) != -1 )
 		{
 			client.cancelRequest();
+			lastUpdate = "You were busy fighting.";
 			updateDisplay( ERROR_STATE, target + " is busy fighting." );
 
 			if ( client.isBuffBotActive() )
@@ -169,6 +177,7 @@ public class UseSkillRequest extends KoLRequest
 		}
 		else
 		{
+			lastUpdate = "";
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
 
 			processResults( responseText.replaceFirst(

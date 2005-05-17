@@ -1476,7 +1476,7 @@ public class KoLmafiaCLI extends KoLmafia
 			String [] soldBuffs = sellerSetting.split( "[;:]" );
 			for ( int i = 0; i < soldBuffs.length; ++i )
 				currentManager.addBuff( ClassSkillsDatabase.getSkillName( Integer.parseInt( soldBuffs[i] ) ),
-					Integer.parseInt( soldBuffs[++i] ), Integer.parseInt( soldBuffs[++i] ), soldBuffs[++i].equals("true") );
+					Integer.parseInt( soldBuffs[++i] ), Integer.parseInt( soldBuffs[++i] ), soldBuffs[++i].equals("true"), soldBuffs[++i].equals("true") );
 		}
 		else
 		{
