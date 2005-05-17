@@ -44,31 +44,28 @@ public class ProfileRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( client.getMessenger() != null )
-		{
-			updateDisplay( NOCHANGE, "Retrieving player profile..." );
-			super.run();
+		updateDisplay( NOCHANGE, "Retrieving player profile..." );
+		super.run();
 
-			int secondTableIndex = replyContent.indexOf( "</table><table>" );
+		int secondTableIndex = replyContent.indexOf( "</table><table>" );
 
-			// This is a massive replace which makes the profile easier to
-			// parse and re-represent inside of editor panes.
+		// This is a massive replace which makes the profile easier to
+		// parse and re-represent inside of editor panes.
 
-			replyContent = replyContent.substring( replyContent.indexOf( "</b>" ), secondTableIndex ).replaceAll(
-				"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[ctplhi].*?>", "" ).replaceAll(
-				"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ) + "<br>" +
-					replyContent.substring( secondTableIndex, replyContent.lastIndexOf( "send" ) ).replaceAll(
-					"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[tplh].*?>", "" ).replaceAll(
-					"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ).replaceAll( "<[cC]enter>.*?</center>", "" ).replaceAll(
-					"onClick=\'.*?\'", "" ).replaceFirst( "<br> Familiar:", "" ).replaceFirst(
-					"</b>,", "</b><br>" ).replaceFirst( "<b>\\(</b>.*?<b>\\)</b>", "<br>" ).replaceFirst(
-					"<b>Ranking:", "<b>PVP Ranking:" ).replaceFirst( "<br>", "" );
+		replyContent = replyContent.substring( replyContent.indexOf( "</b>" ), secondTableIndex ).replaceAll(
+			"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[ctplhi].*?>", "" ).replaceAll(
+			"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ) + "<br>" +
+				replyContent.substring( secondTableIndex, replyContent.lastIndexOf( "send" ) ).replaceAll(
+				"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[tplh].*?>", "" ).replaceAll(
+				"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ).replaceAll( "<[cC]enter>.*?</center>", "" ).replaceAll(
+				"onClick=\'.*?\'", "" ).replaceFirst( "<br> Familiar:", "" ).replaceFirst(
+				"</b>,", "</b><br>" ).replaceFirst( "<b>\\(</b>.*?<b>\\)</b>", "<br>" ).replaceFirst(
+				"<b>Ranking:", "<b>PVP Ranking:" ).replaceFirst( "<br>", "" );
 
-			// This completes the retrieval of the player profile.
-			// Fairly straightforward, but really ugly-looking.
-			// Now, just update the display.
+		// This completes the retrieval of the player profile.
+		// Fairly straightforward, but really ugly-looking.
+		// Now, just update the display.
 
-			updateDisplay( NOCHANGE, "Profile successfully retrieved." );
-		}
+		updateDisplay( NOCHANGE, "Profile successfully retrieved." );
 	}
 }
