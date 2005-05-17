@@ -122,7 +122,7 @@ public class BuffBotHome
 		String dayOfYear = logSDF.format(new Date());
 		String characterName = client == null ? "" : client.getLoginName();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
-		File file = new File( "data/" + noExtensionName + "_BuffBot" + dayOfYear + ".html", noExtensionName );
+		File file = new File( "data/" + noExtensionName + "_BuffBot" + dayOfYear + ".html" );
 
 		try
 		{
