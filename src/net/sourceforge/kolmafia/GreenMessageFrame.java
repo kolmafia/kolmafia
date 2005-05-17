@@ -104,7 +104,7 @@ public class GreenMessageFrame extends KoLFrame
 	{
 		public GreenMessagePanel( String recipient, String quotedMessage )
 		{
-			super( "send", "clear", new Dimension( 50, 20 ), new Dimension( 250, 20 ) );
+			super( "send", "clear", new Dimension( 80, 20 ), new Dimension( 320, 20 ) );
 
 			recipientEntry = new JTextField( recipient );
 
