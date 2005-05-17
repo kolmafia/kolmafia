@@ -107,7 +107,7 @@ public class UseSkillRequest extends KoLRequest
 		// If a reply was obtained, check to see if it was a success message
 		// Otherwise, try to figure out why it was unsuccessful.
 
-		if ( replyContent == null || replyContent.trim().length() == 0 )
+		if ( responseText == null || responseText.trim().length() == 0 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "No response to skill request." );
@@ -117,7 +117,7 @@ public class UseSkillRequest extends KoLRequest
 
 			return;
 		}
-		else if ( replyContent.indexOf( "You don't have enough" ) != -1 )
+		else if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You don't have enough mana." );
@@ -127,7 +127,7 @@ public class UseSkillRequest extends KoLRequest
 
 			return;
 		}
-		else if ( replyContent.indexOf( "You can only conjure" ) != -1 )
+		else if ( responseText.indexOf( "You can only conjure" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Summon limited exceeded." );
@@ -137,7 +137,7 @@ public class UseSkillRequest extends KoLRequest
 
 			return;
 		}
-		else if ( replyContent.indexOf( "too many songs" ) != -1 )
+		else if ( responseText.indexOf( "too many songs" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, target + " is overbuffed." );
@@ -147,7 +147,7 @@ public class UseSkillRequest extends KoLRequest
 
 			return;
 		}
-		else if ( replyContent.indexOf( "Invalid target player" ) != -1 )
+		else if ( responseText.indexOf( "Invalid target player" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, target + " is not a valid target." );
@@ -157,7 +157,7 @@ public class UseSkillRequest extends KoLRequest
 
 			return;
 		}
-		else if ( replyContent.indexOf( "busy fighting" ) != -1 )
+		else if ( responseText.indexOf( "busy fighting" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, target + " is busy fighting." );
@@ -171,7 +171,7 @@ public class UseSkillRequest extends KoLRequest
 		{
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
 
-			processResults( replyContent.replaceFirst(
+			processResults( responseText.replaceFirst(
 				"</b><br>\\(duration: ", " (" ).replaceAll( " Adventures", "" ) );
 
 			client.applyRecentEffects();

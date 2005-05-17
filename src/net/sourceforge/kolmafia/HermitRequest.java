@@ -93,13 +93,13 @@ public class HermitRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		if ( replyContent.indexOf( "acquire" ) == -1 )
+		if ( responseText.indexOf( "acquire" ) == -1 )
 		{
 			// Figure out how many you were REALLY supposed to run,
 			// since you clearly didn't have enough trinkets for
 			// what you did run. ;)
 
-			int index = replyContent.indexOf( "You have" );
+			int index = responseText.indexOf( "You have" );
 			if ( index == -1 )
 			{
 				updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
@@ -109,7 +109,7 @@ public class HermitRequest extends KoLRequest
 
 			try
 			{
-				int actualQuantity = df.parse( replyContent.substring( index + 9 ) ).intValue();
+				int actualQuantity = df.parse( responseText.substring( index + 9 ) ).intValue();
 
 				if ( quantity == actualQuantity )
 				{
@@ -129,7 +129,7 @@ public class HermitRequest extends KoLRequest
 			}
 		}
 
-		processResults( replyContent );
+		processResults( responseText );
 
 		List inventory = client.getInventory();
 

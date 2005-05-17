@@ -136,12 +136,12 @@ public class ChatRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		int index = replyContent.indexOf( "<!--lastseen:" );
+		int index = responseText.indexOf( "<!--lastseen:" );
 
 		try
 		{
 			if ( index != -1 )
-				lastSeen = df.parse( replyContent.substring( index + 13, index + 23 ) ).intValue();
+				lastSeen = df.parse( responseText.substring( index + 13, index + 23 ) ).intValue();
 		}
 		catch ( Exception e )
 		{
@@ -152,7 +152,7 @@ public class ChatRequest extends KoLRequest
 
 		if ( associatedMessenger != null && associatedMessenger == client.getMessenger() )
 		{
-			associatedMessenger.updateChat( replyContent );
+			associatedMessenger.updateChat( responseText );
 
 			if ( isContinuationRequest )
 				(new ChatContinuationThread()).start();

@@ -159,7 +159,7 @@ public class ItemStorageRequest extends KoLRequest
 		// by locating "Your closet contains x meat" and
 		// update the display with that information.
 
-		Matcher meatInClosetMatcher = Pattern.compile( "[\\d,]+ meat\\.</b>" ).matcher( replyContent );
+		Matcher meatInClosetMatcher = Pattern.compile( "[\\d,]+ meat\\.</b>" ).matcher( responseText );
 
 		if ( meatInClosetMatcher.find() )
 		{

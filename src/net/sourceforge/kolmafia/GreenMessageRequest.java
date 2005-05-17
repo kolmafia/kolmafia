@@ -153,7 +153,7 @@ public class GreenMessageRequest extends KoLRequest
 		// Make sure that the message was actually sent -
 		// the person could have input an invalid player ID
 
-		if ( replyContent.indexOf( "<center>Message Sent.</center>" ) != -1 )
+		if ( responseText.indexOf( "<center>Message Sent.</center>" ) != -1 )
 		{
 			// With that done, the client needs to be updated
 			// to note that the items were sent.

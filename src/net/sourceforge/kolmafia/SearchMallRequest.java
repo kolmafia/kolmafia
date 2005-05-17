@@ -154,7 +154,7 @@ public class SearchMallRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		int startIndex = replyContent.indexOf( "Search Results:" );
+		int startIndex = responseText.indexOf( "Search Results:" );
 		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
 
 		if ( startIndex == -1 )
@@ -168,7 +168,7 @@ public class SearchMallRequest extends KoLRequest
 		// been reached (which have been greyed out), and then remove all non-anchor
 		// tags to make everything easy to parse.
 
-		String storeListResult = replyContent.substring( startIndex );
+		String storeListResult = responseText.substring( startIndex );
 		if ( !retainAll )  storeListResult = storeListResult.replaceAll( "<td style=.*?<tr>", "" );
 
 		String plainTextResult = storeListResult.replaceAll( "<br>", "" ).replaceAll(

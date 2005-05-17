@@ -124,7 +124,7 @@ public class AutoSellRequest extends KoLRequest
 
 		client.processResult( soldResult );
 
-		String plainTextResult = replyContent.replaceAll( "<.*?>", "" );
+		String plainTextResult = responseText.replaceAll( "<.*?>", "" );
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, " " );
 
 		if ( sellType == AUTOSELL )
@@ -155,7 +155,7 @@ public class AutoSellRequest extends KoLRequest
 		client.getStoreManager().clear();
 		int lastFindIndex = 0;
 		Matcher itemMatcher = Pattern.compile(
-			"<tr><td>.*?</td><td>.*?</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( replyContent );
+			"<tr><td>.*?</td><td>.*?</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( responseText );
 
 		try
 		{

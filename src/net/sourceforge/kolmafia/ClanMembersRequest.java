@@ -51,8 +51,6 @@ import java.util.Collections;
 
 public class ClanMembersRequest extends KoLRequest
 {
-	private Date daysAgo;
-	
 	public ClanMembersRequest( KoLmafia client )
 	{	super( client, "showclan.php" );
 	}
@@ -67,27 +65,26 @@ public class ClanMembersRequest extends KoLRequest
 		ProfileRequest clanIDLookup = new ProfileRequest( client, client.getCharacterData().getUsername() );
 		clanIDLookup.run();
 
-		Matcher clanIDMatcher = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)" ).matcher( clanIDLookup.replyContent );
+		Matcher clanIDMatcher = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)" ).matcher( clanIDLookup.responseText );
 		if ( !clanIDMatcher.find() )
 		{
 			updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
 			return;
 		}
-		try
-		{	int daysIdle = df.parse( JOptionPane.showInputDialog(
-							"How many days since last login?", 30 ) ).intValue();
-			long millisecondsIdle = 86400000L * daysIdle;
-			daysAgo = new Date( System.currentTimeMillis() - millisecondsIdle );
-		}
-		catch ( Exception e ) // If user doesn't enter an integer, than just return
-		{	return;
-		}
+
+		// Now that you know which clan you belong
+		// to, you can do a clan lookup to get a
+		// complete list of clan members in one hit
+
 		addFormField( "whichclan", clanIDMatcher.group(1) );
 		updateDisplay( DISABLED_STATE, "Retrieving clan member list..." );
 		super.run();
 
+		// Now, parse out the complete list of clan
+		// members so you can act on it.
+
 		int lastMatchIndex = 0;
-		Matcher memberMatcher = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>" ).matcher( replyContent );
+		Matcher memberMatcher = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>" ).matcher( responseText );
 
 		List memberList = new ArrayList();
 
@@ -104,12 +101,38 @@ public class ClanMembersRequest extends KoLRequest
 
 		updateDisplay( ENABLED_STATE, "Member list retrieved." );
 
+		// With the clan member list retrieved, you make sure
+		// the user wishes to spend the time to do so.
+
 		boolean continueProcessing = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 			"This process should take " + ((int)(memberList.size() / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
 			"Member list retrieved!", JOptionPane.YES_NO_OPTION );
 
 		if ( !continueProcessing )
 			return;
+
+		// It has been confirmed that the user wishes to
+		// continue.  Now, you need to retrieve the cutoff
+		// horizon the user wishes to use.
+
+		Date cutoffDate;
+
+		try
+		{
+			int daysIdle = df.parse( JOptionPane.showInputDialog( "How many days since last login?", "30" ) ).intValue();
+			long millisecondsIdle = 86400000L * daysIdle;
+			cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
+		}
+		catch ( Exception e )
+		{
+			// If user doesn't enter an integer, then just return
+			// without doing anything
+
+			return;
+		}
+
+		// Now that it's known what the uesr wishes to do,
+		// you begin the attempt to process the request.
 
 		updateDisplay( DISABLED_STATE, "Processing request..." );
 
@@ -122,6 +145,10 @@ public class ClanMembersRequest extends KoLRequest
 		Matcher lastonMatcher;
 		List idleList = new ArrayList();
 
+		// In order to determine the last time the player
+		// was idle, you need to manually examine each of
+		// the player profiles for each player.
+
 		for ( int i = 1; memberIterator.hasNext() && client.permitsContinue(); ++i )
 		{
 			updateDisplay( NOCHANGE, "Examining member " + i + " of " + memberList.size() + "..." );
@@ -129,12 +156,12 @@ public class ClanMembersRequest extends KoLRequest
 			memberLookup = new ProfileRequest( client, currentMember );
 			memberLookup.run();
 
-			lastonMatcher = lastonPattern.matcher( memberLookup.replyContent );
+			lastonMatcher = lastonPattern.matcher( memberLookup.responseText );
 			lastonMatcher.find();
 
 			try
 			{
-				if ( daysAgo.after( sdf.parse( lastonMatcher.group(1) ) ) )
+				if ( cutoffDate.after( sdf.parse( lastonMatcher.group(1) ) ) )
 					idleList.add( currentMember );
 			}
 			catch ( Exception e )
@@ -147,6 +174,9 @@ public class ClanMembersRequest extends KoLRequest
 			KoLRequest.delay( 4000 );
 		}
 
+		// Now that all of the member profiles have been retrieved,
+		// you show the user the complete list of members.
+
 		if ( idleList.size() == 0 )
 			JOptionPane.showMessageDialog( null, "No idle accounts detected!" );
 		else
@@ -154,6 +184,10 @@ public class ClanMembersRequest extends KoLRequest
 			Collections.sort( idleList );
 			Object selectedValue = JOptionPane.showInputDialog( null, idleList.size() + " idle members:",
 				"Idle hands!", JOptionPane.INFORMATION_MESSAGE, null, idleList.toArray(), idleList.get(0) );
+
+			// Now, you need to determine what to do with the data;
+			// sometimes, it shows too many players, and the person
+			// wishes to retain some and cancels the process.
 
 			if ( selectedValue != null )
 			{

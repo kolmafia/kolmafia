@@ -114,15 +114,15 @@ public class HeroDonationRequest extends KoLRequest
 		// All the gains will be found before the first </center> tag;
 		// therefore, you can parse just that small segment.
 
-		if ( replyContent.indexOf( "You gain" ) == -1 )
+		if ( responseText.indexOf( "You gain" ) == -1 )
 		{
-			updateDisplay( ERROR_STATE, replyContent.indexOf( "That's not enough" ) == -1 ?
+			updateDisplay( ERROR_STATE, responseText.indexOf( "That's not enough" ) == -1 ?
 				"Donation limit exceeded." : "Donation must be larger." );
 			client.cancelRequest();
 			return;
 		}
 
-		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
+		processResults( responseText.substring( 0, responseText.indexOf( "</center>" ) ) );
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
 	}
 }

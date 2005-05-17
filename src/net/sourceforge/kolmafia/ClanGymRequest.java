@@ -84,7 +84,7 @@ public class ClanGymRequest extends KoLRequest
 		// All the gains will be found before the first </center> tag;
 		// therefore, you can parse just that small segment.
 
-		processResults( replyContent.substring( 0, replyContent.indexOf( "</center>" ) ) );
+		processResults( responseText.substring( 0, responseText.indexOf( "</center>" ) ) );
 		client.processResult( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
 		updateDisplay( ENABLED_STATE, "Workout completed." );
 	}

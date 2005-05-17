@@ -59,9 +59,9 @@ public class CakeArenaRequest extends KoLRequest
 	{
 		super.run();
 
-		if ( replyContent.indexOf( "You can't" ) != -1 || replyContent.indexOf( "You shouldn't" ) != -1 ||
-			replyContent.indexOf( "You don't" ) != -1 || replyContent.indexOf( "You need" ) != -1 ||
-			replyContent.indexOf( "You're way too beaten" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 )
+		if ( responseText.indexOf( "You can't" ) != -1 || responseText.indexOf( "You shouldn't" ) != -1 ||
+			responseText.indexOf( "You don't" ) != -1 || responseText.indexOf( "You need" ) != -1 ||
+			responseText.indexOf( "You're way too beaten" ) != -1 || responseText.indexOf( "You're too drunk" ) != -1 )
 		{
 			// Notify the client of failure by telling it that
 			// the adventure did not take place and the client
@@ -76,7 +76,7 @@ public class CakeArenaRequest extends KoLRequest
 
 		if ( isCompetition )
 		{
-			processResults( replyContent );
+			processResults( responseText );
 			client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
 			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			return;
@@ -84,7 +84,7 @@ public class CakeArenaRequest extends KoLRequest
 
 		int lastMatchIndex = 0;
 		Matcher opponentMatcher = Pattern.compile(
-			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?</tr>" ).matcher( replyContent );
+			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?</tr>" ).matcher( responseText );
 
 		while ( opponentMatcher.find( lastMatchIndex ) )
 		{

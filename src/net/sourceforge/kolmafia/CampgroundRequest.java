@@ -92,19 +92,19 @@ public class CampgroundRequest extends KoLRequest
 
 		KoLCharacter characterData = client.getCharacterData();
 
-		characterData.setChef( replyContent.indexOf( "cook.php" ) != -1 );
-		characterData.setBartender( replyContent.indexOf( "cocktail.php" ) != -1 );
-		characterData.setToaster( replyContent.indexOf( "action=toast" ) != -1 );
-		characterData.setArches( replyContent.indexOf( "action=arches" ) != -1 );
+		characterData.setChef( responseText.indexOf( "cook.php" ) != -1 );
+		characterData.setBartender( responseText.indexOf( "cocktail.php" ) != -1 );
+		characterData.setToaster( responseText.indexOf( "action=toast" ) != -1 );
+		characterData.setArches( responseText.indexOf( "action=arches" ) != -1 );
 
-		processResults( replyContent.substring( 0, replyContent.indexOf( "Your Campsite" ) ) );
+		processResults( responseText.substring( 0, responseText.indexOf( "Your Campsite" ) ) );
 
 		// Update adventure tally for resting and relaxing
 		// at the campground.
 
 		if ( action.equals( "rest" ) )
 		{
-			if ( replyContent.indexOf( "You sleep" ) == -1 )
+			if ( responseText.indexOf( "You sleep" ) == -1 )
 			{
 				isErrorState = true;
 				updateDisplay( ERROR_STATE, "Could not rest." );
@@ -113,7 +113,7 @@ public class CampgroundRequest extends KoLRequest
 		}
 		else if ( action.equals( "relax" ) )
 		{
-			if ( replyContent.indexOf( "You relax" ) == -1 )
+			if ( responseText.indexOf( "You relax" ) == -1 )
 			{
 				isErrorState = true;
 				updateDisplay( ERROR_STATE, "Could not relax." );
@@ -124,7 +124,7 @@ public class CampgroundRequest extends KoLRequest
 		// Make sure that the character received something if
 		// they were looking for toast
 
-		if ( action.equals( "toast" ) && replyContent.indexOf( "acquire" ) == -1 )
+		if ( action.equals( "toast" ) && responseText.indexOf( "acquire" ) == -1 )
 			client.cancelRequest();
 	}
 

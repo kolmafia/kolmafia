@@ -473,7 +473,7 @@ public class ClanManageFrame extends KoLFrame
 					return;
 
 				List enemyClans = new ArrayList();
-				Matcher clanMatcher = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" ).matcher( replyContent );
+				Matcher clanMatcher = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" ).matcher( responseText );
 				int lastMatchIndex = 0;
 
 				while ( clanMatcher.find( lastMatchIndex ) )

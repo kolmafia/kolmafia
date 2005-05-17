@@ -80,14 +80,14 @@ public class BountyHunterRequest extends KoLRequest
 
 		if ( isExchange )
 		{
-			processResults( replyContent );
+			processResults( responseText );
 			client.processResult( new AdventureResult( itemID, 0 - itemTraded.getCount() ) );
 			updateDisplay( ENABLED_STATE, "Items successfully sold to hunter." );
 			return;
 		}
 
 		int lastMatchIndex = 0;
-		Matcher exchangeMatcher = Pattern.compile( "<tr><td>.*?<b>(.*?)</b>.*?</tr>" ).matcher( replyContent );
+		Matcher exchangeMatcher = Pattern.compile( "<tr><td>.*?<b>(.*?)</b>.*?</tr>" ).matcher( responseText );
 
 		while ( exchangeMatcher.find( lastMatchIndex ) )
 		{

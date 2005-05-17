@@ -155,7 +155,7 @@ public class MuseumRequest extends KoLRequest
 			}
 		}
 
-		Matcher displayMatcher = Pattern.compile( "<b>Take:.*?</select>" ).matcher( replyContent );
+		Matcher displayMatcher = Pattern.compile( "<b>Take:.*?</select>" ).matcher( responseText );
 		if ( displayMatcher.find() )
 		{
 			String content = displayMatcher.group();

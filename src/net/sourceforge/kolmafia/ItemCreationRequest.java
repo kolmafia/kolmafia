@@ -217,7 +217,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// Check to make sure that the item creation
 		// did not fail.
 
-		if ( replyContent.indexOf( "You don't have" ) != -1 )
+		if ( responseText.indexOf( "You don't have" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You're missing ingredients." );
@@ -230,12 +230,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// that this is potentially inaccurate, as you
 		// may get your initial creation attempt back.
 
-		processResults( replyContent );
+		processResults( responseText );
 
 		String itemName = TradeableItemDatabase.getItemName( itemID );
 
 		Matcher resultMatcher = Pattern.compile(
-			"You acquire some items\\: <b>" + itemName + " \\(([\\d,]+)\\)</b>" ).matcher( replyContent );
+			"You acquire some items\\: <b>" + itemName + " \\(([\\d,]+)\\)</b>" ).matcher( responseText );
 
 		int createdQuantity = 0;
 
@@ -245,7 +245,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				createdQuantity = df.parse( resultMatcher.group(1) ).intValue();
 			else
 			{
-				resultMatcher = Pattern.compile( "You acquire an item\\: <b>" + itemName + "</b>" ).matcher( replyContent );
+				resultMatcher = Pattern.compile( "You acquire an item\\: <b>" + itemName + "</b>" ).matcher( responseText );
 				if ( resultMatcher.find() )
 					createdQuantity = 1;
 			}
@@ -278,7 +278,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_REAGENT:
 			case COOK_PASTA:
 
-				if ( replyContent.indexOf( "Smoke" ) != -1 )
+				if ( responseText.indexOf( "Smoke" ) != -1 )
 				{
 					client.getCharacterData().setChef( false );
 
@@ -304,7 +304,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case MIX:
 			case MIX_SPECIAL:
-				if ( replyContent.indexOf( "Smoke" ) != -1 )
+				if ( responseText.indexOf( "Smoke" ) != -1 )
 				{
 					client.getCharacterData().setBartender( false );
 

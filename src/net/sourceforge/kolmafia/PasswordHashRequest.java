@@ -51,7 +51,7 @@ public class PasswordHashRequest extends KoLRequest
 		updateDisplay( DISABLED_STATE, "Retrieving password hash..." );
 		super.run();
 
-		StringTokenizer parsedContent = new StringTokenizer( replyContent, "\'" );
+		StringTokenizer parsedContent = new StringTokenizer( responseText, "\'" );
 		while ( parsedContent.hasMoreTokens() && !parsedContent.nextToken().endsWith( "value=" ) );
 
 		if ( parsedContent.hasMoreTokens() )

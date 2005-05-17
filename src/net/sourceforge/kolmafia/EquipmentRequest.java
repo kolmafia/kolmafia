@@ -170,7 +170,7 @@ public class EquipmentRequest extends KoLRequest
 
 				case EQUIPMENT:
 					updateDisplay( DISABLED_STATE, "Retrieving equipment..." );
-					String plainTextContent = replyContent.replaceAll( "<.*?>", "\n" );
+					String plainTextContent = responseText.replaceAll( "<.*?>", "\n" );
 					StringTokenizer parsedContent = new StringTokenizer( plainTextContent, "\n" );
 
 					String oldHat = data.getHat();
@@ -220,7 +220,7 @@ public class EquipmentRequest extends KoLRequest
 		// Try to find how much meat is in your character's closet -
 		// this way, the program's meat manager frame auto-updates
 
-		Matcher meatInClosetMatcher = Pattern.compile( "[\\d,]+ meat\\.</b>" ).matcher( replyContent );
+		Matcher meatInClosetMatcher = Pattern.compile( "[\\d,]+ meat\\.</b>" ).matcher( responseText );
 
 		if ( meatInClosetMatcher.find() )
 		{
@@ -234,7 +234,7 @@ public class EquipmentRequest extends KoLRequest
 			}
 		}
 
-		Matcher inventoryMatcher = Pattern.compile( "<b>Put:.*?</select>" ).matcher( replyContent );
+		Matcher inventoryMatcher = Pattern.compile( "<b>Put:.*?</select>" ).matcher( responseText );
 		if ( inventoryMatcher.find() )
 		{
 			List inventory = client.getInventory();
@@ -246,7 +246,7 @@ public class EquipmentRequest extends KoLRequest
 			parseCloset( inventoryMatcher.group(), inventory, true );
 		}
 
-		Matcher closetMatcher = Pattern.compile( "<b>Take:.*?</select>" ).matcher( replyContent );
+		Matcher closetMatcher = Pattern.compile( "<b>Take:.*?</select>" ).matcher( responseText );
 		if ( closetMatcher.find() )
 		{
 			List closet = client.getCloset();
@@ -331,7 +331,7 @@ public class EquipmentRequest extends KoLRequest
 			// then use the static SpecialOutfit method to determine which
 			// items are available.
 
-			Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( replyContent );
+			Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( responseText );
 
 			LockableListModel outfits = outfitsMatcher.find() ?
 				SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();

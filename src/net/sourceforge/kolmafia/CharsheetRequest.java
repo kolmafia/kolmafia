@@ -92,8 +92,8 @@ public class CharsheetRequest extends KoLRequest
 		// expression matching.
 
 
-		character.setGender( replyContent.indexOf( "_f.gif" ) == -1 );
-		StringTokenizer parsedContent = new StringTokenizer( replyContent, "<>" );
+		character.setGender( responseText.indexOf( "_f.gif" ) == -1 );
+		StringTokenizer parsedContent = new StringTokenizer( responseText, "<>" );
 
 		try
 		{
@@ -188,7 +188,7 @@ public class CharsheetRequest extends KoLRequest
 			// active effects - if so, retrieve them.
 
 			character.clearEffects();
-			if ( replyContent.indexOf( "Effects:" ) != -1 )
+			if ( responseText.indexOf( "Effects:" ) != -1 )
 			{
 				while ( !parsedContent.nextToken().startsWith( "Eff" ) );
 				skipTokens( parsedContent, 13 );
@@ -202,7 +202,7 @@ public class CharsheetRequest extends KoLRequest
 				}
 			}
 
-			if ( replyContent.indexOf( "Skills:" ) != -1 )
+			if ( responseText.indexOf( "Skills:" ) != -1 )
 			{
 				while ( !parsedContent.nextToken().startsWith( "Ski" ) );
 

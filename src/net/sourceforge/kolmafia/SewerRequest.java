@@ -126,7 +126,7 @@ public class SewerRequest extends KoLRequest
 			return;
 		}
 
-		processResults( replyContent );
+		processResults( responseText );
 		client.processResult( CLOVER );
 	}
 
@@ -179,7 +179,7 @@ public class SewerRequest extends KoLRequest
 			return;
 		}
 
-		processResults( replyContent );
+		processResults( responseText );
 		client.processResult( GUM );
 	}
 

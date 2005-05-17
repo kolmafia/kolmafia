@@ -125,7 +125,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 			(new RetrieveResultRequest( client, redirectLocation )).run();
 		}
-		else if ( replyContent.indexOf( "Too much" ) != -1 )
+		else if ( responseText.indexOf( "Too much" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Your spleen might go kabooie." );
@@ -134,7 +134,7 @@ public class ConsumeItemRequest extends KoLRequest
 		else
 		{
 			client.processResult( itemUsed );
-			processResults( replyContent );
+			processResults( responseText );
 		}
 	}
 
@@ -156,7 +156,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( consumptionType == GROW_FAMILIAR )
 			{
-				if ( replyContent.indexOf( "You've already got a familiar of that type." ) != -1 )
+				if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
 				{
 					client.cancelRequest();
 					updateDisplay( ERROR_STATE, "You already have that familiar." );
@@ -169,7 +169,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// Check to make sure that it wasn't a food or drink
 			// that was consumed that resulted in nothing.
 
-			else if ( replyContent.indexOf( "too full" ) != -1 || replyContent.indexOf( "too drunk" ) != -1 )
+			else if ( responseText.indexOf( "too full" ) != -1 || responseText.indexOf( "too drunk" ) != -1 )
 			{
 				client.cancelRequest();
 				updateDisplay( ERROR_STATE, "Consumption limit reached." );
@@ -182,7 +182,7 @@ public class ConsumeItemRequest extends KoLRequest
 			else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
 			{
 				client.processResult( new AdventureResult( AdventureResult.HP, client.getCharacterData().getMaximumHP() ) );
-				if ( replyContent.indexOf( "crumble" ) == -1 )
+				if ( responseText.indexOf( "crumble" ) == -1 )
 					return;
 			}
 
@@ -201,7 +201,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( itemUsed.getName().indexOf( "rolling" ) == -1 && itemUsed.getName().indexOf( "Protest" ) == -1 )
 				client.processResult( itemUsed );
 
-			processResults( replyContent.substring( 0, replyContent.indexOf( "Inventory:" ) ) );
+			processResults( responseText.substring( 0, responseText.indexOf( "Inventory:" ) ) );
 
 			// Handle rolling and unrolling pins removing your
 			// dough from the inventory.

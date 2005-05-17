@@ -80,9 +80,9 @@ public class FamiliarRequest extends KoLRequest
 		int whichIndex;
 		for ( int i = 1; i < 50; ++i )
 		{
-			whichIndex = replyContent.indexOf( "<input type=radio name=newfam value=" + i );
+			whichIndex = responseText.indexOf( "<input type=radio name=newfam value=" + i );
 			if ( whichIndex != -1 )
-				characterData.addFamiliar( new FamiliarData( i, replyContent.substring( whichIndex, replyContent.indexOf( "</tr>", whichIndex ) ) ) );
+				characterData.addFamiliar( new FamiliarData( i, responseText.substring( whichIndex, responseText.indexOf( "</tr>", whichIndex ) ) ) );
 		}
 
 		// If there was a change, then make sure that the character
@@ -96,7 +96,7 @@ public class FamiliarRequest extends KoLRequest
 		}
 		else
 		{
-			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?)<table><tr><td valign=center>Equipment:.*?<td valign=center>(.*?)</td>" ).matcher( replyContent );
+			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?)<table><tr><td valign=center>Equipment:.*?<td valign=center>(.*?)</td>" ).matcher( responseText );
 			if ( currentMatcher.find() )
 			{
 				characterData.setFamiliarDescription( currentMatcher.group(2), Integer.parseInt( currentMatcher.group(1) ) );

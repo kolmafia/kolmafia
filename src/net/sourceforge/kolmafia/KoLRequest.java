@@ -95,7 +95,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected boolean isErrorState;
 	protected String redirectLocation;
 
-	protected String replyContent;
+	protected String responseText;
 	protected HttpURLConnection formConnection;
 
 	/**
@@ -511,7 +511,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			logStream.println( "Retrieving server reply..." );
 
 			responseCode = formConnection.getResponseCode();
-			replyContent = "";
+			responseText = "";
 			redirectLocation = "";
 
 			// Store any cookies that might be found in the headers of the
@@ -653,14 +653,14 @@ public class KoLRequest implements Runnable, KoLConstants
 					return true;
 				}
 
-				replyContent = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
+				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
 				if ( client != null )
 				{
 					if ( client.getPasswordHash() == null )
-						logStream.println( replyContent );
+						logStream.println( responseText );
 					else
-						logStream.println( replyContent.replaceAll( client.getPasswordHash(), "" ) );
+						logStream.println( responseText.replaceAll( client.getPasswordHash(), "" ) );
 				}
 			}
 		}

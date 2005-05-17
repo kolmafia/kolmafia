@@ -92,7 +92,7 @@ public class TrapperRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		processResults( replyContent );
+		processResults( responseText );
 		client.processResult( new AdventureResult( YETI_FUR.getItemID(), 0 - quantity ) );
 		updateDisplay( ENABLED_STATE, "Trapper successfully looted!" );
 	}

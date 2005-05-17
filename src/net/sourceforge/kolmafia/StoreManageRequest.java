@@ -86,7 +86,7 @@ public class StoreManageRequest extends KoLRequest
 		if ( isPriceManagement )
 		{
 			Matcher priceMatcher = Pattern.compile(
-				"<tr>.*?value=\"(\\d+)\" name=price(\\d+)>.*?value=\"(\\d+)\".*?</tr>" ).matcher( replyContent );
+				"<tr>.*?value=\"(\\d+)\" name=price(\\d+)>.*?value=\"(\\d+)\".*?</tr>" ).matcher( responseText );
 
 			while ( priceMatcher.find( lastFindIndex ) )
 			{
@@ -102,12 +102,12 @@ public class StoreManageRequest extends KoLRequest
 		else
 		{
 			Matcher takenItemMatcher = Pattern.compile(
-				"<option value=" + takenItemID + ">(.*?)</option>" ).matcher( replyContent );
+				"<option value=" + takenItemID + ">(.*?)</option>" ).matcher( responseText );
 			takenItemMatcher.find();
 			client.parseResult( takenItemMatcher.group(1).replaceAll( "\\(.*? Meat\\) ", "" ) );
 
 			Matcher itemMatcher = Pattern.compile(
-				"<tr><td>.*?</td><td>.*?</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( replyContent );
+				"<tr><td>.*?</td><td>.*?</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( responseText );
 
 			try
 			{

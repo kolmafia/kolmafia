@@ -135,8 +135,8 @@ public class FightRequest extends KoLRequest
 		{
 			client.processResult( new AdventureResult( AdventureResult.MP, getMPCost() ) );
 
-			processResults( replyContent );
-			int winmsgIndex = replyContent.indexOf( "WINWINWIN" );
+			processResults( responseText );
+			int winmsgIndex = responseText.indexOf( "WINWINWIN" );
 
 			if ( winmsgIndex != -1 )
 			{
@@ -152,7 +152,7 @@ public class FightRequest extends KoLRequest
 				updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
 				client.cancelRequest();
 			}
-			else if ( replyContent.indexOf( "You lose." ) != -1 )
+			else if ( responseText.indexOf( "You lose." ) != -1 )
 			{
 				// If you lose the battle, you should update the display to
 				// indicate that the battle has been finished; you should
@@ -162,7 +162,7 @@ public class FightRequest extends KoLRequest
 				updateDisplay( ERROR_STATE, "You were defeated!" );
 				client.cancelRequest();
 			}
-			else if ( replyContent.indexOf( "You run away," ) != -1 )
+			else if ( responseText.indexOf( "You run away," ) != -1 )
 			{
 				// If you successfully run away, then you should update
 				// the display to indicate that you ran away and adventuring

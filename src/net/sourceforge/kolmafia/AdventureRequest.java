@@ -178,14 +178,14 @@ public class AdventureRequest extends KoLRequest
 		// Sometimes, there's no response from the server.
 		// In this case, simply rerun the request.
 
-		if ( replyContent.trim().length() == 0 )
+		if ( responseText.trim().length() == 0 )
 		{
 			updateDisplay( NOCHANGE, "Empty response from server.  Retrying..." );
 			this.run();
 			return;
 		}
 
-		processResults( replyContent );
+		processResults( responseText );
 
 		// You could be beaten up, which halts adventures.  This is
 		// true except for two cases: the casino's standard slot
@@ -194,9 +194,9 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "adventure.php" ) || formSource.equals( "lair3.php" ) )
 		{
-			if ( replyContent.indexOf( "againform.submit" ) == -1 )
+			if ( responseText.indexOf( "againform.submit" ) == -1 )
 			{
-				if ( replyContent.indexOf( "No adventure data exists for this location" ) != -1 )
+				if ( responseText.indexOf( "No adventure data exists for this location" ) != -1 )
 				{
 					// In the event that no adventure data existed,
 					// this is a server, so KoLmafia should probably
@@ -221,9 +221,9 @@ public class AdventureRequest extends KoLRequest
 				}
 			}
 		}
-		else if ( replyContent.indexOf( "You can't" ) != -1 || replyContent.indexOf( "You shouldn't" ) != -1 ||
-			replyContent.indexOf( "You don't" ) != -1 || replyContent.indexOf( "You need" ) != -1 ||
-			replyContent.indexOf( "You're way too beaten" ) != -1 || replyContent.indexOf( "You're too drunk" ) != -1 )
+		else if ( responseText.indexOf( "You can't" ) != -1 || responseText.indexOf( "You shouldn't" ) != -1 ||
+			responseText.indexOf( "You don't" ) != -1 || responseText.indexOf( "You need" ) != -1 ||
+			responseText.indexOf( "You're way too beaten" ) != -1 || responseText.indexOf( "You're too drunk" ) != -1 )
 		{
 			// Notify the client of failure by telling it that
 			// the adventure did not take place and the client

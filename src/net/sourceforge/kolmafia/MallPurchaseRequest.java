@@ -220,14 +220,14 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Once it reaches this point, you know that the
 		// request was executed.  Begin parsing the reply.
 
-		String result = replyContent.substring( replyContent.indexOf( "<center>" ), replyContent.indexOf( "</table>" ) );
+		String result = responseText.substring( responseText.indexOf( "<center>" ), responseText.indexOf( "</table>" ) );
 
 		// One error is that the item price changed, or the item
 		// is no longer available because someone was faster at
 		// purchasing the item.  If that's the case, just return
 		// without doing anything; nothing left to do.
 
-		if ( replyContent.indexOf( "You can't afford" ) != -1 )
+		if ( responseText.indexOf( "You can't afford" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Not enough funds." );
@@ -239,7 +239,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// to yield" message.  In that case, you may wish to
 		// re-attempt the purchase.
 
-		if ( replyContent.indexOf( "This store doesn't" ) != -1 || replyContent.indexOf( "failed to yield" ) != -1 )
+		if ( responseText.indexOf( "This store doesn't" ) != -1 || responseText.indexOf( "failed to yield" ) != -1 )
 		{
 			Matcher itemChangedMatcher = Pattern.compile(
 				"<td valign=center><b>" + itemName + "</b> \\(([\\d,]+)\\) </td><td>([\\d,]+) Meat" ).matcher( result );

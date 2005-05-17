@@ -142,7 +142,7 @@ public class MailboxRequest extends KoLRequest
 		try
 		{
 			Matcher messageCountMatcher = Pattern.compile( "\\d+" ).matcher(
-				replyContent.substring( replyContent.indexOf( " - " ) + 3, replyContent.indexOf( "</b>" ) ) );
+				responseText.substring( responseText.indexOf( " - " ) + 3, responseText.indexOf( "</b>" ) ) );
 
 			messageCountMatcher.find();
 			lastMessageID = df.parse( messageCountMatcher.group() ).intValue();
@@ -161,7 +161,7 @@ public class MailboxRequest extends KoLRequest
 		}
 
 
-		int nextMessageIndex = replyContent.indexOf( "<td valign=top>" );
+		int nextMessageIndex = responseText.indexOf( "<td valign=top>" );
 
 		if ( nextMessageIndex == -1 )
 		{
@@ -197,7 +197,7 @@ public class MailboxRequest extends KoLRequest
 		{
 			--remainingIterations;
 			lastMessageIndex = nextMessageIndex;
-			nextMessageIndex = replyContent.indexOf( "<td valign=top>", lastMessageIndex + 15 );
+			nextMessageIndex = responseText.indexOf( "<td valign=top>", lastMessageIndex + 15 );
 
 			// The last message in the inbox has no "next message index".
 			// In this case, locate the last index of the link tag and
@@ -205,7 +205,7 @@ public class MailboxRequest extends KoLRequest
 
 			if ( nextMessageIndex == -1 )
 			{
-				nextMessageIndex = replyContent.lastIndexOf( "<a" );
+				nextMessageIndex = responseText.lastIndexOf( "<a" );
 				shouldContinueParsing = false;
 			}
 
@@ -214,7 +214,7 @@ public class MailboxRequest extends KoLRequest
 
 			if ( nextMessageIndex != -1 )
 			{
-				currentMessage = replyContent.substring( lastMessageIndex, nextMessageIndex );
+				currentMessage = responseText.substring( lastMessageIndex, nextMessageIndex );
 
 				// This replaces all of the HTML contained within the message to something
 				// that can be rendered with the default JEditorPane, and also be subject
