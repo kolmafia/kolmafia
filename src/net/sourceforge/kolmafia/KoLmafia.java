@@ -237,6 +237,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		if ( settings.getProperty( "skipCharacterData" ) == null || settings.getProperty( "skipCharacterData" ).equals( "false" ) )
 		{
 			(new CharsheetRequest( this )).run();
+			registerPlayer( loginname, String.valueOf( characterData.getUserID() ) );
 
 			if ( !permitContinue )
 			{
