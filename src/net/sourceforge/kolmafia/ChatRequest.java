@@ -76,7 +76,7 @@ public class ChatRequest extends KoLRequest
 		addFormField( "pwd", client.getPasswordHash() );
 
 		associatedMessenger = client.getMessenger();
-		String contactID = associatedMessenger == null ? null : associatedMessenger.getPlayerID( contact );
+		String contactID = associatedMessenger == null ? null : client.getPlayerID( contact );
 
 		String actualMessage = null;
 

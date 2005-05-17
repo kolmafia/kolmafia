@@ -60,9 +60,6 @@ public class KoLMessenger implements KoLConstants
 
 	private TreeMap instantMessageFrames;
 	private TreeMap instantMessageBuffers;
-
-	private TreeMap seenPlayerIDs;
-	private TreeMap seenPlayerNames;
 	private SortedListModel onlineContacts;
 
 	private String currentChannel;
@@ -77,8 +74,6 @@ public class KoLMessenger implements KoLConstants
 		this.instantMessageFrames = new TreeMap();
 		this.instantMessageBuffers = new TreeMap();
 
-		seenPlayerIDs = new TreeMap();
-		seenPlayerNames = new TreeMap();
 		contactsFrame = new ContactListFrame( client, onlineContacts );
 
 		String tabsSetting = client.getSettings().getProperty( "useTabbedChat" );
@@ -328,38 +323,6 @@ public class KoLMessenger implements KoLConstants
 	}
 
 	/**
-	 * Returns the string form of the player ID associated
-	 * with the given player name.
-	 *
-	 * @param	playerID	The ID of the player
-	 * @return	The player's name if it has been seen, or null if it has not
-	 *          yet appeared in the chat (not likely, but possible).
-	 */
-
-	public String getPlayerName( String playerID )
-	{	return (String) seenPlayerNames.get( playerID );
-	}
-
-	/**
-	 * Returns the string form of the player ID associated
-	 * with the given player name.
-	 *
-	 * @param	playerName	The name of the player
-	 * @return	The player's ID if the player has been seen, or the player's name
-	 *			with spaces replaced with underscores and other elements encoded
-	 *			if the player's ID has not been seen.
-	 */
-
-	public String getPlayerID( String playerName )
-	{
-		if ( playerName == null )
-			return null;
-
-		String playerID = (String) seenPlayerIDs.get( playerName );
-		return playerID != null ? playerID : playerName.replaceAll( " ", "_" );
-	}
-
-	/**
 	 * Replaces the current contact list with the given contact
 	 * list.  This is used after every call to /friends.
 	 *
@@ -519,8 +482,7 @@ public class KoLMessenger implements KoLConstants
 			String playerID = playerIDMatcher.group(1);
 			String playerName = playerIDMatcher.group(2).replaceAll( "<.*?>", "" ).replaceAll( " \\(.*?\\)", "" );
 
-			seenPlayerIDs.put( playerName, playerID );
-			seenPlayerNames.put( playerID, playerName );
+			client.registerPlayer( playerName, playerID );
 		}
 
 		// Now with all that information parsed, you can properly deal
@@ -852,7 +814,7 @@ public class KoLMessenger implements KoLConstants
 					if ( name.indexOf( " (" ) != -1 )
 						name = name.substring( 0, name.indexOf( " (" ) );
 
-					int playerID = Integer.parseInt( getPlayerID( name ) );
+					int playerID = Integer.parseInt( client.getPlayerID( name ) );
 
 					// In order to make the stylesheet work as intended,
 					// the user's player ID is defined with class pid0.

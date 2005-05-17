@@ -39,6 +39,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.net.URLEncoder;
@@ -94,6 +95,10 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
+
+	private TreeMap seenPlayerIDs;
+	private TreeMap seenPlayerNames;
+
 	protected SortedListModel tally;
 	protected SortedListModel inventory, closet, usableItems, hunterItems, collection;
 
@@ -148,6 +153,9 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		storeSaveStates();
 		deinitialize();
+
+		seenPlayerIDs = new TreeMap();
+		seenPlayerNames = new TreeMap();
 	}
 
 	/**
@@ -471,6 +479,52 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public int getUserID()
 	{	return characterData.getUserID();
+	}
+
+	/**
+	 * Returns the string form of the player ID associated
+	 * with the given player name.
+	 *
+	 * @param	playerID	The ID of the player
+	 * @return	The player's name if it has been seen, or null if it has not
+	 *          yet appeared in the chat (not likely, but possible).
+	 */
+
+	public String getPlayerName( String playerID )
+	{	return (String) seenPlayerNames.get( playerID );
+	}
+
+	/**
+	 * Returns the string form of the player ID associated
+	 * with the given player name.
+	 *
+	 * @param	playerName	The name of the player
+	 * @return	The player's ID if the player has been seen, or the player's name
+	 *			with spaces replaced with underscores and other elements encoded
+	 *			if the player's ID has not been seen.
+	 */
+
+	public String getPlayerID( String playerName )
+	{
+		if ( playerName == null )
+			return null;
+
+		String playerID = (String) seenPlayerIDs.get( playerName );
+		return playerID != null ? playerID : playerName.replaceAll( " ", "_" );
+	}
+
+	/**
+	 * Registers the given player name and player ID with
+	 * KoLmafia's player name tracker.
+	 *
+	 * @param	playerName	The name of the player
+	 * @param	playerID	The player ID associated with this player
+	 */
+
+	public void registerPlayer( String playerName, String playerID )
+	{
+		seenPlayerIDs.put( playerName, playerID );
+		seenPlayerNames.put( playerID, playerName );
 	}
 
 	/**

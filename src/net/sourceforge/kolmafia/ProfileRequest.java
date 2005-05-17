@@ -33,46 +33,43 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JEditorPane;
 
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-public class ProfileFrame extends KoLFrame
+public class ProfileRequest extends KoLRequest
 {
-	private String playerName;
-	private JEditorPane profileDisplay;
-
-	public ProfileFrame( KoLmafia client, String playerName )
+	public ProfileRequest( KoLmafia client, String playerName )
 	{
-		super( "KoLmafia: Profile for " + playerName, client );
-
-		this.playerName = playerName;
-		profileDisplay = new JEditorPane();
-		profileDisplay.setEditable( false );
-		profileDisplay.setText( "Retrieving profile..." );
-
-		JScrollPane scrollPane = new JScrollPane( profileDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
-		getContentPane().setLayout( new GridLayout( 1, 1 ) );
-		getContentPane().add( scrollPane );
-
-		(new ProfileRequestThread()).start();
+		super( client, "showplayer.php" );
+		if ( client.getMessenger() != null )
+			addFormField( "who", client.getPlayerID( playerName ) );
 	}
 
-	private class ProfileRequestThread extends Thread
+	public void run()
 	{
-		public void run()
+		if ( client.getMessenger() != null )
 		{
-			ProfileRequest getProfile = new ProfileRequest( client, playerName );
-			getProfile.run();
+			updateDisplay( NOCHANGE, "Retrieving player profile..." );
+			super.run();
 
-			profileDisplay.setContentType( "text/html" );
-			profileDisplay.setText( getProfile.replyContent );
+			int secondTableIndex = replyContent.indexOf( "</table><table>" );
+
+			// This is a massive replace which makes the profile easier to
+			// parse and re-represent inside of editor panes.
+
+			replyContent = replyContent.substring( replyContent.indexOf( "</b>" ), secondTableIndex ).replaceAll(
+				"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[ctplhi].*?>", "" ).replaceAll(
+				"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ) + "<br>" +
+					replyContent.substring( secondTableIndex, replyContent.lastIndexOf( "send" ) ).replaceAll(
+					"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[atplh].*?>", "" ).replaceAll(
+					"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ).replaceAll( "<[cC]enter>.*?</center>", "" ).replaceAll(
+					"onClick=\'.*?\'", "" ).replaceFirst( "<br> Familiar:", "" ).replaceFirst(
+					"</b>,", "</b><br>" ).replaceFirst( "<b>\\(</b>.*?<b>\\)</b>", "<br>" ).replaceFirst(
+					"<b>Ranking:", "<b>PVP Ranking:" ).replaceFirst( "<br>", "" );
+
+			// This completes the retrieval of the player profile.
+			// Fairly straightforward, but really ugly-looking.
+			// Now, just update the display.
+
+			updateDisplay( NOCHANGE, "Profile successfully retrieved." );
 		}
 	}
 }

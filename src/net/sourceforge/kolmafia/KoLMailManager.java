@@ -83,6 +83,8 @@ public class KoLMailManager
 		if ( mailbox.contains( toadd ) )
 			return false;
 
+		client.registerPlayer( toadd.getSenderName(), toadd.getSenderID() );
+
 		mailbox.add( toadd );
 
 		if ( boxname.equals( "Inbox" ) )

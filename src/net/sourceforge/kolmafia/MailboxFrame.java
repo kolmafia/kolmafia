@@ -43,6 +43,9 @@ import javax.swing.JEditorPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 // event listeners
 import javax.swing.SwingUtilities;
@@ -55,7 +58,8 @@ import javax.swing.event.HyperlinkEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 // other imports
 import java.util.StringTokenizer;
@@ -123,6 +127,40 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		splitPane.setOneTouchExpandable( true );
 		JComponentUtilities.setComponentSize( splitPane, 500, 300 );
 		getContentPane().add( splitPane );
+
+		addMenuBar();
+	}
+
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		JMenu fileMenu = new JMenu( "Options" );
+		fileMenu.setMnemonic( KeyEvent.VK_O );
+		menuBar.add( fileMenu );
+
+		JMenuItem refreshItem1 = new JMenuItem( "Refresh Inbox", KeyEvent.VK_I );
+		refreshItem1.addActionListener( new BoxRefreshListener( "Inbox" ) );
+		fileMenu.add( refreshItem1 );
+
+		JMenuItem refreshItem2 = new JMenuItem( "Refresh Outbox", KeyEvent.VK_O );
+		refreshItem2.addActionListener( new BoxRefreshListener( "Outbox" ) );
+		fileMenu.add( refreshItem2 );
+
+		JMenuItem refreshItem3 = new JMenuItem( "Refresh Saved", KeyEvent.VK_S );
+		refreshItem3.addActionListener( new BoxRefreshListener( "Saved" ) );
+		fileMenu.add( refreshItem3 );
+
+		JMenuItem clearInbox = new JMenuItem( "Empty Inbox" );
+		clearInbox.addActionListener( new BoxEmptyListener( "Inbox" ) );
+		fileMenu.add( clearInbox );
+
+		JMenuItem clearOutbox = new JMenuItem( "Empty Outbox" );
+		clearOutbox.addActionListener( new BoxEmptyListener( "Outbox" ) );
+		fileMenu.add( clearOutbox );
+
+		addHelpMenu( menuBar );
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -336,6 +374,48 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					composer.requestFocus();
 					existingFrames.add( composer );
 				}
+			}
+		}
+	}
+
+	private class BoxRefreshListener implements ActionListener
+	{
+		private String boxname;
+
+		public BoxRefreshListener( String boxname )
+		{	this.boxname = boxname;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new BoxRefreshThread()).start();
+		}
+
+		private class BoxRefreshThread extends Thread
+		{
+			public void run()
+			{
+				mailbox.getMessages( boxname ).clear();
+				(new MailboxRequest( client, boxname )).run();
+			}
+		}
+	}
+
+	private class BoxEmptyListener implements ActionListener
+	{
+		private String boxname;
+
+		public BoxEmptyListener( String boxname )
+		{	this.boxname = boxname;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new BoxEmptyThread()).start();
+		}
+
+		private class BoxEmptyThread extends Thread
+		{
+			public void run()
+			{	mailbox.deleteMessages( boxname, mailbox.getMessages( boxname ).toArray() );
 			}
 		}
 	}
