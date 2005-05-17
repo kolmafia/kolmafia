@@ -1125,7 +1125,9 @@ public class KoLCharacter
 	 */
 
 	public void incrementFamilarWeight()
-	{	currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
+	{
+		if ( currentFamiliar != null )
+			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
 	}
 
 	/**
