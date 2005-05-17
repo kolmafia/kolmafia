@@ -549,8 +549,7 @@ public class ClanManageFrame extends KoLFrame
 		private class BootIdleThread extends Thread
 		{
 			public void run()
-			{
-				(new ClanMembersRequest( client )).run();
+			{	client.getClanManager().bootIdleMembers();
 			}
 		}
 	}

@@ -36,10 +36,13 @@ package net.sourceforge.kolmafia;
 
 public class ProfileRequest extends KoLRequest
 {
+	private String cleanHTML;
+
 	public ProfileRequest( KoLmafia client, String playerName )
 	{
 		super( client, "showplayer.php" );
 		addFormField( "who", client.getPlayerID( playerName ) );
+		this.cleanHTML = "";
 	}
 
 	public void run()
@@ -51,7 +54,7 @@ public class ProfileRequest extends KoLRequest
 		// This is a massive replace which makes the profile easier to
 		// parse and re-represent inside of editor panes.
 
-		responseText = responseText.substring( responseText.indexOf( "</b>" ), secondTableIndex ).replaceAll(
+		this.cleanHTML = responseText.substring( responseText.indexOf( "</b>" ), secondTableIndex ).replaceAll(
 			"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[ctplhi].*?>", "" ).replaceAll(
 			"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ) + "<br>" +
 				responseText.substring( secondTableIndex, responseText.lastIndexOf( "send" ) ).replaceAll(
@@ -63,5 +66,9 @@ public class ProfileRequest extends KoLRequest
 
 		// This completes the retrieval of the player profile.
 		// Fairly straightforward, but really ugly-looking.
+	}
+
+	public String getCleanHTML()
+	{	return cleanHTML;
 	}
 }

@@ -76,7 +76,11 @@ public class KoLmafiaGUI extends KoLmafia
 	public void updateDisplay( int state, String message )
 	{
 		if ( activeFrame != null )
+		{
 			activeFrame.updateDisplay( state, message );
+			if ( isBuffBotActive() )
+				buffBotHome.update( BuffBotHome.NOCOLOR, message );
+		}
 	}
 
 	public void requestFocus()
