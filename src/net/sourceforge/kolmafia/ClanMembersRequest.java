@@ -33,11 +33,27 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
+import java.util.Date;
+import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+
 public class ClanMembersRequest extends KoLRequest
 {
+	private static final long THIRTY_DAYS =  86400000L * 30;
+	private static final Date THIRTY_DAYS_AGO = new Date( System.currentTimeMillis() - THIRTY_DAYS );
+
 	public ClanMembersRequest( KoLmafia client )
 	{	super( client, "showclan.php" );
 	}
@@ -48,22 +64,125 @@ public class ClanMembersRequest extends KoLRequest
 		// belong to.  This is done by doing a
 		// profile lookup on yourself.
 
+		updateDisplay( DISABLED_STATE, "Determining clan ID..." );
 		ProfileRequest clanIDLookup = new ProfileRequest( client, client.getCharacterData().getUsername() );
 		clanIDLookup.run();
 
 		Matcher clanIDMatcher = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)" ).matcher( clanIDLookup.replyContent );
-		clanIDMatcher.find();
+		if ( !clanIDMatcher.find() )
+		{
+			updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
+			return;
+		}
 
 		addFormField( "whichclan", clanIDMatcher.group(1) );
+		updateDisplay( DISABLED_STATE, "Retrieving clan member list..." );
 		super.run();
 
 		int lastMatchIndex = 0;
 		Matcher memberMatcher = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>" ).matcher( replyContent );
 
+		List memberList = new ArrayList();
+
 		while ( memberMatcher.find( lastMatchIndex ) )
 		{
 			lastMatchIndex = memberMatcher.end();
-			client.registerPlayer( memberMatcher.group(2), memberMatcher.group(1) );
+
+			String playerID = memberMatcher.group(1);
+			String playerName = memberMatcher.group(2);
+
+			client.registerPlayer( playerName, playerID );
+			memberList.add( playerName );
+		}
+
+		updateDisplay( ENABLED_STATE, "Member list retrieved." );
+
+		boolean continueProcessing = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+			"This process should take " + ((int)(memberList.size() / 20) + 1) + " minutes to complete.\nAre you sure you want to continue?",
+			"Member list retrieved!", JOptionPane.YES_NO_OPTION );
+
+		if ( !continueProcessing )
+			return;
+
+		updateDisplay( DISABLED_STATE, "Processing request..." );
+
+		Iterator memberIterator = memberList.iterator();
+		SimpleDateFormat sdf = new SimpleDateFormat( "MMMM d, yyyy" );
+		Pattern lastonPattern = Pattern.compile( "<b>Last Login:</b> (.*?)<br>" );
+
+		String currentMember;
+		ProfileRequest memberLookup;
+		Matcher lastonMatcher;
+		List idleList = new ArrayList();
+
+		for ( int i = 1; memberIterator.hasNext() && client.permitsContinue(); ++i )
+		{
+			updateDisplay( NOCHANGE, "Examining member " + i + " of " + memberList.size() + "..." );
+			currentMember = (String) memberIterator.next();
+			memberLookup = new ProfileRequest( client, currentMember );
+			memberLookup.run();
+
+			lastonMatcher = lastonPattern.matcher( memberLookup.replyContent );
+			lastonMatcher.find();
+
+			try
+			{
+				if ( THIRTY_DAYS_AGO.after( sdf.parse( lastonMatcher.group(1) ) ) )
+					idleList.add( currentMember );
+			}
+			catch ( Exception e )
+			{
+			}
+
+			// Manually add in a bit of lag so that it doesn't turn into
+			// hammering the server for information.
+
+			KoLRequest.delay( 4000 );
+		}
+
+		if ( idleList.size() == 0 )
+			JOptionPane.showMessageDialog( null, "No idle accounts detected!" );
+		else
+		{
+			Collections.sort( idleList );
+			Object selectedValue = JOptionPane.showInputDialog( null, idleList.size() + " idle members:",
+				"Idle hands!", JOptionPane.INFORMATION_MESSAGE, null, idleList.toArray(), idleList.get(0) );
+
+			if ( selectedValue != null )
+			{
+				(new ClanBootRequest( client, idleList.toArray() )).run();
+				updateDisplay( ENABLED_STATE, "Idle members have been booted." );
+			}
+			else
+			{
+				File file = new File( "data/" + "IdleMembers.txt" );
+
+				try
+				{
+					file.getParentFile().mkdirs();
+					PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
+
+					for ( int i = 0; i < idleList.size(); ++i )
+						ostream.println( idleList.get(0) );
+				}
+				catch ( Exception e )
+				{	throw new RuntimeException( "The file <" + file.getAbsolutePath() + "> could not be opened for writing" );
+				}
+
+				updateDisplay( ENABLED_STATE, "List of idle members saved to " + file.getAbsolutePath() );
+			}
+		}
+	}
+
+	private class ClanBootRequest extends KoLRequest
+	{
+		public ClanBootRequest( KoLmafia client, Object [] members )
+		{
+			super( client, "" );
+			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "action", "modify" );
+			for ( int i = 0; i < members.length; ++i )
+				addFormField( "boot" + client.getPlayerID( (String) members[i] ), "on" );
 		}
 	}
 }

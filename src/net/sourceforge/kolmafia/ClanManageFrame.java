@@ -143,6 +143,10 @@ public class ClanManageFrame extends KoLFrame
 		attackItem.addActionListener( new ClanListListener() );
 		optionsMenu.add( attackItem );
 
+		JMenuItem bootItem = new JMenuItem( "Boot Idlers...", KeyEvent.VK_B );
+		bootItem.addActionListener( new BootIdleListener() );
+		optionsMenu.add( bootItem );
+
 		addHelpMenu( menuBar );
 	}
 
@@ -533,6 +537,21 @@ public class ClanManageFrame extends KoLFrame
 				}
 			}
 
+		}
+	}
+
+	private class BootIdleListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new BootIdleThread()).start();
+		}
+
+		private class BootIdleThread extends Thread
+		{
+			public void run()
+			{
+				(new ClanMembersRequest( client )).run();
+			}
 		}
 	}
 
