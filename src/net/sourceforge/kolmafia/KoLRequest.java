@@ -394,7 +394,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// attempt to connect again
 
 			this.isErrorState = true;
-			updateDisplay( ERROR_STATE, "Error opening connection.  Retrying..." );
+			updateDisplay( NOCHANGE, "Error opening connection.  Retrying..." );
 			return false;
 		}
 
@@ -474,7 +474,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		catch ( IOException e )
 		{
 			this.isErrorState = true;
-			updateDisplay( ERROR_STATE, "Connection timed out.  Retrying..." );
+			updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
 
 			if ( client != null )
 			{
@@ -522,7 +522,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( IOException e )
 		{
-			updateDisplay( ERROR_STATE, "Connection timed out.  Retrying..." );
+			updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
 
 			if ( client != null )
 			{

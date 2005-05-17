@@ -140,6 +140,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "choice.php" ) )
 		{
+			updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
 			this.run();
 			return;
 		}
@@ -179,7 +180,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( replyContent.trim().length() == 0 )
 		{
-			updateDisplay( DISABLED_STATE, "Empty response from server.  Retrying..." );
+			updateDisplay( NOCHANGE, "Empty response from server.  Retrying..." );
 			this.run();
 			return;
 		}
