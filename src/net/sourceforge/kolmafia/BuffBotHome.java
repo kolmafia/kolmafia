@@ -75,14 +75,21 @@ import javax.swing.JLabel;
 import javax.swing.DefaultListCellRenderer;
 
 import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.io.IOException;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
+import java.util.TimeZone;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -94,6 +101,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class BuffBotHome
 {
+	private static final TimeZone DEFAULT_TIMEZONE = TimeZone.getDefault();
+	private static final TimeZone KINGDOM_TIMEZONE = TimeZone.getTimeZone( "US/Eastern" );
+
 	public static Color NOCOLOR = new Color( 0, 0, 0 );
 	public static Color ERRORCOLOR = new Color( 128, 0, 0 );
 	public static Color NONBUFFCOLOR = new Color( 0, 0, 128 );
@@ -103,6 +113,8 @@ public class BuffBotHome
 	private boolean isActive;
 	private PrintWriter activeLogWriter;
 	private LockableListModel messages;
+	private PrintStream ostream;
+	private List pastRecipients;
 
 	private static final DateFormat logDF = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 	private static final SimpleDateFormat logSDF = new SimpleDateFormat( "yyyyMMdd" );
@@ -118,6 +130,7 @@ public class BuffBotHome
 	{
 		this.client = client;
 		this.messages = new LockableListModel();
+		pastRecipients = new ArrayList();
 
 		String dayOfYear = logSDF.format(new Date());
 		String characterName = client == null ? "" : client.getLoginName();
@@ -137,6 +150,55 @@ public class BuffBotHome
 		catch ( SecurityException e )
 		{	throw new RuntimeException( "The file <" + file.getAbsolutePath() + "> could not be opened for writing" );
 		}
+	}
+
+	public int getInstanceCount( int meatSent, String name )
+	{
+		loadPastRecipients( meatSent );
+		ostream.close();
+
+		int instanceCount = 0;
+		for ( int i = 0; i < pastRecipients.size(); ++i )
+			if ( pastRecipients.get(i).equals( name ) )
+				++instanceCount;
+		return instanceCount;
+	}
+
+	public void loadPastRecipients( int meatSent )
+	{
+		try
+		{
+			TimeZone.setDefault( KINGDOM_TIMEZONE );
+			String dayOfYear = logSDF.format(new Date());
+			TimeZone.setDefault( DEFAULT_TIMEZONE );
+
+			String characterName = client == null ? "" : client.getLoginName();
+			String noExtensionName = characterName.replaceAll( "\\p{Punct}", " " ).replaceAll( " ", "_" ).toLowerCase();
+
+			pastRecipients.clear();
+			File datafile = new File( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + "_" + meatSent + ".txt" );
+			if ( datafile.exists() )
+			{
+				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( datafile ) ) );
+				String line;
+				while ( (line = istream.readLine()) != null )
+					pastRecipients.add( line );
+				istream.close();
+			}
+
+			ostream = new PrintStream( new FileOutputStream( datafile, true ), true );
+		}
+		catch ( IOException e )
+		{
+		}
+	}
+
+	public void addToRecipientList( int meatSent, String name )
+	{
+		loadPastRecipients( meatSent );
+		pastRecipients.add( name );
+		ostream.println( name );
+		ostream.close();
 	}
 
 	/**
