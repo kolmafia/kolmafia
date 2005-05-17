@@ -733,7 +733,11 @@ public class KoLMessenger implements KoLConstants
 				}
 
 				if ( messageBuffer != null )
+				{
 					messageBuffer.append( redoneMessage.toString() );
+					if ( useTabbedFrame )
+						tabbedFrame.highlightTab( contactName );
+				}
 			}
 		}
 		catch ( Exception e )
