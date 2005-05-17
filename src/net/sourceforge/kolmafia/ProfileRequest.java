@@ -44,7 +44,6 @@ public class ProfileRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( NOCHANGE, "Retrieving player profile..." );
 		super.run();
 
 		int secondTableIndex = replyContent.indexOf( "</table><table>" );
@@ -64,8 +63,5 @@ public class ProfileRequest extends KoLRequest
 
 		// This completes the retrieval of the player profile.
 		// Fairly straightforward, but really ugly-looking.
-		// Now, just update the display.
-
-		updateDisplay( NOCHANGE, "Profile successfully retrieved." );
 	}
 }
