@@ -117,6 +117,7 @@ public class ChatFrame extends KoLFrame
 		// when it's first constructed
 
 		setSize( new Dimension( 400, 300 ) );
+		setLocation( null );
 		if ( mainPanel != null && associatedContact != null && !associatedContact.startsWith( "/" ) )
 			setTitle( "KoLmafia NSIPM: " + client.getLoginName() + " / " + associatedContact );
 	}
