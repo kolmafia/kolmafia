@@ -250,6 +250,12 @@ public class ClanManager implements KoLConstants
 				enemyClans.add( new ClanAttackRequest( client, clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );
 			}
 
+			if ( enemyClans.isEmpty() )
+			{
+				JOptionPane.showMessageDialog( null, "Sorry, you cannot attack a clan at this time." );
+				return;
+			}
+
 			Collections.sort( enemyClans );
 			Object [] enemies = enemyClans.toArray();
 
