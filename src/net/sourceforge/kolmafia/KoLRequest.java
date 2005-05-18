@@ -627,6 +627,7 @@ public class KoLRequest implements Runnable, KoLConstants
 							return true;
 						}
 
+						replyBuffer.append( line );
 						logStream.println( "Reading page content..." );
 					}
 
