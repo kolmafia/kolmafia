@@ -34,15 +34,33 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Date;
+import java.util.StringTokenizer;
+import java.text.SimpleDateFormat;
+
 public class ProfileRequest extends KoLRequest
 {
+	private static final SimpleDateFormat sdf = new SimpleDateFormat( "MMMM d, yyyy" );
 	private String cleanHTML;
+
+	private String playerName;
+	private String playerID;
+	private int playerLevel;
+	private int currentMeat;
+	private String classType;
+
+	private Date lastLogin;
+	private String food, drink;
+	private String pvpRank, title;
 
 	public ProfileRequest( KoLmafia client, String playerName )
 	{
 		super( client, "showplayer.php" );
 		addFormField( "who", client.getPlayerID( playerName ) );
+
 		this.cleanHTML = "";
+		this.playerName = playerName;
+		this.playerID = client.getPlayerID( playerName );
 	}
 
 	public void run()
@@ -54,7 +72,7 @@ public class ProfileRequest extends KoLRequest
 		// This is a massive replace which makes the profile easier to
 		// parse and re-represent inside of editor panes.
 
-		this.cleanHTML = responseText.substring( responseText.indexOf( "</b>" ), secondTableIndex ).replaceAll(
+		this.cleanHTML = responseText.substring( responseText.indexOf( "</b>" ) + 4, secondTableIndex ).replaceAll(
 			"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[ctplhi].*?>", "" ).replaceAll(
 			"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ) + "<br>" +
 				responseText.substring( secondTableIndex, responseText.lastIndexOf( "send" ) ).replaceAll(
@@ -66,9 +84,113 @@ public class ProfileRequest extends KoLRequest
 
 		// This completes the retrieval of the player profile.
 		// Fairly straightforward, but really ugly-looking.
+		// Now, parsing data related to the player.
+
+		try
+		{
+			StringTokenizer st = new StringTokenizer( cleanHTML.replaceAll( "><", "" ), "<>" );
+			String token = st.nextToken();
+
+			while ( !token.startsWith( "Level" ) )
+				token = st.nextToken();
+
+			this.playerLevel = Integer.parseInt( token.substring( 6 ) );
+			st.nextToken();
+
+			KoLCharacter data = new KoLCharacter( playerName );
+			data.setClassName( st.nextToken() );
+			this.classType = data.getClassType();
+
+			while ( !st.nextToken().startsWith( "Meat" ) );
+			st.nextToken();
+
+			this.currentMeat = df.parse( st.nextToken().trim() ).intValue();
+
+			while ( !st.nextToken().startsWith( "Last" ) );
+			st.nextToken();
+
+			this.lastLogin = sdf.parse( st.nextToken().trim() );
+
+			if ( cleanHTML.indexOf( ">Favorite Food" ) != -1 )
+			{
+				while ( !st.nextToken().startsWith( "Favorite" ) );
+				st.nextToken();
+				this.food = st.nextToken().trim();
+			}
+			else
+				this.food = "none";
+
+			if ( cleanHTML.indexOf( ">Favorite Booze" ) != -1 )
+			{
+				while ( !st.nextToken().startsWith( "Favorite" ) );
+				st.nextToken();
+				this.drink = st.nextToken().trim();
+			}
+			else
+				this.drink = "none";
+
+			if ( cleanHTML.indexOf( ">PVP Ranking" ) != -1 )
+			{
+				while ( !st.nextToken().startsWith( "PVP Ranking" ) );
+				st.nextToken();
+				this.pvpRank = st.nextToken();
+			}
+			else
+				this.pvpRank = "";
+
+			if ( cleanHTML.indexOf( ">Title" ) != -1 )
+			{
+				while ( !st.nextToken().startsWith( "Title" ) );
+				st.nextToken();
+				this.title = st.nextToken();
+			}
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	public String getCleanHTML()
 	{	return cleanHTML;
+	}
+
+	public String getPlayerName()
+	{	return playerName;
+	}
+
+	public String getPlayerID()
+	{	return playerID;
+	}
+
+	public String getClassType()
+	{	return classType;
+	}
+
+	public int getPlayerLevel()
+	{	return playerLevel;
+	}
+
+	public Date getLastLogin()
+	{	return lastLogin;
+	}
+
+	public String getLastLoginAsString()
+	{	return sdf.format( lastLogin );
+	}
+
+	public String getFood()
+	{	return food;
+	}
+
+	public String getDrink()
+	{	return drink;
+	}
+
+	public String getPvpRank()
+	{	return pvpRank;
+	}
+
+	public String getTitle()
+	{	return title;
 	}
 }

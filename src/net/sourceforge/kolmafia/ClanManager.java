@@ -52,6 +52,9 @@ import java.util.Collections;
 
 public class ClanManager implements KoLConstants
 {
+	private static final String SNAPSHOT_DIRECTORY =
+		"data/clan_snapshot/" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
+
 	private KoLmafia client;
 	private TreeMap memberData;
 
@@ -90,6 +93,11 @@ public class ClanManager implements KoLConstants
 			{
 				client.updateDisplay( NOCHANGE, "Examining member " + i + " of " + memberData.size() + "..." );
 				((ProfileRequest) requestIterator.next()).run();
+
+				// Manually add in a bit of lag so that it doesn't turn into
+				// hammering the server for information.
+
+				KoLRequest.delay( 2000 );
 			}
 		}
 
@@ -100,126 +108,13 @@ public class ClanManager implements KoLConstants
 	{	memberData.put( playerName, new ProfileRequest( client, playerName ) );
 	}
 
-	public void bootIdleMembers()
-	{
-		// If initialization was unsuccessful, then don't
-		// do anything.
-
-		if ( !initialize() )
-			return;
-
-		// It has been confirmed that the user wishes to
-		// continue.  Now, you need to retrieve the cutoff
-		// horizon the user wishes to use.
-
-		Date cutoffDate;
-
-		try
-		{
-			int daysIdle = df.parse( JOptionPane.showInputDialog( "How many days since last login?", "30" ) ).intValue();
-			long millisecondsIdle = 86400000L * daysIdle;
-			cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
-		}
-		catch ( Exception e )
-		{
-			// If user doesn't enter an integer, then just return
-			// without doing anything
-
-			return;
-		}
-
-		Pattern lastonPattern = Pattern.compile( "<b>Last Login:</b> (.*?)<br>" );
-
-		Object currentMember;
-		ProfileRequest memberLookup;
-
-		Iterator memberIterator = memberData.keySet().iterator();
-		SimpleDateFormat sdf = new SimpleDateFormat( "MMMM d, yyyy" );
-
-		Matcher lastonMatcher;
-		List idleList = new ArrayList();
-
-		// In order to determine the last time the player
-		// was idle, you need to manually examine each of
-		// the player profiles for each player.
-
-		for ( int i = 1; memberIterator.hasNext() && client.permitsContinue(); ++i )
-		{
-			currentMember = memberIterator.next();
-			memberLookup = (ProfileRequest) memberData.get( currentMember );
-			lastonMatcher = lastonPattern.matcher( memberLookup.getCleanHTML() );
-			lastonMatcher.find();
-
-			try
-			{
-				if ( cutoffDate.after( sdf.parse( lastonMatcher.group(1) ) ) )
-					idleList.add( currentMember );
-			}
-			catch ( Exception e )
-			{
-			}
-
-			// Manually add in a bit of lag so that it doesn't turn into
-			// hammering the server for information.
-
-			KoLRequest.delay( 2000 );
-		}
-
-		// Now that all of the member profiles have been retrieved,
-		// you show the user the complete list of memberData.
-
-		if ( idleList.size() == 0 )
-			JOptionPane.showMessageDialog( null, "No idle accounts detected!" );
-		else
-		{
-			Collections.sort( idleList );
-			Object selectedValue = JOptionPane.showInputDialog( null, idleList.size() + " idle members:",
-				"Idle hands!", JOptionPane.INFORMATION_MESSAGE, null, idleList.toArray(), idleList.get(0) );
-
-			// Now, you need to determine what to do with the data;
-			// sometimes, it shows too many players, and the person
-			// wishes to retain some and cancels the process.
-
-			if ( selectedValue != null )
-			{
-				(new ClanBootRequest( client, idleList.toArray() )).run();
-				client.updateDisplay( ENABLED_STATE, "Idle members have been booted." );
-			}
-			else
-			{
-				File file = new File( "data/" + "IdleMembers.txt" );
-
-				try
-				{
-					file.getParentFile().mkdirs();
-					PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
-
-					for ( int i = 0; i < idleList.size(); ++i )
-						ostream.println( idleList.get(i) );
-				}
-				catch ( Exception e )
-				{	throw new RuntimeException( "The file <" + file.getAbsolutePath() + "> could not be opened for writing" );
-				}
-
-				client.updateDisplay( ENABLED_STATE, "List of idle members saved to " + file.getAbsolutePath() );
-			}
-		}
-	}
-
-	private class ClanBootRequest extends KoLRequest
-	{
-		public ClanBootRequest( KoLmafia client, Object [] memberData )
-		{
-			super( client, "clan_members.php" );
-
-			addFormField( "pwd", client.getPasswordHash() );
-			addFormField( "action", "modify" );
-			addFormField( "begin", "0" );
-
-			for ( int i = 0; i < memberData.length; ++i )
-				addFormField( "boot" + client.getPlayerID( (String) memberData[i] ), "on" );
-		}
-	}
+	/**
+	 * Attacks another clan in the Kingdom of Loathing.  This searches the list
+	 * of clans for clans with goodie bags and prompts the user for which clan
+	 * will be attacked.  If the user is not an administrator of the clan, or
+	 * the clan has already attacked someone else in the last three hours, the
+	 * user will be notified that an attack is not possible.
+	 */
 
 	public void attackClan()
 	{	(new ClanListRequest( client )).run();
@@ -311,6 +206,218 @@ public class ClanManager implements KoLConstants
 				return goodiesDifference != 0 ? goodiesDifference : name.compareToIgnoreCase( car.name );
 			}
 		}
+	}
 
+	/**
+	 * Boots idle members from the clan.  The user will be prompted for
+	 * the cutoff date relative to the current date.  Members whose last
+	 * login date preceeds the cutoff date will be booted from the clan.
+	 * If the clan member list was not previously initialized, this method
+	 * will also initialize that list.
+	 */
+
+	public void bootIdleMembers()
+	{
+		// If initialization was unsuccessful, then don't
+		// do anything.
+
+		if ( !initialize() )
+			return;
+
+		// It has been confirmed that the user wishes to
+		// continue.  Now, you need to retrieve the cutoff
+		// horizon the user wishes to use.
+
+		Date cutoffDate;
+
+		try
+		{
+			int daysIdle = df.parse( JOptionPane.showInputDialog( "How many days since last login?", "30" ) ).intValue();
+			long millisecondsIdle = 86400000L * daysIdle;
+			cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
+		}
+		catch ( Exception e )
+		{
+			// If user doesn't enter an integer, then just return
+			// without doing anything
+
+			return;
+		}
+
+		Object currentMember;
+		ProfileRequest memberLookup;
+
+		Matcher lastonMatcher;
+		List idleList = new ArrayList();
+
+		Iterator memberIterator = memberData.keySet().iterator();
+
+		// In order to determine the last time the player
+		// was idle, you need to manually examine each of
+		// the player profiles for each player.
+
+		for ( int i = 1; memberIterator.hasNext(); ++i )
+		{
+			currentMember = memberIterator.next();
+			memberLookup = (ProfileRequest) memberData.get( currentMember );
+			if ( cutoffDate.after( memberLookup.getLastLogin() ) )
+				idleList.add( currentMember );
+		}
+
+		// Now that all of the member profiles have been retrieved,
+		// you show the user the complete list of memberData.
+
+		if ( idleList.isEmpty() )
+			JOptionPane.showMessageDialog( null, "No idle accounts detected!" );
+		else
+		{
+			Collections.sort( idleList );
+			Object selectedValue = JOptionPane.showInputDialog( null, idleList.size() + " idle members:",
+				"Idle hands!", JOptionPane.INFORMATION_MESSAGE, null, idleList.toArray(), idleList.get(0) );
+
+			// Now, you need to determine what to do with the data;
+			// sometimes, it shows too many players, and the person
+			// wishes to retain some and cancels the process.
+
+			if ( selectedValue != null )
+			{
+				(new ClanBootRequest( client, idleList.toArray() )).run();
+				client.updateDisplay( ENABLED_STATE, "Idle members have been booted." );
+			}
+			else
+			{
+				File file = new File( SNAPSHOT_DIRECTORY + "idlelist.txt" );
+
+				try
+				{
+					file.getParentFile().mkdirs();
+					PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
+
+					for ( int i = 0; i < idleList.size(); ++i )
+						ostream.println( idleList.get(i) );
+				}
+				catch ( Exception e )
+				{
+					throw new RuntimeException( "The file <" + file.getAbsolutePath() +
+						"> could not be opened for writing" );
+				}
+
+				client.updateDisplay( ENABLED_STATE, "List of idle members saved to " + file.getAbsolutePath() );
+			}
+		}
+	}
+
+	private class ClanBootRequest extends KoLRequest
+	{
+		public ClanBootRequest( KoLmafia client, Object [] memberData )
+		{
+			super( client, "clan_members.php" );
+
+			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "action", "modify" );
+			addFormField( "begin", "0" );
+
+			for ( int i = 0; i < memberData.length; ++i )
+				addFormField( "boot" + client.getPlayerID( (String) memberData[i] ), "on" );
+		}
+	}
+
+	/**
+	 * Takes a snapshot of clan member data for this clan.  The user will
+	 * be prompted for the data they would like to include in this snapshot,
+	 * including complete player profiles, favorite food, and any other
+	 * data gathered by KoLmafia.  If the clan member list was not previously
+	 * initialized, this method will also initialize that list.
+	 */
+
+	public void takeSnapshot()
+	{
+		// If initialization was unsuccessful, then don't
+		// do anything.
+
+		if ( !initialize() )
+			return;
+
+		// First create a file that contains a summary
+		// (spreadsheet-style) of all the clan members;
+		// imitate Ohayou's booze page for rendering.
+
+		File individualFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
+		PrintStream ostream;
+		String currentMember;
+		ProfileRequest memberLookup;
+
+		Iterator memberIterator = memberData.keySet().iterator();
+
+		try
+		{
+			individualFile.getParentFile().mkdirs();
+			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
+			ostream.println( "<html><body><table>" );
+			ostream.println( "<tr><td>Name</td><td>Title</td><td>Level</td><td>PVP</td><td>Class</td><td>Food</td><td>Drink</td><td>Last Login</td></tr>" );
+
+			memberIterator = memberData.keySet().iterator();
+			for ( int i = 1; memberIterator.hasNext(); ++i )
+			{
+				currentMember = (String) memberIterator.next();
+				memberLookup = (ProfileRequest) memberData.get( currentMember );
+
+				ostream.print( "<tr><td><a href=\"profiles/" );
+				ostream.print( client.getPlayerID( currentMember ) );
+				ostream.print( ".htm\">" );
+				ostream.print( currentMember );
+				ostream.print( "</a></td><td>" );
+				ostream.print( memberLookup.getTitle() );
+				ostream.print( "</td><td>" );
+				ostream.print( memberLookup.getPlayerLevel() );
+				ostream.print( "</td><td>" );
+				ostream.print( memberLookup.getPvpRank() );
+				ostream.print( "</td><td>" );
+				ostream.print( memberLookup.getClassType() );
+				ostream.print( "</td><td>" );
+				ostream.print( memberLookup.getFood() );
+				ostream.print( "</td><td>" );
+				ostream.print( memberLookup.getDrink() );
+				ostream.print( "</td><td>" );
+				ostream.print( memberLookup.getLastLoginAsString() );
+				ostream.println( "</td></tr>" );
+			}
+
+			ostream.println( "</table></body></html>" );
+			ostream.close();
+		}
+		catch ( Exception e )
+		{
+			throw new RuntimeException( "The file <" + individualFile.getAbsolutePath() +
+				"> could not be opened for writing" );
+		}
+
+		// Create a special HTML file for each of the
+		// players in the snapshot so that it can be
+		// navigated at leisure.
+
+		memberIterator = memberData.keySet().iterator();
+		for ( int i = 1; memberIterator.hasNext(); ++i )
+		{
+			currentMember = (String) memberIterator.next();
+			memberLookup = (ProfileRequest) memberData.get( currentMember );
+
+			individualFile = new File( SNAPSHOT_DIRECTORY + "profiles/" + client.getPlayerID( currentMember ) + ".htm" );
+
+			try
+			{
+				individualFile.getParentFile().mkdirs();
+				ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
+				ostream.println( "<html><head>" + memberLookup.responseText );
+				ostream.close();
+			}
+			catch ( Exception e )
+			{
+				throw new RuntimeException( "The file <" + individualFile.getAbsolutePath() +
+					"> could not be opened for writing" );
+			}
+		}
+
+		client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
 	}
 }

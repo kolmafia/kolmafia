@@ -147,6 +147,10 @@ public class ClanManageFrame extends KoLFrame
 		bootItem.addActionListener( new BootIdleListener() );
 		optionsMenu.add( bootItem );
 
+		JMenuItem snapItem = new JMenuItem( "Clan Snapshot", KeyEvent.VK_C );
+		snapItem.addActionListener( new SnapshotListener() );
+		optionsMenu.add( snapItem );
+
 		addHelpMenu( menuBar );
 	}
 
@@ -468,6 +472,20 @@ public class ClanManageFrame extends KoLFrame
 		{
 			public void run()
 			{	client.getClanManager().bootIdleMembers();
+			}
+		}
+	}
+
+	private class SnapshotListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new SnapshotThread()).start();
+		}
+
+		private class SnapshotThread extends Thread
+		{
+			public void run()
+			{	client.getClanManager().takeSnapshot();
 			}
 		}
 	}
