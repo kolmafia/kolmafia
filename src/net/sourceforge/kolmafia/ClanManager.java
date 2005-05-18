@@ -73,7 +73,8 @@ public class ClanManager implements KoLConstants
 			// the information related to all clan members.
 
 			boolean continueProcessing = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-				"This process should take " + ((int)(memberData.size() / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
+				memberData.size() + " members are currently in your clan.\nThis process should take " +
+				((int)(memberData.size() / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
 				"Member list retrieved!", JOptionPane.YES_NO_OPTION );
 
 			if ( !continueProcessing )
@@ -172,7 +173,7 @@ public class ClanManager implements KoLConstants
 		else
 		{
 			Collections.sort( idleList );
-			Object selectedValue = JOptionPane.showInputDialog( null, idleList.size() + " idle memberData:",
+			Object selectedValue = JOptionPane.showInputDialog( null, idleList.size() + " idle members:",
 				"Idle hands!", JOptionPane.INFORMATION_MESSAGE, null, idleList.toArray(), idleList.get(0) );
 
 			// Now, you need to determine what to do with the data;
@@ -209,7 +210,7 @@ public class ClanManager implements KoLConstants
 	{
 		public ClanBootRequest( KoLmafia client, Object [] memberData )
 		{
-			super( client, "" );
+			super( client, "clan_members.php" );
 
 			addFormField( "pwd", client.getPasswordHash() );
 			addFormField( "action", "modify" );
