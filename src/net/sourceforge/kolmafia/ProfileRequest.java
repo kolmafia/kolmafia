@@ -137,13 +137,6 @@ public class ProfileRequest extends KoLRequest
 			}
 			else
 				this.pvpRank = "";
-
-			if ( cleanHTML.indexOf( ">Title" ) != -1 )
-			{
-				while ( !st.nextToken().startsWith( "Title" ) );
-				st.nextToken();
-				this.title = st.nextToken();
-			}
 		}
 		catch ( Exception e )
 		{
@@ -188,9 +181,5 @@ public class ProfileRequest extends KoLRequest
 
 	public String getPvpRank()
 	{	return pvpRank;
-	}
-
-	public String getTitle()
-	{	return title;
 	}
 }

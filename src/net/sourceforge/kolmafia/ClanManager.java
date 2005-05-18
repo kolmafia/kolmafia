@@ -354,7 +354,7 @@ public class ClanManager implements KoLConstants
 			individualFile.getParentFile().mkdirs();
 			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
 			ostream.println( "<html><body><table>" );
-			ostream.println( "<tr><td>Name</td><td>Title</td><td>Level</td><td>PVP</td><td>Class</td><td>Food</td><td>Drink</td><td>Last Login</td></tr>" );
+			ostream.println( "<tr><td>Name</td><td>Level</td><td>PVP</td><td>Class</td><td>Food</td><td>Drink</td><td>Last Login</td></tr>" );
 
 			memberIterator = memberData.keySet().iterator();
 			for ( int i = 1; memberIterator.hasNext(); ++i )
@@ -367,8 +367,6 @@ public class ClanManager implements KoLConstants
 				ostream.print( ".htm\">" );
 				ostream.print( currentMember );
 				ostream.print( "</a></td><td>" );
-				ostream.print( memberLookup.getTitle() );
-				ostream.print( "</td><td>" );
 				ostream.print( memberLookup.getPlayerLevel() );
 				ostream.print( "</td><td>" );
 				ostream.print( memberLookup.getPvpRank() );
@@ -408,7 +406,11 @@ public class ClanManager implements KoLConstants
 			{
 				individualFile.getParentFile().mkdirs();
 				ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
-				ostream.println( "<html><head>" + memberLookup.responseText );
+				ostream.print( "<html><head><title>Profile for " );
+				ostream.print( currentMember );
+				ostream.print( "</title>" );
+				ostream.println( memberLookup.responseText );
+
 				ostream.close();
 			}
 			catch ( Exception e )
