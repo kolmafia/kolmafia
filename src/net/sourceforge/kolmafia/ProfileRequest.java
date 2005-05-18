@@ -98,7 +98,7 @@ public class ProfileRequest extends KoLRequest
 			st.nextToken();
 
 			KoLCharacter data = new KoLCharacter( playerName );
-			data.setClassName( st.nextToken() );
+			data.setClassName( st.nextToken().trim() );
 			this.classType = data.getClassType();
 
 			while ( !st.nextToken().startsWith( "Meat" ) );
@@ -136,7 +136,7 @@ public class ProfileRequest extends KoLRequest
 				this.pvpRank = st.nextToken();
 			}
 			else
-				this.pvpRank = "";
+				this.pvpRank = "&nbsp;";
 		}
 		catch ( Exception e )
 		{

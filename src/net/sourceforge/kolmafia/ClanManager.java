@@ -56,17 +56,19 @@ public class ClanManager implements KoLConstants
 		"data/clan_snapshot/" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
 
 	private KoLmafia client;
-	private TreeMap memberData;
+	private TreeMap profileMap;
+	private TreeMap rosterMap;
 
 	public ClanManager( KoLmafia client )
 	{
 		this.client = client;
-		this.memberData = new TreeMap();
+		this.profileMap = new TreeMap();
+		this.rosterMap = new TreeMap();
 	}
 
 	public boolean initialize()
 	{
-		if ( memberData.isEmpty() )
+		if ( profileMap.isEmpty() )
 		{
 			ClanMembersRequest cmr = new ClanMembersRequest( client );
 			cmr.run();
@@ -76,8 +78,8 @@ public class ClanManager implements KoLConstants
 			// the information related to all clan members.
 
 			boolean continueProcessing = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-				memberData.size() + " members are currently in your clan.\nThis process should take " +
-				((int)(memberData.size() / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
+				profileMap.size() + " members are currently in your clan.\nThis process should take " +
+				((int)(profileMap.size() / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
 				"Member list retrieved!", JOptionPane.YES_NO_OPTION );
 
 			if ( !continueProcessing )
@@ -88,10 +90,10 @@ public class ClanManager implements KoLConstants
 
 			client.updateDisplay( DISABLED_STATE, "Processing request..." );
 
-			Iterator requestIterator = memberData.values().iterator();
+			Iterator requestIterator = profileMap.values().iterator();
 			for ( int i = 1; requestIterator.hasNext() && client.permitsContinue(); ++i )
 			{
-				client.updateDisplay( NOCHANGE, "Examining member " + i + " of " + memberData.size() + "..." );
+				client.updateDisplay( NOCHANGE, "Examining member " + i + " of " + profileMap.size() + "..." );
 				((ProfileRequest) requestIterator.next()).run();
 
 				// Manually add in a bit of lag so that it doesn't turn into
@@ -105,7 +107,7 @@ public class ClanManager implements KoLConstants
 	}
 
 	public void registerMember( String playerName )
-	{	memberData.put( playerName, new ProfileRequest( client, playerName ) );
+	{	profileMap.put( playerName.toLowerCase(), new ProfileRequest( client, playerName ) );
 	}
 
 	/**
@@ -250,7 +252,7 @@ public class ClanManager implements KoLConstants
 		Matcher lastonMatcher;
 		List idleList = new ArrayList();
 
-		Iterator memberIterator = memberData.keySet().iterator();
+		Iterator memberIterator = profileMap.keySet().iterator();
 
 		// In order to determine the last time the player
 		// was idle, you need to manually examine each of
@@ -259,13 +261,13 @@ public class ClanManager implements KoLConstants
 		for ( int i = 1; memberIterator.hasNext(); ++i )
 		{
 			currentMember = memberIterator.next();
-			memberLookup = (ProfileRequest) memberData.get( currentMember );
+			memberLookup = (ProfileRequest) profileMap.get( currentMember );
 			if ( cutoffDate.after( memberLookup.getLastLogin() ) )
 				idleList.add( currentMember );
 		}
 
 		// Now that all of the member profiles have been retrieved,
-		// you show the user the complete list of memberData.
+		// you show the user the complete list of profileMap.
 
 		if ( idleList.isEmpty() )
 			JOptionPane.showMessageDialog( null, "No idle accounts detected!" );
@@ -309,7 +311,7 @@ public class ClanManager implements KoLConstants
 
 	private class ClanBootRequest extends KoLRequest
 	{
-		public ClanBootRequest( KoLmafia client, Object [] memberData )
+		public ClanBootRequest( KoLmafia client, Object [] profileMap )
 		{
 			super( client, "clan_members.php" );
 
@@ -317,8 +319,8 @@ public class ClanManager implements KoLConstants
 			addFormField( "action", "modify" );
 			addFormField( "begin", "0" );
 
-			for ( int i = 0; i < memberData.length; ++i )
-				addFormField( "boot" + client.getPlayerID( (String) memberData[i] ), "on" );
+			for ( int i = 0; i < profileMap.length; ++i )
+				addFormField( "boot" + client.getPlayerID( (String) profileMap[i] ), "on" );
 		}
 	}
 
@@ -338,6 +340,13 @@ public class ClanManager implements KoLConstants
 		if ( !initialize() )
 			return;
 
+		// Next, retrieve a detailed copy of the clan
+		// roster to complete initialization.
+
+		client.updateDisplay( DISABLED_STATE, "Retrieving additional data..." );
+		(new DetailRosterRequest( client )).run();
+		client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
+
 		// First create a file that contains a summary
 		// (spreadsheet-style) of all the clan members;
 		// imitate Ohayou's booze page for rendering.
@@ -347,28 +356,33 @@ public class ClanManager implements KoLConstants
 		String currentMember;
 		ProfileRequest memberLookup;
 
-		Iterator memberIterator = memberData.keySet().iterator();
+		Iterator memberIterator = profileMap.keySet().iterator();
 
 		try
 		{
 			individualFile.getParentFile().mkdirs();
 			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
-			ostream.println( "<html><body><table>" );
-			ostream.println( "<tr><td>Name</td><td>Level</td><td>PVP</td><td>Class</td><td>Food</td><td>Drink</td><td>Last Login</td></tr>" );
+			ostream.println( "<html><body><table border=1 cellspacing=2 cellpadding=2>" );
+			ostream.print( "<tr bgcolor=\"#000000\" style=\"color:#ffffff; font-weight: bold\">" );
+			ostream.print( "<td>Name</td><td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>" );
+			ostream.print( "<td>Title</td><td>Rank</td><td>Karma</td><td>PVP</td><td>Class</td>" );
+			ostream.println( "<td>Food</td><td>Drink</td><td>Last Login</td></tr>" );
 
-			memberIterator = memberData.keySet().iterator();
+			memberIterator = profileMap.keySet().iterator();
 			for ( int i = 1; memberIterator.hasNext(); ++i )
 			{
 				currentMember = (String) memberIterator.next();
-				memberLookup = (ProfileRequest) memberData.get( currentMember );
+				memberLookup = (ProfileRequest) profileMap.get( currentMember );
 
 				ostream.print( "<tr><td><a href=\"profiles/" );
 				ostream.print( client.getPlayerID( currentMember ) );
 				ostream.print( ".htm\">" );
-				ostream.print( currentMember );
+				ostream.print( client.getPlayerName( client.getPlayerID( currentMember ) ) );
 				ostream.print( "</a></td><td>" );
 				ostream.print( memberLookup.getPlayerLevel() );
-				ostream.print( "</td><td>" );
+				ostream.print( "</td>" );
+				ostream.print( rosterMap.get( currentMember ).toString() );
+				ostream.print( "<td>" );
 				ostream.print( memberLookup.getPvpRank() );
 				ostream.print( "</td><td>" );
 				ostream.print( memberLookup.getClassType() );
@@ -394,11 +408,11 @@ public class ClanManager implements KoLConstants
 		// players in the snapshot so that it can be
 		// navigated at leisure.
 
-		memberIterator = memberData.keySet().iterator();
+		memberIterator = profileMap.keySet().iterator();
 		for ( int i = 1; memberIterator.hasNext(); ++i )
 		{
 			currentMember = (String) memberIterator.next();
-			memberLookup = (ProfileRequest) memberData.get( currentMember );
+			memberLookup = (ProfileRequest) profileMap.get( currentMember );
 
 			individualFile = new File( SNAPSHOT_DIRECTORY + "profiles/" + client.getPlayerID( currentMember ) + ".htm" );
 
@@ -406,11 +420,7 @@ public class ClanManager implements KoLConstants
 			{
 				individualFile.getParentFile().mkdirs();
 				ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
-				ostream.print( "<html><head><title>Profile for " );
-				ostream.print( currentMember );
-				ostream.print( "</title>" );
 				ostream.println( memberLookup.responseText );
-
 				ostream.close();
 			}
 			catch ( Exception e )
@@ -421,5 +431,50 @@ public class ClanManager implements KoLConstants
 		}
 
 		client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
+	}
+
+	private class DetailRosterRequest extends KoLRequest
+	{
+		public DetailRosterRequest( KoLmafia client )
+		{	super( client, "clan_detailedroster.php" );
+		}
+
+		public void run()
+		{
+			super.run();
+
+			DetailRosterField currentMember;
+			Matcher rowMatcher = Pattern.compile( "<tr>(.*?)</tr>" ).matcher( responseText );
+			rowMatcher.find( 0 );
+			int lastRowIndex = rowMatcher.end();
+
+			while ( rowMatcher.find( lastRowIndex ) )
+			{
+				lastRowIndex = rowMatcher.end();
+				currentMember = new DetailRosterField( rowMatcher.group(1) );
+				rosterMap.put( currentMember.getPlayerName().toLowerCase(), currentMember );
+			}
+		}
+
+		private class DetailRosterField
+		{
+			private String playerName;
+			private String stringForm;
+
+			public DetailRosterField( String tableRow )
+			{
+				int firstCellIndex = tableRow.indexOf( "</td>" );
+				this.stringForm = tableRow.substring( firstCellIndex + 5 ).replaceAll( "<td></td>", "<td>&nbsp;</td>" );
+				this.playerName = tableRow.substring( 4, firstCellIndex );
+			}
+
+			public String toString()
+			{	return stringForm;
+			}
+
+			public String getPlayerName()
+			{	return playerName;
+			}
+		}
 	}
 }
