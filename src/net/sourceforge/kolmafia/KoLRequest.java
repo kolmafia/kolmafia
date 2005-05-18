@@ -67,7 +67,7 @@ import java.util.regex.Pattern;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
-	protected static final int REFRESH_RATE = 800;
+	protected static final int REFRESH_RATE = 750;
 
 	private static final String [] HOSTNAMES = {
 		"www.kingdomofloathing.com", "www2.kingdomofloathing.com", "www3.kingdomofloathing.com" };
