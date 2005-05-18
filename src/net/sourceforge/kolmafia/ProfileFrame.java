@@ -64,6 +64,26 @@ public class ProfileFrame extends KoLFrame
 		(new ProfileRequestThread()).start();
 	}
 
+	public ProfileFrame( KoLmafia client, String playerName, ProfileRequest pr )
+	{
+		super( "KoLmafia: Profile for " + playerName, client );
+
+		this.playerName = playerName;
+		profileDisplay = new JEditorPane();
+		profileDisplay.setEditable( false );
+		profileDisplay.setText( "Retrieving profile..." );
+
+		JScrollPane scrollPane = new JScrollPane( profileDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
+		getContentPane().setLayout( new GridLayout( 1, 1 ) );
+		getContentPane().add( scrollPane );
+
+		profileDisplay.setContentType( "text/html" );
+		profileDisplay.setText( pr.getCleanHTML() );
+	}
+
 	private class ProfileRequestThread extends Thread
 	{
 		public void run()
