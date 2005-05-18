@@ -222,46 +222,37 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			return;
 		}
 
-		if ( !isQuickLogin )
-		{
-			if ( !permitContinue )
-			{
-				this.sessionID = null;
-				this.permitContinue = true;
-				return;
-			}
+		if ( !isQuickLogin && ( settings.getProperty( "skipFamiliars" ) == null || settings.getProperty( "skipFamiliars" ).equals( "false" ) ) )
+			(new FamiliarRequest( this )).run();
 
-			if ( settings.getProperty( "skipFamiliarData" ) == null || settings.getProperty( "skipFamiliarData" ).equals( "false" ) )
-				(new FamiliarRequest( this )).run();
+		if ( !permitContinue )
+		{
+			this.sessionID = null;
+			this.permitContinue = true;
+			return;
 		}
 
-		if ( settings.getProperty( "skipCharacterData" ) == null || settings.getProperty( "skipCharacterData" ).equals( "false" ) )
+		(new CharsheetRequest( this )).run();
+		registerPlayer( loginname, String.valueOf( characterData.getUserID() ) );
+
+		if ( !permitContinue )
 		{
-			(new CharsheetRequest( this )).run();
-			registerPlayer( loginname, String.valueOf( characterData.getUserID() ) );
-
-			if ( !permitContinue )
-			{
-				this.sessionID = null;
-				this.permitContinue = true;
-				return;
-			}
-
-			(new CampgroundRequest( this )).run();
+			this.sessionID = null;
+			this.permitContinue = true;
+			return;
 		}
 
-		if ( !isQuickLogin )
-		{
-			if ( !permitContinue )
-			{
-				this.sessionID = null;
-				this.permitContinue = true;
-				return;
-			}
+		(new CampgroundRequest( this )).run();
 
-			if ( settings.getProperty( "skipInventory" ) == null || settings.getProperty( "skipInventory" ).equals( "false" ) )
-				(new EquipmentRequest( this )).run();
+		if ( !permitContinue )
+		{
+			this.sessionID = null;
+			this.permitContinue = true;
+			return;
 		}
+
+		if ( !isQuickLogin && ( settings.getProperty( "skipInventory" ) == null || settings.getProperty( "skipInventory" ).equals( "false" ) ) )
+			(new EquipmentRequest( this )).run();
 
 		resetSessionTally();
 		applyRecentEffects();

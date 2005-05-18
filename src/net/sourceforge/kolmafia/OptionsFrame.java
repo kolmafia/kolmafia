@@ -198,8 +198,8 @@ public class OptionsFrame extends KoLFrame
 		private JRadioButton [] servers;
 		private JCheckBox [] optionBoxes;
 		private JCheckBox sortAdventuresBox;
-		private final String [] optionKeys = { "skipCharacterData", "skipInventory", "skipFamiliarData" };
-		private final String [] optionNames = { "Skip character data retrieval", "Skip inventory retrieval", "Skip familiar data retrieval" };
+		private final String [] optionKeys = { "skipInventory", "skipFamiliars" };
+		private final String [] optionNames = { "Skip inventory retrieval", "Skip familiar retrieval" };
 
 		/**
 		 * Constructs a new <code>LoginOptionsPanel</code>, containing a
