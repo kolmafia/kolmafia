@@ -162,7 +162,7 @@ public class ClanManager implements KoLConstants
 			// Manually add in a bit of lag so that it doesn't turn into
 			// hammering the server for information.
 
-			KoLRequest.delay( 4000 );
+			KoLRequest.delay( 2000 );
 		}
 
 		// Now that all of the member profiles have been retrieved,
