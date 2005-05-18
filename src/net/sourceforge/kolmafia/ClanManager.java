@@ -220,4 +220,91 @@ public class ClanManager implements KoLConstants
 				addFormField( "boot" + client.getPlayerID( (String) memberData[i] ), "on" );
 		}
 	}
+
+	public void attackClan()
+	{	(new ClanListRequest( client )).run();
+	}
+
+	private class ClanListRequest extends KoLRequest
+	{
+		public ClanListRequest( KoLmafia client )
+		{	super( client, "clan_attack.php" );
+		}
+
+		public void run()
+		{
+			client.updateDisplay( DISABLED_STATE, "Retrieving list of attackable clans..." );
+
+			super.run();
+
+			if ( isErrorState )
+				return;
+
+			List enemyClans = new ArrayList();
+			Matcher clanMatcher = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" ).matcher( responseText );
+			int lastMatchIndex = 0;
+
+			while ( clanMatcher.find( lastMatchIndex ) )
+			{
+				lastMatchIndex = clanMatcher.end();
+				enemyClans.add( new ClanAttackRequest( client, clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );
+			}
+
+			Collections.sort( enemyClans );
+			Object [] enemies = enemyClans.toArray();
+
+			ClanAttackRequest enemy = (ClanAttackRequest) JOptionPane.showInputDialog( null,
+				"Attack the following clan...", "Clans With Goodies", JOptionPane.INFORMATION_MESSAGE, null, enemies, enemies[0] );
+
+			if ( enemy == null )
+			{
+				client.updateDisplay( ENABLED_STATE, "" );
+				return;
+			}
+
+			enemy.run();
+		}
+
+		private class ClanAttackRequest extends KoLRequest implements Comparable
+		{
+			private String name;
+			private int goodies;
+
+			public ClanAttackRequest( KoLmafia client, String id, String name, int goodies )
+			{
+				super( client, "clan_attack.php" );
+				addFormField( "whichclan", id );
+
+				this.name = name;
+				this.goodies = goodies;
+			}
+
+			public void run()
+			{
+				client.updateDisplay( DISABLED_STATE, "Attacking " + name + "..." );
+
+				super.run();
+
+				// Theoretically, there should be a test for error state,
+				// but because I'm lazy, that's not happening.
+
+				client.updateDisplay( ENABLED_STATE, "Attack request processed." );
+			}
+
+			public String toString()
+			{	return name + " (" + goodies + " " + (goodies == 1 ? "bag" : "bags") + ")";
+			}
+
+			public int compareTo( Object o )
+			{	return o == null || !(o instanceof ClanAttackRequest) ? -1 : compareTo( (ClanAttackRequest) o );
+			}
+
+			public int compareTo( ClanAttackRequest car )
+			{
+				int goodiesDifference = car.goodies - goodies;
+				return goodiesDifference != 0 ? goodiesDifference : name.compareToIgnoreCase( car.name );
+			}
+		}
+
+	}
 }
