@@ -168,6 +168,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		refreshMailManager();
 		for ( int i = 0; i < tabbedListDisplay.getTabCount(); ++i )
 			tabbedListDisplay.setEnabledAt( i, isEnabled );
+		messageListInbox.setEnabled( isEnabled );
+		messageListOutbox.setEnabled( isEnabled );
+		messageListSaved.setEnabled( isEnabled );
 	}
 
 	/**
@@ -302,7 +305,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		{
 			public void keyPressed( KeyEvent e )
 			{
-				if ( e.getKeyCode() == KeyEvent.VK_DELETE )
+				if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE )
 				{
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
