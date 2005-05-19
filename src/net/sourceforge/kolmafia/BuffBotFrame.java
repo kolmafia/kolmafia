@@ -265,8 +265,8 @@ public class BuffBotFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Buff: ", skillSelect );
 			elements[1] = new VerifiableElement( "Price: ", priceField );
 			elements[2] = new VerifiableElement( "Casts: ", countField );
-			elements[3] = new VerifiableElement( "W-List?", restrictBox );
-			elements[4] = new VerifiableElement( "P-Limited?", singletonBox );
+			elements[3] = new VerifiableElement( "Wlist?", restrictBox );
+			elements[4] = new VerifiableElement( "Plimi?", singletonBox );
 			setContent( elements );
 		}
 
