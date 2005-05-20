@@ -155,7 +155,8 @@ public class MailboxRequest extends KoLRequest
 			// If an exception is caught, then something bad
 			// probably happened.  Return. :D
 
-			updateDisplay( NOCHANGE, "Error occurred in mail retrieval." );
+			updateDisplay( ERROR_STATE, "Error occurred in mail retrieval." );
+			client.cancelRequest();
 			isRequesting = false;
 			return;
 		}
@@ -165,7 +166,7 @@ public class MailboxRequest extends KoLRequest
 
 		if ( nextMessageIndex == -1 )
 		{
-			updateDisplay( NOCHANGE, "Your mailbox is empty." );
+			updateDisplay( ENABLED_STATE, "Your mailbox is empty." );
 			isRequesting = false;
 			return;
 		}
@@ -182,7 +183,7 @@ public class MailboxRequest extends KoLRequest
 		if ( nextMessageIndex != -1 && lastMessageID != totalMessages )
 			(new MailboxRequest( client, boxname, lastMessageID )).run();
 		else
-			updateDisplay( NOCHANGE, "Mail retrieved from " + boxname );
+			updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
 	}
 
 	private int processMessage( int iterations, int startIndex, boolean addMessage )
