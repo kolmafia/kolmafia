@@ -82,6 +82,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 
 // layout
+import java.awt.Point;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.CardLayout;
@@ -121,6 +122,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
 	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher" };
 
+	private String frameName;
 	protected boolean isEnabled;
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
@@ -139,8 +141,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected JMenuItem statusMenuItem;
 	protected JMenuItem mailMenuItem;
-        
-        private Properties settings;
 
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
@@ -149,13 +149,20 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected KoLFrame( String title, KoLmafia client )
 	{
-                super( title );
-
+		super( title );
 		this.client = client;
 		this.isEnabled = true;
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-                addWindowListener(new KoLWindowListener());
-                settings = (client == null) ? System.getProperties() : client.getSettings();
+		addWindowListener( new LocationAdapter() );
+
+		this.frameName = getClass().getName();
+		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
+
+		if ( client != null && client.getSettings().containsKey( frameName ) )
+		{
+			String [] location = client.getSettings().getProperty( frameName ).split( "," );
+			setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
+		}
 	}
 
 	public void addCompactPane()
@@ -409,7 +416,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		if ( contentPanel != null )
 			contentPanel.setEnabled( isEnabled );
-                
+
 	}
 
 	/**
@@ -884,40 +891,24 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 		}
 	}
-        
-        /**
+
+	/**
 	 * In order to do the things we need to do when windows are closed,
-         * this internal class is used to listen for window events.
+	 * this internal class is used to listen for window events.
 	 */
-        
-        private class KoLWindowListener implements WindowListener {
-            public void windowOpened(WindowEvent e) 
-            {
-                int positionx = 0, positiony = 0;
-                if(settings.containsKey(KoLFrame.this.getClass().getSimpleName()+"PositionX"))
-                positionx = Integer.parseInt(settings.getProperty(KoLFrame.this.getClass().getSimpleName()+"PositionX"));
-                if(settings.containsKey(KoLFrame.this.getClass().getSimpleName()+"PositionY"))
-                positiony = Integer.parseInt(settings.getProperty(KoLFrame.this.getClass().getSimpleName()+"PositionY"));
-                if(positionx != 0 && positiony != 0)    
-                {
-                    KoLFrame.this.setLocation(positionx, positiony);
-                }
-            }
-            public void windowClosing(WindowEvent e) 
-            {
-                
-                settings.setProperty( KoLFrame.this.getClass().getSimpleName()+"PositionX", String.valueOf( (int)KoLFrame.this.getLocationOnScreen().getX() ) );
-                settings.setProperty( KoLFrame.this.getClass().getSimpleName()+"PositionY", String.valueOf( (int)KoLFrame.this.getLocationOnScreen().getY() ) );
-                if ( settings instanceof KoLSettings )
-		((KoLSettings)settings).saveSettings();
-            }
-            public void windowClosed(WindowEvent e) {}
-            public void windowIconified(WindowEvent e) {}
-            public void windowDeiconified(WindowEvent e) {}
-            public void windowActivated(WindowEvent e) {}
-            public void windowDeactivated(WindowEvent e) {}
-        }
-        
+
+	private class LocationAdapter extends WindowAdapter
+	{
+		public void windowClosing( WindowEvent e )
+		{
+			if ( client != null )
+			{
+				Point p = getLocationOnScreen();
+				client.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+				client.getSettings().saveSettings();
+			}
+		}
+	}
 
 	/**
 	 * In order to keep the user interface from freezing (or at least
@@ -971,7 +962,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					if ( creator != null )
 					{
 						lastCreatedFrame = (KoLFrame) creator.newInstance( parameters );
-						lastCreatedFrame.setLocation( KoLFrame.this.getLocation() );
+
+						if ( client.getSettings().getProperty( frameName ) == null )
+							lastCreatedFrame.setLocation( KoLFrame.this.getLocation() );
+
 						lastCreatedFrame.pack();
 						lastCreatedFrame.setVisible( true );
 						lastCreatedFrame.setEnabled( isEnabled() );

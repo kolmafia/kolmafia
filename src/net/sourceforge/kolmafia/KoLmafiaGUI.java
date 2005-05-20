@@ -106,7 +106,10 @@ public class KoLmafiaGUI extends KoLmafia
 
 			activeFrame = new AdventureFrame( this, AdventureDatabase.getAsLockableListModel( this ), tally );
 			activeFrame.pack();
-			activeFrame.setLocationRelativeTo( previousActiveFrame );
+
+			if ( settings.getProperty( AdventureFrame.class.getName() ) == null )
+				activeFrame.setLocationRelativeTo( previousActiveFrame );
+
 			activeFrame.setVisible( true );
 			previousActiveFrame.setVisible( false );
 
@@ -129,7 +132,10 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			activeFrame = new LoginFrame( this, saveStateNames );
 			activeFrame.pack();
-			activeFrame.setLocationRelativeTo( null );
+
+			if ( settings.getProperty( LoginFrame.class.getName() ) == null )
+				activeFrame.setLocationRelativeTo( null );
+
 			activeFrame.setVisible( true );
 			activeFrame.requestFocus();
 		}
