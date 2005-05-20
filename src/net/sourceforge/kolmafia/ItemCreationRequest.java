@@ -168,7 +168,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 						combineItems();
 						break;
 					case ROLLING_PIN:
-System.out.println( "Hello." );
 						(new ConsumeItemRequest( client, new AdventureResult( 873, 1 ))).run();
 						break;
 				}
