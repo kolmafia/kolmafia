@@ -83,6 +83,12 @@ public class ConcoctionsDatabase
 					if ( itemID != -1 )
 						concoctions[ itemID ] = new Concoction( itemID, Integer.parseInt( strtok.nextToken() ), strtok.nextToken(), strtok.nextToken() );
 				}
+				else if ( strtok.countTokens() == 3 )
+				{
+					int itemID = TradeableItemDatabase.getItemID( strtok.nextToken() );
+					if ( itemID != -1 )
+						concoctions[ itemID ] = new Concoction( itemID, Integer.parseInt( strtok.nextToken() ), strtok.nextToken() );
+				}
 			}
 		}
 		catch ( IOException e )
@@ -189,6 +195,9 @@ public class ConcoctionsDatabase
 			case ItemCreationRequest.MIX_SPECIAL:
 				return data.hasBartender() && data.canSummonShore();
 
+			case ItemCreationRequest.ROLLING_PIN:
+				return data.hasBartender() && data.getInventory().contains( new AdventureResult( 873, 1 ) );
+
 			default:
 				return true;
 		}
@@ -223,6 +232,17 @@ public class ConcoctionsDatabase
 		private int mixingMethod;
 		private AdventureResult asResult;
 		private int ingredient1, ingredient2;
+
+		public Concoction( int concoctionID, int mixingMethod, String ingredient )
+		{
+			this.concoctionID = concoctionID;
+			this.mixingMethod = mixingMethod;
+
+			this.asResult = new AdventureResult( concoctionID, 0 );
+
+			this.ingredient1 = TradeableItemDatabase.getItemID( ingredient );
+			this.ingredient2 = -1;
+		}
 
 		public Concoction( int concoctionID, int mixingMethod, String ingredient1, String ingredient2 )
 		{
@@ -265,10 +285,12 @@ public class ConcoctionsDatabase
 			if ( concoctions[ ingredient1 ] != null )
 				concoctions[ ingredient1 ].calculateQuantityPossible( availableIngredients );
 
-			if ( concoctions[ ingredient2 ] != null )
+			if ( ingredient2 != -1 && concoctions[ ingredient2 ] != null )
 				concoctions[ ingredient2 ].calculateQuantityPossible( availableIngredients );
 
-			int additionalPossible = Math.min( quantityPossible[ ingredient1 ], quantityPossible[ ingredient2 ] );
+			int additionalPossible = ingredient2 == -1 ? quantityPossible[ ingredient1 ] :
+				Math.min( quantityPossible[ ingredient1 ], quantityPossible[ ingredient2 ] );
+
 			if ( ingredient1 == ingredient2 )
 				additionalPossible >>= 1;
 

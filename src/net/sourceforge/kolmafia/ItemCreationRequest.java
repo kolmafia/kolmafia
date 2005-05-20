@@ -60,6 +60,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int COOK_PASTA = 6;
 	public static final int MIX_SPECIAL = 7;
 
+	public static final int ROLLING_PIN = 11;
+
 	private static final AdventureResult CHEF = new AdventureResult( 438, 1 );
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
 
@@ -165,6 +167,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					case MIX_SPECIAL:
 						combineItems();
 						break;
+					case ROLLING_PIN:
+System.out.println( "Hello." );
+						(new ConsumeItemRequest( client, new AdventureResult( 873, 1 ))).run();
+						break;
 				}
 
 				break;
@@ -183,7 +189,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			makeIngredient( ingredients[0][0], ingredients[0][1], ingredients[0][0] == ingredients[1][0] );
 			if ( ingredients[0][0] != ingredients[1][0] )
-	 			makeIngredient( ingredients[1][0], ingredients[1][1], false );
+				makeIngredient( ingredients[1][0], ingredients[1][1], false );
 		}
 
 		// Check to see if you need meat paste in order
