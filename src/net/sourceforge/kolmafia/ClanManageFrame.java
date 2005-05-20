@@ -164,6 +164,10 @@ public class ClanManageFrame extends KoLFrame
 		announceItem.addActionListener( new ManagerListener( "getAnnouncements" ) );
 		messageMenu.add( announceItem );
 
+		JMenuItem boardItem = new JMenuItem( "Message Board", KeyEvent.VK_M );
+		boardItem.addActionListener( new ManagerListener( "getMessageBoard" ) );
+		messageMenu.add( boardItem );
+
 		addHelpMenu( menuBar );
 	}
 

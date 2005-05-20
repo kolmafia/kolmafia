@@ -637,8 +637,6 @@ public class ClanManager implements KoLConstants
 
 	private class AnnouncementsRequest extends KoLRequest
 	{
-		private String announcementHTML;
-
 		public AnnouncementsRequest( KoLmafia client )
 		{	super( client, "clan_hall.php" );
 		}
@@ -652,7 +650,38 @@ public class ClanManager implements KoLConstants
 					"</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "</?center>", "" ).replaceAll(
 						"</?f.*?>", "" ).replaceAll( "</?p>", "<br><br>" );
 
-			responseText = responseText.substring( responseText.indexOf( "<b>", 2 ) );
+			responseText = responseText.substring( responseText.indexOf( "<b>Date" ) );
+		}
+	}
+
+	/**
+	 * Retrieves the clan board posts from the clan hall and displays
+	 * them in a standard JFrame.
+	 */
+
+	public void getMessageBoard()
+	{
+		RequestFrame clanboard = new RequestFrame( client, "Clan Message Board", new MessageBoardRequest( client ) );
+		clanboard.pack();  clanboard.setVisible( true );  clanboard.requestFocus();
+
+	}
+
+	private class MessageBoardRequest extends KoLRequest
+	{
+		public MessageBoardRequest( KoLmafia client )
+		{	super( client, "clan_board.php" );
+		}
+
+		public void run()
+		{
+			super.run();
+
+			responseText = responseText.substring( responseText.indexOf( "<p><b><center>Clan" ) ).replaceAll(
+				"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "\n" ).replaceAll( "<blockquote>", "<br>" ).replaceAll(
+					"</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "</?center>", "" ).replaceAll(
+						"</?f.*?>", "" ).replaceAll( "</?p>", "<br><br>" );
+
+			responseText = responseText.substring( responseText.indexOf( "<b>Date" ) );
 		}
 	}
 
