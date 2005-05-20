@@ -165,6 +165,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	public String getFrameName()
+	{	return frameName;
+	}
+
 	public void addCompactPane()
 	{
 		JPanel compactPane = new JPanel();
