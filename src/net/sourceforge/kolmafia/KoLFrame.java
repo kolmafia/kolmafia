@@ -95,9 +95,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
+import java.awt.event.WindowListener;
 import javax.swing.ListSelectionModel;
 
 // other stuff
+import java.util.Properties;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -137,6 +139,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected JMenuItem statusMenuItem;
 	protected JMenuItem mailMenuItem;
+        
+        private Properties settings;
 
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
@@ -145,11 +149,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected KoLFrame( String title, KoLmafia client )
 	{
-		super( title );
+                super( title );
 
 		this.client = client;
 		this.isEnabled = true;
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+                addWindowListener(new KoLWindowListener());
+                settings = (client == null) ? System.getProperties() : client.getSettings();
 	}
 
 	public void addCompactPane()
@@ -403,6 +409,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		if ( contentPanel != null )
 			contentPanel.setEnabled( isEnabled );
+                
 	}
 
 	/**
@@ -877,6 +884,40 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 		}
 	}
+        
+        /**
+	 * In order to do the things we need to do when windows are closed,
+         * this internal class is used to listen for window events.
+	 */
+        
+        private class KoLWindowListener implements WindowListener {
+            public void windowOpened(WindowEvent e) 
+            {
+                int positionx = 0, positiony = 0;
+                if(settings.containsKey(KoLFrame.this.getClass().getSimpleName()+"PositionX"))
+                positionx = Integer.parseInt(settings.getProperty(KoLFrame.this.getClass().getSimpleName()+"PositionX"));
+                if(settings.containsKey(KoLFrame.this.getClass().getSimpleName()+"PositionY"))
+                positiony = Integer.parseInt(settings.getProperty(KoLFrame.this.getClass().getSimpleName()+"PositionY"));
+                if(positionx != 0 && positiony != 0)    
+                {
+                    KoLFrame.this.setLocation(positionx, positiony);
+                }
+            }
+            public void windowClosing(WindowEvent e) 
+            {
+                
+                settings.setProperty( KoLFrame.this.getClass().getSimpleName()+"PositionX", String.valueOf( (int)KoLFrame.this.getLocationOnScreen().getX() ) );
+                settings.setProperty( KoLFrame.this.getClass().getSimpleName()+"PositionY", String.valueOf( (int)KoLFrame.this.getLocationOnScreen().getY() ) );
+                if ( settings instanceof KoLSettings )
+		((KoLSettings)settings).saveSettings();
+            }
+            public void windowClosed(WindowEvent e) {}
+            public void windowIconified(WindowEvent e) {}
+            public void windowDeiconified(WindowEvent e) {}
+            public void windowActivated(WindowEvent e) {}
+            public void windowDeactivated(WindowEvent e) {}
+        }
+        
 
 	/**
 	 * In order to keep the user interface from freezing (or at least
