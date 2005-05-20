@@ -58,12 +58,14 @@ public class ClanManager implements KoLConstants
 	private KoLmafia client;
 	private TreeMap profileMap;
 	private TreeMap rosterMap;
+	private TreeMap stashMap;
 
 	public ClanManager( KoLmafia client )
 	{
 		this.client = client;
 		this.profileMap = new TreeMap();
 		this.rosterMap = new TreeMap();
+		this.stashMap = new TreeMap();
 	}
 
 	public boolean initialize()
@@ -343,9 +345,12 @@ public class ClanManager implements KoLConstants
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
 
-		client.updateDisplay( DISABLED_STATE, "Retrieving additional data..." );
-		(new DetailRosterRequest( client )).run();
-		client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
+		if ( rosterMap.isEmpty() )
+		{
+			client.updateDisplay( DISABLED_STATE, "Retrieving additional data..." );
+			(new DetailRosterRequest( client )).run();
+			client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
+		}
 
 		// First create a file that contains a summary
 		// (spreadsheet-style) of all the clan members;
@@ -474,6 +479,109 @@ public class ClanManager implements KoLConstants
 
 			public String getPlayerName()
 			{	return playerName;
+			}
+		}
+	}
+
+	/**
+	 * Stores all of the transactions made in the clan stash.  This loads the existing
+	 * clan stash log and updates it with all transactions made by every clan member.
+	 * this format allows people to see WHO is using the stash, rather than just what
+	 * is being done with the stash.
+	 */
+
+	public void saveStashLog()
+	{
+		client.updateDisplay( DISABLED_STATE, "Retrieving clan stash log..." );
+		(new StashLogRequest( client )).run();
+		client.updateDisplay( ENABLED_STATE, "Stash log retrieved." );
+
+		Iterator memberIterator = stashMap.keySet().iterator();
+
+		File file = new File( SNAPSHOT_DIRECTORY + "stashlog.txt" );
+
+		try
+		{
+			file.getParentFile().mkdirs();
+			PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
+
+			String currentMember;
+			Iterator withdrawals;
+
+			while ( memberIterator.hasNext() )
+			{
+				currentMember = (String) memberIterator.next();
+				ostream.println( currentMember + ":" );
+
+				withdrawals = ((List) stashMap.get( currentMember )).iterator();
+				while ( withdrawals.hasNext() )
+					ostream.println( withdrawals.next().toString() );
+
+				ostream.println();
+			}
+
+			ostream.close();
+		}
+		catch ( Exception e )
+		{
+			throw new RuntimeException( "The file <" + file.getAbsolutePath() +
+				"> could not be opened for writing" );
+		}
+	}
+
+	private class StashLogRequest extends KoLRequest
+	{
+		public StashLogRequest( KoLmafia client )
+		{	super( client, "clan_log.php" );
+		}
+
+		public void run()
+		{
+			super.run();
+
+			String lastEntry;
+			List lastEntryList;
+			String currentMember;
+			int lastEntryIndex = 0;
+
+			Matcher entryMatcher = Pattern.compile(
+				"<option value=\"(\\d+)\">(.*?): (.*?) (gave|took) an item: (.*?)</option>" ).matcher( responseText );
+
+			while ( entryMatcher.find( lastEntryIndex ) )
+			{
+				lastEntryIndex = entryMatcher.end();
+				currentMember = entryMatcher.group(3);
+
+				lastEntry = (entryMatcher.group(4).equals( "gave" ) ? " [ D_" : " [W_") +
+					entryMatcher.group(1) + "] " + entryMatcher.group(2) + ": " + entryMatcher.group(5);
+
+				lastEntryList = (List) stashMap.get( currentMember );
+
+				if ( lastEntryList == null )
+				{
+					lastEntryList = new ArrayList();
+					stashMap.put( currentMember, lastEntryList );
+				}
+
+				if ( !lastEntryList.contains( lastEntry ) )
+					lastEntryList.add( lastEntry );
+			}
+
+			entryMatcher = Pattern.compile(
+				"<option value=\"(\\d+)\">(.*?): (.*?) took an item: (.*?)</option>" ).matcher( responseText );
+
+			while ( entryMatcher.find( lastEntryIndex ) )
+			{
+				lastEntryIndex = entryMatcher.end();
+
+				lastEntry = " [ W_" + entryMatcher.group(1) + "] " + entryMatcher.group(2) + ": " + entryMatcher.group(4);
+				lastEntryList = (List) stashMap.get( entryMatcher.group(3) );
+
+				if ( lastEntryList == null )
+					lastEntryList = new ArrayList();
+
+				if ( !lastEntryList.contains( lastEntry ) )
+					lastEntryList.add( lastEntry );
 			}
 		}
 	}

@@ -139,17 +139,21 @@ public class ClanManageFrame extends KoLFrame
 		optionsMenu.setMnemonic( KeyEvent.VK_O );
 		menuBar.add( optionsMenu );
 
-		JMenuItem attackItem = new JMenuItem( "Attack Clan...", KeyEvent.VK_A );
+		JMenuItem attackItem = new JMenuItem( "Attack Enemies!", KeyEvent.VK_A );
 		attackItem.addActionListener( new ClanListListener() );
 		optionsMenu.add( attackItem );
 
-		JMenuItem bootItem = new JMenuItem( "Boot Idlers...", KeyEvent.VK_B );
+		JMenuItem bootItem = new JMenuItem( "Boot Idle Hands", KeyEvent.VK_B );
 		bootItem.addActionListener( new BootIdleListener() );
 		optionsMenu.add( bootItem );
 
 		JMenuItem snapItem = new JMenuItem( "Clan Snapshot", KeyEvent.VK_C );
 		snapItem.addActionListener( new SnapshotListener() );
 		optionsMenu.add( snapItem );
+
+		JMenuItem stashItem = new JMenuItem( "Save Stash Log", KeyEvent.VK_S );
+		stashItem.addActionListener( new StashLogListener() );
+		optionsMenu.add( stashItem );
 
 		addHelpMenu( menuBar );
 	}
@@ -486,6 +490,20 @@ public class ClanManageFrame extends KoLFrame
 		{
 			public void run()
 			{	client.getClanManager().takeSnapshot();
+			}
+		}
+	}
+
+	private class StashLogListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new StashLogThread()).start();
+		}
+
+		private class StashLogThread extends Thread
+		{
+			public void run()
+			{	client.getClanManager().saveStashLog();
 			}
 		}
 	}
