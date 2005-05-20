@@ -311,15 +311,6 @@ public class BuffBotFrame extends KoLFrame
 		{
 			public BuffListPanel()
 			{
-				String sellerSetting = settings.getProperty( "buffBotCasting" );
-				if ( sellerSetting != null )
-				{
-					String [] soldBuffs = sellerSetting.split( "[;:]" );
-					for ( int i = 0; i < soldBuffs.length; ++i )
-						currentManager.addBuff( ClassSkillsDatabase.getSkillName( Integer.parseInt( soldBuffs[i] ) ),
-							Integer.parseInt( soldBuffs[++i] ), Integer.parseInt( soldBuffs[++i] ), soldBuffs[++i].equals("true"), soldBuffs[++i].equals( "true" ) );
-				}
-
 				setLayout( new BorderLayout() );
 				setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
 				add( JComponentUtilities.createLabel( "Active Buffing List", JLabel.CENTER,

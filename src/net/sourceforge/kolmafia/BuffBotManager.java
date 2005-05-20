@@ -105,6 +105,27 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		saveList = new ArrayList();
 		deleteList = new ArrayList();
+
+		String sellerSetting = settings.getProperty( "buffBotCasting" );
+		if ( sellerSetting != null )
+		{
+			String [] soldBuffs = sellerSetting.split( ";" );
+			for ( int i = 0; i < soldBuffs.length; ++i )
+			{
+				String [] currentBuff = soldBuffs[i].split( ":" );
+				if ( currentBuff.length == 4 )
+				{
+					addBuff( ClassSkillsDatabase.getSkillName( Integer.parseInt( currentBuff[0] ) ), Integer.parseInt( currentBuff[1] ),
+						Integer.parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), false );
+				}
+				else if ( currentBuff.length == 5 )
+				{
+					addBuff( ClassSkillsDatabase.getSkillName( Integer.parseInt( currentBuff[0] ) ), Integer.parseInt( currentBuff[1] ),
+						Integer.parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), currentBuff[4].equals( "true" ) );
+				}
+			}
+		}
+
 	}
 
 	/**

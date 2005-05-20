@@ -1469,16 +1469,8 @@ public class KoLmafiaCLI extends KoLmafia
 		BuffBotHome buffbotLog = scriptRequestor.getBuffBotLog();
 		BuffBotManager currentManager = new BuffBotManager( scriptRequestor, buffCostTable );
 		scriptRequestor.setBuffBotManager( currentManager );
-		String sellerSetting = scriptRequestor.settings.getProperty( "buffBotCasting" );
 
-		if ( sellerSetting != null )
-		{
-			String [] soldBuffs = sellerSetting.split( "[;:]" );
-			for ( int i = 0; i < soldBuffs.length; ++i )
-				currentManager.addBuff( ClassSkillsDatabase.getSkillName( Integer.parseInt( soldBuffs[i] ) ),
-					Integer.parseInt( soldBuffs[++i] ), Integer.parseInt( soldBuffs[++i] ), soldBuffs[++i].equals("true"), soldBuffs[++i].equals("true") );
-		}
-		else
+		if ( buffCostTable.isEmpty() )
 		{
 			scriptRequestor.updateDisplay( ERROR_STATE, "No sellable buffs defined." );
 			scriptRequestor.cancelRequest();
