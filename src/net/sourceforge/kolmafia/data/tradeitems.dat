@@ -845,11 +845,11 @@
 845	MAHI fez	0	0
 846	especially homoerotic frat-paddle	0	90
 847	heteroerotic frat-paddle	0	75
-848	hypodermic needle	0	75
-849	Meat detector	0	75
-850	many-eyed glasses	0	75
-851	prosthetic forehead	0	75
-852	tiny shaker of salt	0	75
+848	hypodermic needle	6	75
+849	Meat detector	6	75
+850	many-eyed glasses	6	75
+851	prosthetic forehead	6	75
+852	tiny shaker of salt	6	75
 853	blundarrrbus	6	75
 854	sucky decal	6	75
 855	tiny balloon knife	6	75
@@ -868,7 +868,7 @@
 868
 869
 870	fetus-smashing club	0	0
-871	meatcar model	0	75
+871	meatcar model	6	75
 872	Time Juice	0	0
 873	rolling pin	3	250
 874	unrolling pin	3	250
