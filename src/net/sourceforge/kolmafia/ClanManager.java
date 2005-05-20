@@ -42,13 +42,21 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 import java.util.Date;
-import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+
+import java.awt.GridLayout;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JEditorPane;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ClanManager implements KoLConstants
 {
@@ -492,20 +500,49 @@ public class ClanManager implements KoLConstants
 
 	public void saveStashLog()
 	{
-		client.updateDisplay( DISABLED_STATE, "Retrieving clan stash log..." );
-		(new StashLogRequest( client )).run();
-		client.updateDisplay( ENABLED_STATE, "Stash log retrieved." );
-
 		Iterator memberIterator = stashMap.keySet().iterator();
-
-		File file = new File( SNAPSHOT_DIRECTORY + "stashlog.txt" );
+		File file = new File( "data/clan_snapshot/stashlog.txt" );
 
 		try
 		{
+			String currentMember = "";
+			List entryList;
+
+			if ( file.exists() )
+			{
+				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( file ) ) );
+				String line;
+
+				while ( (line = istream.readLine()) != null )
+				{
+					if ( line.startsWith( " " ) )
+					{
+						entryList = (List) stashMap.get( currentMember );
+						if ( entryList == null )
+						{
+							entryList = new ArrayList();
+							stashMap.put( currentMember, entryList );
+						}
+
+						if ( !entryList.contains( line ) )
+							entryList.add( line );
+					}
+					else
+						currentMember = line.substring( 0, line.length() - 1 );
+				}
+
+				istream.close();
+			}
+
+			client.updateDisplay( DISABLED_STATE, "Retrieving clan stash log..." );
+			(new StashLogRequest( client )).run();
+			client.updateDisplay( ENABLED_STATE, "Stash log retrieved." );
+
+			file.delete();
+			file.createNewFile();
+
 			file.getParentFile().mkdirs();
 			PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
-
-			String currentMember;
 			Iterator withdrawals;
 
 			while ( memberIterator.hasNext() )
@@ -582,6 +619,82 @@ public class ClanManager implements KoLConstants
 
 				if ( !lastEntryList.contains( lastEntry ) )
 					lastEntryList.add( lastEntry );
+			}
+		}
+	}
+
+	/**
+	 * Retrieves the clan announcements from the clan hall and displays
+	 * them in a standard JFrame.
+	 */
+
+	public void getAnnouncements()
+	{
+		RequestFrame announcements = new RequestFrame( client, "Clan Announcements", new AnnouncementsRequest( client ) );
+		announcements.pack();  announcements.setVisible( true );  announcements.requestFocus();
+
+	}
+
+	private class AnnouncementsRequest extends KoLRequest
+	{
+		private String announcementHTML;
+
+		public AnnouncementsRequest( KoLmafia client )
+		{	super( client, "clan_hall.php" );
+		}
+
+		public void run()
+		{
+			super.run();
+
+			responseText = responseText.substring( responseText.indexOf( "<b><p><center>Recent" ) ).replaceAll(
+				"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "\n" ).replaceAll( "<blockquote>", "<br>" ).replaceAll(
+					"</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "</?center>", "" ).replaceAll(
+						"</?f.*?>", "" ).replaceAll( "</?p>", "<br><br>" );
+
+			responseText = responseText.substring( responseText.indexOf( "<b>", 2 ) );
+		}
+	}
+
+	private class RequestFrame extends KoLFrame
+	{
+		private String title;
+		private JEditorPane display;
+		private LimitedSizeChatBuffer buffer;
+
+		public RequestFrame( KoLmafia client, String title, KoLRequest request )
+		{
+			super( title, client );
+
+			this.title = title;
+			this.display = new JEditorPane();
+			this.display.setEditable( false );
+			this.display.setText( "Retrieving..." );
+
+			JScrollPane scrollPane = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
+			getContentPane().setLayout( new GridLayout( 1, 1 ) );
+			getContentPane().add( scrollPane );
+
+			(new RequestThread( request )).start();
+		}
+
+		private class RequestThread extends Thread
+		{
+			private KoLRequest request;
+
+			public RequestThread( KoLRequest request )
+			{	this.request = request;
+			}
+
+			public void run()
+			{
+				request.run();
+				buffer = new LimitedSizeChatBuffer( title );
+				buffer.setChatDisplay( display );
+				buffer.append( request.responseText );
 			}
 		}
 	}

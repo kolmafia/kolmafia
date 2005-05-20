@@ -73,6 +73,7 @@ import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 
 // other imports
+import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.List;
@@ -140,20 +141,28 @@ public class ClanManageFrame extends KoLFrame
 		menuBar.add( optionsMenu );
 
 		JMenuItem attackItem = new JMenuItem( "Attack Enemies!", KeyEvent.VK_A );
-		attackItem.addActionListener( new ClanListListener() );
+		attackItem.addActionListener( new ManagerListener( "attackClan" ) );
 		optionsMenu.add( attackItem );
 
 		JMenuItem bootItem = new JMenuItem( "Boot Idle Hands", KeyEvent.VK_B );
-		bootItem.addActionListener( new BootIdleListener() );
+		bootItem.addActionListener( new ManagerListener( "bootIdleMembers" ) );
 		optionsMenu.add( bootItem );
 
 		JMenuItem snapItem = new JMenuItem( "Clan Snapshot", KeyEvent.VK_C );
-		snapItem.addActionListener( new SnapshotListener() );
+		snapItem.addActionListener( new ManagerListener( "takeSnapshot" ) );
 		optionsMenu.add( snapItem );
 
 		JMenuItem stashItem = new JMenuItem( "Save Stash Log", KeyEvent.VK_S );
-		stashItem.addActionListener( new StashLogListener() );
+		stashItem.addActionListener( new ManagerListener( "saveStashLog" ) );
 		optionsMenu.add( stashItem );
+
+		JMenu messageMenu = new JMenu( "Messages" );
+		messageMenu.setMnemonic( KeyEvent.VK_M );
+		menuBar.add( messageMenu );
+
+		JMenuItem announceItem = new JMenuItem( "Announcements", KeyEvent.VK_A );
+		announceItem.addActionListener( new ManagerListener( "getAnnouncements" ) );
+		messageMenu.add( announceItem );
 
 		addHelpMenu( menuBar );
 	}
@@ -446,64 +455,34 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class ClanListListener implements ActionListener
+	private class ManagerListener implements ActionListener
 	{
-		public void actionPerformed( ActionEvent e )
-		{	(new ClanListThread()).start();
-		}
+		private Method method;
 
-		private class ClanListThread extends Thread
+		public ManagerListener( String methodName )
 		{
-			public ClanListThread()
+			try
+			{	this.method = client.getClanManager().getClass().getDeclaredMethod( methodName, null );
+			}
+			catch ( Exception e )
 			{
-				super( "Clan-List-Thread" );
-				setDaemon( true );
-			}
-
-			public void run()
-			{	client.getClanManager().attackClan();
 			}
 		}
-	}
 
-	private class BootIdleListener implements ActionListener
-	{
 		public void actionPerformed( ActionEvent e )
-		{	(new BootIdleThread()).start();
+		{	(new ManagerThread()).start();
 		}
 
-		private class BootIdleThread extends Thread
+		private class ManagerThread extends Thread
 		{
 			public void run()
-			{	client.getClanManager().bootIdleMembers();
-			}
-		}
-	}
-
-	private class SnapshotListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new SnapshotThread()).start();
-		}
-
-		private class SnapshotThread extends Thread
-		{
-			public void run()
-			{	client.getClanManager().takeSnapshot();
-			}
-		}
-	}
-
-	private class StashLogListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new StashLogThread()).start();
-		}
-
-		private class StashLogThread extends Thread
-		{
-			public void run()
-			{	client.getClanManager().saveStashLog();
+			{
+				try
+				{	method.invoke( client.getClanManager(), null );
+				}
+				catch ( Exception e )
+				{
+				}
 			}
 		}
 	}
