@@ -168,7 +168,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 						combineItems();
 						break;
 					case ROLLING_PIN:
+						updateDisplay( DISABLED_STATE, "Using a rolling pin..." );
 						(new ConsumeItemRequest( client, new AdventureResult( 873, 1 ))).run();
+						updateDisplay( ENABLED_STATE, "Flat dough created." );
 						break;
 				}
 
@@ -499,7 +501,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public void setQuantityNeeded( int quantityNeeded )
-	{	this.quantityNeeded = quantityNeeded;
+	{
+		if ( mixingMethod != ROLLING_PIN )
+			this.quantityNeeded = quantityNeeded;
 	}
 
 	/**
