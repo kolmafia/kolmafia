@@ -1053,6 +1053,42 @@ public class AdventureFrame extends KoLFrame
 
 	private class LogoutRequestAdapter extends WindowAdapter
 	{
+		public void windowOpened( WindowEvent e )
+		{
+			if ( client != null )
+			{
+				String framesToReloadSetting = client.getSettings().getProperty( "reloadFrames" );
+				if ( framesToReloadSetting == null )
+					return;
+
+				KoLFrame currentFrame;
+				String [] framesToReload = framesToReloadSetting.split( "," );
+
+				for ( int i = 0; i < framesToReload.length; ++i )
+				{
+					try
+					{
+						Class [] fields = new Class[1];
+						fields[0] = KoLmafia.class;
+
+						KoLmafia [] parameters = new KoLmafia[1];
+						parameters[0] = client;
+
+						currentFrame = (KoLFrame) Class.forName( "net.sourceforge.kolmafia." + framesToReload[i] ).getConstructor( fields ).newInstance( parameters );
+						currentFrame.pack();
+						currentFrame.setVisible( true );
+						currentFrame.setEnabled( isEnabled() );
+
+						existingFrames.add( currentFrame );
+
+					}
+					catch ( Exception e1 )
+					{
+					}
+				}
+			}
+		}
+
 		public void windowClosed( WindowEvent e )
 		{
 			if ( client != null )
@@ -1074,8 +1110,6 @@ public class AdventureFrame extends KoLFrame
 
 			public void run()
 			{
-				client.deinitialize();
-
 				if ( kolchat != null && kolchat.isShowing() )
 				{
 					kolchat.setVisible( false );
@@ -1084,12 +1118,27 @@ public class AdventureFrame extends KoLFrame
 
 				Iterator frames = existingFrames.iterator();
 				KoLFrame currentFrame;
+
+				StringBuffer framesToReload = new StringBuffer();
+				boolean reloadFrame;
+
 				while ( frames.hasNext() )
 				{
 					currentFrame = (KoLFrame) frames.next();
+					reloadFrame = currentFrame.isShowing();
 					currentFrame.setVisible( false );
 					currentFrame.dispose();
+
+					if ( reloadFrame && framesToReload.indexOf( currentFrame.getFrameName() ) == -1 )
+					{
+						if ( framesToReload.length() > 0 )
+							framesToReload.append( ',' );
+						framesToReload.append( currentFrame.getFrameName() );
+					}
 				}
+
+				client.getSettings().setProperty( "reloadFrames", framesToReload.toString() );
+				client.getSettings().saveSettings();
 
 				statusPane = null;
 				gearChanger = null;
@@ -1098,6 +1147,7 @@ public class AdventureFrame extends KoLFrame
 				kolchat = null;
 
 				existingFrames.clear();
+				client.deinitialize();
 				(new LogoutRequest( client )).run();
 			}
 		}
