@@ -79,7 +79,7 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			activeFrame.updateDisplay( state, message );
 			if ( isBuffBotActive() )
-				buffBotHome.update( BuffBotHome.NOCOLOR, message );
+				buffBotHome.updateStatus( message );
 		}
 	}
 

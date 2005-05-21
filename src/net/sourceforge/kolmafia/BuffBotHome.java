@@ -115,6 +115,7 @@ public class BuffBotHome
 	private LockableListModel messages;
 	private PrintStream ostream;
 	private List pastRecipients;
+	private JLabel bbStatus;
 
 	private static final DateFormat logDF = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 	private static final SimpleDateFormat logSDF = new SimpleDateFormat( "yyyyMMdd" );
@@ -237,7 +238,17 @@ public class BuffBotHome
 				System.out.println( entry );
 		}
 	}
-
+	
+	/**
+	 * An internal function used to display changes to system status
+	 * while the buffbot is running.
+	 */
+	
+	public void updateStatus(String statusMessage)
+	{
+		bbStatus.setText(statusMessage);
+	}
+	
 	/**
 	 * Adds a time-stamped entry to the log for the buffbot.  In general,
 	 * this is the preferred method of modifying the buffbot.  However,
@@ -256,6 +267,11 @@ public class BuffBotHome
 	{	this.isActive = isActive;
 	}
 
+	public void setBBStatus(JLabel bbStatus)
+	{
+		this.bbStatus = bbStatus;
+	}
+	
 	public boolean isBuffBotActive()
 	{	return isActive;
 	}
