@@ -229,8 +229,8 @@ public class KoLmafiaGUI extends KoLmafia
 	protected boolean confirmDrunkenRequest()
 	{
 		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-			"The mafia has stolen your shoes!  Continue adventuring anyway?",
-			"You're not drunk!  You see flying penguins and a dancing hermit!", JOptionPane.YES_NO_OPTION );
+			" You see flying penguins and a dancing hermit!\nThe mafia has stolen your shoes!\n(KoLmafia thinks you're too drunk!)\nContinue adventuring anyway?\n",
+			"You're not drunk!?", JOptionPane.YES_NO_OPTION );
 	}
 
 	public void setVisible( boolean isVisible )
