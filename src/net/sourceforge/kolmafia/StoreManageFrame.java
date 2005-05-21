@@ -130,6 +130,7 @@ public class StoreManageFrame extends KoLFrame
 				Color.black, Color.white ), BorderLayout.CENTER );
 
 			elementsPanel.add( labelPanel2 );
+
 			storeItemList = new StoreItemPanelList();
 			JScrollPane storeItemScrollArea = new JScrollPane( storeItemList,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -237,9 +238,11 @@ public class StoreManageFrame extends KoLFrame
 
 			addButton = new JButton( JComponentUtilities.getSharedImage( "icon_success_sml.gif" ) );
 			addButton.addActionListener( new AddButtonListener() );
+			addButton.setToolTipText( "Add to Store" );
 
 			searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
 			searchButton.addActionListener( new SearchButtonListener() );
+			searchButton.setToolTipText( "Price Analysis" );
 
 			JComponentUtilities.setComponentSize( sellingList, 280, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
@@ -256,7 +259,24 @@ public class StoreManageFrame extends KoLFrame
 			corePanel.add( addButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 
+			JLabel [] label = new JLabel[4];
+			label[0] = new JLabel( "Item Name", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[0], 280, 20 );
+			label[1] = new JLabel( "Price", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[1], 80, 20 );
+			label[2] = new JLabel( "Limit", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 40, 20 );
+			label[3] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 70, 20 );
+
+			JPanel labelPanel = new JPanel();
+			labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.X_AXIS ) );
+			labelPanel.add( Box.createHorizontalStrut( 10 ) );
+			for ( int i = 0; i < 4; ++i )
+			{
+				labelPanel.add( label[i] );
+				labelPanel.add( Box.createHorizontalStrut( 10 ) );
+			}
+
 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			add( Box.createVerticalStrut( 5 ) );
+			add( labelPanel );
 			add( Box.createVerticalStrut( 5 ) );
 			add( corePanel );
 		}
@@ -342,9 +362,11 @@ public class StoreManageFrame extends KoLFrame
 
 			takeButton = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
 			takeButton.addActionListener( new TakeButtonListener() );
+			takeButton.setToolTipText( "Remove Items" );
 
 			searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
 			searchButton.addActionListener( new SearchButtonListener() );
+			searchButton.setToolTipText( "Price Analysis" );
 
 			JComponentUtilities.setComponentSize( itemName, 280, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
@@ -455,6 +477,7 @@ public class StoreManageFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
+		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
 		KoLFrame uitest = new StoreManageFrame( null );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
