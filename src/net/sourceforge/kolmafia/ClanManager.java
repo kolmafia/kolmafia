@@ -375,7 +375,37 @@ public class ClanManager implements KoLConstants
 		{
 			individualFile.getParentFile().mkdirs();
 			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
-			ostream.println( "<html><body><table border=1 cellspacing=2 cellpadding=2>" );
+			ostream.println( "<html><head><style> body, td { font-family: sans-serif; } </head><body>" );
+
+			List classList = new ArrayList();
+			List foodList = new ArrayList();
+			List drinkList = new ArrayList();
+
+			while ( memberIterator.hasNext() )
+			{
+				currentMember = (String) memberIterator.next();
+				memberLookup = (ProfileRequest) profileMap.get( currentMember );
+
+				classList.add( memberLookup.getClassType() );
+				foodList.add( memberLookup.getFood() );
+				drinkList.add( memberLookup.getDrink() );
+			}
+
+			Collections.sort( classList );
+			Collections.sort( foodList );
+			Collections.sort( drinkList );
+
+			ostream.println( "<table border=0 cellspacing=0 cellpadding=0><tr>" );
+			ostream.println( "<td><b>Class Breakdown</b>:" );
+			printSummaryOfSummary( classList.iterator(), ostream );
+			ostream.println( "</td><td><b>Food Breakdown</b>:" );
+			printSummaryOfSummary( foodList.iterator(), ostream );
+			ostream.println( "</td><td><b>Drink Breakdown</b>:" );
+			printSummaryOfSummary( drinkList.iterator(), ostream );
+			ostream.println( "</td></tr></table><br><br>" );
+
+			ostream.println();
+			ostream.println( "<table border=1 cellspacing=2 cellpadding=2>" );
 			ostream.print( "<tr bgcolor=\"#000000\" style=\"color:#ffffff; font-weight: bold\">" );
 			ostream.print( "<td>Name</td><td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>" );
 			ostream.print( "<td>Title</td><td>Rank</td><td>Karma</td><td>PVP</td><td>Class</td>" );
@@ -444,6 +474,38 @@ public class ClanManager implements KoLConstants
 		}
 
 		client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
+	}
+
+	private void printSummaryOfSummary( Iterator itemIterator, PrintStream ostream )
+	{
+		int maximumCount = 0;
+		int currentCount = 0;
+		Object currentItem = itemIterator.next();
+		Object favorite = currentItem;
+		Object nextItem;
+
+		ostream.println( "<ul>" );
+
+		while ( itemIterator.hasNext() )
+		{
+			++currentCount;
+			nextItem = itemIterator.next();
+			if ( !currentItem.equals( nextItem ) )
+			{
+				ostream.println( "<li><b>" + currentItem.toString() + "</b>: " + currentCount + "</li>" );
+				currentItem = nextItem;
+
+				if ( currentCount > maximumCount )
+				{
+					maximumCount = currentCount;
+					favorite = currentItem;
+				}
+
+				currentCount = 0;
+			}
+		}
+
+		ostream.println( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
 	}
 
 	private class DetailRosterRequest extends KoLRequest
