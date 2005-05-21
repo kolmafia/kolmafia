@@ -45,6 +45,12 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public static final int EQUIP_FAMILIAR = 6;
 
+	public static final int EQUIP_ACCESSORY = 8;
+	public static final int EQUIP_HAT = 9;
+	public static final int EQUIP_PANTS = 10;
+	public static final int EQUIP_SHIRT = 11;
+	public static final int EQUIP_WEAPON = 12;
+
 	private int consumptionType;
 	private AdventureResult itemUsed;
 

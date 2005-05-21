@@ -199,7 +199,8 @@ public class TradeableItemDatabase
 	public static final boolean isUsable( String itemName )
 	{
 		int itemID = getItemID( itemName.replaceAll( "ñ", "&ntilde;" ).replaceAll( "©", "&trade;" ) );
-		return itemID == -1 ? false : consumptionID[ itemID ] != ConsumeItemRequest.NO_CONSUME;
+		return itemID == -1 ? false : consumptionID[ itemID ] != ConsumeItemRequest.NO_CONSUME &&
+			consumptionID[ itemID ] < ConsumeItemRequest.EQUIP_FAMILIAR;
 	}
 
 	/**
