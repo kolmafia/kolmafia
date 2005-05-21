@@ -366,8 +366,10 @@ public class ClanManager implements KoLConstants
 
 		File individualFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
 		PrintStream ostream;
+
 		String currentMember;
 		ProfileRequest memberLookup;
+		DetailRosterField rosterLookup;
 
 		Iterator memberIterator = profileMap.keySet().iterator();
 
@@ -375,32 +377,62 @@ public class ClanManager implements KoLConstants
 		{
 			individualFile.getParentFile().mkdirs();
 			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
-			ostream.println( "<html><head><style> body, td { font-family: sans-serif; } </head><body>" );
+			ostream.println( "<html><head><style> body, td { font-family: sans-serif; } </style></head><body>" );
 
 			List classList = new ArrayList();
 			List foodList = new ArrayList();
 			List drinkList = new ArrayList();
+			List rankList = new ArrayList();
+
+			List pvpList = new ArrayList();
+			List musList = new ArrayList();
+			List mysList = new ArrayList();
+			List moxList = new ArrayList();
+			List powerList = new ArrayList();
+			List karmaList = new ArrayList();
 
 			while ( memberIterator.hasNext() )
 			{
 				currentMember = (String) memberIterator.next();
 				memberLookup = (ProfileRequest) profileMap.get( currentMember );
+				rosterLookup = (DetailRosterField) rosterMap.get( currentMember );
 
 				classList.add( memberLookup.getClassType() );
 				foodList.add( memberLookup.getFood() );
 				drinkList.add( memberLookup.getDrink() );
+				pvpList.add( memberLookup.getPvpRank() );
+
+				rankList.add( rosterLookup.rank );
+
+				musList.add( rosterLookup.mus );
+				mysList.add( rosterLookup.mys );
+				moxList.add( rosterLookup.mox );
+				powerList.add( rosterLookup.power );
+				karmaList.add( rosterLookup.karma );
 			}
 
 			Collections.sort( classList );
 			Collections.sort( foodList );
 			Collections.sort( drinkList );
+			Collections.sort( rankList );
 
-			ostream.println( "<table border=0 cellspacing=0 cellpadding=0><tr>" );
-			ostream.println( "<td><b>Class Breakdown</b>:" );
+			ostream.println( "<table border=0 cellspacing=4 cellpadding=4><tr>" );
+			ostream.println( "<td valign=top><b>Averages</b>:" );
+			ostream.println( "<ul><li>PVP Rank: " + calculateAverage( pvpList ) + "</li>" );
+			ostream.println( "<li>Muscle: " + calculateAverage( musList ) + "</li>" );
+			ostream.println( "<li>Myst: " + calculateAverage( mysList ) + "</li>" );
+			ostream.println( "<li>Moxie: " + calculateAverage( moxList ) + "</li>" );
+			ostream.println( "<li>Power: " + calculateAverage( powerList ) + "</li>" );
+			ostream.println( "<li>Karma: " + calculateAverage( karmaList ) + "</li>" );
+			ostream.println( "</ul></td>" );
+
+			ostream.println( "<td valign=top><b>Class Breakdown</b>:" );
 			printSummaryOfSummary( classList.iterator(), ostream );
-			ostream.println( "</td><td><b>Food Breakdown</b>:" );
+			ostream.println( "</td><td valign=top><b>Rank Breakdown</b>:" );
+			printSummaryOfSummary( rankList.iterator(), ostream );
+			ostream.println( "</td><td valign=top><b>Food Breakdown</b>:" );
 			printSummaryOfSummary( foodList.iterator(), ostream );
-			ostream.println( "</td><td><b>Drink Breakdown</b>:" );
+			ostream.println( "</td><td valign=top><b>Drink Breakdown</b>:" );
 			printSummaryOfSummary( drinkList.iterator(), ostream );
 			ostream.println( "</td></tr></table><br><br>" );
 
@@ -492,20 +524,39 @@ public class ClanManager implements KoLConstants
 			nextItem = itemIterator.next();
 			if ( !currentItem.equals( nextItem ) )
 			{
-				ostream.println( "<li><b>" + currentItem.toString() + "</b>: " + currentCount + "</li>" );
-				currentItem = nextItem;
-
+				ostream.println( "<li>" + currentItem.toString() + ": " + currentCount + "</li>" );
 				if ( currentCount > maximumCount )
 				{
 					maximumCount = currentCount;
 					favorite = currentItem;
 				}
 
+				currentItem = nextItem;
 				currentCount = 0;
 			}
 		}
 
 		ostream.println( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
+	}
+
+	private int calculateAverage( List values )
+	{
+		int total = 0;
+		int actualSize = values.size();
+
+		for ( int i = 0; i < values.size(); ++i )
+		{
+			try
+			{
+				total += Integer.parseInt( (String) values.get(i) );
+			}
+			catch ( Exception e )
+			{
+				--actualSize;
+			}
+		}
+
+		return actualSize == 0 ? 0 : total / actualSize;
 	}
 
 	private class DetailRosterRequest extends KoLRequest
@@ -520,36 +571,63 @@ public class ClanManager implements KoLConstants
 
 			DetailRosterField currentMember;
 			Matcher rowMatcher = Pattern.compile( "<tr>(.*?)</tr>" ).matcher( responseText );
+
 			rowMatcher.find( 0 );
 			int lastRowIndex = rowMatcher.end();
 
 			while ( rowMatcher.find( lastRowIndex ) )
 			{
 				lastRowIndex = rowMatcher.end();
-				currentMember = new DetailRosterField( rowMatcher.group(1) );
-				rosterMap.put( currentMember.getPlayerName().toLowerCase(), currentMember );
+
+				if ( !rowMatcher.group(1).equals( "<td height=4></td>" ) )
+				{
+					currentMember = new DetailRosterField( rowMatcher.group(1) );
+					rosterMap.put( currentMember.getPlayerName().toLowerCase(), currentMember );
+				}
 			}
 		}
+	}
 
-		private class DetailRosterField
+	private class DetailRosterField
+	{
+		private String playerName;
+		private String stringForm;
+
+		private String mus, mys, mox, power;
+		private String title, rank, karma;
+
+		public DetailRosterField( String tableRow )
 		{
-			private String playerName;
-			private String stringForm;
+			int firstCellIndex = tableRow.indexOf( "</td>" );
+			this.stringForm = tableRow.substring( firstCellIndex + 5 ).replaceAll( "<td></td>", "<td>&nbsp;</td>" );
+			this.playerName = tableRow.substring( 4, firstCellIndex );
 
-			public DetailRosterField( String tableRow )
-			{
-				int firstCellIndex = tableRow.indexOf( "</td>" );
-				this.stringForm = tableRow.substring( firstCellIndex + 5 ).replaceAll( "<td></td>", "<td>&nbsp;</td>" );
-				this.playerName = tableRow.substring( 4, firstCellIndex );
-			}
+			Matcher dataMatcher = Pattern.compile( "<td.*?>(.*?)</td>" ).matcher( stringForm );
 
-			public String toString()
-			{	return stringForm;
-			}
+			dataMatcher.find();
+			this.mus = dataMatcher.group(1);
 
-			public String getPlayerName()
-			{	return playerName;
-			}
+			dataMatcher.find( dataMatcher.end() );
+			this.mys = dataMatcher.group(1);
+			dataMatcher.find( dataMatcher.end() );
+			this.mox = dataMatcher.group(1);
+			dataMatcher.find( dataMatcher.end() );
+			this.power = dataMatcher.group(1);
+
+			dataMatcher.find( dataMatcher.end() );
+			this.title = dataMatcher.group(1);
+			dataMatcher.find( dataMatcher.end() );
+			this.rank = dataMatcher.group(1);
+			dataMatcher.find( dataMatcher.end() );
+			this.karma = dataMatcher.group(1);
+		}
+
+		public String toString()
+		{	return stringForm;
+		}
+
+		public String getPlayerName()
+		{	return playerName;
 		}
 	}
 
