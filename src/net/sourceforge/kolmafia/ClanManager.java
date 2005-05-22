@@ -60,8 +60,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ClanManager implements KoLConstants
 {
-	private static final String SNAPSHOT_DIRECTORY =
-		"data/clan_snapshot/" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
+	private String SNAPSHOT_DIRECTORY = "clansnap/";
 
 	private KoLmafia client;
 	private TreeMap profileMap;
@@ -83,17 +82,18 @@ public class ClanManager implements KoLConstants
 			ClanMembersRequest cmr = new ClanMembersRequest( client );
 			cmr.run();
 
+			SNAPSHOT_DIRECTORY = "clansnap/" + cmr.getClanID() + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
+
+
 			// With the clan member list retrieved, you make sure
 			// the user wishes to spend the time to retrieve all
 			// the information related to all clan members.
 
-			boolean continueProcessing = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 				profileMap.size() + " members are currently in your clan.\nThis process should take " +
 				((int)(profileMap.size() / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
-				"Member list retrieved!", JOptionPane.YES_NO_OPTION );
-
-			if ( !continueProcessing )
-				return false;
+				"Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
+					return false;
 
 			// Now that it's known what the user wishes to continue,
 			// you begin initializing all the data.
@@ -344,6 +344,17 @@ public class ClanManager implements KoLConstants
 
 	public void takeSnapshot()
 	{
+		File individualFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
+
+		// If the file already exists, a snapshot cannot be taken.
+		// Therefore, notify the user of this. :)
+
+		if ( individualFile.exists() )
+		{
+			JOptionPane.showMessageDialog( null, "You already created a snapshot today." );
+			return;
+		}
+
 		// If initialization was unsuccessful, then don't
 		// do anything.
 
@@ -364,7 +375,6 @@ public class ClanManager implements KoLConstants
 		// (spreadsheet-style) of all the clan members;
 		// imitate Ohayou's booze page for rendering.
 
-		File individualFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
 		PrintStream ostream;
 
 		String currentMember;

@@ -42,8 +42,12 @@ import java.util.regex.Matcher;
 
 public class ClanMembersRequest extends KoLRequest
 {
+	private String clanID;
+
 	public ClanMembersRequest( KoLmafia client )
-	{	super( client, "showclan.php" );
+	{
+		super( client, "showclan.php" );
+		this.clanID = "";
 	}
 
 	public void run()
@@ -67,7 +71,9 @@ public class ClanMembersRequest extends KoLRequest
 		// to, you can do a clan lookup to get a
 		// complete list of clan members in one hit
 
-		addFormField( "whichclan", clanIDMatcher.group(1) );
+		this.clanID = clanIDMatcher.group(1);
+
+		addFormField( "whichclan", clanID );
 		updateDisplay( DISABLED_STATE, "Retrieving clan member list..." );
 		super.run();
 
@@ -89,5 +95,9 @@ public class ClanMembersRequest extends KoLRequest
 		}
 
 		updateDisplay( ENABLED_STATE, "Member list retrieved." );
+	}
+
+	public String getClanID()
+	{	return clanID;
 	}
 }
