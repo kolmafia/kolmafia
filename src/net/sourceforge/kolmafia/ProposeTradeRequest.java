@@ -69,7 +69,7 @@ public class ProposeTradeRequest extends KoLRequest
 		addFormField( "action", "counter" );
 		addFormField( "whichoffer", offerID );
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "memo", message );
+		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 
 		this.recipient = client.getPlayerID( recipient );
 		this.message = message;
@@ -82,7 +82,7 @@ public class ProposeTradeRequest extends KoLRequest
 		addFormField( "action", "proposeoffer" );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "towho", recipient );
-		addFormField( "memo", message );
+		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 
 		this.recipient = client.getPlayerID( recipient );
 		this.message = message;
@@ -148,7 +148,7 @@ public class ProposeTradeRequest extends KoLRequest
 			client.processResult( negatedResult );
 		}
 
-		responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "</?[ct].*?>", "" );
-System.out.println( responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", " " ) );
+		responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll(
+			"</?[ct].*?>", "" ).replaceAll( "</b>", "</b><br>" ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}
 }
