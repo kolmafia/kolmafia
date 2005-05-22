@@ -84,7 +84,7 @@ import edu.stanford.ejalbert.BrowserLauncher;
 public class ChatFrame extends KoLFrame
 {
 	protected ButtonGroup clickGroup;
-	protected static JRadioButtonMenuItem [] clickOptions;
+	protected JRadioButtonMenuItem [] clickOptions;
 
 	private JMenuBar menuBar;
 	private ChatPanel mainPanel;
@@ -139,15 +139,6 @@ public class ChatFrame extends KoLFrame
 		menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		clickGroup = new ButtonGroup();
-		clickOptions = new JRadioButtonMenuItem[3];
-		clickOptions[0] = new JRadioButtonMenuItem( "Open blue message", true );
-		clickOptions[1] = new JRadioButtonMenuItem( "Open green message" );
-		clickOptions[2] = new JRadioButtonMenuItem( "Open player profile" );
-
-		for ( int i = 0; i < 3; ++i )
-			clickGroup.add( clickOptions[i] );
-
 		if ( mainPanel != null )
 		{
 			JMenu fileMenu = new JMenu( "File" );
@@ -161,30 +152,20 @@ public class ChatFrame extends KoLFrame
 			JMenuItem clearItem = new JMenuItem( "Clear Chat", KeyEvent.VK_C );
 			clearItem.addActionListener( new ClearChatBufferListener() );
 			fileMenu.add( clearItem );
-
-			if ( associatedContact != null && !associatedContact.startsWith( "/" ) && !associatedContact.startsWith( "[" ) )
-			{
-				JMenu peopleMenu = new JMenu( "People" );
-				peopleMenu.setMnemonic( KeyEvent.VK_P );
-				menuBar.add( peopleMenu );
-
-				JMenuItem addFriendItem = new JMenuItem( "Add Friend", KeyEvent.VK_A );
-				addFriendItem.addActionListener( new AddFriendListener() );
-				peopleMenu.add( addFriendItem );
-
-				JMenuItem ignoreFriendItem = new JMenuItem( "Ignore / Block", KeyEvent.VK_I );
-				ignoreFriendItem.addActionListener( new IgnoreFriendListener() );
-				peopleMenu.add( ignoreFriendItem );
-
-				JMenuItem sendGreenItem = new JMenuItem( "Green Message", KeyEvent.VK_G );
-				sendGreenItem.addActionListener( new SendGreenListener() );
-				peopleMenu.add( sendGreenItem );
-			}
 		}
 
 		addConfigureMenu( menuBar );
 
-		JMenu clicksMenu = new JMenu( "Name Click" );
+		clickGroup = new ButtonGroup();
+		clickOptions = new JRadioButtonMenuItem[3];
+		clickOptions[0] = new JRadioButtonMenuItem( "Open blue message", false );
+		clickOptions[1] = new JRadioButtonMenuItem( "Open green message", false );
+		clickOptions[2] = new JRadioButtonMenuItem( "Open player profile", false );
+
+		for ( int i = 0; i < 3; ++i )
+			clickGroup.add( clickOptions[i] );
+
+		JMenu clicksMenu = new JMenu( "N-Click" );
 		clicksMenu.setMnemonic( KeyEvent.VK_N );
 		menuBar.add( clicksMenu );
 
@@ -462,52 +443,6 @@ public class ChatFrame extends KoLFrame
 	}
 
 	/**
-	 * Action listener responsible for adding the friend to the
-	 * contact list.
-	 */
-
-	private class AddFriendListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new AddFriendThread()).start();
-		}
-
-		private class AddFriendThread extends Thread
-		{
-			public AddFriendThread()
-			{	setDaemon( true );
-			}
-
-			public void run()
-			{	(new ChatRequest( client, mainPanel.getAssociatedContact(), "/friend" )).run();
-			}
-		}
-	}
-
-	/**
-	 * Action listener responsible for placing someone on the
-	 * ignore (baleet) list.
-	 */
-
-	private class IgnoreFriendListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new IgnoreFriendThread()).start();
-		}
-
-		private class IgnoreFriendThread extends Thread
-		{
-			public IgnoreFriendThread()
-			{	setDaemon( true );
-			}
-
-			public void run()
-			{	(new ChatRequest( client, mainPanel.getAssociatedContact(), "/ignore" )).run();
-			}
-		}
-	}
-
-	/**
 	 * Internal class to handle clearing the chat pane
 	 * whenever the user wishes it.
 	 */
@@ -584,23 +519,6 @@ public class ChatFrame extends KoLFrame
 			public String getDescription()
 			{	return "Hypertext Documents";
 			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the composer window.
-	 */
-
-	private class SendGreenListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			GreenMessageFrame composer = new GreenMessageFrame( client, mainPanel.getAssociatedContact() );
-			composer.pack();  composer.setVisible( true );
-			composer.requestFocus();
-			existingFrames.add( composer );
 		}
 	}
 
