@@ -55,7 +55,7 @@ import javax.swing.JOptionPane;
 
 public class ClanManager implements KoLConstants
 {
-	private String SNAPSHOT_DIRECTORY = "clansnap/";
+	private String SNAPSHOT_DIRECTORY;
 
 	private KoLmafia client;
 	private TreeMap profileMap;
@@ -68,6 +68,8 @@ public class ClanManager implements KoLConstants
 		this.profileMap = new TreeMap();
 		this.rosterMap = new TreeMap();
 		this.stashMap = new TreeMap();
+
+		SNAPSHOT_DIRECTORY = "clan/";
 	}
 
 	public boolean initialize()
@@ -77,7 +79,7 @@ public class ClanManager implements KoLConstants
 			ClanMembersRequest cmr = new ClanMembersRequest( client );
 			cmr.run();
 
-			SNAPSHOT_DIRECTORY = "clansnap/" + cmr.getClanID() + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
+			SNAPSHOT_DIRECTORY = "clan/" + cmr.getClanID() + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
 
 
 			// With the clan member list retrieved, you make sure
@@ -339,6 +341,12 @@ public class ClanManager implements KoLConstants
 
 	public void takeSnapshot()
 	{
+		// If initialization was unsuccessful, then don't
+		// do anything.
+
+		if ( !initialize() )
+			return;
+
 		File individualFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
 
 		// If the file already exists, a snapshot cannot be taken.
@@ -349,12 +357,6 @@ public class ClanManager implements KoLConstants
 			JOptionPane.showMessageDialog( null, "You already created a snapshot today." );
 			return;
 		}
-
-		// If initialization was unsuccessful, then don't
-		// do anything.
-
-		if ( !initialize() )
-			return;
 
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
@@ -429,6 +431,12 @@ public class ClanManager implements KoLConstants
 			ostream.println( "<li>Moxie: " + calculateAverage( moxList ) + "</li>" );
 			ostream.println( "<li>Power: " + calculateAverage( powerList ) + "</li>" );
 			ostream.println( "<li>Karma: " + calculateAverage( karmaList ) + "</li>" );
+			ostream.println( "</ul><b>Totals</b>:" );
+			ostream.println( "<ul><li>Muscle: " + calculateTotal( musList ) + "</li>" );
+			ostream.println( "<li>Myst: " + calculateTotal( mysList ) + "</li>" );
+			ostream.println( "<li>Moxie: " + calculateTotal( moxList ) + "</li>" );
+			ostream.println( "<li>Power: " + calculateTotal( powerList ) + "</li>" );
+			ostream.println( "<li>Karma: " + calculateTotal( karmaList ) + "</li>" );
 			ostream.println( "</ul></td>" );
 
 			ostream.println( "<td valign=top><b>Class Breakdown</b>:" );
@@ -544,21 +552,34 @@ public class ClanManager implements KoLConstants
 		ostream.println( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
 	}
 
+	private int calculateTotal( List values )
+	{
+		int total = 0;
+		String currentValue;
+
+		for ( int i = 0; i < values.size(); ++i )
+		{
+			currentValue = (String) values.get(i);
+			if ( !currentValue.startsWith( "&" ) )
+				total += Integer.parseInt( (String) values.get(i) );
+		}
+
+		return total;
+	}
+
 	private int calculateAverage( List values )
 	{
 		int total = 0;
+		String currentValue;
 		int actualSize = values.size();
 
 		for ( int i = 0; i < values.size(); ++i )
 		{
-			try
-			{
-				total += Integer.parseInt( (String) values.get(i) );
-			}
-			catch ( Exception e )
-			{
+			currentValue = (String) values.get(i);
+			if ( currentValue.startsWith( "&" ) )
 				--actualSize;
-			}
+			else
+				total += Integer.parseInt( (String) values.get(i) );
 		}
 
 		return actualSize == 0 ? 0 : total / actualSize;
