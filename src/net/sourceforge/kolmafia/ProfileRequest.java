@@ -133,7 +133,7 @@ public class ProfileRequest extends KoLRequest
 			{
 				while ( !st.nextToken().startsWith( "PVP Ranking" ) );
 				st.nextToken();
-				this.pvpRank = st.nextToken();
+				this.pvpRank = st.nextToken().trim();
 			}
 			else
 				this.pvpRank = "&nbsp;";
