@@ -703,16 +703,16 @@ public class KoLMessenger implements KoLConstants
 				{
 					String firstToken = splitMessage.nextToken();
 					contactName = firstToken.substring( 0, firstToken.length() - 10 );
-					redoneMessage.append( "<font color=blue><b>" );
+					redoneMessage.append( "<font color=blue><b><a href=\"" + contactName + "\">" );
 					redoneMessage.append( contactName );
-					redoneMessage.append( "</b></font>: " );
+					redoneMessage.append( "</a></b></font>: " );
 				}
 				else
 				{
 					contactName = splitMessage.nextToken().substring( 11 );
-					redoneMessage.append( "<font color=red><b>" );
+					redoneMessage.append( "<font color=red><b><a href=\"" + client.getLoginName() + "\">" );
 					redoneMessage.append( client.getLoginName() );
-					redoneMessage.append( "</b></font>: " );
+					redoneMessage.append( "</a></b></font>: " );
 				}
 
 				splitMessage.nextToken();
