@@ -54,7 +54,7 @@ public class GreenMessageRequest extends KoLRequest
 		addFormField( "savecopy", "on" );
 		addFormField( "message", message );
 
-		this.recipient = client.getMessenger() == null ? recipient : client.getPlayerID( recipient );
+		this.recipient = client.getPlayerID( recipient );
 		this.message = message;
 		this.attachments = new Object[1];
 		attachments[0] = attachment;
