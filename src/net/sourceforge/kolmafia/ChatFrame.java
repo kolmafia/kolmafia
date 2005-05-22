@@ -66,6 +66,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButtonMenuItem;
 
 // other imports
 import java.util.Calendar;
@@ -80,6 +83,9 @@ import edu.stanford.ejalbert.BrowserLauncher;
 
 public class ChatFrame extends KoLFrame
 {
+	protected ButtonGroup clickGroup;
+	protected static JRadioButtonMenuItem [] clickOptions;
+
 	private JMenuBar menuBar;
 	private ChatPanel mainPanel;
 	private KoLMessenger messenger;
@@ -133,9 +139,18 @@ public class ChatFrame extends KoLFrame
 		menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
+		clickGroup = new ButtonGroup();
+		clickOptions = new JRadioButtonMenuItem[3];
+		clickOptions[0] = new JRadioButtonMenuItem( "Open blue message", true );
+		clickOptions[1] = new JRadioButtonMenuItem( "Open green message" );
+		clickOptions[2] = new JRadioButtonMenuItem( "Open player profile" );
+
+		for ( int i = 0; i < 3; ++i )
+			clickGroup.add( clickOptions[i] );
+
 		if ( mainPanel != null )
 		{
-			JMenu fileMenu = new JMenu("File");
+			JMenu fileMenu = new JMenu( "File" );
 			fileMenu.setMnemonic( KeyEvent.VK_F );
 			menuBar.add( fileMenu );
 
@@ -149,7 +164,7 @@ public class ChatFrame extends KoLFrame
 
 			if ( associatedContact != null && !associatedContact.startsWith( "/" ) && !associatedContact.startsWith( "[" ) )
 			{
-				JMenu peopleMenu = new JMenu("People");
+				JMenu peopleMenu = new JMenu( "People" );
 				peopleMenu.setMnemonic( KeyEvent.VK_P );
 				menuBar.add( peopleMenu );
 
@@ -168,6 +183,14 @@ public class ChatFrame extends KoLFrame
 		}
 
 		addConfigureMenu( menuBar );
+
+		JMenu clicksMenu = new JMenu( "Name Click" );
+		clicksMenu.setMnemonic( KeyEvent.VK_N );
+		menuBar.add( clicksMenu );
+
+		for ( int i = 0; i < clickOptions.length; ++i )
+			clicksMenu.add( clickOptions[i] );
+
 		addHelpMenu( menuBar );
 	}
 
@@ -397,28 +420,23 @@ public class ChatFrame extends KoLFrame
 
 				if ( !location.startsWith( "http://" ) && !location.startsWith( "https://" ) )
 				{
-					int nameClickMode = client.getSettings().getProperty( "chatNameClick" ) == null ? 0 :
-						Integer.parseInt( client.getSettings().getProperty( "chatNameClick" ) );
+					if ( clickOptions[0].isSelected() )
+						client.getMessenger().openInstantMessage( location );
 
-					switch ( nameClickMode )
+					else if ( clickOptions[1].isSelected() )
 					{
-						case 0:
-							client.getMessenger().openInstantMessage( location );
-							break;
+						GreenMessageFrame composer = new GreenMessageFrame( client, location );
+						composer.pack();  composer.setVisible( true );
+						composer.requestFocus();
+						existingFrames.add( composer );
+					}
 
-						case 1:
-							GreenMessageFrame composer = new GreenMessageFrame( client, location );
-							composer.pack();  composer.setVisible( true );
-							composer.requestFocus();
-							existingFrames.add( composer );
-							break;
-
-						case 2:
-							ProfileFrame profile = new ProfileFrame( client, location );
-							profile.pack();  profile.setVisible( true );
-							profile.requestFocus();
-							existingFrames.add( profile );
-							break;
+					else if ( clickOptions[2].isSelected() )
+					{
+						ProfileFrame profile = new ProfileFrame( client, location );
+						profile.pack();  profile.setVisible( true );
+						profile.requestFocus();
+						existingFrames.add( profile );
 					}
 				}
 				else

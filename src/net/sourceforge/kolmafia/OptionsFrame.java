@@ -650,7 +650,6 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox fontSizeSelect;
 		private JComboBox chatStyleSelect;
 		private JComboBox useTabsSelect;
-		private JComboBox nameClickSelect;
 		private JPanel colorPanel;
 
 		public ChatOptionsPanel()
@@ -670,12 +669,6 @@ public class OptionsFrame extends KoLFrame
 			useTabs.add( "Use tabbed chat interface" );
 			useTabsSelect = new JComboBox( useTabs );
 
-			LockableListModel nameClick = new LockableListModel();
-			nameClick.add( "Open blue message" );
-			nameClick.add( "Open green message" );
-			nameClick.add( "Open player profile" );
-			nameClickSelect = new JComboBox( nameClick );
-
 			colorPanel = new JPanel();
 			colorPanel.setLayout( new BoxLayout( colorPanel, BoxLayout.Y_AXIS ) );
 			JScrollPane scrollArea = new JScrollPane( colorPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -683,12 +676,11 @@ public class OptionsFrame extends KoLFrame
 
 			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
 
-			VerifiableElement [] elements = new VerifiableElement[5];
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 			elements[2] = new VerifiableElement( "Windowing: ", useTabsSelect );
-			elements[3] = new VerifiableElement( "Name Clicks: ", nameClickSelect );
-			elements[4] = new VerifiableElement( "Chat Colors: ", scrollArea );
+			elements[3] = new VerifiableElement( "Chat Colors: ", scrollArea );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -730,10 +722,7 @@ public class OptionsFrame extends KoLFrame
 				chatStyleSelect.setSelectedIndex( (chatStyle != null) ? Integer.parseInt( chatStyle ) : 0 );
 
 				String useTabs = settings.getProperty( "useTabbedChat" );
-				useTabsSelect.setSelectedIndex( (useTabs != null) ? Integer.parseInt( useTabs ) : 0 );
-
-				String nameClick = settings.getProperty( "chatNameClick" );
-				nameClickSelect.setSelectedIndex( (nameClick != null) ? Integer.parseInt( nameClick ) : 0 );
+				useTabsSelect.setSelectedIndex( (useTabs != null) ? Integer.parseInt( useTabs ) : 1 );
 
 				String nameColor = settings.getProperty( "chatNameColors" );
 
@@ -777,7 +766,6 @@ public class OptionsFrame extends KoLFrame
 				LimitedSizeChatBuffer.setFontSize( fontSize.intValue() );
 				settings.setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
 				settings.setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
-				settings.setProperty( "chatNameClick", String.valueOf( nameClickSelect.getSelectedIndex() ) );
 
 				if ( client.getMessenger() != null )
 					client.getMessenger().setTabbedFrameSetting( useTabsSelect.getSelectedIndex() == 1 );
