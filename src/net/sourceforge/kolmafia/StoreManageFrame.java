@@ -223,7 +223,7 @@ public class StoreManageFrame extends KoLFrame
 
 	private class AddItemPanel extends JPanel
 	{
-		private JTextField itemPrice, itemLimit;
+		private JTextField itemPrice, itemLimit, itemQty;
 		private JButton addButton, searchButton;
 
 		public AddItemPanel()
@@ -235,6 +235,7 @@ public class StoreManageFrame extends KoLFrame
 
 			itemPrice = new JTextField( "" );
 			itemLimit = new JTextField( "" );
+			itemQty = new JTextField( "" );
 
 			addButton = new JButton( JComponentUtilities.getSharedImage( "icon_success_sml.gif" ) );
 			addButton.addActionListener( new AddButtonListener() );
@@ -246,7 +247,8 @@ public class StoreManageFrame extends KoLFrame
 
 			JComponentUtilities.setComponentSize( sellingList, 280, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
-			JComponentUtilities.setComponentSize( itemLimit, 40, 20 );
+			JComponentUtilities.setComponentSize( itemLimit, 30, 20 );
+			JComponentUtilities.setComponentSize( itemQty, 30, 20 );
 			JComponentUtilities.setComponentSize( addButton, 30, 20 );
 			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
 
@@ -256,19 +258,21 @@ public class StoreManageFrame extends KoLFrame
 			corePanel.add( sellingList ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemLimit ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( itemQty ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( addButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 
-			JLabel [] label = new JLabel[4];
+			JLabel [] label = new JLabel[5];
 			label[0] = new JLabel( "Item Name", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[0], 280, 20 );
 			label[1] = new JLabel( "Price", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[1], 80, 20 );
-			label[2] = new JLabel( "Limit", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 40, 20 );
-			label[3] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 70, 20 );
+			label[2] = new JLabel( "Lim", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 30, 20 );
+			label[3] = new JLabel( "Qty", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 30, 20 );
+			label[4] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[4], 70, 20 );
 
 			JPanel labelPanel = new JPanel();
 			labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.X_AXIS ) );
 			labelPanel.add( Box.createHorizontalStrut( 10 ) );
-			for ( int i = 0; i < 4; ++i )
+			for ( int i = 0; i < 5; ++i )
 			{
 				labelPanel.add( label[i] );
 				labelPanel.add( Box.createHorizontalStrut( 10 ) );
@@ -285,6 +289,7 @@ public class StoreManageFrame extends KoLFrame
 		{
 			itemPrice.setEnabled( isEnabled );
 			itemLimit.setEnabled( isEnabled );
+			itemQty.setEnabled( isEnabled );
 			addButton.setEnabled( isEnabled );
 			searchButton.setEnabled( isEnabled );
 		}
@@ -307,6 +312,10 @@ public class StoreManageFrame extends KoLFrame
 
 						int price = getValue( itemPrice );
 						int limit = getValue( itemLimit );
+						int qty = getValue( itemQty );
+
+						if ( qty != 0 )
+							soldItem = new AdventureResult( soldItem.getItemID(), qty );
 
 						if ( price > 10 )
 							client.makeRequest( new AutoSellRequest( client, soldItem, price, limit ), 1 );
@@ -370,7 +379,7 @@ public class StoreManageFrame extends KoLFrame
 
 			JComponentUtilities.setComponentSize( itemName, 280, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
-			JComponentUtilities.setComponentSize( itemLimit, 40, 20 );
+			JComponentUtilities.setComponentSize( itemLimit, 30, 20 );
 			JComponentUtilities.setComponentSize( takeButton, 30, 20 );
 			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
 

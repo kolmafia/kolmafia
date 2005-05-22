@@ -76,7 +76,8 @@ public class AutoSellRequest extends KoLRequest
 		addFormField( "action", "additem" );
 		addFormField( "sellprice", String.valueOf( desiredPrice ) );
 		addFormField( "limit", String.valueOf( limit ) );
-		addFormField( "addtype", "addall" );
+		addFormField( "addtype", "addquantity" );
+		addFormField( "quantity", String.valueOf( itemToSell.getCount() ) );
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.limit = limit;
