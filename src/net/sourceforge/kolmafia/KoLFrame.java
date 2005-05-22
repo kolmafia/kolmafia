@@ -80,6 +80,7 @@ import javax.swing.JButton;
 import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 
 // layout
 import java.awt.Point;
@@ -100,6 +101,7 @@ import java.awt.event.WindowListener;
 import javax.swing.ListSelectionModel;
 
 // other stuff
+import java.io.File;
 import java.util.Properties;
 import java.util.List;
 import java.util.ArrayList;
@@ -349,6 +351,40 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		scriptMenu.add( loggerItem );
 		menu.add( scriptMenu );
+
+		File scriptDirectory = new File( "scripts/" );
+		if ( !scriptDirectory.exists() )
+			scriptDirectory.mkdirs();
+		else
+		{
+			int addedScriptCount = 0;
+			String currentScriptName;
+			JMenuItem currentScript;
+
+			File [] scriptList = scriptDirectory.listFiles();
+			for ( int i = 0; i < scriptList.length; ++i )
+			{
+				if ( !scriptList[i].isDirectory() )
+				{
+					if ( addedScriptCount == 0 )
+						scriptMenu.add( new JSeparator() );
+
+					try
+					{
+						currentScriptName = scriptList[i].getCanonicalPath();
+						String [] pieces = currentScriptName.split( "[\\\\/]" );
+
+						currentScript = new JMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ] );
+						currentScript.addActionListener( new LoadScriptListener( currentScriptName ) );
+						scriptMenu.add( currentScript );
+					}
+					catch ( Exception e )
+					{
+					}
+				}
+			}
+		}
+
 		return scriptMenu;
 	}
 
@@ -475,7 +511,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				if ( client != null && client.getMacroStream() instanceof NullStream )
 				{
-					JFileChooser chooser = new JFileChooser( "." );
+					JFileChooser chooser = new JFileChooser( "./scripts/" );
 					int returnVal = chooser.showSaveDialog( KoLFrame.this );
 
 					if ( chooser.getSelectedFile() == null )
@@ -531,6 +567,16 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	private class LoadScriptListener implements ActionListener
 	{
+		private String scriptPath;
+
+		public LoadScriptListener()
+		{
+		}
+
+		public LoadScriptListener( String scriptPath )
+		{	this.scriptPath = scriptPath;
+		}
+
 		public void actionPerformed( ActionEvent e )
 		{	(new LoadScriptThread()).start();
 		}
@@ -545,25 +591,27 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			public void run()
 			{
-				JFileChooser chooser = new JFileChooser( "." );
-				int returnVal = chooser.showOpenDialog( KoLFrame.this );
-
-				if ( chooser.getSelectedFile() == null )
-					return;
+				String executePath = scriptPath;
 
 				try
 				{
-					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+					if ( scriptPath == null )
 					{
-						isExecutingScript = true;
-						(new KoLmafiaCLI( client, chooser.getSelectedFile().getCanonicalPath() )).listenForCommands();
+						JFileChooser chooser = new JFileChooser( "./scripts/" );
+						int returnVal = chooser.showOpenDialog( KoLFrame.this );
+
+						if ( chooser.getSelectedFile() == null )
+							return;
+
+						if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+							executePath = chooser.getSelectedFile().getCanonicalPath();
 					}
 
-					isExecutingScript = false;
-					if ( client.permitsContinue() )
-						updateDisplay( ENABLED_STATE, "Script completed successfully." );
-					else
-						updateDisplay( ERROR_STATE, "Script <" + chooser.getSelectedFile().getName() + "> encountered an error." );
+					if ( executePath == null )
+						return;
+
+					isExecutingScript = true;
+					(new KoLmafiaCLI( client, executePath )).listenForCommands();
 				}
 				catch ( Exception e )
 				{
@@ -571,9 +619,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					// file specified could not be loaded
 
 					isExecutingScript = false;
-					updateDisplay( ERROR_STATE, "Script file <" + chooser.getSelectedFile().getName() + "> could not be found." );
+					updateDisplay( ERROR_STATE, "Script <" + executePath + "> encountered an error." );
 					return;
 				}
+
+				isExecutingScript = false;
+				if ( client.permitsContinue() )
+					updateDisplay( ENABLED_STATE, "Script completed successfully." );
+				else
+					updateDisplay( ERROR_STATE, "Script <" + executePath + "> encountered an error." );
 			}
 		}
 	}
