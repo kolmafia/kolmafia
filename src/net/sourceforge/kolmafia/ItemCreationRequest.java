@@ -119,32 +119,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// and 10 and then submitted to the server.
 
 			case MEAT_PASTE:
-			{
-				while ( quantityNeeded >= 1000 )
-				{
-					(new MeatPasteRequest( client, 1000 )).run();
-					quantityNeeded -= 1000;
-				}
-
-				if ( quantityNeeded == 100 )
-				{
-					(new MeatPasteRequest( client, 100 )).run();
-					quantityNeeded -= 100;
-				}
-
-				break;
-			}
-
-			// Requests for meat stacks are handled separately; the
-			// full request must be done one at a time (there is no
-			// way to make more than 1 meat stack at a time in KoL).
-
 			case MEAT_STACK:
 			case DENSE_STACK:
 			{
-				boolean isDense = (itemID == DENSE_STACK);
-				for ( int i = 0; i < quantityNeeded; ++i )
-					(new MeatStackRequest( client, isDense )).run();
+				(new CombineMeatRequest( client, itemID, quantityNeeded )).run();
 				break;
 			}
 
@@ -441,10 +419,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// the client will attempt to overcompensate by making more meat
 		// paste than is necessary.
 
-		if ( ingredientID == MEAT_PASTE && actualQuantityNeeded > 0 )
-			actualQuantityNeeded = actualQuantityNeeded > 1000 ? ((int) Math.ceil( actualQuantityNeeded / 1000 )) * 1000 :
-				actualQuantityNeeded > 100 ? 1000 : 100;
-
 		if ( actualQuantityNeeded > 0 )
 		{
 			// Now, if you are to retrieve an item from the closet, this is where
@@ -525,16 +499,20 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 * meat paste as is desired.
 	 */
 
-	private class MeatPasteRequest extends KoLRequest
+	private class CombineMeatRequest extends KoLRequest
 	{
+		private int costToMake;
 		private int quantityNeeded;
 
-		public MeatPasteRequest( KoLmafia client, int quantityNeeded )
+		public CombineMeatRequest( KoLmafia client, int meatType, int quantityNeeded )
 		{
 			super( client, "inventory.php" );
-			addFormField( "which", "3" );
-			addFormField( "action", ((quantityNeeded == 1) ? "meat" : String.valueOf( quantityNeeded )) + "paste" );
+			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "action", "makestuff" );
+			addFormField( "quantity", String.valueOf( quantityNeeded ) );
+			addFormField( "whichitem", String.valueOf( meatType ) );
 
+			costToMake = meatType == MEAT_PASTE ? -10 : meatType == MEAT_STACK ? -100 : -1000;
 			this.quantityNeeded = quantityNeeded;
 		}
 
@@ -548,43 +526,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			if ( isErrorState || responseCode != 200 )
 				return;
 
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -10 * quantityNeeded ) );
+			client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * quantityNeeded ) );
 			client.processResult( new AdventureResult( "meat paste", quantityNeeded ) );
-		}
-	}
-
-	/**
-	 * An internal class made to create meat stacks and dense
-	 * meat stacks.  Note that this only creates one meat stack
-	 * of the type desired; it is the job of other classes to
-	 * break up the request to create as many meat stacks as is
-	 * actually desired.
-	 */
-
-	private class MeatStackRequest extends KoLRequest
-	{
-		private boolean isDense;
-
-		public MeatStackRequest( KoLmafia client, boolean isDense )
-		{
-			super( client, "inventory.php" );
-			addFormField( "which", "3" );
-			addFormField( "action", isDense ? "densestack" : "meatstack" );
-			this.isDense = isDense;
-		}
-
-		public void run()
-		{
-			super.run();
-
-			// If an error state occurred, return from this
-			// request, since there's no content to parse
-
-			if ( isErrorState || responseCode != 200 )
-				return;
-
-			client.processResult( new AdventureResult( AdventureResult.MEAT, (isDense ? -1000 : -100) * quantityNeeded ) );
-			client.processResult( new AdventureResult( (isDense ? "dense " : "") + "meat stack", 1 ) );
 		}
 	}
 }
