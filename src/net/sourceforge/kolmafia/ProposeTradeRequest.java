@@ -45,10 +45,20 @@ public class ProposeTradeRequest extends KoLRequest
 	private String recipient, message;
 	private Object [] attachments;
 
-	public ProposeTradeRequest( KoLmafia client, String declineType, String offerID )
+	public ProposeTradeRequest( KoLmafia client )
 	{
 		super( client, "makeoffer.php" );
-		addFormField( "action", declineType );
+		attachments = new Object[0];
+	}
+
+	public ProposeTradeRequest( KoLmafia client, String action, String offerID )
+	{
+		super( client, "makeoffer.php" );
+		addFormField( "action", action );
+
+		if ( action.equals( "accept" ) )
+			addFormField( "pwd", client.getPasswordHash() );
+
 		addFormField( "whichoffer", offerID );
 		attachments = new Object[0];
 	}
@@ -104,7 +114,7 @@ public class ProposeTradeRequest extends KoLRequest
 			}
 			else
 			{
-				addFormField( "sendmeat", String.valueOf( result.getCount() ) );
+				addFormField( "offermeat", String.valueOf( result.getCount() ) );
 				attachedMeat = true;
 			}
 		}
@@ -138,9 +148,7 @@ public class ProposeTradeRequest extends KoLRequest
 			client.processResult( negatedResult );
 		}
 
-		responseText = responseText.substring( 0, responseText.indexOf( "<b>Propose" ) ).replaceAll(
-				"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[tp].*?>", "" ).replaceAll(
-				"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ).replaceAll( "<[cC]enter>.*?</center>", "" ).replaceAll(
-				"onClick=\'.*?\'", "" );
+		responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "</?[ct].*?>", "" );
+System.out.println( responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", " " ) );
 	}
 }

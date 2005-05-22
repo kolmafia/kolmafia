@@ -34,51 +34,55 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.GridLayout;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-public class RequestFrame extends KoLFrame
+public class PendingTradesFrame extends RequestFrame
 {
-	private String title;
-	protected JEditorPane display;
-	private LimitedSizeChatBuffer buffer;
-
-	public RequestFrame( KoLmafia client, String title, KoLRequest request )
-	{
-		super( title, client );
-
-		this.title = title;
-		this.display = new JEditorPane();
-		this.display.setEditable( false );
-		this.display.setText( "Retrieving..." );
-
-		JScrollPane scrollPane = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
-		getContentPane().setLayout( new GridLayout( 1, 1 ) );
-		getContentPane().add( scrollPane );
-
-		(new RequestThread( request )).start();
+	public PendingTradesFrame( KoLmafia client )
+	{	this( client, new ProposeTradeRequest( client ) );
 	}
 
-	private class RequestThread extends Thread
+	public PendingTradesFrame( KoLmafia client, ProposeTradeRequest ptr )
 	{
-		private KoLRequest request;
+		super( client, "Pending Trades", ptr );
+		display.addHyperlinkListener( new TradeLinkListener() );
+	}
 
-		public RequestThread( KoLRequest request )
-		{	this.request = request;
+	private class TradeLinkListener extends KoLHyperlinkAdapter
+	{
+		protected void handleInternalLink( String location )
+		{
+			if ( location.startsWith( "counteroffer.php" ) )
+			{
+				KoLFrame frame = new ProposeTradeFrame( client, location.substring( location.lastIndexOf( "=" ) + 1 ) );
+				frame.pack();  frame.setVisible( true );  frame.requestFocus();
+			}
+			else
+			{
+				Matcher actionMatcher = Pattern.compile( "action=(.*?)&" ).matcher( location );
+				actionMatcher.find();
+
+				(new TradeLinkThread( actionMatcher.group(1), location.substring( location.lastIndexOf( "=" ) + 1 ) )).start();
+			}
 		}
 
-		public void run()
+		private class TradeLinkThread extends Thread
 		{
-			request.run();
-			buffer = new LimitedSizeChatBuffer( title );
-			buffer.setChatDisplay( display );
-			buffer.append( request.responseText );
+			private String action, offerID;
+
+			public TradeLinkThread( String action, String offerID )
+			{
+				this.action = action;
+				this.offerID = offerID;
+			}
+
+			public void run()
+			{
+				PendingTradesFrame.this.dispose();
+				KoLFrame frame = new PendingTradesFrame( client, new ProposeTradeRequest( client, action, offerID ) );
+				frame.pack();  frame.setVisible( true );  frame.requestFocus();
+			}
 		}
 	}
 }

@@ -300,8 +300,16 @@ public class AdventureFrame extends KoLFrame
 		JMenuItem clanItem = new JMenuItem( "Manage Your Clan", KeyEvent.VK_M );
 		clanItem.addActionListener( new DisplayFrameListener( ClanManageFrame.class ) );
 
+		JMenuItem proposeItem = new JMenuItem( "Propose Trade Offer", KeyEvent.VK_P );
+		proposeItem.addActionListener( new DisplayFrameListener( ProposeTradeFrame.class ) );
+
+		JMenuItem pendingItem = new JMenuItem( "View Pending Trades", KeyEvent.VK_V );
+		pendingItem.addActionListener( new DisplayFrameListener( PendingTradesFrame.class ) );
+
 		JMenu peopleMenu = addPeopleMenu( menuBar );
 		peopleMenu.add( clanItem );
+		peopleMenu.add( proposeItem );
+		peopleMenu.add( pendingItem );
 
 		JMenuItem resetItem = new JMenuItem( "Reset Session", KeyEvent.VK_R );
 		resetItem.addActionListener( new ResetSessionListener() );
