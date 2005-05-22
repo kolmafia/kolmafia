@@ -99,6 +99,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowListener;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.event.HyperlinkEvent;
 
 // other stuff
 import java.io.File;
@@ -108,10 +110,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.SwingUtilities;
 import java.lang.reflect.Constructor;
+
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import edu.stanford.ejalbert.BrowserLauncher;
 
 /**
  * An extended <code>JFrame</code> which provides all the frames in
@@ -1226,6 +1230,54 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					mailboxDisplay.stateChanged( null );
 				}
 			}
+		}
+	}
+
+	/**
+	 * Action listener responsible for handling links clicked
+	 * inside of a <code>JEditorPane</code>.
+	 */
+
+	protected abstract class KoLHyperlinkAdapter implements HyperlinkListener
+	{
+		public void hyperlinkUpdate( HyperlinkEvent e )
+		{
+			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
+			{
+				String location = e.getDescription();
+
+				if ( !location.startsWith( "http://" ) && !location.startsWith( "https://" ) )
+				{
+					// If it's a link internal to KoL, handle the
+					// internal link.  Note that by default, this
+					// method does nothing, but descending classes
+					// can change this behavior.
+
+					handleInternalLink( location );
+				}
+				else
+				{
+					// Attempt to open the URL on the system's default
+					// browser.  This could theoretically cause problems,
+					// but for now, let's just do a try-catch and cross
+					// our fingers.
+
+					try
+					{
+						BrowserLauncher.openURL( location );
+					}
+					catch ( java.io.IOException e1 )
+					{
+						client.getLogStream().println( "Failed to open browser:" );
+						client.getLogStream().print( e1 );
+						e1.printStackTrace( client.getLogStream() );
+					}
+				}
+			}
+		}
+
+		protected void handleInternalLink( String location )
+		{
 		}
 	}
 

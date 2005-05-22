@@ -51,8 +51,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import javax.swing.SwingUtilities;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.event.HyperlinkEvent;
 
 // containers
 import javax.swing.JFrame;
@@ -72,7 +70,6 @@ import javax.swing.JRadioButtonMenuItem;
 
 // other imports
 import java.util.Calendar;
-import edu.stanford.ejalbert.BrowserLauncher;
 
 /**
  * An extension of <code>KoLFrame</code> used to display the current
@@ -385,59 +382,27 @@ public class ChatFrame extends KoLFrame
 	 * a browser if you're clicking something other than the username.
 	 */
 
-	private class ChatLinkClickedListener implements HyperlinkListener
+	private class ChatLinkClickedListener extends KoLHyperlinkAdapter
 	{
-		public void hyperlinkUpdate( HyperlinkEvent e )
+		protected void handleInternalLink( String location )
 		{
-			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
+			if ( clickOptions[0].isSelected() )
+				client.getMessenger().openInstantMessage( location );
+
+			else if ( clickOptions[1].isSelected() )
 			{
-				String location = e.getDescription();
+				GreenMessageFrame composer = new GreenMessageFrame( client, location );
+				composer.pack();  composer.setVisible( true );
+				composer.requestFocus();
+				existingFrames.add( composer );
+			}
 
-				// If it's a link to a player's profile, link to a PM to
-				// the player instead.  Granted, this is probably not
-				// good if someone copy-pastes the link directly to
-				// their profile, but it's a small bug that we can deal
-				// with (for now).
-
-				if ( !location.startsWith( "http://" ) && !location.startsWith( "https://" ) )
-				{
-					if ( clickOptions[0].isSelected() )
-						client.getMessenger().openInstantMessage( location );
-
-					else if ( clickOptions[1].isSelected() )
-					{
-						GreenMessageFrame composer = new GreenMessageFrame( client, location );
-						composer.pack();  composer.setVisible( true );
-						composer.requestFocus();
-						existingFrames.add( composer );
-					}
-
-					else if ( clickOptions[2].isSelected() )
-					{
-						ProfileFrame profile = new ProfileFrame( client, location );
-						profile.pack();  profile.setVisible( true );
-						profile.requestFocus();
-						existingFrames.add( profile );
-					}
-				}
-				else
-				{
-					// Attempt to open the URL on the system's default
-					// browser.  This could theoretically cause problems,
-					// but for now, let's just do a try-catch and cross
-					// our fingers.
-
-					try
-					{
-						BrowserLauncher.openURL( location );
-					}
-					catch ( java.io.IOException e1 )
-					{
-						client.getLogStream().println( "Failed to open browser:" );
-						client.getLogStream().print( e1 );
-						e1.printStackTrace( client.getLogStream() );
-					}
-				}
+			else if ( clickOptions[2].isSelected() )
+			{
+				ProfileFrame profile = new ProfileFrame( client, location );
+				profile.pack();  profile.setVisible( true );
+				profile.requestFocus();
+				existingFrames.add( profile );
 			}
 		}
 	}

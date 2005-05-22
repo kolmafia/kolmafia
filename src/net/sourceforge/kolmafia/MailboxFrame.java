@@ -53,8 +53,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.event.HyperlinkEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -65,7 +63,6 @@ import java.awt.event.ActionEvent;
 import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import edu.stanford.ejalbert.BrowserLauncher;
 
 /**
  * An extension of <code>KoLFrame</code> used to display the current
@@ -336,48 +333,24 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	 * a browser if you're clicking something other than the username.
 	 */
 
-	private class MailLinkClickedListener implements HyperlinkListener
+	private class MailLinkClickedListener extends KoLHyperlinkAdapter
 	{
-		public void hyperlinkUpdate( HyperlinkEvent e )
+		protected void handleInternalLink( String location )
 		{
-			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
-			{
-				String location = e.getDescription();
+			StringTokenizer tokens = new StringTokenizer( location, "?=&" );
+			tokens.nextToken();  tokens.nextToken();
+			String recipient = tokens.nextToken();
 
-				// If it's a link to an external website, attempt
-				// to open the URL on the system's default browser.
+			String quotedMessage = displayed.getMessageHTML().substring(
+				displayed.getMessageHTML().indexOf( "<br><br>" ) + 8 ).replaceAll( "<b>", " " ).replaceAll(
+					"><", "" ).replaceAll( "<.*?>", System.getProperty( "line.separator" ) );
 
-				if ( location.startsWith( "http://" ) || location.startsWith( "https://" ) )
-				{
-					try
-					{
-						BrowserLauncher.openURL( location );
-					}
-					catch ( java.io.IOException e1 )
-					{
-						client.getLogStream().println( "Failed to open browser:" );
-						client.getLogStream().print( e1 );
-						e1.printStackTrace( client.getLogStream() );
-					}
-				}
-				else
-				{
-					StringTokenizer tokens = new StringTokenizer( location, "?=&" );
-					tokens.nextToken();  tokens.nextToken();
-					String recipient = tokens.nextToken();
+			GreenMessageFrame composer = !tokens.hasMoreTokens() ? new GreenMessageFrame( client, recipient ) :
+				new GreenMessageFrame( client, recipient, quotedMessage );
 
-					String quotedMessage = displayed.getMessageHTML().substring(
-						displayed.getMessageHTML().indexOf( "<br><br>" ) + 8 ).replaceAll( "<b>", " " ).replaceAll(
-							"><", "" ).replaceAll( "<.*?>", System.getProperty( "line.separator" ) );
-
-					GreenMessageFrame composer = !tokens.hasMoreTokens() ? new GreenMessageFrame( client, recipient ) :
-						new GreenMessageFrame( client, recipient, quotedMessage );
-
-					composer.pack();  composer.setVisible( true );
-					composer.requestFocus();
-					existingFrames.add( composer );
-				}
-			}
+			composer.pack();  composer.setVisible( true );
+			composer.requestFocus();
+			existingFrames.add( composer );
 		}
 	}
 
