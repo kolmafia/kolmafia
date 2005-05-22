@@ -55,6 +55,7 @@ import java.awt.event.ActionListener;
 
 // utilities
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * An extension of <code>KoLFrame</code> used to display the character
@@ -69,8 +70,8 @@ public class GearChangeFrame extends KoLFrame
 {
 	private boolean isChanging;
 	private KoLCharacter characterData;
-	private JLabel [] equipment;
-	private JComboBox outfitSelect, familiarSelect, familiarItemSelect;
+	private JComboBox [] equipment;
+	private JComboBox outfitSelect, familiarSelect;
 	private JMenuItem gearRefresh, familiarRefresh;
 
 	/**
@@ -143,11 +144,16 @@ public class GearChangeFrame extends KoLFrame
 		if ( outfitSelect != null )
 			outfitSelect.setEnabled( isEnabled );
 
+		if ( equipment != null )
+			for ( int i = 0; i < equipment.length; ++i )
+				equipment[i].setEnabled( isEnabled );
+
+		equipment[3].setEnabled( false );
+		equipment[4].setEnabled( false );
+		equipment[5].setEnabled( false );
+
 		if ( familiarSelect != null )
 			familiarSelect.setEnabled( isEnabled );
-
-		if ( familiarItemSelect != null )
-			familiarItemSelect.setEnabled( isEnabled );
 	}
 
 	/**
@@ -180,11 +186,15 @@ public class GearChangeFrame extends KoLFrame
 
 		valuePanel.add( new JLabel( " " ) );
 
-		equipment = new JLabel[7];
-		for ( int i = 0; i < 6; ++i )
+		equipment = new JComboBox[7];
+		for ( int i = 0; i < 7; ++i )
 		{
-			equipment[i] = new JLabel( " ", JLabel.LEFT );
-			valuePanel.add( equipment[i] );
+			equipment[i] = new JComboBox();
+			equipment[i].addActionListener( new ChangeEquipmentListener( equipment[i] ) );
+			JComponentUtilities.setComponentSize( equipment[i], 240, 20 );
+
+			if ( i != 6 )
+				valuePanel.add( equipment[i] );
 		}
 
 		valuePanel.add( new JLabel( " " ) );
@@ -194,11 +204,7 @@ public class GearChangeFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( familiarSelect, 240, 20 );
 		valuePanel.add( familiarSelect );
 
-		familiarItemSelect = new JComboBox( characterData.getFamiliarItems() );
-		familiarItemSelect.addActionListener( new ChangeEquipmentListener() );
-		JComponentUtilities.setComponentSize( familiarItemSelect, 240, 20 );
-		valuePanel.add( familiarItemSelect );
-
+		valuePanel.add( equipment[6] );
 		valuePanel.add( new JLabel( " " ) );
 
 		outfitSelect = new JComboBox( characterData.getOutfits().getMirrorImage() );
@@ -217,15 +223,19 @@ public class GearChangeFrame extends KoLFrame
 	private void refreshEquipPanel()
 	{
 		isChanging = true;
-		equipment[0].setText( characterData.getHat() );
-		equipment[1].setText( characterData.getWeapon() );
-		equipment[2].setText( characterData.getPants() );
-		equipment[3].setText( characterData.getAccessory1() );
-		equipment[4].setText( characterData.getAccessory2() );
-		equipment[5].setText( characterData.getAccessory3() );
+		LockableListModel [] equipLists = characterData.getEquipmentLists();
 
-		familiarItemSelect.setModel( characterData.getFamiliarItems() );
-		familiarItemSelect.setSelectedItem( characterData.getFamiliarItem() );
+		for ( int i = 0; i < 7; ++i )
+			equipment[i].setModel( equipLists[i] );
+
+		equipment[0].setSelectedItem( characterData.getHat() );
+		equipment[1].setSelectedItem( characterData.getWeapon() );
+		equipment[2].setSelectedItem( characterData.getPants() );
+		equipment[3].setSelectedItem( characterData.getAccessory1() );
+		equipment[4].setSelectedItem( characterData.getAccessory2() );
+		equipment[5].setSelectedItem( characterData.getAccessory3() );
+		equipment[6].setSelectedItem( characterData.getFamiliarItem() );
+
 		isChanging = false;
 	}
 
@@ -261,10 +271,15 @@ public class GearChangeFrame extends KoLFrame
 	private class ChangeEquipmentListener implements ActionListener
 	{
 		private String change;
+		private JComboBox select;
+
+		public ChangeEquipmentListener( JComboBox select )
+		{	this.select = select;
+		}
 
 		public void actionPerformed( ActionEvent e )
 		{
-			change = (String) familiarItemSelect.getSelectedItem();
+			change = (String) select.getSelectedItem();
 			if ( !isChanging && change != null )
 				(new ChangeEquipmentThread()).start();
 		}

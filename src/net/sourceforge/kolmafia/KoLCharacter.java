@@ -875,16 +875,43 @@ public class KoLCharacter
 	 * by familiars.  Note this lists items which the current familiar cannot equip.
 	 */
 
-	public LockableListModel getFamiliarItems()
+	public LockableListModel [] getEquipmentLists()
+	{
+		LockableListModel [] equipmentLists = new LockableListModel[7];
+
+		equipmentLists[0] = getFilteredItems( ConsumeItemRequest.EQUIP_HAT );
+		equipmentLists[0].add( getHat() );
+
+		equipmentLists[1] = getFilteredItems( ConsumeItemRequest.EQUIP_WEAPON );
+		equipmentLists[1].add( getWeapon() );
+
+		equipmentLists[2] = getFilteredItems( ConsumeItemRequest.EQUIP_PANTS );
+		equipmentLists[2].add( getPants() );
+
+		equipmentLists[3] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
+		equipmentLists[3].add( getAccessory1() );
+
+		equipmentLists[4] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
+		equipmentLists[4].add( getAccessory2() );
+
+		equipmentLists[5] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
+		equipmentLists[5].add( getAccessory3() );
+
+		equipmentLists[6] = getFilteredItems( ConsumeItemRequest.EQUIP_FAMILIAR );
+		equipmentLists[6].add( getFamiliarItem() );
+
+		return equipmentLists;
+	}
+
+	private LockableListModel getFilteredItems( int filterID )
 	{
 		String currentItem;
 		LockableListModel items = new LockableListModel();
-		items.add( getFamiliarItem() );
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			currentItem = ((AdventureResult)inventory.get(i)).getName();
-			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == ConsumeItemRequest.EQUIP_FAMILIAR )
+			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == filterID )
 				items.add( currentItem );
 		}
 
