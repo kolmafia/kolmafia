@@ -51,12 +51,7 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
-
-import java.awt.GridLayout;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JEditorPane;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ClanManager implements KoLConstants
 {
@@ -832,49 +827,6 @@ public class ClanManager implements KoLConstants
 						"</?f.*?>", "" ).replaceAll( "</?p>", "<br><br>" );
 
 			responseText = responseText.substring( responseText.indexOf( "<b>Date" ) );
-		}
-	}
-
-	private class RequestFrame extends KoLFrame
-	{
-		private String title;
-		private JEditorPane display;
-		private LimitedSizeChatBuffer buffer;
-
-		public RequestFrame( KoLmafia client, String title, KoLRequest request )
-		{
-			super( title, client );
-
-			this.title = title;
-			this.display = new JEditorPane();
-			this.display.setEditable( false );
-			this.display.setText( "Retrieving..." );
-
-			JScrollPane scrollPane = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
-			getContentPane().setLayout( new GridLayout( 1, 1 ) );
-			getContentPane().add( scrollPane );
-
-			(new RequestThread( request )).start();
-		}
-
-		private class RequestThread extends Thread
-		{
-			private KoLRequest request;
-
-			public RequestThread( KoLRequest request )
-			{	this.request = request;
-			}
-
-			public void run()
-			{
-				request.run();
-				buffer = new LimitedSizeChatBuffer( title );
-				buffer.setChatDisplay( display );
-				buffer.append( request.responseText );
-			}
 		}
 	}
 }
