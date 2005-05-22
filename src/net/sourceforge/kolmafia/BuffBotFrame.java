@@ -117,7 +117,7 @@ public class BuffBotFrame extends KoLFrame
 
 		// Initialize the display log buffer and the file log
 		buffbotLog = client == null ? new BuffBotHome( null ) : client.getBuffBotLog();
-		
+
 		JTabbedPane tabs = new JTabbedPane();
 		mainBuff = new MainBuffPanel();
 		buffOptions = new BuffOptionsPanel();
@@ -170,89 +170,65 @@ public class BuffBotFrame extends KoLFrame
 
 	/**
 	 * Internal class used to handle everything related to
-	 * operating the buffbot. This is the <CODE>mainBuffPanel</CODE>
+	 * operating the buffbot.
 	 */
 
-	private class MainBuffPanel extends JPanel
+	private class MainBuffPanel extends LabeledScrollPanel
 	{
-		JLabel buffBotStatusLabel;
 		/**
-		 * Constructor for <CODE>MainBuffPanel</CODE>
+		 * Constructor for <code>MainBuffPanel</code>
 		 */
+
 		public MainBuffPanel()
 		{
-			setLayout( new BorderLayout() );
+			super( "BuffBot Activities", "start", "stop", new JList() );
 
-			buffBotStatusLabel = new JLabel( "BuffBot Idle", JLabel.CENTER );
-			buffbotLog.setBBStatus(buffBotStatusLabel);
-			JPanel buffBotStatusPanel = new JPanel();
-			buffBotStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-			buffBotStatusPanel.add( buffBotStatusLabel );
-			buffBotStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
-			add(buffBotStatusPanel, BorderLayout.NORTH);
-			
-			LabeledScrollPanel runPanel = new runBuffBotPanel();
-			add( runPanel, BorderLayout.CENTER );
-			
+			buffbotLog.setFrame( BuffBotFrame.this );
+			JList buffbotLogDisplay = (JList) getScrollComponent();
+			buffbotLogDisplay.setCellRenderer( BuffBotHome.getBuffMessageRenderer() );
+			if ( client != null )
+				buffbotLogDisplay.setModel( buffbotLog.getMessages() );
 		}
+
 		/**
-		 * Most of the panel is in the runnBuffBotPanel
-		 * In fact, it's everything except the status display
+		 * Action based on user pushing <b>Start</b>.
 		 */
-		private class runBuffBotPanel extends LabeledScrollPanel
+
+		protected void actionConfirmed()
+		{	(new BuffBotRequestThread()).start();
+		}
+
+		/**
+		 * Action, based on user selecting <b>Stop</b>
+		 */
+
+		protected void actionCancelled()
+		{	client.setBuffBotActive( false );
+			buffbotLog.updateStatus("BuffBot stopped by user.");
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually make the request to start the buffbot.
+		 */
+
+		private class BuffBotRequestThread extends Thread
 		{
-			/**
-			 * Constructor for <CODE>MainBuffPanel</CODE>
-			 */
-			public runBuffBotPanel()
+			public BuffBotRequestThread()
 			{
-				super( "BuffBot Activities", "start", "stop", new JList() );
-				JList buffbotLogDisplay = (JList) getScrollComponent();
-				buffbotLogDisplay.setCellRenderer( BuffBotHome.getBuffMessageRenderer() );
-				if ( client != null )
-					buffbotLogDisplay.setModel( buffbotLog.getMessages() );
+				super( "BuffBot-Request-Thread" );
+				setDaemon( true );
 			}
-			
-			/**
-			 * Action based on user pushing <b>Start</b>.
-			 */
-			
-			protected void actionConfirmed()
-			{	(new BuffBotRequestThread()).start();
-			}
-			
-			/**
-			 * Action, based on user selecting <b>Stop</b>
-			 */
-			
-			protected void actionCancelled()
-			{	client.setBuffBotActive( false );
-				buffbotLog.updateStatus("BuffBot stopped by user.");
-			}
-			
-			/**
-			 * In order to keep the user interface from freezing (or at
-			 * least appearing to freeze), this internal class is used
-			 * to actually make the request to start the buffbot.
-			 */
-			
-			private class BuffBotRequestThread extends Thread
+
+			public void run()
 			{
-				public BuffBotRequestThread()
-				{
-					super( "BuffBot-Request-Thread" );
-					setDaemon( true );
-				}
-				
-				public void run()
-				{
-					if ( client.isBuffBotActive() )
-						return;
-					
-					client.resetContinueState();
-					client.setBuffBotActive( true );
-					currentManager.runBuffBot(-1);
-				}
+				if ( client.isBuffBotActive() )
+					return;
+
+				client.resetContinueState();
+				client.setBuffBotActive( true );
+				currentManager.runBuffBot(-1);
 			}
 		}
 	}
