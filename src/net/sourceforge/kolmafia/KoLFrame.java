@@ -435,13 +435,25 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menu.add( helpMenu );
 
 		JMenuItem aboutItem = new JMenuItem( "About KoLmafia...", KeyEvent.VK_A );
-		aboutItem.addActionListener( new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{	(new LicenseDisplay( "KoLmafia: Copyright Notice", LICENSE_FILENAME, LICENSE_NAME )).requestFocus();
-			}
-		});
+		aboutItem.addActionListener( new DisplayAboutListener() );
+
+		JMenuItem homeItem = new JMenuItem( "KoLmafia Home", KeyEvent.VK_K );
+		homeItem.addActionListener( new DisplayPageListener( "http://kolmafia.sourceforge.net/" ) );
+
+		JMenuItem manualItem = new JMenuItem( "End-User Manual", KeyEvent.VK_E );
+		manualItem.addActionListener( new DisplayPageListener( "http://kolmafia.sourceforge.net/manual.html" ) );
+
+		JMenuItem sourceItem = new JMenuItem( "Sourceforge Page", KeyEvent.VK_S );
+		sourceItem.addActionListener( new DisplayPageListener( "https://sourceforge.net/project/showfiles.php?group_id=126572&package_id=138474" ) );
+
+		JMenuItem reportItem = new JMenuItem( "Read Forum Thread", KeyEvent.VK_R );
+		reportItem.addActionListener( new DisplayPageListener( "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
 
 		helpMenu.add( aboutItem );
+		helpMenu.add( homeItem );
+		helpMenu.add( manualItem );
+		helpMenu.add( sourceItem );
+		helpMenu.add( reportItem );
 		return helpMenu;
 	}
 
@@ -1229,6 +1241,36 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					mailboxDisplay = (MailboxFrame) lastCreatedFrame;
 					mailboxDisplay.stateChanged( null );
 				}
+			}
+		}
+	}
+
+	private class DisplayAboutListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new LicenseDisplay( "KoLmafia: Copyright Notice", LICENSE_FILENAME, LICENSE_NAME )).requestFocus();
+		}
+	}
+
+	private class DisplayPageListener implements ActionListener
+	{
+		private String location;
+
+		public DisplayPageListener( String location )
+		{	this.location = location;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			try
+			{
+				BrowserLauncher.openURL( location );
+			}
+			catch ( java.io.IOException e1 )
+			{
+				client.getLogStream().println( "Failed to open browser:" );
+				client.getLogStream().print( e1 );
+				e1.printStackTrace( client.getLogStream() );
 			}
 		}
 	}
