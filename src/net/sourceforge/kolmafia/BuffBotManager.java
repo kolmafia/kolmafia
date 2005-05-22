@@ -445,11 +445,13 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private boolean executeBuff( BuffBotCaster buff, KoLMailMessage message, int meatSent )
 	{
-		if ( !buff.castOnTarget( message.getSenderName() ))
+		int buffsRemaining = buff.castOnTarget( message.getSenderName() );
+		if ( buffsRemaining != 0 )
 		{
 			if ( client.permitsContinue() )
 			{
-				sendRefund( message.getSenderName(), "This buffbot has run out of the mana restoration items.  Please try again later.", meatSent );
+				sendRefund( message.getSenderName(), "This buffbot has run out of the mana restoration items.  Please try again later.",
+					(int)((double)meatSent * (((double)buffsRemaining / (double)buff.getCastCount()))) );
 
 				if ( !saveList.contains( message ) )
 					deleteList.add( message );
@@ -511,10 +513,13 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 						int castCount = housesSent * 20 / ClassSkillsDatabase.getMPConsumptionByID(
 							ClassSkillsDatabase.getSkillID( ((UseSkillRequest)skills.get(i)).getSkillName() ) );
 
-						if ( !(new BuffBotCaster( ((UseSkillRequest)skills.get(i)).getSkillName(), -housesSent, castCount, false, false )).castOnTarget( message.getSenderName() ) )
+						buff = new BuffBotCaster( ((UseSkillRequest)skills.get(i)).getSkillName(), -housesSent, castCount, false, false );
+						int buffsRemaining = buff.castOnTarget( message.getSenderName() );
+
+						if ( buffsRemaining != 0 )
 						{
 							sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  Please try again later.",
-								new AdventureResult( "tiny house", housesSent ) );
+								new AdventureResult( "tiny house", ((int)((double)housesSent * ((double)buffsRemaining / (double)buff.getCastCount()))) ) );
 
 							deleteList.add( message );
 							return true;
@@ -653,8 +658,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		public BuffBotCaster( String buffName, int price, int castCount, boolean restricted, boolean philanthropic )
 		{
-			// string may come from either the id lookup database or the skill list, so
-			//		need to be prepared for either orientation of ñ
 			this.buffID = ClassSkillsDatabase.getSkillID( buffName );
 			this.buffName = buffName;
 			this.price = price;
@@ -686,7 +689,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			this.settingString = buffID + ":" + price + ":" + castCount + ":" + restricted + ":" + philanthropic;
 		}
 
-		public boolean castOnTarget( String target )
+		public int castOnTarget( String target )
 		{
 			// Figure out how much MP the buff will take, and then identify
 			// the number of casts per request that this character can handle.
@@ -698,37 +701,42 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			double currentMP;
 			int currentCast, mpPerEvent;
 
-			if (price > 0)
+			if ( price > 0 )
 				buffbotLog.update( BuffBotHome.BUFFCOLOR, "Casting " + buffName + ", " + castCount + " times on "
 					+ target + " for " + price + " meat... " );
 			else
 				buffbotLog.update( BuffBotHome.BUFFCOLOR, "Casting " + buffName + ", " + castCount + " times on "
 					+ target + " for " + (-price) + " tiny houses... " );
+
 			while ( totalCasts > 0 )
 			{
 				currentMP = (double) characterData.getCurrentMP();
 				currentCast = Math.min( totalCasts, (int) (maximumMP / mpPerCast) );
 				mpPerEvent = (int) (mpPerCast * currentCast);
 				if ( !recoverMP( mpPerEvent ) )
-					return false;
+					return totalCasts;
 
 				(new UseSkillRequest( client, buffName, target, currentCast )).run();
-				totalCasts -= currentCast;
 
 				if ( !client.permitsContinue() )
 				{
 					buffbotLog.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buffName + " on " + target );
-					return false;
+					return totalCasts;
 				}
 
+				totalCasts -= currentCast;
 				buffbotLog.update( BuffBotHome.BUFFCOLOR, " ---> Successfully cast " + buffName + " " + currentCast + " times" );
 			}
 
-			return true;
+			return totalCasts;
 		}
 
 		public int getPrice()
 		{	return price;
+		}
+
+		public int getCastCount()
+		{	return castCount;
 		}
 
 		public String toString()
