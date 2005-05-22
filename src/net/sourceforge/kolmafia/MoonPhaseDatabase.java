@@ -68,11 +68,11 @@ public class MoonPhaseDatabase
 
 	private static final String [] STAT_EFFECT =
 	{
-		"Moxie day today.", "3 days until Mysticism.", "2 days until Mysticism.",
-		"Mysticism tomorrow.", "Mysticism day today.", "3 days until Muscle.",
-		"2 days until Muscle.", "Muscle tomorrow.", "Muscle day today.", "Muscle day today.",
-		"2 days until Mysticism.", "Mysticism tomorrow.", "Mysticism day today.",
-		"2 days until Moxie.", "Moxie tomorrow.", "Moxie day today."
+		"Moxie day today and yesterday.", "3 days until Mysticism.", "2 days until Mysticism.",
+		"Mysticism tomorrow (not today).", "Mysticism day today.", "3 days until Muscle.",
+		"2 days until Muscle.", "Muscle tomorrow.", "Muscle day today and tomorrow.", "Muscle day today and yesterday.",
+		"2 days until Mysticism.", "Mysticism tomorrow (not today).", "Mysticism day today.",
+		"2 days until Moxie.", "Moxie tomorrow (not today).", "Moxie day today and tomorrow."
 	};
 
 	/**
