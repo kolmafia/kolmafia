@@ -517,8 +517,11 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 	public void registerPlayer( String playerName, String playerID )
 	{
-		seenPlayerIDs.put( playerName.toLowerCase(), playerID );
-		seenPlayerNames.put( playerID, playerName );
+		if ( !seenPlayerIDs.containsKey( playerName.toLowerCase() ) )
+		{
+			seenPlayerIDs.put( playerName.toLowerCase(), playerID );
+			seenPlayerNames.put( playerID, playerName );
+		}
 	}
 
 	/**
