@@ -75,6 +75,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private PrintStream mirrorStream;
 	private BufferedReader commandStream;
 	private KoLmafia scriptRequestor;
+	private KoLmafiaCLI lastScript;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -111,7 +112,8 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else
 			{
-				(new KoLmafiaCLI( session, initialScript )).listenForCommands();
+				session.lastScript = new KoLmafiaCLI( session, initialScript );
+				session.lastScript.listenForCommands();
 				session.listenForCommands();
 			}
 		}
@@ -261,7 +263,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( scriptRequestor == this )
 				outputStream.print( " > " );
 
-			String line;
+			String line = null;
 			scriptRequestor.resetContinueState();
 
 			while ( (scriptRequestor.permitsContinue() || scriptRequestor == this) && (line = commandStream.readLine()) != null )
@@ -286,7 +288,11 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 			}
 
-			commandStream.close();
+			if ( line == null || line.trim().length() == 0 || !(scriptRequestor instanceof KoLmafiaCLI) )
+			{
+				commandStream.close();
+				previousCommand = null;
+			}
 		}
 		catch ( IOException e )
 		{
@@ -364,7 +370,11 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			try
 			{
-				(new KoLmafiaCLI( scriptRequestor, parameters )).listenForCommands();
+				lastScript = new KoLmafiaCLI( scriptRequestor, parameters );
+				lastScript.listenForCommands();
+				if ( lastScript.previousCommand == null )
+					lastScript = null;
+
 				return;
 			}
 			catch ( IOException e )
@@ -376,6 +386,26 @@ public class KoLmafiaCLI extends KoLmafia
 				scriptRequestor.cancelRequest();
 				return;
 			}
+		}
+
+		// Next, handle continue commands, which allow
+		// you to resume where you left off in the
+		// last executing script.
+
+		if ( command.equals( "continue" ) )
+		{
+			if ( lastScript == null )
+			{
+				scriptRequestor.updateDisplay( ERROR_STATE, "No commands left to continue script." );
+				scriptRequestor.cancelRequest();
+				return;
+			}
+
+			lastScript.listenForCommands();
+			if ( lastScript.previousCommand == null )
+				lastScript = null;
+
+			return;
 		}
 
 		// Next, handle repeat commands - these are a
