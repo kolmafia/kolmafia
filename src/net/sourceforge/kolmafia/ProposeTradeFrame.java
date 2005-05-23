@@ -166,10 +166,13 @@ public class ProposeTradeFrame extends KoLFrame
 				if ( client == null )
 					return;
 
-				ProposeTradeFrame.this.dispose();
+				ProposeTradeFrame.this.setEnabled( false );
+				if ( offerID == null )
+					(new ProposeTradeRequest( client, offerID, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
 
-				KoLFrame frame = (offerID == null) ? new PendingTradesFrame( client, new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() ) ) :
-					new PendingTradesFrame( client, new ProposeTradeRequest( client, offerID, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() ) );
+				ProposeTradeFrame.this.dispose();
+				KoLFrame frame = offerID == null ? new PendingTradesFrame( client, new ProposeTradeRequest( client ) ) :
+					new PendingTradesFrame( client, new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() ) );
 
 				frame.pack();  frame.setVisible( true );  frame.requestFocus();
 			}

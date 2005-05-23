@@ -148,7 +148,6 @@ public class ProposeTradeRequest extends KoLRequest
 			client.processResult( negatedResult );
 		}
 
-		responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll(
-			"</?[ct].*?>", "" ).replaceAll( "</b>", "</b><br>" ).replaceAll( "[Mm]eat:", "Please respond with " );
+		responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}
 }
