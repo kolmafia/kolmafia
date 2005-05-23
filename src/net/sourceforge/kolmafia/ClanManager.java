@@ -549,6 +549,10 @@ public class ClanManager implements KoLConstants
 			}
 		}
 
+		ostream.println( "<li>" + currentItem.toString() + ": " + currentCount + "</li>" );
+		if ( currentCount > maximumCount )
+			favorite = currentItem;
+
 		ostream.println( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
 	}
 
