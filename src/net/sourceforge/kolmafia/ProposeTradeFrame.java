@@ -167,7 +167,7 @@ public class ProposeTradeFrame extends KoLFrame
 					return;
 
 				ProposeTradeFrame.this.setEnabled( false );
-				if ( offerID == null )
+				if ( offerID != null )
 					(new ProposeTradeRequest( client, offerID, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
 
 				ProposeTradeFrame.this.dispose();
