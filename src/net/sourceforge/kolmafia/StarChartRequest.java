@@ -81,9 +81,7 @@ public class StarChartRequest extends KoLRequest implements Comparable
 	}
 
 	public int compareTo( Object o )
-	{
-		return o == null ? -1 :
-			this.toString().compareToIgnoreCase( o.toString() );
+	{	return o == null ? -1 : this.toString().compareToIgnoreCase( o.toString() );
 	}
 
 	public static List getPossibleCombinations( KoLmafia client )

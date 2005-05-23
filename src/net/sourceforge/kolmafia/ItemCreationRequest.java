@@ -97,9 +97,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	}
 
 	public int compareTo( Object o )
-	{
-		return o == null || !(o instanceof ItemCreationRequest) ? -1 :
-			TradeableItemDatabase.getItemName( itemID ).compareToIgnoreCase( TradeableItemDatabase.getItemName( ((ItemCreationRequest)o).itemID ) );
+	{	return o == null ? -1 : this.toString().compareToIgnoreCase( o.toString() );
 	}
 
 	/**
