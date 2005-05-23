@@ -63,11 +63,11 @@ public class ProposeTradeRequest extends KoLRequest
 		attachments = new Object[0];
 	}
 
-	public ProposeTradeRequest( KoLmafia client, String offerID, String recipient, String message, Object [] attachments )
+	public ProposeTradeRequest( KoLmafia client, int offerID, String message, Object [] attachments )
 	{
 		super( client, "counteroffer.php" );
 		addFormField( "action", "counter" );
-		addFormField( "whichoffer", offerID );
+		addFormField( "whichoffer", String.valueOf( offerID ) );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 

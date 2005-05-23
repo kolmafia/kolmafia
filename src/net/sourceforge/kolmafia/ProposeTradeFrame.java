@@ -115,9 +115,16 @@ public class ProposeTradeFrame extends KoLFrame
 			attachButton.addActionListener( new AttachItemListener() );
 			attachPanel.add( attachButton, BorderLayout.EAST );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Target:  ", recipientEntry );
-			elements[1] = new VerifiableElement( "Attach:  ", attachPanel );
+			VerifiableElement [] elements = new VerifiableElement[ offerID == null ? 2 : 1 ];
+
+
+			if ( offerID == null )
+			{
+				elements[0] = new VerifiableElement( "Target:  ", recipientEntry );
+				elements[1] = new VerifiableElement( "Offer:  ", attachPanel );
+			}
+			else
+				elements[0] = new VerifiableElement( "Counter:  ", attachPanel );
 
 			setContent( elements );
 
@@ -134,7 +141,9 @@ public class ProposeTradeFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new ProposeTradeThread()).start();
+		{
+			ProposeTradeFrame.this.setEnabled( false );
+			(new ProposeTradeThread()).start();
 		}
 
 		public void actionCancelled()
@@ -166,9 +175,8 @@ public class ProposeTradeFrame extends KoLFrame
 				if ( client == null )
 					return;
 
-				ProposeTradeFrame.this.setEnabled( false );
 				if ( offerID != null )
-					(new ProposeTradeRequest( client, offerID, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
+					(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry.getText(), attachedItems.toArray() )).run();
 
 				ProposeTradeFrame.this.dispose();
 				KoLFrame frame = offerID != null ? new PendingTradesFrame( client, new ProposeTradeRequest( client ) ) :
