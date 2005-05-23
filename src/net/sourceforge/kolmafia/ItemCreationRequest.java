@@ -202,7 +202,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// Check to make sure that the item creation
 		// did not fail.
 
-		if ( responseText.indexOf( "You don't have" ) != -1 )
+		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You're missing ingredients." );
@@ -501,6 +501,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private class CombineMeatRequest extends KoLRequest
 	{
+		private int meatType;
 		private int costToMake;
 		private int quantityNeeded;
 
@@ -512,7 +513,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			addFormField( "quantity", String.valueOf( quantityNeeded ) );
 			addFormField( "whichitem", String.valueOf( meatType ) );
 
-			costToMake = meatType == MEAT_PASTE ? -10 : meatType == MEAT_STACK ? -100 : -1000;
+			this.meatType = meatType;
+			this.costToMake = meatType == MEAT_PASTE ? -10 : meatType == MEAT_STACK ? -100 : -1000;
 			this.quantityNeeded = quantityNeeded;
 		}
 
@@ -520,14 +522,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			super.run();
 
-			// If an error state occurred, return from this
-			// request, since there's no content to parse
-
-			if ( isErrorState || responseCode != 200 )
-				return;
-
 			client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * quantityNeeded ) );
-			client.processResult( new AdventureResult( "meat paste", quantityNeeded ) );
+			client.processResult( new AdventureResult( meatType, quantityNeeded ) );
 		}
 	}
 }
