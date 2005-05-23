@@ -116,6 +116,9 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				session.lastScript = new KoLmafiaCLI( session, initialScript );
 				session.lastScript.listenForCommands();
+				if ( session.lastScript.previousCommand == null )
+					session.lastScript = null;
+
 				session.listenForCommands();
 			}
 		}
