@@ -340,7 +340,7 @@
 340	Knob Goblin steroids	3	125
 341	Knob Goblin love potion	0	85
 342	Knob Goblin stink bomb	0	65
-343	Knob Goblin sharpening spray	0	115
+343	Knob Goblin sharpening spray	4	115
 344	Knob Goblin seltzer	4	44
 345	Knob Goblin superseltzer	4	49
 346	scrumptious reagent	0	1
@@ -414,7 +414,7 @@
 414	crowbarrr	12	80
 415	leotarrrd	10	100
 416	safarrri hat	9	100
-417	henna tattoo	0	38
+417	henna tattoo	4	38
 418	arse-a'fire elixir	4	36
 419	orangish aphrodisiac	4	36
 420	grapefruit juice of powerful power	4	36
@@ -584,7 +584,7 @@
 584	spaghetti with Skullheads	1	61
 585	gnocchetti di Nietzsche	1	61
 586	ridiculously huge sword	12	155
-587	super-spikey hair gel	0	112
+587	super-spikey hair gel	4	112
 588	soft green echo eyedrop antidote	0	118
 589	cocoa eggshell fragment	1	114
 590	large cocoa eggshell fragment	1	214
@@ -615,9 +615,9 @@
 615	chaos butterfly	0	124
 616	furry fur	0	129
 617	Angry Farmer candy	0	137
-618	Mick's IcyVapoHotness Rub	0	141
+618	Mick's IcyVapoHotness Rub	4	141
 619	giant needle	12	165
-620	thin black candle	0	144
+620	thin black candle	3	144
 621	Warm Subject gift certificate	4	141
 622	awful poetry journal	0	136
 623	WA	0	152
@@ -741,7 +741,7 @@
 741	broken skull	0	15
 742	shroomkabob	1	30
 743	stuffed spooky mushroom	1	35
-744	can of hair spray	0	12
+744	can of hair spray	4	12
 745
 746	stat script	0	0
 747	Knob Goblin firecracker	0	15
@@ -1155,12 +1155,12 @@
 1155
 1156
 1157
-1158	Meleegra&trade; pills	0	0
-1159	mariachi G-string	0	0
-1160	irate sombrero	0	0
-1161	pile of candy	0	0
-1162	handsomeness potion	0	0
-1163	marzipan skull	0	0
-1164	poultrygeist	0	0
-1165	hovering sombrero	0	0
-1166	tiny maracas	0	0
+1158	Meleegra&trade; pills	4	50
+1159	mariachi G-string	0	40
+1160	irate sombrero	0	55
+1161	pile of candy	3	50
+1162	handsomeness potion	3	50
+1163	marzipan skull	3	40
+1164	poultrygeist	0	50
+1165	hovering sombrero	5	100
+1166	tiny maracas	6	70
