@@ -108,7 +108,7 @@ public class KoLMailManager
 		(new MailboxRequest( client, boxname, messages, "delete" )).run();
 
 		int messageIndex;
-		LockableListModel mailbox = (LockableListModel) mailboxes.get( "Inbox" );
+		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
 		for ( int i = 0; i < messages.length; ++i )
 		{
 			messageIndex = mailbox.indexOf( messages[i] );
