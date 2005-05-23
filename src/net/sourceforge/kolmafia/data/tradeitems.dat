@@ -633,7 +633,7 @@
 633	wolf mask	9	165
 634	cool whip	12	25
 635	little paper umbrella	12	35
-636	meat globe	0	0
+636	meat globe	3	0
 637	cheap toaster	0	0
 638	asshat	9	45
 639	abominable snowcone	1	30
@@ -743,7 +743,7 @@
 743	stuffed spooky mushroom	1	35
 744	can of hair spray	4	12
 745
-746	stat script	0	0
+746	stat script	3	0
 747	Knob Goblin firecracker	0	15
 748	gourd potion	4	0
 749
@@ -868,7 +868,7 @@
 868
 869
 870	fetus-smashing club	12	0
-871	meatcar model	0	75
+871	meatcar model	6	75
 872	Time Juice	0	0
 873	rolling pin	3	250
 874	unrolling pin	3	250
@@ -952,7 +952,7 @@
 952	spooky hockey mask	9	0
 953	penguin-smacking club	6	70
 954	orphan baby yeti	5	0
-955	fez of etymology	0	142
+955	fez of etymology	9	142
 956	carob chunk noodles	1	75
 957	chorizo brownies	1	71
 958	white chocolate and tomato pizza	1	62
@@ -960,42 +960,42 @@
 960
 961	silk garter snake	5	0
 962	velvet choker	6	70
-963	tiny plastic seal clubber	0	30
-964	tiny plastic turtle tamer	0	30
-965	tiny plastic pastamancer	0	30
-966	tiny plastic sauceror	0	30
-967	tiny plastic disco bandit	0	30
-968	tiny plastic accordion thief	0	30
-969	tiny plastic mosquito	0	30
-970	tiny plastic leprechaun	0	30
-971	tiny plastic levitating potato	0	30
-972	tiny plastic angry goat	0	30
-973	tiny plastic sabre-toothed lime	0	30
-974	tiny plastic fuzzy dice	0	30
-975	tiny plastic spooky pirate skeleton	0	30
-976	tiny plastic barrrnacle	0	30
-977	tiny plastic howling balloon monkey	0	30
-978	tiny plastic stab bat	0	30
-979	tiny plastic grue	0	30
-980	tiny plastic blood-faced volleyball	0	30
-981	tiny plastic ghuol whelp	0	30
-982	tiny plastic baby gravy fairy	0	30
-983	tiny plastic cocoabo	0	30
-984	tiny plastic star starfish	0	30
-985	tiny plastic ghost pickle on a stick	0	30
-986	tiny plastic killer bee	0	30
-987	tiny plastic Cheshire bat	0	30
-988	tiny plastic coffee pixie	0	30
-989	tiny plastic bitchin' meat car	0	30
-990	tiny plastic hermit	0	30
-991	tiny plastic Boris	0	30
-992	tiny plastic Jarlsberg	0	30
-993	tiny plastic Sneaky Pete	0	30
-994	tiny plastic Susie	0	30
+963	tiny plastic seal clubber	8	30
+964	tiny plastic turtle tamer	8	30
+965	tiny plastic pastamancer	8	30
+966	tiny plastic sauceror	8	30
+967	tiny plastic disco bandit	8	30
+968	tiny plastic accordion thief	8	30
+969	tiny plastic mosquito	8	30
+970	tiny plastic leprechaun	8	30
+971	tiny plastic levitating potato	8	30
+972	tiny plastic angry goat	8	30
+973	tiny plastic sabre-toothed lime	8	30
+974	tiny plastic fuzzy dice	8	30
+975	tiny plastic spooky pirate skeleton	8	30
+976	tiny plastic barrrnacle	8	30
+977	tiny plastic howling balloon monkey	8	30
+978	tiny plastic stab bat	8	30
+979	tiny plastic grue	8	30
+980	tiny plastic blood-faced volleyball	8	30
+981	tiny plastic ghuol whelp	8	30
+982	tiny plastic baby gravy fairy	8	30
+983	tiny plastic cocoabo	8	30
+984	tiny plastic star starfish	8	30
+985	tiny plastic ghost pickle on a stick	8	30
+986	tiny plastic killer bee	8	30
+987	tiny plastic Cheshire bat	8	30
+988	tiny plastic coffee pixie	8	30
+989	tiny plastic bitchin' meat car	8	30
+990	tiny plastic hermit	8	30
+991	tiny plastic Boris	8	30
+992	tiny plastic Jarlsberg	8	30
+993	tiny plastic Sneaky Pete	8	30
+994	tiny plastic Susie	8	30
 995	Lucky Surprise Egg	1	420
 996
 997
-998	maiden wig	0	40
+998	maiden wig	9	40
 999	maid head	0	70
 1000	Meat maid	0	220
 1001
@@ -1026,24 +1026,24 @@
 1026	Valentine	0	250
 1027	whip kit	0	50
 1028	buckler buckle	0	50
-1029	hippo whip	0	145
-1030	penguin whip	0	144
-1031	yak whip	0	141
+1029	hippo whip	12	145
+1030	penguin whip	12	144
+1031	yak whip	12	141
 1032
 1033
-1034	hippo skin buckler	0	144
-1035	penguin skin buckler	0	142
-1036	yak skin buckler	0	142
+1034	hippo skin buckler	8	144
+1035	penguin skin buckler	8	142
+1036	yak skin buckler	8	142
 1037
 1038	maraschino moxiosity potion	4	38
 1039
 1040	lucky Tam O'Shanter	6	0
 1041	green beer	2	100
-1042	string of red beads	0	75
-1043	string of blue beads	0	75
-1044	string of green beads	0	75
-1045	cheap plastic bottle opener	0	50
-1046	traffic cone	0	100
+1042	string of red beads	8	75
+1043	string of blue beads	8	75
+1044	string of green beads	8	75
+1045	cheap plastic bottle opener	12	50
+1046	traffic cone	9	100
 1047	N. O. Beer	0	0
 1048	red striped oyster egg	0	50
 1049	red polka-dot oyster egg	0	50
@@ -1077,7 +1077,7 @@
 1077	yellow polka-dot oyster egg	0	50
 1078	yellow paisley oyster egg	0	50
 1079	yellow plastic oyster egg	0	50
-1080	oyster basket	0	150
+1080	oyster basket	8	150
 1081	emo roe	5	0
 1082	gazing shoes	6	70
 1083	personal raindrop	5	0
@@ -1129,7 +1129,7 @@
 1129
 1130	blank white card	0	0
 1131	beet	0	0
-1132	Totally Gay Claymore	0	169
+1132	Totally Gay Claymore	12	169
 1133
 1134
 1135
@@ -1157,7 +1157,7 @@
 1157
 1158	Meleegra&trade; pills	4	50
 1159	mariachi G-string	0	40
-1160	irate sombrero	0	55
+1160	irate sombrero	9	55
 1161	pile of candy	3	50
 1162	handsomeness potion	3	50
 1163	marzipan skull	3	40
