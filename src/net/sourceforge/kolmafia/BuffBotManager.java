@@ -462,7 +462,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				String refundReason = "This buffbot was unable to process your request.  " +
 					UseSkillRequest.lastUpdate + "  Please try again later.";
 
-				sendRefund( message.getSenderName(), refundReason, meatSent );
+				sendRefund( message.getSenderName(), refundReason,
+                                        (int)((double)meatSent * (((double)buffsRemaining / (double)buff.getCastCount()))) );
 
 				if ( !saveList.contains( message ) )
 					deleteList.add( message );
