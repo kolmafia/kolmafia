@@ -445,13 +445,14 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private boolean executeBuff( BuffBotCaster buff, KoLMailMessage message, int meatSent )
 	{
-		int buffsRemaining = buff.castOnTarget( message.getSenderName() );
-		if ( buffsRemaining != 0 )
+		double buffPercentRemaining = buff.castOnTarget( message.getSenderName() );
+		int refundAmount = (int) ((double)meatSent * buffPercentRemaining);
+
+		if ( refundAmount != 0 )
 		{
 			if ( client.permitsContinue() )
 			{
-				sendRefund( message.getSenderName(), "This buffbot has run out of the mana restoration items.  Please try again later.",
-					(int)((double)meatSent * (((double)buffsRemaining / (double)buff.getCastCount()))) );
+				sendRefund( message.getSenderName(), "This buffbot has run out of the mana restoration items.  Please try again later.", refundAmount );
 
 				if ( !saveList.contains( message ) )
 					deleteList.add( message );
@@ -462,8 +463,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				String refundReason = "This buffbot was unable to process your request.  " +
 					UseSkillRequest.lastUpdate + "  Please try again later.";
 
-				sendRefund( message.getSenderName(), refundReason,
-                                        (int)((double)meatSent * (((double)buffsRemaining / (double)buff.getCastCount()))) );
+				sendRefund( message.getSenderName(), refundReason, refundAmount );
 
 				if ( !saveList.contains( message ) )
 					deleteList.add( message );
@@ -515,12 +515,13 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 							ClassSkillsDatabase.getSkillID( ((UseSkillRequest)skills.get(i)).getSkillName() ) );
 
 						buff = new BuffBotCaster( ((UseSkillRequest)skills.get(i)).getSkillName(), -housesSent, castCount, false, false );
-						int buffsRemaining = buff.castOnTarget( message.getSenderName() );
+						double buffPercentRemaining = buff.castOnTarget( message.getSenderName() );
+						int refundAmount = (int) ((double)housesSent * buffPercentRemaining);
 
-						if ( buffsRemaining != 0 )
+						if ( refundAmount != 0 )
 						{
 							sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  Please try again later.",
-								new AdventureResult( "tiny house", ((int)((double)housesSent * ((double)buffsRemaining / (double)buff.getCastCount()))) ) );
+								new AdventureResult( "tiny house", refundAmount ) );
 
 							deleteList.add( message );
 							return true;
@@ -690,7 +691,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			this.settingString = buffID + ":" + price + ":" + castCount + ":" + restricted + ":" + philanthropic;
 		}
 
-		public int castOnTarget( String target )
+		public double castOnTarget( String target )
 		{
 			// Figure out how much MP the buff will take, and then identify
 			// the number of casts per request that this character can handle.
@@ -715,21 +716,21 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				currentCast = Math.min( totalCasts, (int) (maximumMP / mpPerCast) );
 				mpPerEvent = (int) (mpPerCast * currentCast);
 				if ( !recoverMP( mpPerEvent ) )
-					return totalCasts;
+					return (double)totalCasts / (double)castCount;
 
 				(new UseSkillRequest( client, buffName, target, currentCast )).run();
 
 				if ( !client.permitsContinue() )
 				{
 					buffbotLog.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buffName + " on " + target );
-					return totalCasts;
+					return (double)totalCasts / (double)castCount;
 				}
 
 				totalCasts -= currentCast;
 				buffbotLog.update( BuffBotHome.BUFFCOLOR, " ---> Successfully cast " + buffName + " " + currentCast + " times" );
 			}
 
-			return totalCasts;
+			return 0.0;
 		}
 
 		public int getPrice()
