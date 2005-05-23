@@ -54,6 +54,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.DataUtilities;
+
 /**
  * The main class for the <code>KoLmafia</code> package.  This
  * class encapsulates most of the data relevant to any given
@@ -160,8 +162,7 @@ public class KoLmafiaCLI extends KoLmafia
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
 		this.scriptRequestor.resetContinueState();
 
-		InputStream inputStream = scriptLocation == null ? System.in : new FileInputStream( scriptLocation );
-
+		InputStream inputStream = scriptLocation == null ? System.in : DataUtilities.getFileInputStream( "", "", scriptLocation );
 		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : new NullStream();
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 		mirrorStream = new NullStream();
