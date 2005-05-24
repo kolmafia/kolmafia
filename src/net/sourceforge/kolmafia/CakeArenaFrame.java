@@ -98,8 +98,8 @@ public class CakeArenaFrame extends KoLFrame
 				if ( opponent == null )
 					return;
 
-				int eventID = fightOptions.getSelectedIndex();
-				if ( eventID == -1 )
+				int eventID = fightOptions.getSelectedIndex() + 1;
+				if ( eventID == 0 )
 					return;
 
 				int battleCount = battleField.getText() == null ? 0 :
