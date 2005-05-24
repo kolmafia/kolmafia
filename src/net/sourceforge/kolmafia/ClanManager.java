@@ -671,7 +671,7 @@ public class ClanManager implements KoLConstants
 	public void saveStashLog()
 	{
 		Iterator memberIterator = stashMap.keySet().iterator();
-		File file = new File( "data/clan_snapshot/stashlog.txt" );
+		File file = new File( "clan/stashlog.txt" );
 
 		try
 		{
