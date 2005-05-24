@@ -58,6 +58,7 @@ public class ClanManager implements KoLConstants
 	private String SNAPSHOT_DIRECTORY;
 
 	private KoLmafia client;
+	private String clanID;
 	private String clanName;
 	private TreeMap profileMap;
 	private TreeMap rosterMap;
@@ -80,8 +81,10 @@ public class ClanManager implements KoLConstants
 			ClanMembersRequest cmr = new ClanMembersRequest( client );
 			cmr.run();
 
-			SNAPSHOT_DIRECTORY = "clan/" + cmr.getClanID() + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
+			this.clanID = cmr.getClanID();
 			this.clanName = cmr.getClanName();
+
+			SNAPSHOT_DIRECTORY = "clan/" + clanID + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
 		}
 	}
 
@@ -437,18 +440,18 @@ public class ClanManager implements KoLConstants
 
 			ostream.println( "<table border=0 cellspacing=4 cellpadding=4><tr>" );
 			ostream.println( "<td valign=top><b>Averages</b>:" );
-			ostream.println( "<ul><li>PVP Rank: " + calculateAverage( pvpList ) + "</li>" );
-			ostream.println( "<li>Muscle: " + calculateAverage( musList ) + "</li>" );
-			ostream.println( "<li>Myst: " + calculateAverage( mysList ) + "</li>" );
-			ostream.println( "<li>Moxie: " + calculateAverage( moxList ) + "</li>" );
-			ostream.println( "<li>Power: " + calculateAverage( powerList ) + "</li>" );
-			ostream.println( "<li>Karma: " + calculateAverage( karmaList ) + "</li>" );
+			ostream.println( "<ul><li>PVP Rank: " + df.format( calculateAverage( pvpList ) ) + "</li>" );
+			ostream.println( "<li>Muscle: " + df.format( calculateAverage( musList ) ) + "</li>" );
+			ostream.println( "<li>Myst: " + df.format( calculateAverage( mysList ) ) + "</li>" );
+			ostream.println( "<li>Moxie: " + df.format( calculateAverage( moxList ) ) + "</li>" );
+			ostream.println( "<li>Power: " + df.format( calculateAverage( powerList ) ) + "</li>" );
+			ostream.println( "<li>Karma: " + df.format( calculateAverage( karmaList ) ) + "</li>" );
 			ostream.println( "</ul><b>Totals</b>:" );
-			ostream.println( "<ul><li>Muscle: " + calculateTotal( musList ) + "</li>" );
-			ostream.println( "<li>Myst: " + calculateTotal( mysList ) + "</li>" );
-			ostream.println( "<li>Moxie: " + calculateTotal( moxList ) + "</li>" );
-			ostream.println( "<li>Power: " + calculateTotal( powerList ) + "</li>" );
-			ostream.println( "<li>Karma: " + calculateTotal( karmaList ) + "</li>" );
+			ostream.println( "<ul><li>Muscle: " + df.format( calculateTotal( musList ) ) + "</li>" );
+			ostream.println( "<li>Myst: " + df.format( calculateTotal( mysList ) ) + "</li>" );
+			ostream.println( "<li>Moxie: " + df.format( calculateTotal( moxList ) ) + "</li>" );
+			ostream.println( "<li>Power: " + df.format( calculateTotal( powerList ) ) + "</li>" );
+			ostream.println( "<li>Karma: " + df.format( calculateTotal( karmaList ) ) + "</li>" );
 			ostream.println( "</ul></td>" );
 
 			ostream.println( "<td valign=top><b>Class Breakdown</b>:" );
@@ -683,7 +686,7 @@ public class ClanManager implements KoLConstants
 	public void saveStashLog()
 	{
 		Iterator memberIterator = stashMap.keySet().iterator();
-		File file = new File( "clan/stashlog.txt" );
+		File file = new File( "clan/stashlog_" + clanID + ".txt" );
 
 		try
 		{
