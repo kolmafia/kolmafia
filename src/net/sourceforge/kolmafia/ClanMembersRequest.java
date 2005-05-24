@@ -43,11 +43,13 @@ import java.util.regex.Matcher;
 public class ClanMembersRequest extends KoLRequest
 {
 	private String clanID;
+	private String clanName;
 
 	public ClanMembersRequest( KoLmafia client )
 	{
 		super( client, "showclan.php" );
 		this.clanID = "";
+		this.clanName = "";
 	}
 
 	public void run()
@@ -60,7 +62,7 @@ public class ClanMembersRequest extends KoLRequest
 		ProfileRequest clanIDLookup = new ProfileRequest( client, client.getCharacterData().getUsername() );
 		clanIDLookup.run();
 
-		Matcher clanIDMatcher = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)" ).matcher( clanIDLookup.responseText );
+		Matcher clanIDMatcher = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" ).matcher( clanIDLookup.responseText );
 		if ( !clanIDMatcher.find() )
 		{
 			updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
@@ -72,6 +74,7 @@ public class ClanMembersRequest extends KoLRequest
 		// complete list of clan members in one hit
 
 		this.clanID = clanIDMatcher.group(1);
+		this.clanName = clanIDMatcher.group(2);
 
 		addFormField( "whichclan", clanID );
 		updateDisplay( DISABLED_STATE, "Retrieving clan member list..." );
@@ -99,5 +102,9 @@ public class ClanMembersRequest extends KoLRequest
 
 	public String getClanID()
 	{	return clanID;
+	}
+
+	public String getClanName()
+	{	return clanName;
 	}
 }
