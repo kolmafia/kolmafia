@@ -709,9 +709,9 @@ public class ClanManager implements KoLConstants
 			client.updateDisplay( ENABLED_STATE, "Stash log retrieved." );
 
 			file.delete();
+			file.getParentFile().mkdirs();
 			file.createNewFile();
 
-			file.getParentFile().mkdirs();
 			PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
 			Iterator withdrawals;
 
