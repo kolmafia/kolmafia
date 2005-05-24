@@ -58,6 +58,7 @@ public class ClanManager implements KoLConstants
 	private String SNAPSHOT_DIRECTORY;
 
 	private KoLmafia client;
+	private String clanName;
 	private TreeMap profileMap;
 	private TreeMap rosterMap;
 	private TreeMap stashMap;
@@ -72,7 +73,7 @@ public class ClanManager implements KoLConstants
 		SNAPSHOT_DIRECTORY = "clan/";
 	}
 
-	public boolean initialize()
+	private void retrieveClanData()
 	{
 		if ( profileMap.isEmpty() )
 		{
@@ -80,34 +81,44 @@ public class ClanManager implements KoLConstants
 			cmr.run();
 
 			SNAPSHOT_DIRECTORY = "clan/" + cmr.getClanID() + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
+			this.clanName = cmr.getClanName();
+		}
+	}
 
+	private boolean initialize()
+	{
+		retrieveClanData();
 
-			// With the clan member list retrieved, you make sure
-			// the user wishes to spend the time to retrieve all
-			// the information related to all clan members.
+		// With the clan member list retrieved, you make sure
+		// the user wishes to spend the time to retrieve all
+		// the information related to all clan members.
 
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-				profileMap.size() + " members are currently in your clan.\nThis process should take " +
-				((int)(profileMap.size() / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
-				"Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
-					return false;
+		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+			profileMap.size() + " members are currently in your clan.\nThis process should take " +
+			((int)(profileMap.size() / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
+			"Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
+				return false;
 
-			// Now that it's known what the user wishes to continue,
-			// you begin initializing all the data.
+		// Now that it's known what the user wishes to continue,
+		// you begin initializing all the data.
 
-			client.updateDisplay( DISABLED_STATE, "Processing request..." );
+		client.updateDisplay( DISABLED_STATE, "Processing request..." );
 
-			Iterator requestIterator = profileMap.values().iterator();
-			for ( int i = 1; requestIterator.hasNext() && client.permitsContinue(); ++i )
-			{
-				client.updateDisplay( NOCHANGE, "Examining member " + i + " of " + profileMap.size() + "..." );
-				((ProfileRequest) requestIterator.next()).run();
+		Iterator requestIterator = profileMap.values().iterator();
+		ProfileRequest currentRequest;
 
-				// Manually add in a bit of lag so that it doesn't turn into
-				// hammering the server for information.
+		for ( int i = 1; requestIterator.hasNext() && client.permitsContinue(); ++i )
+		{
+			client.updateDisplay( NOCHANGE, "Examining member " + i + " of " + profileMap.size() + "..." );
 
-				KoLRequest.delay( 2000 );
-			}
+			currentRequest = (ProfileRequest) requestIterator.next();
+			if ( currentRequest.getCleanHTML().length() == 0 )
+				currentRequest.run();
+
+			// Manually add in a bit of lag so that it doesn't turn into
+			// hammering the server for information.
+
+			KoLRequest.delay( 2000 );
 		}
 
 		return true;
@@ -385,6 +396,7 @@ public class ClanManager implements KoLConstants
 			individualFile.getParentFile().mkdirs();
 			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
 			ostream.println( "<html><head><style> body, td { font-family: sans-serif; } </style></head><body>" );
+			ostream.println( "<center><h1>" + clanName + "</h1></center>" );
 
 			List classList = new ArrayList();
 			List foodList = new ArrayList();
@@ -549,7 +561,7 @@ public class ClanManager implements KoLConstants
 			}
 		}
 
-		ostream.println( "<li>" + currentItem.toString() + ": " + currentCount + "</li>" );
+		ostream.println( "<li>" + currentItem.toString() + ": " + (currentCount + 1) + "</li>" );
 		if ( currentCount > maximumCount )
 			favorite = currentItem;
 
