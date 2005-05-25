@@ -59,11 +59,20 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public MallPurchaseRequest( KoLmafia client, String storeName, String storeID, int itemID, int price )
 	{
-		super( client, "store.php" );
+		super( client, storeName.indexOf( "." ) == -1 ? "store.php" : storeID );
 
-		addFormField( "whichstore", storeID );
-		addFormField( "phash", client.getPasswordHash() );
-		addFormField( "buying", "Yep." );
+		if ( storeName.indexOf( "." ) == -1 )
+		{
+			addFormField( "whichstore", storeID );
+			addFormField( "phash", client.getPasswordHash() );
+			addFormField( "buying", "Yep." );
+		}
+		else
+		{
+			addFormField( "action", "buy" );
+			addFormField( "pwd", client.getPasswordHash() );
+		}
+
 		addFormField( "whichitem", String.valueOf( itemID ) );
 
 		this.itemName = TradeableItemDatabase.getItemName( itemID );
