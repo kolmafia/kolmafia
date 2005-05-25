@@ -90,7 +90,12 @@ public class FightRequest extends KoLRequest
 			this.action = "runaway";
 			addFormField( "action", action );
 		}
-		else if ( client.getCharacterData().getCurrentMP() < getMPCost() )
+		else if ( action.startsWith( "item" ) )
+		{
+			addFormField( "action", "useitem" );
+			addFormField( "whichitem", "536" );
+		}
+		else if ( client.getCharacterData().getCurrentMP() < 0 - getMPCost() )
 		{
 			this.action = "attack";
 			addFormField( "action", action );
@@ -185,7 +190,7 @@ public class FightRequest extends KoLRequest
 
 	private int getMPCost()
 	{
-		if ( action.equals( "attack" ) || action.equals( "runaway" ) )
+		if ( action.equals( "attack" ) || action.equals( "runaway" ) || action.startsWith( "item" ) )
 			return 0;
 
 		if ( action.equals( "moxman" ) )

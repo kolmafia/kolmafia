@@ -334,6 +334,9 @@ public class OptionsFrame extends KoLFrame
 			actions.add( "attack" );  actionNames.add( "Attack with Weapon" );
 			actions.add( "moxman" );  actionNames.add( "Moxious Maneuver" );
 
+			// Add in dictionary
+			actions.add( "item0536" );  actionNames.add( "Use a Dictionary" );
+
 			// Seal clubber skills
 			actions.add( "1003" );  actionNames.add( "SC: Thrust-Smack" );
 			actions.add( "1004" );  actionNames.add( "SC: Lunge-Smack" );
