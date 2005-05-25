@@ -47,6 +47,7 @@ public class ProfileRequest extends KoLRequest
 	private String playerID;
 	private int playerLevel;
 	private int currentMeat;
+	private int turnsPlayed;
 	private String classType;
 
 	private Date lastLogin;
@@ -106,6 +107,11 @@ public class ProfileRequest extends KoLRequest
 
 			this.currentMeat = df.parse( st.nextToken().trim() ).intValue();
 
+			while ( !st.nextToken().startsWith( "Turns" ) );
+			st.nextToken();
+
+			this.turnsPlayed = df.parse( st.nextToken().trim() ).intValue();
+
 			while ( !st.nextToken().startsWith( "Last" ) );
 			st.nextToken();
 
@@ -161,6 +167,14 @@ public class ProfileRequest extends KoLRequest
 
 	public int getPlayerLevel()
 	{	return playerLevel;
+	}
+
+	public int getCurrentMeat()
+	{	return currentMeat;
+	}
+
+	public int getTurnsPlayed()
+	{	return turnsPlayed;
 	}
 
 	public Date getLastLogin()

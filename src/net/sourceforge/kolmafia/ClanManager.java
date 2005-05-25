@@ -406,6 +406,9 @@ public class ClanManager implements KoLConstants
 			List drinkList = new ArrayList();
 			List rankList = new ArrayList();
 
+			List meatList = new ArrayList();
+			List turnsList = new ArrayList();
+
 			List pvpList = new ArrayList();
 			List musList = new ArrayList();
 			List mysList = new ArrayList();
@@ -422,8 +425,11 @@ public class ClanManager implements KoLConstants
 				classList.add( memberLookup.getClassType() );
 				foodList.add( memberLookup.getFood() );
 				drinkList.add( memberLookup.getDrink() );
-				pvpList.add( memberLookup.getPvpRank() );
 
+				meatList.add( String.valueOf( memberLookup.getCurrentMeat() ) );
+				turnsList.add( String.valueOf( memberLookup.getTurnsPlayed() ) );
+
+				pvpList.add( memberLookup.getPvpRank() );
 				rankList.add( rosterLookup.rank );
 
 				musList.add( rosterLookup.mus );
@@ -446,12 +452,16 @@ public class ClanManager implements KoLConstants
 			ostream.println( "<li>Moxie: " + df.format( calculateAverage( moxList ) ) + "</li>" );
 			ostream.println( "<li>Power: " + df.format( calculateAverage( powerList ) ) + "</li>" );
 			ostream.println( "<li>Karma: " + df.format( calculateAverage( karmaList ) ) + "</li>" );
+			ostream.println( "<li>Meat: " + df.format( calculateAverage( meatList ) ) + "</li>" );
+			ostream.println( "<li>Turns: " + df.format( calculateAverage( turnsList ) ) + "</li>" );
 			ostream.println( "</ul><b>Totals</b>:" );
 			ostream.println( "<ul><li>Muscle: " + df.format( calculateTotal( musList ) ) + "</li>" );
 			ostream.println( "<li>Myst: " + df.format( calculateTotal( mysList ) ) + "</li>" );
 			ostream.println( "<li>Moxie: " + df.format( calculateTotal( moxList ) ) + "</li>" );
 			ostream.println( "<li>Power: " + df.format( calculateTotal( powerList ) ) + "</li>" );
 			ostream.println( "<li>Karma: " + df.format( calculateTotal( karmaList ) ) + "</li>" );
+			ostream.println( "<li>Meat: " + df.format( calculateTotal( meatList ) ) + "</li>" );
+			ostream.println( "<li>Turns: " + df.format( calculateTotal( turnsList ) ) + "</li>" );
 			ostream.println( "</ul></td>" );
 
 			ostream.println( "<td valign=top><b>Class Breakdown</b>:" );
@@ -466,29 +476,63 @@ public class ClanManager implements KoLConstants
 
 			ostream.println();
 			ostream.println( "<table border=1 cellspacing=2 cellpadding=2>" );
-			ostream.print( "<tr bgcolor=\"#000000\" style=\"color:#ffffff; font-weight: bold\">" );
-			ostream.print( "<td>Name</td><td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>" );
-			ostream.print( "<td>Title</td><td>Rank</td><td>Karma</td><td>PVP</td><td>Class</td>" );
-			ostream.println( "<td>Food</td><td>Drink</td><td>Last Login</td></tr>" );
+			ostream.print( "<tr bgcolor=\"#000000\" style=\"color:#ffffff; font-weight: bold\"><td>Name</td>" );
+			ostream.print( "<td>Lv</td>" );
+			ostream.print( "<td>Mus</td>" );
+			ostream.print( "<td>Mys</td>" );
+			ostream.print( "<td>Mox</td>" );
+			ostream.print( "<td>Total</td>" );
+			ostream.print( "<td>Title</td>" );
+			ostream.print( "<td>Rank</td>" );
+			ostream.print( "<td>Karma</td>" );
+			ostream.print( "<td>PVP</td>" );
+			ostream.print( "<td>Class</td>" );
+			ostream.print( "<td>Meat</td>" );
+			ostream.print( "<td>Turns</td>" );
+			ostream.print( "<td>Food</td>" );
+			ostream.print( "<td>Drink</td>" );
+			ostream.print( "<td>Last Login</td>" );
+			ostream.println( "</tr>" );
 
 			memberIterator = profileMap.keySet().iterator();
 			for ( int i = 1; memberIterator.hasNext(); ++i )
 			{
 				currentMember = (String) memberIterator.next();
 				memberLookup = (ProfileRequest) profileMap.get( currentMember );
+				rosterLookup = (DetailRosterField) rosterMap.get( currentMember );
+
+				// No matter what happens, you need to make sure
+				// to print the player's name first.
 
 				ostream.print( "<tr><td><a href=\"profiles/" );
 				ostream.print( client.getPlayerID( currentMember ) );
 				ostream.print( ".htm\">" );
 				ostream.print( client.getPlayerName( client.getPlayerID( currentMember ) ) );
 				ostream.print( "</a></td><td>" );
+
 				ostream.print( memberLookup.getPlayerLevel() );
-				ostream.print( "</td>" );
-				ostream.print( rosterMap.get( currentMember ).toString() );
-				ostream.print( "<td>" );
+				ostream.print( "</td><td>" );
+				ostream.print( rosterLookup.mus );
+				ostream.print( "</td><td>" );
+				ostream.print( rosterLookup.mys );
+				ostream.print( "</td><td>" );
+				ostream.print( rosterLookup.mox );
+				ostream.print( "</td><td>" );
+				ostream.print( rosterLookup.power );
+				ostream.print( "</td><td>" );
+				ostream.print( rosterLookup.title );
+				ostream.print( "</td><td>" );
+				ostream.print( rosterLookup.rank );
+				ostream.print( "</td><td>" );
+				ostream.print( rosterLookup.karma );
+				ostream.print( "</td><td>" );
 				ostream.print( memberLookup.getPvpRank() );
 				ostream.print( "</td><td>" );
 				ostream.print( memberLookup.getClassType() );
+				ostream.print( "</td><td>" );
+				ostream.print( memberLookup.getCurrentMeat() );
+				ostream.print( "</td><td>" );
+				ostream.print( memberLookup.getTurnsPlayed() );
 				ostream.print( "</td><td>" );
 				ostream.print( memberLookup.getFood() );
 				ostream.print( "</td><td>" );
