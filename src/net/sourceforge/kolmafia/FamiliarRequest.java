@@ -102,6 +102,12 @@ public class FamiliarRequest extends KoLRequest
 				characterData.setFamiliarDescription( currentMatcher.group(2), Integer.parseInt( currentMatcher.group(1) ) );
 				characterData.setFamiliarItem( currentMatcher.group(3) );
 			}
+			else
+			{
+				currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?)<p>" ).matcher( responseText );
+				if ( currentMatcher.find() )
+					characterData.setFamiliarDescription( currentMatcher.group(2), Integer.parseInt( currentMatcher.group(1) ) );
+			}
 
 			updateDisplay( NOCHANGE, "Familiar data retrieved." );
 		}
