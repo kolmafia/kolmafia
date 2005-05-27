@@ -982,6 +982,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executePrintCommand( String desiredData, PrintStream outputStream )
 	{
 		outputStream.println( new Date() );
+		outputStream.println( MoonPhaseDatabase.getMoonEffect() );
 		outputStream.println();
 
 		KoLCharacter data = scriptRequestor.getCharacterData();
