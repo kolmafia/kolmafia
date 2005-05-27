@@ -128,7 +128,7 @@ public class TradeableItemDatabase
 
 	public static final int getItemID( String itemName )
 	{
-		Object itemID = itemByName.get( itemName.toLowerCase().replaceAll( "ñ", "&ntilde;" ).replaceAll( "©", "&trade;" ) );
+		Object itemID = itemByName.get( itemName.toLowerCase().replaceAll( "ñ", "&ntilde;" ).replaceAll( "\\[tm\\]", "&trade;" ) );
 		return itemID == null ? -1 : ((Integer)itemID).intValue();
 	}
 
@@ -150,7 +150,7 @@ public class TradeableItemDatabase
 	public static final String getItemName( int itemID )
 	{
 		return itemID < 0 || itemID > ITEM_COUNT ? null : itemByID[ itemID ] == null ? null :
-			itemByID[ itemID ].replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" );
+			itemByID[ itemID ].replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "[tm]" );
 	}
 
 	/**
