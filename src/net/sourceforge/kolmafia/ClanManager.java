@@ -61,14 +61,12 @@ public class ClanManager implements KoLConstants
 	private String clanID;
 	private String clanName;
 	private TreeMap profileMap;
-	private TreeMap rosterMap;
 	private TreeMap stashMap;
 
 	public ClanManager( KoLmafia client )
 	{
 		this.client = client;
 		this.profileMap = new TreeMap();
-		this.rosterMap = new TreeMap();
 		this.stashMap = new TreeMap();
 
 		SNAPSHOT_DIRECTORY = "clan/";
@@ -116,15 +114,6 @@ public class ClanManager implements KoLConstants
 			// hammering the server for information.
 
 			KoLRequest.delay( 2000 );
-		}
-
-		// Next, retrieve a detailed copy of the clan
-		// roster to complete initialization.
-
-		if ( rosterMap.isEmpty() )
-		{
-			client.updateDisplay( DISABLED_STATE, "Retrieving additional data..." );
-			(new DetailRosterRequest( client )).run();
 		}
 
 		return true;
@@ -387,18 +376,12 @@ public class ClanManager implements KoLConstants
 		client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
 		PrintStream ostream;
 
-		String currentMember;
-		ProfileRequest memberLookup;
-		DetailRosterField rosterLookup;
-
-		Iterator memberIterator = profileMap.keySet().iterator();
-
 		try
 		{
 			individualFile.getParentFile().mkdirs();
 			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
 
-			ostream.println( (new SnapshotTable()).toString() );
+			ostream.println( (new ClanSnapshotTable( client, clanID, clanName, profileMap )).toString() );
 			ostream.close();
 		}
 		catch ( Exception e )
@@ -411,7 +394,11 @@ public class ClanManager implements KoLConstants
 		// players in the snapshot so that it can be
 		// navigated at leisure.
 
-		memberIterator = profileMap.keySet().iterator();
+		String currentMember;
+		ProfileRequest memberLookup;
+
+		Iterator memberIterator = profileMap.keySet().iterator();
+
 		for ( int i = 1; memberIterator.hasNext(); ++i )
 		{
 			currentMember = (String) memberIterator.next();
@@ -436,336 +423,6 @@ public class ClanManager implements KoLConstants
 		client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
 	}
 
-	private class SnapshotTable
-	{
-		private List classList, foodList, drinkList;
-		private List rankList, powerList, karmaList;
-		private List meatList, turnsList, pvpList;
-		private List musList, mysList, moxList;
-
-		public SnapshotTable()
-		{
-			classList = new ArrayList();
-			foodList = new ArrayList();
-			drinkList = new ArrayList();
-
-			rankList = new ArrayList();
-			powerList = new ArrayList();
-			karmaList = new ArrayList();
-
-			meatList = new ArrayList();
-			turnsList = new ArrayList();
-			pvpList = new ArrayList();
-
-			musList = new ArrayList();
-			mysList = new ArrayList();
-			moxList = new ArrayList();
-
-			String currentMember;
-			ProfileRequest memberLookup;
-			DetailRosterField rosterLookup;
-			Iterator memberIterator = profileMap.keySet().iterator();
-
-			while ( memberIterator.hasNext() )
-			{
-				currentMember = (String) memberIterator.next();
-				memberLookup = (ProfileRequest) profileMap.get( currentMember );
-				rosterLookup = (DetailRosterField) rosterMap.get( currentMember );
-
-				classList.add( memberLookup.getClassType() );
-				foodList.add( memberLookup.getFood() );
-				drinkList.add( memberLookup.getDrink() );
-
-				meatList.add( String.valueOf( memberLookup.getCurrentMeat() ) );
-				turnsList.add( String.valueOf( memberLookup.getTurnsPlayed() ) );
-
-				pvpList.add( memberLookup.getPvpRank() );
-				rankList.add( rosterLookup.rank );
-
-				musList.add( rosterLookup.mus );
-				mysList.add( rosterLookup.mys );
-				moxList.add( rosterLookup.mox );
-				powerList.add( rosterLookup.power );
-				karmaList.add( rosterLookup.karma );
-			}
-
-			Collections.sort( classList );
-			Collections.sort( foodList );
-			Collections.sort( drinkList );
-			Collections.sort( rankList );
-		}
-
-		public String toString()
-		{
-			StringBuffer strbuf = new StringBuffer();
-
-			strbuf.append( "<html><head><style> body, td { font-family: sans-serif; } </style></head><body>" );
-			strbuf.append( "<center><h1>" + clanName + "</h1></center>" );
-
-			strbuf.append( getSummary() );
-			strbuf.append( "<br><br>" );
-
-			strbuf.append( "<table>" );
-			strbuf.append( getHeader() );
-
-			Iterator memberIterator = profileMap.keySet().iterator();
-			for ( int i = 1; memberIterator.hasNext(); ++i )
-				strbuf.append( getMemberDetail( (String) memberIterator.next() ) );
-
-			strbuf.append( "</table></body></html>" );
-			return strbuf.toString();
-		}
-
-		private String getSummary()
-		{
-			StringBuffer strbuf = new StringBuffer();
-
-			strbuf.append( "<table border=0 cellspacing=4 cellpadding=4><tr>" );
-			strbuf.append( "<td valign=top><b>Averages</b>:" );
-			strbuf.append( "<ul><li>PVP Rank: " + df.format( calculateAverage( pvpList ) ) + "</li>" );
-			strbuf.append( "<li>Muscle: " + df.format( calculateAverage( musList ) ) + "</li>" );
-			strbuf.append( "<li>Myst: " + df.format( calculateAverage( mysList ) ) + "</li>" );
-			strbuf.append( "<li>Moxie: " + df.format( calculateAverage( moxList ) ) + "</li>" );
-			strbuf.append( "<li>Power: " + df.format( calculateAverage( powerList ) ) + "</li>" );
-			strbuf.append( "<li>Karma: " + df.format( calculateAverage( karmaList ) ) + "</li>" );
-			strbuf.append( "<li>Meat: " + df.format( calculateAverage( meatList ) ) + "</li>" );
-			strbuf.append( "<li>Turns: " + df.format( calculateAverage( turnsList ) ) + "</li>" );
-			strbuf.append( "</ul><b>Totals</b>:" );
-			strbuf.append( "<ul><li>Muscle: " + df.format( calculateTotal( musList ) ) + "</li>" );
-			strbuf.append( "<li>Myst: " + df.format( calculateTotal( mysList ) ) + "</li>" );
-			strbuf.append( "<li>Moxie: " + df.format( calculateTotal( moxList ) ) + "</li>" );
-			strbuf.append( "<li>Power: " + df.format( calculateTotal( powerList ) ) + "</li>" );
-			strbuf.append( "<li>Karma: " + df.format( calculateTotal( karmaList ) ) + "</li>" );
-			strbuf.append( "<li>Meat: " + df.format( calculateTotal( meatList ) ) + "</li>" );
-			strbuf.append( "<li>Turns: " + df.format( calculateTotal( turnsList ) ) + "</li>" );
-			strbuf.append( "</ul></td>" );
-
-			strbuf.append( "<td valign=top><b>Class Breakdown</b>:" );
-			strbuf.append( getBreakdown( classList.iterator() ) );
-			strbuf.append( "</td><td valign=top><b>Rank Breakdown</b>:" );
-			strbuf.append( getBreakdown( rankList.iterator() ) );
-			strbuf.append( "</td><td valign=top><b>Food Breakdown</b>:" );
-			strbuf.append( getBreakdown( foodList.iterator() ) );
-			strbuf.append( "</td><td valign=top><b>Drink Breakdown</b>:" );
-			strbuf.append( getBreakdown( drinkList.iterator() ) );
-
-			strbuf.append( "</td></tr></table>" );
-
-			return strbuf.toString();
-		}
-
-		private String getBreakdown( Iterator itemIterator )
-		{
-			StringBuffer strbuf = new StringBuffer();
-
-			int maximumCount = 0;
-			int currentCount = 0;
-			Object currentItem = itemIterator.next();
-			Object favorite = currentItem;
-			Object nextItem;
-
-			strbuf.append( "<ul>" );
-
-			while ( itemIterator.hasNext() )
-			{
-				++currentCount;
-				nextItem = itemIterator.next();
-				if ( !currentItem.equals( nextItem ) )
-				{
-					strbuf.append( "<li>" + currentItem.toString() + ": " + currentCount + "</li>" );
-					if ( currentCount > maximumCount )
-					{
-						maximumCount = currentCount;
-						favorite = currentItem;
-					}
-
-					currentItem = nextItem;
-					currentCount = 0;
-				}
-			}
-
-			strbuf.append( "<li>" + currentItem.toString() + ": " + (currentCount + 1) + "</li>" );
-			if ( currentCount > maximumCount )
-				favorite = currentItem;
-
-			strbuf.append( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
-
-			return strbuf.toString();
-		}
-
-		private int calculateTotal( List values )
-		{
-			int total = 0;
-			String currentValue;
-
-			for ( int i = 0; i < values.size(); ++i )
-			{
-				currentValue = (String) values.get(i);
-				if ( !currentValue.startsWith( "&" ) )
-					total += Integer.parseInt( (String) values.get(i) );
-			}
-
-			return total;
-		}
-
-		private int calculateAverage( List values )
-		{
-			int total = 0;
-			String currentValue;
-			int actualSize = values.size();
-
-			for ( int i = 0; i < values.size(); ++i )
-			{
-				currentValue = (String) values.get(i);
-				if ( currentValue.startsWith( "&" ) )
-					--actualSize;
-				else
-					total += Integer.parseInt( (String) values.get(i) );
-			}
-
-			return actualSize == 0 ? 0 : total / actualSize;
-		}
-
-		private String getMemberDetail( String memberName )
-		{
-			ProfileRequest memberLookup = (ProfileRequest) profileMap.get( memberName );
-			DetailRosterField rosterLookup = (DetailRosterField) rosterMap.get( memberName );
-
-			StringBuffer strbuf = new StringBuffer();
-
-			// No matter what happens, you need to make sure
-			// to print the player's name first.
-
-			strbuf.append( "<tr><td><a href=\"profiles/" );
-			strbuf.append( client.getPlayerID( memberName ) );
-			strbuf.append( ".htm\">" );
-			strbuf.append( client.getPlayerName( client.getPlayerID( memberName ) ) );
-			strbuf.append( "</a></td><td>" );
-
-			// Each of these are printed, pending on what
-			// fields are desired in this particular table.
-
-			strbuf.append( memberLookup.getPlayerLevel() );
-			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.mus );
-			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.mys );
-			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.mox );
-			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.power );
-			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.title );
-			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.rank );
-			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.karma );
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getPvpRank() );
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getClassType() );
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getCurrentMeat() );
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getTurnsPlayed() );
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getFood() );
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getDrink() );
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getLastLoginAsString() );
-			strbuf.append( "</td></tr>" );
-
-			return strbuf.toString();
-		}
-
-		private String getHeader()
-		{
-			StringBuffer strbuf = new StringBuffer();
-
-			strbuf.append( "<tr bgcolor=\"#000000\" style=\"color:#ffffff; font-weight: bold\"><td>Name</td>" );
-			strbuf.append( "<td>Lv</td>" );
-			strbuf.append( "<td>Mus</td>" );
-			strbuf.append( "<td>Mys</td>" );
-			strbuf.append( "<td>Mox</td>" );
-			strbuf.append( "<td>Total</td>" );
-			strbuf.append( "<td>Title</td>" );
-			strbuf.append( "<td>Rank</td>" );
-			strbuf.append( "<td>Karma</td>" );
-			strbuf.append( "<td>PVP</td>" );
-			strbuf.append( "<td>Class</td>" );
-			strbuf.append( "<td>Meat</td>" );
-			strbuf.append( "<td>Turns</td>" );
-			strbuf.append( "<td>Food</td>" );
-			strbuf.append( "<td>Drink</td>" );
-			strbuf.append( "<td>Last Login</td>" );
-			strbuf.append( "</tr>" );
-
-			return strbuf.toString();
-		}
-	}
-
-	private class DetailRosterRequest extends KoLRequest
-	{
-		public DetailRosterRequest( KoLmafia client )
-		{	super( client, "clan_detailedroster.php" );
-		}
-
-		public void run()
-		{
-			super.run();
-
-			DetailRosterField currentMember;
-			Matcher rowMatcher = Pattern.compile( "<tr>(.*?)</tr>" ).matcher( responseText );
-
-			rowMatcher.find( 0 );
-			int lastRowIndex = rowMatcher.end();
-
-			while ( rowMatcher.find( lastRowIndex ) )
-			{
-				lastRowIndex = rowMatcher.end();
-
-				if ( !rowMatcher.group(1).equals( "<td height=4></td>" ) )
-				{
-					currentMember = new DetailRosterField( rowMatcher.group(1) );
-					rosterMap.put( currentMember.name.toLowerCase(), currentMember );
-				}
-			}
-		}
-	}
-
-	private class DetailRosterField
-	{
-		private String name;
-		private String mus, mys, mox, power;
-		private String title, rank, karma;
-
-		public DetailRosterField( String tableRow )
-		{
-			int firstCellIndex = tableRow.indexOf( "</td>" );
-			this.name = tableRow.substring( 4, firstCellIndex );
-
-			Matcher dataMatcher = Pattern.compile( "<td.*?>(.*?)</td>" ).matcher( tableRow.substring( firstCellIndex ) );
-
-			dataMatcher.find();
-			this.mus = dataMatcher.group(1);
-
-			dataMatcher.find( dataMatcher.end() );
-			this.mys = dataMatcher.group(1);
-			dataMatcher.find( dataMatcher.end() );
-			this.mox = dataMatcher.group(1);
-			dataMatcher.find( dataMatcher.end() );
-			this.power = dataMatcher.group(1);
-
-			dataMatcher.find( dataMatcher.end() );
-			this.title = dataMatcher.group(1);
-			dataMatcher.find( dataMatcher.end() );
-			this.rank = dataMatcher.group(1);
-			dataMatcher.find( dataMatcher.end() );
-			this.karma = dataMatcher.group(1);
-		}
-	}
-
 	/**
 	 * Stores all of the transactions made in the clan stash.  This loads the existing
 	 * clan stash log and updates it with all transactions made by every clan member.
@@ -775,7 +432,6 @@ public class ClanManager implements KoLConstants
 
 	public void saveStashLog()
 	{
-		Iterator memberIterator = stashMap.keySet().iterator();
 		File file = new File( "clan/stashlog_" + clanID + ".txt" );
 
 		try
@@ -817,6 +473,7 @@ public class ClanManager implements KoLConstants
 			file.getParentFile().mkdirs();
 			file.createNewFile();
 
+			Iterator memberIterator = stashMap.keySet().iterator();
 			PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
 			Iterator withdrawals;
 
