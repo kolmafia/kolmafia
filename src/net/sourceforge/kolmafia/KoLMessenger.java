@@ -52,9 +52,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class KoLMessenger implements KoLConstants
 {
-	private static final String MESSENGER_STYLE = "0";
-	private static final String TRIVIA_STYLE = "1";
-
 	private KoLmafia client;
 	private ContactListFrame contactsFrame;
 
@@ -64,6 +61,7 @@ public class KoLMessenger implements KoLConstants
 
 	private String currentChannel;
 	private boolean useTabbedFrame;
+	private boolean useTriviaStyle;
 	private TabbedChatFrame tabbedFrame;
 
 	public KoLMessenger( KoLmafia client )
@@ -204,7 +202,7 @@ public class KoLMessenger implements KoLConstants
 		else if ( chatStyle == null )
 			return (ChatBuffer) instantMessageBuffers.get( contact );
 
-		else if ( chatStyle.equals( TRIVIA_STYLE ) && !contact.startsWith( "/" ) )
+		else if ( chatStyle.equals( "1" ) && !contact.startsWith( "/" ) )
 			return (ChatBuffer) instantMessageBuffers.get( "[nsipms]" );
 
 		else
@@ -221,31 +219,27 @@ public class KoLMessenger implements KoLConstants
 		if ( contact == null )
 			return;
 
-		ChatFrame frameToRemove;
-		ChatBuffer bufferToRemove;
+		ChatFrame frameToRemove = (ChatFrame) instantMessageFrames.remove( contact );
 
-		frameToRemove = (ChatFrame) instantMessageFrames.remove( contact );
-		bufferToRemove = (ChatBuffer) instantMessageBuffers.remove( contact );
+		if ( frameToRemove == null )
+			return;
 
-		if ( frameToRemove != null )
-			frameToRemove.setVisible( false );
-
-		if ( contact.startsWith( "/" ) && currentChannel != null && !contact.equals( currentChannel ) &&
-			frameToRemove != null &&!frameToRemove.getTitle().endsWith( "(inactive)" ) )
-				(new ChatRequest( client, contact, "/listen " + contact.substring(1) )).run();
-
-		if ( frameToRemove != null )
-			frameToRemove.dispose();
-
-		if ( bufferToRemove != null )
-			bufferToRemove.closeActiveLogFile();
+		ChatBuffer bufferToRemove = (ChatBuffer) instantMessageBuffers.remove( contact );
 
 		if ( contact.equals( currentChannel ) )
 		{
-			client.deinitializeChat();
-			currentChannel = null;
 			(new ChatRequest( client, currentChannel, "/exit" )).run();
+			currentChannel = null;
+			client.deinitializeChat();
+			return;
 		}
+
+		frameToRemove.setVisible( false );
+		frameToRemove.dispose();
+		bufferToRemove.closeActiveLogFile();
+
+		if ( currentChannel != null && contact.startsWith( "/" ) && !frameToRemove.getTitle().endsWith( "(inactive)" ) )
+			(new ChatRequest( client, contact, "/listen " + contact.substring(1) )).run();
 	}
 
 	/**
@@ -363,7 +357,7 @@ public class KoLMessenger implements KoLConstants
 		// that this requires several lines - this just shows you how far
 		// behind the default HTML handler is compared to a web browser.
 
-		String orderedTagsContent = originalContent.replaceAll( "<br>&nbsp;&nbsp;", "" ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
+		String orderedTagsContent = originalContent.replaceAll( "<br>&nbsp;&nbsp;", " " ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
 			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "<b><font color=.*?>", "<b>" ).replaceAll(
 				"</font></b>", "</b></font>" ).replaceAll( "</b></font></a>", "</b></a>" ).replaceAll( "</?br></b>", "</b><br>" ).replaceAll(
 					"</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" ).replaceAll( "</b></a>", "</a></b>" );
@@ -874,19 +868,8 @@ public class KoLMessenger implements KoLConstants
 	public void openInstantMessage( String characterName )
 	{
 		String chatStyle = client.getSettings().getProperty( "chatStyle" );
-		String windowName;
-
-		if ( characterName == null )
-			windowName = currentChannel;
-
-		else if ( chatStyle == null )
-			windowName = characterName;
-
-		else if ( chatStyle.equals( TRIVIA_STYLE ) && !characterName.startsWith( "/" ) )
-			windowName = "[nsipms]";
-
-		else
-			windowName = characterName;
+		String windowName = characterName == null ? currentChannel :
+			chatStyle != null && chatStyle.equals( "1" ) && !characterName.startsWith( "/" ) ? "[nsipms]" : characterName;
 
 
 		// If the window exists, don't open another one as it
