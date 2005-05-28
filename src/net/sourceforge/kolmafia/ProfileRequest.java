@@ -52,7 +52,10 @@ public class ProfileRequest extends KoLRequest
 
 	private Date lastLogin;
 	private String food, drink;
-	private String pvpRank, title;
+	private String pvpRank;
+
+	private String muscle, mysticism, moxie;
+	private String title, rank, karma;
 
 	public ProfileRequest( KoLmafia client, String playerName )
 	{
@@ -62,6 +65,11 @@ public class ProfileRequest extends KoLRequest
 		this.cleanHTML = "";
 		this.playerName = playerName;
 		this.playerID = client.getPlayerID( playerName );
+
+		this.muscle = "0";
+		this.mysticism = "0";
+		this.moxie = "0";
+		this.karma = "0";
 	}
 
 	public void run()
@@ -195,5 +203,57 @@ public class ProfileRequest extends KoLRequest
 
 	public String getPvpRank()
 	{	return pvpRank;
+	}
+
+	public void setMuscle( String muscle )
+	{	this.muscle = muscle;
+	}
+
+	public String getMuscle()
+	{	return muscle;
+	}
+
+	public void setMysticism( String mysticism )
+	{	this.mysticism = mysticism;
+	}
+
+	public String getMysticism()
+	{	return mysticism;
+	}
+
+	public void setMoxie( String moxie )
+	{	this.moxie = moxie;
+	}
+
+	public String getMoxie()
+	{	return moxie;
+	}
+
+	public String getPower()
+	{	return String.valueOf( Integer.parseInt( muscle ) + Integer.parseInt( mysticism ) + Integer.parseInt( moxie ) );
+	}
+
+	public void setTitle( String title )
+	{	this.title = title;
+	}
+
+	public String getTitle()
+	{	return title;
+	}
+
+	public void setRank( String rank )
+	{	this.rank = rank;
+	}
+
+	public String getRank()
+	{	return rank;
+	}
+
+	public void setKarma( String karma )
+	{	this.karma = karma;
+	}
+
+	public String getKarma()
+	{	return karma;
 	}
 }

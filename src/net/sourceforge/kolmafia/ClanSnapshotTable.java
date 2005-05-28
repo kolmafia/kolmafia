@@ -48,7 +48,6 @@ public class ClanSnapshotTable implements KoLConstants
 	private String clanID;
 	private String clanName;
 	private TreeMap profileMap;
-	private TreeMap rosterMap;
 
 	public ClanSnapshotTable( KoLmafia client, String clanID, String clanName, TreeMap profileMap )
 	{
@@ -59,8 +58,6 @@ public class ClanSnapshotTable implements KoLConstants
 		this.clanID = clanID;
 		this.clanName = clanName;
 		this.profileMap = profileMap;
-
-		rosterMap = new TreeMap();
 
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
@@ -115,14 +112,12 @@ public class ClanSnapshotTable implements KoLConstants
 
 		String currentMember;
 		ProfileRequest memberLookup;
-		DetailRosterField rosterLookup;
 		Iterator memberIterator = profileMap.keySet().iterator();
 
 		while ( memberIterator.hasNext() )
 		{
 			currentMember = (String) memberIterator.next();
 			memberLookup = (ProfileRequest) profileMap.get( currentMember );
-			rosterLookup = (DetailRosterField) rosterMap.get( currentMember );
 
 			classList.add( memberLookup.getClassType() );
 			foodList.add( memberLookup.getFood() );
@@ -132,13 +127,13 @@ public class ClanSnapshotTable implements KoLConstants
 			turnsList.add( String.valueOf( memberLookup.getTurnsPlayed() ) );
 
 			pvpList.add( memberLookup.getPvpRank() );
-			rankList.add( rosterLookup.rank );
+			rankList.add( memberLookup.getRank() );
 
-			musList.add( rosterLookup.mus );
-			mysList.add( rosterLookup.mys );
-			moxList.add( rosterLookup.mox );
-			powerList.add( rosterLookup.power );
-			karmaList.add( rosterLookup.karma );
+			musList.add( memberLookup.getMuscle() );
+			mysList.add( memberLookup.getMysticism() );
+			moxList.add( memberLookup.getMoxie() );
+			powerList.add( memberLookup.getPower() );
+			karmaList.add( memberLookup.getKarma() );
 		}
 
 		Collections.sort( classList );
@@ -255,8 +250,6 @@ public class ClanSnapshotTable implements KoLConstants
 	private String getMemberDetail( String memberName )
 	{
 		ProfileRequest memberLookup = (ProfileRequest) profileMap.get( memberName );
-		DetailRosterField rosterLookup = (DetailRosterField) rosterMap.get( memberName );
-
 		StringBuffer strbuf = new StringBuffer();
 
 		// No matter what happens, you need to make sure
@@ -282,43 +275,43 @@ public class ClanSnapshotTable implements KoLConstants
 		if ( header.indexOf( "<td>Mus</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.mus );
+			strbuf.append( memberLookup.getMuscle() );
 		}
 
 		if ( header.indexOf( "<td>Mys</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.mys );
+			strbuf.append( memberLookup.getMysticism() );
 		}
 
 		if ( header.indexOf( "<td>Mox</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.mox );
+			strbuf.append( memberLookup.getMoxie() );
 		}
 
 		if ( header.indexOf( "<td>Total</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.power );
+			strbuf.append( memberLookup.getPower() );
 		}
 
 		if ( header.indexOf( "<td>Title</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.title );
+			strbuf.append( memberLookup.getTitle() );
 		}
 
 		if ( header.indexOf( "<td>Rank</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.rank );
+			strbuf.append( memberLookup.getRank() );
 		}
 
 		if ( header.indexOf( "<td>Karma</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( rosterLookup.karma );
+			strbuf.append( memberLookup.getKarma() );
 		}
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
@@ -383,54 +376,47 @@ public class ClanSnapshotTable implements KoLConstants
 		{
 			super.run();
 
-			DetailRosterField currentMember;
 			Matcher rowMatcher = Pattern.compile( "<tr>(.*?)</tr>" ).matcher( responseText );
-
 			rowMatcher.find( 0 );
-			int lastRowIndex = rowMatcher.end();
 
+			String currentRow;
+			String currentName;
+			int firstCellIndex;
+			Matcher dataMatcher;
+			ProfileRequest currentRequest;
+
+			Pattern cellPattern = Pattern.compile( "<td.*?>(.*?)</td>" );
+
+			int lastRowIndex = rowMatcher.end();
 			while ( rowMatcher.find( lastRowIndex ) )
 			{
 				lastRowIndex = rowMatcher.end();
+				currentRow = rowMatcher.group(1);
 
-				if ( !rowMatcher.group(1).equals( "<td height=4></td>" ) )
+				if ( !currentRow.equals( "<td height=4></td>" ) )
 				{
-					currentMember = new DetailRosterField( rowMatcher.group(1) );
-					rosterMap.put( currentMember.name.toLowerCase(), currentMember );
+					firstCellIndex = currentRow.indexOf( "</td>" );
+					currentName = currentRow.substring( 4, firstCellIndex );
+					currentRequest = (ProfileRequest) profileMap.get( currentName );
+
+					dataMatcher = cellPattern.matcher( currentRow.substring( firstCellIndex ) );
+
+					dataMatcher.find();
+					currentRequest.setMuscle( dataMatcher.group(1) );
+					dataMatcher.find( dataMatcher.end() );
+					currentRequest.setMysticism( dataMatcher.group(1) );
+					dataMatcher.find( dataMatcher.end() );
+					currentRequest.setMoxie( dataMatcher.group(1) );
+
+					dataMatcher.find();
+					dataMatcher.find( dataMatcher.end() );
+					currentRequest.setTitle( dataMatcher.group(1) );
+					dataMatcher.find( dataMatcher.end() );
+					currentRequest.setRank( dataMatcher.group(1) );
+					dataMatcher.find( dataMatcher.end() );
+					currentRequest.setKarma( dataMatcher.group(1) );
 				}
 			}
-		}
-	}
-
-	private class DetailRosterField
-	{
-		private String name;
-		private String mus, mys, mox, power;
-		private String title, rank, karma;
-
-		public DetailRosterField( String tableRow )
-		{
-			int firstCellIndex = tableRow.indexOf( "</td>" );
-			this.name = tableRow.substring( 4, firstCellIndex );
-
-			Matcher dataMatcher = Pattern.compile( "<td.*?>(.*?)</td>" ).matcher( tableRow.substring( firstCellIndex ) );
-
-			dataMatcher.find();
-			this.mus = dataMatcher.group(1);
-
-			dataMatcher.find( dataMatcher.end() );
-			this.mys = dataMatcher.group(1);
-			dataMatcher.find( dataMatcher.end() );
-			this.mox = dataMatcher.group(1);
-			dataMatcher.find( dataMatcher.end() );
-			this.power = dataMatcher.group(1);
-
-			dataMatcher.find( dataMatcher.end() );
-			this.title = dataMatcher.group(1);
-			dataMatcher.find( dataMatcher.end() );
-			this.rank = dataMatcher.group(1);
-			dataMatcher.find( dataMatcher.end() );
-			this.karma = dataMatcher.group(1);
 		}
 	}
 }
