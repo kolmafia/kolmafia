@@ -42,12 +42,18 @@ import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import net.java.dev.spellcast.utilities.PanelList;
+import net.java.dev.spellcast.utilities.PanelListCell;
+import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 public class ClanSnapshotTable implements KoLConstants
 {
 	private KoLmafia client;
 	private String clanID;
 	private String clanName;
 	private TreeMap profileMap;
+	private LockableListModel rankList;
 
 	public ClanSnapshotTable( KoLmafia client, String clanID, String clanName, TreeMap profileMap )
 	{
@@ -58,11 +64,13 @@ public class ClanSnapshotTable implements KoLConstants
 		this.clanID = clanID;
 		this.clanName = clanName;
 		this.profileMap = profileMap;
+		this.rankList = new LockableListModel();
 
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
 
 		(new DetailRosterRequest( client )).run();
+		(new RankListRequest( client )).run();
 	}
 
 	public String toString()
@@ -417,6 +425,60 @@ public class ClanSnapshotTable implements KoLConstants
 					currentRequest.setKarma( dataMatcher.group(1) );
 				}
 			}
+		}
+	}
+
+	private class RankListRequest extends KoLRequest
+	{
+		public RankListRequest( KoLmafia client )
+		{	super( client, "clan_members.php" );
+		}
+
+		public void run()
+		{
+			updateDisplay( DISABLED_STATE, "Retrieving list of ranks..." );
+			super.run();
+
+			rankList.clear();
+			Matcher ranklistMatcher = Pattern.compile( "<select.*?</select>" ).matcher( responseText );
+
+			if ( ranklistMatcher.find() )
+			{
+				Matcher rankMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( ranklistMatcher.group(1) );
+				int lastMatchIndex = 0;
+
+				while ( rankMatcher.find( lastMatchIndex ) )
+				{
+					lastMatchIndex = rankMatcher.end();
+					rankList.add( rankMatcher.group(1) );
+				}
+			}
+		}
+	}
+
+	private class ClanMemberPanelList extends PanelList
+	{
+		public ClanMemberPanelList( LockableListModel profileList )
+		{	super( 12, 520, 25, profileList );
+		}
+
+		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
+		{
+			ClanMemberPanel toConstruct = new ClanMemberPanel( (ProfileRequest) value );
+			toConstruct.updateDisplay( this, value, index );
+			return toConstruct;
+		}
+	}
+
+	private class ClanMemberPanel extends PanelListCell
+	{
+		public ClanMemberPanel( ProfileRequest value )
+		{
+		}
+
+		public synchronized void updateDisplay( PanelList list, Object value, int index )
+		{
+			ProfileRequest pr = (ProfileRequest) value;
 		}
 	}
 }
