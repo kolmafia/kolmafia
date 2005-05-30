@@ -137,15 +137,15 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		fileMenu.setMnemonic( KeyEvent.VK_O );
 		menuBar.add( fileMenu );
 
-		JMenuItem refreshItem1 = new JMenuItem( "Refresh Inbox", KeyEvent.VK_I );
+		JMenuItem refreshItem1 = new JMenuItem( "Refresh Inbox" );
 		refreshItem1.addActionListener( new BoxRefreshListener( "Inbox" ) );
 		fileMenu.add( refreshItem1 );
 
-		JMenuItem refreshItem2 = new JMenuItem( "Refresh Outbox", KeyEvent.VK_O );
+		JMenuItem refreshItem2 = new JMenuItem( "Refresh Outbox" );
 		refreshItem2.addActionListener( new BoxRefreshListener( "Outbox" ) );
 		fileMenu.add( refreshItem2 );
 
-		JMenuItem refreshItem3 = new JMenuItem( "Refresh Saved", KeyEvent.VK_S );
+		JMenuItem refreshItem3 = new JMenuItem( "Refresh Saved" );
 		refreshItem3.addActionListener( new BoxRefreshListener( "Saved" ) );
 		fileMenu.add( refreshItem3 );
 
