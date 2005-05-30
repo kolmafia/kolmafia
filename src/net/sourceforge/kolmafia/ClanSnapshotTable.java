@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.Date;
 
 import net.java.dev.spellcast.utilities.PanelList;
 import net.java.dev.spellcast.utilities.PanelListCell;
@@ -49,11 +50,28 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ClanSnapshotTable implements KoLConstants
 {
+	public static final int EXACT_MATCH = 0;
+	public static final int BELOW_MATCH = -1;
+	public static final int ABOVE_MATCH = 1;
+
+	public static final int LV_FILTER = 1;
+	public static final int MUS_FILTER = 2;
+	public static final int MYS_FILTER = 3;
+	public static final int MOX_FILTER = 4;
+	public static final int POWER_FILTER = 5;
+	public static final int CLASS_FILTER = 6;
+	public static final int RANK_FILTER = 7;
+	public static final int KARMA_FILTER = 8;
+	public static final int MEAT_FILTER = 9;
+	public static final int TURN_FILTER = 10;
+	public static final int LOGIN_FILTER = 11;
+
 	private KoLmafia client;
 	private String clanID;
 	private String clanName;
 	private TreeMap profileMap;
 	private LockableListModel rankList;
+	private LockableListModel filterList;
 
 	public ClanSnapshotTable( KoLmafia client, String clanID, String clanName, TreeMap profileMap )
 	{
@@ -65,12 +83,100 @@ public class ClanSnapshotTable implements KoLConstants
 		this.clanName = clanName;
 		this.profileMap = profileMap;
 		this.rankList = new LockableListModel();
+		this.filterList = new LockableListModel();
 
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
 
 		(new DetailRosterRequest( client )).run();
 		(new RankListRequest( client )).run();
+	}
+
+	public PanelList getFilteredDisplay()
+	{	return new ClanMemberPanelList( filterList.getMirrorImage() );
+	}
+
+	public void applyFliter( int matchType, int filterType, Object filter )
+	{
+		filterList.clear();
+		filterList.addAll( profileMap.values() );
+
+		// This is where the filter gets applied, but for
+		// now, filtering isn't implemented so just return
+		// the entire list of members.
+
+		ProfileRequest [] profileArray = new ProfileRequest[ filterList.size() ];
+		filterList.toArray( profileArray );
+
+		int compareValue = 0;
+		try
+		{
+			for ( int i = profileArray.length - 1; i >= 0; --i )
+			{
+				switch ( filterType )
+				{
+					case LV_FILTER:
+						compareValue = profileArray[i].getPlayerLevel() - df.parse( (String) filter ).intValue();
+						break;
+
+					case MUS_FILTER:
+						compareValue = Integer.parseInt( profileArray[i].getMuscle() ) - df.parse( (String) filter ).intValue();
+						break;
+
+					case MYS_FILTER:
+						compareValue = Integer.parseInt( profileArray[i].getMysticism() ) - df.parse( (String) filter ).intValue();
+						break;
+
+					case MOX_FILTER:
+						compareValue = Integer.parseInt( profileArray[i].getMoxie() ) - df.parse( (String) filter ).intValue();
+						break;
+
+					case POWER_FILTER:
+						compareValue = Integer.parseInt( profileArray[i].getPower() ) - df.parse( (String) filter ).intValue();
+						break;
+
+					case CLASS_FILTER:
+						compareValue = profileArray[i].getClassType().compareToIgnoreCase( (String) filter );
+						break;
+
+					case RANK_FILTER:
+						compareValue = profileArray[i].getRank().compareToIgnoreCase( (String) filter );
+						break;
+
+					case KARMA_FILTER:
+						compareValue = Integer.parseInt( profileArray[i].getKarma() ) - df.parse( (String) filter ).intValue();
+						break;
+
+					case MEAT_FILTER:
+						compareValue = profileArray[i].getCurrentMeat() - df.parse( (String) filter ).intValue();
+						break;
+
+					case TURN_FILTER:
+						compareValue = profileArray[i].getTurnsPlayed() - df.parse( (String) filter ).intValue();
+						break;
+
+					case LOGIN_FILTER:
+						compareValue = profileArray[i].getLastLogin().after( (Date) filter ) ? 1 :
+							 profileArray[i].getLastLogin().before( (Date) filter ) ? -1 : 0;
+						break;
+				}
+
+				compareValue = compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
+
+				// If the comparison value does not match the match
+				// type desired, remove the element from the list
+
+				if ( compareValue != matchType )
+					filterList.remove( i );
+			}
+		}
+		catch ( Exception e )
+		{
+			// An exception shouldn't occur during the parsing
+			// process, unless the user did not enter a valid
+			// numeric string.  In this case, nothing is added,
+			// which is exactly what's wanted.
+		}
 	}
 
 	public String toString()
