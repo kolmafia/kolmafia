@@ -186,7 +186,19 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// Auto-create chef or bartender if one doesn't
 		// exist and the user has opted to repair.
 
-		autoRepairBoxServant();
+		if ( !autoRepairBoxServant() )
+		{
+			updateDisplay( ERROR_STATE, "Box servant explosion!" );
+			client.cancelRequest();
+			return;
+		}
+
+		// If the request has been cancelled midway, be
+		// sure to return from here.
+
+		if ( !client.permitsContinue() )
+			return;
+
 		updateDisplay( DISABLED_STATE, "Creating " + toString() + "..." );
 
 		super.run();
@@ -264,18 +276,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				if ( responseText.indexOf( "Smoke" ) != -1 )
 				{
 					client.getCharacterData().setChef( false );
-
-					if ( autoRepairBoxServant() )
-					{
-						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
-						return;
-					}
-					else
-					{
-						updateDisplay( ERROR_STATE, "Chef explosion!" );
-						client.cancelRequest();
-						return;
-					}
+					(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
+					return;
 				}
 				else if ( client.permitsContinue() )
 				{
@@ -290,18 +292,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				if ( responseText.indexOf( "Smoke" ) != -1 )
 				{
 					client.getCharacterData().setBartender( false );
-
-					if ( autoRepairBoxServant() )
-					{
-						(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
-						return;
-					}
-					else
-					{
-						updateDisplay( ERROR_STATE, "Bartender explosion!" );
-						client.cancelRequest();
-						return;
-					}
+					(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
+					return;
 				}
 				else if ( client.permitsContinue() )
 				{
@@ -322,7 +314,28 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private boolean autoRepairBoxServant()
 	{
+		switch ( mixingMethod )
+		{
+			case COOK:
+			case COOK_REAGENT:
+			case COOK_PASTA:
+
+				if ( client.getCharacterData().hasChef() )
+					return true;
+				break;
+
+			case MIX:
+			case MIX_SPECIAL:
+
+				if ( client.getCharacterData().hasBartender() )
+					return true;
+
+			default:
+				return true;
+		}
+
 		// Check to see if the player wants to autorepair
+
 		String autoRepairBoxesSetting = client.getSettings().getProperty( "autoRepairBoxes" );
 		if ( autoRepairBoxesSetting == null || autoRepairBoxesSetting.equals( "false" ) )
 			return false;
@@ -336,12 +349,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_REAGENT:
 			case COOK_PASTA:
 
-				return client.getCharacterData().hasChef() || useBoxServant( CHEF );
+				return useBoxServant( CHEF );
 
 			case MIX:
 			case MIX_SPECIAL:
 
-				return client.getCharacterData().hasBartender() || useBoxServant( BARTENDER );
+				return useBoxServant( BARTENDER );
 		}
 
 		return false;
