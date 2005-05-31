@@ -154,7 +154,7 @@ public class OptionsFrame extends KoLFrame
 		this.client = client;
 		contentPanel = null;
 
-		JPanel [] panels = new JPanel[6];
+		JPanel [] panels = new JPanel[7];
 		String [] names = new String[ panels.length ];
 
 		for ( int i = 0; i < panels.length; ++i )
@@ -180,9 +180,12 @@ public class OptionsFrame extends KoLFrame
 		panels[4].add( new ChatOptionsPanel() );
 		panels[4].add( new GreenOptionsPanel() );
 
-		names[5] = "Items";
-		panels[5].add( new MallOptionsPanel() );
-		panels[5].add( new CreationOptionsPanel() );
+		names[5] = "Snaps";
+		panels[5].add( new SnapshotOptionsPanel() );
+
+		names[6] = "Items";
+		panels[6].add( new MallOptionsPanel() );
+		panels[6].add( new CreationOptionsPanel() );
 
 		JScrollPane currentTab;
 		for ( int i = 0; i < panels.length; ++i )
@@ -979,7 +982,7 @@ public class OptionsFrame extends KoLFrame
 			{
 				String tableHeaderSetting = settings.getProperty( "clanRosterHeader" );
 
-				if ( tableHeaderSetting != null )
+				if ( tableHeaderSetting == null )
 					tableHeaderSetting = ClanSnapshotTable.getDefaultHeader();
 
 				for ( int i = 0; i < optionKeys.length; ++i )
