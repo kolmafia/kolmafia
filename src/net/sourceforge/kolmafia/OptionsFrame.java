@@ -99,6 +99,7 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JColorChooser;
 import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
 
 // utilities
 import java.util.Properties;
@@ -150,18 +151,46 @@ public class OptionsFrame extends KoLFrame
 
 		JTabbedPane tabs = new JTabbedPane();
 
-		// Because none of the frames support setStatusMessage,
-		// the content panel is arbitrary
-
 		this.client = client;
 		contentPanel = null;
 
-		tabs.addTab( "Login", new LoginOptionsPanel() );
-		tabs.addTab( "Proxy", new ProxyOptionsPanel() );
-		tabs.addTab( "Battle", new BattleOptionsPanel() );
-		tabs.addTab( "Mall", new ResultsOptionsPanel() );
-		tabs.addTab( "Sewer", new SewerOptionsPanel() );
-		tabs.addTab( "Chat", new ChatOptionsPanel() );
+		JPanel [] panels = new JPanel[6];
+		String [] names = new String[ panels.length ];
+
+		for ( int i = 0; i < panels.length; ++i )
+		{
+			panels[i] = new JPanel();
+			panels[i].setLayout( new BoxLayout( panels[i], BoxLayout.Y_AXIS ) );
+		}
+
+		names[0] = "Login";
+		panels[0].add( new ServerSelectPanel() );
+		panels[0].add( new LoginOptionsPanel() );
+
+		names[1] = "Proxy";
+		panels[1].add( new ProxyOptionsPanel() );
+
+		names[2] = "Combat";
+		panels[2].add( new BattleOptionsPanel() );
+
+		names[3] = "Choices";
+		panels[3].add( new SewerOptionsPanel() );
+
+		names[4] = "Chat";
+		panels[4].add( new ChatOptionsPanel() );
+
+		names[5] = "Misc";
+		panels[5].add( new MallOptionsPanel() );
+		panels[5].add( new CreationOptionsPanel() );
+
+		JScrollPane currentTab;
+		for ( int i = 0; i < panels.length; ++i )
+		{
+			currentTab = new JScrollPane( panels[i], JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JComponentUtilities.setComponentSize( currentTab, 480, 320 );
+			tabs.addTab( names[i], currentTab );
+		}
+
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		addWindowListener( new ReturnFocusAdapter() );
@@ -184,33 +213,15 @@ public class OptionsFrame extends KoLFrame
 		addHelpMenu( menuBar );
 	}
 
-	/**
-	 * This panel handles all of the things related to login
-	 * options, including which server to use for login and
-	 * all other requests, as well as the user's proxy settings
-	 * (if applicable).
-	 */
-
-	private class LoginOptionsPanel extends OptionsPanel
+	private class ServerSelectPanel extends OptionsPanel
 	{
 		private static final int SERVER_COUNT = 3;
-
 		private JRadioButton [] servers;
-		private JCheckBox [] optionBoxes;
-		private JCheckBox sortAdventuresBox;
-		private final String [] optionKeys = { "skipInventory", "skipFamiliars" };
-		private final String [] optionNames = { "Skip inventory retrieval", "Skip familiar retrieval" };
 
-		/**
-		 * Constructs a new <code>LoginOptionsPanel</code>, containing a
-		 * place for the users to select their desired server and for them
-		 * to modify any applicable proxy settings.
-		 */
-
-		public LoginOptionsPanel()
+		public ServerSelectPanel()
 		{
-			super( new Dimension( 200, 16 ), new Dimension( 20, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ 3 + SERVER_COUNT + optionNames.length ];
+			super( "Server Select", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ SERVER_COUNT + 1 ];
 
 			servers = new JRadioButton[ SERVER_COUNT + 1 ];
 			ButtonGroup serverGroup = new ButtonGroup();
@@ -223,18 +234,6 @@ public class OptionsFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Auto-detect login server", JLabel.LEFT, servers[0] );
 			for ( int i = 1; i <= SERVER_COUNT; ++i )
 				elements[i] = new VerifiableElement( "Use login server " + i, JLabel.LEFT, servers[i] );
-
-			optionBoxes = new JCheckBox[ optionNames.length ];
-			for ( int i = 0; i < optionNames.length; ++i )
-				optionBoxes[i] = new JCheckBox();
-
-			elements[ SERVER_COUNT + 1 ] = new VerifiableElement( " ", new JPanel() );
-
-			for ( int i = 0; i < optionNames.length; ++i )
-				elements[i + 2 + SERVER_COUNT ] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
-
-			sortAdventuresBox = new JCheckBox();
-			elements[ elements.length - 1 ] = new VerifiableElement( "Sort adventure list by name", JLabel.LEFT, sortAdventuresBox );
 
 			setContent( elements, false );
 			(new LoadDefaultSettingsThread()).run();
@@ -258,15 +257,6 @@ public class OptionsFrame extends KoLFrame
 					System.setProperty( "loginServer", "0" );
 
 				servers[ Integer.parseInt( settings.getProperty( "loginServer" ) ) ].setSelected( true );
-
-				for ( int i = 0; i < optionKeys.length; ++i )
-					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null &&
-						settings.getProperty( optionKeys[i] ).equals( "true" ) );
-
-				sortAdventuresBox.setSelected( settings.getProperty( "sortAdventures" ) != null &&
-					settings.getProperty( "sortAdventures" ).equals( "true" ) );
-
-				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
 		}
 
@@ -280,23 +270,85 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				// Next, change the server that's used to login;
-				// find out the selected index.
-
 				for ( int i = 0; i < 4; ++i )
 					if ( servers[i].isSelected() )
 						settings.setProperty( "loginServer", String.valueOf( i ) );
 
+				saveSettings();
+				KoLRequest.applySettings();
+			}
+		}
+	}
+
+	/**
+	 * This panel handles all of the things related to login
+	 * options, including which server to use for login and
+	 * all other requests, as well as the user's proxy settings
+	 * (if applicable).
+	 */
+
+	private class LoginOptionsPanel extends OptionsPanel
+	{
+		private JCheckBox [] optionBoxes;
+		private final String [] optionKeys = { "skipInventory", "skipFamiliars", "sortAdventures" };
+		private final String [] optionNames = { "Skip inventory retrieval", "Skip familiar retrieval", "Sort adventure list by name" };
+
+		/**
+		 * Constructs a new <code>LoginOptionsPanel</code>, containing a
+		 * place for the users to select their desired server and for them
+		 * to modify any applicable proxy settings.
+		 */
+
+		public LoginOptionsPanel()
+		{
+			super( "Startup Activities", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
+
+			optionBoxes = new JCheckBox[ optionNames.length ];
+			for ( int i = 0; i < optionNames.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			for ( int i = 0; i < optionNames.length; ++i )
+				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
+			(new LoadDefaultSettingsThread()).run();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
+		private class LoadDefaultSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				for ( int i = 0; i < optionKeys.length; ++i )
+					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null &&
+						settings.getProperty( optionKeys[i] ).equals( "true" ) );
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
+
+		private class StoreSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
 				for ( int i = 0; i < optionKeys.length; ++i )
 					settings.setProperty( optionKeys[i], String.valueOf( optionBoxes[i].isSelected() ) );
 
-				settings.setProperty( "sortAdventures", String.valueOf( sortAdventuresBox.isSelected() ) );
-
-				// Save the settings that were just set; that way,
-				// the next login can use them.
-
 				saveSettings();
-				KoLRequest.applySettings();
 			}
 		}
 	}
@@ -328,6 +380,8 @@ public class OptionsFrame extends KoLFrame
 
 		public BattleOptionsPanel()
 		{
+			super( "Combat Options" );
+
 			actions = new LockableListModel();
 			actionNames = new LockableListModel();
 
@@ -347,8 +401,8 @@ public class OptionsFrame extends KoLFrame
 			actions.add( "2005" );  actionNames.add( "TT: Spectral Snapper" );
 
 			// Pastamancer skills
-			actions.add( "3003" );  actionNames.add( "PM: Minor Ray of Something" );
-			actions.add( "3005" );  actionNames.add( "PM: eXtreme Ray of Something" );
+			actions.add( "3003" );  actionNames.add( "PM: Minor Ray" );
+			actions.add( "3005" );  actionNames.add( "PM: eXtreme Ray" );
 			actions.add( "3007" );  actionNames.add( "PM: Cone of Whatever" );
 			actions.add( "3008" );  actionNames.add( "PM: Weapon of the Pastalord" );
 
@@ -463,8 +517,6 @@ public class OptionsFrame extends KoLFrame
 				mpAutoRecoverSelect.setSelectedIndex( mpAutoRecoverSettings == null ? 0 :
 					(int)(Double.parseDouble( mpAutoRecoverSettings ) * 10) + 1 );
 				mpRecoveryScriptField.setText( mpRecoveryScriptSettings == null ? "" : mpRecoveryScriptSettings );
-
-				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
 		}
 
@@ -550,7 +602,7 @@ public class OptionsFrame extends KoLFrame
 
 		public SewerOptionsPanel()
 		{
-			super( new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
+			super( "Lucky Sewer Settings", new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
 			items = new JCheckBox[ itemnames.length ];
 			for ( int i = 0; i < items.length; ++i )
 				items[i] = new JCheckBox();
@@ -596,8 +648,6 @@ public class OptionsFrame extends KoLFrame
 
 				while ( st.hasMoreTokens() )
 					items[ Integer.parseInt( st.nextToken() ) - 1 ].setSelected( true );
-
-				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
 		}
 
@@ -657,6 +707,8 @@ public class OptionsFrame extends KoLFrame
 
 		public ChatOptionsPanel()
 		{
+			super( "LoathingChat Preferences" );
+
 			LockableListModel fontSizes = new LockableListModel();
 			for ( int i = 1; i <= 7; ++i )
 				fontSizes.add( new Integer( i ) );
@@ -677,7 +729,7 @@ public class OptionsFrame extends KoLFrame
 			JScrollPane scrollArea = new JScrollPane( colorPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
+			JComponentUtilities.setComponentSize( scrollArea, 200, 100 );
 
 			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
@@ -814,15 +866,14 @@ public class OptionsFrame extends KoLFrame
 	 * default mall limiting, mall sorting and sending items to the mall.
 	 */
 
-	private class ResultsOptionsPanel extends OptionsPanel
+	private class MallOptionsPanel extends OptionsPanel
 	{
 		private JTextField defaultLimitField;
 		private JComboBox forceSortSelect;
-		private JComboBox useClosetForCreationSelect;
-		private JComboBox autoRepairBoxesSelect;
 
-		public ResultsOptionsPanel()
+		public MallOptionsPanel()
 		{
+			super( "Mall Configuration" );
 			defaultLimitField = new JTextField( "13" );
 
 			LockableListModel forceSorting = new LockableListModel();
@@ -831,23 +882,9 @@ public class OptionsFrame extends KoLFrame
 
 			forceSortSelect = new JComboBox( forceSorting );
 
-			LockableListModel useClosetForCreation = new LockableListModel();
-			useClosetForCreation.add( "Inventory only" );
-			useClosetForCreation.add( "Closet and inventory" );
-
-			useClosetForCreationSelect = new JComboBox( useClosetForCreation );
-
-			LockableListModel autoRepairBoxes = new LockableListModel();
-			autoRepairBoxes.add( "Halt on explosion" );
-			autoRepairBoxes.add( "Auto-repair on explosion" );
-
-			autoRepairBoxesSelect = new JComboBox( autoRepairBoxes );
-
-			VerifiableElement [] elements = new VerifiableElement[4];
+			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Default Limit: ", defaultLimitField );
-			elements[1] = new VerifiableElement( "Sorting Style: ", forceSortSelect );
-			elements[2] = new VerifiableElement( "Ingredient Source: ", useClosetForCreationSelect );
-			elements[3] = new VerifiableElement( "Auto-Repair: ", autoRepairBoxesSelect );
+			elements[1] = new VerifiableElement( "Force Sorting: ", forceSortSelect );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -869,8 +906,6 @@ public class OptionsFrame extends KoLFrame
 			{
 				String defaultLimitSetting = settings.getProperty( "defaultLimit" );
 				String forceSortSetting = settings.getProperty( "forceSorting" );
-				String useClosetForCreationSetting = settings.getProperty( "useClosetForCreation" );
-				String autoRepairBoxesSetting = settings.getProperty( "autoRepairBoxes" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
@@ -881,18 +916,6 @@ public class OptionsFrame extends KoLFrame
 					forceSortSelect.setSelectedIndex( 0 );
 				else
 					forceSortSelect.setSelectedIndex( 1 );
-
- 				if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) )
-					useClosetForCreationSelect.setSelectedIndex( 0 );
-				else
-					useClosetForCreationSelect.setSelectedIndex( 1 );
-
-				if ( autoRepairBoxesSetting == null || autoRepairBoxesSetting.equals( "false" ) )
-					autoRepairBoxesSelect.setSelectedIndex( 0 );
-				else
-					autoRepairBoxesSelect.setSelectedIndex( 1 );
-
-				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
 		}
 
@@ -908,6 +931,88 @@ public class OptionsFrame extends KoLFrame
 			{
 				settings.setProperty( "defaultLimit", defaultLimitField.getText().length() == 0 ? "13" : defaultLimitField.getText() );
 				settings.setProperty( "forceSorting", String.valueOf( forceSortSelect.getSelectedIndex() == 1 ) );
+				saveSettings();
+			}
+		}
+	}
+
+	/**
+	 * An internal class used for handling item creation options.  This includes
+	 * whether or not the closet is used as an ingredient source and whether
+	 * or not the box servant will be repaired on explosion.
+	 */
+
+	private class CreationOptionsPanel extends OptionsPanel
+	{
+		private JComboBox useClosetForCreationSelect;
+		private JComboBox autoRepairBoxesSelect;
+
+		public CreationOptionsPanel()
+		{
+			super( "Item Creation Handling" );
+
+			LockableListModel useClosetForCreation = new LockableListModel();
+			useClosetForCreation.add( "Inventory as only source" );
+			useClosetForCreation.add( "Use closet and inventory" );
+
+			useClosetForCreationSelect = new JComboBox( useClosetForCreation );
+
+			LockableListModel autoRepairBoxes = new LockableListModel();
+			autoRepairBoxes.add( "Halt creation on explosion" );
+			autoRepairBoxes.add( "Auto-repair on explosion" );
+
+			autoRepairBoxesSelect = new JComboBox( autoRepairBoxes );
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Ingredients: ", useClosetForCreationSelect );
+			elements[1] = new VerifiableElement( "Auto-Repair: ", autoRepairBoxesSelect );
+
+			setContent( elements );
+			(new LoadDefaultSettingsThread()).start();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
+		private class LoadDefaultSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				String useClosetForCreationSetting = settings.getProperty( "useClosetForCreation" );
+				String autoRepairBoxesSetting = settings.getProperty( "autoRepairBoxes" );
+
+				// If there are no default settings, simply skip the
+				// attempt at loading them.
+
+ 				if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) )
+					useClosetForCreationSelect.setSelectedIndex( 0 );
+				else
+					useClosetForCreationSelect.setSelectedIndex( 1 );
+
+				if ( autoRepairBoxesSetting == null || autoRepairBoxesSetting.equals( "false" ) )
+					autoRepairBoxesSelect.setSelectedIndex( 0 );
+				else
+					autoRepairBoxesSelect.setSelectedIndex( 1 );
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
+
+		private class StoreSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
 				settings.setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationSelect.getSelectedIndex() == 1 ) );
 				settings.setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesSelect.getSelectedIndex() == 1 ) );
 				saveSettings();
@@ -935,6 +1040,8 @@ public class OptionsFrame extends KoLFrame
 
 		public ProxyOptionsPanel()
 		{
+			super( "Proxy Configuration" );
+
 			proxyHost = new JTextField();
 			proxyPort = new JTextField();
 			proxyLogin = new JTextField();
@@ -981,8 +1088,6 @@ public class OptionsFrame extends KoLFrame
 					proxyLogin.setText( "" );
 					proxyPassword.setText( "" );
 				}
-
-				setStatusMessage( ENABLED_STATE, "" );
 			}
 		}
 
@@ -1043,7 +1148,11 @@ public class OptionsFrame extends KoLFrame
 		protected Properties settings;
 
 		public OptionsPanel()
-		{	this( new Dimension( 120, 20 ), new Dimension( 240, 20 ) );
+		{	this( new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
+		}
+
+		public OptionsPanel( String panelTitle )
+		{	this( panelTitle, new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
 		}
 
 		public OptionsPanel( Dimension left, Dimension right )
@@ -1054,6 +1163,10 @@ public class OptionsFrame extends KoLFrame
 		{
 			super( panelTitle, left, right );
 			settings = (client == null) ? System.getProperties() : client.getSettings();
+		}
+
+		public void setStatusMessage( int displayState, String message )
+		{	JOptionPane.showMessageDialog( null, message );
 		}
 
 		protected void saveSettings()
@@ -1074,8 +1187,6 @@ public class OptionsFrame extends KoLFrame
 			catch ( InterruptedException e )
 			{
 			}
-
-			setStatusMessage( ENABLED_STATE, "" );
 		}
 
 		protected abstract class OptionsThread extends Thread
@@ -1113,9 +1224,9 @@ public class OptionsFrame extends KoLFrame
 
 			add( colorSelect, BorderLayout.WEST );
 
-			playerIDField = new JTextField( "[######]" );
+			playerIDField = new JTextField( " [ enter player id ]" );
 			add( playerIDField, BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( this, 200, 20 );
+			JComponentUtilities.setComponentSize( this, 160, 20 );
 		}
 
 		public PlayerColorPanel( String label )
@@ -1136,7 +1247,7 @@ public class OptionsFrame extends KoLFrame
 
 			playerIDField = new JLabel( label, JLabel.LEFT );
 			add( playerIDField, BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( this, 200, 20 );
+			JComponentUtilities.setComponentSize( this, 160, 20 );
 		}
 
 		/**
