@@ -62,6 +62,22 @@ public class StoreManager implements KoLConstants
 	}
 
 	/**
+	 * Returns the current price of the item with the given
+	 * item ID.  This is useful for auto-adding at the
+	 * existing price.
+	 */
+
+	public int getPrice( int itemID )
+	{
+		int currentPrice = 999999999;
+		for ( int i = 0; i < soldItemList.size(); ++i )
+			if ( ((SoldItem)soldItemList.get(i)).getItemID() == itemID )
+				currentPrice = ((SoldItem)soldItemList.get(i)).getPrice();
+
+		return currentPrice;
+	}
+
+	/**
 	 * Returns a list of the items which are handled by
 	 * the current store manager.  Note that this list
 	 * may or may not be up-to-date.

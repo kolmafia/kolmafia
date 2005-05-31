@@ -310,12 +310,11 @@ public class StoreManageFrame extends KoLFrame
 						if ( soldItem == null )
 							return;
 
-						int price = getValue( itemPrice );
+						int price = getValue( itemPrice, client.getStoreManager().getPrice( soldItem.getItemID() ) );
 						int limit = getValue( itemLimit );
-						int qty = getValue( itemQty );
+						int qty = getValue( itemQty, soldItem.getCount() );
 
-						if ( qty != 0 )
-							soldItem = new AdventureResult( soldItem.getItemID(), qty );
+						soldItem = new AdventureResult( soldItem.getItemID(), qty );
 
 						if ( price > 10 )
 							client.makeRequest( new AutoSellRequest( client, soldItem, price, limit ), 1 );
