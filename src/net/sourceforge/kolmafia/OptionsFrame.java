@@ -173,13 +173,14 @@ public class OptionsFrame extends KoLFrame
 		names[2] = "Combat";
 		panels[2].add( new BattleOptionsPanel() );
 
-		names[3] = "Choices";
+		names[3] = "Choice";
 		panels[3].add( new SewerOptionsPanel() );
 
-		names[4] = "Chat";
+		names[4] = "People";
 		panels[4].add( new ChatOptionsPanel() );
+		panels[4].add( new GreenOptionsPanel() );
 
-		names[5] = "Misc";
+		names[5] = "Items";
 		panels[5].add( new MallOptionsPanel() );
 		panels[5].add( new CreationOptionsPanel() );
 
@@ -862,6 +863,70 @@ public class OptionsFrame extends KoLFrame
 	}
 
 	/**
+	 * An internal class used for handling green messaging options.  This
+	 * includes whether or not you save outgoing messages.
+	 */
+
+	private class GreenOptionsPanel extends OptionsPanel
+	{
+		private JCheckBox saveOutgoingCheckBox;
+		private JCheckBox closeSendingCheckBox;
+
+		public GreenOptionsPanel()
+		{
+			super( "Green Message Handling", new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
+
+			saveOutgoingCheckBox = new JCheckBox();
+			closeSendingCheckBox = new JCheckBox();
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Save outgoing messages", JLabel.LEFT, saveOutgoingCheckBox );
+			elements[1] = new VerifiableElement( "Close green composer after successful sending", JLabel.LEFT, saveOutgoingCheckBox );
+
+			setContent( elements, false );
+			(new LoadDefaultSettingsThread()).start();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
+		private class LoadDefaultSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				String saveOutgoingSetting = settings.getProperty( "saveOutgoing" );
+				String closeSendingSetting = settings.getProperty( "closeSending" );
+
+				saveOutgoingCheckBox.setSelected( saveOutgoingSetting == null || saveOutgoingSetting.equals( "true" ) );
+				closeSendingCheckBox.setSelected( closeSendingSetting != null && closeSendingSetting.equals( "true" ) );
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
+
+		private class StoreSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				settings.setProperty( "saveOutgoing", String.valueOf( saveOutgoingCheckBox.isSelected() ) );
+				settings.setProperty( "closeSending", String.valueOf( closeSendingCheckBox.isSelected() ) );
+				saveSettings();
+			}
+		}
+	}
+
+	/**
 	 * An internal class used for handling mall options.  This includes
 	 * default mall limiting, mall sorting and sending items to the mall.
 	 */
@@ -944,30 +1009,21 @@ public class OptionsFrame extends KoLFrame
 
 	private class CreationOptionsPanel extends OptionsPanel
 	{
-		private JComboBox useClosetForCreationSelect;
-		private JComboBox autoRepairBoxesSelect;
+		private JCheckBox useClosetForCreationCheckBox;
+		private JCheckBox autoRepairBoxesCheckBox;
 
 		public CreationOptionsPanel()
 		{
-			super( "Item Creation Handling" );
+			super( "Item Creation Handling", new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
 
-			LockableListModel useClosetForCreation = new LockableListModel();
-			useClosetForCreation.add( "Inventory as only source" );
-			useClosetForCreation.add( "Use closet and inventory" );
-
-			useClosetForCreationSelect = new JComboBox( useClosetForCreation );
-
-			LockableListModel autoRepairBoxes = new LockableListModel();
-			autoRepairBoxes.add( "Halt creation on explosion" );
-			autoRepairBoxes.add( "Auto-repair on explosion" );
-
-			autoRepairBoxesSelect = new JComboBox( autoRepairBoxes );
+			useClosetForCreationCheckBox = new JCheckBox();
+			autoRepairBoxesCheckBox = new JCheckBox();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Ingredients: ", useClosetForCreationSelect );
-			elements[1] = new VerifiableElement( "Auto-Repair: ", autoRepairBoxesSelect );
+			elements[0] = new VerifiableElement( "Use closet as ingredient source", JLabel.LEFT, useClosetForCreationCheckBox );
+			elements[1] = new VerifiableElement( "Auto-repair box servants on explosion ", JLabel.LEFT, autoRepairBoxesCheckBox );
 
-			setContent( elements );
+			setContent( elements, false );
 			(new LoadDefaultSettingsThread()).start();
 		}
 
@@ -991,15 +1047,8 @@ public class OptionsFrame extends KoLFrame
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
 
- 				if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) )
-					useClosetForCreationSelect.setSelectedIndex( 0 );
-				else
-					useClosetForCreationSelect.setSelectedIndex( 1 );
-
-				if ( autoRepairBoxesSetting == null || autoRepairBoxesSetting.equals( "false" ) )
-					autoRepairBoxesSelect.setSelectedIndex( 0 );
-				else
-					autoRepairBoxesSelect.setSelectedIndex( 1 );
+				useClosetForCreationCheckBox.setSelected( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) );
+				autoRepairBoxesCheckBox.setSelected( autoRepairBoxesSetting != null && autoRepairBoxesSetting.equals( "true" ) );
 			}
 		}
 
@@ -1013,8 +1062,8 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				settings.setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationSelect.getSelectedIndex() == 1 ) );
-				settings.setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesSelect.getSelectedIndex() == 1 ) );
+				settings.setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationCheckBox.isSelected() ) );
+				settings.setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesCheckBox.isSelected() ) );
 				saveSettings();
 			}
 		}

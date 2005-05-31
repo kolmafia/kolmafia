@@ -172,8 +172,16 @@ public class GreenMessageFrame extends KoLFrame
 				GreenMessagePanel.this.setEnabled( false );
 				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
 				GreenMessagePanel.this.setEnabled( true );
-				client.updateDisplay( ENABLED_STATE,  client.permitsContinue() ? "Message sent to " + recipientEntry.getText() :
-					"Failed to send message to " + recipientEntry.getText() );
+
+				if ( client.permitsContinue() )
+				{
+					client.updateDisplay( ENABLED_STATE, "Message sent to " + recipientEntry.getText() );
+					String closeWindowSetting = client.getSettings().getProperty( "closeSending" );
+					if ( closeWindowSetting != null && closeWindowSetting.equals( "true" ) )
+						GreenMessageFrame.this.dispose();
+				}
+				else
+					client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipientEntry.getText() );
 
 			}
 		}
