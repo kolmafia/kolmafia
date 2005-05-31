@@ -169,40 +169,64 @@ public class ProfileRequest extends KoLRequest
 	{	return playerID;
 	}
 
+	private void initialize()
+	{
+		if ( cleanHTML.equals( "" ) )
+			this.run();
+	}
+
 	public String getClassType()
-	{	return classType;
+	{
+		initialize();
+		return classType;
 	}
 
 	public int getPlayerLevel()
-	{	return playerLevel;
+	{
+		initialize();
+		return playerLevel;
 	}
 
 	public int getCurrentMeat()
-	{	return currentMeat;
+	{
+		initialize();
+		return currentMeat;
 	}
 
 	public int getTurnsPlayed()
-	{	return turnsPlayed;
+	{
+		initialize();
+		return turnsPlayed;
 	}
 
 	public Date getLastLogin()
-	{	return lastLogin;
+	{
+		initialize();
+		return lastLogin;
 	}
 
 	public String getLastLoginAsString()
-	{	return sdf.format( lastLogin );
+	{
+		initialize();
+		return sdf.format( lastLogin );
 	}
 
 	public String getFood()
-	{	return food;
+	{
+		initialize();
+		return food;
 	}
 
 	public String getDrink()
-	{	return drink;
+	{
+		initialize();
+		return drink;
 	}
 
 	public String getPvpRank()
-	{	return pvpRank;
+	{
+		initialize();
+		return pvpRank;
 	}
 
 	public void setMuscle( String muscle )

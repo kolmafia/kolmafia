@@ -927,6 +927,93 @@ public class OptionsFrame extends KoLFrame
 	}
 
 	/**
+	 * This panel handles all of the things related to the clan
+	 * snapshot.  For now, just a list of checkboxes to show
+	 * which fields you want there.
+	 */
+
+	private class SnapshotOptionsPanel extends OptionsPanel
+	{
+		private JCheckBox [] optionBoxes;
+		private final String [] optionKeys = { "Lv", "Mus", "Mys", "Mox", "Total", "Title", "Rank", "Karma",
+			"PVP", "Class", "Meat", "Turns", "Food", "Drink", "Last Login" };
+		private final String [] optionNames = { "Player level", "Muscle points", "Mysticality points", "Moxie points",
+			"Total power points", "Title within clan", "Rank within clan", "Accumulated karma", "PVP ranking",
+			"Class type", "Meat on hand", "Turns played", "Favorite food", "Favorite booze", "Last login date" };
+
+		/**
+		 * Constructs a new <code>LoginOptionsPanel</code>, containing a
+		 * place for the users to select their desired server and for them
+		 * to modify any applicable proxy settings.
+		 */
+
+		public SnapshotOptionsPanel()
+		{
+			super( "Clan Snapshot Columns", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
+
+			optionBoxes = new JCheckBox[ optionNames.length ];
+			for ( int i = 0; i < optionNames.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			for ( int i = 0; i < optionNames.length; ++i )
+				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
+			(new LoadDefaultSettingsThread()).run();
+		}
+
+		protected void actionConfirmed()
+		{	(new StoreSettingsThread()).start();
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to load the default settings.
+		 */
+
+		private class LoadDefaultSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				String tableHeaderSetting = settings.getProperty( "clanRosterHeader" );
+
+				if ( tableHeaderSetting != null )
+					tableHeaderSetting = ClanSnapshotTable.getDefaultHeader();
+
+				for ( int i = 0; i < optionKeys.length; ++i )
+					optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + optionKeys[i] + "</td>" ) != -1 );
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to store the new settings.
+		 */
+
+		private class StoreSettingsThread extends OptionsThread
+		{
+			public void run()
+			{
+				StringBuffer tableHeaderSetting = new StringBuffer();
+
+				for ( int i = 0; i < optionKeys.length; ++i )
+					if ( optionBoxes[i].isSelected() )
+					{
+						tableHeaderSetting.append( "<td>" );
+						tableHeaderSetting.append( optionKeys[i] );
+						tableHeaderSetting.append( "</td>" );
+					}
+
+				settings.setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
+				saveSettings();
+			}
+		}
+	}
+
+	/**
 	 * An internal class used for handling mall options.  This includes
 	 * default mall limiting, mall sorting and sending items to the mall.
 	 */

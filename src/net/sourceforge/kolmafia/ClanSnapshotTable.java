@@ -476,8 +476,15 @@ public class ClanSnapshotTable implements KoLConstants
 
 	private String getHeader()
 	{
-		return client.getSettings().getProperty( "clanRosterHeader" ) != null ? client.getSettings().getProperty( "clanRosterHeader" ) :
-			"<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td><td>Title</td><td>Rank</td><td>Karma</td><td>PVP</td><td>Class</td><td>Food</td><td>Drink</td><td>Last Login</td>";
+		String tableHeaderSetting = client.getSettings().getProperty( "clanRosterHeader" );
+		return tableHeaderSetting == null ? ClanSnapshotTable.getDefaultHeader() : tableHeaderSetting;
+	}
+
+	public static final String getDefaultHeader()
+	{
+		return "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>" +
+			"<td>Title</td><td>Rank</td><td>Karma</td><td>PVP</td><td>Class</td>" +
+				"<td>Food</td><td>Drink</td><td>Last Login</td>";
 	}
 
 	private class DetailRosterRequest extends KoLRequest
