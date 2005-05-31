@@ -352,7 +352,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			this.isErrorState = false;
 		}
-		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
+		while ( client != null && client.permitsContinue() &&
+			!prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 	}
 
 	/**
@@ -551,11 +552,13 @@ public class KoLRequest implements Runnable, KoLConstants
 					// notified that they should try again later.
 
 					updateDisplay( ERROR_STATE, "Nightly maintenance." );
+					client.cancelRequest();
 					return false;
 				}
 				else if ( redirectLocation.startsWith( "login.php" ) )
 				{
 					updateDisplay( ERROR_STATE, "Session timed out." );
+					client.cancelRequest();
 					return false;
 				}
 				else if ( redirectLocation.equals( "fight.php" ) )
