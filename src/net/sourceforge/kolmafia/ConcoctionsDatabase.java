@@ -62,6 +62,10 @@ public class ConcoctionsDatabase
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
 	private static int [] quantityPossible = new int[ ITEM_COUNT ];
 
+	private static final int CHEF = 438;
+	private static final int BARTENDER = 440;
+	private static final AdventureResult ROLLING_PIN = new AdventureResult( 873, 1 );
+
 	static
 	{
 		// This begins by opening up the data file and preparing
@@ -113,6 +117,13 @@ public class ConcoctionsDatabase
 
 	public static SortedListModel getConcoctions( KoLmafia client, List availableIngredients )
 	{
+		// First, zero out the quantities table.  Though this is not
+		// actually necessary, it's a good safety and doesn't use up
+		// that much CPU time.
+
+		for ( int i = 0; i < ITEM_COUNT; ++i )
+			quantityPossible[i] = -1;
+
 		// First, you look for all items which cannot be created through
 		// any creation method, and initialize their quantities.  This
 		// way, the data doesn't interfere with the dynamic programming
@@ -120,7 +131,7 @@ public class ConcoctionsDatabase
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 		{
-			if ( concoctions[i] == null || !isPermittedMixtureMethod( concoctions[i].getMixingMethod(), client.getCharacterData() ) )
+			if ( concoctions[i] == null )
 			{
 				String itemName = TradeableItemDatabase.getItemName(i);
 				if ( itemName != null )
@@ -135,12 +146,51 @@ public class ConcoctionsDatabase
 				quantityPossible[i] = -1;
 		}
 
-		// Next, determine how many of each item can be created through
-		// the available ingredients using dynamic programming.
+		// Next, meat paste and meat stacks can be created directly
+		// and are dependent upon the amount of meat available.
+		// This should also be calculated to allow for meat stack
+		// recipes to be calculated.
+
+		int availableMeat = client.getCharacterData().getAvailableMeat();
+		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
+		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
+			availableMeat += client.getCharacterData().getClosetMeat();
+
+		quantityPossible[ ItemCreationRequest.MEAT_PASTE ] += availableMeat / 10;
+		quantityPossible[ ItemCreationRequest.MEAT_STACK ] += availableMeat / 100;
+		quantityPossible[ ItemCreationRequest.DENSE_STACK ] += availableMeat / 1000;
+
+		// Next, increment through all of the things which can be created
+		// through the use of meat paste, or rolling pins.  This allows
+		// for box servant creation to be calculated in advance.
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
-			if ( concoctions[i] != null )
+			if ( concoctions[i] != null && concoctions[i].getMixingMethod() == ItemCreationRequest.COMBINE )
 				concoctions[i].calculateQuantityPossible( availableIngredients );
+
+		// Finally, increment through all of the things which are created
+		// any other way, making sure that it's a permitted mixture
+		// before doing the calculation.
+
+		for ( int i = 0; i < ITEM_COUNT; ++i )
+		{
+			if ( concoctions[i] != null && concoctions[i].getMixingMethod() != ItemCreationRequest.COMBINE )
+			{
+				if ( !isPermitted( concoctions[i].getMixingMethod(), client ) )
+				{
+					String itemName = TradeableItemDatabase.getItemName(i);
+					if ( itemName != null )
+					{
+						int index = availableIngredients.indexOf( new AdventureResult( i, 0 ) );
+						quantityPossible[i] = (index == -1) ? 0 : ((AdventureResult)availableIngredients.get( index )).getCount();
+					}
+					else
+						quantityPossible[i] = 0;
+				}
+				else
+					concoctions[i].calculateQuantityPossible( availableIngredients );
+			}
+		}
 
 		// Finally, remove the number you have now from how many can be
 		// made available - this means that the list will reflect only
@@ -174,33 +224,60 @@ public class ConcoctionsDatabase
 	 * variables is as specified.
 	 */
 
-	private static boolean isPermittedMixtureMethod( int mixingMethod, KoLCharacter data )
+	private static boolean isPermitted( int mixingMethod, KoLmafia client )
 	{
+		KoLCharacter data = client.getCharacterData();
 		String classtype = data.getClassType();
 
 		switch ( mixingMethod )
 		{
 			case ItemCreationRequest.COOK:
-				return data.hasChef();
+				return isAvailable( CHEF, client );
 
 			case ItemCreationRequest.MIX:
-				return data.hasBartender();
+				return isAvailable( BARTENDER, client );
 
 			case ItemCreationRequest.COOK_REAGENT:
-				return data.hasChef() && data.canSummonReagent();
+				return isAvailable( CHEF, client ) && data.canSummonReagent();
 
 			case ItemCreationRequest.COOK_PASTA:
-				return data.hasChef() && data.canSummonNoodles();
+				return isAvailable( CHEF, client ) && data.canSummonNoodles();
 
 			case ItemCreationRequest.MIX_SPECIAL:
-				return data.hasBartender() && data.canSummonShore();
+				return isAvailable( BARTENDER, client ) && data.canSummonShore();
 
 			case ItemCreationRequest.ROLLING_PIN:
-				return data.hasBartender() && data.getInventory().contains( new AdventureResult( 873, 1 ) );
+				return data.getInventory().contains( ROLLING_PIN );
 
 			default:
 				return true;
 		}
+	}
+
+	private static boolean isAvailable( int servantID, KoLmafia client )
+	{
+		KoLCharacter data = client.getCharacterData();
+
+		// If it's a base case, return whether or not the
+		// servant is already available at the camp.
+
+		if ( servantID == CHEF && data.hasChef() )
+			return true;
+		if ( servantID == BARTENDER && data.hasBartender() )
+			return true;
+
+		// If the user did not wish to repair their boxes
+		// on explosion, then the box servant is not available
+
+		String autoRepairBoxesSetting = client.getSettings().getProperty( "autoRepairBoxes" );
+		if ( autoRepairBoxesSetting == null || autoRepairBoxesSetting.equals( "false" ) )
+			return false;
+
+		// Otherwise, return whether or not the quantity possible
+		// for the given chefs is non-zero.  This works because
+		// cooking tests are made after item creation tests.
+
+		return quantityPossible[ servantID ] != 0;
 	}
 
 	/**
