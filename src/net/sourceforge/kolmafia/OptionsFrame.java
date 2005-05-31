@@ -884,7 +884,7 @@ public class OptionsFrame extends KoLFrame
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Save outgoing messages", JLabel.LEFT, saveOutgoingCheckBox );
-			elements[1] = new VerifiableElement( "Close green composer after successful sending", JLabel.LEFT, saveOutgoingCheckBox );
+			elements[1] = new VerifiableElement( "Close green composer after successful sending", JLabel.LEFT, closeSendingCheckBox );
 
 			setContent( elements, false );
 			(new LoadDefaultSettingsThread()).start();
