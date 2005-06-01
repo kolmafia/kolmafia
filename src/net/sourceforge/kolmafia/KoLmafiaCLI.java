@@ -998,14 +998,14 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( desiredData.startsWith( "stat" ) )
 		{
 			outputStream.println( "Lv: " + data.getLevel() );
-			outputStream.println( "HP: " + data.getCurrentHP() + " / " + data.getMaximumHP() );
-			outputStream.println( "MP: " + data.getCurrentMP() + " / " + data.getMaximumMP() );
+			outputStream.println( "HP: " + data.getCurrentHP() + " / " + df.format( data.getMaximumHP() ) );
+			outputStream.println( "MP: " + data.getCurrentMP() + " / " + df.format( data.getMaximumMP() ) );
 			outputStream.println();
 			outputStream.println( "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
 			outputStream.println( "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
 			outputStream.println( "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
 			outputStream.println();
-			outputStream.println( "Meat: " + data.getAvailableMeat() );
+			outputStream.println( "Meat: " + df.format( data.getAvailableMeat() ) );
 			outputStream.println( "Drunk: " + data.getInebriety() );
 			outputStream.println( "Adv: " + data.getAdventuresLeft() );
 			outputStream.println( "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
@@ -1067,13 +1067,13 @@ public class KoLmafiaCLI extends KoLmafia
 	private static String getStatString( int base, int adjusted, int tnp )
 	{
 		StringBuffer statString = new StringBuffer();
-		statString.append( adjusted );
+		statString.append( df.format( adjusted ) );
 
 		if ( base != adjusted )
-			statString.append( " (" + base + ")" );
+			statString.append( " (" + df.format( base ) + ")" );
 
 		statString.append( ", tnp = " );
-		statString.append( tnp );
+		statString.append( df.format( tnp ) );
 
 		return statString.toString();
 	}
