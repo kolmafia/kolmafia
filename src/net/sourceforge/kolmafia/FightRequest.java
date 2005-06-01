@@ -194,7 +194,7 @@ public class FightRequest extends KoLRequest
 			return 0;
 
 		if ( action.equals( "moxman" ) )
-			return -1;
+			return 0 - client.getCharacterData().getLevel();
 
 		switch ( Integer.parseInt( action ) )
 		{
