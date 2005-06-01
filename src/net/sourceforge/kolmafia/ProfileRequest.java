@@ -181,10 +181,12 @@ public class ProfileRequest extends KoLRequest
 		return classType;
 	}
 
+	public void setPlayerLevel( int playerLevel )
+	{	this.playerLevel = playerLevel;
+	}
+
 	public int getPlayerLevel()
-	{
-		initialize();
-		return playerLevel;
+	{	return playerLevel;
 	}
 
 	public int getCurrentMeat()

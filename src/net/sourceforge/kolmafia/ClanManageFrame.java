@@ -73,15 +73,19 @@ import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 
 // other imports
-import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.lang.reflect.Method;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Collections;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+
+import net.java.dev.spellcast.utilities.PanelList;
+import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -97,15 +101,21 @@ public class ClanManageFrame extends KoLFrame
 	private StoragePanel storing;
 	private DonationPanel donation;
 	private WarfarePanel warfare;
+	private MemberSearchPanel search;
+
+	private LockableListModel rankList;
 
 	public ClanManageFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Clan Management", client );
 
+		this.rankList = new LockableListModel();
+
 		this.storing = new StoragePanel();
 		this.clanBuff = new ClanBuffPanel();
 		this.donation = new DonationPanel();
 		this.warfare = new WarfarePanel();
+		this.search = new MemberSearchPanel();
 
 		this.tabs = new JTabbedPane();
 
@@ -128,6 +138,7 @@ public class ClanManageFrame extends KoLFrame
 		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 
+		tabs.addTab( "Member Search", search );
 		addMenuBar();
 	}
 
@@ -181,6 +192,8 @@ public class ClanManageFrame extends KoLFrame
 			donation.setEnabled( isEnabled );
 		if ( warfare != null )
 			warfare.setEnabled( isEnabled );
+		if ( search != null )
+			search.setEnabled( isEnabled );
 	}
 
 	/**
@@ -459,6 +472,86 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
+	private class MemberSearchPanel extends NonContentPanel
+	{
+		private final int [] paramKeys = { ClanSnapshotTable.LV_FILTER, ClanSnapshotTable.PVP_FILTER,
+			ClanSnapshotTable.MUS_FILTER, ClanSnapshotTable.MYS_FILTER, ClanSnapshotTable.MOX_FILTER,
+			ClanSnapshotTable.POWER_FILTER, ClanSnapshotTable.CLASS_FILTER, ClanSnapshotTable.RANK_FILTER,
+			ClanSnapshotTable.KARMA_FILTER, ClanSnapshotTable.MEAT_FILTER, ClanSnapshotTable.TURN_FILTER,
+			ClanSnapshotTable.LOGIN_FILTER };
+
+		private final String [] paramNames = { "Player level", "PVP Ranking", "Muscle points", "Mysticality points",
+			"Moxie points", "Total power points", "Player class", "Rank within clan",
+			"Accumulated karma", "Meat on hand", "Turns played", "Number of days idle" };
+
+		private JComboBox parameterSelect;
+		private JComboBox matchSelect;
+		private JTextField valueField;
+
+		public MemberSearchPanel()
+		{
+			super( "search", "apply", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			(new RankListRequest( client )).run();
+
+			parameterSelect = new JComboBox();
+			for ( int i = 0; i < paramNames.length; ++i )
+				parameterSelect.addItem( paramNames[i] );
+
+			matchSelect = new JComboBox();
+			matchSelect.addItem( "Less than..." );
+			matchSelect.addItem( "Equal to..." );
+			matchSelect.addItem( "Greater than..." );
+
+			valueField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Parameter: ", parameterSelect );
+			elements[1] = new VerifiableElement( "Constraint: ", matchSelect );
+			elements[2] = new VerifiableElement( "", valueField );
+
+			setContent( elements );
+			add( new JScrollPane( new ClanMemberPanelList(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ), BorderLayout.CENTER );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			parameterSelect.setEnabled( isEnabled );
+			matchSelect.setEnabled( isEnabled );
+			valueField.setEnabled( isEnabled );
+		}
+
+		protected void actionConfirmed()
+		{	(new MemberSearchThread()).start();
+		}
+
+		protected void actionCancelled()
+		{	JOptionPane.showMessageDialog( null, "This is currently not implemented." );
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually donate to the statues.
+		 */
+
+		private class MemberSearchThread extends Thread
+		{
+			public MemberSearchThread()
+			{
+				super( "Member-Search-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				client.getClanManager().applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
+				client.updateDisplay( ENABLED_STATE, "Search results retrieved." );
+			}
+		}
+	}
+
 	private class ManagerListener implements ActionListener
 	{
 		private Method method;
@@ -486,6 +579,93 @@ public class ClanManageFrame extends KoLFrame
 				}
 				catch ( Exception e )
 				{
+				}
+			}
+		}
+	}
+
+	public class ClanMemberPanelList extends PanelList
+	{
+		public ClanMemberPanelList()
+		{	super( 12, 420, 25, client.getClanManager().getFilteredList() );
+		}
+
+		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
+		{
+			ClanMemberPanel toConstruct = new ClanMemberPanel( (ProfileRequest) value );
+			toConstruct.updateDisplay( this, value, index );
+			return toConstruct;
+		}
+	}
+
+	public class ClanMemberPanel extends PanelListCell
+	{
+		private JLabel memberName;
+		private JComboBox rankSelect;
+		private JCheckBox bootCheckBox;
+
+		public ClanMemberPanel( ProfileRequest value )
+		{
+			memberName = new JLabel( value.getPlayerName(), JLabel.RIGHT );
+			rankSelect = rankList.isEmpty() ? new JComboBox() : new JComboBox( (LockableListModel) rankList.clone() );
+
+			// In the event that they were just searching for fun purposes,
+			// there will be no ranks.  So it still looks like something,
+			// add the rank manually.
+
+			if ( rankList.isEmpty() )
+				rankSelect.addItem( value.getRank() );
+
+			rankSelect.setSelectedItem( value.getRank() );
+			bootCheckBox = new JCheckBox();
+
+			JComponentUtilities.setComponentSize( memberName, 150, 20 );
+			JComponentUtilities.setComponentSize( rankSelect, 210, 20 );
+			JComponentUtilities.setComponentSize( bootCheckBox, 20, 20 );
+
+			JPanel corePanel = new JPanel();
+			corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
+			corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( memberName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( rankSelect ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( bootCheckBox ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+
+			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			add( Box.createVerticalStrut( 5 ) );
+			add( corePanel );
+		}
+
+		public synchronized void updateDisplay( PanelList list, Object value, int index )
+		{
+			ProfileRequest pr = (ProfileRequest) value;
+			memberName.setText( pr.getPlayerName() );
+			rankSelect.setSelectedItem( pr.getRank() );
+		}
+	}
+
+	private class RankListRequest extends KoLRequest
+	{
+		public RankListRequest( KoLmafia client )
+		{	super( client, "clan_members.php" );
+		}
+
+		public void run()
+		{
+			updateDisplay( DISABLED_STATE, "Retrieving list of ranks..." );
+			super.run();
+
+			rankList.clear();
+			Matcher ranklistMatcher = Pattern.compile( "<select.*?</select>" ).matcher( responseText );
+
+			if ( ranklistMatcher.find() )
+			{
+				Matcher rankMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( ranklistMatcher.group() );
+				int lastMatchIndex = 0;
+
+				while ( rankMatcher.find( lastMatchIndex ) )
+				{
+					lastMatchIndex = rankMatcher.end();
+					rankList.add( rankMatcher.group(1) );
 				}
 			}
 		}

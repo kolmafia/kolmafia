@@ -43,10 +43,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.Date;
 
-import net.java.dev.spellcast.utilities.PanelList;
-import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ClanSnapshotTable implements KoLConstants
 {
@@ -59,18 +56,18 @@ public class ClanSnapshotTable implements KoLConstants
 	public static final int MYS_FILTER = 3;
 	public static final int MOX_FILTER = 4;
 	public static final int POWER_FILTER = 5;
-	public static final int CLASS_FILTER = 6;
-	public static final int RANK_FILTER = 7;
-	public static final int KARMA_FILTER = 8;
-	public static final int MEAT_FILTER = 9;
-	public static final int TURN_FILTER = 10;
-	public static final int LOGIN_FILTER = 11;
+	public static final int PVP_FILTER = 6;
+	public static final int CLASS_FILTER = 7;
+	public static final int RANK_FILTER = 8;
+	public static final int KARMA_FILTER = 9;
+	public static final int MEAT_FILTER = 10;
+	public static final int TURN_FILTER = 11;
+	public static final int LOGIN_FILTER = 12;
 
 	private KoLmafia client;
 	private String clanID;
 	private String clanName;
 	private TreeMap profileMap;
-	private LockableListModel rankList;
 	private LockableListModel filterList;
 
 	public ClanSnapshotTable( KoLmafia client, String clanID, String clanName, TreeMap profileMap )
@@ -82,21 +79,19 @@ public class ClanSnapshotTable implements KoLConstants
 		this.clanID = clanID;
 		this.clanName = clanName;
 		this.profileMap = profileMap;
-		this.rankList = new LockableListModel();
 		this.filterList = new LockableListModel();
 
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
 
 		(new DetailRosterRequest( client )).run();
-		(new RankListRequest( client )).run();
 	}
 
-	public PanelList getFilteredDisplay()
-	{	return new ClanMemberPanelList( filterList.getMirrorImage() );
+	public LockableListModel getFilteredList()
+	{	return filterList;
 	}
 
-	public void applyFliter( int matchType, int filterType, Object filter )
+	public void applyFilter( int matchType, int filterType, String filter )
 	{
 		filterList.clear();
 		filterList.addAll( profileMap.values() );
@@ -116,48 +111,65 @@ public class ClanSnapshotTable implements KoLConstants
 				switch ( filterType )
 				{
 					case LV_FILTER:
-						compareValue = profileArray[i].getPlayerLevel() - df.parse( (String) filter ).intValue();
+						compareValue = profileArray[i].getPlayerLevel() - df.parse( filter ).intValue();
 						break;
 
 					case MUS_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getMuscle() ) - df.parse( (String) filter ).intValue();
+						compareValue = Integer.parseInt( profileArray[i].getMuscle() ) - df.parse( filter ).intValue();
 						break;
 
 					case MYS_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getMysticism() ) - df.parse( (String) filter ).intValue();
+						compareValue = Integer.parseInt( profileArray[i].getMysticism() ) - df.parse( filter ).intValue();
 						break;
 
 					case MOX_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getMoxie() ) - df.parse( (String) filter ).intValue();
+						compareValue = Integer.parseInt( profileArray[i].getMoxie() ) - df.parse( filter ).intValue();
 						break;
 
 					case POWER_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getPower() ) - df.parse( (String) filter ).intValue();
+						compareValue = Integer.parseInt( profileArray[i].getPower() ) - df.parse( filter ).intValue();
+						break;
+
+					case PVP_FILTER:
+						compareValue = Integer.parseInt( profileArray[i].getPvpRank().startsWith( "&" ) ? "0" : profileArray[i].getPvpRank() ) -
+							df.parse( (String) filter ).intValue();
 						break;
 
 					case CLASS_FILTER:
-						compareValue = profileArray[i].getClassType().compareToIgnoreCase( (String) filter );
+						compareValue = profileArray[i].getClassType().compareToIgnoreCase( filter );
 						break;
 
 					case RANK_FILTER:
-						compareValue = profileArray[i].getRank().compareToIgnoreCase( (String) filter );
+						compareValue = profileArray[i].getRank().compareToIgnoreCase( filter );
 						break;
 
 					case KARMA_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getKarma() ) - df.parse( (String) filter ).intValue();
+						compareValue = Integer.parseInt( profileArray[i].getKarma() ) - df.parse( filter ).intValue();
 						break;
 
 					case MEAT_FILTER:
-						compareValue = profileArray[i].getCurrentMeat() - df.parse( (String) filter ).intValue();
+						compareValue = profileArray[i].getCurrentMeat() - df.parse( filter ).intValue();
 						break;
 
 					case TURN_FILTER:
-						compareValue = profileArray[i].getTurnsPlayed() - df.parse( (String) filter ).intValue();
+						compareValue = profileArray[i].getTurnsPlayed() - df.parse( filter ).intValue();
 						break;
 
 					case LOGIN_FILTER:
-						compareValue = profileArray[i].getLastLogin().after( (Date) filter ) ? 1 :
-							 profileArray[i].getLastLogin().before( (Date) filter ) ? -1 : 0;
+
+						try
+						{
+							int daysIdle = df.parse( filter ).intValue();
+							long millisecondsIdle = 86400000L * daysIdle;
+							Date cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
+
+							compareValue = profileArray[i].getLastLogin().after( cutoffDate ) ? -1 :
+								 profileArray[i].getLastLogin().before( cutoffDate ) ? 1 : 0;
+						}
+						catch ( Exception e )
+						{
+						}
+
 						break;
 				}
 
@@ -495,14 +507,14 @@ public class ClanSnapshotTable implements KoLConstants
 
 		public void run()
 		{
+			updateDisplay( DISABLED_STATE, "Retrieving detailed roster..." );
 			super.run();
 
-			Matcher rowMatcher = Pattern.compile( "<tr>(.*?)</tr>" ).matcher( responseText );
-			rowMatcher.find( 0 );
+			Matcher rowMatcher = Pattern.compile( "<tr>(.*?)</tr>" ).matcher( responseText.substring( responseText.indexOf( "clan_detailedroster.php" ) ) );
+			rowMatcher.find();
 
 			String currentRow;
 			String currentName;
-			int firstCellIndex;
 			Matcher dataMatcher;
 			ProfileRequest currentRequest;
 
@@ -516,13 +528,14 @@ public class ClanSnapshotTable implements KoLConstants
 
 				if ( !currentRow.equals( "<td height=4></td>" ) )
 				{
-					firstCellIndex = currentRow.indexOf( "</td>" );
-					currentName = currentRow.substring( 4, firstCellIndex );
-					currentRequest = (ProfileRequest) profileMap.get( currentName );
-
-					dataMatcher = cellPattern.matcher( currentRow.substring( firstCellIndex ) );
+					dataMatcher = cellPattern.matcher( currentRow );
 
 					dataMatcher.find();
+					currentName = dataMatcher.group(1);
+
+					currentRequest = (ProfileRequest) profileMap.get( currentName.toLowerCase() );
+
+					dataMatcher.find( dataMatcher.end() );
 					currentRequest.setMuscle( dataMatcher.group(1) );
 					dataMatcher.find( dataMatcher.end() );
 					currentRequest.setMysticism( dataMatcher.group(1) );
@@ -538,60 +551,6 @@ public class ClanSnapshotTable implements KoLConstants
 					currentRequest.setKarma( dataMatcher.group(1) );
 				}
 			}
-		}
-	}
-
-	private class RankListRequest extends KoLRequest
-	{
-		public RankListRequest( KoLmafia client )
-		{	super( client, "clan_members.php" );
-		}
-
-		public void run()
-		{
-			updateDisplay( DISABLED_STATE, "Retrieving list of ranks..." );
-			super.run();
-
-			rankList.clear();
-			Matcher ranklistMatcher = Pattern.compile( "<select.*?</select>" ).matcher( responseText );
-
-			if ( ranklistMatcher.find() )
-			{
-				Matcher rankMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( ranklistMatcher.group(1) );
-				int lastMatchIndex = 0;
-
-				while ( rankMatcher.find( lastMatchIndex ) )
-				{
-					lastMatchIndex = rankMatcher.end();
-					rankList.add( rankMatcher.group(1) );
-				}
-			}
-		}
-	}
-
-	private class ClanMemberPanelList extends PanelList
-	{
-		public ClanMemberPanelList( LockableListModel profileList )
-		{	super( 12, 520, 25, profileList );
-		}
-
-		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
-		{
-			ClanMemberPanel toConstruct = new ClanMemberPanel( (ProfileRequest) value );
-			toConstruct.updateDisplay( this, value, index );
-			return toConstruct;
-		}
-	}
-
-	private class ClanMemberPanel extends PanelListCell
-	{
-		public ClanMemberPanel( ProfileRequest value )
-		{
-		}
-
-		public synchronized void updateDisplay( PanelList list, Object value, int index )
-		{
-			ProfileRequest pr = (ProfileRequest) value;
 		}
 	}
 }

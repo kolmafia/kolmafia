@@ -53,6 +53,8 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import javax.swing.JOptionPane;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 public class ClanManager implements KoLConstants
 {
 	private String SNAPSHOT_DIRECTORY;
@@ -62,6 +64,7 @@ public class ClanManager implements KoLConstants
 	private String clanName;
 	private TreeMap profileMap;
 	private TreeMap stashMap;
+	private ClanSnapshotTable snapshot;
 
 	public ClanManager( KoLmafia client )
 	{
@@ -83,6 +86,9 @@ public class ClanManager implements KoLConstants
 			this.clanName = cmr.getClanName();
 
 			SNAPSHOT_DIRECTORY = "clan/" + clanID + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
+
+			this.snapshot = new ClanSnapshotTable( client, clanID, clanName, profileMap );
+			client.updateDisplay( ENABLED_STATE, "Clan data retrieved." );
 		}
 	}
 
@@ -125,8 +131,11 @@ public class ClanManager implements KoLConstants
 		return retrieveMemberData();
 	}
 
-	public void registerMember( String playerName )
-	{	profileMap.put( playerName.toLowerCase(), new ProfileRequest( client, playerName ) );
+	public void registerMember( String playerName, String level )
+	{
+		ProfileRequest newProfile = new ProfileRequest( client, playerName );
+		newProfile.setPlayerLevel( Integer.parseInt( level ) );
+		profileMap.put( playerName.toLowerCase(), newProfile );
 	}
 
 	/**
@@ -381,7 +390,7 @@ public class ClanManager implements KoLConstants
 			individualFile.getParentFile().mkdirs();
 			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
 
-			ostream.println( (new ClanSnapshotTable( client, clanID, clanName, profileMap )).toString() );
+			ostream.println( snapshot.toString() );
 			ostream.close();
 		}
 		catch ( Exception e )
@@ -615,5 +624,35 @@ public class ClanManager implements KoLConstants
 
 			responseText = responseText.substring( responseText.indexOf( "<b>Date" ) );
 		}
+	}
+
+	public LockableListModel getFilteredList()
+	{
+		retrieveClanData();
+		return snapshot.getFilteredList();
+	}
+
+	public void applyFilter( int matchType, int filterType, String filter )
+	{
+		// Certain filter types do not require the player profiles
+		// to be looked up.  These can be processed immediately,
+		// without prompting the user for confirmation.
+
+		switch ( filterType )
+		{
+			case ClanSnapshotTable.LV_FILTER:
+			case ClanSnapshotTable.RANK_FILTER:
+			case ClanSnapshotTable.KARMA_FILTER:
+
+				retrieveClanData();
+				break;
+
+			default:
+
+				initialize();
+				break;
+		}
+
+		snapshot.applyFilter( matchType, filterType, filter );
 	}
 }

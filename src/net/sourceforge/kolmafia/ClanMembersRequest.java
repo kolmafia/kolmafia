@@ -84,7 +84,7 @@ public class ClanMembersRequest extends KoLRequest
 		// members so you can act on it.
 
 		int lastMatchIndex = 0;
-		Matcher memberMatcher = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>" ).matcher( responseText );
+		Matcher memberMatcher = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>.*?<td class=small>(\\d+)</td>" ).matcher( responseText );
 
 		while ( memberMatcher.find( lastMatchIndex ) )
 		{
@@ -92,12 +92,11 @@ public class ClanMembersRequest extends KoLRequest
 
 			String playerID = memberMatcher.group(1);
 			String playerName = memberMatcher.group(2);
+			String playerLevel = memberMatcher.group(3);
 
 			client.registerPlayer( playerName, playerID );
-			client.getClanManager().registerMember( playerName );
+			client.getClanManager().registerMember( playerName, playerLevel );
 		}
-
-		updateDisplay( ENABLED_STATE, "Member list retrieved." );
 	}
 
 	public String getClanID()
