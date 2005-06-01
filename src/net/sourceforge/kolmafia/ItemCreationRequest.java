@@ -369,7 +369,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		String autoRepairBoxesSetting = client.getSettings().getProperty( "autoRepairBoxes" );
 		if ( autoRepairBoxesSetting == null || autoRepairBoxesSetting.equals( "false" ) )
+		{
+			updateDisplay( ERROR_STATE, "Box servant explosion!" );
 			return false;
+		}
 
 		// If they do want to auto-repair, make sure that
 		// the appropriate item is available in their inventory
