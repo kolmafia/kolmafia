@@ -160,13 +160,34 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private void combineItems()
 	{
+		// If the request has been cancelled midway, be
+		// sure to return from here.
+
+		if ( !client.permitsContinue() )
+			return;
+
 		int [][] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
 		if ( ingredients != null )
 		{
 			makeIngredient( ingredients[0][0], ingredients[0][1], ingredients[0][0] == ingredients[1][0] );
+
+			// If the request has been cancelled midway, be
+			// sure to return from here.
+
+			if ( !client.permitsContinue() )
+				return;
+
 			if ( ingredients[0][0] != ingredients[1][0] )
+			{
 				makeIngredient( ingredients[1][0], ingredients[1][1], false );
+
+				// If the request has been cancelled midway, be
+				// sure to return from here.
+
+				if ( !client.permitsContinue() )
+					return;
+			}
 		}
 
 		// Check to see if you need meat paste in order
@@ -174,7 +195,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// create any needed meat paste.
 
 		if ( mixingMethod == COMBINE )
+		{
 			makeIngredient( MEAT_PASTE, COMBINE, false );
+
+			// If the request has been cancelled midway, be
+			// sure to return from here.
+
+			if ( !client.permitsContinue() )
+				return;
+		}
 
 		// Now that the item's been created, you can
 		// actually do the request!
@@ -187,11 +216,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// exist and the user has opted to repair.
 
 		if ( !autoRepairBoxServant() )
-		{
-			updateDisplay( ERROR_STATE, "Box servant explosion!" );
 			client.cancelRequest();
-			return;
-		}
 
 		// If the request has been cancelled midway, be
 		// sure to return from here.
@@ -314,6 +339,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private boolean autoRepairBoxServant()
 	{
+		// If the request has been cancelled midway, be
+		// sure to return from here.
+
+		if ( !client.permitsContinue() )
+			return false;
+
 		switch ( mixingMethod )
 		{
 			case COOK:
