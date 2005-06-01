@@ -527,7 +527,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				if ( client != null && client.getMacroStream() instanceof NullStream )
 				{
-					JFileChooser chooser = new JFileChooser( "./scripts/" );
+					JFileChooser chooser = new JFileChooser( "scripts/" );
 					int returnVal = chooser.showSaveDialog( KoLFrame.this );
 
 					if ( chooser.getSelectedFile() == null )
