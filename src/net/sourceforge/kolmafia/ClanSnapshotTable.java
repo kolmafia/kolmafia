@@ -94,14 +94,16 @@ public class ClanSnapshotTable implements KoLConstants
 	public void applyFilter( int matchType, int filterType, String filter )
 	{
 		filterList.clear();
-		filterList.addAll( profileMap.values() );
+
+		List temporaryList = new ArrayList();
+		temporaryList.addAll( profileMap.values() );
 
 		// This is where the filter gets applied, but for
 		// now, filtering isn't implemented so just return
 		// the entire list of members.
 
-		ProfileRequest [] profileArray = new ProfileRequest[ filterList.size() ];
-		filterList.toArray( profileArray );
+		ProfileRequest [] profileArray = new ProfileRequest[ temporaryList.size() ];
+		temporaryList.toArray( profileArray );
 
 		int compareValue = 0;
 		try
@@ -179,7 +181,7 @@ public class ClanSnapshotTable implements KoLConstants
 				// type desired, remove the element from the list
 
 				if ( compareValue != matchType )
-					filterList.remove( i );
+					temporaryList.remove( i );
 			}
 		}
 		catch ( Exception e )
@@ -189,6 +191,8 @@ public class ClanSnapshotTable implements KoLConstants
 			// numeric string.  In this case, nothing is added,
 			// which is exactly what's wanted.
 		}
+
+		filterList.addAll( temporaryList );
 	}
 
 	public String toString()
@@ -520,7 +524,7 @@ public class ClanSnapshotTable implements KoLConstants
 
 			Pattern cellPattern = Pattern.compile( "<td.*?>(.*?)</td>" );
 
-			int lastRowIndex = rowMatcher.end();
+			int lastRowIndex = 0;
 			while ( rowMatcher.find( lastRowIndex ) )
 			{
 				lastRowIndex = rowMatcher.end();

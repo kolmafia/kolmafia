@@ -311,7 +311,7 @@ public class ClanManager implements KoLConstants
 
 			if ( selectedValue != null )
 			{
-				(new ClanBootRequest( client, idleList.toArray() )).run();
+				(new ClanMembersRequest( client, idleList.toArray() )).run();
 				client.updateDisplay( ENABLED_STATE, "Idle members have been booted." );
 			}
 			else
@@ -334,21 +334,6 @@ public class ClanManager implements KoLConstants
 
 				client.updateDisplay( ENABLED_STATE, "List of idle members saved to " + file.getAbsolutePath() );
 			}
-		}
-	}
-
-	private class ClanBootRequest extends KoLRequest
-	{
-		public ClanBootRequest( KoLmafia client, Object [] profileMap )
-		{
-			super( client, "clan_members.php" );
-
-			addFormField( "pwd", client.getPasswordHash() );
-			addFormField( "action", "modify" );
-			addFormField( "begin", "0" );
-
-			for ( int i = 0; i < profileMap.length; ++i )
-				addFormField( "boot" + client.getPlayerID( (String) profileMap[i] ), "on" );
 		}
 	}
 

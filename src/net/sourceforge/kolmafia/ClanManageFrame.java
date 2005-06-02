@@ -487,11 +487,14 @@ public class ClanManageFrame extends KoLFrame
 		private JComboBox parameterSelect;
 		private JComboBox matchSelect;
 		private JTextField valueField;
+		private ClanMemberPanelList results;
 
 		public MemberSearchPanel()
 		{
 			super( "search", "apply", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-			(new RankListRequest( client )).run();
+
+			if ( client != null )
+				(new RankListRequest( client )).run();
 
 			parameterSelect = new JComboBox();
 			for ( int i = 0; i < paramNames.length; ++i )
@@ -510,7 +513,9 @@ public class ClanManageFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "", valueField );
 
 			setContent( elements );
-			add( new JScrollPane( new ClanMemberPanelList(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+
+			results = new ClanMemberPanelList();
+			add( new JScrollPane( results, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ), BorderLayout.CENTER );
 		}
 
@@ -527,7 +532,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionCancelled()
-		{	JOptionPane.showMessageDialog( null, "This is currently not implemented." );
+		{	(new MemberChangeThread()).start();
 		}
 
 		/**
@@ -548,6 +553,51 @@ public class ClanManageFrame extends KoLFrame
 			{
 				client.getClanManager().applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
 				client.updateDisplay( ENABLED_STATE, "Search results retrieved." );
+			}
+		}
+
+		private class MemberChangeThread extends Thread
+		{
+			public MemberChangeThread()
+			{
+				super( "Member-Change-Thread" );
+				setDaemon( true );
+			}
+
+			public void run()
+			{
+				client.updateDisplay( DISABLED_STATE, "Determining changes..." );
+
+				List ranks = new ArrayList();
+				List rankValues = new ArrayList();
+				List boots = new ArrayList();
+
+				Object currentComponent;
+				ClanMemberPanel currentMember;
+				Object desiredRank;
+
+				for ( int i = 0; i < results.getComponentCount(); ++i )
+				{
+					currentComponent = results.getComponent(i);
+					if ( currentComponent instanceof ClanMemberPanel )
+					{
+						currentMember = (ClanMemberPanel) currentComponent;
+						if ( currentMember.bootCheckBox.isSelected() )
+							boots.add( currentMember.memberName.getText() );
+
+						desiredRank = currentMember.rankSelect.getSelectedItem();
+						if ( desiredRank != null && !desiredRank.equals( currentMember.initialRank ) )
+						{
+							ranks.add( currentMember.memberName.getText() );
+							rankValues.add( String.valueOf( currentMember.rankSelect.getSelectedIndex() ) );
+							currentMember.profile.setRank( (String) desiredRank );
+						}
+					}
+				}
+
+				client.updateDisplay( DISABLED_STATE, "Applying changes..." );
+				(new ClanMembersRequest( client, ranks.toArray(), rankValues.toArray(), boots.toArray() )).run();
+				client.updateDisplay( ENABLED_STATE, "Changes have been applied." );
 			}
 		}
 	}
@@ -587,7 +637,7 @@ public class ClanManageFrame extends KoLFrame
 	public class ClanMemberPanelList extends PanelList
 	{
 		public ClanMemberPanelList()
-		{	super( 12, 420, 25, client.getClanManager().getFilteredList() );
+		{	super( 12, 420, 25, client == null ? new LockableListModel() : client.getClanManager().getFilteredList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -604,8 +654,12 @@ public class ClanManageFrame extends KoLFrame
 		private JComboBox rankSelect;
 		private JCheckBox bootCheckBox;
 
+		private String initialRank;
+		private ProfileRequest profile;
+
 		public ClanMemberPanel( ProfileRequest value )
 		{
+			this.profile = value;
 			memberName = new JLabel( value.getPlayerName(), JLabel.RIGHT );
 			rankSelect = rankList.isEmpty() ? new JComboBox() : new JComboBox( (LockableListModel) rankList.clone() );
 
@@ -616,7 +670,8 @@ public class ClanManageFrame extends KoLFrame
 			if ( rankList.isEmpty() )
 				rankSelect.addItem( value.getRank() );
 
-			rankSelect.setSelectedItem( value.getRank() );
+			initialRank = value.getRank();
+			rankSelect.setSelectedItem( initialRank );
 			bootCheckBox = new JCheckBox();
 
 			JComponentUtilities.setComponentSize( memberName, 150, 20 );
@@ -637,9 +692,9 @@ public class ClanManageFrame extends KoLFrame
 
 		public synchronized void updateDisplay( PanelList list, Object value, int index )
 		{
-			ProfileRequest pr = (ProfileRequest) value;
-			memberName.setText( pr.getPlayerName() );
-			rankSelect.setSelectedItem( pr.getRank() );
+			profile = (ProfileRequest) value;
+			memberName.setText( profile.getPlayerName() );
+			rankSelect.setSelectedItem( profile.getRank() );
 		}
 	}
 

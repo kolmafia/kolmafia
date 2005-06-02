@@ -44,15 +44,45 @@ public class ClanMembersRequest extends KoLRequest
 {
 	private String clanID;
 	private String clanName;
+	private boolean isLookup;
 
 	public ClanMembersRequest( KoLmafia client )
 	{
 		super( client, "showclan.php" );
 		this.clanID = "";
 		this.clanName = "";
+		this.isLookup = true;
+	}
+
+	public ClanMembersRequest( KoLmafia client, Object [] boots )
+	{	this( client, new Object[0], new Object[0], boots );
+	}
+
+	public ClanMembersRequest( KoLmafia client, Object [] ranks, Object [] rankValues, Object [] boots )
+	{
+		super( client, "clan_members.php" );
+		this.isLookup = false;
+
+		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "action", "modify" );
+		addFormField( "begin", "0" );
+
+		for ( int i = 0; i < ranks.length; ++i )
+			addFormField( "level" + client.getPlayerID( (String) ranks[i] ), (String) rankValues[i] );
+
+		for ( int i = 0; i < boots.length; ++i )
+			addFormField( "boot" + client.getPlayerID( (String) boots[i] ), "on" );
 	}
 
 	public void run()
+	{
+		if ( isLookup )
+			lookupClanData();
+		else
+			changeClanData();
+	}
+
+	private void lookupClanData()
 	{
 		// First, you need to know which clan you
 		// belong to.  This is done by doing a
@@ -97,6 +127,10 @@ public class ClanMembersRequest extends KoLRequest
 			client.registerPlayer( playerName, playerID );
 			client.getClanManager().registerMember( playerName, playerLevel );
 		}
+	}
+
+	private void changeClanData()
+	{	super.run();
 	}
 
 	public String getClanID()
