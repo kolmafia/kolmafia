@@ -281,9 +281,13 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( line == null )
 					return;
 
-				updateDisplay( NOCHANGE, "" );
+				if ( scriptRequestor == this )
+					updateDisplay( NOCHANGE, "" );
+
 				executeLine( line.trim() );
-				updateDisplay( NOCHANGE, "" );
+
+				if ( scriptRequestor == this )
+					updateDisplay( NOCHANGE, "" );
 
 				if ( scriptRequestor == this )
 					outputStream.print( " > " );
