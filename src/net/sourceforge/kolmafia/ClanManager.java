@@ -611,29 +611,25 @@ public class ClanManager implements KoLConstants
 		}
 	}
 
-	
 	/**
-	 * Retrieves the clan membership in the form of a 
+	 * Retrieves the clan membership in the form of a
 	 * CDL (comma-delimited list)
 	 */
-	public String retrieveClanCDL()
-	{
-		String clanCDL = "";
-		
-		retrieveClanData();
-		if (!profileMap.isEmpty())
-		{
-			String currentMember;
 
-			Iterator memberIterator = profileMap.keySet().iterator();
-			for ( int i = 1; memberIterator.hasNext(); ++i )
-			{
-				currentMember = (String) memberIterator.next();
-				clanCDL = clanCDL + ((i==1)?"":", ") + currentMember;
-			}
-			
+	public String retrieveClanListAsCDL()
+	{
+		retrieveClanData();
+
+		StringBuffer clanCDL = new StringBuffer();
+		Iterator memberIterator = profileMap.keySet().iterator();
+
+		for ( int i = 1; memberIterator.hasNext(); ++i )
+		{
+			if ( i != 1 )  clanCDL.append( ", " );
+			clanCDL.append( (String) memberIterator.next() );
 		}
-		return clanCDL;
+
+		return clanCDL.toString();
 	}
 
 	public LockableListModel getFilteredList()

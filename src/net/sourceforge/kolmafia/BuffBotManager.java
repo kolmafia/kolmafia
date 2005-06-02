@@ -219,8 +219,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		String whiteListString = settings.getProperty("whiteList") == null ? "" :
 			settings.getProperty("whiteList").toLowerCase();
-		if(whiteListString.contains("$clan"))
-			whiteListString = whiteListString.replaceFirst("\\$clan", client.getClanManager().retrieveClanCDL());
+
+		whiteListString = whiteListString.replaceFirst("\\$clan", client.getClanManager().retrieveClanListAsCDL());
 		whiteListArray = whiteListString.split("\\s*,\\s*");
 		Arrays.sort(whiteListArray);
 
