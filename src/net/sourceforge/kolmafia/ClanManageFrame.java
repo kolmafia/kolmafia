@@ -515,8 +515,36 @@ public class ClanManageFrame extends KoLFrame
 			setContent( elements );
 
 			results = new ClanMemberPanelList();
-			add( new JScrollPane( results, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+
+			JLabel [] header = new JLabel[4];
+			header[0] = new JLabel( "Member Name", JLabel.CENTER );
+			header[1] = new JLabel( "Clan Rank", JLabel.CENTER );
+			header[2] = new JLabel( "Karma", JLabel.CENTER );
+			header[3] = new JLabel( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
+
+			JComponentUtilities.setComponentSize( header[0], 150, 20 );
+			JComponentUtilities.setComponentSize( header[1], 210, 20 );
+			JComponentUtilities.setComponentSize( header[2], 90, 20 );
+			JComponentUtilities.setComponentSize( header[3], 20, 20 );
+
+			JPanel headerPanel = new JPanel();
+			headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.X_AXIS ) );
+			headerPanel.add( Box.createHorizontalStrut( 10 ) );
+
+			for ( int i = 0; i < header.length; ++i )
+			{
+				headerPanel.add( header[i] );
+				headerPanel.add( Box.createHorizontalStrut( 10 ) );
+			}
+
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BorderLayout( 0, 0 ) );
+
+			centerPanel.add( headerPanel, BorderLayout.NORTH );
+			centerPanel.add( new JScrollPane( results, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ), BorderLayout.CENTER );
+
+			add( centerPanel, BorderLayout.CENTER );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -637,7 +665,7 @@ public class ClanManageFrame extends KoLFrame
 	public class ClanMemberPanelList extends PanelList
 	{
 		public ClanMemberPanelList()
-		{	super( 12, 420, 25, client == null ? new LockableListModel() : client.getClanManager().getFilteredList() );
+		{	super( 12, 520, 25, client == null ? new LockableListModel() : client.getClanManager().getFilteredList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -652,6 +680,7 @@ public class ClanManageFrame extends KoLFrame
 	{
 		private JLabel memberName;
 		private JComboBox rankSelect;
+		private JLabel clanKarma;
 		private JCheckBox bootCheckBox;
 
 		private String initialRank;
@@ -660,7 +689,7 @@ public class ClanManageFrame extends KoLFrame
 		public ClanMemberPanel( ProfileRequest value )
 		{
 			this.profile = value;
-			memberName = new JLabel( value.getPlayerName(), JLabel.RIGHT );
+			memberName = new JLabel( value.getPlayerName(), JLabel.CENTER );
 			rankSelect = rankList.isEmpty() ? new JComboBox() : new JComboBox( (LockableListModel) rankList.clone() );
 
 			// In the event that they were just searching for fun purposes,
@@ -674,8 +703,11 @@ public class ClanManageFrame extends KoLFrame
 			rankSelect.setSelectedItem( initialRank );
 			bootCheckBox = new JCheckBox();
 
+			clanKarma = new JLabel( df.format( Integer.parseInt( value.getKarma() ) ), JLabel.CENTER );
+
 			JComponentUtilities.setComponentSize( memberName, 150, 20 );
 			JComponentUtilities.setComponentSize( rankSelect, 210, 20 );
+			JComponentUtilities.setComponentSize( clanKarma, 90, 20 );
 			JComponentUtilities.setComponentSize( bootCheckBox, 20, 20 );
 
 			JPanel corePanel = new JPanel();
@@ -683,6 +715,7 @@ public class ClanManageFrame extends KoLFrame
 			corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( memberName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( rankSelect ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( clanKarma ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( bootCheckBox ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 
 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
@@ -695,6 +728,7 @@ public class ClanManageFrame extends KoLFrame
 			profile = (ProfileRequest) value;
 			memberName.setText( profile.getPlayerName() );
 			rankSelect.setSelectedItem( profile.getRank() );
+			clanKarma.setText( df.format( Integer.parseInt( profile.getKarma() ) ) );
 		}
 	}
 
@@ -728,6 +762,7 @@ public class ClanManageFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
+		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
 		KoLFrame uitest = new ClanManageFrame( null );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}

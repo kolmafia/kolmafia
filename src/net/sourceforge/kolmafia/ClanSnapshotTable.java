@@ -441,7 +441,7 @@ public class ClanSnapshotTable implements KoLConstants
 		if ( header.indexOf( "<td>Karma</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getKarma() );
+			strbuf.append( df.format( Integer.parseInt( memberLookup.getKarma() ) ) );
 		}
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
