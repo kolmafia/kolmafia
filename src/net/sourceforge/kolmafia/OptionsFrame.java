@@ -1026,6 +1026,7 @@ public class OptionsFrame extends KoLFrame
 	{
 		private JTextField defaultLimitField;
 		private JComboBox forceSortSelect;
+		private JComboBox aggregateSelect;
 
 		public MallOptionsPanel()
 		{
@@ -1036,9 +1037,14 @@ public class OptionsFrame extends KoLFrame
 			forceSortSelect.addItem( "No Sorting" );
 			forceSortSelect.addItem( "Force Price Sort" );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			aggregateSelect = new JComboBox();
+			aggregateSelect.addItem( "Aggregate store data" );
+			aggregateSelect.addItem( "Keep stores separate" );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Default Limit: ", defaultLimitField );
 			elements[1] = new VerifiableElement( "Force Sorting: ", forceSortSelect );
+			elements[2] = new VerifiableElement( "Price Scanning: ", aggregateSelect );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -1060,16 +1066,14 @@ public class OptionsFrame extends KoLFrame
 			{
 				String defaultLimitSetting = settings.getProperty( "defaultLimit" );
 				String forceSortSetting = settings.getProperty( "forceSorting" );
+				String aggregateSetting = settings.getProperty( "aggregatePrices" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
 
 				defaultLimitField.setText( defaultLimitSetting == null ? "13" : defaultLimitSetting );
-
-				if ( forceSortSetting == null || forceSortSetting.equals( "false" ) )
-					forceSortSelect.setSelectedIndex( 0 );
-				else
-					forceSortSelect.setSelectedIndex( 1 );
+				forceSortSelect.setSelectedIndex( forceSortSetting == null || forceSortSetting.equals( "false" ) ? 0 : 1 );
+				aggregateSelect.setSelectedIndex( aggregateSetting == null || aggregateSetting.equals( "false" ) ? 0 : 1 );
 			}
 		}
 
@@ -1085,6 +1089,7 @@ public class OptionsFrame extends KoLFrame
 			{
 				settings.setProperty( "defaultLimit", defaultLimitField.getText().length() == 0 ? "13" : defaultLimitField.getText() );
 				settings.setProperty( "forceSorting", String.valueOf( forceSortSelect.getSelectedIndex() == 1 ) );
+				settings.setProperty( "aggregatePrices", String.valueOf( aggregateSelect.getSelectedIndex() == 0 ) );
 				saveSettings();
 			}
 		}

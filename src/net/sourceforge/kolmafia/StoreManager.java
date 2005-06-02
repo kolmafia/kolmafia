@@ -110,31 +110,44 @@ public class StoreManager implements KoLConstants
 		ArrayList results = new ArrayList();
 		(new SearchMallRequest( client, "\'\'" + itemName + "\'\'", 0, results )).run();
 
-		TreeMap prices = new TreeMap();
-		MallPurchaseRequest currentItem;
-		Integer currentQuantity, currentPrice;
-
 		Iterator i = results.iterator();
-		while ( i.hasNext() )
-		{
-			currentItem = (MallPurchaseRequest) i.next();
-			currentPrice = new Integer( currentItem.getPrice() );
+		MallPurchaseRequest currentItem;
 
-			currentQuantity = (Integer) prices.get( currentPrice );
-			if ( currentQuantity == null )
-				prices.put( currentPrice, new Integer( currentItem.getQuantity() ) );
-			else
-				prices.put( currentPrice, new Integer( currentQuantity.intValue() + currentItem.getQuantity() ) );
+		if ( client.getSettings().getProperty( "aggregatePrices" ) == null || client.getSettings().getProperty( "aggregatePrices" ).equals( "true" ) )
+		{
+			TreeMap prices = new TreeMap();
+			Integer currentQuantity, currentPrice;
+
+			while ( i.hasNext() )
+			{
+				currentItem = (MallPurchaseRequest) i.next();
+				currentPrice = new Integer( currentItem.getPrice() );
+
+				currentQuantity = (Integer) prices.get( currentPrice );
+				if ( currentQuantity == null )
+					prices.put( currentPrice, new Integer( currentItem.getQuantity() ) );
+				else
+					prices.put( currentPrice, new Integer( currentQuantity.intValue() + currentItem.getQuantity() ) );
+			}
+
+			priceSummary.clear();
+			i = prices.keySet().iterator();
+
+			while ( i.hasNext() )
+			{
+				currentPrice = (Integer) i.next();
+				priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
+					df.format( currentPrice.intValue() ) + " meat" );
+			}
 		}
-
-		priceSummary.clear();
-		i = prices.keySet().iterator();
-
-		while ( i.hasNext() )
+		else
 		{
-			currentPrice = (Integer) i.next();
-			priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
-				df.format( currentPrice.intValue() ) + " meat" );
+			priceSummary.clear();
+			while ( i.hasNext() )
+			{
+				currentItem = (MallPurchaseRequest) i.next();
+				priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + " @ " + df.format( currentItem.getPrice() ) );
+			}
 		}
 	}
 
