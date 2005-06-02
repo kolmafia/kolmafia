@@ -275,8 +275,8 @@ public class AdventureFrame extends KoLFrame
 		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
 
 		JMenu scriptMenu = addScriptMenu( menuBar );
-		scriptMenu.add( foodItem, 2 );
-		scriptMenu.add( buffbotMenuItem, 3 );
+		scriptMenu.add( foodItem, 3 );
+		scriptMenu.add( buffbotMenuItem, 4 );
 
 		JMenu visitMenu = new JMenu( "Travel" );
 		visitMenu.setMnemonic( KeyEvent.VK_T );

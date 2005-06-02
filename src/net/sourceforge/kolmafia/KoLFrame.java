@@ -355,7 +355,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		scriptMenu.add( loggerItem );
 
-		JMenuItem gcliItem = new JMenuItem( "Graphical CLI", KeyEvent.VK_G );
+		JMenuItem gcliItem = new JMenuItem( "Access CLI Mode", KeyEvent.VK_A );
 		gcliItem.addActionListener( new GraphicalCLIListener() );
 
 		scriptMenu.add( gcliItem );

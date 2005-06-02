@@ -112,28 +112,16 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( graphicalCLI != null )
 		{
-			switch ( state )
-			{
-				case NOCHANGE:
-					buffer.append( "<font color=black>" );
-					break;
+			StringBuffer colorBuffer = new StringBuffer();
+			if ( state == ERROR_STATE )
+				colorBuffer.append( "<font color=red>" );
+			else
+				colorBuffer.append( "<font color=black>" );
 
-				case ENABLED_STATE:
-					buffer.append( "<font color=blue>" );
-					break;
-
-				case ERROR_STATE:
-					buffer.append( "<font color=red>" );
-					break;
-
-				case DISABLED_STATE:
-					buffer.append( "<font color=black>" );
-					break;
-			}
-
-			buffer.append( message );
-			buffer.append( "</font><br>" );
-			buffer.append( System.getProperty( "line.separator" ) );
+			colorBuffer.append( message );
+			colorBuffer.append( "</font><br>" );
+			colorBuffer.append( System.getProperty( "line.separator" ) );
+			buffer.append( colorBuffer.toString() );
 		}
 	}
 
@@ -348,6 +336,7 @@ public class KoLmafiaGUI extends KoLmafia
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			scrollPane.setVerticalScrollBar( new CommandScrollBar() );
+			buffer.setScrollPane( scrollPane );
 
 			JPanel entryPanel = new JPanel();
 			entryField = new JTextField();
@@ -454,7 +443,14 @@ public class KoLmafiaGUI extends KoLmafia
 				{
 					try
 					{
-						(new KoLmafiaCLI( KoLmafiaGUI.this, (String) null )).executeLine( command );
+						buffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
+
+						if ( command.toLowerCase().equals( "login" ) )
+							buffer.append( "<font color=red>This command is not available in the GCLI</font><br>" );
+						else
+							(new KoLmafiaCLI( KoLmafiaGUI.this, (String) null )).executeLine( command );
+
+						buffer.append( "<br>" );
 					}
 					catch ( Exception e )
 					{
