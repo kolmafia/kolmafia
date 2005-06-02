@@ -209,7 +209,7 @@ public class ChatBuffer
 			if ( newContents == null )
 			{
 				displayPane.setContentType( "text/html" );
-				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style><body>" + displayBuffer.toString() + "</body></html>" );
+				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 			}
 			else
 			{
