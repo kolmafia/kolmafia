@@ -1008,6 +1008,14 @@ public class AdventureFrame extends KoLFrame
 					return;
 
 				String [] targets = targetField.getText().split( "," );
+				for ( int i = 0; i < targets.length; ++i )
+					targets[i] = targets[i].trim();
+
+				for ( int i = 0; i < targets.length; ++i )
+					if ( targets[i] != null )
+						for ( int j = i; j < targets.length; ++j )
+							if ( targets[j] == null || targets[i].equals( targets[j] ) )
+								targets[j] = null;
 
 				int buffCount = maxBuff ?
 					(int) ( client.getCharacterData().getCurrentMP() /
@@ -1017,7 +1025,8 @@ public class AdventureFrame extends KoLFrame
 					client.makeRequest( new UseSkillRequest( client, buffName, "", buffCount ), 1 );
 
 				for ( int i = 0; i < targets.length; ++i )
-					client.makeRequest( new UseSkillRequest( client, buffName, targets[i].trim(), buffCount ), 1 );
+					if ( targets[i] != null )
+						client.makeRequest( new UseSkillRequest( client, buffName, targets[i], buffCount ), 1 );
 			}
 		}
 	}
