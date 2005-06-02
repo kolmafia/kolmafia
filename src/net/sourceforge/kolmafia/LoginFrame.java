@@ -329,6 +329,9 @@ public class LoginFrame extends KoLFrame
 					client.getSettings().saveSettings();
 				}
 
+				if ( isQuickLogin && !loginname.endsWith( "/q" ) )
+					loginname += "/q";
+
 				updateDisplay( DISABLED_STATE, "Determining login settings..." );
 				(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected(), isQuickLogin )).run();
 			}
