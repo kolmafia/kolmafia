@@ -1013,7 +1013,7 @@ public class AdventureFrame extends KoLFrame
 
 				for ( int i = 0; i < targets.length; ++i )
 					if ( targets[i] != null )
-						for ( int j = i; j < targets.length; ++j )
+						for ( int j = i + 1; j < targets.length; ++j )
 							if ( targets[j] == null || targets[i].equals( targets[j] ) )
 								targets[j] = null;
 
