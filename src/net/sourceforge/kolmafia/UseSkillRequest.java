@@ -70,7 +70,7 @@ public class UseSkillRequest extends KoLRequest
 			if ( target == null || target.trim().length() == 0 )
 			{
 				if ( client.getCharacterData().getUserID() != 0 )
-					addFormField( "targetplayer", "" + client.getCharacterData().getUserID() );
+					addFormField( "targetplayer", String.valueOf( client.getCharacterData().getUserID() ) );
 				else
 					addFormField( "specificplayer", client.getLoginName() );
 			}
