@@ -217,8 +217,11 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "tiny house" :
 			settings.getProperty( "buffBotMPRestore" );
 
-		whiteListArray = settings.getProperty("whiteList") == null ? new String[0] :
-			settings.getProperty("whiteList").toLowerCase().split("\\s*,\\s*");
+		String whiteListString = settings.getProperty("whiteList") == null ? "" :
+			settings.getProperty("whiteList").toLowerCase();
+		if(whiteListString.contains("$clan"))
+			whiteListString = whiteListString.replaceFirst("\\$clan", client.getClanManager().retrieveClanCDL());
+		whiteListArray = whiteListString.split("\\s*,\\s*");
 		Arrays.sort(whiteListArray);
 
 		refundMessage = client.getSettings().getProperty( "invalidBuffMessage" ) == null ? "" :
