@@ -354,6 +354,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		loggerItem.addActionListener( new ToggleMacroListener( loggerItem ) );
 
 		scriptMenu.add( loggerItem );
+
+		JMenuItem gcliItem = new JMenuItem( "Graphical CLI", KeyEvent.VK_G );
+		gcliItem.addActionListener( new GraphicalCLIListener() );
+
+		scriptMenu.add( gcliItem );
+
 		menu.add( scriptMenu );
 
 		File scriptDirectory = new File( "scripts/" );
@@ -1242,6 +1248,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					mailboxDisplay.stateChanged( null );
 				}
 			}
+		}
+	}
+
+	private class GraphicalCLIListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	((KoLmafiaGUI) client).initializeGCLI();
 		}
 	}
 

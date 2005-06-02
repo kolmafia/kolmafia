@@ -105,7 +105,7 @@ public class KoLmafiaCLI extends KoLmafia
 			System.out.println( KoLRequest.getRootHostName() + " selected." );
 			System.out.println();
 
-			KoLmafiaCLI session = new KoLmafiaCLI( null, null );
+			KoLmafiaCLI session = new KoLmafiaCLI( null, (String) null );
 
 			if ( initialScript == null )
 			{
@@ -147,7 +147,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			super.parseResult( result );
 			if ( !inLoginState() )
-				outputStream.println( (result.startsWith( "You" ) ? " - " : " - Adventure result: ") + result );
+				updateDisplay( NOCHANGE, (result.startsWith( "You" ) ? " - " : " - Adventure result: ") + result );
 		}
 		else
 			scriptRequestor.parseResult( result );
@@ -161,11 +161,14 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	public KoLmafiaCLI( KoLmafia scriptRequestor, String scriptLocation ) throws IOException
+	{	this( scriptRequestor, scriptLocation == null ? System.in : DataUtilities.getFileInputStream( "", "", scriptLocation ) );
+	}
+
+	public KoLmafiaCLI( KoLmafia scriptRequestor, InputStream inputStream ) throws IOException
 	{
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
 		this.scriptRequestor.resetContinueState();
 
-		InputStream inputStream = scriptLocation == null ? System.in : DataUtilities.getFileInputStream( "", "", scriptLocation );
 		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : new NullStream();
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 		mirrorStream = new NullStream();
@@ -192,7 +195,6 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( username == null || username.length() == 0 )
 			{
 				outputStream.println( "Invalid login." );
-				attemptLogin();
 				return;
 			}
 
@@ -204,7 +206,6 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( password == null || password.length() == 0 )
 			{
 				outputStream.println( "Invalid password." );
-				attemptLogin();
 				return;
 			}
 
@@ -249,9 +250,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( scriptRequestor == this )
 		{
-			outputStream.println();
+			updateDisplay( NOCHANGE, "" );
 			executeCommand( "moons", "" );
-			outputStream.println();
+			updateDisplay( NOCHANGE, "" );
 		}
 	}
 
@@ -280,16 +281,12 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( line == null )
 					return;
 
-				if ( scriptRequestor == this )
-					outputStream.println();
-
+				updateDisplay( NOCHANGE, "" );
 				executeLine( line.trim() );
+				updateDisplay( NOCHANGE, "" );
 
 				if ( scriptRequestor == this )
-				{
-					outputStream.println();
 					outputStream.print( " > " );
-				}
 			}
 
 			if ( line == null || line.trim().length() == 0 || !(scriptRequestor instanceof KoLmafiaCLI) )
@@ -316,7 +313,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * yet another method.
 	 */
 
-	private void executeLine( String line )
+	public void executeLine( String line )
 	{
 		if ( line.trim().length() == 0 )
 			return;
@@ -444,10 +441,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "moon" ) )
 		{
-			outputStream.println( "Ronald: " + MoonPhaseDatabase.getRonaldMoonPhase() );
-			outputStream.println( "Grimace: " + MoonPhaseDatabase.getGrimaceMoonPhase() );
-			outputStream.println();
-			scriptRequestor.updateDisplay( NOCHANGE, MoonPhaseDatabase.getMoonEffect() );
+			updateDisplay( NOCHANGE, "Ronald: " + MoonPhaseDatabase.getRonaldMoonPhase() );
+			updateDisplay( NOCHANGE, "Grimace: " + MoonPhaseDatabase.getGrimaceMoonPhase() );
+			updateDisplay( NOCHANGE, "" );
+			updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+
 			return;
 		}
 
@@ -731,7 +729,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			List results = new ArrayList();
 			(new SearchMallRequest( scriptRequestor, parameters, results )).run();
-			outputStream.println();
+			updateDisplay( ENABLED_STATE, "" );
 			printList( results, outputStream );
 			return;
 		}
@@ -912,7 +910,7 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.makeRequest( new HeroDonationRequest( scriptRequestor, heroID, amountRemaining ), 1 );
 
 			if ( scriptRequestor.permitsContinue() )
-				scriptRequestor.updateDisplay( NOCHANGE, "Requests complete!" );
+				scriptRequestor.updateDisplay( ENABLED_STATE, "Requests complete!" );
 		}
 	}
 
@@ -968,7 +966,7 @@ public class KoLmafiaCLI extends KoLmafia
 		executePrintCommand( parameterList[0].toLowerCase(), desiredOutputStream );
 
 		if ( parameterList.length != 1 )
-			scriptRequestor.updateDisplay( NOCHANGE, "Data has been printed to <" + parameterList[1] + ">" );
+			scriptRequestor.updateDisplay( ENABLED_STATE, "Data has been printed to <" + parameterList[1] + ">" );
 	}
 
 	/**
@@ -981,45 +979,96 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, PrintStream outputStream )
 	{
-		outputStream.println( new Date() );
-		outputStream.println( MoonPhaseDatabase.getMoonEffect() );
-		outputStream.println();
+		if ( outputStream instanceof NullStream )
+		{
+			updateDisplay( NOCHANGE, (new Date()).toString() );
+			updateDisplay( NOCHANGE, MoonPhaseDatabase.getMoonEffect() );
+			updateDisplay( NOCHANGE, "" );
+		}
+		else
+		{
+			outputStream.println( new Date() );
+			outputStream.println( MoonPhaseDatabase.getMoonEffect() );
+			outputStream.println();
+		}
 
 		KoLCharacter data = scriptRequestor.getCharacterData();
 
 		if ( desiredData.equals( "session" ) )
 		{
-			outputStream.println( "Player: " + scriptRequestor.getLoginName() );
-			outputStream.println( "Session ID: " + scriptRequestor.getSessionID() );
-			outputStream.println( "Password Hash: " + scriptRequestor.getPasswordHash() );
+			if ( outputStream instanceof NullStream )
+			{
+				updateDisplay( ENABLED_STATE, "Player: " + scriptRequestor.getLoginName() );
+				updateDisplay( ENABLED_STATE, "Session ID: " + scriptRequestor.getSessionID() );
+				updateDisplay( ENABLED_STATE, "Password Hash: " + scriptRequestor.getPasswordHash() );
+			}
+			else
+			{
+				outputStream.println( "Player: " + scriptRequestor.getLoginName() );
+				outputStream.println( "Session ID: " + scriptRequestor.getSessionID() );
+				outputStream.println( "Password Hash: " + scriptRequestor.getPasswordHash() );
+			}
+
 			return;
 		}
 
 		if ( desiredData.startsWith( "stat" ) )
 		{
-			outputStream.println( "Lv: " + data.getLevel() );
-			outputStream.println( "HP: " + data.getCurrentHP() + " / " + df.format( data.getMaximumHP() ) );
-			outputStream.println( "MP: " + data.getCurrentMP() + " / " + df.format( data.getMaximumMP() ) );
-			outputStream.println();
-			outputStream.println( "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
-			outputStream.println( "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
-			outputStream.println( "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
-			outputStream.println();
-			outputStream.println( "Meat: " + df.format( data.getAvailableMeat() ) );
-			outputStream.println( "Drunk: " + data.getInebriety() );
-			outputStream.println( "Adv: " + data.getAdventuresLeft() );
-			outputStream.println( "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
+			if ( outputStream instanceof NullStream )
+			{
+				updateDisplay( ENABLED_STATE, "Lv: " + data.getLevel() );
+				updateDisplay( ENABLED_STATE, "HP: " + data.getCurrentHP() + " / " + df.format( data.getMaximumHP() ) );
+				updateDisplay( ENABLED_STATE, "MP: " + data.getCurrentMP() + " / " + df.format( data.getMaximumMP() ) );
+				updateDisplay( ENABLED_STATE, "" );
+				updateDisplay( ENABLED_STATE, "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
+				updateDisplay( ENABLED_STATE, "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
+				updateDisplay( ENABLED_STATE, "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
+				updateDisplay( ENABLED_STATE, "" );
+				updateDisplay( ENABLED_STATE, "Meat: " + df.format( data.getAvailableMeat() ) );
+				updateDisplay( ENABLED_STATE, "Drunk: " + data.getInebriety() );
+				updateDisplay( ENABLED_STATE, "Adv: " + data.getAdventuresLeft() );
+				updateDisplay( ENABLED_STATE, "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
+			}
+			else
+			{
+				outputStream.println( "Lv: " + data.getLevel() );
+				outputStream.println( "HP: " + data.getCurrentHP() + " / " + df.format( data.getMaximumHP() ) );
+				outputStream.println( "MP: " + data.getCurrentMP() + " / " + df.format( data.getMaximumMP() ) );
+				outputStream.println();
+				outputStream.println( "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
+				outputStream.println( "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
+				outputStream.println( "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
+				outputStream.println();
+				outputStream.println( "Meat: " + df.format( data.getAvailableMeat() ) );
+				outputStream.println( "Drunk: " + data.getInebriety() );
+				outputStream.println( "Adv: " + data.getAdventuresLeft() );
+				outputStream.println( "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
+			}
+
 			return;
 		}
 
 		if ( desiredData.startsWith( "equip" ) )
 		{
-			outputStream.println( "       Hat: " + data.getHat() );
-			outputStream.println( "    Weapon: " + data.getWeapon() );
-			outputStream.println( "     Pants: " + data.getPants() );
-			outputStream.println( " Accessory: " + data.getAccessory1() );
-			outputStream.println( " Accessory: " + data.getAccessory2() );
-			outputStream.println( " Accessory: " + data.getAccessory3() );
+			if ( outputStream instanceof NullStream )
+			{
+				updateDisplay( ENABLED_STATE, "       Hat: " + data.getHat() );
+				updateDisplay( ENABLED_STATE, "    Weapon: " + data.getWeapon() );
+				updateDisplay( ENABLED_STATE, "     Pants: " + data.getPants() );
+				updateDisplay( ENABLED_STATE, " Accessory: " + data.getAccessory1() );
+				updateDisplay( ENABLED_STATE, " Accessory: " + data.getAccessory2() );
+				updateDisplay( ENABLED_STATE, " Accessory: " + data.getAccessory3() );
+			}
+			else
+			{
+				outputStream.println( "       Hat: " + data.getHat() );
+				outputStream.println( "    Weapon: " + data.getWeapon() );
+				outputStream.println( "     Pants: " + data.getPants() );
+				outputStream.println( " Accessory: " + data.getAccessory1() );
+				outputStream.println( " Accessory: " + data.getAccessory2() );
+				outputStream.println( " Accessory: " + data.getAccessory3() );
+			}
+
 			return;
 		}
 
@@ -1059,7 +1108,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		scriptRequestor.updateDisplay( ERROR_STATE, "Unknown data type: " + desiredData );
+		updateDisplay( ERROR_STATE, "Unknown data type: " + desiredData );
 		if ( scriptRequestor != this )
 			scriptRequestor.cancelRequest();
 	}
@@ -1551,6 +1600,10 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		outputStream.println( message );
 		mirrorStream.println( message );
+
+		if ( scriptRequestor != this )
+			scriptRequestor.updateDisplay( state, message );
+
 		scriptRequestor.getLogStream().println( message );
 
 		// There's a special case to be handled if the login was not
@@ -1654,11 +1707,20 @@ public class KoLmafiaCLI extends KoLmafia
 	 * stream, simply pass the output stream to this method.
 	 */
 
-	private static void printList( List printing, PrintStream outputStream )
+	private void printList( List printing, PrintStream outputStream )
 	{
+		String currentPrintedItem;
 		Iterator printingIterator = printing.iterator();
+
 		while ( printingIterator.hasNext() )
-			outputStream.println( printingIterator.next() );
+		{
+			currentPrintedItem = (String) printingIterator.next().toString();
+
+			if ( outputStream instanceof NullStream )
+				updateDisplay( ENABLED_STATE, currentPrintedItem );
+			else
+				outputStream.println( currentPrintedItem );
+		}
 	}
 
 	/**

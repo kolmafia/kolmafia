@@ -33,6 +33,32 @@
  */
 
 package net.sourceforge.kolmafia;
+
+// layout
+import java.awt.Dimension;
+import java.awt.CardLayout;
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
+
+// event listeners
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import javax.swing.SwingUtilities;
+
+// containers
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JEditorPane;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JOptionPane;
 
 /**
@@ -47,6 +73,8 @@ import javax.swing.JOptionPane;
 public class KoLmafiaGUI extends KoLmafia
 {
 	private KoLFrame activeFrame;
+	private LimitedSizeChatBuffer buffer;
+	private CommandDisplayFrame graphicalCLI;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -80,6 +108,32 @@ public class KoLmafiaGUI extends KoLmafia
 			activeFrame.updateDisplay( state, message );
 			if ( isBuffBotActive() )
 				buffBotHome.updateStatus( message );
+		}
+
+		if ( graphicalCLI != null )
+		{
+			switch ( state )
+			{
+				case NOCHANGE:
+					buffer.append( "<font color=black>" );
+					break;
+
+				case ENABLED_STATE:
+					buffer.append( "<font color=blue>" );
+					break;
+
+				case ERROR_STATE:
+					buffer.append( "<font color=red>" );
+					break;
+
+				case DISABLED_STATE:
+					buffer.append( "<font color=black>" );
+					break;
+			}
+
+			buffer.append( message );
+			buffer.append( "</font><br>" );
+			buffer.append( System.getProperty( "line.separator" ) );
 		}
 	}
 
@@ -138,6 +192,11 @@ public class KoLmafiaGUI extends KoLmafia
 
 			activeFrame.setVisible( true );
 			activeFrame.requestFocus();
+
+			if ( graphicalCLI != null )
+				graphicalCLI.dispose();
+
+			graphicalCLI = null;
 		}
 	}
 
@@ -251,5 +310,157 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.makeRequest( request, iterations );
 		((AdventureFrame)activeFrame).refreshConcoctionsList();
+	}
+
+	public void initializeGCLI()
+	{
+		buffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI" );
+		graphicalCLI = new CommandDisplayFrame( this );
+		graphicalCLI.setVisible( true );  graphicalCLI.requestFocus();
+	}
+
+	private class CommandDisplayFrame extends KoLFrame
+	{
+		public CommandDisplayFrame( KoLmafia client )
+		{
+			super( "KoLmafia: Graphical CLI", client );
+			getContentPane().setLayout( new BorderLayout( 0, 0 ) );
+			getContentPane().add( new CommandDisplayPanel() );
+			setSize( new Dimension( 400, 300 ) );
+		}
+	}
+
+	private class CommandDisplayPanel extends JPanel
+	{
+		private JTextField entryField;
+		private JScrollPane scrollPane;
+		private JEditorPane outputDisplay;
+
+		public CommandDisplayPanel()
+		{
+			outputDisplay = new JEditorPane();
+			outputDisplay.setEditable( false );
+
+			buffer = new LimitedSizeChatBuffer( "KoLmafia Graphical CLI" );
+			buffer.setChatDisplay( outputDisplay );
+
+			scrollPane = new JScrollPane( outputDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			scrollPane.setVerticalScrollBar( new CommandScrollBar() );
+
+			JPanel entryPanel = new JPanel();
+			entryField = new JTextField();
+			entryField.addKeyListener( new CommandEntryListener() );
+
+			JButton entryButton = new JButton( "exec" );
+			entryButton.addActionListener( new CommandEntryListener() );
+			entryPanel.setLayout( new BoxLayout( entryPanel, BoxLayout.X_AXIS ) );
+			entryPanel.add( entryField, BorderLayout.CENTER );
+			entryPanel.add( entryButton, BorderLayout.EAST );
+
+			setLayout( new BorderLayout( 1, 1 ) );
+			add( scrollPane, BorderLayout.CENTER );
+			add( entryPanel, BorderLayout.SOUTH );
+		}
+
+		private class CommandScrollBar extends JScrollBar
+		{
+			private boolean autoscroll;
+
+			public CommandScrollBar()
+			{
+				super( VERTICAL );
+				this.autoscroll = true;
+			}
+
+			public void setValue( int value )
+			{
+				if ( getValueIsAdjusting() )
+					autoscroll = getMaximum() - getVisibleAmount() - getValue() < 10;
+
+				if ( autoscroll || getValueIsAdjusting() )
+					super.setValue( value );
+			}
+
+			protected void fireAdjustmentValueChanged( int id, int type, int value )
+			{
+				if ( autoscroll || getValueIsAdjusting() )
+					super.fireAdjustmentValueChanged( id, type, value );
+			}
+
+			public void setValues( int newValue, int newExtent, int newMin, int newMax )
+			{
+				if ( autoscroll || getValueIsAdjusting() )
+					super.setValues( newValue, newExtent, newMin, newMax );
+				else
+					super.setValues( getValue(), newExtent, newMin, newMax );
+			}
+		}
+
+		public JScrollPane getScrollPane()
+		{	return scrollPane;
+		}
+
+		public JEditorPane getOutputDisplay()
+		{	return outputDisplay;
+		}
+
+		public boolean hasFocus()
+		{	return entryField.hasFocus() || outputDisplay.hasFocus();
+		}
+
+		public void requestFocus()
+		{	entryField.requestFocus();
+		}
+
+		/**
+		 * An action listener responsible for sending the text
+		 * contained within the entry panel to the KoL chat
+		 * server for processing.  This listener spawns a new
+		 * request to the server which then handles everything
+		 * that's needed.
+		 */
+
+		private class CommandEntryListener extends KeyAdapter implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{	submitCommand();
+			}
+
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+					submitCommand();
+			}
+
+			private void submitCommand()
+			{
+				(new CommandEntryThread( entryField.getText().trim() )).start();
+				entryField.setText( "" );
+			}
+
+			private class CommandEntryThread extends Thread
+			{
+				private String command;
+
+				public CommandEntryThread( String command )
+				{
+					this.command = command;
+					setDaemon( true );
+				}
+
+				public void run()
+				{
+					try
+					{
+						(new KoLmafiaCLI( KoLmafiaGUI.this, (String) null )).executeLine( command );
+					}
+					catch ( Exception e )
+					{
+					}
+				}
+			}
+		}
 	}
 }
