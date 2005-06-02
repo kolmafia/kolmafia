@@ -1007,13 +1007,17 @@ public class AdventureFrame extends KoLFrame
 				if ( buffName == null )
 					return;
 
-				String target = targetField.getText().trim();
+				String [] targets = targetField.getText().split( "," );
 
 				int buffCount = maxBuff ?
 					(int) ( client.getCharacterData().getCurrentMP() /
 						ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) : getValue( countField, 1 );
 
-				client.makeRequest( new UseSkillRequest( client, buffName, target, buffCount ), 1 );
+				if ( targets.length == 0 )
+					client.makeRequest( new UseSkillRequest( client, buffName, "", buffCount ), 1 );
+
+				for ( int i = 0; i < targets.length; ++i )
+					client.makeRequest( new UseSkillRequest( client, buffName, targets[i].trim(), buffCount ), 1 );
 			}
 		}
 	}
