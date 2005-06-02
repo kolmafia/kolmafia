@@ -1600,11 +1600,10 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		outputStream.println( message );
 		mirrorStream.println( message );
-
-		if ( scriptRequestor != this )
-			scriptRequestor.updateDisplay( state, message );
-
 		scriptRequestor.getLogStream().println( message );
+
+		if ( scriptRequestor instanceof KoLmafiaGUI )
+			scriptRequestor.updateDisplay( state, message );
 
 		// There's a special case to be handled if the login was not
 		// successful - in other words, attempt to prompt the user again
