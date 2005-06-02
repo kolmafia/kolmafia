@@ -625,6 +625,8 @@ public class ClanManager implements KoLConstants
 
 		switch ( filterType )
 		{
+			case ClanSnapshotTable.NAME_FILTER:
+			case ClanSnapshotTable.ID_FILTER:
 			case ClanSnapshotTable.LV_FILTER:
 			case ClanSnapshotTable.RANK_FILTER:
 			case ClanSnapshotTable.KARMA_FILTER:

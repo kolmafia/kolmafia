@@ -51,18 +51,20 @@ public class ClanSnapshotTable implements KoLConstants
 	public static final int BELOW_MATCH = -1;
 	public static final int ABOVE_MATCH = 1;
 
-	public static final int LV_FILTER = 1;
-	public static final int MUS_FILTER = 2;
-	public static final int MYS_FILTER = 3;
-	public static final int MOX_FILTER = 4;
-	public static final int POWER_FILTER = 5;
-	public static final int PVP_FILTER = 6;
-	public static final int CLASS_FILTER = 7;
-	public static final int RANK_FILTER = 8;
-	public static final int KARMA_FILTER = 9;
-	public static final int MEAT_FILTER = 10;
-	public static final int TURN_FILTER = 11;
-	public static final int LOGIN_FILTER = 12;
+	public static final int NAME_FILTER = 1;
+	public static final int ID_FILTER = 2;
+	public static final int LV_FILTER = 3;
+	public static final int MUS_FILTER = 4;
+	public static final int MYS_FILTER = 5;
+	public static final int MOX_FILTER = 6;
+	public static final int POWER_FILTER = 7;
+	public static final int PVP_FILTER = 8;
+	public static final int CLASS_FILTER = 9;
+	public static final int RANK_FILTER = 10;
+	public static final int KARMA_FILTER = 11;
+	public static final int MEAT_FILTER = 12;
+	public static final int TURN_FILTER = 13;
+	public static final int LOGIN_FILTER = 14;
 
 	private KoLmafia client;
 	private String clanID;
@@ -112,6 +114,14 @@ public class ClanSnapshotTable implements KoLConstants
 			{
 				switch ( filterType )
 				{
+					case NAME_FILTER:
+						compareValue = profileArray[i].getPlayerName().compareToIgnoreCase( filter );
+						break;
+
+					case ID_FILTER:
+						compareValue = Integer.parseInt( profileArray[i].getPlayerID() ) - df.parse( filter ).intValue();
+						break;
+
 					case LV_FILTER:
 						compareValue = profileArray[i].getPlayerLevel() - df.parse( filter ).intValue();
 						break;

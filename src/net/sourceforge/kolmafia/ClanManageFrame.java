@@ -474,15 +474,16 @@ public class ClanManageFrame extends KoLFrame
 
 	private class MemberSearchPanel extends NonContentPanel
 	{
-		private final int [] paramKeys = { ClanSnapshotTable.LV_FILTER, ClanSnapshotTable.PVP_FILTER,
-			ClanSnapshotTable.MUS_FILTER, ClanSnapshotTable.MYS_FILTER, ClanSnapshotTable.MOX_FILTER,
-			ClanSnapshotTable.POWER_FILTER, ClanSnapshotTable.CLASS_FILTER, ClanSnapshotTable.RANK_FILTER,
-			ClanSnapshotTable.KARMA_FILTER, ClanSnapshotTable.MEAT_FILTER, ClanSnapshotTable.TURN_FILTER,
-			ClanSnapshotTable.LOGIN_FILTER };
+		private final int [] paramKeys = { ClanSnapshotTable.NAME_FILTER, ClanSnapshotTable.ID_FILTER,
+			ClanSnapshotTable.LV_FILTER, ClanSnapshotTable.PVP_FILTER, ClanSnapshotTable.MUS_FILTER,
+			ClanSnapshotTable.MYS_FILTER, ClanSnapshotTable.MOX_FILTER, ClanSnapshotTable.POWER_FILTER,
+			ClanSnapshotTable.CLASS_FILTER, ClanSnapshotTable.RANK_FILTER, ClanSnapshotTable.KARMA_FILTER,
+			ClanSnapshotTable.MEAT_FILTER, ClanSnapshotTable.TURN_FILTER, ClanSnapshotTable.LOGIN_FILTER };
 
-		private final String [] paramNames = { "Player level", "PVP Ranking", "Muscle points", "Mysticality points",
-			"Moxie points", "Total power points", "Player class", "Rank within clan",
-			"Accumulated karma", "Meat on hand", "Turns played", "Number of days idle" };
+		private final String [] paramNames = { "Player name", "KoL User ID", "Player level",
+			"PVP Ranking", "Muscle points", "Mysticality points", "Moxie points",
+			"Total power points", "Player class", "Rank within clan", "Accumulated karma",
+			"Meat on hand", "Turns played", "Number of days idle" };
 
 		private JComboBox parameterSelect;
 		private JComboBox matchSelect;
