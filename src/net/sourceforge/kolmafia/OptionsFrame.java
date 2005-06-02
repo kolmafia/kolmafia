@@ -423,21 +423,17 @@ public class OptionsFrame extends KoLFrame
 
 			actionSelect = new JComboBox( actionNames );
 
-			LockableListModel hpAutoFlee = new LockableListModel();
-			hpAutoFlee.add( "Never run from combat" );
+			hpAutoFleeSelect = new JComboBox();
+			hpAutoFleeSelect.addItem( "Never run from combat" );
 			for ( int i = 1; i <= 9; ++i )
-				hpAutoFlee.add( "Autoflee at " + (i*10) + "% HP" );
-
-			hpAutoFleeSelect = new JComboBox( hpAutoFlee );
+				hpAutoFleeSelect.addItem( "Autoflee at " + (i*10) + "% HP" );
 
 			// All the components of HP autorecover
 
-			LockableListModel hpAutoRecover = new LockableListModel();
-			hpAutoRecover.add( "Do not autorecover HP" );
+			hpAutoRecoverSelect = new JComboBox();
+			hpAutoRecoverSelect.addItem( "Do not autorecover HP" );
 			for ( int i = 0; i <= 9; ++i )
-				hpAutoRecover.add( "Autorecover HP at " + (i * 10) + "%" );
-
-			hpAutoRecoverSelect = new JComboBox( hpAutoRecover );
+				hpAutoRecoverSelect.addItem( "Autorecover HP at " + (i * 10) + "%" );
 
 			JPanel hpRecoveryScriptPanel = new JPanel();
 			hpRecoveryScriptPanel.setLayout( new BorderLayout( 0, 0 ) );
@@ -450,12 +446,10 @@ public class OptionsFrame extends KoLFrame
 
 			// All the components of MP autorecover
 
-			LockableListModel mpAutoRecover = new LockableListModel();
-			mpAutoRecover.add( "Do not autorecover MP" );
+			mpAutoRecoverSelect = new JComboBox();
+			mpAutoRecoverSelect.addItem( "Do not autorecover MP" );
 			for ( int i = 0; i <= 9; ++i )
-				mpAutoRecover.add( "Autorecover MP at " + (i * 10) + "%" );
-
-			mpAutoRecoverSelect = new JComboBox( mpAutoRecover );
+				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
 
 			JPanel mpRecoveryScriptPanel = new JPanel();
 			mpRecoveryScriptPanel.setLayout( new BorderLayout( 0, 0 ) );
@@ -707,26 +701,29 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox fontSizeSelect;
 		private JComboBox chatStyleSelect;
 		private JComboBox useTabsSelect;
+		private JComboBox nameClickSelect;
 		private JPanel colorPanel;
 
 		public ChatOptionsPanel()
 		{
 			super( "LoathingChat Preferences" );
 
-			LockableListModel fontSizes = new LockableListModel();
+			fontSizeSelect = new JComboBox();
 			for ( int i = 1; i <= 7; ++i )
-				fontSizes.add( new Integer( i ) );
-			fontSizeSelect = new JComboBox( fontSizes );
+				fontSizeSelect.addItem( String.valueOf( i ) );
 
-			LockableListModel chatStyles = new LockableListModel();
-			chatStyles.add( "Messenger style" );
-			chatStyles.add( "Trivia hosting style" );
-			chatStyleSelect = new JComboBox( chatStyles );
+			chatStyleSelect = new JComboBox();
+			chatStyleSelect.addItem( "Messenger style" );
+			chatStyleSelect.addItem( "Trivia hosting style" );
 
-			LockableListModel useTabs = new LockableListModel();
-			useTabs.add( "Use windowed chat interface" );
-			useTabs.add( "Use tabbed chat interface" );
-			useTabsSelect = new JComboBox( useTabs );
+			useTabsSelect = new JComboBox();
+			useTabsSelect.addItem( "Use windowed chat interface" );
+			useTabsSelect.addItem( "Use tabbed chat interface" );
+
+			nameClickSelect = new JComboBox();
+			nameClickSelect.addItem( "Open blue message" );
+			nameClickSelect.addItem( "Open green message" );
+			nameClickSelect.addItem( "Open player profile" );
 
 			colorPanel = new JPanel();
 			colorPanel.setLayout( new BoxLayout( colorPanel, BoxLayout.Y_AXIS ) );
@@ -767,11 +764,11 @@ public class OptionsFrame extends KoLFrame
 
 				if ( fontSize != null )
 				{
-					fontSizeSelect.setSelectedItem( Integer.valueOf( fontSize ) );
+					fontSizeSelect.setSelectedItem( String.valueOf( fontSize ) );
 					LimitedSizeChatBuffer.setFontSize( Integer.parseInt( fontSize ) );
 				}
 				else
-					fontSizeSelect.setSelectedItem( new Integer( 3 ) );
+					fontSizeSelect.setSelectedItem( "3" );
 
 				// Next, load the kind of chat style the user
 				// is using - again, for backwards compatibility,
@@ -782,6 +779,9 @@ public class OptionsFrame extends KoLFrame
 
 				String useTabs = settings.getProperty( "useTabbedChat" );
 				useTabsSelect.setSelectedIndex( (useTabs != null) ? Integer.parseInt( useTabs ) : 1 );
+
+				String nameClick = settings.getProperty( "nameClickOpens" );
+				nameClickSelect.setSelectedIndex( (nameClick != null) ? Integer.parseInt( nameClick ) : 0 );
 
 				String nameColor = settings.getProperty( "chatNameColors" );
 
@@ -825,6 +825,7 @@ public class OptionsFrame extends KoLFrame
 				LimitedSizeChatBuffer.setFontSize( fontSize.intValue() );
 				settings.setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
 				settings.setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
+				settings.setProperty( "nameClickOpens", String.valueOf( nameClickSelect.getSelectedIndex() ) );
 
 				if ( client.getMessenger() != null )
 					client.getMessenger().setTabbedFrameSetting( useTabsSelect.getSelectedIndex() == 1 );
@@ -1031,11 +1032,9 @@ public class OptionsFrame extends KoLFrame
 			super( "Mall Configuration" );
 			defaultLimitField = new JTextField( "13" );
 
-			LockableListModel forceSorting = new LockableListModel();
-			forceSorting.add( "No Sorting" );
-			forceSorting.add( "Force Price Sort" );
-
-			forceSortSelect = new JComboBox( forceSorting );
+			forceSortSelect = new JComboBox();
+			forceSortSelect.addItem( "No Sorting" );
+			forceSortSelect.addItem( "Force Price Sort" );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Default Limit: ", defaultLimitField );

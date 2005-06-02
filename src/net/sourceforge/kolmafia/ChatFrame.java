@@ -158,6 +158,11 @@ public class ChatFrame extends KoLFrame
 		clickOptions[1] = new JRadioButtonMenuItem( "Open green message", false );
 		clickOptions[2] = new JRadioButtonMenuItem( "Open player profile", false );
 
+		int clickSelect = client == null ? 0 : client.getSettings().getProperty( "nameClickOpens" ) == null ? 0 :
+			Integer.parseInt( client.getSettings().getProperty( "nameClickOpens" ) );
+
+		clickOptions[ clickSelect ].setSelected( true );
+
 		for ( int i = 0; i < 3; ++i )
 			clickGroup.add( clickOptions[i] );
 
