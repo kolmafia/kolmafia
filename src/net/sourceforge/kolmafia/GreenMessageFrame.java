@@ -131,7 +131,7 @@ public class GreenMessageFrame extends KoLFrame
 			messageEntry.setWrapStyleWord( true );
 			messageEntry.setText( quotedMessage );
 			JScrollPane scrollArea = new JScrollPane( messageEntry,
-				JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			add( scrollArea, BorderLayout.CENTER );
 		}
