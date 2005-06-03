@@ -131,7 +131,7 @@ public class ConcoctionsDatabase
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 		{
-			if ( concoctions[i] == null )
+			if ( concoctions[i] == null || concoctions[i].getMixingMethod() == ItemCreationRequest.NOCREATE )
 			{
 				String itemName = TradeableItemDatabase.getItemName(i);
 				if ( itemName != null )
@@ -174,7 +174,7 @@ public class ConcoctionsDatabase
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 		{
-			if ( concoctions[i] != null && concoctions[i].getMixingMethod() != ItemCreationRequest.COMBINE )
+			if ( concoctions[i] != null && concoctions[i].getMixingMethod() != ItemCreationRequest.NOCREATE && concoctions[i].getMixingMethod() != ItemCreationRequest.COMBINE )
 			{
 				if ( !isPermitted( concoctions[i].getMixingMethod(), client ) )
 				{
@@ -211,8 +211,8 @@ public class ConcoctionsDatabase
 		SortedListModel concoctionsList = new SortedListModel();
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
-			if ( quantityPossible[i] > 0 && concoctions[i] != null )
-				concoctionsList.add( new ItemCreationRequest( client, i, concoctions[i].getMixingMethod(), quantityPossible[i] ) );
+			if ( quantityPossible[i] > 0 )
+				concoctionsList.add( new ItemCreationRequest( client, i, getMixingMethod(i), quantityPossible[i] ) );
 
 		concoctionsList.addAll( StarChartRequest.getPossibleCombinations( client ) );
 		return concoctionsList;
@@ -285,7 +285,7 @@ public class ConcoctionsDatabase
 	 */
 
 	public static int getMixingMethod( int itemID )
-	{	return concoctions[itemID] == null ? -1 : concoctions[itemID].getMixingMethod();
+	{	return concoctions[itemID] == null ? ItemCreationRequest.NOCREATE : concoctions[itemID].getMixingMethod();
 	}
 
 	/**
