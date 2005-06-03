@@ -72,7 +72,7 @@ public class ClanManager implements KoLConstants
 		this.profileMap = new TreeMap();
 		this.stashMap = new TreeMap();
 
-		SNAPSHOT_DIRECTORY = "clan/";
+		SNAPSHOT_DIRECTORY = "clan" + File.pathSeparator;
 	}
 
 	private void retrieveClanData()
@@ -85,7 +85,8 @@ public class ClanManager implements KoLConstants
 			this.clanID = cmr.getClanID();
 			this.clanName = cmr.getClanName();
 
-			SNAPSHOT_DIRECTORY = "clan/" + clanID + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) + "/";
+			SNAPSHOT_DIRECTORY = "clan" + File.pathSeparator + clanID + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) +
+				File.pathSeparator;
 
 			this.snapshot = new ClanSnapshotTable( client, clanID, clanName, profileMap );
 			client.updateDisplay( ENABLED_STATE, "Clan data retrieved." );
