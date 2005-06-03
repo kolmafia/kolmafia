@@ -94,9 +94,30 @@ public class ClanManager implements KoLConstants
 
 	private boolean retrieveMemberData()
 	{
+		// First, determine how many member profiles need to be retrieved
+		// before this happens.
+
+		int profilesNeeded = 0;
+		Iterator requestIterator = profileMap.values().iterator();
+		ProfileRequest currentRequest;
+
+		while ( requestIterator.hasNext() )
+		{
+			currentRequest = (ProfileRequest) requestIterator.next();
+			if ( currentRequest.getCleanHTML().length() == 0 )
+				++profilesNeeded;
+		}
+
+		// If all the member profiles have already been retrieved, then
+		// you won't need to look up any profiles, so it takes no time.
+		// No need to confirm with the user.  Therefore, return.
+
+		if ( profilesNeeded == 0 )
+			return true;
+
 		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-			profileMap.size() + " members are currently in your clan.\nThis process should take " +
-			((int)(profileMap.size() / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
+			profileMap.size() + " members are currently in your clan.\nThis process will take " +
+			((int)(profilesNeeded / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
 			"Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
 				return false;
 
@@ -105,9 +126,7 @@ public class ClanManager implements KoLConstants
 
 		client.updateDisplay( DISABLED_STATE, "Processing request..." );
 
-		Iterator requestIterator = profileMap.values().iterator();
-		ProfileRequest currentRequest;
-
+		requestIterator = profileMap.values().iterator();
 		for ( int i = 1; requestIterator.hasNext() && client.permitsContinue(); ++i )
 		{
 			client.updateDisplay( NOCHANGE, "Examining member " + i + " of " + profileMap.size() + "..." );
@@ -234,105 +253,6 @@ public class ClanManager implements KoLConstants
 			{
 				int goodiesDifference = car.goodies - goodies;
 				return goodiesDifference != 0 ? goodiesDifference : name.compareToIgnoreCase( car.name );
-			}
-		}
-	}
-
-	/**
-	 * Boots idle members from the clan.  The user will be prompted for
-	 * the cutoff date relative to the current date.  Members whose last
-	 * login date preceeds the cutoff date will be booted from the clan.
-	 * If the clan member list was not previously initialized, this method
-	 * will also initialize that list.
-	 */
-
-	public void bootIdleMembers()
-	{
-		// If initialization was unsuccessful, then don't
-		// do anything.
-
-		if ( !initialize() )
-			return;
-
-		// It has been confirmed that the user wishes to
-		// continue.  Now, you need to retrieve the cutoff
-		// horizon the user wishes to use.
-
-		Date cutoffDate;
-
-		try
-		{
-			int daysIdle = df.parse( JOptionPane.showInputDialog( "How many days since last login?", "30" ) ).intValue();
-			long millisecondsIdle = 86400000L * daysIdle;
-			cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
-		}
-		catch ( Exception e )
-		{
-			// If user doesn't enter an integer, then just return
-			// without doing anything
-
-			return;
-		}
-
-		Object currentMember;
-		ProfileRequest memberLookup;
-
-		Matcher lastonMatcher;
-		List idleList = new ArrayList();
-
-		Iterator memberIterator = profileMap.keySet().iterator();
-
-		// In order to determine the last time the player
-		// was idle, you need to manually examine each of
-		// the player profiles for each player.
-
-		for ( int i = 1; memberIterator.hasNext(); ++i )
-		{
-			currentMember = memberIterator.next();
-			memberLookup = (ProfileRequest) profileMap.get( currentMember );
-			if ( cutoffDate.after( memberLookup.getLastLogin() ) )
-				idleList.add( currentMember );
-		}
-
-		// Now that all of the member profiles have been retrieved,
-		// you show the user the complete list of profileMap.
-
-		if ( idleList.isEmpty() )
-			JOptionPane.showMessageDialog( null, "No idle accounts detected!" );
-		else
-		{
-			Collections.sort( idleList );
-			Object selectedValue = JOptionPane.showInputDialog( null, idleList.size() + " idle members:",
-				"Idle hands!", JOptionPane.INFORMATION_MESSAGE, null, idleList.toArray(), idleList.get(0) );
-
-			// Now, you need to determine what to do with the data;
-			// sometimes, it shows too many players, and the person
-			// wishes to retain some and cancels the process.
-
-			if ( selectedValue != null )
-			{
-				(new ClanMembersRequest( client, idleList.toArray() )).run();
-				client.updateDisplay( ENABLED_STATE, "Idle members have been booted." );
-			}
-			else
-			{
-				File file = new File( SNAPSHOT_DIRECTORY + "idlelist.txt" );
-
-				try
-				{
-					file.getParentFile().mkdirs();
-					PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
-
-					for ( int i = 0; i < idleList.size(); ++i )
-						ostream.println( idleList.get(i) );
-				}
-				catch ( Exception e )
-				{
-					throw new RuntimeException( "The file <" + file.getAbsolutePath() +
-						"> could not be opened for writing" );
-				}
-
-				client.updateDisplay( ENABLED_STATE, "List of idle members saved to " + file.getAbsolutePath() );
 			}
 		}
 	}
