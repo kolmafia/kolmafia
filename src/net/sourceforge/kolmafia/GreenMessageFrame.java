@@ -202,14 +202,16 @@ public class GreenMessageFrame extends KoLFrame
 		{
 			try
 			{
-				AdventureResult [] possibleValues =
-					client == null ? new AdventureResult[0] : new AdventureResult[ client.getInventory().size() ];
-
 				Object [] items = client.getInventory().toArray();
 
+				if ( items.length == 0 )
+				{
+					JOptionPane.showMessageDialog( null, "KoLmafia does not detect any items in your inventory." );
+					return;
+				}
+
 				AdventureResult attachment = (AdventureResult) JOptionPane.showInputDialog(
-					null, "Attach to message...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
-					possibleValues, possibleValues[0] );
+					null, "Attach to message...", "Input", JOptionPane.INFORMATION_MESSAGE, null, items, items[0] );
 
 				int existingIndex = attachedItems.indexOf( attachment );
 				int defaultCount = existingIndex != -1 ? 0 :

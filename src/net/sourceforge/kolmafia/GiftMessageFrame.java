@@ -183,6 +183,7 @@ public class GiftMessageFrame extends KoLFrame
 			recipientEntry.setEnabled( isEnabled );
 			insideEntry.setEnabled( isEnabled );
 			attachSelect.setEnabled( isEnabled );
+			packageSelect.setEnabled( isEnabled );
 			attachButton.setEnabled( isEnabled );
 		}
 
@@ -231,14 +232,16 @@ public class GiftMessageFrame extends KoLFrame
 		{
 			try
 			{
-				AdventureResult [] possibleValues =
-					client == null ? new AdventureResult[0] : new AdventureResult[ client.getInventory().size() ];
-
 				Object [] items = client.getInventory().toArray();
 
+				if ( items.length == 0 )
+				{
+					JOptionPane.showMessageDialog( null, "KoLmafia does not detect any items in your inventory." );
+					return;
+				}
+
 				AdventureResult attachment = (AdventureResult) JOptionPane.showInputDialog(
-					null, "Add to gift...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
-					possibleValues, possibleValues[0] );
+					null, "Add to gift...", "Input", JOptionPane.INFORMATION_MESSAGE, null, items, items[0] );
 
 				int existingIndex = attachedItems.indexOf( attachment );
 				int defaultCount = existingIndex != -1 ? 0 :
