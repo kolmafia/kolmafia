@@ -43,13 +43,20 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ProfileFrame extends KoLFrame
 {
 	private String playerName;
+	private ProfileRequest profile;
 	private JEditorPane profileDisplay;
 
 	public ProfileFrame( KoLmafia client, String playerName )
+	{	this( client, playerName, new ProfileRequest( client, playerName ) );
+	}
+
+	public ProfileFrame( KoLmafia client, String playerName, ProfileRequest profile )
 	{
 		super( "KoLmafia: Profile for " + playerName, client );
 
+		this.profile = profile;
 		this.playerName = playerName;
+
 		profileDisplay = new JEditorPane();
 		profileDisplay.setEditable( false );
 		profileDisplay.setText( "Retrieving profile..." );
@@ -64,35 +71,15 @@ public class ProfileFrame extends KoLFrame
 		(new ProfileRequestThread()).start();
 	}
 
-	public ProfileFrame( KoLmafia client, String playerName, ProfileRequest pr )
-	{
-		super( "KoLmafia: Profile for " + playerName, client );
-
-		this.playerName = playerName;
-		profileDisplay = new JEditorPane();
-		profileDisplay.setEditable( false );
-		profileDisplay.setText( "Retrieving profile..." );
-
-		JScrollPane scrollPane = new JScrollPane( profileDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
-		getContentPane().setLayout( new GridLayout( 1, 1 ) );
-		getContentPane().add( scrollPane );
-
-		profileDisplay.setContentType( "text/html" );
-		profileDisplay.setText( pr.getCleanHTML() );
-	}
-
 	private class ProfileRequestThread extends Thread
 	{
 		public void run()
 		{
-			ProfileRequest getProfile = new ProfileRequest( client, playerName );
-			getProfile.run();
+			if ( profile.getCleanHTML().length() == 0 )
+				profile.run();
 
 			profileDisplay.setContentType( "text/html" );
-			profileDisplay.setText( getProfile.getCleanHTML() );
+			profileDisplay.setText( profile.getCleanHTML() );
 		}
 	}
 }
