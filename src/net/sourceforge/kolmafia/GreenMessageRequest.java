@@ -60,11 +60,20 @@ public class GreenMessageRequest extends KoLRequest
 
 		this.recipient = client.getPlayerID( recipient );
 		this.message = message;
-		this.attachments = new Object[1];
-		attachments[0] = attachment;
+
+		if ( attachment.getName().equals( AdventureResult.MEAT ) )
+		{
+			addFormField( "sendmeat", String.valueOf( attachment.getCount() ) );
+			this.attachments = new Object[0];
+		}
+		else
+		{
+			this.attachments = new Object[1];
+			attachments[0] = attachment;
+		}
 	}
 
-	public GreenMessageRequest( KoLmafia client, String recipient, String message, Object [] attachments )
+	public GreenMessageRequest( KoLmafia client, String recipient, String message, Object [] attachments, int meatAttachment )
 	{
 		super( client, "sendmessage.php" );
 		addFormField( "action", "send" );
@@ -109,7 +118,7 @@ public class GreenMessageRequest extends KoLRequest
 					// which will create the appropriate data to post.
 
 					if ( client.permitsContinue() )
-						(new GreenMessageRequest( client, recipient, "(item sending continuation)", itemHolder )).run();
+						(new GreenMessageRequest( client, recipient, message, itemHolder, 0 )).run();
 
 					currentBaseIndex += 11;
 					remainingItems -= 11;
@@ -121,23 +130,11 @@ public class GreenMessageRequest extends KoLRequest
 				return;
 			}
 
-			boolean attachedMeat = false;
-
 			for ( int i = 0; i < attachments.length; ++i )
 			{
 				AdventureResult result = (AdventureResult) attachments[i];
-
-				if ( !result.getName().equals( AdventureResult.MEAT ) )
-				{
-					int index = attachedMeat ? i : i + 1;
-					addFormField( "whichitem" + index, String.valueOf( result.getItemID() ) );
-					addFormField( "howmany" + index, String.valueOf( result.getCount() ) );
-				}
-				else
-				{
-					addFormField( "sendmeat", String.valueOf( result.getCount() ) );
-					attachedMeat = true;
-				}
+				addFormField( "whichitem" + i, String.valueOf( result.getItemID() ) );
+				addFormField( "howmany" + i, String.valueOf( result.getCount() ) );
 			}
 		}
 

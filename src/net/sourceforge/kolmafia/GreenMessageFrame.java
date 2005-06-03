@@ -66,6 +66,7 @@ public class GreenMessageFrame extends KoLFrame
 	private static final int ROWS = 8;
 
 	private JTextField recipientEntry;
+	private JTextField meatEntry;
 	private JTextArea messageEntry;
 	private JComboBox attachSelect;
 	private JButton attachButton;
@@ -117,9 +118,10 @@ public class GreenMessageFrame extends KoLFrame
 			attachButton.addActionListener( new AttachItemListener() );
 			attachPanel.add( attachButton, BorderLayout.EAST );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Target:  ", recipientEntry );
-			elements[1] = new VerifiableElement( "Attach:  ", attachPanel );
+			elements[1] = new VerifiableElement( "Items:  ", attachPanel );
+			elements[2] = new VerifiableElement( "Meat: ", meatEntry );
 
 			setContent( elements );
 
@@ -143,6 +145,7 @@ public class GreenMessageFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			recipientEntry.setText( "" );
+			meatEntry.setText( "" );
 			messageEntry.setText( "" );
 			attachedItems.clear();
 		}
@@ -170,7 +173,8 @@ public class GreenMessageFrame extends KoLFrame
 					return;
 
 				GreenMessagePanel.this.setEnabled( false );
-				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() )).run();
+				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray(),
+					getValue( meatEntry ) )).run();
 				GreenMessagePanel.this.setEnabled( true );
 
 				if ( client.permitsContinue() )
@@ -201,21 +205,19 @@ public class GreenMessageFrame extends KoLFrame
 			try
 			{
 				AdventureResult [] possibleValues =
-					client == null ? new AdventureResult[1] : new AdventureResult[ client.getInventory().size() + 1 ];
+					client == null ? new AdventureResult[0] : new AdventureResult[ client.getInventory().size() ];
 
 				Object [] items = client.getInventory().toArray();
-				for ( int i = 0; i < items.length; ++i )
-					possibleValues[i+1] = (AdventureResult) items[i];
-				possibleValues[0] = new AdventureResult( AdventureResult.MEAT, client == null ? 0 :
-					client.getCharacterData().getAvailableMeat() );
 
 				AdventureResult attachment = (AdventureResult) JOptionPane.showInputDialog(
 					null, "Attach to message...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
 					possibleValues, possibleValues[0] );
 
 				int existingIndex = attachedItems.indexOf( attachment );
-				int defaultCount = attachment.getName().equals( AdventureResult.MEAT ) ? 0 : existingIndex != -1 ? 0 :
-					((AdventureResult)client.getInventory().get( client.getInventory().indexOf( attachment ) )).getCount();
+				if ( existingIndex == -1 )
+					return;
+
+				int defaultCount = ((AdventureResult)client.getInventory().get( client.getInventory().indexOf( attachment ) )).getCount();
 
 				int attachmentCount = df.parse( JOptionPane.showInputDialog(
 					"Attaching " + attachment.getName() + "...", String.valueOf( defaultCount ) ) ).intValue();
@@ -223,11 +225,7 @@ public class GreenMessageFrame extends KoLFrame
 				if ( existingIndex != -1 )
 					attachedItems.remove( existingIndex );
 
-				if ( attachment.getName().equals( AdventureResult.MEAT ) )
-					AdventureResult.addResultToList( attachedItems, new AdventureResult( AdventureResult.MEAT, attachmentCount ) );
-				else
-					AdventureResult.addResultToList( attachedItems, new AdventureResult( attachment.getItemID(), attachmentCount ) );
-
+				AdventureResult.addResultToList( attachedItems, new AdventureResult( attachment.getItemID(), attachmentCount ) );
 				attachedItems.setSelectedIndex( attachedItems.size() - 1 );
 			}
 			catch ( Exception e1 )

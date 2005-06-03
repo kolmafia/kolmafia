@@ -291,7 +291,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private void sendEmptyMessageNotice( KoLMailMessage message )
 	{
 		buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Sending empty message notice to [" + message.getSenderName() + "]" );
-		(new GreenMessageRequest( client, message.getSenderName(), "Your message contained no meat or items.", new Object[0] )).run();
+		(new GreenMessageRequest( client, message.getSenderName(), "Your message contained no meat or items.", new AdventureResult( AdventureResult.MEAT, 0 ) )).run();
 	}
 
 	public boolean addMessage( String boxname, String message )
@@ -347,7 +347,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				System.getProperty( "line.separator" ) + System.getProperty( "line.separator" ) +
 				">" + messageHTML.replaceAll( "<.*?>", " " ).replaceAll( "[ ]+", " " );
 
-			(new GreenMessageRequest( client, recipient, reason, new Object[0] )).run();
+			(new GreenMessageRequest( client, recipient, reason, new AdventureResult( AdventureResult.MEAT, 0 ) )).run();
 			buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Sent thank you to [" + recipient + "]" );
 		}
 		else
