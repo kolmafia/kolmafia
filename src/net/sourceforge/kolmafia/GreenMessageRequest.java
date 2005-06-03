@@ -64,6 +64,7 @@ public class GreenMessageRequest extends KoLRequest
 		if ( attachment.getName().equals( AdventureResult.MEAT ) )
 		{
 			addFormField( "sendmeat", String.valueOf( attachment.getCount() ) );
+			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - attachment.getCount() ) );
 			this.attachments = new Object[0];
 		}
 		else
@@ -81,10 +82,13 @@ public class GreenMessageRequest extends KoLRequest
 		addFormField( "towho", recipient );
 		addFormField( "savecopy", "on" );
 		addFormField( "message", message );
+		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
 
 		this.recipient = client.getMessenger() == null ? recipient : client.getPlayerID( recipient );
 		this.message = message;
 		this.attachments = attachments;
+
+		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meatAttachment ) );
 	}
 
 	/**
@@ -163,12 +167,7 @@ public class GreenMessageRequest extends KoLRequest
 			for ( int i = 0; i < attachments.length; ++i )
 			{
 				currentResult = (AdventureResult) attachments[i];
-
-				if ( !currentResult.getName().equals( AdventureResult.MEAT ) )
-					negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
-				else
-					negatedResult = new AdventureResult( AdventureResult.MEAT, 0 - currentResult.getCount() );
-
+				negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
 				client.processResult( negatedResult );
 			}
 		}
