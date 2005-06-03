@@ -258,9 +258,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			this.client = client;
 			this.sessionID = client.getSessionID();
 		}
-		else
-			this.logStream = new NullStream();
 
+		this.logStream = new NullStream();
 		data = new ArrayList();
 		this.isErrorState = true;
 	}
