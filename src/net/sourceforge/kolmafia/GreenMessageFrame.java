@@ -108,6 +108,7 @@ public class GreenMessageFrame extends KoLFrame
 			super( "send", "clear", new Dimension( 80, 20 ), new Dimension( 320, 20 ) );
 
 			recipientEntry = new JTextField( recipient );
+			meatEntry = new JTextField();
 
 			JPanel attachPanel = new JPanel();
 			attachPanel.setLayout( new BorderLayout( 0, 0 ) );
@@ -133,9 +134,6 @@ public class GreenMessageFrame extends KoLFrame
 				JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			add( scrollArea, BorderLayout.CENTER );
-
-			sendMessageStatus = new JLabel( " ", JLabel.LEFT );
-			add( sendMessageStatus, BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
