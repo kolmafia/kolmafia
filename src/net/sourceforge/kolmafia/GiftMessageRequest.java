@@ -149,8 +149,8 @@ public class GiftMessageRequest extends KoLRequest
 			for ( int i = 0; i < attachments.length; ++i )
 			{
 				AdventureResult result = (AdventureResult) attachments[i];
-				addFormField( "whichitem" + i, String.valueOf( result.getItemID() ) );
-				addFormField( "howmany" + i, String.valueOf( result.getCount() ) );
+				addFormField( "whichitem" + (i+1), String.valueOf( result.getItemID() ) );
+				addFormField( "howmany" + (i+1), String.valueOf( result.getCount() ) );
 			}
 		}
 
