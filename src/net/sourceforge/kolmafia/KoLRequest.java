@@ -289,7 +289,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// data (in case it's fine).
 
 			logStream.println( "Could not encode: " + name + "=" + value );
-			data.add( name + "=" + value );
 		}
 	}
 
