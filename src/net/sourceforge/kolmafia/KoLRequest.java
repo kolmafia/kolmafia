@@ -472,7 +472,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			logStream.println( "Posting data posted." );
 			return true;
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			this.isErrorState = true;
 			updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
