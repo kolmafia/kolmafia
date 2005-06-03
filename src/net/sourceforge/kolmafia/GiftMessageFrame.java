@@ -58,6 +58,7 @@ import javax.swing.JOptionPane;
 
 // other imports
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class GiftMessageFrame extends KoLFrame
@@ -85,7 +86,7 @@ public class GiftMessageFrame extends KoLFrame
 
 	public GiftMessageFrame( KoLmafia client, String recipient, String quotedMessage )
 	{
-		super( "KoLmafia: Send a Green Message", client );
+		super( "KoLmafia: Send a Purple Message", client );
 
 		this.attachedItems = new SortedListModel();
 		this.contentPanel = new GiftMessagePanel( recipient, quotedMessage );
@@ -120,7 +121,7 @@ public class GiftMessageFrame extends KoLFrame
 			attachButton.addActionListener( new AttachItemListener() );
 			attachPanel.add( attachButton, BorderLayout.EAST );
 
-			packageSelect = new JComboBox( GiftMessageRequest.PACKAGES );
+			packageSelect = new JComboBox( (LockableListModel) GiftMessageRequest.PACKAGES.clone() );
 
 			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Target:  ", recipientEntry );
@@ -199,7 +200,7 @@ public class GiftMessageFrame extends KoLFrame
 					return;
 
 				GiftMessagePanel.this.setEnabled( false );
-				(new GiftMessageRequest( client, recipientEntry.getText(), insideEntry.getText(), outsideEntry.getText(),
+				(new GiftMessageRequest( client, recipientEntry.getText(), outsideEntry.getText(), insideEntry.getText(),
 					packageSelect.getSelectedItem(), attachedItems.toArray(), getValue( meatEntry ) )).run();
 				GiftMessagePanel.this.setEnabled( true );
 
@@ -240,10 +241,8 @@ public class GiftMessageFrame extends KoLFrame
 					possibleValues, possibleValues[0] );
 
 				int existingIndex = attachedItems.indexOf( attachment );
-				if ( existingIndex == -1 )
-					return;
-
-				int defaultCount = ((AdventureResult)client.getInventory().get( client.getInventory().indexOf( attachment ) )).getCount();
+				int defaultCount = existingIndex != -1 ? 0 :
+					((AdventureResult)client.getInventory().get( client.getInventory().indexOf( attachment ) )).getCount();
 
 				int attachmentCount = df.parse( JOptionPane.showInputDialog(
 					"Adding " + attachment.getName() + "...", String.valueOf( defaultCount ) ) ).intValue();

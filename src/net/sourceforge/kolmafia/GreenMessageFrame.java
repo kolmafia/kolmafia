@@ -212,10 +212,8 @@ public class GreenMessageFrame extends KoLFrame
 					possibleValues, possibleValues[0] );
 
 				int existingIndex = attachedItems.indexOf( attachment );
-				if ( existingIndex == -1 )
-					return;
-
-				int defaultCount = ((AdventureResult)client.getInventory().get( client.getInventory().indexOf( attachment ) )).getCount();
+				int defaultCount = existingIndex != -1 ? 0 :
+					((AdventureResult)client.getInventory().get( client.getInventory().indexOf( attachment ) )).getCount();
 
 				int attachmentCount = df.parse( JOptionPane.showInputDialog(
 					"Attaching " + attachment.getName() + "...", String.valueOf( defaultCount ) ) ).intValue();
