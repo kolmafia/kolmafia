@@ -44,13 +44,13 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class ChatRequest extends KoLRequest
 {
-	private static final int NEEDED_DELAY = 8000;
+	private static final int NEEDED_DELAY = 6000;
 	private static final int ACTUAL_DELAY = NEEDED_DELAY - REFRESH_RATE;
 
-	private int lastSeen;
 	private KoLMessenger associatedMessenger;
-	private boolean isContinuationRequest;
-	private boolean isFriendAdditionRequest;
+
+	private static int lastSeen;
+	private static ChatContinuationThread thread;
 
 	/**
 	 * Constructs a new <code>ChatRequest</code>.
@@ -80,7 +80,7 @@ public class ChatRequest extends KoLRequest
 
 		String actualMessage = null;
 
-		if ( contact == null || message.equals( "/exit" ) )
+		if ( contact == null || (message != null && message.equals( "/exit" )) )
 			actualMessage = message;
 		else if ( message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) )
 			actualMessage = message + " " + contactID;
@@ -93,11 +93,7 @@ public class ChatRequest extends KoLRequest
 		else
 			actualMessage = "/msg " + contactID + " " + message;
 
-		addFormField( "graf",
-			actualMessage.startsWith( "/msg" ) ? DataUtilities.convertToHTML( actualMessage ) : actualMessage );
-
-		isContinuationRequest = false;
-		isFriendAdditionRequest = actualMessage.trim().startsWith( "/friend " );
+		addFormField( "graf", actualMessage.startsWith( "/msg" ) ? DataUtilities.convertToHTML( actualMessage ) : actualMessage );
 	}
 
 	/**
@@ -114,9 +110,7 @@ public class ChatRequest extends KoLRequest
 		addFormField( "lasttime", String.valueOf( lastSeen ) );
 
 		this.lastSeen = lastSeen;
-		isContinuationRequest = true;
 		associatedMessenger = client.getMessenger();
-		isFriendAdditionRequest = false;
 	}
 
 	/**
@@ -151,13 +145,12 @@ public class ChatRequest extends KoLRequest
 		}
 
 		if ( associatedMessenger != null && associatedMessenger == client.getMessenger() )
-		{
 			associatedMessenger.updateChat( responseText );
 
-			if ( isContinuationRequest )
-				(new ChatContinuationThread()).start();
-			if ( isFriendAdditionRequest )
-				(new ChatRequest( client, null, "/friends" )).run();
+		if ( thread == null )
+		{
+			thread = new ChatContinuationThread();
+			thread.start();
 		}
 	}
 
@@ -174,22 +167,20 @@ public class ChatRequest extends KoLRequest
 
 		public void run()
 		{
-			// Before running the next request, you should wait for the
-			// refresh rate indicated - this is likely the default rate
-			// used for the KoLChat.
-
-			if ( NEEDED_DELAY > 0 )
-				ChatRequest.delay( NEEDED_DELAY );
-
-			// Once the thread has waited for the stated amount of time,
-			// the next chat request should be run.  Note that this is
-			// only possible if the chat buffer has not been nulled.
-
-			if ( associatedMessenger == client.getMessenger() )
+			while ( associatedMessenger == client.getMessenger() )
 			{
-				if ( isFriendAdditionRequest )
-					(new ChatRequest( client, null, "/friends" )).run();
-				else if ( client.getMessenger() != null && client.getMessenger() == associatedMessenger )
+				// Before running the next request, you should wait for the
+				// refresh rate indicated - this is likely the default rate
+				// used for the KoLChat.
+
+				if ( NEEDED_DELAY > 0 )
+					ChatRequest.delay( NEEDED_DELAY );
+
+				// Once the thread has waited for the stated amount of time,
+				// the next chat request should be run.  Note that this is
+				// only possible if the chat buffer has not been nulled.
+
+				if ( associatedMessenger == client.getMessenger() )
 					(new ChatRequest( client, lastSeen )).run();
 			}
 		}

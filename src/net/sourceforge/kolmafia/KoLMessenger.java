@@ -141,11 +141,8 @@ public class KoLMessenger implements KoLConstants
 
 	public void initialize()
 	{
-		client.updateDisplay( DISABLED_STATE, "Initializing chat..." );
+		client.updateDisplay( NOCHANGE, "Initializing chat..." );
 		(new ChatRequest( client, null, "/channel" )).run();
-
-		client.updateDisplay( DISABLED_STATE, "Starting chat..." );
-		(new ChatRequest( client )).run();
 	}
 
 	/**
