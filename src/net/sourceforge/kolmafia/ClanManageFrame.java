@@ -57,6 +57,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
 // containers
+import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -154,10 +155,6 @@ public class ClanManageFrame extends KoLFrame
 		JMenuItem attackItem = new JMenuItem( "Attack Enemies!", KeyEvent.VK_A );
 		attackItem.addActionListener( new ManagerListener( "attackClan" ) );
 		optionsMenu.add( attackItem );
-
-		JMenuItem bootItem = new JMenuItem( "Boot Idle Hands", KeyEvent.VK_B );
-		bootItem.addActionListener( new ManagerListener( "bootIdleMembers" ) );
-		optionsMenu.add( bootItem );
 
 		JMenuItem snapItem = new JMenuItem( "Clan Snapshot", KeyEvent.VK_C );
 		snapItem.addActionListener( new ManagerListener( "takeSnapshot" ) );
@@ -517,13 +514,15 @@ public class ClanManageFrame extends KoLFrame
 
 			results = new ClanMemberPanelList();
 
-			JLabel [] header = new JLabel[4];
+			JComponent [] header = new JComponent[4];
 			header[0] = new JLabel( "Member Name", JLabel.CENTER );
 			header[1] = new JLabel( "Clan Rank", JLabel.CENTER );
 			header[2] = new JLabel( "Karma", JLabel.CENTER );
-			header[3] = new JLabel( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
+			header[3] = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
+			((JButton)header[3]).addActionListener( new SelectAllForBootListener() );
 
-			JComponentUtilities.setComponentSize( header[0], 150, 20 );
+
+			JComponentUtilities.setComponentSize( header[0], 180, 20 );
 			JComponentUtilities.setComponentSize( header[1], 210, 20 );
 			JComponentUtilities.setComponentSize( header[2], 90, 20 );
 			JComponentUtilities.setComponentSize( header[3], 20, 20 );
@@ -562,6 +561,33 @@ public class ClanManageFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{	(new MemberChangeThread()).start();
+		}
+
+		private class SelectAllForBootListener implements ActionListener
+		{
+			private boolean shouldSelect;
+
+			public SelectAllForBootListener()
+			{	shouldSelect = true;
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				Object currentComponent;
+				ClanMemberPanel currentMember;
+
+				for ( int i = 0; i < results.getComponentCount(); ++i )
+				{
+					currentComponent = results.getComponent(i);
+					if ( currentComponent instanceof ClanMemberPanel )
+					{
+						currentMember = (ClanMemberPanel) currentComponent;
+						currentMember.bootCheckBox.setSelected( shouldSelect );
+					}
+				}
+
+				shouldSelect = !shouldSelect;
+			}
 		}
 
 		/**
@@ -666,7 +692,7 @@ public class ClanManageFrame extends KoLFrame
 	public class ClanMemberPanelList extends PanelList
 	{
 		public ClanMemberPanelList()
-		{	super( 12, 520, 25, client == null ? new LockableListModel() : client.getClanManager().getFilteredList() );
+		{	super( 12, 550, 25, client == null ? new LockableListModel() : client.getClanManager().getFilteredList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -706,6 +732,10 @@ public class ClanManageFrame extends KoLFrame
 
 			clanKarma = new JLabel( df.format( Integer.parseInt( value.getKarma() ) ), JLabel.CENTER );
 
+			JButton profileButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
+			profileButton.addActionListener( new ShowProfileListener() );
+
+			JComponentUtilities.setComponentSize( profileButton, 20, 20 );
 			JComponentUtilities.setComponentSize( memberName, 150, 20 );
 			JComponentUtilities.setComponentSize( rankSelect, 210, 20 );
 			JComponentUtilities.setComponentSize( clanKarma, 90, 20 );
@@ -714,6 +744,7 @@ public class ClanManageFrame extends KoLFrame
 			JPanel corePanel = new JPanel();
 			corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
 			corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( profileButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( memberName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( rankSelect ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( clanKarma ); corePanel.add( Box.createHorizontalStrut( 10 ) );
@@ -730,6 +761,18 @@ public class ClanManageFrame extends KoLFrame
 			memberName.setText( profile.getPlayerName() );
 			rankSelect.setSelectedItem( profile.getRank() );
 			clanKarma.setText( df.format( Integer.parseInt( profile.getKarma() ) ) );
+		}
+
+		private class ShowProfileListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				ProfileFrame frame = profile.getCleanHTML().equals( "" ) ? new ProfileFrame( client, memberName.getText() ) :
+					new ProfileFrame( client, memberName.getText(), profile );
+
+				frame.pack();  frame.setVisible( true );  frame.requestFocus();
+				existingFrames.add( frame );
+			}
 		}
 	}
 
