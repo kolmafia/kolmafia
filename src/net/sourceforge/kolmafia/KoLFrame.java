@@ -320,17 +320,28 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenuItem chatMenuItem = new JMenuItem( "Chat of Loathing", KeyEvent.VK_C );
 		chatMenuItem.addActionListener( new ViewChatListener() );
 
-		peopleMenu.add( chatMenuItem );
-
 		JMenuItem composeMenuItem = new JMenuItem( "Green Composer", KeyEvent.VK_G );
 		composeMenuItem.addActionListener( new DisplayFrameListener( GreenMessageFrame.class ) );
-
-		peopleMenu.add( composeMenuItem );
 
 		this.mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_I );
 		mailMenuItem.addActionListener( new DisplayMailListener() );
 
+		JMenuItem proposeItem = new JMenuItem( "Propose Trade Offer", KeyEvent.VK_P );
+		proposeItem.addActionListener( new DisplayFrameListener( ProposeTradeFrame.class ) );
+
+		JMenuItem pendingItem = new JMenuItem( "View Pending Trades", KeyEvent.VK_V );
+		pendingItem.addActionListener( new DisplayFrameListener( PendingTradesFrame.class ) );
+
+		JMenuItem giftItem = new JMenuItem( "Not-Holiday Giftings", KeyEvent.VK_N );
+		giftItem.addActionListener( new DisplayFrameListener( GiftMessageFrame.class ) );
+
+		peopleMenu.add( chatMenuItem );
+		peopleMenu.add( composeMenuItem );
 		peopleMenu.add( mailMenuItem );
+		peopleMenu.add( proposeItem );
+		peopleMenu.add( pendingItem );
+		peopleMenu.add( giftItem );
+
 		return peopleMenu;
 	}
 

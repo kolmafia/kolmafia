@@ -153,10 +153,11 @@ public class ChatFrame extends KoLFrame
 		addConfigureMenu( menuBar );
 
 		clickGroup = new ButtonGroup();
-		clickOptions = new JRadioButtonMenuItem[3];
+		clickOptions = new JRadioButtonMenuItem[4];
 		clickOptions[0] = new JRadioButtonMenuItem( "Open blue message", false );
 		clickOptions[1] = new JRadioButtonMenuItem( "Open green message", false );
-		clickOptions[2] = new JRadioButtonMenuItem( "Open player profile", false );
+		clickOptions[2] = new JRadioButtonMenuItem( "Open purple message", false );
+		clickOptions[3] = new JRadioButtonMenuItem( "Open player profile", false );
 
 		int clickSelect = client == null ? 0 : client.getSettings().getProperty( "nameClickOpens" ) == null ? 0 :
 			Integer.parseInt( client.getSettings().getProperty( "nameClickOpens" ) );
@@ -402,6 +403,14 @@ public class ChatFrame extends KoLFrame
 			}
 
 			else if ( clickOptions[2].isSelected() )
+			{
+				GiftMessageFrame composer = new GiftMessageFrame( client, location );
+				composer.pack();  composer.setVisible( true );
+				composer.requestFocus();
+				existingFrames.add( composer );
+			}
+
+			else if ( clickOptions[3].isSelected() )
 			{
 				ProfileFrame profile = new ProfileFrame( client, location );
 				profile.pack();  profile.setVisible( true );

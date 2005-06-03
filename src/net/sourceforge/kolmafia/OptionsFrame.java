@@ -723,6 +723,7 @@ public class OptionsFrame extends KoLFrame
 			nameClickSelect = new JComboBox();
 			nameClickSelect.addItem( "Open blue message" );
 			nameClickSelect.addItem( "Open green message" );
+			nameClickSelect.addItem( "Open purple message" );
 			nameClickSelect.addItem( "Open player profile" );
 
 			colorPanel = new JPanel();
