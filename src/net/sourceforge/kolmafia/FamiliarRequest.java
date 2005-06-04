@@ -96,7 +96,7 @@ public class FamiliarRequest extends KoLRequest
 		}
 		else
 		{
-			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?) \\(\\d+ kills\\)<table><tr><td valign=center>Equipment:.*?<td valign=center>(.*?)</td>" ).matcher( responseText );
+			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<table><tr><td valign=center>Equipment:.*?<td valign=center>(.*?)</td>" ).matcher( responseText );
 			if ( currentMatcher.find() )
 			{
 				characterData.setFamiliarDescription( currentMatcher.group(2).trim(), Integer.parseInt( currentMatcher.group(1) ) );
@@ -104,9 +104,10 @@ public class FamiliarRequest extends KoLRequest
 			}
 			else
 			{
-				currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>(\\d+) pound (.*?) \\(\\d+ kills\\)<p>" ).matcher( responseText );
+				currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<p>" ).matcher( responseText );
 				if ( currentMatcher.find() )
 					characterData.setFamiliarDescription( currentMatcher.group(2), Integer.parseInt( currentMatcher.group(1) ) );
+
 			}
 
 			updateDisplay( ENABLED_STATE, "Familiar data retrieved." );
