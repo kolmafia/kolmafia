@@ -187,9 +187,11 @@ public class GearChangeFrame extends KoLFrame
 		valuePanel.add( new JLabel( " " ) );
 
 		equipment = new JComboBox[7];
+		LockableListModel [] equipmentLists = characterData.getEquipmentLists();
+
 		for ( int i = 0; i < 7; ++i )
 		{
-			equipment[i] = new JComboBox();
+			equipment[i] = new JComboBox( equipmentLists[i] );
 			equipment[i].addActionListener( new ChangeEquipmentListener( equipment[i] ) );
 			JComponentUtilities.setComponentSize( equipment[i], 240, 20 );
 
@@ -223,10 +225,7 @@ public class GearChangeFrame extends KoLFrame
 	private void refreshEquipPanel()
 	{
 		isChanging = true;
-		LockableListModel [] equipLists = characterData.getEquipmentLists();
-
-		for ( int i = 0; i < 7; ++i )
-			equipment[i].setModel( equipLists[i] );
+		characterData.updateEquipmentLists();
 
 		equipment[0].setSelectedItem( characterData.getHat() );
 		equipment[1].setSelectedItem( characterData.getWeapon() );
