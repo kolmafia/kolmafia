@@ -85,7 +85,7 @@ public class ClanStashRequest extends KoLRequest
 		super( client, "clan_stash.php" );
 
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "action", "addgoodies" );
+		addFormField( "action", (moveType == ITEMS_TO_STASH) ? "addgoodies" : "takegoodies" );
 
 		this.items = items;
 		this.moveType = moveType;
@@ -133,14 +133,14 @@ public class ClanStashRequest extends KoLRequest
 				updateDisplay( ENABLED_STATE, "Clan donation attempt complete." );
 				break;
 
-			default:
+			case ITEMS_TO_STASH:
+			case STASH_TO_ITEMS:
 
-				if ( items.length == 1 )
+				if ( items.length > 0 )
 					updateDisplay( DISABLED_STATE, "Moving " + items[0] +
 						(moveType == ITEMS_TO_STASH ? " to the stash..." : " to your bag...") );
 
 				stash();
-				parseStash();
 
 				if ( items.length > 0 )
 					updateDisplay( ENABLED_STATE, "Successfully moved " + items[ items.length - 1 ] +
@@ -181,15 +181,26 @@ public class ClanStashRequest extends KoLRequest
 
 			super.run();
 
-			AdventureResult negatedResult = new AdventureResult( result.getItemID(), 0 - result.getCount() );
-			client.processResult( negatedResult );
+                        List stashContents = client.getClanManager().getStash();
+                        AdventureResult negatedResult = new AdventureResult( result.getItemID(), 0 - result.getCount() );
+                        if (moveType == ITEMS_TO_STASH) {
+                                AdventureResult.addResultToList( stashContents, result );
+			        client.processResult( negatedResult );
+                        } else {
+                                AdventureResult.addResultToList( stashContents, negatedResult );
+			        client.processResult( result );
+                        }
 		}
 	}
 
 	private void parseStash()
 	{
 		List stashContents = client.getClanManager().getStash();
-		Matcher stashMatcher = Pattern.compile( "<b>Take an item from the Goodies Hoard:</select>" ).matcher( responseText );
+
+                // Start with an empty list
+                stashContents.clear();
+
+		Matcher stashMatcher = Pattern.compile( "<form name=takegoodies.*?</select>" ).matcher( responseText );
 
 		// If there's nothing inside the goodies hoard,
 		// return because there's nothing to parse
@@ -198,7 +209,7 @@ public class ClanStashRequest extends KoLRequest
 			return;
 
 		int lastFindIndex = 0;
-		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( stashMatcher.group() );
+		Matcher optionMatcher = Pattern.compile( "<option value=([\\d]+)>(.*?)\\(([\\d,]+)\\)" ).matcher( stashMatcher.group() );
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			try

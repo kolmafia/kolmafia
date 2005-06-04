@@ -514,7 +514,7 @@ public class ClanManageFrame extends KoLFrame
 
 				Object [] items = elementList.getSelectedValues();
 				Runnable request = isRefresh ? (Runnable) new ClanStashRequest( client ) :
-					new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH );
+					new ClanStashRequest( client, items, ClanStashRequest.STASH_TO_ITEMS );
 
 				client.makeRequest( request, 1 );
 			}
