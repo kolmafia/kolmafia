@@ -502,7 +502,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( !left.name.equals( right.name ) )
 			return null;
 
-		int [] totals = left.count.length == right.count.length ? new int[ left.count.length ] : new int[1];
+		int [] totals = left.count.length == right.count.length ? new int[ left.count.length ] : new int[ Math.min( left.count.length, right.count.length ) ];
 		for ( int i = 0; i < totals.length; ++i )
 			totals[i] = left.count[i] + right.count[i];
 
