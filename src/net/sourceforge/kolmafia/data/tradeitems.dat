@@ -739,7 +739,7 @@
 739	tambourine bells	0	50
 740	tambourine	0	65
 741	broken skull	0	15
-742	shroomkabob	1	30
+742	Knoll shroomkabob	1	30
 743	stuffed spooky mushroom	1	35
 744	can of hair spray	4	12
 745
@@ -1241,3 +1241,16 @@
 1241
 1242	deflated inflatable dodecapede	5	0
 1243	toy six-seater hovercraft	6	70
+1244
+1245
+1246
+1247
+1248
+1249
+1250
+1251	Knob shroomkabob	0	0
+1252	spooky shroomkabob	0	0
+1253	jumping beans	0	0
+1254	jumping bean burrito	0	0
+1255	spicy jumping bean burrito	0	0
+1256	insanely spicy jumping bean burrito	0	0
