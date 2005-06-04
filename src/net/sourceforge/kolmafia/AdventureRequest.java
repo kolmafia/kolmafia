@@ -44,9 +44,6 @@ import java.util.StringTokenizer;
 
 public class AdventureRequest extends KoLRequest
 {
-	private static final int NEEDED_DELAY = 1000;
-	private static final int ACTUAL_DELAY = NEEDED_DELAY - REFRESH_RATE;
-
 	private String formSource;
 	private String adventureID;
 	private int adventuresUsed;
@@ -117,13 +114,6 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
-		// Before running the next request, you should wait for the
-		// refresh rate indicated - this is likely the default rate
-		// used for the KoLChat.
-
-		if ( NEEDED_DELAY > 0 )
-			delay( NEEDED_DELAY );
-
 		// Prevent the request from happening if the client attempted
 		// to cancel in the delay period.
 
