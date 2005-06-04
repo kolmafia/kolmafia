@@ -203,7 +203,7 @@ public class GearChangeFrame extends KoLFrame
 
 		valuePanel.add( new JLabel( " " ) );
 
-		familiarSelect = new JComboBox( characterData.getFamiliars().getMirrorImage() );
+		familiarSelect = new JComboBox( characterData.getFamiliars() );
 		familiarSelect.addActionListener( new ChangeFamiliarListener() );
 		JComponentUtilities.setComponentSize( familiarSelect, 240, 20 );
 		valuePanel.add( familiarSelect );
@@ -211,7 +211,7 @@ public class GearChangeFrame extends KoLFrame
 		valuePanel.add( equipment[6] );
 		valuePanel.add( new JLabel( " " ) );
 
-		outfitSelect = new JComboBox( characterData.getOutfits().getMirrorImage() );
+		outfitSelect = new JComboBox( characterData.getOutfits() );
 		outfitSelect.addActionListener( new ChangeOutfitListener() );
 		JComponentUtilities.setComponentSize( outfitSelect, 240, 20 );
 		valuePanel.add( outfitSelect );
@@ -249,7 +249,11 @@ public class GearChangeFrame extends KoLFrame
 		private class RefreshEquipmentThread extends RequestThread
 		{
 			public void run()
-			{	(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
+			{
+				isChanging = true;
+				(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
+				refreshEquipPanel();
+				isChanging = false;
 			}
 		}
 	}
@@ -263,7 +267,11 @@ public class GearChangeFrame extends KoLFrame
 		private class RefreshFamiliarThread extends RequestThread
 		{
 			public void run()
-			{	(new FamiliarRequest( client )).run();
+			{
+				isChanging = true;
+				(new FamiliarRequest( client )).run();
+				refreshEquipPanel();
+				isChanging = false;
 			}
 		}
 	}

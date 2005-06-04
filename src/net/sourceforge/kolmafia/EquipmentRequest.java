@@ -129,10 +129,11 @@ public class EquipmentRequest extends KoLRequest
 
 		if ( requestType == CHANGE_OUTFIT )
 			updateDisplay( DISABLED_STATE, "Changing outfit..." );
-		else if ( requestType == CHANGE_ITEM )
+		else if ( requestType == CLOSET )
+			updateDisplay( DISABLED_STATE, "Refreshing closet..." );
+		else
 			updateDisplay( DISABLED_STATE, "Updating equipment..." );
 
-		KoLCharacter data = client.getCharacterData();
 		super.run();
 
 		// If you changed your outfit, there will be a redirect
@@ -141,7 +142,7 @@ public class EquipmentRequest extends KoLRequest
 		if ( requestType == CHANGE_OUTFIT || requestType == CHANGE_ITEM )
 		{
 			(new EquipmentRequest( client, EQUIPMENT )).run();
-			updateDisplay( NOCHANGE, "Equipment changed." );
+			updateDisplay( ENABLED_STATE, "Equipment changed." );
 			return;
 		}
 
@@ -163,35 +164,31 @@ public class EquipmentRequest extends KoLRequest
 			switch ( requestType )
 			{
 				case CLOSET:
-					updateDisplay( DISABLED_STATE, "Retrieving inventory..." );
 					parseCloset();
 					updateDisplay( NOCHANGE, "Inventory retrieved." );
 					break;
 
 				case EQUIPMENT:
-					updateDisplay( DISABLED_STATE, "Retrieving equipment..." );
-					String plainTextContent = responseText.replaceAll( "<.*?>", "\n" );
-					StringTokenizer parsedContent = new StringTokenizer( plainTextContent, "\n" );
 
-					String oldHat = data.getHat();
-					String oldWeapon = data.getWeapon();
-					String oldPants = data.getPants();
-					String oldAccessory1 = data.getAccessory1();
-					String oldAccessory2 = data.getAccessory2();
-					String oldAccessory3 = data.getAccessory3();
-					String oldFamiliarItem = data.getFamiliarItem();
+					String oldHat = character.getHat();
+ 					String oldWeapon = character.getWeapon();
+ 					String oldPants = character.getPants();
+ 					String oldAccessory1 = character.getAccessory1();
+ 					String oldAccessory2 = character.getAccessory2();
+ 					String oldAccessory3 = character.getAccessory3();
+ 					String oldFamiliarItem = character.getFamiliarItem();
 
-					parseEquipment( parsedContent );
+					parseEquipment();
 
-					switchItem( oldHat, data.getHat() );
-					switchItem( oldWeapon, data.getWeapon() );
-					switchItem( oldPants, data.getPants() );
-					switchItem( oldAccessory1, data.getAccessory1() );
-					switchItem( oldAccessory2, data.getAccessory2() );
-					switchItem( oldAccessory3, data.getAccessory3() );
-					switchItem( oldFamiliarItem, data.getFamiliarItem() );
+					switchItem( oldHat, character.getHat() );
+					switchItem( oldWeapon, character.getWeapon() );
+					switchItem( oldPants, character.getPants() );
+					switchItem( oldAccessory1, character.getAccessory1() );
+					switchItem( oldAccessory2, character.getAccessory2() );
+					switchItem( oldAccessory3, character.getAccessory3() );
+					switchItem( oldFamiliarItem, character.getFamiliarItem() );
 
-					updateDisplay( NOCHANGE, "Equipment retrieved." );
+					updateDisplay( ENABLED_STATE, "Equipment retrieved." );
 
 					break;
 			}
@@ -289,10 +286,12 @@ public class EquipmentRequest extends KoLRequest
 		}
 	}
 
-	private void parseEquipment( StringTokenizer parsedContent )
+	private void parseEquipment()
 	{
 		try
 		{
+			StringTokenizer parsedContent = new StringTokenizer( responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ), "\n" );
+
 			while ( !parsedContent.nextToken().startsWith( "Hat:" ) );
 			String hat = parsedContent.nextToken();
 
@@ -305,7 +304,6 @@ public class EquipmentRequest extends KoLRequest
 			String [] accessories = new String[3];
 			for ( int i = 0; i < 3; ++i )
 				accessories[i] = "none";
-			String familiarItem = "none";
 
 			int accessoryCount = 0;
 			String lastToken;
@@ -331,8 +329,7 @@ public class EquipmentRequest extends KoLRequest
 			LockableListModel outfits = outfitsMatcher.find() ?
 				SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();
 
-			character.setEquipment( hat, weapon, pants,
-				accessories[0], accessories[1], accessories[2], outfits );
+			character.setEquipment( hat, weapon, pants, accessories[0], accessories[1], accessories[2], outfits );
 		}
 		catch ( Exception e )
 		{
