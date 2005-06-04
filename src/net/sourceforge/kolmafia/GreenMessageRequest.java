@@ -80,7 +80,11 @@ public class GreenMessageRequest extends KoLRequest
 		addFormField( "action", "send" );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "towho", recipient );
-		addFormField( "savecopy", "on" );
+
+		String saveOutgoingSetting = client.getSettings().getProperty( "saveOutgoing" );
+		if ( saveOutgoingSetting == null || saveOutgoingSetting.equals( "true" ) )
+			addFormField( "savecopy", "on" );
+
 		addFormField( "message", message );
 		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
 
