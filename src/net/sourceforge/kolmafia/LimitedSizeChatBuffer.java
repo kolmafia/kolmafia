@@ -39,6 +39,8 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 
 public class LimitedSizeChatBuffer extends ChatBuffer
 {
+	private static final int BUFFER_LIMIT = 20000;
+
 	private int previousFontSize;
 	private static int fontSize = 3;
 	static
@@ -120,13 +122,34 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 
 	public void append( String message )
 	{
+		boolean requiresUpdate = false;
+
 		if ( previousFontSize != fontSize )
 		{
 			if ( fontSize < 0 )
 				fontSize = 0 - fontSize;
 
-			fireBufferChanged( CONTENT_CHANGE, null );
+			requiresUpdate = true;
 		}
+
+		// Now a test to see if you've already overflowed.
+		// The scrollback option, when compared to the
+		// alternative of obsessive memory usage, is a
+		// trivial addition.  Therefore, when it hits
+		// the buffer limit
+
+		if ( displayBuffer.length() > BUFFER_LIMIT )
+		{
+			int trimIndex = displayBuffer.indexOf( "<br>" );
+			while ( displayBuffer.length() - trimIndex > 1000 )
+				trimIndex = displayBuffer.indexOf( "<br>", trimIndex + 1 );
+
+			displayBuffer.delete( 0, trimIndex );
+			requiresUpdate = true;
+		}
+
+		if ( requiresUpdate )
+			fireBufferChanged( CONTENT_CHANGE, null );
 
 		super.append( message );
 		previousFontSize = fontSize;
