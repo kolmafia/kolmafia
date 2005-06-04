@@ -33,9 +33,13 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * A special request used specifically to search the mall for items and retrieve the
@@ -49,6 +53,22 @@ public class SearchMallRequest extends KoLRequest
 	private List results;
 	private boolean retainAll;
 	private String searchString;
+
+	/**
+	 * Constructs a new <code>SearchMallRequest</code> which searches for
+	 * the given item, storing the results in the given <code>ListModel</code>.
+	 *
+	 * @param	client	The client to be notified in case of error
+	 */
+
+	private SearchMallRequest( KoLmafia client, int storeID )
+	{
+		super( client, "mallstore.php" );
+		addFormField( "whichstore", String.valueOf( storeID ) );
+
+		this.results = new ArrayList();
+		this.retainAll = true;
+	}
 
 	/**
 	 * Constructs a new <code>SearchMallRequest</code> which searches for
@@ -113,7 +133,7 @@ public class SearchMallRequest extends KoLRequest
 
 	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results, boolean retainAll )
 	{
-		super( client, "searchmall.php" );
+		super( client, searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
 
 		String searchRequest = searchString.indexOf( "ñ" ) != -1 || searchString.indexOf( "©" ) != -1 ?
 			searchString.replaceAll( "[\"\']", "" ).replaceAll( "ñ", "" ).replaceAll( "©", "" ) : searchString;
@@ -139,6 +159,76 @@ public class SearchMallRequest extends KoLRequest
 	 */
 
 	public void run()
+	{
+		if ( searchString == null || searchString.trim().length() == 0 )
+			searchStore();
+		else
+			searchMall();
+	}
+
+	private void searchStore()
+	{
+		updateDisplay( DISABLED_STATE, retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
+
+		super.run();
+
+		if ( retainAll )
+		{
+			Matcher shopMatcher = Pattern.compile( "<b>(.*?) \\(<a.*?who=(\\d+)\"" ).matcher( responseText );
+			shopMatcher.find();
+
+			int shopID = Integer.parseInt( shopMatcher.group(2) );
+			String shopName = shopMatcher.group(1);
+
+			Pattern limitPattern = Pattern.compile( "Limit ([\\d,]+) /" );
+
+			int lastFindIndex = 0;
+			Matcher priceMatcher = Pattern.compile( "radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>" ).matcher( responseText );
+
+			while ( priceMatcher.find( lastFindIndex ) )
+			{
+				lastFindIndex = priceMatcher.end();
+				String priceID = priceMatcher.group(1);
+
+				try
+				{
+					String itemName = priceMatcher.group(2);
+
+					int itemID = Integer.parseInt( priceID.substring( 0, priceID.length() - 9 ) );
+					int purchaseLimit = df.parse( priceMatcher.group(3) ).intValue();
+
+					Matcher limitMatcher = limitPattern.matcher( priceMatcher.group(4) );
+					if ( limitMatcher.find() )
+						purchaseLimit = Math.min( purchaseLimit, df.parse( limitMatcher.group(1) ).intValue() );
+
+					int price = Integer.parseInt( priceID.substring( priceID.length() - 9 ) );
+					results.add( new MallPurchaseRequest( client, itemName, itemID, purchaseLimit, shopID, shopName, price ) );
+				}
+				catch ( Exception e )
+				{
+				}
+			}
+		}
+		else
+		{
+			SearchMallRequest individualStore;
+			Matcher storeMatcher = Pattern.compile( "&action=unfave&whichstore=(\\d+)\">" ).matcher( responseText );
+
+			int lastFindIndex = 0;
+			while ( storeMatcher.find( lastFindIndex ) )
+			{
+				lastFindIndex = storeMatcher.end();
+				individualStore = new SearchMallRequest( client, Integer.parseInt( storeMatcher.group(1) ) );
+				individualStore.run();
+
+				results.addAll( individualStore.results );
+			}
+
+			updateDisplay( ENABLED_STATE, "Search complete." );
+		}
+	}
+
+	private void searchMall()
 	{
 		if ( searchString == null || searchString.trim().length() == 0 )
 			return;
