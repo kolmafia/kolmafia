@@ -191,6 +191,14 @@ public class AdventureFrame extends KoLFrame
 		addMenuBar();
 	}
 
+	public void updateDisplay( int displayState, String message )
+	{
+		super.updateDisplay( displayState, message );
+		if ( contentPanel != adventureSelect )
+			adventureSelect.setStatusMessage( displayState, message );
+	}
+
+
 	public void refreshConcoctionsList()
 	{
 		if ( itemManager != null )
