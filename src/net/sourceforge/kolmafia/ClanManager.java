@@ -70,6 +70,7 @@ public class ClanManager implements KoLConstants
 	private TreeMap profileMap;
 	private TreeMap stashMap;
 	private ClanSnapshotTable snapshot;
+	private LockableListModel rankList;
 
 	public ClanManager( KoLmafia client )
 	{
@@ -77,7 +78,40 @@ public class ClanManager implements KoLConstants
 		this.profileMap = new TreeMap();
 		this.stashMap = new TreeMap();
 
+		this.rankList = new LockableListModel();
 		SNAPSHOT_DIRECTORY = "clan" + File.pathSeparator;
+	}
+
+	public LockableListModel getRankList()
+	{	return (LockableListModel) rankList.clone();
+	}
+
+	private class RankListRequest extends KoLRequest
+	{
+		public RankListRequest( KoLmafia client )
+		{	super( client, "clan_members.php" );
+		}
+
+		public void run()
+		{
+			updateDisplay( DISABLED_STATE, "Retrieving list of ranks..." );
+			super.run();
+
+			rankList.clear();
+			Matcher ranklistMatcher = Pattern.compile( "<select.*?</select>" ).matcher( responseText );
+
+			if ( ranklistMatcher.find() )
+			{
+				Matcher rankMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( ranklistMatcher.group() );
+				int lastMatchIndex = 0;
+
+				while ( rankMatcher.find( lastMatchIndex ) )
+				{
+					lastMatchIndex = rankMatcher.end();
+					rankList.add( rankMatcher.group(1) );
+				}
+			}
+		}
 	}
 
 	private void retrieveClanData()
@@ -93,7 +127,9 @@ public class ClanManager implements KoLConstants
 			SNAPSHOT_DIRECTORY = "clan" + File.pathSeparator + clanID + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) +
 				File.pathSeparator;
 
+			(new RankListRequest( client )).run();
 			this.snapshot = new ClanSnapshotTable( client, clanID, clanName, profileMap );
+
 			client.updateDisplay( ENABLED_STATE, "Clan data retrieved." );
 		}
 	}

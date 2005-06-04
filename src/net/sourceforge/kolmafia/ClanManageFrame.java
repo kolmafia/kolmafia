@@ -104,13 +104,9 @@ public class ClanManageFrame extends KoLFrame
 	private WarfarePanel warfare;
 	private MemberSearchPanel search;
 
-	private LockableListModel rankList;
-
 	public ClanManageFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Clan Management", client );
-
-		this.rankList = new LockableListModel();
 
 		this.storing = new StoragePanel();
 		this.clanBuff = new ClanBuffPanel();
@@ -499,9 +495,6 @@ public class ClanManageFrame extends KoLFrame
 		{
 			super( "search", "apply", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			if ( client != null )
-				(new RankListRequest( client )).run();
-
 			parameterSelect = new JComboBox();
 			for ( int i = 0; i < paramNames.length; ++i )
 				parameterSelect.addItem( paramNames[i] );
@@ -725,7 +718,8 @@ public class ClanManageFrame extends KoLFrame
 		{
 			this.profile = value;
 			memberName = new JLabel( value.getPlayerName(), JLabel.CENTER );
-			rankSelect = rankList.isEmpty() ? new JComboBox() : new JComboBox( (LockableListModel) rankList.clone() );
+			LockableListModel rankList = client.getClanManager().getRankList();
+			rankSelect = rankList.isEmpty() ? new JComboBox() : new JComboBox( rankList );
 
 			// In the event that they were just searching for fun purposes,
 			// there will be no ranks.  So it still looks like something,
@@ -780,34 +774,6 @@ public class ClanManageFrame extends KoLFrame
 
 				frame.pack();  frame.setVisible( true );  frame.requestFocus();
 				existingFrames.add( frame );
-			}
-		}
-	}
-
-	private class RankListRequest extends KoLRequest
-	{
-		public RankListRequest( KoLmafia client )
-		{	super( client, "clan_members.php" );
-		}
-
-		public void run()
-		{
-			updateDisplay( DISABLED_STATE, "Retrieving list of ranks..." );
-			super.run();
-
-			rankList.clear();
-			Matcher ranklistMatcher = Pattern.compile( "<select.*?</select>" ).matcher( responseText );
-
-			if ( ranklistMatcher.find() )
-			{
-				Matcher rankMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( ranklistMatcher.group() );
-				int lastMatchIndex = 0;
-
-				while ( rankMatcher.find( lastMatchIndex ) )
-				{
-					lastMatchIndex = rankMatcher.end();
-					rankList.add( rankMatcher.group(1) );
-				}
 			}
 		}
 	}
