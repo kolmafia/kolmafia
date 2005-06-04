@@ -136,7 +136,8 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		// The scrollback option, when compared to the
 		// alternative of obsessive memory usage, is a
 		// trivial addition.  Therefore, when it hits
-		// the buffer limit
+		// the buffer limit, trim it down to 5% of its
+		// existing length.
 
 		if ( displayBuffer.length() > BUFFER_LIMIT )
 		{
