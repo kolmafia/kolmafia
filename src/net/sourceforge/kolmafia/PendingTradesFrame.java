@@ -67,7 +67,7 @@ public class PendingTradesFrame extends RequestFrame
 			}
 		}
 
-		private class TradeLinkThread extends Thread
+		private class TradeLinkThread extends RequestThread
 		{
 			private String action, offerID;
 

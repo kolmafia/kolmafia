@@ -202,15 +202,12 @@ public class ItemManageFrame extends KoLFrame
 			 * to actually autosell the items.
 			 */
 
-			private class ConsumeItemRequestThread extends Thread
+			private class ConsumeItemRequestThread extends RequestThread
 			{
 				private boolean useMultiple;
 
 				public ConsumeItemRequestThread( boolean useMultiple )
-				{
-					super( "Consume-Request-Thread" );
-					setDaemon( true );
-					this.useMultiple = useMultiple;
+				{	this.useMultiple = useMultiple;
 				}
 
 				public void run()
@@ -308,15 +305,13 @@ public class ItemManageFrame extends KoLFrame
 			 * to actually autosell the items.
 			 */
 
-			private class AutoSellRequestThread extends Thread
+			private class AutoSellRequestThread extends RequestThread
 			{
 				private int sellType;
 				private boolean finishedSelling;
 
 				public AutoSellRequestThread( int sellType )
 				{
-					super( "AutoSell-Request-Thread" );
-					setDaemon( true );
 					this.sellType = sellType;
 					this.finishedSelling = false;
 				}
@@ -435,15 +430,12 @@ public class ItemManageFrame extends KoLFrame
 		 * to actually move items around in the inventory.
 		 */
 
-		private class InventoryStorageThread extends Thread
+		private class InventoryStorageThread extends RequestThread
 		{
 			private boolean isDisplayCase;
 
 			public InventoryStorageThread( boolean isDisplayCase )
-			{
-				super( "Inventory-Storage-Thread" );
-				setDaemon( true );
-				this.isDisplayCase = isDisplayCase;
+			{	this.isDisplayCase = isDisplayCase;
 			}
 
 			public void run()
@@ -463,15 +455,12 @@ public class ItemManageFrame extends KoLFrame
 		 * to actually move items around in the inventory.
 		 */
 
-		private class ClosetStorageThread extends Thread
+		private class ClosetStorageThread extends RequestThread
 		{
 			private boolean isDisplayCase;
 
 			public ClosetStorageThread( boolean isDisplayCase )
-			{
-				super( "Closet-Storage-Thread" );
-				setDaemon( true );
-				this.isDisplayCase = isDisplayCase;
+			{	this.isDisplayCase = isDisplayCase;
 			}
 
 			public void run()
@@ -534,15 +523,12 @@ public class ItemManageFrame extends KoLFrame
 			elementList.setEnabled( isEnabled );
 		}
 
-		private class ItemCreationRequestThread extends Thread
+		private class ItemCreationRequestThread extends RequestThread
 		{
 			private boolean useMultiple;
 
 			public ItemCreationRequestThread( boolean useMultiple )
-			{
-				super( "Create-Item-Thread" );
-				setDaemon( true );
-				this.useMultiple = useMultiple;
+			{	this.useMultiple = useMultiple;
 			}
 
 			public void run()
@@ -600,14 +586,8 @@ public class ItemManageFrame extends KoLFrame
 		{	(new ListRefreshThread()).start();
 		}
 
-		private class ListRefreshThread extends Thread
+		private class ListRefreshThread extends RequestThread
 		{
-			public ListRefreshThread()
-			{
-				super( "List-Refresh-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();

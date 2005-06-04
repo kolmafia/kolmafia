@@ -253,7 +253,7 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends OptionsThread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -270,7 +270,7 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends OptionsThread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -329,7 +329,7 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends OptionsThread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -345,7 +345,7 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends OptionsThread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -490,7 +490,7 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends OptionsThread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -524,7 +524,7 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends OptionsThread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -624,7 +624,7 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends OptionsThread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -655,7 +655,7 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends OptionsThread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -753,7 +753,7 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends OptionsThread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -817,7 +817,7 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends OptionsThread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -902,7 +902,7 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends OptionsThread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -920,7 +920,7 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends OptionsThread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -978,7 +978,7 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends OptionsThread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -998,7 +998,7 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends OptionsThread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -1061,7 +1061,7 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends OptionsThread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -1084,7 +1084,7 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends OptionsThread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -1132,7 +1132,7 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends OptionsThread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -1153,7 +1153,7 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends OptionsThread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -1211,7 +1211,7 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends OptionsThread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -1241,7 +1241,7 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends OptionsThread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -1330,13 +1330,6 @@ public class OptionsFrame extends KoLFrame
 			}
 			catch ( InterruptedException e )
 			{
-			}
-		}
-
-		protected abstract class OptionsThread extends Thread
-		{
-			public OptionsThread()
-			{	setDaemon( true );
 			}
 		}
 	}

@@ -155,7 +155,7 @@ public class StoreManageFrame extends KoLFrame
 		{	(new RefreshStoreThread()).start();
 		}
 
-		private class ApplyPricesThread extends Thread
+		private class ApplyPricesThread extends RequestThread
 		{
 			public void run()
 			{
@@ -184,7 +184,7 @@ public class StoreManageFrame extends KoLFrame
 			}
 		}
 
-		private class RefreshStoreThread extends Thread
+		private class RefreshStoreThread extends RequestThread
 		{
 			public void run()
 			{	(new StoreManageRequest( client )).run();
@@ -300,7 +300,7 @@ public class StoreManageFrame extends KoLFrame
 			{	(new AutoMallRequestThread()).start();
 			}
 
-			private class AutoMallRequestThread extends Thread
+			private class AutoMallRequestThread extends RequestThread
 			{
 				public void run()
 				{
@@ -443,7 +443,7 @@ public class StoreManageFrame extends KoLFrame
 			{	(new TakeFromMallRequestThread()).start();
 			}
 
-			private class TakeFromMallRequestThread extends Thread
+			private class TakeFromMallRequestThread extends RequestThread
 			{
 				public void run()
 				{	client.getStoreManager().takeItem( itemID );
@@ -465,15 +465,12 @@ public class StoreManageFrame extends KoLFrame
 	 * to actually make the mall search request.
 	 */
 
-	private class SearchMallRequestThread extends Thread
+	private class SearchMallRequestThread extends RequestThread
 	{
 		private String itemName;
 
 		public SearchMallRequestThread( String itemName )
-		{
-			super( "Mall-Search-Request-Thread" );
-			setDaemon( true );
-			this.itemName = itemName;
+		{	this.itemName = itemName;
 		}
 
 		public void run()

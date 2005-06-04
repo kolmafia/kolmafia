@@ -185,15 +185,12 @@ public class MuseumFrame extends KoLFrame
 		 * to actually move items around in the inventory.
 		 */
 
-		private class InventoryStorageThread extends Thread
+		private class InventoryStorageThread extends RequestThread
 		{
 			private boolean isCloset;
 
 			public InventoryStorageThread( boolean isCloset )
-			{
-				super( "Inventory-Storage-Thread" );
-				setDaemon( true );
-				this.isCloset = isCloset;
+			{	this.isCloset = isCloset;
 			}
 
 			public void run()
@@ -214,15 +211,12 @@ public class MuseumFrame extends KoLFrame
 		 * to actually move items around in the inventory.
 		 */
 
-		private class DisplayStorageThread extends Thread
+		private class DisplayStorageThread extends RequestThread
 		{
 			private boolean isCloset;
 
 			public DisplayStorageThread( boolean isCloset )
-			{
-				super( "Display-Storage-Thread" );
-				setDaemon( true );
-				this.isCloset = isCloset;
+			{	this.isCloset = isCloset;
 			}
 
 			public void run()

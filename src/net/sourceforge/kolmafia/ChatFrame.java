@@ -313,14 +313,12 @@ public class ChatFrame extends KoLFrame
 				entryField.setText( "" );
 			}
 
-			private class ChatEntryThread extends Thread
+			private class ChatEntryThread extends RequestThread
 			{
 				private String message;
 
 				public ChatEntryThread( String message )
-				{
-					this.message = message;
-					setDaemon( true );
+				{	this.message = message;
 				}
 
 				public void run()
@@ -431,12 +429,8 @@ public class ChatFrame extends KoLFrame
 		{	(new ClearChatBufferThread()).start();
 		}
 
-		private class ClearChatBufferThread extends Thread
+		private class ClearChatBufferThread extends RequestThread
 		{
-			public ClearChatBufferThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client != null )
@@ -457,12 +451,8 @@ public class ChatFrame extends KoLFrame
 		{	(new LogChatRequestThread()).start();
 		}
 
-		private class LogChatRequestThread extends Thread
+		private class LogChatRequestThread extends RequestThread
 		{
-			public LogChatRequestThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
 				JFileChooser chooser = new JFileChooser();
@@ -519,12 +509,8 @@ public class ChatFrame extends KoLFrame
 		{	(new CloseChatRequestThread()).start();
 		}
 
-		private class CloseChatRequestThread extends Thread
+		private class CloseChatRequestThread extends RequestThread
 		{
-			public CloseChatRequestThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client != null && client.getMessenger() != null )
@@ -546,12 +532,8 @@ public class ChatFrame extends KoLFrame
 		{	(new CloseChatRequestThread()).start();
 		}
 
-		private class CloseChatRequestThread extends Thread
+		private class CloseChatRequestThread extends RequestThread
 		{
-			public CloseChatRequestThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client != null )

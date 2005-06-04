@@ -570,7 +570,7 @@ public class ClanManager implements KoLConstants
 			}
 		}
 
-		private class MessagePostThread extends Thread
+		private class MessagePostThread extends RequestThread
 		{
 			public void run()
 			{

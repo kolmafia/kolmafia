@@ -534,12 +534,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{	(new MacroRecordThread()).start();
 		}
 
-		private class MacroRecordThread extends Thread
+		private class MacroRecordThread extends RequestThread
 		{
-			public MacroRecordThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client != null && client.getMacroStream() instanceof NullStream )
@@ -614,14 +610,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{	(new LoadScriptThread()).start();
 		}
 
-		private class LoadScriptThread extends Thread
+		private class LoadScriptThread extends RequestThread
 		{
-			public LoadScriptThread()
-			{
-				super( "Load-Script-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				String executePath = scriptPath;
@@ -1038,14 +1028,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{	(new DisplayFrameThread()).start();
 		}
 
-		protected class DisplayFrameThread extends Thread
+		protected class DisplayFrameThread extends RequestThread
 		{
-			public DisplayFrameThread()
-			{
-				super( "DisplayFrame-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				try
@@ -1202,14 +1186,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{	(new ViewChatThread()).start();
 		}
 
-		private class ViewChatThread extends Thread
+		private class ViewChatThread extends RequestThread
 		{
-			public ViewChatThread()
-			{
-				super( "Chat-Display-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client.getMessenger() == null )

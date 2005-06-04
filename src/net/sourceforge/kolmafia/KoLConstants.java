@@ -46,4 +46,11 @@ public interface KoLConstants
 	public static final int ERROR_STATE    = 1;
 	public static final int ENABLED_STATE  = 2;
 	public static final int DISABLED_STATE = 3;
+
+	public class RequestThread extends Thread
+	{
+		public RequestThread()
+		{	setDaemon( true );
+		}
+	}
 }

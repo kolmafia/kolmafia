@@ -246,7 +246,7 @@ public class GearChangeFrame extends KoLFrame
 		{	(new RefreshEquipmentThread()).start();
 		}
 
-		private class RefreshEquipmentThread extends Thread
+		private class RefreshEquipmentThread extends RequestThread
 		{
 			public void run()
 			{	(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
@@ -260,7 +260,7 @@ public class GearChangeFrame extends KoLFrame
 		{	(new RefreshFamiliarThread()).start();
 		}
 
-		private class RefreshFamiliarThread extends Thread
+		private class RefreshFamiliarThread extends RequestThread
 		{
 			public void run()
 			{	(new FamiliarRequest( client )).run();
@@ -279,14 +279,8 @@ public class GearChangeFrame extends KoLFrame
 				(new ChangeFamiliarThread()).start();
 		}
 
-		private class ChangeFamiliarThread extends Thread
+		private class ChangeFamiliarThread extends RequestThread
 		{
-			public ChangeFamiliarThread()
-			{
-				super( "Change-Familiar-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				isChanging = true;
@@ -313,14 +307,8 @@ public class GearChangeFrame extends KoLFrame
 				(new ChangeEquipmentThread()).start();
 		}
 
-		private class ChangeEquipmentThread extends Thread
+		private class ChangeEquipmentThread extends RequestThread
 		{
-			public ChangeEquipmentThread()
-			{
-				super( "Change-Equipment-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				isChanging = true;
@@ -342,14 +330,8 @@ public class GearChangeFrame extends KoLFrame
 				(new ChangeOutfitThread()).start();
 		}
 
-		private class ChangeOutfitThread extends Thread
+		private class ChangeOutfitThread extends RequestThread
 		{
-			public ChangeOutfitThread()
-			{
-				super( "Change-Outfit-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				isChanging = true;

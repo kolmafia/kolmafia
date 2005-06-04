@@ -90,7 +90,7 @@ public class CakeArenaFrame extends KoLFrame
 			client.cancelRequest();
 		}
 
-		private class ArenaBattleThread extends Thread
+		private class ArenaBattleThread extends RequestThread
 		{
 			public void run()
 			{

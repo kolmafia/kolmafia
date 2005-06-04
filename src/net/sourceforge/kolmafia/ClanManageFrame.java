@@ -254,14 +254,8 @@ public class ClanManageFrame extends KoLFrame
 		 * to actually purchase the clan buffs.
 		 */
 
-		private class ClanBuffRequestThread extends Thread
+		private class ClanBuffRequestThread extends RequestThread
 		{
-			public ClanBuffRequestThread()
-			{
-				super( "Clan-Buff-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				int buffCount = getValue( countField );
@@ -325,14 +319,8 @@ public class ClanManageFrame extends KoLFrame
 			JOptionPane.showMessageDialog( null, "This purchase will cost " + totalValue + " meat" );
 		}
 
-		private class ClanMaterialsThread extends Thread
+		private class ClanMaterialsThread extends RequestThread
 		{
-			public ClanMaterialsThread()
-			{
-				super( "Clan-Materials-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{	(new ClanMaterialsRequest()).run();
 			}
@@ -405,14 +393,8 @@ public class ClanManageFrame extends KoLFrame
 		 * to actually donate to the statues.
 		 */
 
-		private class DonationThread extends Thread
+		private class DonationThread extends RequestThread
 		{
-			public DonationThread()
-			{
-				super( "Donation-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{	client.makeRequest( new ClanStashRequest( client, getValue( amountField ) ), 1 );
 			}
@@ -450,15 +432,12 @@ public class ClanManageFrame extends KoLFrame
 		 * to actually move items around in the inventory.
 		 */
 
-		private class InventoryStorageThread extends Thread
+		private class InventoryStorageThread extends RequestThread
 		{
 			private boolean isStash;
 
 			public InventoryStorageThread( boolean isStash )
-			{
-				super( "Inventory-Storage-Thread" );
-				setDaemon( true );
-				this.isStash = isStash;
+			{	this.isStash = isStash;
 			}
 
 			public void run()
@@ -468,7 +447,55 @@ public class ClanManageFrame extends KoLFrame
 					(Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
 				client.makeRequest( request, 1 );
-				client.updateDisplay( ENABLED_STATE, "Items moved." );
+			}
+		}
+	}
+
+	/**
+	 * Internal class used to handle everything related to
+	 * placing items into the stash.
+	 */
+
+	private class WithdrawPanel extends ItemManagePanel
+	{
+		public WithdrawPanel()
+		{	super( "", "put in bag", "refresh", client == null ? new LockableListModel() : client.getClanManager().getStash() );
+		}
+
+		protected void actionConfirmed()
+		{	(new InventoryWithdrawThread( false )).start();
+		}
+
+		protected void actionCancelled()
+		{	(new InventoryWithdrawThread( true )).start();
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			elementList.setEnabled( isEnabled );
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually move items around in the inventory.
+		 */
+
+		private class InventoryWithdrawThread extends RequestThread
+		{
+			private boolean isRefresh;
+
+			public InventoryWithdrawThread( boolean isRefresh )
+			{	this.isRefresh = isRefresh;
+			}
+
+			public void run()
+			{
+				Object [] items = elementList.getSelectedValues();
+				Runnable request = (Runnable) new ClanStashRequest( client );
+
+				client.makeRequest( request, 1 );
 			}
 		}
 	}
@@ -597,14 +624,8 @@ public class ClanManageFrame extends KoLFrame
 		 * to actually donate to the statues.
 		 */
 
-		private class MemberSearchThread extends Thread
+		private class MemberSearchThread extends RequestThread
 		{
-			public MemberSearchThread()
-			{
-				super( "Member-Search-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				client.getClanManager().applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
@@ -612,14 +633,8 @@ public class ClanManageFrame extends KoLFrame
 			}
 		}
 
-		private class MemberChangeThread extends Thread
+		private class MemberChangeThread extends RequestThread
 		{
-			public MemberChangeThread()
-			{
-				super( "Member-Change-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				client.updateDisplay( DISABLED_STATE, "Determining changes..." );
@@ -676,7 +691,7 @@ public class ClanManageFrame extends KoLFrame
 		{	(new ManagerThread()).start();
 		}
 
-		private class ManagerThread extends Thread
+		private class ManagerThread extends RequestThread
 		{
 			public void run()
 			{

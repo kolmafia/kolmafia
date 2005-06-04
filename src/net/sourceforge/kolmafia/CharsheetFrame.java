@@ -299,14 +299,8 @@ public class CharsheetFrame extends KoLFrame
 		{	(new StatusRefreshThread()).start();
 		}
 
-		private class StatusRefreshThread extends Thread
+		private class StatusRefreshThread extends RequestThread
 		{
-			public StatusRefreshThread()
-			{
-				super( "Status-Refresh-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				(new CharsheetRequest( client )).run();

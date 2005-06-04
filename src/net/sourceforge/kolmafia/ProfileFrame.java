@@ -71,7 +71,7 @@ public class ProfileFrame extends KoLFrame
 		(new ProfileRequestThread()).start();
 	}
 
-	private class ProfileRequestThread extends Thread
+	private class ProfileRequestThread extends RequestThread
 	{
 		public void run()
 		{

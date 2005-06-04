@@ -157,14 +157,8 @@ public class GreenMessageFrame extends KoLFrame
 			attachButton.setEnabled( isEnabled );
 		}
 
-		private class SendGreenMessageThread extends Thread
+		private class SendGreenMessageThread extends RequestThread
 		{
-			public SendGreenMessageThread()
-			{
-				super( "Green-Message-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client == null )

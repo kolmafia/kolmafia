@@ -187,14 +187,8 @@ public class GiftMessageFrame extends KoLFrame
 			attachButton.setEnabled( isEnabled );
 		}
 
-		private class SendGiftMessageThread extends Thread
+		private class SendGiftMessageThread extends RequestThread
 		{
-			public SendGiftMessageThread()
-			{
-				super( "Green-Message-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client == null )

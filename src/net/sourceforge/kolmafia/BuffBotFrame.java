@@ -213,14 +213,8 @@ public class BuffBotFrame extends KoLFrame
 		 * to actually make the request to start the buffbot.
 		 */
 
-		private class BuffBotRequestThread extends Thread
+		private class BuffBotRequestThread extends RequestThread
 		{
-			public BuffBotRequestThread()
-			{
-				super( "BuffBot-Request-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client.isBuffBotActive() )
@@ -450,7 +444,7 @@ public class BuffBotFrame extends KoLFrame
 			}
 		}
 
-		private class LoadDefaultSettingsThread extends Thread
+		private class LoadDefaultSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -480,7 +474,7 @@ public class BuffBotFrame extends KoLFrame
 			}
 		}
 
-		private class StoreSettingsThread extends Thread
+		private class StoreSettingsThread extends RequestThread
 		{
 			public void run()
 			{
@@ -551,12 +545,8 @@ public class BuffBotFrame extends KoLFrame
 				System.exit(0);
 		}
 
-		private class DisableBuffBotThread extends Thread
+		private class DisableBuffBotThread extends RequestThread
 		{
-			public DisableBuffBotThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client != null )

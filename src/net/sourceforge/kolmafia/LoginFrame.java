@@ -296,16 +296,12 @@ public class LoginFrame extends KoLFrame
 		 * to actually make the login attempt.
 		 */
 
-		private class LoginRequestThread extends Thread
+		private class LoginRequestThread extends RequestThread
 		{
 			private boolean isQuickLogin;
 
 			public LoginRequestThread( boolean isQuickLogin )
-			{
-				super( "Login-Request-Thread" );
-				setDaemon( true );
-
-				this.isQuickLogin = isQuickLogin;
+			{	this.isQuickLogin = isQuickLogin;
 			}
 
 			public void run()

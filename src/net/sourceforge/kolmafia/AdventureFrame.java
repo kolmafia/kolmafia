@@ -453,14 +453,8 @@ public class AdventureFrame extends KoLFrame
 		 * to actually make the adventuring requests.
 		 */
 
-		private class AdventureRequestThread extends Thread
+		private class AdventureRequestThread extends RequestThread
 		{
-			public AdventureRequestThread()
-			{
-				super( "Adv-Request-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				int count = getValue( countField );
@@ -613,14 +607,8 @@ public class AdventureFrame extends KoLFrame
 		 * to actually make the mall search request.
 		 */
 
-		private class SearchMallRequestThread extends Thread
+		private class SearchMallRequestThread extends RequestThread
 		{
-			public SearchMallRequestThread()
-			{
-				super( "Mall-Search-Request-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				int searchCount = getValue( countField, -1 );
@@ -641,14 +629,8 @@ public class AdventureFrame extends KoLFrame
 		 * to actually make the mall search request.
 		 */
 
-		private class PurchaseRequestThread extends Thread
+		private class PurchaseRequestThread extends RequestThread
 		{
-			public PurchaseRequestThread()
-			{
-				super( "Purchase-Request-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				Object [] purchases = resultsDisplay.getSelectedValues();
@@ -768,15 +750,12 @@ public class AdventureFrame extends KoLFrame
 		 * to actually donate to the statues.
 		 */
 
-		private class HeroDonationThread extends Thread
+		private class HeroDonationThread extends RequestThread
 		{
 			private boolean useIncrements;
 
 			public HeroDonationThread( boolean useIncrements )
-			{
-				super( "Donation-Thread" );
-				setDaemon( true );
-				this.useIncrements = useIncrements;
+			{	this.useIncrements = useIncrements;
 			}
 
 			public void run()
@@ -861,15 +840,12 @@ public class AdventureFrame extends KoLFrame
 		 * to actually purchase the clan buffs.
 		 */
 
-		private class MeatStorageThread extends Thread
+		private class MeatStorageThread extends RequestThread
 		{
 			private boolean isDeposit;
 
 			public MeatStorageThread( boolean isDeposit )
-			{
-				super( "Meat-Storage-Thread" );
-				setDaemon( true );
-				this.isDeposit = isDeposit;
+			{	this.isDeposit = isDeposit;
 			}
 
 			public void run()
@@ -914,14 +890,8 @@ public class AdventureFrame extends KoLFrame
 			updateDisplay( ERROR_STATE, "Unfortunately, you do not have a Valuable Trinket Crossbow." );
 		}
 
-		private class RemoveEffectsThread extends Thread
+		private class RemoveEffectsThread extends RequestThread
 		{
-			public RemoveEffectsThread()
-			{
-				super( "Remove-Effects-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				AdventureResult effect = (AdventureResult) effects.getSelectedItem();
@@ -982,15 +952,12 @@ public class AdventureFrame extends KoLFrame
 		 * to actually do the spellcasting.
 		 */
 
-		private class SkillBuffRequestThread extends Thread
+		private class SkillBuffRequestThread extends RequestThread
 		{
 			private boolean maxBuff;
 
 			public SkillBuffRequestThread( boolean maxBuff )
-			{
-				super( "Skill-Buff-Thread" );
-				setDaemon( true );
-				this.maxBuff = maxBuff;
+			{	this.maxBuff = maxBuff;
 			}
 
 			public void run()
@@ -1042,14 +1009,8 @@ public class AdventureFrame extends KoLFrame
 		{	(new GetBreakfastThread()).start();
 		}
 
-		private class GetBreakfastThread extends Thread
+		private class GetBreakfastThread extends RequestThread
 		{
-			public GetBreakfastThread()
-			{
-				super( "Get-Breakfast-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				client.getBreakfast();
@@ -1115,12 +1076,8 @@ public class AdventureFrame extends KoLFrame
 			}
 		}
 
-		private class LogoutRequestThread extends Thread
+		private class LogoutRequestThread extends RequestThread
 		{
-			public LogoutRequestThread()
-			{	setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( kolchat != null && kolchat.isShowing() )
@@ -1212,14 +1169,8 @@ public class AdventureFrame extends KoLFrame
 		{	(new HermitRequestThread()).start();
 		}
 
-		private class HermitRequestThread extends Thread
+		private class HermitRequestThread extends RequestThread
 		{
-			public HermitRequestThread()
-			{
-				super( "Hermit-Request-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{	client.makeRequest( new KoLAdventure( client, "hermit.php", "", "The Hermitage" ), 1 );
 			}
@@ -1232,14 +1183,8 @@ public class AdventureFrame extends KoLFrame
 		{	(new TrapperRequestThread()).start();
 		}
 
-		private class TrapperRequestThread extends Thread
+		private class TrapperRequestThread extends RequestThread
 		{
-			public TrapperRequestThread()
-			{
-				super( "Trapper-Request-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{	client.makeRequest( new KoLAdventure( client, "trapper.php", "", "The 1337 Trapper" ), 1 );
 			}
@@ -1252,14 +1197,8 @@ public class AdventureFrame extends KoLFrame
 		{	(new HunterRequestThread()).start();
 		}
 
-		private class HunterRequestThread extends Thread
+		private class HunterRequestThread extends RequestThread
 		{
-			public HunterRequestThread()
-			{
-				super( "Hunter-Request-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{	client.makeRequest( new KoLAdventure( client, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ), 1 );
 			}

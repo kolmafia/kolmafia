@@ -62,14 +62,14 @@ public class RequestFrame extends KoLFrame
 		getContentPane().setLayout( new GridLayout( 1, 1 ) );
 		getContentPane().add( scrollPane );
 
-		(new RequestThread( request )).start();
+		(new DisplayRequestThread( request )).start();
 	}
 
-	private class RequestThread extends Thread
+	private class DisplayRequestThread extends RequestThread
 	{
 		private KoLRequest request;
 
-		public RequestThread( KoLRequest request )
+		public DisplayRequestThread( KoLRequest request )
 		{	this.request = request;
 		}
 

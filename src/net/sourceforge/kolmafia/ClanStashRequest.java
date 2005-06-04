@@ -46,8 +46,16 @@ public class ClanStashRequest extends KoLRequest
 	private Object [] items;
 	private List source, destination;
 
+	public static final int REFRESH_ONLY = 0;
 	public static final int ITEMS_TO_STASH = 1;
 	public static final int MEAT_TO_STASH = 2;
+
+	public ClanStashRequest( KoLmafia client )
+	{
+		super( client, "clan_stash.php" );
+		this.items = null;
+		this.moveType = REFRESH_ONLY;
+	}
 
 	/**
 	 * Constructs a new <code>ClanStashRequest</code>.
@@ -110,14 +118,24 @@ public class ClanStashRequest extends KoLRequest
 	{
 		switch ( moveType )
 		{
+			case REFRESH_ONLY:
+				updateDisplay( DISABLED_STATE, "Retrieving stash list..." );
+				super.run();
+				parseStash();
+				updateDisplay( NOCHANGE, "Stash list retrieved." );
+				break;
+
 			case ITEMS_TO_STASH:
 				updateDisplay( DISABLED_STATE, "Moving items to clan stash..." );
 				stash();
+				parseStash();
+				updateDisplay( DISABLED_STATE, "Items have been moved to the stash." );
 				break;
 
 			case MEAT_TO_STASH:
 				updateDisplay( DISABLED_STATE, "Attempting clan donation..." );
 				super.run();
+				parseStash();
 				updateDisplay( NOCHANGE, "Clan donation attempt complete." );
 				break;
 		}

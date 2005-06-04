@@ -229,7 +229,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			(new RequestMailboxThread( "Saved" )).run();
 	}
 
-	private class RequestMailboxThread extends Thread
+	private class RequestMailboxThread extends RequestThread
 	{
 		private String mailboxName;
 
@@ -311,17 +311,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				}
 			}
 
-			private class DeleteMessageThread extends Thread
+			private class DeleteMessageThread extends RequestThread
 			{
-				public DeleteMessageThread()
-				{
-					super( "Delete-Message-Thread" );
-					setDaemon( true );
-				}
-
 				public void run()
-				{
-					mailbox.deleteMessages( mailboxName, getSelectedValues() );
+				{	mailbox.deleteMessages( mailboxName, getSelectedValues() );
 				}
 			}
 		}
@@ -366,7 +359,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		{	(new BoxRefreshThread()).start();
 		}
 
-		private class BoxRefreshThread extends Thread
+		private class BoxRefreshThread extends RequestThread
 		{
 			public void run()
 			{
@@ -388,7 +381,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		{	(new BoxEmptyThread()).start();
 		}
 
-		private class BoxEmptyThread extends Thread
+		private class BoxEmptyThread extends RequestThread
 		{
 			public void run()
 			{	mailbox.deleteMessages( boxname, mailbox.getMessages( boxname ).toArray() );

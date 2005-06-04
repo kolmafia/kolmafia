@@ -162,14 +162,8 @@ public class ProposeTradeFrame extends KoLFrame
 			attachButton.setEnabled( isEnabled );
 		}
 
-		private class ProposeTradeThread extends Thread
+		private class ProposeTradeThread extends RequestThread
 		{
-			public ProposeTradeThread()
-			{
-				super( "Propose-Trade-Thread" );
-				setDaemon( true );
-			}
-
 			public void run()
 			{
 				if ( client == null )

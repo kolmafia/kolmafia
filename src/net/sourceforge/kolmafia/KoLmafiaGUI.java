@@ -429,14 +429,12 @@ public class KoLmafiaGUI extends KoLmafia
 				entryField.setText( "" );
 			}
 
-			private class CommandEntryThread extends Thread
+			private class CommandEntryThread extends RequestThread
 			{
 				private String command;
 
 				public CommandEntryThread( String command )
-				{
-					this.command = command;
-					setDaemon( true );
+				{	this.command = command;
 				}
 
 				public void run()
