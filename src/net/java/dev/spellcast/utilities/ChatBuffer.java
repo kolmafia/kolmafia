@@ -62,10 +62,10 @@ public class ChatBuffer
 	private String title;
 	private String header;
 
-	private JEditorPane displayPane;
-	private JScrollBar verticalScrollBar;
-	private Runnable scrollBarResizer;
-	private PrintWriter activeLogWriter;
+	protected JEditorPane displayPane;
+	protected JScrollBar verticalScrollBar;
+	protected Runnable scrollBarResizer;
+	protected PrintWriter activeLogWriter;
 
 	protected StringBuffer displayBuffer;
 
