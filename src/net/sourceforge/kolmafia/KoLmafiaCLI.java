@@ -553,6 +553,15 @@ public class KoLmafiaCLI extends KoLmafia
 		// Campground activities are fairly common, so
 		// they will be listed first.
 
+		if ( command.equals( "otori" ) )
+		{
+			pwnClanOtori();
+			return;
+		}
+
+		// Campground activities are fairly common, so
+		// they will be listed first.
+
 		if ( command.equals( "campground" ) )
 		{
 			executeCampgroundRequest( parameters );
@@ -1288,7 +1297,7 @@ public class KoLmafiaCLI extends KoLmafia
 		Object [] items = new Object[1];
 		items[0] = firstMatch;
 
-		scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items ), 1 );
+		scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items, 0 ), 1 );
 	}
 
 	/**

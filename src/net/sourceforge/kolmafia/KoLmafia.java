@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.Iterator;
@@ -314,6 +315,34 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 			(new UseSkillRequest( this, "Advanced Cocktailcrafting", "", 3 )).run();
 
 		permitContinue = true;
+	}
+
+	/**
+	 * Requests daily buffs from Clan Otori's standard buffbots.
+	 */
+
+	public void pwnClanOtori()
+	{
+		String todaySetting = sdf.format( new Date() );
+		String pwnageSetting = settings.getProperty( "lastOtoriRequest" );
+
+		if ( pwnageSetting != null && pwnageSetting.equals( todaySetting ) )
+		{
+			updateDisplay( ERROR_STATE, "Sorry, Otori can only be pwned once a day." );
+			return;
+		}
+
+		settings.setProperty( "lastOtoriRequest", todaySetting );
+
+		(new GreenMessageRequest( this, "79826", "", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
+		(new GreenMessageRequest( this, "79826", "", new AdventureResult( AdventureResult.MEAT, 2 ) )).run();
+		(new GreenMessageRequest( this, "79826", "", new AdventureResult( AdventureResult.MEAT, 3 ) )).run();
+
+		(new GreenMessageRequest( this, "121179", "", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
+
+		(new GreenMessageRequest( this, "246325", "", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
+		(new GreenMessageRequest( this, "246325", "", new AdventureResult( AdventureResult.MEAT, 2 ) )).run();
+		(new GreenMessageRequest( this, "246325", "", new AdventureResult( AdventureResult.MEAT, 3 ) )).run();
 	}
 
 	/**

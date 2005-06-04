@@ -188,6 +188,16 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 	}
 
+	public void pwnClanOtori()
+	{
+		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+			"This attempt to pwn Clan Otori will cost you 13 meat.\nAre you sure you want to continue?",
+			"YES!  This does use meat!", JOptionPane.YES_NO_OPTION ) )
+				return;
+
+		super.pwnClanOtori();
+	}
+
 	/**
 	 * Makes a request to the hermit, looking for the given number of
 	 * items.  This method should prompt the user to determine which

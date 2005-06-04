@@ -271,12 +271,15 @@ public class AdventureFrame extends KoLFrame
 
 		JMenuItem foodItem = new JMenuItem( "Camping Routine", KeyEvent.VK_C );
 		foodItem.addActionListener( new GetBreakfastListener() );
+		JMenuItem otoriItem = new JMenuItem( "Pwn Clan Otori!", KeyEvent.VK_P );
+		otoriItem.addActionListener( new OtoriBuffListener() );
 		JMenuItem buffbotMenuItem = new JMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E );
 		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
 
 		JMenu scriptMenu = addScriptMenu( menuBar );
 		scriptMenu.add( foodItem, 3 );
-		scriptMenu.add( buffbotMenuItem, 4 );
+		scriptMenu.add( otoriItem, 4 );
+		scriptMenu.add( buffbotMenuItem, 5 );
 
 		JMenu visitMenu = new JMenu( "Travel" );
 		visitMenu.setMnemonic( KeyEvent.VK_T );
@@ -1201,6 +1204,20 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void run()
 			{	client.makeRequest( new KoLAdventure( client, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ), 1 );
+			}
+		}
+	}
+
+	private class OtoriBuffListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new OtoriBuffThread()).start();
+		}
+
+		private class OtoriBuffThread extends RequestThread
+		{
+			public void run()
+			{	client.pwnClanOtori();
 			}
 		}
 	}
