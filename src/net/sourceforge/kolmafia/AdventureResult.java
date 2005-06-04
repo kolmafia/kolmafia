@@ -502,12 +502,11 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( !left.name.equals( right.name ) )
 			return null;
 
-		int [] totals = new int[ left.count.length ];
-		for ( int i = 0; i < left.count.length; ++i )
+		int [] totals = left.count.length == right.count.length ? new int[ left.count.length ] : new int[1];
+		for ( int i = 0; i < totals.length; ++i )
 			totals[i] = left.count[i] + right.count[i];
 
-		return left.isItem() && TradeableItemDatabase.contains( left.name ) ?
-			new AdventureResult( left.itemID, totals[0] ) : new AdventureResult( left.name, totals );
+		return left.isItem() ? new AdventureResult( left.itemID, totals[0] ) : new AdventureResult( left.name, totals );
 	}
 
 	public static AutoSellCellRenderer getAutoSellCellRenderer()
