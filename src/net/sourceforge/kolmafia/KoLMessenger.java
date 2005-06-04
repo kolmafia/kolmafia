@@ -878,6 +878,7 @@ public class KoLMessenger implements KoLConstants
 		ChatBuffer newBuffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + windowName + " - Started " +
 			Calendar.getInstance().getTime().toString() );
 
+		instantMessageBuffers.put( windowName, newBuffer );
 		ChatFrame newFrame = new ChatFrame( client, this, windowName );
 
 		if ( useTabbedFrame )
@@ -898,6 +899,5 @@ public class KoLMessenger implements KoLConstants
 		}
 
 		instantMessageFrames.put( windowName, newFrame );
-		instantMessageBuffers.put( windowName, newBuffer );
 	}
 }
