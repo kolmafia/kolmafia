@@ -49,6 +49,7 @@ public class ClanStashRequest extends KoLRequest
 	public static final int REFRESH_ONLY = 0;
 	public static final int ITEMS_TO_STASH = 1;
 	public static final int MEAT_TO_STASH = 2;
+	public static final int STASH_TO_ITEMS = 3;
 
 	public ClanStashRequest( KoLmafia client )
 	{
@@ -79,7 +80,7 @@ public class ClanStashRequest extends KoLRequest
 	 * @param	items	The list of items involved in the request
 	 */
 
-	public ClanStashRequest( KoLmafia client, Object [] items )
+	public ClanStashRequest( KoLmafia client, Object [] items, int moveType )
 	{
 		super( client, "clan_stash.php" );
 
@@ -87,7 +88,7 @@ public class ClanStashRequest extends KoLRequest
 		addFormField( "action", "addgoodies" );
 
 		this.items = items;
-		this.moveType = ITEMS_TO_STASH;
+		this.moveType = moveType;
 
 		source = client.getInventory();
 		destination = new ArrayList();
@@ -122,21 +123,29 @@ public class ClanStashRequest extends KoLRequest
 				updateDisplay( DISABLED_STATE, "Retrieving stash list..." );
 				super.run();
 				parseStash();
-				updateDisplay( NOCHANGE, "Stash list retrieved." );
-				break;
-
-			case ITEMS_TO_STASH:
-				updateDisplay( DISABLED_STATE, "Moving items to clan stash..." );
-				stash();
-				parseStash();
-				updateDisplay( DISABLED_STATE, "Items have been moved to the stash." );
+				updateDisplay( ENABLED_STATE, "Stash list retrieved." );
 				break;
 
 			case MEAT_TO_STASH:
 				updateDisplay( DISABLED_STATE, "Attempting clan donation..." );
 				super.run();
 				parseStash();
-				updateDisplay( NOCHANGE, "Clan donation attempt complete." );
+				updateDisplay( ENABLED_STATE, "Clan donation attempt complete." );
+				break;
+
+			default:
+
+				if ( items.length == 1 )
+					updateDisplay( DISABLED_STATE, "Moving " + items[0] +
+						(moveType == ITEMS_TO_STASH ? " to the stash..." : " to your bag...") );
+
+				stash();
+				parseStash();
+
+				if ( items.length > 0 )
+					updateDisplay( ENABLED_STATE, "Successfully moved " + items[ items.length - 1 ] +
+						(moveType == ITEMS_TO_STASH ? " to the stash." : " to your bag.") );
+
 				break;
 		}
 	}
@@ -156,7 +165,7 @@ public class ClanStashRequest extends KoLRequest
 			for ( int i = 0; i < items.length; ++i )
 			{
 				itemHolder[0] = items[i];
-				(new ClanStashRequest( client, itemHolder )).run();
+				(new ClanStashRequest( client, itemHolder, moveType )).run();
 			}
 
 			return;

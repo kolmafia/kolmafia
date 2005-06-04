@@ -90,7 +90,7 @@ public class ClanManager implements KoLConstants
 	}
 
 	public LockableListModel getRankList()
-	{	return (LockableListModel) rankList.clone();
+	{	return rankList;
 	}
 
 	private class RankListRequest extends KoLRequest

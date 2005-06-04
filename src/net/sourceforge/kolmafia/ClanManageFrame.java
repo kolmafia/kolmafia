@@ -97,9 +97,12 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ClanManageFrame extends KoLFrame
 {
+	private LockableListModel rankList;
+
 	private JTabbedPane tabs;
 	private ClanBuffPanel clanBuff;
 	private StoragePanel storing;
+	private WithdrawPanel withdrawal;
 	private DonationPanel donation;
 	private WarfarePanel warfare;
 	private MemberSearchPanel search;
@@ -108,9 +111,12 @@ public class ClanManageFrame extends KoLFrame
 	{
 		super( "KoLmafia: Clan Management", client );
 
+		this.rankList = new LockableListModel();
+
 		this.storing = new StoragePanel();
 		this.clanBuff = new ClanBuffPanel();
 		this.donation = new DonationPanel();
+		this.withdrawal = new WithdrawPanel();
 		this.warfare = new WarfarePanel();
 		this.search = new MemberSearchPanel();
 
@@ -119,9 +125,14 @@ public class ClanManageFrame extends KoLFrame
 		JPanel karmaPanel = new JPanel();
 		karmaPanel.setLayout( new BorderLayout() );
 		karmaPanel.add( donation, BorderLayout.NORTH );
-		karmaPanel.add( storing, BorderLayout.CENTER );
 
-		tabs.addTab( "Boost Karma", karmaPanel );
+		JPanel stashPanel = new JPanel();
+		stashPanel.setLayout( new GridLayout( 2, 1, 10, 10 ) );
+		stashPanel.add( storing );
+		stashPanel.add( withdrawal );
+		karmaPanel.add( stashPanel, BorderLayout.CENTER );
+
+		tabs.addTab( "Adjust Karma", karmaPanel );
 
 		JPanel purchasePanel = new JPanel();
 		purchasePanel.setLayout( new BoxLayout( purchasePanel, BoxLayout.Y_AXIS ) );
@@ -409,15 +420,15 @@ public class ClanManageFrame extends KoLFrame
 	private class StoragePanel extends ItemManagePanel
 	{
 		public StoragePanel()
-		{	super( "", "put in stash", "put in closet", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+		{	super( "Inside Inventory", "put in stash", "put in closet", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
 		}
 
 		protected void actionConfirmed()
-		{	(new InventoryStorageThread( true )).start();
+		{	(new StorageThread( true )).start();
 		}
 
 		protected void actionCancelled()
-		{	(new InventoryStorageThread( false )).start();
+		{	(new StorageThread( false )).start();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -432,18 +443,18 @@ public class ClanManageFrame extends KoLFrame
 		 * to actually move items around in the inventory.
 		 */
 
-		private class InventoryStorageThread extends RequestThread
+		private class StorageThread extends RequestThread
 		{
 			private boolean isStash;
 
-			public InventoryStorageThread( boolean isStash )
+			public StorageThread( boolean isStash )
 			{	this.isStash = isStash;
 			}
 
 			public void run()
 			{
 				Object [] items = elementList.getSelectedValues();
-				Runnable request = isStash ? (Runnable) new ClanStashRequest( client, items ) :
+				Runnable request = isStash ? (Runnable) new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH ) :
 					(Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
 				client.makeRequest( request, 1 );
@@ -459,15 +470,15 @@ public class ClanManageFrame extends KoLFrame
 	private class WithdrawPanel extends ItemManagePanel
 	{
 		public WithdrawPanel()
-		{	super( "", "put in bag", "refresh", client == null ? new LockableListModel() : client.getClanManager().getStash() );
+		{	super( "Inside Clan Stash", "put in bag", "refresh", client == null ? new LockableListModel() : client.getClanManager().getStash() );
 		}
 
 		protected void actionConfirmed()
-		{	(new InventoryWithdrawThread( false )).start();
+		{	(new WithdrawThread( false )).start();
 		}
 
 		protected void actionCancelled()
-		{	(new InventoryWithdrawThread( true )).start();
+		{	(new WithdrawThread( true )).start();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -482,18 +493,28 @@ public class ClanManageFrame extends KoLFrame
 		 * to actually move items around in the inventory.
 		 */
 
-		private class InventoryWithdrawThread extends RequestThread
+		private class WithdrawThread extends RequestThread
 		{
 			private boolean isRefresh;
 
-			public InventoryWithdrawThread( boolean isRefresh )
+			public WithdrawThread( boolean isRefresh )
 			{	this.isRefresh = isRefresh;
 			}
 
 			public void run()
 			{
+				if ( rankList.isEmpty() )
+					rankList = client.getClanManager().getRankList();
+
+				if ( !isRefresh && rankList.isEmpty() )
+				{
+					JOptionPane.showMessageDialog( null, "Look, but don't touch." );
+					return;
+				}
+
 				Object [] items = elementList.getSelectedValues();
-				Runnable request = (Runnable) new ClanStashRequest( client );
+				Runnable request = isRefresh ? (Runnable) new ClanStashRequest( client ) :
+					new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH );
 
 				client.makeRequest( request, 1 );
 			}
@@ -733,8 +754,11 @@ public class ClanManageFrame extends KoLFrame
 		{
 			this.profile = value;
 			memberName = new JLabel( value.getPlayerName(), JLabel.CENTER );
-			LockableListModel rankList = client.getClanManager().getRankList();
-			rankSelect = rankList.isEmpty() ? new JComboBox() : new JComboBox( rankList );
+
+			if ( rankList.isEmpty() )
+				rankList = client.getClanManager().getRankList();
+
+			rankSelect = rankList.isEmpty() ? new JComboBox() : new JComboBox( (LockableListModel) rankList.clone() );
 
 			// In the event that they were just searching for fun purposes,
 			// there will be no ranks.  So it still looks like something,
