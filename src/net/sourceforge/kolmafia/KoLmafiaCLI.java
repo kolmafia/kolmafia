@@ -339,7 +339,32 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCommand( String command, String parameters )
 	{
-		// First, handle any requests to login or relogin.
+		// First, handle the wait command, for however
+		// many seconds the user would like to wait.
+
+		if ( command.equals( "wait" ) || command.equals( "pause" ) )
+		{
+			try
+			{
+				int seconds = df.parse( parameters ).intValue();
+				for ( int i = 0; i < seconds && scriptRequestor.permitsContinue(); ++i )
+				{
+					KoLRequest.delay( 1000 );
+					if ( scriptRequestor instanceof KoLmafiaGUI )
+						scriptRequestor.updateDisplay( DISABLED_STATE, "Countdown: " + (seconds - i) + " seconds remaining..." );
+					else
+						outputStream.print( seconds - i + ", " );
+				}
+			}
+			catch ( Exception e )
+			{
+			}
+
+			updateDisplay( ENABLED_STATE, "Waiting completed." );
+			return;
+		}
+
+		// Next, handle any requests to login or relogin.
 		// This will be done by calling a utility method.
 
 		if ( command.equals( "login" ) || command.equals( "relogin" ) )
