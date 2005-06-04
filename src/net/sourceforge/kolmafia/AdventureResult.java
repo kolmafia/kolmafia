@@ -494,9 +494,9 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private static AdventureResult add( AdventureResult left, AdventureResult right )
 	{
-		if ( left == null )
+		if ( left == null || left.name == null )
 			return right;
-		if ( right == null )
+		if ( right == null || right.name == null )
 			return left;
 
 		if ( !left.name.equals( right.name ) )
