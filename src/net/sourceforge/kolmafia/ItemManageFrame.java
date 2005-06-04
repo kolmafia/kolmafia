@@ -533,6 +533,8 @@ public class ItemManageFrame extends KoLFrame
 
 			public void run()
 			{
+				client.updateDisplay( DISABLED_STATE, "Verifying ingredients..." );
+
 				Object selected = elementList.getSelectedValue();
 
 				try
