@@ -70,7 +70,9 @@ public class ClanManager implements KoLConstants
 	private TreeMap profileMap;
 	private TreeMap stashMap;
 	private ClanSnapshotTable snapshot;
+
 	private LockableListModel rankList;
+	private LockableListModel stashContents;
 
 	public ClanManager( KoLmafia client )
 	{
@@ -79,7 +81,12 @@ public class ClanManager implements KoLConstants
 		this.stashMap = new TreeMap();
 
 		this.rankList = new LockableListModel();
+		this.stashContents = new LockableListModel();
 		SNAPSHOT_DIRECTORY = "clan" + File.pathSeparator;
+	}
+
+	public LockableListModel getStash()
+	{	return stashContents;
 	}
 
 	public LockableListModel getRankList()

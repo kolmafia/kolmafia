@@ -158,4 +158,42 @@ public class ClanStashRequest extends KoLRequest
 			client.processResult( negatedResult );
 		}
 	}
+
+	private void parseStash()
+	{
+		List stashContents = client.getClanManager().getStash();
+		Matcher stashMatcher = Pattern.compile( "<b>Take an item from the Goodies Hoard:</select>" ).matcher( responseText );
+
+		// If there's nothing inside the goodies hoard,
+		// return because there's nothing to parse
+
+		if ( !stashMatcher.find() )
+			return;
+
+		int lastFindIndex = 0;
+		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( stashMatcher.group() );
+		while ( optionMatcher.find( lastFindIndex ) )
+		{
+			try
+			{
+				lastFindIndex = optionMatcher.end();
+				int itemID = df.parse( optionMatcher.group(1) ).intValue();
+
+				if ( TradeableItemDatabase.getItemName( itemID ) == null )
+					TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
+
+				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
+				AdventureResult.addResultToList( stashContents, result );
+			}
+			catch ( Exception e )
+			{
+				// If an exception occurs during the parsing, just
+				// continue after notifying the LogStream of the
+				// error.  This could be handled better, but not now.
+
+				logStream.println( e );
+				e.printStackTrace( logStream );
+			}
+		}
+	}
 }
