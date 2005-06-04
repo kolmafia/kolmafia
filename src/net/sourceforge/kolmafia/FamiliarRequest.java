@@ -92,7 +92,7 @@ public class FamiliarRequest extends KoLRequest
 		{
 			characterData.setFamiliarDescription( changeTo.getRace(), changeTo.getWeight() + characterData.getAdditionalWeight() );
 			characterData.setFamiliarItem( changeTo.getItem() );
-			updateDisplay( NOCHANGE, "Familiar changed." );
+			updateDisplay( ENABLED_STATE, "Familiar changed." );
 		}
 		else
 		{
@@ -109,7 +109,7 @@ public class FamiliarRequest extends KoLRequest
 					characterData.setFamiliarDescription( currentMatcher.group(2), Integer.parseInt( currentMatcher.group(1) ) );
 			}
 
-			updateDisplay( NOCHANGE, "Familiar data retrieved." );
+			updateDisplay( ENABLED_STATE, "Familiar data retrieved." );
 		}
 	}
 }
