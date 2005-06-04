@@ -168,13 +168,21 @@ public class ClanManageFrame extends KoLFrame
 		messageMenu.setMnemonic( KeyEvent.VK_M );
 		menuBar.add( messageMenu );
 
-		JMenuItem announceItem = new JMenuItem( "Announcements", KeyEvent.VK_A );
-		announceItem.addActionListener( new ManagerListener( "getAnnouncements" ) );
-		messageMenu.add( announceItem );
+		JMenuItem boardItem1 = new JMenuItem( "Post to Clan Board" );
+		boardItem1.addActionListener( new ManagerListener( "postMessage" ) );
+		messageMenu.add( boardItem1 );
 
-		JMenuItem boardItem = new JMenuItem( "Message Board", KeyEvent.VK_M );
-		boardItem.addActionListener( new ManagerListener( "getMessageBoard" ) );
-		messageMenu.add( boardItem );
+		JMenuItem announceItem1 = new JMenuItem( "Post Announcement" );
+		announceItem1.addActionListener( new ManagerListener( "postAnnouncement" ) );
+		messageMenu.add( announceItem1 );
+
+		JMenuItem boardItem2 = new JMenuItem( "Read Clan Messages" );
+		boardItem2.addActionListener( new ManagerListener( "getMessageBoard" ) );
+		messageMenu.add( boardItem2 );
+
+		JMenuItem announceItem2 = new JMenuItem( "Read Announcements" );
+		announceItem2.addActionListener( new ManagerListener( "getAnnouncements" ) );
+		messageMenu.add( announceItem2 );
 
 		addHelpMenu( menuBar );
 	}

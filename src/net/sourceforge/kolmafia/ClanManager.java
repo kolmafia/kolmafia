@@ -34,6 +34,11 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import java.util.List;
 import java.util.TreeMap;
 import java.util.Iterator;
@@ -466,6 +471,78 @@ public class ClanManager implements KoLConstants
 
 				if ( !lastEntryList.contains( lastEntry ) )
 					lastEntryList.add( lastEntry );
+			}
+		}
+	}
+
+	public void postMessage()
+	{
+		MessagePostFrame frame = new MessagePostFrame( client, "post" );
+		frame.pack();  frame.setVisible( true );  frame.requestFocus();
+	}
+
+	public void postAnnouncement()
+	{
+		MessagePostFrame frame = new MessagePostFrame( client, "postannounce" );
+		frame.pack();  frame.setVisible( true );  frame.requestFocus();
+	}
+
+	private class MessagePostFrame extends KoLFrame
+	{
+		private String action;
+		private JTextArea messageEntry;
+
+		public MessagePostFrame( KoLmafia client, String action )
+		{
+			super( "KoLmafia: Clan " + (action.equals( "post" ) ? "Board Post" : "Announcement"), client );
+			this.action = action;
+
+			getContentPane().setLayout( new BorderLayout() );
+			getContentPane().add( new MessagePostPanel(), BorderLayout.CENTER );
+		}
+
+		private class MessagePostPanel extends NonContentPanel
+		{
+			public MessagePostPanel()
+			{
+				super( "post", "clear", new Dimension( 1, 20 ), new Dimension( 300, 20 ) );
+
+				messageEntry = new JTextArea( 8, 32 );
+				messageEntry.setLineWrap( true );
+				messageEntry.setWrapStyleWord( true );
+				JScrollPane scrollArea = new JScrollPane( messageEntry,
+					JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+				VerifiableElement [] elements = new VerifiableElement[1];
+				elements[0] = new VerifiableElement( "", scrollArea );
+				setContent( elements );
+			}
+
+			public void actionConfirmed()
+			{	(new MessagePostThread()).start();
+			}
+
+			public void actionCancelled()
+			{	messageEntry.setText( "" );
+			}
+		}
+
+		private class MessagePostThread extends Thread
+		{
+			public void run()
+			{
+				(new MessagePostRequest( client, messageEntry.getText() )).run();
+				MessagePostFrame.this.dispose();
+			}
+		}
+
+		private class MessagePostRequest extends KoLRequest
+		{
+			public MessagePostRequest( KoLmafia client, String message )
+			{
+				super( client, "clan_board.php" );
+				addFormField( "action", action );
+				addFormField( "message", message );
 			}
 		}
 	}
