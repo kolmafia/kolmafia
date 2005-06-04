@@ -39,7 +39,7 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 
 public class LimitedSizeChatBuffer extends ChatBuffer
 {
-	private static final int BUFFER_LIMIT = 20000;
+	private static final int BUFFER_LIMIT = 40000;
 
 	private int previousFontSize;
 	private static int fontSize = 3;
@@ -142,7 +142,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		if ( displayBuffer.length() > BUFFER_LIMIT )
 		{
 			int trimIndex = displayBuffer.indexOf( "<br>" );
-			while ( displayBuffer.length() - trimIndex > 1000 )
+			while ( displayBuffer.length() - trimIndex > 10000 )
 				trimIndex = displayBuffer.indexOf( "<br>", trimIndex + 1 );
 
 			displayBuffer.delete( 0, trimIndex );
