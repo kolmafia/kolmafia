@@ -257,15 +257,11 @@ public class EquipmentRequest extends KoLRequest
 
 	private void parseCloset( String content, List resultList, boolean updateUsableList )
 	{
-		// The next two tokens are blank space and an
-		// indicator to show that the list is about
-		// to start.  Skip them both.
-
 		List usableItems = client.getUsableItems();
 		int lastFindIndex = 0;
 
 		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( content );
-		while ( optionMatcher.find() )
+		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			try
 			{
@@ -274,7 +270,6 @@ public class EquipmentRequest extends KoLRequest
 
 				if ( TradeableItemDatabase.getItemName( itemID ) == null )
 					TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
-
 
 				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
 				AdventureResult.addResultToList( resultList, result );
