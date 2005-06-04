@@ -117,9 +117,11 @@ public class GearChangeFrame extends KoLFrame
 		menuBar.add( fileMenu );
 
 		gearRefresh = new JMenuItem( "Equipment", KeyEvent.VK_E );
+		gearRefresh.addActionListener( new RefreshEquipmentListener() );
 		fileMenu.add( gearRefresh );
 
 		familiarRefresh = new JMenuItem( "Familiars", KeyEvent.VK_F );
+		familiarRefresh.addActionListener( new RefreshFamiliarListener() );
 		fileMenu.add( familiarRefresh );
 
 		addHelpMenu( menuBar );
@@ -236,6 +238,34 @@ public class GearChangeFrame extends KoLFrame
 		equipment[6].setSelectedItem( characterData.getFamiliarItem() );
 
 		isChanging = false;
+	}
+
+	private class RefreshEquipmentListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new RefreshEquipmentThread()).start();
+		}
+
+		private class RefreshEquipmentThread extends Thread
+		{
+			public void run()
+			{	(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
+			}
+		}
+	}
+
+	private class RefreshFamiliarListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new RefreshFamiliarThread()).start();
+		}
+
+		private class RefreshFamiliarThread extends Thread
+		{
+			public void run()
+			{	(new FamiliarRequest( client )).run();
+			}
+		}
 	}
 
 	private class ChangeFamiliarListener implements ActionListener
