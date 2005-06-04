@@ -166,7 +166,7 @@ public class ClanManager implements KoLConstants
 
 		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 			profileMap.size() + " members are currently in your clan.\nThis process will take " +
-			((int)(profilesNeeded / 15) + 1) + " minutes to complete.\nAre you sure you want to continue?",
+			((int)(profilesNeeded / 20) + 1) + " minutes to complete.\nAre you sure you want to continue?",
 			"Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
 				return false;
 
@@ -187,7 +187,7 @@ public class ClanManager implements KoLConstants
 			// Manually add in a bit of lag so that it doesn't turn into
 			// hammering the server for information.
 
-			KoLRequest.delay( 2000 );
+			KoLRequest.delay( 500 );
 		}
 
 		return true;
