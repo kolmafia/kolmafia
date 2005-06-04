@@ -35,12 +35,15 @@
 package net.sourceforge.kolmafia;
 import java.util.Locale;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.text.DecimalFormatSymbols;
 
 public interface KoLConstants
 {
 	public static final DecimalFormat df = new DecimalFormat(
 		"#,##0", new DecimalFormatSymbols( Locale.US ) );
+
+	public static final SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd" );
 
 	public static final int NOCHANGE = 0;
 	public static final int ERROR_STATE    = 1;

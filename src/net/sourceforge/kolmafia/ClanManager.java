@@ -131,7 +131,7 @@ public class ClanManager implements KoLConstants
 			this.clanID = cmr.getClanID();
 			this.clanName = cmr.getClanName();
 
-			SNAPSHOT_DIRECTORY = "clan" + File.pathSeparator + clanID + "_" + new SimpleDateFormat( "yyyyMMdd" ).format( new Date() ) +
+			SNAPSHOT_DIRECTORY = "clan" + File.pathSeparator + clanID + "_" + sdf.format( new Date() ) +
 				File.pathSeparator;
 
 			(new RankListRequest( client )).run();

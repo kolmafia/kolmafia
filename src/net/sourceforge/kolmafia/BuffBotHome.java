@@ -99,7 +99,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
  * the BuffBot Frame
  */
 
-public class BuffBotHome
+public class BuffBotHome implements KoLConstants
 {
 	private static final TimeZone DEFAULT_TIMEZONE = TimeZone.getDefault();
 	private static final TimeZone KINGDOM_TIMEZONE = TimeZone.getTimeZone( "US/Eastern" );
@@ -118,9 +118,7 @@ public class BuffBotHome
 	private List pastRecipients;
 
 	private BuffBotFrame frame;
-
-	private static final DateFormat logDF = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-	private static final SimpleDateFormat logSDF = new SimpleDateFormat( "yyyyMMdd" );
+	private static final DateFormat tsdf = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
 	/**
 	 * Constructs a new <code>BuffBotHome</code>.  However, note that this
@@ -135,7 +133,7 @@ public class BuffBotHome
 		this.messages = new LockableListModel();
 		pastRecipients = new ArrayList();
 
-		String dayOfYear = logSDF.format(new Date());
+		String dayOfYear = sdf.format(new Date());
 		String characterName = client == null ? "" : client.getLoginName();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 		File file = new File( "data/" + noExtensionName + "_BuffBot" + dayOfYear + ".html" );
@@ -172,7 +170,7 @@ public class BuffBotHome
 		try
 		{
 			TimeZone.setDefault( KINGDOM_TIMEZONE );
-			String dayOfYear = logSDF.format(new Date());
+			String dayOfYear = sdf.format(new Date());
 			TimeZone.setDefault( DEFAULT_TIMEZONE );
 
 			String characterName = client == null ? "" : client.getLoginName();
@@ -257,7 +255,7 @@ public class BuffBotHome
 	 */
 
 	public void timeStampedLogEntry( Color c, String entry )
-	{	update( c, logDF.format( new Date() ) + ": " + entry );
+	{	update( c, tsdf.format( new Date() ) + ": " + entry );
 	}
 
 	public LockableListModel getMessages()
