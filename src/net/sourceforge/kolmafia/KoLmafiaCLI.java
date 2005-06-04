@@ -198,6 +198,9 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
+			if ( !username.endsWith( "/q" ) )
+				username += "/q";
+
 			if ( scriptRequestor == this )
 				outputStream.print( "password: " );
 
