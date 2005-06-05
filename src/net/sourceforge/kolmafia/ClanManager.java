@@ -533,6 +533,7 @@ public class ClanManager implements KoLConstants
 	private class MessagePostFrame extends KoLFrame
 	{
 		private String action;
+		private MessagePostPanel panel;
 		private JTextArea messageEntry;
 
 		public MessagePostFrame( KoLmafia client, String action )
@@ -540,8 +541,10 @@ public class ClanManager implements KoLConstants
 			super( "KoLmafia: Clan " + (action.equals( "post" ) ? "Board Post" : "Announcement"), client );
 			this.action = action;
 
+			panel = new MessagePostPanel();
+
 			getContentPane().setLayout( new BorderLayout() );
-			getContentPane().add( new MessagePostPanel(), BorderLayout.CENTER );
+			getContentPane().add( panel, BorderLayout.CENTER );
 		}
 
 		private class MessagePostPanel extends NonContentPanel
@@ -570,11 +573,20 @@ public class ClanManager implements KoLConstants
 			}
 		}
 
+		public void setEnabled( boolean isEnabled )
+		{
+			if ( panel != null )
+				panel.setEnabled( isEnabled );
+		}
+
 		private class MessagePostThread extends RequestThread
 		{
 			public void run()
 			{
+				setEnabled( false );
+				client.updateDisplay( DISABLED_STATE, "Posting to clan board..." );
 				(new MessagePostRequest( client, messageEntry.getText() )).run();
+				client.updateDisplay( ENABLED_STATE, "Post attempt complete." );
 				MessagePostFrame.this.dispose();
 			}
 		}
