@@ -765,7 +765,7 @@ public class OptionsFrame extends KoLFrame
 
 				if ( fontSize != null )
 				{
-					fontSizeSelect.setSelectedItem( String.valueOf( fontSize ) );
+					fontSizeSelect.setSelectedItem( fontSize );
 					LimitedSizeChatBuffer.setFontSize( Integer.parseInt( fontSize ) );
 				}
 				else
@@ -821,9 +821,9 @@ public class OptionsFrame extends KoLFrame
 		{
 			public void run()
 			{
-				Integer fontSize = (Integer) fontSizeSelect.getSelectedItem();
+				String fontSize = (String) fontSizeSelect.getSelectedItem();
 				settings.setProperty( "fontSize", fontSize.toString() );
-				LimitedSizeChatBuffer.setFontSize( fontSize.intValue() );
+				LimitedSizeChatBuffer.setFontSize( Integer.parseInt( fontSize ) );
 				settings.setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
 				settings.setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
 				settings.setProperty( "nameClickOpens", String.valueOf( nameClickSelect.getSelectedIndex() ) );
