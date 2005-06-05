@@ -1538,14 +1538,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 			try
 			{
-				adventureCount = adventureCountString.equals( "*" ) ? scriptRequestor.getCharacterData().getAdventuresLeft() :
-					df.parse( adventureCountString ).intValue();
+				adventureName = AdventureDatabase.getAdventure( scriptRequestor, adventureName ).toString();
+				adventureCount = adventureCountString.equals( "*" ) ? 0 : df.parse( adventureCountString ).intValue();
 
-				if ( adventureCountString.equals( "*" ) &&
-					AdventureDatabase.getAdventure( scriptRequestor, adventureName ).toString().startsWith( "Shore" ) )
-						adventureCount /= 3;
-
-				if ( adventureCount <= 0 )
+				if ( adventureCount <= 0 && adventureName.startsWith( "Shore" ) )
+					adventureCount += (int) Math.floor( getCharacterData().getAdventuresLeft() / 3 );
+				else if ( adventureCount <= 0 )
 					adventureCount += scriptRequestor.getCharacterData().getAdventuresLeft();
 			}
 			catch ( Exception e )
