@@ -513,6 +513,30 @@ public class ClanManageFrame extends KoLFrame
 				}
 
 				Object [] items = elementList.getSelectedValues();
+				AdventureResult selection;
+				int itemID, quantity;
+
+				try
+				{
+					for ( int i = 0; i < items.length; ++i )
+					{
+						selection = (AdventureResult) items[i];
+						itemID = selection.getItemID();
+						quantity = df.parse( JOptionPane.showInputDialog(
+							"Retrieving " + selection.getName() + " from the stash...", String.valueOf( selection.getCount() ) ) ).intValue();
+
+						items[i] = new AdventureResult( itemID, quantity );
+
+					}
+				}
+				catch ( Exception e )
+				{
+					// If an exception occurs somewhere along the way
+					// then return from the thread.
+
+					return;
+				}
+
 				Runnable request = isRefresh ? (Runnable) new ClanStashRequest( client ) :
 					new ClanStashRequest( client, items, ClanStashRequest.STASH_TO_ITEMS );
 
