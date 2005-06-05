@@ -246,6 +246,7 @@ public class ClanManager implements KoLConstants
 			if ( enemyClans.isEmpty() )
 			{
 				JOptionPane.showMessageDialog( null, "Sorry, you cannot attack a clan at this time." );
+				client.updateDisplay( ENABLED_STATE, "" );
 				return;
 			}
 
