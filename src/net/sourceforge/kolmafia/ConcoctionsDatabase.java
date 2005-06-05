@@ -188,7 +188,12 @@ public class ConcoctionsDatabase
 						quantityPossible[i] = 0;
 				}
 				else
-					concoctions[i].calculateQuantityPossible( availableIngredients );
+                                {
+                                        if (concoctions[i].ingredient1 == -1)
+                                                client.getLogStream().println( "Bad recipe: " + concoctions[i].asResult );
+                                        else
+                                                concoctions[i].calculateQuantityPossible( availableIngredients );
+                                }
 			}
 		}
 
