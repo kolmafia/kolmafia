@@ -182,7 +182,7 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		// all over the place
 
 		this.sessionID = sessionID;
-		this.characterData = new KoLCharacter( loginname.replaceFirst( "/q", "" ) );
+		this.characterData = new KoLCharacter( loginname );
 		this.inventory = characterData.getInventory();
 		this.usableItems = new SortedListModel();
 		this.hunterItems = new SortedListModel();
@@ -334,15 +334,19 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		settings.setProperty( "lastOtoriRequest", todaySetting );
 
-		(new GreenMessageRequest( this, "79826", "", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
-		(new GreenMessageRequest( this, "79826", "", new AdventureResult( AdventureResult.MEAT, 2 ) )).run();
-		(new GreenMessageRequest( this, "79826", "", new AdventureResult( AdventureResult.MEAT, 3 ) )).run();
+		updateDisplay( DISABLED_STATE, "Pwning Clan Otori..." );
 
-		(new GreenMessageRequest( this, "121179", "", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
+		(new GreenMessageRequest( this, "79826", "I really didn't want to do this...", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
+		(new GreenMessageRequest( this, "79826", "The hermit made me do it!", new AdventureResult( AdventureResult.MEAT, 2 ) )).run();
+		(new GreenMessageRequest( this, "79826", "Or was it Toot Oriole?  -hic-", new AdventureResult( AdventureResult.MEAT, 3 ) )).run();
 
-		(new GreenMessageRequest( this, "246325", "", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
-		(new GreenMessageRequest( this, "246325", "", new AdventureResult( AdventureResult.MEAT, 2 ) )).run();
-		(new GreenMessageRequest( this, "246325", "", new AdventureResult( AdventureResult.MEAT, 3 ) )).run();
+		(new GreenMessageRequest( this, "121179", "I'm flipping you upside-down, turtle boy.", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
+
+		(new GreenMessageRequest( this, "246325", "Mint says, \"World domination, baby!\"", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
+		(new GreenMessageRequest( this, "246325", "Oh, and KoLmafia says, \"Your shoes are mine, [censored]!\"", new AdventureResult( AdventureResult.MEAT, 2 ) )).run();
+		(new GreenMessageRequest( this, "246325", "But you're a bot, too, so you won't see this.  Sadness.", new AdventureResult( AdventureResult.MEAT, 3 ) )).run();
+
+		updateDisplay( ENABLED_STATE, "Pwning of Clan Otori complete." );
 	}
 
 	/**
