@@ -1176,7 +1176,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private AdventureResult getFirstMatchingItem( String parameters, int matchType )
 	{
-		String itemName;  int itemCount;
+		String itemName = null;  int itemCount;
 
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
@@ -1192,7 +1192,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( matchingNames.size() != 0 )
 			{
-				itemName = (String) matchingNames.get(0);
+				for ( int i = 0; i < matchingNames.size(); ++i )
+					if ( parameters.equals( matchingNames.get(i) ) )
+						itemName = parameters;
+
+				if ( itemName == null )
+					itemName = (String) matchingNames.get(0);
+
 				itemCount = 1;
 			}
 			else
@@ -1215,7 +1221,12 @@ public class KoLmafiaCLI extends KoLmafia
 						return null;
 					}
 
-					itemName = (String) matchingNames.get(0);
+					for ( int i = 0; i < matchingNames.size(); ++i )
+						if ( itemNameString.equals( matchingNames.get(i) ) )
+							itemName = itemNameString;
+
+					if ( itemName == null )
+						itemName = (String) matchingNames.get(0);
 				}
 
 				try
