@@ -170,7 +170,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 			while ( highlightIterator.hasNext() )
 			{
 				highlight = (String) highlightIterator.next();
-				if ( message.indexOf( highlight ) != -1 )
+				if ( message.matches( highlight ) )
 					highlightMessage = message.replaceAll( highlight, "<font color=purple>" + highlight + "</font>" );
 			}
 		}
@@ -186,7 +186,20 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	public void highlight( String highlight, LimitedSizeChatBuffer highlightBuffer )
 	{
 		this.highlightBuffer = highlightBuffer;
-		highlights.add( highlight );
+
+		// Convert this to a case insensitive expression
+		// (which may be tough).
+
+		StringBuffer highlightRegex = new StringBuffer();
+		for ( int i = 0; i < highlight.length(); ++i )
+		{
+			highlightRegex.append( '[' );
+			highlightRegex.append( Character.toLowerCase( highlight.charAt(i) ) );
+			highlightRegex.append( Character.toUpperCase( highlight.charAt(i) ) );
+			highlightRegex.append( ']' );
+		}
+
+		highlights.add( highlightRegex.toString() );
 		applyHighlights();
 	}
 
@@ -200,7 +213,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		{
 			highlight = (String) highlights.get(j);
 			for ( int i = 0; i < lines.length; ++i )
-				if ( lines[i].indexOf( highlight ) != -1 )
+				if ( lines[i].matches( highlight ) )
 					highlightBuffer.append( lines[i].replaceAll( highlight, "<font color=purple>" + highlight + "</font>" ) + "<br>" );
 
 			displayString = displayString.replaceAll( highlight, "<font color=purple>" + highlight + "</font>" );
