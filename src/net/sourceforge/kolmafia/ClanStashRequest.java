@@ -136,11 +136,12 @@ public class ClanStashRequest extends KoLRequest
 			case ITEMS_TO_STASH:
 			case STASH_TO_ITEMS:
 
-				if ( items.length > 0 )
+				if ( items.length == 1 )
 					updateDisplay( DISABLED_STATE, "Moving " + items[0] +
 						(moveType == ITEMS_TO_STASH ? " to the stash..." : " to your bag...") );
 
 				stash();
+				parseStash();
 
 				if ( items.length > 0 )
 					updateDisplay( ENABLED_STATE, "Successfully moved " + items[ items.length - 1 ] +
@@ -181,15 +182,16 @@ public class ClanStashRequest extends KoLRequest
 
 			super.run();
 
-                        List stashContents = client.getClanManager().getStash();
-                        AdventureResult negatedResult = new AdventureResult( result.getItemID(), 0 - result.getCount() );
-                        if (moveType == ITEMS_TO_STASH) {
-                                AdventureResult.addResultToList( stashContents, result );
-			        client.processResult( negatedResult );
-                        } else {
-                                AdventureResult.addResultToList( stashContents, negatedResult );
-			        client.processResult( result );
-                        }
+
+			if ( moveType == ITEMS_TO_STASH )
+			{
+				AdventureResult negatedResult = new AdventureResult( result.getItemID(), 0 - result.getCount() );
+				client.processResult( negatedResult );
+			}
+			else
+			{
+				client.processResult( result );
+			}
 		}
 	}
 
@@ -197,8 +199,8 @@ public class ClanStashRequest extends KoLRequest
 	{
 		List stashContents = client.getClanManager().getStash();
 
-                // Start with an empty list
-                stashContents.clear();
+		// Start with an empty list
+		stashContents.clear();
 
 		Matcher stashMatcher = Pattern.compile( "<form name=takegoodies.*?</select>" ).matcher( responseText );
 
@@ -209,7 +211,10 @@ public class ClanStashRequest extends KoLRequest
 			return;
 
 		int lastFindIndex = 0;
-		Matcher optionMatcher = Pattern.compile( "<option value=([\\d]+)>(.*?)\\(([\\d,]+)\\)" ).matcher( stashMatcher.group() );
+
+		Pattern qtyPattern = Pattern.compile( "\\(([\\d,]+)\\)" );
+		Matcher optionMatcher = Pattern.compile( "<option value=([\\d]+)>(.*?)</option>" ).matcher( stashMatcher.group() );
+
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			try
@@ -217,10 +222,16 @@ public class ClanStashRequest extends KoLRequest
 				lastFindIndex = optionMatcher.end();
 				int itemID = df.parse( optionMatcher.group(1) ).intValue();
 
-				if ( TradeableItemDatabase.getItemName( itemID ) == null )
-					TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
+				String itemString = optionMatcher.group(2);
 
-				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
+				if ( TradeableItemDatabase.getItemName( itemID ) == null )
+					TradeableItemDatabase.registerItem( itemID, itemString.substring( 0, itemString.indexOf( "(" ) ).trim() );
+
+				Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( itemString.indexOf( "(" ) ) );
+
+				AdventureResult result = new AdventureResult( itemID, qtyMatcher.find() ?
+					df.parse( qtyMatcher.group(1) ).intValue() : 1 );
+
 				AdventureResult.addResultToList( stashContents, result );
 			}
 			catch ( Exception e )
