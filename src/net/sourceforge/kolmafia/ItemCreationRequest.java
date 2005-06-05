@@ -360,6 +360,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 				if ( client.getCharacterData().hasBartender() )
 					return true;
+				break;
 
 			default:
 				return true;
