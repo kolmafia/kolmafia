@@ -216,7 +216,8 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 			displayString = matching.replaceAll( "<font color=purple>" + highlight.pattern() + "</font>" );
 		}
 
-		clearBuffer();
-		append( displayString );
+		displayBuffer.setLength( 0 );
+		displayBuffer.append( displayString );
+		fireBufferChanged( CONTENT_CHANGE, null );
 	}
 }
