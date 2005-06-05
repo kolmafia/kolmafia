@@ -61,9 +61,7 @@ import java.util.Calendar;
 
 public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneListener, ChangeListener
 {
-	private boolean highlighting;
 	private CloseableTabbedPane tabs;
-	private String baseLogFileName;
 
 	public TabbedChatFrame( KoLmafia client, KoLMessenger messenger )
 	{
@@ -92,73 +90,6 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 		tabs = new CloseableTabbedPane();
 		tabs.addCloseableTabbedPaneListener( this );
 		getContentPane().add( tabs, "" );
-	}
-
-	protected void addChatListeners( JMenuItem loggerItem, JMenuItem clearItem, JMenuItem highItem )
-	{
-		loggerItem.addActionListener( new LogChatsListener() );
-		clearItem.addActionListener( new ClearChatBuffersListener() );
-		highItem.addActionListener( new HighlightChatsListener() );
-	}
-
-	private class LogChatsListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			JFileChooser chooser = new JFileChooser();
-			chooser.setFileFilter( new HTMLFileFilter() );
-			int returnVal = chooser.showSaveDialog( TabbedChatFrame.this );
-
-			if ( chooser.getSelectedFile() == null )
-				return;
-
-			String filename = chooser.getSelectedFile().getAbsolutePath();
-			filename = filename.replaceAll( "\\.htm[l]?", "" );
-
-			if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-			{
-				String tabName, fileSuffix;
-				baseLogFileName = filename;
-
-				for ( int i = 0; i < tabs.getTabCount(); ++i )
-				{
-					tabName = tabs.getTitleAt(i);
-					fileSuffix = tabName.startsWith( "/" ) ? tabName.substring( 1 ) : client.getPlayerID( tabName );
-
-					messenger.getChatBuffer( tabName ).setActiveLogFile( baseLogFileName + "_" + fileSuffix + ".html",
-						"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
-				}
-			}
-		}
-	}
-
-	private class ClearChatBuffersListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			for ( int i = 0; i < tabs.getTabCount(); ++i )
-				messenger.clearChatBuffer( tabs.getTitleAt(i) );
-		}
-	}
-
-	private class HighlightChatsListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", client.getLoginName() );
-
-			if ( highlight != null )
-			{
-				highlighting = true;
-				messenger.openInstantMessage( "[highlights]" );
-				LimitedSizeChatBuffer highlightBuffer = (LimitedSizeChatBuffer) messenger.getChatBuffer( "[highlights]" );
-				highlightBuffer.clearBuffer();
-
-				for ( int i = 0; i < tabs.getTabCount(); ++i )
-					if ( !tabs.getTitleAt(i).equals( "[highlights]" ) )
-						messenger.getChatBuffer( tabs.getTitleAt(i) ).highlight( highlight, highlightBuffer );
-			}
-		}
 	}
 
 	/**
@@ -220,16 +151,6 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 			}
 
 			tabs.addTab( name, panel );
-
-			if ( baseLogFileName != null )
-			{
-				String fileSuffix = name.startsWith( "/" ) ? name.substring( 1 ) : client.getPlayerID( name );
-				messenger.getChatBuffer( name ).setActiveLogFile( baseLogFileName + "_" + fileSuffix + ".html",
-					"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
-			}
-
-			if ( highlighting && !name.equals( "[highlights]" ) )
-				((LimitedSizeChatBuffer)messenger.getChatBuffer( name )).applyHighlights();
 		}
 	}
 

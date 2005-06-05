@@ -44,7 +44,9 @@ import java.util.regex.Pattern;
 import java.util.StringTokenizer;
 
 import java.awt.Dimension;
+import javax.swing.JOptionPane;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
@@ -61,6 +63,9 @@ public class KoLMessenger implements KoLConstants
 	private boolean useTabbedFrame;
 	private boolean useTriviaStyle;
 	private TabbedChatFrame tabbedFrame;
+
+	private String baseLogname;
+	private boolean highlighting;
 
 	public KoLMessenger( KoLmafia client )
 	{
@@ -896,5 +901,66 @@ public class KoLMessenger implements KoLConstants
 		}
 
 		instantMessageFrames.put( windowName, newFrame );
+
+		if ( baseLogname != null )
+		{
+			String fileSuffix = characterName.startsWith( "/" ) ? characterName.substring( 1 ) : client.getPlayerID( characterName );
+			newBuffer.setActiveLogFile( baseLogname + "_" + fileSuffix + ".html",
+				"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
+		}
+
+		if ( highlighting && !characterName.equals( "[highlights]" ) )
+			newBuffer.applyHighlights();
+	}
+
+	public void initializeChatLogs()
+	{
+		JFileChooser chooser = new JFileChooser();
+		int returnVal = chooser.showSaveDialog( null );
+
+		if ( chooser.getSelectedFile() == null )
+			return;
+
+		baseLogname = chooser.getSelectedFile().getAbsolutePath();
+
+		if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+		{
+			Object [] keys = instantMessageBuffers.keySet().toArray();
+			String fileSuffix, currentKey;
+
+			for ( int i = 0; i < keys.length; ++i )
+			{
+				currentKey = (String) keys[i];
+				fileSuffix = currentKey.startsWith( "/" ) ? currentKey.substring( 1 ) : client.getPlayerID( currentKey );
+
+				getChatBuffer( currentKey ).setActiveLogFile( baseLogname + "_" + fileSuffix + ".html",
+					"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
+			}
+		}
+	}
+
+	public void clearChatBuffers()
+	{
+		Object [] keys = instantMessageBuffers.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+			clearChatBuffer( (String) keys[i] );
+	}
+
+	public void addHighlighting()
+	{
+		String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", client.getLoginName() );
+
+		if ( highlight != null )
+		{
+			highlighting = true;
+			openInstantMessage( "[highlights]" );
+
+			LimitedSizeChatBuffer highlightBuffer = getChatBuffer( "[highlights]" );
+			highlightBuffer.clearBuffer();
+
+			Object [] keys = instantMessageBuffers.keySet().toArray();
+			for ( int i = 0; i < keys.length; ++i )
+				getChatBuffer( (String) keys[i] ).highlight( highlight, highlightBuffer );
+		}
 	}
 }

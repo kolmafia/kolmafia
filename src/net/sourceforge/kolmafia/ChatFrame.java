@@ -141,13 +141,17 @@ public class ChatFrame extends KoLFrame
 		menuBar.add( fileMenu );
 
 		JMenuItem loggerItem = new JMenuItem( "Log Chat", KeyEvent.VK_L );
+		loggerItem.addActionListener( new LogChatListener() );
 		fileMenu.add( loggerItem );
+
 		JMenuItem clearItem = new JMenuItem( "Clear Chat", KeyEvent.VK_C );
+		clearItem.addActionListener( new ClearChatBufferListener() );
 		fileMenu.add( clearItem );
+
 		JMenuItem highItem = new JMenuItem( "Highlight!", KeyEvent.VK_H );
+		highItem.addActionListener( new HighlightChatListener() );
 		fileMenu.add( highItem );
 
-		addChatListeners( loggerItem, clearItem, highItem );
 		addConfigureMenu( menuBar );
 
 		clickGroup = new ButtonGroup();
@@ -326,13 +330,6 @@ public class ChatFrame extends KoLFrame
 		}
 	}
 
-	protected void addChatListeners( JMenuItem loggerItem, JMenuItem clearItem, JMenuItem highItem )
-	{
-		loggerItem.addActionListener( new LogChatListener() );
-		clearItem.addActionListener( new ClearChatBufferListener() );
-		highItem.addActionListener( new HighlightChatListener() );
-	}
-
 	/**
 	 * Returns the name of the contact associated with this frame.
 	 * @return	The name of the contact associated with this frame
@@ -431,9 +428,7 @@ public class ChatFrame extends KoLFrame
 	private class ClearChatBufferListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{
-			if ( client != null )
-				messenger.clearChatBuffer( mainPanel.getAssociatedContact() );
+		{	messenger.clearChatBuffers();
 		}
 	}
 
@@ -446,52 +441,14 @@ public class ChatFrame extends KoLFrame
 	private class LogChatListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{
-			JFileChooser chooser = new JFileChooser();
-			chooser.setFileFilter( new HTMLFileFilter() );
-			int returnVal = chooser.showSaveDialog( ChatFrame.this );
-
-			if ( chooser.getSelectedFile() == null )
-				return;
-
-			String filename = chooser.getSelectedFile().getAbsolutePath();
-			if ( !filename.endsWith( ".htm" ) && !filename.endsWith( ".html" ) )
-				filename += ".html";
-
-			if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-				messenger.getChatBuffer( mainPanel.getAssociatedContact() ).setActiveLogFile( filename,
-					"Loathing Chat: " + client.getLoginName() + " (" +
-					Calendar.getInstance().getTime().toString() + ")" );
-		}
-	}
-
-	/**
-	 * Internal file descriptor to make sure files are
-	 * only saved to HTML format.
-	 */
-
-	protected final class HTMLFileFilter extends javax.swing.filechooser.FileFilter
-	{
-		public boolean accept( java.io.File f )
-		{	return f.getPath().endsWith( ".htm" ) || f.getPath().endsWith( ".html" ) || f.isDirectory();
-		}
-
-		public String getDescription()
-		{	return "Hypertext Documents";
+		{	messenger.initializeChatLogs();
 		}
 	}
 
 	private class HighlightChatListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{
-			String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", client.getLoginName() );
-
-			if ( highlight != null )
-			{
-				messenger.openInstantMessage( "[highlights]" );
-				messenger.getChatBuffer( getAssociatedContact() ).highlight( highlight, messenger.getChatBuffer( "[highlights]" ) );
-			}
+		{	messenger.addHighlighting();
 		}
 	}
 
