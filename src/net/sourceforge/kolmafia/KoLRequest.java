@@ -394,7 +394,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			this.isErrorState = true;
 
-			if ( formURLString.indexOf( "chat" ) == -1 || ( client != null && client.isBuffBotActive() ) )
+			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Error opening connection.  Retrying..." );
 			return false;
 		}
@@ -476,7 +476,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			this.isErrorState = true;
 
-			if ( formURLString.indexOf( "chat" ) == -1 || ( client != null && client.isBuffBotActive() ) )
+			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
 
 			if ( client != null )
@@ -525,7 +525,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( IOException e )
 		{
-			if ( formURLString.indexOf( "chat" ) == -1 && ( client != null && client.isBuffBotActive() ) )
+			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
 
 			if ( client != null )
@@ -649,7 +649,8 @@ public class KoLRequest implements Runnable, KoLConstants
 					// An IOException is clearly an error; here it will be reported
 					// to the client, but another attempt will be made
 
-					updateDisplay( NOCHANGE, "Error reading server reply.  Retrying..." );
+					if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
+						updateDisplay( NOCHANGE, "Error reading server reply.  Retrying..." );
 
 					if ( client != null )
 					{
