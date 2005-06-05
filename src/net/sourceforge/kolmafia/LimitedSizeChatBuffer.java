@@ -191,6 +191,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		// (which may be tough).
 
 		StringBuffer highlightRegex = new StringBuffer();
+		highlightRegex.append( ".*" );
 		for ( int i = 0; i < highlight.length(); ++i )
 		{
 			highlightRegex.append( '[' );
@@ -199,6 +200,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 			highlightRegex.append( ']' );
 		}
 
+		highlightRegex.append( ".*" );
 		highlights.add( highlightRegex.toString() );
 		applyHighlights();
 	}
