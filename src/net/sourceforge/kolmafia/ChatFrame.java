@@ -53,6 +53,7 @@ import java.awt.event.AdjustmentListener;
 import javax.swing.SwingUtilities;
 
 // containers
+import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -143,8 +144,10 @@ public class ChatFrame extends KoLFrame
 		fileMenu.add( loggerItem );
 		JMenuItem clearItem = new JMenuItem( "Clear Chat", KeyEvent.VK_C );
 		fileMenu.add( clearItem );
+		JMenuItem highItem = new JMenuItem( "Highlight!", KeyEvent.VK_H );
+		fileMenu.add( highItem );
 
-		addChatListeners( loggerItem, clearItem );
+		addChatListeners( loggerItem, clearItem, highItem );
 		addConfigureMenu( menuBar );
 
 		clickGroup = new ButtonGroup();
@@ -323,10 +326,11 @@ public class ChatFrame extends KoLFrame
 		}
 	}
 
-	protected void addChatListeners( JMenuItem loggerItem, JMenuItem clearItem )
+	protected void addChatListeners( JMenuItem loggerItem, JMenuItem clearItem, JMenuItem highItem )
 	{
 		loggerItem.addActionListener( new LogChatListener() );
 		clearItem.addActionListener( new ClearChatBufferListener() );
+		highItem.addActionListener( new HighlightChatListener() );
 	}
 
 	/**
@@ -474,6 +478,20 @@ public class ChatFrame extends KoLFrame
 
 		public String getDescription()
 		{	return "Hypertext Documents";
+		}
+	}
+
+	private class HighlightChatListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", client.getLoginName() );
+
+			if ( highlight != null )
+			{
+				messenger.openInstantMessage( "[highlights]" );
+				messenger.getChatBuffer( getAssociatedContact() ).highlight( highlight, messenger.getChatBuffer( "[highlights]" ) );
+			}
 		}
 	}
 

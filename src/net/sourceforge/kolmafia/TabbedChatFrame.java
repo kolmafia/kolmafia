@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
@@ -60,6 +61,7 @@ import java.util.Calendar;
 
 public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneListener, ChangeListener
 {
+	private boolean highlighting;
 	private CloseableTabbedPane tabs;
 	private String baseLogFileName;
 
@@ -92,10 +94,11 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 		getContentPane().add( tabs, "" );
 	}
 
-	protected void addChatListeners( JMenuItem loggerItem, JMenuItem clearItem )
+	protected void addChatListeners( JMenuItem loggerItem, JMenuItem clearItem, JMenuItem highItem )
 	{
 		loggerItem.addActionListener( new LogChatsListener() );
 		clearItem.addActionListener( new ClearChatBuffersListener() );
+		highItem.addActionListener( new HighlightChatsListener() );
 	}
 
 	private class LogChatsListener implements ActionListener
@@ -135,6 +138,26 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 		{
 			for ( int i = 0; i < tabs.getTabCount(); ++i )
 				messenger.clearChatBuffer( tabs.getTitleAt(i) );
+		}
+	}
+
+	private class HighlightChatsListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", client.getLoginName() );
+
+			if ( highlight != null )
+			{
+				highlighting = true;
+				messenger.openInstantMessage( "[highlights]" );
+				LimitedSizeChatBuffer highlightBuffer = (LimitedSizeChatBuffer) messenger.getChatBuffer( "[highlights]" );
+				highlightBuffer.clearBuffer();
+
+				for ( int i = 0; i < tabs.getTabCount(); ++i )
+					if ( !tabs.getTitleAt(i).equals( "[highlights]" ) )
+						messenger.getChatBuffer( tabs.getTitleAt(i) ).highlight( highlight, highlightBuffer );
+			}
 		}
 	}
 
@@ -204,6 +227,9 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 				messenger.getChatBuffer( name ).setActiveLogFile( baseLogFileName + "_" + fileSuffix + ".html",
 					"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
 			}
+
+			if ( highlighting && !name.equals( "[highlights]" ) )
+				((LimitedSizeChatBuffer)messenger.getChatBuffer( name )).applyHighlights();
 		}
 	}
 

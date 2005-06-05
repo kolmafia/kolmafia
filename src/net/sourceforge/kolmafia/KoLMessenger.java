@@ -46,8 +46,6 @@ import java.util.StringTokenizer;
 import java.awt.Dimension;
 import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
-
-import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class KoLMessenger implements KoLConstants
@@ -90,7 +88,7 @@ public class KoLMessenger implements KoLConstants
 		if ( this.useTabbedFrame != useTabbedFrame )
 		{
 			Iterator keyIterator = instantMessageBuffers.keySet().iterator();
-			String currentKey;  ChatBuffer currentBuffer;  ChatFrame currentFrame;
+			String currentKey;  LimitedSizeChatBuffer currentBuffer;  ChatFrame currentFrame;
 
 			if ( useTabbedFrame )
 			{
@@ -109,7 +107,7 @@ public class KoLMessenger implements KoLConstants
 			while ( keyIterator.hasNext() )
 			{
 				currentKey = (String) keyIterator.next();
-				currentBuffer = (ChatBuffer) instantMessageBuffers.get( currentKey );
+				currentBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( currentKey );
 				currentFrame = (ChatFrame) instantMessageFrames.get( currentKey );
 
 				if ( useTabbedFrame )
@@ -152,7 +150,7 @@ public class KoLMessenger implements KoLConstants
 
 	public void clearChatBuffer( String contact )
 	{
-		ChatBuffer bufferToClear = getChatBuffer( contact );
+		LimitedSizeChatBuffer bufferToClear = getChatBuffer( contact );
 		if ( bufferToClear != null )
 			bufferToClear.clearBuffer();
 	}
@@ -189,21 +187,21 @@ public class KoLMessenger implements KoLConstants
 	 * @return	The chat buffer for the given contact
 	 */
 
-	public ChatBuffer getChatBuffer( String contact )
+	public LimitedSizeChatBuffer getChatBuffer( String contact )
 	{
 		String chatStyle = client.getSettings().getProperty( "chatStyle" );
 
 		if ( contact == null )
-			return (ChatBuffer) instantMessageBuffers.get( currentChannel );
+			return (LimitedSizeChatBuffer) instantMessageBuffers.get( currentChannel );
 
 		else if ( chatStyle == null )
-			return (ChatBuffer) instantMessageBuffers.get( contact );
+			return (LimitedSizeChatBuffer) instantMessageBuffers.get( contact );
 
 		else if ( chatStyle.equals( "1" ) && !contact.startsWith( "/" ) )
-			return (ChatBuffer) instantMessageBuffers.get( "[nsipms]" );
+			return (LimitedSizeChatBuffer) instantMessageBuffers.get( "[nsipms]" );
 
 		else
-			return (ChatBuffer) instantMessageBuffers.get( contact );
+			return (LimitedSizeChatBuffer) instantMessageBuffers.get( contact );
 	}
 
 	/**
@@ -221,7 +219,7 @@ public class KoLMessenger implements KoLConstants
 		if ( frameToRemove == null )
 			return;
 
-		ChatBuffer bufferToRemove = (ChatBuffer) instantMessageBuffers.remove( contact );
+		LimitedSizeChatBuffer bufferToRemove = (LimitedSizeChatBuffer) instantMessageBuffers.remove( contact );
 
 		if ( contact.equals( currentChannel ) )
 		{
@@ -410,7 +408,7 @@ public class KoLMessenger implements KoLConstants
 
 				String updateChannel = nameOfActiveFrame == null ? currentChannel : nameOfActiveFrame;
 
-				ChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
+				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
 
 				// This error should not happen, but it's better to be safe than
 				// sorry, so there's a check to make sure that the chat buffer
@@ -637,7 +635,7 @@ public class KoLMessenger implements KoLConstants
 
 				if ( currentChannel != null )
 				{
-					ChatBuffer currentChatBuffer = getChatBuffer( currentChannel );
+					LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( currentChannel );
 					if ( currentChatBuffer != null )
 					{
 						ChatFrame frame = (ChatFrame) instantMessageFrames.get( currentChannel );
@@ -716,7 +714,7 @@ public class KoLMessenger implements KoLConstants
 				// Display the message in the appropriate chat
 				// buffer, based on who the contact is.
 
-				ChatBuffer messageBuffer = getChatBuffer( contactName );
+				LimitedSizeChatBuffer messageBuffer = getChatBuffer( contactName );
 				if ( messageBuffer == null )
 				{
 					openInstantMessage( contactName );
@@ -737,7 +735,7 @@ public class KoLMessenger implements KoLConstants
 			// stop refreshing.  So, to make things easier, print the
 			// error message to the main window. :D
 
-			ChatBuffer messageBuffer = getChatBuffer( currentChannel );
+			LimitedSizeChatBuffer messageBuffer = getChatBuffer( currentChannel );
 			if ( messageBuffer != null )
 			{
 				messageBuffer.append( "<br><br><font color=magenta>Unexpected error.</font><br>\n" );
@@ -756,7 +754,7 @@ public class KoLMessenger implements KoLConstants
 	{
 		try
 		{
-			ChatBuffer channelBuffer = getChatBuffer( channel );
+			LimitedSizeChatBuffer channelBuffer = getChatBuffer( channel );
 			if ( useTabbedFrame )
 				tabbedFrame.highlightTab( channel );
 
@@ -845,7 +843,7 @@ public class KoLMessenger implements KoLConstants
 			// stop refreshing.  So, to make things easier, print the
 			// error message to the main window. :D
 
-			ChatBuffer messageBuffer = getChatBuffer( currentChannel );
+			LimitedSizeChatBuffer messageBuffer = getChatBuffer( currentChannel );
 			if ( messageBuffer != null )
 			{
 				messageBuffer.append( "<br><br><font color=magenta>Unexpected error.</font><br>\n" );
@@ -868,14 +866,13 @@ public class KoLMessenger implements KoLConstants
 		String windowName = characterName == null ? currentChannel :
 			chatStyle != null && chatStyle.equals( "1" ) && !characterName.startsWith( "/" ) ? "[nsipms]" : characterName;
 
-
 		// If the window exists, don't open another one as it
 		// just confuses the disposal issue
 
 		if ( instantMessageBuffers.containsKey( windowName ) )
 			return;
 
-		ChatBuffer newBuffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + windowName + " - Started " +
+		LimitedSizeChatBuffer newBuffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + windowName + " - Started " +
 			Calendar.getInstance().getTime().toString() );
 
 		instantMessageBuffers.put( windowName, newBuffer );

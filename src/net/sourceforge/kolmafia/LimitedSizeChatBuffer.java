@@ -33,15 +33,22 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.awt.Color;
+import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 
 public class LimitedSizeChatBuffer extends ChatBuffer
 {
-	private static final int BUFFER_LIMIT = 40000;
+	private List highlights;
+	private LimitedSizeChatBuffer highlightBuffer;
 
+	private static final int BUFFER_LIMIT = 40000;
 	private int previousFontSize;
+
 	private static int fontSize = 3;
 	static
 	{	setFontSize( fontSize );
@@ -51,6 +58,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	{
 		super( title );
 		previousFontSize = fontSize;
+		this.highlights = new ArrayList();
 	}
 
 	/**
@@ -152,7 +160,47 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		if ( requiresUpdate )
 			fireBufferChanged( CONTENT_CHANGE, null );
 
-		super.append( message );
+		String highlightMessage = message;
+
+		if ( !highlights.isEmpty() )
+		{
+			String highlight;
+			Iterator highlightIterator = highlights.iterator();
+
+			while ( highlightIterator.hasNext() )
+			{
+				highlight = (String) highlightIterator.next();
+				if ( message.indexOf( highlight ) != -1 )
+					highlightMessage = message.replaceAll( highlight, "<font color=purple>" + highlight + "</font>" );
+			}
+		}
+
+		super.append( highlightMessage );
+
+		if ( !highlightMessage.equals( message ) )
+			highlightBuffer.append( highlightMessage + "<br>" );
+
 		previousFontSize = fontSize;
+	}
+
+	public void highlight( String highlight, LimitedSizeChatBuffer highlightBuffer )
+	{
+		this.highlightBuffer = highlightBuffer;
+		highlights.add( highlight );
+		applyHighlights();
+	}
+
+	public void applyHighlights()
+	{
+		String highlight;
+		String [] lines = displayBuffer.toString().split( "<br>" );
+
+		for ( int i = 0; i < lines.length; ++i )
+			for ( int j = 0; j < highlights.size(); ++j )
+			{
+				highlight = (String) highlights.get(j);
+				if ( lines[i].indexOf( highlight ) != -1 )
+					highlightBuffer.append( lines[i].replaceAll( highlight, "<font color=purple>" + highlight + "</font>" ) + "<br>" );
+			}
 	}
 }
