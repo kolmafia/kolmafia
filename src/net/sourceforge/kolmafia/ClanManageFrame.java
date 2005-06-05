@@ -200,6 +200,8 @@ public class ClanManageFrame extends KoLFrame
 			clanBuff.setEnabled( isEnabled );
 		if ( storing != null )
 			storing.setEnabled( isEnabled );
+		if ( withdrawal != null )
+			withdrawal.setEnabled( isEnabled );
 		if ( donation != null )
 			donation.setEnabled( isEnabled );
 		if ( warfare != null )
