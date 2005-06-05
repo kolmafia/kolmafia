@@ -393,7 +393,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			// attempt to connect again
 
 			this.isErrorState = true;
-			updateDisplay( NOCHANGE, "Error opening connection.  Retrying..." );
+
+			if ( formURLString.indexOf( "chat" ) == -1 || ( client != null && client.isBuffBotActive() ) )
+				updateDisplay( NOCHANGE, "Error opening connection.  Retrying..." );
 			return false;
 		}
 
@@ -473,7 +475,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		catch ( Exception e )
 		{
 			this.isErrorState = true;
-			updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
+
+			if ( formURLString.indexOf( "chat" ) == -1 || ( client != null && client.isBuffBotActive() ) )
+				updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
 
 			if ( client != null )
 			{
@@ -521,7 +525,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( IOException e )
 		{
-			updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
+			if ( formURLString.indexOf( "chat" ) == -1 && ( client != null && client.isBuffBotActive() ) )
+				updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
 
 			if ( client != null )
 			{
