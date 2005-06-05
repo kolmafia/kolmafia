@@ -38,6 +38,9 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 
@@ -164,20 +167,20 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 
 		if ( !highlights.isEmpty() )
 		{
-			String highlight;
+			Pattern highlight;  Matcher matching;
 			Iterator highlightIterator = highlights.iterator();
 
 			while ( highlightIterator.hasNext() )
 			{
-				highlight = (String) highlightIterator.next();
-				if ( message.matches( highlight ) )
-					highlightMessage = message.replaceAll( highlight, "<font color=purple>" + highlight + "</font>" );
+				highlight = (Pattern) highlightIterator.next();
+				matching = highlight.matcher( highlightMessage );
+				highlightMessage = matching.replaceAll( "<font color=purple>" + highlight.pattern() + "</font>" );
 			}
 		}
 
 		super.append( highlightMessage );
 
-		if ( !highlightMessage.equals( message ) )
+		if ( message.compareToIgnoreCase( highlightMessage ) != 0 )
 			highlightBuffer.append( highlightMessage + "<br>" );
 
 		previousFontSize = fontSize;
@@ -185,40 +188,32 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 
 	public void highlight( String highlight, LimitedSizeChatBuffer highlightBuffer )
 	{
+		if ( this == highlightBuffer )
+			return;
+
 		this.highlightBuffer = highlightBuffer;
-
-		// Convert this to a case insensitive expression
-		// (which may be tough).
-
-		StringBuffer highlightRegex = new StringBuffer();
-		highlightRegex.append( ".*" );
-		for ( int i = 0; i < highlight.length(); ++i )
-		{
-			highlightRegex.append( '[' );
-			highlightRegex.append( Character.toLowerCase( highlight.charAt(i) ) );
-			highlightRegex.append( Character.toUpperCase( highlight.charAt(i) ) );
-			highlightRegex.append( ']' );
-		}
-
-		highlightRegex.append( ".*" );
-		highlights.add( highlightRegex.toString() );
+		highlights.add( Pattern.compile( highlight, Pattern.CASE_INSENSITIVE ) );
 		applyHighlights();
 	}
 
 	public void applyHighlights()
 	{
-		String highlight;
+		Pattern highlight;  Matcher matching;
 		String displayString = displayBuffer.toString();
 		String [] lines = displayBuffer.toString().split( "<br>" );
 
 		for ( int j = 0; j < highlights.size(); ++j )
 		{
-			highlight = (String) highlights.get(j);
+			highlight = (Pattern) highlights.get(j);
 			for ( int i = 0; i < lines.length; ++i )
-				if ( lines[i].matches( highlight ) )
-					highlightBuffer.append( lines[i].replaceAll( highlight, "<font color=purple>" + highlight + "</font>" ) + "<br>" );
+			{
+				matching = highlight.matcher( lines[i] );
+				if ( matching.find() )
+					highlightBuffer.append( matching.replaceAll( "<font color=purple>" + highlight.pattern() + "</font>" ) + "<br>" );
+			}
 
-			displayString = displayString.replaceAll( highlight, "<font color=purple>" + highlight + "</font>" );
+			matching = highlight.matcher( displayString );
+			displayString = matching.replaceAll( "<font color=purple>" + highlight.pattern() + "</font>" );
 		}
 
 		clearBuffer();
