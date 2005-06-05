@@ -137,7 +137,7 @@ public class MuseumFrame extends KoLFrame
 		{
 			public OutsideDisplayPanel()
 			{
-				super( "Inventory", "add to display", "put in closet", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+				super( "Inventory", "add to display", "put in closet", client == null ? new LockableListModel() : client.getInventory() );
 				availableList = elementList;
 			}
 
@@ -160,7 +160,7 @@ public class MuseumFrame extends KoLFrame
 		{
 			public InsideDisplayPanel()
 			{
-				super( "Display Case", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getCollection().getMirrorImage() );
+				super( "Display Case", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getCollection() );
 				displayList = elementList;
 			}
 

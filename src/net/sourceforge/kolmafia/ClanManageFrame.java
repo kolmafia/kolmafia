@@ -422,7 +422,7 @@ public class ClanManageFrame extends KoLFrame
 	private class StoragePanel extends ItemManagePanel
 	{
 		public StoragePanel()
-		{	super( "Inside Inventory", "put in stash", "put in closet", client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+		{	super( "Inside Inventory", "put in stash", "put in closet", client == null ? new LockableListModel() : client.getInventory() );
 		}
 
 		protected void actionConfirmed()

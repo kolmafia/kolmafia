@@ -179,7 +179,7 @@ public class ItemManageFrame extends KoLFrame
 		private class ConsumeItemPanel extends ItemManagePanel
 		{
 			public ConsumeItemPanel()
-			{	super( "Usable Items", "use one", "use multiple", usableItems.getMirrorImage() );
+			{	super( "Usable Items", "use one", "use multiple", usableItems );
 			}
 
 			protected void actionConfirmed()
@@ -281,7 +281,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public SellItemPanel()
 			{
-				super( "Inside Inventory", "autosell", "send to store", inventory.getMirrorImage() );
+				super( "Inside Inventory", "autosell", "send to store", inventory );
 				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			}
 
@@ -382,7 +382,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public OutsideClosetPanel()
 			{
-				super( "Inside Inventory", "put in closet", "put in case", inventory.getMirrorImage() );
+				super( "Inside Inventory", "put in closet", "put in case", inventory );
 				availableList = elementList;
 			}
 
@@ -405,7 +405,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public InsideClosetPanel()
 			{
-				super( "Inside Closet", "put in bag", "put in case", closet.getMirrorImage() );
+				super( "Inside Closet", "put in bag", "put in case", closet );
 				closetList = elementList;
 			}
 
@@ -506,7 +506,7 @@ public class ItemManageFrame extends KoLFrame
 	private class CreateItemPanel extends ItemManagePanel
 	{
 		public CreateItemPanel()
-		{	super( "Create an Item", "create one", "create multiple", concoctions.getMirrorImage() );
+		{	super( "Create an Item", "create one", "create multiple", concoctions );
 		}
 
 		protected void actionConfirmed()
