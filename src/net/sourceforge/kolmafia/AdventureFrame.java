@@ -272,22 +272,22 @@ public class AdventureFrame extends KoLFrame
 		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
 		JMenuItem caseItem = new JMenuItem( "Yeti's Museum", KeyEvent.VK_Y );
 		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
+		JMenuItem otoriItem = new JMenuItem( "Pwn Clan Otori!" );
+		otoriItem.addActionListener( new OtoriBuffListener() );
 
 		JMenu statusMenu = addStatusMenu( menuBar );
 		statusMenu.add( mallItem );
 		statusMenu.add( caseItem );
+		statusMenu.add( otoriItem );
 
 		JMenuItem foodItem = new JMenuItem( "Camping Routine", KeyEvent.VK_C );
 		foodItem.addActionListener( new GetBreakfastListener() );
-		JMenuItem otoriItem = new JMenuItem( "Pwn Clan Otori!", KeyEvent.VK_P );
-		otoriItem.addActionListener( new OtoriBuffListener() );
 		JMenuItem buffbotMenuItem = new JMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E );
 		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
 
 		JMenu scriptMenu = addScriptMenu( menuBar );
 		scriptMenu.add( foodItem, 3 );
-		scriptMenu.add( otoriItem, 4 );
-		scriptMenu.add( buffbotMenuItem, 5 );
+		scriptMenu.add( buffbotMenuItem, 4 );
 
 		JMenu visitMenu = new JMenu( "Travel" );
 		visitMenu.setMnemonic( KeyEvent.VK_T );
