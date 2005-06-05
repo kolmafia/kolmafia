@@ -162,7 +162,7 @@ public class ChatFrame extends KoLFrame
 
 		clickOptions[ clickSelect ].setSelected( true );
 
-		for ( int i = 0; i < 3; ++i )
+		for ( int i = 0; i < 4; ++i )
 			clickGroup.add( clickOptions[i] );
 
 		JMenu clicksMenu = new JMenu( "N-Click" );
