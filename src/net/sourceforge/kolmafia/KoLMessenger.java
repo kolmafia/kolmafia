@@ -87,7 +87,7 @@ public class KoLMessenger implements KoLConstants
 	{
 		if ( this.useTabbedFrame != useTabbedFrame )
 		{
-			Iterator keyIterator = instantMessageBuffers.keySet().iterator();
+			Object [] keys = instantMessageBuffers.keySet().toArray();
 			String currentKey;  LimitedSizeChatBuffer currentBuffer;  ChatFrame currentFrame;
 
 			if ( useTabbedFrame )
@@ -104,9 +104,9 @@ public class KoLMessenger implements KoLConstants
 			}
 
 
-			while ( keyIterator.hasNext() )
+			for ( int i = 0; i < keys.length; ++i )
 			{
-				currentKey = (String) keyIterator.next();
+				currentKey = (String) keys[i];
 				currentBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( currentKey );
 				currentFrame = (ChatFrame) instantMessageFrames.get( currentKey );
 
@@ -164,11 +164,11 @@ public class KoLMessenger implements KoLConstants
 
 	public String getNameOfActiveFrame()
 	{
-		Iterator names = instantMessageBuffers.keySet().iterator();
+		Object [] names = instantMessageBuffers.keySet().toArray();
 		String currentName;  ChatFrame currentFrame;
-		while ( names.hasNext() )
+		for ( int i = 0; i < names.length; ++i )
 		{
-			currentName = (String) names.next();
+			currentName = (String) names[i];
 			currentFrame = (ChatFrame) instantMessageFrames.get( currentName );
 			if ( currentFrame.isShowing() && currentFrame.hasFocus() )
 				return currentName;
@@ -278,11 +278,11 @@ public class KoLMessenger implements KoLConstants
 
 			if ( !useTabbedFrame )
 			{
-				Iterator frames = instantMessageFrames.values().iterator();
+				Object [] frames = instantMessageFrames.values().toArray();
 				ChatFrame currentFrame;
-				while ( frames.hasNext() )
+				for ( int i = 0; i < frames.length; ++i )
 				{
-					currentFrame = (ChatFrame) frames.next();
+					currentFrame = (ChatFrame) frames[i];
 					currentFrame.setVisible( isVisible );
 				}
 			}
