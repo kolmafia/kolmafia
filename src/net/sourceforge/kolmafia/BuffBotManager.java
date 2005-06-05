@@ -662,6 +662,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		private String stringForm;
 		private String settingString;
 
+		private int requestsThisSession;
+
 		public BuffBotCaster( String buffName, int price, int castCount, boolean restricted, boolean philanthropic )
 		{
 			this.buffID = ClassSkillsDatabase.getSkillID( buffName );
@@ -697,6 +699,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		public double castOnTarget( String target )
 		{
+			++requestsThisSession;
+
 			// Figure out how much MP the buff will take, and then identify
 			// the number of casts per request that this character can handle.
 
@@ -751,6 +755,10 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		public String toSettingString()
 		{	return settingString;
+		}
+
+		public int getRequestsThisSession()
+		{	return requestsThisSession;
 		}
 	}
 

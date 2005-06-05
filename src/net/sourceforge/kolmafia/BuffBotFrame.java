@@ -52,9 +52,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 // containers
-import javax.swing.JMenuItem;
 import javax.swing.JCheckBox;
 import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -69,6 +70,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 // utilities
+import java.util.Iterator;
 import java.util.Properties;
 import java.text.ParseException;
 import javax.swing.ListSelectionModel;
@@ -147,10 +149,60 @@ public class BuffBotFrame extends KoLFrame
 		JMenuItem adventureMenuItem = new JMenuItem( "", KeyEvent.VK_M );
 		adventureMenuItem.addActionListener( new ToggleVisibility( adventureMenuItem ) );
 
-		addStatusMenu( menuBar ).add( adventureMenuItem, 0 );
+		JMenuItem statisticsMenuItem = new JMenuItem( "Session Stats", KeyEvent.VK_S );
+		statisticsMenuItem.addActionListener( new ShowStatisticsListener() );
+
+		JMenu statusMenu = addStatusMenu( menuBar );
+		statusMenu.add( adventureMenuItem, 0 );
+		statusMenu.add( statisticsMenuItem, 1 );
 
 		addPeopleMenu( menuBar );
 		addHelpMenu( menuBar );
+	}
+
+	private class ShowStatisticsListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			StringBuffer statBuffer = new StringBuffer();
+			statBuffer.append( "Buff Request Frequency:\n" );
+
+			Iterator costIterator = buffCostTable.iterator();
+			statBuffer.append( costIterator.hasNext() ? "\n" : "No buff statistics available." );
+
+			BuffBotManager.BuffBotCaster currentCast;
+			while ( costIterator.hasNext() )
+			{
+				currentCast = (BuffBotManager.BuffBotCaster) costIterator.next();
+				statBuffer.append( currentCast.toString() );
+				statBuffer.append( "\n  - Requested " );
+				statBuffer.append( currentCast.getRequestsThisSession() );
+				statBuffer.append( " time" );
+
+				if ( currentCast.getRequestsThisSession() != 1 )
+					statBuffer.append( 's' );
+
+				statBuffer.append( " this session\n\n" );
+			}
+
+			StatisticsFrame frame = new StatisticsFrame( client, statBuffer.toString() );
+			frame.pack();  frame.setVisible( true );  frame.requestFocus();
+		}
+
+		private class StatisticsFrame extends KoLFrame
+		{
+			public StatisticsFrame( KoLmafia client, String statistics )
+			{
+				super( "KoLmafia: Buffbot Statistics", client );
+
+				JTextArea content = new JTextArea( 12, 32 );
+				JScrollPane scroller = new JScrollPane( content, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+				content.setText( statistics );
+
+				getContentPane().setLayout( new CardLayout( 10, 10 ) );
+				getContentPane().add( scroller, "" );
+			}
+		}
 	}
 
 	/**
