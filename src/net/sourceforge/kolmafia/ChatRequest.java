@@ -179,6 +179,8 @@ public class ChatRequest extends KoLRequest
 				if ( associatedMessenger == client.getMessenger() )
 					(new ChatRequest( client, lastSeen )).run();
 			}
+
+			thread = null;
 		}
 	}
 }
