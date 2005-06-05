@@ -365,7 +365,7 @@ public class BuffBotFrame extends KoLFrame
 				add( JComponentUtilities.createLabel( "Active Buffing List", JLabel.CENTER,
 					Color.black, Color.white ), BorderLayout.NORTH );
 
-				buffListDisplay = new JList( buffCostTable.getMirrorImage() );
+				buffListDisplay = new JList( buffCostTable );
 				buffListDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				buffListDisplay.setVisibleRowCount( 5 );
 

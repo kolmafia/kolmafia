@@ -211,9 +211,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		if ( mailbox != client.getMailManager() || client.isBuffBotActive() )
 		{
 			mailbox = client.getMailManager();
-			messageListInbox.setModel( mailbox.getMessages( "Inbox" ).getMirrorImage() );
-			messageListOutbox.setModel( mailbox.getMessages( "Outbox" ).getMirrorImage() );
-			messageListSaved.setModel( mailbox.getMessages( "Saved" ).getMirrorImage() );
+			messageListInbox.setModel( mailbox.getMessages( "Inbox" ) );
+			messageListOutbox.setModel( mailbox.getMessages( "Outbox" ) );
+			messageListSaved.setModel( mailbox.getMessages( "Saved" ) );
 		}
 	}
 
@@ -269,7 +269,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public MailSelectList( String mailboxName )
 		{
-			super( mailbox.getMessages( mailboxName ).getMirrorImage() );
+			super( mailbox.getMessages( mailboxName ) );
 			setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			this.mailboxName = mailboxName;
 			addListSelectionListener( this );
