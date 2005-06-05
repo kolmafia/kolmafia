@@ -193,14 +193,20 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	public void applyHighlights()
 	{
 		String highlight;
+		String displayString = displayBuffer.toString();
 		String [] lines = displayBuffer.toString().split( "<br>" );
 
-		for ( int i = 0; i < lines.length; ++i )
-			for ( int j = 0; j < highlights.size(); ++j )
-			{
-				highlight = (String) highlights.get(j);
+		for ( int j = 0; j < highlights.size(); ++j )
+		{
+			highlight = (String) highlights.get(j);
+			for ( int i = 0; i < lines.length; ++i )
 				if ( lines[i].indexOf( highlight ) != -1 )
 					highlightBuffer.append( lines[i].replaceAll( highlight, "<font color=purple>" + highlight + "</font>" ) + "<br>" );
-			}
+
+			displayString = displayString.replaceAll( highlight, "<font color=purple>" + highlight + "</font>" );
+		}
+
+		clearBuffer();
+		append( displayString );
 	}
 }
