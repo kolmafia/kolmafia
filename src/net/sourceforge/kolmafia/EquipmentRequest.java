@@ -163,7 +163,7 @@ public class EquipmentRequest extends KoLRequest
 		// If you changed your outfit, there will be a redirect
 		// to the equipment page - therefore, do so.
 
-		if ( requestType == CHANGE_OUTFIT || requestType == CHANGE_ITEM )
+		if ( requestType == CHANGE_OUTFIT )
 		{
 			(new EquipmentRequest( client, EQUIPMENT )).run();
 			updateDisplay( ENABLED_STATE, "Equipment changed." );
