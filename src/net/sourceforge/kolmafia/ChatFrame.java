@@ -152,6 +152,10 @@ public class ChatFrame extends KoLFrame
 		highItem.addActionListener( new HighlightChatListener() );
 		fileMenu.add( highItem );
 
+		JMenuItem unhighItem = new JMenuItem( "Never Mind?", KeyEvent.VK_N );
+		unhighItem.addActionListener( new RemoveHighlightListener() );
+		fileMenu.add( unhighItem );
+
 		addConfigureMenu( menuBar );
 
 		clickGroup = new ButtonGroup();
@@ -446,6 +450,13 @@ public class ChatFrame extends KoLFrame
 	{
 		public void actionPerformed( ActionEvent e )
 		{	messenger.addHighlighting();
+		}
+	}
+
+	private class RemoveHighlightListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	messenger.removeHighlighting();
 		}
 	}
 
