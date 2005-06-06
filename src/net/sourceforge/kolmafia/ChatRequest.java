@@ -44,8 +44,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class ChatRequest extends KoLRequest
 {
-	private static final int NEEDED_DELAY = 6000;
-	private static final int ACTUAL_DELAY = NEEDED_DELAY - REFRESH_RATE;
+	private static final int ADDED_DELAY = 6000;
 
 	private KoLMessenger associatedMessenger;
 
@@ -169,8 +168,7 @@ public class ChatRequest extends KoLRequest
 				// refresh rate indicated - this is likely the default rate
 				// used for the KoLChat.
 
-				if ( NEEDED_DELAY > 0 )
-					ChatRequest.delay( NEEDED_DELAY );
+				ChatRequest.delay( ADDED_DELAY );
 
 				// Once the thread has waited for the stated amount of time,
 				// the next chat request should be run.  Note that this is
