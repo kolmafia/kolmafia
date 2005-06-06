@@ -117,6 +117,7 @@ public class DataUtilities implements UtilityConstants
 
 		InputStream locationAsInputStream;
 		String fullname = directory + subdirectory + filename;
+		String jarname = fullname.replaceAll( java.io.File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 
 		// attempt to retrieve the file from the system class tree (non-JAR)
 		locationAsInputStream = SYSTEM_CLASSLOADER.getResourceAsStream( fullname );
@@ -124,7 +125,7 @@ public class DataUtilities implements UtilityConstants
 			return locationAsInputStream;
 
 		// attempt to retrieve the file from the system class tree (JAR)
-		locationAsInputStream = SYSTEM_CLASSLOADER.getResourceAsStream( "/" +  fullname );
+		locationAsInputStream = SYSTEM_CLASSLOADER.getResourceAsStream( jarname );
 		if ( locationAsInputStream != null )
 			return locationAsInputStream;
 
@@ -134,7 +135,7 @@ public class DataUtilities implements UtilityConstants
 			return locationAsInputStream;
 
 		// attempt to retrieve the file from the Spellcast class tree (JAR)
-		locationAsInputStream = MAINCLASS_CLASSLOADER.getResourceAsStream( "/" +  fullname );
+		locationAsInputStream = MAINCLASS_CLASSLOADER.getResourceAsStream( jarname );
 		if ( locationAsInputStream != null )
 			return locationAsInputStream;
 

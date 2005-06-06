@@ -155,6 +155,7 @@ public class JComponentUtilities implements UtilityConstants
 
 		java.net.URL filenameAsURL;
 		String fullname = directory + subdirectory + filename;
+		String jarname = fullname.replaceAll( java.io.File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 
 		// attempt to retrieve the file from the system class tree (non-JAR)
 		filenameAsURL = SYSTEM_CLASSLOADER.getResource( fullname );
@@ -162,7 +163,7 @@ public class JComponentUtilities implements UtilityConstants
 			return new ImageIcon( filenameAsURL );
 
 		// attempt to retrieve the file from the system class tree (JAR)
-		filenameAsURL = SYSTEM_CLASSLOADER.getResource( "/" + fullname );
+		filenameAsURL = SYSTEM_CLASSLOADER.getResource( jarname );
 		if ( filenameAsURL != null )
 			return new ImageIcon( filenameAsURL );
 
@@ -172,7 +173,7 @@ public class JComponentUtilities implements UtilityConstants
 			return new ImageIcon( filenameAsURL );
 
 		// attempt to retrieve the file from the Spellcast class tree (JAR)
-		filenameAsURL = MAINCLASS_CLASSLOADER.getResource( "/" + fullname );
+		filenameAsURL = MAINCLASS_CLASSLOADER.getResource( jarname );
 		if ( filenameAsURL != null )
 			return new ImageIcon( filenameAsURL );
 

@@ -1252,7 +1252,7 @@ public class AdventureFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
+		System.setProperty( "SHARED_MODULE_DIRECTORY", SHARED_MODULE_DIRECTORY );
 		KoLFrame uitest = new AdventureFrame( null, new LockableListModel(), new LockableListModel() );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
