@@ -228,6 +228,16 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+                // Get current Moon Phases
+		(new MoonPhaseRequest( this )).run();
+
+		if ( !permitContinue )
+		{
+			this.sessionID = null;
+			this.permitContinue = true;
+			return;
+		}
+
 		if ( !isQuickLogin && ( settings.getProperty( "skipFamiliars" ) == null || settings.getProperty( "skipFamiliars" ).equals( "false" ) ) )
 			(new FamiliarRequest( this )).run();
 
