@@ -184,6 +184,19 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 		// all over the place
 
 		this.sessionID = sessionID;
+
+		if ( !permitContinue )
+		{
+			this.sessionID = null;
+			this.permitContinue = true;
+			return;
+		}
+
+		(new PasswordHashRequest( this )).run();
+
+		if ( loginRequest != null )
+			return;
+
 		this.characterData = new KoLCharacter( loginname );
 		this.inventory = characterData.getInventory();
 		this.usableItems = new SortedListModel();
@@ -208,15 +221,6 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 
 		// Now!  Check to make sure the user didn't cancel
 		// during any of the actual loading of elements
-
-		if ( !permitContinue )
-		{
-			this.sessionID = null;
-			this.permitContinue = true;
-			return;
-		}
-
-		(new PasswordHashRequest( this )).run();
 
 		if ( !permitContinue )
 		{

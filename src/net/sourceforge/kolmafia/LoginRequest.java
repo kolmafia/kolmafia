@@ -97,7 +97,6 @@ public class LoginRequest extends KoLRequest
 			else
 				client.removeSaveState( loginname.replaceFirst( "/q", "" ) );
 
-			client.updateDisplay( ENABLED_STATE, "Login succeeded!" );
 			client.initialize( loginname.replaceFirst( "/q", "" ), formConnection.getHeaderField( "Set-Cookie" ), getBreakfast, isQuickLogin );
 			client.loginRequest = this;
 		}
@@ -107,6 +106,7 @@ public class LoginRequest extends KoLRequest
 			// re-input their username and password.
 
 			updateDisplay( ERROR_STATE, "Login failed." );
+			client.cancelRequest();
 		}
 	}
 }
