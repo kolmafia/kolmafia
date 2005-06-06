@@ -325,8 +325,6 @@ public class ClanManager implements KoLConstants
 
 		File individualFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
 
-System.out.println( SNAPSHOT_DIRECTORY + "summary.htm" );
-
 		// If the file already exists, a snapshot cannot be taken.
 		// Therefore, notify the user of this. :)
 
