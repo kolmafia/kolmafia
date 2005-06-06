@@ -473,10 +473,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "moon" ) )
 		{
-			updateDisplay( NOCHANGE, "Ronald: " + MoonPhaseRequest.getRonaldMoonPhase() );
-			updateDisplay( NOCHANGE, "Grimace: " + MoonPhaseRequest.getGrimaceMoonPhase() );
+			updateDisplay( NOCHANGE, "Ronald: " + MoonPhaseDatabase.getRonaldMoonPhase() );
+			updateDisplay( NOCHANGE, "Grimace: " + MoonPhaseDatabase.getGrimaceMoonPhase() );
 			updateDisplay( NOCHANGE, "" );
-			updateDisplay( ENABLED_STATE, MoonPhaseRequest.getMoonEffect() );
+			updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
 
 			return;
 		}
@@ -1023,13 +1023,13 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( outputStream instanceof NullStream )
 		{
 			updateDisplay( NOCHANGE, (new Date()).toString() );
-			updateDisplay( NOCHANGE, MoonPhaseRequest.getMoonEffect() );
+			updateDisplay( NOCHANGE, MoonPhaseDatabase.getMoonEffect() );
 			updateDisplay( NOCHANGE, "" );
 		}
 		else
 		{
 			outputStream.println( new Date() );
-			outputStream.println( MoonPhaseRequest.getMoonEffect() );
+			outputStream.println( MoonPhaseDatabase.getMoonEffect() );
 			outputStream.println();
 		}
 

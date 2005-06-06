@@ -46,113 +46,39 @@ import java.util.regex.Pattern;
 
 public class MoonPhaseRequest extends KoLRequest
 {
-	private static int PHASE_STEP;
-	private static int RONALD_PHASE;
-	private static int GRIMACE_PHASE;
-
-	private static final String [] STAT_EFFECT =
-	{
-		"Moxie day today and yesterday.", "3 days until Mysticism.", "2 days until Mysticism.",
-		"Mysticism tomorrow (not today).", "Mysticism day today.", "3 days until Muscle.",
-		"2 days until Muscle.", "Muscle tomorrow.", "Muscle day today and tomorrow.", "Muscle day today and yesterday.",
-		"2 days until Mysticism.", "Mysticism tomorrow (not today).", "Mysticism day today.",
-		"2 days until Moxie.", "Moxie tomorrow (not today).", "Moxie day today and tomorrow."
-	};
-
 	/**
-	 * Method to return which phase of the moon is currently
-	 * appearing over the Kingdom of Loathing, as a string.
-	 *
-	 * @return	The current phase of Ronald
+	 * The phases of the moons can be retrieved from the top menu,
+	 * which varies based on whether or not the player is using
+	 * compact mode.
 	 */
 
-	public static final String getRonaldMoonPhase()
-	{	return getPhaseName( RONALD_PHASE );
+	public MoonPhaseRequest( KoLmafia client )
+	{	super( client, isCompactMode ? "compactmenu.php" : "topmenu.php" );
 	}
 
 	/**
-	 * Method to return which phase of the moon is currently
-	 * appearing over the Kingdom of Loathing, as a string.
-	 *
-	 * @return	The current phase of Ronald
+	 * Runs the moon phase request, updating the client as appropriate.
 	 */
 
-	public static final String getGrimaceMoonPhase()
-	{	return getPhaseName( GRIMACE_PHASE );
-	}
-
-	private static final String getPhaseName( int phase )
+	public void run()
 	{
-		switch ( phase )
+		super.run();
+
+		// If an error state occurred, return from this
+		// request, since there's no content to parse
+
+		if ( isErrorState || responseCode != 200 )
+			return;
+
+		// Parse result to get current phase of Ronald and Grimace
+
+		Matcher moonMatcher = Pattern.compile( "moon(.)\\.gif.*moon(.)\\.gif" ).matcher( responseText );
+
+		if ( moonMatcher.find() )
 		{
-			case 0:  return "new moon";
-			case 1:  return "waxing crescent";
-			case 2:  return "first quarter";
-			case 3:  return "waxing gibbous";
-			case 4:  return "full moon";
-			case 5:  return "waning gibbous";
-			case 6:  return "third quarter";
-			case 7:  return "waning crescent";
-			default:  return null;
-		}
-	}
-
-	/**
-	 * Returns the moon effect applicable today, or the amount
-	 * of time until the next moon effect becomes applicable
-	 * if today is not a moon effect day.
-	 *
-	 * @return	The time until the next moon
-	 */
-
-	public static final String getMoonEffect()
-	{
-                if ( (PHASE_STEP < 0) || (PHASE_STEP > 15))
-                        return "Bogus Moon Phases";
-                return STAT_EFFECT[ PHASE_STEP ];
-	}
-
-        /**
-         * The phases of the moons can be retrieved from the top menu
-         */
-
-        public MoonPhaseRequest( KoLmafia client )
-        {
-                super( client, "topmenu.php" );
-        }
-
-        /**
-         * Runs the moon phase request, updating the client as appropriate.
-         */
-
-        public void run()
-        {
-                super.run();
-
-                // Initialize to Bogus values
-
-                RONALD_PHASE = -1;
-                GRIMACE_PHASE = -1;
-                PHASE_STEP = -1;
-
-                // If an error state occurred, return from this
-                // request, since there's no content to parse
-
-                if ( isErrorState || responseCode != 200 )
-                        return;
-
-                // Parse result to get current phase of Ronald and Grimace
-
-		Matcher moonMatcher = Pattern.compile( "Ronald:.*moon(.)\\.gif.*Grimace:.*moon(.)\\.gif" ).matcher( responseText );
-
-                if (moonMatcher.find(0))
-                {
-                        try
-                        {
-                                RONALD_PHASE = df.parse( moonMatcher.group(1) ).intValue() - 1;
-                                GRIMACE_PHASE = df.parse( moonMatcher.group(2) ).intValue() - 1;
-
-                                PHASE_STEP = RONALD_PHASE + ((GRIMACE_PHASE >= 4) ? 8 : 0);
+			try
+			{
+				MoonPhaseDatabase.setMoonPhases( df.parse( moonMatcher.group(1) ).intValue() - 1, df.parse( moonMatcher.group(2) ).intValue() - 1 );
 			}
 			catch ( Exception e )
 			{
@@ -164,6 +90,6 @@ public class MoonPhaseRequest extends KoLRequest
 				logStream.println( e );
 				e.printStackTrace( logStream );
 			}
-                }
-        }
+		}
+	}
 }

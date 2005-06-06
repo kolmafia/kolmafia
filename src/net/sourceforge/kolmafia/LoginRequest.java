@@ -88,6 +88,9 @@ public class LoginRequest extends KoLRequest
 
 		if ( responseCode == 302 && !isErrorState )
 		{
+			if ( redirectLocation.equals( "main_c.html" ) )
+				KoLRequest.isCompactMode = true;
+
 			// If the login is successful, you notify the client
 			// of success.  But first, if there was a desire to
 			// save the password, do so here.

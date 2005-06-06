@@ -43,28 +43,9 @@ package net.sourceforge.kolmafia;
 
 public class MoonPhaseDatabase
 {
-	private static int PHASE_STEP;
-	private static int RONALD_PHASE;
-	private static int GRIMACE_PHASE;
-
-	static
-	{
-		// In order to ensure reliability, the value of the
-		// date is fixed, rather than calculated.  This ms
-		// value represents February 5, 2005 at 11:30pm on
-		// the Eastern United States, which is when rollover
-		// generally occurs.
-
-		long newMoonDate = 1107664200000L;
-		long dayLength = 24 * 60 * 60 * 1000L;
-
-		long timeDifference = System.currentTimeMillis() - newMoonDate;
-		PHASE_STEP = (int) Math.floor( (double)timeDifference / (double)dayLength );
-		PHASE_STEP = (PHASE_STEP + 16) % 16;
-
-		RONALD_PHASE = PHASE_STEP % 8;
-		GRIMACE_PHASE = ((int)Math.floor( PHASE_STEP / 2 )) % 8;
-	}
+	private static int PHASE_STEP = -1;
+	private static int RONALD_PHASE = -1;
+	private static int GRIMACE_PHASE = -1;
 
 	private static final String [] STAT_EFFECT =
 	{
@@ -74,6 +55,13 @@ public class MoonPhaseDatabase
 		"2 days until Mysticism.", "Mysticism tomorrow (not today).", "Mysticism day today.",
 		"2 days until Moxie.", "Moxie tomorrow (not today).", "Moxie day today and tomorrow."
 	};
+
+	public static final void setMoonPhases( int ronald, int grimace )
+	{
+		RONALD_PHASE = ronald;
+		GRIMACE_PHASE = grimace;
+		PHASE_STEP = RONALD_PHASE + ((GRIMACE_PHASE >= 4) ? 8 : 0);
+	}
 
 	/**
 	 * Method to return which phase of the moon is currently
@@ -101,6 +89,7 @@ public class MoonPhaseDatabase
 	{
 		switch ( phase )
 		{
+			case -1:  return "unknown";
 			case 0:  return "new moon";
 			case 1:  return "waxing crescent";
 			case 2:  return "first quarter";
@@ -122,6 +111,6 @@ public class MoonPhaseDatabase
 	 */
 
 	public static final String getMoonEffect()
-	{	return STAT_EFFECT[ PHASE_STEP ];
+	{	return PHASE_STEP == -1 ? "Could not determine moon phase." : STAT_EFFECT[ PHASE_STEP ];
 	}
 }
