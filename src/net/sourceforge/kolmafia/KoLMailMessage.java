@@ -25,7 +25,7 @@ public class KoLMailMessage
 		while ( !lastToken.startsWith( "a " ) )
 			lastToken = messageParser.nextToken();
 
-		this.senderID = lastToken.substring( lastToken.indexOf( "who=" ) + 4, lastToken.length() - 2 );
+		this.senderID = lastToken.substring( lastToken.indexOf( "who=" ) + 4, lastToken.length() - 1 );
 		this.senderName = messageParser.nextToken();
 
 		while ( !messageParser.nextToken().startsWith( "Date" ) );
