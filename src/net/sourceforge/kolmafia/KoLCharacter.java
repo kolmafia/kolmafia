@@ -909,6 +909,9 @@ public class KoLCharacter
 
 	public void updateEquipmentLists()
 	{
+		for ( int i = 0; i < equipmentLists.length; ++i )
+			equipmentLists[i].clear();
+
 		equipmentLists[0].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_HAT ) );
 		equipmentLists[0].add( getHat() );
 
@@ -919,13 +922,16 @@ public class KoLCharacter
 		equipmentLists[2].add( getPants() );
 
 		equipmentLists[3].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
-		equipmentLists[3].add( getAccessory1() );
+		if ( !equipmentLists[3].contains( getAccessory1() ) )
+			equipmentLists[3].add( getAccessory1() );
 
 		equipmentLists[4].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
-		equipmentLists[4].add( getAccessory2() );
+		if ( !equipmentLists[4].contains( getAccessory2() ) )
+			equipmentLists[4].add( getAccessory2() );
 
 		equipmentLists[5].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
-		equipmentLists[5].add( getAccessory3() );
+		if ( !equipmentLists[5].contains( getAccessory3() ) )
+			equipmentLists[5].add( getAccessory3() );
 
 		equipmentLists[6].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_FAMILIAR ) );
 		equipmentLists[6].add( getFamiliarItem() );

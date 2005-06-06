@@ -53,8 +53,9 @@ public class EquipmentRequest extends KoLRequest
 
 	public static final int EQUIPMENT = 1;
 	public static final int CLOSET = 2;
-	public static final int CHANGE_OUTFIT = 3;
-	public static final int CHANGE_ITEM = 4;
+	private static final int CHANGE_OUTFIT = 3;
+	private static final int CHANGE_ITEM = 4;
+	private static final int REMOVE_ACC = 5;
 
 	private KoLCharacter character;
 	private int requestType;
@@ -88,11 +89,21 @@ public class EquipmentRequest extends KoLRequest
 	public EquipmentRequest( KoLmafia client, String change )
 	{
 		super( client, "inv_equip.php" );
-		addFormField( "action", "equip" );
 		addFormField( "which", "2" );
-		addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( change ) ) );
-		addFormField( "pwd", client.getPasswordHash() );
-		this.requestType = CHANGE_ITEM;
+
+		if ( change.equals( "acc1" ) || change.equals( "acc2" ) || change.equals( "acc3" ) )
+		{
+			addFormField( "action", "unequip" );
+			addFormField( "type", change );
+			this.requestType = REMOVE_ACC;
+		}
+		else
+		{
+			addFormField( "action", "equip" );
+			addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( change ) ) );
+			addFormField( "pwd", client.getPasswordHash() );
+			this.requestType = CHANGE_ITEM;
+		}
 	}
 
 	public EquipmentRequest( KoLmafia client, SpecialOutfit change )
@@ -127,12 +138,25 @@ public class EquipmentRequest extends KoLRequest
 			return;
 		}
 
-		if ( requestType == CHANGE_OUTFIT )
-			updateDisplay( DISABLED_STATE, "Changing outfit..." );
-		else if ( requestType == CLOSET )
-			updateDisplay( DISABLED_STATE, "Refreshing closet..." );
-		else
-			updateDisplay( DISABLED_STATE, "Updating equipment..." );
+		switch ( requestType )
+		{
+			case CHANGE_OUTFIT:
+				updateDisplay( DISABLED_STATE, "Changing outfit..." );
+				break;
+
+			case CLOSET:
+				updateDisplay( DISABLED_STATE, "Refreshing closet..." );
+				break;
+
+			case REMOVE_ACC:
+				updateDisplay( DISABLED_STATE, "Removing accessory..." );
+				break;
+
+			default:
+				updateDisplay( DISABLED_STATE, "Updating equipment..." );
+				break;
+		}
+
 
 		super.run();
 
@@ -203,11 +227,9 @@ public class EquipmentRequest extends KoLRequest
 
 	private void switchItem( String oldItem, String newItem )
 	{
-		if ( !oldItem.equals( newItem ) )
+		if ( !oldItem.equals( newItem ) && !oldItem.equals( "none" ) )
 		{
-			if ( !oldItem.equals( "none" ) )
-				AdventureResult.addResultToList( client.getInventory(), new AdventureResult( oldItem, 1 ) );
-			if ( !newItem.equals( "none" ) )
+			AdventureResult.addResultToList( client.getInventory(), new AdventureResult( oldItem, 1 ) );
 			AdventureResult.addResultToList( client.getInventory(), new AdventureResult( newItem, -1 ) );
 		}
 	}

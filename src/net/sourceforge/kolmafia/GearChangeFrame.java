@@ -150,10 +150,6 @@ public class GearChangeFrame extends KoLFrame
 			for ( int i = 0; i < equipment.length; ++i )
 				equipment[i].setEnabled( isEnabled );
 
-		equipment[3].setEnabled( false );
-		equipment[4].setEnabled( false );
-		equipment[5].setEnabled( false );
-
 		if ( familiarSelect != null )
 			familiarSelect.setEnabled( isEnabled );
 	}
@@ -320,6 +316,14 @@ public class GearChangeFrame extends KoLFrame
 			public void run()
 			{
 				isChanging = true;
+
+				if ( select == equipment[3] )
+					client.makeRequest( new EquipmentRequest( client, "acc1" ), 1 );
+				if ( select == equipment[4] )
+					client.makeRequest( new EquipmentRequest( client, "acc2" ), 1 );
+				if ( select == equipment[5] )
+					client.makeRequest( new EquipmentRequest( client, "acc3" ), 1 );
+
 				client.makeRequest( new EquipmentRequest( client, change ), 1 );
 				refreshEquipPanel();
 				isChanging = false;
