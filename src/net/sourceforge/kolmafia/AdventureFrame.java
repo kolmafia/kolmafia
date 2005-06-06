@@ -221,13 +221,6 @@ public class AdventureFrame extends KoLFrame
 		if ( mailMenuItem != null )
 			mailMenuItem.setEnabled( this.isEnabled );
 
-		for ( int i = 0; i < existingFrames.size(); ++i )
-		{
-			KoLFrame currentFrame = (KoLFrame) existingFrames.get(i);
-			if ( currentFrame.isShowing())
-				currentFrame.setEnabled( this.isEnabled );
-		}
-
 		if ( adventureSelect != null )
 			adventureSelect.setEnabled( this.isEnabled );
 
@@ -247,12 +240,11 @@ public class AdventureFrame extends KoLFrame
 			removeEffects.setEnabled( this.isEnabled );
 
 		Iterator framesIterator = existingFrames.iterator();
-		KoLFrame currentFrame;
-
 		while ( framesIterator.hasNext() )
 		{
-			currentFrame = (KoLFrame) framesIterator.next();
-			currentFrame.setEnabled( isEnabled );
+                        KoLFrame currentFrame = (KoLFrame) framesIterator.next();
+			if ( currentFrame.isShowing())
+                                currentFrame.setEnabled( isEnabled );
 		}
 	}
 
