@@ -75,6 +75,8 @@ public abstract class KoLmafia implements KoLConstants, UtilityConstants
 	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
 
 	protected boolean isLoggingIn;
+	protected LoginRequest loginRequest;
+
 	protected String password, sessionID, passwordHash;
 	protected KoLCharacter characterData;
 	protected KoLMessenger loathingChat;

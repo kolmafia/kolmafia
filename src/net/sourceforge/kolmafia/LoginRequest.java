@@ -93,11 +93,13 @@ public class LoginRequest extends KoLRequest
 			// save the password, do so here.
 
 			if ( savePassword )
-				client.addSaveState( loginname, password );
+				client.addSaveState( loginname.replaceFirst( "/q", "" ), password );
 			else
-				client.removeSaveState( loginname );
+				client.removeSaveState( loginname.replaceFirst( "/q", "" ) );
 
+			client.updateDisplay( ENABLED_STATE, "Login succeeded!" );
 			client.initialize( loginname.replaceFirst( "/q", "" ), formConnection.getHeaderField( "Set-Cookie" ), getBreakfast, isQuickLogin );
+			client.loginRequest = this;
 		}
 		else if ( !isErrorState )
 		{

@@ -316,9 +316,12 @@ public class AdventureFrame extends KoLFrame
 
 		JMenuItem resetItem = new JMenuItem( "Reset Session", KeyEvent.VK_R );
 		resetItem.addActionListener( new ResetSessionListener() );
+		JMenuItem reloginItem = new JMenuItem( "Session Time-In", KeyEvent.VK_S );
+		reloginItem.addActionListener( new SessionTimeInListener() );
 
 		JMenu configMenu = addConfigureMenu( menuBar );
 		configMenu.add( resetItem );
+		configMenu.add( reloginItem );
 
 		addHelpMenu( menuBar );
 	}
@@ -1226,6 +1229,21 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void run()
 			{	client.pwnClanOtori();
+			}
+		}
+	}
+	private class SessionTimeInListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new SessionTimeInThread()).start();
+		}
+
+		private class SessionTimeInThread extends RequestThread
+		{
+			public void run()
+			{
+				client.deinitialize();
+				client.loginRequest.run();
 			}
 		}
 	}

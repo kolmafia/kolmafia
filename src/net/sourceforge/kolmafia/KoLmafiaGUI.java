@@ -140,6 +140,9 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void initialize( String loginname, String sessionID, boolean getBreakfast, boolean isQuickLogin )
 	{
+		if ( loginRequest != null )
+			return;
+
 		super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
 		if ( !isLoggingIn )
