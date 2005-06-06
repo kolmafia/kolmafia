@@ -317,11 +317,11 @@ public class GearChangeFrame extends KoLFrame
 			{
 				isChanging = true;
 
-				if ( select == equipment[3] )
+				if ( select == equipment[3] && !characterData.getAccessory1().equals( "none" ) )
 					client.makeRequest( new EquipmentRequest( client, "acc1" ), 1 );
-				if ( select == equipment[4] )
+				if ( select == equipment[4] && !characterData.getAccessory2().equals( "none" ) )
 					client.makeRequest( new EquipmentRequest( client, "acc2" ), 1 );
-				if ( select == equipment[5] )
+				if ( select == equipment[5] && !characterData.getAccessory3().equals( "none" ) )
 					client.makeRequest( new EquipmentRequest( client, "acc3" ), 1 );
 
 				client.makeRequest( new EquipmentRequest( client, change ), 1 );
