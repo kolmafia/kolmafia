@@ -47,6 +47,7 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 public class LimitedSizeChatBuffer extends ChatBuffer
 {
 	private List highlights;
+	private List dehighlights;
 	private LimitedSizeChatBuffer highlightBuffer;
 
 	private static final int BUFFER_LIMIT = 40000;
@@ -61,7 +62,9 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	{
 		super( title );
 		previousFontSize = fontSize;
+
 		this.highlights = new ArrayList();
+		this.dehighlights = new ArrayList();
 	}
 
 	/**
@@ -167,15 +170,12 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 
 		if ( !highlights.isEmpty() )
 		{
-			Pattern highlight;  Matcher matching;
+			Pattern highlight, dehighlight;  Matcher matching;
 			Iterator highlightIterator = highlights.iterator();
+			Iterator dehighlightIterator = dehighlights.iterator();
 
 			while ( highlightIterator.hasNext() )
-			{
-				highlight = (Pattern) highlightIterator.next();
-				matching = highlight.matcher( highlightMessage );
-				highlightMessage = matching.replaceAll( "<font color=purple>" + highlight.pattern() + "</font>" );
-			}
+				highlightMessage = applyHighlight( highlightMessage, (Pattern) highlightIterator.next(), (Pattern) dehighlightIterator.next() );
 		}
 
 		super.append( highlightMessage );
@@ -192,32 +192,56 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 			return;
 
 		this.highlightBuffer = highlightBuffer;
+
 		highlights.add( Pattern.compile( highlight, Pattern.CASE_INSENSITIVE ) );
+		dehighlights.add( Pattern.compile( "href=\"([^\"]*)<font color=purple>" + highlight + "</font>", Pattern.CASE_INSENSITIVE ) );
+
 		applyHighlights();
 	}
 
 	public void applyHighlights()
 	{
-		Pattern highlight;  Matcher matching;
+		Pattern highlight, dehighlight;  Matcher matching;
+		String highlightMessage;
+
 		String displayString = displayBuffer.toString();
 		String [] lines = displayBuffer.toString().split( "<br>" );
 
 		for ( int j = 0; j < highlights.size(); ++j )
 		{
 			highlight = (Pattern) highlights.get(j);
+			dehighlight = (Pattern) dehighlights.get(j);
+
 			for ( int i = 0; i < lines.length; ++i )
 			{
-				matching = highlight.matcher( lines[i] );
-				if ( matching.find() )
-					highlightBuffer.append( matching.replaceAll( "<font color=purple>" + highlight.pattern() + "</font>" ) + "<br>" );
+				highlightMessage = applyHighlight( lines[i], highlight, dehighlight );
+				if ( lines[i].compareToIgnoreCase( highlightMessage ) != 0 )
+					highlightBuffer.append( highlightMessage );
 			}
 
-			matching = highlight.matcher( displayString );
-			displayString = matching.replaceAll( "<font color=purple>" + highlight.pattern() + "</font>" );
+			displayString = applyHighlight( displayString, highlight, dehighlight );
 		}
 
 		displayBuffer.setLength( 0 );
 		displayBuffer.append( displayString );
 		fireBufferChanged( CONTENT_CHANGE, null );
 	}
+
+	private String applyHighlight( String message, Pattern highlight, Pattern dehighlight )
+	{
+		Matcher matching = highlight.matcher( message );
+		String highlightMessage = matching.replaceAll( "<font color=purple>" + highlight.pattern() + "</font>" );
+
+		matching = dehighlight.matcher( highlightMessage );
+		if ( matching.find( 0 ) )
+		{
+			String part1 = highlightMessage.substring( 0, matching.start() );
+			String part2 = highlightMessage.substring( matching.start() ).replaceFirst( matching.group(), "href=\"" + matching.group(1) + highlight.pattern() );
+			highlightMessage = part1 + part2;
+			matching = dehighlight.matcher( highlightMessage );
+		}
+
+		return highlightMessage;
+	}
+
 }
