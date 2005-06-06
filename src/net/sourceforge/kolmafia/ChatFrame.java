@@ -95,7 +95,7 @@ public class ChatFrame extends KoLFrame
 	 */
 
 	public ChatFrame( KoLmafia client, KoLMessenger messenger )
-	{	this( client, messenger, null );
+	{	this( client, messenger, "" );
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class ChatFrame extends KoLFrame
 		// when it's first constructed
 
 		setSize( new Dimension( 400, 300 ) );
-		if ( mainPanel != null && associatedContact != null && !associatedContact.startsWith( "/" ) )
+		if ( client != null && mainPanel != null && associatedContact != null && !associatedContact.startsWith( "/" ) )
 			setTitle( "KoLmafia NSIPM: " + client.getLoginName() + " / " + associatedContact );
 	}
 
@@ -140,19 +140,19 @@ public class ChatFrame extends KoLFrame
 		fileMenu.setMnemonic( KeyEvent.VK_F );
 		menuBar.add( fileMenu );
 
-		JMenuItem loggerItem = new JMenuItem( "Log Chat", KeyEvent.VK_L );
-		loggerItem.addActionListener( new LogChatListener() );
-		fileMenu.add( loggerItem );
-
-		JMenuItem clearItem = new JMenuItem( "Clear Chat", KeyEvent.VK_C );
+		JMenuItem clearItem = new JMenuItem( "Clear Displays", KeyEvent.VK_C );
 		clearItem.addActionListener( new ClearChatBufferListener() );
 		fileMenu.add( clearItem );
 
-		JMenuItem highItem = new JMenuItem( "Highlight!", KeyEvent.VK_H );
+		JMenuItem loggerItem = new JMenuItem( "Initialize Chatlog", KeyEvent.VK_I );
+		loggerItem.addActionListener( new LogChatListener() );
+		fileMenu.add( loggerItem );
+
+		JMenuItem highItem = new JMenuItem( "Add Highlight", KeyEvent.VK_A );
 		highItem.addActionListener( new HighlightChatListener() );
 		fileMenu.add( highItem );
 
-		JMenuItem unhighItem = new JMenuItem( "Never Mind?", KeyEvent.VK_N );
+		JMenuItem unhighItem = new JMenuItem( "Remove Highlight", KeyEvent.VK_N );
 		unhighItem.addActionListener( new RemoveHighlightListener() );
 		fileMenu.add( unhighItem );
 
