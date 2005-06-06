@@ -225,12 +225,21 @@ public class ClanStashRequest extends KoLRequest
 				String itemString = optionMatcher.group(2);
 
 				if ( TradeableItemDatabase.getItemName( itemID ) == null )
-					TradeableItemDatabase.registerItem( itemID, itemString.substring( 0, itemString.indexOf( "(" ) ).trim() );
+				{
+					TradeableItemDatabase.registerItem( itemID, itemString.indexOf( "(" ) == -1 ? itemString :
+						itemString.substring( 0, itemString.indexOf( "(" ) ).trim() );
+				}
 
-				Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( itemString.indexOf( "(" ) ) );
+				AdventureResult result;
+				if ( itemString.indexOf( "(" ) == -1 )
+					result = new AdventureResult( itemID, 1 );
+				else
+				{
+					Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( itemString.indexOf( "(" ) ) );
+					result = new AdventureResult( itemID, qtyMatcher.find() ? df.parse( qtyMatcher.group(1) ).intValue() : 1 );
+				}
 
-				AdventureResult result = new AdventureResult( itemID, qtyMatcher.find() ?
-					df.parse( qtyMatcher.group(1) ).intValue() : 1 );
+
 
 				AdventureResult.addResultToList( stashContents, result );
 			}
