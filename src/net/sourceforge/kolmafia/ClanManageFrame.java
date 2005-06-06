@@ -112,6 +112,7 @@ public class ClanManageFrame extends KoLFrame
 		super( "KoLmafia: Clan Management", client );
 
 		this.rankList = new LockableListModel();
+		(new ClanStashRequest( client )).run();
 
 		this.storing = new StoragePanel();
 		this.clanBuff = new ClanBuffPanel();
@@ -505,13 +506,31 @@ public class ClanManageFrame extends KoLFrame
 
 			public void run()
 			{
+				// If you're trying to refresh everything,
+				// then no tests are necessary.
+
+				if ( isRefresh )
+				{
+					(new ClanStashRequest( client )).run();
+					return;
+				}
+
+				// Check the rank list to see if you're one
+				// of the clan administrators.
+
 				if ( rankList.isEmpty() )
+				{
 					rankList = client.getClanManager().getRankList();
 
-				if ( !isRefresh && rankList.isEmpty() )
-				{
-					JOptionPane.showMessageDialog( null, "Look, but don't touch." );
-					return;
+					// If it's been double-confirmed that you're
+					// not a clan administrator, then tell them
+					// they can't do anything with the stash.
+
+					if ( rankList.isEmpty() )
+					{
+						JOptionPane.showMessageDialog( null, "Look, but don't touch." );
+						return;
+					}
 				}
 
 				Object [] items = elementList.getSelectedValues();
@@ -539,10 +558,7 @@ public class ClanManageFrame extends KoLFrame
 					return;
 				}
 
-				Runnable request = isRefresh ? (Runnable) new ClanStashRequest( client ) :
-					new ClanStashRequest( client, items, ClanStashRequest.STASH_TO_ITEMS );
-
-				client.makeRequest( request, 1 );
+				client.makeRequest( new ClanStashRequest( client, items, ClanStashRequest.STASH_TO_ITEMS ), 1 );
 			}
 		}
 	}
