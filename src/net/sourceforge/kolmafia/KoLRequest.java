@@ -47,7 +47,6 @@ import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.IOException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -347,8 +346,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			this.isErrorState = false;
 			delay( REFRESH_RATE );
 		}
-		while ( client != null && client.permitsContinue() &&
-			!prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
+		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) && client != null && client.permitsContinue() );
 	}
 
 	/**
@@ -383,9 +381,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			logStream.println( "Attempting to establish connection..." );
 			formConnection = (HttpURLConnection) formURL.openConnection();
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
-			// In the event that an IOException is thrown, one can assume
+			// In the event that an Exception is thrown, one can assume
 			// that there was a timeout; return false and let the loop
 			// attempt to connect again
 
@@ -510,7 +508,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			logStream.println( "Retrieving server reply..." );
 
-			responseCode = formConnection.getResponseCode();
 			responseText = "";
 			redirectLocation = "";
 
@@ -519,9 +516,11 @@ public class KoLRequest implements Runnable, KoLConstants
 			// it will be stored here.
 
 			istream = new BufferedReader( new InputStreamReader( formConnection.getInputStream() ) );
+			responseCode = formConnection.getResponseCode();
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
+System.exit(0);
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
 
@@ -641,9 +640,9 @@ public class KoLRequest implements Runnable, KoLConstants
 					while ( (line = istream.readLine()) != null )
 						replyBuffer.append( line );
 				}
-				catch ( IOException e )
+				catch ( Exception e )
 				{
-					// An IOException is clearly an error; here it will be reported
+					// An Exception is clearly an error; here it will be reported
 					// to the client, but another attempt will be made
 
 					if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
@@ -678,9 +677,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			istream.close();
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
-			// An IOException here is unusual, but it means that
+			// An Exception here is unusual, but it means that
 			// something happened which disallowed closing of the
 			// input stream.  Print the error to the log and
 			// pretend nothing happened.
