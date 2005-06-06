@@ -46,25 +46,25 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 
 public class LimitedSizeChatBuffer extends ChatBuffer
 {
-	private List highlights;
-	private List dehighlights;
-	private LimitedSizeChatBuffer highlightBuffer;
+	protected static List highlights;
+	protected static List dehighlights;
+	protected static LimitedSizeChatBuffer highlightBuffer;
 
 	private static final int BUFFER_LIMIT = 40000;
 	private int previousFontSize;
 
 	private static int fontSize = 3;
 	static
-	{	setFontSize( fontSize );
+	{
+		highlights = new ArrayList();
+		dehighlights = new ArrayList();
+		setFontSize( fontSize );
 	}
 
 	public LimitedSizeChatBuffer( String title )
 	{
 		super( title );
 		previousFontSize = fontSize;
-
-		this.highlights = new ArrayList();
-		this.dehighlights = new ArrayList();
 	}
 
 	/**
@@ -186,21 +186,17 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		previousFontSize = fontSize;
 	}
 
-	public void highlight( String highlight, LimitedSizeChatBuffer highlightBuffer )
+	public static void addHighlight( String highlight )
 	{
-		if ( this == highlightBuffer )
-			return;
-
-		this.highlightBuffer = highlightBuffer;
-
 		highlights.add( Pattern.compile( highlight, Pattern.CASE_INSENSITIVE ) );
 		dehighlights.add( Pattern.compile( "href=\"([^\"]*)<font color=purple>" + highlight + "</font>", Pattern.CASE_INSENSITIVE ) );
-
-		applyHighlights();
 	}
 
 	public void applyHighlights()
 	{
+		if ( this == highlightBuffer )
+			return;
+
 		Pattern highlight, dehighlight;  Matcher matching;
 		String highlightMessage;
 
@@ -216,7 +212,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 			{
 				highlightMessage = applyHighlight( lines[i], highlight, dehighlight );
 				if ( lines[i].compareToIgnoreCase( highlightMessage ) != 0 )
-					highlightBuffer.append( highlightMessage );
+					highlightBuffer.append( highlightMessage + "<br>" );
 			}
 
 			displayString = applyHighlight( displayString, highlight, dehighlight );

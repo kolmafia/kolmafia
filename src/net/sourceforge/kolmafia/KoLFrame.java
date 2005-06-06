@@ -169,6 +169,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			String [] location = client.getSettings().getProperty( frameName ).split( "," );
 			setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
 		}
+
+		if ( !( this instanceof LoginFrame || this instanceof AdventureFrame ) )
+			existingFrames.add( this );
 	}
 
 	public String getFrameName()
@@ -1044,7 +1047,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						lastCreatedFrame.pack();
 						lastCreatedFrame.setVisible( true );
 						lastCreatedFrame.setEnabled( isEnabled() );
-						existingFrames.add( lastCreatedFrame );
 					}
 					else
 					{

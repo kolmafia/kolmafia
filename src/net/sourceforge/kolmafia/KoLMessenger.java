@@ -146,6 +146,9 @@ public class KoLMessenger implements KoLConstants
 	{
 		client.updateDisplay( NOCHANGE, "Initializing chat..." );
 		(new ChatRequest( client, null, "/channel" )).run();
+
+		LimitedSizeChatBuffer.highlights.clear();
+		LimitedSizeChatBuffer.dehighlights.clear();
 	}
 
 	/**
@@ -953,14 +956,50 @@ public class KoLMessenger implements KoLConstants
 		if ( highlight != null )
 		{
 			highlighting = true;
+
 			openInstantMessage( "[highlights]" );
 
-			LimitedSizeChatBuffer highlightBuffer = getChatBuffer( "[highlights]" );
-			highlightBuffer.clearBuffer();
+			LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highlights]" );
+			LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+
+			LimitedSizeChatBuffer.addHighlight( highlight );
 
 			Object [] keys = instantMessageBuffers.keySet().toArray();
 			for ( int i = 0; i < keys.length; ++i )
-				getChatBuffer( (String) keys[i] ).highlight( highlight, highlightBuffer );
+				getChatBuffer( (String) keys[i] ).applyHighlights();
 		}
+	}
+
+	public void removeHighlighting()
+	{
+		Object [] patterns = LimitedSizeChatBuffer.highlights.toArray();
+		if ( patterns.length == 0 )
+		{
+			JOptionPane.showMessageDialog( null, "No active highlights." );
+			return;
+		}
+
+		for ( int i = 0; i < patterns.length; ++i )
+			patterns[i] = ((Pattern)patterns[i]).pattern();
+
+		Object selectedValue = JOptionPane.showInputDialog( null, "Currently highlighting the following terms:",
+				"Chat highlights!", JOptionPane.INFORMATION_MESSAGE, null, patterns, patterns[0] );
+
+		if ( selectedValue == null )
+			return;
+
+		for ( int i = 0; i < patterns.length; ++i )
+			if ( patterns[i].equals( selectedValue ) )
+			{
+				LimitedSizeChatBuffer.highlights.remove(i);
+				LimitedSizeChatBuffer.dehighlights.remove(i);
+
+				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+
+				Object [] keys = instantMessageBuffers.keySet().toArray();
+				for ( int j = 0; j < keys.length; ++j )
+					getChatBuffer( (String) keys[j] ).applyHighlights();
+
+			}
 	}
 }
