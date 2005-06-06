@@ -376,7 +376,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		menu.add( scriptMenu );
 
-		File scriptDirectory = new File( "scripts/" );
+		File scriptDirectory = new File( "scripts" );
 		if ( !scriptDirectory.exists() )
 			scriptDirectory.mkdirs();
 		else
@@ -543,7 +543,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				if ( client != null && client.getMacroStream() instanceof NullStream )
 				{
-					JFileChooser chooser = new JFileChooser( "scripts/" );
+					JFileChooser chooser = new JFileChooser( "scripts" );
 					int returnVal = chooser.showSaveDialog( KoLFrame.this );
 
 					if ( chooser.getSelectedFile() == null )
@@ -623,7 +623,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				{
 					if ( scriptPath == null )
 					{
-						JFileChooser chooser = new JFileChooser( "./scripts/" );
+						JFileChooser chooser = new JFileChooser( "scripts" );
 						int returnVal = chooser.showOpenDialog( KoLFrame.this );
 
 						if ( chooser.getSelectedFile() == null )

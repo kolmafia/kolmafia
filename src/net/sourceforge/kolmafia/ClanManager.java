@@ -82,7 +82,7 @@ public class ClanManager implements KoLConstants
 
 		this.rankList = new LockableListModel();
 		this.stashContents = new LockableListModel();
-		SNAPSHOT_DIRECTORY = "clan" + File.pathSeparator;
+		SNAPSHOT_DIRECTORY = "clan" + File.separator;
 	}
 
 	public LockableListModel getStash()
@@ -131,8 +131,8 @@ public class ClanManager implements KoLConstants
 			this.clanID = cmr.getClanID();
 			this.clanName = cmr.getClanName();
 
-			SNAPSHOT_DIRECTORY = "clan" + File.pathSeparator + clanID + "_" + sdf.format( new Date() ) +
-				File.pathSeparator;
+			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + "_" + sdf.format( new Date() ) +
+				File.separator;
 
 			(new RankListRequest( client )).run();
 			this.snapshot = new ClanSnapshotTable( client, clanID, clanName, profileMap );
@@ -178,7 +178,7 @@ public class ClanManager implements KoLConstants
 		requestIterator = profileMap.values().iterator();
 		for ( int i = 1; requestIterator.hasNext() && client.permitsContinue(); ++i )
 		{
-			client.updateDisplay( NOCHANGE, "Examining member " + i + " of " + profileMap.size() + "..." );
+			client.updateDisplay( DISABLED_STATE, "Examining member " + i + " of " + profileMap.size() + "..." );
 
 			currentRequest = (ProfileRequest) requestIterator.next();
 			if ( currentRequest.getCleanHTML().length() == 0 )
@@ -325,6 +325,8 @@ public class ClanManager implements KoLConstants
 
 		File individualFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
 
+System.out.println( SNAPSHOT_DIRECTORY + "summary.htm" );
+
 		// If the file already exists, a snapshot cannot be taken.
 		// Therefore, notify the user of this. :)
 
@@ -368,7 +370,7 @@ public class ClanManager implements KoLConstants
 			currentMember = (String) memberIterator.next();
 			memberLookup = (ProfileRequest) profileMap.get( currentMember );
 
-			individualFile = new File( SNAPSHOT_DIRECTORY + "profiles/" + client.getPlayerID( currentMember ) + ".htm" );
+			individualFile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + client.getPlayerID( currentMember ) + ".htm" );
 
 			try
 			{

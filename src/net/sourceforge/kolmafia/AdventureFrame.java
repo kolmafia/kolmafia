@@ -1044,6 +1044,12 @@ public class AdventureFrame extends KoLFrame
 		public void windowOpened( WindowEvent e )
 		{
 			if ( client != null )
+				(new ReopenWindowsThread()).start();
+		}
+
+		private class ReopenWindowsThread extends RequestThread
+		{
+			public void run()
 			{
 				String framesToReloadSetting = client.getSettings().getProperty( "reloadFrames" );
 				if ( framesToReloadSetting == null )

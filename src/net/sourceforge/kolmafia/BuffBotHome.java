@@ -136,7 +136,7 @@ public class BuffBotHome implements KoLConstants
 		String dayOfYear = sdf.format(new Date());
 		String characterName = client == null ? "" : client.getLoginName();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
-		File file = new File( "data/" + noExtensionName + "_BuffBot" + dayOfYear + ".html" );
+		File file = new File( DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + ".html" );
 
 		try
 		{
@@ -177,7 +177,7 @@ public class BuffBotHome implements KoLConstants
 			String noExtensionName = characterName.replaceAll( "\\p{Punct}", " " ).replaceAll( " ", "_" ).toLowerCase();
 
 			pastRecipients.clear();
-			File datafile = new File( KoLmafia.DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + "_" + meatSent + ".txt" );
+			File datafile = new File( DATA_DIRECTORY + noExtensionName + "_BuffBot" + dayOfYear + "_" + meatSent + ".txt" );
 			if ( datafile.exists() )
 			{
 				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( datafile ) ) );

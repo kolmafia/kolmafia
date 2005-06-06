@@ -38,7 +38,9 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormatSymbols;
 
-public interface KoLConstants
+import net.java.dev.spellcast.utilities.UtilityConstants;
+
+public interface KoLConstants extends UtilityConstants
 {
 	public static final DecimalFormat df = new DecimalFormat(
 		"#,##0", new DecimalFormatSymbols( Locale.US ) );

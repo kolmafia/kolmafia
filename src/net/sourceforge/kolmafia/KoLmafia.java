@@ -50,7 +50,6 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
@@ -63,7 +62,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
  * of the interactions.
  */
 
-public abstract class KoLmafia implements KoLConstants, UtilityConstants
+public abstract class KoLmafia implements KoLConstants
 {
 	static { System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" ); }
 
