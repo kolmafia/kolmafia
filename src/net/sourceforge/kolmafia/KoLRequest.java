@@ -304,13 +304,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		// the request (which is different from running now!)
 
 		execute();
-
-		// Adding in a delay inbetween run requests - this means that
-		// all requests, not just chat requests, have a delay after
-		// running to be friendlier on the server.
-
-		if ( client != null && !client.inLoginState() )
-			delay( REFRESH_RATE );
 	}
 
 	/**
@@ -352,6 +345,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		do
 		{
 			this.isErrorState = false;
+			delay( REFRESH_RATE );
 		}
 		while ( client != null && client.permitsContinue() &&
 			!prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
