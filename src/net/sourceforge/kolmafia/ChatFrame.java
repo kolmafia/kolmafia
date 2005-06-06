@@ -399,7 +399,6 @@ public class ChatFrame extends KoLFrame
 				GreenMessageFrame composer = new GreenMessageFrame( client, location );
 				composer.pack();  composer.setVisible( true );
 				composer.requestFocus();
-				existingFrames.add( composer );
 			}
 
 			else if ( clickOptions[2].isSelected() )
@@ -407,7 +406,6 @@ public class ChatFrame extends KoLFrame
 				GiftMessageFrame composer = new GiftMessageFrame( client, location );
 				composer.pack();  composer.setVisible( true );
 				composer.requestFocus();
-				existingFrames.add( composer );
 			}
 
 			else if ( clickOptions[3].isSelected() )
@@ -415,7 +413,6 @@ public class ChatFrame extends KoLFrame
 				ProfileFrame profile = new ProfileFrame( client, location );
 				profile.pack();  profile.setVisible( true );
 				profile.requestFocus();
-				existingFrames.add( profile );
 			}
 		}
 	}

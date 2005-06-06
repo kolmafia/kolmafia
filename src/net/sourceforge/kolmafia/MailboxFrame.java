@@ -343,7 +343,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 			composer.pack();  composer.setVisible( true );
 			composer.requestFocus();
-			existingFrames.add( composer );
 		}
 	}
 

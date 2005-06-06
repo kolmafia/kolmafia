@@ -1067,8 +1067,6 @@ public class AdventureFrame extends KoLFrame
 						currentFrame.setVisible( true );
 						currentFrame.setEnabled( isEnabled() );
 
-						existingFrames.add( currentFrame );
-
 					}
 					catch ( Exception e1 )
 					{
