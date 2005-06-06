@@ -78,7 +78,6 @@ public class ItemManageFrame extends KoLFrame
 	private JTabbedPane tabs;
 	private JMenuItem refreshItem;
 	private JPanel using, selling, storing;
-	private SortedListModel inventory, closet, usableItems, concoctions;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -90,14 +89,6 @@ public class ItemManageFrame extends KoLFrame
 	public ItemManageFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Item Management", client );
-
-		this.inventory = client == null ? new SortedListModel() : client.getInventory();
-		this.closet = client == null ? new SortedListModel() : client.getCloset();
-		this.usableItems = client == null ? new SortedListModel() : client.getUsableItems();
-		this.concoctions = new SortedListModel();
-
-		if ( client != null )
-			refreshConcoctionsList();
 
 		tabs = new JTabbedPane();
 		using = new ConsumePanel();
@@ -179,7 +170,7 @@ public class ItemManageFrame extends KoLFrame
 		private class ConsumeItemPanel extends ItemManagePanel
 		{
 			public ConsumeItemPanel()
-			{	super( "Usable Items", "use one", "use multiple", usableItems );
+			{	super( "Usable Items", "use one", "use multiple", client.getUsableItems() );
 			}
 
 			protected void actionConfirmed()
@@ -281,7 +272,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public SellItemPanel()
 			{
-				super( "Inside Inventory", "autosell", "send to store", inventory );
+				super( "Inside Inventory", "autosell", "send to store", client == null ? new SortedListModel() : client.getInventory() );
 				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			}
 
@@ -382,7 +373,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public OutsideClosetPanel()
 			{
-				super( "Inside Inventory", "put in closet", "put in case", inventory );
+				super( "Inside Inventory", "put in closet", "put in case", client == null ? new SortedListModel() : client.getInventory() );
 				availableList = elementList;
 			}
 
@@ -405,7 +396,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public InsideClosetPanel()
 			{
-				super( "Inside Closet", "put in bag", "put in case", closet );
+				super( "Inside Closet", "put in bag", "put in case", client == null ? new SortedListModel() : client.getCloset() );
 				closetList = elementList;
 			}
 
@@ -476,27 +467,6 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	public void refreshConcoctionsList()
-	{
-		concoctions.clear();
-
-		List materialsList = (List) inventory.clone();
-
-		if ( client != null )
-		{
-			String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
-
-			if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
-			{
-				List closetList = (List) client.getCloset();
-				for ( int i = 0; i < closetList.size(); ++i )
-					AdventureResult.addResultToList( materialsList, (AdventureResult) closetList.get(i) );
-			}
-		}
-
-		concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, materialsList ) );
-	}
-
 	/**
 	 * Internal class used to handle everything related to
 	 * creating items; this allows creating of items,
@@ -506,7 +476,7 @@ public class ItemManageFrame extends KoLFrame
 	private class CreateItemPanel extends ItemManagePanel
 	{
 		public CreateItemPanel()
-		{	super( "Create an Item", "create one", "create multiple", concoctions );
+		{	super( "Create an Item", "create one", "create multiple", ConcoctionsDatabase.getConcoctions() );
 		}
 
 		protected void actionConfirmed()
@@ -578,6 +548,8 @@ public class ItemManageFrame extends KoLFrame
 
 				if ( client.permitsContinue() )
 					client.updateDisplay( ENABLED_STATE, "Items created." );
+
+				ConcoctionsDatabase.refreshConcoctions( client );
 			}
 		}
 	}
@@ -593,7 +565,6 @@ public class ItemManageFrame extends KoLFrame
 			public void run()
 			{
 				(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();
-				refreshConcoctionsList();
 				client.updateDisplay( ENABLED_STATE, "Lists refreshed." );
 			}
 		}

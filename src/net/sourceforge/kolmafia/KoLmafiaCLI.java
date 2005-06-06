@@ -1274,7 +1274,8 @@ public class KoLmafiaCLI extends KoLmafia
 					return firstMatch == null ? null : new AdventureResult( firstMatch.getName(), firstMatch.getCount() + itemCount );
 
 				case CREATION:
-					List concoctions = ConcoctionsDatabase.getConcoctions( scriptRequestor, scriptRequestor.getInventory() );
+
+					List concoctions = ConcoctionsDatabase.getConcoctions();
 
 					if ( firstMatch.getItemID() > 656 && firstMatch.getItemID() < 666 )
 					{

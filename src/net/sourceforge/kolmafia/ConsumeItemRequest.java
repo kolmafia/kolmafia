@@ -125,9 +125,15 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( responseCode == 302 && !isErrorState )
 		{
 			if ( itemUsed.getName().startsWith( "chef-in" ) )
+			{
 				client.getCharacterData().setChef( true );
+				ConcoctionsDatabase.refreshConcoctions( client );
+			}
 			else if ( itemUsed.getName().startsWith( "bartender-in" ) )
+			{
 				client.getCharacterData().setBartender( true );
+				ConcoctionsDatabase.refreshConcoctions( client );
+			}
 
 			(new RetrieveResultRequest( client, redirectLocation )).run();
 		}

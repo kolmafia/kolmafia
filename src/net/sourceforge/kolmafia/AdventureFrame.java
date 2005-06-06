@@ -198,13 +198,6 @@ public class AdventureFrame extends KoLFrame
 			adventureSelect.setStatusMessage( displayState, message );
 	}
 
-
-	public void refreshConcoctionsList()
-	{
-		if ( itemManager != null )
-			itemManager.refreshConcoctionsList();
-	}
-
 	/**
 	 * Auxilary method used to enable and disable a frame.  By default,
 	 * this attempts to toggle the enable/disable status on all tabs
@@ -681,8 +674,6 @@ public class AdventureFrame extends KoLFrame
 
 							if ( client.permitsContinue() )
 								results.remove( purchases[i] );
-
-							refreshConcoctionsList();
 						}
 					}
 				}

@@ -792,6 +792,8 @@ public abstract class KoLmafia implements KoLConstants
 			parseResult( "You lose " + damageMatcher.group(1) + " hit points" );
 		}
 
+		boolean acquiredItems = false;
+
 		while ( parsedResults.hasMoreTokens() )
 		{
 			lastToken = parsedResults.nextToken();
@@ -803,6 +805,7 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				if ( lastToken.indexOf( "effect" ) == -1 )
 				{
+					acquiredItems = true;
 					parseResult( parsedResults.nextToken() );
 				}
 				else
@@ -822,6 +825,9 @@ public abstract class KoLmafia implements KoLConstants
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 				parseResult( lastToken.indexOf( "." ) == -1 ? lastToken : lastToken.substring( 0, lastToken.indexOf( "." ) ) );
 		}
+
+		if ( acquiredItems )
+			ConcoctionsDatabase.refreshConcoctions( this );
 	}
 
 	/**

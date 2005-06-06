@@ -310,12 +310,6 @@ public class KoLmafiaGUI extends KoLmafia
 		activeFrame.setVisible( true );
 	}
 
-	public void makeRequest( Runnable request, int iterations )
-	{
-		super.makeRequest( request, iterations );
-		((AdventureFrame)activeFrame).refreshConcoctionsList();
-	}
-
 	public void initializeGCLI()
 	{
 		buffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI" );

@@ -64,7 +64,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private static final AdventureResult CHEF = new AdventureResult( 438, 1 );
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
-
 	private int itemID, quantityNeeded, mixingMethod;
 
 	/**
@@ -265,8 +264,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				createdQuantity = df.parse( resultMatcher.group(1) ).intValue();
 			else
 			{
-				resultMatcher = Pattern.compile( "You acquire an item\\: <b>" + itemName + "</b>" ).matcher( responseText );
-				if ( resultMatcher.find() )
+				if ( Pattern.compile( "You acquire an item\\: <b>" + itemName + "</b>" ).matcher( responseText ).find() )
 					createdQuantity = 1;
 			}
 		}
@@ -301,6 +299,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				if ( responseText.indexOf( "Smoke" ) != -1 )
 				{
 					client.getCharacterData().setChef( false );
+					ConcoctionsDatabase.refreshConcoctions( client );
 					(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
 					return;
 				}
@@ -317,6 +316,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				if ( responseText.indexOf( "Smoke" ) != -1 )
 				{
 					client.getCharacterData().setBartender( false );
+					ConcoctionsDatabase.refreshConcoctions( client );
 					(new ItemCreationRequest( client, itemID, mixingMethod, quantityNeeded - createdQuantity )).run();
 					return;
 				}
@@ -401,20 +401,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// created, to see if a box can be created
 		// from the necessary materials.
 
-		List concoctions = new ArrayList();
-		List materialsList = (List) client.getInventory().clone();
 		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
-
-		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
-		{
-			List closetList = (List) client.getCloset();
-			for ( int i = 0; i < closetList.size(); ++i )
-				AdventureResult.addResultToList( materialsList, (AdventureResult) closetList.get(i) );
-		}
-
-		concoctions.addAll( ConcoctionsDatabase.getConcoctions( client, materialsList ) );
 		ItemCreationRequest boxServantCreationRequest = new ItemCreationRequest( client, toUse.getItemID(), COMBINE, 1 );
-		boolean canCreateBoxServant = concoctions.contains( boxServantCreationRequest );
+		boolean canCreateBoxServant = ConcoctionsDatabase.getConcoctions().contains( boxServantCreationRequest );
 
 		if ( !client.getInventory().contains( toUse ) )
 		{

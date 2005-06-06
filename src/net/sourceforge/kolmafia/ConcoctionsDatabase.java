@@ -56,6 +56,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ConcoctionsDatabase
 {
+	protected static final SortedListModel concoctionsList = new SortedListModel();
+
 	private static final String ITEM_DBASE_FILE = "concoctions.dat";
 	public static final int ITEM_COUNT = TradeableItemDatabase.ITEM_COUNT;
 
@@ -105,6 +107,10 @@ public class ConcoctionsDatabase
 		}
 	}
 
+	public static SortedListModel getConcoctions()
+	{	return concoctionsList;
+	}
+
 	/**
 	 * Returns the concoctions which are available given the list of
 	 * ingredients.  The list returned contains formal requests for
@@ -115,8 +121,23 @@ public class ConcoctionsDatabase
 	 * @return	A list of possible concoctions
 	 */
 
-	public static SortedListModel getConcoctions( KoLmafia client, List availableIngredients )
+	public static void refreshConcoctions( KoLmafia client )
 	{
+		List availableIngredients = new ArrayList();
+		availableIngredients.addAll( client.getInventory() );
+
+		if ( client != null )
+		{
+			String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
+
+			if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
+			{
+				List closetList = (List) client.getCloset();
+				for ( int i = 0; i < closetList.size(); ++i )
+					AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
+			}
+		}
+
 		// First, zero out the quantities table.  Though this is not
 		// actually necessary, it's a good safety and doesn't use up
 		// that much CPU time.
@@ -213,14 +234,13 @@ public class ConcoctionsDatabase
 		// should contained all items whose quantities are greater
 		// than zero.
 
-		SortedListModel concoctionsList = new SortedListModel();
+		concoctionsList.clear();
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( quantityPossible[i] > 0 )
 				concoctionsList.add( new ItemCreationRequest( client, i, getMixingMethod(i), quantityPossible[i] ) );
 
 		concoctionsList.addAll( StarChartRequest.getPossibleCombinations( client ) );
-		return concoctionsList;
 	}
 
 	/**
