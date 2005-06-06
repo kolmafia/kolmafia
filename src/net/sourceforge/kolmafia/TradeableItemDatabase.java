@@ -186,7 +186,9 @@ public class TradeableItemDatabase
 	 */
 
 	public static final boolean contains( String itemName )
-	{	return itemByName.containsKey( itemName.toLowerCase() );
+	{
+                String name = itemName.toLowerCase().replaceAll( "ñ", "&ntilde;" ).replaceAll( " \\[tm\\]", "&trade;" );
+	        return itemByName.containsKey( name );
 	}
 
 	/**
@@ -198,7 +200,7 @@ public class TradeableItemDatabase
 
 	public static final boolean isUsable( String itemName )
 	{
-		int itemID = getItemID( itemName.replaceAll( "ñ", "&ntilde;" ).replaceAll( "©", "&trade;" ) );
+		int itemID = getItemID( itemName );
 		return itemID == -1 ? false : consumptionID[ itemID ] != ConsumeItemRequest.NO_CONSUME &&
 			consumptionID[ itemID ] < ConsumeItemRequest.EQUIP_FAMILIAR;
 	}

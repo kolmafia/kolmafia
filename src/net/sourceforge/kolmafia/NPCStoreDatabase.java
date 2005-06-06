@@ -76,7 +76,7 @@ public class NPCStoreDatabase implements UtilityConstants
 						npcstoreTable[i].add( strtok.nextToken() );
 
 					npcstoreTable[4].add( TradeableItemDatabase.getItemName( Integer.parseInt( (String) npcstoreTable[2].get(
-						npcstoreTable[2].size() - 1 ) ) ).replaceAll( "ñ", "&ntilde;" ).replaceAll( "©", "&trade;" ) );
+						npcstoreTable[2].size() - 1 ) ) ).replaceAll( "ñ", "&ntilde;" ).replaceAll( " \\[tm\\]", "&trade;" ) );
 				}
 			}
 		}

@@ -215,7 +215,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		updateDisplay( DISABLED_STATE, "Purchasing " + itemName.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", "©" ) +
+		updateDisplay( DISABLED_STATE, "Purchasing " + itemName.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" ) +
 			" (" + df.format( quantity ) + " @ " + df.format( price ) + ")" );
 
 		super.run();
