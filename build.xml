@@ -69,6 +69,7 @@
        <exclude name="CVS/**"/>
        <exclude name="build/**"/>
        <exclude name="dist/**"/>
+       <exclude name="www/data/**"/>
 
     </tar>
 
