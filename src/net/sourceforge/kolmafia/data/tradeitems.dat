@@ -1248,9 +1248,11 @@
 1248
 1249
 1250
-1251	Knob shroomkabob	0	0
-1252	spooky shroomkabob	0	0
-1253	jumping beans	0	0
-1254	jumping bean burrito	0	0
-1255	spicy jumping bean burrito	0	0
-1256	insanely spicy jumping bean burrito	0	0
+1251	Knob shroomkabob	2	30
+1252	spooky shroomkabob	2	30
+1253	jumping beans	0	23
+1254	jumping bean burrito	2	50
+1255	spicy jumping bean burrito	2	60
+1256	insanely spicy jumping bean burrito	2	90
+1257	rat scrapple	2	40
+1258	pail of pretentious paint	0	0
