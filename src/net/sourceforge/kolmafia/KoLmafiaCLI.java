@@ -1312,7 +1312,7 @@ public class KoLmafiaCLI extends KoLmafia
 		Object [] items = new Object[1];
 		items[0] = firstMatch;
 
-		scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items, 0 ), 1 );
+		scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items, ClanStashRequest.ITEMS_TO_STASH ), 1 );
 	}
 
 	/**
