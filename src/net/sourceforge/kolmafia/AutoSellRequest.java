@@ -62,7 +62,7 @@ public class AutoSellRequest extends KoLRequest
 	}
 
 	public String getName()
-	{	return soldResult.getName();
+	{	return soldResult.getDisplayName();
 	}
 
 	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell, int desiredPrice )
@@ -107,9 +107,9 @@ public class AutoSellRequest extends KoLRequest
 	public void run()
 	{
 		if ( sellType == AUTOSELL )
-			updateDisplay( DISABLED_STATE, "Autoselling " + soldResult.getName() + "..." );
+			updateDisplay( DISABLED_STATE, "Autoselling " + soldResult.getDisplayName() + "..." );
 		else
-			updateDisplay( DISABLED_STATE, "Placing " + soldResult.getName() + " in the mall..." );
+			updateDisplay( DISABLED_STATE, "Placing " + soldResult.getDisplayName() + " in the mall..." );
 
 		super.run();
 

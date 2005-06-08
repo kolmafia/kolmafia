@@ -451,7 +451,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( result == null )
 			return;
 
-		String resultName = result.getName();
+		String resultName = result.getDisplayName();
 
 		// This should not happen, but check just in case and
 		// return if the result name was null.
@@ -887,7 +887,7 @@ public abstract class KoLmafia implements KoLConstants
 							(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
 
 						updateDisplay( DISABLED_STATE, useTypeAsString + " " +
-							((ConsumeItemRequest)request).getItemUsed().getName() + " " +
+							((ConsumeItemRequest)request).getItemUsed().getDisplayName() + " " +
 							(iterations == 1 ? ("(" + (0 - ((ConsumeItemRequest)request).getItemUsed().getCount()) + ")") :
 								("(" + i + " of " + iterations + ")")) + "..." );
 					}

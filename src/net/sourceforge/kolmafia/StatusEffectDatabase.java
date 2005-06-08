@@ -101,7 +101,10 @@ public class StatusEffectDatabase
 	 */
 
 	public static final String getEffectName( int effectID )
-	{	return ((String) effectByID.get( new Integer( effectID ) )).replaceAll( "&ntilde;", "ñ" );
+	{
+                if ( effectID == -1)
+                        return "Unknown effect";
+                return ((String) effectByID.get( new Integer( effectID ) )).replaceAll( "&ntilde;", "ñ" );
 	}
 
 	/**

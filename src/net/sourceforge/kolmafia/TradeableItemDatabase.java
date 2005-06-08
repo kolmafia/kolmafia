@@ -128,8 +128,18 @@ public class TradeableItemDatabase
 
 	public static final int getItemID( String itemName )
 	{
-		Object itemID = itemByName.get( itemName.toLowerCase().replaceAll( "ñ", "&ntilde;" ).replaceAll( " \\[tm\\]", "&trade;" ) );
-		return itemID == null ? -1 : ((Integer)itemID).intValue();
+                if ( itemName == "ice-cold beer (Shlitz)" )
+                        return 41;
+
+                if ( itemName == "ice-cold beer (Willer)" )
+                        return 81;
+
+		Object itemID = itemByName.get( canonicalizeDisplayName( itemName) );
+
+                if (itemID == null)
+                        return -1;
+
+                return ((Integer)itemID).intValue();
 	}
 
 	/**
@@ -149,9 +159,49 @@ public class TradeableItemDatabase
 
 	public static final String getItemName( int itemID )
 	{
-		return itemID < 0 || itemID > ITEM_COUNT ? null : itemByID[ itemID ] == null ? null :
-			itemByID[ itemID ].replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" );
+                if ( itemID < 0 || itemID > ITEM_COUNT )
+                        return null;
+
+                if ( itemByID[ itemID ] == null )
+                        return null;
+
+                return itemByID[ itemID ];
 	}
+
+	/**
+	 * Returns the display name for an item, given its ID number.
+	 * @param	itemID	The ID number of the item to lookup
+	 * @return	The name of the corresponding item
+	 */
+
+	public static final String getItemDisplayName( int itemID )
+        {
+                if ( itemID < 0 || itemID > ITEM_COUNT )
+                        return null;
+
+                if ( itemID == 41 )
+                        return "ice-cold beer (Shlitz)";
+
+                if ( itemID == 81 )
+                        return "ice-cold beer (Willer)";
+
+                if ( itemByID[ itemID ] == null )
+                        return null;
+
+                return itemByID[ itemID ].replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" );
+	}
+
+
+	/**
+	 * Returns the display name for an item, given its ID number.
+	 * @param	itemID	The ID number of the item to lookup
+	 * @return	The name of the corresponding item
+	 */
+
+	public static final String canonicalizeDisplayName( String name )
+        {
+                return name.toLowerCase().replaceAll( "ñ", "&ntilde;" ).replaceAll( " \\[tm\\]", "&trade;" );
+        }
 
 	/**
 	 * Returns a list of all items which contain the given
@@ -170,7 +220,7 @@ public class TradeableItemDatabase
 		{
 			currentItemName = (String) completeItems.next();
 			if ( currentItemName.indexOf( searchString ) != -1 )
-				substringList.add( getItemName( getItemID( currentItemName ) ) );
+				substringList.add( getItemDisplayName( getItemID( currentItemName ) ) );
 		}
 
 		return substringList;
@@ -187,7 +237,7 @@ public class TradeableItemDatabase
 
 	public static final boolean contains( String itemName )
 	{
-                String name = itemName.toLowerCase().replaceAll( "ñ", "&ntilde;" ).replaceAll( " \\[tm\\]", "&trade;" );
+                String name = canonicalizeDisplayName(itemName);
 	        return itemByName.containsKey( name );
 	}
 

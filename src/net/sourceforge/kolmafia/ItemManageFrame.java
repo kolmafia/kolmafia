@@ -215,7 +215,7 @@ public class ItemManageFrame extends KoLFrame
 					{
 						int consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
 						int consumptionCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
-							"Using multiple " + currentItem.getName() + "..." ) ).intValue() : 1;
+							"Using multiple " + currentItem.getDisplayName() + "..." ) ).intValue() : 1;
 
 						if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
 							client.makeRequest( new ConsumeItemRequest( client, new AdventureResult( currentItem.getItemID(), consumptionCount ) ), 1 );

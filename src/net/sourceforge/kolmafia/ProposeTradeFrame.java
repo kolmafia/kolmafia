@@ -212,7 +212,7 @@ public class ProposeTradeFrame extends KoLFrame
 					((AdventureResult)client.getInventory().get( client.getInventory().indexOf( attachment ) )).getCount();
 
 				int attachmentCount = df.parse( JOptionPane.showInputDialog(
-					"Attaching " + attachment.getName() + "...", String.valueOf( defaultCount ) ) ).intValue();
+					"Attaching " + attachment.getDisplayName() + "...", String.valueOf( defaultCount ) ) ).intValue();
 
 				if ( existingIndex != -1 )
 					attachedItems.remove( existingIndex );

@@ -400,7 +400,7 @@ public class StoreManageFrame extends KoLFrame
 		{
 			StoreManager.SoldItem smsi = (StoreManager.SoldItem) value;
 
-			itemName.setText( TradeableItemDatabase.getItemName( smsi.getItemID() ) );
+			itemName.setText( TradeableItemDatabase.getItemDisplayName( smsi.getItemID() ) );
 			itemPrice.setText( df.format( smsi.getPrice() ) );
 			itemLimit.setText( df.format( smsi.getLimit() ) );
 		}

@@ -121,10 +121,14 @@ public class AdventureResult implements Comparable, KoLConstants
 		this( name, new int[1] );
 
 		if ( isStatusEffect() )
-			name = StatusEffectDatabase.getEffectName( StatusEffectDatabase.getEffectID( name ) );
-
+                {
+			this.name = StatusEffectDatabase.getEffectName( StatusEffectDatabase.getEffectID( name ) );
+                        this.itemID = -1;
+                }
+                else
+                        this.itemID = TradeableItemDatabase.getItemID( name );
+                        
 		this.count[0] = count;
-		this.itemID = TradeableItemDatabase.getItemID( name );
 	}
 
 	public AdventureResult( int itemID, int count )
@@ -234,6 +238,19 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public String getName()
 	{	return name;
+	}
+
+	/**
+	 * Accessor method to retrieve the name associated with the result.
+	 * @return	The name of the result
+	 */
+
+	public String getDisplayName()
+	{
+          if ( isItem())
+                  return TradeableItemDatabase.getItemDisplayName(itemID);
+
+          return name;
 	}
 
 	/**
@@ -360,11 +377,10 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( name.equals(DIVIDER) )
 			return DIVIDER;
 
-		if ( itemID == 0 )
+		if ( itemID == -1 )
 			return " " + name + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
 
-		String stringName = itemID == 41 ? "ice-cold beer (Shlitz)" : itemID == 81 ? "ice-cold beer (Willer)" :
-			name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" );
+		String stringName = TradeableItemDatabase.getItemDisplayName(itemID);
 
 		return stringName + " (" + df.format(count[0]) + ")";
 	}
@@ -384,8 +400,9 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( !(o instanceof AdventureResult) || o == null )
 			return false;
 
-		return name.equalsIgnoreCase( ((AdventureResult)o).name ) &&
-			(((AdventureResult)o).isItem() ? itemID == ((AdventureResult)o).itemID : true);
+		AdventureResult ar = (AdventureResult) o;
+
+		return name.equalsIgnoreCase( ar.name) && (!ar.isItem() || (itemID == ar.itemID));
 	}
 
 	/**
@@ -528,7 +545,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			AdventureResult ar = (AdventureResult) value;
 
-			String stringName = ar.itemID == 41 ? "ice-cold beer (Schlitz)" : ar.itemID == 81 ? "ice-cold beer (Willer)" : ar.name;
+			String stringName = TradeableItemDatabase.getItemDisplayName( ar.itemID);
 
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
 			String stringForm = stringName + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
