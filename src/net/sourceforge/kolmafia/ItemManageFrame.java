@@ -77,7 +77,7 @@ public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
 	private JMenuItem refreshItem;
-	private JPanel using, selling, storing;
+	private JPanel using, selling, museum, stash;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -93,11 +93,13 @@ public class ItemManageFrame extends KoLFrame
 		tabs = new JTabbedPane();
 		using = new ConsumePanel();
 		selling = new SellPanel();
-		storing = new StoragePanel();
+		museum = new MuseumStoragePanel();
+		stash = new ClanStoragePanel();
 
-		tabs.addTab( "Use & Create", using );
-		tabs.addTab( "Sell & Create", selling );
-		tabs.addTab( "Closet & Case", storing );
+		tabs.addTab( "Use", using );
+		tabs.addTab( "Sell", selling );
+		tabs.addTab( "Dicase", museum );
+		tabs.addTab( "Clash", stash );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -136,7 +138,8 @@ public class ItemManageFrame extends KoLFrame
 		refreshItem.setEnabled( isEnabled );
 		using.setEnabled( isEnabled );
 		selling.setEnabled( isEnabled );
-		storing.setEnabled( isEnabled );
+		museum.setEnabled( isEnabled );
+		stash.setEnabled( isEnabled );
 	}
 
 	/**
@@ -342,16 +345,15 @@ public class ItemManageFrame extends KoLFrame
 
 	/**
 	 * Internal class used to handle everything related to
-	 * placing items into the closet and taking items from
-	 * the closet.
+	 * placing items into the display case.
 	 */
 
-	private class StoragePanel extends JPanel
+	private class MuseumStoragePanel extends JPanel
 	{
 		private JList availableList, closetList;
 		private ItemManagePanel inventoryPanel, closetPanel;
 
-		public StoragePanel()
+		public MuseumStoragePanel()
 		{
 			setLayout( new GridLayout( 2, 1, 10, 10 ) );
 
@@ -461,6 +463,132 @@ public class ItemManageFrame extends KoLFrame
 
 				if ( isDisplayCase )
 					client.makeRequest( new MuseumRequest( client, true, items ), 1 );
+
+				client.updateDisplay( ENABLED_STATE, "Items moved." );
+			}
+		}
+	}
+
+	/**
+	 * Internal class used to handle everything related to
+	 * placing items into the closet and the clan stash.
+	 */
+
+	private class ClanStoragePanel extends JPanel
+	{
+		private JList availableList, closetList;
+		private ItemManagePanel inventoryPanel, closetPanel;
+
+		public ClanStoragePanel()
+		{
+			setLayout( new GridLayout( 2, 1, 10, 10 ) );
+
+			inventoryPanel = new OutsideClosetPanel();
+			closetPanel = new InsideClosetPanel();
+
+			add( inventoryPanel );
+			add( closetPanel );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			inventoryPanel.setEnabled( isEnabled );
+			closetPanel.setEnabled( isEnabled );
+		}
+
+		private class OutsideClosetPanel extends ItemManagePanel
+		{
+			public OutsideClosetPanel()
+			{
+				super( "Inside Inventory", "put in closet", "put in stash", client == null ? new SortedListModel() : client.getInventory() );
+				availableList = elementList;
+			}
+
+			protected void actionConfirmed()
+			{	(new InventoryStorageThread( false )).start();
+			}
+
+			protected void actionCancelled()
+			{	(new InventoryStorageThread( true )).start();
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				availableList.setEnabled( isEnabled );
+			}
+		}
+
+		private class InsideClosetPanel extends ItemManagePanel
+		{
+			public InsideClosetPanel()
+			{
+				super( "Inside Closet", "put in bag", "put in stash", client == null ? new SortedListModel() : client.getCloset() );
+				closetList = elementList;
+			}
+
+			protected void actionConfirmed()
+			{	(new ClosetStorageThread( false )).start();
+			}
+
+			protected void actionCancelled()
+			{	(new ClosetStorageThread( true )).start();
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				closetList.setEnabled( isEnabled );
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually move items around in the inventory.
+		 */
+
+		private class InventoryStorageThread extends RequestThread
+		{
+			private boolean isStash;
+
+			public InventoryStorageThread( boolean isStash )
+			{	this.isStash = isStash;
+			}
+
+			public void run()
+			{
+				Object [] items = availableList.getSelectedValues();
+				Runnable request = isStash ? (Runnable) new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH ) :
+					(Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+
+				client.makeRequest( request, 1 );
+				client.updateDisplay( ENABLED_STATE, "Items moved." );
+			}
+		}
+
+		/**
+		 * In order to keep the user interface from freezing (or at
+		 * least appearing to freeze), this internal class is used
+		 * to actually move items around in the inventory.
+		 */
+
+		private class ClosetStorageThread extends RequestThread
+		{
+			private boolean isStash;
+
+			public ClosetStorageThread( boolean isStash )
+			{	this.isStash = isStash;
+			}
+
+			public void run()
+			{
+				Object [] items = closetList.getSelectedValues();
+				client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ), 1 );
+
+				if ( isStash )
+					client.makeRequest( new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH ), 1 );
 
 				client.updateDisplay( ENABLED_STATE, "Items moved." );
 			}
