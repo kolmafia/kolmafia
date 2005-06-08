@@ -544,7 +544,7 @@ public class ClanManageFrame extends KoLFrame
 						selection = (AdventureResult) items[i];
 						itemID = selection.getItemID();
 						quantity = df.parse( JOptionPane.showInputDialog(
-							"Retrieving " + selection.getName() + " from the stash...", String.valueOf( selection.getCount() ) ) ).intValue();
+							"Retrieving " + selection.getDisplayName() + " from the stash...", String.valueOf( selection.getCount() ) ) ).intValue();
 
 						items[i] = new AdventureResult( itemID, quantity );
 
