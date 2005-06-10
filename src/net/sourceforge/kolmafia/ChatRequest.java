@@ -33,7 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 /**
