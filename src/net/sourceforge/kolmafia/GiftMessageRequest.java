@@ -50,26 +50,37 @@ public class GiftMessageRequest extends KoLRequest
 	private int maxCapacity, materialCost;
 
 	public static final LockableListModel PACKAGES = new LockableListModel();
-	static {
+	static
+	{
 		PACKAGES.add( new GiftWrapper( "plain brown wrapper", 1, 1, 0 ) );
 		PACKAGES.add( new GiftWrapper( "less-than-three-shaped box", 2, 2, 100 ) );
 	}
 
 	private static class GiftWrapper
 	{
-		private String name;
+		private StringBuffer name;
 		private int radio, maxCapacity, materialCost;
 
 		public GiftWrapper( String name, int radio, int maxCapacity, int materialCost )
 		{
-			this.name = name;
 			this.radio = radio;
 			this.maxCapacity = maxCapacity;
 			this.materialCost = materialCost;
+
+			this.name = new StringBuffer();
+			this.name.append( name );
+			this.name.append( " - " );
+			this.name.append( materialCost );
+			this.name.append( " meat - Capacity: " );
+			this.name.append( maxCapacity );
+			this.name.append( " item" );
+
+			if ( maxCapacity > 1 )
+				this.name.append( 's' );
 		}
 
 		public String toString()
-		{	return name;
+		{	return name.toString();
 		}
 	}
 
