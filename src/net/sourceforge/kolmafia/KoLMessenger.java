@@ -321,15 +321,14 @@ public class KoLMessenger implements KoLConstants
 
 	/**
 	 * Replaces the current contact list with the given contact
-	 * list.  This is used after every call to /friends.
-	 *
-	 * @param	currentContacts	A list of the contacts currently online.
+	 * list.  This is used after every call to /friends or /who.
 	 */
 
-	private void updateContactList( String contactListType, List currentContacts )
+	private void updateContactList( String [] contactList )
 	{
 		onlineContacts.clear();
-		onlineContacts.addAll( currentContacts );
+		for ( int i = 1; i < contactList.length; ++i )
+			onlineContacts.add( contactList[i] );
 
 		if ( !contactsFrame.isShowing() )
 		{
@@ -337,7 +336,7 @@ public class KoLMessenger implements KoLConstants
 			contactsFrame.setVisible( true );
 		}
 
-		contactsFrame.setTitle( contactListType );
+		contactsFrame.setTitle( contactList[0] );
 	}
 
 	/**
@@ -449,23 +448,7 @@ public class KoLMessenger implements KoLConstants
 				currentChatBuffer.append( System.getProperty( "line.separator" ) );
 			}
 			else
-			{
-				StringTokenizer parsedContactList = new StringTokenizer( result.replaceAll( "<.*?>", "\n" ), "\n" );
-				String contactListType = parsedContactList.nextToken();
-
-				List newContactList = new ArrayList();
-				while ( parsedContactList.hasMoreTokens() )
-				{
-					newContactList.add( parsedContactList.nextToken() );
-
-					// The name is usually followed by a comma; the comma is skipped
-					// so that you don't have commas appearing in the contact list
-
-					if ( parsedContactList.hasMoreTokens() )
-						parsedContactList.nextToken();
-				}
-				updateContactList( contactListType, newContactList );
-			}
+				updateContactList( result.replaceAll( "><", "" ).replaceAll( "<.*?>", "" ).split( "\\s*,\\s*" ) );
 		}
 
 		// Extract player IDs for all players who have spoken in chat, or
