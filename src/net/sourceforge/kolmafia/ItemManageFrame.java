@@ -651,9 +651,23 @@ public class ItemManageFrame extends KoLFrame
 							client.makeRequest( selection, 1 );
 						}
 					}
-					else
+					else if ( selected instanceof StarChartRequest )
 					{
 						StarChartRequest selection = (StarChartRequest) selected;
+
+						String itemName = selection.getName();
+						int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
+							"Creating multiple " + itemName + "...", String.valueOf( selection.getQuantityNeeded() ) ) ).intValue() : 1;
+
+						if ( creationCount > 0 )
+						{
+							selection.setQuantityNeeded( creationCount );
+							client.makeRequest( selection, 1 );
+						}
+					}
+					else if ( selected instanceof PixelRequest )
+					{
+						PixelRequest selection = (PixelRequest) selected;
 
 						String itemName = selection.getName();
 						int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(

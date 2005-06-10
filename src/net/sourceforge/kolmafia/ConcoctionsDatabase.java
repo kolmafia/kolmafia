@@ -241,6 +241,7 @@ public class ConcoctionsDatabase
 				concoctionsList.add( new ItemCreationRequest( client, i, getMixingMethod(i), quantityPossible[i] ) );
 
 		concoctionsList.addAll( StarChartRequest.getPossibleCombinations( client ) );
+		concoctionsList.addAll( PixelRequest.getPossibleCombinations( client ) );
 	}
 
 	/**

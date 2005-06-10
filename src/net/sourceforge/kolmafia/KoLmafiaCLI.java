@@ -1277,21 +1277,47 @@ public class KoLmafiaCLI extends KoLmafia
 
 					List concoctions = ConcoctionsDatabase.getConcoctions();
 
-					if ( firstMatch.getItemID() > 656 && firstMatch.getItemID() < 666 )
-					{
-						for ( int i = 0; i < concoctions.size(); ++i )
-							if ( concoctions.get(i) instanceof StarChartRequest )
-								if ( TradeableItemDatabase.getItemID( ((StarChartRequest)concoctions.get(i)).getName() ) == firstMatch.getItemID() )
-									return new AdventureResult( itemName, ((StarChartRequest)concoctions.get(i)).getQuantityNeeded() );
-					}
-					else
-					{
-						ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
-						index = concoctions.indexOf( concoction );
+                                        switch ( firstMatch.getItemID() )
+                                        {
+                                          // Pixel Items:
+                                        case 459:       // white pixel
+                                        case 464:       // red pixel potion
+                                        case 465:       // blue pixel potion
+                                        case 466:       // green pixel potion
+                                        case 467:       // purple pixel pie
+                                        case 688:       // pixel hat
+                                        case 689:       // pixel pants
+                                        case 690:       // pixel sword
+                                        case 691:       // digital key
+                                                for ( int i = 0; i < concoctions.size(); ++i )
+                                                        if ( concoctions.get(i) instanceof PixelRequest &&
+                                                             TradeableItemDatabase.getItemID( ((PixelRequest)concoctions.get(i)).getName() ) == firstMatch.getItemID() )
+                                                                return new AdventureResult( itemName, ((PixelRequest)concoctions.get(i)).getQuantityNeeded() );
+                                                break;
 
-						return index == -1 ? null : new AdventureResult( itemName,
-							itemCount + ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
-					}
+                                          // Star Items
+                                        case 657:       // star sword
+                                        case 658:       // star crossbow
+                                        case 659:       // star staff
+                                        case 660:       // star pants
+                                        case 661:       // star hat
+                                        case 662:       // star buckler
+                                        case 663:       // star throwing star
+                                        case 664:       // star starfish
+                                        case 665:       // Richard's star key
+                                                for ( int i = 0; i < concoctions.size(); ++i )
+                                                        if ( concoctions.get(i) instanceof StarChartRequest &&
+                                                             TradeableItemDatabase.getItemID( ((StarChartRequest)concoctions.get(i)).getName() ) == firstMatch.getItemID() )
+                                                                return new AdventureResult( itemName, ((StarChartRequest)concoctions.get(i)).getQuantityNeeded() );
+                                                break;
+
+                                        default:
+                                                ItemCreationRequest concoction = new ItemCreationRequest( scriptRequestor, TradeableItemDatabase.getItemID( itemName ), 0, 0 );
+                                                index = concoctions.indexOf( concoction );
+
+                                                return index == -1 ? null : new AdventureResult( itemName,
+                                                                                                 itemCount + ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
+                                        }
 			}
 		}
 
@@ -1470,15 +1496,41 @@ public class KoLmafiaCLI extends KoLmafia
 		itemID = TradeableItemDatabase.getItemID( firstMatch.getName() );
 		quantityNeeded = firstMatch.getCount();
 
-		if ( itemID > 656 && itemID < 666 )
-		{
-			List combinations = StarChartRequest.getPossibleCombinations( scriptRequestor );
-			for ( int i = 0; i < combinations.size(); ++i )
-				if ( TradeableItemDatabase.getItemID( ((StarChartRequest)combinations.get(i)).getName() ) == itemID )
-					scriptRequestor.makeRequest( new StarChartRequest( scriptRequestor, (StarChartRequest) combinations.get(i), quantityNeeded ), 1 );
-		}
-		else
-		{
+                switch ( itemID )
+                {
+                  // Pixel items
+                case 459:       // white pixel
+                case 464:       // red pixel potion
+                case 465:       // blue pixel potion
+                case 466:       // green pixel potion
+                case 467:       // purple pixel pie
+                case 688:       // pixel hat
+                case 689:       // pixel pants
+                case 690:       // pixel sword
+                case 691:       // digital key
+			List pcombinations = PixelRequest.getPossibleCombinations( scriptRequestor );
+			for ( int i = 0; i < pcombinations.size(); ++i )
+				if ( TradeableItemDatabase.getItemID( ((PixelRequest)pcombinations.get(i)).getName() ) == itemID )
+					scriptRequestor.makeRequest( new PixelRequest( scriptRequestor, (PixelRequest) pcombinations.get(i), quantityNeeded ), 1 );
+                        break;
+
+                  // Star items
+                case 657:       // star sword
+                case 658:       // star crossbow
+                case 659:       // star staff
+                case 660:       // star pants
+                case 661:       // star hat
+                case 662:       // star buckler
+                case 663:       // star throwing star
+                case 664:       // star starfish
+                case 665:       // Richard's star key
+			List sccombinations = StarChartRequest.getPossibleCombinations( scriptRequestor );
+			for ( int i = 0; i < sccombinations.size(); ++i )
+				if ( TradeableItemDatabase.getItemID( ((StarChartRequest)sccombinations.get(i)).getName() ) == itemID )
+					scriptRequestor.makeRequest( new StarChartRequest( scriptRequestor, (StarChartRequest) sccombinations.get(i), quantityNeeded ), 1 );
+                        break;
+
+                default:
 			mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
 			scriptRequestor.makeRequest( new ItemCreationRequest( scriptRequestor, itemID, mixingMethod, quantityNeeded ), 1 );
 		}
@@ -1846,6 +1898,16 @@ public class KoLmafiaCLI extends KoLmafia
 			commandString.append( screquest.getQuantityNeeded() );
 			commandString.append( " \"" );
 			commandString.append( screquest.getName() );
+			commandString.append( "\"" );
+		}
+		else if ( request instanceof PixelRequest )
+		{
+			PixelRequest prequest = (PixelRequest) request;
+
+			commandString.append( "create " );
+			commandString.append( prequest.getQuantityNeeded() );
+			commandString.append( " \"" );
+			commandString.append( prequest.getName() );
 			commandString.append( "\"" );
 		}
 
