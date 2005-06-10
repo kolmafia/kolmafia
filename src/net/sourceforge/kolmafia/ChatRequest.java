@@ -46,10 +46,8 @@ public class ChatRequest extends KoLRequest
 {
 	private static final int ADDED_DELAY = 6000;
 
-	private KoLMessenger associatedMessenger;
-
 	private static int lastSeen;
-	private static ChatContinuationThread thread;
+	private static ChatContinuationThread thread = null;
 
 	/**
 	 * Constructs a new <code>ChatRequest</code>.
@@ -74,9 +72,7 @@ public class ChatRequest extends KoLRequest
 		addFormField( "playerid", String.valueOf( client.getUserID() ) );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		associatedMessenger = client.getMessenger();
-		String contactID = associatedMessenger == null ? null : client.getPlayerID( contact );
-
+		String contactID = client.getPlayerID( contact );
 		String actualMessage = null;
 
 		if ( contact == null || (message != null && message.equals( "/exit" )) )
@@ -107,9 +103,7 @@ public class ChatRequest extends KoLRequest
 	{
 		super( client, "newchatmessages.php" );
 		addFormField( "lasttime", String.valueOf( lastSeen ) );
-
 		this.lastSeen = lastSeen;
-		associatedMessenger = client.getMessenger();
 	}
 
 	/**
@@ -123,10 +117,16 @@ public class ChatRequest extends KoLRequest
 	{
 		super.run();
 
+		if ( thread == null )
+		{
+			thread = new ChatContinuationThread();
+			thread.start();
+		}
+
 		// In the event of an error, anything can be the cause; for
 		// now, simply return
 
-		if ( isErrorState || responseCode != 200 )
+		if ( isErrorState || responseCode != 200 || client.getMessenger() == null )
 			return;
 
 		int index = responseText.indexOf( "<!--lastseen:" );
@@ -143,14 +143,7 @@ public class ChatRequest extends KoLRequest
 			// last seen value.
 		}
 
-		if ( associatedMessenger != null && associatedMessenger == client.getMessenger() )
-			associatedMessenger.updateChat( responseText );
-
-		if ( thread == null )
-		{
-			thread = new ChatContinuationThread();
-			thread.start();
-		}
+		client.getMessenger().updateChat( responseText );
 	}
 
 	/**
@@ -162,20 +155,14 @@ public class ChatRequest extends KoLRequest
 	{
 		public void run()
 		{
-			while ( associatedMessenger == client.getMessenger() )
+			while ( client.getMessenger() != null )
 			{
 				// Before running the next request, you should wait for the
 				// refresh rate indicated - this is likely the default rate
 				// used for the KoLChat.
 
 				ChatRequest.delay( ADDED_DELAY );
-
-				// Once the thread has waited for the stated amount of time,
-				// the next chat request should be run.  Note that this is
-				// only possible if the chat buffer has not been nulled.
-
-				if ( associatedMessenger == client.getMessenger() )
-					(new ChatRequest( client, lastSeen )).run();
+				(new ChatRequest( client, lastSeen )).run();
 			}
 
 			thread = null;
