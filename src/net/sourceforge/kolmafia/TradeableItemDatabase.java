@@ -128,7 +128,7 @@ public class TradeableItemDatabase
 
 	public static final int getItemID( String itemName )
 	{
-                if ( itemName == "ice-cold beer (Shlitz)" )
+                if ( itemName == "ice-cold beer (Schlitz)" )
                         return 41;
 
                 if ( itemName == "ice-cold beer (Willer)" )
@@ -180,7 +180,7 @@ public class TradeableItemDatabase
                         return null;
 
                 if ( itemID == 41 )
-                        return "ice-cold beer (Shlitz)";
+                        return "ice-cold beer (Schlitz)";
 
                 if ( itemID == 81 )
                         return "ice-cold beer (Willer)";
