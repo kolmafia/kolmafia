@@ -115,18 +115,19 @@ public class PixelRequest extends KoLRequest implements Comparable
 		List results = new ArrayList();
 		for ( int i = 0; i < PIXEL_ITEMS.length; ++i )
 		{
-                        int maximumPossible= Integer.MAX_VALUE;
+			int maximumPossible= Integer.MAX_VALUE;
 
-                        if (PIXEL_ITEMS[i].white > 0)
-                                maximumPossible = Math.min( maximumPossible, whiteValue / PIXEL_ITEMS[i].white);
-                        if (PIXEL_ITEMS[i].black > 0)
-                                maximumPossible = Math.min( maximumPossible, blackValue / PIXEL_ITEMS[i].black);
-                        if (PIXEL_ITEMS[i].red > 0)
-                                maximumPossible = Math.min( maximumPossible, redValue / PIXEL_ITEMS[i].red);
-                        if (PIXEL_ITEMS[i].green > 0)
-                                maximumPossible = Math.min( maximumPossible, greenValue / PIXEL_ITEMS[i].green);
-                        if (PIXEL_ITEMS[i].blue > 0)
-                                maximumPossible = Math.min( maximumPossible, blueValue / PIXEL_ITEMS[i].blue);
+			if ( PIXEL_ITEMS[i].white > 0 )
+				maximumPossible = Math.min( maximumPossible, whiteValue / PIXEL_ITEMS[i].white );
+			if ( PIXEL_ITEMS[i].black > 0 )
+				maximumPossible = Math.min( maximumPossible, blackValue / PIXEL_ITEMS[i].black );
+			if ( PIXEL_ITEMS[i].red > 0 )
+				maximumPossible = Math.min( maximumPossible, redValue / PIXEL_ITEMS[i].red );
+			if ( PIXEL_ITEMS[i].green > 0 )
+				maximumPossible = Math.min( maximumPossible, greenValue / PIXEL_ITEMS[i].green );
+			if ( PIXEL_ITEMS[i].blue > 0 )
+				maximumPossible = Math.min( maximumPossible, blueValue / PIXEL_ITEMS[i].blue );
+
 			if ( maximumPossible > 0 )
 				results.add( new PixelRequest( client, PIXEL_ITEMS[i], maximumPossible ) );
 		}
@@ -162,16 +163,11 @@ public class PixelRequest extends KoLRequest implements Comparable
 	private void makePixelItem()
 	{
 		super.run();
-                if (white > 0)
-                        client.processResult( new AdventureResult( "white pixel", 0 - white ) );
-                if (black > 0)
-                        client.processResult( new AdventureResult( "black pixel", 0 - black ) );
-                if (red > 0)
-                        client.processResult( new AdventureResult( "red pixel", 0 - red ) );
-                if (green > 0)
-                        client.processResult( new AdventureResult( "green pixel", 0 - green ) );
-                if (blue > 0)
-                        client.processResult( new AdventureResult( "blue pixel", 0 - blue ) );
+		client.processResult( new AdventureResult( "white pixel", 0 - white ) );
+		client.processResult( new AdventureResult( "black pixel", 0 - black ) );
+		client.processResult( new AdventureResult( "red pixel", 0 - red ) );
+		client.processResult( new AdventureResult( "green pixel", 0 - green ) );
+		client.processResult( new AdventureResult( "blue pixel", 0 - blue ) );
 		client.processResult( new AdventureResult( getName(), 1 ) );
 	}
 }
