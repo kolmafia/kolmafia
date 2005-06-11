@@ -174,6 +174,7 @@ public class GreenMessageRequest extends KoLRequest
 				negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
 				client.processResult( negatedResult );
 			}
+                        ConcoctionsDatabase.refreshConcoctions( client );
 		}
 		else
 		{
