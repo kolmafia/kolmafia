@@ -83,6 +83,7 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
+		client.resetContinueState();
 		updateDisplay( DISABLED_STATE, "Sending login..." );
 		super.run();
 
@@ -101,7 +102,7 @@ public class LoginRequest extends KoLRequest
 				client.removeSaveState( loginname.replaceFirst( "/q", "" ) );
 
 			client.initialize( loginname.replaceFirst( "/q", "" ), formConnection.getHeaderField( "Set-Cookie" ), getBreakfast, isQuickLogin );
-			client.loginRequest = this;
+			client.loginRequest = client.permitsContinue() ? this : null;
 		}
 		else if ( !isErrorState )
 		{
@@ -111,5 +112,7 @@ public class LoginRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "Login failed." );
 			client.cancelRequest();
 		}
+
+		client.resetContinueState();
 	}
 }

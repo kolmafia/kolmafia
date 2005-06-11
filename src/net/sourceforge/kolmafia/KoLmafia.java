@@ -186,8 +186,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !permitContinue )
 		{
-			this.sessionID = null;
-			this.permitContinue = true;
+			deinitialize();
 			return;
 		}
 
@@ -223,8 +222,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !permitContinue )
 		{
-			this.sessionID = null;
-			this.permitContinue = true;
+			deinitialize();
 			return;
 		}
 
@@ -233,8 +231,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !permitContinue )
 		{
-			this.sessionID = null;
-			this.permitContinue = true;
+			deinitialize();
 			return;
 		}
 
@@ -243,8 +240,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !permitContinue )
 		{
-			this.sessionID = null;
-			this.permitContinue = true;
+			deinitialize();
 			return;
 		}
 
@@ -253,8 +249,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !permitContinue )
 		{
-			this.sessionID = null;
-			this.permitContinue = true;
+			deinitialize();
 			return;
 		}
 
@@ -262,8 +257,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !permitContinue )
 		{
-			this.sessionID = null;
-			this.permitContinue = true;
+			deinitialize();
 			return;
 		}
 
@@ -275,8 +269,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !permitContinue )
 		{
-			this.sessionID = null;
-			this.permitContinue = true;
+			deinitialize();
 			return;
 		}
 
@@ -285,8 +278,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !permitContinue )
 		{
-			this.sessionID = null;
-			this.permitContinue = true;
+			deinitialize();
 			return;
 		}
 
@@ -373,12 +365,12 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		sessionID = null;
 		passwordHash = null;
-		permitContinue = false;
+		loginRequest = null;
 
 		deinitializeChat();
 		deinitializeLogStream();
 		deinitializeMacroStream();
-		this.permitContinue = true;
+		permitContinue = false;
 	}
 
 	/**
