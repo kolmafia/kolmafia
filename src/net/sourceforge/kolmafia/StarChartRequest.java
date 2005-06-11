@@ -92,14 +92,20 @@ public class StarChartRequest extends KoLRequest implements Comparable
 		int starsIndex = inventory.indexOf( new AdventureResult( "star", 0 ) );
 		int linesIndex = inventory.indexOf( new AdventureResult( "line", 0 ) );
 
-		int chartValue = chartIndex == -1 ? 0 : ((AdventureResult) inventory.get( chartIndex )).getCount();
+		int chartsValue = chartIndex == -1 ? 0 : ((AdventureResult) inventory.get( chartIndex )).getCount();
 		int starsValue = starsIndex == -1 ? 0 : ((AdventureResult) inventory.get( starsIndex )).getCount();
 		int linesValue = linesIndex == -1 ? 0 : ((AdventureResult) inventory.get( linesIndex )).getCount();
 
 		List results = new ArrayList();
 		for ( int i = 0; i < STAR_ITEMS.length; ++i )
 		{
-			int maximumPossible = Math.min( Math.min( chartValue, starsValue / STAR_ITEMS[i].stars ), linesValue / STAR_ITEMS[i].lines );
+			int maximumPossible = chartsValue;
+
+			if ( STAR_ITEMS[i].stars > 0 )
+				maximumPossible = Math.min( maximumPossible, starsValue / STAR_ITEMS[i].stars );
+			if ( STAR_ITEMS[i].lines > 0 )
+				maximumPossible = Math.min( maximumPossible, linesValue / STAR_ITEMS[i].lines );
+
 			if ( maximumPossible > 0 )
 				results.add( new StarChartRequest( client, STAR_ITEMS[i], maximumPossible ) );
 		}
