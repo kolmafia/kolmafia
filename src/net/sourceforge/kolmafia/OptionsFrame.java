@@ -733,11 +733,10 @@ public class OptionsFrame extends KoLFrame
 
 			JComponentUtilities.setComponentSize( scrollArea, 200, 100 );
 
-			VerifiableElement [] elements = new VerifiableElement[4];
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 			elements[2] = new VerifiableElement( "Windowing: ", useTabsSelect );
-			elements[3] = new VerifiableElement( "Chat Colors: ", scrollArea );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -783,31 +782,6 @@ public class OptionsFrame extends KoLFrame
 
 				String nameClick = settings.getProperty( "nameClickOpens" );
 				nameClickSelect.setSelectedIndex( (nameClick != null) ? Integer.parseInt( nameClick ) : 0 );
-
-				String nameColor = settings.getProperty( "chatNameColors" );
-
-				if ( colorPanel.getComponentCount() == 0 && nameColor != null )
-				{
-					String [] colors = nameColor.split( "[:;]" );
- 					colorPanel.add( new PlayerColorPanel( "You", DataUtilities.toColor( colors[1] ) ) );
-
- 					PlayerColorPanel currentPanel;
- 					for ( int i = 2; i < colors.length && i < 16; i += 2 )
- 					{
-						currentPanel = new PlayerColorPanel( DataUtilities.toColor( colors[i+1] ) );
- 						((JTextField)currentPanel.playerIDField).setText( colors[i] );
- 						colorPanel.add( currentPanel );
-					}
-
-					for ( int j = colors.length; j < 16; j += 2 )
-						colorPanel.add( new PlayerColorPanel() );
-				}
-				else if ( colorPanel.getComponentCount() == 0 )
-				{
- 					colorPanel.add( new PlayerColorPanel( "You" ) );
- 					for ( int i = 1; i < 8; ++i )
-	 					colorPanel.add( new PlayerColorPanel() );
-				}
 			}
 		}
 
@@ -831,37 +805,6 @@ public class OptionsFrame extends KoLFrame
 				if ( client.getMessenger() != null )
 					client.getMessenger().setTabbedFrameSetting( useTabsSelect.getSelectedIndex() == 1 );
 
-				PlayerColorPanel currentPanel = (PlayerColorPanel) colorPanel.getComponent(0);
-				StringBuffer nameColor = new StringBuffer();
-
-				nameColor.append( "0:" );
-				nameColor.append( DataUtilities.toHexString( currentPanel.selectedColor ) );
-
-				for ( int i = 1; i < colorPanel.getComponentCount(); ++i )
-				{
-					currentPanel = (PlayerColorPanel) colorPanel.getComponent( i );
-					String playerID = ((JTextField)currentPanel.playerIDField).getText().trim().replaceAll( "[\\[\\]\\#]", "" );
-
-					if ( playerID.length() > 0 )
-					{
-						try
-						{
-							Integer.parseInt( playerID );
-							nameColor.append( ';' );
-							nameColor.append( playerID );
-							nameColor.append( ':' );
-							nameColor.append( DataUtilities.toHexString( currentPanel.selectedColor ) );
-						}
-						catch ( Exception e )
-						{
-							// If an exception is caught, then it was not
-							// a valid player ID.
-						}
-					}
-				}
-
-				settings.setProperty( "chatNameColors", nameColor.toString() );
-				LimitedSizeChatBuffer.setChatColors( nameColor.toString() );
 				saveSettings();
 			}
 		}
@@ -1330,76 +1273,6 @@ public class OptionsFrame extends KoLFrame
 			}
 			catch ( InterruptedException e )
 			{
-			}
-		}
-	}
-
-	/**
-	 * Internal class which represents the color being used
-	 * for a single player in chat.
-	 */
-
-	private class PlayerColorPanel extends JPanel
-	{
-		private Color selectedColor;
-		private JButton colorSelect;
-		private JComponent playerIDField;
-
-		public PlayerColorPanel()
-		{	this( Color.black );
-		}
-
-		public PlayerColorPanel( Color c )
-		{
-			selectedColor = c;
-			setLayout( new BorderLayout( 5, 5 ) );
-
-			colorSelect = new JButton();
-			JComponentUtilities.setComponentSize( colorSelect, 20, 20 );
-			colorSelect.setBackground( selectedColor );
-			colorSelect.addActionListener( new ChatColorChanger() );
-
-			add( colorSelect, BorderLayout.WEST );
-
-			playerIDField = new JTextField( " [ enter player id ]" );
-			add( playerIDField, BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( this, 160, 20 );
-		}
-
-		public PlayerColorPanel( String label )
-		{	this( label, Color.black );
-		}
-
-		public PlayerColorPanel( String label, Color c )
-		{
-			selectedColor = c;
-			setLayout( new BorderLayout( 5, 5 ) );
-
-			colorSelect = new JButton();
-			JComponentUtilities.setComponentSize( colorSelect, 20, 20 );
-			colorSelect.setBackground( selectedColor );
-			colorSelect.addActionListener( new ChatColorChanger() );
-
-			add( colorSelect, BorderLayout.WEST );
-
-			playerIDField = new JLabel( label, JLabel.LEFT );
-			add( playerIDField, BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( this, 160, 20 );
-		}
-
-		/**
-		 * An internal class that processes all the information related to
-		 * changing the color of the names for players in chat.
-		 */
-
-		private class ChatColorChanger implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				selectedColor = JColorChooser.showDialog( OptionsFrame.this, "Choose color...", selectedColor );
-				colorSelect.setBackground( selectedColor );
-				playerIDField.setForeground( selectedColor );
-				playerIDField.requestFocus();
 			}
 		}
 	}
