@@ -43,7 +43,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -52,6 +54,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class KoLMessenger implements KoLConstants
 {
+	private static final Color DEFAULT_HIGHLIGHT = new Color( 128, 0, 128 );
+
 	private KoLmafia client;
 	private ContactListFrame contactsFrame;
 
@@ -76,10 +80,8 @@ public class KoLMessenger implements KoLConstants
 		this.instantMessageBuffers = new TreeMap();
 
 		contactsFrame = new ContactListFrame( client, onlineContacts );
-
 		String tabsSetting = client.getSettings().getProperty( "useTabbedChat" );
 		setTabbedFrameSetting( tabsSetting == null || tabsSetting.equals( "1" ) );
-		LimitedSizeChatBuffer.setChatColors( client.getSettings().getProperty( "chatNameColors" ) );
 	}
 
 	/**
@@ -146,9 +148,7 @@ public class KoLMessenger implements KoLConstants
 	{
 		client.updateDisplay( NOCHANGE, "Initializing chat..." );
 		(new ChatRequest( client, null, "/channel" )).run();
-
-		LimitedSizeChatBuffer.highlights.clear();
-		LimitedSizeChatBuffer.dehighlights.clear();
+		LimitedSizeChatBuffer.clearHighlights();
 	}
 
 	/**
@@ -327,8 +327,13 @@ public class KoLMessenger implements KoLConstants
 	private void updateContactList( String [] contactList )
 	{
 		onlineContacts.clear();
+
 		for ( int i = 1; i < contactList.length; ++i )
-			onlineContacts.add( contactList[i] );
+			if ( contactList[i].indexOf( "(" ) != -1 )
+				contactList[i] = contactList[i].substring( 0, contactList[i].indexOf( "(" ) ).trim();
+
+		for ( int i = 1; i < contactList.length; ++i )
+			onlineContacts.add( contactList[i].toLowerCase() );
 
 		if ( !contactsFrame.isShowing() )
 		{
@@ -806,8 +811,7 @@ public class KoLMessenger implements KoLConstants
 					if ( playerID == client.getUserID() )
 						playerID = 0;
 
-					actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>",
-						"<b class=\"pid" + playerID + "\"><a href=\"" + name + "\">" );
+					actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>", "<b><a href=\"" + name + "\">" );
 				}
 
 				// Now to replace doubled instances of <font> to 1, and ensure that
@@ -936,21 +940,26 @@ public class KoLMessenger implements KoLConstants
 	{
 		String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", client.getLoginName() );
 
-		if ( highlight != null )
-		{
-			highlighting = true;
+		if ( highlight == null )
+			return;
 
-			openInstantMessage( "[highlights]" );
+		Color color = JColorChooser.showDialog( null, "Choose highlight color for \"" + highlight + "\"...", DEFAULT_HIGHLIGHT );
 
-			LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highlights]" );
-			LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+		if ( color == null )
+			return;
 
-			LimitedSizeChatBuffer.addHighlight( highlight );
+		highlighting = true;
 
-			Object [] keys = instantMessageBuffers.keySet().toArray();
-			for ( int i = 0; i < keys.length; ++i )
-				getChatBuffer( (String) keys[i] ).applyHighlights();
-		}
+		openInstantMessage( "[highlights]" );
+
+		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highlights]" );
+		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+
+		LimitedSizeChatBuffer.addHighlight( highlight, color );
+
+		Object [] keys = instantMessageBuffers.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+			getChatBuffer( (String) keys[i] ).applyHighlights();
 	}
 
 	public void removeHighlighting()
@@ -974,9 +983,7 @@ public class KoLMessenger implements KoLConstants
 		for ( int i = 0; i < patterns.length; ++i )
 			if ( patterns[i].equals( selectedValue ) )
 			{
-				LimitedSizeChatBuffer.highlights.remove(i);
-				LimitedSizeChatBuffer.dehighlights.remove(i);
-
+				LimitedSizeChatBuffer.removeHighlight(i);
 				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 				Object [] keys = instantMessageBuffers.keySet().toArray();
@@ -984,5 +991,7 @@ public class KoLMessenger implements KoLConstants
 					getChatBuffer( (String) keys[j] ).applyHighlights();
 
 			}
+
+
 	}
 }

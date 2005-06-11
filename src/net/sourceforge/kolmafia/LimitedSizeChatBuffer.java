@@ -46,6 +46,7 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 
 public class LimitedSizeChatBuffer extends ChatBuffer
 {
+	protected static List colors;
 	protected static List highlights;
 	protected static List dehighlights;
 	protected static LimitedSizeChatBuffer highlightBuffer;
@@ -56,6 +57,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	private static int fontSize = 3;
 	static
 	{
+		colors = new ArrayList();
 		highlights = new ArrayList();
 		dehighlights = new ArrayList();
 		setFontSize( fontSize );
@@ -65,6 +67,20 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	{
 		super( title );
 		previousFontSize = fontSize;
+	}
+
+	public static void clearHighlights()
+	{
+		colors.clear();
+		highlights.clear();
+		dehighlights.clear();
+	}
+
+	public static void removeHighlight( int index )
+	{
+		colors.remove( index );
+		highlights.remove( index );
+		dehighlights.remove( index );
 	}
 
 	/**
@@ -112,21 +128,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 				break;
 		}
 
-		ChatBuffer.BUFFER_STYLE += "; } a { color: black; text-decoration: none; } .pid1 { color: violet; }";
-	}
-
-	public static void setChatColors( String colorSetting )
-	{
-		if ( colorSetting == null )
-			return;
-
-		String [] colorArray = colorSetting.split( "[;:]" );
-
-		setFontSize( fontSize );
-		for ( int i = 0; i < colorArray.length; ++i )
-			ChatBuffer.BUFFER_STYLE += " .pid" + colorArray[i] + " { color: " + colorArray[++i] + "; }";
-
-		fontSize = 0 - fontSize;
+		ChatBuffer.BUFFER_STYLE += "; } a { color: black; text-decoration: none; }";
 	}
 
 	/**
@@ -168,14 +170,17 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 
 		String highlightMessage = message;
 
-		if ( !highlights.isEmpty() )
+		if ( this != highlightBuffer )
 		{
-			Pattern highlight, dehighlight;  Matcher matching;
-			Iterator highlightIterator = highlights.iterator();
-			Iterator dehighlightIterator = dehighlights.iterator();
+			if ( !highlights.isEmpty() )
+			{
+				Iterator colorIterator = colors.iterator();
+				Iterator highlightIterator = highlights.iterator();
+				Iterator dehighlightIterator = dehighlights.iterator();
 
-			while ( highlightIterator.hasNext() )
-				highlightMessage = applyHighlight( highlightMessage, (Pattern) highlightIterator.next(), (Pattern) dehighlightIterator.next() );
+				while ( highlightIterator.hasNext() )
+					highlightMessage = applyHighlight( highlightMessage, (String) colorIterator.next(), (Pattern) highlightIterator.next(), (Pattern) dehighlightIterator.next() );
+			}
 		}
 
 		super.append( highlightMessage );
@@ -186,10 +191,13 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		previousFontSize = fontSize;
 	}
 
-	public static void addHighlight( String highlight )
+	public static void addHighlight( String highlight, Color color )
 	{
+		String colorString = DataUtilities.toHexString( color );
+
+		colors.add( colorString );
 		highlights.add( Pattern.compile( highlight, Pattern.CASE_INSENSITIVE ) );
-		dehighlights.add( Pattern.compile( "href=\"([^\"]*)<font color=purple>" + highlight + "</font>", Pattern.CASE_INSENSITIVE ) );
+		dehighlights.add( Pattern.compile( "href=\"([^\"]*)<font color=\"" + colorString + "\">" + highlight + "</font>", Pattern.CASE_INSENSITIVE ) );
 	}
 
 	public void applyHighlights()
@@ -197,25 +205,29 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		if ( this == highlightBuffer )
 			return;
 
-		Pattern highlight, dehighlight;  Matcher matching;
+		String colorString;
+		Pattern highlight, dehighlight;
+		Matcher matching;
+
 		String highlightMessage;
 
 		String displayString = displayBuffer.toString();
-		String [] lines = displayBuffer.toString().split( "<br>" );
+		String [] lines = displayString.split( "<br>" );
 
 		for ( int j = 0; j < highlights.size(); ++j )
 		{
+			colorString = (String) colors.get(j);
 			highlight = (Pattern) highlights.get(j);
 			dehighlight = (Pattern) dehighlights.get(j);
 
 			for ( int i = 0; i < lines.length; ++i )
 			{
-				highlightMessage = applyHighlight( lines[i], highlight, dehighlight );
+				highlightMessage = applyHighlight( lines[i], colorString, highlight, dehighlight );
 				if ( lines[i].compareToIgnoreCase( highlightMessage ) != 0 )
 					highlightBuffer.append( highlightMessage + "<br>" );
 			}
 
-			displayString = applyHighlight( displayString, highlight, dehighlight );
+			displayString = applyHighlight( displayString, colorString, highlight, dehighlight );
 		}
 
 		displayBuffer.setLength( 0 );
@@ -223,10 +235,10 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		fireBufferChanged( CONTENT_CHANGE, null );
 	}
 
-	private String applyHighlight( String message, Pattern highlight, Pattern dehighlight )
+	private String applyHighlight( String message, String colorString, Pattern highlight, Pattern dehighlight )
 	{
 		Matcher matching = highlight.matcher( message );
-		String highlightMessage = matching.replaceAll( "<font color=purple>" + highlight.pattern() + "</font>" );
+		String highlightMessage = matching.replaceAll( "<font color=\"" + colorString + "\">" + highlight.pattern() + "</font>" );
 
 		matching = dehighlight.matcher( highlightMessage );
 		if ( matching.find( 0 ) )
@@ -239,5 +251,4 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 
 		return highlightMessage;
 	}
-
 }
