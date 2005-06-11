@@ -39,7 +39,9 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class StarChartRequest extends KoLRequest implements Comparable
 {
+	private int itemID;
 	private String name;
+
 	private int stars, lines;
 	private int quantityNeeded;
 
@@ -64,6 +66,8 @@ public class StarChartRequest extends KoLRequest implements Comparable
 		this.name = name;
 		this.stars = stars;
 		this.lines = lines;
+
+		this.itemID = TradeableItemDatabase.getItemID( this.name );
 	}
 
 	public StarChartRequest( KoLmafia client, StarChartRequest baseRequest, int quantityNeeded )
@@ -74,6 +78,7 @@ public class StarChartRequest extends KoLRequest implements Comparable
 		addFormField( "numstars", String.valueOf( baseRequest.stars ) );
 		addFormField( "numlines", String.valueOf( baseRequest.lines ) );
 
+		this.itemID = baseRequest.itemID;
 		this.name = baseRequest.name;
 		this.stars = baseRequest.stars;
 		this.lines = baseRequest.lines;
@@ -112,6 +117,11 @@ public class StarChartRequest extends KoLRequest implements Comparable
 
 		return results;
 	}
+
+	public int getItemID()
+	{	return itemID;
+	}
+
 
 	public String getName()
 	{	return name;

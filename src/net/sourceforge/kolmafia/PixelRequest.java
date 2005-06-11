@@ -39,8 +39,10 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class PixelRequest extends KoLRequest implements Comparable
 {
+	private int itemID;
 	private String name;
-        private int white, black, red, green, blue;
+
+	private int white, black, red, green, blue;
 	private int quantityNeeded;
 
         public static final PixelRequest WHITE_PIXEL = new PixelRequest( "white pixel", 0, 0, 1, 1, 1 );
@@ -55,9 +57,8 @@ public class PixelRequest extends KoLRequest implements Comparable
 
 	private static final PixelRequest [] PIXEL_ITEMS =
 	{
-                WHITE_PIXEL, RED_PIXEL_POTION, BLUE_PIXEL_POTION, GREEN_PIXEL_POTION,
-                PURPLE_PIXEL_PIE, PIXEL_HAT, PIXEL_PANTS, PIXEL_SWORD,
-                DIGITAL_KEY
+		WHITE_PIXEL, RED_PIXEL_POTION, BLUE_PIXEL_POTION, GREEN_PIXEL_POTION,
+		PURPLE_PIXEL_PIE, PIXEL_HAT, PIXEL_PANTS, PIXEL_SWORD, DIGITAL_KEY
 	};
 
 	private PixelRequest( String name, int white, int black, int red, int green, int blue )
@@ -70,13 +71,16 @@ public class PixelRequest extends KoLRequest implements Comparable
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
+
+		this.itemID = TradeableItemDatabase.getItemID( this.name );
 	}
 
 	public PixelRequest( KoLmafia client, PixelRequest baseRequest, int quantityNeeded )
 	{
 		super( client, "town_wrong.php" );
-                addFormField( "place", "crackpot" );
+		addFormField( "place", "crackpot" );
 
+		this.itemID = baseRequest.itemID;
 		this.name = baseRequest.name;
 		this.white = baseRequest.white;
 		this.black = baseRequest.black;
@@ -86,9 +90,7 @@ public class PixelRequest extends KoLRequest implements Comparable
 		this.quantityNeeded = quantityNeeded;
 
 		addFormField( "pwd", client.getPasswordHash() );
-                addFormField( "action", "makepixel" );
-
-                int itemID = TradeableItemDatabase.getItemID( this.name );
+		addFormField( "action", "makepixel" );
 		addFormField( "makewhich", String.valueOf( itemID ) );
 	}
 
@@ -133,6 +135,10 @@ public class PixelRequest extends KoLRequest implements Comparable
 		}
 
 		return results;
+	}
+
+	public int getItemID()
+	{	return itemID;
 	}
 
 	public String getName()
