@@ -226,7 +226,7 @@ public class ClanStashRequest extends KoLRequest
 
 				if ( TradeableItemDatabase.getItemName( itemID ) == null )
 				{
-					TradeableItemDatabase.registerItem( itemID, itemString.indexOf( "(" ) == -1 ? itemString :
+					TradeableItemDatabase.registerItem( client, itemID, itemString.indexOf( "(" ) == -1 ? itemString :
 						itemString.substring( 0, itemString.indexOf( "(" ) ).trim() );
 				}
 

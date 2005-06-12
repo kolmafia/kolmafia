@@ -85,14 +85,15 @@ public class CharsheetRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
+                // Derive the character's gender from the image filename
+		character.setGender( responseText.indexOf( "_f.gif" ) == -1 );
+
 		// The easiest way to retrieve the character sheet
 		// data is to first strip all of the HTML from the
 		// reply, and then tokenize on the stripped-down
 		// version.  This can be done through simple regular
 		// expression matching.
 
-
-		character.setGender( responseText.indexOf( "_f.gif" ) == -1 );
 		StringTokenizer parsedContent = new StringTokenizer( responseText, "<>" );
 
 		try

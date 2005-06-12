@@ -111,8 +111,10 @@ public class TradeableItemDatabase
 	 * in the mall or in the player's inventory.
 	 */
 
-	public static void registerItem( int itemID, String itemName )
+	public static void registerItem( KoLmafia client, int itemID, String itemName )
 	{
+                client.getLogStream().println( "New item: \"" + itemName + "\" (" + itemID + ")");
+
 		consumptionID[ itemID ] = 0;
 		priceByID[ itemID ] = 0;
 

@@ -623,7 +623,7 @@
 623	WA	0	152
 624	NG	0	186
 625	wang	0	0
-626	Wand of Nagamar	0	322
+626	Wand of Nagamar	12	322
 627	ND	0	187
 628	metallic A	0	129
 629	glowing red eye	8	165
@@ -702,7 +702,7 @@
 702
 703
 704
-705
+705	baconstone	0	500
 706
 707
 708
@@ -797,7 +797,7 @@
 797	rockin' wagon	2	115
 798	ocean motion	2	115
 799	fuzzbump	2	115
-800
+800	poutine	1	30
 801	Knob stir-fry	1	51
 802
 803
