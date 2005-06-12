@@ -304,7 +304,7 @@
 304	dry noodles	1	1
 305	Knob Goblin harem pants	10	27
 306	Knob Goblin harem veil	9	28
-307	Knob Goblin perfume	0	27
+307	Knob Goblin perfume	3	27
 308	Knob Goblin elite helm	9	65
 309	Knob Goblin elite pants	10	65
 310	Knob Goblin elite polearm	12	65
@@ -338,7 +338,7 @@
 338	tenderizing hammer	0	500
 339	Cobb's Knob lab key	0	0
 340	Knob Goblin steroids	3	125
-341	Knob Goblin love potion	0	85
+341	Knob Goblin love potion	3	85
 342	Knob Goblin stink bomb	0	65
 343	Knob Goblin sharpening spray	4	115
 344	Knob Goblin seltzer	4	44
@@ -1152,7 +1152,7 @@
 1152	miniature gravy-covered maypole	6	0
 1153
 1154
-1155
+1155	letter from King Ralph XI	0	0
 1156
 1157
 1158	Meleegra&trade; pills	4	50
