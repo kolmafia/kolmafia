@@ -102,10 +102,7 @@ public class CakeArenaFrame extends KoLFrame
 				if ( eventID == 0 )
 					return;
 
-				int battleCount = battleField.getText() == null ? 0 :
-					battleField.getText().trim().length() == 0 ? 0 :
-						Integer.parseInt( battleField.getText().trim() );
-
+				int battleCount = getValue( battleField );
 				client.getCakeArenaManager().fightOpponent( opponent.toString(), eventID, battleCount );
 			}
 		}
