@@ -71,6 +71,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private static final int USAGE = 1;
 	private static final int CREATION = 2;
 	private static final int CLOSET = 3;
+	private static final int HAGNK = 4;
 
 	private String previousCommand;
 	private PrintStream outputStream;
@@ -628,6 +629,16 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "stash" ) )
 		{
 			executeStashRequest( parameters );
+			return;
+		}
+
+		// Another w00t for more item-related commands.
+		// This one is the one that allows you to pull
+		// things from storage.
+
+		if ( command.equals( "hagnk" ) )
+		{
+			executeHagnkRequest( parameters );
 			return;
 		}
 
@@ -1343,6 +1354,23 @@ public class KoLmafiaCLI extends KoLmafia
 		items[0] = firstMatch;
 
 		scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items, ClanStashRequest.ITEMS_TO_STASH ), 1 );
+	}
+
+	/**
+	 * A special module used specifically for properly instantiating
+	 * ItemStorageRequests which pulls things from Hagnk's.
+	 */
+
+	private void executeHagnkRequest( String parameters )
+	{
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, HAGNK );
+		if ( firstMatch == null )
+			return;
+
+		Object [] items = new Object[1];
+		items[0] = firstMatch;
+
+		scriptRequestor.makeRequest( new ItemStorageRequest( scriptRequestor, ItemStorageRequest.STORAGE_TO_INVENTORY, items ), 1 );
 	}
 
 	/**

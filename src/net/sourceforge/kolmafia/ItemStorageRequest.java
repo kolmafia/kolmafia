@@ -52,6 +52,8 @@ public class ItemStorageRequest extends KoLRequest
 	public static final int MEAT_TO_CLOSET = 4;
 	public static final int MEAT_TO_INVENTORY = 5;
 
+	public static final int STORAGE_TO_INVENTORY = 6;
+
 	/**
 	 * Constructs a new <code>ItemStorageRequest</code>.
 	 * @param	client	The client to be notified of the results
@@ -79,12 +81,10 @@ public class ItemStorageRequest extends KoLRequest
 
 	public ItemStorageRequest( KoLmafia client, int moveType, Object [] items )
 	{
-		super( client, "closet.php" );
+		super( client, moveType == STORAGE_TO_INVENTORY ? "storage.php" : "closet.php" );
 
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "action",
-			moveType == INVENTORY_TO_CLOSET ? "put" :
-			moveType == CLOSET_TO_INVENTORY ? "take" : "" );
+		addFormField( "action", moveType == INVENTORY_TO_CLOSET ? "put" : "take" );
 
 		this.items = items;
 		this.moveType = moveType;
@@ -100,6 +100,10 @@ public class ItemStorageRequest extends KoLRequest
 				source = client.getCloset();
 				destination = client.getInventory();
 				break;
+
+			case STORAGE_TO_INVENTORY:
+				source = new ArrayList();
+				destination = client.getInventory();
 		}
 	}
 
@@ -130,8 +134,9 @@ public class ItemStorageRequest extends KoLRequest
 		{
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
-				updateDisplay( DISABLED_STATE, "Doing closet management..." );
-				closet();
+			case STORAGE_TO_INVENTORY:
+				updateDisplay( DISABLED_STATE, "Doing item management..." );
+				items();
 				break;
 
 			case MEAT_TO_CLOSET:
@@ -175,7 +180,7 @@ public class ItemStorageRequest extends KoLRequest
 		}
 	}
 
-	private void closet()
+	private void items()
 	{
 		// First, check to see how many items are to be
 		// placed in the closet - if there's too many,
