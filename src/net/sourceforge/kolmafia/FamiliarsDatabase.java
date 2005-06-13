@@ -56,6 +56,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 public class FamiliarsDatabase
 {
 	private static final String FAMILIAR_DBASE_FILE = "familiars.dat";
+	private static final String DEFAULT_LARVA = "steaming evil";
+	private static final String DEFAULT_ITEM = "steaming evil";
 
 	private static Map familiarByID = new TreeMap();
 	private static Map familiarByName = new TreeMap();
@@ -99,6 +101,27 @@ public class FamiliarsDatabase
 			// exception is strange enough that it won't be
 			// handled at the current time.
 		}
+	}
+
+	/**
+	 * Temporarily adds a familiar to the familiar database.  This
+	 * is used whenever KoLmafia encounters an unknown familiar on
+	 * login and is designed to minimize crashing as a result.
+	 */
+
+	public static void registerFamiliar( KoLmafia client, int familiarID, String familiarName )
+	{
+		client.getLogStream().println( "New familiar: \"" + familiarID + "\" (" + familiarName + ")" );
+
+		// Because I'm intelligent, assume that the familiar item is
+		// the steaming evil (for now).
+
+		Integer dummyID = new Integer( familiarID );
+
+		familiarByID.put( dummyID, familiarName );
+		familiarByName.put( familiarName.toLowerCase(), dummyID );
+		familiarByLarva.put( DEFAULT_LARVA, dummyID );
+		familiarItemByID.put( dummyID, DEFAULT_ITEM );
 	}
 
 	/**

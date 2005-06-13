@@ -77,12 +77,48 @@ public class FamiliarRequest extends KoLRequest
 
 		// Determine which familiars are present.
 
-		int whichIndex;
-		for ( int i = 1; i < 50; ++i )
+		int lastFamiliarIndex = 0;
+
+		int familiarID, familiarWeight;
+		String familiarName, familiarItemHTML, familiarItem;
+
+		FamiliarData examinedFamiliar;
+
+		Matcher familiarMatcher = Pattern.compile( "<input type=radio name=newfam value=(\\d+)>.*?</b>, the [-\\d]+ pound (.*?) \\(([\\d,]+) kills\\) (.*?)</tr>" ).matcher( responseText );
+		while ( familiarMatcher.find( lastFamiliarIndex ) )
 		{
-			whichIndex = responseText.indexOf( "<input type=radio name=newfam value=" + i );
-			if ( whichIndex != -1 )
-				characterData.addFamiliar( new FamiliarData( i, responseText.substring( whichIndex, responseText.indexOf( "</tr>", whichIndex ) ) ) );
+			lastFamiliarIndex = familiarMatcher.end();
+			familiarID = Integer.parseInt( familiarMatcher.group(1) );
+			familiarName = familiarMatcher.group(2);
+
+			try
+			{
+				familiarWeight = (int) Math.sqrt( df.parse( familiarMatcher.group(3) ).intValue() );
+				if ( familiarWeight == 0 )
+					familiarWeight = 0;
+				else if ( familiarWeight > 20 )
+					familiarWeight = 20;
+			}
+			catch ( Exception e )
+			{
+				// If an exception happens, pretend the familiar
+				// has a weight of zero.
+
+				familiarWeight = 0;
+			}
+
+			if ( !FamiliarsDatabase.contains( familiarName ) )
+				FamiliarsDatabase.registerFamiliar( client, familiarID, familiarName );
+
+			examinedFamiliar = new FamiliarData( familiarID, familiarWeight );
+
+			familiarItemHTML = familiarMatcher.group(4);
+			familiarItem = familiarItemHTML.indexOf( "<img" ) == -1 ? "none" :
+				familiarItemHTML.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" : familiarItemHTML.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
+					familiarItemHTML.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" : FamiliarsDatabase.getFamiliarItem( familiarID );
+
+			examinedFamiliar.setItem( familiarItem );
+			characterData.addFamiliar( examinedFamiliar );
 		}
 
 		// If there was a change, then make sure that the character
@@ -96,18 +132,34 @@ public class FamiliarRequest extends KoLRequest
 		}
 		else
 		{
-			Matcher currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<table><tr><td valign=center>Equipment:.*?<td valign=center>(.*?)</td>" ).matcher( responseText );
-			if ( currentMatcher.find() )
+			familiarName = null;
+			familiarWeight = 0;
+
+			familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<table><tr><td valign=center>Equipment:.*?<td.*?>(.*?)</td>" ).matcher( responseText );
+			if ( familiarMatcher.find() )
 			{
-				characterData.setFamiliarDescription( currentMatcher.group(2).trim(), Integer.parseInt( currentMatcher.group(1) ) );
-				characterData.setFamiliarItem( currentMatcher.group(3) );
+				familiarName = familiarMatcher.group(2).trim();
+				familiarItem = familiarMatcher.group(3);
+				familiarWeight = Integer.parseInt( familiarMatcher.group(1) );
 			}
 			else
 			{
-				currentMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<p>" ).matcher( responseText );
-				if ( currentMatcher.find() )
-					characterData.setFamiliarDescription( currentMatcher.group(2), Integer.parseInt( currentMatcher.group(1) ) );
+				familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<p>" ).matcher( responseText );
+				if ( familiarMatcher.find() )
+				{
+					familiarName = familiarMatcher.group(2).trim();
+					familiarItem = "none";
+					familiarWeight = Integer.parseInt( familiarMatcher.group(1) );
+				}
+			}
 
+			if ( familiarName != null )
+			{
+				if ( !FamiliarsDatabase.contains( familiarName ) )
+					FamiliarsDatabase.registerFamiliar( client, 0, familiarName );
+
+				characterData.setFamiliarDescription( familiarName, familiarWeight );
+				characterData.setFamiliarItem( familiarMatcher.group(3) );
 			}
 
 			updateDisplay( ENABLED_STATE, "Familiar data retrieved." );
