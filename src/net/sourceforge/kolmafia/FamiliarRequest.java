@@ -134,6 +134,7 @@ public class FamiliarRequest extends KoLRequest
 		{
 			familiarName = null;
 			familiarWeight = 0;
+			familiarItem = "none";
 
 			familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<table><tr><td valign=center>Equipment:.*?<td.*?>(.*?)</td>" ).matcher( responseText );
 			if ( familiarMatcher.find() )
@@ -148,7 +149,6 @@ public class FamiliarRequest extends KoLRequest
 				if ( familiarMatcher.find() )
 				{
 					familiarName = familiarMatcher.group(2).trim();
-					familiarItem = "none";
 					familiarWeight = Integer.parseInt( familiarMatcher.group(1) );
 				}
 			}
@@ -159,7 +159,7 @@ public class FamiliarRequest extends KoLRequest
 					FamiliarsDatabase.registerFamiliar( client, 0, familiarName );
 
 				characterData.setFamiliarDescription( familiarName, familiarWeight );
-				characterData.setFamiliarItem( familiarMatcher.group(3) );
+				characterData.setFamiliarItem( familiarItem );
 			}
 
 			updateDisplay( ENABLED_STATE, "Familiar data retrieved." );
