@@ -187,7 +187,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( scriptRequestor == this )
 			{
 				outputStream.println();
-				outputStream.print( "login: " );
+				outputStream.print( "username: " );
 			}
 
 			String username = commandStream.readLine();
@@ -213,18 +213,16 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			if ( scriptRequestor == this )
-				outputStream.print( "campground?: " );
+				outputStream.print( "q-login?: " );
 
-			String breakfast = commandStream.readLine();
-
-			boolean getBreakfast = breakfast != null && breakfast.length() != 0 &&
-				Character.toUpperCase(breakfast.charAt(0)) == 'Y';
+			String quick = commandStream.readLine();
+			boolean isQuick = quick != null && quick.length() != 0 && Character.toUpperCase(quick.charAt(0)) == 'Y';
 
 			if ( scriptRequestor == this )
 				outputStream.println();
 
 			scriptRequestor.deinitialize();
-			(new LoginRequest( scriptRequestor, username, password, getBreakfast, false, getBreakfast )).run();
+			(new LoginRequest( scriptRequestor, username, password, false, false, isQuick )).run();
 		}
 		catch ( IOException e )
 		{
