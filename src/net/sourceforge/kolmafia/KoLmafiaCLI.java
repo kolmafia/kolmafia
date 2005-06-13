@@ -1101,7 +1101,9 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( ENABLED_STATE, "Meat: " + df.format( data.getAvailableMeat() ) );
 				updateDisplay( ENABLED_STATE, "Drunk: " + data.getInebriety() );
 				updateDisplay( ENABLED_STATE, "Adv: " + data.getAdventuresLeft() );
+
 				updateDisplay( ENABLED_STATE, "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
+				updateDisplay( ENABLED_STATE, "Item: " + data.getFamiliarItem() );
 			}
 			else
 			{
@@ -1117,6 +1119,7 @@ public class KoLmafiaCLI extends KoLmafia
 				outputStream.println( "Drunk: " + data.getInebriety() );
 				outputStream.println( "Adv: " + data.getAdventuresLeft() );
 				outputStream.println( "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
+				outputStream.println( "Item: " + data.getFamiliarItem() );
 			}
 
 			return;
@@ -1859,26 +1862,6 @@ public class KoLmafiaCLI extends KoLmafia
 			commandString.append( irequest.getQuantityNeeded() );
 			commandString.append( " \"" );
 			commandString.append( irequest.getName() );
-			commandString.append( "\"" );
-		}
-		else if ( request instanceof StarChartRequest )
-		{
-			StarChartRequest screquest = (StarChartRequest) request;
-
-			commandString.append( "create " );
-			commandString.append( screquest.getQuantityNeeded() );
-			commandString.append( " \"" );
-			commandString.append( screquest.getName() );
-			commandString.append( "\"" );
-		}
-		else if ( request instanceof PixelRequest )
-		{
-			PixelRequest prequest = (PixelRequest) request;
-
-			commandString.append( "create " );
-			commandString.append( prequest.getQuantityNeeded() );
-			commandString.append( " \"" );
-			commandString.append( prequest.getName() );
 			commandString.append( "\"" );
 		}
 
