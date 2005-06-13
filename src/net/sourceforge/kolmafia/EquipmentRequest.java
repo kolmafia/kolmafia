@@ -163,7 +163,7 @@ public class EquipmentRequest extends KoLRequest
 		// If you changed your outfit, there will be a redirect
 		// to the equipment page - therefore, do so.
 
-		if ( requestType == CHANGE_OUTFIT )
+		if ( requestType != CLOSET && requestType != EQUIPMENT )
 		{
 			(new EquipmentRequest( client, EQUIPMENT )).run();
 			updateDisplay( ENABLED_STATE, "Equipment changed." );
@@ -193,6 +193,8 @@ public class EquipmentRequest extends KoLRequest
 					updateDisplay( NOCHANGE, "Inventory retrieved." );
 					break;
 
+				case REMOVE_ACC:
+				case CHANGE_ITEM:
 				case EQUIPMENT:
 
 					String oldHat = character.getHat();
@@ -214,9 +216,9 @@ public class EquipmentRequest extends KoLRequest
 					switchItem( oldFamiliarItem, character.getFamiliarItem() );
 
 					updateDisplay( ENABLED_STATE, "Equipment retrieved." );
-
 					break;
 			}
+
 			logStream.println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )
