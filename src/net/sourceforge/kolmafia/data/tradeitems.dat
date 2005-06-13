@@ -701,25 +701,25 @@
 701
 702
 703
-704
+704	hamethyst	0	500
 705	baconstone	0	500
-706
-707
-708
-709
+706	porquoise	0	500
+707	pork elf goodie sack	0	100
+708	ring setting	0	100
+709	jewelry making pliers	0	100
 710
-711
-712
-713
-714
-715
-716
-717
-718
-719
-720
-721
-722
+711	hamethyst earring	0	250
+712	hamethyst necklace	0	250
+713	hamethyst bracelet	0	250
+714	hamethyst ring	0	250
+715	baconstone earring	0	250
+716	baconstone necklace	0	250
+717	baconstone bracelet	0	250
+718	baconstone ring	0	250
+719	porquoise earring	0	250
+720	baconstone necklace	0	250
+721	porquoise bracelet	0	250
+722	porquoise ring	0	250
 723	Knoll mushroom	1	15
 724	spooky mushroom	1	16
 725	one million meat pancakes	0	11
@@ -863,10 +863,10 @@
 863	skewer-mounted razor blade	6	75
 864	brass stinger	6	75
 865	lead necklace	6	75
-866
-867
+866	shaving cream	1	35
+867	pine tar	1	31
 868
-869
+869	forest tears	1	33
 870	fetus-smashing club	12	0
 871	meatcar model	6	75
 872	Time Juice	0	0
@@ -877,17 +877,17 @@
 877	Talisman of Baio	8	0
 878	hypnodisk	8	0
 879	goofballs	0	0
-880
-881
-882
-883
-884
-885
-886
-887
-888
-889
-890
+880	disbelief suspenders	0	95
+881	supportive bra	11	55
+882	Blatantly Canadian	1	75
+883	maple syrup	1	60
+884	los chinos	10	60
+885	wooden axe	12	65
+886	leaflet	0	87
+887	leaf	0	180
+888	maple leaf	0	0
+889	balaclava	9	55
+890	balaclava baklava	1	65
 891	Warehouse 23 bling	8	0
 892	bugbear-smiting sword	12	0
 893
@@ -956,8 +956,8 @@
 956	carob chunk noodles	1	75
 957	chorizo brownies	1	71
 958	white chocolate and tomato pizza	1	62
-959
-960
+959	flange	0	10
+960	clockwork key	0	100
 961	silk garter snake	5	0
 962	velvet choker	6	70
 963	tiny plastic seal clubber	8	30
@@ -1029,12 +1029,12 @@
 1029	hippo whip	12	145
 1030	penguin whip	12	144
 1031	yak whip	12	141
-1032
-1033
+1032	gnauga hide whip	12	120
+1033	gnauga hide	0	60
 1034	hippo skin buckler	8	144
 1035	penguin skin buckler	8	142
 1036	yak skin buckler	8	142
-1037
+1037	gnauga hide buckler	8	140
 1038	maraschino moxiosity potion	4	38
 1039
 1040	lucky Tam O'Shanter	6	0
@@ -1082,26 +1082,26 @@
 1082	gazing shoes	6	70
 1083	personal raindrop	5	0
 1084	rainbow tie	6	70
-1085
-1086
-1087
+1085	clockwork widget	0	30
+1086	clockwork thingamajog	0	30
+1087	clockwork doohickey	0	30
 1088
-1089
-1090
-1091
-1092
-1093
-1094
-1095
+1089	clockwork spine	0	50
+1090	clockwork rings	0	50
+1091	clockwork claws	0	50
+1092	clockwork sheet	0	50
+1093	clockwork counterclockwise dome	0	50
+1094	clockwork sphere	0	50
+1095	deactivated MicroMechaMech	0	200
 1096
-1097
-1098
-1099
-1100
+1097	clockwork hat	9	200
+1098	clockwork trench coat	11	200
+1099	clockwork pants	10	200
+1100	gnauga hide pants	10	120
 1101
 1102
 1103
-1104
+1104	tiny mountie hat	6	75
 1105
 1106
 1107
@@ -1113,7 +1113,7 @@
 1113
 1114	tisket	0	70
 1115	tasket	0	70
-1116
+1116	annoying pitchfork	6	75
 1117	Stupid University Diploma	0	0
 1118
 1119
@@ -1152,7 +1152,7 @@
 1152	miniature gravy-covered maypole	6	0
 1153
 1154
-1155	letter from King Ralph XI	0	0
+1155	Letter from King Ralph XI	0	0
 1156
 1157
 1158	Meleegra&trade; pills	4	50
@@ -1177,7 +1177,7 @@
 1177
 1178	potted cactus	0	0
 1179	daisy	0	0
-1180
+1180	potted fern	0	0
 1181
 1182
 1183
@@ -1199,7 +1199,7 @@
 1199
 1200	mugcake	0	0
 1201	urinal cake	0	0
-1202
+1202	Happy Birthday, Claude! cake	0	0
 1203
 1204
 1205

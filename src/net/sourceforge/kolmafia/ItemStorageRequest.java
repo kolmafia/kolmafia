@@ -295,7 +295,7 @@ public class ItemStorageRequest extends KoLRequest
 		// Start with an empty list
 
 		storageContents.clear();
-		Matcher storageMatcher = Pattern.compile( "name=takegoodies.*?</select>" ).matcher( responseText );
+		Matcher storageMatcher = Pattern.compile( "name=\"whichitem1\".*?</select>" ).matcher( responseText );
 
 		// If there's nothing inside storage, return
 		// because there's nothing to parse.
