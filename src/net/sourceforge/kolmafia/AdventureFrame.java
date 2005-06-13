@@ -1027,7 +1027,14 @@ public class AdventureFrame extends KoLFrame
 		public void windowOpened( WindowEvent e )
 		{
 			if ( client != null )
+			{
+				String positionsSetting = client.getSettings().getProperty( "savePositions" );
+
+				if ( positionsSetting == null || positionsSetting.equals( "false" ) )
+					return;
+
 				(new ReopenWindowsThread()).start();
+			}
 		}
 
 		private class ReopenWindowsThread extends RequestThread

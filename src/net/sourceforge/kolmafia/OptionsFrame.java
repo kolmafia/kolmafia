@@ -294,8 +294,8 @@ public class OptionsFrame extends KoLFrame
 	private class LoginOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
-		private final String [] optionKeys = { "skipInventory", "skipFamiliars", "sortAdventures" };
-		private final String [] optionNames = { "Skip inventory retrieval", "Skip familiar retrieval", "Sort adventure list by name" };
+		private final String [] optionKeys = { "skipInventory", "skipFamiliars", "sortAdventures", "savePositions" };
+		private final String [] optionNames = { "Skip inventory retrieval", "Skip familiar retrieval", "Sort adventure list by name", "Remember window positions on close" };
 
 		/**
 		 * Constructs a new <code>LoginOptionsPanel</code>, containing a

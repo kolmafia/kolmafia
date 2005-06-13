@@ -164,8 +164,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		this.frameName = getClass().getName();
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
 
-		if ( client != null && client.getSettings().containsKey( frameName ) )
+		if ( client != null )
 		{
+			String positionsSetting = client.getSettings().getProperty( "savePositions" );
+
+			if ( positionsSetting == null || positionsSetting.equals( "false" ) || !client.getSettings().containsKey( frameName ) )
+				return;
+
 			String [] location = client.getSettings().getProperty( frameName ).split( "," );
 			setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
 		}
@@ -987,6 +992,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			if ( client != null )
 			{
+				String positionsSetting = client.getSettings().getProperty( "savePositions" );
+
+				if ( positionsSetting == null || positionsSetting.equals( "false" ) )
+					return;
+
 				Point p = getLocationOnScreen();
 				client.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 				client.getSettings().saveSettings();
