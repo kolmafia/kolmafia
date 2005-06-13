@@ -248,50 +248,42 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() )
 			return;
 
-		int [][] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
 		if ( ingredients != null )
-		{
-			makeIngredient( ingredients[0][0], ingredients[0][1], ingredients[0][0] == ingredients[1][0] );
-
-			// If the request has been cancelled midway, be
-			// sure to return from here.
-
-			if ( !client.permitsContinue() )
-				return;
-
-			if ( ingredients[0][0] != ingredients[1][0] )
+			for ( int i = 0; i < ingredients.length; ++i )
 			{
-				makeIngredient( ingredients[1][0], ingredients[1][1], false );
-
-				// If the request has been cancelled midway, be
-				// sure to return from here.
-
 				if ( !client.permitsContinue() )
 					return;
+
+				int multiplier = 1;
+
+				for ( int j = i + 1; j < ingredients.length; ++j )
+					if ( ingredients[i].getItemID() == ingredients[j].getItemID() )
+						++multiplier;
+
+				makeIngredient( ingredients[i], multiplier );
 			}
-		}
+
+		// If the request has been cancelled midway, be
+		// sure to return from here.
+
+		if ( !client.permitsContinue() )
+			return;
 
 		// Check to see if you need meat paste in order
 		// to create the needed quantity of items, and
 		// create any needed meat paste.
 
 		if ( mixingMethod == COMBINE )
-		{
-			makeIngredient( MEAT_PASTE, COMBINE, false );
-
-			// If the request has been cancelled midway, be
-			// sure to return from here.
-
-			if ( !client.permitsContinue() )
-				return;
-		}
+			makeIngredient( new AdventureResult( MEAT_PASTE, 0 ), 1 );
 
 		// Now that the item's been created, you can
 		// actually do the request!
 
-		addFormField( "item1", String.valueOf( ingredients[0][0] ) );
-		addFormField( "item2", String.valueOf( ingredients[1][0] ) );
+		for ( int i = 0; i < ingredients.length; ++i )
+			addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemID() ) );
+
 		addFormField( "quantity", String.valueOf( quantityNeeded ) );
 
 		// Auto-create chef or bartender if one doesn't
@@ -333,12 +325,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// may get your initial creation attempt back.
 
 		processResults( responseText );
-
 		String itemName = TradeableItemDatabase.getItemName( itemID );
 
-		Matcher resultMatcher = Pattern.compile(
-			"You acquire some items\\: <b>" + itemName + " \\(([\\d,]+)\\)</b>" ).matcher( responseText );
-
+		Matcher resultMatcher = Pattern.compile( "You acquire some items\\: <b>" + itemName + " \\(([\\d,]+)\\)</b>" ).matcher( responseText );
 		int createdQuantity = 0;
 
 		try
@@ -359,11 +348,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// quantity that has changed might not be accurate.
 		// Therefore, update with the actual value.
 
-		client.processResult( new AdventureResult( ingredients[0][0], 0 - createdQuantity ) );
-		client.processResult( new AdventureResult( ingredients[1][0], 0 - createdQuantity ) );
+		for ( int i = 0; i < ingredients.length; ++i )
+			client.processResult( new AdventureResult( ingredients[i].getItemID(), 0 - createdQuantity ) );
 
 		if ( mixingMethod == COMBINE )
-			client.processResult( new AdventureResult( "meat paste", 0 - createdQuantity ) );
+			client.processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
 
 		// Now, check to see if your box-servant was
 		// overworked and exploded.  Also handle the
@@ -520,20 +509,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 * Helper routine which makes more of the given ingredient, if it
 	 * is needed.
 	 *
-	 * @param	ingredientID	The ingredient to make
-	 * @param	mixingMethod	How the ingredient is prepared
-	 * @param	makeDouble	Whether or not you need to make double (two of same ingredient)
+	 * @param	ingredient	The ingredient to make
+	 * @param	multiplier	The multiplier on quantity needed
 	 */
 
-	private void makeIngredient( int ingredientID, int mixingMethod, boolean makeDouble )
+	private void makeIngredient( AdventureResult ingredient, int multiplier )
 	{
 		List inventory = client.getInventory();
-		AdventureResult ingredient = new AdventureResult( ingredientID, 0 );
-
 		int index = inventory.indexOf( ingredient );
-		int currentQuantity = (index == -1) ? 0 : ((AdventureResult)inventory.get( index )).getCount();
 
-		int actualQuantityNeeded = (makeDouble ? (quantityNeeded << 1) : quantityNeeded) - currentQuantity;
+		int actualQuantityNeeded = (quantityNeeded * multiplier) - ((index == -1) ? 0 : ((AdventureResult)inventory.get( index )).getCount());
 
 		// In order to minimize server overload by making exact quantities,
 		// the client will attempt to overcompensate by making more meat
@@ -553,7 +538,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				if ( index != -1 )
 				{
 					AdventureResult [] retrieval = new AdventureResult[1];
-					retrieval[0] = new AdventureResult( ingredient.getName(),
+					retrieval[0] = new AdventureResult( ingredient.getItemID(),
 						Math.min( actualQuantityNeeded, ((AdventureResult)closet.get( index )).getCount() ) );
 
 					updateDisplay( DISABLED_STATE, "Retrieving " + retrieval[0].toString() + " from closet..." );
@@ -566,7 +551,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// item (since that's really the only way).
 
 			if ( actualQuantityNeeded > 0 )
-				ItemCreationRequest.getInstance( client, ingredientID, actualQuantityNeeded ).run();
+				ItemCreationRequest.getInstance( client, ingredient.getItemID(), actualQuantityNeeded ).run();
 		}
 	}
 

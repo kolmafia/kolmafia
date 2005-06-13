@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.BufferedReader;
 
 import java.util.List;
+import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -80,24 +81,27 @@ public class ConcoctionsDatabase
 		try
 		{
 			String line;
+			AdventureResult item;
+			int mixingMethod;
+
+			StringTokenizer strtok;
+
 			while ( (line = itemdata.readLine()) != null )
 			{
-				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 4 )
+				strtok = new StringTokenizer( line, "\t" );
+				if ( strtok.countTokens() > 2 )
 				{
-					int itemID = TradeableItemDatabase.getItemID( strtok.nextToken() );
-					if ( itemID != -1 )
-						concoctions[ itemID ] = new Concoction( itemID, Integer.parseInt( strtok.nextToken() ), strtok.nextToken(), strtok.nextToken() );
-				}
-				else if ( strtok.countTokens() == 3 )
-				{
-					int itemID = TradeableItemDatabase.getItemID( strtok.nextToken() );
-					if ( itemID != -1 )
-						concoctions[ itemID ] = new Concoction( itemID, Integer.parseInt( strtok.nextToken() ), strtok.nextToken() );
+					item = AdventureResult.parseResult( strtok.nextToken() );
+					mixingMethod = Integer.parseInt( strtok.nextToken() );
+
+					concoctions[ item.getItemID() ] = new Concoction( item, mixingMethod );
+
+					while ( strtok.hasMoreTokens() )
+						concoctions[ item.getItemID() ].addIngredient( AdventureResult.parseResult( strtok.nextToken() ) );
 				}
 			}
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			// If an IOException is thrown, that means there was
 			// a problem reading in the appropriate data file;
@@ -210,8 +214,8 @@ public class ConcoctionsDatabase
 				}
 				else
 				{
-					if ( concoctions[i].ingredient1 == -1 )
-						client.getLogStream().println( "Bad recipe: " + concoctions[i].asResult );
+					if ( concoctions[i].isBadRecipe() )
+						client.getLogStream().println( "Bad recipe: " + concoctions[i] );
 					else
 						concoctions[i].calculateQuantityPossible( availableIngredients );
 				}
@@ -320,7 +324,7 @@ public class ConcoctionsDatabase
 	 * will be returned instead.
 	 */
 
-	public static int [][] getIngredients( int itemID )
+	public static AdventureResult [] getIngredients( int itemID )
 	{	return (concoctions[ itemID ] == null) ? null : concoctions[ itemID ].getIngredients();
 	}
 
@@ -331,73 +335,101 @@ public class ConcoctionsDatabase
 
 	private static class Concoction
 	{
-		private int concoctionID;
 		private int mixingMethod;
-		private AdventureResult asResult;
-		private int ingredient1, ingredient2;
+		private AdventureResult concoction;
+		private List ingredients;
 
-		public Concoction( int concoctionID, int mixingMethod, String ingredient )
+		public Concoction( AdventureResult concoction, int mixingMethod )
 		{
-			this.concoctionID = concoctionID;
+			this.concoction = concoction;
 			this.mixingMethod = mixingMethod;
-
-			this.asResult = new AdventureResult( concoctionID, 0 );
-
-			this.ingredient1 = TradeableItemDatabase.getItemID( ingredient );
-			this.ingredient2 = -1;
+			this.ingredients = new ArrayList();
 		}
 
-		public Concoction( int concoctionID, int mixingMethod, String ingredient1, String ingredient2 )
-		{
-			this.concoctionID = concoctionID;
-			this.mixingMethod = mixingMethod;
-
-			this.asResult = new AdventureResult( concoctionID, 0 );
-
-			this.ingredient1 = TradeableItemDatabase.getItemID( ingredient1 );
-			this.ingredient2 = TradeableItemDatabase.getItemID( ingredient2 );
+		public void addIngredient( AdventureResult ingredient )
+		{	ingredients.add( ingredient );
 		}
 
 		public int getMixingMethod()
 		{	return mixingMethod;
 		}
 
-		public int [][] getIngredients()
+		public boolean isBadRecipe()
 		{
-			int [][] ingredients = new int[2][2];
+			Iterator iterator = ingredients.iterator();
+			if ( ((AdventureResult)iterator.next()).getItemID() == -1 )
+				return true;
 
-			ingredients[0][0] = ingredient1;
-			ingredients[0][1] = (concoctions[ingredient1] == null) ?
-				ItemCreationRequest.NOCREATE : concoctions[ingredient1].getMixingMethod();
+			return false;
+		}
 
-			ingredients[1][0] = ingredient2;
-			ingredients[1][1] = (concoctions[ingredient2] == null) ?
-				ItemCreationRequest.NOCREATE : concoctions[ingredient2].getMixingMethod();
-
-			return ingredients;
+		public AdventureResult [] getIngredients()
+		{
+			AdventureResult [] ingredientArray = new AdventureResult[ ingredients.size() ];
+			ingredients.toArray( ingredientArray );
+			return ingredientArray;
 		}
 
 		public void calculateQuantityPossible( List availableIngredients )
 		{
-			if ( quantityPossible[ concoctionID ] != -1 )
+			// If a calculation has already been done for this
+			// concoction, simply return.
+
+System.out.println( "Checkpoint 1: " + concoction.getItemID() );
+
+			if ( quantityPossible[ concoction.getItemID() ] != -1 )
 				return;
 
-			int index = availableIngredients.indexOf( asResult );
-			quantityPossible[ concoctionID ] = (index == -1) ? 0 : ((AdventureResult)availableIngredients.get( index )).getCount();
+System.out.println( "Checkpoint 2: " + concoction.getItemID() );
 
-			if ( concoctions[ ingredient1 ] != null )
-				concoctions[ ingredient1 ].calculateQuantityPossible( availableIngredients );
+			// Convert the list of items to an array in order to
+			// make things easier to work with.
 
-			if ( ingredient2 != -1 && concoctions[ ingredient2 ] != null )
-				concoctions[ ingredient2 ].calculateQuantityPossible( availableIngredients );
+			AdventureResult [] ingredientArray = getIngredients();
 
-			int additionalPossible = ingredient2 == -1 ? quantityPossible[ ingredient1 ] :
-				Math.min( quantityPossible[ ingredient1 ], quantityPossible[ ingredient2 ] );
+System.out.println( "Checkpoint 3: " + concoction.getItemID() );
 
-			if ( ingredient1 == ingredient2 )
-				additionalPossible >>= 1;
+			// Determine how many were available initially in the
+			// available ingredient list.
 
-			quantityPossible[ concoctionID ] += additionalPossible;
+			int index = availableIngredients.indexOf( concoction );
+			quantityPossible[ concoction.getItemID() ] = (index == -1) ? 0 : ((AdventureResult)availableIngredients.get( index )).getCount();
+
+System.out.println( "Checkpoint 4: " + concoction.getItemID() );
+for ( int i = 0; i < ingredientArray.length; ++i )
+	System.out.println( "Ingredient: " + ingredientArray[i] );
+			// Calculate how many of each ingredient can be created
+			// at each step.
+
+			for ( int i = 0; i < ingredientArray.length; ++i )
+				if ( concoctions[ ingredientArray[i].getItemID() ] != null )
+					concoctions[ ingredientArray[i].getItemID() ].calculateQuantityPossible( availableIngredients );
+
+System.out.println( "Checkpoint 5: " + concoction.getItemID() );
+
+			int divisor;
+			int additionalPossible = quantityPossible[ ingredientArray[0].getItemID() ];
+
+			for ( int i = 0; additionalPossible != 0 && i < ingredientArray.length; ++i )
+			{
+				divisor = 0;
+				for ( int j = 0; j < ingredientArray.length; ++j )
+					if ( ingredientArray[i].getItemID() == ingredientArray[j].getItemID() )
+						++divisor;
+
+				additionalPossible = Math.min( additionalPossible, quantityPossible[ ingredientArray[i].getItemID() ] / divisor );
+			}
+
+System.out.println( "Checkpoint 6: " + concoction.getItemID() );
+
+			// Now, factor in the possibility that the same ingredient
+			// may be used twice in the same concoction
+
+			quantityPossible[ concoction.getItemID() ] += additionalPossible;
+		}
+
+		public String toString()
+		{	return concoction.toString();
 		}
 	}
 }
