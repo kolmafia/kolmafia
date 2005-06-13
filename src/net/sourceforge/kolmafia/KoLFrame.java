@@ -156,6 +156,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected KoLFrame( String title, KoLmafia client )
 	{
 		super( title );
+
 		this.client = client;
 		this.isEnabled = true;
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -168,11 +169,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			String positionsSetting = client.getSettings().getProperty( "savePositions" );
 
-			if ( positionsSetting == null || positionsSetting.equals( "false" ) || !client.getSettings().containsKey( frameName ) )
-				return;
-
-			String [] location = client.getSettings().getProperty( frameName ).split( "," );
-			setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
+			if ( positionsSetting != null && positionsSetting.equals( "true" ) && client.getSettings().containsKey( frameName ) )
+			{
+				String [] location = client.getSettings().getProperty( frameName ).split( "," );
+				setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
+			}
 		}
 
 		if ( !( this instanceof LoginFrame || this instanceof AdventureFrame ) )
