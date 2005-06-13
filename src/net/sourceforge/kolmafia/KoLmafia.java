@@ -190,10 +190,12 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		if ( loginRequest != null )
+		// Begin by loading the user-specific settings.
+		this.settings = new KoLSettings( loginname );
+
+		if ( this.characterData == null )
 		{
 			this.characterData = new KoLCharacter( loginname );
-
 			this.inventory = characterData.getInventory();
 			this.usableItems = new SortedListModel();
 			this.hunterItems = new SortedListModel();
@@ -210,11 +212,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( loginRequest != null )
 			return;
-
-		// Begin by loading the user-specific settings.
-
-		logStream.println( "Loading user settings for " + loginname + "..." );
-		this.settings = new KoLSettings( loginname );
 
 		// Remove the password data; it doesn't need to be stored
 		// in every single .kcs file.
