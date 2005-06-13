@@ -37,13 +37,9 @@ import java.util.List;
 import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class PixelRequest extends KoLRequest implements Comparable
+public class PixelRequest extends ItemCreationRequest
 {
-	private int itemID;
-	private String name;
-
 	private int white, black, red, green, blue;
-	private int quantityNeeded;
 
         public static final PixelRequest WHITE_PIXEL = new PixelRequest( "white pixel", 0, 0, 1, 1, 1 );
         public static final PixelRequest RED_PIXEL_POTION = new PixelRequest( "red pixel potion", 0, 3, 2, 0, 0 );
@@ -63,61 +59,49 @@ public class PixelRequest extends KoLRequest implements Comparable
 
 	private PixelRequest( String name, int white, int black, int red, int green, int blue )
 	{
-		super( null, "town_wrong.php" );
+		super( null, "town_wrong.php", TradeableItemDatabase.getItemID( name ), 0 );
 
-		this.name = name;
+System.out.println( getItemID() );
+
 		this.white = white;
 		this.black = black;
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
-
-		this.itemID = TradeableItemDatabase.getItemID( this.name );
 	}
 
-	public PixelRequest( KoLmafia client, PixelRequest baseRequest, int quantityNeeded )
+	public PixelRequest( KoLmafia client, int itemID, int quantityNeeded )
 	{
-		super( client, "town_wrong.php" );
-		addFormField( "place", "crackpot" );
+		super( client, "town_wrong.php", itemID, quantityNeeded );
 
-		this.itemID = baseRequest.itemID;
-		this.name = baseRequest.name;
-		this.white = baseRequest.white;
-		this.black = baseRequest.black;
-		this.red = baseRequest.red;
-		this.green = baseRequest.green;
-		this.blue = baseRequest.blue;
-		this.quantityNeeded = quantityNeeded;
+		for ( int i = 0; i < PIXEL_ITEMS.length; ++i )
+			if ( PIXEL_ITEMS[i].getItemID() == itemID )
+			{
+				this.white = PIXEL_ITEMS[i].white;
+				this.black = PIXEL_ITEMS[i].black;
+				this.red = PIXEL_ITEMS[i].red;
+				this.green = PIXEL_ITEMS[i].green;
+				this.blue = PIXEL_ITEMS[i].blue;
+			}
 
-		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "action", "makepixel" );
 		addFormField( "makewhich", String.valueOf( itemID ) );
-	}
-
-	public int compareTo( Object o )
-	{	return o == null ? -1 : this.toString().compareToIgnoreCase( o.toString() );
 	}
 
 	public static List getPossibleCombinations( KoLmafia client )
 	{
 		SortedListModel inventory = client.getInventory();
 
-		int whiteIndex = inventory.indexOf( new AdventureResult( "white pixel", 0 ) );
-		int blackIndex = inventory.indexOf( new AdventureResult( "black pixel", 0 ) );
-		int redIndex = inventory.indexOf( new AdventureResult( "red pixel", 0 ) );
-		int greenIndex = inventory.indexOf( new AdventureResult( "green pixel", 0 ) );
-		int blueIndex = inventory.indexOf( new AdventureResult( "blue pixel", 0 ) );
-
-		int whiteValue = whiteIndex == -1 ? 0 : ((AdventureResult) inventory.get( whiteIndex )).getCount();
-		int blackValue = blackIndex == -1 ? 0 : ((AdventureResult) inventory.get( blackIndex )).getCount();
-		int redValue = redIndex == -1 ? 0 : ((AdventureResult) inventory.get( redIndex )).getCount();
-		int greenValue = greenIndex == -1 ? 0 : ((AdventureResult) inventory.get( greenIndex )).getCount();
-		int blueValue = blueIndex == -1 ? 0 : ((AdventureResult) inventory.get( blueIndex )).getCount();
+		int whiteValue = getCount( inventory, new AdventureResult( "white pixel", 0 ) );
+		int blackValue = getCount( inventory, new AdventureResult( "black pixel", 0 ) );
+		int redValue = getCount( inventory, new AdventureResult( "red pixel", 0 ) );
+		int greenValue = getCount( inventory, new AdventureResult( "green pixel", 0 ) );
+		int blueValue = getCount( inventory, new AdventureResult( "blue pixel", 0 ) );
 
 		List results = new ArrayList();
 		for ( int i = 0; i < PIXEL_ITEMS.length; ++i )
 		{
-			int maximumPossible= Integer.MAX_VALUE;
+			int maximumPossible = Integer.MAX_VALUE;
 
 			if ( PIXEL_ITEMS[i].white > 0 )
 				maximumPossible = Math.min( maximumPossible, whiteValue / PIXEL_ITEMS[i].white );
@@ -130,38 +114,20 @@ public class PixelRequest extends KoLRequest implements Comparable
 			if ( PIXEL_ITEMS[i].blue > 0 )
 				maximumPossible = Math.min( maximumPossible, blueValue / PIXEL_ITEMS[i].blue );
 
+System.out.println( maximumPossible );
+
 			if ( maximumPossible > 0 )
-				results.add( new PixelRequest( client, PIXEL_ITEMS[i], maximumPossible ) );
+				results.add( new PixelRequest( client, PIXEL_ITEMS[i].getItemID(), maximumPossible ) );
 		}
 
 		return results;
 	}
 
-	public int getItemID()
-	{	return itemID;
-	}
-
-	public String getName()
-	{	return name;
-	}
-
-	public String toString()
-	{	return name + " (" + quantityNeeded + ")";
-	}
-
-	public void setQuantityNeeded( int quantityNeeded )
-	{	this.quantityNeeded = Math.min( this.quantityNeeded, quantityNeeded );
-	}
-
-	public int getQuantityNeeded()
-	{	return quantityNeeded;
-	}
-
 	public void run()
 	{
-		for ( int i = 0; i < quantityNeeded; ++i )
+		for ( int i = 0; i < getQuantityNeeded(); ++i )
 		{
-			updateDisplay( DISABLED_STATE, "Creating " + name + " (" + (i+1) + " of " + quantityNeeded + ")..." );
+			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + (i+1) + " of " + getQuantityNeeded() + ")..." );
 			makePixelItem();
 		}
 	}

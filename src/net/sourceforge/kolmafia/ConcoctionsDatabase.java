@@ -226,8 +226,8 @@ public class ConcoctionsDatabase
 		{
 			AdventureResult result = (AdventureResult) availableIngredients.get(i);
 
-			if ( result.isItem() && TradeableItemDatabase.contains( result.getName() ) )
-				quantityPossible[ TradeableItemDatabase.getItemID( result.getName() ) ] -= result.getCount();
+			if ( result.isItem() )
+				quantityPossible[ result.getItemID() ] -= result.getCount();
 		}
 
 		// Finally, prepare the list that will be returned - the list
@@ -238,7 +238,7 @@ public class ConcoctionsDatabase
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( quantityPossible[i] > 0 )
-				concoctionsList.add( new ItemCreationRequest( client, i, getMixingMethod(i), quantityPossible[i] ) );
+				concoctionsList.add( ItemCreationRequest.getInstance( client, i, quantityPossible[i] ) );
 
 		concoctionsList.addAll( StarChartRequest.getPossibleCombinations( client ) );
 		concoctionsList.addAll( PixelRequest.getPossibleCombinations( client ) );

@@ -37,13 +37,9 @@ import java.util.List;
 import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class StarChartRequest extends KoLRequest implements Comparable
+public class StarChartRequest extends ItemCreationRequest
 {
-	private int itemID;
-	private String name;
-
 	private int stars, lines;
-	private int quantityNeeded;
 
 	public static final StarChartRequest BUCKLER = new StarChartRequest( "star buckler", 4, 6 );
 	public static final StarChartRequest CROSSBOW = new StarChartRequest( "star crossbow", 5, 6 );
@@ -62,88 +58,62 @@ public class StarChartRequest extends KoLRequest implements Comparable
 
 	private StarChartRequest( String name, int stars, int lines )
 	{
-		super( null, "starchart.php" );
-		this.name = name;
+		super( null, "starchart.php", TradeableItemDatabase.getItemID( name ), 0 );
+
 		this.stars = stars;
 		this.lines = lines;
-
-		this.itemID = TradeableItemDatabase.getItemID( this.name );
 	}
 
-	public StarChartRequest( KoLmafia client, StarChartRequest baseRequest, int quantityNeeded )
+	public StarChartRequest( KoLmafia client, int itemID, int quantityNeeded )
 	{
-		super( client, "starchart.php" );
+		super( client, "starchart.php", itemID, quantityNeeded );
+
+		for ( int i = 0; i < STAR_ITEMS.length; ++i )
+			if ( STAR_ITEMS[i].getItemID() == itemID )
+			{
+				this.stars = STAR_ITEMS[i].stars;
+				this.lines = STAR_ITEMS[i].lines;
+			}
+
 		addFormField( "action", "makesomething" );
-		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "numstars", String.valueOf( baseRequest.stars ) );
-		addFormField( "numlines", String.valueOf( baseRequest.lines ) );
-
-		this.itemID = baseRequest.itemID;
-		this.name = baseRequest.name;
-		this.stars = baseRequest.stars;
-		this.lines = baseRequest.lines;
-		this.quantityNeeded = quantityNeeded;
-	}
-
-	public int compareTo( Object o )
-	{	return o == null ? -1 : this.toString().compareToIgnoreCase( o.toString() );
+		addFormField( "numstars", String.valueOf( this.stars ) );
+		addFormField( "numlines", String.valueOf( this.lines ) );
 	}
 
 	public static List getPossibleCombinations( KoLmafia client )
 	{
 		SortedListModel inventory = client.getInventory();
 
-		int chartIndex = inventory.indexOf( new AdventureResult( "star chart", 0 ) );
-		int starsIndex = inventory.indexOf( new AdventureResult( "star", 0 ) );
-		int linesIndex = inventory.indexOf( new AdventureResult( "line", 0 ) );
+System.out.println( "Checkpoint 0.1" );
 
-		int chartsValue = chartIndex == -1 ? 0 : ((AdventureResult) inventory.get( chartIndex )).getCount();
-		int starsValue = starsIndex == -1 ? 0 : ((AdventureResult) inventory.get( starsIndex )).getCount();
-		int linesValue = linesIndex == -1 ? 0 : ((AdventureResult) inventory.get( linesIndex )).getCount();
+		int chartsValue = getCount( inventory, new AdventureResult( "star chart", 0 ) );
+		int starsValue = getCount( inventory, new AdventureResult( "star", 0 ) );
+		int linesValue =  getCount( inventory, new AdventureResult( "line", 0 ) );
+
+System.out.println( "Checkpoint 0.2" );
 
 		List results = new ArrayList();
 		for ( int i = 0; i < STAR_ITEMS.length; ++i )
 		{
 			int maximumPossible = chartsValue;
 
-			if ( STAR_ITEMS[i].stars > 0 )
-				maximumPossible = Math.min( maximumPossible, starsValue / STAR_ITEMS[i].stars );
-			if ( STAR_ITEMS[i].lines > 0 )
-				maximumPossible = Math.min( maximumPossible, linesValue / STAR_ITEMS[i].lines );
+			maximumPossible = Math.min( maximumPossible, starsValue / STAR_ITEMS[i].stars );
+			maximumPossible = Math.min( maximumPossible, linesValue / STAR_ITEMS[i].lines );
 
 			if ( maximumPossible > 0 )
-				results.add( new StarChartRequest( client, STAR_ITEMS[i], maximumPossible ) );
+				results.add( new StarChartRequest( client, STAR_ITEMS[i].getItemID(), maximumPossible ) );
 		}
+
+System.out.println( "Checkpoint 0.3" );
 
 		return results;
 	}
 
-	public int getItemID()
-	{	return itemID;
-	}
-
-
-	public String getName()
-	{	return name;
-	}
-
-	public String toString()
-	{	return name + " (" + quantityNeeded + ")";
-	}
-
-	public void setQuantityNeeded( int quantityNeeded )
-	{	this.quantityNeeded = Math.min( this.quantityNeeded, quantityNeeded );
-	}
-
-	public int getQuantityNeeded()
-	{	return quantityNeeded;
-	}
-
 	public void run()
 	{
-		for ( int i = 0; i < quantityNeeded; ++i )
+		for ( int i = 0; i < getQuantityNeeded(); ++i )
 		{
-			updateDisplay( DISABLED_STATE, "Creating " + name + " (" + (i+1) + " of " + quantityNeeded + ")..." );
+			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + (i+1) + " of " + getQuantityNeeded() + ")..." );
 			makeConstellation();
 		}
 	}
