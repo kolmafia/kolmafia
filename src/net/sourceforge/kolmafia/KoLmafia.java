@@ -190,22 +190,26 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		if ( loginRequest != null )
+		{
+			this.characterData = new KoLCharacter( loginname );
+
+			this.inventory = characterData.getInventory();
+			this.usableItems = new SortedListModel();
+			this.hunterItems = new SortedListModel();
+			this.storage = new SortedListModel();
+			this.collection = characterData.getCollection();
+			this.closet = characterData.getCloset();
+			this.tally = new SortedListModel();
+			this.recentEffects = new ArrayList();
+
+			resetSessionTally();
+		}
+
 		(new PasswordHashRequest( this )).run();
 
 		if ( loginRequest != null )
 			return;
-
-		this.characterData = new KoLCharacter( loginname );
-		this.inventory = characterData.getInventory();
-		this.usableItems = new SortedListModel();
-		this.hunterItems = new SortedListModel();
-		this.storage = new SortedListModel();
-		this.collection = characterData.getCollection();
-		this.closet = characterData.getCloset();
-		this.tally = new SortedListModel();
-		this.recentEffects = new ArrayList();
-
-		resetSessionTally();
 
 		// Begin by loading the user-specific settings.
 
@@ -418,7 +422,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		try
 		{
-			logStream.println( "Parsing result: " + trimResult );
+			if ( logStream != null )
+				logStream.println( "Parsing result: " + trimResult );
+
 			processResult( AdventureResult.parseResult( trimResult ) );
 		}
 		catch ( Exception e )
@@ -438,13 +444,14 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void processResult( AdventureResult result )
 	{
-		logStream.println( "Processing result: " + result );
-
 		// This should not happen, but check just in case and
 		// return if the result was null.
 
 		if ( result == null )
 			return;
+
+		if ( logStream != null )
+			logStream.println( "Processing result: " + result );
 
 		String resultName = result.getDisplayName();
 
@@ -467,7 +474,8 @@ public abstract class KoLmafia implements KoLConstants
 				AdventureResult.addResultToList( usableItems, result );
 		}
 
-		characterData.processResult( result );
+		if ( characterData != null )
+			characterData.processResult( result );
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
