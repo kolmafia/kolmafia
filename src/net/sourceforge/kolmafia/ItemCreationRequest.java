@@ -202,37 +202,29 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() || quantityNeeded <= 0 )
 			return;
 
-		switch ( itemID )
+		switch ( mixingMethod )
 		{
-			// In order to make indentation cleaner, an internal class
-			// a secondary method is called to handle standard item
-			// creation requests.  Note that smithing is not currently
-			// handled because I don't have a SC and have no idea
-			// which page is requested for smithing.
+			case COMBINE:
+			case COOK:
+			case MIX:
+			case SMITH:
+			case COOK_REAGENT:
+			case COOK_PASTA:
+			case MIX_SPECIAL:
 
-			default:
-
-				switch ( mixingMethod )
-				{
-					case COMBINE:
-					case COOK:
-					case MIX:
-					case SMITH:
-					case COOK_REAGENT:
-					case COOK_PASTA:
-					case MIX_SPECIAL:
-
-						combineItems();
-						break;
-					case ROLLING_PIN:
-
-						updateDisplay( DISABLED_STATE, "Using a rolling pin..." );
-						(new ConsumeItemRequest( client, new AdventureResult( 873, 1 ))).run();
-						updateDisplay( ENABLED_STATE, "Flat dough created." );
-						break;
-				}
-
+				combineItems();
 				break;
+
+			case ROLLING_PIN:
+
+				updateDisplay( DISABLED_STATE, "Using a rolling pin..." );
+				(new ConsumeItemRequest( client, new AdventureResult( 873, 1 ))).run();
+				updateDisplay( ENABLED_STATE, "Flat dough created." );
+				break;
+
+			case SUBCLASS:
+
+				super.run();
 		}
 	}
 
