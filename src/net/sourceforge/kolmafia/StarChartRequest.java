@@ -84,13 +84,9 @@ public class StarChartRequest extends ItemCreationRequest
 	{
 		SortedListModel inventory = client.getInventory();
 
-System.out.println( "Checkpoint 0.1" );
-
 		int chartsValue = getCount( inventory, new AdventureResult( "star chart", 0 ) );
 		int starsValue = getCount( inventory, new AdventureResult( "star", 0 ) );
 		int linesValue =  getCount( inventory, new AdventureResult( "line", 0 ) );
-
-System.out.println( "Checkpoint 0.2" );
 
 		List results = new ArrayList();
 		for ( int i = 0; i < STAR_ITEMS.length; ++i )
@@ -103,8 +99,6 @@ System.out.println( "Checkpoint 0.2" );
 			if ( maximumPossible > 0 )
 				results.add( new StarChartRequest( client, STAR_ITEMS[i].getItemID(), maximumPossible ) );
 		}
-
-System.out.println( "Checkpoint 0.3" );
 
 		return results;
 	}

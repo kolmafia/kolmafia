@@ -9,8 +9,8 @@ clangym.php	1	Gym: Hobo-Flex Workout Machine
 clangym.php	2	Gym: Big Book of Magicalness
 clangym.php	3	Gym: Tan-U-Lots Tanning Bed
 
-luckysewer.php	0	The Sewer (Lucky)
-sewer.php	0	The Sewer (Unlucky)
+luckysewer.php	0	Market Sewer (Lucky)
+sewer.php	0	Market Sewer (Unlucky)
 
 casino.php	1	Slots: Goat Party
 casino.php	2	Slots: Pirate Treasure
@@ -25,7 +25,7 @@ adventure.php	10	Haunted Pantry
 adventure.php	16	Haiku Dungeon
 adventure.php	19	Limerick Dungeon
 adventure.php	39	Dungeons of Doom
-dungeon.php	1	The Daily Dungeon
+dungeon.php	1	Daily Dungeon
 
 adventure.php	11	Outskirts of The Knob
 adventure.php	40	Knob Goblin Kitchens
@@ -42,34 +42,40 @@ adventure.php	32	Batrat and Ratbat Burrow
 adventure.php	33	Beanbat Chamber
 
 adventure.php	18	Degrassi Knoll
-adventure.php	20	The "Fun" House
+adventure.php	20	"Fun" House
 adventure.php	21	Cemetary (Pre-Cyrpt)
 adventure.php	22	Fernswarthy's Tower
 adventure.php	58	Cemetary (Post-Cyrpt)
-adventure.php	78	The Palindome
-adventure.php	37	The Spectral Pickle Factory
+adventure.php	78	Palindome
+adventure.php	37	Spectral Pickle Factory
 
-adventure.php	15	The Spooky Forest
-adventure.php	17	The Hidden Temple
-adventure.php	24	The Typical Tavern (Pre-Rat)
-adventure.php	25	The Typical Tavern (Post-Rat)
-adventure.php	73	The Inexplicable Door
+adventure.php	54	Cyrpt: Defiled Nook
+adventure.php	55	Cyrpt: Defiled Cranny
+adventure.php	56	Cyrpt: Defiled Alcove
+adventure.php	57	Cyrpt: Defiled Niche
+
+adventure.php	15	Spooky Forest
+adventure.php	17	Hidden Temple
+adventure.php	24	Typical Tavern (Pre-Rat)
+adventure.php	25	Typical Tavern (Post-Rat)
+adventure.php	73	Inexplicable Door
 adventure.php	28	Whitey's Grove
+
 adventure.php	75	Dark Neck of the Woods
 adventure.php	76	Dark Heart of the Woods
 adventure.php	77	Dark Elbow of the Woods
 adventure.php	79	Deep Fat Friar's Gate
 
 adventure.php	35	Barrel Full of Barrels
-adventure.php	60	The Goatlet
+adventure.php	60	Goatlet
 adventure.php	61	Itznotyerzitz Mine
 adventure.php	62	Lair of the Ninja Snowmen
 adventure.php	63	eXtreme Slope
-adventure.php	64	The Icy Peak
+adventure.php	64	Icy Peak
 adventure.php	80	Valley Beyond Orc Chasm
 
-adventure.php	26	The Hippy Camp
-adventure.php	65	The Hippy Camp (In Disguise)
+adventure.php	26	Hippy Camp
+adventure.php	65	Hippy Camp (In Disguise)
 adventure.php	27	Orcish Frat House
 adventure.php	29	Orcish Frat House (In Disguise)
 adventure.php	66	Obligatory Pirates Cove
@@ -81,4 +87,4 @@ adventure.php	83	Hole in the Sky
 
 adventure.php	45	South of the Border
 
-lair3.php	hedge	The Hedge Maze
+lair3.php	hedge	Sorceress' Hedge Maze

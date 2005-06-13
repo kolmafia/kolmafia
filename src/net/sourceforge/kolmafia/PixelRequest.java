@@ -61,8 +61,6 @@ public class PixelRequest extends ItemCreationRequest
 	{
 		super( null, "town_wrong.php", TradeableItemDatabase.getItemID( name ), 0 );
 
-System.out.println( getItemID() );
-
 		this.white = white;
 		this.black = black;
 		this.red = red;
@@ -113,8 +111,6 @@ System.out.println( getItemID() );
 				maximumPossible = Math.min( maximumPossible, greenValue / PIXEL_ITEMS[i].green );
 			if ( PIXEL_ITEMS[i].blue > 0 )
 				maximumPossible = Math.min( maximumPossible, blueValue / PIXEL_ITEMS[i].blue );
-
-System.out.println( maximumPossible );
 
 			if ( maximumPossible > 0 )
 				results.add( new PixelRequest( client, PIXEL_ITEMS[i].getItemID(), maximumPossible ) );

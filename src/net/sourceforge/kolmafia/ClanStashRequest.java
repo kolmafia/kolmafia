@@ -197,6 +197,8 @@ public class ClanStashRequest extends KoLRequest
 
 	private void parseStash()
 	{
+System.out.println( responseText );
+
 		if ( responseText == null )
 			return;
 
