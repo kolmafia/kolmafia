@@ -197,9 +197,10 @@ public class ClanStashRequest extends KoLRequest
 
 	private void parseStash()
 	{
-System.out.println( responseText );
+		// In the event that the request was broken up into pieces, there's nothing to look
+		// at.  Return from the function call.
 
-		if ( responseText == null )
+		if ( responseText == null || responseText.length() == 0 )
 			return;
 
 		List stashContents = client.getClanManager().getStash();
@@ -215,7 +216,6 @@ System.out.println( responseText );
 			return;
 
 		int lastFindIndex = 0;
-
 		Pattern qtyPattern = Pattern.compile( "\\(([\\d,]+)\\)" );
 		Matcher optionMatcher = Pattern.compile( "<option value=([\\d]+)>(.*?)</option>" ).matcher( stashMatcher.group() );
 
