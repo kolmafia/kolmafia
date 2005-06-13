@@ -347,7 +347,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			this.isErrorState = false;
 			delay( REFRESH_RATE );
 		}
-		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) && client != null && client.permitsContinue() );
+		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 	}
 
 	/**
