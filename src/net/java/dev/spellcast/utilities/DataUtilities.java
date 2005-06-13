@@ -104,6 +104,12 @@ public class DataUtilities implements UtilityConstants
 	public static InputStream getFileInputStream( String directory, String subdirectory, String filename )
 		throws FileNotFoundException
 	{
+		if ( directory.length() > 0 && (!directory.endsWith( File.separator ) && !directory.endsWith( "/" )) )
+			directory += File.separator;
+
+		if ( subdirectory.length() > 0 && (!subdirectory.endsWith( File.separator ) && !subdirectory.endsWith( "/" )) )
+			subdirectory += File.separator;
+
 		File override = new File( subdirectory + filename );
 		if ( override.exists() )
 			try { return new FileInputStream( override ); }

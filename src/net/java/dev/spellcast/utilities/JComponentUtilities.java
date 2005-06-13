@@ -39,6 +39,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 // file-related I/O
+import java.io.File;
 import java.io.FileNotFoundException;
 
 // components
@@ -149,13 +150,19 @@ public class JComponentUtilities implements UtilityConstants
 	public static ImageIcon getImage( String directory, String subdirectory, String filename )
 		throws FileNotFoundException
 	{
+		if ( directory.length() > 0 && (!directory.endsWith( File.separator ) && !directory.endsWith( "/" )) )
+			directory += File.separator;
+
+		if ( subdirectory.length() > 0 && (!subdirectory.endsWith( File.separator ) && !subdirectory.endsWith( "/" )) )
+			subdirectory += File.separator;
+
 		ImageIcon override = new ImageIcon( subdirectory + filename );
 		if ( override.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE )
 			return override;
 
 		java.net.URL filenameAsURL;
 		String fullname = directory + subdirectory + filename;
-		String jarname = fullname.replaceAll( java.io.File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+		String jarname = fullname.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 
 		// attempt to retrieve the file from the system class tree (non-JAR)
 		filenameAsURL = SYSTEM_CLASSLOADER.getResource( fullname );
