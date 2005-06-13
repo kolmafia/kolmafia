@@ -574,7 +574,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "otori" ) )
 		{
-			pwnClanOtori();
+			scriptRequestor.pwnClanOtori();
 			return;
 		}
 
