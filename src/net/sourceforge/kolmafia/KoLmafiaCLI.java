@@ -161,7 +161,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	public KoLmafiaCLI( KoLmafia scriptRequestor, String scriptLocation ) throws IOException
-	{	this( scriptRequestor, scriptLocation == null ? System.in : DataUtilities.getFileInputStream( "", "scripts", scriptLocation ) );
+	{	this( scriptRequestor, scriptLocation == null ? System.in : DataUtilities.getFileInputStream( "", "", scriptLocation ) );
 	}
 
 	public KoLmafiaCLI( KoLmafia scriptRequestor, InputStream inputStream ) throws IOException
