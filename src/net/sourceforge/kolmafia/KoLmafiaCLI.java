@@ -567,8 +567,8 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Campground activities are fairly common, so
-		// they will be listed first.
+		// Look!  It's the command to pwn clan Otori.
+		// This is handled first because I'm lazy.
 
 		if ( command.equals( "otori" ) )
 		{
@@ -576,8 +576,17 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Next is the command to handle the retrieval
+		// of breakfast, which is not yet documented.
+
+		if ( command.equals( "breakfast" ) )
+		{
+			scriptRequestor.getBreakfast();
+			return;
+		}
+
 		// Campground activities are fairly common, so
-		// they will be listed first.
+		// they will be listed first after the above.
 
 		if ( command.equals( "campground" ) )
 		{
