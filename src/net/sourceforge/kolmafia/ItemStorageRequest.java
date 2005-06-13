@@ -44,7 +44,10 @@ public class ItemStorageRequest extends KoLRequest
 {
 	private int moveType;
 	private Object [] items;
+	private int meatTransferred;
 	private List source, destination;
+
+	public static final int RETRIEVE_STORAGE = 0;
 
 	public static final int INVENTORY_TO_CLOSET = 1;
 	public static final int CLOSET_TO_INVENTORY = 2;
@@ -53,23 +56,32 @@ public class ItemStorageRequest extends KoLRequest
 	public static final int MEAT_TO_INVENTORY = 5;
 
 	public static final int STORAGE_TO_INVENTORY = 6;
+	public static final int PULL_MEAT_FROM_STORAGE = 7;
+
+	public ItemStorageRequest( KoLmafia client )
+	{
+		super( client, "storage.php" );
+		this.items = null;
+		this.moveType = RETRIEVE_STORAGE;
+	}
 
 	/**
 	 * Constructs a new <code>ItemStorageRequest</code>.
 	 * @param	client	The client to be notified of the results
 	 * @param	amount	The amount of meat involved in this transaction
-	 * @param	transactionType	Whether or not this is a deposit or withdrawal, or if it's to the clan stash
+	 * @param	moveType	Whether or not this is a deposit or withdrawal, or if it's to the clan stash
 	 */
 
-	public ItemStorageRequest( KoLmafia client, int amount, int transactionType )
+	public ItemStorageRequest( KoLmafia client, int amount, int moveType )
 	{
-		super( client, "closet.php" );
+		super( client, moveType == PULL_MEAT_FROM_STORAGE ? "storage.php" : "closet.php" );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "amt", String.valueOf( amount ) );
-		addFormField( "action", transactionType == MEAT_TO_INVENTORY ? "takemeat" : "addmeat" );
+		addFormField( "action", moveType == MEAT_TO_CLOSET ? "addmeat" : "takemeat" );
 
 		this.items = null;
-		this.moveType = transactionType;
+		this.meatTransferred = amount;
+		this.moveType = moveType;
 	}
 
 	/**
@@ -102,7 +114,7 @@ public class ItemStorageRequest extends KoLRequest
 				break;
 
 			case STORAGE_TO_INVENTORY:
-				source = new ArrayList();
+				source = client.getStorage();
 				destination = client.getInventory();
 		}
 	}
@@ -132,6 +144,12 @@ public class ItemStorageRequest extends KoLRequest
 	{
 		switch ( moveType )
 		{
+			case RETRIEVE_STORAGE:
+				updateDisplay( DISABLED_STATE, "Retrieving list of items in storage..." );
+				parseStorage();
+				updateDisplay( ENABLED_STATE, "Item list retrieved." );
+				break;
+
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
 			case STORAGE_TO_INVENTORY:
@@ -141,6 +159,7 @@ public class ItemStorageRequest extends KoLRequest
 
 			case MEAT_TO_CLOSET:
 			case MEAT_TO_INVENTORY:
+			case PULL_MEAT_FROM_STORAGE:
 				updateDisplay( DISABLED_STATE, "Executing transaction..." );
 				meat();
 				updateDisplay( NOCHANGE, "" );
@@ -150,8 +169,6 @@ public class ItemStorageRequest extends KoLRequest
 
 	private void meat()
 	{
-		int beforeMeatInCloset = client.getCharacterData().getClosetMeat();
-
 		super.run();
 
 		// If an error state occurred, return from this
@@ -164,6 +181,13 @@ public class ItemStorageRequest extends KoLRequest
 		// by locating "Your closet contains x meat" and
 		// update the display with that information.
 
+		if ( moveType != PULL_MEAT_FROM_STORAGE )
+		{
+			client.processResult( new AdventureResult( AdventureResult.MEAT, meatTransferred ) );
+			return;
+		}
+
+		int beforeMeatInCloset = client.getCharacterData().getClosetMeat();
 		Matcher meatInClosetMatcher = Pattern.compile( "[\\d,]+ meat\\.</b>" ).matcher( responseText );
 
 		if ( meatInClosetMatcher.find() )
@@ -258,6 +282,50 @@ public class ItemStorageRequest extends KoLRequest
 					AdventureResult.addResultToList( source, negatedResult );
 					client.processResult( currentResult );
 				}
+			}
+		}
+	}
+
+	private void parseStorage()
+	{
+		super.run();
+
+		List storageContents = client.getStorage();
+
+		// Start with an empty list
+
+		storageContents.clear();
+		Matcher storageMatcher = Pattern.compile( "name=takegoodies.*?</select>" ).matcher( responseText );
+
+		// If there's nothing inside storage, return
+		// because there's nothing to parse.
+
+		if ( !storageMatcher.find() )
+			return;
+
+		int lastFindIndex = 0;
+		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( storageMatcher.group() );
+		while ( optionMatcher.find( lastFindIndex ) )
+		{
+			try
+			{
+				lastFindIndex = optionMatcher.end();
+				int itemID = df.parse( optionMatcher.group(1) ).intValue();
+
+				if ( TradeableItemDatabase.getItemName( itemID ) == null )
+					TradeableItemDatabase.registerItem( client, itemID, optionMatcher.group(2).trim() );
+
+				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
+				AdventureResult.addResultToList( storageContents, result );
+			}
+			catch ( Exception e )
+			{
+				// If an exception occurs during the parsing, just
+				// continue after notifying the LogStream of the
+				// error.  This could be handled better, but not now.
+
+				logStream.println( e );
+				e.printStackTrace( logStream );
 			}
 		}
 	}

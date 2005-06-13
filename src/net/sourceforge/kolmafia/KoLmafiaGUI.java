@@ -176,22 +176,22 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.deinitialize();
 
-		if ( activeFrame == null )
-		{
-			activeFrame = new LoginFrame( this, saveStateNames );
-			activeFrame.pack();
+		if ( activeFrame != null )
+			return;
 
-			if ( settings.getProperty( activeFrame.getFrameName() ) == null )
-				activeFrame.setLocationRelativeTo( null );
+		activeFrame = new LoginFrame( this, saveStateNames );
+		activeFrame.pack();
 
-			activeFrame.setVisible( true );
-			activeFrame.requestFocus();
+		if ( settings.getProperty( activeFrame.getFrameName() ) == null )
+			activeFrame.setLocationRelativeTo( null );
 
-			if ( graphicalCLI != null )
-				graphicalCLI.dispose();
+		activeFrame.setVisible( true );
+		activeFrame.requestFocus();
 
-			graphicalCLI = null;
-		}
+		if ( graphicalCLI != null )
+			graphicalCLI.dispose();
+
+		graphicalCLI = null;
 	}
 
 	public void pwnClanOtori()

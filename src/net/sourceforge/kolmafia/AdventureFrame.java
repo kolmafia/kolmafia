@@ -233,11 +233,12 @@ public class AdventureFrame extends KoLFrame
 			removeEffects.setEnabled( this.isEnabled );
 
 		Iterator framesIterator = existingFrames.iterator();
+
 		while ( framesIterator.hasNext() )
 		{
-                        KoLFrame currentFrame = (KoLFrame) framesIterator.next();
-			if ( currentFrame.isShowing())
-                                currentFrame.setEnabled( isEnabled );
+			KoLFrame currentFrame = (KoLFrame) framesIterator.next();
+			if ( currentFrame.isShowing() )
+				currentFrame.setEnabled( isEnabled );
 		}
 	}
 
@@ -285,11 +286,14 @@ public class AdventureFrame extends KoLFrame
 		trapperItem.addActionListener( new TrapperRequestListener() );
 		JMenuItem hunterItem = new JMenuItem( "Seaside Towels", KeyEvent.VK_S );
 		hunterItem.addActionListener( new HunterRequestListener() );
+		JMenuItem hagnkItem = new JMenuItem( "Gnomish Storage", KeyEvent.VK_G );
+		hagnkItem.addActionListener( new DisplayFrameListener( HagnkStorageFrame.class ) );
 
 		visitMenu.add( arenaItem );
 		visitMenu.add( hermitItem );
 		visitMenu.add( trapperItem );
 		visitMenu.add( hunterItem );
+		visitMenu.add( hagnkItem );
 
 		menuBar.add( visitMenu );
 
@@ -1226,6 +1230,7 @@ public class AdventureFrame extends KoLFrame
 			}
 		}
 	}
+
 	private class SessionTimeInListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
@@ -1236,8 +1241,12 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void run()
 			{
+				LoginRequest loginRequest = client.loginRequest;
 				client.deinitialize();
-				client.loginRequest.run();
+				client.loginRequest = loginRequest;
+
+				loginRequest.run();
+				client.updateDisplay( ENABLED_STATE, "Session timed in." );
 			}
 		}
 	}

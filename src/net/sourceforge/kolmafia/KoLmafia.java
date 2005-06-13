@@ -103,7 +103,7 @@ public abstract class KoLmafia implements KoLConstants
 	private TreeMap seenPlayerNames;
 
 	protected SortedListModel tally;
-	protected SortedListModel inventory, closet, usableItems, hunterItems, collection;
+	protected SortedListModel inventory, closet, usableItems, hunterItems, collection, storage;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -199,6 +199,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.inventory = characterData.getInventory();
 		this.usableItems = new SortedListModel();
 		this.hunterItems = new SortedListModel();
+		this.storage = new SortedListModel();
 		this.collection = characterData.getCollection();
 		this.closet = characterData.getCloset();
 		this.tally = new SortedListModel();
@@ -643,6 +644,15 @@ public abstract class KoLmafia implements KoLConstants
 
 	public SortedListModel getBountyHunterItems()
 	{	return hunterItems;
+	}
+
+	/**
+	 * Retrieves the character's storage contents.
+	 * @return	The character's items in storage
+	 */
+
+	public SortedListModel getStorage()
+	{	return storage;
 	}
 
 	/**
