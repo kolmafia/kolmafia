@@ -155,14 +155,13 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * Constructs a new <code>KoLmafia</code> object.  All data fields
+	 * Constructs a new <code>KoLmafiaCLI</code> object.  All data fields
 	 * are initialized to their default values, the global settings
-	 * are loaded from disk, and a <code>LoginFrame</code> is created
-	 * to allow the user to login.
+	 * are loaded from disk.
 	 */
 
 	public KoLmafiaCLI( KoLmafia scriptRequestor, String scriptLocation ) throws IOException
-	{	this( scriptRequestor, scriptLocation == null ? System.in : DataUtilities.getFileInputStream( "", "", scriptLocation ) );
+	{	this( scriptRequestor, scriptLocation == null ? System.in : DataUtilities.getFileInputStream( "", "scripts", scriptLocation ) );
 	}
 
 	public KoLmafiaCLI( KoLmafia scriptRequestor, InputStream inputStream ) throws IOException
@@ -404,14 +403,30 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			try
 			{
-				lastScript = new KoLmafiaCLI( scriptRequestor, parameters );
+				try
+				{
+					// First, assume that it's inside of the scripts
+					// directory and make an attempt to retrieve it
+					// from there.
+
+					lastScript = new KoLmafiaCLI( scriptRequestor, DataUtilities.getFileInputStream( "", "scripts", parameters ) );
+				}
+				catch ( IOException e1 )
+				{
+					// If an exception is thrown (flow control with
+					// exceptions, bad, but oh well), then load it
+					// from the default directory.
+
+					lastScript = new KoLmafiaCLI( scriptRequestor, DataUtilities.getFileInputStream( "", "", parameters ) );
+				}
+
 				lastScript.listenForCommands();
 				if ( lastScript.previousCommand == null )
 					lastScript = null;
 
 				return;
 			}
-			catch ( IOException e )
+			catch ( IOException e2 )
 			{
 				// Print a message indicating that the file failed to
 				// be loaded, since that's what the error probably was.
