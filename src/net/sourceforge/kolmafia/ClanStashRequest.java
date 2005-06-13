@@ -197,11 +197,13 @@ public class ClanStashRequest extends KoLRequest
 
 	private void parseStash()
 	{
+		if ( responseText == null )
+			return;
+
 		List stashContents = client.getClanManager().getStash();
 
 		// Start with an empty list
 		stashContents.clear();
-
 		Matcher stashMatcher = Pattern.compile( "<form name=takegoodies.*?</select>" ).matcher( responseText );
 
 		// If there's nothing inside the goodies hoard,
@@ -238,8 +240,6 @@ public class ClanStashRequest extends KoLRequest
 					Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( itemString.indexOf( "(" ) ) );
 					result = new AdventureResult( itemID, qtyMatcher.find() ? df.parse( qtyMatcher.group(1) ).intValue() : 1 );
 				}
-
-
 
 				AdventureResult.addResultToList( stashContents, result );
 			}
