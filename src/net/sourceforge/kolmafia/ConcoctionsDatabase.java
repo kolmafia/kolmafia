@@ -375,19 +375,13 @@ public class ConcoctionsDatabase
 			// If a calculation has already been done for this
 			// concoction, simply return.
 
-System.out.println( "Checkpoint 1: " + concoction.getItemID() );
-
 			if ( quantityPossible[ concoction.getItemID() ] != -1 )
 				return;
-
-System.out.println( "Checkpoint 2: " + concoction.getItemID() );
 
 			// Convert the list of items to an array in order to
 			// make things easier to work with.
 
 			AdventureResult [] ingredientArray = getIngredients();
-
-System.out.println( "Checkpoint 3: " + concoction.getItemID() );
 
 			// Determine how many were available initially in the
 			// available ingredient list.
@@ -395,17 +389,12 @@ System.out.println( "Checkpoint 3: " + concoction.getItemID() );
 			int index = availableIngredients.indexOf( concoction );
 			quantityPossible[ concoction.getItemID() ] = (index == -1) ? 0 : ((AdventureResult)availableIngredients.get( index )).getCount();
 
-System.out.println( "Checkpoint 4: " + concoction.getItemID() );
-for ( int i = 0; i < ingredientArray.length; ++i )
-	System.out.println( "Ingredient: " + ingredientArray[i] );
 			// Calculate how many of each ingredient can be created
 			// at each step.
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
 				if ( concoctions[ ingredientArray[i].getItemID() ] != null )
 					concoctions[ ingredientArray[i].getItemID() ].calculateQuantityPossible( availableIngredients );
-
-System.out.println( "Checkpoint 5: " + concoction.getItemID() );
 
 			int divisor;
 			int additionalPossible = quantityPossible[ ingredientArray[0].getItemID() ];
@@ -419,8 +408,6 @@ System.out.println( "Checkpoint 5: " + concoction.getItemID() );
 
 				additionalPossible = Math.min( additionalPossible, quantityPossible[ ingredientArray[i].getItemID() ] / divisor );
 			}
-
-System.out.println( "Checkpoint 6: " + concoction.getItemID() );
 
 			// Now, factor in the possibility that the same ingredient
 			// may be used twice in the same concoction
