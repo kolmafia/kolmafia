@@ -247,8 +247,10 @@ public class GearChangeFrame extends KoLFrame
 			public void run()
 			{
 				isChanging = true;
+				GearChangeFrame.this.setEnabled( false );
 				(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 				refreshEquipPanel();
+				GearChangeFrame.this.setEnabled( true );
 				isChanging = false;
 			}
 		}
@@ -265,7 +267,9 @@ public class GearChangeFrame extends KoLFrame
 			public void run()
 			{
 				isChanging = true;
+				GearChangeFrame.this.setEnabled( false );
 				(new FamiliarRequest( client )).run();
+				GearChangeFrame.this.setEnabled( true );
 				refreshEquipPanel();
 				isChanging = false;
 			}
@@ -288,8 +292,10 @@ public class GearChangeFrame extends KoLFrame
 			public void run()
 			{
 				isChanging = true;
+				GearChangeFrame.this.setEnabled( false );
 				client.makeRequest( new FamiliarRequest( client, change ), 1 );
 				refreshEquipPanel();
+				GearChangeFrame.this.setEnabled( true );
 				isChanging = false;
 			}
 		}
@@ -324,7 +330,9 @@ public class GearChangeFrame extends KoLFrame
 				if ( select == equipment[5] && !characterData.getAccessory3().equals( "none" ) )
 					client.makeRequest( new EquipmentRequest( client, "acc3" ), 1 );
 
+				GearChangeFrame.this.setEnabled( false );
 				client.makeRequest( new EquipmentRequest( client, change ), 1 );
+				GearChangeFrame.this.setEnabled( true );
 				refreshEquipPanel();
 				isChanging = false;
 			}
@@ -347,8 +355,10 @@ public class GearChangeFrame extends KoLFrame
 			public void run()
 			{
 				isChanging = true;
+				GearChangeFrame.this.setEnabled( false );
 				client.makeRequest( new EquipmentRequest( client, change ), 1 );
 				refreshEquipPanel();
+				GearChangeFrame.this.setEnabled( true );
 				isChanging = false;
 			}
 		}

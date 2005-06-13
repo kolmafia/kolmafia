@@ -135,11 +135,21 @@ public class ItemManageFrame extends KoLFrame
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-		refreshItem.setEnabled( isEnabled );
-		using.setEnabled( isEnabled );
-		selling.setEnabled( isEnabled );
-		museum.setEnabled( isEnabled );
-		stash.setEnabled( isEnabled );
+
+		if ( refreshItem != null )
+			refreshItem.setEnabled( isEnabled );
+
+		if ( using != null )
+			using.setEnabled( isEnabled );
+
+		if ( selling != null )
+			selling.setEnabled( isEnabled );
+
+		if ( museum != null )
+			museum.setEnabled( isEnabled );
+
+		if ( stash != null )
+			stash.setEnabled( isEnabled );
 	}
 
 	/**

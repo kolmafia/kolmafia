@@ -235,11 +235,7 @@ public class AdventureFrame extends KoLFrame
 		Iterator framesIterator = existingFrames.iterator();
 
 		while ( framesIterator.hasNext() )
-		{
-			KoLFrame currentFrame = (KoLFrame) framesIterator.next();
-			if ( currentFrame.isShowing() )
-				currentFrame.setEnabled( isEnabled );
-		}
+			((KoLFrame) framesIterator.next()).setEnabled( isEnabled );
 	}
 
 	/**

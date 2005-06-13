@@ -163,11 +163,19 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	public void setEnabled( boolean isEnabled )
 	{
 		refreshMailManager();
-		for ( int i = 0; i < tabbedListDisplay.getTabCount(); ++i )
-			tabbedListDisplay.setEnabledAt( i, isEnabled );
-		messageListInbox.setEnabled( isEnabled );
-		messageListOutbox.setEnabled( isEnabled );
-		messageListSaved.setEnabled( isEnabled );
+
+		if ( tabbedListDisplay != null )
+			for ( int i = 0; i < tabbedListDisplay.getTabCount(); ++i )
+				tabbedListDisplay.setEnabledAt( i, isEnabled );
+
+		if ( messageListInbox != null )
+			messageListInbox.setEnabled( isEnabled );
+
+		if ( messageListOutbox != null )
+			messageListOutbox.setEnabled( isEnabled );
+
+		if ( messageListSaved != null )
+			messageListSaved.setEnabled( isEnabled );
 	}
 
 	/**

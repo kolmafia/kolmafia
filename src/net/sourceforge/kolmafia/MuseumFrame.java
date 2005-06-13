@@ -101,7 +101,8 @@ public class MuseumFrame extends KoLFrame
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-		storing.setEnabled( isEnabled );
+		if ( storing != null )
+			storing.setEnabled( isEnabled );
 	}
 
 	/**

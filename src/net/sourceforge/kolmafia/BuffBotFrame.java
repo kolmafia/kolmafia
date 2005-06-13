@@ -214,10 +214,14 @@ public class BuffBotFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		mainBuff.setEnabled( isEnabled );
-		buffOptions.setEnabled( isEnabled );
-		whiteList.setEnabled( isEnabled );
-		invalidBuff.setEnabled( isEnabled );
+		if ( mainBuff != null )
+			mainBuff.setEnabled( isEnabled );
+		if ( buffOptions != null )
+			buffOptions.setEnabled( isEnabled );
+		if ( whiteList != null )
+			whiteList.setEnabled( isEnabled );
+		if ( invalidBuff != null )
+			invalidBuff.setEnabled( isEnabled );
 	}
 
 	/**

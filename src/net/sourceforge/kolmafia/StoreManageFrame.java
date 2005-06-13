@@ -97,10 +97,17 @@ public class StoreManageFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		sellingList.setEnabled( isEnabled );
-		storeManager.setEnabled( isEnabled );
-		addItem.setEnabled( isEnabled );
-		storeItemList.setEnabled( isEnabled );
+		if ( sellingList != null )
+			sellingList.setEnabled( isEnabled );
+
+		if ( storeManager != null )
+			storeManager.setEnabled( isEnabled );
+
+		if ( addItem != null )
+			addItem.setEnabled( isEnabled );
+
+		if ( storeItemList != null )
+			storeItemList.setEnabled( isEnabled );
 	}
 
 	private class StoreManagePanel extends LabeledKoLPanel
