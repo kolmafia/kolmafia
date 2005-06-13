@@ -438,6 +438,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void processResult( AdventureResult result )
 	{
+		logStream.println( "Processing result: " + result );
+
 		// This should not happen, but check just in case and
 		// return if the result was null.
 
