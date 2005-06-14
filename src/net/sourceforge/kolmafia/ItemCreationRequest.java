@@ -522,10 +522,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private void makeIngredient( AdventureResult ingredient, int multiplier )
 	{
-		List inventory = client.getInventory();
-		int index = inventory.indexOf( ingredient );
-
-		int actualQuantityNeeded = (quantityNeeded * multiplier) - ((index == -1) ? 0 : ((AdventureResult)inventory.get( index )).getCount());
+		int actualQuantityNeeded = (quantityNeeded * multiplier) - ingredient.getCount( client.getInventory() );
 
 		// In order to minimize server overload by making exact quantities,
 		// the client will attempt to overcompensate by making more meat
@@ -539,14 +536,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
 			if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
 			{
-				List closet = client.getCloset();
-				index = closet.indexOf( ingredient );
+				int closetCount = ingredient.getCount( client.getCloset() );
 
-				if ( index != -1 )
+				if ( closetCount != 0 )
 				{
 					AdventureResult [] retrieval = new AdventureResult[1];
-					retrieval[0] = new AdventureResult( ingredient.getItemID(),
-						Math.min( actualQuantityNeeded, ((AdventureResult)closet.get( index )).getCount() ) );
+					retrieval[0] = ingredient.getInstance( Math.min( actualQuantityNeeded, closetCount ) );
 
 					updateDisplay( DISABLED_STATE, "Retrieving " + retrieval[0].toString() + " from closet..." );
 					(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, retrieval )).run();
@@ -654,5 +649,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * quantityNeeded ) );
 			client.processResult( new AdventureResult( meatType, quantityNeeded ) );
 		}
+	}
+
+	/**
+	 * Special method which simplifies the constant use of indexOf and
+	 * count retrieval.  This makes intent more transparent.
+	 */
+
+	public int getCount( List list )
+	{
+		int index = list.indexOf( this );
+		return index == -1 ? 0 : ((ItemCreationRequest)list.get( index )).getQuantityNeeded();
 	}
 }

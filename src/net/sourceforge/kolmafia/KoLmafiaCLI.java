@@ -1289,33 +1289,17 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		AdventureResult firstMatch = new AdventureResult( itemName, itemCount );
-		int index = (matchType == CLOSET ? scriptRequestor.getCloset() : scriptRequestor.getInventory()).indexOf( firstMatch );
 
 		if ( itemCount <= 0 )
 		{
-			switch ( matchType )
-			{
-				case USAGE:
-					if ( index == -1 )
-						return null;
+			int matchCount = 0;
 
-					firstMatch = (AdventureResult) scriptRequestor.getInventory().get( index );
-					return firstMatch == null ? null : new AdventureResult( firstMatch.getName(), firstMatch.getCount() + itemCount );
+			if ( matchType == CREATION )
+				matchCount = ItemCreationRequest.getInstance( scriptRequestor, firstMatch ).getCount( ConcoctionsDatabase.getConcoctions() );
+			else
+				matchCount = firstMatch.getCount( matchType == CLOSET ? scriptRequestor.getCloset() : scriptRequestor.getInventory() );
 
-				case CLOSET:
-					if ( index == -1 )
-						return null;
-
-					firstMatch = (AdventureResult) scriptRequestor.getCloset().get( index );
-					return firstMatch == null ? null : new AdventureResult( firstMatch.getName(), firstMatch.getCount() + itemCount );
-
-				case CREATION:
-
-					List concoctions = ConcoctionsDatabase.getConcoctions();
-					ItemCreationRequest concoction = ItemCreationRequest.getInstance( scriptRequestor, firstMatch.getItemID(), firstMatch.getCount() );
-					index = concoctions.indexOf( concoction );
-					return index == -1 ? null : new AdventureResult( itemName, itemCount + ((ItemCreationRequest)concoctions.get( index )).getQuantityNeeded() );
-			}
+			return matchCount == 0 ? null : firstMatch.getInstance( matchCount + itemCount );
 		}
 
 		return firstMatch;

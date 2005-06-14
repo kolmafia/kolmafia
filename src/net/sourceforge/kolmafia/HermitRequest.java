@@ -145,12 +145,8 @@ public class HermitRequest extends KoLRequest
 
 	private int subtractWorthlessItems( AdventureResult item, List inventory, int total )
 	{
-		int index = inventory.indexOf( item );
-		if ( index == -1 )
-			return 0;
-
-		int count = 0 - Math.min( total, ((AdventureResult)inventory.get( index )).getCount() );
-		client.processResult( new AdventureResult( item.getItemID(), count ) );
+		int count = 0 - Math.min( total, item.getCount( inventory ) );
+		client.processResult( item.getInstance( count ) );
 		return count;
 	}
 }

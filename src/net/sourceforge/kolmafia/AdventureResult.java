@@ -563,4 +563,15 @@ public class AdventureResult implements Comparable, KoLConstants
 	public AdventureResult getInstance( int quantity )
 	{	return isItem() ? new AdventureResult( itemID, quantity ) : new AdventureResult( name, quantity );
 	}
+
+	/**
+	 * Special method which simplifies the constant use of indexOf and
+	 * count retrieval.  This makes intent more transparent.
+	 */
+
+	public int getCount( List list )
+	{
+		int index = list.indexOf( this );
+		return index == -1 ? 0 : ((AdventureResult)list.get( index )).getCount();
+	}
 }

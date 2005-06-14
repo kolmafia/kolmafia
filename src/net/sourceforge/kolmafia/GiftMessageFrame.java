@@ -237,17 +237,14 @@ public class GiftMessageFrame extends KoLFrame
 				AdventureResult attachment = (AdventureResult) JOptionPane.showInputDialog(
 					null, "Add to gift...", "Input", JOptionPane.INFORMATION_MESSAGE, null, items, items[0] );
 
-				int existingIndex = attachedItems.indexOf( attachment );
-				int defaultCount = existingIndex != -1 ? 0 :
-					((AdventureResult)client.getInventory().get( client.getInventory().indexOf( attachment ) )).getCount();
-
+				int defaultCount = attachment.getCount( client.getInventory() );
 				int attachmentCount = df.parse( JOptionPane.showInputDialog(
-					"Adding " + attachment.getName() + "...", String.valueOf( defaultCount ) ) ).intValue();
+					"Attaching " + attachment.getDisplayName() + "...", String.valueOf( defaultCount ) ) ).intValue();
 
-				if ( existingIndex != -1 )
-					attachedItems.remove( existingIndex );
+				if ( attachedItems.contains( attachment ) )
+					AdventureResult.addResultToList( attachedItems, attachment.getInstance( 0 - defaultCount ) );
 
-				AdventureResult.addResultToList( attachedItems, new AdventureResult( attachment.getItemID(), attachmentCount ) );
+				AdventureResult.addResultToList( attachedItems, attachment.getInstance( attachmentCount ) );
 				attachedItems.setSelectedIndex( attachedItems.size() - 1 );
 			}
 			catch ( Exception e1 )

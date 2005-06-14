@@ -106,8 +106,8 @@ public class ConsumeItemRequest extends KoLRequest
 		// inventory first - if not, report the error message and
 		// return from the method.
 
-		int itemIndex = client.getInventory().indexOf( itemUsed );
-		if ( itemIndex == -1 || ((AdventureResult)client.getInventory().get( itemIndex )).getCount() + itemUsed.getCount() < 0 )
+		int itemCount = itemUsed.getCount( client.getInventory() );
+		if ( itemCount == 0 || itemUsed.getCount() + itemCount < 0 )
 		{
 			updateDisplay( ERROR_STATE, "You do not have enough " + itemUsed.getName() + "." );
 			client.cancelRequest();
@@ -220,12 +220,8 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( itemUsed.getName().indexOf( "rolling" ) != -1 )
 			{
-				String consumedItemName = itemUsed.getName().startsWith( "r" ) ? "wad of dough" : "flat dough";
-				int consumedItemIndex = client.getInventory().indexOf( new AdventureResult( consumedItemName, 0 ) );
-
-				if ( consumedItemIndex != -1 )
-					client.processResult( new AdventureResult( consumedItemName,
-						0 - ((AdventureResult)client.getInventory().get( consumedItemIndex )).getCount() ) );
+				AdventureResult consumedItem = new AdventureResult( itemUsed.getName().startsWith( "r" ) ? "wad of dough" : "flat dough", 0 );
+				client.processResult( consumedItem.getInstance( consumedItem.getCount( client.getInventory() ) ) );
 			}
 		}
 	}

@@ -56,6 +56,10 @@ public class StarChartRequest extends ItemCreationRequest
 		BUCKLER, CROSSBOW, HAT, PANTS, STAFF, STARFISH, SWORD, THROWING, STARKEY
 	};
 
+	private static final AdventureResult STAR_CHART = new AdventureResult( "star chart", 0 );
+	private static final AdventureResult STAR = new AdventureResult( "star", 0 );
+	private static final AdventureResult LINE = new AdventureResult( "line", 0 );
+
 	private StarChartRequest( String name, int stars, int lines )
 	{
 		super( null, "starchart.php", TradeableItemDatabase.getItemID( name ), 0 );
@@ -84,9 +88,9 @@ public class StarChartRequest extends ItemCreationRequest
 	{
 		SortedListModel inventory = client.getInventory();
 
-		int chartsValue = getCount( inventory, new AdventureResult( "star chart", 0 ) );
-		int starsValue = getCount( inventory, new AdventureResult( "star", 0 ) );
-		int linesValue =  getCount( inventory, new AdventureResult( "line", 0 ) );
+		int chartsValue = STAR_CHART.getCount( inventory );
+		int starsValue = STAR.getCount( inventory );
+		int linesValue =  LINE.getCount( inventory );
 
 		List results = new ArrayList();
 		for ( int i = 0; i < STAR_ITEMS.length; ++i )

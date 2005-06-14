@@ -64,7 +64,7 @@ public class GreenMessageRequest extends KoLRequest
 		if ( attachment.getName().equals( AdventureResult.MEAT ) )
 		{
 			addFormField( "sendmeat", String.valueOf( attachment.getCount() ) );
-			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - attachment.getCount() ) );
+			client.processResult( attachment.getNegation() );
 			this.attachments = new Object[0];
 		}
 		else

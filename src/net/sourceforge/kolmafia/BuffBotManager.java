@@ -829,15 +829,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				//        go as easy on the server as possible
 				// But, don't go too far over (thus wasting restorers)
 				int mpShort = Math.max(maximumMP + 5 - mpPerUse, mpNeeded) - currentMP;
-				int itemIndex = client.getInventory().indexOf( itemUsed );
-				if  ( itemIndex > -1 )
+				int numberToUse = Math.min( 1 + ((mpShort - 1) / mpPerUse), itemUsed.getCount( client.getInventory() ) );
+
+				if ( numberToUse > 0 )
 				{
-					int numberToUse = Math.min(1 + ((mpShort - 1) / mpPerUse), ((AdventureResult)client.getInventory().get( itemIndex )).getCount() );
-					if (numberToUse > 0)
-					{
-						buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Consuming " + numberToUse + " " + itemName + "s." );
-						(new ConsumeItemRequest( client, new AdventureResult( itemUsed.getItemID(), numberToUse ) )).run();
-					}
+					buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Consuming " + numberToUse + " " + itemName + "s." );
+					(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
 				}
 			}
 

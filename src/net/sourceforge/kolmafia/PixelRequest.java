@@ -57,6 +57,12 @@ public class PixelRequest extends ItemCreationRequest
 		PURPLE_PIXEL_PIE, PIXEL_HAT, PIXEL_PANTS, PIXEL_SWORD, DIGITAL_KEY
 	};
 
+	private static final AdventureResult WHITE = new AdventureResult( "white pixel", 0 );
+	private static final AdventureResult BLACK = new AdventureResult( "black pixel", 0 );
+	private static final AdventureResult RED = new AdventureResult( "red pixel", 0 );
+	private static final AdventureResult GREEN = new AdventureResult( "green pixel", 0 );
+	private static final AdventureResult BLUE = new AdventureResult( "blue pixel", 0 );
+
 	private PixelRequest( String name, int white, int black, int red, int green, int blue )
 	{
 		super( null, "town_wrong.php", TradeableItemDatabase.getItemID( name ), 0 );
@@ -90,11 +96,11 @@ public class PixelRequest extends ItemCreationRequest
 	{
 		SortedListModel inventory = client.getInventory();
 
-		int whiteValue = getCount( inventory, new AdventureResult( "white pixel", 0 ) );
-		int blackValue = getCount( inventory, new AdventureResult( "black pixel", 0 ) );
-		int redValue = getCount( inventory, new AdventureResult( "red pixel", 0 ) );
-		int greenValue = getCount( inventory, new AdventureResult( "green pixel", 0 ) );
-		int blueValue = getCount( inventory, new AdventureResult( "blue pixel", 0 ) );
+		int whiteValue = WHITE.getCount( inventory );
+		int blackValue = BLACK.getCount( inventory );
+		int redValue = RED.getCount( inventory );
+		int greenValue = GREEN.getCount( inventory );
+		int blueValue = BLUE.getCount( inventory );
 
 		List results = new ArrayList();
 		for ( int i = 0; i < PIXEL_ITEMS.length; ++i )

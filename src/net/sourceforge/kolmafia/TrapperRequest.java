@@ -58,7 +58,7 @@ public class TrapperRequest extends KoLRequest
 	{
 		super( client, "trapper.php" );
 
-		this.quantity = getCount( client.getInventory(), YETI_FUR );
+		this.quantity = YETI_FUR.getCount( client.getInventory() );
 		addFormField( "action", "Yep." );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "whichitem", String.valueOf( itemID ) );

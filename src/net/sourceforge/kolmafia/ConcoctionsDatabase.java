@@ -160,10 +160,7 @@ public class ConcoctionsDatabase
 			{
 				String itemName = TradeableItemDatabase.getItemName(i);
 				if ( itemName != null )
-				{
-					int index = availableIngredients.indexOf( new AdventureResult( i, 0 ) );
-					quantityPossible[i] = (index == -1) ? 0 : ((AdventureResult)availableIngredients.get( index )).getCount();
-				}
+					quantityPossible[i] = (new AdventureResult( i, 0 )).getCount( availableIngredients );
 				else
 					quantityPossible[i] = 0;
 			}
@@ -205,10 +202,7 @@ public class ConcoctionsDatabase
 				{
 					String itemName = TradeableItemDatabase.getItemName(i);
 					if ( itemName != null )
-					{
-						int index = availableIngredients.indexOf( new AdventureResult( i, 0 ) );
-						quantityPossible[i] = (index == -1) ? 0 : ((AdventureResult)availableIngredients.get( index )).getCount();
-					}
+						quantityPossible[i] = (new AdventureResult( i, 0 )).getCount( availableIngredients );
 					else
 						quantityPossible[i] = 0;
 				}
@@ -386,8 +380,7 @@ public class ConcoctionsDatabase
 			// Determine how many were available initially in the
 			// available ingredient list.
 
-			int index = availableIngredients.indexOf( concoction );
-			quantityPossible[ concoction.getItemID() ] = (index == -1) ? 0 : ((AdventureResult)availableIngredients.get( index )).getCount();
+			quantityPossible[ concoction.getItemID() ] = concoction.getCount( availableIngredients );
 
 			// Calculate how many of each ingredient can be created
 			// at each step.

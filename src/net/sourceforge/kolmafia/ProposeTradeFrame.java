@@ -207,21 +207,14 @@ public class ProposeTradeFrame extends KoLFrame
 					null, "Attach to message...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
 					possibleValues, possibleValues[0] );
 
-				int existingIndex = attachedItems.indexOf( attachment );
-				int defaultCount = attachment.getName().equals( AdventureResult.MEAT ) ? 0 : existingIndex != -1 ? 0 :
-					((AdventureResult)client.getInventory().get( client.getInventory().indexOf( attachment ) )).getCount();
-
+				int defaultCount = attachment.getCount( attachedItems );
 				int attachmentCount = df.parse( JOptionPane.showInputDialog(
 					"Attaching " + attachment.getDisplayName() + "...", String.valueOf( defaultCount ) ) ).intValue();
 
-				if ( existingIndex != -1 )
-					attachedItems.remove( existingIndex );
+				if ( attachedItems.contains( attachment ) )
+					AdventureResult.addResultToList( attachedItems, attachment.getInstance( 0 - defaultCount ) );
 
-				if ( attachment.getName().equals( AdventureResult.MEAT ) )
-					AdventureResult.addResultToList( attachedItems, new AdventureResult( AdventureResult.MEAT, attachmentCount ) );
-				else
-					AdventureResult.addResultToList( attachedItems, new AdventureResult( attachment.getItemID(), attachmentCount ) );
-
+				AdventureResult.addResultToList( attachedItems, attachment.getInstance( attachmentCount ) );
 				attachedItems.setSelectedIndex( attachedItems.size() - 1 );
 			}
 			catch ( Exception e1 )
