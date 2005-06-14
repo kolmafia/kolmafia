@@ -401,8 +401,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			return false;
 
 		AdventureResult ar = (AdventureResult) o;
-
-		return name.equalsIgnoreCase( ar.name) && (!ar.isItem() || (itemID == ar.itemID));
+		return count.length == ar.count.length && name.equalsIgnoreCase( ar.name ) && (!ar.isItem() || (itemID == ar.itemID));
 	}
 
 	/**
@@ -420,7 +419,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		int priorityDifference = priority - ar.priority;
 		int nameComparison = name.compareToIgnoreCase( ar.name );
-		return priorityDifference != 0 ? priorityDifference : nameComparison != 0 ? nameComparison : isItem() ? itemID - ar.itemID : 0;
+		return priorityDifference != 0 ? priorityDifference : nameComparison != 0 ? nameComparison : isItem() ? itemID - ar.itemID : -1;
 	}
 
 	/**
@@ -462,68 +461,47 @@ public class AdventureResult implements Comparable, KoLConstants
 			return;
 		}
 
-		AdventureResult actualResult = add( result, (AdventureResult) tally.get( index ) );
+		// Compute the sum of the existing adventure result and the
+		// current adventure result, and construct the sum.
+
+		AdventureResult current = (AdventureResult) tally.get( index );
+
+		int [] sumCount = new int[ current.count.length ];
+		for ( int i = 0; i < sumCount.length; ++i )
+			sumCount[i] = current.count[i] + result.count[i];
+
+		AdventureResult sumResult = current.getInstance( sumCount );
 
 		// Check to make sure that the result didn't transform the value
 		// to zero - if it did, then remove the item from the list if
 		// it's an item (non-items are exempt).
 
-		if ( actualResult.getCount() == 0 )
+		if ( sumResult.getCount() == 0 )
 		{
-			if ( actualResult.isItem() )
+			if ( sumResult.isItem() )
 			{
-				tally.remove( result );
+				tally.remove( index );
 				return;
 			}
-			else if ( actualResult.isStatusEffect() )
+			else if ( sumResult.isStatusEffect() )
 			{
-				tally.remove( result );
+				tally.remove( index );
 				return;
 			}
 		}
-		else if ( actualResult.getCount() < 0 )
+		else if ( sumResult.getCount() < 0 )
 		{
-			if ( actualResult.isStatusEffect() )
+			if ( sumResult.isStatusEffect() )
 			{
-				tally.remove( result );
+				tally.remove( index );
 				return;
 			}
 		}
 
-		if ( actualResult.getName().equals( AdventureResult.ADV ) && actualResult.getCount() < 0 )
-			actualResult = new AdventureResult( AdventureResult.ADV, 0 );
+		if ( sumResult.getName().equals( AdventureResult.ADV ) && sumResult.getCount() < 0 )
+			sumResult = new AdventureResult( AdventureResult.ADV, 0 );
 
-		tally.set( index, actualResult );
-	}
-
-	/**
-	 * A static method which adds the two <code>AdventureResult</code>s together to
-	 * produce a new <code>AdventureResult</code> containing the sum of the results.
-	 * Because addition is commutative, it doesn't matter which one is left or right;
-	 * it is named simply for convenience.  Note that if the left and right operands
-	 * do not have the same name, this method returns <code>null</code>; if either
-	 * operand is null, the method returns the other operand.
-	 *
-	 * @param	left	The left operand
-	 * @param	right	The right operand
-	 * @return	An <code>AdventureResult</code> containing the sum of the left and right operands
-	 */
-
-	private static AdventureResult add( AdventureResult left, AdventureResult right )
-	{
-		if ( left == null || left.name == null )
-			return right;
-		if ( right == null || right.name == null )
-			return left;
-
-		if ( !left.name.equals( right.name ) )
-			return null;
-
-		int [] totals = left.count.length == right.count.length ? new int[ left.count.length ] : new int[ Math.min( left.count.length, right.count.length ) ];
-		for ( int i = 0; i < totals.length; ++i )
-			totals[i] = left.count[i] + right.count[i];
-
-		return left.isItem() ? new AdventureResult( left.itemID, totals[0] ) : new AdventureResult( left.name, totals );
+		tally.set( index, sumResult );
 	}
 
 	public static AutoSellCellRenderer getAutoSellCellRenderer()
@@ -562,6 +540,10 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public AdventureResult getInstance( int quantity )
 	{	return isItem() ? new AdventureResult( itemID, quantity ) : new AdventureResult( name, quantity );
+	}
+
+	private AdventureResult getInstance( int [] count )
+	{	return isItem() ? new AdventureResult( itemID, count[0] ) : new AdventureResult( name, count );
 	}
 
 	/**
