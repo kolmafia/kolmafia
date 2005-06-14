@@ -387,14 +387,20 @@ public class ConcoctionsDatabase
 					concoctions[ ingredientArray[i].getItemID() ].calculateQuantityPossible( availableIngredients );
 
 			int additionalPossible = Integer.MAX_VALUE;
+			int itemID, quantity, divisor;
 
-                        for ( int i = 0; i < ingredientArray.length; ++i )
-                        {
-                                int itemID = ingredientArray[i].getItemID();
-                                int quantity = quantityPossible[ itemID ];
-                                int divisor = ingredientArray[i].getCount();
-                                additionalPossible = Math.min ( additionalPossible, quantity / divisor );
-                        }
+			for ( int i = 0; i < ingredientArray.length; ++i )
+			{
+				itemID = ingredientArray[i].getItemID();
+				quantity = quantityPossible[ itemID ];
+				divisor = ingredientArray[i].getCount();
+
+				for ( int j = 0; j < ingredientArray.length; ++j )
+					if ( i != j && itemID == ingredientArray[j].getItemID() )
+						divisor += ingredientArray[i].getCount();
+
+				additionalPossible = Math.min ( additionalPossible, quantity / divisor );
+			}
 
 			// Now, factor in the possibility that the same
 			// ingredient may be used twice in the same concoction
