@@ -78,7 +78,7 @@ public class ConsumeItemRequest extends KoLRequest
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.consumptionType = consumptionType;
-		this.itemUsed = new AdventureResult( item.getItemID(), 0 - item.getCount() );
+		this.itemUsed = item.getNegation();
 	}
 
 	public int getConsumptionType()

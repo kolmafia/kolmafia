@@ -819,4 +819,15 @@ public class KoLRequest implements Runnable, KoLConstants
 	public int getAdventuresUsed()
 	{	return 0;
 	}
+
+	/**
+	 * Special method which simplifies the constant use of indexOf and
+	 * count retrieval.  This makes intent more transparent.
+	 */
+
+	protected static final int getCount( List list, AdventureResult result )
+	{
+		int index = list.indexOf( result );
+		return index == -1 ? 0 : ((AdventureResult)list.get( index )).getCount();
+	}
 }

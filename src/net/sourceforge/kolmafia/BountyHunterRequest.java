@@ -81,7 +81,7 @@ public class BountyHunterRequest extends KoLRequest
 		if ( isExchange )
 		{
 			processResults( responseText );
-			client.processResult( new AdventureResult( itemID, 0 - itemTraded.getCount() ) );
+			client.processResult( itemTraded.getNegation() );
 			updateDisplay( ENABLED_STATE, "Items successfully sold to hunter." );
 			return;
 		}

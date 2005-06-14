@@ -58,7 +58,7 @@ public class AutoSellRequest extends KoLRequest
 		this.limit = 0;
 		this.price = TradeableItemDatabase.getPriceByID( itemToSell.getItemID() );
 		this.sellType = AUTOSELL;
-		this.soldResult = new AdventureResult( itemToSell.getItemID(), 0 - itemToSell.getCount() );
+		this.soldResult = itemToSell.getNegation();
 	}
 
 	public String getName()
@@ -83,7 +83,7 @@ public class AutoSellRequest extends KoLRequest
 		this.limit = limit;
 		this.price = desiredPrice;
 		this.sellType = AUTOMALL;
-		this.soldResult = new AdventureResult( itemToSell.getItemID(), 0 - itemToSell.getCount() );
+		this.soldResult = itemToSell.getNegation();
 	}
 
 	public int getSellType()

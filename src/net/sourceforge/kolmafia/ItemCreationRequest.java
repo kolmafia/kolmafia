@@ -622,12 +622,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	{	return getDisplayName() + " (" + quantityNeeded + ")";
 	}
 
-	protected static final int getCount( List list, AdventureResult result )
-	{
-		int index = list.indexOf( result );
-		return index == -1 ? 0 : ((AdventureResult)list.get( index )).getCount();
-	}
-
 	/**
 	 * A special class made to create meat paste.  This class
 	 * accepts the appropriate meat type and creates the given

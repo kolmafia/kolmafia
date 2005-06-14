@@ -182,16 +182,10 @@ public class ClanStashRequest extends KoLRequest
 
 			super.run();
 
-
 			if ( moveType == ITEMS_TO_STASH )
-			{
-				AdventureResult negatedResult = new AdventureResult( result.getItemID(), 0 - result.getCount() );
-				client.processResult( negatedResult );
-			}
+				client.processResult( result.getNegation() );
 			else
-			{
 				client.processResult( result );
-			}
 		}
 	}
 

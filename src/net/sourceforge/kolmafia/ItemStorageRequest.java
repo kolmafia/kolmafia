@@ -270,22 +270,20 @@ public class ItemStorageRequest extends KoLRequest
 		// removed from the appropriate list and then
 		// replaced into the opposing list.
 
-		AdventureResult currentResult, negatedResult;
+		AdventureResult currentResult;
 		for ( int i = 0; i < items.length; ++i )
 		{
 			currentResult = (AdventureResult) items[i];
 			if ( currentResult.isItem() )
 			{
-				negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
-
 				if ( moveType == INVENTORY_TO_CLOSET )
 				{
-					client.processResult( negatedResult );
+					client.processResult( currentResult.getNegation() );
 					AdventureResult.addResultToList( destination, currentResult );
 				}
 				else
 				{
-					AdventureResult.addResultToList( source, negatedResult );
+					AdventureResult.addResultToList( source, currentResult.getNegation() );
 					client.processResult( currentResult );
 				}
 			}

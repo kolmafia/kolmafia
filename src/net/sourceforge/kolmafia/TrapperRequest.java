@@ -58,9 +58,7 @@ public class TrapperRequest extends KoLRequest
 	{
 		super( client, "trapper.php" );
 
-		int index = client.getInventory().indexOf( YETI_FUR );
-		this.quantity = index == -1 ? 0 : ((AdventureResult)client.getInventory().get( index )).getCount();
-
+		this.quantity = getCount( client.getInventory(), YETI_FUR );
 		addFormField( "action", "Yep." );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "whichitem", String.valueOf( itemID ) );
@@ -93,7 +91,7 @@ public class TrapperRequest extends KoLRequest
 			return;
 
 		processResults( responseText );
-		client.processResult( new AdventureResult( YETI_FUR.getItemID(), 0 - quantity ) );
+		client.processResult( YETI_FUR.getInstance( 0 - quantity ) );
 		updateDisplay( ENABLED_STATE, "Trapper successfully looted!" );
 	}
 }

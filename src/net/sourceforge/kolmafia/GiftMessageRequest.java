@@ -188,13 +188,8 @@ public class GiftMessageRequest extends KoLRequest
 			// With that done, the client needs to be updated
 			// to note that the items were sent.
 
-			AdventureResult currentResult, negatedResult;
 			for ( int i = 0; i < attachments.length; ++i )
-			{
-				currentResult = (AdventureResult) attachments[i];
-				negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
-				client.processResult( negatedResult );
-			}
+				client.processResult( ((AdventureResult) attachments[i]).getNegation() );
 		}
 		else
 		{

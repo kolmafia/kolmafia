@@ -136,20 +136,19 @@ public class MuseumRequest extends KoLRequest
 
 		if ( isManagement )
 		{
-			AdventureResult currentResult, negatedResult;
+			AdventureResult currentResult;
 			for ( int i = 0; i < items.length; ++i )
 			{
 				currentResult = (AdventureResult) items[i];
-				negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
 
 				if ( isDeposit )
 				{
-					client.processResult( negatedResult );
+					client.processResult( currentResult.getNegation() );
 					AdventureResult.addResultToList( destination, currentResult );
 				}
 				else
 				{
-					AdventureResult.addResultToList( source, negatedResult );
+					AdventureResult.addResultToList( source, currentResult.getNegation() );
 					client.processResult( currentResult );
 				}
 			}

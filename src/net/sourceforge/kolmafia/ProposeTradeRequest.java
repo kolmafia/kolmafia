@@ -135,18 +135,8 @@ public class ProposeTradeRequest extends KoLRequest
 		// Make sure that the message was actually sent -
 		// the person could have input an invalid player ID
 
-		AdventureResult currentResult, negatedResult;
 		for ( int i = 0; i < attachments.length; ++i )
-		{
-			currentResult = (AdventureResult) attachments[i];
-
-			if ( !currentResult.getName().equals( AdventureResult.MEAT ) )
-				negatedResult = new AdventureResult( currentResult.getItemID(), 0 - currentResult.getCount() );
-			else
-				negatedResult = new AdventureResult( AdventureResult.MEAT, 0 - currentResult.getCount() );
-
-			client.processResult( negatedResult );
-		}
+			client.processResult( ((AdventureResult) attachments[i]).getNegation() );
 
 		responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}

@@ -127,7 +127,7 @@ public class AdventureResult implements Comparable, KoLConstants
                 }
                 else
                         this.itemID = TradeableItemDatabase.getItemID( name );
-                        
+
 		this.count[0] = count;
 	}
 
@@ -554,5 +554,13 @@ public class AdventureResult implements Comparable, KoLConstants
 			((JLabel) defaultComponent).setText( stringForm );
 			return defaultComponent;
 		}
+	}
+
+	public AdventureResult getNegation()
+	{	return isItem() ? new AdventureResult( itemID, 0 - getCount() ) : new AdventureResult( name, 0 - getCount() );
+	}
+
+	public AdventureResult getInstance( int quantity )
+	{	return isItem() ? new AdventureResult( itemID, quantity ) : new AdventureResult( name, quantity );
 	}
 }
