@@ -78,7 +78,7 @@ public class ConsumeItemRequest extends KoLRequest
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.consumptionType = consumptionType;
-		this.itemUsed = item.getNegation();
+		this.itemUsed = item;
 	}
 
 	public int getConsumptionType()
@@ -107,7 +107,7 @@ public class ConsumeItemRequest extends KoLRequest
 		// return from the method.
 
 		int itemCount = itemUsed.getCount( client.getInventory() );
-		if ( itemCount == 0 || itemUsed.getCount() + itemCount < 0 )
+		if ( itemCount == 0 || itemUsed.getCount() > itemCount )
 		{
 			updateDisplay( ERROR_STATE, "You do not have enough " + itemUsed.getName() + "." );
 			client.cancelRequest();
@@ -145,7 +145,7 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 		else
 		{
-			client.processResult( itemUsed );
+			client.processResult( itemUsed.getNegation() );
 			processResults( responseText );
 		}
 	}
@@ -211,7 +211,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// long, the output/input's probably just fine.
 
 			if ( itemUsed.getName().indexOf( "rolling" ) == -1 && itemUsed.getName().indexOf( "Protest" ) == -1 )
-				client.processResult( itemUsed );
+				client.processResult( itemUsed.getNegation() );
 
 			processResults( responseText.substring( 0, responseText.indexOf( "Inventory:" ) ) );
 

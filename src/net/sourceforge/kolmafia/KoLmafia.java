@@ -896,7 +896,7 @@ public abstract class KoLmafia implements KoLConstants
 							(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
 
 						if ( iterations == 1 )
-							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getNegation().toString() + "..." );
+							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().toString() + "..." );
 						else
 							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getDisplayName() + " (" + i + " of " + iterations + ")..." );
 					}
