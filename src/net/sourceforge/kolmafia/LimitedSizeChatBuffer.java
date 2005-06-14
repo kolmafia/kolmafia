@@ -128,7 +128,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 				break;
 		}
 
-		ChatBuffer.BUFFER_STYLE += "; } a { color: black; text-decoration: none; }";
+		ChatBuffer.BUFFER_STYLE += "; } a { color: blue; text-decoration: none; }";
 	}
 
 	/**

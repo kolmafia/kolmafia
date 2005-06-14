@@ -34,6 +34,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import java.awt.GridLayout;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -88,8 +91,11 @@ public class RequestFrame extends KoLFrame
 
 			request.run();
 
+			String displayHTML = request.responseText.replaceAll( "<td>", "<td>&nbsp;" ).replaceAll( "<tr><td height=1 bgcolor=black></td></tr>", "" );
+			displayHTML = Pattern.compile( "<tr><td colspan=(\\d+) height=1 bgcolor=black></td></tr>" ).matcher( displayHTML ).replaceAll( "" );
+
 			buffer.clearBuffer();
-			buffer.append( request.responseText );
+			buffer.append( displayHTML );
 		}
 	}
 }

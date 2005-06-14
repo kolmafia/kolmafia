@@ -40,54 +40,13 @@ import javax.swing.JEditorPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class ProfileFrame extends KoLFrame
+public class ProfileFrame extends RequestFrame
 {
-	private String playerName;
-	private ProfileRequest profile;
-	private LimitedSizeChatBuffer buffer;
-	private JEditorPane profileDisplay;
-
 	public ProfileFrame( KoLmafia client, String playerName )
 	{	this( client, playerName, new ProfileRequest( client, playerName ) );
 	}
 
 	public ProfileFrame( KoLmafia client, String playerName, ProfileRequest profile )
-	{
-		super( "KoLmafia: Profile for " + playerName, client );
-
-		this.profile = profile;
-		this.playerName = playerName;
-
-		profileDisplay = new JEditorPane();
-		profileDisplay.setEditable( false );
-		profileDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
-		profileDisplay.setText( "Retrieving profile..." );
-
-		JScrollPane scrollPane = new JScrollPane( profileDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
-		getContentPane().setLayout( new GridLayout( 1, 1 ) );
-		getContentPane().add( scrollPane );
-
-		(new ProfileRequestThread()).start();
-	}
-
-	private class ProfileRequestThread extends RequestThread
-	{
-		public void run()
-		{
-			profile.initialize();
-			buffer = new LimitedSizeChatBuffer( "Profile for " + playerName );
-			buffer.setChatDisplay( profileDisplay );
-
-			String profileHTML = profile.responseText.replaceAll( "<td>", "<td>&nbsp;" ).replaceAll(
-				"<tr><td height=1 bgcolor=black></td></tr>", "<tr><td><hr></td></tr>" ).replaceAll(
-				"<tr><td colspan=2 height=1 bgcolor=black></td></tr>", "<tr><td colspan=2><hr></td></tr>" ).replaceAll(
-				"<tr><td colspan=5 height=1 bgcolor=black></td></tr>", "<tr><td colspan=5><hr></td></tr>" );
-
-			profileHTML = profileHTML.substring( 0, profileHTML.lastIndexOf( "</table><a" ) + 8 );
-			buffer.append( profileHTML );
-		}
+	{	super( client, "KoLmafia: Profile for " + playerName, profile );
 	}
 }
