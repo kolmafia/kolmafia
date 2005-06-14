@@ -53,6 +53,7 @@ public class RequestFrame extends KoLFrame
 		this.title = title;
 		this.display = new JEditorPane();
 		this.display.setEditable( false );
+		this.display.addHyperlinkListener( new KoLHyperlinkAdapter() );
 		this.display.setText( "Retrieving..." );
 
 		JScrollPane scrollPane = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,

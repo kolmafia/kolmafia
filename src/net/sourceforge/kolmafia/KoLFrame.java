@@ -1295,7 +1295,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * inside of a <code>JEditorPane</code>.
 	 */
 
-	protected abstract class KoLHyperlinkAdapter implements HyperlinkListener
+	protected class KoLHyperlinkAdapter implements HyperlinkListener
 	{
 		public void hyperlinkUpdate( HyperlinkEvent e )
 		{
@@ -1335,6 +1335,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		protected void handleInternalLink( String location )
 		{
+			RequestFrame frame = new RequestFrame( client, "Mini-Browser Window", new KoLRequest( client, location ) );
+			frame.pack();  frame.setVisible( true );  frame.requestFocus();
 		}
 	}
 

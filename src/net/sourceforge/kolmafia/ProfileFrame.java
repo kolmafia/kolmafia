@@ -44,6 +44,7 @@ public class ProfileFrame extends KoLFrame
 {
 	private String playerName;
 	private ProfileRequest profile;
+	private LimitedSizeChatBuffer buffer;
 	private JEditorPane profileDisplay;
 
 	public ProfileFrame( KoLmafia client, String playerName )
@@ -59,6 +60,7 @@ public class ProfileFrame extends KoLFrame
 
 		profileDisplay = new JEditorPane();
 		profileDisplay.setEditable( false );
+		profileDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 		profileDisplay.setText( "Retrieving profile..." );
 
 		JScrollPane scrollPane = new JScrollPane( profileDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -75,11 +77,17 @@ public class ProfileFrame extends KoLFrame
 	{
 		public void run()
 		{
-			if ( profile.getCleanHTML().length() == 0 )
-				profile.run();
+			profile.initialize();
+			buffer = new LimitedSizeChatBuffer( "Profile for " + playerName );
+			buffer.setChatDisplay( profileDisplay );
 
-			profileDisplay.setContentType( "text/html" );
-			profileDisplay.setText( profile.responseText );
+			String profileHTML = profile.responseText.replaceAll( "<td>", "<td>&nbsp;" ).replaceAll(
+				"<tr><td height=1 bgcolor=black></td></tr>", "<tr><td><hr></td></tr>" ).replaceAll(
+				"<tr><td colspan=2 height=1 bgcolor=black></td></tr>", "<tr><td colspan=2><hr></td></tr>" ).replaceAll(
+				"<tr><td colspan=5 height=1 bgcolor=black></td></tr>", "<tr><td colspan=5><hr></td></tr>" );
+
+			profileHTML = profileHTML.substring( 0, profileHTML.lastIndexOf( "</table><a" ) + 8 );
+			buffer.append( profileHTML );
 		}
 	}
 }

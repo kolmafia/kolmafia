@@ -163,7 +163,7 @@ public class ProfileRequest extends KoLRequest
 	{	return playerID;
 	}
 
-	private void initialize()
+	public void initialize()
 	{
 		if ( responseText == null )
 			this.run();
