@@ -178,6 +178,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					case COOK_PASTA:
 						return new ItemCreationRequest( client, "cook.php", itemID, mixingMethod, quantityNeeded );
 
+					case SMITH:
+						return new ItemCreationRequest( client, "smith.php", itemID, mixingMethod, quantityNeeded );
+
+					case ROLLING_PIN:
+						return new ItemCreationRequest( client, "inv_use.php", itemID, mixingMethod, quantityNeeded );
+
 					default:
 						return null;
 				}
