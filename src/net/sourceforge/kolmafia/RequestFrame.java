@@ -51,10 +51,13 @@ public class RequestFrame extends KoLFrame
 		super( title, client );
 
 		this.title = title;
+
 		this.display = new JEditorPane();
 		this.display.setEditable( false );
 		this.display.addHyperlinkListener( new KoLHyperlinkAdapter() );
-		this.display.setText( "Retrieving..." );
+
+		this.buffer = new LimitedSizeChatBuffer( title );
+		this.buffer.setChatDisplay( display );
 
 		JScrollPane scrollPane = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -64,6 +67,10 @@ public class RequestFrame extends KoLFrame
 		getContentPane().add( scrollPane );
 
 		(new DisplayRequestThread( request )).start();
+	}
+
+	public void refresh( KoLRequest request )
+	{	(new DisplayRequestThread( request )).start();
 	}
 
 	private class DisplayRequestThread extends RequestThread
@@ -76,9 +83,12 @@ public class RequestFrame extends KoLFrame
 
 		public void run()
 		{
+			buffer.clearBuffer();
+			buffer.append( "Retrieving..." );
+
 			request.run();
-			buffer = new LimitedSizeChatBuffer( title );
-			buffer.setChatDisplay( display );
+
+			buffer.clearBuffer();
 			buffer.append( request.responseText );
 		}
 	}

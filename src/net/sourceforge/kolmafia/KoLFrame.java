@@ -1348,8 +1348,24 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		protected void handleInternalLink( String location )
 		{
-			RequestFrame frame = new RequestFrame( client, "Mini-Browser Window", new KoLRequest( client, location ) );
-			frame.pack();  frame.setVisible( true );  frame.requestFocus();
+			if ( location.indexOf( "()" ) != -1 )
+			{
+				// In the event that it's a Javascript submit
+				// attempt, then do nothing.
+			}
+			else if ( KoLFrame.this instanceof RequestFrame )
+			{
+				// If this is a request frame, make sure that
+				// you minimize the number of open windows by
+				// making an attempt to refresh.
+
+				((RequestFrame)KoLFrame.this).refresh( new KoLRequest( client, location ) );
+			}
+			else
+			{
+				RequestFrame frame = new RequestFrame( client, "Mini-Browser Window", new KoLRequest( client, location ) );
+				frame.pack();  frame.setVisible( true );  frame.requestFocus();
+			}
 		}
 	}
 
