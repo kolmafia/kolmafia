@@ -162,7 +162,7 @@ public class ItemStorageRequest extends KoLRequest
 			case PULL_MEAT_FROM_STORAGE:
 				updateDisplay( DISABLED_STATE, "Executing transaction..." );
 				meat();
-				updateDisplay( NOCHANGE, "" );
+				updateDisplay( ENABLED_STATE, "" );
 				break;
 		}
 	}
@@ -181,27 +181,33 @@ public class ItemStorageRequest extends KoLRequest
 		// by locating "Your closet contains x meat" and
 		// update the display with that information.
 
-		if ( moveType != PULL_MEAT_FROM_STORAGE )
+		if ( moveType == PULL_MEAT_FROM_STORAGE )
 		{
 			client.processResult( new AdventureResult( AdventureResult.MEAT, meatTransferred ) );
 			return;
 		}
 
 		int beforeMeatInCloset = client.getCharacterData().getClosetMeat();
-		Matcher meatInClosetMatcher = Pattern.compile( "[\\d,]+ meat\\.</b>" ).matcher( responseText );
+		int afterMeatInCloset = 0;
+
+		Matcher meatInClosetMatcher = Pattern.compile( "<b>Your closet contains ([\\d,]+) meat\\.</b>" ).matcher( responseText );
 
 		if ( meatInClosetMatcher.find() )
 		{
 			try
 			{
-				int afterMeatInCloset = df.parse( meatInClosetMatcher.group() ).intValue();
-				client.getCharacterData().setClosetMeat( afterMeatInCloset );
-				client.processResult( new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
+				afterMeatInCloset = df.parse( meatInClosetMatcher.group(1) ).intValue();
 			}
 			catch ( Exception e )
 			{
+				// This really should not happen, since the numbers
+				// are getting grouped properly.  But, just in case,
+				// the exception is caught and nothing changes.
 			}
 		}
+
+		client.getCharacterData().setClosetMeat( afterMeatInCloset );
+		client.processResult( new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
 	}
 
 	private void items()
