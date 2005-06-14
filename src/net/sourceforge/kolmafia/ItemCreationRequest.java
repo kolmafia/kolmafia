@@ -61,6 +61,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int COOK_REAGENT = 5;
 	public static final int COOK_PASTA = 6;
 	public static final int MIX_SPECIAL = 7;
+	public static final int JEWELRY = 8;
 
 	public static final int ROLLING_PIN = 11;
 
@@ -181,6 +182,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					case SMITH:
 						return new ItemCreationRequest( client, "smith.php", itemID, mixingMethod, quantityNeeded );
 
+					case JEWELRY:
+						return new ItemCreationRequest( client, "jewelry.php", itemID, mixingMethod, quantityNeeded );
+
 					case ROLLING_PIN:
 						return new ItemCreationRequest( client, "inv_use.php", itemID, mixingMethod, quantityNeeded );
 
@@ -214,6 +218,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK:
 			case MIX:
 			case SMITH:
+			case JEWELRY:
 			case COOK_REAGENT:
 			case COOK_PASTA:
 			case MIX_SPECIAL:
@@ -352,9 +357,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( mixingMethod == COMBINE )
 			client.processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
 
-		// Now, check to see if your box-servant was
-		// overworked and exploded.  Also handle the
-		// possibility of smithing reducing adventures.
+		// Now, check to see if your box-servant was overworked and
+		// exploded.  Also handle the possibility of smithing and
+		// jewelrymaking reducing adventures.
 
 		ItemCreationRequest leftOver = ItemCreationRequest.getInstance( client, itemID, quantityNeeded - createdQuantity );
 
@@ -362,6 +367,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			case SMITH:
 				client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
+				break;
+
+			case JEWELRY:
+				client.processResult( new AdventureResult( AdventureResult.ADV, 0 - (3 * createdQuantity) ) );
 				break;
 
 			case COOK:
