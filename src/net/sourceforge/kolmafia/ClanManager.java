@@ -153,7 +153,7 @@ public class ClanManager implements KoLConstants
 		while ( requestIterator.hasNext() )
 		{
 			currentRequest = (ProfileRequest) requestIterator.next();
-			if ( currentRequest.getCleanHTML().length() == 0 )
+			if ( currentRequest.responseText == null )
 				++profilesNeeded;
 		}
 
@@ -181,8 +181,7 @@ public class ClanManager implements KoLConstants
 			client.updateDisplay( DISABLED_STATE, "Examining member " + i + " of " + profileMap.size() + "..." );
 
 			currentRequest = (ProfileRequest) requestIterator.next();
-			if ( currentRequest.getCleanHTML().length() == 0 )
-				currentRequest.run();
+			currentRequest.initialize();
 
 			// Manually add in a bit of lag so that it doesn't turn into
 			// hammering the server for information.

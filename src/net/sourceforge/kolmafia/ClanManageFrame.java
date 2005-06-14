@@ -850,8 +850,7 @@ public class ClanManageFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				ProfileFrame frame = profile.getCleanHTML().equals( "" ) ? new ProfileFrame( client, memberName.getText() ) :
-					new ProfileFrame( client, memberName.getText(), profile );
+				ProfileFrame frame = new ProfileFrame( client, memberName.getText(), profile );
 				frame.pack();  frame.setVisible( true );  frame.requestFocus();
 			}
 		}
