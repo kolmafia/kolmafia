@@ -239,8 +239,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	/**
+	 * Method used to set the current extended state of the
+	 * frame.  In most KoLFrames, this defaults to iconified
+	 * or normal, and maximizing is disabled.  However, request
+	 * frames and profile frames display raw HTML - therefore,
+	 * they need to be maximizable.
+	 */
+
 	public void setExtendedState( int state )
-	{	super.setExtendedState( state == ICONIFIED ? ICONIFIED : NORMAL );
+	{
+		if ( this instanceof RequestFrame || this instanceof ProfileFrame || state == ICONIFIED )
+			super.setExtendedState( state );
+		else
+			super.setExtendedState( NORMAL );
+
 	}
 
 	/**
