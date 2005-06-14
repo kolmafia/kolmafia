@@ -394,3 +394,32 @@ Knob sausage chow mein	6	Knob sausage stir-fry	dry noodles
 pr0n chow mein	6	pr0n stir-fry	dry noodles
 rat appendix chow mein	6	rat appendix stir-fry	dry noodles
 tofu chow mein	6	tofu stir-fry	dry noodles
+
+# Star Chart items
+
+star buckler	9	star chart	star (4)	line (6)
+star crossbow	9	star chart	star (5)	line (6)
+star hat	9	star chart	star (5)	line (3)
+star pants	9	star chart	star (7)	line (7)
+star staff	9	star chart	star (6)	line (5)
+star starfish	9	star chart	star (6)	line (4)
+star sword	9	star chart	star (7)	line (4)
+star throwing star	9	star chart	star (4)	line (2)
+Richard's star key	9	star chart	star (8)	line (7)
+
+# Pixel items
+
+red pixel potion	10	black pixel (3)	red pixel (2)
+blue pixel potion	10	black pixel (3)	blue pixel (2)
+green pixel potion	10	black pixel (4)	green pixel (3)
+purple pixel pie	10	white pixel (5)	red pixel (2)	blue pixel (2)
+pixel hat	10	white pixel (10)	green pixel (15)
+pixel pants	10	black pixel (15)	red pixel (20)
+pixel sword	10	white pixel (20)	black pixel (10)	blue pixel (10)
+digital key	10	white pixel (30)
+
+# Some of the recipes that use white pixels also use ingredients used to make
+# them. The item creation engine doesn't know how to account for that, yet.
+
+# white pixel	10	red pixel	green pixel	blue pixel
+

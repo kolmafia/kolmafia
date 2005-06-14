@@ -182,9 +182,9 @@ public class ConcoctionsDatabase
 		quantityPossible[ ItemCreationRequest.MEAT_STACK ] += availableMeat / 100;
 		quantityPossible[ ItemCreationRequest.DENSE_STACK ] += availableMeat / 1000;
 
-		// Next, increment through all of the things which can be created
-		// through the use of meat paste, or rolling pins.  This allows
-		// for box servant creation to be calculated in advance.
+		// Next, increment through all of the things which can be
+		// created through the use of meat paste.  This allows for box
+		// servant creation to be calculated in advance.
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( concoctions[i] != null && concoctions[i].getMixingMethod() == ItemCreationRequest.COMBINE )
@@ -237,9 +237,6 @@ public class ConcoctionsDatabase
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( quantityPossible[i] > 0 )
 				concoctionsList.add( ItemCreationRequest.getInstance( client, i, quantityPossible[i] ) );
-
-		concoctionsList.addAll( StarChartRequest.getPossibleCombinations( client ) );
-		concoctionsList.addAll( PixelRequest.getPossibleCombinations( client ) );
 	}
 
 	/**
@@ -389,21 +386,18 @@ public class ConcoctionsDatabase
 				if ( concoctions[ ingredientArray[i].getItemID() ] != null )
 					concoctions[ ingredientArray[i].getItemID() ].calculateQuantityPossible( availableIngredients );
 
-			int divisor;
-			int additionalPossible = quantityPossible[ ingredientArray[0].getItemID() ];
+			int additionalPossible = Integer.MAX_VALUE;
 
-			for ( int i = 0; additionalPossible != 0 && i < ingredientArray.length; ++i )
-			{
-				divisor = 0;
-				for ( int j = 0; j < ingredientArray.length; ++j )
-					if ( ingredientArray[i].getItemID() == ingredientArray[j].getItemID() )
-						++divisor;
+                        for ( int i = 0; i < ingredientArray.length; ++i )
+                        {
+                                int itemID = ingredientArray[i].getItemID();
+                                int quantity = quantityPossible[ itemID ];
+                                int divisor = ingredientArray[i].getCount();
+                                additionalPossible = Math.min ( additionalPossible, quantity / divisor );
+                        }
 
-				additionalPossible = Math.min( additionalPossible, quantityPossible[ ingredientArray[i].getItemID() ] / divisor );
-			}
-
-			// Now, factor in the possibility that the same ingredient
-			// may be used twice in the same concoction
+			// Now, factor in the possibility that the same
+			// ingredient may be used twice in the same concoction
 
 			quantityPossible[ concoction.getItemID() ] += additionalPossible;
 		}

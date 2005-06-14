@@ -39,89 +39,45 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class StarChartRequest extends ItemCreationRequest
 {
-	private int stars, lines;
+	public static final int STAR = 654;
+	public static final int LINE = 655;
 
-	public static final StarChartRequest BUCKLER = new StarChartRequest( "star buckler", 4, 6 );
-	public static final StarChartRequest CROSSBOW = new StarChartRequest( "star crossbow", 5, 6 );
-	public static final StarChartRequest HAT = new StarChartRequest( "star hat", 5, 3 );
-	public static final StarChartRequest PANTS = new StarChartRequest( "star pants", 7, 7 );
-	public static final StarChartRequest STAFF = new StarChartRequest( "star staff", 6, 5 );
-	public static final StarChartRequest STARFISH = new StarChartRequest( "star starfish", 6, 4 );
-	public static final StarChartRequest SWORD = new StarChartRequest( "star sword", 7, 4 );
-	public static final StarChartRequest THROWING = new StarChartRequest( "star throwing star", 4, 2 );
-	public static final StarChartRequest STARKEY = new StarChartRequest( "Richard's star key", 8, 7 );
-
-	private static final StarChartRequest [] STAR_ITEMS =
-	{
-		BUCKLER, CROSSBOW, HAT, PANTS, STAFF, STARFISH, SWORD, THROWING, STARKEY
-	};
-
-	private static final AdventureResult STAR_CHART = new AdventureResult( "star chart", 0 );
-	private static final AdventureResult STAR = new AdventureResult( "star", 0 );
-	private static final AdventureResult LINE = new AdventureResult( "line", 0 );
-
-	private StarChartRequest( String name, int stars, int lines )
-	{
-		super( null, "starchart.php", TradeableItemDatabase.getItemID( name ), 0 );
-
-		this.stars = stars;
-		this.lines = lines;
-	}
+        int stars, lines;
 
 	public StarChartRequest( KoLmafia client, int itemID, int quantityNeeded )
 	{
 		super( client, "starchart.php", itemID, quantityNeeded );
 
-		for ( int i = 0; i < STAR_ITEMS.length; ++i )
-			if ( STAR_ITEMS[i].getItemID() == itemID )
+                AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+		if ( ingredients != null )
+			for ( int i = 0; i < ingredients.length; ++i )
 			{
-				this.stars = STAR_ITEMS[i].stars;
-				this.lines = STAR_ITEMS[i].lines;
-			}
+                                if ( ingredients[i].getItemID() == STAR )
+                                        stars = ingredients[i].getCount();
+                                else if ( ingredients[i].getItemID() == LINE)
+                                        lines = ingredients[i].getCount();
+                        }
 
 		addFormField( "action", "makesomething" );
-		addFormField( "numstars", String.valueOf( this.stars ) );
-		addFormField( "numlines", String.valueOf( this.lines ) );
-	}
-
-	public static List getPossibleCombinations( KoLmafia client )
-	{
-		SortedListModel inventory = client.getInventory();
-
-		int chartsValue = STAR_CHART.getCount( inventory );
-		int starsValue = STAR.getCount( inventory );
-		int linesValue =  LINE.getCount( inventory );
-
-		List results = new ArrayList();
-		for ( int i = 0; i < STAR_ITEMS.length; ++i )
-		{
-			int maximumPossible = chartsValue;
-
-			maximumPossible = Math.min( maximumPossible, starsValue / STAR_ITEMS[i].stars );
-			maximumPossible = Math.min( maximumPossible, linesValue / STAR_ITEMS[i].lines );
-
-			if ( maximumPossible > 0 )
-				results.add( new StarChartRequest( client, STAR_ITEMS[i].getItemID(), maximumPossible ) );
-		}
-
-		return results;
+		addFormField( "numstars", String.valueOf( stars ) );
+		addFormField( "numlines", String.valueOf( lines ) );
 	}
 
 	public void run()
 	{
 		for ( int i = 0; i < getQuantityNeeded(); ++i )
 		{
+                        // Disable controls
 			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + (i+1) + " of " + getQuantityNeeded() + ")..." );
-			makeConstellation();
-		}
-	}
 
-	private void makeConstellation()
-	{
-		super.run();
-		client.processResult( new AdventureResult( "star chart", -1 ) );
-		client.processResult( new AdventureResult( "star", 0 - stars ) );
-		client.processResult( new AdventureResult( "line", 0 - lines ) );
-		client.processResult( new AdventureResult( getName(), 1 ) );
+                        // Run the request
+                        super.run();
+
+                        // Account for the results
+                        client.processResult( new AdventureResult( "star chart", -1 ) );
+                        client.processResult( new AdventureResult( "star", 0 - stars ) );
+                        client.processResult( new AdventureResult( "line", 0 - lines ) );
+                        client.processResult( new AdventureResult( getName(), 1 ) );
+		}
 	}
 }

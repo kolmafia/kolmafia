@@ -62,6 +62,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int COOK_PASTA = 6;
 	public static final int MIX_SPECIAL = 7;
 	public static final int JEWELRY = 8;
+	public static final int STARCHART = 9;
+	public static final int PIXEL = 10;
 
 	public static final int ROLLING_PIN = 11;
 
@@ -130,7 +132,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static ItemCreationRequest getInstance( KoLmafia client, int itemID, int quantityNeeded )
 	{
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
-
 		switch ( itemID )
 		{
 			case MEAT_PASTE:
@@ -138,30 +139,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case DENSE_STACK:
 
 				return new CombineMeatRequest( client, itemID, quantityNeeded );
-
-			case 459: // white pixel
-			case 464: // red pixel potion
-			case 465: // blue pixel potion
-			case 466: // green pixel potion
-			case 467: // purple pixel pie
-			case 688: // pixel hat
-			case 689: // pixel pants
-			case 690: // pixel sword
-			case 691: // digital key
-
-				return new PixelRequest( client, itemID, quantityNeeded );
-
-			case 657: // star sword
-			case 658: // star crossbow
-			case 659: // star staff
-			case 660: // star pants
-			case 661: // star hat
-			case 662: // star buckler
-			case 663: // star throwing star
-			case 664: // star starfish
-			case 665: // Richard's star key
-
-				return new StarChartRequest( client, itemID, quantityNeeded );
 
 			default:
 
@@ -184,6 +161,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 					case JEWELRY:
 						return new ItemCreationRequest( client, "jewelry.php", itemID, mixingMethod, quantityNeeded );
+
+					case STARCHART:
+						return new StarChartRequest( client, itemID, quantityNeeded );
+
+					case PIXEL:
+						return new PixelRequest( client, itemID, quantityNeeded );
 
 					case ROLLING_PIN:
 						return new ItemCreationRequest( client, "inv_use.php", itemID, mixingMethod, quantityNeeded );
@@ -219,6 +202,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case MIX:
 			case SMITH:
 			case JEWELRY:
+			case STARCHART:
+			case PIXEL:
 			case COOK_REAGENT:
 			case COOK_PASTA:
 			case MIX_SPECIAL:

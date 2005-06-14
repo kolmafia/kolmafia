@@ -647,48 +647,18 @@ public class ItemManageFrame extends KoLFrame
 
 				try
 				{
-					if ( selected instanceof ItemCreationRequest )
-					{
-						ItemCreationRequest selection = (ItemCreationRequest) selected;
+                                        ItemCreationRequest selection = (ItemCreationRequest) selected;
 
-						String itemName = selection.getName();
-						int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
-							"Creating multiple " + itemName + "...", String.valueOf( selection.getQuantityNeeded() ) ) ).intValue() : 1;
+                                        String itemName = selection.getName();
+                                        int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
+                                                                                            "Creating multiple " + itemName + "...", String.valueOf( selection.getQuantityNeeded() ) ) ).intValue() : 1;
 
-						if ( creationCount > 0 )
-						{
-							selection.setQuantityNeeded( creationCount );
-							client.makeRequest( selection, 1 );
-						}
-					}
-					else if ( selected instanceof StarChartRequest )
-					{
-						StarChartRequest selection = (StarChartRequest) selected;
+                                        if ( creationCount > 0 )
+                                        {
+                                                selection.setQuantityNeeded( creationCount );
+                                                client.makeRequest( selection, 1 );
+                                        }
 
-						String itemName = selection.getName();
-						int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
-							"Creating multiple " + itemName + "...", String.valueOf( selection.getQuantityNeeded() ) ) ).intValue() : 1;
-
-						if ( creationCount > 0 )
-						{
-							selection.setQuantityNeeded( creationCount );
-							client.makeRequest( selection, 1 );
-						}
-					}
-					else if ( selected instanceof PixelRequest )
-					{
-						PixelRequest selection = (PixelRequest) selected;
-
-						String itemName = selection.getName();
-						int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
-							"Creating multiple " + itemName + "...", String.valueOf( selection.getQuantityNeeded() ) ) ).intValue() : 1;
-
-						if ( creationCount > 0 )
-						{
-							selection.setQuantityNeeded( creationCount );
-							client.makeRequest( selection, 1 );
-						}
-					}
 				}
 				catch ( Exception e )
 				{
