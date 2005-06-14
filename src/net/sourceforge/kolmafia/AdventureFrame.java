@@ -274,6 +274,8 @@ public class AdventureFrame extends KoLFrame
 		JMenu visitMenu = new JMenu( "Travel" );
 		visitMenu.setMnemonic( KeyEvent.VK_T );
 
+		JMenuItem leaderItem = new JMenuItem( "Broken Records", KeyEvent.VK_B );
+		leaderItem.addActionListener( new ShowRecordsListener() );
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
 		JMenuItem hermitItem = new JMenuItem( "Hermit Hideout", KeyEvent.VK_H );
@@ -285,6 +287,7 @@ public class AdventureFrame extends KoLFrame
 		JMenuItem hagnkItem = new JMenuItem( "Gnomish Storage", KeyEvent.VK_G );
 		hagnkItem.addActionListener( new DisplayFrameListener( HagnkStorageFrame.class ) );
 
+		visitMenu.add( leaderItem );
 		visitMenu.add( arenaItem );
 		visitMenu.add( hermitItem );
 		visitMenu.add( trapperItem );
@@ -1244,6 +1247,15 @@ public class AdventureFrame extends KoLFrame
 				loginRequest.run();
 				client.updateDisplay( ENABLED_STATE, "Session timed in." );
 			}
+		}
+	}
+
+	private class ShowRecordsListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			RequestFrame frame = new RequestFrame( client, "Records are meant to be broken!", new KoLRequest( client, "records2.php" ) );
+			frame.pack();  frame.setVisible( true );  frame.requestFocus();
 		}
 	}
 
