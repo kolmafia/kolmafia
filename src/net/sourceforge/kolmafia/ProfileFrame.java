@@ -79,7 +79,7 @@ public class ProfileFrame extends KoLFrame
 				profile.run();
 
 			profileDisplay.setContentType( "text/html" );
-			profileDisplay.setText( profile.getCleanHTML() );
+			profileDisplay.setText( profile.responseText );
 		}
 	}
 }

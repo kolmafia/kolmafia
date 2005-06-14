@@ -41,7 +41,6 @@ import java.text.SimpleDateFormat;
 public class ProfileRequest extends KoLRequest
 {
 	private static final SimpleDateFormat sdf = new SimpleDateFormat( "MMMM d, yyyy" );
-	private String cleanHTML;
 
 	private String playerName;
 	private String playerID;
@@ -62,7 +61,6 @@ public class ProfileRequest extends KoLRequest
 		super( client, "showplayer.php" );
 		addFormField( "who", client.getPlayerID( playerName ) );
 
-		this.cleanHTML = "";
 		this.playerName = playerName;
 		this.playerID = client.getPlayerID( playerName );
 
@@ -81,7 +79,7 @@ public class ProfileRequest extends KoLRequest
 		// This is a massive replace which makes the profile easier to
 		// parse and re-represent inside of editor panes.
 
-		this.cleanHTML = responseText.substring( responseText.indexOf( "</b>" ) + 4, secondTableIndex ).replaceAll(
+		String cleanHTML = responseText.substring( responseText.indexOf( "</b>" ) + 4, secondTableIndex ).replaceAll(
 			"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[ctplhi].*?>", "" ).replaceAll(
 			"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ) + "<br>" +
 				responseText.substring( secondTableIndex, responseText.lastIndexOf( "send" ) ).replaceAll(
@@ -157,10 +155,6 @@ public class ProfileRequest extends KoLRequest
 		}
 	}
 
-	public String getCleanHTML()
-	{	return cleanHTML;
-	}
-
 	public String getPlayerName()
 	{	return playerName;
 	}
@@ -171,7 +165,7 @@ public class ProfileRequest extends KoLRequest
 
 	private void initialize()
 	{
-		if ( cleanHTML.equals( "" ) )
+		if ( responseText == null )
 			this.run();
 	}
 
