@@ -66,6 +66,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int PIXEL = 10;
 
 	public static final int ROLLING_PIN = 11;
+	public static final int TINKER = 12;
 
 	private static final AdventureResult CHEF = new AdventureResult( 438, 1 );
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
@@ -171,6 +172,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					case ROLLING_PIN:
 						return new ItemCreationRequest( client, "inv_use.php", itemID, mixingMethod, quantityNeeded );
 
+					case TINKER:
+						return new TinkerRequest( client, itemID, quantityNeeded );
+
 					default:
 						return null;
 				}
@@ -204,6 +208,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case JEWELRY:
 			case STARCHART:
 			case PIXEL:
+			case TINKER:
 			case COOK_REAGENT:
 			case COOK_PASTA:
 			case MIX_SPECIAL:
