@@ -414,9 +414,6 @@ public class KoLMessenger implements KoLConstants
 		// check to see if there are any messages coming from
 		// channel haiku.
 
-for ( int i = 0; i < lines.length; ++i )
-System.out.println( lines[i] );
-
 		for ( int i = 0; i < lines.length; ++i )
 		{
 			if ( lines[i].startsWith( "[haiku]" ) )
