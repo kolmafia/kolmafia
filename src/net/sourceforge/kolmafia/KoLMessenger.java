@@ -305,7 +305,7 @@ public class KoLMessenger implements KoLConstants
 			if ( contactList[i].indexOf( "(" ) != -1 )
 				contactList[i] = contactList[i].substring( 0, contactList[i].indexOf( "(" ) ).trim();
 
-		onlineContacts.add( contactList[0].substring( contactList[0].indexOf( ":" ) + 1 ) );
+		onlineContacts.add( contactList[0].substring( contactList[0].indexOf( ":" ) + 1 ).toLowerCase() );
 		for ( int i = 1; i < contactList.length; ++i )
 			onlineContacts.add( contactList[i].toLowerCase() );
 
@@ -320,10 +320,10 @@ public class KoLMessenger implements KoLConstants
 
 	private static final String getNormalizedContent( String originalContent )
 	{
-		String condensedContent = originalContent.replaceAll( "<br>&nbsp;&nbsp;", " " ).replaceAll( "(</?p>)+", "<br>" );
+		String condensedContent = originalContent.replaceAll( "(</?p>)+", "<br>" );
 		String noColorContent = condensedContent.replaceAll( "</?font.*?>", "" );
 		String noItalicsContent = noColorContent.replaceAll( "</?i>", "" );
-		String normalBreaksContent = noItalicsContent.replaceAll( "</[Bb][Rr]>", "<br>" );
+		String normalBreaksContent = noItalicsContent.replaceAll( "</?[Bb][Rr]>", "<br>" );
 		String normalBoldsContent = normalBreaksContent.replaceAll( "<br></b>", "</b><br>" );
 		String colonOrderedContent = normalBoldsContent.replaceAll( ":</b></a>", "</b></a>:" ).replaceAll( "</a>:</b>", "</a></b>:" );
 		String noCommentsContent = colonOrderedContent.replaceAll( "<!--.*?-->", "" );
@@ -411,10 +411,23 @@ public class KoLMessenger implements KoLConstants
 
 		// First, trim all the lines that were received so
 		// that you don't get anything funny-looking, and
-		// processed the trimming of the chat message.
+		// check to see if there are any messages coming from
+		// channel haiku.
+
+for ( int i = 0; i < lines.length; ++i )
+System.out.println( lines[i] );
 
 		for ( int i = 0; i < lines.length; ++i )
-			processChatMessage( lines[i].trim() );
+		{
+			if ( lines[i].startsWith( "[haiku]" ) )
+				processChatMessage( lines[i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() );
+
+			else if ( currentChannel != null && currentChannel.equals( "/haiku" ) && lines[i].indexOf( "[" ) == -1 && lines[i].indexOf( ":" ) != -1 )
+				processChatMessage( lines[i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() );
+
+			else
+				processChatMessage( lines[i].trim() );
+		}
 	}
 
 	/**
