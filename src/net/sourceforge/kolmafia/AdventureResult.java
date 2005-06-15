@@ -419,7 +419,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		int priorityDifference = priority - ar.priority;
 		int nameComparison = name.compareToIgnoreCase( ar.name );
-		return priorityDifference != 0 ? priorityDifference : nameComparison != 0 ? nameComparison : isItem() ? itemID - ar.itemID : -1;
+		return priorityDifference != 0 ? priorityDifference : nameComparison != 0 ? nameComparison : isItem() ? itemID - ar.itemID : 0;
 	}
 
 	/**
