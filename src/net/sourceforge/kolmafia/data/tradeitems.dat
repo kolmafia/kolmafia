@@ -175,7 +175,7 @@
 175	uncooked chorizo	1	18
 176	disembodied brain	0	19
 177	brainy skull	0	32
-178	detective skull	0	50
+178	detective skull	9	50
 179	chorizo taco	1	52
 180	ice-cold fotie	2	40
 181	baseball	0	11
@@ -689,18 +689,18 @@
 689	pixel pants	10	45
 690	pixel sword	12	65
 691	digital key	0	65
-692
-693
-694
+692	Ascension souvenir t-shirt	11	0
+693	harem girl t-shirt	11	30
+694	Knob Goblin elite shirt	11	40
 695
-696
-697
-698
-699
-700
-701
-702
-703
+696	frilly shirt	11	25
+697	soggy wofl t-shirt	11	0
+698	loathing eagle baby-doll t-shirt	11	0
+699	pirate shirt	11	0
+700	filthy hippy poncho	11	0
+701	floral print shirt	11	0
+702	coconut bikini top	11	0
+703	goth kid t-shirt	11	105
 704	hamethyst	0	500
 705	baconstone	0	500
 706	porquoise	0	500
@@ -733,28 +733,28 @@
 733	hosed fishbowl	0	0
 734	makeshift SCUBA gear	8	0
 735	easter egg balloon	8	0
-736
-737
-738
+736	Stone Tablet (Sinister Strumming)	0	0
+737	Stone Tablet (Squeezings of Woe)	0	0
+738	Stone Tablet (Really Evil Rhythm)	0	0
 739	tambourine bells	0	50
 740	tambourine	0	65
 741	broken skull	0	15
 742	Knoll shroomkabob	1	30
 743	stuffed spooky mushroom	1	35
 744	can of hair spray	4	12
-745
+745	serrated proboscis extension	0	0
 746	stat script	3	0
 747	Knob Goblin firecracker	0	15
 748	gourd potion	4	0
-749
-750
-751
-752
-753
-754
-755
-756
-757
+749	warm mushroom	0	61
+750	warm mushroom quesadilla	1	0
+751	cool mushroom	0	61
+752	cool mushroom casserole	1	0
+753	pointy mushroom	0	61
+754	cream of pointy mushroom soup	1	0
+755	flaming mushroom	0	61
+756	frozen mushroom	0	61
+757	winged mushroom	0	61
 758	ghost cucumber	1	75
 759	dill	0	75
 760	vinegar	0	77
@@ -879,8 +879,8 @@
 879	goofballs	0	0
 880	disbelief suspenders	0	95
 881	supportive bra	11	55
-882	Blatantly Canadian	1	75
-883	maple syrup	1	60
+882	Blatantly Canadian	3	75
+883	maple syrup	2	60
 884	los chinos	10	60
 885	wooden axe	12	65
 886	leaflet	0	87
@@ -890,7 +890,7 @@
 890	balaclava baklava	1	65
 891	Warehouse 23 bling	8	0
 892	bugbear-smiting sword	12	0
-893
+893	lumbering jack	2	90
 894	Dark Jill-O-Lantern	5	0
 895	Ms. Accessory	8	0
 896	Mr. Accessory Jr.	8	0
@@ -1085,7 +1085,7 @@
 1085	clockwork widget	0	30
 1086	clockwork thingamajog	0	30
 1087	clockwork doohickey	0	30
-1088
+1088	clockwork clockwise dome	0	50
 1089	clockwork spine	0	50
 1090	clockwork rings	0	50
 1091	clockwork claws	0	50
@@ -1093,24 +1093,24 @@
 1093	clockwork counterclockwise dome	0	50
 1094	clockwork sphere	0	50
 1095	deactivated MicroMechaMech	0	200
-1096
+1096	clockwork endoskeleton	0	200
 1097	clockwork hat	9	200
 1098	clockwork trench coat	11	200
 1099	clockwork pants	10	200
 1100	gnauga hide pants	10	120
-1101
-1102
-1103
+1101	false eyelashes	0	0
+1102	targeting chip	0	0
+1103	unwound clockwork grapefruit	5	220
 1104	tiny mountie hat	6	75
-1105
-1106
-1107
-1108
-1109
-1110
-1111
-1112
-1113
+1105	clockwork bartender head	0	0
+1106	clockwork chef head	0	0
+1107	clockwork maid head	0	0
+1108	clockwork detective skull	9	195
+1109	clockwork bartender-head-in-the-box	0	0
+1110	clockwork chef-head-in-the-box	0	0
+1111	clockwork bartender-in-the-box	0	0
+1112	clockwork chef-in-the-box	0	710
+1113	clockwork maid	0	350
 1114	tisket	0	70
 1115	tasket	0	70
 1116	annoying pitchfork	6	75
@@ -1130,7 +1130,7 @@
 1130	blank white card	0	0
 1131	beet	0	0
 1132	Totally Gay Claymore	12	169
-1133
+1133	star shirt	11	170
 1134
 1135
 1136
@@ -1165,8 +1165,8 @@
 1165	hovering sombrero	5	100
 1166	tiny maracas	6	70
 1167	plain brown wrapper	0	0
-1168	less than three shaped box	0	0
-1169
+1168	less-than-three shaped box	0	0
+1169	exactly-three shaped box	0	0
 1170
 1171
 1172
@@ -1188,7 +1188,7 @@
 1188
 1189	stuffed can of asparagus	0	0
 1190	stuffed dodecapede	0	0
-1191
+1191	stuffed ghuol whelp	0	0
 1192
 1193
 1194
@@ -1210,7 +1210,7 @@
 1210
 1211	white balloon	0	0
 1212	green balloon	0	0
-1213
+1213	heart-shaped balloon	0	0
 1214
 1215
 1216

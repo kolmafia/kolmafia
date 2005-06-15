@@ -792,6 +792,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			this.add( new MPRestoreItem( "Knob Goblin seltzer", 5, 80 ) );
 			this.add( new MPRestoreItem( "green pixel potion", 15, 500 ) );
 			this.add( new MPRestoreItem( "blue pixel potion", 19, 800 ) );
+			this.add( new MPRestoreItem( "Blatantly Canadian", 24, 1000 ) );
 		}
 
 		public class MPRestoreItem implements Comparable

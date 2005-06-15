@@ -67,6 +67,8 @@ public class ConcoctionsDatabase
 
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
+	private static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
+	private static final AdventureResult PLIERS = new AdventureResult( 709, 1 );
 	private static final AdventureResult ROLLING_PIN = new AdventureResult( 873, 1 );
 
 	static
@@ -88,6 +90,10 @@ public class ConcoctionsDatabase
 
 			while ( (line = itemdata.readLine()) != null )
 			{
+                                // Skip blank lines and comments
+                                if (line.length() < 1 || line.charAt(0) == '#')
+                                        continue;
+
 				strtok = new StringTokenizer( line, "\t" );
 				if ( strtok.countTokens() > 2 )
 				{
@@ -266,6 +272,12 @@ public class ConcoctionsDatabase
 
 			case ItemCreationRequest.MIX_SPECIAL:
 				return isAvailable( BARTENDER, client ) && data.canSummonShore();
+
+			case ItemCreationRequest.SMITH:
+				return data.getInventory().contains( HAMMER );
+
+			case ItemCreationRequest.JEWELRY:
+				return data.getInventory().contains( PLIERS );
 
 			case ItemCreationRequest.ROLLING_PIN:
 				return data.getInventory().contains( ROLLING_PIN );
