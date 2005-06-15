@@ -66,7 +66,7 @@ public class ProposeTradeFrame extends KoLFrame
 	private static final int COLS = 32;
 	private static final int ROWS = 8;
 
-	private JTextField recipientEntry;
+	protected JTextField recipientEntry;
 	private JTextArea messageEntry;
 	private JComboBox attachSelect;
 	private JButton attachButton;

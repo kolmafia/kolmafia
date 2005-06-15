@@ -104,10 +104,11 @@ import javax.swing.event.HyperlinkEvent;
 
 // other stuff
 import java.io.File;
-import java.util.Properties;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.StringTokenizer;
 import javax.swing.SwingUtilities;
 import java.lang.reflect.Constructor;
 
@@ -1352,6 +1353,26 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				// In the event that it's a Javascript submit
 				// attempt, then do nothing.
+			}
+			else if ( location.startsWith( "sendmessage.php" ) )
+			{
+				// Messages to be sent via green composer are
+				// special, because no request frame is needed
+				// for them (I don't think).
+
+				GreenMessageFrame composer = new GreenMessageFrame( client, location.split( "[\\?=&]" )[2] );
+				composer.pack();  composer.setVisible( true );  composer.requestFocus();
+			}
+			else if ( location.startsWith( "town_sendgift.php" ) )
+			{
+				GiftMessageFrame composer = new GiftMessageFrame( client, location.split( "[\\?=&]" )[2] );
+				composer.pack();  composer.setVisible( true );  composer.requestFocus();
+			}
+			else if ( location.startsWith( "makeoffer.php" ) )
+			{
+				ProposeTradeFrame composer = new ProposeTradeFrame( client );
+				composer.recipientEntry.setText( location.split( "[\\?=&]" )[2] );
+				composer.pack();  composer.setVisible( true );  composer.requestFocus();
 			}
 			else if ( KoLFrame.this instanceof RequestFrame )
 			{
