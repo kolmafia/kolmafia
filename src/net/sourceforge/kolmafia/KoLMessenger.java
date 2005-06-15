@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Calendar;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
@@ -198,18 +200,20 @@ public class KoLMessenger implements KoLConstants
 	public LimitedSizeChatBuffer getChatBuffer( String contact )
 	{
 		String chatStyle = client.getSettings().getProperty( "chatStyle" );
+		String neededBufferName = contact == null ? currentChannel : chatStyle == null ? contact : chatStyle.equals( "1" ) && !contact.startsWith( "/" ) ? "[nsipms]" : contact;
+		LimitedSizeChatBuffer neededBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( neededBufferName );
 
-		if ( contact == null )
-			return (LimitedSizeChatBuffer) instantMessageBuffers.get( currentChannel );
+		// This error should not happen, but it's better to be safe than
+		// sorry, so there's a check to make sure that the chat buffer
+		// exists before doing anything with the messages.
 
-		else if ( chatStyle == null )
-			return (LimitedSizeChatBuffer) instantMessageBuffers.get( contact );
+		if ( neededBuffer == null )
+		{
+			openInstantMessage( neededBufferName );
+			neededBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( neededBufferName );
+		}
 
-		else if ( chatStyle.equals( "1" ) && !contact.startsWith( "/" ) )
-			return (LimitedSizeChatBuffer) instantMessageBuffers.get( "[nsipms]" );
-
-		else
-			return (LimitedSizeChatBuffer) instantMessageBuffers.get( contact );
+		return neededBuffer;
 	}
 
 	/**
@@ -255,49 +259,6 @@ public class KoLMessenger implements KoLConstants
 	}
 
 	/**
-	 * Sets the messenger's current visibility status.
-	 * @param	isVisible	<code>true</code> if the messenger should be visible
-	 */
-
-	public void setVisible( boolean isVisible )
-	{	(new ResetVisibilityState( isVisible )).run();
-	}
-
-	/**
-	 * Runnable to ensure that the visibility is reset only
-	 * inside of the Swing thread.
-	 */
-
-	private class ResetVisibilityState implements Runnable
-	{
-		private boolean isVisible;
-
-		public ResetVisibilityState( boolean isVisible )
-		{	this.isVisible = true;
-		}
-
-		public void run()
-		{
-			if ( !SwingUtilities.isEventDispatchThread() )
-			{
-				SwingUtilities.invokeLater( this );
-				return;
-			}
-
-			if ( !useTabbedFrame )
-			{
-				Object [] frames = instantMessageFrames.values().toArray();
-				ChatFrame currentFrame;
-				for ( int i = 0; i < frames.length; ++i )
-				{
-					currentFrame = (ChatFrame) frames[i];
-					currentFrame.setVisible( isVisible );
-				}
-			}
-		}
-	}
-
-	/**
 	 * Disposes the messenger's frames.
 	 */
 
@@ -332,6 +293,7 @@ public class KoLMessenger implements KoLConstants
 			if ( contactList[i].indexOf( "(" ) != -1 )
 				contactList[i] = contactList[i].substring( 0, contactList[i].indexOf( "(" ) ).trim();
 
+		onlineContacts.add( contactList[0].substring( contactList[0].indexOf( ":" ) + 1 ) );
 		for ( int i = 1; i < contactList.length; ++i )
 			onlineContacts.add( contactList[i].toLowerCase() );
 
@@ -344,66 +306,26 @@ public class KoLMessenger implements KoLConstants
 		contactsFrame.setTitle( contactList[0] );
 	}
 
-	/**
-	 * Updates the chat with the given information.  This method will
-	 * also handle instant message data.
-	 *
-	 * @param	originalContent	The content with which to update the chat
-	 */
-
-	public void updateChat( String originalContent )
+	private static final String getNormalizedContent( String originalContent )
 	{
-		// First, retrieve the currently active window - that way, the
-		// focus can be returned once the chat's been updated.
+		String condensedContent = originalContent.replaceAll( "<br>&nbsp;&nbsp;", " " ).replaceAll( "(</?p>)+", "<br>" );
+		String noColorContent = condensedContent.replaceAll( "</?font.*?>", "" );
+		String noItalicsContent = noColorContent.replaceAll( "</?i>", "" );
+		String normalBreaksContent = noItalicsContent.replaceAll( "</[Bb][Rr]>", "<br>" );
+		String normalBoldsContent = normalBreaksContent.replaceAll( "<br></b>", "</b><br>" );
+		String colonOrderedContent = normalBoldsContent.replaceAll( ":</b></a>", "</b></a>:" ).replaceAll( "</a>:</b>", "</a></b>:" );
+		String noCommentsContent = colonOrderedContent.replaceAll( "<!--.*?-->", "" );
 
-		String nameOfActiveFrame = getNameOfActiveFrame();
+		return noCommentsContent.replaceAll( "<table>.*?</table>", "" );
+	}
 
-		// Also, there's a problem with bold and italic tag ordering, as well
-		// as bold and font-color ordering.  This needs to be fixed, since
-		// the default HTML handler in Java is really rigid about it.  Note
-		// that this requires several lines - this just shows you how far
-		// behind the default HTML handler is compared to a web browser.
+	private void handleTableContent( String content, String nameOfActiveFrame )
+	{
+		Matcher tableMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( content );
 
-		String orderedTagsContent = originalContent.replaceAll( "<br>&nbsp;&nbsp;", " " ).replaceAll( "<b><i>", "<i><b>" ).replaceAll(
-			"<b><font color=green>", "<font color=green><b>" ).replaceAll( "<b><font color=.*?>", "<b>" ).replaceAll(
-				"</font></b>", "</b></font>" ).replaceAll( "</b></font></a>", "</b></a>" ).replaceAll( "</?br></b>", "</b><br>" ).replaceAll(
-					"</?br></font>", "</font><br>" ).replaceAll( "<b><b>", "" ).replaceAll( "</b></a>", "</a></b>" );
-
-		if ( orderedTagsContent.startsWith( "</font>" ) )
-			orderedTagsContent = orderedTagsContent.substring( 7 );
-
-		// Also, there is no such thing as "none" color - though this works in
-		// Java 1.4.2 and the latest update of 1.5.0, it shouldn't be here anyway,
-		// as it's not a real color.  Also, color bleeding fixes which can't be
-		// fixed any other way will be fixed here.
-
-		String validColorsContent = orderedTagsContent.replaceAll( "<font color=\"none\">", "" ).replaceAll(
-			"<font color=blue>\\[link\\]<\\/font>", "[link]" );
-
-		// Although it's not necessary, it cleans up the HTML if all of the
-		// last seen data is removed.  It makes the buffer smaller (for one),
-		// and it gives room to other chat messages, since the buffer is
-		// limited in size to begin with.  Also replace the initial text
-		// that gives you a description of your channel.
-
-		String noCommentsContent = validColorsContent.replaceAll( "<p><p>", "</font><br><font color=green>" ).replaceAll(
-			"<p></p><p>", "<br>" ).replaceAll( "</p>", "" ).replaceAll( "<!--lastseen:[\\d]+-->", "" );
-
-		// Finally, there's lots of contact list and help file information that
-		// needs to get removed - this should be done here.
-
-		String noContactListContent = noCommentsContent.replaceAll( "<table>.*?</table>", "" );
-
-		// Now, extract the contact list and update KoLMessenger to indicate
-		// the contact list found in the last /friends update
-
-		Matcher contactListMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( originalContent );
-
-		int lastFindIndex = 0;
-		while ( contactListMatcher.find( lastFindIndex ) )
+		while ( tableMatcher.find() )
 		{
-			lastFindIndex = contactListMatcher.end();
-			String result = contactListMatcher.group();
+			String result = tableMatcher.group();
 
 			// Ignore the help information, which gets spit out whenever you
 			// type /? when looking for the contact list - on the other hand,
@@ -412,7 +334,7 @@ public class KoLMessenger implements KoLConstants
 
 			if ( Pattern.compile( "[^<]/" ).matcher( result ).find() )
 			{
-				result = result.replaceAll( "<.*?>", "\n" ).replaceAll( "[\\n]+", "\n" ).trim();
+				result = result.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ).trim();
 
 				// If the user has clicked into a menu, then there's a chance that
 				// the active frame will not be recognized - therefore, simply
@@ -421,137 +343,96 @@ public class KoLMessenger implements KoLConstants
 				String updateChannel = nameOfActiveFrame == null ? currentChannel : nameOfActiveFrame;
 
 				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
+				String [] helpdata = result.split( "\n" );
+				StringBuffer dataBuffer = new StringBuffer();
 
-				// This error should not happen, but it's better to be safe than
-				// sorry, so there's a check to make sure that the chat buffer
-				// exists before doing anything with the messages.
-
-				if ( currentChatBuffer == null )
+				for ( int i = 0; i < helpdata.length; ++i )
 				{
-					openInstantMessage( updateChannel );
-					currentChatBuffer = getChatBuffer( updateChannel );
-				}
-
-				StringTokenizer helpString = new StringTokenizer( result, "\n" );
-				String currentToken;
-
-				currentChatBuffer.append( "<font color=purple>" );
-				while ( helpString.hasMoreTokens() )
-				{
-					currentToken = helpString.nextToken();
-					if ( currentToken.startsWith( "/" ) )
+					dataBuffer.append( "<font color=orange>" );
+					if ( helpdata[i].startsWith( "/" ) )
 					{
-						currentChatBuffer.append( "</font><br><font color=purple><b>" );
-						currentChatBuffer.append( currentToken );
-						currentChatBuffer.append( "</b>" );
+						dataBuffer.append( "</font><br><font color=orange><b>" );
+						dataBuffer.append( helpdata[i] );
+						dataBuffer.append( "</b>" );
 					}
-					else if ( !currentToken.endsWith( ":" ) && helpString.hasMoreTokens() )
-						currentChatBuffer.append( currentToken );
+					else if ( !helpdata[i].endsWith( ":" ) )
+						dataBuffer.append( helpdata[i] );
 				}
 
-				currentChatBuffer.append( "</font><br><br>" );
-				currentChatBuffer.append( System.getProperty( "line.separator" ) );
+				dataBuffer.append( "</font><br><br>" );
+				currentChatBuffer.append( dataBuffer.toString() );
 			}
 			else
 				updateContactList( result.replaceAll( "><", "" ).replaceAll( "<.*?>", "" ).split( "\\s*,\\s*" ) );
 		}
+	}
 
-		// Extract player IDs for all players who have spoken in chat, or
-		// those that were listed on a /friends request.
+	private void handlePlayerData( String content )
+	{
+		Matcher playerMatcher = Pattern.compile( "showplayer.php\\?who\\=(\\d+)[\'\"]>(.*?)</a>" ).matcher( content );
 
-		Matcher playerIDMatcher = Pattern.compile( "showplayer.php\\?who\\=(\\d+)[\'\"]>(.*?)</a>" ).matcher( originalContent );
-		lastFindIndex = 0;
-		while( playerIDMatcher.find( lastFindIndex ) )
+		String playerName, playerID;
+		while ( playerMatcher.find() )
 		{
-			lastFindIndex = playerIDMatcher.end();
-			String playerID = playerIDMatcher.group(1);
-			String playerName = playerIDMatcher.group(2).replaceAll( "<.*?>", "" ).replaceAll( " \\(.*?\\)", "" );
-
+			playerName = playerMatcher.group(2).replaceAll( "<.*?>", "" ).replaceAll( " \\(.*?\\)", "" ).replaceAll( ":" , "" );
+			playerID = playerMatcher.group(1);
 			client.registerPlayer( playerName, playerID );
 		}
+	}
 
-		// Now with all that information parsed, you can properly deal
-		// with all of the actual chat messages! :D  Process each line
-		// individually, keeping in mind that all the green messages
-		// should be processed first after you check to make sure that
-		// an exit command was not issued.
+	private void handleChatData( String content )
+	{
+		// If the exit command was issued, then deinitialize
+		// the chat.  Exit can be detected by seeing if there
+		// were any image tags in the content.
 
-		String [] lines = noContactListContent.split( "</?br>" );
-
-		for ( int i = 0; i < lines.length; ++i )
+		if ( content.indexOf( "<img" ) != -1 )
 		{
-			lines[i] = lines[i].trim();
-			if ( lines[i].startsWith( "<img" ) && currentChannel != null )
-			{
-				removeChat( currentChannel );
-				return;
-			}
-
-			// Also, while parsing through the messages, fix the HTML
-			// on /whois notices.
-
-			if ( lines[i].indexOf( "</b>, the Level" ) != -1 )
-				lines[i] += "</font>";
-
-			if ( lines[i].startsWith( "</font>" ) )
-				lines[i] = lines[i].substring( 7 );
+			client.deinitializeChat();
+			return;
 		}
 
-		// Now begin parsing the green messages, being sure
-		// to disable later parsing from parsing it again.
+		// Now that you know that there was no intent to exit
+		// chat, go ahead and split up the lines in chat.
+
+		String [] lines = getNormalizedContent( content ).split( "<br>" );
+
+		// First, trim all the lines that were received so
+		// that you don't get anything funny-looking, and
+		// processed the trimming of the chat message.
 
 		for ( int i = 0; i < lines.length; ++i )
-		{
-			// Haiku's introduction starts with several lines,
-			// so be sure to string the lines together.
+			processChatMessage( lines[i].trim() );
+	}
 
-			if ( lines[i].startsWith( "<font color=green>Speak" ) )
-			{
-				processChatMessage( lines[i] + "</font>" );
-				lines[i] = null;
-				processChatMessage( "<font color=green>" + lines[++i] + "</font>" );
-				lines[i] = null;
-				processChatMessage( "<font color=green>" + lines[++i] );
-				lines[i] = null;
-			}
-			else if ( lines[i].startsWith( "<font color=green>" ) && !lines[i].startsWith( "<font color=green>[" ) )
-			{
-				processChatMessage( lines[i] );
-				lines[i] = null;
-			}
-			else if ( lines[i].equals( "</b></font>" ) )
-				lines[i] = null;
-		}
+	/**
+	 * Updates the chat with the given information.  This method will
+	 * also handle instant message data.
+	 *
+	 * @param	content	The content with which to update the chat
+	 */
 
-		// Process the /last command, since it appears in blue,
-		// but then the font colors get stripped.
+	public void updateChat( String content )
+	{
+		// First, retrieve the currently active window - that way, the
+		// focus can be returned once the chat's been updated.
 
-		for ( int i = 0; i < lines.length; ++i )
-		{
-			if ( lines[i] != null && lines[i].startsWith( "<font color=blue><b>from " ) && lines[i].indexOf( ":</b>" ) != -1 )
-			{
-				processChannelMessage( currentChannel, lines[i] + "</font>" );
-				lines[i++] = null;
-				while ( !lines[i].endsWith( "</font>" ) )
-				{
-					processChannelMessage( currentChannel, "<font color=blue>" + lines[i] + "</font>" );
-					lines[i++] = null;
-				}
-				processChannelMessage( currentChannel, "<font color=blue>" + lines[i] );
-				lines[i++] = null;
-			}
-		}
+		String nameOfActiveFrame = getNameOfActiveFrame();
 
-		// Now, parse the non-green messages and display them
-		// to the appropropriate frame.
+		// Now, extract the contact list and update KoLMessenger to indicate
+		// the contact list found in the last /friends update
 
-		for ( int i = 0; i < lines.length; ++i )
-		{
-			if ( lines[i] != null && lines[i].startsWith( "<font color=green>[haiku]" ) )
-				processChatMessage( lines[i] + "<br>" + lines[++i].replaceAll( "<Br>", "<br>" ) );
-			else
-				processChatMessage( lines[i] );
-		}
+		handleTableContent( content, nameOfActiveFrame );
+
+		// Extract player IDs from the most recent chat content, since it
+		// can prove useful at a later time.
+
+		handlePlayerData( content );
+
+		// Now, that all the pre-processing is done, go ahead and handle
+		// all of the individual chat data.
+
+		handleChatData( content );
 
 		// Now that all the messages have been processed, return
 		// the focus to the originally active window (if the window
@@ -577,152 +458,65 @@ public class KoLMessenger implements KoLConstants
 			// Empty messages do not need to be processed; therefore,
 			// return if one was retrieved.
 
-			if ( message == null || message.trim().length() == 0 )
+			if ( message == null || message.length() == 0 )
 				return;
 
-			String noLinksContent = message.replaceAll( "<a target=mainpane .*?>", "" );
-
-			// If the message is coming from a listen channel, you
-			// need to place it in that channel.  Otherwise, place
-			// it in the current channel.
-
-			if ( noLinksContent.startsWith( "<font color=green>[" ) )
+			if ( message.startsWith( "[" ) )
 			{
-				String channel = "/" + noLinksContent.substring( 19, noLinksContent.indexOf( "]" ) );
+				// If the message is coming from a listen channel, you
+				// need to place it in that channel.  Otherwise, place
+				// it in the current channel.
 
-				int startIndex = noLinksContent.indexOf( "<i>" );
-				if ( startIndex == -1 )
-					startIndex = noLinksContent.indexOf( "<b>" );
+				int startIndex = message.indexOf( "]" ) + 2;
+				String channel = "/" + message.substring( 1, startIndex - 2 );
+				processChatMessage( channel, message.substring( startIndex ) );
 
-				processChannelMessage( channel, null );
-				processChannelMessage( channel, noLinksContent.substring( startIndex ) );
+				((ChatFrame)instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (listening)" );
 			}
-			else if ( noLinksContent.startsWith( "<font color=red><font color=green>[" ) )
+			else if ( message.startsWith( "No longer listening to channel: " ) )
 			{
-				String channel = "/" + noLinksContent.substring( 35, noLinksContent.indexOf( "]" ) );
+				int startIndex = message.indexOf( ":" ) + 2;
+				String channel = "/" + message.substring( startIndex );
+				processChatMessage( channel, message );
 
-				int startIndex = noLinksContent.indexOf( "<i>" );
-				if ( startIndex == -1 )
-					startIndex = noLinksContent.indexOf( "<b>" );
+				((ChatFrame)instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (inactive)" );
+			}
+			else if ( message.startsWith( "Now listening to channel: " ) )
+			{
+				int startIndex = message.indexOf( ":" ) + 2;
+				String channel = "/" + message.substring( startIndex );
+				processChatMessage( channel, message );
 
-				processChannelMessage( channel, null );
-				processChannelMessage( channel, noLinksContent.substring( startIndex ).replaceFirst( "</font>", "" ) );
+				((ChatFrame)instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (listening)" );
 			}
-			else if ( noLinksContent.startsWith( "<font color=green>No longer listening to channel: " ) )
+			else if ( message.startsWith( "You are now talking in channel: " ) )
 			{
-				String channel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) );
-				processChannelMessage( channel, noLinksContent );
-				ChatFrame frame = (ChatFrame) instantMessageFrames.get( channel );
-				if ( frame != null )
-					frame.setTitle( "KoLmafia Chat: " + channel + " (inactive)" );
-			}
-			else if ( noLinksContent.startsWith( "<font color=green>Now listening to channel: " ) )
-			{
-				String channel = "/" + noLinksContent.substring( 44, noLinksContent.indexOf( "</font>" ) );
-				processChannelMessage( channel, noLinksContent );
-				ChatFrame frame = (ChatFrame) instantMessageFrames.get( channel );
-				if ( frame != null )
-					frame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
-			}
-			else if ( noLinksContent.startsWith( "<font color=green>You are now talking in channel: " ) )
-			{
-				// You should notify the channel you're switching away from
-				// that you're no longer listening to it.
-
 				if ( currentChannel != null )
-				{
-					LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( currentChannel );
-					if ( currentChatBuffer != null )
-					{
-						ChatFrame frame = (ChatFrame) instantMessageFrames.get( currentChannel );
-						if ( frame != null )
-							frame.setTitle( "KoLmafia Chat: " + currentChannel + " (inactive)" );
-					}
-				}
+					((ChatFrame)instantMessageFrames.get( currentChannel )).setTitle( "KoLmafia Chat: " + currentChannel + " (inactive)" );
 
-				currentChannel = "/" + noLinksContent.substring( 50, noLinksContent.indexOf( "</font>" ) - 1 );
-				processChannelMessage( currentChannel, noLinksContent );
+				int startIndex = message.indexOf( ":" ) + 2;
+				currentChannel = "/" + message.substring( startIndex ).replaceAll( "\\.", "" );
+				processChatMessage( currentChannel, message );
 
-				ChatFrame currentFrame = (ChatFrame) instantMessageFrames.get( currentChannel );
-
-				if ( !useTabbedFrame && currentFrame != null )
-				{
-					currentFrame.setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
-					if ( !currentFrame.hasFocus() )
-						currentFrame.requestFocus();
-				}
-
-				if ( useTabbedFrame && currentChannel != null )
-					tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
+				((ChatFrame)instantMessageFrames.get( currentChannel )).setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
 			}
-			else if ( message.indexOf( "<font color=blue>" ) == -1 )
+			else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
 			{
-				// The easy case is if it's a normal chat message.
-				// Then, it just gets updated to the main chat buffer,
-				// provided that the main chat buffer is not null
-
-				processChannelMessage( currentChannel, noLinksContent );
+				String sender = message.substring( 0, message.indexOf( " (" ) ).replaceAll( "<.*?>", "" );
+				String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=blue>" +
+					sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
+				processChatMessage( sender, cleanHTML );
+			}
+			else if ( message.startsWith( "<b>private to" ) )
+			{
+				String sender = client.getLoginName();
+				String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=red>" +
+					sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
+				processChatMessage( sender, cleanHTML );
 			}
 			else
 			{
-				// The harder case is if you have a private message.
-				// First, you have to determine who sent the message;
-				// either the client is the recipient or was the sender.
-				// This is determined by where the colon is - in a
-				// send, it is not bolded, while in a receive, it is.
-
-				boolean isRecipient = message.indexOf( "<a" ) != -1;
-
-				// Next, split the message around the tags so you know
-				// how to display the message.
-
-				StringTokenizer splitMessage = new StringTokenizer( message.trim().replaceAll( "<.*?>", "" ), ":", true );
-				StringBuffer redoneMessage = new StringBuffer();
-
-				// In traditional instant message style, your name
-				// appears in red, and the other person in blue.
-
-				String contactName;
-
-				if ( isRecipient )
-				{
-					String firstToken = splitMessage.nextToken();
-					contactName = firstToken.substring( 0, firstToken.length() - 10 );
-					redoneMessage.append( "<font color=blue><b><a href=\"" + contactName + "\">" );
-					redoneMessage.append( contactName );
-					redoneMessage.append( "</a></b></font>: " );
-				}
-				else
-				{
-					contactName = splitMessage.nextToken().substring( 11 );
-					redoneMessage.append( "<font color=red><b><a href=\"" + client.getLoginName() + "\">" );
-					redoneMessage.append( client.getLoginName() );
-					redoneMessage.append( "</a></b></font>: " );
-				}
-
-				splitMessage.nextToken();
-
-				while ( splitMessage.hasMoreTokens() )
-					redoneMessage.append( splitMessage.nextToken() );
-				redoneMessage.append( "<br>" );
-				redoneMessage.append( System.getProperty( "line.separator" ) );
-
-				// Display the message in the appropriate chat
-				// buffer, based on who the contact is.
-
-				LimitedSizeChatBuffer messageBuffer = getChatBuffer( contactName );
-				if ( messageBuffer == null )
-				{
-					openInstantMessage( contactName );
-					messageBuffer = getChatBuffer( contactName );
-				}
-
-				if ( messageBuffer != null )
-				{
-					messageBuffer.append( redoneMessage.toString() );
-					if ( useTabbedFrame )
-						tabbedFrame.highlightTab( contactName );
-				}
+				processChatMessage( currentChannel, message );
 			}
 		}
 		catch ( Exception e )
@@ -733,10 +527,7 @@ public class KoLMessenger implements KoLConstants
 
 			LimitedSizeChatBuffer messageBuffer = getChatBuffer( currentChannel );
 			if ( messageBuffer != null )
-			{
 				messageBuffer.append( "<br><br><font color=magenta>Unexpected error.</font><br>\n" );
-				messageBuffer.append( System.getProperty( "line.separator" ) );
-			}
 		}
 	}
 
@@ -746,106 +537,24 @@ public class KoLMessenger implements KoLConstants
 	 * @param	message	The message that was sent to the channel
 	 */
 
-	private void processChannelMessage( String channel, String message )
+	private void processChatMessage( String channel, String message )
 	{
-		try
-		{
-			LimitedSizeChatBuffer channelBuffer = getChatBuffer( channel );
-			if ( useTabbedFrame )
-				tabbedFrame.highlightTab( channel );
+		LimitedSizeChatBuffer buffer = getChatBuffer( channel );
 
-			// If a channel buffer does not exist, create a new window handling
-			// the channel content.  This can be done by opening an "instant message"
-			// window for the appropriate channel.
+		if ( message.indexOf( "<a" ) == -1 )
+			buffer.append( "<font color=green>" + message + "</font><br>" );
 
-			if ( channelBuffer == null && (message == null || !message.startsWith( "<font color=green>No longer" )) )
-			{
-				ChatFrame currentFrame = (ChatFrame) instantMessageFrames.get( currentChannel );
-				boolean hadFocus = currentFrame != null && currentFrame.hasFocus();
+		else if ( message.indexOf( "<b>Mod Warning</b>" ) != -1 )
+			buffer.append( "<font color=red>" + message + "</font><br>" );
 
-				openInstantMessage( channel );
-				channelBuffer = getChatBuffer( channel );
+		else if ( message.indexOf( "<b>System Message</b>" ) != -1 )
+			buffer.append( "<font color=red>" + message + "</font><br>" );
 
-				// Make sure that the current channel doesn't lose focus by opening the
-				// instant message.  This can be accomplished by re-requesting focus.
+		else if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
+			buffer.append( "<i>" + message + "</i><br>" );
 
-				if ( hadFocus && currentFrame != null )
-					currentFrame.requestFocus();
-
-				if ( message == null )
-				{
-					channelBuffer.append( "<font color=green>You are listening to channel: " );
-					channelBuffer.append( channel.substring(1) );
-					channelBuffer.append( "</font><br>" );
-					channelBuffer.append( System.getProperty( "line.separator" ) );
-
-					ChatFrame newFrame = (ChatFrame) instantMessageFrames.get( channel );
-					newFrame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
-				}
-			}
-
-			if ( message != null && channelBuffer != null && message.startsWith( "<font color=blue>" ) )
-			{
-				channelBuffer.append( message );
-				channelBuffer.append( "<br>" );
-				channelBuffer.append( System.getProperty( "line.separator" ) );
-			}
-			else if ( message != null && channelBuffer != null )
-			{
-				String actualMessage = message.trim();
-
-				Matcher nameMatcher = Pattern.compile( "<b>.*?</a>" ).matcher( actualMessage );
-				if ( nameMatcher.find() )
-				{
-					String name = nameMatcher.group();
-					name = name.replaceAll( "<.*?>", "" );
-
-					if ( name.indexOf( " (" ) != -1 )
-						name = name.substring( 0, name.indexOf( " (" ) );
-
-					int playerID = Integer.parseInt( client.getPlayerID( name ) );
-
-					// In order to make the stylesheet work as intended,
-					// the user's player ID is defined with class pid0.
-
-					if ( playerID == client.getUserID() )
-						playerID = 0;
-
-					actualMessage = actualMessage.replaceAll( "</font>", "" ).replaceFirst( "<b>", "<b><a href=\"" + name + "\">" );
-				}
-
-				// Now to replace doubled instances of <font> to 1, and ensure that
-				// there's an </font> at the very end.
-
-				int indexRed = actualMessage.indexOf( "<font color=red>" );
-				int indexGreen = actualMessage.indexOf( "<font color=green>" );
-
-				actualMessage = actualMessage.replaceAll( "</?font.*?>", "" );
-
-				if ( indexRed != -1 )
-					actualMessage = "<font color=red>" + actualMessage.replaceFirst( "<a ", "<a style=\"color:red\"" ) + "</font>";
-				else if ( indexGreen != -1 )
-					actualMessage = "<font color=green>" + actualMessage.replaceFirst( "<a ", "<a style=\"color:green\"" ) + "</font>";
-
-				channelBuffer.append( actualMessage );
-				channelBuffer.append( "<br>" );
-				channelBuffer.append( System.getProperty( "line.separator" ) );
-			}
-		}
-		catch ( Exception e )
-		{
-			// If an error occurs somewhere in all of this, KoLmafia will
-			// stop refreshing.  So, to make things easier, print the
-			// error message to the main window. :D
-
-			LimitedSizeChatBuffer messageBuffer = getChatBuffer( currentChannel );
-			if ( messageBuffer != null )
-			{
-				messageBuffer.append( "<br><br><font color=magenta>Unexpected error.</font><br>\n" );
-				messageBuffer.append( System.getProperty( "line.separator" ) );
-			}
-		}
-
+		else
+			buffer.append( message + "<br>" );
 	}
 
 	/**
@@ -855,53 +564,52 @@ public class KoLMessenger implements KoLConstants
 	 * @param	characterName	The name of the person being messaged
 	 */
 
-	public void openInstantMessage( String characterName )
+	public void openInstantMessage( String channel )
 	{
-		String chatStyle = client.getSettings().getProperty( "chatStyle" );
-		String windowName = characterName == null ? currentChannel :
-			chatStyle != null && chatStyle.equals( "1" ) && !characterName.startsWith( "/" ) ? "[nsipms]" : characterName;
-
 		// If the window exists, don't open another one as it
 		// just confuses the disposal issue
 
-		if ( instantMessageBuffers.containsKey( windowName ) )
+		if ( instantMessageBuffers.containsKey( channel ) )
 			return;
 
-		LimitedSizeChatBuffer newBuffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + windowName + " - Started " +
-			Calendar.getInstance().getTime().toString() );
-
-		instantMessageBuffers.put( windowName, newBuffer );
-		ChatFrame newFrame = new ChatFrame( client, this, windowName );
+		LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString() );
+		instantMessageBuffers.put( channel, buffer );
+		ChatFrame frame = new ChatFrame( client, this, channel );
 
 		if ( useTabbedFrame )
 		{
-			newFrame.setVisible( false );
-			ChatFrame.ChatPanel panel = this.tabbedFrame.addTab( windowName );
-			newBuffer.setChatDisplay( panel.getChatDisplay() );
-			newBuffer.setScrollPane( panel.getScrollPane() );
-
-			if ( currentChannel != null )
-				this.tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
+			frame.setVisible( false );
+			ChatFrame.ChatPanel panel = this.tabbedFrame.addTab( channel );
+			buffer.setChatDisplay( panel.getChatDisplay() );
+			buffer.setScrollPane( panel.getScrollPane() );
+			tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
+			tabbedFrame.highlightTab( channel );
 		}
 		else
 		{
-			newFrame.setVisible( true );
-			newBuffer.setChatDisplay( newFrame.getChatDisplay() );
-			newBuffer.setScrollPane( newFrame.getScrollPane() );
+			frame.setVisible( true );
+			buffer.setChatDisplay( frame.getChatDisplay() );
+			buffer.setScrollPane( frame.getScrollPane() );
 		}
 
-		instantMessageFrames.put( windowName, newFrame );
+		instantMessageFrames.put( channel, frame );
 
 		if ( baseLogname != null )
 		{
-			String fileSuffix = characterName.startsWith( "/" ) ? characterName.substring( 1 ) : client.getPlayerID( characterName );
-			newBuffer.setActiveLogFile( baseLogname + "_" + fileSuffix + ".html",
+			String fileSuffix = channel.startsWith( "/" ) ? channel.substring( 1 ) : client.getPlayerID( channel );
+			buffer.setActiveLogFile( baseLogname + "_" + fileSuffix + ".html",
 				"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
 		}
 
-		if ( highlighting && !characterName.equals( "[highlights]" ) )
-			newBuffer.applyHighlights();
+		if ( highlighting && !channel.equals( "[highlights]" ) )
+			buffer.applyHighlights();
 	}
+
+	/**
+	 * Utility method used to initialize all chat logs for all windows.  This
+	 * method will prompt the user for the base file name, and the appropriate
+	 * channel name will be appended to the end of the chat log name.
+	 */
 
 	public void initializeChatLogs()
 	{
@@ -929,12 +637,26 @@ public class KoLMessenger implements KoLConstants
 		}
 	}
 
+	/**
+	 * Utility method to clear all the chat buffers.  This is used whenever
+	 * the user wishes to clear the chat buffer manually due to overflow or
+	 * the desire not to log a specific part of a conversation.
+	 */
+
 	public void clearChatBuffers()
 	{
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 			clearChatBuffer( (String) keys[i] );
 	}
+
+	/**
+	 * Utility method to add a highlight word to the list of words currently
+	 * being handled by the highlighter.  This method will prompt the user
+	 * for the word or phrase which is to be highlighted, followed by a prompt
+	 * for the color which they would like to use.  Cancellation during any
+	 * point of this process results in no chat highlighting being added.
+	 */
 
 	public void addHighlighting()
 	{
@@ -961,6 +683,13 @@ public class KoLMessenger implements KoLConstants
 		for ( int i = 0; i < keys.length; ++i )
 			getChatBuffer( (String) keys[i] ).applyHighlights();
 	}
+
+	/**
+	 * Utility method to remove a word or phrase from being highlighted.  The
+	 * user will be prompted with the highlights which are currently active,
+	 * and the user can select which one they would like to remove.  Note
+	 * that only one highlight at a time can be removed with this method.
+	 */
 
 	public void removeHighlighting()
 	{
@@ -991,7 +720,5 @@ public class KoLMessenger implements KoLConstants
 					getChatBuffer( (String) keys[j] ).applyHighlights();
 
 			}
-
-
 	}
 }

@@ -51,7 +51,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 	protected static List dehighlights;
 	protected static LimitedSizeChatBuffer highlightBuffer;
 
-	private static final int BUFFER_LIMIT = 40000;
+	private static final int BUFFER_LIMIT = 30000;
 	private int previousFontSize;
 
 	private static int fontSize = 3;
@@ -128,7 +128,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 				break;
 		}
 
-		ChatBuffer.BUFFER_STYLE += "; } a { color: blue; text-decoration: none; }";
+		ChatBuffer.BUFFER_STYLE += "; } a { color: black; text-decoration: none; }";
 	}
 
 	/**
