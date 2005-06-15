@@ -91,7 +91,8 @@ public class RequestFrame extends KoLFrame
 
 			request.run();
 
-			String displayHTML = request.responseText.replaceAll( "<td>", "<td>&nbsp;" ).replaceAll( "<tr><td height=1 bgcolor=black></td></tr>", "" );
+			String displayHTML = request.responseText.replaceAll( "<td>", "<td>&nbsp;" ).replaceAll( "<input.*?>", "" ).replaceAll(
+				"<select.*?</select>", "" ).replaceAll( "<textarea.*?</textarea>", "" ).replaceAll( "<tr><td height=1 bgcolor=black></td></tr>", "" );
 			displayHTML = Pattern.compile( "<tr><td colspan=(\\d+) height=1 bgcolor=black></td></tr>" ).matcher( displayHTML ).replaceAll( "" );
 
 			buffer.clearBuffer();
