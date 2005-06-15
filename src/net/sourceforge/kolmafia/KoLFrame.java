@@ -250,7 +250,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	public void setExtendedState( int state )
 	{
-		if ( this instanceof RequestFrame || this instanceof ProfileFrame || state == ICONIFIED )
+		if ( this instanceof ChatFrame || this instanceof RequestFrame || state == ICONIFIED )
 			super.setExtendedState( state );
 		else
 			super.setExtendedState( NORMAL );

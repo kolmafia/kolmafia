@@ -58,6 +58,12 @@ public class KoLMessenger implements KoLConstants
 {
 	private static final Color DEFAULT_HIGHLIGHT = new Color( 128, 0, 128 );
 
+	public static final String [] ROOMS =
+	{
+		"newbie", "normal", "trade", "clan", "games", "villa", "radio",
+		"pvp", "haiku", "foodcourt", "valhalla", "lounge", "dev", "mod", "harem"
+	};
+
 	private KoLmafia client;
 	private ContactListFrame contactsFrame;
 
@@ -66,8 +72,9 @@ public class KoLMessenger implements KoLConstants
 	private SortedListModel onlineContacts;
 
 	private String currentChannel;
+
+	private int chattingStyle;
 	private boolean useTabbedFrame;
-	private boolean useTriviaStyle;
 	private TabbedChatFrame tabbedFrame;
 
 	private String baseLogname;
@@ -81,9 +88,13 @@ public class KoLMessenger implements KoLConstants
 		this.instantMessageFrames = new TreeMap();
 		this.instantMessageBuffers = new TreeMap();
 
+		chattingStyle = client.getSettings().getProperty( "chatStyle" ) == null ? 0 :
+			Integer.parseInt( client.getSettings().getProperty( "chatStyle" ) );
+
 		contactsFrame = new ContactListFrame( client, onlineContacts );
 		String tabsSetting = client.getSettings().getProperty( "useTabbedChat" );
 		setTabbedFrameSetting( tabsSetting == null || tabsSetting.equals( "1" ) );
+
 	}
 
 	/**
@@ -199,8 +210,9 @@ public class KoLMessenger implements KoLConstants
 
 	public LimitedSizeChatBuffer getChatBuffer( String contact )
 	{
-		String chatStyle = client.getSettings().getProperty( "chatStyle" );
-		String neededBufferName = contact == null ? currentChannel : chatStyle == null ? contact : chatStyle.equals( "1" ) && !contact.startsWith( "/" ) ? "[nsipms]" : contact;
+		String neededBufferName = contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
+			chattingStyle != 0 && !contact.startsWith( "/" ) ? "/reply" : chattingStyle == 2 && contact.startsWith( "/" ) ? "[chat]" : contact;
+
 		LimitedSizeChatBuffer neededBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( neededBufferName );
 
 		// This error should not happen, but it's better to be safe than
@@ -461,6 +473,8 @@ public class KoLMessenger implements KoLConstants
 			if ( message == null || message.length() == 0 )
 				return;
 
+			ChatFrame frame;
+
 			if ( message.startsWith( "[" ) )
 			{
 				// If the message is coming from a listen channel, you
@@ -471,7 +485,9 @@ public class KoLMessenger implements KoLConstants
 				String channel = "/" + message.substring( 1, startIndex - 2 );
 				processChatMessage( channel, message.substring( startIndex ) );
 
-				((ChatFrame)instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (listening)" );
+				frame = (ChatFrame) instantMessageFrames.get( channel );
+				if ( frame != null )
+					frame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
 			}
 			else if ( message.startsWith( "No longer listening to channel: " ) )
 			{
@@ -479,7 +495,9 @@ public class KoLMessenger implements KoLConstants
 				String channel = "/" + message.substring( startIndex );
 				processChatMessage( channel, message );
 
-				((ChatFrame)instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (inactive)" );
+				frame = (ChatFrame) instantMessageFrames.get( channel );
+				if ( frame != null )
+					frame.setTitle( "KoLmafia Chat: " + channel + " (inactive)" );
 			}
 			else if ( message.startsWith( "Now listening to channel: " ) )
 			{
@@ -487,18 +505,26 @@ public class KoLMessenger implements KoLConstants
 				String channel = "/" + message.substring( startIndex );
 				processChatMessage( channel, message );
 
-				((ChatFrame)instantMessageFrames.get( channel )).setTitle( "KoLmafia Chat: " + channel + " (listening)" );
+				frame = (ChatFrame) instantMessageFrames.get( channel );
+				if ( frame != null )
+					frame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
 			}
 			else if ( message.startsWith( "You are now talking in channel: " ) )
 			{
-				if ( currentChannel != null )
-					((ChatFrame)instantMessageFrames.get( currentChannel )).setTitle( "KoLmafia Chat: " + currentChannel + " (inactive)" );
+				frame = (ChatFrame) instantMessageFrames.get( currentChannel );
+				if ( frame != null )
+					frame.setTitle( "KoLmafia Chat: " + currentChannel + " (inactive)" );
 
 				int startIndex = message.indexOf( ":" ) + 2;
 				currentChannel = "/" + message.substring( startIndex ).replaceAll( "\\.", "" );
 				processChatMessage( currentChannel, message );
 
-				((ChatFrame)instantMessageFrames.get( currentChannel )).setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
+				frame = (ChatFrame)instantMessageFrames.get( currentChannel );
+				if ( frame != null )
+					frame.setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
+
+				if ( useTabbedFrame )
+					tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 			}
 			else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
 			{
@@ -528,6 +554,9 @@ public class KoLMessenger implements KoLConstants
 			LimitedSizeChatBuffer messageBuffer = getChatBuffer( currentChannel );
 			if ( messageBuffer != null )
 				messageBuffer.append( "<br><br><font color=magenta>Unexpected error.</font><br>\n" );
+
+			e.printStackTrace( client.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 
@@ -541,20 +570,41 @@ public class KoLMessenger implements KoLConstants
 	{
 		LimitedSizeChatBuffer buffer = getChatBuffer( channel );
 
-		if ( message.indexOf( "<a" ) == -1 )
-			buffer.append( "<font color=green>" + message + "</font><br>" );
+		// Figure out what the properly formatted HTML looks like
+		// first, based on who sent the message and whether or not
+		// there are supposed to be italics.
 
-		else if ( message.indexOf( "<b>Mod Warning</b>" ) != -1 )
-			buffer.append( "<font color=red>" + message + "</font><br>" );
+		String displayHTML = message.indexOf( "<a" ) == -1 ? "<font color=green>" + message + "</font>" :
+			message.indexOf( "<b>Mod Warning</b>" ) != -1 ? "<font color=red>" + message + "</font>" :
+			message.indexOf( "<b>System Message</b>" ) != -1 ? "<font color=red>" + message + "</font>" :
+			message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 ? "<i>" + message + "</i>" : message;
 
-		else if ( message.indexOf( "<b>System Message</b>" ) != -1 )
-			buffer.append( "<font color=red>" + message + "</font><br>" );
+		// Now, if the person is using LoathingChat style for
+		// doing their chatting, then make sure to append the
+		// channel with the appropriate color.
 
-		else if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
-			buffer.append( "<i>" + message + "</i><br>" );
+		if ( chattingStyle == 2 )
+			displayHTML = "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " + displayHTML;
 
-		else
-			buffer.append( message + "<br>" );
+		// Now that everything has been properly formatted,
+		// show the display HTML.
+
+		buffer.append( displayHTML + "<br>" );
+	}
+
+	/**
+	 * Utility method which retrieves the color for the given
+	 * channel.  Should only be called if the user opted to
+	 * use customized colors.
+	 */
+
+	private String getColor( String channel )
+	{
+		for ( int i = 0; i < ROOMS.length; ++i )
+			if ( ROOMS[i].equals( channel ) )
+				return client.getSettings().getProperty( "channelColors" ).split( "," )[i];
+
+		return "black";
 	}
 
 	/**
@@ -601,7 +651,7 @@ public class KoLMessenger implements KoLConstants
 				"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
 		}
 
-		if ( highlighting && !channel.equals( "[highlights]" ) )
+		if ( highlighting && !channel.equals( "[highs]" ) )
 			buffer.applyHighlights();
 	}
 
@@ -672,9 +722,7 @@ public class KoLMessenger implements KoLConstants
 
 		highlighting = true;
 
-		openInstantMessage( "[highlights]" );
-
-		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highlights]" );
+		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
 		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 		LimitedSizeChatBuffer.addHighlight( highlight, color );

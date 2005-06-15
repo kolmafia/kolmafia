@@ -714,7 +714,8 @@ public class OptionsFrame extends KoLFrame
 
 			chatStyleSelect = new JComboBox();
 			chatStyleSelect.addItem( "Messenger style" );
-			chatStyleSelect.addItem( "Trivia hosting style" );
+			chatStyleSelect.addItem( "Trivia host style" );
+			chatStyleSelect.addItem( "LoathingChat style" );
 
 			useTabsSelect = new JComboBox();
 			useTabsSelect.addItem( "Use windowed chat interface" );
@@ -733,10 +734,11 @@ public class OptionsFrame extends KoLFrame
 
 			JComponentUtilities.setComponentSize( scrollArea, 200, 100 );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 			elements[2] = new VerifiableElement( "Windowing: ", useTabsSelect );
+			elements[3] = new VerifiableElement( "Chat Colors: ", scrollArea );
 
 			setContent( elements );
 			(new LoadDefaultSettingsThread()).start();
@@ -782,6 +784,20 @@ public class OptionsFrame extends KoLFrame
 
 				String nameClick = settings.getProperty( "nameClickOpens" );
 				nameClickSelect.setSelectedIndex( (nameClick != null) ? Integer.parseInt( nameClick ) : 0 );
+
+				String channelColor = settings.getProperty( "channelColors" );
+
+				if ( colorPanel.getComponentCount() == 0 && channelColor != null )
+				{
+					String [] colors = channelColor.split( "," );
+ 					for ( int i = 0; i < colors.length ; ++i )
+ 						colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], DataUtilities.toColor( colors[i] ) ) );
+				}
+				else if ( colorPanel.getComponentCount() == 0 )
+				{
+ 					for ( int i = 0; i < KoLMessenger.ROOMS.length; ++i )
+	 					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], Color.black ) );
+				}
 			}
 		}
 
@@ -805,6 +821,14 @@ public class OptionsFrame extends KoLFrame
 				if ( client.getMessenger() != null )
 					client.getMessenger().setTabbedFrameSetting( useTabsSelect.getSelectedIndex() == 1 );
 
+				StringBuffer colors = new StringBuffer();
+				for ( int i = 0; i < KoLMessenger.ROOMS.length; ++i )
+				{
+					colors.append( DataUtilities.toHexString( ((ChatColorPanel) colorPanel.getComponent( i )).selectedColor ) );
+					colors.append( ',' );
+				}
+
+				settings.setProperty( "channelColors", colors.toString() );
 				saveSettings();
 			}
 		}
@@ -1273,6 +1297,51 @@ public class OptionsFrame extends KoLFrame
 			}
 			catch ( InterruptedException e )
 			{
+			}
+		}
+	}
+
+	/**
+	 * Internal class which represents the color being used
+	 * for a single player in chat.
+	 */
+
+	private class ChatColorPanel extends JPanel
+	{
+		private Color selectedColor;
+		private JButton colorSelect;
+		private JLabel channelField;
+
+		public ChatColorPanel( String label, Color c )
+		{
+			selectedColor = c;
+			setLayout( new BorderLayout( 5, 5 ) );
+
+			colorSelect = new JButton();
+			JComponentUtilities.setComponentSize( colorSelect, 20, 20 );
+			colorSelect.setBackground( selectedColor );
+			colorSelect.addActionListener( new ChatColorChanger() );
+
+			add( colorSelect, BorderLayout.WEST );
+
+			channelField = new JLabel( label, JLabel.LEFT );
+			add( channelField, BorderLayout.CENTER );
+			JComponentUtilities.setComponentSize( this, 160, 20 );
+		}
+
+		/**
+		 * An internal class that processes all the information related to
+		 * changing the color of the names for players in chat.
+		 */
+
+		private class ChatColorChanger implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				selectedColor = JColorChooser.showDialog( OptionsFrame.this, "Choose color for channel /" + channelField.getText() + "...", selectedColor );
+				colorSelect.setBackground( selectedColor );
+				channelField.setForeground( selectedColor );
+				channelField.requestFocus();
 			}
 		}
 	}
