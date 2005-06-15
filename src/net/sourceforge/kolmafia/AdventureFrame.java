@@ -250,6 +250,8 @@ public class AdventureFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
+		JMenuItem mapItem = new JMenuItem( "Navigate Map", KeyEvent.VK_N );
+		mapItem.addActionListener( new MiniBrowserListener( "main.php" ) );
 		JMenuItem mallItem = new JMenuItem( "Manipulate Mall", KeyEvent.VK_M );
 		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
 		JMenuItem caseItem = new JMenuItem( "Yeti's Museum", KeyEvent.VK_Y );
@@ -258,6 +260,7 @@ public class AdventureFrame extends KoLFrame
 		otoriItem.addActionListener( new OtoriBuffListener() );
 
 		JMenu statusMenu = addStatusMenu( menuBar );
+		statusMenu.add( mapItem, 0 );
 		statusMenu.add( mallItem );
 		statusMenu.add( caseItem );
 		statusMenu.add( otoriItem );
@@ -275,7 +278,7 @@ public class AdventureFrame extends KoLFrame
 		visitMenu.setMnemonic( KeyEvent.VK_T );
 
 		JMenuItem leaderItem = new JMenuItem( "Broken Records", KeyEvent.VK_B );
-		leaderItem.addActionListener( new ShowRecordsListener() );
+		leaderItem.addActionListener( new MiniBrowserListener( "records2.php" ) );
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
 		JMenuItem hermitItem = new JMenuItem( "Hermit Hideout", KeyEvent.VK_H );
@@ -1091,11 +1094,8 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void run()
 			{
-				if ( kolchat != null && kolchat.isShowing() )
-				{
-					kolchat.setVisible( false );
+				if ( kolchat != null )
 					kolchat.dispose();
-				}
 
 				Iterator frames = existingFrames.iterator();
 				KoLFrame currentFrame;
@@ -1250,11 +1250,17 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	private class ShowRecordsListener implements ActionListener
+	private class MiniBrowserListener implements ActionListener
 	{
+		private String location;
+
+		public MiniBrowserListener( String location )
+		{	this.location = location;
+		}
+
 		public void actionPerformed( ActionEvent e )
 		{
-			RequestFrame frame = new RequestFrame( client, "Records are meant to be broken!", new KoLRequest( client, "records2.php" ) );
+			RequestFrame frame = new RequestFrame( client, "Mini-Browser Window", new KoLRequest( client, location ) );
 			frame.pack();  frame.setVisible( true );  frame.requestFocus();
 		}
 	}
