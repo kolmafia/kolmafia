@@ -161,6 +161,9 @@ public class DataUtilities implements UtilityConstants
 
 	public static String toHexString( Color c )
 	{
+		if ( c == null )
+			return "#000000";
+
 		int r = c.getRed(), g = c.getGreen(), b = c.getBlue();
 		StringBuffer hexString = new StringBuffer( 7 );
 		hexString.append( '#' );  int bitmask = (1 << 24) - 1;
