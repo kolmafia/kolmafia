@@ -546,9 +546,11 @@ public class KoLMessenger implements KoLConstants
 			else if ( message.startsWith( "<b>private to" ) )
 			{
 				String sender = client.getLoginName();
+				String recipient = message.substring( 0, message.indexOf( ":" ) ).replaceAll( "<.*?>", "" ).substring( 11 );
+
 				String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=red>" +
 					sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
-				processChatMessage( sender, cleanHTML );
+				processChatMessage( recipient, cleanHTML );
 			}
 			else
 			{
