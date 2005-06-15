@@ -73,7 +73,9 @@ public class RequestFrame extends KoLFrame
 	}
 
 	public void refresh( KoLRequest request )
-	{	(new DisplayRequestThread( request )).start();
+	{
+		setTitle( "Mini-Browser Window" );
+		(new DisplayRequestThread( request )).start();
 	}
 
 	private class DisplayRequestThread extends RequestThread
