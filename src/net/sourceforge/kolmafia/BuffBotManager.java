@@ -466,7 +466,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			{
 				String refundReason = "This buffbot was unable to process your request.  " +
 					UseSkillRequest.lastUpdate + "  Please try again later.";
-
+				if (UseSkillRequest.lastUpdate.indexOf("cannot receive")!=-1)
+					refundAmount = 0; //can't send refund to ronin/hardcore
 				sendRefund( message.getSenderName(), refundReason, refundAmount );
 
 				if ( !saveList.contains( message ) )

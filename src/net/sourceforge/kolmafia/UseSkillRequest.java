@@ -175,6 +175,17 @@ public class UseSkillRequest extends KoLRequest
 
 			return;
 		}
+		else if ( responseText.indexOf( "cannot currently" ) != -1 )
+		{
+			client.cancelRequest();
+			lastUpdate = "You cannot receive buffs.";
+			updateDisplay( ERROR_STATE, target + " cannot receive buffs." );
+
+			if ( client.isBuffBotActive() )
+				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " cannot receive buffs." );
+
+			return;
+		}
 		else
 		{
 			lastUpdate = "";
