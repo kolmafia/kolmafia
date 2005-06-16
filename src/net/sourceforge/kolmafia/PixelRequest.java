@@ -33,9 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.List;
-import java.util.ArrayList;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class PixelRequest extends ItemCreationRequest
 {
@@ -45,36 +42,16 @@ public class PixelRequest extends ItemCreationRequest
 	public static final int GREEN_PIXEL = 462;
 	public static final int BLUE_PIXEL = 463;
 
-	private int white, black, red, green, blue;
+	private AdventureResult [] ingredientCosts;
 
 	public PixelRequest( KoLmafia client, int itemID, int quantityNeeded )
 	{
 		super( client, "town_wrong.php", itemID, quantityNeeded );
 
-                AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
-		if ( ingredients != null )
-			for ( int i = 0; i < ingredients.length; ++i )
-			{
-                                int count = ingredients[i].getCount();
-                                switch ( ingredients[i].getItemID() )
-                                {
-                                case WHITE_PIXEL:
-                                        white = count;
-                                        break;
-                                case BLACK_PIXEL:
-                                        black = count;
-                                        break;
-                                case RED_PIXEL:
-                                        red = count;
-                                        break;
-                                case GREEN_PIXEL:
-                                        green = count;
-                                        break;
-                                case BLUE_PIXEL:
-                                        blue = count;
-                                        break;
-                                }
-                        }
+		ingredientCosts = ConcoctionsDatabase.getIngredients( itemID );
+		if ( ingredientCosts != null )
+			for ( int i = 0; i < ingredientCosts.length; ++i )
+				ingredientCosts[i] = ingredientCosts[i].getNegation();
 
 		addFormField( "action", "makepixel" );
 		addFormField( "makewhich", String.valueOf( itemID ) );
@@ -82,21 +59,20 @@ public class PixelRequest extends ItemCreationRequest
 
 	public void run()
 	{
-		for ( int i = 0; i < getQuantityNeeded(); ++i )
+		AdventureResult singleCreation = new AdventureResult( getItemID(), 1 );
+
+		for ( int i = 1; i <= getQuantityNeeded(); ++i )
 		{
-                        // Disable controls
-			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + (i+1) + " of " + getQuantityNeeded() + ")..." );
+			// Disable controls
+			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
 
-                        // Run the request
-                        super.run();
+			// Run the request
+			super.run();
 
-                        // Account for the results
-                        client.processResult( new AdventureResult( "white pixel", 0 - white ) );
-                        client.processResult( new AdventureResult( "black pixel", 0 - black ) );
-                        client.processResult( new AdventureResult( "red pixel", 0 - red ) );
-                        client.processResult( new AdventureResult( "green pixel", 0 - green ) );
-                        client.processResult( new AdventureResult( "blue pixel", 0 - blue ) );
-                        client.processResult( new AdventureResult( getName(), 1 ) );
+			// Account for the results
+			client.processResult( singleCreation );
+			for ( int j = 0; j < ingredientCosts.length; ++j )
+				client.processResult( ingredientCosts[j] );
 		}
 	}
 }

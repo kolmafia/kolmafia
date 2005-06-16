@@ -33,30 +33,28 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.List;
-import java.util.ArrayList;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class StarChartRequest extends ItemCreationRequest
 {
 	public static final int STAR = 654;
 	public static final int LINE = 655;
 
-        int stars, lines;
+	private int stars, lines;
+	private static final AdventureResult usedCharts = new AdventureResult( "star chart", -1 );
 
 	public StarChartRequest( KoLmafia client, int itemID, int quantityNeeded )
 	{
 		super( client, "starchart.php", itemID, quantityNeeded );
 
-                AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 		if ( ingredients != null )
 			for ( int i = 0; i < ingredients.length; ++i )
 			{
-                                if ( ingredients[i].getItemID() == STAR )
-                                        stars = ingredients[i].getCount();
-                                else if ( ingredients[i].getItemID() == LINE)
-                                        lines = ingredients[i].getCount();
-                        }
+				if ( ingredients[i].getItemID() == STAR )
+					stars = ingredients[i].getCount();
+				else if ( ingredients[i].getItemID() == LINE)
+					lines = ingredients[i].getCount();
+			}
 
 		addFormField( "action", "makesomething" );
 		addFormField( "numstars", String.valueOf( stars ) );
@@ -65,19 +63,23 @@ public class StarChartRequest extends ItemCreationRequest
 
 	public void run()
 	{
-		for ( int i = 0; i < getQuantityNeeded(); ++i )
+		AdventureResult usedStars = new AdventureResult( STAR, 0 - stars );
+		AdventureResult usedLines = new AdventureResult( LINE, 0 - lines );
+		AdventureResult singleCreation = new AdventureResult( getItemID(), 1 );
+
+		for ( int i = 1; i <= getQuantityNeeded(); ++i )
 		{
-                        // Disable controls
-			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + (i+1) + " of " + getQuantityNeeded() + ")..." );
+			// Disable controls
+			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
 
-                        // Run the request
-                        super.run();
+			// Run the request
+			super.run();
 
-                        // Account for the results
-                        client.processResult( new AdventureResult( "star chart", -1 ) );
-                        client.processResult( new AdventureResult( "star", 0 - stars ) );
-                        client.processResult( new AdventureResult( "line", 0 - lines ) );
-                        client.processResult( new AdventureResult( getName(), 1 ) );
+			// Account for the results
+			client.processResult( usedCharts );
+			client.processResult( usedStars );
+			client.processResult( usedLines );
+			client.processResult( singleCreation );
 		}
 	}
 }

@@ -33,13 +33,10 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.List;
-import java.util.ArrayList;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class TinkerRequest extends ItemCreationRequest
 {
-        private AdventureResult [] ingredients;
+	private AdventureResult [] ingredientCosts;
 
 	public TinkerRequest( KoLmafia client, int itemID, int quantityNeeded )
 	{
@@ -48,29 +45,41 @@ public class TinkerRequest extends ItemCreationRequest
 		addFormField( "place", "tinker" );
 		addFormField( "action", "tinksomething" );
 
-                ingredients = ConcoctionsDatabase.getIngredients( itemID );
-                if (ingredients != null && ingredients.length == 3)
-                {
-                        addFormField( "item1", String.valueOf( ingredients[0].getItemID() ) );
-                        addFormField( "item2", String.valueOf( ingredients[1].getItemID() ) );
-                        addFormField( "item3", String.valueOf( ingredients[2].getItemID() ) );
-                }
+		ingredientCosts = ConcoctionsDatabase.getIngredients( itemID );
+		for ( int i = 0; i < ingredientCosts.length; ++i )
+			ingredientCosts[i] = ingredientCosts[i].getNegation();
+
+		if ( ingredientCosts != null && ingredientCosts.length == 3 )
+		{
+			addFormField( "item1", String.valueOf( ingredientCosts[0].getItemID() ) );
+			addFormField( "item2", String.valueOf( ingredientCosts[1].getItemID() ) );
+			addFormField( "item3", String.valueOf( ingredientCosts[2].getItemID() ) );
+		}
 	}
 
 	public void run()
 	{
-		for ( int i = 0; i < getQuantityNeeded(); ++i )
+		// If this doesn't contain a valid number of ingredients,
+		// just return from the method call to avoid hitting on
+		// the server as a result of a bad mixture in the database.
+
+		if ( ingredientCosts.length != 3 )
+			return;
+
+		AdventureResult singleCreation = new AdventureResult( getItemID(), 1 );
+
+		for ( int i = 1; i <= getQuantityNeeded(); ++i )
 		{
-                        // Disable controls
-			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + (i+1) + " of " + getQuantityNeeded() + ")..." );
+			// Disable controls
+			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
 
-                        // Run the request
-                        super.run();
+			// Run the request
+			super.run();
 
-                        // Account for the results
-                        client.processResult( new AdventureResult( getName(), 1 ) );
-                        for ( int j = 0; j < ingredients.length; ++j )
-                                client.processResult( new AdventureResult( ingredients[j].getItemID(), -1 ) );
+			// Account for the results
+			client.processResult( singleCreation );
+			for ( int j = 0; j < ingredientCosts.length; ++j )
+				client.processResult( ingredientCosts[j] );
 		}
 	}
 }
