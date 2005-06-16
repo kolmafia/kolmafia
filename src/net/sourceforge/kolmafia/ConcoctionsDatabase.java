@@ -63,7 +63,6 @@ public class ConcoctionsDatabase
 	public static final int ITEM_COUNT = TradeableItemDatabase.ITEM_COUNT;
 
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
-	private static int [] quantityPossible = new int[ ITEM_COUNT ];
 
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
@@ -90,9 +89,10 @@ public class ConcoctionsDatabase
 
 			while ( (line = itemdata.readLine()) != null )
 			{
-                                // Skip blank lines and comments
-                                if (line.length() < 1 || line.charAt(0) == '#')
-                                        continue;
+				// Skip blank lines and comments
+
+				if (line.length() < 1 || line.charAt(0) == '#')
+					continue;
 
 				strtok = new StringTokenizer( line, "\t" );
 				if ( strtok.countTokens() > 2 )
@@ -106,6 +106,10 @@ public class ConcoctionsDatabase
 						concoctions[ item.getItemID() ].addIngredient( AdventureResult.parseResult( strtok.nextToken() ) );
 				}
 			}
+
+			for ( int i = 0; i < ITEM_COUNT; ++i )
+				if ( concoctions[i] == null )
+					concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE );
 		}
 		catch ( Exception e )
 		{
@@ -152,27 +156,15 @@ public class ConcoctionsDatabase
 		// actually necessary, it's a good safety and doesn't use up
 		// that much CPU time.
 
-		for ( int i = 0; i < ITEM_COUNT; ++i )
-			quantityPossible[i] = -1;
+		for ( int i = 1; i < ITEM_COUNT; ++i )
+			concoctions[i].resetCalculations();
 
-		// First, you look for all items which cannot be created through
-		// any creation method, and initialize their quantities.  This
-		// way, the data doesn't interfere with the dynamic programming
-		// algorithms used later.
+		// Next, do calculations on all mixing methods which cannot
+		// be created.
 
-		for ( int i = 0; i < ITEM_COUNT; ++i )
-		{
-			if ( concoctions[i] == null || concoctions[i].getMixingMethod() == ItemCreationRequest.NOCREATE )
-			{
-				String itemName = TradeableItemDatabase.getItemName(i);
-				if ( itemName != null )
-					quantityPossible[i] = (new AdventureResult( i, 0 )).getCount( availableIngredients );
-				else
-					quantityPossible[i] = 0;
-			}
-			else
-				quantityPossible[i] = -1;
-		}
+		for ( int i = 1; i < ITEM_COUNT; ++i )
+			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.NOCREATE )
+				concoctions[i].calculate( client, availableIngredients );
 
 		// Next, meat paste and meat stacks can be created directly
 		// and are dependent upon the amount of meat available.
@@ -184,54 +176,33 @@ public class ConcoctionsDatabase
 		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
 			availableMeat += client.getCharacterData().getClosetMeat();
 
-		quantityPossible[ ItemCreationRequest.MEAT_PASTE ] += availableMeat / 10;
-		quantityPossible[ ItemCreationRequest.MEAT_STACK ] += availableMeat / 100;
-		quantityPossible[ ItemCreationRequest.DENSE_STACK ] += availableMeat / 1000;
+		concoctions[ ItemCreationRequest.MEAT_PASTE ].total += availableMeat / 10;
+		concoctions[ ItemCreationRequest.MEAT_PASTE ].created += availableMeat / 10;
+		concoctions[ ItemCreationRequest.MEAT_STACK ].total += availableMeat / 100;
+		concoctions[ ItemCreationRequest.MEAT_STACK ].created += availableMeat / 100;
+		concoctions[ ItemCreationRequest.DENSE_STACK ].total += availableMeat / 1000;
+		concoctions[ ItemCreationRequest.DENSE_STACK ].created += availableMeat / 1000;
 
 		// Next, increment through all of the things which can be
 		// created through the use of meat paste.  This allows for box
 		// servant creation to be calculated in advance.
 
-		for ( int i = 0; i < ITEM_COUNT; ++i )
-			if ( concoctions[i] != null && concoctions[i].getMixingMethod() == ItemCreationRequest.COMBINE )
-				concoctions[i].calculateQuantityPossible( availableIngredients );
+		for ( int i = 1; i < ITEM_COUNT; ++i )
+			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.COMBINE )
+				concoctions[i].calculate( client, availableIngredients );
 
 		// Finally, increment through all of the things which are created
 		// any other way, making sure that it's a permitted mixture
 		// before doing the calculation.
 
-		for ( int i = 0; i < ITEM_COUNT; ++i )
+		for ( int i = 1; i < ITEM_COUNT; ++i )
 		{
-			if ( concoctions[i] != null && concoctions[i].getMixingMethod() != ItemCreationRequest.NOCREATE && concoctions[i].getMixingMethod() != ItemCreationRequest.COMBINE )
-			{
-				if ( !isPermitted( concoctions[i].getMixingMethod(), client ) )
-				{
-					String itemName = TradeableItemDatabase.getItemName(i);
-					if ( itemName != null )
-						quantityPossible[i] = (new AdventureResult( i, 0 )).getCount( availableIngredients );
-					else
-						quantityPossible[i] = 0;
-				}
-				else
-				{
-					if ( concoctions[i].isBadRecipe() )
-						client.getLogStream().println( "Bad recipe: " + concoctions[i] );
-					else
-						concoctions[i].calculateQuantityPossible( availableIngredients );
-				}
-			}
-		}
-
-		// Finally, remove the number you have now from how many can be
-		// made available - this means that the list will reflect only
-		// items that are genuinely created.
-
-		for ( int i = 0; i < availableIngredients.size(); ++i )
-		{
-			AdventureResult result = (AdventureResult) availableIngredients.get(i);
-
-			if ( result.isItem() )
-				quantityPossible[ result.getItemID() ] -= result.getCount();
+			if ( concoctions[i].concoction.getName() == null )
+				continue;
+			else if ( concoctions[i].isBadRecipe() )
+				client.getLogStream().println( "Bad recipe: " + concoctions[i] );
+			else
+				concoctions[i].calculate( client, availableIngredients );
 		}
 
 		// Finally, prepare the list that will be returned - the list
@@ -240,9 +211,9 @@ public class ConcoctionsDatabase
 
 		concoctionsList.clear();
 
-		for ( int i = 0; i < ITEM_COUNT; ++i )
-			if ( quantityPossible[i] > 0 )
-				concoctionsList.add( ItemCreationRequest.getInstance( client, i, quantityPossible[i] ) );
+		for ( int i = 1; i < ITEM_COUNT; ++i )
+			if ( concoctions[i].created > 0 )
+				concoctionsList.add( ItemCreationRequest.getInstance( client, i, concoctions[i].created ) );
 	}
 
 	/**
@@ -310,7 +281,7 @@ public class ConcoctionsDatabase
 		// for the given chefs is non-zero.  This works because
 		// cooking tests are made after item creation tests.
 
-		return quantityPossible[ servantID ] != 0;
+		return concoctions[ servantID ].total != 0;
 	}
 
 	/**
@@ -318,7 +289,7 @@ public class ConcoctionsDatabase
 	 */
 
 	public static int getMixingMethod( int itemID )
-	{	return concoctions[itemID] == null ? ItemCreationRequest.NOCREATE : concoctions[itemID].getMixingMethod();
+	{	return concoctions[itemID].getMixingMethod();
 	}
 
 	/**
@@ -328,7 +299,7 @@ public class ConcoctionsDatabase
 	 */
 
 	public static AdventureResult [] getIngredients( int itemID )
-	{	return (concoctions[ itemID ] == null) ? null : concoctions[ itemID ].getIngredients();
+	{	return concoctions[itemID].getIngredients();
 	}
 
 	/**
@@ -340,17 +311,32 @@ public class ConcoctionsDatabase
 	{
 		private int mixingMethod;
 		private AdventureResult concoction;
+
 		private List ingredients;
+		private AdventureResult [] ingredientArray;
+
+		private int total, created;
 
 		public Concoction( AdventureResult concoction, int mixingMethod )
 		{
 			this.concoction = concoction;
 			this.mixingMethod = mixingMethod;
+
 			this.ingredients = new ArrayList();
+			this.ingredientArray = new AdventureResult[0];
+		}
+
+		public void resetCalculations()
+		{
+			this.total = -1;
+			this.created = -1;
 		}
 
 		public void addIngredient( AdventureResult ingredient )
-		{	ingredients.add( ingredient );
+		{
+			ingredients.add( ingredient );
+			ingredientArray = new AdventureResult[ ingredients.size() ];
+			ingredients.toArray( ingredientArray );
 		}
 
 		public int getMixingMethod()
@@ -359,65 +345,66 @@ public class ConcoctionsDatabase
 
 		public boolean isBadRecipe()
 		{
-			Iterator iterator = ingredients.iterator();
-			if ( ((AdventureResult)iterator.next()).getItemID() == -1 )
+			if ( concoction.getName() == null )
 				return true;
+
+			for ( int i = 0; i < ingredientArray.length; ++i )
+				if ( ingredientArray[i].getItemID() == -1 )
+					return true;
 
 			return false;
 		}
 
 		public AdventureResult [] getIngredients()
-		{
-			AdventureResult [] ingredientArray = new AdventureResult[ ingredients.size() ];
-			ingredients.toArray( ingredientArray );
-			return ingredientArray;
+		{	return ingredientArray;
 		}
 
-		public void calculateQuantityPossible( List availableIngredients )
+		public void calculate( KoLmafia client, List availableIngredients )
 		{
+			// If the item doesn't exist in the item table,
+			// then assume it can't be created.
+
+			if ( concoction.getName() == null )
+				this.total = 0;
+
 			// If a calculation has already been done for this
-			// concoction, simply return.
+			// concoction, no need to calculate again.
 
-			if ( quantityPossible[ concoction.getItemID() ] != -1 )
+			if ( this.total != -1 )
 				return;
-
-			// Convert the list of items to an array in order to
-			// make things easier to work with.
-
-			AdventureResult [] ingredientArray = getIngredients();
 
 			// Determine how many were available initially in the
 			// available ingredient list.
 
-			quantityPossible[ concoction.getItemID() ] = concoction.getCount( availableIngredients );
+			this.total = concoction.getCount( availableIngredients );
+
+			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermitted( mixingMethod, client ) )
+				return;
 
 			// Calculate how many of each ingredient can be created
 			// at each step.
 
-			for ( int i = 0; i < ingredientArray.length; ++i )
-				if ( concoctions[ ingredientArray[i].getItemID() ] != null )
-					concoctions[ ingredientArray[i].getItemID() ].calculateQuantityPossible( availableIngredients );
-
-			int additionalPossible = Integer.MAX_VALUE;
+			this.created = Integer.MAX_VALUE;
 			int itemID, quantity, divisor;
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
 			{
 				itemID = ingredientArray[i].getItemID();
-				quantity = quantityPossible[ itemID ];
-				divisor = ingredientArray[i].getCount();
+				concoctions[itemID].calculate( client, availableIngredients );
+				quantity = concoctions[itemID].total;
 
+				divisor = ingredientArray[i].getCount();
 				for ( int j = 0; j < ingredientArray.length; ++j )
 					if ( i != j && itemID == ingredientArray[j].getItemID() )
 						divisor += ingredientArray[i].getCount();
 
-				additionalPossible = Math.min ( additionalPossible, quantity / divisor );
+				this.created = Math.min( this.created, quantity / divisor );
 			}
 
 			// Now, factor in the possibility that the same
 			// ingredient may be used twice in the same concoction
 
-			quantityPossible[ concoction.getItemID() ] += additionalPossible;
+			this.total += this.created;
 		}
 
 		public String toString()
