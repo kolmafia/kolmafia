@@ -248,7 +248,10 @@ public class AdventureResult implements Comparable, KoLConstants
 	public String getDisplayName()
 	{
           if ( isItem())
-                  return TradeableItemDatabase.getItemDisplayName(itemID);
+                  return TradeableItemDatabase.getItemDisplayName( itemID );
+
+          if ( isStatusEffect())
+                  return StatusEffectDatabase.getEffectDisplayName( itemID );
 
           return name;
 	}
@@ -377,12 +380,16 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( name.equals(DIVIDER) )
 			return DIVIDER;
 
-		if ( itemID == -1 )
-			return " " + name + ((count[0] == 1) ? "" : (" (" + df.format(count[0]) + ")"));
+                String stringName;
 
-		String stringName = TradeableItemDatabase.getItemDisplayName(itemID);
+		if ( isStatusEffect() )
+                        stringName = StatusEffectDatabase.getEffectDisplayName( name );
+                else if ( isItem() )
+                        stringName = TradeableItemDatabase.getItemDisplayName( itemID );
+                else
+                        stringName = name;
 
-		return stringName + " (" + df.format(count[0]) + ")";
+                return stringName + " (" + df.format(count[0]) + ")";
 	}
 
 	/**
@@ -478,12 +485,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		if ( sumResult.getCount() == 0 )
 		{
-			if ( sumResult.isItem() )
-			{
-				tally.remove( index );
-				return;
-			}
-			else if ( sumResult.isStatusEffect() )
+			if ( sumResult.isItem() || sumResult.isStatusEffect() )
 			{
 				tally.remove( index );
 				return;

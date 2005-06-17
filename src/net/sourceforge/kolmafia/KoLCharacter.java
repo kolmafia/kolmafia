@@ -210,8 +210,11 @@ public class KoLCharacter
 	private SortedListModel familiars;
 	private FamiliarData currentFamiliar;
 
-    private String advancement;
+        private String advancement;
 	private List listenerList;
+
+	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0 );
+	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0 );
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
@@ -1233,10 +1236,10 @@ public class KoLCharacter
 		// leash of linguini are the only ones that
 		// need to be watched for (at the moment).
 
-		if ( getEffects().contains( new AdventureResult( "Empathy", 0 ) ) )
+		if ( getEffects().contains( EMPATHY ) )
 			addedWeight += getClassType().startsWith( "Tu" ) ? 10 : 5;
 
-		if ( getEffects().contains( new AdventureResult( "Leash of Linguini", 0 ) ) )
+		if ( getEffects().contains( LEASH ) )
 			addedWeight += 5;
 
 		return addedWeight;

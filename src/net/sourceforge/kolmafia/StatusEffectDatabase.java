@@ -104,7 +104,29 @@ public class StatusEffectDatabase
 	{
                 if ( effectID == -1)
                         return "Unknown effect";
-                return ((String) effectByID.get( new Integer( effectID ) )).replaceAll( "&ntilde;", "ñ" );
+                return ((String) effectByID.get( new Integer( effectID ) ));
+	}
+
+	/**
+	 * Returns the name for an effect, given its ID.
+	 * @param	name	The name of the effect to lookup
+	 * @return	The display name of the corresponding effect
+	 */
+
+	public static final String getEffectDisplayName( String name )
+	{
+                return name.replaceAll( "&ntilde;", "ñ" );
+	}
+
+	/**
+	 * Returns the name for an effect, given its ID.
+	 * @param	effectID	The ID of the effect to lookup
+	 * @return	The display name of the corresponding effect
+	 */
+
+	public static final String getEffectDisplayName( int effectID )
+	{
+                return getEffectDisplayName( getEffectName( effectID ) );
 	}
 
 	/**
