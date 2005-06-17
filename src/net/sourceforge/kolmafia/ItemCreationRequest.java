@@ -608,40 +608,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	}
 
 	/**
-	 * A special class made to create meat paste.  This class
-	 * accepts the appropriate meat type and creates the given
-	 * quantity by using the improved interface for paste creation.
-	 */
-
-	private static class CombineMeatRequest extends ItemCreationRequest
-	{
-		private int meatType;
-		private int costToMake;
-		private int quantityNeeded;
-
-		public CombineMeatRequest( KoLmafia client, int meatType, int quantityNeeded )
-		{
-			super( client, "inventory.php", meatType, quantityNeeded );
-			addFormField( "pwd", client.getPasswordHash() );
-			addFormField( "action", "makestuff" );
-
-			addFormField( "quantity", String.valueOf( quantityNeeded ) );
-			addFormField( "whichitem", String.valueOf( meatType ) );
-
-			this.meatType = meatType;
-			this.costToMake = meatType == MEAT_PASTE ? -10 : meatType == MEAT_STACK ? -100 : -1000;
-		}
-
-		public void run()
-		{
-			super.run();
-
-			client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * quantityNeeded ) );
-			client.processResult( new AdventureResult( meatType, quantityNeeded ) );
-		}
-	}
-
-	/**
 	 * Special method which simplifies the constant use of indexOf and
 	 * count retrieval.  This makes intent more transparent.
 	 */
