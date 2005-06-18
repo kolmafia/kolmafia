@@ -694,7 +694,7 @@
 694	Knob Goblin elite shirt	11	40
 695
 696	frilly shirt	11	25
-697	soggy wofl t-shirt	11	0
+697	soggy wolf t-shirt	11	0
 698	loathing eagle baby-doll t-shirt	11	0
 699	pirate shirt	11	0
 700	filthy hippy poncho	11	0
@@ -749,7 +749,7 @@
 749	warm mushroom	0	61
 750	warm mushroom quesadilla	1	0
 751	cool mushroom	0	61
-752	cool mushroom casserole	1	0
+752	cool mushroom casserole	1	75
 753	pointy mushroom	0	61
 754	cream of pointy mushroom soup	1	0
 755	flaming mushroom	0	61
@@ -1083,7 +1083,7 @@
 1083	personal raindrop	5	0
 1084	rainbow tie	6	70
 1085	clockwork widget	0	30
-1086	clockwork thingamajog	0	30
+1086	clockwork thingamajig	0	30
 1087	clockwork doohickey	0	30
 1088	clockwork clockwise dome	0	50
 1089	clockwork spine	0	50
@@ -1120,37 +1120,37 @@
 1120
 1121
 1122
-1123
-1124
-1125
-1126
-1127
-1128
+1123	halfberd	12	35
+1124	small leather glove	0	75
+1125	spooky glove	0	0
+1126	enchanted toothpick	8	95
+1127	tiny ninja sword	12	25
+1128	teeny-tiny ninja stars	0	30
 1129
 1130	blank white card	0	0
 1131	beet	0	0
 1132	Totally Gay Claymore	12	169
 1133	star shirt	11	170
 1134
-1135
-1136
-1137
-1138
+1135	spooky eyeliner	4	50
+1136	spooky lipstick	4	50
+1137	spooky bicycle chain	12	95
+1138	mushroom fermenting solution	0	30
 1139
-1140
+1140	icy mushroom wine	2	30
 1141
 1142
-1143
-1144
-1145
-1146
-1147
+1143	flat mushroom wine	2	30
+1144	cool mushroom wine	2	30
+1145	knob mushroom wine	2	30
+1146	knoll mushroom wine	2	30
+1147	spooky mushroom wine	2	30
 1148	shot of flower schnapps	2	120
 1149	flower petal pie	1	45
 1150
-1151	giant discarded plastic fork	0	205
+1151	giant discarded plastic fork	12	205
 1152	miniature gravy-covered maypole	6	0
-1153
+1153	Retenez L'Herbe Pat&eacute;	1	0
 1154
 1155	Letter from King Ralph XI	0	0
 1156
@@ -1178,7 +1178,7 @@
 1178	potted cactus	0	0
 1179	daisy	0	0
 1180	potted fern	0	0
-1181
+1181	tulip	0	0
 1182
 1183
 1184
@@ -1200,7 +1200,7 @@
 1200	mugcake	0	0
 1201	urinal cake	0	0
 1202	Happy Birthday, Claude! cake	0	0
-1203
+1203	personalized birthday cake	0	0
 1204
 1205
 1206
