@@ -133,51 +133,44 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static ItemCreationRequest getInstance( KoLmafia client, int itemID, int quantityNeeded )
 	{
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
-		switch ( itemID )
-		{
-			case MEAT_PASTE:
-			case MEAT_STACK:
-			case DENSE_STACK:
 
-				return new CombineMeatRequest( client, itemID, quantityNeeded );
+		if ( itemID == MEAT_PASTE || itemID == MEAT_STACK || itemID == DENSE_STACK )
+			return new CombineMeatRequest( client, itemID, quantityNeeded );
+
+		switch ( mixingMethod )
+		{
+			case COMBINE:
+				return new ItemCreationRequest( client, "combine.php", itemID, mixingMethod, quantityNeeded );
+
+			case MIX:
+			case MIX_SPECIAL:
+				return new ItemCreationRequest( client, "cocktail.php", itemID, mixingMethod, quantityNeeded );
+
+			case COOK:
+			case COOK_REAGENT:
+			case COOK_PASTA:
+				return new ItemCreationRequest( client, "cook.php", itemID, mixingMethod, quantityNeeded );
+
+			case SMITH:
+				return new ItemCreationRequest( client, "smith.php", itemID, mixingMethod, quantityNeeded );
+
+			case JEWELRY:
+				return new ItemCreationRequest( client, "jewelry.php", itemID, mixingMethod, quantityNeeded );
+
+			case ROLLING_PIN:
+				return new ItemCreationRequest( client, "inv_use.php", itemID, mixingMethod, quantityNeeded );
+
+			case STARCHART:
+				return new StarChartRequest( client, itemID, quantityNeeded );
+
+			case PIXEL:
+				return new PixelRequest( client, itemID, quantityNeeded );
+
+			case TINKER:
+				return new TinkerRequest( client, itemID, quantityNeeded );
 
 			default:
-
-				switch ( mixingMethod )
-				{
-					case COMBINE:
-						return new ItemCreationRequest( client, "combine.php", itemID, mixingMethod, quantityNeeded );
-
-					case MIX:
-					case MIX_SPECIAL:
-						return new ItemCreationRequest( client, "cocktail.php", itemID, mixingMethod, quantityNeeded );
-
-					case COOK:
-					case COOK_REAGENT:
-					case COOK_PASTA:
-						return new ItemCreationRequest( client, "cook.php", itemID, mixingMethod, quantityNeeded );
-
-					case SMITH:
-						return new ItemCreationRequest( client, "smith.php", itemID, mixingMethod, quantityNeeded );
-
-					case JEWELRY:
-						return new ItemCreationRequest( client, "jewelry.php", itemID, mixingMethod, quantityNeeded );
-
-					case STARCHART:
-						return new StarChartRequest( client, itemID, quantityNeeded );
-
-					case PIXEL:
-						return new PixelRequest( client, itemID, quantityNeeded );
-
-					case ROLLING_PIN:
-						return new ItemCreationRequest( client, "inv_use.php", itemID, mixingMethod, quantityNeeded );
-
-					case TINKER:
-						return new TinkerRequest( client, itemID, quantityNeeded );
-
-					default:
-						return null;
-				}
+				return null;
 		}
 	}
 
@@ -201,19 +194,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		switch ( mixingMethod )
 		{
-			case COMBINE:
-			case COOK:
-			case MIX:
-			case SMITH:
-			case JEWELRY:
-			case STARCHART:
-			case PIXEL:
-			case TINKER:
-			case COOK_REAGENT:
-			case COOK_PASTA:
-			case MIX_SPECIAL:
+			case SUBCLASS:
 
-				combineItems();
+				super.run();
 				break;
 
 			case ROLLING_PIN:
@@ -223,10 +206,42 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				updateDisplay( ENABLED_STATE, "Flat dough created." );
 				break;
 
-			case SUBCLASS:
+			default:
 
-				super.run();
+				combineItems();
+				break;
 		}
+	}
+
+	protected void makeIngredients()
+	{
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			if ( !client.permitsContinue() )
+				return;
+
+			// First, calculate the multipler that's needed
+			// for this ingredient to avoid not making enough
+			// intermediate ingredients and getting an error.
+
+			int multiplier = 0;
+			for ( int j = 0; j < ingredients.length; ++j )
+				if ( ingredients[i].getItemID() == ingredients[j].getItemID() )
+					multiplier += ingredients[i].getCount();
+
+			// Then, make enough of the ingredient in order
+			// to proceed with the concoction.
+
+			makeIngredient( ingredients[i], multiplier );
+		}
+
+		// If this is a combining request, you will need
+		// to make meat paste as well.
+
+		if ( mixingMethod == MEAT_PASTE )
+			makeIngredient( new AdventureResult( MEAT_PASTE, quantityNeeded ), 1 );
 	}
 
 	/**
@@ -235,45 +250,21 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private void combineItems()
 	{
-		// If the request has been cancelled midway, be
-		// sure to return from here.
+		// First, make all the required ingredients for
+		// this concoction.
 
-		if ( !client.permitsContinue() )
-			return;
-
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
-
-		if ( ingredients != null )
-			for ( int i = 0; i < ingredients.length; ++i )
-			{
-				if ( !client.permitsContinue() )
-					return;
-
-				int multiplier = 1;
-
-				for ( int j = i + 1; j < ingredients.length; ++j )
-					if ( ingredients[i].getItemID() == ingredients[j].getItemID() )
-						++multiplier;
-
-				makeIngredient( ingredients[i], multiplier );
-			}
+		makeIngredients();
 
 		// If the request has been cancelled midway, be
 		// sure to return from here.
 
 		if ( !client.permitsContinue() )
 			return;
-
-		// Check to see if you need meat paste in order
-		// to create the needed quantity of items, and
-		// create any needed meat paste.
-
-		if ( mixingMethod == COMBINE )
-			makeIngredient( new AdventureResult( MEAT_PASTE, 0 ), 1 );
 
 		// Now that the item's been created, you can
 		// actually do the request!
 
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 		for ( int i = 0; i < ingredients.length; ++i )
 			addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemID() ) );
 
@@ -510,7 +501,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 * @param	multiplier	The multiplier on quantity needed
 	 */
 
-	private void makeIngredient( AdventureResult ingredient, int multiplier )
+	protected void makeIngredient( AdventureResult ingredient, int multiplier )
 	{
 		int actualQuantityNeeded = (quantityNeeded * multiplier) - ingredient.getCount( client.getInventory() );
 
