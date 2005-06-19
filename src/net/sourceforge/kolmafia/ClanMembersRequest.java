@@ -114,7 +114,7 @@ public class ClanMembersRequest extends KoLRequest
 		// members so you can act on it.
 
 		int lastMatchIndex = 0;
-		Matcher memberMatcher = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>.*?<td class=small>(\\d+)</td>" ).matcher( responseText );
+		Matcher memberMatcher = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>.*?<td class=small>(\\d+).*?</td>" ).matcher( responseText );
 
 		while ( memberMatcher.find( lastMatchIndex ) )
 		{
