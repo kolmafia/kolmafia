@@ -59,6 +59,17 @@ public class PixelRequest extends ItemCreationRequest
 
 	public void run()
 	{
+		// Attempting to make the ingredients will pull the
+		// needed items from the closet if they are missing.
+		// In this case, it will also create the needed white
+		// pixels if they are not currently available.
+
+		makeIngredients();
+
+		// Intermediate variables so you don't constantly
+		// instantiate new adventure results each time you
+		// create the item.
+
 		AdventureResult singleCreation = new AdventureResult( getItemID(), 1 );
 
 		for ( int i = 1; i <= getQuantityNeeded(); ++i )

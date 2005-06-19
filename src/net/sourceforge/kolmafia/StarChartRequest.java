@@ -63,6 +63,15 @@ public class StarChartRequest extends ItemCreationRequest
 
 	public void run()
 	{
+		// Attempting to make the ingredients will pull the
+		// needed items from the closet if they are missing.
+
+		makeIngredients();
+
+		// Intermediate variables so you don't constantly
+		// instantiate new adventure results each time you
+		// create the item.
+
 		AdventureResult usedStars = new AdventureResult( STAR, 0 - stars );
 		AdventureResult usedLines = new AdventureResult( LINE, 0 - lines );
 		AdventureResult singleCreation = new AdventureResult( getItemID(), 1 );
