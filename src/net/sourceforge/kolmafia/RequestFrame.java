@@ -52,12 +52,15 @@ public class RequestFrame extends KoLFrame
 	public RequestFrame( KoLmafia client, String title, KoLRequest request )
 	{
 		super( title, client );
-
 		this.title = title;
 
 		this.display = new JEditorPane();
 		this.display.setEditable( false );
 		this.display.addHyperlinkListener( new KoLHyperlinkAdapter() );
+
+		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
+		RequestEditorKit.setClient( client );
+		RequestEditorKit.setRequestFrame( this );
 
 		this.buffer = new LimitedSizeChatBuffer( title );
 		this.buffer.setChatDisplay( display );
@@ -88,13 +91,34 @@ public class RequestFrame extends KoLFrame
 
 		public void run()
 		{
+			if ( request == null )
+				return;
+
 			buffer.clearBuffer();
 			buffer.append( "Retrieving..." );
 
-			request.run();
+			if ( request.responseText == null )
+				request.run();
 
-			String displayHTML = request.responseText.replaceAll( "<td>", "<td>&nbsp;" ).replaceAll( "<input.*?>", "" ).replaceAll(
-				"<select.*?</select>", "" ).replaceAll( "<textarea.*?</textarea>", "" ).replaceAll( "<tr><td height=1 bgcolor=black></td></tr>", "" );
+			// In the event of a redirect, refresh the frame
+			// with a brand new request with the location of
+			// the redirect.
+
+			if ( request.responseCode == 302 )
+			{
+				refresh( new KoLRequest( client, request.redirectLocation ) );
+				return;
+			}
+
+			// Remove all the <BR> tags that are not understood
+			// by the default Java browser.
+
+			String displayHTML = request.responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" );
+
+			// This is to replace all the rows with a height of 1
+			// with nothing to avoid weird rendering.
+
+			displayHTML = displayHTML.replaceAll( "<tr><td height=1 bgcolor=black></td></tr>", "" );
 			displayHTML = Pattern.compile( "<tr><td colspan=(\\d+) height=1 bgcolor=black></td></tr>" ).matcher( displayHTML ).replaceAll( "" );
 
 			buffer.clearBuffer();
