@@ -160,13 +160,13 @@ public class ConcoctionsDatabase
 			concoctions[i].resetCalculations();
 
 		// Next, do calculations on all mixing methods which cannot
-		// be created.
+		// be creatable.
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.NOCREATE )
 				concoctions[i].calculate( client, availableIngredients );
 
-		// Next, meat paste and meat stacks can be created directly
+		// Next, meat paste and meat stacks can be creatable directly
 		// and are dependent upon the amount of meat available.
 		// This should also be calculated to allow for meat stack
 		// recipes to be calculated.
@@ -177,21 +177,21 @@ public class ConcoctionsDatabase
 			availableMeat += client.getCharacterData().getClosetMeat();
 
 		concoctions[ ItemCreationRequest.MEAT_PASTE ].total += availableMeat / 10;
-		concoctions[ ItemCreationRequest.MEAT_PASTE ].created += availableMeat / 10;
+		concoctions[ ItemCreationRequest.MEAT_PASTE ].creatable += availableMeat / 10;
 		concoctions[ ItemCreationRequest.MEAT_STACK ].total += availableMeat / 100;
-		concoctions[ ItemCreationRequest.MEAT_STACK ].created += availableMeat / 100;
+		concoctions[ ItemCreationRequest.MEAT_STACK ].creatable += availableMeat / 100;
 		concoctions[ ItemCreationRequest.DENSE_STACK ].total += availableMeat / 1000;
-		concoctions[ ItemCreationRequest.DENSE_STACK ].created += availableMeat / 1000;
+		concoctions[ ItemCreationRequest.DENSE_STACK ].creatable += availableMeat / 1000;
 
 		// Next, increment through all of the things which can be
-		// created through the use of meat paste.  This allows for box
+		// creatable through the use of meat paste.  This allows for box
 		// servant creation to be calculated in advance.
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.COMBINE )
 				concoctions[i].calculate( client, availableIngredients );
 
-		// Finally, increment through all of the things which are created
+		// Finally, increment through all of the things which are creatable
 		// any other way, making sure that it's a permitted mixture
 		// before doing the calculation.
 
@@ -212,8 +212,8 @@ public class ConcoctionsDatabase
 		concoctionsList.clear();
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
-			if ( concoctions[i].created > 0 )
-				concoctionsList.add( ItemCreationRequest.getInstance( client, i, concoctions[i].created ) );
+			if ( concoctions[i].creatable > 0 )
+				concoctionsList.add( ItemCreationRequest.getInstance( client, i, concoctions[i].creatable ) );
 	}
 
 	/**
@@ -315,7 +315,8 @@ public class ConcoctionsDatabase
 		private List ingredients;
 		private AdventureResult [] ingredientArray;
 
-		private int total, created;
+		private int absorbed;
+		private int initial, creatable, total;
 
 		public Concoction( AdventureResult concoction, int mixingMethod )
 		{
@@ -328,8 +329,10 @@ public class ConcoctionsDatabase
 
 		public void resetCalculations()
 		{
+			this.initial = -1;
+			this.creatable = -1;
 			this.total = -1;
-			this.created = -1;
+			this.absorbed = 0;
 		}
 
 		public void addIngredient( AdventureResult ingredient )
@@ -362,7 +365,7 @@ public class ConcoctionsDatabase
 		public void calculate( KoLmafia client, List availableIngredients )
 		{
 			// If the item doesn't exist in the item table,
-			// then assume it can't be created.
+			// then assume it can't be creatable.
 
 			if ( concoction.getName() == null )
 				this.total = 0;
@@ -370,41 +373,127 @@ public class ConcoctionsDatabase
 			// If a calculation has already been done for this
 			// concoction, no need to calculate again.
 
-			if ( this.total != -1 )
+			if ( this.initial != -1 )
 				return;
 
 			// Determine how many were available initially in the
 			// available ingredient list.
 
-			this.total = concoction.getCount( availableIngredients );
+			this.initial = concoction.getCount( availableIngredients );
+			this.total = initial;
 
 			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermitted( mixingMethod, client ) )
 				return;
 
-			// Calculate how many of each ingredient can be created
-			// at each step.
+			// Do the initial calculation of how many of each ingredient
+			// can be created at each step.
 
-			this.created = Integer.MAX_VALUE;
+			this.creatable = Integer.MAX_VALUE;
 			int itemID, quantity, divisor;
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
 			{
 				itemID = ingredientArray[i].getItemID();
 				concoctions[itemID].calculate( client, availableIngredients );
-				quantity = concoctions[itemID].total;
+				quantity = concoctions[itemID].total - concoctions[itemID].absorbed;
 
-				divisor = ingredientArray[i].getCount();
-				for ( int j = 0; j < ingredientArray.length; ++j )
-					if ( i != j && itemID == ingredientArray[j].getItemID() )
-						divisor += ingredientArray[i].getCount();
+				if ( quantity <= 0 )
+				{
+					// If the quantity drops below zero, or is equal
+					// to zero, due to absorption, stop parsing through
+					// the ingredients since you can't create it.
 
-				this.created = Math.min( this.created, quantity / divisor );
+					this.creatable = 0;
+					this.total = this.initial;
+					return;
+				}
+				else
+				{
+					// Otherwise, test to see if this is the limiting
+					// ingredient, and recalculate the creatable
+					// quantity based on this test.
+
+					divisor = ingredientArray[i].getCount();
+					for ( int j = 0; j < ingredientArray.length; ++j )
+						if ( i != j && itemID == ingredientArray[j].getItemID() )
+							divisor += ingredientArray[i].getCount();
+
+					this.creatable = Math.min( this.creatable, quantity / divisor );
+				}
 			}
 
-			// Now, factor in the possibility that the same
-			// ingredient may be used twice in the same concoction
+			// The total available for other creations is equivalent to the
+			// initial number plus the number which can be created.
 
-			this.total += this.created;
+			this.total = this.initial + this.creatable;
+
+			// Once the initial calculation is complete, make an attempt
+			// to yield the calculated quantity for each ingredient and
+			// check to see if it was really possible by repeating the
+			// calculation process.
+
+			boolean keepGuessing = this.creatable > 0;
+			for ( int guess = this.creatable; keepGuessing; --guess )
+			{
+				keepGuessing = guess > 1;
+
+				// Make an attempt to yield the guess.  Should this
+				// be successful, stop guessing.
+
+				if ( this.yield( this.initial + guess ) )
+				{
+					this.creatable = guess;
+					keepGuessing = false;
+				}
+
+				// Whether or not you are successful, undo all of
+				// the item absorptions to prepare for the next
+				// iteration set.
+
+				this.unyield();
+			}
+
+			// The total available for other creations is equivalent to the
+			// initial number plus the number which can be created.
+
+			this.total = this.initial + this.creatable;
+		}
+
+		/**
+		 * Utility method which pretends to attempt to yield the given
+		 * item count for this creation, reducing the ingredient totals
+		 * as necessary.  This is used in ingredient verification for
+		 * multi-step recipes using the same ingredients.
+		 */
+
+		private boolean yield( int count )
+		{
+			this.absorbed += Math.min( count, this.initial );
+
+			if ( this.absorbed > this.total )
+				return false;
+
+			int needed = count - this.initial;
+
+			if ( needed > 0 )
+				for ( int i = 0; i < ingredientArray.length; ++i )
+					if ( !concoctions[ ingredientArray[i].getItemID() ].yield( needed ) )
+						return false;
+
+			return true;
+		}
+
+		/**
+		 * Utility method which undoes the yielding process, resetting
+		 * the ingredient and current total values to the given number.
+		 */
+
+		private void unyield()
+		{
+			for ( int i = 0; i < ingredientArray.length; ++i )
+				concoctions[ ingredientArray[i].getItemID() ].unyield();
+
+			this.absorbed = 0;
 		}
 
 		public String toString()
