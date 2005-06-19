@@ -374,22 +374,25 @@ public class AdventureFrame extends KoLFrame
 
 		public void setStatusMessage( int displayState, String s )
 		{
-			if ( !actionStatusLabel.getText().equals( "Session timed out." ) && !actionStatusLabel.getText().equals( "Nightly maintenance." ) )
+			String label = actionStatusLabel.getText();
+			if ( !s.equals( "Timing-in session." ) &&
+			     ( label.equals( "Session timed out." ) ||
+			       label.equals( "Nightly maintenance." ) ))
+				return;
+
+			actionStatusLabel.setText( s );
+			switch ( displayState )
 			{
-				actionStatusLabel.setText( s );
-				switch ( displayState )
-				{
-					case ERROR_STATE:
-						sidePanel.setBackground( ERROR_COLOR );
-						break;
-					case ENABLED_STATE:
-						if ( !isExecutingScript )
-							sidePanel.setBackground( ENABLED_COLOR );
-						break;
-					case DISABLED_STATE:
-						sidePanel.setBackground( DISABLED_COLOR );
-						break;
-				}
+			case ERROR_STATE:
+				sidePanel.setBackground( ERROR_COLOR );
+				break;
+			case ENABLED_STATE:
+				if ( !isExecutingScript )
+					sidePanel.setBackground( ENABLED_COLOR );
+				break;
+			case DISABLED_STATE:
+				sidePanel.setBackground( DISABLED_COLOR );
+				break;
 			}
 		}
 
@@ -534,21 +537,24 @@ public class AdventureFrame extends KoLFrame
 
 		public void setStatusMessage( int displayState, String s )
 		{
-			if ( !actionStatusLabel.getText().equals( "Session timed out." ) && !actionStatusLabel.getText().equals( "Nightly maintenance." ) )
+			String label = actionStatusLabel.getText();
+			if ( !s.equals( "Timing-in session." ) &&
+			     ( label.equals( "Session timed out." ) ||
+			       label.equals( "Nightly maintenance." ) ))
+				return;
+
+			actionStatusLabel.setText( s );
+			switch ( displayState )
 			{
-				actionStatusLabel.setText( s );
-				switch ( displayState )
-				{
-					case ERROR_STATE:
-						sidePanel.setBackground( ERROR_COLOR );
-						break;
-					case ENABLED_STATE:
-						sidePanel.setBackground( ENABLED_COLOR );
-						break;
-					case DISABLED_STATE:
-						sidePanel.setBackground( DISABLED_COLOR );
-						break;
-				}
+			case ERROR_STATE:
+				sidePanel.setBackground( ERROR_COLOR );
+				break;
+			case ENABLED_STATE:
+				sidePanel.setBackground( ENABLED_COLOR );
+				break;
+			case DISABLED_STATE:
+				sidePanel.setBackground( DISABLED_COLOR );
+				break;
 			}
 		}
 
@@ -1240,6 +1246,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void run()
 			{
+				client.updateDisplay( NOCHANGE, "Timing-in session." );
 				LoginRequest loginRequest = client.loginRequest;
 				client.deinitialize();
 				client.loginRequest = loginRequest;
