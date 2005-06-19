@@ -688,7 +688,7 @@ public class ClanManager implements KoLConstants
 	public LockableListModel getFilteredList()
 	{
 		retrieveClanData();
-		return snapshot.getFilteredList();
+		return snapshot != null ? snapshot.getFilteredList() : new LockableListModel();
 	}
 
 	public void applyFilter( int matchType, int filterType, String filter )
