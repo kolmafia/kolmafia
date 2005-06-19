@@ -175,6 +175,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				String [] location = client.getSettings().getProperty( frameName ).split( "," );
 				setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
 			}
+			else
+				setLocationRelativeTo( null );
 		}
 
 		if ( !( this instanceof LoginFrame || this instanceof AdventureFrame ) )
