@@ -81,6 +81,7 @@ import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JEditorPane;
 
 // layout
 import java.awt.Point;
@@ -102,21 +103,27 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 
-// other stuff
+// basic utilities
 import java.io.File;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.net.URLEncoder;
+
+// other stuff
 import javax.swing.SwingUtilities;
 import java.lang.reflect.Constructor;
+import edu.stanford.ejalbert.BrowserLauncher;
 
+// spellcast imports
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import edu.stanford.ejalbert.BrowserLauncher;
 
 /**
  * An extended <code>JFrame</code> which provides all the frames in
@@ -1319,16 +1326,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				String location = e.getDescription();
 
-				if ( !location.startsWith( "http://" ) && !location.startsWith( "https://" ) )
-				{
-					// If it's a link internal to KoL, handle the
-					// internal link.  Note that by default, this
-					// method does nothing, but descending classes
-					// can change this behavior.
-
-					handleInternalLink( location );
-				}
-				else
+				if ( location.startsWith( "http://" ) || location.startsWith( "https://" ) )
 				{
 					// Attempt to open the URL on the system's default
 					// browser.  This could theoretically cause problems,
@@ -1346,17 +1344,38 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						e1.printStackTrace( client.getLogStream() );
 					}
 				}
+				else if ( location.indexOf( "submit()" ) == -1 )
+				{
+					// If it's a link internal to KoL, handle the
+					// internal link.  Note that by default, this
+					// method does nothing, but descending classes
+					// can change this behavior.
+
+					handleInternalLink( location );
+				}
+				else
+				{
+					// If it's an attempt to submit an adventure form,
+					// examine the location string to see which form is
+					// being submitted and submit it manually.
+
+					String [] locationSplit = location.split( "\\." );
+					String formID = locationSplit[ locationSplit.length - 2 ];
+
+					String editorText = ((JEditorPane)e.getSource()).getText();
+					String locationText = editorText.substring( editorText.indexOf( formID ) + formID.length(), editorText.lastIndexOf( formID ) );
+
+					Matcher inputMatcher = Pattern.compile( "value=\"(.*?)\"" ).matcher( locationText );
+					inputMatcher.find();
+
+					handleInternalLink( "adventure.php?adv=" + inputMatcher.group(1) );
+				}
 			}
 		}
 
 		protected void handleInternalLink( String location )
 		{
-			if ( location.indexOf( "()" ) != -1 )
-			{
-				// In the event that it's a Javascript submit
-				// attempt, then do nothing.
-			}
-			else if ( location.startsWith( "sendmessage.php" ) )
+			if ( location.startsWith( "sendmessage.php" ) )
 			{
 				// Messages to be sent via green composer are
 				// special, because no request frame is needed
