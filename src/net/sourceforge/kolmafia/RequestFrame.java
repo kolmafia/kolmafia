@@ -98,7 +98,10 @@ public class RequestFrame extends KoLFrame
 			buffer.append( "Retrieving..." );
 
 			if ( request.responseText == null )
+			{
 				request.run();
+				client.processResults( request.responseText );
+			}
 
 			// Remove all the <BR> tags that are not understood
 			// by the default Java browser.
