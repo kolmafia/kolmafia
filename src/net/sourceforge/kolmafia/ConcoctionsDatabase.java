@@ -395,7 +395,7 @@ public class ConcoctionsDatabase
 			{
 				itemID = ingredientArray[i].getItemID();
 				concoctions[itemID].calculate( client, availableIngredients );
-				quantity = concoctions[itemID].total - concoctions[itemID].absorbed;
+				quantity = concoctions[itemID].total;
 
 				if ( quantity <= 0 )
 				{
