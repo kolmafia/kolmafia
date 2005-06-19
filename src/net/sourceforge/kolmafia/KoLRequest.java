@@ -93,6 +93,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected int responseCode;
 	protected boolean isErrorState;
+	protected boolean followRedirects;
 	protected String redirectLocation;
 
 	protected String responseText;
@@ -240,15 +241,28 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
-	 * Constructs a new KoLRequest.  The class is not declared abstract so that
-	 * the static routine can run without problems, but for all intents and purposes,
-	 * a generic KoLRequest will not be supported.
+	 * Constructs a new KoLRequest which will notify the given client
+	 * of any changes and will use the given URL for data submission.
 	 *
 	 * @param	client	The client associated with this <code>KoLRequest</code>
 	 * @param	formURLString	The form to be used in posting data
 	 */
 
 	protected KoLRequest( KoLmafia client, String formURLString )
+	{	this( client, formURLString, false );
+	}
+
+	/**
+	 * Constructs a new KoLRequest which will notify the given client
+	 * of any changes and will use the given URL for data submission,
+	 * possibly following redirects if the parameter so specifies.
+	 *
+	 * @param	client	The client associated with this <code>KoLRequest</code>
+	 * @param	formURLString	The form to be used in posting data
+	 * @param	followRedirects	<code>true</code> if redirects are to be followed
+	 */
+
+	protected KoLRequest( KoLmafia client, String formURLString, boolean followRedirects )
 	{
 		this.formURLString = formURLString;
 		this.formURLBuffer = new StringBuffer( formURLString );
@@ -262,7 +276,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.logStream = new NullStream();
 		data = new ArrayList();
 		this.isErrorState = true;
+		this.followRedirects = followRedirects;
 	}
+
 
 	/**
 	 * Adds the given form field to the KoLRequest.  Descendant classes should
@@ -400,7 +416,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		formConnection.setDoInput( true );
 		formConnection.setDoOutput( !data.isEmpty() );
 		formConnection.setUseCaches( false );
-		formConnection.setInstanceFollowRedirects( false );
+		formConnection.setInstanceFollowRedirects( followRedirects );
 
 		formConnection.setRequestProperty( "Content-Type",
 			"application/x-www-form-urlencoded" );

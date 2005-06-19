@@ -100,16 +100,6 @@ public class RequestFrame extends KoLFrame
 			if ( request.responseText == null )
 				request.run();
 
-			// In the event of a redirect, refresh the frame
-			// with a brand new request with the location of
-			// the redirect.
-
-			if ( request.responseCode == 302 )
-			{
-				refresh( new KoLRequest( client, request.redirectLocation ) );
-				return;
-			}
-
 			// Remove all the <BR> tags that are not understood
 			// by the default Java browser.
 

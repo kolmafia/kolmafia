@@ -1382,7 +1382,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// you minimize the number of open windows by
 				// making an attempt to refresh.
 
-				((RequestFrame)KoLFrame.this).refresh( new KoLRequest( client, location ) );
+				((RequestFrame)KoLFrame.this).refresh( new KoLRequest( client, location, true ) );
 			}
 			else
 			{
