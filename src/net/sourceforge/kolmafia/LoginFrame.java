@@ -307,9 +307,9 @@ public class LoginFrame extends KoLFrame
 			public void run()
 			{
 				String loginname = ((String)(loginnameField instanceof JComboBox ?
-					((JComboBox)loginnameField).getSelectedItem() : ((JTextField)loginnameField).getText() )).trim();
+					((JComboBox)loginnameField).getSelectedItem() : ((JTextField)loginnameField).getText() ));
 
-				String password = new String( passwordField.getPassword() ).trim();
+				String password = new String( passwordField.getPassword() );
 
 				if ( loginname == null || password == null || loginname.equals("") || password.equals("") )
 				{
