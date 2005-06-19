@@ -122,7 +122,7 @@ public class RequestEditorKit extends HTMLEditorKit
 			// get the action field, attach the data, and
 			// refresh the appropriate request frame.
 
-			frame.refresh( new KoLRequest( client, formElement.getAttributes().getAttribute( HTML.Attribute.ACTION ) + "?" + data ) );
+			frame.refresh( new KoLRequest( client, formElement.getAttributes().getAttribute( HTML.Attribute.ACTION ) + "?" + data, true ) );
 		}
 	}
 }
