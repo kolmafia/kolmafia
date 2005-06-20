@@ -57,8 +57,8 @@ public class StoreManager implements KoLConstants
 	 * limit which is used to sell the item.
 	 */
 
-	public void registerItem( int itemID, int price, int limit )
-	{	soldItemList.add( new SoldItem( itemID, price, limit ) );
+	public void registerItem( int itemID, int quantity, int price, int limit )
+	{	soldItemList.add( new SoldItem( itemID, quantity, price, limit ) );
 	}
 
 	/**
@@ -168,18 +168,24 @@ public class StoreManager implements KoLConstants
 	public static class SoldItem
 	{
 		private int itemID;
+		private int quantity;
 		private int price;
 		private int limit;
 
-		public SoldItem( int itemID, int price, int limit )
+		public SoldItem( int itemID, int quantity, int price, int limit )
 		{
 			this.itemID = itemID;
+			this.quantity = quantity;
 			this.price = price;
 			this.limit = limit;
 		}
 
 		public int getItemID()
 		{	return itemID;
+		}
+
+		public int getQuantity()
+		{	return quantity;
 		}
 
 		public int getPrice()

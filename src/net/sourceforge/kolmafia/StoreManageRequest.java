@@ -82,44 +82,52 @@ public class StoreManageRequest extends KoLRequest
 		// store manager information.
 
 		int lastFindIndex = 0;
+		int itemID, quantity, price, limit;
 
 		if ( isPriceManagement )
 		{
 			Matcher priceMatcher = Pattern.compile(
-				"<tr>.*?value=\"(\\d+)\" name=price(\\d+)>.*?value=\"(\\d+)\".*?</tr>" ).matcher( responseText );
+				"<tr><td><b>.*?&nbsp;</td><td>([\\d,]+)</td>.*?value=\"(\\d+)\" name=price(\\d+)>.*?value=\"(\\d+)\".*?</tr>" ).matcher( responseText );
 
-			while ( priceMatcher.find( lastFindIndex ) )
+			try
 			{
-				lastFindIndex = priceMatcher.end();
+				while ( priceMatcher.find( lastFindIndex ) )
+				{
+					lastFindIndex = priceMatcher.end();
 
-				int price = Integer.parseInt( priceMatcher.group(1) );
-				int itemID = Integer.parseInt( priceMatcher.group(2) );
-				int limit = Integer.parseInt( priceMatcher.group(3) );
+					price = Integer.parseInt( priceMatcher.group(2) );
+					quantity = df.parse( priceMatcher.group(1) ).intValue();
+					itemID = Integer.parseInt( priceMatcher.group(3) );
+					limit = Integer.parseInt( priceMatcher.group(4) );
 
-				client.getStoreManager().registerItem( itemID, price, limit );
+					client.getStoreManager().registerItem( itemID, quantity, price, limit );
+				}
+			}
+			catch ( Exception e )
+			{
 			}
 		}
 		else
 		{
-			Matcher takenItemMatcher = Pattern.compile(
-				"<option value=" + takenItemID + ">(.*?)</option>" ).matcher( responseText );
+			Matcher takenItemMatcher = Pattern.compile( "<option value=" + takenItemID + ">(.*?)</option>" ).matcher( responseText );
 			takenItemMatcher.find();
 			client.parseResult( takenItemMatcher.group(1).replaceAll( "\\(.*? Meat\\) ", "" ) );
 
 			Matcher itemMatcher = Pattern.compile(
-				"<tr><td>.*?</td><td>.*?</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( responseText );
+				"<tr>.*?<td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( responseText );
 
 			try
 			{
 				while ( itemMatcher.find( lastFindIndex ) )
 				{
 					lastFindIndex = itemMatcher.end();
-					int price = df.parse( itemMatcher.group(1) ).intValue();
-					int limit = itemMatcher.group(2).startsWith( "<" ) ? 0 :
-						Integer.parseInt( itemMatcher.group(2) );
 
-					int itemID = Integer.parseInt( itemMatcher.group(3) );
-					client.getStoreManager().registerItem( itemID, price, limit );
+					itemID = Integer.parseInt( itemMatcher.group(4) );
+					quantity = AdventureResult.parseResult( itemMatcher.group(1) ).getCount();
+					price = df.parse( itemMatcher.group(2) ).intValue();
+					limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : Integer.parseInt( itemMatcher.group(3) );
+
+					client.getStoreManager().registerItem( itemID, quantity, price, limit );
 				}
 			}
 			catch ( Exception e )

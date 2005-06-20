@@ -156,19 +156,22 @@ public class AutoSellRequest extends KoLRequest
 		client.getStoreManager().clear();
 		int lastFindIndex = 0;
 		Matcher itemMatcher = Pattern.compile(
-			"<tr><td>.*?</td><td>.*?</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( responseText );
+			"<tr>.*?<td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( responseText );
 
 		try
 		{
+			int itemID, quantity, price, limit;
+
 			while ( itemMatcher.find( lastFindIndex ) )
 			{
 				lastFindIndex = itemMatcher.end();
-				int price = df.parse( itemMatcher.group(1) ).intValue();
-				int limit = itemMatcher.group(2).startsWith( "<" ) ? 0 :
-					Integer.parseInt( itemMatcher.group(2) );
 
-				int itemID = Integer.parseInt( itemMatcher.group(3) );
-				client.getStoreManager().registerItem( itemID, price, limit );
+				itemID = Integer.parseInt( itemMatcher.group(4) );
+				quantity = AdventureResult.parseResult( itemMatcher.group(1) ).getCount();
+				price = df.parse( itemMatcher.group(2) ).intValue();
+				limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : Integer.parseInt( itemMatcher.group(3) );
+
+				client.getStoreManager().registerItem( itemID, quantity, price, limit );
 			}
 		}
 		catch ( Exception e )
