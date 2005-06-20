@@ -160,13 +160,13 @@ public class ConcoctionsDatabase
 			concoctions[i].resetCalculations();
 
 		// Next, do calculations on all mixing methods which cannot
-		// be creatable.
+		// be created.
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.NOCREATE )
 				concoctions[i].calculate( client, availableIngredients );
 
-		// Next, meat paste and meat stacks can be creatable directly
+		// Next, meat paste and meat stacks can be created directly
 		// and are dependent upon the amount of meat available.
 		// This should also be calculated to allow for meat stack
 		// recipes to be calculated.
@@ -184,14 +184,14 @@ public class ConcoctionsDatabase
 		concoctions[ ItemCreationRequest.DENSE_STACK ].creatable += availableMeat / 1000;
 
 		// Next, increment through all of the things which can be
-		// creatable through the use of meat paste.  This allows for box
+		// created through the use of meat paste.  This allows for box
 		// servant creation to be calculated in advance.
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.COMBINE )
 				concoctions[i].calculate( client, availableIngredients );
 
-		// Finally, increment through all of the things which are creatable
+		// Finally, increment through all of the things which are created
 		// any other way, making sure that it's a permitted mixture
 		// before doing the calculation.
 
@@ -365,7 +365,7 @@ public class ConcoctionsDatabase
 		public void calculate( KoLmafia client, List availableIngredients )
 		{
 			// If the item doesn't exist in the item table,
-			// then assume it can't be creatable.
+			// then assume it can't be created.
 
 			if ( concoction.getName() == null )
 				this.total = 0;
@@ -410,7 +410,7 @@ public class ConcoctionsDatabase
 				else
 				{
 					// Otherwise, test to see if this is the limiting
-					// ingredient, and recalculate the creatable
+					// ingredient, and recalculate the created
 					// quantity based on this test.
 
 					divisor = ingredientArray[i].getCount();

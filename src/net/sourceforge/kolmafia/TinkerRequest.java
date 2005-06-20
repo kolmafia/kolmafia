@@ -66,6 +66,15 @@ public class TinkerRequest extends ItemCreationRequest
 		if ( ingredientCosts.length != 3 )
 			return;
 
+		// Attempting to make the ingredients will pull the
+		// needed items from the closet if they are missing.
+
+		makeIngredients();
+
+		// Intermediate variables so you don't constantly
+		// instantiate new adventure results each time you
+		// create the item.
+
 		AdventureResult singleCreation = new AdventureResult( getItemID(), 1 );
 
 		for ( int i = 1; i <= getQuantityNeeded(); ++i )
