@@ -222,7 +222,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			if ( !client.permitsContinue() )
 				return;
 
-			// First, calculate the multipler that's needed
+			// First, calculate the multiplier that's needed
 			// for this ingredient to avoid not making enough
 			// intermediate ingredients and getting an error.
 
@@ -240,7 +240,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If this is a combining request, you will need
 		// to make meat paste as well.
 
-		if ( mixingMethod == MEAT_PASTE )
+		if ( mixingMethod == COMBINE )
 			makeIngredient( new AdventureResult( MEAT_PASTE, quantityNeeded ), 1 );
 	}
 
