@@ -183,7 +183,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 * Sets the maximum number of items that can be purchased through
 	 * this request.
 	 *
-	 * @param	maximumQuantity	The maximum number of items to be purchased with this request
+	 * @param	limit	The maximum number of items to be purchased with this request
 	 */
 
 	public void setLimit( int limit )

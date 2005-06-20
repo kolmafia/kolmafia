@@ -195,8 +195,8 @@ public class TradeableItemDatabase
 
 
 	/**
-	 * Returns the display name for an item, given its ID number.
-	 * @param	itemID	The ID number of the item to lookup
+	 * Returns the display name for an item, given its name.
+	 * @param	name	The name to be canonicalized
 	 * @return	The name of the corresponding item
 	 */
 

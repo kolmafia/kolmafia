@@ -622,7 +622,7 @@ public class KoLMessenger implements KoLConstants
 	 * Opens an instant message window to the character with the
 	 * given name so that a private conversation can be started.
 	 *
-	 * @param	characterName	The name of the person being messaged
+	 * @param	channel	The channel to be opened
 	 */
 
 	public void openInstantMessage( String channel )

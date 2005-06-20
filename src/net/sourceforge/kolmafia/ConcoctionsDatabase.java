@@ -131,7 +131,6 @@ public class ConcoctionsDatabase
 	 * item creation.
 	 *
 	 * @param	client	The client to be consulted of the results
-	 * @param	availableIngredients	The list of ingredients available for mixing
 	 * @return	A list of possible concoctions
 	 */
 
