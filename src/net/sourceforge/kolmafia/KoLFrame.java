@@ -1363,12 +1363,50 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					String formID = locationSplit[ locationSplit.length - 2 ];
 
 					String editorText = ((JEditorPane)e.getSource()).getText();
-					String locationText = editorText.substring( editorText.indexOf( formID ) + formID.length(), editorText.lastIndexOf( formID ) );
 
-					Matcher inputMatcher = Pattern.compile( "value=\"(.*?)\"" ).matcher( locationText );
-					inputMatcher.find();
+					String locationText = editorText.substring( editorText.substring( 0, editorText.indexOf( formID ) ).lastIndexOf( "<" ),
+						editorText.indexOf( ">", editorText.lastIndexOf( formID ) ) );
 
-					handleInternalLink( "adventure.php?adv=" + inputMatcher.group(1) );
+					Matcher actionMatcher = Pattern.compile( "action=\"(.*?)\"" ).matcher( locationText );
+					actionMatcher.find();
+
+					Matcher inputMatcher = Pattern.compile( "<input.*?>" ).matcher( locationText );
+					Pattern namePattern = Pattern.compile( "name=\"(.*?)\"" );
+					Pattern valuePattern = Pattern.compile( "value=\"(.*?)\"" );
+
+					String lastInput;
+					int lastInputIndex = 0;
+					Matcher nameMatcher, valueMatcher;
+					StringBuffer inputString = new StringBuffer();
+
+					while ( inputMatcher.find( lastInputIndex ) )
+					{
+						lastInputIndex = inputMatcher.end();
+						lastInput = inputMatcher.group();
+
+						nameMatcher = namePattern.matcher( lastInput );
+						nameMatcher.find();
+
+						valueMatcher = valuePattern.matcher( lastInput );
+						valueMatcher.find();
+
+						inputString.append( inputString.length() == 0 ? '?' : '&' );
+
+						try
+						{
+							inputString.append( URLEncoder.encode( nameMatcher.group(1), "UTF-8" ) );
+							inputString.append( '=' );
+							inputString.append( URLEncoder.encode( valueMatcher.group(1), "UTF-8" ) );
+						}
+						catch ( Exception e2 )
+						{
+						}
+					}
+
+					// Now that the entire form string is known, handle
+					// the appropriate internal link.
+
+					handleInternalLink( actionMatcher.group(1) + inputString.toString() );
 				}
 			}
 		}
