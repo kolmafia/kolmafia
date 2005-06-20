@@ -445,7 +445,7 @@ public class ConcoctionsDatabase
 			this.multiplier += multiplier;
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
-				concoctions[ ingredientArray[i].getItemID() ].mark( this.modifier + this.initial,
+				concoctions[ ingredientArray[i].getItemID() ].mark( (this.modifier + this.initial) * ingredientArray[i].getCount(),
 					this.multiplier * ingredientArray[i].getCount() );
 		}
 
