@@ -1257,21 +1257,6 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	private class MiniBrowserListener implements ActionListener
-	{
-		private String location;
-
-		public MiniBrowserListener( String location )
-		{	this.location = location;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			RequestFrame frame = new RequestFrame( client, "Mini-Browser Window", new KoLRequest( client, location ) );
-			frame.pack();  frame.setVisible( true );  frame.requestFocus();
-		}
-	}
-
 	/**
 	 * The main method used in the event of testing the way the
 	 * user interface looks.  This allows the UI to be tested

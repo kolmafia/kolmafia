@@ -1415,23 +1415,48 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			if ( location.startsWith( "sendmessage.php" ) )
 			{
-				// Messages to be sent via green composer are
-				// special, because no request frame is needed
-				// for them (I don't think).
+				// Green composition occurs in the GreenMessageFrame,
+				// and because the Javascript attachments aren't supported,
+				// this is the preferred way to handle everything.
 
 				GreenMessageFrame composer = new GreenMessageFrame( client, location.split( "[\\?=&]" )[2] );
 				composer.pack();  composer.setVisible( true );  composer.requestFocus();
 			}
 			else if ( location.startsWith( "town_sendgift.php" ) )
 			{
+				// Purple composition occurs in the GiftMessageFrame,
+				// and because the Javascript attachments aren't supported,
+				// this is the preferred way to handle everything.
+
 				GiftMessageFrame composer = new GiftMessageFrame( client, location.split( "[\\?=&]" )[2] );
 				composer.pack();  composer.setVisible( true );  composer.requestFocus();
 			}
 			else if ( location.startsWith( "makeoffer.php" ) )
 			{
+				// Trade composition occurs in the ProposeTradeFrame,
+				// and because the Javascript attachments aren't supported,
+				// this is the preferred way to handle everything.
+
 				ProposeTradeFrame composer = new ProposeTradeFrame( client );
 				composer.recipientEntry.setText( location.split( "[\\?=&]" )[2] );
 				composer.pack();  composer.setVisible( true );  composer.requestFocus();
+			}
+			else if ( location.startsWith( "cook.php" ) || location.startsWith( "cocktail.php" ) || location.startsWith( "combine.php" ) ||
+				location.startsWith( "town_wrong.php?place=crackpot" ) || location.startsWith( "inventory.php" ) || location.startsWith( "closet.php" ) )
+			{
+				// In general, the item manager interface for KoLmafia
+				// should be used for handling of items.  This is purely
+				// for consistency reasons.
+
+				(new ViewItemManagerListener()).actionPerformed( null );
+			}
+			else if ( location.startsWith( "messages.php" ) )
+			{
+				// Only one instance of the mailbox holder is permitted
+				// at any given time - let the mailbox listener code
+				// handle that.
+
+				(new DisplayMailListener()).actionPerformed( null );
 			}
 			else if ( KoLFrame.this instanceof RequestFrame )
 			{
@@ -1443,9 +1468,28 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			else
 			{
+				// Otherwise, if this isn't a request frame,
+				// open up a new request frame in order to
+				// display the appropriate data.
+
 				RequestFrame frame = new RequestFrame( client, "Mini-Browser Window", new KoLRequest( client, location ) );
 				frame.pack();  frame.setVisible( true );  frame.requestFocus();
 			}
+		}
+	}
+
+	protected class MiniBrowserListener implements ActionListener
+	{
+		private String location;
+
+		public MiniBrowserListener( String location )
+		{	this.location = location;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			RequestFrame frame = new RequestFrame( client, "Mini-Browser Window", new KoLRequest( client, location ) );
+			frame.pack();  frame.setVisible( true );  frame.requestFocus();
 		}
 	}
 
