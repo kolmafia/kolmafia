@@ -49,7 +49,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	private boolean successful;
 	private String itemName, shopName;
-	private int itemID, shopID, quantity, price;
+	private int itemID, shopID, quantity, price, limit;
 	private boolean isNPCStore;
 
 	/**
@@ -80,6 +80,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.itemID = itemID;
 		this.shopID = 0;
 		this.quantity = Integer.MAX_VALUE >> 1;
+		this.limit = quantity;
 		this.price = price;
 		this.isNPCStore = true;
 	}
@@ -99,7 +100,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 * @param	price	The price at which the item will be purchased
 	 */
 
-	public MallPurchaseRequest( KoLmafia client, String itemName, int itemID, int quantity, int shopID, String shopName, int price )
+	public MallPurchaseRequest( KoLmafia client, String itemName, int itemID, int quantity, int shopID, String shopName, int price, int limit )
 	{
 		super( client, "mallstore.php" );
 
@@ -114,6 +115,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.shopName = shopName;
 		this.quantity = quantity;
 		this.price = price;
+		this.limit = Math.min( quantity, limit );
 		this.isNPCStore = false;
 
 		addFormField( "pwd", client.getPasswordHash() );
@@ -160,12 +162,21 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	}
 
 	/**
-	 * Retrieves the quantity of the item being purchased.
-	 * @return	The quantity of the item being purchased
+	 * Retrieves the quantity of the item available in the store.
+	 * @return	The quantity of the item in the store
 	 */
 
 	public int getQuantity()
 	{	return quantity;
+	}
+
+	/**
+	 * Retrieves the quantity of the item being purchased.
+	 * @return	The quantity of the item being purchased
+	 */
+
+	public int getLimit()
+	{	return limit;
 	}
 
 	/**
@@ -175,8 +186,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 * @param	maximumQuantity	The maximum number of items to be purchased with this request
 	 */
 
-	public void setMaximumQuantity( int maximumQuantity )
-	{	this.quantity = Math.min( maximumQuantity, this.quantity );
+	public void setLimit( int limit )
+	{	this.limit = Math.min( quantity, limit );
 	}
 
 	/**
@@ -186,7 +197,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public String toString()
-	{	return itemName + " (" + df.format( quantity ) + " @ " + df.format( price ) + "): " + shopName;
+	{	return itemName + " (" + df.format( quantity ) + " - " + df.format( limit ) + " @ " + df.format( price ) + "): " + shopName;
 	}
 
 	/**
@@ -198,10 +209,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( quantity < 1 )
+		if ( limit < 1 )
 			return;
 
-		addFormField( isNPCStore ? "howmany" : "quantity", String.valueOf( quantity ) );
+		addFormField( isNPCStore ? "howmany" : "quantity", String.valueOf( limit ) );
 		this.successful = false;
 
 		// If the item is not currently recognized, the user should
@@ -267,7 +278,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 					if ( price >= newPrice )
 					{
 						updateDisplay( NOCHANGE, "Failed to yield.  Attempting repurchase..." );
-						(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice )).run();
+						(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ) )).run();
 					}
 					else
 					{
@@ -310,7 +321,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 				int limit = df.parse( quantityMatcher.group(1) ).intValue();
 				int alreadyPurchased = df.parse( quantityMatcher.group(2) ).intValue();
 
-				(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price )).run();
+				(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit )).run();
 				return;
 			}
 		}

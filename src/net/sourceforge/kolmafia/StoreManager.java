@@ -125,7 +125,7 @@ public class StoreManager implements KoLConstants
 
 				currentQuantity = (Integer) prices.get( currentPrice );
 				if ( currentQuantity == null )
-					prices.put( currentPrice, new Integer( currentItem.getQuantity() ) );
+					prices.put( currentPrice, new Integer( currentItem.getLimit() ) );
 				else
 					prices.put( currentPrice, new Integer( currentQuantity.intValue() + currentItem.getQuantity() ) );
 			}
@@ -146,7 +146,7 @@ public class StoreManager implements KoLConstants
 			while ( i.hasNext() )
 			{
 				currentItem = (MallPurchaseRequest) i.next();
-				priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + " @ " + df.format( currentItem.getPrice() ) );
+				priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + ": " + df.format( currentItem.getLimit() ) + " @ " + df.format( currentItem.getPrice() ) );
 			}
 		}
 	}

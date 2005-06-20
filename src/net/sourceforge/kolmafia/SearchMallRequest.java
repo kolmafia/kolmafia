@@ -195,14 +195,15 @@ public class SearchMallRequest extends KoLRequest
 					String itemName = priceMatcher.group(2);
 
 					int itemID = Integer.parseInt( priceID.substring( 0, priceID.length() - 9 ) );
-					int purchaseLimit = df.parse( priceMatcher.group(3) ).intValue();
+					int quantity = df.parse( priceMatcher.group(3) ).intValue();
+					int limit = quantity;
 
 					Matcher limitMatcher = limitPattern.matcher( priceMatcher.group(4) );
 					if ( limitMatcher.find() )
-						purchaseLimit = Math.min( purchaseLimit, df.parse( limitMatcher.group(1) ).intValue() );
+						limit = df.parse( limitMatcher.group(1) ).intValue();
 
 					int price = Integer.parseInt( priceID.substring( priceID.length() - 9 ) );
-					results.add( new MallPurchaseRequest( client, itemName, itemID, purchaseLimit, shopID, shopName, price ) );
+					results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit ) );
 				}
 				catch ( Exception e )
 				{
@@ -312,9 +313,8 @@ public class SearchMallRequest extends KoLRequest
 			// in addition to any limits imposed on those items
 
 			StringTokenizer buyDetails = new StringTokenizer( parsedResults.nextToken(), " &nbsp;()/day" );
-			int total = intToken( buyDetails );
-			int limit = buyDetails.hasMoreTokens() ? intToken( buyDetails ) : 0;
-			int purchaseLimit = (limit == 0 || total < limit) ? total : limit;
+			int quantity = intToken( buyDetails );
+			int limit = buyDetails.hasMoreTokens() ? intToken( buyDetails ) : quantity;
 
 			// The next token contains data which identifies the shop
 			// and the item (which will be used later), and the price!
@@ -340,7 +340,7 @@ public class SearchMallRequest extends KoLRequest
 				results.add( NPCStoreDatabase.getPurchaseRequest( client, itemName ) );
 			}
 
-			results.add( new MallPurchaseRequest( client, itemName, itemID, purchaseLimit, shopID, shopName, price ) );
+			results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC

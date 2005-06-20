@@ -1455,7 +1455,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( oldResultIndex != -1 )
 					oldResult = (AdventureResult) scriptRequestor.getInventory().get( oldResultIndex );
 
-				currentRequest.setMaximumQuantity( maxPurchases );
+				currentRequest.setLimit( maxPurchases );
 				currentRequest.run();
 
 				// Calculate how many of the item you have now after

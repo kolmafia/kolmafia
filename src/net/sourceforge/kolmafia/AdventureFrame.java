@@ -668,7 +668,7 @@ public class AdventureFrame extends KoLFrame
 							if ( oldResultIndex != -1 )
 								oldResult = (AdventureResult) client.getInventory().get( oldResultIndex );
 
-							currentRequest.setMaximumQuantity( maxPurchases );
+							currentRequest.setLimit( maxPurchases );
 							currentRequest.run();
 
 							// Calculate how many of the item you have now after
