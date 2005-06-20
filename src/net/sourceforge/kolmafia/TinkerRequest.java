@@ -45,12 +45,18 @@ public class TinkerRequest extends ItemCreationRequest
 		addFormField( "place", "tinker" );
 		addFormField( "action", "tinksomething" );
 
-		ingredientCosts = ConcoctionsDatabase.getIngredients( itemID );
-		if ( ingredientCosts != null && ingredientCosts.length == 3 )
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+
+		ingredientCosts = new AdventureResult[ ingredients.length ];
+		for ( int i = 0; i < ingredients.length; ++i )
+			ingredientCosts[i] = ingredients[i].getNegation();
+
+
+		if ( ingredients != null && ingredients.length == 3 )
 		{
-			addFormField( "item1", String.valueOf( ingredientCosts[0].getItemID() ) );
-			addFormField( "item2", String.valueOf( ingredientCosts[1].getItemID() ) );
-			addFormField( "item3", String.valueOf( ingredientCosts[2].getItemID() ) );
+			addFormField( "item1", String.valueOf( ingredients[0].getItemID() ) );
+			addFormField( "item2", String.valueOf( ingredients[1].getItemID() ) );
+			addFormField( "item3", String.valueOf( ingredients[2].getItemID() ) );
 		}
 	}
 
@@ -85,7 +91,7 @@ public class TinkerRequest extends ItemCreationRequest
 			// Account for the results
 			client.processResult( singleCreation );
 			for ( int j = 0; j < ingredientCosts.length; ++j )
-				client.processResult( ingredientCosts[j].getNegation() );
+				client.processResult( ingredientCosts[j] );
 		}
 	}
 }
