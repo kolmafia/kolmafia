@@ -417,9 +417,5 @@ pixel hat	10	white pixel (10)	green pixel (15)
 pixel pants	10	black pixel (15)	red pixel (20)
 pixel sword	10	white pixel (20)	black pixel (10)	blue pixel (10)
 digital key	10	white pixel (30)
-
-# Some of the recipes that use white pixels also use ingredients used to make
-# them. The item creation engine doesn't know how to account for that, yet.
-
-# white pixel	10	red pixel	green pixel	blue pixel
+white pixel	10	red pixel	green pixel	blue pixel
 

@@ -47,6 +47,7 @@ public class PixelRequest extends ItemCreationRequest
 	public PixelRequest( KoLmafia client, int itemID, int quantityNeeded )
 	{
 		super( client, "town_wrong.php", itemID, quantityNeeded );
+		addFormField( "place", "crackpot" );
 
 		ingredientCosts = ConcoctionsDatabase.getIngredients( itemID );
 		if ( ingredientCosts != null )
@@ -66,24 +67,19 @@ public class PixelRequest extends ItemCreationRequest
 
 		makeIngredients();
 
-		// Intermediate variables so you don't constantly
-		// instantiate new adventure results each time you
-		// create the item.
+                int quantity = getQuantityNeeded();
+		// Disable controls
+		updateDisplay( DISABLED_STATE, "Creating " + quantity + " " + getDisplayName() + "..." );
+		addFormField( "quantity", String.valueOf( quantity ) );
 
-		AdventureResult singleCreation = new AdventureResult( getItemID(), 1 );
+		// Run the request
+		super.run();
 
-		for ( int i = 1; i <= getQuantityNeeded(); ++i )
-		{
-			// Disable controls
-			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
-
-			// Run the request
-			super.run();
-
-			// Account for the results
-			client.processResult( singleCreation );
-			for ( int j = 0; j < ingredientCosts.length; ++j )
-				client.processResult( ingredientCosts[j] );
-		}
+		// Account for the results
+		client.processResult( new AdventureResult( getItemID(), quantity ) );
+                // All right. How can I automate this?
+		for ( int j = 0; j < quantity; ++j )
+			for ( int i = 0; i < ingredientCosts.length; ++i )
+                                client.processResult( ingredientCosts[i] );
 	}
 }
