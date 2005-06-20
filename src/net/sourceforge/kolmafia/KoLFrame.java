@@ -1502,7 +1502,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		try
 		{
 			return field.getText() == null || field.getText().length() == 0 ?
-				defaultValue : df.parse( field.getText() ).intValue();
+				defaultValue : df.parse( field.getText().trim() ).intValue();
 		}
 		catch ( Exception e )
 		{
