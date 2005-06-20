@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.JRadioButton;
 
 import javax.swing.text.View;
 import javax.swing.text.Element;
@@ -99,6 +100,16 @@ public class RequestEditorKit extends HTMLEditorKit
 	{
 		public KoLSubmitView( Element elem )
 		{	super( elem );
+		}
+
+		protected Component createComponent()
+		{
+			Component c = super.createComponent();
+
+			if ( c != null && c instanceof JRadioButton )
+				c.setBackground( Color.white );
+
+			return c;
 		}
 
 		protected void submitData( String data )
