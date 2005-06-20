@@ -187,7 +187,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public void setLimit( int limit )
-	{	this.limit = Math.min( quantity, limit );
+	{	this.limit = Math.min( limit, this.limit );
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		updateDisplay( DISABLED_STATE, "Purchasing " +
                                TradeableItemDatabase.getItemDisplayName(itemID) +
-                               " (" + df.format( quantity ) + " @ " + df.format( price ) + ")" );
+                               " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
 
 		super.run();
 
