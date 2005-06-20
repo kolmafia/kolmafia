@@ -132,10 +132,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public static ItemCreationRequest getInstance( KoLmafia client, int itemID, int quantityNeeded )
 	{
-		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
-
 		if ( itemID == MEAT_PASTE || itemID == MEAT_STACK || itemID == DENSE_STACK )
 			return new CombineMeatRequest( client, itemID, quantityNeeded );
+
+		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
 
 		switch ( mixingMethod )
 		{

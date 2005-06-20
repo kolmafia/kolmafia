@@ -55,6 +55,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 		addFormField( "whichitem", String.valueOf( meatType ) );
 
 		this.meatType = meatType;
+		this.quantityNeeded = quantityNeeded;
 		this.costToMake = meatType == MEAT_PASTE ? -10 : meatType == MEAT_STACK ? -100 : -1000;
 	}
 
