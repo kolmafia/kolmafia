@@ -191,9 +191,9 @@ public class ConcoctionsDatabase
 			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.COMBINE )
 				concoctions[i].calculate( client, availableIngredients );
 
-		// Finally, increment through all of the things which are created
-		// any other way, making sure that it's a permitted mixture
-		// before doing the calculation.
+		// Finally, increment through all of the things which are
+		// created any other way, making sure that it's a permitted
+		// mixture before doing the calculation.
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 		{
@@ -368,7 +368,10 @@ public class ConcoctionsDatabase
 			// then assume it can't be created.
 
 			if ( concoction.getName() == null )
+			{
 				this.total = 0;
+				return;
+			}
 
 			// If a calculation has already been done for this
 			// concoction, no need to calculate again.
@@ -385,8 +388,8 @@ public class ConcoctionsDatabase
 			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermitted( mixingMethod, client ) )
 				return;
 
-			// Do the initial calculation of how many of each ingredient
-			// can be created at each step.
+			// Do the initial calculation of how many of each
+			// ingredient can be created at each step.
 
 			this.creatable = Integer.MAX_VALUE;
 			int itemID, quantity, divisor;
@@ -399,9 +402,10 @@ public class ConcoctionsDatabase
 
 				if ( quantity <= 0 )
 				{
-					// If the quantity drops below zero, or is equal
-					// to zero, due to absorption, stop parsing through
-					// the ingredients since you can't create it.
+					// If the quantity drops below zero, or
+					// is equal to zero, due to absorption,
+					// stop parsing through the ingredients
+					// since you can't create it.
 
 					this.creatable = 0;
 					this.total = this.initial;
@@ -409,9 +413,10 @@ public class ConcoctionsDatabase
 				}
 				else
 				{
-					// Otherwise, test to see if this is the limiting
-					// ingredient, and recalculate the created
-					// quantity based on this test.
+					// Otherwise, test to see if this is
+					// the limiting ingredient, and
+					// recalculate the created quantity
+					// based on this test.
 
 					divisor = ingredientArray[i].getCount();
 					for ( int j = 0; j < ingredientArray.length; ++j )
@@ -422,15 +427,16 @@ public class ConcoctionsDatabase
 				}
 			}
 
-			// The total available for other creations is equivalent to the
-			// initial number plus the number which can be created.
+			// The total available for other creations is
+			// equivalent to the initial number plus the number
+			// which can be created.
 
 			this.total = this.initial + this.creatable;
 
-			// Once the initial calculation is complete, make an attempt
-			// to yield the calculated quantity for each ingredient and
-			// check to see if it was really possible by repeating the
-			// calculation process.
+			// Once the initial calculation is complete, make an
+			// attempt to yield the calculated quantity for each
+			// ingredient and check to see if it was really
+			// possible by repeating the calculation process.
 
 			boolean keepGuessing = this.creatable > 0;
 			for ( int guess = this.creatable; keepGuessing; --guess )
@@ -438,8 +444,8 @@ public class ConcoctionsDatabase
 				this.creatable = 0;
 				keepGuessing = guess > 1;
 
-				// Make an attempt to yield the guess.  Should this
-				// be successful, stop guessing.
+				// Make an attempt to yield the guess.  Should
+				// this be successful, stop guessing.
 
 				if ( this.yield( this.initial + guess ) )
 				{
@@ -447,15 +453,16 @@ public class ConcoctionsDatabase
 					keepGuessing = false;
 				}
 
-				// Whether or not you are successful, undo all of
-				// the item absorptions to prepare for the next
-				// iteration set.
+				// Whether or not you are successful, undo all
+				// of the item absorptions to prepare for the
+				// next iteration set.
 
 				this.unyield();
 			}
 
-			// The total available for other creations is equivalent to the
-			// initial number plus the number which can be created.
+			// The total available for other creations is
+			// equivalent to the initial number plus the number
+			// which can be created.
 
 			this.total = this.initial + this.creatable;
 		}

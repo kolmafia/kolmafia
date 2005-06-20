@@ -174,8 +174,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private AdventureResult( String name, int [] count, int priority )
 	{
-		this.name = name == null ? "(unrecognized item)" : name;
-
+		this.name = name;
 		this.count = new int[ count.length ];
 
 		for ( int i = 0; i < count.length; ++i )
