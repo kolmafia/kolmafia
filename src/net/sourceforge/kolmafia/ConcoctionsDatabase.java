@@ -435,6 +435,7 @@ public class ConcoctionsDatabase
 			boolean keepGuessing = this.creatable > 0;
 			for ( int guess = this.creatable; keepGuessing; --guess )
 			{
+				this.creatable = 0;
 				keepGuessing = guess > 1;
 
 				// Make an attempt to yield the guess.  Should this
