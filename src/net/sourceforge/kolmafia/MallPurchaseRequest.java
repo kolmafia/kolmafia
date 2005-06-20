@@ -197,7 +197,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public String toString()
-	{	return itemName + " (" + df.format( quantity ) + " - " + df.format( limit ) + " @ " + df.format( price ) + "): " + shopName;
+	{	return itemName + " (" + df.format( limit ) + " @ " + df.format( price ) + "): " + shopName;
 	}
 
 	/**
