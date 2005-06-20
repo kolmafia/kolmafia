@@ -50,9 +50,6 @@ public class PixelRequest extends ItemCreationRequest
 		addFormField( "place", "crackpot" );
 
 		ingredientCosts = ConcoctionsDatabase.getIngredients( itemID );
-		if ( ingredientCosts != null )
-			for ( int i = 0; i < ingredientCosts.length; ++i )
-				ingredientCosts[i] = ingredientCosts[i].getNegation();
 
 		addFormField( "action", "makepixel" );
 		addFormField( "makewhich", String.valueOf( itemID ) );
@@ -78,8 +75,10 @@ public class PixelRequest extends ItemCreationRequest
 		// Account for the results
 		client.processResult( new AdventureResult( getItemID(), quantity ) );
                 // All right. How can I automate this?
+                // Make a COPY of ingredientCosts list
+                //   Each ingredient negated and multiplied by quantity...
 		for ( int j = 0; j < quantity; ++j )
 			for ( int i = 0; i < ingredientCosts.length; ++i )
-                                client.processResult( ingredientCosts[i] );
+                                client.processResult( ingredientCosts[i].getNegation() );
 	}
 }
