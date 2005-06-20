@@ -315,7 +315,7 @@ public class ConcoctionsDatabase
 		private List ingredients;
 		private AdventureResult [] ingredientArray;
 
-		private int absorbed;
+		private int modifier, multiplier;
 		private int initial, creatable, total;
 
 		public Concoction( AdventureResult concoction, int mixingMethod )
@@ -332,7 +332,9 @@ public class ConcoctionsDatabase
 			this.initial = -1;
 			this.creatable = -1;
 			this.total = -1;
-			this.absorbed = 0;
+
+			this.modifier = 0;
+			this.multiplier = 0;
 		}
 
 		public void addIngredient( AdventureResult ingredient )
@@ -388,77 +390,43 @@ public class ConcoctionsDatabase
 			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermitted( mixingMethod, client ) )
 				return;
 
-			// Do the initial calculation of how many of each
-			// ingredient can be created at each step.
+			// First, preprocess the ingredients by calculating
+			// how many of each ingredient is possible now.
 
+			for ( int i = 0; i < ingredientArray.length; ++i )
+				concoctions[ ingredientArray[i].getItemID() ].calculate( client, availableIngredients );
+
+			// Next, preprocess the ingredients again by marking
+			// them with the equation variables.  This can be
+			// done by marking this item with a zero modifier
+			// and a multiplier of one.
+
+			this.mark( 0, 1 );
+
+			// With all of the data preprocessed, calculate
+			// the quantity creatable by solving the set of
+			// linear inequalities.
+
+			int itemID, quantity;
 			this.creatable = Integer.MAX_VALUE;
-			int itemID, quantity, divisor;
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
 			{
 				itemID = ingredientArray[i].getItemID();
-				concoctions[itemID].calculate( client, availableIngredients );
-				quantity = concoctions[itemID].total;
 
-				if ( quantity <= 0 )
-				{
-					// If the quantity drops below zero, or
-					// is equal to zero, due to absorption,
-					// stop parsing through the ingredients
-					// since you can't create it.
+				// Next, calculate the quantity.  This value is
+				// equivalent to the total, plus the modifier,
+				// divided by the multiplier.
 
-					this.creatable = 0;
-					this.total = this.initial;
-					return;
-				}
-				else
-				{
-					// Otherwise, test to see if this is
-					// the limiting ingredient, and
-					// recalculate the created quantity
-					// based on this test.
-
-					divisor = ingredientArray[i].getCount();
-					for ( int j = 0; j < ingredientArray.length; ++j )
-						if ( i != j && itemID == ingredientArray[j].getItemID() )
-							divisor += ingredientArray[i].getCount();
-
-					this.creatable = Math.min( this.creatable, quantity / divisor );
-				}
+				quantity = (concoctions[itemID].total + concoctions[itemID].modifier) / concoctions[itemID].multiplier;
+				this.creatable = Math.min( this.creatable, quantity - this.initial );
 			}
 
-			// The total available for other creations is
-			// equivalent to the initial number plus the number
-			// which can be created.
+			// Now that all the calculations are complete, unmark
+			// the ingredients so that later calculations can make
+			// the correct calculations.
 
-			this.total = this.initial + this.creatable;
-
-			// Once the initial calculation is complete, make an
-			// attempt to yield the calculated quantity for each
-			// ingredient and check to see if it was really
-			// possible by repeating the calculation process.
-
-			boolean keepGuessing = this.creatable > 0;
-			for ( int guess = this.creatable; keepGuessing; --guess )
-			{
-				this.creatable = 0;
-				keepGuessing = guess > 1;
-
-				// Make an attempt to yield the guess.  Should
-				// this be successful, stop guessing.
-
-				if ( this.yield( this.initial + guess ) )
-				{
-					this.creatable = guess;
-					keepGuessing = false;
-				}
-
-				// Whether or not you are successful, undo all
-				// of the item absorptions to prepare for the
-				// next iteration set.
-
-				this.unyield();
-			}
+			this.unmark();
 
 			// The total available for other creations is
 			// equivalent to the initial number plus the number
@@ -468,27 +436,18 @@ public class ConcoctionsDatabase
 		}
 
 		/**
-		 * Utility method which pretends to attempt to yield the given
-		 * item count for this creation, reducing the ingredient totals
-		 * as necessary.  This is used in ingredient verification for
-		 * multi-step recipes using the same ingredients.
+		 * Utility method which marks the ingredient for usage with
+		 * the given added modifier and the given additional multiplier.
 		 */
 
-		private boolean yield( int count )
+		private void mark( int modifier, int multiplier )
 		{
-			this.absorbed += Math.min( count, this.initial );
+			this.modifier += modifier;
+			this.multiplier += multiplier;
 
-			if ( this.absorbed > this.total )
-				return false;
-
-			int needed = count - this.initial;
-
-			if ( needed > 0 )
-				for ( int i = 0; i < ingredientArray.length; ++i )
-					if ( !concoctions[ ingredientArray[i].getItemID() ].yield( needed ) )
-						return false;
-
-			return true;
+			for ( int i = 0; i < ingredientArray.length; ++i )
+				concoctions[ ingredientArray[i].getItemID() ].mark( this.modifier + this.initial,
+					this.multiplier * ingredientArray[i].getCount() );
 		}
 
 		/**
@@ -496,16 +455,22 @@ public class ConcoctionsDatabase
 		 * the ingredient and current total values to the given number.
 		 */
 
-		private void unyield()
+		private void unmark()
 		{
 			for ( int i = 0; i < ingredientArray.length; ++i )
-				concoctions[ ingredientArray[i].getItemID() ].unyield();
+				concoctions[ ingredientArray[i].getItemID() ].unmark();
 
-			this.absorbed = 0;
+			this.modifier = 0;
+			this.multiplier = 0;
 		}
 
+		/**
+		 * Returns the string form of this concoction.  This is
+		 * basically the display name for the item created.
+		 */
+
 		public String toString()
-		{	return concoction.toString();
+		{	return concoction.getDisplayName();
 		}
 	}
 }
