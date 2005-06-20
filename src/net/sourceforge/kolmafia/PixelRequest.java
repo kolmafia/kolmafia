@@ -42,14 +42,10 @@ public class PixelRequest extends ItemCreationRequest
 	public static final int GREEN_PIXEL = 462;
 	public static final int BLUE_PIXEL = 463;
 
-	private AdventureResult [] ingredientCosts;
-
 	public PixelRequest( KoLmafia client, int itemID, int quantityNeeded )
 	{
 		super( client, "town_wrong.php", itemID, quantityNeeded );
 		addFormField( "place", "crackpot" );
-
-		ingredientCosts = ConcoctionsDatabase.getIngredients( itemID );
 
 		addFormField( "action", "makepixel" );
 		addFormField( "makewhich", String.valueOf( itemID ) );
@@ -63,8 +59,8 @@ public class PixelRequest extends ItemCreationRequest
 		// pixels if they are not currently available.
 
 		makeIngredients();
+		int quantity = getQuantityNeeded();
 
-                int quantity = getQuantityNeeded();
 		// Disable controls
 		updateDisplay( DISABLED_STATE, "Creating " + quantity + " " + getDisplayName() + "..." );
 		addFormField( "quantity", String.valueOf( quantity ) );
@@ -74,11 +70,8 @@ public class PixelRequest extends ItemCreationRequest
 
 		// Account for the results
 		client.processResult( new AdventureResult( getItemID(), quantity ) );
-                // All right. How can I automate this?
-                // Make a COPY of ingredientCosts list
-                //   Each ingredient negated and multiplied by quantity...
-		for ( int j = 0; j < quantity; ++j )
-			for ( int i = 0; i < ingredientCosts.length; ++i )
-                                client.processResult( ingredientCosts[i].getNegation() );
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( getItemID() );
+		for ( int i = 0; i < ingredients.length; ++i )
+			client.processResult( ingredients[i].getInstance( 0 - ingredients[i].getCount() * quantity ) );
 	}
 }
