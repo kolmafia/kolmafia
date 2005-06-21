@@ -70,6 +70,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class SendMessageFrame extends KoLFrame
 {
+	protected JPanel messagePanel;
 	protected JTextField recipientEntry;
 	protected JTextArea [] messageEntry;
 	protected JButton sendMessageButton;
@@ -138,8 +139,12 @@ public abstract class SendMessageFrame extends KoLFrame
 		mainPanel.add( contentPanel = new UpdatePanel() );
 		mainPanel.add( Box.createVerticalStrut( 4 ) );
 
+		messagePanel = new JPanel();
+		messagePanel.setLayout( new BorderLayout() );
+		messagePanel.add( mainPanel, BorderLayout.CENTER );
+
 		this.getContentPane().setLayout( new CardLayout( 20, 20 ) );
-		this.getContentPane().add( mainPanel, "" );
+		this.getContentPane().add( messagePanel, "" );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 
@@ -213,7 +218,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	{	return new Component[0];
 	}
 
-	private JPanel getLabelPanel( String text )
+	protected JPanel getLabelPanel( String text )
 	{
 		JPanel label = new JPanel();
 		label.setLayout( new GridLayout( 1, 1 ) );
