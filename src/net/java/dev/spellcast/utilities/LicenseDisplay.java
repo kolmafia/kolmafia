@@ -109,12 +109,15 @@ public class LicenseDisplay extends javax.swing.JFrame
 						licenseText.append( System.getProperty( "line.separator" ) );
 					}
 
-					((JEditorPane)licenseDisplay).setContentType( "text/html" );
-					((JEditorPane)licenseDisplay).setText( licenseText.toString() );
-					((JEditorPane)licenseDisplay).setEditable( false );
+					ChatBuffer buffer = new ChatBuffer( fileNames[index] );
+					buffer.setChatDisplay( (JEditorPane) licenseDisplay );
+					buffer.append( licenseText.toString() );
 					((JEditorPane)licenseDisplay).setCaretPosition( 0 );
 				}
-				catch ( java.io.IOException e )  {}
+				catch ( java.io.IOException e )
+				{
+				}
+
 				break;
 			}
 			case IMAGE_FILE:
