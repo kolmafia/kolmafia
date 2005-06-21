@@ -742,7 +742,7 @@
 742	Knoll shroomkabob	1	30
 743	stuffed spooky mushroom	1	35
 744	can of hair spray	4	12
-745	serrated proboscis extension	0	0
+745	serrated proboscis extension	0	30
 746	stat script	3	0
 747	Knob Goblin firecracker	0	15
 748	gourd potion	4	0
@@ -751,7 +751,7 @@
 751	cool mushroom	0	61
 752	cool mushroom casserole	1	75
 753	pointy mushroom	0	61
-754	cream of pointy mushroom soup	1	0
+754	cream of pointy mushroom soup	1	75
 755	flaming mushroom	0	61
 756	frozen mushroom	0	61
 757	winged mushroom	0	61
@@ -885,7 +885,7 @@
 885	wooden axe	12	65
 886	leaflet	0	87
 887	leaf	0	180
-888	maple leaf	0	0
+888	maple leaf	5	0
 889	balaclava	9	55
 890	balaclava baklava	1	65
 891	Warehouse 23 bling	8	0
@@ -1055,7 +1055,7 @@
 1055	blue plastic oyster egg	0	50
 1056	puce striped oyster egg	0	50
 1057	puce polka-dot oyster egg	0	50
-1058	puce paisley oyster egg	0	0
+1058	puce paisley oyster egg	0	50
 1059	puce plastic oyster egg	0	50
 1060	mauve striped oyster egg	0	50
 1061	mauve polka-dot oyster egg	0	50
@@ -1175,8 +1175,8 @@
 1175
 1176
 1177
-1178	potted cactus	0	0
-1179	daisy	0	0
+1178	potted cactus	0	25
+1179	daisy	0	50
 1180	potted fern	0	0
 1181	tulip	0	0
 1182
@@ -1186,8 +1186,8 @@
 1186
 1187
 1188
-1189	stuffed can of asparagus	0	0
-1190	stuffed dodecapede	0	0
+1189	stuffed can of asparagus	0	25
+1190	stuffed dodecapede	0	50
 1191	stuffed ghuol whelp	0	0
 1192
 1193
@@ -1197,10 +1197,10 @@
 1197
 1198
 1199
-1200	mugcake	0	0
-1201	urinal cake	0	0
-1202	Happy Birthday, Claude! cake	0	0
-1203	personalized birthday cake	0	0
+1200	mugcake	2	25
+1201	urinal cake	2	50
+1202	Happy Birthday, Claude! cake	2	0
+1203	personalized birthday cake	2	0
 1204
 1205
 1206
@@ -1208,9 +1208,9 @@
 1208
 1209
 1210
-1211	white balloon	0	0
-1212	green balloon	0	0
-1213	heart-shaped balloon	0	0
+1211	white balloon	8	25
+1212	green balloon	8	50
+1213	heart-shaped balloon	8	0
 1214
 1215
 1216
