@@ -230,7 +230,7 @@ public class HagnkStorageFrame extends KoLFrame
 						selection = (AdventureResult) items[i];
 						itemID = selection.getItemID();
 						quantity = df.parse( JOptionPane.showInputDialog(
-							"Retrieving " + selection.getDisplayName() + " from the storage...", String.valueOf( selection.getCount() ) ) ).intValue();
+							"Retrieving " + selection.getName() + " from the storage...", String.valueOf( selection.getCount() ) ) ).intValue();
 
 						items[i] = new AdventureResult( itemID, quantity );
 					}

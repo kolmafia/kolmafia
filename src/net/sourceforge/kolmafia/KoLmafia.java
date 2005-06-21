@@ -448,7 +448,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( logStream != null )
 			logStream.println( "Processing result: " + result );
 
-		String resultName = result.getDisplayName();
+		String resultName = result.getName();
 
 		// This should not happen, but check just in case and
 		// return if the result name was null.
@@ -896,7 +896,7 @@ public abstract class KoLmafia implements KoLConstants
 						if ( iterations == 1 )
 							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().toString() + "..." );
 						else
-							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getDisplayName() + " (" + i + " of " + iterations + ")..." );
+							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getName() + " (" + i + " of " + iterations + ")..." );
 					}
 
 					request.run();

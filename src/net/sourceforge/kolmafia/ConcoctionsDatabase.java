@@ -451,7 +451,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		 */
 
 		public String toString()
-		{	return concoction.getDisplayName();
+		{	return concoction.getName();
 		}
 	}
 }
