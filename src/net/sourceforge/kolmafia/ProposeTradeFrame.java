@@ -60,19 +60,10 @@ import javax.swing.JOptionPane;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class ProposeTradeFrame extends KoLFrame
+public class ProposeTradeFrame extends SendMessageFrame
 {
 	private String offerID;
-	private static final int COLS = 32;
-	private static final int ROWS = 8;
-
-	protected JTextField recipientEntry;
-	private JTextArea messageEntry;
-	private JComboBox attachSelect;
-	private JButton attachButton;
-
-	private SortedListModel attachedItems;
-	private JLabel sendMessageStatus;
+	private static final String [] HEADERS = { "Send this note:" };
 
 	public ProposeTradeFrame( KoLmafia client )
 	{	this( client, null );
@@ -80,148 +71,35 @@ public class ProposeTradeFrame extends KoLFrame
 
 	public ProposeTradeFrame( KoLmafia client, String offerID )
 	{
-		super( "KoLmafia: Send a Trade Proposal", client );
+		super( client, "KoLmafia: Send a Trade Proposal", HEADERS );
 		this.offerID = offerID;
 
-		this.attachedItems = new SortedListModel();
-		this.contentPanel = new ProposeTradePanel();
-
-		this.getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		this.getContentPane().add( contentPanel, "" );
-
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-		addWindowListener( new ReturnFocusAdapter() );
-		setResizable( false );
+		if ( this.offerID != null )
+			recipientEntry.setEnabled( false );
 	}
 
 	public void setEnabled( boolean isEnabled )
 	{
+		super.setEnabled( isEnabled );
+		if ( this.offerID != null )
+			recipientEntry.setEnabled( false );
 	}
 
-	private class ProposeTradePanel extends NonContentPanel
+	private class ProposeTradeThread extends RequestThread
 	{
-		public ProposeTradePanel()
+		public void run()
 		{
-			super( "send", "clear", new Dimension( 80, 20 ), new Dimension( 320, 20 ) );
+			if ( client == null )
+				return;
 
-			recipientEntry = new JTextField();
+			if ( offerID != null )
+				(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry[0].getText(), getAttachedItems() )).run();
 
-			JPanel attachPanel = new JPanel();
-			attachPanel.setLayout( new BorderLayout( 0, 0 ) );
-			attachSelect = new JComboBox( attachedItems );
-			attachPanel.add( attachSelect, BorderLayout.CENTER );
-			attachButton = new JButton( JComponentUtilities.getSharedImage( "icon_plus.gif" ) );
-			JComponentUtilities.setComponentSize( attachButton, 20, 20 );
-			attachButton.addActionListener( new AttachItemListener() );
-			attachPanel.add( attachButton, BorderLayout.EAST );
+			ProposeTradeFrame.this.dispose();
+			KoLFrame frame = offerID != null ? new PendingTradesFrame( client, new ProposeTradeRequest( client ) ) :
+				new PendingTradesFrame( client, new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems() ) );
 
-			VerifiableElement [] elements = new VerifiableElement[ offerID == null ? 2 : 1 ];
-
-
-			if ( offerID == null )
-			{
-				elements[0] = new VerifiableElement( "Target:  ", recipientEntry );
-				elements[1] = new VerifiableElement( "Offer:  ", attachPanel );
-			}
-			else
-				elements[0] = new VerifiableElement( "Counter:  ", attachPanel );
-
-			setContent( elements );
-
-			messageEntry = new JTextArea( ROWS, COLS );
-			messageEntry.setLineWrap( true );
-			messageEntry.setWrapStyleWord( true );
-			JScrollPane scrollArea = new JScrollPane( messageEntry,
-				JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			add( scrollArea, BorderLayout.CENTER );
-
-			sendMessageStatus = new JLabel( " ", JLabel.LEFT );
-			add( sendMessageStatus, BorderLayout.SOUTH );
-		}
-
-		public void actionConfirmed()
-		{
-			ProposeTradeFrame.this.setEnabled( false );
-			(new ProposeTradeThread()).start();
-		}
-
-		public void actionCancelled()
-		{
-			recipientEntry.setText( "" );
-			messageEntry.setText( "" );
-			attachedItems.clear();
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			recipientEntry.setEnabled( isEnabled );
-			messageEntry.setEnabled( isEnabled );
-			attachSelect.setEnabled( isEnabled );
-			attachButton.setEnabled( isEnabled );
-		}
-
-		private class ProposeTradeThread extends RequestThread
-		{
-			public void run()
-			{
-				if ( client == null )
-					return;
-
-				if ( offerID != null )
-					(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry.getText(), attachedItems.toArray() )).run();
-
-				ProposeTradeFrame.this.dispose();
-				KoLFrame frame = offerID != null ? new PendingTradesFrame( client, new ProposeTradeRequest( client ) ) :
-					new PendingTradesFrame( client, new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray() ) );
-
-				frame.pack();  frame.setVisible( true );  frame.requestFocus();
-			}
-		}
-	}
-
-	/**
-	 * Internal class used to handle attaching items to the message.  This
-	 * is done by prompting the user with a dialog box where they choose
-	 * the item they wish to attach.  Note that only one of the item will
-	 * be attached at a time.  This item cannot be removed after attaching.
-	 */
-
-	private class AttachItemListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			try
-			{
-				AdventureResult [] possibleValues =
-					client == null ? new AdventureResult[1] : new AdventureResult[ client.getInventory().size() + 1 ];
-
-				Object [] items = client.getInventory().toArray();
-				for ( int i = 0; i < items.length; ++i )
-					possibleValues[i+1] = (AdventureResult) items[i];
-				possibleValues[0] = new AdventureResult( AdventureResult.MEAT, client == null ? 0 :
-					client.getCharacterData().getAvailableMeat() );
-
-				AdventureResult attachment = (AdventureResult) JOptionPane.showInputDialog(
-					null, "Attach to message...", "Input", JOptionPane.INFORMATION_MESSAGE, null,
-					possibleValues, possibleValues[0] );
-
-				int defaultCount = attachment.getCount( attachedItems );
-				int attachmentCount = df.parse( JOptionPane.showInputDialog(
-					"Attaching " + attachment.getDisplayName() + "...", String.valueOf( defaultCount ) ) ).intValue();
-
-				if ( attachedItems.contains( attachment ) )
-					AdventureResult.addResultToList( attachedItems, attachment.getInstance( 0 - defaultCount ) );
-
-				AdventureResult.addResultToList( attachedItems, attachment.getInstance( attachmentCount ) );
-				attachedItems.setSelectedIndex( attachedItems.size() - 1 );
-			}
-			catch ( Exception e1 )
-			{
-				// If an exception happened, the attachment should not occur.
-				// Which means, if nothing is done, everything works great.
-			}
+			frame.pack();  frame.setVisible( true );  frame.requestFocus();
 		}
 	}
 
