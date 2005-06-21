@@ -47,6 +47,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 // containers
+import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -61,130 +62,41 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class GiftMessageFrame extends KoLFrame
+public class GiftMessageFrame extends SendMessageFrame
 {
-	private static final int COLS = 32;
-	private static final int ROWS = 8;
+	private static final String [] HEADERS = { "Message on the outside:", "Message on the inside:" };
+	private static final String [] WEST_HEADERS = { "Desired package:" };
 
-	private JTextField recipientEntry;
-	private JTextField meatEntry;
-	private JTextArea insideEntry, outsideEntry;
-	private JComboBox attachSelect;
 	private JComboBox packageSelect;
-	private JButton attachButton;
-
-	private SortedListModel attachedItems;
-	private JLabel sendMessageStatus;
 
 	public GiftMessageFrame( KoLmafia client )
 	{	this( client, "" );
 	}
 
 	public GiftMessageFrame( KoLmafia client, String recipient )
-	{	this( client, recipient, "" );
+	{
+		super( client, "KoLmafia: Send a Purple Message", HEADERS );
+		recipientEntry.setText( recipient );
+
+		sendMessageButton.addActionListener( new SendGiftMessageListener() );
 	}
 
-	public GiftMessageFrame( KoLmafia client, String recipient, String quotedMessage )
-	{
-		super( "KoLmafia: Send a Purple Message", client );
-
-		this.attachedItems = new SortedListModel();
-		this.contentPanel = new GiftMessagePanel( recipient, quotedMessage );
-
-		this.getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		this.getContentPane().add( contentPanel, "" );
-
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-		addWindowListener( new ReturnFocusAdapter() );
-		setResizable( false );
+	protected String [] getWestHeaders()
+	{	return WEST_HEADERS;
 	}
 
-	public void setEnabled( boolean isEnabled )
+	protected Component [] getWestComponents()
 	{
+		packageSelect = new JComboBox( (LockableListModel) GiftMessageRequest.PACKAGES.clone() );
+		Component [] westComponents = new Component[1];
+		westComponents[0] = packageSelect;
+		return westComponents;
 	}
 
-	private class GiftMessagePanel extends NonContentPanel
+	private class SendGiftMessageListener implements ActionListener
 	{
-		public GiftMessagePanel( String recipient, String quotedMessage )
-		{
-			super( "send", "clear", new Dimension( 80, 20 ), new Dimension( 320, 20 ) );
-
-			recipientEntry = new JTextField( recipient );
-			meatEntry = new JTextField();
-
-			JPanel attachPanel = new JPanel();
-			attachPanel.setLayout( new BorderLayout( 0, 0 ) );
-			attachSelect = new JComboBox( attachedItems );
-			attachPanel.add( attachSelect, BorderLayout.CENTER );
-			attachButton = new JButton( JComponentUtilities.getSharedImage( "icon_plus.gif" ) );
-			JComponentUtilities.setComponentSize( attachButton, 20, 20 );
-			attachButton.addActionListener( new AttachItemListener() );
-			attachPanel.add( attachButton, BorderLayout.EAST );
-
-			packageSelect = new JComboBox( (LockableListModel) GiftMessageRequest.PACKAGES.clone() );
-
-			VerifiableElement [] elements = new VerifiableElement[4];
-			elements[0] = new VerifiableElement( "Target:  ", recipientEntry );
-			elements[1] = new VerifiableElement( "Package:  ", packageSelect );
-			elements[2] = new VerifiableElement( "Items:  ", attachPanel );
-			elements[3] = new VerifiableElement( "Meat: ", meatEntry );
-
-			setContent( elements );
-
-			outsideEntry = new JTextArea( ROWS, COLS );
-			outsideEntry.setLineWrap( true );
-			outsideEntry.setWrapStyleWord( true );
-			outsideEntry.setText( quotedMessage );
-
-			JScrollPane outsideScroll = new JScrollPane( outsideEntry, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			JPanel outsidePanel = new JPanel();
-			outsidePanel.setLayout( new BorderLayout( 0, 0 ) );
-			outsidePanel.add( JComponentUtilities.createLabel( "Outside Package", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-			outsidePanel.add( outsideScroll, BorderLayout.CENTER );
-
-			insideEntry = new JTextArea( ROWS, COLS );
-			insideEntry.setLineWrap( true );
-			insideEntry.setWrapStyleWord( true );
-			insideEntry.setText( quotedMessage );
-
-			JScrollPane insideScroll = new JScrollPane( insideEntry, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			JPanel insidePanel = new JPanel();
-			insidePanel.setLayout( new BorderLayout( 0, 0 ) );
-			insidePanel.add( JComponentUtilities.createLabel( "Inside Package", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-			insidePanel.add( insideScroll, BorderLayout.CENTER );
-
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new GridLayout( 2, 1, 10, 10 ) );
-			centerPanel.add( outsidePanel );
-			centerPanel.add( insidePanel );
-
-			add( centerPanel, BorderLayout.CENTER );
-		}
-
-		public void actionConfirmed()
+		public void actionPerformed( ActionEvent e )
 		{	(new SendGiftMessageThread()).start();
-		}
-
-		public void actionCancelled()
-		{
-			recipientEntry.setText( "" );
-			meatEntry.setText( "" );
-			insideEntry.setText( "" );
-			attachedItems.clear();
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			recipientEntry.setEnabled( isEnabled );
-			insideEntry.setEnabled( isEnabled );
-			attachSelect.setEnabled( isEnabled );
-			packageSelect.setEnabled( isEnabled );
-			attachButton.setEnabled( isEnabled );
 		}
 
 		private class SendGiftMessageThread extends RequestThread
@@ -194,10 +106,10 @@ public class GiftMessageFrame extends KoLFrame
 				if ( client == null )
 					return;
 
-				GiftMessagePanel.this.setEnabled( false );
-				(new GiftMessageRequest( client, recipientEntry.getText(), outsideEntry.getText(), insideEntry.getText(),
-					packageSelect.getSelectedItem(), attachedItems.toArray(), getValue( meatEntry ) )).run();
-				GiftMessagePanel.this.setEnabled( true );
+				GiftMessageFrame.this.setEnabled( false );
+				(new GiftMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), messageEntry[1].getText(),
+					packageSelect.getSelectedItem(), getAttachedItems(), getValue( quantities[11] ) )).run();
+				GiftMessageFrame.this.setEnabled( true );
 
 				if ( client.permitsContinue() )
 				{
@@ -209,48 +121,6 @@ public class GiftMessageFrame extends KoLFrame
 				else
 					client.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipientEntry.getText() );
 
-			}
-		}
-	}
-
-	/**
-	 * Internal class used to handle attaching items to the message.  This
-	 * is done by prompting the user with a dialog box where they choose
-	 * the item they wish to attach.  Note that only one of the item will
-	 * be attached at a time.  This item cannot be removed after attaching.
-	 */
-
-	private class AttachItemListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			try
-			{
-				Object [] items = client.getInventory().toArray();
-
-				if ( items.length == 0 )
-				{
-					JOptionPane.showMessageDialog( null, "KoLmafia does not detect any items in your inventory." );
-					return;
-				}
-
-				AdventureResult attachment = (AdventureResult) JOptionPane.showInputDialog(
-					null, "Add to gift...", "Input", JOptionPane.INFORMATION_MESSAGE, null, items, items[0] );
-
-				int defaultCount = attachment.getCount( client.getInventory() );
-				int attachmentCount = df.parse( JOptionPane.showInputDialog(
-					"Attaching " + attachment.getDisplayName() + "...", String.valueOf( defaultCount ) ) ).intValue();
-
-				if ( attachedItems.contains( attachment ) )
-					AdventureResult.addResultToList( attachedItems, attachment.getInstance( 0 - defaultCount ) );
-
-				AdventureResult.addResultToList( attachedItems, attachment.getInstance( attachmentCount ) );
-				attachedItems.setSelectedIndex( attachedItems.size() - 1 );
-			}
-			catch ( Exception e1 )
-			{
-				// If an exception happened, the attachment should not occur.
-				// Which means, if nothing is done, everything works great.
 			}
 		}
 	}

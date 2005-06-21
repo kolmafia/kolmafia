@@ -36,10 +36,10 @@ package net.sourceforge.kolmafia;
 
 // layout
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.CardLayout;
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
 
 // event listeners
 import java.awt.event.ActionListener;
@@ -47,32 +47,29 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 // containers
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
-import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
-import javax.swing.JOptionPane;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 // other imports
-import net.java.dev.spellcast.utilities.SortedListModel;
+import java.util.List;
+import java.util.ArrayList;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class GreenMessageFrame extends KoLFrame
+public class GreenMessageFrame extends SendMessageFrame
 {
-	private static final int COLS = 32;
-	private static final int ROWS = 8;
-
-	private JTextField recipientEntry;
-	private JTextField meatEntry;
-	private JTextArea messageEntry;
-	private JComboBox attachSelect;
-	private JButton attachButton;
-
-	private SortedListModel attachedItems;
-	private JLabel sendMessageStatus;
+	private static final String [] HEADERS = { "Send this message:" };
 
 	public GreenMessageFrame( KoLmafia client )
 	{	this( client, "" );
@@ -84,143 +81,44 @@ public class GreenMessageFrame extends KoLFrame
 
 	public GreenMessageFrame( KoLmafia client, String recipient, String quotedMessage )
 	{
-		super( "KoLmafia: Send a Green Message", client );
-
-		this.attachedItems = new SortedListModel();
-		this.contentPanel = new GreenMessagePanel( recipient, quotedMessage );
-
-		this.getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		this.getContentPane().add( contentPanel, "" );
-
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-		addWindowListener( new ReturnFocusAdapter() );
-		setResizable( false );
+		super( client, "KoLmafia: Send a Green Message", HEADERS );
+		recipientEntry.setText( recipient );
+		messageEntry[0].setText( quotedMessage );
+		sendMessageButton.addActionListener( new SendGreenMessageListener() );
 	}
 
-	public void setEnabled( boolean isEnabled )
+	/**
+	 * Internal class used to handle sending a green message to the server.
+	 */
+
+	private class SendGreenMessageListener implements ActionListener
 	{
-	}
-
-	private class GreenMessagePanel extends NonContentPanel
-	{
-		public GreenMessagePanel( String recipient, String quotedMessage )
-		{
-			super( "send", "clear", new Dimension( 80, 20 ), new Dimension( 320, 20 ) );
-
-			recipientEntry = new JTextField( recipient );
-			meatEntry = new JTextField();
-
-			JPanel attachPanel = new JPanel();
-			attachPanel.setLayout( new BorderLayout( 0, 0 ) );
-			attachSelect = new JComboBox( attachedItems );
-			attachPanel.add( attachSelect, BorderLayout.CENTER );
-			attachButton = new JButton( JComponentUtilities.getSharedImage( "icon_plus.gif" ) );
-			JComponentUtilities.setComponentSize( attachButton, 20, 20 );
-			attachButton.addActionListener( new AttachItemListener() );
-			attachPanel.add( attachButton, BorderLayout.EAST );
-
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Target:  ", recipientEntry );
-			elements[1] = new VerifiableElement( "Items:  ", attachPanel );
-			elements[2] = new VerifiableElement( "Meat: ", meatEntry );
-
-			setContent( elements );
-
-			messageEntry = new JTextArea( ROWS, COLS );
-			messageEntry.setLineWrap( true );
-			messageEntry.setWrapStyleWord( true );
-			messageEntry.setText( quotedMessage );
-			JScrollPane scrollArea = new JScrollPane( messageEntry,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			add( scrollArea, BorderLayout.CENTER );
-		}
-
-		public void actionConfirmed()
+		public void actionPerformed( ActionEvent e )
 		{	(new SendGreenMessageThread()).start();
-		}
-
-		public void actionCancelled()
-		{
-			recipientEntry.setText( "" );
-			meatEntry.setText( "" );
-			messageEntry.setText( "" );
-			attachedItems.clear();
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			recipientEntry.setEnabled( isEnabled );
-			messageEntry.setEnabled( isEnabled );
-			attachSelect.setEnabled( isEnabled );
-			attachButton.setEnabled( isEnabled );
 		}
 
 		private class SendGreenMessageThread extends RequestThread
 		{
 			public void run()
 			{
-				if ( client == null )
-					return;
-
-				GreenMessagePanel.this.setEnabled( false );
-				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry.getText(), attachedItems.toArray(),
-					getValue( meatEntry ) )).run();
-				GreenMessagePanel.this.setEnabled( true );
+				GreenMessageFrame.this.setEnabled( false );
+				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getValue( quantities[11] ) )).run();
+				GreenMessageFrame.this.setEnabled( true );
 
 				if ( client.permitsContinue() )
 				{
 					client.updateDisplay( ENABLED_STATE, "Message sent to " + recipientEntry.getText() );
+					sendMessageStatus.setText( "Message sent to " + recipientEntry.getText() );
+
 					String closeWindowSetting = client.getSettings().getProperty( "closeSending" );
 					if ( closeWindowSetting != null && closeWindowSetting.equals( "true" ) )
 						GreenMessageFrame.this.dispose();
 				}
 				else
-					client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipientEntry.getText() );
-
-			}
-		}
-	}
-
-	/**
-	 * Internal class used to handle attaching items to the message.  This
-	 * is done by prompting the user with a dialog box where they choose
-	 * the item they wish to attach.  Note that only one of the item will
-	 * be attached at a time.  This item cannot be removed after attaching.
-	 */
-
-	private class AttachItemListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			try
-			{
-				Object [] items = client.getInventory().toArray();
-
-				if ( items.length == 0 )
 				{
-					JOptionPane.showMessageDialog( null, "KoLmafia does not detect any items in your inventory." );
-					return;
+					client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipientEntry.getText() );
+					sendMessageStatus.setText( "Failed to send message to " + recipientEntry.getText() );
 				}
-
-				AdventureResult attachment = (AdventureResult) JOptionPane.showInputDialog(
-					null, "Attach to message...", "Input", JOptionPane.INFORMATION_MESSAGE, null, items, items[0] );
-
-				int defaultCount = attachment.getCount( client.getInventory() );
-				int attachmentCount = df.parse( JOptionPane.showInputDialog(
-					"Attaching " + attachment.getDisplayName() + "...", String.valueOf( defaultCount ) ) ).intValue();
-
-				if ( attachedItems.contains( attachment ) )
-					AdventureResult.addResultToList( attachedItems, attachment.getInstance( 0 - defaultCount ) );
-
-				AdventureResult.addResultToList( attachedItems, attachment.getInstance( attachmentCount ) );
-				attachedItems.setSelectedIndex( attachedItems.size() - 1 );
-			}
-			catch ( Exception e1 )
-			{
-				// If an exception happened, the attachment should not occur.
-				// Which means, if nothing is done, everything works great.
 			}
 		}
 	}
@@ -232,7 +130,7 @@ public class GreenMessageFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame test = new GreenMessageFrame( null );
+		JFrame test = new GreenMessageFrame( null );
 		test.pack();  test.setVisible( true );  test.requestFocus();
 	}
 }
