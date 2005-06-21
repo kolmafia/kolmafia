@@ -34,16 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.BufferedReader;
-
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
-
-import net.java.dev.spellcast.utilities.DataUtilities;
+import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
@@ -85,11 +79,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			try
 			{
-				if ( data.length > 4 )
+				if ( data.length > 2 )
 				{
 					item = AdventureResult.parseResult( data[0] );
 					itemID = item.getItemID();
-					mixingMethod = Integer.parseInt( data[2] );
+					mixingMethod = Integer.parseInt( data[1] );
 
 					concoctions[itemID] = new Concoction( item, mixingMethod );
 
