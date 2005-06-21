@@ -133,6 +133,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
+	static { System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" ); };
+
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
 	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher" };
 

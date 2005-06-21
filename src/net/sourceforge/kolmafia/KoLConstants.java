@@ -52,8 +52,6 @@ public interface KoLConstants extends UtilityConstants
 	public static final int ENABLED_STATE  = 2;
 	public static final int DISABLED_STATE = 3;
 
-	public static final String SHARED_MODULE_DIRECTORY = "net/sourceforge/kolmafia/";
-
 	public class RequestThread extends Thread
 	{
 		public RequestThread()

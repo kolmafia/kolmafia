@@ -750,7 +750,6 @@ public class BuffBotFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		System.setProperty( "SHARED_MODULE_DIRECTORY", SHARED_MODULE_DIRECTORY );
 		KoLFrame uitest = new BuffBotFrame( null );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}

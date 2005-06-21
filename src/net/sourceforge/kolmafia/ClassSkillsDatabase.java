@@ -34,15 +34,9 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.BufferedReader;
-
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.StringTokenizer;
-
-import net.java.dev.spellcast.utilities.DataUtilities;
+import java.io.BufferedReader;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -52,10 +46,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
  * load, this item list is stored within the JAR archive.
  */
 
-public class ClassSkillsDatabase
+public class ClassSkillsDatabase extends KoLDatabase
 {
-	private static final String SKILLS_DBASE_FILE = "classskills.dat";
-
 	private static Map skillByID = new TreeMap();
 	private static Map skillByName = new TreeMap();
 	private static Map mpConsumptionByID = new TreeMap();
@@ -68,35 +60,26 @@ public class ClassSkillsDatabase
 		// examined and double-referenced: once in the name-lookup,
 		// and again in the ID lookup.
 
-		BufferedReader skillsdata = DataUtilities.getReaderForSharedDataFile( SKILLS_DBASE_FILE );
+		BufferedReader reader = getReader( "classskills.dat" );
 
-		try
+		String [] data;
+		Integer skillID, buffOrSkill, mpConsumption;
+		String skillName;
+
+		while ( (data = readData( reader )) != null )
 		{
-			String line;
-			while ( (line = skillsdata.readLine()) != null )
+			if ( data.length == 4 )
 			{
-				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 4 )
-				{
-					Integer skillID = Integer.valueOf( strtok.nextToken() );
-					Integer buffOrSkill = Integer.valueOf( strtok.nextToken() );
-					Integer mpConsumption = Integer.valueOf( strtok.nextToken() );
-					String skillName = strtok.nextToken();
+				skillID = Integer.valueOf( data[0] );
+				buffOrSkill = Integer.valueOf( data[1] );
+				mpConsumption = Integer.valueOf( data[2] );
+				skillName = getDisplayName( data[3] );
 
-					skillByID.put( skillID, skillName );
-					skillByName.put( skillName.toLowerCase(), skillID );
-					mpConsumptionByID.put( skillID, mpConsumption );
-					buffOrSkillByID.put( skillID, buffOrSkill );
-				}
+				skillByID.put( skillID, skillName );
+				skillByName.put( getCanonicalName( data[3] ), skillID );
+				mpConsumptionByID.put( skillID, mpConsumption );
+				buffOrSkillByID.put( skillID, buffOrSkill );
 			}
-		}
-		catch ( IOException e )
-		{
-			// If an IOException is thrown, that means there was
-			// a problem reading in the appropriate data file;
-			// that means that no item database exists.  This
-			// exception is strange enough that it won't be
-			// handled at the current time.
 		}
 	}
 
@@ -107,7 +90,7 @@ public class ClassSkillsDatabase
 	 */
 
 	public static final String getSkillName( int skillID )
-	{	return ((String) skillByID.get( new Integer( skillID ) )).replaceAll( "&ntilde;", "ñ" );
+	{	return (String) skillByID.get( new Integer( skillID ) );
 	}
 
 	/**
@@ -118,7 +101,7 @@ public class ClassSkillsDatabase
 
 	public static final int getSkillID( String skillName )
 	{
-		Object skillID = skillByName.get( skillName.toLowerCase().replaceAll( "ñ", "&ntilde;" ) );
+		Object skillID = skillByName.get( getCanonicalName( skillName ) );
 		return skillID == null ? -1 : ((Integer)skillID).intValue();
 	}
 
@@ -159,6 +142,6 @@ public class ClassSkillsDatabase
 	 */
 
 	public static final boolean contains( String skillName )
-	{	return skillByName.containsKey( skillName.toLowerCase().replaceAll( "ñ", "&ntilde;" ) );
+	{	return skillByName.containsKey( getCanonicalName( skillName ) );
 	}
 }

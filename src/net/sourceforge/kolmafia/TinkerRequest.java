@@ -83,7 +83,7 @@ public class TinkerRequest extends ItemCreationRequest
 		for ( int i = 1; i <= getQuantityNeeded(); ++i )
 		{
 			// Disable controls
-			updateDisplay( DISABLED_STATE, "Creating " + getDisplayName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
+			updateDisplay( DISABLED_STATE, "Creating " + getName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
 
 			// Run the request
 			super.run();

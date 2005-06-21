@@ -107,6 +107,10 @@ public class AdventureResult implements Comparable, KoLConstants
 		this.itemID = TradeableItemDatabase.getItemID( name );
 	}
 
+	public AdventureResult( int itemID, int count )
+	{	this( TradeableItemDatabase.getItemName( itemID ), count );
+	}
+
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name
 	 * which increased/decreased by the given value.  This constructor
@@ -121,21 +125,17 @@ public class AdventureResult implements Comparable, KoLConstants
 		this( name, new int[1] );
 
 		if ( isStatusEffect() )
-                {
+		{
+			this.itemID = -1;
 			this.name = StatusEffectDatabase.getEffectName( StatusEffectDatabase.getEffectID( name ) );
-                        this.itemID = -1;
-                }
-                else
-                        this.itemID = TradeableItemDatabase.getItemID( name );
+		}
+		else
+		{
+			this.itemID = TradeableItemDatabase.getItemID( name );
+			this.name = TradeableItemDatabase.getItemName( this.itemID );
+		}
 
 		this.count[0] = count;
-	}
-
-	public AdventureResult( int itemID, int count )
-	{
-		this( TradeableItemDatabase.getItemName( itemID ), new int[1] );
-		this.count[0] = count;
-		this.itemID = itemID;
 	}
 
 	/**
@@ -245,14 +245,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public String getDisplayName()
-	{
-          if ( isItem())
-                  return TradeableItemDatabase.getItemDisplayName( itemID );
-
-          if ( isStatusEffect())
-                  return StatusEffectDatabase.getEffectDisplayName( itemID );
-
-          return name;
+	{	return name;
 	}
 
 	/**
@@ -379,16 +372,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( name.equals(DIVIDER) )
 			return DIVIDER;
 
-                String stringName;
-
-		if ( isStatusEffect() )
-                        stringName = StatusEffectDatabase.getEffectDisplayName( name );
-                else if ( isItem() )
-                        stringName = TradeableItemDatabase.getItemDisplayName( itemID );
-                else
-                        stringName = name;
-
-                return stringName + " (" + df.format(count[0]) + ")";
+		return name + " (" + df.format(count[0]) + ")";
 	}
 
 	/**
@@ -523,11 +507,9 @@ public class AdventureResult implements Comparable, KoLConstants
 				return defaultComponent;
 
 			AdventureResult ar = (AdventureResult) value;
-
-			String stringName = TradeableItemDatabase.getItemDisplayName( ar.itemID);
-
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
-			String stringForm = stringName + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
+
+			String stringForm = ar.getName() + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
 				((ar.count[0] == 1) ? "" : (" (" + df.format(ar.count[0]) + ")"));
 
 			((JLabel) defaultComponent).setText( stringForm );

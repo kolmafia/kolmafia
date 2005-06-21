@@ -557,15 +557,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	}
 
 	/**
-	 * Returns the display name of the item created by this request.
-	 * @return	The name of the item being created
-	 */
-
-	public String getDisplayName()
-	{	return TradeableItemDatabase.getItemDisplayName( itemID );
-	}
-
-	/**
 	 * Returns the quantity of items to be created by this request
 	 * if it were to run right now.
 	 */
@@ -595,7 +586,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public String toString()
-	{	return getDisplayName() + " (" + quantityNeeded + ")";
+	{	return getName() + " (" + quantityNeeded + ")";
 	}
 
 	/**

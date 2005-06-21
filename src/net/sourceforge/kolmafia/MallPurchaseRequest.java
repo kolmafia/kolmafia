@@ -109,7 +109,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( TradeableItemDatabase.getItemName( itemID ) == null )
 			TradeableItemDatabase.registerItem( client, itemID, itemName );
 
-		this.itemName = TradeableItemDatabase.getItemDisplayName( this.itemID );
+		this.itemName = TradeableItemDatabase.getItemName( this.itemID );
 
 		this.shopID = shopID;
 		this.shopName = shopName;
@@ -225,9 +225,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		updateDisplay( DISABLED_STATE, "Purchasing " +
-                               TradeableItemDatabase.getItemDisplayName(itemID) +
-                               " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
+		updateDisplay( DISABLED_STATE, "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
 
 		super.run();
 

@@ -422,7 +422,7 @@ public class StoreManageFrame extends KoLFrame
 		{
 			StoreManager.SoldItem smsi = (StoreManager.SoldItem) value;
 
-			itemName.setText( TradeableItemDatabase.getItemDisplayName( smsi.getItemID() ) );
+			itemName.setText( TradeableItemDatabase.getItemName( smsi.getItemID() ) );
 			itemQuantity.setText( df.format( smsi.getQuantity() ) );
 			itemPrice.setText( df.format( smsi.getPrice() ) );
 			itemLimit.setText( df.format( smsi.getLimit() ) );
@@ -505,7 +505,6 @@ public class StoreManageFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		System.setProperty( "SHARED_MODULE_DIRECTORY", SHARED_MODULE_DIRECTORY );
 		KoLFrame uitest = new StoreManageFrame( null );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}

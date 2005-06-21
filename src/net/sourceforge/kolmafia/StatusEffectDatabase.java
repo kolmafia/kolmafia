@@ -52,10 +52,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
  * load, this item list is stored within the JAR archive.
  */
 
-public class StatusEffectDatabase
+public class StatusEffectDatabase extends KoLDatabase
 {
-	private static final String EFFECT_DBASE_FILE = "statuseffects.dat";
-
 	private static Map effectByID = new TreeMap();
 	private static Map effectByName = new TreeMap();
 
@@ -66,31 +64,19 @@ public class StatusEffectDatabase
 		// examined and double-referenced: once in the name-lookup,
 		// and again in the ID lookup.
 
-		BufferedReader effectdata = DataUtilities.getReaderForSharedDataFile( EFFECT_DBASE_FILE );
+		BufferedReader reader = getReader( "statuseffects.dat" );
 
-		try
+		String [] data;
+		Integer effectID;
+
+		while ( (data = readData( reader )) != null )
 		{
-			String line;
-			while ( (line = effectdata.readLine()) != null )
+			if ( data.length == 3 )
 			{
-				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 3 )
-				{
-					Integer effectID = Integer.valueOf( strtok.nextToken() );
-					strtok.nextToken();
-					String effectName = strtok.nextToken();
-					effectByID.put( effectID, effectName );
-					effectByName.put( effectName, effectID );
-				}
+				effectID = Integer.valueOf( data[0] );
+				effectByID.put( effectID, getDisplayName( data[2] ) );
+				effectByName.put( getCanonicalName( data[2] ), effectID );
 			}
-		}
-		catch ( IOException e )
-		{
-			// If an IOException is thrown, that means there was
-			// a problem reading in the appropriate data file;
-			// that means that no item database exists.  This
-			// exception is strange enough that it won't be
-			// handled at the current time.
 		}
 	}
 
@@ -101,32 +87,7 @@ public class StatusEffectDatabase
 	 */
 
 	public static final String getEffectName( int effectID )
-	{
-                if ( effectID == -1)
-                        return "Unknown effect";
-                return ((String) effectByID.get( new Integer( effectID ) ));
-	}
-
-	/**
-	 * Returns the name for an effect, given its ID.
-	 * @param	name	The name of the effect to lookup
-	 * @return	The display name of the corresponding effect
-	 */
-
-	public static final String getEffectDisplayName( String name )
-	{
-                return name.replaceAll( "&ntilde;", "ñ" );
-	}
-
-	/**
-	 * Returns the name for an effect, given its ID.
-	 * @param	effectID	The ID of the effect to lookup
-	 * @return	The display name of the corresponding effect
-	 */
-
-	public static final String getEffectDisplayName( int effectID )
-	{
-                return getEffectDisplayName( getEffectName( effectID ) );
+	{	return effectID == -1 ? "Unknown effect" : ((String) effectByID.get( new Integer( effectID ) ));
 	}
 
 	/**
@@ -137,7 +98,7 @@ public class StatusEffectDatabase
 
 	public static final int getEffectID( String effectName )
 	{
-		Object effectID = effectByName.get( effectName );
+		Object effectID = effectByName.get( getCanonicalName( effectName ) );
 		return effectID == null ? -1 : ((Integer)effectID).intValue();
 	}
 
@@ -151,6 +112,6 @@ public class StatusEffectDatabase
 	 */
 
 	public static final boolean contains( String effectName )
-	{	return effectByName.containsKey( effectName.replaceAll( "ñ", "&ntilde;" ) );
+	{	return effectByName.containsKey( getCanonicalName( effectName ) );
 	}
 }

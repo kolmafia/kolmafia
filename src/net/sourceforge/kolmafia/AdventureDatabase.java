@@ -34,16 +34,9 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.BufferedReader;
-
 import java.util.List;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
-
-import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
+import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -51,39 +44,24 @@ import net.java.dev.spellcast.utilities.LockableListModel;
  * available to <code>KoLmafia</code>.
  */
 
-public class AdventureDatabase implements UtilityConstants
+public class AdventureDatabase extends KoLDatabase
 {
-	private static final String ADV_DBASE_FILE = "adventures.dat";
 	private static List [] adventureTable;
 
 	static
 	{
-		BufferedReader advdata = DataUtilities.getReaderForSharedDataFile( ADV_DBASE_FILE );
-
+		BufferedReader reader = getReader( "adventures.dat" );
 		adventureTable = new ArrayList[3];
 		for ( int i = 0; i < 3; ++i )
 			adventureTable[i] = new ArrayList();
 
-		try
-		{
-			String line;
-			while ( (line = advdata.readLine()) != null )
-			{
-				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 3 )
-					for ( int i = 0; i < 3; ++i )
-						adventureTable[i].add( strtok.nextToken() );
-			}
-		}
-		catch ( IOException e )
-		{
-			// If an IOException is thrown, that means there was
-			// a problem reading in the appropriate data file;
-			// that means that no adventures can be done.  However,
-			// the adventures data file should always be present.
+		String [] data;
 
-			// The exception is strange enough that it won't be
-			// handled at the current time.
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length == 3 )
+				for ( int i = 0; i < 3; ++i )
+					adventureTable[i].add( data[i] );
 		}
 	}
 

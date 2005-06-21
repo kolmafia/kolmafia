@@ -35,59 +35,63 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
-import java.util.List;
-import java.util.ArrayList;
+import net.java.dev.spellcast.utilities.DataUtilities;
 
-/**
- * A static class which retrieves all the NPC stores currently
- * available to <code>KoLmafia</code>.
- */
-
-public class NPCStoreDatabase extends KoLDatabase
+public class KoLDatabase implements KoLConstants
 {
-	private static List [] npcstoreTable;
+	static { System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" ); };
 
-	static
+	protected static BufferedReader getReader( String file )
+	{	return DataUtilities.getReaderForSharedDataFile( file );
+	}
+
+	protected static String [] readData( BufferedReader reader )
 	{
-		BufferedReader reader = getReader( "classskills.dat" );
-
-		npcstoreTable = new ArrayList[5];
-		for ( int i = 0; i < 5; ++i )
-			npcstoreTable[i] = new ArrayList();
-
-		String [] data;
-
-		while ( (data = readData( reader )) != null )
+		try
 		{
-			if ( data.length == 4 )
-			{
-				for ( int i = 0; i < 4; ++i )
-					npcstoreTable[i].add( data[i] );
+			String line;
 
-				npcstoreTable[4].add( TradeableItemDatabase.getItemName( Integer.parseInt( data[2] ) ) );
-			}
+			// Read in all of the comment lines, or until
+			// the end of file, whichever comes first.
+
+			while ( (line = reader.readLine()) != null && line.startsWith( "#" ) );
+
+			// If you've reached the end of file, then
+			// return null.  Otherwise, return the line
+			// that's been split on tabs.
+
+			return line == null ? null : line.split( "\t" );
+		}
+		catch ( Exception e )
+		{
+			// If an exception is caught while attempting
+			// to retrieve the next tokenizer, return null.
+
+			return null;
 		}
 	}
 
-	public static final MallPurchaseRequest getPurchaseRequest( KoLmafia client, String itemName )
-	{
-		List itemNames = npcstoreTable[4];
-		int itemIndex = itemNames.indexOf( itemName );
+	/**
+	 * Returns the canonicalized name, where all symbols are
+	 * replaced with their HTML representations.
+	 *
+	 * @param	name	The name to be canonicalized
+	 * @return	The canonicalized name
+	 */
 
-		return itemIndex == -1 ? null :
-			new MallPurchaseRequest( client, (String) npcstoreTable[1].get(itemIndex), (String) npcstoreTable[0].get(itemIndex),
-				Integer.parseInt( (String) npcstoreTable[2].get(itemIndex) ), Integer.parseInt( (String) npcstoreTable[3].get(itemIndex) ) );
+	public static final String getCanonicalName( String name )
+	{	return name == null ? null : name.toLowerCase().replaceAll( "ñ", "&ntilde;" ).replaceAll( " \\[tm\\]", "&trade;" );
 	}
 
-	public static final boolean contains( String itemName )
-	{	return npcstoreTable[4].contains( itemName );
-	}
+	/**
+	 * Returns the display name name, where all HTML representations
+	 * are replaced with their appropriate display symbols.
+	 *
+	 * @param	name	The name to be transformed to display form
+	 * @return	The display form of the given name
+	 */
 
-	public static final int getNPCStorePrice( String itemName )
-	{
-		List itemNames = npcstoreTable[4];
-		int itemIndex = itemNames.indexOf( itemName );
-
-		return itemIndex == -1 ? 0 : Integer.parseInt( (String) npcstoreTable[3].get(itemIndex) );
+	public static final String getDisplayName( String name )
+	{	return name == null ? null : name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" );
 	}
 }

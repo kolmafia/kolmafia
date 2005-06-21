@@ -55,11 +55,9 @@ import net.java.dev.spellcast.utilities.SortedListModel;
  * flow-control using exceptions, but that hasn't been changed.
  */
 
-public class ConcoctionsDatabase
+public class ConcoctionsDatabase extends KoLDatabase
 {
-	protected static final SortedListModel concoctionsList = new SortedListModel();
-
-	private static final String ITEM_DBASE_FILE = "concoctions.dat";
+	public static final SortedListModel concoctionsList = new SortedListModel();
 	public static final int ITEM_COUNT = TradeableItemDatabase.ITEM_COUNT;
 
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
@@ -77,48 +75,38 @@ public class ConcoctionsDatabase
 		// examined and double-referenced: once in the name-lookup,
 		// and again in the ID lookup.
 
-		BufferedReader itemdata = DataUtilities.getReaderForSharedDataFile( ITEM_DBASE_FILE );
+		BufferedReader reader = getReader( "concoctions.dat" );
 
-		try
+		String [] data;
+		int itemID, mixingMethod;
+		AdventureResult item;
+
+		while ( (data = readData( reader )) != null )
 		{
-			String line;
-			AdventureResult item;
-			int mixingMethod;
-
-			StringTokenizer strtok;
-
-			while ( (line = itemdata.readLine()) != null )
+			try
 			{
-				// Skip blank lines and comments
-
-				if (line.length() < 1 || line.charAt(0) == '#')
-					continue;
-
-				strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() > 2 )
+				if ( data.length > 4 )
 				{
-					item = AdventureResult.parseResult( strtok.nextToken() );
-					mixingMethod = Integer.parseInt( strtok.nextToken() );
+					item = AdventureResult.parseResult( data[0] );
+					itemID = item.getItemID();
+					mixingMethod = Integer.parseInt( data[2] );
 
-					concoctions[ item.getItemID() ] = new Concoction( item, mixingMethod );
+					concoctions[itemID] = new Concoction( item, mixingMethod );
 
-					while ( strtok.hasMoreTokens() )
-						concoctions[ item.getItemID() ].addIngredient( AdventureResult.parseResult( strtok.nextToken() ) );
+					for ( int i = 2; i < data.length; ++i )
+						concoctions[itemID].addIngredient( AdventureResult.parseResult( data[i] ) );
 				}
 			}
+			catch ( Exception e )
+			{
+				// If an exception is thrown, then something bad
+				// happened, so do absolutely nothing.
+			}
+		}
 
-			for ( int i = 0; i < ITEM_COUNT; ++i )
-				if ( concoctions[i] == null )
-					concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE );
-		}
-		catch ( Exception e )
-		{
-			// If an IOException is thrown, that means there was
-			// a problem reading in the appropriate data file;
-			// that means that no item database exists.  This
-			// exception is strange enough that it won't be
-			// handled at the current time.
-		}
+		for ( int i = 0; i < ITEM_COUNT; ++i )
+			if ( concoctions[i] == null )
+				concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE );
 	}
 
 	public static SortedListModel getConcoctions()

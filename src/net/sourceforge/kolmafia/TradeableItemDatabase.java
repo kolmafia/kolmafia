@@ -34,20 +34,12 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.StringTokenizer;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import net.java.dev.spellcast.utilities.DataUtilities;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -57,10 +49,10 @@ import net.java.dev.spellcast.utilities.DataUtilities;
  * load, this item list is stored within the JAR archive.
  */
 
-public class TradeableItemDatabase
+public class TradeableItemDatabase extends KoLDatabase
 {
 	private static final String ITEM_DBASE_FILE = "tradeitems.dat";
-	public static final int ITEM_COUNT = 1300;
+	public static final int ITEM_COUNT = 1500;
 
 	private static String [] itemByID = new String[ ITEM_COUNT ];
 	private static int [] consumptionID = new int[ ITEM_COUNT ];
@@ -74,34 +66,23 @@ public class TradeableItemDatabase
 		// examined and double-referenced: once in the name-lookup,
 		// and again in the ID lookup.
 
-		BufferedReader itemdata = DataUtilities.getReaderForSharedDataFile( ITEM_DBASE_FILE );
+		BufferedReader reader = getReader( "tradeitems.dat" );
 
-		try
+		String [] data;
+		int itemID;
+
+		while ( (data = readData( reader )) != null )
 		{
-			String line;
-			while ( (line = itemdata.readLine()) != null )
+			if ( data.length == 4 )
 			{
-				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 4 )
-				{
-					int itemID = Integer.parseInt( strtok.nextToken() );
-					String itemName = strtok.nextToken();
+				itemID = Integer.parseInt( data[0] );
 
-					consumptionID[ itemID ] = Integer.parseInt( strtok.nextToken() );
-					priceByID[ itemID ] = Integer.parseInt( strtok.nextToken() );
+				consumptionID[ itemID ] = Integer.parseInt( data[2] );
+				priceByID[ itemID ] = Integer.parseInt( data[3] );
 
-					itemByID[ itemID ] = itemName;
-					itemByName.put( itemName.toLowerCase(), new Integer( itemID ) );
-				}
+				itemByID[ itemID ] = getDisplayName( data[1] );
+				itemByName.put( getCanonicalName( data[1] ), new Integer( itemID ) );
 			}
-		}
-		catch ( IOException e )
-		{
-			// If an IOException is thrown, that means there was
-			// a problem reading in the appropriate data file;
-			// that means that no item database exists.  This
-			// exception is strange enough that it won't be
-			// handled at the current time.
 		}
 	}
 
@@ -113,12 +94,12 @@ public class TradeableItemDatabase
 
 	public static void registerItem( KoLmafia client, int itemID, String itemName )
 	{
-                client.getLogStream().println( "New item: \"" + itemName + "\" (" + itemID + ")");
+		client.getLogStream().println( "New item: \"" + itemName + "\" (" + itemID + ")" );
 
 		consumptionID[ itemID ] = 0;
 		priceByID[ itemID ] = 0;
-
 		itemByID[ itemID ] = itemName;
+
 		itemByName.put( itemName.toLowerCase(), new Integer( itemID ) );
 	}
 
@@ -130,18 +111,17 @@ public class TradeableItemDatabase
 
 	public static final int getItemID( String itemName )
 	{
-                if ( itemName == "ice-cold beer (Schlitz)" )
-                        return 41;
+		if ( itemName == null )
+			return -1;
 
-                if ( itemName == "ice-cold beer (Willer)" )
-                        return 81;
+		if ( itemName.equals( "ice-cold beer (Schlitz)" ) )
+			return 41;
 
-		Object itemID = itemByName.get( canonicalizeDisplayName( itemName) );
+		if ( itemName.equals( "ice-cold beer (Willer)" ) )
+			return 81;
 
-                if (itemID == null)
-                        return -1;
-
-                return ((Integer)itemID).intValue();
+		Object itemID = itemByName.get( getCanonicalName( itemName ) );
+		return itemID == null ? -1 : ((Integer)itemID).intValue();
 	}
 
 	/**
@@ -161,49 +141,9 @@ public class TradeableItemDatabase
 
 	public static final String getItemName( int itemID )
 	{
-                if ( itemID < 0 || itemID > ITEM_COUNT )
-                        return null;
-
-                if ( itemByID[ itemID ] == null )
-                        return null;
-
-                return itemByID[ itemID ];
+		return itemID < 0 || itemID > ITEM_COUNT ? null :
+			itemID == 41 ? "ice-cold beer (Schlitz)" : itemID == 81 ? "ice-cold beer (Willer)" : itemByID[ itemID ];
 	}
-
-	/**
-	 * Returns the display name for an item, given its ID number.
-	 * @param	itemID	The ID number of the item to lookup
-	 * @return	The name of the corresponding item
-	 */
-
-	public static final String getItemDisplayName( int itemID )
-        {
-                if ( itemID < 0 || itemID > ITEM_COUNT )
-                        return null;
-
-                if ( itemID == 41 )
-                        return "ice-cold beer (Schlitz)";
-
-                if ( itemID == 81 )
-                        return "ice-cold beer (Willer)";
-
-                if ( itemByID[ itemID ] == null )
-                        return null;
-
-                return itemByID[ itemID ].replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" );
-	}
-
-
-	/**
-	 * Returns the display name for an item, given its name.
-	 * @param	name	The name to be canonicalized
-	 * @return	The name of the corresponding item
-	 */
-
-	public static final String canonicalizeDisplayName( String name )
-        {
-                return name.toLowerCase().replaceAll( "ñ", "&ntilde;" ).replaceAll( " \\[tm\\]", "&trade;" );
-        }
 
 	/**
 	 * Returns a list of all items which contain the given
@@ -222,7 +162,7 @@ public class TradeableItemDatabase
 		{
 			currentItemName = (String) completeItems.next();
 			if ( currentItemName.indexOf( searchString ) != -1 )
-				substringList.add( getItemDisplayName( getItemID( currentItemName ) ) );
+				substringList.add( getItemName( getItemID( currentItemName ) ) );
 		}
 
 		return substringList;
@@ -238,9 +178,7 @@ public class TradeableItemDatabase
 	 */
 
 	public static final boolean contains( String itemName )
-	{
-                String name = canonicalizeDisplayName(itemName);
-	        return itemByName.containsKey( name );
+	{	return itemByName.containsKey( getCanonicalName( itemName ) );
 	}
 
 	/**
@@ -268,21 +206,5 @@ public class TradeableItemDatabase
 	{
 		int itemID = getItemID( itemName );
 		return itemID == -1 ? ConsumeItemRequest.NO_CONSUME : consumptionID[ itemID ];
-	}
-
-	public static void main( String [] args ) throws Exception
-	{
-		BufferedReader buf = new BufferedReader( new InputStreamReader( System.in ) );
-		String line;
-
-		while ( (line = buf.readLine()) != null )
-		{
-			List matchingNames = getMatchingNames( line );
-			for ( int i = 0; i < matchingNames.size(); ++i )
-				System.out.println( getItemID( (String) matchingNames.get(i) ) + ": " + matchingNames.get(i) );
-
-			if ( matchingNames.size() == 0 )
-				System.out.println( "No matching items found." );
-		}
 	}
 }

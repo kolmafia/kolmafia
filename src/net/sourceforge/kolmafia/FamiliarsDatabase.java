@@ -34,16 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.BufferedReader;
-
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Iterator;
-import java.util.StringTokenizer;
-
-import net.java.dev.spellcast.utilities.DataUtilities;
+import java.io.BufferedReader;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -53,9 +47,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
  * load, this item list is stored within the JAR archive.
  */
 
-public class FamiliarsDatabase
+public class FamiliarsDatabase extends KoLDatabase
 {
-	private static final String FAMILIAR_DBASE_FILE = "familiars.dat";
 	private static final String DEFAULT_LARVA = "steaming evil";
 	private static final String DEFAULT_ITEM = "steaming evil";
 
@@ -71,35 +64,25 @@ public class FamiliarsDatabase
 		// examined and double-referenced: once in the name-lookup,
 		// and again in the ID lookup.
 
-		BufferedReader familiardata = DataUtilities.getReaderForSharedDataFile( FAMILIAR_DBASE_FILE );
+		BufferedReader reader = getReader( "familiars.dat" );
 
-		try
+		String [] data;
+		Integer familiarID;
+		String familiarLarva, familiarName;
+
+		while ( (data = readData( reader )) != null )
 		{
-			String line;
-			while ( (line = familiardata.readLine()) != null )
+			if ( data.length == 4 )
 			{
-				StringTokenizer strtok = new StringTokenizer( line, "\t" );
-				if ( strtok.countTokens() == 4 )
-				{
-					Integer familiarID = Integer.valueOf( strtok.nextToken() );
-					String familiarLarva = TradeableItemDatabase.getItemName( Integer.parseInt( strtok.nextToken() ) );
-					String familiarName = strtok.nextToken();
-					String familiarItem = strtok.nextToken();
+				familiarID = Integer.valueOf( data[0] );
+				familiarLarva = TradeableItemDatabase.getItemName( Integer.parseInt( data[1] ) );
+				familiarName = getDisplayName( data[2] );
 
-					familiarByID.put( familiarID, familiarName );
-					familiarByName.put( familiarName.toLowerCase(), familiarID );
-					familiarByLarva.put( familiarLarva, familiarID );
-					familiarItemByID.put( familiarID, familiarItem );
-				}
+				familiarByID.put( familiarID, familiarName );
+				familiarByName.put( getCanonicalName( data[2] ), familiarID );
+				familiarByLarva.put( familiarLarva, familiarName );
+				familiarItemByID.put( familiarID, getDisplayName( data[3] ) );
 			}
-		}
-		catch ( IOException e )
-		{
-			// If an IOException is thrown, that means there was
-			// a problem reading in the appropriate data file;
-			// that means that no item database exists.  This
-			// exception is strange enough that it won't be
-			// handled at the current time.
 		}
 	}
 
@@ -185,6 +168,6 @@ public class FamiliarsDatabase
 	 */
 
 	public static final boolean contains( String familiarName )
-	{	return familiarByName.containsKey( familiarName.toLowerCase() );
+	{	return familiarByName.containsKey( getCanonicalName( familiarName ) );
 	}
 }

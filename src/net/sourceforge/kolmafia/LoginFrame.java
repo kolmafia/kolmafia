@@ -496,7 +496,6 @@ public class LoginFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		System.setProperty( "SHARED_MODULE_DIRECTORY", SHARED_MODULE_DIRECTORY );
 		KoLFrame uitest = new LoginFrame( null, new SortedListModel() );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
