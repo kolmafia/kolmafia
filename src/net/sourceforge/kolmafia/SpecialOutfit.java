@@ -49,6 +49,14 @@ public class SpecialOutfit
 	private int outfitID;
 	private String outfitName;
 
+	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
+
+	private SpecialOutfit()
+	{
+		this.outfitID = Integer.MAX_VALUE;
+		this.outfitName = "Birthday Suit";
+	}
+
 	/**
 	 * Constructs a new <code>SpecialOutfit</code> from the given
 	 * HTML.  The HTML should include the option value as well

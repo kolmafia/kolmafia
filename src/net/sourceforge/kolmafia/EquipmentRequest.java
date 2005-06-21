@@ -59,7 +59,7 @@ public class EquipmentRequest extends KoLRequest
 
 	private KoLCharacter character;
 	private int requestType;
-	private String outfitName;
+	private SpecialOutfit outfit;
 
 	/**
 	 * Constructs a new <code>EquipmentRequest</code>, overwriting the
@@ -81,7 +81,7 @@ public class EquipmentRequest extends KoLRequest
 		// Otherwise, add the form field indicating which page
 		// of the inventory you want to request
 
-		this.outfitName = null;
+		this.outfit = null;
 		if ( requestType == EQUIPMENT )
 			addFormField( "which", "2" );
 	}
@@ -91,7 +91,7 @@ public class EquipmentRequest extends KoLRequest
 		super( client, "inv_equip.php" );
 		addFormField( "which", "2" );
 
-		if ( change.equals( "acc1" ) || change.equals( "acc2" ) || change.equals( "acc3" ) )
+		if ( change.equals( "acc1" ) || change.equals( "acc2" ) || change.equals( "acc3" ) || change.equals( "familiarequip" ) )
 		{
 			addFormField( "action", "unequip" );
 			addFormField( "type", change );
@@ -109,15 +109,24 @@ public class EquipmentRequest extends KoLRequest
 	public EquipmentRequest( KoLmafia client, SpecialOutfit change )
 	{
 		super( client, "inv_equip.php" );
-		addFormField( "action", "outfit" );
-		addFormField( "which", "2" );
-		addFormField( "whichoutfit", String.valueOf( change.getOutfitID() ) );
+
+		if ( change == SpecialOutfit.BIRTHDAY_SUIT )
+		{
+			addFormField( "action", "unequipall" );
+		}
+		else
+		{
+			addFormField( "action", "outfit" );
+			addFormField( "which", "2" );
+			addFormField( "whichoutfit", String.valueOf( change.getOutfitID() ) );
+		}
+
 		this.requestType = CHANGE_OUTFIT;
-		this.outfitName = change.toString();
+		this.outfit = change;
 	}
 
 	public String getOutfitName()
-	{	return outfitName;
+	{	return outfit == null ? null : outfit.toString();
 	}
 
 	/**
@@ -162,6 +171,12 @@ public class EquipmentRequest extends KoLRequest
 
 		// If you changed your outfit, there will be a redirect
 		// to the equipment page - therefore, do so.
+
+		if ( requestType == CHANGE_OUTFIT && outfit == SpecialOutfit.BIRTHDAY_SUIT )
+		{
+			(new EquipmentRequest( client, "familiarequip" )).run();
+			return;
+		}
 
 		if ( requestType != CLOSET && requestType != EQUIPMENT )
 		{

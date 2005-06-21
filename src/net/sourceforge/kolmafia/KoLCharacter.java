@@ -814,6 +814,7 @@ public class KoLCharacter
 		equipment.set( 5, accessory3 );
 
 		this.outfits.clear();
+		this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
 		this.outfits.addAll( outfits );
 	}
 
