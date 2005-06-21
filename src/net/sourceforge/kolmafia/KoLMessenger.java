@@ -314,7 +314,7 @@ public class KoLMessenger implements KoLConstants
 			contactsFrame.setVisible( true );
 		}
 
-		contactsFrame.setTitle( contactList[0] );
+		contactsFrame.setTitle( contactList[0].substring( 0, contactList[0].indexOf( ":" ) ) );
 	}
 
 	private static final String getNormalizedContent( String originalContent )
