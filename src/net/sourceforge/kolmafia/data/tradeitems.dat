@@ -1092,14 +1092,14 @@
 1092	clockwork sheet	0	50
 1093	clockwork counterclockwise dome	0	50
 1094	clockwork sphere	0	50
-1095	deactivated MicroMechaMech	0	200
+1095	deactivated MicroMechaMech	5	200
 1096	clockwork endoskeleton	0	200
 1097	clockwork hat	9	200
 1098	clockwork trench coat	11	200
 1099	clockwork pants	10	200
 1100	gnauga hide pants	10	120
-1101	false eyelashes	0	0
-1102	targeting chip	0	0
+1101	false eyelashes	6	75
+1102	targeting chip	6	75
 1103	unwound clockwork grapefruit	5	220
 1104	tiny mountie hat	6	75
 1105	clockwork bartender head	0	0
@@ -1136,10 +1136,10 @@
 1136	spooky lipstick	4	50
 1137	spooky bicycle chain	12	95
 1138	mushroom fermenting solution	0	30
-1139
+1139	flaming mushroom wine	2	30
 1140	icy mushroom wine	2	30
-1141
-1142
+1141	stinky mushroom wine	2	30
+1142	pointy mushroom wine	2	30
 1143	flat mushroom wine	2	30
 1144	cool mushroom wine	2	30
 1145	knob mushroom wine	2	30
@@ -1154,7 +1154,7 @@
 1154
 1155	Letter from King Ralph XI	0	0
 1156
-1157
+1157	wholeberd	12	95
 1158	Meleegra&trade; pills	4	50
 1159	mariachi G-string	0	40
 1160	irate sombrero	9	55
