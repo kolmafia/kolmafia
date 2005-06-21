@@ -129,7 +129,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			this.itemID = -1;
 			this.name = StatusEffectDatabase.getEffectName( StatusEffectDatabase.getEffectID( name ) );
 		}
-		else
+		else if ( isItem() )
 		{
 			this.itemID = TradeableItemDatabase.getItemID( name );
 			this.name = TradeableItemDatabase.getItemName( this.itemID );
@@ -236,15 +236,6 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public String getName()
-	{	return name;
-	}
-
-	/**
-	 * Accessor method to retrieve the name associated with the result.
-	 * @return	The name of the result
-	 */
-
-	public String getDisplayName()
 	{	return name;
 	}
 
@@ -363,6 +354,9 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public String toString()
 	{
+		if ( name == null )
+			return "(Unrecognized result)";
+
 		if ( name.equals(HP) || name.equals(MP) || name.equals(ADV) || name.equals(DRUNK) || name.equals(MEAT) )
 			return " " + name + ": " + df.format(count[0]);
 
