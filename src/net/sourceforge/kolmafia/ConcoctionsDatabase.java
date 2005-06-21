@@ -228,6 +228,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 			case ItemCreationRequest.SMITH:
 				return data.getInventory().contains( HAMMER );
 
+			case ItemCreationRequest.SMITH_WEAPON:
+				return data.getInventory().contains( HAMMER ) && data.canSmithWeapons();
+
+			case ItemCreationRequest.SMITH_ARMOR:
+				return data.getInventory().contains( HAMMER ) && data.canSmithArmor();
+
 			case ItemCreationRequest.JEWELRY:
 				return data.getInventory().contains( PLIERS );
 

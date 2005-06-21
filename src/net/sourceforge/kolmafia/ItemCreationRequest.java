@@ -64,9 +64,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int JEWELRY = 8;
 	public static final int STARCHART = 9;
 	public static final int PIXEL = 10;
-
 	public static final int ROLLING_PIN = 11;
 	public static final int TINKER = 12;
+	public static final int SMITH_WEAPON = 13;
+	public static final int SMITH_ARMOR = 14;
 
 	private static final AdventureResult CHEF = new AdventureResult( 438, 1 );
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
@@ -152,6 +153,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return new ItemCreationRequest( client, "cook.php", itemID, mixingMethod, quantityNeeded );
 
 			case SMITH:
+			case SMITH_ARMOR:
+			case SMITH_WEAPON:
 				return new ItemCreationRequest( client, "smith.php", itemID, mixingMethod, quantityNeeded );
 
 			case JEWELRY:
@@ -347,6 +350,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		switch ( mixingMethod )
 		{
 			case SMITH:
+			case SMITH_ARMOR:
+			case SMITH_WEAPON:
 				client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
 				break;
 

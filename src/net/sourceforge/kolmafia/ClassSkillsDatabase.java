@@ -51,7 +51,11 @@ public class ClassSkillsDatabase extends KoLDatabase
 	private static Map skillByID = new TreeMap();
 	private static Map skillByName = new TreeMap();
 	private static Map mpConsumptionByID = new TreeMap();
-	private static Map buffOrSkillByID = new TreeMap();
+	private static Map skillTypeByID = new TreeMap();
+
+	public static final int SKILL = 0;
+	public static final int BUFF = 1;
+	public static final int PASSIVE = 2;
 
 	static
 	{
@@ -63,7 +67,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "classskills.dat" );
 
 		String [] data;
-		Integer skillID, buffOrSkill, mpConsumption;
+		Integer skillID, skillType, mpConsumption;
 		String skillName;
 
 		while ( (data = readData( reader )) != null )
@@ -71,14 +75,14 @@ public class ClassSkillsDatabase extends KoLDatabase
 			if ( data.length == 4 )
 			{
 				skillID = Integer.valueOf( data[0] );
-				buffOrSkill = Integer.valueOf( data[1] );
+				skillType = Integer.valueOf( data[1] );
 				mpConsumption = Integer.valueOf( data[2] );
 				skillName = getDisplayName( data[3] );
 
 				skillByID.put( skillID, skillName );
 				skillByName.put( getCanonicalName( data[3] ), skillID );
 				mpConsumptionByID.put( skillID, mpConsumption );
-				buffOrSkillByID.put( skillID, buffOrSkill );
+				skillTypeByID.put( skillID, skillType );
 			}
 		}
 	}
@@ -120,6 +124,18 @@ public class ClassSkillsDatabase extends KoLDatabase
 	}
 
 	/**
+	 * Returns whether or not the skill is a passive.
+	 *
+	 * @return	<code>true</code> if the skill can target other players
+	 */
+
+	public static final boolean isPassive( int skillID )
+	{
+		Object skillType = skillTypeByID.get( new Integer( skillID ) );
+		return skillType == null ? false : ((Integer)skillType).intValue() == PASSIVE;
+	}
+
+	/**
 	 * Returns whether or not the skill is a buff (ie: can be
 	 * used on others).
 	 *
@@ -128,8 +144,8 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 	public static final boolean isBuff( int skillID )
 	{
-		Object buffOrSkill = buffOrSkillByID.get( new Integer( skillID ) );
-		return buffOrSkill == null ? false : ((Integer)buffOrSkill).intValue() == 1;
+		Object skillType = skillTypeByID.get( new Integer( skillID ) );
+		return skillType == null ? false : ((Integer)skillType).intValue() == BUFF;
 	}
 
 	/**
