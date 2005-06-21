@@ -49,7 +49,7 @@ public class NPCStoreDatabase extends KoLDatabase
 
 	static
 	{
-		BufferedReader reader = getReader( "classskills.dat" );
+		BufferedReader reader = getReader( "npcstores.dat" );
 
 		npcstoreTable = new ArrayList[5];
 		for ( int i = 0; i < 5; ++i )
