@@ -908,7 +908,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( skillNameString.startsWith( "\"" ) )
 			{
-				skillName = skillNameString.substring( 1, parameters.length() - 1 );
+				skillName = skillNameString.substring( 1, skillNameString.length() - 1 );
 			}
 			else
 			{
