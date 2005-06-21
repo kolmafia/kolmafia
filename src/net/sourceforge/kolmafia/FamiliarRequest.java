@@ -136,7 +136,7 @@ public class FamiliarRequest extends KoLRequest
 			familiarWeight = 0;
 			familiarItem = "none";
 
-			familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<table><tr><td valign=center>Equipment:.*?<td.*?>(.*?)</td>" ).matcher( responseText );
+			familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<table>.*Equipment:.*?</td><td.*>(.*?)</td>.*<form name=rename" ).matcher( responseText );
 			if ( familiarMatcher.find() )
 			{
 				familiarName = familiarMatcher.group(2).trim();
