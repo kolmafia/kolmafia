@@ -71,12 +71,14 @@ public class GiftMessageRequest extends KoLRequest
 			this.name.append( name );
 			this.name.append( " - " );
 			this.name.append( materialCost );
-			this.name.append( " meat - Capacity: " );
+			this.name.append( " meat (" );
 			this.name.append( maxCapacity );
 			this.name.append( " item" );
 
 			if ( maxCapacity > 1 )
 				this.name.append( 's' );
+
+			this.name.append( ')' );
 		}
 
 		public String toString()
