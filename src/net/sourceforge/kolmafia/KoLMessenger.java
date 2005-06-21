@@ -586,8 +586,9 @@ public class KoLMessenger implements KoLConstants
 		// there are supposed to be italics.
 
 		String displayHTML = message.indexOf( "<a" ) == -1 ? "<font color=green>" + message + "</font>" :
-			message.indexOf( "<b>Mod Warning</b>" ) != -1 ? "<font color=red>" + message + "</font>" :
-			message.indexOf( "<b>System Message</b>" ) != -1 ? "<font color=red>" + message + "</font>" :
+			message.startsWith( "New message received from" ) ? "<font color=green>" + message + "</font>" :
+			message.indexOf( "Mod Warning</b>" ) != -1 ? "<font color=red>" + message + "</font>" :
+			message.indexOf( "System Message</b>" ) != -1 ? "<font color=red>" + message + "</font>" :
 			message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 ? "<i>" + message + "</i>" : message;
 
 		// Now, if the person is using LoathingChat style for
