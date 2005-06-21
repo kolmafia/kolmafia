@@ -295,4 +295,8 @@ public abstract class SendMessageFrame extends KoLFrame
 
 		return attachedItems.toArray();
 	}
+
+	protected int getAttachedMeat()
+	{	return getValue( quantities[11] );
+	}
 }

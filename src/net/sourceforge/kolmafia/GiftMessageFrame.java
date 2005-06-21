@@ -94,7 +94,7 @@ public class GiftMessageFrame extends SendMessageFrame
 
 				GiftMessageFrame.this.setEnabled( false );
 				(new GiftMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), messageEntry[1].getText(),
-					packageSelect.getSelectedItem(), getAttachedItems(), getValue( quantities[11] ) )).run();
+					packageSelect.getSelectedItem(), getAttachedItems(), getAttachedMeat() )).run();
 				GiftMessageFrame.this.setEnabled( true );
 
 				if ( client.permitsContinue() )

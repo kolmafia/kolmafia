@@ -76,11 +76,11 @@ public class ProposeTradeFrame extends SendMessageFrame
 				return;
 
 			if ( offerID != null )
-				(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry[0].getText(), getAttachedItems() )).run();
+				(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
 
 			ProposeTradeFrame.this.dispose();
 			KoLFrame frame = offerID != null ? new PendingTradesFrame( client, new ProposeTradeRequest( client ) ) :
-				new PendingTradesFrame( client, new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems() ) );
+				new PendingTradesFrame( client, new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() ) );
 
 			frame.pack();  frame.setVisible( true );  frame.requestFocus();
 		}

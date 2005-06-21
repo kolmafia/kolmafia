@@ -33,60 +33,68 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.List;
 
 /**
  * An extension of a <code>KoLRequest</code> which specifically handles
  * donating to the Hall of the Legends of the Times of Old.
  */
 
-public class ProposeTradeRequest extends KoLRequest
+public class ProposeTradeRequest extends SendMessageRequest
 {
 	private String recipient, message;
-	private Object [] attachments;
 
 	public ProposeTradeRequest( KoLmafia client )
-	{
-		super( client, "makeoffer.php" );
-		attachments = new Object[0];
+	{	super( client, "makeoffer.php", new Object[0], 0 );
 	}
 
 	public ProposeTradeRequest( KoLmafia client, String action, String offerID )
 	{
-		super( client, "makeoffer.php" );
+		super( client, "makeoffer.php", new Object[0], 0 );
 		addFormField( "action", action );
 
 		if ( action.equals( "accept" ) )
 			addFormField( "pwd", client.getPasswordHash() );
-
-		addFormField( "whichoffer", offerID );
-		attachments = new Object[0];
 	}
 
-	public ProposeTradeRequest( KoLmafia client, int offerID, String message, Object [] attachments )
+	public ProposeTradeRequest( KoLmafia client, int offerID, String message, Object [] attachments, int meatAttachment )
 	{
-		super( client, "counteroffer.php" );
+		super( client, "counteroffer.php", attachments, meatAttachment );
 		addFormField( "action", "counter" );
 		addFormField( "whichoffer", String.valueOf( offerID ) );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
+		addFormField( "offermeat", String.valueOf( meatAttachment ) );
 
-		this.recipient = client.getPlayerID( recipient );
 		this.message = message;
-		this.attachments = attachments;
+		this.recipient = client.getPlayerID( recipient );
 	}
 
-	public ProposeTradeRequest( KoLmafia client, String recipient, String message, Object [] attachments )
+	public ProposeTradeRequest( KoLmafia client, String recipient, String message, Object [] attachments, int meatAttachment )
 	{
-		super( client, "makeoffer.php" );
+		super( client, "makeoffer.php", attachments, meatAttachment );
 		addFormField( "action", "proposeoffer" );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "towho", recipient );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
+		addFormField( "offermeat", String.valueOf( meatAttachment ) );
 
-		this.recipient = client.getPlayerID( recipient );
 		this.message = message;
-		this.attachments = attachments;
+		this.recipient = client.getPlayerID( recipient );
+	}
+
+	protected int getCapacity()
+	{	return 11;
+	}
+
+	protected void repeat( Object [] attachments )
+	{
+		// This request cannot be repeated.  Therefore, if the person attaches
+		// too much to the request, only handle the first 11 and do nothing
+		// if the repeat method is called.
+	}
+
+	protected String getSuccessMessage()
+	{	return "";
 	}
 
 	/**
@@ -96,48 +104,7 @@ public class ProposeTradeRequest extends KoLRequest
 
 	public void run()
 	{
-		// First, check to see how many attachments are to be
-		// placed in the closet - if there's too many,
-		// then you'll need to break up the request
-
-		boolean attachedMeat = false;
-
-		for ( int i = 0; i < attachments.length; ++i )
-		{
-			AdventureResult result = (AdventureResult) attachments[i];
-
-			if ( !result.getName().equals( AdventureResult.MEAT ) )
-			{
-				int index = attachedMeat ? i : i + 1;
-				addFormField( "whichitem" + index, String.valueOf( result.getItemID() ) );
-				addFormField( "howmany" + index, String.valueOf( result.getCount() ) );
-			}
-			else
-			{
-				addFormField( "offermeat", String.valueOf( result.getCount() ) );
-				attachedMeat = true;
-			}
-		}
-
-		// Once all the form fields are broken up, this
-		// just calls the normal run method from KoLRequest
-		// to execute the request.
-
-		client.resetContinueState();
 		super.run();
-
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( isErrorState || responseCode != 200 )
-			return;
-
-		// Make sure that the message was actually sent -
-		// the person could have input an invalid player ID
-
-		for ( int i = 0; i < attachments.length; ++i )
-			client.processResult( ((AdventureResult) attachments[i]).getNegation() );
-
 		responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}
 }

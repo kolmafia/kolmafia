@@ -78,7 +78,7 @@ public class GreenMessageFrame extends SendMessageFrame
 			public void run()
 			{
 				GreenMessageFrame.this.setEnabled( false );
-				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getValue( quantities[11] ) )).run();
+				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
 				GreenMessageFrame.this.setEnabled( true );
 
 				if ( client.permitsContinue() )

@@ -33,8 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-
-import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -45,7 +43,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class GiftMessageRequest extends KoLRequest
 {
 	private String recipient, outsideMessage, insideMessage;
-	private Object [] attachments;
 	private GiftWrapper wrappingType;
 	private int maxCapacity, materialCost;
 
@@ -105,7 +102,6 @@ public class GiftMessageRequest extends KoLRequest
 		this.recipient = client.getMessenger() == null ? recipient : client.getPlayerID( recipient );
 		this.outsideMessage = outsideMessage;
 		this.insideMessage = insideMessage;
-		this.attachments = attachments;
 
 		this.wrappingType = (GiftWrapper) wrappingType;
 		this.maxCapacity = this.wrappingType.maxCapacity;
@@ -113,8 +109,20 @@ public class GiftMessageRequest extends KoLRequest
 
 		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
 		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
-		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meatAttachment ) );
 	}
+
+	protected int getCapacity()
+	{	return maxCapacity;
+	}
+
+	protected void repeat( Object [] attachments )
+	{	(new GiftMessageRequest( client, recipient, outsideMessage, insideMessage, wrappingType, attachments, 0 )).run();
+	}
+
+	protected String getSuccessMessage()
+	{	return "<td>Package sent.</td>";
+	}
+
 
 	/**
 	 * Runs the request.  Note that this does not report an error if it fails;
@@ -123,56 +131,9 @@ public class GiftMessageRequest extends KoLRequest
 
 	public void run()
 	{
-		// First, check to see how many attachments are to be
-		// placed in the closet - if there's too many,
-		// then you'll need to break up the request
-
-		if ( attachments != null && attachments.length != 0 )
-		{
-			if ( attachments.length > maxCapacity )
-			{
-				int currentBaseIndex = 0;
-				int remainingItems = attachments.length;
-
-				Object [] itemHolder = null;
-
-				while ( remainingItems > 0 )
-				{
-					itemHolder = new Object[ remainingItems < maxCapacity ? remainingItems : maxCapacity ];
-
-					for ( int i = 0; i < itemHolder.length; ++i )
-						itemHolder[i] = attachments[ currentBaseIndex + i ];
-
-					// For each broken-up request, you create a new ItemStorage request
-					// which will create the appropriate data to post.
-
-					if ( client.permitsContinue() )
-						(new GiftMessageRequest( client, recipient, outsideMessage, insideMessage, wrappingType, itemHolder, 0 )).run();
-
-					currentBaseIndex += maxCapacity;
-					remainingItems -= maxCapacity;
-				}
-
-				// Since all the sub-requests were run, there's nothing left
-				// to do - simply return from this method.
-
-				return;
-			}
-
-			for ( int i = 0; i < attachments.length; ++i )
-			{
-				AdventureResult result = (AdventureResult) attachments[i];
-				addFormField( "whichitem" + (i+1), String.valueOf( result.getItemID() ) );
-				addFormField( "howmany" + (i+1), String.valueOf( result.getCount() ) );
-			}
-		}
-
 		// Once all the form fields are broken up, this
 		// just calls the normal run method from KoLRequest
 		// to execute the request.
-
-		client.resetContinueState();
-		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
 
 		super.run();
 
@@ -182,21 +143,10 @@ public class GiftMessageRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		// Make sure that the outsideMessage was actually sent -
-		// the person could have input an invalid player ID
+		// With that done, the client needs to be updated
+		// on the package sending costs.
 
-		if ( responseText.indexOf( "<td>Package sent.</td>" ) != -1 )
-		{
-			// With that done, the client needs to be updated
-			// to note that the items were sent.
-
-			for ( int i = 0; i < attachments.length; ++i )
-				client.processResult( ((AdventureResult) attachments[i]).getNegation() );
-		}
-		else
-		{
-			client.cancelRequest();
-			return;
-		}
+		if ( responseText.indexOf( getSuccessMessage() ) != -1 )
+			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
 	}
 }
