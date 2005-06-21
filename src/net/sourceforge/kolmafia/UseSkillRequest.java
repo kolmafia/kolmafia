@@ -120,6 +120,17 @@ public class UseSkillRequest extends KoLRequest
 
 			return;
 		}
+		else if ( responseText.indexOf( "You don't have that skill" ) != -1 )
+		{
+			client.cancelRequest();
+			lastUpdate = "You don't have that skill.";
+			updateDisplay( ERROR_STATE, "You don't have that skill." );
+
+			if ( client.isBuffBotActive() )
+				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "You don't have that skill." );
+
+			return;
+		}
 		else if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			client.cancelRequest();
