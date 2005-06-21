@@ -885,34 +885,60 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCastBuffRequest( String parameters )
 	{
-		String skillName = getSkillName( parameters.toLowerCase() );
+		String skillName;
+		int buffCount;
 
-		if ( skillName != null )
+		if ( parameters.startsWith( "\"" ) )
 		{
-			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, 1 ), 1 );
-			return;
+			skillName = parameters.substring( 1, parameters.length() - 1 );
+			buffCount = 1;
 		}
-
-		String firstParameter = parameters.split( " " )[0].toLowerCase();
-		skillName = getSkillName( parameters.substring( firstParameter.length() ).trim().toLowerCase() );
-		if ( skillName == null )
+		else
 		{
-			scriptRequestor.cancelRequest();
-			scriptRequestor.updateDisplay( ERROR_STATE, "Skill not available" );
-			return;
-		}
+			skillName = getSkillName( parameters.toLowerCase() );
 
-		try
-		{
-			int buffCount = firstParameter.equals( "*" ) ?
-				(int) ( scriptRequestor.getCharacterData().getCurrentMP() /
-					ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) ) :
-						df.parse( firstParameter ).intValue();
+			if ( skillName != null )
+			{
+				scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, 1 ), 1 );
+				return;
+			}
+
+			String firstParameter = parameters.split( " " )[0].toLowerCase();
+			String skillNameString = parameters.substring( firstParameter.length() ).trim().toLowerCase();
+
+			if ( skillNameString.startsWith( "\"" ) )
+			{
+				skillName = skillNameString.substring( 1, parameters.length() - 1 );
+			}
+			else
+			{
+				skillName = getSkillName( skillNameString );
+				if ( skillName == null )
+				{
+					scriptRequestor.cancelRequest();
+					scriptRequestor.updateDisplay( ERROR_STATE, "Skill not available" );
+					return;
+				}
+			}
+
+			try
+			{
+				buffCount = firstParameter.equals( "*" ) ?
+					(int) ( scriptRequestor.getCharacterData().getCurrentMP() /
+						ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) ) :
+							df.parse( firstParameter ).intValue();
+			}
+			catch ( Exception e )
+			{
+				// Technically, this exception should not be thrown, but if
+				// it is, then print an error message and return.
+
+				scriptRequestor.updateDisplay( ERROR_STATE, firstParameter + " is not a number." );
+				scriptRequestor.cancelRequest();
+				return;
+			}
 
 			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, buffCount ), 1 );
-		}
-		catch ( Exception e )
-		{
 		}
 	}
 
