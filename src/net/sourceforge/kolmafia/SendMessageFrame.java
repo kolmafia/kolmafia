@@ -79,7 +79,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	protected JComboBox [] attachments;
 	protected LockableListModel inventory;
 
-	protected SendMessageFrame( KoLmafia client, String title, String [] entryHeaders )
+	protected SendMessageFrame( KoLmafia client, String title )
 	{
 		super( title, client );
 
@@ -91,6 +91,61 @@ public abstract class SendMessageFrame extends KoLFrame
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout( new BorderLayout( 5, 5 ) );
 		centerPanel.add( Box.createHorizontalStrut( 40 ), BorderLayout.CENTER );
+
+		centerPanel.add( constructWestPanel(), BorderLayout.WEST );
+
+		JPanel attachmentPanel = new JPanel();
+		attachmentPanel.setLayout( new BoxLayout( attachmentPanel, BoxLayout.Y_AXIS ) );
+		attachmentPanel.add( getLabelPanel( "Enclose these items:" ) );
+
+		this.attachments = new JComboBox[11];
+		this.quantities = new JTextField[12];
+
+		for ( int i = 0; i < 11; ++i )
+		{
+			this.quantities[i] = new JTextField( " " );
+			JComponentUtilities.setComponentSize( quantities[i], 40, 24 );
+			this.attachments[i] = new JComboBox( inventory.getMirrorImage() );
+
+			JPanel currentPanel = new JPanel();
+			currentPanel.setLayout( new BoxLayout( currentPanel, BoxLayout.X_AXIS ) );
+			currentPanel.add( this.quantities[i] );
+			currentPanel.add( Box.createHorizontalStrut( 4 ) );
+			currentPanel.add( this.attachments[i] );
+
+			JComponentUtilities.setComponentSize( currentPanel, 320, 24 );
+			attachmentPanel.add( Box.createVerticalStrut( 4 ) );
+			attachmentPanel.add( currentPanel );
+		}
+
+		JPanel meatPanel = new JPanel();
+		meatPanel.setLayout( new BoxLayout( meatPanel, BoxLayout.X_AXIS ) );
+
+		quantities[11] = new JTextField( "0" );
+		JComponentUtilities.setComponentSize( quantities[11], 120, 24 );
+		meatPanel.add( Box.createHorizontalStrut( 40 ) );
+		meatPanel.add( new JLabel( "Enclose meat:    " ) );
+		meatPanel.add( quantities[11] );
+		meatPanel.add( Box.createHorizontalStrut( 40 ) );
+
+		attachmentPanel.add( Box.createVerticalStrut( 12 ) );
+		attachmentPanel.add( meatPanel );
+
+		centerPanel.add( attachmentPanel, BorderLayout.EAST );
+
+		mainPanel.add( centerPanel );
+		mainPanel.add( Box.createVerticalStrut( 18 ) );
+		mainPanel.add( contentPanel = new UpdatePanel() );
+		mainPanel.add( Box.createVerticalStrut( 4 ) );
+
+		this.getContentPane().setLayout( new CardLayout( 20, 20 ) );
+		this.getContentPane().add( mainPanel, "" );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+	}
+
+	protected JPanel constructWestPanel()
+	{
+		String [] entryHeaders = getEntryHeaders();
 
 		recipientEntry = new JTextField();
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
@@ -143,55 +198,11 @@ public abstract class SendMessageFrame extends KoLFrame
 		westPanel.add( recipientPanel, BorderLayout.NORTH );
 		westPanel.add( entryPanel, BorderLayout.CENTER );
 
-		centerPanel.add( westPanel, BorderLayout.WEST );
+		return westPanel;
+	}
 
-		JPanel attachmentPanel = new JPanel();
-		attachmentPanel.setLayout( new BoxLayout( attachmentPanel, BoxLayout.Y_AXIS ) );
-		attachmentPanel.add( getLabelPanel( "Enclose these items:" ) );
-
-		this.attachments = new JComboBox[11];
-		this.quantities = new JTextField[12];
-
-		for ( int i = 0; i < 11; ++i )
-		{
-			this.quantities[i] = new JTextField( " " );
-			JComponentUtilities.setComponentSize( quantities[i], 40, 24 );
-			this.attachments[i] = new JComboBox( inventory.getMirrorImage() );
-
-			JPanel currentPanel = new JPanel();
-			currentPanel.setLayout( new BoxLayout( currentPanel, BoxLayout.X_AXIS ) );
-			currentPanel.add( this.quantities[i] );
-			currentPanel.add( Box.createHorizontalStrut( 4 ) );
-			currentPanel.add( this.attachments[i] );
-
-			JComponentUtilities.setComponentSize( currentPanel, 320, 24 );
-			attachmentPanel.add( Box.createVerticalStrut( 4 ) );
-			attachmentPanel.add( currentPanel );
-		}
-
-		JPanel meatPanel = new JPanel();
-		meatPanel.setLayout( new BoxLayout( meatPanel, BoxLayout.X_AXIS ) );
-
-		quantities[11] = new JTextField( "0" );
-		JComponentUtilities.setComponentSize( quantities[11], 120, 24 );
-		meatPanel.add( Box.createHorizontalStrut( 40 ) );
-		meatPanel.add( new JLabel( "Enclose meat:    " ) );
-		meatPanel.add( quantities[11] );
-		meatPanel.add( Box.createHorizontalStrut( 40 ) );
-
-		attachmentPanel.add( Box.createVerticalStrut( 12 ) );
-		attachmentPanel.add( meatPanel );
-
-		centerPanel.add( attachmentPanel, BorderLayout.EAST );
-
-		mainPanel.add( centerPanel );
-		mainPanel.add( Box.createVerticalStrut( 18 ) );
-		mainPanel.add( contentPanel = new UpdatePanel() );
-		mainPanel.add( Box.createVerticalStrut( 4 ) );
-
-		this.getContentPane().setLayout( new CardLayout( 20, 20 ) );
-		this.getContentPane().add( mainPanel, "" );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+	protected String [] getEntryHeaders()
+	{	return new String[0];
 	}
 
 	protected String [] getWestHeaders()
