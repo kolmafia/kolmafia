@@ -106,7 +106,7 @@ public class RequestFrame extends KoLFrame
 			// Remove all the <BR> tags that are not understood
 			// by the default Java browser.
 
-			String displayHTML = request.responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" );
+			String displayHTML = request.responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( " class=small", "" );
 
 			// This is to replace all the rows with a height of 1
 			// with nothing to avoid weird rendering.
