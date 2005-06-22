@@ -164,11 +164,12 @@ public class GearChangeFrame extends KoLFrame
 	private JPanel createEquipPanel()
 	{
 		JPanel fieldPanel = new JPanel();
-		fieldPanel.setLayout( new GridLayout( 13, 1 ) );
+		fieldPanel.setLayout( new GridLayout( 14, 1 ) );
 
 		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Hat:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Weapon:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "Shirt:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Pants:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
@@ -180,20 +181,20 @@ public class GearChangeFrame extends KoLFrame
 		fieldPanel.add( new JLabel( "Outfit:  ", JLabel.RIGHT ) );
 
 		JPanel valuePanel = new JPanel();
-		valuePanel.setLayout( new GridLayout( 13, 1 ) );
+		valuePanel.setLayout( new GridLayout( 14, 1 ) );
 
 		valuePanel.add( new JLabel( " " ) );
 
-		equipment = new JComboBox[7];
+		equipment = new JComboBox[8];
 		LockableListModel [] equipmentLists = characterData.getEquipmentLists();
 
-		for ( int i = 0; i < 7; ++i )
+		for ( int i = 0; i < 8; ++i )
 		{
 			equipment[i] = new JComboBox( equipmentLists[i] );
 			equipment[i].addActionListener( new ChangeEquipmentListener( equipment[i] ) );
 			JComponentUtilities.setComponentSize( equipment[i], 240, 20 );
 
-			if ( i != 6 )
+			if ( i != KoLCharacter.FAMILIAR )
 				valuePanel.add( equipment[i] );
 		}
 
@@ -204,7 +205,7 @@ public class GearChangeFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( familiarSelect, 240, 20 );
 		valuePanel.add( familiarSelect );
 
-		valuePanel.add( equipment[6] );
+		valuePanel.add( equipment[KoLCharacter.FAMILIAR] );
 		valuePanel.add( new JLabel( " " ) );
 
 		outfitSelect = new JComboBox( characterData.getOutfits() );
@@ -225,13 +226,14 @@ public class GearChangeFrame extends KoLFrame
 		isChanging = true;
 		characterData.updateEquipmentLists();
 
-		equipment[0].setSelectedItem( characterData.getHat() );
-		equipment[1].setSelectedItem( characterData.getWeapon() );
-		equipment[2].setSelectedItem( characterData.getPants() );
-		equipment[3].setSelectedItem( characterData.getAccessory1() );
-		equipment[4].setSelectedItem( characterData.getAccessory2() );
-		equipment[5].setSelectedItem( characterData.getAccessory3() );
-		equipment[6].setSelectedItem( characterData.getFamiliarItem() );
+		equipment[KoLCharacter.HAT].setSelectedItem( characterData.getHat() );
+		equipment[KoLCharacter.WEAPON].setSelectedItem( characterData.getWeapon() );
+		equipment[KoLCharacter.SHIRT].setSelectedItem( characterData.getShirt() );
+		equipment[KoLCharacter.PANTS].setSelectedItem( characterData.getPants() );
+		equipment[KoLCharacter.ACCESSORY1].setSelectedItem( characterData.getAccessory1() );
+		equipment[KoLCharacter.ACCESSORY2].setSelectedItem( characterData.getAccessory2() );
+		equipment[KoLCharacter.ACCESSORY3].setSelectedItem( characterData.getAccessory3() );
+		equipment[KoLCharacter.FAMILIAR].setSelectedItem( characterData.getFamiliarItem() );
 
 		isChanging = false;
 	}
@@ -323,17 +325,19 @@ public class GearChangeFrame extends KoLFrame
 			{
 				isChanging = true;
 
-				if ( select == equipment[3] && !characterData.getAccessory1().equals( "none" ) )
+				GearChangeFrame.this.setEnabled( false );
+
+				if ( select == equipment[KoLCharacter.ACCESSORY1] && !characterData.getAccessory1().equals( "none" ) )
 					client.makeRequest( new EquipmentRequest( client, "acc1" ), 1 );
-				if ( select == equipment[4] && !characterData.getAccessory2().equals( "none" ) )
+				else if ( select == equipment[KoLCharacter.ACCESSORY2] && !characterData.getAccessory2().equals( "none" ) )
 					client.makeRequest( new EquipmentRequest( client, "acc2" ), 1 );
-				if ( select == equipment[5] && !characterData.getAccessory3().equals( "none" ) )
+				else if ( select == equipment[KoLCharacter.ACCESSORY3] && !characterData.getAccessory3().equals( "none" ) )
 					client.makeRequest( new EquipmentRequest( client, "acc3" ), 1 );
 
-				GearChangeFrame.this.setEnabled( false );
-				client.makeRequest( new EquipmentRequest( client, change ), 1 );
+                                client.makeRequest( new EquipmentRequest( client, change ), 1 );
 				GearChangeFrame.this.setEnabled( true );
 				refreshEquipPanel();
+
 				isChanging = false;
 			}
 		}

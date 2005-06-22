@@ -1157,6 +1157,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				updateDisplay( ENABLED_STATE, "       Hat: " + data.getHat() );
 				updateDisplay( ENABLED_STATE, "    Weapon: " + data.getWeapon() );
+				updateDisplay( ENABLED_STATE, "     Shirt: " + data.getShirt() );
 				updateDisplay( ENABLED_STATE, "     Pants: " + data.getPants() );
 				updateDisplay( ENABLED_STATE, " Accessory: " + data.getAccessory1() );
 				updateDisplay( ENABLED_STATE, " Accessory: " + data.getAccessory2() );
@@ -1166,6 +1167,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				outputStream.println( "       Hat: " + data.getHat() );
 				outputStream.println( "    Weapon: " + data.getWeapon() );
+				outputStream.println( "     Shirt: " + data.getShirt() );
 				outputStream.println( "     Pants: " + data.getPants() );
 				outputStream.println( " Accessory: " + data.getAccessory1() );
 				outputStream.println( " Accessory: " + data.getAccessory2() );

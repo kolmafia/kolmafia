@@ -215,6 +215,7 @@ public class EquipmentRequest extends KoLRequest
 					String oldHat = character.getHat();
  					String oldWeapon = character.getWeapon();
  					String oldPants = character.getPants();
+ 					String oldShirt = character.getShirt();
  					String oldAccessory1 = character.getAccessory1();
  					String oldAccessory2 = character.getAccessory2();
  					String oldAccessory3 = character.getAccessory3();
@@ -225,6 +226,7 @@ public class EquipmentRequest extends KoLRequest
 					switchItem( oldHat, character.getHat() );
 					switchItem( oldWeapon, character.getWeapon() );
 					switchItem( oldPants, character.getPants() );
+					switchItem( oldShirt, character.getShirt() );
 					switchItem( oldAccessory1, character.getAccessory1() );
 					switchItem( oldAccessory2, character.getAccessory2() );
 					switchItem( oldAccessory3, character.getAccessory3() );
@@ -338,7 +340,18 @@ public class EquipmentRequest extends KoLRequest
 			while ( !parsedContent.nextToken().startsWith( "Weapon:" ) );
 			String weapon = parsedContent.nextToken();
 
-			while ( !parsedContent.nextToken().startsWith( "Pants:" ) );
+                        String shirt = "none";
+                        String token;
+                        do
+                        {
+                                token = parsedContent.nextToken();
+                                if (token.startsWith( "Shirt:"))
+                                {
+                                        shirt = parsedContent.nextToken();
+                                        continue;
+                                }
+                        }
+			while ( !token.startsWith( "Pants:" ) );
 			String pants = parsedContent.nextToken();
 
 			String [] accessories = new String[3];
@@ -369,7 +382,7 @@ public class EquipmentRequest extends KoLRequest
 			LockableListModel outfits = outfitsMatcher.find() ?
 				SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();
 
-			character.setEquipment( hat, weapon, pants, accessories[0], accessories[1], accessories[2], outfits );
+			character.setEquipment( hat, weapon, shirt, pants, accessories[0], accessories[1], accessories[2], outfits );
 		}
 		catch ( Exception e )
 		{

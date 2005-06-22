@@ -193,6 +193,15 @@ public class KoLCharacter
 	private LockableListModel activeEffects;
 	private LockableListModel availableSkills;
 
+	public static final int HAT = 0;
+	public static final int WEAPON = 1;
+	public static final int SHIRT = 2;
+	public static final int PANTS = 3;
+	public static final int ACCESSORY1 = 4;
+	public static final int ACCESSORY2 = 5;
+	public static final int ACCESSORY3 = 6;
+	public static final int FAMILIAR = 7;
+
 	private LockableListModel [] equipmentLists;
 
 	private int availableMeat;
@@ -242,7 +251,7 @@ public class KoLCharacter
 		this.activeEffects = new LockableListModel();
 		this.availableSkills = new LockableListModel();
 
-		for ( int i = 0; i < 6; ++i )
+		for ( int i = 0; i < FAMILIAR; ++i )
 			equipment.add( "none" );
 
 		this.hasToaster = false;
@@ -257,28 +266,31 @@ public class KoLCharacter
 		// Initialize the equipment lists inside
 		// of the character data
 
-		equipmentLists = new LockableListModel[7];
+		equipmentLists = new LockableListModel[8];
 
-		equipmentLists[0] = getFilteredItems( ConsumeItemRequest.EQUIP_HAT );
-		equipmentLists[0].add( getHat() );
+		equipmentLists[HAT] = getFilteredItems( ConsumeItemRequest.EQUIP_HAT );
+		equipmentLists[HAT].add( getHat() );
 
-		equipmentLists[1] = getFilteredItems( ConsumeItemRequest.EQUIP_WEAPON );
-		equipmentLists[1].add( getWeapon() );
+		equipmentLists[WEAPON] = getFilteredItems( ConsumeItemRequest.EQUIP_WEAPON );
+		equipmentLists[WEAPON].add( getWeapon() );
 
-		equipmentLists[2] = getFilteredItems( ConsumeItemRequest.EQUIP_PANTS );
-		equipmentLists[2].add( getPants() );
+		equipmentLists[SHIRT] = getFilteredItems( ConsumeItemRequest.EQUIP_SHIRT );
+		equipmentLists[SHIRT].add( getShirt() );
 
-		equipmentLists[3] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
-		equipmentLists[3].add( getAccessory1() );
+		equipmentLists[PANTS] = getFilteredItems( ConsumeItemRequest.EQUIP_PANTS );
+		equipmentLists[PANTS].add( getPants() );
 
-		equipmentLists[4] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
-		equipmentLists[4].add( getAccessory2() );
+		equipmentLists[ACCESSORY1] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
+		equipmentLists[ACCESSORY1].add( getAccessory1() );
 
-		equipmentLists[5] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
-		equipmentLists[5].add( getAccessory3() );
+		equipmentLists[ACCESSORY2] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
+		equipmentLists[ACCESSORY2].add( getAccessory2() );
 
-		equipmentLists[6] = getFilteredItems( ConsumeItemRequest.EQUIP_FAMILIAR );
-		equipmentLists[6].add( getFamiliarItem() );
+		equipmentLists[ACCESSORY3] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
+		equipmentLists[ACCESSORY3].add( getAccessory3() );
+
+		equipmentLists[FAMILIAR] = getFilteredItems( ConsumeItemRequest.EQUIP_FAMILIAR );
+		equipmentLists[FAMILIAR].add( getFamiliarItem() );
 	}
 
 	/**
@@ -796,6 +808,7 @@ public class KoLCharacter
 	 *
 	 * @param	hat	The name of the character's equipped hat
 	 * @param	weapon	The name of character's equipped weapon
+	 * @param	shirt	The name of the character's equipped shirt
 	 * @param	pants	The name of the character's equipped pants
 	 * @param	accessory1	The name of the accessory in the first accessory slot
 	 * @param	accessory2	The name of the accessory in the first accessory slot
@@ -803,15 +816,17 @@ public class KoLCharacter
 	 * @param	outfits	A listing of available outfits
 	 */
 
-	public void setEquipment( String hat, String weapon, String pants,
-		String accessory1, String accessory2, String accessory3, List outfits )
+	public void setEquipment( String hat, String weapon, String shirt, String pants,
+				  String accessory1, String accessory2, String accessory3,
+				  List outfits ) 
 	{
-		equipment.set( 0, hat );
-		equipment.set( 1, weapon );
-		equipment.set( 2, pants );
-		equipment.set( 3, accessory1 );
-		equipment.set( 4, accessory2 );
-		equipment.set( 5, accessory3 );
+		equipment.set( HAT, hat );
+		equipment.set( WEAPON, weapon );
+		equipment.set( SHIRT, shirt );
+		equipment.set( PANTS, pants );
+		equipment.set( ACCESSORY1, accessory1 );
+		equipment.set( ACCESSORY2, accessory2 );
+		equipment.set( ACCESSORY3, accessory3 );
 
 		this.outfits.clear();
 		this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
@@ -824,7 +839,7 @@ public class KoLCharacter
 	 */
 
 	public String getHat()
-	{	return (String) equipment.get( 0 );
+	{	return (String) equipment.get( HAT );
 	}
 
 	/**
@@ -833,7 +848,16 @@ public class KoLCharacter
 	 */
 
 	public String getWeapon()
-	{	return (String) equipment.get( 1 );
+	{	return (String) equipment.get( WEAPON );
+	}
+
+	/**
+	 * Accessor method to retrieve the name of the shirt the character has equipped.
+	 * @return	The name of the character's equipped shirt, <code>none</code> if no such item exists
+	 */
+
+	public String getShirt()
+	{	return (String) equipment.get( SHIRT );
 	}
 
 	/**
@@ -842,7 +866,7 @@ public class KoLCharacter
 	 */
 
 	public String getPants()
-	{	return (String) equipment.get( 2 );
+	{	return (String) equipment.get( PANTS );
 	}
 
 	/**
@@ -853,7 +877,7 @@ public class KoLCharacter
 	 */
 
 	public String getAccessory1()
-	{	return (String) equipment.get( 3 );
+	{	return (String) equipment.get( ACCESSORY1 );
 	}
 
 	/**
@@ -864,7 +888,7 @@ public class KoLCharacter
 	 */
 
 	public String getAccessory2()
-	{	return (String) equipment.get( 4 );
+	{	return (String) equipment.get( ACCESSORY2 );
 	}
 
 	/**
@@ -875,7 +899,7 @@ public class KoLCharacter
 	 */
 
 	public String getAccessory3()
-	{	return (String) equipment.get( 5 );
+	{	return (String) equipment.get( ACCESSORY3 );
 	}
 
 	/**
@@ -916,29 +940,32 @@ public class KoLCharacter
 		for ( int i = 0; i < equipmentLists.length; ++i )
 			equipmentLists[i].clear();
 
-		equipmentLists[0].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_HAT ) );
-		equipmentLists[0].add( getHat() );
+		equipmentLists[HAT].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_HAT ) );
+		equipmentLists[HAT].add( getHat() );
 
-		equipmentLists[1].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_WEAPON ) );
-		equipmentLists[1].add( getWeapon() );
+		equipmentLists[WEAPON].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_WEAPON ) );
+		equipmentLists[WEAPON].add( getWeapon() );
 
-		equipmentLists[2].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_PANTS ) );
-		equipmentLists[2].add( getPants() );
+		equipmentLists[SHIRT].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_SHIRT ) );
+		equipmentLists[SHIRT].add( getShirt() );
 
-		equipmentLists[3].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
-		if ( !equipmentLists[3].contains( getAccessory1() ) )
-			equipmentLists[3].add( getAccessory1() );
+		equipmentLists[PANTS].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_PANTS ) );
+		equipmentLists[PANTS].add( getPants() );
 
-		equipmentLists[4].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
-		if ( !equipmentLists[4].contains( getAccessory2() ) )
-			equipmentLists[4].add( getAccessory2() );
+		equipmentLists[ACCESSORY1].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
+		if ( !equipmentLists[ACCESSORY1].contains( getAccessory1() ) )
+			equipmentLists[ACCESSORY1].add( getAccessory1() );
 
-		equipmentLists[5].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
-		if ( !equipmentLists[5].contains( getAccessory3() ) )
-			equipmentLists[5].add( getAccessory3() );
+		equipmentLists[ACCESSORY2].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
+		if ( !equipmentLists[ACCESSORY2].contains( getAccessory2() ) )
+			equipmentLists[ACCESSORY2].add( getAccessory2() );
 
-		equipmentLists[6].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_FAMILIAR ) );
-		equipmentLists[6].add( getFamiliarItem() );
+		equipmentLists[ACCESSORY3].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
+		if ( !equipmentLists[ACCESSORY3].contains( getAccessory3() ) )
+			equipmentLists[ACCESSORY3].add( getAccessory3() );
+
+		equipmentLists[FAMILIAR].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_FAMILIAR ) );
+		equipmentLists[FAMILIAR].add( getFamiliarItem() );
 	}
 
 	private LockableListModel getFilteredItems( int filterID )
@@ -1035,7 +1062,7 @@ public class KoLCharacter
 	}
 
 	/**
-	 * Accessor method to indicate a change in state of the toaster.
+	 * Accessor method to indicate a change in state of the golden arches.
 	 * @param	hasArches	Whether or not the character currently has golden arches
 	 */
 
