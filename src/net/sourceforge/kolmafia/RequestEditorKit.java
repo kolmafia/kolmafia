@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
+
+import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 
 import javax.swing.text.View;
@@ -106,7 +108,7 @@ public class RequestEditorKit extends HTMLEditorKit
 		{
 			Component c = super.createComponent();
 
-			if ( c != null && c instanceof JRadioButton )
+			if ( c != null && (c instanceof JRadioButton || c instanceof JCheckBox) )
 				c.setBackground( Color.white );
 
 			return c;
@@ -133,7 +135,15 @@ public class RequestEditorKit extends HTMLEditorKit
 			// get the action field, attach the data, and
 			// refresh the appropriate request frame.
 
-			frame.refresh( new KoLRequest( client, formElement.getAttributes().getAttribute( HTML.Attribute.ACTION ) + "?" + data, true ) );
+			KoLRequest request = new KoLRequest( client, (String) formElement.getAttributes().getAttribute( HTML.Attribute.ACTION ), true );
+
+			String [] splits = data.split( "[&=]" );
+
+			if ( splits.length > 1 )
+				for ( int i = 0; i < splits.length; ++i )
+					request.addFormField( splits[i], (++i) < splits.length ? splits[i] : "" );
+
+			frame.refresh( request );
 		}
 	}
 }
