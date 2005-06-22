@@ -125,6 +125,11 @@ public abstract class SendMessageRequest extends KoLRequest
 			}
 		}
 
+                // Attach meat, if provided
+
+                if ( meatAttachment > 0)
+                        addFormField( "sendmeat", String.valueOf( meatAttachment ) );
+
 		// Once all the form fields are broken up, this
 		// just calls the normal run method from KoLRequest
 		// to execute the request.

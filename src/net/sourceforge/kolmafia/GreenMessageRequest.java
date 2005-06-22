@@ -72,7 +72,6 @@ public class GreenMessageRequest extends SendMessageRequest
 			addFormField( "savecopy", "on" );
 
 		addFormField( "message", message );
-		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
 
 		this.recipient = client.getMessenger() == null ? recipient : client.getPlayerID( recipient );
 		this.message = message;
