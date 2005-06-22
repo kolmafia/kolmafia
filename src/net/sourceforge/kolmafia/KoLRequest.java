@@ -264,17 +264,13 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected KoLRequest( KoLmafia client, String formURLString, boolean followRedirects )
 	{
+		this.client = client;
 		this.formURLString = formURLString;
 		this.formURLBuffer = new StringBuffer( formURLString );
 
-		if ( client != null )
-		{
-			this.client = client;
-			this.sessionID = client.getSessionID();
-		}
-
 		this.logStream = new NullStream();
 		data = new ArrayList();
+
 		this.isErrorState = true;
 		this.followRedirects = followRedirects;
 	}
@@ -376,6 +372,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean prepareConnection()
 	{
+		if ( client != null )
+			this.sessionID = client.getSessionID();
+
 		// With that taken care of, determine the actual URL that you
 		// are about to request.
 
