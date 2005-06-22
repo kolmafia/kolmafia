@@ -131,6 +131,7 @@ public class AdventureFrame extends KoLFrame
 
 	private JTabbedPane tabs;
 	private JTextField inClosetField;
+	private LockableListModel adventureList;
 
 	private BuffBotFrame buffbotDisplay;
 
@@ -151,15 +152,16 @@ public class AdventureFrame extends KoLFrame
 	 * @param	resultsTally	Tally of adventuring results
 	 */
 
-	public AdventureFrame( KoLmafia client, LockableListModel adventureList, LockableListModel resultsTally )
+	public AdventureFrame( KoLmafia client, LockableListModel resultsTally )
 	{
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 			" (" + KoLRequest.getRootHostName() + ")", client );
 
 		this.isEnabled = true;
 		this.tabs = new JTabbedPane();
+		this.adventureList = AdventureDatabase.getAsLockableListModel( client );
 
-		this.adventureSelect = new AdventureSelectPanel( adventureList, resultsTally );
+		this.adventureSelect = new AdventureSelectPanel( resultsTally );
 		tabs.addTab( "Adventure Select", adventureSelect );
 
 		this.mallSearch = new MallSearchPanel();
@@ -330,7 +332,7 @@ public class AdventureFrame extends KoLFrame
 		private JComboBox locationField;
 		private JTextField countField;
 
-		public AdventureSelectPanel( LockableListModel adventureList, LockableListModel resultsTally )
+		public AdventureSelectPanel( LockableListModel resultsTally )
 		{
 			super( "begin", "stop", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
 
@@ -1252,6 +1254,8 @@ public class AdventureFrame extends KoLFrame
 				client.loginRequest = loginRequest;
 
 				loginRequest.run();
+				adventureList.clear();
+				adventureList.addAll( AdventureDatabase.getAsLockableListModel( client ) );
 				client.updateDisplay( ENABLED_STATE, "Session timed in." );
 			}
 		}
@@ -1265,7 +1269,7 @@ public class AdventureFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new AdventureFrame( null, new LockableListModel(), new LockableListModel() );
+		KoLFrame uitest = new AdventureFrame( null, new LockableListModel() );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }

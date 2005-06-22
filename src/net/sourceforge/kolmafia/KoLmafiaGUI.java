@@ -152,7 +152,7 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			KoLFrame previousActiveFrame = activeFrame;
 
-			activeFrame = new AdventureFrame( this, AdventureDatabase.getAsLockableListModel( this ), tally );
+			activeFrame = new AdventureFrame( this, tally );
 			activeFrame.pack();
 
 			if ( settings.getProperty( activeFrame.getFrameName() ) == null )
