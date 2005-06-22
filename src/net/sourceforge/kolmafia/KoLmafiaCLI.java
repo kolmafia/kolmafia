@@ -73,7 +73,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private static final int CLOSET = 3;
 	private static final int HAGNK = 4;
 
-	private String previousCommand;
+	protected String previousCommand;
 	private PrintStream outputStream;
 	private PrintStream mirrorStream;
 	private BufferedReader commandStream;

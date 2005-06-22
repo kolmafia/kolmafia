@@ -423,6 +423,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 		private class CommandEntryListener extends KeyAdapter implements ActionListener
 		{
+			private String previousCommand;
+
 			public void actionPerformed( ActionEvent e )
 			{	submitCommand();
 			}
@@ -456,7 +458,14 @@ public class KoLmafiaGUI extends KoLmafia
 						if ( command.toLowerCase().equals( "login" ) )
 							buffer.append( "<font color=red>This command is not available in the GCLI</font><br>" );
 						else
-							(new KoLmafiaCLI( KoLmafiaGUI.this, (String) null )).executeLine( command );
+						{
+							KoLmafiaCLI instance = new KoLmafiaCLI( KoLmafiaGUI.this, (String) null );
+							instance.previousCommand = previousCommand;
+							instance.executeLine( command );
+
+							if ( command.startsWith( "repeat" ) )
+								previousCommand = command;
+						}
 
 						buffer.append( "<br>" );
 					}
