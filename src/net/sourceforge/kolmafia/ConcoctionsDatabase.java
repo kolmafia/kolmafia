@@ -55,6 +55,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static final int ITEM_COUNT = TradeableItemDatabase.ITEM_COUNT;
 
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
+	private static boolean INCLUDE_ASCENSION = false;
+	private static boolean [] PERMIT_METHOD = new boolean[15];
 
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
@@ -170,6 +172,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// created through the use of meat paste.  This allows for box
 		// servant creation to be calculated in advance.
 
+		cachePermitted( client );
+
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.COMBINE )
 				concoctions[i].calculate( client, availableIngredients );
@@ -177,6 +181,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
 		// mixture before doing the calculation.
+
+		cachePermitted( client );
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 		{
@@ -206,52 +212,30 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 */
 
 	private static boolean isPermitted( Concoction concoction, KoLmafia client )
-	{
-		if ( concoction.isAscensionRecipe )
-		{
-			String includeAscensionRecipesSetting = client.getSettings().getProperty( "includeAscensionRecipes" );
+	{	return concoction.isAscensionRecipe ? INCLUDE_ASCENSION : PERMIT_METHOD[ concoction.mixingMethod ];
+	}
 
-			if ( includeAscensionRecipesSetting == null || !includeAscensionRecipesSetting.equals( "true" ))
-			     return false;
-		}
+	private static void cachePermitted( KoLmafia client )
+	{
+		String includeAscensionRecipesSetting = client.getSettings().getProperty( "includeAscensionRecipes" );
+		INCLUDE_ASCENSION =	includeAscensionRecipesSetting != null && includeAscensionRecipesSetting.equals( "true" );
+
+		for ( int i = 0; i < PERMIT_METHOD.length; ++i )
+			PERMIT_METHOD[i] = true;
 
 		KoLCharacter data = client.getCharacterData();
 
-		switch ( concoction.mixingMethod )
-		{
-			case ItemCreationRequest.COOK:
-				return isAvailable( CHEF, client );
-
-			case ItemCreationRequest.MIX:
-				return isAvailable( BARTENDER, client );
-
-			case ItemCreationRequest.COOK_REAGENT:
-				return isAvailable( CHEF, client ) && data.canSummonReagent();
-
-			case ItemCreationRequest.COOK_PASTA:
-				return isAvailable( CHEF, client ) && data.canSummonNoodles();
-
-			case ItemCreationRequest.MIX_SPECIAL:
-				return isAvailable( BARTENDER, client ) && data.canSummonShore();
-
-			case ItemCreationRequest.SMITH:
-				return data.getInventory().contains( HAMMER );
-
-			case ItemCreationRequest.SMITH_WEAPON:
-				return data.getInventory().contains( HAMMER ) && data.canSmithWeapons();
-
-			case ItemCreationRequest.SMITH_ARMOR:
-				return data.getInventory().contains( HAMMER ) && data.canSmithArmor();
-
-			case ItemCreationRequest.JEWELRY:
-				return data.getInventory().contains( PLIERS );
-
-			case ItemCreationRequest.ROLLING_PIN:
-				return data.getInventory().contains( ROLLING_PIN );
-
-			default:
-				return true;
-		}
+		PERMIT_METHOD[ ItemCreationRequest.NOCREATE ] = false;
+		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, client );
+		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, client );
+		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = isAvailable( CHEF, client ) && data.canSummonReagent();
+		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = isAvailable( CHEF, client ) && data.canSummonNoodles();
+		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = isAvailable( BARTENDER, client ) && data.canSummonShore();
+		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = data.getInventory().contains( HAMMER );
+		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = data.getInventory().contains( HAMMER ) && data.canSmithWeapons();
+		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = data.getInventory().contains( HAMMER ) && data.canSmithArmor();
+		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = data.getInventory().contains( PLIERS );
+		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = data.getInventory().contains( ROLLING_PIN );
 	}
 
 	private static boolean isAvailable( int servantID, KoLmafia client )
