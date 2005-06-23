@@ -57,6 +57,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	private static String [] itemByID = new String[ ITEM_COUNT ];
 	private static int [] consumptionID = new int[ ITEM_COUNT ];
 	private static int [] priceByID = new int[ ITEM_COUNT ];
+	private static int [] ascensionItem = new int[ ITEM_COUNT ];
 	private static Map itemByName = new TreeMap();
 
 	static
@@ -73,13 +74,13 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 4 )
+			if ( data.length == 5 )
 			{
 				itemID = Integer.parseInt( data[0] );
 
 				consumptionID[ itemID ] = Integer.parseInt( data[2] );
 				priceByID[ itemID ] = Integer.parseInt( data[3] );
-
+				ascensionItem[ itemID] = Integer.parseInt( data[4] );
 				itemByID[ itemID ] = getDisplayName( data[1] );
 				itemByName.put( getCanonicalName( data[1] ), new Integer( itemID ) );
 			}
@@ -98,6 +99,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		consumptionID[ itemID ] = 0;
 		priceByID[ itemID ] = 0;
+		ascensionItem[ itemID ] = 0;
 		itemByID[ itemID ] = itemName;
 
 		itemByName.put( itemName.toLowerCase(), new Integer( itemID ) );
@@ -131,6 +133,15 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static final int getPriceByID( int itemID )
 	{	return itemID < 0 ? 0 : priceByID[ itemID ];
+	}
+
+	/**
+	 * Returns true if the item is found post-ascension
+	 * @return	<code>true</code> if the item is an ascension item
+	 */
+
+	public static final boolean isAscensionItem( int itemID )
+	{	return itemID >= 0 && ascensionItem[ itemID ] > 0;
 	}
 
 	/**

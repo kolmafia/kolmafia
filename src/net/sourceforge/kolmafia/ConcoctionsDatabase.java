@@ -119,7 +119,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static void refreshConcoctions( KoLmafia client )
 	{
 		List availableIngredients = new ArrayList();
-		availableIngredients.addAll( client.getInventory() );
+		String includeAscensionRecipesSetting = client.getSettings().getProperty( "includeAscensionRecipes" );
+		boolean includeAscensionRecipes = includeAscensionRecipesSetting != null && includeAscensionRecipesSetting.equals( "true" );
+		
+		List inventoryList = (List) client.getInventory();
+		for ( int i = 0; i < inventoryList.size(); ++i )
+		{
+			AdventureResult ar = (AdventureResult) inventoryList.get(i);
+			if ( includeAscensionRecipes || !TradeableItemDatabase.isAscensionItem( ar.getItemID() ))
+				AdventureResult.addResultToList( availableIngredients, ar );
+		}
 
 		if ( client != null )
 		{
@@ -129,7 +138,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 			{
 				List closetList = (List) client.getCloset();
 				for ( int i = 0; i < closetList.size(); ++i )
-					AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
+				{
+					AdventureResult ar = (AdventureResult) closetList.get(i);
+					if ( includeAscensionRecipes || !TradeableItemDatabase.isAscensionItem( ar.getItemID() ))
+					AdventureResult.addResultToList( availableIngredients, ar );
+				}
 			}
 		}
 

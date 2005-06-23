@@ -1073,6 +1073,7 @@ public class OptionsFrame extends KoLFrame
 	{
 		private JCheckBox useClosetForCreationCheckBox;
 		private JCheckBox autoRepairBoxesCheckBox;
+		private JCheckBox includeAscensionRecipesCheckBox;
 
 		public CreationOptionsPanel()
 		{
@@ -1080,10 +1081,12 @@ public class OptionsFrame extends KoLFrame
 
 			useClosetForCreationCheckBox = new JCheckBox();
 			autoRepairBoxesCheckBox = new JCheckBox();
+			includeAscensionRecipesCheckBox = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Use closet as ingredient source", JLabel.LEFT, useClosetForCreationCheckBox );
-			elements[1] = new VerifiableElement( "Auto-repair box servants on explosion ", JLabel.LEFT, autoRepairBoxesCheckBox );
+			elements[1] = new VerifiableElement( "Auto-repair box servants on explosion", JLabel.LEFT, autoRepairBoxesCheckBox );
+			elements[2] = new VerifiableElement( "Include post-ascension recipes", JLabel.LEFT, includeAscensionRecipesCheckBox );
 
 			setContent( elements, false );
 			(new LoadDefaultSettingsThread()).start();
@@ -1105,12 +1108,14 @@ public class OptionsFrame extends KoLFrame
 			{
 				String useClosetForCreationSetting = settings.getProperty( "useClosetForCreation" );
 				String autoRepairBoxesSetting = settings.getProperty( "autoRepairBoxes" );
+				String includeAscensionRecipes = settings.getProperty( "includeAscensionRecipes" );
 
 				// If there are no default settings, simply skip the
 				// attempt at loading them.
 
 				useClosetForCreationCheckBox.setSelected( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) );
 				autoRepairBoxesCheckBox.setSelected( autoRepairBoxesSetting != null && autoRepairBoxesSetting.equals( "true" ) );
+				includeAscensionRecipesCheckBox.setSelected( includeAscensionRecipes != null && includeAscensionRecipes.equals( "true" ) );
 			}
 		}
 
@@ -1126,6 +1131,7 @@ public class OptionsFrame extends KoLFrame
 			{
 				settings.setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationCheckBox.isSelected() ) );
 				settings.setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesCheckBox.isSelected() ) );
+				settings.setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
 				saveSettings();
 			}
 		}
