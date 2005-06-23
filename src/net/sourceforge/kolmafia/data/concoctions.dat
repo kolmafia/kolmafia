@@ -420,18 +420,18 @@ white pixel	10	0	red pixel	green pixel	blue pixel
 
 # Jewelry making recipes
 
-hamethyst earring	8	0	hamethyst	piercing post
-hamethyst necklace	8	0	hamethyst	necklace chain
-hamethyst bracelet	8	0	hamethyst	hemp bracelet
-hamethyst ring	8	0	hamethyst	ring setting
-baconstone earring	8	0	baconstone	piercing post
-baconstone pendant	8	0	baconstone	necklace chain
-baconstone bracelet	8	0	baconstone	hemp bracelet
-baconstone ring	8	0	baconstone	ring setting
-porquoise eyebrow ring	8	0	porquoise	piercing post
-porquoise necklace	8	0	porquoise	necklace chain
-porquoise bracelet	8	0	porquoise	hemp bracelet
-porquoise ring	8	0	porquoise	ring setting
+hamethyst earring	8	1	hamethyst	piercing post
+hamethyst necklace	8	1	hamethyst	necklace chain
+hamethyst bracelet	8	1	hamethyst	hemp bracelet
+hamethyst ring	8	1	hamethyst	ring setting
+baconstone earring	8	1	baconstone	piercing post
+baconstone pendant	8	1	baconstone	necklace chain
+baconstone bracelet	8	1	baconstone	hemp bracelet
+baconstone ring	8	1	baconstone	ring setting
+porquoise eyebrow ring	8	1	porquoise	piercing post
+porquoise necklace	8	1	porquoise	necklace chain
+porquoise bracelet	8	1	porquoise	hemp bracelet
+porquoise ring	8	1	porquoise	ring setting
 
 # Post-ascension recipes
 
