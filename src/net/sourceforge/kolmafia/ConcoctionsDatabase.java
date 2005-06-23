@@ -207,11 +207,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static boolean isPermitted( Concoction concoction, KoLmafia client )
 	{
-		String includeAscensionRecipesSetting = client.getSettings().getProperty( "includeAscensionRecipes" );
-		boolean includeAscensionRecipes = includeAscensionRecipesSetting != null && includeAscensionRecipesSetting.equals( "true" );
+		if ( concoction.isAscensionRecipe )
+		{
+			String includeAscensionRecipesSetting = client.getSettings().getProperty( "includeAscensionRecipes" );
 
-		if ( !includeAscensionRecipes && concoction.isAscensionRecipe)
-			return false;
+			if ( includeAscensionRecipesSetting == null || !includeAscensionRecipesSetting.equals( "true" ))
+			     return false;
+		}
 
 		KoLCharacter data = client.getCharacterData();
 
