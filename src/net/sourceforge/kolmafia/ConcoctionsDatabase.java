@@ -73,21 +73,23 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		String [] data;
 		int itemID, mixingMethod;
+		boolean ascensionRecipe;
 		AdventureResult item;
 
 		while ( (data = readData( reader )) != null )
 		{
 			try
 			{
-				if ( data.length > 2 )
+				if ( data.length > 3 )
 				{
 					item = AdventureResult.parseResult( data[0] );
 					itemID = item.getItemID();
 					mixingMethod = Integer.parseInt( data[1] );
+					ascensionRecipe = ( Integer.parseInt( data[2] ) != 0);
 
-					concoctions[itemID] = new Concoction( item, mixingMethod );
+					concoctions[itemID] = new Concoction( item, mixingMethod, ascensionRecipe );
 
-					for ( int i = 2; i < data.length; ++i )
+					for ( int i = 3; i < data.length; ++i )
 						concoctions[itemID].addIngredient( AdventureResult.parseResult( data[i] ) );
 				}
 			}
@@ -100,7 +102,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( concoctions[i] == null )
-				concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE );
+				concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE, false );
 	}
 
 	public static SortedListModel getConcoctions()
@@ -119,16 +121,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static void refreshConcoctions( KoLmafia client )
 	{
 		List availableIngredients = new ArrayList();
-		String includeAscensionRecipesSetting = client.getSettings().getProperty( "includeAscensionRecipes" );
-		boolean includeAscensionRecipes = includeAscensionRecipesSetting != null && includeAscensionRecipesSetting.equals( "true" );
-		
-		List inventoryList = (List) client.getInventory();
-		for ( int i = 0; i < inventoryList.size(); ++i )
-		{
-			AdventureResult ar = (AdventureResult) inventoryList.get(i);
-			if ( includeAscensionRecipes || !TradeableItemDatabase.isAscensionItem( ar.getItemID() ))
-				AdventureResult.addResultToList( availableIngredients, ar );
-		}
+		availableIngredients.addAll( client.getInventory() );
 
 		if ( client != null )
 		{
@@ -138,11 +131,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			{
 				List closetList = (List) client.getCloset();
 				for ( int i = 0; i < closetList.size(); ++i )
-				{
-					AdventureResult ar = (AdventureResult) closetList.get(i);
-					if ( includeAscensionRecipes || !TradeableItemDatabase.isAscensionItem( ar.getItemID() ))
-					AdventureResult.addResultToList( availableIngredients, ar );
-				}
+                                        AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
 			}
 		}
 
@@ -216,12 +205,17 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * variables is as specified.
 	 */
 
-	private static boolean isPermitted( int mixingMethod, KoLmafia client )
+	private static boolean isPermitted( Concoction concoction, KoLmafia client )
 	{
-		KoLCharacter data = client.getCharacterData();
-		String classtype = data.getClassType();
+		String includeAscensionRecipesSetting = client.getSettings().getProperty( "includeAscensionRecipes" );
+		boolean includeAscensionRecipes = includeAscensionRecipesSetting != null && includeAscensionRecipesSetting.equals( "true" );
 
-		switch ( mixingMethod )
+		if ( !includeAscensionRecipes && concoction.isAscensionRecipe)
+			return false;
+
+		KoLCharacter data = client.getCharacterData();
+
+		switch ( concoction.mixingMethod )
 		{
 			case ItemCreationRequest.COOK:
 				return isAvailable( CHEF, client );
@@ -309,8 +303,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static class Concoction
 	{
-		private int mixingMethod;
 		private AdventureResult concoction;
+		private int mixingMethod;
+		private boolean isAscensionRecipe;
 
 		private List ingredients;
 		private AdventureResult [] ingredientArray;
@@ -318,10 +313,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		private int modifier, multiplier;
 		private int initial, creatable, total;
 
-		public Concoction( AdventureResult concoction, int mixingMethod )
+		public Concoction( AdventureResult concoction, int mixingMethod, boolean isAscensionRecipe )
 		{
 			this.concoction = concoction;
 			this.mixingMethod = mixingMethod;
+			this.isAscensionRecipe = isAscensionRecipe;
 
 			this.ingredients = new ArrayList();
 			this.ingredientArray = new AdventureResult[0];
@@ -387,7 +383,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.initial = concoction.getCount( availableIngredients );
 			this.total = initial;
 
-			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermitted( mixingMethod, client ) )
+			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermitted( this, client ) )
 				return;
 
 			// First, preprocess the ingredients by calculating
