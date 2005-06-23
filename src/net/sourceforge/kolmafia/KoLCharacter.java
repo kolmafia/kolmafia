@@ -1219,6 +1219,21 @@ public class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to look up whether or not the character has
+	 * Amphibian Sympathy
+	 *
+	 * @return	<code>true</code> if this character has Amphibian Sympathy
+	 */
+
+	public boolean hasAmphibianSympathy()
+	{
+		for ( int i = 0; i < availableSkills.size(); ++i )
+			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( "Amphibian Sympathy" ) )
+				return true;
+		return false;
+	}
+
+	/**
 	 * Accessor method to set the description of the current familiar.
 	 * @param	familiarRace	The race of the current familiar
 	 * @param	familiarWeight	The weight of the current familiar
@@ -1289,16 +1304,19 @@ public class KoLCharacter
 				addedWeight += 5;
 		}
 
-		// Finally, update the weight due to the affects
-		// which are impacting the character; empathy and
-		// leash of linguini are the only ones that
-		// need to be watched for (at the moment).
+		// Finally, update the weight due to the effects which are
+		// affecting the character.
+                // Empathy and Leash of Linguini each add five pounds.
+                // The passive "Amphibian Sympathy" skill does too.
 
 		if ( getEffects().contains( EMPATHY ) )
-			addedWeight += getClassType().startsWith( "Tu" ) ? 10 : 5;
+			addedWeight += 5;
 
 		if ( getEffects().contains( LEASH ) )
 			addedWeight += 5;
+
+		if ( hasAmphibianSympathy() )
+                        addedWeight += 5;
 
 		return addedWeight;
 	}
