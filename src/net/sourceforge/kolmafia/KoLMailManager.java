@@ -95,7 +95,7 @@ public class KoLMailManager
 
 	public void deleteMessage( String boxname, KoLMailMessage message )
 	{
-		(new MailboxRequest( client, boxname, message, "delete" )).run();
+		(new RequestThread( new MailboxRequest( client, boxname, message, "delete" ) )).start();
 
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
 		int messageIndex = mailbox.indexOf( message );
@@ -105,7 +105,7 @@ public class KoLMailManager
 
 	public void deleteMessages( String boxname, Object [] messages )
 	{
-		(new MailboxRequest( client, boxname, messages, "delete" )).run();
+		(new RequestThread( new MailboxRequest( client, boxname, messages, "delete" ) )).start();
 
 		int messageIndex;
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
@@ -119,7 +119,7 @@ public class KoLMailManager
 
 	public void saveMessage( KoLMailMessage message )
 	{
-		(new MailboxRequest( client, "Inbox", message, "save" )).run();
+		(new RequestThread( new MailboxRequest( client, "Inbox", message, "save" ) )).start();
 
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( "Inbox" );
 		int messageIndex = mailbox.indexOf( message );
@@ -129,7 +129,7 @@ public class KoLMailManager
 
 	public void saveMessages( Object [] messages )
 	{
-		(new MailboxRequest( client, "Inbox", messages, "save" )).run();
+		(new RequestThread( new MailboxRequest( client, "Inbox", messages, "save" ) )).start();
 
 		int messageIndex;
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( "Inbox" );

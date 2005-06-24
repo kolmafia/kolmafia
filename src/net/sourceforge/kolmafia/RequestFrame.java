@@ -148,7 +148,7 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class DisplayRequestThread extends RequestThread
+	private class DisplayRequestThread extends DaemonThread
 	{
 		private KoLRequest request;
 

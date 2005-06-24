@@ -56,4 +56,11 @@ public interface KoLConstants extends UtilityConstants
 	public static final int ERROR_STATE    = 1;
 	public static final int ENABLED_STATE  = 2;
 	public static final int DISABLED_STATE = 3;
+
+	public static class DaemonThread extends Thread
+	{
+		public DaemonThread()
+		{	setDaemon( true );
+		}
+	}
 }

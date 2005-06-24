@@ -165,47 +165,28 @@ public class StoreManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new ApplyPricesThread()).start();
+		{
+			client.updateDisplay( DISABLED_STATE, "Compiling reprice data..." );
+
+			java.awt.Component [] components = storeItemList.getComponents();
+			int [] itemID = new int[ components.length ];
+			int [] prices = new int[ components.length ];
+			int [] limits = new int[ components.length ];
+
+			StoreItemPanel currentPanel;
+			for ( int i = 0; i < components.length; ++i )
+			{
+				currentPanel = (StoreItemPanel) components[i];
+				itemID[i] = currentPanel.getItemID();
+				prices[i] = currentPanel.getPrice();
+				limits[i] = currentPanel.getLimit();
+			}
+
+			(new RequestThread( new StoreManageRequest( client, itemID, prices, limits ) )).start();
 		}
 
 		public void actionCancelled()
-		{	(new RefreshStoreThread()).start();
-		}
-
-		private class ApplyPricesThread extends RequestThread
-		{
-			public void run()
-			{
-				client.updateDisplay( DISABLED_STATE, "Compiling reprice data..." );
-
-				java.awt.Component [] components = storeItemList.getComponents();
-				int [] itemID = new int[ components.length ];
-				int [] prices = new int[ components.length ];
-				int [] limits = new int[ components.length ];
-
-				StoreItemPanel currentPanel;
-				for ( int i = 0; i < components.length; ++i )
-				{
-					currentPanel = (StoreItemPanel) components[i];
-					itemID[i] = currentPanel.getItemID();
-					prices[i] = currentPanel.getPrice();
-					limits[i] = currentPanel.getLimit();
-				}
-
-				// Adding in delay to make sure the GUI doesn't
-				// get overloaded with requests which could lock
-				// the Swing thread.
-
-				KoLRequest.delay( 5000 );
-				(new StoreManageRequest( client, itemID, prices, limits )).run();
-			}
-		}
-
-		private class RefreshStoreThread extends RequestThread
-		{
-			public void run()
-			{	(new StoreManageRequest( client )).run();
-			}
+		{	(new RequestThread( new StoreManageRequest( client ) )).start();
 		}
 	}
 
@@ -316,34 +297,19 @@ public class StoreManageFrame extends KoLFrame
 		private class AddButtonListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{	(new AutoMallRequestThread()).start();
-			}
-
-			private class AutoMallRequestThread extends RequestThread
 			{
-				public void run()
-				{
-					try
-					{
-						AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
-						if ( soldItem == null )
-							return;
+				AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
+				if ( soldItem == null )
+					return;
 
-						int price = getValue( itemPrice, client.getStoreManager().getPrice( soldItem.getItemID() ) );
-						int limit = getValue( itemLimit );
-						int qty = getValue( itemQty, soldItem.getCount() );
+				int price = getValue( itemPrice, client.getStoreManager().getPrice( soldItem.getItemID() ) );
+				int limit = getValue( itemLimit );
+				int qty = getValue( itemQty, soldItem.getCount() );
 
-						soldItem = new AdventureResult( soldItem.getItemID(), qty );
+				soldItem = new AdventureResult( soldItem.getItemID(), qty );
 
-						if ( price > 10 )
-							client.makeRequest( new AutoSellRequest( client, soldItem, price, limit ), 1 );
-
-						client.updateDisplay( ENABLED_STATE, "Items were placed in the mall." );
-					}
-					catch ( Exception e )
-					{
-					}
-				}
+				if ( price > 10 )
+					(new RequestThread( new AutoSellRequest( client, soldItem, price, limit ) )).start();
 			}
 		}
 
@@ -354,7 +320,8 @@ public class StoreManageFrame extends KoLFrame
 				if ( sellingList.getSelectedItem() == null )
 					return;
 
-				(new SearchMallRequestThread( ((AdventureResult)sellingList.getSelectedItem()).getName() )).start();
+				client.getStoreManager().searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary );
+				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
 			}
 		}
 	}
@@ -463,43 +430,17 @@ public class StoreManageFrame extends KoLFrame
 		private class TakeButtonListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{	(new TakeFromMallRequestThread()).start();
-			}
-
-			private class TakeFromMallRequestThread extends RequestThread
-			{
-				public void run()
-				{	client.getStoreManager().takeItem( itemID );
-				}
+			{	client.getStoreManager().takeItem( itemID );
 			}
 		}
 
 		private class SearchButtonListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{	(new SearchMallRequestThread( itemName.getText() )).start();
+			{
+				client.getStoreManager().searchMall( itemName.getText(), priceSummary );
+				searchLabel.setText( itemName.getText() );
 			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at
-	 * least appearing to freeze), this internal class is used
-	 * to actually make the mall search request.
-	 */
-
-	private class SearchMallRequestThread extends RequestThread
-	{
-		private String itemName;
-
-		public SearchMallRequestThread( String itemName )
-		{	this.itemName = itemName;
-		}
-
-		public void run()
-		{
-			client.getStoreManager().searchMall( itemName, priceSummary );
-			searchLabel.setText( itemName );
 		}
 	}
 

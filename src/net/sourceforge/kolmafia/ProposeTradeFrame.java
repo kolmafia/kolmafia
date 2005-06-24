@@ -55,6 +55,8 @@ public class ProposeTradeFrame extends SendMessageFrame
 
 		if ( this.offerID != null )
 			recipientEntry.setEnabled( false );
+
+		sendMessageButton.addActionListener( new ProposeTradeListener() );
 	}
 
 	protected String [] getEntryHeaders()
@@ -68,21 +70,31 @@ public class ProposeTradeFrame extends SendMessageFrame
 			recipientEntry.setEnabled( false );
 	}
 
-	private class ProposeTradeThread extends RequestThread
+	private class ProposeTradeListener implements ActionListener
 	{
-		public void run()
+		public void actionPerformed( ActionEvent e )
+		{	(new ProposeTradeThread()).start();
+		}
+
+		private class ProposeTradeThread extends DaemonThread
 		{
-			if ( client == null )
-				return;
+			public void run()
+			{
+				if ( client == null )
+					return;
 
-			if ( offerID != null )
-				(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
+				if ( offerID != null )
+					(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
 
-			ProposeTradeFrame.this.dispose();
-			KoLFrame frame = offerID != null ? new PendingTradesFrame( client, new ProposeTradeRequest( client ) ) :
-				new PendingTradesFrame( client, new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() ) );
+				ProposeTradeFrame.this.dispose();
 
-			frame.pack();  frame.setVisible( true );  frame.requestFocus();
+				Object [] parameters = new Object[2];
+				parameters[0] = client;
+				parameters[1] = offerID != null ? new ProposeTradeRequest( client ) :
+					new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() );
+
+				(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
+			}
 		}
 	}
 

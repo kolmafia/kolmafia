@@ -177,64 +177,46 @@ public class HagnkStorageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new ItemWithdrawThread( false )).start();
+		{	withdraw( false );
 		}
 
 		protected void actionCancelled()
-		{	(new ItemWithdrawThread( true )).start();
+		{	withdraw( true );
 		}
 
-		public void setEnabled( boolean isEnabled )
+		private void withdraw( boolean isCloset )
 		{
-			super.setEnabled( isEnabled );
-			elementList.setEnabled( isEnabled );
-		}
+			Object [] items = elementList.getSelectedValues();
+			AdventureResult selection;
+			int itemID, quantity;
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually move items around in the inventory.
-		 */
-
-		private class ItemWithdrawThread extends RequestThread
-		{
-			private boolean isCloset;
-
-			public ItemWithdrawThread( boolean isCloset )
-			{	this.isCloset = isCloset;
-			}
-
-			public void run()
+			try
 			{
-				Object [] items = elementList.getSelectedValues();
-				AdventureResult selection;
-				int itemID, quantity;
-
-				try
+				for ( int i = 0; i < items.length; ++i )
 				{
-					for ( int i = 0; i < items.length; ++i )
-					{
-						selection = (AdventureResult) items[i];
-						itemID = selection.getItemID();
-						quantity = df.parse( JOptionPane.showInputDialog(
-							"Retrieving " + selection.getName() + " from the storage...", String.valueOf( selection.getCount() ) ) ).intValue();
+					selection = (AdventureResult) items[i];
+					itemID = selection.getItemID();
+					quantity = df.parse( JOptionPane.showInputDialog(
+						"Retrieving " + selection.getName() + " from the storage...", String.valueOf( selection.getCount() ) ) ).intValue();
 
-						items[i] = new AdventureResult( itemID, quantity );
-					}
+					items[i] = new AdventureResult( itemID, quantity );
 				}
-				catch ( Exception e )
-				{
-					// If an exception occurs somewhere along the way
-					// then return from the thread.
-
-					return;
-				}
-
-				client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.STORAGE_TO_INVENTORY, items ), 1 );
-
-				if ( isCloset )
-					client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items ), 1 );
 			}
+			catch ( Exception e )
+			{
+				// If an exception occurs somewhere along the way
+				// then return from the thread.
+
+				return;
+			}
+
+			Runnable [] requests = isCloset ? new Runnable[2] : new Runnable[1];
+			requests[0] = new ItemStorageRequest( client, ItemStorageRequest.STORAGE_TO_INVENTORY, items );
+
+			if ( isCloset )
+				requests[1] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+
+			(new RequestThread( requests )).start();
 		}
 	}
 

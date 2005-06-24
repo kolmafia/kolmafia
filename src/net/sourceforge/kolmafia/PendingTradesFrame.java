@@ -63,25 +63,13 @@ public class PendingTradesFrame extends RequestFrame
 				Matcher actionMatcher = Pattern.compile( "action=(.*?)&" ).matcher( location );
 				actionMatcher.find();
 
-				(new TradeLinkThread( actionMatcher.group(1), location.substring( location.lastIndexOf( "=" ) + 1 ) )).start();
-			}
-		}
+				Object [] parameters = new Object[3];
+				parameters[0] = client;
+				parameters[1] = actionMatcher.group(1);
+				parameters[2] = location.substring( location.lastIndexOf( "=" ) + 1 );
 
-		private class TradeLinkThread extends RequestThread
-		{
-			private String action, offerID;
-
-			public TradeLinkThread( String action, String offerID )
-			{
-				this.action = action;
-				this.offerID = offerID;
-			}
-
-			public void run()
-			{
 				PendingTradesFrame.this.dispose();
-				KoLFrame frame = new PendingTradesFrame( client, new ProposeTradeRequest( client, action, offerID ) );
-				frame.pack();  frame.setVisible( true );  frame.requestFocus();
+				(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
 			}
 		}
 	}

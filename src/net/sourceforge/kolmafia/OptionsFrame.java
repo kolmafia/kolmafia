@@ -1165,12 +1165,8 @@ public class OptionsFrame extends KoLFrame
 		{	return settings.getProperty( key );
 		}
 
-		protected abstract class OptionsThread extends Thread
+		protected abstract class OptionsThread extends DaemonThread
 		{
-			public OptionsThread()
-			{	setDaemon( true );
-			}
-
 			public final void run()
 			{
 				save();

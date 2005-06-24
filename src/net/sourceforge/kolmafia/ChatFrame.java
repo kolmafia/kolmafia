@@ -313,21 +313,8 @@ public class ChatFrame extends KoLFrame
 
 			private void submitChat()
 			{
-				(new ChatEntryThread( entryField.getText().trim() )).start();
+				(new RequestThread( new ChatRequest( client, associatedContact, entryField.getText().trim() ) )).start();
 				entryField.setText( "" );
-			}
-
-			private class ChatEntryThread extends RequestThread
-			{
-				private String message;
-
-				public ChatEntryThread( String message )
-				{	this.message = message;
-				}
-
-				public void run()
-				{	(new ChatRequest( client, associatedContact, message )).run();
-				}
 			}
 		}
 	}
@@ -476,16 +463,9 @@ public class ChatFrame extends KoLFrame
 		}
 
 		public void windowClosed( WindowEvent e )
-		{	(new CloseChatRequestThread()).start();
-		}
-
-		private class CloseChatRequestThread extends RequestThread
 		{
-			public void run()
-			{
-				if ( client != null && client.getMessenger() != null )
-					client.getMessenger().removeChat( associatedContact );
-			}
+			if ( client != null && client.getMessenger() != null )
+				client.getMessenger().removeChat( associatedContact );
 		}
 	}
 
@@ -499,16 +479,9 @@ public class ChatFrame extends KoLFrame
 	private class ExitChatListener extends WindowAdapter
 	{
 		public void windowClosed( WindowEvent e )
-		{	(new CloseChatRequestThread()).start();
-		}
-
-		private class CloseChatRequestThread extends RequestThread
 		{
-			public void run()
-			{
-				if ( client != null )
-					client.deinitializeChat();
-			}
+			if ( client != null )
+				client.deinitializeChat();
 		}
 	}
 

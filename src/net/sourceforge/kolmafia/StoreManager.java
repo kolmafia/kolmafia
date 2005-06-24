@@ -103,50 +103,65 @@ public class StoreManager implements KoLConstants
 	 */
 
 	public void searchMall( String itemName, List priceSummary )
+	{	(new MallSearchThread( itemName, priceSummary )).start();
+	}
+
+	private class MallSearchThread extends DaemonThread
 	{
-		if ( itemName == null )
-			return;
+		private String itemName;
+		private List priceSummary;
 
-		ArrayList results = new ArrayList();
-		(new SearchMallRequest( client, "\'\'" + itemName + "\'\'", 0, results )).run();
-
-		Iterator i = results.iterator();
-		MallPurchaseRequest currentItem;
-
-		if ( client.getSettings().getProperty( "aggregatePrices" ).equals( "true" ) )
+		public MallSearchThread( String itemName, List priceSummary )
 		{
-			TreeMap prices = new TreeMap();
-			Integer currentQuantity, currentPrice;
-
-			while ( i.hasNext() )
-			{
-				currentItem = (MallPurchaseRequest) i.next();
-				currentPrice = new Integer( currentItem.getPrice() );
-
-				currentQuantity = (Integer) prices.get( currentPrice );
-				if ( currentQuantity == null )
-					prices.put( currentPrice, new Integer( currentItem.getLimit() ) );
-				else
-					prices.put( currentPrice, new Integer( currentQuantity.intValue() + currentItem.getQuantity() ) );
-			}
-
-			priceSummary.clear();
-			i = prices.keySet().iterator();
-
-			while ( i.hasNext() )
-			{
-				currentPrice = (Integer) i.next();
-				priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
-					df.format( currentPrice.intValue() ) + " meat" );
-			}
+			this.itemName = itemName;
+			this.priceSummary = priceSummary;
 		}
-		else
+
+		public void run()
 		{
 			priceSummary.clear();
-			while ( i.hasNext() )
+			if ( itemName == null )
+				return;
+
+			ArrayList results = new ArrayList();
+			(new SearchMallRequest( client, "\'\'" + itemName + "\'\'", 0, results )).run();
+
+			Iterator i = results.iterator();
+			MallPurchaseRequest currentItem;
+
+			if ( client.getSettings().getProperty( "aggregatePrices" ).equals( "true" ) )
 			{
-				currentItem = (MallPurchaseRequest) i.next();
-				priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + ": " + df.format( currentItem.getLimit() ) + " @ " + df.format( currentItem.getPrice() ) );
+				TreeMap prices = new TreeMap();
+				Integer currentQuantity, currentPrice;
+
+				while ( i.hasNext() )
+				{
+					currentItem = (MallPurchaseRequest) i.next();
+					currentPrice = new Integer( currentItem.getPrice() );
+
+					currentQuantity = (Integer) prices.get( currentPrice );
+					if ( currentQuantity == null )
+						prices.put( currentPrice, new Integer( currentItem.getLimit() ) );
+					else
+						prices.put( currentPrice, new Integer( currentQuantity.intValue() + currentItem.getQuantity() ) );
+				}
+
+				i = prices.keySet().iterator();
+
+				while ( i.hasNext() )
+				{
+					currentPrice = (Integer) i.next();
+					priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
+						df.format( currentPrice.intValue() ) + " meat" );
+				}
+			}
+			else
+			{
+				while ( i.hasNext() )
+				{
+					currentItem = (MallPurchaseRequest) i.next();
+					priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + ": " + df.format( currentItem.getLimit() ) + " @ " + df.format( currentItem.getPrice() ) );
+				}
 			}
 		}
 	}
@@ -157,7 +172,7 @@ public class StoreManager implements KoLConstants
 	 */
 
 	public void takeItem( int itemID )
-	{	(new StoreManageRequest( client, itemID )).run();
+	{	(new RequestThread( new StoreManageRequest( client, itemID ) )).start();
 	}
 
 	/**

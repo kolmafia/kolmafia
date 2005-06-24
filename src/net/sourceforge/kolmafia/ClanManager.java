@@ -520,17 +520,24 @@ public class ClanManager implements KoLConstants
 
 	public void postMessage()
 	{
-		MessagePostFrame frame = new MessagePostFrame( client, "post" );
-		frame.pack();  frame.setVisible( true );  frame.requestFocus();
+		Object [] parameters = new Object[2];
+		parameters[0] = client;
+		parameters[1] = "post";
+
+		(new CreateFrameRunnable( MessagePostFrame.class, parameters )).run();
 	}
 
 	public void postAnnouncement()
 	{
-		MessagePostFrame frame = new MessagePostFrame( client, "postannounce" );
-		frame.pack();  frame.setVisible( true );  frame.requestFocus();
+
+		Object [] parameters = new Object[2];
+		parameters[0] = client;
+		parameters[1] = "postannounce";
+
+		(new CreateFrameRunnable( MessagePostFrame.class, parameters )).run();
 	}
 
-	private class MessagePostFrame extends KoLFrame
+	public static class MessagePostFrame extends KoLFrame
 	{
 		private String action;
 		private MessagePostPanel panel;
@@ -565,7 +572,7 @@ public class ClanManager implements KoLConstants
 			}
 
 			public void actionConfirmed()
-			{	(new MessagePostThread()).start();
+			{	(new RequestThread( new MessagePostRequest( client, messageEntry.getText() ) )).start();
 			}
 
 			public void actionCancelled()
@@ -577,18 +584,6 @@ public class ClanManager implements KoLConstants
 		{
 			if ( panel != null )
 				panel.setEnabled( isEnabled );
-		}
-
-		private class MessagePostThread extends RequestThread
-		{
-			public void run()
-			{
-				setEnabled( false );
-				client.updateDisplay( DISABLED_STATE, "Posting to clan board..." );
-				(new MessagePostRequest( client, messageEntry.getText() )).run();
-				client.updateDisplay( ENABLED_STATE, "Post attempt complete." );
-				MessagePostFrame.this.dispose();
-			}
 		}
 
 		private class MessagePostRequest extends KoLRequest

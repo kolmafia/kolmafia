@@ -73,7 +73,7 @@ public class GreenMessageFrame extends SendMessageFrame
 		{	(new SendGreenMessageThread()).start();
 		}
 
-		private class SendGreenMessageThread extends RequestThread
+		private class SendGreenMessageThread extends DaemonThread
 		{
 			public void run()
 			{

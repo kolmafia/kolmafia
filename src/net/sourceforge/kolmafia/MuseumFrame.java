@@ -113,7 +113,6 @@ public class MuseumFrame extends KoLFrame
 
 	private class StoragePanel extends JPanel
 	{
-		private JList availableList, displayList;
 		private ItemManagePanel inventoryPanel, displayPanel;
 
 		public StoragePanel()
@@ -137,98 +136,35 @@ public class MuseumFrame extends KoLFrame
 		private class OutsideDisplayPanel extends ItemManagePanel
 		{
 			public OutsideDisplayPanel()
-			{
-				super( "Inventory", "add to display", "put in closet", client == null ? new LockableListModel() : client.getInventory() );
-				availableList = elementList;
+			{	super( "Inventory", "add to display", "put in closet", client == null ? new LockableListModel() : client.getInventory() );
 			}
 
 			protected void actionConfirmed()
-			{	(new InventoryStorageThread( false )).start();
+			{	(new RequestThread( new MuseumRequest( client, true, elementList.getSelectedValues() ) )).start();
 			}
 
 			protected void actionCancelled()
-			{	(new InventoryStorageThread( true )).start();
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				availableList.setEnabled( isEnabled );
+			{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, elementList.getSelectedValues() ) )).start();
 			}
 		}
 
 		private class InsideDisplayPanel extends ItemManagePanel
 		{
 			public InsideDisplayPanel()
-			{
-				super( "Display Case", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getCollection() );
-				displayList = elementList;
+			{	super( "Display Case", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getCollection() );
 			}
 
 			protected void actionConfirmed()
-			{	(new DisplayStorageThread( false )).start();
+			{	(new RequestThread( new MuseumRequest( client, false, elementList.getSelectedValues() ) )).start();
 			}
 
 			protected void actionCancelled()
-			{	(new DisplayStorageThread( true )).start();
-			}
-
-			public void setEnabled( boolean isEnabled )
 			{
-				super.setEnabled( isEnabled );
-				displayList.setEnabled( isEnabled );
-			}
-		}
+				Runnable [] parameters = new Runnable[2];
+				parameters[0] = new MuseumRequest( client, false, elementList.getSelectedValues() );
+				parameters[1] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, elementList.getSelectedValues() );
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually move items around in the inventory.
-		 */
-
-		private class InventoryStorageThread extends RequestThread
-		{
-			private boolean isCloset;
-
-			public InventoryStorageThread( boolean isCloset )
-			{	this.isCloset = isCloset;
-			}
-
-			public void run()
-			{
-				Object [] items = availableList.getSelectedValues();
-
-				Runnable request = isCloset ? (Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items ) :
-					(Runnable) new MuseumRequest( client, true, items );
-
-				request.run();
-				client.updateDisplay( ENABLED_STATE, "Items moved." );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually move items around in the inventory.
-		 */
-
-		private class DisplayStorageThread extends RequestThread
-		{
-			private boolean isCloset;
-
-			public DisplayStorageThread( boolean isCloset )
-			{	this.isCloset = isCloset;
-			}
-
-			public void run()
-			{
-				Object [] items = displayList.getSelectedValues();
-				(new MuseumRequest( client, false, items )).run();
-
-				if ( isCloset )
-					(new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items )).run();
-
-				client.updateDisplay( ENABLED_STATE, "Items moved." );
+				(new RequestThread( parameters )).start();
 			}
 		}
 	}

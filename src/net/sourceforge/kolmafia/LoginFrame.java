@@ -270,20 +270,47 @@ public class LoginFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new LoginRequestThread(false)).start();
+		{	login( false );
 		}
 
 		protected void actionCancelled()
 		{
 			if ( loginnameField.isEnabled() )
-			{	(new LoginRequestThread(true)).start();
-			}
+				login( true );
 			else
 			{
 				updateDisplay( ENABLED_STATE, "Login cancelled." );
 				client.cancelRequest();
 				requestFocus();
 			}
+		}
+
+		private void login( boolean isQuickLogin )
+		{
+			String loginname = ((String)(loginnameField instanceof JComboBox ?
+				((JComboBox)loginnameField).getSelectedItem() : ((JTextField)loginnameField).getText() ));
+
+			String password = new String( passwordField.getPassword() );
+
+			if ( loginname == null || password == null || loginname.equals("") || password.equals("") )
+			{
+				updateDisplay( ERROR_STATE, "Invalid login." );
+				return;
+			}
+
+			if ( autoLoginCheckBox.isSelected() )
+				client.getSettings().setProperty( "autoLogin", loginname );
+			else
+			{
+				client.getSettings().remove( "autoLogin" );
+				client.getSettings().saveSettings();
+			}
+
+			if ( isQuickLogin && !loginname.endsWith( "/q" ) )
+				loginname += "/q";
+
+			updateDisplay( DISABLED_STATE, "Determining login settings..." );
+			(new RequestThread( new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected(), isQuickLogin ) )).start();
 		}
 
 		public void requestFocus()
@@ -294,49 +321,6 @@ public class LoginFrame extends KoLFrame
 		{
 			if ( !savePasswordCheckBox.isSelected() && loginnameField instanceof JComboBox )
 				client.removeSaveState( (String) ((JComboBox)loginnameField).getSelectedItem() );
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually make the login attempt.
-		 */
-
-		private class LoginRequestThread extends RequestThread
-		{
-			private boolean isQuickLogin;
-
-			public LoginRequestThread( boolean isQuickLogin )
-			{	this.isQuickLogin = isQuickLogin;
-			}
-
-			public void run()
-			{
-				String loginname = ((String)(loginnameField instanceof JComboBox ?
-					((JComboBox)loginnameField).getSelectedItem() : ((JTextField)loginnameField).getText() ));
-
-				String password = new String( passwordField.getPassword() );
-
-				if ( loginname == null || password == null || loginname.equals("") || password.equals("") )
-				{
-					updateDisplay( ERROR_STATE, "Invalid login." );
-					return;
-				}
-
-				if ( autoLoginCheckBox.isSelected() )
-					client.getSettings().setProperty( "autoLogin", loginname );
-				else
-				{
-					client.getSettings().remove( "autoLogin" );
-					client.getSettings().saveSettings();
-				}
-
-				if ( isQuickLogin && !loginname.endsWith( "/q" ) )
-					loginname += "/q";
-
-				updateDisplay( DISABLED_STATE, "Determining login settings..." );
-				(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected(), isQuickLogin )).run();
-			}
 		}
 
 		/**

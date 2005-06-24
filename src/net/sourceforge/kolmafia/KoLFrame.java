@@ -555,34 +555,27 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				"Record Script..." : "Stop Recording" );
 		}
 
-		public void actionPerformed(ActionEvent e)
-		{	(new MacroRecordThread()).start();
-		}
-
-		private class MacroRecordThread extends RequestThread
+		public void actionPerformed( ActionEvent e )
 		{
-			public void run()
+			if ( client != null && client.getMacroStream() instanceof NullStream )
 			{
-				if ( client != null && client.getMacroStream() instanceof NullStream )
-				{
-					JFileChooser chooser = new JFileChooser( "scripts" );
-					int returnVal = chooser.showSaveDialog( KoLFrame.this );
+				JFileChooser chooser = new JFileChooser( "scripts" );
+				int returnVal = chooser.showSaveDialog( KoLFrame.this );
 
-					if ( chooser.getSelectedFile() == null )
-						return;
+				if ( chooser.getSelectedFile() == null )
+					return;
 
-					String filename = chooser.getSelectedFile().getAbsolutePath();
+				String filename = chooser.getSelectedFile().getAbsolutePath();
 
-					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-						client.initializeMacroStream( filename );
+				if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+					client.initializeMacroStream( filename );
 
-					loggerItem.setText( "Stop Recording" );
-				}
-				else if ( client != null )
-				{
-					client.deinitializeMacroStream();
-					loggerItem.setText( "Record Script..." );
-				}
+				loggerItem.setText( "Stop Recording" );
+			}
+			else if ( client != null )
+			{
+				client.deinitializeMacroStream();
+				loggerItem.setText( "Record Script..." );
 			}
 		}
 	}
@@ -635,7 +628,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{	(new LoadScriptThread()).start();
 		}
 
-		private class LoadScriptThread extends RequestThread
+		private class LoadScriptThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -1049,24 +1042,17 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new DisplayFrameThread()).start();
-		}
-
-		protected class DisplayFrameThread extends RequestThread
 		{
-			public void run()
-			{
-				for ( int i = 0; i < existingFrames.size(); ++i )
-					if ( existingFrames.get(i).getClass() == frameClass )
-					{
-						((KoLFrame)existingFrames.get(i)).setVisible( true );
-						((KoLFrame)existingFrames.get(i)).setEnabled( isEnabled() );
-						return;
-					}
+			for ( int i = 0; i < existingFrames.size(); ++i )
+				if ( existingFrames.get(i).getClass() == frameClass )
+				{
+					((KoLFrame)existingFrames.get(i)).setVisible( true );
+					((KoLFrame)existingFrames.get(i)).setEnabled( isEnabled() );
+					return;
+				}
 
-				displayer.setEnabled( isEnabled() );
-				displayer.run();
-			}
+			displayer.setEnabled( isEnabled() );
+			displayer.run();
 		}
 	}
 
@@ -1079,25 +1065,20 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	private class ViewChatListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new ViewChatThread()).start();
-		}
-
-		private class ViewChatThread extends RequestThread
 		{
-			public void run()
-			{
-				if ( client.getMessenger() == null )
-					client.initializeChat();
-
-				updateDisplay( ENABLED_STATE, "Chat successfully loaded." );
-			}
+			if ( client.getMessenger() == null )
+				client.initializeChat();
 		}
 	}
 
 	private class GraphicalCLIListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	((KoLmafiaGUI) client).initializeGCLI();
+		{
+			Object [] parameters = new Object[1];
+			parameters[0] = this;
+
+			(new CreateFrameRunnable( CommandDisplayFrame.class, parameters )).run();
 		}
 	}
 

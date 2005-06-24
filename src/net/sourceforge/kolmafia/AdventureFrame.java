@@ -555,7 +555,7 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			contentPanel = mallSearch;
-			(new SearchMallRequestThread()).start();
+			(new SearchMallThread()).start();
 		}
 
 		protected void actionCancelled()
@@ -564,7 +564,7 @@ public class AdventureFrame extends KoLFrame
 				return;
 
 			contentPanel = mallSearch;
-			(new PurchaseRequestThread()).start();
+			(new PurchaseThread()).start();
 		}
 
 		public void requestFocus()
@@ -603,7 +603,7 @@ public class AdventureFrame extends KoLFrame
 		 * to actually make the mall search request.
 		 */
 
-		private class SearchMallRequestThread extends RequestThread
+		private class SearchMallThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -625,7 +625,7 @@ public class AdventureFrame extends KoLFrame
 		 * to actually make the mall search request.
 		 */
 
-		private class PurchaseRequestThread extends RequestThread
+		private class PurchaseThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -824,28 +824,18 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			contentPanel = removeEffects;
-			(new RemoveEffectsThread()).start();
+			AdventureResult effect = (AdventureResult) effects.getSelectedItem();
+
+			if ( effect == null )
+				return;
+
+			(new RequestThread( new UneffectRequest( client, effect ) )).start();
 		}
 
 		protected void actionCancelled()
 		{
 			contentPanel = removeEffects;
 			updateDisplay( ERROR_STATE, "Unfortunately, you do not have a Valuable Trinket Crossbow." );
-		}
-
-		private class RemoveEffectsThread extends RequestThread
-		{
-			public void run()
-			{
-				AdventureResult effect = (AdventureResult) effects.getSelectedItem();
-
-				if ( effect == null )
-					return;
-
-				client.makeRequest( new UneffectRequest( client, effect ), 1 );
-				boolean isEnabled = client.getInventory().contains( UneffectRequest.REMEDY );
-				RemoveEffectsPanel.this.setEnabled( isEnabled );
-			}
 		}
 	}
 
@@ -944,7 +934,7 @@ public class AdventureFrame extends KoLFrame
 		{	(new GetBreakfastThread()).start();
 		}
 
-		private class GetBreakfastThread extends RequestThread
+		private class GetBreakfastThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -965,12 +955,6 @@ public class AdventureFrame extends KoLFrame
 		public void windowOpened( WindowEvent e )
 		{
 			if ( client != null && client.getSettings().getProperty( "savePositions" ).equals( "true" ) )
-				(new ReopenWindowsThread()).start();
-		}
-
-		private class ReopenWindowsThread extends RequestThread
-		{
-			public void run()
 			{
 				KoLFrame currentFrame;
 				String [] framesToReload = client.getSettings().getProperty( "reloadFrames" ).split( "," );
@@ -988,6 +972,9 @@ public class AdventureFrame extends KoLFrame
 						}
 						catch ( Exception e1 )
 						{
+							// If the exception gets thrown, then the
+							// frame isn't created, which is just as
+							// expected.  Do nothing.
 						}
 					}
 				}
@@ -1002,15 +989,6 @@ public class AdventureFrame extends KoLFrame
 				// the current client to run down in a separate
 				// Thread.
 
-				(new LogoutRequestThread()).start();
-				new KoLmafiaGUI();
-			}
-		}
-
-		private class LogoutRequestThread extends RequestThread
-		{
-			public void run()
-			{
 				Iterator frames = existingFrames.iterator();
 				KoLFrame currentFrame;
 
@@ -1037,7 +1015,10 @@ public class AdventureFrame extends KoLFrame
 
 				existingFrames.clear();
 				client.deinitialize();
-				(new LogoutRequest( client )).run();
+
+				(new RequestThread( new LogoutRequest( client ) )).start();
+
+				new KoLmafiaGUI();
 			}
 		}
 	}
@@ -1045,42 +1026,21 @@ public class AdventureFrame extends KoLFrame
 	private class HermitRequestListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new HermitRequestThread()).start();
-		}
-
-		private class HermitRequestThread extends RequestThread
-		{
-			public void run()
-			{	client.makeRequest( new KoLAdventure( client, "hermit.php", "", "The Hermitage" ), 1 );
-			}
+		{	(new RequestThread( new KoLAdventure( client, "hermit.php", "", "The Hermitage" ) )).start();
 		}
 	}
 
 	private class TrapperRequestListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new TrapperRequestThread()).start();
-		}
-
-		private class TrapperRequestThread extends RequestThread
-		{
-			public void run()
-			{	client.makeRequest( new KoLAdventure( client, "trapper.php", "", "The 1337 Trapper" ), 1 );
-			}
+		{	(new RequestThread( new KoLAdventure( client, "trapper.php", "", "The 1337 Trapper" ) )).start();
 		}
 	}
 
 	private class HunterRequestListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new HunterRequestThread()).start();
-		}
-
-		private class HunterRequestThread extends RequestThread
-		{
-			public void run()
-			{	client.makeRequest( new KoLAdventure( client, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ), 1 );
-			}
+		{	(new RequestThread( new KoLAdventure( client, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ) )).start();
 		}
 	}
 
@@ -1090,7 +1050,7 @@ public class AdventureFrame extends KoLFrame
 		{	(new OtoriBuffThread()).start();
 		}
 
-		private class OtoriBuffThread extends RequestThread
+		private class OtoriBuffThread extends DaemonThread
 		{
 			public void run()
 			{	client.pwnClanOtori();
@@ -1104,7 +1064,7 @@ public class AdventureFrame extends KoLFrame
 		{	(new SessionTimeInThread()).start();
 		}
 
-		private class SessionTimeInThread extends RequestThread
+		private class SessionTimeInThread extends DaemonThread
 		{
 			public void run()
 			{

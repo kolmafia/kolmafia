@@ -269,7 +269,7 @@ public class BuffBotFrame extends KoLFrame
 		 * to actually make the request to start the buffbot.
 		 */
 
-		private class BuffBotRequestThread extends RequestThread
+		private class BuffBotRequestThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -500,7 +500,7 @@ public class BuffBotFrame extends KoLFrame
 			}
 		}
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadDefaultSettingsThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -519,7 +519,7 @@ public class BuffBotFrame extends KoLFrame
 			}
 		}
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -585,19 +585,13 @@ public class BuffBotFrame extends KoLFrame
 		public void windowClosing( WindowEvent e )
 		{
 			if ( client != null )
-				(new DisableBuffBotThread()).start();
-			else
-				System.exit(0);
-		}
-
-		private class DisableBuffBotThread extends RequestThread
-		{
-			public void run()
 			{
 				if ( client != null )
 					client.setBuffBotActive( false );
 				client.updateDisplay( ENABLED_STATE, "Buffbot deactivated." );
 			}
+			else
+				System.exit(0);
 		}
 	}
 

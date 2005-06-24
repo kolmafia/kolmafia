@@ -595,7 +595,7 @@ public class ClanManageFrame extends KoLFrame
 		 * to actually donate to the statues.
 		 */
 
-		private class MemberSearchThread extends RequestThread
+		private class MemberSearchThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -604,7 +604,7 @@ public class ClanManageFrame extends KoLFrame
 			}
 		}
 
-		private class MemberChangeThread extends RequestThread
+		private class MemberChangeThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -662,7 +662,7 @@ public class ClanManageFrame extends KoLFrame
 		{	(new ManagerThread()).start();
 		}
 
-		private class ManagerThread extends RequestThread
+		private class ManagerThread extends DaemonThread
 		{
 			public void run()
 			{

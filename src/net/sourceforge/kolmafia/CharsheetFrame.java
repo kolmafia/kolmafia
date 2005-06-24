@@ -299,7 +299,7 @@ public class CharsheetFrame extends KoLFrame
 		{	(new StatusRefreshThread()).start();
 		}
 
-		private class StatusRefreshThread extends RequestThread
+		private class StatusRefreshThread extends DaemonThread
 		{
 			public void run()
 			{

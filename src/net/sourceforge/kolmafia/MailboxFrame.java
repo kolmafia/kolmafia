@@ -237,7 +237,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			(new RequestMailboxThread( "Saved" )).run();
 	}
 
-	private class RequestMailboxThread extends RequestThread
+	private class RequestMailboxThread extends DaemonThread
 	{
 		private String mailboxName;
 
@@ -314,15 +314,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				{
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-							(new DeleteMessageThread()).start();
+							mailbox.deleteMessages( mailboxName, getSelectedValues() );
 
-				}
-			}
-
-			private class DeleteMessageThread extends RequestThread
-			{
-				public void run()
-				{	mailbox.deleteMessages( mailboxName, getSelectedValues() );
 				}
 			}
 		}
@@ -363,16 +356,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new BoxRefreshThread()).start();
-		}
-
-		private class BoxRefreshThread extends RequestThread
 		{
-			public void run()
-			{
-				mailbox.getMessages( boxname ).clear();
-				(new MailboxRequest( client, boxname )).run();
-			}
+			mailbox.getMessages( boxname ).clear();
+			(new RequestThread( new MailboxRequest( client, boxname ) )).start();
 		}
 	}
 
@@ -385,14 +371,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new BoxEmptyThread()).start();
-		}
-
-		private class BoxEmptyThread extends RequestThread
-		{
-			public void run()
-			{	mailbox.deleteMessages( boxname, mailbox.getMessages( boxname ).toArray() );
-			}
+		{	mailbox.deleteMessages( boxname, mailbox.getMessages( boxname ).toArray() );
 		}
 	}
 

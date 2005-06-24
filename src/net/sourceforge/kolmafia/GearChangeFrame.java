@@ -244,7 +244,7 @@ public class GearChangeFrame extends KoLFrame
 		{	(new RefreshEquipmentThread()).start();
 		}
 
-		private class RefreshEquipmentThread extends RequestThread
+		private class RefreshEquipmentThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -264,7 +264,7 @@ public class GearChangeFrame extends KoLFrame
 		{	(new RefreshFamiliarThread()).start();
 		}
 
-		private class RefreshFamiliarThread extends RequestThread
+		private class RefreshFamiliarThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -289,7 +289,7 @@ public class GearChangeFrame extends KoLFrame
 				(new ChangeFamiliarThread()).start();
 		}
 
-		private class ChangeFamiliarThread extends RequestThread
+		private class ChangeFamiliarThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -319,7 +319,7 @@ public class GearChangeFrame extends KoLFrame
 				(new ChangeEquipmentThread()).start();
 		}
 
-		private class ChangeEquipmentThread extends RequestThread
+		private class ChangeEquipmentThread extends DaemonThread
 		{
 			public void run()
 			{
@@ -354,7 +354,7 @@ public class GearChangeFrame extends KoLFrame
 				(new ChangeOutfitThread()).start();
 		}
 
-		private class ChangeOutfitThread extends RequestThread
+		private class ChangeOutfitThread extends DaemonThread
 		{
 			public void run()
 			{

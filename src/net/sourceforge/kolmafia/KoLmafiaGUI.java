@@ -74,25 +74,13 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
+		super.updateDisplay( state, message );
+
 		if ( displayer != null && displayer.getCreation() != null )
 		{
 			((KoLFrame)displayer.getCreation()).updateDisplay( state, message );
 			if ( isBuffBotActive() )
 				buffBotHome.updateStatus( message );
-		}
-
-		if ( buffer != null )
-		{
-			StringBuffer colorBuffer = new StringBuffer();
-			if ( state == ERROR_STATE )
-				colorBuffer.append( "<font color=red>" );
-			else
-				colorBuffer.append( "<font color=black>" );
-
-			colorBuffer.append( message );
-			colorBuffer.append( "</font><br>" );
-			colorBuffer.append( System.getProperty( "line.separator" ) );
-			buffer.append( colorBuffer.toString() );
 		}
 	}
 
@@ -273,16 +261,5 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( displayer != null && displayer.getCreation() != null )
 			((KoLFrame)displayer.getCreation()).setVisible( true );
-	}
-
-	public void initializeGCLI()
-	{
-		buffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI" );
-
-		Object [] parameters = new Object[2];
-		parameters[0] = this;
-		parameters[1] = buffer;
-
-		(new CreateFrameRunnable( CommandDisplayFrame.class, parameters )).run();
 	}
 }

@@ -85,7 +85,7 @@ public class GiftMessageFrame extends SendMessageFrame
 		{	(new SendGiftMessageThread()).start();
 		}
 
-		private class SendGiftMessageThread extends RequestThread
+		private class SendGiftMessageThread extends DaemonThread
 		{
 			public void run()
 			{

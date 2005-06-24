@@ -156,7 +156,7 @@ public class KoLMessenger implements KoLConstants
 	public void initialize()
 	{
 		client.updateDisplay( NOCHANGE, "Initializing chat..." );
-		(new ChatRequest( client, null, "/channel" )).run();
+		(new RequestThread( new ChatRequest( client, null, "/channel" ) )).start();
 		LimitedSizeChatBuffer.clearHighlights();
 	}
 

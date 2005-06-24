@@ -62,12 +62,13 @@ import javax.swing.JScrollPane;
 
 public class CommandDisplayFrame extends KoLFrame
 {
-	private LimitedSizeChatBuffer buffer;
+	private LimitedSizeChatBuffer commandBuffer;
 
-	public CommandDisplayFrame( KoLmafia client, LimitedSizeChatBuffer buffer )
+	public CommandDisplayFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Graphical CLI", client );
-		this.buffer = buffer;
+		this.commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI" );
+		client.setCommandBuffer( this.commandBuffer );
 
 		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
 		getContentPane().add( new CommandDisplayPanel() );
@@ -85,13 +86,13 @@ public class CommandDisplayFrame extends KoLFrame
 			outputDisplay = new JEditorPane();
 			outputDisplay.setEditable( false );
 
-			buffer.setChatDisplay( outputDisplay );
+			commandBuffer.setChatDisplay( outputDisplay );
 
 			scrollPane = new JScrollPane( outputDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			scrollPane.setVerticalScrollBar( new CommandScrollBar() );
-			buffer.setScrollPane( scrollPane );
+			commandBuffer.setScrollPane( scrollPane );
 
 			JPanel entryPanel = new JPanel();
 			entryField = new JTextField();
@@ -186,7 +187,7 @@ public class CommandDisplayFrame extends KoLFrame
 				entryField.setText( "" );
 			}
 
-			private class CommandEntryThread extends RequestThread
+			private class CommandEntryThread extends DaemonThread
 			{
 				private String command;
 
@@ -198,10 +199,10 @@ public class CommandDisplayFrame extends KoLFrame
 				{
 					try
 					{
-						buffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
+						commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
 
 						if ( command.toLowerCase().equals( "login" ) )
-							buffer.append( "<font color=red>This command is not available in the GCLI</font><br>" );
+							commandBuffer.append( "<font color=red>This command is not available in the GCLI</font><br>" );
 						else
 						{
 							KoLmafiaCLI instance = new KoLmafiaCLI( client, (String) null );
@@ -212,7 +213,7 @@ public class CommandDisplayFrame extends KoLFrame
 								previousCommand = command;
 						}
 
-						buffer.append( "<br>" );
+						commandBuffer.append( "<br>" );
 					}
 					catch ( Exception e )
 					{
