@@ -251,12 +251,14 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			client.updateDisplay( DISABLED_STATE, "Applying network settings..." );
 			for ( int i = 0; i < 4; ++i )
 				if ( servers[i].isSelected() )
 					setProperty( "loginServer", String.valueOf( i ) );
 
 			KoLRequest.applySettings();
 			super.actionConfirmed();
+			client.updateDisplay( ENABLED_STATE, "Network settings applied." );
 		}
 
 		protected void actionCancelled()
@@ -891,6 +893,7 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			client.updateDisplay( DISABLED_STATE, "Applying network settings..." );
 			setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() != 0 ) );
 			setProperty( "http.proxyHost", proxyHost.getText() );
 			setProperty( "http.proxyPort", proxyPort.getText() );
@@ -902,6 +905,7 @@ public class OptionsFrame extends KoLFrame
 
 			KoLRequest.applySettings();
 			super.actionConfirmed();
+			client.updateDisplay( ENABLED_STATE, "Network settings applied." );
 		}
 
 		protected void actionCancelled()
