@@ -136,8 +136,11 @@ public class KoLmafiaGUI extends KoLmafia
 		parameters[0] = this;
 		parameters[1] = saveStateNames;
 
-		displayer = new CreateFrameRunnable( LoginFrame.class, parameters );
-		displayer.run();
+		if ( displayer == null )
+		{
+			displayer = new CreateFrameRunnable( LoginFrame.class, parameters );
+			displayer.run();
+		}
 	}
 
 	public void pwnClanOtori()
