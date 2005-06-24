@@ -72,9 +72,8 @@ import javax.swing.JOptionPane;
 
 public class KoLmafiaGUI extends KoLmafia
 {
-	private KoLFrame activeFrame;
+	private CreateFrameRunnable displayer;
 	private LimitedSizeChatBuffer buffer;
-	private CommandDisplayFrame graphicalCLI;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -101,14 +100,14 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
-		if ( activeFrame != null )
+		if ( displayer != null && displayer.instance != null )
 		{
-			activeFrame.updateDisplay( state, message );
+			((KoLFrame)displayer.instance).updateDisplay( state, message );
 			if ( isBuffBotActive() )
 				buffBotHome.updateStatus( message );
 		}
 
-		if ( graphicalCLI != null )
+		if ( buffer != null )
 		{
 			StringBuffer colorBuffer = new StringBuffer();
 			if ( state == ERROR_STATE )
@@ -125,8 +124,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void requestFocus()
 	{
-		if ( activeFrame != null )
-			activeFrame.requestFocus();
+		if ( displayer != null && displayer.instance != null )
+			((KoLFrame)displayer.instance).requestFocus();
 	}
 
 	/**
@@ -148,17 +147,17 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( !isLoggingIn )
 		{
-			KoLFrame previousActiveFrame = activeFrame;
+			CreateFrameRunnable previousDisplayer = displayer;
 
-			activeFrame = new AdventureFrame( this, tally );
-			activeFrame.pack();
+			Object [] parameters = new Object[2];
+			parameters[0] = this;
+			parameters[1] = tally;
 
-			activeFrame.setVisible( true );
-			previousActiveFrame.setVisible( false );
+			displayer = new CreateFrameRunnable( AdventureFrame.class, parameters );
+			displayer.run();
 
-			activeFrame.requestFocus();
-			activeFrame.updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
-			previousActiveFrame.dispose();
+			((KoLFrame)previousDisplayer.instance).setVisible( false );
+			((KoLFrame)previousDisplayer.instance).dispose();
 		}
 	}
 
@@ -171,19 +170,12 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.deinitialize();
 
-		if ( activeFrame != null )
-			return;
+		Object [] parameters = new Object[2];
+		parameters[0] = this;
+		parameters[1] = saveStateNames;
 
-		activeFrame = new LoginFrame( this, saveStateNames );
-		activeFrame.pack();
-
-		activeFrame.setVisible( true );
-		activeFrame.requestFocus();
-
-		if ( graphicalCLI != null )
-			graphicalCLI.dispose();
-
-		graphicalCLI = null;
+		displayer = new CreateFrameRunnable( LoginFrame.class, parameters );
+		displayer.run();
 	}
 
 	public void pwnClanOtori()
@@ -289,24 +281,34 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	public void setVisible( boolean isVisible )
-	{	activeFrame.setVisible( isVisible );
+	{
+		if ( displayer != null && displayer.instance != null )
+			((KoLFrame)displayer.instance).setVisible( isVisible );
 	}
 
 	public boolean isVisible()
-	{	return activeFrame.isVisible();
+	{
+		if ( displayer != null && displayer.instance != null )
+			return ((KoLFrame)displayer.instance).isVisible();
+		return false;
 	}
 
 	public void deinitializeBuffBot()
 	{
 		super.deinitializeBuffBot();
-		activeFrame.setVisible( true );
+
+		if ( displayer != null && displayer.instance != null )
+			((KoLFrame)displayer.instance).setVisible( true );
 	}
 
 	public void initializeGCLI()
 	{
 		buffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI" );
-		graphicalCLI = new CommandDisplayFrame( this );
-		graphicalCLI.setVisible( true );  graphicalCLI.requestFocus();
+
+		Object [] parameters = new Object[1];
+		parameters[0] = this;
+
+		(new CreateFrameRunnable( CommandDisplayFrame.class, parameters )).run();
 	}
 
 	private class CommandDisplayFrame extends KoLFrame

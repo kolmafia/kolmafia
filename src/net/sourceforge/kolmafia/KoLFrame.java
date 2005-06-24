@@ -115,8 +115,6 @@ import java.util.regex.Matcher;
 import java.net.URLEncoder;
 
 // other stuff
-import javax.swing.SwingUtilities;
-import java.lang.reflect.Constructor;
 import edu.stanford.ejalbert.BrowserLauncher;
 
 // spellcast imports
@@ -143,13 +141,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
 	protected boolean isExecutingScript;
-
-	protected static CharsheetFrame statusPane;
-	protected static GearChangeFrame gearChanger;
-	protected static ItemManageFrame itemManager;
-	protected static MailboxFrame mailboxDisplay;
-	protected static KoLMessenger kolchat;
-	protected static List existingFrames = new ArrayList();
 
 	protected JPanel sidePanel;
 	protected JLabel hpLabel, mpLabel, advLabel;
@@ -323,16 +314,16 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menu.add( statusMenu );
 
 		this.statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
-		statusMenuItem.addActionListener( new ViewStatusPaneListener() );
+		statusMenuItem.addActionListener( new DisplayFrameListener( CharsheetFrame.class ) );
 		statusMenu.add( statusMenuItem );
 
 		JMenuItem gearMenuItem = new JMenuItem( "Gear Changer", KeyEvent.VK_G );
-		gearMenuItem.addActionListener( new ViewGearChangerListener() );
+		gearMenuItem.addActionListener( new DisplayFrameListener( GearChangeFrame.class ) );
 
 		statusMenu.add( gearMenuItem );
 
 		JMenuItem itemMenuItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
-		itemMenuItem.addActionListener( new ViewItemManagerListener() );
+		itemMenuItem.addActionListener( new DisplayFrameListener( ItemManageFrame.class ) );
 
 		statusMenu.add( itemMenuItem );
 		return statusMenu;
@@ -358,7 +349,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		composeMenuItem.addActionListener( new DisplayFrameListener( GreenMessageFrame.class ) );
 
 		this.mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_I );
-		mailMenuItem.addActionListener( new DisplayMailListener() );
+		mailMenuItem.addActionListener( new DisplayFrameListener( MailboxFrame.class ) );
 
 		JMenuItem proposeItem = new JMenuItem( "Propose Trade Offer", KeyEvent.VK_P );
 		proposeItem.addActionListener( new DisplayFrameListener( ProposeTradeFrame.class ) );
@@ -486,7 +477,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menu.add( helpMenu );
 
 		JMenuItem aboutItem = new JMenuItem( "About KoLmafia...", KeyEvent.VK_A );
-		aboutItem.addActionListener( new DisplayAboutListener() );
+		aboutItem.addActionListener( new DisplayFrameListener( LicenseDisplay.class ) );
 
 		JMenuItem homeItem = new JMenuItem( "KoLmafia Home", KeyEvent.VK_K );
 		homeItem.addActionListener( new DisplayPageListener( "http://kolmafia.sourceforge.net/" ) );
@@ -1028,34 +1019,33 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing a character sheet.
+	 * the request for viewing frames.
 	 */
 
 	protected class DisplayFrameListener implements ActionListener
 	{
-		private Constructor creator;
-		private KoLmafia [] parameters;
-		protected KoLFrame lastCreatedFrame;
+		private Class frameClass;
+		private CreateFrameRunnable displayer;
 
 		public DisplayFrameListener( Class frameClass )
 		{
-			try
+			this.frameClass = frameClass;
+
+			Object [] parameters;
+			if ( frameClass == LicenseDisplay.class )
 			{
-				Class [] fields = new Class[1];
-				fields[0] = KoLmafia.class;
-				this.creator = frameClass.getConstructor( fields );
+				parameters = new Object[3];
+				parameters[0] = "KoLmafia: Copyright Notice";
+				parameters[1] = LICENSE_FILENAME;
+				parameters[2] = LICENSE_NAME;
 			}
-			catch ( NoSuchMethodException e )
+			else
 			{
-				// If this happens, this is the programmer's
-				// fault for not noticing that the frame was
-				// more complex than is allowed by this
-				// displayer.  The creator stays null, which
-				// is harmless, so do nothing for now.
+				parameters = new KoLmafia[1];
+				parameters[0] = client;
 			}
 
-			this.parameters = new KoLmafia[1];
-			parameters[0] = KoLFrame.this.client;
+			this.displayer = new CreateFrameRunnable( frameClass, parameters );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -1066,139 +1056,16 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			public void run()
 			{
-				try
-				{
-					if ( creator != null )
+				for ( int i = 0; i < existingFrames.size(); ++i )
+					if ( existingFrames.get(i).getClass() == frameClass )
 					{
-						lastCreatedFrame = (KoLFrame) creator.newInstance( parameters );
-						lastCreatedFrame.pack();
-						lastCreatedFrame.setVisible( true );
-						lastCreatedFrame.setEnabled( isEnabled() );
-					}
-					else
-					{
-						updateDisplay( ERROR_STATE, "Frame could not be loaded." );
+						((KoLFrame)existingFrames.get(i)).setVisible( true );
+						((KoLFrame)existingFrames.get(i)).setEnabled( isEnabled() );
 						return;
 					}
-				}
-				catch ( Exception e )
-				{
-					// If this happens, update the display to indicate
-					// that it failed to happen (eventhough technically,
-					// this should never have happened)
 
-					updateDisplay( ERROR_STATE, "Frame could not be loaded." );
-					e.printStackTrace( client.getLogStream() );
-					return;
-				}
-			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the status pane.
-	 */
-
-	private class ViewStatusPaneListener extends DisplayFrameListener
-	{
-		public ViewStatusPaneListener()
-		{	super( CharsheetFrame.class );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new ViewStatusPaneThread()).start();
-		}
-
-		private class ViewStatusPaneThread extends DisplayFrameThread
-		{
-			public void run()
-			{
-				if ( statusPane != null )
-				{
-					statusPane.setVisible( true );
-					statusPane.requestFocus();
-					statusPane.setEnabled( isEnabled );
-
-					if ( isEnabled )
-						statusPane.refreshStatus();
-				}
-				else
-				{
-					super.run();
-					statusPane = (CharsheetFrame) lastCreatedFrame;
-				}
-			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the gear changer.
-	 */
-
-	private class ViewGearChangerListener extends DisplayFrameListener
-	{
-		public ViewGearChangerListener()
-		{	super( GearChangeFrame.class );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new ViewGearChangerThread()).start();
-		}
-
-		private class ViewGearChangerThread extends DisplayFrameThread
-		{
-			public void run()
-			{
-				if ( gearChanger != null )
-				{
-					gearChanger.setVisible( true );
-					gearChanger.requestFocus();
-					gearChanger.setEnabled( isEnabled );
-				}
-				else
-				{
-					super.run();
-					gearChanger = (GearChangeFrame) lastCreatedFrame;
-				}
-			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the item manager.
-	 */
-
-	private class ViewItemManagerListener extends DisplayFrameListener
-	{
-		public ViewItemManagerListener()
-		{	super( ItemManageFrame.class );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new ViewItemManagerThread()).start();
-		}
-
-		private class ViewItemManagerThread extends DisplayFrameThread
-		{
-			public void run()
-			{
-				if ( itemManager != null )
-				{
-					itemManager.setVisible( true );
-					itemManager.requestFocus();
-					itemManager.setEnabled( isEnabled );
-				}
-				else
-				{
-					super.run();
-					itemManager = (ItemManageFrame) lastCreatedFrame;
-				}
+				displayer.setEnabled( isEnabled() );
+				displayer.run();
 			}
 		}
 	}
@@ -1220,51 +1087,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			public void run()
 			{
 				if ( client.getMessenger() == null )
-				{
 					client.initializeChat();
-					kolchat = client.getMessenger();
-				}
 
 				updateDisplay( ENABLED_STATE, "Chat successfully loaded." );
-			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the item manager.
-	 */
-
-	private class DisplayMailListener extends DisplayFrameListener
-	{
-		public DisplayMailListener()
-		{	super( MailboxFrame.class );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new DisplayMailThread()).start();
-		}
-
-		private class DisplayMailThread extends DisplayFrameThread
-		{
-			public void run()
-			{
-				if ( mailboxDisplay != null )
-				{
-					mailboxDisplay.setVisible( true );
-					mailboxDisplay.requestFocus();
-					mailboxDisplay.setEnabled( isEnabled );
-
-					if ( isEnabled )
-						mailboxDisplay.refreshMailbox();
-				}
-				else
-				{
-					super.run();
-					mailboxDisplay = (MailboxFrame) lastCreatedFrame;
-					mailboxDisplay.stateChanged( null );
-				}
 			}
 		}
 	}
@@ -1273,13 +1098,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public void actionPerformed( ActionEvent e )
 		{	((KoLmafiaGUI) client).initializeGCLI();
-		}
-	}
-
-	private class DisplayAboutListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new LicenseDisplay( "KoLmafia: Copyright Notice", LICENSE_FILENAME, LICENSE_NAME )).requestFocus();
 		}
 	}
 
@@ -1406,33 +1224,18 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		protected void handleInternalLink( String location )
 		{
-			if ( location.startsWith( "sendmessage.php" ) )
+			if ( location.startsWith( "sendmessage.php" ) || location.startsWith( "town_sendgift.php" ) )
 			{
 				// Green composition occurs in the GreenMessageFrame,
 				// and because the Javascript attachments aren't supported,
 				// this is the preferred way to handle everything.
 
-				GreenMessageFrame composer = new GreenMessageFrame( client, location.split( "[\\?=&]" )[2] );
-				composer.pack();  composer.setVisible( true );  composer.requestFocus();
-			}
-			else if ( location.startsWith( "town_sendgift.php" ) )
-			{
-				// Purple composition occurs in the GiftMessageFrame,
-				// and because the Javascript attachments aren't supported,
-				// this is the preferred way to handle everything.
+				Object [] parameters = new Object[2];
+				parameters[0] = client;
+				parameters[1] = location.split( "[\\?=&]" )[2];
 
-				GiftMessageFrame composer = new GiftMessageFrame( client, location.split( "[\\?=&]" )[2] );
-				composer.pack();  composer.setVisible( true );  composer.requestFocus();
-			}
-			else if ( location.startsWith( "makeoffer.php" ) )
-			{
-				// Trade composition occurs in the ProposeTradeFrame,
-				// and because the Javascript attachments aren't supported,
-				// this is the preferred way to handle everything.
-
-				ProposeTradeFrame composer = new ProposeTradeFrame( client );
-				composer.recipientEntry.setText( location.split( "[\\?=&]" )[2] );
-				composer.pack();  composer.setVisible( true );  composer.requestFocus();
+				(new CreateFrameRunnable( location.startsWith( "sendmessage.php" ) ?
+					GreenMessageFrame.class : GiftMessageFrame.class, parameters )).run();
 			}
 			else if ( location.startsWith( "cook.php" ) || location.startsWith( "cocktail.php" ) || location.startsWith( "combine.php" ) ||
 				location.startsWith( "town_wrong.php?place=crackpot" ) || location.startsWith( "inventory.php" ) || location.startsWith( "closet.php" ) )
@@ -1441,7 +1244,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// should be used for handling of items.  This is purely
 				// for consistency reasons.
 
-				(new ViewItemManagerListener()).actionPerformed( null );
+				Object [] parameters = new Object[1];
+				parameters[0] = client;
+
+				(new CreateFrameRunnable( ItemManageFrame.class, parameters )).run();
 			}
 			else if ( location.startsWith( "messages.php" ) )
 			{
@@ -1449,7 +1255,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// at any given time - let the mailbox listener code
 				// handle that.
 
-				(new DisplayMailListener()).actionPerformed( null );
+				Object [] parameters = new Object[1];
+				parameters[0] = client;
+
+				(new CreateFrameRunnable( MailboxFrame.class, parameters )).run();
 			}
 			else if ( KoLFrame.this instanceof RequestFrame )
 			{
@@ -1465,8 +1274,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// open up a new request frame in order to
 				// display the appropriate data.
 
-				RequestFrame frame = new RequestFrame( client, "Mini-Browser Window", new KoLRequest( client, location ) );
-				frame.pack();  frame.setVisible( true );  frame.requestFocus();
+				openRequestFrame( location );
 			}
 		}
 	}
@@ -1480,10 +1288,17 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			RequestFrame frame = new RequestFrame( client, "Mini-Browser Window", new KoLRequest( client, location ) );
-			frame.pack();  frame.setVisible( true );  frame.requestFocus();
+		{	openRequestFrame( location );
 		}
+	}
+
+	public void openRequestFrame( String location )
+	{
+		Object [] parameters = new Object[2];
+		parameters[0] = "Mini-Browser Window";
+		parameters[1] = new KoLRequest( client, location );
+
+		(new CreateFrameRunnable( RequestFrame.class, parameters )).run();
 	}
 
 	protected static final int getValue( JTextField field )

@@ -133,8 +133,6 @@ public class AdventureFrame extends KoLFrame
 	private JTextField inClosetField;
 	private LockableListModel adventureList;
 
-	private BuffBotFrame buffbotDisplay;
-
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
 	private RemoveEffectsPanel removeEffects;
@@ -190,6 +188,7 @@ public class AdventureFrame extends KoLFrame
 		contentPanel = adventureSelect;
 
 		addWindowListener( new LogoutRequestAdapter() );
+		updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
 		addMenuBar();
 	}
 
@@ -270,7 +269,7 @@ public class AdventureFrame extends KoLFrame
 		JMenuItem foodItem = new JMenuItem( "Camping Routine", KeyEvent.VK_C );
 		foodItem.addActionListener( new GetBreakfastListener() );
 		JMenuItem buffbotMenuItem = new JMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E );
-		buffbotMenuItem.addActionListener( new ViewBuffBotPanelListener() );
+		buffbotMenuItem.addActionListener( new DisplayFrameListener( BuffBotFrame.class ) );
 
 		JMenu scriptMenu = addScriptMenu( menuBar );
 		scriptMenu.add( foodItem, 3 );
@@ -1053,21 +1052,14 @@ public class AdventureFrame extends KoLFrame
 
 				if ( framesToReload[0].length() > 0 )
 				{
+					KoLmafia [] parameters = new KoLmafia[1];
+					parameters[0] = client;
+
 					for ( int i = 0; i < framesToReload.length; ++i )
 					{
 						try
 						{
-							Class [] fields = new Class[1];
-							fields[0] = KoLmafia.class;
-
-							KoLmafia [] parameters = new KoLmafia[1];
-							parameters[0] = client;
-
-							currentFrame = (KoLFrame) Class.forName( "net.sourceforge.kolmafia." + framesToReload[i] ).getConstructor( fields ).newInstance( parameters );
-							currentFrame.pack();
-							currentFrame.setVisible( true );
-							currentFrame.setEnabled( isEnabled() );
-
+							(new CreateFrameRunnable( Class.forName( "net.sourceforge.kolmafia." + framesToReload[i] ), parameters )).run();
 						}
 						catch ( Exception e1 )
 						{
@@ -1094,9 +1086,6 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void run()
 			{
-				if ( kolchat != null )
-					kolchat.dispose();
-
 				Iterator frames = existingFrames.iterator();
 				KoLFrame currentFrame;
 
@@ -1121,55 +1110,9 @@ public class AdventureFrame extends KoLFrame
 				client.getSettings().setProperty( "reloadFrames", framesToReload.toString() );
 				client.getSettings().saveSettings();
 
-				statusPane = null;
-				gearChanger = null;
-				itemManager = null;
-				mailboxDisplay = null;
-				kolchat = null;
-
 				existingFrames.clear();
 				client.deinitialize();
 				(new LogoutRequest( client )).run();
-			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the item manager.
-	 */
-
-	private class ViewBuffBotPanelListener extends DisplayFrameListener
-	{
-		private JTabbedPane advTabs;
-
-		public ViewBuffBotPanelListener()
-		{	super( BuffBotFrame.class );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new BuffBotThread()).start();
-		}
-
-		private class BuffBotThread extends DisplayFrameThread
-		{
-			public void run()
-			{
-				tabs.setSelectedIndex(0);
-
-				if ( buffbotDisplay != null )
-				{
-					buffbotDisplay.setVisible( true );
-					buffbotDisplay.requestFocus();
-					buffbotDisplay.setEnabled( isEnabled );
-					client.initializeBuffBot();
-				}
-				else
-				{
-					super.run();
-					buffbotDisplay = (BuffBotFrame) lastCreatedFrame;
-				}
 			}
 		}
 	}

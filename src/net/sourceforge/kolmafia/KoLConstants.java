@@ -33,15 +33,24 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormatSymbols;
+import java.lang.reflect.Constructor;
 
+import java.awt.Component;
+import javax.swing.SwingUtilities;
+import java.lang.reflect.Constructor;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public interface KoLConstants extends UtilityConstants
 {
+	public static final List existingFrames = new ArrayList();
+
 	public static final DecimalFormat df = new DecimalFormat(
 		"#,##0", new DecimalFormatSymbols( Locale.US ) );
 
@@ -56,6 +65,108 @@ public interface KoLConstants extends UtilityConstants
 	{
 		public RequestThread()
 		{	setDaemon( true );
+		}
+	}
+
+	/**
+	 * An internal class which ensures that frames can be created inside
+	 * of the Swing thread.  This avoids deadlock problems that often
+	 * cause KoLmafia not to load properly.
+	 */
+
+	public class CreateFrameRunnable implements Runnable
+	{
+		public KoLmafia client;
+		public Component instance;
+
+		private boolean isEnabled;
+		private Constructor creator;
+		private Object [] parameters;
+
+		public CreateFrameRunnable( Class instanceClass, Object [] parameters )
+		{
+			this.parameters = parameters;
+			this.isEnabled = true;
+
+			try
+			{
+				Class [] parameterClasses = new Class[ parameters.length ];
+				for ( int i = 0; i < parameters.length; ++i )
+				{
+					if ( parameters[i] instanceof KoLmafia )
+					{
+						parameterClasses[i] = KoLmafia.class;
+						client = (KoLmafia) parameters[i];
+					}
+					else
+						parameterClasses[i] = parameters[i].getClass();
+				}
+
+				this.creator = instanceClass.getConstructor( parameterClasses );
+			}
+			catch ( Exception e )
+			{
+				// If an exception happens, the creator stays null,
+				// so there's nothing to worry about.  Just make
+				// sure that there is a null check sometime when
+				// this runnable runs.
+			}
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{	this.isEnabled = isEnabled;
+		}
+
+		public void run()
+		{
+			// If there is no creation instance, then return
+			// from the method because there's nothing to do.
+
+			if ( this.creator == null )
+			{
+				if ( client != null )
+					client.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
+
+				return;
+			}
+
+			// If you are not in the Swing thread, then wait
+			// until you are in the Swing thread before making
+			// the object to avoid deadlocks.
+
+			if ( !SwingUtilities.isEventDispatchThread() )
+			{
+				SwingUtilities.invokeLater( this );
+				return;
+			}
+
+			try
+			{
+				this.instance = (Component) creator.newInstance( parameters );
+
+				if ( this.instance instanceof KoLFrame )
+				{
+					((KoLFrame)this.instance).pack();
+					((KoLFrame)this.instance).setVisible( true );
+					((KoLFrame)this.instance).setEnabled( isEnabled );
+				}
+			}
+			catch ( Exception e )
+			{
+				// If this happens, update the display to indicate
+				// that it failed to happen (eventhough technically,
+				// this should never have happened)
+
+				if ( client != null )
+				{
+					client.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
+					e.printStackTrace( client.getLogStream() );
+				}
+				else
+					e.printStackTrace();
+
+				return;
+			}
 		}
 	}
 }
