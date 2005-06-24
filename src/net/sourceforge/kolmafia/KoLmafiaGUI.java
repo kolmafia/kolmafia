@@ -74,9 +74,9 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
-		if ( displayer != null && displayer.instance != null )
+		if ( displayer != null && displayer.getCreation() != null )
 		{
-			((KoLFrame)displayer.instance).updateDisplay( state, message );
+			((KoLFrame)displayer.getCreation()).updateDisplay( state, message );
 			if ( isBuffBotActive() )
 				buffBotHome.updateStatus( message );
 		}
@@ -98,8 +98,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void requestFocus()
 	{
-		if ( displayer != null && displayer.instance != null )
-			((KoLFrame)displayer.instance).requestFocus();
+		if ( displayer != null && displayer.getCreation() != null )
+			((KoLFrame)displayer.getCreation()).requestFocus();
 	}
 
 	/**
@@ -130,8 +130,8 @@ public class KoLmafiaGUI extends KoLmafia
 			displayer = new CreateFrameRunnable( AdventureFrame.class, parameters );
 			displayer.run();
 
-			((KoLFrame)previousDisplayer.instance).setVisible( false );
-			((KoLFrame)previousDisplayer.instance).dispose();
+			((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
+			((KoLFrame)previousDisplayer.getCreation()).dispose();
 		}
 	}
 
@@ -256,14 +256,14 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void setVisible( boolean isVisible )
 	{
-		if ( displayer != null && displayer.instance != null )
-			((KoLFrame)displayer.instance).setVisible( isVisible );
+		if ( displayer != null && displayer.getCreation() != null )
+			((KoLFrame)displayer.getCreation()).setVisible( isVisible );
 	}
 
 	public boolean isVisible()
 	{
-		if ( displayer != null && displayer.instance != null )
-			return ((KoLFrame)displayer.instance).isVisible();
+		if ( displayer != null && displayer.getCreation() != null )
+			return ((KoLFrame)displayer.getCreation()).isVisible();
 		return false;
 	}
 
@@ -271,8 +271,8 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.deinitializeBuffBot();
 
-		if ( displayer != null && displayer.instance != null )
-			((KoLFrame)displayer.instance).setVisible( true );
+		if ( displayer != null && displayer.getCreation() != null )
+			((KoLFrame)displayer.getCreation()).setVisible( true );
 	}
 
 	public void initializeGCLI()
