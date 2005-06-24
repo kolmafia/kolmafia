@@ -87,12 +87,9 @@ public class KoLMessenger implements KoLConstants
 		this.instantMessageFrames = new TreeMap();
 		this.instantMessageBuffers = new TreeMap();
 
-		chattingStyle = client.getSettings().getProperty( "chatStyle" ) == null ? 0 :
-			Integer.parseInt( client.getSettings().getProperty( "chatStyle" ) );
-
+		chattingStyle = Integer.parseInt( client.getSettings().getProperty( "chatStyle" ) );
 		contactsFrame = new ContactListFrame( client, onlineContacts );
-		String tabsSetting = client.getSettings().getProperty( "useTabbedChat" );
-		setTabbedFrameSetting( tabsSetting == null || tabsSetting.equals( "1" ) );
+		setTabbedFrameSetting( client.getSettings().getProperty( "useTabbedChat" ).equals( "1" ) );
 
 	}
 
@@ -612,9 +609,11 @@ public class KoLMessenger implements KoLConstants
 
 	private String getColor( String channel )
 	{
+		String [] colors = client.getSettings().getProperty( "channelColors" ).split( "," );
+
 		for ( int i = 0; i < ROOMS.length; ++i )
 			if ( ROOMS[i].equals( channel ) )
-				return client.getSettings().getProperty( "channelColors" ).split( "," )[i];
+				return colors.length < i ? colors[i] : "black";
 
 		return "black";
 	}

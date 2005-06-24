@@ -200,9 +200,8 @@ public class LoginFrame extends KoLFrame
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
-			loginnameField = client == null || client.getSettings().getProperty( "saveState" ) == null ||
-				client.getSettings().getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) :
-					(JComponent)(new LoginNameComboBox());
+			loginnameField = client == null || client.getSettings().getProperty( "saveState" ).equals( "" ) ?
+				(JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 
 			passwordField = new JPasswordField();
 			savePasswordCheckBox = new JCheckBox();
@@ -236,14 +235,21 @@ public class LoginFrame extends KoLFrame
 			setContent( elements );
 			add( southPanel, BorderLayout.SOUTH );
 
-			String autoLoginSetting = client == null ? null : client.getSettings().getProperty( "autoLogin" );
-			if ( autoLoginSetting != null )
+			if ( client != null )
 			{
+				String autoLoginSetting = client.getSettings().getProperty( "autoLogin" );
+
 				if ( loginnameField instanceof JComboBox )
 					((JComboBox)loginnameField).setSelectedItem( autoLoginSetting );
-				passwordField.setText( client.getSaveState( autoLoginSetting ) );
-				savePasswordCheckBox.setSelected( true );
-				autoLoginCheckBox.setSelected( true );
+
+				String passwordSetting = client.getSaveState( autoLoginSetting );
+
+				if ( passwordSetting != null )
+				{
+					passwordField.setText( passwordSetting );
+					savePasswordCheckBox.setSelected( true );
+					autoLoginCheckBox.setSelected( true );
+				}
 			}
 
 			setDefaultButton( confirmedButton );

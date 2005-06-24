@@ -435,8 +435,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		// Check to see if the player wants to autorepair
 
-		String autoRepairBoxesSetting = client.getSettings().getProperty( "autoRepairBoxes" );
-		if ( autoRepairBoxesSetting == null || autoRepairBoxesSetting.equals( "false" ) )
+		if ( client.getSettings().getProperty( "autoRepairBoxes" ).equals( "false" ) )
 		{
 			updateDisplay( ERROR_STATE, "Box servant explosion!" );
 			return false;
@@ -462,39 +461,46 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return false;
 	}
 
-	private boolean useBoxServant( AdventureResult toUse )
+	private boolean useBoxServant( AdventureResult servant )
 	{
-		// Just in case, determine which items can be
-		// created, to see if a box can be created
-		// from the necessary materials.
+		// First, check to see if a box servant is available
+		// for usage, either normally, or through some form
+		// of creation.  This can be done by consulting the
+		// creation table.
 
-		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
-		ItemCreationRequest boxServantCreationRequest = ItemCreationRequest.getInstance( client, toUse );
-		boolean canCreateBoxServant = ConcoctionsDatabase.getConcoctions().contains( boxServantCreationRequest );
+		ItemCreationRequest creationRequest = ItemCreationRequest.getInstance( client, servant );
 
-		if ( !client.getInventory().contains( toUse ) )
+		if ( !ConcoctionsDatabase.getConcoctions().contains( creationRequest ) )
 		{
-			if ( useClosetForCreationSetting == null || useClosetForCreationSetting.equals( "false" ) || !client.getCloset().contains( toUse ) )
+			updateDisplay( ERROR_STATE, "Could not auto-repair " + servant.getName() + "." );
+			return false;
+		}
+
+		// If it turns out that you can create the servant,
+		// it is available in one of three locations - already
+		// in the inventory, inside of the closet, or ready
+		// for creation.  Issue the appropriate checks.
+
+		if ( !client.getInventory().contains( servant ) )
+		{
+			if ( client.getSettings().getProperty( "useClosetForCreation" ).equals( "true" ) && client.getCloset().contains( servant ) )
 			{
-				if ( canCreateBoxServant )
-					boxServantCreationRequest.run();
-				else
-				{
-					updateDisplay( ERROR_STATE, "Could not auto-repair " + toUse.getName() + "." );
-					return false;
-				}
+				updateDisplay( DISABLED_STATE, "Retrieving " + servant.getName() + " from closet..." );
+				AdventureResult [] servantArray = { servant };
+				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servantArray )).run();
 			}
 			else
 			{
-				updateDisplay( DISABLED_STATE, "Retrieving " + toUse.getName() + " from closet..." );
-
-				AdventureResult [] servant = { toUse };
-				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servant )).run();
+				creationRequest.run();
 			}
 		}
 
-		updateDisplay( DISABLED_STATE, "Repairing " + toUse.getName() + "..." );
-		(new ConsumeItemRequest( client, toUse )).run();
+		// Once you hit this point, you're guaranteed to
+		// have the servant in your inventory, so attempt
+		// to repair the box servant.
+
+		updateDisplay( DISABLED_STATE, "Repairing " + servant.getName() + "..." );
+		(new ConsumeItemRequest( client, servant )).run();
 		return true;
 	}
 
@@ -519,8 +525,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// Now, if you are to retrieve an item from the closet, this is where
 			// that retrieval would be done.
 
-			String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
-			if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
+			if ( client.getSettings().getProperty( "useClosetForCreation" ).equals( "true" ) )
 			{
 				int closetCount = ingredient.getCount( client.getCloset() );
 

@@ -88,6 +88,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 			loadSettings( new File( DATA_DIRECTORY + "~.kcs" ) );
 
 		loadSettings( this.settingsFile );
+		ensureDefaults();
 		saveSettings();
 	}
 
@@ -121,16 +122,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 				source.getParentFile().mkdirs();
 				source.createNewFile();
 
-				// If this is the first-ever initialization of
-				// a character's settings, load them from the
-				// default file.
-
-				if ( source.getName().equals( "~.kcs" ) )
-				{
-					setProperty( "loginServer", "0" );
-					setProperty( "battleAction", "attack" );
-				}
-
 				// Then, store the results into the designated
 				// file by calling the appropriate subroutine.
 
@@ -162,6 +153,71 @@ public class KoLSettings extends Properties implements UtilityConstants
 			source.delete();
 			loadSettings( source );
 		}
+	}
+
+	/**
+	 * Ensures that all the default keys are non-null.  This is
+	 * used so that there aren't lots of null checks whenever a
+	 * key is loaded.
+	 */
+
+	private void ensureDefaults()
+	{
+		ensureProperty( "aggregatePrices", "false" );
+		ensureProperty( "autoLogin", "" );
+		ensureProperty( "autoRepairBoxes", "false" );
+		ensureProperty( "battleAction", "attack" );
+		ensureProperty( "buffBotCasting", "" );
+		ensureProperty( "buffBotMessageDisposal", "0" );
+		ensureProperty( "buffBotMPRestore", "tiny house" );
+		ensureProperty( "channelColors", "#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000" );
+		ensureProperty( "chatStyle", "0" );
+		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
+		ensureProperty( "closeSending", "false" );
+		ensureProperty( "defaultLimit", "13" );
+		ensureProperty( "fontSize", "3" );
+		ensureProperty( "forceSorting", "false" );
+		ensureProperty( "hpAutoFlee", "0.0" );
+		ensureProperty( "hpAutoRecover", "-0.1" );
+		ensureProperty( "hpRecoveryScript", "" );
+		ensureProperty( "http.proxyHost", "" );
+		ensureProperty( "http.proxyPort", "" );
+		ensureProperty( "http.proxyUser", "" );
+		ensureProperty( "http.proxyPassword", "" );
+		ensureProperty( "includeAscensionRecipes", "false" );
+		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
+		ensureProperty( "itemBasedBuffing", "false" );
+		ensureProperty( "lastAdventure", "" );
+		ensureProperty( "lastOtoriRequest", "19700101" );
+		ensureProperty( "loginServer", "0" );
+		ensureProperty( "luckySewer", "2,8,13" );
+		ensureProperty( "maxPhilanthropy", "1" );
+		ensureProperty( "mpAutoRecover", "-0.1" );
+		ensureProperty( "mpRecoveryScript", "" );
+		ensureProperty( "nameClickOpens", "0" );
+		ensureProperty( "proxySet", "false" );
+		ensureProperty( "reloadFrames", "" );
+		ensureProperty( "saveOutgoing", "false" );
+		ensureProperty( "savePositions", "false" );
+		ensureProperty( "saveState", "" );
+		ensureProperty( "skipFamiliars", "false" );
+		ensureProperty( "skipInventory", "false" );
+		ensureProperty( "sortAdventures", "false" );
+		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
+		ensureProperty( "useClosetForCreation", "false" );
+		ensureProperty( "useTabbedChat", "true" );
+		ensureProperty( "whiteList", "" );
+	}
+
+	/**
+	 * Ensures that the given property exists, and if it does not exist,
+	 * initializes it to the given value.
+	 */
+
+	private void ensureProperty( String key, String defaultValue )
+	{
+		if ( !containsKey( key ) )
+			setProperty( key, defaultValue );
 	}
 
 	/**

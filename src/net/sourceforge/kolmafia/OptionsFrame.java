@@ -102,7 +102,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JOptionPane;
 
 // utilities
-import java.util.Properties;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -131,6 +132,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class OptionsFrame extends KoLFrame
 {
+	private boolean isInitialized;
+
 	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
 	 * associated with the given client.  When this frame is
@@ -145,6 +148,8 @@ public class OptionsFrame extends KoLFrame
 	public OptionsFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Preferences", client );
+
+		this.isInitialized = false;
 		setResizable( false );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
@@ -200,6 +205,7 @@ public class OptionsFrame extends KoLFrame
 		addWindowListener( new ReturnFocusAdapter() );
 
 		addMenuBar();
+		this.isInitialized = true;
 	}
 
 	/**
@@ -240,7 +246,7 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( "Use login server " + i, JLabel.LEFT, servers[i] );
 
 			setContent( elements, false );
-			(new LoadDefaultSettingsThread()).run();
+			(new LoadSettingsThread()).run();
 		}
 
 		protected void actionConfirmed()
@@ -253,14 +259,10 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadSettingsThread extends OptionsThread
 		{
-			public void run()
-			{
-				if ( client == null )
-					System.setProperty( "loginServer", "0" );
-
-				servers[ Integer.parseInt( settings.getProperty( "loginServer" ) ) ].setSelected( true );
+			protected void save()
+			{	servers[ Integer.parseInt( getProperty( "loginServer" ) ) ].setSelected( true );
 			}
 		}
 
@@ -270,15 +272,14 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
 				for ( int i = 0; i < 4; ++i )
 					if ( servers[i].isSelected() )
-						settings.setProperty( "loginServer", String.valueOf( i ) );
+						setProperty( "loginServer", String.valueOf( i ) );
 
-				saveSettings();
 				KoLRequest.applySettings();
 			}
 		}
@@ -295,7 +296,7 @@ public class OptionsFrame extends KoLFrame
 	{
 		private JCheckBox [] optionBoxes;
 		private final String [] optionKeys = { "skipInventory", "skipFamiliars", "sortAdventures", "savePositions" };
-		private final String [] optionNames = { "Skip inventory retrieval", "Skip familiar retrieval", "Sort adventure list by name", "Remember window positions on close" };
+		private final String [] optionNames = { "Skip inventory retrieval", "Skip familiar retrieval", "Sort adventure list by name", "Save window positions" };
 
 		/**
 		 * Constructs a new <code>LoginOptionsPanel</code>, containing a
@@ -316,7 +317,7 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements, false );
-			(new LoadDefaultSettingsThread()).run();
+			(new LoadSettingsThread()).run();
 		}
 
 		protected void actionConfirmed()
@@ -329,13 +330,12 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
 				for ( int i = 0; i < optionKeys.length; ++i )
-					optionBoxes[i].setSelected( settings.getProperty( optionKeys[i] ) != null &&
-						settings.getProperty( optionKeys[i] ).equals( "true" ) );
+					optionBoxes[i].setSelected( getProperty( optionKeys[i] ).equals( "true" ) );
 			}
 		}
 
@@ -345,14 +345,12 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
 				for ( int i = 0; i < optionKeys.length; ++i )
-					settings.setProperty( optionKeys[i], String.valueOf( optionBoxes[i].isSelected() ) );
-
-				saveSettings();
+					setProperty( optionKeys[i], String.valueOf( optionBoxes[i].isSelected() ) );
 			}
 		}
 	}
@@ -477,7 +475,7 @@ public class OptionsFrame extends KoLFrame
 			elements[7] = new VerifiableElement( "MP Recovery Script: ", mpRecoveryScriptPanel );
 
 			setContent( elements );
-			(new LoadDefaultSettingsThread()).start();
+			(new LoadSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -490,31 +488,16 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				String battleSettings = settings.getProperty( "battleAction" );
-				String hpAutoFleeSettings = settings.getProperty( "hpAutoFlee" );
-				String hpAutoRecoverSettings = settings.getProperty( "hpAutoRecover" );
-				String hpRecoveryScriptSettings = settings.getProperty( "hpRecoveryScript" );
-				String mpAutoRecoverSettings = settings.getProperty( "mpAutoRecover" );
-				String mpRecoveryScriptSettings = settings.getProperty( "mpRecoveryScript" );
-
-				// If there are no default settings, simply skip the
-				// attempt at loading them.
-
-				actionNames.setSelectedIndex( battleSettings == null ? 0 : actions.indexOf( battleSettings ) );
-				hpAutoFleeSelect.setSelectedIndex( hpAutoFleeSettings == null ? 0 :
-					(int)(Double.parseDouble( hpAutoFleeSettings ) * 10) );
-
-				hpAutoRecoverSelect.setSelectedIndex( hpAutoRecoverSettings == null ? 0 :
-					(int)(Double.parseDouble( hpAutoRecoverSettings ) * 10) + 1 );
-				hpRecoveryScriptField.setText( hpRecoveryScriptSettings == null ? "" : hpRecoveryScriptSettings );
-
-				mpAutoRecoverSelect.setSelectedIndex( mpAutoRecoverSettings == null ? 0 :
-					(int)(Double.parseDouble( mpAutoRecoverSettings ) * 10) + 1 );
-				mpRecoveryScriptField.setText( mpRecoveryScriptSettings == null ? "" : mpRecoveryScriptSettings );
+				actionNames.setSelectedIndex( actions.indexOf( getProperty( "battleAction" ) ) );
+				hpAutoFleeSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoFlee" ) ) * 10) );
+				hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
+				hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
+				mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
+				mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
 			}
 		}
 
@@ -524,17 +507,16 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				settings.setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
-				settings.setProperty( "hpAutoFlee", String.valueOf( ((double)(hpAutoFleeSelect.getSelectedIndex()) / 10.0) ) );
-				settings.setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-				settings.setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
-				settings.setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-				settings.setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
-				saveSettings();
+				setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
+				setProperty( "hpAutoFlee", String.valueOf( ((double)(hpAutoFleeSelect.getSelectedIndex()) / 10.0) ) );
+				setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+				setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
+				setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+				setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
 			}
 		}
 
@@ -611,7 +593,7 @@ public class OptionsFrame extends KoLFrame
 
 			java.util.Arrays.sort( elements );
 			setContent( elements, false );
-			(new LoadDefaultSettingsThread()).start();
+			(new LoadSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -624,28 +606,16 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				String sewerSettings = (client == null) ? null :
-					settings.getProperty( "luckySewer" );
-
-				// If there are no default settings, simply skip the
-				// attempt at loading them.
-
-				if ( sewerSettings == null )
-					return;
-
-				// If there are default settings, make sure that the
-				// appropriate check box is checked.
-
-				StringTokenizer st = new StringTokenizer( sewerSettings, "," );
 				for ( int i = 0; i < items.length; ++i )
 					items[i].setSelected( false );
 
-				while ( st.hasMoreTokens() )
-					items[ Integer.parseInt( st.nextToken() ) - 1 ].setSelected( true );
+				String [] selected = getProperty( "luckySewer" ).split( "," );
+				for ( int i = 0; i < selected.length; ++i )
+					items[ Integer.parseInt( selected[i] ) - 1 ].setSelected( true );
 			}
 		}
 
@@ -655,37 +625,23 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				int [] selected = new int[3];
-				int selectedCount = 0;
+				List selected = new ArrayList();
 
 				for ( int i = 0; i < items.length; ++i )
-				{
 					if ( items[i].isSelected() )
-					{
-						if ( selectedCount < 3 )
-							selected[selectedCount] = i + 1;
-						++selectedCount;
-					}
-				}
+						selected.add( new Integer(i) );
 
-				if ( selectedCount != 3 )
+				if ( selected.size() != 3 )
 				{
 					setStatusMessage( ERROR_STATE, "You did not select exactly three items." );
 					return;
 				}
 
-				if ( client != null )
-				{
-					settings.setProperty( "luckySewer", selected[0] + "," + selected[1] + "," + selected[2] );
-					if ( settings instanceof KoLSettings )
-						((KoLSettings)settings).saveSettings();
-				}
-
-				saveSettings();
+				setProperty( "luckySewer", selected.get(0) + "," + selected.get(1) + "," + selected.get(2) );
 			}
 		}
 	}
@@ -741,7 +697,7 @@ public class OptionsFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Chat Colors: ", scrollArea );
 
 			setContent( elements );
-			(new LoadDefaultSettingsThread()).start();
+			(new LoadSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -754,48 +710,24 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				// Begin by loading the font size from the user
-				// settings - for backwards compatibility, this
-				// may not exist yet.
+				fontSizeSelect.setSelectedItem( getProperty( "fontSize" ) );
+				LimitedSizeChatBuffer.setFontSize( Integer.parseInt( getProperty( "fontSize" ) ) );
 
-				String fontSize = settings.getProperty( "fontSize" );
+				chatStyleSelect.setSelectedIndex( Integer.parseInt( getProperty( "chatStyle" ) ) );
+				useTabsSelect.setSelectedIndex( getProperty( "useTabbedChat" ).equals( "true" ) ? 1 : 0 );
+				nameClickSelect.setSelectedIndex( Integer.parseInt( getProperty( "nameClickOpens" ) ) );
 
-				if ( fontSize != null )
+				if ( colorPanel.getComponentCount() == 0 )
 				{
-					fontSizeSelect.setSelectedItem( fontSize );
-					LimitedSizeChatBuffer.setFontSize( Integer.parseInt( fontSize ) );
-				}
-				else
-					fontSizeSelect.setSelectedItem( "3" );
-
-				// Next, load the kind of chat style the user
-				// is using - again, for backwards compatibility,
-				// this may not exist yet.
-
-				String chatStyle = settings.getProperty( "chatStyle" );
-				chatStyleSelect.setSelectedIndex( (chatStyle != null) ? Integer.parseInt( chatStyle ) : 0 );
-
-				String useTabs = settings.getProperty( "useTabbedChat" );
-				useTabsSelect.setSelectedIndex( (useTabs != null) ? Integer.parseInt( useTabs ) : 1 );
-
-				String nameClick = settings.getProperty( "nameClickOpens" );
-				nameClickSelect.setSelectedIndex( (nameClick != null) ? Integer.parseInt( nameClick ) : 0 );
-
-				String channelColor = settings.getProperty( "channelColors" );
-
-				if ( colorPanel.getComponentCount() == 0 && channelColor != null )
-				{
-					String [] colors = channelColor.split( "," );
+					String [] colors = getProperty( "channelColors" ).split( "," );
  					for ( int i = 0; i < colors.length ; ++i )
  						colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], DataUtilities.toColor( colors[i] ) ) );
-				}
-				else if ( colorPanel.getComponentCount() == 0 )
-				{
- 					for ( int i = 0; i < KoLMessenger.ROOMS.length; ++i )
+
+ 					for ( int i = colors.length; i < KoLMessenger.ROOMS.length; ++i )
 	 					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], Color.black ) );
 				}
 			}
@@ -807,19 +739,16 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				String fontSize = (String) fontSizeSelect.getSelectedItem();
-				settings.setProperty( "fontSize", fontSize.toString() );
-				LimitedSizeChatBuffer.setFontSize( Integer.parseInt( fontSize ) );
-				settings.setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
-				settings.setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
-				settings.setProperty( "nameClickOpens", String.valueOf( nameClickSelect.getSelectedIndex() ) );
+				setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );
+				LimitedSizeChatBuffer.setFontSize( Integer.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
 
-				if ( client.getMessenger() != null )
-					client.getMessenger().setTabbedFrameSetting( useTabsSelect.getSelectedIndex() == 1 );
+				setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
+				setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
+				setProperty( "nameClickOpens", String.valueOf( nameClickSelect.getSelectedIndex() ) );
 
 				StringBuffer colors = new StringBuffer();
 				for ( int i = 0; i < KoLMessenger.ROOMS.length; ++i )
@@ -828,8 +757,7 @@ public class OptionsFrame extends KoLFrame
 					colors.append( ',' );
 				}
 
-				settings.setProperty( "channelColors", colors.toString() );
-				saveSettings();
+				setProperty( "channelColors", colors.toString() );
 			}
 		}
 	}
@@ -856,7 +784,7 @@ public class OptionsFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Close green composer after successful sending", JLabel.LEFT, closeSendingCheckBox );
 
 			setContent( elements, false );
-			(new LoadDefaultSettingsThread()).start();
+			(new LoadSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -869,15 +797,12 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				String saveOutgoingSetting = settings.getProperty( "saveOutgoing" );
-				String closeSendingSetting = settings.getProperty( "closeSending" );
-
-				saveOutgoingCheckBox.setSelected( saveOutgoingSetting == null || saveOutgoingSetting.equals( "true" ) );
-				closeSendingCheckBox.setSelected( closeSendingSetting != null && closeSendingSetting.equals( "true" ) );
+				saveOutgoingCheckBox.setSelected( getProperty( "saveOutgoing" ).equals( "true" ) );
+				closeSendingCheckBox.setSelected( getProperty( "closeSending" ).equals( "true" ) );
 			}
 		}
 
@@ -887,13 +812,12 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				settings.setProperty( "saveOutgoing", String.valueOf( saveOutgoingCheckBox.isSelected() ) );
-				settings.setProperty( "closeSending", String.valueOf( closeSendingCheckBox.isSelected() ) );
-				saveSettings();
+				setProperty( "saveOutgoing", String.valueOf( saveOutgoingCheckBox.isSelected() ) );
+				setProperty( "closeSending", String.valueOf( closeSendingCheckBox.isSelected() ) );
 			}
 		}
 	}
@@ -932,7 +856,7 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements, false );
-			(new LoadDefaultSettingsThread()).run();
+			(new LoadSettingsThread()).run();
 		}
 
 		protected void actionConfirmed()
@@ -945,15 +869,11 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				String tableHeaderSetting = settings.getProperty( "clanRosterHeader" );
-
-				if ( tableHeaderSetting == null )
-					tableHeaderSetting = ClanSnapshotTable.getDefaultHeader();
-
+				String tableHeaderSetting = getProperty( "clanRosterHeader" );
 				for ( int i = 0; i < optionKeys.length; ++i )
 					optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + optionKeys[i] + "</td>" ) != -1 );
 			}
@@ -965,9 +885,9 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
 				StringBuffer tableHeaderSetting = new StringBuffer();
 
@@ -979,8 +899,7 @@ public class OptionsFrame extends KoLFrame
 						tableHeaderSetting.append( "</td>" );
 					}
 
-				settings.setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
-				saveSettings();
+				setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
 			}
 		}
 	}
@@ -1015,7 +934,7 @@ public class OptionsFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "Price Scanning: ", aggregateSelect );
 
 			setContent( elements );
-			(new LoadDefaultSettingsThread()).start();
+			(new LoadSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -1028,20 +947,13 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				String defaultLimitSetting = settings.getProperty( "defaultLimit" );
-				String forceSortSetting = settings.getProperty( "forceSorting" );
-				String aggregateSetting = settings.getProperty( "aggregatePrices" );
-
-				// If there are no default settings, simply skip the
-				// attempt at loading them.
-
-				defaultLimitField.setText( defaultLimitSetting == null ? "13" : defaultLimitSetting );
-				forceSortSelect.setSelectedIndex( forceSortSetting == null || forceSortSetting.equals( "false" ) ? 0 : 1 );
-				aggregateSelect.setSelectedIndex( aggregateSetting == null || aggregateSetting.equals( "false" ) ? 0 : 1 );
+				defaultLimitField.setText( getProperty( "defaultLimit" ) );
+				forceSortSelect.setSelectedIndex( getProperty( "forceSorting" ).equals( "true" ) ? 1 : 0 );
+				aggregateSelect.setSelectedIndex( getProperty( "aggregatePrices" ).equals( "true" ) ? 1 : 0 );
 			}
 		}
 
@@ -1051,14 +963,13 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				settings.setProperty( "defaultLimit", defaultLimitField.getText().length() == 0 ? "13" : defaultLimitField.getText() );
-				settings.setProperty( "forceSorting", String.valueOf( forceSortSelect.getSelectedIndex() == 1 ) );
-				settings.setProperty( "aggregatePrices", String.valueOf( aggregateSelect.getSelectedIndex() == 0 ) );
-				saveSettings();
+				setProperty( "defaultLimit", defaultLimitField.getText() );
+				setProperty( "forceSorting", String.valueOf( forceSortSelect.getSelectedIndex() == 1 ) );
+				setProperty( "aggregatePrices", String.valueOf( aggregateSelect.getSelectedIndex() == 0 ) );
 			}
 		}
 	}
@@ -1089,7 +1000,7 @@ public class OptionsFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "Include post-ascension recipes", JLabel.LEFT, includeAscensionRecipesCheckBox );
 
 			setContent( elements, false );
-			(new LoadDefaultSettingsThread()).start();
+			(new LoadSettingsThread()).start();
 		}
 
 		protected void actionConfirmed()
@@ -1102,20 +1013,13 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				String useClosetForCreationSetting = settings.getProperty( "useClosetForCreation" );
-				String autoRepairBoxesSetting = settings.getProperty( "autoRepairBoxes" );
-				String includeAscensionRecipes = settings.getProperty( "includeAscensionRecipes" );
-
-				// If there are no default settings, simply skip the
-				// attempt at loading them.
-
-				useClosetForCreationCheckBox.setSelected( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) );
-				autoRepairBoxesCheckBox.setSelected( autoRepairBoxesSetting != null && autoRepairBoxesSetting.equals( "true" ) );
-				includeAscensionRecipesCheckBox.setSelected( includeAscensionRecipes != null && includeAscensionRecipes.equals( "true" ) );
+				useClosetForCreationCheckBox.setSelected( getProperty( "useClosetForCreation" ).equals( "true" ) );
+				autoRepairBoxesCheckBox.setSelected( getProperty( "autoRepairBoxes" ).equals( "true" ) );
+				includeAscensionRecipesCheckBox.setSelected( getProperty( "includeAscensionRecipes" ).equals( "true" ) );
 			}
 		}
 
@@ -1125,14 +1029,13 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				settings.setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationCheckBox.isSelected() ) );
-				settings.setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesCheckBox.isSelected() ) );
-				settings.setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
-				saveSettings();
+				setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationCheckBox.isSelected() ) );
+				setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesCheckBox.isSelected() ) );
+				setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
 			}
 		}
 	}
@@ -1171,7 +1074,7 @@ public class OptionsFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Proxy Password: ", proxyPassword );
 
 			setContent( elements, true );
-			(new LoadDefaultSettingsThread()).run();
+			(new LoadSettingsThread()).run();
 		}
 
 		protected void actionConfirmed()
@@ -1184,27 +1087,14 @@ public class OptionsFrame extends KoLFrame
 		 * to load the default settings.
 		 */
 
-		private class LoadDefaultSettingsThread extends RequestThread
+		private class LoadSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				if ( client == null )
-					System.setProperty( "proxySet", "false" );
-
-				if ( settings.getProperty( "proxySet" ) != null && settings.getProperty( "proxySet" ).equals( "true" ) )
-				{
-					proxyHost.setText( settings.getProperty( "http.proxyHost" ) );
-					proxyPort.setText( settings.getProperty( "http.proxyPort" ) );
-					proxyLogin.setText( settings.getProperty( "http.proxyUser" ) );
-					proxyPassword.setText( settings.getProperty( "http.proxyPassword" ) );
-				}
-				else
-				{
-					proxyHost.setText( "" );
-					proxyPort.setText( "" );
-					proxyLogin.setText( "" );
-					proxyPassword.setText( "" );
-				}
+				proxyHost.setText( getProperty( "http.proxyHost" ) );
+				proxyPort.setText( getProperty( "http.proxyPort" ) );
+				proxyLogin.setText( getProperty( "http.proxyUser" ) );
+				proxyPassword.setText( getProperty( "http.proxyPassword" ) );
 			}
 		}
 
@@ -1214,40 +1104,19 @@ public class OptionsFrame extends KoLFrame
 		 * to store the new settings.
 		 */
 
-		private class StoreSettingsThread extends RequestThread
+		private class StoreSettingsThread extends OptionsThread
 		{
-			public void run()
+			protected void save()
 			{
-				if ( proxyHost.getText().trim().length() != 0 )
-				{
-					settings.setProperty( "proxySet", "true" );
-					settings.setProperty( "http.proxyHost", proxyHost.getText() );
-					settings.setProperty( "http.proxyPort", proxyPort.getText() );
-
-					if ( proxyLogin.getText().trim().length() != 0 )
-					{
-						settings.setProperty( "http.proxyUser", proxyLogin.getText() );
-						settings.setProperty( "http.proxyPassword", proxyPassword.getText() );
-					}
-					else
-					{
-						settings.remove( "http.proxyUser" );
-						settings.remove( "http.proxyPassword" );
-					}
-				}
-				else
-				{
-					settings.setProperty( "proxySet", "false" );
-					settings.remove( "http.proxyHost" );
-					settings.remove( "http.proxyPort" );
-					settings.remove( "http.proxyUser" );
-					settings.remove( "http.proxyPassword" );
-				}
+				setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() != 0 ) );
+				setProperty( "http.proxyHost", proxyHost.getText() );
+				setProperty( "http.proxyPort", proxyPort.getText() );
+				setProperty( "http.proxyUser", proxyLogin.getText() );
+				setProperty( "http.proxyPassword", proxyPassword.getText() );
 
 				// Save the settings that were just set; that way,
 				// the next login can use them.
 
-				saveSettings();
 				KoLRequest.applySettings();
 			}
 		}
@@ -1262,7 +1131,7 @@ public class OptionsFrame extends KoLFrame
 
 	private abstract class OptionsPanel extends LabeledKoLPanel
 	{
-		protected Properties settings;
+		private KoLSettings settings;
 
 		public OptionsPanel()
 		{	this( new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
@@ -1279,31 +1148,37 @@ public class OptionsFrame extends KoLFrame
 		public OptionsPanel( String panelTitle, Dimension left, Dimension right )
 		{
 			super( panelTitle, left, right );
-			settings = (client == null) ? System.getProperties() : client.getSettings();
+			settings = (client == null) ? new KoLSettings() : client.getSettings();
 		}
 
 		public void setStatusMessage( int displayState, String message )
-		{	JOptionPane.showMessageDialog( null, message );
+		{
+			if ( isInitialized )
+				JOptionPane.showMessageDialog( null, message );
 		}
 
-		protected void saveSettings()
-		{
-			if ( settings instanceof KoLSettings )
-				((KoLSettings)settings).saveSettings();
-			setStatusMessage( ENABLED_STATE, "Settings saved." );
+		protected void setProperty( String key, String value )
+		{	settings.setProperty( key, value );
+		}
 
-			Object waitObject = new Object();
-			try
+		protected String getProperty( String key )
+		{	return settings.getProperty( key );
+		}
+
+		protected abstract class OptionsThread extends RequestThread
+		{
+			public final void run()
 			{
-				synchronized ( waitObject )
+				save();
+
+				if ( isInitialized )
 				{
-					waitObject.wait( 5000 );
-					waitObject.notifyAll();
+					settings.saveSettings();
+					setStatusMessage( ENABLED_STATE, "Settings saved." );
 				}
 			}
-			catch ( InterruptedException e )
-			{
-			}
+
+			protected abstract void save();
 		}
 	}
 

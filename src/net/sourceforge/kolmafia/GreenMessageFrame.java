@@ -86,8 +86,7 @@ public class GreenMessageFrame extends SendMessageFrame
 					client.updateDisplay( ENABLED_STATE, "Message sent to " + recipientEntry.getText() );
 					sendMessageStatus.setText( "Message sent to " + recipientEntry.getText() );
 
-					String closeWindowSetting = client.getSettings().getProperty( "closeSending" );
-					if ( closeWindowSetting != null && closeWindowSetting.equals( "true" ) )
+					if ( client.getSettings().getProperty( "closeSending" ).equals( "true" ) )
 						GreenMessageFrame.this.dispose();
 				}
 				else

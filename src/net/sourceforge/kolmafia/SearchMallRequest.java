@@ -97,10 +97,7 @@ public class SearchMallRequest extends KoLRequest
 	 */
 
 	public SearchMallRequest( KoLmafia client, String searchString, List results, boolean retainAll )
-	{
-		this( client, searchString,
-			client.getSettings().getProperty( "defaultLimit" ) == null ? 13 :
-				Integer.parseInt( client.getSettings().getProperty( "defaultLimit" ) ), results, retainAll );
+	{	this( client, searchString, Integer.parseInt( client.getSettings().getProperty( "defaultLimit" ) ), results, retainAll );
 	}
 
 	/**
@@ -366,8 +363,7 @@ public class SearchMallRequest extends KoLRequest
 				results.add( NPCStoreDatabase.getPurchaseRequest( client, lastItemName ) );
 		}
 
-		String forceSortingString = client.getSettings().getProperty( "forceSorting" );
-		if ( forceSortingString != null && forceSortingString.equals( "true" ) )
+		if ( client.getSettings().getProperty( "forceSorting" ).equals( "true" ) )
 			java.util.Collections.sort( results );
 
 		updateDisplay( ENABLED_STATE, results.size() == 0 ? "No results found." : "Search complete." );

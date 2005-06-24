@@ -356,10 +356,10 @@ public class AdventureFrame extends KoLFrame
 			setContent( elements, resultsTally );
 
 			String lastAdventure = client == null ? "" : client.getSettings().getProperty( "lastAdventure" );
-			if ( lastAdventure != null )
-				for ( int i = 0; i < adventureList.size(); ++i )
-					if ( adventureList.get(i).toString().equals( lastAdventure ) )
-						locationField.setSelectedItem( adventureList.get(i) );
+
+			for ( int i = 0; i < adventureList.size(); ++i )
+				if ( adventureList.get(i).toString().equals( lastAdventure ) )
+					locationField.setSelectedItem( adventureList.get(i) );
 		}
 
 		protected void setContent( VerifiableElement [] elements, LockableListModel resultsTally )
@@ -1040,46 +1040,38 @@ public class AdventureFrame extends KoLFrame
 	{
 		public void windowOpened( WindowEvent e )
 		{
-			if ( client != null )
-			{
-				String positionsSetting = client.getSettings().getProperty( "savePositions" );
-
-				if ( positionsSetting == null || positionsSetting.equals( "false" ) )
-					return;
-
+			if ( client != null && client.getSettings().getProperty( "savePositions" ).equals( "true" ) )
 				(new ReopenWindowsThread()).start();
-			}
 		}
 
 		private class ReopenWindowsThread extends RequestThread
 		{
 			public void run()
 			{
-				String framesToReloadSetting = client.getSettings().getProperty( "reloadFrames" );
-				if ( framesToReloadSetting == null )
-					return;
-
 				KoLFrame currentFrame;
-				String [] framesToReload = framesToReloadSetting.split( "," );
+				String [] framesToReload = client.getSettings().getProperty( "reloadFrames" ).split( "," );
 
-				for ( int i = 0; i < framesToReload.length; ++i )
+				if ( framesToReload[0].length() > 0 )
 				{
-					try
+					for ( int i = 0; i < framesToReload.length; ++i )
 					{
-						Class [] fields = new Class[1];
-						fields[0] = KoLmafia.class;
+						try
+						{
+							Class [] fields = new Class[1];
+							fields[0] = KoLmafia.class;
 
-						KoLmafia [] parameters = new KoLmafia[1];
-						parameters[0] = client;
+							KoLmafia [] parameters = new KoLmafia[1];
+							parameters[0] = client;
 
-						currentFrame = (KoLFrame) Class.forName( "net.sourceforge.kolmafia." + framesToReload[i] ).getConstructor( fields ).newInstance( parameters );
-						currentFrame.pack();
-						currentFrame.setVisible( true );
-						currentFrame.setEnabled( isEnabled() );
+							currentFrame = (KoLFrame) Class.forName( "net.sourceforge.kolmafia." + framesToReload[i] ).getConstructor( fields ).newInstance( parameters );
+							currentFrame.pack();
+							currentFrame.setVisible( true );
+							currentFrame.setEnabled( isEnabled() );
 
-					}
-					catch ( Exception e1 )
-					{
+						}
+						catch ( Exception e1 )
+						{
+						}
 					}
 				}
 			}

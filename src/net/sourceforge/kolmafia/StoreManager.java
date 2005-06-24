@@ -113,7 +113,7 @@ public class StoreManager implements KoLConstants
 		Iterator i = results.iterator();
 		MallPurchaseRequest currentItem;
 
-		if ( client.getSettings().getProperty( "aggregatePrices" ) == null || client.getSettings().getProperty( "aggregatePrices" ).equals( "true" ) )
+		if ( client.getSettings().getProperty( "aggregatePrices" ).equals( "true" ) )
 		{
 			TreeMap prices = new TreeMap();
 			Integer currentQuantity, currentPrice;

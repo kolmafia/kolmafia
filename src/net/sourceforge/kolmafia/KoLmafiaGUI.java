@@ -87,13 +87,11 @@ public class KoLmafiaGUI extends KoLmafia
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
     	KoLmafiaGUI session = new KoLmafiaGUI();
 
-		String autoLoginSetting =  session.settings.getProperty( "autoLogin" );
-		if ( autoLoginSetting != null )
-		{
-			String password = session.getSaveState( autoLoginSetting );
-			if ( password != null )
-				(new LoginRequest( session, autoLoginSetting, session.getSaveState( autoLoginSetting ), false, false, false )).run();
-		}
+		String login = session.settings.getProperty( "autoLogin" );
+		String password = session.getSaveState( login );
+
+		if ( password != null )
+			(new LoginRequest( session, login, password, false, false, false )).run();
 	}
 
 	/**
@@ -155,9 +153,6 @@ public class KoLmafiaGUI extends KoLmafia
 			activeFrame = new AdventureFrame( this, tally );
 			activeFrame.pack();
 
-			if ( settings.getProperty( activeFrame.getFrameName() ) == null )
-				activeFrame.setLocationRelativeTo( previousActiveFrame );
-
 			activeFrame.setVisible( true );
 			previousActiveFrame.setVisible( false );
 
@@ -181,9 +176,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 		activeFrame = new LoginFrame( this, saveStateNames );
 		activeFrame.pack();
-
-		if ( settings.getProperty( activeFrame.getFrameName() ) == null )
-			activeFrame.setLocationRelativeTo( null );
 
 		activeFrame.setVisible( true );
 		activeFrame.requestFocus();

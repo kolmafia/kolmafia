@@ -106,10 +106,9 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		saveList = new ArrayList();
 		deleteList = new ArrayList();
 
-		String sellerSetting = settings.getProperty( "buffBotCasting" );
-		if ( sellerSetting != null )
+		String [] soldBuffs = settings.getProperty( "buffBotCasting" ).split( ";" );
+		if ( soldBuffs[0].length() > 0 )
 		{
-			String [] soldBuffs = sellerSetting.split( ";" );
 			for ( int i = 0; i < soldBuffs.length; ++i )
 			{
 				String [] currentBuff = soldBuffs[i].split( ":" );
@@ -125,7 +124,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -205,31 +203,20 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		this.characterData =  client.getCharacterData();
 		this.inventory = client == null ? new LockableListModel() : client.getInventory();
 
-		maxPhilanthropy = settings.getProperty( "maxPhilanthropy" ) == null || settings.getProperty( "maxPhilanthropy" ).trim().length() == 0 ?
-			1 : Integer.parseInt( settings.getProperty( "maxPhilanthropy" ) );
+		maxPhilanthropy = Integer.parseInt( settings.getProperty( "maxPhilanthropy" ) );
+		itemBasedBuffing = settings.getProperty( "itemBasedBuffing" ).equals( "true" );
+		messageDisposalSetting = Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) );
+		mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
 
-		itemBasedBuffing = settings.getProperty( "buffBotItemBasedBuffing" ) == null ? false :
-			settings.getProperty( "buffBotItemBasedBuffing" ).equals( "true" );
+		String whiteListString = settings.getProperty( "whiteList" ).toLowerCase();
+		if ( whiteListString.indexOf( "$clan" ) != -1 )
+			whiteListString = whiteListString.replaceFirst( "\\$clan", client.getClanManager().retrieveClanListAsCDL() );
 
-		messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" ) == null ? SAVEBOX :
-			Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) );
+		whiteListArray = whiteListString.split( "\\s*,\\s*" );
+		Arrays.sort( whiteListArray );
 
-		mpRestoreSetting = settings.getProperty( "buffBotMPRestore" ) == null ? "tiny house" :
-			settings.getProperty( "buffBotMPRestore" );
-
-		String whiteListString = settings.getProperty("whiteList") == null ? "" :
-			settings.getProperty("whiteList").toLowerCase();
-
-		if(whiteListString.indexOf("$clan")!=-1)
-			whiteListString = whiteListString.replaceFirst("\\$clan", client.getClanManager().retrieveClanListAsCDL());
-		whiteListArray = whiteListString.split("\\s*,\\s*");
-		Arrays.sort(whiteListArray);
-
-		refundMessage = client.getSettings().getProperty( "invalidBuffMessage" ) == null ? "" :
-			System.getProperty( "line.separator" ) + System.getProperty( "line.separator" ) +
-				client.getSettings().getProperty( "invalidBuffMessage" );
-		thanksMessage = client.getSettings().getProperty( "thanksMessage" ) == null ? "" :
-				client.getSettings().getProperty( "thanksMessage" );
+		refundMessage = client.getSettings().getProperty( "invalidBuffMessage" );
+		thanksMessage = client.getSettings().getProperty( "thanksMessage" );
 
 		// The outer loop goes until user cancels
 

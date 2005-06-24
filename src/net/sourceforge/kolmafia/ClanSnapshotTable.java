@@ -501,9 +501,7 @@ public class ClanSnapshotTable implements KoLConstants
 	}
 
 	private String getHeader()
-	{
-		String tableHeaderSetting = client.getSettings().getProperty( "clanRosterHeader" );
-		return tableHeaderSetting == null ? ClanSnapshotTable.getDefaultHeader() : tableHeaderSetting;
+	{	return client.getSettings().getProperty( "clanRosterHeader" );
 	}
 
 	public static final String getDefaultHeader()

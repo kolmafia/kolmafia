@@ -100,8 +100,7 @@ public class GiftMessageFrame extends SendMessageFrame
 				if ( client.permitsContinue() )
 				{
 					client.updateDisplay( ENABLED_STATE, "Gift sent to " + recipientEntry.getText() );
-					String closeWindowSetting = client.getSettings().getProperty( "closeSending" );
-					if ( closeWindowSetting != null && closeWindowSetting.equals( "true" ) )
+					if ( client.getSettings().getProperty( "closeSending" ).equals( "true" ) )
 						GiftMessageFrame.this.dispose();
 				}
 				else

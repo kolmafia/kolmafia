@@ -127,13 +127,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( client != null )
 		{
-			String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
-
-			if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
+			if ( client.getSettings().getProperty( "useClosetForCreation" )..equals( "true" ) )
 			{
 				List closetList = (List) client.getCloset();
 				for ( int i = 0; i < closetList.size(); ++i )
-                                        AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
+					AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
 			}
 		}
 
@@ -157,8 +155,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// recipes to be calculated.
 
 		int availableMeat = client.getCharacterData().getAvailableMeat();
-		String useClosetForCreationSetting = client.getSettings().getProperty( "useClosetForCreation" );
-		if ( useClosetForCreationSetting != null && useClosetForCreationSetting.equals( "true" ) )
+		if ( client.getSettings().getProperty( "useClosetForCreation" ).equals( "true" ) )
 			availableMeat += client.getCharacterData().getClosetMeat();
 
 		concoctions[ ItemCreationRequest.MEAT_PASTE ].total += availableMeat / 10;
@@ -216,8 +213,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static void cachePermitted( KoLmafia client )
 	{
-		String includeAscensionRecipesSetting = client.getSettings().getProperty( "includeAscensionRecipes" );
-		INCLUDE_ASCENSION =	includeAscensionRecipesSetting != null && includeAscensionRecipesSetting.equals( "true" );
+		INCLUDE_ASCENSION =	client.getSettings().getProperty( "includeAscensionRecipes" ).equals( "true" );
 
 		for ( int i = 0; i < PERMIT_METHOD.length; ++i )
 			PERMIT_METHOD[i] = true;
@@ -252,8 +248,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// If the user did not wish to repair their boxes
 		// on explosion, then the box servant is not available
 
-		String autoRepairBoxesSetting = client.getSettings().getProperty( "autoRepairBoxes" );
-		if ( autoRepairBoxesSetting == null || autoRepairBoxesSetting.equals( "false" ) )
+		if ( client.getSettings().getProperty( "autoRepairBoxes" ).equals( "false" ) )
 			return false;
 
 		// Otherwise, return whether or not the quantity possible

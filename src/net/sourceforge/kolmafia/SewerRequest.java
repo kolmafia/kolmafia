@@ -94,22 +94,12 @@ public class SewerRequest extends KoLRequest
 			return;
 		}
 
-		String items = client.getSettings().getProperty( "luckySewer" );
-
-		if ( items == null )
-		{
-			isErrorState = true;
-			updateDisplay( ERROR_STATE, "No lucky sewer settings found." );
-			client.cancelRequest();
-			return;
-		}
-
-		StringTokenizer parsedItems = new StringTokenizer( items, "," );
+		String [] items = client.getSettings().getProperty( "luckySewer" ).split( "," );
 
 		addFormField( "action", "take" );
-		addFormField( "i" + parsedItems.nextToken(), "on" );
-		addFormField( "i" + parsedItems.nextToken(), "on" );
-		addFormField( "i" + parsedItems.nextToken(), "on" );
+		addFormField( "i" + items[0], "on" );
+		addFormField( "i" + items[1], "on" );
+		addFormField( "i" + items[2], "on" );
 
 		super.run();
 

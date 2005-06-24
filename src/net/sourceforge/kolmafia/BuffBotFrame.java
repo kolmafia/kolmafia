@@ -504,27 +504,16 @@ public class BuffBotFrame extends KoLFrame
 		{
 			public void run()
 			{
-				String maxPhilanthropySetting = settings.getProperty( "maxPhilanthropy" );
-				String itemBasedBuffingSetting = settings.getProperty( "buffBotItemBasedBuffing" );
-				String messageDisposalSetting = settings.getProperty( "buffBotMessageDisposal" );
 				String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
-				String whiteListSetting = settings.getProperty( "whiteList" );
 
-				if ( mpRestoreSetting != null )
-					for ( int i = 0; i < availableRestores.length; ++i )
-						if ( mpRestoreSetting.indexOf( availableRestores[i].toString() ) != -1 )
-							restoreCheckbox[i].setSelected( true );
+				for ( int i = 0; i < availableRestores.length; ++i )
+					if ( mpRestoreSetting.indexOf( availableRestores[i].toString() ) != -1 )
+						restoreCheckbox[i].setSelected( true );
 
-				messageDisposalSelect.setSelectedIndex( messageDisposalSetting == null ? 0 : Integer.parseInt( messageDisposalSetting ) );
-				buffBotModeSelect.setSelectedIndex( (itemBasedBuffingSetting == null || itemBasedBuffingSetting.equals( "false" )) ? 0 : 1 );
-
-				if ( maxPhilanthropySetting != null && maxPhilanthropySetting.trim().length() != 0 )
-					maxPhilanthropyField.setText( maxPhilanthropySetting );
-				else
-					maxPhilanthropyField.setText( "1" );
-
-				if ( whiteListSetting != null )
-					whiteListEditor.setText( whiteListSetting );
+				maxPhilanthropyField.setText( settings.getProperty( "maxPhilanthropy" ) );
+				messageDisposalSelect.setSelectedIndex( Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) ) );
+				buffBotModeSelect.setSelectedIndex( settings.getProperty( "itemBasedBuffing" ).equals( "true" ) ? 1 : 0 );
+				whiteListEditor.setText( settings.getProperty( "whiteList" ) );
 
 				setStatusMessage( ENABLED_STATE, "Settings loaded." );
 			}
@@ -669,23 +658,8 @@ public class BuffBotFrame extends KoLFrame
 		{
 			if ( client != null )
 			{
-				String tempString = client.getSettings().getProperty( "invalidBuffMessage" );
-				if (tempString != null)
-					invalidPriceMessage.setText( tempString );
-				else
-				{
-					invalidPriceMessage.setText( "You sent an amount which was not a valid buff amount.");
-					client.getSettings().setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
-				}
-				tempString = client.getSettings().getProperty( "thanksMessage" );
-				if (tempString != null)
-					thanksMessage.setText( tempString );
-				else
-				{
-					thanksMessage.setText( "Thank you for the donation. \n" +
-							"If this was not intended as a donation, \n please contact the operator of this buffbot.");
-					client.getSettings().setProperty( "thanksMessage", thanksMessage.getText() );
-				}
+				invalidPriceMessage.setText( client.getSettings().getProperty( "invalidBuffMessage" ) );
+				thanksMessage.setText( client.getSettings().getProperty( "thanksMessage" ) );
 			}
 		}
 

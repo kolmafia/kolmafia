@@ -72,9 +72,8 @@ public class AdventureDatabase extends KoLDatabase
 			adventures.add( new KoLAdventure( client, (String) adventureTable[0].get(i),
 				(String) adventureTable[1].get(i), (String) adventureTable[2].get(i) ) );
 
-		if ( client.getSettings().getProperty( "sortAdventures" ) != null &&
-			client.getSettings().getProperty( "sortAdventures" ).equals( "true" ) )
-				java.util.Collections.sort( adventures );
+		if ( client != null && client.getSettings().getProperty( "sortAdventures" ).equals( "true" ) )
+			java.util.Collections.sort( adventures );
 
 		return adventures;
 	}

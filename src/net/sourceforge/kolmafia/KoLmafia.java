@@ -140,13 +140,10 @@ public abstract class KoLmafia implements KoLConstants
 
 		this.settings = new KoLSettings();
 		this.saveStateNames = new SortedListModel();
-		String saveStateSettings = settings.getProperty( "saveState" );
-		if ( saveStateSettings != null )
-		{
-			String [] currentNames = saveStateSettings.split( "//" );
-			for ( int i = 0; i < currentNames.length; ++i )
-				saveStateNames.add( currentNames[i] );
-		}
+
+		String [] currentNames = settings.getProperty( "saveState" ).split( "//" );
+		for ( int i = 0; i < currentNames.length; ++i )
+			saveStateNames.add( currentNames[i] );
 
 		// This line is added to clear out data from previous
 		// releases of KoLmafia - the extra disk access does
@@ -235,7 +232,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		if ( !isQuickLogin && ( settings.getProperty( "skipFamiliars" ) == null || settings.getProperty( "skipFamiliars" ).equals( "false" ) ) )
+		if ( !isQuickLogin && settings.getProperty( "skipFamiliars" ).equals( "false" ) )
 			(new FamiliarRequest( this )).run();
 
 		if ( !permitContinue )
@@ -261,7 +258,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		if ( !isQuickLogin && ( settings.getProperty( "skipInventory" ) == null || settings.getProperty( "skipInventory" ).equals( "false" ) ) )
+		if ( !isQuickLogin && settings.getProperty( "skipInventory" ).equals( "false" ) )
 			(new EquipmentRequest( this )).run();
 
 		resetSessionTally();
@@ -331,16 +328,14 @@ public abstract class KoLmafia implements KoLConstants
 	public void pwnClanOtori()
 	{
 		String todaySetting = sdf.format( new Date() );
-		String pwnageSetting = settings.getProperty( "lastOtoriRequest" );
 
-		if ( pwnageSetting != null && pwnageSetting.equals( todaySetting ) )
+		if ( settings.getProperty( "lastOtoriRequest" ).equals( todaySetting ) )
 		{
 			updateDisplay( ERROR_STATE, "Sorry, Otori can only be pwned once a day." );
 			return;
 		}
 
 		settings.setProperty( "lastOtoriRequest", todaySetting );
-
 		updateDisplay( DISABLED_STATE, "Pwning Clan Otori..." );
 
 		(new GreenMessageRequest( this, "79826", "I really didn't want to do this...", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
@@ -681,22 +676,16 @@ public abstract class KoLmafia implements KoLConstants
 
 	private void autoRecoverHP()
 	{
-		String autoRecoverSettings = settings.getProperty( "hpAutoRecover" );
-		String recoveryScriptSettings = settings.getProperty( "hpRecoveryScript" );
-
-		if ( autoRecoverSettings == null )
-			return;
-
 		disableMacro = true;
-		double autoRecover = Double.parseDouble( autoRecoverSettings ) * (double) characterData.getMaximumHP();
+		double autoRecover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) characterData.getMaximumHP();
 
-		if ( (double) characterData.getCurrentHP() <= autoRecover && recoveryScriptSettings != null && recoveryScriptSettings.length() > 0 )
+		if ( (double) characterData.getCurrentHP() <= autoRecover )
 		{
 			permitContinue = true;
 			updateDisplay( DISABLED_STATE, "Executing HP auto-recovery script..." );
 			try
 			{
-				(new KoLmafiaCLI( this, recoveryScriptSettings )).listenForCommands();
+				(new KoLmafiaCLI( this, settings.getProperty( "hpRecoveryScript" ) )).listenForCommands();
 
 				if ( permitContinue )
 				{
@@ -726,22 +715,16 @@ public abstract class KoLmafia implements KoLConstants
 
 	private void autoRecoverMP()
 	{
-		String autoRecoverSettings = settings.getProperty( "mpAutoRecover" );
-		String recoveryScriptSettings = settings.getProperty( "mpRecoveryScript" );
-
-		if ( autoRecoverSettings == null )
-			return;
-
 		disableMacro = true;
-		double autoRecover = Double.parseDouble( autoRecoverSettings ) * (double) characterData.getMaximumMP();
+		double autoRecover = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) characterData.getMaximumMP();
 
-		if ( (double) characterData.getCurrentMP() <= autoRecover && recoveryScriptSettings != null && recoveryScriptSettings.length() > 0 )
+		if ( (double) characterData.getCurrentMP() <= autoRecover )
 		{
 			permitContinue = true;
 			updateDisplay( DISABLED_STATE, "Executing MP auto-recovery script..." );
 			try
 			{
-				(new KoLmafiaCLI( this, recoveryScriptSettings )).listenForCommands();
+				(new KoLmafiaCLI( this, settings.getProperty( "mpRecoveryScript" ) )).listenForCommands();
 
 				if ( permitContinue )
 				{

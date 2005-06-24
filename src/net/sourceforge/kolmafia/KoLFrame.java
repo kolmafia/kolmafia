@@ -179,7 +179,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			String positionsSetting = client.getSettings().getProperty( "savePositions" );
 
-			if ( positionsSetting != null && positionsSetting.equals( "true" ) && client.getSettings().containsKey( frameName ) )
+			if ( positionsSetting.equals( "true" ) && client.getSettings().containsKey( frameName ) )
 			{
 				String [] location = client.getSettings().getProperty( frameName ).split( "," );
 				setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
@@ -1016,13 +1016,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public void windowClosing( WindowEvent e )
 		{
-			if ( client != null )
+			if ( client != null && client.getSettings().getProperty( "savePositions" ).equals( "true" ) )
 			{
-				String positionsSetting = client.getSettings().getProperty( "savePositions" );
-
-				if ( positionsSetting == null || positionsSetting.equals( "false" ) )
-					return;
-
 				Point p = getLocationOnScreen();
 				client.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 				client.getSettings().saveSettings();
@@ -1076,10 +1071,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					if ( creator != null )
 					{
 						lastCreatedFrame = (KoLFrame) creator.newInstance( parameters );
-
-						if ( client.getSettings().getProperty( frameName ) == null )
-							lastCreatedFrame.setLocation( KoLFrame.this.getLocation() );
-
 						lastCreatedFrame.pack();
 						lastCreatedFrame.setVisible( true );
 						lastCreatedFrame.setEnabled( isEnabled() );
