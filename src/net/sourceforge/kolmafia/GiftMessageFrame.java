@@ -59,8 +59,6 @@ public class GiftMessageFrame extends SendMessageFrame
 	{
 		super( client, "KoLmafia: Send a Purple Message" );
 		recipientEntry.setText( recipient );
-
-		sendMessageButton.addActionListener( new SendGiftMessageListener() );
 	}
 
 	protected String [] getEntryHeaders()
@@ -79,35 +77,24 @@ public class GiftMessageFrame extends SendMessageFrame
 		return westComponents;
 	}
 
-	private class SendGiftMessageListener implements ActionListener
+	protected void sendMessage()
 	{
-		public void actionPerformed( ActionEvent e )
-		{	(new SendGiftMessageThread()).start();
-		}
+		if ( client == null )
+			return;
 
-		private class SendGiftMessageThread extends DaemonThread
+		GiftMessageFrame.this.setEnabled( false );
+		(new GiftMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), messageEntry[1].getText(),
+			packageSelect.getSelectedItem(), getAttachedItems(), getAttachedMeat() )).run();
+		GiftMessageFrame.this.setEnabled( true );
+
+		if ( client.permitsContinue() )
 		{
-			public void run()
-			{
-				if ( client == null )
-					return;
-
-				GiftMessageFrame.this.setEnabled( false );
-				(new GiftMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), messageEntry[1].getText(),
-					packageSelect.getSelectedItem(), getAttachedItems(), getAttachedMeat() )).run();
-				GiftMessageFrame.this.setEnabled( true );
-
-				if ( client.permitsContinue() )
-				{
-					client.updateDisplay( ENABLED_STATE, "Gift sent to " + recipientEntry.getText() );
-					if ( client.getSettings().getProperty( "closeSending" ).equals( "true" ) )
-						GiftMessageFrame.this.dispose();
-				}
-				else
-					client.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipientEntry.getText() );
-
-			}
+			client.updateDisplay( ENABLED_STATE, "Gift sent to " + recipientEntry.getText() );
+			if ( client.getSettings().getProperty( "closeSending" ).equals( "true" ) )
+				GiftMessageFrame.this.dispose();
 		}
+		else
+			client.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipientEntry.getText() );
 	}
 
 	/**

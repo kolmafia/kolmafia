@@ -56,45 +56,30 @@ public class GreenMessageFrame extends SendMessageFrame
 		super( client, "KoLmafia: Send a Green Message" );
 		recipientEntry.setText( recipient );
 		messageEntry[0].setText( quotedMessage );
-		sendMessageButton.addActionListener( new SendGreenMessageListener() );
 	}
 
 	protected String [] getEntryHeaders()
 	{	return HEADERS;
 	}
 
-	/**
-	 * Internal class used to handle sending a green message to the server.
-	 */
-
-	private class SendGreenMessageListener implements ActionListener
+	protected void sendMessage()
 	{
-		public void actionPerformed( ActionEvent e )
-		{	(new SendGreenMessageThread()).start();
-		}
+		GreenMessageFrame.this.setEnabled( false );
+		(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
+		GreenMessageFrame.this.setEnabled( true );
 
-		private class SendGreenMessageThread extends DaemonThread
+		if ( client.permitsContinue() )
 		{
-			public void run()
-			{
-				GreenMessageFrame.this.setEnabled( false );
-				(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
-				GreenMessageFrame.this.setEnabled( true );
+			client.updateDisplay( ENABLED_STATE, "Message sent to " + recipientEntry.getText() );
+			sendMessageStatus.setText( "Message sent to " + recipientEntry.getText() );
 
-				if ( client.permitsContinue() )
-				{
-					client.updateDisplay( ENABLED_STATE, "Message sent to " + recipientEntry.getText() );
-					sendMessageStatus.setText( "Message sent to " + recipientEntry.getText() );
-
-					if ( client.getSettings().getProperty( "closeSending" ).equals( "true" ) )
-						GreenMessageFrame.this.dispose();
-				}
-				else
-				{
-					client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipientEntry.getText() );
-					sendMessageStatus.setText( "Failed to send message to " + recipientEntry.getText() );
-				}
-			}
+			if ( client.getSettings().getProperty( "closeSending" ).equals( "true" ) )
+				GreenMessageFrame.this.dispose();
+		}
+		else
+		{
+			client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipientEntry.getText() );
+			sendMessageStatus.setText( "Failed to send message to " + recipientEntry.getText() );
 		}
 	}
 

@@ -226,6 +226,8 @@ public abstract class SendMessageFrame extends KoLFrame
 		return label;
 	}
 
+	protected abstract void sendMessage();
+
 	private class UpdatePanel extends NonContentPanel
 	{
 		public UpdatePanel()
@@ -234,6 +236,7 @@ public abstract class SendMessageFrame extends KoLFrame
 			setContent( null );
 
  			sendMessageButton = new JButton( "Send Message" );
+ 			sendMessageButton.addActionListener( new SendMessageListener() );
 			sendMessageStatus = new JLabel( " ", JLabel.CENTER );
 
 			JPanel sendMessageButtonPanel = new JPanel();
@@ -251,6 +254,20 @@ public abstract class SendMessageFrame extends KoLFrame
 		public void clear() {}
 		public void actionConfirmed() {}
 		public void actionCancelled() {}
+
+		private class SendMessageListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{	(new SendMessageThread()).start();
+			}
+
+			private class SendMessageThread extends DaemonThread
+			{
+				public void run()
+				{	sendMessage();
+				}
+			}
+		}
 	}
 
 	/**

@@ -55,8 +55,6 @@ public class ProposeTradeFrame extends SendMessageFrame
 
 		if ( this.offerID != null )
 			recipientEntry.setEnabled( false );
-
-		sendMessageButton.addActionListener( new ProposeTradeListener() );
 	}
 
 	protected String [] getEntryHeaders()
@@ -70,32 +68,22 @@ public class ProposeTradeFrame extends SendMessageFrame
 			recipientEntry.setEnabled( false );
 	}
 
-	private class ProposeTradeListener implements ActionListener
+	protected void sendMessage()
 	{
-		public void actionPerformed( ActionEvent e )
-		{	(new ProposeTradeThread()).start();
-		}
+		if ( client == null )
+			return;
 
-		private class ProposeTradeThread extends DaemonThread
-		{
-			public void run()
-			{
-				if ( client == null )
-					return;
+		if ( offerID != null )
+			(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
 
-				if ( offerID != null )
-					(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
+		ProposeTradeFrame.this.dispose();
 
-				ProposeTradeFrame.this.dispose();
+		Object [] parameters = new Object[2];
+		parameters[0] = client;
+		parameters[1] = offerID != null ? new ProposeTradeRequest( client ) :
+			new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() );
 
-				Object [] parameters = new Object[2];
-				parameters[0] = client;
-				parameters[1] = offerID != null ? new ProposeTradeRequest( client ) :
-					new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() );
-
-				(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
-			}
-		}
+		(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
 	}
 
 	/**
