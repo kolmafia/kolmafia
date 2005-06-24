@@ -152,24 +152,11 @@ public class HagnkStorageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new MeatWithdrawThread()).start();
+		{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.PULL_MEAT_FROM_STORAGE, getValue( amountField ) ) )).start();
 		}
 
 		protected void actionCancelled()
 		{	JOptionPane.showMessageDialog( null, "Hagnk's actually a gnome.  Tosser." );
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually donate to the statues.
-		 */
-
-		private class MeatWithdrawThread extends RequestThread
-		{
-			public void run()
-			{	client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.PULL_MEAT_FROM_STORAGE, getValue( amountField ) ), 1 );
-			}
 		}
 	}
 

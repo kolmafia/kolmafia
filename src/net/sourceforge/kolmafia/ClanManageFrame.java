@@ -112,7 +112,7 @@ public class ClanManageFrame extends KoLFrame
 		super( "KoLmafia: Clan Management", client );
 
 		this.rankList = new LockableListModel();
-		(new ClanStashRequest( client )).run();
+		(new RequestThread( new ClanStashRequest( client ) )).start();
 
 		this.storing = new StoragePanel();
 		this.clanBuff = new ClanBuffPanel();
@@ -246,37 +246,17 @@ public class ClanManageFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			isBuffing = true;
 			contentPanel = clanBuff;
-			(new ClanBuffRequestThread()).start();
+			(new RequestThread( (Runnable) buffField.getSelectedItem(), getValue( countField ) )).start();
 		}
 
 		protected void actionCancelled()
 		{
 			if ( isBuffing )
 			{
-				isBuffing = false;
 				contentPanel = clanBuff;
 				client.cancelRequest();
 				updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually purchase the clan buffs.
-		 */
-
-		private class ClanBuffRequestThread extends RequestThread
-		{
-			public void run()
-			{
-				int buffCount = getValue( countField );
-				Runnable buff = (Runnable) buffField.getSelectedItem();
-
-				client.makeRequest( buff, buffCount );
-				isBuffing = false;
 			}
 		}
 	}
@@ -322,7 +302,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new ClanMaterialsThread()).start();
+		{	(new RequestThread( new ClanMaterialsRequest() )).start();
 		}
 
 		public void actionCancelled()
@@ -333,37 +313,30 @@ public class ClanManageFrame extends KoLFrame
 			JOptionPane.showMessageDialog( null, "This purchase will cost " + totalValue + " meat" );
 		}
 
-		private class ClanMaterialsThread extends RequestThread
+		private class ClanMaterialsRequest extends KoLRequest
 		{
-			public void run()
-			{	(new ClanMaterialsRequest()).run();
+			public ClanMaterialsRequest()
+			{
+				super( ClanManageFrame.this.client, "clan_war.php" );
+				addFormField( "action", "Yep." );
+				addFormField( "goodies", String.valueOf( getValue( goodies ) ) );
+				addFormField( "oatmeal", String.valueOf( getValue( oatmeal ) ) );
+				addFormField( "recliners", String.valueOf( getValue( recliners ) ) );
+				addFormField( "grunts", String.valueOf( getValue( ground ) ) );
+				addFormField( "flyers", String.valueOf( getValue( airborne ) ) );
+				addFormField( "archers", String.valueOf( getValue( archers ) ) );
 			}
 
-			private class ClanMaterialsRequest extends KoLRequest
+			public void run()
 			{
-				public ClanMaterialsRequest()
-				{
-					super( ClanManageFrame.this.client, "clan_war.php" );
-					addFormField( "action", "Yep." );
-					addFormField( "goodies", String.valueOf( getValue( goodies ) ) );
-					addFormField( "oatmeal", String.valueOf( getValue( oatmeal ) ) );
-					addFormField( "recliners", String.valueOf( getValue( recliners ) ) );
-					addFormField( "grunts", String.valueOf( getValue( ground ) ) );
-					addFormField( "flyers", String.valueOf( getValue( airborne ) ) );
-					addFormField( "archers", String.valueOf( getValue( archers ) ) );
-				}
+				client.updateDisplay( DISABLED_STATE, "Purchasing clan materials..." );
 
-				public void run()
-				{
-					client.updateDisplay( DISABLED_STATE, "Purchasing clan materials..." );
+				super.run();
 
-					super.run();
+				// Theoretically, there should be a test for error state,
+				// but because I'm lazy, that's not happening.
 
-					// Theoretically, there should be a test for error state,
-					// but because I'm lazy, that's not happening.
-
-					client.updateDisplay( ENABLED_STATE, "Purchase request processed." );
-				}
+				client.updateDisplay( ENABLED_STATE, "Purchase request processed." );
 			}
 		}
 	}
@@ -394,24 +367,11 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new DonationThread()).start();
+		{	(new RequestThread( new ClanStashRequest( client, getValue( amountField ) ) )).start();
 		}
 
 		protected void actionCancelled()
 		{	JOptionPane.showMessageDialog( null, "The Hermit beat you to it.  ARGH!" );
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually donate to the statues.
-		 */
-
-		private class DonationThread extends RequestThread
-		{
-			public void run()
-			{	client.makeRequest( new ClanStashRequest( client, getValue( amountField ) ), 1 );
-			}
 		}
 	}
 
@@ -427,41 +387,17 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new StorageThread( true )).start();
+		{	(new RequestThread( new ClanStashRequest( client, elementList.getSelectedValues(), ClanStashRequest.ITEMS_TO_STASH ) )).start();
 		}
 
 		protected void actionCancelled()
-		{	(new StorageThread( false )).start();
+		{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, elementList.getSelectedValues() ) )).start();
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
 			elementList.setEnabled( isEnabled );
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually move items around in the inventory.
-		 */
-
-		private class StorageThread extends RequestThread
-		{
-			private boolean isStash;
-
-			public StorageThread( boolean isStash )
-			{	this.isStash = isStash;
-			}
-
-			public void run()
-			{
-				Object [] items = elementList.getSelectedValues();
-				Runnable request = isStash ? (Runnable) new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH ) :
-					(Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-
-				client.makeRequest( request, 1 );
-			}
 		}
 	}
 
@@ -477,89 +413,61 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new WithdrawThread( false )).start();
+		{
+			// Check the rank list to see if you're one
+			// of the clan administrators.
+
+			if ( rankList.isEmpty() )
+			{
+				rankList = client.getClanManager().getRankList();
+
+				// If it's been double-confirmed that you're
+				// not a clan administrator, then tell them
+				// they can't do anything with the stash.
+
+				if ( rankList.isEmpty() )
+				{
+					JOptionPane.showMessageDialog( null, "Look, but don't touch." );
+					return;
+				}
+			}
+
+			Object [] items = elementList.getSelectedValues();
+			AdventureResult selection;
+			int itemID, quantity;
+
+			try
+			{
+				for ( int i = 0; i < items.length; ++i )
+				{
+					selection = (AdventureResult) items[i];
+					itemID = selection.getItemID();
+					quantity = df.parse( JOptionPane.showInputDialog(
+						"Retrieving " + selection.getName() + " from the stash...", String.valueOf( selection.getCount() ) ) ).intValue();
+
+					items[i] = new AdventureResult( itemID, quantity );
+
+				}
+			}
+			catch ( Exception e )
+			{
+				// If an exception occurs somewhere along the way
+				// then return from the thread.
+
+				return;
+			}
+
+			(new RequestThread( new ClanStashRequest( client, items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
 		}
 
 		protected void actionCancelled()
-		{	(new WithdrawThread( true )).start();
+		{	(new RequestThread( new ClanStashRequest( client ) )).start();
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
 			elementList.setEnabled( isEnabled );
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually move items around in the inventory.
-		 */
-
-		private class WithdrawThread extends RequestThread
-		{
-			private boolean isRefresh;
-
-			public WithdrawThread( boolean isRefresh )
-			{	this.isRefresh = isRefresh;
-			}
-
-			public void run()
-			{
-				// If you're trying to refresh everything,
-				// then no tests are necessary.
-
-				if ( isRefresh )
-				{
-					(new ClanStashRequest( client )).run();
-					return;
-				}
-
-				// Check the rank list to see if you're one
-				// of the clan administrators.
-
-				if ( rankList.isEmpty() )
-				{
-					rankList = client.getClanManager().getRankList();
-
-					// If it's been double-confirmed that you're
-					// not a clan administrator, then tell them
-					// they can't do anything with the stash.
-
-					if ( rankList.isEmpty() )
-					{
-						JOptionPane.showMessageDialog( null, "Look, but don't touch." );
-						return;
-					}
-				}
-
-				Object [] items = elementList.getSelectedValues();
-				AdventureResult selection;
-				int itemID, quantity;
-
-				try
-				{
-					for ( int i = 0; i < items.length; ++i )
-					{
-						selection = (AdventureResult) items[i];
-						itemID = selection.getItemID();
-						quantity = df.parse( JOptionPane.showInputDialog(
-							"Retrieving " + selection.getName() + " from the stash...", String.valueOf( selection.getCount() ) ) ).intValue();
-
-						items[i] = new AdventureResult( itemID, quantity );
-
-					}
-				}
-				catch ( Exception e )
-				{
-					// If an exception occurs somewhere along the way
-					// then return from the thread.
-
-					return;
-				}
-
-				client.makeRequest( new ClanStashRequest( client, items, ClanStashRequest.STASH_TO_ITEMS ), 1 );
-			}
 		}
 	}
 

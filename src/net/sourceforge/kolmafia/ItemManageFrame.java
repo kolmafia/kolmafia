@@ -187,54 +187,38 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ConsumeItemRequestThread(false)).start();
+			{	consume( false );
 			}
 
 			protected void actionCancelled()
-			{	(new ConsumeItemRequestThread(true)).start();
+			{	consume( true );
 			}
 
-			public void setEnabled( boolean isEnabled )
+			private void consume( boolean useMultiple )
 			{
-				super.setEnabled( isEnabled );
-				elementList.setEnabled( isEnabled );
-			}
+				Object [] items = elementList.getSelectedValues();
 
-			/**
-			 * In order to keep the user interface from freezing (or at
-			 * least appearing to freeze), this internal class is used
-			 * to actually autosell the items.
-			 */
+				int consumptionType, consumptionCount;
+				AdventureResult currentItem;
 
-			private class ConsumeItemRequestThread extends RequestThread
-			{
-				private boolean useMultiple;
+				Runnable [] requests = new Runnable[ items.length ];
+				int [] repeatCount = new int[ items.length ];
 
-				public ConsumeItemRequestThread( boolean useMultiple )
-				{	this.useMultiple = useMultiple;
-				}
-
-				public void run()
-				{
-					Object [] items = elementList.getSelectedValues();
-
-					for ( int i = 0; i < items.length; ++i )
-						consumeItem( (AdventureResult) items[i] );
-				}
-
-				private void consumeItem( AdventureResult currentItem )
+				for ( int i = 0; i < items.length; ++i )
 				{
 					try
 					{
-						int consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
-						int consumptionCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
+						currentItem = (AdventureResult) items[i];
+
+						consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
+						consumptionCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
 							"Using multiple " + currentItem.getName() + "..." ) ).intValue() : 1;
 
-						if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
-							client.makeRequest( new ConsumeItemRequest( client, new AdventureResult( currentItem.getItemID(), consumptionCount ) ), 1 );
-						else
-							client.makeRequest( new ConsumeItemRequest( client, new AdventureResult( currentItem.getItemID(), 1 ) ), consumptionCount );
+						requests[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ?
+							new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) ) :
+							new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
 
+						repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
 					}
 					catch ( Exception e )
 					{
@@ -244,6 +228,14 @@ public class ItemManageFrame extends KoLFrame
 						// this will be fixed once we add functionality.
 					}
 				}
+
+				(new RequestThread( requests, repeatCount )).start();
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+				elementList.setEnabled( isEnabled );
 			}
 		}
 	}
@@ -290,11 +282,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new AutoSellRequestThread( AutoSellRequest.AUTOSELL )).start();
+			{	sell( AutoSellRequest.AUTOSELL );
 			}
 
 			protected void actionCancelled()
-			{	(new AutoSellRequestThread( AutoSellRequest.AUTOMALL )).start();
+			{	sell( AutoSellRequest.AUTOMALL );
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -303,52 +295,21 @@ public class ItemManageFrame extends KoLFrame
 				elementList.setEnabled( isEnabled );
 			}
 
-			/**
-			 * In order to keep the user interface from freezing (or at
-			 * least appearing to freeze), this internal class is used
-			 * to actually autosell the items.
-			 */
-
-			private class AutoSellRequestThread extends RequestThread
+			private void sell( int sellType )
 			{
-				private int sellType;
-				private boolean finishedSelling;
+				if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+					"Are you sure you would like to sell the selected items?",
+						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
+							return;
 
-				public AutoSellRequestThread( int sellType )
-				{
-					this.sellType = sellType;
-					this.finishedSelling = false;
-				}
+				Object [] items = elementList.getSelectedValues();
+				Runnable [] requests = new Runnable[ items.length ];
 
-				public void run()
-				{
-					if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-						"Are you sure you would like to sell the selected items?",
-							"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
-								return;
+				for ( int i = 0; i < items.length; ++i )
+					requests[i] = sellType == AutoSellRequest.AUTOSELL ? new AutoSellRequest( client, (AdventureResult) items[i] ) :
+						new AutoSellRequest( client, (AdventureResult) items[i], 999999999 );
 
-					Object [] items = elementList.getSelectedValues();
-					AdventureResult currentItem;
-
-					for ( int i = 0; !finishedSelling && i < items.length; ++i )
-						sell( (AdventureResult) items[i] );
-
-					client.updateDisplay( ENABLED_STATE, "Transaction complete." );
-				}
-
-				private void sell( AdventureResult currentItem )
-				{
-					switch ( sellType )
-					{
-						case AutoSellRequest.AUTOSELL:
-							client.makeRequest( new AutoSellRequest( client, currentItem ), 1 );
-							break;
-						case AutoSellRequest.AUTOMALL:
-							client.makeRequest( new AutoSellRequest( client, currentItem, 999999999 ), 1 );
-							break;
-					}
-
-				}
+				(new RequestThread( requests )).start();
 			}
 		}
 	}
@@ -390,11 +351,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new InventoryStorageThread( false )).start();
+			{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, availableList.getSelectedValues() ) )).start();
 			}
 
 			protected void actionCancelled()
-			{	(new InventoryStorageThread( true )).start();
+			{	(new RequestThread( new MuseumRequest( client, true, availableList.getSelectedValues() ) )).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -413,68 +374,22 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ClosetStorageThread( false )).start();
+			{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, closetList.getSelectedValues() ) )).start();
 			}
 
 			protected void actionCancelled()
-			{	(new ClosetStorageThread( true )).start();
+			{
+				Runnable [] requests = new Runnable[2];
+				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, closetList.getSelectedValues() );
+				requests[1] = new MuseumRequest( client, true, closetList.getSelectedValues() );
+
+				(new RequestThread( requests )).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
 				closetList.setEnabled( isEnabled );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually move items around in the inventory.
-		 */
-
-		private class InventoryStorageThread extends RequestThread
-		{
-			private boolean isDisplayCase;
-
-			public InventoryStorageThread( boolean isDisplayCase )
-			{	this.isDisplayCase = isDisplayCase;
-			}
-
-			public void run()
-			{
-				Object [] items = availableList.getSelectedValues();
-				Runnable request = isDisplayCase ? (Runnable) new MuseumRequest( client, true, items ) :
-					(Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-
-				client.makeRequest( request, 1 );
-				client.updateDisplay( ENABLED_STATE, "Items moved." );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually move items around in the inventory.
-		 */
-
-		private class ClosetStorageThread extends RequestThread
-		{
-			private boolean isDisplayCase;
-
-			public ClosetStorageThread( boolean isDisplayCase )
-			{	this.isDisplayCase = isDisplayCase;
-			}
-
-			public void run()
-			{
-				Object [] items = closetList.getSelectedValues();
-				client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ), 1 );
-
-				if ( isDisplayCase )
-					client.makeRequest( new MuseumRequest( client, true, items ), 1 );
-
-				client.updateDisplay( ENABLED_STATE, "Items moved." );
 			}
 		}
 	}
@@ -516,11 +431,11 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new InventoryStorageThread( false )).start();
+			{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, availableList.getSelectedValues() ) )).start();
 			}
 
 			protected void actionCancelled()
-			{	(new InventoryStorageThread( true )).start();
+			{	(new RequestThread( new ClanStashRequest( client, availableList.getSelectedValues(), ClanStashRequest.ITEMS_TO_STASH ) )).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -539,68 +454,22 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new ClosetStorageThread( false )).start();
+			{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, closetList.getSelectedValues() ) )).start();
 			}
 
 			protected void actionCancelled()
-			{	(new ClosetStorageThread( true )).start();
+			{
+				Runnable [] requests = new Runnable[2];
+				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, closetList.getSelectedValues() );
+				requests[1] = new ClanStashRequest( client, closetList.getSelectedValues(), ClanStashRequest.ITEMS_TO_STASH );
+
+				(new RequestThread( requests )).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
 				closetList.setEnabled( isEnabled );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually move items around in the inventory.
-		 */
-
-		private class InventoryStorageThread extends RequestThread
-		{
-			private boolean isStash;
-
-			public InventoryStorageThread( boolean isStash )
-			{	this.isStash = isStash;
-			}
-
-			public void run()
-			{
-				Object [] items = availableList.getSelectedValues();
-				Runnable request = isStash ? (Runnable) new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH ) :
-					(Runnable) new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-
-				client.makeRequest( request, 1 );
-				client.updateDisplay( ENABLED_STATE, "Items moved." );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually move items around in the inventory.
-		 */
-
-		private class ClosetStorageThread extends RequestThread
-		{
-			private boolean isStash;
-
-			public ClosetStorageThread( boolean isStash )
-			{	this.isStash = isStash;
-			}
-
-			public void run()
-			{
-				Object [] items = closetList.getSelectedValues();
-				client.makeRequest( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ), 1 );
-
-				if ( isStash )
-					client.makeRequest( new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH ), 1 );
-
-				client.updateDisplay( ENABLED_STATE, "Items moved." );
 			}
 		}
 	}
@@ -618,11 +487,11 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new ItemCreationRequestThread(false)).start();
+		{	create( false );
 		}
 
 		public void actionCancelled()
-		{	(new ItemCreationRequestThread(true)).start();
+		{	create( true );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -631,64 +500,42 @@ public class ItemManageFrame extends KoLFrame
 			elementList.setEnabled( isEnabled );
 		}
 
-		private class ItemCreationRequestThread extends RequestThread
+		private void create( boolean createMultiple )
 		{
-			private boolean useMultiple;
+			client.updateDisplay( DISABLED_STATE, "Verifying ingredients..." );
+			Object selected = elementList.getSelectedValue();
 
-			public ItemCreationRequestThread( boolean useMultiple )
-			{	this.useMultiple = useMultiple;
-			}
-
-			public void run()
+			try
 			{
-				client.updateDisplay( DISABLED_STATE, "Verifying ingredients..." );
+				ItemCreationRequest selection = (ItemCreationRequest) selected;
 
-				Object selected = elementList.getSelectedValue();
+				String itemName = selection.getName();
+				int creationCount = createMultiple ? df.parse( JOptionPane.showInputDialog(
+					"Creating multiple " + itemName + "...", String.valueOf( selection.getQuantityNeeded() ) ) ).intValue() : 1;
 
-				try
+				if ( creationCount > 0 )
 				{
-                                        ItemCreationRequest selection = (ItemCreationRequest) selected;
-
-                                        String itemName = selection.getName();
-                                        int creationCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
-                                                                                            "Creating multiple " + itemName + "...", String.valueOf( selection.getQuantityNeeded() ) ) ).intValue() : 1;
-
-                                        if ( creationCount > 0 )
-                                        {
-                                                selection.setQuantityNeeded( creationCount );
-                                                client.makeRequest( selection, 1 );
-                                        }
-
-				}
-				catch ( Exception e )
-				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
+					selection.setQuantityNeeded( creationCount );
+					(new RequestThread( selection )).start();
 				}
 
-				if ( client.permitsContinue() )
-					client.updateDisplay( ENABLED_STATE, "Items created." );
-
-				ConcoctionsDatabase.refreshConcoctions( client );
 			}
+			catch ( Exception e )
+			{
+				// If the number placed inside of the count list was not
+				// an actual integer value, pretend nothing happened.
+				// Using exceptions for flow control is bad style, but
+				// this will be fixed once we add functionality.
+			}
+
+			ConcoctionsDatabase.refreshConcoctions( client );
 		}
 	}
 
 	private class ListRefreshListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new ListRefreshThread()).start();
-		}
-
-		private class ListRefreshThread extends RequestThread
-		{
-			public void run()
-			{
-				(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();
-				client.updateDisplay( ENABLED_STATE, "Lists refreshed." );
-			}
+		{	(new RequestThread( new EquipmentRequest( client, EquipmentRequest.CLOSET ) )).start();
 		}
 	}
 

@@ -412,7 +412,12 @@ public class AdventureFrame extends KoLFrame
 			// placed in the input fields.
 
 			contentPanel = adventureSelect;
-			(new AdventureRequestThread()).start();
+			Runnable request = (Runnable) locationField.getSelectedItem();
+
+			client.getSettings().setProperty( "lastAdventure", request.toString() );
+			client.getSettings().saveSettings();
+
+			(new RequestThread( request, getValue( countField ) )).start();
 		}
 
 		protected void actionCancelled()
@@ -454,28 +459,6 @@ public class AdventureFrame extends KoLFrame
 
 				add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually make the adventuring requests.
-		 */
-
-		private class AdventureRequestThread extends RequestThread
-		{
-			public void run()
-			{
-				int count = getValue( countField );
-				Runnable request = (Runnable) locationField.getSelectedItem();
-
-				if ( request != null )
-				{
-					client.getSettings().setProperty( "lastAdventure", request.toString() );
-					client.getSettings().saveSettings();
-					client.makeRequest( request, count );
-				}
 			}
 		}
 	}
@@ -746,62 +729,33 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			contentPanel = heroDonation;
-			(new HeroDonationThread( false )).start();
+
+			if ( heroField.getSelectedIndex() != -1 )
+				(new RequestThread( new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
+
 		}
 
 		protected void actionCancelled()
 		{
-			contentPanel = heroDonation;
-			(new HeroDonationThread( true )).start();
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually donate to the statues.
-		 */
-
-		private class HeroDonationThread extends RequestThread
-		{
-			private boolean useIncrements;
-
-			public HeroDonationThread( boolean useIncrements )
-			{	this.useIncrements = useIncrements;
-			}
-
-			public void run()
+			try
 			{
-				try
+				contentPanel = heroDonation;
+				int increments = df.parse( JOptionPane.showInputDialog( "How many increments?" ) ).intValue();
+
+				if ( increments == 0 )
 				{
-					int amountRemaining = getValue( amountField );
-					int increments = useIncrements ? df.parse( JOptionPane.showInputDialog(
-							"How many increments?" ) ).intValue() : 1;
-
-					if ( increments == 0 )
-					{
-						updateDisplay( ENABLED_STATE, "Donation cancelled." );
-						return;
-					}
-
-					if ( heroField.getSelectedIndex() != -1 )
-					{
-						int eachAmount = amountRemaining / increments;
-						int designatedHero = heroField.getSelectedIndex() + 1;
-
-						client.makeRequest( new HeroDonationRequest( client, designatedHero, eachAmount ), increments - 1 );
-						amountRemaining -= eachAmount * (increments - 1);
-
-						if ( client.permitsContinue() )
-							client.makeRequest( new HeroDonationRequest( client, designatedHero, amountRemaining ), 1 );
-					}
+					updateDisplay( ENABLED_STATE, "Donation cancelled." );
+					return;
 				}
-				catch ( Exception e )
+
+				if ( heroField.getSelectedIndex() != -1 )
 				{
-					// If an exception is caught, that means the
-					// person did not input a number.  Which means
-					// do nothing, which is exactly what would
-					// happen at this point.
+					int eachAmount = getValue( amountField ) / increments;
+					(new RequestThread( new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, eachAmount ), increments )).start();
 				}
+			}
+			catch ( Exception e )
+			{
 			}
 		}
 	}
@@ -836,35 +790,13 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			contentPanel = meatStorage;
-			(new MeatStorageThread( true )).start();
+			(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
 		}
 
 		protected void actionCancelled()
 		{
 			contentPanel = meatStorage;
-			(new MeatStorageThread( false )).start();
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually purchase the clan buffs.
-		 */
-
-		private class MeatStorageThread extends RequestThread
-		{
-			private boolean isDeposit;
-
-			public MeatStorageThread( boolean isDeposit )
-			{	this.isDeposit = isDeposit;
-			}
-
-			public void run()
-			{
-				int amount = getValue( amountField );
-				client.makeRequest( new ItemStorageRequest( client, amount, isDeposit ?
-					ItemStorageRequest.MEAT_TO_CLOSET : ItemStorageRequest.MEAT_TO_INVENTORY ), 1 );
-			}
+			(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
 		}
 	}
 
@@ -948,56 +880,48 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			contentPanel = skillBuff;
-			(new SkillBuffRequestThread( false )).start();
+			(new RequestThread( getRequests( false ) )).start();
 		}
 
 		protected void actionCancelled()
 		{
 			contentPanel = skillBuff;
-			(new SkillBuffRequestThread( true )).start();
+			(new RequestThread( getRequests( true ) )).start();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually do the spellcasting.
-		 */
-
-		private class SkillBuffRequestThread extends RequestThread
+		private Runnable [] getRequests( boolean maxBuff )
 		{
-			private boolean maxBuff;
+			String buffName = ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName();
+			if ( buffName == null )
+				return null;
 
-			public SkillBuffRequestThread( boolean maxBuff )
-			{	this.maxBuff = maxBuff;
-			}
+			String [] targets = targetField.getText().split( "," );
+			for ( int i = 0; i < targets.length; ++i )
+				targets[i] = targets[i].trim();
 
-			public void run()
+			for ( int i = 0; i < targets.length; ++i )
+				if ( targets[i] != null )
+					for ( int j = i + 1; j < targets.length; ++j )
+						if ( targets[j] == null || targets[i].equals( targets[j] ) )
+							targets[j] = null;
+
+			int buffCount = maxBuff ?
+				(int) ( client.getCharacterData().getCurrentMP() /
+					ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) : getValue( countField, 1 );
+
+			if ( targets.length == 0 )
 			{
-				String buffName = ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName();
-				if ( buffName == null )
-					return;
-
-				String [] targets = targetField.getText().split( "," );
-				for ( int i = 0; i < targets.length; ++i )
-					targets[i] = targets[i].trim();
-
-				for ( int i = 0; i < targets.length; ++i )
-					if ( targets[i] != null )
-						for ( int j = i + 1; j < targets.length; ++j )
-							if ( targets[j] == null || targets[i].equals( targets[j] ) )
-								targets[j] = null;
-
-				int buffCount = maxBuff ?
-					(int) ( client.getCharacterData().getCurrentMP() /
-						ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) : getValue( countField, 1 );
-
-				if ( targets.length == 0 )
-					client.makeRequest( new UseSkillRequest( client, buffName, "", buffCount ), 1 );
-
-				for ( int i = 0; i < targets.length; ++i )
-					if ( targets[i] != null )
-						client.makeRequest( new UseSkillRequest( client, buffName, targets[i], buffCount ), 1 );
+				Runnable [] requests = new Runnable[1];
+				requests[0] = new UseSkillRequest( client, buffName, "", buffCount );
+				return requests;
 			}
+
+			Runnable [] requests = new Runnable[ targets.length ];
+			for ( int i = 0; i < requests.length; ++i )
+				if ( targets[i] != null )
+					requests[i] = new UseSkillRequest( client, buffName, targets[i], buffCount );
+
+			return requests;
 		}
 	}
 
