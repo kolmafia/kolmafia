@@ -301,10 +301,7 @@ public class LoginFrame extends KoLFrame
 			if ( autoLoginCheckBox.isSelected() )
 				client.getSettings().setProperty( "autoLogin", loginname );
 			else
-			{
-				client.getSettings().remove( "autoLogin" );
-				client.getSettings().saveSettings();
-			}
+				client.getSettings().setProperty( "autoLogin", "" );
 
 			if ( isQuickLogin && !loginname.endsWith( "/q" ) )
 				loginname += "/q";

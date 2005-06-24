@@ -1298,7 +1298,7 @@ public abstract class KoLmafia implements KoLConstants
 			settings.setProperty( "saveState", saveStateBuffer.toString() );
 		}
 		else
-			settings.remove( "saveState" );
+			settings.setProperty( "saveState", "" );
 
 		// Now, removing any passwords that were stored
 		// which are no longer in the save state list

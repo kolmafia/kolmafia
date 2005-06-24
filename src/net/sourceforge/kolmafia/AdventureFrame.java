@@ -1017,8 +1017,7 @@ public class AdventureFrame extends KoLFrame
 				client.deinitialize();
 
 				(new RequestThread( new LogoutRequest( client ) )).start();
-
-				new KoLmafiaGUI();
+				KoLmafiaGUI.main( new String[0] );
 			}
 		}
 	}
