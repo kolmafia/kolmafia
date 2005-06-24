@@ -127,7 +127,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( client != null )
 		{
-			if ( client.getSettings().getProperty( "useClosetForCreation" )..equals( "true" ) )
+			if ( client.getSettings().getProperty( "useClosetForCreation" ).equals( "true" ) )
 			{
 				List closetList = (List) client.getCloset();
 				for ( int i = 0; i < closetList.size(); ++i )
