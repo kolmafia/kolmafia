@@ -74,6 +74,8 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.text.ParseException;
 import javax.swing.ListSelectionModel;
+
+import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -595,7 +597,7 @@ public class BuffBotFrame extends KoLFrame
 		}
 	}
 
-	private class InvalidBuffPanel extends JPanel
+	private class InvalidBuffPanel extends ActionPanel
 	{
 		private JTextArea invalidPriceMessage, thanksMessage;
 		private JPanel buttonPanel;
@@ -659,54 +661,6 @@ public class BuffBotFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{	buttonPanel.setEnabled( isEnabled );
-		}
-
-		private class VerifyButtonPanel extends JPanel
-		{
-			private JButton confirmedButton;
-			private JButton cancelledButton;
-
-			public VerifyButtonPanel( String confirmedText, String cancelledText )
-			{
-				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-
-				// add the "confirmed" button
-				confirmedButton = new JButton( confirmedText );
-				confirmedButton.addActionListener(
-					new ActionListener() {
-						public void actionPerformed( ActionEvent e ) {
-							actionConfirmed();
-						}
-					} );
-
-				addButton( confirmedButton );
-				add( Box.createVerticalStrut( 4 ) );
-
-				// add the "cancelled" button
-				cancelledButton = new JButton( cancelledText );
-				cancelledButton.addActionListener(
-					new ActionListener() {
-						public void actionPerformed( ActionEvent e ) {
-							actionCancelled();
-						}
-					} );
-				addButton( cancelledButton );
-
-				JComponentUtilities.setComponentSize( this, 80, 100 );
-			}
-
-			private void addButton( JButton buttonToAdd )
-			{
-				JPanel container = new JPanel();
-				container.setLayout( new GridLayout() );
-				container.add( buttonToAdd );
-				container.setMaximumSize( new Dimension( Integer.MAX_VALUE, 24 ) );
-				add( container );
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{	confirmedButton.setEnabled( isEnabled );
-			}
 		}
 	}
 
