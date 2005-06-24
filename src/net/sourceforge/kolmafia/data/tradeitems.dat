@@ -93,7 +93,7 @@
 93	basic meat sword	12	140
 94	basic meat pants	10	140
 95	basic meat helmet	9	140
-96	bling-bling	0	60
+96	bling-bling	8	60
 97	pimpin' meat hat	9	155
 98	dried face	0	7
 99	meat face	0	11
@@ -1115,18 +1115,18 @@
 1115	tasket	0	70
 1116	annoying pitchfork	6	75
 1117	Stupid University Diploma	0	0
-1118
-1119
-1120
-1121
-1122
+1118	pregnant flaming mushroom	5	19
+1119	pregnant frozen mushroom	5	19
+1120	pregnant stinky mushroom	5	19
+1121	inexplicably glowing rock
+1122	spooky fairy gravy	0	0
 1123	halfberd	12	35
 1124	small leather glove	0	75
 1125	spooky glove	0	0
 1126	enchanted toothpick	8	95
 1127	tiny ninja sword	12	25
 1128	teeny-tiny ninja stars	0	30
-1129
+1129	sequined fez	9	0
 1130	blank white card	0	0
 1131	beet	0	0
 1132	Totally Gay Claymore	12	169
@@ -1147,7 +1147,7 @@
 1147	spooky mushroom wine	2	30
 1148	shot of flower schnapps	2	120
 1149	flower petal pie	1	45
-1150
+1150	bottle of single-barrel whiskey	2	0
 1151	giant discarded plastic fork	12	205
 1152	miniature gravy-covered maypole	6	0
 1153	Retenez L'Herbe Pat&eacute;	1	0
@@ -1211,7 +1211,7 @@
 1211	white balloon	8	25
 1212	green balloon	8	50
 1213	heart-shaped balloon	8	0
-1214
+1214	anniversary balloon	8	0
 1215
 1216
 1217
@@ -1241,13 +1241,13 @@
 1241
 1242	deflated inflatable dodecapede	5	0
 1243	toy six-seater hovercraft	6	70
-1244
-1245
-1246
-1247
+1244	Glass Balls of the Goblin King	0	0
+1245	Cape of the Goblin King	0	0
+1246	rib of the Bonerdagon	0	0
+1247	vertebra of the Bonerdagon	0	0
 1248
 1249	Boss Bat britches	10	0
-1250
+1250	Boss Bat bling	8	0
 1251	Knob shroomkabob	2	30
 1252	spooky shroomkabob	2	30
 1253	jumping beans	0	23
@@ -1256,3 +1256,4 @@
 1256	insanely spicy jumping bean burrito	2	90
 1257	rat scrapple	2	40
 1258	pail of pretentious paint	0	0
+1259	yellow traffic cone	9	100
