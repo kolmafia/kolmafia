@@ -56,25 +56,4 @@ public interface KoLConstants extends UtilityConstants
 	public static final int ERROR_STATE    = 1;
 	public static final int ENABLED_STATE  = 2;
 	public static final int DISABLED_STATE = 3;
-
-	public class RequestThread extends Thread
-	{
-		private KoLRequest request;
-
-		public RequestThread()
-		{	this( null );
-		}
-
-		public RequestThread( KoLRequest request )
-		{
-			this.request = request;
-			setDaemon( true );
-		}
-
-		public void run()
-		{
-			if ( request != null )
-				request.run();
-		}
-	}
 }
