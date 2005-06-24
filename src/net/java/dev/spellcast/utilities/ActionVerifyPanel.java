@@ -54,12 +54,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public abstract class ActionVerifyPanel extends JRootPane
+public abstract class ActionVerifyPanel extends ActionPanel
 {
 	private boolean contentSet;
 	private boolean isCenterPanel;
 	private JComponent eastContainer;
-	private boolean bothDisabledOnClick;
 	private VerifyButtonPanel buttonPanel;
 	private Dimension labelSize, fieldSize;
 
@@ -149,7 +148,7 @@ public abstract class ActionVerifyPanel extends JRootPane
 		add( cardContainer, isCenterPanel ? BorderLayout.CENTER : BorderLayout.NORTH );
 
 		contentSet = true;
-		this.bothDisabledOnClick = bothDisabledOnClick;
+		buttonPanel.setBothDisabledOnClick( bothDisabledOnClick );
 	}
 
 	private JPanel constructWestContainer( VerifiableElement [] elements, JPanel westPanel, boolean isLabelPreceeding )
@@ -286,58 +285,6 @@ public abstract class ActionVerifyPanel extends JRootPane
 
 	protected abstract void actionConfirmed();
 	protected abstract void actionCancelled();
-
-	private class VerifyButtonPanel extends JPanel
-	{
-		private String cancelledText1, cancelledText2;
-
-		public VerifyButtonPanel( String confirmedText, String cancelledText1, String cancelledText2 )
-		{
- 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
- 			this.cancelledText1 = cancelledText1;
- 			this.cancelledText2 = cancelledText2;
-
-			// add the "confirmed" button
-			confirmedButton = new JButton( confirmedText );
-			confirmedButton.addActionListener(
-				new ActionListener() {
-					public void actionPerformed( ActionEvent e ) {
-						actionConfirmed();
-					}
-				} );
-
-			addButton( confirmedButton );
-			add( Box.createVerticalStrut( 4 ) );
-
-			// add the "cancelled" button
-			cancelledButton = new JButton( cancelledText1 );
-			cancelledButton.addActionListener(
-				new ActionListener() {
-					public void actionPerformed( ActionEvent e ) {
-						actionCancelled();
-					}
-				} );
-			addButton( cancelledButton );
-		}
-
-		private void addButton( JButton buttonToAdd )
-		{
-			JPanel container = new JPanel();
-			container.setLayout( new GridLayout() );
-			container.add( buttonToAdd );
-			container.setMaximumSize( new Dimension( Integer.MAX_VALUE, 24 ) );
-			add( container );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			confirmedButton.setEnabled( isEnabled );
-			if ( bothDisabledOnClick )
-				cancelledButton.setEnabled( isEnabled );
-
-			cancelledButton.setText( isEnabled ? cancelledText1 : cancelledText2 );
-		}
-	}
 
 	protected final class VerifiableElement implements Comparable
 	{
