@@ -112,6 +112,7 @@ import javax.swing.JOptionPane;
 import java.util.Iterator;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -150,7 +151,7 @@ public class AdventureFrame extends KoLFrame
 	 * @param	resultsTally	Tally of adventuring results
 	 */
 
-	public AdventureFrame( KoLmafia client, LockableListModel resultsTally )
+	public AdventureFrame( KoLmafia client, SortedListModel resultsTally )
 	{
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 			" (" + KoLRequest.getRootHostName() + ")", client );
@@ -331,7 +332,7 @@ public class AdventureFrame extends KoLFrame
 		private JComboBox locationField;
 		private JTextField countField;
 
-		public AdventureSelectPanel( LockableListModel resultsTally )
+		public AdventureSelectPanel( SortedListModel resultsTally )
 		{
 			super( "begin", "stop", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
 
@@ -1204,7 +1205,7 @@ public class AdventureFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new AdventureFrame( null, new LockableListModel() );
+		KoLFrame uitest = new AdventureFrame( null, new SortedListModel() );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }
