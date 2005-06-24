@@ -253,7 +253,13 @@ public class BuffBotFrame extends KoLFrame
 		 */
 
 		protected void actionConfirmed()
-		{	(new BuffBotRequestThread()).start();
+		{
+			if ( client.isBuffBotActive() )
+				return;
+
+			client.resetContinueState();
+			client.setBuffBotActive( true );
+			currentManager.runBuffBot(-1);
 		}
 
 		/**
@@ -261,27 +267,9 @@ public class BuffBotFrame extends KoLFrame
 		 */
 
 		protected void actionCancelled()
-		{	client.setBuffBotActive( false );
-			buffbotLog.updateStatus("BuffBot stopped by user.");
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually make the request to start the buffbot.
-		 */
-
-		private class BuffBotRequestThread extends DaemonThread
 		{
-			public void run()
-			{
-				if ( client.isBuffBotActive() )
-					return;
-
-				client.resetContinueState();
-				client.setBuffBotActive( true );
-				currentManager.runBuffBot(-1);
-			}
+			client.setBuffBotActive( false );
+			buffbotLog.updateStatus("BuffBot stopped by user.");
 		}
 	}
 

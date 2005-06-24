@@ -81,30 +81,23 @@ public class CakeArenaFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	(new ArenaBattleThread()).start();
+		{
+			Object opponent = opponentSelect.getSelectedItem();
+			if ( opponent == null )
+				return;
+
+			int eventID = fightOptions.getSelectedIndex() + 1;
+			if ( eventID == 0 )
+				return;
+
+			int battleCount = getValue( battleField );
+			client.getCakeArenaManager().fightOpponent( opponent.toString(), eventID, battleCount );
 		}
 
 		public void actionCancelled()
 		{
 			updateDisplay( ERROR_STATE, "Arena battles terminated." );
 			client.cancelRequest();
-		}
-
-		private class ArenaBattleThread extends DaemonThread
-		{
-			public void run()
-			{
-				Object opponent = opponentSelect.getSelectedItem();
-				if ( opponent == null )
-					return;
-
-				int eventID = fightOptions.getSelectedIndex() + 1;
-				if ( eventID == 0 )
-					return;
-
-				int battleCount = getValue( battleField );
-				client.getCakeArenaManager().fightOpponent( opponent.toString(), eventID, battleCount );
-			}
 		}
 	}
 

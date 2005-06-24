@@ -555,7 +555,16 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			contentPanel = mallSearch;
-			(new SearchMallThread()).start();
+
+			int searchCount = getValue( countField, -1 );
+
+			if ( searchCount == -1 )
+				(new SearchMallRequest( client, searchField.getText(), results )).run();
+			else
+				(new SearchMallRequest( client, searchField.getText(), searchCount, results )).run();
+
+			if ( results.size() > 0 )
+				resultsDisplay.ensureIndexIsVisible( 0 );
 		}
 
 		protected void actionCancelled()
@@ -564,7 +573,60 @@ public class AdventureFrame extends KoLFrame
 				return;
 
 			contentPanel = mallSearch;
-			(new PurchaseThread()).start();
+
+			MallPurchaseRequest currentRequest;
+			client.resetContinueState();
+
+			int maxPurchases = 0;
+
+			try
+			{
+				maxPurchases = limitPurchasesField.isSelected() ?
+					df.parse( JOptionPane.showInputDialog( "Maximum number of items to purchase?" ) ).intValue() : Integer.MAX_VALUE;
+			}
+			catch ( Exception e )
+			{
+			}
+
+			Object [] purchases = resultsDisplay.getSelectedValues();
+			for ( int i = 0; i < purchases.length && maxPurchases > 0 && client.permitsContinue(); ++i )
+			{
+				if ( purchases[i] instanceof MallPurchaseRequest )
+				{
+					currentRequest = (MallPurchaseRequest) purchases[i];
+
+					// Keep track of how many of the item you had before
+					// you run the purchase request
+
+					AdventureResult oldResult = new AdventureResult( currentRequest.getItemName(), 0 );
+					int oldResultIndex = client.getInventory().indexOf( oldResult );
+					if ( oldResultIndex != -1 )
+						oldResult = (AdventureResult) client.getInventory().get( oldResultIndex );
+
+					currentRequest.setLimit( maxPurchases );
+					currentRequest.run();
+
+					// Calculate how many of the item you have now after
+					// you run the purchase request
+
+					int newResultIndex = client.getInventory().indexOf( oldResult );
+					if ( newResultIndex != -1 )
+					{
+						AdventureResult newResult = (AdventureResult) client.getInventory().get( newResultIndex );
+						maxPurchases -= newResult.getCount() - oldResult.getCount();
+					}
+
+					// Remove the purchase from the list!  Because you
+					// have already made a purchase from the store
+
+					if ( client.permitsContinue() )
+						results.remove( purchases[i] );
+				}
+			}
+
+			if ( client.permitsContinue() )
+				updateDisplay( ENABLED_STATE, "Purchases complete." );
+			client.resetContinueState();
 		}
 
 		public void requestFocus()
@@ -594,97 +656,6 @@ public class AdventureFrame extends KoLFrame
 
 				add( new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually make the mall search request.
-		 */
-
-		private class SearchMallThread extends DaemonThread
-		{
-			public void run()
-			{
-				int searchCount = getValue( countField, -1 );
-
-				if ( searchCount == -1 )
-					(new SearchMallRequest( client, searchField.getText(), results )).run();
-				else
-					(new SearchMallRequest( client, searchField.getText(), searchCount, results )).run();
-
-				if ( results.size() > 0 )
-					resultsDisplay.ensureIndexIsVisible( 0 );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually make the mall search request.
-		 */
-
-		private class PurchaseThread extends DaemonThread
-		{
-			public void run()
-			{
-				Object [] purchases = resultsDisplay.getSelectedValues();
-
-				try
-				{
-					MallPurchaseRequest currentRequest;
-					client.resetContinueState();
-
-					int maxPurchases = limitPurchasesField.isSelected() ?
-						df.parse( JOptionPane.showInputDialog( "Maximum number of items to purchase?" ) ).intValue() : Integer.MAX_VALUE;
-
-					for ( int i = 0; i < purchases.length && maxPurchases > 0 && client.permitsContinue(); ++i )
-					{
-						if ( purchases[i] instanceof MallPurchaseRequest )
-						{
-							currentRequest = (MallPurchaseRequest) purchases[i];
-
-							// Keep track of how many of the item you had before
-							// you run the purchase request
-
-							AdventureResult oldResult = new AdventureResult( currentRequest.getItemName(), 0 );
-							int oldResultIndex = client.getInventory().indexOf( oldResult );
-							if ( oldResultIndex != -1 )
-								oldResult = (AdventureResult) client.getInventory().get( oldResultIndex );
-
-							currentRequest.setLimit( maxPurchases );
-							currentRequest.run();
-
-							// Calculate how many of the item you have now after
-							// you run the purchase request
-
-							int newResultIndex = client.getInventory().indexOf( oldResult );
-							if ( newResultIndex != -1 )
-							{
-								AdventureResult newResult = (AdventureResult) client.getInventory().get( newResultIndex );
-								maxPurchases -= newResult.getCount() - oldResult.getCount();
-							}
-
-							// Remove the purchase from the list!  Because you
-							// have already made a purchase from the store
-
-							if ( client.permitsContinue() )
-								results.remove( purchases[i] );
-						}
-					}
-				}
-				catch ( Exception e )
-				{
-					// If the number placed inside of the count list was not
-					// an actual integer value, pretend nothing happened.
-					// Using exceptions for flow control is bad style, but
-					// this will be fixed once we add functionality.
-				}
-
-				if ( client.permitsContinue() )
-					updateDisplay( ENABLED_STATE, "Purchases complete." );
-				client.resetContinueState();
 			}
 		}
 	}

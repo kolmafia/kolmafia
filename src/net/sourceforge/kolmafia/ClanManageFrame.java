@@ -555,11 +555,45 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new MemberSearchThread()).start();
+		{
+			client.getClanManager().applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
+			client.updateDisplay( ENABLED_STATE, "Search results retrieved." );
 		}
 
 		protected void actionCancelled()
-		{	(new MemberChangeThread()).start();
+		{
+			client.updateDisplay( DISABLED_STATE, "Determining changes..." );
+
+			List ranks = new ArrayList();
+			List rankValues = new ArrayList();
+			List boots = new ArrayList();
+
+			Object currentComponent;
+			ClanMemberPanel currentMember;
+			Object desiredRank;
+
+			for ( int i = 0; i < results.getComponentCount(); ++i )
+			{
+				currentComponent = results.getComponent(i);
+				if ( currentComponent instanceof ClanMemberPanel )
+				{
+					currentMember = (ClanMemberPanel) currentComponent;
+					if ( currentMember.bootCheckBox.isSelected() )
+						boots.add( currentMember.memberName.getText() );
+
+					desiredRank = currentMember.rankSelect.getSelectedItem();
+					if ( desiredRank != null && !desiredRank.equals( currentMember.initialRank ) )
+					{
+						ranks.add( currentMember.memberName.getText() );
+						rankValues.add( String.valueOf( currentMember.rankSelect.getSelectedIndex() ) );
+						currentMember.profile.setRank( (String) desiredRank );
+					}
+				}
+			}
+
+			client.updateDisplay( DISABLED_STATE, "Applying changes..." );
+			(new ClanMembersRequest( client, ranks.toArray(), rankValues.toArray(), boots.toArray() )).run();
+			client.updateDisplay( ENABLED_STATE, "Changes have been applied." );
 		}
 
 		private class SelectAllForBootListener implements ActionListener
@@ -586,60 +620,6 @@ public class ClanManageFrame extends KoLFrame
 				}
 
 				shouldSelect = !shouldSelect;
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to actually donate to the statues.
-		 */
-
-		private class MemberSearchThread extends DaemonThread
-		{
-			public void run()
-			{
-				client.getClanManager().applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
-				client.updateDisplay( ENABLED_STATE, "Search results retrieved." );
-			}
-		}
-
-		private class MemberChangeThread extends DaemonThread
-		{
-			public void run()
-			{
-				client.updateDisplay( DISABLED_STATE, "Determining changes..." );
-
-				List ranks = new ArrayList();
-				List rankValues = new ArrayList();
-				List boots = new ArrayList();
-
-				Object currentComponent;
-				ClanMemberPanel currentMember;
-				Object desiredRank;
-
-				for ( int i = 0; i < results.getComponentCount(); ++i )
-				{
-					currentComponent = results.getComponent(i);
-					if ( currentComponent instanceof ClanMemberPanel )
-					{
-						currentMember = (ClanMemberPanel) currentComponent;
-						if ( currentMember.bootCheckBox.isSelected() )
-							boots.add( currentMember.memberName.getText() );
-
-						desiredRank = currentMember.rankSelect.getSelectedItem();
-						if ( desiredRank != null && !desiredRank.equals( currentMember.initialRank ) )
-						{
-							ranks.add( currentMember.memberName.getText() );
-							rankValues.add( String.valueOf( currentMember.rankSelect.getSelectedIndex() ) );
-							currentMember.profile.setRank( (String) desiredRank );
-						}
-					}
-				}
-
-				client.updateDisplay( DISABLED_STATE, "Applying changes..." );
-				(new ClanMembersRequest( client, ranks.toArray(), rankValues.toArray(), boots.toArray() )).run();
-				client.updateDisplay( ENABLED_STATE, "Changes have been applied." );
 			}
 		}
 	}
