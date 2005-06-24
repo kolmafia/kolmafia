@@ -182,8 +182,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// created any other way, making sure that it's a permitted
 		// mixture before doing the calculation.
 
-		cachePermitted( client );
-
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 		{
 			if ( concoctions[i].concoction.getName() == null )
