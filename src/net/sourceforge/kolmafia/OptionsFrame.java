@@ -246,42 +246,21 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( "Use login server " + i, JLabel.LEFT, servers[i] );
 
 			setContent( elements, false );
-			(new LoadSettingsThread()).run();
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
+		{
+			for ( int i = 0; i < 4; ++i )
+				if ( servers[i].isSelected() )
+					setProperty( "loginServer", String.valueOf( i ) );
+
+			KoLRequest.applySettings();
+			super.actionConfirmed();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadSettingsThread extends OptionsThread
-		{
-			protected void save()
-			{	servers[ Integer.parseInt( getProperty( "loginServer" ) ) ].setSelected( true );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
-		{
-			protected void save()
-			{
-				for ( int i = 0; i < 4; ++i )
-					if ( servers[i].isSelected() )
-						setProperty( "loginServer", String.valueOf( i ) );
-
-				KoLRequest.applySettings();
-			}
+		protected void actionCancelled()
+		{	servers[ Integer.parseInt( getProperty( "loginServer" ) ) ].setSelected( true );
 		}
 	}
 
@@ -317,41 +296,20 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements, false );
-			(new LoadSettingsThread()).run();
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
+		{
+			for ( int i = 0; i < optionKeys.length; ++i )
+				setProperty( optionKeys[i], String.valueOf( optionBoxes[i].isSelected() ) );
+			super.actionConfirmed();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadSettingsThread extends OptionsThread
+		protected void actionCancelled()
 		{
-			protected void save()
-			{
-				for ( int i = 0; i < optionKeys.length; ++i )
-					optionBoxes[i].setSelected( getProperty( optionKeys[i] ).equals( "true" ) );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
-		{
-			protected void save()
-			{
-				for ( int i = 0; i < optionKeys.length; ++i )
-					setProperty( optionKeys[i], String.valueOf( optionBoxes[i].isSelected() ) );
-			}
+			for ( int i = 0; i < optionKeys.length; ++i )
+				optionBoxes[i].setSelected( getProperty( optionKeys[i] ).equals( "true" ) );
 		}
 	}
 
@@ -475,49 +433,29 @@ public class OptionsFrame extends KoLFrame
 			elements[7] = new VerifiableElement( "MP Recovery Script: ", mpRecoveryScriptPanel );
 
 			setContent( elements );
-			(new LoadSettingsThread()).start();
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
+		{
+			setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
+			setProperty( "hpAutoFlee", String.valueOf( ((double)(hpAutoFleeSelect.getSelectedIndex()) / 10.0) ) );
+			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
+			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+			setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
+
+			super.actionConfirmed();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadSettingsThread extends OptionsThread
+		protected void actionCancelled()
 		{
-			protected void save()
-			{
-				actionNames.setSelectedIndex( actions.indexOf( getProperty( "battleAction" ) ) );
-				hpAutoFleeSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoFlee" ) ) * 10) );
-				hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
-				hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
-				mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
-				mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
-		{
-			protected void save()
-			{
-				setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
-				setProperty( "hpAutoFlee", String.valueOf( ((double)(hpAutoFleeSelect.getSelectedIndex()) / 10.0) ) );
-				setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-				setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
-				setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-				setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
-			}
+			actionNames.setSelectedIndex( actions.indexOf( getProperty( "battleAction" ) ) );
+			hpAutoFleeSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoFlee" ) ) * 10) );
+			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
+			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
+			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
+			mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
 		}
 
 		/**
@@ -593,56 +531,35 @@ public class OptionsFrame extends KoLFrame
 
 			java.util.Arrays.sort( elements );
 			setContent( elements, false );
-			(new LoadSettingsThread()).start();
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
+		{
+			List selected = new ArrayList();
+
+			for ( int i = 0; i < items.length; ++i )
+				if ( items[i].isSelected() )
+					selected.add( new Integer(i) );
+
+			if ( selected.size() != 3 )
+			{
+				setStatusMessage( ERROR_STATE, "You did not select exactly three items." );
+				return;
+			}
+
+			setProperty( "luckySewer", selected.get(0) + "," + selected.get(1) + "," + selected.get(2) );
+			super.actionConfirmed();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadSettingsThread extends OptionsThread
+		protected void actionCancelled()
 		{
-			protected void save()
-			{
-				for ( int i = 0; i < items.length; ++i )
-					items[i].setSelected( false );
+			for ( int i = 0; i < items.length; ++i )
+				items[i].setSelected( false );
 
-				String [] selected = getProperty( "luckySewer" ).split( "," );
-				for ( int i = 0; i < selected.length; ++i )
-					items[ Integer.parseInt( selected[i] ) - 1 ].setSelected( true );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
-		{
-			protected void save()
-			{
-				List selected = new ArrayList();
-
-				for ( int i = 0; i < items.length; ++i )
-					if ( items[i].isSelected() )
-						selected.add( new Integer(i) );
-
-				if ( selected.size() != 3 )
-				{
-					setStatusMessage( ERROR_STATE, "You did not select exactly three items." );
-					return;
-				}
-
-				setProperty( "luckySewer", selected.get(0) + "," + selected.get(1) + "," + selected.get(2) );
-			}
+			String [] selected = getProperty( "luckySewer" ).split( "," );
+			for ( int i = 0; i < selected.length; ++i )
+				items[ Integer.parseInt( selected[i] ) - 1 ].setSelected( true );
 		}
 	}
 
@@ -697,67 +614,46 @@ public class OptionsFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Chat Colors: ", scrollArea );
 
 			setContent( elements );
-			(new LoadSettingsThread()).start();
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadSettingsThread extends OptionsThread
 		{
-			protected void save()
+			setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );
+			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
+
+			setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
+			setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
+			setProperty( "nameClickOpens", String.valueOf( nameClickSelect.getSelectedIndex() ) );
+
+			StringBuffer colors = new StringBuffer();
+			for ( int i = 0; i < KoLMessenger.ROOMS.length; ++i )
 			{
-				fontSizeSelect.setSelectedItem( getProperty( "fontSize" ) );
-				LimitedSizeChatBuffer.setFontSize( Integer.parseInt( getProperty( "fontSize" ) ) );
-
-				chatStyleSelect.setSelectedIndex( Integer.parseInt( getProperty( "chatStyle" ) ) );
-				useTabsSelect.setSelectedIndex( getProperty( "useTabbedChat" ).equals( "true" ) ? 1 : 0 );
-				nameClickSelect.setSelectedIndex( Integer.parseInt( getProperty( "nameClickOpens" ) ) );
-
-				if ( colorPanel.getComponentCount() == 0 )
-				{
-					String [] colors = getProperty( "channelColors" ).split( "," );
- 					for ( int i = 0; i < colors.length ; ++i )
- 						colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], DataUtilities.toColor( colors[i] ) ) );
-
- 					for ( int i = colors.length; i < KoLMessenger.ROOMS.length; ++i )
-	 					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], Color.black ) );
-				}
+				colors.append( DataUtilities.toHexString( ((ChatColorPanel) colorPanel.getComponent( i )).selectedColor ) );
+				colors.append( ',' );
 			}
+
+			setProperty( "channelColors", colors.toString() );
+			super.actionConfirmed();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
+		protected void actionCancelled()
 		{
-			protected void save()
+			fontSizeSelect.setSelectedItem( getProperty( "fontSize" ) );
+			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( getProperty( "fontSize" ) ) );
+
+			chatStyleSelect.setSelectedIndex( Integer.parseInt( getProperty( "chatStyle" ) ) );
+			useTabsSelect.setSelectedIndex( getProperty( "useTabbedChat" ).equals( "true" ) ? 1 : 0 );
+			nameClickSelect.setSelectedIndex( Integer.parseInt( getProperty( "nameClickOpens" ) ) );
+
+			if ( colorPanel.getComponentCount() == 0 )
 			{
-				setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );
-				LimitedSizeChatBuffer.setFontSize( Integer.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
+				String [] colors = getProperty( "channelColors" ).split( "," );
+				for ( int i = 0; i < colors.length ; ++i )
+					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], DataUtilities.toColor( colors[i] ) ) );
 
-				setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
-				setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
-				setProperty( "nameClickOpens", String.valueOf( nameClickSelect.getSelectedIndex() ) );
-
-				StringBuffer colors = new StringBuffer();
-				for ( int i = 0; i < KoLMessenger.ROOMS.length; ++i )
-				{
-					colors.append( DataUtilities.toHexString( ((ChatColorPanel) colorPanel.getComponent( i )).selectedColor ) );
-					colors.append( ',' );
-				}
-
-				setProperty( "channelColors", colors.toString() );
+				for ( int i = colors.length; i < KoLMessenger.ROOMS.length; ++i )
+					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], Color.black ) );
 			}
 		}
 	}
@@ -784,41 +680,20 @@ public class OptionsFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Close green composer after successful sending", JLabel.LEFT, closeSendingCheckBox );
 
 			setContent( elements, false );
-			(new LoadSettingsThread()).start();
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
+		{
+			setProperty( "saveOutgoing", String.valueOf( saveOutgoingCheckBox.isSelected() ) );
+			setProperty( "closeSending", String.valueOf( closeSendingCheckBox.isSelected() ) );
+			super.actionConfirmed();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadSettingsThread extends OptionsThread
+		protected void actionCancelled()
 		{
-			protected void save()
-			{
-				saveOutgoingCheckBox.setSelected( getProperty( "saveOutgoing" ).equals( "true" ) );
-				closeSendingCheckBox.setSelected( getProperty( "closeSending" ).equals( "true" ) );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
-		{
-			protected void save()
-			{
-				setProperty( "saveOutgoing", String.valueOf( saveOutgoingCheckBox.isSelected() ) );
-				setProperty( "closeSending", String.valueOf( closeSendingCheckBox.isSelected() ) );
-			}
+			saveOutgoingCheckBox.setSelected( getProperty( "saveOutgoing" ).equals( "true" ) );
+			closeSendingCheckBox.setSelected( getProperty( "closeSending" ).equals( "true" ) );
 		}
 	}
 
@@ -856,51 +731,30 @@ public class OptionsFrame extends KoLFrame
 				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements, false );
-			(new LoadSettingsThread()).run();
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
+		{
+			StringBuffer tableHeaderSetting = new StringBuffer();
+
+			for ( int i = 0; i < optionKeys.length; ++i )
+				if ( optionBoxes[i].isSelected() )
+				{
+					tableHeaderSetting.append( "<td>" );
+					tableHeaderSetting.append( optionKeys[i] );
+					tableHeaderSetting.append( "</td>" );
+				}
+
+			setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
+			super.actionConfirmed();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadSettingsThread extends OptionsThread
+		protected void actionCancelled()
 		{
-			protected void save()
-			{
-				String tableHeaderSetting = getProperty( "clanRosterHeader" );
-				for ( int i = 0; i < optionKeys.length; ++i )
-					optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + optionKeys[i] + "</td>" ) != -1 );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
-		{
-			protected void save()
-			{
-				StringBuffer tableHeaderSetting = new StringBuffer();
-
-				for ( int i = 0; i < optionKeys.length; ++i )
-					if ( optionBoxes[i].isSelected() )
-					{
-						tableHeaderSetting.append( "<td>" );
-						tableHeaderSetting.append( optionKeys[i] );
-						tableHeaderSetting.append( "</td>" );
-					}
-
-				setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
-			}
+			String tableHeaderSetting = getProperty( "clanRosterHeader" );
+			for ( int i = 0; i < optionKeys.length; ++i )
+				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + optionKeys[i] + "</td>" ) != -1 );
 		}
 	}
 
@@ -934,43 +788,22 @@ public class OptionsFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "Price Scanning: ", aggregateSelect );
 
 			setContent( elements );
-			(new LoadSettingsThread()).start();
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
+		{
+			setProperty( "defaultLimit", defaultLimitField.getText() );
+			setProperty( "forceSorting", String.valueOf( forceSortSelect.getSelectedIndex() == 1 ) );
+			setProperty( "aggregatePrices", String.valueOf( aggregateSelect.getSelectedIndex() == 0 ) );
+			super.actionConfirmed();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadSettingsThread extends OptionsThread
+		protected void actionCancelled()
 		{
-			protected void save()
-			{
-				defaultLimitField.setText( getProperty( "defaultLimit" ) );
-				forceSortSelect.setSelectedIndex( getProperty( "forceSorting" ).equals( "true" ) ? 1 : 0 );
-				aggregateSelect.setSelectedIndex( getProperty( "aggregatePrices" ).equals( "true" ) ? 1 : 0 );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
-		{
-			protected void save()
-			{
-				setProperty( "defaultLimit", defaultLimitField.getText() );
-				setProperty( "forceSorting", String.valueOf( forceSortSelect.getSelectedIndex() == 1 ) );
-				setProperty( "aggregatePrices", String.valueOf( aggregateSelect.getSelectedIndex() == 0 ) );
-			}
+			defaultLimitField.setText( getProperty( "defaultLimit" ) );
+			forceSortSelect.setSelectedIndex( getProperty( "forceSorting" ).equals( "true" ) ? 1 : 0 );
+			aggregateSelect.setSelectedIndex( getProperty( "aggregatePrices" ).equals( "true" ) ? 1 : 0 );
 		}
 	}
 
@@ -1000,43 +833,22 @@ public class OptionsFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "Include post-ascension recipes", JLabel.LEFT, includeAscensionRecipesCheckBox );
 
 			setContent( elements, false );
-			(new LoadSettingsThread()).start();
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
+		{
+			setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationCheckBox.isSelected() ) );
+			setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesCheckBox.isSelected() ) );
+			setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
+			super.actionConfirmed();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadSettingsThread extends OptionsThread
+		protected void actionCancelled()
 		{
-			protected void save()
-			{
-				useClosetForCreationCheckBox.setSelected( getProperty( "useClosetForCreation" ).equals( "true" ) );
-				autoRepairBoxesCheckBox.setSelected( getProperty( "autoRepairBoxes" ).equals( "true" ) );
-				includeAscensionRecipesCheckBox.setSelected( getProperty( "includeAscensionRecipes" ).equals( "true" ) );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
-		{
-			protected void save()
-			{
-				setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationCheckBox.isSelected() ) );
-				setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesCheckBox.isSelected() ) );
-				setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
-			}
+			useClosetForCreationCheckBox.setSelected( getProperty( "useClosetForCreation" ).equals( "true" ) );
+			autoRepairBoxesCheckBox.setSelected( getProperty( "autoRepairBoxes" ).equals( "true" ) );
+			includeAscensionRecipesCheckBox.setSelected( getProperty( "includeAscensionRecipes" ).equals( "true" ) );
 		}
 	}
 
@@ -1074,51 +886,30 @@ public class OptionsFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Proxy Password: ", proxyPassword );
 
 			setContent( elements, true );
-			(new LoadSettingsThread()).run();
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
+		{
+			setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() != 0 ) );
+			setProperty( "http.proxyHost", proxyHost.getText() );
+			setProperty( "http.proxyPort", proxyPort.getText() );
+			setProperty( "http.proxyUser", proxyLogin.getText() );
+			setProperty( "http.proxyPassword", proxyPassword.getText() );
+
+			// Save the settings that were just set; that way,
+			// the next login can use them.
+
+			KoLRequest.applySettings();
+			super.actionConfirmed();
 		}
 
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to load the default settings.
-		 */
-
-		private class LoadSettingsThread extends OptionsThread
+		protected void actionCancelled()
 		{
-			protected void save()
-			{
-				proxyHost.setText( getProperty( "http.proxyHost" ) );
-				proxyPort.setText( getProperty( "http.proxyPort" ) );
-				proxyLogin.setText( getProperty( "http.proxyUser" ) );
-				proxyPassword.setText( getProperty( "http.proxyPassword" ) );
-			}
-		}
-
-		/**
-		 * In order to keep the user interface from freezing (or at
-		 * least appearing to freeze), this internal class is used
-		 * to store the new settings.
-		 */
-
-		private class StoreSettingsThread extends OptionsThread
-		{
-			protected void save()
-			{
-				setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() != 0 ) );
-				setProperty( "http.proxyHost", proxyHost.getText() );
-				setProperty( "http.proxyPort", proxyPort.getText() );
-				setProperty( "http.proxyUser", proxyLogin.getText() );
-				setProperty( "http.proxyPassword", proxyPassword.getText() );
-
-				// Save the settings that were just set; that way,
-				// the next login can use them.
-
-				KoLRequest.applySettings();
-			}
+			proxyHost.setText( getProperty( "http.proxyHost" ) );
+			proxyPort.setText( getProperty( "http.proxyPort" ) );
+			proxyLogin.setText( getProperty( "http.proxyUser" ) );
+			proxyPassword.setText( getProperty( "http.proxyPassword" ) );
 		}
 	}
 
@@ -1165,20 +956,10 @@ public class OptionsFrame extends KoLFrame
 		{	return settings.getProperty( key );
 		}
 
-		protected abstract class OptionsThread extends DaemonThread
+		protected void actionConfirmed()
 		{
-			public final void run()
-			{
-				save();
-
-				if ( isInitialized )
-				{
-					settings.saveSettings();
-					setStatusMessage( ENABLED_STATE, "Settings saved." );
-				}
-			}
-
-			protected abstract void save();
+			settings.saveSettings();
+			setStatusMessage( ENABLED_STATE, "Settings saved." );
 		}
 	}
 

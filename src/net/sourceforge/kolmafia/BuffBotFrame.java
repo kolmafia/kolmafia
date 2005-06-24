@@ -451,7 +451,7 @@ public class BuffBotFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Restores: ", scrollArea );
 
 			setContent( elements );
-			(new LoadDefaultSettingsThread()).start();
+			actionCancelled();
 		}
 
 		public void setContent( VerifiableElement [] elements )
@@ -472,11 +472,49 @@ public class BuffBotFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new StoreSettingsThread()).start();
+		{
+			settings.setProperty( "maxPhilanthropy", maxPhilanthropyField.getText() );
+			settings.setProperty( "buffBotItemBasedBuffing", String.valueOf( buffBotModeSelect.getSelectedIndex() == 1 ) );
+			settings.setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
+
+			StringBuffer mpRestoreSetting = new StringBuffer();
+			for ( int i = 0; i < restoreCheckbox.length; ++i )
+				if ( restoreCheckbox[i].isSelected() )
+				{
+					mpRestoreSetting.append( availableRestores[i].toString() );
+					mpRestoreSetting.append( ';' );
+				}
+			settings.setProperty( "buffBotMPRestore", mpRestoreSetting.toString() );
+
+			String[] whiteListString = whiteListEditor.getText().split("\\s*,\\s*");
+			java.util.Arrays.sort( whiteListString );
+
+			whiteListEditor.setText( whiteListString[0] );
+			for (int i = 1; i < whiteListString.length; i++)
+				if (!whiteListString[i].equals(""))
+					whiteListEditor.append( ", " + whiteListString[i] );
+			settings.setProperty( "whiteList", whiteListEditor.getText() );
+
+			if ( settings instanceof KoLSettings )
+				((KoLSettings)settings).saveSettings();
+
+			JOptionPane.showMessageDialog( null, "Settings have been saved!" );
 		}
 
 		public void actionCancelled()
-		{	(new LoadDefaultSettingsThread()).start();
+		{
+			String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
+
+			for ( int i = 0; i < availableRestores.length; ++i )
+				if ( mpRestoreSetting.indexOf( availableRestores[i].toString() ) != -1 )
+					restoreCheckbox[i].setSelected( true );
+
+			maxPhilanthropyField.setText( settings.getProperty( "maxPhilanthropy" ) );
+			messageDisposalSelect.setSelectedIndex( Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) ) );
+			buffBotModeSelect.setSelectedIndex( settings.getProperty( "itemBasedBuffing" ).equals( "true" ) ? 1 : 0 );
+			whiteListEditor.setText( settings.getProperty( "whiteList" ) );
+
+			setStatusMessage( ENABLED_STATE, "Settings loaded." );
 		}
 
 		private class WhiteListEntry extends JPanel
@@ -499,58 +537,6 @@ public class BuffBotFrame extends KoLFrame
 
 				JComponentUtilities.setComponentSize( scrollArea, 300, 120 );
 				add( scrollArea, BorderLayout.CENTER );
-			}
-		}
-
-		private class LoadDefaultSettingsThread extends DaemonThread
-		{
-			public void run()
-			{
-				String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
-
-				for ( int i = 0; i < availableRestores.length; ++i )
-					if ( mpRestoreSetting.indexOf( availableRestores[i].toString() ) != -1 )
-						restoreCheckbox[i].setSelected( true );
-
-				maxPhilanthropyField.setText( settings.getProperty( "maxPhilanthropy" ) );
-				messageDisposalSelect.setSelectedIndex( Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) ) );
-				buffBotModeSelect.setSelectedIndex( settings.getProperty( "itemBasedBuffing" ).equals( "true" ) ? 1 : 0 );
-				whiteListEditor.setText( settings.getProperty( "whiteList" ) );
-
-				setStatusMessage( ENABLED_STATE, "Settings loaded." );
-			}
-		}
-
-		private class StoreSettingsThread extends DaemonThread
-		{
-			public void run()
-			{
-				settings.setProperty( "maxPhilanthropy", maxPhilanthropyField.getText() );
-				settings.setProperty( "buffBotItemBasedBuffing", String.valueOf( buffBotModeSelect.getSelectedIndex() == 1 ) );
-				settings.setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
-
-				StringBuffer mpRestoreSetting = new StringBuffer();
-				for ( int i = 0; i < restoreCheckbox.length; ++i )
-					if ( restoreCheckbox[i].isSelected() )
-					{
-						mpRestoreSetting.append( availableRestores[i].toString() );
-						mpRestoreSetting.append( ';' );
-					}
-				settings.setProperty( "buffBotMPRestore", mpRestoreSetting.toString() );
-
-				String[] whiteListString = whiteListEditor.getText().split("\\s*,\\s*");
-				java.util.Arrays.sort( whiteListString );
-
-				whiteListEditor.setText( whiteListString[0] );
-				for (int i = 1; i < whiteListString.length; i++)
-					if (!whiteListString[i].equals(""))
-						whiteListEditor.append( ", " + whiteListString[i] );
-				settings.setProperty( "whiteList", whiteListEditor.getText() );
-
-				if ( settings instanceof KoLSettings )
-					((KoLSettings)settings).saveSettings();
-
-				JOptionPane.showMessageDialog( null, "Settings have been saved!" );
 			}
 		}
 	}
