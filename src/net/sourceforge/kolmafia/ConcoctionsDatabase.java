@@ -212,7 +212,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 */
 
 	private static boolean isPermitted( Concoction concoction, KoLmafia client )
-	{	return concoction.isAscensionRecipe ? INCLUDE_ASCENSION : PERMIT_METHOD[ concoction.mixingMethod ];
+	{
+		return (concoction.isAscensionRecipe ? INCLUDE_ASCENSION : true) && PERMIT_METHOD[ concoction.mixingMethod ];
 	}
 
 	private static void cachePermitted( KoLmafia client )
