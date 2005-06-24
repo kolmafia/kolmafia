@@ -40,7 +40,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
  * donating to the Hall of the Legends of the Times of Old.
  */
 
-public class GiftMessageRequest extends KoLRequest
+public class GiftMessageRequest extends SendMessageRequest
 {
 	private String recipient, outsideMessage, insideMessage;
 	private GiftWrapper wrappingType;
@@ -89,10 +89,32 @@ public class GiftMessageRequest extends KoLRequest
 	private static final int [] CAPACITIES = { 0, 1, 2 };
 	private static final int [] MATERIAL_COST = { 0, 0, 100 };
 
+	public GiftMessageRequest( KoLmafia client, String recipient, String message, AdventureResult attachment )
+	{
+		super( client, "town_sendgift.php", attachment );
+		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "action", "Yep." );
+		addFormField( "towho", recipient );
+		addFormField( "note", message );
+		addFormField( "insidenote", message );
+
+		this.recipient = client.getMessenger() == null ? recipient : client.getPlayerID( recipient );
+		this.outsideMessage = message;
+		this.insideMessage = message;
+
+		this.wrappingType = (GiftWrapper) PACKAGES.get(0);
+		this.maxCapacity = this.wrappingType.maxCapacity;
+		this.materialCost = this.wrappingType.materialCost;
+
+		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
+		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
+
+	}
+
 	public GiftMessageRequest( KoLmafia client, String recipient, String outsideMessage, String insideMessage,
 		Object wrappingType, Object [] attachments, int meatAttachment )
 	{
-		super( client, "town_sendgift.php" );
+		super( client, "town_sendgift.php", attachments, meatAttachment );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "action", "Yep." );
 		addFormField( "towho", recipient );

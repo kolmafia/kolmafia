@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * An extension of a <code>KoLRequest</code> which specifically handles
@@ -44,6 +45,18 @@ public abstract class SendMessageRequest extends KoLRequest
 {
 	protected int meatAttachment;
 	protected Object [] attachments;
+	protected List source, destination;
+
+	protected SendMessageRequest( KoLmafia client, String formSource )
+	{
+		super( client, formSource );
+
+		this.meatAttachment = 0;
+		this.attachments = new Object[0];
+
+		this.source = new ArrayList();
+		this.destination = new ArrayList();
+	}
 
 	protected SendMessageRequest( KoLmafia client, String formSource, AdventureResult attachment )
 	{
@@ -60,6 +73,9 @@ public abstract class SendMessageRequest extends KoLRequest
 			this.attachments = new Object[1];
 			this.attachments[0] = attachment;
 		}
+
+		this.source = client.getInventory();
+		this.destination = new ArrayList();
 	}
 
 	protected SendMessageRequest( KoLmafia client, String formSource, Object [] attachments, int meatAttachment )
@@ -125,11 +141,6 @@ public abstract class SendMessageRequest extends KoLRequest
 			}
 		}
 
-                // Attach meat, if provided
-
-                if ( meatAttachment > 0)
-                        addFormField( "sendmeat", String.valueOf( meatAttachment ) );
-
 		// Once all the form fields are broken up, this
 		// just calls the normal run method from KoLRequest
 		// to execute the request.
@@ -152,9 +163,16 @@ public abstract class SendMessageRequest extends KoLRequest
 			// to note that the items were sent.
 
 			for ( int i = 0; i < attachments.length; ++i )
-				client.processResult( ((AdventureResult)attachments[i]).getNegation() );
+			{
+				AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
+				AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
+			}
 
-			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meatAttachment ) );
+			if ( source == client.getInventory() )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meatAttachment ) );
+			else
+				client.processResult( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
+
 			ConcoctionsDatabase.refreshConcoctions( client );
 		}
 		else

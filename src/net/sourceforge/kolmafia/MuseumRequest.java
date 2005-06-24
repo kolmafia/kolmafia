@@ -46,12 +46,10 @@ import java.util.regex.Pattern;
  * which are currently equipped are retrieved.
  */
 
-public class MuseumRequest extends KoLRequest
+public class MuseumRequest extends SendMessageRequest
 {
-	private Object [] items;
 	private boolean isDeposit;
 	private boolean isManagement;
-	private List source, destination;
 
 	public MuseumRequest( KoLmafia client )
 	{
@@ -59,13 +57,12 @@ public class MuseumRequest extends KoLRequest
 		this.isManagement = false;
 	}
 
-	public MuseumRequest( KoLmafia client, boolean isDeposit, Object [] items )
+	public MuseumRequest( KoLmafia client, boolean isDeposit, Object [] attachments )
 	{
-		super( client, "managecollection.php" );
+		super( client, "managecollection.php", attachments, 0 );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "action", isDeposit ? "put" : "take" );
 
-		this.items = items;
 		this.isManagement = true;
 		this.isDeposit = isDeposit;
 
@@ -74,85 +71,35 @@ public class MuseumRequest extends KoLRequest
 
 	}
 
+	protected int getCapacity()
+	{	return 11;
+	}
+
+	protected void repeat( Object [] attachments )
+	{	(new MuseumRequest( client, isDeposit, attachments )).run();
+	}
+
+	protected String getSuccessMessage()
+	{	return "";
+	}
+
+
 	public void run()
 	{
-		if ( isManagement )
-		{
-			if ( items == null || items.length == 0 )
-				return;
-
-			if ( items.length > 11 )
-			{
-				int currentBaseIndex = 0;
-				int remainingItems = items.length;
-
-				Object [] itemHolder = null;
-
-				while ( remainingItems > 0 )
-				{
-					itemHolder = new Object[ remainingItems < 11 ? remainingItems : 11 ];
-
-					for ( int i = 0; i < itemHolder.length; ++i )
-						itemHolder[i] = items[ currentBaseIndex + i ];
-
-					// For each broken-up request, you create a new ItemStorage request
-					// which will create the appropriate data to post.
-
-					(new MuseumRequest( client, isDeposit, itemHolder )).run();
-
-					currentBaseIndex += 11;
-					remainingItems -= 11;
-				}
-
-				// Since all the sub-requests were run, there's nothing left
-				// to do - simply return from this method.
-
-				return;
-			}
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				AdventureResult result = (AdventureResult) items[i];
-				int itemID = result.getItemID();
-
-				if ( itemID != -1 )
-				{
-					addFormField( "whichitem" + (i+1), String.valueOf( itemID ) );
-					addFormField( "howmany" + (i+1), String.valueOf( result.getCount() ) );
-				}
-			}
-		}
-
 		if ( isManagement && isDeposit )
 			updateDisplay( DISABLED_STATE, "Placing items inside display case..." );
 		else if ( isManagement )
 			updateDisplay( DISABLED_STATE, "Removing items from display case..." );
+		else
+			updateDisplay( DISABLED_STATE, "Updating collection list..." );
 
 		super.run();
 
-		// With that done, the items need to be formally
-		// removed from the appropriate list and then
-		// replaced into the opposing list.
+		if ( isErrorState || responseCode != 200 || isManagement )
+			return;
 
-		if ( isManagement )
-		{
-			AdventureResult currentResult;
-			for ( int i = 0; i < items.length; ++i )
-			{
-				currentResult = (AdventureResult) items[i];
-
-				if ( isDeposit )
-				{
-					client.processResult( currentResult.getNegation() );
-					AdventureResult.addResultToList( destination, currentResult );
-				}
-				else
-				{
-					AdventureResult.addResultToList( source, currentResult.getNegation() );
-					client.processResult( currentResult );
-				}
-			}
-		}
+		// If this isn't a frame management request, then
+		// retrieve the actual results.
 
 		Matcher displayMatcher = Pattern.compile( "<b>Take:.*?</select>" ).matcher( responseText );
 		if ( displayMatcher.find() )

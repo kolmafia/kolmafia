@@ -57,6 +57,8 @@ public class GreenMessageRequest extends SendMessageRequest
 
 		this.recipient = client.getPlayerID( recipient );
 		this.message = message;
+
+		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
 	}
 
 	public GreenMessageRequest( KoLmafia client, String recipient, String message, Object [] attachments, int meatAttachment )
@@ -74,6 +76,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.recipient = client.getMessenger() == null ? recipient : client.getPlayerID( recipient );
 		this.message = message;
 
+		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
 	}
 
 	protected int getCapacity()

@@ -36,32 +36,24 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ItemStorageRequest extends KoLRequest
+public class ItemStorageRequest extends SendMessageRequest
 {
 	private int moveType;
-	private Object [] items;
-	private int meatTransferred;
-	private List source, destination;
 
 	public static final int RETRIEVE_STORAGE = 0;
-
 	public static final int INVENTORY_TO_CLOSET = 1;
 	public static final int CLOSET_TO_INVENTORY = 2;
-
 	public static final int MEAT_TO_CLOSET = 4;
 	public static final int MEAT_TO_INVENTORY = 5;
-
 	public static final int STORAGE_TO_INVENTORY = 6;
 	public static final int PULL_MEAT_FROM_STORAGE = 7;
 
 	public ItemStorageRequest( KoLmafia client )
 	{
 		super( client, "storage.php" );
-		this.items = null;
 		this.moveType = RETRIEVE_STORAGE;
 	}
 
@@ -74,48 +66,47 @@ public class ItemStorageRequest extends KoLRequest
 
 	public ItemStorageRequest( KoLmafia client, int amount, int moveType )
 	{
-		super( client, moveType == PULL_MEAT_FROM_STORAGE ? "storage.php" : "closet.php" );
+		super( client, moveType == PULL_MEAT_FROM_STORAGE ? "storage.php" : "closet.php",
+			new AdventureResult( AdventureResult.MEAT, moveType == PULL_MEAT_FROM_STORAGE ? amount : 0 ) );
+
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "amt", String.valueOf( amount ) );
 		addFormField( "action", moveType == MEAT_TO_CLOSET ? "addmeat" : "takemeat" );
 
-		this.items = null;
-		this.meatTransferred = amount;
 		this.moveType = moveType;
+
+		if ( moveType == PULL_MEAT_FROM_STORAGE )
+		{
+			source = client.getStorage();
+			destination = client.getInventory();
+		}
 	}
 
 	/**
 	 * Constructs a new <code>ItemStorageRequest</code>.
 	 * @param	client	The client to be notified of the results
 	 * @param	moveType	The identifier for the kind of action taking place
-	 * @param	items	The list of items involved in the request
+	 * @param	attachments	The list of attachments involved in the request
 	 */
 
-	public ItemStorageRequest( KoLmafia client, int moveType, Object [] items )
+	public ItemStorageRequest( KoLmafia client, int moveType, Object [] attachments )
 	{
-		super( client, moveType == STORAGE_TO_INVENTORY ? "storage.php" : "closet.php" );
+		super( client, moveType == STORAGE_TO_INVENTORY ? "storage.php" : "closet.php", attachments, 0 );
 
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "action", moveType == INVENTORY_TO_CLOSET ? "put" : "take" );
 
-		this.items = items;
 		this.moveType = moveType;
 
-		switch ( moveType )
+		if ( moveType == CLOSET_TO_INVENTORY )
 		{
-			case INVENTORY_TO_CLOSET:
-				source = client.getInventory();
-				destination = client.getCloset();
-				break;
-
-			case CLOSET_TO_INVENTORY:
-				source = client.getCloset();
-				destination = client.getInventory();
-				break;
-
-			case STORAGE_TO_INVENTORY:
-				source = client.getStorage();
-				destination = client.getInventory();
+			source = client.getCloset();
+			destination = client.getInventory();
+		}
+		else if ( moveType == STORAGE_TO_INVENTORY )
+		{
+			source = client.getStorage();
+			destination = client.getInventory();
 		}
 	}
 
@@ -127,13 +118,25 @@ public class ItemStorageRequest extends KoLRequest
 	{
 		List itemList = new ArrayList();
 
-		if ( items == null )
+		if ( attachments == null )
 			return itemList;
 
-		for ( int i = 0; i < items.length; ++i )
-			itemList.add( items[i] );
+		for ( int i = 0; i < attachments.length; ++i )
+			itemList.add( attachments[i] );
 
 		return itemList;
+	}
+
+	protected int getCapacity()
+	{	return 11;
+	}
+
+	protected void repeat( Object [] attachments )
+	{	(new ItemStorageRequest( client, moveType, attachments )).run();
+	}
+
+	protected String getSuccessMessage()
+	{	return "";
 	}
 
 	/**
@@ -153,8 +156,8 @@ public class ItemStorageRequest extends KoLRequest
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
 			case STORAGE_TO_INVENTORY:
-				updateDisplay( DISABLED_STATE, "Doing item management..." );
-				items();
+				updateDisplay( DISABLED_STATE, "Moving items..." );
+				super.run();
 				break;
 
 			case MEAT_TO_CLOSET:
@@ -174,18 +177,12 @@ public class ItemStorageRequest extends KoLRequest
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode != 200 )
+		if ( isErrorState || responseCode != 200 || moveType == PULL_MEAT_FROM_STORAGE )
 			return;
 
 		// Now, determine how much is left in your closet
 		// by locating "Your closet contains x meat" and
 		// update the display with that information.
-
-		if ( moveType == PULL_MEAT_FROM_STORAGE )
-		{
-			client.processResult( new AdventureResult( AdventureResult.MEAT, meatTransferred ) );
-			return;
-		}
 
 		int beforeMeatInCloset = client.getCharacterData().getClosetMeat();
 		int afterMeatInCloset = 0;
@@ -208,86 +205,6 @@ public class ItemStorageRequest extends KoLRequest
 
 		client.getCharacterData().setClosetMeat( afterMeatInCloset );
 		client.processResult( new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
-	}
-
-	private void items()
-	{
-		// First, check to see how many items are to be
-		// placed in the closet - if there's too many,
-		// then you'll need to break up the request
-
-		if ( items == null || items.length == 0 )
-			return;
-
-		if ( items.length > 11 )
-		{
-			int currentBaseIndex = 0;
-			int remainingItems = items.length;
-
-			Object [] itemHolder = null;
-
-			while ( remainingItems > 0 )
-			{
-				itemHolder = new Object[ remainingItems < 11 ? remainingItems : 11 ];
-
-				for ( int i = 0; i < itemHolder.length; ++i )
-					itemHolder[i] = items[ currentBaseIndex + i ];
-
-				// For each broken-up request, you create a new ItemStorage request
-				// which will create the appropriate data to post.
-
-				(new ItemStorageRequest( client, moveType, itemHolder )).run();
-
-				currentBaseIndex += 11;
-				remainingItems -= 11;
-			}
-
-			// Since all the sub-requests were run, there's nothing left
-			// to do - simply return from this method.
-
-			return;
-		}
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			AdventureResult result = (AdventureResult) items[i];
-			int itemID = result.getItemID();
-
-			if ( itemID != -1 )
-			{
-				addFormField( "whichitem" + (i+1), String.valueOf( itemID ) );
-				addFormField( "howmany" + (i+1), String.valueOf( result.getCount() ) );
-			}
-		}
-
-		// Once all the form fields are broken up, this
-		// just calls the normal run method from KoLRequest
-		// to execute the request.
-
-		super.run();
-
-		// With that done, the items need to be formally
-		// removed from the appropriate list and then
-		// replaced into the opposing list.
-
-		AdventureResult currentResult;
-		for ( int i = 0; i < items.length; ++i )
-		{
-			currentResult = (AdventureResult) items[i];
-			if ( currentResult.isItem() )
-			{
-				if ( moveType == INVENTORY_TO_CLOSET )
-				{
-					client.processResult( currentResult.getNegation() );
-					AdventureResult.addResultToList( destination, currentResult );
-				}
-				else
-				{
-					AdventureResult.addResultToList( source, currentResult.getNegation() );
-					client.processResult( currentResult );
-				}
-			}
-		}
 	}
 
 	private void parseStorage()
