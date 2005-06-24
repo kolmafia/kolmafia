@@ -181,6 +181,18 @@ public class RequestFrame extends KoLFrame
 			displayHTML = displayHTML.replaceAll( "<tr><td height=1 bgcolor=black></td></tr>", "" );
 			displayHTML = Pattern.compile( "<tr><td colspan=(\\d+) height=1 bgcolor=black></td></tr>" ).matcher( displayHTML ).replaceAll( "" );
 
+                        // Kingdom of Loathing uses HTML in some of its maps
+                        // that confuses the default browser. We can transform
+                        // it to make it render correctly.
+                        //
+                        // Transform:
+                        //     <form...><td...>...</td></form>
+                        // into:
+                        //     <td..><form...>...</form></td>
+
+			displayHTML = Pattern.compile( "(<form[^>]*>)(<input[^>]*>)?(<td[^>]*>)" ).matcher( displayHTML ).replaceAll( "$3$1$2" );
+			displayHTML = Pattern.compile( "</td></form>" ).matcher( displayHTML ).replaceAll( "</form></td>" );
+
 			buffer.clearBuffer();
 			buffer.append( displayHTML );
 		}
