@@ -280,7 +280,7 @@ public class AdventureFrame extends KoLFrame
 		visitMenu.setMnemonic( KeyEvent.VK_T );
 
 		JMenuItem leaderItem = new JMenuItem( "Broken Records", KeyEvent.VK_B );
-		leaderItem.addActionListener( new MiniBrowserListener( "records2.php" ) );
+		leaderItem.addActionListener( new MiniBrowserListener( "records.php" ) );
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
 		JMenuItem hermitItem = new JMenuItem( "Hermit Hideout", KeyEvent.VK_H );
