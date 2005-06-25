@@ -105,7 +105,7 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 				return (ChatPanel) tabs.getComponentAt(i);
 
 		ChatPanel createdPanel = new ChatPanel( tabName );
-		(new AddTabRunnable( tabName, createdPanel )).run();
+		tabs.addTab( tabName, createdPanel );
 		return createdPanel;
 	}
 
@@ -129,29 +129,6 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 				tabs.setBackgroundAt( i, new Color( 0, 0, 128 ) );
 				tabs.setForegroundAt( i, Color.white );
 			}
-	}
-
-	private class AddTabRunnable implements Runnable
-	{
-		private String name;
-		private ChatPanel panel;
-
-		public AddTabRunnable( String name, ChatPanel panel )
-		{
-			this.name = name;
-			this.panel = panel;
-		}
-
-		public void run()
-		{
-			if ( !SwingUtilities.isEventDispatchThread() )
-			{
-				SwingUtilities.invokeLater( this );
-				return;
-			}
-
-			tabs.addTab( name, panel );
-		}
 	}
 
 	public boolean hasFocus()

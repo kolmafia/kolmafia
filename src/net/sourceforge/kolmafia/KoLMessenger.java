@@ -633,37 +633,59 @@ public class KoLMessenger implements KoLConstants
 		if ( instantMessageBuffers.containsKey( channel ) )
 			return;
 
-		LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString() );
-		instantMessageBuffers.put( channel, buffer );
-		ChatFrame frame = new ChatFrame( client, this, channel );
+		SwingUtilities.invokeLater( new OpenMessageRunnable( channel ) );
+	}
 
-		if ( useTabbedFrame )
-		{
-			frame.setVisible( false );
-			ChatFrame.ChatPanel panel = this.tabbedFrame.addTab( channel );
-			buffer.setChatDisplay( panel.getChatDisplay() );
-			buffer.setScrollPane( panel.getScrollPane() );
-			tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
-			tabbedFrame.highlightTab( channel );
-		}
-		else
-		{
-			frame.setVisible( true );
-			buffer.setChatDisplay( frame.getChatDisplay() );
-			buffer.setScrollPane( frame.getScrollPane() );
-		}
+	/**
+	 * This internal class is used to open an instant message or
+	 * new channel in a new tab or window.  Because it is only
+	 * called internally, and it is always invoked in the Swing
+	 * thread, there is no need to use the CreateFrameRunnable
+	 * to ensure it gets opened in the Swing thread.
+	 */
 
-		instantMessageFrames.put( channel, frame );
+	private class OpenMessageRunnable implements Runnable
+	{
+		private String channel;
 
-		if ( baseLogname != null )
-		{
-			String fileSuffix = channel.startsWith( "/" ) ? channel.substring( 1 ) : client.getPlayerID( channel );
-			buffer.setActiveLogFile( baseLogname + "_" + fileSuffix + ".html",
-				"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
+		public OpenMessageRunnable( String channel )
+		{	this.channel = channel;
 		}
 
-		if ( highlighting && !channel.equals( "[highs]" ) )
-			buffer.applyHighlights();
+		public void run()
+		{
+			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString() );
+			instantMessageBuffers.put( channel, buffer );
+			ChatFrame frame = new ChatFrame( client, KoLMessenger.this, channel );
+
+			if ( useTabbedFrame )
+			{
+				frame.setVisible( false );
+				ChatFrame.ChatPanel panel = tabbedFrame.addTab( channel );
+				buffer.setChatDisplay( panel.getChatDisplay() );
+				buffer.setScrollPane( panel.getScrollPane() );
+				tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
+				tabbedFrame.highlightTab( channel );
+			}
+			else
+			{
+				frame.setVisible( true );
+				buffer.setChatDisplay( frame.getChatDisplay() );
+				buffer.setScrollPane( frame.getScrollPane() );
+			}
+
+			instantMessageFrames.put( channel, frame );
+
+			if ( baseLogname != null )
+			{
+				String fileSuffix = channel.startsWith( "/" ) ? channel.substring( 1 ) : client.getPlayerID( channel );
+				buffer.setActiveLogFile( baseLogname + "_" + fileSuffix + ".html",
+					"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
+			}
+
+			if ( highlighting && !channel.equals( "[highs]" ) )
+				buffer.applyHighlights();
+		}
 	}
 
 	/**

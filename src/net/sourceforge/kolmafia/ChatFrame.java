@@ -380,31 +380,17 @@ public class ChatFrame extends KoLFrame
 	{
 		protected void handleInternalLink( String location )
 		{
-			String nameLink = client.getPlayerName( location.split( "=" )[1] );
+			Class frameClass = clickOptions[1].isSelected() ? GreenMessageFrame.class :
+				clickOptions[2].isSelected() ? GiftMessageFrame.class : ProfileFrame.class;
+
+			Object [] parameters = new Object[2];
+			parameters[0] = client;
+			parameters[1] = client.getPlayerName( location.split( "=" )[1] );
 
 			if ( clickOptions[0].isSelected() )
-				client.getMessenger().openInstantMessage( nameLink );
-
-			else if ( clickOptions[1].isSelected() )
-			{
-				GreenMessageFrame composer = new GreenMessageFrame( client, nameLink );
-				composer.pack();  composer.setVisible( true );
-				composer.requestFocus();
-			}
-
-			else if ( clickOptions[2].isSelected() )
-			{
-				GiftMessageFrame composer = new GiftMessageFrame( client, nameLink );
-				composer.pack();  composer.setVisible( true );
-				composer.requestFocus();
-			}
-
-			else if ( clickOptions[3].isSelected() )
-			{
-				ProfileFrame profile = new ProfileFrame( client, nameLink );
-				profile.pack();  profile.setVisible( true );
-				profile.requestFocus();
-			}
+				client.getMessenger().openInstantMessage( (String) parameters[1] );
+			else
+				SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
 		}
 	}
 
