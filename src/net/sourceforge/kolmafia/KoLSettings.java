@@ -205,7 +205,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
 		ensureProperty( "useClosetForCreation", "false" );
-		ensureProperty( "useTabbedChat", "true" );
+		ensureProperty( "useTabbedChat", "1" );
 		ensureProperty( "whiteList", "" );
 	}
 
