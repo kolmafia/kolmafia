@@ -133,11 +133,20 @@ public abstract class SendMessageRequest extends KoLRequest
 				return;
 			}
 
-			for ( int i = 0; i < attachments.length; ++i )
+			if ( getCapacity() > 1 )
 			{
-				AdventureResult result = (AdventureResult) attachments[i];
-				addFormField( "whichitem" + (i+1), String.valueOf( result.getItemID() ) );
-				addFormField( "howmany" + (i+1), String.valueOf( result.getCount() ) );
+				for ( int i = 0; i < attachments.length; ++i )
+				{
+					AdventureResult result = (AdventureResult) attachments[i];
+					addFormField( "whichitem" + (i+1), String.valueOf( result.getItemID() ) );
+					addFormField( "howmany" + (i+1), String.valueOf( result.getCount() ) );
+				}
+			}
+			else if ( getCapacity() == 1 )
+			{
+				AdventureResult result = (AdventureResult) attachments[0];
+				addFormField( "whichitem", String.valueOf( result.getItemID() ) );
+				addFormField( "howmany", String.valueOf( result.getCount() ) );
 			}
 		}
 

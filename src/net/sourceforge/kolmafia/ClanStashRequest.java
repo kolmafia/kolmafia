@@ -40,11 +40,9 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ClanStashRequest extends KoLRequest
+public class ClanStashRequest extends SendMessageRequest
 {
 	private int moveType;
-	private Object [] items;
-	private List source, destination;
 
 	public static final int REFRESH_ONLY = 0;
 	public static final int ITEMS_TO_STASH = 1;
@@ -54,8 +52,8 @@ public class ClanStashRequest extends KoLRequest
 	public ClanStashRequest( KoLmafia client )
 	{
 		super( client, "clan_stash.php" );
-		this.items = null;
 		this.moveType = REFRESH_ONLY;
+		destination = new ArrayList();
 	}
 
 	/**
@@ -66,31 +64,28 @@ public class ClanStashRequest extends KoLRequest
 
 	public ClanStashRequest( KoLmafia client, int amount )
 	{
-		super( client, "clan_stash.php" );
+		super( client, "clan_stash.php", new Object[0], amount );
 		addFormField( "action", "contribute" );
 		addFormField( "howmuch", String.valueOf( amount ) );
 
-		this.items = null;
 		this.moveType = MEAT_TO_STASH;
+		destination = new ArrayList();
 	}
 
 	/**
 	 * Constructs a new <code>ClanStashRequest</code>.
 	 * @param	client	The client to be notified of the results
-	 * @param	items	The list of items involved in the request
+	 * @param	attachments	The list of attachments involved in the request
 	 */
 
-	public ClanStashRequest( KoLmafia client, Object [] items, int moveType )
+	public ClanStashRequest( KoLmafia client, Object [] attachments, int moveType )
 	{
 		super( client, "clan_stash.php" );
 
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "action", (moveType == ITEMS_TO_STASH) ? "addgoodies" : "takegoodies" );
 
-		this.items = items;
 		this.moveType = moveType;
-
-		source = client.getInventory();
 		destination = new ArrayList();
 	}
 
@@ -102,13 +97,25 @@ public class ClanStashRequest extends KoLRequest
 	{
 		List itemList = new ArrayList();
 
-		if ( items == null )
+		if ( attachments == null )
 			return itemList;
 
-		for ( int i = 0; i < items.length; ++i )
-			itemList.add( items[i] );
+		for ( int i = 0; i < attachments.length; ++i )
+			itemList.add( attachments[i] );
 
 		return itemList;
+	}
+
+	protected int getCapacity()
+	{	return 1;
+	}
+
+	protected void repeat( Object [] attachments )
+	{	(new ClanStashRequest( client, attachments, moveType )).run();
+	}
+
+	protected String getSuccessMessage()
+	{	return "";
 	}
 
 	/**
@@ -136,56 +143,17 @@ public class ClanStashRequest extends KoLRequest
 			case ITEMS_TO_STASH:
 			case STASH_TO_ITEMS:
 
-				if ( items.length == 1 )
-					updateDisplay( DISABLED_STATE, "Moving " + items[0] +
+				if ( attachments.length == 1 )
+					updateDisplay( DISABLED_STATE, "Moving " + attachments[0] +
 						(moveType == ITEMS_TO_STASH ? " to the stash..." : " to your bag...") );
 
-				stash();
 				parseStash();
 
-				if ( items.length > 0 )
-					updateDisplay( ENABLED_STATE, "Successfully moved " + items[ items.length - 1 ] +
+				if ( attachments.length > 0 )
+					updateDisplay( ENABLED_STATE, "Successfully moved " + attachments[ attachments.length - 1 ] +
 						(moveType == ITEMS_TO_STASH ? " to the stash." : " to your bag.") );
 
 				break;
-		}
-	}
-
-	private void stash()
-	{
-		// First, check to see how many items are to be
-		// placed in the stash - if there's too many,
-		// then you'll need to break up the request
-
-		if ( items == null || items.length == 0 )
-			return;
-
-		if ( items.length > 1 )
-		{
-			Object [] itemHolder = new Object[1];
-			for ( int i = 0; i < items.length; ++i )
-			{
-				itemHolder[0] = items[i];
-				(new ClanStashRequest( client, itemHolder, moveType )).run();
-			}
-
-			return;
-		}
-
-		AdventureResult result = (AdventureResult) items[0];
-		int itemID = result.getItemID();
-
-		if ( itemID != -1 )
-		{
-			addFormField( "whichitem", "" + itemID );
-			addFormField( "quantity", "" + result.getCount() );
-
-			super.run();
-
-			if ( moveType == ITEMS_TO_STASH )
-				client.processResult( result.getNegation() );
-			else
-				client.processResult( result );
 		}
 	}
 
