@@ -927,7 +927,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			if ( client != null && client.getSettings().getProperty( "savePositions" ).equals( "true" ) )
 			{
-				KoLFrame currentFrame;
+				Class currentClass;
 				String [] framesToReload = client.getSettings().getProperty( "reloadFrames" ).split( "," );
 
 				if ( framesToReload[0].length() > 0 )
@@ -939,7 +939,8 @@ public class AdventureFrame extends KoLFrame
 					{
 						try
 						{
-							(new CreateFrameRunnable( Class.forName( "net.sourceforge.kolmafia." + framesToReload[i] ), parameters )).run();
+							currentClass = Class.forName( "net.sourceforge.kolmafia." + framesToReload[i] );
+							SwingUtilities.invokeLater( new CreateFrameRunnable( currentClass, parameters ) );
 						}
 						catch ( Exception e1 )
 						{

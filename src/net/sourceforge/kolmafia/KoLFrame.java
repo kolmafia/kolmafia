@@ -81,6 +81,7 @@ import java.util.regex.Matcher;
 import java.net.URLEncoder;
 
 // other stuff
+import javax.swing.SwingUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
 
 // spellcast imports
@@ -921,7 +922,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				}
 
 			displayer.setEnabled( isEnabled() );
-			displayer.run();
+			SwingUtilities.invokeLater( displayer );
 		}
 	}
 
@@ -947,7 +948,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			Object [] parameters = new Object[1];
 			parameters[0] = this;
 
-			(new CreateFrameRunnable( CommandDisplayFrame.class, parameters )).run();
+			SwingUtilities.invokeLater( new CreateFrameRunnable( CommandDisplayFrame.class, parameters ) );
 		}
 	}
 
@@ -1084,8 +1085,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				parameters[0] = client;
 				parameters[1] = location.split( "[\\?=&]" )[2];
 
-				(new CreateFrameRunnable( location.startsWith( "sendmessage.php" ) ?
-					GreenMessageFrame.class : GiftMessageFrame.class, parameters )).run();
+				SwingUtilities.invokeLater( new CreateFrameRunnable( location.startsWith( "sendmessage.php" ) ?
+					GreenMessageFrame.class : GiftMessageFrame.class, parameters ) );
 			}
 			else if ( location.startsWith( "cook.php" ) || location.startsWith( "cocktail.php" ) || location.startsWith( "combine.php" ) ||
 				location.startsWith( "town_wrong.php?place=crackpot" ) || location.startsWith( "inventory.php" ) || location.startsWith( "closet.php" ) )
@@ -1097,7 +1098,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				Object [] parameters = new Object[1];
 				parameters[0] = client;
 
-				(new CreateFrameRunnable( ItemManageFrame.class, parameters )).run();
+				SwingUtilities.invokeLater( new CreateFrameRunnable( ItemManageFrame.class, parameters ) );
 			}
 			else if ( location.startsWith( "messages.php" ) )
 			{
@@ -1108,7 +1109,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				Object [] parameters = new Object[1];
 				parameters[0] = client;
 
-				(new CreateFrameRunnable( MailboxFrame.class, parameters )).run();
+				SwingUtilities.invokeLater( new CreateFrameRunnable( MailboxFrame.class, parameters ) );
 			}
 			else if ( KoLFrame.this instanceof RequestFrame )
 			{
@@ -1149,7 +1150,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		parameters[1] = "Mini-Browser Window";
 		parameters[2] = new KoLRequest( client, location );
 
-		(new CreateFrameRunnable( RequestFrame.class, parameters )).run();
+		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
 	}
 
 	protected static final int getValue( JTextField field )
