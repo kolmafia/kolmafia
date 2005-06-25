@@ -181,8 +181,6 @@ public abstract class SendMessageRequest extends KoLRequest
 				client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meatAttachment ) );
 			else
 				client.processResult( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
-
-			ConcoctionsDatabase.refreshConcoctions( client );
 		}
 		else
 		{

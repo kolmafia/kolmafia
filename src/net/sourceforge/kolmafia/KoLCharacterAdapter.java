@@ -33,6 +33,9 @@
  */
 
 package net.sourceforge.kolmafia;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 /**
  * Following the listener model, the <code>KoLCharacterAdapter</code>
@@ -41,62 +44,98 @@ package net.sourceforge.kolmafia;
  * class can simply override the methods it needs.
  */
 
-public class KoLCharacterAdapter implements KoLCharacterListener
+public class KoLCharacterAdapter implements KoLCharacterListener, ListDataListener
 {
-	private Runnable toExecute;
+	private Runnable statusUpdater;
+	private Runnable listUpdater;
 
 	public KoLCharacterAdapter()
 	{	this( null );
 	}
 
-	public KoLCharacterAdapter( Runnable toExecute )
-	{	this.toExecute = toExecute;
+	public KoLCharacterAdapter( Runnable statusUpdater )
+	{	this( statusUpdater, null );
+	}
+
+	public KoLCharacterAdapter( Runnable statusUpdater, Runnable listUpdater )
+	{
+		this.statusUpdater = statusUpdater;
+		this.listUpdater = listUpdater;
 	}
 
 	public void hpChanged()
 	{
-		if ( toExecute != null )
-			toExecute.run();
+		if ( statusUpdater != null )
+			statusUpdater.run();
 	}
 	public void mpChanged()
 	{
-		if ( toExecute != null )
-			toExecute.run();
+		if ( statusUpdater != null )
+			statusUpdater.run();
 	}
 
 	public void statusPointsChanged()
 	{
-		if ( toExecute != null )
-			toExecute.run();
+		if ( statusUpdater != null )
+			statusUpdater.run();
 	}
 
 	public void availableMeatChanged()
 	{
-		if ( toExecute != null )
-			toExecute.run();
+		if ( statusUpdater != null )
+			statusUpdater.run();
+
+		if ( listUpdater != null )
+			listUpdater.run();
 	}
 
 	public void closetMeatChanged()
 	{
-		if ( toExecute != null )
-			toExecute.run();
+		if ( statusUpdater != null )
+			statusUpdater.run();
 	}
 
 	public void adventuresLeftChanged()
 	{
-		if ( toExecute != null )
-			toExecute.run();
+		if ( statusUpdater != null )
+			statusUpdater.run();
 	}
 
 	public void inebrietyChanged()
 	{
-		if ( toExecute != null )
-			toExecute.run();
+		if ( statusUpdater != null )
+			statusUpdater.run();
 	}
 
 	public void totalTurnsChanged()
 	{
-		if ( toExecute != null )
-			toExecute.run();
+		if ( statusUpdater != null )
+			statusUpdater.run();
+	}
+
+	public void contentsChanged( ListDataEvent e )
+	{
+		if ( listUpdater != null )
+			listUpdater.run();
+	}
+
+	public void intervalAdded( ListDataEvent e )
+	{
+		if ( listUpdater != null )
+			listUpdater.run();
+	}
+
+	public void intervalRemoved( ListDataEvent e )
+	{
+		if ( listUpdater != null )
+			listUpdater.run();
+	}
+
+	public boolean isStatusListener()
+	{	return statusUpdater != null;
+	}
+
+	public boolean isInventoryListener()
+	{	return listUpdater != null;
 	}
 }

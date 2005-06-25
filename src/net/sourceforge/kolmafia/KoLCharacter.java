@@ -818,7 +818,7 @@ public class KoLCharacter
 
 	public void setEquipment( String hat, String weapon, String shirt, String pants,
 				  String accessory1, String accessory2, String accessory3,
-				  List outfits ) 
+				  List outfits )
 	{
 		equipment.set( HAT, hat );
 		equipment.set( WEAPON, weapon );
@@ -1369,7 +1369,9 @@ public class KoLCharacter
 	 */
 
 	public void addKoLCharacterListener( KoLCharacterListener listener )
-	{	listenerList.add( listener );
+	{
+		if ( listener != null && listener.isStatusListener() && !listenerList.contains( listener ) )
+			listenerList.add( listener );
 	}
 
 	/**

@@ -204,7 +204,6 @@ public class EquipmentRequest extends KoLRequest
 			{
 				case CLOSET:
 					parseCloset();
-					ConcoctionsDatabase.refreshConcoctions( client );
 					updateDisplay( NOCHANGE, "Inventory retrieved." );
 					break;
 

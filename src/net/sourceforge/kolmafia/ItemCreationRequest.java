@@ -366,7 +366,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				if ( responseText.indexOf( "Smoke" ) != -1 )
 				{
 					client.getCharacterData().setChef( false );
-					ConcoctionsDatabase.refreshConcoctions( client );
 					leftOver.run();
 					return;
 				}
@@ -383,7 +382,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				if ( responseText.indexOf( "Smoke" ) != -1 )
 				{
 					client.getCharacterData().setBartender( false );
-					ConcoctionsDatabase.refreshConcoctions( client );
 					leftOver.run();
 					return;
 				}

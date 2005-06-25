@@ -527,8 +527,6 @@ public class ItemManageFrame extends KoLFrame
 				// Using exceptions for flow control is bad style, but
 				// this will be fixed once we add functionality.
 			}
-
-			ConcoctionsDatabase.refreshConcoctions( client );
 		}
 	}
 

@@ -73,6 +73,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected boolean isLoggingIn;
 	protected LoginRequest loginRequest;
+	protected ConcoctionsRefresher refresher;
 
 	protected String password, sessionID, passwordHash;
 	protected KoLCharacter characterData;
@@ -135,6 +136,7 @@ public abstract class KoLmafia implements KoLConstants
 	public KoLmafia()
 	{
 		this.isLoggingIn = true;
+		this.refresher = new ConcoctionsRefresher();
 
 		this.initialStats = new int[3];
 		this.fullStatGain = new int[3];
@@ -214,6 +216,9 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			this.characterData = new KoLCharacter( loginname );
 			this.inventory = characterData.getInventory();
+
+			this.inventory.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
+
 			this.usableItems = new SortedListModel();
 			this.hunterItems = new SortedListModel();
 			this.storage = new SortedListModel();
@@ -307,6 +312,37 @@ public abstract class KoLmafia implements KoLConstants
 		this.storeManager = new StoreManager( this );
 		this.clanManager = new ClanManager( this );
 		this.permitContinue = true;
+	}
+
+	private class ConcoctionsRefresher implements Runnable
+	{
+		private boolean isDelayed = false;
+		private Object synchronizer = new Object();
+
+		public synchronized void run()
+		{
+			// If there is already an instance of this thread
+			// running, then there is nothing left to do.
+
+			if ( !isDelayed )
+			{
+				isDelayed = true;
+				(new ConcoctionsRefreshThread()).start();
+			}
+		}
+
+		private class ConcoctionsRefreshThread extends DaemonThread
+		{
+			public void run()
+			{
+				KoLRequest.delay( 500 );
+				synchronized ( synchronizer )
+				{
+					isDelayed = false;
+					ConcoctionsDatabase.refreshConcoctions( KoLmafia.this );
+				}
+			}
+		}
 	}
 
 	/**
@@ -804,8 +840,6 @@ public abstract class KoLmafia implements KoLConstants
 			parseResult( "You lose " + damageMatcher.group(1) + " hit points" );
 		}
 
-		boolean acquiredItems = false;
-
 		while ( parsedResults.hasMoreTokens() )
 		{
 			lastToken = parsedResults.nextToken();
@@ -816,10 +850,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( lastToken.startsWith( "You acquire" ) )
 			{
 				if ( lastToken.indexOf( "effect" ) == -1 )
-				{
-					acquiredItems = true;
 					parseResult( parsedResults.nextToken() );
-				}
 				else
 				{
 					String effect = parsedResults.nextToken();
@@ -837,9 +868,6 @@ public abstract class KoLmafia implements KoLConstants
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 				parseResult( lastToken.indexOf( "." ) == -1 ? lastToken : lastToken.substring( 0, lastToken.indexOf( "." ) ) );
 		}
-
-		if ( acquiredItems )
-			ConcoctionsDatabase.refreshConcoctions( this );
 	}
 
 	/**
@@ -962,7 +990,6 @@ public abstract class KoLmafia implements KoLConstants
 			e.printStackTrace( logStream );
 			updateDisplay( ERROR_STATE, "Unexpected error." );
 		}
-
 	}
 
 	/**
