@@ -201,16 +201,16 @@ public class CharsheetFrame extends KoLFrame
 
 		if ( baseValue != adjustedValue )
 		{
-			adjustedLabel.setText( String.valueOf( adjustedValue ) );
-			baseLabel.setText( " (" + baseValue + ")" );
+			adjustedLabel.setText( df.format( adjustedValue ) );
+			baseLabel.setText( " (" + df.format( baseValue ) + ")" );
 		}
 		else
 		{
 			adjustedLabel.setText( "" );
-			baseLabel.setText( String.valueOf( baseValue ) );
+			baseLabel.setText( df.format( baseValue ) );
 		}
 
-		statpointPanel[ displayIndex ].setToolTipText( "" + tillNextPoint + " until " + (baseValue + 1) );
+		statpointPanel[ displayIndex ].setToolTipText( df.format( tillNextPoint ) + " until " + df.format( baseValue + 1 ) );
 	}
 
 	/**
@@ -278,14 +278,14 @@ public class CharsheetFrame extends KoLFrame
 			client.applyRecentEffects();
 
 		levelLabel.setText( "Level " + characterData.getLevel() + " " + characterData.getClassName() );
-		statusLabel[0].setText( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() + " (HP)" );
-		statusLabel[1].setText( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() + " (MP)" );
+		statusLabel[0].setText( df.format( characterData.getCurrentHP() ) + " / " + df.format( characterData.getMaximumHP() ) + " (HP)" );
+		statusLabel[1].setText( df.format( characterData.getCurrentMP() ) + " / " + df.format( characterData.getMaximumMP() ) + " (MP)" );
 
 		refreshValuePanel( 0, characterData.getBaseMuscle(), characterData.getAdjustedMuscle(), characterData.getMuscleTNP() );
 		refreshValuePanel( 1, characterData.getBaseMysticality(), characterData.getAdjustedMysticality(), characterData.getMysticalityTNP() );
 		refreshValuePanel( 2, characterData.getBaseMoxie(), characterData.getAdjustedMoxie(), characterData.getMoxieTNP() );
 
-		statusLabel[8].setText( characterData.getAvailableMeat() + " meat" );
+		statusLabel[8].setText( df.format( characterData.getAvailableMeat() ) + " meat" );
 		statusLabel[9].setText( characterData.getInebriety() + " drunkenness" );
 		statusLabel[10].setText( characterData.getAdventuresLeft() + " adventures left" );
 
