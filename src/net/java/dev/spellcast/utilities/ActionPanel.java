@@ -48,6 +48,8 @@ import java.awt.event.ActionListener;
 
 public abstract class ActionPanel extends JRootPane
 {
+	protected JButton confirmedButton, cancelledButton;
+
 	protected abstract void actionConfirmed();
 	protected abstract void actionCancelled();
 
@@ -56,12 +58,8 @@ public abstract class ActionPanel extends JRootPane
 		private boolean bothDisabledOnClick;
 		private String cancelledText1, cancelledText2;
 
-		private JButton confirmedButton;
-		private JButton cancelledButton;
-
 		public VerifyButtonPanel( String confirmedText, String cancelledText )
-		{
-			this( confirmedText, cancelledText, cancelledText );
+		{	this( confirmedText, cancelledText, cancelledText );
 		}
 
 		public VerifyButtonPanel( String confirmedText, String cancelledText1, String cancelledText2 )

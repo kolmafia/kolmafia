@@ -62,8 +62,6 @@ public abstract class ActionVerifyPanel extends ActionPanel
 	private VerifyButtonPanel buttonPanel;
 	private Dimension labelSize, fieldSize;
 
-	protected JButton confirmedButton, cancelledButton;
-
 	private static final Dimension DEFAULT_LABEL_SIZE = new Dimension( 100, 20 );
 	private static final Dimension DEFAULT_FIELD_SIZE = new Dimension( 165, 20 );
 
