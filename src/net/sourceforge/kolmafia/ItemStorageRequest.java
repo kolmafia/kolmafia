@@ -103,6 +103,11 @@ public class ItemStorageRequest extends SendMessageRequest
 			source = client.getCloset();
 			destination = client.getInventory();
 		}
+		else if ( moveType == INVENTORY_TO_CLOSET )
+		{
+			source = client.getInventory();
+			destination = client.getCloset();
+		}
 		else if ( moveType == STORAGE_TO_INVENTORY )
 		{
 			source = client.getStorage();
