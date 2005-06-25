@@ -243,7 +243,7 @@ public class KoLMessenger implements KoLConstants
 
 		if ( contact.equals( currentChannel ) )
 		{
-			(new ChatRequest( client, currentChannel, "/exit" )).run();
+			(new RequestThread( new ChatRequest( client, currentChannel, "/exit" ) )).start();
 			currentChannel = null;
 			client.deinitializeChat();
 			return;
@@ -254,7 +254,7 @@ public class KoLMessenger implements KoLConstants
 		bufferToRemove.closeActiveLogFile();
 
 		if ( currentChannel != null && contact.startsWith( "/" ) && !frameToRemove.getTitle().endsWith( "(inactive)" ) )
-			(new ChatRequest( client, contact, "/listen " + contact.substring(1) )).run();
+			(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
 	}
 
 	/**
