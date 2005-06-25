@@ -56,6 +56,7 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
