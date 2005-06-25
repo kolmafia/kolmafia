@@ -45,8 +45,9 @@ package net.sourceforge.kolmafia;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
+	protected KoLmafia client;
+
 	private boolean isErrorState;
-	private KoLmafia client;
 	private String adventureID, formSource, adventureName;
 	private KoLRequest request;
 

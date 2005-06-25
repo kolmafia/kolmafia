@@ -117,6 +117,10 @@ public class RequestThread extends Thread implements KoLConstants
 		{
 			if ( requests[i] instanceof KoLRequest && !((KoLRequest)requests[i]).client.inLoginState() )
 				((KoLRequest)requests[i]).client.makeRequest( requests[i], repeatCount[i] );
+
+			else if ( requests[i] instanceof KoLAdventure && !((KoLAdventure)requests[i]).client.inLoginState() )
+				((KoLAdventure)requests[i]).client.makeRequest( requests[i], repeatCount[i] );
+
 			else
 				for ( int j = 0; j < repeatCount[i]; ++j )
 					requests[i].run();
