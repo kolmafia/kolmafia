@@ -192,7 +192,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 			String username = commandStream.readLine();
 
-			if ( username == null || username.length() == 0 )
+			if ( username == null )
+				return;
+
+			if ( username.length() == 0 )
 			{
 				outputStream.println( "Invalid login." );
 				return;
@@ -206,7 +209,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 			String password = commandStream.readLine();
 
-			if ( password == null || password.length() == 0 )
+			if ( password == null )
+				return;
+
+			if ( password.length() == 0 )
 			{
 				outputStream.println( "Invalid password." );
 				return;
