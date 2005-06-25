@@ -190,7 +190,7 @@ public class RequestFrame extends KoLFrame
                         // into:
                         //     <td..><form...>...</form></td>
 
-			displayHTML = Pattern.compile( "(<form[^>]*>)(<input[^>]*>)?(<td[^>]*>)" ).matcher( displayHTML ).replaceAll( "$3$1$2" );
+			displayHTML = Pattern.compile( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)" ).matcher( displayHTML ).replaceAll( "$4$1$2" );
 			displayHTML = Pattern.compile( "</td></form>" ).matcher( displayHTML ).replaceAll( "</form></td>" );
 
 			buffer.clearBuffer();
