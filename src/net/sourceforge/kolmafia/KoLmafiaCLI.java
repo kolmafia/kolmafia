@@ -213,16 +213,10 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			if ( scriptRequestor == this )
-				outputStream.print( "q-login?: " );
-
-			String quick = commandStream.readLine();
-			boolean isQuick = quick != null && quick.length() != 0 && Character.toUpperCase(quick.charAt(0)) == 'Y';
-
-			if ( scriptRequestor == this )
 				outputStream.println();
 
 			scriptRequestor.deinitialize();
-			(new LoginRequest( scriptRequestor, username, password, false, false, isQuick )).run();
+			(new LoginRequest( scriptRequestor, username, password, false, false, false )).run();
 		}
 		catch ( IOException e )
 		{
