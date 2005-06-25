@@ -61,6 +61,8 @@ import javax.swing.JComboBox;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 // other imports
 import java.util.List;
@@ -74,11 +76,12 @@ public abstract class SendMessageFrame extends KoLFrame
 	protected JTextField recipientEntry;
 	protected JTextArea [] messageEntry;
 	protected JButton sendMessageButton;
-	protected JLabel sendMessageStatus;
 
-	protected JTextField [] quantities;
-	protected JComboBox [] attachments;
+	protected JList attachmentList;
 	protected LockableListModel inventory;
+	protected LockableListModel attachments;
+
+	protected JTextField attachedMeat;
 
 	protected SendMessageFrame( KoLmafia client, String title )
 	{
@@ -96,47 +99,50 @@ public abstract class SendMessageFrame extends KoLFrame
 		centerPanel.add( constructWestPanel(), BorderLayout.WEST );
 
 		JPanel attachmentPanel = new JPanel();
-		attachmentPanel.setLayout( new BoxLayout( attachmentPanel, BoxLayout.Y_AXIS ) );
-		attachmentPanel.add( getLabelPanel( "Enclose these items:" ) );
+		attachmentPanel.setLayout( new BorderLayout( 10, 10 ) );
 
-		this.attachments = new JComboBox[11];
-		this.quantities = new JTextField[12];
+		JPanel enclosePanel = new JPanel();
+		enclosePanel.setLayout( new BorderLayout() );
+		enclosePanel.add( new JLabel( "Enclose these items:    " ), BorderLayout.WEST );
 
-		for ( int i = 0; i < 11; ++i )
-		{
-			this.quantities[i] = new JTextField( " " );
-			JComponentUtilities.setComponentSize( quantities[i], 40, 24 );
-			this.attachments[i] = new JComboBox( inventory.getMirrorImage() );
+		JButton attachButton = new JButton( JComponentUtilities.getSharedImage( "icon_plus.gif" ) );
+		JComponentUtilities.setComponentSize( attachButton, 20, 20 );
+		attachButton.addActionListener( new AttachItemsListener() );
+		enclosePanel.add( attachButton, BorderLayout.EAST );
 
-			JPanel currentPanel = new JPanel();
-			currentPanel.setLayout( new BoxLayout( currentPanel, BoxLayout.X_AXIS ) );
-			currentPanel.add( this.quantities[i] );
-			currentPanel.add( Box.createHorizontalStrut( 4 ) );
-			currentPanel.add( this.attachments[i] );
+		attachmentPanel.add( enclosePanel, BorderLayout.NORTH );
 
-			JComponentUtilities.setComponentSize( currentPanel, 320, 24 );
-			attachmentPanel.add( Box.createVerticalStrut( 4 ) );
-			attachmentPanel.add( currentPanel );
-		}
+		this.attachments = new LockableListModel();
+		this.attachmentList = new JList( attachments );
+
+		JScrollPane attachmentArea = new JScrollPane( attachmentList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		attachmentPanel.add( attachmentArea, BorderLayout.CENTER );
 
 		JPanel meatPanel = new JPanel();
 		meatPanel.setLayout( new BoxLayout( meatPanel, BoxLayout.X_AXIS ) );
 
-		quantities[11] = new JTextField( "0" );
-		JComponentUtilities.setComponentSize( quantities[11], 120, 24 );
+		attachedMeat = new JTextField( "0" );
+		JComponentUtilities.setComponentSize( attachedMeat, 120, 24 );
 		meatPanel.add( Box.createHorizontalStrut( 40 ) );
 		meatPanel.add( new JLabel( "Enclose meat:    " ) );
-		meatPanel.add( quantities[11] );
+		meatPanel.add( attachedMeat );
 		meatPanel.add( Box.createHorizontalStrut( 40 ) );
 
-		attachmentPanel.add( Box.createVerticalStrut( 12 ) );
-		attachmentPanel.add( meatPanel );
+		attachmentPanel.add( meatPanel, BorderLayout.SOUTH );
 
 		centerPanel.add( attachmentPanel, BorderLayout.EAST );
 
 		mainPanel.add( centerPanel );
 		mainPanel.add( Box.createVerticalStrut( 18 ) );
-		mainPanel.add( contentPanel = new UpdatePanel() );
+
+		sendMessageButton = new JButton( "Send Message" );
+		sendMessageButton.addActionListener( new SendMessageListener() );
+
+		JPanel sendMessageButtonPanel = new JPanel();
+		sendMessageButtonPanel.add( sendMessageButton, BorderLayout.CENTER );
+
+		mainPanel.add( sendMessageButtonPanel );
 		mainPanel.add( Box.createVerticalStrut( 4 ) );
 
 		messagePanel = new JPanel();
@@ -223,50 +229,38 @@ public abstract class SendMessageFrame extends KoLFrame
 		JPanel label = new JPanel();
 		label.setLayout( new GridLayout( 1, 1 ) );
 		label.add( new JLabel( text, JLabel.LEFT ) );
+
 		return label;
 	}
 
 	protected abstract void sendMessage();
 
-	private class UpdatePanel extends NonContentPanel
+	private class SendMessageListener implements ActionListener
 	{
-		public UpdatePanel()
-		{
-			super( "", "" );
-			setContent( null );
-
- 			sendMessageButton = new JButton( "Send Message" );
- 			sendMessageButton.addActionListener( new SendMessageListener() );
-			sendMessageStatus = new JLabel( " ", JLabel.CENTER );
-
-			JPanel sendMessageButtonPanel = new JPanel();
-			sendMessageButtonPanel.add( sendMessageButton, BorderLayout.CENTER );
-
-			setLayout( new BorderLayout( 20, 20 ) );
-			add( sendMessageButtonPanel, BorderLayout.NORTH );
-			add( sendMessageStatus, BorderLayout.SOUTH );
+		public void actionPerformed( ActionEvent e )
+		{	(new SendMessageThread()).start();
 		}
 
-		public void setStatusMessage( String message )
-		{	sendMessageStatus.setText( message );
-		}
-
-		public void clear() {}
-		public void actionConfirmed() {}
-		public void actionCancelled() {}
-
-		private class SendMessageListener implements ActionListener
+		private class SendMessageThread extends DaemonThread
 		{
-			public void actionPerformed( ActionEvent e )
-			{	(new SendMessageThread()).start();
-			}
-
-			private class SendMessageThread extends DaemonThread
+			public void run()
 			{
-				public void run()
-				{	sendMessage();
-				}
+				if ( client != null )
+					sendMessage();
 			}
+		}
+	}
+
+	private class AttachItemsListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			Object [] parameters = new Object[3];
+			parameters[0] = null;
+			parameters[1] = inventory;
+			parameters[2] = attachments;
+
+			(new CreateFrameRunnable( AttachmentFrame.class, parameters )).run();
 		}
 	}
 
@@ -286,34 +280,102 @@ public abstract class SendMessageFrame extends KoLFrame
 		if ( sendMessageButton != null )
 			sendMessageButton.setEnabled( isEnabled );
 
-		for ( int i = 0; i < attachments.length; ++i )
-		{
-			quantities[i].setEnabled( isEnabled );
-			attachments[i].setEnabled( isEnabled );
-		}
+		if ( attachmentList != null )
+			attachmentList.setEnabled( isEnabled );
 
-		quantities[11].setEnabled( isEnabled );
+		if ( attachedMeat != null )
+			attachedMeat.setEnabled( isEnabled );
 	}
 
 	protected Object [] getAttachedItems()
-	{
-		List attachedItems = new ArrayList();
-
-		AdventureResult currentItem;
-		int currentQuantity;
-
-		for ( int i = 0; i < attachments.length; ++i )
-		{
-			currentItem = (AdventureResult) attachments[i].getSelectedItem();
-			if ( currentItem != null )
-				attachedItems.add( currentItem.getInstance( getValue( quantities[i] ) ) );
-
-		}
-
-		return attachedItems.toArray();
+	{	return attachmentList.getSelectedValues();
 	}
 
 	protected int getAttachedMeat()
-	{	return getValue( quantities[11] );
+	{	return getValue( attachedMeat );
+	}
+
+	/**
+	 * Internal frame used to handle attachments.  This frame
+	 * appears whenever the user wishes to add non-meat attachments
+	 * to the message.
+	 */
+
+	public static class AttachmentFrame extends KoLFrame
+	{
+		private JList newAttachments;
+		private LockableListModel inventory, attachments;
+
+		public AttachmentFrame( KoLmafia client, LockableListModel inventory, LockableListModel attachments )
+		{
+			super( "KoLmafia: Attachments", client );
+
+			this.inventory = (LockableListModel) inventory.clone();
+			this.attachments = attachments;
+			this.newAttachments = new JList( this.attachments );
+			this.newAttachments.setVisibleRowCount( 16 );
+
+			JScrollPane attachmentArea = new JScrollPane( newAttachments, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			JPanel labeledArea = new JPanel();
+			labeledArea.setLayout( new BorderLayout() );
+			labeledArea.add( JComponentUtilities.createLabel( "Currently Attached", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+			labeledArea.add( attachmentArea, BorderLayout.CENTER );
+
+			JPanel eastPanel = new JPanel();
+			eastPanel.setLayout( new CardLayout( 10, 10 ) );
+			eastPanel.add( labeledArea, "" );
+
+			getContentPane().setLayout( new BorderLayout() );
+			getContentPane().add( new InventoryPanel(), BorderLayout.CENTER );
+			getContentPane().add( eastPanel, BorderLayout.EAST );
+		}
+
+		private class InventoryPanel extends ItemManagePanel
+		{
+			private InventoryPanel()
+			{	super( "Inside Inventory", " > > > ", " < < < ", inventory );
+			}
+
+			protected void actionConfirmed()
+			{
+				Object [] items = elementList.getSelectedValues();
+
+				AdventureResult currentItem;
+				int attachmentCount, maximumCount;
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					try
+					{
+						currentItem = (AdventureResult) items[i];
+						maximumCount = currentItem.getCount( inventory );
+
+						attachmentCount = df.parse( JOptionPane.showInputDialog( "Attaching " + currentItem.getName() + "..." ) ).intValue();
+
+						currentItem = currentItem.getInstance( Math.min( attachmentCount, maximumCount ) );
+						AdventureResult.addResultToList( attachments, currentItem );
+						AdventureResult.addResultToList( inventory, currentItem.getNegation() );
+
+					}
+					catch ( Exception e )
+					{
+						// If the number placed inside of the count list was not
+						// an actual integer value, pretend nothing happened.
+					}
+				}
+			}
+
+			protected void actionCancelled()
+			{
+				Object [] items = newAttachments.getSelectedValues();
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					AdventureResult.addResultToList( attachments, ((AdventureResult) items[i]).getNegation() );
+					AdventureResult.addResultToList( inventory, (AdventureResult) items[i] );
+				}
+			}
+		}
 	}
 }
