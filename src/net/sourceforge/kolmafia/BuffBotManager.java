@@ -62,7 +62,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private KoLmafia client;
 	private KoLCharacter characterData;
 	private List inventory;
-	private Properties settings;
+	private KoLSettings settings;
 
 	private ArrayList saveList;
 	private ArrayList deleteList;
@@ -98,7 +98,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		this.buffCostMap = new TreeMap();
 		this.buffCostTable = buffCostTable;
 
-		this.settings = (client == null) ? System.getProperties() : client.getSettings();
+		this.settings = (client == null) ? new KoLSettings() : client.getSettings();
 		this.characterData =  client.getCharacterData();
 		this.mpRestoreItemList = new MPRestoreItemList();
 		buffbotLog = client.getBuffBotLog();
@@ -177,8 +177,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		}
 
 		settings.setProperty( "buffBotCasting", sellerSetting.toString() );
-		if ( settings instanceof KoLSettings )
-			((KoLSettings)settings).saveSettings();
+		settings.saveSettings();
 	}
 
 	/**

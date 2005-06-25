@@ -87,7 +87,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffBotFrame extends KoLFrame
 {
-	private Properties settings;
+	private KoLSettings settings;
 	private BuffBotManager currentManager;
 
 	private BuffOptionsPanel buffOptions;
@@ -109,7 +109,7 @@ public class BuffBotFrame extends KoLFrame
 	{
 		super( "KoLmafia: BuffBot", client );
 
-		settings = (client == null) ? System.getProperties() : client.getSettings();
+		settings = (client == null) ? new KoLSettings() : client.getSettings();
 		buffCostTable = new LockableListModel();
 
 		if ( client != null )
@@ -482,9 +482,7 @@ public class BuffBotFrame extends KoLFrame
 				if (!whiteListString[i].equals(""))
 					whiteListEditor.append( ", " + whiteListString[i] );
 			settings.setProperty( "whiteList", whiteListEditor.getText() );
-
-			if ( settings instanceof KoLSettings )
-				((KoLSettings)settings).saveSettings();
+			settings.saveSettings();
 
 			JOptionPane.showMessageDialog( null, "Settings have been saved!" );
 		}
