@@ -70,9 +70,6 @@ public class ProposeTradeFrame extends SendMessageFrame
 
 	protected void sendMessage()
 	{
-		if ( client == null )
-			return;
-
 		if ( offerID != null )
 			(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
 

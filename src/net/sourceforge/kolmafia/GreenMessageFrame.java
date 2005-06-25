@@ -71,7 +71,7 @@ public class GreenMessageFrame extends SendMessageFrame
 		if ( client.permitsContinue() )
 		{
 			client.updateDisplay( ENABLED_STATE, "Message sent to " + recipientEntry.getText() );
-			sendMessageStatus.setText( "Message sent to " + recipientEntry.getText() );
+			setTitle( "Message sent to " + recipientEntry.getText() );
 
 			if ( client.getSettings().getProperty( "closeSending" ).equals( "true" ) )
 				GreenMessageFrame.this.dispose();
@@ -79,7 +79,7 @@ public class GreenMessageFrame extends SendMessageFrame
 		else
 		{
 			client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipientEntry.getText() );
-			sendMessageStatus.setText( "Failed to send message to " + recipientEntry.getText() );
+			setTitle( "Failed to send message to " + recipientEntry.getText() );
 		}
 	}
 

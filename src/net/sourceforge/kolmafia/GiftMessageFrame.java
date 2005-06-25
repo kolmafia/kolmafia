@@ -79,9 +79,6 @@ public class GiftMessageFrame extends SendMessageFrame
 
 	protected void sendMessage()
 	{
-		if ( client == null )
-			return;
-
 		GiftMessageFrame.this.setEnabled( false );
 		(new GiftMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), messageEntry[1].getText(),
 			packageSelect.getSelectedItem(), getAttachedItems(), getAttachedMeat() )).run();
@@ -90,11 +87,16 @@ public class GiftMessageFrame extends SendMessageFrame
 		if ( client.permitsContinue() )
 		{
 			client.updateDisplay( ENABLED_STATE, "Gift sent to " + recipientEntry.getText() );
+			setTitle( "Gift sent to " + recipientEntry.getText() );
+
 			if ( client.getSettings().getProperty( "closeSending" ).equals( "true" ) )
 				GiftMessageFrame.this.dispose();
 		}
 		else
+		{
 			client.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipientEntry.getText() );
+			setTitle( "Failed to send gift to " + recipientEntry.getText() );
+		}
 	}
 
 	/**
