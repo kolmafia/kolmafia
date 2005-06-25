@@ -60,7 +60,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		Class [] parameterTypes= new Class[ parameters.length ];
 		for ( int i = 0; i < parameters.length; ++i )
-			parameterTypes[i] = parameters[i].getClass();
+			parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
 
 		this.creator = null;
 		boolean isValidConstructor = true;
@@ -75,7 +75,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 			isValidConstructor = true;
 			for ( int j = 0; j < constructorParameterTypes.length && isValidConstructor; ++j )
-				if ( !constructorParameterTypes[j].isAssignableFrom( parameterTypes[j] ) )
+				if ( parameterTypes[i] != null && !constructorParameterTypes[j].isAssignableFrom( parameterTypes[j] ) )
 					isValidConstructor = false;
 
 			if ( isValidConstructor )
