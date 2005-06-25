@@ -306,8 +306,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		public void resetCalculations()
 		{
 			this.initial = -1;
-			this.creatable = -1;
-			this.total = -1;
+			this.creatable = 0;
+			this.total = 0;
 
 			this.modifier = 0;
 			this.multiplier = 0;
@@ -342,19 +342,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		public void calculate( KoLmafia client, List availableIngredients )
 		{
-			// If the item doesn't exist in the item table,
-			// then assume it can't be created.
-
-			if ( concoction.getName() == null )
-			{
-				this.total = 0;
-				return;
-			}
-
 			// If a calculation has already been done for this
 			// concoction, no need to calculate again.
 
 			if ( this.initial != -1 )
+				return;
+
+			// If the item doesn't exist in the item table,
+			// then assume it can't be created.
+
+			if ( concoction.getName() == null )
 				return;
 
 			// Determine how many were available initially in the
