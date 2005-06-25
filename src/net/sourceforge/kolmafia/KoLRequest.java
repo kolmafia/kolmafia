@@ -47,6 +47,7 @@ import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.FileNotFoundException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -513,6 +514,22 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
+			// On the one hand, if it's a FNF exception, then you shouldn't
+			// attempt to retry.
+
+			if ( e instanceof FileNotFoundException )
+			{
+				updateDisplay( ERROR_STATE, "Page no longer exists." );
+
+				if ( client != null )
+				{
+					logStream.println( e );
+					e.printStackTrace( logStream );
+				}
+
+				return false;
+			}
+
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
 
@@ -522,6 +539,10 @@ public class KoLRequest implements Runnable, KoLConstants
 				e.printStackTrace( logStream );
 			}
 
+			// Add in an extra delay in the event of a time-out in order
+			// to be nicer on the KoL servers.
+
+			delay( REFRESH_RATE );
 			return true;
 		}
 
