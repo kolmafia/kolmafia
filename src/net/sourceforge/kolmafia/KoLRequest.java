@@ -162,11 +162,16 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		try
 		{
+			// Randomly set the login server to avoid the possibility
+			// that the main server dies and can't do a redirect so
+			// you can determine the load-balancing server.
+
+			setLoginServer( HOSTNAMES[ ((int) (Math.random() * 3.0)) % 3 ] );
+
 			// This test uses the Kingdom of Loathing automatic balancing
 			// server, rather than allowing users to specify the root;
 			// usually, this works out to the benefit of everyone.
 
-			(new KoLRequest( null, "" )).run();
 			KoLRequest root = new KoLRequest( null, "login.php" );
 			root.run();
 
