@@ -133,7 +133,7 @@ public class ItemStorageRequest extends SendMessageRequest
 	}
 
 	protected int getCapacity()
-	{	return moveType == STORAGE_TO_INVENTORY ? 1 : 11;
+	{	return 11;
 	}
 
 	protected void repeat( Object [] attachments )
