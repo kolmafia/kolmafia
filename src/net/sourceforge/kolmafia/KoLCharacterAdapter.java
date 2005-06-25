@@ -93,6 +93,9 @@ public class KoLCharacterAdapter implements KoLCharacterListener, ListDataListen
 	{
 		if ( statusUpdater != null )
 			statusUpdater.run();
+
+		if ( listUpdater != null )
+			listUpdater.run();
 	}
 
 	public void adventuresLeftChanged()

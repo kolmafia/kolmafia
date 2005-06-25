@@ -216,9 +216,6 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			this.characterData = new KoLCharacter( loginname );
 			this.inventory = characterData.getInventory();
-
-			this.inventory.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
-
 			this.usableItems = new SortedListModel();
 			this.hunterItems = new SortedListModel();
 			this.storage = new SortedListModel();
@@ -226,6 +223,9 @@ public abstract class KoLmafia implements KoLConstants
 			this.closet = characterData.getCloset();
 			this.tally = new SortedListModel();
 			this.recentEffects = new ArrayList();
+
+			this.inventory.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
+			this.closet.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
 
 			resetSessionTally();
 		}
