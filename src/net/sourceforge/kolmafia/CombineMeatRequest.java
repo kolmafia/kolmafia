@@ -44,7 +44,6 @@ public class CombineMeatRequest extends ItemCreationRequest
 {
 	private int meatType;
 	private int costToMake;
-	private int quantityNeeded;
 
 	public CombineMeatRequest( KoLmafia client, int meatType, int quantityNeeded )
 	{
@@ -55,22 +54,16 @@ public class CombineMeatRequest extends ItemCreationRequest
 		addFormField( "whichitem", String.valueOf( meatType ) );
 
 		this.meatType = meatType;
-		this.quantityNeeded = quantityNeeded;
 		this.costToMake = meatType == MEAT_PASTE ? -10 : meatType == MEAT_STACK ? -100 : -1000;
-	}
-
-	public void setQuantityNeeded( int quantityNeeded )
-	{
-                this.quantityNeeded = quantityNeeded;
 	}
 
 	public void run()
 	{
-		addFormField( "quantity", String.valueOf( quantityNeeded ) );
+		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
 
 		super.run();
 
-		client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * quantityNeeded ) );
-		client.processResult( new AdventureResult( meatType, quantityNeeded ) );
+		client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * getQuantityNeeded() ) );
+		client.processResult( new AdventureResult( meatType, getQuantityNeeded() ) );
 	}
 }
