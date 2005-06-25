@@ -633,7 +633,21 @@ public class KoLMessenger implements KoLConstants
 		if ( instantMessageBuffers.containsKey( channel ) )
 			return;
 
-		SwingUtilities.invokeLater( new OpenMessageRunnable( channel ) );
+		Runnable openMessage = new OpenMessageRunnable( channel );
+
+		try
+		{
+			if ( SwingUtilities.isEventDispatchThread() )
+				openMessage.run();
+			else
+				SwingUtilities.invokeAndWait( openMessage );
+		}
+		catch ( Throwable e )
+		{
+			// Unless the Swing thread is interrupted for some
+			// reason (which should never happen), this will
+			// not happen.
+		}
 	}
 
 	/**
