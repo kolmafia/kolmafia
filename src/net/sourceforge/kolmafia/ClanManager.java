@@ -83,6 +83,8 @@ public class ClanManager implements KoLConstants
 		this.rankList = new LockableListModel();
 		this.stashContents = new LockableListModel();
 		SNAPSHOT_DIRECTORY = "clan" + File.separator;
+
+		this.snapshot = new ClanSnapshotTable( client, profileMap );
 	}
 
 	public LockableListModel getStash()
@@ -135,8 +137,6 @@ public class ClanManager implements KoLConstants
 				File.separator;
 
 			(new RankListRequest( client )).run();
-			this.snapshot = new ClanSnapshotTable( client, clanID, clanName, profileMap );
-
 			client.updateDisplay( ENABLED_STATE, "Clan data retrieved." );
 		}
 	}
@@ -524,17 +524,16 @@ public class ClanManager implements KoLConstants
 		parameters[0] = client;
 		parameters[1] = "post";
 
-		(new CreateFrameRunnable( MessagePostFrame.class, parameters )).run();
+		SwingUtilities.invokeLater( new CreateFrameRunnable( MessagePostFrame.class, parameters ) );
 	}
 
 	public void postAnnouncement()
 	{
-
 		Object [] parameters = new Object[2];
 		parameters[0] = client;
 		parameters[1] = "postannounce";
 
-		(new CreateFrameRunnable( MessagePostFrame.class, parameters )).run();
+		SwingUtilities.invokeLater( new CreateFrameRunnable( MessagePostFrame.class, parameters ) );
 	}
 
 	public static class MessagePostFrame extends KoLFrame
@@ -604,9 +603,12 @@ public class ClanManager implements KoLConstants
 
 	public void getAnnouncements()
 	{
-		RequestFrame announcements = new RequestFrame( client, "Clan Announcements", new AnnouncementsRequest( client ) );
-		announcements.pack();  announcements.setVisible( true );  announcements.requestFocus();
+		Object [] parameters = new Object[3];
+		parameters[0] = client;
+		parameters[1] = "Clan Announcements";
+		parameters[2] = new AnnouncementsRequest( client );
 
+		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
 	}
 
 	private class AnnouncementsRequest extends KoLRequest
@@ -635,9 +637,12 @@ public class ClanManager implements KoLConstants
 
 	public void getMessageBoard()
 	{
-		RequestFrame clanboard = new RequestFrame( client, "Clan Message Board", new MessageBoardRequest( client ) );
-		clanboard.pack();  clanboard.setVisible( true );  clanboard.requestFocus();
+		Object [] parameters = new Object[3];
+		parameters[0] = client;
+		parameters[1] = "Clan Message Board";
+		parameters[2] = new MessageBoardRequest( client );
 
+		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
 	}
 
 	private class MessageBoardRequest extends KoLRequest
@@ -682,12 +687,13 @@ public class ClanManager implements KoLConstants
 
 	public LockableListModel getFilteredList()
 	{
-		retrieveClanData();
 		return snapshot != null ? snapshot.getFilteredList() : new LockableListModel();
 	}
 
 	public void applyFilter( int matchType, int filterType, String filter )
 	{
+		retrieveClanData();
+
 		// Certain filter types do not require the player profiles
 		// to be looked up.  These can be processed immediately,
 		// without prompting the user for confirmation.

@@ -71,8 +71,9 @@ public class ClanSnapshotTable implements KoLConstants
 	private String clanName;
 	private TreeMap profileMap;
 	private LockableListModel filterList;
+	private DetailRosterRequest request;
 
-	public ClanSnapshotTable( KoLmafia client, String clanID, String clanName, TreeMap profileMap )
+	public ClanSnapshotTable( KoLmafia client, TreeMap profileMap )
 	{
 		// First, initialize all of the lists and
 		// arrays which are used by the request.
@@ -86,7 +87,15 @@ public class ClanSnapshotTable implements KoLConstants
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
 
-		(new DetailRosterRequest( client )).run();
+		request = new DetailRosterRequest( client );
+	}
+
+	public void setClanID( String clanID )
+	{	this.clanID = clanID;
+	}
+
+	public void setName( String clanName )
+	{	this.clanName = clanName;
 	}
 
 	public LockableListModel getFilteredList()
@@ -95,6 +104,12 @@ public class ClanSnapshotTable implements KoLConstants
 
 	public void applyFilter( int matchType, int filterType, String filter )
 	{
+		// First, if you haven't retrieved a detailed
+		// roster for the clan, do so.
+
+		if ( request.responseText == null )
+			request.run();
+
 		filterList.clear();
 
 		List temporaryList = new ArrayList();
@@ -207,6 +222,12 @@ public class ClanSnapshotTable implements KoLConstants
 
 	public String toString()
 	{
+		// First, if you haven't retrieved a detailed
+		// roster for the clan, do so.
+
+		if ( request.responseText == null )
+			request.run();
+
 		StringBuffer strbuf = new StringBuffer();
 
 		strbuf.append( "<html><head><style> body, td { font-family: sans-serif; } </style></head><body>" );
@@ -229,6 +250,12 @@ public class ClanSnapshotTable implements KoLConstants
 
 	private String getSummary()
 	{
+		// First, if you haven't retrieved a detailed
+		// roster for the clan, do so.
+
+		if ( request.responseText == null )
+			request.run();
+
 		StringBuffer strbuf = new StringBuffer();
 
 		List classList = new ArrayList();
