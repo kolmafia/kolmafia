@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.io.BufferedReader;
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
@@ -189,15 +190,29 @@ public class ConcoctionsDatabase extends KoLDatabase
 				concoctions[i].calculate( client, availableIngredients );
 		}
 
-		// Finally, prepare the list that will be returned - the list
-		// should contained all items whose quantities are greater
-		// than zero.
+		SwingUtilities.invokeLater( new RefreshListRunnable( client ) );
+	}
 
-		concoctionsList.clear();
+	private static class RefreshListRunnable implements Runnable
+	{
+		private KoLmafia client;
 
-		for ( int i = 1; i < ITEM_COUNT; ++i )
-			if ( concoctions[i].creatable > 0 )
-				concoctionsList.add( ItemCreationRequest.getInstance( client, i, concoctions[i].creatable ) );
+		public RefreshListRunnable( KoLmafia client )
+		{	this.client = client;
+		}
+
+		public void run()
+		{
+			// Finally, prepare the list that will be returned - the list
+			// should contained all items whose quantities are greater
+			// than zero.
+
+			concoctionsList.clear();
+
+			for ( int i = 1; i < ITEM_COUNT; ++i )
+				if ( concoctions[i].creatable > 0 )
+					concoctionsList.add( ItemCreationRequest.getInstance( client, i, concoctions[i].creatable ) );
+		}
 	}
 
 	/**
@@ -348,14 +363,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( this.initial != -1 )
 				return;
 
+			// Initialize creatable item count to 0.  This way,
+			// you ensure that you're not always off by one.
+
+			this.creatable = 0;
+
 			// If the item doesn't exist in the item table,
 			// then assume it can't be created.
 
 			if ( concoction.getName() == null )
-                        {
-                                this.initial = 0;
+			{
+				this.initial = 0;
 				return;
-                        }
+			}
 
 			// Determine how many were available initially in the
 			// available ingredient list.
