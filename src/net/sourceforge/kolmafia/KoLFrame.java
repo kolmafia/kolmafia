@@ -802,6 +802,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			setLayout( new CardLayout( 10, 10 ) );
 			add( actualPanel, "" );
+			buttonPanel.setBothDisabledOnClick( true );
 		}
 
 		protected abstract void actionConfirmed();
@@ -824,7 +825,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected abstract class LabeledScrollPanel extends ActionPanel
 	{
 		private JComponent scrollComponent;
-		private JPanel buttonPanel;
+		private VerifyButtonPanel buttonPanel;
 
 		public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent )
 		{
@@ -839,6 +840,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
 			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );
+			buttonPanel.setBothDisabledOnClick( true );
 
 			JPanel actualPanel = new JPanel();
 			actualPanel.setLayout( new BorderLayout( 20, 10 ) );
