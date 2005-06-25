@@ -146,7 +146,9 @@ public abstract class ActionVerifyPanel extends ActionPanel
 		add( cardContainer, isCenterPanel ? BorderLayout.CENTER : BorderLayout.NORTH );
 
 		contentSet = true;
-		buttonPanel.setBothDisabledOnClick( bothDisabledOnClick );
+
+		if ( bothDisabledOnClick )
+			buttonPanel.setBothDisabledOnClick( true );
 	}
 
 	private JPanel constructWestContainer( VerifiableElement [] elements, JPanel westPanel, boolean isLabelPreceeding )
