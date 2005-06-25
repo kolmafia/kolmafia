@@ -38,7 +38,6 @@ import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -198,7 +197,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		// data and current settings.
 
 		(new CharsheetRequest( client )).run();
-		this.settings = (client == null) ? System.getProperties() : client.getSettings();
+		this.settings = (client == null) ? new KoLSettings() : client.getSettings();
 		this.characterData =  client.getCharacterData();
 		this.inventory = client == null ? new LockableListModel() : client.getInventory();
 
