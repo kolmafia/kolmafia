@@ -352,7 +352,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// then assume it can't be created.
 
 			if ( concoction.getName() == null )
+                        {
+                                this.initial = 0;
 				return;
+                        }
 
 			// Determine how many were available initially in the
 			// available ingredient list.
