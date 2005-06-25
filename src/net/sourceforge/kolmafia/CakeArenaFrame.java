@@ -46,7 +46,7 @@ public class CakeArenaFrame extends KoLFrame
 	{
 		super( "KoLmafia: Susie's Secret Bedroom!", client );
 		if ( client != null && client.getCakeArenaManager().getOpponentList().isEmpty() )
-			(new CakeArenaRequest( client )).run();
+			(new RequestThread( new CakeArenaRequest( client ) )).start();
 
 		getContentPane().setLayout( new BorderLayout() );
 		getContentPane().add( new CakeArenaPanel(), BorderLayout.CENTER );
