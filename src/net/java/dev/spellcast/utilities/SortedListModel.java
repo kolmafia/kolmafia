@@ -102,7 +102,7 @@ public class SortedListModel extends LockableListModel
      * information regarding this function.
      */
 
-	public void add( int index, Object element )
+	public synchronized void add( int index, Object element )
 	{
 		boolean needsSort = ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 ) ||
 			( index < size() && ((Comparable)element).compareTo( get( index ) ) > 0 );
@@ -118,7 +118,7 @@ public class SortedListModel extends LockableListModel
      * information regarding this function.
      */
 
-	public boolean add( Object o )
+	public synchronized boolean add( Object o )
 	{
 		try
 		{
@@ -138,7 +138,7 @@ public class SortedListModel extends LockableListModel
      * information regarding this function.
      */
 
-	public int indexOf( Object o )
+	public synchronized int indexOf( Object o )
 	{
 		if ( !associatedClass.isInstance( o ) )
 			return -1;
@@ -157,7 +157,7 @@ public class SortedListModel extends LockableListModel
      * to it.
      */
 
-	public int lastIndexOf( Object o )
+	public synchronized int lastIndexOf( Object o )
 	{
 		if ( !associatedClass.isInstance( o ) )
 			return -1;
@@ -170,7 +170,7 @@ public class SortedListModel extends LockableListModel
      * information regarding this function.
      */
 
-	public Object set( int index, Object element )
+	public synchronized Object set( int index, Object element )
 	{
 		boolean needsSort = ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 ) ||
 			( index + 1 < size() && ((Comparable)element).compareTo( get( index + 1 ) ) > 0 );
@@ -262,7 +262,7 @@ public class SortedListModel extends LockableListModel
 			halfwayIndex + whichIndexOf : -1;
 	}
 
-	public Object clone()
+	public synchronized Object clone()
 	{
 		SortedListModel cloneCopy = (SortedListModel) super.clone();
 		cloneCopy.associatedClass = associatedClass;
