@@ -73,7 +73,7 @@ public class RequestFrame extends KoLFrame
 		this.buffer.setChatDisplay( display );
 
 		JScrollPane scrollPane = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
 
 		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 		getContentPane().setLayout( new GridLayout( 1, 1 ) );

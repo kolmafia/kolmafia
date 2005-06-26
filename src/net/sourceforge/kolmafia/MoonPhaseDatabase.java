@@ -34,6 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Date;
+
 /**
  * A special class used to determine the current moon phase.
  * Theoretically, the calculations are simple enough to be
@@ -41,11 +43,11 @@ package net.sourceforge.kolmafia;
  * cleaner to do things this way, so it goes.
  */
 
-public class MoonPhaseDatabase
+public class MoonPhaseDatabase implements KoLConstants
 {
-	private static int PHASE_STEP = -1;
-	private static int RONALD_PHASE = -1;
-	private static int GRIMACE_PHASE = -1;
+	protected static int PHASE_STEP = -1;
+	protected static int RONALD_PHASE = -1;
+	protected static int GRIMACE_PHASE = -1;
 
 	private static final String [] STAT_EFFECT =
 	{
@@ -85,11 +87,10 @@ public class MoonPhaseDatabase
 	{	return getPhaseName( GRIMACE_PHASE );
 	}
 
-	private static final String getPhaseName( int phase )
+	public static final String getPhaseName( int phase )
 	{
 		switch ( phase )
 		{
-			case -1:  return "unknown";
 			case 0:  return "new moon";
 			case 1:  return "waxing crescent";
 			case 2:  return "first quarter";
@@ -98,7 +99,7 @@ public class MoonPhaseDatabase
 			case 5:  return "waning gibbous";
 			case 6:  return "third quarter";
 			case 7:  return "waning crescent";
-			default:  return null;
+			default:  return "unknown";
 		}
 	}
 
@@ -112,5 +113,9 @@ public class MoonPhaseDatabase
 
 	public static final String getMoonEffect()
 	{	return PHASE_STEP == -1 ? "Could not determine moon phase." : STAT_EFFECT[ PHASE_STEP ];
+	}
+
+	public static final String getMoonEffect( int phaseStep )
+	{	return phaseStep == -1 || phaseStep >= STAT_EFFECT.length ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
 	}
 }

@@ -254,6 +254,8 @@ public class AdventureFrame extends KoLFrame
 
 		JMenuItem mapItem = new JMenuItem( "Navigate Map", KeyEvent.VK_N );
 		mapItem.addActionListener( new MiniBrowserListener( "main.php" ) );
+		JMenuItem calendarItem = new JMenuItem( "Consult Oracle", KeyEvent.VK_C );
+		calendarItem.addActionListener( new DisplayFrameListener( CalendarFrame.class ) );
 		JMenuItem mallItem = new JMenuItem( "Manipulate Mall", KeyEvent.VK_M );
 		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
 		JMenuItem caseItem = new JMenuItem( "Yeti's Museum", KeyEvent.VK_Y );
@@ -263,6 +265,7 @@ public class AdventureFrame extends KoLFrame
 
 		JMenu statusMenu = addStatusMenu( menuBar );
 		statusMenu.add( mapItem, 0 );
+		statusMenu.add( calendarItem, 1 );
 		statusMenu.add( mallItem );
 		statusMenu.add( caseItem );
 		statusMenu.add( otoriItem );
