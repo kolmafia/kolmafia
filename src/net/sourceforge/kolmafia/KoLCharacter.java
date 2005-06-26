@@ -267,30 +267,10 @@ public class KoLCharacter
 		// of the character data
 
 		equipmentLists = new LockableListModel[8];
+		for ( int i = 0; i < 8; ++i )
+			equipmentLists[i] = new SortedListModel();
 
-		equipmentLists[HAT] = getFilteredItems( ConsumeItemRequest.EQUIP_HAT );
-		equipmentLists[HAT].add( getHat() );
-
-		equipmentLists[WEAPON] = getFilteredItems( ConsumeItemRequest.EQUIP_WEAPON );
-		equipmentLists[WEAPON].add( getWeapon() );
-
-		equipmentLists[SHIRT] = getFilteredItems( ConsumeItemRequest.EQUIP_SHIRT );
-		equipmentLists[SHIRT].add( getShirt() );
-
-		equipmentLists[PANTS] = getFilteredItems( ConsumeItemRequest.EQUIP_PANTS );
-		equipmentLists[PANTS].add( getPants() );
-
-		equipmentLists[ACCESSORY1] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
-		equipmentLists[ACCESSORY1].add( getAccessory1() );
-
-		equipmentLists[ACCESSORY2] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
-		equipmentLists[ACCESSORY2].add( getAccessory2() );
-
-		equipmentLists[ACCESSORY3] = getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY );
-		equipmentLists[ACCESSORY3].add( getAccessory3() );
-
-		equipmentLists[FAMILIAR] = getFilteredItems( ConsumeItemRequest.EQUIP_FAMILIAR );
-		equipmentLists[FAMILIAR].add( getFamiliarItem() );
+		updateEquipmentLists();
 	}
 
 	/**
