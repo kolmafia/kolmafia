@@ -917,45 +917,29 @@ public class KoLCharacter
 
 	public void updateEquipmentLists()
 	{
-		for ( int i = 0; i < equipmentLists.length; ++i )
-			equipmentLists[i].clear();
-
-		equipmentLists[HAT].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_HAT ) );
-		if ( !equipmentLists[HAT].contains( getHat() ) )
-			equipmentLists[HAT].add( getHat() );
-
-		equipmentLists[WEAPON].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_WEAPON ) );
-		if ( !equipmentLists[WEAPON].contains( getWeapon() ) )
-			equipmentLists[WEAPON].add( getWeapon() );
-
-		equipmentLists[SHIRT].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_SHIRT ) );
-		if ( !equipmentLists[SHIRT].contains( getShirt() ) )
-			equipmentLists[SHIRT].add( getShirt() );
-
-		equipmentLists[PANTS].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_PANTS ) );
-		if ( !equipmentLists[PANTS].contains( getPants() ) )
-			equipmentLists[PANTS].add( getPants() );
-
-		equipmentLists[ACCESSORY1].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
-		if ( !equipmentLists[ACCESSORY1].contains( getAccessory1() ) )
-			equipmentLists[ACCESSORY1].add( getAccessory1() );
-
-		equipmentLists[ACCESSORY2].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
-		if ( !equipmentLists[ACCESSORY2].contains( getAccessory2() ) )
-			equipmentLists[ACCESSORY2].add( getAccessory2() );
-
-		equipmentLists[ACCESSORY3].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
-		if ( !equipmentLists[ACCESSORY3].contains( getAccessory3() ) )
-			equipmentLists[ACCESSORY3].add( getAccessory3() );
-
-		equipmentLists[FAMILIAR].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_FAMILIAR ) );
-		equipmentLists[FAMILIAR].add( getFamiliarItem() );
+		updateEquipmentList( equipmentLists[HAT], ConsumeItemRequest.EQUIP_HAT, getHat() );
+		updateEquipmentList( equipmentLists[WEAPON], ConsumeItemRequest.EQUIP_WEAPON, getWeapon() );
+		updateEquipmentList( equipmentLists[SHIRT], ConsumeItemRequest.EQUIP_SHIRT, getShirt() );
+		updateEquipmentList( equipmentLists[PANTS], ConsumeItemRequest.EQUIP_PANTS, getPants() );
+		updateEquipmentList( equipmentLists[ACCESSORY1], ConsumeItemRequest.EQUIP_ACCESSORY, getAccessory1() );
+		updateEquipmentList( equipmentLists[ACCESSORY2], ConsumeItemRequest.EQUIP_ACCESSORY, getAccessory2() );
+		updateEquipmentList( equipmentLists[ACCESSORY3], ConsumeItemRequest.EQUIP_ACCESSORY, getAccessory3() );
+		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getFamiliarItem() );
 	}
 
-	private LockableListModel getFilteredItems( int filterID )
+	public void updateEquipmentList( List currentList, int currentFilter, String currentItem )
+	{
+		currentList.clear();
+		currentList.addAll( getFilteredItems( currentFilter ) );
+
+		if ( !currentList.contains( currentItem ) )
+			currentList.add( currentItem );
+	}
+
+	private List getFilteredItems( int filterID )
 	{
 		String currentItem;
-		LockableListModel items = new LockableListModel();
+		List items = new ArrayList();
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
