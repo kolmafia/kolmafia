@@ -56,25 +56,37 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class CalendarFrame extends KoLFrame implements ListSelectionListener
 {
 	private static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy" );
-
-	private int phaseError = Integer.MAX_VALUE;
-
-	private int currentMonth = -1;
-	private int currentDay = -1;
-
-	private int ronaldPhase = -1;
-	private int grimacePhase = -1;
-	private int phaseStep = -1;
+	private static String [][] HOLIDAYS = new String[13][9];
 
 	private static final String [] MONTH_NAMES =
 	{
-		"Jarlsuary", "Frankruary", "Starch", "April", "Martinus", "Bill",
+		"", "Jarlsuary", "Frankruary", "Starch", "April", "Martinus", "Bill",
 		"Bor", "Petember", "Carlvember", "Porktober", "Boozember", "Dougtember"
 	};
 
 	private static final String [] CALENDARS =
-	{	"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"
+	{	"", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"
 	};
+
+	static
+	{
+		for ( int i = 0; i < 13; ++i )
+			for ( int j = 0; j < 9; ++j )
+				HOLIDAYS[i][j] = "No holiday today.";
+
+		HOLIDAYS[1][8] = "St. Sneaky Pete's Day";
+		HOLIDAYS[10][8] = "Halloween";
+		HOLIDAYS[11][7] = "Feast of Boris";
+	}
+
+	private int phaseError = Integer.MAX_VALUE;
+
+	private int currentMonth = 0;
+	private int currentDay = 0;
+
+	private int ronaldPhase = -1;
+	private int grimacePhase = -1;
+	private int phaseStep = -1;
 
 	private JCalendar calendar;
 	private LimitedSizeChatBuffer buffer;
@@ -170,20 +182,17 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	private final void calculatePhases( Date time )
 	{
-		// In order to ensure reliability, the value of the
-		// date is fixed, rather than calculated.  This ms
-		// value represents February 5, 2005 at 11:30pm on
-		// the Eastern United States, which is when rollover
-		// generally occurs.
+		try
+		{
+			int timeDifference = calculateDifferenceInDays( sdf.parse( "20050614" ).getTime(), time.getTime() );
 
-		long newMoonDate = 1107664200000L;
-		long dayLength = 24 * 60 * 60 * 1000L;
-
-		long timeDifference = time.getTime() - newMoonDate;
-
-		phaseStep = (((int) Math.floor( (double)timeDifference / (double)dayLength )) + 16) % 16;
-		ronaldPhase = ((phaseStep % 8) + 8) % 8;
-		grimacePhase = ((((int)Math.floor( phaseStep / 2 )) % 8) + 8) % 8;
+			phaseStep = ((timeDifference % 16) + 16) % 16;
+			ronaldPhase = phaseStep % 8;
+			grimacePhase = ( phaseStep / 2 ) % 8;
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	/**
@@ -194,7 +203,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 */
 
 	private final String getCalendarDay()
-	{	return currentMonth == -1 ? "Penguinary 0" : MONTH_NAMES[ currentMonth ] + " " + currentDay;
+	{	return MONTH_NAMES[ currentMonth ] + " " + currentDay;
 	}
 
 	/**
@@ -223,12 +232,20 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( "</b></font></td></tr></table></center>" );
 
 		displayHTML.append( "</td><td valign=top>" );
+		displayHTML.append( "<center><table>" );
+
+		// Holidays should probably be in the first
+		// row, just in case.
+
+		displayHTML.append( "<tr><td colspan=2 align=center><b>" );
+		displayHTML.append( HOLIDAYS[ currentMonth ][ currentDay ] );
+		displayHTML.append( "</b></td></tr><tr><td colspan=2></td></tr>" );
 
 		// Next display today's moon phases, including
 		// the uber-spiffy name for each phase.  Just
 		// like in the browser, Ronald then Grimace.
 
-		displayHTML.append( "<center><table><tr><td align=right><b>Ronald</b>:&nbsp;</td><td><img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
+		displayHTML.append( "<tr><td align=right><b>Ronald</b>:&nbsp;</td><td><img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
 		displayHTML.append( ronaldPhase + 1 );
 		displayHTML.append( ".gif\">&nbsp; (" );
 		displayHTML.append( MoonPhaseDatabase.getPhaseName( ronaldPhase ) );
@@ -289,16 +306,13 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			// This difference should be computed in terms
 			// of days for ease of later computations.
 
-			long timeStart = sdf.parse( "20050614" ).getTime();
-			long estimatedDifference = timeCalculate - timeStart;
-
-			int estimatedDifferenceInDays = (int) (estimatedDifference / 86400000L);
+			int estimatedDifference = calculateDifferenceInDays( sdf.parse( "20050614" ).getTime(), timeCalculate );
 
 			// Next, compare this value with the actual
 			// computed phase step to see how far off
 			// you are in the computation.
 
-			int estimatedMoonPhase = ((estimatedDifferenceInDays % 16) + 16) % 16;
+			int estimatedMoonPhase = ((estimatedDifference % 16) + 16) % 16;
 
 			if ( this.phaseError == Integer.MAX_VALUE )
 			{
@@ -306,25 +320,32 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 					(estimatedMoonPhase == 0 && phaseStep == 15) ? 1 : phaseStep - estimatedMoonPhase;
 			}
 
-			int actualDifferenceInDays = estimatedDifferenceInDays + this.phaseError;
+			int actualDifference = estimatedDifference + this.phaseError;
 
 			// Now that you have the actual difference
 			// in days, do the computation of the KoL
 			// calendar date.
 
-			int daysSinceLastNewYear = ((actualDifferenceInDays % 96) + 96) % 96;
+			int daysSinceLastNewYear = ((actualDifference % 96) + 96) % 96;
 
-			currentMonth = daysSinceLastNewYear / 8;
-			currentDay = (((daysSinceLastNewYear % 8) + 8) % 8) + 1;
+			currentMonth = (daysSinceLastNewYear / 8) + 1;
+			currentDay = (daysSinceLastNewYear % 8) + 1;
 		}
 		catch ( Exception e )
 		{
 		}
 	}
 
+	private static int calculateDifferenceInDays( long timeStart, long timeEnd )
+	{
+		long difference = timeEnd - timeStart;
+		return (int) (difference / 86400000L);
+	}
+
 	public static void main( String [] args )
 	{
 		MoonPhaseDatabase.setMoonPhases( 0, 0 );
+
 		KoLFrame uitest = new CalendarFrame( null );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
