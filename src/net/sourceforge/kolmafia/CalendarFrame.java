@@ -241,12 +241,12 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( "<tr><td align=right><b>Stats</b>:&nbsp;</td><td>" );
 		displayHTML.append( MoonPhaseDatabase.getMoonEffect( phaseStep ) );
 		displayHTML.append( "</td></tr><td align=right><b>Grue</b>:&nbsp;</td><td>" );
-		displayHTML.append( String.valueOf( MoonPhaseDatabase.getGrueEffect( ronaldPhase, grimacePhase ) ) );
+		displayHTML.append( MoonPhaseDatabase.getGrueEffect( ronaldPhase, grimacePhase ) ? "bloodlusty" : "pacifistic" );
 		displayHTML.append( "</td></tr><td align=right><b>Blood</b>:&nbsp;</td><td>" );
-		displayHTML.append( String.valueOf( MoonPhaseDatabase.getBloodEffect( ronaldPhase, grimacePhase ) ) );
-		displayHTML.append( "%</td></tr><td align=right><b>Baio</b>:&nbsp;</td><td>" );
-		displayHTML.append( String.valueOf( MoonPhaseDatabase.getBaioEffect( ronaldPhase, grimacePhase ) ) );
-		displayHTML.append( "%</td></tr></table></center>" );
+		appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBloodEffect( ronaldPhase, grimacePhase ) );
+		displayHTML.append( "</td></tr><td align=right><b>Baio</b>:&nbsp;</td><td>" );
+		appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBaioEffect( ronaldPhase, grimacePhase ) );
+		displayHTML.append( "</td></tr></table></center>" );
 
 		// That completes the table display!  More data
 		// relevant to the current date may follow.
@@ -261,7 +261,23 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		buffer.clearBuffer();
 		buffer.append( displayHTML.toString() );
+	}
 
+	private void appendModifierPercentage( StringBuffer buffer, int percentage )
+	{
+		if ( percentage > 0 )
+		{
+			buffer.append( '+' );
+			buffer.append( percentage );
+			buffer.append( '%' );
+		}
+		else if ( percentage < 0 )
+		{
+			buffer.append( percentage );
+			buffer.append( '%' );
+		}
+		else if ( percentage == 0 )
+			buffer.append( "no effect" );
 	}
 
 	private void calculateCalendar( long timeCalculate )
