@@ -89,7 +89,7 @@ public class ChatRequest extends KoLRequest
 		else
 			actualMessage = "/msg " + contactID + " " + message;
 
-		addFormField( "graf", actualMessage.startsWith( "/msg" ) ? DataUtilities.convertToHTML( actualMessage ) : actualMessage );
+		addFormField( "graf", actualMessage );
 	}
 
 	/**
