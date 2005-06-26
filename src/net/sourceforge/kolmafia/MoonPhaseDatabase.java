@@ -107,15 +107,87 @@ public class MoonPhaseDatabase implements KoLConstants
 	 * Returns the moon effect applicable today, or the amount
 	 * of time until the next moon effect becomes applicable
 	 * if today is not a moon effect day.
-	 *
-	 * @return	The time until the next moon
 	 */
 
 	public static final String getMoonEffect()
-	{	return PHASE_STEP == -1 ? "Could not determine moon phase." : STAT_EFFECT[ PHASE_STEP ];
+	{	return getMoonEffect( PHASE_STEP );
 	}
+
+	/**
+	 * Returns the moon effect applicable at the given phase
+	 * step, or the amount of time until the next moon effect,
+	 * given the phase value.
+	 */
 
 	public static final String getMoonEffect( int phaseStep )
 	{	return phaseStep == -1 || phaseStep >= STAT_EFFECT.length ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
+	}
+
+
+	/**
+	 * Returns whether or not the grue will fight during the
+	 * current moon phase.
+	 */
+
+	public static final boolean getGrueEffect()
+	{	return getGrueEffect( RONALD_PHASE, GRIMACE_PHASE );
+	}
+
+	/**
+	 * Returns whether or not the grue will fight during the
+	 * given moon phases.
+	 */
+
+	public static final boolean getGrueEffect( int ronaldPhase, int grimacePhase )
+	{	return getMoonlight( ronaldPhase, grimacePhase ) < 5;
+	}
+
+	/**
+	 * Returns the effect percentage (as a whole number integer)
+	 * of Blood of the Wereseal for today.
+	 */
+
+	public static final int getBloodEffect()
+	{	return getBloodEffect( RONALD_PHASE, GRIMACE_PHASE );
+	}
+
+	/**
+	 * Returns the effect percentage (as a whole number integer)
+	 * of Blood of the Wereseal for the given moon phase.
+	 */
+
+	public static final int getBloodEffect( int ronaldPhase, int grimacePhase )
+	{	return (getMoonlight( ronaldPhase, grimacePhase ) - 4) * 25;
+	}
+
+	/**
+	 * Returns the effect percentage (as a whole number integer)
+	 * of the Talisman of Baio for today.
+	 */
+
+	public static final int getBaioEffect()
+	{	return getBaioEffect( RONALD_PHASE, GRIMACE_PHASE );
+	}
+
+	/**
+	 * Returns the effect percentage (as a whole number integer)
+	 * of the Talisman of Baio for the given moon phases.
+	 */
+
+	public static final int getBaioEffect( int ronaldPhase, int grimacePhase )
+	{	return getMoonlight( ronaldPhase, grimacePhase ) * 10;
+	}
+
+	/**
+	 * Utility method which determines the moonlight available,
+	 * given the moon phases as stated.
+	 */
+
+	private static final int getMoonlight( int ronaldPhase, int grimacePhase )
+	{
+		int ronaldLight = ronaldPhase > 4 ? 8 - ronaldPhase : ronaldPhase;
+		int grimaceLight = grimacePhase > 4 ? 8 - grimacePhase : grimacePhase;
+
+		return ronaldLight + grimaceLight;
 	}
 }

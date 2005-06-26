@@ -238,9 +238,15 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( ".gif\">&nbsp; (" );
 		displayHTML.append( MoonPhaseDatabase.getPhaseName( grimacePhase ) );
 		displayHTML.append( ")</td></tr>" );
-		displayHTML.append( "<tr><td align=right><b>Subpoints</b>:&nbsp;</td><td>" );
+		displayHTML.append( "<tr><td align=right><b>Stats</b>:&nbsp;</td><td>" );
 		displayHTML.append( MoonPhaseDatabase.getMoonEffect( phaseStep ) );
-		displayHTML.append( "</td></tr></table></center>" );
+		displayHTML.append( "</td></tr><td align=right><b>Grue</b>:&nbsp;</td><td>" );
+		displayHTML.append( String.valueOf( MoonPhaseDatabase.getGrueEffect( ronaldPhase, grimacePhase ) ) );
+		displayHTML.append( "</td></tr><td align=right><b>Blood</b>:&nbsp;</td><td>" );
+		displayHTML.append( String.valueOf( MoonPhaseDatabase.getBloodEffect( ronaldPhase, grimacePhase ) ) );
+		displayHTML.append( "%</td></tr><td align=right><b>Baio</b>:&nbsp;</td><td>" );
+		displayHTML.append( String.valueOf( MoonPhaseDatabase.getBaioEffect( ronaldPhase, grimacePhase ) ) );
+		displayHTML.append( "%</td></tr></table></center>" );
 
 		// That completes the table display!  More data
 		// relevant to the current date may follow.
