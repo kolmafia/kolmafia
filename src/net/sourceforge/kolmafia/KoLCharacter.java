@@ -941,16 +941,20 @@ public class KoLCharacter
 			equipmentLists[i].clear();
 
 		equipmentLists[HAT].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_HAT ) );
-		equipmentLists[HAT].add( getHat() );
+		if ( !equipmentLists[HAT].contains( getHat() ) )
+			equipmentLists[HAT].add( getHat() );
 
 		equipmentLists[WEAPON].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_WEAPON ) );
-		equipmentLists[WEAPON].add( getWeapon() );
+		if ( !equipmentLists[WEAPON].contains( getWeapon() ) )
+			equipmentLists[WEAPON].add( getWeapon() );
 
 		equipmentLists[SHIRT].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_SHIRT ) );
-		equipmentLists[SHIRT].add( getShirt() );
+		if ( !equipmentLists[SHIRT].contains( getShirt() ) )
+			equipmentLists[SHIRT].add( getShirt() );
 
 		equipmentLists[PANTS].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_PANTS ) );
-		equipmentLists[PANTS].add( getPants() );
+		if ( !equipmentLists[PANTS].contains( getPants() ) )
+			equipmentLists[PANTS].add( getPants() );
 
 		equipmentLists[ACCESSORY1].addAll( getFilteredItems( ConsumeItemRequest.EQUIP_ACCESSORY ) );
 		if ( !equipmentLists[ACCESSORY1].contains( getAccessory1() ) )
