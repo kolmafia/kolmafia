@@ -421,11 +421,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 			{
 				itemID = ingredientArray[i].getItemID();
 
-				// Next, calculate the quantity.  This value is
-				// equivalent to the total, plus the modifier,
-				// divided by the multiplier.
+				// Next, calculate the quantity possible for
+				// this ingredient.
 
-				quantity = (concoctions[itemID].total + concoctions[itemID].modifier) / concoctions[itemID].multiplier;
+				quantity = concoctions[itemID].quantity();
+
+				// Finally, reduce number creatable
 				this.creatable = Math.min( this.creatable, quantity - this.initial );
 			}
 
@@ -440,6 +441,34 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// which can be created.
 
 			this.total = this.initial + this.creatable;
+		}
+
+		/**
+		 * Utility method which calculates the quantity creatable for
+		 * an recipe based on the modifier/multiplier of its
+		 * ingredients
+		 */
+
+		private int quantity()
+		{
+			// This value is equivalent to the total, plus
+			// the modifier, divided by the multiplier.
+			int quantity = (this.total + this.modifier) / this.multiplier;
+
+			for ( int i = 0; i < ingredientArray.length; ++i )
+			{
+				int itemID = ingredientArray[i].getItemID();
+
+				// Next, calculate the quantity possible for
+				// this ingredient.
+
+				int possible = concoctions[itemID].quantity( );
+
+				// Finally, reduce number creatable
+				quantity = Math.min(quantity, possible );
+			}
+
+			return quantity;
 		}
 
 		/**
