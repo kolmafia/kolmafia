@@ -143,6 +143,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 			concoctions[i].resetCalculations();
 
+		// Determine if user wants ascension recipes
+
+		INCLUDE_ASCENSION = client.getSettings().getProperty( "includeAscensionRecipes" ).equals( "true" );
+
+		// Assume that all creation methods are available.
+
+		for ( int i = 0; i < PERMIT_METHOD.length; ++i )
+			PERMIT_METHOD[i] = true;
+
 		// Next, do calculations on all mixing methods which cannot
 		// be created.
 
@@ -170,11 +179,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// created through the use of meat paste.  This allows for box
 		// servant creation to be calculated in advance.
 
-		cachePermitted( client );
-
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.COMBINE )
 				concoctions[i].calculate( client, availableIngredients );
+
+		// Now that we have calculated how many box servants are
+		// available, cache permitted mixing methods.
+
+		cachePermitted( client );
 
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
@@ -228,24 +240,23 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static void cachePermitted( KoLmafia client )
 	{
-		INCLUDE_ASCENSION =	client.getSettings().getProperty( "includeAscensionRecipes" ).equals( "true" );
-
-		for ( int i = 0; i < PERMIT_METHOD.length; ++i )
-			PERMIT_METHOD[i] = true;
-
 		KoLCharacter data = client.getCharacterData();
 
 		PERMIT_METHOD[ ItemCreationRequest.NOCREATE ] = false;
+		PERMIT_METHOD[ ItemCreationRequest.COMBINE ] = true;
 		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, client );
 		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, client );
+		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = data.getInventory().contains( HAMMER );
 		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = isAvailable( CHEF, client ) && data.canSummonReagent();
 		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = isAvailable( CHEF, client ) && data.canSummonNoodles();
 		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = isAvailable( BARTENDER, client ) && data.canSummonShore();
-		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = data.getInventory().contains( HAMMER );
+		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = data.getInventory().contains( PLIERS );
+		PERMIT_METHOD[ ItemCreationRequest.STARCHART ] = true;
+		PERMIT_METHOD[ ItemCreationRequest.PIXEL ] = true;
+		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = data.getInventory().contains( ROLLING_PIN );
+		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = true;
 		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = data.getInventory().contains( HAMMER ) && data.canSmithWeapons();
 		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = data.getInventory().contains( HAMMER ) && data.canSmithArmor();
-		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = data.getInventory().contains( PLIERS );
-		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = data.getInventory().contains( ROLLING_PIN );
 	}
 
 	private static boolean isAvailable( int servantID, KoLmafia client )

@@ -522,10 +522,12 @@ public class ItemManageFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
-				// If the number placed inside of the count list was not
-				// an actual integer value, pretend nothing happened.
-				// Using exceptions for flow control is bad style, but
-				// this will be fixed once we add functionality.
+				// If the number placed inside of the count
+				// list was not an actual integer value,
+				// pretend nothing happened.  Using exceptions
+				// for flow control is bad style, but this will
+				// be fixed once we add functionality.
+                                client.updateDisplay( ENABLED_STATE, "" );
 			}
 		}
 	}
