@@ -288,7 +288,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	}
 
 	protected Object [] getAttachedItems()
-	{	return attachmentList.getSelectedValues();
+	{	return attachments.toArray();
 	}
 
 	protected int getAttachedMeat()
