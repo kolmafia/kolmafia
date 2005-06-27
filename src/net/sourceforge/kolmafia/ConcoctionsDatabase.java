@@ -246,7 +246,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.COMBINE ] = true;
 		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, client );
 		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, client );
-		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = data.getInventory().contains( HAMMER );
+		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = data.getInventory().contains( HAMMER ) || data.inMuscleSign();
 		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = isAvailable( CHEF, client ) && data.canSummonReagent();
 		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = isAvailable( CHEF, client ) && data.canSummonNoodles();
 		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = isAvailable( BARTENDER, client ) && data.canSummonShore();
