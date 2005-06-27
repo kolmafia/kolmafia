@@ -267,8 +267,8 @@ vesper	3	0	dry vodka martini	skewered jumbo olive
 
 asbestos crossbow	13	0	asbestos crossbow string	asbestos meat stack
 asbestos crossbow string	13	0	crossbow string	asbestos ore
-asbestos helmet turtle	14	0	helmet turtle	asbestos meat stack
-asbestos meat stack	4	0	asbestos ore	dense meat stack
+asbestos helmet turtle	14	0	meaty helmet turtle	asbestos ore
+asbestos meat stack	13	0	asbestos ore	dense meat stack
 asbestos staff	13	0	asbestos stick	asbestos meat stack
 asbestos stick	13	0	big stick	asbestos ore
 asbestos sword	13	0	asbestos meat stack	asbestos sword hilt
@@ -283,8 +283,8 @@ basic meat staff	4	0	big stick	meat stack
 basic meat sword	4	0	sword hilt	meat stack
 chrome crossbow	13	0	chrome crossbow string	chrome meat stack
 chrome crossbow string	13	0	chrome ore	crossbow string
-chrome helmet turtle	14	0	chrome meat stack	helmet turtle
-chrome meat stack	4	0	dense meat stack	chrome ore
+chrome helmet turtle	14	0	chrome ore	meaty helmet turtle
+chrome meat stack	13	0	dense meat stack	chrome ore
 chrome staff	13	0	chrome stick	chrome meat stack
 chrome stick	13	0	big stick	chrome ore
 chrome sword	13	0	chrome sword hilt	chrome meat stack
@@ -308,13 +308,14 @@ Kentucky-fried meat staff	4	0	secret blend of herbs and spices	basic meat staff
 Kentucky-fried meat sword	4	0	secret blend of herbs and spices	basic meat sword
 linoleum crossbow	13	0	linoleum meat stack	linoleum crossbow string
 linoleum crossbow string	13	0	linoleum ore	crossbow string
-linoleum helmet turtle	14	0	helmet turtle	linoleum meat stack
-linoleum meat stack	4	0	dense meat stack	linoleum ore
+linoleum helmet turtle	14	0	meaty helmet turtle	linoleum ore
+linoleum meat stack	13	0	dense meat stack	linoleum ore
 linoleum staff	13	0	linoleum meat stack	linoleum stick
 linoleum stick	13	0	big stick	linoleum ore
 linoleum sword	13	0	linoleum meat stack	linoleum sword hilt
 linoleum sword hilt	13	0	linoleum ore	sword hilt
 meatloaf helmet	4	0	basic meat helmet	ketchup
+meaty helmet turtle	14	0	helmet turtle	dense meat stack
 penguin shorts	14	0	penguin skin	pants kit
 penguin skin buckler	14	0	penguin skin	buckler buckle
 penguin whip	13	0	penguin skin	whip kit
