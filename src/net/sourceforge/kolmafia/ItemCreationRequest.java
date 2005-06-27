@@ -111,8 +111,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( client != null )
 			addFormField( "pwd", client.getPasswordHash() );
 
-		if ( mixingMethod != SUBCLASS )
+		if ( mixingMethod != SUBCLASS && client != null && !(client.getCharacterData().inMuscleSign() && mixingMethod == SMITH) )
 			addFormField( "action", "combine" );
+		else if ( client != null && client.getCharacterData().inMuscleSign() && mixingMethod == SMITH )
+			addFormField( "action", "smith" );
 	}
 
 	/**
@@ -141,7 +143,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		switch ( mixingMethod )
 		{
 			case COMBINE:
-				return new ItemCreationRequest( client, "combine.php", itemID, mixingMethod, quantityNeeded );
+				return new ItemCreationRequest( client, (client != null && client.getCharacterData().inMuscleSign()) ?
+					"knoll.php" : "combine.php", itemID, mixingMethod, quantityNeeded );
 
 			case MIX:
 			case MIX_SPECIAL:
@@ -153,6 +156,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return new ItemCreationRequest( client, "cook.php", itemID, mixingMethod, quantityNeeded );
 
 			case SMITH:
+				return new ItemCreationRequest( client, (client != null && client.getCharacterData().inMuscleSign()) ?
+					"knoll.php" : "smith.php", itemID, mixingMethod, quantityNeeded );
+
 			case SMITH_ARMOR:
 			case SMITH_WEAPON:
 				return new ItemCreationRequest( client, "smith.php", itemID, mixingMethod, quantityNeeded );
@@ -243,7 +249,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If this is a combining request, you will need
 		// to make meat paste as well.
 
-		if ( mixingMethod == COMBINE )
+		if ( mixingMethod == COMBINE && !client.getCharacterData().inMuscleSign() )
 			makeIngredient( new AdventureResult( MEAT_PASTE, quantityNeeded ), 1 );
 	}
 
@@ -338,7 +344,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		for ( int i = 0; i < ingredients.length; ++i )
 			client.processResult( new AdventureResult( ingredients[i].getItemID(), 0 - createdQuantity ) );
 
-		if ( mixingMethod == COMBINE )
+		if ( mixingMethod == COMBINE && !client.getCharacterData().inMuscleSign() )
 			client.processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
 
 		// Now, check to see if your box-servant was overworked and
@@ -350,6 +356,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		switch ( mixingMethod )
 		{
 			case SMITH:
+				if ( !client.getCharacterData().inMuscleSign() )
+					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
+				break;
+
 			case SMITH_ARMOR:
 			case SMITH_WEAPON:
 				client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
