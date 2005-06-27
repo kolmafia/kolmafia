@@ -61,6 +61,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
+	private static final AdventureResult CAR = new AdventureResult( 134, 1 );
 	private static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
 	private static final AdventureResult PLIERS = new AdventureResult( 709, 1 );
 	private static final AdventureResult ROLLING_PIN = new AdventureResult( 873, 1 );
@@ -147,10 +148,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		INCLUDE_ASCENSION = client.getSettings().getProperty( "includeAscensionRecipes" ).equals( "true" );
 
-		// Assume that all creation methods are available.
+		// Make initial assessment of availability of mixing methods.
+		// Do this here since some COMBINE recipes have ingredients
+		// made using TINKER recipes.
 
-		for ( int i = 0; i < PERMIT_METHOD.length; ++i )
-			PERMIT_METHOD[i] = true;
+		cachePermitted( client );
 
 		// Next, do calculations on all mixing methods which cannot
 		// be created.
@@ -246,7 +248,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.COMBINE ] = true;
 		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, client );
 		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, client );
-		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = data.getInventory().contains( HAMMER ) || data.inMuscleSign();
+		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = data.inMuscleSign() || data.getInventory().contains( HAMMER );
 		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = isAvailable( CHEF, client ) && data.canSummonReagent();
 		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = isAvailable( CHEF, client ) && data.canSummonNoodles();
 		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = isAvailable( BARTENDER, client ) && data.canSummonShore();
@@ -254,7 +256,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.STARCHART ] = true;
 		PERMIT_METHOD[ ItemCreationRequest.PIXEL ] = true;
 		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = data.getInventory().contains( ROLLING_PIN );
-		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = data.inMoxieSign();
+		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = data.inMoxieSign() && data.getInventory().contains( CAR );
 		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = data.getInventory().contains( HAMMER ) && data.canSmithWeapons();
 		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = data.getInventory().contains( HAMMER ) && data.canSmithArmor();
 	}
@@ -352,9 +354,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		public boolean isBadRecipe()
 		{
-			if ( concoction.getName() == null )
-				return true;
-
 			for ( int i = 0; i < ingredientArray.length; ++i )
 				if ( ingredientArray[i].getItemID() == -1 )
 					return true;
