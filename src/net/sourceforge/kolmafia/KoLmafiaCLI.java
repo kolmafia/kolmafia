@@ -894,9 +894,9 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( option.equals( "print" ) )
+		if ( option.equals( "list" ) || option.equals( "print" ) )
 		{
-			printList( conditions, DISPLAY_STREAM );
+			printList( scriptRequestor.conditions, DISPLAY_STREAM );
 			return;
 		}
 
@@ -904,7 +904,10 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			AdventureResult condition = getFirstMatchingItem( parameters.substring( option.length() ).trim(), USAGE );
 			if ( condition != null )
+			{
 				AdventureResult.addResultToList( scriptRequestor.conditions, condition );
+				updateDisplay( ENABLED_STATE, "Condition added: " + condition.toString() );
+			}
 
 			return;
 		}
@@ -1742,7 +1745,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
-		super.updateDisplay( state, message );
+		if ( this instanceof KoLmafiaCLI )
+			super.updateDisplay( state, message );
 
 		outputStream.println( message );
 		mirrorStream.println( message );
@@ -1859,7 +1863,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		while ( printingIterator.hasNext() )
 		{
-			currentPrintedItem = (String) printingIterator.next().toString();
+			currentPrintedItem = printingIterator.next().toString();
 
 			if ( outputStream instanceof NullStream )
 				updateDisplay( ENABLED_STATE, currentPrintedItem );
