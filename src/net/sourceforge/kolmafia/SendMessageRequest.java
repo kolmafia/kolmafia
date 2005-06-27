@@ -84,6 +84,9 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		this.meatAttachment = meatAttachment;
 		this.attachments = attachments;
+
+		this.source = client.getInventory();
+		this.destination = new ArrayList();
 	}
 
 	protected abstract int getCapacity();
