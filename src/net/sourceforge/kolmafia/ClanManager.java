@@ -140,7 +140,6 @@ public class ClanManager implements KoLConstants
 			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + "_" + sdf.format( new Date() ) +
 				File.separator;
 
-			(new RankListRequest( client )).run();
 			client.updateDisplay( ENABLED_STATE, "Clan data retrieved." );
 		}
 	}
