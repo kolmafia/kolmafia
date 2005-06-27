@@ -478,12 +478,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		ItemCreationRequest creationRequest = ItemCreationRequest.getInstance( client, servant );
 
-		if ( !ConcoctionsDatabase.getConcoctions().contains( creationRequest ) )
-		{
-			updateDisplay( ERROR_STATE, "Could not auto-repair " + servant.getName() + "." );
-			return false;
-		}
-
 		// If it turns out that you can create the servant,
 		// it is available in one of three locations - already
 		// in the inventory, inside of the closet, or ready
@@ -497,9 +491,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				AdventureResult [] servantArray = { servant };
 				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servantArray )).run();
 			}
-			else
+			else if ( ConcoctionsDatabase.getConcoctions().contains( creationRequest ) )
 			{
 				creationRequest.run();
+			}
+			else
+			{
+				updateDisplay( ERROR_STATE, "Could not auto-repair " + servant.getName() + "." );
+				return false;
 			}
 		}
 
