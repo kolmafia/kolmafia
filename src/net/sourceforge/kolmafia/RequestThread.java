@@ -115,18 +115,38 @@ public class RequestThread extends Thread implements KoLConstants
 	{
 		for ( int i = 0; i < requests.length; ++i )
 		{
-			if ( requests[i] instanceof KoLRequest && !((KoLRequest)requests[i]).client.inLoginState() )
+			// Chat requests are only run once, no matter what
+			// the repeat count is.  This is also to avoid the
+			// message prompts you get otherwise.
+
+			if ( requests[i] instanceof ChatRequest )
+				requests[i].run();
+
+			// Standard KoL requests are handled through the
+			// client.makeRequest() method.
+
+			else if ( requests[i] instanceof KoLRequest && !((KoLRequest)requests[i]).client.inLoginState() )
 				((KoLRequest)requests[i]).client.makeRequest( requests[i], repeatCount[i] );
+
+			// Standard KoL adventures are handled through the
+			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLAdventure )
 				((KoLAdventure)requests[i]).client.makeRequest( requests[i], repeatCount[i] );
+
+			// All other runnables are run, as expected, with
+			// no updates to the client.
 
 			else
 				for ( int j = 0; j < repeatCount[i]; ++j )
 					requests[i].run();
 		}
 
-		if ( requests.length > 0 && requests[0] instanceof KoLRequest )
-			((KoLRequest)requests[0]).client.updateDisplay( ENABLED_STATE, "Requests complete." );
+		// If it's not a chat request, but it's a KoL request of
+		// some sort, be sure to update saying "Requests complete."
+
+		if ( requests.length > 0 && (requests[0] instanceof KoLRequest || requests[0] instanceof KoLAdventure) &&
+			!(requests[0] instanceof ChatRequest) )
+				((KoLRequest)requests[0]).client.updateDisplay( ENABLED_STATE, "Requests complete." );
 	}
 }
