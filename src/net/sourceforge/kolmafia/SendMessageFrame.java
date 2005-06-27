@@ -79,9 +79,10 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	protected JList attachmentList;
 	protected LockableListModel inventory;
-	protected LockableListModel attachments;
+	protected AttachmentFrame attachFrame;
 
 	protected JTextField attachedMeat;
+	protected LockableListModel attachments;
 
 	protected SendMessageFrame( KoLmafia client, String title )
 	{
@@ -293,6 +294,25 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	protected int getAttachedMeat()
 	{	return getValue( attachedMeat );
+	}
+
+	public void dispose()
+	{
+		super.dispose();
+
+		Object [] frames = existingFrames.toArray();
+
+		for ( int i = frames.length - 1; i >= 0; --i )
+		{
+			if ( frames[i] == this )
+				existingFrames.remove(i);
+
+			else if ( frames[i] instanceof AttachmentFrame && ((AttachmentFrame)frames[i]).attachments == attachments )
+			{
+				((AttachmentFrame)frames[i]).dispose();
+				existingFrames.remove(i);
+			}
+		}
 	}
 
 	/**
