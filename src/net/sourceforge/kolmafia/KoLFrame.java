@@ -1074,8 +1074,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				SwingUtilities.invokeLater( new CreateFrameRunnable( location.startsWith( "sendmessage.php" ) ?
 					GreenMessageFrame.class : GiftMessageFrame.class, parameters ) );
 			}
-			else if ( location.startsWith( "cook.php" ) || location.startsWith( "cocktail.php" ) || location.startsWith( "combine.php" ) ||
-				location.startsWith( "town_wrong.php?place=crackpot" ) || location.startsWith( "inventory.php" ) || location.startsWith( "closet.php" ) )
+			else if ( location.startsWith( "closet.php" ) )
 			{
 				// In general, the item manager interface for KoLmafia
 				// should be used for handling of items.  This is purely
