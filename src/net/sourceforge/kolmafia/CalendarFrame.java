@@ -287,7 +287,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * the straightforward algorithm has no errors.
 	 */
 
-	private final void calculatePhases( Date time )
+	private static final void calculatePhases( Date time )
 	{
 		try
 		{
@@ -309,7 +309,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * on the machine.
 	 */
 
-	private final String getCalendarDay()
+	private static final String getCalendarDay()
 	{	return MONTH_NAMES[ currentMonth ] + " " + currentDay;
 	}
 
@@ -319,7 +319,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * recalculation attempts.
 	 */
 
-	private void updateSummaryPage()
+	private static void updateSummaryPage()
 	{
 		StringBuffer displayHTML = new StringBuffer();
 
@@ -394,7 +394,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * percentage is zero.
 	 */
 
-	private void appendModifierPercentage( StringBuffer buffer, int percentage )
+	private static void appendModifierPercentage( StringBuffer buffer, int percentage )
 	{
 		if ( percentage > 0 )
 		{
@@ -417,7 +417,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * of milliseconds since January 1, 1970.
 	 */
 
-	private void calculateCalendar( long timeCalculate )
+	private static void calculateCalendar( long timeCalculate )
 	{
 		try
 		{
@@ -434,13 +434,13 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 			int estimatedMoonPhase = ((estimatedDifference % 16) + 16) % 16;
 
-			if ( this.phaseError == Integer.MAX_VALUE )
+			if ( phaseError == Integer.MAX_VALUE )
 			{
-				this.phaseError = (estimatedMoonPhase == 15 && phaseStep == 0) ? -1 :
+				phaseError = (estimatedMoonPhase == 15 && phaseStep == 0) ? -1 :
 					(estimatedMoonPhase == 0 && phaseStep == 15) ? 1 : phaseStep - estimatedMoonPhase;
 			}
 
-			int actualDifference = estimatedDifference + this.phaseError;
+			int actualDifference = estimatedDifference + phaseError;
 
 			// Now that you have the actual difference
 			// in days, do the computation of the KoL
@@ -477,12 +477,14 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	public static class OracleTable extends JTable
 	{
 		private CalendarTableModel model;
-		private DefaultTableCellRenderer todayRenderer, holidayRenderer, statdayRenderer;
+		private DefaultTableCellRenderer normalRenderer, todayRenderer, holidayRenderer, statdayRenderer;
 
 		public OracleTable( CalendarTableModel model )
 		{
 			super( model );
 			this.model = model;
+
+			normalRenderer = new DefaultTableCellRenderer();
 
 			todayRenderer = new DefaultTableCellRenderer();
 			todayRenderer.setForeground( new Color( 255, 255, 255 ) );
@@ -493,8 +495,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			holidayRenderer.setBackground( new Color( 192, 0, 0 ) );
 
 			statdayRenderer = new DefaultTableCellRenderer();
-			statdayRenderer.setForeground( new Color( 255, 255, 255 ) );
-			statdayRenderer.setBackground( new Color( 0, 192, 0 ) );
+			statdayRenderer.setForeground( new Color( 0, 0, 0 ) );
+			statdayRenderer.setBackground( new Color( 192, 192, 0 ) );
 		}
 
 		public TableCellRenderer getCellRenderer( int row, int column )
@@ -526,13 +528,14 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			{
 			}
 
-			return super.getCellRenderer(row, column);
+			return normalRenderer;
 		}
 	}
 
 	public static void main( String [] args )
 	{
-		MoonPhaseDatabase.setMoonPhases( 0, 0 );
+		calculatePhases( new Date() );
+		MoonPhaseDatabase.setMoonPhases( ronaldPhase, grimacePhase );
 
 		KoLFrame uitest = new CalendarFrame( null );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
