@@ -93,7 +93,10 @@ public class ClanManager implements KoLConstants
 	}
 
 	public LockableListModel getRankList()
-	{	return rankList;
+	{
+		if ( rankList.isEmpty() )
+			(new RankListRequest( client )).run();
+		return rankList;
 	}
 
 	private class RankListRequest extends KoLRequest
