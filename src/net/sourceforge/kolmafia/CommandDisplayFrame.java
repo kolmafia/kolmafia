@@ -233,6 +233,7 @@ public class CommandDisplayFrame extends KoLFrame
 						}
 
 						commandBuffer.append( "<br>" );
+						client.setEnabled( true );
 					}
 					catch ( Exception e )
 					{

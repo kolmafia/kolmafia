@@ -159,6 +159,10 @@ public abstract class KoLmafia implements KoLConstants
 		seenPlayerNames = new TreeMap();
 	}
 
+	public void setEnabled( boolean isEnabled )
+	{
+	}
+
 	/**
 	 * Updates the currently active display in the <code>KoLmafia</code>
 	 * session.

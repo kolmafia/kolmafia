@@ -113,6 +113,8 @@ public class RequestThread extends Thread implements KoLConstants
 
 	public void run()
 	{
+		KoLmafia client = null;
+
 		for ( int i = 0; i < requests.length; ++i )
 		{
 			// Chat requests are only run once, no matter what
@@ -126,13 +128,19 @@ public class RequestThread extends Thread implements KoLConstants
 			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLRequest && !((KoLRequest)requests[i]).client.inLoginState() )
-				((KoLRequest)requests[i]).client.makeRequest( requests[i], repeatCount[i] );
+			{
+				client = ((KoLRequest)requests[i]).client;
+				client.makeRequest( requests[i], repeatCount[i] );
+			}
 
 			// Standard KoL adventures are handled through the
 			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLAdventure )
-				((KoLAdventure)requests[i]).client.makeRequest( requests[i], repeatCount[i] );
+			{
+				client = ((KoLAdventure)requests[i]).client;
+				client.makeRequest( requests[i], repeatCount[i] );
+			}
 
 			// All other runnables are run, as expected, with
 			// no updates to the client.
@@ -141,5 +149,8 @@ public class RequestThread extends Thread implements KoLConstants
 				for ( int j = 0; j < repeatCount[i]; ++j )
 					requests[i].run();
 		}
+
+		if ( client != null )
+			client.setEnabled( true );
 	}
 }

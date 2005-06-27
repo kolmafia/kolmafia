@@ -84,6 +84,12 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 	}
 
+	public void setEnabled( boolean isEnabled )
+	{
+		if ( displayer != null && displayer.getCreation() != null )
+			((KoLFrame)displayer.getCreation()).setEnabled( isEnabled );
+	}
+
 	public void requestFocus()
 	{
 		if ( displayer != null && displayer.getCreation() != null )
