@@ -754,16 +754,12 @@ public abstract class KoLmafia implements KoLConstants
 		if ( (double) characterData.getCurrentHP() <= autoRecover )
 		{
 			permitContinue = true;
-			updateDisplay( DISABLED_STATE, "Executing HP auto-recovery script..." );
 			try
 			{
-				(new KoLmafiaCLI( this, settings.getProperty( "hpRecoveryScript" ) )).listenForCommands();
-
-				if ( permitContinue )
+				while ( permitContinue && characterData.getCurrentHP() < autoRecover )
 				{
-					permitContinue = characterData.getCurrentHP() >= autoRecover;
-					if ( !permitContinue )
-						updateDisplay( ERROR_STATE, "Insufficient HP to continue" );
+					updateDisplay( DISABLED_STATE, "Executing HP auto-recovery script..." );
+					(new KoLmafiaCLI( this, settings.getProperty( "hpRecoveryScript" ) )).listenForCommands();
 				}
 			}
 			catch ( Exception e )
@@ -793,16 +789,12 @@ public abstract class KoLmafia implements KoLConstants
 		if ( (double) characterData.getCurrentMP() <= autoRecover )
 		{
 			permitContinue = true;
-			updateDisplay( DISABLED_STATE, "Executing MP auto-recovery script..." );
 			try
 			{
-				(new KoLmafiaCLI( this, settings.getProperty( "mpRecoveryScript" ) )).listenForCommands();
-
-				if ( permitContinue )
+				while ( permitContinue && characterData.getCurrentMP() < autoRecover )
 				{
-					permitContinue = characterData.getCurrentMP() >= autoRecover;
-					if ( !permitContinue )
-						updateDisplay( ERROR_STATE, "Insufficient MP to continue" );
+					updateDisplay( DISABLED_STATE, "Executing MP auto-recovery script..." );
+					(new KoLmafiaCLI( this, settings.getProperty( "mpRecoveryScript" ) )).listenForCommands();
 				}
 			}
 			catch ( Exception e )
