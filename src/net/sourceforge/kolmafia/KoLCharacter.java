@@ -218,12 +218,10 @@ public class KoLCharacter
 
 	private SortedListModel familiars;
 	private FamiliarData currentFamiliar;
-
-        private String advancement;
 	private List listenerList;
 
-	private String sign;
-	private int signStat;
+	private String ascensionSign;
+	private int ascensionSignType;
 	public static final int NONE = 0;
 	public static final int MUSCLE = 1;
 	public static final int MYSTICALITY = 2;
@@ -266,12 +264,10 @@ public class KoLCharacter
 		this.hasChef = false;
 		this.hasBartender = false;
 		this.familiars = new SortedListModel( FamiliarData.class );
-
-		this.advancement = "none";
 		this.listenerList = new ArrayList();
 
-		this.sign = "None";
-		this.signStat = NONE;
+		this.ascensionSign = "None";
+		this.ascensionSignType = NONE;
 
 		// Initialize the equipment lists inside
 		// of the character data
@@ -1090,7 +1086,7 @@ public class KoLCharacter
 	 */
 
 	public String getSign()
-	{	return sign;
+	{	return ascensionSign;
 	}
 
 	/**
@@ -1099,35 +1095,34 @@ public class KoLCharacter
 	 */
 
 	public int getSignStat()
-	{	return signStat;
+	{	return ascensionSignType;
 	}
 
 	/**
 	 * Accessor method to set a character's zodiac sign
-	 * @param	sign	the new sign
+	 * @param	ascensionSign	the new sign
 	 */
 
-	public void setSign( String sign )
+	public void setSign( String ascensionSign )
 	{
-		if ( sign.startsWith("The ") )
-		     sign = sign.substring(4);
+		if ( ascensionSign.startsWith("The ") )
+		     ascensionSign = ascensionSign.substring(4);
 
-		this.sign = sign;
+		this.ascensionSign = ascensionSign;
 
-		if (sign.equals("Wallaby") || sign.equals("Mongoose") || sign.equals("Vole"))
-			signStat = MUSCLE;
-		else if (sign.equals("Platypus") || sign.equals("Opossum") || sign.equals("Marmot"))
-			signStat = MYSTICALITY;
-		else if (sign.equals("Wombat") || sign.equals("Blender") || sign.equals("Packrat"))
-			signStat = MOXIE;
+		if (ascensionSign.equals("Wallaby") || ascensionSign.equals("Mongoose") || ascensionSign.equals("Vole"))
+			ascensionSignType = MUSCLE;
+		else if (ascensionSign.equals("Platypus") || ascensionSign.equals("Opossum") || ascensionSign.equals("Marmot"))
+			ascensionSignType = MYSTICALITY;
+		else if (ascensionSign.equals("Wombat") || ascensionSign.equals("Blender") || ascensionSign.equals("Packrat"))
+			ascensionSignType = MOXIE;
 		else
-			signStat = NONE;
+			ascensionSignType = NONE;
 	}
 
 	/**
-	 * Accessor method which indicates whether the character is in a Muscle
-	 * sign
-	 * @return	<code>true</code> if the character is in a Muscle sign
+	 * Accessor method which indicates whether the character is in a
+	 * Muscle sign
 	 *
 	 * KoLmafia could/should use this to:
 	 *
@@ -1137,16 +1132,17 @@ public class KoLCharacter
 	 * - Train Muscle in The Gym
 	 * - Smith non-advanced things using Innabox (no hammer/adventure)
 	 * - Combine anything using The Plunger (no meat paste)
+	 *
+	 * @return	<code>true</code> if the character is in a Muscle sign
 	 */
 
 	public boolean inMuscleSign()
-	{	return (signStat == MUSCLE);
+	{	return (ascensionSignType == MUSCLE);
 	}
 
 	/**
 	 * Accessor method which indicates whether the character is in a
 	 * Mysticality sign
-	 * @return	<code>true</code> if the character is in a Mysticality sign
 	 *
 	 * KoLmafia could/should use this to:
 	 *
@@ -1154,26 +1150,29 @@ public class KoLCharacter
 	 * - Allow adventuring in Camp Logging Camp
 	 * - Provide access to npcstore #j: Little Canadia Jewelers
 	 * - Train Mysticality in The Institute for Canadian Studies
+	 *
+	 * @return	<code>true</code> if the character is in a Mysticality sign
 	 */
 
 	public boolean inMysticalitySign()
-	{	return (signStat == MYSTICALITY);
+	{	return (ascensionSignType == MYSTICALITY);
 	}
 
 	/**
-	 * Accessor method which indicates whether the character is in a Moxie
-	 * sign
-	 * @return	<code>true</code> if the character is in a Moxie sign
+	 * Accessor method which indicates whether the character is in a
+	 * Moxie sign
 	 *
 	 * KoLmafia could/should use this to:
 	 *
 	 * - Allow adventuring in Thugnderdome
 	 * - Provide access to TINKER recipes
 	 * - Train Moxie with Gnirf
+	 *
+	 * @return	<code>true</code> if the character is in a Moxie sign
 	 */
 
 	public boolean inMoxieSign()
-	{	return (signStat == MOXIE);
+	{	return (ascensionSignType == MOXIE);
 	}
 
 	/**
