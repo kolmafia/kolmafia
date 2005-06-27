@@ -141,12 +141,5 @@ public class RequestThread extends Thread implements KoLConstants
 				for ( int j = 0; j < repeatCount[i]; ++j )
 					requests[i].run();
 		}
-
-		// If it's not a chat request, but it's a KoL request of
-		// some sort, be sure to update saying "Requests complete."
-
-		if ( requests.length > 0 && (requests[0] instanceof KoLRequest || requests[0] instanceof KoLAdventure) &&
-			!(requests[0] instanceof ChatRequest) )
-				((KoLRequest)requests[0]).client.updateDisplay( ENABLED_STATE, "Requests complete." );
 	}
 }
