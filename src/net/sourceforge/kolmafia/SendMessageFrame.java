@@ -303,16 +303,11 @@ public abstract class SendMessageFrame extends KoLFrame
 		Object [] frames = existingFrames.toArray();
 
 		for ( int i = frames.length - 1; i >= 0; --i )
-		{
-			if ( frames[i] == this )
-				existingFrames.remove(i);
-
-			else if ( frames[i] instanceof AttachmentFrame && ((AttachmentFrame)frames[i]).attachments == attachments )
+			if ( frames[i] instanceof AttachmentFrame && ((AttachmentFrame)frames[i]).attachments == attachments )
 			{
 				((AttachmentFrame)frames[i]).dispose();
 				existingFrames.remove(i);
 			}
-		}
 	}
 
 	/**

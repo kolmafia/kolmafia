@@ -988,7 +988,6 @@ public class AdventureFrame extends KoLFrame
 				client.getSettings().setProperty( "reloadFrames", framesToReload.toString() );
 				client.getSettings().saveSettings();
 
-				existingFrames.clear();
 				client.deinitialize();
 
 				(new RequestThread( new LogoutRequest( client ) )).start();

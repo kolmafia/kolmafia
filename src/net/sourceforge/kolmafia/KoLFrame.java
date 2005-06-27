@@ -151,6 +151,17 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			existingFrames.add( this );
 	}
 
+	public void dispose()
+	{
+		super.dispose();
+
+		Object [] frames = existingFrames.toArray();
+
+		for ( int i = frames.length - 1; i >= 0; --i )
+			if ( frames[i] == this )
+				existingFrames.remove(i);
+	}
+
 	public String getFrameName()
 	{	return frameName;
 	}
