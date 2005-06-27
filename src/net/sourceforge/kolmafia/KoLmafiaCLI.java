@@ -67,6 +67,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLmafiaCLI extends KoLmafia
 {
+	private static final NullStream DISPLAY_STREAM = new NullStream();
+
 	private static final int PURCHASE = 0;
 	private static final int USAGE = 1;
 	private static final int CREATION = 2;
@@ -169,9 +171,9 @@ public class KoLmafiaCLI extends KoLmafia
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
 		this.scriptRequestor.resetContinueState();
 
-		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : new NullStream();
+		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : DISPLAY_STREAM;
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
-		mirrorStream = new NullStream();
+		mirrorStream = DISPLAY_STREAM;
 	}
 
 	/**
@@ -365,6 +367,26 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Preconditions kickass, so they're handled right
+		// after the wait command.  (Right)
+
+		if ( command.equals( "conditions" ) )
+		{
+			executeConditionsCommand( parameters );
+			return;
+		}
+
+		// The graphical CLI window command is handled right
+		// after, because it's convenient.
+
+		if ( command.equals( "window" ) )
+		{
+			Object [] client = new Object[1];
+			client[0] = scriptRequestor;
+
+			(new CreateFrameRunnable( CommandDisplayFrame.class, client )).run();
+		}
+
 		// Next, handle any requests to login or relogin.
 		// This will be done by calling a utility method.
 
@@ -521,7 +543,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.length() == 0 )
 			{
 				this.mirrorStream.close();
-				this.mirrorStream = new NullStream();
+				this.mirrorStream = DISPLAY_STREAM;
 			}
 			else
 			{
@@ -804,7 +826,7 @@ public class KoLmafiaCLI extends KoLmafia
 			List results = new ArrayList();
 			(new SearchMallRequest( scriptRequestor, parameters, results )).run();
 			updateDisplay( ENABLED_STATE, "" );
-			printList( results, outputStream );
+			printList( results, DISPLAY_STREAM );
 			return;
 		}
 
@@ -853,6 +875,39 @@ public class KoLmafiaCLI extends KoLmafia
 		scriptRequestor.updateDisplay( ERROR_STATE, "Unknown command: " + command );
 		if ( scriptRequestor != this )
 			scriptRequestor.cancelRequest();
+	}
+
+	/**
+	 * A special module used to handle conditions requests.
+	 * This determines what the user is planning to do with
+	 * the condition, and then parses the condition to be
+	 * added, and then adds it to the conditions list.
+	 */
+
+	private void executeConditionsCommand( String parameters )
+	{
+		String option = parameters.split( " " )[0];
+
+		if ( option.equals( "clear" ) )
+		{
+			scriptRequestor.conditions.clear();
+			return;
+		}
+
+		if ( option.equals( "print" ) )
+		{
+			printList( conditions, DISPLAY_STREAM );
+			return;
+		}
+
+		if ( option.equals( "add" ) )
+		{
+			AdventureResult condition = getFirstMatchingItem( parameters.substring( option.length() ).trim(), USAGE );
+			if ( condition != null )
+				AdventureResult.addResultToList( scriptRequestor.conditions, condition );
+
+			return;
+		}
 	}
 
 	/**
@@ -1061,7 +1116,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 		else
-			desiredOutputStream = this.outputStream;
+			desiredOutputStream = DISPLAY_STREAM;
 
 		executePrintCommand( parameterList[0].toLowerCase(), desiredOutputStream );
 
@@ -1687,6 +1742,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
+		super.updateDisplay( state, message );
+
 		outputStream.println( message );
 		mirrorStream.println( message );
 		scriptRequestor.getLogStream().println( message );
@@ -1767,7 +1824,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( previousCommand.indexOf( " " ) == -1 )
 		{
-			printList( hunterItems, outputStream );
+			printList( hunterItems, DISPLAY_STREAM );
 			return;
 		}
 

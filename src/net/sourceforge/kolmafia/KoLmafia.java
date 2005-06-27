@@ -102,7 +102,7 @@ public abstract class KoLmafia implements KoLConstants
 	private TreeMap seenPlayerIDs;
 	private TreeMap seenPlayerNames;
 
-	protected SortedListModel tally;
+	protected SortedListModel tally, conditions;
 	protected SortedListModel inventory, closet, usableItems, hunterItems, collection, storage;
 
 	/**
@@ -221,11 +221,13 @@ public abstract class KoLmafia implements KoLConstants
 			this.storage = new SortedListModel();
 			this.collection = characterData.getCollection();
 			this.closet = characterData.getCloset();
-			this.tally = new SortedListModel();
 			this.recentEffects = new ArrayList();
 
 			this.inventory.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
 			this.closet.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
+
+			this.tally = new SortedListModel();
+			this.conditions = new SortedListModel();
 
 			resetSessionTally();
 		}
@@ -538,6 +540,18 @@ public abstract class KoLmafia implements KoLConstants
 				tally.set( 2, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
 			else
 				tally.add( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+		}
+
+		// Process the adventure result through the conditions
+		// list, removing it if the condition is satisfied.
+
+		int conditionsIndex = conditions.indexOf( result );
+		if ( conditionsIndex != -1 )
+		{
+			if ( result.getCount( conditions ) <= result.getCount() )
+				conditions.remove( conditionsIndex );
+			else
+				AdventureResult.addResultToList( conditions, result.getNegation() );
 		}
 	}
 
@@ -886,10 +900,17 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			this.permitContinue = true;
 			boolean pulledOver = false;
+
 			int iterationsRemaining = iterations;
+
+			// If you're currently recording commands, be sure to
+			// record the current command to the macro stream.
 
 			if ( !this.disableMacro )
 				macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
+
+			// Handle the special adventures, which include the
+			// hermitage, trapper, bounty hunter, and gym.
 
 			if ( request.toString().equals( "The Hermitage" ) )
 				makeHermitRequest();
@@ -901,6 +922,10 @@ public abstract class KoLmafia implements KoLConstants
 				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
 			else
 			{
+				// Otherwise, you're handling a standard adventure.  Be
+				// sure to check to see if you're allowed to continue
+				// after drunkenness.
+
 				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campsite" ) == -1 && characterData.getInebriety() > 19 )
 				{
 					permitContinue = confirmDrunkenRequest();
@@ -909,14 +934,39 @@ public abstract class KoLmafia implements KoLConstants
 				else if ( characterData.getInebriety() > 19 )
 					pulledOver = true;
 
+				// Finally, check to see if you have the appropriate
+				// amount of hit points and mana points to continue.
+
 				if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
 					autoRecoverHP();
 
 				if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" )) || request instanceof UseSkillRequest )
 					autoRecoverMP();
 
+				// Check to see if there are any end conditions.  If
+				// there are conditions, be sure that they are checked
+				// during the iterations.
+
+				boolean hasConditions = !conditions.isEmpty();
+
+				// Begin the adventuring process, or the request execution
+				// process (whichever is applicable).
+
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
+					// If the conditions existed and have been satisfied,
+					// then you should stop.
+
+					if ( hasConditions && conditions.isEmpty() )
+					{
+						updateDisplay( ENABLED_STATE, "Conditions satisfied." );
+						return;
+					}
+
+					// Otherwise, disable the display and update the user
+					// and the current request number.  Different requests
+					// have different displays.  They are handled here.
+
 					if ( request instanceof KoLAdventure || request instanceof HeroDonationRequest )
 						updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
 
