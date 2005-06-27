@@ -968,7 +968,7 @@ public abstract class KoLmafia implements KoLConstants
 					// have different displays.  They are handled here.
 
 					if ( request instanceof KoLAdventure || request instanceof HeroDonationRequest )
-						updateDisplay( DISABLED_STATE, "Request " + i + " in progress..." );
+						updateDisplay( DISABLED_STATE, "Request " + i + " (" + request.toString() + ") in progress..." );
 
 					else if ( request instanceof ConsumeItemRequest )
 					{
