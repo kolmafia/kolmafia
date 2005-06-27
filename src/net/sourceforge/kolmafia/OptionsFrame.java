@@ -132,8 +132,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class OptionsFrame extends KoLFrame
 {
-	private boolean isInitialized;
-
 	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
 	 * associated with the given client.  When this frame is
@@ -149,11 +147,8 @@ public class OptionsFrame extends KoLFrame
 	{
 		super( "KoLmafia: Preferences", client );
 
-		this.isInitialized = false;
 		setResizable( false );
-
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-
 		JTabbedPane tabs = new JTabbedPane();
 
 		this.client = client;
@@ -200,12 +195,8 @@ public class OptionsFrame extends KoLFrame
 			tabs.addTab( names[i], currentTab );
 		}
 
-
 		getContentPane().add( tabs, BorderLayout.CENTER );
-		addWindowListener( new ReturnFocusAdapter() );
-
 		addMenuBar();
-		this.isInitialized = true;
 	}
 
 	/**
@@ -947,9 +938,7 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void setStatusMessage( int displayState, String message )
-		{
-			if ( isInitialized )
-				JOptionPane.showMessageDialog( null, message );
+		{	JOptionPane.showMessageDialog( null, message );
 		}
 
 		protected void setProperty( String key, String value )

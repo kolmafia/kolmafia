@@ -74,6 +74,22 @@ public class CommandDisplayFrame extends KoLFrame
 
 		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
 		getContentPane().add( new CommandDisplayPanel() );
+
+		addWindowListener( new RemoveBufferListener() );
+	}
+
+	/**
+	 * An internal class which allows focus to be returned to the
+	 * client's active frame when auxiliary windows are closed.
+	 */
+
+	protected class RemoveBufferListener extends WindowAdapter
+	{
+		public void windowClosing( WindowEvent e )
+		{
+			if ( client != null )
+				client.setCommandBuffer( null );
+		}
 	}
 
 	private class CommandDisplayPanel extends JPanel

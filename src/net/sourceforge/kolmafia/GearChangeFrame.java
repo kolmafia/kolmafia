@@ -103,7 +103,6 @@ public class GearChangeFrame extends KoLFrame
 		refreshEquipPanel();
 
 		addMenuBar();
-		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 	}
 

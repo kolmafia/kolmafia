@@ -496,22 +496,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{	return isEnabled;
 	}
 
-	/**
-	 * An internal class which allows focus to be returned to the
-	 * client's active frame when auxiliary windows are closed.
-	 */
-
-	protected class ReturnFocusAdapter extends WindowAdapter
-	{
-		public void windowClosing( WindowEvent e )
-		{
-			if ( client != null )
-				client.requestFocus();
-			else
-				System.exit(0);
-		}
-	}
-
 	private class ToggleMacroListener implements ActionListener
 	{
 		private JMenuItem loggerItem;

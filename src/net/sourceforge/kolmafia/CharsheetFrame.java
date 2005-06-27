@@ -114,7 +114,6 @@ public class CharsheetFrame extends KoLFrame
 		refreshStatus();
 
 		getContentPane().add( entirePanel, "" );
-		addWindowListener( new ReturnFocusAdapter() );
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 		characterData.addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefreshRunnable() ) );
 	}
