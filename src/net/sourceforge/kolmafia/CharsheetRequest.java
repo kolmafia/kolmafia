@@ -184,6 +184,14 @@ public class CharsheetRequest extends KoLRequest
 				token = parsedContent.nextToken();
 			skipTokens( parsedContent, 3 );
 			character.setTotalTurnsUsed( intToken( parsedContent ) );
+			// Determine the player's zodiac sign, if any.
+
+			if ( responseText.indexOf( "Sign:" ) != -1 )
+			{
+				while ( !parsedContent.nextToken().startsWith( "Sign:" ) );
+				skipTokens( parsedContent, 3 );
+				character.setSign( parsedContent.nextToken() );
+			}
 
 			// Determine whether or not the player has any
 			// active effects - if so, retrieve them.

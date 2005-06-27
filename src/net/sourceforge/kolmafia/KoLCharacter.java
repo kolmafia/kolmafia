@@ -222,6 +222,13 @@ public class KoLCharacter
         private String advancement;
 	private List listenerList;
 
+	private String sign;
+	private int signStat;
+	public static final int NONE = 0;
+	public static final int MUSCLE = 1;
+	public static final int MYSTICALITY = 2;
+	public static final int MOXIE = 3;
+
 	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0 );
 	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0 );
 
@@ -262,6 +269,9 @@ public class KoLCharacter
 
 		this.advancement = "none";
 		this.listenerList = new ArrayList();
+
+		this.sign = "None";
+		this.signStat = NONE;
 
 		// Initialize the equipment lists inside
 		// of the character data
@@ -1072,6 +1082,98 @@ public class KoLCharacter
 
 	public void setChef( boolean hasChef )
 	{	this.hasChef = hasChef;
+	}
+
+	/**
+	 * Accessor method for the character's zodiac sign
+	 * @return	String
+	 */
+
+	public String getSign()
+	{	return sign;
+	}
+
+	/**
+	 * Accessor method for the character's zodiac sign stat
+	 * @return	int
+	 */
+
+	public int getSignStat()
+	{	return signStat;
+	}
+
+	/**
+	 * Accessor method to set a character's zodiac sign
+	 * @param	sign	the new sign
+	 */
+
+	public void setSign( String sign )
+	{
+		if ( sign.startsWith("The ") )
+		     sign = sign.substring(4);
+
+		this.sign = sign;
+
+		if (sign.equals("Wallaby") || sign.equals("Mongoose") || sign.equals("Vole"))
+			signStat = MUSCLE;
+		else if (sign.equals("Platypus") || sign.equals("Opossum") || sign.equals("Marmot"))
+			signStat = MYSTICALITY;
+		else if (sign.equals("Wombat") || sign.equals("Blender") || sign.equals("Packrat"))
+			signStat = MOXIE;
+		else
+			signStat = NONE;
+	}
+
+	/**
+	 * Accessor method which indicates whether the character is in a Muscle
+	 * sign
+	 * @return	<code>true</code> if the character is in a Muscle sign
+	 *
+	 * KoLmafia could/should use this to:
+	 *
+	 * - Allow adventuring in The Bugbear Pens
+	 * - Provide access to npcstore #4: The Degrassi Knoll Bakery
+	 * - Provide access to npcstore #5: The Degrassi Knoll General Store
+	 * - Train Muscle in The Gym
+	 * - Smith non-advanced things using Innabox (no hammer/adventure)
+	 * - Combine anything using The Plunger (no meat paste)
+	 */
+
+	public boolean inMuscleSign()
+	{	return (signStat == MUSCLE);
+	}
+
+	/**
+	 * Accessor method which indicates whether the character is in a
+	 * Mysticality sign
+	 * @return	<code>true</code> if the character is in a Mysticality sign
+	 *
+	 * KoLmafia could/should use this to:
+	 *
+	 * - Allow adventuring in Outskirts of Camp Logging Camp
+	 * - Allow adventuring in Camp Logging Camp
+	 * - Provide access to npcstore #j: Little Canadia Jewelers
+	 * - Train Mysticality in The Institute for Canadian Studies
+	 */
+
+	public boolean inMysticalitySign()
+	{	return (signStat == MYSTICALITY);
+	}
+
+	/**
+	 * Accessor method which indicates whether the character is in a Moxie
+	 * sign
+	 * @return	<code>true</code> if the character is in a Moxie sign
+	 *
+	 * KoLmafia could/should use this to:
+	 *
+	 * - Allow adventuring in Thugnderdome
+	 * - Provide access to TINKER recipes
+	 * - Train Moxie with Gnirf
+	 */
+
+	public boolean inMoxieSign()
+	{	return (signStat == MOXIE);
 	}
 
 	/**
