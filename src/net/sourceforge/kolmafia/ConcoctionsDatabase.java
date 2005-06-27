@@ -254,7 +254,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.STARCHART ] = true;
 		PERMIT_METHOD[ ItemCreationRequest.PIXEL ] = true;
 		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = data.getInventory().contains( ROLLING_PIN );
-		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = true;
+		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = data.inMoxieSign();
 		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = data.getInventory().contains( HAMMER ) && data.canSmithWeapons();
 		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = data.getInventory().contains( HAMMER ) && data.canSmithArmor();
 	}
