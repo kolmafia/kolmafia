@@ -599,6 +599,9 @@ public class KoLMessenger implements KoLConstants
 		// show the display HTML.
 
 		buffer.append( displayHTML + "<br>" );
+
+		if ( useTabbedFrame )
+			tabbedFrame.highlightTab( channel );
 	}
 
 	/**
