@@ -35,17 +35,23 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Date;
+import java.text.SimpleDateFormat;
+
+import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JEditorPane;
-import java.text.SimpleDateFormat;
 
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import ca.bcit.geekkit.JCalendar;
+import ca.bcit.geekkit.CalendarTableModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -55,8 +61,19 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CalendarFrame extends KoLFrame implements ListSelectionListener
 {
+	// Special date marked as the new year.  This is
+	// done as a string, since sdf.parse() throws an
+	// exception, most of the time.
+
+	private static final String NEWYEAR = "20050614";
+
+	// Special date formatter which formats according to
+	// the standard Western format of month, day, year.
+
 	private static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy" );
-	private static String [][] HOLIDAYS = new String[13][9];
+
+	// Static array of month names, as they exist within
+	// the KoL calendar.
 
 	private static final String [] MONTH_NAMES =
 	{
@@ -64,9 +81,18 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		"Bor", "Petember", "Carlvember", "Porktober", "Boozember", "Dougtember"
 	};
 
+	// Static array of file names (not including .gif extension)
+	// for the various months in the KoL calendar.
+
 	private static final String [] CALENDARS =
 	{	"", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"
 	};
+
+	// Static array of holidays.  This holiday is filled with the
+	// name of the holiday which occurs on the given KoL month and
+	// given KoL day.
+
+	private static String [][] HOLIDAYS = new String[13][9];
 
 	static
 	{
@@ -79,20 +105,76 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		HOLIDAYS[11][7] = "Feast of Boris";
 	}
 
-	private int phaseError = Integer.MAX_VALUE;
+	// Static array of when the special events in KoL occur, including
+	// stat days, holidays and all that jazz.  Values are false where
+	// there is no special occasion, and true where there is.
 
-	private int currentMonth = 0;
-	private int currentDay = 0;
+	private static int [] SPECIAL = new int[96];
 
-	private int ronaldPhase = -1;
-	private int grimacePhase = -1;
-	private int phaseStep = -1;
+	private static int SP_NOTHING = 0;
+	private static int SP_HOLIDAY = 1;
+	private static int SP_STATDAY = 2;
 
-	private JCalendar calendar;
-	private LimitedSizeChatBuffer buffer;
+	static
+	{
+		// Assume there are no special days at all, and then
+		// fill them in once they're encountered.
 
-	private Date selectedDate;
-	private int selectedRow, selectedColumn;
+		for ( int i = 0; i < 96; ++i )
+			SPECIAL[i] = SP_NOTHING;
+
+		// Muscle days occur every phase 8 and phase 9 on the
+		// KoL calendar.
+
+		for ( int i = 8; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+		for ( int i = 9; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+
+		// Mysticism days occur every phase 4 and phase 12 on the
+		// KoL calendar.
+
+		for ( int i = 4; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+		for ( int i = 12; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+
+		// Moxie days occur every phase 0 and phase 15 on the
+		// KoL calendar.
+
+		for ( int i = 0; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+		for ( int i = 15; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+
+		// Next, fill in the holidays.  These are manually
+		// computed based on the recurring day in the year
+		// at which these occur.
+
+		SPECIAL[7] = SP_HOLIDAY;
+		SPECIAL[79] = SP_HOLIDAY;
+		SPECIAL[86] = SP_HOLIDAY;
+	}
+
+	// The following are static variables used to track the calendar.
+	// They are made static as a design decision to allow the oracle
+	// table nested inside of this class the access it needs to data.
+
+	private static int phaseError = Integer.MAX_VALUE;
+
+	private static int currentMonth = 0;
+	private static int currentDay = 0;
+
+	private static int ronaldPhase = -1;
+	private static int grimacePhase = -1;
+	private static int phaseStep = -1;
+
+	private static JCalendar calendar;
+	private static OracleTable oracleTable;
+	private static LimitedSizeChatBuffer buffer;
+
+	private static Date selectedDate;
+	private static int selectedRow, selectedColumn;
 
 	public CalendarFrame( KoLmafia client )
 	{
@@ -124,13 +206,19 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		getContentPane().add( htmlPanel, BorderLayout.CENTER );
 
-		calendar = new JCalendar();
-		calendar.getTable().getSelectionModel().addListSelectionListener( this );
-		calendar.getTable().getColumnModel().getSelectionModel().addListSelectionListener( this );
+		calendar = new JCalendar( OracleTable.class );
+		oracleTable = (OracleTable) calendar.getTable();
+		oracleTable.getSelectionModel().addListSelectionListener( this );
+		oracleTable.getColumnModel().getSelectionModel().addListSelectionListener( this );
 
 		getContentPane().add( calendar, BorderLayout.EAST );
 		setResizable( false );
 	}
+
+	/**
+	 * Listener method which updates the main HTML panel with
+	 * information, pending on the user's calendar day selection.
+	 */
 
 	public void valueChanged( ListSelectionEvent e )
 	{
@@ -144,27 +232,13 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// in the calendar table and update the
 		// HTML on the center pane as appropriate
 
-		if ( calendar.getTable().getSelectedRow() != selectedRow || calendar.getTable().getSelectedColumn() != selectedColumn )
+		if ( oracleTable.getSelectedRow() != selectedRow || oracleTable.getSelectedColumn() != selectedColumn )
 		{
 			try
 			{
-				selectedRow = calendar.getTable().getSelectedRow();
-				selectedColumn = calendar.getTable().getSelectedColumn();
-
-				StringBuffer dateString = new StringBuffer();
-				dateString.append( calendar.getModel().getCurrentYear() );
-
-				int selectedMonth = calendar.getModel().getCurrentMonth() + 1;
-				if ( selectedMonth < 10 )
-					dateString.append( '0' );
-				dateString.append( selectedMonth );
-
-				int selectedDay = Integer.parseInt( (String) calendar.getModel().getValueAt( selectedRow, selectedColumn ) );
-				if ( selectedDay < 10 )
-					dateString.append( '0' );
-				dateString.append( selectedDay );
-
-				selectedDate = sdf.parse( dateString.toString() );
+				selectedRow = oracleTable.getSelectedRow();
+				selectedColumn = oracleTable.getSelectedColumn();
+				selectedDate = sdf.parse( constructDateString( calendar.getModel(), selectedRow, selectedColumn ) );
 
 				calculatePhases( selectedDate );
 				calculateCalendar( selectedDate.getTime() );
@@ -180,11 +254,44 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		}
 	}
 
+	/**
+	 * Utility method which constructs a date string based on
+	 * the given calendar model and the given selected row
+	 * and column.  This date string conforms to the standard
+	 * YYYYMMdd format.
+	 */
+
+	private static String constructDateString( CalendarTableModel model, int selectedRow, int selectedColumn )
+	{
+		int year = model.getCurrentYear();
+		int month = model.getCurrentMonth() + 1;
+		int day = Integer.parseInt( (String) model.getValueAt( selectedRow, selectedColumn ) );
+
+		StringBuffer dateString = new StringBuffer();
+		dateString.append( year );
+
+		if ( month < 10 )
+			dateString.append( '0' );
+		dateString.append( month );
+
+		if ( day < 10 )
+			dateString.append( '0' );
+		dateString.append( day );
+
+		return dateString.toString();
+	}
+
+	/**
+	 * Recalculates the moon phases given the time noted
+	 * in the constructor.  This calculation assumes that
+	 * the straightforward algorithm has no errors.
+	 */
+
 	private final void calculatePhases( Date time )
 	{
 		try
 		{
-			int timeDifference = calculateDifferenceInDays( sdf.parse( "20050614" ).getTime(), time.getTime() );
+			int timeDifference = calculateDifferenceInDays( sdf.parse( NEWYEAR ).getTime(), time.getTime() );
 
 			phaseStep = ((timeDifference % 16) + 16) % 16;
 			ronaldPhase = phaseStep % 8;
@@ -280,6 +387,13 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		buffer.append( displayHTML.toString() );
 	}
 
+	/**
+	 * Utility method which appends the given percentage to
+	 * the given string buffer, complete with + and % signs,
+	 * wherever applicable.  Also appends "no effect" if the
+	 * percentage is zero.
+	 */
+
 	private void appendModifierPercentage( StringBuffer buffer, int percentage )
 	{
 		if ( percentage > 0 )
@@ -297,6 +411,12 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			buffer.append( "no effect" );
 	}
 
+	/**
+	 * Utility method which calculates which day of the
+	 * KoL calendar you're currently on, based on the number
+	 * of milliseconds since January 1, 1970.
+	 */
+
 	private void calculateCalendar( long timeCalculate )
 	{
 		try
@@ -306,7 +426,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			// This difference should be computed in terms
 			// of days for ease of later computations.
 
-			int estimatedDifference = calculateDifferenceInDays( sdf.parse( "20050614" ).getTime(), timeCalculate );
+			int estimatedDifference = calculateDifferenceInDays( sdf.parse( NEWYEAR ).getTime(), timeCalculate );
 
 			// Next, compare this value with the actual
 			// computed phase step to see how far off
@@ -336,10 +456,78 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		}
 	}
 
+	/**
+	 * Computes the difference in days based on the given
+	 * millisecond counts since January 1, 1970.
+	 */
+
 	private static int calculateDifferenceInDays( long timeStart, long timeEnd )
 	{
 		long difference = timeEnd - timeStart;
 		return (int) (difference / 86400000L);
+	}
+
+	/**
+	 * Internal class which functions as a table for the
+	 * JCalendar object.  Unlike the standard implementation
+	 * used by JCalendar, this also highlights stat days and
+	 * holidays on the KoL calendar.
+	 */
+
+	public static class OracleTable extends JTable
+	{
+		private CalendarTableModel model;
+		private DefaultTableCellRenderer todayRenderer, holidayRenderer, statdayRenderer;
+
+		public OracleTable( CalendarTableModel model )
+		{
+			super( model );
+			this.model = model;
+
+			todayRenderer = new DefaultTableCellRenderer();
+			todayRenderer.setForeground( new Color( 255, 255, 255 ) );
+			todayRenderer.setBackground( new Color( 0, 0, 128 ) );
+
+			holidayRenderer = new DefaultTableCellRenderer();
+			holidayRenderer.setForeground( new Color( 255, 255, 255 ) );
+			holidayRenderer.setBackground( new Color( 192, 0, 0 ) );
+
+			statdayRenderer = new DefaultTableCellRenderer();
+			statdayRenderer.setForeground( new Color( 255, 255, 255 ) );
+			statdayRenderer.setBackground( new Color( 0, 192, 0 ) );
+		}
+
+		public TableCellRenderer getCellRenderer( int row, int column )
+		{
+			try
+			{
+				// First, if the date today is equal to the
+				// date selected, highlight it.
+
+				String todayDate = sdf.format( new Date() );
+				String cellDate = constructDateString( model, row, column );
+
+				if ( todayDate.equals( cellDate ) )
+					return todayRenderer;
+
+				// Otherwise, if the date selected is equal
+				// to a special day, then highlight it.
+
+				int difference = calculateDifferenceInDays( sdf.parse( NEWYEAR ).getTime(), sdf.parse( cellDate ).getTime() );
+				int calendarDay = ((difference % 96) + 96) % 96;
+
+				if ( SPECIAL[ calendarDay ] == SP_HOLIDAY )
+					return holidayRenderer;
+
+				if ( SPECIAL[ calendarDay ] == SP_STATDAY )
+					return statdayRenderer;
+			}
+			catch ( Exception e )
+			{
+			}
+
+			return super.getCellRenderer(row, column);
+		}
 	}
 
 	public static void main( String [] args )
