@@ -1220,11 +1220,7 @@ public class KoLCharacter
 	 */
 
 	public boolean canSummonNoodles()
-	{
-		for ( int i = 0; i < availableSkills.size(); ++i )
-			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( "Pastamastery" ) )
-				return true;
-		return false;
+	{	return hasSkill( "Pastamastery" );
 	}
 
 	/**
@@ -1235,11 +1231,7 @@ public class KoLCharacter
 	 */
 
 	public boolean canSummonReagent()
-	{
-		for ( int i = 0; i < availableSkills.size(); ++i )
-			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( "Advanced Saucecrafting" ) )
-				return true;
-		return false;
+	{	return hasSkill( "Advanced Saucecrafting" );
 	}
 
 	/**
@@ -1250,11 +1242,7 @@ public class KoLCharacter
 	 */
 
 	public boolean canSummonShore()
-	{
-		for ( int i = 0; i < availableSkills.size(); ++i )
-			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( "Advanced Cocktailcrafting" ) )
-				return true;
-		return false;
+	{	return hasSkill( "Advanced Cocktailcrafting" );
 	}
 
 	/**
@@ -1265,11 +1253,7 @@ public class KoLCharacter
 	 */
 
 	public boolean canSmithWeapons()
-	{
-		for ( int i = 0; i < availableSkills.size(); ++i )
-			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( "Super-Advanced Meatsmithing" ) )
-				return true;
-		return false;
+	{	return hasSkill( "Super-Advanced Meatsmithing" );
 	}
 
 	/**
@@ -1280,11 +1264,7 @@ public class KoLCharacter
 	 */
 
 	public boolean canSmithArmor()
-	{
-		for ( int i = 0; i < availableSkills.size(); ++i )
-			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( "Armorcraftiness" ) )
-				return true;
-		return false;
+	{	return hasSkill( "Armorcraftiness" );
 	}
 
 	/**
@@ -1295,9 +1275,18 @@ public class KoLCharacter
 	 */
 
 	public boolean hasAmphibianSympathy()
+	{	return hasSkill( "Amphibian Sympathy" );
+	}
+
+	/**
+	 * Utility method which looks up whether or not the character
+	 * has a skill of the given name.
+	 */
+
+	public boolean hasSkill( String skillName )
 	{
 		for ( int i = 0; i < availableSkills.size(); ++i )
-			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( "Amphibian Sympathy" ) )
+			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( skillName ) )
 				return true;
 		return false;
 	}
