@@ -1043,7 +1043,7 @@
 1043	string of blue beads	8	75
 1044	string of green beads	8	75
 1045	cheap plastic bottle opener	12	50
-1046	traffic cone	9	100
+1046	orange traffic cone	9	100
 1047	N. O. Beer	0	0
 1048	red striped oyster egg	0	50
 1049	red polka-dot oyster egg	0	50
@@ -1167,7 +1167,7 @@
 1167	plain brown wrapper	0	0
 1168	less-than-three shaped box	0	0
 1169	exactly-three shaped box	0	0
-1170
+1170	chocolate box	0	0
 1171
 1172
 1173
@@ -1189,7 +1189,7 @@
 1189	stuffed can of asparagus	0	25
 1190	stuffed dodecapede	0	50
 1191	stuffed ghuol whelp	0	0
-1192
+1192	stuffed zmobie	0	0
 1193
 1194
 1195
@@ -1225,7 +1225,7 @@
 1225
 1226
 1227
-1228
+1228	stainless steel slacks	10	0
 1229
 1230
 1231

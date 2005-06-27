@@ -417,7 +417,6 @@ pixel sword	10	0	white pixel (20)	black pixel (10)	blue pixel (10)
 digital key	10	0	white pixel (30)
 white pixel	10	0	red pixel	green pixel	blue pixel
 
-
 # Jewelry making recipes
 
 hamethyst earring	8	1	hamethyst	piercing post
@@ -444,6 +443,8 @@ wholeberd	1	1	halfberd	halfberd
 gnauga hide buckler	14	1	gnauga hide	buckler buckle
 gnauga hide chaps	4	1	gnauga hide	pants kit
 gnauga hide whip	13	1	gnauga hide skin	whip kit
+sequined fez	4	1	basic meat fez	teeny-tiny ninja stars
+spooky glove	2	1	spooky fairy gravy	small leather glove
 
 # Tinker recipes
 
