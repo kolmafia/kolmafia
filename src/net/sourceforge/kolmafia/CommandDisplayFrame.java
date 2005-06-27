@@ -60,6 +60,8 @@ import javax.swing.JEditorPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
+import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 public class CommandDisplayFrame extends KoLFrame
 {
 	private LimitedSizeChatBuffer commandBuffer;
@@ -72,7 +74,6 @@ public class CommandDisplayFrame extends KoLFrame
 
 		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
 		getContentPane().add( new CommandDisplayPanel() );
-		setSize( new Dimension( 400, 300 ) );
 	}
 
 	private class CommandDisplayPanel extends JPanel
@@ -93,6 +94,8 @@ public class CommandDisplayFrame extends KoLFrame
 
 			scrollPane.setVerticalScrollBar( new CommandScrollBar() );
 			commandBuffer.setScrollPane( scrollPane );
+
+			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
 			JPanel entryPanel = new JPanel();
 			entryField = new JTextField();

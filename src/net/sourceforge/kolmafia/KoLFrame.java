@@ -360,7 +360,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		scriptMenu.add( loggerItem );
 
 		JMenuItem gcliItem = new JMenuItem( "Access CLI Mode", KeyEvent.VK_A );
-		gcliItem.addActionListener( new GraphicalCLIListener() );
+		gcliItem.addActionListener( new DisplayFrameListener( CommandDisplayFrame.class ) );
 
 		scriptMenu.add( gcliItem );
 
@@ -940,17 +940,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			if ( client.getMessenger() == null )
 				client.initializeChat();
-		}
-	}
-
-	private class GraphicalCLIListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			Object [] parameters = new Object[1];
-			parameters[0] = this;
-
-			SwingUtilities.invokeLater( new CreateFrameRunnable( CommandDisplayFrame.class, parameters ) );
 		}
 	}
 
