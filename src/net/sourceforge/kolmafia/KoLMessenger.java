@@ -264,30 +264,33 @@ public class KoLMessenger implements KoLConstants
 
 	public void removeChat( String contact )
 	{
-		if ( contact == null )
-			return;
-
-		ChatFrame removedFrame = (ChatFrame) instantMessageFrames.remove( contact );
-
-		if ( removedFrame == null )
-			return;
-
-		LimitedSizeChatBuffer removedBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.remove( contact );
-
-		if ( contact.equals( currentChannel ) )
+		synchronized ( existingFrames )
 		{
-			(new RequestThread( new ChatRequest( client, currentChannel, "/exit" ) )).start();
-			currentChannel = null;
-			client.deinitializeChat();
-			return;
+			if ( contact == null )
+				return;
+
+			ChatFrame removedFrame = (ChatFrame) instantMessageFrames.remove( contact );
+
+			if ( removedFrame == null )
+				return;
+
+			LimitedSizeChatBuffer removedBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.remove( contact );
+
+			if ( contact.equals( currentChannel ) )
+			{
+				(new RequestThread( new ChatRequest( client, currentChannel, "/exit" ) )).start();
+				currentChannel = null;
+				client.deinitializeChat();
+				return;
+			}
+
+			if ( currentChannel != null && contact.startsWith( "/" ) && !removedFrame.getTitle().endsWith( "(inactive)" ) )
+				(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
+
+			removedFrame.setVisible( false );
+			removedFrame.dispose();
+			removedBuffer.closeActiveLogFile();
 		}
-
-		if ( currentChannel != null && contact.startsWith( "/" ) && !removedFrame.getTitle().endsWith( "(inactive)" ) )
-			(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
-
-		removedFrame.setVisible( false );
-		removedFrame.dispose();
-		removedBuffer.closeActiveLogFile();
 	}
 
 	/**
@@ -518,8 +521,6 @@ public class KoLMessenger implements KoLConstants
 	{
 		if ( currentChannel != null )
 			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (inactive)" );
-
-		currentChannel = null;
 	}
 
 	/**
@@ -532,8 +533,6 @@ public class KoLMessenger implements KoLConstants
 	{
 		if ( currentChannel != null )
 			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (listening)" );
-
-		currentChannel = null;
 	}
 
 	/**
@@ -612,10 +611,6 @@ public class KoLMessenger implements KoLConstants
 			// stop refreshing.  So, to make things easier, print the
 			// error message to the main window. :D
 
-			LimitedSizeChatBuffer messageBuffer = getChatBuffer( currentChannel );
-			if ( messageBuffer != null )
-				messageBuffer.append( "<br><br><font color=magenta>Unexpected error.</font><br>\n" );
-
 			e.printStackTrace( client.getLogStream() );
 			e.printStackTrace();
 		}
@@ -629,9 +624,10 @@ public class KoLMessenger implements KoLConstants
 
 	private void processChatMessage( String channel, String message )
 	{
-		if ( message.startsWith( "No longer" ) )
-			if ( !instantMessageBuffers.containsKey( channel ) )
-				return;
+		if ( message != null && message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( getBufferKey( channel ) ) )
+			return;
+
+System.out.println( channel + " " + message );
 
 		LimitedSizeChatBuffer buffer = getChatBuffer( channel );
 
