@@ -94,7 +94,7 @@ public class ClanSnapshotTable implements KoLConstants
 	{	this.clanID = clanID;
 	}
 
-	public void setName( String clanName )
+	public void setClanName( String clanName )
 	{	this.clanName = clanName;
 	}
 

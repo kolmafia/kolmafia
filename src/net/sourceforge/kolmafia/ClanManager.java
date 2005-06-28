@@ -135,7 +135,10 @@ public class ClanManager implements KoLConstants
 			cmr.run();
 
 			this.clanID = cmr.getClanID();
+			snapshot.setClanID( this.clanID );
+
 			this.clanName = cmr.getClanName();
+			snapshot.setClanName( this.clanName );
 
 			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + "_" + sdf.format( new Date() ) +
 				File.separator;
