@@ -83,10 +83,22 @@ public class ClanStashRequest extends SendMessageRequest
 		super( client, "clan_stash.php", attachments, 0 );
 
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "action", (moveType == ITEMS_TO_STASH) ? "addgoodies" : "takegoodies" );
 
 		this.moveType = moveType;
-		destination = new ArrayList();
+                if ( moveType == ITEMS_TO_STASH )
+                {
+                        addFormField( "action", "addgoodies" );
+                        source = client.getInventory();
+                        destination = new ArrayList();
+                }
+                else
+                {
+                        addFormField( "action", "takegoodies" );
+                        source = new ArrayList();
+                        destination = client.getInventory();
+                }
+
+		this.quantityField = "quantity";
 	}
 
 	public int getMoveType()
@@ -147,6 +159,7 @@ public class ClanStashRequest extends SendMessageRequest
 					updateDisplay( DISABLED_STATE, "Moving " + attachments[0] +
 						(moveType == ITEMS_TO_STASH ? " to the stash..." : " to your bag...") );
 
+				super.run();
 				parseStash();
 
 				if ( attachments.length > 0 )

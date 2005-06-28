@@ -46,6 +46,7 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected int meatAttachment;
 	protected Object [] attachments;
 	protected List source, destination;
+        protected String quantityField;
 
 	protected SendMessageRequest( KoLmafia client, String formSource )
 	{
@@ -56,6 +57,8 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		this.source = new ArrayList();
 		this.destination = new ArrayList();
+
+                quantityField = "howmany";
 	}
 
 	protected SendMessageRequest( KoLmafia client, String formSource, AdventureResult attachment )
@@ -76,6 +79,8 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		this.source = client.getInventory();
 		this.destination = new ArrayList();
+
+                quantityField = "howmany";
 	}
 
 	protected SendMessageRequest( KoLmafia client, String formSource, Object [] attachments, int meatAttachment )
@@ -87,6 +92,8 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		this.source = client.getInventory();
 		this.destination = new ArrayList();
+
+                quantityField = "howmany";
 	}
 
 	protected abstract int getCapacity();
@@ -142,14 +149,14 @@ public abstract class SendMessageRequest extends KoLRequest
 				{
 					AdventureResult result = (AdventureResult) attachments[i];
 					addFormField( "whichitem" + (i+1), String.valueOf( result.getItemID() ) );
-					addFormField( "howmany" + (i+1), String.valueOf( result.getCount() ) );
+					addFormField( quantityField + (i+1), String.valueOf( result.getCount() ) );
 				}
 			}
 			else if ( getCapacity() == 1 )
 			{
 				AdventureResult result = (AdventureResult) attachments[0];
 				addFormField( "whichitem", String.valueOf( result.getItemID() ) );
-				addFormField( "howmany", String.valueOf( result.getCount() ) );
+				addFormField( quantityField, String.valueOf( result.getCount() ) );
 			}
 		}
 
