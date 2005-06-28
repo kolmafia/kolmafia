@@ -282,12 +282,12 @@ public class KoLMessenger implements KoLConstants
 			return;
 		}
 
+		if ( currentChannel != null && contact.startsWith( "/" ) && !removedFrame.getTitle().endsWith( "(inactive)" ) )
+			(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
+
 		removedFrame.setVisible( false );
 		removedFrame.dispose();
 		removedBuffer.closeActiveLogFile();
-
-		if ( currentChannel != null && contact.startsWith( "/" ) && !removedFrame.getTitle().endsWith( "(inactive)" ) )
-			(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
 	}
 
 	/**
