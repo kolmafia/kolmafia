@@ -110,8 +110,6 @@ public class KoLMessenger implements KoLConstants
 			{
 				this.tabbedFrame = new TabbedChatFrame( client, this );
 				this.tabbedFrame.setVisible( true );
-				if ( currentChannel != null )
-					this.tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 			}
 			else
 			{
@@ -119,12 +117,11 @@ public class KoLMessenger implements KoLConstants
 				this.tabbedFrame = null;
 			}
 
-
 			for ( int i = 0; i < keys.length; ++i )
 			{
 				currentKey = (String) keys[i];
-				currentBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( currentKey );
-				currentFrame = (ChatFrame) instantMessageFrames.get( currentKey );
+				currentBuffer = getChatBuffer( currentKey );
+				currentFrame = getChatFrame( currentKey );
 
 				if ( useTabbedFrame )
 				{
@@ -155,7 +152,6 @@ public class KoLMessenger implements KoLConstants
 
 	public void initialize()
 	{
-		client.updateDisplay( NOCHANGE, "Initializing chat..." );
 		(new RequestThread( new ChatRequest( client, null, "/channel" ) )).start();
 		LimitedSizeChatBuffer.clearHighlights();
 	}
@@ -186,7 +182,7 @@ public class KoLMessenger implements KoLConstants
 		for ( int i = 0; i < names.length; ++i )
 		{
 			currentName = (String) names[i];
-			currentFrame = (ChatFrame) instantMessageFrames.get( currentName );
+			currentFrame = getChatFrame( currentName );
 			if ( currentFrame.isShowing() && currentFrame.hasFocus() )
 				return currentName;
 		}
@@ -206,9 +202,7 @@ public class KoLMessenger implements KoLConstants
 
 	public LimitedSizeChatBuffer getChatBuffer( String contact )
 	{
-		String neededBufferName = contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
-			chattingStyle != 0 && !contact.startsWith( "/" ) ? "/reply" : chattingStyle == 2 && contact.startsWith( "/" ) ? "[chat]" : contact;
-
+		String neededBufferName = getBufferKey( contact );
 		LimitedSizeChatBuffer neededBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( neededBufferName );
 
 		// This error should not happen, but it's better to be safe than
@@ -225,6 +219,45 @@ public class KoLMessenger implements KoLConstants
 	}
 
 	/**
+	 * Retrieves the chat frame associated with the currently
+	 * running chat.  These frames are used to track active
+	 * and inactive state for the frames.
+	 */
+
+	public ChatFrame getChatFrame( String contact )
+	{
+		String neededFrameName = getBufferKey( contact );
+		return (ChatFrame) instantMessageFrames.get( neededFrameName );
+	}
+
+	/**
+	 * Sets the title of the frame to the given value, if and
+	 * only if the given channel name exists as a part of the
+	 * title to the frame.
+	 */
+
+	public void setChatFrameTitle( String contact, String title )
+	{
+		ChatFrame neededFrame = getChatFrame( contact );
+		if ( neededFrame == null || neededFrame.getTitle().indexOf( contact ) == -1 )
+			return;
+
+		neededFrame.setTitle( title );
+	}
+
+	/**
+	 * Retrieves the key which will be needed, given the contact
+	 * name.  In other words, it translates the contact name to
+	 * a key value used by the buffers and frames.
+	 */
+
+	private String getBufferKey( String contact )
+	{
+		return contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
+			chattingStyle != 0 && !contact.startsWith( "/" ) ? "/reply" : chattingStyle == 2 && contact.startsWith( "/" ) ? "[chat]" : contact;
+	}
+
+	/**
 	 * Removes the chat associated with the given contact.  This
 	 * method is called whenever a window is closed.
 	 */
@@ -234,12 +267,12 @@ public class KoLMessenger implements KoLConstants
 		if ( contact == null )
 			return;
 
-		ChatFrame frameToRemove = (ChatFrame) instantMessageFrames.remove( contact );
+		ChatFrame removedFrame = (ChatFrame) instantMessageFrames.remove( contact );
 
-		if ( frameToRemove == null )
+		if ( removedFrame == null )
 			return;
 
-		LimitedSizeChatBuffer bufferToRemove = (LimitedSizeChatBuffer) instantMessageBuffers.remove( contact );
+		LimitedSizeChatBuffer removedBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.remove( contact );
 
 		if ( contact.equals( currentChannel ) )
 		{
@@ -249,11 +282,11 @@ public class KoLMessenger implements KoLConstants
 			return;
 		}
 
-		frameToRemove.setVisible( false );
-		frameToRemove.dispose();
-		bufferToRemove.closeActiveLogFile();
+		removedFrame.setVisible( false );
+		removedFrame.dispose();
+		removedBuffer.closeActiveLogFile();
 
-		if ( currentChannel != null && contact.startsWith( "/" ) && !frameToRemove.getTitle().endsWith( "(inactive)" ) )
+		if ( currentChannel != null && contact.startsWith( "/" ) && !removedFrame.getTitle().endsWith( "(inactive)" ) )
 			(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
 	}
 
@@ -421,6 +454,17 @@ public class KoLMessenger implements KoLConstants
 			else
 				processChatMessage( lines[i].trim() );
 		}
+
+		// Finally, update the title to the frame in which
+		// you are currently talking.
+
+		if ( currentChannel != null )
+		{
+			if ( useTabbedFrame )
+				tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
+			else
+				getChatFrame( currentChannel ).setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
+		}
 	}
 
 	/**
@@ -458,10 +502,38 @@ public class KoLMessenger implements KoLConstants
 
 		if ( nameOfActiveFrame != null )
 		{
-			ChatFrame activeFrame = (ChatFrame) instantMessageFrames.get( nameOfActiveFrame );
+			ChatFrame activeFrame = getChatFrame( nameOfActiveFrame );
 			if ( activeFrame != null && !activeFrame.hasFocus() )
 				activeFrame.requestFocus();
 		}
+	}
+
+	/**
+	 * Notifies the chat that the user has stopped talking and
+	 * listening to the current channel - this only happens after
+	 * the /channel command is used to switch to a different channel.
+	 */
+
+	public void stopConversation()
+	{
+		if ( currentChannel != null )
+			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (inactive)" );
+
+		currentChannel = null;
+	}
+
+	/**
+	 * Notifies the chat that the user has stopped talking but will
+	 * still be listening to the current channel - this only happens
+	 * after the /switch command is used to switch to a different channel.
+	 */
+
+	public void switchConversation()
+	{
+		if ( currentChannel != null )
+			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (listening)" );
+
+		currentChannel = null;
 	}
 
 	/**
@@ -479,8 +551,6 @@ public class KoLMessenger implements KoLConstants
 			if ( message == null || message.length() == 0 )
 				return;
 
-			ChatFrame frame;
-
 			if ( message.startsWith( "[" ) )
 			{
 				// If the message is coming from a listen channel, you
@@ -489,48 +559,31 @@ public class KoLMessenger implements KoLConstants
 
 				int startIndex = message.indexOf( "]" ) + 2;
 				String channel = "/" + message.substring( 1, startIndex - 2 );
-				processChatMessage( channel, message.substring( startIndex ) );
 
-				frame = (ChatFrame) instantMessageFrames.get( channel );
-				if ( frame != null )
-					frame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
+				processChatMessage( channel, message.substring( startIndex ) );
+				setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (listening)" );
 			}
 			else if ( message.startsWith( "No longer listening to channel: " ) )
 			{
 				int startIndex = message.indexOf( ":" ) + 2;
 				String channel = "/" + message.substring( startIndex );
-				processChatMessage( channel, message );
 
-				frame = (ChatFrame) instantMessageFrames.get( channel );
-				if ( frame != null )
-					frame.setTitle( "KoLmafia Chat: " + channel + " (inactive)" );
+				processChatMessage( channel, message );
+				setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (inactive)" );
 			}
 			else if ( message.startsWith( "Now listening to channel: " ) )
 			{
 				int startIndex = message.indexOf( ":" ) + 2;
 				String channel = "/" + message.substring( startIndex );
-				processChatMessage( channel, message );
 
-				frame = (ChatFrame) instantMessageFrames.get( channel );
-				if ( frame != null )
-					frame.setTitle( "KoLmafia Chat: " + channel + " (listening)" );
+				processChatMessage( channel, message );
+				setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (listening)" );
 			}
 			else if ( message.startsWith( "You are now talking in channel: " ) )
 			{
-				frame = (ChatFrame) instantMessageFrames.get( currentChannel );
-				if ( frame != null )
-					frame.setTitle( "KoLmafia Chat: " + currentChannel + " (inactive)" );
-
 				int startIndex = message.indexOf( ":" ) + 2;
 				currentChannel = "/" + message.substring( startIndex ).replaceAll( "\\.", "" );
 				processChatMessage( currentChannel, message );
-
-				frame = (ChatFrame)instantMessageFrames.get( currentChannel );
-				if ( frame != null )
-					frame.setTitle( "KoLmafia Chat: " + currentChannel + " (talking)" );
-
-				if ( useTabbedFrame )
-					tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 			}
 			else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
 			{
@@ -576,6 +629,10 @@ public class KoLMessenger implements KoLConstants
 
 	private void processChatMessage( String channel, String message )
 	{
+		if ( message.startsWith( "No longer" ) )
+			if ( !instantMessageBuffers.containsKey( channel ) )
+				return;
+
 		LimitedSizeChatBuffer buffer = getChatBuffer( channel );
 
 		// Figure out what the properly formatted HTML looks like
@@ -681,8 +738,6 @@ public class KoLMessenger implements KoLConstants
 				ChatFrame.ChatPanel panel = tabbedFrame.addTab( channel );
 				buffer.setChatDisplay( panel.getChatDisplay() );
 				buffer.setScrollPane( panel.getScrollPane() );
-				tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
-				tabbedFrame.highlightTab( channel );
 			}
 			else
 			{

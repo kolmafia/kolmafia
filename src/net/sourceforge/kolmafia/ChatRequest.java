@@ -90,6 +90,12 @@ public class ChatRequest extends KoLRequest
 			actualMessage = "/msg " + contactID + " " + message;
 
 		addFormField( "graf", actualMessage );
+
+		if ( client.getMessenger() != null && !actualMessage.equals( "/c" ) && !actualMessage.equals( "/channel" ) && actualMessage.startsWith( "/c" ) )
+			client.getMessenger().stopConversation();
+
+		if ( client.getMessenger() != null && !actualMessage.equals( "/s" ) && !actualMessage.equals( "/switch" ) && actualMessage.startsWith( "/s" ) )
+			client.getMessenger().switchConversation();
 	}
 
 	/**
