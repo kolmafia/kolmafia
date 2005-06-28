@@ -964,34 +964,37 @@ public class AdventureFrame extends KoLFrame
 				// the current client to run down in a separate
 				// Thread.
 
-				Iterator frames = existingFrames.iterator();
-				KoLFrame currentFrame;
-
-				StringBuffer framesToReload = new StringBuffer();
-				boolean reloadFrame;
-
-				while ( frames.hasNext() )
+				synchronized ( existingFrames )
 				{
-					currentFrame = (KoLFrame) frames.next();
-					reloadFrame = currentFrame.isShowing();
-					currentFrame.setVisible( false );
-					currentFrame.dispose();
+					Iterator frames = existingFrames.iterator();
+					KoLFrame currentFrame;
 
-					if ( reloadFrame && framesToReload.indexOf( currentFrame.getFrameName() ) == -1 )
+					StringBuffer framesToReload = new StringBuffer();
+					boolean reloadFrame;
+
+					while ( frames.hasNext() )
 					{
-						if ( framesToReload.length() > 0 )
-							framesToReload.append( ',' );
-						framesToReload.append( currentFrame.getFrameName() );
+						currentFrame = (KoLFrame) frames.next();
+						reloadFrame = currentFrame.isShowing();
+						currentFrame.setVisible( false );
+						currentFrame.dispose();
+
+						if ( reloadFrame && framesToReload.indexOf( currentFrame.getFrameName() ) == -1 )
+						{
+							if ( framesToReload.length() > 0 )
+								framesToReload.append( ',' );
+							framesToReload.append( currentFrame.getFrameName() );
+						}
 					}
+
+					client.getSettings().setProperty( "reloadFrames", framesToReload.toString() );
+					client.getSettings().saveSettings();
+
+					client.deinitialize();
+
+					(new RequestThread( new LogoutRequest( client ) )).start();
+					KoLmafiaGUI.main( new String[0] );
 				}
-
-				client.getSettings().setProperty( "reloadFrames", framesToReload.toString() );
-				client.getSettings().saveSettings();
-
-				client.deinitialize();
-
-				(new RequestThread( new LogoutRequest( client ) )).start();
-				KoLmafiaGUI.main( new String[0] );
 			}
 		}
 	}
