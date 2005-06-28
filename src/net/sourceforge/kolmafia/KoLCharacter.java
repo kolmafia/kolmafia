@@ -802,17 +802,10 @@ public class KoLCharacter
 	 * @param	outfits	A listing of available outfits
 	 */
 
-	public void setEquipment( String hat, String weapon, String shirt, String pants,
-				  String accessory1, String accessory2, String accessory3,
-				  List outfits )
+	public void setEquipment( String [] equipment, List outfits )
 	{
-		equipment.set( HAT, hat );
-		equipment.set( WEAPON, weapon );
-		equipment.set( SHIRT, shirt );
-		equipment.set( PANTS, pants );
-		equipment.set( ACCESSORY1, accessory1 );
-		equipment.set( ACCESSORY2, accessory2 );
-		equipment.set( ACCESSORY3, accessory3 );
+		for ( int i = 0; i < this.equipment.size(); ++i )
+			this.equipment.set( i, equipment[i] );
 
 		this.outfits.clear();
 		this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
@@ -933,13 +926,16 @@ public class KoLCharacter
 		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getFamiliarItem() );
 	}
 
-	public void updateEquipmentList( List currentList, int currentFilter, String currentItem )
+	public void updateEquipmentList( LockableListModel currentList, int currentFilter, String currentItem )
 	{
 		currentList.clear();
 		currentList.addAll( getFilteredItems( currentFilter ) );
 
 		if ( !currentList.contains( currentItem ) )
 			currentList.add( currentItem );
+
+		currentList.remove( "none" );
+		currentList.setSelectedItem( currentItem );
 	}
 
 	private List getFilteredItems( int filterID )
@@ -951,7 +947,7 @@ public class KoLCharacter
 		{
 			currentItem = ((AdventureResult)inventory.get(i)).getName();
 			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == filterID )
-				items.add( currentItem );
+				items.add( currentItem.toLowerCase() );
 		}
 
 		return items;
