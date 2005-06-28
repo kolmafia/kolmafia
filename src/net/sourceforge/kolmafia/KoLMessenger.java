@@ -627,8 +627,6 @@ public class KoLMessenger implements KoLConstants
 		if ( message != null && message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( getBufferKey( channel ) ) )
 			return;
 
-System.out.println( channel + " " + message );
-
 		LimitedSizeChatBuffer buffer = getChatBuffer( channel );
 
 		// Figure out what the properly formatted HTML looks like
