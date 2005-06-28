@@ -966,15 +966,15 @@ public class AdventureFrame extends KoLFrame
 
 				synchronized ( existingFrames )
 				{
-					Iterator frames = existingFrames.iterator();
-					KoLFrame currentFrame;
-
 					StringBuffer framesToReload = new StringBuffer();
 					boolean reloadFrame;
 
-					while ( frames.hasNext() )
+					KoLFrame currentFrame;
+					Object [] frames = existingFrames.toArray();
+
+					for ( int i = 0; i < frames.length; ++i )
 					{
-						currentFrame = (KoLFrame) frames.next();
+						currentFrame = (KoLFrame) frames[i];
 						reloadFrame = currentFrame.isShowing();
 						currentFrame.setVisible( false );
 						currentFrame.dispose();
