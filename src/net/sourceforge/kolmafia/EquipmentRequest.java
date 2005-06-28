@@ -91,6 +91,8 @@ public class EquipmentRequest extends KoLRequest
 		super( client, "inv_equip.php" );
 		addFormField( "which", "2" );
 
+		this.character = client.getCharacterData();
+
 		if ( change.equals( "acc1" ) || change.equals( "acc2" ) || change.equals( "acc3" ) || change.equals( "familiarequip" ) )
 		{
 			addFormField( "action", "unequip" );
@@ -109,6 +111,8 @@ public class EquipmentRequest extends KoLRequest
 	public EquipmentRequest( KoLmafia client, SpecialOutfit change )
 	{
 		super( client, "inv_equip.php" );
+
+		this.character = client.getCharacterData();
 
 		if ( change == SpecialOutfit.BIRTHDAY_SUIT )
 		{
@@ -170,19 +174,16 @@ public class EquipmentRequest extends KoLRequest
 		super.run();
 
 		// If you changed your outfit, there will be a redirect
-		// to the equipment page - therefore, do so.
+		// to the equipment page - therefore, process it.
 
-		if ( requestType == CHANGE_OUTFIT && outfit == SpecialOutfit.BIRTHDAY_SUIT )
+		if ( !isErrorState && requestType != CLOSET && requestType != EQUIPMENT )
 		{
-			(new EquipmentRequest( client, "familiarequip" )).run();
-			return;
-		}
+			updateDisplay( DISABLED_STATE, "Updating equipment..." );
+			KoLRequest message = new KoLRequest( client, redirectLocation );
+			message.run();
 
-		if ( requestType != CLOSET && requestType != EQUIPMENT )
-		{
-			(new EquipmentRequest( client, EQUIPMENT )).run();
-			updateDisplay( ENABLED_STATE, "Equipment changed." );
-			return;
+			responseCode = message.responseCode;
+			responseText = message.responseText;
 		}
 
 		// If an error state occurred, return from this
@@ -242,14 +243,23 @@ public class EquipmentRequest extends KoLRequest
 			logStream.println( e );
 			e.printStackTrace( logStream );
 		}
+
+		// If they were planning on going in the buff, make
+		// sure that the familiar item is also unequipped.
+
+		if ( requestType == CHANGE_OUTFIT && outfit == SpecialOutfit.BIRTHDAY_SUIT )
+			(new EquipmentRequest( client, "familiarequip" )).run();
 	}
 
 	private void switchItem( String oldItem, String newItem )
 	{
-		if ( !oldItem.equals( newItem ) && !oldItem.equals( "none" ) )
+		if ( !oldItem.equals( newItem ) )
 		{
-			AdventureResult.addResultToList( client.getInventory(), new AdventureResult( oldItem, 1 ) );
-			AdventureResult.addResultToList( client.getInventory(), new AdventureResult( newItem, -1 ) );
+			if ( !oldItem.equals( "none" ) )
+				AdventureResult.addResultToList( client.getInventory(), new AdventureResult( oldItem, 1 ) );
+
+			if ( !newItem.equals( "none" ) )
+				AdventureResult.addResultToList( client.getInventory(), new AdventureResult( newItem, -1 ) );
 		}
 	}
 
@@ -329,68 +339,64 @@ public class EquipmentRequest extends KoLRequest
 
 	private void parseEquipment()
 	{
-		try
+		String [] equipment = new String[8];
+		for ( int i = 0; i < equipment.length; ++i )
+			equipment[i] = "none";
+
+		Matcher equipmentMatcher = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>" ).matcher( responseText );
+		if ( equipmentMatcher.find() )
 		{
-			StringTokenizer parsedContent = new StringTokenizer( responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ), "\n" );
-
-			while ( !parsedContent.nextToken().startsWith( "Hat:" ) );
-			String hat = parsedContent.nextToken();
-
-			while ( !parsedContent.nextToken().startsWith( "Weapon:" ) );
-			String weapon = parsedContent.nextToken();
-
-                        String shirt = "none";
-                        String token;
-                        do
-                        {
-                                token = parsedContent.nextToken();
-                                if (token.startsWith( "Shirt:"))
-                                {
-                                        shirt = parsedContent.nextToken();
-                                        continue;
-                                }
-                        }
-			while ( !token.startsWith( "Pants:" ) );
-			String pants = parsedContent.nextToken();
-
-			String [] accessories = new String[3];
-			for ( int i = 0; i < 3; ++i )
-				accessories[i] = "none";
-
-			int accessoryCount = 0;
-			String lastToken;
-
-			do
-			{
-				lastToken = parsedContent.nextToken();
-
-				if ( lastToken.startsWith( "Accessory:" ) )
-					accessories[ accessoryCount++ ] = parsedContent.nextToken();
-				else if ( lastToken.startsWith( "Familiar:" ) )
-					character.setFamiliarItem( parsedContent.nextToken() );
-			}
-			while ( !lastToken.startsWith( "Outfit" ) && parsedContent.hasMoreTokens() );
-
-			// Now to determine which outfits are available.  The easiest
-			// way to do this is a straightforward regular expression and
-			// then use the static SpecialOutfit method to determine which
-			// items are available.
-
-			Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( responseText );
-
-			LockableListModel outfits = outfitsMatcher.find() ?
-				SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();
-
-			character.setEquipment( hat, weapon, shirt, pants, accessories[0], accessories[1], accessories[2], outfits );
+			equipment[ KoLCharacter.HAT ] = equipmentMatcher.group(1);
+			logStream.println( "Hat: " + equipment[ KoLCharacter.HAT ] );
 		}
-		catch ( Exception e )
+
+		equipmentMatcher = Pattern.compile( "Weapon:</td>.*?<b>(.*?)</b>" ).matcher( responseText );
+		if ( equipmentMatcher.find() )
 		{
-			// If an exception occurs during the parsing, just
-			// continue after notifying the LogStream of the
-			// error.  This could be handled better, but not now.
-
-			logStream.println( e );
-			e.printStackTrace( logStream );
+			equipment[ KoLCharacter.WEAPON ] = equipmentMatcher.group(1);
+			logStream.println( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
 		}
+
+		equipmentMatcher = Pattern.compile( "Shirt:</td>.*?<b>(.*?)</b>" ).matcher( responseText );
+		if ( equipmentMatcher.find() )
+		{
+			equipment[ KoLCharacter.SHIRT ] = equipmentMatcher.group(1);
+			logStream.println( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
+		}
+
+		equipmentMatcher = Pattern.compile( "Pants:</td>.*?<b>(.*?)</b>" ).matcher( responseText );
+		if ( equipmentMatcher.find() )
+		{
+			equipment[ KoLCharacter.PANTS ] = equipmentMatcher.group(1);
+			logStream.println( "Pants: " + equipment[ KoLCharacter.PANTS ] );
+		}
+
+		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> <a href=\"inv_equip.php\\?which=2&action=unequip&type=acc1\">" ).matcher( responseText );
+		if ( equipmentMatcher.find() )
+		{
+			equipment[ KoLCharacter.ACCESSORY1 ] = equipmentMatcher.group(1);
+			logStream.println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
+		}
+
+		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> <a href=\"inv_equip.php\\?which=2&action=unequip&type=acc2\">" ).matcher( responseText );
+		if ( equipmentMatcher.find() )
+		{
+			equipment[ KoLCharacter.ACCESSORY2 ] = equipmentMatcher.group(1);
+			logStream.println( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
+		}
+
+		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> <a href=\"inv_equip.php\\?which=2&action=unequip&type=acc3\">" ).matcher( responseText );
+		if ( equipmentMatcher.find() )
+		{
+			equipment[ KoLCharacter.ACCESSORY3 ] = equipmentMatcher.group(1);
+			logStream.println( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
+		}
+
+		Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( responseText );
+
+		LockableListModel outfits = outfitsMatcher.find() ?
+			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();
+
+		character.setEquipment( equipment, outfits );
 	}
 }
