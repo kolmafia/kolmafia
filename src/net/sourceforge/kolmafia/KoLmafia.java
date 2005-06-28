@@ -759,7 +759,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			try
 			{
-				int currentHP = 0;
+				int currentHP = -1;
 				permitContinue = true;
 
 				while ( permitContinue && characterData.getCurrentHP() < autoRecover && currentHP != characterData.getCurrentHP() )
@@ -797,7 +797,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			try
 			{
-				int currentMP = 0;
+				int currentMP = -1;
 				permitContinue = true;
 
 				while ( permitContinue && characterData.getCurrentMP() < autoRecover && currentMP != characterData.getCurrentMP() )
