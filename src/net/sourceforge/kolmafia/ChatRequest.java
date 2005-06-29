@@ -150,7 +150,15 @@ public class ChatRequest extends KoLRequest
 			// last seen value.
 		}
 
-		client.getMessenger().updateChat( responseText );
+		if ( !(client instanceof KoLmafiaCLI) )
+			client.getMessenger().updateChat( responseText );
+
+		// If the person is running the chat-based buffbot engine,
+		// then go ahead and immediately process the buffs before
+		// the next chat refresh iteration.
+
+		if ( client.isBuffBotActive() && client.getSettings().getProperty( "useChatBasedBuffBot" ).equals( "true" ) && responseText.indexOf( "New message received from </font>" ) != -1 )
+			client.getBuffBotManager().runBuffBot( 1 );
 	}
 
 	/**

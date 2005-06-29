@@ -186,7 +186,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "http.proxyPassword", "" );
 		ensureProperty( "includeAscensionRecipes", "false" );
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
-		ensureProperty( "itemBasedBuffing", "false" );
 		ensureProperty( "lastAdventure", "" );
 		ensureProperty( "lastOtoriRequest", "19700101" );
 		ensureProperty( "loginServer", "0" );
@@ -204,6 +203,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "skipInventory", "false" );
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
+		ensureProperty( "useChatBasedBuffBot", "false" );
 		ensureProperty( "useClosetForCreation", "false" );
 		ensureProperty( "useTabbedChat", "1" );
 		ensureProperty( "whiteList", "" );

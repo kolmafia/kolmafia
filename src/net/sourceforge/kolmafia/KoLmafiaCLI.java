@@ -1724,16 +1724,9 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( buffBotIterations <= 0 )
-		{
-			scriptRequestor.updateDisplay( ERROR_STATE, "Must have a positive number of buffbot iterations.");
-			scriptRequestor.cancelRequest();
-			return;
-		}
-
 		scriptRequestor.resetContinueState();
 		scriptRequestor.setBuffBotActive( true );
-		currentManager.runBuffBot(buffBotIterations);
+		currentManager.runBuffBot( buffBotIterations );
 		scriptRequestor.updateDisplay( ENABLED_STATE, "BuffBot execution complete." );
 		scriptRequestor.cancelRequest();
 	}

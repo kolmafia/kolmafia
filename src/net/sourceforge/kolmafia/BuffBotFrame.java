@@ -255,9 +255,15 @@ public class BuffBotFrame extends KoLFrame
 			if ( client.isBuffBotActive() )
 				return;
 
+			// Need to make sure everything is up to date.
+			// This includes character status, inventory
+			// data and current settings.
+
+			(new CharsheetRequest( client )).run();
+
 			client.resetContinueState();
 			client.setBuffBotActive( true );
-			currentManager.runBuffBot(-1);
+			currentManager.runBuffBot( Integer.MAX_VALUE );
 		}
 
 		/**
@@ -393,8 +399,8 @@ public class BuffBotFrame extends KoLFrame
 			maxPhilanthropyField = new JTextField();
 
 			LockableListModel buffBotModeChoices = new LockableListModel();
-			buffBotModeChoices.add( "Use buff cost list" );
-			buffBotModeChoices.add( "Use tiny house mode" );
+			buffBotModeChoices.add( "Use standard buffbot" );
+			buffBotModeChoices.add( "Use chat-based buffbot" );
 			buffBotModeSelect = new JComboBox( buffBotModeChoices );
 
 			LockableListModel messageDisposalChoices = new LockableListModel();
@@ -460,7 +466,7 @@ public class BuffBotFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			settings.setProperty( "maxPhilanthropy", maxPhilanthropyField.getText() );
-			settings.setProperty( "buffBotItemBasedBuffing", String.valueOf( buffBotModeSelect.getSelectedIndex() == 1 ) );
+			settings.setProperty( "useChatBasedBuffBot", String.valueOf( buffBotModeSelect.getSelectedIndex() == 1 ) );
 			settings.setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
 
 			StringBuffer mpRestoreSetting = new StringBuffer();
@@ -495,7 +501,7 @@ public class BuffBotFrame extends KoLFrame
 
 			maxPhilanthropyField.setText( settings.getProperty( "maxPhilanthropy" ) );
 			messageDisposalSelect.setSelectedIndex( Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) ) );
-			buffBotModeSelect.setSelectedIndex( settings.getProperty( "itemBasedBuffing" ).equals( "true" ) ? 1 : 0 );
+			buffBotModeSelect.setSelectedIndex( settings.getProperty( "useChatBasedBuffBot" ).equals( "true" ) ? 1 : 0 );
 			whiteListEditor.setText( settings.getProperty( "whiteList" ) );
 
 			setStatusMessage( ENABLED_STATE, "Settings loaded." );

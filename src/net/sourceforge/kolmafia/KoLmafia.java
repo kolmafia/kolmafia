@@ -1210,8 +1210,11 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void initializeChat()
 	{
-		loathingChat = new KoLMessenger( this );
-		loathingChat.initialize();
+		if ( loathingChat == null )
+		{
+			loathingChat = new KoLMessenger( this );
+			loathingChat.initialize();
+		}
 	}
 
 	/**

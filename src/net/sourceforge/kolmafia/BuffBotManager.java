@@ -63,11 +63,12 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private List inventory;
 	private KoLSettings settings;
 
-	private ArrayList saveList;
-	private ArrayList deleteList;
+	protected ArrayList saveList;
+	protected ArrayList deleteList;
 
 	private String mpRestoreSetting;
 	private int messageDisposalSetting;
+	private boolean useChatBasedBuffBot;
 	private BuffBotHome buffbotLog;
 	private String refundMessage;
 	private String thanksMessage;
@@ -78,7 +79,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private Map buffCostMap;
 	private int maxPhilanthropy;
-	private boolean itemBasedBuffing;
 	private MPRestoreItemList mpRestoreItemList;
 	private LockableListModel buffCostTable;
 	private String [] whiteListArray;
@@ -185,26 +185,30 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	 * mailbox, then iterates on the mailbox.
 	 */
 
-	public synchronized void runBuffBot(int runIterations)
+	public synchronized void runBuffBot( int iterations )
 	{
 		boolean newMessages = false;
 		client.setBuffBotActive( true );
 		client.updateDisplay( DISABLED_STATE, "Buffbot started." );
 		buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
 
-		// Need to make sure everything is up to date.
-		// This includes character status, inventory
-		// data and current settings.
-
-		(new CharsheetRequest( client )).run();
 		this.settings = (client == null) ? new KoLSettings() : client.getSettings();
 		this.characterData =  client.getCharacterData();
 		this.inventory = client == null ? new LockableListModel() : client.getInventory();
 
 		maxPhilanthropy = Integer.parseInt( settings.getProperty( "maxPhilanthropy" ) );
-		itemBasedBuffing = settings.getProperty( "itemBasedBuffing" ).equals( "true" );
-		messageDisposalSetting = Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) );
 		mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
+
+		useChatBasedBuffBot = settings.getProperty( "useChatBasedBuffBot" ).equals( "true" );
+		messageDisposalSetting = Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) );
+
+		if ( useChatBasedBuffBot )
+		{
+			if ( messageDisposalSetting == INBOX )
+				messageDisposalSetting = SAVEBOX;
+
+			client.initializeChat();
+		}
 
 		String whiteListString = settings.getProperty( "whiteList" ).toLowerCase();
 		if ( whiteListString.indexOf( "$clan" ) != -1 )
@@ -218,7 +222,9 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		// The outer loop goes until user cancels
 
-		while( client.isBuffBotActive() && runIterations-- != 0)
+		int sleepCount = messageDisposalSetting == INBOX ? LONG_SLEEP_COUNT : SHORT_SLEEP_COUNT;
+
+		for ( int i = 1; client.isBuffBotActive() && i <= iterations; ++i )
 		{
 			// Request the inbox for the user.  Each call
 			// to add message will trigger the actual
@@ -247,31 +253,30 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 			// Otherwise sleep for a while and then try again
 			// (don't go away for more than 1 second at a time
+			// to avoid re-enabling problems).
 
-			if ( newMessages )
+			if ( i != iterations )
 			{
-				buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete." );
-				buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot is sleeping." );
-			}
+				if ( newMessages )
+				{
+					buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete." );
+					buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot is sleeping." );
+				}
 
-			client.updateDisplay( DISABLED_STATE, "BuffBot is sleeping" );
+				client.updateDisplay( DISABLED_STATE, "BuffBot is sleeping" );
 
-			if ( messageDisposalSetting == INBOX )
-			{
-				for ( int i = 0; i < LONG_SLEEP_COUNT; ++i )
-					if ( client.isBuffBotActive() )
-						KoLRequest.delay( SLEEP_TIME );
-			}
-			else
-			{
-				for ( int i = 0; i < SHORT_SLEEP_COUNT; ++i )
+				for ( int j = 0; j < sleepCount; ++j )
 					if ( client.isBuffBotActive() )
 						KoLRequest.delay( SLEEP_TIME );
 			}
 		}
 
-		buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
-		client.updateDisplay( ENABLED_STATE, "Buffbot stopped." );
+		if ( !useChatBasedBuffBot )
+		{
+			buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
+			client.updateDisplay( ENABLED_STATE, "Buffbot stopped." );
+			client.setBuffBotActive( false );
+		}
 	}
 
 	private void sendEmptyMessageNotice( KoLMailMessage message )
@@ -342,10 +347,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	}
 
 	private boolean processMessage( KoLMailMessage message )
-	{	return itemBasedBuffing ? findTinyHouse( message ) : findMeat( message );
-	}
-
-	private boolean findMeat( KoLMailMessage message )
 	{
 		int meatSent = 0;
 		BuffBotCaster buff;
@@ -468,80 +469,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		if ( !saveList.contains( message ) )
 			deleteList.add( message );
 
-		return true;
-	}
-
-	private boolean findTinyHouse( KoLMailMessage message )
-	{
-		int housesSent = 0;
-		BuffBotCaster buff;
-
-		try
-		{
-			String messageContent = message.getMessageHTML();
-
-			// First, test for multiple houses being sent
-			// to do a buff request
-
-			Matcher houseMatcher = Pattern.compile( "<b>tiny house \\(([\\d,]+)\\)" ).matcher( messageContent );
-			if ( houseMatcher.find() )
-				housesSent = df.parse( houseMatcher.group(1) ).intValue();
-
-			// It's possible the user sent only one house!
-			// In which case, you test for just that.
-
-			else if ( messageContent.indexOf( "<b>tiny house" ) != -1 )
-				housesSent = 1;
-
-			if ( housesSent > 0 )
-			{
-				LockableListModel skills = characterData.getAvailableSkills();
-
-				for ( int i = 0; i < skills.size(); ++i )
-				{
-					if ( messageContent.toLowerCase().indexOf( ((UseSkillRequest)skills.get(i)).getSkillName().replaceFirst( "ñ", "n" ).toLowerCase() ) != -1 )
-					{
-						int castCount = housesSent * 20 / ClassSkillsDatabase.getMPConsumptionByID(
-							ClassSkillsDatabase.getSkillID( ((UseSkillRequest)skills.get(i)).getSkillName() ) );
-
-						buff = new BuffBotCaster( ((UseSkillRequest)skills.get(i)).getSkillName(), -housesSent, castCount, false, false );
-						double buffPercentRemaining = buff.castOnTarget( message.getSenderName() );
-						int refundAmount = (int) ((double)housesSent * buffPercentRemaining);
-
-						if ( refundAmount != 0 )
-						{
-							sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  Please try again later.",
-								new AdventureResult( "tiny house", refundAmount ) );
-
-							deleteList.add( message );
-							return true;
-						}
-
-						// If it gets this far, then the buff was successfully
-						// cast!  Therefore, delete the message and return.
-
-						deleteList.add( message );
-						return true;
-					}
-				}
-
-				// If it gets this far, that means the user forgot
-				// to specify a buff!  Therefore, send them a refund.
-
-				sendRefund( message.getSenderName(), "No buff was specified.  Please try again.", new AdventureResult( "tiny house", housesSent ) );
-				deleteList.add( message );
-				return true;
-			}
-		}
-		catch( Exception e )
-		{
-			return false;
-		}
-
-		// Must not be a buff request message, so notify user and save/delete;
-		// also check to see if it was an attempted scam
-
-		detectScam( message, "You acquire some items: tiny house" );
 		return true;
 	}
 
