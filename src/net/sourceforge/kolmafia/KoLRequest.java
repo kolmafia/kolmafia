@@ -163,30 +163,25 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		try
 		{
-			// Randomly set the login server to avoid the possibility
-			// that the main server dies and can't do a redirect so
-			// you can determine the load-balancing server.
-
-			setLoginServer( HOSTNAMES[ ((int) (Math.random() * 3.0)) % 3 ] );
-
 			// This test uses the Kingdom of Loathing automatic balancing
-			// server, rather than allowing users to specify the root;
-			// usually, this works out to the benefit of everyone.
+			// server again to make sure that it's okay with the current
+			// login server.
 
 			KoLRequest root = new KoLRequest( null, "login.php" );
 			root.run();
 
-			// Actually, the autobalancing uses a redirect.  Oops.  So,
-			// determine the redirect location.
+			// Once the request is complete, because there was no header
+			// indicating who redirected you there, you'll have a redirect
+			// location pointing to the correct server.
 
-			setLoginServer( (new URL( root.formConnection.getHeaderField( "Location" ) )).getHost() );
+			String location = root.formConnection.getHeaderField( "Location" );
+			if ( location != null )
+				setLoginServer( (new URL( location )).getHost() );
 		}
 		catch ( Exception e )
 		{
-			// If there's an exception caught while parsing the actual
-			// login server, redirect the person to a random server.
-
-			setLoginServer( HOSTNAMES[ ((int) (Math.random() * 3.0)) % 3 ] );
+			// This should never happen, but if it does, then the default
+			// root should still be active.  Therefore, do nothing.
 		}
 	}
 
