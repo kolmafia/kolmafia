@@ -436,10 +436,11 @@ porquoise ring	8	1	porquoise	ring setting
 
 # Post-ascension recipes
 
+# Familiars
 leaf	1	1	leaflet	leaflet
 maple leaf	1	1	leaf	maple syrup
-lumbering jack	3	1	bottle of whiskey	Blatantly Canadian
 unwound clockwork grapefruit	2	1	clockwork endoskeleton	grapefruit
+
 star shirt	9	1	star chart	star (15)	line (15)
 wholeberd	1	1	halfberd	halfberd
 gnauga hide buckler	14	1	gnauga hide	buckler buckle
@@ -447,6 +448,25 @@ gnauga hide chaps	4	1	gnauga hide	pants kit
 gnauga hide whip	13	1	gnauga hide	whip kit
 sequined fez	4	1	basic meat fez	teeny-tiny ninja stars
 spooky glove	2	1	spooky fairy gravy	small leather glove
+
+# Food
+
+spicy mushroom quesadilla	2	1	warm mushroom	flat dough
+cool mushroom casserole	2	1	cool mushroom	Gnollish casserole dish
+cream of pointy mushroom soup	2	1	pointy mushroom	glass of goat's milk
+
+# Drinks
+
+lumbering jack	3	1	bottle of whiskey	Blatantly Canadian
+flaming mushroom wine	3	1	mushroom fermenting solution	flaming mushroom
+icy mushroom wine	3	1	mushroom fermenting solution	icy mushroom
+stinky mushroom wine	3	1	mushroom fermenting solution	stinky mushroom
+pointy mushroom wine	3	1	mushroom fermenting solution	pointy mushroom
+flat mushroom wine	3	1	mushroom fermenting solution	warm mushroom
+cool mushroom wine	3	1	mushroom fermenting solution	cool mushroom
+knob mushroom wine	3	1	mushroom fermenting solution	Knob mushroom
+knoll mushroom wine	3	1	mushroom fermenting solution	Knoll mushroom
+spooky mushroom wine	3	1	mushroom fermenting solution	spooky mushroom
 
 # Tinker recipes
 
