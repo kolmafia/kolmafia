@@ -51,6 +51,11 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int EQUIP_SHIRT = 11;
 	public static final int EQUIP_WEAPON = 12;
 
+	private static final int CHEF = 438;
+	private static final int BARTENDER = 440;
+	private static final int ARCHES = 504;
+	private static final int TOASTER = 637;
+
 	private int consumptionType;
 	private AdventureResult itemUsed;
 
@@ -94,8 +99,8 @@ public class ConsumeItemRequest extends KoLRequest
 		// Note that requests for bartenders and chefs should
 		// not be run if the character already has one
 
-		if ( (itemUsed.getName().startsWith( "chef-in" ) && client.getCharacterData().hasChef()) ||
-			itemUsed.getName().startsWith( "bartender-in" ) && client.getCharacterData().hasBartender() )
+		if ( (itemUsed.getItemID() == CHEF && client.getCharacterData().hasChef()) ||
+		     itemUsed.getItemID() == BARTENDER && client.getCharacterData().hasBartender() )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You already have one installed." );
@@ -124,10 +129,21 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseCode == 302 && !isErrorState )
 		{
-			if ( itemUsed.getName().startsWith( "chef-in" ) )
+			switch ( itemUsed.getItemID())
+			{
+			case CHEF:
 				client.getCharacterData().setChef( true );
-			else if ( itemUsed.getName().startsWith( "bartender-in" ) )
+				break;
+			case BARTENDER:
 				client.getCharacterData().setBartender( true );
+				break;
+			case TOASTER:
+				client.getCharacterData().setToaster( true );
+				break;
+			case ARCHES:
+				client.getCharacterData().setArches( true );
+				break;
+			}
 
 			(new RetrieveResultRequest( client, redirectLocation )).run();
 		}
