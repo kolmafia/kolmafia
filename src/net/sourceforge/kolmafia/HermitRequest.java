@@ -44,6 +44,7 @@ import java.util.StringTokenizer;
 
 public class HermitRequest extends KoLRequest
 {
+	private static final AdventureResult PERMIT =  new AdventureResult( 42, 0 );
 	private static final AdventureResult TRINKET = new AdventureResult( 43, 0 );
 	private static final AdventureResult GEWGAW = new AdventureResult( 44, 0 );
 	private static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 0 );
@@ -93,13 +94,32 @@ public class HermitRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		if ( responseText.indexOf( "acquire" ) == -1 )
-		{
-			// Figure out how many you were REALLY supposed to run,
-			// since you clearly didn't have enough trinkets for
-			// what you did run. ;)
+		// If you don't have a Hermit Permit, quit now
 
-			int index = responseText.indexOf( "You have" );
+		if ( responseText.indexOf( "You don't have a Hermit Permit") != -1)
+		{
+			updateDisplay( ERROR_STATE, "You can't visit the Hermit." );
+			client.cancelRequest();
+			return;
+		}
+
+		// If you don't have enough Hermit Permits, scale back.
+
+		if ( responseText.indexOf( "You don't have enough Hermit Permits") != -1)
+		{
+			// Figure out how many you do have.
+			int permits = PERMIT.getCount( client.getInventory() );
+			(new HermitRequest( client, itemID, permits )).run();
+			return;
+		}
+
+		// If you don't have enough worthless items, scale back.
+
+		if ( responseText.indexOf( "You don't have enough stuff") != -1)
+		{
+			// Figure out how many items you do have.
+
+			int index = responseText.indexOf( "You have " );
 			if ( index == -1 )
 			{
 				updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
@@ -110,23 +130,30 @@ public class HermitRequest extends KoLRequest
 			try
 			{
 				int actualQuantity = df.parse( responseText.substring( index + 9 ) ).intValue();
-
-				if ( quantity == actualQuantity )
-				{
-					updateDisplay( ERROR_STATE, "Today is not a clover day." );
-					return;
-				}
-
 				(new HermitRequest( client, itemID, actualQuantity )).run();
-				return;
 			}
 			catch ( Exception e )
 			{
-				// Should not happen.  Theoretically, some weird
-				// error message should be logged, but why add an
-				// extra line of code?  A row of comment lines is
-				// much more interesting.
 			}
+			return;
+		}
+
+		// If the item is unavailable, assume he was asking for clover
+
+		if ( responseText.indexOf( "doesn't have that item.") != -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Today is not a clover day." );
+			return;
+		}
+
+		// If you still didn't acquire items, what went wrong?
+
+		if ( responseText.indexOf( "You acquire") == -1)
+		{
+			updateDisplay( ERROR_STATE, "The hermit kept his stuff." );
+			client.cancelRequest();
+			return;
 		}
 
 		processResults( responseText );
