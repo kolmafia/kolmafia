@@ -195,17 +195,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private static void setLoginServer( String server )
 	{
-		KOL_HOST = server;
 		for ( int i = 0; KOL_ROOT == null && i < HOSTNAMES.length; ++i )
 			if ( HOSTNAMES[i].equals( server ) )
+			{
+				KOL_HOST = server;
 				KOL_ROOT = "http://" + DNS_NAMES[i] + "/";
-
-		// If, for any reason, the redirect doesn't match any of
-		// the known names, set the login server to a random
-		// known server, in the interest of speed.
-
-		if ( KOL_ROOT == null )
-			setLoginServer( HOSTNAMES[ ((int) (Math.random() * 3.0)) % 3 ] );
+			}
 	}
 
 	/**
