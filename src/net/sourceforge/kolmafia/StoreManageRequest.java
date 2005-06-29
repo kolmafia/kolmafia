@@ -65,7 +65,7 @@ public class StoreManageRequest extends KoLRequest
 
 		for ( int i = 0; i < itemID.length; ++i )
 		{
-			addFormField( "price" + itemID[i], String.valueOf( prices[i] ) );
+			addFormField( "price" + itemID[i], String.valueOf( Math.max( prices[i], Math.max( TradeableItemDatabase.getPriceByID( itemID[i] ), 100 ) ) ) );
 			addFormField( "limit" + itemID[i], String.valueOf( limits[i] ) );
 		}
 	}

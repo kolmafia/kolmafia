@@ -74,14 +74,16 @@ public class AutoSellRequest extends KoLRequest
 		super( client, "managestore.php" );
 		addFormField( "whichitem", String.valueOf( itemToSell.getItemID() ) );
 		addFormField( "action", "additem" );
-		addFormField( "sellprice", String.valueOf( desiredPrice ) );
+
+		this.price = Math.max( Math.max( TradeableItemDatabase.getPriceByID( itemToSell.getItemID() ), 100 ), desiredPrice );
+
+		addFormField( "sellprice", String.valueOf( price ) );
 		addFormField( "limit", String.valueOf( limit ) );
 		addFormField( "addtype", "addquantity" );
 		addFormField( "quantity", String.valueOf( itemToSell.getCount() ) );
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.limit = limit;
-		this.price = desiredPrice;
 		this.sellType = AUTOMALL;
 		this.soldResult = itemToSell.getNegation();
 	}
