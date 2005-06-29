@@ -176,6 +176,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "closeSending", "false" );
 		ensureProperty( "defaultLimit", "13" );
 		ensureProperty( "fontSize", "3" );
+		ensureProperty( "forceReconnect", "false" );
 		ensureProperty( "forceSorting", "false" );
 		ensureProperty( "hpAutoFlee", "0.0" );
 		ensureProperty( "hpAutoRecover", "-0.1" );
@@ -196,8 +197,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "nameClickOpens", "0" );
 		ensureProperty( "proxySet", "false" );
 		ensureProperty( "reloadFrames", "" );
-		ensureProperty( "saveOutgoing", "false" );
 		ensureProperty( "savePositions", "false" );
+		ensureProperty( "saveOutgoing", "false" );
 		ensureProperty( "saveState", "" );
 		ensureProperty( "skipFamiliars", "false" );
 		ensureProperty( "skipInventory", "false" );

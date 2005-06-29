@@ -72,7 +72,7 @@ public class KoLmafiaGUI extends KoLmafia
 	 * session.
 	 */
 
-	public void updateDisplay( int state, String message )
+	public synchronized void updateDisplay( int state, String message )
 	{
 		super.updateDisplay( state, message );
 
@@ -90,12 +90,6 @@ public class KoLmafiaGUI extends KoLmafia
 			((KoLFrame)displayer.getCreation()).setEnabled( isEnabled );
 	}
 
-	public void requestFocus()
-	{
-		if ( displayer != null && displayer.getCreation() != null )
-			((KoLFrame)displayer.getCreation()).requestFocus();
-	}
-
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
 	 * the login has been confirmed to notify the client that the
@@ -107,19 +101,17 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
-		if ( loginRequest != null )
-		{
-			updateDisplay( ENABLED_STATE, "Session timed-in." );
+		if ( displayer.getCreation() instanceof AdventureFrame )
 			return;
-		}
 
 		if ( !isLoggingIn )
 		{
 			CreateFrameRunnable previousDisplayer = displayer;
 
-			Object [] parameters = new Object[2];
+			Object [] parameters = new Object[3];
 			parameters[0] = this;
-			parameters[1] = tally;
+			parameters[1] = adventureList;
+			parameters[2] = tally;
 
 			displayer = new CreateFrameRunnable( AdventureFrame.class, parameters );
 			displayer.run();
@@ -138,12 +130,12 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.deinitialize();
 
-		Object [] parameters = new Object[2];
-		parameters[0] = this;
-		parameters[1] = saveStateNames;
-
 		if ( displayer == null )
 		{
+			Object [] parameters = new Object[2];
+			parameters[0] = this;
+			parameters[1] = saveStateNames;
+
 			displayer = new CreateFrameRunnable( LoginFrame.class, parameters );
 			displayer.run();
 		}
@@ -262,13 +254,5 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( displayer != null && displayer.getCreation() != null )
 			return ((KoLFrame)displayer.getCreation()).isVisible();
 		return false;
-	}
-
-	public void deinitializeBuffBot()
-	{
-		super.deinitializeBuffBot();
-
-		if ( displayer != null && displayer.getCreation() != null )
-			((KoLFrame)displayer.getCreation()).setVisible( true );
 	}
 }

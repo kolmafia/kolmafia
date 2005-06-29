@@ -68,40 +68,45 @@ public class AdventureRequest extends KoLRequest
 		// posting it in the form sent to adventure.php will handle
 		// everything for you.
 
-		if ( formSource.equals( "adventure.php" ) )
-			addFormField( "adv", adventureID );
-		else if ( formSource.equals( "shore.php" ) )
+		if ( client != null )
 		{
-			addFormField( "whichtrip", adventureID );
-			addFormField( "pwd", client.getPasswordHash() );
-		}
-		else if ( formSource.equals( "casino.php" ) )
-		{
-			addFormField( "action", "slot" );
-			addFormField( "whichslot", adventureID );
-		}
-		else if ( formSource.equals( "dungeon.php" ) )
-		{
-			addFormField( "action", "Yep" );
-			addFormField( "option", "1" );
-			addFormField( "pwd", client.getPasswordHash() );
-		}
-		else
-			addFormField( "action", adventureID );
 
-		// If you took a trip to the shore, you would use up 3 adventures
-		// for each trip
+			if ( formSource.equals( "adventure.php" ) )
+				addFormField( "adv", adventureID );
+			else if ( formSource.equals( "shore.php" ) )
+			{
+				addFormField( "whichtrip", adventureID );
+				addFormField( "pwd", client.getPasswordHash() );
+			}
+			else if ( formSource.equals( "casino.php" ) )
+			{
+				addFormField( "action", "slot" );
+				addFormField( "whichslot", adventureID );
+			}
+			else if ( formSource.equals( "dungeon.php" ) )
+			{
+				addFormField( "action", "Yep" );
+				addFormField( "option", "1" );
+				addFormField( "pwd", client.getPasswordHash() );
+			}
+			else
+				addFormField( "action", adventureID );
 
-		this.adventuresUsed = 0;
-		if ( formSource.equals( "shore.php" ) )
-			this.adventuresUsed = 3;
-		else if ( formSource.equals( "casino.php" ) )
-		{
-			if ( adventureID.equals( "11" ) )
+			// If you took a trip to the shore, you would use up 3 adventures
+			// for each trip
+
+			this.adventuresUsed = 0;
+			if ( formSource.equals( "shore.php" ) )
+				this.adventuresUsed = 3;
+			else if ( formSource.equals( "casino.php" ) )
+			{
+				if ( adventureID.equals( "11" ) )
+					this.adventuresUsed = 1;
+			}
+			else
 				this.adventuresUsed = 1;
+
 		}
-		else
-			this.adventuresUsed = 1;
 	}
 
 	/**

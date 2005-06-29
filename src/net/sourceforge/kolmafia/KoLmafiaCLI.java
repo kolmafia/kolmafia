@@ -1708,11 +1708,17 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		int buffBotIterations;
-
 		try
 		{
-			buffBotIterations = df.parse( parameters ).intValue();
+			int buffBotIterations = df.parse( parameters ).intValue();
+
+			(new CharsheetRequest( scriptRequestor )).run();
+			scriptRequestor.resetContinueState();
+			scriptRequestor.setBuffBotActive( true );
+			currentManager.runBuffBot( buffBotIterations );
+			scriptRequestor.updateDisplay( ENABLED_STATE, "BuffBot execution complete." );
+			scriptRequestor.cancelRequest();
+
 		}
 		catch (Exception e)
 		{
@@ -1723,12 +1729,6 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.cancelRequest();
 			return;
 		}
-
-		scriptRequestor.resetContinueState();
-		scriptRequestor.setBuffBotActive( true );
-		currentManager.runBuffBot( buffBotIterations );
-		scriptRequestor.updateDisplay( ENABLED_STATE, "BuffBot execution complete." );
-		scriptRequestor.cancelRequest();
 	}
 
 	/**
@@ -1736,7 +1736,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * session.
 	 */
 
-	public void updateDisplay( int state, String message )
+	public synchronized void updateDisplay( int state, String message )
 	{
 		if ( this instanceof KoLmafiaCLI )
 			super.updateDisplay( state, message );
@@ -1753,15 +1753,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( message.equals( "Login failed." ) )
 			attemptLogin();
-	}
-
-	/**
-	 * This does nothing, since requesting focus for a command line
-	 * equates to doing nothing.
-	 */
-
-	public void requestFocus()
-	{
 	}
 
 	/**

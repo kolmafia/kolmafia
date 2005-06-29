@@ -568,12 +568,28 @@ public class KoLRequest implements Runnable, KoLConstants
 					// notified that they should try again later.
 
 					updateDisplay( ERROR_STATE, "Nightly maintenance." );
+					isErrorState = true;
+
+					if ( client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
+					{
+						client.executeTimeInRequest();
+						return true;
+					}
+
 					client.cancelRequest();
 					return false;
 				}
 				else if ( redirectLocation.startsWith( "login.php" ) )
 				{
 					updateDisplay( ERROR_STATE, "Session timed out." );
+					isErrorState = true;
+
+					if ( client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
+					{
+						client.executeTimeInRequest();
+						return true;
+					}
+
 					client.cancelRequest();
 					return false;
 				}

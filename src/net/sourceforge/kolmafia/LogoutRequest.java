@@ -50,24 +50,6 @@ public class LogoutRequest extends KoLRequest
 	 */
 
 	public LogoutRequest( KoLmafia client )
-	{	super( client, "logout.php" );
-	}
-
-	/**
-	 * Runs the logout request, and follows through by
-	 * requesting the logged out request.
-	 */
-
-	public void run()
-	{
-		super.run();
-		(new LoggedOutRequest( client )).run();
-	}
-
-	private class LoggedOutRequest extends KoLRequest
-	{
-		public LoggedOutRequest( KoLmafia client )
-		{	super( client, "loggedout.php" );
-		}
+	{	super( client, "logout.php", true );
 	}
 }

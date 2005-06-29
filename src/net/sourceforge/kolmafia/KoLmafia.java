@@ -102,6 +102,7 @@ public abstract class KoLmafia implements KoLConstants
 	private TreeMap seenPlayerIDs;
 	private TreeMap seenPlayerNames;
 
+	protected LockableListModel adventureList;
 	protected SortedListModel tally, conditions;
 	protected SortedListModel inventory, closet, usableItems, hunterItems, collection, storage;
 
@@ -157,6 +158,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		seenPlayerIDs = new TreeMap();
 		seenPlayerNames = new TreeMap();
+		adventureList = new LockableListModel();
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -168,7 +170,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * session.
 	 */
 
-	public void updateDisplay( int state, String message )
+	public synchronized void updateDisplay( int state, String message )
 	{
 		if ( commandBuffer != null )
 		{
@@ -190,8 +192,6 @@ public abstract class KoLmafia implements KoLConstants
 	{	this.commandBuffer = commandBuffer;
 	}
 
-	public abstract void requestFocus();
-
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
 	 * the login has been confirmed to notify the client that the
@@ -206,6 +206,8 @@ public abstract class KoLmafia implements KoLConstants
 		// all over the place
 
 		this.sessionID = sessionID;
+		adventureList.clear();
+		adventureList.addAll( AdventureDatabase.getAsLockableListModel( this ) );
 
 		if ( !permitContinue )
 		{
@@ -387,6 +389,7 @@ public abstract class KoLmafia implements KoLConstants
 			(new UseSkillRequest( this, "Advanced Cocktailcrafting", "", 3 )).run();
 
 		permitContinue = true;
+		updateDisplay( ENABLED_STATE, "Breakfast retrieved." );
 	}
 
 	/**
@@ -431,6 +434,7 @@ public abstract class KoLmafia implements KoLConstants
 		loginRequest = null;
 
 		deinitializeChat();
+		setBuffBotActive( false );
 		deinitializeLogStream();
 		deinitializeMacroStream();
 		permitContinue = false;
@@ -1463,9 +1467,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void initializeBuffBot()
 	{
 		if ( buffBotHome == null )
-		{
 			buffBotHome = new BuffBotHome(this);
-		}
 	}
 
 	/**
@@ -1553,5 +1555,55 @@ public abstract class KoLmafia implements KoLConstants
 
 	public StoreManager getStoreManager()
 	{	return storeManager;
+	}
+
+	public void executeTimeInRequest()
+	{
+		if ( !isLoggingIn )
+		{
+			LoginRequest cachedLogin = loginRequest;
+
+			deinitialize();
+			isLoggingIn = true;
+
+			updateDisplay( DISABLED_STATE, "Timing in session..." );
+
+			// Two quick login attempts to force
+			// a timeout of the other session and
+			// re-request another session.
+
+			cachedLogin.run();
+
+			if ( isLoggingIn )
+				cachedLogin.run();
+
+			// Wait 5 minutes inbetween each attempt
+			// to re-login to Kingdom of Loathing,
+			// because if the above two failed, that
+			// means it's nightly maintenance.
+
+			while ( isLoggingIn )
+			{
+				KoLRequest.delay( 300000 );
+				cachedLogin.run();
+			}
+
+			// Refresh the character data after a
+			// successful login.
+
+			(new CharsheetRequest( KoLmafia.this )).run();
+
+			// If the buffbot was active before, then
+			// initialize it again.
+
+			if ( buffBotManager != null )
+			{
+				initializeBuffBot();
+				setBuffBotActive( true );
+				buffBotManager.runBuffBot( Integer.MAX_VALUE );
+			}
+
+			updateDisplay( ENABLED_STATE, "Session timed in." );
+		}
 	}
 }

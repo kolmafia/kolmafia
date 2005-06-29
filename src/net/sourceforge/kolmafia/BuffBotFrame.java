@@ -56,6 +56,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -73,6 +74,7 @@ import javax.swing.JButton;
 import java.util.Iterator;
 import java.util.Properties;
 import java.text.ParseException;
+import javax.swing.SwingUtilities;
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
@@ -87,6 +89,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffBotFrame extends KoLFrame
 {
+	private JCheckBoxMenuItem toggleItem;
 	private KoLSettings settings;
 	private BuffBotManager currentManager;
 
@@ -146,15 +149,15 @@ public class BuffBotFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenuItem adventureMenuItem = new JMenuItem( "", KeyEvent.VK_M );
-		adventureMenuItem.addActionListener( new ToggleVisibility( adventureMenuItem ) );
+		toggleItem = new JCheckBoxMenuItem( "Show Main", true );
+		toggleItem.addActionListener( new ToggleListener() );
 
-		JMenuItem statisticsMenuItem = new JMenuItem( "Session Stats", KeyEvent.VK_S );
-		statisticsMenuItem.addActionListener( new ShowStatisticsListener() );
+		JMenuItem statsItem = new JMenuItem( "Session Stats", KeyEvent.VK_S );
+		statsItem.addActionListener( new ShowStatisticsListener() );
 
 		JMenu statusMenu = addStatusMenu( menuBar );
-		statusMenu.add( adventureMenuItem, 0 );
-		statusMenu.add( statisticsMenuItem, 1 );
+		statusMenu.add( toggleItem, 0 );
+		statusMenu.add( statsItem, 1 );
 
 		addPeopleMenu( menuBar );
 		addHelpMenu( menuBar );
@@ -185,23 +188,26 @@ public class BuffBotFrame extends KoLFrame
 				statBuffer.append( " this session\n\n" );
 			}
 
-			StatisticsFrame frame = new StatisticsFrame( client, statBuffer.toString() );
-			frame.pack();  frame.setVisible( true );  frame.requestFocus();
+			Object [] parameters = new Object[2];
+			parameters[0] = client;
+			parameters[1] = statBuffer.toString();
+
+			SwingUtilities.invokeLater( new CreateFrameRunnable( StatisticsFrame.class, parameters ) );
 		}
+	}
 
-		private class StatisticsFrame extends KoLFrame
+	public static class StatisticsFrame extends KoLFrame
+	{
+		public StatisticsFrame( KoLmafia client, String statistics )
 		{
-			public StatisticsFrame( KoLmafia client, String statistics )
-			{
-				super( "KoLmafia: Buffbot Statistics", client );
+			super( "KoLmafia: Buffbot Statistics", client );
 
-				JTextArea content = new JTextArea( 12, 32 );
-				JScrollPane scroller = new JScrollPane( content, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-				content.setText( statistics );
+			JTextArea content = new JTextArea( 12, 32 );
+			JScrollPane scroller = new JScrollPane( content, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			content.setText( statistics );
 
-				getContentPane().setLayout( new CardLayout( 10, 10 ) );
-				getContentPane().add( scroller, "" );
-			}
+			getContentPane().setLayout( new CardLayout( 10, 10 ) );
+			getContentPane().add( scroller, "" );
 		}
 	}
 
@@ -531,24 +537,15 @@ public class BuffBotFrame extends KoLFrame
 		}
 	}
 
-	private class ToggleVisibility implements ActionListener
+	private class ToggleListener implements ActionListener
 	{
-		private JMenuItem toggleItem;
-		private boolean isVisible;
-
-		public ToggleVisibility( JMenuItem toggleItem )
-		{
-			this.toggleItem = toggleItem;
-			toggleItem.setText( "Hide Main" );
-			this.isVisible = true;
-		}
-
 		public void actionPerformed( ActionEvent e )
 		{
-			this.isVisible = !this.isVisible;
-			toggleItem.setText( isVisible ? "Hide Main" : "Seek Main" );
+			boolean isSelected = toggleItem.getSelectedObjects() != null;
+
+			toggleItem.setSelected( isSelected );
 			if ( client != null && client instanceof KoLmafiaGUI )
-				((KoLmafiaGUI)client).setVisible( this.isVisible );
+				((KoLmafiaGUI)client).setVisible( isSelected );
 		}
 	}
 
@@ -564,8 +561,11 @@ public class BuffBotFrame extends KoLFrame
 		{
 			if ( client != null )
 			{
-				if ( client != null )
-					client.setBuffBotActive( false );
+				client.deinitializeBuffBot();
+
+				if ( toggleItem.getText().equals( "Show Main" ) )
+					((KoLmafiaGUI)client).setVisible( true );
+
 				client.updateDisplay( ENABLED_STATE, "Buffbot deactivated." );
 			}
 			else

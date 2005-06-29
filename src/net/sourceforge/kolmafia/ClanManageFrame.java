@@ -623,35 +623,10 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class ManagerListener implements ActionListener
+	private class ManagerListener extends InvocationListener
 	{
-		private Method method;
-
 		public ManagerListener( String methodName )
-		{
-			try
-			{	this.method = client.getClanManager().getClass().getDeclaredMethod( methodName, null );
-			}
-			catch ( Exception e )
-			{
-			}
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new ManagerThread()).start();
-		}
-
-		private class ManagerThread extends DaemonThread
-		{
-			public void run()
-			{
-				try
-				{	method.invoke( client.getClanManager(), null );
-				}
-				catch ( Exception e )
-				{
-				}
-			}
+		{	super( client.getClanManager(), methodName );
 		}
 	}
 

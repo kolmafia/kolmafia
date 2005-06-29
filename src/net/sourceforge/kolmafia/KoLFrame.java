@@ -79,6 +79,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.net.URLEncoder;
+import java.lang.reflect.Method;
 
 // other stuff
 import javax.swing.SwingUtilities;
@@ -147,7 +148,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				setLocationRelativeTo( null );
 		}
 
-		if ( !( this instanceof LoginFrame || this instanceof AdventureFrame ) )
+		if ( !(this instanceof LoginFrame || this instanceof AdventureFrame) )
 			existingFrames.add( this );
 	}
 
@@ -155,10 +156,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		super.dispose();
 
-		Object [] frames = existingFrames.toArray();
-
-		synchronized ( existingFrames )
+		if ( !(this instanceof LoginFrame || this instanceof AdventureFrame) )
 		{
+			Object [] frames = existingFrames.toArray();
+
 			for ( int i = frames.length - 1; i >= 0; --i )
 				if ( frames[i] == this )
 					existingFrames.remove(i);
@@ -325,7 +326,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menu.add( peopleMenu );
 
 		JMenuItem chatMenuItem = new JMenuItem( "Chat of Loathing", KeyEvent.VK_C );
-		chatMenuItem.addActionListener( new ViewChatListener() );
+		chatMenuItem.addActionListener( new InvocationListener( client, "initializeChat" ) );
 
 		JMenuItem composeMenuItem = new JMenuItem( "Green Composer", KeyEvent.VK_G );
 		composeMenuItem.addActionListener( new DisplayFrameListener( GreenMessageFrame.class ) );
@@ -926,21 +927,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing the chat window.
-	 */
-
-	private class ViewChatListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( client.getMessenger() == null )
-				client.initializeChat();
-		}
-	}
-
 	private class DisplayPageListener implements ActionListener
 	{
 		private String location;
@@ -1130,6 +1116,46 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{	openRequestFrame( location );
 		}
 	}
+
+	private static final Class [] NOPARAMS = new Class[0];
+
+	protected class InvocationListener implements ActionListener
+	{
+		private Object object;
+		private Method method;
+
+		public InvocationListener( Object object, String methodName )
+		{
+			try
+			{
+				this.object = object;
+				this.method = this.object.getClass().getMethod( methodName, NOPARAMS );
+			}
+			catch ( Exception e )
+			{
+				System.out.println( object.getClass() );
+				System.out.println( methodName );
+			}
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new InvocationThread()).start();
+		}
+
+		private class InvocationThread extends DaemonThread
+		{
+			public void run()
+			{
+				try
+				{	method.invoke( object, null );
+				}
+				catch ( Exception e )
+				{
+				}
+			}
+		}
+	}
+
 
 	public void openRequestFrame( String location )
 	{

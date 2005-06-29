@@ -151,14 +151,14 @@ public class AdventureFrame extends KoLFrame
 	 * @param	resultsTally	Tally of adventuring results
 	 */
 
-	public AdventureFrame( KoLmafia client, SortedListModel resultsTally )
+	public AdventureFrame( KoLmafia client, LockableListModel adventureList, SortedListModel resultsTally )
 	{
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 			" (" + KoLRequest.getRootHostName() + ")", client );
 
 		this.isEnabled = true;
 		this.tabs = new JTabbedPane();
-		this.adventureList = AdventureDatabase.getAsLockableListModel( client );
+		this.adventureList = adventureList;
 
 		this.adventureSelect = new AdventureSelectPanel( resultsTally );
 		tabs.addTab( "Adventure Select", adventureSelect );
@@ -211,7 +211,7 @@ public class AdventureFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		this.isEnabled = isEnabled && !client.isBuffBotActive();
+		this.isEnabled = isEnabled && (client == null || !client.isBuffBotActive());
 
 		if ( mailMenuItem != null )
 			mailMenuItem.setEnabled( this.isEnabled );
@@ -234,10 +234,11 @@ public class AdventureFrame extends KoLFrame
 		if ( removeEffects != null )
 			removeEffects.setEnabled( this.isEnabled );
 
-		Iterator framesIterator = existingFrames.iterator();
+		Object [] frames = existingFrames.toArray();
 
-		while ( framesIterator.hasNext() )
-			((KoLFrame) framesIterator.next()).setEnabled( isEnabled );
+		for ( int i = 0; i < frames.length; ++i )
+			if ( frames[i] != this )
+				((KoLFrame) frames[i]).setEnabled( isEnabled );
 	}
 
 	/**
@@ -261,7 +262,7 @@ public class AdventureFrame extends KoLFrame
 		JMenuItem caseItem = new JMenuItem( "Yeti's Museum", KeyEvent.VK_Y );
 		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
 		JMenuItem otoriItem = new JMenuItem( "Pwn Clan Otori!" );
-		otoriItem.addActionListener( new OtoriBuffListener() );
+		otoriItem.addActionListener( new InvocationListener( client, "pwnClanOtori" ) );
 
 		JMenu statusMenu = addStatusMenu( menuBar );
 		statusMenu.add( mapItem, 0 );
@@ -271,7 +272,7 @@ public class AdventureFrame extends KoLFrame
 		statusMenu.add( otoriItem );
 
 		JMenuItem foodItem = new JMenuItem( "Camping Routine", KeyEvent.VK_C );
-		foodItem.addActionListener( new GetBreakfastListener() );
+		foodItem.addActionListener( new InvocationListener( client, "getBreakfast" ) );
 		JMenuItem buffbotMenuItem = new JMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E );
 		buffbotMenuItem.addActionListener( new DisplayFrameListener( BuffBotFrame.class ) );
 
@@ -311,9 +312,9 @@ public class AdventureFrame extends KoLFrame
 		peopleMenu.add( clanItem );
 
 		JMenuItem resetItem = new JMenuItem( "Reset Session", KeyEvent.VK_R );
-		resetItem.addActionListener( new ResetSessionListener() );
+		resetItem.addActionListener( new InvocationListener( client, "resetSessionTally" ) );
 		JMenuItem reloginItem = new JMenuItem( "Session Time-In", KeyEvent.VK_S );
-		reloginItem.addActionListener( new SessionTimeInListener() );
+		reloginItem.addActionListener( new InvocationListener( client, "executeTimeInRequest" ) );
 
 		JMenu configMenu = addConfigureMenu( menuBar );
 		configMenu.add( resetItem );
@@ -380,24 +381,22 @@ public class AdventureFrame extends KoLFrame
 		public void setStatusMessage( int displayState, String s )
 		{
 			String label = actionStatusLabel.getText();
-			if ( !s.equals( "Timing-in session." ) &&
-			     ( label.equals( "Session timed out." ) ||
-			       label.equals( "Nightly maintenance." ) ))
+			if ( !s.equals( "Timing in session..." ) && (label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." ) ))
 				return;
 
 			actionStatusLabel.setText( s );
 			switch ( displayState )
 			{
-			case ERROR_STATE:
-				sidePanel.setBackground( ERROR_COLOR );
-				break;
-			case ENABLED_STATE:
-				if ( !isExecutingScript )
-					sidePanel.setBackground( ENABLED_COLOR );
-				break;
-			case DISABLED_STATE:
-				sidePanel.setBackground( DISABLED_COLOR );
-				break;
+				case ERROR_STATE:
+					sidePanel.setBackground( ERROR_COLOR );
+					break;
+				case ENABLED_STATE:
+					if ( !isExecutingScript )
+						sidePanel.setBackground( ENABLED_COLOR );
+					break;
+				case DISABLED_STATE:
+					sidePanel.setBackground( DISABLED_COLOR );
+					break;
 			}
 		}
 
@@ -526,23 +525,21 @@ public class AdventureFrame extends KoLFrame
 		public void setStatusMessage( int displayState, String s )
 		{
 			String label = actionStatusLabel.getText();
-			if ( !s.equals( "Timing-in session." ) &&
-			     ( label.equals( "Session timed out." ) ||
-			       label.equals( "Nightly maintenance." ) ))
+			if ( !client.inLoginState() && (label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." )) )
 				return;
 
 			actionStatusLabel.setText( s );
 			switch ( displayState )
 			{
-			case ERROR_STATE:
-				sidePanel.setBackground( ERROR_COLOR );
-				break;
-			case ENABLED_STATE:
-				sidePanel.setBackground( ENABLED_COLOR );
-				break;
-			case DISABLED_STATE:
-				sidePanel.setBackground( DISABLED_COLOR );
-				break;
+				case ERROR_STATE:
+					sidePanel.setBackground( ERROR_COLOR );
+					break;
+				case ENABLED_STATE:
+					sidePanel.setBackground( ENABLED_COLOR );
+					break;
+				case DISABLED_STATE:
+					sidePanel.setBackground( DISABLED_COLOR );
+					break;
 			}
 		}
 
@@ -889,35 +886,6 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	private class ResetSessionListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	client.resetSessionTally();
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for fetching breakfast.
-	 */
-
-	private class GetBreakfastListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new GetBreakfastThread()).start();
-		}
-
-		private class GetBreakfastThread extends DaemonThread
-		{
-			public void run()
-			{
-				client.getBreakfast();
-				updateDisplay( ENABLED_STATE, "Breakfast retrieved." );
-			}
-		}
-	}
-
 	/**
 	 * An internal class used to handle logout whenever the window
 	 * is closed.  An instance of this class is added to the window
@@ -926,75 +894,18 @@ public class AdventureFrame extends KoLFrame
 
 	private class LogoutRequestAdapter extends WindowAdapter
 	{
-		public void windowOpened( WindowEvent e )
-		{
-			if ( client != null && client.getSettings().getProperty( "savePositions" ).equals( "true" ) )
-			{
-				Class currentClass;
-				String [] framesToReload = client.getSettings().getProperty( "reloadFrames" ).split( "," );
-
-				if ( framesToReload[0].length() > 0 )
-				{
-					KoLmafia [] parameters = new KoLmafia[1];
-					parameters[0] = client;
-
-					for ( int i = 0; i < framesToReload.length; ++i )
-					{
-						try
-						{
-							currentClass = Class.forName( "net.sourceforge.kolmafia." + framesToReload[i] );
-							SwingUtilities.invokeLater( new CreateFrameRunnable( currentClass, parameters ) );
-						}
-						catch ( Exception e1 )
-						{
-							// If the exception gets thrown, then the
-							// frame isn't created, which is just as
-							// expected.  Do nothing.
-						}
-					}
-				}
-			}
-		}
-
 		public void windowClosed( WindowEvent e )
 		{
 			if ( client != null )
 			{
-				// Create a new instance of a client, and allow
-				// the current client to run down in a separate
-				// Thread.
+				Object [] frames = existingFrames.toArray();
 
-				synchronized ( existingFrames )
-				{
-					StringBuffer framesToReload = new StringBuffer();
-					boolean reloadFrame;
+				for ( int i = 0; i < frames.length; ++i )
+					((KoLFrame)frames[i]).dispose();
 
-					KoLFrame currentFrame;
-					Object [] frames = existingFrames.toArray();
-
-					for ( int i = 0; i < frames.length; ++i )
-					{
-						currentFrame = (KoLFrame) frames[i];
-						reloadFrame = currentFrame.isShowing();
-						currentFrame.setVisible( false );
-						currentFrame.dispose();
-
-						if ( reloadFrame && framesToReload.indexOf( currentFrame.getFrameName() ) == -1 )
-						{
-							if ( framesToReload.length() > 0 )
-								framesToReload.append( ',' );
-							framesToReload.append( currentFrame.getFrameName() );
-						}
-					}
-
-					client.getSettings().setProperty( "reloadFrames", framesToReload.toString() );
-					client.getSettings().saveSettings();
-
-					client.deinitialize();
-
-					(new RequestThread( new LogoutRequest( client ) )).start();
-					KoLmafiaGUI.main( new String[0] );
-				}
+				client.deinitialize();
+				(new RequestThread( new LogoutRequest( client ) )).start();
+				KoLmafiaGUI.main( new String[0] );
 			}
 		}
 	}
@@ -1020,43 +931,6 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	private class OtoriBuffListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new OtoriBuffThread()).start();
-		}
-
-		private class OtoriBuffThread extends DaemonThread
-		{
-			public void run()
-			{	client.pwnClanOtori();
-			}
-		}
-	}
-
-	private class SessionTimeInListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new SessionTimeInThread()).start();
-		}
-
-		private class SessionTimeInThread extends DaemonThread
-		{
-			public void run()
-			{
-				client.updateDisplay( NOCHANGE, "Timing-in session." );
-				LoginRequest loginRequest = client.loginRequest;
-				client.deinitialize();
-				client.loginRequest = loginRequest;
-
-				loginRequest.run();
-				adventureList.clear();
-				adventureList.addAll( AdventureDatabase.getAsLockableListModel( client ) );
-				client.updateDisplay( ENABLED_STATE, "Session timed in." );
-			}
-		}
-	}
-
 	/**
 	 * The main method used in the event of testing the way the
 	 * user interface looks.  This allows the UI to be tested
@@ -1065,7 +939,7 @@ public class AdventureFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new AdventureFrame( null, new SortedListModel() );
+		KoLFrame uitest = new AdventureFrame( null, AdventureDatabase.getAsLockableListModel( null ), new SortedListModel() );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }
