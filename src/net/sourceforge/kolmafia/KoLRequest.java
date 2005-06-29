@@ -83,9 +83,10 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	applySettings();
 	}
 
-	private String formURLString;
 	private URL formURL;
 	private StringBuffer formURLBuffer;
+
+	private String formURLString;
 	private String sessionID;
 	private List data;
 
@@ -258,6 +259,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.followRedirects = followRedirects;
 	}
 
+	/**
+	 * Returns the location of the form being used for this URL, in case
+	 * it's ever needed/forgotten.
+	 */
+
+	protected String getURLString()
+	{	return formURLString;
+	}
 
 	/**
 	 * Adds the given form field to the KoLRequest.  Descendant classes should

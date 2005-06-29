@@ -138,9 +138,10 @@ public class RequestEditorKit extends HTMLEditorKit
 			String action = (String) formElement.getAttributes().getAttribute( HTML.Attribute.ACTION );
 
 			// If there is no action, how do we know which page to
-			// connect to?
-			if ( action == null)
-				return;
+			// connect to?  We assume it's the originating page.
+
+			if ( action == null )
+				action = frame.getCurrentLocation();
 
 			KoLRequest request = new KoLRequest( client, action, true );
 

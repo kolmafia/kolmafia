@@ -54,6 +54,7 @@ public class RequestFrame extends KoLFrame
 {
 	private String title;
 	protected JEditorPane display;
+	private KoLRequest currentRequest;
 	private LimitedSizeChatBuffer buffer;
 
 	public RequestFrame( KoLmafia client, String title, KoLRequest request )
@@ -80,7 +81,8 @@ public class RequestFrame extends KoLFrame
 		getContentPane().add( scrollPane );
 		addMenuBar();
 
-		(new DisplayRequestThread( request )).start();
+		currentRequest = request;
+		(new DisplayRequestThread()).start();
 	}
 
 	private void addMenuBar()
@@ -129,10 +131,15 @@ public class RequestFrame extends KoLFrame
 		return menuItem;
 	}
 
+	public String getCurrentLocation()
+	{	return currentRequest.getURLString();
+	}
+
 	public void refresh( KoLRequest request )
 	{
 		setTitle( "Mini-Browser Window" );
-		(new DisplayRequestThread( request )).start();
+		currentRequest = request;
+		(new DisplayRequestThread()).start();
 	}
 
 	private class DisplayRequestListener implements ActionListener
@@ -144,36 +151,36 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new DisplayRequestThread( new KoLRequest( client, location ) )).start();
+		{
+			currentRequest = new KoLRequest( client, location );
+			(new DisplayRequestThread()).start();
 		}
 	}
 
 	private class DisplayRequestThread extends DaemonThread
 	{
-		private KoLRequest request;
-
-		public DisplayRequestThread( KoLRequest request )
-		{	this.request = request;
+		public DisplayRequestThread()
+		{
 		}
 
 		public void run()
 		{
-			if ( request == null )
+			if ( currentRequest == null )
 				return;
 
 			buffer.clearBuffer();
 			buffer.append( "Retrieving..." );
 
-			if ( request.responseText == null )
+			if ( currentRequest.responseText == null )
 			{
-				request.run();
-				client.processResults( request.responseText );
+				currentRequest.run();
+				client.processResults( currentRequest.responseText );
 			}
 
 			// Remove all the <BR> tags that are not understood
 			// by the default Java browser.
 
-			String displayHTML = request.responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( " class=small", "" );
+			String displayHTML = currentRequest.responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( " class=small", "" );
 
 			// This is to replace all the rows with a height of 1
 			// with nothing to avoid weird rendering.
@@ -181,14 +188,14 @@ public class RequestFrame extends KoLFrame
 			displayHTML = displayHTML.replaceAll( "<tr><td height=1 bgcolor=black></td></tr>", "" );
 			displayHTML = Pattern.compile( "<tr><td colspan=(\\d+) height=1 bgcolor=black></td></tr>" ).matcher( displayHTML ).replaceAll( "" );
 
-                        // Kingdom of Loathing uses HTML in some of its maps
-                        // that confuses the default browser. We can transform
-                        // it to make it render correctly.
-                        //
-                        // Transform:
-                        //     <form...><td...>...</td></form>
-                        // into:
-                        //     <td..><form...>...</form></td>
+			// Kingdom of Loathing uses HTML in some of its maps
+			// that confuses the default browser. We can transform
+			// it to make it render correctly.
+			//
+			// Transform:
+			//     <form...><td...>...</td></form>
+			// into:
+			//     <td..><form...>...</form></td>
 
 			displayHTML = Pattern.compile( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)" ).matcher( displayHTML ).replaceAll( "$4$1$2" );
 			displayHTML = Pattern.compile( "</td></form>" ).matcher( displayHTML ).replaceAll( "</form></td>" );
