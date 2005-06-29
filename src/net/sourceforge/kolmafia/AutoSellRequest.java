@@ -149,6 +149,8 @@ public class AutoSellRequest extends KoLRequest
 		}
 		else
 			updateStoreManager();
+
+		updateDisplay( ENABLED_STATE, "Items sold." );
 	}
 
 	private void updateStoreManager()
