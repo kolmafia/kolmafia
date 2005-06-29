@@ -207,6 +207,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			if ( messageDisposalSetting == INBOX )
 				messageDisposalSetting = SAVEBOX;
 
+			iterations = 1;
 			client.initializeChat();
 		}
 
