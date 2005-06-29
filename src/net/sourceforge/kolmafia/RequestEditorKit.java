@@ -135,7 +135,14 @@ public class RequestEditorKit extends HTMLEditorKit
 			// get the action field, attach the data, and
 			// refresh the appropriate request frame.
 
-			KoLRequest request = new KoLRequest( client, (String) formElement.getAttributes().getAttribute( HTML.Attribute.ACTION ), true );
+			String action = (String) formElement.getAttributes().getAttribute( HTML.Attribute.ACTION );
+
+			// If there is no action, how do we know which page to
+			// connect to?
+			if ( action == null)
+				return;
+
+			KoLRequest request = new KoLRequest( client, action, true );
 
 			String [] splits = data.split( "[&=]" );
 
