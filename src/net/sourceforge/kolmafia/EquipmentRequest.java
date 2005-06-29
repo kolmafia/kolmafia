@@ -99,6 +99,10 @@ public class EquipmentRequest extends KoLRequest
 			addFormField( "type", change );
 			this.requestType = REMOVE_ACC;
 		}
+		else if ( change.equals( "unequipall" ) )
+		{
+			addFormField( "action", "unequipall" );
+		}
 		else
 		{
 			addFormField( "action", "equip" );
@@ -114,16 +118,9 @@ public class EquipmentRequest extends KoLRequest
 
 		this.character = client.getCharacterData();
 
-		if ( change == SpecialOutfit.BIRTHDAY_SUIT )
-		{
-			addFormField( "action", "unequipall" );
-		}
-		else
-		{
-			addFormField( "action", "outfit" );
-			addFormField( "which", "2" );
-			addFormField( "whichoutfit", String.valueOf( change.getOutfitID() ) );
-		}
+		addFormField( "action", "outfit" );
+		addFormField( "which", "2" );
+		addFormField( "whichoutfit", String.valueOf( change.getOutfitID() ) );
 
 		this.requestType = CHANGE_OUTFIT;
 		this.outfit = change;
@@ -141,6 +138,28 @@ public class EquipmentRequest extends KoLRequest
 
 	public void run()
 	{
+		// Outfit changes are a bit quirky, so they're handled
+		// first for easy visibility.
+
+		if ( requestType == CHANGE_OUTFIT )
+		{
+			// If this is a birthday suit outfit, then make sure
+			// you remove everything first.
+
+			if ( outfit == SpecialOutfit.BIRTHDAY_SUIT )
+			{
+				(new EquipmentRequest( client, "unequipall" )).run();
+				(new EquipmentRequest( client, "familiarequip" )).run();
+				return;
+			}
+
+			// Otherwise, if it's a custom outfit, you need to
+			// remove all items first before continuing.
+
+			if ( outfit.getOutfitID() < 0 )
+				(new EquipmentRequest( client, "unequipall" )).run();
+		}
+
 		// If this is a request all, instantiate each of the
 		// lesser requests and then return
 
@@ -243,12 +262,6 @@ public class EquipmentRequest extends KoLRequest
 			logStream.println( e );
 			e.printStackTrace( logStream );
 		}
-
-		// If they were planning on going in the buff, make
-		// sure that the familiar item is also unequipped.
-
-		if ( requestType == CHANGE_OUTFIT && outfit == SpecialOutfit.BIRTHDAY_SUIT )
-			(new EquipmentRequest( client, "familiarequip" )).run();
 	}
 
 	private void switchItem( String oldItem, String newItem )
