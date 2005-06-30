@@ -205,10 +205,11 @@ public class ClanManager implements KoLConstants
 	}
 
 	public void registerMember( String playerName, String level )
-	{
-		ProfileRequest newProfile = new ProfileRequest( client, playerName );
-		newProfile.setPlayerLevel( Integer.parseInt( level ) );
-		profileMap.put( playerName.toLowerCase(), newProfile );
+	{	snapshot.registerMember( playerName, level );
+	}
+
+	public void unregisterMember( String playerID )
+	{	snapshot.unregisterMember( playerID );
 	}
 
 	/**

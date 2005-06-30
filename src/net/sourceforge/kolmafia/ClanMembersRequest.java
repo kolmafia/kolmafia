@@ -71,7 +71,10 @@ public class ClanMembersRequest extends KoLRequest
 			addFormField( "level" + client.getPlayerID( (String) ranks[i] ), (String) rankValues[i] );
 
 		for ( int i = 0; i < boots.length; ++i )
+		{
+			client.getClanManager().unregisterMember( (String) boots[i] );
 			addFormField( "boot" + client.getPlayerID( (String) boots[i] ), "on" );
+		}
 	}
 
 	public void run()
