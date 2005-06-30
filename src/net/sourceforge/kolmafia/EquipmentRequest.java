@@ -220,39 +220,35 @@ public class EquipmentRequest extends KoLRequest
 		try
 		{
 			logStream.println( "Parsing data..." );
-			switch ( requestType )
+
+			if ( requestType == CLOSET )
 			{
-				case CLOSET:
-					parseCloset();
-					updateDisplay( NOCHANGE, "Inventory retrieved." );
-					break;
+				parseCloset();
+				updateDisplay( NOCHANGE, "Inventory retrieved." );
+			}
+			else
+			{
+				String oldHat = character.getHat();
+				String oldWeapon = character.getWeapon();
+				String oldPants = character.getPants();
+				String oldShirt = character.getShirt();
+				String oldAccessory1 = character.getAccessory1();
+				String oldAccessory2 = character.getAccessory2();
+				String oldAccessory3 = character.getAccessory3();
+				String oldFamiliarItem = character.getFamiliarItem();
 
-				case REMOVE_ACC:
-				case CHANGE_ITEM:
-				case EQUIPMENT:
+				parseEquipment();
 
-					String oldHat = character.getHat();
- 					String oldWeapon = character.getWeapon();
- 					String oldPants = character.getPants();
- 					String oldShirt = character.getShirt();
- 					String oldAccessory1 = character.getAccessory1();
- 					String oldAccessory2 = character.getAccessory2();
- 					String oldAccessory3 = character.getAccessory3();
- 					String oldFamiliarItem = character.getFamiliarItem();
+				switchItem( oldHat, character.getHat() );
+				switchItem( oldWeapon, character.getWeapon() );
+				switchItem( oldPants, character.getPants() );
+				switchItem( oldShirt, character.getShirt() );
+				switchItem( oldAccessory1, character.getAccessory1() );
+				switchItem( oldAccessory2, character.getAccessory2() );
+				switchItem( oldAccessory3, character.getAccessory3() );
+				switchItem( oldFamiliarItem, character.getFamiliarItem() );
 
-					parseEquipment();
-
-					switchItem( oldHat, character.getHat() );
-					switchItem( oldWeapon, character.getWeapon() );
-					switchItem( oldPants, character.getPants() );
-					switchItem( oldShirt, character.getShirt() );
-					switchItem( oldAccessory1, character.getAccessory1() );
-					switchItem( oldAccessory2, character.getAccessory2() );
-					switchItem( oldAccessory3, character.getAccessory3() );
-					switchItem( oldFamiliarItem, character.getFamiliarItem() );
-
-					updateDisplay( ENABLED_STATE, "Equipment retrieved." );
-					break;
+				updateDisplay( ENABLED_STATE, "Equipment retrieved." );
 			}
 
 			logStream.println( "Parsing complete." );
