@@ -159,6 +159,7 @@ public abstract class KoLmafia implements KoLConstants
 		seenPlayerIDs = new TreeMap();
 		seenPlayerNames = new TreeMap();
 		adventureList = new LockableListModel();
+		commandBuffer = null;
 	}
 
 	public void setEnabled( boolean isEnabled )
