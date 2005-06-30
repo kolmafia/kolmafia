@@ -262,6 +262,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				{
 					buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete." );
 					buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot is sleeping." );
+					buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + getRestoreCount() + " mana restores remaining)" );
 				}
 
 				client.updateDisplay( DISABLED_STATE, "BuffBot is sleeping" );
@@ -270,6 +271,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 					if ( client.isBuffBotActive() )
 						KoLRequest.delay( SLEEP_TIME );
 			}
+			else if ( newMessages )
+				buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + getRestoreCount() + " mana restores remaining)" );
 		}
 
 		if ( !useChatBasedBuffBot )
