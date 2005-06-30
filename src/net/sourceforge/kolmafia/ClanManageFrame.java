@@ -476,12 +476,13 @@ public class ClanManageFrame extends KoLFrame
 			ClanSnapshotTable.LV_FILTER, ClanSnapshotTable.PVP_FILTER, ClanSnapshotTable.MUS_FILTER,
 			ClanSnapshotTable.MYS_FILTER, ClanSnapshotTable.MOX_FILTER, ClanSnapshotTable.POWER_FILTER,
 			ClanSnapshotTable.CLASS_FILTER, ClanSnapshotTable.RANK_FILTER, ClanSnapshotTable.KARMA_FILTER,
-			ClanSnapshotTable.MEAT_FILTER, ClanSnapshotTable.TURN_FILTER, ClanSnapshotTable.LOGIN_FILTER };
+			ClanSnapshotTable.MEAT_FILTER, ClanSnapshotTable.TURN_FILTER, ClanSnapshotTable.LOGIN_FILTER,
+			ClanSnapshotTable.ASCENSION_FILTER };
 
 		private final String [] paramNames = { "Player name", "KoL User ID", "Player level",
 			"PVP Ranking", "Muscle points", "Mysticality points", "Moxie points",
 			"Total power points", "Player class", "Rank within clan", "Accumulated karma",
-			"Meat on hand", "Turns played", "Number of days idle" };
+			"Meat on hand", "Turns played", "Number of days idle", "Number of ascensions" };
 
 		private JComboBox parameterSelect;
 		private JComboBox matchSelect;

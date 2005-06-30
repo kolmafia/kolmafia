@@ -142,9 +142,7 @@ public class ClanManager implements KoLConstants
 			this.clanName = cmr.getClanName();
 			snapshot.setClanName( this.clanName );
 
-			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + "_" + sdf.format( new Date() ) +
-				File.separator;
-
+			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + "_" + sdf.format( new Date() ) + File.separator;
 			client.updateDisplay( ENABLED_STATE, "Clan data retrieved." );
 		}
 	}
@@ -174,7 +172,7 @@ public class ClanManager implements KoLConstants
 
 		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 			profileMap.size() + " members are currently in your clan.\nThis process will take " +
-			((int)(profilesNeeded / 20) + 1) + " minutes to complete.\nAre you sure you want to continue?",
+			((int)(profilesNeeded / 10) + 1) + " minutes to complete.\nAre you sure you want to continue?",
 			"Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
 				return false;
 
@@ -198,12 +196,6 @@ public class ClanManager implements KoLConstants
 		}
 
 		return true;
-	}
-
-	private boolean initialize()
-	{
-		retrieveClanData();
-		return retrieveMemberData();
 	}
 
 	public void registerMember( String playerName, String level )
@@ -328,19 +320,21 @@ public class ClanManager implements KoLConstants
 		// If initialization was unsuccessful, then don't
 		// do anything.
 
-		if ( !initialize() )
-			return;
+		retrieveClanData();
+		String header = snapshot.getHeader();
+
+		if ( header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 || header.indexOf( "<td>Meat</td>" ) != -1 ||
+			header.indexOf( "<td>Turns</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Drink</td>" ) != -1 ||
+				header.indexOf( "<td>Last Login</td>" ) != -1 || header.indexOf( "<td>Ascensions</td>" ) != -1 )
+		{
+			if ( !retrieveMemberData() )
+			{
+				client.updateDisplay( ERROR_STATE, "Initialization failed." );
+				return;
+			}
+		}
 
 		File individualFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
-
-		// If the file already exists, a snapshot cannot be taken.
-		// Therefore, notify the user of this. :)
-
-		if ( individualFile.exists() )
-		{
-			JOptionPane.showMessageDialog( null, "You already created a snapshot today." );
-			return;
-		}
 
 		// First create a file that contains a summary
 		// (spreadsheet-style) of all the clan members
@@ -351,8 +345,17 @@ public class ClanManager implements KoLConstants
 		try
 		{
 			individualFile.getParentFile().mkdirs();
-			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
 
+			// If the file already exists, a snapshot cannot be taken.
+			// Therefore, notify the user of this. :)
+
+			if ( individualFile.exists() )
+			{
+				JOptionPane.showMessageDialog( null, "You already created a snapshot today." );
+				return;
+			}
+
+			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
 			ostream.println( snapshot.toString() );
 			ostream.close();
 		}
@@ -365,6 +368,8 @@ public class ClanManager implements KoLConstants
 		// Create a special HTML file for each of the
 		// players in the snapshot so that it can be
 		// navigated at leisure.
+
+		client.updateDisplay( DISABLED_STATE, "Storing profiles..." );
 
 		String currentMember;
 		ProfileRequest memberLookup;
@@ -720,7 +725,7 @@ public class ClanManager implements KoLConstants
 
 			default:
 
-				initialize();
+				retrieveMemberData();
 				break;
 		}
 

@@ -65,6 +65,7 @@ public class ClanSnapshotTable implements KoLConstants
 	public static final int MEAT_FILTER = 12;
 	public static final int TURN_FILTER = 13;
 	public static final int LOGIN_FILTER = 14;
+	public static final int ASCENSION_FILTER = 15;
 
 	private KoLmafia client;
 	private String clanID;
@@ -220,6 +221,10 @@ public class ClanSnapshotTable implements KoLConstants
 						}
 
 						break;
+
+					case ASCENSION_FILTER:
+						compareValue = df.parse( profileArray[i].getAscensionCount() ).intValue() - df.parse( filter ).intValue();
+						break;
 				}
 
 				compareValue = compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
@@ -278,6 +283,7 @@ public class ClanSnapshotTable implements KoLConstants
 		if ( request.responseText == null )
 			request.run();
 
+		String header = getHeader();
 		StringBuffer strbuf = new StringBuffer();
 
 		List classList = new ArrayList();
@@ -296,6 +302,8 @@ public class ClanSnapshotTable implements KoLConstants
 		List mysList = new ArrayList();
 		List moxList = new ArrayList();
 
+		List ascensionsList = new ArrayList();
+
 		// Once that's complete, iterate through the
 		// clan members and initialize the lists.
 
@@ -308,14 +316,24 @@ public class ClanSnapshotTable implements KoLConstants
 			currentMember = (String) memberIterator.next();
 			memberLookup = (ProfileRequest) profileMap.get( currentMember );
 
-			classList.add( memberLookup.getClassType() );
-			foodList.add( memberLookup.getFood() );
-			drinkList.add( memberLookup.getDrink() );
+			if ( header.indexOf( "<td>Class</td>" ) != -1 )
+				classList.add( memberLookup.getClassType() );
 
-			meatList.add( String.valueOf( memberLookup.getCurrentMeat() ) );
-			turnsList.add( String.valueOf( memberLookup.getTurnsPlayed() ) );
+			if ( header.indexOf( "<td>Food</td>" ) != -1 )
+				foodList.add( memberLookup.getFood() );
 
-			pvpList.add( memberLookup.getPvpRank() );
+			if ( header.indexOf( "<td>Drink</td>" ) != -1 )
+				drinkList.add( memberLookup.getDrink() );
+
+			if ( header.indexOf( "<td>Meat</td>" ) != -1 )
+				meatList.add( String.valueOf( memberLookup.getCurrentMeat() ) );
+
+			if ( header.indexOf( "<td>Turns</td>" ) != -1 )
+				turnsList.add( String.valueOf( memberLookup.getTurnsPlayed() ) );
+
+			if ( header.indexOf( "<td>PVP</td>" ) != -1 )
+				pvpList.add( memberLookup.getPvpRank() );
+
 			rankList.add( memberLookup.getRank() );
 
 			musList.add( memberLookup.getMuscle() );
@@ -323,6 +341,9 @@ public class ClanSnapshotTable implements KoLConstants
 			moxList.add( memberLookup.getMoxie() );
 			powerList.add( memberLookup.getPower() );
 			karmaList.add( memberLookup.getKarma() );
+
+			if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
+				ascensionsList.add( memberLookup.getAscensionCount() );
 		}
 
 		Collections.sort( classList );
@@ -331,35 +352,81 @@ public class ClanSnapshotTable implements KoLConstants
 		Collections.sort( rankList );
 
 		strbuf.append( "<table border=0 cellspacing=4 cellpadding=4><tr>" );
-		strbuf.append( "<td valign=top><b>Averages</b>:" );
-		strbuf.append( "<ul><li>PVP Rank: " + df.format( calculateAverage( pvpList ) ) + "</li>" );
+		strbuf.append( "<td valign=top><b>Averages</b>:<ul>" );
+
+		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
+			strbuf.append( "<li>PVP Rank: " + df.format( calculateAverage( pvpList ) ) + "</li>" );
+
 		strbuf.append( "<li>Muscle: " + df.format( calculateAverage( musList ) ) + "</li>" );
 		strbuf.append( "<li>Myst: " + df.format( calculateAverage( mysList ) ) + "</li>" );
 		strbuf.append( "<li>Moxie: " + df.format( calculateAverage( moxList ) ) + "</li>" );
 		strbuf.append( "<li>Power: " + df.format( calculateAverage( powerList ) ) + "</li>" );
 		strbuf.append( "<li>Karma: " + df.format( calculateAverage( karmaList ) ) + "</li>" );
-		strbuf.append( "<li>Meat: " + df.format( calculateAverage( meatList ) ) + "</li>" );
-		strbuf.append( "<li>Turns: " + df.format( calculateAverage( turnsList ) ) + "</li>" );
-		strbuf.append( "</ul><b>Totals</b>:" );
-		strbuf.append( "<ul><li>Muscle: " + df.format( calculateTotal( musList ) ) + "</li>" );
+
+		if ( header.indexOf( "<td>Meat</td>" ) != -1 )
+			strbuf.append( "<li>Meat: " + df.format( calculateAverage( meatList ) ) + "</li>" );
+
+		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
+			strbuf.append( "<li>Turns: " + df.format( calculateAverage( turnsList ) ) + "</li>" );
+
+		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
+			strbuf.append( "<li>Ascensions: " + calculateAverage( ascensionsList ) + "</li>" );
+
+		strbuf.append( "</ul><b>Totals</b>:<ul>" );
+
+		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
+			strbuf.append( "<li>PVP Rank: " + df.format( calculateTotal( pvpList ) ) + "</li>" );
+
+		strbuf.append( "<li>Muscle: " + df.format( calculateTotal( musList ) ) + "</li>" );
 		strbuf.append( "<li>Myst: " + df.format( calculateTotal( mysList ) ) + "</li>" );
 		strbuf.append( "<li>Moxie: " + df.format( calculateTotal( moxList ) ) + "</li>" );
 		strbuf.append( "<li>Power: " + df.format( calculateTotal( powerList ) ) + "</li>" );
 		strbuf.append( "<li>Karma: " + df.format( calculateTotal( karmaList ) ) + "</li>" );
-		strbuf.append( "<li>Meat: " + df.format( calculateTotal( meatList ) ) + "</li>" );
-		strbuf.append( "<li>Turns: " + df.format( calculateTotal( turnsList ) ) + "</li>" );
+
+		if ( header.indexOf( "<td>Meat</td>" ) != -1 )
+			strbuf.append( "<li>Meat: " + df.format( calculateTotal( meatList ) ) + "</li>" );
+
+		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
+			strbuf.append( "<li>Turns: " + df.format( calculateTotal( turnsList ) ) + "</li>" );
+
+		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
+			strbuf.append( "<li>Ascensions: " + calculateTotal( ascensionsList ) + "</li>" );
+
 		strbuf.append( "</ul></td>" );
 
-		strbuf.append( "<td valign=top><b>Class Breakdown</b>:" );
-		strbuf.append( getBreakdown( classList.iterator() ) );
-		strbuf.append( "</td><td valign=top><b>Rank Breakdown</b>:" );
-		strbuf.append( getBreakdown( rankList.iterator() ) );
-		strbuf.append( "</td><td valign=top><b>Food Breakdown</b>:" );
-		strbuf.append( getBreakdown( foodList.iterator() ) );
-		strbuf.append( "</td><td valign=top><b>Drink Breakdown</b>:" );
-		strbuf.append( getBreakdown( drinkList.iterator() ) );
+		if ( header.indexOf( "<td>Class</td>" ) != -1 )
+		{
+			strbuf.append( "<td valign=top><b>Class Breakdown</b>:" );
+			strbuf.append( getBreakdown( classList.iterator() ) );
+			strbuf.append( "</td>" );
+		}
 
-		strbuf.append( "</td></tr></table>" );
+		strbuf.append( "<td valign=top><b>Rank Breakdown</b>:" );
+		strbuf.append( getBreakdown( rankList.iterator() ) );
+		strbuf.append( "</td>" );
+
+		if ( header.indexOf( "<td>Food</td>" ) != -1 )
+		{
+			strbuf.append( "<td valign=top><b>Food Breakdown</b>:" );
+			strbuf.append( getBreakdown( foodList.iterator() ) );
+			strbuf.append( "</td>" );
+		}
+
+		if ( header.indexOf( "<td>Drink</td>" ) != -1 )
+		{
+			strbuf.append( "<td valign=top><b>Drink Breakdown</b>:" );
+			strbuf.append( getBreakdown( drinkList.iterator() ) );
+			strbuf.append( "</td>" );
+		}
+
+		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
+		{
+			strbuf.append( "<td valign=top><b>Ascension Breakdown</b>:" );
+			strbuf.append( getBreakdown( ascensionsList.iterator() ) );
+			strbuf.append( "</td>" );
+		}
+
+		strbuf.append( "</tr></table>" );
 
 		return strbuf.toString();
 	}
@@ -418,19 +485,21 @@ public class ClanSnapshotTable implements KoLConstants
 		return total;
 	}
 
-	private int calculateAverage( List values )
+	private double calculateAverage( List values )
 	{
-		int total = 0;
+		double total = 0;
 		String currentValue;
-		int actualSize = values.size();
+
+		double actualSize = values.size();
 
 		for ( int i = 0; i < values.size(); ++i )
 		{
 			currentValue = (String) values.get(i);
+
 			if ( currentValue.startsWith( "&" ) )
-				--actualSize;
+				actualSize -= 1.0;
 			else
-				total += Integer.parseInt( (String) values.get(i) );
+				total += Double.parseDouble( (String) values.get(i) );
 		}
 
 		return actualSize == 0 ? 0 : total / actualSize;
@@ -545,11 +614,17 @@ public class ClanSnapshotTable implements KoLConstants
 			strbuf.append( memberLookup.getLastLoginAsString() );
 		}
 
+		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
+		{
+			strbuf.append( "</td><td>" );
+			strbuf.append( memberLookup.getAscensionCount() );
+		}
+
 		strbuf.append( "</td></tr>" );
 		return strbuf.toString();
 	}
 
-	private String getHeader()
+	public String getHeader()
 	{	return client.getSettings().getProperty( "clanRosterHeader" );
 	}
 
@@ -612,6 +687,8 @@ public class ClanSnapshotTable implements KoLConstants
 					currentRequest.setKarma( dataMatcher.group(1) );
 				}
 			}
+
+			updateDisplay( ENABLED_STATE, "Detail roster retrieved." );
 		}
 	}
 }

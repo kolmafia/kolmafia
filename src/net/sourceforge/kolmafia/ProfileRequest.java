@@ -51,7 +51,7 @@ public class ProfileRequest extends KoLRequest
 
 	private Date lastLogin;
 	private String food, drink;
-	private String pvpRank;
+	private String ascensionCount, pvpRank;
 
 	private String muscle, mysticism, moxie;
 	private String title, rank, karma;
@@ -74,77 +74,61 @@ public class ProfileRequest extends KoLRequest
 	{
 		super.run();
 
-		int secondTableIndex = responseText.indexOf( "</table><table>" );
-
-		// This is a massive replace which makes the profile easier to
-		// parse and re-represent inside of editor panes.
-
-		String cleanHTML = responseText.substring( responseText.indexOf( "</b>" ) + 4, secondTableIndex ).replaceAll(
-			"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[ctplhi].*?>", "" ).replaceAll(
-			"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ) + "<br>" +
-				responseText.substring( secondTableIndex, responseText.lastIndexOf( "send" ) ).replaceAll(
-				"<td", " <td" ).replaceAll( "<tr", "<br><tr" ).replaceAll( "</?[tplh].*?>", "" ).replaceAll(
-				"[ ]+", " " ).replaceAll( "(<br> )+", "<br> " ).replaceAll( "<[cC]enter>.*?</center>", "" ).replaceAll(
-				"onClick=\'.*?\'", "" ).replaceFirst( "<br> Familiar:", "" ).replaceFirst(
-				"</b>,", "</b><br>" ).replaceFirst( "<b>\\(</b>.*?<b>\\)</b>", "<br>" ).replaceFirst(
-				"<b>Ranking:", "<b>PVP Ranking:" ).replaceFirst( "<br>", "" );
-
-		// This completes the retrieval of the player profile.
-		// Fairly straightforward, but really ugly-looking.
-		// Now, parsing data related to the player.
-
 		try
 		{
-			StringTokenizer st = new StringTokenizer( cleanHTML.replaceAll( "><", "" ), "<>" );
-			String token = st.nextToken();
+			// This is a massive replace which makes the profile easier to
+			// parse and re-represent inside of editor panes.
 
+			String cleanHTML = responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" );
+			StringTokenizer st = new StringTokenizer( cleanHTML, "\n" );
+
+			String token = st.nextToken();
 			while ( !token.startsWith( "Level" ) )
 				token = st.nextToken();
 
 			this.playerLevel = Integer.parseInt( token.substring( 6 ) );
-			st.nextToken();
 
 			KoLCharacter data = new KoLCharacter( playerName );
 			data.setClassName( st.nextToken().trim() );
 			this.classType = data.getClassType();
 
 			while ( !st.nextToken().startsWith( "Meat" ) );
-			st.nextToken();
-
 			this.currentMeat = df.parse( st.nextToken().trim() ).intValue();
 
-			while ( !st.nextToken().startsWith( "Turns" ) );
-			st.nextToken();
+			if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
+			{
+				while ( !st.nextToken().startsWith( "Ascensions" ) );
+				st.nextToken();
+				this.ascensionCount = st.nextToken().trim();
+			}
+			else
+				this.ascensionCount = "0";
 
+			while ( !st.nextToken().startsWith( "Turns" ) );
 			this.turnsPlayed = df.parse( st.nextToken().trim() ).intValue();
 
 			while ( !st.nextToken().startsWith( "Last" ) );
-			st.nextToken();
-
 			this.lastLogin = sdf.parse( st.nextToken().trim() );
 
-			if ( cleanHTML.indexOf( ">Favorite Food" ) != -1 )
+			if ( cleanHTML.indexOf( "\nFavorite Food" ) != -1 )
 			{
 				while ( !st.nextToken().startsWith( "Favorite" ) );
-				st.nextToken();
 				this.food = st.nextToken().trim();
 			}
 			else
 				this.food = "none";
 
-			if ( cleanHTML.indexOf( ">Favorite Booze" ) != -1 )
+			if ( cleanHTML.indexOf( "\nFavorite Booze" ) != -1 )
 			{
 				while ( !st.nextToken().startsWith( "Favorite" ) );
-				st.nextToken();
 				this.drink = st.nextToken().trim();
 			}
 			else
 				this.drink = "none";
 
-			if ( cleanHTML.indexOf( ">PVP Ranking" ) != -1 )
+			if ( cleanHTML.indexOf( "\nRanking" ) != -1 )
 			{
-				while ( !st.nextToken().startsWith( "PVP Ranking" ) );
-				st.nextToken();
+				while ( !st.nextToken().startsWith( "Ranking" ) );
 				this.pvpRank = st.nextToken().trim();
 			}
 			else
@@ -275,5 +259,11 @@ public class ProfileRequest extends KoLRequest
 
 	public String getKarma()
 	{	return karma;
+	}
+
+	public String getAscensionCount()
+	{
+		initialize();
+		return ascensionCount;
 	}
 }

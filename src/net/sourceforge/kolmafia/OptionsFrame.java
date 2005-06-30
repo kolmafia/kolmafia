@@ -700,10 +700,10 @@ public class OptionsFrame extends KoLFrame
 	{
 		private JCheckBox [] optionBoxes;
 		private final String [] optionKeys = { "Lv", "Mus", "Mys", "Mox", "Total", "Title", "Rank", "Karma",
-			"PVP", "Class", "Meat", "Turns", "Food", "Drink", "Last Login" };
+			"PVP", "Class", "Meat", "Turns", "Food", "Drink", "Last Login", "Ascensions" };
 		private final String [] optionNames = { "Player level", "Muscle points", "Mysticality points", "Moxie points",
 			"Total power points", "Title within clan", "Rank within clan", "Accumulated karma", "PVP ranking",
-			"Class type", "Meat on hand", "Turns played", "Favorite food", "Favorite booze", "Last login date" };
+			"Class type", "Meat on hand", "Turns played", "Favorite food", "Favorite booze", "Last login date", "Ascensions" };
 
 		/**
 		 * Constructs a new <code>LoginOptionsPanel</code>, containing a
