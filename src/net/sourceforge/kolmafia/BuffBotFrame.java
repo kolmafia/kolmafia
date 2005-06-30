@@ -71,6 +71,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 // utilities
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 import java.text.ParseException;
@@ -168,7 +169,7 @@ public class BuffBotFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			StringBuffer statBuffer = new StringBuffer();
-			statBuffer.append( "Restores remaining: " + currentManager.getRestoreCount() );
+			statBuffer.append( (new Date()).toString() );
 
 			statBuffer.append( "\n\nBuff Request Frequency:\n" );
 
