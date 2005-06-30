@@ -1156,7 +1156,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
-
 	public void openRequestFrame( String location )
 	{
 		Object [] parameters = new Object[3];

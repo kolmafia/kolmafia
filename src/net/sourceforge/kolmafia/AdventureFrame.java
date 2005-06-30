@@ -288,11 +288,11 @@ public class AdventureFrame extends KoLFrame
 		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
 		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
 		JMenuItem hermitItem = new JMenuItem( "Hermit Hideout", KeyEvent.VK_H );
-		hermitItem.addActionListener( new HermitRequestListener() );
+		hermitItem.addActionListener( new AdventureRequestListener( "hermit.php", "", "The Hermitage" ) );
 		JMenuItem trapperItem = new JMenuItem( "Mountain Traps", KeyEvent.VK_M );
-		trapperItem.addActionListener( new TrapperRequestListener() );
+		trapperItem.addActionListener( new AdventureRequestListener( "trapper.php", "", "The 1337 Trapper" ) );
 		JMenuItem hunterItem = new JMenuItem( "Seaside Towels", KeyEvent.VK_S );
-		hunterItem.addActionListener( new HunterRequestListener() );
+		hunterItem.addActionListener( new AdventureRequestListener( "town_wrong.php", "bountyhunter", "The Bounty Hunter" ) );
 		JMenuItem hagnkItem = new JMenuItem( "Gnomish Storage", KeyEvent.VK_G );
 		hagnkItem.addActionListener( new DisplayFrameListener( HagnkStorageFrame.class ) );
 
@@ -910,24 +910,16 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	private class HermitRequestListener implements ActionListener
+	private class AdventureRequestListener implements ActionListener
 	{
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( new KoLAdventure( client, "hermit.php", "", "The Hermitage" ) )).start();
-		}
-	}
+		private KoLAdventure request;
 
-	private class TrapperRequestListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( new KoLAdventure( client, "trapper.php", "", "The 1337 Trapper" ) )).start();
+		public AdventureRequestListener( String formSource, String adventureID, String name )
+		{	request = new KoLAdventure( client, formSource, adventureID, name );
 		}
-	}
 
-	private class HunterRequestListener implements ActionListener
-	{
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( new KoLAdventure( client, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ) )).start();
+		{	(new RequestThread( request )).start();
 		}
 	}
 

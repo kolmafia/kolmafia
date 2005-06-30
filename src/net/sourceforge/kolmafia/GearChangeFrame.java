@@ -52,6 +52,7 @@ import javax.swing.JMenuItem;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Constructor;
 
 // utilities
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -68,6 +69,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GearChangeFrame extends KoLFrame
 {
+	private boolean isChanging = false;
 	private KoLCharacter characterData;
 	private JComboBox [] equipment;
 	private JComboBox outfitSelect, familiarSelect;
@@ -115,11 +117,11 @@ public class GearChangeFrame extends KoLFrame
 		menuBar.add( fileMenu );
 
 		gearRefresh = new JMenuItem( "Equipment", KeyEvent.VK_E );
-		gearRefresh.addActionListener( new RefreshEquipmentListener() );
+		gearRefresh.addActionListener( new RefreshListener( new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
 		fileMenu.add( gearRefresh );
 
 		familiarRefresh = new JMenuItem( "Familiars", KeyEvent.VK_F );
-		familiarRefresh.addActionListener( new RefreshFamiliarListener() );
+		familiarRefresh.addActionListener( new RefreshListener( new FamiliarRequest( client ) ) );
 		fileMenu.add( familiarRefresh );
 
 		addHelpMenu( menuBar );
@@ -197,7 +199,7 @@ public class GearChangeFrame extends KoLFrame
 		for ( int i = 0; i < 8; ++i )
 		{
 			equipment[i] = new JComboBox( equipmentLists[i] );
-			equipment[i].addActionListener( new ChangeEquipmentListener( equipment[i] ) );
+			equipment[i].addActionListener( new ChangeListener( equipment[i], EquipmentRequest.class, String.class ) );
 			JComponentUtilities.setComponentSize( equipment[i], 240, 20 );
 
 			if ( i != KoLCharacter.FAMILIAR )
@@ -207,7 +209,7 @@ public class GearChangeFrame extends KoLFrame
 		valuePanel.add( new JLabel( " " ) );
 
 		familiarSelect = new JComboBox( characterData.getFamiliars() );
-		familiarSelect.addActionListener( new ChangeFamiliarListener() );
+		familiarSelect.addActionListener( new ChangeListener( familiarSelect, FamiliarRequest.class, FamiliarData.class ) );
 		JComponentUtilities.setComponentSize( familiarSelect, 240, 20 );
 		valuePanel.add( familiarSelect );
 
@@ -215,7 +217,7 @@ public class GearChangeFrame extends KoLFrame
 		valuePanel.add( new JLabel( " " ) );
 
 		outfitSelect = new JComboBox( characterData.getOutfits() );
-		outfitSelect.addActionListener( new ChangeOutfitListener() );
+		outfitSelect.addActionListener( new ChangeListener( outfitSelect, EquipmentRequest.class, SpecialOutfit.class ) );
 		JComponentUtilities.setComponentSize( outfitSelect, 240, 20 );
 		valuePanel.add( outfitSelect );
 
@@ -234,119 +236,81 @@ public class GearChangeFrame extends KoLFrame
 		setEnabled( true );
 	}
 
-	private class RefreshEquipmentListener implements ActionListener
+	private class RefreshListener implements ActionListener
 	{
+		private KoLRequest request;
+
+		public RefreshListener( KoLRequest request )
+		{	this.request = request;
+		}
+
 		public void actionPerformed( ActionEvent e )
 		{
 			if ( isEnabled() )
-				(new RefreshEquipmentThread()).start();
+				(new RefreshThread()).start();
 		}
 
-		private class RefreshEquipmentThread extends DaemonThread
+		private class RefreshThread extends DaemonThread
 		{
 			public void run()
 			{
 				setEnabled( false );
-				(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
+				request.run();
 				refreshEquipPanel();
 			}
 		}
 	}
 
-	private class RefreshFamiliarListener implements ActionListener
+	private class ChangeListener implements ActionListener
 	{
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( isEnabled() )
-				(new RefreshFamiliarThread()).start();
-		}
+		private JComboBox selector;
+		private Object [] parameters;
+		private Constructor constructor;
 
-		private class RefreshFamiliarThread extends DaemonThread
+		public ChangeListener( JComboBox selector, Class requestClass, Class parameterClass )
 		{
-			public void run()
-			{
-				setEnabled( false );
-				(new FamiliarRequest( client )).run();
-				refreshEquipPanel();
+			this.selector = selector;
+
+			Class [] parameterTypes = new Class[2];
+			parameterTypes[0] = KoLmafia.class;
+			parameterTypes[1] = parameterClass;
+
+			try
+			{	this.constructor = requestClass.getConstructor( parameterTypes );
 			}
-		}
-	}
-
-	private class ChangeFamiliarListener implements ActionListener
-	{
-		private FamiliarData change;
-
-		public void actionPerformed( ActionEvent e )
-		{
-			change = (FamiliarData) familiarSelect.getSelectedItem();
-			if ( isEnabled() && change != null )
-				(new ChangeFamiliarThread()).start();
-		}
-
-		private class ChangeFamiliarThread extends DaemonThread
-		{
-			public void run()
+			catch ( Exception e )
 			{
-				setEnabled( false );
-				client.makeRequest( new FamiliarRequest( client, change ), 1 );
-				refreshEquipPanel();
 			}
-		}
-	}
 
-	private class ChangeEquipmentListener implements ActionListener
-	{
-		private String change;
-		private JComboBox select;
-
-		public ChangeEquipmentListener( JComboBox select )
-		{	this.select = select;
+			this.parameters = new Object[2];
+			this.parameters[0] = client;
+			this.parameters[1] = null;
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
-			change = (String) select.getSelectedItem();
-			if ( isEnabled() && change != null )
-				(new ChangeEquipmentThread()).start();
+			this.parameters[1] = selector.getSelectedItem();
+			if ( !isChanging && isEnabled() && this.parameters[1] != null )
+				(new ChangeThread()).start();
 		}
 
-		private class ChangeEquipmentThread extends DaemonThread
+		private class ChangeThread extends DaemonThread
 		{
 			public void run()
 			{
-				setEnabled( false );
-
-				if ( select == equipment[KoLCharacter.ACCESSORY1] )
-					client.makeRequest( new EquipmentRequest( client, "acc1" ), 1 );
-				else if ( select == equipment[KoLCharacter.ACCESSORY2] )
-					client.makeRequest( new EquipmentRequest( client, "acc2" ), 1 );
-				else if ( select == equipment[KoLCharacter.ACCESSORY3] )
-					client.makeRequest( new EquipmentRequest( client, "acc3" ), 1 );
-
-				client.makeRequest( new EquipmentRequest( client, change ), 1 );
-				refreshEquipPanel();
-			}
-		}
-	}
-
-	private class ChangeOutfitListener implements ActionListener
-	{
-		private SpecialOutfit change;
-
-		public void actionPerformed( ActionEvent e )
-		{
-			change = (SpecialOutfit) outfitSelect.getSelectedItem();
-			if ( isEnabled() && change != null )
-				(new ChangeOutfitThread()).start();
-		}
-
-		private class ChangeOutfitThread extends DaemonThread
-		{
-			public void run()
-			{
-				setEnabled( false );
-				client.makeRequest( new EquipmentRequest( client, change ), 1 );
-				refreshEquipPanel();
+				try
+				{
+					isChanging = true;
+					setEnabled( false );
+					client.makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
+					refreshEquipPanel();
+					isChanging = false;
+				}
+				catch ( Exception e )
+				{
+					setEnabled( false );
+					refreshEquipPanel();
+				}
 			}
 		}
 	}
