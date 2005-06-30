@@ -111,7 +111,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected KoLPanel contentPanel;
 	protected boolean isExecutingScript;
 
-	protected JPanel sidePanel;
+	protected JPanel compactPane;
 	protected JLabel hpLabel, mpLabel, advLabel;
 	protected JLabel meatLabel, closetLabel, drunkLabel;
 
@@ -170,8 +170,18 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{	return frameName;
 	}
 
+	/**
+	 * Method which adds a compact pane to the west side of the component.
+	 * Note that this method can only be used if the KoLFrame on which it
+	 * is called has not yet added any components.  If there are any added
+	 * components, this method will do nothing.
+	 */
+
 	public void addCompactPane()
 	{
+		if ( getContentPane().getComponentCount() != 0 )
+			return;
+
 		JPanel compactPane = new JPanel();
 		compactPane.setOpaque( false );
 		compactPane.setLayout( new GridLayout( 14, 1 ) );
@@ -198,13 +208,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		compactPane.add( Box.createHorizontalStrut( 80 ) );
 
-		this.sidePanel = new JPanel();
-		sidePanel.setLayout( new BorderLayout( 0, 0 ) );
-		sidePanel.add( compactPane, BorderLayout.NORTH );
+		this.compactPane = new JPanel();
+		this.compactPane.setLayout( new BorderLayout() );
+		this.compactPane.add( compactPane, BorderLayout.NORTH );
 
-		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
-		getContentPane().add( sidePanel, BorderLayout.WEST );
-
+		getContentPane().setLayout( new BorderLayout() );
+		getContentPane().add( this.compactPane, BorderLayout.WEST );
 		(new StatusRefresher()).run();
 
 		if ( client != null )

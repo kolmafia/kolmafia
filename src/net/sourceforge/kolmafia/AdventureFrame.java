@@ -388,14 +388,14 @@ public class AdventureFrame extends KoLFrame
 			switch ( displayState )
 			{
 				case ERROR_STATE:
-					sidePanel.setBackground( ERROR_COLOR );
+					compactPane.setBackground( ERROR_COLOR );
 					break;
 				case ENABLED_STATE:
 					if ( !isExecutingScript )
-						sidePanel.setBackground( ENABLED_COLOR );
+						compactPane.setBackground( ENABLED_COLOR );
 					break;
 				case DISABLED_STATE:
-					sidePanel.setBackground( DISABLED_COLOR );
+					compactPane.setBackground( DISABLED_COLOR );
 					break;
 			}
 		}
@@ -532,13 +532,13 @@ public class AdventureFrame extends KoLFrame
 			switch ( displayState )
 			{
 				case ERROR_STATE:
-					sidePanel.setBackground( ERROR_COLOR );
+					compactPane.setBackground( ERROR_COLOR );
 					break;
 				case ENABLED_STATE:
-					sidePanel.setBackground( ENABLED_COLOR );
+					compactPane.setBackground( ENABLED_COLOR );
 					break;
 				case DISABLED_STATE:
-					sidePanel.setBackground( DISABLED_COLOR );
+					compactPane.setBackground( DISABLED_COLOR );
 					break;
 			}
 		}
