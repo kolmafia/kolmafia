@@ -124,6 +124,8 @@ public class ClanManager implements KoLConstants
 					rankList.add( rankMatcher.group(1) );
 				}
 			}
+
+			updateDisplay( ENABLED_STATE, "List of ranks retrieved." );
 		}
 	}
 
