@@ -557,6 +557,22 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	{	return mpRestoreItemList;
 	}
 
+	public int getRestoreCount()
+	{
+		int restoreCount = 0;
+
+		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
+		{
+			MPRestoreItemList.MPRestoreItem restorer = (MPRestoreItemList.MPRestoreItem) mpRestoreItemList.get(i);
+			String itemName = restorer.toString();
+
+			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
+				restoreCount += restorer.itemUsed.getCount( client.getInventory() );
+		}
+
+		return restoreCount;
+	}
+
 	/**
 	 * An internal class used to represent a single instance of casting a
 	 * buff.  This is used to manage buffs inside of the BuffBotManager

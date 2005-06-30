@@ -168,7 +168,9 @@ public class BuffBotFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			StringBuffer statBuffer = new StringBuffer();
-			statBuffer.append( "Buff Request Frequency:\n" );
+			statBuffer.append( "Restores remaining: " + currentManager.getRestoreCount() );
+
+			statBuffer.append( "\n\nBuff Request Frequency:\n" );
 
 			Iterator costIterator = buffCostTable.iterator();
 			statBuffer.append( costIterator.hasNext() ? "\n" : "No buff statistics available." );
