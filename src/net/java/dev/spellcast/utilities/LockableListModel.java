@@ -102,35 +102,32 @@ public class LockableListModel extends javax.swing.AbstractListModel
 				return;
 			}
 
-			synchronized ( source )
+			switch ( changeType )
 			{
-				switch ( changeType )
-				{
-					case ListDataEvent.CONTENTS_CHANGED:
-						LockableListModel.super.fireContentsChanged( source, index0, index1 );
-						break;
+				case ListDataEvent.CONTENTS_CHANGED:
+					LockableListModel.super.fireContentsChanged( source, index0, index1 );
+					break;
 
-					case ListDataEvent.INTERVAL_ADDED:
-						LockableListModel.super.fireIntervalAdded( source, index0, index1 );
-						break;
+				case ListDataEvent.INTERVAL_ADDED:
+					LockableListModel.super.fireIntervalAdded( source, index0, index1 );
+					break;
 
-					case ListDataEvent.INTERVAL_REMOVED:
-						LockableListModel.super.fireIntervalRemoved( source, index0, index1 );
-						break;
-				}
+				case ListDataEvent.INTERVAL_REMOVED:
+					LockableListModel.super.fireIntervalRemoved( source, index0, index1 );
+					break;
 			}
 		}
 	}
 
-	protected synchronized void fireContentsChanged( Object source, int index0, int index1 )
+	protected void fireContentsChanged( Object source, int index0, int index1 )
 	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 ) );
 	}
 
-	protected synchronized void fireIntervalAdded( Object source, int index0, int index1 )
+	protected void fireIntervalAdded( Object source, int index0, int index1 )
 	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 ) );
 	}
 
-	protected synchronized void fireIntervalRemoved( Object source, int index0, int index1 )
+	protected void fireIntervalRemoved( Object source, int index0, int index1 )
 	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 ) );
 	}
 
@@ -139,7 +136,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized void add( int index, Object element )
+	public void add( int index, Object element )
 	{
 		if ( element == null )
 			throw new IllegalArgumentException( "cannot add a null object to this list" );
@@ -153,7 +150,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized boolean add( Object o )
+	public boolean add( Object o )
 	{
 		if ( o == null )
 			return false;
@@ -169,7 +166,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized boolean addAll( Collection c )
+	public boolean addAll( Collection c )
 	{
 		try
 		{
@@ -190,7 +187,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized boolean addAll( int index, Collection c )
+	public boolean addAll( int index, Collection c )
 	{
 		try
 		{
@@ -210,7 +207,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized void clear()
+	public void clear()
 	{
 		int lastIndex = size() - 1;
 		elements.clear();
@@ -223,7 +220,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized boolean contains( Object o )
+	public boolean contains( Object o )
 	{	return elements.contains( o );
 	}
 
@@ -232,7 +229,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized boolean containsAll( Collection c )
+	public boolean containsAll( Collection c )
 	{	return elements.containsAll( c );
 	}
 
@@ -241,7 +238,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized boolean equals( Object o )
+	public boolean equals( Object o )
 	{	return elements.equals( o );
 	}
 
@@ -250,7 +247,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized Object get( int index )
+	public Object get( int index )
 	{
 		if ( index < 0 || index >= size() )
 			return null;
@@ -262,7 +259,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized int hashCode()
+	public int hashCode()
 	{	return elements.hashCode();
 	}
 
@@ -271,7 +268,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized int indexOf( Object o )
+	public int indexOf( Object o )
 	{	return elements.indexOf( o );
 	}
 
@@ -280,7 +277,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized boolean isEmpty()
+	public boolean isEmpty()
 	{	return elements.isEmpty();
 	}
 
@@ -289,7 +286,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized Iterator iterator()
+	public Iterator iterator()
 	{	return elements.iterator();
 	}
 
@@ -298,7 +295,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized int lastIndexOf( Object o )
+	public int lastIndexOf( Object o )
 	{	return elements.lastIndexOf( o );
 	}
 
@@ -307,7 +304,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized ListIterator listIterator()
+	public ListIterator listIterator()
 	{	return elements.listIterator();
 	}
 
@@ -316,7 +313,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized ListIterator listIterator( int index )
+	public ListIterator listIterator( int index )
 	{	return elements.listIterator( index );
 	}
 
@@ -326,7 +323,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized Object remove( int index )
+	public Object remove( int index )
 	{
 		Object removedElement = elements.remove( index );
 		if ( removedElement == null )
@@ -340,7 +337,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized boolean remove( Object o )
+	public boolean remove( Object o )
 	{
 		int index = indexOf( o );
 		if ( index == -1 )
@@ -356,7 +353,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized boolean removeAll( Collection c )
+	public boolean removeAll( Collection c )
 	{
 		Iterator myIterator = c.iterator();
 		while ( myIterator.hasNext() )
@@ -370,7 +367,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized boolean retainAll( Collection c )
+	public boolean retainAll( Collection c )
 	{
 		boolean hasChanged = false;
 		Object nextElement = null;
@@ -393,7 +390,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized Object set( int index, Object element )
+	public Object set( int index, Object element )
 	{
 		if ( element == null )
 			throw new IllegalArgumentException( "cannot add a null object to this list" );
@@ -409,7 +406,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized int size()
+	public int size()
 	{	return elements.size();
 	}
 
@@ -418,7 +415,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized List subList( int fromIndex, int toIndex )
+	public List subList( int fromIndex, int toIndex )
 	{	return elements.subList( fromIndex, toIndex );
 	}
 
@@ -427,7 +424,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized Object [] toArray()
+	public Object [] toArray()
 	{	return elements.toArray();
 	}
 
@@ -436,7 +433,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized Object [] toArray( Object[] a )
+	public Object [] toArray( Object[] a )
 	{	return elements.toArray(a);
 	}
 
@@ -445,7 +442,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized Object getElementAt( int index )
+	public Object getElementAt( int index )
 	{	return get( index );
 	}
 
@@ -454,7 +451,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * information regarding this function.
 	 */
 
-	public synchronized int getSize()
+	public int getSize()
 	{	return size();
 	}
 
@@ -463,7 +460,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
      * information regarding this function.
      */
 
-    public synchronized Object getSelectedItem()
+    public Object getSelectedItem()
     {	return get( getSelectedIndex() );
 	}
 
@@ -476,7 +473,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * @return	the index of the currently selected item
 	 */
 
-	public synchronized int getSelectedIndex()
+	public int getSelectedIndex()
 	{	return selectedIndex;
 	}
 
@@ -485,7 +482,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
      * information regarding this function.
      */
 
-	public synchronized void setSelectedItem( Object o )
+	public void setSelectedItem( Object o )
 	{	setSelectedIndex( indexOf( o ) );
 	}
 
@@ -495,7 +492,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * functions to help in the cloning process.
 	 */
 
-	public synchronized void setSelectedIndex( int index )
+	public void setSelectedIndex( int index )
 	{
 		selectedIndex = index;
 		fireContentsChanged( this, -1, -1 );
@@ -517,7 +514,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * @return	a deep copy (exempting listeners) of this <code>LockableListModel</code>.
 	 */
 
-	public synchronized Object clone()
+	public Object clone()
 	{
 		try
 		{
@@ -730,7 +727,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * @return	a mirror image of this <code>LockableListModel</code>
 	 */
 
-	public synchronized LockableListModel getMirrorImage()
+	public LockableListModel getMirrorImage()
 	{
 		LockableListModel mirrorImage = (LockableListModel) clone();
 		addListDataListener( new MirrorImageListener( mirrorImage ) );
@@ -771,11 +768,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		public void intervalAdded( ListDataEvent e )
 		{
-			synchronized ( e.getSource() )
-			{
-				if ( e.getType() == ListDataEvent.INTERVAL_ADDED && e.getSource() instanceof LockableListModel )
-					intervalAdded( (LockableListModel) e.getSource(), e.getIndex0(), e.getIndex1() );
-			}
+			if ( e.getType() == ListDataEvent.INTERVAL_ADDED && e.getSource() instanceof LockableListModel )
+				intervalAdded( (LockableListModel) e.getSource(), e.getIndex0(), e.getIndex1() );
 		}
 
 		/**
@@ -806,11 +800,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		public void intervalRemoved( ListDataEvent e )
 		{
-			synchronized ( e.getSource() )
-			{
-				if ( e.getType() == ListDataEvent.INTERVAL_REMOVED && e.getSource() instanceof LockableListModel )
-					intervalRemoved( (LockableListModel) e.getSource(), e.getIndex0(), e.getIndex1() );
-			}
+			if ( e.getType() == ListDataEvent.INTERVAL_REMOVED && e.getSource() instanceof LockableListModel )
+				intervalRemoved( (LockableListModel) e.getSource(), e.getIndex0(), e.getIndex1() );
 		}
 
 		/**
@@ -841,11 +832,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		public void contentsChanged( ListDataEvent e )
 		{
-			synchronized ( e.getSource() )
-			{
-				if ( e.getType() == ListDataEvent.CONTENTS_CHANGED && e.getSource() instanceof LockableListModel )
-					contentsChanged( (LockableListModel) e.getSource(), e.getIndex0(), e.getIndex1() );
-			}
+			if ( e.getType() == ListDataEvent.CONTENTS_CHANGED && e.getSource() instanceof LockableListModel )
+				contentsChanged( (LockableListModel) e.getSource(), e.getIndex0(), e.getIndex1() );
 		}
 
 		/**
