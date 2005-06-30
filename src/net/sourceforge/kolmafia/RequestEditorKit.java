@@ -61,7 +61,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static KoLmafia client;
 	private static RequestFrame frame;
 
-	private final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
+	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
 	/**
 	 * Returns an extension of the standard <code>HTMLFacotry</code> which intercepts
@@ -79,7 +79,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	 * to the Kingdom of Loathing server.
 	 */
 
-	private class RequestViewFactory extends HTMLFactory
+	private static class RequestViewFactory extends HTMLFactory
 	{
 		public View create( Element elem )
 		{
@@ -88,7 +88,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private class KoLSubmitView extends FormView
+	private static class KoLSubmitView extends FormView
 	{
 		public KoLSubmitView( Element elem )
 		{	super( elem );
