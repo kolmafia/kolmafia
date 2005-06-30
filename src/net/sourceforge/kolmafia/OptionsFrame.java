@@ -600,11 +600,12 @@ public class OptionsFrame extends KoLFrame
 
 			JComponentUtilities.setComponentSize( scrollArea, 200, 100 );
 
-			VerifiableElement [] elements = new VerifiableElement[4];
+			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 			elements[2] = new VerifiableElement( "Windowing: ", useTabsSelect );
-			elements[3] = new VerifiableElement( "Chat Colors: ", scrollArea );
+			elements[3] = new VerifiableElement( "N-Clicks: ", nameClickSelect );
+			elements[4] = new VerifiableElement( "Chat Colors: ", scrollArea );
 
 			setContent( elements );
 			actionCancelled();
