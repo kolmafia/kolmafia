@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.File;
 import java.util.TreeMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -50,12 +51,12 @@ import java.awt.Dimension;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class KoLMessenger implements KoLConstants
 {
+	private static String CHATLOG_BASENAME = "";
 	private static final Color DEFAULT_HIGHLIGHT = new Color( 128, 0, 128 );
 
 	public static final String [] ROOMS =
@@ -76,7 +77,6 @@ public class KoLMessenger implements KoLConstants
 	private boolean useTabbedFrame;
 	private TabbedChatFrame tabbedFrame;
 
-	private String baseLogname;
 	private boolean highlighting;
 
 	public KoLMessenger( KoLmafia client )
@@ -633,7 +633,7 @@ public class KoLMessenger implements KoLConstants
 
 		String displayHTML = null;
 
-		if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "New message received from" ) )
+		if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "New" ) || message.indexOf( "logged" ) != -1 )
 			displayHTML = "<font color=green>" + message + "</font>";
 
 		else if ( message.startsWith( "<b>from " ) || message.startsWith( "<b>to " ) )
@@ -751,11 +751,10 @@ public class KoLMessenger implements KoLConstants
 
 			instantMessageFrames.put( channel, frame );
 
-			if ( baseLogname != null )
+			if ( CHATLOG_BASENAME != null )
 			{
-				String fileSuffix = channel.startsWith( "/" ) ? channel.substring( 1 ) : client.getPlayerID( channel );
-				buffer.setActiveLogFile( baseLogname + "_" + fileSuffix + ".html",
-					"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
+				String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) : client.getPlayerID( channel )) + ".html";
+				buffer.setActiveLogFile( filename, "Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
 			}
 
 			if ( highlighting && !channel.equals( "[highs]" ) )
@@ -771,27 +770,18 @@ public class KoLMessenger implements KoLConstants
 
 	public void initializeChatLogs()
 	{
-		JFileChooser chooser = new JFileChooser();
-		int returnVal = chooser.showSaveDialog( null );
 
-		if ( chooser.getSelectedFile() == null )
-			return;
+		Date currentTime = new Date();
+		CHATLOG_BASENAME = "chats" + File.separator + currentTime.toString() + "_";
 
-		baseLogname = chooser.getSelectedFile().getAbsolutePath();
+		Object [] keys = instantMessageBuffers.keySet().toArray();
+		String filename, currentKey;
 
-		if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+		for ( int i = 0; i < keys.length; ++i )
 		{
-			Object [] keys = instantMessageBuffers.keySet().toArray();
-			String fileSuffix, currentKey;
-
-			for ( int i = 0; i < keys.length; ++i )
-			{
-				currentKey = (String) keys[i];
-				fileSuffix = currentKey.startsWith( "/" ) ? currentKey.substring( 1 ) : client.getPlayerID( currentKey );
-
-				getChatBuffer( currentKey ).setActiveLogFile( baseLogname + "_" + fileSuffix + ".html",
-					"Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
-			}
+			currentKey = (String) keys[i];
+			filename = CHATLOG_BASENAME + (currentKey.startsWith( "/" ) ? currentKey.substring( 1 ) : client.getPlayerID( currentKey )) + ".html";
+			getChatBuffer( currentKey ).setActiveLogFile( filename, "Loathing Chat: " + client.getLoginName() + " (" + currentTime + ")" );
 		}
 	}
 
