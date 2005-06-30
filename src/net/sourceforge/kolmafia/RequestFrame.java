@@ -37,7 +37,8 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.BorderLayout;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
@@ -77,8 +78,11 @@ public class RequestFrame extends KoLFrame
 			JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
 
 		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
-		getContentPane().setLayout( new GridLayout( 1, 1 ) );
-		getContentPane().add( scrollPane );
+
+		addCompactPane();
+		compactPane.setBackground( Color.white );
+		getContentPane().add( scrollPane, BorderLayout.CENTER );
+
 		addMenuBar();
 
 		currentRequest = request;
