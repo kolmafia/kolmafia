@@ -37,8 +37,10 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.awt.Component;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
+import javax.swing.JEditorPane;
 
 import javax.swing.text.View;
 import javax.swing.text.Element;
@@ -54,11 +56,12 @@ import javax.swing.text.html.HTMLEditorKit;
  * instance which properly handles data submission requests.
  */
 
-public class RequestEditorKit extends HTMLEditorKit
+public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 {
 	private static KoLmafia client;
 	private static RequestFrame frame;
-	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
+
+	private final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
 	/**
 	 * Returns an extension of the standard <code>HTMLFacotry</code> which intercepts
@@ -76,20 +79,7 @@ public class RequestEditorKit extends HTMLEditorKit
 	 * to the Kingdom of Loathing server.
 	 */
 
-	public static void setClient( KoLmafia client )
-	{	RequestEditorKit.client = client;
-	}
-
-	/**
-	 * Registers the frame that is being used to display the results of the current
-	 * form requests.
-	 */
-
-	public static void setRequestFrame( RequestFrame frame )
-	{	RequestEditorKit.frame = frame;
-	}
-
-	private static class RequestViewFactory extends HTMLFactory
+	private class RequestViewFactory extends HTMLFactory
 	{
 		public View create( Element elem )
 		{
@@ -98,7 +88,7 @@ public class RequestEditorKit extends HTMLEditorKit
 		}
 	}
 
-	private static class KoLSubmitView extends FormView
+	private class KoLSubmitView extends FormView
 	{
 		public KoLSubmitView( Element elem )
 		{	super( elem );
@@ -108,7 +98,7 @@ public class RequestEditorKit extends HTMLEditorKit
 		{
 			Component c = super.createComponent();
 
-			if ( c != null && (c instanceof JRadioButton || c instanceof JCheckBox) )
+			if ( c != null && (c instanceof JButton || c instanceof JRadioButton || c instanceof JCheckBox) )
 				c.setBackground( Color.white );
 
 			return c;
@@ -116,7 +106,35 @@ public class RequestEditorKit extends HTMLEditorKit
 
 		protected void submitData( String data )
 		{
-			// First, retrieve the form element so that
+			String [] splits = data.split( "[&=]" );
+
+			// First, attempt to retrieve the frame which
+			// is being used by this form viewer.
+
+			String frameText = null;
+			RequestFrame frame = null;
+			Object [] frames = existingFrames.toArray();
+
+			for ( int i = 0; i < frames.length && frame == null; ++i )
+			{
+				if ( frames[i] instanceof RequestFrame )
+				{
+					frame = (RequestFrame) frames[i];
+					frameText = frame.display1.getText();
+
+					for ( int j = 0; j < splits.length && frame != null; ++j )
+						if ( frameText.indexOf( splits[j] ) == -1 )
+							frame = null;
+				}
+			}
+
+			// If there is no frame, then there's nothing to
+			// refresh, so return.
+
+			if ( frame == null )
+				return;
+
+			// Next, retrieve the form element so that
 			// you know where you need to submit the data.
 
 			Element formElement = getElement();
@@ -143,9 +161,7 @@ public class RequestEditorKit extends HTMLEditorKit
 			if ( action == null )
 				action = frame.getCurrentLocation();
 
-			KoLRequest request = new KoLRequest( client, action, true );
-
-			String [] splits = data.split( "[&=]" );
+			KoLRequest request = new KoLRequest( frame.client, action, true );
 
 			if ( splits.length > 1 )
 				for ( int i = 0; i < splits.length; ++i )
