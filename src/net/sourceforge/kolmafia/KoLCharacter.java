@@ -121,7 +121,7 @@ public class KoLCharacter
 		SAUCEROR.add( "Sage Sage" );
 		SAUCEROR.add( "Rosemary Diviner" );
 		SAUCEROR.add( "Thyme Wizard" );
-		SAUCEROR.add( "Taragon Thaumaturge" );
+		SAUCEROR.add( "Tarragon Thaumaturge" );
 		SAUCEROR.add( "Oreganoccultist" );
 		SAUCEROR.add( "Basillusionist" );
 		SAUCEROR.add( "Coriander Conjurer" );
