@@ -152,6 +152,13 @@ public class RequestEditorKit extends HTMLEditorKit
 					request.addFormField( splits[i], (++i) < splits.length ? splits[i] : "" );
 
 			frame.refresh( request );
+
+			// In the event that it's something that required a
+			// password hash, you'll probably need to refresh
+			// the side panel.
+
+			if ( action.indexOf( "pwd=" ) != -1 || data.indexOf( "pwd=" ) != -1 )
+				frame.refreshSidePane();
 		}
 	}
 }

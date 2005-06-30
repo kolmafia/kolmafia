@@ -1083,16 +1083,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 				SwingUtilities.invokeLater( new CreateFrameRunnable( ItemManageFrame.class, parameters ) );
 			}
-			else if ( location.startsWith( "messages.php" ) )
+			else if ( location.startsWith( "desc" ) || location.startsWith( "doc" ) || location.startsWith( "search" ) )
 			{
-				// Only one instance of the mailbox holder is permitted
-				// at any given time - let the mailbox listener code
-				// handle that.
+				// Certain requests should open in a new window.
+				// These include description data, documentation
+				// and player searches.
 
-				Object [] parameters = new Object[1];
-				parameters[0] = client;
-
-				SwingUtilities.invokeLater( new CreateFrameRunnable( MailboxFrame.class, parameters ) );
+				openRequestFrame( location );
 			}
 			else if ( KoLFrame.this instanceof RequestFrame )
 			{

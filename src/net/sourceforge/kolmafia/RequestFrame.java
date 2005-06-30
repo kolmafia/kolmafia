@@ -38,12 +38,14 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JSplitPane;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
@@ -54,38 +56,72 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class RequestFrame extends KoLFrame
 {
 	private String title;
-	protected JEditorPane display;
 	private KoLRequest currentRequest;
-	private LimitedSizeChatBuffer buffer;
+	private LimitedSizeChatBuffer buffer1, buffer2;
+	private KoLRequest sidePaneRequest;
+
+	protected JEditorPane display1;
 
 	public RequestFrame( KoLmafia client, String title, KoLRequest request )
 	{
 		super( title, client );
 		this.title = title;
-
-		this.display = new JEditorPane();
-		this.display.setEditable( false );
-		this.display.addHyperlinkListener( new KoLHyperlinkAdapter() );
+		this.currentRequest = request;
 
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 		RequestEditorKit.setClient( client );
 		RequestEditorKit.setRequestFrame( this );
 
-		this.buffer = new LimitedSizeChatBuffer( title );
-		this.buffer.setChatDisplay( display );
+		this.display1 = new JEditorPane();
+		this.display1.setEditable( false );
 
-		JScrollPane scrollPane = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+		if ( !(this instanceof PendingTradesFrame) )
+			this.display1.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
-		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
+		this.buffer1 = new LimitedSizeChatBuffer( title );
+		this.buffer1.setChatDisplay( this.display1 );
 
-		addCompactPane();
-		compactPane.setBackground( Color.white );
-		getContentPane().add( scrollPane, BorderLayout.CENTER );
+		JScrollPane scrollPane1 = new JScrollPane( this.display1, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
 
-		addMenuBar();
+		// Profile requests, trade requests, and game text descriptions,
+		// as well as player searches, should not add extra requests to
+		// the server by having a side panel - however, everything else
+		// should need one.  Therefore, only add the side-bar when the
+		// request frame is initialized as a mini-browser.
 
-		currentRequest = request;
+		if ( request instanceof ProfileRequest || request instanceof ProposeTradeRequest ||
+			getCurrentLocation().startsWith( "desc" ) || getCurrentLocation().startsWith( "doc" ) || getCurrentLocation().startsWith( "search" ) )
+		{
+			this.buffer2 = null;
+
+			JComponentUtilities.setComponentSize( scrollPane1, 400, 300 );
+			getContentPane().setLayout( new GridLayout( 1, 1 ) );
+			getContentPane().add( scrollPane1 );
+		}
+		else
+		{
+			this.sidePaneRequest = new KoLRequest( client, "charpane.php" );
+
+			JEditorPane display2 = new JEditorPane();
+			display2.setEditable( false );
+			display2.addHyperlinkListener( new KoLHyperlinkAdapter() );
+
+			this.buffer2 = new LimitedSizeChatBuffer( "" );
+			this.buffer2.setChatDisplay( display2 );
+
+			JScrollPane scrollPane2 = new JScrollPane( display2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+			JComponentUtilities.setComponentSize( scrollPane2, 150, 450 );
+
+			JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, scrollPane2, scrollPane1 );
+			splitPane.setOneTouchExpandable( true );
+			JComponentUtilities.setComponentSize( splitPane, 600, 450 );
+
+			getContentPane().setLayout( new GridLayout( 1, 1 ) );
+			getContentPane().add( splitPane );
+			addMenuBar();
+		}
+
+		refreshSidePane();
 		(new DisplayRequestThread()).start();
 	}
 
@@ -99,14 +135,14 @@ public class RequestFrame extends KoLFrame
 
 		functionMenu.add( createMenuItem( "Inventory", "inventory.php" ) );
 		functionMenu.add( createMenuItem( "Character", "charsheet.php" ) );
-		functionMenu.add( createMenuItem( "Skills", "skills.php" ) );
+		functionMenu.add( createMenuItem( "Class Skills", "skills.php" ) );
 		functionMenu.add( createMenuItem( "Read Messages", "messages.php" ) );
 		functionMenu.add( createMenuItem( "Account Menu", "account.php" ) );
 		functionMenu.add( createMenuItem( "Documentation", "doc.php?topic=home" ) );
-		functionMenu.add( createMenuItem( "Forums", "http://forums.kingdomofloathing.com/" ) );
-		functionMenu.add( createMenuItem( "Radio", "http://grace.fast-serv.com:9140/listen.pls" ) );
+		functionMenu.add( createMenuItem( "KoL Forums", "http://forums.kingdomofloathing.com/" ) );
+		functionMenu.add( createMenuItem( "Radio KoL", "http://grace.fast-serv.com:9140/listen.pls" ) );
 		functionMenu.add( createMenuItem( "Report Bug", "sendmessage.php?toid=Jick" ) );
-		functionMenu.add( createMenuItem( "Donate", "donatepopup.php?pid=" + (client == null ? 0 : client.getUserID()) ) );
+		functionMenu.add( createMenuItem( "Donate to KoL", "donatepopup.php?pid=" + (client == null ? 0 : client.getUserID()) ) );
 		functionMenu.add( createMenuItem( "Log Out", "logout.php" ) );
 
 		menuBar.add( functionMenu );
@@ -146,6 +182,26 @@ public class RequestFrame extends KoLFrame
 		(new DisplayRequestThread()).start();
 	}
 
+	public void refreshSidePane()
+	{
+		if ( buffer2 != null )
+			(new RefreshSidePaneThread()).start();
+	}
+
+	private class RefreshSidePaneThread extends DaemonThread
+	{
+		public void run()
+		{
+			buffer2.clearBuffer();
+			buffer2.append( "Retrieving..." );
+
+			sidePaneRequest.run();
+
+			buffer2.clearBuffer();
+			buffer2.append( getDisplayHTML( sidePaneRequest.responseText ) );
+		}
+	}
+
 	private class DisplayRequestListener implements ActionListener
 	{
 		private String location;
@@ -163,49 +219,73 @@ public class RequestFrame extends KoLFrame
 
 	private class DisplayRequestThread extends DaemonThread
 	{
-		public DisplayRequestThread()
-		{
-		}
-
 		public void run()
 		{
 			if ( currentRequest == null )
 				return;
 
-			buffer.clearBuffer();
-			buffer.append( "Retrieving..." );
+			buffer1.clearBuffer();
+			buffer1.append( "Retrieving..." );
 
 			if ( currentRequest.responseText == null )
 			{
 				currentRequest.run();
 				client.processResults( currentRequest.responseText );
+
+				// In the event that it's something that required a
+				// password hash, you'll probably need to refresh
+				// the side panel.  Also, switching between compact
+				// and full mode will require a refresher.
+
+				if ( getCurrentLocation().indexOf( "pwd=" ) != -1 || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
+					refreshSidePane();
 			}
 
-			// Remove all the <BR> tags that are not understood
-			// by the default Java browser.
-
-			String displayHTML = currentRequest.responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( " class=small", "" );
-
-			// This is to replace all the rows with a height of 1
-			// with nothing to avoid weird rendering.
-
-			displayHTML = displayHTML.replaceAll( "<tr><td height=1 bgcolor=black></td></tr>", "" );
-			displayHTML = Pattern.compile( "<tr><td colspan=(\\d+) height=1 bgcolor=black></td></tr>" ).matcher( displayHTML ).replaceAll( "" );
-
-			// Kingdom of Loathing uses HTML in some of its maps
-			// that confuses the default browser. We can transform
-			// it to make it render correctly.
-			//
-			// Transform:
-			//     <form...><td...>...</td></form>
-			// into:
-			//     <td..><form...>...</form></td>
-
-			displayHTML = Pattern.compile( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)" ).matcher( displayHTML ).replaceAll( "$4$1$2" );
-			displayHTML = Pattern.compile( "</td></form>" ).matcher( displayHTML ).replaceAll( "</form></td>" );
-
-			buffer.clearBuffer();
-			buffer.append( displayHTML );
+			buffer1.clearBuffer();
+			buffer1.append( getDisplayHTML( currentRequest.responseText ) );
 		}
+	}
+
+	private String getDisplayHTML( String responseText )
+	{
+		// Switch all the <BR> tags that are not understood
+		// by the default Java browser to an understood form,
+		// and remove all <HR> tags.
+
+		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
+
+		// Fix all the super-small font displays used in the
+		// various KoL panes.
+
+		displayHTML = displayHTML.replaceAll( "font-size: .8em;", "" ).replaceAll( "<font size=[12]>", "" ).replaceAll(
+			" class=small", "" ).replaceAll( " class=tiny", "" );
+
+		// This is to replace all the rows with a black background
+		// because they are not properly rendered.
+
+		displayHTML = displayHTML.replaceAll( "<tr><td([^>]*?) bgcolor=black([^>]*?)></td></tr>", "<tr><td$1$2></td></tr>" );
+		displayHTML = displayHTML.replaceAll( "<tr><td([^>]*?) bgcolor=black([^>]*?)></tr>", "<tr><td$1$2></td></tr>" );
+
+		// Kingdom of Loathing uses HTML in some of its maps
+		// that confuses the default browser. We can transform
+		// it to make it render correctly.
+		//
+		// Transform:
+		//     <form...><td...>...</td></form>
+		// into:
+		//     <td..><form...>...</form></td>
+
+		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)", "$4$1$2" );
+		displayHTML = displayHTML.replaceAll( "</td></form>", "</form></td>" );
+
+		// KoL also has really crazy nested Javascript links, and
+		// since the default browser doesn't recognize these, be
+		// sure to convert them to standard <A> tags linking to
+		// the correct document.
+
+		displayHTML = Pattern.compile( "<a[^>]*?javascript:window.open\\(\"(.*?)\".*?>" ).matcher( displayHTML ).replaceAll( "<a href=\"$1\">" );
+		displayHTML = Pattern.compile( "<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>" ).matcher( displayHTML ).replaceAll( "<a href=\"$2\"><img$1 $3 border=0></a>" );
+
+		return displayHTML;
 	}
 }
