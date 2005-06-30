@@ -82,12 +82,6 @@ public class KoLmafiaCLI extends KoLmafia
 	private KoLmafia scriptRequestor;
 	private KoLmafiaCLI lastScript;
 
-	/**
-	 * The main method.  Currently, it instantiates a single instance
-	 * of the <code>KoLmafia</code> client after setting the default
-	 * look and feel of all <code>JFrame</code> objects to decorated.
-	 */
-
 	public static void main( String [] args )
 	{
 		try
@@ -374,17 +368,6 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			executeConditionsCommand( parameters );
 			return;
-		}
-
-		// The graphical CLI window command is handled right
-		// after, because it's convenient.
-
-		if ( command.equals( "window" ) )
-		{
-			Object [] client = new Object[1];
-			client[0] = scriptRequestor;
-
-			(new CreateFrameRunnable( CommandDisplayFrame.class, client )).run();
 		}
 
 		// Next, handle any requests to login or relogin.
