@@ -634,6 +634,7 @@ public class KoLMessenger implements KoLConstants
 		// there are supposed to be italics.
 
 		String displayHTML = message.indexOf( "<a" ) == -1 ? "<font color=green>" + message + "</font>" :
+			message.indexOf( "</a>," ) != -1 ? "<font color=green>" + message + "</font>" :
 			message.startsWith( "New message received from" ) ? "<font color=green>" + message + "</font>" :
 			message.indexOf( "Mod Warning</b>" ) != -1 ? "<font color=red>" + message + "</font>" :
 			message.indexOf( "System Message</b>" ) != -1 ? "<font color=red>" + message + "</font>" :
