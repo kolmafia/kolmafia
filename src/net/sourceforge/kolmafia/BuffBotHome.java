@@ -230,12 +230,17 @@ public class BuffBotHome implements KoLConstants
 	{
 		if ( entry != null )
 		{
-			messages.add( 0, new BuffMessage( c, entry ) );
+			if ( client instanceof KoLmafiaGUI )
+				messages.add( 0, new BuffMessage( c, entry ) );
+
 			activeLogWriter.println( "<font color=" + DataUtilities.toHexString( c ) + ">" + entry + "</font>" );
 			activeLogWriter.flush();
 
 			if ( client instanceof KoLmafiaCLI )
 				System.out.println( entry );
+
+			if ( messages.size() > 100 )
+				messages.remove( 100 );
 		}
 	}
 
@@ -244,8 +249,10 @@ public class BuffBotHome implements KoLConstants
 	 * while the buffbot is running.
 	 */
 
-	public void updateStatus(String statusMessage)
-	{	frame.setTitle( "KoLmafia: Buffbot - " + statusMessage );
+	public void updateStatus( String statusMessage )
+	{
+		if ( frame != null )
+			frame.setTitle( "KoLmafia: Buffbot - " + statusMessage );
 	}
 
 	/**
