@@ -368,6 +368,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			this.isErrorState = true;
 			updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLBuffer.toString() );
+
+			delay( REFRESH_RATE );
 			return false;
 		}
 
@@ -389,6 +391,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Error opening connection.  Retrying..." );
+
+			delay( REFRESH_RATE );
 			return false;
 		}
 
@@ -478,6 +482,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				e.printStackTrace( logStream );
 			}
 
+			delay( REFRESH_RATE );
 			return false;
 		}
 	}
@@ -518,12 +523,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
-			// On the one hand, if it's a FNF exception, then you shouldn't
-			// attempt to retry.
+			// FileNotFoundException problems could originate from
+			// anything -- standard timeouts, in some operating
+			// systems, for example, could throw a FNFE.  So, just
+			// note that in the display.
 
 			if ( e instanceof FileNotFoundException )
 			{
-				updateDisplay( ERROR_STATE, "Page no longer exists." );
+				updateDisplay( ERROR_STATE, "Page not found.  Retrying..." );
 
 				if ( client != null )
 				{
@@ -531,7 +538,8 @@ public class KoLRequest implements Runnable, KoLConstants
 					e.printStackTrace( logStream );
 				}
 
-				return false;
+				delay( REFRESH_RATE );
+				return true;
 			}
 
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
