@@ -341,13 +341,8 @@ public class KoLMessenger implements KoLConstants
 		for ( int i = 1; i < contactList.length; ++i )
 			onlineContacts.add( contactList[i].toLowerCase() );
 
-		if ( !contactsFrame.isShowing() )
-		{
-			contactsFrame.setSize( 200, 500 );
-			contactsFrame.setVisible( true );
-		}
-
 		contactsFrame.setTitle( contactList[0].substring( 0, contactList[0].indexOf( ":" ) ) );
+		contactsFrame.setVisible( true );
 	}
 
 	private static final String getNormalizedContent( String originalContent )
