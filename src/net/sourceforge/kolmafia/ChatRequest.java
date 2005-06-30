@@ -84,17 +84,17 @@ public class ChatRequest extends KoLRequest
 			actualMessage = message;
 		else if ( (message.equals( "/who" ) || message.equals( "/w" )) && contact.startsWith( "/" ) )
 			actualMessage = "/who " + contact.substring(1);
-		else if ( contact.startsWith( "/" ) || (message.startsWith( "/" ) && !message.startsWith( "/me" )) )
+		else if ( message.startsWith( "/" ) )
 			actualMessage = message;
 		else
 			actualMessage = "/msg " + contactID + " " + message;
 
 		addFormField( "graf", actualMessage );
 
-		if ( client.getMessenger() != null && !actualMessage.equals( "/c" ) && !actualMessage.equals( "/channel" ) && actualMessage.startsWith( "/c" ) )
+		if ( client.getMessenger() != null && !actualMessage.equals( "/c" ) && !actualMessage.equals( "/channel" ) && actualMessage.indexOf( " " ) != -1 )
 			client.getMessenger().stopConversation();
 
-		if ( client.getMessenger() != null && !actualMessage.equals( "/s" ) && !actualMessage.equals( "/switch" ) && actualMessage.startsWith( "/s" ) )
+		if ( client.getMessenger() != null && !actualMessage.equals( "/s" ) && !actualMessage.equals( "/switch" ) &&  actualMessage.indexOf( " " ) != -1 )
 			client.getMessenger().switchConversation();
 	}
 

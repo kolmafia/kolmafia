@@ -624,6 +624,9 @@ public class KoLMessenger implements KoLConstants
 
 	private void processChatMessage( String channel, String message )
 	{
+		if ( message == null )
+			return;
+
 		if ( message != null && message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( getBufferKey( channel ) ) )
 			return;
 
@@ -633,12 +636,22 @@ public class KoLMessenger implements KoLConstants
 		// first, based on who sent the message and whether or not
 		// there are supposed to be italics.
 
-		String displayHTML = message.indexOf( "<a" ) == -1 ? "<font color=green>" + message + "</font>" :
-			message.indexOf( "</a>," ) != -1 ? "<font color=green>" + message + "</font>" :
-			message.startsWith( "New message received from" ) ? "<font color=green>" + message + "</font>" :
-			message.indexOf( "Mod Warning</b>" ) != -1 ? "<font color=red>" + message + "</font>" :
-			message.indexOf( "System Message</b>" ) != -1 ? "<font color=red>" + message + "</font>" :
-			message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 ? "<i>" + message + "</i>" : message;
+		String displayHTML = null;
+
+		if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "New message received from" ) )
+			displayHTML = "<font color=green>" + message + "</font>";
+
+		else if ( message.startsWith( "<b>from " ) || message.startsWith( "<b>to " ) )
+			displayHTML = "<font color=blue>" + message + "</font>";
+
+		else if ( message.indexOf( ">Mod Warning<" ) != -1 || message.indexOf( ">System Message<" ) != -1 )
+			displayHTML = "<font color=red>" + message + "</font>";
+
+		else if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
+			displayHTML = "<i>" + message + "</i>";
+
+		else
+			displayHTML = message;
 
 		// Now, if the person is using LoathingChat style for
 		// doing their chatting, then make sure to append the
