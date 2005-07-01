@@ -114,19 +114,48 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			KoLSettings currentSettings = new KoLSettings();
 
-			System.setProperty( "proxySet", currentSettings.getProperty( "proxySet" ) );
+			String proxySet = currentSettings.getProperty( "proxySet" );
 			String proxyHost = currentSettings.getProperty( "http.proxyHost" );
+			String proxyUser = currentSettings.getProperty( "http.proxyUser" );
 
-			try
-			{	System.setProperty( "http.proxyHost", InetAddress.getByName( proxyHost ).getHostAddress() );
+			System.setProperty( "proxySet", proxySet );
+
+			// Remove the proxy host from the system properties
+			// if one isn't specified, or proxy setting is off.
+
+			if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) )
+			{
+				System.getProperties().remove( "http.proxyHost" );
+				System.getProperties().remove( "http.proxyPort" );
 			}
-			catch ( UnknownHostException e )
-			{	System.setProperty( "http.proxyHost", proxyHost );
+			else
+			{
+				try
+				{	System.setProperty( "http.proxyHost", InetAddress.getByName( proxyHost ).getHostAddress() );
+				}
+				catch ( UnknownHostException e )
+				{	System.setProperty( "http.proxyHost", proxyHost );
+				}
+
+				System.setProperty( "http.proxyPort", currentSettings.getProperty( "http.proxyPort" ) );
 			}
 
-			System.setProperty( "http.proxyPort", currentSettings.getProperty( "http.proxyPort" ) );
-			System.setProperty( "http.proxyUser", currentSettings.getProperty( "http.proxyUser" ) );
-			System.setProperty( "http.proxyPassword", currentSettings.getProperty( "http.proxyPassword" ) );
+			// Remove the proxy user from the system properties
+			// if one isn't specified, or proxy setting is off.
+
+			if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) || proxyUser.equals( "" ) )
+			{
+				System.getProperties().remove( "http.proxyUser" );
+				System.getProperties().remove( "http.proxyPassword" );
+			}
+			else
+			{
+				System.setProperty( "http.proxyUser", currentSettings.getProperty( "http.proxyUser" ) );
+				System.setProperty( "http.proxyPassword", currentSettings.getProperty( "http.proxyPassword" ) );
+			}
+
+			// Determine the login server that will be used.  It
+			// will either be auto-detection, or using the default.
 
 			switch ( Integer.parseInt( currentSettings.getProperty( "loginServer" ) ) )
 			{
