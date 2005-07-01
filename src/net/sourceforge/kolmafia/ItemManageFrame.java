@@ -509,8 +509,12 @@ public class ItemManageFrame extends KoLFrame
 				ItemCreationRequest selection = (ItemCreationRequest) selected;
 
 				String itemName = selection.getName();
+				int creatable = selection.getQuantityNeeded();
 				int creationCount = createMultiple ? df.parse( JOptionPane.showInputDialog(
 					"Creating multiple " + itemName + "...", String.valueOf( selection.getQuantityNeeded() ) ) ).intValue() : 1;
+
+				if ( creationCount > creatable )
+					creationCount = creatable;
 
 				if ( creationCount > 0 )
 				{
