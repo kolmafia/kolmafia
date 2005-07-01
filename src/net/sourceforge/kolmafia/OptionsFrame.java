@@ -812,6 +812,7 @@ public class OptionsFrame extends KoLFrame
 		private JCheckBox useClosetForCreationCheckBox;
 		private JCheckBox autoRepairBoxesCheckBox;
 		private JCheckBox includeAscensionRecipesCheckBox;
+		private JCheckBox createWithoutBoxServantsCheckBox;
 
 		public CreationOptionsPanel()
 		{
@@ -820,11 +821,13 @@ public class OptionsFrame extends KoLFrame
 			useClosetForCreationCheckBox = new JCheckBox();
 			autoRepairBoxesCheckBox = new JCheckBox();
 			includeAscensionRecipesCheckBox = new JCheckBox();
+			createWithoutBoxServantsCheckBox = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Use closet as ingredient source", JLabel.LEFT, useClosetForCreationCheckBox );
 			elements[1] = new VerifiableElement( "Auto-repair box servants on explosion", JLabel.LEFT, autoRepairBoxesCheckBox );
 			elements[2] = new VerifiableElement( "Include post-ascension recipes", JLabel.LEFT, includeAscensionRecipesCheckBox );
+			elements[3] = new VerifiableElement( "Cook or mix without a box servant", JLabel.LEFT, createWithoutBoxServantsCheckBox );
 
 			setContent( elements, false );
 			actionCancelled();
@@ -835,6 +838,7 @@ public class OptionsFrame extends KoLFrame
 			setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationCheckBox.isSelected() ) );
 			setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesCheckBox.isSelected() ) );
 			setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
+			setProperty( "createWithoutBoxServants", String.valueOf( createWithoutBoxServantsCheckBox.isSelected() ) );
 			super.actionConfirmed();
 		}
 
@@ -843,6 +847,7 @@ public class OptionsFrame extends KoLFrame
 			useClosetForCreationCheckBox.setSelected( getProperty( "useClosetForCreation" ).equals( "true" ) );
 			autoRepairBoxesCheckBox.setSelected( getProperty( "autoRepairBoxes" ).equals( "true" ) );
 			includeAscensionRecipesCheckBox.setSelected( getProperty( "includeAscensionRecipes" ).equals( "true" ) );
+			createWithoutBoxServantsCheckBox.setSelected( getProperty( "createWithoutBoxServants" ).equals( "true" ) );
 		}
 	}
 

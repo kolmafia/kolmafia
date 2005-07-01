@@ -174,6 +174,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		ensureProperty( "closeSending", "false" );
+		ensureProperty( "createWithoutBoxServants", "false" );
 		ensureProperty( "defaultLimit", "13" );
 		ensureProperty( "fontSize", "3" );
 		ensureProperty( "forceReconnect", "false" );

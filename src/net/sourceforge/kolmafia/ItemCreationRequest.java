@@ -69,6 +69,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int SMITH_WEAPON = 13;
 	public static final int SMITH_ARMOR = 14;
 
+	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
+	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
 	private static final AdventureResult CHEF = new AdventureResult( 438, 1 );
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
 
@@ -270,8 +272,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() )
 			return;
 
-		// Now that the item's been created, you can
-		// actually do the request!
+		// Now that the ingredients have been created, you can actually
+		// do the request!
 
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 		for ( int i = 0; i < ingredients.length; ++i )
@@ -301,13 +303,19 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		// Check to make sure that the item creation
-		// did not fail.
+		// Check to make sure that the item creation did not fail.
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You're missing ingredients." );
+			return;
+		}
+
+		if ( responseText.indexOf( "You don't have that many adventures left" ) != -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "You don't have enough adventures." );
 			return;
 		}
 
@@ -318,43 +326,41 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// may get your initial creation attempt back.
 
 		processResults( responseText );
+
+		// Figure out how many items were created
 		String itemName = TradeableItemDatabase.getItemName( itemID );
 
-		Matcher resultMatcher = Pattern.compile( "You acquire some items\\: <b>" + itemName + " \\(([\\d,]+)\\)</b>" ).matcher( responseText );
 		int createdQuantity = 0;
-
 		try
 		{
+			Matcher resultMatcher = Pattern.compile( "You acquire some items\\: <b>" + itemName + " \\(([\\d,]+)\\)</b>" ).matcher( responseText );
 			if ( resultMatcher.find() )
 				createdQuantity = df.parse( resultMatcher.group(1) ).intValue();
-			else
-			{
-				if ( Pattern.compile( "You acquire an item\\: <b>" + itemName + "</b>" ).matcher( responseText ).find() )
-					createdQuantity = 1;
-			}
+			else if ( Pattern.compile( "You acquire an item\\: <b>" + itemName + "</b>" ).matcher( responseText ).find() )
+				createdQuantity = 1;
 		}
 		catch ( Exception e )
 		{
 		}
 
-		// Because an explosion might have occurred, the
-		// quantity that has changed might not be accurate.
-		// Therefore, update with the actual value.
-
-		for ( int i = 0; i < ingredients.length; ++i )
-			client.processResult( new AdventureResult( ingredients[i].getItemID(), 0 - createdQuantity ) );
-
-		if ( mixingMethod == COMBINE && !client.getCharacterData().inMuscleSign() )
-			client.processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
-
-		// Now, check to see if your box-servant was overworked and
-		// exploded.  Also handle the possibility of smithing and
-		// jewelrymaking reducing adventures.
-
-		ItemCreationRequest leftOver = ItemCreationRequest.getInstance( client, itemID, quantityNeeded - createdQuantity );
-
-		switch ( mixingMethod )
+		if ( createdQuantity > 0 )
 		{
+			// Because an explosion might have occurred, the
+			// quantity that has changed might not be accurate.
+			// Therefore, update with the actual value.
+
+			for ( int i = 0; i < ingredients.length; ++i )
+				client.processResult( new AdventureResult( ingredients[i].getItemID(), 0 - createdQuantity ) );
+
+			// Reduce adventures and use meat paste
+
+			switch ( mixingMethod )
+			{
+			case COMBINE:
+				if ( !client.getCharacterData().inMuscleSign() )
+					client.processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
+				break;
+
 			case SMITH:
 				if ( !client.getCharacterData().inMuscleSign() )
 					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
@@ -372,44 +378,43 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK:
 			case COOK_REAGENT:
 			case COOK_PASTA:
-
-				if ( responseText.indexOf( "Smoke" ) != -1 )
-				{
-					client.getCharacterData().setChef( false );
-					leftOver.run();
-					return;
-				}
-				else if ( client.permitsContinue() )
-				{
-					updateDisplay( NOCHANGE, "Successfully cooked " + quantityNeeded + " " + itemName );
-					return;
-				}
-
+				if ( !client.getCharacterData().hasChef() )
+					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
 				break;
 
 			case MIX:
 			case MIX_SPECIAL:
-				if ( responseText.indexOf( "Smoke" ) != -1 )
-				{
-					client.getCharacterData().setBartender( false );
-					leftOver.run();
-					return;
-				}
-				else if ( client.permitsContinue() )
-				{
-					updateDisplay( NOCHANGE, "Successfully mixed " + quantityNeeded + " " + itemName );
-					return;
-				}
+				if ( !client.getCharacterData().hasBartender() )
+					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
+				break;
+			}
+		}
 
+		// Check to see if box-servant was overworked and exploded.
+
+		if ( responseText.indexOf( "Smoke" ) != -1 )
+		{
+			ItemCreationRequest leftOver = ItemCreationRequest.getInstance( client, itemID, quantityNeeded - createdQuantity );
+
+			switch ( mixingMethod )
+			{
+			case COOK:
+			case COOK_REAGENT:
+			case COOK_PASTA:
+				client.getCharacterData().setChef( false );
+				leftOver.run();
 				break;
 
-			default:
-				if ( client.permitsContinue() )
-				{
-					updateDisplay( NOCHANGE,  "Successfully created " + quantityNeeded + " " + itemName );
-					return;
-				}
+			case MIX:
+			case MIX_SPECIAL:
+				client.getCharacterData().setBartender( false );
+				leftOver.run();
+				break;
+			}
 		}
+
+		if ( client.permitsContinue() )
+			updateDisplay( NOCHANGE,  "Successfully created " + quantityNeeded + " " + itemName );
 	}
 
 	private boolean autoRepairBoxServant()
@@ -420,20 +425,23 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() )
 			return false;
 
+		KoLCharacter data = client.getCharacterData();
+		boolean noServantNeeded = client.getSettings().getProperty( "createWithoutBoxServants" ).equals( "true" );
+
 		switch ( mixingMethod )
 		{
 			case COOK:
 			case COOK_REAGENT:
 			case COOK_PASTA:
 
-				if ( client.getCharacterData().hasChef() )
+				if ( data.hasChef() || ( noServantNeeded && data.getInventory().contains( OVEN ) ) )
 					return true;
 				break;
 
 			case MIX:
 			case MIX_SPECIAL:
 
-				if ( client.getCharacterData().hasBartender() )
+				if ( data.hasBartender() || ( noServantNeeded && data.getInventory().contains( KIT ) ) )
 					return true;
 				break;
 
@@ -441,7 +449,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return true;
 		}
 
-		// Check to see if the player wants to autorepair
+		// No currently installed servant and player insists on using
+		// one.	 Check to see if they want to autorepair
 
 		if ( client.getSettings().getProperty( "autoRepairBoxes" ).equals( "false" ) )
 		{

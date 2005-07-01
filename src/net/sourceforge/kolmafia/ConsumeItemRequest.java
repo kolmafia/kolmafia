@@ -231,7 +231,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( itemUsed.getName().indexOf( "rolling" ) != -1 )
 			{
 				AdventureResult consumedItem = new AdventureResult( itemUsed.getName().startsWith( "r" ) ? "wad of dough" : "flat dough", 0 );
-				client.processResult( consumedItem.getInstance( consumedItem.getCount( client.getInventory() ) ) );
+				client.processResult( consumedItem.getInstance( consumedItem.getCount( client.getInventory() ) ).getNegation() );
 			}
 		}
 	}
