@@ -1102,15 +1102,15 @@
 1102	targeting chip	6	75
 1103	unwound clockwork grapefruit	5	220
 1104	tiny mountie hat	6	75
-1105	clockwork bartender head	0	0
-1106	clockwork chef head	0	0
-1107	clockwork maid head	0	0
+1105	clockwork bartender head	0	245
+1106	clockwork chef head	0	220
+1107	clockwork maid head	0	225
 1108	clockwork detective skull	9	195
-1109	clockwork bartender-head-in-the-box	0	0
-1110	clockwork chef-head-in-the-box	0	0
-1111	clockwork bartender-in-the-box	0	0
-1112	clockwork chef-in-the-box	0	710
-1113	clockwork maid	0	350
+1109	clockwork bartender-head-in-the-box	0	255
+1110	clockwork chef-head-in-the-box	0	225
+1111	clockwork bartender-in-the-box	3	710
+1112	clockwork chef-in-the-box	3	710
+1113	clockwork maid	3	350
 1114	tisket	0	70
 1115	tasket	0	70
 1116	annoying pitchfork	6	75
@@ -1168,7 +1168,7 @@
 1168	less-than-three shaped box	0	0
 1169	exactly-three shaped box	0	0
 1170	chocolate box	0	0
-1171
+1171	miniature coffin	0	0
 1172
 1173
 1174
@@ -1190,7 +1190,7 @@
 1190	stuffed dodecapede	0	50
 1191	stuffed ghuol whelp	0	0
 1192	stuffed zmobie	0	0
-1193
+1193	Raggedy Hippy doll	0	0
 1194
 1195
 1196
@@ -1212,7 +1212,7 @@
 1212	green balloon	8	50
 1213	heart-shaped balloon	8	0
 1214	anniversary balloon	8	0
-1215
+1215	Mylar balloon	8	0
 1216
 1217
 1218
