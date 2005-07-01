@@ -348,11 +348,8 @@ public abstract class KoLmafia implements KoLConstants
 				synchronized ( synchronizer )
 				{
 					isDelayed = false;
-
-					setEnabled( false );
 					characterData.updateEquipmentLists();
 					ConcoctionsDatabase.refreshConcoctions( KoLmafia.this );
-					setEnabled( true );
 				}
 			}
 		}

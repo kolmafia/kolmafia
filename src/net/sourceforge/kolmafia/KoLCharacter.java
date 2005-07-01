@@ -928,14 +928,20 @@ public class KoLCharacter
 
 	public void updateEquipmentList( LockableListModel currentList, int currentFilter, String currentItem )
 	{
-		currentList.clear();
-		currentList.addAll( getFilteredItems( currentFilter ) );
+		List filteredList = getFilteredItems( currentFilter );
+		currentList.retainAll( filteredList );
 
-		if ( !currentList.contains( currentItem ) )
+		Object [] filteredItems = filteredList.toArray();
+
+		for ( int i = 0; i < filteredItems.length; ++i )
+			if ( !currentList.contains( filteredItems[i] ) )
+				currentList.add( filteredItems[i] );
+
+		if ( !currentItem.equals( "none" ) && !currentList.contains( currentItem ) )
 			currentList.add( currentItem );
 
-		currentList.remove( "none" );
-		currentList.setSelectedItem( currentItem );
+		if ( currentList.getSelectedItem() == null || !currentList.getSelectedItem().equals( currentItem ) )
+			currentList.setSelectedItem( currentItem );
 	}
 
 	private List getFilteredItems( int filterID )
