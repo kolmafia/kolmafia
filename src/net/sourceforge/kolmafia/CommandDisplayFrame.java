@@ -64,11 +64,14 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CommandDisplayFrame extends KoLFrame
 {
+	private KoLmafiaCLI instance;
 	private LimitedSizeChatBuffer commandBuffer;
 
 	public CommandDisplayFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Graphical CLI", client );
+		this.instance = new KoLmafiaCLI( client, (String) null );
+
 		this.commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI" );
 		client.setCommandBuffer( this.commandBuffer );
 
@@ -223,14 +226,7 @@ public class CommandDisplayFrame extends KoLFrame
 						if ( command.toLowerCase().equals( "login" ) )
 							commandBuffer.append( "<font color=red>This command is not available in the GCLI</font><br>" );
 						else
-						{
-							KoLmafiaCLI instance = new KoLmafiaCLI( client, (String) null );
-							instance.previousCommand = previousCommand;
 							instance.executeLine( command );
-
-							if ( command.startsWith( "repeat" ) )
-								previousCommand = command;
-						}
 
 						commandBuffer.append( "<br>" );
 						client.setEnabled( true );
