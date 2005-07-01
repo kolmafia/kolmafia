@@ -70,7 +70,14 @@ public class CommandDisplayFrame extends KoLFrame
 	public CommandDisplayFrame( KoLmafia client )
 	{
 		super( "KoLmafia: Graphical CLI", client );
-		this.instance = new KoLmafiaCLI( client, (String) null );
+
+		try
+		{
+			this.instance = new KoLmafiaCLI( client, (String) null );
+		}
+		catch ( Exception e )
+		{
+		}
 
 		this.commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI" );
 		client.setCommandBuffer( this.commandBuffer );
