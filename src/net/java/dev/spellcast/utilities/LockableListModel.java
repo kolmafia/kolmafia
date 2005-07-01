@@ -370,15 +370,13 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public boolean retainAll( Collection c )
 	{
 		boolean hasChanged = false;
-		Object nextElement = null;
+		Object [] elements = toArray();
 
-		Iterator myIterator = this.iterator();
-		while ( myIterator.hasNext() )
+		for ( int i = 0; i < elements.length; ++i )
 		{
-			nextElement = myIterator.next();
-			if ( !c.contains( nextElement ) )
+			if ( !c.contains( elements[i] ) )
 			{
-				remove( nextElement );
+				remove( elements[i] );
 				hasChanged = true;
 			}
 		}
