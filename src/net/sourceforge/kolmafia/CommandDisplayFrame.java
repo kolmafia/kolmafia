@@ -198,8 +198,6 @@ public class CommandDisplayFrame extends KoLFrame
 
 		private class CommandEntryListener extends KeyAdapter implements ActionListener
 		{
-			private String previousCommand;
-
 			public void actionPerformed( ActionEvent e )
 			{	submitCommand();
 			}
