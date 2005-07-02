@@ -199,7 +199,7 @@ public class GearChangeFrame extends KoLFrame
 		for ( int i = 0; i < 8; ++i )
 		{
 			equipment[i] = new JComboBox( equipmentLists[i] );
-			equipment[i].addActionListener( new ChangeListener( equipment[i], EquipmentRequest.class, String.class ) );
+			equipment[i].addActionListener( new ChangeListener( equipment[i], EquipmentRequest.class, String.class, Integer.class ) );
 			JComponentUtilities.setComponentSize( equipment[i], 240, 20 );
 
 			if ( i != KoLCharacter.FAMILIAR )
@@ -280,6 +280,7 @@ public class GearChangeFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
+				System.out.println(e);
 			}
 
 			this.parameters = new Object[2];
@@ -287,9 +288,42 @@ public class GearChangeFrame extends KoLFrame
 			this.parameters[1] = null;
 		}
 
+		public ChangeListener( JComboBox selector, Class requestClass, Class parameter1Class, Class parameter2Class )
+		{
+			this.selector = selector;
+
+			Class [] parameterTypes = new Class[3];
+			parameterTypes[0] = KoLmafia.class;
+			parameterTypes[1] = parameter1Class;
+			parameterTypes[2] = parameter2Class;
+
+			try
+			{	this.constructor = requestClass.getConstructor( parameterTypes );
+			}
+			catch ( Exception e )
+			{
+				System.out.println(e);
+			}
+
+			this.parameters = new Object[3];
+			this.parameters[0] = client;
+			this.parameters[1] = null;
+			this.parameters[2] = null;
+		}
+
 		public void actionPerformed( ActionEvent e )
 		{
 			this.parameters[1] = selector.getSelectedItem();
+			if ( this.parameters.length == 3)
+			{
+				for ( int i = 0; i < equipment.length; ++i )
+					if ( equipment[i] == selector )
+					{
+						this.parameters[2] = new Integer( i );
+						break;
+					}
+			}
+
 			if ( !isChanging && isEnabled() && this.parameters[1] != null )
 				(new ChangeThread()).start();
 		}

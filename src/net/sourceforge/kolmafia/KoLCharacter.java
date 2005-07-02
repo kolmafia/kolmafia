@@ -906,6 +906,22 @@ public class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to retrieve the name of a piece of equipment
+	 * @param	index	the type of equipment
+	 *
+	 * @return	The name of the equipment, <code>none</code> if no such item exists
+	 */
+
+	public String getEquipment( int type )
+	{
+		if ( type >= HAT && type < FAMILIAR)
+			return (String)equipment.get( type );
+		if ( type == FAMILIAR )
+			return getFamiliarItem();
+		return "none";
+	}
+
+	/**
 	 * Accessor method to retrieve a list of all available items which can be equipped
 	 * by familiars.  Note this lists items which the current familiar cannot equip.
 	 */
@@ -928,20 +944,14 @@ public class KoLCharacter
 
 	public void updateEquipmentList( LockableListModel currentList, int currentFilter, String currentItem )
 	{
-		List filteredList = getFilteredItems( currentFilter );
-		currentList.retainAll( filteredList );
-
-		Object [] filteredItems = filteredList.toArray();
-
-		for ( int i = 0; i < filteredItems.length; ++i )
-			if ( !currentList.contains( filteredItems[i] ) )
-				currentList.add( filteredItems[i] );
-
-		if ( !currentItem.equals( "none" ) && !currentList.contains( currentItem ) )
+		currentList.clear();
+		currentList.add( "none" );
+		currentList.addAll( getFilteredItems( currentFilter ) );
+ 
+		if ( !currentList.contains( currentItem ) )
 			currentList.add( currentItem );
-
-		if ( currentList.getSelectedItem() == null || !currentList.getSelectedItem().equals( currentItem ) )
-			currentList.setSelectedItem( currentItem );
+  
+		currentList.setSelectedItem( currentItem );
 	}
 
 	private List getFilteredItems( int filterID )
@@ -953,7 +963,7 @@ public class KoLCharacter
 		{
 			currentItem = ((AdventureResult)inventory.get(i)).getName();
 			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == filterID )
-				items.add( currentItem.toLowerCase() );
+				items.add( currentItem );
 		}
 
 		return items;
