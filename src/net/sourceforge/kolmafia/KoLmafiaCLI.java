@@ -721,6 +721,27 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+
+		// You can remove a specific piece of equipment.
+
+		if ( command.startsWith( "unequip" ) )
+		{
+			AdventureResult match = getFirstMatchingItem( parameters, USAGE );
+			if ( match != null )
+			{
+				String item = match.getName();
+				KoLCharacter data = scriptRequestor.getCharacterData();
+
+				// The following loop removes ALL items with
+				// the specified name.
+
+				for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
+					if ( data.getEquipment( i ).equals( item ) )
+					     scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, "none", i ), 1 );
+			}
+			return;
+		}
+
 		// Another popular command involves changing
 		// your current familiar.
 
