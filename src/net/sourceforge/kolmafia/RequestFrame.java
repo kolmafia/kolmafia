@@ -261,8 +261,13 @@ public class RequestFrame extends KoLFrame
 		// This is to replace all the rows with a black background
 		// because they are not properly rendered.
 
-		displayHTML = displayHTML.replaceAll( "<tr><td([^>]*?) bgcolor=black([^>]*?)></td></tr>", "<tr><td$1$2></td></tr>" );
-		displayHTML = displayHTML.replaceAll( "<tr><td([^>]*?) bgcolor=black([^>]*?)></tr>", "<tr><td$1$2></td></tr>" );
+		displayHTML = displayHTML.replaceAll( "<tr><td([^>]*?) bgcolor=black([^>]*?)>((</td>)?)</tr>", "<tr><td$1$2></td></tr>" );
+
+		// The default browser doesn't understand the table directive
+		// style="border: 1px solid black"
+		//
+		// Turn it into a simple "border=1"
+		displayHTML = displayHTML.replaceAll( "style=\"border: 1px solid black\"", "border=1" );
 
 		// Kingdom of Loathing uses HTML in some of its maps
 		// that confuses the default browser. We can transform
