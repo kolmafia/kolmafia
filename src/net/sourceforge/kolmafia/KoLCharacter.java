@@ -807,6 +807,9 @@ public class KoLCharacter
 		for ( int i = 0; i < this.equipment.size(); ++i )
 			this.equipment.set( i, equipment[i] );
 
+		if ( equipment.length > FAMILIAR)
+			setFamiliarItem( equipment[FAMILIAR] );
+
 		this.outfits.clear();
 		this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
 		this.outfits.addAll( outfits );

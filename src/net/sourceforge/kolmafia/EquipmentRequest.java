@@ -381,7 +381,6 @@ public class EquipmentRequest extends KoLRequest
 
 	private void parseEquipment()
 	{
-		// Room for Familiar Item, although we don't get that, yet.
 		String [] equipment = new String[8];
 
 		for ( int i = 0; i < equipment.length; ++i )
@@ -434,6 +433,13 @@ public class EquipmentRequest extends KoLRequest
 		{
 			equipment[ KoLCharacter.ACCESSORY3 ] = equipmentMatcher.group(1);
 			logStream.println( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
+		}
+
+		equipmentMatcher = Pattern.compile( "Familiar:</td>.*?<b>([^<]*?)</b>.*unequip&type=familiarequip" ).matcher( responseText );
+		if ( equipmentMatcher.find() )
+		{
+			equipment[ KoLCharacter.FAMILIAR ] = equipmentMatcher.group(1);
+			logStream.println( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
 		}
 
 		Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( responseText );
