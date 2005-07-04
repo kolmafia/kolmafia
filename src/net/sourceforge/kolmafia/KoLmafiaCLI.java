@@ -829,8 +829,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			List results = new ArrayList();
 			(new SearchMallRequest( scriptRequestor, parameters, results )).run();
-			updateDisplay( ENABLED_STATE, "" );
-			printList( results, DISPLAY_STREAM );
+			printList( results );
 			return;
 		}
 
@@ -900,7 +899,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( option.equals( "list" ) || option.equals( "print" ) )
 		{
-			printList( scriptRequestor.conditions, DISPLAY_STREAM );
+			printList( scriptRequestor.conditions );
 			return;
 		}
 
@@ -1141,143 +1140,80 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, PrintStream outputStream )
 	{
-		if ( outputStream instanceof NullStream )
-		{
-			updateDisplay( NOCHANGE, (new Date()).toString() );
-			updateDisplay( NOCHANGE, MoonPhaseDatabase.getMoonEffect() );
-			updateDisplay( NOCHANGE, "" );
-		}
-		else
-		{
-			outputStream.println( new Date() );
-			outputStream.println( MoonPhaseDatabase.getMoonEffect() );
-			outputStream.println();
-		}
+		PrintStream originalStream = this.outputStream;
+		this.outputStream = outputStream;
+
+		updateDisplay( NOCHANGE, (new Date()).toString() );
+		updateDisplay( NOCHANGE, MoonPhaseDatabase.getMoonEffect() );
+		updateDisplay( NOCHANGE, "" );
 
 		KoLCharacter data = scriptRequestor.getCharacterData();
 
 		if ( desiredData.equals( "session" ) )
 		{
-			if ( outputStream instanceof NullStream )
-			{
-				updateDisplay( ENABLED_STATE, "Player: " + scriptRequestor.getLoginName() );
-				updateDisplay( ENABLED_STATE, "Session ID: " + scriptRequestor.getSessionID() );
-				updateDisplay( ENABLED_STATE, "Password Hash: " + scriptRequestor.getPasswordHash() );
-			}
-			else
-			{
-				outputStream.println( "Player: " + scriptRequestor.getLoginName() );
-				outputStream.println( "Session ID: " + scriptRequestor.getSessionID() );
-				outputStream.println( "Password Hash: " + scriptRequestor.getPasswordHash() );
-			}
-
-			return;
+			updateDisplay( ENABLED_STATE, "Player: " + scriptRequestor.getLoginName() );
+			updateDisplay( ENABLED_STATE, "Session ID: " + scriptRequestor.getSessionID() );
+			updateDisplay( ENABLED_STATE, "Password Hash: " + scriptRequestor.getPasswordHash() );
 		}
-
-		if ( desiredData.startsWith( "stat" ) )
+		else if ( desiredData.startsWith( "stat" ) )
 		{
-			if ( outputStream instanceof NullStream )
-			{
-				updateDisplay( ENABLED_STATE, "Lv: " + data.getLevel() );
-				updateDisplay( ENABLED_STATE, "HP: " + data.getCurrentHP() + " / " + df.format( data.getMaximumHP() ) );
-				updateDisplay( ENABLED_STATE, "MP: " + data.getCurrentMP() + " / " + df.format( data.getMaximumMP() ) );
-				updateDisplay( ENABLED_STATE, "" );
-				updateDisplay( ENABLED_STATE, "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
-				updateDisplay( ENABLED_STATE, "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
-				updateDisplay( ENABLED_STATE, "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
-				updateDisplay( ENABLED_STATE, "" );
-				updateDisplay( ENABLED_STATE, "Meat: " + df.format( data.getAvailableMeat() ) );
-				updateDisplay( ENABLED_STATE, "Drunk: " + data.getInebriety() );
-				updateDisplay( ENABLED_STATE, "Adv: " + data.getAdventuresLeft() );
+			updateDisplay( ENABLED_STATE, "Lv: " + data.getLevel() );
+			updateDisplay( ENABLED_STATE, "HP: " + data.getCurrentHP() + " / " + df.format( data.getMaximumHP() ) );
+			updateDisplay( ENABLED_STATE, "MP: " + data.getCurrentMP() + " / " + df.format( data.getMaximumMP() ) );
+			updateDisplay( ENABLED_STATE, "" );
+			updateDisplay( ENABLED_STATE, "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
+			updateDisplay( ENABLED_STATE, "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
+			updateDisplay( ENABLED_STATE, "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
+			updateDisplay( ENABLED_STATE, "" );
+			updateDisplay( ENABLED_STATE, "Meat: " + df.format( data.getAvailableMeat() ) );
+			updateDisplay( ENABLED_STATE, "Drunk: " + data.getInebriety() );
+			updateDisplay( ENABLED_STATE, "Adv: " + data.getAdventuresLeft() );
 
-				updateDisplay( ENABLED_STATE, "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
-				updateDisplay( ENABLED_STATE, "Item: " + data.getFamiliarItem() );
-			}
-			else
-			{
-				outputStream.println( "Lv: " + data.getLevel() );
-				outputStream.println( "HP: " + data.getCurrentHP() + " / " + df.format( data.getMaximumHP() ) );
-				outputStream.println( "MP: " + data.getCurrentMP() + " / " + df.format( data.getMaximumMP() ) );
-				outputStream.println();
-				outputStream.println( "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
-				outputStream.println( "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
-				outputStream.println( "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
-				outputStream.println();
-				outputStream.println( "Meat: " + df.format( data.getAvailableMeat() ) );
-				outputStream.println( "Drunk: " + data.getInebriety() );
-				outputStream.println( "Adv: " + data.getAdventuresLeft() );
-				outputStream.println( "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
-				outputStream.println( "Item: " + data.getFamiliarItem() );
-			}
-
-			return;
+			updateDisplay( ENABLED_STATE, "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
+			updateDisplay( ENABLED_STATE, "Item: " + data.getFamiliarItem() );
 		}
-
-		if ( desiredData.startsWith( "equip" ) )
+		else if ( desiredData.startsWith( "equip" ) )
 		{
-			if ( outputStream instanceof NullStream )
-			{
-				updateDisplay( ENABLED_STATE, "       Hat: " + data.getHat() );
-				updateDisplay( ENABLED_STATE, "    Weapon: " + data.getWeapon() );
-				updateDisplay( ENABLED_STATE, "     Shirt: " + data.getShirt() );
-				updateDisplay( ENABLED_STATE, "     Pants: " + data.getPants() );
-				updateDisplay( ENABLED_STATE, " Accessory: " + data.getAccessory1() );
-				updateDisplay( ENABLED_STATE, " Accessory: " + data.getAccessory2() );
-				updateDisplay( ENABLED_STATE, " Accessory: " + data.getAccessory3() );
-			}
-			else
-			{
-				outputStream.println( "       Hat: " + data.getHat() );
-				outputStream.println( "    Weapon: " + data.getWeapon() );
-				outputStream.println( "     Shirt: " + data.getShirt() );
-				outputStream.println( "     Pants: " + data.getPants() );
-				outputStream.println( " Accessory: " + data.getAccessory1() );
-				outputStream.println( " Accessory: " + data.getAccessory2() );
-				outputStream.println( " Accessory: " + data.getAccessory3() );
-			}
-
-			return;
+			updateDisplay( ENABLED_STATE, "    Hat: " + data.getEquipment( KoLCharacter.HAT ) );
+			updateDisplay( ENABLED_STATE, " Weapon: " + data.getEquipment( KoLCharacter.WEAPON ) );
+			updateDisplay( ENABLED_STATE, "  Shirt: " + data.getEquipment( KoLCharacter.SHIRT ) );
+			updateDisplay( ENABLED_STATE, "  Pants: " + data.getEquipment( KoLCharacter.PANTS ) );
+			updateDisplay( ENABLED_STATE, " Acc. 1: " + data.getEquipment( KoLCharacter.ACCESSORY1 ) );
+			updateDisplay( ENABLED_STATE, " Acc. 2: " + data.getEquipment( KoLCharacter.ACCESSORY2 ) );
+			updateDisplay( ENABLED_STATE, " Acc. 3: " + data.getEquipment( KoLCharacter.ACCESSORY3 ) );
 		}
-
-		if ( desiredData.startsWith( "inv" ) )
+		else if ( desiredData.startsWith( "inv" ) )
 		{
-			printList( scriptRequestor.getInventory(), outputStream );
-			return;
+			printList( scriptRequestor.getInventory() );
 		}
-
-		if ( desiredData.equals( "closet" ) )
+		else if ( desiredData.equals( "closet" ) )
 		{
-			printList( scriptRequestor.getCloset(), outputStream );
-			return;
+			printList( scriptRequestor.getCloset() );
 		}
-
-		if ( desiredData.equals( "summary" ) )
+		else if ( desiredData.equals( "summary" ) )
 		{
-			printList( scriptRequestor.tally, outputStream );
-			return;
+			printList( scriptRequestor.tally );
 		}
-
-		if ( desiredData.equals( "outfits" ) )
+		else if ( desiredData.equals( "outfits" ) )
 		{
-			printList( data.getOutfits(), outputStream );
-			return;
+			printList( data.getOutfits() );
 		}
-
-		if ( desiredData.equals( "familiars" ) )
+		else if ( desiredData.equals( "familiars" ) )
 		{
-			printList( data.getFamiliars(), outputStream );
-			return;
+			printList( data.getFamiliars() );
 		}
-
-		if ( desiredData.equals( "effects" ) )
+		else if ( desiredData.equals( "effects" ) )
 		{
-			printList( data.getEffects(), outputStream );
-			return;
+			printList( data.getEffects() );
+		}
+		else
+		{
+			updateDisplay( ERROR_STATE, "Unknown data type: " + desiredData );
+			if ( scriptRequestor != this )
+				scriptRequestor.cancelRequest();
 		}
 
-		updateDisplay( ERROR_STATE, "Unknown data type: " + desiredData );
-		if ( scriptRequestor != this )
-			scriptRequestor.cancelRequest();
+		this.outputStream = originalStream;
 	}
 
 	private static String getStatString( int base, int adjusted, int tnp )
@@ -1816,7 +1752,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( previousCommand.indexOf( " " ) == -1 )
 		{
-			printList( hunterItems, DISPLAY_STREAM );
+			printList( hunterItems );
 			return;
 		}
 
@@ -1844,20 +1780,11 @@ public class KoLmafiaCLI extends KoLmafia
 	 * stream, simply pass the output stream to this method.
 	 */
 
-	private void printList( List printing, PrintStream outputStream )
+	private void printList( List printing )
 	{
-		String currentPrintedItem;
 		Iterator printingIterator = printing.iterator();
-
 		while ( printingIterator.hasNext() )
-		{
-			currentPrintedItem = printingIterator.next().toString();
-
-			if ( outputStream instanceof NullStream )
-				updateDisplay( ENABLED_STATE, currentPrintedItem );
-			else
-				outputStream.println( currentPrintedItem );
-		}
+			updateDisplay( ENABLED_STATE, printingIterator.next().toString() );
 	}
 
 	/**

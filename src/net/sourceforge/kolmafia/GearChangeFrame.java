@@ -199,7 +199,7 @@ public class GearChangeFrame extends KoLFrame
 		for ( int i = 0; i < 8; ++i )
 		{
 			equipment[i] = new JComboBox( equipmentLists[i] );
-			equipment[i].addActionListener( new ChangeListener( equipment[i], EquipmentRequest.class, String.class, Integer.class ) );
+			equipment[i].addActionListener( new ChangeListener( equipment[i], EquipmentRequest.class, String.class, new Integer(i) ) );
 			JComponentUtilities.setComponentSize( equipment[i], 240, 20 );
 
 			if ( i != KoLCharacter.FAMILIAR )
@@ -275,54 +275,42 @@ public class GearChangeFrame extends KoLFrame
 			parameterTypes[0] = KoLmafia.class;
 			parameterTypes[1] = parameterClass;
 
-			try
-			{	this.constructor = requestClass.getConstructor( parameterTypes );
-			}
-			catch ( Exception e )
-			{
-				System.out.println(e);
-			}
-
-			this.parameters = new Object[2];
-			this.parameters[0] = client;
-			this.parameters[1] = null;
+			initialize( requestClass, parameterTypes );
 		}
 
-		public ChangeListener( JComboBox selector, Class requestClass, Class parameter1Class, Class parameter2Class )
+		public ChangeListener( JComboBox selector, Class requestClass, Class parameterClass, Integer slot )
 		{
 			this.selector = selector;
 
 			Class [] parameterTypes = new Class[3];
 			parameterTypes[0] = KoLmafia.class;
-			parameterTypes[1] = parameter1Class;
-			parameterTypes[2] = parameter2Class;
+			parameterTypes[1] = parameterClass;
+			parameterTypes[2] = Integer.class;
 
+			initialize( requestClass, parameterTypes );
+			this.parameters[2] = slot;
+		}
+
+		private void initialize( Class requestClass, Class [] parameterTypes )
+		{
 			try
-			{	this.constructor = requestClass.getConstructor( parameterTypes );
+			{
+				this.constructor = requestClass.getConstructor( parameterTypes );
 			}
 			catch ( Exception e )
 			{
-				System.out.println(e);
+				client.getLogStream().println(e);
 			}
 
-			this.parameters = new Object[3];
+			this.parameters = new Object[ parameterTypes.length ];
 			this.parameters[0] = client;
-			this.parameters[1] = null;
-			this.parameters[2] = null;
+			for ( int i = 1; i < parameters.length; ++i )
+				this.parameters[i] = null;
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
 			this.parameters[1] = selector.getSelectedItem();
-			if ( this.parameters.length == 3)
-			{
-				for ( int i = 0; i < equipment.length; ++i )
-					if ( equipment[i] == selector )
-					{
-						this.parameters[2] = new Integer( i );
-						break;
-					}
-			}
 
 			if ( !isChanging && isEnabled() && this.parameters[1] != null )
 				(new ChangeThread()).start();

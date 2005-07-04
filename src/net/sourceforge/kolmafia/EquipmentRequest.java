@@ -49,16 +49,19 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class EquipmentRequest extends KoLRequest
 {
+	public static final String UNEQUIP = "(none)";
+
 	private static final int REQUEST_ALL = 0;
 
 	public static final int EQUIPMENT = 1;
 	public static final int CLOSET = 2;
+
 	private static final int CHANGE_OUTFIT = 3;
 	private static final int CHANGE_ITEM = 4;
 	private static final int REMOVE_ITEM = 5;
 	private static final int UNEQUIP_ALL = 6;
 
-	// Array indexed by equipment "slot" from KolCharacter
+	// Array indexed by equipment "equipmentSlot" from KolCharacter
 	//
 	// Perhaps this should be in that module, except this is closely tied
 	// to the PHP files that are manipulated by THIS module.
@@ -71,7 +74,7 @@ public class EquipmentRequest extends KoLRequest
 
 	private KoLCharacter character;
 	private int requestType;
-        private int slot;
+	private int equipmentSlot;
 	private SpecialOutfit outfit;
 
 	/**
@@ -103,36 +106,25 @@ public class EquipmentRequest extends KoLRequest
 	}
 
 	public EquipmentRequest( KoLmafia client, String change )
+	{	this( client, change, -1 );
+	}
+
+	public EquipmentRequest( KoLmafia client, String change, Integer equipmentSlot )
+	{	this( client, change, equipmentSlot.intValue() );
+	}
+
+	public EquipmentRequest( KoLmafia client, String change, int equipmentSlot )
 	{
 		super( client, "inv_equip.php" );
 		addFormField( "which", "2" );
 
 		this.character = client.getCharacterData();
+		this.equipmentSlot = equipmentSlot;
 
-		addFormField( "action", "equip" );
-		addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( change ) ) );
-		addFormField( "pwd", client.getPasswordHash() );
-
-		// Unspecified "slot"
-		this.slot = -1;
-		this.requestType = CHANGE_ITEM;
-	}
-
-	public EquipmentRequest( KoLmafia client, String change, Integer type )
-	{	this( client, change, type.intValue() );
-	}
-
-	public EquipmentRequest( KoLmafia client, String change, int slot )
-	{
-		super( client, "inv_equip.php" );
-		addFormField( "which", "2" );
-
-		this.character = client.getCharacterData();
-                this.slot = slot;
-		if ( change.equals( "none" ) )
+		if ( change.equals( UNEQUIP ) )
 		{
 			addFormField( "action", "unequip" );
-			addFormField( "type", equipmentType[ slot ] );
+			addFormField( "type", equipmentType[ equipmentSlot ] );
 			this.requestType = REMOVE_ITEM;
 		}
 		else
@@ -191,7 +183,8 @@ public class EquipmentRequest extends KoLRequest
 			if ( outfit == SpecialOutfit.BIRTHDAY_SUIT )
 			{
 				(new EquipmentRequest( client, UNEQUIP_ALL )).run();
-				(new EquipmentRequest( client, "none", KoLCharacter.FAMILIAR )).run();
+				(new EquipmentRequest( client, UNEQUIP, KoLCharacter.FAMILIAR )).run();
+
 				return;
 			}
 
@@ -203,19 +196,18 @@ public class EquipmentRequest extends KoLRequest
 		}
 
 		// If we are changing an accessory or familiar equipment, first
-		// we must remove the one in the old slot.
+		// we must remove the one in the old equipmentSlot.
 
 		if ( requestType == CHANGE_ITEM )
 		{
-			switch ( slot )
+			switch ( equipmentSlot )
 			{
-			case KoLCharacter.ACCESSORY1:
-			case KoLCharacter.ACCESSORY2:
-			case KoLCharacter.ACCESSORY3:
-			case KoLCharacter.FAMILIAR:
-				if ( !character.getEquipment( slot ).equals( "none" ))
-				     (new EquipmentRequest( client, "none", slot)).run();
-				 break;
+				case KoLCharacter.ACCESSORY1:
+				case KoLCharacter.ACCESSORY2:
+				case KoLCharacter.ACCESSORY3:
+				case KoLCharacter.FAMILIAR:
+					 (new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
+					 break;
 			}
 		}
 
@@ -297,10 +289,10 @@ public class EquipmentRequest extends KoLRequest
 	{
 		if ( !oldItem.equals( newItem ) )
 		{
-			if ( !oldItem.equals( "none" ) )
+			if ( !oldItem.equals( UNEQUIP ) )
 				AdventureResult.addResultToList( client.getInventory(), new AdventureResult( oldItem, 1 ) );
 
-			if ( !newItem.equals( "none" ) )
+			if ( !newItem.equals( UNEQUIP ) )
 				AdventureResult.addResultToList( client.getInventory(), new AdventureResult( newItem, -1 ) );
 		}
 	}
@@ -384,7 +376,7 @@ public class EquipmentRequest extends KoLRequest
 		String [] equipment = new String[8];
 
 		for ( int i = 0; i < equipment.length; ++i )
-			equipment[i] = "none";
+			equipment[i] = UNEQUIP;
 
 		Matcher equipmentMatcher = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" ).matcher( responseText );
 		if ( equipmentMatcher.find() )

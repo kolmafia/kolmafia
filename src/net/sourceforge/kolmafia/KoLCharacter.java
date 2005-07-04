@@ -256,8 +256,8 @@ public class KoLCharacter
 		this.activeEffects = new LockableListModel();
 		this.availableSkills = new LockableListModel();
 
-		for ( int i = 0; i < FAMILIAR; ++i )
-			equipment.add( "none" );
+		for ( int i = 0; i < 7; ++i )
+			equipment.add( EquipmentRequest.UNEQUIP );
 
 		this.hasToaster = false;
 		this.hasArches = false;
@@ -792,20 +792,15 @@ public class KoLCharacter
 	 * equipped, the value should be <code>none</code>, not <code>null</code>
 	 * or the empty string.
 	 *
-	 * @param	hat	The name of the character's equipped hat
-	 * @param	weapon	The name of character's equipped weapon
-	 * @param	shirt	The name of the character's equipped shirt
-	 * @param	pants	The name of the character's equipped pants
-	 * @param	accessory1	The name of the accessory in the first accessory slot
-	 * @param	accessory2	The name of the accessory in the first accessory slot
-	 * @param	accessory3	The name of the accessory in the first accessory slot
+	 * @param	equipment	All of the available equipment, stored in an array index by the constants
 	 * @param	outfits	A listing of available outfits
 	 */
 
 	public void setEquipment( String [] equipment, List outfits )
 	{
 		for ( int i = 0; i < this.equipment.size(); ++i )
-			this.equipment.set( i, equipment[i] );
+			this.equipment.set( i, equipment[i] == null ? EquipmentRequest.UNEQUIP :
+				equipment[i].equals( "none" ) ? EquipmentRequest.UNEQUIP : equipment[i] );
 
 		if ( equipment.length > FAMILIAR)
 			setFamiliarItem( equipment[FAMILIAR] );
@@ -813,75 +808,6 @@ public class KoLCharacter
 		this.outfits.clear();
 		this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
 		this.outfits.addAll( outfits );
-	}
-
-	/**
-	 * Accessor method to retrieve the name of the hat the character has equipped.
-	 * @return	The name of the character's equipped hat, <code>none</code> if no such item exists
-	 */
-
-	public String getHat()
-	{	return (String) equipment.get( HAT );
-	}
-
-	/**
-	 * Accessor method to retrieve the name of the weapon the character has equipped.
-	 * @return	The name of the character's equipped weapon, <code>none</code> if no such item exists
-	 */
-
-	public String getWeapon()
-	{	return (String) equipment.get( WEAPON );
-	}
-
-	/**
-	 * Accessor method to retrieve the name of the shirt the character has equipped.
-	 * @return	The name of the character's equipped shirt, <code>none</code> if no such item exists
-	 */
-
-	public String getShirt()
-	{	return (String) equipment.get( SHIRT );
-	}
-
-	/**
-	 * Accessor method to retrieve the name of the pants the character has equipped.
-	 * @return	The name of the character's equipped pants, <code>none</code> if no such item exists
-	 */
-
-	public String getPants()
-	{	return (String) equipment.get( PANTS );
-	}
-
-	/**
-	 * Accessor method to retrieve the name of the accessory the character has equipped
-	 * in their first accessory slot.
-	 *
-	 * @return	The name of the accessory in the first accessory slot, <code>none</code> if no such item exists
-	 */
-
-	public String getAccessory1()
-	{	return (String) equipment.get( ACCESSORY1 );
-	}
-
-	/**
-	 * Accessor method to retrieve the name of the accessory the character has equipped
-	 * in their second accessory slot.
-	 *
-	 * @return	The name of the accessory in the second accessory slot, <code>none</code> if no such item exists
-	 */
-
-	public String getAccessory2()
-	{	return (String) equipment.get( ACCESSORY2 );
-	}
-
-	/**
-	 * Accessor method to retrieve the name of the accessory the character has equipped
-	 * in their third accessory slot.
-	 *
-	 * @return	The name of the accessory in the third accessory slot, <code>none</code> if no such item exists
-	 */
-
-	public String getAccessory3()
-	{	return (String) equipment.get( ACCESSORY3 );
 	}
 
 	/**
@@ -894,7 +820,7 @@ public class KoLCharacter
 		if ( currentFamiliar != null )
 		{
 			int previousAdditionalWeight = getAdditionalWeight();
-			currentFamiliar.setItem( familiarItem == null ? "none" : familiarItem );
+			currentFamiliar.setItem( familiarItem == null ? EquipmentRequest.UNEQUIP : familiarItem );
 			currentFamiliar.setWeight( currentFamiliar.getWeight() - previousAdditionalWeight + getAdditionalWeight() );
 		}
 	}
@@ -905,7 +831,7 @@ public class KoLCharacter
 	 */
 
 	public String getFamiliarItem()
-	{	return currentFamiliar == null ? "none" : currentFamiliar.getItem();
+	{	return currentFamiliar == null ? EquipmentRequest.UNEQUIP : currentFamiliar.getItem();
 	}
 
 	/**
@@ -917,11 +843,13 @@ public class KoLCharacter
 
 	public String getEquipment( int type )
 	{
-		if ( type >= HAT && type < FAMILIAR)
-			return (String)equipment.get( type );
+		if ( type >= HAT && type < FAMILIAR )
+			return (String) equipment.get( type );
+
 		if ( type == FAMILIAR )
 			return getFamiliarItem();
-		return "none";
+
+		return EquipmentRequest.UNEQUIP;
 	}
 
 	/**
@@ -935,29 +863,25 @@ public class KoLCharacter
 
 	public void updateEquipmentLists()
 	{
-		updateEquipmentList( equipmentLists[HAT], ConsumeItemRequest.EQUIP_HAT, getHat() );
-		updateEquipmentList( equipmentLists[WEAPON], ConsumeItemRequest.EQUIP_WEAPON, getWeapon() );
-		updateEquipmentList( equipmentLists[SHIRT], ConsumeItemRequest.EQUIP_SHIRT, getShirt() );
-		updateEquipmentList( equipmentLists[PANTS], ConsumeItemRequest.EQUIP_PANTS, getPants() );
-		updateEquipmentList( equipmentLists[ACCESSORY1], ConsumeItemRequest.EQUIP_ACCESSORY, getAccessory1() );
-		updateEquipmentList( equipmentLists[ACCESSORY2], ConsumeItemRequest.EQUIP_ACCESSORY, getAccessory2() );
-		updateEquipmentList( equipmentLists[ACCESSORY3], ConsumeItemRequest.EQUIP_ACCESSORY, getAccessory3() );
-		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getFamiliarItem() );
+		updateEquipmentList( equipmentLists[HAT], ConsumeItemRequest.EQUIP_HAT, getEquipment( HAT ) );
+		updateEquipmentList( equipmentLists[WEAPON], ConsumeItemRequest.EQUIP_WEAPON, getEquipment( WEAPON ) );
+		updateEquipmentList( equipmentLists[SHIRT], ConsumeItemRequest.EQUIP_SHIRT, getEquipment( SHIRT ) );
+		updateEquipmentList( equipmentLists[PANTS], ConsumeItemRequest.EQUIP_PANTS, getEquipment( PANTS ) );
+		updateEquipmentList( equipmentLists[ACCESSORY1], ConsumeItemRequest.EQUIP_ACCESSORY, getEquipment( ACCESSORY1 ) );
+		updateEquipmentList( equipmentLists[ACCESSORY2], ConsumeItemRequest.EQUIP_ACCESSORY, getEquipment( ACCESSORY2 ) );
+		updateEquipmentList( equipmentLists[ACCESSORY3], ConsumeItemRequest.EQUIP_ACCESSORY, getEquipment( ACCESSORY3 ) );
+		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getEquipment( FAMILIAR ) );
 	}
 
-	public void updateEquipmentList( LockableListModel currentList, int currentFilter, String currentItem )
+	public void updateEquipmentList( LockableListModel currentList, int currentFilter, String equippedItem )
 	{
+		currentList.setSelectedItem( null );
 		currentList.clear();
-		currentList.add( "none" );
-		currentList.addAll( getFilteredItems( currentFilter ) );
- 
-		if ( !currentList.contains( currentItem ) )
-			currentList.add( currentItem );
-  
-		currentList.setSelectedItem( currentItem );
+		currentList.addAll( getFilteredItems( currentFilter, equippedItem ) );
+		currentList.setSelectedItem( equippedItem );
 	}
 
-	private List getFilteredItems( int filterID )
+	private List getFilteredItems( int filterID, String equippedItem )
 	{
 		String currentItem;
 		List items = new ArrayList();
@@ -968,6 +892,12 @@ public class KoLCharacter
 			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == filterID )
 				items.add( currentItem );
 		}
+
+		if ( !items.contains( equippedItem ) )
+			items.add( equippedItem );
+
+		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
+			items.add( EquipmentRequest.UNEQUIP );
 
 		return items;
 	}
@@ -1353,9 +1283,9 @@ public class KoLCharacter
 		// accessories the character is wearing
 
 		int [] accessoryID = new int[3];
-		accessoryID[0] = TradeableItemDatabase.getItemID( getAccessory1() );
-		accessoryID[1] = TradeableItemDatabase.getItemID( getAccessory2() );
-		accessoryID[2] = TradeableItemDatabase.getItemID( getAccessory3() );
+		accessoryID[0] = TradeableItemDatabase.getItemID( getEquipment( ACCESSORY1 ) );
+		accessoryID[1] = TradeableItemDatabase.getItemID( getEquipment( ACCESSORY2 ) );
+		accessoryID[2] = TradeableItemDatabase.getItemID( getEquipment( ACCESSORY3 ) );
 
 		for ( int i = 0; i < 3; ++i )
 			if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
@@ -1369,11 +1299,17 @@ public class KoLCharacter
 			case -1:
 			case 1040:
 			case 1152:
+			case 1239:
+
 				break;
+
 			case 865:
+
 				addedWeight += 3;
 				break;
+
 			default:
+
 				addedWeight += 5;
 		}
 
@@ -1389,7 +1325,7 @@ public class KoLCharacter
 			addedWeight += 5;
 
 		if ( hasAmphibianSympathy() )
-                        addedWeight += 5;
+			addedWeight += 5;
 
 		return addedWeight;
 	}
