@@ -56,8 +56,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static final int ITEM_COUNT = TradeableItemDatabase.ITEM_COUNT;
 
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
+
 	private static boolean INCLUDE_ASCENSION = false;
 	private static boolean [] PERMIT_METHOD = new boolean[15];
+	private static int [] ADVENTURE_USAGE = new int[15];
 
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
@@ -163,6 +165,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.NOCREATE )
 				concoctions[i].calculate( client, availableIngredients );
 
+		// Adventures are considered Item #0 in the event that the
+		// concoction will use ADVs.
+
+		concoctions[0].total = client.getCharacterData().getAdventuresLeft();
+
 		// Next, meat paste and meat stacks can be created directly
 		// and are dependent upon the amount of meat available.
 		// This should also be calculated to allow for meat stack
@@ -209,6 +216,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		SwingUtilities.invokeLater( new RefreshListRunnable( client ) );
 	}
 
+	/**
+	 * Internal class used to refresh the list of concoctions.
+	 * This should only be run in the Swing thread.
+	 */
+
 	private static class RefreshListRunnable implements Runnable
 	{
 		private KoLmafia client;
@@ -232,42 +244,117 @@ public class ConcoctionsDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Helper method to determine whether or not the given mixing
-	 * method is permitted, provided the state of the boolean
-	 * variables is as specified.
+	 * Utility method used to cache the current permissions on
+	 * item creation, based on the given client.
 	 */
-
-	private static boolean isPermitted( Concoction concoction, KoLmafia client )
-	{
-		return (concoction.isAscensionRecipe ? INCLUDE_ASCENSION : true) && PERMIT_METHOD[ concoction.mixingMethod ];
-	}
 
 	private static void cachePermitted( KoLmafia client )
 	{
 		KoLCharacter data = client.getCharacterData();
 		boolean noServantNeeded = client.getSettings().getProperty( "createWithoutBoxServants" ).equals( "true" );
 
+		// It is never possible to create items which are flagged
+		// NOCREATE, and it is always possible to create items
+		// through meat paste combination.
+
 		PERMIT_METHOD[ ItemCreationRequest.NOCREATE ] = false;
+		ADVENTURE_USAGE[ ItemCreationRequest.NOCREATE ] = 0;
+
 		PERMIT_METHOD[ ItemCreationRequest.COMBINE ] = true;
+		ADVENTURE_USAGE[ ItemCreationRequest.COMBINE ] = 0;
 
-		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, client ) ||
-			( noServantNeeded && data.getInventory().contains( OVEN ) );
+		// Cooking is permitted, so long as the person has a chef
+		// or they don't need a box servant and have an oven.
+
+		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, client );
+
+		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && data.getInventory().contains( OVEN ) )
+		{
+			PERMIT_METHOD[ ItemCreationRequest.COOK ] = true;
+			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 1;
+		}
+		else
+			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 0;
+
+		// Cooking of reagents and noodles is possible whenever
+		// the person can cook and has the appropriate skill.
+
 		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && data.canSummonReagent();
+		ADVENTURE_USAGE[ ItemCreationRequest.COOK_REAGENT ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
+
 		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && data.canSummonNoodles();
+		ADVENTURE_USAGE[ ItemCreationRequest.COOK_PASTA ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
 
-		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, client ) ||
-			( noServantNeeded && data.getInventory().contains( KIT ) );
+		// Mixing is possible whenever the person has a bartender
+		// or they don't need a box servant and have a kit.
+
+		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, client );
+
+		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && data.getInventory().contains( KIT ) )
+		{
+			PERMIT_METHOD[ ItemCreationRequest.MIX ] = true;
+			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 1;
+		}
+		else
+			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 0;
+
+		// Mixing of advanced drinks is possible whenever the
+		// person can mix drinks and has the appropriate skill.
+
 		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = PERMIT_METHOD[ ItemCreationRequest.MIX ] && data.canSummonShore();
+		ADVENTURE_USAGE[ ItemCreationRequest.MIX_SPECIAL ] = ADVENTURE_USAGE[ ItemCreationRequest.MIX ];
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = data.inMuscleSign() || data.getInventory().contains( HAMMER );
-		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = data.getInventory().contains( HAMMER ) && data.canSmithWeapons();
-		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = data.getInventory().contains( HAMMER ) && data.canSmithArmor();
+		// Smithing of items is possible whenever the person
+		// has a hammer.
+
+		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = data.getInventory().contains( HAMMER );
+
+		// Advanced smithing is available whenever the person can
+		// smith and has access to the appropriate skill.
+
+		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] && data.canSmithWeapons();
+		ADVENTURE_USAGE[ ItemCreationRequest.SMITH_WEAPON ] = 1;
+
+		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] && data.canSmithArmor();
+		ADVENTURE_USAGE[ ItemCreationRequest.SMITH_ARMOR ] = 1;
+
+		// Standard smithing is also possible if the person is in
+		// a muscle sign.
+
+		if ( data.inMuscleSign() )
+		{
+			PERMIT_METHOD[ ItemCreationRequest.SMITH ] = true;
+			ADVENTURE_USAGE[ ItemCreationRequest.SMITH ] = 0;
+		}
+		else
+			ADVENTURE_USAGE[ ItemCreationRequest.SMITH ] = 1;
+
+		// Jewelry making is possible as long as the person has the
+		// appropriate pliers.
 
 		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = data.getInventory().contains( PLIERS );
+		ADVENTURE_USAGE[ ItemCreationRequest.JEWELRY ] = 3;
+
+		// Star charts and pixel chart recipes are available to all
+		// players at all times.
+
 		PERMIT_METHOD[ ItemCreationRequest.STARCHART ] = true;
+		ADVENTURE_USAGE[ ItemCreationRequest.STARCHART ] = 0;
+
 		PERMIT_METHOD[ ItemCreationRequest.PIXEL ] = true;
+		ADVENTURE_USAGE[ ItemCreationRequest.PIXEL ] = 0;
+
+		// A rolling pin can be used in item creation whenever the
+		// person has a rolling pin.
+
 		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = data.getInventory().contains( ROLLING_PIN );
+		ADVENTURE_USAGE[ ItemCreationRequest.ROLLING_PIN ] = 0;
+
+		// The gnomish tinkerer is available if the person is in a
+		// moxie sign and they have a bitchin' meat car.
+
 		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = data.inMoxieSign() && data.getInventory().contains( CAR );
+		ADVENTURE_USAGE[ ItemCreationRequest.TINKER ] = 0;
 	}
 
 	private static boolean isAvailable( int servantID, KoLmafia client )
@@ -402,7 +489,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.initial = concoction.getCount( availableIngredients );
 			this.total = initial;
 
-			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermitted( this, client ) )
+			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermitted() )
 				return;
 
 			// First, preprocess the ingredients by calculating
@@ -411,32 +498,24 @@ public class ConcoctionsDatabase extends KoLDatabase
 			for ( int i = 0; i < ingredientArray.length; ++i )
 				concoctions[ ingredientArray[i].getItemID() ].calculate( client, availableIngredients );
 
+			boolean inMuscleSign = client.getCharacterData().inMuscleSign();
+
 			// Next, preprocess the ingredients again by marking
 			// them with the equation variables.  This can be
 			// done by marking this item with a zero modifier
 			// and a multiplier of one.
 
-			this.mark( 0, 1 );
+			this.mark( 0, 1, inMuscleSign );
 
 			// With all of the data preprocessed, calculate
 			// the quantity creatable by solving the set of
 			// linear inequalities.
 
 			int itemID, quantity;
-			this.creatable = Integer.MAX_VALUE;
+			this.total = Integer.MAX_VALUE;
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
-			{
-				itemID = ingredientArray[i].getItemID();
-
-				// Next, calculate the quantity possible for
-				// this ingredient.
-
-				quantity = concoctions[itemID].quantity();
-
-				// Finally, reduce number creatable
-				this.creatable = Math.min( this.creatable, quantity - this.initial );
-			}
+				this.total = Math.min( this.total, concoctions[ ingredientArray[i].getItemID() ].quantity( inMuscleSign ) );
 
 			// Now that all the calculations are complete, unmark
 			// the ingredients so that later calculations can make
@@ -444,11 +523,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			this.unmark();
 
-			// The total available for other creations is
-			// equivalent to the initial number plus the number
-			// which can be created.
+			// The total available for other creations is equal
+			// to the total, less the initial.
 
-			this.total = this.initial + this.creatable;
+			this.creatable = this.total - this.initial;
 		}
 
 		/**
@@ -457,24 +535,44 @@ public class ConcoctionsDatabase extends KoLDatabase
 		 * ingredients
 		 */
 
-		private int quantity()
+		private int quantity( boolean inMuscleSign )
 		{
-			// This value is equivalent to the total, plus
-			// the modifier, divided by the multiplier.
+			// If there is no multiplier, assume that an infinite
+			// number is available.
+
+			if ( this.multiplier == 0 )
+				return Integer.MAX_VALUE;
+
+			// The maximum value is equivalent to the total, plus
+			// the modifier, divided by the multiplier, if the
+			// multiplier exists.
+
 			int quantity = (this.total + this.modifier) / this.multiplier;
 
+			// The true value is affected by the maximum value for
+			// the ingredients.  Therefore, calculate the quantity
+			// for all other ingredients to complete the solution
+			// of the linear inequality.
+
 			for ( int i = 0; i < ingredientArray.length; ++i )
-			{
-				int itemID = ingredientArray[i].getItemID();
+				quantity = Math.min( quantity, concoctions[ ingredientArray[i].getItemID() ].quantity( inMuscleSign ) );
 
-				// Next, calculate the quantity possible for
-				// this ingredient.
+			// Adventures are also considered an ingredient; if
+			// no adventures are necessary, the multiplier should
+			// be zero and the infinite number available will have
+			// no effect on the calculation.
 
-				int possible = concoctions[itemID].quantity( );
+			quantity = Math.min( quantity, concoctions[0].quantity( inMuscleSign ) );
 
-				// Finally, reduce number creatable
-				quantity = Math.min(quantity, possible );
-			}
+			// In the event that this is item combination and the person
+			// is in a non-muscle sign, item creation is impacted by the
+			// amount of available meat paste.
+
+			if ( mixingMethod == ItemCreationRequest.COMBINE && !inMuscleSign )
+				quantity = Math.min( quantity, concoctions[ ItemCreationRequest.MEAT_PASTE ].quantity( inMuscleSign ) );
+
+			// The true value is now calculated.  Return this
+			// value to the requesting method.
 
 			return quantity;
 		}
@@ -484,14 +582,33 @@ public class ConcoctionsDatabase extends KoLDatabase
 		 * the given added modifier and the given additional multiplier.
 		 */
 
-		private void mark( int modifier, int multiplier )
+		private void mark( int modifier, int multiplier, boolean inMuscleSign )
 		{
 			this.modifier += modifier;
 			this.multiplier += multiplier;
 
+			// Mark all the ingredients, being sure to multiply
+			// by the number of that ingredient needed in this
+			// concoction.
+
 			for ( int i = 0; i < ingredientArray.length; ++i )
-				concoctions[ ingredientArray[i].getItemID() ].mark( (this.modifier + this.initial) * ingredientArray[i].getCount(),
-					this.multiplier * ingredientArray[i].getCount() );
+				concoctions[ ingredientArray[i].getItemID() ].mark(
+					(this.modifier + this.initial) * ingredientArray[i].getCount(),
+					this.multiplier * ingredientArray[i].getCount(), inMuscleSign );
+
+			// Mark the implicit adventure ingredient, being
+			// sure to multiply by the number of adventures
+			// which are required for this mixture.
+
+			concoctions[0].mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ mixingMethod ],
+				this.multiplier * ADVENTURE_USAGE[ mixingMethod ], inMuscleSign );
+
+			// In the event that this is a standard combine request,
+			// and the person is not in a muscle sign, make sure that
+			// meat paste is marked as a limiter also.
+
+			if ( mixingMethod == ItemCreationRequest.COMBINE && !inMuscleSign )
+				concoctions[ ItemCreationRequest.MEAT_PASTE ].mark( this.modifier + this.initial, this.multiplier, inMuscleSign );
 		}
 
 		/**
@@ -507,6 +624,22 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.modifier = 0;
 			this.multiplier = 0;
 		}
+
+		/**
+		 * Helper method to determine whether or not the given mixing
+		 * method is permitted, provided the state of the boolean
+		 * variables is as specified.
+		 */
+
+		private boolean isPermitted()
+		{	return (isAscensionRecipe ? INCLUDE_ASCENSION : true) && PERMIT_METHOD[ mixingMethod ];
+		}
+
+		/**
+		 * Helper method to determine the adventure cost for creating
+		 * this recipe.
+		 */
+
 
 		/**
 		 * Returns the string form of this concoction.  This is
