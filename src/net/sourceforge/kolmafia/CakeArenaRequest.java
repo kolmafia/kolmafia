@@ -97,6 +97,11 @@ public class CakeArenaRequest extends KoLRequest
 			client.getCakeArenaManager().registerOpponent( Integer.parseInt( opponentMatcher.group(1) ), opponentName );
 		}
 	}
+
+	public String toString()
+	{	return "Arena Battle";
+	}
+
 	/**
 	 * An alternative method to doing adventure calculation is determining
 	 * how many adventures are used by the given request, and subtract
