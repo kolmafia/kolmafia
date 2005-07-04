@@ -263,6 +263,7 @@ public class GearChangeFrame extends KoLFrame
 
 	private class ChangeListener implements ActionListener
 	{
+		private Integer slot;
 		private JComboBox selector;
 		private Object [] parameters;
 		private Constructor constructor;
@@ -276,6 +277,7 @@ public class GearChangeFrame extends KoLFrame
 			parameterTypes[1] = parameterClass;
 
 			initialize( requestClass, parameterTypes );
+			this.slot = null;
 		}
 
 		public ChangeListener( JComboBox selector, Class requestClass, Class parameterClass, Integer slot )
@@ -289,6 +291,7 @@ public class GearChangeFrame extends KoLFrame
 
 			initialize( requestClass, parameterTypes );
 			this.parameters[2] = slot;
+			this.slot = slot;
 		}
 
 		private void initialize( Class requestClass, Class [] parameterTypes )
@@ -310,10 +313,50 @@ public class GearChangeFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			this.parameters[1] = selector.getSelectedItem();
+			parameters[1] = selector.getSelectedItem();
+
+			// In order to avoid constant misfiring of the table,
+			// make sure that the change thread is not started
+			// unless your current equipment does not match the
+			// selected equipment.
 
 			if ( !isChanging && isEnabled() && this.parameters[1] != null )
-				(new ChangeThread()).start();
+			{
+				if ( slot == null )
+				{
+					if ( selector == outfitSelect )
+					{
+						// Outfit event firing is usually only caused by
+						// an actual attempt to change the outfit.
+
+						(new ChangeThread()).start();
+					}
+					else if ( selector == familiarSelect )
+					{
+						// Familiar event firing is usually only caused
+						// by an actual attempt to change the familiar.
+
+						(new ChangeThread()).start();
+					}
+					else if ( selector == equipment[ KoLCharacter.FAMILIAR ] )
+					{
+						// If you're attempting to change your familiar
+						// equipment, check to see if the selected item
+						// is the same as your current familiar item
+						// before executing the change.
+
+						if ( !parameters[1].equals( client.getCharacterData().getEquipment( KoLCharacter.FAMILIAR ) ) )
+							(new ChangeThread()).start();
+					}
+				}
+				else if ( !client.getCharacterData().getEquipment( this.slot.intValue() ).equals( this.parameters[1] ) )
+				{
+					// Other equipment only gets fired when there's an
+					// actual equipment change.
+
+					(new ChangeThread()).start();
+				}
+			}
 		}
 
 		private class ChangeThread extends DaemonThread
