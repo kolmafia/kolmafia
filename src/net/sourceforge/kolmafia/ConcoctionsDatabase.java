@@ -562,7 +562,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// be zero and the infinite number available will have
 			// no effect on the calculation.
 
-			quantity = Math.min( quantity, concoctions[0].quantity( inMuscleSign ) );
+			if ( this != concoctions[0] )
+				quantity = Math.min( quantity, concoctions[0].quantity( inMuscleSign ) );
 
 			// In the event that this is item combination and the person
 			// is in a non-muscle sign, item creation is impacted by the
@@ -600,8 +601,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// sure to multiply by the number of adventures
 			// which are required for this mixture.
 
-			concoctions[0].mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ mixingMethod ],
-				this.multiplier * ADVENTURE_USAGE[ mixingMethod ], inMuscleSign );
+			if ( this != concoctions[0] )
+				concoctions[0].mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ mixingMethod ],
+					this.multiplier * ADVENTURE_USAGE[ mixingMethod ], inMuscleSign );
 
 			// In the event that this is a standard combine request,
 			// and the person is not in a muscle sign, make sure that
@@ -620,6 +622,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			for ( int i = 0; i < ingredientArray.length; ++i )
 				concoctions[ ingredientArray[i].getItemID() ].unmark();
+
+			if ( this != concoctions[0] )
+				concoctions[0].unmark();
+
+			if ( mixingMethod == ItemCreationRequest.COMBINE )
+				concoctions[ ItemCreationRequest.MEAT_PASTE ].unmark();
 
 			this.modifier = 0;
 			this.multiplier = 0;
