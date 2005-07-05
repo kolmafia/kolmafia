@@ -196,7 +196,7 @@ public class EquipmentRequest extends KoLRequest
 		}
 
 		// If we are changing an accessory or familiar equipment, first
-		// we must remove the one in the old equipmentSlot.
+		// we must remove the old one in the equipmentSlot.
 
 		if ( requestType == CHANGE_ITEM )
 		{
@@ -206,7 +206,8 @@ public class EquipmentRequest extends KoLRequest
 				case KoLCharacter.ACCESSORY2:
 				case KoLCharacter.ACCESSORY3:
 				case KoLCharacter.FAMILIAR:
-					 (new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
+					if ( !character.getEquipment( equipmentSlot ).equals( UNEQUIP ))
+						(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
 					 break;
 			}
 		}
