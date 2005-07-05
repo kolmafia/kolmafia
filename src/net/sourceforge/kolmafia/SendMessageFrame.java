@@ -365,7 +365,8 @@ public abstract class SendMessageFrame extends KoLFrame
 						currentItem = (AdventureResult) items[i];
 						maximumCount = currentItem.getCount( inventory );
 
-						attachmentCount = df.parse( JOptionPane.showInputDialog( "Attaching " + currentItem.getName() + "..." ) ).intValue();
+						attachmentCount = df.parse( JOptionPane.showInputDialog( "Attaching " + currentItem.getName() + "...",
+							String.valueOf( maximumCount ) ) ).intValue();
 
 						currentItem = currentItem.getInstance( Math.min( attachmentCount, maximumCount ) );
 						AdventureResult.addResultToList( attachments, currentItem );
