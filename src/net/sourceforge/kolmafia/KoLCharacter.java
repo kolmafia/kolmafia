@@ -800,10 +800,10 @@ public class KoLCharacter
 	{
 		for ( int i = 0; i < this.equipment.size(); ++i )
 			this.equipment.set( i, equipment[i] == null ? EquipmentRequest.UNEQUIP :
-				equipment[i].equals( "none" ) ? EquipmentRequest.UNEQUIP : equipment[i] );
+				equipment[i].equals( "none" ) ? EquipmentRequest.UNEQUIP : equipment[i].toLowerCase() );
 
-		if ( equipment.length > FAMILIAR)
-			setFamiliarItem( equipment[FAMILIAR] );
+		if ( equipment.length > FAMILIAR )
+			setFamiliarItem( equipment[FAMILIAR].toLowerCase() );
 
 		this.outfits.clear();
 		this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
@@ -888,7 +888,7 @@ public class KoLCharacter
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
-			currentItem = ((AdventureResult)inventory.get(i)).getName();
+			currentItem = ((AdventureResult)inventory.get(i)).getName().toLowerCase();
 			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == filterID )
 				items.add( currentItem );
 		}
