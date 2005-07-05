@@ -196,7 +196,7 @@ public class EquipmentRequest extends KoLRequest
 		}
 
 		// If we are changing an accessory or familiar equipment, first
-		// we must remove the old one in the equipmentSlot.
+		// we must remove the old one in the slot.
 
 		if ( requestType == CHANGE_ITEM )
 		{
@@ -206,8 +206,21 @@ public class EquipmentRequest extends KoLRequest
 				case KoLCharacter.ACCESSORY2:
 				case KoLCharacter.ACCESSORY3:
 				case KoLCharacter.FAMILIAR:
-					if ( !character.getEquipment( equipmentSlot ).equals( UNEQUIP ))
+
+					// To avoid equipment requests failing after quick login,
+					// unconditionally issue the unequip request if all slots
+					// are empty, even if the current slot is empty.
+
+					boolean requiresUnequip = true;
+					for ( int i = 0; i < 8; ++i )
+						if ( !character.getEquipment(i).equals( UNEQUIP ) )
+							requiresUnequip = false;
+
+					requiresUnequip |= !character.getEquipment( equipmentSlot ).equals( UNEQUIP );
+
+					if ( requiresUnequip )
 						(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
+
 					 break;
 			}
 		}
