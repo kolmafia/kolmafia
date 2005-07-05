@@ -737,7 +737,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
 					if ( data.getEquipment( i ).equals( item ) )
-					     scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, "none", i ), 1 );
+					     scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, EquipmentRequest.UNEQUIP, i ), 1 );
 			}
 			return;
 		}
