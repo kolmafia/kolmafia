@@ -40,6 +40,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -68,9 +69,11 @@ public class ClanManager implements KoLConstants
 	private KoLmafia client;
 	private String clanID;
 	private String clanName;
-	private TreeMap profileMap;
-	private TreeMap stashMap;
+
 	private ClanSnapshotTable snapshot;
+
+	private Map profileMap;
+	private Map stashMap;
 
 	private LockableListModel rankList;
 	private LockableListModel stashContents;
@@ -78,14 +81,14 @@ public class ClanManager implements KoLConstants
 	public ClanManager( KoLmafia client )
 	{
 		this.client = client;
-		this.profileMap = new TreeMap();
-		this.stashMap = new TreeMap();
-
-		this.rankList = new LockableListModel();
-		this.stashContents = new LockableListModel();
 		SNAPSHOT_DIRECTORY = "clan" + File.separator;
 
-		this.snapshot = new ClanSnapshotTable( client, profileMap );
+		this.snapshot = new ClanSnapshotTable( client );
+		this.profileMap = snapshot.getProfileMap();
+
+		this.stashMap = new TreeMap();
+		this.rankList = new LockableListModel();
+		this.stashContents = new LockableListModel();
 	}
 
 	public LockableListModel getStash()
@@ -153,14 +156,22 @@ public class ClanManager implements KoLConstants
 		// before this happens.
 
 		int profilesNeeded = 0;
-		Iterator requestIterator = profileMap.values().iterator();
-		ProfileRequest currentRequest;
 
-		while ( requestIterator.hasNext() )
+		File profile;  String currentName;  String currentProfile;
+		Iterator nameIterator = profileMap.keySet().iterator();
+
+		while ( nameIterator.hasNext() )
 		{
-			currentRequest = (ProfileRequest) requestIterator.next();
-			if ( currentRequest.responseText == null )
+			currentName = (String) nameIterator.next();
+			currentProfile = (String) profileMap.get( currentName );
+
+			profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + client.getPlayerID( currentName ) + ".htm" );
+
+			if ( currentProfile.equals( "" ) && !profile.exists() )
 				++profilesNeeded;
+
+			if ( currentProfile.equals( "" ) && profile.exists() )
+				initializeProfile( currentName );
 		}
 
 		// If all the member profiles have already been retrieved, then
@@ -180,22 +191,84 @@ public class ClanManager implements KoLConstants
 		// you begin initializing all the data.
 
 		client.updateDisplay( DISABLED_STATE, "Processing request..." );
+		nameIterator = profileMap.keySet().iterator();
 
-		requestIterator = profileMap.values().iterator();
-		for ( int i = 1; requestIterator.hasNext() && client.permitsContinue(); ++i )
+		// Create a special HTML file for each of the
+		// players in the snapshot so that it can be
+		// navigated at leisure.
+
+		for ( int i = 1; nameIterator.hasNext() && client.permitsContinue(); ++i )
 		{
 			client.updateDisplay( DISABLED_STATE, "Examining member " + i + " of " + profileMap.size() + "..." );
 
-			currentRequest = (ProfileRequest) requestIterator.next();
-			currentRequest.initialize();
+			currentName = (String) nameIterator.next();
+			currentProfile = (String) profileMap.get( currentName );
+
+			if ( currentProfile.equals( "" ) )
+				initializeProfile( currentName );
+		}
+
+		return true;
+	}
+
+	private void initializeProfile( String name )
+	{
+		File profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + client.getPlayerID( name ) + ".htm" );
+
+		if ( profile.exists() )
+		{
+			// In the event that the profile has already been retrieved,
+			// then load the data from disk.
+
+			try
+			{
+				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( profile ) ) );
+				StringBuffer profileString = new StringBuffer();
+				String currentLine;
+
+				while ( (currentLine = istream.readLine()) != null )
+				{
+					profileString.append( currentLine );
+					profileString.append( System.getProperty( "line.separator" ) );
+				}
+
+				profileMap.put( name, profileString.toString() );
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+		else
+		{
+			// Otherwise, run the request and pull the data from the
+			// web server.
+
+			ProfileRequest request = new ProfileRequest( client, name );
+			request.initialize();
+			profileMap.put( name, request.responseText );
 
 			// Manually add in a bit of lag so that it doesn't turn into
 			// hammering the server for information.
 
 			KoLRequest.delay( 500 );
-		}
 
-		return true;
+			// To avoid retrieving the file again, store the intermediate
+			// result in a local file.
+
+			try
+			{
+				profile.getParentFile().mkdirs();
+				PrintStream ostream = new PrintStream( new FileOutputStream( profile, true ), true );
+				ostream.println( request.responseText );
+				ostream.close();
+			}
+			catch ( Exception e )
+			{
+				client.getLogStream().println( "The file <" + profile.getAbsolutePath() + "> could not be opened for writing" );
+				e.printStackTrace( client.getLogStream() );
+			}
+
+		}
 	}
 
 	public void registerMember( String playerName, String level )
@@ -317,10 +390,22 @@ public class ClanManager implements KoLConstants
 
 	public void takeSnapshot()
 	{
-		// If initialization was unsuccessful, then don't
-		// do anything.
-
 		retrieveClanData();
+
+		// If the file already exists, a snapshot cannot be taken.
+		// Therefore, notify the user of this. :)
+
+		File summaryFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
+
+		if ( summaryFile.exists() )
+		{
+			JOptionPane.showMessageDialog( null, "You already created a snapshot today." );
+			return;
+		}
+
+		// If initialization was unsuccessful, then there isn't
+		// enough data to create a clan snapshot.
+
 		String header = snapshot.getHeader();
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 || header.indexOf( "<td>Meat</td>" ) != -1 ||
@@ -334,67 +419,22 @@ public class ClanManager implements KoLConstants
 			}
 		}
 
-		File individualFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
-
-		// First create a file that contains a summary
-		// (spreadsheet-style) of all the clan members
-
-		client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
-		PrintStream ostream;
+		// Now, store the clan snapshot into the appropriate
+		// data folder.
 
 		try
 		{
-			individualFile.getParentFile().mkdirs();
+			summaryFile.getParentFile().mkdirs();
+			client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
 
-			// If the file already exists, a snapshot cannot be taken.
-			// Therefore, notify the user of this. :)
-
-			if ( individualFile.exists() )
-			{
-				JOptionPane.showMessageDialog( null, "You already created a snapshot today." );
-				return;
-			}
-
-			ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
+			PrintStream ostream = new PrintStream( new FileOutputStream( summaryFile, true ), true );
 			ostream.println( snapshot.toString() );
 			ostream.close();
 		}
 		catch ( Exception e )
 		{
-			throw new RuntimeException( "The file <" + individualFile.getAbsolutePath() +
-				"> could not be opened for writing" );
-		}
-
-		// Create a special HTML file for each of the
-		// players in the snapshot so that it can be
-		// navigated at leisure.
-
-		client.updateDisplay( DISABLED_STATE, "Storing profiles..." );
-
-		String currentMember;
-		ProfileRequest memberLookup;
-
-		Iterator memberIterator = profileMap.keySet().iterator();
-
-		for ( int i = 1; memberIterator.hasNext(); ++i )
-		{
-			currentMember = (String) memberIterator.next();
-			memberLookup = (ProfileRequest) profileMap.get( currentMember );
-
-			individualFile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + client.getPlayerID( currentMember ) + ".htm" );
-
-			try
-			{
-				individualFile.getParentFile().mkdirs();
-				ostream = new PrintStream( new FileOutputStream( individualFile, true ), true );
-				ostream.println( memberLookup.responseText );
-				ostream.close();
-			}
-			catch ( Exception e )
-			{
-				throw new RuntimeException( "The file <" + individualFile.getAbsolutePath() +
-					"> could not be opened for writing" );
-			}
+			client.getLogStream().println( "The file <" + summaryFile.getAbsolutePath() + "> could not be opened for writing" );
+			e.printStackTrace( client.getLogStream() );
 		}
 
 		client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
@@ -720,7 +760,6 @@ public class ClanManager implements KoLConstants
 			case ClanSnapshotTable.RANK_FILTER:
 			case ClanSnapshotTable.KARMA_FILTER:
 
-				retrieveClanData();
 				break;
 
 			default:

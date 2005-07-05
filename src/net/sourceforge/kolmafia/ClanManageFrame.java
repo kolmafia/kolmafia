@@ -585,7 +585,6 @@ public class ClanManageFrame extends KoLFrame
 					{
 						ranks.add( currentMember.memberName.getText() );
 						rankValues.add( String.valueOf( currentMember.rankSelect.getSelectedIndex() ) );
-						currentMember.profile.setRank( (String) desiredRank );
 					}
 				}
 			}
@@ -675,7 +674,7 @@ public class ClanManageFrame extends KoLFrame
 			rankSelect.setSelectedItem( initialRank );
 			bootCheckBox = new JCheckBox();
 
-			clanKarma = new JLabel( df.format( Integer.parseInt( value.getKarma() ) ), JLabel.CENTER );
+			clanKarma = new JLabel( df.format( value.getKarma() ), JLabel.CENTER );
 
 			JButton profileButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
 			profileButton.addActionListener( new ShowProfileListener() );
@@ -705,7 +704,7 @@ public class ClanManageFrame extends KoLFrame
 			profile = (ProfileRequest) value;
 			memberName.setText( profile.getPlayerName() );
 			rankSelect.setSelectedItem( profile.getRank() );
-			clanKarma.setText( df.format( Integer.parseInt( profile.getKarma() ) ) );
+			clanKarma.setText( df.format( profile.getKarma() ) );
 		}
 
 		private class ShowProfileListener implements ActionListener

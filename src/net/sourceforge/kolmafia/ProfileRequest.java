@@ -36,6 +36,9 @@ package net.sourceforge.kolmafia;
 
 import java.util.Date;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import java.text.SimpleDateFormat;
 
 public class ProfileRequest extends KoLRequest
@@ -44,36 +47,50 @@ public class ProfileRequest extends KoLRequest
 
 	private String playerName;
 	private String playerID;
-	private int playerLevel;
-	private int currentMeat;
-	private int turnsPlayed;
+	private Integer playerLevel;
+	private Integer currentMeat;
+	private Integer turnsPlayed;
 	private String classType;
 
 	private Date lastLogin;
 	private String food, drink;
-	private String ascensionCount, pvpRank;
+	private Integer ascensionCount, pvpRank, karma;
 
-	private String muscle, mysticism, moxie;
-	private String title, rank, karma;
+	private Integer muscle, mysticism, moxie;
+	private String title, rank;
 
 	public ProfileRequest( KoLmafia client, String playerName )
 	{
 		super( client, "showplayer.php" );
-		addFormField( "who", client.getPlayerID( playerName ) );
+
+		if ( client != null )
+			addFormField( "who", client.getPlayerID( playerName ) );
 
 		this.playerName = playerName;
-		this.playerID = client.getPlayerID( playerName );
 
-		this.muscle = "0";
-		this.mysticism = "0";
-		this.moxie = "0";
-		this.karma = "0";
+		if ( client != null )
+			this.playerID = client.getPlayerID( playerName );
+
+		this.muscle = new Integer(0);
+		this.mysticism = new Integer(0);
+		this.moxie = new Integer(0);
+		this.karma = new Integer(0);
 	}
 
 	public void run()
 	{
 		super.run();
+		refreshFields();
+	}
 
+	/**
+	 * Internal method used to refresh the fields of the profile
+	 * request based on the response text.  This should be called
+	 * after the response text is already retrieved.
+	 */
+
+	private void refreshFields()
+	{
 		try
 		{
 			// This is a massive replace which makes the profile easier to
@@ -86,26 +103,26 @@ public class ProfileRequest extends KoLRequest
 			while ( !token.startsWith( "Level" ) )
 				token = st.nextToken();
 
-			this.playerLevel = Integer.parseInt( token.substring( 6 ) );
+			this.playerLevel = Integer.valueOf( token.substring( 6 ) );
 
 			KoLCharacter data = new KoLCharacter( playerName );
 			data.setClassName( st.nextToken().trim() );
 			this.classType = data.getClassType();
 
 			while ( !st.nextToken().startsWith( "Meat" ) );
-			this.currentMeat = df.parse( st.nextToken().trim() ).intValue();
+			this.currentMeat = new Integer( df.parse( st.nextToken().trim() ).intValue() );
 
 			if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
 			{
 				while ( !st.nextToken().startsWith( "Ascensions" ) );
 				st.nextToken();
-				this.ascensionCount = st.nextToken().trim();
+				this.ascensionCount = new Integer( df.parse( st.nextToken().trim() ).intValue() );
 			}
 			else
-				this.ascensionCount = "0";
+				this.ascensionCount = new Integer( 0 );
 
 			while ( !st.nextToken().startsWith( "Turns" ) );
-			this.turnsPlayed = df.parse( st.nextToken().trim() ).intValue();
+			this.turnsPlayed = new Integer( df.parse( st.nextToken().trim() ).intValue() );
 
 			while ( !st.nextToken().startsWith( "Last" ) );
 			this.lastLogin = sdf.parse( st.nextToken().trim() );
@@ -129,14 +146,92 @@ public class ProfileRequest extends KoLRequest
 			if ( cleanHTML.indexOf( "\nRanking" ) != -1 )
 			{
 				while ( !st.nextToken().startsWith( "Ranking" ) );
-				this.pvpRank = st.nextToken().trim();
+				this.pvpRank = new Integer( df.parse( st.nextToken().trim() ).intValue() );
 			}
 			else
-				this.pvpRank = "&nbsp;";
+				this.pvpRank = new Integer( 0 );
 		}
 		catch ( Exception e )
 		{
 		}
+	}
+
+	/**
+	 * Static method used by the clan manager in order to
+	 * get an instance of a profile request based on the
+	 * data already known.
+	 */
+
+	public static ProfileRequest getInstance( String playerName, String playerLevel, String responseText, String rosterRow )
+	{
+		ProfileRequest instance = new ProfileRequest( null, playerName );
+
+		// First, initialize the level field for the
+		// current player.
+
+		instance.playerLevel = Integer.valueOf( playerLevel );
+
+		// Next, refresh the fields for this player.
+		// The response text should be copied over
+		// before this happens.
+
+		instance.responseText = responseText;
+		instance.refreshFields();
+
+		try
+		{
+			// Next, parse out all the data in the
+			// row of the detail roster table.
+
+			Matcher dataMatcher = Pattern.compile( "<td.*?>(.*?)</td>" ).matcher( rosterRow );
+
+			// The name of the player occurs in the first
+			// field of the table.  Because you already
+			// know the name of the player, this can be
+			// arbitrarily skipped.
+
+			dataMatcher.find();
+
+			// The player's three primary stats appear in
+			// the next three fields of the table.
+
+			dataMatcher.find( dataMatcher.end() );
+			instance.muscle = new Integer( df.parse( dataMatcher.group(1) ).intValue() );
+
+			dataMatcher.find( dataMatcher.end() );
+			instance.mysticism = new Integer( df.parse( dataMatcher.group(1) ).intValue() );
+
+			dataMatcher.find( dataMatcher.end() );
+			instance.moxie = new Integer( df.parse( dataMatcher.group(1) ).intValue() );
+
+			// The next field contains the total power,
+			// and since this is calculated, it can be
+			// skipped in data retrieval.
+
+			dataMatcher.find();
+
+			// The next two fields contain the title and
+			// rank within the clan for the player.
+
+			dataMatcher.find( dataMatcher.end() );
+			instance.title = dataMatcher.group(1);
+
+			dataMatcher.find( dataMatcher.end() );
+			instance.rank = dataMatcher.group(1);
+
+			// The last field contains the total karma
+			// accumulated by this player.
+
+			dataMatcher.find( dataMatcher.end() );
+			instance.karma = new Integer( df.parse( dataMatcher.group(1) ).intValue() );
+		}
+		catch ( Exception e )
+		{
+			// If an exception occurred, the fields will
+			// be blank.
+		}
+
+		return instance;
 	}
 
 	public String getPlayerName()
@@ -159,21 +254,17 @@ public class ProfileRequest extends KoLRequest
 		return classType;
 	}
 
-	public void setPlayerLevel( int playerLevel )
-	{	this.playerLevel = playerLevel;
-	}
-
-	public int getPlayerLevel()
+	public Integer getPlayerLevel()
 	{	return playerLevel;
 	}
 
-	public int getCurrentMeat()
+	public Integer getCurrentMeat()
 	{
 		initialize();
 		return currentMeat;
 	}
 
-	public int getTurnsPlayed()
+	public Integer getTurnsPlayed()
 	{
 		initialize();
 		return turnsPlayed;
@@ -203,65 +294,41 @@ public class ProfileRequest extends KoLRequest
 		return drink;
 	}
 
-	public String getPvpRank()
+	public Integer getPvpRank()
 	{
 		initialize();
 		return pvpRank;
 	}
 
-	public void setMuscle( String muscle )
-	{	this.muscle = muscle;
-	}
-
-	public String getMuscle()
+	public Integer getMuscle()
 	{	return muscle;
 	}
 
-	public void setMysticism( String mysticism )
-	{	this.mysticism = mysticism;
-	}
-
-	public String getMysticism()
+	public Integer getMysticism()
 	{	return mysticism;
 	}
 
-	public void setMoxie( String moxie )
-	{	this.moxie = moxie;
-	}
-
-	public String getMoxie()
+	public Integer getMoxie()
 	{	return moxie;
 	}
 
-	public String getPower()
-	{	return String.valueOf( Integer.parseInt( muscle ) + Integer.parseInt( mysticism ) + Integer.parseInt( moxie ) );
-	}
-
-	public void setTitle( String title )
-	{	this.title = title;
+	public Integer getPower()
+	{	return new Integer( muscle.intValue() + mysticism.intValue() + moxie.intValue() );
 	}
 
 	public String getTitle()
 	{	return title;
 	}
 
-	public void setRank( String rank )
-	{	this.rank = rank;
-	}
-
 	public String getRank()
 	{	return rank;
 	}
 
-	public void setKarma( String karma )
-	{	this.karma = karma;
-	}
-
-	public String getKarma()
+	public Integer getKarma()
 	{	return karma;
 	}
 
-	public String getAscensionCount()
+	public Integer getAscensionCount()
 	{
 		initialize();
 		return ascensionCount;

@@ -36,13 +36,16 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.Iterator;
 import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.Date;
+import java.io.File;
 
+import net.java.dev.spellcast.utilities.DiskAccessBTree;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ClanSnapshotTable implements KoLConstants
@@ -70,11 +73,15 @@ public class ClanSnapshotTable implements KoLConstants
 	private KoLmafia client;
 	private String clanID;
 	private String clanName;
-	private TreeMap profileMap;
+
+	private Map levelMap;
+	private Map profileMap;
+	private Map rosterMap;
+
 	private LockableListModel filterList;
 	private DetailRosterRequest request;
 
-	public ClanSnapshotTable( KoLmafia client, TreeMap profileMap )
+	public ClanSnapshotTable( KoLmafia client )
 	{
 		// First, initialize all of the lists and
 		// arrays which are used by the request.
@@ -82,13 +89,31 @@ public class ClanSnapshotTable implements KoLConstants
 		this.client = client;
 		this.clanID = clanID;
 		this.clanName = clanName;
-		this.profileMap = profileMap;
+
+		this.levelMap = new TreeMap();
+		this.rosterMap = new TreeMap();
+
+		try
+		{
+			this.profileMap = new DiskAccessBTree( "tmp" + File.separator + "_profilemap.tmp" );
+			this.profileMap.clear();
+		}
+		catch ( Exception e )
+		{
+			this.profileMap = new TreeMap();
+			e.printStackTrace( client.getLogStream() );
+		}
+
 		this.filterList = new LockableListModel();
 
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
 
 		request = new DetailRosterRequest( client );
+	}
+
+	public Map getProfileMap()
+	{	return profileMap;
 	}
 
 	public void setClanID( String clanID )
@@ -105,9 +130,10 @@ public class ClanSnapshotTable implements KoLConstants
 
 	public void registerMember( String playerName, String level )
 	{
-		ProfileRequest newProfile = new ProfileRequest( client, playerName );
-		newProfile.setPlayerLevel( Integer.parseInt( level ) );
-		profileMap.put( playerName.toLowerCase(), newProfile );
+		String lowerCaseName = playerName.toLowerCase();
+
+		levelMap.put( lowerCaseName, level );
+		profileMap.put( lowerCaseName, "" );
 	}
 
 	public void unregisterMember( String playerID )
@@ -119,8 +145,13 @@ public class ClanSnapshotTable implements KoLConstants
 		{
 			if ( filterArray[i].getPlayerID().equals( playerID ) )
 			{
+				String lowerCaseName = filterArray[i].getPlayerName().toLowerCase();
+
 				filterList.remove(i);
-				profileMap.remove( filterArray[i].getPlayerName() );
+
+				levelMap.remove( lowerCaseName );
+				profileMap.remove( lowerCaseName );
+				rosterMap.remove( lowerCaseName );
 			}
 		}
 	}
@@ -135,105 +166,19 @@ public class ClanSnapshotTable implements KoLConstants
 
 		filterList.clear();
 
-		List temporaryList = new ArrayList();
-		temporaryList.addAll( profileMap.values() );
+		String currentName;
+		Iterator nameIterator = profileMap.keySet().iterator();
 
-		// This is where the filter gets applied, but for
-		// now, filtering isn't implemented so just return
-		// the entire list of members.
-
-		ProfileRequest [] profileArray = new ProfileRequest[ temporaryList.size() ];
-		temporaryList.toArray( profileArray );
-
-		int compareValue = 0;
 		try
 		{
-			for ( int i = profileArray.length - 1; i >= 0; --i )
+			// If the comparison value matches the type desired,
+			// add the element to the list.
+
+			while ( nameIterator.hasNext() )
 			{
-				switch ( filterType )
-				{
-					case NAME_FILTER:
-						compareValue = profileArray[i].getPlayerName().compareToIgnoreCase( filter );
-						break;
-
-					case ID_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getPlayerID() ) - df.parse( filter ).intValue();
-						break;
-
-					case LV_FILTER:
-						compareValue = profileArray[i].getPlayerLevel() - df.parse( filter ).intValue();
-						break;
-
-					case MUS_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getMuscle() ) - df.parse( filter ).intValue();
-						break;
-
-					case MYS_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getMysticism() ) - df.parse( filter ).intValue();
-						break;
-
-					case MOX_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getMoxie() ) - df.parse( filter ).intValue();
-						break;
-
-					case POWER_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getPower() ) - df.parse( filter ).intValue();
-						break;
-
-					case PVP_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getPvpRank().startsWith( "&" ) ? "0" : profileArray[i].getPvpRank() ) -
-							df.parse( (String) filter ).intValue();
-						break;
-
-					case CLASS_FILTER:
-						compareValue = profileArray[i].getClassType().compareToIgnoreCase( filter );
-						break;
-
-					case RANK_FILTER:
-						compareValue = profileArray[i].getRank().compareToIgnoreCase( filter );
-						break;
-
-					case KARMA_FILTER:
-						compareValue = Integer.parseInt( profileArray[i].getKarma() ) - df.parse( filter ).intValue();
-						break;
-
-					case MEAT_FILTER:
-						compareValue = profileArray[i].getCurrentMeat() - df.parse( filter ).intValue();
-						break;
-
-					case TURN_FILTER:
-						compareValue = profileArray[i].getTurnsPlayed() - df.parse( filter ).intValue();
-						break;
-
-					case LOGIN_FILTER:
-
-						try
-						{
-							int daysIdle = df.parse( filter ).intValue();
-							long millisecondsIdle = 86400000L * daysIdle;
-							Date cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
-
-							compareValue = profileArray[i].getLastLogin().after( cutoffDate ) ? -1 :
-								 profileArray[i].getLastLogin().before( cutoffDate ) ? 1 : 0;
-						}
-						catch ( Exception e )
-						{
-						}
-
-						break;
-
-					case ASCENSION_FILTER:
-						compareValue = df.parse( profileArray[i].getAscensionCount() ).intValue() - df.parse( filter ).intValue();
-						break;
-				}
-
-				compareValue = compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
-
-				// If the comparison value does not match the match
-				// type desired, remove the element from the list
-
-				if ( compareValue != matchType )
-					temporaryList.remove( i );
+				currentName = (String) nameIterator.next();
+				if ( compare( filterType, currentName, filter ) != matchType )
+					filterList.add( getProfile( currentName ) );
 			}
 		}
 		catch ( Exception e )
@@ -243,8 +188,92 @@ public class ClanSnapshotTable implements KoLConstants
 			// numeric string.  In this case, nothing is added,
 			// which is exactly what's wanted.
 		}
+	}
 
-		filterList.addAll( temporaryList );
+	private ProfileRequest getProfile( String name )
+	{	return ProfileRequest.getInstance( name, (String) levelMap.get(name), (String) profileMap.get(name), (String) rosterMap.get(name) );
+	}
+
+	public int compare( int filterType, String name, String filter )
+	{
+		int compareValue = 0;
+		ProfileRequest request = getProfile( name );
+
+		try
+		{
+			switch ( filterType )
+			{
+				case NAME_FILTER:
+					compareValue = request.getPlayerName().compareToIgnoreCase( filter );
+					break;
+
+				case ID_FILTER:
+					compareValue = Integer.parseInt( request.getPlayerID() ) - df.parse( filter ).intValue();
+					break;
+
+				case LV_FILTER:
+					compareValue = request.getPlayerLevel().intValue() - df.parse( filter ).intValue();
+					break;
+
+				case MUS_FILTER:
+					compareValue = request.getMuscle().intValue() - df.parse( filter ).intValue();
+					break;
+
+				case MYS_FILTER:
+					compareValue = request.getMysticism().intValue() - df.parse( filter ).intValue();
+					break;
+
+				case MOX_FILTER:
+					compareValue = request.getMoxie().intValue() - df.parse( filter ).intValue();
+					break;
+
+				case POWER_FILTER:
+					compareValue = request.getPower().intValue() - df.parse( filter ).intValue();
+					break;
+
+				case PVP_FILTER:
+					compareValue = request.getPvpRank().intValue() - df.parse( filter ).intValue();
+					break;
+
+				case CLASS_FILTER:
+					compareValue = request.getClassType().compareToIgnoreCase( filter );
+					break;
+
+				case RANK_FILTER:
+					compareValue = request.getRank().compareToIgnoreCase( filter );
+					break;
+
+				case KARMA_FILTER:
+					compareValue = request.getKarma().intValue() - df.parse( filter ).intValue();
+					break;
+
+				case MEAT_FILTER:
+					compareValue = request.getCurrentMeat().intValue() - df.parse( filter ).intValue();
+					break;
+
+				case TURN_FILTER:
+					compareValue = request.getTurnsPlayed().intValue() - df.parse( filter ).intValue();
+					break;
+
+				case LOGIN_FILTER:
+
+					int daysIdle = df.parse( filter ).intValue();
+					long millisecondsIdle = 86400000L * daysIdle;
+					Date cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
+
+					compareValue = request.getLastLogin().after( cutoffDate ) ? -1 : request.getLastLogin().before( cutoffDate ) ? 1 : 0;
+					break;
+
+				case ASCENSION_FILTER:
+					compareValue = request.getAscensionCount().intValue() - df.parse( filter ).intValue();
+					break;
+			}
+		}
+		catch ( Exception e )
+		{
+		}
+
+		return compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
 	}
 
 	public String toString()
@@ -277,12 +306,6 @@ public class ClanSnapshotTable implements KoLConstants
 
 	private String getSummary()
 	{
-		// First, if you haven't retrieved a detailed
-		// roster for the clan, do so.
-
-		if ( request.responseText == null )
-			request.run();
-
 		String header = getHeader();
 		StringBuffer strbuf = new StringBuffer();
 
@@ -304,8 +327,8 @@ public class ClanSnapshotTable implements KoLConstants
 
 		List ascensionsList = new ArrayList();
 
-		// Once that's complete, iterate through the
-		// clan members and initialize the lists.
+		// Iterate through the list of clan members
+		// and populate the lists.
 
 		String currentMember;
 		ProfileRequest memberLookup;
@@ -313,8 +336,9 @@ public class ClanSnapshotTable implements KoLConstants
 
 		while ( memberIterator.hasNext() )
 		{
+
 			currentMember = (String) memberIterator.next();
-			memberLookup = (ProfileRequest) profileMap.get( currentMember );
+			memberLookup = getProfile( currentMember );
 
 			if ( header.indexOf( "<td>Class</td>" ) != -1 )
 				classList.add( memberLookup.getClassType() );
@@ -326,10 +350,10 @@ public class ClanSnapshotTable implements KoLConstants
 				drinkList.add( memberLookup.getDrink() );
 
 			if ( header.indexOf( "<td>Meat</td>" ) != -1 )
-				meatList.add( String.valueOf( memberLookup.getCurrentMeat() ) );
+				meatList.add( memberLookup.getCurrentMeat() );
 
 			if ( header.indexOf( "<td>Turns</td>" ) != -1 )
-				turnsList.add( String.valueOf( memberLookup.getTurnsPlayed() ) );
+				turnsList.add( memberLookup.getTurnsPlayed() );
 
 			if ( header.indexOf( "<td>PVP</td>" ) != -1 )
 				pvpList.add( memberLookup.getPvpRank() );
@@ -476,38 +500,24 @@ public class ClanSnapshotTable implements KoLConstants
 		String currentValue;
 
 		for ( int i = 0; i < values.size(); ++i )
-		{
-			currentValue = (String) values.get(i);
-			if ( !currentValue.startsWith( "&" ) )
-				total += Integer.parseInt( (String) values.get(i) );
-		}
+			total += ((Integer)values.get(i)).intValue();
 
 		return total;
 	}
 
 	private double calculateAverage( List values )
 	{
-		double total = 0;
-		String currentValue;
-
-		double actualSize = values.size();
+		int total = 0;
 
 		for ( int i = 0; i < values.size(); ++i )
-		{
-			currentValue = (String) values.get(i);
+			total += ((Integer)values.get(i)).intValue();
 
-			if ( currentValue.startsWith( "&" ) )
-				actualSize -= 1.0;
-			else
-				total += Double.parseDouble( (String) values.get(i) );
-		}
-
-		return actualSize == 0 ? 0 : total / actualSize;
+		return (double)total / (double)values.size();
 	}
 
 	private String getMemberDetail( String memberName )
 	{
-		ProfileRequest memberLookup = (ProfileRequest) profileMap.get( memberName );
+		ProfileRequest memberLookup = getProfile( memberName );
 		StringBuffer strbuf = new StringBuffer();
 
 		// No matter what happens, you need to make sure
@@ -533,25 +543,25 @@ public class ClanSnapshotTable implements KoLConstants
 		if ( header.indexOf( "<td>Mus</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getMuscle() );
+			strbuf.append( df.format( memberLookup.getMuscle().intValue() ) );
 		}
 
 		if ( header.indexOf( "<td>Mys</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getMysticism() );
+			strbuf.append( df.format( memberLookup.getMysticism().intValue() ) );
 		}
 
 		if ( header.indexOf( "<td>Mox</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getMoxie() );
+			strbuf.append( df.format( memberLookup.getMoxie().intValue() ) );
 		}
 
 		if ( header.indexOf( "<td>Total</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getPower() );
+			strbuf.append( df.format( memberLookup.getPower().intValue() ) );
 		}
 
 		if ( header.indexOf( "<td>Title</td>" ) != -1 )
@@ -569,13 +579,13 @@ public class ClanSnapshotTable implements KoLConstants
 		if ( header.indexOf( "<td>Karma</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( Integer.parseInt( memberLookup.getKarma() ) ) );
+			strbuf.append( df.format( memberLookup.getKarma().intValue() ) );
 		}
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getPvpRank() );
+			strbuf.append( df.format( memberLookup.getPvpRank().intValue() ) );
 		}
 
 		if ( header.indexOf( "<td>Class</td>" ) != -1 )
@@ -587,13 +597,13 @@ public class ClanSnapshotTable implements KoLConstants
 		if ( header.indexOf( "<td>Meat</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getCurrentMeat() );
+			strbuf.append( df.format( memberLookup.getCurrentMeat().intValue() ) );
 		}
 
 		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getTurnsPlayed() );
+			strbuf.append( df.format( memberLookup.getTurnsPlayed().intValue() ) );
 		}
 
 		if ( header.indexOf( "<td>Food</td>" ) != -1 )
@@ -617,7 +627,7 @@ public class ClanSnapshotTable implements KoLConstants
 		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
 		{
 			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getAscensionCount() );
+			strbuf.append( df.format( memberLookup.getAscensionCount().intValue() ) );
 		}
 
 		strbuf.append( "</td></tr>" );
@@ -652,7 +662,7 @@ public class ClanSnapshotTable implements KoLConstants
 			String currentRow;
 			String currentName;
 			Matcher dataMatcher;
-			ProfileRequest currentRequest;
+			ProfileRequest request;
 
 			Pattern cellPattern = Pattern.compile( "<td.*?>(.*?)</td>" );
 
@@ -666,25 +676,13 @@ public class ClanSnapshotTable implements KoLConstants
 				{
 					dataMatcher = cellPattern.matcher( currentRow );
 
-					dataMatcher.find();
-					currentName = dataMatcher.group(1);
-
-					currentRequest = (ProfileRequest) profileMap.get( currentName.toLowerCase() );
-
-					dataMatcher.find( dataMatcher.end() );
-					currentRequest.setMuscle( dataMatcher.group(1) );
-					dataMatcher.find( dataMatcher.end() );
-					currentRequest.setMysticism( dataMatcher.group(1) );
-					dataMatcher.find( dataMatcher.end() );
-					currentRequest.setMoxie( dataMatcher.group(1) );
+					// The name of the player occurs in the first
+					// field of the table.  Use this to index the
+					// roster map.
 
 					dataMatcher.find();
-					dataMatcher.find( dataMatcher.end() );
-					currentRequest.setTitle( dataMatcher.group(1) );
-					dataMatcher.find( dataMatcher.end() );
-					currentRequest.setRank( dataMatcher.group(1) );
-					dataMatcher.find( dataMatcher.end() );
-					currentRequest.setKarma( dataMatcher.group(1) );
+					currentName = dataMatcher.group(1).toLowerCase();
+					rosterMap.put( currentName, currentRow );
 				}
 			}
 
