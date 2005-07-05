@@ -768,7 +768,7 @@ public abstract class KoLmafia implements KoLConstants
 				int currentHP = -1;
 				permitContinue = true;
 
-				while ( permitContinue && characterData.getCurrentHP() < autoRecover && currentHP != characterData.getCurrentHP() )
+				while ( permitContinue && characterData.getCurrentHP() <= autoRecover && currentHP != characterData.getCurrentHP() )
 				{
 					currentHP = characterData.getCurrentHP();
 					updateDisplay( DISABLED_STATE, "Executing HP auto-recovery script..." );
@@ -806,7 +806,7 @@ public abstract class KoLmafia implements KoLConstants
 				int currentMP = -1;
 				permitContinue = true;
 
-				while ( permitContinue && characterData.getCurrentMP() < autoRecover && currentMP != characterData.getCurrentMP() )
+				while ( permitContinue && characterData.getCurrentMP() <= autoRecover && currentMP != characterData.getCurrentMP() )
 				{
 					currentMP = characterData.getCurrentMP();
 					updateDisplay( DISABLED_STATE, "Executing MP auto-recovery script..." );
