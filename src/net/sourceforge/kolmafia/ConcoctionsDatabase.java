@@ -644,12 +644,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		/**
-		 * Helper method to determine the adventure cost for creating
-		 * this recipe.
-		 */
-
-
-		/**
 		 * Returns the string form of this concoction.  This is
 		 * basically the display name for the item created.
 		 */
