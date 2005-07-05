@@ -102,9 +102,7 @@ public class GearChangeFrame extends KoLFrame
 
 		getContentPane().add( createEquipPanel(), "" );
 		refreshEquipPanel();
-
 		addMenuBar();
-		setDefaultCloseOperation( HIDE_ON_CLOSE );
 	}
 
 	private void addMenuBar()

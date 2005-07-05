@@ -114,7 +114,6 @@ public class HagnkStorageFrame extends KoLFrame
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( centerPanel, "" );
-		setDefaultCloseOperation( HIDE_ON_CLOSE );
 	}
 
 	public void setEnabled( boolean isEnabled )

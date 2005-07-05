@@ -139,8 +139,6 @@ public class BuffBotFrame extends KoLFrame
 
 		addCompactPane();
 		getContentPane().add( tabs, BorderLayout.CENTER );
-
-		setDefaultCloseOperation( HIDE_ON_CLOSE );
 		addWindowListener( new DisableBuffBotAdapter() );
 		addMenuBar();
 	}

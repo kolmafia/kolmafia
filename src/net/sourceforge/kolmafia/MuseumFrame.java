@@ -94,7 +94,6 @@ public class MuseumFrame extends KoLFrame
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( storing, "" );
-		setDefaultCloseOperation( HIDE_ON_CLOSE );
 	}
 
 	public void setEnabled( boolean isEnabled )

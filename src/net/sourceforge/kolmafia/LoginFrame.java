@@ -143,10 +143,7 @@ public class LoginFrame extends KoLFrame
 
 		getContentPane().add( imagePanel, BorderLayout.NORTH );
 		getContentPane().add( contentPanel, BorderLayout.CENTER );
-
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		addWindowListener( new ExitRequestAdapter() );
-
 		addMenuBar();
 	}
 

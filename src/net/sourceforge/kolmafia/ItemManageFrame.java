@@ -103,8 +103,6 @@ public class ItemManageFrame extends KoLFrame
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
-		setDefaultCloseOperation( HIDE_ON_CLOSE );
-
 		addMenuBar();
 	}
 

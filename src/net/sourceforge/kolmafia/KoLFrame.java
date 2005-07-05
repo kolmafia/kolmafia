@@ -129,6 +129,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		this.client = client;
 		this.isEnabled = true;
+
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		addWindowListener( new LocationAdapter() );
 
@@ -923,14 +924,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public void actionPerformed( ActionEvent e )
 		{
-			for ( int i = 0; i < existingFrames.size(); ++i )
-				if ( existingFrames.get(i).getClass() == frameClass )
-				{
-					((KoLFrame)existingFrames.get(i)).setVisible( true );
-					((KoLFrame)existingFrames.get(i)).setEnabled( isEnabled() );
-					return;
-				}
-
 			displayer.setEnabled( isEnabled() );
 			SwingUtilities.invokeLater( displayer );
 		}

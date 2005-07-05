@@ -152,7 +152,6 @@ public abstract class SendMessageFrame extends KoLFrame
 
 		this.getContentPane().setLayout( new CardLayout( 20, 20 ) );
 		this.getContentPane().add( messagePanel, "" );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 	}
 
 	protected JPanel constructWestPanel()
