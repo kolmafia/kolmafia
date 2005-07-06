@@ -1052,31 +1052,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		protected void handleInternalLink( String location )
 		{
-			if ( location.startsWith( "sendmessage.php" ) || location.startsWith( "town_sendgift.php" ) )
-			{
-				// Green composition occurs in the GreenMessageFrame,
-				// and because the Javascript attachments aren't supported,
-				// this is the preferred way to handle everything.
-
-				Object [] parameters = new Object[2];
-				parameters[0] = client;
-				parameters[1] = location.split( "[\\?=&]" )[2];
-
-				SwingUtilities.invokeLater( new CreateFrameRunnable( location.startsWith( "sendmessage.php" ) ?
-					GreenMessageFrame.class : GiftMessageFrame.class, parameters ) );
-			}
-			else if ( location.startsWith( "closet.php" ) )
-			{
-				// In general, the item manager interface for KoLmafia
-				// should be used for handling of items.  This is purely
-				// for consistency reasons.
-
-				Object [] parameters = new Object[1];
-				parameters[0] = client;
-
-				SwingUtilities.invokeLater( new CreateFrameRunnable( ItemManageFrame.class, parameters ) );
-			}
-			else if ( location.startsWith( "desc" ) || location.startsWith( "doc" ) || location.startsWith( "search" ) )
+			if ( location.startsWith( "desc" ) || location.startsWith( "doc" ) || location.startsWith( "search" ) )
 			{
 				// Certain requests should open in a new window.
 				// These include description data, documentation
