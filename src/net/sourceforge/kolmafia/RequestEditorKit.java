@@ -106,7 +106,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		protected void submitData( String data )
 		{
-			String [] splits = data.split( "[&=]" );
+			String [] splits = data.split( "&" );
+			String [][] fields = new String[ splits.length ][2];
+
+			int valueIndex = 0;
+
+			for ( int i = 0; i < splits.length; ++i )
+			{
+				valueIndex = splits[i].indexOf( "=" );
+				fields[i][0] = splits[i].substring( 0, valueIndex );
+				fields[i][1] = splits[i].substring( valueIndex + 1 );
+			}
 
 			// First, attempt to retrieve the frame which
 			// is being used by this form viewer.
@@ -123,7 +133,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					frameText = frame.display1.getText();
 
 					for ( int j = 0; j < splits.length && frame != null; ++j )
-						if ( frameText.indexOf( splits[j] ) == -1 )
+						if ( frameText.indexOf( fields[i][0] ) == -1 )
 							frame = null;
 				}
 			}
@@ -165,7 +175,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			if ( splits.length > 1 )
 				for ( int i = 0; i < splits.length; ++i )
-					request.addFormField( splits[i], splits[++i] );
+					request.addFormField( fields[i][0], fields[i][1] );
 
 			frame.refresh( request );
 
