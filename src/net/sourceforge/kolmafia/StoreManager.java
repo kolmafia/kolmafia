@@ -38,6 +38,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class StoreManager implements KoLConstants
@@ -87,81 +90,76 @@ public class StoreManager implements KoLConstants
 	{	return soldItemList;
 	}
 
-	/**
-	 * Clears the list of items which are handled by the
-	 * current store manager.  Should be called prior to
-	 * running any store management requests.
-	 */
-
-	public void clear()
-	{	soldItemList.clear();
-	}
-
-	/**
-	 * Utility method used to search the mall for the
-	 * given item.
-	 */
-
-	public void searchMall( String itemName, List priceSummary )
-	{	(new MallSearchThread( itemName, priceSummary )).start();
-	}
-
-	private class MallSearchThread extends DaemonThread
+	public synchronized void update( String storeText, boolean isPriceManagement )
 	{
-		private String itemName;
-		private List priceSummary;
+		soldItemList.clear();
 
-		public MallSearchThread( String itemName, List priceSummary )
+		// Now that the item list has been cleared, begin
+		// parsing the store text.
+
+		if ( isPriceManagement )
 		{
-			this.itemName = itemName;
-			this.priceSummary = priceSummary;
-		}
+			int itemID, quantity, price, limit;
 
-		public void run()
-		{
-			priceSummary.clear();
-			if ( itemName == null )
-				return;
+			// The item matcher here examines each row in the table
+			// displayed in the price management page.
 
-			ArrayList results = new ArrayList();
-			(new SearchMallRequest( client, "\'\'" + itemName + "\'\'", 0, results )).run();
+			Matcher priceMatcher = Pattern.compile( "<tr>.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\"" ).matcher( storeText );
 
-			Iterator i = results.iterator();
-			MallPurchaseRequest currentItem;
-
-			if ( client.getSettings().getProperty( "aggregatePrices" ).equals( "true" ) )
+			try
 			{
-				TreeMap prices = new TreeMap();
-				Integer currentQuantity, currentPrice;
-
-				while ( i.hasNext() )
+				while ( priceMatcher.find() )
 				{
-					currentItem = (MallPurchaseRequest) i.next();
-					currentPrice = new Integer( currentItem.getPrice() );
+					itemID = Integer.parseInt( priceMatcher.group(3) );
+					quantity = df.parse( priceMatcher.group(1) ).intValue();
 
-					currentQuantity = (Integer) prices.get( currentPrice );
-					if ( currentQuantity == null )
-						prices.put( currentPrice, new Integer( currentItem.getLimit() ) );
-					else
-						prices.put( currentPrice, new Integer( currentQuantity.intValue() + currentItem.getQuantity() ) );
-				}
+					price = Integer.parseInt( priceMatcher.group(2) );
+					limit = Integer.parseInt( priceMatcher.group(4) );
 
-				i = prices.keySet().iterator();
+					// Now that all the data has been retrieved, register
+					// the item that was discovered.
 
-				while ( i.hasNext() )
-				{
-					currentPrice = (Integer) i.next();
-					priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
-						df.format( currentPrice.intValue() ) + " meat" );
+					registerItem( itemID, quantity, price, limit );
 				}
 			}
-			else
+			catch ( Exception e )
 			{
-				while ( i.hasNext() )
+				// Because of the way the regular expressions are
+				// set up, this should not happen.
+			}
+		}
+		else
+		{
+			AdventureResult item;
+			int price, limit;
+
+			// The item matcher here examines each row in the table
+			// displayed in the standard item-addition page.
+
+			Matcher itemMatcher = Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td>" ).matcher( storeText );
+
+			try
+			{
+				while ( itemMatcher.find() )
 				{
-					currentItem = (MallPurchaseRequest) i.next();
-					priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + ": " + df.format( currentItem.getLimit() ) + " @ " + df.format( currentItem.getPrice() ) );
+					item = AdventureResult.parseResult( itemMatcher.group(1) );
+					price = df.parse( itemMatcher.group(2) ).intValue();
+
+					// In this case, the limit could appear as "unlimited",
+					// which equates to a limit of 0.
+
+					limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : Integer.parseInt( itemMatcher.group(3) );
+
+					// Now that all the data has been retrieved, register
+					// the item that was discovered.
+
+					registerItem( item.getItemID(), item.getCount(), price, limit );
 				}
+			}
+			catch ( Exception e )
+			{
+				// Because of the way the regular expressions are
+				// set up, this should not happen.
 			}
 		}
 	}

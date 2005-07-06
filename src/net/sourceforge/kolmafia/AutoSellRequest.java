@@ -33,8 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.StringTokenizer;
 
 public class AutoSellRequest extends KoLRequest
@@ -150,36 +148,8 @@ public class AutoSellRequest extends KoLRequest
 			}
 		}
 		else
-			updateStoreManager();
+			client.getStoreManager().update( responseText, false );
 
 		updateDisplay( ENABLED_STATE, "Items sold." );
-	}
-
-	private void updateStoreManager()
-	{
-		client.getStoreManager().clear();
-		int lastFindIndex = 0;
-		Matcher itemMatcher = Pattern.compile(
-			"<tr>.*?<td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( responseText );
-
-		try
-		{
-			int itemID, quantity, price, limit;
-
-			while ( itemMatcher.find( lastFindIndex ) )
-			{
-				lastFindIndex = itemMatcher.end();
-
-				itemID = Integer.parseInt( itemMatcher.group(4) );
-				quantity = AdventureResult.parseResult( itemMatcher.group(1) ).getCount();
-				price = df.parse( itemMatcher.group(2) ).intValue();
-				limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : Integer.parseInt( itemMatcher.group(3) );
-
-				client.getStoreManager().registerItem( itemID, quantity, price, limit );
-			}
-		}
-		catch ( Exception e )
-		{
-		}
 	}
 }

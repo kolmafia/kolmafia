@@ -75,66 +75,24 @@ public class StoreManageRequest extends KoLRequest
 		updateDisplay( DISABLED_STATE, "Requesting store inventory..." );
 
 		super.run();
-		client.getStoreManager().clear();
 
-		// Use a fairly ugly regular expression in order to determine each price
-		// listed inside of the store manager.  This will be used to update the
-		// store manager information.
-
-		int lastFindIndex = 0;
-		int itemID, quantity, price, limit;
-
-		if ( isPriceManagement )
+		if ( !isPriceManagement )
 		{
-			Matcher priceMatcher = Pattern.compile(
-				"<tr><td><b>.*?&nbsp;</td><td>([\\d,]+)</td>.*?value=\"(\\d+)\" name=price(\\d+)>.*?value=\"(\\d+)\".*?</tr>" ).matcher( responseText );
-
 			try
 			{
-				while ( priceMatcher.find( lastFindIndex ) )
-				{
-					lastFindIndex = priceMatcher.end();
+				Matcher takenItemMatcher = Pattern.compile( "<option value=" + takenItemID + ">.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
 
-					price = Integer.parseInt( priceMatcher.group(2) );
-					quantity = df.parse( priceMatcher.group(1) ).intValue();
-					itemID = Integer.parseInt( priceMatcher.group(3) );
-					limit = Integer.parseInt( priceMatcher.group(4) );
-
-					client.getStoreManager().registerItem( itemID, quantity, price, limit );
-				}
+				if ( takenItemMatcher.find() )
+					client.processResult( new AdventureResult( takenItemID, df.parse( takenItemMatcher.group(1) ).intValue() ) );
 			}
 			catch ( Exception e )
 			{
-			}
-		}
-		else
-		{
-			Matcher takenItemMatcher = Pattern.compile( "<option value=" + takenItemID + ">(.*?)</option>" ).matcher( responseText );
-			takenItemMatcher.find();
-			client.parseResult( takenItemMatcher.group(1).replaceAll( "\\(.*? Meat\\) ", "" ) );
-
-			Matcher itemMatcher = Pattern.compile(
-				"<tr>.*?<td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td><a href=\"managestore.php\\?action=take&whichitem=(\\d+)\".*?</tr>" ).matcher( responseText );
-
-			try
-			{
-				while ( itemMatcher.find( lastFindIndex ) )
-				{
-					lastFindIndex = itemMatcher.end();
-
-					itemID = Integer.parseInt( itemMatcher.group(4) );
-					quantity = AdventureResult.parseResult( itemMatcher.group(1) ).getCount();
-					price = df.parse( itemMatcher.group(2) ).intValue();
-					limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : Integer.parseInt( itemMatcher.group(3) );
-
-					client.getStoreManager().registerItem( itemID, quantity, price, limit );
-				}
-			}
-			catch ( Exception e )
-			{
+				// Because of the way the regular expression is compiled,
+				// this should not happen.
 			}
 		}
 
+		client.getStoreManager().update( responseText, isPriceManagement );
 		updateDisplay( ENABLED_STATE, "Store inventory request complete." );
 	}
 }
