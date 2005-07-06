@@ -207,8 +207,6 @@ public abstract class KoLmafia implements KoLConstants
 		// all over the place
 
 		this.sessionID = sessionID;
-		adventureList.clear();
-		adventureList.addAll( AdventureDatabase.getAsLockableListModel( this ) );
 
 		if ( !permitContinue )
 		{
@@ -240,6 +238,9 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		(new PasswordHashRequest( this )).run();
+
+		adventureList.clear();
+		adventureList.addAll( AdventureDatabase.getAsLockableListModel( this ) );
 
 		if ( loginRequest != null )
 			return;
