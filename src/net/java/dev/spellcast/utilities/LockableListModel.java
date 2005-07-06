@@ -155,9 +155,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		if ( o == null )
 			return false;
 
-		int index = size();
-		elements.add( index, o );
-		fireIntervalAdded( this, index, index );
+		add( size(), o );
 		return true;
 	}
 
@@ -210,9 +208,16 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public void clear()
 	{
 		int lastIndex = size() - 1;
+
+		// If the size of the list model is 0, then
+		// there's nothing to do.  Avoid misfiring
+		// the action listeners in this case.
+
+		if ( lastIndex == -1 )
+			return;
+
 		elements.clear();
-		if ( lastIndex >= 0 )
-			fireIntervalRemoved( this, 0, lastIndex );
+		fireIntervalRemoved( this, 0, lastIndex );
 	}
 
 	/**
@@ -325,6 +330,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public Object remove( int index )
 	{
+		if ( index < 0 || index >= size() )
+			return null;
+
 		Object removedElement = elements.remove( index );
 		if ( removedElement == null )
 			return null;
@@ -338,14 +346,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public boolean remove( Object o )
-	{
-		int index = indexOf( o );
-		if ( index == -1 )
-			return false;
-
-		elements.remove( index );
-		fireIntervalRemoved( this, index, index );
-		return true;
+	{	return remove( indexOf( o ) ) != null;
 	}
 
 	/**
