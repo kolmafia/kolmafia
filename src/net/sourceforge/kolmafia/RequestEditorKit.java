@@ -165,7 +165,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			if ( splits.length > 1 )
 				for ( int i = 0; i < splits.length; ++i )
-					request.addFormField( splits[i], (++i) < splits.length ? splits[i] : "" );
+					request.addFormField( splits[i], splits[++i] );
 
 			frame.refresh( request );
 
