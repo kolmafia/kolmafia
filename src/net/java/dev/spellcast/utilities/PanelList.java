@@ -244,7 +244,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 		public synchronized void intervalAdded( ListDataEvent e )
 		{
 			if ( e.getType() == ListDataEvent.INTERVAL_ADDED && e.getSource() instanceof LockableListModel )
-				(new ListDataEventProcessor( e )).run();
+				SwingUtilities.invokeLater( new ListDataEventProcessor( e ) );
 		}
 
 		/**
@@ -259,8 +259,9 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 		private synchronized void intervalAdded( LockableListModel source, int index0, int index1 )
 		{
-			if ( index1 >= source.size() )
+			if ( index1 >= source.size() || source.size() == getComponentCount() )
 				return;
+
 			for ( int i = index0; i <= index1; ++i )
 				associatedPanelList.add( constructPanelListCell( source.get(i), i ), i );
 
@@ -291,7 +292,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 		private synchronized void intervalRemoved( LockableListModel source, int index0, int index1 )
 		{
-			if ( index1 >= getComponentCount() )
+			if ( index1 >= getComponentCount() || source.size() == getComponentCount() )
 				return;
 
 			for ( int i = index1; i >= index0; --i )
@@ -327,6 +328,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 		{
 			if ( index1 >= getComponentCount() )
 				return;
+
 			for ( int i = index1; i >= index0; --i )
 				((PanelListCell)associatedPanelList.getComponent(i)).updateDisplay( associatedPanelList, source.get(i), i );
 
@@ -355,16 +357,8 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 			public void run()
 			{
-				if ( source == null || index1 < 0 )
+				if ( source == null || index0 < 0 || index1 < 0 )
 					return;
-
-				if ( !SwingUtilities.isEventDispatchThread() )
-				{
-					// allow the thread to invoke later in the AWT
-					// thread, to ensure nothing bad happens
-					SwingUtilities.invokeLater( this );
-					return;
-				}
 
 				switch ( associatedEventType )
 				{
