@@ -83,7 +83,11 @@ public class StoreManageRequest extends KoLRequest
 				Matcher takenItemMatcher = Pattern.compile( "<option value=" + takenItemID + ">.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
 
 				if ( takenItemMatcher.find() )
-					client.processResult( new AdventureResult( takenItemID, df.parse( takenItemMatcher.group(1) ).intValue() ) );
+				{
+					AdventureResult takenItem = new AdventureResult( takenItemID, 0 );
+					client.processResult( takenItem.getInstance( 0 - takenItem.getCount( client.getInventory() ) ) );
+					client.processResult( takenItem.getInstance( df.parse( takenItemMatcher.group(1) ).intValue() ) );
+				}
 			}
 			catch ( Exception e )
 			{
