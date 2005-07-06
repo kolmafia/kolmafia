@@ -108,10 +108,9 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			CreateFrameRunnable previousDisplayer = displayer;
 
-			Object [] parameters = new Object[3];
+			Object [] parameters = new Object[2];
 			parameters[0] = this;
-			parameters[1] = adventureList;
-			parameters[2] = tally;
+			parameters[1] = tally;
 
 			displayer = new CreateFrameRunnable( AdventureFrame.class, parameters );
 			displayer.run();

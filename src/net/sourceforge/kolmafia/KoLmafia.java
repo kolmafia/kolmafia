@@ -1555,6 +1555,10 @@ public abstract class KoLmafia implements KoLConstants
 	{	return storeManager;
 	}
 
+	public LockableListModel getAdventureList()
+	{	return adventureList;
+	}
+
 	public void executeTimeInRequest()
 	{
 		if ( !isLoggingIn )

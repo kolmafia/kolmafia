@@ -151,14 +151,14 @@ public class AdventureFrame extends KoLFrame
 	 * @param	resultsTally	Tally of adventuring results
 	 */
 
-	public AdventureFrame( KoLmafia client, LockableListModel adventureList, SortedListModel resultsTally )
+	public AdventureFrame( KoLmafia client, SortedListModel resultsTally )
 	{
 		super( "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) +
 			" (" + KoLRequest.getRootHostName() + ")", client );
 
 		this.isEnabled = true;
 		this.tabs = new JTabbedPane();
-		this.adventureList = adventureList;
+		this.adventureList = client == null ? AdventureDatabase.getAsLockableListModel( null ) : client.getAdventureList();
 
 		this.adventureSelect = new AdventureSelectPanel( resultsTally );
 		tabs.addTab( "Adventure Select", adventureSelect );
@@ -931,7 +931,7 @@ public class AdventureFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new AdventureFrame( null, AdventureDatabase.getAsLockableListModel( null ), new SortedListModel() );
+		KoLFrame uitest = new AdventureFrame( null, new SortedListModel() );
 		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
 	}
 }
