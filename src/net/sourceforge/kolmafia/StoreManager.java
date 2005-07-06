@@ -165,6 +165,75 @@ public class StoreManager implements KoLConstants
 	}
 
 	/**
+	 * Utility method used to search the mall for the
+	 * given item.
+	 */
+
+	public void searchMall( String itemName, List priceSummary )
+	{	(new MallSearchThread( itemName, priceSummary )).start();
+	}
+
+	private class MallSearchThread extends DaemonThread
+	{
+		private String itemName;
+		private List priceSummary;
+
+		public MallSearchThread( String itemName, List priceSummary )
+		{
+			this.itemName = itemName;
+			this.priceSummary = priceSummary;
+		}
+
+		public void run()
+		{
+			priceSummary.clear();
+			if ( itemName == null )
+				return;
+
+			ArrayList results = new ArrayList();
+			(new SearchMallRequest( client, "\'\'" + itemName + "\'\'", 0, results )).run();
+
+			Iterator i = results.iterator();
+			MallPurchaseRequest currentItem;
+
+			if ( client.getSettings().getProperty( "aggregatePrices" ).equals( "true" ) )
+			{
+				TreeMap prices = new TreeMap();
+				Integer currentQuantity, currentPrice;
+
+				while ( i.hasNext() )
+				{
+					currentItem = (MallPurchaseRequest) i.next();
+					currentPrice = new Integer( currentItem.getPrice() );
+
+					currentQuantity = (Integer) prices.get( currentPrice );
+					if ( currentQuantity == null )
+						prices.put( currentPrice, new Integer( currentItem.getLimit() ) );
+					else
+						prices.put( currentPrice, new Integer( currentQuantity.intValue() + currentItem.getQuantity() ) );
+				}
+
+				i = prices.keySet().iterator();
+
+				while ( i.hasNext() )
+				{
+					currentPrice = (Integer) i.next();
+					priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
+						df.format( currentPrice.intValue() ) + " meat" );
+				}
+			}
+			else
+			{
+				while ( i.hasNext() )
+				{
+					currentItem = (MallPurchaseRequest) i.next();
+					priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + ": " + df.format( currentItem.getLimit() ) + " @ " + df.format( currentItem.getPrice() ) );
+				}
+			}
+		}
+	}
+
+	/**
 	 * Utility method used to remove the given item from the
 	 * player's store.
 	 */
