@@ -55,31 +55,36 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
-	private String title;
+	private RequestFrame parent;
 	private KoLRequest currentRequest;
-	private LimitedSizeChatBuffer buffer1, buffer2;
+	private LimitedSizeChatBuffer mainBuffer, sideBuffer;
 	private KoLRequest sidePaneRequest;
 
-	protected JEditorPane display1;
+	protected JEditorPane mainDisplay;
 
 	public RequestFrame( KoLmafia client, String title, KoLRequest request )
+	{	this( client, null, title, request );
+	}
+
+	public RequestFrame( KoLmafia client, RequestFrame parent, String title, KoLRequest request )
 	{
 		super( title, client );
-		this.title = title;
+
+		this.parent = parent;
 		this.currentRequest = request;
 
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 
-		this.display1 = new JEditorPane();
-		this.display1.setEditable( false );
+		this.mainDisplay = new JEditorPane();
+		this.mainDisplay.setEditable( false );
 
 		if ( !(this instanceof PendingTradesFrame) )
-			this.display1.addHyperlinkListener( new KoLHyperlinkAdapter() );
+			this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
-		this.buffer1 = new LimitedSizeChatBuffer( title );
-		this.buffer1.setChatDisplay( this.display1 );
+		this.mainBuffer = new LimitedSizeChatBuffer( title );
+		this.mainBuffer.setChatDisplay( this.mainDisplay );
 
-		JScrollPane scrollPane1 = new JScrollPane( this.display1, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+		JScrollPane mainScroller = new JScrollPane( this.mainDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
 
 		// Profile requests, trade requests, and game text descriptions,
 		// as well as player searches, should not add extra requests to
@@ -90,27 +95,27 @@ public class RequestFrame extends KoLFrame
 		if ( request instanceof ProfileRequest || request instanceof ProposeTradeRequest ||
 			getCurrentLocation().startsWith( "desc" ) || getCurrentLocation().startsWith( "doc" ) || getCurrentLocation().startsWith( "search" ) )
 		{
-			this.buffer2 = null;
+			this.sideBuffer = null;
 
-			JComponentUtilities.setComponentSize( scrollPane1, 400, 300 );
+			JComponentUtilities.setComponentSize( mainScroller, 400, 300 );
 			getContentPane().setLayout( new GridLayout( 1, 1 ) );
-			getContentPane().add( scrollPane1 );
+			getContentPane().add( mainScroller );
 		}
 		else
 		{
 			this.sidePaneRequest = new KoLRequest( client, "charpane.php" );
 
-			JEditorPane display2 = new JEditorPane();
-			display2.setEditable( false );
-			display2.addHyperlinkListener( new KoLHyperlinkAdapter() );
+			JEditorPane sideDisplay = new JEditorPane();
+			sideDisplay.setEditable( false );
+			sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
-			this.buffer2 = new LimitedSizeChatBuffer( "" );
-			this.buffer2.setChatDisplay( display2 );
+			this.sideBuffer = new LimitedSizeChatBuffer( "" );
+			this.sideBuffer.setChatDisplay( sideDisplay );
 
-			JScrollPane scrollPane2 = new JScrollPane( display2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
-			JComponentUtilities.setComponentSize( scrollPane2, 150, 450 );
+			JScrollPane sideScroller = new JScrollPane( sideDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+			JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
 
-			JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, scrollPane2, scrollPane1 );
+			JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, sideScroller, mainScroller );
 			splitPane.setOneTouchExpandable( true );
 			JComponentUtilities.setComponentSize( splitPane, 600, 450 );
 
@@ -175,14 +180,21 @@ public class RequestFrame extends KoLFrame
 
 	public void refresh( KoLRequest request )
 	{
-		setTitle( "Mini-Browser Window" );
-		currentRequest = request;
-		(new DisplayRequestThread()).start();
+		String location = request.getURLString();
+
+		if ( parent == null || location.startsWith( "search" ) )
+		{
+			setTitle( "Mini-Browser Window" );
+			currentRequest = request;
+			(new DisplayRequestThread()).start();
+		}
+		else
+			parent.refresh( request );
 	}
 
 	public void refreshSidePane()
 	{
-		if ( buffer2 != null )
+		if ( sideBuffer != null )
 			(new RefreshSidePaneThread()).start();
 	}
 
@@ -190,13 +202,13 @@ public class RequestFrame extends KoLFrame
 	{
 		public void run()
 		{
-			buffer2.clearBuffer();
-			buffer2.append( "Retrieving..." );
+			sideBuffer.clearBuffer();
+			sideBuffer.append( "Retrieving..." );
 
 			sidePaneRequest.run();
 
-			buffer2.clearBuffer();
-			buffer2.append( getDisplayHTML( sidePaneRequest.responseText ) );
+			sideBuffer.clearBuffer();
+			sideBuffer.append( getDisplayHTML( sidePaneRequest.responseText ) );
 		}
 	}
 
@@ -222,8 +234,8 @@ public class RequestFrame extends KoLFrame
 			if ( currentRequest == null )
 				return;
 
-			buffer1.clearBuffer();
-			buffer1.append( "Retrieving..." );
+			mainBuffer.clearBuffer();
+			mainBuffer.append( "Retrieving..." );
 
 			if ( currentRequest.responseText == null )
 			{
@@ -239,8 +251,8 @@ public class RequestFrame extends KoLFrame
 					refreshSidePane();
 			}
 
-			buffer1.clearBuffer();
-			buffer1.append( getDisplayHTML( currentRequest.responseText ) );
+			mainBuffer.clearBuffer();
+			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
 		}
 	}
 
@@ -285,8 +297,14 @@ public class RequestFrame extends KoLFrame
 		// sure to convert them to standard <A> tags linking to
 		// the correct document.
 
-		displayHTML = Pattern.compile( "<a[^>]*?javascript:window.open\\(\"(.*?)\".*?>" ).matcher( displayHTML ).replaceAll( "<a href=\"$1\">" );
-		displayHTML = Pattern.compile( "<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>" ).matcher( displayHTML ).replaceAll( "<a href=\"$2\"><img$1 $3 border=0></a>" );
+		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\([\'\"](.*?)[\'\"].*?>", "<a href=\"$1\">" );
+		displayHTML = displayHTML.replaceAll( "<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
+
+		// The search form for viewing players has an </html>
+		// tag appearing right after </style>, which may confuse
+		// the HTML parser.
+
+		displayHTML = displayHTML.replaceAll( "</style></html>" , "</style>" );
 
 		return displayHTML;
 	}

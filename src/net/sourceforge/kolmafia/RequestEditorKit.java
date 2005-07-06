@@ -36,11 +36,12 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 
+import javax.swing.JComponent;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
-import javax.swing.JEditorPane;
+import javax.swing.JCheckBox;
 
 import javax.swing.text.View;
 import javax.swing.text.Element;
@@ -130,7 +131,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				if ( frames[i] instanceof RequestFrame )
 				{
 					frame = (RequestFrame) frames[i];
-					frameText = frame.display1.getText();
+					frameText = frame.mainDisplay.getText();
 
 					for ( int j = 0; j < splits.length && frame != null; ++j )
 						if ( frameText.indexOf( fields[i][0] ) == -1 )
