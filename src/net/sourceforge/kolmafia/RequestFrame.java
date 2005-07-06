@@ -264,22 +264,21 @@ public class RequestFrame extends KoLFrame
 		displayHTML = displayHTML.replaceAll( "<tr><td([^>]*?) bgcolor=black([^>]*?)>((</td>)?)</tr>", "<tr><td$1$2></td></tr>" );
 
 		// The default browser doesn't understand the table directive
-		// style="border: 1px solid black"
-		//
-		// Turn it into a simple "border=1"
+		// style="border: 1px solid black"; turn it into a simple "border=1"
+
 		displayHTML = displayHTML.replaceAll( "style=\"border: 1px solid black\"", "border=1" );
 
-		// Kingdom of Loathing uses HTML in some of its maps
-		// that confuses the default browser. We can transform
-		// it to make it render correctly.
-		//
-		// Transform:
-		//     <form...><td...>...</td></form>
-		// into:
-		//     <td..><form...>...</form></td>
+		// turn:  <form...><td...>...</td></form>
+		// into:  <td...><form...>...</form></td>
 
 		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)", "$4$1$2" );
 		displayHTML = displayHTML.replaceAll( "</td></form>", "</form></td>" );
+
+		// turn:  <form...><tr...><td...>...</td></tr></form>
+		// into:  <tr...><td...><form...>...</form></td></tr>
+
+		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)<tr>(<td[^>]*>)", "<tr>$4$1$2" );
+		displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
 
 		// KoL also has really crazy nested Javascript links, and
 		// since the default browser doesn't recognize these, be
