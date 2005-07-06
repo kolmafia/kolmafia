@@ -104,7 +104,9 @@ import javax.swing.JOptionPane;
 // utilities
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -296,6 +298,10 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < optionKeys.length; ++i )
 				setProperty( optionKeys[i], String.valueOf( optionBoxes[i].isSelected() ) );
+
+			if ( client != null && optionBoxes[3].isSelected() )
+				Collections.sort( client.getAdventureList() );
+
 			super.actionConfirmed();
 		}
 
@@ -839,6 +845,10 @@ public class OptionsFrame extends KoLFrame
 			setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesCheckBox.isSelected() ) );
 			setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
 			setProperty( "createWithoutBoxServants", String.valueOf( createWithoutBoxServantsCheckBox.isSelected() ) );
+
+			if ( client != null )
+				ConcoctionsDatabase.refreshConcoctions( client );
+
 			super.actionConfirmed();
 		}
 
