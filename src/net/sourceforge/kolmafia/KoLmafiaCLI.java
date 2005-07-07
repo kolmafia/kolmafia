@@ -69,11 +69,10 @@ public class KoLmafiaCLI extends KoLmafia
 {
 	private static final NullStream DISPLAY_STREAM = new NullStream();
 
-	private static final int PURCHASE = 0;
-	private static final int USAGE = 1;
-	private static final int CREATION = 2;
-	private static final int CLOSET = 3;
-	private static final int HAGNK = 4;
+	private static final int NOWHERE = 1;
+	private static final int INVENTORY = 2;
+	private static final int CREATION = 3;
+	private static final int CLOSET = 4;
 
 	protected String previousCommand;
 	private PrintStream outputStream;
@@ -714,7 +713,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			AdventureResult match = getFirstMatchingItem( parameters, USAGE );
+			AdventureResult match = getFirstMatchingItem( parameters, INVENTORY );
 			if ( match != null )
 				scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, match.getName() ), 1 );
 
@@ -726,7 +725,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "unequip" ) )
 		{
-			AdventureResult match = getFirstMatchingItem( parameters, USAGE );
+			AdventureResult match = getFirstMatchingItem( parameters, INVENTORY );
 			if ( match != null )
 			{
 				String item = match.getName();
@@ -905,7 +904,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( option.equals( "add" ) )
 		{
-			AdventureResult condition = getFirstMatchingItem( parameters.substring( option.length() ).trim(), USAGE );
+			AdventureResult condition = getFirstMatchingItem( parameters.substring( option.length() ).trim(), INVENTORY );
 			if ( condition != null )
 			{
 				AdventureResult.addResultToList( scriptRequestor.conditions, condition );
@@ -1316,19 +1315,37 @@ public class KoLmafiaCLI extends KoLmafia
 
 		AdventureResult firstMatch = new AdventureResult( itemName, itemCount );
 
+		// The result also depends on the number of items which
+		// are available in the given match area.
+
+		int matchCount;
+
+		if ( matchType == CREATION )
+			matchCount = ItemCreationRequest.getInstance( scriptRequestor, firstMatch ).getCount( ConcoctionsDatabase.getConcoctions() );
+		else if ( matchType == CLOSET )
+			matchCount = firstMatch.getCount( scriptRequestor.getCloset() );
+		else if ( matchType == INVENTORY )
+			matchCount = scriptRequestor.getInventory();
+		else
+			matchCount = 0;
+
+		// In the event that the person wanted all except a certain
+		// quantity, be sure to update the item count.
+
 		if ( itemCount <= 0 )
+			itemCount = matchCount + itemCount;
+
+		// If the number matching is less than the quantity desired,
+		// then be sure to throw an exception.
+
+		if ( matchType != NOWHERE && itemCount > matchCount )
 		{
-			int matchCount = 0;
-
-			if ( matchType == CREATION )
-				matchCount = ItemCreationRequest.getInstance( scriptRequestor, firstMatch ).getCount( ConcoctionsDatabase.getConcoctions() );
-			else
-				matchCount = firstMatch.getCount( matchType == CLOSET ? scriptRequestor.getCloset() : scriptRequestor.getInventory() );
-
-			return matchCount == 0 ? null : firstMatch.getInstance( matchCount + itemCount );
+			scriptRequestor.updateDisplay( ERROR_STATE, "Insufficient " + itemName + " to continue." );
+			scriptRequestor.cancelRequest();
+			return null;
 		}
 
-		return firstMatch;
+		return itemCount == 0 ? null : firstMatch.getInstance( itemCount );
 	}
 
 	/**
@@ -1338,7 +1355,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeStashRequest( String parameters )
 	{
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, USAGE );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, INVENTORY );
 		if ( firstMatch == null )
 			return;
 
@@ -1355,7 +1372,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeHagnkRequest( String parameters )
 	{
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, HAGNK );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, NOWHERE );
 		if ( firstMatch == null )
 			return;
 
@@ -1388,7 +1405,7 @@ public class KoLmafiaCLI extends KoLmafia
 			itemName.append( tokens[i] );
 		}
 
-		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), parameters.startsWith( "take" ) ? CLOSET : USAGE );
+		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), parameters.startsWith( "take" ) ? CLOSET : INVENTORY );
 		if ( firstMatch == null )
 			return;
 
@@ -1416,7 +1433,7 @@ public class KoLmafiaCLI extends KoLmafia
 			itemName.append( tokens[i] );
 		}
 
-		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), USAGE );
+		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), INVENTORY );
 		if ( firstMatch == null )
 			return;
 
@@ -1439,7 +1456,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeAutoSellRequest( String parameters )
 	{
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, USAGE );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, INVENTORY );
 		if ( firstMatch == null )
 			return;
 
@@ -1455,7 +1472,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeBuyCommand( String parameters )
 	{
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, PURCHASE );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, NOWHERE );
 		ArrayList results = new ArrayList();
 		(new SearchMallRequest( scriptRequestor, '\"' + firstMatch.getName() + '\"', 0, results )).run();
 
@@ -1532,7 +1549,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, USAGE );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, INVENTORY );
 		if ( firstMatch == null )
 			return;
 
