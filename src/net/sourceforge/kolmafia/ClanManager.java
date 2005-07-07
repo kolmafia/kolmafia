@@ -638,28 +638,9 @@ public class ClanManager implements KoLConstants
 		Object [] parameters = new Object[3];
 		parameters[0] = client;
 		parameters[1] = "Clan Announcements";
-		parameters[2] = new AnnouncementsRequest( client );
+		parameters[2] = new ClanMessageRequest( client, "clan_hall.php" );
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
-	}
-
-	private class AnnouncementsRequest extends KoLRequest
-	{
-		public AnnouncementsRequest( KoLmafia client )
-		{	super( client, "clan_hall.php" );
-		}
-
-		public void run()
-		{
-			super.run();
-
-			responseText = responseText.substring( responseText.indexOf( "<b><p><center>Recent" ) ).replaceAll(
-				"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "\n" ).replaceAll( "<blockquote>", "<br>" ).replaceAll(
-					"</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "</?center>", "" ).replaceAll(
-						"</?f.*?>", "" ).replaceAll( "</?p>", "<br><br>" );
-
-			responseText = responseText.substring( responseText.indexOf( "<b>Date" ) );
-		}
 	}
 
 	/**
@@ -672,25 +653,32 @@ public class ClanManager implements KoLConstants
 		Object [] parameters = new Object[3];
 		parameters[0] = client;
 		parameters[1] = "Clan Message Board";
-		parameters[2] = new MessageBoardRequest( client );
+		parameters[2] = new ClanMessageRequest( client, "clan_board.php" );
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
 	}
 
-	private class MessageBoardRequest extends KoLRequest
+	private class ClanMessageRequest extends KoLRequest
 	{
-		public MessageBoardRequest( KoLmafia client )
-		{	super( client, "clan_board.php" );
+		public ClanMessageRequest( KoLmafia client, String location )
+		{	super( client, location );
 		}
 
 		public void run()
 		{
 			super.run();
 
-			responseText = responseText.substring( responseText.indexOf( "<p><b><center>Clan" ) ).replaceAll(
-				"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "\n" ).replaceAll( "<blockquote>", "<br>" ).replaceAll(
-					"</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "</?center>", "" ).replaceAll(
-						"</?f.*?>", "" ).replaceAll( "</?p>", "<br><br>" );
+			int startMessageIndex = responseText.indexOf( "<p><b><center>" );
+			if ( startMessageIndex == -1 )
+				startMessageIndex = responseText.indexOf( "<b><p><center>" );
+
+			// After running the request, filter out the extraneous
+			// HTML in the response text.
+
+			responseText = responseText.substring( startMessageIndex ).replaceAll(
+					"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "\n" ).replaceAll( "<blockquote>", "<br>" ).replaceAll(
+						"</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "</?center>", "" ).replaceAll(
+							"</?f.*?>", "" ).replaceAll( "</?p>", "<br><br>" );
 
 			responseText = responseText.substring( responseText.indexOf( "<b>Date" ) );
 		}

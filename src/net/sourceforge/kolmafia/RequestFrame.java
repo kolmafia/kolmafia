@@ -89,14 +89,10 @@ public class RequestFrame extends KoLFrame
 
 		JScrollPane mainScroller = new JScrollPane( this.mainDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
 
-		// Profile requests, trade requests, and game text descriptions,
-		// as well as player searches, should not add extra requests to
-		// the server by having a side panel - however, everything else
-		// should need one.  Therefore, only add the side-bar when the
-		// request frame is initialized as a mini-browser.
+		// Game text descriptions and player searches should not add
+		// extra requests to the server by having a side panel.
 
-		if ( request instanceof ProfileRequest || request instanceof ProposeTradeRequest ||
-			getCurrentLocation().startsWith( "desc" ) || getCurrentLocation().startsWith( "doc" ) || getCurrentLocation().startsWith( "search" ) )
+		if ( getCurrentLocation().startsWith( "desc" ) || getCurrentLocation().startsWith( "doc" ) || getCurrentLocation().startsWith( "search" ) )
 		{
 			this.sideBuffer = null;
 
