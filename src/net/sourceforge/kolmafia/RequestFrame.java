@@ -202,11 +202,7 @@ public class RequestFrame extends KoLFrame
 	{
 		public void run()
 		{
-			sideBuffer.clearBuffer();
-			sideBuffer.append( "Retrieving..." );
-
 			sidePaneRequest.run();
-
 			sideBuffer.clearBuffer();
 			sideBuffer.append( getDisplayHTML( sidePaneRequest.responseText ) );
 		}
