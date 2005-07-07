@@ -46,6 +46,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JSplitPane;
+import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
@@ -55,6 +57,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
+	private JMenu bookmarkMenu;
 	private RequestFrame parent;
 	private KoLRequest currentRequest;
 	private LimitedSizeChatBuffer mainBuffer, sideBuffer;
@@ -121,9 +124,9 @@ public class RequestFrame extends KoLFrame
 
 			getContentPane().setLayout( new GridLayout( 1, 1 ) );
 			getContentPane().add( splitPane );
-			addMenuBar();
 		}
 
+		addMenuBar();
 		refreshSidePane();
 		(new DisplayRequestThread()).start();
 	}
@@ -133,38 +136,107 @@ public class RequestFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu functionMenu = new JMenu( "Function" );
-		functionMenu.setMnemonic( KeyEvent.VK_F );
+		// The function and goto menus are only available if there is a sidebar;
+		// otherwise, adding them clutters the user interface.
 
-		functionMenu.add( createMenuItem( "Inventory", "inventory.php" ) );
-		functionMenu.add( createMenuItem( "Character", "charsheet.php" ) );
-		functionMenu.add( createMenuItem( "Class Skills", "skills.php" ) );
-		functionMenu.add( createMenuItem( "Read Messages", "messages.php" ) );
-		functionMenu.add( createMenuItem( "Account Menu", "account.php" ) );
-		functionMenu.add( createMenuItem( "Documentation", "doc.php?topic=home" ) );
-		functionMenu.add( createMenuItem( "KoL Forums", "http://forums.kingdomofloathing.com/" ) );
-		functionMenu.add( createMenuItem( "Radio KoL", "http://grace.fast-serv.com:9140/listen.pls" ) );
-		functionMenu.add( createMenuItem( "Report Bug", "sendmessage.php?toid=Jick" ) );
-		functionMenu.add( createMenuItem( "Donate to KoL", "donatepopup.php?pid=" + (client == null ? 0 : client.getUserID()) ) );
-		functionMenu.add( createMenuItem( "Log Out", "logout.php" ) );
+		if ( this.sideBuffer != null )
+		{
+			JMenu functionMenu = new JMenu( "Function" );
+			functionMenu.setMnemonic( KeyEvent.VK_F );
 
-		menuBar.add( functionMenu );
+			functionMenu.add( createMenuItem( "Inventory", "inventory.php" ) );
+			functionMenu.add( createMenuItem( "Character", "charsheet.php" ) );
+			functionMenu.add( createMenuItem( "Class Skills", "skills.php" ) );
+			functionMenu.add( createMenuItem( "Read Messages", "messages.php" ) );
+			functionMenu.add( createMenuItem( "Account Menu", "account.php" ) );
+			functionMenu.add( createMenuItem( "Documentation", "doc.php?topic=home" ) );
+			functionMenu.add( createMenuItem( "KoL Forums", "http://forums.kingdomofloathing.com/" ) );
+			functionMenu.add( createMenuItem( "Radio KoL", "http://grace.fast-serv.com:9140/listen.pls" ) );
+			functionMenu.add( createMenuItem( "Report Bug", "sendmessage.php?toid=Jick" ) );
+			functionMenu.add( createMenuItem( "Donate to KoL", "http://www.kingdomofloathing.com/donatepopup.php?pid=" + (client == null ? 0 : client.getUserID()) ) );
+			functionMenu.add( createMenuItem( "Log Out", "logout.php" ) );
 
-		JMenu gotoMenu = new JMenu( "Goto (Maki)" );
-		gotoMenu.setMnemonic( KeyEvent.VK_G );
+			menuBar.add( functionMenu );
 
-		gotoMenu.add( createMenuItem( "Main Map", "main.php" ) );
-		gotoMenu.add( createMenuItem( "Seaside Town", "town.php" ) );
-		gotoMenu.add( createMenuItem( "The Mall", "mall.php" ) );
-		gotoMenu.add( createMenuItem( "Clan Hall", "clan_hall.php" ) );
-		gotoMenu.add( createMenuItem( "Campground", "campground.php" ) );
-		gotoMenu.add( createMenuItem( "Big Mountains", "mountains.php" ) );
-		gotoMenu.add( createMenuItem( "Nearby Plains", "plains.php" ) );
-		gotoMenu.add( createMenuItem( "Desert Beach", "beach.php" ) );
-		gotoMenu.add( createMenuItem( "Distant Woods", "woods.php" ) );
-		gotoMenu.add( createMenuItem( "Mysterious Island", "island.php" ) );
+			JMenu gotoMenu = new JMenu( "Goto (Maki)" );
+			gotoMenu.setMnemonic( KeyEvent.VK_G );
 
-		menuBar.add( gotoMenu );
+			gotoMenu.add( createMenuItem( "Main Map", "main.php" ) );
+			gotoMenu.add( createMenuItem( "Seaside Town", "town.php" ) );
+			gotoMenu.add( createMenuItem( "The Mall", "mall.php" ) );
+			gotoMenu.add( createMenuItem( "Clan Hall", "clan_hall.php" ) );
+			gotoMenu.add( createMenuItem( "Campground", "campground.php" ) );
+			gotoMenu.add( createMenuItem( "Big Mountains", "mountains.php" ) );
+			gotoMenu.add( createMenuItem( "Nearby Plains", "plains.php" ) );
+			gotoMenu.add( createMenuItem( "Desert Beach", "beach.php" ) );
+			gotoMenu.add( createMenuItem( "Distant Woods", "woods.php" ) );
+			gotoMenu.add( createMenuItem( "Mysterious Island", "island.php" ) );
+
+			menuBar.add( gotoMenu );
+		}
+
+		// All frames get the benefit of the bookmarks menu bar, eventhough it
+		// might be a little counterintuitive when viewing player profiles.
+
+		this.bookmarkMenu = new JMenu( "Bookmarks" );
+		this.bookmarkMenu.setMnemonic( KeyEvent.VK_B );
+
+		JMenuItem addItem = new JMenuItem( "Add to Bookmarks..." );
+		addItem.addActionListener( new AddBookmarkListener() );
+
+		this.bookmarkMenu.add( addItem );
+		this.bookmarkMenu.add( new JSeparator() );
+
+		if ( client != null )
+		{
+			String [] bookmarks = client.getSettings().getProperty( "browserBookmarks" ).split( "\\\\" );
+			String name, location, pwdhash;
+
+			if ( bookmarks.length > 1 )
+				for ( int i = 0; i < bookmarks.length; ++i )
+				{
+					name = bookmarks[i];
+					location = bookmarks[++i];
+					pwdhash = bookmarks[++i];
+
+					if ( pwdhash.equals( "true" ) )
+						location += "&pwd=" + client.getPasswordHash();
+
+					this.bookmarkMenu.add( createMenuItem( name, location ) );
+				}
+		}
+
+		menuBar.add( this.bookmarkMenu );
+	}
+
+	private class AddBookmarkListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( client != null )
+			{
+				String name = JOptionPane.showInputDialog( "Please name your bookmark..." );
+				String location = getCurrentLocation();
+				boolean pwdhash = location.indexOf( "pwd=" ) != -1;
+
+				StringBuffer bookmarks = new StringBuffer();
+				bookmarks.append( client.getSettings().getProperty( "browserBookmarks" ) );
+
+				if ( bookmarks.length() > 0 )
+					bookmarks.append( "\\" );
+
+				bookmarks.append( name );
+				bookmarks.append( "\\" );
+				bookmarks.append( location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) );
+				bookmarks.append( "\\" );
+				bookmarks.append( pwdhash );
+
+				client.getSettings().setProperty( "browserBookmarks", bookmarks.toString() );
+				client.getSettings().saveSettings();
+
+				RequestFrame.this.bookmarkMenu.add( createMenuItem( name, location ) );
+			}
+		}
 	}
 
 	private JMenuItem createMenuItem( String label, String location )
