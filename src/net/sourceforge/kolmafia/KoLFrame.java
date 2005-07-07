@@ -1104,7 +1104,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			try
 			{
 				this.object = object;
-				this.method = this.object.getClass().getMethod( methodName, NOPARAMS );
+				this.method = this.object == null ? null : this.object.getClass().getMethod( methodName, NOPARAMS );
 			}
 			catch ( Exception e )
 			{
@@ -1122,7 +1122,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			public void run()
 			{
 				try
-				{	method.invoke( object, null );
+				{
+					if ( method != null )
+						method.invoke( object, null );
 				}
 				catch ( Exception e )
 				{

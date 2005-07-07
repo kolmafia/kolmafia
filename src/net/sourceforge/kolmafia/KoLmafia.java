@@ -1580,6 +1580,14 @@ public abstract class KoLmafia implements KoLConstants
 	{	return adventureList;
 	}
 
+	public SortedListModel getSessionTally()
+	{	return tally;
+	}
+
+	public SortedListModel getConditions()
+	{	return conditions;
+	}
+
 	public void executeTimeInRequest()
 	{
 		if ( !isLoggingIn )
