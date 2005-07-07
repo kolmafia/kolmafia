@@ -107,6 +107,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
+import javax.swing.DefaultListCellRenderer;
 
 // other imports
 import java.util.Iterator;
@@ -332,6 +333,10 @@ public class AdventureFrame extends KoLFrame
 		private JComboBox locationField;
 		private JTextField countField;
 
+		private JComboBox resultSelect;
+		private JPanel resultPanel;
+		private CardLayout resultCards;
+
 		public AdventureSelectPanel()
 		{
 			super( "begin", "stop", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
@@ -369,14 +374,40 @@ public class AdventureFrame extends KoLFrame
 			centerPanel.setLayout( new BorderLayout( 10, 10 ) );
 			centerPanel.add( actionStatusPanel, BorderLayout.NORTH );
 
-			JTabbedPane resultsTab = new JTabbedPane();
-			resultsTab.addTab( "Session Results", new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ) );
-			resultsTab.addTab( "Conditions Left",  new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ) );
-			resultsTab.addTab( "Active Effects", new AdventureResultsPanel( client == null ? new LockableListModel() : client.getCharacterData().getEffects() ) );
+			JPanel southPanel = new JPanel();
+			southPanel.setLayout( new BorderLayout() );
 
-			centerPanel.add( resultsTab, BorderLayout.SOUTH );
+			DefaultListCellRenderer renderer = new DefaultListCellRenderer();
+			renderer.setHorizontalAlignment( JLabel.CENTER );
+
+			resultSelect = new JComboBox();
+			resultSelect.setRenderer( renderer );
+			resultSelect.addItem( "Session Results" );
+			resultSelect.addItem( "Conditions Left" );
+			resultSelect.addItem( "Active Effects" );
+
+			resultPanel = new JPanel();
+			resultCards = new CardLayout( 0, 0 );
+			resultPanel.setLayout( resultCards );
+
+			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
+			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
+			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getCharacterData().getEffects() ), "2" );
+
+			southPanel.add( resultSelect, BorderLayout.NORTH );
+			southPanel.add( resultPanel, BorderLayout.CENTER );
+			resultSelect.addActionListener( new ResultSelectListener() );
+
+			centerPanel.add( southPanel, BorderLayout.SOUTH );
 			add( centerPanel, BorderLayout.CENTER );
 			setDefaultButton( confirmedButton );
+		}
+
+		private class ResultSelectListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{	resultCards.show( resultPanel, String.valueOf( resultSelect.getSelectedIndex() ) );
+			}
 		}
 
 		public void setStatusMessage( int displayState, String s )
