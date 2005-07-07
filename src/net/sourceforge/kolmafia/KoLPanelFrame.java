@@ -37,12 +37,31 @@ package net.sourceforge.kolmafia;
 import java.awt.CardLayout;
 import java.lang.reflect.Constructor;
 
+/**
+ * A special frame which serves to display a single <code>KoLPanel</code>
+ * with a 10 pixel border around the edges.  This is designed to eliminate
+ * the need for nested KoLFrame classes in the event that only one panel
+ * is to be displayed.
+ */
+
 public class KoLPanelFrame extends KoLFrame
 {
+	/**
+	 * Constructs an empty <code>KoLPanelFrame</code> which
+	 * uses the given client and has the given title.
+	 */
+
 	public KoLPanelFrame( KoLmafia client, String title )
 	{
 		super( client, title );
 	}
+
+	/**
+	 * Constructs a <code>KoLPanelFrame</code> which contains
+	 * the given client and has the given title.  The content
+	 * panel for this frame will be initialized to the panel
+	 * that is provided.
+	 */
 
 	public KoLPanelFrame( KoLmafia client, String title, KoLPanel panel )
 	{
@@ -50,10 +69,18 @@ public class KoLPanelFrame extends KoLFrame
 		setContentPanel( panel );
 	}
 
-	public void setContentPanel( KoLPanel panel )
+	/**
+	 * Sets the content panel for this <code>KoLPanelFrame</code>
+	 * to the given panel.  This can only be called once, and is
+	 * used to initialize the <code>KoLPanelFrame</code> in the
+	 * event that the panel is not known at construction time
+	 * (for example, for descendant classes).
+	 */
+
+	protected void setContentPanel( KoLPanel panel )
 	{
 		this.contentPanel = panel;
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( this.contentPanel );
+		getContentPane().add( this.contentPanel, "" );
 	}
 }
