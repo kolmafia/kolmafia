@@ -963,6 +963,10 @@ public abstract class KoLmafia implements KoLConstants
 
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
+					// Allow people to add conditions mid-request.
+
+					hasConditions |= !conditions.isEmpty();
+
 					// If the conditions existed and have been satisfied,
 					// then you should stop.
 
