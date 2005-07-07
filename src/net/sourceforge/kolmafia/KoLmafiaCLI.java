@@ -904,7 +904,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( option.equals( "add" ) )
 		{
-			AdventureResult condition = getFirstMatchingItem( parameters.substring( option.length() ).trim(), INVENTORY );
+			AdventureResult condition = getFirstMatchingItem( parameters.substring( option.length() ).trim(), NOWHERE );
 			if ( condition != null )
 			{
 				AdventureResult.addResultToList( scriptRequestor.conditions, condition );
@@ -1325,7 +1325,7 @@ public class KoLmafiaCLI extends KoLmafia
 		else if ( matchType == CLOSET )
 			matchCount = firstMatch.getCount( scriptRequestor.getCloset() );
 		else if ( matchType == INVENTORY )
-			matchCount = firstMatch.getCount ( scriptRequestor.getInventory() );
+			matchCount = firstMatch.getCount( scriptRequestor.getInventory() );
 		else
 			matchCount = 0;
 
