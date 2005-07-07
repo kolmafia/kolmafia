@@ -598,7 +598,7 @@ public class ClanManager implements KoLConstants
 
 		public MessagePostFrame( KoLmafia client, String action )
 		{
-			super( "KoLmafia: Clan " + (action.equals( "post" ) ? "Board Post" : "Announcement"), client );
+			super( client, "KoLmafia: Clan " + (action.equals( "post" ) ? "Board Post" : "Announcement") );
 			this.action = action;
 
 			panel = new MessagePostPanel();

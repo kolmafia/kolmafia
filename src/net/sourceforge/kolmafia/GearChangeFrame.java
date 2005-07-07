@@ -84,7 +84,7 @@ public class GearChangeFrame extends KoLFrame
 
 	public GearChangeFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Changing Gears", client );
+		super( client, "KoLmafia: Changing Gears" );
 
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server

@@ -102,7 +102,7 @@ public class HagnkStorageFrame extends KoLFrame
 
 	public HagnkStorageFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Hagnk, the Secret Dwarf", client );
+		super( client, "KoLmafia: Hagnk, the Secret Dwarf" );
 
 		this.meats = new MeatWithdrawPanel();
 		this.items = new ItemWithdrawPanel();

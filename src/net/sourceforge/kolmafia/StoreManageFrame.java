@@ -77,7 +77,7 @@ public class StoreManageFrame extends KoLFrame
 
 	public StoreManageFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Dropkicking Prices", client );
+		super( client, "KoLmafia: Dropkicking Prices" );
 
 		if ( client != null )
 			(new StoreManageRequest( client )).run();

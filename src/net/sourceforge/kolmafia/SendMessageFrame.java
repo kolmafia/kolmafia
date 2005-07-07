@@ -86,7 +86,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	protected SendMessageFrame( KoLmafia client, String title )
 	{
-		super( title, client );
+		super( client, title );
 
 		inventory = client == null ? new LockableListModel() : client.getInventory();
 
@@ -323,7 +323,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 		public AttachmentFrame( KoLmafia client, LockableListModel inventory, LockableListModel attachments )
 		{
-			super( "KoLmafia: Attachments", client );
+			super( client, "KoLmafia: Attachments" );
 
 			this.inventory = (LockableListModel) inventory.clone();
 			this.attachments = attachments;

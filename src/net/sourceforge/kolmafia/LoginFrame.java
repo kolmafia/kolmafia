@@ -128,7 +128,7 @@ public class LoginFrame extends KoLFrame
 
 	public LoginFrame( KoLmafia client, SortedListModel saveStateNames )
 	{
-		super( "KoLmafia: Login", client );
+		super( client, "KoLmafia: Login" );
 		setResizable( false );
 
 		this.client = client;

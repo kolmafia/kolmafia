@@ -123,7 +123,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * to be associated with the given client.
 	 */
 
-	protected KoLFrame( String title, KoLmafia client )
+	protected KoLFrame( KoLmafia client, String title )
 	{
 		super( title );
 

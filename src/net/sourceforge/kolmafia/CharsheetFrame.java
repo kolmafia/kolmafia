@@ -93,7 +93,7 @@ public class CharsheetFrame extends KoLFrame
 
 	public CharsheetFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Character Sheet", client );
+		super( client, "KoLmafia: Character Sheet" );
 		this.characterData = client == null ? new KoLCharacter( "UI Test" ) : client.getCharacterData();
 
 		// For now, because character listeners haven't been implemented

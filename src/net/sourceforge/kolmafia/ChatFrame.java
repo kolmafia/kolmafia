@@ -105,7 +105,7 @@ public class ChatFrame extends KoLFrame
 
 	public ChatFrame( KoLmafia client, KoLMessenger messenger, String associatedContact )
 	{
-		super( "", client );
+		super( client, "" );
 
 		this.messenger = messenger;
 		initialize( associatedContact );

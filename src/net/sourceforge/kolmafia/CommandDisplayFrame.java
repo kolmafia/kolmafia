@@ -69,7 +69,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 	public CommandDisplayFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Graphical CLI", client );
+		super( client, "KoLmafia: Graphical CLI" );
 
 		try
 		{

@@ -40,16 +40,16 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class CakeArenaFrame extends KoLFrame
+public class CakeArenaFrame extends KoLPanelFrame
 {
 	public CakeArenaFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Susie's Secret Bedroom!", client );
+		super( client, "KoLmafia: Susie's Secret Bedroom!" );
+
 		if ( client != null && client.getCakeArenaManager().getOpponentList().isEmpty() )
 			(new RequestThread( new CakeArenaRequest( client ) )).start();
 
-		getContentPane().setLayout( new BorderLayout() );
-		getContentPane().add( new CakeArenaPanel(), BorderLayout.CENTER );
+		setContentPanel( new CakeArenaPanel() );
 	}
 
 	private class CakeArenaPanel extends NonContentPanel

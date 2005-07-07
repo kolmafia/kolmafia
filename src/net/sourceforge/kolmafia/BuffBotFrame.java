@@ -111,7 +111,7 @@ public class BuffBotFrame extends KoLFrame
 
 	public BuffBotFrame( KoLmafia client )
 	{
-		super( "KoLmafia: BuffBot", client );
+		super( client, "KoLmafia: BuffBot" );
 
 		settings = (client == null) ? new KoLSettings() : client.getSettings();
 		buffCostTable = new LockableListModel();
@@ -201,7 +201,7 @@ public class BuffBotFrame extends KoLFrame
 	{
 		public StatisticsFrame( KoLmafia client, String statistics )
 		{
-			super( "KoLmafia: Buffbot Statistics", client );
+			super( client, "KoLmafia: Buffbot Statistics" );
 
 			JTextArea content = new JTextArea( 12, 32 );
 			JScrollPane scroller = new JScrollPane( content, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );

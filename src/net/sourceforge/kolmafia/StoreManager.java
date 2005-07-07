@@ -247,8 +247,7 @@ public class StoreManager implements KoLConstants
 				while ( i.hasNext() )
 				{
 					currentPrice = (Integer) i.next();
-					priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " +
-						df.format( currentPrice.intValue() ) + " meat" );
+					priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " + df.format( currentPrice.intValue() ) + " meat" );
 				}
 			}
 			else
@@ -256,7 +255,10 @@ public class StoreManager implements KoLConstants
 				while ( i.hasNext() )
 				{
 					currentItem = (MallPurchaseRequest) i.next();
-					priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + ": " + df.format( currentItem.getLimit() ) + " @ " + df.format( currentItem.getPrice() ) );
+					if ( currentItem.getQuantity() == currentItem.getLimit() )
+						priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + " @ " + df.format( currentItem.getPrice() ) + " meat" );
+					else
+						priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + "(limit " + df.format( currentItem.getLimit() ) + ") @ " + df.format( currentItem.getPrice() ) );
 				}
 			}
 		}

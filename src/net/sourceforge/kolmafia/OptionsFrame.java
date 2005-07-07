@@ -147,7 +147,7 @@ public class OptionsFrame extends KoLFrame
 
 	public OptionsFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Preferences", client );
+		super( client, "KoLmafia: Preferences" );
 
 		setResizable( false );
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );

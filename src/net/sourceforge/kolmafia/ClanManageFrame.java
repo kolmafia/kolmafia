@@ -109,7 +109,7 @@ public class ClanManageFrame extends KoLFrame
 
 	public ClanManageFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Clan Management", client );
+		super( client, "KoLmafia: Clan Management" );
 
 		this.rankList = new LockableListModel();
 		(new RequestThread( new ClanStashRequest( client ) )).start();

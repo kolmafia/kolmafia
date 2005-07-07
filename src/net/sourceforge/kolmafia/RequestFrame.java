@@ -71,7 +71,7 @@ public class RequestFrame extends KoLFrame
 
 	public RequestFrame( KoLmafia client, RequestFrame parent, String title, KoLRequest request )
 	{
-		super( title, client );
+		super( client, title );
 
 		this.parent = parent;
 		this.currentRequest = request;

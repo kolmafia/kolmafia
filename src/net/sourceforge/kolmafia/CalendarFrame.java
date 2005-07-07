@@ -178,7 +178,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	public CalendarFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Farmer's Almanac", client );
+		super( client, "KoLmafia: Farmer's Almanac" );
 
 		selectedRow = -1;
 		selectedColumn = -1;

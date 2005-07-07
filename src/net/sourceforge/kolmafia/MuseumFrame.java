@@ -85,7 +85,7 @@ public class MuseumFrame extends KoLFrame
 
 	public MuseumFrame( KoLmafia client )
 	{
-		super( "KoLmafia: Display Case", client );
+		super( client, "KoLmafia: Display Case" );
 
 		if ( client != null && client.getCollection().isEmpty() )
 			(new MuseumRequest( client )).run();
