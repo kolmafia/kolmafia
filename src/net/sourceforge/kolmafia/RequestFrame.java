@@ -242,12 +242,11 @@ public class RequestFrame extends KoLFrame
 				currentRequest.run();
 				client.processResults( currentRequest.responseText );
 
-				// In the event that it's something that required a
-				// password hash, you'll probably need to refresh
-				// the side panel.  Also, switching between compact
-				// and full mode will require a refresher.
+				// In the event that something resembling a gain event
+				// is seen in the response text, or in the event that you
+				// switch between compact and full mode, refresh the sidebar.
 
-				if ( getCurrentLocation().indexOf( "pwd=" ) != -1 || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
+				if ( currentRequest.responseText.indexOf( ">You " ) != -1 || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
 					refreshSidePane();
 			}
 
