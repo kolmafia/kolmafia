@@ -775,6 +775,14 @@ public abstract class KoLmafia implements KoLConstants
 					updateDisplay( DISABLED_STATE, "Executing HP auto-recovery script..." );
 					(new KoLmafiaCLI( this, settings.getProperty( "hpRecoveryScript" ) )).listenForCommands();
 				}
+
+				if ( currentHP == characterData.getCurrentHP() )
+				{
+					updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore HP." );
+					permitContinue = false;
+					disableMacro = false;
+					return;
+				}
 			}
 			catch ( Exception e )
 			{
@@ -812,6 +820,14 @@ public abstract class KoLmafia implements KoLConstants
 					currentMP = characterData.getCurrentMP();
 					updateDisplay( DISABLED_STATE, "Executing MP auto-recovery script..." );
 					(new KoLmafiaCLI( this, settings.getProperty( "mpRecoveryScript" ) )).listenForCommands();
+				}
+
+				if ( currentMP == characterData.getCurrentMP() )
+				{
+					updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore MP." );
+					permitContinue = false;
+					disableMacro = false;
+					return;
 				}
 			}
 			catch ( Exception e )
