@@ -129,7 +129,7 @@ public class HagnkStorageFrame extends KoLFrame
 	 * the clan coffer.
 	 */
 
-	private class MeatWithdrawPanel extends NonContentPanel
+	private class MeatWithdrawPanel extends KoLPanel
 	{
 		private JTextField amountField;
 

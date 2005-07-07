@@ -52,7 +52,7 @@ public class CakeArenaFrame extends KoLPanelFrame
 		setContentPanel( new CakeArenaPanel() );
 	}
 
-	private class CakeArenaPanel extends NonContentPanel
+	private class CakeArenaPanel extends KoLPanel
 	{
 		private JComboBox opponentSelect;
 		private JComboBox fightOptions;

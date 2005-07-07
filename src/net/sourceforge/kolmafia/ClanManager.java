@@ -576,77 +576,55 @@ public class ClanManager implements KoLConstants
 	{
 		Object [] parameters = new Object[2];
 		parameters[0] = client;
-		parameters[1] = "post";
+		parameters[1] = "KoLmafia: Clan Board Post";
+		parameters[2] = new MessagePostPanel( "post" );
 
-		SwingUtilities.invokeLater( new CreateFrameRunnable( MessagePostFrame.class, parameters ) );
+
+		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
 	}
 
 	public void postAnnouncement()
 	{
 		Object [] parameters = new Object[2];
 		parameters[0] = client;
-		parameters[1] = "postannounce";
+		parameters[1] = "KoLmafia: Clan Announcement";
+		parameters[2] = new MessagePostPanel( "postannounce" );
 
-		SwingUtilities.invokeLater( new CreateFrameRunnable( MessagePostFrame.class, parameters ) );
+		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
 	}
 
-	public static class MessagePostFrame extends KoLFrame
+	private class MessagePostPanel extends KoLPanel
 	{
 		private String action;
-		private MessagePostPanel panel;
 		private JTextArea messageEntry;
 
-		public MessagePostFrame( KoLmafia client, String action )
+		public MessagePostPanel( String action )
 		{
-			super( client, "KoLmafia: Clan " + (action.equals( "post" ) ? "Board Post" : "Announcement") );
+			super( "post", "clear", new Dimension( 1, 20 ), new Dimension( 300, 20 ) );
 			this.action = action;
 
-			panel = new MessagePostPanel();
+			messageEntry = new JTextArea( 8, 32 );
+			messageEntry.setLineWrap( true );
+			messageEntry.setWrapStyleWord( true );
+			JScrollPane scrollArea = new JScrollPane( messageEntry,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			getContentPane().setLayout( new BorderLayout() );
-			getContentPane().add( panel, BorderLayout.CENTER );
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "", scrollArea );
+			setContent( elements );
 		}
 
-		private class MessagePostPanel extends NonContentPanel
+		public void actionConfirmed()
 		{
-			public MessagePostPanel()
-			{
-				super( "post", "clear", new Dimension( 1, 20 ), new Dimension( 300, 20 ) );
+			KoLRequest postRequest = new KoLRequest( client, "clan_board.php" );
+			postRequest.addFormField( "action", action );
+			postRequest.addFormField( "message", messageEntry.getText() );
 
-				messageEntry = new JTextArea( 8, 32 );
-				messageEntry.setLineWrap( true );
-				messageEntry.setWrapStyleWord( true );
-				JScrollPane scrollArea = new JScrollPane( messageEntry,
-					JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-				VerifiableElement [] elements = new VerifiableElement[1];
-				elements[0] = new VerifiableElement( "", scrollArea );
-				setContent( elements );
-			}
-
-			public void actionConfirmed()
-			{	(new RequestThread( new MessagePostRequest( client, messageEntry.getText() ) )).start();
-			}
-
-			public void actionCancelled()
-			{	messageEntry.setText( "" );
-			}
+			(new RequestThread( postRequest )).start();
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-			if ( panel != null )
-				panel.setEnabled( isEnabled );
-		}
-
-		private class MessagePostRequest extends KoLRequest
-		{
-			public MessagePostRequest( KoLmafia client, String message )
-			{
-				super( client, "clan_board.php" );
-				addFormField( "action", action );
-				addFormField( "message", message );
-			}
+		public void actionCancelled()
+		{	messageEntry.setText( "" );
 		}
 	}
 

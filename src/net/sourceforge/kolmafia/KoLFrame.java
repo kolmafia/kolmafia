@@ -88,7 +88,6 @@ import edu.stanford.ejalbert.BrowserLauncher;
 // spellcast imports
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.ActionPanel;
-import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -647,70 +646,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				else
 					updateDisplay( ERROR_STATE, "Script <" + executePath + "> encountered an error." );
 			}
-		}
-	}
-
-	/**
-	 * An internal class used as the basis for content panels.  This
-	 * class builds upon the <code>ActionVerifyPanel</code> by adding
-	 * a <code>setStatusMessage()</code>.
-	 */
-
-	protected abstract class KoLPanel extends ActionVerifyPanel
-	{
-		protected KoLPanel( String confirmedText, String cancelledText )
-		{
-			super( confirmedText, cancelledText );
-		}
-
-		protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2 )
-		{
-			super( confirmedText, cancelledText1, cancelledText2 );
-		}
-
-		protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
-		{
-			super( confirmedText, cancelledText, labelSize, fieldSize );
-		}
-
-		protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize )
-		{
-			super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize );
-		}
-
-		protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
-		{
-			super( confirmedText, cancelledText, labelSize, fieldSize, isCenterPanel );
-		}
-
-		protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
-		{
-			super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize, isCenterPanel );
-		}
-
-		public abstract void setStatusMessage( int displayState, String s );
-	}
-
-	/**
-	 * An internal class used as the basis for non-content panels. This
-	 * class builds upon the <code>KoLPanel</code>, but specifically
-	 * defines the abstract methods to not do anything.
-	 */
-
-	protected abstract class NonContentPanel extends KoLPanel
-	{
-		protected NonContentPanel( String confirmedText, String cancelledText )
-		{
-			super( confirmedText, cancelledText );
-		}
-
-		protected NonContentPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
-		{
-			super( confirmedText, cancelledText, labelSize, fieldSize );
-		}
-
-		public void setStatusMessage( int displayState, String s )
-		{
 		}
 	}
 

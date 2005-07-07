@@ -289,7 +289,7 @@ public class BuffBotFrame extends KoLFrame
 	 * BuffBot options management
 	 */
 
-	private class BuffOptionsPanel extends NonContentPanel
+	private class BuffOptionsPanel extends KoLPanel
 	{
 		private JCheckBox restrictBox;
 		private JCheckBox singletonBox;
@@ -385,7 +385,7 @@ public class BuffBotFrame extends KoLFrame
 	 * BuffBot White List management
 	 */
 
-	private class WhiteListPanel extends NonContentPanel
+	private class WhiteListPanel extends KoLPanel
 	{
 		private JTextField maxPhilanthropyField;
 		private JComboBox buffBotModeSelect;

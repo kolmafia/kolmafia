@@ -344,7 +344,7 @@ public class ClanManageFrame extends KoLFrame
 	 * the clan coffer.
 	 */
 
-	private class DonationPanel extends NonContentPanel
+	private class DonationPanel extends KoLPanel
 	{
 		private JTextField amountField;
 
@@ -469,7 +469,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class MemberSearchPanel extends NonContentPanel
+	private class MemberSearchPanel extends KoLPanel
 	{
 		private final int [] paramKeys = { ClanSnapshotTable.NAME_FILTER, ClanSnapshotTable.ID_FILTER,
 			ClanSnapshotTable.LV_FILTER, ClanSnapshotTable.PVP_FILTER, ClanSnapshotTable.MUS_FILTER,
