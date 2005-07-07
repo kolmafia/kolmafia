@@ -1325,7 +1325,7 @@ public class KoLmafiaCLI extends KoLmafia
 		else if ( matchType == CLOSET )
 			matchCount = firstMatch.getCount( scriptRequestor.getCloset() );
 		else if ( matchType == INVENTORY )
-			matchCount = scriptRequestor.getInventory();
+			matchCount = firstMatch.getCount ( scriptRequestor.getInventory() );
 		else
 			matchCount = 0;
 
