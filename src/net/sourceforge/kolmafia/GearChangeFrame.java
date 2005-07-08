@@ -73,7 +73,6 @@ public class GearChangeFrame extends KoLFrame
 	private KoLCharacter characterData;
 	private JComboBox [] equipment;
 	private JComboBox outfitSelect, familiarSelect;
-	private JMenuItem gearRefresh, familiarRefresh;
 
 	/**
 	 * Constructs a new character sheet, using the data located
@@ -128,8 +127,6 @@ public class GearChangeFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		super.setEnabled( isEnabled );
-
 		if ( equipment != null )
 			for ( int i = 0; i < equipment.length; ++i )
 				equipment[i].setEnabled( isEnabled );
@@ -139,20 +136,6 @@ public class GearChangeFrame extends KoLFrame
 
 		if ( familiarSelect != null )
 			familiarSelect.setEnabled( isEnabled );
-
-		if ( gearRefresh != null )
-			gearRefresh.setEnabled( isEnabled );
-
-		if ( familiarRefresh != null )
-			familiarRefresh.setEnabled( isEnabled );
-	}
-
-	/**
-	 * Returns whether or not the internal panels are enabled.
-	 */
-
-	public boolean isEnabled()
-	{	return gearRefresh != null && gearRefresh.isEnabled();
 	}
 
 	/**
@@ -242,9 +225,7 @@ public class GearChangeFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			if ( isEnabled() )
-				(new RefreshThread()).start();
+		{	(new RefreshThread()).start();
 		}
 
 		private class RefreshThread extends DaemonThread
@@ -317,7 +298,7 @@ public class GearChangeFrame extends KoLFrame
 			// unless your current equipment does not match the
 			// selected equipment.
 
-			if ( !isChanging && isEnabled() && this.parameters[1] != null )
+			if ( !isChanging && selector.isEnabled() && this.parameters[1] != null )
 			{
 				if ( slot == null )
 				{
