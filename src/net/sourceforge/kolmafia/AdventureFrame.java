@@ -162,24 +162,6 @@ public class AdventureFrame extends KoLFrame
 		this.mallSearch = new MallSearchPanel();
 		tabs.addTab( "Mall of Loathing", mallSearch );
 
-		this.heroDonation = new HeroDonationPanel();
-		this.meatStorage = new MeatStoragePanel();
-		this.removeEffects = new RemoveEffectsPanel();
-		this.skillBuff = new SkillBuffPanel();
-
-		JPanel otherStuffPanel = new JPanel();
-		otherStuffPanel.setLayout( new BoxLayout( otherStuffPanel, BoxLayout.Y_AXIS ) );
-		otherStuffPanel.add( skillBuff );
-		otherStuffPanel.add( meatStorage );
-		otherStuffPanel.add( heroDonation );
-		otherStuffPanel.add( removeEffects );
-
-		JScrollPane otherStuffScroller = new JScrollPane( otherStuffPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JComponentUtilities.setComponentSize( otherStuffScroller, 500, 300 );
-		tabs.addTab( "Other Activities", otherStuffScroller );
-
 		addCompactPane();
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
@@ -209,26 +191,11 @@ public class AdventureFrame extends KoLFrame
 	{
 		this.isEnabled = isEnabled && (client == null || !client.isBuffBotActive());
 
-		if ( mailMenuItem != null )
-			mailMenuItem.setEnabled( this.isEnabled );
-
 		if ( adventureSelect != null )
 			adventureSelect.setEnabled( this.isEnabled );
 
 		if ( mallSearch != null )
 			mallSearch.setEnabled( this.isEnabled );
-
-		if ( heroDonation != null )
-			heroDonation.setEnabled( this.isEnabled );
-
-		if ( meatStorage != null )
-			meatStorage.setEnabled( this.isEnabled );
-
-		if ( skillBuff != null )
-			skillBuff.setEnabled( this.isEnabled );
-
-		if ( removeEffects != null )
-			removeEffects.setEnabled( this.isEnabled );
 
 		Object [] frames = existingFrames.toArray();
 
@@ -249,72 +216,42 @@ public class AdventureFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenuItem mapItem = new JMenuItem( "Navigate Map", KeyEvent.VK_N );
-		mapItem.addActionListener( new MiniBrowserListener( "main.php" ) );
-		JMenuItem calendarItem = new JMenuItem( "Consult Oracle", KeyEvent.VK_C );
-		calendarItem.addActionListener( new DisplayFrameListener( CalendarFrame.class ) );
-		JMenuItem mallItem = new JMenuItem( "Manipulate Mall", KeyEvent.VK_M );
-		mallItem.addActionListener( new DisplayFrameListener( StoreManageFrame.class ) );
-		JMenuItem caseItem = new JMenuItem( "Yeti's Museum", KeyEvent.VK_Y );
-		caseItem.addActionListener( new DisplayFrameListener( MuseumFrame.class ) );
-		JMenuItem otoriItem = new JMenuItem( "Pwn Clan Otori!" );
-		otoriItem.addActionListener( new InvocationListener( client, "pwnClanOtori" ) );
-
 		JMenu statusMenu = addStatusMenu( menuBar );
-		statusMenu.add( mapItem, 0 );
-		statusMenu.add( calendarItem, 1 );
-		statusMenu.add( mallItem );
-		statusMenu.add( caseItem );
-		statusMenu.add( otoriItem );
+		statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php" ), 0 );
+		statusMenu.add( new DisplayFrameMenuItem( "Consult Oracle", KeyEvent.VK_C, CalendarFrame.class ), 1 );
+		statusMenu.add( new DisplayFrameMenuItem( "Manipulate Mall", KeyEvent.VK_M, StoreManageFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Yeti's Museum", KeyEvent.VK_Y, MuseumFrame.class ) );
+		statusMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", KeyEvent.VK_P, client, "pwnClanOtori" ) );
 
-		JMenuItem foodItem = new JMenuItem( "Camping Routine", KeyEvent.VK_C );
-		foodItem.addActionListener( new InvocationListener( client, "getBreakfast" ) );
-		JMenuItem buffbotMenuItem = new JMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E );
-		buffbotMenuItem.addActionListener( new DisplayFrameListener( BuffBotFrame.class ) );
+		JMenuItem activitiesMenu = new JMenu( "Activities" );
+		activitiesMenu.setMnemonic( KeyEvent.VK_A );
+		menuBar.add( activitiesMenu );
+
+		activitiesMenu.add( new KoLPanelFrameMenuItem( "Meat in Closet", KeyEvent.VK_M, new MeatStoragePanel() ) );
+		activitiesMenu.add( new KoLPanelFrameMenuItem( "Hall of Legends", KeyEvent.VK_H, new HeroDonationPanel() ) );
+		activitiesMenu.add( new KoLPanelFrameMenuItem( "Uneffect Effects", KeyEvent.VK_U, new RemoveEffectsPanel() ) );
+		activitiesMenu.add( new KoLPanelFrameMenuItem( "Buffs and Skills", KeyEvent.VK_B, new SkillBuffPanel() ) );
 
 		JMenu scriptMenu = addScriptMenu( menuBar );
-		scriptMenu.add( foodItem, 3 );
-		scriptMenu.add( buffbotMenuItem, 4 );
+		scriptMenu.add( new InvocationMenuItem( "Camping Routine", KeyEvent.VK_C, client, "getBreakfast" ), 3 );
+		scriptMenu.add( new DisplayFrameMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E, BuffBotFrame.class ), 4 );
 
 		JMenu visitMenu = new JMenu( "Travel" );
 		visitMenu.setMnemonic( KeyEvent.VK_T );
-
-		JMenuItem leaderItem = new JMenuItem( "Broken Records", KeyEvent.VK_B );
-		leaderItem.addActionListener( new MiniBrowserListener( "records.php" ) );
-		JMenuItem arenaItem = new JMenuItem( "Eat Cake-Arena", KeyEvent.VK_E );
-		arenaItem.addActionListener( new DisplayFrameListener( CakeArenaFrame.class ) );
-		JMenuItem hermitItem = new JMenuItem( "Hermit Hideout", KeyEvent.VK_H );
-		hermitItem.addActionListener( new AdventureRequestListener( "hermit.php", "", "The Hermitage" ) );
-		JMenuItem trapperItem = new JMenuItem( "Mountain Traps", KeyEvent.VK_M );
-		trapperItem.addActionListener( new AdventureRequestListener( "trapper.php", "", "The 1337 Trapper" ) );
-		JMenuItem hunterItem = new JMenuItem( "Seaside Towels", KeyEvent.VK_S );
-		hunterItem.addActionListener( new AdventureRequestListener( "town_wrong.php", "bountyhunter", "The Bounty Hunter" ) );
-		JMenuItem hagnkItem = new JMenuItem( "Gnomish Storage", KeyEvent.VK_G );
-		hagnkItem.addActionListener( new DisplayFrameListener( HagnkStorageFrame.class ) );
-
-		visitMenu.add( leaderItem );
-		visitMenu.add( arenaItem );
-		visitMenu.add( hermitItem );
-		visitMenu.add( trapperItem );
-		visitMenu.add( hunterItem );
-		visitMenu.add( hagnkItem );
-
 		menuBar.add( visitMenu );
 
-		JMenuItem clanItem = new JMenuItem( "Manage Your Clan", KeyEvent.VK_M );
-		clanItem.addActionListener( new DisplayFrameListener( ClanManageFrame.class ) );
+		visitMenu.add( new MiniBrowserMenuItem( "Broken Records", KeyEvent.VK_B, "records.php" ) );
+		visitMenu.add( new DisplayFrameMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, CakeArenaFrame.class ) );
+		visitMenu.add( new AdventureRequestListener( "Hermit Hideout", KeyEvent.VK_H, "hermit.php", "", "The Hermitage" ) );
+		visitMenu.add( new AdventureRequestListener( "Mountain Traps", KeyEvent.VK_M, "trapper.php", "", "The 1337 Trapper" ) );
+		visitMenu.add( new AdventureRequestListener( "Seaside Towels", KeyEvent.VK_S, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ) );
+		visitMenu.add( new DisplayFrameMenuItem( "Gnomish Storage", KeyEvent.VK_G, HagnkStorageFrame.class ) );
 
-		JMenu peopleMenu = addPeopleMenu( menuBar );
-		peopleMenu.add( clanItem );
-
-		JMenuItem resetItem = new JMenuItem( "Reset Session", KeyEvent.VK_R );
-		resetItem.addActionListener( new InvocationListener( client, "resetSessionTally" ) );
-		JMenuItem reloginItem = new JMenuItem( "Session Time-In", KeyEvent.VK_S );
-		reloginItem.addActionListener( new InvocationListener( client, "executeTimeInRequest" ) );
+		addPeopleMenu( menuBar ).add( new DisplayFrameMenuItem( "Manage Your Clan", KeyEvent.VK_M, ClanManageFrame.class ) );
 
 		JMenu configMenu = addConfigureMenu( menuBar );
-		configMenu.add( resetItem );
-		configMenu.add( reloginItem );
+		configMenu.add( new InvocationMenuItem( "Reset Session", KeyEvent.VK_R, client, "resetSessionTally" ) );
+		configMenu.add( new InvocationMenuItem( "Session Time-In", KeyEvent.VK_S, client, "executeTimeInRequest" ) );
 
 		addHelpMenu( menuBar );
 	}
@@ -939,12 +876,21 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	private class AdventureRequestListener implements ActionListener
+	/**
+	 * An internal class used to handle requests to do adventures at
+	 * a specific location from a menu item.
+	 */
+
+	private class AdventureRequestListener extends JMenuItem implements ActionListener
 	{
 		private KoLAdventure request;
 
-		public AdventureRequestListener( String formSource, String adventureID, String name )
-		{	request = new KoLAdventure( client, formSource, adventureID, name );
+		public AdventureRequestListener( String title, int mnemonic, String formSource, String adventureID, String name )
+		{
+			super( title, mnemonic );
+			addActionListener( this );
+
+			request = new KoLAdventure( client, formSource, adventureID, name );
 		}
 
 		public void actionPerformed( ActionEvent e )

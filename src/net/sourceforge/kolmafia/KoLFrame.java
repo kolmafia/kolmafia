@@ -114,9 +114,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected JLabel hpLabel, mpLabel, advLabel;
 	protected JLabel meatLabel, closetLabel, drunkLabel;
 
-	protected JMenuItem statusMenuItem;
-	protected JMenuItem mailMenuItem;
-
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
 	 * to be associated with the given client.
@@ -305,19 +302,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		statusMenu.setMnemonic( KeyEvent.VK_M );
 		menu.add( statusMenu );
 
-		this.statusMenuItem = new JMenuItem( "Status Pane", KeyEvent.VK_S );
-		statusMenuItem.addActionListener( new DisplayFrameListener( CharsheetFrame.class ) );
-		statusMenu.add( statusMenuItem );
+		statusMenu.add( new DisplayFrameMenuItem( "Status Pane", KeyEvent.VK_S, CharsheetFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", KeyEvent.VK_G, GearChangeFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", KeyEvent.VK_I, ItemManageFrame.class ) );
 
-		JMenuItem gearMenuItem = new JMenuItem( "Gear Changer", KeyEvent.VK_G );
-		gearMenuItem.addActionListener( new DisplayFrameListener( GearChangeFrame.class ) );
-
-		statusMenu.add( gearMenuItem );
-
-		JMenuItem itemMenuItem = new JMenuItem( "Item Manager", KeyEvent.VK_I );
-		itemMenuItem.addActionListener( new DisplayFrameListener( ItemManageFrame.class ) );
-
-		statusMenu.add( itemMenuItem );
 		return statusMenu;
 	}
 
@@ -334,30 +322,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		peopleMenu.setMnemonic( KeyEvent.VK_P );
 		menu.add( peopleMenu );
 
-		JMenuItem chatMenuItem = new JMenuItem( "Chat of Loathing", KeyEvent.VK_C );
-		chatMenuItem.addActionListener( new InvocationListener( client, "initializeChat" ) );
-
-		JMenuItem composeMenuItem = new JMenuItem( "Green Composer", KeyEvent.VK_G );
-		composeMenuItem.addActionListener( new DisplayFrameListener( GreenMessageFrame.class ) );
-
-		this.mailMenuItem = new JMenuItem( "IcePenguin Express", KeyEvent.VK_I );
-		mailMenuItem.addActionListener( new DisplayFrameListener( MailboxFrame.class ) );
-
-		JMenuItem proposeItem = new JMenuItem( "Propose Trade Offer", KeyEvent.VK_P );
-		proposeItem.addActionListener( new DisplayFrameListener( ProposeTradeFrame.class ) );
-
-		JMenuItem pendingItem = new JMenuItem( "View Pending Trades", KeyEvent.VK_V );
-		pendingItem.addActionListener( new DisplayFrameListener( PendingTradesFrame.class ) );
-
-		JMenuItem giftItem = new JMenuItem( "Not-Holiday Giftings", KeyEvent.VK_N );
-		giftItem.addActionListener( new DisplayFrameListener( GiftMessageFrame.class ) );
-
-		peopleMenu.add( chatMenuItem );
-		peopleMenu.add( composeMenuItem );
-		peopleMenu.add( mailMenuItem );
-		peopleMenu.add( proposeItem );
-		peopleMenu.add( pendingItem );
-		peopleMenu.add( giftItem );
+		peopleMenu.add( new InvocationMenuItem( "Chat of Loathing", KeyEvent.VK_C, client, "initializeChat" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Green Composer", KeyEvent.VK_G, GreenMessageFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "IcePenguin Express", KeyEvent.VK_I, MailboxFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Propose Trade Offer", KeyEvent.VK_P, ProposeTradeFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "View Pending Trades", KeyEvent.VK_V, PendingTradesFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Not-Holiday Giftings", KeyEvent.VK_N, GiftMessageFrame.class ) );
 
 		return peopleMenu;
 	}
@@ -373,20 +343,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenu scriptMenu = new JMenu( "Scripts" );
 		scriptMenu.setMnemonic( KeyEvent.VK_S );
 
-		JMenuItem loadScriptMenuItem = new JMenuItem( "Load Script...", KeyEvent.VK_L );
-		loadScriptMenuItem.addActionListener( new LoadScriptListener() );
-
-		scriptMenu.add( loadScriptMenuItem );
-
-		JMenuItem loggerItem = new JMenuItem( "", KeyEvent.VK_R );
-		loggerItem.addActionListener( new ToggleMacroListener( loggerItem ) );
-
-		scriptMenu.add( loggerItem );
-
-		JMenuItem gcliItem = new JMenuItem( "Access CLI Mode", KeyEvent.VK_A );
-		gcliItem.addActionListener( new DisplayFrameListener( CommandDisplayFrame.class ) );
-
-		scriptMenu.add( gcliItem );
+		scriptMenu.add( new LoadScriptMenuItem() );
+		scriptMenu.add( new ToggleMacroMenuItem() );
+		scriptMenu.add( new DisplayFrameMenuItem( "Access CLI Mode", KeyEvent.VK_A, CommandDisplayFrame.class ) );
 
 		menu.add( scriptMenu );
 
@@ -409,12 +368,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 					try
 					{
-						currentScriptName = scriptList[i].getCanonicalPath();
-						String [] pieces = currentScriptName.split( "[\\\\/]" );
-
-						currentScript = new JMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ] );
-						currentScript.addActionListener( new LoadScriptListener( currentScriptName ) );
-						scriptMenu.add( currentScript );
+						String [] pieces = scriptList[i].getCanonicalPath().split( "[\\\\/]" );
+						scriptMenu.add( new LoadScriptMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ], pieces[ pieces.length - 1 ] ) );
 					}
 					catch ( Exception e )
 					{
@@ -438,19 +393,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected final JMenu addConfigureMenu( JComponent menu )
 	{
-		JMenu configureMenu = new JMenu("Configure");
+		JMenu configureMenu = new JMenu( "Configure" );
 		configureMenu.setMnemonic( KeyEvent.VK_C );
 		menu.add( configureMenu );
 
-		JMenuItem settingsItem = new JMenuItem( "Preferences", KeyEvent.VK_P );
-		settingsItem.addActionListener( new DisplayFrameListener( OptionsFrame.class ) );
+		configureMenu.add( new DisplayFrameMenuItem( "Preferences", KeyEvent.VK_P, OptionsFrame.class ) );
+		configureMenu.add( new ToggleDebugMenuItem() );
 
-		configureMenu.add( settingsItem );
-
-		JMenuItem loggerItem = new JMenuItem( "", KeyEvent.VK_S );
-		loggerItem.addActionListener( new ToggleDebugListener( loggerItem ) );
-
-		configureMenu.add( loggerItem );
 		return configureMenu;
 	}
 
@@ -468,26 +417,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		helpMenu.setMnemonic( KeyEvent.VK_H );
 		menu.add( helpMenu );
 
-		JMenuItem aboutItem = new JMenuItem( "About KoLmafia...", KeyEvent.VK_A );
-		aboutItem.addActionListener( new DisplayFrameListener( LicenseDisplay.class ) );
+		helpMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", KeyEvent.VK_A, LicenseDisplay.class ) );
+		helpMenu.add( new DisplayPageMenuItem( "KoLmafia Home", KeyEvent.VK_K, "http://kolmafia.sourceforge.net/" ) );
+		helpMenu.add( new DisplayPageMenuItem( "End-User Manual", KeyEvent.VK_E, "http://kolmafia.sourceforge.net/manual.html" ) );
+		helpMenu.add( new DisplayPageMenuItem( "Sourceforge Page", KeyEvent.VK_S, "https://sourceforge.net/project/showfiles.php?group_id=126572&package_id=138474" ) );
+		helpMenu.add( new DisplayPageMenuItem( "Read Forum Thread", KeyEvent.VK_R, "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
 
-		JMenuItem homeItem = new JMenuItem( "KoLmafia Home", KeyEvent.VK_K );
-		homeItem.addActionListener( new DisplayPageListener( "http://kolmafia.sourceforge.net/" ) );
-
-		JMenuItem manualItem = new JMenuItem( "End-User Manual", KeyEvent.VK_E );
-		manualItem.addActionListener( new DisplayPageListener( "http://kolmafia.sourceforge.net/manual.html" ) );
-
-		JMenuItem sourceItem = new JMenuItem( "Sourceforge Page", KeyEvent.VK_S );
-		sourceItem.addActionListener( new DisplayPageListener( "https://sourceforge.net/project/showfiles.php?group_id=126572&package_id=138474" ) );
-
-		JMenuItem reportItem = new JMenuItem( "Read Forum Thread", KeyEvent.VK_R );
-		reportItem.addActionListener( new DisplayPageListener( "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
-
-		helpMenu.add( aboutItem );
-		helpMenu.add( homeItem );
-		helpMenu.add( manualItem );
-		helpMenu.add( sourceItem );
-		helpMenu.add( reportItem );
 		return helpMenu;
 	}
 
@@ -520,15 +455,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{	return isEnabled;
 	}
 
-	private class ToggleMacroListener implements ActionListener
+	private class ToggleMacroMenuItem extends JMenuItem implements ActionListener
 	{
-		private JMenuItem loggerItem;
-
-		public ToggleMacroListener( JMenuItem loggerItem )
+		public ToggleMacroMenuItem()
 		{
-			this.loggerItem = loggerItem;
-			loggerItem.setText( client == null || client.getMacroStream() instanceof NullStream ?
-				"Record Script..." : "Stop Recording" );
+			super( "", KeyEvent.VK_R );
+			addActionListener( this );
+
+			setText( client == null || client.getMacroStream() instanceof NullStream ? "Record Script..." : "Stop Recording" );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -546,38 +480,42 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
 					client.initializeMacroStream( filename );
 
-				loggerItem.setText( "Stop Recording" );
+				setText( "Stop Recording" );
 			}
 			else if ( client != null )
 			{
 				client.deinitializeMacroStream();
-				loggerItem.setText( "Record Script..." );
+				setText( "Record Script..." );
 			}
 		}
 	}
 
-	private class ToggleDebugListener implements ActionListener
-	{
-		private JMenuItem loggerItem;
+	/**
+	 * Internal class which attempts to create a menu item
+	 * which toggles the text pending on current debug state.
+	 */
 
-		public ToggleDebugListener( JMenuItem loggerItem )
+	private class ToggleDebugMenuItem extends JMenuItem implements ActionListener
+	{
+		public ToggleDebugMenuItem()
 		{
-			this.loggerItem = loggerItem;
-			loggerItem.setText( client == null || client.getLogStream() instanceof NullStream ?
-				"Start Debug" : "Stop Debug" );
+			super( "", KeyEvent.VK_S );
+			addActionListener( this );
+
+			setText( client == null || client.getLogStream() instanceof NullStream ? "Start Debug" : "Stop Debug" );
 		}
 
-		public void actionPerformed(ActionEvent e)
+		public void actionPerformed( ActionEvent e )
 		{
 			if ( client != null && client.getLogStream() instanceof NullStream )
 			{
 				client.initializeLogStream();
-				loggerItem.setText( "Stop Debug" );
+				setText( "Stop Debug" );
 			}
 			else if ( client != null )
 			{
 				client.deinitializeLogStream();
-				loggerItem.setText( "Start Debug" );
+				setText( "Start Debug" );
 			}
 		}
 	}
@@ -588,16 +526,20 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * the request for loading a script.
 	 */
 
-	private class LoadScriptListener implements ActionListener
+	private class LoadScriptMenuItem extends JMenuItem implements ActionListener
 	{
 		private String scriptPath;
 
-		public LoadScriptListener()
-		{
+		public LoadScriptMenuItem()
+		{	this( "Load script...", "" );
 		}
 
-		public LoadScriptListener( String scriptPath )
-		{	this.scriptPath = scriptPath;
+		public LoadScriptMenuItem( String scriptName, String scriptPath )
+		{
+			super( scriptName, KeyEvent.VK_L );
+			addActionListener( this );
+
+			this.scriptPath = scriptPath;
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -831,13 +773,16 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * the request for viewing frames.
 	 */
 
-	protected class DisplayFrameListener implements ActionListener
+	protected class DisplayFrameMenuItem extends JMenuItem implements ActionListener
 	{
 		private Class frameClass;
 		private CreateFrameRunnable displayer;
 
-		public DisplayFrameListener( Class frameClass )
+		public DisplayFrameMenuItem( String title, int mnemonic, Class frameClass )
 		{
+			super( title, mnemonic );
+			addActionListener( this );
+
 			this.frameClass = frameClass;
 
 			Object [] parameters;
@@ -864,12 +809,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
-	private class DisplayPageListener implements ActionListener
+	/**
+	 * Internal class which opens the operating system's default
+	 * browser to the given location.
+	 */
+
+	protected class DisplayPageMenuItem extends JMenuItem implements ActionListener
 	{
 		private String location;
 
-		public DisplayPageListener( String location )
-		{	this.location = location;
+		public DisplayPageMenuItem( String title, int mnemonic, String location )
+		{
+			super( title, mnemonic );
+			addActionListener( this );
+
+			this.location = location;
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -1014,12 +968,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
-	protected class MiniBrowserListener implements ActionListener
+	/**
+	 * An internal class which opens a new <code>RequestFrame</code>
+	 * to the given frame whenever an action event is triggered.
+	 */
+
+	protected class MiniBrowserMenuItem extends JMenuItem implements ActionListener
 	{
 		private String location;
 
-		public MiniBrowserListener( String location )
-		{	this.location = location;
+		public MiniBrowserMenuItem( String title, int mnemonic, String location )
+		{
+			super( title, mnemonic );
+			addActionListener( this );
+
+			this.location = location;
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -1029,13 +992,23 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	private static final Class [] NOPARAMS = new Class[0];
 
-	protected class InvocationListener implements ActionListener
+	/**
+	 * Internal class used to invoke the given no-parameter
+	 * method on the given object.  This is used whenever
+	 * there is the need to invoke a method and the creation
+	 * of an additional class is unnecessary.
+	 */
+
+	protected class InvocationMenuItem extends JMenuItem implements ActionListener
 	{
 		private Object object;
 		private Method method;
 
-		public InvocationListener( Object object, String methodName )
+		public InvocationMenuItem( String title, int mnemonic, Object object, String methodName )
 		{
+			super( title, mnemonic );
+			addActionListener( this );
+
 			try
 			{
 				this.object = object;
@@ -1068,6 +1041,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	/**
+	 * A method used to open a new <code>RequestFrame</code> which displays
+	 * the given location, relative to the KoL home directory for the current
+	 * session.  This should be called whenever <code>RequestFrame</code>s
+	 * need to be created in order to keep code modular.
+	 */
+
 	public void openRequestFrame( String location )
 	{
 		Object [] parameters;
@@ -1091,9 +1071,48 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
 	}
 
+	/**
+	 * An internal class used to handle requests to open a new frame
+	 * using a local panel inside of the adventure frame.
+	 */
+
+	protected class KoLPanelFrameMenuItem extends JMenuItem implements ActionListener
+	{
+		private CreateFrameRunnable creator;
+
+		public KoLPanelFrameMenuItem( String title, int mnemonic, KoLPanel panel )
+		{
+			super( title, mnemonic );
+			addActionListener( this );
+
+			Object [] parameters = new Object[3];
+			parameters[0] = client;
+			parameters[1] = title;
+			parameters[2] = panel;
+
+			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	creator.run();
+		}
+	}
+
+	/**
+	 * Utility method which retrieves an integer value from the given
+	 * field.  In the event that the field does not contain an integer
+	 * value, the number "0" is returned instead.
+	 */
+
 	protected static final int getValue( JTextField field )
 	{	return getValue( field, 0 );
 	}
+
+	/**
+	 * Utility method which retrieves an integer value from the given
+	 * field.  In the event that the field does not contain an integer
+	 * value, the default value provided will be returned instead.
+	 */
 
 	protected static final int getValue( JTextField field, int defaultValue )
 	{

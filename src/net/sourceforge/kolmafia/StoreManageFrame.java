@@ -94,11 +94,7 @@ public class StoreManageFrame extends KoLFrame
 
 		JMenu fileMenu = new JMenu( "Management" );
 		fileMenu.setMnemonic( KeyEvent.VK_M );
-
-		JMenuItem viewItem = new JMenuItem( "View Store Log", KeyEvent.VK_V );
-		viewItem.addActionListener( new MiniBrowserListener( "storelog.php" ) );
-
-		fileMenu.add( viewItem );
+		fileMenu.add( new MiniBrowserMenuItem( "View Store Log", KeyEvent.VK_V, "storelog.php" ) );
 		menuBar.add( fileMenu );
 
 		addConfigureMenu( menuBar );

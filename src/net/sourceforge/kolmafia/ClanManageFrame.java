@@ -158,37 +158,18 @@ public class ClanManageFrame extends KoLFrame
 		optionsMenu.setMnemonic( KeyEvent.VK_O );
 		menuBar.add( optionsMenu );
 
-		JMenuItem attackItem = new JMenuItem( "Attack Enemies!", KeyEvent.VK_A );
-		attackItem.addActionListener( new ManagerListener( "attackClan" ) );
-		optionsMenu.add( attackItem );
-
-		JMenuItem snapItem = new JMenuItem( "Clan Snapshot", KeyEvent.VK_C );
-		snapItem.addActionListener( new ManagerListener( "takeSnapshot" ) );
-		optionsMenu.add( snapItem );
-
-		JMenuItem stashItem = new JMenuItem( "Save Stash Log", KeyEvent.VK_S );
-		stashItem.addActionListener( new ManagerListener( "saveStashLog" ) );
-		optionsMenu.add( stashItem );
+		optionsMenu.add( new ManagerMenuItem( "Attack Enemies!", KeyEvent.VK_A, "attackClan" ) );
+		optionsMenu.add( new ManagerMenuItem( "Clan Snapshot", KeyEvent.VK_C, "takeSnapshot" ) );
+		optionsMenu.add( new ManagerMenuItem( "Save Stash Log", KeyEvent.VK_S, "saveStashLog" ) );
 
 		JMenu messageMenu = new JMenu( "Messages" );
 		messageMenu.setMnemonic( KeyEvent.VK_M );
 		menuBar.add( messageMenu );
 
-		JMenuItem boardItem1 = new JMenuItem( "Post to Clan Board" );
-		boardItem1.addActionListener( new ManagerListener( "postMessage" ) );
-		messageMenu.add( boardItem1 );
-
-		JMenuItem announceItem1 = new JMenuItem( "Post Announcement" );
-		announceItem1.addActionListener( new ManagerListener( "postAnnouncement" ) );
-		messageMenu.add( announceItem1 );
-
-		JMenuItem boardItem2 = new JMenuItem( "Read Clan Messages" );
-		boardItem2.addActionListener( new ManagerListener( "getMessageBoard" ) );
-		messageMenu.add( boardItem2 );
-
-		JMenuItem announceItem2 = new JMenuItem( "Read Announcements" );
-		announceItem2.addActionListener( new ManagerListener( "getAnnouncements" ) );
-		messageMenu.add( announceItem2 );
+		messageMenu.add( new ManagerMenuItem( "Post to Clan Board", KeyEvent.KEY_LOCATION_UNKNOWN, "postMessage" ) );
+		messageMenu.add( new ManagerMenuItem( "Post Announcement", KeyEvent.KEY_LOCATION_UNKNOWN, "postAnnouncement" ) );
+		messageMenu.add( new ManagerMenuItem( "Read Clan Messages", KeyEvent.KEY_LOCATION_UNKNOWN, "getMessageBoard" ) );
+		messageMenu.add( new ManagerMenuItem( "Read Announcements", KeyEvent.KEY_LOCATION_UNKNOWN, "getAnnouncements" ) );
 
 		addHelpMenu( menuBar );
 	}
@@ -622,10 +603,10 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class ManagerListener extends InvocationListener
+	private class ManagerMenuItem extends InvocationMenuItem
 	{
-		public ManagerListener( String methodName )
-		{	super( client.getClanManager(), methodName );
+		public ManagerMenuItem( String title, int mnemonic, String methodName )
+		{	super( title, mnemonic, client.getClanManager(), methodName );
 		}
 	}
 

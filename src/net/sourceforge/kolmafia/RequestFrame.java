@@ -140,33 +140,33 @@ public class RequestFrame extends KoLFrame
 			JMenu functionMenu = new JMenu( "Function" );
 			functionMenu.setMnemonic( KeyEvent.VK_F );
 
-			functionMenu.add( createMenuItem( "Inventory", "inventory.php" ) );
-			functionMenu.add( createMenuItem( "Character", "charsheet.php" ) );
-			functionMenu.add( createMenuItem( "Class Skills", "skills.php" ) );
-			functionMenu.add( createMenuItem( "Read Messages", "messages.php" ) );
-			functionMenu.add( createMenuItem( "Account Menu", "account.php" ) );
-			functionMenu.add( createMenuItem( "Documentation", "doc.php?topic=home" ) );
-			functionMenu.add( createMenuItem( "KoL Forums", "http://forums.kingdomofloathing.com/" ) );
-			functionMenu.add( createMenuItem( "Radio KoL", "http://grace.fast-serv.com:9140/listen.pls" ) );
-			functionMenu.add( createMenuItem( "Report Bug", "sendmessage.php?toid=Jick" ) );
-			functionMenu.add( createMenuItem( "Donate to KoL", "http://www.kingdomofloathing.com/donatepopup.php?pid=" + (client == null ? 0 : client.getUserID()) ) );
-			functionMenu.add( createMenuItem( "Log Out", "logout.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Inventory", "inventory.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Character", "charsheet.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Class Skills", "skills.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Read Messages", "messages.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Account Menu", "account.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Documentation", "doc.php?topic=home" ) );
+			functionMenu.add( new DisplayPageMenuItem( "KoL Forums", KeyEvent.KEY_LOCATION_UNKNOWN, "http://forums.kingdomofloathing.com/" ) );
+			functionMenu.add( new DisplayPageMenuItem( "Radio KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://grace.fast-serv.com:9140/listen.pls" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Report Bug", "sendmessage.php?toid=Jick" ) );
+			functionMenu.add( new DisplayPageMenuItem( "Donate to KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.kingdomofloathing.com/donatepopup.php?pid=" + (client == null ? 0 : client.getUserID()) ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Log Out", "logout.php" ) );
 
 			menuBar.add( functionMenu );
 
 			JMenu gotoMenu = new JMenu( "Goto (Maki)" );
 			gotoMenu.setMnemonic( KeyEvent.VK_G );
 
-			gotoMenu.add( createMenuItem( "Main Map", "main.php" ) );
-			gotoMenu.add( createMenuItem( "Seaside Town", "town.php" ) );
-			gotoMenu.add( createMenuItem( "The Mall", "mall.php" ) );
-			gotoMenu.add( createMenuItem( "Clan Hall", "clan_hall.php" ) );
-			gotoMenu.add( createMenuItem( "Campground", "campground.php" ) );
-			gotoMenu.add( createMenuItem( "Big Mountains", "mountains.php" ) );
-			gotoMenu.add( createMenuItem( "Nearby Plains", "plains.php" ) );
-			gotoMenu.add( createMenuItem( "Desert Beach", "beach.php" ) );
-			gotoMenu.add( createMenuItem( "Distant Woods", "woods.php" ) );
-			gotoMenu.add( createMenuItem( "Mysterious Island", "island.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "Main Map", "main.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "Seaside Town", "town.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "The Mall", "mall.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "Clan Hall", "clan_hall.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "Campground", "campground.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "Big Mountains", "mountains.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "Nearby Plains", "plains.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "Desert Beach", "beach.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
 
 			menuBar.add( gotoMenu );
 		}
@@ -177,10 +177,7 @@ public class RequestFrame extends KoLFrame
 		this.bookmarkMenu = new JMenu( "Bookmarks" );
 		this.bookmarkMenu.setMnemonic( KeyEvent.VK_B );
 
-		JMenuItem addItem = new JMenuItem( "Add to Bookmarks..." );
-		addItem.addActionListener( new AddBookmarkListener() );
-
-		this.bookmarkMenu.add( addItem );
+		this.bookmarkMenu.add( new AddBookmarkMenuItem() );
 		this.bookmarkMenu.add( new JSeparator() );
 
 		if ( client != null )
@@ -198,15 +195,19 @@ public class RequestFrame extends KoLFrame
 					if ( pwdhash.equals( "true" ) )
 						location += "&pwd=" + client.getPasswordHash();
 
-					this.bookmarkMenu.add( createMenuItem( name, location ) );
+					this.bookmarkMenu.add( new DisplayRequestMenuItem( name, location ) );
 				}
 		}
 
 		menuBar.add( this.bookmarkMenu );
 	}
 
-	private class AddBookmarkListener implements ActionListener
+	private class AddBookmarkMenuItem extends JMenuItem implements ActionListener
 	{
+		public AddBookmarkMenuItem()
+		{	super( "Add to Bookmarks..." );
+		}
+
 		public void actionPerformed( ActionEvent e )
 		{
 			if ( client != null )
@@ -230,16 +231,9 @@ public class RequestFrame extends KoLFrame
 				client.getSettings().setProperty( "browserBookmarks", bookmarks.toString() );
 				client.getSettings().saveSettings();
 
-				RequestFrame.this.bookmarkMenu.add( createMenuItem( name, location ) );
+				RequestFrame.this.bookmarkMenu.add( new DisplayRequestMenuItem( name, location ) );
 			}
 		}
-	}
-
-	private JMenuItem createMenuItem( String label, String location )
-	{
-		JMenuItem menuItem = new JMenuItem( label );
-		menuItem.addActionListener( new DisplayRequestListener( location ) );
-		return menuItem;
 	}
 
 	public String getCurrentLocation()
@@ -276,12 +270,15 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class DisplayRequestListener implements ActionListener
+	private class DisplayRequestMenuItem extends JMenuItem implements ActionListener
 	{
 		private String location;
 
-		public DisplayRequestListener( String location )
-		{	this.location = location;
+		public DisplayRequestMenuItem( String label, String location )
+		{
+			super( label );
+			addActionListener( this );
+			this.location = location;
 		}
 
 		public void actionPerformed( ActionEvent e )

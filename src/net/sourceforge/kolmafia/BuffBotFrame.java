@@ -148,22 +148,22 @@ public class BuffBotFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		toggleItem = new JCheckBoxMenuItem( "Show Main", true );
-		toggleItem.addActionListener( new ToggleListener() );
-
-		JMenuItem statsItem = new JMenuItem( "Session Stats", KeyEvent.VK_S );
-		statsItem.addActionListener( new ShowStatisticsListener() );
-
 		JMenu statusMenu = addStatusMenu( menuBar );
-		statusMenu.add( toggleItem, 0 );
-		statusMenu.add( statsItem, 1 );
+		statusMenu.add( new ToggleMenuItem(), 0 );
+		statusMenu.add( new ShowStatisticsMenuItem(), 1 );
 
 		addPeopleMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
 
-	private class ShowStatisticsListener implements ActionListener
+	private class ShowStatisticsMenuItem extends JMenuItem implements ActionListener
 	{
+		public ShowStatisticsMenuItem()
+		{
+			super( "Session Stats", KeyEvent.VK_S );
+			addActionListener( this );
+		}
+
 		public void actionPerformed( ActionEvent e )
 		{
 			StringBuffer statBuffer = new StringBuffer();
@@ -538,8 +538,14 @@ public class BuffBotFrame extends KoLFrame
 		}
 	}
 
-	private class ToggleListener implements ActionListener
+	private class ToggleMenuItem extends JCheckBoxMenuItem implements ActionListener
 	{
+		public ToggleMenuItem()
+		{
+			super( "Show Main", true );
+			addActionListener( this );
+		}
+
 		public void actionPerformed( ActionEvent e )
 		{
 			boolean isSelected = toggleItem.getSelectedObjects() != null;

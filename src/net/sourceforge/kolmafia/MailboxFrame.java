@@ -137,25 +137,11 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		fileMenu.setMnemonic( KeyEvent.VK_O );
 		menuBar.add( fileMenu );
 
-		JMenuItem refreshItem1 = new JMenuItem( "Refresh Inbox" );
-		refreshItem1.addActionListener( new BoxRefreshListener( "Inbox" ) );
-		fileMenu.add( refreshItem1 );
-
-		JMenuItem refreshItem2 = new JMenuItem( "Refresh Outbox" );
-		refreshItem2.addActionListener( new BoxRefreshListener( "Outbox" ) );
-		fileMenu.add( refreshItem2 );
-
-		JMenuItem refreshItem3 = new JMenuItem( "Refresh Saved" );
-		refreshItem3.addActionListener( new BoxRefreshListener( "Saved" ) );
-		fileMenu.add( refreshItem3 );
-
-		JMenuItem clearInbox = new JMenuItem( "Empty Inbox" );
-		clearInbox.addActionListener( new BoxEmptyListener( "Inbox" ) );
-		fileMenu.add( clearInbox );
-
-		JMenuItem clearOutbox = new JMenuItem( "Empty Outbox" );
-		clearOutbox.addActionListener( new BoxEmptyListener( "Outbox" ) );
-		fileMenu.add( clearOutbox );
+		fileMenu.add( new BoxRefreshMenuItem( "Inbox" ) );
+		fileMenu.add( new BoxRefreshMenuItem( "Outbox" ) );
+		fileMenu.add( new BoxRefreshMenuItem( "Saved" ) );
+		fileMenu.add( new BoxEmptyMenuItem( "Inbox" ) );
+		fileMenu.add( new BoxEmptyMenuItem( "Outbox" ) );
 
 		addHelpMenu( menuBar );
 	}
@@ -333,26 +319,33 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		{
 			StringTokenizer tokens = new StringTokenizer( location, "?=&" );
 			tokens.nextToken();  tokens.nextToken();
-			String recipient = tokens.nextToken();
 
+			String recipient = tokens.nextToken();
 			String quotedMessage = displayed.getMessageHTML().substring(
 				displayed.getMessageHTML().indexOf( "<br><br>" ) + 8 ).replaceAll( "<b>", " " ).replaceAll(
 					"><", "" ).replaceAll( "<.*?>", System.getProperty( "line.separator" ) );
 
-			GreenMessageFrame composer = !tokens.hasMoreTokens() ? new GreenMessageFrame( client, recipient ) :
-				new GreenMessageFrame( client, recipient, quotedMessage );
+			Object [] parameters = new Object[ tokens.hasMoreTokens() ? 2 : 3 ];
+			parameters[0] = client;
+			parameters[1] = recipient;
 
-			composer.pack();  composer.setVisible( true );
-			composer.requestFocus();
+			if ( parameters.length == 3 )
+				parameters[2] = quotedMessage;
+
+			(new CreateFrameRunnable( GreenMessageFrame.class, parameters )).run();
 		}
 	}
 
-	private class BoxRefreshListener implements ActionListener
+	private class BoxRefreshMenuItem extends JMenuItem implements ActionListener
 	{
 		private String boxname;
 
-		public BoxRefreshListener( String boxname )
-		{	this.boxname = boxname;
+		public BoxRefreshMenuItem( String boxname )
+		{
+			super( "Refresh " + boxname );
+			addActionListener( this );
+
+			this.boxname = boxname;
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -362,12 +355,16 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class BoxEmptyListener implements ActionListener
+	private class BoxEmptyMenuItem extends JMenuItem implements ActionListener
 	{
 		private String boxname;
 
-		public BoxEmptyListener( String boxname )
-		{	this.boxname = boxname;
+		public BoxEmptyMenuItem( String boxname )
+		{
+			super( "Empty " + boxname );
+			addActionListener( this );
+
+			this.boxname = boxname;
 		}
 
 		public void actionPerformed( ActionEvent e )

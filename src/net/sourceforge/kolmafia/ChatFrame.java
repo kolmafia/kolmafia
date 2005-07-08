@@ -146,21 +146,10 @@ public class ChatFrame extends KoLFrame
 		fileMenu.setMnemonic( KeyEvent.VK_F );
 		menuBar.add( fileMenu );
 
-		JMenuItem clearItem = new JMenuItem( "Clear Displays", KeyEvent.VK_C );
-		clearItem.addActionListener( new ClearChatBufferListener() );
-		fileMenu.add( clearItem );
-
-		JMenuItem loggerItem = new JMenuItem( "Initialize Chatlog", KeyEvent.VK_I );
-		loggerItem.addActionListener( new LogChatListener() );
-		fileMenu.add( loggerItem );
-
-		JMenuItem highItem = new JMenuItem( "Add Highlight", KeyEvent.VK_A );
-		highItem.addActionListener( new HighlightChatListener() );
-		fileMenu.add( highItem );
-
-		JMenuItem unhighItem = new JMenuItem( "Remove Highlight", KeyEvent.VK_N );
-		unhighItem.addActionListener( new RemoveHighlightListener() );
-		fileMenu.add( unhighItem );
+		fileMenu.add( new MessengerListener( "Clear Displays", KeyEvent.VK_C, "clearChatBuffers" ) );
+		fileMenu.add( new MessengerListener( "Initialize Chatlog", KeyEvent.VK_I, "initializeChatLogs" ) );
+		fileMenu.add( new MessengerListener( "Add Highlight", KeyEvent.VK_A, "addHighlighting" ) );
+		fileMenu.add( new MessengerListener( "Remove Highlight", KeyEvent.VK_R, "removeHighlighting" ) );
 
 		addConfigureMenu( menuBar );
 
@@ -400,42 +389,10 @@ public class ChatFrame extends KoLFrame
 		}
 	}
 
-	/**
-	 * Internal class to handle clearing the chat pane
-	 * whenever the user wishes it.
-	 */
-
-	private class ClearChatBufferListener implements ActionListener
+	private class MessengerListener extends InvocationMenuItem
 	{
-		public void actionPerformed( ActionEvent e )
-		{	messenger.clearChatBuffers();
-		}
-	}
-
-	/**
-	 * Internal class to handle logging the chat when the
-	 * user wishes to log the chat.  This opens a file
-	 * selector window.
-	 */
-
-	private class LogChatListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	messenger.initializeChatLogs();
-		}
-	}
-
-	private class HighlightChatListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	messenger.addHighlighting();
-		}
-	}
-
-	private class RemoveHighlightListener implements ActionListener
-	{
-		public void actionPerformed( ActionEvent e )
-		{	messenger.removeHighlighting();
+		public MessengerListener( String title, int mnemonic, String method )
+		{	super( title, mnemonic, messenger, method );
 		}
 	}
 

@@ -76,7 +76,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-	private JMenuItem refreshItem;
 	private JPanel using, selling, museum, stash;
 
 	/**
@@ -113,11 +112,8 @@ public class ItemManageFrame extends KoLFrame
 
 		JMenu fileMenu = new JMenu( "Options" );
 		fileMenu.setMnemonic( KeyEvent.VK_O );
+		fileMenu.add( new ListRefreshMenuItem() );
 		menuBar.add( fileMenu );
-
-		refreshItem = new JMenuItem( "Refresh Lists", KeyEvent.VK_R );
-		refreshItem.addActionListener( new ListRefreshListener() );
-		fileMenu.add( refreshItem );
 
 		addHelpMenu( menuBar );
 	}
@@ -132,9 +128,6 @@ public class ItemManageFrame extends KoLFrame
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-
-		if ( refreshItem != null )
-			refreshItem.setEnabled( isEnabled );
 
 		if ( using != null )
 			using.setEnabled( isEnabled );
@@ -533,8 +526,12 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class ListRefreshListener implements ActionListener
+	private class ListRefreshMenuItem extends JMenuItem implements ActionListener
 	{
+		public ListRefreshMenuItem()
+		{	super( "Refresh Lists", KeyEvent.VK_R );
+		}
+
 		public void actionPerformed( ActionEvent e )
 		{	(new RequestThread( new EquipmentRequest( client, EquipmentRequest.CLOSET ) )).start();
 		}

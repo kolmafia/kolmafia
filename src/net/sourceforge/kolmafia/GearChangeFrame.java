@@ -114,13 +114,8 @@ public class GearChangeFrame extends KoLFrame
 		fileMenu.setMnemonic( KeyEvent.VK_R );
 		menuBar.add( fileMenu );
 
-		gearRefresh = new JMenuItem( "Equipment", KeyEvent.VK_E );
-		gearRefresh.addActionListener( new RefreshListener( new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
-		fileMenu.add( gearRefresh );
-
-		familiarRefresh = new JMenuItem( "Familiars", KeyEvent.VK_F );
-		familiarRefresh.addActionListener( new RefreshListener( new FamiliarRequest( client ) ) );
-		fileMenu.add( familiarRefresh );
+		fileMenu.add( new RefreshMenuItem( "Equipment", KeyEvent.VK_E, new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
+		fileMenu.add( new RefreshMenuItem( "Familiars", KeyEvent.VK_F, new FamiliarRequest( client ) ) );
 
 		addHelpMenu( menuBar );
 	}
@@ -234,12 +229,16 @@ public class GearChangeFrame extends KoLFrame
 		setEnabled( true );
 	}
 
-	private class RefreshListener implements ActionListener
+	private class RefreshMenuItem extends JMenuItem implements ActionListener
 	{
 		private KoLRequest request;
 
-		public RefreshListener( KoLRequest request )
-		{	this.request = request;
+		public RefreshMenuItem( String title, int mnemonic, KoLRequest request )
+		{
+			super( title, mnemonic );
+			addActionListener( this );
+
+			this.request = request;
 		}
 
 		public void actionPerformed( ActionEvent e )
