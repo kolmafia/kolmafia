@@ -80,7 +80,7 @@ public class StoreManageFrame extends KoLFrame
 		super( client, "KoLmafia: Dropkicking Prices" );
 
 		if ( client != null )
-			(new StoreManageRequest( client )).run();
+			(new RequestThread( new StoreManageRequest( client ) )).start();
 
 		setResizable( false );
 		storeManager = new StoreManagePanel();
@@ -217,6 +217,7 @@ public class StoreManageFrame extends KoLFrame
 
 	private class AddItemPanel extends JPanel
 	{
+		private JLabel lowestPrice;
 		private JTextField itemPrice, itemLimit, itemQty;
 		private JButton addButton, searchButton;
 
@@ -230,6 +231,7 @@ public class StoreManageFrame extends KoLFrame
 			itemPrice = new JTextField( "" );
 			itemLimit = new JTextField( "" );
 			itemQty = new JTextField( "" );
+			lowestPrice = new JLabel( "(unknown)", JLabel.CENTER );
 
 			addButton = new JButton( JComponentUtilities.getSharedImage( "icon_success_sml.gif" ) );
 			addButton.addActionListener( new AddButtonListener() );
@@ -241,6 +243,7 @@ public class StoreManageFrame extends KoLFrame
 
 			JComponentUtilities.setComponentSize( sellingList, 280, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
+			JComponentUtilities.setComponentSize( lowestPrice, 80, 20 );
 			JComponentUtilities.setComponentSize( itemLimit, 30, 20 );
 			JComponentUtilities.setComponentSize( itemQty, 30, 20 );
 			JComponentUtilities.setComponentSize( addButton, 30, 20 );
@@ -251,22 +254,24 @@ public class StoreManageFrame extends KoLFrame
 			corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( sellingList ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( lowestPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemLimit ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemQty ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( addButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 30 ) );
 
-			JLabel [] label = new JLabel[5];
+			JLabel [] label = new JLabel[6];
 			label[0] = new JLabel( "Item Name", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[0], 280, 20 );
 			label[1] = new JLabel( "Price", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[1], 80, 20 );
-			label[2] = new JLabel( "Lim", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 30, 20 );
-			label[3] = new JLabel( "Qty", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 30, 20 );
-			label[4] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[4], 70, 20 );
+			label[2] = new JLabel( "Lowest", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 80, 20 );
+			label[3] = new JLabel( "Lim", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 30, 20 );
+			label[4] = new JLabel( "Qty", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[4], 30, 20 );
+			label[5] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[5], 70, 20 );
 
 			JPanel labelPanel = new JPanel();
 			labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.X_AXIS ) );
 			labelPanel.add( Box.createHorizontalStrut( 10 ) );
-			for ( int i = 0; i < 5; ++i )
+			for ( int i = 0; i < label.length; ++i )
 			{
 				labelPanel.add( label[i] );
 				labelPanel.add( Box.createHorizontalStrut( 10 ) );
@@ -325,7 +330,7 @@ public class StoreManageFrame extends KoLFrame
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 12, 540, 25, client == null ? new LockableListModel() : client.getStoreManager().getSoldItemList() );
+		{	super( 12, 640, 25, client == null ? new LockableListModel() : client.getStoreManager().getSoldItemList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -339,7 +344,7 @@ public class StoreManageFrame extends KoLFrame
 	private class StoreItemPanel extends PanelListCell
 	{
 		private int itemID;
-		private JLabel itemName, itemQuantity;
+		private JLabel itemName, itemQuantity, lowestPrice;
 		private JTextField itemPrice, itemLimit;
 		private JButton takeButton, searchButton;
 
@@ -349,6 +354,7 @@ public class StoreManageFrame extends KoLFrame
 			itemName = new JLabel( TradeableItemDatabase.getItemName( itemID ), JLabel.RIGHT );
 			itemQuantity = new JLabel( df.format( value.getQuantity() ), JLabel.CENTER );
 			itemPrice = new JTextField( df.format( value.getPrice() ) );
+			lowestPrice = new JLabel( value.getLowest() == 0 ? "(unknown)" : df.format( value.getLowest() ), JLabel.CENTER );
 			itemLimit = new JTextField( df.format( value.getLimit() ) );
 
 			takeButton = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
@@ -361,6 +367,7 @@ public class StoreManageFrame extends KoLFrame
 
 			JComponentUtilities.setComponentSize( itemName, 280, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
+			JComponentUtilities.setComponentSize( lowestPrice, 80, 20 );
 			JComponentUtilities.setComponentSize( itemLimit, 30, 20 );
 			JComponentUtilities.setComponentSize( itemQuantity, 30, 20 );
 			JComponentUtilities.setComponentSize( takeButton, 30, 20 );
@@ -371,6 +378,7 @@ public class StoreManageFrame extends KoLFrame
 			corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( lowestPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemLimit ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemQuantity ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( takeButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
@@ -388,6 +396,7 @@ public class StoreManageFrame extends KoLFrame
 			itemName.setText( TradeableItemDatabase.getItemName( smsi.getItemID() ) );
 			itemQuantity.setText( df.format( smsi.getQuantity() ) );
 			itemPrice.setText( df.format( smsi.getPrice() ) );
+			lowestPrice.setText( smsi.getLowest() == 0 ? "**" : df.format( smsi.getLowest() ) );
 			itemLimit.setText( df.format( smsi.getLimit() ) );
 		}
 

@@ -60,8 +60,8 @@ public class StoreManager implements KoLConstants
 	 * limit which is used to sell the item.
 	 */
 
-	public void registerItem( int itemID, int quantity, int price, int limit )
-	{	soldItemList.add( new SoldItem( itemID, quantity, price, limit ) );
+	public void registerItem( int itemID, int quantity, int price, int limit, int lowest )
+	{	soldItemList.add( new SoldItem( itemID, quantity, price, limit, lowest ) );
 	}
 
 	/**
@@ -99,12 +99,12 @@ public class StoreManager implements KoLConstants
 
 		if ( isPriceManagement )
 		{
-			int itemID, quantity, price, limit;
+			int itemID, quantity, price, limit, lowest;
 
 			// The item matcher here examines each row in the table
 			// displayed in the price management page.
 
-			Matcher priceMatcher = Pattern.compile( "<tr>.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\"" ).matcher( storeText );
+			Matcher priceMatcher = Pattern.compile( "<tr>.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" ).matcher( storeText );
 
 			try
 			{
@@ -113,13 +113,14 @@ public class StoreManager implements KoLConstants
 					itemID = Integer.parseInt( priceMatcher.group(3) );
 					quantity = df.parse( priceMatcher.group(1) ).intValue();
 
-					price = Integer.parseInt( priceMatcher.group(2) );
-					limit = Integer.parseInt( priceMatcher.group(4) );
+					price = df.parse( priceMatcher.group(2) ).intValue();
+					limit = df.parse( priceMatcher.group(4) ).intValue();
+					lowest = df.parse( priceMatcher.group(5) ).intValue();
 
 					// Now that all the data has been retrieved, register
 					// the item that was discovered.
 
-					registerItem( itemID, quantity, price, limit );
+					registerItem( itemID, quantity, price, limit, lowest );
 				}
 			}
 			catch ( Exception e )
@@ -148,12 +149,12 @@ public class StoreManager implements KoLConstants
 					// In this case, the limit could appear as "unlimited",
 					// which equates to a limit of 0.
 
-					limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : Integer.parseInt( itemMatcher.group(3) );
+					limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : df.parse( itemMatcher.group(3) ).intValue();
 
 					// Now that all the data has been retrieved, register
 					// the item that was discovered.
 
-					registerItem( item.getItemID(), item.getCount(), price, limit );
+					registerItem( item.getItemID(), item.getCount(), price, limit, 0 );
 				}
 			}
 			catch ( Exception e )
@@ -284,13 +285,15 @@ public class StoreManager implements KoLConstants
 		private int quantity;
 		private int price;
 		private int limit;
+		private int lowest;
 
-		public SoldItem( int itemID, int quantity, int price, int limit )
+		public SoldItem( int itemID, int quantity, int price, int limit, int lowest )
 		{
 			this.itemID = itemID;
 			this.quantity = quantity;
 			this.price = price;
 			this.limit = limit;
+			this.lowest = lowest;
 		}
 
 		public int getItemID()
@@ -307,6 +310,10 @@ public class StoreManager implements KoLConstants
 
 		public int getLimit()
 		{	return limit;
+		}
+
+		public int getLowest()
+		{	return lowest;
 		}
 	}
 }
