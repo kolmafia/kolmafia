@@ -1177,10 +1177,10 @@
 1177
 1178	potted cactus	0	25
 1179	daisy	0	50
-1180	potted fern	0	0
-1181	tulip	0	0
-1182	Venus flytrap	0	0
-1183
+1180	potted fern	0	100
+1181	tulip	0	250
+1182	Venus flytrap	0	500
+1183	all-purpose flower	0	1000
 1184
 1185
 1186
@@ -1188,10 +1188,10 @@
 1188
 1189	stuffed can of asparagus	0	25
 1190	stuffed dodecapede	0	50
-1191	stuffed ghuol whelp	0	0
-1192	stuffed zmobie	0	0
-1193	Raggedy Hippy doll	0	0
-1194
+1191	stuffed ghuol whelp	0	100
+1192	stuffed zmobie	0	250
+1193	Raggedy Hippy doll	0	500
+1194	stuffed stab bat	0	1000
 1195
 1196
 1197
@@ -1199,10 +1199,10 @@
 1199
 1200	mugcake	2	25
 1201	urinal cake	2	50
-1202	Happy Birthday, Claude! cake	2	0
-1203	personalized birthday cake	2	0
-1204	three-tiered wedding cake	2	0
-1205
+1202	Happy Birthday, Claude! cake	2	100
+1203	personalized birthday cake	2	250
+1204	three-tiered wedding cake	2	500
+1205	babycakes	2	1000
 1206
 1207
 1208
@@ -1210,10 +1210,10 @@
 1210
 1211	white balloon	8	25
 1212	green balloon	8	50
-1213	heart-shaped balloon	8	0
-1214	anniversary balloon	8	0
-1215	Mylar balloon	8	0
-1216
+1213	heart-shaped balloon	8	100
+1214	anniversary balloon	8	250
+1215	Mylar balloon	8	500
+1216	Kevlar balloon	8	1000
 1217
 1218
 1219
