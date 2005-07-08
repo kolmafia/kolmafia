@@ -107,8 +107,6 @@ public class RequestFrame extends KoLFrame
 		}
 		else
 		{
-			this.sidePaneRequest = new KoLRequest( client, "charpane.php" );
-
 			JEditorPane sideDisplay = new JEditorPane();
 			sideDisplay.setEditable( false );
 			sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
@@ -128,7 +126,6 @@ public class RequestFrame extends KoLFrame
 		}
 
 		addMenuBar();
-		refreshSidePane();
 		(new DisplayRequestThread()).start();
 	}
 
@@ -261,6 +258,12 @@ public class RequestFrame extends KoLFrame
 	{
 		public void run()
 		{
+			if ( sidePaneRequest == null && sideBuffer != null )
+			{
+				sidePaneRequest = new KoLRequest( client, "charpane.php" );
+				refreshSidePane();
+			}
+
 			if ( currentRequest == null )
 				return;
 
@@ -342,6 +345,11 @@ public class RequestFrame extends KoLFrame
 
 		displayHTML = displayHTML.replaceAll( "</style></html>" , "</style>" );
 
+		// For some reason, character entitites are not properly
+		// handled by the mini browser.
+
+		displayHTML = displayHTML.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&infin;", "**" );
+
 		return displayHTML;
 	}
 
@@ -354,7 +362,7 @@ public class RequestFrame extends KoLFrame
 	{
 		bookmarks.clear();
 
-		String [] bookmarkData = client.getSettings().getProperty( "browserBookmarks" ).split( "\\\\" );
+		String [] bookmarkData = client.getSettings().getProperty( "browserBookmarks" ).split( "\\|" );
 		String name, location, pwdhash;
 
 		if ( bookmarkData.length > 1 )
@@ -380,6 +388,8 @@ public class RequestFrame extends KoLFrame
 
 	private class BookmarkMenu extends JMenu implements ListDataListener
 	{
+		private int HEADER_COUNT = 3;
+
 		public BookmarkMenu()
 		{
 			super( "Bookmarks" );
@@ -390,6 +400,7 @@ public class RequestFrame extends KoLFrame
 			// to separate the menu from the bookmarks.
 
 			this.add( new AddBookmarkMenuItem() );
+			this.add( new RemoveBookmarkMenuItem() );
 			this.add( new JSeparator() );
 
 			// Now, add everything that's contained inside of
@@ -417,11 +428,11 @@ public class RequestFrame extends KoLFrame
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-			if ( index1 >= source.size() || source.size() + 2 == getMenuComponentCount() )
+			if ( index1 >= source.size() || source.size() + HEADER_COUNT == getMenuComponentCount() )
 				return;
 
 			for ( int i = index0; i <= index1; ++i )
-				add( (DisplayRequestMenuItem) source.get(i), i + 2 );
+				add( (DisplayRequestMenuItem) source.get(i), i + HEADER_COUNT );
 
 			validate();
 		}
@@ -438,11 +449,11 @@ public class RequestFrame extends KoLFrame
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-			if ( index1 + 2 >= getMenuComponentCount() || source.size() + 2 == getMenuComponentCount() )
+			if ( index1 + HEADER_COUNT >= getMenuComponentCount() || source.size() + HEADER_COUNT == getMenuComponentCount() )
 				return;
 
 			for ( int i = index1; i >= index0; --i )
-				remove( i + 2 );
+				remove( i + HEADER_COUNT );
 
 			validate();
 		}
@@ -467,35 +478,67 @@ public class RequestFrame extends KoLFrame
 		{
 			public AddBookmarkMenuItem()
 			{
-				super( "Add to Bookmarks..." );
+				super( "Bookmark Page", KeyEvent.VK_A );
 				addActionListener( this );
 			}
 
 			public void actionPerformed( ActionEvent e )
 			{
-				if ( client != null )
-				{
-					String name = JOptionPane.showInputDialog( "Please name your bookmark..." );
-					String location = getCurrentLocation();
-					boolean pwdhash = location.indexOf( "pwd=" ) != -1;
+				if ( client == null )
+					return;
 
-					StringBuffer bookmarkData = new StringBuffer();
-					bookmarkData.append( client.getSettings().getProperty( "browserBookmarks" ) );
+				String name = JOptionPane.showInputDialog( "Name your bookmark?" );
 
-					if ( bookmarkData.length() > 0 )
-						bookmarkData.append( "\\" );
+				if ( name == null )
+					return;
 
-					bookmarkData.append( name );
-					bookmarkData.append( "\\" );
-					bookmarkData.append( location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) );
-					bookmarkData.append( "\\" );
-					bookmarkData.append( pwdhash );
+				String location = getCurrentLocation();
+				boolean pwdhash = location.indexOf( "pwd=" ) != -1;
 
-					client.getSettings().setProperty( "browserBookmarks", bookmarkData.toString() );
-					client.getSettings().saveSettings();
+				StringBuffer bookmarkData = new StringBuffer();
+				bookmarkData.append( client.getSettings().getProperty( "browserBookmarks" ) );
 
-					compileBookmarks();
-				}
+				if ( bookmarkData.length() > 0 )
+					bookmarkData.append( "|" );
+
+				bookmarkData.append( name.replaceAll( "\\|", "" ) );
+				bookmarkData.append( "|" );
+				bookmarkData.append( location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) );
+				bookmarkData.append( "|" );
+				bookmarkData.append( pwdhash );
+
+				client.getSettings().setProperty( "browserBookmarks", bookmarkData.toString() );
+				client.getSettings().saveSettings();
+
+				compileBookmarks();
+			}
+		}
+
+		/**
+		 * An internal class which handles the removal of old
+		 * bookmarks from the bookmark menu.
+		 */
+
+		private class RemoveBookmarkMenuItem extends JMenuItem implements ActionListener
+		{
+			public RemoveBookmarkMenuItem()
+			{
+				super( "Unbookmark Page", KeyEvent.VK_U );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( client == null )
+					return;
+
+				String location = getCurrentLocation().replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" );
+				String bookmarkData = client.getSettings().getProperty( "browserBookmarks" );
+
+				client.getSettings().setProperty( "browserBookmarks", bookmarkData.replaceAll( "[^\\|]*?\\|" + location + "\\|(true|false)\\|?", "" ) );
+				client.getSettings().saveSettings();
+
+				compileBookmarks();
 			}
 		}
 	}
