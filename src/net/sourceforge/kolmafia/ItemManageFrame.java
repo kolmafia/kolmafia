@@ -529,7 +529,9 @@ public class ItemManageFrame extends KoLFrame
 	private class ListRefreshMenuItem extends JMenuItem implements ActionListener
 	{
 		public ListRefreshMenuItem()
-		{	super( "Refresh Lists", KeyEvent.VK_R );
+		{
+			super( "Refresh Lists", KeyEvent.VK_R );
+			addActionListener( this );
 		}
 
 		public void actionPerformed( ActionEvent e )
