@@ -88,7 +88,7 @@ public class MuseumFrame extends KoLFrame
 		super( client, "KoLmafia: Display Case" );
 
 		if ( client != null && client.getCollection().isEmpty() )
-			(new MuseumRequest( client )).run();
+			(new RequestThread( new MuseumRequest( client ) )).start();
 
 		storing = new StoragePanel();
 
@@ -98,7 +98,6 @@ public class MuseumFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		super.setEnabled( isEnabled );
 		if ( storing != null )
 			storing.setEnabled( isEnabled );
 	}
