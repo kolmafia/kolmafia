@@ -243,22 +243,9 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 		public synchronized void intervalAdded( ListDataEvent e )
 		{
-			if ( e.getType() == ListDataEvent.INTERVAL_ADDED && e.getSource() instanceof LockableListModel )
-				SwingUtilities.invokeLater( new ListDataEventProcessor( e ) );
-		}
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-		/**
-		 * Indicates that the given list has added elements.  This function then
-		 * proceeds to add the panels within the given index range using information
-		 * provided in the <code>LockableListModel</code>.
-		 *
-		 * @param	source	the list that has changed
-		 * @param	index0	the lower index in the range
-		 * @param	index1	the upper index in the range
-		 */
-
-		private synchronized void intervalAdded( LockableListModel source, int index0, int index1 )
-		{
 			if ( index1 >= source.size() || source.size() == getComponentCount() )
 				return;
 
@@ -277,21 +264,9 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 		public synchronized void intervalRemoved( ListDataEvent e )
 		{
-			if ( e.getType() == ListDataEvent.INTERVAL_REMOVED && e.getSource() instanceof LockableListModel )
-				(new ListDataEventProcessor( e )).run();
-		}
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-		/**
-		 * Indicates that the given list has removed elements.  This function then
-		 * proceeds to remove the panels within the given index range.
-		 *
-		 * @param	source	the list that has changed
-		 * @param	index0	the lower index in the range
-		 * @param	index1	the upper index in the range
-		 */
-
-		private synchronized void intervalRemoved( LockableListModel source, int index0, int index1 )
-		{
 			if ( index1 >= getComponentCount() || source.size() == getComponentCount() )
 				return;
 
@@ -310,22 +285,9 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 		public synchronized void contentsChanged( ListDataEvent e )
 		{
-			if ( e.getType() == ListDataEvent.CONTENTS_CHANGED && e.getSource() instanceof LockableListModel )
-				(new ListDataEventProcessor( e )).run();
-		}
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-		/**
-		 * Indicates that the given list has changed its contents.  This function then
-		 * proceeds to update the panels within the given index range with the information
-		 * in the <code>LockableListModel</code>.
-		 *
-		 * @param	source	the list that has changed
-		 * @param	index0	the lower index in the range
-		 * @param	index1	the upper index in the range
-		 */
-
-		private synchronized void contentsChanged( LockableListModel source, int index0, int index1 )
-		{
 			if ( index1 >= getComponentCount() )
 				return;
 
@@ -333,51 +295,6 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 				((PanelListCell)associatedPanelList.getComponent(i)).updateDisplay( associatedPanelList, source.get(i), i );
 
 			associatedPanelList.validatePanelList();
-		}
-
-		/**
-		 * An internal class used to process <code>ListDataEvent</code> objects that occur.
-		 * Because all responses result in something occurring in changing of the GUI, this
-		 * <code>Runnable</code> will always force the actual function calls to occur in the
-		 * event dispatch thread.
-		 */
-
-		private class ListDataEventProcessor implements Runnable
-		{
-			private int associatedEventType;
-			private LockableListModel source;
-			private int index0, index1;
-
-			public ListDataEventProcessor( ListDataEvent e )
-			{
-				associatedEventType = e.getType();
-				source = (LockableListModel) e.getSource();
-				index0 = e.getIndex0();  index1 = e.getIndex1();
-			}
-
-			public void run()
-			{
-				if ( source == null || index0 < 0 || index1 < 0 )
-					return;
-
-				switch ( associatedEventType )
-				{
-					case ListDataEvent.INTERVAL_ADDED:
-						intervalAdded( source, index0, index1 );
-						break;
-					case ListDataEvent.INTERVAL_REMOVED:
-						intervalRemoved( source, index0, index1 );
-						break;
-					case ListDataEvent.CONTENTS_CHANGED:
-						contentsChanged( source, index0, index1 );
-						break;
-				}
-
-				// after the event occurs, the panel should be
-				// validated; this also occurs in the AWT thread
-
-				validatePanelList();
-			}
 		}
 	}
 }
