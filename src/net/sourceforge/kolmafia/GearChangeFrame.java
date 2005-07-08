@@ -208,6 +208,7 @@ public class GearChangeFrame extends KoLFrame
 	private void refreshEquipPanel()
 	{
 		setEnabled( false );
+		outfitSelect.setSelectedItem( null );
 		characterData.updateEquipmentLists();
 		setEnabled( true );
 	}
