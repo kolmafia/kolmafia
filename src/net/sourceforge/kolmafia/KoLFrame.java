@@ -941,7 +941,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		protected void handleInternalLink( String location )
 		{
-			if ( location.startsWith( "desc" ) || location.startsWith( "doc" ) || location.startsWith( "search" ) )
+			if ( location.startsWith( "desc" ) || location.startsWith( "doc" ) || location.startsWith( "searchp" ) )
 			{
 				// Certain requests should open in a new window.
 				// These include description data, documentation
