@@ -81,8 +81,6 @@ import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 
 // event listeners
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -107,7 +105,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
-import javax.swing.DefaultListCellRenderer;
+import javax.swing.JSeparator;
 
 // other imports
 import java.util.Iterator;
@@ -218,34 +216,39 @@ public class AdventureFrame extends KoLFrame
 
 		JMenu statusMenu = addStatusMenu( menuBar );
 		statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php" ), 0 );
-		statusMenu.add( new DisplayFrameMenuItem( "Consult Oracle", KeyEvent.VK_C, CalendarFrame.class ), 1 );
-		statusMenu.add( new DisplayFrameMenuItem( "Manipulate Mall", KeyEvent.VK_M, StoreManageFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Yeti's Museum", KeyEvent.VK_Y, MuseumFrame.class ) );
-		statusMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", KeyEvent.VK_P, client, "pwnClanOtori" ) );
+		statusMenu.add( new MiniBrowserMenuItem( "Broken Records", KeyEvent.VK_B, "records.php" ), 1 );
+		statusMenu.add( new DisplayFrameMenuItem( "Consult Oracle", KeyEvent.VK_C, CalendarFrame.class ), 2 );
+		statusMenu.add( new JSeparator(), 3 );
 
-		JMenuItem activitiesMenu = new JMenu( "Activities" );
-		activitiesMenu.setMnemonic( KeyEvent.VK_A );
+		statusMenu.add( new KoLPanelFrameMenuItem( "Meat to Closet", KeyEvent.VK_M, new MeatStoragePanel() ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Store Manager", KeyEvent.VK_S, StoreManageFrame.class ) );
+
+		JMenuItem activitiesMenu = new JMenu( "Function" );
+		activitiesMenu.setMnemonic( KeyEvent.VK_F );
 		menuBar.add( activitiesMenu );
 
-		activitiesMenu.add( new KoLPanelFrameMenuItem( "Meat in Closet", KeyEvent.VK_M, new MeatStoragePanel() ) );
-		activitiesMenu.add( new KoLPanelFrameMenuItem( "Hall of Legends", KeyEvent.VK_H, new HeroDonationPanel() ) );
+		activitiesMenu.add( new KoLPanelFrameMenuItem( "Skills and Buffs", KeyEvent.VK_S, new SkillBuffPanel() ) );
 		activitiesMenu.add( new KoLPanelFrameMenuItem( "Uneffect Effects", KeyEvent.VK_U, new RemoveEffectsPanel() ) );
-		activitiesMenu.add( new KoLPanelFrameMenuItem( "Buffs and Skills", KeyEvent.VK_B, new SkillBuffPanel() ) );
+		activitiesMenu.add( new KoLPanelFrameMenuItem( "Hall of Legends", KeyEvent.VK_H, new HeroDonationPanel() ) );
+
+		activitiesMenu.add( new JSeparator() );
+
+		activitiesMenu.add( new AdventureRequestListener( "Loot the Hermit", KeyEvent.VK_L, "hermit.php", "", "The Hermitage" ) );
+		activitiesMenu.add( new AdventureRequestListener( "Mountain Traps", KeyEvent.VK_M, "trapper.php", "", "The 1337 Trapper" ) );
+		activitiesMenu.add( new AdventureRequestListener( "Bounty Hunter", KeyEvent.VK_B, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ) );
+		activitiesMenu.add( new DisplayFrameMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, CakeArenaFrame.class ) );
+
+		activitiesMenu.add( new JSeparator() );
+
+		activitiesMenu.add( new DisplayFrameMenuItem( "Yeti's Museum", KeyEvent.VK_Y, MuseumFrame.class ) );
+		activitiesMenu.add( new DisplayFrameMenuItem( "Gnomish Storage", KeyEvent.VK_G, HagnkStorageFrame.class ) );
+		activitiesMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", KeyEvent.VK_P, client, "pwnClanOtori" ) );
 
 		JMenu scriptMenu = addScriptMenu( menuBar );
+
+		scriptMenu.add( new JSeparator(), 2 );
 		scriptMenu.add( new InvocationMenuItem( "Camping Routine", KeyEvent.VK_C, client, "getBreakfast" ), 3 );
 		scriptMenu.add( new DisplayFrameMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E, BuffBotFrame.class ), 4 );
-
-		JMenu visitMenu = new JMenu( "Travel" );
-		visitMenu.setMnemonic( KeyEvent.VK_T );
-		menuBar.add( visitMenu );
-
-		visitMenu.add( new MiniBrowserMenuItem( "Broken Records", KeyEvent.VK_B, "records.php" ) );
-		visitMenu.add( new DisplayFrameMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, CakeArenaFrame.class ) );
-		visitMenu.add( new AdventureRequestListener( "Hermit Hideout", KeyEvent.VK_H, "hermit.php", "", "The Hermitage" ) );
-		visitMenu.add( new AdventureRequestListener( "Mountain Traps", KeyEvent.VK_M, "trapper.php", "", "The 1337 Trapper" ) );
-		visitMenu.add( new AdventureRequestListener( "Seaside Towels", KeyEvent.VK_S, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ) );
-		visitMenu.add( new DisplayFrameMenuItem( "Gnomish Storage", KeyEvent.VK_G, HagnkStorageFrame.class ) );
 
 		addPeopleMenu( menuBar ).add( new DisplayFrameMenuItem( "Manage Your Clan", KeyEvent.VK_M, ClanManageFrame.class ) );
 
@@ -289,9 +292,15 @@ public class AdventureFrame extends KoLFrame
 			locationField = new JComboBox( adventureList );
 			countField = new JTextField();
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			resultSelect = new JComboBox();
+			resultSelect.addItem( "Session Results" );
+			resultSelect.addItem( "Conditions Left" );
+			resultSelect.addItem( "Active Effects" );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Location: ", locationField );
 			elements[1] = new VerifiableElement( "# of turnips: ", countField );
+			elements[2] = new VerifiableElement( "Show in list: ", resultSelect );
 
 			setContent( elements );
 
@@ -313,28 +322,17 @@ public class AdventureFrame extends KoLFrame
 			JPanel southPanel = new JPanel();
 			southPanel.setLayout( new BorderLayout() );
 
-			DefaultListCellRenderer renderer = new DefaultListCellRenderer();
-			renderer.setHorizontalAlignment( JLabel.CENTER );
-
-			resultSelect = new JComboBox();
-			resultSelect.setRenderer( renderer );
-			resultSelect.addItem( "Session Results" );
-			resultSelect.addItem( "Conditions Left" );
-			resultSelect.addItem( "Active Effects" );
-
 			resultPanel = new JPanel();
 			resultCards = new CardLayout( 0, 0 );
 			resultPanel.setLayout( resultCards );
 
-			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
-			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
-			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getCharacterData().getEffects() ), "2" );
+			resultPanel.add( new AdventureResultsPanel( "Session Results", client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
+			resultPanel.add( new AdventureResultsPanel( "Conditions Left", client == null ? new LockableListModel() : client.getConditions() ), "1" );
+			resultPanel.add( new AdventureResultsPanel( "Active Effects", client == null ? new LockableListModel() : client.getCharacterData().getEffects() ), "2" );
 
-			southPanel.add( resultSelect, BorderLayout.NORTH );
-			southPanel.add( resultPanel, BorderLayout.CENTER );
 			resultSelect.addActionListener( new ResultSelectListener() );
 
-			centerPanel.add( southPanel, BorderLayout.SOUTH );
+			centerPanel.add( resultPanel, BorderLayout.CENTER );
 			add( centerPanel, BorderLayout.CENTER );
 			setDefaultButton( confirmedButton );
 		}
@@ -415,7 +413,7 @@ public class AdventureFrame extends KoLFrame
 
 		private class AdventureResultsPanel extends JPanel
 		{
-			public AdventureResultsPanel( LockableListModel resultList )
+			public AdventureResultsPanel( String label, LockableListModel resultList )
 			{
 				setLayout( new BorderLayout() );
 				setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
@@ -425,6 +423,7 @@ public class AdventureFrame extends KoLFrame
 				tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 				tallyDisplay.setVisibleRowCount( 11 );
 
+				add( JComponentUtilities.createLabel( label, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 				add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 			}
