@@ -52,11 +52,16 @@ import javax.swing.JSeparator;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
+	private static LockableListModel bookmarks = new LockableListModel();
+
 	private JMenu bookmarkMenu;
 	private RequestFrame parent;
 	private KoLRequest currentRequest;
@@ -174,71 +179,25 @@ public class RequestFrame extends KoLFrame
 		// All frames get the benefit of the bookmarks menu bar, eventhough it
 		// might be a little counterintuitive when viewing player profiles.
 
-		this.bookmarkMenu = new JMenu( "Bookmarks" );
-		this.bookmarkMenu.setMnemonic( KeyEvent.VK_B );
-
-		this.bookmarkMenu.add( new AddBookmarkMenuItem() );
-		this.bookmarkMenu.add( new JSeparator() );
-
-		if ( client != null )
-		{
-			String [] bookmarks = client.getSettings().getProperty( "browserBookmarks" ).split( "\\\\" );
-			String name, location, pwdhash;
-
-			if ( bookmarks.length > 1 )
-				for ( int i = 0; i < bookmarks.length; ++i )
-				{
-					name = bookmarks[i];
-					location = bookmarks[++i];
-					pwdhash = bookmarks[++i];
-
-					if ( pwdhash.equals( "true" ) )
-						location += "&pwd=" + client.getPasswordHash();
-
-					this.bookmarkMenu.add( new DisplayRequestMenuItem( name, location ) );
-				}
-		}
-
-		menuBar.add( this.bookmarkMenu );
+		compileBookmarks();
+		menuBar.add( new BookmarkMenu() );
 	}
 
-	private class AddBookmarkMenuItem extends JMenuItem implements ActionListener
-	{
-		public AddBookmarkMenuItem()
-		{	super( "Add to Bookmarks..." );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( client != null )
-			{
-				String name = JOptionPane.showInputDialog( "Please name your bookmark..." );
-				String location = getCurrentLocation();
-				boolean pwdhash = location.indexOf( "pwd=" ) != -1;
-
-				StringBuffer bookmarks = new StringBuffer();
-				bookmarks.append( client.getSettings().getProperty( "browserBookmarks" ) );
-
-				if ( bookmarks.length() > 0 )
-					bookmarks.append( "\\" );
-
-				bookmarks.append( name );
-				bookmarks.append( "\\" );
-				bookmarks.append( location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) );
-				bookmarks.append( "\\" );
-				bookmarks.append( pwdhash );
-
-				client.getSettings().setProperty( "browserBookmarks", bookmarks.toString() );
-				client.getSettings().saveSettings();
-
-				RequestFrame.this.bookmarkMenu.add( new DisplayRequestMenuItem( name, location ) );
-			}
-		}
-	}
+	/**
+	 * Utility method which returns the current URL being pointed
+	 * to by this <code>RequestFrame</code>.
+	 */
 
 	public String getCurrentLocation()
 	{	return currentRequest.getURLString();
 	}
+
+	/**
+	 * Utility method which refreshes the current frame with
+	 * data contained in the given request.  If the request
+	 * has not yet been run, it will be run before the data
+	 * is display in this frame.
+	 */
 
 	public void refresh( KoLRequest request )
 	{
@@ -254,21 +213,26 @@ public class RequestFrame extends KoLFrame
 			parent.refresh( request );
 	}
 
-	public void refreshSidePane()
+	/**
+	 * Utility method which refreshes the side pane.  This
+	 * is used whenever something occurs in the main pane
+	 * which is suspected to cause some display change here.
+	 */
+
+	private void refreshSidePane()
 	{
 		if ( sideBuffer != null )
-			(new RefreshSidePaneThread()).start();
-	}
-
-	private class RefreshSidePaneThread extends DaemonThread
-	{
-		public void run()
 		{
 			sidePaneRequest.run();
 			sideBuffer.clearBuffer();
 			sideBuffer.append( getDisplayHTML( sidePaneRequest.responseText ) );
 		}
 	}
+
+	/**
+	 * Internal class which displays the given request inside
+	 * of the current frame.
+	 */
 
 	private class DisplayRequestMenuItem extends JMenuItem implements ActionListener
 	{
@@ -287,6 +251,11 @@ public class RequestFrame extends KoLFrame
 			(new DisplayRequestThread()).start();
 		}
 	}
+
+	/**
+	 * A special thread class which ensures that attempts to
+	 * refresh the frame with data do not long the Swing thread.
+	 */
 
 	private class DisplayRequestThread extends DaemonThread
 	{
@@ -315,6 +284,13 @@ public class RequestFrame extends KoLFrame
 			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
 		}
 	}
+
+	/**
+	 * Utility method which converts the given text into a form which
+	 * can be displayed properly in a <code>JEditorPane</code>.  This
+	 * method is necessary primarily due to the bad HTML which is used
+	 * but can still be properly rendered by post-3.2 browsers.
+	 */
 
 	private String getDisplayHTML( String responseText )
 	{
@@ -367,5 +343,160 @@ public class RequestFrame extends KoLFrame
 		displayHTML = displayHTML.replaceAll( "</style></html>" , "</style>" );
 
 		return displayHTML;
+	}
+
+	/**
+	 * Utility method to compile the list of bookmarks based on the
+	 * current server settings.
+	 */
+
+	private void compileBookmarks()
+	{
+		bookmarks.clear();
+
+		String [] bookmarkData = client.getSettings().getProperty( "browserBookmarks" ).split( "\\\\" );
+		String name, location, pwdhash;
+
+		if ( bookmarkData.length > 1 )
+		{
+			for ( int i = 0; i < bookmarkData.length; ++i )
+			{
+				name = bookmarkData[i];
+				location = bookmarkData[++i];
+				pwdhash = bookmarkData[++i];
+
+				if ( pwdhash.equals( "true" ) )
+					location += "&pwd=" + client.getPasswordHash();
+
+				bookmarks.add( new DisplayRequestMenuItem( name, location ) );
+			}
+		}
+	}
+
+	/**
+	 * A special class which renders the menu holding the list of bookmarks.
+	 * This class also synchronizes with the list of available bookmarks.
+	 */
+
+	private class BookmarkMenu extends JMenu implements ListDataListener
+	{
+		public BookmarkMenu()
+		{
+			super( "Bookmarks" );
+			setMnemonic( KeyEvent.VK_B );
+
+			// The bookmark menu is headed off with two items
+			// which allow you to add to the menu and a separator
+			// to separate the menu from the bookmarks.
+
+			this.add( new AddBookmarkMenuItem() );
+			this.add( new JSeparator() );
+
+			// Now, add everything that's contained inside of
+			// the current list of bookmarks.
+
+			for ( int i = 0; i < bookmarks.size(); ++i )
+				this.add( (DisplayRequestMenuItem) bookmarks.get(i) );
+
+			// Add this as a listener to the list of bookmarks
+			// so that it gets updated whenever bookmarks are
+			// updated in any way.
+
+			bookmarks.addListDataListener( this );
+		}
+
+		/**
+		 * Called whenever contents have been added to the original list; a
+		 * function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public synchronized void intervalAdded( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= source.size() || source.size() + 2 == getMenuComponentCount() )
+				return;
+
+			for ( int i = index0; i <= index1; ++i )
+				add( (DisplayRequestMenuItem) source.get(i), i + 2 );
+
+			validate();
+		}
+
+		/**
+		 * Called whenever contents have been removed from the original list;
+		 * a function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public synchronized void intervalRemoved( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 + 2 >= getMenuComponentCount() || source.size() + 2 == getMenuComponentCount() )
+				return;
+
+			for ( int i = index1; i >= index0; --i )
+				remove( i + 2 );
+
+			validate();
+		}
+
+		/**
+		 * Called whenever contents in the original list have changed; a
+		 * function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public synchronized void contentsChanged( ListDataEvent e )
+		{
+		}
+
+		/**
+		 * An internal class which handles the addition of new
+		 * bookmarks to the bookmark menu.
+		 */
+
+		private class AddBookmarkMenuItem extends JMenuItem implements ActionListener
+		{
+			public AddBookmarkMenuItem()
+			{
+				super( "Add to Bookmarks..." );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( client != null )
+				{
+					String name = JOptionPane.showInputDialog( "Please name your bookmark..." );
+					String location = getCurrentLocation();
+					boolean pwdhash = location.indexOf( "pwd=" ) != -1;
+
+					StringBuffer bookmarkData = new StringBuffer();
+					bookmarkData.append( client.getSettings().getProperty( "browserBookmarks" ) );
+
+					if ( bookmarkData.length() > 0 )
+						bookmarkData.append( "\\" );
+
+					bookmarkData.append( name );
+					bookmarkData.append( "\\" );
+					bookmarkData.append( location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) );
+					bookmarkData.append( "\\" );
+					bookmarkData.append( pwdhash );
+
+					client.getSettings().setProperty( "browserBookmarks", bookmarkData.toString() );
+					client.getSettings().saveSettings();
+
+					compileBookmarks();
+				}
+			}
+		}
 	}
 }
