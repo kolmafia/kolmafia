@@ -376,6 +376,7 @@ public class AdventureFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 			locationField.setEnabled( isEnabled );
 			countField.setEnabled( isEnabled );
+			choiceField.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
