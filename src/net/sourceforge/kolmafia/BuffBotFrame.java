@@ -90,7 +90,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffBotFrame extends KoLFrame
 {
-	private JCheckBoxMenuItem toggleItem;
 	private KoLSettings settings;
 	private BuffBotManager currentManager;
 
@@ -585,9 +584,9 @@ public class BuffBotFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			boolean isSelected = toggleItem.getSelectedObjects() != null;
+			boolean isSelected = getSelectedObjects() != null;
 
-			toggleItem.setSelected( isSelected );
+			setSelected( isSelected );
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).setVisible( isSelected );
 		}
@@ -606,10 +605,7 @@ public class BuffBotFrame extends KoLFrame
 			if ( client != null )
 			{
 				client.deinitializeBuffBot();
-
-				if ( toggleItem.getText().equals( "Show Main" ) )
-					((KoLmafiaGUI)client).setVisible( true );
-
+				((KoLmafiaGUI)client).setVisible( true );
 				client.updateDisplay( ENABLED_STATE, "Buffbot deactivated." );
 			}
 			else
