@@ -173,7 +173,7 @@ public class ItemManageFrame extends KoLFrame
 		private class ConsumeItemPanel extends ItemManagePanel
 		{
 			public ConsumeItemPanel()
-			{	super( "Usable Items", "use one", "use multiple", client.getUsableItems() );
+			{	super( "Usable Items", "use one", "use multiple", client == null ? new LockableListModel() : client.getUsableItems() );
 			}
 
 			protected void actionConfirmed()
