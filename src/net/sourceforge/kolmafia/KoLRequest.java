@@ -93,6 +93,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected KoLmafia client;
 	protected PrintStream logStream;
 
+	private boolean hadTimeout;
 	protected int responseCode;
 	protected boolean isErrorState;
 	protected boolean followRedirects;
@@ -362,6 +363,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private void execute()
 	{
+		this.hadTimeout = false;
 		this.logStream = client == null || formURLString.indexOf( "chat" ) != -1 ? new NullStream() : client.getLogStream();
 		logStream.println( "Connecting to " + formURLString + "..." );
 
@@ -371,6 +373,13 @@ public class KoLRequest implements Runnable, KoLConstants
 			delay( REFRESH_RATE );
 		}
 		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
+
+		// In the event that you have a timeout during a situation
+		// where the display does not update afterwards, be sure
+		// you clear the display.
+
+		if ( this.hadTimeout && (formURLString.startsWith( "chat" ) || client.isBuffBotActive()) )
+			client.updateDisplay( NOCHANGE, "" );
 	}
 
 	/**
@@ -416,7 +425,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// that there was a timeout; return false and let the loop
 			// attempt to connect again
 
-			this.isErrorState = true;
+			this.hadTimeout = true;
 
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Error opening connection.  Retrying..." );
@@ -500,7 +509,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
-			this.isErrorState = true;
+			this.hadTimeout = true;
 
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
@@ -552,6 +561,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
+			this.hadTimeout = true;
+
 			// FileNotFoundException problems could originate from
 			// anything -- standard timeouts, in some operating
 			// systems, for example, could throw a FNFE.  So, just
