@@ -136,6 +136,7 @@ public class AdventureRequest extends KoLRequest
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "choice.php" ) )
 		{
 			client.processChoiceAdventure( this );
+			isErrorState = true;
 			return;
 		}
 
