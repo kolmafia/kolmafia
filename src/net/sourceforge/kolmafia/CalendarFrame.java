@@ -291,7 +291,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	{
 		try
 		{
-			int timeDifference = calculateDifferenceInDays( sdf.parse( NEWYEAR ).getTime(), time.getTime() );
+			int timeDifference = calculateDifferenceInDays( sdf.parse( NEWYEAR ).getTime(), time.getTime() ) + phaseError;
 
 			phaseStep = ((timeDifference % 16) + 16) % 16;
 			ronaldPhase = phaseStep % 8;
@@ -516,7 +516,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				// to a special day, then highlight it.
 
 				int difference = calculateDifferenceInDays( sdf.parse( NEWYEAR ).getTime(), sdf.parse( cellDate ).getTime() );
-				int calendarDay = ((difference % 96) + 96) % 96;
+				int calendarDay = (((difference + phaseError) % 96) + 96) % 96;
 
 				if ( SPECIAL[ calendarDay ] == SP_HOLIDAY )
 					return holidayRenderer;
@@ -534,6 +534,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	public static void main( String [] args )
 	{
+		phaseError = 0;
 		calculatePhases( new Date() );
 		MoonPhaseDatabase.setMoonPhases( ronaldPhase, grimacePhase );
 
