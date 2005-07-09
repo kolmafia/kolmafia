@@ -33,6 +33,9 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.util.StringTokenizer;
 
 /**
@@ -135,8 +138,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "choice.php" ) )
 		{
-			client.processChoiceAdventure( this );
-			isErrorState = true;
+			processChoiceAdventure();
 			return;
 		}
 
@@ -273,5 +275,55 @@ public class AdventureRequest extends KoLRequest
 
 	public int getAdventuresUsed()
 	{	return isErrorState ? 0 : adventuresUsed;
+	}
+
+	/**
+	 * Utility method which notifies the client that it needs to process
+	 * the given choice adventure.
+	 */
+
+	public void processChoiceAdventure()
+	{
+		KoLRequest request = new KoLRequest( client, "choice.php" );
+		request.run();
+
+		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( request.responseText );
+		if ( choiceMatcher.find() )
+		{
+			String decision = client.getSettings().getProperty( "choiceAdventure" + choiceMatcher.group(1) );
+
+			// If there is currently no setting which determines the
+			// decision, assume it can be skipped and skip it.
+
+			if ( decision == null )
+			{
+				updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
+				this.run();
+				return;
+			}
+
+			// If there is currently a setting which determines the
+			// decision, make that decision and submit the form.
+
+			request.addFormField( "pwd", client.getPasswordHash() );
+			request.addFormField( "whichchoice", choiceMatcher.group(1) );
+			request.addFormField( "option", decision );
+
+			request.run();
+
+			client.processResults( request.responseText );
+
+			AdventureResult loseAdventure = new AdventureResult( AdventureResult.ADV, -1 );
+			AdventureResult.addResultToList( client.getConditions(), loseAdventure );
+
+			if ( loseAdventure.getCount( client.getConditions() ) == 0 )
+				client.getConditions().remove( client.getConditions().indexOf( loseAdventure ) );
+		}
+		else
+		{
+			updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
+			this.run();
+			return;
+		}
 	}
 }

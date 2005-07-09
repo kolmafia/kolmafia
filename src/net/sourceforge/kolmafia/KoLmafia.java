@@ -1591,57 +1591,6 @@ public abstract class KoLmafia implements KoLConstants
 	{	return conditions;
 	}
 
-	/**
-	 * Utility method which notifies the client that it needs to process
-	 * the given choice adventure.
-	 */
-
-	public void processChoiceAdventure( KoLRequest source )
-	{
-		KoLRequest request = new KoLRequest( this, "choice.php" );
-		request.run();
-
-		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( request.responseText );
-		if ( choiceMatcher.find() )
-		{
-			String decision = settings.getProperty( "choiceAdventure" + choiceMatcher.group(1) );
-
-			// If there is currently no setting which determines the
-			// decision, assume it can be skipped and skip it.
-
-			if ( decision == null )
-			{
-				updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
-				source.run();
-				return;
-			}
-
-			// If there is currently a setting which determines the
-			// decision, make that decision and submit the form.
-
-			request = new KoLRequest( this, "choice.php" );
-			request.addFormField( "pwd", getPasswordHash() );
-			request.addFormField( "whichchoice", choiceMatcher.group(1) );
-			request.addFormField( "option", decision );
-
-			request.run();
-			AdventureResult loseAdventure = new AdventureResult( AdventureResult.ADV, -1 );
-
-			processResult( loseAdventure );
-			processResults( request.responseText );
-			AdventureResult.addResultToList( conditions, loseAdventure );
-
-			if ( loseAdventure.getCount( conditions ) == 0 )
-				conditions.remove( conditions.indexOf( loseAdventure ) );
-		}
-		else
-		{
-			updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
-			source.run();
-			return;
-		}
-	}
-
 	public void executeTimeInRequest()
 	{
 		if ( !isLoggingIn )
