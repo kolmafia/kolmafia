@@ -1625,7 +1625,10 @@ public abstract class KoLmafia implements KoLConstants
 			request.addFormField( "option", decision );
 
 			request.run();
-			AdventureResult.addResultToList( conditions, new AdventureResult( AdventureResult.ADV, -1 ) );
+			AdventureResult loseAdventure = new AdventureResult( AdventureResult.ADV, -1 );
+
+			processResult( loseAdventure );
+			AdventureResult.addResultToList( conditions, loseAdventure );
 		}
 		else
 		{
