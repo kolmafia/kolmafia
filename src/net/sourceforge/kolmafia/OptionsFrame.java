@@ -505,9 +505,9 @@ public class OptionsFrame extends KoLFrame
 
 	private class ChoiceOptionsPanel extends OptionsPanel
 	{
-		private final String [] titles = { "Lucky Sewer Gnome Trading", "Wheel in the Clouds in the Sky" };
-		private final String [] settingNames = { "luckySewer", "choiceAdventure9" };
-		private final boolean [] useCheckboxes = { true, false };
+		private final String [] titles = { "Lucky Sewer Gnome Trading", "Castle Wheel (Garbage)", "Castle Wheel (Cat Feeding)" };
+		private final String [] settingNames = { "luckySewer", "choiceAdventure9", "choiceAdventure12" };
+		private final boolean [] useCheckboxes = { true, false, false };
 
 		private String [][] optionNames;
 		private AbstractButton [][] options;
@@ -543,6 +543,12 @@ public class OptionsFrame extends KoLFrame
 			optionNames[1][0] = "Turn the wheel clockwise";
 			optionNames[1][1] = "Turn the wheel counterclockwise";
 			optionNames[1][2] = "Leave the wheel alone";
+
+			optionNames[2] = new String[3];
+
+			optionNames[2][0] = "Turn the wheel clockwise";
+			optionNames[2][1] = "Turn the wheel counterclockwise";
+			optionNames[2][2] = "Leave the wheel alone";
 		}
 
 		/**
