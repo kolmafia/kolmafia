@@ -100,6 +100,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JColorChooser;
 import javax.swing.JScrollPane;
 import javax.swing.JOptionPane;
+import javax.swing.AbstractButton;
+import javax.swing.Box;
 
 // utilities
 import java.util.List;
@@ -176,7 +178,7 @@ public class OptionsFrame extends KoLFrame
 		panels[2].add( new BattleOptionsPanel() );
 
 		names[3] = "Choice";
-		panels[3].add( new SewerOptionsPanel() );
+		panels[3].add( new ChoiceOptionsPanel() );
 
 		names[4] = "People";
 		panels[4].add( new ChatOptionsPanel() );
@@ -498,67 +500,166 @@ public class OptionsFrame extends KoLFrame
 
 	/**
 	 * This panel allows the user to select which item they would like
-	 * to trade with the gnomes in the sewers of Seaside Town, in
-	 * exchange for their ten-leaf clover.  These settings only apply
-	 * to the Lucky Sewer adventure.
+	 * to do for each of the different choice adventures.
 	 */
 
-	private class SewerOptionsPanel extends OptionsPanel
+	private class ChoiceOptionsPanel extends OptionsPanel
 	{
-		private JCheckBox [] items;
+		private final String [] titles = { "Lucky Sewer Gnome Trading", "Wheel in the Clouds in the Sky" };
+		private final String [] settingNames = { "luckySewer", "choiceAdventure9" };
+		private final boolean [] useCheckboxes = { true, false };
 
-		private final String [] itemnames = { "seal-clubbing club", "seal tooth", "helmet turtle",
-			"scroll of turtle summoning", "pasta spoon", "ravioli hat", "saucepan", "spices", "disco mask",
-			"disco ball", "stolen accordion", "mariachi pants", "worthless trinket" };
+		private String [][] optionNames;
+		private AbstractButton [][] options;
+
+		private void initializeNames()
+		{
+			optionNames = new String[ titles.length ][];
+
+			// First in the list are the options which are
+			// available to the lucky sewer.
+
+			optionNames[0] = new String[13];
+
+			optionNames[0][0] = "seal-clubbing club";
+			optionNames[0][1] = "seal tooth";
+			optionNames[0][2] = "helmet turtle";
+			optionNames[0][3] = "scroll of turtle summoning";
+			optionNames[0][4] = "pasta spoon";
+			optionNames[0][5] = "ravioli hat";
+			optionNames[0][6] = "saucepan";
+			optionNames[0][7] = "spices";
+			optionNames[0][8] = "disco mask";
+			optionNames[0][9] = "disco ball";
+			optionNames[0][10] = "stolen accordion";
+			optionNames[0][11] = "mariachi pants";
+			optionNames[0][12] = "worthless trinket";
+
+			// Next in the list are the options which are
+			// available for the wheel adventure.
+
+			optionNames[1] = new String[3];
+
+			optionNames[1][0] = "Turn the wheel clockwise";
+			optionNames[1][1] = "Turn the wheel counterclockwise";
+			optionNames[1][2] = "Leave the wheel alone";
+		}
 
 		/**
-		 * Constructs a new <code>SewerOptionsPanel</code> containing an
-		 * alphabetized list of items available through the lucky sewer
+		 * Constructs a new <code>ChoiceOptionsPanel</code> containing an
+		 * alphabetized list of options available through the lucky sewer
 		 * adventure.
 		 */
 
-		public SewerOptionsPanel()
+		public ChoiceOptionsPanel()
 		{
-			super( "Lucky Sewer Settings", new Dimension( 200, 20 ), new Dimension( 20, 20 ) );
-			items = new JCheckBox[ itemnames.length ];
-			for ( int i = 0; i < items.length; ++i )
-				items[i] = new JCheckBox();
+			super( "" );
 
-			VerifiableElement [] elements = new VerifiableElement[ items.length ];
-			for ( int i = 0; i < items.length; ++i )
-				elements[i] = new VerifiableElement( itemnames[i], JLabel.LEFT, items[i] );
+			setContent( null );
+			this.initializeNames();
 
-			java.util.Arrays.sort( elements );
-			setContent( elements, false );
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
+
+			JPanel selectPanel;
+			JScrollPane scrollArea;
+			JPanel containerPanel;
+
+			ButtonGroup optionsGroup = null;
+			JPanel labelPanel, optionsPanel;
+			JLabel currentLabel;
+
+			options = new AbstractButton[ optionNames.length ][];
+
+			for ( int i = 0; i < optionNames.length; ++i )
+			{
+				labelPanel = new JPanel();
+				labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.Y_AXIS ) );
+
+				optionsPanel = new JPanel();
+				optionsPanel.setLayout( new BoxLayout( optionsPanel, BoxLayout.Y_AXIS ) );
+
+				if ( !useCheckboxes[i] )
+					optionsGroup = new ButtonGroup();
+
+				options[i] = new AbstractButton[ optionNames[i].length ];
+
+				for ( int j = 0; j < optionNames[i].length; ++j )
+				{
+					currentLabel = new JLabel( optionNames[i][j], JLabel.LEFT );
+					JComponentUtilities.setComponentSize( currentLabel, 330, 20 );
+					labelPanel.add( currentLabel );
+
+					if ( useCheckboxes[i] )
+						options[i][j] = new JCheckBox();
+					else
+					{
+						options[i][j] = new JRadioButton();
+						optionsGroup.add( options[i][j] );
+					}
+
+					JComponentUtilities.setComponentSize( options[i][j], 30, 20 );
+					optionsPanel.add( options[i][j] );
+				}
+
+				selectPanel = new JPanel();
+				selectPanel.setLayout( new BorderLayout() );
+
+				selectPanel.add( labelPanel, BorderLayout.CENTER );
+				selectPanel.add( optionsPanel, BorderLayout.WEST );
+
+				scrollArea = new JScrollPane( selectPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+				JComponentUtilities.setComponentSize( scrollArea, 320, 80 );
+
+				containerPanel = new JPanel();
+				containerPanel.setLayout( new BorderLayout() );
+				containerPanel.add( JComponentUtilities.createLabel( titles[i], JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+				containerPanel.add( scrollArea, BorderLayout.CENTER );
+
+				centerPanel.add( containerPanel );
+				centerPanel.add( Box.createVerticalStrut( 20 ) );
+			}
+
+			add( centerPanel, BorderLayout.WEST );
 			actionCancelled();
 		}
 
 		protected void actionConfirmed()
 		{
-			List selected = new ArrayList();
+			StringBuffer currentSetting = new StringBuffer();
 
-			for ( int i = 0; i < items.length; ++i )
-				if ( items[i].isSelected() )
-					selected.add( new Integer(i) );
-
-			if ( selected.size() != 3 )
+			for ( int i = 0; i < optionNames.length; ++i )
 			{
-				setStatusMessage( ERROR_STATE, "You did not select exactly three items." );
-				return;
+				currentSetting.setLength(0);
+				for ( int j = 0; j < optionNames[i].length; ++j )
+					if ( options[i][j].isSelected() )
+					{
+						if ( currentSetting.length() != 0 )
+							currentSetting.append( ',' );
+
+						currentSetting.append( j + 1 );
+					}
+
+				setProperty( settingNames[i], currentSetting.toString() );
 			}
 
-			setProperty( "luckySewer", selected.get(0) + "," + selected.get(1) + "," + selected.get(2) );
 			super.actionConfirmed();
 		}
 
 		protected void actionCancelled()
 		{
-			for ( int i = 0; i < items.length; ++i )
-				items[i].setSelected( false );
+			for ( int i = 0; i < optionNames.length; ++i )
+				for ( int j = 0; j < optionNames[i].length; ++j )
+					options[i][j].setSelected( false );
 
-			String [] selected = getProperty( "luckySewer" ).split( "," );
-			for ( int i = 0; i < selected.length; ++i )
-				items[ Integer.parseInt( selected[i] ) - 1 ].setSelected( true );
+			String [] selected;
+
+			for ( int i = 0; i < optionNames.length; ++i )
+			{
+				selected = getProperty( settingNames[i] ).split( "," );
+				for ( int j = 0; j < selected.length; ++j )
+					options[i][ Integer.parseInt( selected[j] ) - 1 ].setSelected( true );
+			}
 		}
 	}
 

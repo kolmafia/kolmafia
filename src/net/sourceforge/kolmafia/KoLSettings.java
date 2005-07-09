@@ -173,6 +173,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "buffBotMPRestore", "tiny house" );
 		ensureProperty( "channelColors", "#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000" );
 		ensureProperty( "chatStyle", "0" );
+		ensureProperty( "choiceAdventure9", "3" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		ensureProperty( "closeSending", "false" );
 		ensureProperty( "createWithoutBoxServants", "false" );

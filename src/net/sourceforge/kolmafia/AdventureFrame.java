@@ -271,6 +271,7 @@ public class AdventureFrame extends KoLFrame
 
 		private JComboBox locationField;
 		private JTextField countField;
+		private JTextField choiceField;
 
 		private JComboBox resultSelect;
 		private JPanel resultPanel;
@@ -291,16 +292,12 @@ public class AdventureFrame extends KoLFrame
 
 			locationField = new JComboBox( adventureList );
 			countField = new JTextField();
-
-			resultSelect = new JComboBox();
-			resultSelect.addItem( "Session Results" );
-			resultSelect.addItem( "Conditions Left" );
-			resultSelect.addItem( "Active Effects" );
+			choiceField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Location: ", locationField );
 			elements[1] = new VerifiableElement( "# of turnips: ", countField );
-			elements[2] = new VerifiableElement( "Show in list: ", resultSelect );
+			elements[2] = new VerifiableElement( "# of choices: ", choiceField );
 
 			setContent( elements );
 
@@ -326,13 +323,21 @@ public class AdventureFrame extends KoLFrame
 			resultCards = new CardLayout( 0, 0 );
 			resultPanel.setLayout( resultCards );
 
-			resultPanel.add( new AdventureResultsPanel( "Session Results", client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
-			resultPanel.add( new AdventureResultsPanel( "Conditions Left", client == null ? new LockableListModel() : client.getConditions() ), "1" );
-			resultPanel.add( new AdventureResultsPanel( "Active Effects", client == null ? new LockableListModel() : client.getCharacterData().getEffects() ), "2" );
+			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
+			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
+			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getCharacterData().getEffects() ), "2" );
+
+			resultSelect = new JComboBox();
+			resultSelect.addItem( "Session Results" );
+			resultSelect.addItem( "Conditions Left" );
+			resultSelect.addItem( "Active Effects" );
 
 			resultSelect.addActionListener( new ResultSelectListener() );
 
-			centerPanel.add( resultPanel, BorderLayout.CENTER );
+			southPanel.add( resultSelect, BorderLayout.NORTH );
+			southPanel.add( resultPanel, BorderLayout.CENTER );
+
+			centerPanel.add( southPanel, BorderLayout.CENTER );
 			add( centerPanel, BorderLayout.CENTER );
 			setDefaultButton( confirmedButton );
 		}
@@ -385,6 +390,11 @@ public class AdventureFrame extends KoLFrame
 			client.getSettings().setProperty( "lastAdventure", request.toString() );
 			client.getSettings().saveSettings();
 
+			int choiceCount = getValue( choiceField, 0 );
+
+			if ( choiceCount > 0 )
+				AdventureResult.addResultToList( client.getConditions(), new AdventureResult( AdventureResult.ADV, choiceCount ) );
+
 			(new RequestThread( request, getValue( countField ) )).start();
 		}
 
@@ -413,17 +423,15 @@ public class AdventureFrame extends KoLFrame
 
 		private class AdventureResultsPanel extends JPanel
 		{
-			public AdventureResultsPanel( String label, LockableListModel resultList )
+			public AdventureResultsPanel( LockableListModel resultList )
 			{
 				setLayout( new BorderLayout() );
-				setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
 
 				JList tallyDisplay = new JList( resultList );
 				tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 				tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 				tallyDisplay.setVisibleRowCount( 11 );
 
-				add( JComponentUtilities.createLabel( label, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 				add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 			}

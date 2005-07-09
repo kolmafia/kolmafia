@@ -131,12 +131,11 @@ public class AdventureRequest extends KoLRequest
 		super.run();
 
 		// In the case of a denim axe (which redirects you to a
-		// different URL), you can actually skip the adventure.
+		// different URL), let the client decide what to do.
 
 		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "choice.php" ) )
 		{
-			updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
-			this.run();
+			client.processChoiceAdventure( this );
 			return;
 		}
 

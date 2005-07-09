@@ -902,6 +902,25 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( option.equals( "choice" ) )
+		{
+			try
+			{
+				AdventureResult choices = new AdventureResult( AdventureResult.ADV,
+					df.parse( parameters.substring( option.length() ).trim() ).intValue() );
+
+				AdventureResult.addResultToList( conditions, choices );
+				updateDisplay( ENABLED_STATE, "Choice adventure condition set." );
+				return;
+			}
+			catch ( Exception e )
+			{
+				updateDisplay( ERROR_STATE, "That is not a number." );
+				scriptRequestor.cancelRequest();
+				return;
+			}
+		}
+
 		if ( option.equals( "add" ) )
 		{
 			AdventureResult condition = getFirstMatchingItem( parameters.substring( option.length() ).trim(), NOWHERE );
