@@ -98,9 +98,9 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	{
 		for ( int i = 0; i < 13; ++i )
 			for ( int j = 0; j < 9; ++j )
-				HOLIDAYS[i][j] = "No holiday today.";
+				HOLIDAYS[i][j] = "No known holiday today.";
 
-		HOLIDAYS[1][8] = "St. Sneaky Pete's Day";
+		HOLIDAYS[4][2] = "Oyster Day";
 		HOLIDAYS[10][8] = "Halloween";
 		HOLIDAYS[11][7] = "Feast of Boris";
 	}
