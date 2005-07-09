@@ -505,9 +505,9 @@ public class OptionsFrame extends KoLFrame
 
 	private class ChoiceOptionsPanel extends OptionsPanel
 	{
-		private final String [] titles = { "Lucky Sewer Gnome Trading", "Castle Wheel (Garbage)", "Castle Wheel (Cat Feeding)" };
-		private final String [] settingNames = { "luckySewer", "choiceAdventure9", "choiceAdventure12" };
-		private final boolean [] useCheckboxes = { true, false, false };
+		private final String [] titles = { "Lucky Sewer Gnome Trading", "Castle Wheel (Garbage)", "Castle Wheel (Bills)", "Castle Wheel (Back Door)", "Castle Wheel (Cat Feeding)" };
+		private final String [] settingNames = { "luckySewer", "choiceAdventure9", "choiceAdventure10", "choiceAdventure11", "choiceAdventure12" };
+		private final boolean [] useCheckboxes = { true, false, false, false, false };
 
 		private String [][] optionNames;
 		private AbstractButton [][] options;
@@ -538,17 +538,14 @@ public class OptionsFrame extends KoLFrame
 			// Next in the list are the options which are
 			// available for the wheel adventure.
 
-			optionNames[1] = new String[3];
+			for ( int i = 1; i < 5; ++i )
+			{
+				optionNames[i] = new String[3];
 
-			optionNames[1][0] = "Turn the wheel clockwise";
-			optionNames[1][1] = "Turn the wheel counterclockwise";
-			optionNames[1][2] = "Leave the wheel alone";
-
-			optionNames[2] = new String[3];
-
-			optionNames[2][0] = "Turn the wheel clockwise";
-			optionNames[2][1] = "Turn the wheel counterclockwise";
-			optionNames[2][2] = "Leave the wheel alone";
+				optionNames[i][0] = "Turn the wheel clockwise";
+				optionNames[i][1] = "Turn the wheel counterclockwise";
+				optionNames[i][2] = "Leave the wheel alone";
+			}
 		}
 
 		/**
