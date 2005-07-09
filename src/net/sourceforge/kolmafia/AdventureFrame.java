@@ -394,7 +394,15 @@ public class AdventureFrame extends KoLFrame
 			int choiceCount = getValue( choiceField, 0 );
 
 			if ( choiceCount > 0 )
-				AdventureResult.addResultToList( client.getConditions(), new AdventureResult( AdventureResult.ADV, choiceCount ) );
+			{
+				AdventureResult choices = new AdventureResult( AdventureResult.ADV, choiceCount );
+				AdventureResult.addResultToList( client.getConditions(),
+					choices.getInstance( choiceCount - choices.getCount( client.getConditions() ) ) );
+
+				if ( choices.getCount( client.getConditions() ) <= 0 )
+					client.getConditions().remove( client.getConditions().indexOf( choices ) );
+
+			}
 
 			(new RequestThread( request, getValue( countField ) )).start();
 		}
