@@ -385,37 +385,20 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 1; i <= 9; ++i )
 				hpAutoFleeSelect.addItem( "Autoflee at " + (i*10) + "% HP" );
 
-			// All the components of HP autorecover
+			// All the components of autorecovery
 
 			hpAutoRecoverSelect = new JComboBox();
 			hpAutoRecoverSelect.addItem( "Do not autorecover HP" );
 			for ( int i = 0; i <= 9; ++i )
 				hpAutoRecoverSelect.addItem( "Autorecover HP at " + (i * 10) + "%" );
 
-			JPanel hpRecoveryScriptPanel = new JPanel();
-			hpRecoveryScriptPanel.setLayout( new BorderLayout( 0, 0 ) );
-			hpRecoveryScriptField = new JTextField();
-			hpRecoveryScriptPanel.add( hpRecoveryScriptField, BorderLayout.CENTER );
-			JButton hpRecoveryScriptButton = new JButton( "..." );
-			JComponentUtilities.setComponentSize( hpRecoveryScriptButton, 20, 20 );
-			hpRecoveryScriptButton.addActionListener( new HPRecoveryScriptSelectListener() );
-			hpRecoveryScriptPanel.add( hpRecoveryScriptButton, BorderLayout.EAST );
-
-			// All the components of MP autorecover
-
 			mpAutoRecoverSelect = new JComboBox();
 			mpAutoRecoverSelect.addItem( "Do not autorecover MP" );
 			for ( int i = 0; i <= 9; ++i )
 				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
 
-			JPanel mpRecoveryScriptPanel = new JPanel();
-			mpRecoveryScriptPanel.setLayout( new BorderLayout( 0, 0 ) );
+			hpRecoveryScriptField = new JTextField();
 			mpRecoveryScriptField = new JTextField();
-			mpRecoveryScriptPanel.add( mpRecoveryScriptField, BorderLayout.CENTER );
-			JButton mpRecoveryScriptButton = new JButton( "..." );
-			JComponentUtilities.setComponentSize( mpRecoveryScriptButton, 20, 20 );
-			mpRecoveryScriptButton.addActionListener( new MPRecoveryScriptSelectListener() );
-			mpRecoveryScriptPanel.add( mpRecoveryScriptButton, BorderLayout.EAST );
 
 			// Add the elements to the panel
 
@@ -426,12 +409,12 @@ public class OptionsFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "", new JLabel() );
 
 			elements[3] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
-			elements[4] = new VerifiableElement( "HP Recovery Script: ", hpRecoveryScriptPanel );
+			elements[4] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
 
 			elements[5] = new VerifiableElement( "", new JLabel() );
 
 			elements[6] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
-			elements[7] = new VerifiableElement( "MP Recovery Script: ", mpRecoveryScriptPanel );
+			elements[7] = new VerifiableElement( "MP Recovery Script: ", new ScriptSelectPanel( mpRecoveryScriptField ) );
 
 			setContent( elements );
 			actionCancelled();
@@ -457,44 +440,6 @@ public class OptionsFrame extends KoLFrame
 			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
 			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
 			mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
-		}
-
-		/**
-		 * This internal class is used to process the request for selecting
-		 * a recovery script.
-		 */
-
-		private class HPRecoveryScriptSelectListener implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				JFileChooser chooser = new JFileChooser( "." );
-				int returnVal = chooser.showOpenDialog( OptionsFrame.this );
-
-				if ( chooser.getSelectedFile() == null )
-					return;
-
-				hpRecoveryScriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
-			}
-		}
-
-		/**
-		 * This internal class is used to process the request for selecting
-		 * a recovery script.
-		 */
-
-		private class MPRecoveryScriptSelectListener implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				JFileChooser chooser = new JFileChooser( "." );
-				int returnVal = chooser.showOpenDialog( OptionsFrame.this );
-
-				if ( chooser.getSelectedFile() == null )
-					return;
-
-				mpRecoveryScriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
-			}
 		}
 	}
 

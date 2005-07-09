@@ -660,44 +660,18 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * package for Spellcast.
 	 */
 
-	protected abstract class ItemManagePanel extends ActionPanel
+	protected abstract class ItemManagePanel extends LabeledScrollPanel
 	{
 		protected JList elementList;
 		private VerifyButtonPanel buttonPanel;
 
 		public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
 		{
-			elementList = new JList( elements );
+			super( title, confirmedText, cancelledText, new JList( elements ) );
+
+			elementList = (JList) getScrollComponent();
 			elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			elementList.setVisibleRowCount( 8 );
-
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new BorderLayout() );
-
-			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
-			centerPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );
-
-			JPanel actualPanel = new JPanel();
-			actualPanel.setLayout( new BorderLayout( 20, 10 ) );
-			actualPanel.add( centerPanel, BorderLayout.CENTER );
-			actualPanel.add( buttonPanel, BorderLayout.EAST );
-
-			setLayout( new CardLayout( 10, 10 ) );
-			add( actualPanel, "" );
-			buttonPanel.setBothDisabledOnClick( true );
-		}
-
-		protected abstract void actionConfirmed();
-		protected abstract void actionCancelled();
-
-		public void setEnabled( boolean isEnabled )
-		{
-			elementList.setEnabled( isEnabled );
-			buttonPanel.setEnabled( isEnabled );
 		}
 	}
 
@@ -720,8 +694,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			JPanel centerPanel = new JPanel();
 			centerPanel.setLayout( new BorderLayout() );
 
-			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
+			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 			centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
@@ -735,6 +708,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			setLayout( new CardLayout( 10, 10 ) );
 			add( actualPanel, "" );
+			buttonPanel.setBothDisabledOnClick( true );
 		}
 
 		public JComponent getScrollComponent()
@@ -745,7 +719,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		protected abstract void actionCancelled();
 
 		public void setEnabled( boolean isEnabled )
-		{	buttonPanel.setEnabled( isEnabled );
+		{
+			scrollComponent.setEnabled( isEnabled );
+			buttonPanel.setEnabled( isEnabled );
 		}
 	}
 
@@ -1097,6 +1073,42 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{	creator.run();
 		}
 	}
+
+	/**
+	 * This internal class is used to process the request for selecting
+	 * a script using the file dialog.
+	 */
+
+	protected class ScriptSelectPanel extends JPanel implements ActionListener
+	{
+		private JTextField scriptField;
+
+		public ScriptSelectPanel( JTextField scriptField )
+		{
+			setLayout( new BorderLayout( 0, 0 ) );
+
+			add( scriptField, BorderLayout.CENTER );
+			JButton scriptButton = new JButton( "..." );
+
+			JComponentUtilities.setComponentSize( scriptButton, 20, 20 );
+			scriptButton.addActionListener( this );
+			add( scriptButton, BorderLayout.EAST );
+
+			this.scriptField = scriptField;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			JFileChooser chooser = new JFileChooser( "." );
+			int returnVal = chooser.showOpenDialog( KoLFrame.this );
+
+			if ( chooser.getSelectedFile() == null )
+				return;
+
+			scriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
+		}
+	}
+
 
 	/**
 	 * Utility method which retrieves an integer value from the given
