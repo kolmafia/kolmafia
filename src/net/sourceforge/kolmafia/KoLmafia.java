@@ -1628,6 +1628,7 @@ public abstract class KoLmafia implements KoLConstants
 			AdventureResult loseAdventure = new AdventureResult( AdventureResult.ADV, -1 );
 
 			processResult( loseAdventure );
+			processResults( request.responseText );
 			AdventureResult.addResultToList( conditions, loseAdventure );
 
 			if ( loseAdventure.getCount( conditions ) == 0 )
