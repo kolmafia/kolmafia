@@ -79,6 +79,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private Map buffCostMap;
 	private int maxPhilanthropy;
+	private int autoBuySetting;
 	private MPRestoreItemList mpRestoreItemList;
 	private LockableListModel buffCostTable;
 	private String [] whiteListArray;
@@ -221,6 +222,16 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		refundMessage = client.getSettings().getProperty( "invalidBuffMessage" );
 		thanksMessage = client.getSettings().getProperty( "thanksMessage" );
 
+		autoBuySetting = -1;
+
+		try
+		{
+			autoBuySetting = df.parse( client.getSettings().getProperty( "autoBuySetting" ) ).intValue();
+		}
+		catch ( Exception e )
+		{
+		}
+
 		// The outer loop goes until user cancels
 
 		int sleepCount = messageDisposalSetting == INBOX ? LONG_SLEEP_COUNT : SHORT_SLEEP_COUNT;
@@ -350,8 +361,52 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	}
 
+	/**
+	 * Utility method called inbetween commands.  This method
+	 * checks to see if the character's MP has dropped below
+	 * the tolerance value, and autorecovers if it has (if
+	 * the user has specified this in their settings).
+	 */
+
+	private void stockRestores()
+	{
+		if ( getRestoreCount() <= autoBuySetting )
+		{
+			try
+			{
+				int currentRestores = -1;
+
+				while ( client.isBuffBotActive() && getRestoreCount() <= autoBuySetting && currentRestores != getRestoreCount() )
+				{
+					currentRestores = getRestoreCount();
+					client.updateDisplay( DISABLED_STATE, "Executing auto-stocking script..." );
+					(new KoLmafiaCLI( client, settings.getProperty( "autoStockScript" ) )).listenForCommands();
+				}
+
+				if ( currentRestores == getRestoreCount() )
+				{
+					client.updateDisplay( ERROR_STATE, "Auto-stocking script failed to buy restores." );
+					return;
+				}
+			}
+			catch ( Exception e )
+			{
+				client.updateDisplay( ERROR_STATE, "Could not find auto-stocking script." );
+				return;
+			}
+		}
+	}
+
 	private boolean processMessage( KoLMailMessage message )
 	{
+		// Check to see if the user should autobuy MP restores
+		// in order to restock.
+
+		stockRestores();
+
+		// Now that you're guaranteed to be above the threshold,
+		// go ahead and process the message.
+
 		int meatSent = 0;
 		BuffBotCaster buff;
 

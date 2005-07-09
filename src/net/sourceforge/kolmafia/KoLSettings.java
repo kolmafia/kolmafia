@@ -166,6 +166,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "aggregatePrices", "true" );
 		ensureProperty( "autoLogin", "" );
 		ensureProperty( "autoRepairBoxes", "false" );
+		ensureProperty( "autoStockRestores", "-1" );
+		ensureProperty( "autoStockScript", "" );
 		ensureProperty( "battleAction", "attack" );
 		ensureProperty( "browserBookmarks", "" );
 		ensureProperty( "buffBotCasting", "" );
