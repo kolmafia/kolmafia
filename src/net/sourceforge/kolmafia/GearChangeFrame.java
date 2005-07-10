@@ -213,7 +213,7 @@ public class GearChangeFrame extends KoLFrame
 		setEnabled( true );
 	}
 
-	private class RefreshMenuItem extends JMenuItem implements ActionListener
+	private class RefreshMenuItem extends JMenuItem implements ActionListener, Runnable
 	{
 		private KoLRequest request;
 
@@ -226,21 +226,18 @@ public class GearChangeFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RefreshThread()).start();
+		{	(new DaemonThread( this )).start();
 		}
 
-		private class RefreshThread extends DaemonThread
+		public void run()
 		{
-			public void run()
-			{
-				setEnabled( false );
-				request.run();
-				refreshEquipPanel();
-			}
+			setEnabled( false );
+			request.run();
+			refreshEquipPanel();
 		}
 	}
 
-	private class ChangeListener implements ActionListener
+	private class ChangeListener implements ActionListener, Runnable
 	{
 		private Integer slot;
 		private JComboBox selector;
@@ -308,14 +305,14 @@ public class GearChangeFrame extends KoLFrame
 						// Outfit event firing is usually only caused by
 						// an actual attempt to change the outfit.
 
-						(new ChangeThread()).start();
+						(new DaemonThread( this )).start();
 					}
 					else if ( selector == familiarSelect )
 					{
 						// Familiar event firing is usually only caused
 						// by an actual attempt to change the familiar.
 
-						(new ChangeThread()).start();
+						(new DaemonThread( this )).start();
 					}
 					else if ( selector == equipment[ KoLCharacter.FAMILIAR ] )
 					{
@@ -325,7 +322,7 @@ public class GearChangeFrame extends KoLFrame
 						// before executing the change.
 
 						if ( !parameters[1].equals( client.getCharacterData().getEquipment( KoLCharacter.FAMILIAR ) ) )
-							(new ChangeThread()).start();
+							(new DaemonThread( this )).start();
 					}
 				}
 				else if ( !client.getCharacterData().getEquipment( this.slot.intValue() ).equals( this.parameters[1] ) )
@@ -333,28 +330,25 @@ public class GearChangeFrame extends KoLFrame
 					// Other equipment only gets fired when there's an
 					// actual equipment change.
 
-					(new ChangeThread()).start();
+					(new DaemonThread( this )).start();
 				}
 			}
 		}
 
-		private class ChangeThread extends DaemonThread
+		public void run()
 		{
-			public void run()
+			try
 			{
-				try
-				{
-					isChanging = true;
-					setEnabled( false );
-					client.makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
-					refreshEquipPanel();
-					isChanging = false;
-				}
-				catch ( Exception e )
-				{
-					setEnabled( false );
-					refreshEquipPanel();
-				}
+				isChanging = true;
+				setEnabled( false );
+				client.makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
+				refreshEquipPanel();
+				isChanging = false;
+			}
+			catch ( Exception e )
+			{
+				setEnabled( false );
+				refreshEquipPanel();
 			}
 		}
 	}

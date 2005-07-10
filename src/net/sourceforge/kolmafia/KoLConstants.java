@@ -60,7 +60,13 @@ public interface KoLConstants extends UtilityConstants
 	public static class DaemonThread extends Thread
 	{
 		public DaemonThread()
-		{	setDaemon( true );
+		{	this( null );
+		}
+
+		public DaemonThread( Runnable target )
+		{
+			super( target );
+			setDaemon( true );
 		}
 	}
 }

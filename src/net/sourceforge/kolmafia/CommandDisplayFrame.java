@@ -196,8 +196,10 @@ public class CommandDisplayFrame extends KoLFrame
 		 * that's needed.
 		 */
 
-		private class CommandEntryListener extends KeyAdapter implements ActionListener
+		private class CommandEntryListener extends KeyAdapter implements ActionListener, Runnable
 		{
+			private String command;
+
 			public void actionPerformed( ActionEvent e )
 			{	submitCommand();
 			}
@@ -210,35 +212,27 @@ public class CommandDisplayFrame extends KoLFrame
 
 			private void submitCommand()
 			{
-				(new CommandEntryThread( entryField.getText().trim() )).start();
+				this.command = entryField.getText().trim();
+				(new DaemonThread( this )).start();
 				entryField.setText( "" );
 			}
 
-			private class CommandEntryThread extends DaemonThread
+			public void run()
 			{
-				private String command;
-
-				public CommandEntryThread( String command )
-				{	this.command = command;
-				}
-
-				public void run()
+				try
 				{
-					try
-					{
-						commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
+					commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
 
-						if ( command.toLowerCase().equals( "login" ) )
-							commandBuffer.append( "<font color=red>This command is not available in the GCLI</font><br>" );
-						else
-							instance.executeLine( command );
+					if ( command.toLowerCase().equals( "login" ) )
+						commandBuffer.append( "<font color=red>This command is not available in the GCLI</font><br>" );
+					else
+						instance.executeLine( command );
 
-						commandBuffer.append( "<br>" );
-						client.setEnabled( true );
-					}
-					catch ( Exception e )
-					{
-					}
+					commandBuffer.append( "<br>" );
+					client.setEnabled( true );
+				}
+				catch ( Exception e )
+				{
 				}
 			}
 		}

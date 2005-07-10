@@ -236,19 +236,16 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	protected abstract void sendMessage();
 
-	private class SendMessageListener implements ActionListener
+	private class SendMessageListener implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new SendMessageThread()).start();
+		{	(new DaemonThread( this )).start();
 		}
 
-		private class SendMessageThread extends DaemonThread
+		public void run()
 		{
-			public void run()
-			{
-				if ( client != null )
-					sendMessage();
-			}
+			if ( client != null )
+				sendMessage();
 		}
 	}
 

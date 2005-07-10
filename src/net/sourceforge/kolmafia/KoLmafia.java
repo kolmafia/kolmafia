@@ -1595,11 +1595,10 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		if ( !isLoggingIn )
 		{
+			isLoggingIn = true;
 			LoginRequest cachedLogin = loginRequest;
 
 			deinitialize();
-			isLoggingIn = true;
-
 			updateDisplay( DISABLED_STATE, "Timing in session..." );
 
 			// Two quick login attempts to force

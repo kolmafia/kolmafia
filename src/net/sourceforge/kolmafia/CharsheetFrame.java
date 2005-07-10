@@ -291,20 +291,17 @@ public class CharsheetFrame extends KoLFrame
 			namePanel.setToolTipText( characterData.getAdvancement() );
 	}
 
-	private class StatusRefreshListener implements ActionListener
+	private class StatusRefreshListener implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new StatusRefreshThread()).start();
+		{	(new DaemonThread( this )).start();
 		}
 
-		private class StatusRefreshThread extends DaemonThread
+		public void run()
 		{
-			public void run()
-			{
-				(new CharsheetRequest( client )).run();
-				refreshStatus();
-				client.updateDisplay( ENABLED_STATE, "Status refreshed." );
-			}
+			(new CharsheetRequest( client )).run();
+			refreshStatus();
+			client.updateDisplay( ENABLED_STATE, "Status refreshed." );
 		}
 	}
 

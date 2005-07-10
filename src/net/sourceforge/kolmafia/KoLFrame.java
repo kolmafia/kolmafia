@@ -526,7 +526,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * the request for loading a script.
 	 */
 
-	private class LoadScriptMenuItem extends JMenuItem implements ActionListener
+	private class LoadScriptMenuItem extends JMenuItem implements ActionListener, Runnable
 	{
 		private String scriptPath;
 
@@ -543,51 +543,48 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new LoadScriptThread()).start();
+		{	(new DaemonThread( this )).start();
 		}
 
-		private class LoadScriptThread extends DaemonThread
+		public void run()
 		{
-			public void run()
+			String executePath = scriptPath;
+
+			try
 			{
-				String executePath = scriptPath;
-
-				try
+				if ( scriptPath == null )
 				{
-					if ( scriptPath == null )
-					{
-						JFileChooser chooser = new JFileChooser( "scripts" );
-						int returnVal = chooser.showOpenDialog( KoLFrame.this );
+					JFileChooser chooser = new JFileChooser( "scripts" );
+					int returnVal = chooser.showOpenDialog( KoLFrame.this );
 
-						if ( chooser.getSelectedFile() == null )
-							return;
-
-						if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-							executePath = chooser.getSelectedFile().getCanonicalPath();
-					}
-
-					if ( executePath == null )
+					if ( chooser.getSelectedFile() == null )
 						return;
 
-					isExecutingScript = true;
-					(new KoLmafiaCLI( client, executePath )).listenForCommands();
+					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+						executePath = chooser.getSelectedFile().getCanonicalPath();
 				}
-				catch ( Exception e )
-				{
-					// Here, notify the display that the script
-					// file specified could not be loaded
 
-					isExecutingScript = false;
-					updateDisplay( ERROR_STATE, "Script <" + executePath + "> encountered an error." );
+				if ( executePath == null )
 					return;
-				}
+
+				isExecutingScript = true;
+				(new KoLmafiaCLI( client, executePath )).listenForCommands();
+			}
+			catch ( Exception e )
+			{
+				// Here, notify the display that the script
+				// file specified could not be loaded
 
 				isExecutingScript = false;
-				if ( client.permitsContinue() )
-					updateDisplay( ENABLED_STATE, "Script completed successfully." );
-				else
-					updateDisplay( ERROR_STATE, "Script <" + executePath + "> encountered an error." );
+				updateDisplay( ERROR_STATE, "Script <" + executePath + "> encountered an error." );
+				return;
 			}
+
+			isExecutingScript = false;
+			if ( client.permitsContinue() )
+				updateDisplay( ENABLED_STATE, "Script completed successfully." );
+			else
+				updateDisplay( ERROR_STATE, "Script <" + executePath + "> encountered an error." );
 		}
 	}
 
@@ -975,7 +972,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * of an additional class is unnecessary.
 	 */
 
-	protected class InvocationMenuItem extends JMenuItem implements ActionListener
+	protected class InvocationMenuItem extends JMenuItem implements ActionListener, Runnable
 	{
 		private Object object;
 		private Method method;
@@ -998,21 +995,18 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new InvocationThread()).start();
+		{	(new DaemonThread( this )).start();
 		}
 
-		private class InvocationThread extends DaemonThread
+		public void run()
 		{
-			public void run()
+			try
 			{
-				try
-				{
-					if ( method != null )
-						method.invoke( object, null );
-				}
-				catch ( Exception e )
-				{
-				}
+				if ( method != null )
+					method.invoke( object, null );
+			}
+			catch ( Exception e )
+			{
 			}
 		}
 	}
