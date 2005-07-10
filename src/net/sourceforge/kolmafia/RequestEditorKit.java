@@ -174,7 +174,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			KoLRequest request = new KoLRequest( frame.client, action, true );
 
-			if ( splits.length > 1 )
+			if ( splits[0].length() > 0 )
 				for ( int i = 0; i < splits.length; ++i )
 					request.addFormField( fields[i][0], fields[i][1] );
 
