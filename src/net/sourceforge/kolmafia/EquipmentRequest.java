@@ -55,11 +55,11 @@ public class EquipmentRequest extends KoLRequest
 
 	public static final int EQUIPMENT = 1;
 	public static final int CLOSET = 2;
+	public static final int UNEQUIP_ALL = 6;
 
 	private static final int CHANGE_OUTFIT = 3;
 	private static final int CHANGE_ITEM = 4;
 	private static final int REMOVE_ITEM = 5;
-	private static final int UNEQUIP_ALL = 6;
 
 	// Array indexed by equipment "equipmentSlot" from KolCharacter
 	//
