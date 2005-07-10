@@ -372,6 +372,7 @@ public class ClanSnapshotTable implements KoLConstants
 		Collections.sort( foodList );
 		Collections.sort( drinkList );
 		Collections.sort( rankList );
+		Collections.sort( ascensionsList );
 
 		strbuf.append( "<table border=0 cellspacing=4 cellpadding=4><tr>" );
 		strbuf.append( "<td valign=top><b>Averages</b>:<ul>" );
