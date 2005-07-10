@@ -166,6 +166,7 @@ public class RequestFrame extends KoLFrame
 			gotoMenu.add( new DisplayRequestMenuItem( "Campground", "campground.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Big Mountains", "mountains.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Nearby Plains", "plains.php" ) );
+			gotoMenu.add( new DisplayRequestMenuItem( "Sorceress' Lair", "lair.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Desert Beach", "beach.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
