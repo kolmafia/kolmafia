@@ -276,21 +276,33 @@ public class ClanSnapshotTable implements KoLConstants
 
 		StringBuffer strbuf = new StringBuffer();
 
-		strbuf.append( "<html><head><style> body, td { font-family: sans-serif; } </style></head><body>" );
+		strbuf.append( "<html><head><title>Clan Snapshot for " + clanName + "(" + (new Date()) + ")</title>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
+		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( "<center><h1>" + clanName + " (#" + clanID + ")</h1></center>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		strbuf.append( getSummary() );
-		strbuf.append( "<br><br>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
-		strbuf.append( "<table>" );
+		strbuf.append( "<br><br><table border=1 cellspacing=4 cellpadding=4>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( "<tr bgcolor=\"#000000\" style=\"color:#ffffff; font-weight: bold\"><td>Name</td>" );
+
 		strbuf.append( getHeader() );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		Iterator memberIterator = profileMap.keySet().iterator();
 		for ( int i = 1; memberIterator.hasNext(); ++i )
+		{
 			strbuf.append( getMemberDetail( (String) memberIterator.next() ) );
+			strbuf.append( System.getProperty( "line.separator" ) );
+		}
 
 		strbuf.append( "</table></body></html>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		return strbuf.toString();
 	}
@@ -375,7 +387,11 @@ public class ClanSnapshotTable implements KoLConstants
 		Collections.sort( ascensionsList );
 
 		strbuf.append( "<table border=0 cellspacing=4 cellpadding=4><tr>" );
-		strbuf.append( "<td valign=top><b>Averages</b>:<ul>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "<td valign=top>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "<b>Averages</b>:<ul>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
 			strbuf.append( "<li>PVP Rank: " + df.format( calculateAverage( pvpList ) ) + "</li>" );
@@ -395,7 +411,10 @@ public class ClanSnapshotTable implements KoLConstants
 		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
 			strbuf.append( "<li>Ascensions: " + calculateAverage( ascensionsList ) + "</li>" );
 
-		strbuf.append( "</ul><b>Totals</b>:<ul>" );
+		strbuf.append( "</ul>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "<b>Totals</b>:<ul>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
 			strbuf.append( "<li>PVP Rank: " + df.format( calculateTotal( pvpList ) ) + "</li>" );
@@ -416,6 +435,7 @@ public class ClanSnapshotTable implements KoLConstants
 			strbuf.append( "<li>Ascensions: " + calculateTotal( ascensionsList ) + "</li>" );
 
 		strbuf.append( "</ul></td>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		if ( header.indexOf( "<td>Class</td>" ) != -1 )
 		{
@@ -450,6 +470,7 @@ public class ClanSnapshotTable implements KoLConstants
 		}
 
 		strbuf.append( "</tr></table>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		return strbuf.toString();
 	}
@@ -473,6 +494,8 @@ public class ClanSnapshotTable implements KoLConstants
 			if ( !currentItem.equals( nextItem ) )
 			{
 				strbuf.append( "<li>" + currentItem.toString() + ": " + currentCount + "</li>" );
+				strbuf.append( System.getProperty( "line.separator" ) );
+
 				if ( currentCount > maximumCount )
 				{
 					maximumCount = currentCount;
@@ -485,10 +508,13 @@ public class ClanSnapshotTable implements KoLConstants
 		}
 
 		strbuf.append( "<li>" + currentItem.toString() + ": " + (currentCount + 1) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		if ( currentCount > maximumCount )
 			favorite = currentItem;
 
 		strbuf.append( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		return strbuf.toString();
 	}
