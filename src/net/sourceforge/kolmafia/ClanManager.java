@@ -236,6 +236,9 @@ public class ClanManager implements KoLConstants
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( client.getLogStream() );
+				e.printStackTrace( System.err );
+				return;
 			}
 		}
 		else
@@ -264,8 +267,10 @@ public class ClanManager implements KoLConstants
 			}
 			catch ( Exception e )
 			{
-				client.getLogStream().println( "The file <" + profile.getAbsolutePath() + "> could not be opened for writing" );
+				client.updateDisplay( ERROR_STATE, "Failed to load cached profile." );
 				e.printStackTrace( client.getLogStream() );
+				e.printStackTrace( System.err );
+				return;
 			}
 
 		}
@@ -433,8 +438,10 @@ public class ClanManager implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			client.getLogStream().println( "The file <" + summaryFile.getAbsolutePath() + "> could not be opened for writing" );
+			client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
 			e.printStackTrace( client.getLogStream() );
+			e.printStackTrace( System.err );
+			return;
 		}
 
 		client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
@@ -510,8 +517,8 @@ public class ClanManager implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			throw new RuntimeException( "The file <" + file.getAbsolutePath() +
-				"> could not be opened for writing" );
+			e.printStackTrace( System.err );
+			throw new RuntimeException( "The file <" + file.getAbsolutePath() + "> could not be opened for writing" );
 		}
 	}
 
