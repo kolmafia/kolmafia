@@ -369,7 +369,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					try
 					{
 						String [] pieces = scriptList[i].getCanonicalPath().split( "[\\\\/]" );
-						scriptMenu.add( new LoadScriptMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ], pieces[ pieces.length - 1 ] ) );
+						scriptMenu.add( new LoadScriptMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ], "scripts" + File.separator + pieces[ pieces.length - 1 ] ) );
 					}
 					catch ( Exception e )
 					{
@@ -561,7 +561,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						return;
 
 					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-						executePath = chooser.getSelectedFile().getCanonicalPath();
+						executePath = chooser.getSelectedFile().getAbsolutePath();
 				}
 
 				if ( executePath == null )
@@ -576,7 +576,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// file specified could not be loaded
 
 				isExecutingScript = false;
-				updateDisplay( ERROR_STATE, "Script <" + executePath + "> encountered an error." );
+				client.setEnabled( true );
 				return;
 			}
 
@@ -584,7 +584,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			if ( client.permitsContinue() )
 				updateDisplay( ENABLED_STATE, "Script completed successfully." );
 			else
-				updateDisplay( ERROR_STATE, "Script <" + executePath + "> encountered an error." );
+				client.setEnabled( true );
 		}
 	}
 
