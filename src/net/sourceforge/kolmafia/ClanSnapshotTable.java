@@ -92,17 +92,7 @@ public class ClanSnapshotTable implements KoLConstants
 
 		this.levelMap = new TreeMap();
 		this.rosterMap = new TreeMap();
-
-		try
-		{
-			this.profileMap = new DiskAccessBTree( "tmp" + File.separator + "_profilemap.tmp" );
-			this.profileMap.clear();
-		}
-		catch ( Exception e )
-		{
-			this.profileMap = new TreeMap();
-			e.printStackTrace( client.getLogStream() );
-		}
+		this.profileMap = new TreeMap();
 
 		this.filterList = new LockableListModel();
 
@@ -301,6 +291,7 @@ public class ClanSnapshotTable implements KoLConstants
 			strbuf.append( getMemberDetail( (String) memberIterator.next() ) );
 
 		strbuf.append( "</table></body></html>" );
+
 		return strbuf.toString();
 	}
 
@@ -341,7 +332,14 @@ public class ClanSnapshotTable implements KoLConstants
 			memberLookup = getProfile( currentMember );
 
 			if ( header.indexOf( "<td>Class</td>" ) != -1 )
+			{
 				classList.add( memberLookup.getClassType() );
+				if ( memberLookup.getClassType() == null )
+				{
+					System.out.println( memberLookup.responseText );
+					System.exit(0);
+				}
+			}
 
 			if ( header.indexOf( "<td>Food</td>" ) != -1 )
 				foodList.add( memberLookup.getFood() );
@@ -494,9 +492,9 @@ public class ClanSnapshotTable implements KoLConstants
 		return strbuf.toString();
 	}
 
-	private int calculateTotal( List values )
+	private long calculateTotal( List values )
 	{
-		int total = 0;
+		long total = 0;
 		String currentValue;
 
 		for ( int i = 0; i < values.size(); ++i )
@@ -506,13 +504,7 @@ public class ClanSnapshotTable implements KoLConstants
 	}
 
 	private double calculateAverage( List values )
-	{
-		int total = 0;
-
-		for ( int i = 0; i < values.size(); ++i )
-			total += ((Integer)values.get(i)).intValue();
-
-		return (double)total / (double)values.size();
+	{	return (double)calculateTotal( values ) / (double)values.size();
 	}
 
 	private String getMemberDetail( String memberName )
