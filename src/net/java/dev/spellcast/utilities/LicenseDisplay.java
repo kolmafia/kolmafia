@@ -107,7 +107,6 @@ public class LicenseDisplay extends javax.swing.JFrame
 
 				// in the event that the license display could not be found, return a blank
 				// label indicating that the license could not be found
-
 				if ( buf == null )
 					return getNoLicenseNotice();
 
@@ -121,15 +120,15 @@ public class LicenseDisplay extends javax.swing.JFrame
 						licenseText.append( line );
 						licenseText.append( System.getProperty( "line.separator" ) );
 					}
-
-					ChatBuffer buffer = new ChatBuffer( fileNames[index] );
-					buffer.setChatDisplay( (JEditorPane) licenseDisplay );
-					buffer.append( licenseText.toString() );
-					((JEditorPane)licenseDisplay).setCaretPosition( 0 );
 				}
 				catch ( java.io.IOException e )
 				{
 				}
+
+				((JEditorPane)licenseDisplay).setContentType( "text/html" );
+				((JEditorPane)licenseDisplay).setText( licenseText.toString() );
+				((JEditorPane)licenseDisplay).setCaretPosition( 0 );
+				((JEditorPane)licenseDisplay).setEditable( false );
 
 				break;
 			}
