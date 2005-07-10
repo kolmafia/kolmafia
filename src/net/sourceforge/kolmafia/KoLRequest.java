@@ -378,8 +378,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		// where the display does not update afterwards, be sure
 		// you clear the display.
 
-		if ( this.hadTimeout && (formURLString.startsWith( "chat" ) || client.isBuffBotActive()) )
-			client.updateDisplay( NOCHANGE, "" );
+		if ( this.hadTimeout && (followRedirects || formURLString.startsWith( "chat" ) || client.isBuffBotActive()) )
+			client.updateDisplay( NOCHANGE, "Retry successful." );
 	}
 
 	/**
@@ -421,11 +421,11 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
+			this.hadTimeout = true;
+
 			// In the event that an Exception is thrown, one can assume
 			// that there was a timeout; return false and let the loop
 			// attempt to connect again
-
-			this.hadTimeout = true;
 
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Error opening connection.  Retrying..." );
