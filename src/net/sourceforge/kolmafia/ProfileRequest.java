@@ -103,7 +103,23 @@ public class ProfileRequest extends KoLRequest
 			while ( !token.startsWith( "Level" ) )
 				token = st.nextToken();
 
-			this.playerLevel = Integer.valueOf( token.substring( 6 ) );
+			// It's possible that the player recently ascended and therefore
+			// there's no data on the character.  Default the values and
+			// return, if this is the case.
+
+			if ( token.length() == 6 )
+			{
+				this.playerLevel = new Integer( 0 );
+				this.classType = "Recent Ascension";
+				this.currentMeat = new Integer( 0 );
+				this.ascensionCount = new Integer( 0 );
+				this.turnsPlayed = new Integer( 0 );
+				this.lastLogin = new Date();
+				this.food = "none";
+				this.drink = "none";
+				this.pvpRank = new Integer( 0 );
+				return;
+			}
 
 			KoLCharacter data = new KoLCharacter( playerName );
 			data.setClassName( st.nextToken().trim() );
