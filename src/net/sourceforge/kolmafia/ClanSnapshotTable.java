@@ -516,7 +516,7 @@ public class ClanSnapshotTable implements KoLConstants
 		// No matter what happens, you need to make sure
 		// to print the player's name first.
 
-		strbuf.append( "<tr><td><a href=\"profiles" + java.io.File.separator );
+		strbuf.append( "<tr><td><a href=\"profiles/" );
 		strbuf.append( client.getPlayerID( memberName ) );
 		strbuf.append( ".htm\">" );
 		strbuf.append( client.getPlayerName( client.getPlayerID( memberName ) ) );
