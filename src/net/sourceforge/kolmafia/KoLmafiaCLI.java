@@ -67,8 +67,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLmafiaCLI extends KoLmafia
 {
-	private static final NullStream DISPLAY_STREAM = new NullStream();
-
 	private static final int NOWHERE = 1;
 	private static final int INVENTORY = 2;
 	private static final int CREATION = 3;
@@ -164,9 +162,9 @@ public class KoLmafiaCLI extends KoLmafia
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
 		this.scriptRequestor.resetContinueState();
 
-		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : DISPLAY_STREAM;
+		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : new NullStream();
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
-		mirrorStream = DISPLAY_STREAM;
+		mirrorStream = new NullStream();
 	}
 
 	/**
@@ -525,7 +523,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.length() == 0 )
 			{
 				this.mirrorStream.close();
-				this.mirrorStream = DISPLAY_STREAM;
+				this.mirrorStream = new NullStream();
 			}
 			else
 			{
@@ -1140,7 +1138,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 		else
-			desiredOutputStream = DISPLAY_STREAM;
+			desiredOutputStream = outputStream;
 
 		executePrintCommand( parameterList[0].toLowerCase(), desiredOutputStream );
 
