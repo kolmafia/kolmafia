@@ -53,6 +53,10 @@ public class LicenseDisplay extends javax.swing.JFrame
 	private String [] tabNames;
 
 	public LicenseDisplay( String title, String [] fileNames, String [] tabNames )
+	{	this( title, null, fileNames, tabNames );
+	}
+
+	public LicenseDisplay( String title, JComponent versionData, String [] fileNames, String [] tabNames )
 	{
 		super( title );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -67,6 +71,14 @@ public class LicenseDisplay extends javax.swing.JFrame
 
 		JPanel contentPanel = (JPanel) getContentPane();
 		JTabbedPane tabbedPane = new JTabbedPane();
+
+		if ( versionData != null )
+		{
+			JScrollPane scroller = new JScrollPane( versionData, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JComponentUtilities.setComponentSize( scroller, 540, 400 );
+			tabbedPane.addTab( "Version Info", scroller );
+		}
 
 		for ( int i = 0; i < fileNames.length; ++i )
 		{
@@ -95,6 +107,7 @@ public class LicenseDisplay extends javax.swing.JFrame
 
 				// in the event that the license display could not be found, return a blank
 				// label indicating that the license could not be found
+
 				if ( buf == null )
 					return getNoLicenseNotice();
 
