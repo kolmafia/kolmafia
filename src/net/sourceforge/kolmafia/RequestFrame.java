@@ -275,14 +275,19 @@ public class RequestFrame extends KoLFrame
 			{
 				currentRequest.run();
 				client.processResults( currentRequest.responseText );
-
-				// In the event that something resembling a gain event
-				// is seen in the response text, or in the event that you
-				// switch between compact and full mode, refresh the sidebar.
-
-				if ( currentRequest.responseText.indexOf( ">You " ) != -1 || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
-					refreshSidePane();
 			}
+
+			// In the event that something resembling a gain event
+			// is seen in the response text, or in the event that you
+			// switch between compact and full mode, refresh the sidebar.
+
+			if ( sidePaneRequest == null && sideBuffer != null )
+			{
+				sidePaneRequest = new KoLRequest( client, "charpane.php" );
+				refreshSidePane();
+			}
+			else if ( currentRequest.responseText.indexOf( ">You " ) != -1 || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
+				refreshSidePane();
 
 			mainBuffer.clearBuffer();
 			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
