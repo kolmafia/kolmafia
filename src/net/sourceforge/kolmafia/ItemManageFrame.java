@@ -45,6 +45,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import javax.swing.ListSelectionModel;
 
 // containers
 import javax.swing.JList;
@@ -62,6 +63,7 @@ import javax.swing.JOptionPane;
 // other imports
 import java.util.List;
 import java.text.ParseException;
+
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -473,7 +475,9 @@ public class ItemManageFrame extends KoLFrame
 	private class CreateItemPanel extends ItemManagePanel
 	{
 		public CreateItemPanel()
-		{	super( "Create an Item", "create one", "create multiple", ConcoctionsDatabase.getConcoctions() );
+		{
+			super( "Create an Item", "create one", "create multiple", ConcoctionsDatabase.getConcoctions() );
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 		}
 
 		protected void actionConfirmed()
