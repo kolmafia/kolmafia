@@ -231,7 +231,7 @@ public class GearChangeFrame extends KoLFrame
 
 		public void run()
 		{
-			setEnabled( false );
+			GearChangeFrame.this.setEnabled( false );
 			request.run();
 			refreshEquipPanel();
 		}
@@ -340,7 +340,7 @@ public class GearChangeFrame extends KoLFrame
 			try
 			{
 				isChanging = true;
-				setEnabled( false );
+				GearChangeFrame.this.setEnabled( false );
 				client.makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
 				refreshEquipPanel();
 				isChanging = false;
