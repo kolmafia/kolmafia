@@ -103,6 +103,12 @@ public class SorceressLair implements KoLConstants
 		if ( !checkPrerequisites() )
 			return;
 
+		// Make sure the character has some candy
+
+		AdventureResult rice = new AdventureResult( 549, 1 );
+		AdventureResult farmer = new AdventureResult( 617, 1 );
+		AdventureResult candy = rice.getCount( client.getInventory() ) > 0 ? rice : farmer;
+
 		// Decide on which star weapon should be available for
 		// this whole process.
 
@@ -124,13 +130,17 @@ public class SorceressLair implements KoLConstants
 		AdventureResult tambourine = new AdventureResult( 740, 1 );
 		AdventureResult percussionInstrument = boneRattle.getCount( client.getInventory() ) > 0 ? boneRattle : tambourine;
 
+		AdventureResult stolenAccordion = new AdventureResult( 11, 1 );
+		AdventureResult legend = new AdventureResult( 50, 1 );
+		AdventureResult squeezingInstrument = stolenAccordion.getCount( client.getInventory() ) > 0 ? stolenAccordion : legend;
+
 		// Now, compile a list of items which need to be checked;
 		// if you've already ascended, you're guaranteed to have
 		// a starfish available, so no need to check for it.
 
 		AdventureResult [] requirements = new AdventureResult[16];
 
-		requirements[0] = new AdventureResult( 540, 1 );  // Tasty Fun Good rice candy
+		requirements[0] = candy;                          // candy
 		requirements[1] = new AdventureResult( 469, 1 );  // wussiness potion
 		requirements[2] = new AdventureResult( 620, 1 );  // thin black candle
 
@@ -146,7 +156,7 @@ public class SorceressLair implements KoLConstants
 		requirements[10] = new AdventureResult( 283, 1 ); // Jarlsberg's key
 		requirements[11] = new AdventureResult( 284, 1 ); // Sneaky Pete's key
 
-		requirements[12] = new AdventureResult( 168, 1 ); // accordion
+		requirements[12] = squeezingInstrument;           // squeezing instrument
 		requirements[13] = strummingInstrument;           // strumming instrument
 		requirements[14] = percussionInstrument;          // percussion instrument
 
