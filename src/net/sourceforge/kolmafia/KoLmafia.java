@@ -1019,7 +1019,7 @@ public abstract class KoLmafia implements KoLConstants
 					// and the current request number.  Different requests
 					// have different displays.  They are handled here.
 
-					if ( request instanceof KoLAdventure || request instanceof HeroDonationRequest || request instanceof CakeArenaRequest )
+					if ( request instanceof KoLAdventure || request instanceof HeroDonationRequest )
 						updateDisplay( DISABLED_STATE, "Request " + i + " (" + request.toString() + ") in progress..." );
 
 					else if ( request instanceof ConsumeItemRequest )

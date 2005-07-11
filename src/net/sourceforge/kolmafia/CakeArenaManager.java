@@ -33,16 +33,21 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class CakeArenaManager
+public class CakeArenaManager implements KoLConstants
 {
 	private KoLmafia client;
+	private LimitedSizeChatBuffer results;
 	private LockableListModel opponentList;
 
 	public CakeArenaManager( KoLmafia client )
 	{
 		this.client = client;
+		this.results = new LimitedSizeChatBuffer( "Arena Tracker" );
 		opponentList = new LockableListModel();
 	}
 
@@ -71,14 +76,41 @@ public class CakeArenaManager
 
 	public void fightOpponent( String opponent, int eventID, int battleCount )
 	{
+		Matcher victoryMatcher;
+		Pattern victoryPattern = Pattern.compile( "is the winner, and gains (\\d+) experience" );
+
 		for ( int i = 0; i < opponentList.size(); ++i )
 		{
 			if ( opponent.equals( opponentList.get(i).toString() ) )
 			{
-				client.makeRequest( new CakeArenaRequest( client, ((ArenaOpponent)opponentList.get(i)).getID(), eventID ), battleCount );
+				CakeArenaRequest request = new CakeArenaRequest( client, ((ArenaOpponent)opponentList.get(i)).getID(), eventID );
+
+				for ( int j = 1; client.permitsContinue() && j <= battleCount; ++j )
+				{
+					client.updateDisplay( DISABLED_STATE, "Arena battle, round " + j + " in progress..." );
+					client.makeRequest( request, 1 );
+
+					victoryMatcher = victoryPattern.matcher( request.responseText );
+
+					if ( victoryMatcher.find() )
+						results.append( "<font color=green><b>Round " + j + "</b>: Victory, gained " + victoryMatcher.group(1) + " kills.</font><br>" );
+					else
+						results.append( "<font color=red><b>Round " + j + "</b>: Defeat, gained 0 kills.</font><br>" );
+				}
 				return;
 			}
 		}
+
+		client.updateDisplay( ENABLED_STATE, "Arena battles complete." );
+	}
+
+	/**
+	 * Returns the chat buffer being used to update the
+	 * arena results.
+	 */
+
+	public LimitedSizeChatBuffer getResults()
+	{	return results;
 	}
 
 	/**

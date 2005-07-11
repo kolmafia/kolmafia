@@ -36,9 +36,17 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JEditorPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CakeArenaFrame extends KoLPanelFrame
 {
@@ -50,6 +58,19 @@ public class CakeArenaFrame extends KoLPanelFrame
 			(new RequestThread( new CakeArenaRequest( client ) )).start();
 
 		setContentPanel( new CakeArenaPanel() );
+		addMenuBar();
+	}
+
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		JMenu optionsMenu = new JMenu( "Options" );
+		optionsMenu.setMnemonic( KeyEvent.VK_O );
+
+		optionsMenu.add( new InvocationMenuItem( "Clear Results", KeyEvent.VK_C, client.getCakeArenaManager().getResults(), "clearBuffer" ) );
+		menuBar.add( optionsMenu );
 	}
 
 	private class CakeArenaPanel extends KoLPanel
@@ -78,6 +99,18 @@ public class CakeArenaFrame extends KoLPanelFrame
 			elements[2] = new VerifiableElement( "Battles: ", battleField );
 
 			setContent( elements );
+
+			JEditorPane resultsDisplay = new JEditorPane();
+			resultsDisplay.setEditable( false );
+
+			if ( client != null )
+				client.getCakeArenaManager().getResults().setChatDisplay( resultsDisplay );
+
+			JScrollPane scroller = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JComponentUtilities.setComponentSize( scroller, 500, 300 );
+
+			add( scroller, BorderLayout.CENTER );
 		}
 
 		public void actionConfirmed()
