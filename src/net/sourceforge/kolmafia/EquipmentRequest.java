@@ -187,12 +187,6 @@ public class EquipmentRequest extends KoLRequest
 
 				return;
 			}
-
-			// Otherwise, if it's a custom outfit, you need to
-			// remove all items first before continuing.
-
-			if ( outfit.getOutfitID() < 0 )
-				(new EquipmentRequest( client, UNEQUIP_ALL )).run();
 		}
 
 		// If we are changing an accessory or familiar equipment, first
