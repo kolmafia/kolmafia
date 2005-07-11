@@ -836,8 +836,7 @@ public class KoLCharacter
 
 	/**
 	 * Accessor method to retrieve the name of a piece of equipment
-	 * @param	index	the type of equipment
-	 *
+	 * @param	type	the type of equipment
 	 * @return	The name of the equipment, <code>none</code> if no such item exists
 	 */
 
