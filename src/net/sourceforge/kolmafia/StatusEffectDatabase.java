@@ -75,7 +75,7 @@ public class StatusEffectDatabase extends KoLDatabase
 			{
 				effectID = Integer.valueOf( data[0] );
 				effectByID.put( effectID, getDisplayName( data[2] ) );
-				effectByName.put( getCanonicalName( data[2] ), effectID );
+				effectByName.put( getDisplayName( data[2] ), effectID );
 			}
 		}
 	}
@@ -98,7 +98,7 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	public static final int getEffectID( String effectName )
 	{
-		Object effectID = effectByName.get( getCanonicalName( effectName ) );
+		Object effectID = effectByName.get( getDisplayName( effectName ) );
 		return effectID == null ? -1 : ((Integer)effectID).intValue();
 	}
 
@@ -112,6 +112,6 @@ public class StatusEffectDatabase extends KoLDatabase
 	 */
 
 	public static final boolean contains( String effectName )
-	{	return effectByName.containsKey( getCanonicalName( effectName ) );
+	{	return effectByName.containsKey( getDisplayName( effectName ) );
 	}
 }
