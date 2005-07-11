@@ -316,6 +316,15 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
+	 * Adds the given form field to the KoLRequest.
+	 * @param	element	The field to be added
+	 */
+
+	protected void addFormField( String element )
+	{	data.add( element );
+	}
+
+	/**
 	 * Runs the thread, which prepares the connection for output, posts the data
 	 * to the Kingdom of Loathing, and prepares the input for reading.  Because
 	 * the Kingdom of Loathing has identical page layouts, all page reading and
