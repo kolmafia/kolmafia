@@ -107,7 +107,9 @@ public class SorceressLair implements KoLConstants
 
 		AdventureResult rice = new AdventureResult( 549, 1 );
 		AdventureResult farmer = new AdventureResult( 617, 1 );
-		AdventureResult candy = rice.getCount( client.getInventory() ) > 0 ? rice : farmer;
+		AdventureResult marzipan = new AdventureResult( 1163, 1 );
+		AdventureResult candy = marzipan.getCount( client.getInventory() ) > 0 ? marzipan :
+			farmer.getCount( client.getInventory() ) > 0 ? farmer : rice;
 
 		// Decide on which star weapon should be available for
 		// this whole process.
@@ -124,15 +126,15 @@ public class SorceressLair implements KoLConstants
 
 		AdventureResult acoustic = new AdventureResult( 404, 1 );
 		AdventureResult heavyMetal = new AdventureResult( 507, 1 );
-		AdventureResult strummingInstrument = acoustic.getCount( client.getInventory() ) > 0 ? acoustic : heavyMetal;
+		AdventureResult strummingInstrument = heavyMetal.getCount( client.getInventory() ) > 0 ? heavyMetal : acoustic;
 
-		AdventureResult boneRattle = new AdventureResult( 168, 1 );
+		AdventureResult rattle = new AdventureResult( 168, 1 );
 		AdventureResult tambourine = new AdventureResult( 740, 1 );
-		AdventureResult percussionInstrument = boneRattle.getCount( client.getInventory() ) > 0 ? boneRattle : tambourine;
+		AdventureResult percussionInstrument = tambourine.getCount( client.getInventory() ) > 0 ? tambourine : rattle;
 
-		AdventureResult stolenAccordion = new AdventureResult( 11, 1 );
+		AdventureResult accordion = new AdventureResult( 11, 1 );
 		AdventureResult legend = new AdventureResult( 50, 1 );
-		AdventureResult squeezingInstrument = stolenAccordion.getCount( client.getInventory() ) > 0 ? stolenAccordion : legend;
+		AdventureResult squeezingInstrument = legend.getCount( client.getInventory() ) > 0 ? legend : accordion;
 
 		// Now, compile a list of items which need to be checked;
 		// if you've already ascended, you're guaranteed to have
