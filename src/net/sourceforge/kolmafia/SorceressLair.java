@@ -51,7 +51,31 @@ public class SorceressLair implements KoLConstants
 	{	return missingItems;
 	}
 
-	private static boolean checkRequirements( AdventureResult [] requirements, int pasteRequired )
+	private static boolean checkPrerequisites()
+	{
+		// If the client has not yet been set, then there is
+		// no entryway to complete.
+
+		if ( client == null )
+			return false;
+
+		// If the player has never ascended, then they're going
+		// to have to do it all by hand.
+
+		if ( client.getCharacterData().getSignStat() == KoLCharacter.NONE )
+		{
+			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
+			client.cancelRequest();
+			return false;
+		}
+
+		// Otherwise, they've passed all the standard checks
+		// on prerequisites.  Return true.
+
+		return true;
+	}
+
+	private static boolean checkRequirements( AdventureResult [] requirements )
 	{
 		missingItems.clear();
 
@@ -71,41 +95,13 @@ public class SorceressLair implements KoLConstants
 			client.cancelRequest();
 		}
 
-		// Because it also requires some meat paste, issue a
-		// second check on meat currently available.
-
-		if ( !client.getCharacterData().inMuscleSign() )
-		{
-			pasteRequired -= (new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 )).getCount( client.getInventory() );
-
-			if ( client.getCharacterData().getAvailableMeat() >= pasteRequired * 10 )
-			{
-				client.updateDisplay( ERROR_STATE, "Insufficient meat paste to continue." );
-				missingItems.add( new AdventureResult( ItemCreationRequest.MEAT_PASTE, pasteRequired ) );
-				client.cancelRequest();
-			}
-		}
-
 		return missingItems.isEmpty();
 	}
 
 	public static void completeEntryway()
 	{
-		// If the client has not yet been set, then there is
-		// no entryway to complete.
-
-		if ( client == null )
+		if ( !checkPrerequisites() )
 			return;
-
-		// If the player has never ascended, then they're going
-		// to have to do it all by hand.
-
-		if ( client.getCharacterData().getSignStat() == KoLCharacter.NONE )
-		{
-			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
-			client.cancelRequest();
-			return;
-		}
 
 		// Decide on which star weapon should be available for
 		// this whole process.
@@ -132,7 +128,7 @@ public class SorceressLair implements KoLConstants
 		// if you've already ascended, you're guaranteed to have
 		// a starfish available, so no need to check for it.
 
-		AdventureResult [] requirements = new AdventureResult[15];
+		AdventureResult [] requirements = new AdventureResult[16];
 
 		requirements[0] = new AdventureResult( 540, 1 );  // Tasty Fun Good rice candy
 		requirements[1] = new AdventureResult( 469, 1 );  // wussiness potion
@@ -154,10 +150,13 @@ public class SorceressLair implements KoLConstants
 		requirements[13] = strummingInstrument;           // strumming instrument
 		requirements[14] = percussionInstrument;          // percussion instrument
 
+		requirements[15] = new AdventureResult( ItemCreationRequest.MEAT_PASTE,
+			client.getCharacterData().inMuscleSign() ? 0 : 2 );
+
 		// Now that the array's initialized, issue the checks
 		// on the items needed to finish the entryway.
 
-		if ( !checkRequirements( requirements, 2 ) )
+		if ( !checkRequirements( requirements ) )
 			return;
 
 		// Use the rice candy, wussiness potion, and black candle
@@ -302,5 +301,137 @@ public class SorceressLair implements KoLConstants
 		// process is now complete.
 
 		client.updateDisplay( ENABLED_STATE, "Sorceress entryway complete.  Maybe." );
+	}
+
+	public static void completeHedgeMaze()
+	{
+		if ( !checkPrerequisites() )
+			return;
+
+		// Check to see if you've run out of puzzle pieces.
+		// If you have, don't bother running the puzzle.
+
+		AdventureResult [] requirements = new AdventureResult[1];
+		requirements[0] = new AdventureResult( 727, 1 );
+
+		if ( !checkRequirements( requirements ) )
+			return;
+
+		// Otherwise, check their current state relative
+		// to the hedge maze, and begin!
+
+		client.updateDisplay( DISABLED_STATE, "Retrieving maze status..." );
+		KoLRequest request = new KoLRequest( client, "hedgepuzzle.php" );
+		request.run();
+
+		String responseText = request.responseText;
+
+		// First mission -- retrieve the key from the hedge
+		// maze puzzle.
+
+		client.updateDisplay( DISABLED_STATE, "Retrieving hedge key..." );
+		responseText = retrieveHedgeKey( responseText );
+
+		// Second mission -- rotate the hedge maze until
+		// the hedge path leads to the hedge door.
+
+		client.updateDisplay( DISABLED_STATE, "Executing final rotations..." );
+		responseText = finalizeHedgeMaze( responseText );
+
+		// Check to see if you ran out of puzzle pieces
+		// in the middle -- if you did, update the user
+		// display to say so.
+
+		if ( responseText.indexOf( "Click one" ) == -1 )
+		{
+			client.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
+			missingItems.add( requirements[0] );
+			client.cancelRequest();
+			return;
+		}
+
+		client.updateDisplay( ENABLED_STATE, "Hedge maze quest complete." );
+	}
+
+	private static String rotateHedgePiece( String responseText, String hedgePiece, String searchText )
+	{
+		KoLRequest request;
+
+		while ( responseText.indexOf( searchText ) == -1 )
+		{
+			// If the topiary golem stole one of your hedge
+			// pieces, then make sure you have another before
+			// continuing.
+
+			if ( responseText.indexOf( "Click one" ) == -1 )
+			{
+				AdventureResult puzzlePiece = new AdventureResult( 727, -1 );
+				int puzzlePieceCount = puzzlePiece.getCount( client.getInventory() );
+
+				// Reduce your hedge piece count by one; if
+				// it turns out that you've run out of puzzle
+				// pieces, return the original response text
+
+				if ( puzzlePieceCount > 0 )
+					client.processResult( puzzlePiece );
+
+				// If you've run out of hedge puzzle pieces,
+				// return the original response text.
+
+				if ( puzzlePieceCount < 2 )
+					return responseText;
+			}
+
+			request = new KoLRequest( client, "hedgepuzzle.php" );
+			request.addFormField( "action", hedgePiece );
+			request.run();
+
+			responseText = request.responseText;
+		}
+
+		return responseText;
+	}
+
+	private static String retrieveHedgeKey( String responseText )
+	{
+		// Before doing anything, check to see if the hedge
+		// maze has already been solved for the key.
+
+		if ( responseText.indexOf( "There is a key here." ) == -1 )
+			return responseText;
+
+		responseText = rotateHedgePiece( responseText, "1", "form1.submit();\"><img alt=\"90 degree bend, exits south and east.\"" );
+		responseText = rotateHedgePiece( responseText, "2", "form2.submit();\"><img alt=\"Straight east/west passage.\"" );
+		responseText = rotateHedgePiece( responseText, "3", "form3.submit();\"><img alt=\"Dead end, exit to the west.  There is a key here.\"" );
+		responseText = rotateHedgePiece( responseText, "4", "form4.submit();\"><img alt=\"Straight north/south passage.\"" );
+		responseText = rotateHedgePiece( responseText, "7", "form7.submit();\"><img alt=\"90 degree bend, exits north and east.\"" );
+		responseText = rotateHedgePiece( responseText, "8", "form8.submit();\"><img alt=\"90 degree bend, exits south and east.\"" );
+
+		// The hedge maze has been properly rotated!  Now go ahead
+		// and retrieve the key from the maze.
+
+		KoLRequest request = new KoLRequest( client, "lair3.php" );
+		request.addFormField( "action", "hedge" );
+		request.run();
+
+		return responseText;
+	}
+
+	private static String finalizeHedgeMaze( String responseText )
+	{
+		responseText = rotateHedgePiece( responseText, "2", "form2.submit();\"><img alt=\"Straight north/south passage.\"" );
+		responseText = rotateHedgePiece( responseText, "5", "form5.submit();\"><img alt=\"90 degree bend, exits north and east.\"" );
+		responseText = rotateHedgePiece( responseText, "6", "form6.submit();\"><img alt=\"90 degree bend, exits south and west.\"" );
+		responseText = rotateHedgePiece( responseText, "9", "form9.submit();\"><img alt=\"90 degree bend, exits north and west.\"" );
+		responseText = rotateHedgePiece( responseText, "8", "form8.submit();\"><img alt=\"90 degree bend, exits south and east.\"" );
+
+		// The hedge maze has been properly rotated!  Now go ahead
+		// and complete the hedge maze puzzle!
+
+		KoLRequest request = new KoLRequest( client, "lair3.php" );
+		request.addFormField( "action", "hedge" );
+		request.run();
+
+		return responseText;
 	}
 }

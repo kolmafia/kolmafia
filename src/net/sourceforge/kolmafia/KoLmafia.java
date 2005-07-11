@@ -1668,4 +1668,13 @@ public abstract class KoLmafia implements KoLConstants
 		SorceressLair.setClient( this );
 		SorceressLair.completeEntryway();
 	}
+
+	public void completeHedgeMaze()
+	{
+		// Use the static method provided in the sorceress
+		// lair to complete the entryway process.
+
+		SorceressLair.setClient( this );
+		SorceressLair.completeHedgeMaze();
+	}
 }

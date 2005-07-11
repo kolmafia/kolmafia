@@ -589,6 +589,17 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Look!  It's the command to complete the
+		// Sorceress hedge maze!  This is placed
+		// right after for consistency.
+
+		if ( command.equals( "hedgemaze" ) )
+		{
+			scriptRequestor.completeHedgeMaze();
+			printList( SorceressLair.getMissingItems() );
+			return;
+		}
+
 		// Next is the command to handle the retrieval
 		// of breakfast, which is not yet documented.
 
