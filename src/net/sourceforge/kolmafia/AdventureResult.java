@@ -159,7 +159,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
 			name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
 			name.equals(DIVIDER) ? DIVIDER_PRIORITY :
-			!StatusEffectDatabase.contains( name ) ? ITEM_PRIORITY : EFFECT_PRIORITY );
+			TradeableItemDatabase.contains( name ) ? ITEM_PRIORITY : EFFECT_PRIORITY );
 	}
 
 	/**
@@ -181,6 +181,13 @@ public class AdventureResult implements Comparable, KoLConstants
 			this.count[i] = count[i];
 
 		this.priority = priority;
+	}
+
+	public static AdventureResult statusEffectAdventureResult( String name, int count )
+	{
+		int [] counts = new int[1];
+		counts[0] = count;
+		return new AdventureResult( name, counts, EFFECT_PRIORITY );
 	}
 
 	/**

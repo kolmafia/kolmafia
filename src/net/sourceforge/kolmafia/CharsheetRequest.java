@@ -205,7 +205,7 @@ public class CharsheetRequest extends KoLRequest
 
 				while ( !token.equals( "/table" ) )
 				{
-					client.parseResult( parsedContent.nextToken() );
+					client.parseEffect( parsedContent.nextToken() );
 					skipTokens( parsedContent, 7 );
 					token = parsedContent.nextToken();
 				}

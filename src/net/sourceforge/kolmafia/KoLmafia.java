@@ -495,6 +495,26 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public void parseEffect( String result )
+	{
+		if ( logStream != null )
+			logStream.println( "Parsing effect: " + result );
+
+		StringTokenizer parsedItem = new StringTokenizer( result, "()" );
+		String parsedItemName = parsedItem.nextToken().trim();
+		String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
+
+		try
+		{
+			processResult( AdventureResult.statusEffectAdventureResult( parsedItemName, df.parse( parsedItemCount ).intValue() ) );
+		}
+		catch ( Exception e )
+		{
+			logStream.println( e );
+			e.printStackTrace( logStream );
+		}
+	}
+
 	/**
 	 * Utility method used to add an adventure result to the
 	 * tally directly.  This is used whenever the nature of the
@@ -899,11 +919,11 @@ public abstract class KoLmafia implements KoLConstants
 					lastToken = parsedResults.nextToken();
 
 					if ( lastToken.indexOf( "duration" ) == -1 )
-						parseResult( effect );
+						parseEffect( effect );
 					else
 					{
 						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
-						parseResult( effect + " (" + duration + ")" );
+						parseEffect( effect + " (" + duration + ")" );
 					}
 				}
 			}
