@@ -136,6 +136,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class OptionsFrame extends KoLFrame
 {
+	private CardLayout optionCards;
+
 	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
 	 * associated with the given client.  When this frame is
@@ -152,70 +154,65 @@ public class OptionsFrame extends KoLFrame
 		super( client, "KoLmafia: Preferences" );
 
 		setResizable( false );
-		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		JTabbedPane tabs = new JTabbedPane();
 
-		this.client = client;
-		contentPanel = null;
+		optionCards = new CardLayout( 10, 10 );
+		getContentPane().setLayout( optionCards );
 
-		JPanel [] panels = new JPanel[7];
-		String [] names = new String[ panels.length ];
-
-		for ( int i = 0; i < panels.length; ++i )
-		{
-			panels[i] = new JPanel();
-			panels[i].setLayout( new BoxLayout( panels[i], BoxLayout.Y_AXIS ) );
-		}
-
-		names[0] = "Login";
-		panels[0].add( new ServerSelectPanel() );
-		panels[0].add( new LoginOptionsPanel() );
-
-		names[1] = "Proxy";
-		panels[1].add( new ProxyOptionsPanel() );
-
-		names[2] = "Combat";
-		panels[2].add( new BattleOptionsPanel() );
-
-		names[3] = "Choice";
-		panels[3].add( new ChoiceOptionsPanel() );
-
-		names[4] = "People";
-		panels[4].add( new ChatOptionsPanel() );
-		panels[4].add( new GreenOptionsPanel() );
-
-		names[5] = "Snaps";
-		panels[5].add( new SnapshotOptionsPanel() );
-
-		names[6] = "Items";
-		panels[6].add( new MallOptionsPanel() );
-		panels[6].add( new CreationOptionsPanel() );
-
-		JScrollPane currentTab;
-		for ( int i = 0; i < panels.length; ++i )
-		{
-			currentTab = new JScrollPane( panels[i], JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-			JComponentUtilities.setComponentSize( currentTab, 480, 320 );
-			tabs.addTab( names[i], currentTab );
-		}
-
-		getContentPane().add( tabs, BorderLayout.CENTER );
-		addMenuBar();
-	}
-
-	/**
-	 * Utility method used to add a menu bar to the <code>LoginFrame</code>.
-	 * The menu bar contains configuration options and the general license
-	 * information associated with <code>KoLmafia</code>.
-	 */
-
-	private void addMenuBar()
-	{
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		addConfigureMenu( menuBar );
-		addHelpMenu( menuBar );
+		int cardCount = 0;
+
+		JMenu loginMenu = new JMenu( "Login" );
+		menuBar.add( loginMenu );
+
+		addCard( loginMenu, "Server Select", new ServerSelectPanel(), String.valueOf( cardCount++ ) );
+		addCard( loginMenu, "Proxy Configuration", new ProxyOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( loginMenu, "Startup Activities", new StartupOptionsPanel(), String.valueOf( cardCount++ ) );
+
+		JMenu adventureMenu = new JMenu( "Advs" );
+		menuBar.add( adventureMenu );
+
+		addCard( adventureMenu, "Combat Options", new BattleOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( adventureMenu, "Choice Adventures", new ChoiceOptionsPanel(), String.valueOf( cardCount++ ) );
+
+		JMenu peopleMenu = new JMenu( "People" );
+		menuBar.add( peopleMenu );
+
+		addCard( peopleMenu, "LoathingChat Preferences", new ChatOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( peopleMenu, "Green Message Handling", new GreenOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( peopleMenu, "Clan Snapshot Columns", new SnapshotOptionsPanel(), String.valueOf( cardCount++ ) );
+
+		JMenu itemMenu = new JMenu( "Items" );
+		menuBar.add( itemMenu );
+
+		addCard( itemMenu, "Mall Configuration", new MallOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( itemMenu, "Item Creation Handling", new CreationOptionsPanel(), String.valueOf( cardCount++ ) );
+	}
+
+	private void addCard( JMenu menu, String name, JComponent panel, String cardID )
+	{
+		JScrollPane scroller = new JScrollPane( panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JComponentUtilities.setComponentSize( scroller, 480, 320 );
+
+		getContentPane().add( scroller, cardID );
+		menu.add( new ShowCardMenuItem( name, cardID ) );
+	}
+
+	private class ShowCardMenuItem extends JMenuItem implements ActionListener
+	{
+		private String cardID;
+
+		public ShowCardMenuItem( String title, String cardID )
+		{
+			super( title );
+			addActionListener( this );
+			this.cardID = cardID;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	optionCards.show( getContentPane(), cardID );
+		}
 	}
 
 	private class ServerSelectPanel extends OptionsPanel
@@ -268,19 +265,19 @@ public class OptionsFrame extends KoLFrame
 	 * (if applicable).
 	 */
 
-	private class LoginOptionsPanel extends OptionsPanel
+	private class StartupOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
 		private final String [] optionKeys = { "forceReconnect", "skipInventory", "skipFamiliars", "sortAdventures", "savePositions" };
 		private final String [] optionNames = { "Auto timein on timeout", "Skip inventory retrieval", "Skip familiar retrieval", "Sort adventure list by name", "Save window positions" };
 
 		/**
-		 * Constructs a new <code>LoginOptionsPanel</code>, containing a
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
 		 * place for the users to select their desired server and for them
 		 * to modify any applicable proxy settings.
 		 */
 
-		public LoginOptionsPanel()
+		public StartupOptionsPanel()
 		{
 			super( "Startup Activities", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
@@ -450,15 +447,23 @@ public class OptionsFrame extends KoLFrame
 
 	private class ChoiceOptionsPanel extends OptionsPanel
 	{
-		private final String [] titles = { "Lucky Sewer Gnome Trading", "Castle Wheel (Garbage)", "Castle Wheel (Bills)", "Castle Wheel (Back Door)", "Castle Wheel (Cat Feeding)" };
-		private final String [] settingNames = { "luckySewer", "choiceAdventure9", "choiceAdventure10", "choiceAdventure11", "choiceAdventure12" };
-		private final boolean [] useCheckboxes = { true, false, false, false, false };
+		private final String [] titles = { "Lucky Sewer Gnome Trading", "Palindome Axe Trade", "Finger-Lickin' Death",
+			"Castle Wheel (Garbage)", "Castle Wheel (Bills)", "Castle Wheel (Back Door)", "Castle Wheel (Cat Feeding)", "A Bard Day's Night" };
+		private final String [] settingNames = { "luckySewer", "choiceAdventure2", "choiceAdventure4",
+			"choiceAdventure9", "choiceAdventure10", "choiceAdventure11", "choiceAdventure12", "choiceAdventure14" };
 
+		private boolean [] useCheckboxes;
 		private String [][] optionNames;
 		private AbstractButton [][] options;
 
 		private void initializeNames()
 		{
+			useCheckboxes = new boolean[ titles.length ];
+
+			useCheckboxes[0] = true;
+			for ( int i = 1; i < titles.length; ++i )
+				useCheckboxes[i] = false;
+
 			optionNames = new String[ titles.length ][];
 
 			// First in the list are the options which are
@@ -480,10 +485,23 @@ public class OptionsFrame extends KoLFrame
 			optionNames[0][11] = "mariachi pants";
 			optionNames[0][12] = "worthless trinket";
 
+			// Next in the list is the palindome adventure.
+
+			optionNames[1] = new String[2];
+			optionNames[1][0] = "Sure!";
+			optionNames[1][1] = "No thanks.";
+
+			// And next in the list is the cock fight
+
+			optionNames[2] = new String[3];
+			optionNames[2][0] = "Bet on Tapajunta Del Maiz";
+			optionNames[2][1] = "Bet on Cuerno De...  the other one";
+			optionNames[2][2] = "Walk away in disgust";
+
 			// Next in the list are the options which are
 			// available for the wheel adventure.
 
-			for ( int i = 1; i < 5; ++i )
+			for ( int i = 3; i < 7; ++i )
 			{
 				optionNames[i] = new String[3];
 
@@ -491,6 +509,13 @@ public class OptionsFrame extends KoLFrame
 				optionNames[i][1] = "Turn the wheel counterclockwise";
 				optionNames[i][2] = "Leave the wheel alone";
 			}
+
+			// And next in the list is the harem girls singing
+
+			optionNames[7] = new String[3];
+			optionNames[7][0] = "\"Boozember Rain\"";
+			optionNames[7][1] = "\"It's Completely Ordinary\"";
+			optionNames[7][2] = "\"Here's 25 Meat.\"";
 		}
 
 		/**
@@ -762,7 +787,7 @@ public class OptionsFrame extends KoLFrame
 			"Class type", "Meat on hand", "Turns played", "Favorite food", "Favorite booze", "Last login date", "Ascensions" };
 
 		/**
-		 * Constructs a new <code>LoginOptionsPanel</code>, containing a
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
 		 * place for the users to select their desired server and for them
 		 * to modify any applicable proxy settings.
 		 */
