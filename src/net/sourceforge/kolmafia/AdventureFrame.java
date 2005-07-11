@@ -249,6 +249,7 @@ public class AdventureFrame extends KoLFrame
 		scriptMenu.add( new JSeparator(), 2 );
 		scriptMenu.add( new InvocationMenuItem( "Camping Routine", KeyEvent.VK_C, client, "getBreakfast" ), 3 );
 		scriptMenu.add( new DisplayFrameMenuItem( "Evil BuffBot Mode", KeyEvent.VK_E, BuffBotFrame.class ), 4 );
+		scriptMenu.add( new InvocationMenuItem( "Naughty Entryway", KeyEvent.VK_N, client, "completeEntryway" ), 5 );
 
 		addPeopleMenu( menuBar ).add( new DisplayFrameMenuItem( "Manage Your Clan", KeyEvent.VK_M, ClanManageFrame.class ) );
 

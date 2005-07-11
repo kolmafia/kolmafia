@@ -1639,4 +1639,13 @@ public abstract class KoLmafia implements KoLConstants
 			updateDisplay( ENABLED_STATE, "Session timed in." );
 		}
 	}
+
+	public void completeEntryway()
+	{
+		// Use the static method provided in the sorceress
+		// lair to complete the entryway process.
+
+		SorceressLair.setClient( this );
+		SorceressLair.completeEntryway();
+	}
 }
