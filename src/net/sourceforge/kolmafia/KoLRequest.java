@@ -448,7 +448,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		formConnection.setDoInput( true );
 		formConnection.setDoOutput( !data.isEmpty() );
 		formConnection.setUseCaches( false );
-		formConnection.setInstanceFollowRedirects( followRedirects );
+		formConnection.setInstanceFollowRedirects( false );
 
 		formConnection.setRequestProperty( "Content-Type",
 			"application/x-www-form-urlencoded" );
@@ -650,10 +650,27 @@ public class KoLRequest implements Runnable, KoLConstants
 					client.cancelRequest();
 					return false;
 				}
+				else if ( followRedirects )
+				{
+					// You're no longer caught with error code!  However,
+					// this is set to follow redirects automatically.
+					// Therefore, re-setup this request to follow the
+					// redirect desired and rerun the request.
+
+					this.formURLString = redirectLocation;
+					this.formURLBuffer = new StringBuffer( this.formURLString );
+
+					this.data.clear();
+
+					this.isErrorState = true;
+					this.followRedirects = followRedirects;
+
+					return true;
+				}
 				else if ( redirectLocation.equals( "fight.php" ) )
 				{
 					// You have been redirected to a fight!  Here, you need
-					// to complete the fight before you can continue
+					// to complete the fight before you can continue.
 
 					(new FightRequest( client )).run();
 
