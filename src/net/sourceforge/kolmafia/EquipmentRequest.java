@@ -414,28 +414,28 @@ public class EquipmentRequest extends KoLRequest
 			logStream.println( "Pants: " + equipment[ KoLCharacter.PANTS ] );
 		}
 
-		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> <a href=\"inv_equip.php\\?which=2&action=unequip&type=acc1\">" ).matcher( responseText );
+		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc1\">" ).matcher( responseText );
 		if ( equipmentMatcher.find() )
 		{
 			equipment[ KoLCharacter.ACCESSORY1 ] = equipmentMatcher.group(1);
 			logStream.println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
 		}
 
-		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> <a href=\"inv_equip.php\\?which=2&action=unequip&type=acc2\">" ).matcher( responseText );
+		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc2\">" ).matcher( responseText );
 		if ( equipmentMatcher.find() )
 		{
 			equipment[ KoLCharacter.ACCESSORY2 ] = equipmentMatcher.group(1);
 			logStream.println( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
 		}
 
-		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> <a href=\"inv_equip.php\\?which=2&action=unequip&type=acc3\">" ).matcher( responseText );
+		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc3\">" ).matcher( responseText );
 		if ( equipmentMatcher.find() )
 		{
 			equipment[ KoLCharacter.ACCESSORY3 ] = equipmentMatcher.group(1);
 			logStream.println( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
 		}
 
-		equipmentMatcher = Pattern.compile( "Familiar:</td>.*?<b>([^<]*?)</b>.*unequip&type=familiarequip" ).matcher( responseText );
+		equipmentMatcher = Pattern.compile( "Familiar:*</td>.*?<b>([^<]*?)</b>.*unequip&type=familiarequip" ).matcher( responseText );
 		if ( equipmentMatcher.find() )
 		{
 			equipment[ KoLCharacter.FAMILIAR ] = equipmentMatcher.group(1);
