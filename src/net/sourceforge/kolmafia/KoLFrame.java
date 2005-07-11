@@ -450,11 +450,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * Overrides the default isEnabled() method, because the setEnabled()
 	 * method does not call the superclass's version.
 	 *
-	 * @return	Whether or not this KoLFrame is enabled.
+	 * @return	<code>true</code>
 	 */
 
 	public boolean isEnabled()
-	{	return isEnabled;
+	{	return true;
 	}
 
 	private class ToggleMacroMenuItem extends JMenuItem implements ActionListener
@@ -780,7 +780,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public void actionPerformed( ActionEvent e )
 		{
-			displayer.setEnabled( isEnabled() );
+			displayer.setEnabled( isEnabled );
 			SwingUtilities.invokeLater( displayer );
 		}
 	}
