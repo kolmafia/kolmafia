@@ -48,10 +48,12 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JEditorPane;
+import javax.swing.ImageIcon;
 
 // layout
 import java.awt.Point;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
@@ -531,7 +533,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private String scriptPath;
 
 		public LoadScriptMenuItem()
-		{	this( "Load script...", "" );
+		{	this( "Load script...", null );
 		}
 
 		public LoadScriptMenuItem( String scriptName, String scriptPath )
@@ -761,10 +763,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			Object [] parameters;
 			if ( frameClass == LicenseDisplay.class )
 			{
-				parameters = new Object[3];
+				parameters = new Object[4];
 				parameters[0] = "KoLmafia: Copyright Notice";
-				parameters[1] = LICENSE_FILENAME;
-				parameters[2] = LICENSE_NAME;
+				parameters[1] = new VersionDataPanel();
+				parameters[2] = LICENSE_FILENAME;
+				parameters[3] = LICENSE_NAME;
 			}
 			else
 			{
@@ -1103,6 +1106,59 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	/**
+	 * An internal class which displays KoLmafia's current version
+	 * information.  This is passed to the constructor for the
+	 * <code>LicenseDisplay</code>.
+	 */
+
+	private class VersionDataPanel extends JPanel
+	{
+		private final String [] versionData = {
+			"KoLmafia v4.9",
+			"Released July 11, 2005",
+			" ",
+			"Copyright © 2005 KoLmafia development team",
+			"Berkeley Software Development (BSD) License",
+			"http://kolmafia.sourceforge.net/",
+			" ",
+			"Current Running on " + System.getProperty( "os.name" ),
+			"Using Java v" + System.getProperty( "java.runtime.version" )
+		};
+
+		public VersionDataPanel()
+		{
+			JPanel versionPanel = new JPanel();
+			versionPanel.setLayout( new BorderLayout( 20, 20 ) );
+
+			versionPanel.add( new JLabel( JComponentUtilities.getSharedImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.NORTH );
+
+			JPanel labelPanel = new JPanel();
+			labelPanel.setLayout( new GridLayout( versionData.length, 1 ) );
+
+			for ( int i = 0; i < versionData.length; ++i )
+				labelPanel.add( new JLabel( versionData[i], JLabel.CENTER ) );
+
+			versionPanel.add( labelPanel, BorderLayout.CENTER );
+
+			JButton donateButton = new JButton( JComponentUtilities.getSharedImage( "paypal.gif" ) );
+			JComponentUtilities.setComponentSize( donateButton, 74, 31 );
+			donateButton.addActionListener( new DisplayPageMenuItem( "", KeyEvent.KEY_LOCATION_UNKNOWN,
+				"http://sourceforge.net/donate/index.php?user_id=813949" ) );
+
+			JPanel donatePanel = new JPanel();
+			donatePanel.setLayout( new FlowLayout() );
+			donatePanel.add( donateButton );
+
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BorderLayout( 20, 20 ) );
+			centerPanel.add( versionPanel, BorderLayout.CENTER );
+			centerPanel.add( donatePanel, BorderLayout.SOUTH );
+
+			setLayout( new CardLayout( 20, 20 ) );
+			add( centerPanel, "" );
+		}
+	}
 
 	/**
 	 * Utility method which retrieves an integer value from the given
