@@ -1053,7 +1053,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		private CreateFrameRunnable creator;
 
-		public KoLPanelFrameMenuItem( String title, int mnemonic, KoLPanel panel )
+		public KoLPanelFrameMenuItem( String title, int mnemonic, ActionPanel panel )
 		{
 			super( title, mnemonic );
 			addActionListener( this );

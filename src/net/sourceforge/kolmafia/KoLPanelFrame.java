@@ -35,7 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
-import java.lang.reflect.Constructor;
+import net.java.dev.spellcast.utilities.ActionPanel;
 
 /**
  * A special frame which serves to display a single <code>KoLPanel</code>
@@ -63,7 +63,7 @@ public class KoLPanelFrame extends KoLFrame
 	 * that is provided.
 	 */
 
-	public KoLPanelFrame( KoLmafia client, String title, KoLPanel panel )
+	public KoLPanelFrame( KoLmafia client, String title, ActionPanel panel )
 	{
 		super( client, title );
 		setContentPanel( panel );
@@ -77,10 +77,12 @@ public class KoLPanelFrame extends KoLFrame
 	 * (for example, for descendant classes).
 	 */
 
-	protected void setContentPanel( KoLPanel panel )
+	protected void setContentPanel( ActionPanel panel )
 	{
-		this.contentPanel = panel;
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( this.contentPanel, "" );
+		getContentPane().add( panel, "" );
+
+		if ( panel instanceof KoLPanel )
+			this.contentPanel = (KoLPanel) panel;
 	}
 }
