@@ -107,17 +107,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		protected void submitData( String data )
 		{
-			String [] splits = data.split( "&" );
-			String [][] fields = new String[ splits.length ][2];
+			String [] elements = data.split( "&" );
+			String [] fields = new String[ elements.length ];
 
 			int valueIndex = 0;
 
-			for ( int i = 0; i < splits.length; ++i )
+			if ( elements[0].length() > 0 )
 			{
-				valueIndex = splits[i].indexOf( "=" );
-				fields[i][0] = splits[i].substring( 0, valueIndex );
-				fields[i][1] = splits[i].substring( valueIndex + 1 );
+				for ( int i = 0; i < elements.length; ++i )
+					fields[i] = elements[i].substring( 0, elements[i].indexOf( "=" ) );
 			}
+			else
+				fields[0] = "";
 
 			// First, attempt to retrieve the frame which
 			// is being used by this form viewer.
@@ -133,8 +134,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					frame = (RequestFrame) frames[i];
 					frameText = frame.mainDisplay.getText();
 
-					for ( int j = 0; j < splits.length && frame != null; ++j )
-						if ( frameText.indexOf( fields[i][0] ) == -1 )
+					for ( int j = 0; j < fields.length && frame != null; ++j )
+						if ( frameText.indexOf( fields[i] ) == -1 )
 							frame = null;
 				}
 			}
@@ -172,11 +173,27 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( action == null )
 				action = frame.getCurrentLocation();
 
-			KoLRequest request = new KoLRequest( frame.client, action, true );
+			KoLRequest request;
 
-			if ( splits[0].length() > 0 )
-				for ( int i = 0; i < splits.length; ++i )
-					request.addFormField( fields[i][0], fields[i][1] );
+			if ( action.indexOf( "?" ) != -1 )
+			{
+				// For quirky URLs where there's a question mark
+				// in the middle of the URL, just string the data
+				// onto the URL.  This is the way browsers work,
+				// so it's the way KoL expects the data.
+
+				request = new KoLRequest( frame.client, action + "&" + data, true );
+			}
+			else
+			{
+				// For normal URLs, the form data can be submitted
+				// just like in every other request.
+
+				request = new KoLRequest( frame.client, action, true );
+				if ( elements[0].length() > 0 )
+					for ( int i = 0; i < elements.length; ++i )
+						request.addFormField( elements[i] );
+			}
 
 			frame.refresh( request );
 		}
