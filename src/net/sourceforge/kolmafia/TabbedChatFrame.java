@@ -101,17 +101,21 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 	public ChatPanel addTab( String tabName )
 	{
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
-			if ( tabs.getTitleAt(i).equals( tabName ) )
+			if ( tabs.getTitleAt(i).trim().equals( tabName ) )
 				return (ChatPanel) tabs.getComponentAt(i);
 
 		ChatPanel createdPanel = new ChatPanel( tabName );
-		tabs.addTab( tabName, createdPanel );
+
+		// Add a little bit of whitespace to make the
+		// chat tab larger and easier to click.
+
+		tabs.addTab( "  " + tabName + "           ", createdPanel );
 		return createdPanel;
 	}
 
 	public boolean closeTab( int tabIndexToClose )
 	{
-		(new CloseChatListener( tabs.getTitleAt( tabIndexToClose ) )).windowClosed( null );
+		(new CloseChatListener( tabs.getTitleAt( tabIndexToClose ).trim() )).windowClosed( null );
 		return true;
 	}
 
@@ -121,7 +125,7 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 			return;
 
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
-			if ( tabName.equals( tabs.getTitleAt(i) ) )
+			if ( tabName.equals( tabs.getTitleAt(i).trim() ) )
 			{
 				if ( tabs.getSelectedIndex() == i )
 					return;
