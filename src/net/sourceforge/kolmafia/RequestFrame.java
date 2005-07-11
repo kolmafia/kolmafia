@@ -48,12 +48,14 @@ import javax.swing.JMenu;
 import javax.swing.JSplitPane;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+import javax.swing.JList;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -238,7 +240,7 @@ public class RequestFrame extends KoLFrame
 
 		public DisplayRequestMenuItem( String label, String location )
 		{
-			super( label );
+			super( label.replaceAll( "\\|", "" ) );
 			addActionListener( this );
 			this.location = location;
 		}
@@ -247,6 +249,17 @@ public class RequestFrame extends KoLFrame
 		{
 			currentRequest = new KoLRequest( client, location );
 			(new DisplayRequestThread()).start();
+		}
+
+		public String toString()
+		{	return getText();
+		}
+
+		public String toSettingString()
+		{
+			return getText() +  "|" +
+				location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) + "|" +
+					String.valueOf( location.indexOf( "pwd=" ) != -1 );
 		}
 	}
 
@@ -388,6 +401,28 @@ public class RequestFrame extends KoLFrame
 	}
 
 	/**
+	 * Utility method to save the entire list of bookmarks to the settings
+	 * file.  This should be called after every update.
+	 */
+
+	private void saveBookmarks()
+	{
+		StringBuffer bookmarkData = new StringBuffer();
+
+		if ( !bookmarks.isEmpty() )
+			bookmarkData.append( ((DisplayRequestMenuItem)bookmarks.get(0)).toSettingString() );
+
+		for ( int i = 1; i < bookmarks.size(); ++i )
+		{
+			bookmarkData.append( '|' );
+			bookmarkData.append( ((DisplayRequestMenuItem)bookmarks.get(i)).toSettingString() );
+		}
+
+		client.getSettings().setProperty( "browserBookmarks", bookmarkData.toString() );
+		client.getSettings().saveSettings();
+	}
+
+	/**
 	 * A special class which renders the menu holding the list of bookmarks.
 	 * This class also synchronizes with the list of available bookmarks.
 	 */
@@ -406,7 +441,7 @@ public class RequestFrame extends KoLFrame
 			// to separate the menu from the bookmarks.
 
 			this.add( new AddBookmarkMenuItem() );
-			this.add( new RemoveBookmarkMenuItem() );
+			this.add( new KoLPanelFrameMenuItem( "Manage Bookmarks", KeyEvent.VK_M, new BookmarkManagePanel() ) );
 			this.add( new JSeparator() );
 
 			// Now, add everything that's contained inside of
@@ -473,6 +508,19 @@ public class RequestFrame extends KoLFrame
 
 		public synchronized void contentsChanged( ListDataEvent e )
 		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 + HEADER_COUNT >= getMenuComponentCount() || source.size() + HEADER_COUNT == getMenuComponentCount() )
+				return;
+
+			for ( int i = index1; i >= index0; --i )
+			{
+				remove( i + HEADER_COUNT );
+				add( (DisplayRequestMenuItem) source.get(i), i + HEADER_COUNT );
+			}
+
+			validate();
 		}
 
 		/**
@@ -484,7 +532,7 @@ public class RequestFrame extends KoLFrame
 		{
 			public AddBookmarkMenuItem()
 			{
-				super( "Bookmark Page", KeyEvent.VK_A );
+				super( "Bookmark This Page", KeyEvent.VK_B );
 				addActionListener( this );
 			}
 
@@ -498,54 +546,49 @@ public class RequestFrame extends KoLFrame
 				if ( name == null )
 					return;
 
-				String location = getCurrentLocation();
-				boolean pwdhash = location.indexOf( "pwd=" ) != -1;
-
-				StringBuffer bookmarkData = new StringBuffer();
-				bookmarkData.append( client.getSettings().getProperty( "browserBookmarks" ) );
-
-				if ( bookmarkData.length() > 0 )
-					bookmarkData.append( "|" );
-
-				bookmarkData.append( name.replaceAll( "\\|", "" ) );
-				bookmarkData.append( "|" );
-				bookmarkData.append( location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) );
-				bookmarkData.append( "|" );
-				bookmarkData.append( pwdhash );
-
-				client.getSettings().setProperty( "browserBookmarks", bookmarkData.toString() );
-				client.getSettings().saveSettings();
-
-				compileBookmarks();
-			}
-		}
-
-		/**
-		 * An internal class which handles the removal of old
-		 * bookmarks from the bookmark menu.
-		 */
-
-		private class RemoveBookmarkMenuItem extends JMenuItem implements ActionListener
-		{
-			public RemoveBookmarkMenuItem()
-			{
-				super( "Unbookmark Page", KeyEvent.VK_U );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				if ( client == null )
-					return;
-
-				String location = getCurrentLocation().replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" );
-				String bookmarkData = client.getSettings().getProperty( "browserBookmarks" );
-
-				client.getSettings().setProperty( "browserBookmarks", bookmarkData.replaceAll( "[^\\|]*?\\|" + location + "\\|(true|false)\\|?", "" ) );
-				client.getSettings().saveSettings();
-
-				compileBookmarks();
+				bookmarks.add( new DisplayRequestMenuItem( name, getCurrentLocation() ) );
 			}
 		}
 	}
+
+	/**
+	 * A special panel which generates a list of bookmarks which
+	 * can subsequently be managed.
+	 */
+
+	private class BookmarkManagePanel extends ItemManagePanel
+	{
+		public BookmarkManagePanel()
+		{
+			super( "Bookmark Management", "rename", "delete", bookmarks );
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+		}
+
+		public void actionConfirmed()
+		{
+			DisplayRequestMenuItem currentItem = (DisplayRequestMenuItem) elementList.getSelectedValue();
+			if ( currentItem == null )
+				return;
+
+			String name = JOptionPane.showInputDialog( "Name your bookmark?", currentItem.getText() );
+
+			if ( name == null )
+				return;
+
+			currentItem.setText( name );
+			saveBookmarks();
+		}
+
+		public void actionCancelled()
+		{
+			int index = elementList.getSelectedIndex();
+			if ( index == -1 )
+				return;
+
+			bookmarks.remove( index );
+			saveBookmarks();
+		}
+	}
+
+
 }
