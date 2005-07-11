@@ -500,13 +500,13 @@ public abstract class KoLmafia implements KoLConstants
 		if ( logStream != null )
 			logStream.println( "Parsing effect: " + result );
 
-		StringTokenizer parsedItem = new StringTokenizer( result, "()" );
-		String parsedItemName = parsedItem.nextToken().trim();
-		String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
+		StringTokenizer parsedEffect = new StringTokenizer( result, "()" );
+		String parsedEffectName = parsedEffect.nextToken().trim();
+		String parsedDuration = parsedEffect.hasMoreTokens() ? parsedEffect.nextToken() : "1";
 
 		try
 		{
-			processResult( AdventureResult.statusEffectAdventureResult( parsedItemName, df.parse( parsedItemCount ).intValue() ) );
+			processResult( new AdventureResult( parsedEffectName, df.parse( parsedDuration ).intValue(), true ) );
 		}
 		catch ( Exception e )
 		{

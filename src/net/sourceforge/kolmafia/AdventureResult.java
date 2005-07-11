@@ -164,6 +164,22 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name
+	 * and given gains.  Note that this should only be used if you know
+	 * whether or not this is an item or a status effect -- using
+	 *
+	 * @param	name	The name of the result
+	 * @param	count	How many of the noted result were gained
+	 * @param	isStatusEffect	<code>true</code> if this is a status effect, <code>false</code> if this is an item
+	 */
+
+	public AdventureResult( String name, int count, boolean isStatusEffect )
+	{
+		this( name, new int[1], isStatusEffect ? EFFECT_PRIORITY : ITEM_PRIORITY );
+		this.count[0] = count;
+	}
+
+	/**
+	 * Constructs a new <code>AdventureResult</code> with the given name
 	 * and increase in stat gains.  This also manually sets the priority
 	 * of the element to the given value.  This method is used internally.
 	 *
@@ -181,13 +197,6 @@ public class AdventureResult implements Comparable, KoLConstants
 			this.count[i] = count[i];
 
 		this.priority = priority;
-	}
-
-	public static AdventureResult statusEffectAdventureResult( String name, int count )
-	{
-		int [] counts = new int[1];
-		counts[0] = count;
-		return new AdventureResult( name, counts, EFFECT_PRIORITY );
 	}
 
 	/**
