@@ -404,38 +404,44 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			try
 			{
-				try
-				{
-					// First, assume that it's inside of the scripts
-					// directory and make an attempt to retrieve it
-					// from there.
+				// First, assume that it's inside of the scripts
+				// directory and make an attempt to retrieve it
+				// from there.
 
-					lastScript = new KoLmafiaCLI( scriptRequestor, DataUtilities.getFileInputStream( "", "scripts", parameters ) );
+				lastScript = null;
+				File scriptFile = new File( "scripts" + File.separator + parameters );
+
+				if ( scriptFile.exists() )
+					lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
+				else
+				{
+					scriptFile = new File( parameters );
+					if ( scriptFile.exists() )
+						lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
 				}
-				catch ( IOException e1 )
-				{
-					// If an exception is thrown (flow control with
-					// exceptions, bad, but oh well), then load it
-					// from the default directory.
 
-					lastScript = new KoLmafiaCLI( scriptRequestor, DataUtilities.getFileInputStream( "", "", parameters ) );
+				if ( lastScript == null )
+				{
+					scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
+					scriptRequestor.cancelRequest();
+					return;
 				}
 
 				lastScript.listenForCommands();
 				if ( lastScript.previousCommand == null )
 					lastScript = null;
-
-				return;
 			}
-			catch ( IOException e2 )
+			catch ( Exception e )
 			{
-				// Print a message indicating that the file failed to
-				// be loaded, since that's what the error probably was.
+				// Because everything is checked for consistency
+				// before being loaded, this should not happen.
 
 				scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
+
+			return;
 		}
 
 		// Next, handle continue commands, which allow
@@ -444,7 +450,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "continue" ) )
 		{
-			if ( lastScript == null )
+			if ( lastScript == null || lastScript.previousCommand == null )
 			{
 				scriptRequestor.updateDisplay( ERROR_STATE, "No commands left to continue script." );
 				scriptRequestor.cancelRequest();
