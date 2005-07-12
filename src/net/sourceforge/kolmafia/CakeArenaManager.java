@@ -84,6 +84,7 @@ public class CakeArenaManager implements KoLConstants
 			if ( opponent.equals( opponentList.get(i).toString() ) )
 			{
 				CakeArenaRequest request = new CakeArenaRequest( client, ((ArenaOpponent)opponentList.get(i)).getID(), eventID );
+				client.resetContinueState();
 
 				for ( int j = 1; client.permitsContinue() && j <= battleCount; ++j )
 				{
