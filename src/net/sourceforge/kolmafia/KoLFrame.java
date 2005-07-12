@@ -73,6 +73,10 @@ import javax.swing.event.HyperlinkEvent;
 
 // basic utilities
 import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLEncoder;
+import java.lang.reflect.Method;
+
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -80,8 +84,6 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.net.URLEncoder;
-import java.lang.reflect.Method;
 
 // other stuff
 import javax.swing.SwingUtilities;
@@ -570,7 +572,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					return;
 
 				isExecutingScript = true;
-				(new KoLmafiaCLI( client, executePath )).listenForCommands();
+				(new KoLmafiaCLI( client, new FileInputStream( executePath ) )).listenForCommands();
 			}
 			catch ( Exception e )
 			{
