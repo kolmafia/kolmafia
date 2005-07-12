@@ -73,7 +73,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 		try
 		{
-			this.instance = new KoLmafiaCLI( client, (String) null );
+			this.instance = new KoLmafiaCLI( client, null );
 		}
 		catch ( Exception e )
 		{

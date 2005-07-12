@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -796,7 +797,19 @@ public abstract class KoLmafia implements KoLConstants
 				{
 					currentHP = characterData.getCurrentHP();
 					updateDisplay( DISABLED_STATE, "Executing HP auto-recovery script..." );
-					(new KoLmafiaCLI( this, settings.getProperty( "hpRecoveryScript" ) )).listenForCommands();
+
+					String scriptPath = settings.getProperty( "hpRecoveryScript" ) ;
+					File autoRecoveryScript = new File( scriptPath );
+
+					if ( autoRecoveryScript.exists() )
+						(new KoLmafiaCLI( this, new FileInputStream( autoRecoveryScript ) )).listenForCommands();
+					else
+					{
+						updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
+						permitContinue = false;
+						disableMacro = false;
+						return;
+					}
 				}
 
 				if ( currentHP == characterData.getCurrentHP() )
@@ -842,7 +855,19 @@ public abstract class KoLmafia implements KoLConstants
 				{
 					currentMP = characterData.getCurrentMP();
 					updateDisplay( DISABLED_STATE, "Executing MP auto-recovery script..." );
-					(new KoLmafiaCLI( this, settings.getProperty( "mpRecoveryScript" ) )).listenForCommands();
+
+					String scriptPath = settings.getProperty( "mpRecoveryScript" ) ;
+					File autoRecoveryScript = new File( scriptPath );
+
+					if ( autoRecoveryScript.exists() )
+						(new KoLmafiaCLI( this, new FileInputStream( autoRecoveryScript ) )).listenForCommands();
+					else
+					{
+						updateDisplay( ERROR_STATE, "Could not find MP auto-recovery script." );
+						permitContinue = false;
+						disableMacro = false;
+						return;
+					}
 				}
 
 				if ( currentMP == characterData.getCurrentMP() )

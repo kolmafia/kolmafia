@@ -99,7 +99,7 @@ public class KoLmafiaCLI extends KoLmafia
 			System.out.println( KoLRequest.getRootHostName() + " selected." );
 			System.out.println();
 
-			KoLmafiaCLI session = new KoLmafiaCLI( null, (String) null );
+			KoLmafiaCLI session = new KoLmafiaCLI( null, System.in );
 
 			if ( initialScript == null )
 			{
@@ -108,10 +108,15 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else
 			{
-				session.lastScript = new KoLmafiaCLI( session, initialScript );
-				session.lastScript.listenForCommands();
-				if ( session.lastScript.previousCommand == null )
-					session.lastScript = null;
+				File script = new File( initialScript );
+
+				if ( script.exists() )
+				{
+					session.lastScript = new KoLmafiaCLI( session, new FileInputStream( script ) );
+					session.lastScript.listenForCommands();
+					if ( session.lastScript.previousCommand == null )
+						session.lastScript = null;
+				}
 
 				session.listenForCommands();
 			}
@@ -153,17 +158,13 @@ public class KoLmafiaCLI extends KoLmafia
 	 * are loaded from disk.
 	 */
 
-	public KoLmafiaCLI( KoLmafia scriptRequestor, String scriptLocation ) throws IOException
-	{	this( scriptRequestor, scriptLocation == null ? System.in : new FileInputStream( scriptLocation ) );
-	}
-
 	public KoLmafiaCLI( KoLmafia scriptRequestor, InputStream inputStream ) throws IOException
 	{
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
 		this.scriptRequestor.resetContinueState();
 
 		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : new NullStream();
-		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
+		commandStream = new BufferedReader( new InputStreamReader( inputStream == null ? System.in : inputStream ) );
 		mirrorStream = new NullStream();
 	}
 

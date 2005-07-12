@@ -35,9 +35,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.StringTokenizer;
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,6 +43,12 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Arrays;
+
+import java.io.File;
+import java.io.FileInputStream;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * Container class for <code>BuffBotManager</code>
@@ -380,7 +383,17 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				{
 					currentRestores = getRestoreCount();
 					client.updateDisplay( DISABLED_STATE, "Executing auto-stocking script..." );
-					(new KoLmafiaCLI( client, settings.getProperty( "autoStockScript" ) )).listenForCommands();
+
+					String scriptPath = settings.getProperty( "autoStockScript" ) ;
+					File autoRecoveryScript = new File( scriptPath );
+
+					if ( autoRecoveryScript.exists() )
+						(new KoLmafiaCLI( client, new FileInputStream( autoRecoveryScript ) )).listenForCommands();
+					else
+					{
+						client.updateDisplay( ERROR_STATE, "Could not find auto-stocking script." );
+						return;
+					}
 				}
 
 				if ( currentRestores == getRestoreCount() )
