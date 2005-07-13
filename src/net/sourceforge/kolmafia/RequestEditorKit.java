@@ -135,7 +135,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					frameText = frame.mainDisplay.getText();
 
 					for ( int j = 0; j < fields.length && frame != null; ++j )
-						if ( frameText.indexOf( fields[i] ) == -1 )
+						if ( frameText.indexOf( fields[j] ) == -1 )
 							frame = null;
 				}
 			}
@@ -176,9 +176,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// Prepare the element string -- make sure that
 			// you don't have duplicate fields.
 
-			for ( int i = 0; i < fields.length; ++i )
-				for ( int j = i + 1; j < fields.length; ++j )
-					if ( fields[i] != null && fields[j] != null && fields[i].equals( fields[j] ) )
+			for ( int i = 0; i < elements.length; ++i )
+				for ( int j = i + 1; j < elements.length; ++j )
+					if ( elements[i] != null && elements[j] != null && fields[i].equals( fields[j] ) )
 						elements[j] = null;
 
 			// Now, prepare the request string that will
