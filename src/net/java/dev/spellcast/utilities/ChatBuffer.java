@@ -205,7 +205,10 @@ public class ChatBuffer
 		if ( changeType != LOGFILE_CHANGE && displayPane != null )
 		{
 			if ( newContents == null )
+			{
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+				displayPane.validate();
+			}
 			else
 				SwingUtilities.invokeLater( new DisplayPaneUpdater( newContents ) );
 		}
@@ -262,6 +265,7 @@ public class ChatBuffer
 					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
 
 				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+				displayPane.validate();
 
 				if ( verticalScrollBar != null )
 					verticalScrollBar.setValue( verticalScrollBar.getMaximum() - verticalScrollBar.getVisibleAmount() );
