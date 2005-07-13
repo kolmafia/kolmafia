@@ -581,18 +581,17 @@ public class ClanManager implements KoLConstants
 
 	public void postMessage()
 	{
-		Object [] parameters = new Object[2];
+		Object [] parameters = new Object[3];
 		parameters[0] = client;
 		parameters[1] = "KoLmafia: Clan Board Post";
 		parameters[2] = new MessagePostPanel( "post" );
-
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
 	}
 
 	public void postAnnouncement()
 	{
-		Object [] parameters = new Object[2];
+		Object [] parameters = new Object[3];
 		parameters[0] = client;
 		parameters[1] = "KoLmafia: Clan Announcement";
 		parameters[2] = new MessagePostPanel( "postannounce" );
