@@ -572,14 +572,13 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			this.hadTimeout = true;
 
-			// FileNotFoundException problems could originate from
-			// anything -- standard timeouts, in some operating
-			// systems, for example, could throw a FNFE.  So, just
-			// note that in the display.
+			// Now that the proxy problem has been resolved, FNFEs
+			// should only happen if the file does not exist.  In
+			// this case, stop retrying.
 
 			if ( e instanceof FileNotFoundException )
 			{
-				updateDisplay( ERROR_STATE, "Page not found.  Retrying..." );
+				updateDisplay( ERROR_STATE, "Page <" + formURLString + "> not found." );
 
 				if ( client != null )
 				{
@@ -588,7 +587,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				}
 
 				delay( REFRESH_RATE );
-				return true;
+				return false;
 			}
 
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
