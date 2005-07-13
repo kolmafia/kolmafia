@@ -1367,7 +1367,10 @@ public class KoLmafiaCLI extends KoLmafia
 		int matchCount;
 
 		if ( matchType == CREATION )
+		{
+			ConcoctionsDatabase.refreshConcoctions( scriptRequestor );
 			matchCount = ItemCreationRequest.getInstance( scriptRequestor, firstMatch ).getCount( ConcoctionsDatabase.getConcoctions() );
+		}
 		else if ( matchType == CLOSET )
 			matchCount = firstMatch.getCount( scriptRequestor.getCloset() );
 		else if ( matchType == INVENTORY )
