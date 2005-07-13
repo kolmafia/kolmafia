@@ -49,6 +49,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 // layout
 import java.awt.Point;
@@ -849,6 +850,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						client.getLogStream().print( e1 );
 						e1.printStackTrace( client.getLogStream() );
 					}
+				}
+				else if ( location.startsWith( "javascript:" ) && location.indexOf( "submit()" ) == -1 )
+				{
+					// The default editor pane does not handle
+					// Javascript links.  Adding support would
+					// be an unnecessary time investment.
+
+					JOptionPane.showMessageDialog( null, "Ironically, Java does not support Javascript." );
 				}
 				else if ( location.indexOf( "submit()" ) == -1 )
 				{
