@@ -2,94 +2,95 @@ shore.php	1	Shore: Muscle Vacation
 shore.php	2	Shore: Mysticality Vacation
 shore.php	3	Shore: Moxie Vacation
 
-campground.php	rest	Campsite: To the Bed!
-campground.php	relax	Campsite: To the Beanbag!
+campground.php	rest	Camp: To the Bed!
+campground.php	relax	Camp: To the Beanbag!
 
 clangym.php	1	Gym: Hobo-Flex Workout Machine
 clangym.php	2	Gym: Big Book of Magicalness
 clangym.php	3	Gym: Tan-U-Lots Tanning Bed
 
-luckysewer.php	0	Market Sewer (Lucky)
-sewer.php	0	Market Sewer (Unlucky)
+luckysewer.php	0	Town: Market Sewer (Lucky)
+sewer.php	0	Town: Market Sewer (Unlucky)
 
 casino.php	1	Slots: Goat Party
 casino.php	2	Slots: Pirate Treasure
 casino.php	11	Slots: Fruit Insanity
-adventure.php	70	Roulette Tables
-adventure.php	71	Poker Room
-adventure.php	72	Money-Making Game
 
-adventure.php	9	Sleazy Back Alley
-adventure.php	10	Haunted Pantry
+adventure.php	70	Casino: Roulette Tables
+adventure.php	71	Casino: Poker Room
+adventure.php	72	Casino: Money-Making Game
 
-adventure.php	16	Haiku Dungeon
-adventure.php	19	Limerick Dungeon
-adventure.php	39	Dungeons of Doom
-dungeon.php	1	Daily Dungeon
+adventure.php	9	Town: Sleazy Back Alley
+adventure.php	10	Town: Haunted Pantry
 
-adventure.php	11	Outskirts of The Knob
-adventure.php	40	Knob Goblin Kitchens
-adventure.php	41	Knob Goblin Treasury
-adventure.php	42	Knob Goblin Harem
-adventure.php	50	Knob Goblin Laboratory
-adventure.php	51	Menagerie (Level 1)
-adventure.php	52	Menagerie (Level 2)
-adventure.php	53	Menagerie (Level 3)
+adventure.php	16	Dungeon: Haiku Dungeon
+adventure.php	19	Dungeon: Limerick Dungeon
+adventure.php	39	Dungeon: Dungeons of Doom
+dungeon.php	1	Dungeon: Daily Dungeon
 
-adventure.php	30	Bat Hole Entryway
-adventure.php	31	Bat Hole: Guano Junction
-adventure.php	32	Batrat and Ratbat Burrow
-adventure.php	33	Beanbat Chamber
+adventure.php	11	Plains: Outskirts of The Knob
+adventure.php	40	Plains: Knob Goblin Kitchens
+adventure.php	41	Plains: Knob Goblin Treasury
+adventure.php	42	Plains: Knob Goblin Harem
+adventure.php	50	Plains: Knob Goblin Laboratory
+adventure.php	51	Plains: Menagerie (Level 1)
+adventure.php	52	Plains: Menagerie (Level 2)
+adventure.php	53	Plains: Menagerie (Level 3)
 
-adventure.php	18	Degrassi Knoll
-adventure.php	20	"Fun" House
-adventure.php	21	Cemetary (Pre-Cyrpt)
-adventure.php	22	Fernswarthy's Tower
-adventure.php	58	Cemetary (Post-Cyrpt)
-adventure.php	78	Palindome
+adventure.php	30	Plains: Bat Hole Entryway
+adventure.php	31	Plains: Bat Hole: Guano Junction
+adventure.php	32	Plains: Batrat and Ratbat Burrow
+adventure.php	33	Plains: Beanbat Chamber
+
+adventure.php	18	Plains: Degrassi Knoll
+adventure.php	20	Plains: Fun House
+adventure.php	21	Plains: Cemetary (Pre-Cyrpt)
+adventure.php	22	Plains: Fernswarthy's Tower
+adventure.php	58	Plains: Cemetary (Post-Cyrpt)
+adventure.php	78	Plains: Palindome
 
 adventure.php	54	Cyrpt: Defiled Nook
 adventure.php	55	Cyrpt: Defiled Cranny
 adventure.php	56	Cyrpt: Defiled Alcove
 adventure.php	57	Cyrpt: Defiled Niche
 
-adventure.php	15	Spooky Forest
-adventure.php	17	Hidden Temple
-adventure.php	24	Typical Tavern (Pre-Rat)
-adventure.php	25	Typical Tavern (Post-Rat)
-adventure.php	73	Inexplicable Door
-adventure.php	28	Whitey's Grove
+adventure.php	15	Woods: Spooky Forest
+adventure.php	17	Woods: Hidden Temple
+adventure.php	24	Woods: Typical Tavern (Pre-Rat)
+adventure.php	25	Woods: Typical Tavern (Post-Rat)
+adventure.php	73	Woods: Inexplicable Door
+adventure.php	28	Woods: Whitey's Grove
 
-adventure.php	75	Dark Neck of the Woods
-adventure.php	76	Dark Heart of the Woods
-adventure.php	77	Dark Elbow of the Woods
-adventure.php	79	Deep Fat Friar's Gate
+adventure.php	75	Woods: Dark Neck of the Woods
+adventure.php	76	Woods: Dark Heart of the Woods
+adventure.php	77	Woods: Dark Elbow of the Woods
+adventure.php	79	Woods: Deep Fat Friar's Gate
 
-adventure.php	35	Barrel Full of Barrels
-adventure.php	60	Goatlet
-adventure.php	61	Itznotyerzitz Mine
-adventure.php	62	Lair of the Ninja Snowmen
-adventure.php	63	eXtreme Slope
-adventure.php	64	Icy Peak
-adventure.php	80	Valley Beyond Orc Chasm
+adventure.php	35	Mounts: Barrel Full of Barrels
+adventure.php	60	Mounts: Goatlet
+adventure.php	61	Mounts: Itznotyerzitz Mine
+adventure.php	62	Mounts: Ninja Snowmen
+adventure.php	63	Mounts: eXtreme Slope
+adventure.php	64	Mounts: Icy Peak
+adventure.php	80	Mounts: Valley Beyond Orc Chasm
 
-adventure.php	26	Hippy Camp
-adventure.php	65	Hippy Camp (In Disguise)
-adventure.php	27	Orcish Frat House
-adventure.php	29	Orcish Frat House (In Disguise)
-adventure.php	66	Obligatory Pirates Cove
-adventure.php	67	Obligatory Pirates Cove (In Disguise)
+adventure.php	26	Island: Hippy Camp
+adventure.php	65	Island: Hippy Camp (In Disguise)
+adventure.php	27	Island: Frat House
+adventure.php	29	Island: Frat House (In Disguise)
+adventure.php	66	Island: Pirate Cove
+adventure.php	67	Island: Pirate Cove (In Disguise)
 
-adventure.php	81	Penultimate Fantasy Airship
-adventure.php	82	Castle in the Clouds in the Sky
-adventure.php	83	Hole in the Sky
+adventure.php	81	Stalk: Penultimate Fantasy Airship
+adventure.php	82	Stalk: Castle in the Clouds in the Sky
+adventure.php	83	Stalk: Hole in the Sky
 
-adventure.php	45	South of the Border
+adventure.php	45	Beach: South of the Border
 
-lair3.php	hedge	Sorceress' Hedge Maze
+lair3.php	hedge	Tower: Sorceress' Hedge Maze
 
-adventure.php	43	Outskirts of Camp Logging Camp
-adventure.php	44	Camp Logging Camp
-adventure.php	46	Thugnderdome
-adventure.php	47	The Bugbear Pens
-adventure.php	48	The Spooky Gravy Barrow
+adventure.php	43	Signed: Outskirts of Camp
+adventure.php	44	Signed: Camp Logging Camp
+adventure.php	46	Signed: Thugnderdome
+adventure.php	47	Signed: Bugbear Pens
+adventure.php	48	Signed: Spooky Gravy Barrow
