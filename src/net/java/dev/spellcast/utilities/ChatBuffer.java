@@ -202,15 +202,20 @@ public class ChatBuffer
 		if ( newContents != null )
 			displayBuffer.append( newContents );
 
-		if ( changeType != LOGFILE_CHANGE && displayPane != null )
+		try
 		{
-			if ( newContents == null )
+			if ( changeType != LOGFILE_CHANGE && displayPane != null )
 			{
-				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-				displayPane.validate();
+				DisplayPaneUpdater runner = new DisplayPaneUpdater( newContents );
+
+				if ( SwingUtilities.isEventDispatchThread() )
+					runner.run();
+				else
+					SwingUtilities.invokeAndWait( runner );
 			}
-			else
-				SwingUtilities.invokeLater( new DisplayPaneUpdater( newContents ) );
+		}
+		catch ( Exception e )
+		{
 		}
 
 		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
@@ -256,6 +261,13 @@ public class ChatBuffer
 
 		public void run()
 		{
+			if ( newContents == null )
+			{
+				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+				displayPane.validate();
+				return;
+			}
+
 			try
 			{
 				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
