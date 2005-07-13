@@ -213,34 +213,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 				concoctions[i].calculate( client, availableIngredients );
 		}
 
-		SwingUtilities.invokeLater( new RefreshListRunnable( client ) );
-	}
+		concoctionsList.clear();
 
-	/**
-	 * Internal class used to refresh the list of concoctions.
-	 * This should only be run in the Swing thread.
-	 */
-
-	private static class RefreshListRunnable implements Runnable
-	{
-		private KoLmafia client;
-
-		public RefreshListRunnable( KoLmafia client )
-		{	this.client = client;
-		}
-
-		public void run()
-		{
-			// Finally, prepare the list that will be returned - the list
-			// should contained all items whose quantities are greater
-			// than zero.
-
-			concoctionsList.clear();
-
-			for ( int i = 1; i < ITEM_COUNT; ++i )
-				if ( concoctions[i].creatable > 0 )
-					concoctionsList.add( ItemCreationRequest.getInstance( client, i, concoctions[i].creatable ) );
-		}
+		for ( int i = 1; i < ITEM_COUNT; ++i )
+			if ( concoctions[i].creatable > 0 )
+				concoctionsList.add( ItemCreationRequest.getInstance( client, i, concoctions[i].creatable ) );
 	}
 
 	/**
