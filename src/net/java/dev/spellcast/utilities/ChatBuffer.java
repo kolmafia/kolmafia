@@ -118,9 +118,7 @@ public class ChatBuffer
 	}
 
 	public void setScrollPane( JScrollPane scrollPane )
-	{
-		this.verticalScrollBar = scrollPane.getVerticalScrollBar();
-		scrollBarResizer = new ScrollBarResizer();
+	{	this.verticalScrollBar = scrollPane.getVerticalScrollBar();
 	}
 
 	/**
@@ -207,36 +205,9 @@ public class ChatBuffer
 		if ( changeType != LOGFILE_CHANGE && displayPane != null )
 		{
 			if ( newContents == null )
-			{
-				displayPane.setContentType( "text/html" );
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-			}
 			else
-			{
-				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-				Element parentElement = currentHTML.getDefaultRootElement();
-
-				while ( !parentElement.isLeaf() )
-					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
-
-				try
-				{
-					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
-				}
-				catch ( Exception e )
-				{
-					// In the event that an exception is thrown, just
-					// pretend that it never happened.  But, in case
-					// someone happens to be running with a console,
-					// print the debug information to the screen.
-
-					e.printStackTrace();
-					return;
-				}
-
-				if ( scrollBarResizer != null )
-					scrollBarResizer.run();
-			}
+				SwingUtilities.invokeLater( new DisplayPaneUpdater( newContents ) );
 		}
 
 		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
@@ -265,23 +236,44 @@ public class ChatBuffer
 	}
 
 	/**
-	 * An internal runnable which attempts to scroll the scrollbar.
+	 * An internal runnable which attempts to update the text in
+	 * the HTML document and appropriately scroll the scrollbar.
 	 * This occurs inside of the Swing thread in order to prevent
-	 * the user interface from locking.
+	 * the user interface from locking and to help avoid Swing
+	 * thread errors.
 	 */
 
-	private class ScrollBarResizer implements Runnable
+	private class DisplayPaneUpdater implements Runnable
 	{
+		private String newContents;
+
+		public DisplayPaneUpdater( String newContents )
+		{	this.newContents = newContents;
+		}
+
 		public void run()
 		{
-			if ( !SwingUtilities.isEventDispatchThread() )
+			try
 			{
-				SwingUtilities.invokeLater( this );
+				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+				Element parentElement = currentHTML.getDefaultRootElement();
+
+				while ( !parentElement.isLeaf() )
+					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
+
+				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+
+				if ( verticalScrollBar != null )
+					verticalScrollBar.setValue( verticalScrollBar.getMaximum() - verticalScrollBar.getVisibleAmount() );
+			}
+			catch ( Exception e )
+			{
+				// In case someone happens to be running with a console,
+				// print the debug information to the screen.
+
+				e.printStackTrace();
 				return;
 			}
-
-			if ( verticalScrollBar != null )
-				verticalScrollBar.setValue( verticalScrollBar.getMaximum() - verticalScrollBar.getVisibleAmount() );
 		}
 	}
 }
