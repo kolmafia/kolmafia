@@ -120,15 +120,57 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
 	protected void fireContentsChanged( Object source, int index0, int index1 )
-	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 ) );
+	{
+		Runnable runner = new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 );
+
+		try
+		{
+			if ( SwingUtilities.isEventDispatchThread() )
+				runner.run();
+			else
+				SwingUtilities.invokeAndWait( runner );
+		}
+		catch ( Exception e )
+		{
+			// The only exception thrown is an interrupted
+			// exception, which is fine.
+		}
 	}
 
 	protected void fireIntervalAdded( Object source, int index0, int index1 )
-	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 ) );
+	{
+		Runnable runner = new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 );
+
+		try
+		{
+			if ( SwingUtilities.isEventDispatchThread() )
+				runner.run();
+			else
+				SwingUtilities.invokeAndWait( runner );
+		}
+		catch ( Exception e )
+		{
+			// The only exception thrown is an interrupted
+			// exception, which is fine.
+		}
 	}
 
 	protected void fireIntervalRemoved( Object source, int index0, int index1 )
-	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 ) );
+	{
+		Runnable runner = new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 );
+
+		try
+		{
+			if ( SwingUtilities.isEventDispatchThread() )
+				runner.run();
+			else
+				SwingUtilities.invokeAndWait( runner );
+		}
+		catch ( Exception e )
+		{
+			// The only exception thrown is an interrupted
+			// exception, which is fine.
+		}
 	}
 
 	/**
