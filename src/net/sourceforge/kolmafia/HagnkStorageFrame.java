@@ -150,7 +150,7 @@ public class HagnkStorageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.PULL_MEAT_FROM_STORAGE, getValue( amountField ) ) )).start();
+		{	(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
 		}
 
 		protected void actionCancelled()
@@ -170,7 +170,7 @@ public class HagnkStorageFrame extends KoLFrame
 			super( "Inside Storage", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getStorage() );
 
 			if ( client.getStorage().isEmpty() )
-				(new ItemStorageRequest( client )).run();
+				(new RequestThread( new ItemStorageRequest( client ) )).start();
 
 		}
 
