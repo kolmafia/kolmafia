@@ -177,7 +177,11 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final boolean contains( String itemName )
-	{	return itemByName.containsKey( getCanonicalName( itemName ) );
+	{
+		if ( itemName.equals( "ice-cold beer (Schlitz)" ) || itemName.equals( "ice-cold beer (Willer)" ) )
+			return true;
+
+		return itemByName.containsKey( getCanonicalName( itemName ) );
 	}
 
 	/**
