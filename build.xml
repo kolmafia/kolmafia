@@ -10,6 +10,7 @@
   <property name="lib" location="lib"/>
   <property name="build" location="build"/>
   <property name="dist" location="dist"/>
+  <property name="docs" location="${dist}/docs/api"/>
   <property name="cvscheck" location="cvscheck"/>
 
   <property name="cvsroot" value=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/kolmafia"/>
@@ -120,10 +121,10 @@
           depends="compile"
           description="generate javadocs from sourcecode">
 
-    <mkdir dir="${dist}/docs/api"/>
+    <mkdir dir="${docs}"/>
 
     <javadoc sourcepath="${src}"
-             destdir="${dist}/docs/api"
+             destdir="${docs}"
              packagenames="*">
 
        <link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
@@ -162,7 +163,9 @@
           description="clean up all object files">
 
     <delete dir="${build}"/>
-    <delete dir="${dist}"/>
+    <delete dir="${docs}"/>
+    <delete file="${jarfile}"/>
+    <delete file="${tarfile}"/>
 
   </target>
 
