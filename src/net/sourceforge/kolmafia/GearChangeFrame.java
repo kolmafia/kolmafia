@@ -232,6 +232,15 @@ public class GearChangeFrame extends KoLFrame
 		public void run()
 		{
 			GearChangeFrame.this.setEnabled( false );
+
+			if ( request instanceof FamiliarRequest )
+				familiarSelect.setSelectedItem( null );
+			else
+			{
+				for ( int i = 0; i < equipment.length; ++i )
+					equipmentSelect.setSelectedItem( null );
+			}
+
 			request.run();
 			refreshEquipPanel();
 		}
