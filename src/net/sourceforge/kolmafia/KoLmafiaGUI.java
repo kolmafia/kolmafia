@@ -46,6 +46,7 @@ import javax.swing.JOptionPane;
 
 public class KoLmafiaGUI extends KoLmafia
 {
+	private boolean isEnabled;
 	private CreateFrameRunnable displayer;
 	private LimitedSizeChatBuffer buffer;
 
@@ -82,10 +83,17 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( isBuffBotActive() )
 				buffBotHome.updateStatus( message );
 		}
+
+		isEnabled = state != DISABLED_STATE;
+	}
+
+	public boolean isEnabled()
+	{	return isEnabled;
 	}
 
 	public void setEnabled( boolean isEnabled )
 	{
+		this.isEnabled = isEnabled;
 		if ( displayer != null && displayer.getCreation() != null )
 			((KoLFrame)displayer.getCreation()).setEnabled( isEnabled );
 	}

@@ -163,6 +163,10 @@ public abstract class KoLmafia implements KoLConstants
 		commandBuffer = null;
 	}
 
+	public boolean isEnabled()
+	{	return true;
+	}
+
 	public void setEnabled( boolean isEnabled )
 	{
 	}
