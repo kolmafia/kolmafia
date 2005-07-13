@@ -307,6 +307,9 @@ public class EquipmentRequest extends KoLRequest
 
 	private void parseCloset()
 	{
+		if ( client instanceof KoLmafiaGUI )
+			((KoLmafiaGUI)client).shouldRefresh = false;
+
 		// Try to find how much meat is in your character's closet -
 		// this way, the program's meat manager frame auto-updates
 
@@ -342,6 +345,12 @@ public class EquipmentRequest extends KoLRequest
 			List closet = client.getCloset();
 			closet.clear();
 			parseCloset( closetMatcher.group(), closet, false );
+		}
+
+		if ( client instanceof KoLmafiaGUI )
+		{
+			((KoLmafiaGUI)client).shouldRefresh = true;
+			((KoLmafiaGUI)client).refresher.run();
 		}
 	}
 

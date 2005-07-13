@@ -865,7 +865,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @param	results	The string containing the results of the adventure
 	 */
 
-	public final void processResults( String results )
+	public void processResults( String results )
 	{
 		logStream.println( "Processing results..." );
 

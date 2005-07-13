@@ -46,13 +46,16 @@ import javax.swing.JOptionPane;
 
 public class KoLmafiaGUI extends KoLmafia
 {
+	protected boolean shouldRefresh;
+	protected ConcoctionsRefresher refresher;
+
 	private boolean isEnabled;
-	private ConcoctionsRefresher refresher;
 	private CreateFrameRunnable displayer;
 	private LimitedSizeChatBuffer buffer;
 
 	public KoLmafiaGUI()
 	{
+		this.shouldRefresh = true;
 		this.refresher = new ConcoctionsRefresher();
 	}
 
@@ -116,7 +119,6 @@ public class KoLmafiaGUI extends KoLmafia
 		super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
 		this.inventory.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
-		this.closet.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
 		this.refresher.run();
 
 		if ( displayer.getCreation() instanceof AdventureFrame )
@@ -137,7 +139,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 	}
 
-	private class ConcoctionsRefresher implements Runnable
+	public class ConcoctionsRefresher implements Runnable
 	{
 		private boolean isDelayed = false;
 		private Object synchronizer = new Object();
@@ -147,7 +149,7 @@ public class KoLmafiaGUI extends KoLmafia
 			// If there is already an instance of this thread
 			// running, then there is nothing left to do.
 
-			if ( !isDelayed )
+			if ( shouldRefresh && !isDelayed )
 			{
 				isDelayed = true;
 				(new ConcoctionsRefreshThread()).start();
@@ -158,7 +160,6 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			public void run()
 			{
-				KoLRequest.delay( 500 );
 				synchronized ( synchronizer )
 				{
 					isDelayed = false;
@@ -321,4 +322,13 @@ public class KoLmafiaGUI extends KoLmafia
 			return ((KoLFrame)displayer.getCreation()).isVisible();
 		return false;
 	}
+
+	public void processResults( String results )
+	{
+		shouldRefresh = false;
+		super.processResults( results );
+		shouldRefresh = true;
+		refresher.run();
+	}
+
 }
