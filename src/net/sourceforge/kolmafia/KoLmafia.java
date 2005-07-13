@@ -74,7 +74,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected boolean isLoggingIn;
 	protected LoginRequest loginRequest;
-	protected ConcoctionsRefresher refresher;
 
 	protected String password, sessionID, passwordHash;
 	protected KoLCharacter characterData;
@@ -138,7 +137,6 @@ public abstract class KoLmafia implements KoLConstants
 	public KoLmafia()
 	{
 		this.isLoggingIn = true;
-		this.refresher = new ConcoctionsRefresher();
 
 		this.initialStats = new int[3];
 		this.fullStatGain = new int[3];
@@ -233,9 +231,6 @@ public abstract class KoLmafia implements KoLConstants
 			this.closet = characterData.getCloset();
 			this.recentEffects = new ArrayList();
 
-			this.inventory.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
-			this.closet.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
-
 			this.tally = new SortedListModel();
 			this.conditions = new SortedListModel();
 
@@ -327,38 +322,6 @@ public abstract class KoLmafia implements KoLConstants
 		this.storeManager = new StoreManager( this );
 		this.clanManager = new ClanManager( this );
 		this.permitContinue = true;
-	}
-
-	private class ConcoctionsRefresher implements Runnable
-	{
-		private boolean isDelayed = false;
-		private Object synchronizer = new Object();
-
-		public synchronized void run()
-		{
-			// If there is already an instance of this thread
-			// running, then there is nothing left to do.
-
-			if ( !isDelayed )
-			{
-				isDelayed = true;
-				(new ConcoctionsRefreshThread()).start();
-			}
-		}
-
-		private class ConcoctionsRefreshThread extends DaemonThread
-		{
-			public void run()
-			{
-				KoLRequest.delay( 500 );
-				synchronized ( synchronizer )
-				{
-					isDelayed = false;
-					characterData.updateEquipmentLists();
-					ConcoctionsDatabase.refreshConcoctions( KoLmafia.this );
-				}
-			}
-		}
 	}
 
 	/**

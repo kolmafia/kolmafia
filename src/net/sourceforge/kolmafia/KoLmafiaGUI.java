@@ -47,8 +47,14 @@ import javax.swing.JOptionPane;
 public class KoLmafiaGUI extends KoLmafia
 {
 	private boolean isEnabled;
+	private ConcoctionsRefresher refresher;
 	private CreateFrameRunnable displayer;
 	private LimitedSizeChatBuffer buffer;
+
+	public KoLmafiaGUI()
+	{
+		this.refresher = new ConcoctionsRefresher();
+	}
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -109,6 +115,10 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
+		this.inventory.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
+		this.closet.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
+		this.refresher.run();
+
 		if ( displayer.getCreation() instanceof AdventureFrame )
 			return;
 
@@ -124,6 +134,38 @@ public class KoLmafiaGUI extends KoLmafia
 
 			((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
 			((KoLFrame)previousDisplayer.getCreation()).dispose();
+		}
+	}
+
+	private class ConcoctionsRefresher implements Runnable
+	{
+		private boolean isDelayed = false;
+		private Object synchronizer = new Object();
+
+		public synchronized void run()
+		{
+			// If there is already an instance of this thread
+			// running, then there is nothing left to do.
+
+			if ( !isDelayed )
+			{
+				isDelayed = true;
+				(new ConcoctionsRefreshThread()).start();
+			}
+		}
+
+		private class ConcoctionsRefreshThread extends DaemonThread
+		{
+			public void run()
+			{
+				KoLRequest.delay( 500 );
+				synchronized ( synchronizer )
+				{
+					isDelayed = false;
+					characterData.updateEquipmentLists();
+					ConcoctionsDatabase.refreshConcoctions( KoLmafiaGUI.this );
+				}
+			}
 		}
 	}
 
