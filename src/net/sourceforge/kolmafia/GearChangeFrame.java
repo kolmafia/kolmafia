@@ -238,7 +238,7 @@ public class GearChangeFrame extends KoLFrame
 			else
 			{
 				for ( int i = 0; i < equipment.length; ++i )
-					equipmentSelect.setSelectedItem( null );
+					equipment[i].setSelectedItem( null );
 			}
 
 			request.run();
