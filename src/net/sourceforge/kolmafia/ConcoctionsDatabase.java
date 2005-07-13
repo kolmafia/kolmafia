@@ -113,7 +113,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE, false );
 	}
 
-	public static SortedListModel getConcoctions()
+	public static synchronized SortedListModel getConcoctions()
 	{	return concoctionsList;
 	}
 
@@ -126,7 +126,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * @return	A list of possible concoctions
 	 */
 
-	public static void refreshConcoctions( KoLmafia client )
+	public static synchronized void refreshConcoctions( KoLmafia client )
 	{
 		List availableIngredients = new ArrayList();
 		availableIngredients.addAll( client.getInventory() );
