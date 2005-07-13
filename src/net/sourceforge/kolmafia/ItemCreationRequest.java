@@ -622,8 +622,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public int getCount( List list )
 	{
-                System.out.println( "class = " + this.getClass() );
-                // System.out.println( "is ItemCreationRequest = " + ItemCreationRequest.class.isInstance( this );
 		int index = list.indexOf( this );
 		return index == -1 ? 0 : ((ItemCreationRequest)list.get( index )).getQuantityNeeded();
 	}
