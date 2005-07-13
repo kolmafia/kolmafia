@@ -920,7 +920,7 @@ public class OptionsFrame extends KoLFrame
 			setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
 			setProperty( "createWithoutBoxServants", String.valueOf( createWithoutBoxServantsCheckBox.isSelected() ) );
 
-			if ( client != null )
+			if ( client != null && client.getInventory() != null )
 				ConcoctionsDatabase.refreshConcoctions( client );
 
 			super.actionConfirmed();
