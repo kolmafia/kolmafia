@@ -40,6 +40,8 @@ import java.util.regex.Matcher;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
@@ -180,6 +182,7 @@ public class RequestFrame extends KoLFrame
 		// might be a little counterintuitive when viewing player profiles.
 
 		compileBookmarks();
+		addScriptMenu( menuBar );
 		menuBar.add( new BookmarkMenu() );
 	}
 
@@ -427,100 +430,20 @@ public class RequestFrame extends KoLFrame
 	 * This class also synchronizes with the list of available bookmarks.
 	 */
 
-	private class BookmarkMenu extends JMenu implements ListDataListener
+	private class BookmarkMenu extends MenuItemList
 	{
-		private int HEADER_COUNT = 3;
-
 		public BookmarkMenu()
-		{
-			super( "Bookmarks" );
-			setMnemonic( KeyEvent.VK_B );
-
-			// The bookmark menu is headed off with two items
-			// which allow you to add to the menu and a separator
-			// to separate the menu from the bookmarks.
-
-			this.add( new AddBookmarkMenuItem() );
-			this.add( new KoLPanelFrameMenuItem( "Manage Bookmarks", KeyEvent.VK_M, new BookmarkManagePanel() ) );
-			this.add( new JSeparator() );
-
-			// Now, add everything that's contained inside of
-			// the current list of bookmarks.
-
-			for ( int i = 0; i < bookmarks.size(); ++i )
-				this.add( (DisplayRequestMenuItem) bookmarks.get(i) );
-
-			// Add this as a listener to the list of bookmarks
-			// so that it gets updated whenever bookmarks are
-			// updated in any way.
-
-			bookmarks.addListDataListener( this );
+		{	super( "Bookmarks", KeyEvent.VK_B, bookmarks );
 		}
 
-		/**
-		 * Called whenever contents have been added to the original list; a
-		 * function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public synchronized void intervalAdded( ListDataEvent e )
+		public JComponent [] getHeaders()
 		{
-			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+			JComponent [] headers = new JComponent[2];
 
-			if ( index1 >= source.size() || source.size() + HEADER_COUNT == getMenuComponentCount() )
-				return;
+			headers[0] = new AddBookmarkMenuItem();
+			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", KeyEvent.VK_M, new BookmarkManagePanel() );
 
-			for ( int i = index0; i <= index1; ++i )
-				add( (DisplayRequestMenuItem) source.get(i), i + HEADER_COUNT );
-
-			validate();
-		}
-
-		/**
-		 * Called whenever contents have been removed from the original list;
-		 * a function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public synchronized void intervalRemoved( ListDataEvent e )
-		{
-			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
-
-			if ( index1 + HEADER_COUNT >= getMenuComponentCount() || source.size() + HEADER_COUNT == getMenuComponentCount() )
-				return;
-
-			for ( int i = index1; i >= index0; --i )
-				remove( i + HEADER_COUNT );
-
-			validate();
-		}
-
-		/**
-		 * Called whenever contents in the original list have changed; a
-		 * function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public synchronized void contentsChanged( ListDataEvent e )
-		{
-			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
-
-			if ( index1 + HEADER_COUNT >= getMenuComponentCount() || source.size() + HEADER_COUNT == getMenuComponentCount() )
-				return;
-
-			for ( int i = index1; i >= index0; --i )
-			{
-				remove( i + HEADER_COUNT );
-				add( (DisplayRequestMenuItem) source.get(i), i + HEADER_COUNT );
-			}
-
-			validate();
+			return headers;
 		}
 
 		/**

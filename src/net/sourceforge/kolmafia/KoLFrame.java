@@ -69,6 +69,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowListener;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListDataEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 
@@ -105,6 +107,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
 	static { System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" ); };
+
+	private static LockableListModel scripts = new LockableListModel();
 
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
 	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher" };
@@ -339,20 +343,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	/**
 	 * Utility method used to add the default <code>KoLmafia</code>
-	 * scripting menu to the given menu bar.  The default menu contains
-	 * the ability to load scripts.
+	 * scripting menu to the given menu bar.
 	 */
 
 	protected final JMenu addScriptMenu( JComponent menu )
 	{
-		JMenu scriptMenu = new JMenu( "Scripts" );
-		scriptMenu.setMnemonic( KeyEvent.VK_S );
-
-		scriptMenu.add( new LoadScriptMenuItem() );
-		scriptMenu.add( new ToggleMacroMenuItem() );
-		scriptMenu.add( new DisplayFrameMenuItem( "Access CLI Mode", KeyEvent.VK_A, CommandDisplayFrame.class ) );
-
+		JMenu scriptMenu = new ScriptMenu();
 		menu.add( scriptMenu );
+
+		scripts.clear();
 
 		File scriptDirectory = new File( "scripts" );
 		if ( !scriptDirectory.exists() )
@@ -368,13 +367,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				if ( !scriptList[i].isDirectory() )
 				{
-					if ( addedScriptCount == 0 )
-						scriptMenu.add( new JSeparator() );
-
 					try
 					{
 						String [] pieces = scriptList[i].getCanonicalPath().split( "[\\\\/]" );
-						scriptMenu.add( new LoadScriptMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ], "scripts" + File.separator + pieces[ pieces.length - 1 ] ) );
+						scripts.add( new LoadScriptMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ], "scripts" + File.separator + pieces[ pieces.length - 1 ] ) );
 					}
 					catch ( Exception e )
 					{
@@ -1168,6 +1164,149 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			setLayout( new CardLayout( 20, 20 ) );
 			add( centerPanel, "" );
+		}
+	}
+
+	/**
+	 * A special class which renders the list of available scripts.
+	 */
+
+	private class ScriptMenu extends MenuItemList
+	{
+		public ScriptMenu()
+		{	super( "Scripts", KeyEvent.VK_S, scripts );
+		}
+
+		public JComponent [] getHeaders()
+		{
+			JComponent [] headers = new JComponent[ KoLFrame.this instanceof AdventureFrame ? 9 : 2 ];
+
+			headers[0] = new LoadScriptMenuItem();
+			headers[1] = new ToggleMacroMenuItem();
+
+			if ( KoLFrame.this instanceof AdventureFrame )
+			{
+				headers[2] = new JSeparator();
+				headers[3] = new DisplayFrameMenuItem( "Graphical CLI", KeyEvent.VK_G, CommandDisplayFrame.class );
+				headers[4] = new DisplayFrameMenuItem( "Do the BuffBot!", KeyEvent.VK_D, BuffBotFrame.class );
+				headers[5] = new JSeparator();
+				headers[6] = new InvocationMenuItem( "Fetch Breakfast", KeyEvent.VK_F, client, "getBreakfast" );
+				headers[7] = new InvocationMenuItem( "Naughty Entryway", KeyEvent.VK_N, client, "completeEntryway" );
+				headers[8] = new InvocationMenuItem( "Hedgy Rotations", KeyEvent.VK_H, client, "completeHedgeMaze" );
+			}
+
+			return headers;
+		}
+	}
+
+	/**
+	 * A special class which renders the menu holding the list of menu items
+	 * Tsynchronized to a lockable list model.
+	 */
+
+	protected abstract class MenuItemList extends JMenu implements ListDataListener
+	{
+		private int headerCount;
+		private LockableListModel model;
+
+		public MenuItemList( String title, int mnemonic, LockableListModel model )
+		{
+			super( title );
+			this.setMnemonic( mnemonic );
+
+			// Add the headers to the list of items which
+			// need to be added.
+
+			JComponent [] headers = getHeaders();
+
+			for ( int i = 0; i < headers.length; ++i )
+				this.add( headers[i] );
+
+			// Add a separator between the headers and the
+			// elements displayed in the list.  Also go
+			// ahead and initialize the header count.
+
+			this.add( new JSeparator() );
+			this.headerCount = headers.length + 1;
+
+			// Now, add everything that's contained inside of
+			// the current list.
+
+			for ( int i = 0; i < model.size(); ++i )
+				this.add( (JComponent) model.get(i) );
+
+			// Add this as a listener to the list of so that
+			// the menu gets updated whenever the list updates.
+
+			model.addListDataListener( this );
+		}
+
+		public abstract JComponent [] getHeaders();
+
+		/**
+		 * Called whenever contents have been added to the original list; a
+		 * function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public synchronized void intervalAdded( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= source.size() || source.size() + headerCount == getMenuComponentCount() )
+				return;
+
+			for ( int i = index0; i <= index1; ++i )
+				add( (JComponent) source.get(i), i + headerCount );
+
+			validate();
+		}
+
+		/**
+		 * Called whenever contents have been removed from the original list;
+		 * a function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public synchronized void intervalRemoved( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 + headerCount >= getMenuComponentCount() || source.size() + headerCount == getMenuComponentCount() )
+				return;
+
+			for ( int i = index1; i >= index0; --i )
+				remove( i + headerCount );
+
+			validate();
+		}
+
+		/**
+		 * Called whenever contents in the original list have changed; a
+		 * function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public synchronized void contentsChanged( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 + headerCount >= getMenuComponentCount() || source.size() + headerCount == getMenuComponentCount() )
+				return;
+
+			for ( int i = index1; i >= index0; --i )
+			{
+				remove( i + headerCount );
+				add( (JComponent) source.get(i), i + headerCount );
+			}
+
+			validate();
 		}
 	}
 
