@@ -34,61 +34,14 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.CardLayout;
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
-import javax.swing.BorderFactory;
 
-// event listeners
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import javax.swing.SwingUtilities;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-
-// containers
-import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.ListSelectionModel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 
-// other imports
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.lang.reflect.Method;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Collections;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-
-import net.java.dev.spellcast.utilities.PanelList;
-import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> which handles all the clan
@@ -107,13 +60,13 @@ public class HagnkStorageFrame extends KoLFrame
 		this.meats = new MeatWithdrawPanel();
 		this.items = new ItemWithdrawPanel();
 
-		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout( new BorderLayout() );
-		centerPanel.add( meats, BorderLayout.NORTH );
-		centerPanel.add( items, BorderLayout.CENTER );
+		JTabbedPane tabs = new JTabbedPane();
+
+		tabs.addTab( "Meat", meats );
+		tabs.addTab( "Items", items );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( centerPanel, "" );
+		getContentPane().add( tabs, "" );
 	}
 
 	public void setEnabled( boolean isEnabled )
