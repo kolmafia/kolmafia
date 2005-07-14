@@ -273,7 +273,7 @@ public class AdventureFrame extends KoLFrame
 
 		private JComboBox locationField;
 		private JTextField countField;
-		private JTextField choiceField;
+		private JTextField conditionField;
 
 		private JComboBox resultSelect;
 		private JPanel resultPanel;
@@ -294,12 +294,12 @@ public class AdventureFrame extends KoLFrame
 
 			locationField = new JComboBox( adventureList );
 			countField = new JTextField();
-			choiceField = new JTextField();
+			conditionField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Location: ", locationField );
 			elements[1] = new VerifiableElement( "# of turnips: ", countField );
-			elements[2] = new VerifiableElement( "# of choices: ", choiceField );
+			elements[2] = new VerifiableElement( "Condition: ", conditionField );
 
 			setContent( elements );
 
@@ -378,7 +378,7 @@ public class AdventureFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 			locationField.setEnabled( isEnabled );
 			countField.setEnabled( isEnabled );
-			choiceField.setEnabled( isEnabled );
+			conditionField.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
@@ -393,17 +393,25 @@ public class AdventureFrame extends KoLFrame
 			client.getSettings().setProperty( "lastAdventure", request.toString() );
 			client.getSettings().saveSettings();
 
-			int choiceCount = getValue( choiceField, 0 );
-
-			if ( choiceCount > 0 )
+			if ( conditionField.getText().trim().length() > 0 )
 			{
-				AdventureResult choices = new AdventureResult( AdventureResult.ADV, choiceCount );
-				AdventureResult.addResultToList( client.getConditions(),
-					choices.getInstance( choiceCount - choices.getCount( client.getConditions() ) ) );
+				try
+				{
+					KoLmafiaCLI conditioner = new KoLmafiaCLI( client, null );
 
-				if ( choices.getCount( client.getConditions() ) <= 0 )
-					client.getConditions().remove( client.getConditions().indexOf( choices ) );
-
+					if ( conditionField.getText().indexOf( " " ) == -1 )
+						conditioner.executeLine( "conditions choice " + conditionField.getText() );
+					else
+					{
+						conditioner.executeLine( "conditions clear" );
+						conditioner.executeLine( "conditions add " + conditionField.getText() );
+					}
+				}
+				catch ( Exception e )
+				{
+					// Because you're passing a null element, no
+					// exception should be thrown.
+				}
 			}
 
 			(new RequestThread( request, getValue( countField ) )).start();
