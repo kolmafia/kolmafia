@@ -314,10 +314,13 @@ public class AdventureRequest extends KoLRequest
 			client.processResults( request.responseText );
 
 			AdventureResult loseAdventure = new AdventureResult( AdventureResult.ADV, -1 );
-			AdventureResult.addResultToList( client.getConditions(), loseAdventure );
 
-			if ( loseAdventure.getCount( client.getConditions() ) == 0 )
-				client.getConditions().remove( client.getConditions().indexOf( loseAdventure ) );
+			if ( loseAdventure.getCount( client.getConditions() ) > 0 )
+			{
+				AdventureResult.addResultToList( client.getConditions(), loseAdventure );
+				if ( loseAdventure.getCount( client.getConditions() ) == 0 )
+					client.getConditions().remove( client.getConditions().indexOf( loseAdventure ) );
+			}
 		}
 		else
 		{
