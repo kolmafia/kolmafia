@@ -819,7 +819,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				if ( this == BEANBAG )
 				{
 					buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Relaxing in my beanbag chair." );
-					(new KoLAdventure( client, "campground.php", "relax", "Campsite: To the Beanbag!" )).run();
+					(new KoLAdventure( client, "campground.php", "relax", "Camp: To the Beanbag!" )).run();
 					return;
 				}
 

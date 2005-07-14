@@ -966,21 +966,20 @@ public abstract class KoLmafia implements KoLConstants
 				// sure to check to see if you're allowed to continue
 				// after drunkenness.
 
-				if ( request instanceof KoLAdventure && request.toString().indexOf( "Campsite" ) == -1 && characterData.getInebriety() > 19 )
+				if ( characterData.getInebriety() > 19 )
 				{
-					permitContinue = confirmDrunkenRequest();
+					if ( request instanceof KoLAdventure && !request.toString().startsWith( "Camp" ) )
+						permitContinue = confirmDrunkenRequest();
 					pulledOver = true;
 				}
-				else if ( characterData.getInebriety() > 19 )
-					pulledOver = true;
 
 				// Finally, check to see if you have the appropriate
 				// amount of hit points and mana points to continue.
 
-				if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
+				if ( request instanceof KoLAdventure && !request.toString().startsWith( "Camp" ) )
 					autoRecoverHP();
 
-				if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" )) || request instanceof UseSkillRequest )
+				if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Camp" )) || request instanceof UseSkillRequest )
 					autoRecoverMP();
 
 				// Check to see if there are any end conditions.  If
@@ -1038,10 +1037,10 @@ public abstract class KoLmafia implements KoLConstants
 					{
 						--iterationsRemaining;
 
-						if ( request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" ) )
+						if ( request instanceof KoLAdventure && !request.toString().startsWith( "Camp" ) )
 							autoRecoverHP();
 
-						if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" )) || request instanceof UseSkillRequest )
+						if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Camp" )) || request instanceof UseSkillRequest )
 							autoRecoverMP();
 
 						if ( request instanceof KoLAdventure && characterData.getInebriety() > 19 && !pulledOver )
@@ -1050,7 +1049,7 @@ public abstract class KoLmafia implements KoLConstants
 							pulledOver = true;
 						}
 					}
-					else if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Campsite" )) || request instanceof UseSkillRequest )
+					else if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Camp" )) || request instanceof UseSkillRequest )
 					{
 						autoRecoverHP();
 						autoRecoverMP();
