@@ -799,8 +799,16 @@ public class KoLCharacter
 	public void setEquipment( String [] equipment, List outfits )
 	{
 		for ( int i = 0; i < this.equipment.size(); ++i )
-			this.equipment.set( i, equipment[i] == null ? EquipmentRequest.UNEQUIP :
-				equipment[i].equals( "none" ) ? EquipmentRequest.UNEQUIP : equipment[i].toLowerCase() );
+		{
+			if ( equipment[i] == null || equipment[i].equals( "none" ) || equipment[i].equals( EquipmentRequest.UNEQUIP ) )
+				this.equipment.set( i, EquipmentRequest.UNEQUIP );
+
+			else if ( TradeableItemDatabase.getConsumptionType( equipment[i] ) == ConsumeItemRequest.EQUIP_ACCESSORY )
+				this.equipment.set( i, equipment[i].toLowerCase() );
+
+			else
+				this.equipment.set( i, equipment[i].toLowerCase() + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
+		}
 
 		if ( equipment.length > FAMILIAR )
 			setFamiliarItem( equipment[FAMILIAR].toLowerCase() );
@@ -888,8 +896,14 @@ public class KoLCharacter
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			currentItem = ((AdventureResult)inventory.get(i)).getName().toLowerCase();
-			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == filterID )
-				items.add( currentItem );
+
+			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == filterID && EquipmentDatabase.canEquip( this, currentItem ) )
+			{
+				if ( filterID != ConsumeItemRequest.EQUIP_ACCESSORY )
+					items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
+				else
+					items.add( currentItem );
+			}
 		}
 
 		if ( !items.contains( equippedItem ) )

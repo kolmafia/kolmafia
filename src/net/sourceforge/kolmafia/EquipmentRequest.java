@@ -129,8 +129,13 @@ public class EquipmentRequest extends KoLRequest
 		}
 		else
 		{
+			String itemName = change;
+
+			if ( change.indexOf( "(" ) != -1 )
+				itemName = change.substring( 0, change.indexOf( "(" ) - 1 );
+
 			addFormField( "action", "equip" );
-			addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( change ) ) );
+			addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( itemName ) ) );
 			addFormField( "pwd", client.getPasswordHash() );
 			this.requestType = CHANGE_ITEM;
 		}

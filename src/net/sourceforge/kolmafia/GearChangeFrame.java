@@ -148,13 +148,14 @@ public class GearChangeFrame extends KoLFrame
 	private JPanel createEquipPanel()
 	{
 		JPanel fieldPanel = new JPanel();
-		fieldPanel.setLayout( new GridLayout( 14, 1 ) );
+		fieldPanel.setLayout( new GridLayout( 15, 1 ) );
 
 		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Hat:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Weapon:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Shirt:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Pants:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Accessory:  ", JLabel.RIGHT ) );
@@ -165,36 +166,48 @@ public class GearChangeFrame extends KoLFrame
 		fieldPanel.add( new JLabel( "Outfit:  ", JLabel.RIGHT ) );
 
 		JPanel valuePanel = new JPanel();
-		valuePanel.setLayout( new GridLayout( 14, 1 ) );
+		valuePanel.setLayout( new GridLayout( 15, 1 ) );
 
 		valuePanel.add( new JLabel( " " ) );
 
 		equipment = new JComboBox[8];
 		LockableListModel [] equipmentLists = characterData.getEquipmentLists();
 
-		for ( int i = 0; i < 8; ++i )
+		for ( int i = 0; i < 4; ++i )
 		{
 			equipment[i] = new JComboBox( equipmentLists[i] );
 			equipment[i].addActionListener( new ChangeListener( equipment[i], EquipmentRequest.class, String.class, new Integer(i) ) );
-			JComponentUtilities.setComponentSize( equipment[i], 240, 20 );
+			JComponentUtilities.setComponentSize( equipment[i], 300, 20 );
+			valuePanel.add( equipment[i] );
+		}
 
-			if ( i != KoLCharacter.FAMILIAR )
-				valuePanel.add( equipment[i] );
+		valuePanel.add( new JLabel( " " ) );
+
+		for ( int i = 4; i < 7; ++i )
+		{
+			equipment[i] = new JComboBox( equipmentLists[i] );
+			equipment[i].addActionListener( new ChangeListener( equipment[i], EquipmentRequest.class, String.class, new Integer(i) ) );
+			JComponentUtilities.setComponentSize( equipment[i], 300, 20 );
+			valuePanel.add( equipment[i] );
 		}
 
 		valuePanel.add( new JLabel( " " ) );
 
 		familiarSelect = new JComboBox( characterData.getFamiliars() );
 		familiarSelect.addActionListener( new ChangeListener( familiarSelect, FamiliarRequest.class, FamiliarData.class ) );
-		JComponentUtilities.setComponentSize( familiarSelect, 240, 20 );
+		JComponentUtilities.setComponentSize( familiarSelect, 300, 20 );
 		valuePanel.add( familiarSelect );
 
-		valuePanel.add( equipment[KoLCharacter.FAMILIAR] );
+		equipment[7] = new JComboBox( equipmentLists[7] );
+		equipment[7].addActionListener( new ChangeListener( equipment[7], EquipmentRequest.class, String.class, new Integer(7) ) );
+		JComponentUtilities.setComponentSize( equipment[7], 300, 20 );
+		valuePanel.add( equipment[7] );
+
 		valuePanel.add( new JLabel( " " ) );
 
 		outfitSelect = new JComboBox( characterData.getOutfits() );
 		outfitSelect.addActionListener( new ChangeListener( outfitSelect, EquipmentRequest.class, SpecialOutfit.class ) );
-		JComponentUtilities.setComponentSize( outfitSelect, 240, 20 );
+		JComponentUtilities.setComponentSize( outfitSelect, 300, 20 );
 		valuePanel.add( outfitSelect );
 
 		JPanel equipPanel = new JPanel();
