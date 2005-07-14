@@ -219,6 +219,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "useClosetForCreation", "false" );
 		ensureProperty( "useTabbedChat", "1" );
 		ensureProperty( "whiteList", "" );
+		ensureProperty( "zoneExcludeList", "" );
 	}
 
 	/**

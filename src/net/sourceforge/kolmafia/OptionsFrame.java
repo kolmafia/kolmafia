@@ -167,27 +167,28 @@ public class OptionsFrame extends KoLFrame
 		menuBar.add( loginMenu );
 
 		addCard( loginMenu, "Server Select", new ServerSelectPanel(), String.valueOf( cardCount++ ) );
-		addCard( loginMenu, "Proxy Configuration", new ProxyOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( loginMenu, "Startup Activities", new StartupOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( loginMenu, "Proxy Setup", new ProxyOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( loginMenu, "Miscellaneous", new StartupOptionsPanel(), String.valueOf( cardCount++ ) );
 
 		JMenu adventureMenu = new JMenu( "Advs" );
 		menuBar.add( adventureMenu );
 
+		addCard( adventureMenu, "Adventure List", new AdventureOptionsPanel(), String.valueOf( cardCount++ ) );
 		addCard( adventureMenu, "Combat Options", new BattleOptionsPanel(), String.valueOf( cardCount++ ) );
 		addCard( adventureMenu, "Choice Adventures", new ChoiceOptionsPanel(), String.valueOf( cardCount++ ) );
 
 		JMenu peopleMenu = new JMenu( "People" );
 		menuBar.add( peopleMenu );
 
-		addCard( peopleMenu, "LoathingChat Preferences", new ChatOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( peopleMenu, "Green Message Handling", new GreenOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( peopleMenu, "Clan Snapshot Columns", new SnapshotOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( peopleMenu, "Chat Preferences", new ChatOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( peopleMenu, "Green Messages", new GreenOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( peopleMenu, "Clan Snapshots", new SnapshotOptionsPanel(), String.valueOf( cardCount++ ) );
 
 		JMenu itemMenu = new JMenu( "Items" );
 		menuBar.add( itemMenu );
 
-		addCard( itemMenu, "Mall Configuration", new MallOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( itemMenu, "Item Creation Handling", new CreationOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( itemMenu, "Mall Search", new MallOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( itemMenu, "Item Creation", new CreationOptionsPanel(), String.valueOf( cardCount++ ) );
 	}
 
 	private void addCard( JMenu menu, String name, JComponent panel, String cardID )
@@ -258,6 +259,75 @@ public class OptionsFrame extends KoLFrame
 		}
 	}
 
+	private class AdventureOptionsPanel extends OptionsPanel
+	{
+		private JCheckBox [] optionBoxes;
+
+		private final String [] optionKeys = { "sortAdventures", "Shore", "Camp", "Gym", "Town",
+			"Casino", "Plains", "Knob", "Bat", "Cyrpt", "Woods", "Friars", "Mount", "Mclarge",
+			"Island", "Stalk", "Beach", "Tower", "Signed" };
+
+		private final String [] optionNames = { "Sort adventure list", "Hide vacations at the shore",
+			"Hide campground resting", "Hide clan gym equipment", "Hide Seaside Town areas",
+			"Hide Seaside Town's casino games", "Hide general plains areas", "Hide Cobb's knob areas",
+			"Hide bat hole areas", "Hide the defiled cyrpt quest", "Hide general woods areas",
+			"Hide deep fat friar's quest", "Hide general mountain areas", "Hide Mt. McLargeHuge areas",
+			"Hide the mysterious island areas", "Hide the areas beyond the beanstalk", "Hide the desert beach areas",
+			"Hide the Sorceress Tower maze", "Hide sign-restricted areas" };
+
+		public AdventureOptionsPanel()
+		{
+			super( "Adventure List", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
+
+			optionBoxes = new JCheckBox[ optionNames.length ];
+			for ( int i = 0; i < optionNames.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			for ( int i = 0; i < optionNames.length; ++i )
+				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			setProperty( optionKeys[0], String.valueOf( optionBoxes[0].isSelected() ) );
+
+			StringBuffer areas = new StringBuffer();
+
+			for ( int i = 1; i < optionBoxes.length; ++i )
+			{
+				if ( optionBoxes[i].isSelected() )
+				{
+					if ( areas.length() != 0 )
+						areas.append( ',' );
+
+					areas.append( optionKeys[i] );
+				}
+			}
+
+			setProperty( "zoneExcludeList", areas.toString() );
+			super.actionConfirmed();
+
+			client.getAdventureList().clear();
+			client.getAdventureList().addAll( AdventureDatabase.getAsLockableListModel( client ) );
+
+			if ( client != null && optionBoxes[0].isSelected() )
+				Collections.sort( client.getAdventureList() );
+		}
+
+		protected void actionCancelled()
+		{
+			optionBoxes[0].setSelected( getProperty( optionKeys[0] ).equals( "true" ) );
+
+			String zones = getProperty( "zoneExcludeList" );
+			for ( int i = 1; i < optionKeys.length; ++i )
+				optionBoxes[i].setSelected( zones.indexOf( optionKeys[i] ) != -1 );
+		}
+	}
+
 	/**
 	 * This panel handles all of the things related to login
 	 * options, including which server to use for login and
@@ -268,8 +338,8 @@ public class OptionsFrame extends KoLFrame
 	private class StartupOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
-		private final String [] optionKeys = { "forceReconnect", "skipInventory", "skipFamiliars", "sortAdventures", "savePositions" };
-		private final String [] optionNames = { "Auto timein on timeout", "Skip inventory retrieval", "Skip familiar retrieval", "Sort adventure list by name", "Save window positions" };
+		private final String [] optionKeys = { "forceReconnect", "skipInventory", "skipFamiliars", "savePositions" };
+		private final String [] optionNames = { "Auto timein on timeout", "Skip inventory retrieval", "Skip familiar retrieval", "Save window positions" };
 
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
@@ -279,7 +349,7 @@ public class OptionsFrame extends KoLFrame
 
 		public StartupOptionsPanel()
 		{
-			super( "Startup Activities", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			super( "Miscellaneous", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
 
 			optionBoxes = new JCheckBox[ optionNames.length ];
@@ -297,9 +367,6 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < optionKeys.length; ++i )
 				setProperty( optionKeys[i], String.valueOf( optionBoxes[i].isSelected() ) );
-
-			if ( client != null && optionBoxes[3].isSelected() )
-				Collections.sort( client.getAdventureList() );
 
 			super.actionConfirmed();
 		}
@@ -652,7 +719,7 @@ public class OptionsFrame extends KoLFrame
 
 		public ChatOptionsPanel()
 		{
-			super( "LoathingChat Preferences" );
+			super( "Chat Preferences" );
 
 			fontSizeSelect = new JComboBox();
 			for ( int i = 1; i <= 7; ++i )
@@ -744,7 +811,7 @@ public class OptionsFrame extends KoLFrame
 
 		public GreenOptionsPanel()
 		{
-			super( "Green Message Handling", new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
+			super( "Green Messages", new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
 
 			saveOutgoingCheckBox = new JCheckBox();
 			closeSendingCheckBox = new JCheckBox();
@@ -794,7 +861,7 @@ public class OptionsFrame extends KoLFrame
 
 		public SnapshotOptionsPanel()
 		{
-			super( "Clan Snapshot Columns", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			super( "Clan Snapshots", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
 
 			optionBoxes = new JCheckBox[ optionNames.length ];
@@ -845,7 +912,7 @@ public class OptionsFrame extends KoLFrame
 
 		public MallOptionsPanel()
 		{
-			super( "Mall Configuration" );
+			super( "Mall Search" );
 			defaultLimitField = new JTextField( "13" );
 
 			forceSortSelect = new JComboBox();
@@ -896,7 +963,7 @@ public class OptionsFrame extends KoLFrame
 
 		public CreationOptionsPanel()
 		{
-			super( "Item Creation Handling", new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
+			super( "Item Creation", new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
 
 			useClosetForCreationCheckBox = new JCheckBox();
 			autoRepairBoxesCheckBox = new JCheckBox();
@@ -955,7 +1022,7 @@ public class OptionsFrame extends KoLFrame
 
 		public ProxyOptionsPanel()
 		{
-			super( "Proxy Configuration" );
+			super( "Proxy Setup" );
 
 			proxyHost = new JTextField();
 			proxyPort = new JTextField();

@@ -67,12 +67,30 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final LockableListModel getAsLockableListModel( KoLmafia client )
 	{
-		LockableListModel adventures = new LockableListModel();
-		for ( int i = 0; i < adventureTable[0].size(); ++i )
-			adventures.add( new KoLAdventure( client, (String) adventureTable[0].get(i),
-				(String) adventureTable[1].get(i), (String) adventureTable[2].get(i) ) );
+		KoLSettings settings = client == null ? new KoLSettings() : client.getSettings();
 
-		if ( client != null && client.getSettings().getProperty( "sortAdventures" ).equals( "true" ) )
+		String [] zones = settings.getProperty( "zoneExcludeList" ).split( "," );
+		if ( zones.length == 1 && zones[0].length() == 0 )
+			zones[0] = "-";
+
+		boolean shouldAdd = true;
+		String locationName;
+		LockableListModel adventures = new LockableListModel();
+
+		for ( int i = 0; i < adventureTable[0].size(); ++i )
+		{
+			shouldAdd = true;
+			locationName = (String) adventureTable[2].get(i);
+
+			for ( int j = 0; j < zones.length && shouldAdd; ++j )
+				if ( locationName.startsWith( zones[j] ) )
+					shouldAdd = false;
+
+			if ( shouldAdd )
+				adventures.add( new KoLAdventure( client, (String) adventureTable[0].get(i), (String) adventureTable[1].get(i), locationName ) );
+		}
+
+		if ( client != null && settings.getProperty( "sortAdventures" ).equals( "true" ) )
 			java.util.Collections.sort( adventures );
 
 		return adventures;
