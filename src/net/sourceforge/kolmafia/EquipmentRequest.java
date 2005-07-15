@@ -300,6 +300,12 @@ public class EquipmentRequest extends KoLRequest
 
 	private void switchItem( String oldItem, String newItem )
 	{
+		if ( !oldItem.equals( UNEQUIP ) && oldItem.indexOf( "(" ) != -1 )
+			oldItem = oldItem.substring( 0, oldItem.indexOf( "(" ) - 1 );
+
+		if ( !newItem.equals( UNEQUIP ) && newItem.indexOf( "(" ) != -1 )
+			newItem = newItem.substring( 0, newItem.indexOf( "(" ) - 1 );
+
 		if ( !oldItem.equals( newItem ) )
 		{
 			if ( !oldItem.equals( UNEQUIP ) )
