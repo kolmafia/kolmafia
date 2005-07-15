@@ -1570,6 +1570,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
+		scriptRequestor.updateDisplay( ENABLED_STATE, "Purchases complete." );
 	}
 
 	/**
