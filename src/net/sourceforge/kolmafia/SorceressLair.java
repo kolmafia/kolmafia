@@ -41,6 +41,10 @@ public class SorceressLair implements KoLConstants
 	private static KoLmafia client;
 	private static List missingItems;
 
+	private static final AdventureResult SUGAR = new AdventureResult( "Sugar Rush", 0 );
+	private static final AdventureResult WUSSINESS = new AdventureResult( "Wussiness", 0 );
+	private static final AdventureResult MIASMA = new AdventureResult( "Rainy Soul Miasma", 0 );
+
 	public static void setClient( KoLmafia client )
 	{
 		SorceressLair.client = client;
@@ -100,6 +104,9 @@ public class SorceressLair implements KoLConstants
 
 	public static void completeEntryway()
 	{
+
+                KoLCharacter data = client.getCharacterData();
+
 		if ( !checkPrerequisites() )
 			return;
 
@@ -163,7 +170,7 @@ public class SorceressLair implements KoLConstants
 		requirements[14] = percussionInstrument;          // percussion instrument
 
 		requirements[15] = new AdventureResult( ItemCreationRequest.MEAT_PASTE,
-			client.getCharacterData().inMuscleSign() ? 0 : 2 );
+			data.inMuscleSign() ? 0 : 2 );
 
 		// Now that the array's initialized, issue the checks
 		// on the items needed to finish the entryway.
@@ -174,12 +181,18 @@ public class SorceressLair implements KoLConstants
 		// Use the rice candy, wussiness potion, and black candle
 		// and then cross through the first door.
 
-		for ( int i = 0; i < 3; ++i )
-			(new ConsumeItemRequest( client, requirements[i] )).run();
+		if ( !data.getEffects().contains( SUGAR ) )
+			(new ConsumeItemRequest( client, requirements[0] )).run();
+
+		if ( !data.getEffects().contains( WUSSINESS ) )
+			(new ConsumeItemRequest( client, requirements[1] )).run();
+
+		if ( !data.getEffects().contains( MIASMA ) )
+			(new ConsumeItemRequest( client, requirements[2] )).run();
 
 		client.updateDisplay( DISABLED_STATE, "Crossing three door puzzle..." );
 
-		KoLRequest request = new KoLRequest( client, "lair.php" );
+		KoLRequest request = new KoLRequest( client, "lair1.php" );
 		request.addFormField( "action", "gates" );
 		request.run();
 
@@ -190,7 +203,7 @@ public class SorceressLair implements KoLConstants
 
 		client.updateDisplay( DISABLED_STATE, "Crossing mirror puzzle..." );
 
-		request = new KoLRequest( client, "lair.php" );
+		request = new KoLRequest( client, "lair1.php" );
 		request.addFormField( "action", "mirror" );
 		request.run();
 
@@ -208,7 +221,7 @@ public class SorceressLair implements KoLConstants
 		request.run();
 
 		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "preaction", "sequence" );
+		request.addFormField( "prepreaction", "sequence" );
 		request.addFormField( "seq1", "up" );  request.addFormField( "seq2", "up" );
 		request.addFormField( "seq3", "down" );  request.addFormField( "seq4", "down" );
 		request.addFormField( "seq5", "left" );  request.addFormField( "seq6", "right" );
@@ -233,7 +246,7 @@ public class SorceressLair implements KoLConstants
 		request.run();
 
 		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "preaction", "starcage" );
+		request.addFormField( "prepreaction", "starcage" );
 		request.run();
 
 		// Next, handle the form for the skeleton key to
@@ -248,7 +261,7 @@ public class SorceressLair implements KoLConstants
 		request.run();
 
 		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "preaction", "skel" );
+		request.addFormField( "prepreaction", "skel" );
 		request.run();
 
 		client.processResult( requirements[3].getNegation() );
@@ -269,17 +282,17 @@ public class SorceressLair implements KoLConstants
 
 			if ( i == 9 )
 			{
-				request.addFormField( "preaction", "sorcriddle1" );
+				request.addFormField( "prepreaction", "sorcriddle1" );
 				request.addFormField( "answer", "fish" );
 			}
 			else if ( i == 10 )
 			{
-				request.addFormField( "preaction", "sorcriddle1" );
+				request.addFormField( "prepreaction", "sorcriddle2" );
 				request.addFormField( "answer", "phish" );
 			}
 			else
 			{
-				request.addFormField( "preaction", "sorcriddle1" );
+				request.addFormField( "prepreaction", "sorcriddle3" );
 				request.addFormField( "answer", "fsh" );
 			}
 

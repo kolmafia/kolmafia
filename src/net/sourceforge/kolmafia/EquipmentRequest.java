@@ -90,7 +90,7 @@ public class EquipmentRequest extends KoLRequest
 
 	public EquipmentRequest( KoLmafia client, int requestType )
 	{
-		super( client, requestType == CLOSET ? "closet.php" : "inventory.php" );
+		super( client, requestType == CLOSET ? "closet.php" : requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
 		this.character = client.getCharacterData();
 		this.requestType = requestType;
 		this.outfit = null;
@@ -248,7 +248,7 @@ public class EquipmentRequest extends KoLRequest
 		// If you changed your outfit, there will be a redirect
 		// to the equipment page - therefore, process it.
 
-		if ( !isErrorState && requestType != CLOSET && requestType != EQUIPMENT )
+		if ( !isErrorState && responseCode == 302 )
 		{
 			updateDisplay( DISABLED_STATE, "Updating equipment..." );
 			KoLRequest message = new KoLRequest( client, redirectLocation );
@@ -396,64 +396,90 @@ public class EquipmentRequest extends KoLRequest
 	private void parseEquipment()
 	{
 		String [] equipment = new String[8];
+		Matcher equipmentMatcher;
 
 		for ( int i = 0; i < equipment.length; ++i )
 			equipment[i] = UNEQUIP;
 
-		Matcher equipmentMatcher = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" ).matcher( responseText );
-		if ( equipmentMatcher.find() )
+		if ( responseText.indexOf( "unequip&type=hat") != -1 )
 		{
-			equipment[ KoLCharacter.HAT ] = equipmentMatcher.group(1);
-			logStream.println( "Hat: " + equipment[ KoLCharacter.HAT ] );
+			 equipmentMatcher = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" ).matcher( responseText );
+			if ( equipmentMatcher.find() )
+			{
+				equipment[ KoLCharacter.HAT ] = equipmentMatcher.group(1);
+				logStream.println( "Hat: " + equipment[ KoLCharacter.HAT ] );
+			}
 		}
 
-		equipmentMatcher = Pattern.compile( "Weapon:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" ).matcher( responseText );
-		if ( equipmentMatcher.find() )
+		if ( responseText.indexOf( "unequip&type=weapon") != -1 )
 		{
-			equipment[ KoLCharacter.WEAPON ] = equipmentMatcher.group(1);
-			logStream.println( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
+			equipmentMatcher = Pattern.compile( "Weapon:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" ).matcher( responseText );
+			if ( equipmentMatcher.find() )
+			{
+				equipment[ KoLCharacter.WEAPON ] = equipmentMatcher.group(1);
+				logStream.println( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
+			}
 		}
 
-		equipmentMatcher = Pattern.compile( "Shirt:</td>.*?<b>(.*?)</b>.*unequip&type=shirt" ).matcher( responseText );
-		if ( equipmentMatcher.find() )
+		if ( responseText.indexOf( "unequip&type=shirt") != -1 )
 		{
-			equipment[ KoLCharacter.SHIRT ] = equipmentMatcher.group(1);
-			logStream.println( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
+			equipmentMatcher = Pattern.compile( "Shirt:</td>.*?<b>(.*?)</b>.*unequip&type=shirt" ).matcher( responseText );
+			if ( equipmentMatcher.find() )
+			{
+				equipment[ KoLCharacter.SHIRT ] = equipmentMatcher.group(1);
+				logStream.println( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
+			}
 		}
 
-		equipmentMatcher = Pattern.compile( "Pants:</td>.*?<b>(.*?)</b>.*unequip&type=pants" ).matcher( responseText );
-		if ( equipmentMatcher.find() )
+		if ( responseText.indexOf( "unequip&type=pants") != -1 )
 		{
-			equipment[ KoLCharacter.PANTS ] = equipmentMatcher.group(1);
-			logStream.println( "Pants: " + equipment[ KoLCharacter.PANTS ] );
+			equipmentMatcher = Pattern.compile( "Pants:</td>.*?<b>(.*?)</b>.*unequip&type=pants" ).matcher( responseText );
+			if ( equipmentMatcher.find() )
+			{
+				equipment[ KoLCharacter.PANTS ] = equipmentMatcher.group(1);
+				logStream.println( "Pants: " + equipment[ KoLCharacter.PANTS ] );
+			}
 		}
 
-		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc1\">" ).matcher( responseText );
-		if ( equipmentMatcher.find() )
+		if ( responseText.indexOf( "unequip&type=acc1") != -1 )
 		{
-			equipment[ KoLCharacter.ACCESSORY1 ] = equipmentMatcher.group(1);
-			logStream.println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
+			equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc1\">" ).matcher( responseText );
+			if ( equipmentMatcher.find() )
+			{
+				equipment[ KoLCharacter.ACCESSORY1 ] = equipmentMatcher.group(1);
+				logStream.println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
+			}
 		}
 
-		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc2\">" ).matcher( responseText );
-		if ( equipmentMatcher.find() )
+		if ( responseText.indexOf( "unequip&type=acc2") != -1 )
 		{
-			equipment[ KoLCharacter.ACCESSORY2 ] = equipmentMatcher.group(1);
-			logStream.println( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
+			equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc2\">" ).matcher( responseText );
+			if ( equipmentMatcher.find() )
+			{
+				equipment[ KoLCharacter.ACCESSORY2 ] = equipmentMatcher.group(1);
+				logStream.println( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
+			}
 		}
 
-		equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc3\">" ).matcher( responseText );
-		if ( equipmentMatcher.find() )
+		if ( responseText.indexOf( "unequip&type=acc3") != -1 )
 		{
-			equipment[ KoLCharacter.ACCESSORY3 ] = equipmentMatcher.group(1);
-			logStream.println( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
+			equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc3\">" ).matcher( responseText );
+			if ( equipmentMatcher.find() )
+			{
+				equipment[ KoLCharacter.ACCESSORY3 ] = equipmentMatcher.group(1);
+				logStream.println( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
+			}
+
 		}
 
-		equipmentMatcher = Pattern.compile( "Familiar:*</td>.*?<b>([^<]*?)</b>.*unequip&type=familiarequip" ).matcher( responseText );
-		if ( equipmentMatcher.find() )
+		if ( responseText.indexOf( "unequip&type=familiarequip") != -1 )
 		{
-			equipment[ KoLCharacter.FAMILIAR ] = equipmentMatcher.group(1);
-			logStream.println( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
+			equipmentMatcher = Pattern.compile( "Familiar:*</td>.*?<b>([^<]*?)</b>.*unequip&type=familiarequip" ).matcher( responseText );
+			if ( equipmentMatcher.find() )
+			{
+				equipment[ KoLCharacter.FAMILIAR ] = equipmentMatcher.group(1);
+				logStream.println( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
+			}
 		}
 
 		Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( responseText );
