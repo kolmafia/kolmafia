@@ -206,18 +206,11 @@ public class EquipmentRequest extends KoLRequest
 				case KoLCharacter.ACCESSORY3:
 				case KoLCharacter.FAMILIAR:
 
-					// To avoid equipment requests failing after quick login,
-					// unconditionally issue the unequip request if all slots
-					// are empty, even if the current slot is empty.
+                                        // If the equipment has never been set
+                                        // (due to qlogin), assume there might
+                                        // be something in the slot.
 
-					boolean requiresUnequip = true;
-					for ( int i = 0; i < 8; ++i )
-						if ( !character.getEquipment(i).equals( UNEQUIP ) )
-							requiresUnequip = false;
-
-					requiresUnequip |= !character.getEquipment( equipmentSlot ).equals( UNEQUIP );
-
-					if ( requiresUnequip )
+					if ( !character.equipmentSet() )
 						(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
 
 					 break;

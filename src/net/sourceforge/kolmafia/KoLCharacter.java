@@ -185,6 +185,7 @@ public class KoLCharacter
 
 	private LockableListModel equipment;
 	private LockableListModel outfits;
+	private boolean equipmentSet;
 
 	private SortedListModel inventory;
 	private SortedListModel closet;
@@ -257,6 +258,7 @@ public class KoLCharacter
 		this.activeEffects = new LockableListModel();
 		this.availableSkills = new LockableListModel();
 
+		equipmentSet = false;
 		for ( int i = 0; i < 7; ++i )
 			equipment.add( EquipmentRequest.UNEQUIP );
 
@@ -818,7 +820,18 @@ public class KoLCharacter
 		this.outfits.clear();
 		this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
 		this.outfits.addAll( outfits );
+
+		equipmentSet = true;
 	}
+
+	/**
+	 * Accessor method to return whether the equipment has been set
+	 * @return	<code>true</code> if equipment  has been set
+	 */
+
+	public boolean equipmentSet( )
+	{	return equipmentSet;
+        }
 
 	/**
 	 * Accessor method to set the name of the item equipped on the character's familiar.
