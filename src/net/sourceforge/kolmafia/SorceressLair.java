@@ -42,8 +42,40 @@ public class SorceressLair implements KoLConstants
 	private static List missingItems;
 
 	private static final AdventureResult SUGAR = new AdventureResult( "Sugar Rush", 0 );
+	private static final AdventureResult RICE_CANDY = new AdventureResult( 540, 1 );
+	private static final AdventureResult FARMER_CANDY = new AdventureResult( 617, 1 );
+	private static final AdventureResult MARZIPAN = new AdventureResult( 1163, 1 );
+
 	private static final AdventureResult WUSSINESS = new AdventureResult( "Wussiness", 0 );
+	private static final AdventureResult WUSSY_POTION = new AdventureResult( 469, 1 );
+
 	private static final AdventureResult MIASMA = new AdventureResult( "Rainy Soul Miasma", 0 );
+	private static final AdventureResult BLACK_CANDLE = new AdventureResult( 620, 1 );
+
+	private static final AdventureResult STAR_SWORD = new AdventureResult( 657, 1 );
+	private static final AdventureResult STAR_CROSSBOW = new AdventureResult( 658, 1 );
+	private static final AdventureResult STAR_STAFF = new AdventureResult( 659, 1 );
+	private static final AdventureResult STAR_BUCKLER = new AdventureResult( 662, 1 );
+
+	private static final AdventureResult ACOUSTIC_GUITAR = new AdventureResult( 404, 1 );
+	private static final AdventureResult HEAVY_METAL_GUITAR = new AdventureResult( 507, 1 );
+
+	private static final AdventureResult BONE_RATTLE = new AdventureResult( 168, 1 );
+	private static final AdventureResult TAMBOURINE = new AdventureResult( 740, 1 );
+
+	private static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
+	private static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
+
+	private static final AdventureResult CLOVER = new AdventureResult( 24, 1 );
+
+	private static final AdventureResult DIGITAL = new AdventureResult( 691, 1 );
+	private static final AdventureResult RICHARD = new AdventureResult( 665, 1 );
+	private static final AdventureResult SKELETON = new AdventureResult( 642, 1 );
+
+	private static final AdventureResult BORIS = new AdventureResult( 282, 1 );
+	private static final AdventureResult JARLSBERG = new AdventureResult( 283, 1 );
+	private static final AdventureResult SNEAKY_PETE = new AdventureResult( 284, 1 );
+
 
 	public static void setClient( KoLmafia client )
 	{
@@ -105,90 +137,94 @@ public class SorceressLair implements KoLConstants
 	public static void completeEntryway()
 	{
 
-                KoLCharacter data = client.getCharacterData();
+		KoLCharacter data = client.getCharacterData();
 
 		if ( !checkPrerequisites() )
 			return;
 
-		// Make sure the character has some candy
+		List requirements = new ArrayList();
 
-		AdventureResult rice = new AdventureResult( 540, 1 );
-		AdventureResult farmer = new AdventureResult( 617, 1 );
-		AdventureResult marzipan = new AdventureResult( 1163, 1 );
-		AdventureResult candy = marzipan.getCount( client.getInventory() ) > 0 ? marzipan :
-			farmer.getCount( client.getInventory() ) > 0 ? farmer : rice;
+		// Make sure the character has some candy, or at least
+		// the appropriate status effect.
+
+		AdventureResult candy = MARZIPAN.getCount( client.getInventory() ) > 0 ? MARZIPAN :
+			FARMER_CANDY.getCount( client.getInventory() ) > 0 ? FARMER_CANDY : RICE_CANDY;
+
+		if ( !data.getEffects().contains( SUGAR ) )
+			requirements.add( candy );
+
+		// Other effect-gaining items, including the inherent
+		// luckiness granted by the clover.
+
+		if ( !data.getEffects().contains( WUSSINESS ) )
+			requirements.add( WUSSY_POTION );
+
+		if ( !data.getEffects().contains( MIASMA ) )
+			requirements.add( BLACK_CANDLE );
+
+		requirements.add( CLOVER );
 
 		// Decide on which star weapon should be available for
 		// this whole process.
 
-		AdventureResult starSword = new AdventureResult( 657, 1 );
-		AdventureResult starCrossbow = new AdventureResult( 658, 1 );
-		AdventureResult starStaff = new AdventureResult( 659, 1 );
+		AdventureResult starWeapon = STAR_SWORD.getCount( client.getInventory() ) > 0 ? STAR_SWORD :
+			STAR_CROSSBOW.getCount( client.getInventory() ) > 0 ? STAR_CROSSBOW : STAR_STAFF;
 
-		AdventureResult starWeapon = starSword.getCount( client.getInventory() ) > 0 ? starSword :
-			starCrossbow.getCount( client.getInventory() ) > 0 ? starCrossbow : starStaff;
+		boolean needsWeapon = !data.getEquipment( KoLCharacter.WEAPON ).startsWith( "star" );
 
-		// Next, figure out which instrument is needed for each
-		// step of the process.
+		if ( needsWeapon )
+			requirements.add( starWeapon );
 
-		AdventureResult acoustic = new AdventureResult( 404, 1 );
-		AdventureResult heavyMetal = new AdventureResult( 507, 1 );
-		AdventureResult strummingInstrument = heavyMetal.getCount( client.getInventory() ) > 0 ? heavyMetal : acoustic;
+		boolean needsBuckler = !data.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
+			!data.getEquipment( KoLCharacter.ACCESSORY2 ).startsWith( "star" ) && !data.getEquipment( KoLCharacter.ACCESSORY3 ).startsWith( "star" );
 
-		AdventureResult rattle = new AdventureResult( 168, 1 );
-		AdventureResult tambourine = new AdventureResult( 740, 1 );
-		AdventureResult percussionInstrument = tambourine.getCount( client.getInventory() ) > 0 ? tambourine : rattle;
+		if ( needsBuckler )
+			requirements.add( STAR_BUCKLER );
 
-		AdventureResult accordion = new AdventureResult( 11, 1 );
-		AdventureResult legend = new AdventureResult( 50, 1 );
-		AdventureResult squeezingInstrument = legend.getCount( client.getInventory() ) > 0 ? legend : accordion;
+		// Now, add all the keys which are required for the entire
+		// entryway quest.
 
-		// Now, compile a list of items which need to be checked;
-		// if you've already ascended, you're guaranteed to have
-		// a starfish available, so no need to check for it.
+		requirements.add( DIGITAL );
+		requirements.add( RICHARD );
+		requirements.add( SKELETON );
 
-		AdventureResult [] requirements = new AdventureResult[16];
+		requirements.add( BORIS );
+		requirements.add( JARLSBERG );
+		requirements.add( SNEAKY_PETE );
 
-		requirements[0] = candy;                          // candy
-		requirements[1] = new AdventureResult( 469, 1 );  // wussiness potion
-		requirements[2] = new AdventureResult( 620, 1 );  // thin black candle
+		// Next, figure out which instrument is needed for the final
+		// stage of the entryway.
 
-		requirements[3] = new AdventureResult( 24, 1 );   // ten-leaf clover
-		requirements[4] = starWeapon;                     // star weapon (previously determined)
-		requirements[5] = new AdventureResult( 662, 1 );  // star buckler
+		requirements.add( HEAVY_METAL_GUITAR.getCount( client.getInventory() ) > 0 ? HEAVY_METAL_GUITAR : ACOUSTIC_GUITAR );
+		requirements.add( TAMBOURINE.getCount( client.getInventory() ) > 0 ? TAMBOURINE : BONE_RATTLE );
+		requirements.add( ROCKNROLL_LEGEND.getCount( client.getInventory() ) > 0 ? ROCKNROLL_LEGEND : ACCORDION );
 
-		requirements[6] = new AdventureResult( 691, 1 );  // digital key
-		requirements[7] = new AdventureResult( 665, 1 );  // Richard's star key
-		requirements[8] = new AdventureResult( 642, 1 );  // skeleton key
+		// It's possible that meat paste is also required, if the
+		// person is not in a muscle sign.
 
-		requirements[9] = new AdventureResult( 282, 1 );  // Boris's key
-		requirements[10] = new AdventureResult( 283, 1 ); // Jarlsberg's key
-		requirements[11] = new AdventureResult( 284, 1 ); // Sneaky Pete's key
-
-		requirements[12] = squeezingInstrument;           // squeezing instrument
-		requirements[13] = strummingInstrument;           // strumming instrument
-		requirements[14] = percussionInstrument;          // percussion instrument
-
-		requirements[15] = new AdventureResult( ItemCreationRequest.MEAT_PASTE,
-			data.inMuscleSign() ? 0 : 2 );
+		if ( !data.inMuscleSign() )
+			requirements.add( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 2 ) );
 
 		// Now that the array's initialized, issue the checks
 		// on the items needed to finish the entryway.
 
-		if ( !checkRequirements( requirements ) )
+		AdventureResult [] requirementsArray = new AdventureResult[ requirements.size() ];
+		requirements.toArray( requirementsArray );
+
+		if ( !checkRequirements( requirementsArray ) )
 			return;
 
 		// Use the rice candy, wussiness potion, and black candle
 		// and then cross through the first door.
 
 		if ( !data.getEffects().contains( SUGAR ) )
-			(new ConsumeItemRequest( client, requirements[0] )).run();
+			(new ConsumeItemRequest( client, candy )).run();
 
 		if ( !data.getEffects().contains( WUSSINESS ) )
-			(new ConsumeItemRequest( client, requirements[1] )).run();
+			(new ConsumeItemRequest( client, WUSSY_POTION )).run();
 
 		if ( !data.getEffects().contains( MIASMA ) )
-			(new ConsumeItemRequest( client, requirements[2] )).run();
+			(new ConsumeItemRequest( client, BLACK_CANDLE )).run();
 
 		client.updateDisplay( DISABLED_STATE, "Crossing three door puzzle..." );
 
@@ -207,8 +243,7 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "action", "mirror" );
 		request.run();
 
-		AdventureResult mirrorShard = new AdventureResult( 726, 1 );
-		client.processResult( mirrorShard );
+		client.processResult( new AdventureResult( 726, 1 ) );
 
 		// Now handle the form for the digital key to get
 		// the Squeezings of Woe.
@@ -217,7 +252,7 @@ public class SorceressLair implements KoLConstants
 
 		request = new KoLRequest( client, "lair2.php" );
 		request.addFormField( "preaction", "key" );
-		request.addFormField( "whichkey", String.valueOf( requirements[6].getItemID() ) );
+		request.addFormField( "whichkey", String.valueOf( DIGITAL.getItemID() ) );
 		request.run();
 
 		request = new KoLRequest( client, "lair2.php" );
@@ -234,15 +269,20 @@ public class SorceressLair implements KoLConstants
 		// require you to re-equip your star weapon and
 		// a star buckler and switch to a starfish first.
 
-		(new EquipmentRequest( client, requirements[4].getName() )).run();
-		(new EquipmentRequest( client, requirements[5].getName() )).run();
-		(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
+		if ( needsWeapon )
+			(new EquipmentRequest( client, starWeapon.getName() )).run();
+
+		if ( needsBuckler )
+			(new EquipmentRequest( client, STAR_BUCKLER.getName() )).run();
+
+		if ( !data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ).toString().startsWith( "Star" ) )
+			(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
 
 		client.updateDisplay( DISABLED_STATE, "Inserting Richard's star key..." );
 
 		request = new KoLRequest( client, "lair2.php" );
 		request.addFormField( "preaction", "key" );
-		request.addFormField( "whichkey", String.valueOf( requirements[7].getItemID() ) );
+		request.addFormField( "whichkey", String.valueOf( RICHARD.getItemID() ) );
 		request.run();
 
 		request = new KoLRequest( client, "lair2.php" );
@@ -257,47 +297,53 @@ public class SorceressLair implements KoLConstants
 
 		request = new KoLRequest( client, "lair2.php" );
 		request.addFormField( "preaction", "key" );
-		request.addFormField( "whichkey", String.valueOf( requirements[8].getItemID() ) );
+		request.addFormField( "whichkey", String.valueOf( SKELETON.getItemID() ) );
 		request.run();
 
 		request = new KoLRequest( client, "lair2.php" );
 		request.addFormField( "prepreaction", "skel" );
 		request.run();
 
-		client.processResult( requirements[3].getNegation() );
+		client.processResult( CLOVER.getNegation() );
 
 		// Next, handle the three hero keys, which involve
 		// answering the riddles with the forms of fish.
 
-		for ( int i = 9; i < 12; ++i )
-		{
-			client.updateDisplay( DISABLED_STATE, "Inserting " + requirements[i].getName() + "..." );
+		client.updateDisplay( DISABLED_STATE, "Inserting Boris's key..." );
 
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "preaction", "key" );
-			request.addFormField( "whichkey", String.valueOf( requirements[i].getItemID() ) );
-			request.run();
+		request = new KoLRequest( client, "lair2.php" );
+		request.addFormField( "preaction", "key" );
+		request.addFormField( "whichkey", String.valueOf( BORIS.getItemID() ) );
+		request.run();
 
-			request = new KoLRequest( client, "lair2.php" );
+		request = new KoLRequest( client, "lair2.php" );
+		request.addFormField( "prepreaction", "sorcriddle1" );
+		request.addFormField( "answer", "fish" );
+		request.run();
 
-			if ( i == 9 )
-			{
-				request.addFormField( "prepreaction", "sorcriddle1" );
-				request.addFormField( "answer", "fish" );
-			}
-			else if ( i == 10 )
-			{
-				request.addFormField( "prepreaction", "sorcriddle2" );
-				request.addFormField( "answer", "phish" );
-			}
-			else
-			{
-				request.addFormField( "prepreaction", "sorcriddle3" );
-				request.addFormField( "answer", "fsh" );
-			}
+		client.updateDisplay( DISABLED_STATE, "Inserting Jarlsberg's key..." );
 
-			request.run();
-		}
+		request = new KoLRequest( client, "lair2.php" );
+		request.addFormField( "preaction", "key" );
+		request.addFormField( "whichkey", String.valueOf( JARLSBERG.getItemID() ) );
+		request.run();
+
+		request = new KoLRequest( client, "lair2.php" );
+		request.addFormField( "prepreaction", "sorcriddle2" );
+		request.addFormField( "answer", "phish" );
+		request.run();
+
+		client.updateDisplay( DISABLED_STATE, "Inserting Sneaky Pete's key..." );
+
+		request = new KoLRequest( client, "lair2.php" );
+		request.addFormField( "preaction", "key" );
+		request.addFormField( "whichkey", String.valueOf( SNEAKY_PETE.getItemID() ) );
+		request.run();
+
+		request = new KoLRequest( client, "lair2.php" );
+		request.addFormField( "prepreaction", "sorcriddle3" );
+		request.addFormField( "answer", "fsh" );
+		request.run();
 
 		// Next, issue combine requests on the makeshift
 		// scuba gear components and then equip the gear.
