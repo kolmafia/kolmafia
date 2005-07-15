@@ -1214,7 +1214,7 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( ENABLED_STATE, "Drunk: " + data.getInebriety() );
 			updateDisplay( ENABLED_STATE, "Adv: " + data.getAdventuresLeft() );
 
-			updateDisplay( ENABLED_STATE, "Fam: " + data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ) );
+			updateDisplay( ENABLED_STATE, "Fam: " + data.getFamiliars().getSelectedItem() );
 			updateDisplay( ENABLED_STATE, "Item: " + data.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "equip" ) )

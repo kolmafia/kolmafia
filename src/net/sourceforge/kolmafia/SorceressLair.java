@@ -275,7 +275,7 @@ public class SorceressLair implements KoLConstants
 		if ( needsBuckler )
 			(new EquipmentRequest( client, STAR_BUCKLER.getName() )).run();
 
-		if ( !data.getFamiliars().get( data.getFamiliars().getSelectedIndex() ).toString().startsWith( "Star" ) )
+		if ( !data.getFamiliars().getSelectedItem().toString().startsWith( "Star" ) )
 			(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
 
 		client.updateDisplay( DISABLED_STATE, "Inserting Richard's star key..." );
