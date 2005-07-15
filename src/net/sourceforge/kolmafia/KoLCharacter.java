@@ -220,6 +220,7 @@ public class KoLCharacter
 	private FamiliarData currentFamiliar;
 	private List listenerList;
 
+	private boolean canInteract;
 	private String ascensionSign;
 	private int ascensionSignType;
 	public static final int NONE = 0;
@@ -259,6 +260,7 @@ public class KoLCharacter
 		for ( int i = 0; i < 7; ++i )
 			equipment.add( EquipmentRequest.UNEQUIP );
 
+		this.canInteract = true;
 		this.hasToaster = false;
 		this.hasArches = false;
 		this.hasChef = false;
@@ -1036,6 +1038,24 @@ public class KoLCharacter
 
 	public void setChef( boolean hasChef )
 	{	this.hasChef = hasChef;
+	}
+
+	/**
+	 * Accessor method which tells you if the character can interact
+	 * with other players (Ronin or Hardcore players cannot).
+	 */
+
+	public boolean canInteract()
+	{	return canInteract;
+	}
+
+	/**
+	 * Accessor method which tells you if the character can interact
+	 * with other players (Ronin or Hardcore players cannot).
+	 */
+
+	public void setInteraction( boolean canInteract )
+	{	this.canInteract = canInteract;
 	}
 
 	/**

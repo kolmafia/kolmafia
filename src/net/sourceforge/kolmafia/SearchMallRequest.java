@@ -157,8 +157,17 @@ public class SearchMallRequest extends KoLRequest
 
 	public void run()
 	{
+		// Check to see if the client is able to actually
+		// use the mall -- some people are hardcore or are
+		// somewhere in ronin.
+
 		if ( searchString == null || searchString.trim().length() == 0 )
-			searchStore();
+		{
+			if ( client.getCharacterData().canInteract() && client.getCharacterData().getLevel() >= 5 )
+				searchStore();
+			else
+				client.updateDisplay( ERROR_STATE, "You cannot interact with other players." );
+		}
 		else
 			searchMall();
 	}
@@ -166,7 +175,6 @@ public class SearchMallRequest extends KoLRequest
 	private void searchStore()
 	{
 		updateDisplay( DISABLED_STATE, retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
-
 		super.run();
 
 		if ( retainAll )
@@ -230,6 +238,13 @@ public class SearchMallRequest extends KoLRequest
 	{
 		if ( searchString == null || searchString.trim().length() == 0 )
 			return;
+
+		if ( !client.getCharacterData().canInteract() || client.getCharacterData().getLevel() < 5 )
+		{
+			results.clear();
+			finalizeList( TradeableItemDatabase.getMatchingNames( searchString ) );
+			return;
+		}
 
 		updateDisplay( DISABLED_STATE, "Searching for items..." );
 
@@ -366,6 +381,9 @@ public class SearchMallRequest extends KoLRequest
 		if ( client.getSettings().getProperty( "forceSorting" ).equals( "true" ) )
 			java.util.Collections.sort( results );
 
-		updateDisplay( ENABLED_STATE, results.size() == 0 ? "No results found." : "Search complete." );
+		if ( client.getCharacterData().canInteract() || client.getCharacterData().getLevel() < 5 )
+			updateDisplay( ENABLED_STATE, results.size() == 0 ? "No results found." : "Search complete." );
+		else if ( results.isEmpty() )
+			updateDisplay( ERROR_STATE, "You cannot use the mall." );
 	}
 }
