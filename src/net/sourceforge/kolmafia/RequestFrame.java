@@ -182,8 +182,8 @@ public class RequestFrame extends KoLFrame
 		// might be a little counterintuitive when viewing player profiles.
 
 		compileBookmarks();
-		addScriptMenu( menuBar );
 		menuBar.add( new BookmarkMenu() );
+		addScriptMenu( menuBar );
 	}
 
 	/**
@@ -288,10 +288,7 @@ public class RequestFrame extends KoLFrame
 			mainBuffer.append( "Retrieving..." );
 
 			if ( currentRequest.responseText == null )
-			{
 				currentRequest.run();
-				client.processResults( currentRequest.responseText );
-			}
 
 			// In the event that something resembling a gain event
 			// is seen in the response text, or in the event that you
@@ -307,6 +304,8 @@ public class RequestFrame extends KoLFrame
 
 			mainBuffer.clearBuffer();
 			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
+
+			client.processResults( currentRequest.responseText );
 		}
 	}
 
