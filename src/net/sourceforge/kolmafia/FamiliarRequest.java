@@ -113,7 +113,7 @@ public class FamiliarRequest extends KoLRequest
 			examinedFamiliar = new FamiliarData( familiarID, familiarWeight );
 
 			familiarItemHTML = familiarMatcher.group(4);
-			familiarItem = familiarItemHTML.indexOf( "<img" ) == -1 ? "none" :
+			familiarItem = familiarItemHTML.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
 				familiarItemHTML.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" : familiarItemHTML.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
 					familiarItemHTML.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" : FamiliarsDatabase.getFamiliarItem( familiarID );
 
@@ -134,7 +134,7 @@ public class FamiliarRequest extends KoLRequest
 		{
 			familiarName = null;
 			familiarWeight = 0;
-			familiarItem = "none";
+			familiarItem = EquipmentRequest.UNEQUIP;
 
 			familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<table>.*Equipment:.*?</td><td.*>(.*?)</td>.*<form name=rename" ).matcher( responseText );
 			if ( familiarMatcher.find() )

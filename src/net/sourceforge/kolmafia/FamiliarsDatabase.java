@@ -56,6 +56,7 @@ public class FamiliarsDatabase extends KoLDatabase
 	private static Map familiarByName = new TreeMap();
 	private static Map familiarByLarva = new TreeMap();
 	private static Map familiarItemByID = new TreeMap();
+	private static Map familiarByItem = new TreeMap();
 
 	static
 	{
@@ -68,7 +69,7 @@ public class FamiliarsDatabase extends KoLDatabase
 
 		String [] data;
 		Integer familiarID;
-		String familiarLarva, familiarName;
+		String familiarLarva, familiarName, familiarItemName;
 
 		while ( (data = readData( reader )) != null )
 		{
@@ -81,7 +82,9 @@ public class FamiliarsDatabase extends KoLDatabase
 				familiarByID.put( familiarID, familiarName );
 				familiarByName.put( getCanonicalName( data[2] ), familiarID );
 				familiarByLarva.put( familiarLarva, familiarName );
-				familiarItemByID.put( familiarID, getDisplayName( data[3] ) );
+				familiarItemName = getDisplayName( data[3] );
+				familiarItemByID.put( familiarID, familiarItemName );
+				familiarByItem.put( getCanonicalName( data[3] ), familiarID );
 			}
 		}
 	}
@@ -105,6 +108,7 @@ public class FamiliarsDatabase extends KoLDatabase
 		familiarByName.put( familiarName.toLowerCase(), dummyID );
 		familiarByLarva.put( DEFAULT_LARVA, dummyID );
 		familiarItemByID.put( dummyID, DEFAULT_ITEM );
+		familiarByItem.put( DEFAULT_ITEM, dummyID );
 	}
 
 	/**
@@ -156,6 +160,12 @@ public class FamiliarsDatabase extends KoLDatabase
 
 	public static final String getFamiliarItem( int familiarID )
 	{	return (String) familiarItemByID.get( new Integer( familiarID ) );
+	}
+
+	public static final int getFamiliarByItem( String item )
+	{
+		Object familiarID = familiarByItem.get( getCanonicalName( item ) );
+		return familiarID == null ? -1 : ((Integer)familiarID).intValue();
 	}
 
 	/**

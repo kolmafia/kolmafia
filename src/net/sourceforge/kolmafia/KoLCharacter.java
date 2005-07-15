@@ -804,12 +804,13 @@ public class KoLCharacter
 	{
 		for ( int i = 0; i < this.equipment.size(); ++i )
 		{
+			if (i == FAMILIAR)
+				continue;
+
 			if ( equipment[i] == null || equipment[i].equals( "none" ) || equipment[i].equals( EquipmentRequest.UNEQUIP ) )
 				this.equipment.set( i, EquipmentRequest.UNEQUIP );
-
 			else if ( TradeableItemDatabase.getConsumptionType( equipment[i] ) == ConsumeItemRequest.EQUIP_ACCESSORY )
 				this.equipment.set( i, equipment[i].toLowerCase() );
-
 			else
 				this.equipment.set( i, equipment[i].toLowerCase() + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
 		}
@@ -907,13 +908,53 @@ public class KoLCharacter
 	{
 		String currentItem;
 		List items = new ArrayList();
+		int currentFamiliarID = -1;
+
+		// If we are looking for familiar items, find current familiar
+
+		if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR )
+		{
+			// If no familiar, can't use familiar equipment
+
+			if ( currentFamiliar == null )
+			{
+				items.add( EquipmentRequest.UNEQUIP );
+				return items;
+			}
+
+			// Otherwise, get the ID of the current familiar
+
+			currentFamiliarID = currentFamiliar.getID();
+		}
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
 			currentItem = ((AdventureResult)inventory.get(i)).getName().toLowerCase();
 
-			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == filterID && EquipmentDatabase.canEquip( this, currentItem ) )
+			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == filterID )
 			{
+				// If it's a familiar item, make sure it's OK
+				// for current familiar.
+
+				if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR )
+				{
+					int familiarID = FamiliarsDatabase.getFamiliarByItem( currentItem );
+					// Item allowed if unrestricted or
+					// restricted to current familiar.
+
+					if ( familiarID == -1 || familiarID == currentFamiliarID )
+						items.add( currentItem );
+					continue;
+				}
+
+				// Otherwise, see if we have the necessary stat
+				// to equip the item.
+
+				if ( !EquipmentDatabase.canEquip( this, currentItem ) )
+					continue;
+
+				// All is cool.
+
 				if ( filterID != ConsumeItemRequest.EQUIP_ACCESSORY )
 					items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
 				else

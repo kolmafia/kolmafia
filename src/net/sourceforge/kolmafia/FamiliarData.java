@@ -45,7 +45,7 @@ public class FamiliarData implements Comparable
 		this.id = id;
 		this.race = FamiliarsDatabase.getFamiliarName( id );
 		this.weight = 0;
-		this.item = "none";
+		this.item = EquipmentRequest.UNEQUIP;
 	}
 
 	public FamiliarData( int id, String html )
@@ -59,7 +59,7 @@ public class FamiliarData implements Comparable
 
 		this.weight = Integer.parseInt( (new StringTokenizer( token.substring( 6 ), " ()", true )).nextToken() );
 		this.race = FamiliarsDatabase.getFamiliarName( id );
-		this.item = html.indexOf( "<img" ) == -1 ? "none" :
+		this.item = html.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
 			html.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" : html.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
 				html.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" : FamiliarsDatabase.getFamiliarItem( id );
 	}
@@ -69,7 +69,7 @@ public class FamiliarData implements Comparable
 		this.id = id;
 		this.weight = weight;
 		this.race = FamiliarsDatabase.getFamiliarName( id );
-		this.item = "none";
+		this.item = EquipmentRequest.UNEQUIP;
 	}
 
 	public int getID()
