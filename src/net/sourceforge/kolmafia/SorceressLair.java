@@ -105,7 +105,7 @@ public class SorceressLair implements KoLConstants
 
 		// Make sure the character has some candy
 
-		AdventureResult rice = new AdventureResult( 549, 1 );
+		AdventureResult rice = new AdventureResult( 540, 1 );
 		AdventureResult farmer = new AdventureResult( 617, 1 );
 		AdventureResult marzipan = new AdventureResult( 1163, 1 );
 		AdventureResult candy = marzipan.getCount( client.getInventory() ) > 0 ? marzipan :
