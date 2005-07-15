@@ -398,7 +398,11 @@ public class AdventureFrame extends KoLFrame
 					else
 					{
 						conditioner.executeLine( "conditions clear" );
-						conditioner.executeLine( "conditions add " + conditionField.getText() );
+
+						String [] conditions = conditionField.getText().split( "\\s*,\\s*" );
+
+						for ( int i = 0; i < conditions.length; ++i )
+							conditioner.executeLine( "conditions add " + conditions[i] );
 					}
 				}
 				catch ( Exception e )
