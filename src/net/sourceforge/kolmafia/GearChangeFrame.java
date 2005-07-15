@@ -318,7 +318,7 @@ public class GearChangeFrame extends KoLFrame
 			// unless your current equipment does not match the
 			// selected equipment.
 
-			if ( !isChanging && selector.isEnabled() && this.parameters[1] != null )
+			if ( isShowing() && !isChanging && selector.isEnabled() && this.parameters[1] != null )
 			{
 				if ( slot == null )
 				{
