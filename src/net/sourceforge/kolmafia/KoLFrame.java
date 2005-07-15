@@ -351,29 +351,30 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenu scriptMenu = new ScriptMenu();
 		menu.add( scriptMenu );
 
-		scripts.clear();
-
-		File scriptDirectory = new File( "scripts" );
-		if ( !scriptDirectory.exists() )
-			scriptDirectory.mkdirs();
-		else
+		if ( scripts.isEmpty() )
 		{
-			int addedScriptCount = 0;
-			String currentScriptName;
-			JMenuItem currentScript;
-
-			File [] scriptList = scriptDirectory.listFiles();
-			for ( int i = 0; i < scriptList.length; ++i )
+			File scriptDirectory = new File( "scripts" );
+			if ( !scriptDirectory.exists() )
+				scriptDirectory.mkdirs();
+			else
 			{
-				if ( !scriptList[i].isDirectory() )
+				int addedScriptCount = 0;
+				String currentScriptName;
+				JMenuItem currentScript;
+
+				File [] scriptList = scriptDirectory.listFiles();
+				for ( int i = 0; i < scriptList.length; ++i )
 				{
-					try
+					if ( !scriptList[i].isDirectory() )
 					{
-						String [] pieces = scriptList[i].getCanonicalPath().split( "[\\\\/]" );
-						scripts.add( new LoadScriptMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ], "scripts" + File.separator + pieces[ pieces.length - 1 ] ) );
-					}
-					catch ( Exception e )
-					{
+						try
+						{
+							String [] pieces = scriptList[i].getCanonicalPath().split( "[\\\\/]" );
+							scripts.add( new LoadScriptMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ], "scripts" + File.separator + pieces[ pieces.length - 1 ] ) );
+						}
+						catch ( Exception e )
+						{
+						}
 					}
 				}
 			}
