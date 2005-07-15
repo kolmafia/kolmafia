@@ -165,7 +165,6 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			public void run()
 			{
-				characterData.updateEquipmentLists();
 				ConcoctionsDatabase.refreshConcoctions( KoLmafiaGUI.this );
 				isProcessing = false;
 			}
