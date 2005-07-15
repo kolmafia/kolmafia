@@ -166,7 +166,7 @@ public class SearchMallRequest extends KoLRequest
 			if ( client.getCharacterData().canInteract() && client.getCharacterData().getLevel() >= 5 )
 				searchStore();
 			else
-				client.updateDisplay( ERROR_STATE, "You cannot interact with other players." );
+				updateDisplay( ERROR_STATE, "You cannot use the mall." );
 		}
 		else
 			searchMall();
@@ -381,7 +381,7 @@ public class SearchMallRequest extends KoLRequest
 		if ( client.getSettings().getProperty( "forceSorting" ).equals( "true" ) )
 			java.util.Collections.sort( results );
 
-		if ( client.getCharacterData().canInteract() || client.getCharacterData().getLevel() < 5 )
+		if ( client.getCharacterData().canInteract() && client.getCharacterData().getLevel() >= 5 )
 			updateDisplay( ENABLED_STATE, results.size() == 0 ? "No results found." : "Search complete." );
 		else if ( results.isEmpty() )
 			updateDisplay( ERROR_STATE, "You cannot use the mall." );
