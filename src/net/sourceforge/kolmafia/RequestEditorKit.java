@@ -119,7 +119,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( src == null )
 				return null;
 
-			File localfile = new File( "images" + File.separator + src.replaceAll( "http://images.kingdomofloathing.com/", "" ) );
+			String localsrc = src.replaceAll( "http://images.kingdomofloathing.com/", "" ).replaceAll( "/",
+				File.separator.replaceAll( "\\\\", "\\\\\\\\" ) );
+
+			File localfile = new File( "images" + File.separator + localsrc );
 
 			try
 			{
