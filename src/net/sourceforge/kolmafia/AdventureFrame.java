@@ -385,7 +385,7 @@ public class AdventureFrame extends KoLFrame
 				{
 					KoLmafiaCLI conditioner = new KoLmafiaCLI( client, null );
 
-					if ( conditionField.getText().indexOf( " " ) == -1 )
+					if ( conditionField.getText().indexOf( " " ) == -1 && Character.isDigit( conditionField.getText().charAt(0) ) )
 						conditioner.executeLine( "conditions choice " + conditionField.getText() );
 					else
 					{
