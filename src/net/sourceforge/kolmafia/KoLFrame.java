@@ -1044,18 +1044,16 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		if ( this instanceof RequestFrame )
 		{
-			parameters = new Object[4];
+			parameters = new Object[3];
 			parameters[0] = client;
 			parameters[1] = this;
-			parameters[2] = "Mini-Browser Window";
-			parameters[3] = new KoLRequest( client, location );
+			parameters[2] = new KoLRequest( client, location );
 		}
 		else
 		{
-			parameters = new Object[3];
+			parameters = new Object[2];
 			parameters[0] = client;
-			parameters[1] = "Mini-Browser Window";
-			parameters[2] = new KoLRequest( client, location );
+			parameters[1] = new KoLRequest( client, location );
 		}
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
