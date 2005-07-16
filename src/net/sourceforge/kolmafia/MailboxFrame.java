@@ -133,6 +133,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
+		addPeopleMenu( menuBar );
+
 		JMenu fileMenu = new JMenu( "Options" );
 		fileMenu.setMnemonic( KeyEvent.VK_O );
 		menuBar.add( fileMenu );
