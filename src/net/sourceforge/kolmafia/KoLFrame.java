@@ -331,8 +331,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected final JMenu addPeopleMenu( JComponent menu )
 	{
-		JMenu commMenu = new JMenu( "Interact" );
-		commMenu.setMnemonic( KeyEvent.VK_I );
+		JMenu commMenu = new JMenu( "People" );
+		commMenu.setMnemonic( KeyEvent.VK_P );
 		menu.add( commMenu );
 
 		commMenu.add( new InvocationMenuItem( "Start LoathingChat", KeyEvent.VK_S, client, "initializeChat" ) );
@@ -424,15 +424,38 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected final JMenu addHelpMenu( JComponent menu )
 	{
-		JMenu helpMenu = new JMenu("Help");
+		JMenu helpMenu = new JMenu( "Help" );
 		helpMenu.setMnemonic( KeyEvent.VK_H );
 		menu.add( helpMenu );
 
 		helpMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", KeyEvent.VK_A, LicenseDisplay.class ) );
-		helpMenu.add( new DisplayPageMenuItem( "KoLmafia Home", KeyEvent.VK_K, "http://kolmafia.sourceforge.net/" ) );
-		helpMenu.add( new DisplayPageMenuItem( "End-User Manual", KeyEvent.VK_E, "http://kolmafia.sourceforge.net/manual.html" ) );
-		helpMenu.add( new DisplayPageMenuItem( "Sourceforge Page", KeyEvent.VK_S, "https://sourceforge.net/project/showfiles.php?group_id=126572&package_id=138474" ) );
-		helpMenu.add( new DisplayPageMenuItem( "Read Forum Thread", KeyEvent.VK_R, "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
+
+		helpMenu.add( new JSeparator() );
+
+		JMenu mafiaMenu = new JMenu( "Documentation" );
+		mafiaMenu.setMnemonic( KeyEvent.VK_D );
+		helpMenu.add( mafiaMenu );
+
+		mafiaMenu.add( new DisplayPageMenuItem( "KoLmafia Home", KeyEvent.VK_K, "http://kolmafia.sourceforge.net/" ) );
+		mafiaMenu.add( new DisplayPageMenuItem( "End-User Manual", KeyEvent.VK_E, "http://kolmafia.sourceforge.net/manual.html" ) );
+		mafiaMenu.add( new DisplayPageMenuItem( "Sourceforge Page", KeyEvent.VK_S, "https://sourceforge.net/project/showfiles.php?group_id=126572&package_id=138474" ) );
+		mafiaMenu.add( new DisplayPageMenuItem( "Read Forum Thread", KeyEvent.VK_R, "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
+
+		JMenu spoilerMenu = new JMenu( "Spoiler Sites" );
+		spoilerMenu.setMnemonic( KeyEvent.VK_S );
+		helpMenu.add( spoilerMenu );
+
+		spoilerMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.subjunctive.net/kol/FrontPage.html" ) );
+		spoilerMenu.add( new DisplayPageMenuItem( "KoL @ Coldfront", KeyEvent.KEY_LOCATION_UNKNOWN, "http://kol.coldfront.net/" ) );
+		spoilerMenu.add( new DisplayPageMenuItem( "Jinya's Visual KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://kol.thraeryn.org/" ) );
+
+		JMenu helperMenu = new JMenu( "Helper Tables" );
+		helperMenu.setMnemonic( KeyEvent.VK_H );
+		helpMenu.add( helperMenu );
+
+		helperMenu.add( new DisplayPageMenuItem( "Ohayou's Item Effects", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
+		helperMenu.add( new DisplayPageMenuItem( "PoolAce's KoL Helper", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.agesoftime.com/kol/index.php" ) );
+		helperMenu.add( new DisplayPageMenuItem( "The Rye's Familiar Chart", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.therye.co.uk/familiars/index.htm" ) );
 
 		return helpMenu;
 	}
