@@ -402,45 +402,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "call" ) || command.equals( "run" ) || command.equals( "exec" ) || command.equals( "load" ) )
 		{
-			try
-			{
-				// First, assume that it's inside of the scripts
-				// directory and make an attempt to retrieve it
-				// from there.
-
-				lastScript = null;
-				File scriptFile = new File( "scripts" + File.separator + parameters );
-
-				if ( scriptFile.exists() )
-					lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
-				else
-				{
-					scriptFile = new File( parameters );
-					if ( scriptFile.exists() )
-						lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
-				}
-
-				if ( lastScript == null )
-				{
-					scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
-					scriptRequestor.cancelRequest();
-					return;
-				}
-
-				lastScript.listenForCommands();
-				if ( lastScript.previousCommand == null )
-					lastScript = null;
-			}
-			catch ( Exception e )
-			{
-				// Because everything is checked for consistency
-				// before being loaded, this should not happen.
-
-				scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
-				scriptRequestor.cancelRequest();
-				return;
-			}
-
+			executeScriptCommand( parameters );
 			return;
 		}
 
@@ -901,9 +863,57 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		scriptRequestor.updateDisplay( ERROR_STATE, "Unknown command: " + command );
-		if ( scriptRequestor != this )
-			scriptRequestor.cancelRequest();
+		// If all else fails, then assume that the
+		// person was trying to call a script.
+
+		executeScriptCommand( command + " " + parameters );
+	}
+
+	/**
+	 * A special module used to handle the calling of a
+	 * script.
+	 */
+
+	public void executeScriptCommand( String parameters )
+	{
+			try
+			{
+				// First, assume that it's inside of the scripts
+				// directory and make an attempt to retrieve it
+				// from there.
+
+				lastScript = null;
+				File scriptFile = new File( "scripts" + File.separator + parameters );
+
+				if ( scriptFile.exists() )
+					lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
+				else
+				{
+					scriptFile = new File( parameters );
+					if ( scriptFile.exists() )
+						lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
+				}
+
+				if ( lastScript == null )
+				{
+					scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
+					scriptRequestor.cancelRequest();
+					return;
+				}
+
+				lastScript.listenForCommands();
+				if ( lastScript.previousCommand == null )
+					lastScript = null;
+			}
+			catch ( Exception e )
+			{
+				// Because everything is checked for consistency
+				// before being loaded, this should not happen.
+
+				scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
+				scriptRequestor.cancelRequest();
+				return;
+			}
 	}
 
 	/**
