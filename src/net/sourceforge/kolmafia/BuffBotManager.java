@@ -69,7 +69,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	protected ArrayList saveList;
 	protected ArrayList deleteList;
 
-	private String mpRestoreSetting;
 	private int messageDisposalSetting;
 	private boolean useChatBasedBuffBot;
 	private BuffBotHome buffbotLog;
@@ -83,7 +82,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private Map buffCostMap;
 	private int maxPhilanthropy;
 	private int autoBuySetting;
-	private MPRestoreItemList mpRestoreItemList;
 	private LockableListModel buffCostTable;
 	private String [] whiteListArray;
 
@@ -101,10 +99,9 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		this.buffCostMap = new TreeMap();
 		this.buffCostTable = buffCostTable;
 
-		this.settings = (client == null) ? new KoLSettings() : client.getSettings();
-		this.characterData =  client.getCharacterData();
-		this.mpRestoreItemList = new MPRestoreItemList();
-		buffbotLog = client.getBuffBotLog();
+		this.settings = client == null ? new KoLSettings() : client.getSettings();
+		this.characterData = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
+		this.buffbotLog = client == null ? new BuffBotHome( client ) : client.getBuffBotLog();
 
 		saveList = new ArrayList();
 		deleteList = new ArrayList();
@@ -201,8 +198,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		this.inventory = client == null ? new LockableListModel() : client.getInventory();
 
 		maxPhilanthropy = Integer.parseInt( settings.getProperty( "maxPhilanthropy" ) );
-		mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
-
 		useChatBasedBuffBot = settings.getProperty( "useChatBasedBuffBot" ).equals( "true" );
 		messageDisposalSetting = Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) );
 
@@ -276,7 +271,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				{
 					buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete." );
 					buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot is sleeping." );
-					buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + getRestoreCount() + " mana restores remaining)" );
+					buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
 				}
 
 				client.updateDisplay( DISABLED_STATE, "BuffBot is sleeping" );
@@ -286,7 +281,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 						KoLRequest.delay( SLEEP_TIME );
 			}
 			else if ( newMessages )
-				buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + getRestoreCount() + " mana restores remaining)" );
+				buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
 		}
 
 		if ( !useChatBasedBuffBot )
@@ -373,30 +368,34 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 	private void stockRestores()
 	{
-		if ( getRestoreCount() <= autoBuySetting )
+		int currentRestores = -1;
+		int calculatedRestores = client.getRestoreCount();
+
+		if ( calculatedRestores <= autoBuySetting )
 		{
 			try
 			{
-				int currentRestores = -1;
 
-				while ( client.isBuffBotActive() && getRestoreCount() <= autoBuySetting && currentRestores != getRestoreCount() )
+				while ( client.isBuffBotActive() && calculatedRestores <= autoBuySetting && currentRestores != calculatedRestores )
 				{
-					currentRestores = getRestoreCount();
+					currentRestores = calculatedRestores;
 					client.updateDisplay( DISABLED_STATE, "Executing auto-stocking script..." );
 
 					String scriptPath = settings.getProperty( "autoStockScript" ) ;
-					File autoRecoveryScript = new File( scriptPath );
+					File autoStockScript = new File( scriptPath );
 
-					if ( autoRecoveryScript.exists() )
-						(new KoLmafiaCLI( client, new FileInputStream( autoRecoveryScript ) )).listenForCommands();
+					if ( autoStockScript.exists() )
+						(new KoLmafiaCLI( client, new FileInputStream( autoStockScript ) )).listenForCommands();
 					else
 					{
 						client.updateDisplay( ERROR_STATE, "Could not find auto-stocking script." );
 						return;
 					}
+
+					calculatedRestores = client.getRestoreCount();
 				}
 
-				if ( currentRestores == getRestoreCount() )
+				if ( currentRestores == client.getRestoreCount() )
 				{
 					client.updateDisplay( ERROR_STATE, "Auto-stocking script failed to buy restores." );
 					return;
@@ -570,80 +569,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Ignoring non-buff message from [" + message.getSenderName() + "]" );
 	}
 
-
-	private boolean recoverMP( int mpNeeded )
-	{
-		if ( characterData.getCurrentMP() >= mpNeeded )
-			return true;
-
-		int previousMP = -1;
-		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
-		{
-			MPRestoreItemList.MPRestoreItem restorer = (MPRestoreItemList.MPRestoreItem) mpRestoreItemList.get(i);
-			String itemName = restorer.toString();
-
-			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
-			{
-				if ( itemName.equals( mpRestoreItemList.BEANBAG.toString() ) )
-				{
-					while ( characterData.getAdventuresLeft() > 0 && characterData.getCurrentMP() > previousMP )
-					{
-						previousMP = characterData.getCurrentMP();
- 						restorer.recoverMP( mpNeeded );
- 						if ( characterData.getCurrentMP() >= mpNeeded )
- 							return true;
-
-						if ( characterData.getCurrentMP() == previousMP )
-						{
-							buffbotLog.update( BuffBotHome.ERRORCOLOR, "Detected no MP change.  Refreshing status to verify..." );
-							(new CharsheetRequest( client )).run();
-						}
- 					}
-				}
-				else
-				{
-					AdventureResult item = new AdventureResult( itemName, 0 );
- 					while ( inventory.contains( item ) && characterData.getCurrentMP() > previousMP )
- 					{
- 						previousMP = characterData.getCurrentMP();
- 						restorer.recoverMP( mpNeeded );
- 						if ( characterData.getCurrentMP() >= mpNeeded )
- 							return true;
-
-						if ( characterData.getCurrentMP() == previousMP )
-						{
-							buffbotLog.update( BuffBotHome.ERRORCOLOR, "Detected no MP change.  Refreshing status to verify..." );
-							(new CharsheetRequest( client )).run();
-						}
- 					}
-				}
-			}
-		}
-
-		buffbotLog.update( BuffBotHome.ERRORCOLOR, "Unable to acquire enough MP!" );
-		return false;
-	}
-
-	public List getMPRestoreItemList()
-	{	return mpRestoreItemList;
-	}
-
-	public int getRestoreCount()
-	{
-		int restoreCount = 0;
-
-		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
-		{
-			MPRestoreItemList.MPRestoreItem restorer = (MPRestoreItemList.MPRestoreItem) mpRestoreItemList.get(i);
-			String itemName = restorer.toString();
-
-			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
-				restoreCount += restorer.itemUsed.getCount( client.getInventory() );
-		}
-
-		return restoreCount;
-	}
-
 	/**
 	 * An internal class used to represent a single instance of casting a
 	 * buff.  This is used to manage buffs inside of the BuffBotManager
@@ -724,7 +649,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 				currentMP = (double) characterData.getCurrentMP();
 				currentCast = Math.min( totalCasts, (int) (maximumMP / mpPerCast) );
 				mpPerEvent = (int) (mpPerCast * currentCast);
-				if ( !recoverMP( mpPerEvent ) )
+				if ( !client.recoverMP( mpPerEvent ) )
 					return (double)totalCasts / (double)castCount;
 
 				(new UseSkillRequest( client, buffName, target, currentCast )).run();
@@ -760,98 +685,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		public int getRequestsThisSession()
 		{	return requestsThisSession;
-		}
-	}
-
-	/**
-	 * Internal class used as a holder class to hold all of the
-	 * items which are available for use as MP buffers.
-	 */
-
-	private class MPRestoreItemList extends SortedListModel
-	{
-		public final MPRestoreItem BEANBAG = new MPRestoreItem( "rest in beanbag chair", 80, -1 );
-
-		public MPRestoreItemList()
-		{
-			// These MP restores come from NPCs, so they have a
-			// constant market value
-
-			this.add( BEANBAG );
-			this.add( new MPRestoreItem( "magical mystery juice", (int) (characterData.getLevel() * 1.5 + 4.0), 150 ) );
-			this.add( new MPRestoreItem( "soda water", 4, 70 ) );
-
-			// On the other hand, these MP restores have a fairly
-			// arbitrary value and may be subject to arbitrary
-			// inflation, based on player spending habits.
-
-			this.add( new MPRestoreItem( "tiny house", 22, 400 ) );
-			this.add( new MPRestoreItem( "phonics down", 48, 800 ) );
-			this.add( new MPRestoreItem( "Knob Goblin superseltzer", 27, 900 ) );
-			this.add( new MPRestoreItem( "Mountain Stream soda", 9, 120 ) );
-			this.add( new MPRestoreItem( "Dyspepsi-Cola", 12, 250 ) );
-			this.add( new MPRestoreItem( "Knob Goblin seltzer", 5, 80 ) );
-			this.add( new MPRestoreItem( "green pixel potion", 15, 500 ) );
-			this.add( new MPRestoreItem( "blue pixel potion", 19, 800 ) );
-			this.add( new MPRestoreItem( "Blatantly Canadian", 24, 1000 ) );
-		}
-
-		public class MPRestoreItem implements Comparable
-		{
-			private String itemName;
-			private int mpPerUse;
-			private int estimatedPrice;
-			private double priceToMPRatio;
-			private AdventureResult itemUsed;
-
-			public MPRestoreItem( String itemName, int mpPerUse, int estimatedPrice )
-			{
-				this.itemName = itemName;
-				this.mpPerUse = mpPerUse;
-				this.estimatedPrice = estimatedPrice;
-
-				this.priceToMPRatio = (double)estimatedPrice / (double)mpPerUse;
-				this.itemUsed = new AdventureResult( itemName, 0 );
-			}
-
-			public void recoverMP( int mpNeeded )
-			{
-				if ( this == BEANBAG )
-				{
-					buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Relaxing in my beanbag chair." );
-					(new KoLAdventure( client, "campground.php", "relax", "Camp: To the Beanbag!" )).run();
-					return;
-				}
-
-				KoLCharacter characterData = client.getCharacterData();
-				int currentMP = characterData.getCurrentMP();
-				int maximumMP = characterData.getMaximumMP();
-
-				// always buff as close to maxMP as possible, in order to
-				//        go as easy on the server as possible
-				// But, don't go too far over (thus wasting restorers)
-				int mpShort = Math.max(maximumMP + 5 - mpPerUse, mpNeeded) - currentMP;
-				int numberToUse = Math.min( 1 + ((mpShort - 1) / mpPerUse), itemUsed.getCount( client.getInventory() ) );
-
-				if ( numberToUse > 0 )
-				{
-					buffbotLog.update( BuffBotHome.NONBUFFCOLOR, "Consuming " + numberToUse + " " + itemName + "s." );
-					(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
-				}
-			}
-
-			public int compareTo( Object o )
-			{
-				if ( o instanceof MPRestoreItem || o == null )
-					return -1;
-
-				double ratioDifference = this.priceToMPRatio - ((MPRestoreItem)o).priceToMPRatio;
-				return ratioDifference < 0 ? -1 : ratioDifference > 0 ? 1 : 0;
-			}
-
-			public String toString()
-			{	return itemName;
-			}
 		}
 	}
 }

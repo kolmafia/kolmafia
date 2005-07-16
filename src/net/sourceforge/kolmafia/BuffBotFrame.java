@@ -328,9 +328,7 @@ public class BuffBotFrame extends KoLFrame
 		private WhiteListEntry whiteListEntry;
 
 		private JTextArea whiteListEditor;
-
-		private Object [] availableRestores;
-		private JCheckBox [] restoreCheckbox;
+		private MPRestoreItemList mpRestoreItemList;
 
 		public MainSettingsPanel()
 		{
@@ -350,37 +348,12 @@ public class BuffBotFrame extends KoLFrame
 			messageDisposalChoices.add( "Do nothing to non-requests" );
 			messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
-			availableRestores = currentManager == null ? new Object[0] : currentManager.getMPRestoreItemList().toArray();
-			restoreCheckbox = new JCheckBox[ availableRestores.length ];
-
-			JPanel checkboxPanel = new JPanel();
-			checkboxPanel.setLayout( new GridLayout( restoreCheckbox.length, 1 ) );
-
-			for ( int i = 0; i < restoreCheckbox.length; ++i )
-			{
-				restoreCheckbox[i] = new JCheckBox();
-				checkboxPanel.add( restoreCheckbox[i] );
-			}
-
-			JPanel labelPanel = new JPanel();
-			labelPanel.setLayout( new GridLayout( availableRestores.length, 1 ) );
-			for ( int i = 0; i < availableRestores.length; ++i )
-				labelPanel.add( new JLabel( availableRestores[i].toString(), JLabel.LEFT ) );
-
-			JPanel restorePanel = new JPanel();
-			restorePanel.setLayout( new BorderLayout( 0, 0 ) );
-			restorePanel.add( checkboxPanel, BorderLayout.WEST );
-			restorePanel.add( labelPanel, BorderLayout.CENTER );
-
-			JScrollPane scrollArea = new JScrollPane( restorePanel,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
+			mpRestoreItemList = client == null ? new MPRestoreItemList( null ) : client.getMPRestoreItemList();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Mail refreshes: ", buffBotModeSelect );
 			elements[1] = new VerifiableElement( "Message disposal: ", messageDisposalSelect );
-			elements[2] = new VerifiableElement( "Use these restores: ", scrollArea );
+			elements[2] = new VerifiableElement( "Use these restores: ", mpRestoreItemList.getDisplay() );
 
 			setContent( elements );
 			actionCancelled();
@@ -400,24 +373,13 @@ public class BuffBotFrame extends KoLFrame
 			messageDisposalSelect.setEnabled( isEnabled );
 			buffBotModeSelect.setEnabled( isEnabled );
 			whiteListEntry.setEnabled( isEnabled );
-
-			for ( int i = 0; i < restoreCheckbox.length; ++i )
-				restoreCheckbox[i].setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
 		{
 			settings.setProperty( "useChatBasedBuffBot", String.valueOf( buffBotModeSelect.getSelectedIndex() == 1 ) );
 			settings.setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
-
-			StringBuffer mpRestoreSetting = new StringBuffer();
-			for ( int i = 0; i < restoreCheckbox.length; ++i )
-				if ( restoreCheckbox[i].isSelected() )
-				{
-					mpRestoreSetting.append( availableRestores[i].toString() );
-					mpRestoreSetting.append( ';' );
-				}
-			settings.setProperty( "buffBotMPRestore", mpRestoreSetting.toString() );
+			mpRestoreItemList.setProperty();
 
 			String[] whiteListString = whiteListEditor.getText().split("\\s*,\\s*");
 			java.util.Arrays.sort( whiteListString );
@@ -434,12 +396,6 @@ public class BuffBotFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
-
-			for ( int i = 0; i < availableRestores.length; ++i )
-				if ( mpRestoreSetting.indexOf( availableRestores[i].toString() ) != -1 )
-					restoreCheckbox[i].setSelected( true );
-
 			messageDisposalSelect.setSelectedIndex( Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) ) );
 			buffBotModeSelect.setSelectedIndex( settings.getProperty( "useChatBasedBuffBot" ).equals( "true" ) ? 1 : 0 );
 			whiteListEditor.setText( settings.getProperty( "whiteList" ) );

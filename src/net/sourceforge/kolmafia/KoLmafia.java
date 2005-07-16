@@ -91,6 +91,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected BuffBotHome buffBotHome;
 	protected BuffBotManager buffBotManager;
+	protected MPRestoreItemList mpRestoreItemList;
 	protected CakeArenaManager cakeArenaManager;
 	protected StoreManager storeManager;
 	protected ClanManager clanManager;
@@ -223,6 +224,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( this.characterData == null )
 		{
 			this.characterData = new KoLCharacter( loginname );
+			this.mpRestoreItemList = new MPRestoreItemList( this );
 			FamiliarData.setOwner( this.characterData );
 
 			this.inventory = characterData.getInventory();
@@ -804,6 +806,38 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
+	 * Returns the list of mana restores being maintained
+	 * by the current client.
+	 */
+
+	public MPRestoreItemList getMPRestoreItemList()
+	{
+		return mpRestoreItemList;
+	}
+
+	/**
+	 * Returns the total number of mana restores currently
+	 * available to the player.
+	 */
+
+	public int getRestoreCount()
+	{
+		int restoreCount = 0;
+		String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
+
+		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
+		{
+			MPRestoreItemList.MPRestoreItem restorer = (MPRestoreItemList.MPRestoreItem) mpRestoreItemList.get(i);
+			String itemName = restorer.toString();
+
+			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
+				restoreCount += restorer.getItem().getCount( inventory );
+		}
+
+		return restoreCount;
+	}
+
+	/**
 	 * Utility method called inbetween commands.  This method
 	 * checks to see if the character's MP has dropped below
 	 * the tolerance value, and autorecovers if it has (if
@@ -812,53 +846,70 @@ public abstract class KoLmafia implements KoLConstants
 
 	private void autoRecoverMP()
 	{
-		disableMacro = true;
-		double autoRecover = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) characterData.getMaximumMP();
+		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) characterData.getMaximumMP();
+		permitContinue = recoverMP( (int) mpNeeded );
+	}
 
-		if ( (double) characterData.getCurrentMP() <= autoRecover )
+	/**
+	 * Utility method which restores the character's current
+	 * mana points to the given value.
+	 */
+
+	public boolean recoverMP( int mpNeeded )
+	{
+		if ( characterData.getCurrentMP() >= mpNeeded )
+			return true;
+
+		int previousMP = -1;
+		String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
+
+		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
 		{
-			try
+			MPRestoreItemList.MPRestoreItem restorer = (MPRestoreItemList.MPRestoreItem) mpRestoreItemList.get(i);
+			String itemName = restorer.toString();
+
+			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
 			{
-				int currentMP = -1;
-				permitContinue = true;
-
-				while ( permitContinue && characterData.getCurrentMP() <= autoRecover && currentMP != characterData.getCurrentMP() )
+				if ( itemName.equals( mpRestoreItemList.BEANBAG.toString() ) )
 				{
-					currentMP = characterData.getCurrentMP();
-					updateDisplay( DISABLED_STATE, "Executing MP auto-recovery script..." );
-
-					String scriptPath = settings.getProperty( "mpRecoveryScript" ) ;
-					File autoRecoveryScript = new File( scriptPath );
-
-					if ( autoRecoveryScript.exists() )
-						(new KoLmafiaCLI( this, new FileInputStream( autoRecoveryScript ) )).listenForCommands();
-					else
+					while ( characterData.getAdventuresLeft() > 0 && characterData.getCurrentMP() > previousMP )
 					{
-						updateDisplay( ERROR_STATE, "Could not find MP auto-recovery script." );
-						permitContinue = false;
-						disableMacro = false;
-						return;
-					}
-				}
+						previousMP = characterData.getCurrentMP();
+ 						restorer.recoverMP( mpNeeded );
 
-				if ( currentMP == characterData.getCurrentMP() )
-				{
-					updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore MP." );
-					permitContinue = false;
-					disableMacro = false;
-					return;
+ 						if ( characterData.getCurrentMP() >= mpNeeded )
+ 							return true;
+
+						if ( characterData.getCurrentMP() == previousMP )
+						{
+							updateDisplay( ERROR_STATE, "Detected no MP change.  Refreshing status to verify..." );
+							(new CharsheetRequest( this )).run();
+						}
+ 					}
 				}
-			}
-			catch ( Exception e )
-			{
-				updateDisplay( ERROR_STATE, "Could not find MP auto-recovery script." );
-				permitContinue = false;
-				disableMacro = false;
-				return;
+				else
+				{
+					AdventureResult item = new AdventureResult( itemName, 0 );
+ 					while ( inventory.contains( item ) && characterData.getCurrentMP() > previousMP )
+ 					{
+ 						previousMP = characterData.getCurrentMP();
+ 						restorer.recoverMP( mpNeeded );
+
+ 						if ( characterData.getCurrentMP() >= mpNeeded )
+ 							return true;
+
+						if ( characterData.getCurrentMP() == previousMP )
+						{
+							updateDisplay( ERROR_STATE, "Detected no MP change.  Refreshing status to verify..." );
+							(new CharsheetRequest( this )).run();
+						}
+ 					}
+				}
 			}
 		}
 
-		disableMacro = false;
+		updateDisplay( ERROR_STATE, "Unable to acquire enough MP!" );
+		return false;
 	}
 
 	/**

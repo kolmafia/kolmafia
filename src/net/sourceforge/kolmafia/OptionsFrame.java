@@ -194,7 +194,7 @@ public class OptionsFrame extends KoLFrame
 	private void addCard( JMenu menu, String name, JComponent panel, String cardID )
 	{
 		JScrollPane scroller = new JScrollPane( panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		JComponentUtilities.setComponentSize( scroller, 480, 320 );
+		JComponentUtilities.setComponentSize( scroller, 520, 400 );
 
 		getContentPane().add( scroller, cardID );
 		menu.add( new ShowCardMenuItem( name, cardID ) );
@@ -223,7 +223,7 @@ public class OptionsFrame extends KoLFrame
 
 		public ServerSelectPanel()
 		{
-			super( "Server Select", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			super( "Server Select", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ SERVER_COUNT + 1 ];
 
 			servers = new JRadioButton[ SERVER_COUNT + 1 ];
@@ -277,7 +277,7 @@ public class OptionsFrame extends KoLFrame
 
 		public AdventureOptionsPanel()
 		{
-			super( "Adventure List", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			super( "Adventure List", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
 
 			optionBoxes = new JCheckBox[ optionNames.length ];
@@ -349,7 +349,7 @@ public class OptionsFrame extends KoLFrame
 
 		public StartupOptionsPanel()
 		{
-			super( "Miscellaneous", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			super( "Miscellaneous", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
 
 			optionBoxes = new JCheckBox[ optionNames.length ];
@@ -395,7 +395,7 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox hpAutoRecoverSelect;
 		private JComboBox mpAutoRecoverSelect;
 		private JTextField hpRecoveryScriptField;
-		private JTextField mpRecoveryScriptField;
+		private MPRestoreItemList mpRestoreItemList;
 
 		/**
 		 * Constructs a new <code>BattleOptionsPanel</code> containing a
@@ -462,7 +462,7 @@ public class OptionsFrame extends KoLFrame
 				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
 
 			hpRecoveryScriptField = new JTextField();
-			mpRecoveryScriptField = new JTextField();
+			mpRestoreItemList = client == null ? new MPRestoreItemList( null ) : client.getMPRestoreItemList();
 
 			// Add the elements to the panel
 
@@ -478,7 +478,7 @@ public class OptionsFrame extends KoLFrame
 			elements[5] = new VerifiableElement( "", new JLabel() );
 
 			elements[6] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
-			elements[7] = new VerifiableElement( "MP Recovery Script: ", new ScriptSelectPanel( mpRecoveryScriptField ) );
+			elements[7] = new VerifiableElement( "Use these restores: ", mpRestoreItemList.getDisplay() );
 
 			setContent( elements );
 			actionCancelled();
@@ -491,7 +491,7 @@ public class OptionsFrame extends KoLFrame
 			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
 			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-			setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
+			mpRestoreItemList.setProperty();
 
 			super.actionConfirmed();
 		}
@@ -503,7 +503,6 @@ public class OptionsFrame extends KoLFrame
 			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
 			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
 			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
-			mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
 		}
 	}
 
@@ -811,7 +810,7 @@ public class OptionsFrame extends KoLFrame
 
 		public GreenOptionsPanel()
 		{
-			super( "Green Messages", new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
+			super( "Green Messages", new Dimension( 340, 20 ), new Dimension( 20, 20 ) );
 
 			saveOutgoingCheckBox = new JCheckBox();
 			closeSendingCheckBox = new JCheckBox();
@@ -861,7 +860,7 @@ public class OptionsFrame extends KoLFrame
 
 		public SnapshotOptionsPanel()
 		{
-			super( "Clan Snapshots", new Dimension( 300, 16 ), new Dimension( 20, 16 ) );
+			super( "Clan Snapshots", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
 
 			optionBoxes = new JCheckBox[ optionNames.length ];
@@ -963,7 +962,7 @@ public class OptionsFrame extends KoLFrame
 
 		public CreationOptionsPanel()
 		{
-			super( "Item Creation", new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
+			super( "Item Creation", new Dimension( 340, 20 ), new Dimension( 20, 20 ) );
 
 			useClosetForCreationCheckBox = new JCheckBox();
 			autoRepairBoxesCheckBox = new JCheckBox();
@@ -1077,11 +1076,11 @@ public class OptionsFrame extends KoLFrame
 		private KoLSettings settings;
 
 		public OptionsPanel()
-		{	this( new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
+		{	this( new Dimension( 120, 20 ), new Dimension( 240, 20 ) );
 		}
 
 		public OptionsPanel( String panelTitle )
-		{	this( panelTitle, new Dimension( 120, 20 ), new Dimension( 200, 20 ) );
+		{	this( panelTitle, new Dimension( 120, 20 ), new Dimension( 240, 20 ) );
 		}
 
 		public OptionsPanel( Dimension left, Dimension right )
