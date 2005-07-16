@@ -317,6 +317,7 @@ public class RequestFrame extends KoLFrame
 
 			mainBuffer.clearBuffer();
 			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
+			mainDisplay.setCaretPosition( 0 );
 
 			client.processResults( currentRequest.responseText );
 		}
