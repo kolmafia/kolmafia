@@ -224,13 +224,11 @@ public class KoLCharacter
 	private boolean canInteract;
 	private String ascensionSign;
 	private int ascensionSignType;
+
 	public static final int NONE = 0;
 	public static final int MUSCLE = 1;
 	public static final int MYSTICALITY = 2;
 	public static final int MOXIE = 3;
-
-	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0 );
-	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0 );
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
@@ -843,9 +841,9 @@ public class KoLCharacter
 	{
 		if ( currentFamiliar != null )
 		{
-			int previousAdditionalWeight = getAdditionalWeight();
+			int previousAdditionalWeight = FamiliarData.getAdditionalWeight( this );
 			currentFamiliar.setItem( familiarItem == null ? EquipmentRequest.UNEQUIP : familiarItem );
-			currentFamiliar.setWeight( currentFamiliar.getWeight() - previousAdditionalWeight + getAdditionalWeight() );
+			currentFamiliar.setWeight( currentFamiliar.getWeight() - previousAdditionalWeight + FamiliarData.getAdditionalWeight( this ) );
 		}
 	}
 
@@ -908,23 +906,15 @@ public class KoLCharacter
 	{
 		String currentItem;
 		List items = new ArrayList();
-		int currentFamiliarID = -1;
 
-		// If we are looking for familiar items, find current familiar
+		// If we are looking for familiar items, but we don't
+		// have a familiar, then no familiar items can actually
+		// be equipped.  So, return the blank list now.
 
-		if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR )
+		if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR && currentFamiliar == null )
 		{
-			// If no familiar, can't use familiar equipment
-
-			if ( currentFamiliar == null )
-			{
-				items.add( EquipmentRequest.UNEQUIP );
-				return items;
-			}
-
-			// Otherwise, get the ID of the current familiar
-
-			currentFamiliarID = currentFamiliar.getID();
+			items.add( EquipmentRequest.UNEQUIP );
+			return items;
 		}
 
 		for ( int i = 0; i < inventory.size(); ++i )
@@ -938,27 +928,20 @@ public class KoLCharacter
 
 				if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR )
 				{
-					int familiarID = FamiliarsDatabase.getFamiliarByItem( currentItem );
-					// Item allowed if unrestricted or
-					// restricted to current familiar.
-
-					if ( familiarID == -1 || familiarID == currentFamiliarID )
+					if ( currentFamiliar.canEquip( currentItem ) )
 						items.add( currentItem );
-					continue;
 				}
 
 				// Otherwise, see if we have the necessary stat
 				// to equip the item.
 
-				if ( !EquipmentDatabase.canEquip( this, currentItem ) )
-					continue;
-
-				// All is cool.
-
-				if ( filterID != ConsumeItemRequest.EQUIP_ACCESSORY )
-					items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
-				else
-					items.add( currentItem );
+				else if ( EquipmentDatabase.canEquip( this, currentItem ) )
+				{
+					if ( filterID != ConsumeItemRequest.EQUIP_ACCESSORY )
+						items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
+					else
+						items.add( currentItem );
+				}
 			}
 		}
 
@@ -1334,12 +1317,12 @@ public class KoLCharacter
 		if ( currentFamiliar != null && currentFamiliar.getRace().equals( familiarRace ) )
 		{
 			String currentItem = currentFamiliar.getItem();
-			currentFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ), familiarWeight - getAdditionalWeight() );
+			currentFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ), familiarWeight - FamiliarData.getAdditionalWeight( this ) );
 			setFamiliarItem( currentItem );
 		}
 		else
 		{
-			currentFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ), familiarWeight - getAdditionalWeight() );
+			currentFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ), familiarWeight - FamiliarData.getAdditionalWeight( this ) );
 			addFamiliar( currentFamiliar );
 		}
 
@@ -1355,66 +1338,6 @@ public class KoLCharacter
 	{
 		if ( currentFamiliar != null )
 			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
-	}
-
-	/**
-	 * Returns the amount of additional weight that is present
-	 * due to buffs and related things.
-	 */
-
-	public int getAdditionalWeight()
-	{
-		int addedWeight = 0;
-
-		// First update the weight changes due to the
-		// accessories the character is wearing
-
-		int [] accessoryID = new int[3];
-		accessoryID[0] = TradeableItemDatabase.getItemID( getEquipment( ACCESSORY1 ) );
-		accessoryID[1] = TradeableItemDatabase.getItemID( getEquipment( ACCESSORY2 ) );
-		accessoryID[2] = TradeableItemDatabase.getItemID( getEquipment( ACCESSORY3 ) );
-
-		for ( int i = 0; i < 3; ++i )
-			if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
-				++addedWeight;
-
-		// Next, update the weight due to the accessory
-		// that the familiar is wearing
-
-		switch ( TradeableItemDatabase.getItemID( getFamiliarItem() ) )
-		{
-			case -1:
-			case 1040:
-			case 1152:
-			case 1239:
-
-				break;
-
-			case 865:
-
-				addedWeight += 3;
-				break;
-
-			default:
-
-				addedWeight += 5;
-		}
-
-		// Finally, update the weight due to the effects which are
-		// affecting the character.
-                // Empathy and Leash of Linguini each add five pounds.
-                // The passive "Amphibian Sympathy" skill does too.
-
-		if ( getEffects().contains( EMPATHY ) )
-			addedWeight += 5;
-
-		if ( getEffects().contains( LEASH ) )
-			addedWeight += 5;
-
-		if ( hasAmphibianSympathy() )
-			addedWeight += 5;
-
-		return addedWeight;
 	}
 
 	/**

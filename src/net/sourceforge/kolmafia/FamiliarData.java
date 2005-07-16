@@ -37,6 +37,9 @@ import java.util.StringTokenizer;
 
 public class FamiliarData implements Comparable
 {
+	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0 );
+	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0 );
+
 	private int id, weight;
 	private String race, item;
 
@@ -110,5 +113,86 @@ public class FamiliarData implements Comparable
 
 	public int compareTo( FamiliarData fd )
 	{	return race.compareToIgnoreCase( fd.race );
+	}
+
+	/**
+	 * Returns whether or not the familiar can equip the given
+	 * familiar item.
+	 */
+
+	public boolean canEquip( String item )
+	{
+		switch ( TradeableItemDatabase.getItemID( item ) )
+		{
+			case -1:
+				return false;
+
+			case 865:
+			case 1040:
+			case 1152:
+			case 1239:
+				return true;
+
+			default:
+				return item.equals( FamiliarsDatabase.getFamiliarItem( id ) );
+		}
+	}
+
+	/**
+	 * Returns the amount of additional weight that is present
+	 * due to buffs and related things.
+	 */
+
+	public static int getAdditionalWeight( KoLCharacter data )
+	{
+		int addedWeight = 0;
+
+		// First update the weight changes due to the
+		// accessories the character is wearing
+
+		int [] accessoryID = new int[3];
+		accessoryID[0] = TradeableItemDatabase.getItemID( data.getEquipment( KoLCharacter.ACCESSORY1 ) );
+		accessoryID[1] = TradeableItemDatabase.getItemID( data.getEquipment( KoLCharacter.ACCESSORY2 ) );
+		accessoryID[2] = TradeableItemDatabase.getItemID( data.getEquipment( KoLCharacter.ACCESSORY3 ) );
+
+		for ( int i = 0; i < 3; ++i )
+			if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
+				++addedWeight;
+
+		// Next, update the weight due to the accessory
+		// that the familiar is wearing
+
+		switch ( TradeableItemDatabase.getItemID( data.getFamiliarItem() ) )
+		{
+			case -1:
+			case 1040:
+			case 1152:
+			case 1239:
+
+				break;
+
+			case 865:
+
+				addedWeight += 3;
+				break;
+
+			default:
+
+				addedWeight += 5;
+		}
+
+		// Empathy and Leash of Linguini each add five pounds.
+		// The passive "Amphibian Sympathy" skill does too.
+
+		if ( data.getEffects().contains( EMPATHY ) )
+			addedWeight += 5;
+
+		if ( data.getEffects().contains( LEASH ) )
+			addedWeight += 5;
+
+		if ( data.hasAmphibianSympathy() )
+			addedWeight += 5;
+
+		return addedWeight;
 	}
 }

@@ -126,7 +126,7 @@ public class FamiliarRequest extends KoLRequest
 
 		if ( isChangingFamiliar )
 		{
-			characterData.setFamiliarDescription( changeTo.getRace(), changeTo.getWeight() + characterData.getAdditionalWeight() );
+			characterData.setFamiliarDescription( changeTo.getRace(), changeTo.getWeight() + FamiliarData.getAdditionalWeight( characterData ) );
 			characterData.setFamiliarItem( changeTo.getItem() );
 			updateDisplay( ENABLED_STATE, "Familiar changed." );
 		}
