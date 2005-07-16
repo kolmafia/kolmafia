@@ -46,14 +46,14 @@ public class FamiliarRequest extends KoLRequest
 	{
 		super( client, "familiar.php" );
 		this.isChangingFamiliar = false;
-		this.characterData = client.getCharacterData();
+		this.characterData = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 	}
 
 	public FamiliarRequest( KoLmafia client, FamiliarData changeTo )
 	{
 		super( client, "familiar.php" );
 		addFormField( "action", "newfam" );
-		this.characterData = client.getCharacterData();
+		this.characterData = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 
 		this.changeTo = changeTo;
 		addFormField( "newfam", String.valueOf( changeTo.getID() ) );

@@ -91,7 +91,7 @@ public class EquipmentRequest extends KoLRequest
 	public EquipmentRequest( KoLmafia client, int requestType )
 	{
 		super( client, requestType == CLOSET ? "closet.php" : requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
-		this.character = client.getCharacterData();
+		this.character = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 		this.requestType = requestType;
 		this.outfit = null;
 
@@ -118,7 +118,7 @@ public class EquipmentRequest extends KoLRequest
 		super( client, "inv_equip.php" );
 		addFormField( "which", "2" );
 
-		this.character = client.getCharacterData();
+		this.character = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 		this.equipmentSlot = equipmentSlot;
 
 		if ( change.equals( UNEQUIP ) )
@@ -145,7 +145,7 @@ public class EquipmentRequest extends KoLRequest
 	{
 		super( client, "inv_equip.php" );
 
-		this.character = client.getCharacterData();
+		this.character = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 
 		addFormField( "action", "outfit" );
 		addFormField( "which", "2" );
