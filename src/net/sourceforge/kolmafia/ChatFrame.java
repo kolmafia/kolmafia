@@ -442,7 +442,10 @@ public class ChatFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new ChatFrame( null, null );
-		uitest.setVisible( true );  uitest.requestFocus();
+		Object [] parameters = new Object[2];
+		parameters[0] = null;
+		parameters[1] = null;
+
+		(new CreateFrameRunnable( ChatFrame.class, parameters )).run();
 	}
 }

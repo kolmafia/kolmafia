@@ -677,7 +677,9 @@ public class BuffBotFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new BuffBotFrame( null );
-		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
+		Object [] parameters = new Object[1];
+		parameters[0] = null;
+
+		(new CreateFrameRunnable( BuffBotFrame.class, parameters )).run();
 	}
 }

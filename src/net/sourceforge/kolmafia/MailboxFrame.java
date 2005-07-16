@@ -241,7 +241,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			if ( client != null )
 				(new MailboxRequest( client, mailboxName )).run();
 
-			MailboxFrame.this.requestFocus();
 			mailBuffer.clearBuffer();
 
 			if ( mailboxName.equals( "Inbox" ) )
@@ -376,7 +375,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new MailboxFrame( null );
-		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
+		Object [] parameters = new Object[1];
+		parameters[0] = null;
+
+		(new CreateFrameRunnable( MailboxFrame.class, parameters )).run();
 	}
 }

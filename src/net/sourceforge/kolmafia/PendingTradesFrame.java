@@ -55,8 +55,11 @@ public class PendingTradesFrame extends RequestFrame
 		{
 			if ( location.startsWith( "counteroffer.php" ) )
 			{
-				KoLFrame frame = new ProposeTradeFrame( client, location.substring( location.lastIndexOf( "=" ) + 1 ) );
-				frame.pack();  frame.setVisible( true );  frame.requestFocus();
+				Object [] parameters = new Object[2];
+				parameters[0] = client;
+				parameters[1] = location.substring( location.lastIndexOf( "=" ) + 1 );
+
+				(new CreateFrameRunnable( StoreManageFrame.class, parameters )).run();
 			}
 			else
 			{

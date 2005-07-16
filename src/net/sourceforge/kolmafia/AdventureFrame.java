@@ -922,7 +922,9 @@ public class AdventureFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new AdventureFrame( null );
-		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
+		Object [] parameters = new Object[1];
+		parameters[0] = null;
+
+		(new CreateFrameRunnable( AdventureFrame.class, parameters )).run();
 	}
 }

@@ -480,7 +480,10 @@ public class LoginFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new LoginFrame( null, new SortedListModel() );
-		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
+		Object [] parameters = new Object[2];
+		parameters[0] = null;
+		parameters[1] = new SortedListModel();
+
+		(new CreateFrameRunnable( LoginFrame.class, parameters )).run();
 	}
 }

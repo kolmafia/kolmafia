@@ -1153,7 +1153,6 @@ public class OptionsFrame extends KoLFrame
 				selectedColor = JColorChooser.showDialog( OptionsFrame.this, "Choose color for channel /" + channelField.getText() + "...", selectedColor );
 				colorSelect.setBackground( selectedColor );
 				channelField.setForeground( selectedColor );
-				channelField.requestFocus();
 			}
 		}
 	}
@@ -1166,7 +1165,9 @@ public class OptionsFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new OptionsFrame( null );
-		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
+		Object [] parameters = new Object[1];
+		parameters[0] = null;
+
+		(new CreateFrameRunnable( OptionsFrame.class, parameters )).run();
 	}
 }

@@ -538,7 +538,9 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		calculatePhases( new Date() );
 		MoonPhaseDatabase.setMoonPhases( ronaldPhase, grimacePhase );
 
-		KoLFrame uitest = new CalendarFrame( null );
-		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
+		Object [] parameters = new Object[1];
+		parameters[0] = null;
+
+		(new CreateFrameRunnable( CalendarFrame.class, parameters )).run();
 	}
 }

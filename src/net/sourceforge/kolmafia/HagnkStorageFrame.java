@@ -173,7 +173,9 @@ public class HagnkStorageFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		KoLFrame uitest = new HagnkStorageFrame( null );
-		uitest.pack();  uitest.setVisible( true );  uitest.requestFocus();
+		Object [] parameters = new Object[1];
+		parameters[0] = null;
+
+		(new CreateFrameRunnable( HagnkStorageFrame.class, parameters )).run();
 	}
 }

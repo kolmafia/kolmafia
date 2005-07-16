@@ -134,12 +134,4 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 				tabs.setForegroundAt( i, Color.white );
 			}
 	}
-
-	public boolean hasFocus()
-	{	return false;
-	}
-
-	public void requestFocus()
-	{
-	}
 }
