@@ -435,10 +435,21 @@ public class RequestFrame extends KoLFrame
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[2];
+			JComponent [] headers = new JComponent[4];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", KeyEvent.VK_M, new BookmarkManagePanel() );
+			headers[2] = new JSeparator();
+
+			JMenu lairMenu = new JMenu( "Sorceress's Lair" );
+			lairMenu.add( new DisplayRequestMenuItem( "Three Doors Down", "lair1.php" ) );
+			lairMenu.add( new DisplayRequestMenuItem( "Entryway Statues", "lair2.php" ) );
+			lairMenu.add( new DisplayRequestMenuItem( "Hedge Maze Puzzle", "lair3.php" ) );
+			lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 1-3", "lair4.php" ) );
+			lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 4-6", "lair5.php" ) );
+			lairMenu.add( new DisplayRequestMenuItem( "Outside Chamber", "lair6.php" ) );
+
+			headers[3] = lairMenu;
 
 			return headers;
 		}
