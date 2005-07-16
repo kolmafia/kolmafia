@@ -149,7 +149,7 @@ public class FamiliarData implements Comparable
 	public static void setOwner( KoLCharacter owner )
 	{
 		FamiliarData.owner = owner;
-		updateweightModifier();
+		updateWeightModifier();
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class FamiliarData implements Comparable
 	 * due to buffs and related things.
 	 */
 
-	public static void updateweightModifier()
+	public static void updateWeightModifier()
 	{
 		weightModifier = 0;
 
