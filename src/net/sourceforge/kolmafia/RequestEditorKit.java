@@ -43,13 +43,25 @@ import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.text.View;
 import javax.swing.text.Element;
 import javax.swing.text.ViewFactory;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.FormView;
+import javax.swing.text.html.ImageView;
 import javax.swing.text.html.HTMLEditorKit;
+
+import java.net.URL;
+import java.io.File;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.BufferedInputStream;
+
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of a standard <code>HTMLEditorKit</code> which overrides the
@@ -84,8 +96,80 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	{
 		public View create( Element elem )
 		{
-			return elem.getAttributes().getAttribute( StyleConstants.NameAttribute ) == HTML.Tag.INPUT ?
-				new KoLSubmitView( elem ) : super.create( elem );
+			if ( elem.getAttributes().getAttribute( StyleConstants.NameAttribute ) == HTML.Tag.INPUT )
+				return new KoLSubmitView( elem );
+
+			if ( elem.getAttributes().getAttribute( StyleConstants.NameAttribute ) == HTML.Tag.IMG )
+				return new KoLImageView( elem );
+
+			return super.create( elem );
+		}
+	}
+
+	private static class KoLImageView extends ImageView
+	{
+		public KoLImageView( Element elem )
+		{	super( elem );
+		}
+
+	    public URL getImageURL()
+		{
+			String src = (String) getElement().getAttributes().getAttribute( HTML.Attribute.SRC );
+
+			if ( src == null )
+				return null;
+
+			File localfile = new File( "images" + File.separator + src.replaceAll( "http://images.kingdomofloathing.com/", "" ) );
+
+			try
+			{
+				if ( localfile.exists() )
+					return localfile.toURL();
+			}
+			catch ( Exception e )
+			{
+				// Because you're loading the image from a
+				// file which exists, no exception should
+				// occur at this point.  Should it happen,
+				// however, because the file already exists,
+				// it cannot be redownloaded, so return null.
+
+				e.printStackTrace();
+				return null;
+			}
+
+			// Because the image icon could not be retrieved locally,
+			// download the image from the KoL web server.  Then
+			// save it to a local file, and then return the reference
+			// to the local file so that the image viewer does not
+			// attempt to redownload it.
+
+			try
+			{
+				BufferedInputStream in = new BufferedInputStream( (new URL( src )).openConnection().getInputStream() );
+				localfile.getParentFile().mkdirs();
+				FileOutputStream out = new FileOutputStream( localfile );
+
+				int offset;
+				byte [] buffer = new byte[1024];
+
+				while ( (offset = in.read( buffer )) > 0 )
+					out.write( buffer, 0, offset );
+
+				in.close();
+				out.flush();
+				out.close();
+
+				return localfile.toURL();
+			}
+			catch ( Exception e )
+			{
+				// If an IOException occurs at any time during the
+				// attempt to retrieve the image, return null.
+
+				e.printStackTrace();
+				return null;
+			}
 		}
 	}
 
