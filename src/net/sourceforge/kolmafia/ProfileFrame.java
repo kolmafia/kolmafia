@@ -43,10 +43,10 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ProfileFrame extends RequestFrame
 {
 	public ProfileFrame( KoLmafia client, String playerName )
-	{	this( client, playerName, new ProfileRequest( client, playerName ) );
+	{	this( client, new ProfileRequest( client, playerName ) );
 	}
 
-	public ProfileFrame( KoLmafia client, String playerName, ProfileRequest profile )
-	{	super( client, "KoLmafia: Profile for " + playerName, profile );
+	public ProfileFrame( KoLmafia client, ProfileRequest profile )
+	{	super( client, profile );
 	}
 }

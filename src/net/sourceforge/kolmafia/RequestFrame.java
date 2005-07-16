@@ -64,6 +64,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
+	private static int combatRound = 0;
 	private static LockableListModel bookmarks = new LockableListModel();
 
 	private JMenu bookmarkMenu;
@@ -74,13 +75,13 @@ public class RequestFrame extends KoLFrame
 
 	protected JEditorPane mainDisplay;
 
-	public RequestFrame( KoLmafia client, String title, KoLRequest request )
-	{	this( client, null, title, request );
+	public RequestFrame( KoLmafia client, KoLRequest request )
+	{	this( client, null, request );
 	}
 
-	public RequestFrame( KoLmafia client, RequestFrame parent, String title, KoLRequest request )
+	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request )
 	{
-		super( client, title );
+		super( client, "" );
 
 		this.parent = parent;
 		this.currentRequest = request;
@@ -91,7 +92,7 @@ public class RequestFrame extends KoLFrame
 		if ( !(this instanceof PendingTradesFrame) )
 			this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
-		this.mainBuffer = new LimitedSizeChatBuffer( title );
+		this.mainBuffer = new LimitedSizeChatBuffer( "Mini-Browser" );
 		this.mainBuffer.setChatDisplay( this.mainDisplay );
 
 		JScrollPane mainScroller = new JScrollPane( this.mainDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
@@ -206,7 +207,6 @@ public class RequestFrame extends KoLFrame
 
 		if ( parent == null || location.startsWith( "search" ) )
 		{
-			setTitle( "Mini-Browser Window" );
 			currentRequest = request;
 			(new DisplayRequestThread()).start();
 		}
@@ -287,6 +287,21 @@ public class RequestFrame extends KoLFrame
 
 			if ( currentRequest.responseText == null )
 				currentRequest.run();
+
+			// Update the title for the RequestFrame to include the
+			// current round of combat (for people who track this
+			// sort of thing).
+
+			if ( currentRequest.getURLString().startsWith( "fight" ) )
+			{
+				++combatRound;
+				setTitle( "Mini-Browser: Combat Round " + combatRound );
+			}
+			else
+			{
+				combatRound = 0;
+				setTitle( "Mini-Browser" );
+			}
 
 			// In the event that something resembling a gain event
 			// is seen in the response text, or in the event that you

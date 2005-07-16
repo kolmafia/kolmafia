@@ -45,7 +45,7 @@ public class PendingTradesFrame extends RequestFrame
 
 	public PendingTradesFrame( KoLmafia client, ProposeTradeRequest ptr )
 	{
-		super( client, "Pending Trades", ptr );
+		super( client, ptr );
 		mainDisplay.addHyperlinkListener( new TradeLinkListener() );
 	}
 
