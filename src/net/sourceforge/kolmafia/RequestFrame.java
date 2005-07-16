@@ -368,15 +368,6 @@ public class RequestFrame extends KoLFrame
 		// handled by the mini browser.
 
 		displayHTML = displayHTML.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&infin;", "**" );
-
-		// Download all the images outside of the Swing thread
-		// by downloading them here.
-
-		Matcher imageMatcher = Pattern.compile( "http://images\\.kingdomofloathing\\.com/.*?\\.(gif|jpg|css)" ).matcher( displayHTML );
-
-		while ( imageMatcher.find() )
-			RequestEditorKit.downloadImage( imageMatcher.group() );
-
 		return displayHTML;
 	}
 

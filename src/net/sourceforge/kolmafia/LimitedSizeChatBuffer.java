@@ -138,6 +138,14 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 
 	public void append( String message )
 	{
+		// Download all the images outside of the Swing thread
+		// by downloading them here.
+
+		Matcher imageMatcher = Pattern.compile( "http://images\\.kingdomofloathing\\.com/.*?\\.(gif|jpg|css)" ).matcher( message );
+
+		while ( imageMatcher.find() )
+			RequestEditorKit.downloadImage( imageMatcher.group() );
+
 		boolean requiresUpdate = false;
 
 		if ( previousFontSize != fontSize )
