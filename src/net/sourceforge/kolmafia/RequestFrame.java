@@ -85,8 +85,6 @@ public class RequestFrame extends KoLFrame
 		this.parent = parent;
 		this.currentRequest = request;
 
-		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
-
 		this.mainDisplay = new JEditorPane();
 		this.mainDisplay.setEditable( false );
 

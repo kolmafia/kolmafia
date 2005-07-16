@@ -106,7 +106,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
-	static { System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" ); };
+	static
+	{
+		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
+		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
+	};
 
 	private static LockableListModel scripts = new LockableListModel();
 
