@@ -847,7 +847,9 @@ public abstract class KoLmafia implements KoLConstants
 	private void autoRecoverMP()
 	{
 		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) characterData.getMaximumMP();
-		permitContinue = recoverMP( (int) mpNeeded );
+
+		if ( permitContinue )
+			permitContinue = recoverMP( (int) mpNeeded );
 	}
 
 	/**
