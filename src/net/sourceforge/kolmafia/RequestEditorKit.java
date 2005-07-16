@@ -106,6 +106,74 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
+	/**
+	 * Downloads the given file from the KoL images server
+	 * and stores it locally.
+	 */
+
+	public static URL downloadImage( String filename )
+	{
+		String localname = filename.replaceAll( "http://images.kingdomofloathing.com/", "" ).replaceAll( "/",
+			File.separator.replaceAll( "\\\\", "\\\\\\\\" ) );
+
+		File localfile = new File( "images" + File.separator + localname );
+
+		try
+		{
+			// If the file has already been downloaded, then there
+			// is nothing more to do - return from this method.
+
+			if ( localfile.exists() )
+				return localfile.toURL();
+		}
+		catch ( Exception e )
+		{
+			// Because you're loading the image from a
+			// file which exists, no exception should
+			// occur at this point.  Should it happen,
+			// however, because the file already exists,
+			// it cannot be redownloaded, so return null.
+
+			e.printStackTrace();
+			return null;
+		}
+
+		// Because the image icon could not be retrieved locally,
+		// download the image from the KoL web server.  Then
+		// save it to a local file, and then return the reference
+		// to the local file so that the image viewer does not
+		// attempt to redownload it.
+
+		try
+		{
+			BufferedInputStream in = new BufferedInputStream( (new URL( filename )).openConnection().getInputStream() );
+			localfile.getParentFile().mkdirs();
+			FileOutputStream out = new FileOutputStream( localfile );
+
+			int offset;
+			byte [] buffer = new byte[1024];
+
+			while ( (offset = in.read( buffer )) > 0 )
+				out.write( buffer, 0, offset );
+
+			in.close();
+			out.flush();
+			out.close();
+
+			return localfile.toURL();
+		}
+		catch ( Exception e )
+		{
+			// If an IOException occurs at any time during the
+			// attempt to retrieve the image, report the exception
+			// to the console and return null;
+
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
 	private static class KoLImageView extends ImageView
 	{
 		public KoLImageView( Element elem )
@@ -119,60 +187,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( src == null )
 				return null;
 
-			String localsrc = src.replaceAll( "http://images.kingdomofloathing.com/", "" ).replaceAll( "/",
-				File.separator.replaceAll( "\\\\", "\\\\\\\\" ) );
-
-			File localfile = new File( "images" + File.separator + localsrc );
-
-			try
-			{
-				if ( localfile.exists() )
-					return localfile.toURL();
-			}
-			catch ( Exception e )
-			{
-				// Because you're loading the image from a
-				// file which exists, no exception should
-				// occur at this point.  Should it happen,
-				// however, because the file already exists,
-				// it cannot be redownloaded, so return null.
-
-				e.printStackTrace();
-				return null;
-			}
-
-			// Because the image icon could not be retrieved locally,
-			// download the image from the KoL web server.  Then
-			// save it to a local file, and then return the reference
-			// to the local file so that the image viewer does not
-			// attempt to redownload it.
-
-			try
-			{
-				BufferedInputStream in = new BufferedInputStream( (new URL( src )).openConnection().getInputStream() );
-				localfile.getParentFile().mkdirs();
-				FileOutputStream out = new FileOutputStream( localfile );
-
-				int offset;
-				byte [] buffer = new byte[1024];
-
-				while ( (offset = in.read( buffer )) > 0 )
-					out.write( buffer, 0, offset );
-
-				in.close();
-				out.flush();
-				out.close();
-
-				return localfile.toURL();
-			}
-			catch ( Exception e )
-			{
-				// If an IOException occurs at any time during the
-				// attempt to retrieve the image, return null.
-
-				e.printStackTrace();
-				return null;
-			}
+			return downloadImage( src );
 		}
 	}
 
