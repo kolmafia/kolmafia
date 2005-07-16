@@ -215,13 +215,6 @@ public class AdventureFrame extends KoLFrame
 		this.setJMenuBar( menuBar );
 
 		JMenu statusMenu = addStatusMenu( menuBar );
-		statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php" ), 0 );
-		statusMenu.add( new MiniBrowserMenuItem( "Broken Records", KeyEvent.VK_B, "records.php" ), 1 );
-		statusMenu.add( new DisplayFrameMenuItem( "Consult Oracle", KeyEvent.VK_C, CalendarFrame.class ), 2 );
-		statusMenu.add( new JSeparator(), 3 );
-
-		statusMenu.add( new KoLPanelFrameMenuItem( "Meat to Closet", KeyEvent.VK_M, new MeatStoragePanel() ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Store Manager", KeyEvent.VK_S, StoreManageFrame.class ) );
 
 		JMenuItem activitiesMenu = new JMenu( "Function" );
 		activitiesMenu.setMnemonic( KeyEvent.VK_F );
@@ -233,23 +226,22 @@ public class AdventureFrame extends KoLFrame
 
 		activitiesMenu.add( new JSeparator() );
 
+		activitiesMenu.add( new DisplayFrameMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, CakeArenaFrame.class ) );
 		activitiesMenu.add( new AdventureRequestListener( "Loot the Hermit", KeyEvent.VK_L, "hermit.php", "", "The Hermitage" ) );
 		activitiesMenu.add( new AdventureRequestListener( "Mountain Traps", KeyEvent.VK_M, "trapper.php", "", "The 1337 Trapper" ) );
 		activitiesMenu.add( new AdventureRequestListener( "Bounty Hunter", KeyEvent.VK_B, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ) );
-		activitiesMenu.add( new DisplayFrameMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, CakeArenaFrame.class ) );
 
 		activitiesMenu.add( new JSeparator() );
 
-		activitiesMenu.add( new DisplayFrameMenuItem( "Yeti's Museum", KeyEvent.VK_Y, MuseumFrame.class ) );
+		activitiesMenu.add( new KoLPanelFrameMenuItem( "Meat to Closet", KeyEvent.VK_M, new MeatStoragePanel() ) );
+		activitiesMenu.add( new DisplayFrameMenuItem( "Display Casing", KeyEvent.VK_D, MuseumFrame.class ) );
 		activitiesMenu.add( new DisplayFrameMenuItem( "Gnomish Storage", KeyEvent.VK_G, HagnkStorageFrame.class ) );
-		activitiesMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", KeyEvent.VK_P, client, "pwnClanOtori" ) );
 
-		JMenu scriptMenu = addScriptMenu( menuBar );
-
-		addPeopleMenu( menuBar ).add( new DisplayFrameMenuItem( "Manage Your Clan", KeyEvent.VK_M, ClanManageFrame.class ) );
+		addPeopleMenu( menuBar );
+		addScriptMenu( menuBar );
 
 		JMenu configMenu = addConfigureMenu( menuBar );
-		configMenu.add( new InvocationMenuItem( "Reset Session", KeyEvent.VK_R, client, "resetSessionTally" ) );
+		configMenu.add( new InvocationMenuItem( "Clear Session", KeyEvent.VK_C, client, "resetSessionTally" ) );
 		configMenu.add( new InvocationMenuItem( "Session Time-In", KeyEvent.VK_S, client, "executeTimeInRequest" ) );
 
 		addHelpMenu( menuBar );

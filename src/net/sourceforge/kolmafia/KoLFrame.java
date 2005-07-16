@@ -315,34 +315,39 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		statusMenu.setMnemonic( KeyEvent.VK_M );
 		menu.add( statusMenu );
 
+		statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Consult Oracle", KeyEvent.VK_C, CalendarFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", KeyEvent.VK_G, CommandDisplayFrame.class ) );
+
+		statusMenu.add( new JSeparator() );
+
 		statusMenu.add( new DisplayFrameMenuItem( "Status Pane", KeyEvent.VK_S, CharsheetFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", KeyEvent.VK_G, GearChangeFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", KeyEvent.VK_I, ItemManageFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Store Manager", KeyEvent.VK_S, StoreManageFrame.class ) );
 
 		return statusMenu;
 	}
 
-	/**
-	 * Utility method used to add the default <code>KoLmafia</code>
-	 * people menu to the given menu bar.  The default menu contains
-	 * the ability to open chat, compose green messages, and read
-	 * current mail.
-	 */
-
 	protected final JMenu addPeopleMenu( JComponent menu )
 	{
-		JMenu peopleMenu = new JMenu( "People" );
-		peopleMenu.setMnemonic( KeyEvent.VK_P );
-		menu.add( peopleMenu );
+		JMenu commMenu = new JMenu( "Interact" );
+		commMenu.setMnemonic( KeyEvent.VK_I );
+		menu.add( commMenu );
 
-		peopleMenu.add( new InvocationMenuItem( "Chat of Loathing", KeyEvent.VK_C, client, "initializeChat" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Green Composer", KeyEvent.VK_G, GreenMessageFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "IcePenguin Express", KeyEvent.VK_I, MailboxFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Propose Trade Offer", KeyEvent.VK_P, ProposeTradeFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "View Pending Trades", KeyEvent.VK_V, PendingTradesFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Not-Holiday Giftings", KeyEvent.VK_N, GiftMessageFrame.class ) );
+		commMenu.add( new InvocationMenuItem( "Start LoathingChat", KeyEvent.VK_S, client, "initializeChat" ) );
+		commMenu.add( new DisplayFrameMenuItem( "IcePenguin Express", KeyEvent.VK_I, MailboxFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "KoLmafia Buff Bot", KeyEvent.VK_K, BuffBotFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Manage Your Clan", KeyEvent.VK_M, ClanManageFrame.class ) );
 
-		return peopleMenu;
+		commMenu.add( new JSeparator() );
+
+		commMenu.add( new DisplayFrameMenuItem( "Compose a KoLmail", KeyEvent.VK_C, GreenMessageFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Propose a New Trade", KeyEvent.VK_P, ProposeTradeFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "View Pending Offers", KeyEvent.VK_V, PendingTradesFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Gift Shop Back Room", KeyEvent.VK_G, GiftMessageFrame.class ) );
+
+		return commMenu;
 	}
 
 	/**
@@ -1184,7 +1189,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[ KoLFrame.this instanceof AdventureFrame ? 9 : 2 ];
+			JComponent [] headers = new JComponent[ KoLFrame.this instanceof AdventureFrame ? 4 : 2 ];
 
 			headers[0] = new LoadScriptMenuItem();
 			headers[1] = new ToggleMacroMenuItem();
@@ -1192,12 +1197,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			if ( KoLFrame.this instanceof AdventureFrame )
 			{
 				headers[2] = new JSeparator();
-				headers[3] = new DisplayFrameMenuItem( "Graphical CLI", KeyEvent.VK_G, CommandDisplayFrame.class );
-				headers[4] = new DisplayFrameMenuItem( "Do the BuffBot!", KeyEvent.VK_D, BuffBotFrame.class );
-				headers[5] = new JSeparator();
-				headers[6] = new InvocationMenuItem( "Fetch Breakfast", KeyEvent.VK_F, client, "getBreakfast" );
-				headers[7] = new InvocationMenuItem( "Naughty Entryway", KeyEvent.VK_N, client, "completeEntryway" );
-				headers[8] = new InvocationMenuItem( "Hedgy Rotations", KeyEvent.VK_H, client, "completeHedgeMaze" );
+
+				JMenu modulesMenu = new JMenu( "Built-In Scripts" );
+				modulesMenu.setMnemonic( KeyEvent.VK_B );
+
+				modulesMenu.add( new InvocationMenuItem( "Get Breakfast!", KeyEvent.VK_G, client, "getBreakfast" ) );
+				modulesMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", KeyEvent.VK_P, client, "pwnClanOtori" ) );
+
+				modulesMenu.add( new JSeparator() );
+
+				modulesMenu.add( new InvocationMenuItem( "Lair Entryway", KeyEvent.VK_L, client, "completeEntryway" ) );
+				modulesMenu.add( new InvocationMenuItem( "Hedge Rotation", KeyEvent.VK_H, client, "completeHedgeMaze" ) );
+
+				headers[3] = modulesMenu;
 			}
 
 			return headers;
