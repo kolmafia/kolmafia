@@ -813,14 +813,15 @@ public class KoLCharacter
 				this.equipment.set( i, equipment[i].toLowerCase() + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
 		}
 
-		if ( equipment.length > FAMILIAR )
-			setFamiliarItem( equipment[FAMILIAR].toLowerCase() );
+		if ( equipment.length > FAMILIAR && currentFamiliar != null )
+			currentFamiliar.setItem( equipment[FAMILIAR].toLowerCase() );
 
 		this.outfits.clear();
 		this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
 		this.outfits.addAll( outfits );
 
 		equipmentSet = true;
+		FamiliarData.updateWeightModifier();
 	}
 
 	/**
@@ -828,23 +829,8 @@ public class KoLCharacter
 	 * @return	<code>true</code> if equipment  has been set
 	 */
 
-	public boolean equipmentSet( )
+	public boolean equipmentSet()
 	{	return equipmentSet;
-        }
-
-	/**
-	 * Accessor method to set the name of the item equipped on the character's familiar.
-	 * @param	familiarItem	The item to set as the character's familiar item
-	 */
-
-	public void setFamiliarItem( String familiarItem )
-	{
-		if ( currentFamiliar != null )
-		{
-			int previousAdditionalWeight = FamiliarData.getAdditionalWeight( this );
-			currentFamiliar.setItem( familiarItem == null ? EquipmentRequest.UNEQUIP : familiarItem );
-			currentFamiliar.setWeight( currentFamiliar.getWeight() - previousAdditionalWeight + FamiliarData.getAdditionalWeight( this ) );
-		}
 	}
 
 	/**
@@ -1307,26 +1293,15 @@ public class KoLCharacter
 	}
 
 	/**
-	 * Accessor method to set the description of the current familiar.
-	 * @param	familiarRace	The race of the current familiar
-	 * @param	familiarWeight	The weight of the current familiar
+	 * Accessor method to set the data for the current familiar.
+	 * @param	familiar
 	 */
 
-	public void setFamiliarDescription( String familiarRace, int familiarWeight )
+	public void setFamiliar( FamiliarData familiar )
 	{
-		if ( currentFamiliar != null && currentFamiliar.getRace().equals( familiarRace ) )
-		{
-			String currentItem = currentFamiliar.getItem();
-			currentFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ), familiarWeight - FamiliarData.getAdditionalWeight( this ) );
-			setFamiliarItem( currentItem );
-		}
-		else
-		{
-			currentFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarRace ), familiarWeight - FamiliarData.getAdditionalWeight( this ) );
-			addFamiliar( currentFamiliar );
-		}
-
-		familiars.setSelectedIndex( familiars.indexOf( currentFamiliar ) );
+		currentFamiliar = familiar;
+		addFamiliar( currentFamiliar );
+		familiars.setSelectedItem( currentFamiliar );
 	}
 
 	/**

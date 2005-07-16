@@ -126,8 +126,7 @@ public class FamiliarRequest extends KoLRequest
 
 		if ( isChangingFamiliar )
 		{
-			characterData.setFamiliarDescription( changeTo.getRace(), changeTo.getWeight() + FamiliarData.getAdditionalWeight( characterData ) );
-			characterData.setFamiliarItem( changeTo.getItem() );
+			characterData.setFamiliar( changeTo );
 			updateDisplay( ENABLED_STATE, "Familiar changed." );
 		}
 		else
@@ -136,16 +135,16 @@ public class FamiliarRequest extends KoLRequest
 			familiarWeight = 0;
 			familiarItem = EquipmentRequest.UNEQUIP;
 
-			familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<table>.*Equipment:.*?</td><td.*>(.*?)</td>.*<form name=rename" ).matcher( responseText );
+			familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\(([\\d,]+) kills\\)<table>.*Equipment:.*?</td><td.*>(.*?)</td>.*<form name=rename" ).matcher( responseText );
 			if ( familiarMatcher.find() )
 			{
 				familiarName = familiarMatcher.group(2).trim();
-				familiarItem = familiarMatcher.group(3);
+				familiarItem = familiarMatcher.group(4);
 				familiarWeight = Integer.parseInt( familiarMatcher.group(1) );
 			}
 			else
 			{
-				familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\([\\d,]+ kills\\)<p>" ).matcher( responseText );
+				familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\(([\\d,]+) kills\\)<p>" ).matcher( responseText );
 				if ( familiarMatcher.find() )
 				{
 					familiarName = familiarMatcher.group(2).trim();
@@ -158,8 +157,9 @@ public class FamiliarRequest extends KoLRequest
 				if ( !FamiliarsDatabase.contains( familiarName ) )
 					FamiliarsDatabase.registerFamiliar( client, 0, familiarName );
 
-				characterData.setFamiliarDescription( familiarName, familiarWeight );
-				characterData.setFamiliarItem( familiarItem );
+				FamiliarData newFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarName ), familiarWeight );
+				newFamiliar.setItem( familiarItem );
+				characterData.setFamiliar( newFamiliar );
 			}
 
 			updateDisplay( ENABLED_STATE, "Familiar data retrieved." );

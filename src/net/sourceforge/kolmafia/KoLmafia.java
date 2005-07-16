@@ -223,6 +223,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( this.characterData == null )
 		{
 			this.characterData = new KoLCharacter( loginname );
+			FamiliarData.setOwner( this.characterData );
+
 			this.inventory = characterData.getInventory();
 			this.usableItems = new SortedListModel();
 			this.hunterItems = new SortedListModel();
@@ -567,7 +569,9 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		for ( int j = 0; j < recentEffects.size(); ++j )
 			AdventureResult.addResultToList( characterData.getEffects(), (AdventureResult) recentEffects.get(j) );
+
 		recentEffects.clear();
+		FamiliarData.updateWeightModifier();
 	}
 
 	/**

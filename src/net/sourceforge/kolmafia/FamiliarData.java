@@ -25,7 +25,7 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * LOSS OF USE, owner, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
@@ -37,6 +37,10 @@ import java.util.StringTokenizer;
 
 public class FamiliarData implements Comparable
 {
+	private static int weightModifier;
+	private static int dodecaModifier;
+	private static KoLCharacter owner;
+
 	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0 );
 	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0 );
 
@@ -100,7 +104,11 @@ public class FamiliarData implements Comparable
 	}
 
 	public String toString()
-	{	return race + " (" + weight + " lbs)";
+	{
+		if ( id == 38 )
+			return race + " (" + Math.max( weight + dodecaModifier, 1 ) + " lbs)";
+
+		return race + " (" + (weight + weightModifier) + " lbs)";
 	}
 
 	public boolean equals( Object o )
@@ -138,31 +146,39 @@ public class FamiliarData implements Comparable
 		}
 	}
 
+	public static void setOwner( KoLCharacter owner )
+	{
+		FamiliarData.owner = owner;
+		updateweightModifier();
+	}
+
 	/**
-	 * Returns the amount of additional weight that is present
+	 * Calculates the amount of additional weight that is present
 	 * due to buffs and related things.
 	 */
 
-	public static int getAdditionalWeight( KoLCharacter data )
+	public static void updateweightModifier()
 	{
-		int addedWeight = 0;
+		weightModifier = 0;
 
 		// First update the weight changes due to the
 		// accessories the character is wearing
 
 		int [] accessoryID = new int[3];
-		accessoryID[0] = TradeableItemDatabase.getItemID( data.getEquipment( KoLCharacter.ACCESSORY1 ) );
-		accessoryID[1] = TradeableItemDatabase.getItemID( data.getEquipment( KoLCharacter.ACCESSORY2 ) );
-		accessoryID[2] = TradeableItemDatabase.getItemID( data.getEquipment( KoLCharacter.ACCESSORY3 ) );
+		accessoryID[0] = TradeableItemDatabase.getItemID( owner.getEquipment( KoLCharacter.ACCESSORY1 ) );
+		accessoryID[1] = TradeableItemDatabase.getItemID( owner.getEquipment( KoLCharacter.ACCESSORY2 ) );
+		accessoryID[2] = TradeableItemDatabase.getItemID( owner.getEquipment( KoLCharacter.ACCESSORY3 ) );
 
 		for ( int i = 0; i < 3; ++i )
 			if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
-				++addedWeight;
+				++weightModifier;
 
 		// Next, update the weight due to the accessory
 		// that the familiar is wearing
 
-		switch ( TradeableItemDatabase.getItemID( data.getFamiliarItem() ) )
+		dodecaModifier = weightModifier;
+
+		switch ( TradeableItemDatabase.getItemID( owner.getFamiliarItem() ) )
 		{
 			case -1:
 			case 1040:
@@ -173,26 +189,36 @@ public class FamiliarData implements Comparable
 
 			case 865:
 
-				addedWeight += 3;
+				weightModifier += 3;
+				dodecaModifier += 3;
 				break;
 
 			default:
 
-				addedWeight += 5;
+				weightModifier += 5;
+				dodecaModifier -= 5;
+				break;
 		}
 
 		// Empathy and Leash of Linguini each add five pounds.
 		// The passive "Amphibian Sympathy" skill does too.
 
-		if ( data.getEffects().contains( EMPATHY ) )
-			addedWeight += 5;
+		if ( owner.getEffects().contains( EMPATHY ) )
+		{
+			weightModifier += 5;
+			dodecaModifier -= 5;
+		}
 
-		if ( data.getEffects().contains( LEASH ) )
-			addedWeight += 5;
+		if ( owner.getEffects().contains( LEASH ) )
+		{
+			weightModifier += 5;
+			dodecaModifier -= 5;
+		}
 
-		if ( data.hasAmphibianSympathy() )
-			addedWeight += 5;
-
-		return addedWeight;
+		if ( owner.hasAmphibianSympathy() )
+		{
+			weightModifier += 5;
+			dodecaModifier -= 5;
+		}
 	}
 }
