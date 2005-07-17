@@ -50,74 +50,16 @@ import net.java.dev.spellcast.utilities.LockableListModel;
  * management functionality of Kingdom of Loathing.
  */
 
-public class HagnkStorageFrame extends KoLFrame
+public class HagnkStorageFrame extends KoLPanelFrame
 {
-	private ItemWithdrawPanel items;
-	private MeatWithdrawPanel meats;
-
 	public HagnkStorageFrame( KoLmafia client )
 	{
 		super( client, "KoLmafia: Hagnk, the Secret Dwarf" );
 
-		if ( client.getStorage().isEmpty() )
+		if ( client != null && client.getStorage().isEmpty() )
 			(new RequestThread( new ItemStorageRequest( client ) )).start();
 
-		this.meats = new MeatWithdrawPanel();
-		this.items = new ItemWithdrawPanel();
-
-		JTabbedPane tabs = new JTabbedPane();
-
-		JPanel containerPanel = new JPanel();
-		containerPanel.setLayout( new BorderLayout() );
-		containerPanel.add( items, BorderLayout.CENTER );
-
-		tabs.addTab( "Meat", meats );
-		tabs.addTab( "Items", containerPanel );
-
-		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( tabs, "" );
-	}
-
-	public void setEnabled( boolean isEnabled )
-	{
-		if ( items != null )
-			items.setEnabled( isEnabled );
-		if ( meats != null )
-			meats.setEnabled( isEnabled );
-	}
-
-	/**
-	 * An internal class which represents the panel used for meatss to
-	 * the clan coffer.
-	 */
-
-	private class MeatWithdrawPanel extends KoLPanel
-	{
-		private JTextField amountField;
-
-		public MeatWithdrawPanel()
-		{
-			super( "withdraw meat", null, new Dimension( 80, 20 ), new Dimension( 240, 20 ), true );
-
-			amountField = new JTextField();
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Amount: ", amountField );
-			setContent( elements );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			amountField.setEnabled( isEnabled );
-		}
-
-		protected void actionConfirmed()
-		{	(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
-		}
-
-		protected void actionCancelled()
-		{
-		}
+		setContentPanel( new ItemWithdrawPanel() );
 	}
 
 	/**

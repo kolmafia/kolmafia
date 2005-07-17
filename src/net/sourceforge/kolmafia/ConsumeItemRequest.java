@@ -96,6 +96,12 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( itemUsed.getItemID() == UneffectRequest.REMEDY.getItemID() )
+		{
+			client.makeUneffectRequest();
+			return;
+		}
+
 		// Note that requests for bartenders and chefs should
 		// not be run if the character already has one
 

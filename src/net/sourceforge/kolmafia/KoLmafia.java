@@ -1143,6 +1143,14 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
+	 * Makes a request which attempts to remove the given effect.
+	 * This method should prompt the user to determine which effect
+	 * the player would like to remove.
+	 */
+
+	protected abstract void makeUneffectRequest();
+
+	/**
 	 * Makes a request to the hermit, looking for the given number of
 	 * items.  This method should prompt the user to determine which
 	 * item to retrieve the hermit.

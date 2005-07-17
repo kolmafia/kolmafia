@@ -202,6 +202,24 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	/**
+	 * Makes a request which attempts to remove the given effect.
+	 * This method should prompt the user to determine which effect
+	 * the player would like to remove.
+	 */
+
+	protected void makeUneffectRequest()
+	{
+		Object selectedValue = JOptionPane.showInputDialog(
+			null, "I want to remove this effect...", "It's Soft Green Martian Time!", JOptionPane.INFORMATION_MESSAGE, null,
+			characterData.getEffects().toArray(), characterData.getEffects().get(0) );
+
+		if ( selectedValue == null )
+			return;
+
+		(new RequestThread( new UneffectRequest( this, (AdventureResult) selectedValue ) )).start();
+	}
+
+	/**
 	 * Makes a request to the hermit, looking for the given number of
 	 * items.  This method should prompt the user to determine which
 	 * item to retrieve the hermit.

@@ -828,19 +828,19 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "hermit" ) )
 		{
-			scriptRequestor.makeRequest( new KoLAdventure( scriptRequestor, "hermit.php", "", "The Hermitage" ), 1 );
+			scriptRequestor.makeHermitRequest();
 			return;
 		}
 
 		if ( command.equals( "trapper" ) )
 		{
-			scriptRequestor.makeRequest( new KoLAdventure( scriptRequestor, "trapper.php", "", "The 1337 Trapper" ), 1 );
+			scriptRequestor.makeTrapperRequest();
 			return;
 		}
 
 		if ( command.equals( "hunter" ) )
 		{
-			scriptRequestor.makeRequest( new KoLAdventure( scriptRequestor, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ), 1 );
+			scriptRequestor.makeHunterRequest();
 			return;
 		}
 
@@ -1772,6 +1772,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( message.equals( "Login failed." ) )
 			attemptLogin();
+	}
+
+	/**
+	 * Makes a request which attempts to remove the given effect.
+	 * This method should prompt the user to determine which effect
+	 * the player would like to remove.
+	 */
+
+	protected void makeUneffectRequest()
+	{
 	}
 
 	/**

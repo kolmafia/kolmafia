@@ -130,14 +130,8 @@ public class AdventureFrame extends KoLFrame
 	private static final Color DISABLED_COLOR = null;
 
 	private JTabbedPane tabs;
-	private JTextField inClosetField;
-
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
-	private RemoveEffectsPanel removeEffects;
-	private SkillBuffPanel skillBuff;
-	private HeroDonationPanel heroDonation;
-	private MeatStoragePanel meatStorage;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -159,6 +153,15 @@ public class AdventureFrame extends KoLFrame
 
 		this.mallSearch = new MallSearchPanel();
 		tabs.addTab( "Mall of Loathing", mallSearch );
+
+		JPanel otherPanel = new JPanel();
+		otherPanel.setLayout( new BoxLayout( otherPanel, BoxLayout.Y_AXIS ) );
+		otherPanel.add( new MeatStoragePanel() );
+		otherPanel.add( new SkillBuffPanel() );
+		otherPanel.add( new HeroDonationPanel() );
+
+		JScrollPane otherScroller = new JScrollPane( otherPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		tabs.addTab( "Other Activities", otherScroller );
 
 		addCompactPane();
 		getContentPane().add( tabs, BorderLayout.CENTER );
@@ -215,27 +218,6 @@ public class AdventureFrame extends KoLFrame
 		this.setJMenuBar( menuBar );
 
 		JMenu statusMenu = addStatusMenu( menuBar );
-
-		JMenuItem activitiesMenu = new JMenu( "Function" );
-		activitiesMenu.setMnemonic( KeyEvent.VK_F );
-		menuBar.add( activitiesMenu );
-
-		activitiesMenu.add( new KoLPanelFrameMenuItem( "Skills and Buffs", KeyEvent.VK_S, new SkillBuffPanel() ) );
-		activitiesMenu.add( new KoLPanelFrameMenuItem( "Uneffect Effects", KeyEvent.VK_U, new RemoveEffectsPanel() ) );
-		activitiesMenu.add( new KoLPanelFrameMenuItem( "Hall of Legends", KeyEvent.VK_H, new HeroDonationPanel() ) );
-
-		activitiesMenu.add( new JSeparator() );
-
-		activitiesMenu.add( new DisplayFrameMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, CakeArenaFrame.class ) );
-		activitiesMenu.add( new AdventureRequestListener( "Loot the Hermit", KeyEvent.VK_L, "hermit.php", "", "The Hermitage" ) );
-		activitiesMenu.add( new AdventureRequestListener( "Mountain Traps", KeyEvent.VK_M, "trapper.php", "", "The 1337 Trapper" ) );
-		activitiesMenu.add( new AdventureRequestListener( "Bounty Hunter", KeyEvent.VK_B, "town_wrong.php", "bountyhunter", "The Bounty Hunter" ) );
-
-		activitiesMenu.add( new JSeparator() );
-
-		activitiesMenu.add( new KoLPanelFrameMenuItem( "Meat to Closet", KeyEvent.VK_M, new MeatStoragePanel() ) );
-		activitiesMenu.add( new DisplayFrameMenuItem( "Display Casing", KeyEvent.VK_D, MuseumFrame.class ) );
-		activitiesMenu.add( new DisplayFrameMenuItem( "Gnomish Storage", KeyEvent.VK_G, HagnkStorageFrame.class ) );
 
 		addPeopleMenu( menuBar );
 		addScriptMenu( menuBar );
@@ -373,7 +355,7 @@ public class AdventureFrame extends KoLFrame
 			// client to begin adventuring based on the values
 			// placed in the input fields.
 
-			contentPanel = adventureSelect;
+			contentPanel = this;
 			Runnable request = (Runnable) locationField.getSelectedItem();
 
 			client.getSettings().setProperty( "lastAdventure", request.toString() );
@@ -413,7 +395,7 @@ public class AdventureFrame extends KoLFrame
 			// client to terminate the loop early.  For now, since
 			// there's no actual functionality, simply request focus
 
-			contentPanel = adventureSelect;
+			contentPanel = this;
 			updateDisplay( ERROR_STATE, "Adventuring terminated." );
 			client.cancelRequest();
 			requestFocus();
@@ -536,7 +518,7 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			contentPanel = mallSearch;
+			contentPanel = this;
 
 			int searchCount = getValue( countField, -1 );
 
@@ -554,7 +536,7 @@ public class AdventureFrame extends KoLFrame
 			if ( currentlyBuying )
 				return;
 
-			contentPanel = mallSearch;
+			contentPanel = this;
 
 			MallPurchaseRequest currentRequest;
 			client.resetContinueState();
@@ -681,8 +663,7 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			contentPanel = heroDonation;
-
+			contentPanel = this;
 			if ( heroField.getSelectedIndex() != -1 )
 				(new RequestThread( new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
 
@@ -692,7 +673,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			try
 			{
-				contentPanel = heroDonation;
+				contentPanel = this;
 				int increments = df.parse( JOptionPane.showInputDialog( "How many increments?" ) ).intValue();
 
 				if ( increments == 0 )
@@ -720,75 +701,68 @@ public class AdventureFrame extends KoLFrame
 
 	private class MeatStoragePanel extends LabeledKoLPanel
 	{
+		private JComboBox fundSource;
 		private JTextField amountField;
 
 		public MeatStoragePanel()
 		{
-			super( "Meat Management (Closet)", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Meat Management", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			fundSource = new JComboBox();
+			fundSource.addItem( "Inventory (On-Hand)" );
+			fundSource.addItem( "Campground (In-Closet)" );
+			fundSource.addItem( "Hagnk's Storage (Limited)" );
 
 			amountField = new JTextField();
-			inClosetField = new JTextField( df.format( client == null ? 0 : client.getCharacterData().getClosetMeat() ) );
 
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Transaction: ", amountField );
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Source: ", fundSource );
+			elements[1] = new VerifiableElement( "Amount: ", amountField );
 			setContent( elements, true, true );
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
+			fundSource.setEnabled( isEnabled );
 			amountField.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
 		{
-			contentPanel = meatStorage;
-			(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
+			switch ( fundSource.getSelectedIndex() )
+			{
+				case 0:
+					contentPanel = this;
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
+					return;
+
+				case 1:
+					contentPanel = this;
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
+					return;
+			}
 		}
 
 		protected void actionCancelled()
 		{
-			contentPanel = meatStorage;
-			(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
-		}
-	}
+			switch ( fundSource.getSelectedIndex() )
+			{
+				case 0:
+					contentPanel = this;
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
+					return;
 
-	/**
-	 * An internal class which represents the panel used for removing
-	 * effects from the character.
-	 */
+				case 1:
+					contentPanel = this;
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
+					return;
 
-	private class RemoveEffectsPanel extends LabeledKoLPanel
-	{
-		private JComboBox effects;
-
-		public RemoveEffectsPanel()
-		{
-			super( "Uneffective", "uneffect", "kill hermit", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-
-			effects = new JComboBox( client == null ? new LockableListModel() :
-				client.getCharacterData().getEffects().getMirrorImage() );
-
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Effects: ", effects );
-			setContent( elements, true, true );
-		}
-
-		protected void actionConfirmed()
-		{
-			contentPanel = removeEffects;
-			AdventureResult effect = (AdventureResult) effects.getSelectedItem();
-
-			if ( effect == null )
-				return;
-
-			(new RequestThread( new UneffectRequest( client, effect ) )).start();
-		}
-
-		protected void actionCancelled()
-		{
-			contentPanel = removeEffects;
-			updateDisplay( ERROR_STATE, "Unfortunately, you do not have a Valuable Trinket Crossbow." );
+				case 2:
+					contentPanel = this;
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
+					return;
+			}
 		}
 	}
 
@@ -822,21 +796,21 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			contentPanel = skillBuff;
-			(new RequestThread( getRequests( false ) )).start();
+			contentPanel = this;
+			buff( false );
 		}
 
 		protected void actionCancelled()
 		{
-			contentPanel = skillBuff;
-			(new RequestThread( getRequests( true ) )).start();
+			contentPanel = this;
+			buff( true );
 		}
 
-		private Runnable [] getRequests( boolean maxBuff )
+		private void buff( boolean maxBuff )
 		{
 			String buffName = ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName();
 			if ( buffName == null )
-				return null;
+				return;
 
 			String [] targets = targetField.getText().split( "," );
 			for ( int i = 0; i < targets.length; ++i )
@@ -852,19 +826,22 @@ public class AdventureFrame extends KoLFrame
 				(int) ( client.getCharacterData().getCurrentMP() /
 					ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) : getValue( countField, 1 );
 
+			Runnable [] requests;
+
 			if ( targets.length == 0 )
 			{
-				Runnable [] requests = new Runnable[1];
+				requests = new Runnable[1];
 				requests[0] = new UseSkillRequest( client, buffName, "", buffCount );
-				return requests;
+			}
+			else
+			{
+				requests = new Runnable[ targets.length ];
+				for ( int i = 0; i < requests.length; ++i )
+					if ( targets[i] != null )
+						requests[i] = new UseSkillRequest( client, buffName, targets[i], buffCount );
 			}
 
-			Runnable [] requests = new Runnable[ targets.length ];
-			for ( int i = 0; i < requests.length; ++i )
-				if ( targets[i] != null )
-					requests[i] = new UseSkillRequest( client, buffName, targets[i], buffCount );
-
-			return requests;
+			(new RequestThread( requests )).start();
 		}
 	}
 
@@ -889,28 +866,6 @@ public class AdventureFrame extends KoLFrame
 				(new RequestThread( new LogoutRequest( client ) )).start();
 				KoLmafiaGUI.main( new String[0] );
 			}
-		}
-	}
-
-	/**
-	 * An internal class used to handle requests to do adventures at
-	 * a specific location from a menu item.
-	 */
-
-	private class AdventureRequestListener extends JMenuItem implements ActionListener
-	{
-		private KoLAdventure request;
-
-		public AdventureRequestListener( String title, int mnemonic, String formSource, String adventureID, String name )
-		{
-			super( title, mnemonic );
-			addActionListener( this );
-
-			request = new KoLAdventure( client, formSource, adventureID, name );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( request )).start();
 		}
 	}
 
