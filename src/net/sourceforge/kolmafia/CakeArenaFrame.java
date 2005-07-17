@@ -56,6 +56,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CakeArenaFrame extends KoLPanelFrame
 {
+	private static final String NO_DATA = "NO DATA (0 lbs)";
+
 	public CakeArenaFrame( KoLmafia client )
 	{
 		super( client, "KoLmafia: Susie's Secret Bedroom!" );
@@ -118,11 +120,11 @@ public class CakeArenaFrame extends KoLPanelFrame
 			FamiliarData currentFamiliar = client == null ? null :
 				(FamiliarData) client.getCharacterData().getFamiliars().getSelectedItem();
 
-			String opponentRace = currentFamiliar == null ? "NO DATA (0 lbs.)" : currentFamiliar.getRace();
+			String opponentRace = currentFamiliar == null ? NO_DATA : currentFamiliar.getRace();
 
-			opponentData[0][0] = opponentRace.equals( "NO DATA (0 lbs.)" ) ? (Object) opponentRace : (Object) currentFamiliar;
+			opponentData[0][0] = opponentRace.equals( NO_DATA ) ? (Object) NO_DATA : (Object) currentFamiliar;
 			for ( int j = 1; j <= 4; ++j )
-				opponentData[0][j] = opponentRace.equals( "NO DATA (0 lbs.)" ) ? JComponentUtilities.getSharedImage( "0star.gif" ) :
+				opponentData[0][j] = opponentRace.equals( NO_DATA ) ? JComponentUtilities.getSharedImage( "0star.gif" ) :
 					JComponentUtilities.getSharedImage( FamiliarsDatabase.getFamiliarSkill( opponentRace, j ).toString() + "star.gif" );
 
 			// Register the data for your opponents to be rendered
