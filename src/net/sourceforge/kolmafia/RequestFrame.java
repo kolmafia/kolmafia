@@ -449,11 +449,25 @@ public class RequestFrame extends KoLFrame
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[4];
+			JComponent [] headers = new JComponent[6];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", KeyEvent.VK_M, new BookmarkManagePanel() );
 			headers[2] = new JSeparator();
+
+			JMenu spoilerMenu = new JMenu( "KoL Spoiler Sites" );
+			spoilerMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.subjunctive.net/kol/FrontPage.html" ) );
+			spoilerMenu.add( new DisplayPageMenuItem( "KoL @ Coldfront", KeyEvent.KEY_LOCATION_UNKNOWN, "http://kol.coldfront.net/" ) );
+			spoilerMenu.add( new DisplayPageMenuItem( "Jinya's Visual KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://kol.thraeryn.org/" ) );
+
+			headers[3] = spoilerMenu;
+
+			JMenu refMenu = new JMenu( "Reference Tables" );
+			refMenu.add( new DisplayPageMenuItem( "Item Effects", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
+			refMenu.add( new DisplayPageMenuItem( "KoL Helper", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.agesoftime.com/kol/index.php" ) );
+			refMenu.add( new DisplayPageMenuItem( "Familiar Chart", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.therye.co.uk/familiars/index.htm" ) );
+
+			headers[4] = refMenu;
 
 			JMenu lairMenu = new JMenu( "Sorceress's Lair" );
 			lairMenu.add( new DisplayRequestMenuItem( "Three Doors Down", "lair1.php" ) );
@@ -463,7 +477,7 @@ public class RequestFrame extends KoLFrame
 			lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 4-6", "lair5.php" ) );
 			lairMenu.add( new DisplayRequestMenuItem( "Outside Chamber", "lair6.php" ) );
 
-			headers[3] = lairMenu;
+			headers[5] = lairMenu;
 
 			return headers;
 		}
