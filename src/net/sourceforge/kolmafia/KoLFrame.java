@@ -335,14 +335,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		commMenu.setMnemonic( KeyEvent.VK_P );
 		menu.add( commMenu );
 
-		commMenu.add( new InvocationMenuItem( "Start LoathingChat", KeyEvent.VK_S, client, "initializeChat" ) );
+		commMenu.add( new InvocationMenuItem( "Chat of Loathing", KeyEvent.VK_C, client, "initializeChat" ) );
 		commMenu.add( new DisplayFrameMenuItem( "IcePenguin Express", KeyEvent.VK_I, MailboxFrame.class ) );
-		commMenu.add( new DisplayFrameMenuItem( "KoLmafia Buff Bot", KeyEvent.VK_K, BuffBotFrame.class ) );
-		commMenu.add( new DisplayFrameMenuItem( "Manage Your Clan", KeyEvent.VK_M, ClanManageFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Administrate Clan", KeyEvent.VK_A, ClanManageFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Run a KoL BuffBot", KeyEvent.VK_R, BuffBotFrame.class ) );
 
 		commMenu.add( new JSeparator() );
 
-		commMenu.add( new DisplayFrameMenuItem( "Compose a KoLmail", KeyEvent.VK_C, GreenMessageFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Write a New K-mail", KeyEvent.VK_W, GreenMessageFrame.class ) );
 		commMenu.add( new DisplayFrameMenuItem( "Propose a New Trade", KeyEvent.VK_P, ProposeTradeFrame.class ) );
 		commMenu.add( new DisplayFrameMenuItem( "View Pending Offers", KeyEvent.VK_V, PendingTradesFrame.class ) );
 		commMenu.add( new DisplayFrameMenuItem( "Gift Shop Back Room", KeyEvent.VK_G, GiftMessageFrame.class ) );
