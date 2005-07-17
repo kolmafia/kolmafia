@@ -182,7 +182,6 @@ public class RequestFrame extends KoLFrame
 
 		compileBookmarks();
 		menuBar.add( new BookmarkMenu() );
-		addScriptMenu( menuBar );
 	}
 
 	/**
