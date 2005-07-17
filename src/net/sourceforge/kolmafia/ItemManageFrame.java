@@ -418,7 +418,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public OutsideClosetPanel()
 			{
-				super( "Inside Inventory", "put in closet", "put in stash", client == null ? new SortedListModel() : client.getInventory() );
+				super( "Inside Inventory", "put in closet", "give to clan", client == null ? new SortedListModel() : client.getInventory() );
 				availableList = elementList;
 			}
 
@@ -441,7 +441,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public InsideClosetPanel()
 			{
-				super( "Inside Closet", "put in bag", "put in stash", client == null ? new SortedListModel() : client.getCloset() );
+				super( "Inside Closet", "put in bag", "give to clan", client == null ? new SortedListModel() : client.getCloset() );
 				closetList = elementList;
 			}
 
