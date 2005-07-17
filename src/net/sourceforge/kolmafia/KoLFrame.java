@@ -948,7 +948,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// you minimize the number of open windows by
 				// making an attempt to refresh.
 
-				((RequestFrame)KoLFrame.this).refresh( new KoLRequest( client, location, true ) );
+				((RequestFrame)KoLFrame.this).refresh( extractRequest( location ) );
 			}
 			else
 			{
@@ -1032,6 +1032,32 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
+	 * Utility method used to determine the KoLRequest that
+	 * should be sent, given the appropriate location.
+	 */
+
+	private KoLRequest extractRequest( String location )
+	{
+		String [] urlData = location.split( "\\?" );
+		String [] formData = urlData.length == 1 ? new String[0] : urlData[1].split( "&" );
+
+		String [] currentField;
+		KoLRequest request = new KoLRequest( client, urlData[0], true );
+
+		for ( int i = 0; i < formData.length; ++i )
+		{
+			currentField = formData[i].split( "=" );
+
+			if ( currentField.length == 2 )
+				request.addFormField( currentField[0], currentField[1] );
+			else
+				request.addFormField( formData[i] );
+		}
+
+		return request;
+	}
+
+	/**
 	 * A method used to open a new <code>RequestFrame</code> which displays
 	 * the given location, relative to the KoL home directory for the current
 	 * session.  This should be called whenever <code>RequestFrame</code>s
@@ -1047,13 +1073,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			parameters = new Object[3];
 			parameters[0] = client;
 			parameters[1] = this;
-			parameters[2] = new KoLRequest( client, location );
+			parameters[2] = extractRequest( location );
 		}
 		else
 		{
 			parameters = new Object[2];
 			parameters[0] = client;
-			parameters[1] = new KoLRequest( client, location );
+			parameters[1] = extractRequest( location );
 		}
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
