@@ -34,17 +34,23 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
+import javax.swing.JTable;
 
+import javax.swing.table.TableCellRenderer;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -55,7 +61,7 @@ public class CakeArenaFrame extends KoLPanelFrame
 		super( client, "KoLmafia: Susie's Secret Bedroom!" );
 
 		if ( client != null && client.getCakeArenaManager().getOpponentList().isEmpty() )
-			(new RequestThread( new CakeArenaRequest( client ) )).start();
+			(new CakeArenaRequest( client )).run();
 
 		setContentPanel( new CakeArenaPanel() );
 		addMenuBar();
@@ -69,7 +75,9 @@ public class CakeArenaFrame extends KoLPanelFrame
 		JMenu optionsMenu = new JMenu( "Options" );
 		optionsMenu.setMnemonic( KeyEvent.VK_O );
 
-		optionsMenu.add( new InvocationMenuItem( "Clear Results", KeyEvent.VK_C, client.getCakeArenaManager().getResults(), "clearBuffer" ) );
+		optionsMenu.add( new InvocationMenuItem( "Clear Results", KeyEvent.VK_C,
+			client == null ? new LimitedSizeChatBuffer( "" ) : client.getCakeArenaManager().getResults(), "clearBuffer" ) );
+
 		menuBar.add( optionsMenu );
 	}
 
@@ -81,9 +89,10 @@ public class CakeArenaFrame extends KoLPanelFrame
 
 		public CakeArenaPanel()
 		{
-			super( "fight!", "stop!", new Dimension( 80, 20 ), new Dimension( 400, 20 ) );
+			super( "fight!", "stop!", new Dimension( 100, 20 ), new Dimension( 300, 20 ) );
 
-			opponentSelect = new JComboBox( client == null ? new LockableListModel() : client.getCakeArenaManager().getOpponentList() );
+			LockableListModel opponents = client == null ? new LockableListModel() : client.getCakeArenaManager().getOpponentList();
+			opponentSelect = new JComboBox( opponents );
 
 			fightOptions = new JComboBox();
 			fightOptions.addItem( "Ultimate Cage Match" );
@@ -100,6 +109,50 @@ public class CakeArenaFrame extends KoLPanelFrame
 
 			setContent( elements );
 
+			String [] columnNames = { "Familiar", "Ultimate Cage Match", "Scavenger Hunt", "Obstacle Course", "Hide and Seek" };
+			Object [][] opponentData = new Object[ opponents.size() + 1 ][5];
+
+			// Register the data for your current familiar to be
+			// rendered in the table.
+
+			FamiliarData currentFamiliar = client == null ? null :
+				(FamiliarData) client.getCharacterData().getFamiliars().getSelectedItem();
+
+			String opponentRace = currentFamiliar == null ? "NO DATA (0 lbs.)" : currentFamiliar.getRace();
+
+			opponentData[0][0] = opponentRace.equals( "NO DATA (0 lbs.)" ) ? (Object) opponentRace : (Object) currentFamiliar;
+			for ( int j = 1; j <= 4; ++j )
+				opponentData[0][j] = opponentRace.equals( "NO DATA (0 lbs.)" ) ? JComponentUtilities.getSharedImage( "0star.gif" ) :
+					JComponentUtilities.getSharedImage( FamiliarsDatabase.getFamiliarSkill( opponentRace, j ).toString() + "star.gif" );
+
+			// Register the data for your opponents to be rendered
+			// in the table, taking into account the offset due to
+			// your own familiar's data.
+
+			for ( int i = 0; i < opponents.size(); ++i )
+			{
+				opponentRace = ((CakeArenaManager.ArenaOpponent)opponents.get(i)).getRace();
+				opponentData[i+1][0] = opponents.get(i).toString();
+
+				for ( int j = 1; j <= 4; ++j )
+					opponentData[i+1][j] = JComponentUtilities.getSharedImage(
+						FamiliarsDatabase.getFamiliarSkill( opponentRace, j ).toString() + "star.gif" );
+			}
+
+			JTable table = new JTable( opponentData, columnNames );
+			table.setRowHeight( 40 );
+
+			for ( int i = 0; i < 5; ++i )
+			{
+				table.setDefaultEditor( table.getColumnClass(i), null );
+				table.setDefaultRenderer( table.getColumnClass(i), new OpponentRenderer() );
+			}
+
+			JPanel tablePanel = new JPanel();
+			tablePanel.setLayout( new BorderLayout() );
+			tablePanel.add( table.getTableHeader(), BorderLayout.NORTH );
+			tablePanel.add( table, BorderLayout.CENTER );
+
 			JEditorPane resultsDisplay = new JEditorPane();
 			resultsDisplay.setEditable( false );
 
@@ -108,9 +161,14 @@ public class CakeArenaFrame extends KoLPanelFrame
 
 			JScrollPane scroller = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-			JComponentUtilities.setComponentSize( scroller, 500, 300 );
+			JComponentUtilities.setComponentSize( scroller, 480, 200 );
 
-			add( scroller, BorderLayout.CENTER );
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BorderLayout( 20, 20 ) );
+			centerPanel.add( tablePanel, BorderLayout.NORTH );
+			centerPanel.add( scroller, BorderLayout.CENTER );
+
+			add( centerPanel, BorderLayout.CENTER );
 		}
 
 		public void actionConfirmed()
@@ -131,6 +189,24 @@ public class CakeArenaFrame extends KoLPanelFrame
 		{
 			updateDisplay( ERROR_STATE, "Arena battles terminated." );
 			client.cancelRequest();
+		}
+	}
+
+	private class OpponentRenderer implements TableCellRenderer
+	{
+		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
+		{
+			if ( value instanceof ImageIcon )
+				return new JLabel( (ImageIcon) value );
+
+			String name = value.toString();
+
+			JPanel component = new JPanel();
+			component.setLayout( new BorderLayout() );
+			component.add( new JLabel( name.substring( 0, name.indexOf( "(" ) - 1 ), JLabel.CENTER ), BorderLayout.CENTER );
+			component.add( new JLabel( name.substring( name.indexOf( "(" ) ), JLabel.CENTER ), BorderLayout.SOUTH );
+
+			return component;
 		}
 	}
 

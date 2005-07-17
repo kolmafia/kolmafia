@@ -57,10 +57,12 @@ public class CakeArenaManager implements KoLConstants
 	 * relates to the arena.
 	 */
 
-	public void registerOpponent( int opponentID, String opponent )
+	public void registerOpponent( int opponentID, String race, String weight )
 	{
-		ArenaOpponent ao = new ArenaOpponent( opponentID, opponent );
+		ArenaOpponent ao = new ArenaOpponent( opponentID, race, weight );
+
 		int index = opponentList.indexOf( ao );
+
 		if ( index != -1 )
 			opponentList.remove( ao );
 		else
@@ -128,29 +130,33 @@ public class CakeArenaManager implements KoLConstants
 	 * opponent.  Used to track the opponent.
 	 */
 
-	private class ArenaOpponent
+	public static class ArenaOpponent
 	{
 		private int id;
-		private String opponent;
+		private String race;
+		private String description;
 
-		public ArenaOpponent( int id, String opponent )
+		public ArenaOpponent( int id, String race, String weight )
 		{
 			this.id = id;
-			this.opponent = opponent;
+			this.race = race;
+			this.description = race + " (" + weight + ")";
 		}
 
 		public int getID()
 		{	return id;
 		}
 
+		public String getRace()
+		{	return race;
+		}
+
 		public String toString()
-		{	return opponent;
+		{	return description;
 		}
 
 		public boolean equals( Object o )
-		{
-			return o != null && o instanceof ArenaOpponent &&
-				id == ((ArenaOpponent)o).id;
+		{	return o != null && o instanceof ArenaOpponent && id == ((ArenaOpponent)o).id;
 		}
 	}
 }

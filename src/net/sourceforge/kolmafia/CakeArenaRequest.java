@@ -84,17 +84,12 @@ public class CakeArenaRequest extends KoLRequest
 
 		int lastMatchIndex = 0;
 		Matcher opponentMatcher = Pattern.compile(
-			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?</tr>" ).matcher( responseText );
+			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?</b> (.*?)<br/?>(.*?)\\..*?</tr>" ).matcher( responseText );
 
 		while ( opponentMatcher.find( lastMatchIndex ) )
 		{
 			lastMatchIndex = opponentMatcher.end() + 1;
-			String opponentName = opponentMatcher.group();
-			opponentName = opponentName.substring( 0, opponentName.indexOf( ",", opponentName.indexOf(
-				"<br>" ) ) ).replaceFirst( "<br>", " (" ).replaceAll( "<.*?>", "" ) + ")";
-
-
-			client.getCakeArenaManager().registerOpponent( Integer.parseInt( opponentMatcher.group(1) ), opponentName );
+			client.getCakeArenaManager().registerOpponent( Integer.parseInt( opponentMatcher.group(1) ), opponentMatcher.group(2).substring(4), opponentMatcher.group(3) );
 		}
 	}
 

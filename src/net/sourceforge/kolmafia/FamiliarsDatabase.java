@@ -57,9 +57,13 @@ public class FamiliarsDatabase extends KoLDatabase
 	private static Map familiarByLarva = new TreeMap();
 	private static Map familiarItemByID = new TreeMap();
 	private static Map familiarByItem = new TreeMap();
+	private static Map [] eventSkillByName = new TreeMap[4];
 
 	static
 	{
+		for ( int i = 0; i < 4; ++i )
+			eventSkillByName[i] = new TreeMap();
+
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
 		// examined and double-referenced: once in the name-lookup,
@@ -73,7 +77,7 @@ public class FamiliarsDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 4 )
+			if ( data.length == 8 )
 			{
 				familiarID = Integer.valueOf( data[0] );
 				familiarLarva = TradeableItemDatabase.getItemName( Integer.parseInt( data[1] ) );
@@ -85,6 +89,9 @@ public class FamiliarsDatabase extends KoLDatabase
 				familiarItemName = getDisplayName( data[3] );
 				familiarItemByID.put( familiarID, familiarItemName );
 				familiarByItem.put( getCanonicalName( data[3] ), familiarID );
+
+				for ( int i = 0; i < 4; ++i )
+					eventSkillByName[i].put( getCanonicalName( data[2] ), Integer.valueOf( data[i+4] ) );
 			}
 		}
 	}
@@ -179,5 +186,9 @@ public class FamiliarsDatabase extends KoLDatabase
 
 	public static final boolean contains( String familiarName )
 	{	return familiarByName.containsKey( getCanonicalName( familiarName ) );
+	}
+
+	public static Integer getFamiliarSkill( String name, int event )
+	{	return (Integer) eventSkillByName[ event - 1 ].get( getCanonicalName( name ) );
 	}
 }
