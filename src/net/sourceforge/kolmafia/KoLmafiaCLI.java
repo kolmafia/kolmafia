@@ -828,19 +828,19 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "hermit" ) )
 		{
-			scriptRequestor.makeHermitRequest();
+			makeHermitRequest();
 			return;
 		}
 
 		if ( command.equals( "trapper" ) )
 		{
-			scriptRequestor.makeTrapperRequest();
+			makeTrapperRequest();
 			return;
 		}
 
 		if ( command.equals( "hunter" ) )
 		{
-			scriptRequestor.makeHunterRequest();
+			makeHunterRequest();
 			return;
 		}
 
