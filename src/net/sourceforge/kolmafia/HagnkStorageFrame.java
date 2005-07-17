@@ -59,6 +59,9 @@ public class HagnkStorageFrame extends KoLFrame
 	{
 		super( client, "KoLmafia: Hagnk, the Secret Dwarf" );
 
+		if ( client.getStorage().isEmpty() )
+			(new RequestThread( new ItemStorageRequest( client ) )).start();
+
 		this.meats = new MeatWithdrawPanel();
 		this.items = new ItemWithdrawPanel();
 
