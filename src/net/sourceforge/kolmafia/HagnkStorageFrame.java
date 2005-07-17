@@ -36,7 +36,9 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Dimension;
 import java.awt.CardLayout;
+import java.awt.BorderLayout;
 
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
@@ -62,8 +64,12 @@ public class HagnkStorageFrame extends KoLFrame
 
 		JTabbedPane tabs = new JTabbedPane();
 
+		JPanel containerPanel = new JPanel();
+		containerPanel.setLayout( new BorderLayout() );
+		containerPanel.add( items, BorderLayout.CENTER );
+
 		tabs.addTab( "Meat", meats );
-		tabs.addTab( "Items", items );
+		tabs.addTab( "Items", containerPanel );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -88,7 +94,7 @@ public class HagnkStorageFrame extends KoLFrame
 
 		public MeatWithdrawPanel()
 		{
-			super( "withdraw meat", "toss dwarf", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "withdraw meat", null, new Dimension( 80, 20 ), new Dimension( 240, 20 ), true );
 
 			amountField = new JTextField();
 			VerifiableElement [] elements = new VerifiableElement[1];
@@ -107,7 +113,7 @@ public class HagnkStorageFrame extends KoLFrame
 		}
 
 		protected void actionCancelled()
-		{	JOptionPane.showMessageDialog( null, "Hagnk's actually a gnome.  Tosser." );
+		{
 		}
 	}
 
@@ -119,12 +125,7 @@ public class HagnkStorageFrame extends KoLFrame
 	private class ItemWithdrawPanel extends ItemManagePanel
 	{
 		public ItemWithdrawPanel()
-		{
-			super( "Inside Storage", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getStorage() );
-
-			if ( client.getStorage().isEmpty() )
-				(new RequestThread( new ItemStorageRequest( client ) )).start();
-
+		{	super( "Inside Storage", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getStorage() );
 		}
 
 		protected void actionConfirmed()

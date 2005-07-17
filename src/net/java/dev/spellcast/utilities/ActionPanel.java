@@ -58,6 +58,10 @@ public abstract class ActionPanel extends JRootPane
 		private boolean bothDisabledOnClick;
 		private String cancelledText1, cancelledText2;
 
+		public VerifyButtonPanel( String confirmedText )
+		{	this( confirmedText, null );
+		}
+
 		public VerifyButtonPanel( String confirmedText, String cancelledText )
 		{	this( confirmedText, cancelledText, cancelledText );
 		}
@@ -75,9 +79,14 @@ public abstract class ActionPanel extends JRootPane
 			add( Box.createVerticalStrut( 4 ) );
 
 			// add the "cancelled" button
-			cancelledButton = new JButton( cancelledText1 );
-			cancelledButton.addActionListener( new CancelledListener() );
-			addButton( cancelledButton );
+			if ( cancelledText1 != null )
+			{
+				cancelledButton = new JButton( cancelledText1 );
+				cancelledButton.addActionListener( new CancelledListener() );
+				addButton( cancelledButton );
+			}
+			else
+				cancelledButton = null;
 		}
 
 		private void addButton( JButton buttonToAdd )
@@ -92,9 +101,13 @@ public abstract class ActionPanel extends JRootPane
 		public void setEnabled( boolean isEnabled )
 		{
 			confirmedButton.setEnabled( isEnabled );
-			if ( bothDisabledOnClick )
-				cancelledButton.setEnabled( isEnabled );
-			cancelledButton.setText( isEnabled ? cancelledText1 : cancelledText2 );
+
+			if ( cancelledButton != null )
+			{
+				if ( bothDisabledOnClick )
+					cancelledButton.setEnabled( isEnabled );
+				cancelledButton.setText( isEnabled ? cancelledText1 : cancelledText2 );
+			}
 		}
 
 		public void setBothDisabledOnClick( boolean bothDisabledOnClick )
