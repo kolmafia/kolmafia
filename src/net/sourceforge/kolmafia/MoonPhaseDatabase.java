@@ -51,11 +51,10 @@ public class MoonPhaseDatabase implements KoLConstants
 
 	private static final String [] STAT_EFFECT =
 	{
-		"Moxie day today and yesterday.", "3 days until Mysticism.", "2 days until Mysticism.",
-		"Mysticism tomorrow (not today).", "Mysticism day today.", "3 days until Muscle.",
-		"2 days until Muscle.", "Muscle tomorrow.", "Muscle day today and tomorrow.", "Muscle day today and yesterday.",
-		"2 days until Mysticism.", "Mysticism tomorrow (not today).", "Mysticism day today.",
-		"2 days until Moxie.", "Moxie tomorrow (not today).", "Moxie day today and tomorrow."
+		"Moxie day today and yesterday.", "3 days until Mysticism.", "2 days until Mysticism.", "Mysticism tomorrow (not today).",
+		"Mysticism day today (not tomorrow).", "3 days until Muscle.", "2 days until Muscle.", "Muscle tomorrow (not today).",
+		"Muscle day today and tomorrow.", "Muscle day today and yesterday.", "2 days until Mysticism.", "Mysticism tomorrow (not today).",
+		"Mysticism day today (not tomorrow).", "2 days until Moxie.", "Moxie tomorrow (not today).", "Moxie day today and tomorrow."
 	};
 
 	public static final void setMoonPhases( int ronald, int grimace )
