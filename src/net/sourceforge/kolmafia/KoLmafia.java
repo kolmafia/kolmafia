@@ -1148,7 +1148,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * the player would like to remove.
 	 */
 
-	protected abstract void makeUneffectRequest();
+	public abstract void makeUneffectRequest();
 
 	/**
 	 * Makes a request to the hermit, looking for the given number of
@@ -1156,7 +1156,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * item to retrieve the hermit.
 	 */
 
-	protected abstract void makeHermitRequest();
+	public abstract void makeHermitRequest();
 
 	/**
 	 * Makes a request to the trapper, looking for the given number of
@@ -1164,7 +1164,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * item to retrieve the trapper.
 	 */
 
-	protected abstract void makeTrapperRequest();
+	public abstract void makeTrapperRequest();
 
 	/**
 	 * Makes a request to the hunter, looking for the given number of
@@ -1172,7 +1172,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * item to retrieve the hunter.
 	 */
 
-	protected abstract void makeHunterRequest();
+	public abstract void makeHunterRequest();
 
 	/**
 	 * Confirms whether or not the user wants to make a drunken

@@ -207,7 +207,7 @@ public class KoLmafiaGUI extends KoLmafia
 	 * the player would like to remove.
 	 */
 
-	protected void makeUneffectRequest()
+	public void makeUneffectRequest()
 	{
 		Object selectedValue = JOptionPane.showInputDialog(
 			null, "I want to remove this effect...", "It's Soft Green Martian Time!", JOptionPane.INFORMATION_MESSAGE, null,
@@ -225,7 +225,7 @@ public class KoLmafiaGUI extends KoLmafia
 	 * item to retrieve the hermit.
 	 */
 
-	protected void makeHermitRequest()
+	public void makeHermitRequest()
 	{
 		Object selectedValue = JOptionPane.showInputDialog(
 			null, "I want this from the hermit...", "Mugging Hermit for...", JOptionPane.INFORMATION_MESSAGE, null,
@@ -257,7 +257,7 @@ public class KoLmafiaGUI extends KoLmafia
 	 * item to retrieve the trapper.
 	 */
 
-	protected void makeTrapperRequest()
+	public void makeTrapperRequest()
 	{
 		Object selectedValue = JOptionPane.showInputDialog(
 			null, "I want this from the trapper...", "1337ing Trapper for...", JOptionPane.INFORMATION_MESSAGE, null,
@@ -280,7 +280,7 @@ public class KoLmafiaGUI extends KoLmafia
 	 * item to retrieve the hunter.
 	 */
 
-	protected void makeHunterRequest()
+	public void makeHunterRequest()
 	{
 		if ( hunterItems.isEmpty() )
 			(new BountyHunterRequest( this )).run();

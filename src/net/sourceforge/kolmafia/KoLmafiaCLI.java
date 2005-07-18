@@ -1780,7 +1780,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * the player would like to remove.
 	 */
 
-	protected void makeUneffectRequest()
+	public void makeUneffectRequest()
 	{
 	}
 
@@ -1791,7 +1791,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * in the user settings.
 	 */
 
-	protected void makeHermitRequest()
+	public void makeHermitRequest()
 	{
 		try
 		{
@@ -1816,7 +1816,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * item to retrieve the trapper.
 	 */
 
-	protected void makeTrapperRequest()
+	public void makeTrapperRequest()
 	{
 		String item = previousCommand.split( " " )[1];
 
@@ -1834,7 +1834,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * item to retrieve the hunter.
 	 */
 
-	protected void makeHunterRequest()
+	public void makeHunterRequest()
 	{
 		if ( hunterItems.isEmpty() )
 			(new BountyHunterRequest( scriptRequestor )).run();
