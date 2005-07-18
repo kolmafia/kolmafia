@@ -318,6 +318,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menu.add( statusMenu );
 
 		statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php" ) );
+		statusMenu.add( new MiniBrowserMenuItem( "Weird Records", KeyEvent.VK_W, "records.php?which=0" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Consult Oracle", KeyEvent.VK_C, CalendarFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", KeyEvent.VK_G, CommandDisplayFrame.class ) );
 
@@ -1177,8 +1178,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	private class VersionDataPanel extends JPanel
 	{
 		private final String [] versionData = {
-			"KoLmafia v4.9",
-			"Released July 11, 2005",
+			"KoLmafia v5.0",
+			"Released July 19, 2005",
 			" ",
 			"Copyright © 2005 KoLmafia development team",
 			"Berkeley Software Development (BSD) License",
