@@ -47,7 +47,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 // containers
-import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;

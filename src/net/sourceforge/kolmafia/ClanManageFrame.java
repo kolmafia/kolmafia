@@ -58,7 +58,6 @@ import javax.swing.event.ChangeEvent;
 
 // containers
 import javax.swing.JComponent;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;

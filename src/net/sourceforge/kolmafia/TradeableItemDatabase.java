@@ -51,12 +51,13 @@ import java.util.Iterator;
 
 public class TradeableItemDatabase extends KoLDatabase
 {
-	private static final String ITEM_DBASE_FILE = "tradeitems.dat";
 	public static final int ITEM_COUNT = 1500;
 
 	private static String [] itemByID = new String[ ITEM_COUNT ];
 	private static int [] consumptionID = new int[ ITEM_COUNT ];
 	private static int [] priceByID = new int[ ITEM_COUNT ];
+	private static String [] descByID = new String[ ITEM_COUNT ];
+
 	private static Map itemByName = new TreeMap();
 
 	static
@@ -81,6 +82,26 @@ public class TradeableItemDatabase extends KoLDatabase
 				priceByID[ itemID ] = Integer.parseInt( data[3] );
 				itemByID[ itemID ] = getDisplayName( data[1] );
 				itemByName.put( getCanonicalName( data[1] ), new Integer( itemID ) );
+			}
+		}
+
+		// Next, retrieve the description IDs using the data
+		// table present in MaxDemian's database.
+
+		reader = getReader( "itemdescs.dat" );
+
+		while ( (data = readData( reader )) != null )
+		{
+			boolean isDescriptionID = true;
+			if ( data.length >= 2 && data[1].length() > 0 )
+			{
+				isDescriptionID = true;
+				for ( int i = 0; i < data[1].length() && isDescriptionID; ++i )
+					if ( !Character.isDigit( data[1].charAt(i) ) )
+						isDescriptionID = false;
+
+				if ( isDescriptionID )
+					descByID[ Integer.parseInt( data[0].trim() ) ] = data[1];
 			}
 		}
 	}
@@ -209,5 +230,16 @@ public class TradeableItemDatabase extends KoLDatabase
 	{
 		int itemID = getItemID( itemName );
 		return itemID == -1 ? ConsumeItemRequest.NO_CONSUME : consumptionID[ itemID ];
+	}
+
+	/**
+	 * Returns the item description ID used by the given
+	 * item, given its item ID.
+	 *
+	 * @return	The description ID associated with the item
+	 */
+
+	public static final String getDescriptionID( int itemID )
+	{	return itemID == -1 || itemID >= ITEM_COUNT ? "" : descByID[ itemID ];
 	}
 }

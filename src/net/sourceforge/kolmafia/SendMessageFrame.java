@@ -61,7 +61,6 @@ import javax.swing.JComboBox;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 // other imports
@@ -77,7 +76,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	protected JTextArea [] messageEntry;
 	protected JButton sendMessageButton;
 
-	protected JList attachmentList;
+	protected ShowDescriptionList attachmentList;
 	protected LockableListModel inventory;
 	protected AttachmentFrame attachFrame;
 
@@ -114,7 +113,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		attachmentPanel.add( enclosePanel, BorderLayout.NORTH );
 
 		this.attachments = new LockableListModel();
-		this.attachmentList = new JList( attachments );
+		this.attachmentList = new ShowDescriptionList( attachments );
 
 		JScrollPane attachmentArea = new JScrollPane( attachmentList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
@@ -312,7 +311,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	public static class AttachmentFrame extends KoLFrame
 	{
-		private JList newAttachments;
+		private ShowDescriptionList newAttachments;
 		private LockableListModel inventory, attachments;
 
 		public AttachmentFrame( KoLmafia client, LockableListModel inventory, LockableListModel attachments )
@@ -321,7 +320,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 			this.inventory = (LockableListModel) inventory.clone();
 			this.attachments = attachments;
-			this.newAttachments = new JList( this.attachments );
+			this.newAttachments = new ShowDescriptionList( this.attachments );
 			this.newAttachments.setVisibleRowCount( 16 );
 
 			JScrollPane attachmentArea = new JScrollPane( newAttachments, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );

@@ -68,6 +68,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListDataEvent;
@@ -689,14 +691,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected abstract class ItemManagePanel extends LabeledScrollPanel
 	{
-		protected JList elementList;
+		protected ShowDescriptionList elementList;
 		private VerifyButtonPanel buttonPanel;
 
 		public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
 		{
-			super( title, confirmedText, cancelledText, new JList( elements ) );
+			super( title, confirmedText, cancelledText, new ShowDescriptionList( elements ) );
 
-			elementList = (JList) getScrollComponent();
+			elementList = (ShowDescriptionList) getScrollComponent();
 			elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			elementList.setVisibleRowCount( 8 );
 		}
@@ -1256,6 +1258,39 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 
 			return headers;
+		}
+	}
+
+	/**
+	 * A special class which displays an item's description after you double
+	 * click on the JList.
+	 */
+
+	protected class ShowDescriptionList extends JList
+	{
+		public ShowDescriptionList( LockableListModel model )
+		{
+			super( model );
+			addMouseListener( new ShowDescriptionAdapter() );
+		}
+
+
+		private class ShowDescriptionAdapter extends MouseAdapter
+		{
+			public void mouseClicked( MouseEvent e )
+			{
+				if ( e.getClickCount() == 2 )
+				{
+					int index = locationToIndex( e.getPoint() );
+					Object item = getModel().getElementAt( index );
+
+					if ( item instanceof AdventureResult && ((AdventureResult)item).isItem() )
+					{
+						ensureIndexIsVisible( index );
+						openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((AdventureResult)item).getItemID() ) );
+					}
+				}
+			}
 		}
 	}
 

@@ -48,7 +48,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.ListSelectionModel;
 
 // containers
-import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -148,7 +147,7 @@ public class ItemManageFrame extends KoLFrame
 	private class ConsumePanel extends JPanel
 	{
 		private ItemManagePanel consumePanel, createPanel;
-		private JList usableItemList;
+		private ShowDescriptionList usableItemList;
 
 		public ConsumePanel()
 		{
@@ -309,7 +308,7 @@ public class ItemManageFrame extends KoLFrame
 
 	private class MuseumStoragePanel extends JPanel
 	{
-		private JList availableList, closetList;
+		private ShowDescriptionList availableList, closetList;
 		private ItemManagePanel inventoryPanel, closetPanel;
 
 		public MuseumStoragePanel()
@@ -389,7 +388,7 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ClanStoragePanel extends JPanel
 	{
-		private JList availableList, closetList;
+		private ShowDescriptionList availableList, closetList;
 		private ItemManagePanel inventoryPanel, closetPanel;
 
 		public ClanStoragePanel()
