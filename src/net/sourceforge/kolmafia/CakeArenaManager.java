@@ -95,13 +95,25 @@ public class CakeArenaManager implements KoLConstants
 
 					victoryMatcher = victoryPattern.matcher( request.responseText );
 
+					StringBuffer text = new StringBuffer();
+
 					if ( victoryMatcher.find() )
-						results.append( "<font color=green><b>Round " + j + "</b>: Victory, gained " + victoryMatcher.group(1) + " kills.</font><br>" );
+						text.append( "<font color=green><b>Round " + j + " of " + battleCount + "</b></font>: " );
 					else
-						results.append( "<font color=red><b>Round " + j + "</b>: Defeat, gained 0 kills.</font><br>" );
+						text.append( "<font color=red><b>Round " + j + " of " + battleCount + "</b></font>: " );
+
+					text.append( request.responseText.substring( 0, request.responseText.indexOf( "</table>" ) ).replaceAll(
+						"><" , "" ).replaceAll( "<.*?>", " " ) );
+
+					text.append( "<br><br>" );
+
+					results.append( text.toString() );
 				}
+
 				return;
 			}
+
+			results.append( "<hr><br>" );
 		}
 
 		client.updateDisplay( ENABLED_STATE, "Arena battles complete." );
