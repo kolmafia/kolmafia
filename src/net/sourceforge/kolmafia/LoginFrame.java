@@ -159,7 +159,7 @@ public class LoginFrame extends KoLFrame
 		this.setJMenuBar( menuBar );
 
 		addScriptMenu( menuBar );
-		addConfigureMenu( menuBar );
+		addOptionsMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
 

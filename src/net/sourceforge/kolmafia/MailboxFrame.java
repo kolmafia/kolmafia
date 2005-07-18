@@ -46,6 +46,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 
 // event listeners
 import javax.swing.SwingUtilities;
@@ -135,15 +136,14 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		addPeopleMenu( menuBar );
 
-		JMenu fileMenu = new JMenu( "Options" );
-		fileMenu.setMnemonic( KeyEvent.VK_O );
-		menuBar.add( fileMenu );
+		JMenu optionsMenu = addOptionsMenu( menuBar );
 
-		fileMenu.add( new BoxRefreshMenuItem( "Inbox" ) );
-		fileMenu.add( new BoxRefreshMenuItem( "Outbox" ) );
-		fileMenu.add( new BoxRefreshMenuItem( "Saved" ) );
-		fileMenu.add( new BoxEmptyMenuItem( "Inbox" ) );
-		fileMenu.add( new BoxEmptyMenuItem( "Outbox" ) );
+		optionsMenu.add( new JSeparator() );
+		optionsMenu.add( new BoxRefreshMenuItem( "Inbox" ) );
+		optionsMenu.add( new BoxRefreshMenuItem( "Outbox" ) );
+		optionsMenu.add( new BoxRefreshMenuItem( "Saved" ) );
+		optionsMenu.add( new BoxEmptyMenuItem( "Inbox" ) );
+		optionsMenu.add( new BoxEmptyMenuItem( "Outbox" ) );
 
 		addHelpMenu( menuBar );
 	}
@@ -204,7 +204,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	private void refreshMailManager()
 	{
-		if ( mailbox != client.getMailManager() || client.isBuffBotActive() )
+		if ( client != null && (mailbox != client.getMailManager() || client.isBuffBotActive()) )
 		{
 			mailbox = client.getMailManager();
 			messageListInbox.setModel( mailbox.getMessages( "Inbox" ) );

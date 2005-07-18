@@ -72,6 +72,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
 
 // other imports
 import java.util.regex.Pattern;
@@ -112,7 +113,9 @@ public class ClanManageFrame extends KoLFrame
 		super( client, "KoLmafia: Clan Management" );
 
 		this.rankList = new LockableListModel();
-		(new RequestThread( new ClanStashRequest( client ) )).start();
+
+		if ( client != null )
+			(new RequestThread( new ClanStashRequest( client ) )).start();
 
 		this.storing = new StoragePanel();
 		this.clanBuff = new ClanBuffPanel();
@@ -154,10 +157,9 @@ public class ClanManageFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu optionsMenu = new JMenu( "Options" );
-		optionsMenu.setMnemonic( KeyEvent.VK_O );
-		menuBar.add( optionsMenu );
+		JMenu optionsMenu = addOptionsMenu( menuBar );
 
+		optionsMenu.add( new JSeparator() );
 		optionsMenu.add( new ManagerMenuItem( "Attack Enemies!", KeyEvent.VK_A, "attackClan" ) );
 		optionsMenu.add( new ManagerMenuItem( "Clan Snapshot", KeyEvent.VK_C, "takeSnapshot" ) );
 		optionsMenu.add( new ManagerMenuItem( "Save Stash Log", KeyEvent.VK_S, "saveStashLog" ) );
@@ -606,7 +608,7 @@ public class ClanManageFrame extends KoLFrame
 	private class ManagerMenuItem extends InvocationMenuItem
 	{
 		public ManagerMenuItem( String title, int mnemonic, String methodName )
-		{	super( title, mnemonic, client.getClanManager(), methodName );
+		{	super( title, mnemonic, client == null ? new ClanManager( null ) : client.getClanManager(), methodName );
 		}
 	}
 

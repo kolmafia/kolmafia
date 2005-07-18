@@ -92,12 +92,7 @@ public class StoreManageFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu fileMenu = new JMenu( "Management" );
-		fileMenu.setMnemonic( KeyEvent.VK_M );
-		fileMenu.add( new MiniBrowserMenuItem( "View Store Log", KeyEvent.VK_V, "storelog.php" ) );
-		menuBar.add( fileMenu );
-
-		addConfigureMenu( menuBar );
+		addOptionsMenu( menuBar ).add( new MiniBrowserMenuItem( "View Store Log", KeyEvent.VK_V, "storelog.php" ) );
 		addHelpMenu( menuBar );
 	}
 

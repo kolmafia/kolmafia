@@ -75,13 +75,9 @@ public class CakeArenaFrame extends KoLPanelFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu optionsMenu = new JMenu( "Options" );
-		optionsMenu.setMnemonic( KeyEvent.VK_O );
-
+		JMenu optionsMenu = addOptionsMenu( menuBar );
 		optionsMenu.add( new InvocationMenuItem( "Clear Results", KeyEvent.VK_C,
 			client == null ? new LimitedSizeChatBuffer( "" ) : client.getCakeArenaManager().getResults(), "clearBuffer" ) );
-
-		menuBar.add( optionsMenu );
 	}
 
 	private class CakeArenaPanel extends KoLPanel

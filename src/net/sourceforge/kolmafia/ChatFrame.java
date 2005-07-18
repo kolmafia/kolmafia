@@ -142,16 +142,13 @@ public class ChatFrame extends KoLFrame
 		menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu fileMenu = new JMenu( "File" );
-		fileMenu.setMnemonic( KeyEvent.VK_F );
-		menuBar.add( fileMenu );
+		JMenu optionsMenu = addOptionsMenu( menuBar );
 
-		fileMenu.add( new MessengerListener( "Clear Displays", KeyEvent.VK_C, "clearChatBuffers" ) );
-		fileMenu.add( new MessengerListener( "Initialize Chatlog", KeyEvent.VK_I, "initializeChatLogs" ) );
-		fileMenu.add( new MessengerListener( "Add Highlight", KeyEvent.VK_A, "addHighlighting" ) );
-		fileMenu.add( new MessengerListener( "Remove Highlight", KeyEvent.VK_R, "removeHighlighting" ) );
-
-		addConfigureMenu( menuBar );
+		optionsMenu.add( new JSeparator() );
+		optionsMenu.add( new MessengerListener( "Clear Displays", KeyEvent.VK_C, "clearChatBuffers" ) );
+		optionsMenu.add( new MessengerListener( "Initialize Chatlog", KeyEvent.VK_I, "initializeChatLogs" ) );
+		optionsMenu.add( new MessengerListener( "Add Highlight", KeyEvent.VK_A, "addHighlighting" ) );
+		optionsMenu.add( new MessengerListener( "Remove Highlight", KeyEvent.VK_R, "removeHighlighting" ) );
 
 		clickGroup = new ButtonGroup();
 		clickOptions = new JRadioButtonMenuItem[4];
@@ -172,8 +169,6 @@ public class ChatFrame extends KoLFrame
 
 		for ( int i = 0; i < clickOptions.length; ++i )
 			clicksMenu.add( clickOptions[i] );
-
-		addHelpMenu( menuBar );
 	}
 
 	/**

@@ -109,13 +109,14 @@ public class GearChangeFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu fileMenu = new JMenu( "Refresh" );
-		fileMenu.setMnemonic( KeyEvent.VK_R );
-		menuBar.add( fileMenu );
+		JMenu refreshMenu = new JMenu( "Refresh" );
+		refreshMenu.setMnemonic( KeyEvent.VK_R );
+		menuBar.add( refreshMenu );
 
-		fileMenu.add( new RefreshMenuItem( "Equipment", KeyEvent.VK_E, new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
-		fileMenu.add( new RefreshMenuItem( "Familiars", KeyEvent.VK_F, new FamiliarRequest( client ) ) );
+		refreshMenu.add( new RefreshMenuItem( "Equipment", KeyEvent.VK_E, new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
+		refreshMenu.add( new RefreshMenuItem( "Familiars", KeyEvent.VK_F, new FamiliarRequest( client ) ) );
 
+		addOptionsMenu( menuBar );
 		addHelpMenu( menuBar );
 	}
 

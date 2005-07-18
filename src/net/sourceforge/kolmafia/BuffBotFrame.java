@@ -69,6 +69,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JSeparator;
 
 // utilities
 import java.util.Date;
@@ -155,11 +156,15 @@ public class BuffBotFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu statusMenu = addStatusMenu( menuBar );
-		statusMenu.add( new ToggleMenuItem(), 0 );
-		statusMenu.add( new ShowStatisticsMenuItem(), 1 );
-
+		addStatusMenu( menuBar );
 		addPeopleMenu( menuBar );
+
+		JMenu optionsMenu = addOptionsMenu( menuBar );
+
+		optionsMenu.add( new JSeparator() );
+		optionsMenu.add( new ToggleMenuItem() );
+		optionsMenu.add( new ShowStatisticsMenuItem() );
+
 		addHelpMenu( menuBar );
 	}
 

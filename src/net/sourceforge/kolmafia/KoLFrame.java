@@ -325,20 +325,27 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", KeyEvent.VK_G, GearChangeFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", KeyEvent.VK_I, ItemManageFrame.class ) );
 
-		statusMenu.add( new JSeparator() );
-
-		statusMenu.add( new DisplayFrameMenuItem( "Mall Manager", KeyEvent.VK_M, StoreManageFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Display Case", KeyEvent.VK_D, MuseumFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", KeyEvent.VK_H, HagnkStorageFrame.class ) );
-
-		statusMenu.add( new JSeparator() );
-
-		statusMenu.add( new DisplayFrameMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, CakeArenaFrame.class ) );
-		statusMenu.add( new InvocationMenuItem( "Loot the Hermit", KeyEvent.VK_L, client, "makeHermitRequest" ) );
-		statusMenu.add( new InvocationMenuItem( "Mountain Traps", KeyEvent.VK_M, client, "makeTrapperRequest" ) );
-		statusMenu.add( new InvocationMenuItem( "Bounty Hunter", KeyEvent.VK_B, client, "makeHunterRequest" ) );
-
 		return statusMenu;
+	}
+
+	protected final JMenu addTravelMenu( JComponent menu )
+	{
+		JMenu travelMenu = new JMenu( "Travel" );
+		travelMenu.setMnemonic( KeyEvent.VK_T );
+		menu.add( travelMenu );
+
+		travelMenu.add( new DisplayFrameMenuItem( "Mall Manager", KeyEvent.VK_M, StoreManageFrame.class ) );
+		travelMenu.add( new DisplayFrameMenuItem( "Display Case", KeyEvent.VK_D, MuseumFrame.class ) );
+		travelMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", KeyEvent.VK_H, HagnkStorageFrame.class ) );
+
+		travelMenu.add( new JSeparator() );
+
+		travelMenu.add( new DisplayFrameMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, CakeArenaFrame.class ) );
+		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", KeyEvent.VK_L, client, "makeHermitRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Mountain Traps", KeyEvent.VK_M, client, "makeTrapperRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Bounty Hunter", KeyEvent.VK_B, client, "makeHunterRequest" ) );
+
+		return travelMenu;
 	}
 
 	protected final JMenu addPeopleMenu( JComponent menu )
@@ -414,16 +421,16 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * @param	menu	The <code>JMenuBar</code> to which the configuration menu will be attached
 	 */
 
-	protected final JMenu addConfigureMenu( JComponent menu )
+	protected final JMenu addOptionsMenu( JComponent menu )
 	{
-		JMenu configureMenu = new JMenu( "Configure" );
-		configureMenu.setMnemonic( KeyEvent.VK_C );
-		menu.add( configureMenu );
+		JMenu optionsMenu = new JMenu( "Options" );
+		optionsMenu.setMnemonic( KeyEvent.VK_O );
+		menu.add( optionsMenu );
 
-		configureMenu.add( new DisplayFrameMenuItem( "Preferences", KeyEvent.VK_P, OptionsFrame.class ) );
-		configureMenu.add( new ToggleDebugMenuItem() );
+		optionsMenu.add( new DisplayFrameMenuItem( "Preferences", KeyEvent.VK_P, OptionsFrame.class ) );
+		optionsMenu.add( new ToggleDebugMenuItem() );
 
-		return configureMenu;
+		return optionsMenu;
 	}
 
 	/**

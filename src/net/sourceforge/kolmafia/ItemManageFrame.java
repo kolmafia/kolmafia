@@ -112,11 +112,7 @@ public class ItemManageFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu fileMenu = new JMenu( "Options" );
-		fileMenu.setMnemonic( KeyEvent.VK_O );
-		fileMenu.add( new ListRefreshMenuItem() );
-		menuBar.add( fileMenu );
-
+		addOptionsMenu( menuBar ).add( new ListRefreshMenuItem() );
 		addHelpMenu( menuBar );
 	}
 
