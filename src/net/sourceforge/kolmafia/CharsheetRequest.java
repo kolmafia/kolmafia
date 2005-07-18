@@ -36,6 +36,9 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.util.StringTokenizer;
 
 /**
@@ -234,6 +237,56 @@ public class CharsheetRequest extends KoLRequest
 
 				character.setAvailableSkills( availableSkills );
 			}
+
+			// Current equipment is also listed on the character
+			// sheet -- because we now have consumption types,
+			// it is now possible to retrieve all the equipment.
+
+			String [] equipment = new String[8];
+			for ( int i = 0; i < 8; ++i )
+				equipment[i] = EquipmentRequest.UNEQUIP;
+
+			Matcher equipmentMatcher = Pattern.compile( "<b>Equipment.*?<table>(.*?)</table>" ).matcher( responseText );
+			if ( equipmentMatcher.find() )
+			{
+				String currentItem;
+				Matcher itemMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( equipmentMatcher.group(1) );
+
+				while ( itemMatcher.find() )
+				{
+					currentItem = itemMatcher.group(1);
+
+					switch ( TradeableItemDatabase.getConsumptionType( currentItem ) )
+					{
+						case ConsumeItemRequest.EQUIP_HAT:
+							equipment[ KoLCharacter.HAT ] = currentItem;
+							break;
+
+						case ConsumeItemRequest.EQUIP_WEAPON:
+							equipment[ KoLCharacter.WEAPON ] = currentItem;
+							break;
+
+						case ConsumeItemRequest.EQUIP_SHIRT:
+							equipment[ KoLCharacter.SHIRT ] = currentItem;
+							break;
+
+						case ConsumeItemRequest.EQUIP_PANTS:
+							equipment[ KoLCharacter.PANTS ] = currentItem;
+							break;
+
+						case ConsumeItemRequest.EQUIP_ACCESSORY:
+
+							if ( equipment[ KoLCharacter.ACCESSORY1 ].equals( EquipmentRequest.UNEQUIP ) )
+								equipment[ KoLCharacter.ACCESSORY1 ] = currentItem;
+							else if ( equipment[ KoLCharacter.ACCESSORY2 ].equals( EquipmentRequest.UNEQUIP ) )
+								equipment[ KoLCharacter.ACCESSORY2 ] = currentItem;
+							else
+								equipment[ KoLCharacter.ACCESSORY3 ] = currentItem;
+					}
+				}
+			}
+
+			character.setEquipment( equipment, new ArrayList() );
 
 			// Use a regular expression to locate the familiar data
 			// and let the familiar data parser handle the rest.

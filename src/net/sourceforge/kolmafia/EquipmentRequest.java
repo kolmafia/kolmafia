@@ -206,11 +206,7 @@ public class EquipmentRequest extends KoLRequest
 				case KoLCharacter.ACCESSORY3:
 				case KoLCharacter.FAMILIAR:
 
-                                        // If the equipment has never been set
-                                        // (due to qlogin), assume there might
-                                        // be something in the slot.
-
-					if ( !character.equipmentSet() || !character.getEquipment(equipmentSlot).equals( UNEQUIP ) )
+					if ( !character.getEquipment(equipmentSlot).equals( UNEQUIP ) )
 						(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
 
 					 break;
