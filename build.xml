@@ -82,7 +82,7 @@
   <!-- ================================== -->
 
   <target name="createjar"
-          depends="compile"
+          depends="recompile"
           description="generate the executable JAR file">
 
     <jar destfile="${jarfile}"
