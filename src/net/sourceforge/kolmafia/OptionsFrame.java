@@ -740,7 +740,7 @@ public class OptionsFrame extends KoLFrame
 			JScrollPane scrollArea = new JScrollPane( colorPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			JComponentUtilities.setComponentSize( scrollArea, 200, 100 );
+			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
 
 			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
@@ -785,6 +785,10 @@ public class OptionsFrame extends KoLFrame
 			if ( colorPanel.getComponentCount() == 0 )
 			{
 				String [] colors = getProperty( "channelColors" ).split( "," );
+
+				if ( colors.length == 1 && colors[0].length() == 0 )
+					colors = new String[0];
+
 				for ( int i = 0; i < colors.length ; ++i )
 					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], DataUtilities.toColor( colors[i] ) ) );
 
@@ -1133,7 +1137,7 @@ public class OptionsFrame extends KoLFrame
 
 			channelField = new JLabel( label, JLabel.LEFT );
 			add( channelField, BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( this, 160, 20 );
+			JComponentUtilities.setComponentSize( this, 200, 20 );
 		}
 
 		/**
