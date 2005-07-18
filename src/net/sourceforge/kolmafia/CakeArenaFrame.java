@@ -49,6 +49,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JTable;
+import javax.swing.JTabbedPane;
 
 import javax.swing.table.TableCellRenderer;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -165,12 +166,11 @@ public class CakeArenaFrame extends KoLPanelFrame
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 			JComponentUtilities.setComponentSize( scroller, 480, 200 );
 
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new BorderLayout( 20, 20 ) );
-			centerPanel.add( tablePanel, BorderLayout.NORTH );
-			centerPanel.add( scroller, BorderLayout.CENTER );
+			JTabbedPane tabs = new JTabbedPane();
+			tabs.addTab( "Event Scores", tablePanel );
+			tabs.addTab( "Battle Results", scroller );
 
-			add( centerPanel, BorderLayout.CENTER );
+			add( tabs, BorderLayout.CENTER );
 		}
 
 		public void actionConfirmed()
