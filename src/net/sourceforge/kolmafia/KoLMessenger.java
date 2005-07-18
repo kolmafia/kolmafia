@@ -61,7 +61,7 @@ public class KoLMessenger implements KoLConstants
 
 	public static final String [] ROOMS =
 	{
-		"newbie", "normal", "trade", "clan", "games", "villa", "radio", "pvp", "haiku", "foodcourt", "valhalla"
+		"newbie", "normal", "trade", "clan", "games", "villa", "radio", "pvp", "haiku", "foodcourt", "valhalla", "hardcore"
 	};
 
 	private KoLmafia client;

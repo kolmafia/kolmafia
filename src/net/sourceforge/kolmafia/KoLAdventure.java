@@ -48,7 +48,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	protected KoLmafia client;
 
 	private boolean isErrorState;
-	private String adventureID, formSource, adventureName;
+	private String zone, adventureID, formSource, adventureName;
 	private KoLRequest request;
 
 	/**
@@ -61,9 +61,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	 * @param	adventureName	The string form, or name of this adventure
 	 */
 
-	public KoLAdventure( KoLmafia client, String formSource, String adventureID, String adventureName )
+	public KoLAdventure( KoLmafia client, String zone, String formSource, String adventureID, String adventureName )
 	{
 		this.client = client;
+		this.zone = zone;
 		this.formSource = formSource;
 		this.adventureID = adventureID;
 		this.adventureName = adventureName;
@@ -76,6 +77,15 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			this.request = new CampgroundRequest( client, adventureID );
 		else
 			this.request = new AdventureRequest( client, formSource, adventureID );
+	}
+
+	/**
+	 * Returns the zone in which this adventure is found.
+	 * @return	The zone for this adventure
+	 */
+
+	public String getZone()
+	{	return zone;
 	}
 
 	/**
@@ -95,7 +105,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	 */
 
 	public String toString()
-	{	return adventureName;
+	{
+		if ( client == null )
+			return adventureName;
+
+		boolean includeZoneName = client.getSettings().getProperty( "showAdventureZone" ).equals( "true" );
+		return includeZoneName ? zone + ": " + adventureName : adventureName;
 	}
 
 	/**

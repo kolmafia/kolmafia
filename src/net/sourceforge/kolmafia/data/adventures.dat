@@ -1,97 +1,97 @@
-shore.php	1	Shore: Muscle Vacation
-shore.php	2	Shore: Mysticality Vacation
-shore.php	3	Shore: Moxie Vacation
+0	shore.php	1	Muscle Vacation
+0	shore.php	2	Mysticality Vacation
+0	shore.php	3	Moxie Vacation
 
-campground.php	rest	Camp: To the Bed!
-campground.php	relax	Camp: To the Beanbag!
+1	campground.php	rest	To the Bed!
+1	campground.php	relax	To the Beanbag!
 
-clangym.php	1	Gym: Hobo-Flex Workout Machine
-clangym.php	2	Gym: Big Book of Magicalness
-clangym.php	3	Gym: Tan-U-Lots Tanning Bed
+2	clangym.php	1	Hobo-Flex Workout Machine
+2	clangym.php	2	Big Book of Magicalness
+2	clangym.php	3	Tan-U-Lots Tanning Bed
 
-luckysewer.php	0	Town: Market Sewer (Lucky)
-sewer.php	0	Town: Market Sewer (Unlucky)
+3	luckysewer.php	0	Market Sewer (Lucky)
+3	sewer.php	0	Market Sewer (Unlucky)
 
-casino.php	1	Casino: Goat Party
-casino.php	2	Casino: Pirate Treasure
-casino.php	11	Casino: Fruit Insanity
+4	casino.php	1	Goat Party
+4	casino.php	2	Pirate Treasure
+4	casino.php	11	Fruit Insanity
 
-adventure.php	70	Casino: Roulette Tables
-adventure.php	71	Casino: Poker Room
-adventure.php	72	Casino: Money-Making Game
+4	adventure.php	70	Roulette Tables
+4	adventure.php	71	Poker Room
+4	adventure.php	72	Money-Making Game
 
-adventure.php	9	Town: Sleazy Back Alley
-adventure.php	10	Town: Haunted Pantry
+3	adventure.php	9	Sleazy Back Alley
+3	adventure.php	10	Haunted Pantry
 
-adventure.php	16	Town: Haiku Dungeon
-adventure.php	19	Town: Limerick Dungeon
-adventure.php	39	Town: Dungeons of Doom
-dungeon.php	1	Town: Daily Dungeon
+3	adventure.php	16	Haiku Dungeon
+3	adventure.php	19	Limerick Dungeon
+3	adventure.php	39	Dungeons of Doom
+3	dungeon.php	1	Daily Dungeon
 
-adventure.php	18	Plains: Degrassi Knoll
-adventure.php	20	Plains: Fun House
-adventure.php	21	Plains: Cemetary (Pre-Cyrpt)
-adventure.php	22	Plains: Fernswarthy's Tower
-adventure.php	58	Plains: Cemetary (Post-Cyrpt)
-adventure.php	78	Plains: Palindome
+5	adventure.php	18	Degrassi Knoll
+5	adventure.php	20	Fun House
+5	adventure.php	21	Cemetary (Pre-Cyrpt)
+5	adventure.php	22	Fernswarthy's Tower
+5	adventure.php	58	Cemetary (Post-Cyrpt)
+5	adventure.php	78	Palindome
 
-adventure.php	11	Knob: Outskirts of The Knob
-adventure.php	40	Knob: Knob Goblin Kitchens
-adventure.php	41	Knob: Knob Goblin Treasury
-adventure.php	42	Knob: Knob Goblin Harem
-adventure.php	50	Knob: Knob Goblin Laboratory
-adventure.php	51	Knob: Menagerie (Level 1)
-adventure.php	52	Knob: Menagerie (Level 2)
-adventure.php	53	Knob: Menagerie (Level 3)
+6	adventure.php	11	Outskirts of The Knob
+6	adventure.php	40	Knob Goblin Kitchens
+6	adventure.php	41	Knob Goblin Treasury
+6	adventure.php	42	Knob Goblin Harem
+6	adventure.php	50	Knob Goblin Laboratory
+6	adventure.php	51	Menagerie (Level 1)
+6	adventure.php	52	Menagerie (Level 2)
+6	adventure.php	53	Menagerie (Level 3)
 
-adventure.php	30	Bats: Bat Hole Entryway
-adventure.php	31	Bats: Bat Hole: Guano Junction
-adventure.php	32	Bats: Batrat and Ratbat Burrow
-adventure.php	33	Bats: Beanbat Chamber
+7	adventure.php	30	Bat Hole Entryway
+7	adventure.php	31	Bat Hole: Guano Junction
+7	adventure.php	32	Batrat and Ratbat Burrow
+7	adventure.php	33	Beanbat Chamber
 
-adventure.php	54	Cyrpt: Defiled Nook
-adventure.php	55	Cyrpt: Defiled Cranny
-adventure.php	56	Cyrpt: Defiled Alcove
-adventure.php	57	Cyrpt: Defiled Niche
+8	adventure.php	54	Defiled Nook
+8	adventure.php	55	Defiled Cranny
+8	adventure.php	56	Defiled Alcove
+8	adventure.php	57	Defiled Niche
 
-adventure.php	15	Woods: Spooky Forest
-adventure.php	17	Woods: Hidden Temple
-adventure.php	24	Woods: Typical Tavern (Pre-Rat)
-adventure.php	25	Woods: Typical Tavern (Post-Rat)
-adventure.php	73	Woods: Inexplicable Door
-adventure.php	28	Woods: Whitey's Grove
+9	adventure.php	15	Spooky Forest
+9	adventure.php	17	Hidden Temple
+9	adventure.php	24	Typical Tavern (Pre-Rat)
+9	adventure.php	25	Typical Tavern (Post-Rat)
+9	adventure.php	73	Inexplicable Door
+9	adventure.php	28	Whitey's Grove
 
-adventure.php	75	Friars: Dark Neck of the Woods
-adventure.php	76	Friars: Dark Heart of the Woods
-adventure.php	77	Friars: Dark Elbow of the Woods
-adventure.php	79	Friars: Deep Fat Friar's Gate
+10	adventure.php	75	Dark Neck of the Woods
+10	adventure.php	76	Dark Heart of the Woods
+10	adventure.php	77	Dark Elbow of the Woods
+10	adventure.php	79	Deep Fat Friar's Gate
 
-adventure.php	35	Mount: Barrel Full of Barrels
-adventure.php	60	Mount: Goatlet
-adventure.php	61	Mount: Itznotyerzitz Mine
-adventure.php	80	Mount: Valley Beyond Orc Chasm
+11	adventure.php	35	Barrel Full of Barrels
+11	adventure.php	60	Goatlet
+11	adventure.php	61	Itznotyerzitz Mine
+11	adventure.php	80	Valley Beyond Orc Chasm
 
-adventure.php	62	Mclarge: Ninja Snowmen
-adventure.php	63	Mclarge: eXtreme Slope
-adventure.php	64	Mclarge: Icy Peak
+12	adventure.php	62	Ninja Snowmen
+12	adventure.php	63	eXtreme Slope
+12	adventure.php	64	Icy Peak
 
-adventure.php	26	Island: Hippy Camp
-adventure.php	65	Island: Hippy Camp (In Disguise)
-adventure.php	27	Island: Frat House
-adventure.php	29	Island: Frat House (In Disguise)
-adventure.php	66	Island: Pirate Cove
-adventure.php	67	Island: Pirate Cove (In Disguise)
+13	adventure.php	26	Hippy Camp
+13	adventure.php	65	Hippy Camp (In Disguise)
+13	adventure.php	27	Frat House
+13	adventure.php	29	Frat House (In Disguise)
+13	adventure.php	66	Pirate Cove
+13	adventure.php	67	Pirate Cove (In Disguise)
 
-adventure.php	81	Stalk: Penultimate Fantasy Airship
-adventure.php	82	Stalk: Castle in the Clouds in the Sky
-adventure.php	83	Stalk: Hole in the Sky
+14	adventure.php	81	Penultimate Fantasy Airship
+14	adventure.php	82	Castle in the Clouds in the Sky
+14	adventure.php	83	Hole in the Sky
 
-adventure.php	45	Beach: South of the Border
+15	adventure.php	45	South of the Border
 
-lair3.php	hedge	Tower: Sorceress' Hedge Maze
+16	lair3.php	hedge	Sorceress' Hedge Maze
 
-adventure.php	43	Signed: Outskirts of Camp
-adventure.php	44	Signed: Camp Logging Camp
-adventure.php	46	Signed: Thugnderdome
-adventure.php	47	Signed: Bugbear Pens
-adventure.php	48	Signed: Spooky Gravy Barrow
+17	adventure.php	43	Outskirts of Camp
+17	adventure.php	44	Camp Logging Camp
+17	adventure.php	46	Thugnderdome
+17	adventure.php	47	Bugbear Pens
+17	adventure.php	48	Spooky Gravy Barrow

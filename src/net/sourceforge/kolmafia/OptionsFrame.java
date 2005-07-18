@@ -263,29 +263,22 @@ public class OptionsFrame extends KoLFrame
 	{
 		private JCheckBox [] optionBoxes;
 
-		private final String [] optionKeys = { "sortAdventures", "Shore", "Camp", "Gym", "Town",
-			"Casino", "Plains", "Knob", "Bat", "Cyrpt", "Woods", "Friars", "Mount", "Mclarge",
-			"Island", "Stalk", "Beach", "Tower", "Signed" };
-
-		private final String [] optionNames = { "Sort adventure list", "Hide vacations at the shore",
-			"Hide campground resting", "Hide clan gym equipment", "Hide Seaside Town areas",
-			"Hide Seaside Town's casino games", "Hide general plains areas", "Hide Cobb's knob areas",
-			"Hide bat hole areas", "Hide the defiled cyrpt quest", "Hide general woods areas",
-			"Hide deep fat friar's quest", "Hide general mountain areas", "Hide Mt. McLargeHuge areas",
-			"Hide the mysterious island areas", "Hide the areas beyond the beanstalk", "Hide the desert beach areas",
-			"Hide the Sorceress Tower maze", "Hide sign-restricted areas" };
-
 		public AdventureOptionsPanel()
 		{
 			super( "Adventure List", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
 
-			optionBoxes = new JCheckBox[ optionNames.length ];
-			for ( int i = 0; i < optionNames.length; ++i )
+			optionBoxes = new JCheckBox[ AdventureDatabase.ZONE_KEYS.length + 2 ];
+			for ( int i = 0; i < optionBoxes.length; ++i )
 				optionBoxes[i] = new JCheckBox();
 
-			for ( int i = 0; i < optionNames.length; ++i )
-				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
+			VerifiableElement [] elements = new VerifiableElement[ AdventureDatabase.ZONE_KEYS.length + 3 ];
+
+			elements[0] = new VerifiableElement( "Sort adventure list", JLabel.LEFT, optionBoxes[0] );
+			elements[1] = new VerifiableElement( "Show associated zone", JLabel.LEFT, optionBoxes[1] );
+			elements[2] = new VerifiableElement( " ", new JLabel( "" ) );
+
+			for ( int i = 0; i < AdventureDatabase.ZONE_KEYS.length; ++i )
+				elements[i+3] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_NAMES[i], JLabel.LEFT, optionBoxes[i+2] );
 
 			setContent( elements, false );
 			actionCancelled();
@@ -293,18 +286,19 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( optionKeys[0], String.valueOf( optionBoxes[0].isSelected() ) );
+			setProperty( "sortAdventures", String.valueOf( optionBoxes[0].isSelected() ) );
+			setProperty( "showAdventureZone", String.valueOf( optionBoxes[1].isSelected() ) );
 
 			StringBuffer areas = new StringBuffer();
 
-			for ( int i = 1; i < optionBoxes.length; ++i )
+			for ( int i = 2; i < optionBoxes.length; ++i )
 			{
 				if ( optionBoxes[i].isSelected() )
 				{
 					if ( areas.length() != 0 )
 						areas.append( ',' );
 
-					areas.append( optionKeys[i] );
+					areas.append( AdventureDatabase.ZONE_KEYS[i-2] );
 				}
 			}
 
@@ -320,11 +314,12 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			optionBoxes[0].setSelected( getProperty( optionKeys[0] ).equals( "true" ) );
+			optionBoxes[0].setSelected( getProperty( "sortAdventures" ).equals( "true" ) );
+			optionBoxes[1].setSelected( getProperty( "showAdventureZone" ).equals( "true" ) );
 
 			String zones = getProperty( "zoneExcludeList" );
-			for ( int i = 1; i < optionKeys.length; ++i )
-				optionBoxes[i].setSelected( zones.indexOf( optionKeys[i] ) != -1 );
+			for ( int i = 0; i < AdventureDatabase.ZONE_KEYS.length; ++i )
+				optionBoxes[i+2].setSelected( zones.indexOf( AdventureDatabase.ZONE_KEYS[i] ) != -1 );
 		}
 	}
 

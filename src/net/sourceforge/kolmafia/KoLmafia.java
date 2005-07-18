@@ -1025,7 +1025,7 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( characterData.getInebriety() > 19 )
 				{
-					if ( request instanceof KoLAdventure && !request.toString().startsWith( "Camp" ) )
+					if ( request instanceof KoLAdventure && !((KoLAdventure)request).getZone().equals( "Camp" ) )
 						permitContinue = confirmDrunkenRequest();
 					pulledOver = true;
 				}

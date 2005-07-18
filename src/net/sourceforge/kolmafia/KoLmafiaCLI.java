@@ -982,7 +982,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		try
 		{
-			scriptRequestor.makeRequest( new KoLAdventure( scriptRequestor, "campground.php", parameterList[0], "Campsite" ),
+			scriptRequestor.makeRequest( new CampgroundRequest( scriptRequestor, parameterList[0] ),
 				parameterList.length == 1 ? 1 : df.parse( parameterList[1] ).intValue() );
 			scriptRequestor.resetContinueState();
 		}

@@ -46,22 +46,35 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
+	public static final String [] ZONE_KEYS = { "Shore", "Camp", "Gym", "Town", "Casino", "Plains", "Knob", "Bat", "Cyrpt",
+		"Woods", "Friars", "Mount", "Mclarge", "Island", "Stalk", "Beach", "Tower", "Signed" };
+
+	public static final String [] ZONE_NAMES = { "vacations at the shore", "campground resting", "clan gym equipment",
+		"Seaside Town areas", "Seaside Town's casino games", "general plains areas", "Cobb's knob areas", "Bat Hole areas",
+		"the defiled cyrpt quest", "general woods areas", "deep fat friar's quest", "general mountain areas", "Mt. McLargeHuge areas",
+		"the mysterious island areas", "the areas beyond the beanstalk", "the desert beach areas", "the Sorceress Tower maze",
+		"sign-restricted areas" };
+
+
 	private static List [] adventureTable;
 
 	static
 	{
 		BufferedReader reader = getReader( "adventures.dat" );
-		adventureTable = new ArrayList[3];
-		for ( int i = 0; i < 3; ++i )
+		adventureTable = new ArrayList[4];
+		for ( int i = 0; i < 4; ++i )
 			adventureTable[i] = new ArrayList();
 
 		String [] data;
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 3 )
-				for ( int i = 0; i < 3; ++i )
+			if ( data.length == 4 )
+			{
+				adventureTable[0].add( ZONE_KEYS[ Integer.parseInt( data[0] ) ] );
+				for ( int i = 1; i < 4; ++i )
 					adventureTable[i].add( data[i] );
+			}
 		}
 	}
 
@@ -74,20 +87,21 @@ public class AdventureDatabase extends KoLDatabase
 			zones[0] = "-";
 
 		boolean shouldAdd = true;
-		String locationName;
+		String zoneName;
 		LockableListModel adventures = new LockableListModel();
 
-		for ( int i = 0; i < adventureTable[0].size(); ++i )
+		for ( int i = 0; i < adventureTable[1].size(); ++i )
 		{
 			shouldAdd = true;
-			locationName = (String) adventureTable[2].get(i);
+			zoneName = (String) adventureTable[0].get(i);
 
 			for ( int j = 0; j < zones.length && shouldAdd; ++j )
-				if ( locationName.startsWith( zones[j] ) )
+				if ( zoneName.equals( zones[j] ) )
 					shouldAdd = false;
 
 			if ( shouldAdd )
-				adventures.add( new KoLAdventure( client, (String) adventureTable[0].get(i), (String) adventureTable[1].get(i), locationName ) );
+				adventures.add( new KoLAdventure( client, zoneName,
+					(String) adventureTable[1].get(i), (String) adventureTable[2].get(i), (String) adventureTable[3].get(i) ) );
 		}
 
 		if ( client != null && settings.getProperty( "sortAdventures" ).equals( "true" ) )
@@ -98,19 +112,19 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static KoLAdventure getAdventure( KoLmafia client, String adventureName )
 	{
-		List adventureNames = adventureTable[2];
+		List adventureNames = adventureTable[3];
 
 		for ( int i = 0; i < adventureNames.size(); ++i )
 			if ( ((String) adventureNames.get(i)).toLowerCase().indexOf( adventureName.toLowerCase() ) != -1 )
-				return new KoLAdventure( client, (String) adventureTable[0].get(i),
-					(String) adventureTable[1].get(i), (String) adventureTable[2].get(i) );
+				return new KoLAdventure( client, (String) adventureTable[0].get(i), (String) adventureTable[1].get(i),
+					(String) adventureTable[2].get(i), (String) adventureTable[3].get(i) );
 
 		return null;
 	}
 
 	public static final boolean contains( String adventureName )
 	{
-		List adventureNames = adventureTable[2];
+		List adventureNames = adventureTable[3];
 
 		for ( int i = 0; i < adventureNames.size(); ++i )
 			if ( ((String) adventureNames.get(i)).toLowerCase().indexOf( adventureName.toLowerCase() ) != -1 )
