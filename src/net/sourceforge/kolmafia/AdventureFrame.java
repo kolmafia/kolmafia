@@ -159,9 +159,7 @@ public class AdventureFrame extends KoLFrame
 		otherPanel.add( new MeatStoragePanel() );
 		otherPanel.add( new SkillBuffPanel() );
 		otherPanel.add( new HeroDonationPanel() );
-
-		JScrollPane otherScroller = new JScrollPane( otherPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		tabs.addTab( "Other Activities", otherScroller );
+		tabs.addTab( "Other Activities", otherPanel );
 
 		addCompactPane();
 		getContentPane().add( tabs, BorderLayout.CENTER );
