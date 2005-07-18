@@ -132,6 +132,9 @@ public class AdventureFrame extends KoLFrame
 	private JTabbedPane tabs;
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
+	private MeatStoragePanel meatStorage;
+	private SkillBuffPanel skillBuff;
+	private HeroDonationPanel heroDonation;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -149,16 +152,19 @@ public class AdventureFrame extends KoLFrame
 		this.tabs = new JTabbedPane();
 
 		this.adventureSelect = new AdventureSelectPanel();
-		tabs.addTab( "Adventure Select", adventureSelect );
-
 		this.mallSearch = new MallSearchPanel();
+		this.meatStorage = new MeatStoragePanel();
+		this.skillBuff = new SkillBuffPanel();
+		this.heroDonation = new HeroDonationPanel();
+
+		tabs.addTab( "Adventure Select", adventureSelect );
 		tabs.addTab( "Mall of Loathing", mallSearch );
 
 		JPanel otherPanel = new JPanel();
 		otherPanel.setLayout( new BoxLayout( otherPanel, BoxLayout.Y_AXIS ) );
-		otherPanel.add( new MeatStoragePanel() );
-		otherPanel.add( new SkillBuffPanel() );
-		otherPanel.add( new HeroDonationPanel() );
+		otherPanel.add( meatStorage );
+		otherPanel.add( skillBuff );
+		otherPanel.add( heroDonation );
 		tabs.addTab( "Other Activities", otherPanel );
 
 		addCompactPane();
@@ -190,11 +196,14 @@ public class AdventureFrame extends KoLFrame
 	{
 		this.isEnabled = isEnabled && (client == null || !client.isBuffBotActive());
 
-		if ( adventureSelect != null )
+		if ( heroDonation != null )
+		{
 			adventureSelect.setEnabled( this.isEnabled );
-
-		if ( mallSearch != null )
 			mallSearch.setEnabled( this.isEnabled );
+			meatStorage.setEnabled( this.isEnabled );
+			skillBuff.setEnabled( this.isEnabled );
+			heroDonation.setEnabled( this.isEnabled );
+		}
 
 		Object [] frames = existingFrames.toArray();
 
