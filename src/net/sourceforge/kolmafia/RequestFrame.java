@@ -282,6 +282,15 @@ public class RequestFrame extends KoLFrame
 				return;
 
 			mainBuffer.clearBuffer();
+
+			if ( getCurrentLocation().startsWith( "adventure.php" ) && client.isLuckyCharacter() &&
+				client.getSettings().getProperty( "cloverProtectActive" ).equals( "true" ) )
+			{
+				updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
+				mainBuffer.append( "<h1><font color=\"red\">You have a ten-leaf clover.  Please de-active clover protection in your startup options first if you are certain you want to use your clovers while adventuring.</font></h1>" );
+				return;
+			}
+
 			mainBuffer.append( "Retrieving..." );
 
 			if ( currentRequest.responseText == null )

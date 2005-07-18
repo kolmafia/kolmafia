@@ -241,22 +241,9 @@ public abstract class KoLmafia implements KoLConstants
 			resetSessionTally();
 		}
 
+		// Get the password hash for the session
+
 		(new PasswordHashRequest( this )).run();
-
-		adventureList.clear();
-		adventureList.addAll( AdventureDatabase.getAsLockableListModel( this ) );
-
-		if ( loginRequest != null )
-			return;
-
-		// Remove the password data; it doesn't need to be stored
-		// in every single .kcs file.
-
-		saveStateNames.clear();
-		storeSaveStates();
-
-		// Now!  Check to make sure the user didn't cancel
-		// during any of the actual loading of elements
 
 		if ( !permitContinue )
 		{
@@ -264,7 +251,14 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Get current Moon Phases
+		// Reset the adventure list to use the
+		// new password hash
+
+		adventureList.clear();
+		adventureList.addAll( AdventureDatabase.getAsLockableListModel( this ) );
+
+		// Get current moon phases
+
 		(new MoonPhaseRequest( this )).run();
 
 		if ( !permitContinue )
@@ -273,14 +267,8 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		if ( !isQuickLogin && settings.getProperty( "skipFamiliars" ).equals( "false" ) )
-			(new FamiliarRequest( this )).run();
-
-		if ( !permitContinue )
-		{
-			deinitialize();
-			return;
-		}
+		// Retrieve the player data -- just in
+		// case adventures or HP changed.
 
 		(new CharsheetRequest( this )).run();
 		registerPlayer( loginname, String.valueOf( characterData.getUserID() ) );
@@ -291,6 +279,22 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		// If this is a time-in request, this is all the
+		// data that is actually required.
+
+		if ( loginRequest != null )
+			return;
+
+		// Remove the password data; it doesn't need to be stored
+		// in every single .kcs file.
+
+		saveStateNames.clear();
+		storeSaveStates();
+
+		// Retrieve campground data to see if the user is able to
+		// cook, make drinks or make toast.
+
+		updateDisplay( DISABLED_STATE, "Retrieving campground data..." );
 		(new CampgroundRequest( this )).run();
 
 		if ( !permitContinue )
@@ -299,17 +303,47 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		if ( !isQuickLogin && settings.getProperty( "skipInventory" ).equals( "false" ) )
-			(new EquipmentRequest( this )).run();
+		// Retrieve the list of familiars which are available to
+		// the player, if they haven't opted to skip them.
 
-		resetSessionTally();
-		applyRecentEffects();
+		if ( !isQuickLogin && settings.getProperty( "skipFamiliars" ).equals( "false" ) )
+			(new FamiliarRequest( this )).run();
 
 		if ( !permitContinue )
 		{
 			deinitialize();
 			return;
 		}
+
+		// Retrieve the items which are available for consumption
+		// and item creation.
+
+		if ( !isQuickLogin && settings.getProperty( "skipInventory" ).equals( "false" ) )
+			(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
+
+		if ( !permitContinue )
+		{
+			deinitialize();
+			return;
+		}
+
+		// Retrieve the list of outfits which are available to the
+		// character, should this be something they want.
+
+		if ( !isQuickLogin && settings.getProperty( "skipOutfits" ).equals( "false" ) )
+			(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
+
+		if ( !permitContinue )
+		{
+			deinitialize();
+			return;
+		}
+
+		resetSessionTally();
+		applyRecentEffects();
+
+		// Retrieve breakfast if the option to retrieve breakfast
+		// was previously selected.
 
 		if ( getBreakfast )
 			getBreakfast();

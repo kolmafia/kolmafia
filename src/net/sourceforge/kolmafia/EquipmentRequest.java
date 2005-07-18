@@ -51,8 +51,6 @@ public class EquipmentRequest extends KoLRequest
 {
 	public static final String UNEQUIP = "(none)";
 
-	private static final int REQUEST_ALL = 0;
-
 	public static final int EQUIPMENT = 1;
 	public static final int CLOSET = 2;
 	public static final int UNEQUIP_ALL = 6;
@@ -61,7 +59,7 @@ public class EquipmentRequest extends KoLRequest
 	private static final int CHANGE_ITEM = 4;
 	private static final int REMOVE_ITEM = 5;
 
-	// Array indexed by equipment "equipmentSlot" from KolCharacter
+	// Array indexed by equipment "equipmentSlot" from KoLCharacter
 	//
 	// Perhaps this should be in that module, except this is closely tied
 	// to the PHP files that are manipulated by THIS module.
@@ -76,17 +74,6 @@ public class EquipmentRequest extends KoLRequest
 	private int requestType;
 	private int equipmentSlot;
 	private SpecialOutfit outfit;
-
-	/**
-	 * Constructs a new <code>EquipmentRequest</code>, overwriting the
-	 * data located in the provided character.
-	 *
-	 * @param	client	The client to be notified in the event of an error
-	 */
-
-	public EquipmentRequest( KoLmafia client )
-	{	this( client, REQUEST_ALL );
-	}
 
 	public EquipmentRequest( KoLmafia client, int requestType )
 	{
@@ -167,16 +154,6 @@ public class EquipmentRequest extends KoLRequest
 
 	public void run()
 	{
-		// If this is a request all, instantiate each of the
-		// lesser requests and then return
-
-		if ( requestType == REQUEST_ALL )
-		{
-			(new EquipmentRequest( client, EQUIPMENT )).run();
-			(new EquipmentRequest( client, CLOSET )).run();
-			return;
-		}
-
 		// Outfit changes are a bit quirky, so they're handled
 		// first for easy visibility.
 

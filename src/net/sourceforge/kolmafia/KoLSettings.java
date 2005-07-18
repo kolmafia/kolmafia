@@ -173,7 +173,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "buffBotCasting", "" );
 		ensureProperty( "buffBotMessageDisposal", "0" );
 		ensureProperty( "buffBotMPRestore", "tiny house" );
-		ensureProperty( "channelColors", "#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000,#000000" );
+		ensureProperty( "channelColors", "" );
 		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "choiceAdventure2", "2" );
 		ensureProperty( "choiceAdventure4", "3" );
@@ -184,6 +184,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "choiceAdventure14", "3" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		ensureProperty( "closeSending", "false" );
+		ensureProperty( "cloverProtectActive", "true" );
 		ensureProperty( "createWithoutBoxServants", "false" );
 		ensureProperty( "defaultLimit", "13" );
 		ensureProperty( "fontSize", "3" );
@@ -213,6 +214,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "showAdventureZone", "true" );
 		ensureProperty( "skipFamiliars", "false" );
 		ensureProperty( "skipInventory", "false" );
+		ensureProperty( "skipOutfits", "false" );
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
 		ensureProperty( "useChatBasedBuffBot", "false" );

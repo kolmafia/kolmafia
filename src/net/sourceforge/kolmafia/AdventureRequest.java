@@ -122,6 +122,14 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( client.isLuckyCharacter() && client.getSettings().getProperty( "cloverProtectActive" ).equals( "true" ) )
+		{
+			isErrorState = true;
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
+			return;
+		}
+
 		// Prevent the request from happening if the client attempted
 		// to cancel in the delay period.
 

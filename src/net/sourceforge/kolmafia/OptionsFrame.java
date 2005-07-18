@@ -168,7 +168,7 @@ public class OptionsFrame extends KoLFrame
 
 		addCard( loginMenu, "Server Select", new ServerSelectPanel(), String.valueOf( cardCount++ ) );
 		addCard( loginMenu, "Proxy Setup", new ProxyOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( loginMenu, "Miscellaneous", new StartupOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( loginMenu, "Startup Options", new StartupOptionsPanel(), String.valueOf( cardCount++ ) );
 
 		JMenu adventureMenu = new JMenu( "Advs" );
 		menuBar.add( adventureMenu );
@@ -184,7 +184,7 @@ public class OptionsFrame extends KoLFrame
 		addCard( peopleMenu, "Green Messages", new GreenOptionsPanel(), String.valueOf( cardCount++ ) );
 		addCard( peopleMenu, "Clan Snapshots", new SnapshotOptionsPanel(), String.valueOf( cardCount++ ) );
 
-		JMenu itemMenu = new JMenu( "Items" );
+		JMenu itemMenu = new JMenu( "Misc" );
 		menuBar.add( itemMenu );
 
 		addCard( itemMenu, "Mall Search", new MallOptionsPanel(), String.valueOf( cardCount++ ) );
@@ -333,8 +333,8 @@ public class OptionsFrame extends KoLFrame
 	private class StartupOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
-		private final String [] optionKeys = { "forceReconnect", "skipInventory", "skipFamiliars", "savePositions" };
-		private final String [] optionNames = { "Auto timein on timeout", "Skip inventory retrieval", "Skip familiar retrieval", "Save window positions" };
+		private final String [] optionKeys = { "forceReconnect", "skipInventory", "skipOutfits", "skipFamiliars", "savePositions", "cloverProtectActive" };
+		private final String [] optionNames = { "Auto timein on timeout", "Skip inventory retrieval", "Skip outfit list retrieval", "Skip familiar retrieval", "Save window positions on close", "Guard against accidental clover usage" };
 
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
@@ -344,7 +344,7 @@ public class OptionsFrame extends KoLFrame
 
 		public StartupOptionsPanel()
 		{
-			super( "Miscellaneous", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
+			super( "Startup Options", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
 
 			optionBoxes = new JCheckBox[ optionNames.length ];
@@ -457,7 +457,8 @@ public class OptionsFrame extends KoLFrame
 				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
 
 			hpRecoveryScriptField = new JTextField();
-			mpRestoreItemList = client == null ? new MPRestoreItemList( null ) : client.getMPRestoreItemList();
+			mpRestoreItemList = client == null || client.getMPRestoreItemList() == null ?
+				new MPRestoreItemList( null ) : client.getMPRestoreItemList();
 
 			// Add the elements to the panel
 
