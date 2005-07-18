@@ -127,6 +127,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		getContentPane().add( splitPane );
 
 		addMenuBar();
+
+		if ( client != null )
+			(new RequestMailboxThread( "Inbox" )).start();
 	}
 
 	private void addMenuBar()
