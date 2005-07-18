@@ -175,14 +175,23 @@ public class TradeableItemDatabase extends KoLDatabase
 	{
 		List substringList = new ArrayList();
 		String searchString = substring.toLowerCase().replaceAll( "\"", "" );
-		String currentItemName;
 
-		Iterator completeItems = itemByName.keySet().iterator();
-		while ( completeItems.hasNext() )
+		if ( substring.indexOf( "\"" ) != -1 )
 		{
-			currentItemName = (String) completeItems.next();
-			if ( currentItemName.indexOf( searchString ) != -1 )
-				substringList.add( getItemName( getItemID( currentItemName ) ) );
+			if ( TradeableItemDatabase.contains( searchString ) )
+				substringList.add( getDisplayName( searchString ) );
+		}
+		else
+		{
+			String currentItemName;
+
+			Iterator completeItems = itemByName.keySet().iterator();
+			while ( completeItems.hasNext() )
+			{
+				currentItemName = (String) completeItems.next();
+				if ( currentItemName.indexOf( searchString ) != -1 )
+					substringList.add( getItemName( getItemID( currentItemName ) ) );
+			}
 		}
 
 		return substringList;

@@ -1298,67 +1298,52 @@ public class KoLmafiaCLI extends KoLmafia
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
 
-		if ( parameters.startsWith( "\"" ) )
+		List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
+
+		if ( matchingNames.size() != 0 )
 		{
-			itemName = parameters.substring( 1, parameters.length() - 1 );
+			for ( int i = 0; i < matchingNames.size(); ++i )
+				if ( parameters.equals( matchingNames.get(i) ) )
+					itemName = parameters;
+
+			if ( itemName == null )
+				itemName = (String) matchingNames.get(0);
+
 			itemCount = 1;
 		}
 		else
 		{
-			List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
+			String itemCountString = parameters.split( " " )[0];
+			String itemNameString = parameters.substring( itemCountString.length() ).trim();
 
-			if ( matchingNames.size() != 0 )
+			matchingNames = TradeableItemDatabase.getMatchingNames( itemNameString );
+
+			if ( matchingNames.size() == 0 )
 			{
-				for ( int i = 0; i < matchingNames.size(); ++i )
-					if ( parameters.equals( matchingNames.get(i) ) )
-						itemName = parameters;
-
-				if ( itemName == null )
-					itemName = (String) matchingNames.get(0);
-
-				itemCount = 1;
+				scriptRequestor.updateDisplay( ERROR_STATE, "[" + itemNameString + "] does not match anything in the item database." );
+				scriptRequestor.cancelRequest();
+				return null;
 			}
-			else
+
+			for ( int i = 0; i < matchingNames.size(); ++i )
+				if ( itemNameString.equals( matchingNames.get(i) ) )
+					itemName = itemNameString;
+
+			if ( itemName == null )
+				itemName = (String) matchingNames.get(0);
+
+			try
 			{
-				String itemCountString = parameters.split( " " )[0];
-				String itemNameString = parameters.substring( itemCountString.length() ).trim();
+				itemCount = itemCountString.equals( "*" ) ? 0 : df.parse( itemCountString ).intValue();
+			}
+			catch ( Exception e )
+			{
+				// Technically, this exception should not be thrown, but if
+				// it is, then print an error message and return.
 
-				if ( itemNameString.startsWith( "\"" ) )
-				{
-					itemName = itemNameString.substring( 1, itemNameString.length() - 1 );
-				}
-				else
-				{
-					matchingNames = TradeableItemDatabase.getMatchingNames( itemNameString );
-
-					if ( matchingNames.size() == 0 )
-					{
-						scriptRequestor.updateDisplay( ERROR_STATE, "[" + itemNameString + "] does not match anything in the item database." );
-						scriptRequestor.cancelRequest();
-						return null;
-					}
-
-					for ( int i = 0; i < matchingNames.size(); ++i )
-						if ( itemNameString.equals( matchingNames.get(i) ) )
-							itemName = itemNameString;
-
-					if ( itemName == null )
-						itemName = (String) matchingNames.get(0);
-				}
-
-				try
-				{
-					itemCount = itemCountString.equals( "*" ) ? 0 : df.parse( itemCountString ).intValue();
-				}
-				catch ( Exception e )
-				{
-					// Technically, this exception should not be thrown, but if
-					// it is, then print an error message and return.
-
-					scriptRequestor.updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
-					scriptRequestor.cancelRequest();
-					return null;
-				}
+				scriptRequestor.updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
+				scriptRequestor.cancelRequest();
+				return null;
 			}
 		}
 
