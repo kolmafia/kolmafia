@@ -39,29 +39,26 @@ import java.util.regex.Matcher;
 public class FamiliarRequest extends KoLRequest
 {
 	private FamiliarData changeTo;
-	private boolean isChangingFamiliar;
-	private KoLCharacter characterData;
 
 	public FamiliarRequest( KoLmafia client )
-	{
-		super( client, "familiar.php" );
-		this.isChangingFamiliar = false;
-		this.characterData = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
+	{	this( client, null );
 	}
 
 	public FamiliarRequest( KoLmafia client, FamiliarData changeTo )
 	{
 		super( client, "familiar.php" );
-		addFormField( "action", "newfam" );
-		this.characterData = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
+
+		if ( changeTo != null )
+		{
+			addFormField( "action", "newfam" );
+			addFormField( "newfam", String.valueOf( changeTo.getID() ) );
+		}
 
 		this.changeTo = changeTo;
-		addFormField( "newfam", String.valueOf( changeTo.getID() ) );
-		this.isChangingFamiliar = true;
 	}
 
 	public String getFamiliarChange()
-	{	return changeTo == null ? null : changeTo.toString();
+	{	return changeTo == null ? null : changeTo.toString().substring( 0, changeTo.toString().indexOf( "(" ) - 1 );
 	}
 
 	public void run()
@@ -77,92 +74,9 @@ public class FamiliarRequest extends KoLRequest
 
 		// Determine which familiars are present.
 
-		int lastFamiliarIndex = 0;
+		FamiliarData.registerFamiliarData( client, responseText );
+		FamiliarData.updateWeightModifier();
 
-		int familiarID, familiarWeight;
-		String familiarName, familiarItemHTML, familiarItem;
-
-		FamiliarData examinedFamiliar;
-
-		Matcher familiarMatcher = Pattern.compile( "<input type=radio name=newfam value=(\\d+)>.*?</b>, the [-\\d]+ pound (.*?) \\(([\\d,]+) kills\\) (.*?)</tr>" ).matcher( responseText );
-		while ( familiarMatcher.find( lastFamiliarIndex ) )
-		{
-			lastFamiliarIndex = familiarMatcher.end();
-			familiarID = Integer.parseInt( familiarMatcher.group(1) );
-			familiarName = familiarMatcher.group(2);
-
-			try
-			{
-				familiarWeight = (int) Math.sqrt( df.parse( familiarMatcher.group(3) ).intValue() );
-				if ( familiarWeight == 0 )
-					familiarWeight = 0;
-				else if ( familiarWeight > 20 )
-					familiarWeight = 20;
-			}
-			catch ( Exception e )
-			{
-				// If an exception happens, pretend the familiar
-				// has a weight of zero.
-
-				familiarWeight = 0;
-			}
-
-			if ( !FamiliarsDatabase.contains( familiarName ) )
-				FamiliarsDatabase.registerFamiliar( client, familiarID, familiarName );
-
-			examinedFamiliar = new FamiliarData( familiarID, familiarWeight );
-
-			familiarItemHTML = familiarMatcher.group(4);
-			familiarItem = familiarItemHTML.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
-				familiarItemHTML.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" : familiarItemHTML.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
-					familiarItemHTML.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" : FamiliarsDatabase.getFamiliarItem( familiarID );
-
-			examinedFamiliar.setItem( familiarItem );
-			characterData.addFamiliar( examinedFamiliar );
-		}
-
-		// If there was a change, then make sure that the character
-		// has an updated familiar on their display.
-
-		if ( isChangingFamiliar )
-		{
-			characterData.setFamiliar( changeTo );
-			updateDisplay( ENABLED_STATE, "Familiar changed." );
-		}
-		else
-		{
-			familiarName = null;
-			familiarWeight = 0;
-			familiarItem = EquipmentRequest.UNEQUIP;
-
-			familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\(([\\d,]+) kills\\)<table>.*Equipment:.*?</td><td.*>(.*?)</td>.*<form name=rename" ).matcher( responseText );
-			if ( familiarMatcher.find() )
-			{
-				familiarName = familiarMatcher.group(2).trim();
-				familiarItem = familiarMatcher.group(4);
-				familiarWeight = Integer.parseInt( familiarMatcher.group(1) );
-			}
-			else
-			{
-				familiarMatcher = Pattern.compile( "Current Familiar.*?</b><br>([-\\d]+) pound (.*?) \\(([\\d,]+) kills\\)<p>" ).matcher( responseText );
-				if ( familiarMatcher.find() )
-				{
-					familiarName = familiarMatcher.group(2).trim();
-					familiarWeight = Integer.parseInt( familiarMatcher.group(1) );
-				}
-			}
-
-			if ( familiarName != null )
-			{
-				if ( !FamiliarsDatabase.contains( familiarName ) )
-					FamiliarsDatabase.registerFamiliar( client, 0, familiarName );
-
-				FamiliarData newFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( familiarName ), familiarWeight );
-				newFamiliar.setItem( familiarItem );
-				characterData.setFamiliar( newFamiliar );
-			}
-
-			updateDisplay( ENABLED_STATE, "Familiar data retrieved." );
-		}
+		updateDisplay( ENABLED_STATE, "Familiar data retrieved." );
 	}
 }

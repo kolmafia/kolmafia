@@ -33,10 +33,14 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
-public class FamiliarData implements Comparable
+public class FamiliarData implements KoLConstants, Comparable
 {
+	private static final Pattern SEARCH_PATTERN =
+		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/familiar(\\d+).*?</b>.*?\\d+ pound (.*?) \\(([\\d,]+) kills\\)(.*?)<(/tr|form)" );
+
 	private static int weightModifier;
 	private static int dodecaModifier;
 	private static KoLCharacter owner;
@@ -55,28 +59,60 @@ public class FamiliarData implements Comparable
 		this.item = EquipmentRequest.UNEQUIP;
 	}
 
-	public FamiliarData( int id, String html )
+	private FamiliarData( KoLmafia client, Matcher dataMatcher )
 	{
-		this.id = id;
-		StringTokenizer parsedContent = new StringTokenizer( html, "<>" );
-		String token = parsedContent.nextToken();
+		try
+		{
+			int kills = df.parse( dataMatcher.group(3) ).intValue();
+			this.weight = Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
+		}
+		catch ( Exception e )
+		{
+			// If an exception is thrown, that means it was not
+			// possible to parse the kills.  Set the weight to
+			// zero pounds in this case.
 
-		while ( !token.startsWith( ", " ) )
-			token = parsedContent.nextToken();
+			this.weight = 0;
+		}
 
-		this.weight = Integer.parseInt( (new StringTokenizer( token.substring( 6 ), " ()", true )).nextToken() );
-		this.race = FamiliarsDatabase.getFamiliarName( id );
-		this.item = html.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
-			html.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" : html.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
-				html.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" : FamiliarsDatabase.getFamiliarItem( id );
+		this.id = Integer.parseInt( dataMatcher.group(1) );
+		this.race = dataMatcher.group(2);
+
+		if ( !FamiliarsDatabase.contains( this.race ) )
+			FamiliarsDatabase.registerFamiliar( client, this.id, this.race );
+
+		this.id = FamiliarsDatabase.getFamiliarID( this.race );
+
+		String itemData = dataMatcher.group(4);
+
+		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
+			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" :
+			itemData.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
+			itemData.indexOf( "waxlips.gif" ) != -1 ? "wax lips" :
+			itemData.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" :
+			FamiliarsDatabase.getFamiliarItem( this.id );
 	}
 
-	public FamiliarData( int id, int weight )
+	public static final void registerFamiliarData( KoLmafia client, String searchText )
 	{
-		this.id = id;
-		this.weight = weight;
-		this.race = FamiliarsDatabase.getFamiliarName( id );
-		this.item = EquipmentRequest.UNEQUIP;
+		KoLCharacter characterData = client.getCharacterData();
+
+		FamiliarData currentFamiliar = null;
+		FamiliarData examinedFamiliar;
+
+		Matcher familiarMatcher = SEARCH_PATTERN.matcher( searchText );
+
+		while ( familiarMatcher.find() )
+		{
+			examinedFamiliar = new FamiliarData( client, familiarMatcher );
+			characterData.addFamiliar( examinedFamiliar );
+
+			if ( currentFamiliar == null )
+				currentFamiliar = examinedFamiliar;
+		}
+
+		if ( currentFamiliar != null )
+			characterData.setFamiliar( currentFamiliar );
 	}
 
 	public int getID()

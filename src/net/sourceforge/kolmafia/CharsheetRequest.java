@@ -231,17 +231,14 @@ public class CharsheetRequest extends KoLRequest
 					}
 					token = parsedContent.nextToken();
 				}
+
 				character.setAvailableSkills( availableSkills );
 			}
 
-			// Now, a hack to determine which familiar you have:
-			// it appears after the word "Current", skipping
-			// two tokens thereafter.  The exact type is found
-			// after skipping 5 characters.
+			// Use a regular expression to locate the familiar data
+			// and let the familiar data parser handle the rest.
 
-			while ( parsedContent.hasMoreTokens() && !token.startsWith( ", " ) )
-				token = parsedContent.nextToken();
-
+			FamiliarData.registerFamiliarData( client, responseText );
 			logStream.println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )
