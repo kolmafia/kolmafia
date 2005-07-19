@@ -611,6 +611,15 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Uneffect with martians are related to buffs,
+		// so listing them next seems logical.
+
+		if ( command.equals( "uneffect" ) || command.equals( "remedy" ) )
+		{
+			makeUneffectRequest();
+			return;
+		}
+
 		// One command available after login is a request
 		// to print the current state of the client.  This
 		// should be handled in a separate method, since
@@ -1787,20 +1796,29 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * Makes a request which attempts to remove the given effect.
-	 * This method should prompt the user to determine which effect
-	 * the player would like to remove.
+	 * Attempts to remove the effect specified in the most recent command.
+	 * If the string matches multiple effects, all matching effects will
+	 * be removed.
 	 */
 
 	public void makeUneffectRequest()
 	{
+		AdventureResult currentEffect;
+		String effectToUneffect = previousCommand.trim().substring( previousCommand.split( " " )[0].length() ).trim().toLowerCase();
+
+		Iterator effectIterator = scriptRequestor.getCharacterData().getEffects().iterator();
+
+		while ( effectIterator.hasNext() )
+		{
+			currentEffect = (AdventureResult) effectIterator.next();
+			if ( currentEffect.getName().toLowerCase().indexOf( effectToUneffect ) != -1 )
+				(new UneffectRequest( scriptRequestor, currentEffect )).run();
+		}
 	}
 
 	/**
-	 * Makes a request to the hermit, looking for the given number of
-	 * items.  This method should prompt the user to determine which
-	 * item to retrieve the hermit, if no default has been specified
-	 * in the user settings.
+	 * Retrieves the items specified in the most recent command.  If there
+	 * are no clovers available, the request will abort.
 	 */
 
 	public void makeHermitRequest()
@@ -1823,9 +1841,8 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * Makes a request to the trapper, looking for the given number of
-	 * items.  This method should prompt the user to determine which
-	 * item to retrieve the trapper.
+	 * Makes a trade with the trapper which exchanges all of your current
+	 * furs for the given fur.
 	 */
 
 	public void makeTrapperRequest()
@@ -1841,9 +1858,9 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * Makes a request to the hunter, looking for the given number of
-	 * items.  This method should prompt the user to determine which
-	 * item to retrieve the hunter.
+	 * Makes a request to the hunter which exchanges all of the given item
+	 * with the hunter.  If the item is not available, this method does
+	 * not report an error.
 	 */
 
 	public void makeHunterRequest()
