@@ -1155,6 +1155,25 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
+	 * Removes the effects which are removed through a tiny house.
+	 * This checks each status effect and checks the database to
+	 * see if a tiny house will remove it.
+	 */
+
+	public void applyTinyHouseEffect()
+	{
+		Object [] effects = characterData.getEffects().toArray();
+		AdventureResult currentEffect;
+
+		for ( int i = effects.length - 1; i >= 0; --i )
+		{
+			currentEffect = (AdventureResult) effects[i];
+			if ( StatusEffectDatabase.isTinyHouseClearable( currentEffect.getName() ) )
+				characterData.getEffects().remove(i);
+		}
+	}
+
+	/**
 	 * Makes a request which attempts to remove the given effect.
 	 * This method should prompt the user to determine which effect
 	 * the player would like to remove.

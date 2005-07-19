@@ -214,6 +214,12 @@ public class ConsumeItemRequest extends KoLRequest
 					return;
 			}
 
+			// Tiny houses also have an added bonus - they will remove
+			// lots of different effects.  Therefore, process it.
+
+			else if ( itemUsed.getName().equals( "tiny house" ) )
+				client.applyTinyHouseEffect();
+
 			// Check to see if you were using a Jumbo Dr. Lucifer, which
 			// reduces your hit points to 1.
 

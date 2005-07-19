@@ -56,6 +56,7 @@ public class StatusEffectDatabase extends KoLDatabase
 {
 	private static Map effectByID = new TreeMap();
 	private static Map effectByName = new TreeMap();
+	private static Map tinyHouseByName = new TreeMap();
 
 	static
 	{
@@ -76,6 +77,9 @@ public class StatusEffectDatabase extends KoLDatabase
 				effectID = Integer.valueOf( data[0] );
 				effectByID.put( effectID, getDisplayName( data[2] ) );
 				effectByName.put( getDisplayName( data[2] ), effectID );
+
+				if ( data[1].equals( "1" ) )
+					tinyHouseByName.put( getDisplayName( data[2] ), data[1] );
 			}
 		}
 	}
@@ -108,10 +112,25 @@ public class StatusEffectDatabase extends KoLDatabase
 	 * event that an item is encountered which is not
 	 * tradeable (and hence, should not be displayed).
 	 *
+	 * @param	effectName	The name of the effect to lookup
 	 * @return	<code>true</code> if the item is in the database
 	 */
 
 	public static final boolean contains( String effectName )
 	{	return effectByName.containsKey( getDisplayName( effectName ) );
 	}
+
+	/**
+	 * Return whether or not the item with the given
+	 * name is automatically removed through the use
+	 * of a tiny house.
+	 *
+	 * @param	effectName	The name of the effect to lookup
+	 * @return	<code>true</code> if the effect is automatically removed by a tiny house
+	 */
+
+	public static final boolean isTinyHouseClearable( String effectName )
+	{	return tinyHouseByName.containsKey( getDisplayName( effectName ) );
+	}
+
 }
