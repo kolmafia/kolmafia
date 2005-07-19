@@ -329,19 +329,14 @@ public class KoLMessenger implements KoLConstants
 	 * list.  This is used after every call to /friends or /who.
 	 */
 
-	private void updateContactList( String [] contactList )
+	protected void updateContactList( String channel, String [] contactList )
 	{
 		onlineContacts.clear();
 
-		for ( int i = 1; i < contactList.length; ++i )
-			if ( contactList[i].indexOf( "(" ) != -1 )
-				contactList[i] = contactList[i].substring( 0, contactList[i].indexOf( "(" ) ).trim();
-
-		onlineContacts.add( contactList[0].substring( contactList[0].indexOf( ":" ) + 1 ).toLowerCase() );
-		for ( int i = 1; i < contactList.length; ++i )
+		for ( int i = 0; i < contactList.length; ++i )
 			onlineContacts.add( contactList[i].toLowerCase() );
 
-		contactsFrame.setTitle( contactList[0].substring( 0, contactList[0].indexOf( ":" ) ) );
+		contactsFrame.setTitle( channel );
 		contactsFrame.setVisible( true );
 	}
 
@@ -402,7 +397,18 @@ public class KoLMessenger implements KoLConstants
 				currentChatBuffer.append( dataBuffer.toString() );
 			}
 			else
-				updateContactList( result.replaceAll( "><", "" ).replaceAll( "<.*?>", "" ).split( "\\s*,\\s*" ) );
+			{
+				String [] contactList = result.replaceAll( "><", "" ).replaceAll( "<.*?>", "" ).split( "\\s*,\\s*" );
+
+				contactList[0] = contactList[0].substring( contactList[0].indexOf( ":" ) + 1 ).trim();
+
+				for ( int i = 1; i < contactList.length; ++i )
+					if ( contactList[i].indexOf( "(" ) != -1 )
+						contactList[i] = contactList[i].substring( 0, contactList[i].indexOf( "(" ) ).trim();
+
+				String channel = contactList[0].substring( 0, contactList[0].indexOf( ":" ) );
+				updateContactList( channel, contactList );
+			}
 		}
 	}
 
