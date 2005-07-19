@@ -317,16 +317,23 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		statusMenu.setMnemonic( KeyEvent.VK_M );
 		menu.add( statusMenu );
 
-		statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php" ) );
-		statusMenu.add( new MiniBrowserMenuItem( "Weird Records", KeyEvent.VK_W, "records.php?which=0" ) );
+		if ( client == null || !client.inLoginState() )
+		{
+			statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php" ) );
+			statusMenu.add( new MiniBrowserMenuItem( "Weird Records", KeyEvent.VK_W, "records.php?which=0" ) );
+		}
+
 		statusMenu.add( new DisplayFrameMenuItem( "Consult Oracle", KeyEvent.VK_C, CalendarFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", KeyEvent.VK_G, CommandDisplayFrame.class ) );
 
-		statusMenu.add( new JSeparator() );
+		if ( client == null || !client.inLoginState() )
+		{
+			statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayFrameMenuItem( "Status Pane", KeyEvent.VK_S, CharsheetFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", KeyEvent.VK_G, GearChangeFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", KeyEvent.VK_I, ItemManageFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Status Pane", KeyEvent.VK_S, CharsheetFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", KeyEvent.VK_G, GearChangeFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Item Manager", KeyEvent.VK_I, ItemManageFrame.class ) );
+		}
 
 		return statusMenu;
 	}

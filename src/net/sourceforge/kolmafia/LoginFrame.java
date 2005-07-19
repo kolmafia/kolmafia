@@ -184,6 +184,7 @@ public class LoginFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
+		addStatusMenu( menuBar );
 		addScriptMenu( menuBar );
 		addOptionsMenu( menuBar );
 		addHelpMenu( menuBar );
