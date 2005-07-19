@@ -80,7 +80,7 @@ import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.io.PrintStream;
 import java.io.IOException;
 
@@ -96,13 +96,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * Holder for the BuffBot log (which should survive outside of
- * the BuffBot Frame
+ * the BuffBot frame)
  */
 
 public class BuffBotHome implements KoLConstants
 {
-	private static final TimeZone DEFAULT_TIMEZONE = TimeZone.getDefault();
-	private static final TimeZone KINGDOM_TIMEZONE = TimeZone.getTimeZone( "US/Eastern" );
+	private static final DateFormat TIMESTAMP_FORMAT = DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.SHORT );
 
 	public static Color NOCOLOR = new Color( 0, 0, 0 );
 	public static Color ERRORCOLOR = new Color( 128, 0, 0 );
@@ -112,13 +111,11 @@ public class BuffBotHome implements KoLConstants
 	private KoLmafia client;
 	private boolean isActive;
 
-	private PrintWriter activeLogWriter;
-	private LockableListModel messages;
-	private PrintStream ostream;
 	private List pastRecipients;
+	private LockableListModel messages;
+	private PrintStream textLogStream, hypertextLogStream;
 
 	private BuffBotFrame frame;
-	private static final DateFormat tsdf = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
 	/**
 	 * Constructs a new <code>BuffBotHome</code>.  However, note that this
@@ -131,32 +128,93 @@ public class BuffBotHome implements KoLConstants
 	{
 		this.client = client;
 		this.messages = new LockableListModel();
-		pastRecipients = new ArrayList();
+		this.pastRecipients = new ArrayList();
 
+		// Create the text log file which shows only the buffs
+		// which have been requested in a comma-delimited format.
+
+		this.textLogStream = getPrintStream( ".log" );
+
+		// Create the standard HTML log which can be opened
+		// up to see all activity.
+
+		this.hypertextLogStream = getPrintStream( ".html" );
+		this.hypertextLogStream.println( "<html><head><style> body { font-family: sans-serif; } </style>" );
+		this.hypertextLogStream.flush();
+	}
+
+	/**
+	 * Retrieves the file which would be associated with the current player,
+	 * placed in the given folder and given the appropriate extension.
+	 */
+
+	private final File getFile( String extension )
+	{
 		String dayOfYear = sdf.format(new Date());
 		String characterName = client == null ? "" : client.getLoginName();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
-		File file = new File( "buffs" + File.separator + noExtensionName + "_" + dayOfYear + ".html" );
+
+		return new File( "buffs" + File.separator + noExtensionName + "_" + dayOfYear + extension );
+	}
+
+	/**
+	 * Retrieves the output stream which would be associated with the current
+	 * player, placed in the given folder and given the appropriate extension.
+	 */
+
+	private final PrintStream getPrintStream( String extension )
+	{
+		File output = getFile( extension );
 
 		try
-		{
-			file.getParentFile().mkdirs();
-			activeLogWriter = new PrintWriter( new FileOutputStream( file, true ), true );
-			activeLogWriter.println( "<html><head><style> body { font-family: sans-serif; } </style>" );
-			activeLogWriter.flush();
+		{	return new PrintStream( new FileOutputStream( output, true ), true );
 		}
 		catch ( java.io.FileNotFoundException e )
-		{	throw new RuntimeException( "The file <" + file.getAbsolutePath() + "> could not be opened for writing" );
+		{	throw new RuntimeException( "The file <" + output.getAbsolutePath() + "> could not be opened for writing" );
 		}
 		catch ( SecurityException e )
-		{	throw new RuntimeException( "The file <" + file.getAbsolutePath() + "> could not be opened for writing" );
+		{	throw new RuntimeException( "The file <" + output.getAbsolutePath() + "> could not be opened for writing" );
 		}
 	}
 
+	/**
+	 * Retrieves all the past recipients of the buff associated with the
+	 * given meat amount.
+	 */
+
+	private List getPastRecipients( int meatSent )
+	{
+		List pastRecipients = new ArrayList();
+		File input = getFile( "_" + meatSent + ".txt" );
+
+		if ( input.exists() )
+		{
+			try
+			{
+				String line;
+				BufferedReader recipientStream = new BufferedReader( new InputStreamReader( new FileInputStream( input ) ) );
+
+				while ( (line = recipientStream.readLine()) != null )
+					pastRecipients.add( line );
+
+				recipientStream.close();
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+
+		return pastRecipients;
+	}
+
+	/**
+	 * Returns the number of times the given name has requested the buff
+	 * associated with the given meat amount.
+	 */
+
 	public int getInstanceCount( int meatSent, String name )
 	{
-		loadPastRecipients( meatSent );
-		ostream.close();
+		List pastRecipients = getPastRecipients( meatSent );
 
 		int instanceCount = 0;
 		for ( int i = 0; i < pastRecipients.size(); ++i )
@@ -165,41 +223,19 @@ public class BuffBotHome implements KoLConstants
 		return instanceCount;
 	}
 
-	public void loadPastRecipients( int meatSent )
-	{
-		try
-		{
-			TimeZone.setDefault( KINGDOM_TIMEZONE );
-			String dayOfYear = sdf.format(new Date());
-			TimeZone.setDefault( DEFAULT_TIMEZONE );
-
-			String characterName = client == null ? "" : client.getLoginName();
-			String noExtensionName = characterName.replaceAll( "\\p{Punct}", " " ).replaceAll( " ", "_" ).toLowerCase();
-
-			pastRecipients.clear();
-			File datafile = new File( "buffs" + File.separator + noExtensionName + "_" + dayOfYear + "_" + meatSent + ".txt" );
-			if ( datafile.exists() )
-			{
-				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( datafile ) ) );
-				String line;
-				while ( (line = istream.readLine()) != null )
-					pastRecipients.add( line );
-				istream.close();
-			}
-
-			ostream = new PrintStream( new FileOutputStream( datafile, true ), true );
-		}
-		catch ( IOException e )
-		{
-		}
-	}
+	/**
+	 * Registers the given name as a recipient of the buff associated
+	 * with the given meat amount.
+	 */
 
 	public void addToRecipientList( int meatSent, String name )
 	{
-		loadPastRecipients( meatSent );
+		List pastRecipients = getPastRecipients( meatSent );
 		pastRecipients.add( name );
-		ostream.println( name );
-		ostream.close();
+
+		PrintStream recipientStream = getPrintStream( "_" + meatSent + ".txt" );
+		recipientStream.println( name );
+		recipientStream.close();
 	}
 
 	/**
@@ -211,12 +247,12 @@ public class BuffBotHome implements KoLConstants
 
 	public void deinitialize()
 	{
-		activeLogWriter.println();
-		activeLogWriter.println();
-		activeLogWriter.println( "</body></html>" );
+		hypertextLogStream.println();
+		hypertextLogStream.println();
+		hypertextLogStream.println( "</body></html>" );
 
-		activeLogWriter.close();
-		activeLogWriter = null;
+		hypertextLogStream.close();
+		hypertextLogStream = null;
 		isActive = false;
 	}
 
@@ -233,8 +269,8 @@ public class BuffBotHome implements KoLConstants
 			if ( client instanceof KoLmafiaGUI )
 				messages.add( 0, new BuffMessage( c, entry ) );
 
-			activeLogWriter.println( "<font color=" + DataUtilities.toHexString( c ) + ">" + entry + "</font>" );
-			activeLogWriter.flush();
+			hypertextLogStream.println( "<font color=" + DataUtilities.toHexString( c ) + ">" + entry + "</font>" );
+			hypertextLogStream.flush();
 
 			if ( client instanceof KoLmafiaCLI )
 				System.out.println( entry );
@@ -242,6 +278,37 @@ public class BuffBotHome implements KoLConstants
 			if ( messages.size() > 100 )
 				messages.remove( 100 );
 		}
+	}
+
+	/**
+	 * Adds a time-stamped entry to the log for the buffbot.  In general,
+	 * this is the preferred method of modifying the buffbot.  However,
+	 * the standard appending procedure is still valid.
+	 */
+
+	public void timeStampedLogEntry( Color c, String entry )
+	{	update( c, TIMESTAMP_FORMAT.format( new Date() ) + ": " + entry );
+	}
+
+	/**
+	 * Adds the given buff to the comma-delimited list of events for the
+	 * buffbot.  This is used to register whenever a buff has been requested
+	 * and successfully processed.
+	 */
+
+	public void recordBuff( String name, String buff, int casts, int meatSent )
+	{
+		textLogStream.println( TIMESTAMP_FORMAT.format( new Date() ) + "," + name + "," +
+			client.getPlayerID( name ) + "," + buff + "," + casts + "," + meatSent );
+	}
+
+	/**
+	 * Sets the frame that should be updated whenever a status
+	 * message arrives.
+	 */
+
+	public void setFrame( BuffBotFrame frame )
+	{	this.frame = frame;
 	}
 
 	/**
@@ -256,34 +323,50 @@ public class BuffBotHome implements KoLConstants
 	}
 
 	/**
-	 * Adds a time-stamped entry to the log for the buffbot.  In general,
-	 * this is the preferred method of modifying the buffbot.  However,
-	 * the standard appending procedure is still valid.
+	 * Sets the current active state for the buffbot.  Note that
+	 * this does not affect whether or not the buffbot continues
+	 * logging events - it merely affects whether or not the the
+	 * buffbot itself is running.
 	 */
-
-	public void timeStampedLogEntry( Color c, String entry )
-	{	update( c, tsdf.format( new Date() ) + ": " + entry );
-	}
-
-	public LockableListModel getMessages()
-	{	return messages;
-	}
 
 	public void setBuffBotActive( boolean isActive )
 	{	this.isActive = isActive;
 	}
 
-	public void setFrame( BuffBotFrame frame )
-	{	this.frame = frame;
-	}
+	/**
+	 * Returns whether or not the buffbot is currently active.
+	 * Note that this does not say whether or not the buffbot
+	 * is currently logging data - int only states whether or
+	 * not the buffbot itself is running.
+	 */
 
 	public boolean isBuffBotActive()
 	{	return isActive;
 	}
 
-	public static BuffMessageRenderer getBuffMessageRenderer()
+	/**
+	 * Used to retrieve the list of messages being updated by this
+	 * <code>BuffBotHome</code>.  This should only be used if there
+	 * is a need to display the messages in some list form.
+	 */
+
+	public LockableListModel getMessages()
+	{	return messages;
+	}
+
+	/**
+	 * Returns an instance of the cell renderer which should be used
+	 * to display the buff messages inside of a list setting.
+	 */
+
+	public static DefaultListCellRenderer getMessageRenderer()
 	{	return new BuffMessageRenderer();
 	}
+
+	/**
+	 * An internal class which represents the renderer which should
+	 * be used to display the buff messages.
+	 */
 
 	private static class BuffMessageRenderer extends DefaultListCellRenderer
 	{
@@ -304,6 +387,11 @@ public class BuffBotHome implements KoLConstants
 			return defaultComponent;
 		}
 	}
+
+	/**
+	 * An internal class which represents the message associated with
+	 * the given buff.
+	 */
 
 	private static class BuffMessage
 	{

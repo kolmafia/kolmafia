@@ -517,21 +517,25 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 				if ( !saveList.contains( message ) )
 					deleteList.add( message );
+
 				return false;
 			}
 			else
 			{
-				String refundReason = "This buffbot was unable to process your request.  " +
-					UseSkillRequest.lastUpdate + "  Please try again later.";
-				if (UseSkillRequest.lastUpdate.indexOf("cannot receive")!=-1)
-					refundAmount = 0; //can't send refund to ronin/hardcore
-				sendRefund( message.getSenderName(), refundReason, refundAmount );
+				// Can't send refund to ronin/hardcore, so don't attempt
+				// to send the refund.
+
+				if ( UseSkillRequest.lastUpdate.indexOf( "cannot receive" ) != -1 )
+					refundAmount = 0;
+
+				sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " +
+					UseSkillRequest.lastUpdate + "  Please try again later.", refundAmount );
 
 				if ( !saveList.contains( message ) )
 					deleteList.add( message );
+
 				return true;
 			}
-
 		}
 
 		if ( buff.philanthropic )
@@ -626,6 +630,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		public double castOnTarget( String target )
 		{
 			++requestsThisSession;
+			buffbotLog.recordBuff( target, buffName, castCount, price );
 
 			// Figure out how much MP the buff will take, and then identify
 			// the number of casts per request that this character can handle.

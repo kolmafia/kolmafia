@@ -199,7 +199,7 @@ public class BuffBotFrame extends KoLFrame
 			super( "BuffBot Activities", "start", "stop", buffbotLog.getMessages() );
 
 			buffbotLog.setFrame( BuffBotFrame.this );
-			elementList.setCellRenderer( BuffBotHome.getBuffMessageRenderer() );
+			elementList.setCellRenderer( BuffBotHome.getMessageRenderer() );
 		}
 
 		protected void actionConfirmed()
