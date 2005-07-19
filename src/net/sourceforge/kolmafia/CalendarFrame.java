@@ -43,6 +43,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTabbedPane;
 import javax.swing.JEditorPane;
 
 import javax.swing.table.TableCellRenderer;
@@ -171,7 +172,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	private static JCalendar calendar;
 	private static OracleTable oracleTable;
-	private static LimitedSizeChatBuffer buffer;
+	private static LimitedSizeChatBuffer dailyBuffer, predictBuffer;
 
 	private static Date selectedDate;
 	private static int selectedRow, selectedColumn;
@@ -179,6 +180,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	public CalendarFrame( KoLmafia client )
 	{
 		super( client, "KoLmafia: Farmer's Almanac" );
+		getContentPane().setLayout( new BorderLayout() );
 
 		selectedRow = -1;
 		selectedColumn = -1;
@@ -197,23 +199,29 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		grimacePhase = MoonPhaseDatabase.GRIMACE_PHASE;
 		phaseStep = MoonPhaseDatabase.PHASE_STEP;
 
-		buffer = new LimitedSizeChatBuffer( "KoLmafia: Calendar" );
-		getContentPane().setLayout( new BorderLayout() );
+		dailyBuffer = new LimitedSizeChatBuffer( "KoLmafia: Calendar" );
+		predictBuffer = new LimitedSizeChatBuffer( "KoLmafia: Next Event" );
 
-		JEditorPane htmlDisplay = new JEditorPane();
-		JComponentUtilities.setComponentSize( htmlDisplay, 400, 300 );
-		htmlDisplay.setEditable( false );
-		htmlDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
-		buffer.setChatDisplay( htmlDisplay );
+		JEditorPane dailyDisplay = new JEditorPane();
+		JComponentUtilities.setComponentSize( dailyDisplay, 400, 300 );
+		dailyDisplay.setEditable( false );
+		dailyDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
+		dailyBuffer.setChatDisplay( dailyDisplay );
+
+		JEditorPane predictDisplay = new JEditorPane();
+		JComponentUtilities.setComponentSize( predictDisplay, 400, 300 );
+		predictDisplay.setEditable( false );
+		predictBuffer.setChatDisplay( predictDisplay );
 
 		calculateCalendar( System.currentTimeMillis() );
-		updateSummaryPage();
+		updateDailyPage();
+		updatePredictionsPage();
 
-		JPanel htmlPanel = new JPanel();
-		htmlPanel.setLayout( new CardLayout( 5, 5 ) );
-		htmlPanel.add( htmlDisplay, "" );
+		JTabbedPane tabs = new JTabbedPane();
+		tabs.addTab( "KoL One-a-Day", dailyDisplay );
+		tabs.addTab( "Upcoming Events", predictDisplay );
 
-		getContentPane().add( htmlPanel, BorderLayout.CENTER );
+		getContentPane().add( tabs, BorderLayout.CENTER );
 
 		calendar = new JCalendar( OracleTable.class );
 		oracleTable = (OracleTable) calendar.getTable();
@@ -251,7 +259,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 				calculatePhases( selectedDate );
 				calculateCalendar( selectedDate.getTime() );
-				updateSummaryPage();
+				updateDailyPage();
+				updatePredictionsPage();
 			}
 			catch ( Exception e1 )
 			{
@@ -328,7 +337,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * recalculation attempts.
 	 */
 
-	private static void updateSummaryPage()
+	private static void updateDailyPage()
 	{
 		StringBuffer displayHTML = new StringBuffer();
 
@@ -389,16 +398,83 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( "</td></tr></table></center>" );
 
 		// Now that the HTML has been completely
-		// constructed, clear the display buffer
+		// constructed, clear the display dailyBuffer
 		// and append the appropriate text.
 
-		buffer.clearBuffer();
-		buffer.append( displayHTML.toString() );
+		dailyBuffer.clearBuffer();
+		dailyBuffer.append( displayHTML.toString() );
+	}
+
+	/**
+	 * Updates the HTML which displays the predictions for upcoming
+	 * events on the KoL calendar.
+	 */
+
+	private static void updatePredictionsPage()
+	{
+		StringBuffer displayHTML = new StringBuffer();
+
+		// First display today's date along with the
+		// appropriate calendar picture.  Include the
+		// link shown in the clan calendar.
+
+		displayHTML.append( "<b><u>" );
+		displayHTML.append( TODAY_FORMATTER.format( selectedDate ) );
+		displayHTML.append( "</u></b><br><i>" );
+		displayHTML.append( getCalendarDay() );
+		displayHTML.append( "</i><br><br>" );
+
+		// Next display the upcoming stat days.
+
+		displayHTML.append( "<b>Muscle Day</b>:&nbsp;" );
+		appendDayCount( displayHTML, Math.min( 24 - phaseStep, 25 - phaseStep ) % 16 );
+		displayHTML.append( "<br>" );
+
+		displayHTML.append( "<b>Mysticality Day</b>:&nbsp;" );
+		appendDayCount( displayHTML, Math.min( 20 - phaseStep, 28 - phaseStep ) % 16 );
+		displayHTML.append( "<br>" );
+
+		displayHTML.append( "<b>Moxie Day</b>:&nbsp;" );
+		appendDayCount( displayHTML, Math.min( 16 - phaseStep, 31 - phaseStep ) % 16 );
+		displayHTML.append( "<br><br>" );
+
+		// Next display the upcoming holidays.
+
+		displayHTML.append( "<b>Oyster Day</b>:&nbsp;" );
+		appendDayCount( displayHTML, ((16 - currentMonth) % 12) * 8 + (2 - currentDay) );
+		displayHTML.append( "<br>" );
+
+		displayHTML.append( "<b>Halloween</b>:&nbsp;" );
+		appendDayCount( displayHTML, ((22 - currentMonth) % 12) * 8 + (8 - currentDay) );
+		displayHTML.append( "<br>" );
+
+		displayHTML.append( "<b>Feast of Boris</b>:&nbsp;" );
+		appendDayCount( displayHTML, ((23 - currentMonth) % 12) * 8 + (7 - currentDay) );
+
+		// Now that the HTML has been completely
+		// constructed, clear the display dailyBuffer
+		// and append the appropriate text.
+
+		predictBuffer.clearBuffer();
+		predictBuffer.append( displayHTML.toString() );
+	}
+
+	private static void appendDayCount( StringBuffer buffer, int count )
+	{
+		if ( count == 0 )
+			buffer.append( "today" );
+		else if ( count == 1 )
+			buffer.append( "tomorrow" );
+		else
+		{
+			buffer.append( count );
+			buffer.append( " days" );
+		}
 	}
 
 	/**
 	 * Utility method which appends the given percentage to
-	 * the given string buffer, complete with + and % signs,
+	 * the given string dailyBuffer, complete with + and % signs,
 	 * wherever applicable.  Also appends "no effect" if the
 	 * percentage is zero.
 	 */
