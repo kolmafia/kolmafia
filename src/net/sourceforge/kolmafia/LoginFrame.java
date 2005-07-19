@@ -148,6 +148,32 @@ public class LoginFrame extends KoLFrame
 	}
 
 	/**
+	 * Updates the display to reflect the given display state and
+	 * to contain the given message.  Note that if there is no
+	 * content panel, this method does nothing.
+	 */
+
+	public void updateDisplay( int displayState, String message )
+	{
+		if ( client != null )
+			client.getLogStream().println( message );
+
+		if ( contentPanel != null )
+			contentPanel.setStatusMessage( isExecutingScript && displayState != ERROR_STATE ? DISABLED_STATE : displayState, message );
+
+		switch ( displayState )
+		{
+			case ERROR_STATE:
+				setEnabled( true );
+				break;
+
+			case DISABLED_STATE:
+				setEnabled( false );
+				break;
+		}
+	}
+
+	/**
 	 * Utility method used to add a menu bar to the <code>LoginFrame</code>.
 	 * The menu bar contains configuration options and the general license
 	 * information associated with <code>KoLmafia</code>.
@@ -276,7 +302,7 @@ public class LoginFrame extends KoLFrame
 				login( true );
 			else
 			{
-				updateDisplay( ENABLED_STATE, "Login cancelled." );
+				updateDisplay( ERROR_STATE, "Login cancelled." );
 				client.cancelRequest();
 				requestFocus();
 			}
