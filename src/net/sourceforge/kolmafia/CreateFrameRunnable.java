@@ -124,11 +124,29 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			return;
 		}
 
+		// Check to see if this is a frame that should
+		// only be loaded once, based on the static list.
+
 		this.creation = null;
-		for ( int i = 0; i < SINGLE_INSTANCE.length; ++i )
-			for ( int j = 0; j < existingFrames.size(); ++j )
-				if ( creationType == existingFrames.get(j).getClass() && SINGLE_INSTANCE[i] == existingFrames.get(j).getClass() )
-					this.creation = (JFrame) existingFrames.get(j);
+
+		JFrame currentFrame;
+		Class currentType;
+
+		for ( int i = 0; i < existingFrames.size(); ++i )
+		{
+			currentFrame = (JFrame) existingFrames.get(i);
+			currentType = currentFrame.getClass();
+
+			if ( currentType == creationType )
+				for ( int j = 0; j < SINGLE_INSTANCE.length; ++j )
+					if ( currentType == SINGLE_INSTANCE[j] )
+						this.creation = currentFrame;
+		}
+
+		// Now, if you aren't supposed to create a new instance,
+		// do not do so -- however, if it's okay to do so, then
+		// go ahead and create it.
+
 		try
 		{
 			if ( this.creation == null )
