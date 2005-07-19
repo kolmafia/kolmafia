@@ -47,13 +47,13 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class AdventureDatabase extends KoLDatabase
 {
 	public static final String [] ZONE_KEYS = { "Shore", "Camp", "Gym", "Town", "Casino", "Plains", "Knob", "Bat", "Cyrpt",
-		"Woods", "Friars", "Mount", "Mclarge", "Island", "Stalk", "Beach", "Tower", "Signed" };
+		"Woods", "Friars", "Mount", "Mclarge", "Island", "Stalk", "Beach", "Tower", "Signed", "Special" };
 
 	public static final String [] ZONE_NAMES = { "vacations at the shore", "campground resting", "clan gym equipment",
 		"Seaside Town areas", "Seaside Town's casino games", "general plains areas", "Cobb's knob areas", "Bat Hole areas",
 		"the defiled cyrpt quest", "general woods areas", "deep fat friar's quest", "general mountain areas", "Mt. McLargeHuge areas",
 		"the mysterious island areas", "the areas beyond the beanstalk", "the desert beach areas", "the Sorceress Tower maze",
-		"sign-restricted areas" };
+		"sign-restricted areas", "special areas" };
 
 
 	private static List [] adventureTable;
