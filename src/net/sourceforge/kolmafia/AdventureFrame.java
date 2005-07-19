@@ -224,13 +224,15 @@ public class AdventureFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		addStatusMenu( menuBar ).add( new InvocationMenuItem( "Session Time-In", KeyEvent.VK_S, client, "executeTimeInRequest" ) );
+		addStatusMenu( menuBar );
 
 		addTravelMenu( menuBar );
 		addPeopleMenu( menuBar );
 		addScriptMenu( menuBar );
 
-		addOptionsMenu( menuBar ).add( new InvocationMenuItem( "Clear Session", KeyEvent.VK_C, client, "resetSessionTally" ) );
+		JMenu optionsMenu = addOptionsMenu( menuBar );
+		optionsMenu.add( new InvocationMenuItem( "Clear Results", KeyEvent.VK_C, client, "resetSessionTally" ) );
+		optionsMenu.add( new InvocationMenuItem( "Session Time-In", KeyEvent.VK_S, client, "executeTimeInRequest" ) );
 
 		addHelpMenu( menuBar );
 	}
