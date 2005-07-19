@@ -414,7 +414,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 
 		if ( client.permitsContinue() )
-			updateDisplay( NOCHANGE,  "Successfully created " + quantityNeeded + " " + itemName );
+			updateDisplay( ENABLED_STATE,  "Successfully created " + quantityNeeded + " " + itemName );
 	}
 
 	private boolean autoRepairBoxServant()
