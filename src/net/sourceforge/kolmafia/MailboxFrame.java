@@ -275,17 +275,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void valueChanged( ListSelectionEvent e )
-		{
-			int newIndex = getSelectedIndex();
-			if ( newIndex >= 0 && getModel().getSize() > 0 )
-			{
-				displayed = ((KoLMailMessage)mailbox.getMessages( mailboxName ).get( newIndex ));
-				mailBuffer.clearBuffer();
-				mailBuffer.append( displayed.getMessageHTML() );
-				messageContent.setCaretPosition( 0 );
-			}
-			else
-				mailBuffer.clearBuffer();
+		{	(new UpdateDisplayThread()).start();
 		}
 
 		private boolean isInitialized()
@@ -306,6 +296,22 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 							mailbox.deleteMessages( mailboxName, getSelectedValues() );
 
+				}
+			}
+		}
+
+		private class UpdateDisplayThread extends DaemonThread
+		{
+			public void run()
+			{
+				mailBuffer.clearBuffer();
+				int newIndex = getSelectedIndex();
+
+				if ( newIndex >= 0 && getModel().getSize() > 0 )
+				{
+					displayed = ((KoLMailMessage)mailbox.getMessages( mailboxName ).get( newIndex ));
+					mailBuffer.append( displayed.getMessageHTML() );
+					messageContent.setCaretPosition( 0 );
 				}
 			}
 		}

@@ -214,8 +214,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		predictBuffer.setChatDisplay( predictDisplay );
 
 		calculateCalendar( System.currentTimeMillis() );
-		updateDailyPage();
-		updatePredictionsPage();
 
 		JTabbedPane tabs = new JTabbedPane();
 		tabs.addTab( "KoL One-a-Day", dailyDisplay );
@@ -230,6 +228,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		getContentPane().add( calendar, BorderLayout.EAST );
 		setResizable( false );
+
+		(new UpdateTabsThread()).start();
 	}
 
 	/**
@@ -259,8 +259,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 				calculatePhases( selectedDate );
 				calculateCalendar( selectedDate.getTime() );
-				updateDailyPage();
-				updatePredictionsPage();
+				(new UpdateTabsThread()).start();
 			}
 			catch ( Exception e1 )
 			{
@@ -614,6 +613,21 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			}
 
 			return normalRenderer;
+		}
+	}
+
+	/**
+	 * Special thread which allows the daily page and predictions
+	 * page to be updated outside of the Swing thread -- this means
+	 * images can be downloaded without locking the UI.
+	 */
+
+	private class UpdateTabsThread extends DaemonThread
+	{
+		public void run()
+		{
+			updateDailyPage();
+			updatePredictionsPage();
 		}
 	}
 
