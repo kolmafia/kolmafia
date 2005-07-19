@@ -190,6 +190,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			calculatePhases( new Date() );
 			MoonPhaseDatabase.setMoonPhases( ronaldPhase, grimacePhase );
 		}
+		else
+			phaseError = Integer.MAX_VALUE;
 
 		ronaldPhase = MoonPhaseDatabase.RONALD_PHASE;
 		grimacePhase = MoonPhaseDatabase.GRIMACE_PHASE;
