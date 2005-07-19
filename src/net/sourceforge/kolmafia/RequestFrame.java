@@ -474,7 +474,7 @@ public class RequestFrame extends KoLFrame
 			JMenu refMenu = new JMenu( "Reference Tables" );
 			refMenu.add( new DisplayPageMenuItem( "Item Effects", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
 			refMenu.add( new DisplayPageMenuItem( "KoL Helper", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.agesoftime.com/kol/index.php" ) );
-			refMenu.add( new DisplayPageMenuItem( "Familiar Chart", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.therye.co.uk/familiars/index.htm" ) );
+			refMenu.add( new DisplayPageMenuItem( "Familiar Chart", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.the-rye.dreamhosters.com/familiars/" ) );
 
 			headers[4] = refMenu;
 
