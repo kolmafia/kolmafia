@@ -323,7 +323,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			statusMenu.add( new MiniBrowserMenuItem( "Weird Records", KeyEvent.VK_W, "records.php?which=0" ) );
 		}
 
-		statusMenu.add( new DisplayFrameMenuItem( "Consult Oracle", KeyEvent.VK_C, CalendarFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "KoL Almanac", KeyEvent.VK_K, CalendarFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", KeyEvent.VK_G, CommandDisplayFrame.class ) );
 
 		if ( client == null || !client.inLoginState() )
