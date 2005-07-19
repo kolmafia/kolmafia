@@ -127,7 +127,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		this.creation = null;
 		for ( int i = 0; i < SINGLE_INSTANCE.length; ++i )
 			for ( int j = 0; j < existingFrames.size(); ++j )
-				if ( SINGLE_INSTANCE[i] == existingFrames.get(j).getClass() )
+				if ( creationType == existingFrames.get(j).getClass() && SINGLE_INSTANCE[i] == existingFrames.get(j).getClass() )
 					this.creation = (JFrame) existingFrames.get(j);
 		try
 		{
