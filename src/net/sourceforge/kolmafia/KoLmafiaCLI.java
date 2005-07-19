@@ -1642,31 +1642,29 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeAdventureRequest( String parameters )
 	{
-		String adventureName;  int adventureCount;
+		int adventureCount;
+		KoLAdventure adventure = AdventureDatabase.getAdventure( scriptRequestor, parameters );
 
-		if ( AdventureDatabase.contains( parameters ) )
-		{
-			adventureName = parameters;
+		if ( adventure != null )
 			adventureCount = 1;
-		}
 		else
 		{
 			String adventureCountString = parameters.split( " " )[0];
-			adventureName = parameters.substring( adventureCountString.length() ).trim();
+			String adventureName = parameters.substring( adventureCountString.length() ).trim();
+			adventure = AdventureDatabase.getAdventure( scriptRequestor, adventureName );
 
-			if ( !AdventureDatabase.contains( adventureName ) )
+			if ( adventure == null )
 			{
-				scriptRequestor.updateDisplay( ERROR_STATE, adventureName + " does not exist in the adventure database." );
+				scriptRequestor.updateDisplay( ERROR_STATE, parameters + " does not exist in the adventure database." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
 
 			try
 			{
-				adventureName = AdventureDatabase.getAdventure( scriptRequestor, adventureName ).toString();
 				adventureCount = adventureCountString.equals( "*" ) ? 0 : df.parse( adventureCountString ).intValue();
 
-				if ( adventureCount <= 0 && adventureName.startsWith( "Shore" ) )
+				if ( adventureCount <= 0 && adventure.getZone().equals( "Shore" ) )
 					adventureCount += (int) Math.floor( scriptRequestor.getCharacterData().getAdventuresLeft() / 3 );
 				else if ( adventureCount <= 0 )
 					adventureCount += scriptRequestor.getCharacterData().getAdventuresLeft();
@@ -1682,7 +1680,6 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		KoLAdventure adventure = AdventureDatabase.getAdventure( scriptRequestor, adventureName );
 		scriptRequestor.updateDisplay( DISABLED_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
 		scriptRequestor.makeRequest( adventure, adventureCount );
 	}

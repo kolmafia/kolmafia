@@ -78,6 +78,12 @@ public class AdventureDatabase extends KoLDatabase
 		}
 	}
 
+	/**
+	 * Returns the complete list of adventures available to the character
+	 * based on the information provided by the given client.  Each element
+	 * in this list is a <code>KoLAdventure</code> object.
+	 */
+
 	public static final LockableListModel getAsLockableListModel( KoLmafia client )
 	{
 		KoLSettings settings = client == null ? new KoLSettings() : client.getSettings();
@@ -110,6 +116,11 @@ public class AdventureDatabase extends KoLDatabase
 		return adventures;
 	}
 
+	/**
+	 * Returns the first adventure in the database which contains the given
+	 * substring in part of its name.
+	 */
+
 	public static KoLAdventure getAdventure( KoLmafia client, String adventureName )
 	{
 		List adventureNames = adventureTable[3];
@@ -120,16 +131,5 @@ public class AdventureDatabase extends KoLDatabase
 					(String) adventureTable[2].get(i), (String) adventureTable[3].get(i) );
 
 		return null;
-	}
-
-	public static final boolean contains( String adventureName )
-	{
-		List adventureNames = adventureTable[3];
-
-		for ( int i = 0; i < adventureNames.size(); ++i )
-			if ( ((String) adventureNames.get(i)).toLowerCase().indexOf( adventureName.toLowerCase() ) != -1 )
-				return true;
-
-		return false;
 	}
 }
