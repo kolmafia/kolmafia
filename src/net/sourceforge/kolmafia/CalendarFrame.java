@@ -184,6 +184,13 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		selectedColumn = -1;
 		selectedDate = new Date();
 
+		if ( MoonPhaseDatabase.PHASE_STEP == -1 )
+		{
+			phaseError = 0;
+			calculatePhases( new Date() );
+			MoonPhaseDatabase.setMoonPhases( ronaldPhase, grimacePhase );
+		}
+
 		ronaldPhase = MoonPhaseDatabase.RONALD_PHASE;
 		grimacePhase = MoonPhaseDatabase.GRIMACE_PHASE;
 		phaseStep = MoonPhaseDatabase.PHASE_STEP;
@@ -534,10 +541,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	public static void main( String [] args )
 	{
-		phaseError = 0;
-		calculatePhases( new Date() );
-		MoonPhaseDatabase.setMoonPhases( ronaldPhase, grimacePhase );
-
 		Object [] parameters = new Object[1];
 		parameters[0] = null;
 
