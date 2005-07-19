@@ -75,7 +75,7 @@ public class UneffectRequest extends KoLRequest
 		{
 			client.getCharacterData().getEffects().remove( effect );
 			client.processResult( REMEDY );
-			client.updateDisplay( NOCHANGE, "Effect removed." );
+			client.updateDisplay( ENABLED_STATE, "Effect removed." );
 		}
 		else
 			client.updateDisplay( ERROR_STATE, "Effect removal failed." );
