@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -49,8 +50,11 @@ public class GiftMessageRequest extends SendMessageRequest
 	public static final LockableListModel PACKAGES = new LockableListModel();
 	static
 	{
-		PACKAGES.add( new GiftWrapper( "plain brown wrapper", 1, 1, 0 ) );
-		PACKAGES.add( new GiftWrapper( "less-than-three-shaped box", 2, 2, 100 ) );
+		BufferedReader reader = KoLDatabase.getReader( "packages.dat" );
+		String [] data;
+
+		while ( (data = KoLDatabase.readData( reader )) != null )
+			PACKAGES.add( new GiftWrapper( data[0], Integer.parseInt( data[1] ), Integer.parseInt( data[2] ), Integer.parseInt( data[3] ) ) );
 	}
 
 	private static class GiftWrapper
