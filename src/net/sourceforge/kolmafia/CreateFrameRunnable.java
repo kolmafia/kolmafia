@@ -135,11 +135,41 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				this.creation = (JFrame) creator.newInstance( parameters );
 
 			this.creation.pack();
-			this.creation.setVisible( true );
-			this.creation.requestFocus();
+
+			// Load the KoL frame to the appropriate location
+			// on the screen now that the frame has been packed
+			// to the appropriate size.
 
 			if ( this.creation instanceof KoLFrame )
-				((KoLFrame)this.creation).setEnabled( isEnabled );
+			{
+				KoLFrame frame = (KoLFrame) this.creation;
+				String frameName = frame.getFrameName();
+
+				if ( frame.client != null )
+				{
+					String positionsSetting = frame.client.getSettings().getProperty( "savePositions" );
+
+					if ( positionsSetting.equals( "true" ) && frame.client.getSettings().containsKey( frameName ) )
+					{
+						String [] location = client.getSettings().getProperty( frameName ).split( "," );
+						frame.setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
+					}
+					else
+						frame.setLocationRelativeTo( null );
+				}
+				else
+					frame.setLocationRelativeTo( null );
+			}
+			else
+				this.creation.setLocationRelativeTo( null );
+
+			// With the location set set on screen, make sure
+			// to disable it (if necessary), ensure the frame's
+			// visibility on screen and request focus.
+
+			this.creation.setEnabled( isEnabled );
+			this.creation.setVisible( true );
+			this.creation.requestFocus();
 		}
 		catch ( Exception e )
 		{
