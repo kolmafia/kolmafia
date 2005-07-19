@@ -239,7 +239,7 @@ public class EquipmentRequest extends KoLRequest
 			if ( requestType == CLOSET )
 			{
 				parseCloset();
-				updateDisplay( NOCHANGE, "Inventory retrieved." );
+				updateDisplay( ENABLED_STATE, "Inventory retrieved." );
 			}
 			else
 			{
