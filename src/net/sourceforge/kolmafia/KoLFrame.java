@@ -115,6 +115,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	};
 
 	private static LockableListModel scripts = new LockableListModel();
+	protected static boolean isExecutingScript = false;
 
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
 	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher" };
@@ -123,7 +124,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected boolean isEnabled;
 	protected KoLmafia client;
 	protected KoLPanel contentPanel;
-	protected boolean isExecutingScript;
 
 	protected JPanel compactPane;
 	protected JLabel hpLabel, mpLabel, advLabel;
