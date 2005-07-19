@@ -34,7 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Component;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.lang.reflect.Constructor;
 
@@ -46,8 +46,17 @@ import java.lang.reflect.Constructor;
 
 public class CreateFrameRunnable implements Runnable, KoLConstants
 {
+	private static final Class [] SINGLE_INSTANCE =
+	{
+		BuffBotFrame.class, CalendarFrame.class, CakeArenaFrame.class,
+		ItemManageFrame.class, GearChangeFrame.class, HagnkStorageFrame.class,
+		MailboxFrame.class, MuseumFrame.class, OptionsFrame.class,
+		PendingTradesFrame.class, StoreManageFrame.class
+	};
+
 	private KoLmafia client;
-	private Component creation;
+	private Class creationType;
+	private JFrame creation;
 	private boolean isEnabled;
 
 	private Constructor creator;
@@ -55,6 +64,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	public CreateFrameRunnable( Class creationType, Object [] parameters )
 	{
+		this.creationType = creationType;
 		this.parameters = parameters;
 		this.isEnabled = true;
 
@@ -87,7 +97,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	{	this.isEnabled = isEnabled;
 	}
 
-	public Component getCreation()
+	public JFrame getCreation()
 	{	return creation;
 	}
 
@@ -114,16 +124,22 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			return;
 		}
 
+		this.creation = null;
+		for ( int i = 0; i < SINGLE_INSTANCE.length; ++i )
+			for ( int j = 0; j < existingFrames.size(); ++j )
+				if ( SINGLE_INSTANCE[i] == existingFrames.get(j).getClass() )
+					this.creation = (JFrame) existingFrames.get(j);
 		try
 		{
-			this.creation = (Component) creator.newInstance( parameters );
+			if ( this.creation == null )
+				this.creation = (JFrame) creator.newInstance( parameters );
+
+			this.creation.pack();
+			this.creation.setVisible( true );
+			this.creation.requestFocus();
 
 			if ( this.creation instanceof KoLFrame )
-			{
-				((KoLFrame)this.creation).pack();
-				((KoLFrame)this.creation).setVisible( true );
 				((KoLFrame)this.creation).setEnabled( isEnabled );
-			}
 		}
 		catch ( Exception e )
 		{
