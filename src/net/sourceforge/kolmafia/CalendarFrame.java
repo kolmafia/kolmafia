@@ -151,7 +151,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// computed based on the recurring day in the year
 		// at which these occur.
 
-		SPECIAL[7] = SP_HOLIDAY;
+		SPECIAL[25] = SP_HOLIDAY;
 		SPECIAL[79] = SP_HOLIDAY;
 		SPECIAL[86] = SP_HOLIDAY;
 	}
