@@ -84,8 +84,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public synchronized void updateDisplay( int state, String message )
 	{
-		super.updateDisplay( state, message );
-
 		if ( displayer != null && displayer.getCreation() != null )
 		{
 			((KoLFrame)displayer.getCreation()).updateDisplay( state, message );

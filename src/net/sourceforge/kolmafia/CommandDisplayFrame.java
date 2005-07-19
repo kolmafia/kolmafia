@@ -73,49 +73,30 @@ public class CommandDisplayFrame extends KoLFrame
 
 		try
 		{
-			this.instance = new KoLmafiaCLI( client, null );
+			commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI" );
+			instance = new KoLmafiaCLI( client, commandBuffer );
 		}
 		catch ( Exception e )
 		{
 		}
 
-		this.commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI" );
-		client.setCommandBuffer( this.commandBuffer );
-
 		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
 		getContentPane().add( new CommandDisplayPanel() );
-
-		addWindowListener( new RemoveBufferListener() );
-	}
-
-	/**
-	 * An internal class which allows focus to be returned to the
-	 * client's active frame when auxiliary windows are closed.
-	 */
-
-	protected class RemoveBufferListener extends WindowAdapter
-	{
-		public void windowClosing( WindowEvent e )
-		{
-			if ( client != null )
-				client.setCommandBuffer( null );
-		}
 	}
 
 	private class CommandDisplayPanel extends JPanel
 	{
 		private JTextField entryField;
-		private JScrollPane scrollPane;
-		private JEditorPane outputDisplay;
+		private JButton entryButton;
 
 		public CommandDisplayPanel()
 		{
-			outputDisplay = new JEditorPane();
+			JEditorPane outputDisplay = new JEditorPane();
 			outputDisplay.setEditable( false );
 
 			commandBuffer.setChatDisplay( outputDisplay );
 
-			scrollPane = new JScrollPane( outputDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane scrollPane = new JScrollPane( outputDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			scrollPane.setVerticalScrollBar( new CommandScrollBar() );
@@ -127,7 +108,7 @@ public class CommandDisplayFrame extends KoLFrame
 			entryField = new JTextField();
 			entryField.addKeyListener( new CommandEntryListener() );
 
-			JButton entryButton = new JButton( "exec" );
+			entryButton = new JButton( "exec" );
 			entryButton.addActionListener( new CommandEntryListener() );
 			entryPanel.setLayout( new BoxLayout( entryPanel, BoxLayout.X_AXIS ) );
 			entryPanel.add( entryField, BorderLayout.CENTER );
@@ -172,22 +153,6 @@ public class CommandDisplayFrame extends KoLFrame
 			}
 		}
 
-		public JScrollPane getScrollPane()
-		{	return scrollPane;
-		}
-
-		public JEditorPane getOutputDisplay()
-		{	return outputDisplay;
-		}
-
-		public boolean hasFocus()
-		{	return entryField.hasFocus() || outputDisplay.hasFocus();
-		}
-
-		public void requestFocus()
-		{	entryField.requestFocus();
-		}
-
 		/**
 		 * An action listener responsible for sending the text
 		 * contained within the entry panel to the KoL chat
@@ -219,21 +184,16 @@ public class CommandDisplayFrame extends KoLFrame
 
 			public void run()
 			{
-				try
-				{
-					commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
+				client.setEnabled( false );
+				commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
 
-					if ( command.toLowerCase().equals( "login" ) )
-						commandBuffer.append( "<font color=red>This command is not available in the GCLI</font><br>" );
-					else
-						instance.executeLine( command );
+				if ( command.toLowerCase().equals( "login" ) )
+					commandBuffer.append( "<font color=red>This command is not available in the GCLI</font><br>" );
+				else
+					instance.executeLine( command );
 
-					commandBuffer.append( "<br>" );
-					client.setEnabled( true );
-				}
-				catch ( Exception e )
-				{
-				}
+				commandBuffer.append( "<br>" );
+				client.setEnabled( true );
 			}
 		}
 	}

@@ -78,6 +78,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private BufferedReader commandStream;
 	private KoLmafia scriptRequestor;
 	private KoLmafiaCLI lastScript;
+	private LimitedSizeChatBuffer commandBuffer;
 
 	public static void main( String [] args )
 	{
@@ -154,6 +155,18 @@ public class KoLmafiaCLI extends KoLmafia
 
 	/**
 	 * Constructs a new <code>KoLmafiaCLI</code> object.  All data fields
+	 * are initialized to their default values, the global settings are
+	 * loaded from disk.
+	 */
+
+	public KoLmafiaCLI( KoLmafia scriptRequestor, LimitedSizeChatBuffer commandBuffer ) throws IOException
+	{
+		this( scriptRequestor, System.in );
+		this.commandBuffer = commandBuffer;
+	}
+
+	/**
+	 * Constructs a new <code>KoLmafiaCLI</code> object.  All data fields
 	 * are initialized to their default values, the global settings
 	 * are loaded from disk.
 	 */
@@ -164,8 +177,10 @@ public class KoLmafiaCLI extends KoLmafia
 		this.scriptRequestor.resetContinueState();
 
 		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : new NullStream();
-		commandStream = new BufferedReader( new InputStreamReader( inputStream == null ? System.in : inputStream ) );
+		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 		mirrorStream = new NullStream();
+
+		this.commandBuffer = null;
 	}
 
 	/**
@@ -312,7 +327,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * yet another method.
 	 */
 
-	public void executeLine( String line )
+	public synchronized void executeLine( String line )
 	{
 		if ( line.trim().length() == 0 )
 			return;
@@ -947,7 +962,7 @@ public class KoLmafiaCLI extends KoLmafia
 					df.parse( parameters.substring( option.length() ).trim() ).intValue() );
 
 				AdventureResult.addResultToList( conditions, choices );
-				updateDisplay( ENABLED_STATE, "Choice adventure condition set." );
+				updateDisplay( NOCHANGE, "Choice adventure condition set." );
 				return;
 			}
 			catch ( Exception e )
@@ -964,7 +979,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( condition != null )
 			{
 				AdventureResult.addResultToList( scriptRequestor.conditions, condition );
-				updateDisplay( ENABLED_STATE, "Condition added: " + condition.toString() );
+				updateDisplay( NOCHANGE, "Condition added: " + condition.toString() );
 			}
 
 			return;
@@ -1206,36 +1221,36 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( desiredData.equals( "session" ) )
 		{
-			updateDisplay( ENABLED_STATE, "Player: " + scriptRequestor.getLoginName() );
-			updateDisplay( ENABLED_STATE, "Session ID: " + scriptRequestor.getSessionID() );
-			updateDisplay( ENABLED_STATE, "Password Hash: " + scriptRequestor.getPasswordHash() );
+			updateDisplay( NOCHANGE, "Player: " + scriptRequestor.getLoginName() );
+			updateDisplay( NOCHANGE, "Session ID: " + scriptRequestor.getSessionID() );
+			updateDisplay( NOCHANGE, "Password Hash: " + scriptRequestor.getPasswordHash() );
 		}
 		else if ( desiredData.startsWith( "stat" ) )
 		{
-			updateDisplay( ENABLED_STATE, "Lv: " + data.getLevel() );
-			updateDisplay( ENABLED_STATE, "HP: " + data.getCurrentHP() + " / " + df.format( data.getMaximumHP() ) );
-			updateDisplay( ENABLED_STATE, "MP: " + data.getCurrentMP() + " / " + df.format( data.getMaximumMP() ) );
-			updateDisplay( ENABLED_STATE, "" );
-			updateDisplay( ENABLED_STATE, "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
-			updateDisplay( ENABLED_STATE, "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
-			updateDisplay( ENABLED_STATE, "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
-			updateDisplay( ENABLED_STATE, "" );
-			updateDisplay( ENABLED_STATE, "Meat: " + df.format( data.getAvailableMeat() ) );
-			updateDisplay( ENABLED_STATE, "Drunk: " + data.getInebriety() );
-			updateDisplay( ENABLED_STATE, "Adv: " + data.getAdventuresLeft() );
+			updateDisplay( NOCHANGE, "Lv: " + data.getLevel() );
+			updateDisplay( NOCHANGE, "HP: " + data.getCurrentHP() + " / " + df.format( data.getMaximumHP() ) );
+			updateDisplay( NOCHANGE, "MP: " + data.getCurrentMP() + " / " + df.format( data.getMaximumMP() ) );
+			updateDisplay( NOCHANGE, "" );
+			updateDisplay( NOCHANGE, "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
+			updateDisplay( NOCHANGE, "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
+			updateDisplay( NOCHANGE, "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
+			updateDisplay( NOCHANGE, "" );
+			updateDisplay( NOCHANGE, "Meat: " + df.format( data.getAvailableMeat() ) );
+			updateDisplay( NOCHANGE, "Drunk: " + data.getInebriety() );
+			updateDisplay( NOCHANGE, "Adv: " + data.getAdventuresLeft() );
 
-			updateDisplay( ENABLED_STATE, "Fam: " + data.getFamiliars().getSelectedItem() );
-			updateDisplay( ENABLED_STATE, "Item: " + data.getFamiliarItem() );
+			updateDisplay( NOCHANGE, "Fam: " + data.getFamiliars().getSelectedItem() );
+			updateDisplay( NOCHANGE, "Item: " + data.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "equip" ) )
 		{
-			updateDisplay( ENABLED_STATE, "    Hat: " + data.getEquipment( KoLCharacter.HAT ) );
-			updateDisplay( ENABLED_STATE, " Weapon: " + data.getEquipment( KoLCharacter.WEAPON ) );
-			updateDisplay( ENABLED_STATE, "  Shirt: " + data.getEquipment( KoLCharacter.SHIRT ) );
-			updateDisplay( ENABLED_STATE, "  Pants: " + data.getEquipment( KoLCharacter.PANTS ) );
-			updateDisplay( ENABLED_STATE, " Acc. 1: " + data.getEquipment( KoLCharacter.ACCESSORY1 ) );
-			updateDisplay( ENABLED_STATE, " Acc. 2: " + data.getEquipment( KoLCharacter.ACCESSORY2 ) );
-			updateDisplay( ENABLED_STATE, " Acc. 3: " + data.getEquipment( KoLCharacter.ACCESSORY3 ) );
+			updateDisplay( NOCHANGE, "    Hat: " + data.getEquipment( KoLCharacter.HAT ) );
+			updateDisplay( NOCHANGE, " Weapon: " + data.getEquipment( KoLCharacter.WEAPON ) );
+			updateDisplay( NOCHANGE, "  Shirt: " + data.getEquipment( KoLCharacter.SHIRT ) );
+			updateDisplay( NOCHANGE, "  Pants: " + data.getEquipment( KoLCharacter.PANTS ) );
+			updateDisplay( NOCHANGE, " Acc. 1: " + data.getEquipment( KoLCharacter.ACCESSORY1 ) );
+			updateDisplay( NOCHANGE, " Acc. 2: " + data.getEquipment( KoLCharacter.ACCESSORY2 ) );
+			updateDisplay( NOCHANGE, " Acc. 3: " + data.getEquipment( KoLCharacter.ACCESSORY3 ) );
 		}
 		else if ( desiredData.startsWith( "inv" ) )
 		{
@@ -1742,14 +1757,26 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void updateDisplay( int state, String message )
 	{
-		if ( this instanceof KoLmafiaCLI )
-			super.updateDisplay( state, message );
+		if ( commandBuffer != null )
+		{
+			StringBuffer colorBuffer = new StringBuffer();
+			if ( state == ERROR_STATE )
+				colorBuffer.append( "<font color=red>" );
+			else
+				colorBuffer.append( "<font color=black>" );
+
+			colorBuffer.append( message );
+			colorBuffer.append( "</font><br>" );
+			colorBuffer.append( System.getProperty( "line.separator" ) );
+
+			commandBuffer.append( colorBuffer.toString() );
+		}
 
 		outputStream.println( message );
 		mirrorStream.println( message );
 		scriptRequestor.getLogStream().println( message );
 
-		if ( scriptRequestor instanceof KoLmafiaGUI )
+		if ( scriptRequestor instanceof KoLmafiaGUI && state != NOCHANGE )
 			scriptRequestor.updateDisplay( state, message );
 
 		// There's a special case to be handled if the login was not
@@ -1858,7 +1885,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		Iterator printingIterator = printing.iterator();
 		while ( printingIterator.hasNext() )
-			updateDisplay( ENABLED_STATE, printingIterator.next().toString() );
+			updateDisplay( NOCHANGE, printingIterator.next().toString() );
 	}
 
 	/**

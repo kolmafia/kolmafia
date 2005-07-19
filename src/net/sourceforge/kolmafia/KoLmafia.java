@@ -98,7 +98,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
-	private LimitedSizeChatBuffer commandBuffer;
 
 	private TreeMap seenPlayerIDs;
 	private TreeMap seenPlayerNames;
@@ -159,7 +158,6 @@ public abstract class KoLmafia implements KoLConstants
 		seenPlayerIDs = new TreeMap();
 		seenPlayerNames = new TreeMap();
 		adventureList = new LockableListModel();
-		commandBuffer = null;
 	}
 
 	public boolean isEnabled()
@@ -175,27 +173,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * session.
 	 */
 
-	public synchronized void updateDisplay( int state, String message )
-	{
-		if ( commandBuffer != null )
-		{
-			StringBuffer colorBuffer = new StringBuffer();
-			if ( state == ERROR_STATE )
-				colorBuffer.append( "<font color=red>" );
-			else
-				colorBuffer.append( "<font color=black>" );
-
-			colorBuffer.append( message );
-			colorBuffer.append( "</font><br>" );
-			colorBuffer.append( System.getProperty( "line.separator" ) );
-
-			commandBuffer.append( colorBuffer.toString() );
-		}
-	}
-
-	public void setCommandBuffer( LimitedSizeChatBuffer commandBuffer )
-	{	this.commandBuffer = commandBuffer;
-	}
+	public abstract void updateDisplay( int state, String message );
 
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
