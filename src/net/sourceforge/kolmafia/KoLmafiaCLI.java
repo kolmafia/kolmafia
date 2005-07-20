@@ -542,6 +542,29 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Then, the description lookup command so that
+		// people can see what the description is for a
+		// particular item.
+
+		if ( command.equals( "lookup" ) )
+		{
+			AdventureResult result = getFirstMatchingItem( parameters, NOWHERE );
+			if ( result == null )
+			{
+				updateDisplay( ERROR_STATE, "No item matching [" + parameters + "] found" );
+				return;
+			}
+
+			KoLRequest request = new KoLRequest( scriptRequestor,
+				"desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( result.getItemID() ) );
+
+			request.run();
+			updateDisplay( NOCHANGE, request.responseText.substring( request.responseText.indexOf( "<p>" ) + 3 ).replaceAll(
+				"<(br|p|blockquote)>", System.getProperty( "line.separator" ) ).replaceAll( "<.*?>", "" ).replaceAll( "&nbsp;", " " ) );
+
+			return;
+		}
+
 		// If there's any commands which suggest that the
 		// client is in a login state, you should not do
 		// any commands listed beyond this point
