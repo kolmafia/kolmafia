@@ -64,7 +64,7 @@ public class NPCStoreDatabase extends KoLDatabase
 				for ( int i = 0; i < 4; ++i )
 					npcstoreTable[i].add( data[i] );
 
-				npcstoreTable[4].add( TradeableItemDatabase.getItemName( Integer.parseInt( data[2] ) ) );
+				npcstoreTable[4].add( getCanonicalName( TradeableItemDatabase.getItemName( Integer.parseInt( data[2] ) ) ) );
 			}
 		}
 	}
@@ -80,7 +80,7 @@ public class NPCStoreDatabase extends KoLDatabase
 	}
 
 	public static final boolean contains( String itemName )
-	{	return npcstoreTable[4].contains( itemName );
+	{	return npcstoreTable[4].contains( getCanonicalName( itemName ) );
 	}
 
 	public static final int getNPCStorePrice( String itemName )
