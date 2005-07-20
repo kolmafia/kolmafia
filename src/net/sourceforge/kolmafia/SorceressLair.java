@@ -406,7 +406,7 @@ public class SorceressLair implements KoLConstants
 		// Second mission -- rotate the hedge maze until
 		// the hedge path leads to the hedge door.
 
-		if ( responseText.indexOf( "Click one" ) == -1 )
+		if ( responseText.indexOf( "Click one" ) != -1 )
 		{
 			client.updateDisplay( DISABLED_STATE, "Executing final rotations..." );
 			responseText = finalizeHedgeMaze( responseText );
@@ -484,7 +484,7 @@ public class SorceressLair implements KoLConstants
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and retrieve the key from the maze.
 
-		if ( responseText.indexOf( "Click one" ) == -1 )
+		if ( responseText.indexOf( "Click one" ) != -1 )
 		{
 			KoLRequest request = new KoLRequest( client, "lair3.php" );
 			request.addFormField( "action", "hedge" );
@@ -508,7 +508,7 @@ public class SorceressLair implements KoLConstants
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and complete the hedge maze puzzle!
 
-		if ( responseText.indexOf( "Click one" ) == -1 )
+		if ( responseText.indexOf( "Click one" ) != -1 )
 		{
 			KoLRequest request = new KoLRequest( client, "lair3.php" );
 			request.addFormField( "action", "hedge" );
