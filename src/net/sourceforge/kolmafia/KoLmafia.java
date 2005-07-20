@@ -202,7 +202,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( this.characterData == null )
 		{
 			this.characterData = new KoLCharacter( loginname );
-			this.mpRestoreItemList = new MPRestoreItemList( this );
 			FamiliarData.setOwner( this.characterData );
 
 			this.inventory = characterData.getInventory();
@@ -250,6 +249,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		(new CharsheetRequest( this )).run();
 		registerPlayer( loginname, String.valueOf( characterData.getUserID() ) );
+		this.mpRestoreItemList = new MPRestoreItemList( this );
 
 		if ( !permitContinue )
 		{
