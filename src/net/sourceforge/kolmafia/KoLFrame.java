@@ -1173,7 +1173,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		private final String [] versionData = {
 			"KoLmafia v5.0",
-			"Released July 19, 2005",
+			"Released July 20, 2005",
 			" ",
 			"Copyright © 2005 KoLmafia development team",
 			"Berkeley Software Development (BSD) License",
