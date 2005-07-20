@@ -105,8 +105,25 @@ public class ConsumeItemRequest extends KoLRequest
 		// Note that requests for bartenders and chefs should
 		// not be run if the character already has one
 
-		if ( (itemUsed.getItemID() == CHEF && client.getCharacterData().hasChef()) ||
-		     itemUsed.getItemID() == BARTENDER && client.getCharacterData().hasBartender() )
+		boolean alreadyInstalled = false;
+
+		switch ( itemUsed.getItemID() )
+		{
+			case CHEF:
+				alreadyInstalled = client.getCharacterData().hasChef();
+				break;
+			case BARTENDER:
+				alreadyInstalled = client.getCharacterData().hasBartender();
+				break;
+			case TOASTER:
+				alreadyInstalled = client.getCharacterData().hasToaster();
+				break;
+			case ARCHES:
+				alreadyInstalled = client.getCharacterData().hasArches();
+				break;
+		}
+
+		if ( alreadyInstalled )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You already have one installed." );
