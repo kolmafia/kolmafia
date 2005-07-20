@@ -235,7 +235,7 @@ public class SorceressLair implements KoLConstants
 		// Now, unequip all of your equipment and cross through
 		// the mirror.  Process the mirror shard that results.
 
-		(new EquipmentRequest( client, EquipmentRequest.UNEQUIP_ALL )).run();
+		(new EquipmentRequest( client, SpecialOutfit.BIRTHDAY_SUIT )).run();
 
 		client.updateDisplay( DISABLED_STATE, "Crossing mirror puzzle..." );
 
