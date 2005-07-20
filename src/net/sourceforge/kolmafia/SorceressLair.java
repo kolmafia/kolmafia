@@ -76,6 +76,8 @@ public class SorceressLair implements KoLConstants
 	private static final AdventureResult JARLSBERG = new AdventureResult( 283, 1 );
 	private static final AdventureResult SNEAKY_PETE = new AdventureResult( 284, 1 );
 
+	private static final AdventureResult PUZZLE_PIECE = new AdventureResult( 727, 1 );
+	private static final AdventureResult HEDGE_KEY = new AdventureResult( 728, 1 );
 
 	public static void setClient( KoLmafia client )
 	{
@@ -383,7 +385,7 @@ public class SorceressLair implements KoLConstants
 		// If you have, don't bother running the puzzle.
 
 		AdventureResult [] requirements = new AdventureResult[1];
-		requirements[0] = new AdventureResult( 727, 1 );
+		requirements[0] = PUZZLE_PIECE;
 
 		if ( !checkRequirements( requirements ) )
 			return;
@@ -400,8 +402,11 @@ public class SorceressLair implements KoLConstants
 		// First mission -- retrieve the key from the hedge
 		// maze puzzle.
 
-		client.updateDisplay( DISABLED_STATE, "Retrieving hedge key..." );
-		responseText = retrieveHedgeKey( responseText );
+		if ( !client.getInventory().contains( HEDGE_KEY ) )
+		{
+			client.updateDisplay( DISABLED_STATE, "Retrieving hedge key..." );
+			responseText = retrieveHedgeKey( responseText );
+		}
 
 		// Second mission -- rotate the hedge maze until
 		// the hedge path leads to the hedge door.
@@ -439,15 +444,14 @@ public class SorceressLair implements KoLConstants
 
 			if ( responseText.indexOf( "Click one" ) == -1 )
 			{
-				AdventureResult puzzlePiece = new AdventureResult( 727, -1 );
-				int puzzlePieceCount = puzzlePiece.getCount( client.getInventory() );
+				int puzzlePieceCount = PUZZLE_PIECE.getCount( client.getInventory() );
 
 				// Reduce your hedge piece count by one; if
 				// it turns out that you've run out of puzzle
 				// pieces, return the original response text
 
 				if ( puzzlePieceCount > 0 )
-					client.processResult( puzzlePiece );
+					client.processResult( PUZZLE_PIECE.getNegation() );
 
 				// If you've run out of hedge puzzle pieces,
 				// return the original response text.
@@ -491,7 +495,7 @@ public class SorceressLair implements KoLConstants
 			request.run();
 
 			// Add key to inventory
-			client.processResult( new AdventureResult( 728, 1 ) );
+			client.processResult( HEDGE_KEY );
 		}
 
 		return responseText;
