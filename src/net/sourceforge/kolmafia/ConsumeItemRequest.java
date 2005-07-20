@@ -71,7 +71,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
 	{
 		super( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
-			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" : "inv_use.php" );
+			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" : "inv_use.php", true );
 
 		if ( consumptionType == CONSUME_MULTIPLE )
 		{
@@ -130,13 +130,84 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( isErrorState )
 			return;
 
-		// You know you're successful if the server
-		// attempts to redirect you.
-
-		if ( responseCode == 302 && !isErrorState )
+		if ( responseText.indexOf( "Too much" ) != -1 )
 		{
-			switch ( itemUsed.getItemID())
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Your spleen might go kabooie." );
+			return;
+		}
+
+		// Check for familiar growth - if a familiar is added,
+		// make sure to update the client.
+
+		if ( consumptionType == GROW_FAMILIAR )
+		{
+			if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
 			{
+				client.cancelRequest();
+				updateDisplay( ERROR_STATE, "You already have that familiar." );
+				return;
+			}
+			else
+				client.getCharacterData().addFamiliar( FamiliarsDatabase.growFamiliarItem( itemUsed.getName() ) );
+		}
+		// Check to make sure that it wasn't a food or drink
+		// that was consumed that resulted in nothing.
+
+		else if ( responseText.indexOf( "too full" ) != -1 || responseText.indexOf( "too drunk" ) != -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Consumption limit reached." );
+			return;
+		}
+
+		// Check to make sure that if a scroll of drastic healing
+		// were used and didn't dissolve, the scroll is not consumed
+
+		else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
+		{
+			client.processResult( new AdventureResult( AdventureResult.HP, client.getCharacterData().getMaximumHP() ) );
+			if ( responseText.indexOf( "crumble" ) == -1 )
+				return;
+		}
+
+		// Tiny houses also have an added bonus - they will remove
+		// lots of different effects.  Therefore, process it.
+
+		else if ( itemUsed.getName().equals( "tiny house" ) )
+			client.applyTinyHouseEffect();
+
+		// Check to see if you were using a Jumbo Dr. Lucifer, which
+		// reduces your hit points to 1.
+
+		else if ( itemUsed.getName().equals( "Jumbo Dr. Lucifer" ) )
+			client.processResult( new AdventureResult( AdventureResult.HP, 1 - client.getCharacterData().getCurrentHP() ) );
+
+		// Parse the reply, which can be found before the
+		// word "Inventory".  In theory, this could've caused
+		// problems in the inventory screen, but since Jick
+		// is probably smarter with error-checking after so
+		// long, the output/input's probably just fine.
+
+		if ( itemUsed.getName().indexOf( "rolling" ) == -1 && itemUsed.getName().indexOf( "Protest" ) == -1 )
+			client.processResult( itemUsed.getNegation() );
+
+		processResults( responseText );
+
+		// Handle rolling and unrolling pins removing your
+		// dough from the inventory.
+
+		if ( itemUsed.getName().indexOf( "rolling" ) != -1 )
+		{
+			AdventureResult consumedItem = new AdventureResult( itemUsed.getName().startsWith( "r" ) ? "wad of dough" : "flat dough", 0 );
+			client.processResult( consumedItem.getInstance( consumedItem.getCount( client.getInventory() ) ).getNegation() );
+		}
+
+		// Handle campground items which change the state
+		// of something related to the character.
+
+		switch ( itemUsed.getItemID() )
+		{
 			case CHEF:
 				client.getCharacterData().setChef( true );
 				break;
@@ -149,102 +220,6 @@ public class ConsumeItemRequest extends KoLRequest
 			case ARCHES:
 				client.getCharacterData().setArches( true );
 				break;
-			}
-
-			(new RetrieveResultRequest( client, redirectLocation )).run();
-		}
-		else if ( responseText.indexOf( "Too much" ) != -1 )
-		{
-			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Your spleen might go kabooie." );
-			return;
-		}
-		else
-		{
-			client.processResult( itemUsed.getNegation() );
-			processResults( responseText );
-		}
-	}
-
-	private class RetrieveResultRequest extends KoLRequest
-	{
-		public RetrieveResultRequest( KoLmafia client, String redirectLocation )
-		{	super( client, redirectLocation );
-		}
-
-		public void run()
-		{
-			super.run();
-
-			if ( isErrorState || responseCode != 200 )
-				return;
-
-			// Check for familiar growth - if a familiar is added,
-			// make sure to update the client.
-
-			if ( consumptionType == GROW_FAMILIAR )
-			{
-				if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
-				{
-					client.cancelRequest();
-					updateDisplay( ERROR_STATE, "You already have that familiar." );
-					return;
-				}
-				else
-					client.getCharacterData().addFamiliar( FamiliarsDatabase.growFamiliarItem( itemUsed.getName() ) );
-			}
-
-			// Check to make sure that it wasn't a food or drink
-			// that was consumed that resulted in nothing.
-
-			else if ( responseText.indexOf( "too full" ) != -1 || responseText.indexOf( "too drunk" ) != -1 )
-			{
-				client.cancelRequest();
-				updateDisplay( ERROR_STATE, "Consumption limit reached." );
-				return;
-			}
-
-			// Check to make sure that if a scroll of drastic healing
-			// were used and didn't dissolve, the scroll is not consumed
-
-			else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
-			{
-				client.processResult( new AdventureResult( AdventureResult.HP, client.getCharacterData().getMaximumHP() ) );
-				if ( responseText.indexOf( "crumble" ) == -1 )
-					return;
-			}
-
-			// Tiny houses also have an added bonus - they will remove
-			// lots of different effects.  Therefore, process it.
-
-			else if ( itemUsed.getName().equals( "tiny house" ) )
-				client.applyTinyHouseEffect();
-
-			// Check to see if you were using a Jumbo Dr. Lucifer, which
-			// reduces your hit points to 1.
-
-			else if ( itemUsed.getName().equals( "Jumbo Dr. Lucifer" ) )
-				client.processResult( new AdventureResult( AdventureResult.HP, 1 - client.getCharacterData().getCurrentHP() ) );
-
-			// Parse the reply, which can be found before the
-			// word "Inventory".  In theory, this could've caused
-			// problems in the inventory screen, but since Jick
-			// is probably smarter with error-checking after so
-			// long, the output/input's probably just fine.
-
-			if ( itemUsed.getName().indexOf( "rolling" ) == -1 && itemUsed.getName().indexOf( "Protest" ) == -1 )
-				client.processResult( itemUsed.getNegation() );
-
-			processResults( responseText.substring( 0, responseText.indexOf( "Inventory:" ) ) );
-
-			// Handle rolling and unrolling pins removing your
-			// dough from the inventory.
-
-			if ( itemUsed.getName().indexOf( "rolling" ) != -1 )
-			{
-				AdventureResult consumedItem = new AdventureResult( itemUsed.getName().startsWith( "r" ) ? "wad of dough" : "flat dough", 0 );
-				client.processResult( consumedItem.getInstance( consumedItem.getCount( client.getInventory() ) ).getNegation() );
-			}
 		}
 	}
 }
