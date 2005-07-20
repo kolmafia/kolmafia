@@ -476,7 +476,7 @@ public class SorceressLair implements KoLConstants
 		responseText = rotateHedgePiece( responseText, "3", "form3.submit();\"><img alt=\"Dead end, exit to the west.  There is a key here.\"" );
 		responseText = rotateHedgePiece( responseText, "4", "form4.submit();\"><img alt=\"Straight north/south passage.\"" );
 		responseText = rotateHedgePiece( responseText, "7", "form7.submit();\"><img alt=\"90 degree bend, exits north and east.\"" );
-		responseText = rotateHedgePiece( responseText, "8", "form8.submit();\"><img alt=\"90 degree bend, exits south and east.\"" );
+		responseText = rotateHedgePiece( responseText, "8", "form8.submit();\"><img alt=\"90 degree bend, exits south and west.\"" );
 
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and retrieve the key from the maze.
@@ -484,6 +484,9 @@ public class SorceressLair implements KoLConstants
 		KoLRequest request = new KoLRequest( client, "lair3.php" );
 		request.addFormField( "action", "hedge" );
 		request.run();
+
+		// Add key to inventory
+		client.processResult( new AdventureResult( 728, 1 ) );
 
 		return responseText;
 	}
