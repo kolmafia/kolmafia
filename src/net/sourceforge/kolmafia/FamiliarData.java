@@ -174,7 +174,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			case 865:
 			case 1040:
 			case 1152:
-			case 1239:
+			case 1260:
 				return true;
 
 			default:
@@ -219,7 +219,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			case -1:
 			case 1040:
 			case 1152:
-			case 1239:
+			case 1260:
 
 				break;
 
