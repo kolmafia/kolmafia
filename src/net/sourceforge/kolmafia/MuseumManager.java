@@ -52,6 +52,7 @@ public class MuseumManager implements KoLConstants
 	{
 		this.client = client;
 		this.items = new SortedListModel();
+		this.headers = new LockableListModel();
 		this.shelves = new LockableListModel();
 	}
 
@@ -83,15 +84,19 @@ public class MuseumManager implements KoLConstants
 
 		Pattern selectedPattern = Pattern.compile( "(\\d+) selected>" );
 		Matcher selectedMatcher;
-		int itemID, itemCount;
 
-		Matcher optionMatcher = Pattern.compile( "<b>.*?</b>(.*?)</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" ).matcher( data );
+		int itemID, itemCount;
+		String [] itemCountString;
+
+		Matcher optionMatcher = Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" ).matcher( data );
 		while ( optionMatcher.find() )
 		{
 			selectedMatcher = selectedPattern.matcher( optionMatcher.group(3) );
 
 			itemID = Integer.parseInt( optionMatcher.group(2) );
-			itemCount = Integer.parseInt( "0" + optionMatcher.group(1).replaceAll( "[ \\(\\)]", "" ) );
+
+			itemCountString = optionMatcher.group(1).split( "[\\(\\)]" );
+			itemCount = itemCountString.length == 1 ? 1 : Integer.parseInt( itemCountString[1] );
 
 			registerItem( new AdventureResult( itemID, itemCount ),
 				selectedMatcher.find() ? Integer.parseInt( selectedMatcher.group(1) ) : 0 );
@@ -125,12 +130,12 @@ public class MuseumManager implements KoLConstants
 		if ( headers.size() != shelves.size() )
 		{
 			shelves.clear();
-			for ( int i = 0; i <= headers.size(); ++i )
+			for ( int i = 0; i < headers.size(); ++i )
 				shelves.add( new SortedListModel() );
 		}
 		else
 		{
-			for ( int i = 0; i <= headers.size(); ++i )
+			for ( int i = 0; i < headers.size(); ++i )
 				shelves.set( i, new SortedListModel() );
 		}
 	}
