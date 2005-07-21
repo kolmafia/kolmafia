@@ -41,6 +41,8 @@ public class SorceressLair implements KoLConstants
 	private static KoLmafia client;
 	private static List missingItems;
 
+	// Items for the entryway
+
 	private static final AdventureResult SUGAR = new AdventureResult( "Sugar Rush", 0 );
 	private static final AdventureResult RICE_CANDY = new AdventureResult( 540, 1 );
 	private static final AdventureResult FARMER_CANDY = new AdventureResult( 617, 1 );
@@ -76,8 +78,42 @@ public class SorceressLair implements KoLConstants
 	private static final AdventureResult JARLSBERG = new AdventureResult( 283, 1 );
 	private static final AdventureResult SNEAKY_PETE = new AdventureResult( 284, 1 );
 
+	// Items for the hedge maze
+
 	private static final AdventureResult PUZZLE_PIECE = new AdventureResult( 727, 1 );
 	private static final AdventureResult HEDGE_KEY = new AdventureResult( 728, 1 );
+
+	// Items for the tower guardians
+
+	private static final AdventureResult BASEBALL = new AdventureResult( 181, 1 );
+	private static final AdventureResult DISEASE = new AdventureResult( 452, 1 );
+	private static final AdventureResult FENCE = new AdventureResult( 145, 1 );
+	private static final AdventureResult LID = new AdventureResult( 559, 1 );
+	private static final AdventureResult VORTEX = new AdventureResult( 546, 1 );
+	private static final AdventureResult STARS = new AdventureResult( 353, 1 );
+	private static final AdventureResult BUTTERFLY = new AdventureResult( 615, 1 );
+	private static final AdventureResult NG = new AdventureResult( 624, 1 );
+	private static final AdventureResult TORPEDO = new AdventureResult( 630, 1 );
+	private static final AdventureResult BISCUIT = new AdventureResult( 563, 1 );
+	private static final AdventureResult SPRAY = new AdventureResult( 744, 1 );
+	private static final AdventureResult WEB = new AdventureResult( 27, 1 );
+
+	// Guardians and the items that defeat them
+	private static String [] guardians =
+	{
+		"Beer Batter", "Vicious Easel", "Enraged Cow",
+		"Fickle Finger of F8", "Big Meat Golem", "Flaming Samurai",
+		"Tyrannosaurus Tex", "Giant Desktop Globe", "Electron Submarine",
+		"Bowling Cricket", "Ice Cube", "Pretty Fly"
+	};
+
+	private static AdventureResult [] combatItems =
+	{
+		BASEBALL, DISEASE, FENCE,
+		LID, VORTEX, STARS,
+		BUTTERFLY, NG, TORPEDO,
+		BISCUIT, SPRAY, WEB
+	};
 
 	public static void setClient( KoLmafia client )
 	{
@@ -520,5 +556,105 @@ public class SorceressLair implements KoLConstants
 		}
 
 		return responseText;
+	}
+
+	public static void fightTowerGuardians()
+	{
+		if ( !checkPrerequisites() )
+			return;
+
+		// Determine which level you actually need to start from.
+
+		client.updateDisplay( DISABLED_STATE, "Climbing the tower..." );
+
+		KoLRequest request = new KoLRequest( client, "lair4.php" );
+		request.run();
+
+		int currentLevel = 0;
+
+		if ( request.responseText.indexOf( "lair5.php" ) != -1 )
+		{
+			// There is a link to higher in the tower.
+
+			request = new KoLRequest( client, "lair5.php" );
+			request.run();
+
+			currentLevel = 3;
+		}
+
+		if ( request.responseText.indexOf( "value=\"level1\"" ) != -1 )
+			currentLevel += 1;
+		else if ( request.responseText.indexOf( "value=\"level2\"" ) != -1 )
+			currentLevel += 2;
+		else if ( request.responseText.indexOf( "value=\"level3\"" ) != -1 )
+			currentLevel += 3;
+		else
+			currentLevel += 4;
+
+
+		if ( currentLevel > 6 )
+		{
+			client.updateDisplay( ENABLED_STATE, "You've already defeated the tower guardians" );
+			return;
+		}
+
+		for ( int towerLevel = currentLevel; towerLevel <= 6; ++towerLevel )
+			if ( !fightGuardian( towerLevel ) )
+				return;
+
+		client.updateDisplay( ENABLED_STATE, "Path to Sorceress's chamber cleared." );
+	}
+
+	private static boolean fightGuardian( int towerLevel )
+	{
+		client.updateDisplay( DISABLED_STATE, "Fighting guardian on level " + towerLevel + " of the tower." );
+
+		// Boldly climb the stairs.
+
+		KoLRequest request = new KoLRequest( client, towerLevel <= 3 ? "lair4.php" : "lair5.php", true );
+		request.addFormField( "action", "level" + ((towerLevel - 1) % 3 + 1) );
+		request.run();
+
+		// Parse response to see which item we need.
+
+		AdventureResult guardianItem = getGuardianItem( request.responseText );
+
+		// With the guardian item retrieved, check to see if you have
+		// the item, and if so, use it and report success.  Otherwise,
+		// run away and report failure.
+
+		request = new KoLRequest( client, "fight.php" );
+
+		if ( client.getInventory().contains( guardianItem ) )
+		{
+			request.addFormField( "action", "useitem" );
+			request.addFormField( "whichitem", String.valueOf( guardianItem.getItemID() ) );
+			request.run();
+
+			client.processResult( guardianItem.getNegation() );
+			return true;
+		}
+		else
+		{
+			request.addFormField( "action", "runaway" );
+			request.run();
+
+			client.updateDisplay( ERROR_STATE, "You need an additional " + guardianItem.getName() + " to continue." );
+			missingItems.clear();
+			missingItems.add( guardianItem );
+			return false;
+		}
+	}
+
+	private static AdventureResult getGuardianItem( String fightText )
+	{
+		for ( int i = 0; i < guardians.length; ++i)
+			if ( fightText.indexOf( guardians[i] ) != -1 )
+				return combatItems[i];
+
+		// Shouldn't get here.
+
+		client.updateDisplay( ERROR_STATE, "Unknown guardian!" );
+		return new AdventureResult( 666, 1 );
 	}
 }

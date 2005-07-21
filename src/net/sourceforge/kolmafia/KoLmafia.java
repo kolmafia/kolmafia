@@ -1762,9 +1762,18 @@ public abstract class KoLmafia implements KoLConstants
 	public void completeHedgeMaze()
 	{
 		// Use the static method provided in the sorceress
-		// lair to complete the entryway process.
+		// lair to pass through the hedge maze
 
 		SorceressLair.setClient( this );
 		SorceressLair.completeHedgeMaze();
+	}
+
+	public void fightTowerGuardians()
+	{
+		// Use the static method provided in the sorceress
+		// lair to fight all the tower guardians
+
+		SorceressLair.setClient( this );
+		SorceressLair.fightTowerGuardians();
 	}
 }

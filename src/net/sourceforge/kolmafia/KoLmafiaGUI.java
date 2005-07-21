@@ -327,6 +327,15 @@ public class KoLmafiaGUI extends KoLmafia
 				JOptionPane.INFORMATION_MESSAGE, null, SorceressLair.getMissingItems().toArray(), null );
 	}
 
+	public void fightTowerGuardians()
+	{
+		super.fightTowerGuardians();
+
+		if ( !SorceressLair.getMissingItems().isEmpty() )
+			JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
+				JOptionPane.INFORMATION_MESSAGE, null, SorceressLair.getMissingItems().toArray(), null );
+	}
+
 	public void setVisible( boolean isVisible )
 	{
 		if ( displayer != null && displayer.getCreation() != null )

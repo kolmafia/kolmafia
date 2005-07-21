@@ -607,6 +607,17 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Look!  It's the command to fight the guardians
+		// in the Sorceress's tower!  This is placed
+		// right after for consistency.
+
+		if ( command.equals( "guardians" ) )
+		{
+			scriptRequestor.fightTowerGuardians();
+			printList( SorceressLair.getMissingItems() );
+			return;
+		}
+
 		// Next is the command to handle the retrieval
 		// of breakfast, which is not yet documented.
 
