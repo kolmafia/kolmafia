@@ -144,9 +144,17 @@ public class MuseumManager implements KoLConstants
 		Matcher selectMatcher = Pattern.compile( "<select.*?</select>" ).matcher( data );
 		if ( selectMatcher.find() )
 		{
-			Matcher shelfMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( selectMatcher.group() );
+			int currentShelf;
+			Matcher shelfMatcher = Pattern.compile( "<option value=(\\d+).*?>(.*?)</option>" ).matcher( selectMatcher.group() );
 			while ( shelfMatcher.find() )
-				headers.add( shelfMatcher.group(1) );
+			{
+				currentShelf = Integer.parseInt( shelfMatcher.group(1) );
+
+				for ( int i = headers.size(); i < currentShelf; ++i )
+					headers.add( "(Deleted Shelf)" );
+
+				headers.add( shelfMatcher.group(2) );
+			}
 		}
 
 		if ( headers.size() == 0 )
@@ -154,16 +162,8 @@ public class MuseumManager implements KoLConstants
 
 		headers.set( 0, "Display Case" );
 
-		if ( headers.size() != shelves.size() )
-		{
-			shelves.clear();
-			for ( int i = 0; i < headers.size(); ++i )
-				shelves.add( new SortedListModel() );
-		}
-		else
-		{
-			for ( int i = 0; i < headers.size(); ++i )
-				shelves.set( i, new SortedListModel() );
-		}
+		shelves.clear();
+		for ( int i = 0; i < headers.size(); ++i )
+			shelves.add( new SortedListModel() );
 	}
 }
