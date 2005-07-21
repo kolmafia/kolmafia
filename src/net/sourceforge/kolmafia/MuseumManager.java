@@ -154,6 +154,7 @@ public class MuseumManager implements KoLConstants
 		}
 
 		request.run();
+		(new MuseumRequest( client )).run();
 		client.updateDisplay( ENABLED_STATE, "Display case updated." );
 	}
 
