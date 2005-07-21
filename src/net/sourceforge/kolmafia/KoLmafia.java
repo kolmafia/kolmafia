@@ -92,9 +92,11 @@ public abstract class KoLmafia implements KoLConstants
 	protected BuffBotHome buffBotHome;
 	protected BuffBotManager buffBotManager;
 	protected MPRestoreItemList mpRestoreItemList;
+
 	protected CakeArenaManager cakeArenaManager;
 	protected StoreManager storeManager;
 	protected ClanManager clanManager;
+	protected MuseumManager museumManager;
 
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
@@ -104,7 +106,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected LockableListModel adventureList;
 	protected SortedListModel tally, conditions;
-	protected SortedListModel inventory, closet, usableItems, hunterItems, collection, storage;
+	protected SortedListModel inventory, closet, usableItems, hunterItems, storage;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -196,9 +198,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Begin by loading the user-specific settings.
-		this.settings = new KoLSettings( loginname );
-
 		if ( this.characterData == null )
 		{
 			this.characterData = new KoLCharacter( loginname );
@@ -208,7 +207,6 @@ public abstract class KoLmafia implements KoLConstants
 			this.usableItems = new SortedListModel();
 			this.hunterItems = new SortedListModel();
 			this.storage = new SortedListModel();
-			this.collection = characterData.getCollection();
 			this.closet = characterData.getCloset();
 			this.recentEffects = new ArrayList();
 
@@ -262,12 +260,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( loginRequest != null )
 			return;
-
-		// Remove the password data; it doesn't need to be stored
-		// in every single .kcs file.
-
-		saveStateNames.clear();
-		storeSaveStates();
 
 		// Retrieve campground data to see if the user is able to
 		// cook, make drinks or make toast.
@@ -333,10 +325,12 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		this.isLoggingIn = false;
+		this.settings = new KoLSettings( loginname );
 		this.loathingMail = new KoLMailManager( this );
 		this.cakeArenaManager = new CakeArenaManager( this );
 		this.storeManager = new StoreManager( this );
 		this.clanManager = new ClanManager( this );
+		this.museumManager = new MuseumManager( this );
 		this.permitContinue = true;
 	}
 
@@ -717,7 +711,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public SortedListModel getCollection()
-	{	return collection;
+	{	return museumManager.getItems();
 	}
 
 	/**
@@ -1684,6 +1678,15 @@ public abstract class KoLmafia implements KoLConstants
 
 	public StoreManager getStoreManager()
 	{	return storeManager;
+	}
+
+	/**
+	 * Retrieves the <code>MuseumManager</code> used for managing data relating
+	 * to the player's display case.
+	 */
+
+	public MuseumManager getMuseumManager()
+	{	return museumManager;
 	}
 
 	public LockableListModel getAdventureList()
