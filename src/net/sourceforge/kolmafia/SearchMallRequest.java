@@ -239,12 +239,14 @@ public class SearchMallRequest extends KoLRequest
 		if ( searchString == null || searchString.trim().length() == 0 )
 			return;
 
-		if ( !retainAll || client.getCharacterData().getLevel() < 5 )
+		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
+
+		if ( !retainAll )
 		{
 			if ( !client.getCharacterData().canInteract() || client.getCharacterData().getLevel() < 5 )
 			{
 				results.clear();
-				finalizeList( TradeableItemDatabase.getMatchingNames( searchString ) );
+				finalizeList( itemNames );
 				return;
 			}
 		}
@@ -261,7 +263,6 @@ public class SearchMallRequest extends KoLRequest
 			return;
 
 		int startIndex = responseText.indexOf( "Search Results:" );
-		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
 
 		if ( startIndex == -1 )
 		{
