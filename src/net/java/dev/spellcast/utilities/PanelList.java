@@ -38,6 +38,7 @@ package net.java.dev.spellcast.utilities;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
 
 // event listeners
@@ -87,7 +88,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 	public PanelList( int visibleRows, int cellWidth, int cellHeight, LockableListModel associatedListModel )
 	{
-		super();  ((java.awt.FlowLayout)getLayout()).setVgap(0);
+		super();  this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 		this.visibleRows = visibleRows;  this.cellHeight = cellHeight;  this.cellWidth = cellWidth;
 
 		// check to see if there are any components within the associated list
