@@ -49,6 +49,7 @@ import java.awt.event.KeyEvent;
 // containers
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
@@ -78,7 +79,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MuseumFrame extends KoLFrame
 {
-	private JPanel general, shelves;
+	private JComponent general, shelves, ordering;
 
 	/**
 	 * Constructs a new <code>MuseumFrame</code> and inserts all
@@ -90,16 +91,21 @@ public class MuseumFrame extends KoLFrame
 	public MuseumFrame( KoLmafia client )
 	{
 		super( client, "KoLmafia: Display Case" );
-		(new RequestThread( new MuseumRequest( client ) )).start();
+
+		if ( client != null )
+			(new RequestThread( new MuseumRequest( client ) )).start();
 
 		general = new AddRemovePanel();
 		shelves = new MuseumShelfList();
+		ordering = new OrderingPanel();
 
 		JScrollPane shelvesScroller = new JScrollPane( shelves, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JScrollPane orderingScroller = new JScrollPane( ordering, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		JTabbedPane tabs = new JTabbedPane();
 		tabs.addTab( "General", general );
-		tabs.addTab( "Shelving", shelvesScroller );
+		tabs.addTab( "Shelves", shelvesScroller );
+		tabs.addTab( "Ordering", orderingScroller );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -107,10 +113,12 @@ public class MuseumFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( general != null )
+		if ( ordering != null )
+		{
 			general.setEnabled( isEnabled );
-		if ( shelves != null )
 			shelves.setEnabled( isEnabled );
+			ordering.setEnabled( isEnabled );
+		}
 	}
 
 	/**
@@ -237,6 +245,37 @@ public class MuseumFrame extends KoLFrame
 		{
 			elementList.setModel( (SortedListModel) value );
 			this.index = index;
+		}
+	}
+
+	private class OrderingPanel extends ItemManagePanel
+	{
+		private LockableListModel headers;
+
+		public OrderingPanel()
+		{
+			super( "Reorder Shelves", "move up", "apply", client == null ? new LockableListModel() :
+				(LockableListModel) client.getMuseumManager().getHeaders().getMirrorImage() );
+
+			headers = (LockableListModel) elementList.getModel();
+		}
+
+		public void actionConfirmed()
+		{
+			int selectedIndex = elementList.getSelectedIndex();
+			if ( selectedIndex < 1 )
+				return;
+
+			Object removed = headers.remove( selectedIndex );
+			headers.add( selectedIndex - 1, removed );
+			elementList.setSelectedIndex( selectedIndex - 1 );
+		}
+
+		public void actionCancelled()
+		{
+			String [] headerArray = new String[ headers.size() ];
+			headers.toArray( headerArray );
+			client.getMuseumManager().reorder( headerArray );
 		}
 	}
 

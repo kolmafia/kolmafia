@@ -74,35 +74,118 @@ public class MuseumManager implements KoLConstants
 
 	public void move( Object [] moving, int sourceShelf, int destinationShelf )
 	{
+		// In order to take advantage of the utilities of the
+		// Collections interface, place everything inside of
+		// a list first.
+
 		List movingList = new ArrayList();
 		for ( int i = 0; i < moving.length; ++i )
 			movingList.add( moving[i] );
 
+		// Use the removeAll() and addAll() methods inside of
+		// the Collections interface.
+
 		((SortedListModel)shelves.get( sourceShelf )).removeAll( movingList );
 		((SortedListModel)shelves.get( destinationShelf )).addAll( movingList );
 
-		// Now to construct the needed request to submit to
-		// the server in order to actually move the items
-		// to the appropriate shelf.
+		// Save the lists to the server and update the display
+		// on the client to reflect the change.
 
-		int elementCounter = 0;
-		SortedListModel currentShelf;
+		save( this.shelves );
+		client.updateDisplay( ENABLED_STATE, "Display case updated." );
+	}
 
-		int [] shelves = new int[ this.items.size() ];
-		AdventureResult [] items = new AdventureResult[ this.items.size() ];
+	public void reorder( String [] headers )
+	{
+		headers[0] = "Display Case";
 
-		for ( int i = 0; i < this.shelves.size(); ++i )
+		// Unfortunately, if there are deleted shelves, the
+		// shelves cannot be re-ordered directly.  What has
+		// to happen is that the number of deleted shelves
+		// needs to be created with some dummy name and then
+		// deleted afterwards.
+
+		boolean containsDeletedShelf = false;
+		boolean [] deleted = new boolean[ headers.length ];
+
+		for ( int i = 0; i < headers.length; ++i )
 		{
-			currentShelf = (SortedListModel) this.shelves.get(i);
-			for ( int j = 0; j < currentShelf.size(); ++j, ++elementCounter )
+			deleted[i] = headers[i].equals( "(Deleted Shelf)" );
+			containsDeletedShelf |= deleted[i];
+		}
+
+		for ( int i = 0; i < deleted.length; ++i )
+		{
+			if ( deleted[i] )
 			{
-				shelves[ elementCounter ] = i;
-				items[ elementCounter ] = (AdventureResult) currentShelf.get(j);
+				KoLRequest request = new KoLRequest( client, "managecollection.php" );
+				request.addFormField( "action", "newshelf" );
+				request.addFormField( "pwd", client.getPasswordHash() );
+				request.addFormField( "shelfname", "Deleted Shelf " + i );
+				request.run();
 			}
 		}
 
-		(new MuseumRequest( client, items, shelves )).run();
+		// Determine where the headers are in the existing
+		// list of headers to find out where the shelf contents
+		// should be stored after the update.
+
+		List shelforder = new ArrayList();
+		for ( int i = 0; i < headers.length; ++i )
+			shelforder.add( shelves.get( this.headers.indexOf( headers[i] ) ) );
+
+		// Save the lists to the server and update the display
+		// on the client to reflect the change.
+
+		save( shelforder );
+
+		// Redelete the previously deleted shelves so that the
+		// user isn't stuck with shelves they aren't going to use.
+
+		KoLRequest request = new KoLRequest( client, "managecollection.php" );
+		request.addFormField( "action", "modifyshelves" );
+		request.addFormField( "pwd", client.getPasswordHash() );
+
+		for ( int i = 1; i < headers.length; ++i )
+		{
+			request.addFormField( "newname" + i, headers[i] );
+			if ( deleted[i] )
+				request.addFormField( "delete" + i, "on" );
+		}
+
+		request.run();
 		client.updateDisplay( ENABLED_STATE, "Display case updated." );
+	}
+
+	private void save( List shelfOrder )
+	{
+		int elementCounter = 0;
+		SortedListModel currentShelf;
+
+		// In order to ensure that all data is saved with no
+		// glitches server side, all items submit their state.
+		// Store the data in two parallel arrays.
+
+		int [] newShelves = new int[ this.items.size() ];
+		AdventureResult [] newItems = new AdventureResult[ this.items.size() ];
+
+		// Iterate through each shelf and place the item into
+		// the parallel arrays.
+
+		for ( int i = 0; i < shelfOrder.size(); ++i )
+		{
+			currentShelf = (SortedListModel) shelfOrder.get(i);
+			for ( int j = 0; j < currentShelf.size(); ++j, ++elementCounter )
+			{
+				newShelves[ elementCounter ] = i;
+				newItems[ elementCounter ] = (AdventureResult) currentShelf.get(j);
+			}
+		}
+
+		// Once the parallel arrays are properly initialized,
+		// send the update request to the server.
+
+		(new MuseumRequest( client, newItems, newShelves )).run();
 	}
 
 	public void update( String data )
