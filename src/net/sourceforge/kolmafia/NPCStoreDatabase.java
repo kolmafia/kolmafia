@@ -64,15 +64,14 @@ public class NPCStoreDatabase extends KoLDatabase
 				for ( int i = 0; i < 4; ++i )
 					npcstoreTable[i].add( data[i] );
 
-				npcstoreTable[4].add( getCanonicalName( TradeableItemDatabase.getItemName( Integer.parseInt( data[2] ) ) ) );
+				npcstoreTable[4].add( Integer.valueOf( data[2] ) );
 			}
 		}
 	}
 
 	public static final MallPurchaseRequest getPurchaseRequest( KoLmafia client, String itemName )
 	{
-		List itemNames = npcstoreTable[4];
-		int itemIndex = itemNames.indexOf( itemName );
+		int itemIndex = npcstoreTable[4].indexOf( new Integer( TradeableItemDatabase.getItemID( itemName ) ) );
 
 		return itemIndex == -1 ? null :
 			new MallPurchaseRequest( client, (String) npcstoreTable[1].get(itemIndex), (String) npcstoreTable[0].get(itemIndex),
@@ -80,14 +79,12 @@ public class NPCStoreDatabase extends KoLDatabase
 	}
 
 	public static final boolean contains( String itemName )
-	{	return npcstoreTable[4].contains( getCanonicalName( itemName ) );
+	{	return npcstoreTable[4].contains( new Integer( TradeableItemDatabase.getItemID( itemName ) ) );
 	}
 
 	public static final int getNPCStorePrice( String itemName )
 	{
-		List itemNames = npcstoreTable[4];
-		int itemIndex = itemNames.indexOf( itemName );
-
+		int itemIndex = npcstoreTable[4].indexOf( new Integer( TradeableItemDatabase.getItemID( itemName ) ) );
 		return itemIndex == -1 ? 0 : Integer.parseInt( (String) npcstoreTable[3].get(itemIndex) );
 	}
 }

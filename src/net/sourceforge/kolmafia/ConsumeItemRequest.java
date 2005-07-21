@@ -178,7 +178,7 @@ public class ConsumeItemRequest extends KoLRequest
 				return;
 			}
 			else
-				client.getCharacterData().addFamiliar( FamiliarsDatabase.growFamiliarItem( itemUsed.getName() ) );
+				client.getCharacterData().addFamiliar( FamiliarsDatabase.growFamiliarItem( itemUsed.getItemID() ) );
 		}
 		// Check to make sure that it wasn't a food or drink
 		// that was consumed that resulted in nothing.

@@ -72,15 +72,15 @@ public class FamiliarsDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "familiars.dat" );
 
 		String [] data;
-		Integer familiarID;
-		String familiarLarva, familiarName, familiarItemName;
+		Integer familiarID, familiarLarva;
+		String familiarName, familiarItemName;
 
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length == 8 )
 			{
 				familiarID = Integer.valueOf( data[0] );
-				familiarLarva = TradeableItemDatabase.getItemName( Integer.parseInt( data[1] ) );
+				familiarLarva = Integer.valueOf( data[1] );
 				familiarName = getDisplayName( data[2] );
 
 				familiarByID.put( familiarID, familiarName );
@@ -130,13 +130,13 @@ public class FamiliarsDatabase extends KoLDatabase
 
 	/**
 	 * Returns the ID number for an familiar, given its larval stage.
-	 * @param	larvaStage	The larva stage of the familiar to lookup
+	 * @param	larvaID	The larva stage of the familiar to lookup
 	 * @return	The ID number of the corresponding familiar
 	 */
 
-	public static final FamiliarData growFamiliarItem( String larvaStage )
+	public static final FamiliarData growFamiliarItem( int larvaID )
 	{
-		Object familiarID = familiarByLarva.get( larvaStage );
+		Object familiarID = familiarByLarva.get( new Integer( larvaID ) );
 		return familiarID == null ? null : new FamiliarData( ((Integer)familiarID).intValue() );
 	}
 
