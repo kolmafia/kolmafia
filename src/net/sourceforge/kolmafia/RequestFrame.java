@@ -293,9 +293,6 @@ public class RequestFrame extends KoLFrame
 
 			mainBuffer.append( "Retrieving..." );
 
-			if ( currentRequest.responseText == null )
-				currentRequest.run();
-
 			// Update the title for the RequestFrame to include the
 			// current round of combat (for people who track this
 			// sort of thing).
@@ -307,9 +304,12 @@ public class RequestFrame extends KoLFrame
 			}
 			else
 			{
-				combatRound = 0;
+				combatRound = 1;
 				setTitle( "Mini-Browser" );
 			}
+
+			if ( currentRequest.responseText == null )
+				currentRequest.run();
 
 			// In the event that something resembling a gain event
 			// is seen in the response text, or in the event that you
