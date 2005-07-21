@@ -499,7 +499,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		tally.set( index, sumResult );
 	}
 
-	public static AutoSellCellRenderer getAutoSellCellRenderer()
+	public static DefaultListCellRenderer getAutoSellCellRenderer()
 	{	return new AutoSellCellRenderer();
 	}
 
@@ -518,6 +518,9 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			AdventureResult ar = (AdventureResult) value;
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
+
+			if ( autoSellValue == 0 )
+				return new JLabel();
 
 			String stringForm = ar.getName() + ((autoSellValue == 0) ? "" : (" (" + df.format(autoSellValue) + " meat)")) +
 				((ar.count[0] == 1) ? "" : (" (" + df.format(ar.count[0]) + ")"));
