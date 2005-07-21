@@ -148,7 +148,12 @@ public class MuseumFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new RequestThread( new MuseumRequest( client, elementList.getSelectedValues(), true ) )).start();
+			{
+				Runnable [] parameters = new Runnable[2];
+				parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), true );
+				parameters[1] = new MuseumRequest( client );
+
+				(new RequestThread( parameters )).start();
 			}
 
 			protected void actionCancelled()
@@ -165,7 +170,7 @@ public class MuseumFrame extends KoLFrame
 			protected void actionConfirmed()
 			{
 				Runnable [] parameters = new Runnable[2];
-				parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), true );
+				parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), false );
 				parameters[1] = new MuseumRequest( client );
 
 				(new RequestThread( parameters )).start();
@@ -198,20 +203,40 @@ public class MuseumFrame extends KoLFrame
 
 	public class MuseumShelfPanel extends ItemManagePanel implements PanelListCell
 	{
+		private int index;
+
 		public MuseumShelfPanel( int index, SortedListModel value )
-		{	super( client.getMuseumManager().getHeader( index ), "move", "remove", value );
+		{
+			super( client.getMuseumManager().getHeader( index ), "move", "remove", value );
+			this.index = index;
 		}
 
 		public void actionConfirmed()
 		{
+			Object [] headerArray = client.getMuseumManager().getHeaders().toArray();
+
+			String selectedValue = (String) JOptionPane.showInputDialog(
+				null, "Moving to this shelf...", "Shelfishness!", JOptionPane.INFORMATION_MESSAGE, null,
+				headerArray, headerArray[0] );
+
+			for ( int i = 0; i < headerArray.length; ++i )
+				if ( selectedValue.equals( headerArray[i] ) )
+					client.getMuseumManager().move( elementList.getSelectedValues(), index, i );
 		}
 
 		public void actionCancelled()
 		{
+			Runnable [] parameters = new Runnable[2];
+			parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), false );
+			parameters[1] = new MuseumRequest( client );
+
+			(new RequestThread( parameters )).start();
 		}
 
 		public synchronized void updateDisplay( PanelList list, Object value, int index )
-		{	elementList.setModel( (SortedListModel) value );
+		{
+			elementList.setModel( (SortedListModel) value );
+			this.index = index;
 		}
 	}
 

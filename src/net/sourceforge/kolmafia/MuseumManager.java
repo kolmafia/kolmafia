@@ -56,26 +56,53 @@ public class MuseumManager implements KoLConstants
 		this.shelves = new LockableListModel();
 	}
 
-	public String getHeader( int shelf )
-	{	return (String) headers.get( shelf );
-	}
-
 	public SortedListModel getItems()
 	{	return items;
+	}
+
+	public LockableListModel getHeaders()
+	{	return headers;
+	}
+
+	public String getHeader( int shelf )
+	{	return (String) headers.get( shelf );
 	}
 
 	public LockableListModel getShelves()
 	{	return shelves;
 	}
 
-	public void move( Object [] items, int sourceShelf, int destinationShelf )
+	public void move( Object [] moving, int sourceShelf, int destinationShelf )
 	{
-		List itemList = new ArrayList();
-		for ( int i = 0; i < items.length; ++i )
-			itemList.add( items[i] );
+		List movingList = new ArrayList();
+		for ( int i = 0; i < moving.length; ++i )
+			movingList.add( moving[i] );
 
-		((SortedListModel)shelves.get( sourceShelf )).removeAll( itemList );
-		((SortedListModel)shelves.get( destinationShelf )).addAll( itemList );
+		((SortedListModel)shelves.get( sourceShelf )).removeAll( movingList );
+		((SortedListModel)shelves.get( destinationShelf )).addAll( movingList );
+
+		// Now to construct the needed request to submit to
+		// the server in order to actually move the items
+		// to the appropriate shelf.
+
+		int elementCounter = 0;
+		SortedListModel currentShelf;
+
+		int [] shelves = new int[ this.items.size() ];
+		AdventureResult [] items = new AdventureResult[ this.items.size() ];
+
+		for ( int i = 0; i < this.shelves.size(); ++i )
+		{
+			currentShelf = (SortedListModel) this.shelves.get(i);
+			for ( int j = 0; j < currentShelf.size(); ++j, ++elementCounter )
+			{
+				shelves[ elementCounter ] = i;
+				items[ elementCounter ] = (AdventureResult) currentShelf.get(j);
+			}
+		}
+
+		(new MuseumRequest( client, items, shelves )).run();
+		client.updateDisplay( ENABLED_STATE, "Display case updated." );
 	}
 
 	public void update( String data )

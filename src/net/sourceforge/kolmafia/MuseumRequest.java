@@ -79,6 +79,7 @@ public class MuseumRequest extends SendMessageRequest
 		for ( int i = 0; i < items.length; ++i )
 			addFormField( "whichshelf" + items[i].getItemID(), String.valueOf( shelves[i] ) );
 
+		isManagement = true;
 	}
 
 	protected int getCapacity()
@@ -99,9 +100,9 @@ public class MuseumRequest extends SendMessageRequest
 		if ( isManagement && isDeposit )
 			updateDisplay( DISABLED_STATE, "Placing items inside display case..." );
 		else if ( isManagement )
-			updateDisplay( DISABLED_STATE, "Removing items from display case..." );
+			updateDisplay( DISABLED_STATE, "Moving items from display case..." );
 		else
-			updateDisplay( DISABLED_STATE, "Updating collection list..." );
+			updateDisplay( DISABLED_STATE, "Updating collection..." );
 
 		super.run();
 
