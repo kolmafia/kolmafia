@@ -71,7 +71,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
 	{
 		super( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
-			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" : "inv_use.php", true );
+			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" : "inv_use.php" );
 
 		if ( consumptionType == CONSUME_MULTIPLE )
 		{
@@ -144,7 +144,19 @@ public class ConsumeItemRequest extends KoLRequest
 
 		super.run();
 
-		if ( isErrorState )
+		if ( !isErrorState && responseCode == 302 )
+		{
+			KoLRequest message = new KoLRequest( client, redirectLocation );
+			message.run();
+
+			responseCode = message.responseCode;
+			responseText = message.responseText;
+		}
+
+		// If an error state occurred, return from this
+		// request, since there's no content to parse
+
+		if ( isErrorState || responseCode != 200 )
 			return;
 
 		if ( responseText.indexOf( "Too much" ) != -1 )
