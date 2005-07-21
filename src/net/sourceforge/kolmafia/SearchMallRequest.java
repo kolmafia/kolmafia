@@ -239,11 +239,14 @@ public class SearchMallRequest extends KoLRequest
 		if ( searchString == null || searchString.trim().length() == 0 )
 			return;
 
-		if ( !client.getCharacterData().canInteract() || client.getCharacterData().getLevel() < 5 )
+		if ( !retainAll || client.getCharacterData().getLevel() < 5 )
 		{
-			results.clear();
-			finalizeList( TradeableItemDatabase.getMatchingNames( searchString ) );
-			return;
+			if ( !client.getCharacterData().canInteract() || client.getCharacterData().getLevel() < 5 )
+			{
+				results.clear();
+				finalizeList( TradeableItemDatabase.getMatchingNames( searchString ) );
+				return;
+			}
 		}
 
 		updateDisplay( DISABLED_STATE, "Searching for items..." );
