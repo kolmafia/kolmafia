@@ -67,7 +67,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class StoreManageFrame extends KoLFrame
 {
 	private JLabel searchLabel;
-	private JComboBox sellingList;
 	private LockableListModel priceSummary;
 
 	private StoreManagePanel storeManager;
@@ -98,9 +97,6 @@ public class StoreManageFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( sellingList != null )
-			sellingList.setEnabled( isEnabled );
-
 		if ( storeManager != null )
 			storeManager.setEnabled( isEnabled );
 
@@ -213,6 +209,7 @@ public class StoreManageFrame extends KoLFrame
 	private class AddItemPanel extends JPanel
 	{
 		private JLabel lowestPrice;
+		private JComboBox sellingList;
 		private JTextField itemPrice, itemLimit, itemQty;
 		private JButton addButton, searchButton;
 
@@ -283,6 +280,7 @@ public class StoreManageFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
+			sellingList.setEnabled( isEnabled );
 			itemPrice.setEnabled( isEnabled );
 			itemLimit.setEnabled( isEnabled );
 			itemQty.setEnabled( isEnabled );
