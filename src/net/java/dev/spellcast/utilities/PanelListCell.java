@@ -35,15 +35,17 @@
 package net.java.dev.spellcast.utilities;
 
 /**
- * This abstract class functions in much the same way that an interface would,
- * because the only function in it is abstract.  However, it is also necessarily
- * an extension of <code>JPanel</code> because the <code>PanelList</code> displays
- * individual panels.  It could be possible to allow this to be an interface, or to
- * be a more abstract component (such as JComponent), but because Java does not
- * support multiple class extensions, this would eventually do more harm than good.
+ * This is an interface which should only be applied to things which extend a
+ * <code>Component</code> of some sort because each individual cell will be
+ * ultimately added to a <code>PanelList</code>.  However, in order to avoid
+ * problems with multiple class extensions, it does implement or extend any
+ * component explicitly.  Note that any component which implements this
+ * interface without extending a <code>Component</code> will function fine
+ * until placed inside of <code>PanelList</code> at which point all updates
+ * will throw <code>ClassCastException</code>s.
  */
 
-public abstract class PanelListCell extends javax.swing.JPanel
+public interface PanelListCell
 {
 	/**
 	 * This function allows a cell to be repainted without needing to
@@ -55,5 +57,5 @@ public abstract class PanelListCell extends javax.swing.JPanel
 	 * @param	index	this cell's index within the <code>PanelList</code>
 	 */
 
-	public abstract void updateDisplay( PanelList list, Object value, int index );
+	public void updateDisplay( PanelList list, Object value, int index );
 }

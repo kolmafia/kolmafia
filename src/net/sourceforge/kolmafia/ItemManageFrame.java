@@ -98,8 +98,8 @@ public class ItemManageFrame extends KoLFrame
 
 		tabs.addTab( "Use", using );
 		tabs.addTab( "Sell", selling );
-		tabs.addTab( "Dicase", museum );
-		tabs.addTab( "Clash", stash );
+		tabs.addTab( "Museum", museum );
+		tabs.addTab( "Clan", stash );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -342,7 +342,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionCancelled()
-			{	(new RequestThread( new MuseumRequest( client, true, availableList.getSelectedValues() ) )).start();
+			{	(new RequestThread( new MuseumRequest( client, availableList.getSelectedValues(), true ) )).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -368,7 +368,7 @@ public class ItemManageFrame extends KoLFrame
 			{
 				Runnable [] requests = new Runnable[2];
 				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, closetList.getSelectedValues() );
-				requests[1] = new MuseumRequest( client, true, closetList.getSelectedValues() );
+				requests[1] = new MuseumRequest( client, closetList.getSelectedValues(), true );
 
 				(new RequestThread( requests )).start();
 			}

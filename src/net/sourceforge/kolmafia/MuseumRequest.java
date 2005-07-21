@@ -53,11 +53,11 @@ public class MuseumRequest extends SendMessageRequest
 
 	public MuseumRequest( KoLmafia client )
 	{
-		super( client, "managecollection.php" );
+		super( client, "managecollectionshelves.php" );
 		this.isManagement = false;
 	}
 
-	public MuseumRequest( KoLmafia client, boolean isDeposit, Object [] attachments )
+	public MuseumRequest( KoLmafia client, Object [] attachments, boolean isDeposit )
 	{
 		super( client, "managecollection.php", attachments, 0 );
 		addFormField( "pwd", client.getPasswordHash() );
@@ -68,6 +68,16 @@ public class MuseumRequest extends SendMessageRequest
 
 		this.source = isDeposit ? client.getInventory() : client.getCollection();
 		this.destination = isDeposit ? client.getCollection() : client.getInventory();
+	}
+
+	public MuseumRequest( KoLmafia client, AdventureResult [] items, int [] shelves )
+	{
+		this( client );
+		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "action", "arrange" );
+
+		for ( int i = 0; i < items.length; ++i )
+			addFormField( "whichshelf" + items[i].getItemID(), String.valueOf( shelves[i] ) );
 
 	}
 
@@ -76,7 +86,7 @@ public class MuseumRequest extends SendMessageRequest
 	}
 
 	protected void repeat( Object [] attachments )
-	{	(new MuseumRequest( client, isDeposit, attachments )).run();
+	{	(new MuseumRequest( client, attachments, isDeposit )).run();
 	}
 
 	protected String getSuccessMessage()
@@ -95,45 +105,7 @@ public class MuseumRequest extends SendMessageRequest
 
 		super.run();
 
-		if ( isErrorState || responseCode != 200 || isManagement )
-			return;
-
-		// If this isn't a frame management request, then
-		// retrieve the actual results.
-
-		Matcher displayMatcher = Pattern.compile( "<b>Take:.*?</select>" ).matcher( responseText );
-		if ( displayMatcher.find() )
-		{
-			String content = displayMatcher.group();
-			List resultList = client.getCharacterData().getCollection();
-			resultList.clear();
-
-			int lastFindIndex = 0;
-			Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( content );
-			while ( optionMatcher.find( lastFindIndex ) )
-			{
-				try
-				{
-					lastFindIndex = optionMatcher.end();
-					int itemID = df.parse( optionMatcher.group(1) ).intValue();
-
-					AdventureResult result =
-						TradeableItemDatabase.getItemName( itemID ) != null ?
-							new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() ) :
-								new AdventureResult( optionMatcher.group(2).trim(), df.parse( optionMatcher.group(3) ).intValue() );
-
-					AdventureResult.addResultToList( resultList, result );
-				}
-				catch ( Exception e )
-				{
-					// If an exception occurs during the parsing, just
-					// continue after notifying the LogStream of the
-					// error.  This could be handled better, but not now.
-
-					logStream.println( e );
-					e.printStackTrace( logStream );
-				}
-			}
-		}
+		if ( !isErrorState && responseCode == 200 && !isManagement )
+			client.getMuseumManager().update( responseText );
 	}
 }

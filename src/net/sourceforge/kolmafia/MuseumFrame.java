@@ -56,10 +56,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 
 // other imports
 import java.util.List;
 import java.text.ParseException;
+
+import net.java.dev.spellcast.utilities.PanelList;
+import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -73,7 +77,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MuseumFrame extends KoLFrame
 {
-	private JPanel storing;
+	private JPanel general, shelves;
 
 	/**
 	 * Constructs a new <code>MuseumFrame</code> and inserts all
@@ -89,29 +93,36 @@ public class MuseumFrame extends KoLFrame
 		if ( client != null && client.getCollection().isEmpty() )
 			(new RequestThread( new MuseumRequest( client ) )).start();
 
-		storing = new StoragePanel();
+		general = new AddRemovePanel();
+		shelves = new MuseumShelfList();
+
+		JTabbedPane tabs = new JTabbedPane();
+		tabs.addTab( "General", general );
+		tabs.addTab( "Shelving", shelves );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( storing, "" );
+		getContentPane().add( tabs, "" );
 	}
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( storing != null )
-			storing.setEnabled( isEnabled );
+		if ( general != null )
+			general.setEnabled( isEnabled );
+		if ( shelves != null )
+			shelves.setEnabled( isEnabled );
 	}
 
 	/**
 	 * Internal class used to handle everything related to
-	 * placing items into the Display and taking items from
-	 * the Display.
+	 * placing items into the display and taking items from
+	 * the display.
 	 */
 
-	private class StoragePanel extends JPanel
+	private class AddRemovePanel extends JPanel
 	{
 		private ItemManagePanel inventoryPanel, displayPanel;
 
-		public StoragePanel()
+		public AddRemovePanel()
 		{
 			setLayout( new GridLayout( 2, 1, 10, 10 ) );
 
@@ -136,7 +147,7 @@ public class MuseumFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new RequestThread( new MuseumRequest( client, true, elementList.getSelectedValues() ) )).start();
+			{	(new RequestThread( new MuseumRequest( client, elementList.getSelectedValues(), true ) )).start();
 			}
 
 			protected void actionCancelled()
@@ -151,17 +162,50 @@ public class MuseumFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new RequestThread( new MuseumRequest( client, false, elementList.getSelectedValues() ) )).start();
+			{	(new RequestThread( new MuseumRequest( client, elementList.getSelectedValues(), true ) )).start();
 			}
 
 			protected void actionCancelled()
 			{
 				Runnable [] parameters = new Runnable[2];
-				parameters[0] = new MuseumRequest( client, false, elementList.getSelectedValues() );
+				parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), true );
 				parameters[1] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, elementList.getSelectedValues() );
 
 				(new RequestThread( parameters )).start();
 			}
+		}
+	}
+
+	public class MuseumShelfList extends PanelList
+	{
+		public MuseumShelfList()
+		{	super( 12, 550, 25, client == null ? new LockableListModel() : client.getMuseumManager().getShelves() );
+		}
+
+		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
+		{
+			MuseumShelfPanel toConstruct = new MuseumShelfPanel( index, (SortedListModel) value );
+			toConstruct.updateDisplay( this, value, index );
+			return toConstruct;
+		}
+	}
+
+	public class MuseumShelfPanel extends ItemManagePanel implements PanelListCell
+	{
+		public MuseumShelfPanel( int index, SortedListModel value )
+		{	super( client.getMuseumManager().getHeader( index ), "move", "remove", value );
+		}
+
+		public void actionConfirmed()
+		{
+		}
+
+		public void actionCancelled()
+		{
+		}
+
+		public synchronized void updateDisplay( PanelList list, Object value, int index )
+		{	elementList.setModel( (SortedListModel) value );
 		}
 	}
 

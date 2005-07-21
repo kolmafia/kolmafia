@@ -35,6 +35,7 @@
 package net.java.dev.spellcast.utilities;
 
 // layout
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import javax.swing.SwingConstants;
@@ -101,7 +102,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 				java.util.Iterator contents = associatedListModel.iterator();
 
 				for ( int i = 0; contents.hasNext(); ++i )
-					add( constructPanelListCell( contents.next(), i ), i );
+					add( (Component) constructPanelListCell( contents.next(), i ), i );
 
 				validatePanelList();
 				associatedListModel.addListDataListener( new PanelListListener( this ) );
@@ -250,7 +251,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 				return;
 
 			for ( int i = index0; i <= index1; ++i )
-				associatedPanelList.add( constructPanelListCell( source.get(i), i ), i );
+				associatedPanelList.add( (Component) constructPanelListCell( source.get(i), i ), i );
 
 			associatedPanelList.validatePanelList();
 		}

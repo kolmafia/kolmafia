@@ -336,7 +336,7 @@ public class StoreManageFrame extends KoLFrame
 		}
 	}
 
-	private class StoreItemPanel extends PanelListCell
+	private class StoreItemPanel extends JPanel implements PanelListCell
 	{
 		private int itemID;
 		private JLabel itemName, itemQuantity, lowestPrice;

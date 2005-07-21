@@ -625,7 +625,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	public class ClanMemberPanel extends PanelListCell
+	public class ClanMemberPanel extends JPanel implements PanelListCell
 	{
 		private JLabel memberName;
 		private JComboBox rankSelect;
