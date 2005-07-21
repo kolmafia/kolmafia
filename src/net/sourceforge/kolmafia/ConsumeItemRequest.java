@@ -177,8 +177,8 @@ public class ConsumeItemRequest extends KoLRequest
 				updateDisplay( ERROR_STATE, "You already have that familiar." );
 				return;
 			}
-			else
-				client.getCharacterData().addFamiliar( FamiliarsDatabase.growFamiliarItem( itemUsed.getItemID() ) );
+
+			client.getCharacterData().addFamiliar( FamiliarsDatabase.growFamiliarLarva( itemUsed.getItemID() ) );
 		}
 		// Check to make sure that it wasn't a food or drink
 		// that was consumed that resulted in nothing.

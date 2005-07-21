@@ -49,8 +49,8 @@ import java.io.BufferedReader;
 
 public class FamiliarsDatabase extends KoLDatabase
 {
-	private static final String DEFAULT_LARVA = "steaming evil";
 	private static final String DEFAULT_ITEM = "steaming evil";
+	private static final Integer DEFAULT_LARVA = new Integer( 666 );
 
 	private static Map familiarByID = new TreeMap();
 	private static Map familiarByName = new TreeMap();
@@ -85,7 +85,7 @@ public class FamiliarsDatabase extends KoLDatabase
 
 				familiarByID.put( familiarID, familiarName );
 				familiarByName.put( getCanonicalName( data[2] ), familiarID );
-				familiarByLarva.put( familiarLarva, familiarName );
+				familiarByLarva.put( familiarLarva, familiarID );
 				familiarItemName = getDisplayName( data[3] );
 				familiarItemByID.put( familiarID, familiarItemName );
 				familiarByItem.put( getCanonicalName( data[3] ), familiarID );
@@ -106,16 +106,16 @@ public class FamiliarsDatabase extends KoLDatabase
 	{
 		client.getLogStream().println( "New familiar: \"" + familiarID + "\" (" + familiarName + ")" );
 
-		// Because I'm intelligent, assume that the familiar item is
-		// the steaming evil (for now).
+		// Because I'm intelligent, assume that both the familiar item
+		// and the familiar larva are the steaming evil (for now).
 
 		Integer dummyID = new Integer( familiarID );
 
 		familiarByID.put( dummyID, familiarName );
-		familiarByName.put( familiarName.toLowerCase(), dummyID );
+		familiarByName.put( getCanonicalName(familiarName), dummyID );
 		familiarByLarva.put( DEFAULT_LARVA, dummyID );
 		familiarItemByID.put( dummyID, DEFAULT_ITEM );
-		familiarByItem.put( DEFAULT_ITEM, dummyID );
+		familiarByItem.put( getCanonicalName(DEFAULT_ITEM), dummyID );
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class FamiliarsDatabase extends KoLDatabase
 	 * @return	The ID number of the corresponding familiar
 	 */
 
-	public static final FamiliarData growFamiliarItem( int larvaID )
+	public static final FamiliarData growFamiliarLarva( int larvaID )
 	{
 		Object familiarID = familiarByLarva.get( new Integer( larvaID ) );
 		return familiarID == null ? null : new FamiliarData( ((Integer)familiarID).intValue() );
