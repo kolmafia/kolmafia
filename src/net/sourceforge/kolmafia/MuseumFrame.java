@@ -57,6 +57,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JScrollPane;
 
 // other imports
 import java.util.List;
@@ -89,16 +90,16 @@ public class MuseumFrame extends KoLFrame
 	public MuseumFrame( KoLmafia client )
 	{
 		super( client, "KoLmafia: Display Case" );
-
-		if ( client != null && client.getCollection().isEmpty() )
-			(new RequestThread( new MuseumRequest( client ) )).start();
+		(new RequestThread( new MuseumRequest( client ) )).start();
 
 		general = new AddRemovePanel();
 		shelves = new MuseumShelfList();
 
+		JScrollPane shelvesScroller = new JScrollPane( shelves, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
 		JTabbedPane tabs = new JTabbedPane();
 		tabs.addTab( "General", general );
-		tabs.addTab( "Shelving", shelves );
+		tabs.addTab( "Shelving", shelvesScroller );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -162,7 +163,12 @@ public class MuseumFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new RequestThread( new MuseumRequest( client, elementList.getSelectedValues(), true ) )).start();
+			{
+				Runnable [] parameters = new Runnable[2];
+				parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), true );
+				parameters[1] = new MuseumRequest( client );
+
+				(new RequestThread( parameters )).start();
 			}
 
 			protected void actionCancelled()
@@ -179,7 +185,7 @@ public class MuseumFrame extends KoLFrame
 	public class MuseumShelfList extends PanelList
 	{
 		public MuseumShelfList()
-		{	super( 12, 550, 25, client == null ? new LockableListModel() : client.getMuseumManager().getShelves() );
+		{	super( 2, 480, 200, client == null ? new LockableListModel() : client.getMuseumManager().getShelves() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
