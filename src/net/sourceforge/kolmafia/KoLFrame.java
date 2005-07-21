@@ -320,6 +320,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			statusMenu.add( new DisplayFrameMenuItem( "Status Pane", KeyEvent.VK_S, CharsheetFrame.class ) );
 			statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", KeyEvent.VK_G, GearChangeFrame.class ) );
 			statusMenu.add( new DisplayFrameMenuItem( "Item Manager", KeyEvent.VK_I, ItemManageFrame.class ) );
+
+			statusMenu.add( new JSeparator() );
+
+			statusMenu.add( new DisplayFrameMenuItem( "Your Mall Store", KeyEvent.VK_Y, StoreManageFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Museum Display", KeyEvent.VK_M, MuseumFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", KeyEvent.VK_H, HagnkStorageFrame.class ) );
 		}
 
 		return statusMenu;
@@ -330,12 +336,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenu travelMenu = new JMenu( "Travel" );
 		travelMenu.setMnemonic( KeyEvent.VK_T );
 		menu.add( travelMenu );
-
-		travelMenu.add( new DisplayFrameMenuItem( "Mall Manager", KeyEvent.VK_M, StoreManageFrame.class ) );
-		travelMenu.add( new DisplayFrameMenuItem( "Display Case", KeyEvent.VK_D, MuseumFrame.class ) );
-		travelMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", KeyEvent.VK_H, HagnkStorageFrame.class ) );
-
-		travelMenu.add( new JSeparator() );
 
 		travelMenu.add( new DisplayFrameMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, CakeArenaFrame.class ) );
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", KeyEvent.VK_L, client, "makeHermitRequest" ) );

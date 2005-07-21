@@ -83,36 +83,14 @@ public class SorceressLair implements KoLConstants
 	private static final AdventureResult PUZZLE_PIECE = new AdventureResult( 727, 1 );
 	private static final AdventureResult HEDGE_KEY = new AdventureResult( 728, 1 );
 
-	// Items for the tower guardians
-
-	private static final AdventureResult BASEBALL = new AdventureResult( 181, 1 );
-	private static final AdventureResult DISEASE = new AdventureResult( 452, 1 );
-	private static final AdventureResult FENCE = new AdventureResult( 145, 1 );
-	private static final AdventureResult LID = new AdventureResult( 559, 1 );
-	private static final AdventureResult VORTEX = new AdventureResult( 546, 1 );
-	private static final AdventureResult STARS = new AdventureResult( 353, 1 );
-	private static final AdventureResult BUTTERFLY = new AdventureResult( 615, 1 );
-	private static final AdventureResult NG = new AdventureResult( 624, 1 );
-	private static final AdventureResult TORPEDO = new AdventureResult( 630, 1 );
-	private static final AdventureResult BISCUIT = new AdventureResult( 563, 1 );
-	private static final AdventureResult SPRAY = new AdventureResult( 744, 1 );
-	private static final AdventureResult WEB = new AdventureResult( 27, 1 );
-
 	// Guardians and the items that defeat them
-	private static String [] guardians =
-	{
-		"Beer Batter", "Vicious Easel", "Enraged Cow",
-		"Fickle Finger of F8", "Big Meat Golem", "Flaming Samurai",
-		"Tyrannosaurus Tex", "Giant Desktop Globe", "Electron Submarine",
-		"Bowling Cricket", "Ice Cube", "Pretty Fly"
-	};
 
-	private static AdventureResult [] combatItems =
+	private static final String [][] GUARDIAN_DATA =
 	{
-		BASEBALL, DISEASE, FENCE,
-		LID, VORTEX, STARS,
-		BUTTERFLY, NG, TORPEDO,
-		BISCUIT, SPRAY, WEB
+		{ "Beer Batter", "baseball" }, { "Vicious Easel", "disease" }, { "Enraged Cow", "barbed-wire fence" },
+		{ "Fickle Finger of F8", "razor-sharp can lid" }, { "Big Meat Golem", "meat vortex" }, { "Flaming Samurai", "frigid ninja stars" },
+		{ "Tyrannosaurus Tex", "chaos butterfly" }, { "Giant Desktop Globe", "NG" }, { "Electron Submarine", "photoprotoneutron torpedo" },
+		{ "Bowling Cricket", "sonar-in-a-biscuit" }, { "Ice Cube", "can of hair spray" }, { "Pretty Fly", "spider web" }
 	};
 
 	public static void setClient( KoLmafia client )
@@ -648,9 +626,9 @@ public class SorceressLair implements KoLConstants
 
 	private static AdventureResult getGuardianItem( String fightText )
 	{
-		for ( int i = 0; i < guardians.length; ++i)
-			if ( fightText.indexOf( guardians[i] ) != -1 )
-				return combatItems[i];
+		for ( int i = 0; i < GUARDIAN_DATA.length; ++i)
+			if ( fightText.indexOf( GUARDIAN_DATA[i][0] ) != -1 )
+				return new AdventureResult( GUARDIAN_DATA[i][1], 1 );
 
 		// Shouldn't get here.
 

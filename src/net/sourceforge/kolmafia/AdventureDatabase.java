@@ -46,14 +46,16 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
-	public static final String [] ZONE_KEYS = { "Shore", "Camp", "Gym", "Town", "Casino", "Plains", "Knob", "Bat", "Cyrpt",
-		"Woods", "Friars", "Mount", "Mclarge", "Island", "Stalk", "Beach", "Tower", "Signed", "Special" };
-
-	public static final String [] ZONE_NAMES = { "vacations at the shore", "campground resting", "clan gym equipment",
-		"Seaside Town areas", "Seaside Town's casino games", "general plains areas", "Cobb's knob areas", "Bat Hole areas",
-		"the defiled cyrpt quest", "general woods areas", "deep fat friar's quest", "general mountain areas", "Mt. McLargeHuge areas",
-		"the mysterious island areas", "the areas beyond the beanstalk", "the desert beach areas", "the Sorceress Tower maze",
-		"sign-restricted areas", "special areas" };
+	public static final String [][] ZONES =
+	{
+		{ "Shore", "vacations at the shore" }, { "Camp", "campground resting" }, { "Gym", "clan gym equipment" },
+		{ "Town", "Seaside Town areas" }, { "Casino", "Seaside Town's casino games" }, { "Plains", "general plains areas" },
+		{ "Knob", "Cobb's knob areas" }, { "Bat", "Bat Hole areas" }, { "Cyrpt", "the defiled cyrpt quest" },
+		{ "Woods", "general woods areas" }, { "Friars", "deep fat friar's quest" }, { "Mount", "general mountain areas" },
+		{ "Mclarge", "Mt. McLargeHuge areas" }, { "Island", "the mysterious island areas" }, { "Stalk", "the areas beyond the beanstalk" },
+		{ "Beach", "the desert beach areas" }, { "Tower", "the Sorceress Tower maze" }, { "Signed", "sign-restricted areas" },
+		{ "Special", "special areas" }
+	};
 
 
 	private static List [] adventureTable;
@@ -71,7 +73,7 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			if ( data.length == 4 )
 			{
-				adventureTable[0].add( ZONE_KEYS[ Integer.parseInt( data[0] ) ] );
+				adventureTable[0].add( ZONES[ Integer.parseInt( data[0] ) ][0] );
 				for ( int i = 1; i < 4; ++i )
 					adventureTable[i].add( data[i] );
 			}

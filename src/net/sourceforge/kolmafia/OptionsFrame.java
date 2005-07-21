@@ -233,18 +233,18 @@ public class OptionsFrame extends KoLFrame
 		{
 			super( "Adventure List", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 
-			optionBoxes = new JCheckBox[ AdventureDatabase.ZONE_KEYS.length + 2 ];
+			optionBoxes = new JCheckBox[ AdventureDatabase.ZONES.length + 2 ];
 			for ( int i = 0; i < optionBoxes.length; ++i )
 				optionBoxes[i] = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[ AdventureDatabase.ZONE_KEYS.length + 3 ];
+			VerifiableElement [] elements = new VerifiableElement[ AdventureDatabase.ZONES.length + 3 ];
 
 			elements[0] = new VerifiableElement( "Sort adventure list", JLabel.LEFT, optionBoxes[0] );
 			elements[1] = new VerifiableElement( "Show associated zone", JLabel.LEFT, optionBoxes[1] );
 			elements[2] = new VerifiableElement( " ", new JLabel( "" ) );
 
-			for ( int i = 0; i < AdventureDatabase.ZONE_KEYS.length; ++i )
-				elements[i+3] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_NAMES[i], JLabel.LEFT, optionBoxes[i+2] );
+			for ( int i = 0; i < AdventureDatabase.ZONES.length; ++i )
+				elements[i+3] = new VerifiableElement( "Hide " + AdventureDatabase.ZONES[i][1], JLabel.LEFT, optionBoxes[i+2] );
 
 			setContent( elements, false );
 			actionCancelled();
@@ -264,7 +264,7 @@ public class OptionsFrame extends KoLFrame
 					if ( areas.length() != 0 )
 						areas.append( ',' );
 
-					areas.append( AdventureDatabase.ZONE_KEYS[i-2] );
+					areas.append( AdventureDatabase.ZONES[i-2][0] );
 				}
 			}
 
@@ -284,8 +284,8 @@ public class OptionsFrame extends KoLFrame
 			optionBoxes[1].setSelected( getProperty( "showAdventureZone" ).equals( "true" ) );
 
 			String zones = getProperty( "zoneExcludeList" );
-			for ( int i = 0; i < AdventureDatabase.ZONE_KEYS.length; ++i )
-				optionBoxes[i+2].setSelected( zones.indexOf( AdventureDatabase.ZONE_KEYS[i] ) != -1 );
+			for ( int i = 0; i < AdventureDatabase.ZONES.length; ++i )
+				optionBoxes[i+2].setSelected( zones.indexOf( AdventureDatabase.ZONES[i][0] ) != -1 );
 		}
 	}
 
@@ -299,8 +299,16 @@ public class OptionsFrame extends KoLFrame
 	private class StartupOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
-		private final String [] optionKeys = { "forceReconnect", "skipInventory", "skipOutfits", "skipFamiliars", "savePositions", "cloverProtectActive" };
-		private final String [] optionNames = { "Auto timein on timeout", "Skip inventory retrieval", "Skip outfit list retrieval", "Skip familiar retrieval", "Save window positions on close", "Guard against accidental clover usage" };
+
+		private final String [][] options =
+		{
+			{ "forceReconnect", "Automatically time-in on time-out" },
+			{ "skipInventory", "Skip inventory retrieval" },
+			{ "skipOutfits", "Skip outfit list retrieval" },
+			{ "skipFamiliars", "Skip terrarium retrieval" },
+			{ "savePositions", "Reload windows in original positions" },
+			{ "cloverProtectActive", "Guard against accidental clover usage" }
+		};
 
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
@@ -311,14 +319,14 @@ public class OptionsFrame extends KoLFrame
 		public StartupOptionsPanel()
 		{
 			super( "Startup Options", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
-			optionBoxes = new JCheckBox[ optionNames.length ];
-			for ( int i = 0; i < optionNames.length; ++i )
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i] = new JCheckBox();
 
-			for ( int i = 0; i < optionNames.length; ++i )
-				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
+			for ( int i = 0; i < options.length; ++i )
+				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements, false );
 			actionCancelled();
@@ -326,16 +334,16 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			for ( int i = 0; i < optionKeys.length; ++i )
-				setProperty( optionKeys[i], String.valueOf( optionBoxes[i].isSelected() ) );
+			for ( int i = 0; i < options.length; ++i )
+				setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			super.actionConfirmed();
 		}
 
 		protected void actionCancelled()
 		{
-			for ( int i = 0; i < optionKeys.length; ++i )
-				optionBoxes[i].setSelected( getProperty( optionKeys[i] ).equals( "true" ) );
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
 		}
 	}
 
@@ -475,80 +483,80 @@ public class OptionsFrame extends KoLFrame
 
 	private class ChoiceOptionsPanel extends OptionsPanel
 	{
-		private final String [] titles = { "Lucky Sewer Gnome Trading", "Palindome Axe Trade", "Finger-Lickin' Death",
-			"Castle Wheel (Garbage)", "Castle Wheel (Bills)", "Castle Wheel (Back Door)", "Castle Wheel (Cat Feeding)", "A Bard Day's Night" };
-		private final String [] settingNames = { "luckySewer", "choiceAdventure2", "choiceAdventure4",
-			"choiceAdventure9", "choiceAdventure10", "choiceAdventure11", "choiceAdventure12", "choiceAdventure14" };
+		private final String [][] settings =
+		{
+			{ "luckySewer", "Lucky Sewer Gnome Trading" },
+			{ "choiceAdventure2", "Palindome Axe Trade" },
+			{ "choiceAdventure4", "Finger-Lickin' Death" },
+			{ "choiceAdventure9", "Castle Wheel (Garbage)" },
+			{ "choiceAdventure10", "Castle Wheel (Bills)" },
+			{ "choiceAdventure11", "Castle Wheel (Back Door)" },
+			{ "choiceAdventure12", "Castle Wheel (Cat Feeding)" },
+			{ "choiceAdventure14", "A Bard Day's Night" }
+		};
 
-		private boolean [] useCheckboxes;
-		private String [][] optionNames;
-		private AbstractButton [][] options;
+		private String [][] options;
+		private AbstractButton [][] optionRadios;
 
 		private void initializeNames()
 		{
-			useCheckboxes = new boolean[ titles.length ];
+			options = new String[ settings.length ][];
 
-			useCheckboxes[0] = true;
-			for ( int i = 1; i < titles.length; ++i )
-				useCheckboxes[i] = false;
-
-			optionNames = new String[ titles.length ][];
-
-			// First in the list are the options which are
+			// First in the list are the optionRadios which are
 			// available to the lucky sewer.
 
-			optionNames[0] = new String[13];
+			options[0] = new String[13];
 
-			optionNames[0][0] = "seal-clubbing club";
-			optionNames[0][1] = "seal tooth";
-			optionNames[0][2] = "helmet turtle";
-			optionNames[0][3] = "scroll of turtle summoning";
-			optionNames[0][4] = "pasta spoon";
-			optionNames[0][5] = "ravioli hat";
-			optionNames[0][6] = "saucepan";
-			optionNames[0][7] = "spices";
-			optionNames[0][8] = "disco mask";
-			optionNames[0][9] = "disco ball";
-			optionNames[0][10] = "stolen accordion";
-			optionNames[0][11] = "mariachi pants";
-			optionNames[0][12] = "worthless trinket";
+			options[0][0] = "seal-clubbing club";
+			options[0][1] = "seal tooth";
+			options[0][2] = "helmet turtle";
+			options[0][3] = "scroll of turtle summoning";
+			options[0][4] = "pasta spoon";
+			options[0][5] = "ravioli hat";
+			options[0][6] = "saucepan";
+			options[0][7] = "spices";
+			options[0][8] = "disco mask";
+			options[0][9] = "disco ball";
+			options[0][10] = "stolen accordion";
+			options[0][11] = "mariachi pants";
+			options[0][12] = "worthless trinket";
 
 			// Next in the list is the palindome adventure.
 
-			optionNames[1] = new String[2];
-			optionNames[1][0] = "Sure!";
-			optionNames[1][1] = "No thanks.";
+			options[1] = new String[2];
+			options[1][0] = "Sure!";
+			options[1][1] = "No thanks.";
 
 			// And next in the list is the cock fight
 
-			optionNames[2] = new String[3];
-			optionNames[2][0] = "Bet on Tapajunta Del Maiz";
-			optionNames[2][1] = "Bet on Cuerno De...  the other one";
-			optionNames[2][2] = "Walk away in disgust";
+			options[2] = new String[3];
+			options[2][0] = "Bet on Tapajunta Del Maiz";
+			options[2][1] = "Bet on Cuerno De...  the other one";
+			options[2][2] = "Walk away in disgust";
 
-			// Next in the list are the options which are
+			// Next in the list are the optionRadios which are
 			// available for the wheel adventure.
 
 			for ( int i = 3; i < 7; ++i )
 			{
-				optionNames[i] = new String[3];
+				options[i] = new String[3];
 
-				optionNames[i][0] = "Turn the wheel clockwise";
-				optionNames[i][1] = "Turn the wheel counterclockwise";
-				optionNames[i][2] = "Leave the wheel alone";
+				options[i][0] = "Turn the wheel clockwise";
+				options[i][1] = "Turn the wheel counterclockwise";
+				options[i][2] = "Leave the wheel alone";
 			}
 
 			// And next in the list is the harem girls singing
 
-			optionNames[7] = new String[3];
-			optionNames[7][0] = "\"Boozember Rain\"";
-			optionNames[7][1] = "\"It's Completely Ordinary\"";
-			optionNames[7][2] = "\"Here's 25 Meat.\"";
+			options[7] = new String[3];
+			options[7][0] = "\"Boozember Rain\"";
+			options[7][1] = "\"It's Completely Ordinary\"";
+			options[7][2] = "\"Here's 25 Meat.\"";
 		}
 
 		/**
 		 * Constructs a new <code>ChoiceOptionsPanel</code> containing an
-		 * alphabetized list of options available through the lucky sewer
+		 * alphabetized list of optionRadios available through the lucky sewer
 		 * adventure.
 		 */
 
@@ -566,13 +574,13 @@ public class OptionsFrame extends KoLFrame
 			JScrollPane scrollArea;
 			JPanel containerPanel;
 
-			ButtonGroup optionsGroup = null;
+			ButtonGroup optionRadiosGroup = null;
 			JPanel labelPanel, optionsPanel;
 			JLabel currentLabel;
 
-			options = new AbstractButton[ optionNames.length ][];
+			optionRadios = new AbstractButton[ options.length ][];
 
-			for ( int i = 0; i < optionNames.length; ++i )
+			for ( int i = 0; i < options.length; ++i )
 			{
 				labelPanel = new JPanel();
 				labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.Y_AXIS ) );
@@ -580,27 +588,27 @@ public class OptionsFrame extends KoLFrame
 				optionsPanel = new JPanel();
 				optionsPanel.setLayout( new BoxLayout( optionsPanel, BoxLayout.Y_AXIS ) );
 
-				if ( !useCheckboxes[i] )
-					optionsGroup = new ButtonGroup();
+				if ( i != 0 )
+					optionRadiosGroup = new ButtonGroup();
 
-				options[i] = new AbstractButton[ optionNames[i].length ];
+				optionRadios[i] = new AbstractButton[ options[i].length ];
 
-				for ( int j = 0; j < optionNames[i].length; ++j )
+				for ( int j = 0; j < options[i].length; ++j )
 				{
-					currentLabel = new JLabel( optionNames[i][j], JLabel.LEFT );
+					currentLabel = new JLabel( options[i][j], JLabel.LEFT );
 					JComponentUtilities.setComponentSize( currentLabel, 330, 20 );
 					labelPanel.add( currentLabel );
 
-					if ( useCheckboxes[i] )
-						options[i][j] = new JCheckBox();
+					if ( i == 0 )
+						optionRadios[i][j] = new JCheckBox();
 					else
 					{
-						options[i][j] = new JRadioButton();
-						optionsGroup.add( options[i][j] );
+						optionRadios[i][j] = new JRadioButton();
+						optionRadiosGroup.add( optionRadios[i][j] );
 					}
 
-					JComponentUtilities.setComponentSize( options[i][j], 30, 20 );
-					optionsPanel.add( options[i][j] );
+					JComponentUtilities.setComponentSize( optionRadios[i][j], 30, 20 );
+					optionsPanel.add( optionRadios[i][j] );
 				}
 
 				selectPanel = new JPanel();
@@ -614,7 +622,7 @@ public class OptionsFrame extends KoLFrame
 
 				containerPanel = new JPanel();
 				containerPanel.setLayout( new BorderLayout() );
-				containerPanel.add( JComponentUtilities.createLabel( titles[i], JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+				containerPanel.add( JComponentUtilities.createLabel( settings[i][1], JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 				containerPanel.add( scrollArea, BorderLayout.CENTER );
 
 				centerPanel.add( containerPanel );
@@ -629,11 +637,11 @@ public class OptionsFrame extends KoLFrame
 		{
 			StringBuffer currentSetting = new StringBuffer();
 
-			for ( int i = 0; i < optionNames.length; ++i )
+			for ( int i = 0; i < options.length; ++i )
 			{
 				currentSetting.setLength(0);
-				for ( int j = 0; j < optionNames[i].length; ++j )
-					if ( options[i][j].isSelected() )
+				for ( int j = 0; j < options[i].length; ++j )
+					if ( optionRadios[i][j].isSelected() )
 					{
 						if ( currentSetting.length() != 0 )
 							currentSetting.append( ',' );
@@ -641,7 +649,7 @@ public class OptionsFrame extends KoLFrame
 						currentSetting.append( j + 1 );
 					}
 
-				setProperty( settingNames[i], currentSetting.toString() );
+				setProperty( settings[i][0], currentSetting.toString() );
 			}
 
 			super.actionConfirmed();
@@ -649,17 +657,17 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			for ( int i = 0; i < optionNames.length; ++i )
-				for ( int j = 0; j < optionNames[i].length; ++j )
-					options[i][j].setSelected( false );
+			for ( int i = 0; i < options.length; ++i )
+				for ( int j = 0; j < options[i].length; ++j )
+					optionRadios[i][j].setSelected( false );
 
 			String [] selected;
 
-			for ( int i = 0; i < optionNames.length; ++i )
+			for ( int i = 0; i < options.length; ++i )
 			{
-				selected = getProperty( settingNames[i] ).split( "," );
+				selected = getProperty( settings[i][0] ).split( "," );
 				for ( int j = 0; j < selected.length; ++j )
-					options[i][ Integer.parseInt( selected[j] ) - 1 ].setSelected( true );
+					optionRadios[i][ Integer.parseInt( selected[j] ) - 1 ].setSelected( true );
 			}
 		}
 	}
@@ -812,11 +820,15 @@ public class OptionsFrame extends KoLFrame
 	private class SnapshotOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
-		private final String [] optionKeys = { "Lv", "Mus", "Mys", "Mox", "Total", "Title", "Rank", "Karma",
-			"PVP", "Class", "Meat", "Turns", "Food", "Drink", "Last Login", "Ascensions" };
-		private final String [] optionNames = { "Player level", "Muscle points", "Mysticality points", "Moxie points",
-			"Total power points", "Title within clan", "Rank within clan", "Accumulated karma", "PVP ranking",
-			"Class type", "Meat on hand", "Turns played", "Favorite food", "Favorite booze", "Last login date", "Ascensions" };
+
+		private final String [][] options =
+		{
+			{ "Lv", "Player level" }, { "Mus", "Muscle points" }, { "Mys", "Mysticality points" }, { "Mox", "Moxie points" },
+			{ "Total", "Total power points" }, { "Title", "Title within clan" }, { "Rank", "Rank within clan" },
+			{ "Karma", "Accumulated karma" }, { "PVP", "PVP ranking" }, { "Class", "Class type" }, { "Meat", "Meat on hand" },
+			{ "Turns", "Turns played" }, { "Food", "Favorite food" }, { "Drink", "Favorite booze" }, { "Last Login", "Last login date" },
+			{ "Ascensions", "Number of ascensions" }
+		};
 
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
@@ -827,14 +839,14 @@ public class OptionsFrame extends KoLFrame
 		public SnapshotOptionsPanel()
 		{
 			super( "Clan Snapshots", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ optionNames.length ];
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
-			optionBoxes = new JCheckBox[ optionNames.length ];
-			for ( int i = 0; i < optionNames.length; ++i )
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i] = new JCheckBox();
 
-			for ( int i = 0; i < optionNames.length; ++i )
-				elements[i] = new VerifiableElement( optionNames[i], JLabel.LEFT, optionBoxes[i] );
+			for ( int i = 0; i < options.length; ++i )
+				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements, false );
 			actionCancelled();
@@ -844,11 +856,11 @@ public class OptionsFrame extends KoLFrame
 		{
 			StringBuffer tableHeaderSetting = new StringBuffer();
 
-			for ( int i = 0; i < optionKeys.length; ++i )
+			for ( int i = 0; i < options.length; ++i )
 				if ( optionBoxes[i].isSelected() )
 				{
 					tableHeaderSetting.append( "<td>" );
-					tableHeaderSetting.append( optionKeys[i] );
+					tableHeaderSetting.append( options[i][0] );
 					tableHeaderSetting.append( "</td>" );
 				}
 
@@ -859,8 +871,8 @@ public class OptionsFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			String tableHeaderSetting = getProperty( "clanRosterHeader" );
-			for ( int i = 0; i < optionKeys.length; ++i )
-				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + optionKeys[i] + "</td>" ) != -1 );
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + options[i][0] + "</td>" ) != -1 );
 		}
 	}
 
