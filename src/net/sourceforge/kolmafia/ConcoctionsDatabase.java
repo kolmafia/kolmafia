@@ -95,7 +95,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 					mixingMethod = Integer.parseInt( data[1] );
 					ascensionRecipe = ( Integer.parseInt( data[2] ) != 0);
 
-					concoctions[itemID] = new Concoction( item, mixingMethod, ascensionRecipe );
+					if ( itemID != -1 )
+					{
+						concoctions[itemID] = new Concoction( item, mixingMethod, ascensionRecipe );
+
+						if ( concoctions[itemID].isBadRecipe() )
+						{
+							System.out.println( "Bad recipe: " + item );
+							concoctions[ itemID ] = null;
+						}
+					}
+					else
+						System.out.println( "Bad recipe: " + item );
 
 					for ( int i = 3; i < data.length; ++i )
 						concoctions[itemID].addIngredient( AdventureResult.parseResult( data[i] ) );
@@ -128,6 +139,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static synchronized void refreshConcoctions( KoLmafia client )
 	{
+		if ( client == null || client.getInventory() == null )
+		{
+			concoctionsList.clear();
+			return;
+		}
+
 		List availableIngredients = new ArrayList();
 		availableIngredients.addAll( client.getInventory() );
 
