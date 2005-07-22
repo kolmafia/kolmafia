@@ -78,7 +78,6 @@ public class KoLmafiaCLI extends KoLmafia
 	private BufferedReader commandStream;
 	private KoLmafia scriptRequestor;
 	private KoLmafiaCLI lastScript;
-	private LimitedSizeChatBuffer commandBuffer;
 
 	public static void main( String [] args )
 	{
@@ -947,44 +946,45 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeScriptCommand( String parameters )
 	{
-			try
+		try
+		{
+			// First, assume that it's inside of the scripts
+			// directory and make an attempt to retrieve it
+			// from there.
+
+			lastScript = null;
+			File scriptFile = new File( "scripts" + File.separator + parameters );
+
+			if ( scriptFile.exists() )
+				lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
+			else
 			{
-				// First, assume that it's inside of the scripts
-				// directory and make an attempt to retrieve it
-				// from there.
-
-				lastScript = null;
-				File scriptFile = new File( "scripts" + File.separator + parameters );
-
+				scriptFile = new File( parameters );
 				if ( scriptFile.exists() )
 					lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
-				else
-				{
-					scriptFile = new File( parameters );
-					if ( scriptFile.exists() )
-						lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
-				}
-
-				if ( lastScript == null )
-				{
-					scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
-					scriptRequestor.cancelRequest();
-					return;
-				}
-
-				lastScript.listenForCommands();
-				if ( lastScript.previousCommand == null )
-					lastScript = null;
 			}
-			catch ( Exception e )
-			{
-				// Because everything is checked for consistency
-				// before being loaded, this should not happen.
 
+			if ( lastScript == null )
+			{
 				scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
+
+			lastScript.commandBuffer = commandBuffer;
+			lastScript.listenForCommands();
+			if ( lastScript.previousCommand == null )
+				lastScript = null;
+		}
+		catch ( Exception e )
+		{
+			// Because everything is checked for consistency
+			// before being loaded, this should not happen.
+
+			scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
+			scriptRequestor.cancelRequest();
+			return;
+		}
 	}
 
 	/**
@@ -1808,26 +1808,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void updateDisplay( int state, String message )
 	{
-		if ( commandBuffer != null )
-		{
-			StringBuffer colorBuffer = new StringBuffer();
-			if ( state == ERROR_STATE )
-				colorBuffer.append( "<font color=red>" );
-			else
-				colorBuffer.append( "<font color=black>" );
-
-			colorBuffer.append( message );
-			colorBuffer.append( "</font><br>" );
-			colorBuffer.append( System.getProperty( "line.separator" ) );
-
-			commandBuffer.append( colorBuffer.toString() );
-		}
+		super.updateDisplay( state, message );
 
 		outputStream.println( message );
 		mirrorStream.println( message );
 		scriptRequestor.getLogStream().println( message );
 
-		if ( scriptRequestor instanceof KoLmafiaGUI && state != NOCHANGE )
+		if ( scriptRequestor instanceof KoLmafiaGUI )
 			scriptRequestor.updateDisplay( state, message );
 
 		// There's a special case to be handled if the login was not

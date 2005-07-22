@@ -65,6 +65,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLmafia implements KoLConstants
 {
+	protected static LimitedSizeChatBuffer commandBuffer;
+
 	protected static final String [] hermitItemNames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
 		"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
 	protected static final int [] hermitItemNumbers = { 24, 46, 47, 52, 55, 61, 66, 106, 107, 135, 140, 527 };
@@ -160,6 +162,7 @@ public abstract class KoLmafia implements KoLConstants
 		seenPlayerIDs = new TreeMap();
 		seenPlayerNames = new TreeMap();
 		adventureList = new LockableListModel();
+		commandBuffer = null;
 	}
 
 	public boolean isEnabled()
@@ -175,7 +178,23 @@ public abstract class KoLmafia implements KoLConstants
 	 * session.
 	 */
 
-	public abstract void updateDisplay( int state, String message );
+	public synchronized void updateDisplay( int state, String message )
+	{
+		if ( commandBuffer != null )
+		{
+			StringBuffer colorBuffer = new StringBuffer();
+			if ( state == ERROR_STATE )
+				colorBuffer.append( "<font color=red>" );
+			else
+				colorBuffer.append( "<font color=black>" );
+
+			colorBuffer.append( message );
+			colorBuffer.append( "</font><br>" );
+			colorBuffer.append( System.getProperty( "line.separator" ) );
+
+			commandBuffer.append( colorBuffer.toString() );
+		}
+	}
 
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
