@@ -97,7 +97,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	{
 		KoLCharacter characterData = client.getCharacterData();
 
-		FamiliarData currentFamiliar = null;
+		FamiliarData firstFamiliar = null;
 		FamiliarData examinedFamiliar;
 
 		Matcher familiarMatcher = SEARCH_PATTERN.matcher( searchText );
@@ -107,12 +107,16 @@ public class FamiliarData implements KoLConstants, Comparable
 			examinedFamiliar = new FamiliarData( client, familiarMatcher );
 			characterData.addFamiliar( examinedFamiliar );
 
-			if ( currentFamiliar == null )
-				currentFamiliar = examinedFamiliar;
+			if ( firstFamiliar == null )
+				firstFamiliar = examinedFamiliar;
 		}
 
-		if ( currentFamiliar != null )
-			characterData.setFamiliar( currentFamiliar );
+		// If he really has a familiar, first one parsed is it.
+
+		if ( searchText.indexOf( "You do not currently have a familiar" ) != -1 )
+			firstFamiliar = null;
+
+		characterData.setFamiliar( firstFamiliar );
 	}
 
 	public int getID()

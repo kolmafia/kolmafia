@@ -38,27 +38,38 @@ import java.util.regex.Matcher;
 
 public class FamiliarRequest extends KoLRequest
 {
-	private FamiliarData changeTo;
+	private String changeTo;
 
 	public FamiliarRequest( KoLmafia client )
-	{	this( client, null );
+	{
+		super( client, "familiar.php" );
+		this.changeTo = null;
 	}
 
-	public FamiliarRequest( KoLmafia client, FamiliarData changeTo )
+	public FamiliarRequest( KoLmafia client, String changeTo )
 	{
 		super( client, "familiar.php" );
 
-		if ( changeTo != null )
+		if ( changeTo.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			addFormField( "action", "putback" );
+		}
+		else
 		{
 			addFormField( "action", "newfam" );
-			addFormField( "newfam", String.valueOf( changeTo.getID() ) );
+
+			int paren = changeTo.indexOf( "(" );
+			if ( paren != -1 )
+				changeTo = changeTo.substring( 0, paren - 1);
+
+			addFormField( "newfam", String.valueOf( FamiliarsDatabase.getFamiliarID( changeTo ) ) );
 		}
 
 		this.changeTo = changeTo;
 	}
 
 	public String getFamiliarChange()
-	{	return changeTo == null ? null : changeTo.toString().substring( 0, changeTo.toString().indexOf( "(" ) - 1 );
+	{	return changeTo;
 	}
 
 	public void run()

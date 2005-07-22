@@ -1310,6 +1310,9 @@ public class KoLCharacter
 
 	public void addFamiliar( FamiliarData newFamiliar )
 	{
+		if ( newFamiliar == null )
+			return;
+
 		if ( familiars.contains( newFamiliar ) )
 			familiars.remove( familiars.indexOf( newFamiliar ) );
 
@@ -1323,6 +1326,20 @@ public class KoLCharacter
 
 	public LockableListModel getFamiliars()
 	{	return familiars;
+	}
+
+	public LockableListModel getFamiliarList()
+	{
+		LockableListModel familiars = new LockableListModel();
+
+		familiars.add( EquipmentRequest.UNEQUIP );
+		for ( int i = 0; i < this.familiars.size(); ++i)
+			familiars.add( this.familiars.get(i).toString() );
+
+		Object currentFamiliar = this.familiars.getSelectedItem();
+		familiars.setSelectedItem( currentFamiliar != null ? currentFamiliar.toString() : EquipmentRequest.UNEQUIP );
+
+		return familiars;
 	}
 
 	/**

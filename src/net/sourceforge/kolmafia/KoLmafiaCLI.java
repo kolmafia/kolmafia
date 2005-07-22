@@ -816,7 +816,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			scriptRequestor.makeRequest( new FamiliarRequest( scriptRequestor, new FamiliarData( FamiliarsDatabase.getFamiliarID( parameters ) ) ), 1 );
+			scriptRequestor.makeRequest( new FamiliarRequest( scriptRequestor, parameters ), 1 );
 			return;
 		}
 
