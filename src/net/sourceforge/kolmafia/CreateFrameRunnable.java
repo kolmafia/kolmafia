@@ -51,7 +51,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		BuffBotFrame.class, CalendarFrame.class, CakeArenaFrame.class,
 		ItemManageFrame.class, GearChangeFrame.class, HagnkStorageFrame.class,
 		MailboxFrame.class, MuseumFrame.class, OptionsFrame.class,
-		PendingTradesFrame.class, StoreManageFrame.class
+		PendingTradesFrame.class, StoreManageFrame.class, CommandDisplayFrame.class
 	};
 
 	private KoLmafia client;
