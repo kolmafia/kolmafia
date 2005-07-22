@@ -560,9 +560,20 @@ public class KoLmafiaCLI extends KoLmafia
 
 			request.run();
 
-			updateDisplay( NOCHANGE, request.responseText.substring( request.responseText.indexOf( "<p>" ) + 3 ).replaceAll(
-				"<(br|p|blockquote)>", System.getProperty( "line.separator" ) ).replaceAll( "<.*?>", "" ).replaceAll(
-					"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "ñ" ).replaceAll( "&quot;", "\"" ) );
+			if ( scriptRequestor instanceof KoLmafiaGUI )
+			{
+				Object [] lookup = new Object[2];
+				lookup[0] = scriptRequestor;
+				lookup[1] = request;
+
+				(new CreateFrameRunnable( RequestFrame.class, lookup )).run();
+			}
+			else
+			{
+				updateDisplay( NOCHANGE, request.responseText.substring( request.responseText.indexOf( "<p>" ) + 3 ).replaceAll(
+					"<(br|p|blockquote)>", System.getProperty( "line.separator" ) ).replaceAll( "<.*?>", "" ).replaceAll(
+						"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "ñ" ).replaceAll( "&quot;", "\"" ) );
+			}
 
 			return;
 		}
