@@ -36,7 +36,7 @@
 36	Knob Goblin tongs	12	25
 37	viking helmet	9	25
 38	Knob Goblin pants	10	30
-39	pretty flower	0	0
+39	pretty flower	0	-1
 40	casino pass	0	50
 41	ice-cold beer	2	30
 42	hermit permit	0	50
@@ -193,7 +193,7 @@
 193	birthday candle	0	50
 194	Mr. Accessory	8	0
 195	eXtreme nose ring	8	75
-196	disassembled clover	4	0
+196	disassembled clover	4	-1
 197	rat whisker	0	0
 198	rat appendix	0	16
 199	shiny ring	8	75
@@ -294,10 +294,10 @@
 294	pail	9	35
 295	demonskin trousers	10	55
 296	dungeoneer's dungarees	10	35
-297	tamarind-flavored chewing gum	3	0
-298	lime-and-chile-flavored chewing gum	3	0
-299	pickle-flavored chewing gum	3	0
-300	jaba&ntilde;ero-flavored chewing gum	3	0
+297	tamarind-flavored chewing gum	3	20
+298	lime-and-chile-flavored chewing gum	3	20
+299	pickle-flavored chewing gum	3	20
+300	jaba&ntilde;ero-flavored chewing gum	3	20
 301	flat dough	3	35
 302	Knob sausage	1	17
 303	Knob mushroom	1	16
@@ -622,7 +622,7 @@
 622	awful poetry journal	0	136
 623	WA	0	152
 624	NG	0	186
-625	wang	0	0
+625	wang	0	-1
 626	Wand of Nagamar	12	322
 627	ND	0	187
 628	metallic A	0	129
@@ -663,7 +663,7 @@
 663	star throwing star	0	100
 664	star starfish	5	100
 665	Richard's star key	0	100
-666	steaming evil	12	0
+666	steaming evil	12	-1
 667	giant castle map	3	0
 668	spiked femur	12	105
 669	ghuol guolash	1	29
@@ -834,9 +834,9 @@
 834	cornuthaum	9	95
 835	ring of aggravate monster	8	70
 836	mind flayer corpse	1	78
-837	Uovo Marcio Shiraz	2	0
+837	Uovo Marcio Shiraz	2	-1
 838	Mafia stogie	8	0
-839	Maiali Sifilitici Pinot Noir	2	0
+839	Maiali Sifilitici Pinot Noir	2	-1
 840	Mafia violin case	12	0
 841	tomato daiquiri	2	72
 842	beertini	2	60
@@ -872,10 +872,10 @@
 872	Time Juice	0	0
 873	rolling pin	3	250
 874	unrolling pin	3	250
-875	crazy bastard sword	12	0
-876	incredibly dense meat gem	8	0
-877	Talisman of Baio	8	0
-878	hypnodisk	8	0
+875	crazy bastard sword	12	-1
+876	incredibly dense meat gem	8	-1
+877	Talisman of Baio	8	-1
+878	hypnodisk	8	-1
 879	goofballs	0	0
 880	disbelief suspenders	0	95
 881	supportive bra	11	55
@@ -885,80 +885,80 @@
 885	wooden axe	12	65
 886	leaflet	0	87
 887	leaf	0	180
-888	maple leaf	5	0
+888	maple leaf	5	-1
 889	balaclava	9	55
 890	balaclava baklava	1	65
 891	Warehouse 23 bling	8	0
 892	bugbear-smiting sword	12	0
 893	lumbering jack	2	90
-894	Dark Jill-O-Lantern	5	0
-895	Ms. Accessory	8	0
-896	Mr. Accessory Jr.	8	0
-897	coffee sprite	5	0
-898	Cheshire Bitten	5	0
-899	custom avatar form	0	0
+894	Dark Jill-O-Lantern	5	-1
+895	Ms. Accessory	8	-1
+896	Mr. Accessory Jr.	8	-1
+897	coffee sprite	5	-1
+898	Cheshire Bitten	5	-1
+899	custom avatar form	0	-1
 900	smile-sharpening stone	6	75
 901	miniature espresso maker	6	75
 902	100-Watt bulb	6	75
-903	Spasmi Dolorosi Del Rene Champagne	2	0
+903	Spasmi Dolorosi Del Rene Champagne	2	-1
 904	old school Mafia knickerbockers	10	0
 905	Yummy Tummy bean	0	0
-906	Rock Pops	0	0
-907	Mr. Mediocrebar	0	0
-908	Cold Hots candy	0	0
-909	Wint-O-Fresh mint	0	0
-910	dwarf bread	1	0
-911	Senior Mints	0	0
-912	pixellated candy heart	0	0
-913	candied kobold	0	0
-914	hand turkey outline	5	0
+906	Rock Pops	0	-1
+907	Mr. Mediocrebar	0	-1
+908	Cold Hots candy	0	-1
+909	Wint-O-Fresh mint	0	-1
+910	dwarf bread	1	-1
+911	Senior Mints	0	-1
+912	pixellated candy heart	0	-1
+913	candied kobold	0	-1
+914	hand turkey outline	5	-1
 915	candied yam pinky ring	6	75
 916	intergalactic pom poms	8	0
 917	Mob Penguin protection contract	0	0
-918	Radio Free Baseball Cap	9	0
-919	Radio Free Pants	10	0
-920	Radio Free Foil	12	0
-921	radio button candy	1	0
-922	severed rocking horse head	8	0
-923	broken cellular phone	0	0
-924	crimbo elfling	5	0
+918	Radio Free Baseball Cap	9	-1
+919	Radio Free Pants	10	-1
+920	Radio Free Foil	12	-1
+921	radio button candy	1	-1
+922	severed rocking horse head	8	-1
+923	broken cellular phone	0	-1
+924	crimbo elfling	5	-1
 925	dental pliers	6	75
 926	papotion of papower	4	38
-927	Ferita Del Petto Zinfandel	2	0
+927	Ferita Del Petto Zinfandel	2	-1
 928	fuzzy bracelets	8	0
 929	arse-shooting crossbow	12	0
 930
 931	spiced rum	2	35
 932	eggnog	2	49
-933	candy cane	1	0
-934	gingerbread bugbear	1	0
-935	imitation nice watch	8	0
-936	Hanukkimbo dreidl	5	0
+933	candy cane	1	-1
+934	gingerbread bugbear	1	-1
+935	imitation nice watch	8	-1
+936	Hanukkimbo dreidl	5	-1
 937	menorette	6	70
-938	tiny plastic sword	12	0
-939	small Crimbo Pressie	3	0
-940	bow	0	0
-941	Crimbo stocking	3	0
-942	bowler	9	0
-943	bow staff	12	0
-944	bowlegged pants	10	0
-945	skewered jumbo olive	0	0
-946	skewered lime	0	0
-947	skewered cherry	0	0
-948	dirty martini	2	0
-949	grogtini	2	0
-950	cherry bomb	2	0
-951	extra special Crimbo stocking	3	0
-952	spooky hockey mask	9	0
+938	tiny plastic sword	12	-1
+939	small Crimbo Pressie	3	-1
+940	bow	0	-1
+941	Crimbo stocking	3	-1
+942	bowler	9	-1
+943	bow staff	12	-1
+944	bowlegged pants	10	-1
+945	skewered jumbo olive	0	-1
+946	skewered lime	0	-1
+947	skewered cherry	0	-1
+948	dirty martini	2	-1
+949	grogtini	2	-1
+950	cherry bomb	2	-1
+951	extra special Crimbo stocking	3	-1
+952	spooky hockey mask	9	-1
 953	penguin-smacking club	6	70
-954	orphan baby yeti	5	0
+954	orphan baby yeti	5	-1
 955	fez of etymology	9	142
 956	carob chunk noodles	1	75
 957	chorizo brownies	1	71
 958	white chocolate and tomato pizza	1	62
 959	flange	0	10
 960	clockwork key	0	100
-961	silk garter snake	5	0
+961	silk garter snake	5	-1
 962	velvet choker	6	70
 963	tiny plastic seal clubber	8	30
 964	tiny plastic turtle tamer	8	30
@@ -1020,9 +1020,9 @@
 1020	old-fashioned	2	90
 1021	tequila with training wheels	2	90
 1022	sangria	2	90
-1023	vesper	2	0
-1024	bodyslam	2	0
-1025	sangria del diablo	2	0
+1023	vesper	2	-1
+1024	bodyslam	2	-1
+1025	sangria del diablo	2	-1
 1026	Valentine	0	250
 1027	whip kit	0	50
 1028	buckler buckle	0	50
@@ -1037,14 +1037,14 @@
 1037	gnauga hide buckler	8	140
 1038	maraschino moxiosity potion	4	38
 1039
-1040	lucky Tam O'Shanter	6	0
+1040	lucky Tam O'Shanter	6	-1
 1041	green beer	2	100
 1042	string of red beads	8	75
 1043	string of blue beads	8	75
 1044	string of green beads	8	75
 1045	cheap plastic bottle opener	12	50
 1046	orange traffic cone	9	100
-1047	N. O. Beer	0	0
+1047	N. O. Beer	0	-1
 1048	red striped oyster egg	0	50
 1049	red polka-dot oyster egg	0	50
 1050	red paisley oyster egg	0	50
@@ -1078,9 +1078,9 @@
 1078	yellow paisley oyster egg	0	50
 1079	yellow plastic oyster egg	0	50
 1080	oyster basket	8	150
-1081	emo roe	5	0
+1081	emo roe	5	-1
 1082	gazing shoes	6	70
-1083	personal raindrop	5	0
+1083	personal raindrop	5	-1
 1084	rainbow tie	6	70
 1085	clockwork widget	0	30
 1086	clockwork thingamajig	0	30
@@ -1119,16 +1119,16 @@
 1119	pregnant frozen mushroom	5	19
 1120	pregnant stinky mushroom	5	19
 1121	inexplicably glowing rock
-1122	spooky fairy gravy	0	0
+1122	spooky fairy gravy	0	-1
 1123	halfberd	12	35
 1124	small leather glove	0	75
-1125	spooky glove	8	0
+1125	spooky glove	8	-1
 1126	enchanted toothpick	8	95
 1127	tiny ninja sword	12	25
 1128	teeny-tiny ninja stars	0	30
-1129	sequined fez	9	0
-1130	blank white card	0	0
-1131	beet	0	0
+1129	sequined fez	9	-1
+1130	blank white card	0	-1
+1131	beet	0	-1
 1132	Totally Gay Claymore	12	169
 1133	star shirt	11	170
 1134	spooky cosmetics bag	4	50
@@ -1147,11 +1147,11 @@
 1147	spooky mushroom wine	2	30
 1148	shot of flower schnapps	2	120
 1149	flower petal pie	1	45
-1150	bottle of single-barrel whiskey	2	0
+1150	bottle of single-barrel whiskey	2	-1
 1151	giant discarded plastic fork	12	205
-1152	miniature gravy-covered maypole	6	0
-1153	Retenez L'Herbe Pat&eacute;	1	0
-1154	Breathetastic&trade; Premium Canned Air	3	0
+1152	miniature gravy-covered maypole	6	-1
+1153	Retenez L'Herbe Pat&eacute;	1	-1
+1154	Breathetastic&trade; Premium Canned Air	3	-1
 1155	Letter from King Ralph XI	0	0
 1156
 1157	wholeberd	12	95
@@ -1219,7 +1219,7 @@
 1219
 1220
 1221
-1222	Mr. Eh?	8	0
+1222	Mr. Eh?	8	-1
 1223
 1224	stainless steel shillelagh	12	0
 1225	stainless steel skullcap	9	0
@@ -1233,13 +1233,13 @@
 1233	plexiglass pinky ring	8	0
 1234	plexiglass pants	10	0
 1235	plexiglass pocket watch	8	0
-1236	hockey stick of furious angry rage	12	0
+1236	hockey stick of furious angry rage	12	-1
 1237
 1238	flaming glowsticks	6	70
 1239	iced-out bling	6	70
 1240	limburger biker boots	6	70
 1241
-1242	deflated inflatable dodecapede	5	0
+1242	deflated inflatable dodecapede	5	-1
 1243	toy six-seater hovercraft	6	70
 1244	Glass Balls of the Goblin King	0	0
 1245	Cape of the Goblin King	0	0
@@ -1257,5 +1257,5 @@
 1257	rat scrapple	2	40
 1258	pail of pretentious paint	0	0
 1259	yellow traffic cone	9	100
-1260	wax lips	6	0
+1260	wax lips	6	-1
 1261	Hatorade	3	250
