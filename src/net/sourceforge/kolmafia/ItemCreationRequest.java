@@ -72,7 +72,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
 	private static final AdventureResult CHEF = new AdventureResult( 438, 1 );
+	private static final AdventureResult CLOCKWORK_CHEF = new AdventureResult( 1112, 1 );
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
+	private static final AdventureResult CLOCKWORK_BARTENDER = new AdventureResult( 1111, 1 );
 
 	private int itemID, quantityNeeded, mixingMethod;
 	private String name;
@@ -461,18 +463,20 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If they do want to auto-repair, make sure that
 		// the appropriate item is available in their inventory
 
+		boolean useClockwork = client.getSettings().getProperty( "useClockworkBoxes" ).equals( "true" );
+
 		switch ( mixingMethod )
 		{
 			case COOK:
 			case COOK_REAGENT:
 			case COOK_PASTA:
 
-				return useBoxServant( CHEF );
+				return useBoxServant( CHEF ) || ( useClockwork && useBoxServant( CLOCKWORK_CHEF ) );
 
 			case MIX:
 			case MIX_SPECIAL:
 
-				return useBoxServant( BARTENDER );
+				return useBoxServant( BARTENDER ) || ( useClockwork && useBoxServant( CLOCKWORK_BARTENDER ) );
 		}
 
 		return false;

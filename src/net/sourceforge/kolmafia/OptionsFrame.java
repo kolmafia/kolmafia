@@ -935,8 +935,9 @@ public class OptionsFrame extends KoLFrame
 	{
 		private JCheckBox useClosetForCreationCheckBox;
 		private JCheckBox autoRepairBoxesCheckBox;
-		private JCheckBox includeAscensionRecipesCheckBox;
+		private JCheckBox useClockworkBoxesCheckBox;
 		private JCheckBox createWithoutBoxServantsCheckBox;
+		private JCheckBox includeAscensionRecipesCheckBox;
 
 		public CreationOptionsPanel()
 		{
@@ -944,14 +945,16 @@ public class OptionsFrame extends KoLFrame
 
 			useClosetForCreationCheckBox = new JCheckBox();
 			autoRepairBoxesCheckBox = new JCheckBox();
-			includeAscensionRecipesCheckBox = new JCheckBox();
+			useClockworkBoxesCheckBox = new JCheckBox();
 			createWithoutBoxServantsCheckBox = new JCheckBox();
+			includeAscensionRecipesCheckBox = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[4];
+			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "Use closet as ingredient source", JLabel.LEFT, useClosetForCreationCheckBox );
 			elements[1] = new VerifiableElement( "Auto-repair box servants on explosion", JLabel.LEFT, autoRepairBoxesCheckBox );
-			elements[2] = new VerifiableElement( "Include post-ascension recipes", JLabel.LEFT, includeAscensionRecipesCheckBox );
+			elements[2] = new VerifiableElement( "Use clockwork box servants", JLabel.LEFT, useClockworkBoxesCheckBox );
 			elements[3] = new VerifiableElement( "Cook or mix without a box servant", JLabel.LEFT, createWithoutBoxServantsCheckBox );
+			elements[4] = new VerifiableElement( "Include post-ascension recipes", JLabel.LEFT, includeAscensionRecipesCheckBox );
 
 			setContent( elements, false );
 			actionCancelled();
@@ -961,8 +964,9 @@ public class OptionsFrame extends KoLFrame
 		{
 			setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationCheckBox.isSelected() ) );
 			setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesCheckBox.isSelected() ) );
-			setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
+			setProperty( "useClockworkBoxes", String.valueOf( useClockworkBoxesCheckBox.isSelected() ) );
 			setProperty( "createWithoutBoxServants", String.valueOf( createWithoutBoxServantsCheckBox.isSelected() ) );
+			setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
 
 			if ( client != null && client.getInventory() != null )
 				ConcoctionsDatabase.refreshConcoctions( client );
@@ -974,8 +978,10 @@ public class OptionsFrame extends KoLFrame
 		{
 			useClosetForCreationCheckBox.setSelected( getProperty( "useClosetForCreation" ).equals( "true" ) );
 			autoRepairBoxesCheckBox.setSelected( getProperty( "autoRepairBoxes" ).equals( "true" ) );
+			useClockworkBoxesCheckBox.setSelected( getProperty( "useClockworkBoxes" ).equals( "true" ) );
 			includeAscensionRecipesCheckBox.setSelected( getProperty( "includeAscensionRecipes" ).equals( "true" ) );
 			createWithoutBoxServantsCheckBox.setSelected( getProperty( "createWithoutBoxServants" ).equals( "true" ) );
+			includeAscensionRecipesCheckBox.setSelected( getProperty( "includeAscensionRecipes" ).equals( "true" ) );
 		}
 	}
 

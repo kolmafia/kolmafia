@@ -62,7 +62,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static int [] ADVENTURE_USAGE = new int[15];
 
 	private static final int CHEF = 438;
+	private static final int CLOCKWORK_CHEF = 1112;
 	private static final int BARTENDER = 440;
+	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final AdventureResult CAR = new AdventureResult( 134, 1 );
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
@@ -369,11 +371,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 		if ( client.getSettings().getProperty( "autoRepairBoxes" ).equals( "false" ) )
 			return false;
 
-		// Otherwise, return whether or not the quantity possible
-		// for the given chefs is non-zero.  This works because
+		// Otherwise, return whether or not the quantity possible for
+		// the given box servants is non-zero.	This works because
 		// cooking tests are made after item creation tests.
 
-		return concoctions[ servantID ].total != 0;
+		int available = concoctions[ servantID ].total;
+
+		if ( client.getSettings().getProperty( "useClockworkBoxes" ).equals( "true" ) )
+		{
+			available += ( servantID == CHEF) ? concoctions[ CLOCKWORK_CHEF ].total : concoctions[ CLOCKWORK_BARTENDER ].total;
+		}
+
+		return available != 0;
 	}
 
 	/**

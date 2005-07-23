@@ -55,6 +55,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int BARTENDER = 440;
 	private static final int ARCHES = 504;
 	private static final int TOASTER = 637;
+	private static final int CLOCKWORK_BARTENDER = 1111;
+	private static final int CLOCKWORK_CHEF = 1112;
 
 	private int consumptionType;
 	private AdventureResult itemUsed;
@@ -110,9 +112,11 @@ public class ConsumeItemRequest extends KoLRequest
 		switch ( itemUsed.getItemID() )
 		{
 			case CHEF:
+			case CLOCKWORK_CHEF:
 				alreadyInstalled = client.getCharacterData().hasChef();
 				break;
 			case BARTENDER:
+			case CLOCKWORK_BARTENDER:
 				alreadyInstalled = client.getCharacterData().hasBartender();
 				break;
 			case TOASTER:
@@ -238,9 +242,11 @@ public class ConsumeItemRequest extends KoLRequest
 		switch ( itemUsed.getItemID() )
 		{
 			case CHEF:
+			case CLOCKWORK_CHEF:
 				client.getCharacterData().setChef( true );
 				break;
 			case BARTENDER:
+			case CLOCKWORK_BARTENDER:
 				client.getCharacterData().setBartender( true );
 				break;
 			case TOASTER:
