@@ -133,7 +133,9 @@ public class BuffBotHome implements KoLConstants
 		File output = getFile( extension );
 
 		try
-		{	return new PrintStream( new FileOutputStream( output, true ), true );
+		{
+			output.getParentFile().mkdirs();
+			return new PrintStream( new FileOutputStream( output, true ), true );
 		}
 		catch ( java.io.FileNotFoundException e )
 		{	throw new RuntimeException( "The file <" + output.getAbsolutePath() + "> could not be opened for writing" );
