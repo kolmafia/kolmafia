@@ -771,6 +771,14 @@ public class AdventureFrame extends KoLFrame
 			setContent( elements, true, true );
 		}
 
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			skillSelect.setEnabled( isEnabled );
+			targetField.setEnabled( isEnabled );
+			countField.setEnabled( isEnabled );
+		}
+
 		protected void actionConfirmed()
 		{
 			contentPanel = this;
