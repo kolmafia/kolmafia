@@ -43,6 +43,8 @@ import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.text.View;
@@ -55,10 +57,14 @@ import javax.swing.text.html.ImageView;
 import javax.swing.text.html.HTMLEditorKit;
 
 import java.net.URL;
+import java.util.TreeMap;
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.BufferedInputStream;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -71,6 +77,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 {
+	private static TreeMap images = new TreeMap();
 	private static KoLmafia client;
 	private static RequestFrame frame;
 
@@ -111,8 +118,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	 * and stores it locally.
 	 */
 
-	public static URL downloadImage( String filename )
+	public static Image downloadImage( String filename )
 	{
+		if ( images.containsKey( filename ) )
+			return (Image) images.get( filename );
+
 		String localname = filename.replaceAll( "http://images.kingdomofloathing.com/", "" ).replaceAll( "/",
 			File.separator.replaceAll( "\\\\", "\\\\\\\\" ) );
 
@@ -123,44 +133,35 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// If the file has already been downloaded, then there
 			// is nothing more to do - return from this method.
 
-			if ( localfile.exists() )
-				return localfile.toURL();
-		}
-		catch ( Exception e )
-		{
-			// Because you're loading the image from a
-			// file which exists, no exception should
-			// occur at this point.  Should it happen,
-			// however, because the file already exists,
-			// it cannot be redownloaded, so return null.
-
-			e.printStackTrace();
-			return null;
-		}
-
-		// Because the image icon could not be retrieved locally,
-		// download the image from the KoL web server.  Then
-		// save it to a local file, and then return the reference
-		// to the local file so that the image viewer does not
-		// attempt to redownload it.
-
-		try
-		{
-			BufferedInputStream in = new BufferedInputStream( (new URL( filename )).openConnection().getInputStream() );
+			BufferedInputStream in = new BufferedInputStream( localfile.exists() ? new FileInputStream( filename ) :
+				(new URL( filename )).openConnection().getInputStream() );
 			localfile.getParentFile().mkdirs();
-			FileOutputStream out = new FileOutputStream( localfile );
 
-			int offset;
+			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 1024 );
 			byte [] buffer = new byte[1024];
 
-			while ( (offset = in.read( buffer )) > 0 )
-				out.write( buffer, 0, offset );
+			int offset;
+			while ((offset = in.read(buffer)) > 0)
+				outbytes.write(buffer, 0, offset);
+
+			in.close();
+			outbytes.flush();
+
+			buffer = outbytes.toByteArray();
+
+			FileOutputStream out = new FileOutputStream( localfile );
+			out.write( buffer, 0, buffer.length );
 
 			in.close();
 			out.flush();
 			out.close();
 
-			return localfile.toURL();
+			ImageIcon imageIcon = new ImageIcon();
+			Image newImage = Toolkit.getDefaultToolkit().createImage( localfile.toURL() );
+			imageIcon.setImage( newImage );
+
+			images.put( filename, newImage );
+			return newImage;
 		}
 		catch ( Exception e )
 		{
@@ -171,7 +172,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			e.printStackTrace();
 			return null;
 		}
-
 	}
 
 	private static class KoLImageView extends ImageView
@@ -180,7 +180,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{	super( elem );
 		}
 
-	    public URL getImageURL()
+	    public Image getImage()
 		{
 			String src = (String) getElement().getAttributes().getAttribute( HTML.Attribute.SRC );
 
