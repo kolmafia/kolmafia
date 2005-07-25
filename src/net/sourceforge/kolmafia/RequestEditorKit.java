@@ -133,7 +133,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// If the file has already been downloaded, then there
 			// is nothing more to do - return from this method.
 
-			BufferedInputStream in = new BufferedInputStream( localfile.exists() ? new FileInputStream( filename ) :
+			BufferedInputStream in = new BufferedInputStream( localfile.exists() ? new FileInputStream( localfile ) :
 				(new URL( filename )).openConnection().getInputStream() );
 			localfile.getParentFile().mkdirs();
 
