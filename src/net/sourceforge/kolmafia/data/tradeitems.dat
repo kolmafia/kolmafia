@@ -1170,8 +1170,8 @@
 1170	chocolate box	0	0
 1171	miniature coffin	0	0
 1172	solid asbestos box	0	0
-1173
-1174
+1173	solid linoleum box	0	0
+1174	solid chrome box	0	0
 1175
 1176
 1177
@@ -1181,8 +1181,8 @@
 1181	tulip	0	250
 1182	Venus flytrap	0	500
 1183	all-purpose flower	0	1000
-1184
-1185
+1184	exotic orchid	0	2500
+1185	long-stemmed rose	0	5000
 1186
 1187
 1188
@@ -1192,8 +1192,8 @@
 1192	stuffed zmobie	0	250
 1193	Raggedy Hippy doll	0	500
 1194	stuffed stab bat	0	1000
-1195
-1196
+1195	apathetic lizardman doll	0	2500
+1196	stuffed yeti	0	5000
 1197
 1198
 1199
@@ -1203,8 +1203,8 @@
 1203	personalized birthday cake	2	250
 1204	three-tiered wedding cake	2	500
 1205	babycakes	2	1000
-1206
-1207
+1206	blue velvet cake	2	2500
+1207	congratulatory cake	2	5000
 1208
 1209
 1210
@@ -1214,8 +1214,8 @@
 1214	anniversary balloon	8	250
 1215	Mylar balloon	8	500
 1216	Kevlar balloon	8	1000
-1217
-1218
+1217	thought balloon	8	2500
+1218	rat head balloon	6	5000
 1219
 1220
 1221
