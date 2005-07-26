@@ -86,11 +86,11 @@ public class FamiliarData implements KoLConstants, Comparable
 		String itemData = dataMatcher.group(4);
 
 		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
-			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" :
+			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky tam o'shanter" :
 			itemData.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
 			itemData.indexOf( "waxlips.gif" ) != -1 ? "wax lips" :
 			itemData.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" :
-			FamiliarsDatabase.getFamiliarItem( this.id );
+			FamiliarsDatabase.getFamiliarItem( this.id ).toLowerCase();
 	}
 
 	public static final void registerFamiliarData( KoLmafia client, String searchText )
@@ -182,7 +182,7 @@ public class FamiliarData implements KoLConstants, Comparable
 				return true;
 
 			default:
-				return item.equals( FamiliarsDatabase.getFamiliarItem( id ) );
+				return item.equals( KoLDatabase.getCanonicalName( FamiliarsDatabase.getFamiliarItem( id ) ) );
 		}
 	}
 
