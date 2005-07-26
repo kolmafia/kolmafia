@@ -82,7 +82,7 @@
   <!-- ================================== -->
 
   <target name="createjar"
-          depends="recompile"
+          depends="compile"
           description="generate the executable JAR file">
 
     <jar destfile="${jarfile}"
@@ -108,7 +108,6 @@
 
     <ant target="createjar"/>
     <ant target="createtar"/>
-    <ant target="javadoc"/>
 
   </target>
 
