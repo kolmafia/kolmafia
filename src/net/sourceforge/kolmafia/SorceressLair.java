@@ -152,7 +152,6 @@ public class SorceressLair implements KoLConstants
 
 	public static void completeEntryway()
 	{
-
 		KoLCharacter data = client.getCharacterData();
 
 		if ( !checkPrerequisites() )
@@ -166,17 +165,27 @@ public class SorceressLair implements KoLConstants
 		AdventureResult candy = MARZIPAN.getCount( client.getInventory() ) > 0 ? MARZIPAN :
 			FARMER_CANDY.getCount( client.getInventory() ) > 0 ? FARMER_CANDY : RICE_CANDY;
 
-		if ( !data.getEffects().contains( SUGAR ) )
-			requirements.add( candy );
+		// Check to see if the person has crossed through the
+		// gates already.  If they haven't, then that's the
+		// only time you need the special effects.
+
+		KoLRequest request = new KoLRequest( client, "lair1.php" );
+		request.run();
+
+		if ( request.responseText.indexOf( "gates" ) != -1 )
+		{
+			if ( !data.getEffects().contains( SUGAR ) )
+				requirements.add( candy );
+
+			if ( !data.getEffects().contains( WUSSINESS ) )
+				requirements.add( WUSSY_POTION );
+
+			if ( !data.getEffects().contains( MIASMA ) )
+				requirements.add( BLACK_CANDLE );
+		}
 
 		// Other effect-gaining items, including the inherent
 		// luckiness granted by the clover.
-
-		if ( !data.getEffects().contains( WUSSINESS ) )
-			requirements.add( WUSSY_POTION );
-
-		if ( !data.getEffects().contains( MIASMA ) )
-			requirements.add( BLACK_CANDLE );
 
 		requirements.add( CLOVER );
 
@@ -233,34 +242,40 @@ public class SorceressLair implements KoLConstants
 		// Use the rice candy, wussiness potion, and black candle
 		// and then cross through the first door.
 
-		if ( !data.getEffects().contains( SUGAR ) )
-			(new ConsumeItemRequest( client, candy )).run();
+		if ( request.responseText.indexOf( "gates" ) != -1 )
+		{
+			if ( !data.getEffects().contains( SUGAR ) )
+				(new ConsumeItemRequest( client, candy )).run();
 
-		if ( !data.getEffects().contains( WUSSINESS ) )
-			(new ConsumeItemRequest( client, WUSSY_POTION )).run();
+			if ( !data.getEffects().contains( WUSSINESS ) )
+				(new ConsumeItemRequest( client, WUSSY_POTION )).run();
 
-		if ( !data.getEffects().contains( MIASMA ) )
-			(new ConsumeItemRequest( client, BLACK_CANDLE )).run();
+			if ( !data.getEffects().contains( MIASMA ) )
+				(new ConsumeItemRequest( client, BLACK_CANDLE )).run();
 
-		client.updateDisplay( DISABLED_STATE, "Crossing three door puzzle..." );
+			client.updateDisplay( DISABLED_STATE, "Crossing three door puzzle..." );
 
-		KoLRequest request = new KoLRequest( client, "lair1.php" );
-		request.addFormField( "action", "gates" );
-		request.run();
+			request = new KoLRequest( client, "lair1.php" );
+			request.addFormField( "action", "gates" );
+			request.run();
+		}
 
 		// Now, unequip all of your equipment and cross through
 		// the mirror.  Process the mirror shard that results.
 
-		(new FamiliarRequest( client, EquipmentRequest.UNEQUIP )).run();
-		(new EquipmentRequest( client, SpecialOutfit.BIRTHDAY_SUIT )).run();
+		if ( request.responseText.indexOf( "lair2.php" ) == -1 )
+		{
+			(new FamiliarRequest( client, EquipmentRequest.UNEQUIP )).run();
+			(new EquipmentRequest( client, SpecialOutfit.BIRTHDAY_SUIT )).run();
 
-		client.updateDisplay( DISABLED_STATE, "Crossing mirror puzzle..." );
+			client.updateDisplay( DISABLED_STATE, "Crossing mirror puzzle..." );
 
-		request = new KoLRequest( client, "lair1.php" );
-		request.addFormField( "action", "mirror" );
-		request.run();
+			request = new KoLRequest( client, "lair1.php" );
+			request.addFormField( "action", "mirror" );
+			request.run();
 
-		client.processResult( new AdventureResult( 726, 1 ) );
+			client.processResult( new AdventureResult( 726, 1 ) );
+		}
 
 		// Now handle the form for the digital key to get
 		// the Squeezings of Woe.
@@ -585,7 +600,7 @@ public class SorceressLair implements KoLConstants
 
 	private static boolean fightGuardian( int towerLevel )
 	{
-		client.updateDisplay( DISABLED_STATE, "Fighting guardian on level " + towerLevel + " of the tower." );
+		client.updateDisplay( DISABLED_STATE, "Fighting guardian on level " + towerLevel + " of the tower..." );
 
 		// Boldly climb the stairs.
 
