@@ -144,33 +144,13 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public class ConcoctionsRefresher implements Runnable
 	{
-		private boolean isProcessing = false;
-
 		public synchronized void run()
 		{
 			// If there is already an instance of this thread
 			// running, then there is nothing left to do.
 
-			if ( shouldRefresh && !isProcessing )
-			{
-				synchronized ( getClass() )
-				{
-					if ( isProcessing )
-						return;
-
-					isProcessing = true;
-					(new ConcoctionsRefreshThread()).start();
-				}
-			}
-		}
-
-		private class ConcoctionsRefreshThread extends DaemonThread
-		{
-			public void run()
-			{
+			if ( shouldRefresh )
 				ConcoctionsDatabase.refreshConcoctions( KoLmafiaGUI.this );
-				isProcessing = false;
-			}
 		}
 	}
 
