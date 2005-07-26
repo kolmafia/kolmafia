@@ -152,7 +152,7 @@ public class RequestFrame extends KoLFrame
 			functionMenu.add( new DisplayRequestMenuItem( "Account Menu", "account.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Documentation", "doc.php?topic=home" ) );
 			functionMenu.add( new DisplayPageMenuItem( "KoL Forums", KeyEvent.KEY_LOCATION_UNKNOWN, "http://forums.kingdomofloathing.com/" ) );
-			functionMenu.add( new DisplayPageMenuItem( "Radio KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://grace.fast-serv.com:9140/listen.pls" ) );
+			functionMenu.add( new DisplayPageMenuItem( "Radio KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://radiokol24.kicks-ass.net:8015/listen.pls" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Report Bug", "sendmessage.php?toid=Jick" ) );
 			functionMenu.add( new DisplayPageMenuItem( "Donate to KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.kingdomofloathing.com/donatepopup.php?pid=" + (client == null ? 0 : client.getUserID()) ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Log Out", "logout.php" ) );
