@@ -800,7 +800,7 @@ public class KoLCharacter
 	{
 		for ( int i = 0; i < this.equipment.size(); ++i )
 		{
-			if (i == FAMILIAR)
+			if ( i == FAMILIAR )
 				continue;
 
 			if ( equipment[i] == null || equipment[i].equals( "none" ) || equipment[i].equals( EquipmentRequest.UNEQUIP ) )
@@ -814,10 +814,13 @@ public class KoLCharacter
 		if ( equipment.length > FAMILIAR && currentFamiliar != null )
 			currentFamiliar.setItem( equipment[FAMILIAR].toLowerCase() );
 
-		this.outfits.clear();
-		this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
-		this.outfits.addAll( outfits );
+		if ( !outfits.isEmpty() )
+			this.outfits.clear();
 
+		if ( this.outfits.isEmpty() )
+			this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
+
+		this.outfits.addAll( outfits );
 		FamiliarData.updateWeightModifier();
 	}
 
