@@ -609,8 +609,13 @@ public class SorceressLair implements KoLConstants
 			request.run();
 
 			if ( responseText.indexOf( "You're out of adventures." ) == -1 )
+			{
+				// Decrement adventure tally
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+
 				// Add key to inventory
 				client.processResult( HEDGE_KEY );
+			}
 		}
 
 		return responseText;
@@ -632,6 +637,12 @@ public class SorceressLair implements KoLConstants
 			KoLRequest request = new KoLRequest( client, "lair3.php" );
 			request.addFormField( "action", "hedge" );
 			request.run();
+
+			if ( responseText.indexOf( "You're out of adventures." ) == -1 )
+			{
+				// Decrement adventure tally
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			}
 		}
 
 		return responseText;
@@ -642,11 +653,23 @@ public class SorceressLair implements KoLConstants
 		if ( !checkPrerequisites() )
 			return;
 
+		// Check to see if they've already completed the
+		// hedge maze puzzle.
+
+		KoLRequest request = new KoLRequest( client, "lair3.php" );
+		request.run();
+
+		if ( request.responseText.indexOf( "lair4.php" ) == -1 )
+		{
+			client.updateDisplay( ERROR_STATE, "You haven't reached the tower yet." );
+			return;
+		}
+
 		// Determine which level you actually need to start from.
 
 		client.updateDisplay( DISABLED_STATE, "Climbing the tower..." );
 
-		KoLRequest request = new KoLRequest( client, "lair4.php" );
+		request = new KoLRequest( client, "lair4.php" );
 		request.run();
 
 		int currentLevel = 0;
@@ -694,6 +717,15 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "action", "level" + ((towerLevel - 1) % 3 + 1) );
 		request.run();
 
+		if ( request.responseText.indexOf( "You're out of adventures." ) != -1 )
+		{
+			client.updateDisplay( ERROR_STATE, "You're out of adventures." );
+			return false;
+		}
+
+                // Decrement adventure tally
+		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+
 		// Parse response to see which item we need.
 
 		AdventureResult guardianItem = getGuardianItem( request.responseText );
@@ -710,19 +742,25 @@ public class SorceressLair implements KoLConstants
 			request.addFormField( "whichitem", String.valueOf( guardianItem.getItemID() ) );
 			request.run();
 
+			// Account for stat gains
+			client.processResults( request.responseText );
+
+			// Use up the item
 			client.processResult( guardianItem.getNegation() );
+
+			// Keep on climbing
 			return true;
 		}
-		else
-		{
-			request.addFormField( "action", "runaway" );
-			request.run();
 
-			client.updateDisplay( ERROR_STATE, "You need an additional " + guardianItem.getName() + " to continue." );
-			missingItems.clear();
-			missingItems.add( guardianItem );
-			return false;
-		}
+		// Since we don't have the item, run away
+
+		request.addFormField( "action", "runaway" );
+		request.run();
+
+		client.updateDisplay( ERROR_STATE, "You need an additional " + guardianItem.getName() + " to continue." );
+		missingItems.clear();
+		missingItems.add( guardianItem );
+		return false;
 	}
 
 	private static AdventureResult getGuardianItem( String fightText )
