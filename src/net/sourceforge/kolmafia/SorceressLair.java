@@ -502,6 +502,16 @@ public class SorceressLair implements KoLConstants
 			responseText = retrieveHedgeKey( responseText );
 		}
 
+		// Retrieving the key after rotating the puzzle pieces uses an
+		// adventure.
+
+		if ( responseText.indexOf( "You're out of adventures." ) != -1 )
+		{
+			client.updateDisplay( ERROR_STATE, "Ran out of adventures." );
+			client.cancelRequest();
+			return;
+		}
+
 		// Second mission -- rotate the hedge maze until
 		// the hedge path leads to the hedge door.
 
@@ -509,6 +519,16 @@ public class SorceressLair implements KoLConstants
 		{
 			client.updateDisplay( DISABLED_STATE, "Executing final rotations..." );
 			responseText = finalizeHedgeMaze( responseText );
+		}
+
+		// Navigating up to the tower door after rotating the puzzle
+		// pieces requires an adventure
+
+		if ( responseText.indexOf( "You're out of adventures." ) != -1 )
+		{
+			client.updateDisplay( ERROR_STATE, "Ran out of adventures." );
+			client.cancelRequest();
+			return;
 		}
 
 		// Check to see if you ran out of puzzle pieces
@@ -588,8 +608,9 @@ public class SorceressLair implements KoLConstants
 			request.addFormField( "action", "hedge" );
 			request.run();
 
-			// Add key to inventory
-			client.processResult( HEDGE_KEY );
+			if ( responseText.indexOf( "You're out of adventures." ) == -1 )
+				// Add key to inventory
+				client.processResult( HEDGE_KEY );
 		}
 
 		return responseText;
