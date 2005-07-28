@@ -111,6 +111,8 @@ public class SorceressLair implements KoLConstants
 		if ( client == null )
 			return false;
 
+		client.updateDisplay( DISABLED_STATE, "Checking prerequisites..." );
+
 		// If the player has never ascended, then they're going
 		// to have to do it all by hand.
 
@@ -184,6 +186,18 @@ public class SorceressLair implements KoLConstants
 				requirements.add( BLACK_CANDLE );
 		}
 
+		if ( request.responseText.indexOf( "lair2.php" ) != -1 )
+		{
+			KoLRequest complete = new KoLRequest( client, "lair2.php" );
+			complete.run();
+
+			if ( complete.responseText.indexOf( "lair3.php" ) != -1 )
+			{
+				client.updateDisplay( ENABLED_STATE, "Lair entryway already completed." );
+				return;
+			}
+		}
+
 		// Other effect-gaining items, including the inherent
 		// luckiness granted by the clover.
 
@@ -239,19 +253,40 @@ public class SorceressLair implements KoLConstants
 		if ( !checkRequirements( requirementsArray ) )
 			return;
 
+		// The character needs to be healthy in order to play
+		// the skeleton dice game.  Healthy is determined as
+		// having at least 25% of your maximum HP.
+
+		(new CharsheetRequest( client )).run();
+
+		if ( data.getCurrentHP() * 4 < data.getMaximumHP() )
+		{
+			client.updateDisplay( ERROR_STATE, "You need more health to continue." );
+			return;
+		}
+
 		// Use the rice candy, wussiness potion, and black candle
 		// and then cross through the first door.
 
 		if ( request.responseText.indexOf( "gates" ) != -1 )
 		{
 			if ( !data.getEffects().contains( SUGAR ) )
+			{
+				client.updateDisplay( DISABLED_STATE, "Getting jittery..." );
 				(new ConsumeItemRequest( client, candy )).run();
+			}
 
 			if ( !data.getEffects().contains( WUSSINESS ) )
+			{
+				client.updateDisplay( DISABLED_STATE, "Becoming a pansy..." );
 				(new ConsumeItemRequest( client, WUSSY_POTION )).run();
+			}
 
 			if ( !data.getEffects().contains( MIASMA ) )
+			{
+				client.updateDisplay( DISABLED_STATE, "Inverting anime smileyness..." );
 				(new ConsumeItemRequest( client, BLACK_CANDLE )).run();
+			}
 
 			client.updateDisplay( DISABLED_STATE, "Crossing three door puzzle..." );
 
@@ -287,14 +322,17 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "whichkey", String.valueOf( DIGITAL.getItemID() ) );
 		request.run();
 
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "prepreaction", "sequence" );
-		request.addFormField( "seq1", "up" );  request.addFormField( "seq2", "up" );
-		request.addFormField( "seq3", "down" );  request.addFormField( "seq4", "down" );
-		request.addFormField( "seq5", "left" );  request.addFormField( "seq6", "right" );
-		request.addFormField( "seq7", "left" );  request.addFormField( "seq8", "right" );
-		request.addFormField( "seq9", "b" );  request.addFormField( "seq10", "a" );
-		request.run();
+		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		{
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "prepreaction", "sequence" );
+			request.addFormField( "seq1", "up" );  request.addFormField( "seq2", "up" );
+			request.addFormField( "seq3", "down" );  request.addFormField( "seq4", "down" );
+			request.addFormField( "seq5", "left" );  request.addFormField( "seq6", "right" );
+			request.addFormField( "seq7", "left" );  request.addFormField( "seq8", "right" );
+			request.addFormField( "seq9", "b" );  request.addFormField( "seq10", "a" );
+			request.run();
+		}
 
 		// Now handle the form for the star key to get
 		// the Sinister Strumming.  Note that this will
@@ -307,7 +345,7 @@ public class SorceressLair implements KoLConstants
 		if ( needsBuckler )
 			(new EquipmentRequest( client, STAR_BUCKLER.getName() )).run();
 
-                (new FamiliarRequest( client, "Star Starfish" )).run();
+		(new FamiliarRequest( client, "Star Starfish" )).run();
 
 		client.updateDisplay( DISABLED_STATE, "Inserting Richard's star key..." );
 
@@ -316,9 +354,12 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "whichkey", String.valueOf( RICHARD.getItemID() ) );
 		request.run();
 
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "prepreaction", "starcage" );
-		request.run();
+		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		{
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "prepreaction", "starcage" );
+			request.run();
+		}
 
 		// Next, handle the form for the skeleton key to
 		// get the Really Evil Rhythm.  This uses up the
@@ -331,11 +372,14 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "whichkey", String.valueOf( SKELETON.getItemID() ) );
 		request.run();
 
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "prepreaction", "skel" );
-		request.run();
+		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		{
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "prepreaction", "skel" );
+			request.run();
 
-		client.processResult( CLOVER.getNegation() );
+			client.processResult( CLOVER.getNegation() );
+		}
 
 		// Next, handle the three hero keys, which involve
 		// answering the riddles with the forms of fish.
@@ -347,10 +391,13 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "whichkey", String.valueOf( BORIS.getItemID() ) );
 		request.run();
 
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "prepreaction", "sorcriddle1" );
-		request.addFormField( "answer", "fish" );
-		request.run();
+		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		{
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "prepreaction", "sorcriddle1" );
+			request.addFormField( "answer", "fish" );
+			request.run();
+		}
 
 		client.updateDisplay( DISABLED_STATE, "Inserting Jarlsberg's key..." );
 
@@ -359,10 +406,13 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "whichkey", String.valueOf( JARLSBERG.getItemID() ) );
 		request.run();
 
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "prepreaction", "sorcriddle2" );
-		request.addFormField( "answer", "phish" );
-		request.run();
+		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		{
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "prepreaction", "sorcriddle2" );
+			request.addFormField( "answer", "phish" );
+			request.run();
+		}
 
 		client.updateDisplay( DISABLED_STATE, "Inserting Sneaky Pete's key..." );
 
@@ -371,10 +421,13 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "whichkey", String.valueOf( SNEAKY_PETE.getItemID() ) );
 		request.run();
 
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "prepreaction", "sorcriddle3" );
-		request.addFormField( "answer", "fsh" );
-		request.run();
+		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		{
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "prepreaction", "sorcriddle3" );
+			request.addFormField( "answer", "fsh" );
+			request.run();
+		}
 
 		// Next, issue combine requests on the makeshift
 		// scuba gear components and then equip the gear.
@@ -419,11 +472,23 @@ public class SorceressLair implements KoLConstants
 		if ( !checkRequirements( requirements ) )
 			return;
 
+		// Check to see if they've already completed the
+		// hedge maze puzzle.
+
+		KoLRequest request = new KoLRequest( client, "lair3.php" );
+		request.run();
+
+		if ( request.responseText.indexOf( "lair4.php" ) != -1 )
+		{
+			client.updateDisplay( ENABLED_STATE, "Hedge maze already completed." );
+			return;
+		}
+
 		// Otherwise, check their current state relative
 		// to the hedge maze, and begin!
 
 		client.updateDisplay( DISABLED_STATE, "Retrieving maze status..." );
-		KoLRequest request = new KoLRequest( client, "hedgepuzzle.php" );
+		request = new KoLRequest( client, "hedgepuzzle.php" );
 		request.run();
 
 		String responseText = request.responseText;
