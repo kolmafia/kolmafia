@@ -161,7 +161,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public KoLmafiaCLI( KoLmafia scriptRequestor, LimitedSizeChatBuffer commandBuffer ) throws IOException
 	{
 		this( scriptRequestor, System.in );
-		this.commandBuffer = commandBuffer;
+		KoLmafia.commandBuffer = commandBuffer;
 	}
 
 	/**
@@ -178,8 +178,6 @@ public class KoLmafiaCLI extends KoLmafia
 		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : new NullStream();
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 		mirrorStream = new NullStream();
-
-		this.commandBuffer = null;
 	}
 
 	/**
@@ -1808,8 +1806,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void updateDisplay( int state, String message )
 	{
-		super.updateDisplay( state, message );
-
 		outputStream.println( message );
 		mirrorStream.println( message );
 		scriptRequestor.getLogStream().println( message );
@@ -1894,19 +1890,19 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeHunterRequest()
 	{
-		if ( hunterItems.isEmpty() )
+		if ( scriptRequestor.hunterItems.isEmpty() )
 			(new BountyHunterRequest( scriptRequestor )).run();
 
 		if ( previousCommand.indexOf( " " ) == -1 )
 		{
-			printList( hunterItems );
+			printList( scriptRequestor.hunterItems );
 			return;
 		}
 
 		String item = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
 		for ( int i = 0; i < hunterItems.size(); ++i )
 			if ( ((String)hunterItems.get(i)).indexOf( item ) != -1 )
-				(new BountyHunterRequest( scriptRequestor, TradeableItemDatabase.getItemID( (String) hunterItems.get(i) ) )).run();
+				(new BountyHunterRequest( scriptRequestor, TradeableItemDatabase.getItemID( (String) scriptRequestor.hunterItems.get(i) ) )).run();
 	}
 
 	/**
