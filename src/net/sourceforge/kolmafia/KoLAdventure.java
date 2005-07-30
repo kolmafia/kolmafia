@@ -160,6 +160,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	public int compareTo( KoLAdventure ka )
-	{	return adventureName.compareToIgnoreCase( ka.adventureName );
+	{	return toString().compareToIgnoreCase( ka.toString() );
 	}
 }

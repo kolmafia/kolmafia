@@ -351,6 +351,13 @@ public abstract class KoLmafia implements KoLConstants
 		this.clanManager = new ClanManager( this );
 		this.museumManager = new MuseumManager( this );
 		this.permitContinue = true;
+
+		// There's a possibility that the adventure list settings
+		// for global use are different from the list settings for
+		// individual use.  Recompile the adventure list.
+
+		adventureList.clear();
+		adventureList.addAll( AdventureDatabase.getAsLockableListModel( this ) );
 	}
 
 	/**
