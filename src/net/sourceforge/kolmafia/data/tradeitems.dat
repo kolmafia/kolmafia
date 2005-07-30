@@ -1183,7 +1183,7 @@
 1183	all-purpose flower	0	1000
 1184	exotic orchid	0	2500
 1185	long-stemmed rose	0	5000
-1186
+1186	gilded lily	0	10000
 1187
 1188
 1189	stuffed can of asparagus	0	25
@@ -1205,7 +1205,7 @@
 1205	babycakes	2	1000
 1206	blue velvet cake	2	2500
 1207	congratulatory cake	2	5000
-1208
+1208	angel-food cake	2	10000
 1209
 1210
 1211	white balloon	8	25
