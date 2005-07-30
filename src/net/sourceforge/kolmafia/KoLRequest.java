@@ -333,10 +333,26 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		// Now that everything's been delayed, go ahead and execute
-		// the request (which is different from running now!)
+		if ( this instanceof ChatRequest )
+		{
+			// Chat requests can run without problems concurrently
+			// with other requests.  Therefore, there is no thread
+			// synchronization done on chat requests.
 
-		execute();
+			execute();
+		}
+		else
+		{
+			// However, all other requests cannot run concurrently
+			// with other requests without problems potentially
+			// arising.  Therefore, synchronize on something that
+			// is static before running the request.
+
+			synchronized ( KoLmafia.class )
+			{
+				execute();
+			}
+		}
 	}
 
 	/**
