@@ -269,19 +269,8 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( messageEntry != null )
-			for ( int i = 0; i < messageEntry.length; ++i )
-				if ( messageEntry[i] != null )
-					messageEntry[i].setEnabled( isEnabled );
-
 		if ( sendMessageButton != null )
 			sendMessageButton.setEnabled( isEnabled );
-
-		if ( attachmentList != null )
-			attachmentList.setEnabled( isEnabled );
-
-		if ( attachedMeat != null )
-			attachedMeat.setEnabled( isEnabled );
 	}
 
 	protected Object [] getAttachedItems()
