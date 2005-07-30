@@ -132,9 +132,14 @@ public class OptionsFrame extends KoLFrame
 		JMenu loginMenu = new JMenu( "Login" );
 		menuBar.add( loginMenu );
 
-		addCard( loginMenu, "Server Select", new ServerSelectPanel(), String.valueOf( cardCount++ ) );
-		addCard( loginMenu, "Proxy Setup", new ProxyOptionsPanel(), String.valueOf( cardCount++ ) );
 		addCard( loginMenu, "Startup Options", new StartupOptionsPanel(), String.valueOf( cardCount++ ) );
+
+		JPanel connectPanel = new JPanel();
+		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
+		connectPanel.add( new ServerSelectPanel() );
+		connectPanel.add( new ProxyOptionsPanel() );
+
+		addCard( loginMenu, "Connecting to KoL", connectPanel, String.valueOf( cardCount++ ) );
 
 		JMenu adventureMenu = new JMenu( "Advs" );
 		menuBar.add( adventureMenu );
