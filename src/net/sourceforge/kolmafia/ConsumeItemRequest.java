@@ -163,6 +163,12 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
+		if ( responseText.indexOf( "You may not" ) != -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Pathed ascension." );
+		}
+
 		if ( responseText.indexOf( "Too much" ) != -1 )
 		{
 			client.cancelRequest();
