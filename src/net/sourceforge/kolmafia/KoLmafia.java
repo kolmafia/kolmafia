@@ -1722,53 +1722,48 @@ public abstract class KoLmafia implements KoLConstants
 	{	return conditions;
 	}
 
-	public void executeTimeInRequest()
+	public synchronized void executeTimeInRequest()
 	{
-		if ( !isLoggingIn )
+		// If the client is permitted to continue,
+		// then the session has already timed in.
+
+		if ( permitContinue )
 		{
-			isLoggingIn = true;
-			LoginRequest cachedLogin = loginRequest;
+			updateDisplay( ERROR_STATE, "No timeout detected." );
+			return;
+		}
 
-			deinitialize();
-			updateDisplay( DISABLED_STATE, "Timing in session..." );
+		isLoggingIn = true;
+		LoginRequest cachedLogin = loginRequest;
 
-			// Two quick login attempts to force
-			// a timeout of the other session and
-			// re-request another session.
+		deinitialize();
+		updateDisplay( DISABLED_STATE, "Timing in session..." );
 
+		// Two quick login attempts to force
+		// a timeout of the other session and
+		// re-request another session.
+
+		cachedLogin.run();
+
+		if ( isLoggingIn )
 			cachedLogin.run();
 
-			if ( isLoggingIn )
-				cachedLogin.run();
+		// Wait 5 minutes inbetween each attempt
+		// to re-login to Kingdom of Loathing,
+		// because if the above two failed, that
+		// means it's nightly maintenance.
 
-			// Wait 5 minutes inbetween each attempt
-			// to re-login to Kingdom of Loathing,
-			// because if the above two failed, that
-			// means it's nightly maintenance.
-
-			while ( isLoggingIn )
-			{
-				KoLRequest.delay( 300000 );
-				cachedLogin.run();
-			}
-
-			// Refresh the character data after a
-			// successful login.
-
-			(new CharsheetRequest( KoLmafia.this )).run();
-
-			// If the buffbot was active before, then
-			// initialize it again.
-
-			if ( buffBotManager != null )
-			{
-				initializeBuffBot();
-				setBuffBotActive( true );
-				buffBotManager.runBuffBot( Integer.MAX_VALUE );
-			}
-
-			updateDisplay( ENABLED_STATE, "Session timed in." );
+		while ( isLoggingIn )
+		{
+			KoLRequest.delay( 300000 );
+			cachedLogin.run();
 		}
+
+		// Refresh the character data after a
+		// successful login.
+
+		(new CharsheetRequest( KoLmafia.this )).run();
+		updateDisplay( ENABLED_STATE, "Session timed in." );
 	}
 
 	public void completeEntryway()

@@ -1039,7 +1039,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			try
 			{
 				if ( method != null )
+				{
+					client.cancelRequest();
 					method.invoke( object, null );
+				}
 			}
 			catch ( Exception e )
 			{
