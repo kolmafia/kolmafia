@@ -1012,6 +1012,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		private Object object;
 		private Method method;
+		private boolean requiresCancel;
 
 		public InvocationMenuItem( String title, int mnemonic, Object object, String methodName )
 		{
@@ -1022,6 +1023,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				this.object = object;
 				this.method = this.object == null ? null : this.object.getClass().getMethod( methodName, NOPARAMS );
+				this.requiresCancel = methodName.equals( "executeTimeInRequest" );
 			}
 			catch ( Exception e )
 			{
@@ -1040,7 +1042,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				if ( method != null )
 				{
-					client.cancelRequest();
+					if ( requiresCancel )
+						client.cancelRequest();
+
 					method.invoke( object, null );
 				}
 			}
