@@ -338,23 +338,19 @@ public class AdventureFrame extends KoLFrame
 				try
 				{
 					KoLmafiaCLI conditioner = new KoLmafiaCLI( client, System.in );
+					conditioner.executeLine( "conditions clear" );
 
-					if ( conditionField.getText().indexOf( " " ) == -1 && Character.isDigit( conditionField.getText().charAt(0) ) )
-						conditioner.executeLine( "conditions choice " + conditionField.getText() );
-					else
-					{
-						conditioner.executeLine( "conditions clear" );
+					String [] conditions = conditionField.getText().split( "\\s*,\\s*" );
 
-						String [] conditions = conditionField.getText().split( "\\s*,\\s*" );
-
-						for ( int i = 0; i < conditions.length; ++i )
-							conditioner.executeLine( "conditions add " + conditions[i] );
-					}
+					for ( int i = 0; i < conditions.length; ++i )
+						conditioner.executeLine( "conditions add " + conditions[i] );
 				}
 				catch ( Exception e )
 				{
-					// Because you're passing a null element, no
-					// exception should be thrown.
+					// This catches the IOException from initializing the
+					// conditioner variable.  Given that System.in is a
+					// real input stream which can be wrapped, this should
+					// not happen.
 				}
 			}
 

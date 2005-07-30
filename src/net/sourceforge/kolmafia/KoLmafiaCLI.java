@@ -1001,43 +1001,29 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.conditions.clear();
 			return;
 		}
-
-		if ( option.equals( "list" ) || option.equals( "print" ) )
+		else if ( option.equals( "add" ) )
 		{
-			printList( scriptRequestor.conditions );
-			return;
-		}
+			String conditionString = parameters.substring( option.length() ).trim();
+			AdventureResult condition;
 
-		if ( option.equals( "choice" ) )
-		{
-			try
+			if ( conditionString.endsWith( "choiceadv" ) )
 			{
-				AdventureResult choices = new AdventureResult( AdventureResult.ADV,
-					df.parse( parameters.substring( option.length() ).trim() ).intValue() );
-
-				AdventureResult.addResultToList( conditions, choices );
-				updateDisplay( NOCHANGE, "Choice adventure condition set." );
-				return;
+				String [] splitCondition = conditionString.split( "\\s+" );
+				condition = new AdventureResult( AdventureResult.ADV, splitCondition.length > 1 ? Integer.parseInt( splitCondition[0] ) : 1 );
 			}
-			catch ( Exception e )
+			else
 			{
-				updateDisplay( ERROR_STATE, "That is not a number." );
-				scriptRequestor.cancelRequest();
-				return;
+				condition = getFirstMatchingItem( conditionString, NOWHERE );
 			}
-		}
 
-		if ( option.equals( "add" ) )
-		{
-			AdventureResult condition = getFirstMatchingItem( parameters.substring( option.length() ).trim(), NOWHERE );
 			if ( condition != null )
 			{
 				AdventureResult.addResultToList( scriptRequestor.conditions, condition );
 				updateDisplay( NOCHANGE, "Condition added: " + condition.toString() );
 			}
-
-			return;
 		}
+
+		printList( scriptRequestor.conditions );
 	}
 
 	/**

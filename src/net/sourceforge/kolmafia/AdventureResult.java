@@ -373,7 +373,10 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( name == null )
 			return "(Unrecognized result)";
 
-		if ( name.equals(HP) || name.equals(MP) || name.equals(ADV) || name.equals(DRUNK) || name.equals(MEAT) )
+		if ( name.equals(ADV) )
+			return " Choice Adventures: " + df.format(count[0]);
+
+		if ( name.equals(HP) || name.equals(MP) || name.equals(DRUNK) || name.equals(MEAT) )
 			return " " + name + ": " + df.format(count[0]);
 
 		if ( name.equals(SUBSTATS) || name.equals(FULLSTATS) )
