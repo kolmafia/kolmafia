@@ -88,6 +88,6 @@ public class GreenMessageRequest extends SendMessageRequest
 	}
 
 	protected String getSuccessMessage()
-	{	return "<center>Message Sent.</center>";
+	{	return "<center>Message sent.</center>";
 	}
 }
