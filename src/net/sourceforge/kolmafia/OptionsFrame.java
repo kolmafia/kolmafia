@@ -488,76 +488,7 @@ public class OptionsFrame extends KoLFrame
 
 	private class ChoiceOptionsPanel extends OptionsPanel
 	{
-		private final String [][] settings =
-		{
-			{ "luckySewer", "Lucky Sewer Gnome Trading" },
-			{ "choiceAdventure2", "Palindome Axe Trade" },
-			{ "choiceAdventure4", "Finger-Lickin' Death" },
-			{ "choiceAdventure9", "Castle Wheel (Garbage)" },
-			{ "choiceAdventure10", "Castle Wheel (Bills)" },
-			{ "choiceAdventure11", "Castle Wheel (Back Door)" },
-			{ "choiceAdventure12", "Castle Wheel (Cat Feeding)" },
-			{ "choiceAdventure14", "A Bard Day's Night" }
-		};
-
-		private String [][] options;
 		private AbstractButton [][] optionRadios;
-
-		private void initializeNames()
-		{
-			options = new String[ settings.length ][];
-
-			// First in the list are the optionRadios which are
-			// available to the lucky sewer.
-
-			options[0] = new String[13];
-
-			options[0][0] = "seal-clubbing club";
-			options[0][1] = "seal tooth";
-			options[0][2] = "helmet turtle";
-			options[0][3] = "scroll of turtle summoning";
-			options[0][4] = "pasta spoon";
-			options[0][5] = "ravioli hat";
-			options[0][6] = "saucepan";
-			options[0][7] = "spices";
-			options[0][8] = "disco mask";
-			options[0][9] = "disco ball";
-			options[0][10] = "stolen accordion";
-			options[0][11] = "mariachi pants";
-			options[0][12] = "worthless trinket";
-
-			// Next in the list is the palindome adventure.
-
-			options[1] = new String[2];
-			options[1][0] = "Sure!";
-			options[1][1] = "No thanks.";
-
-			// And next in the list is the cock fight
-
-			options[2] = new String[3];
-			options[2][0] = "Bet on Tapajunta Del Maiz";
-			options[2][1] = "Bet on Cuerno De...  the other one";
-			options[2][2] = "Walk away in disgust";
-
-			// Next in the list are the optionRadios which are
-			// available for the wheel adventure.
-
-			for ( int i = 3; i < 7; ++i )
-			{
-				options[i] = new String[3];
-
-				options[i][0] = "Turn the wheel clockwise";
-				options[i][1] = "Turn the wheel counterclockwise";
-				options[i][2] = "Leave the wheel alone";
-			}
-
-			// And next in the list is the harem girls singing
-
-			options[7] = new String[3];
-			options[7][0] = "\"Boozember Rain\"";
-			options[7][1] = "\"It's Completely Ordinary\"";
-			options[7][2] = "\"Here's 25 Meat.\"";
-		}
 
 		/**
 		 * Constructs a new <code>ChoiceOptionsPanel</code> containing an
@@ -568,9 +499,7 @@ public class OptionsFrame extends KoLFrame
 		public ChoiceOptionsPanel()
 		{
 			super( "" );
-
 			setContent( null );
-			this.initializeNames();
 
 			JPanel centerPanel = new JPanel();
 			centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
@@ -583,9 +512,9 @@ public class OptionsFrame extends KoLFrame
 			JPanel labelPanel, optionsPanel;
 			JLabel currentLabel;
 
-			optionRadios = new AbstractButton[ options.length ][];
+			optionRadios = new AbstractButton[ AdventureDatabase.CHOICE_ADVS.length ][];
 
-			for ( int i = 0; i < options.length; ++i )
+			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
 			{
 				labelPanel = new JPanel();
 				labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.Y_AXIS ) );
@@ -596,11 +525,11 @@ public class OptionsFrame extends KoLFrame
 				if ( i != 0 )
 					optionRadiosGroup = new ButtonGroup();
 
-				optionRadios[i] = new AbstractButton[ options[i].length ];
+				optionRadios[i] = new AbstractButton[ AdventureDatabase.CHOICE_ADVS[i][2].length ];
 
-				for ( int j = 0; j < options[i].length; ++j )
+				for ( int j = 0; j < AdventureDatabase.CHOICE_ADVS[i][2].length; ++j )
 				{
-					currentLabel = new JLabel( options[i][j], JLabel.LEFT );
+					currentLabel = new JLabel( AdventureDatabase.CHOICE_ADVS[i][2][j], JLabel.LEFT );
 					JComponentUtilities.setComponentSize( currentLabel, 330, 20 );
 					labelPanel.add( currentLabel );
 
@@ -627,7 +556,7 @@ public class OptionsFrame extends KoLFrame
 
 				containerPanel = new JPanel();
 				containerPanel.setLayout( new BorderLayout() );
-				containerPanel.add( JComponentUtilities.createLabel( settings[i][1], JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+				containerPanel.add( JComponentUtilities.createLabel( AdventureDatabase.CHOICE_ADVS[i][1][0], JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 				containerPanel.add( scrollArea, BorderLayout.CENTER );
 
 				centerPanel.add( containerPanel );
@@ -642,10 +571,10 @@ public class OptionsFrame extends KoLFrame
 		{
 			StringBuffer currentSetting = new StringBuffer();
 
-			for ( int i = 0; i < options.length; ++i )
+			for ( int i = 0; i < optionRadios.length; ++i )
 			{
 				currentSetting.setLength(0);
-				for ( int j = 0; j < options[i].length; ++j )
+				for ( int j = 0; j < optionRadios[i].length; ++j )
 					if ( optionRadios[i][j].isSelected() )
 					{
 						if ( currentSetting.length() != 0 )
@@ -654,7 +583,7 @@ public class OptionsFrame extends KoLFrame
 						currentSetting.append( j + 1 );
 					}
 
-				setProperty( settings[i][0], currentSetting.toString() );
+				setProperty( AdventureDatabase.CHOICE_ADVS[i][0][0], currentSetting.toString() );
 			}
 
 			super.actionConfirmed();
@@ -662,15 +591,15 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			for ( int i = 0; i < options.length; ++i )
-				for ( int j = 0; j < options[i].length; ++j )
+			for ( int i = 0; i < optionRadios.length; ++i )
+				for ( int j = 0; j < optionRadios[i].length; ++j )
 					optionRadios[i][j].setSelected( false );
 
 			String [] selected;
 
-			for ( int i = 0; i < options.length; ++i )
+			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
 			{
-				selected = getProperty( settings[i][0] ).split( "," );
+				selected = getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ).split( "," );
 				for ( int j = 0; j < selected.length; ++j )
 					optionRadios[i][ Integer.parseInt( selected[j] ) - 1 ].setSelected( true );
 			}
