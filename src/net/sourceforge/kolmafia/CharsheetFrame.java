@@ -44,6 +44,7 @@ import javax.swing.BoxLayout;
 
 // containers
 import javax.swing.Box;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -52,6 +53,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 
 // event listeners
 import java.awt.event.ActionEvent;
@@ -60,9 +63,7 @@ import javax.swing.SwingUtilities;
 import java.awt.event.KeyEvent;
 
 // utilities
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.util.StringTokenizer;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -80,8 +81,10 @@ public class CharsheetFrame extends KoLFrame
 	private JPanel namePanel;
 	private JLabel levelLabel;
 
+	private JProgressBar hpMeter, mpMeter;
+
 	private JLabel [] statusLabel;
-	private JPanel [] statpointPanel;
+	private JProgressBar [] tnpDisplay;
 	private JButton refreshButton;
 
 	/**
@@ -110,6 +113,12 @@ public class CharsheetFrame extends KoLFrame
 
 		entirePanel.add( createStatusPanel(), BorderLayout.CENTER );
 		entirePanel.add( createImagePanel(), BorderLayout.WEST );
+
+		JScrollPane scroller = new JScrollPane(
+			new JList( client == null ? new LockableListModel() : client.getCharacterData().getEffects() ),
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		entirePanel.add( scroller, BorderLayout.SOUTH );
 
 		refreshStatus();
 
@@ -145,10 +154,7 @@ public class CharsheetFrame extends KoLFrame
 		namePanel.add( levelLabel );
 		imagePanel.add( namePanel, BorderLayout.NORTH );
 
-		StringTokenizer parsedName = new StringTokenizer( characterData.getClassType() );
-		StringBuffer imagename = new StringBuffer();
-		while ( parsedName.hasMoreTokens() )
-			imagename.append( parsedName.nextToken().toLowerCase() );
+		StringBuffer imagename = new StringBuffer( characterData.getClassType().replaceAll( " ", "" ).toLowerCase() );
 
 		if ( !characterData.isMale() )
 			imagename.append( "_f" );
@@ -162,53 +168,55 @@ public class CharsheetFrame extends KoLFrame
 	}
 
 	/**
-	 * Utility method for creating a panel that displays the given statusLabel,
+	 * Utility method for creating a panel that displays the given label,
 	 * using formatting if the values are different.
 	 */
 
-	private JPanel createValuePanel( int displayIndex )
+	private JPanel createValuePanel( String title, int displayIndex )
 	{
-		statpointPanel[ displayIndex ] = new JPanel();
-		statpointPanel[ displayIndex ].setLayout( new BorderLayout( 0, 0 ) );
-
-		int index1 = ((displayIndex + 1) << 1);
+		int index1 = 2 * displayIndex;
 		int index2 = index1 + 1;
 
 		statusLabel[ index1 ] = new JLabel( " ", JLabel.LEFT );
 		statusLabel[ index1 ].setForeground( Color.BLUE );
-		statpointPanel[ displayIndex ].add( statusLabel[ index1 ], BorderLayout.WEST );
-
 		statusLabel[ index2 ] = new JLabel( " ", JLabel.LEFT );
-		statpointPanel[ displayIndex ].add( statusLabel[ index2 ], BorderLayout.CENTER );
 
-		return statpointPanel[ displayIndex ];
+		JPanel headerPanel = new JPanel();
+		headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.X_AXIS ) );
+
+		headerPanel.add( new JLabel( title + ":  ", JLabel.RIGHT ) );
+		headerPanel.add( statusLabel[ index1 ] );
+		headerPanel.add( statusLabel[ index2 ] );
+
+		JPanel valuePanel = new JPanel();
+		valuePanel.setLayout( new BorderLayout( 2, 2 ) );
+
+		valuePanel.add( headerPanel, BorderLayout.EAST );
+		valuePanel.add( tnpDisplay[ displayIndex ], BorderLayout.SOUTH );
+
+		return valuePanel;
 	}
 
 	/**
-	 * Utility method for modifying a panel that displays the given statusLabel,
+	 * Utility method for modifying a panel that displays the given label,
 	 * using formatting if the values are different.
 	 */
 
 	private void refreshValuePanel( int displayIndex, int baseValue, int adjustedValue, int tillNextPoint )
 	{
-		int index1 = ((displayIndex + 1) << 1);
+		int index1 = 2 * displayIndex;
 		int index2 = index1 + 1;
 
 		JLabel adjustedLabel = statusLabel[index1];
 		JLabel baseLabel = statusLabel[index2];
 
-		if ( baseValue != adjustedValue )
-		{
-			adjustedLabel.setText( df.format( adjustedValue ) );
-			baseLabel.setText( " (" + df.format( baseValue ) + ")" );
-		}
-		else
-		{
-			adjustedLabel.setText( "" );
-			baseLabel.setText( df.format( baseValue ) );
-		}
+		adjustedLabel.setText( df.format( adjustedValue ) );
+		baseLabel.setText( " (" + df.format( baseValue ) + ")" );
 
-		statpointPanel[ displayIndex ].setToolTipText( df.format( tillNextPoint ) + " until " + df.format( baseValue + 1 ) );
+		tnpDisplay[ displayIndex ].setMaximum( 2 * baseValue + 1 );
+		tnpDisplay[ displayIndex ].setValue( 2 * baseValue + 1 - tillNextPoint );
+		tnpDisplay[ displayIndex ].setString( df.format( tnpDisplay[ displayIndex ].getValue() ) + " / " +
+			df.format( tnpDisplay[ displayIndex ].getMaximum() ) );
 	}
 
 	/**
@@ -223,44 +231,55 @@ public class CharsheetFrame extends KoLFrame
 		JPanel statusLabelPanel = new JPanel();
 		statusLabelPanel.setLayout( new BoxLayout( statusLabelPanel, BoxLayout.Y_AXIS ) );
 
-		statusLabelPanel.add( new JLabel( " " ) );
+		hpMeter = new JProgressBar();
+		hpMeter.setValue( 0 );
+		hpMeter.setStringPainted( true );
 
-		this.statusLabel = new JLabel[11];
-		for ( int i = 0; i < 11; ++i )
-		{
+		JComponentUtilities.setComponentSize( hpMeter, 60, 20 );
+
+		mpMeter = new JProgressBar();
+		mpMeter.setValue( 0 );
+		mpMeter.setStringPainted( true );
+
+		JComponentUtilities.setComponentSize( mpMeter, 60, 20 );
+
+		JPanel hpPanel = new JPanel();
+		hpPanel.setLayout( new BorderLayout( 5, 5 ) );
+		hpPanel.add( new JLabel( JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
+		hpPanel.add( hpMeter, BorderLayout.SOUTH );
+
+		JPanel mpPanel = new JPanel();
+		mpPanel.setLayout( new BorderLayout( 5, 5 ) );
+		mpPanel.add( new JLabel( JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
+		mpPanel.add( mpMeter, BorderLayout.SOUTH );
+
+		JPanel basicPanel = new JPanel();
+		basicPanel.setLayout( new BorderLayout( 10, 10 ) );
+		basicPanel.add( hpPanel, BorderLayout.WEST );
+		basicPanel.add( mpPanel, BorderLayout.EAST );
+
+		statusLabelPanel.add( basicPanel );
+		statusLabelPanel.add( Box.createVerticalStrut( 20 ) );
+
+		this.statusLabel = new JLabel[6];
+		for ( int i = 0; i < 6; ++i )
 			statusLabel[i] = new JLabel( " ", JLabel.CENTER );
-			if ( i == 1 )  i = 7;
+
+		this.tnpDisplay = new JProgressBar[3];
+		for ( int i = 0; i < 3; ++i )
+		{
+			tnpDisplay[i] = new JProgressBar();
+			tnpDisplay[i].setValue( 0 );
+			tnpDisplay[i].setStringPainted( true );
 		}
 
-		statusLabelPanel.add( statusLabel[0], "");
-		statusLabelPanel.add( statusLabel[1], "" );
-		statusLabelPanel.add( new JLabel( " " ) );
-
-		JPanel primeStatLabels = new JPanel();
-		primeStatLabels.setLayout( new GridLayout( 3, 1 ) );
-		primeStatLabels.add( new JLabel( "Mus: ", JLabel.RIGHT ) );
-		primeStatLabels.add( new JLabel( "Mys: ", JLabel.RIGHT ) );
-		primeStatLabels.add( new JLabel( "Mox: ", JLabel.RIGHT ) );
-
-		this.statpointPanel = new JPanel[3];
-		JPanel primeStatValues = new JPanel();
-		primeStatValues.setLayout( new GridLayout( 3, 1 ) );
-		primeStatValues.add( createValuePanel( 0 ) );
-		primeStatValues.add( createValuePanel( 1 ) );
-		primeStatValues.add( createValuePanel( 2 ) );
-
 		JPanel primeStatPanel = new JPanel();
-		primeStatPanel.setLayout( new BoxLayout( primeStatPanel, BoxLayout.X_AXIS ) );
-		primeStatPanel.add( primeStatLabels, BorderLayout.WEST );
-		primeStatPanel.add( primeStatValues, BorderLayout.CENTER );
-		statusLabelPanel.add( primeStatPanel, "" );
+		primeStatPanel.setLayout( new GridLayout( 3, 1, 5, 5 ) );
+		primeStatPanel.add( createValuePanel( "Muscle", 0 ) );
+		primeStatPanel.add( createValuePanel( "Mysticality", 1 ) );
+		primeStatPanel.add( createValuePanel( "Moxie", 2 ) );
+		statusLabelPanel.add( primeStatPanel );
 
-		statusLabelPanel.add( new JLabel( " " ), "" );
-		statusLabelPanel.add( statusLabel[8], "" );
-		statusLabelPanel.add( statusLabel[9], "" );
-		statusLabelPanel.add( statusLabel[10], "" );
-
-		statusLabelPanel.add( new JLabel( " " ), "" );
 		return statusLabelPanel;
 	}
 
@@ -276,16 +295,18 @@ public class CharsheetFrame extends KoLFrame
 			client.applyRecentEffects();
 
 		levelLabel.setText( "Level " + characterData.getLevel() + " " + characterData.getClassName() );
-		statusLabel[0].setText( df.format( characterData.getCurrentHP() ) + " / " + df.format( characterData.getMaximumHP() ) + " (HP)" );
-		statusLabel[1].setText( df.format( characterData.getCurrentMP() ) + " / " + df.format( characterData.getMaximumMP() ) + " (MP)" );
+
+		hpMeter.setMaximum( characterData.getMaximumHP() );
+		hpMeter.setValue( characterData.getCurrentHP() );
+		hpMeter.setString( df.format( characterData.getCurrentHP() ) + " / " + df.format( characterData.getMaximumHP() ) );
+
+		mpMeter.setMaximum( characterData.getMaximumMP() );
+		mpMeter.setValue( characterData.getCurrentMP() );
+		mpMeter.setString( df.format( characterData.getCurrentMP() ) + " / " + df.format( characterData.getMaximumMP() ) );
 
 		refreshValuePanel( 0, characterData.getBaseMuscle(), characterData.getAdjustedMuscle(), characterData.getMuscleTNP() );
 		refreshValuePanel( 1, characterData.getBaseMysticality(), characterData.getAdjustedMysticality(), characterData.getMysticalityTNP() );
 		refreshValuePanel( 2, characterData.getBaseMoxie(), characterData.getAdjustedMoxie(), characterData.getMoxieTNP() );
-
-		statusLabel[8].setText( df.format( characterData.getAvailableMeat() ) + " meat" );
-		statusLabel[9].setText( characterData.getInebriety() + " drunkenness" );
-		statusLabel[10].setText( characterData.getAdventuresLeft() + " adventures left" );
 
 		if ( namePanel != null )
 			namePanel.setToolTipText( characterData.getAdvancement() );
