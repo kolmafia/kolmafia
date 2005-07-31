@@ -1172,7 +1172,7 @@
 1172	solid asbestos box	0	0
 1173	solid linoleum box	0	0
 1174	solid chrome box	0	0
-1175
+1175	cryptic puzzle box	0	0
 1176
 1177
 1178	potted cactus	0	25
@@ -1194,7 +1194,7 @@
 1194	stuffed stab bat	0	1000
 1195	apathetic lizardman doll	0	2500
 1196	stuffed yeti	0	5000
-1197
+1197	stuffed Mob Penguin	0	10000
 1198
 1199
 1200	mugcake	2	25
@@ -1216,7 +1216,7 @@
 1216	Kevlar balloon	8	1000
 1217	thought balloon	8	2500
 1218	rat head balloon	6	5000
-1219
+1219	mini-zeppelin	8	10000
 1220
 1221
 1222	Mr. Eh?	8	-1
