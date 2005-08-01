@@ -1743,6 +1743,8 @@ public abstract class KoLmafia implements KoLConstants
 		isLoggingIn = true;
 		LoginRequest cachedLogin = loginRequest;
 
+		boolean previouslyActive = isBuffBotActive();
+
 		deinitialize();
 		updateDisplay( DISABLED_STATE, "Timing in session..." );
 
@@ -1770,6 +1772,8 @@ public abstract class KoLmafia implements KoLConstants
 		// successful login.
 
 		(new CharsheetRequest( KoLmafia.this )).run();
+
+		setBuffBotActive( previouslyActive );
 		updateDisplay( ENABLED_STATE, "Session timed in." );
 	}
 
