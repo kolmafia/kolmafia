@@ -215,14 +215,11 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			client.updateDisplay( DISABLED_STATE, "Applying network settings..." );
 			for ( int i = 0; i < 4; ++i )
 				if ( servers[i].isSelected() )
 					setProperty( "loginServer", String.valueOf( i ) );
 
-			KoLRequest.applySettings();
 			super.actionConfirmed();
-			client.updateDisplay( ENABLED_STATE, "Network settings applied." );
 		}
 
 		protected void actionCancelled()

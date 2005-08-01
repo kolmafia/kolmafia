@@ -295,6 +295,8 @@ public class LoginFrame extends KoLFrame
 				loginname += "/q";
 
 			updateDisplay( DISABLED_STATE, "Determining login settings..." );
+			KoLRequest.applySettings();
+
 			(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected(), isQuickLogin )).run();
 		}
 

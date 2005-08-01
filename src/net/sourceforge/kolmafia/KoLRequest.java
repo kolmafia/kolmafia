@@ -163,14 +163,17 @@ public class KoLRequest implements Runnable, KoLConstants
 				case 0:
 					autoDetectServer();
 					break;
+
 				case 1:
-					setLoginServer( "www.kingdomofloathing.com" );
+					setLoginServer( HOSTNAMES[0] );
 					break;
+
 				case 2:
-					setLoginServer( "www2.kingdomofloathing.com" );
+					setLoginServer( HOSTNAMES[1] );
 					break;
+
 				case 3:
-					setLoginServer( "www3.kingdomofloathing.com" );
+					setLoginServer( HOSTNAMES[2] );
 					break;
 			}
 		}
@@ -225,10 +228,10 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private static void setLoginServer( String server )
 	{
-		for ( int i = 0; KOL_ROOT == null && i < HOSTNAMES.length; ++i )
+		for ( int i = 0; i < HOSTNAMES.length; ++i )
 			if ( HOSTNAMES[i].equals( server ) )
 			{
-				KOL_HOST = server;
+				KOL_HOST = HOSTNAMES[i];
 				KOL_ROOT = "http://" + DNS_NAMES[i] + "/";
 			}
 	}
