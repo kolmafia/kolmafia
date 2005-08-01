@@ -115,7 +115,7 @@ public class CakeArenaFrame extends KoLPanelFrame
 			// rendered in the table.
 
 			FamiliarData currentFamiliar = client == null ? null :
-				(FamiliarData) client.getCharacterData().getFamiliars().getSelectedItem();
+				(FamiliarData) client.getCharacterData().getFamiliarList().getSelectedItem();
 
 			String opponentRace = currentFamiliar == null ? NO_DATA : currentFamiliar.getRace();
 

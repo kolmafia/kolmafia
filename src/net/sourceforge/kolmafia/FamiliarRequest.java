@@ -38,7 +38,7 @@ import java.util.regex.Matcher;
 
 public class FamiliarRequest extends KoLRequest
 {
-	private String changeTo;
+	private FamiliarData changeTo;
 
 	public FamiliarRequest( KoLmafia client )
 	{
@@ -46,30 +46,25 @@ public class FamiliarRequest extends KoLRequest
 		this.changeTo = null;
 	}
 
-	public FamiliarRequest( KoLmafia client, String changeTo )
+	public FamiliarRequest( KoLmafia client, FamiliarData changeTo )
 	{
 		super( client, "familiar.php" );
 
-		if ( changeTo.equals( EquipmentRequest.UNEQUIP ) )
+		if ( changeTo == FamiliarData.NO_FAMILIAR )
 		{
 			addFormField( "action", "putback" );
 		}
 		else
 		{
 			addFormField( "action", "newfam" );
-
-			int paren = changeTo.indexOf( "(" );
-			if ( paren != -1 )
-				changeTo = changeTo.substring( 0, paren - 1);
-
-			addFormField( "newfam", String.valueOf( FamiliarsDatabase.getFamiliarID( changeTo ) ) );
+			addFormField( "newfam", String.valueOf( changeTo.getID() ) );
 		}
 
 		this.changeTo = changeTo;
 	}
 
 	public String getFamiliarChange()
-	{	return changeTo;
+	{	return changeTo.toString();
 	}
 
 	public void run()

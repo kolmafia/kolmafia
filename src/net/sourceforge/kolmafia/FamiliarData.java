@@ -38,6 +38,8 @@ import java.util.regex.Matcher;
 
 public class FamiliarData implements KoLConstants, Comparable
 {
+	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
+
 	private static final Pattern SEARCH_PATTERN =
 		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/familiar(\\d+).*?</b>.*?\\d+ pound (.*?) \\(([\\d,]+) kills\\)(.*?)<(/tr|form)" );
 
@@ -54,7 +56,8 @@ public class FamiliarData implements KoLConstants, Comparable
 	public FamiliarData( int id )
 	{
 		this.id = id;
-		this.race = FamiliarsDatabase.getFamiliarName( id );
+		this.race = id == -1 ? EquipmentRequest.UNEQUIP : FamiliarsDatabase.getFamiliarName( id );
+
 		this.weight = 0;
 		this.item = EquipmentRequest.UNEQUIP;
 	}
@@ -145,6 +148,9 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	public String toString()
 	{
+		if ( id == -1 )
+			return EquipmentRequest.UNEQUIP;
+
 		if ( id == 38 )
 			return race + " (" + Math.max( weight + dodecaModifier, 1 ) + " lbs)";
 

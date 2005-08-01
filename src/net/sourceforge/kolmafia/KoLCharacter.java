@@ -263,7 +263,9 @@ public class KoLCharacter
 		this.hasArches = false;
 		this.hasChef = false;
 		this.hasBartender = false;
+
 		this.familiars = new SortedListModel( FamiliarData.class );
+		this.familiars.add( FamiliarData.NO_FAMILIAR );
 		this.listenerList = new ArrayList();
 
 		this.ascensionSign = "None";
@@ -1308,18 +1310,18 @@ public class KoLCharacter
 
 	/**
 	 * Adds the given familiar to the list of available familiars.
-	 * @param	newFamiliar	The ID of the familiar to be added
+	 * @param	familiar	The ID of the familiar to be added
 	 */
 
-	public void addFamiliar( FamiliarData newFamiliar )
+	public void addFamiliar( FamiliarData familiar )
 	{
-		if ( newFamiliar == null )
+		if ( familiar == null )
 			return;
 
-		if ( familiars.contains( newFamiliar ) )
-			familiars.remove( familiars.indexOf( newFamiliar ) );
+		if ( familiars.contains( familiar ) )
+			familiars.remove( familiars.indexOf( familiar ) );
 
-		familiars.add( newFamiliar );
+		familiars.add( familiar );
 	}
 
 	/**
@@ -1327,22 +1329,8 @@ public class KoLCharacter
 	 * @return	The list of familiars available to the character
 	 */
 
-	public LockableListModel getFamiliars()
-	{	return familiars;
-	}
-
 	public LockableListModel getFamiliarList()
-	{
-		LockableListModel familiars = new LockableListModel();
-
-		familiars.add( EquipmentRequest.UNEQUIP );
-		for ( int i = 0; i < this.familiars.size(); ++i)
-			familiars.add( this.familiars.get(i).toString() );
-
-		Object currentFamiliar = this.familiars.getSelectedItem();
-		familiars.setSelectedItem( currentFamiliar != null ? currentFamiliar.toString() : EquipmentRequest.UNEQUIP );
-
-		return familiars;
+	{	return familiars;
 	}
 
 	/**

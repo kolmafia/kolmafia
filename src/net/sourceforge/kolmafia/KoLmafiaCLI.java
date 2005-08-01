@@ -1279,7 +1279,7 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( NOCHANGE, "Drunk: " + data.getInebriety() );
 			updateDisplay( NOCHANGE, "Adv: " + data.getAdventuresLeft() );
 
-			updateDisplay( NOCHANGE, "Fam: " + data.getFamiliars().getSelectedItem() );
+			updateDisplay( NOCHANGE, "Fam: " + data.getFamiliarList().getSelectedItem() );
 			updateDisplay( NOCHANGE, "Item: " + data.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "equip" ) )
@@ -1310,7 +1310,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else if ( desiredData.equals( "familiars" ) )
 		{
-			printList( data.getFamiliars() );
+			printList( data.getFamiliarList() );
 		}
 		else if ( desiredData.equals( "effects" ) )
 		{
