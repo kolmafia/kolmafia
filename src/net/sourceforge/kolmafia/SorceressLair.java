@@ -300,7 +300,7 @@ public class SorceressLair implements KoLConstants
 
 		if ( request.responseText.indexOf( "lair2.php" ) == -1 )
 		{
-			(new FamiliarRequest( client, EquipmentRequest.UNEQUIP )).run();
+			(new FamiliarRequest( client, FamiliarData.NO_FAMILIAR )).run();
 			(new EquipmentRequest( client, SpecialOutfit.BIRTHDAY_SUIT )).run();
 
 			client.updateDisplay( DISABLED_STATE, "Crossing mirror puzzle..." );
@@ -345,7 +345,7 @@ public class SorceressLair implements KoLConstants
 		if ( needsBuckler )
 			(new EquipmentRequest( client, STAR_BUCKLER.getName() )).run();
 
-		(new FamiliarRequest( client, "Star Starfish" )).run();
+		(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
 
 		client.updateDisplay( DISABLED_STATE, "Inserting Richard's star key..." );
 

@@ -814,7 +814,13 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			scriptRequestor.makeRequest( new FamiliarRequest( scriptRequestor, parameters ), 1 );
+			String lowerCaseName = parameters.toLowerCase();
+			List familiars = scriptRequestor.getCharacterData().getFamiliarList();
+
+			for ( int i = 0; i < familiars.size(); ++i )
+				if ( familiars.get(i).toString().toLowerCase().indexOf( lowerCaseName ) != -1 )
+					scriptRequestor.makeRequest( new FamiliarRequest( scriptRequestor, (FamiliarData) familiars.get(i) ), 1 );
+
 			return;
 		}
 
