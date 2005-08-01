@@ -995,7 +995,33 @@ public abstract class KoLmafia implements KoLConstants
 			if ( lastToken.startsWith( "You acquire" ) )
 			{
 				if ( lastToken.indexOf( "effect" ) == -1 )
-					parseResult( parsedResults.nextToken() );
+				{
+					if ( lastToken.indexOf( "an item" ) != -1 )
+					{
+						parseResult( parsedResults.nextToken() );
+					}
+					else
+					{
+						String [] itemSplit = parsedResults.nextToken().split( " " );
+						StringBuffer itemName = new StringBuffer( itemSplit[3] );
+
+						for ( int i = 4; i < itemSplit.length; ++i )
+						{
+							itemName.append( ' ' );
+							itemName.append( itemSplit[i] );
+						}
+
+						try
+						{
+							processResult( new AdventureResult( itemName.toString(), df.parse( itemSplit[0] ).intValue() ) );
+						}
+						catch ( Exception e )
+						{
+							// Because the number is always the third token
+							// listed, this should not happen.
+						}
+					}
+				}
 				else
 				{
 					String effect = parsedResults.nextToken();
