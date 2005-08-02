@@ -146,12 +146,22 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "ies ", "y " ).replaceFirst( "([A-Za-z])s ", "$1 " ) );
+		itemID = itemByName.get( canonicalName.replaceFirst( "ies ", "y " ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
 		itemID = itemByName.get( canonicalName.replaceFirst( "i ", "us " ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
 		return itemID == null ? -1 : ((Integer)itemID).intValue();
 	}
 
@@ -224,8 +234,10 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		String canonicalName = getCanonicalName( itemName );
 		return itemByName.containsKey( canonicalName ) ||
-			itemByName.containsKey( canonicalName.replaceFirst( "ies ", "y " ).replaceFirst( "([A-Za-z])s ", "$1 " ) ) ||
-			itemByName.containsKey( canonicalName.replaceFirst( "i ", "us " ) );
+			itemByName.containsKey( canonicalName.replaceFirst( "ies ", "y " ) ) ||
+			itemByName.containsKey( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) ) ||
+			itemByName.containsKey( canonicalName.replaceFirst( "i ", "us " ) ) ||
+			itemByName.containsKey( canonicalName.substring( 0, canonicalName.length() - 1 ) );
 	}
 
 	/**
