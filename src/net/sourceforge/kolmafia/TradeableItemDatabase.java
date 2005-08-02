@@ -140,7 +140,18 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemName.equals( "ice-cold beer (Willer)" ) )
 			return 81;
 
-		Object itemID = itemByName.get( getCanonicalName( itemName ) );
+		String canonicalName = getCanonicalName( itemName );
+		Object itemID = itemByName.get( canonicalName );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "ies ", "y " ).replaceFirst( "([A-Za-z])s ", "$1 " ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "i ", "us " ) );
 		return itemID == null ? -1 : ((Integer)itemID).intValue();
 	}
 
@@ -211,7 +222,10 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemName.equals( "ice-cold beer (Schlitz)" ) || itemName.equals( "ice-cold beer (Willer)" ) )
 			return true;
 
-		return itemByName.containsKey( getCanonicalName( itemName ) );
+		String canonicalName = getCanonicalName( itemName );
+		return itemByName.containsKey( canonicalName ) ||
+			itemByName.containsKey( canonicalName.replaceFirst( "ies ", "y " ).replaceFirst( "([A-Za-z])s ", "$1 " ) ) ||
+			itemByName.containsKey( canonicalName.replaceFirst( "i ", "us " ) );
 	}
 
 	/**

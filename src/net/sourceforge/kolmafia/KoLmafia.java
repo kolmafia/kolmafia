@@ -996,24 +996,40 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				if ( lastToken.indexOf( "effect" ) == -1 )
 				{
+					String acquisition = parsedResults.nextToken();
+					StringBuffer itemName = new StringBuffer();
+
 					if ( lastToken.indexOf( "an item" ) != -1 )
 					{
-						parseResult( parsedResults.nextToken() );
+						itemName.append( acquisition );
+						parseResult( itemName.toString() );
 					}
 					else
 					{
-						String [] itemSplit = parsedResults.nextToken().split( " " );
-						StringBuffer itemName = new StringBuffer( itemSplit[3] );
-
-						for ( int i = 4; i < itemSplit.length; ++i )
-						{
-							itemName.append( ' ' );
-							itemName.append( itemSplit[i] );
-						}
-
 						try
 						{
-							processResult( new AdventureResult( itemName.toString(), df.parse( itemSplit[0] ).intValue() ) );
+							String [] itemSplit = acquisition.split( " " );
+
+							itemName.append( acquisition.substring( acquisition.indexOf( " " ) ) );
+
+							if ( TradeableItemDatabase.contains( itemName.toString() ) )
+							{
+								processResult( new AdventureResult( itemName.toString(), df.parse( itemSplit[0] ).intValue() ) );
+								return;
+							}
+							else
+							{
+								itemName.setLength(0);
+								itemName.append( itemSplit[3] );
+
+								for ( int i = 4; i < itemSplit.length; ++i )
+								{
+									itemName.append( ' ' );
+									itemName.append( itemSplit[i] );
+								}
+
+								processResult( new AdventureResult( itemName.toString(), df.parse( itemSplit[0] ).intValue() ) );
+							}
 						}
 						catch ( Exception e )
 						{
