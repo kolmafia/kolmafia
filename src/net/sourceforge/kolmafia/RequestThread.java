@@ -151,6 +151,6 @@ public class RequestThread extends Thread implements KoLConstants
 		}
 
 		if ( client != null && !client.isEnabled() )
-			client.setEnabled( true );
+			client.updateDisplay( ENABLED_STATE, "" );
 	}
 }

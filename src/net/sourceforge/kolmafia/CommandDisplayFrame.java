@@ -184,7 +184,6 @@ public class CommandDisplayFrame extends KoLFrame
 
 			public void run()
 			{
-				client.setEnabled( false );
 				commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
 
 				if ( command.toLowerCase().equals( "login" ) )
@@ -193,7 +192,6 @@ public class CommandDisplayFrame extends KoLFrame
 					instance.executeLine( command );
 
 				commandBuffer.append( "<br>" );
-				client.setEnabled( true );
 			}
 		}
 	}

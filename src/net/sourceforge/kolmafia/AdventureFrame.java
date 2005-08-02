@@ -297,7 +297,9 @@ public class AdventureFrame extends KoLFrame
 			if ( !s.equals( "Timing in session..." ) && (label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." ) ))
 				return;
 
-			actionStatusLabel.setText( s );
+			if ( !s.equals( "" ) )
+				actionStatusLabel.setText( s );
+
 			switch ( displayState )
 			{
 				case ERROR_STATE:

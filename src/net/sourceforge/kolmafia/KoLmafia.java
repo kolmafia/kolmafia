@@ -169,10 +169,6 @@ public abstract class KoLmafia implements KoLConstants
 	{	return true;
 	}
 
-	public void setEnabled( boolean isEnabled )
-	{
-	}
-
 	/**
 	 * Updates the currently active display in the <code>KoLmafia</code>
 	 * session.
@@ -424,6 +420,7 @@ public abstract class KoLmafia implements KoLConstants
 		(new GreenMessageRequest( this, "246325", "Oh, and KoLmafia says, \"Your shoes are mine, [censored]!\"", new AdventureResult( AdventureResult.MEAT, 2 ) )).run();
 		(new GreenMessageRequest( this, "246325", "But you're a bot, too, so you won't see this.  Sadness.", new AdventureResult( AdventureResult.MEAT, 3 ) )).run();
 
+		permitContinue = true;
 		updateDisplay( ENABLED_STATE, "Pwning of Clan Otori complete." );
 	}
 

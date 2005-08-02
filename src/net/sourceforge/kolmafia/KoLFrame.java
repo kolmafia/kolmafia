@@ -603,15 +603,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// file specified could not be loaded
 
 				isExecutingScript = false;
-				client.setEnabled( true );
+				updateDisplay( ERROR_STATE, "Script <" + scriptPath + "> could not be loaded." );
 				return;
 			}
 
 			isExecutingScript = false;
+			updateDisplay( ERROR_STATE, "" );
+
 			if ( client.permitsContinue() )
 				updateDisplay( ENABLED_STATE, "Script completed successfully." );
-			else
-				client.setEnabled( true );
 		}
 	}
 
