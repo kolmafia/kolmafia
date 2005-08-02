@@ -161,7 +161,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
+		if ( canonicalName.length() > 0 )
+			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
+
+System.out.println( itemID );
+
 		return itemID == null ? -1 : ((Integer)itemID).intValue();
 	}
 
@@ -237,7 +241,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			itemByName.containsKey( canonicalName.replaceFirst( "ies ", "y " ) ) ||
 			itemByName.containsKey( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) ) ||
 			itemByName.containsKey( canonicalName.replaceFirst( "i ", "us " ) ) ||
-			itemByName.containsKey( canonicalName.substring( 0, canonicalName.length() - 1 ) );
+			(canonicalName.length() > 0 && itemByName.containsKey( canonicalName.substring( 0, canonicalName.length() - 1 ) ));
 	}
 
 	/**
