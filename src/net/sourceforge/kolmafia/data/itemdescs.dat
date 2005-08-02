@@ -1,8 +1,8 @@
 # Kingdom of Loathing Item Database
 # Compiled by Max Demian
 #
-# Latest Item: 1218
-# Date: 07/18/2005
+# Latest Item: 1120
+# Date: 08/01/2005
 #
 # Please credit if you use in your own project
 
@@ -1179,8 +1179,8 @@
 1171	620396812	miniature coffin
 1172	572164409	solid asbestos box
 1173	512858222	solid linoleum box
-1174			solid chrome box
-1175			cryptic puzzle box
+1174	589369829	solid chrome box
+1175	755107532	cryptic puzzle box
 1176			(Ascension #24 Reward) box
 1177			(Ascension #27 Reward) box
 1178	964067424	potted cactus
@@ -1191,8 +1191,8 @@
 1183	689514440	all-purpose flower
 1184	687107726	exotic orchid
 1185	425699731	long-stemmed rose
-1186			gilded lily
-1187			(Ascension #22 Reward)
+1186	584987579	gilded lily
+1187	290796411	deadly nightshade
 1188			(Ascension #25 Reward)
 1189	873337299	stuffed can of asparagus
 1190	780687415	stuffed dodecapede
@@ -1202,8 +1202,8 @@
 1194	693610686	stuffed stab bat
 1195	664697824	apathetic lizardman doll
 1196	453172157	stuffed yeti
-1197			stuffed Mob Penguin
-1198			stuffed (Ascension #23 Reward)
+1197	903023997	stuffed Mob Penguin
+1198	646526666	stuffed sabre-toothed lime
 1199			stuffed (Ascension #26 Reward)
 1200	356171523	mugcake
 1201	988687424	urinal cake
@@ -1213,8 +1213,8 @@
 1205	295880611	babycakes
 1206	551385568	blue velvet cake
 1207	657000980	congratulatory cake
-1208			angel-food cake
-1209			(Ascension #22 Reward) cake
+1208	806228405	angel-food cake
+1209	307634937	devil's-food cake
 1210			(Ascension #25 Reward) cake
 1211	384212321	white balloon
 1212	472009472	green balloon
@@ -1224,8 +1224,8 @@
 1216	894037731	Kevlar balloon
 1217	482472723	thought balloon
 1218	515469755	rat head balloon
-1219			mini-zeppelin
-1220			(Ascension #23 Reward) balloon
+1219	957622815	mini-zeppelin
+1220	776019712	Mr. Balloon
 1221			(Ascension #26 Reward) balloon
 1222	712704501	Mr. Eh?
 1223	
@@ -1267,3 +1267,6 @@
 1259	231159288	yellow traffic cone
 1260	876876676	wax lips
 1261	409738324	Hatorade
+1262	
+1263	728686242	pygmy bugbear shaman
+1264	397212048	tiny nose-bone fetish
