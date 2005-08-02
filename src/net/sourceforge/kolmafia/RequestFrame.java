@@ -283,12 +283,20 @@ public class RequestFrame extends KoLFrame
 
 			mainBuffer.clearBuffer();
 
-			if ( getCurrentLocation().startsWith( "adventure.php" ) && client.isLuckyCharacter() &&
-				client.getSettings().getProperty( "cloverProtectActive" ).equals( "true" ) )
+			if ( getCurrentLocation().startsWith( "adventure.php" ) )
 			{
-				updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
-				mainBuffer.append( "<h1><font color=\"red\">You have a ten-leaf clover.  Please de-active clover protection in your startup options first if you are certain you want to use your clovers while adventuring.</font></h1>" );
-				return;
+				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( currentRequest.getDataString() );
+				boolean subtractClover = client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(1) );
+
+				if ( client.getSettings().getProperty( "cloverProtectActive" ).equals( "true" ) && subtractClover )
+				{
+					updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
+					mainBuffer.append( "<h1><font color=\"red\">You have a ten-leaf clover.  Please de-active clover protection in your startup options first if you are certain you want to use your clovers while adventuring.</font></h1>" );
+					return;
+				}
+
+				if ( subtractClover )
+					client.processResult( SewerRequest.CLOVER );
 			}
 
 			mainBuffer.append( "Retrieving..." );
@@ -297,7 +305,7 @@ public class RequestFrame extends KoLFrame
 			// current round of combat (for people who track this
 			// sort of thing).
 
-			if ( currentRequest.getURLString().startsWith( "fight" ) )
+			if ( getCurrentLocation().startsWith( "fight" ) )
 			{
 				++combatRound;
 				setTitle( "Mini-Browser: Combat Round " + combatRound );

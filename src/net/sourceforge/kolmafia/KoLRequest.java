@@ -327,6 +327,23 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	data.add( element );
 	}
 
+	protected String getDataString()
+	{
+		StringBuffer dataBuffer = new StringBuffer();
+		Iterator iterator = data.iterator();
+
+		if ( iterator.hasNext() )
+			dataBuffer.append( iterator.next().toString() );
+
+		while ( iterator.hasNext() )
+		{
+			dataBuffer.append( '&' );
+			dataBuffer.append( iterator.next().toString() );
+		}
+
+		return dataBuffer.toString();
+	}
+
 	/**
 	 * Runs the thread, which prepares the connection for output, posts the data
 	 * to the Kingdom of Loathing, and prepares the input for reading.  Because
@@ -496,38 +513,24 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( data.isEmpty() )
 			return true;
 
-		StringBuffer dataBuffer = new StringBuffer();
 		logStream.println( "Posting form data..." );
 
 		try
 		{
-			Iterator iterator = data.iterator();
-
-			if ( iterator.hasNext() )
-				dataBuffer.append( iterator.next().toString() );
-
-			while ( iterator.hasNext() )
-			{
-				dataBuffer.append( '&' );
-				dataBuffer.append( iterator.next().toString() );
-			}
+			String dataString = getDataString();
 
 			if ( client != null && !formURLString.equals( "login.php" ) )
 			{
 				if ( client.getPasswordHash() == null )
-					logStream.println( dataBuffer.toString() );
+					logStream.println( dataString );
 				else
-					logStream.println( dataBuffer.toString().replaceAll(
-						client.getPasswordHash(), "" ) );
+					logStream.println( dataString.replaceAll( client.getPasswordHash(), "" ) );
 			}
 
 			formConnection.setRequestMethod( "POST" );
+			BufferedWriter ostream = new BufferedWriter( new OutputStreamWriter( formConnection.getOutputStream() ) );
 
-			BufferedWriter ostream =
-				new BufferedWriter( new OutputStreamWriter(
-					formConnection.getOutputStream() ) );
-
-			ostream.write( dataBuffer.toString() );
+			ostream.write( dataString );
 			ostream.flush();
 			ostream.close();
 			ostream = null;

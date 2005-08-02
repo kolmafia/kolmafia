@@ -50,6 +50,7 @@ public class AdventureRequest extends KoLRequest
 	private String formSource;
 	private String adventureID;
 	private int adventuresUsed;
+	private boolean hasLuckyVersion;
 
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the
@@ -108,8 +109,18 @@ public class AdventureRequest extends KoLRequest
 			}
 			else
 				this.adventuresUsed = 1;
-
 		}
+
+		hasLuckyVersion = hasLuckyVersion( adventureID );
+	}
+
+	public static final boolean hasLuckyVersion( String adventureID )
+	{
+		for ( int i = 0; i < AdventureDatabase.CLOVER_ADVS.length; ++i )
+			if ( AdventureDatabase.CLOVER_ADVS[i].equals( adventureID ) )
+				return true;
+
+		return false;
 	}
 
 	/**
@@ -122,7 +133,7 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( client.isLuckyCharacter() && client.getSettings().getProperty( "cloverProtectActive" ).equals( "true" ) )
+		if ( client.isLuckyCharacter() && client.getSettings().getProperty( "cloverProtectActive" ).equals( "true" ) && hasLuckyVersion )
 		{
 			isErrorState = true;
 			client.cancelRequest();
@@ -179,6 +190,12 @@ public class AdventureRequest extends KoLRequest
 
 		if ( isErrorState || responseCode != 200 )
 			return;
+
+		// If this is a lucky adventure, then remove a clover
+		// from the player's inventory.
+
+		if ( client.isLuckyCharacter() && hasLuckyVersion )
+			client.processResult( SewerRequest.CLOVER );
 
 		// Sometimes, there's no response from the server.
 		// In this case, simply rerun the request.
