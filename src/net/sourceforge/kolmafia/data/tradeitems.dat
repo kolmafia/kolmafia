@@ -1184,7 +1184,7 @@
 1184	exotic orchid	0	2500
 1185	long-stemmed rose	0	5000
 1186	gilded lily	0	10000
-1187
+1187	deadly nightshade	0	25000
 1188
 1189	stuffed can of asparagus	0	25
 1190	stuffed dodecapede	0	50
@@ -1195,7 +1195,7 @@
 1195	apathetic lizardman doll	0	2500
 1196	stuffed yeti	0	5000
 1197	stuffed Mob Penguin	0	10000
-1198
+1198	stuffed sabre toothed lime	0	25000
 1199
 1200	mugcake	2	25
 1201	urinal cake	2	50
@@ -1206,7 +1206,7 @@
 1206	blue velvet cake	2	2500
 1207	congratulatory cake	2	5000
 1208	angel-food cake	2	10000
-1209
+1209	devil's-food cake	2	25000
 1210
 1211	white balloon	8	25
 1212	green balloon	8	50
@@ -1217,7 +1217,7 @@
 1217	thought balloon	8	2500
 1218	rat head balloon	6	5000
 1219	mini-zeppelin	8	10000
-1220
+1220	Mr. Balloon	8	25000
 1221
 1222	Mr. Eh?	8	-1
 1223
