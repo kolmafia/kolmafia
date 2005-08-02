@@ -164,8 +164,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.length() > 0 )
 			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
 
-System.out.println( itemID );
-
 		return itemID == null ? -1 : ((Integer)itemID).intValue();
 	}
 
