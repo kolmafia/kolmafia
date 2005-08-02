@@ -1007,7 +1007,7 @@ public abstract class KoLmafia implements KoLConstants
 						{
 							String [] itemSplit = acquisition.split( " " );
 
-							itemName.append( acquisition.substring( acquisition.indexOf( " " ) ) );
+							itemName.append( acquisition.substring( acquisition.indexOf( " " ) + 1 ) );
 
 							if ( TradeableItemDatabase.contains( itemName.toString() ) )
 							{
