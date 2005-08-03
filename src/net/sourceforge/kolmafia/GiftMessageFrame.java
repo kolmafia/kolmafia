@@ -57,7 +57,7 @@ public class GiftMessageFrame extends SendMessageFrame
 
 	public GiftMessageFrame( KoLmafia client, String recipient )
 	{
-		super( client, "KoLmafia: Send a Purple Message" );
+		super( client, "Send a Purple Message" );
 		recipientEntry.setText( recipient );
 	}
 

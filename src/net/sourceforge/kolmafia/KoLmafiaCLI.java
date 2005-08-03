@@ -89,9 +89,10 @@ public class KoLmafiaCLI extends KoLmafia
 					initialScript = args[i].substring( 7 );
 
 			System.out.println();
-			System.out.println( "****************" );
-			System.out.println( "* KoLmafia CLI *" );
-			System.out.println( "****************" );
+			System.out.println( " **************************" );
+			System.out.println( " *     " + VERSION_NAME + "      *" );
+			System.out.println( " * Command Line Interface *" );
+			System.out.println( " **************************" );
 			System.out.println();
 
 			System.out.println( "Determining server..." );

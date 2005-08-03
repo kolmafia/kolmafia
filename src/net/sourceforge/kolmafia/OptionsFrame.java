@@ -117,7 +117,7 @@ public class OptionsFrame extends KoLFrame
 
 	public OptionsFrame( KoLmafia client )
 	{
-		super( client, "KoLmafia: Preferences" );
+		super( client, "Preferences" );
 
 		setResizable( false );
 

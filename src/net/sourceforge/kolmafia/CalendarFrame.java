@@ -179,7 +179,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	public CalendarFrame( KoLmafia client )
 	{
-		super( client, "KoLmafia: Farmer's Almanac" );
+		super( client, "Farmer's Almanac" );
 		getContentPane().setLayout( new BorderLayout() );
 
 		selectedRow = -1;

@@ -111,7 +111,7 @@ public class BuffBotFrame extends KoLFrame
 
 	public BuffBotFrame( KoLmafia client )
 	{
-		super( client, "KoLmafia: BuffBot" );
+		super( client, "BuffBot" );
 
 		settings = (client == null) ? new KoLSettings() : client.getSettings();
 		buffCostTable = new LockableListModel();

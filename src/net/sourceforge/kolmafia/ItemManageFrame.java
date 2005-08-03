@@ -88,7 +88,7 @@ public class ItemManageFrame extends KoLFrame
 
 	public ItemManageFrame( KoLmafia client )
 	{
-		super( client, "KoLmafia: Item Management" );
+		super( client, "Item Management" );
 
 		tabs = new JTabbedPane();
 		using = new ConsumePanel();

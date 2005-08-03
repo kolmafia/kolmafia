@@ -287,7 +287,7 @@ public class BuffBotHome implements KoLConstants
 	public void updateStatus( String statusMessage )
 	{
 		if ( frame != null )
-			frame.setTitle( "KoLmafia: Buffbot - " + statusMessage );
+			frame.setTitle( VERSION_NAME + ": Buffbot - " + statusMessage );
 	}
 
 	/**

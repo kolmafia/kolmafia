@@ -53,7 +53,7 @@ public class GreenMessageFrame extends SendMessageFrame
 
 	public GreenMessageFrame( KoLmafia client, String recipient, String quotedMessage )
 	{
-		super( client, "KoLmafia: Send a Green Message" );
+		super( client, "Send a Green Message" );
 		recipientEntry.setText( recipient );
 		messageEntry[0].setText( quotedMessage );
 	}

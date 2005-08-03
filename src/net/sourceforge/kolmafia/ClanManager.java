@@ -583,7 +583,7 @@ public class ClanManager implements KoLConstants
 	{
 		Object [] parameters = new Object[3];
 		parameters[0] = client;
-		parameters[1] = "KoLmafia: Clan Board Post";
+		parameters[1] = "Clan Board Post";
 		parameters[2] = new MessagePostPanel( "post" );
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
@@ -593,7 +593,7 @@ public class ClanManager implements KoLConstants
 	{
 		Object [] parameters = new Object[3];
 		parameters[0] = client;
-		parameters[1] = "KoLmafia: Clan Announcement";
+		parameters[1] = "Clan Announcement";
 		parameters[2] = new MessagePostPanel( "postannounce" );
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );

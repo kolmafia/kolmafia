@@ -50,7 +50,7 @@ public class ProposeTradeFrame extends SendMessageFrame
 
 	public ProposeTradeFrame( KoLmafia client, String offerID )
 	{
-		super( client, "KoLmafia: Send a Trade Proposal" );
+		super( client, "Send a Trade Proposal" );
 		this.offerID = offerID;
 
 		if ( this.offerID != null )

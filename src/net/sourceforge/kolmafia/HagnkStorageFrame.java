@@ -54,7 +54,7 @@ public class HagnkStorageFrame extends KoLPanelFrame
 {
 	public HagnkStorageFrame( KoLmafia client )
 	{
-		super( client, "KoLmafia: Hagnk, the Secret Dwarf" );
+		super( client, "Hagnk, the Secret Dwarf" );
 
 		if ( client != null && client.getStorage().isEmpty() )
 			(new RequestThread( new ItemStorageRequest( client ) )).start();

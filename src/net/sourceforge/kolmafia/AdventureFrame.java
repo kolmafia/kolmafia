@@ -110,7 +110,7 @@ public class AdventureFrame extends KoLFrame
 
 	public AdventureFrame( KoLmafia client )
 	{
-		super( client, "KoLmafia: " + ((client == null) ? "UI Test" : client.getLoginName()) + " (" + KoLRequest.getRootHostName() + ")" );
+		super( client, ((client == null) ? "UI Test" : client.getLoginName()) + " (" + KoLRequest.getRootHostName() + ")" );
 
 		this.isEnabled = true;
 		this.tabs = new JTabbedPane();

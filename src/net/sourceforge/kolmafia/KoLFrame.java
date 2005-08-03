@@ -136,7 +136,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected KoLFrame( KoLmafia client, String title )
 	{
-		super( title );
+		super( VERSION_NAME + ": " + title );
 
 		this.client = client;
 		this.isEnabled = true;
@@ -1179,9 +1179,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	private class VersionDataPanel extends JPanel
 	{
 		private final String [] versionData = {
-			"KoLmafia v5.1",
-			"Released July 24, 2005",
-			" ",
+			VERSION_NAME, VERSION_DATE, " ",
 			"Copyright © 2005 KoLmafia development team",
 			"Berkeley Software Development (BSD) License",
 			"http://kolmafia.sourceforge.net/",

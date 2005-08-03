@@ -305,7 +305,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 		public AttachmentFrame( KoLmafia client, LockableListModel inventory, LockableListModel attachments )
 		{
-			super( client, "KoLmafia: Attachments" );
+			super( client, "Attachments" );
 
 			this.inventory = (LockableListModel) inventory.clone();
 			this.attachments = attachments;

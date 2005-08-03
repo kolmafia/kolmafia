@@ -109,7 +109,7 @@ public class ClanManageFrame extends KoLFrame
 
 	public ClanManageFrame( KoLmafia client )
 	{
-		super( client, "KoLmafia: Clan Management" );
+		super( client, "Clan Management" );
 
 		this.rankList = new LockableListModel();
 

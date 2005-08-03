@@ -85,7 +85,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	public MailboxFrame( KoLmafia client )
 	{
-		super( client, "KoLmafia: IcePenguin Express" );
+		super( client, "IcePenguin Express" );
 		this.mailbox = (client == null) ? new KoLMailManager() : client.getMailManager();
 
 		this.messageListInbox = new MailSelectList( "Inbox" );
