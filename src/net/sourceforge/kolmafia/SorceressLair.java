@@ -302,6 +302,10 @@ public class SorceressLair implements KoLConstants
 		{
 			(new FamiliarRequest( client, FamiliarData.NO_FAMILIAR )).run();
 			(new EquipmentRequest( client, SpecialOutfit.BIRTHDAY_SUIT )).run();
+			// We will need to re-equip
+
+			needsWeapon = true;
+			needsBuckler = true;
 
 			client.updateDisplay( DISABLED_STATE, "Crossing mirror puzzle..." );
 
