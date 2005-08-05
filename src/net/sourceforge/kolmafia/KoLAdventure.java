@@ -80,6 +80,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
+	 * Returns the name of this adventure.
+	 */
+
+	public String getAdventureName()
+	{	return adventureName;
+	}
+
+	/**
 	 * Returns the zone in which this adventure is found.
 	 * @return	The zone for this adventure
 	 */

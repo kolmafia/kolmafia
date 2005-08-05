@@ -2070,14 +2070,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( request instanceof KoLAdventure )
 		{
-			if ( !request.toString().equals( "The 1337 Trapper" ) && !request.toString().equals( "The Hermitage" ) &&
-				!request.toString().startsWith( "Gym" ) )
-			{
+			String adventureName = ((KoLAdventure)request).getAdventureName();
+
+			if ( !request.toString().startsWith( "Gym" ) )
 				commandString.append( "adventure " );
-				commandString.append( iterations );
-				commandString.append( ' ' );
-				commandString.append( request.toString() );
-			}
+			else
+				commandString.append( "gym " );
+
+			commandString.append( iterations );
+			commandString.append( ' ' );
+			commandString.append( adventureName );
 		}
 
 		// Donations get their own command and module,
