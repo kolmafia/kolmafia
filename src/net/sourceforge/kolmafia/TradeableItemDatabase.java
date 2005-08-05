@@ -143,28 +143,72 @@ public class TradeableItemDatabase extends KoLDatabase
 		String canonicalName = getCanonicalName( itemName );
 		Object itemID = itemByName.get( canonicalName );
 
+		// If the name, as-is, exists in the item database,
+		// then go ahead and return the item ID.
+
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
+
+		// If this is the pluralized version of chewing
+		// gum, then return the ID for chewing gum.
+
+		if ( canonicalName.equals( "chewing gums on strings" ) )
+			return SewerRequest.GUM.getItemID();
+
+		// If it's a pluralized form of something that
+		// ends with "y", then return the appropriate
+		// item ID for the "y" version.
 
 		itemID = itemByName.get( canonicalName.replaceFirst( "ies ", "y " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
+		// If it's a pluralized form of something that
+		// ends with "o", then return the appropriate
+		// item ID for the "o" version.
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "oes ", "o " ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// If it's a standard pluralized forms, then
+		// return the appropriate item ID.
+
 		itemID = itemByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "i ", "us " ) );
+		// If it's a cactus, then go ahead and return
+		// the appropriate cactus-type ID.
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "cacti", "cactus" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		if ( canonicalName.length() > 0 )
+		// Check for plurals occurring at the end of
+		// the item name.  This includes all of the
+		// versions indicated above.
+
+		if ( canonicalName.endsWith( "es" ) )
+			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		if ( canonicalName.endsWith( "s" ) )
 			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
 
-		return itemID == null ? -1 : ((Integer)itemID).intValue();
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// All tests failing, there is no item that
+		// exists with the given name.
+
+		return -1;
 	}
 
 	/**
@@ -230,16 +274,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final boolean contains( String itemName )
-	{
-		if ( itemName.equals( "ice-cold beer (Schlitz)" ) || itemName.equals( "ice-cold beer (Willer)" ) )
-			return true;
-
-		String canonicalName = getCanonicalName( itemName );
-		return itemByName.containsKey( canonicalName ) ||
-			itemByName.containsKey( canonicalName.replaceFirst( "ies ", "y " ) ) ||
-			itemByName.containsKey( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) ) ||
-			itemByName.containsKey( canonicalName.replaceFirst( "i ", "us " ) ) ||
-			(canonicalName.length() > 0 && itemByName.containsKey( canonicalName.substring( 0, canonicalName.length() - 1 ) ));
+	{	return getItemID( itemName ) != -1;
 	}
 
 	/**
