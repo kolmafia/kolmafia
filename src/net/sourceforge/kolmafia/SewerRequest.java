@@ -43,9 +43,9 @@ import java.util.StringTokenizer;
 public class SewerRequest extends KoLRequest
 {
 	public static final AdventureResult CLOVER = new AdventureResult( "ten-leaf clover", -1 );
+	public static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
 
 	private boolean isLuckySewer;
-	private static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
 
 	/**
 	 * Constructs a new <code>SewerRequest</code>.  This method will
