@@ -171,7 +171,7 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 			if ( this == BEANBAG )
 			{
 				client.updateDisplay( DISABLED_STATE, "Relaxing in beanbag chair..." );
-				(new CampgroundRequest( client, "relax.php" )).run();
+				(new CampgroundRequest( client, "relax" )).run();
 				return;
 			}
 
