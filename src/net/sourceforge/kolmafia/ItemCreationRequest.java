@@ -327,23 +327,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// that this is potentially inaccurate, as you
 		// may get your initial creation attempt back.
 
+		AdventureResult createdItem = new AdventureResult( itemID, 0 );
+		int beforeQuantity = createdItem.getCount( client.getInventory() );
+
 		processResults( responseText );
 
 		// Figure out how many items were created
 		String itemName = TradeableItemDatabase.getItemName( itemID );
 
-		int createdQuantity = 0;
-		try
-		{
-			Matcher resultMatcher = Pattern.compile( "You acquire some items\\: <b>" + itemName + " \\(([\\d,]+)\\)</b>" ).matcher( responseText );
-			if ( resultMatcher.find() )
-				createdQuantity = df.parse( resultMatcher.group(1) ).intValue();
-			else if ( Pattern.compile( "You acquire an item\\: <b>" + itemName + "</b>" ).matcher( responseText ).find() )
-				createdQuantity = 1;
-		}
-		catch ( Exception e )
-		{
-		}
+		int createdQuantity = createdItem.getCount( client.getInventory() ) - beforeQuantity;
 
 		if ( createdQuantity > 0 )
 		{
