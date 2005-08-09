@@ -96,7 +96,7 @@ public class AdventureDatabase extends KoLDatabase
 			{ "Turn to moxie position", "Turn to mysticality position", "Leave the wheel alone" } },
 
 		{ { "choiceAdventure12" }, { "Castle Wheel (Moxie Position)" },
-			{ "Turn to moxie position", "Turn to map quest position", "Leave the wheel alone" } },
+			{ "Turn to muscle position", "Turn to map quest position", "Leave the wheel alone" } },
 
 		{ { "choiceAdventure14" }, { "A Bard Day's Night" },
 			{ "Knob goblin harem veil", "Knob goblin harem pants", "Meat adventure" } }
