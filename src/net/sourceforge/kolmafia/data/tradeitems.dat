@@ -1,7 +1,7 @@
 1	seal-clubbing club	12	1
-2	seal tooth	0	1
+2	seal tooth	3	1
 3	helmet turtle	9	1
-4	scroll of turtle summoning	0	1
+4	scroll of turtle summoning	3	1
 5	pasta spoon	12	1
 6	ravioli hat	9	1
 7	saucepan	12	1
@@ -23,7 +23,7 @@
 23	chewing gum on a string	0	15
 24	ten-leaf clover	4	0
 25	meat paste	0	10
-26	the Dolphin King's map	0	0
+26	the Dolphin King's map	3	0
 27	spider web	0	3
 28	really sticky spider web	0	5
 29	really really sticky spider web	0	9
@@ -82,7 +82,7 @@
 82	rusty L-shaped piece of metal	0	4
 83	crusty L-shaped piece of metal	0	5
 84	locked Orcish meat locker	0	5
-85	empty Orcish meat locker	0	6
+85	empty Orcish meat locker	3	6
 86	T-bone key	0	8
 87	meat from yesterday	0	5
 88	meat stack	0	100
@@ -101,7 +101,7 @@
 101	meat golem	0	200
 102	spooky shrunken head	0	6
 103	spooky staff	12	50
-104	spooky scarecrow	0	55
+104	spooky scarecrow	3	55
 105	bowl of lucky charms	1	35
 106	ketchup	1	100
 107	catsup	1	100
@@ -140,10 +140,10 @@
 140	dingy planks	0	100
 141	dingy dinghy	0	0
 142	anticheese	0	30
-143	cottage	0	50
+143	cottage	3	50
 144	stone of eXtreme power	0	30
-145	barbed-wire fence	0	31
-146	dinghy plans	0	0
+145	barbed-wire fence	3	31
+146	dinghy plans	3	0
 147	eXtreme meat sword	12	160
 148	eXtreme meat staff	12	160
 149	eXtreme meat crossbow	12	160
@@ -185,7 +185,7 @@
 185	fat stacks of cash	0	150
 186	enchanted bean	3	25
 187	loose teeth	0	17
-188	bat guano	0	12
+188	bat guano	3	12
 189	guano coffee cup	0	12
 190
 191	Boss Bat bandana	0	0
@@ -207,7 +207,7 @@
 207	hippy herbal tea	1	42
 208	patchouli incense stick	0	33
 209	wad of tofu	0	35
-210	Feng Shui for Big Dumb Idiots	0	33
+210	Feng Shui for Big Dumb Idiots	3	33
 211	decorative fountain	0	34
 212	windchimes	0	32
 213	filthy corduroys	10	80
@@ -267,7 +267,7 @@
 267	mullet wig	9	45
 268	meat cowboy hat	9	150
 269	white sword	12	45
-270	white picket fence	0	15
+270	white picket fence	3	15
 271	enchanted barbell	4	125
 272	concentrated magicalness pill	4	125
 273	giant moxie weed	4	125
@@ -398,7 +398,7 @@
 398	hippopotamus pants	10	141
 399	eXtreme mittens	8	115
 400	roll of drink tickets	3	90
-401	Knob Kitchen grab-bag	0	90
+401	Knob Kitchen grab-bag	3	90
 402	swashbuckling pants	10	65
 403	stuffed shoulder parrot	8	90
 404	acoustic guitarrr	0	49
@@ -426,7 +426,7 @@
 426	potion of temporary gr8tness	4	36
 427	box	8	19
 428	nothing-in-the-box	0	26
-429	beanbag chair	0	48
+429	beanbag chair	3	48
 430	acid-squirting flower	8	60
 431	clown shoes	8	60
 432	bloody clown pants	10	60
@@ -490,7 +490,7 @@
 490	mesh cap	9	135
 491	enormous belt buckle	0	59
 492	leather chaps	10	135
-493	ketchup hound	0	52
+493	ketchup hound	3	52
 494	batblade	12	115
 495	catgut	0	44
 496	cat appendix	0	47
@@ -513,7 +513,7 @@
 513	Boris's key lime pie	1	123
 514	Jarlsberg's key lime pie	1	123
 515	Sneaky Pete's key lime pie	1	123
-516	Hey Deze map	0	49
+516	Hey Deze map	3	49
 517	bejeweled accordion strap	8	1000
 518	magical mystery juice	4	75
 519	moxie magnet	8	1500
@@ -523,7 +523,7 @@
 523	rewinged stab bat	5	148
 524	papaya sling	2	57
 525	grue egg	5	0
-526
+526	Frobozz Real-Estate Company Instant House (TM)	3	0
 527	volleyball	0	100
 528	blood-faced volleyball	5	101
 529	fertilized ghuol egg	5	19
@@ -549,7 +549,7 @@
 549	30669 scroll	0	55
 550	33398 scroll	0	57
 551	64067 scroll	0	101
-552	64735 scroll	0	165
+552	64735 scroll	3	165
 553	31337 scroll	3	132
 554	pr0n cocktail	1	144
 555	drywall axe	12	155
@@ -598,7 +598,7 @@
 598	the Slug Lord's map	0	0
 599	pants of the Slug Lord	10	35
 600	Dr. Hobo's scalpel	12	70
-601	Dr. Hobo's map	0	0
+601	Dr. Hobo's map	3	0
 602	Degrassi Knoll shopping list	0	0
 603	Item #13	8	0
 604	Penultimate Fantasy chest	4	108
@@ -675,7 +675,7 @@
 675	skull of the Bonerdagon	0	0
 676	dragonbone belt buckle	0	0
 677	badass belt	8	0
-678	chest of the Bonerdagon	0	0
+678	chest of the Bonerdagon	3	0
 679	roll in the hay	2	115
 680	slap and tickle	2	115
 681	slip 'n' slide	2	115
