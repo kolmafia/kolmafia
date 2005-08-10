@@ -92,6 +92,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky tam o'shanter" :
 			itemData.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
 			itemData.indexOf( "waxlips.gif" ) != -1 ? "wax lips" :
+			itemData.indexOf( "pitchfork.gif" ) != -1 ? "annoying pitchfork" :
 			itemData.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" :
 			FamiliarsDatabase.getFamiliarItem( this.id ).toLowerCase();
 	}
@@ -183,6 +184,7 @@ public class FamiliarData implements KoLConstants, Comparable
 
 			case 865:
 			case 1040:
+			case 1116:
 			case 1152:
 			case 1260:
 				return true;
