@@ -994,45 +994,52 @@ public abstract class KoLmafia implements KoLConstants
 				if ( lastToken.indexOf( "effect" ) == -1 )
 				{
 					String acquisition = parsedResults.nextToken();
-					StringBuffer itemName = new StringBuffer();
 
-					if ( lastToken.indexOf( "an item" ) != -1 )
+					try
 					{
-						itemName.append( acquisition );
-						parseResult( itemName.toString() );
-					}
-					else
-					{
-						try
+						if ( acquisition.indexOf( "(" ) != -1 )
 						{
-							String [] itemSplit = acquisition.split( " " );
+							// If the item is in the standard adventure
+							// result format (before Jick's change), then
+							// make sure that the item is processed.
 
-							itemName.append( acquisition.substring( acquisition.indexOf( " " ) + 1 ) );
+							processResult( AdventureResult.parseResult( acquisition ) );
+						}
+						else
+						{
+							// Attempt to find the item name by brute force
+							// by checking every single space location.
 
-							if ( TradeableItemDatabase.contains( itemName.toString() ) )
+							String itemName = acquisition;
+							int lastSpaceIndex = 0;
+
+							while ( lastSpaceIndex != -1 )
 							{
-								processResult( new AdventureResult( itemName.toString(), df.parse( itemSplit[0] ).intValue() ) );
-								return;
-							}
-							else
-							{
-								itemName.setLength(0);
-								itemName.append( itemSplit[3] );
-
-								for ( int i = 4; i < itemSplit.length; ++i )
+								if ( TradeableItemDatabase.contains( itemName ) )
 								{
-									itemName.append( ' ' );
-									itemName.append( itemSplit[i] );
-								}
+									// If you've found the appropriate item, then make
+									// sure you process the result associated with it.
+									// Then reset the last space index to notify the
+									// outer loop that you've already finished.
 
-								processResult( new AdventureResult( itemName.toString(), df.parse( itemSplit[0] ).intValue() ) );
+									processResult( new AdventureResult( itemName.toString(), df.parse( acquisition.split( " " )[0] ).intValue() ) );
+									lastSpaceIndex = -1;
+								}
+								else
+								{
+									// Otherwise, make sure that you prepare the
+									// loop for the next iteration through spaces.
+
+									itemName = acquisition.substring( lastSpaceIndex ).trim();
+									lastSpaceIndex = acquisition.indexOf( " ", lastSpaceIndex );
+								}
 							}
 						}
-						catch ( Exception e )
-						{
-							// Because the number is always the third token
-							// listed, this should not happen.
-						}
+					}
+					catch ( Exception e )
+					{
+						// Because the number is always the first token
+						// listed, this should not happen.
 					}
 				}
 				else
