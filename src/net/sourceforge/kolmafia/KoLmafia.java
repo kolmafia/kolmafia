@@ -1030,7 +1030,7 @@ public abstract class KoLmafia implements KoLConstants
 									// Otherwise, make sure that you prepare the
 									// loop for the next iteration through spaces.
 
-									lastSpaceIndex = acquisition.indexOf( " ", lastSpaceIndex );
+									lastSpaceIndex = acquisition.indexOf( " ", lastSpaceIndex + 1 );
 
 									if ( lastSpaceIndex != -1 )
 										itemName = acquisition.substring( lastSpaceIndex ).trim();
