@@ -1022,7 +1022,7 @@ public abstract class KoLmafia implements KoLConstants
 									// Then reset the last space index to notify the
 									// outer loop that you've already finished.
 
-									processResult( new AdventureResult( itemName.toString(), df.parse( acquisition.split( " " )[0] ).intValue() ) );
+									processResult( new AdventureResult( itemName, df.parse( acquisition.split( " " )[0] ).intValue() ) );
 									lastSpaceIndex = -1;
 								}
 								else
@@ -1030,8 +1030,10 @@ public abstract class KoLmafia implements KoLConstants
 									// Otherwise, make sure that you prepare the
 									// loop for the next iteration through spaces.
 
-									itemName = acquisition.substring( lastSpaceIndex ).trim();
 									lastSpaceIndex = acquisition.indexOf( " ", lastSpaceIndex );
+
+									if ( lastSpaceIndex != -1 )
+										itemName = acquisition.substring( lastSpaceIndex ).trim();
 								}
 							}
 						}
