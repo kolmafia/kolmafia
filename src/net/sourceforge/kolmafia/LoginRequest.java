@@ -83,7 +83,9 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
+		KoLRequest.applySettings();
 		client.resetContinueState();
+
 		updateDisplay( DISABLED_STATE, "Sending login..." );
 		super.run();
 
