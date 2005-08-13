@@ -997,13 +997,13 @@ public abstract class KoLmafia implements KoLConstants
 
 					try
 					{
-						if ( acquisition.indexOf( "(" ) != -1 )
+						if ( lastToken.indexOf( "an item" ) != -1 )
 						{
 							// If the item is in the standard adventure
 							// result format (before Jick's change), then
 							// make sure that the item is processed.
 
-							processResult( AdventureResult.parseResult( acquisition ) );
+							processResult( AdventureResult.parseResult( parsedResults.nextToken() ) );
 						}
 						else
 						{
