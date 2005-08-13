@@ -1003,7 +1003,7 @@ public abstract class KoLmafia implements KoLConstants
 							// result format (before Jick's change), then
 							// make sure that the item is processed.
 
-							processResult( AdventureResult.parseResult( parsedResults.nextToken() ) );
+							processResult( AdventureResult.parseResult( acquisition ) );
 						}
 						else
 						{
