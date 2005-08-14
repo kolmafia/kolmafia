@@ -1173,8 +1173,8 @@
 1173	solid linoleum box	0	0
 1174	solid chrome box	0	0
 1175	cryptic puzzle box	0	0
-1176
-1177
+1176	refrigerated biohazard container	0	0
+1177	magnetic field	0	0
 1178	potted cactus	0	25
 1179	daisy	0	50
 1180	potted fern	0	100
@@ -1185,7 +1185,7 @@
 1185	long-stemmed rose	0	5000
 1186	gilded lily	0	10000
 1187	deadly nightshade	0	25000
-1188
+1188	black lotus	0	50000
 1189	stuffed can of asparagus	0	25
 1190	stuffed dodecapede	0	50
 1191	stuffed ghuol whelp	0	100
@@ -1196,7 +1196,7 @@
 1196	stuffed yeti	0	5000
 1197	stuffed Mob Penguin	0	10000
 1198	stuffed sabre toothed lime	0	25000
-1199
+1199	giant stuffed bugbear	0	50000
 1200	mugcake	2	25
 1201	urinal cake	2	50
 1202	Happy Birthday, Claude! cake	2	100
@@ -1207,7 +1207,7 @@
 1207	congratulatory cake	2	5000
 1208	angel-food cake	2	10000
 1209	devil's-food cake	2	25000
-1210
+1210	birthday party jellybean cheesecake	2	50000
 1211	white balloon	8	25
 1212	green balloon	8	50
 1213	heart-shaped balloon	8	100
@@ -1218,7 +1218,7 @@
 1218	rat head balloon	6	5000
 1219	mini-zeppelin	8	10000
 1220	Mr. Balloon	8	25000
-1221
+1221	red balloon	8	50000
 1222	Mr. Eh?	8	-1
 1223
 1224	stainless steel shillelagh	12	0
