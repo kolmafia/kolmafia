@@ -924,6 +924,20 @@ public class KoLCharacter
 			}
 		}
 
+		// If we are looking at familiar items, include those which can
+		// be universally equipped, but are currently on another
+		// familiar.
+		if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR )
+		{
+			for ( int i = 0; i < familiars.size(); ++i )
+			{
+				FamiliarData familiar = (FamiliarData)familiars.get(i);
+				String item = familiar.getItem();
+				if ( item != null && !items.contains( item ) && currentFamiliar.canEquip( item ) )
+					items.add( item );
+			}
+		}
+
 		if ( !items.contains( equippedItem ) )
 			items.add( equippedItem );
 

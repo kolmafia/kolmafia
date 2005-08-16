@@ -73,6 +73,7 @@ public class EquipmentRequest extends KoLRequest
 	private KoLCharacter character;
 	private int requestType;
 	private int equipmentSlot;
+	private String changeItemName;
 	private SpecialOutfit outfit;
 
 	public EquipmentRequest( KoLmafia client, int requestType )
@@ -112,17 +113,17 @@ public class EquipmentRequest extends KoLRequest
 		{
 			addFormField( "action", "unequip" );
 			addFormField( "type", equipmentType[ equipmentSlot ] );
+			addFormField( "pwd", client.getPasswordHash() );
 			this.requestType = REMOVE_ITEM;
 		}
 		else
 		{
-			String itemName = change;
-
 			if ( change.indexOf( "(" ) != -1 )
-				itemName = change.substring( 0, change.indexOf( "(" ) - 1 );
+				change = change.substring( 0, change.indexOf( "(" ) - 1 );
+                        changeItemName = change;
 
 			addFormField( "action", "equip" );
-			addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( itemName ) ) );
+			addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( change ) ) );
 			addFormField( "pwd", client.getPasswordHash() );
 			this.requestType = CHANGE_ITEM;
 		}
@@ -178,10 +179,37 @@ public class EquipmentRequest extends KoLRequest
 		{
 			switch ( equipmentSlot )
 			{
+				case KoLCharacter.FAMILIAR:
+					// If we are requesting another familiar's
+					// equipment, make it available.
+					AdventureResult result = new AdventureResult( changeItemName, 0 );
+					if ( !client.getInventory().contains( changeItemName ) )
+					{
+						// Find first familiar with item
+						LockableListModel familiars = character.getFamiliarList();
+						for ( int i = 0; i < familiars.size(); ++i )
+						{
+							FamiliarData familiar = (FamiliarData)familiars.get(i);
+							String item = familiar.getItem();
+							if ( item != null && item.equals(changeItemName) )
+							{
+								FamiliarData currentFamiliar = (FamiliarData) familiars.getSelectedItem();
+								// Switch to it
+								(new FamiliarRequest( client, familiar )).run();
+
+								// Unequip item
+								(new EquipmentRequest( client, UNEQUIP, KoLCharacter.FAMILIAR )).run();
+
+								// Equip original familiar
+								(new FamiliarRequest( client, currentFamiliar )).run();
+								break;
+							}
+						}
+					}
+					// Fall through
 				case KoLCharacter.ACCESSORY1:
 				case KoLCharacter.ACCESSORY2:
 				case KoLCharacter.ACCESSORY3:
-				case KoLCharacter.FAMILIAR:
 
 					if ( !character.getEquipment(equipmentSlot).equals( UNEQUIP ) )
 						(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
@@ -415,7 +443,7 @@ public class EquipmentRequest extends KoLRequest
 
 		if ( responseText.indexOf( "unequip&type=acc1") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc1\">" ).matcher( responseText );
+			equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc1\">" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.ACCESSORY1 ] = equipmentMatcher.group(1);
@@ -425,7 +453,7 @@ public class EquipmentRequest extends KoLRequest
 
 		if ( responseText.indexOf( "unequip&type=acc2") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc2\">" ).matcher( responseText );
+			equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc2\">" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.ACCESSORY2 ] = equipmentMatcher.group(1);
@@ -435,7 +463,7 @@ public class EquipmentRequest extends KoLRequest
 
 		if ( responseText.indexOf( "unequip&type=acc3") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?which=2&action=unequip&type=acc3\">" ).matcher( responseText );
+			equipmentMatcher = Pattern.compile( "Accessory:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc3\">" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.ACCESSORY3 ] = equipmentMatcher.group(1);
