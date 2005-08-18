@@ -90,7 +90,10 @@ public class EquipmentRequest extends KoLRequest
 			addFormField( "which", "2" );
 
 		if ( requestType == UNEQUIP_ALL )
+		{
 			addFormField( "action", "unequipall" );
+			addFormField( "pwd", client.getPasswordHash() );
+		}
 	}
 
 	public EquipmentRequest( KoLmafia client, String change )
