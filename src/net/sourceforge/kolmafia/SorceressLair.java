@@ -174,7 +174,7 @@ public class SorceressLair implements KoLConstants
 		KoLRequest request = new KoLRequest( client, "lair1.php" );
 		request.run();
 
-		if ( request.responseText.indexOf( "gates" ) != -1 )
+		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
 		{
 			if ( !data.getEffects().contains( SUGAR ) )
 				requirements.add( candy );
@@ -268,7 +268,7 @@ public class SorceressLair implements KoLConstants
 		// Use the rice candy, wussiness potion, and black candle
 		// and then cross through the first door.
 
-		if ( request.responseText.indexOf( "gates" ) != -1 )
+		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
 		{
 			if ( !data.getEffects().contains( SUGAR ) )
 			{
