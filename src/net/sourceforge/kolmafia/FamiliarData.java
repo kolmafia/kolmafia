@@ -41,7 +41,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
 	private static final Pattern SEARCH_PATTERN =
-		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/familiar(\\d+).*?</b>.*?\\d+ pound (.*?) \\(([\\d,]+) kills\\)(.*?)<(/tr|form)" );
+		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/familiar(\\d+).*?</b>.*?\\d+ pound (.*?) \\(([\\d,]+) kills?\\)(.*?)<(/tr|form)" );
 
 	private static int weightModifier;
 	private static int dodecaModifier;
