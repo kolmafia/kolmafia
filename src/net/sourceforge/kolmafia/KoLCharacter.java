@@ -191,6 +191,8 @@ public class KoLCharacter
 	private SortedListModel collection;
 
 	private LockableListModel activeEffects;
+
+	private LockableListModel usableSkills;
 	private LockableListModel availableSkills;
 
 	public static final int HAT = 0;
@@ -249,10 +251,14 @@ public class KoLCharacter
 
 		this.equipment = new LockableListModel();
 		this.outfits = new LockableListModel();
+
 		this.inventory = new SortedListModel( AdventureResult.class );
 		this.closet = new SortedListModel( AdventureResult.class );
 		this.collection = new SortedListModel( AdventureResult.class );
+
 		this.activeEffects = new LockableListModel();
+
+		this.usableSkills = new LockableListModel();
 		this.availableSkills = new LockableListModel();
 
 		for ( int i = 0; i < 7; ++i )
@@ -1209,6 +1215,21 @@ public class KoLCharacter
 	{
 		this.availableSkills.clear();
 		this.availableSkills.addAll( availableSkills );
+
+		int currentSkillID;
+		UseSkillRequest currentSkill;
+
+		this.usableSkills.clear();
+		Iterator skills = availableSkills.iterator();
+
+		while ( skills.hasNext() )
+		{
+			currentSkill = (UseSkillRequest) skills.next();
+			currentSkillID = ClassSkillsDatabase.getSkillID( currentSkill.getSkillName() );
+
+			if ( ClassSkillsDatabase.isNormal( currentSkillID ) || ClassSkillsDatabase.isBuff( currentSkillID ) )
+				usableSkills.add( currentSkill );
+		}
 	}
 
 	/**
@@ -1218,6 +1239,15 @@ public class KoLCharacter
 
 	public LockableListModel getAvailableSkills()
 	{	return availableSkills;
+	}
+
+	/**
+	 * Accessor method to look up the list of usable skills.
+	 * @return	A list of the names of usable skills
+	 */
+
+	public LockableListModel getUsableSkills()
+	{	return usableSkills;
 	}
 
 	/**

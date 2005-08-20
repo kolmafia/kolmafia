@@ -53,9 +53,10 @@ public class ClassSkillsDatabase extends KoLDatabase
 	private static Map mpConsumptionByID = new TreeMap();
 	private static Map skillTypeByID = new TreeMap();
 
-	public static final int SKILL = 0;
-	public static final int BUFF = 1;
-	public static final int PASSIVE = 2;
+	public static final int PASSIVE = 0;
+	public static final int SKILL = 1;
+	public static final int BUFF = 2;
+	public static final int COMBAT = 3;
 
 	static
 	{
@@ -124,15 +125,23 @@ public class ClassSkillsDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns whether or not the skill is a passive.
+	 * Returns whether or not this is a normal skill that can only be
+	 * used on the player.
 	 *
-	 * @return	<code>true</code> if the skill can target other players
+	 * @return <code>true</code> if the skill is a normal skill
+	 */
+
+	public static final boolean isNormal( int skillID )
+	{	return isType( skillID, SKILL );
+	}
+
+	/**
+	 * Returns whether or not the skill is a passive.
+	 * @return	<code>true</code> if the skill is passive
 	 */
 
 	public static final boolean isPassive( int skillID )
-	{
-		Object skillType = skillTypeByID.get( new Integer( skillID ) );
-		return skillType == null ? false : ((Integer)skillType).intValue() == PASSIVE;
+	{	return isType( skillID, PASSIVE );
 	}
 
 	/**
@@ -143,9 +152,29 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 */
 
 	public static final boolean isBuff( int skillID )
+	{	return isType( skillID, BUFF );
+	}
+
+	/**
+	 * Returns whether or not the skill is a combat skill (ie: can
+	 * be used while fighting).
+	 *
+	 * @return	<code>true</code> if the skill can be used in combat
+	 */
+
+	public static final boolean isCombat( int skillID )
+	{	return isType( skillID, COMBAT );
+	}
+
+	/**
+	 * Utility method used to determine if the given skill is of the
+	 * appropriate type.
+	 */
+
+	private static final boolean isType( int skillID, int type )
 	{
 		Object skillType = skillTypeByID.get( new Integer( skillID ) );
-		return skillType == null ? false : ((Integer)skillType).intValue() == BUFF;
+		return skillType == null ? false : ((Integer)skillType).intValue() == type;
 	}
 
 	/**

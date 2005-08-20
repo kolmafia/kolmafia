@@ -358,10 +358,6 @@ public class OptionsFrame extends KoLFrame
 
 	private class BattleOptionsPanel extends OptionsPanel
 	{
-		private LockableListModel actions;
-		private LockableListModel actionNames;
-
-		private JComboBox actionSelect;
 		private JComboBox hpAutoFleeSelect;
 		private JComboBox hpAutoRecoverSelect;
 		private JComboBox mpAutoRecoverSelect;
@@ -377,43 +373,6 @@ public class OptionsFrame extends KoLFrame
 		public BattleOptionsPanel()
 		{
 			super( "Combat Options" );
-
-			actions = new LockableListModel();
-			actionNames = new LockableListModel();
-
-			actions.add( "attack" );  actionNames.add( "Attack with Weapon" );
-			actions.add( "moxman" );  actionNames.add( "Moxious Maneuver" );
-
-			// Add in dictionary
-			actions.add( "item0536" );  actionNames.add( "Use a Dictionary" );
-
-			// Seal clubber skills
-			actions.add( "1003" );  actionNames.add( "SC: Thrust-Smack" );
-			actions.add( "1004" );  actionNames.add( "SC: Lunge-Smack" );
-			actions.add( "1005" );  actionNames.add( "SC: Lunging Thrust-Smack" );
-
-			// Turtle tamer skills
-			actions.add( "2003" );  actionNames.add( "TT: Headbutt" );
-			actions.add( "2005" );  actionNames.add( "TT: Spectral Snapper" );
-
-			// Pastamancer skills
-			actions.add( "3003" );  actionNames.add( "PM: Minor Ray" );
-			actions.add( "3005" );  actionNames.add( "PM: eXtreme Ray" );
-			actions.add( "3007" );  actionNames.add( "PM: Cone of Whatever" );
-			actions.add( "3008" );  actionNames.add( "PM: Weapon of the Pastalord" );
-
-			// Sauceror skills
-			actions.add( "4003" );  actionNames.add( "SR: Stream of Sauce" );
-			actions.add( "4005" );  actionNames.add( "SR: Saucestorm" );
-			actions.add( "4009" );  actionNames.add( "SR: Wave of Sauce" );
-			actions.add( "4012" );  actionNames.add( "SR: Saucegeyser" );
-
-			// Disco bandit skills
-			actions.add( "5003" );  actionNames.add( "DB: Disco Eye-Poke" );
-			actions.add( "5005" );  actionNames.add( "DB: Disco Dance of Doom" );
-			actions.add( "5012" );  actionNames.add( "DB: Disco Face Stab" );
-
-			actionSelect = new JComboBox( actionNames );
 
 			hpAutoFleeSelect = new JComboBox();
 			hpAutoFleeSelect.addItem( "Never run from combat" );
@@ -438,19 +397,18 @@ public class OptionsFrame extends KoLFrame
 
 			// Add the elements to the panel
 
-			VerifiableElement [] elements = new VerifiableElement[8];
-			elements[0] = new VerifiableElement( "Battle Style: ", actionSelect );
-			elements[1] = new VerifiableElement( "Lion Roar Setting: ", hpAutoFleeSelect );
+			VerifiableElement [] elements = new VerifiableElement[7];
+			elements[0] = new VerifiableElement( "Lion Roar Setting: ", hpAutoFleeSelect );
 
-			elements[2] = new VerifiableElement( "", new JLabel() );
+			elements[1] = new VerifiableElement( "", new JLabel() );
 
-			elements[3] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
-			elements[4] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
+			elements[2] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
+			elements[3] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
 
-			elements[5] = new VerifiableElement( "", new JLabel() );
+			elements[4] = new VerifiableElement( "", new JLabel() );
 
-			elements[6] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
-			elements[7] = new VerifiableElement( "Use these restores: ", mpRestoreItemList.getDisplay() );
+			elements[5] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
+			elements[6] = new VerifiableElement( "Use these restores: ", mpRestoreItemList.getDisplay() );
 
 			setContent( elements );
 			actionCancelled();
@@ -458,7 +416,6 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
 			setProperty( "hpAutoFlee", String.valueOf( ((double)(hpAutoFleeSelect.getSelectedIndex()) / 10.0) ) );
 			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
@@ -470,7 +427,6 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			actionNames.setSelectedIndex( actions.indexOf( getProperty( "battleAction" ) ) );
 			hpAutoFleeSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoFlee" ) ) * 10) );
 			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
 			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );

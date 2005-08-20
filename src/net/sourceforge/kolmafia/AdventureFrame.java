@@ -208,6 +208,10 @@ public class AdventureFrame extends KoLFrame
 
 	private class AdventureSelectPanel extends KoLPanel
 	{
+		private LockableListModel actions;
+		private LockableListModel actionNames;
+		private JComboBox actionSelect;
+
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
@@ -223,6 +227,43 @@ public class AdventureFrame extends KoLFrame
 		{
 			super( "begin", "stop", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
 
+			actions = new LockableListModel();
+			actionNames = new LockableListModel();
+
+			actions.add( "attack" );  actionNames.add( "Normal: Attack with Weapon" );
+			actions.add( "moxman" );  actionNames.add( "Skill: Moxious Maneuver" );
+
+			// Add in dictionary
+			actions.add( "item0536" );  actionNames.add( "Item: Use a Dictionary" );
+
+			// Add in all of the player's skills.
+
+			if ( client != null && client.getCharacterData() != null )
+			{
+				KoLCharacter playerData = client.getCharacterData();
+				Iterator skills = playerData.getAvailableSkills().iterator();
+
+				int currentSkillID;
+				UseSkillRequest currentSkill;
+
+				while ( skills.hasNext() )
+				{
+					currentSkill = (UseSkillRequest) skills.next();
+					currentSkillID = ClassSkillsDatabase.getSkillID( currentSkill.getSkillName() );
+
+					if ( ClassSkillsDatabase.isCombat( currentSkillID ) )
+					{
+						actions.add( String.valueOf( currentSkillID ) );
+						actionNames.add( "Skill: " + currentSkill.getSkillName() );
+					}
+				}
+			}
+
+			if ( client != null )
+				actionNames.setSelectedIndex( actions.indexOf( client.getSettings().getProperty( "battleAction" ) ) );
+
+			actionSelect = new JComboBox( actionNames );
+
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
 
@@ -236,10 +277,11 @@ public class AdventureFrame extends KoLFrame
 			countField = new JTextField();
 			conditionField = new JTextField();
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Location: ", locationField );
 			elements[1] = new VerifiableElement( "# of turnips: ", countField );
-			elements[2] = new VerifiableElement( "Condition: ", conditionField );
+			elements[2] = new VerifiableElement( "Combat Tactic: ", actionSelect );
+			elements[3] = new VerifiableElement( "Conditions: ", conditionField );
 
 			setContent( elements );
 
@@ -330,6 +372,10 @@ public class AdventureFrame extends KoLFrame
 			// placed in the input fields.
 
 			contentPanel = this;
+
+			if ( client != null )
+				client.getSettings().setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
+
 			Runnable request = (Runnable) locationField.getSelectedItem();
 
 			client.getSettings().setProperty( "lastAdventure", request.toString() );
@@ -756,8 +802,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			skillSelect = new JComboBox( client == null ? new LockableListModel() :
-				client.getCharacterData().getAvailableSkills() );
+			skillSelect = new JComboBox( client == null ? new LockableListModel() : client.getCharacterData().getUsableSkills() );
 
 			targetField = new JTextField();
 			countField = new JTextField();
