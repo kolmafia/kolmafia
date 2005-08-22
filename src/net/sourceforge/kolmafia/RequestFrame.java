@@ -167,9 +167,19 @@ public class RequestFrame extends KoLFrame
 			gotoMenu.add( new DisplayRequestMenuItem( "The Mall", "mall.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Clan Hall", "clan_hall.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Campground", "campground.php" ) );
+
 			gotoMenu.add( new DisplayRequestMenuItem( "Big Mountains", "mountains.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Nearby Plains", "plains.php" ) );
-			gotoMenu.add( new DisplayRequestMenuItem( "Sorceress' Lair", "lair.php" ) );
+
+			JMenu lairMenu = new JMenu( "Sorceress' Lair" );
+				lairMenu.add( new DisplayRequestMenuItem( "Entrance Cavern", "lair1.php" ) );
+				lairMenu.add( new DisplayRequestMenuItem( "Entryway Statues", "lair2.php" ) );
+				lairMenu.add( new DisplayRequestMenuItem( "Hedge Maze Puzzle", "lair3.php" ) );
+				lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 1-3", "lair4.php" ) );
+				lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 4-6", "lair5.php" ) );
+				lairMenu.add( new DisplayRequestMenuItem( "Outside the Chamber", "lair6.php" ) );
+			gotoMenu.add( lairMenu );
+
 			gotoMenu.add( new DisplayRequestMenuItem( "Desert Beach", "beach.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
@@ -466,7 +476,7 @@ public class RequestFrame extends KoLFrame
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[6];
+			JComponent [] headers = new JComponent[5];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", KeyEvent.VK_M, new BookmarkManagePanel() );
@@ -485,17 +495,6 @@ public class RequestFrame extends KoLFrame
 			refMenu.add( new DisplayPageMenuItem( "Familiar Chart", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.the-rye.dreamhosters.com/familiars/" ) );
 
 			headers[4] = refMenu;
-
-			JMenu lairMenu = new JMenu( "Sorceress's Lair" );
-			lairMenu.add( new DisplayRequestMenuItem( "Three Doors Down", "lair1.php" ) );
-			lairMenu.add( new DisplayRequestMenuItem( "Entryway Statues", "lair2.php" ) );
-			lairMenu.add( new DisplayRequestMenuItem( "Hedge Maze Puzzle", "lair3.php" ) );
-			lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 1-3", "lair4.php" ) );
-			lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 4-6", "lair5.php" ) );
-			lairMenu.add( new DisplayRequestMenuItem( "Outside Chamber", "lair6.php" ) );
-
-			headers[5] = lairMenu;
-
 			return headers;
 		}
 
