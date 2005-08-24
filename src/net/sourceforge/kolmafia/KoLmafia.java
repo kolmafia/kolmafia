@@ -262,7 +262,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		(new CharsheetRequest( this )).run();
 		registerPlayer( loginname, String.valueOf( characterData.getUserID() ) );
-		this.mpRestoreItemList = new MPRestoreItemList( this );
 
 		if ( !permitContinue )
 		{
@@ -354,6 +353,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		adventureList.clear();
 		adventureList.addAll( AdventureDatabase.getAsLockableListModel( this ) );
+		this.mpRestoreItemList = new MPRestoreItemList( this );
 	}
 
 	/**
