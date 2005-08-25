@@ -101,6 +101,7 @@ public class KoLmafiaCLI extends KoLmafia
 			System.out.println();
 
 			KoLmafiaCLI session = new KoLmafiaCLI( null, System.in );
+			KoLDatabase.client = session;
 
 			if ( initialScript == null )
 			{
@@ -1425,7 +1426,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( matchType == CREATION )
 		{
-			ConcoctionsDatabase.refreshConcoctions( scriptRequestor );
+			ConcoctionsDatabase.refreshConcoctions();
 			matchCount = ItemCreationRequest.getInstance( scriptRequestor, firstMatch ).getCount( ConcoctionsDatabase.getConcoctions() );
 		}
 		else if ( matchType == CLOSET )
@@ -1679,7 +1680,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeAdventureRequest( String parameters )
 	{
 		int adventureCount;
-		KoLAdventure adventure = AdventureDatabase.getAdventure( scriptRequestor, parameters );
+		KoLAdventure adventure = AdventureDatabase.getAdventure( parameters );
 
 		if ( adventure != null )
 			adventureCount = 1;
@@ -1687,7 +1688,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			String adventureCountString = parameters.split( " " )[0];
 			String adventureName = parameters.substring( adventureCountString.length() ).trim();
-			adventure = AdventureDatabase.getAdventure( scriptRequestor, adventureName );
+			adventure = AdventureDatabase.getAdventure( adventureName );
 
 			if ( adventure == null )
 			{

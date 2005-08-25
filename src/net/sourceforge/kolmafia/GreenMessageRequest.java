@@ -50,7 +50,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "towho", recipient );
 
-		if ( client.getSettings().getProperty( "saveOutgoing" ).equals( "true" ) )
+		if ( getProperty( "saveOutgoing" ).equals( "true" ) )
 			addFormField( "savecopy", "on" );
 
 		addFormField( "message", message );
@@ -68,7 +68,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "towho", recipient );
 
-		if ( client.getSettings().getProperty( "saveOutgoing" ).equals( "true" ) )
+		if ( getProperty( "saveOutgoing" ).equals( "true" ) )
 			addFormField( "savecopy", "on" );
 
 		addFormField( "message", message );

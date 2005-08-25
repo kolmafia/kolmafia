@@ -139,7 +139,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * @return	A list of possible concoctions
 	 */
 
-	public static synchronized void refreshConcoctions( KoLmafia client )
+	public static synchronized void refreshConcoctions()
 	{
 		if ( client == null || client.getInventory() == null )
 		{
@@ -152,7 +152,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( client != null )
 		{
-			if ( client.getSettings().getProperty( "useClosetForCreation" ).equals( "true" ) )
+			if ( getProperty( "useClosetForCreation" ).equals( "true" ) )
 			{
 				List closetList = (List) client.getCloset();
 				for ( int i = 0; i < closetList.size(); ++i )
@@ -169,20 +169,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		// Determine if user wants ascension recipes
 
-		INCLUDE_ASCENSION = client.getSettings().getProperty( "includeAscensionRecipes" ).equals( "true" );
+		INCLUDE_ASCENSION = getProperty( "includeAscensionRecipes" ).equals( "true" );
 
 		// Make initial assessment of availability of mixing methods.
 		// Do this here since some COMBINE recipes have ingredients
 		// made using TINKER recipes.
 
-		cachePermitted( client );
+		cachePermitted();
 
 		// Next, do calculations on all mixing methods which cannot
 		// be created.
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.NOCREATE )
-				concoctions[i].calculate( client, availableIngredients );
+				concoctions[i].calculate( availableIngredients );
 
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
@@ -195,7 +195,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// recipes to be calculated.
 
 		int availableMeat = client.getCharacterData().getAvailableMeat();
-		if ( client.getSettings().getProperty( "useClosetForCreation" ).equals( "true" ) )
+		if ( getProperty( "useClosetForCreation" ).equals( "true" ) )
 			availableMeat += client.getCharacterData().getClosetMeat();
 
 		concoctions[ ItemCreationRequest.MEAT_PASTE ].total += availableMeat / 10;
@@ -211,12 +211,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.COMBINE )
-				concoctions[i].calculate( client, availableIngredients );
+				concoctions[i].calculate( availableIngredients );
 
 		// Now that we have calculated how many box servants are
 		// available, cache permitted mixing methods.
 
-		cachePermitted( client );
+		cachePermitted();
 
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
@@ -229,7 +229,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			else if ( concoctions[i].isBadRecipe() )
 				client.getLogStream().println( "Bad recipe: " + concoctions[i] );
 			else
-				concoctions[i].calculate( client, availableIngredients );
+				concoctions[i].calculate( availableIngredients );
 		}
 
 		concoctionsList.clear();
@@ -244,10 +244,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * item creation, based on the given client.
 	 */
 
-	private static void cachePermitted( KoLmafia client )
+	private static void cachePermitted()
 	{
 		KoLCharacter data = client.getCharacterData();
-		boolean noServantNeeded = client.getSettings().getProperty( "createWithoutBoxServants" ).equals( "true" );
+		boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
 
 		// It is never possible to create items which are flagged
 		// NOCREATE, and it is always possible to create items
@@ -262,7 +262,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Cooking is permitted, so long as the person has a chef
 		// or they don't need a box servant and have an oven.
 
-		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, client );
+		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF );
 
 		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && data.getInventory().contains( OVEN ) )
 		{
@@ -284,7 +284,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Mixing is possible whenever the person has a bartender
 		// or they don't need a box servant and have a kit.
 
-		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, client );
+		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER );
 
 		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && data.getInventory().contains( KIT ) )
 		{
@@ -353,7 +353,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		ADVENTURE_USAGE[ ItemCreationRequest.TINKER ] = 0;
 	}
 
-	private static boolean isAvailable( int servantID, KoLmafia client )
+	private static boolean isAvailable( int servantID )
 	{
 		KoLCharacter data = client.getCharacterData();
 
@@ -368,7 +368,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// If the user did not wish to repair their boxes
 		// on explosion, then the box servant is not available
 
-		if ( client.getSettings().getProperty( "autoRepairBoxes" ).equals( "false" ) )
+		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
 			return false;
 
 		// Otherwise, return whether or not the quantity possible for
@@ -377,10 +377,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		int available = concoctions[ servantID ].total;
 
-		if ( client.getSettings().getProperty( "useClockworkBoxes" ).equals( "true" ) )
-		{
+		if ( getProperty( "useClockworkBoxes" ).equals( "true" ) )
 			available += ( servantID == CHEF) ? concoctions[ CLOCKWORK_CHEF ].total : concoctions[ CLOCKWORK_BARTENDER ].total;
-		}
 
 		return available != 0;
 	}
@@ -464,7 +462,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{	return ingredientArray;
 		}
 
-		public void calculate( KoLmafia client, List availableIngredients )
+		public void calculate( List availableIngredients )
 		{
 			// If a calculation has already been done for this
 			// concoction, no need to calculate again.
@@ -499,7 +497,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// how many of each ingredient is possible now.
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
-				concoctions[ ingredientArray[i].getItemID() ].calculate( client, availableIngredients );
+				concoctions[ ingredientArray[i].getItemID() ].calculate( availableIngredients );
 
 			boolean inMuscleSign = client.getCharacterData().inMuscleSign();
 

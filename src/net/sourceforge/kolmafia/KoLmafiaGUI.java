@@ -70,6 +70,8 @@ public class KoLmafiaGUI extends KoLmafia
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
     	KoLmafiaGUI session = new KoLmafiaGUI();
 
+		KoLDatabase.client = session;
+
 		String login = session.settings.getProperty( "autoLogin" );
 		String password = session.getSaveState( login );
 
@@ -150,7 +152,7 @@ public class KoLmafiaGUI extends KoLmafia
 			// running, then there is nothing left to do.
 
 			if ( shouldRefresh )
-				ConcoctionsDatabase.refreshConcoctions( KoLmafiaGUI.this );
+				ConcoctionsDatabase.refreshConcoctions();
 		}
 	}
 

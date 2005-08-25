@@ -39,6 +39,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLDatabase implements KoLConstants
 {
+	public static KoLmafia client;
+
 	static { System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" ); };
 
 	protected static BufferedReader getReader( String file )
@@ -93,5 +95,18 @@ public class KoLDatabase implements KoLConstants
 
 	public static final String getDisplayName( String name )
 	{	return name == null ? null : name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" );
+	}
+
+	protected static final void setProperty( String name, String value )
+	{
+		if ( client != null )
+		{
+			client.getSettings().setProperty( name, value );
+			client.getSettings().saveSettings();
+		}
+	}
+
+	protected static final String getProperty( String name )
+	{	return client == null ? "" : client.getSettings().getProperty( name );
 	}
 }

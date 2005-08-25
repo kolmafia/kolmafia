@@ -82,22 +82,7 @@ public class SearchMallRequest extends KoLRequest
 	 */
 
 	public SearchMallRequest( KoLmafia client, String searchString, List results )
-	{	this( client, searchString, results, false );
-	}
-
-	/**
-	 * Constructs a new <code>SearchMallRequest</code> which searches for
-	 * the given item, storing the results in the given <code>ListModel</code>.
-	 * Note that the search string is exactly the same as the way KoL does
-	 * it at the current time.
-	 *
-	 * @param	client	The client to be notified in case of error
-	 * @param	searchString	The string (including wildcards) for the item to be found
-	 * @param	results	The sorted list in which to store the results
-	 */
-
-	public SearchMallRequest( KoLmafia client, String searchString, List results, boolean retainAll )
-	{	this( client, searchString, Integer.parseInt( client.getSettings().getProperty( "defaultLimit" ) ), results, retainAll );
+	{	this( client, searchString, 13, results, false );
 	}
 
 	/**
@@ -382,7 +367,7 @@ public class SearchMallRequest extends KoLRequest
 				results.add( NPCStoreDatabase.getPurchaseRequest( client, lastItemName ) );
 		}
 
-		if ( client.getSettings().getProperty( "forceSorting" ).equals( "true" ) )
+		if ( getProperty( "forceSorting" ).equals( "true" ) )
 			java.util.Collections.sort( results );
 
 		if ( client.getCharacterData().canInteract() && client.getCharacterData().getLevel() >= 5 )

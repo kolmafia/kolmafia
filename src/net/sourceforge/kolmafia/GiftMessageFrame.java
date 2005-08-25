@@ -89,7 +89,7 @@ public class GiftMessageFrame extends SendMessageFrame
 			client.updateDisplay( ENABLED_STATE, "Gift sent to " + recipientEntry.getText() );
 			setTitle( "Gift sent to " + recipientEntry.getText() );
 
-			if ( client.getSettings().getProperty( "closeSending" ).equals( "true" ) )
+			if ( getProperty( "closeSending" ).equals( "true" ) )
 				GiftMessageFrame.this.dispose();
 		}
 		else

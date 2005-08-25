@@ -133,7 +133,7 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( client.isLuckyCharacter() && client.getSettings().getProperty( "cloverProtectActive" ).equals( "true" ) && hasLuckyVersion )
+		if ( client.isLuckyCharacter() && getProperty( "cloverProtectActive" ).equals( "true" ) && hasLuckyVersion )
 		{
 			isErrorState = true;
 			client.cancelRequest();
@@ -321,7 +321,7 @@ public class AdventureRequest extends KoLRequest
 		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( request.responseText );
 		if ( choiceMatcher.find() )
 		{
-			String decision = client.getSettings().getProperty( "choiceAdventure" + choiceMatcher.group(1) );
+			String decision = getProperty( "choiceAdventure" + choiceMatcher.group(1) );
 
 			// If there is currently no setting which determines the
 			// decision, assume it can be skipped and skip it.

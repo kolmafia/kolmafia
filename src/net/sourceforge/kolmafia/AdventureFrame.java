@@ -260,7 +260,7 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			if ( client != null )
-				actionNames.setSelectedIndex( actions.indexOf( client.getSettings().getProperty( "battleAction" ) ) );
+				actionNames.setSelectedIndex( actions.indexOf( getProperty( "battleAction" ) ) );
 
 			actionSelect = new JComboBox( actionNames );
 
@@ -271,7 +271,7 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
-			LockableListModel adventureList = client == null ? AdventureDatabase.getAsLockableListModel( null ) : client.getAdventureList();
+			LockableListModel adventureList = client == null ? AdventureDatabase.getAsLockableListModel() : client.getAdventureList();
 
 			locationField = new JComboBox( adventureList );
 			countField = new JTextField();
@@ -285,7 +285,7 @@ public class AdventureFrame extends KoLFrame
 
 			setContent( elements );
 
-			String lastAdventure = client == null ? "" : client.getSettings().getProperty( "lastAdventure" );
+			String lastAdventure = getProperty( "lastAdventure" );
 
 			for ( int i = 0; i < adventureList.size(); ++i )
 				if ( adventureList.get(i).toString().equals( lastAdventure ) )
@@ -374,12 +374,10 @@ public class AdventureFrame extends KoLFrame
 			contentPanel = this;
 
 			if ( client != null )
-				client.getSettings().setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
+				setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
 
 			Runnable request = (Runnable) locationField.getSelectedItem();
-
-			client.getSettings().setProperty( "lastAdventure", request.toString() );
-			client.getSettings().saveSettings();
+			setProperty( "lastAdventure", request.toString() );
 
 			if ( conditionField.getText().trim().length() > 0 )
 			{

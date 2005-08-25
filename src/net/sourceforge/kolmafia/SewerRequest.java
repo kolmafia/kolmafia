@@ -95,7 +95,7 @@ public class SewerRequest extends KoLRequest
 			return;
 		}
 
-		String [] items = client.getSettings().getProperty( "luckySewer" ).split( "," );
+		String [] items = getProperty( "luckySewer" ).split( "," );
 
 		addFormField( "action", "take" );
 		addFormField( "i" + items[0], "on" );

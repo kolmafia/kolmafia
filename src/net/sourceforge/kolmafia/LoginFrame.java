@@ -188,7 +188,7 @@ public class LoginFrame extends KoLFrame
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
-			loginnameField = client == null || client.getSettings().getProperty( "saveState" ).equals( "" ) ?
+			loginnameField = client == null || getProperty( "saveState" ).equals( "" ) ?
 				(JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 
 			passwordField = new JPasswordField();
@@ -225,7 +225,7 @@ public class LoginFrame extends KoLFrame
 
 			if ( client != null )
 			{
-				String autoLoginSetting = client.getSettings().getProperty( "autoLogin" );
+				String autoLoginSetting = getProperty( "autoLogin" );
 
 				if ( loginnameField instanceof JComboBox )
 					((JComboBox)loginnameField).setSelectedItem( autoLoginSetting );
@@ -287,9 +287,9 @@ public class LoginFrame extends KoLFrame
 			}
 
 			if ( autoLoginCheckBox.isSelected() )
-				client.getSettings().setProperty( "autoLogin", loginname );
+				setProperty( "autoLogin", loginname );
 			else
-				client.getSettings().setProperty( "autoLogin", "" );
+				setProperty( "autoLogin", "" );
 
 			if ( isQuickLogin && !loginname.endsWith( "/q" ) )
 				loginname += "/q";

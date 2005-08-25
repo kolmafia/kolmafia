@@ -102,7 +102,7 @@ public class FamiliarsDatabase extends KoLDatabase
 	 * login and is designed to minimize crashing as a result.
 	 */
 
-	public static void registerFamiliar( KoLmafia client, int familiarID, String familiarName )
+	public static void registerFamiliar( int familiarID, String familiarName )
 	{
 		client.getLogStream().println( "New familiar: \"" + familiarID + "\" (" + familiarName + ")" );
 

@@ -420,7 +420,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return false;
 
 		KoLCharacter data = client.getCharacterData();
-		boolean noServantNeeded = client.getSettings().getProperty( "createWithoutBoxServants" ).equals( "true" );
+		boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
 
 		switch ( mixingMethod )
 		{
@@ -446,7 +446,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// No currently installed servant and player insists on using
 		// one.	 Check to see if they want to autorepair
 
-		if ( client.getSettings().getProperty( "autoRepairBoxes" ).equals( "false" ) )
+		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
 		{
 			updateDisplay( ERROR_STATE, "Box servant explosion!" );
 			return false;
@@ -455,7 +455,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If they do want to auto-repair, make sure that
 		// the appropriate item is available in their inventory
 
-		boolean useClockwork = client.getSettings().getProperty( "useClockworkBoxes" ).equals( "true" );
+		boolean useClockwork = getProperty( "useClockworkBoxes" ).equals( "true" );
 
 		switch ( mixingMethod )
 		{
@@ -490,7 +490,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( !client.getInventory().contains( servant ) )
 		{
-			if ( client.getSettings().getProperty( "useClosetForCreation" ).equals( "true" ) && client.getCloset().contains( servant ) )
+			if ( getProperty( "useClosetForCreation" ).equals( "true" ) && client.getCloset().contains( servant ) )
 			{
 				updateDisplay( DISABLED_STATE, "Retrieving " + servant.getName() + " from closet..." );
 				AdventureResult [] servantArray = { servant };
@@ -537,7 +537,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// Now, if you are to retrieve an item from the closet, this is where
 			// that retrieval would be done.
 
-			if ( client.getSettings().getProperty( "useClosetForCreation" ).equals( "true" ) )
+			if ( getProperty( "useClosetForCreation" ).equals( "true" ) )
 			{
 				int closetCount = ingredient.getCount( client.getCloset() );
 

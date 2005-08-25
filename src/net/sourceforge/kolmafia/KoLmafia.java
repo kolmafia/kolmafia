@@ -245,7 +245,7 @@ public abstract class KoLmafia implements KoLConstants
 		// new password hash
 
 		adventureList.clear();
-		adventureList.addAll( AdventureDatabase.getAsLockableListModel( this ) );
+		adventureList.addAll( AdventureDatabase.getAsLockableListModel() );
 
 		// Get current moon phases
 
@@ -352,7 +352,7 @@ public abstract class KoLmafia implements KoLConstants
 		// individual use.  Recompile the adventure list.
 
 		adventureList.clear();
-		adventureList.addAll( AdventureDatabase.getAsLockableListModel( this ) );
+		adventureList.addAll( AdventureDatabase.getAsLockableListModel() );
 		this.mpRestoreItemList = new MPRestoreItemList( this );
 	}
 

@@ -239,7 +239,7 @@ public class ItemStorageRequest extends SendMessageRequest
 				int itemID = df.parse( optionMatcher.group(1) ).intValue();
 
 				if ( TradeableItemDatabase.getItemName( itemID ) == null )
-					TradeableItemDatabase.registerItem( client, itemID, optionMatcher.group(2).trim() );
+					TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
 
 				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
 				AdventureResult.addResultToList( storageContents, result );

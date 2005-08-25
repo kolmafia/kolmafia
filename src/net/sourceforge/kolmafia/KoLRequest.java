@@ -948,4 +948,17 @@ public class KoLRequest implements Runnable, KoLConstants
 	public int getAdventuresUsed()
 	{	return 0;
 	}
+
+	protected final void setProperty( String name, String value )
+	{
+		if ( client != null )
+		{
+			client.getSettings().setProperty( name, value );
+			client.getSettings().saveSettings();
+		}
+	}
+
+	protected final String getProperty( String name )
+	{	return client == null ? "" : client.getSettings().getProperty( name );
+	}
 }

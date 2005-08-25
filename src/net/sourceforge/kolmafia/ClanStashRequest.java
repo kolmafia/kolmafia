@@ -205,7 +205,7 @@ public class ClanStashRequest extends SendMessageRequest
 
 				if ( TradeableItemDatabase.getItemName( itemID ) == null )
 				{
-					TradeableItemDatabase.registerItem( client, itemID, itemString.indexOf( "(" ) == -1 ? itemString :
+					TradeableItemDatabase.registerItem( itemID, itemString.indexOf( "(" ) == -1 ? itemString :
 						itemString.substring( 0, itemString.indexOf( "(" ) ).trim() );
 				}
 

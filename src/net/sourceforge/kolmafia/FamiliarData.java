@@ -82,7 +82,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		this.race = dataMatcher.group(2);
 
 		if ( !FamiliarsDatabase.contains( this.race ) )
-			FamiliarsDatabase.registerFamiliar( client, this.id, this.race );
+			FamiliarsDatabase.registerFamiliar( this.id, this.race );
 
 		this.id = FamiliarsDatabase.getFamiliarID( this.race );
 

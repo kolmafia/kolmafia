@@ -91,7 +91,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffBotFrame extends KoLFrame
 {
-	private KoLSettings settings;
 	private BuffBotManager currentManager;
 
 	private MainBuffPanel mainBuff;
@@ -112,8 +111,6 @@ public class BuffBotFrame extends KoLFrame
 	public BuffBotFrame( KoLmafia client )
 	{
 		super( client, "BuffBot" );
-
-		settings = (client == null) ? new KoLSettings() : client.getSettings();
 		buffCostTable = new LockableListModel();
 
 		if ( client != null )
@@ -382,8 +379,8 @@ public class BuffBotFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			settings.setProperty( "useChatBasedBuffBot", String.valueOf( buffBotModeSelect.getSelectedIndex() == 1 ) );
-			settings.setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
+			setProperty( "useChatBasedBuffBot", String.valueOf( buffBotModeSelect.getSelectedIndex() == 1 ) );
+			setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
 			mpRestoreItemList.setProperty();
 
 			String[] whiteListString = whiteListEditor.getText().split("\\s*,\\s*");
@@ -393,17 +390,15 @@ public class BuffBotFrame extends KoLFrame
 			for (int i = 1; i < whiteListString.length; i++)
 				if (!whiteListString[i].equals(""))
 					whiteListEditor.append( ", " + whiteListString[i] );
-			settings.setProperty( "whiteList", whiteListEditor.getText() );
-
-			settings.saveSettings();
+			setProperty( "whiteList", whiteListEditor.getText() );
 			JOptionPane.showMessageDialog( null, "Settings have been saved!" );
 		}
 
 		public void actionCancelled()
 		{
-			messageDisposalSelect.setSelectedIndex( Integer.parseInt( settings.getProperty( "buffBotMessageDisposal" ) ) );
-			buffBotModeSelect.setSelectedIndex( settings.getProperty( "useChatBasedBuffBot" ).equals( "true" ) ? 1 : 0 );
-			whiteListEditor.setText( settings.getProperty( "whiteList" ) );
+			messageDisposalSelect.setSelectedIndex( Integer.parseInt( getProperty( "buffBotMessageDisposal" ) ) );
+			buffBotModeSelect.setSelectedIndex( getProperty( "useChatBasedBuffBot" ).equals( "true" ) ? 1 : 0 );
+			whiteListEditor.setText( getProperty( "whiteList" ) );
 
 			setStatusMessage( ENABLED_STATE, "Settings loaded." );
 		}
@@ -475,26 +470,24 @@ public class BuffBotFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			settings.setProperty( "maxPhilanthropy", maxPhilanthropyField.getText() );
-			settings.setProperty( "autoStockRestores", autoStockRestoreField.getText() );
-			settings.setProperty( "autoStockScript", autoStockScriptField.getText() );
+			setProperty( "maxPhilanthropy", maxPhilanthropyField.getText() );
+			setProperty( "autoStockRestores", autoStockRestoreField.getText() );
+			setProperty( "autoStockScript", autoStockScriptField.getText() );
 
-			settings.setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
-			settings.setProperty( "thanksMessage", thanksMessage.getText() );
+			setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
+			setProperty( "thanksMessage", thanksMessage.getText() );
 
-
-			settings.saveSettings();
 			JOptionPane.showMessageDialog( null, "Settings have been saved!" );
 		}
 
 		public void actionCancelled()
 		{
-			maxPhilanthropyField.setText( settings.getProperty( "maxPhilanthropy" ) );
-			autoStockRestoreField.setText( settings.getProperty( "autoStockRestores" ) );
-			autoStockScriptField.setText( settings.getProperty( "autoStockScript" ) );
+			maxPhilanthropyField.setText( getProperty( "maxPhilanthropy" ) );
+			autoStockRestoreField.setText( getProperty( "autoStockRestores" ) );
+			autoStockScriptField.setText( getProperty( "autoStockScript" ) );
 
-			invalidPriceMessage.setText( settings.getProperty( "invalidBuffMessage" ) );
-			thanksMessage.setText( settings.getProperty( "thanksMessage" ) );
+			invalidPriceMessage.setText( getProperty( "invalidBuffMessage" ) );
+			thanksMessage.setText( getProperty( "thanksMessage" ) );
 
 			setStatusMessage( ENABLED_STATE, "Settings loaded." );
 		}

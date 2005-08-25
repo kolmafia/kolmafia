@@ -274,7 +274,7 @@ public class OptionsFrame extends KoLFrame
 			super.actionConfirmed();
 
 			client.getAdventureList().clear();
-			client.getAdventureList().addAll( AdventureDatabase.getAsLockableListModel( client ) );
+			client.getAdventureList().addAll( AdventureDatabase.getAsLockableListModel() );
 
 			if ( client != null && optionBoxes[0].isSelected() )
 				Collections.sort( client.getAdventureList() );
@@ -856,7 +856,7 @@ public class OptionsFrame extends KoLFrame
 			setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
 
 			if ( client != null && client.getInventory() != null )
-				ConcoctionsDatabase.refreshConcoctions( client );
+				ConcoctionsDatabase.refreshConcoctions();
 
 			super.actionConfirmed();
 		}
@@ -944,8 +944,6 @@ public class OptionsFrame extends KoLFrame
 
 	private abstract class OptionsPanel extends LabeledKoLPanel
 	{
-		private KoLSettings settings;
-
 		public OptionsPanel()
 		{	this( new Dimension( 120, 20 ), new Dimension( 240, 20 ) );
 		}
@@ -959,27 +957,15 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public OptionsPanel( String panelTitle, Dimension left, Dimension right )
-		{
-			super( panelTitle, left, right );
-			settings = (client == null) ? new KoLSettings() : client.getSettings();
+		{	super( panelTitle, left, right );
 		}
 
 		public void setStatusMessage( int displayState, String message )
 		{	JOptionPane.showMessageDialog( null, message );
 		}
 
-		protected void setProperty( String key, String value )
-		{	settings.setProperty( key, value );
-		}
-
-		protected String getProperty( String key )
-		{	return settings.getProperty( key );
-		}
-
 		protected void actionConfirmed()
-		{
-			settings.saveSettings();
-			setStatusMessage( ENABLED_STATE, "Settings saved." );
+		{	setStatusMessage( ENABLED_STATE, "Settings saved." );
 		}
 	}
 
