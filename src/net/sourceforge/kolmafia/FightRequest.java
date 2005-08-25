@@ -66,14 +66,13 @@ public class FightRequest extends KoLRequest
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
 
-		int fleeTolerance = (int)( Double.parseDouble( client.getSettings().getProperty( "hpAutoFlee" ) ) *
-			(double) client.getCharacterData().getMaximumHP() );
+		int fleeTolerance = (int)( Double.parseDouble( getProperty( "hpAutoFlee" ) ) * (double) client.getCharacterData().getMaximumHP() );
 
 		// For now, there will not be any attempts to handle
 		// special skills - the user will simply attack, use
 		// a moxious maneuver, or run away.
 
-		this.action = client.getSettings().getProperty( "battleAction" );
+		this.action = getProperty( "battleAction" );
 
 		if ( roundCount == 0 )
 		{
@@ -81,7 +80,7 @@ public class FightRequest extends KoLRequest
 			// actually wind up submitting no
 			// extra data.
 		}
-		else if ( client.getCharacterData().getCurrentHP() <= fleeTolerance )
+		else if ( fleeTolerance != 0 && client.getCharacterData().getCurrentHP() <= fleeTolerance )
 		{
 			this.action = "runaway";
 			addFormField( "action", action );
@@ -192,6 +191,6 @@ public class FightRequest extends KoLRequest
 		if ( action.equals( "moxman" ) )
 			return 0 - client.getCharacterData().getLevel();
 
-		return ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
+		return 0 - ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
 	}
 }
