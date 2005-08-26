@@ -170,19 +170,23 @@ public class StoreManager implements KoLConstants
 	 * given item.
 	 */
 
-	public void searchMall( String itemName, List priceSummary )
-	{	(new MallSearchThread( itemName, priceSummary )).start();
+	public void searchMall( String itemName, List priceSummary, boolean aggregatePrices )
+	{
+		client.getSettings().setProperty( "aggregatePrices", String.valueOf( aggregatePrices ) );
+		(new MallSearchThread( itemName, priceSummary, aggregatePrices )).start();
 	}
 
 	private class MallSearchThread extends DaemonThread
 	{
 		private String itemName;
 		private List priceSummary;
+		private boolean aggregatePrices;
 
-		public MallSearchThread( String itemName, List priceSummary )
+		public MallSearchThread( String itemName, List priceSummary, boolean aggregatePrices )
 		{
 			this.itemName = itemName;
 			this.priceSummary = priceSummary;
+			this.aggregatePrices = aggregatePrices;
 		}
 
 		public void run()
@@ -226,7 +230,7 @@ public class StoreManager implements KoLConstants
 			Iterator i = results.iterator();
 			MallPurchaseRequest currentItem;
 
-			if ( client.getSettings().getProperty( "aggregatePrices" ).equals( "true" ) )
+			if ( aggregatePrices )
 			{
 				TreeMap prices = new TreeMap();
 				Integer currentQuantity, currentPrice;

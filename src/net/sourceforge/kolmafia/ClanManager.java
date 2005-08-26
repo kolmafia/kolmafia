@@ -34,6 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
@@ -408,43 +410,116 @@ public class ClanManager implements KoLConstants
 			return;
 		}
 
-		// If initialization was unsuccessful, then there isn't
-		// enough data to create a clan snapshot.
+		// Prompt the user to determine which settings they would
+		// like during the clan snapshot process.
 
-		String header = snapshot.getHeader();
+		Object [] parameters = new Object[3];
+		parameters[0] = client;
+		parameters[1] = "Clan Snapshot Settings";
+		parameters[2] = new SnapshotOptionsPanel();
 
-		if ( header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 || header.indexOf( "<td>Meat</td>" ) != -1 ||
-			header.indexOf( "<td>Turns</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Drink</td>" ) != -1 ||
-				header.indexOf( "<td>Last Login</td>" ) != -1 || header.indexOf( "<td>Ascensions</td>" ) != -1 )
+		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
+	}
+
+
+	/**
+	 * This panel handles all of the things related to the clan
+	 * snapshot.  For now, just a list of checkboxes to show
+	 * which fields you want there.
+	 */
+
+	private class SnapshotOptionsPanel extends KoLPanel
+	{
+		private JCheckBox [] optionBoxes;
+
+		private final String [][] options =
 		{
-			if ( !retrieveMemberData() )
+			{ "Lv", "Player level" }, { "Mus", "Muscle points" }, { "Mys", "Mysticality points" }, { "Mox", "Moxie points" },
+			{ "Total", "Total power points" }, { "Title", "Title within clan" }, { "Rank", "Rank within clan" },
+			{ "Karma", "Accumulated karma" }, { "PVP", "PVP ranking" }, { "Class", "Class type" }, { "Meat", "Meat on hand" },
+			{ "Turns", "Turns played" }, { "Food", "Favorite food" }, { "Drink", "Favorite booze" }, { "Last Login", "Last login date" },
+			{ "Ascensions", "Number of ascensions" }
+		};
+
+		public SnapshotOptionsPanel()
+		{
+			super( "confirm", "cancel", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			for ( int i = 0; i < options.length; ++i )
+				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			// If initialization was unsuccessful, then there isn't
+			// enough data to create a clan snapshot.
+
+			File summaryFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
+			String header = snapshot.getHeader();
+
+			if ( header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 || header.indexOf( "<td>Meat</td>" ) != -1 ||
+				header.indexOf( "<td>Turns</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Drink</td>" ) != -1 ||
+					header.indexOf( "<td>Last Login</td>" ) != -1 || header.indexOf( "<td>Ascensions</td>" ) != -1 )
 			{
-				client.updateDisplay( ERROR_STATE, "Initialization failed." );
+				if ( !retrieveMemberData() )
+				{
+					client.updateDisplay( ERROR_STATE, "Initialization failed." );
+					return;
+				}
+			}
+
+			// Apply all the settings before generating the
+			// needed clan snapshot.
+
+			StringBuffer tableHeaderSetting = new StringBuffer();
+
+			for ( int i = 0; i < options.length; ++i )
+				if ( optionBoxes[i].isSelected() )
+				{
+					tableHeaderSetting.append( "<td>" );
+					tableHeaderSetting.append( options[i][0] );
+					tableHeaderSetting.append( "</td>" );
+				}
+
+			client.getSettings().setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
+
+			// Now, store the clan snapshot into the appropriate
+			// data folder.
+
+			try
+			{
+				summaryFile.getParentFile().mkdirs();
+				client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
+
+				PrintStream ostream = new PrintStream( new FileOutputStream( summaryFile, true ), true );
+				ostream.println( snapshot.toString() );
+				ostream.close();
+			}
+			catch ( Exception e )
+			{
+				client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
+				e.printStackTrace( client.getLogStream() );
+				e.printStackTrace( System.err );
 				return;
 			}
+
+			client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
 		}
 
-		// Now, store the clan snapshot into the appropriate
-		// data folder.
-
-		try
+		protected void actionCancelled()
 		{
-			summaryFile.getParentFile().mkdirs();
-			client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
-
-			PrintStream ostream = new PrintStream( new FileOutputStream( summaryFile, true ), true );
-			ostream.println( snapshot.toString() );
-			ostream.close();
+			String tableHeaderSetting = client.getSettings().getProperty( "clanRosterHeader" );
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + options[i][0] + "</td>" ) != -1 );
 		}
-		catch ( Exception e )
-		{
-			client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
-			e.printStackTrace( client.getLogStream() );
-			e.printStackTrace( System.err );
-			return;
-		}
-
-		client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
 	}
 
 	/**
@@ -742,5 +817,4 @@ public class ClanManager implements KoLConstants
 
 		snapshot.applyFilter( matchType, filterType, filter );
 	}
-
 }

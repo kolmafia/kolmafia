@@ -145,20 +145,14 @@ public class OptionsFrame extends KoLFrame
 		menuBar.add( adventureMenu );
 
 		addCard( adventureMenu, "Adventure List", new AdventureOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( adventureMenu, "Auto-Recovery", new RestoreOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( adventureMenu, "Auto-Recovering", new RestoreOptionsPanel(), String.valueOf( cardCount++ ) );
 		addCard( adventureMenu, "Choice Adventures", new ChoiceOptionsPanel(), String.valueOf( cardCount++ ) );
 
-		JMenu peopleMenu = new JMenu( "People" );
-		menuBar.add( peopleMenu );
+		JMenu miscMenu = new JMenu( "Misc" );
+		menuBar.add( miscMenu );
 
-		addCard( peopleMenu, "Chat Preferences", new ChatOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( peopleMenu, "Clan Snapshots", new SnapshotOptionsPanel(), String.valueOf( cardCount++ ) );
-
-		JMenu itemMenu = new JMenu( "Misc" );
-		menuBar.add( itemMenu );
-
-		addCard( itemMenu, "Mall Search", new MallOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( itemMenu, "Item Creation", new CreationOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( miscMenu, "KoLmafia Chat", new ChatOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( miscMenu, "Item Creation", new CreationOptionsPanel(), String.valueOf( cardCount++ ) );
 	}
 
 	private void addCard( JMenu menu, String name, JComponent panel, String cardID )
@@ -369,8 +363,8 @@ public class OptionsFrame extends KoLFrame
 
 		/**
 		 * Constructs a new <code>RestoreOptionsPanel</code> containing a
-		 * way for the users to choose the way they want to fight battles
-		 * encountered during adventuring.
+		 * way for the users to choose the way they want to recover their
+		 * health and mana inbetween battles encountered during adventuring.
 		 */
 
 		public RestoreOptionsPanel()
@@ -659,115 +653,6 @@ public class OptionsFrame extends KoLFrame
 				for ( int i = colors.length; i < KoLMessenger.ROOMS.length; ++i )
 					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], Color.black ) );
 			}
-		}
-	}
-
-	/**
-	 * This panel handles all of the things related to the clan
-	 * snapshot.  For now, just a list of checkboxes to show
-	 * which fields you want there.
-	 */
-
-	private class SnapshotOptionsPanel extends OptionsPanel
-	{
-		private JCheckBox [] optionBoxes;
-
-		private final String [][] options =
-		{
-			{ "Lv", "Player level" }, { "Mus", "Muscle points" }, { "Mys", "Mysticality points" }, { "Mox", "Moxie points" },
-			{ "Total", "Total power points" }, { "Title", "Title within clan" }, { "Rank", "Rank within clan" },
-			{ "Karma", "Accumulated karma" }, { "PVP", "PVP ranking" }, { "Class", "Class type" }, { "Meat", "Meat on hand" },
-			{ "Turns", "Turns played" }, { "Food", "Favorite food" }, { "Drink", "Favorite booze" }, { "Last Login", "Last login date" },
-			{ "Ascensions", "Number of ascensions" }
-		};
-
-		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
-		 * place for the users to select their desired server and for them
-		 * to modify any applicable proxy settings.
-		 */
-
-		public SnapshotOptionsPanel()
-		{
-			super( "Clan Snapshots", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ options.length ];
-
-			optionBoxes = new JCheckBox[ options.length ];
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i] = new JCheckBox();
-
-			for ( int i = 0; i < options.length; ++i )
-				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
-
-			setContent( elements, false );
-			actionCancelled();
-		}
-
-		protected void actionConfirmed()
-		{
-			StringBuffer tableHeaderSetting = new StringBuffer();
-
-			for ( int i = 0; i < options.length; ++i )
-				if ( optionBoxes[i].isSelected() )
-				{
-					tableHeaderSetting.append( "<td>" );
-					tableHeaderSetting.append( options[i][0] );
-					tableHeaderSetting.append( "</td>" );
-				}
-
-			setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
-			super.actionConfirmed();
-		}
-
-		protected void actionCancelled()
-		{
-			String tableHeaderSetting = getProperty( "clanRosterHeader" );
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + options[i][0] + "</td>" ) != -1 );
-		}
-	}
-
-	/**
-	 * An internal class used for handling mall options.  This includes
-	 * default mall limiting, mall sorting and sending items to the mall.
-	 */
-
-	private class MallOptionsPanel extends OptionsPanel
-	{
-		private JComboBox forceSortSelect;
-		private JComboBox aggregateSelect;
-
-		public MallOptionsPanel()
-		{
-			super( "Mall Search" );
-
-			forceSortSelect = new JComboBox();
-			forceSortSelect.addItem( "No Sorting" );
-			forceSortSelect.addItem( "Force Price Sort" );
-
-			aggregateSelect = new JComboBox();
-			aggregateSelect.addItem( "Aggregate store data" );
-			aggregateSelect.addItem( "Keep stores separate" );
-
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Force Sorting: ", forceSortSelect );
-			elements[1] = new VerifiableElement( "Price Scanning: ", aggregateSelect );
-
-			setContent( elements );
-			actionCancelled();
-		}
-
-		protected void actionConfirmed()
-		{
-			setProperty( "forceSorting", String.valueOf( forceSortSelect.getSelectedIndex() == 1 ) );
-			setProperty( "aggregatePrices", String.valueOf( aggregateSelect.getSelectedIndex() == 0 ) );
-			super.actionConfirmed();
-		}
-
-		protected void actionCancelled()
-		{
-			forceSortSelect.setSelectedIndex( getProperty( "forceSorting" ).equals( "true" ) ? 1 : 0 );
-			aggregateSelect.setSelectedIndex( getProperty( "aggregatePrices" ).equals( "true" ) ? 1 : 0 );
 		}
 	}
 

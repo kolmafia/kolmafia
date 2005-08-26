@@ -457,7 +457,9 @@ public class AdventureFrame extends KoLFrame
 
 		private JTextField searchField;
 		private JTextField countField;
-		private JCheckBox limitPurchasesField;
+
+		private JCheckBox limitPurchasesCheckBox;
+		private JCheckBox forceSortingCheckBox;
 
 		private LockableListModel results;
 		private JList resultsDisplay;
@@ -476,13 +478,17 @@ public class AdventureFrame extends KoLFrame
 
 			searchField = new JTextField();
 			countField = new JTextField();
-			limitPurchasesField = new JCheckBox();
+
+			limitPurchasesCheckBox = new JCheckBox();
+			forceSortingCheckBox = new JCheckBox();
+
 			results = new LockableListModel();
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Item to Find: ", searchField );
 			elements[1] = new VerifiableElement( "Search Limit: ", countField );
-			elements[2] = new VerifiableElement( "Limit Purchases: ", limitPurchasesField );
+			elements[2] = new VerifiableElement( "Limit Purchases: ", limitPurchasesCheckBox );
+			elements[3] = new VerifiableElement( "Force Price Sort: ", forceSortingCheckBox );
 
 			setContent( elements );
 			currentlyBuying = false;
@@ -527,7 +533,10 @@ public class AdventureFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 			searchField.setEnabled( isEnabled );
 			countField.setEnabled( isEnabled );
-			limitPurchasesField.setEnabled( isEnabled );
+
+			limitPurchasesCheckBox.setEnabled( isEnabled );
+			forceSortingCheckBox.setEnabled( isEnabled );
+
 			resultsDisplay.setEnabled( isEnabled );
 		}
 
@@ -544,7 +553,11 @@ public class AdventureFrame extends KoLFrame
 				(new SearchMallRequest( client, searchField.getText(), searchCount, results )).run();
 
 			if ( results.size() > 0 )
+			{
 				resultsDisplay.ensureIndexIsVisible( 0 );
+				if ( forceSortingCheckBox.isSelected() )
+					java.util.Collections.sort( results );
+			}
 		}
 
 		protected void actionCancelled()
@@ -561,7 +574,7 @@ public class AdventureFrame extends KoLFrame
 
 			try
 			{
-				maxPurchases = limitPurchasesField.isSelected() ?
+				maxPurchases = limitPurchasesCheckBox.isSelected() ?
 					df.parse( JOptionPane.showInputDialog( "Maximum number of items to purchase?" ) ).intValue() : Integer.MAX_VALUE;
 			}
 			catch ( Exception e )

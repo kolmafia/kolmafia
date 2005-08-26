@@ -57,6 +57,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButtonMenuItem;
 
 // spellcast-related imports
 import net.java.dev.spellcast.utilities.PanelList;
@@ -74,6 +77,9 @@ public class StoreManageFrame extends KoLFrame
 	private StoreItemPanelList storeItemList;
 	private JPanel searchResults;
 
+	private ButtonGroup scanGroup;
+	private JRadioButtonMenuItem [] scanOptions;
+
 	public StoreManageFrame( KoLmafia client )
 	{
 		super( client, "Dropkicking Prices" );
@@ -84,6 +90,8 @@ public class StoreManageFrame extends KoLFrame
 		setResizable( false );
 		storeManager = new StoreManagePanel();
 		getContentPane().add( storeManager, BorderLayout.CENTER );
+
+		addMenuBar();
 	}
 
 	private void addMenuBar()
@@ -91,7 +99,30 @@ public class StoreManageFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		addOptionsMenu( menuBar ).add( new MiniBrowserMenuItem( "View Store Log", KeyEvent.VK_V, "storelog.php" ) );
+		JMenu optionsMenu = addOptionsMenu( menuBar );
+
+		optionsMenu.add( new JSeparator() );
+		optionsMenu.add( new MiniBrowserMenuItem( "View Store Log", KeyEvent.VK_V, "storelog.php" ) );
+
+		JMenu scanMenu = new JMenu( "Price Scanning" );
+		scanMenu.setMnemonic( KeyEvent.VK_P );
+		optionsMenu.add( scanMenu );
+
+		scanGroup = new ButtonGroup();
+		scanOptions = new JRadioButtonMenuItem[2];
+
+		scanOptions[0] = new JRadioButtonMenuItem( "Aggregate store data", false );
+		scanOptions[1] = new JRadioButtonMenuItem( "Keep stores separate", false );
+
+		int scanSelect = getProperty( "aggregatePrices" ).equals( "true" ) ? 0 : 1;
+		scanOptions[ scanSelect ].setSelected( true );
+
+		for ( int i = 0; i < 2; ++i )
+		{
+			scanGroup.add( scanOptions[i] );
+			scanMenu.add( scanOptions[i] );
+		}
+
 		addHelpMenu( menuBar );
 	}
 
@@ -314,7 +345,7 @@ public class StoreManageFrame extends KoLFrame
 				if ( sellingList.getSelectedItem() == null )
 					return;
 
-				client.getStoreManager().searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary );
+				client.getStoreManager().searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary, scanOptions[0].isSelected() );
 				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
 			}
 		}
@@ -436,7 +467,7 @@ public class StoreManageFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				client.getStoreManager().searchMall( itemName.getText(), priceSummary );
+				client.getStoreManager().searchMall( itemName.getText(), priceSummary, scanOptions[0].isSelected() );
 				searchLabel.setText( itemName.getText() );
 			}
 		}
