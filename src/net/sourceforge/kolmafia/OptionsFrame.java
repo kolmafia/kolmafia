@@ -171,6 +171,10 @@ public class OptionsFrame extends KoLFrame
 		menu.add( new ShowCardMenuItem( name, cardID ) );
 	}
 
+	public boolean isEnabled()
+	{	return true;
+	}
+
 	private class ShowCardMenuItem extends JMenuItem implements ActionListener
 	{
 		private String cardID;
@@ -770,14 +774,12 @@ public class OptionsFrame extends KoLFrame
 
 	private class MallOptionsPanel extends OptionsPanel
 	{
-		private JTextField defaultLimitField;
 		private JComboBox forceSortSelect;
 		private JComboBox aggregateSelect;
 
 		public MallOptionsPanel()
 		{
 			super( "Mall Search" );
-			defaultLimitField = new JTextField( "13" );
 
 			forceSortSelect = new JComboBox();
 			forceSortSelect.addItem( "No Sorting" );
@@ -787,10 +789,9 @@ public class OptionsFrame extends KoLFrame
 			aggregateSelect.addItem( "Aggregate store data" );
 			aggregateSelect.addItem( "Keep stores separate" );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Default Limit: ", defaultLimitField );
-			elements[1] = new VerifiableElement( "Force Sorting: ", forceSortSelect );
-			elements[2] = new VerifiableElement( "Price Scanning: ", aggregateSelect );
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Force Sorting: ", forceSortSelect );
+			elements[1] = new VerifiableElement( "Price Scanning: ", aggregateSelect );
 
 			setContent( elements );
 			actionCancelled();
@@ -798,7 +799,6 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "defaultLimit", defaultLimitField.getText() );
 			setProperty( "forceSorting", String.valueOf( forceSortSelect.getSelectedIndex() == 1 ) );
 			setProperty( "aggregatePrices", String.valueOf( aggregateSelect.getSelectedIndex() == 0 ) );
 			super.actionConfirmed();
@@ -806,7 +806,6 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			defaultLimitField.setText( getProperty( "defaultLimit" ) );
 			forceSortSelect.setSelectedIndex( getProperty( "forceSorting" ).equals( "true" ) ? 1 : 0 );
 			aggregateSelect.setSelectedIndex( getProperty( "aggregatePrices" ).equals( "true" ) ? 1 : 0 );
 		}
