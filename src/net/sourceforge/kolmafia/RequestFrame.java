@@ -64,7 +64,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
-	private static KoLSettings defaultSettings = new KoLSettings();
 	private static int combatRound = 0;
 	private static LockableListModel bookmarks = new LockableListModel();
 
@@ -423,7 +422,7 @@ public class RequestFrame extends KoLFrame
 	{
 		bookmarks.clear();
 
-		String [] bookmarkData = defaultSettings.getProperty( "browserBookmarks" ).split( "\\|" );
+		String [] bookmarkData = GLOBAL_SETTINGS.getProperty( "browserBookmarks" ).split( "\\|" );
 		String name, location, pwdhash;
 
 		if ( bookmarkData.length > 1 )
@@ -460,8 +459,8 @@ public class RequestFrame extends KoLFrame
 			bookmarkData.append( ((DisplayRequestMenuItem)bookmarks.get(i)).toSettingString() );
 		}
 
-		defaultSettings.setProperty( "browserBookmarks", bookmarkData.toString() );
-		defaultSettings.saveSettings();
+		GLOBAL_SETTINGS.setProperty( "browserBookmarks", bookmarkData.toString() );
+		GLOBAL_SETTINGS.saveSettings();
 	}
 
 	/**

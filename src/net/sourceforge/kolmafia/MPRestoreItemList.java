@@ -67,7 +67,7 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 		// constant market value
 
 		this.client = client;
-		this.settings = client == null ? new KoLSettings( "" ) : client.getSettings();
+		this.settings = client == null ? GLOBAL_SETTINGS : client.getSettings();
 		this.characterData = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 
 		this.add( BEANBAG );

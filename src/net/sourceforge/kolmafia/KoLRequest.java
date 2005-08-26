@@ -113,11 +113,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		try
 		{
-			KoLSettings currentSettings = new KoLSettings();
-
-			String proxySet = currentSettings.getProperty( "proxySet" );
-			String proxyHost = currentSettings.getProperty( "http.proxyHost" );
-			String proxyUser = currentSettings.getProperty( "http.proxyUser" );
+			String proxySet = GLOBAL_SETTINGS.getProperty( "proxySet" );
+			String proxyHost = GLOBAL_SETTINGS.getProperty( "http.proxyHost" );
+			String proxyUser = GLOBAL_SETTINGS.getProperty( "http.proxyUser" );
 
 			System.setProperty( "proxySet", proxySet );
 
@@ -158,7 +156,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// Determine the login server that will be used.  It
 			// will either be auto-detection, or using the default.
 
-			switch ( Integer.parseInt( currentSettings.getProperty( "loginServer" ) ) )
+			switch ( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) )
 			{
 				case 0:
 					autoDetectServer();
@@ -959,6 +957,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	protected final String getProperty( String name )
-	{	return client == null ? "" : client.getSettings().getProperty( name );
+	{	return client == null ? GLOBAL_SETTINGS.getProperty( name ) : client.getSettings().getProperty( name );
 	}
 }

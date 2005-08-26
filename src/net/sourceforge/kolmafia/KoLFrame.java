@@ -1448,6 +1448,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	protected final String getProperty( String name )
-	{	return client == null ? "" : client.getSettings().getProperty( name );
+	{	return client == null ? defaultSettings.getProperty( name ) : client.getSettings().getProperty( name );
 	}
 }

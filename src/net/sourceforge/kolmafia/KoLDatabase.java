@@ -107,6 +107,6 @@ public class KoLDatabase implements KoLConstants
 	}
 
 	protected static final String getProperty( String name )
-	{	return client == null ? "" : client.getSettings().getProperty( name );
+	{	return client == null ? GLOBAL_SETTINGS.getProperty( name ) : client.getSettings().getProperty( name );
 	}
 }

@@ -99,7 +99,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		this.buffCostMap = new TreeMap();
 		this.buffCostTable = buffCostTable;
 
-		this.settings = client == null ? new KoLSettings() : client.getSettings();
+		this.settings = client == null ? GLOBAL_SETTINGS : client.getSettings();
 		this.characterData = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 		this.buffbotLog = client == null ? new BuffBotHome( client ) : client.getBuffBotLog();
 
