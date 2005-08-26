@@ -145,7 +145,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.initialStats = new int[3];
 		this.fullStatGain = new int[3];
 
-		this.settings = defaultSettings;
+		this.settings = GLOBAL_SETTINGS;
 		this.saveStateNames = new SortedListModel();
 
 		String [] currentNames = settings.getProperty( "saveState" ).split( "//" );

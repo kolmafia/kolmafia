@@ -136,7 +136,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				{	System.setProperty( "http.proxyHost", proxyHost );
 				}
 
-				System.setProperty( "http.proxyPort", currentSettings.getProperty( "http.proxyPort" ) );
+				System.setProperty( "http.proxyPort", GLOBAL_SETTINGS.getProperty( "http.proxyPort" ) );
 			}
 
 			// Remove the proxy user from the system properties
@@ -149,8 +149,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 			else
 			{
-				System.setProperty( "http.proxyUser", currentSettings.getProperty( "http.proxyUser" ) );
-				System.setProperty( "http.proxyPassword", currentSettings.getProperty( "http.proxyPassword" ) );
+				System.setProperty( "http.proxyUser", GLOBAL_SETTINGS.getProperty( "http.proxyUser" ) );
+				System.setProperty( "http.proxyPassword", GLOBAL_SETTINGS.getProperty( "http.proxyPassword" ) );
 			}
 
 			// Determine the login server that will be used.  It
