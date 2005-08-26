@@ -480,7 +480,7 @@ public class AdventureFrame extends KoLFrame
 			results = new LockableListModel();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Search String: ", searchField );
+			elements[0] = new VerifiableElement( "Item to Find: ", searchField );
 			elements[1] = new VerifiableElement( "Search Limit: ", countField );
 			elements[2] = new VerifiableElement( "Limit Purchases: ", limitPurchasesField );
 
@@ -491,6 +491,7 @@ public class AdventureFrame extends KoLFrame
 		protected void setContent( VerifiableElement [] elements )
 		{
 			super.setContent( elements, null, null, null, true, true );
+			countField.setText( getProperty( "defaultLimit" ) );
 
 			JPanel centerPanel = new JPanel();
 			centerPanel.setLayout( new BorderLayout( 10, 10 ) );
@@ -535,6 +536,7 @@ public class AdventureFrame extends KoLFrame
 			contentPanel = this;
 
 			int searchCount = getValue( countField, -1 );
+			setProperty( "defaultLimit", countField.getText() );
 
 			if ( searchCount == -1 )
 				(new SearchMallRequest( client, searchField.getText(), results )).run();
