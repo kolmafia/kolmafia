@@ -96,6 +96,10 @@ public class ContactListFrame extends JFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
+		JMenu clicksMenu = new JMenu( "N-Click" );
+		clicksMenu.setMnemonic( KeyEvent.VK_N );
+		menuBar.add( clicksMenu );
+
 		clickGroup = new ButtonGroup();
 		clickOptions = new JRadioButtonMenuItem[4];
 		clickOptions[0] = new JRadioButtonMenuItem( "Open blue message", false );
@@ -106,15 +110,11 @@ public class ContactListFrame extends JFrame
 		int clickSelect = client == null ? 0 : Integer.parseInt( client.getSettings().getProperty( "nameClickOpens" ) );
 		clickOptions[ clickSelect ].setSelected( true );
 
-		for ( int i = 0; i < 4; ++i )
-			clickGroup.add( clickOptions[i] );
-
-		JMenu clicksMenu = new JMenu( "N-Click" );
-		clicksMenu.setMnemonic( KeyEvent.VK_N );
-		menuBar.add( clicksMenu );
-
 		for ( int i = 0; i < clickOptions.length; ++i )
+		{
+			clickGroup.add( clickOptions[i] );
 			clicksMenu.add( clickOptions[i] );
+		}
 	}
 
 	private class ContactListPanel extends JPanel

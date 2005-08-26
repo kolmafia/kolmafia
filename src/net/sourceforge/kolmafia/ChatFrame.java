@@ -150,6 +150,10 @@ public class ChatFrame extends KoLFrame
 		optionsMenu.add( new MessengerListener( "Add Highlight", KeyEvent.VK_A, "addHighlighting" ) );
 		optionsMenu.add( new MessengerListener( "Remove Highlight", KeyEvent.VK_R, "removeHighlighting" ) );
 
+		JMenu clicksMenu = new JMenu( "N-Click" );
+		clicksMenu.setMnemonic( KeyEvent.VK_N );
+		menuBar.add( clicksMenu );
+
 		clickGroup = new ButtonGroup();
 		clickOptions = new JRadioButtonMenuItem[4];
 		clickOptions[0] = new JRadioButtonMenuItem( "Open blue message", false );
@@ -157,18 +161,14 @@ public class ChatFrame extends KoLFrame
 		clickOptions[2] = new JRadioButtonMenuItem( "Open purple message", false );
 		clickOptions[3] = new JRadioButtonMenuItem( "Open player profile", false );
 
-		int clickSelect = client == null ? 0 : Integer.parseInt( getProperty( "nameClickOpens" ) );
+		int clickSelect = client == null ? 0 : Integer.parseInt( client.getSettings().getProperty( "nameClickOpens" ) );
 		clickOptions[ clickSelect ].setSelected( true );
 
-		for ( int i = 0; i < 4; ++i )
-			clickGroup.add( clickOptions[i] );
-
-		JMenu clicksMenu = new JMenu( "N-Click" );
-		clicksMenu.setMnemonic( KeyEvent.VK_N );
-		menuBar.add( clicksMenu );
-
 		for ( int i = 0; i < clickOptions.length; ++i )
+		{
+			clickGroup.add( clickOptions[i] );
 			clicksMenu.add( clickOptions[i] );
+		}
 	}
 
 	/**
