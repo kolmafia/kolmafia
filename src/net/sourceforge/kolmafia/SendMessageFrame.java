@@ -62,6 +62,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JCheckBoxMenuItem;
 
 // other imports
 import java.util.List;
@@ -82,6 +83,9 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	protected JTextField attachedMeat;
 	protected LockableListModel attachments;
+
+	protected JCheckBoxMenuItem saveOutgoingCheckBox;
+	protected JCheckBoxMenuItem closeSendingCheckBox;
 
 	protected SendMessageFrame( KoLmafia client, String title )
 	{
@@ -140,7 +144,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		sendMessageButton.addActionListener( new SendMessageListener() );
 
 		JPanel sendMessageButtonPanel = new JPanel();
-		sendMessageButtonPanel.add( sendMessageButton, BorderLayout.CENTER );
+		sendMessageButtonPanel.add( sendMessageButton );
 
 		mainPanel.add( sendMessageButtonPanel );
 		mainPanel.add( Box.createVerticalStrut( 4 ) );
@@ -152,6 +156,28 @@ public abstract class SendMessageFrame extends KoLFrame
 		this.getContentPane().setLayout( new CardLayout( 20, 20 ) );
 		this.getContentPane().add( messagePanel, "" );
 		this.getRootPane().setDefaultButton( sendMessageButton );
+
+		addMenuBar();
+	}
+
+	protected final void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar( menuBar );
+
+		JMenu optionsMenu = new JMenu( "Options" );
+		optionsMenu.setMnemonic( KeyEvent.VK_O );
+
+		saveOutgoingCheckBox = new JCheckBoxMenuItem( "Save message in Outbox" );
+		closeSendingCheckBox = new JCheckBoxMenuItem( "Close window after sending" );
+
+		saveOutgoingCheckBox.setSelected( getProperty( "saveOutgoing" ).equals( "true" ) );
+		closeSendingCheckBox.setSelected( getProperty( "closeSending" ).equals( "true" ) );
+
+		optionsMenu.add( saveOutgoingCheckBox );
+		optionsMenu.add( closeSendingCheckBox );
+
+		menuBar.add( optionsMenu );
 	}
 
 	protected JPanel constructWestPanel()
@@ -233,7 +259,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		return label;
 	}
 
-	protected abstract void sendMessage();
+	protected abstract boolean sendMessage();
 
 	private class SendMessageListener implements ActionListener, Runnable
 	{
@@ -243,8 +269,11 @@ public abstract class SendMessageFrame extends KoLFrame
 
 		public void run()
 		{
-			if ( client != null )
-				sendMessage();
+			setProperty( "saveOutgoing", String.valueOf( saveOutgoingCheckBox.isSelected() ) );
+			setProperty( "closeSending", String.valueOf( closeSendingCheckBox.isSelected() ) );
+
+			if ( client != null && sendMessage() && closeSendingCheckBox != null && closeSendingCheckBox.isSelected() )
+				SendMessageFrame.this.dispose();
 		}
 	}
 

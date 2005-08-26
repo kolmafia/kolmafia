@@ -43,6 +43,7 @@ public class GreenMessageFrame extends SendMessageFrame
 {
 	private static final String [] HEADERS = { "Send this message:" };
 
+
 	public GreenMessageFrame( KoLmafia client )
 	{	this( client, "" );
 	}
@@ -62,7 +63,7 @@ public class GreenMessageFrame extends SendMessageFrame
 	{	return HEADERS;
 	}
 
-	protected void sendMessage()
+	protected boolean sendMessage()
 	{
 		GreenMessageFrame.this.setEnabled( false );
 		(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
@@ -72,14 +73,13 @@ public class GreenMessageFrame extends SendMessageFrame
 		{
 			client.updateDisplay( ENABLED_STATE, "Message sent to " + recipientEntry.getText() );
 			setTitle( "Message sent to " + recipientEntry.getText() );
-
-			if ( getProperty( "closeSending" ).equals( "true" ) )
-				GreenMessageFrame.this.dispose();
+			return true;
 		}
 		else
 		{
 			client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipientEntry.getText() );
 			setTitle( "Failed to send message to " + recipientEntry.getText() );
+			return false;
 		}
 	}
 

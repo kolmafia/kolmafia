@@ -77,7 +77,7 @@ public class GiftMessageFrame extends SendMessageFrame
 		return westComponents;
 	}
 
-	protected void sendMessage()
+	protected boolean sendMessage()
 	{
 		GiftMessageFrame.this.setEnabled( false );
 		(new GiftMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), messageEntry[1].getText(),
@@ -88,14 +88,13 @@ public class GiftMessageFrame extends SendMessageFrame
 		{
 			client.updateDisplay( ENABLED_STATE, "Gift sent to " + recipientEntry.getText() );
 			setTitle( "Gift sent to " + recipientEntry.getText() );
-
-			if ( getProperty( "closeSending" ).equals( "true" ) )
-				GiftMessageFrame.this.dispose();
+			return true;
 		}
 		else
 		{
 			client.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipientEntry.getText() );
 			setTitle( "Failed to send gift to " + recipientEntry.getText() );
+			return false;
 		}
 	}
 

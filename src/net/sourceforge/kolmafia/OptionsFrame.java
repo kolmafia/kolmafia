@@ -145,14 +145,13 @@ public class OptionsFrame extends KoLFrame
 		menuBar.add( adventureMenu );
 
 		addCard( adventureMenu, "Adventure List", new AdventureOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( adventureMenu, "Combat Options", new BattleOptionsPanel(), String.valueOf( cardCount++ ) );
+		addCard( adventureMenu, "Auto-Recovery", new RestoreOptionsPanel(), String.valueOf( cardCount++ ) );
 		addCard( adventureMenu, "Choice Adventures", new ChoiceOptionsPanel(), String.valueOf( cardCount++ ) );
 
 		JMenu peopleMenu = new JMenu( "People" );
 		menuBar.add( peopleMenu );
 
 		addCard( peopleMenu, "Chat Preferences", new ChatOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( peopleMenu, "Green Messages", new GreenOptionsPanel(), String.valueOf( cardCount++ ) );
 		addCard( peopleMenu, "Clan Snapshots", new SnapshotOptionsPanel(), String.valueOf( cardCount++ ) );
 
 		JMenu itemMenu = new JMenu( "Misc" );
@@ -360,7 +359,7 @@ public class OptionsFrame extends KoLFrame
 	 * finalized.  For now, however, it only customizes attacks.
 	 */
 
-	private class BattleOptionsPanel extends OptionsPanel
+	private class RestoreOptionsPanel extends OptionsPanel
 	{
 		private JComboBox hpAutoFleeSelect;
 		private JComboBox hpAutoRecoverSelect;
@@ -369,14 +368,14 @@ public class OptionsFrame extends KoLFrame
 		private MPRestoreItemList mpRestoreItemList;
 
 		/**
-		 * Constructs a new <code>BattleOptionsPanel</code> containing a
+		 * Constructs a new <code>RestoreOptionsPanel</code> containing a
 		 * way for the users to choose the way they want to fight battles
 		 * encountered during adventuring.
 		 */
 
-		public BattleOptionsPanel()
+		public RestoreOptionsPanel()
 		{
-			super( "Combat Options" );
+			super( "Auto-Recovery" );
 
 			hpAutoFleeSelect = new JComboBox();
 			hpAutoFleeSelect.addItem( "Never run from combat" );
@@ -660,45 +659,6 @@ public class OptionsFrame extends KoLFrame
 				for ( int i = colors.length; i < KoLMessenger.ROOMS.length; ++i )
 					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], Color.black ) );
 			}
-		}
-	}
-
-	/**
-	 * An internal class used for handling green messaging options.  This
-	 * includes whether or not you save outgoing messages.
-	 */
-
-	private class GreenOptionsPanel extends OptionsPanel
-	{
-		private JCheckBox saveOutgoingCheckBox;
-		private JCheckBox closeSendingCheckBox;
-
-		public GreenOptionsPanel()
-		{
-			super( "Green Messages", new Dimension( 340, 20 ), new Dimension( 20, 20 ) );
-
-			saveOutgoingCheckBox = new JCheckBox();
-			closeSendingCheckBox = new JCheckBox();
-
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Save outgoing messages", JLabel.LEFT, saveOutgoingCheckBox );
-			elements[1] = new VerifiableElement( "Close green composer after successful sending", JLabel.LEFT, closeSendingCheckBox );
-
-			setContent( elements, false );
-			actionCancelled();
-		}
-
-		protected void actionConfirmed()
-		{
-			setProperty( "saveOutgoing", String.valueOf( saveOutgoingCheckBox.isSelected() ) );
-			setProperty( "closeSending", String.valueOf( closeSendingCheckBox.isSelected() ) );
-			super.actionConfirmed();
-		}
-
-		protected void actionCancelled()
-		{
-			saveOutgoingCheckBox.setSelected( getProperty( "saveOutgoing" ).equals( "true" ) );
-			closeSendingCheckBox.setSelected( getProperty( "closeSending" ).equals( "true" ) );
 		}
 	}
 

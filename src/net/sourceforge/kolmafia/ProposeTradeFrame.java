@@ -55,6 +55,10 @@ public class ProposeTradeFrame extends SendMessageFrame
 
 		if ( this.offerID != null )
 			recipientEntry.setEnabled( false );
+
+		saveOutgoingCheckBox.setEnabled( false );
+		closeSendingCheckBox.setSelected( true );
+		closeSendingCheckBox.setEnabled( false );
 	}
 
 	protected String [] getEntryHeaders()
@@ -68,12 +72,10 @@ public class ProposeTradeFrame extends SendMessageFrame
 			recipientEntry.setEnabled( false );
 	}
 
-	protected void sendMessage()
+	protected boolean sendMessage()
 	{
 		if ( offerID != null )
 			(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
-
-		ProposeTradeFrame.this.dispose();
 
 		Object [] parameters = new Object[2];
 		parameters[0] = client;
@@ -81,6 +83,7 @@ public class ProposeTradeFrame extends SendMessageFrame
 			new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() );
 
 		(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
+		return true;
 	}
 
 	/**
