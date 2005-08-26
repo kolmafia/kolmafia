@@ -59,6 +59,8 @@ public class SorceressLair implements KoLConstants
 	private static final AdventureResult STAR_STAFF = new AdventureResult( 659, 1 );
 	private static final AdventureResult STAR_BUCKLER = new AdventureResult( 662, 1 );
 
+	private static final AdventureResult STONE_BANJO = new AdventureResult( 53, 1 );
+	private static final AdventureResult DISCO_BANJO = new AdventureResult( 54, 1 );
 	private static final AdventureResult ACOUSTIC_GUITAR = new AdventureResult( 404, 1 );
 	private static final AdventureResult HEAVY_METAL_GUITAR = new AdventureResult( 507, 1 );
 
@@ -234,7 +236,10 @@ public class SorceressLair implements KoLConstants
 		// Next, figure out which instrument is needed for the final
 		// stage of the entryway.
 
-		requirements.add( HEAVY_METAL_GUITAR.getCount( client.getInventory() ) > 0 ? HEAVY_METAL_GUITAR : ACOUSTIC_GUITAR );
+		requirements.add( HEAVY_METAL_GUITAR.getCount( client.getInventory() ) > 0 ? HEAVY_METAL_GUITAR :
+			STONE_BANJO.getCount( client.getInventory() ) > 0 ? STONE_BANJO :
+			DISCO_BANJO.getCount( client.getInventory() ) > 0 ? DISCO_BANJO : ACOUSTIC_GUITAR );
+
 		requirements.add( TAMBOURINE.getCount( client.getInventory() ) > 0 ? TAMBOURINE : BONE_RATTLE );
 		requirements.add( ROCKNROLL_LEGEND.getCount( client.getInventory() ) > 0 ? ROCKNROLL_LEGEND : ACCORDION );
 
