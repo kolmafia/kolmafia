@@ -215,7 +215,7 @@ public class AdventureFrame extends KoLFrame
 		private JPanel actionStatusPanel;
 		private JLabel actionStatusLabel;
 
-		private JComboBox locationField;
+		private JComboBox locationSelect;
 		private JTextField countField;
 		private JTextField conditionField;
 
@@ -273,12 +273,12 @@ public class AdventureFrame extends KoLFrame
 
 			LockableListModel adventureList = client == null ? AdventureDatabase.getAsLockableListModel() : client.getAdventureList();
 
-			locationField = new JComboBox( adventureList );
+			locationSelect = new JComboBox( adventureList );
 			countField = new JTextField();
 			conditionField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[4];
-			elements[0] = new VerifiableElement( "Location: ", locationField );
+			elements[0] = new VerifiableElement( "Location: ", locationSelect );
 			elements[1] = new VerifiableElement( "# of turnips: ", countField );
 			elements[2] = new VerifiableElement( "Combat Tactic: ", actionSelect );
 			elements[3] = new VerifiableElement( "Conditions: ", conditionField );
@@ -289,7 +289,7 @@ public class AdventureFrame extends KoLFrame
 
 			for ( int i = 0; i < adventureList.size(); ++i )
 				if ( adventureList.get(i).toString().equals( lastAdventure ) )
-					locationField.setSelectedItem( adventureList.get(i) );
+					locationSelect.setSelectedItem( adventureList.get(i) );
 		}
 
 		protected void setContent( VerifiableElement [] elements )
@@ -360,8 +360,9 @@ public class AdventureFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			locationField.setEnabled( isEnabled );
+			locationSelect.setEnabled( isEnabled );
 			countField.setEnabled( isEnabled );
+			actionSelect.setEnabled( isEnabled );
 			conditionField.setEnabled( isEnabled );
 		}
 
@@ -376,7 +377,7 @@ public class AdventureFrame extends KoLFrame
 			if ( client != null )
 				setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
 
-			Runnable request = (Runnable) locationField.getSelectedItem();
+			Runnable request = (Runnable) locationSelect.getSelectedItem();
 			setProperty( "lastAdventure", request.toString() );
 
 			if ( conditionField.getText().trim().length() > 0 )
@@ -416,7 +417,7 @@ public class AdventureFrame extends KoLFrame
 		}
 
 		public void requestFocus()
-		{	locationField.requestFocus();
+		{	locationSelect.requestFocus();
 		}
 
 		/**
