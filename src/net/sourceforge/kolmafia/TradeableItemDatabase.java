@@ -155,7 +155,13 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "chewing gums on strings" ) )
 			return SewerRequest.GUM.getItemID();
 
-                // If it's xs-in-a-box, return x-in-a-box
+		// Mr. Accessory Jrs. are also pluralized in an
+		// unconventional manner (slightly, anyway)
+
+		if ( canonicalName.equals( "Mr. Accessory Jrs." ) )
+			return 896;
+
+		// If it's xs-in-the-box, return x-in-the-box
 		itemID = itemByName.get( canonicalName.replaceFirst( "s-in-the-box", "-in-the-box" ) );
 
 		if ( itemID != null )
