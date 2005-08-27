@@ -15,17 +15,13 @@ bone rattle	1	0	skeleton bone	broken skull
 cog and sprocket assembly	1	0	cog	sprocket assembly
 dope wheels	1	0	tires	sweet rims
 full meat tank	1	0	empty meat tank	meat stack
-heart of rock and roll	1	0	big rock	hot buttered roll
 heavy metal sonata	1	0	chrome ore	drab sonata
 heavy metal thunderrr guitarrr	1	0	acoustic guitarrr	chrome ore
-heavy hot sauce	1	0	big rock	jaba&ntilde;ero pepper
 hosed tank	1	0	fishtank	fish hose
 makeshift SCUBA gear	1	0	hosed tank	fishbowl
-Rock and Roll Legend	1	0	heart of rock and roll	stolen accordion
 really really sticky spider web	1	0	really sticky spider web	really sticky spider web
 really sticky spider web	1	0	spider web	spider web
 skeleton key	1	0	skeleton bone	loose teeth
-stone banjo	1	0	big rock	banjo strings
 T-bone key	1	0	rusty L-shaped piece of metal	crusty L-shaped piece of metal
 tambourine	1	0	Gnollish pie tin	tambourine bells
 
@@ -61,10 +57,15 @@ enchanted eyepatch	1	0	eyepatch	lihc eye
 gnatwing earring	1	0	gnatwing	piercing post
 gnoll-tooth necklace	1	0	gnoll teeth	necklace chain
 Gnollish autoplunger	1	0	Gnollish plunger	meat engine
+heart of rock and roll	1	0	big rock	hot buttered roll
+heavy hot sauce	1	0	big rock	jaba&ntilde;ero pepper
 icy-hot katana	1	0	icy katana hilt	hot katana blade
 meat cowboy hat	1	0	basic meat helmet	whitesnake skin
 phat turquoise bracelet	1	0	hemp bracelet	phat turquoise bead
 pimpin' meat hat	1	0	basic meat helmet	bling-bling
+Rock and Roll Legend	1	0	heart of rock and roll	stolen accordion
+seal-toothed rock	1	0	big rock	seal tooth
+stone banjo	1	0	big rock	banjo strings
 spooky staff	1	0	spooky shrunken head	spooky stick
 Talisman o' Nam	1	0	snakehead charrrm	snakehead charrrm
 Turtleslinger	1	0	slingshot	turtle factory
@@ -124,7 +125,6 @@ wang	1	0	WA	NG
 Pasta of Peril	1	0	spaghetti with rock-balls	pasta spoon
 pie crust	2	0	Gnollish pie tin	wad of dough
 intragalactic rowboat	1	0	S.O.C.K.	quantum egg
-seal-toothed rock	1	0	big rock	seal tooth
 spaghetti with rock-balls	1	0	big rock	ravioli hat
 turtle factory	1	0	big rock	tortoise's blessing
 
