@@ -82,7 +82,7 @@ public class KoLDatabase implements KoLConstants
 	 */
 
 	public static final String getCanonicalName( String name )
-	{	return name == null ? null : name.replaceAll( "ñ", "&ntilde;" ).replaceAll( " \\[tm\\]", "&trade;" ).toLowerCase();
+	{	return name == null ? null : name.replaceAll( "ñ", "&ntilde;" ).replaceAll( "é", "&eacute;" ).replaceAll( " \\[tm\\]", "&trade;" ).toLowerCase();
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class KoLDatabase implements KoLConstants
 	 */
 
 	public static final String getDisplayName( String name )
-	{	return name == null ? null : name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" );
+	{	return name == null ? null : name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&eacute;", "é" ).replaceAll( "&trade;", " [TM]" );
 	}
 
 	protected static final void setProperty( String name, String value )
