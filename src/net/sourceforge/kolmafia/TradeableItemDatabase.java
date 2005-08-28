@@ -158,7 +158,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Mr. Accessory Jrs. are also pluralized in an
 		// unconventional manner (slightly, anyway)
 
-		if ( canonicalName.equals( "Mr. Accessory Jrs." ) )
+		if ( canonicalName.equals( "mr. accessory jrs." ) )
 			return 896;
 
 		// Fedoras are pluralized 1337-style, so make sure
