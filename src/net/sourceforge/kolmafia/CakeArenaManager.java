@@ -78,45 +78,59 @@ public class CakeArenaManager implements KoLConstants
 
 	public void fightOpponent( String opponent, int eventID, int battleCount )
 	{
-		Matcher victoryMatcher;
-		Pattern victoryPattern = Pattern.compile( "is the winner, and gains (\\d+) experience" );
-
 		for ( int i = 0; i < opponentList.size(); ++i )
 		{
 			if ( opponent.equals( opponentList.get(i).toString() ) )
 			{
-				CakeArenaRequest request = new CakeArenaRequest( client, ((ArenaOpponent)opponentList.get(i)).getID(), eventID );
-				client.resetContinueState();
-
-				for ( int j = 1; client.permitsContinue() && j <= battleCount; ++j )
-				{
-					client.updateDisplay( DISABLED_STATE, "Arena battle, round " + j + " in progress..." );
-					client.makeRequest( request, 1 );
-
-					victoryMatcher = victoryPattern.matcher( request.responseText );
-
-					StringBuffer text = new StringBuffer();
-
-					if ( victoryMatcher.find() )
-						text.append( "<font color=green><b>Round " + j + " of " + battleCount + "</b></font>: " );
-					else
-						text.append( "<font color=red><b>Round " + j + " of " + battleCount + "</b></font>: " );
-
-					text.append( request.responseText.substring( 0, request.responseText.indexOf( "</table>" ) ).replaceAll(
-						"><" , "" ).replaceAll( "<.*?>", " " ) );
-
-					text.append( "<br><br>" );
-
-					results.append( text.toString() );
-				}
-
+				(new ArenaThread( new CakeArenaRequest( client, ((ArenaOpponent)opponentList.get(i)).getID(), eventID ), battleCount )).start();
 				return;
 			}
-
-			results.append( "<hr><br>" );
 		}
 
 		client.updateDisplay( ENABLED_STATE, "Arena battles complete." );
+	}
+
+	private class ArenaThread extends DaemonThread
+	{
+		private CakeArenaRequest request;
+		private int battleCount;
+
+		public ArenaThread( CakeArenaRequest request, int battleCount )
+		{
+			this.request = request;
+			this.battleCount = battleCount;
+		}
+
+		public void run()
+		{
+			results.clearBuffer();
+
+			Matcher victoryMatcher;
+			Pattern victoryPattern = Pattern.compile( "is the winner, and gains (\\d+) experience" );
+			client.resetContinueState();
+
+			for ( int j = 1; client.permitsContinue() && j <= battleCount; ++j )
+			{
+				client.updateDisplay( DISABLED_STATE, "Arena battle, round " + j + " in progress..." );
+				client.makeRequest( request, 1 );
+
+				victoryMatcher = victoryPattern.matcher( request.responseText );
+
+				StringBuffer text = new StringBuffer();
+
+				if ( victoryMatcher.find() )
+					text.append( "<font color=green><b>Round " + j + " of " + battleCount + "</b></font>: " );
+				else
+					text.append( "<font color=red><b>Round " + j + " of " + battleCount + "</b></font>: " );
+
+				text.append( request.responseText.substring( 0, request.responseText.indexOf( "</table>" ) ).replaceAll(
+					"><" , "" ).replaceAll( "<.*?>", " " ) );
+
+				text.append( "<br><br>" );
+
+				results.append( text.toString() );
+			}
+		}
 	}
 
 	/**
