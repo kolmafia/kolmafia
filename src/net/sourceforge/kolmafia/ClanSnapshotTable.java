@@ -180,7 +180,9 @@ public class ClanSnapshotTable implements KoLConstants
 			// which is exactly what's wanted.
 		}
 
+		client.updateDisplay( DISABLED_STATE, "Rendering list (KoLmafia may temporary lock)..." );
 		filterList.addAll( interimList );
+		client.updateDisplay( ENABLED_STATE, "Search results rendered." );
 	}
 
 	private ProfileRequest getProfile( String name )
