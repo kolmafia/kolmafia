@@ -348,8 +348,7 @@ public class AdventureFrame extends KoLFrame
 					compactPane.setBackground( ERROR_COLOR );
 					break;
 				case ENABLED_STATE:
-					if ( !isExecutingScript )
-						compactPane.setBackground( ENABLED_COLOR );
+					compactPane.setBackground( ENABLED_COLOR );
 					break;
 				case DISABLED_STATE:
 					compactPane.setBackground( DISABLED_COLOR );

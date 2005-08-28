@@ -115,7 +115,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	};
 
 	private static LockableListModel scripts = new LockableListModel();
-	protected static boolean isExecutingScript = false;
 
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
 	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher" };
@@ -262,7 +261,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			client.getLogStream().println( message );
 
 		if ( contentPanel != null )
-			contentPanel.setStatusMessage( isExecutingScript && displayState != ERROR_STATE ? DISABLED_STATE : displayState, message );
+			contentPanel.setStatusMessage( displayState, message );
 
 		switch ( displayState )
 		{
@@ -278,8 +277,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				break;
 
 			default:
-				if ( !isExecutingScript )
-					setEnabled( true );
+				setEnabled( true );
 				break;
 
 		}
@@ -594,7 +592,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				if ( executePath == null )
 					return;
 
-				isExecutingScript = true;
 				(new KoLmafiaCLI( client, new FileInputStream( executePath ) )).listenForCommands();
 			}
 			catch ( Exception e )
@@ -602,12 +599,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// Here, notify the display that the script
 				// file specified could not be loaded
 
-				isExecutingScript = false;
 				updateDisplay( ERROR_STATE, "Script <" + scriptPath + "> could not be loaded." );
 				return;
 			}
 
-			isExecutingScript = false;
 			updateDisplay( ERROR_STATE, "" );
 
 			if ( client.permitsContinue() )

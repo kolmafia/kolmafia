@@ -123,7 +123,7 @@ public class LoginFrame extends KoLFrame
 			client.getLogStream().println( message );
 
 		if ( contentPanel != null )
-			contentPanel.setStatusMessage( isExecutingScript && displayState != ERROR_STATE ? DISABLED_STATE : displayState, message );
+			contentPanel.setStatusMessage( displayState, message );
 
 		switch ( displayState )
 		{
