@@ -106,6 +106,7 @@ public abstract class KoLmafia implements KoLConstants
 	private TreeMap seenPlayerIDs;
 	private TreeMap seenPlayerNames;
 
+	private int pullsRemaining;
 	protected LockableListModel adventureList;
 	protected SortedListModel tally, conditions;
 	protected SortedListModel inventory, closet, usableItems, sellableItems, hunterItems, storage;
@@ -215,6 +216,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( this.characterData == null )
 		{
+			this.pullsRemaining = -1;
 			this.characterData = new KoLCharacter( loginname );
 			FamiliarData.setOwner( this.characterData );
 
@@ -776,6 +778,24 @@ public abstract class KoLmafia implements KoLConstants
 
 	public SortedListModel getStorage()
 	{	return storage;
+	}
+
+	/**
+	 * Retrieves the number of pulls the player has left.
+	 * @return	The number of pulls remaining
+	 */
+
+	public int getPullsRemaining()
+	{	return pullsRemaining;
+	}
+
+	/**
+	 * Sets the number of pulls the player has left.
+	 * @param	pullsRemaining	The number of pulls remaining
+	 */
+
+	public void setPullsRemaining( int pullsRemaining )
+	{	this.pullsRemaining = pullsRemaining;
 	}
 
 	/**
