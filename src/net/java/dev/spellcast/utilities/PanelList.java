@@ -38,6 +38,8 @@ package net.java.dev.spellcast.utilities;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
 
@@ -70,7 +72,7 @@ import javax.swing.event.ListDataEvent;
 public abstract class PanelList extends javax.swing.JPanel implements javax.swing.Scrollable
 {
 	private int visibleRows;
-	int cellHeight, cellWidth;
+	private int cellHeight, cellWidth;
 
 	/**
 	 * Constructs a new <code>PanelList</code> which will respond to changes in
@@ -87,8 +89,26 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 	 */
 
 	public PanelList( int visibleRows, int cellWidth, int cellHeight, LockableListModel associatedListModel )
+	{	this( visibleRows, cellWidth, cellHeight, associatedListModel, false );
+	}
+
+	/**
+	 * Constructs a new <code>PanelList</code> which will respond to changes in
+	 * the given <code>LockableListModel</code> by adding or removing
+	 * components as needed.
+	 *
+	 * @param	visibleRows	if this component is inside a <code>JScrollPane</code>,
+	 *						this reflects the number of rows that should be visible
+	 *						in the viewport; otherwise, this value indicates the
+	 *						minimum size of the panel
+	 * @param	cellHeight	the height of each individual cell in the <code>PanelList</code>
+	 * @param	cellWidth	the width of each individual cell in the <code>PanelList</code>
+	 * @param	associatedListModel	the list model associated with this <code>PanelList</code>
+	 */
+
+	public PanelList( int visibleRows, int cellWidth, int cellHeight, LockableListModel associatedListModel, boolean useBoxLayout )
 	{
-		super();  this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+		super();  this.setLayout( useBoxLayout ? (LayoutManager) new BoxLayout( this, BoxLayout.Y_AXIS ) : (LayoutManager) new FlowLayout() );
 		this.visibleRows = visibleRows;  this.cellHeight = cellHeight;  this.cellWidth = cellWidth;
 
 		// check to see if there are any components within the associated list
