@@ -738,14 +738,13 @@ public class AdventureFrame extends KoLFrame
 			super( "Meat Management", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			fundSource = new JComboBox();
-			fundSource.addItem( "Inventory to Closet" );
-			fundSource.addItem( "Closet to Inventory" );
+			fundSource.addItem( "Inventory / Closet" );
 			fundSource.addItem( "Hagnk's Storage" );
 
 			amountField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Source: ", fundSource );
+			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
 			elements[1] = new VerifiableElement( "Amount: ", amountField );
 			setContent( elements, true, true );
 		}
@@ -768,11 +767,6 @@ public class AdventureFrame extends KoLFrame
 
 				case 1:
 					contentPanel = this;
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
-					return;
-
-				case 2:
-					contentPanel = this;
 					updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
 					return;
 			}
@@ -788,11 +782,6 @@ public class AdventureFrame extends KoLFrame
 					return;
 
 				case 1:
-					contentPanel = this;
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
-					return;
-
-				case 2:
 					contentPanel = this;
 					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
 					return;
