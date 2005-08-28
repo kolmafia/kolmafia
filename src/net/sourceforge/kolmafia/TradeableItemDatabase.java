@@ -173,6 +173,41 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
+		// If it's a plural form of "tooth", then make
+		// sure that it's handled.  Other things which
+		// also have "ee" plural forms should be clumped
+		// in as well.
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "ee", "oo" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// Also handle the plural of vortex, which is
+		// "vortices" -- this should only appear in the
+		// meat vortex, but better safe than sorry.
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "ices", "ex" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// Also add in a special handling for knives
+		// and other things ending in "ife".
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "ives", "ife" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// Also add in a special handling for staves
+		// and other things ending in "aff".
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "aves", "aff" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
 		// If it's a pluralized form of something that
 		// ends with "y", then return the appropriate
 		// item ID for the "y" version.
