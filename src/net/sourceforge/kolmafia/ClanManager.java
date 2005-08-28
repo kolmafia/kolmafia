@@ -84,6 +84,7 @@ public class ClanManager implements KoLConstants
 
 	private ClanSnapshotTable snapshot;
 
+	boolean ranksRetrieved;
 	private Map profileMap;
 	private Map stashMap;
 	private List battleList;
@@ -96,6 +97,7 @@ public class ClanManager implements KoLConstants
 		this.client = client;
 		SNAPSHOT_DIRECTORY = "clan" + File.separator;
 
+		this.ranksRetrieved = false;
 		this.snapshot = new ClanSnapshotTable( client );
 		this.profileMap = snapshot.getProfileMap();
 
@@ -111,8 +113,12 @@ public class ClanManager implements KoLConstants
 
 	public LockableListModel getRankList()
 	{
-		if ( rankList.isEmpty() )
+		if ( !ranksRetrieved )
+		{
 			(new RankListRequest( client )).run();
+			ranksRetrieved = true;
+		}
+
 		return rankList;
 	}
 
