@@ -35,9 +35,15 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JCheckBoxMenuItem;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -49,27 +55,51 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class HagnkStorageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-	private HagnkStoragePanel all;
+	private HagnkStoragePanel all, consume, equip;
+	private JCheckBoxMenuItem [] consumeFilter;
+	private JCheckBoxMenuItem [] equipFilter;
 
 	public HagnkStorageFrame( KoLmafia client )
 	{
-		super( client, "Hagnk, the Secret Dwarf" );
+		super( client, "Ancestral Storage" );
 
 		if ( client != null && client.getStorage().isEmpty() )
 			(new RequestThread( new ItemStorageRequest( client ) )).start();
 
 		tabs = new JTabbedPane();
-		LockableListModel storage = client == null ? new LockableListModel() : client.getStorage();
+		all = new HagnkStoragePanel();
+		consume = new HagnkStoragePanel();
+		equip = new HagnkStoragePanel();
 
-		all = new HagnkStoragePanel( storage );
 		addTab( "All Items", all );
-
-		tabs.add( "Consumables", new JPanel() );
-		tabs.add( "Equipment", new JPanel() );
-		tabs.add( "Miscellaneous", new JPanel() );
+		addTab( "Consumables", consume );
+		addTab( "Equipment", equip );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
+		addMenuBar();
+
+		if ( client != null )
+		{
+			switch ( client.getPullsRemaining() )
+			{
+				case -1:
+					setTitle( "Ancestral Storage: Pulls remaining unknown" );
+					break;
+
+				case 0:
+					setTitle( "Ancestral Storage: No pulls remaining" );
+					break;
+
+				case 1:
+					setTitle( "Ancestral Storage: 1 pull remaining" );
+					break;
+
+				default:
+					setTitle( "Ancestral Storage: " + client.getPullsRemaining() + " pulls remaining" );
+					break;
+			}
+		}
 	}
 
 	private void addTab( String name, HagnkStoragePanel panel )
@@ -80,8 +110,65 @@ public class HagnkStorageFrame extends KoLFrame
 		tabs.add( name, wrapperPanel );
 	}
 
+	private void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		JMenu consumeMenu = new JMenu( "Consumables" );
+		consumeFilter = new JCheckBoxMenuItem[3];
+		consumeFilter[0] = new FilterMenuItem( "Show food" );
+		consumeFilter[1] = new FilterMenuItem( "Show booze" );
+		consumeFilter[2] = new FilterMenuItem( "Show others" );
+
+		for ( int i = 0; i < consumeFilter.length; ++i )
+			consumeMenu.add( consumeFilter[i] );
+		menuBar.add( consumeMenu );
+
+		JMenu equipMenu = new JMenu( "Equipment" );
+		equipFilter = new JCheckBoxMenuItem[5];
+		equipFilter[0] = new FilterMenuItem( "Show weapons" );
+		equipFilter[1] = new FilterMenuItem( "Show hats" );
+		equipFilter[2] = new FilterMenuItem( "Show shirts" );
+		equipFilter[3] = new FilterMenuItem( "Show weapons" );
+		equipFilter[4] = new FilterMenuItem( "Show accessories" );
+
+		for ( int i = 0; i < equipFilter.length; ++i )
+			equipMenu.add( equipFilter[i] );
+		menuBar.add( equipMenu );
+	}
+
+	public void refreshFilters()
+	{
+		consume.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
+			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
+
+		equip.elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer( equipFilter[0].isSelected(),
+			equipFilter[1].isSelected(), equipFilter[2].isSelected(), equipFilter[3].isSelected(), equipFilter[4].isSelected() ) );
+	}
+
+	private class FilterMenuItem extends JCheckBoxMenuItem implements ActionListener
+	{
+		public FilterMenuItem( String name )
+		{
+			super( name );
+			setSelected( true );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	refreshFilters();
+		}
+	}
+
 	public void setEnabled( boolean isEnabled )
 	{
+		if ( all != null )
+			all.setEnabled( isEnabled );
+		if ( consume != null )
+			consume.setEnabled( isEnabled );
+		if ( equip != null )
+			equip.setEnabled( isEnabled );
 	}
 
 	/**
@@ -91,8 +178,8 @@ public class HagnkStorageFrame extends KoLFrame
 
 	private class HagnkStoragePanel extends ItemManagePanel
 	{
-		public HagnkStoragePanel( LockableListModel list )
-		{	super( "Inside Storage", "put in bag", "put in closet", list );
+		public HagnkStoragePanel()
+		{	super( "Inside Storage", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getStorage() );
 		}
 
 		protected void actionConfirmed()

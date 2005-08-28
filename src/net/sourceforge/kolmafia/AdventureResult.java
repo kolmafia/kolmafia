@@ -506,6 +506,14 @@ public class AdventureResult implements Comparable, KoLConstants
 	{	return new AutoSellCellRenderer();
 	}
 
+	public static DefaultListCellRenderer getConsumableCellRenderer( boolean food, boolean booze, boolean other )
+	{	return new ConsumableCellRenderer( food, booze, other );
+	}
+
+	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory )
+	{	return new EquipmentCellRenderer( weapon, hat, shirt, pants, accessory );
+	}
+
 	private static class AutoSellCellRenderer extends DefaultListCellRenderer
 	{
 		public AutoSellCellRenderer()
@@ -523,6 +531,117 @@ public class AdventureResult implements Comparable, KoLConstants
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
 
 			String stringForm = ar.getName() + " (" + df.format(autoSellValue) + " meat)" + ((ar.count[0] == 1) ? "" : (" (" + df.format(ar.count[0]) + ")"));
+			((JLabel) defaultComponent).setText( stringForm );
+			return defaultComponent;
+		}
+	}
+
+	private static class ConsumableCellRenderer extends DefaultListCellRenderer
+	{
+		private boolean food, booze, other;
+
+		public ConsumableCellRenderer( boolean food, boolean booze, boolean other )
+		{
+			setOpaque( true );
+			this.food = food;
+			this.booze = booze;
+			this.other = other;
+		}
+
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+		{
+			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+
+			if ( value == null || !(value instanceof AdventureResult) )
+				return defaultComponent;
+
+			AdventureResult ar = (AdventureResult) value;
+
+			switch ( TradeableItemDatabase.getConsumptionType( ar.getName() ) )
+			{
+				case ConsumeItemRequest.CONSUME_EAT:
+					if ( !food )
+						return new JLabel();
+					break;
+
+				case ConsumeItemRequest.CONSUME_DRINK:
+					if ( !booze )
+						return new JLabel();
+					break;
+
+				case ConsumeItemRequest.CONSUME_USE:
+				case ConsumeItemRequest.CONSUME_MULTIPLE:
+					if ( !other )
+						return new JLabel();
+					break;
+
+				default:
+					return new JLabel();
+			}
+
+			String stringForm = ar.getName() + " (" + df.format(ar.getCount()) + ")";
+			((JLabel) defaultComponent).setText( stringForm );
+			return defaultComponent;
+		}
+	}
+
+	private static class EquipmentCellRenderer extends DefaultListCellRenderer
+	{
+		private boolean weapon, hat, shirt, pants, accessory;
+
+		public EquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory )
+		{
+			setOpaque( true );
+			this.weapon = weapon;
+			this.hat = hat;
+			this.shirt = shirt;
+			this.pants = pants;
+			this.accessory = pants;
+		}
+
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+		{
+			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+
+			if ( value == null || !(value instanceof AdventureResult) )
+				return defaultComponent;
+
+			AdventureResult ar = (AdventureResult) value;
+
+			switch ( TradeableItemDatabase.getConsumptionType( ar.getName() ) )
+			{
+				case ConsumeItemRequest.EQUIP_WEAPON:
+					if ( !weapon )
+						return new JLabel();
+					break;
+
+				case ConsumeItemRequest.EQUIP_HAT:
+					if ( !hat )
+						return new JLabel();
+					break;
+
+				case ConsumeItemRequest.EQUIP_SHIRT:
+					if ( !shirt )
+						return new JLabel();
+					break;
+
+				case ConsumeItemRequest.EQUIP_PANTS:
+					if ( !pants )
+						return new JLabel();
+					break;
+
+				case ConsumeItemRequest.EQUIP_ACCESSORY:
+					if ( !accessory )
+						return new JLabel();
+					break;
+
+				default:
+					return new JLabel();
+			}
+
+			int power = EquipmentDatabase.getPower( ar.getName() );
+
+			String stringForm = ar.getName() + " (+" + df.format(power) + ")";
 			((JLabel) defaultComponent).setText( stringForm );
 			return defaultComponent;
 		}
