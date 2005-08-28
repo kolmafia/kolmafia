@@ -344,6 +344,9 @@ public class EquipmentRequest extends KoLRequest
 			List usableItems = client.getUsableItems();
 			usableItems.clear();
 
+			List sellableItems = client.getSellableItems();
+			sellableItems.clear();
+
 			parseCloset( inventoryMatcher.group(), inventory, true );
 		}
 
