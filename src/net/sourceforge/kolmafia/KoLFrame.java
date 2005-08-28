@@ -164,6 +164,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	public void setTitle( String title )
+	{
+		if ( title.startsWith( VERSION_NAME ) )
+			super.setTitle( VERSION_NAME );
+		else
+			super.setTitle( VERSION_NAME + ": " + title );
+	}
+
 	public String getFrameName()
 	{	return frameName;
 	}
