@@ -365,6 +365,7 @@ public class EquipmentRequest extends KoLRequest
 	private void parseCloset( String content, List resultList, boolean updateUsableList )
 	{
 		List usableItems = client.getUsableItems();
+		List sellableItems = client.getSellableItems();
 		int lastFindIndex = 0;
 
 		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( content );
@@ -381,8 +382,11 @@ public class EquipmentRequest extends KoLRequest
 				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
 				AdventureResult.addResultToList( resultList, result );
 
-				if ( TradeableItemDatabase.isUsable( result.getName() ) && updateUsableList )
+				if ( updateUsableList && TradeableItemDatabase.isUsable( result.getName() ) )
 					AdventureResult.addResultToList( usableItems, result );
+
+				if ( updateUsableList && TradeableItemDatabase.getPriceByID( result.getItemID() ) != 0 )
+					AdventureResult.addResultToList( sellableItems, result );
 			}
 			catch ( Exception e )
 			{

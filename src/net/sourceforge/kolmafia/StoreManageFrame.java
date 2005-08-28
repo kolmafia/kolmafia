@@ -246,7 +246,7 @@ public class StoreManageFrame extends KoLFrame
 
 		public AddItemPanel()
 		{
-			sellingList = new JComboBox( client == null ? new LockableListModel() : client.getInventory().getMirrorImage() );
+			sellingList = new JComboBox( client == null ? new LockableListModel() : client.getSellableItems() );
 			sellingList.setRenderer( AdventureResult.getAutoSellCellRenderer() );
 			if ( client != null && client.getInventory().size() > 0 )
 				sellingList.setSelectedIndex( 0 );

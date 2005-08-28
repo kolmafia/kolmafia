@@ -264,7 +264,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public SellItemPanel()
 			{
-				super( "Inside Inventory", "autosell", "send to store", client == null ? new SortedListModel() : client.getInventory() );
+				super( "Inside Inventory", "autosell", "send to store", client == null ? new SortedListModel() : client.getSellableItems() );
 				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			}
 

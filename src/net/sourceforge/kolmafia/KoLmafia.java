@@ -108,7 +108,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected LockableListModel adventureList;
 	protected SortedListModel tally, conditions;
-	protected SortedListModel inventory, closet, usableItems, hunterItems, storage;
+	protected SortedListModel inventory, closet, usableItems, sellableItems, hunterItems, storage;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -220,6 +220,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			this.inventory = characterData.getInventory();
 			this.usableItems = new SortedListModel();
+			this.sellableItems = new SortedListModel();
 			this.hunterItems = new SortedListModel();
 			this.storage = new SortedListModel();
 			this.closet = characterData.getCloset();
@@ -556,6 +557,8 @@ public abstract class KoLmafia implements KoLConstants
 			AdventureResult.addResultToList( tally, result );
 			if ( result.isItem() && TradeableItemDatabase.isUsable( resultName ) )
 				AdventureResult.addResultToList( usableItems, result );
+			if ( result.isItem() && TradeableItemDatabase.getPriceByID( result.getItemID() ) != 0 )
+				AdventureResult.addResultToList( sellableItems, result );
 		}
 
 		if ( characterData != null )
@@ -746,6 +749,15 @@ public abstract class KoLmafia implements KoLConstants
 
 	public SortedListModel getUsableItems()
 	{	return usableItems;
+	}
+
+	/**
+	 * Retrieves the sellable items in the character's inventory
+	 * @return	The character's sellable items
+	 */
+
+	public SortedListModel getSellableItems()
+	{	return sellableItems;
 	}
 
 	/**

@@ -522,9 +522,6 @@ public class AdventureResult implements Comparable, KoLConstants
 			AdventureResult ar = (AdventureResult) value;
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
 
-			if ( autoSellValue == 0 || (autoSellValue < 0 && list != null) )
-				return new JLabel();
-
 			String stringForm = ar.getName() + " (" + df.format(autoSellValue) + " meat)" + ((ar.count[0] == 1) ? "" : (" (" + df.format(ar.count[0]) + ")"));
 			((JLabel) defaultComponent).setText( stringForm );
 			return defaultComponent;
