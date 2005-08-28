@@ -495,12 +495,10 @@ public class ClanManageFrame extends KoLFrame
 			results = new ClanMemberPanelList();
 
 			JComponent [] header = new JComponent[4];
-			header[0] = new JLabel( "Member Name", JLabel.CENTER );
+			header[0] = new JLabel( "Member Name", JLabel.LEFT );
 			header[1] = new JLabel( "Clan Rank", JLabel.CENTER );
-			header[2] = new JLabel( "Karma", JLabel.CENTER );
-			header[3] = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
-			((JButton)header[3]).addActionListener( new SelectAllForBootListener() );
-
+			header[2] = new JLabel( "Karma", JLabel.LEFT );
+			header[3] = new SelectAllForBootButton();
 
 			JComponentUtilities.setComponentSize( header[0], 180, 20 );
 			JComponentUtilities.setComponentSize( header[1], 210, 20 );
@@ -525,6 +523,7 @@ public class ClanManageFrame extends KoLFrame
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ), BorderLayout.CENTER );
 
 			add( centerPanel, BorderLayout.CENTER );
+			setDefaultButton( confirmedButton );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -576,12 +575,16 @@ public class ClanManageFrame extends KoLFrame
 			client.updateDisplay( ENABLED_STATE, "Changes have been applied." );
 		}
 
-		private class SelectAllForBootListener implements ActionListener
+		private class SelectAllForBootButton extends JButton implements ActionListener
 		{
 			private boolean shouldSelect;
 
-			public SelectAllForBootListener()
-			{	shouldSelect = true;
+			public SelectAllForBootButton()
+			{
+				super( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
+				addActionListener( this );
+				setToolTipText( "Boot" );
+				shouldSelect = true;
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -614,7 +617,7 @@ public class ClanManageFrame extends KoLFrame
 	public class ClanMemberPanelList extends PanelList
 	{
 		public ClanMemberPanelList()
-		{	super( 12, 550, 25, client == null ? new LockableListModel() : client.getClanManager().getFilteredList() );
+		{	super( 12, 550, 30, client == null ? new LockableListModel() : client.getClanManager().getFilteredList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -638,7 +641,7 @@ public class ClanManageFrame extends KoLFrame
 		public ClanMemberPanel( ProfileRequest value )
 		{
 			this.profile = value;
-			memberName = new JLabel( value.getPlayerName(), JLabel.CENTER );
+			memberName = new JLabel( value.getPlayerName(), JLabel.LEFT );
 
 			if ( rankList.isEmpty() )
 				rankList = client.getClanManager().getRankList();
@@ -656,7 +659,7 @@ public class ClanManageFrame extends KoLFrame
 			rankSelect.setSelectedItem( initialRank );
 			bootCheckBox = new JCheckBox();
 
-			clanKarma = new JLabel( df.format( value.getKarma() ), JLabel.CENTER );
+			clanKarma = new JLabel( df.format( value.getKarma() ), JLabel.LEFT );
 
 			JButton profileButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
 			profileButton.addActionListener( new ShowProfileListener() );
@@ -677,8 +680,9 @@ public class ClanManageFrame extends KoLFrame
 			corePanel.add( bootCheckBox ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 
 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			add( Box.createVerticalStrut( 5 ) );
+			add( Box.createVerticalStrut( 3 ) );
 			add( corePanel );
+			add( Box.createVerticalStrut( 2 ) );
 		}
 
 		public synchronized void updateDisplay( PanelList list, Object value, int index )
