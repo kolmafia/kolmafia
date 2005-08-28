@@ -54,11 +54,7 @@ public class ClanMembersRequest extends KoLRequest
 		this.isLookup = true;
 	}
 
-	public ClanMembersRequest( KoLmafia client, Object [] boots )
-	{	this( client, new Object[0], new Object[0], boots );
-	}
-
-	public ClanMembersRequest( KoLmafia client, Object [] ranks, Object [] rankValues, Object [] boots )
+	public ClanMembersRequest( KoLmafia client, Object [] rankChange, Object [] newRanks, Object [] titleChange, Object [] newTitles, Object [] boots )
 	{
 		super( client, "clan_members.php" );
 		this.isLookup = false;
@@ -67,8 +63,11 @@ public class ClanMembersRequest extends KoLRequest
 		addFormField( "action", "modify" );
 		addFormField( "begin", "0" );
 
-		for ( int i = 0; i < ranks.length; ++i )
-			addFormField( "level" + client.getPlayerID( (String) ranks[i] ), (String) rankValues[i] );
+		for ( int i = 0; i < rankChange.length; ++i )
+			addFormField( "level" + client.getPlayerID( (String) rankChange[i] ), (String) newRanks[i] );
+
+		for ( int i = 0; i < titleChange.length; ++i )
+			addFormField( "title" + client.getPlayerID( (String) titleChange[i] ), (String) newTitles[i] );
 
 		for ( int i = 0; i < boots.length; ++i )
 		{

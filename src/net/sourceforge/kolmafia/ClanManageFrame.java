@@ -105,7 +105,6 @@ public class ClanManageFrame extends KoLFrame
 	private WithdrawPanel withdrawal;
 	private DonationPanel donation;
 	private WarfarePanel warfare;
-	private MemberSearchPanel search;
 
 	public ClanManageFrame( KoLmafia client )
 	{
@@ -113,15 +112,11 @@ public class ClanManageFrame extends KoLFrame
 
 		this.rankList = new LockableListModel();
 
-		if ( client != null )
-			(new RequestThread( new ClanStashRequest( client ) )).start();
-
 		this.storing = new StoragePanel();
 		this.clanBuff = new ClanBuffPanel();
 		this.donation = new DonationPanel();
 		this.withdrawal = new WithdrawPanel();
 		this.warfare = new WarfarePanel();
-		this.search = new MemberSearchPanel();
 
 		this.tabs = new JTabbedPane();
 
@@ -147,7 +142,12 @@ public class ClanManageFrame extends KoLFrame
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
 
-		tabs.addTab( "Member Search", search );
+		if ( client != null )
+		{
+			setEnabled( false );
+			(new RequestThread( new ClanStashRequest( client ) )).start();
+		}
+
 		addMenuBar();
 	}
 
@@ -159,7 +159,8 @@ public class ClanManageFrame extends KoLFrame
 		JMenu optionsMenu = addOptionsMenu( menuBar );
 
 		optionsMenu.add( new JSeparator() );
-		optionsMenu.add( new ManagerMenuItem( "Attack Enemies!", KeyEvent.VK_A, "attackClan" ) );
+		optionsMenu.add( new InvocationMenuItem( "Member Search", KeyEvent.VK_M, this, "searchClan" ) );
+		optionsMenu.add( new ManagerMenuItem( "Attack a Clan", KeyEvent.VK_A, "attackClan" ) );
 		optionsMenu.add( new ManagerMenuItem( "Clan Snapshot", KeyEvent.VK_C, "takeSnapshot" ) );
 		optionsMenu.add( new ManagerMenuItem( "Save Stash Log", KeyEvent.VK_S, "saveStashLog" ) );
 
@@ -175,6 +176,16 @@ public class ClanManageFrame extends KoLFrame
 		addHelpMenu( menuBar );
 	}
 
+	public void searchClan()
+	{
+		Object [] parameters = new Object[3];
+		parameters[0] = client;
+		parameters[1] = "Member Search";
+		parameters[2] = new MemberSearchPanel();
+
+		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
+	}
+
 	public void setEnabled( boolean isEnabled )
 	{
 		if ( clanBuff != null )
@@ -187,8 +198,6 @@ public class ClanManageFrame extends KoLFrame
 			donation.setEnabled( isEnabled );
 		if ( warfare != null )
 			warfare.setEnabled( isEnabled );
-		if ( search != null )
-			search.setEnabled( isEnabled );
 	}
 
 	/**
@@ -472,7 +481,7 @@ public class ClanManageFrame extends KoLFrame
 
 		public MemberSearchPanel()
 		{
-			super( "search", "apply", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "search clan", "apply changes", new Dimension( 80, 20 ), new Dimension( 360, 20 ) );
 
 			parameterSelect = new JComboBox();
 			for ( int i = 0; i < paramNames.length; ++i )
@@ -488,26 +497,28 @@ public class ClanManageFrame extends KoLFrame
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Parameter: ", parameterSelect );
 			elements[1] = new VerifiableElement( "Constraint: ", matchSelect );
-			elements[2] = new VerifiableElement( "", valueField );
+			elements[2] = new VerifiableElement( "Value:", valueField );
 
 			setContent( elements );
 
 			results = new ClanMemberPanelList();
 
-			JComponent [] header = new JComponent[4];
+			JComponent [] header = new JComponent[5];
 			header[0] = new JLabel( "Member Name", JLabel.LEFT );
-			header[1] = new JLabel( "Clan Rank", JLabel.CENTER );
-			header[2] = new JLabel( "Karma", JLabel.LEFT );
-			header[3] = new SelectAllForBootButton();
+			header[1] = new JLabel( "Clan Rank", JLabel.LEFT );
+			header[2] = new JLabel( "Clan Title", JLabel.LEFT );
+			header[3] = new JLabel( "Karma", JLabel.LEFT );
+			header[4] = new SelectAllForBootButton();
 
-			JComponentUtilities.setComponentSize( header[0], 180, 20 );
-			JComponentUtilities.setComponentSize( header[1], 210, 20 );
-			JComponentUtilities.setComponentSize( header[2], 90, 20 );
-			JComponentUtilities.setComponentSize( header[3], 20, 20 );
+			JComponentUtilities.setComponentSize( header[0], 120, 20 );
+			JComponentUtilities.setComponentSize( header[1], 150, 20 );
+			JComponentUtilities.setComponentSize( header[2], 150, 20 );
+			JComponentUtilities.setComponentSize( header[3], 80, 20 );
+			JComponentUtilities.setComponentSize( header[4], 20, 20 );
 
 			JPanel headerPanel = new JPanel();
 			headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.X_AXIS ) );
-			headerPanel.add( Box.createHorizontalStrut( 10 ) );
+			headerPanel.add( Box.createHorizontalStrut( 30 ) );
 
 			for ( int i = 0; i < header.length; ++i )
 			{
@@ -544,13 +555,17 @@ public class ClanManageFrame extends KoLFrame
 		{
 			client.updateDisplay( DISABLED_STATE, "Determining changes..." );
 
-			List ranks = new ArrayList();
-			List rankValues = new ArrayList();
+			List rankChange = new ArrayList();
+			List newRanks = new ArrayList();
+
+			List titleChange = new ArrayList();
+			List newTitles = new ArrayList();
+
 			List boots = new ArrayList();
 
 			Object currentComponent;
 			ClanMemberPanel currentMember;
-			Object desiredRank;
+			Object desiredRank, desiredTitle;
 
 			for ( int i = 0; i < results.getComponentCount(); ++i )
 			{
@@ -564,14 +579,21 @@ public class ClanManageFrame extends KoLFrame
 					desiredRank = currentMember.rankSelect.getSelectedItem();
 					if ( desiredRank != null && !desiredRank.equals( currentMember.initialRank ) )
 					{
-						ranks.add( currentMember.memberName.getText() );
-						rankValues.add( String.valueOf( currentMember.rankSelect.getSelectedIndex() ) );
+						rankChange.add( currentMember.memberName.getText() );
+						newRanks.add( String.valueOf( currentMember.rankSelect.getSelectedIndex() ) );
+					}
+
+					desiredTitle = currentMember.titleField.getText();
+					if ( desiredTitle != null && !desiredTitle.equals( currentMember.initialTitle ) )
+					{
+						titleChange.add( currentMember.memberName.getText() );
+						newTitles.add( (String) desiredTitle );
 					}
 				}
 			}
 
 			client.updateDisplay( DISABLED_STATE, "Applying changes..." );
-			(new ClanMembersRequest( client, ranks.toArray(), rankValues.toArray(), boots.toArray() )).run();
+			(new ClanMembersRequest( client, rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
 			client.updateDisplay( ENABLED_STATE, "Changes have been applied." );
 		}
 
@@ -617,7 +639,7 @@ public class ClanManageFrame extends KoLFrame
 	public class ClanMemberPanelList extends PanelList
 	{
 		public ClanMemberPanelList()
-		{	super( 12, 550, 30, client == null ? new LockableListModel() : client.getClanManager().getFilteredList() );
+		{	super( 12, 600, 30, client == null ? new LockableListModel() : client.getClanManager().getFilteredList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -632,15 +654,17 @@ public class ClanManageFrame extends KoLFrame
 	{
 		private JLabel memberName;
 		private JComboBox rankSelect;
+		private JTextField titleField;
 		private JLabel clanKarma;
 		private JCheckBox bootCheckBox;
 
-		private String initialRank;
+		private String initialRank, initialTitle;
 		private ProfileRequest profile;
 
 		public ClanMemberPanel( ProfileRequest value )
 		{
 			this.profile = value;
+
 			memberName = new JLabel( value.getPlayerName(), JLabel.LEFT );
 
 			if ( rankList.isEmpty() )
@@ -656,7 +680,10 @@ public class ClanManageFrame extends KoLFrame
 				rankSelect.addItem( value.getRank() );
 
 			initialRank = value.getRank();
+			initialTitle = value.getTitle();
 			rankSelect.setSelectedItem( initialRank );
+
+			titleField = new JTextField();
 			bootCheckBox = new JCheckBox();
 
 			clanKarma = new JLabel( df.format( value.getKarma() ), JLabel.LEFT );
@@ -665,9 +692,10 @@ public class ClanManageFrame extends KoLFrame
 			profileButton.addActionListener( new ShowProfileListener() );
 
 			JComponentUtilities.setComponentSize( profileButton, 20, 20 );
-			JComponentUtilities.setComponentSize( memberName, 150, 20 );
-			JComponentUtilities.setComponentSize( rankSelect, 210, 20 );
-			JComponentUtilities.setComponentSize( clanKarma, 90, 20 );
+			JComponentUtilities.setComponentSize( memberName, 120, 20 );
+			JComponentUtilities.setComponentSize( rankSelect, 150, 20 );
+			JComponentUtilities.setComponentSize( titleField, 150, 20 );
+			JComponentUtilities.setComponentSize( clanKarma, 80, 20 );
 			JComponentUtilities.setComponentSize( bootCheckBox, 20, 20 );
 
 			JPanel corePanel = new JPanel();
@@ -676,6 +704,7 @@ public class ClanManageFrame extends KoLFrame
 			corePanel.add( profileButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( memberName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( rankSelect ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( titleField ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( clanKarma ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( bootCheckBox ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 
@@ -690,6 +719,7 @@ public class ClanManageFrame extends KoLFrame
 			profile = (ProfileRequest) value;
 			memberName.setText( profile.getPlayerName() );
 			rankSelect.setSelectedItem( profile.getRank() );
+			titleField.setText( profile.getTitle() );
 			clanKarma.setText( df.format( profile.getKarma() ) );
 		}
 
