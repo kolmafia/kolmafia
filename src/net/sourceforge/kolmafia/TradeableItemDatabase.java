@@ -192,6 +192,15 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
+		// Handling of appendices (which is the plural
+		// of appendix, not appendex, so it is not caught
+		// by the previous test).
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "ices", "ix" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
 		// Also add in a special handling for knives
 		// and other things ending in "ife".
 
