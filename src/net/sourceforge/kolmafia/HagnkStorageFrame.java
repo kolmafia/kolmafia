@@ -34,12 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Dimension;
 import java.awt.CardLayout;
-import java.awt.BorderLayout;
-
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 
@@ -50,8 +46,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
  * management functionality of Kingdom of Loathing.
  */
 
-public class HagnkStorageFrame extends KoLPanelFrame
+public class HagnkStorageFrame extends KoLFrame
 {
+	private JTabbedPane tabs;
+	private HagnkStoragePanel all;
+
 	public HagnkStorageFrame( KoLmafia client )
 	{
 		super( client, "Hagnk, the Secret Dwarf" );
@@ -59,7 +58,30 @@ public class HagnkStorageFrame extends KoLPanelFrame
 		if ( client != null && client.getStorage().isEmpty() )
 			(new RequestThread( new ItemStorageRequest( client ) )).start();
 
-		setContentPanel( new ItemWithdrawPanel() );
+		tabs = new JTabbedPane();
+		LockableListModel storage = client == null ? new LockableListModel() : client.getStorage();
+
+		all = new HagnkStoragePanel( storage );
+		addTab( "All Items", all );
+
+		tabs.add( "Consumables", new JPanel() );
+		tabs.add( "Equipment", new JPanel() );
+		tabs.add( "Miscellaneous", new JPanel() );
+
+		getContentPane().setLayout( new CardLayout( 10, 10 ) );
+		getContentPane().add( tabs, "" );
+	}
+
+	private void addTab( String name, HagnkStoragePanel panel )
+	{
+		JPanel wrapperPanel = new JPanel();
+		wrapperPanel.setLayout( new CardLayout( 10, 10 ) );
+		wrapperPanel.add( panel, "" );
+		tabs.add( name, wrapperPanel );
+	}
+
+	public void setEnabled( boolean isEnabled )
+	{
 	}
 
 	/**
@@ -67,10 +89,10 @@ public class HagnkStorageFrame extends KoLPanelFrame
 	 * placing items into the stash.
 	 */
 
-	private class ItemWithdrawPanel extends ItemManagePanel
+	private class HagnkStoragePanel extends ItemManagePanel
 	{
-		public ItemWithdrawPanel()
-		{	super( "Inside Storage", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getStorage() );
+		public HagnkStoragePanel( LockableListModel list )
+		{	super( "Inside Storage", "put in bag", "put in closet", list );
 		}
 
 		protected void actionConfirmed()
