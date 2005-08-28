@@ -66,6 +66,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ClanManager implements KoLConstants
 {
+	private static final String STASH_ADD = "add";
+	private static final String STASH_TAKE = "take";
+
 	private static final SimpleDateFormat STASH_FORMAT = new SimpleDateFormat( "MM/dd/yy, hh:mma" );
 
 	private String SNAPSHOT_DIRECTORY;
@@ -534,7 +537,7 @@ public class ClanManager implements KoLConstants
 	public void saveStashLog()
 	{
 		retrieveClanData();
-		File file = new File( "clan/stashlog_" + clanID + ".txt" );
+		File file = new File( "clan/stashlog_" + clanID + ".htm" );
 
 		try
 		{
@@ -548,23 +551,29 @@ public class ClanManager implements KoLConstants
 				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( file ) ) );
 				String line;
 
+				boolean startReading = false;
+
 				while ( (line = istream.readLine()) != null )
 				{
-					if ( line.startsWith( " " ) )
+					if ( startReading )
 					{
-						entryList = (List) stashMap.get( currentMember );
-						if ( entryList == null )
+						if ( line.startsWith( " " ) )
 						{
-							entryList = new ArrayList();
-							stashMap.put( currentMember, entryList );
-						}
+							entryList = (List) stashMap.get( currentMember );
+							if ( entryList == null )
+							{
+								entryList = new ArrayList();
+								stashMap.put( currentMember, entryList );
+							}
 
-						entry = new StashLogEntry( line );
-						if ( !entryList.contains( entry ) )
-							entryList.add( entry );
+							entry = new StashLogEntry( line );
+							if ( !entryList.contains( entry ) )
+								entryList.add( entry );
+						}
+						else if ( line.length() > 0 && !line.startsWith( "<" ) )
+							currentMember = line.substring( 0, line.length() - 1 );
 					}
-					else if ( line.length() > 0 )
-						currentMember = line.substring( 0, line.length() - 1 );
+					else if ( line.equals( "<!-- Begin Stash Log: Do Not Modify Beyond This Point -->" ) );
 				}
 
 				istream.close();
@@ -582,6 +591,21 @@ public class ClanManager implements KoLConstants
 			PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
 			Iterator entries;
 
+			ostream.println( "<html><head>" );
+			ostream.println( "<title>Clan Stash Log @ " + (new Date()).toString() + "</title>" );
+			ostream.println( "<style><!--" );
+			ostream.println();
+			ostream.println( "\tbody { font-family: Verdana; font-size: 9pt }" );
+			ostream.println();
+			ostream.println( "\t." + STASH_ADD + " { color: green }" );
+			ostream.println( "\t." + STASH_TAKE + " { color: olive }" );
+			ostream.println( "--></style></head>" );
+
+			ostream.println();
+			ostream.println( "<body>" );
+			ostream.println();
+			ostream.println( "<!-- Begin Stash Log: Do Not Modify Beyond This Point -->" );
+
 			while ( memberIterator.hasNext() )
 			{
 				currentMember = (String) memberIterator.next();
@@ -591,12 +615,16 @@ public class ClanManager implements KoLConstants
 				Collections.sort( entryList );
 
 				entries = entryList.iterator();
+
+				ostream.println( "<ul>" );
 				while ( entries.hasNext() )
 					ostream.println( entries.next().toString() );
+				ostream.println( "</ul>" );
 
 				ostream.println();
 			}
 
+			ostream.println( "</body></html>" );
 			ostream.close();
 		}
 		catch ( Exception e )
@@ -608,32 +636,36 @@ public class ClanManager implements KoLConstants
 
 	private class StashLogEntry implements Comparable
 	{
+		private String entryType;
 		private Date timestamp;
 		private String entry, stringform;
 
-		public StashLogEntry( Date timestamp, String entry )
+		public StashLogEntry( String entryType, Date timestamp, String entry )
 		{
+			this.entryType = entryType;
 			this.timestamp = timestamp;
 			this.entry = entry;
 
-			this.stringform = " - " + STASH_FORMAT.format( timestamp ) + ": " + entry;
+			this.stringform = "\t<li class=\"" + entryType + "\">" + STASH_FORMAT.format( timestamp ) + ": " + entry + "</li>";
 		}
 
 		public StashLogEntry( String stringform )
 		{
-			Matcher entryMatcher = Pattern.compile( " - (.*?): (.*?)" ).matcher( stringform );
+			Matcher entryMatcher = Pattern.compile( "\t<li class=\"(.*?)\">(.*?): (.*?)</li>" ).matcher( stringform );
 			entryMatcher.find();
+
+			this.entryType = entryMatcher.group(1);
 
 			try
 			{
-				this.timestamp = STASH_FORMAT.parse( entryMatcher.group(1) );
+				this.timestamp = STASH_FORMAT.parse( entryMatcher.group(2) );
 			}
 			catch ( Exception e )
 			{
 				this.timestamp = new Date();
 			}
 
-			this.entry = entryMatcher.group(2);
+			this.entry = entryMatcher.group(3);
 			this.stringform = stringform;
 		}
 
@@ -666,16 +698,21 @@ public class ClanManager implements KoLConstants
 			// First, process all additions to the clan stash.
 			// These are designated with the word "added to".
 
-			handleItems( "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M): ([^<]*?) added ([\\d,]+) (.*?) to the Goodies Hoard", "added to stash" );
+			handleItems( true );
 
 			// Next, process all the removals from the clan stash.
 			// These are designated with the word "took from".
 
-			handleItems( "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M): ([^<]*?) took ([\\d,]+) (.*?) from the Goodies Hoard", "taken from stash" );
+			handleItems( false );
 		}
 
-		private void handleItems( String regex, String suffixDescription )
+		private void handleItems( boolean parseAdditions )
 		{
+			String handleType = parseAdditions ? STASH_ADD : STASH_TAKE;
+			String regex = parseAdditions ? "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M): ([^<]*?) added ([\\d,]+) (.*?) to the Goodies Hoard" :
+				"(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M): ([^<]*?) took ([\\d,]+) (.*?) from the Goodies Hoard";
+			String suffixDescription = parseAdditions ? "added to stash" : "taken from stash";
+
 			int lastItemID;
 			int lastEntryCount;
 
@@ -705,7 +742,7 @@ public class ClanManager implements KoLConstants
 					lastEntryBuffer.append( " " );
 					lastEntryBuffer.append( suffixDescription );
 
-					lastEntry = new StashLogEntry( STASH_FORMAT.parse( entryMatcher.group(1) ), lastEntryBuffer.toString() );
+					lastEntry = new StashLogEntry( handleType, STASH_FORMAT.parse( entryMatcher.group(1) ), lastEntryBuffer.toString() );
 					if ( !lastEntryList.contains( lastEntry ) )
 						lastEntryList.add( lastEntry );
 				}
