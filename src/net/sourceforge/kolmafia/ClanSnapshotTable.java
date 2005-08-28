@@ -155,6 +155,7 @@ public class ClanSnapshotTable implements KoLConstants
 			request.run();
 
 		filterList.clear();
+		List interimList = new ArrayList();
 
 		String currentName;
 		Iterator nameIterator = profileMap.keySet().iterator();
@@ -167,8 +168,8 @@ public class ClanSnapshotTable implements KoLConstants
 			while ( nameIterator.hasNext() )
 			{
 				currentName = (String) nameIterator.next();
-				if ( compare( filterType, currentName, filter ) != matchType )
-					filterList.add( getProfile( currentName ) );
+				if ( compare( filterType, currentName, filter ) == matchType )
+					interimList.add( getProfile( currentName ) );
 			}
 		}
 		catch ( Exception e )
@@ -178,6 +179,8 @@ public class ClanSnapshotTable implements KoLConstants
 			// numeric string.  In this case, nothing is added,
 			// which is exactly what's wanted.
 		}
+
+		filterList.addAll( interimList );
 	}
 
 	private ProfileRequest getProfile( String name )
