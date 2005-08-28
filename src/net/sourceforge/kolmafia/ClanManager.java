@@ -68,7 +68,12 @@ public class ClanManager implements KoLConstants
 {
 	private static final String STASH_ADD = "add";
 	private static final String STASH_TAKE = "take";
+	private static final String WAR_BATTLE = "warfare";
+	private static final String CLAN_ACCEPT = "accept";
+	private static final String CLAN_LEAVE = "leave";
+	private static final String CLAN_BOOT = "boot";
 
+	private static final String TIME_REGEX = "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M)";
 	private static final SimpleDateFormat STASH_FORMAT = new SimpleDateFormat( "MM/dd/yy, hh:mma" );
 
 	private String SNAPSHOT_DIRECTORY;
@@ -81,6 +86,7 @@ public class ClanManager implements KoLConstants
 
 	private Map profileMap;
 	private Map stashMap;
+	private List battleList;
 
 	private LockableListModel rankList;
 	private LockableListModel stashContents;
@@ -94,6 +100,7 @@ public class ClanManager implements KoLConstants
 		this.profileMap = snapshot.getProfileMap();
 
 		this.stashMap = new TreeMap();
+		this.battleList = new ArrayList();
 		this.rankList = new LockableListModel();
 		this.stashContents = new LockableListModel();
 	}
@@ -599,6 +606,11 @@ public class ClanManager implements KoLConstants
 			ostream.println();
 			ostream.println( "\t." + STASH_ADD + " { color: green }" );
 			ostream.println( "\t." + STASH_TAKE + " { color: olive }" );
+			ostream.println( "\t." + WAR_BATTLE + " { color: orange }" );
+			ostream.println( "\t." + CLAN_ACCEPT + " { color: blue }" );
+			ostream.println( "\t." + CLAN_LEAVE + " { color: red }" );
+			ostream.println( "\t." + CLAN_BOOT + " { color: red }" );
+			ostream.println();
 			ostream.println( "--></style></head>" );
 
 			ostream.println();
@@ -704,47 +716,134 @@ public class ClanManager implements KoLConstants
 			// These are designated with the word "took from".
 
 			handleItems( false );
+
+			// Next, process all the clan warfare log entries.
+			// Though grouping by player isn't very productive,
+			// KoLmafia is meant to show a historic history, and
+			// showing it by player may prove enlightening.
+
+			handleBattles();
+
+			// Now, handle all of the administrative-related
+			// things in the clan.
+
+			handleAdmin( CLAN_ACCEPT, "accepted", " into the clan", "accepted by " );
+			handleAdmin( CLAN_LEAVE, "left the clan", "", "left clan" );
+			handleAdmin( CLAN_BOOT, "booted", "", "booted by " );
 		}
 
 		private void handleItems( boolean parseAdditions )
 		{
 			String handleType = parseAdditions ? STASH_ADD : STASH_TAKE;
-			String regex = parseAdditions ? "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M): ([^<]*?) added ([\\d,]+) (.*?) to the Goodies Hoard" :
-				"(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M): ([^<]*?) took ([\\d,]+) (.*?) from the Goodies Hoard";
+
+			String regex = parseAdditions ? TIME_REGEX + ": ([^<]*?) added ([\\d,]+) (.*?) to the Goodies Hoard" :
+				TIME_REGEX + ": ([^<]*?) took ([\\d,]+) (.*?) from the Goodies Hoard";
+
 			String suffixDescription = parseAdditions ? "added to stash" : "taken from stash";
 
 			int lastItemID;
-			int lastEntryCount;
+			int entryCount;
 
-			List lastEntryList;
+			List entryList;
 			String currentMember;
 
-			StashLogEntry lastEntry;
-			StringBuffer lastEntryBuffer = new StringBuffer();
+			StashLogEntry entry;
+			StringBuffer entryBuffer = new StringBuffer();
 			Matcher entryMatcher = Pattern.compile( regex ).matcher( responseText );
 
 			while ( entryMatcher.find() )
 			{
 				try
 				{
-					lastEntryBuffer.setLength(0);
+					entryBuffer.setLength(0);
 					currentMember = entryMatcher.group(2);
 
 					if ( !stashMap.containsKey( currentMember ) )
 						stashMap.put( currentMember, new ArrayList() );
 
-					lastEntryList = (List) stashMap.get( currentMember );
-					lastEntryCount = df.parse( entryMatcher.group(3) ).intValue();
+					entryList = (List) stashMap.get( currentMember );
+					entryCount = df.parse( entryMatcher.group(3) ).intValue();
 
 					lastItemID = TradeableItemDatabase.getItemID( entryMatcher.group(4) );
-					lastEntryBuffer.append( (new AdventureResult( lastItemID, lastEntryCount )).toString() );
+					entryBuffer.append( (new AdventureResult( lastItemID, entryCount )).toString() );
 
-					lastEntryBuffer.append( " " );
-					lastEntryBuffer.append( suffixDescription );
+					entryBuffer.append( " " );
+					entryBuffer.append( suffixDescription );
 
-					lastEntry = new StashLogEntry( handleType, STASH_FORMAT.parse( entryMatcher.group(1) ), lastEntryBuffer.toString() );
-					if ( !lastEntryList.contains( lastEntry ) )
-						lastEntryList.add( lastEntry );
+					entry = new StashLogEntry( handleType, STASH_FORMAT.parse( entryMatcher.group(1) ), entryBuffer.toString() );
+					if ( !entryList.contains( entry ) )
+						entryList.add( entry );
+				}
+				catch ( Exception e )
+				{
+					// Should not happen, but catching the exception
+					// anyway, just in case it does.
+
+					System.out.println( e );
+					e.printStackTrace();
+				}
+			}
+		}
+
+		private void handleBattles()
+		{
+			List entryList;
+			String currentMember;
+
+			StashLogEntry entry;
+			Matcher entryMatcher = Pattern.compile( TIME_REGEX + ": ([^<]*?) launched an attack against (.*?)\\.<br>" ).matcher( responseText );
+
+			while ( entryMatcher.find() )
+			{
+				try
+				{
+					currentMember = entryMatcher.group(2);
+					if ( !stashMap.containsKey( currentMember ) )
+						stashMap.put( currentMember, new ArrayList() );
+
+					entryList = (List) stashMap.get( currentMember );
+					entry = new StashLogEntry( WAR_BATTLE, STASH_FORMAT.parse( entryMatcher.group(1) ),
+						"<i>" + entryMatcher.group(3) + "</i> attacked" );
+
+					if ( !entryList.contains( entry ) )
+						entryList.add( entry );
+				}
+				catch ( Exception e )
+				{
+					// Should not happen, but catching the exception
+					// anyway, just in case it does.
+
+					System.out.println( e );
+					e.printStackTrace();
+				}
+			}
+		}
+
+		private void handleAdmin( String entryType, String searchString, String suffixString, String descriptionString )
+		{
+			String regex = TIME_REGEX + ": ([^<]*?) " + searchString + " (.*?)" + suffixString + "\\.<br>";
+
+			List entryList;
+			String currentMember;
+
+			StashLogEntry entry;
+			String entryString;
+			Matcher entryMatcher = Pattern.compile( regex ).matcher( responseText );
+
+			while ( entryMatcher.find() )
+			{
+				try
+				{
+					currentMember = entryMatcher.group( descriptionString.endsWith( " " ) ? 3 : 2 );
+					if ( !stashMap.containsKey( currentMember ) )
+						stashMap.put( currentMember, new ArrayList() );
+
+					entryList = (List) stashMap.get( currentMember );
+					entryString = descriptionString.endsWith( " " ) ? descriptionString + entryMatcher.group(2) : descriptionString;
+					entry = new StashLogEntry( entryType, STASH_FORMAT.parse( entryMatcher.group(1) ), entryString );
+
+					if ( !entryList.contains( entry ) )
+						entryList.add( entry );
 				}
 				catch ( Exception e )
 				{
