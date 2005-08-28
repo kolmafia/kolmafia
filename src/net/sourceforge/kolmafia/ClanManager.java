@@ -57,8 +57,8 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.text.SimpleDateFormat;
 import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 
@@ -66,6 +66,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ClanManager implements KoLConstants
 {
+	private static final SimpleDateFormat STASH_FORMAT = new SimpleDateFormat( "MM/dd/yy, hh:mma" );
+
 	private String SNAPSHOT_DIRECTORY;
 
 	private KoLmafia client;
@@ -531,12 +533,15 @@ public class ClanManager implements KoLConstants
 
 	public void saveStashLog()
 	{
+		retrieveClanData();
 		File file = new File( "clan/stashlog_" + clanID + ".txt" );
 
 		try
 		{
 			String currentMember = "";
+
 			List entryList;
+			StashLogEntry entry;
 
 			if ( file.exists() )
 			{
@@ -554,10 +559,11 @@ public class ClanManager implements KoLConstants
 							stashMap.put( currentMember, entryList );
 						}
 
-						if ( !entryList.contains( line ) )
-							entryList.add( line );
+						entry = new StashLogEntry( line );
+						if ( !entryList.contains( entry ) )
+							entryList.add( entry );
 					}
-					else
+					else if ( line.length() > 0 )
 						currentMember = line.substring( 0, line.length() - 1 );
 				}
 
@@ -574,16 +580,19 @@ public class ClanManager implements KoLConstants
 
 			Iterator memberIterator = stashMap.keySet().iterator();
 			PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
-			Iterator withdrawals;
+			Iterator entries;
 
 			while ( memberIterator.hasNext() )
 			{
 				currentMember = (String) memberIterator.next();
 				ostream.println( currentMember + ":" );
 
-				withdrawals = ((List) stashMap.get( currentMember )).iterator();
-				while ( withdrawals.hasNext() )
-					ostream.println( withdrawals.next().toString() );
+				entryList = (List) stashMap.get( currentMember );
+				Collections.sort( entryList );
+
+				entries = entryList.iterator();
+				while ( entries.hasNext() )
+					ostream.println( entries.next().toString() );
 
 				ostream.println();
 			}
@@ -597,6 +606,53 @@ public class ClanManager implements KoLConstants
 		}
 	}
 
+	private class StashLogEntry implements Comparable
+	{
+		private Date timestamp;
+		private String entry, stringform;
+
+		public StashLogEntry( Date timestamp, String entry )
+		{
+			this.timestamp = timestamp;
+			this.entry = entry;
+
+			this.stringform = " - " + STASH_FORMAT.format( timestamp ) + ": " + entry;
+		}
+
+		public StashLogEntry( String stringform )
+		{
+			Matcher entryMatcher = Pattern.compile( " - (.*?): (.*?)" ).matcher( stringform );
+			entryMatcher.find();
+
+			try
+			{
+				this.timestamp = STASH_FORMAT.parse( entryMatcher.group(1) );
+			}
+			catch ( Exception e )
+			{
+				this.timestamp = new Date();
+			}
+
+			this.entry = entryMatcher.group(2);
+			this.stringform = stringform;
+		}
+
+		public int compareTo( Object o )
+		{
+			return o == null || !(o instanceof StashLogEntry) ? -1 : timestamp.before( ((StashLogEntry)o).timestamp ) ? 1 :
+				timestamp.after( ((StashLogEntry)o).timestamp ) ? -1 : 0;
+		}
+
+		public boolean equals( Object o )
+		{
+			return o == null || !(o instanceof StashLogEntry) ? false : stringform.equals( o.toString() );
+		}
+
+		public String toString()
+		{	return stringform;
+		}
+	}
+
 	private class StashLogRequest extends KoLRequest
 	{
 		public StashLogRequest( KoLmafia client )
@@ -607,49 +663,60 @@ public class ClanManager implements KoLConstants
 		{
 			super.run();
 
-			String lastEntry;
+			// First, process all additions to the clan stash.
+			// These are designated with the word "added to".
+
+			handleItems( "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M): ([^<]*?) added ([\\d,]+) (.*?) to the Goodies Hoard", "added to stash" );
+
+			// Next, process all the removals from the clan stash.
+			// These are designated with the word "took from".
+
+			handleItems( "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M): ([^<]*?) took ([\\d,]+) (.*?) from the Goodies Hoard", "taken from stash" );
+		}
+
+		private void handleItems( String regex, String suffixDescription )
+		{
+			int lastItemID;
+			int lastEntryCount;
+
 			List lastEntryList;
 			String currentMember;
-			int lastEntryIndex = 0;
 
-			Matcher entryMatcher = Pattern.compile(
-				"<option value=\"(\\d+)\">(.*?): (.*?) (gave|took) an item: (.*?)</option>" ).matcher( responseText );
+			StashLogEntry lastEntry;
+			StringBuffer lastEntryBuffer = new StringBuffer();
+			Matcher entryMatcher = Pattern.compile( regex ).matcher( responseText );
 
-			while ( entryMatcher.find( lastEntryIndex ) )
+			while ( entryMatcher.find() )
 			{
-				lastEntryIndex = entryMatcher.end();
-				currentMember = entryMatcher.group(3);
-
-				lastEntry = (entryMatcher.group(4).equals( "gave" ) ? " [ D_" : " [W_") +
-					entryMatcher.group(1) + "] " + entryMatcher.group(2) + ": " + entryMatcher.group(5);
-
-				lastEntryList = (List) stashMap.get( currentMember );
-
-				if ( lastEntryList == null )
+				try
 				{
-					lastEntryList = new ArrayList();
-					stashMap.put( currentMember, lastEntryList );
+					lastEntryBuffer.setLength(0);
+					currentMember = entryMatcher.group(2);
+
+					if ( !stashMap.containsKey( currentMember ) )
+						stashMap.put( currentMember, new ArrayList() );
+
+					lastEntryList = (List) stashMap.get( currentMember );
+					lastEntryCount = df.parse( entryMatcher.group(3) ).intValue();
+
+					lastItemID = TradeableItemDatabase.getItemID( entryMatcher.group(4) );
+					lastEntryBuffer.append( (new AdventureResult( lastItemID, lastEntryCount )).toString() );
+
+					lastEntryBuffer.append( " " );
+					lastEntryBuffer.append( suffixDescription );
+
+					lastEntry = new StashLogEntry( STASH_FORMAT.parse( entryMatcher.group(1) ), lastEntryBuffer.toString() );
+					if ( !lastEntryList.contains( lastEntry ) )
+						lastEntryList.add( lastEntry );
 				}
+				catch ( Exception e )
+				{
+					// Should not happen, but catching the exception
+					// anyway, just in case it does.
 
-				if ( !lastEntryList.contains( lastEntry ) )
-					lastEntryList.add( lastEntry );
-			}
-
-			entryMatcher = Pattern.compile(
-				"<option value=\"(\\d+)\">(.*?): (.*?) took an item: (.*?)</option>" ).matcher( responseText );
-
-			while ( entryMatcher.find( lastEntryIndex ) )
-			{
-				lastEntryIndex = entryMatcher.end();
-
-				lastEntry = " [ W_" + entryMatcher.group(1) + "] " + entryMatcher.group(2) + ": " + entryMatcher.group(4);
-				lastEntryList = (List) stashMap.get( entryMatcher.group(3) );
-
-				if ( lastEntryList == null )
-					lastEntryList = new ArrayList();
-
-				if ( !lastEntryList.contains( lastEntry ) )
-					lastEntryList.add( lastEntry );
+					System.out.println( e );
+					e.printStackTrace();
+				}
 			}
 		}
 	}
