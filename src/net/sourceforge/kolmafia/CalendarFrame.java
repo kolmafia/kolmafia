@@ -426,15 +426,15 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// Next display the upcoming stat days.
 
 		displayHTML.append( "<b>Muscle Day</b>:&nbsp;" );
-		appendDayCount( displayHTML, Math.min( 24 - phaseStep, 25 - phaseStep ) % 16 );
+		appendDayCount( displayHTML, Math.min( (24 - phaseStep) % 16, (25 - phaseStep) % 16 ) );
 		displayHTML.append( "<br>" );
 
 		displayHTML.append( "<b>Mysticality Day</b>:&nbsp;" );
-		appendDayCount( displayHTML, Math.min( 20 - phaseStep, 28 - phaseStep ) % 16 );
+		appendDayCount( displayHTML, Math.min( (20 - phaseStep) % 16, (28 - phaseStep) % 16 ) );
 		displayHTML.append( "<br>" );
 
 		displayHTML.append( "<b>Moxie Day</b>:&nbsp;" );
-		appendDayCount( displayHTML, Math.min( 16 - phaseStep, 31 - phaseStep ) % 16 );
+		appendDayCount( displayHTML, Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 ) );
 		displayHTML.append( "<br><br>" );
 
 		// Next display the upcoming holidays.
