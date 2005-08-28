@@ -1007,35 +1007,11 @@ public abstract class KoLmafia implements KoLConstants
 						}
 						else
 						{
-							// Attempt to find the item name by brute force
-							// by checking every single space location.
+							// The name of the item follows the number
+							// that appears after the first index.
 
-							String itemName = acquisition;
-							int lastSpaceIndex = 0;
-
-							while ( lastSpaceIndex != -1 )
-							{
-								if ( TradeableItemDatabase.contains( itemName ) )
-								{
-									// If you've found the appropriate item, then make
-									// sure you process the result associated with it.
-									// Then reset the last space index to notify the
-									// outer loop that you've already finished.
-
-									processResult( new AdventureResult( itemName, df.parse( acquisition.split( " " )[0] ).intValue() ) );
-									lastSpaceIndex = -1;
-								}
-								else
-								{
-									// Otherwise, make sure that you prepare the
-									// loop for the next iteration through spaces.
-
-									lastSpaceIndex = acquisition.indexOf( " ", lastSpaceIndex + 1 );
-
-									if ( lastSpaceIndex != -1 )
-										itemName = acquisition.substring( lastSpaceIndex ).trim();
-								}
-							}
+							String itemName = acquisition.substring( acquisition.indexOf( " " ) ).trim();
+							processResult( new AdventureResult( itemName, df.parse( acquisition.split( " " )[0] ).intValue() ) );
 						}
 					}
 					catch ( Exception e )

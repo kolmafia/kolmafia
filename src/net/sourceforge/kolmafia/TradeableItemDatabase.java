@@ -131,7 +131,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static final int getItemID( String itemName )
 	{
-		if ( itemName == null )
+		if ( itemName == null || itemName.length() == 0 )
 			return -1;
 
 		if ( itemName.equals( "ice-cold beer (Schlitz)" ) )
@@ -161,8 +161,14 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "Mr. Accessory Jrs." ) )
 			return 896;
 
+		// Fedoras are pluralized 1337-style, so make sure
+		// they are recognized as well.
+
+		if ( canonicalName.equals( "f3d0r45" ) )
+			return 538;
+
 		// If it's xs-in-the-box, return x-in-the-box
-		itemID = itemByName.get( canonicalName.replaceFirst( "s-in-the-box", "-in-the-box" ) );
+		itemID = itemByName.get( canonicalName.replaceFirst( "s-in", "-in" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -170,6 +176,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		// If it's a pluralized form of something that
 		// ends with "y", then return the appropriate
 		// item ID for the "y" version.
+
+		if ( canonicalName.endsWith( "ies" ) )
+			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
 
 		itemID = itemByName.get( canonicalName.replaceFirst( "ies ", "y " ) );
 
@@ -180,7 +192,22 @@ public class TradeableItemDatabase extends KoLDatabase
 		// ends with "o", then return the appropriate
 		// item ID for the "o" version.
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "oes ", "o " ) );
+		if ( canonicalName.endsWith( "es" ) )
+			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "es ", " " ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// If it's a pluralized form of something that
+		// ends with "an", then return the appropriate
+		// item ID for the "en" version.
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "en ", "an " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -193,6 +220,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
+		if ( canonicalName.endsWith( "s" ) )
+			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
 		// If it's a cactus, then go ahead and return
 		// the appropriate cactus-type ID.
 
@@ -201,26 +234,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		// Check for plurals occurring at the end of
-		// the item name.  This includes all of the
-		// versions indicated above.
+		// Attempt to find the item name by brute force
+		// by checking every single space location.  Do
+		// this recursively for best results.
 
-		if ( canonicalName.endsWith( "es" ) )
-			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
-
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
-
-		if ( canonicalName.endsWith( "s" ) )
-			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
-
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
-
-		// All tests failing, there is no item that
-		// exists with the given name.
-
-		return -1;
+		int lastSpaceIndex = itemName.indexOf( " " );
+		return lastSpaceIndex != -1 ? getItemID( itemName.substring( lastSpaceIndex ).trim() ) : -1;
 	}
 
 	/**
