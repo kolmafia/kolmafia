@@ -198,7 +198,7 @@ public class MuseumFrame extends KoLFrame
 	public class MuseumShelfList extends PanelList
 	{
 		public MuseumShelfList()
-		{	super( 2, 480, 200, client == null ? new LockableListModel() : client.getMuseumManager().getShelves() );
+		{	super( 2, 480, 200, client == null ? new LockableListModel() : client.getMuseumManager().getShelves(), true );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
