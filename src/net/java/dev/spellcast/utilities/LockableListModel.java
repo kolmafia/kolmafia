@@ -208,6 +208,13 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public boolean addAll( Collection c )
 	{
+		if ( isEmpty() )
+		{
+			elements.addAll( c );
+			fireIntervalAdded( this, 0, elements.size() - 1 );
+			return true;
+		}
+
 		try
 		{
 			Iterator myIterator = c.iterator();

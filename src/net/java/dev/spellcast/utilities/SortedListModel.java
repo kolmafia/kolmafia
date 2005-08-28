@@ -34,6 +34,10 @@
 
 package net.java.dev.spellcast.utilities;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * An extension of the {@link net.java.dev.spellcast.utilities.LockableListModel} which maintains
  * elements in ascending order, where elements can only be added and replaced if they do not
@@ -131,6 +135,19 @@ public class SortedListModel extends LockableListModel
 		catch ( ClassCastException e2 )
 		{	return false;
 		}
+	}
+
+	public boolean addAll( Collection c )
+	{
+		if ( isEmpty() )
+		{
+			ArrayList interimList = new ArrayList();
+			interimList.addAll( c );
+			Collections.sort( interimList );
+			return super.addAll( interimList );
+		}
+
+		return super.addAll( c );
 	}
 
     /**
