@@ -1234,7 +1234,7 @@
 1234	plexiglass pants	10	0
 1235	plexiglass pocket watch	8	0
 1236	hockey stick of furious angry rage	12	-1
-1237
+1237	tapped black lotus	0	50000
 1238	flaming glowsticks	6	70
 1239	iced-out bling	6	70
 1240	limburger biker boots	6	70
@@ -1259,7 +1259,7 @@
 1259	yellow traffic cone	9	100
 1260	wax lips	6	-1
 1261	Hatorade	3	250
-1262
+1262	off-hand balloon	0	50
 1263	pygmy bugbear shaman	5	-1
 1264	tiny nose-bone fetish	6	75
 1265	box of sunshine	3	0
@@ -1272,3 +1272,5 @@
 1272	marble wand	0	0
 1273	magic lamp	8	0
 1274	Medicinal Herb's medicinal herbs	3	50
+1275
+1276	Otorian Battle Scar	0	-1

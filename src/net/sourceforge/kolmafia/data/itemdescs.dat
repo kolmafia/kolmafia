@@ -1,8 +1,8 @@
 # Kingdom of Loathing Item Database
 # Compiled by Max Demian
 #
-# Latest Item: 1120
-# Date: 08/01/2005
+# Latest Item: 1276
+# Date: 08/25/2005
 #
 # Please credit if you use in your own project
 
@@ -1181,8 +1181,8 @@
 1173	512858222	solid linoleum box
 1174	589369829	solid chrome box
 1175	755107532	cryptic puzzle box
-1176			refrigerated biohazard container
-1177			magnetic field
+1176	980209654	refrigerated biohazard container
+1177	206018702	magnetic field
 1178	964067424	potted cactus
 1179	146801132	daisy
 1180	523298616	potted fern
@@ -1193,7 +1193,7 @@
 1185	425699731	long-stemmed rose
 1186	584987579	gilded lily
 1187	290796411	deadly nightshade
-1188			black lotus
+1188	707293592	black lotus
 1189	873337299	stuffed can of asparagus
 1190	780687415	stuffed dodecapede
 1191	396845296	stuffed ghuol whelp
@@ -1204,7 +1204,7 @@
 1196	453172157	stuffed yeti
 1197	903023997	stuffed Mob Penguin
 1198	646526666	stuffed sabre-toothed lime
-1199			giant stuffed bugbear
+1199	990619054	giant stuffed bugbear
 1200	356171523	mugcake
 1201	988687424	urinal cake
 1202	401651664	Happy Birthday, Claude! cake
@@ -1215,7 +1215,7 @@
 1207	657000980	congratulatory cake
 1208	806228405	angel-food cake
 1209	307634937	devil's-food cake
-1210			birthday party jellybean cheesecake
+1210	290388850	birthday party jellybean cheesecake
 1211	384212321	white balloon
 1212	472009472	green balloon
 1213	886079507	heart-shaped balloon
@@ -1226,7 +1226,7 @@
 1218	515469755	rat head balloon
 1219	957622815	mini-zeppelin
 1220	776019712	Mr. Balloon
-1221			red balloon
+1221	814985131	red balloon
 1222	712704501	Mr. Eh?
 1223	
 1224	413998190	stainless steel shillelagh
@@ -1242,7 +1242,7 @@
 1234	294790810	plexiglass pants
 1235	197356494	plexiglass pendant
 1236	131541243	hockey stick of furious angry rage
-1237	
+1237	303293572	tapped black lotus
 1238	523923185	flaming glowsticks
 1239	441655763	iced-out bling
 1240	285690721	limburger biker boots
@@ -1267,16 +1267,18 @@
 1259	231159288	yellow traffic cone
 1260	876876676	wax lips
 1261	409738324	Hatorade
-1262	
+1262	45856525	off-hand balloon
 1263	728686242	pygmy bugbear shaman
 1264	397212048	tiny nose-bone fetish
-1265			box of sunshine
-1266
-1267			dead mimic
-1268			pine wand
-1269			ebony wand
-1270			hexagonal wand
-1271			aluminum wand
-1272			marble wand
-1273			magic lamp
+1265	151059179	box of sunshine
+1266	
+1267	668445632	dead mimic
+1268	183375623	pine wand
+1269	997985875	ebony wand
+1270	123395176	hexagonal wand
+1271	449357199	aluminum wand
+1272	783516934	marble wand
+1273	239575926	magic lamp
 1274	581570215	Medicinal Herb's medicinal herbs
+1275	
+1276	550617348	Otorian Battle Scar
