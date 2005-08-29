@@ -253,7 +253,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Get current moon phases
 
 		(new MoonPhaseRequest( this )).run();
-		(new CakeArenaRequest( this )).run();
 
 		if ( !permitContinue )
 		{
@@ -358,6 +357,8 @@ public abstract class KoLmafia implements KoLConstants
 		adventureList.clear();
 		adventureList.addAll( AdventureDatabase.getAsLockableListModel() );
 		this.mpRestoreItemList = new MPRestoreItemList( this );
+
+		(new CakeArenaRequest( this )).run();
 	}
 
 	/**
