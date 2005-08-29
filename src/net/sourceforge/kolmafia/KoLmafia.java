@@ -1215,6 +1215,9 @@ public abstract class KoLmafia implements KoLConstants
 								--iterationsRemaining;
 						}
 					}
+
+					if ( request instanceof KoLRequest )
+						processResult( new AdventureResult( AdventureResult.ADV, 0 - ((KoLRequest)request).getAdventuresUsed() ) );
 				}
 
 				if ( permitContinue && iterations > 0 && iterationsRemaining <= 0 && !(request instanceof UseSkillRequest || request instanceof AutoSellRequest) )
