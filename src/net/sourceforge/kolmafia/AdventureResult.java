@@ -404,7 +404,8 @@ public class AdventureResult implements Comparable, KoLConstants
 			return false;
 
 		AdventureResult ar = (AdventureResult) o;
-		return count.length == ar.count.length && name.equalsIgnoreCase( ar.name ) && (!ar.isItem() || (itemID == ar.itemID));
+		return count.length == ar.count.length && (!ar.isItem() || (itemID == ar.itemID)) &&
+			KoLDatabase.getCanonicalName( name ).equalsIgnoreCase( KoLDatabase.getCanonicalName( ar.name ) );
 	}
 
 	/**
