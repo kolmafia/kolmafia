@@ -79,6 +79,7 @@ public class SorceressLair implements KoLConstants
 	private static final AdventureResult BORIS = new AdventureResult( 282, 1 );
 	private static final AdventureResult JARLSBERG = new AdventureResult( 283, 1 );
 	private static final AdventureResult SNEAKY_PETE = new AdventureResult( 284, 1 );
+	private static final AdventureResult BALLOON = new AdventureResult( 436, 1 );
 
 	// Items for the hedge maze
 
@@ -435,6 +436,16 @@ public class SorceressLair implements KoLConstants
 			request = new KoLRequest( client, "lair2.php" );
 			request.addFormField( "prepreaction", "sorcriddle3" );
 			request.addFormField( "answer", "fsh" );
+			request.run();
+		}
+
+		// If he brought a balloon monkey, get him an easter egg
+
+		if ( BALLOON.getCount( client.getInventory() ) > 0 )
+		{
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( BALLOON.getItemID() ) );
 			request.run();
 		}
 
