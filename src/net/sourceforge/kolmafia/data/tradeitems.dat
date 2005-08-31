@@ -564,7 +564,7 @@
 564	Mad Train wine	2	29
 565	dirty hobo gloves	12	31
 566	bum cheek	9	25
-567	hermit script	0	0
+567	hermit script	3	0
 568	Double Bacon Beelzeburger	1	31
 569	Lord of the Flies-sized fries	1	32
 570	Brimstone Chicken Sandwich	1	31
@@ -1045,37 +1045,37 @@
 1045	cheap plastic bottle opener	12	50
 1046	orange traffic cone	9	100
 1047	N. O. Beer	0	-1
-1048	red striped oyster egg	0	50
-1049	red polka-dot oyster egg	0	50
-1050	red paisley oyster egg	0	50
+1048	red striped oyster egg	3	50
+1049	red polka-dot oyster egg	3	50
+1050	red paisley oyster egg	3	50
 1051	red plastic oyster egg	0	50
-1052	blue striped oyster egg	0	50
-1053	blue polka-dot oyster egg	0	50
-1054	blue paisley oyster egg	0	50
+1052	blue striped oyster egg	3	50
+1053	blue polka-dot oyster egg	3	50
+1054	blue paisley oyster egg	3	50
 1055	blue plastic oyster egg	0	50
-1056	puce striped oyster egg	0	50
-1057	puce polka-dot oyster egg	0	50
-1058	puce paisley oyster egg	0	50
+1056	puce striped oyster egg	3	50
+1057	puce polka-dot oyster egg	3	50
+1058	puce paisley oyster egg	3	50
 1059	puce plastic oyster egg	0	50
-1060	mauve striped oyster egg	0	50
-1061	mauve polka-dot oyster egg	0	50
-1062	mauve paisley oyster egg	0	50
+1060	mauve striped oyster egg	3	50
+1061	mauve polka-dot oyster egg	3	50
+1062	mauve paisley oyster egg	3	50
 1063	mauve plastic oyster egg	0	50
-1064	lavender striped oyster egg	0	50
-1065	lavender polka-dot oyster egg	0	50
-1066	lavender paisley oyster egg	0	50
+1064	lavender striped oyster egg	3	50
+1065	lavender polka-dot oyster egg	3	50
+1066	lavender paisley oyster egg	3	50
 1067	lavender plastic oyster egg	0	50
-1068	black striped oyster egg	0	50
-1069	black polka-dot oyster egg	0	50
-1070	black paisley oyster egg	0	50
+1068	black striped oyster egg	3	50
+1069	black polka-dot oyster egg	3	50
+1070	black paisley oyster egg	3	50
 1071	black plastic oyster egg	0	50
-1072	off-white striped oyster egg	0	50
-1073	off-white polka-dot oyster egg	0	50
-1074	off-white paisley oyster egg	0	50
+1072	off-white striped oyster egg	3	50
+1073	off-white polka-dot oyster egg	3	50
+1074	off-white paisley oyster egg	3	50
 1075	off-white plastic oyster egg	0	50
-1076	yellow striped oyster egg	0	50
-1077	yellow polka-dot oyster egg	0	50
-1078	yellow paisley oyster egg	0	50
+1076	yellow striped oyster egg	3	50
+1077	yellow polka-dot oyster egg	3	50
+1078	yellow paisley oyster egg	3	50
 1079	yellow plastic oyster egg	0	50
 1080	oyster basket	8	150
 1081	emo roe	5	-1
