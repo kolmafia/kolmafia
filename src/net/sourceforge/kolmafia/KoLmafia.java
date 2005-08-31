@@ -1044,8 +1044,14 @@ public abstract class KoLmafia implements KoLConstants
 							// The name of the item follows the number
 							// that appears after the first index.
 
+							String countString = acquisition.split( " " )[0];
 							String itemName = acquisition.substring( acquisition.indexOf( " " ) ).trim();
-							processResult( new AdventureResult( itemName, df.parse( acquisition.split( " " )[0] ).intValue() ) );
+
+							boolean isNumeric = true;
+							for ( int i = 0; isNumeric && i < countString.length(); ++i )
+								isNumeric &= Character.isDigit( countString.charAt(i) );
+
+							processResult( new AdventureResult( itemName, isNumeric ? df.parse( countString ).intValue() : 1 ) );
 						}
 					}
 					catch ( Exception e )
