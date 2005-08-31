@@ -231,30 +231,48 @@ public class AdventureFrame extends KoLFrame
 			actionNames = new LockableListModel();
 
 			actions.add( "attack" );  actionNames.add( "Normal: Attack with Weapon" );
-			actions.add( "moxman" );  actionNames.add( "Skill: Moxious Maneuver" );
 
-			// Add in dictionary
-			actions.add( "item0536" );  actionNames.add( "Item: Use a Dictionary" );
-
-			// Add in all of the player's skills.
-
-			if ( client != null && client.getCharacterData() != null )
+			if ( client != null )
 			{
-				KoLCharacter playerData = client.getCharacterData();
-				Iterator skills = playerData.getAvailableSkills().iterator();
+				// Add in moxious maneuver if the player
+				// is of the appropriate class.
 
-				int currentSkillID;
-				UseSkillRequest currentSkill;
-
-				while ( skills.hasNext() )
+				if ( client.getCharacterData().getClassType().startsWith( "Ac" ) || client.getCharacterData().getClassType().startsWith( "Di" ) )
 				{
-					currentSkill = (UseSkillRequest) skills.next();
-					currentSkillID = ClassSkillsDatabase.getSkillID( currentSkill.getSkillName() );
+					actions.add( "moxman" );
+					actionNames.add( "Skill: Moxious Maneuver" );
+				}
 
-					if ( ClassSkillsDatabase.isCombat( currentSkillID ) )
+				// Add in dictionary if the player has a
+				// dictionary in their inventory.
+
+				if ( client.getInventory().contains( new AdventureResult( 536, 1 ) ) )
+				{
+					actions.add( "item0536" );
+					actionNames.add( "Item: Use a Dictionary" );
+				}
+
+				// Add in all of the player's combat skills;
+				// parse the skill list to find out.
+
+				if ( client != null && client.getCharacterData() != null )
+				{
+					KoLCharacter playerData = client.getCharacterData();
+					Iterator skills = playerData.getAvailableSkills().iterator();
+
+					int currentSkillID;
+					UseSkillRequest currentSkill;
+
+					while ( skills.hasNext() )
 					{
-						actions.add( String.valueOf( currentSkillID ) );
-						actionNames.add( "Skill: " + currentSkill.getSkillName() );
+						currentSkill = (UseSkillRequest) skills.next();
+						currentSkillID = ClassSkillsDatabase.getSkillID( currentSkill.getSkillName() );
+
+						if ( ClassSkillsDatabase.isCombat( currentSkillID ) )
+						{
+							actions.add( String.valueOf( currentSkillID ) );
+							actionNames.add( "Skill: " + currentSkill.getSkillName() );
+						}
 					}
 				}
 			}
