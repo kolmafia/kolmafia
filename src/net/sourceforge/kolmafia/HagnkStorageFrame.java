@@ -78,6 +78,7 @@ public class HagnkStorageFrame extends KoLFrame
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
 		addMenuBar();
+		refreshFilters();
 
 		if ( client != null )
 		{
@@ -130,7 +131,7 @@ public class HagnkStorageFrame extends KoLFrame
 		equipFilter[0] = new FilterMenuItem( "Show weapons" );
 		equipFilter[1] = new FilterMenuItem( "Show hats" );
 		equipFilter[2] = new FilterMenuItem( "Show shirts" );
-		equipFilter[3] = new FilterMenuItem( "Show weapons" );
+		equipFilter[3] = new FilterMenuItem( "Show pants" );
 		equipFilter[4] = new FilterMenuItem( "Show accessories" );
 
 		for ( int i = 0; i < equipFilter.length; ++i )

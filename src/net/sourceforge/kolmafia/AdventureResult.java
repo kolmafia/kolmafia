@@ -597,7 +597,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			this.hat = hat;
 			this.shirt = shirt;
 			this.pants = pants;
-			this.accessory = pants;
+			this.accessory = accessory;
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
