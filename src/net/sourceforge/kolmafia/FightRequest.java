@@ -79,6 +79,8 @@ public class FightRequest extends KoLRequest
 			// If this is the first round, you
 			// actually wind up submitting no
 			// extra data.
+
+			this.action = "attack";
 		}
 		else if ( fleeTolerance != 0 && client.getCharacterData().getCurrentHP() <= fleeTolerance )
 		{
@@ -124,7 +126,7 @@ public class FightRequest extends KoLRequest
 	public void run()
 	{
 		if ( !client.permitsContinue() )
-			updateDisplay( DISABLED_STATE, "Completing battle, round " + roundCount + "..." );
+			updateDisplay( DISABLED_STATE, "Completing battle, round " + (roundCount+1) + "..." );
 
 		super.run();
 
