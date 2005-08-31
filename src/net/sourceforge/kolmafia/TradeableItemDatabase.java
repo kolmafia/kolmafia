@@ -316,11 +316,11 @@ public class TradeableItemDatabase extends KoLDatabase
 	public static final List getMatchingNames( String substring )
 	{
 		List substringList = new ArrayList();
-		String searchString = substring.toLowerCase().replaceAll( "\"", "" );
+		String searchString = getCanonicalName( substring.replaceAll( "\"", "" ) );
 
 		if ( substring.indexOf( "\"" ) != -1 )
 		{
-			if ( TradeableItemDatabase.contains( searchString ) )
+			if ( itemByName.containsKey( getCanonicalName( searchString ) ) )
 				substringList.add( getDisplayName( searchString ) );
 		}
 		else
