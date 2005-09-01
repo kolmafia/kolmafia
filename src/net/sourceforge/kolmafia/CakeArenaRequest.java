@@ -78,7 +78,6 @@ public class CakeArenaRequest extends KoLRequest
 		{
 			processResults( responseText );
 			client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
-			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			return;
 		}
 
@@ -106,6 +105,6 @@ public class CakeArenaRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return isErrorState ? 0 : 1;
+	{	return isErrorState || !isCompetition ? 0 : 1;
 	}
 }
