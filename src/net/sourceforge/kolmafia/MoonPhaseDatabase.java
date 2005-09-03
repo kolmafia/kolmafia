@@ -178,6 +178,25 @@ public class MoonPhaseDatabase implements KoLConstants
 	}
 
 	/**
+	 * Returns the effect of the Jekyllin, based on the current
+	 * moon phase information.
+	 */
+
+	public static final String getJekyllinEffect()
+	{	return getJekyllinEffect( RONALD_PHASE, GRIMACE_PHASE );
+	}
+
+	/**
+	 * Returns the effect of the Jekyllin for the given moon phases
+	 */
+
+	public static final String getJekyllinEffect( int ronaldPhase, int grimacePhase )
+	{
+		int moonlight = getMoonlight( ronaldPhase, grimacePhase );
+		return "+" + (9 - moonlight) + "stats, " + (15 + moonlight * 5) + "% items";
+	}
+
+	/**
 	 * Utility method which determines the moonlight available,
 	 * given the moon phases as stated.
 	 */

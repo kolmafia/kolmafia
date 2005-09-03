@@ -387,6 +387,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBloodEffect( ronaldPhase, grimacePhase ) );
 		displayHTML.append( "</td></tr><td align=right><b>Baio</b>:&nbsp;</td><td>" );
 		appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBaioEffect( ronaldPhase, grimacePhase ) );
+		displayHTML.append( "</td></tr><td align=right><b>Jekyllin</b>:&nbsp;</td><td>" );
+		displayHTML.append( MoonPhaseDatabase.getJekyllinEffect( ronaldPhase, grimacePhase ) );
 		displayHTML.append( "</td></tr></table></center>" );
 
 		// That completes the table display!  More data
