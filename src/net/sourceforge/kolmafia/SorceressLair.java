@@ -374,13 +374,13 @@ public class SorceressLair implements KoLConstants
 		{
 			if ( !EquipmentDatabase.canEquip( starWeapon.getName() ) )
 			{
-				client.updateDisplay( ERROR_STATE, "Stats too low to equip your star weapon." );
+				client.updateDisplay( ERROR_STATE, "Stats too low to equip a star weapon." );
 				return;
 			}
 
 			if ( !EquipmentDatabase.canEquip( STAR_BUCKLER.getName() ) )
 			{
-				client.updateDisplay( ERROR_STATE, "Stats too low to equip your star buckler." );
+				client.updateDisplay( ERROR_STATE, "Stats too low to equip a star buckler." );
 				return;
 			}
 		}
