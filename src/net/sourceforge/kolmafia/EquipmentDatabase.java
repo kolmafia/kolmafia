@@ -71,8 +71,9 @@ public class EquipmentDatabase extends KoLDatabase
 		}
 	}
 
-	public static boolean canEquip( KoLCharacter data, String itemName )
+	public static boolean canEquip( String itemName )
 	{
+		KoLCharacter data = client.getCharacterData();
 		int itemID = TradeableItemDatabase.getItemID( itemName );
 
 		if ( itemID == -1 || requirement[ itemID ] == null )

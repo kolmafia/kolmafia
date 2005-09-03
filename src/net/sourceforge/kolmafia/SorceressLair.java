@@ -292,16 +292,20 @@ public class SorceressLair implements KoLConstants
 		// Decide on which star weapon should be available for
 		// this whole process.
 
-		AdventureResult starWeapon =
-			STAR_SWORD.getCount( client.getInventory() ) > 0 ? STAR_SWORD :
-			( STAR_CROSSBOW.getCount( client.getInventory() ) > 0 ? STAR_CROSSBOW :
-			  STAR_STAFF );
+		AdventureResult starWeapon = STAR_SWORD;
 
-		boolean needsWeapon = !data.getEquipment( KoLCharacter.WEAPON ).startsWith( "star" );
-		boolean needsBuckler = !data.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
+		if ( STAR_CROSSBOW.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() ) )
+			starWeapon = STAR_CROSSBOW;
+
+		if ( STAR_STAFF.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_STAFF.getName() ) )
+			starWeapon = STAR_STAFF;
+
+		boolean needsWeapon = starWeapon.getCount( client.getInventory() ) == 0 && !data.getEquipment( KoLCharacter.WEAPON ).startsWith( "star" );
+		boolean needsBuckler = STAR_BUCKLER.getCount( client.getInventory() ) == 0 && !data.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
 			!data.getEquipment( KoLCharacter.ACCESSORY2 ).startsWith( "star" ) && !data.getEquipment( KoLCharacter.ACCESSORY3 ).startsWith( "star" );
 
 		// Star equipment unless you already have Sinister Strummings
+
 		if ( STRUMMING.getCount( client.getInventory() ) < 1 )
 		{
 			if ( needsWeapon )
@@ -309,6 +313,7 @@ public class SorceressLair implements KoLConstants
 
 			if ( needsBuckler )
 				requirements.add( STAR_BUCKLER );
+
 			requirements.add( RICHARD );
 		}
 
@@ -358,6 +363,24 @@ public class SorceressLair implements KoLConstants
 			if ( data.getCurrentHP() * 4 < data.getMaximumHP() )
 			{
 				client.updateDisplay( ERROR_STATE, "You need more health to continue." );
+				return;
+			}
+		}
+
+		// If you can't equip the appropriate weapon and buckler,
+		// then tell the player they lack the required stats.
+
+		if ( STRUMMING.getCount( client.getInventory() ) < 1 )
+		{
+			if ( !EquipmentDatabase.canEquip( starWeapon.getName() ) )
+			{
+				client.updateDisplay( ERROR_STATE, "Stats too low to equip your star weapon." );
+				return;
+			}
+
+			if ( !EquipmentDatabase.canEquip( STAR_BUCKLER.getName() ) )
+			{
+				client.updateDisplay( ERROR_STATE, "Stats too low to equip your star buckler." );
 				return;
 			}
 		}

@@ -920,7 +920,7 @@ public class KoLCharacter
 				// Otherwise, see if we have the necessary stat
 				// to equip the item.
 
-				else if ( EquipmentDatabase.canEquip( this, currentItem ) )
+				else if ( EquipmentDatabase.canEquip( currentItem ) )
 				{
 					if ( filterID != ConsumeItemRequest.EQUIP_ACCESSORY )
 						items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
