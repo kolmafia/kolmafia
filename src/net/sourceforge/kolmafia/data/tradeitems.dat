@@ -71,8 +71,8 @@
 71	wooden stakes	12	30
 72	barskin hat	9	30
 73	barskin tent	3	9
-74	Spooky Temple map	3	7
-75	spooky sapling	0	6
+74	Spooky Temple map	3	0
+75	spooky sapling	0	0
 76	Spooky-Gro fertilizer	0	6
 77	spooky stick	12	35
 78	pretty bouquet	0	2
@@ -131,7 +131,7 @@
 131	frilly skirt	10	40
 132	Meat maid body	0	155
 133	Certificate of Participation	0	0
-134	bitchin' meatcar	0	200
+134	bitchin' meatcar	0	0
 135	sweet rims	0	100
 136	tires	0	14
 137	dope wheels	0	110
@@ -272,7 +272,7 @@
 272	concentrated magicalness pill	4	125
 273	giant moxie weed	4	125
 274	Familiar-Gro&trade; Terrarium	0	250
-275	mosquito larva	5	7
+275	mosquito larva	5	0
 276	leprechaun hatchling	5	6
 277	extra-strength strongness elixir	4	150
 278	jug-o-magicalness	4	150
@@ -513,7 +513,7 @@
 513	Boris's key lime pie	1	123
 514	Jarlsberg's key lime pie	1	123
 515	Sneaky Pete's key lime pie	1	123
-516	Hey Deze map	3	49
+516	Hey Deze map	3	0
 517	bejeweled accordion strap	8	1000
 518	magical mystery juice	4	75
 519	moxie magnet	8	1500
@@ -531,8 +531,8 @@
 531	special sauce glove	8	2500
 532	ladle of mystery	8	1500
 533	Gnollish toolbox	4	23
-534	abridged dictionary	0	38
-535	bridge	0	16
+534	abridged dictionary	0	0
+535	bridge	0	0
 536	dictionary	0	24
 537	pr0n legs	0	52
 538	f3d0r4	9	130
@@ -549,8 +549,8 @@
 549	30669 scroll	0	55
 550	33398 scroll	0	57
 551	64067 scroll	0	101
-552	64735 scroll	3	165
-553	31337 scroll	3	132
+552	64735 scroll	3	0
+553	31337 scroll	3	0
 554	pr0n cocktail	1	144
 555	drywall axe	12	155
 556	Pine-Fresh air freshener	8	18
@@ -1115,9 +1115,9 @@
 1115	tasket	0	70
 1116	annoying pitchfork	6	75
 1117	Stupid University Diploma	0	0
-1118	pregnant flaming mushroom	5	19
-1119	pregnant frozen mushroom	5	19
-1120	pregnant stinky mushroom	5	19
+1118	pregnant flaming mushroom	5	0
+1119	pregnant frozen mushroom	5	0
+1120	pregnant stinky mushroom	5	0
 1121	inexplicably glowing rock
 1122	spooky fairy gravy	0	-1
 1123	halfberd	12	35
