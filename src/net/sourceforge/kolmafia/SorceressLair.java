@@ -116,8 +116,8 @@ public class SorceressLair implements KoLConstants
 		{ "sabre-toothed lime", "levitating potato" },
 		{ "mosquito", "sabre-toothed lime" },
 		{ "barrrnacle", "angry goat" },
-		{ "angry goat", "mosquito" },
-		{ "levitating potato", "barrrnacle" }
+		{ "goat", "mosquito" },
+		{ "potato", "barrrnacle" }
 	};
 
 	public static void setClient( KoLmafia client )
@@ -926,6 +926,12 @@ public class SorceressLair implements KoLConstants
 		request = new KoLRequest( client, "lair6.php", true );
 		request.run();
 
+		if ( request.responseText.indexOf( "ascend.php" ) != -1 )
+		{
+			client.updateDisplay( ENABLED_STATE, "You've already beaten Her Naughtiness. Go forth and ascend!" );
+			return;
+		}
+
 		int n = -1;
 		Matcher placeMatcher = Pattern.compile( "lair6.php\\?place=(\\d+)" ).matcher( request.responseText );
 		if ( placeMatcher.find() )
@@ -943,7 +949,6 @@ public class SorceressLair implements KoLConstants
 		if ( n < 0)
 		{
 			client.updateDisplay( ERROR_STATE, "I can't tell how far you've gotten into the Sorceress's Chamber yet." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -992,9 +997,9 @@ public class SorceressLair implements KoLConstants
 
 		// Crack the code
 
-		int code = deduceCode( request.responseText );
+		String code = deduceCode( request.responseText );
 
-		if ( code < 0 )
+		if ( code == null )
 		{
 			client.updateDisplay( ERROR_STATE, "Couldn't solve door code. Do it yourself and come back!" );
 			client.cancelRequest();
@@ -1004,12 +1009,12 @@ public class SorceressLair implements KoLConstants
 		request = new KoLRequest( client, "lair6.php", true );
 		request.addFormField( "place", "0" );
 		request.addFormField( "action", "doorcode" );
-		request.addFormField( "code", String.valueOf( code ) );
+		request.addFormField( "code", code );
 		request.run();
 
-		// Check for success - TBC
+		// Check for success
 
-		if ( request.responseText.indexOf( "beeps" ) == -1 )
+		if ( request.responseText.indexOf( "the door slides open" ) == -1 )
 		{
 			// Account for HP loss
 			client.processResults( request.responseText );
@@ -1018,10 +1023,64 @@ public class SorceressLair implements KoLConstants
 		}
 	}
 
-	private static int deduceCode( String dialog )
+	private static String deduceCode( String text )
 	{
-		/// To Be Coded...
-		return -1;
+		int start = text.indexOf( "<p>The guard playing South" );
+		if ( start == -1)
+			return null;
+
+		int end = text.indexOf( "<p>You roll your eyes." );
+		if (end == -1)
+			return null;
+
+		// Pretty up the data
+		String dialog = text.substring( start+3, end ).replaceAll( "&quot;", "\"" );
+
+		// Make an array of lines
+		String lines[] = dialog.split( " *<p>" );
+		if ( lines.length != 16)
+			return null;
+
+		// Initialize the three digits of the code
+		String digit1 = "0", digit2 = "0", digit3 = "0";
+		Matcher matcher;
+
+		// Check for variant, per Visual WIKI
+		if (lines[7].indexOf( "You're full of it") != -1 )
+		{
+			matcher = Pattern.compile( "digit is (\\d)" ).matcher( lines[5] );
+			if ( !matcher.find() )
+				return null;
+			digit1 = matcher.group(1);
+			matcher = Pattern.compile( "it's (\\d)" ).matcher( lines[11] );
+			if ( !matcher.find() )
+				return null;
+			digit2 = matcher.group(1);
+			matcher = Pattern.compile( "digit is (\\d)" ).matcher( lines[12] );
+			if ( !matcher.find() )
+				return null;
+			digit3 = matcher.group(1);
+		}
+		else
+		{
+			if ( lines[13].indexOf( "South" ) != -1 )
+				matcher = Pattern.compile( "digit is (\\d)" ).matcher( lines[5] );
+			else
+				matcher = Pattern.compile( "It's (\\d)" ).matcher( lines[6] );
+			if ( !matcher.find() )
+				return null;
+			digit1 = matcher.group(1);
+			matcher = Pattern.compile( "that's (\\d)" ).matcher( lines[8] );
+			if ( !matcher.find() )
+				return null;
+			digit2 = matcher.group(1);
+			matcher = Pattern.compile( "It's (\\d)" ).matcher( lines[13] );
+			if ( !matcher.find() )
+				return null;
+			digit3 = matcher.group(1);
+		}
+
+		return ( digit1 + digit2 + digit3 );
 	}
 
 	private static void reflectEnergyBolt()
@@ -1029,6 +1088,14 @@ public class SorceressLair implements KoLConstants
 		KoLRequest request;
 
 		client.updateDisplay( DISABLED_STATE, "Reflecting energy bolt" );
+		if ( SHARD.getCount( client.getInventory() ) < 1 )
+		{
+			// He can't get here without a huge mirror shard.
+			// It must be in the closet. Pull it out.
+			AdventureResult [] shard = new AdventureResult[1];
+			shard[0] = SHARD.getInstance( 1 );
+			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, shard )).run();
+		}
 
 		// Equip the huge mirror shard
 		(new EquipmentRequest( client, SHARD.getName() )).run();
@@ -1049,6 +1116,7 @@ public class SorceressLair implements KoLConstants
 		if ( potions < 5 )
 		{
 			client.updateDisplay( ERROR_STATE, "You don't have enoough red pixel potions." );
+			missingItems.clear();
 			missingItems.add( new AdventureResult( "red pixel potion", 5 - potions ) );
 			client.cancelRequest();
 			return;
@@ -1063,7 +1131,7 @@ public class SorceressLair implements KoLConstants
 		KoLCharacter data = client.getCharacterData();
 		if ( data.getCurrentHP() < data.getMaximumHP() )
 		{
-			client.updateDisplay( ERROR_STATE, "You must be fully healed." );
+			client.updateDisplay( ERROR_STATE, "You must be fully healed to fight your shadow." );
 			client.cancelRequest();
 			return;
 		}
@@ -1116,27 +1184,22 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "place", String.valueOf( n ) );
 		request.run();
 
-		// TBC
-		if ( request.responseText.indexOf( "You win" ) == -1 )
+		if ( request.responseText.indexOf( "stomp off in a huff" ) != -1 )
 		{
 			// Account for HP loss
 			client.processResults( request.responseText );
 
-			// Parse opponent - TBC
-			String enemy = "steaming evil";
-
 			// Determine necessary familiar
-			String familiar = "steaming evil";
-
 			for ( int i = 0; i < FAMILIAR_DATA.length; ++i)
-				if ( enemy.equals( FAMILIAR_DATA[i][0] ) )
+				if ( request.responseText.indexOf( FAMILIAR_DATA[i][0] ) != -1 )
 				{
-					familiar = FAMILIAR_DATA[i][1];
+					client.updateDisplay( ERROR_STATE, "Come back with a 20 pound " + FAMILIAR_DATA[i][1] );
 					break;
 				}
-
-			client.updateDisplay( ERROR_STATE, "Come back with a 20 pound" + familiar );
-			client.cancelRequest();
+                        client.cancelRequest();
 		}
+
+		// Decrement adventure tally
+		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 	}
 }
