@@ -223,6 +223,7 @@ public class KoLCharacter
 	private List listenerList;
 
 	private boolean canInteract;
+	private int ascensions;
 	private String ascensionSign;
 	private int ascensionSignType;
 
@@ -274,6 +275,7 @@ public class KoLCharacter
 		this.familiars.add( FamiliarData.NO_FAMILIAR );
 		this.listenerList = new ArrayList();
 
+		this.ascensions = 0;
 		this.ascensionSign = "None";
 		this.ascensionSignType = NONE;
 
@@ -1095,6 +1097,15 @@ public class KoLCharacter
 	}
 
 	/**
+	 * Accessor method for the character's ascension count
+	 * @return	String
+	 */
+
+	public int getAscensions()
+	{	return ascensions;
+	}
+
+	/**
 	 * Accessor method for the character's zodiac sign
 	 * @return	String
 	 */
@@ -1110,6 +1121,16 @@ public class KoLCharacter
 
 	public int getSignStat()
 	{	return ascensionSignType;
+	}
+
+	/**
+	 * Accessor method to set a character's ascension count
+	 * @param	ascensions	the new ascension count
+	 */
+
+	public void setAscensions( int ascensions )
+	{
+		this.ascensions = ascensions;
 	}
 
 	/**

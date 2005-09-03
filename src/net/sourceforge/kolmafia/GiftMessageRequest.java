@@ -87,12 +87,6 @@ public class GiftMessageRequest extends SendMessageRequest
 		}
 	}
 
-	public static final int PLAIN_BROWN_WRAPPER = 1;
-	public static final int LESS_THAN_THREE_SHAPED_BOX = 2;
-
-	private static final int [] CAPACITIES = { 0, 1, 2 };
-	private static final int [] MATERIAL_COST = { 0, 0, 100 };
-
 	public GiftMessageRequest( KoLmafia client, String recipient, String message, AdventureResult attachment )
 	{
 		super( client, "town_sendgift.php", attachment );

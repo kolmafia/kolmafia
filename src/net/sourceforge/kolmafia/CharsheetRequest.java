@@ -183,6 +183,15 @@ public class CharsheetRequest extends KoLRequest
 			skipTokens( parsedContent, 3 );
 			character.setAvailableMeat( intToken( parsedContent ) );
 
+			// Determine the player's ascension count, if any.
+			if ( responseText.indexOf( "Ascensions:" ) != -1 )
+			{
+				while ( !token.startsWith( "Ascensions" ) )
+					token = parsedContent.nextToken();
+				skipTokens( parsedContent, 4 );
+				character.setAscensions( intToken( parsedContent ) );
+			}
+
 			while ( !token.startsWith( "Turns" ) )
 				token = parsedContent.nextToken();
 			skipTokens( parsedContent, 3 );

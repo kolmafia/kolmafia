@@ -144,7 +144,7 @@ public class SorceressLair implements KoLConstants
 		// If the player has never ascended, then they're going
 		// to have to do it all by hand.
 
-		if ( client.getCharacterData().getSignStat() == KoLCharacter.NONE )
+		if ( client.getCharacterData().getAscensions() < 1 )
 		{
 			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
 			client.cancelRequest();

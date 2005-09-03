@@ -71,7 +71,28 @@ public class GiftMessageFrame extends SendMessageFrame
 
 	protected Component [] getWestComponents()
 	{
-		packageSelect = new JComboBox( (LockableListModel) GiftMessageRequest.PACKAGES.clone() );
+                // Which packages are available depends on ascension count
+
+                // Package 1 - 0 ascensions
+                // Package 2 - 0 ascensions
+                // Package 3 - 3 ascensions
+                // Package 4 - 6 ascensions
+                // Package 5 - 9 ascensions
+                // Package 6 - 12 ascensions
+                // Package 7 - 15 ascensions
+                // Package 8 - 18 ascensions
+                // Package 9 - 21 ascensions
+                // Package 10 - 24 ascensions
+                // Package 11 - 27 ascensions
+
+                int ascensions = client.getCharacterData().getAscensions();
+                int count = Math.min(ascensions / 3 + 2, 11);
+                LockableListModel packages = new LockableListModel();
+
+                for ( int i = 0; i < count; ++i )
+                        packages.add( GiftMessageRequest.PACKAGES.get( i ) );
+
+		packageSelect = new JComboBox( packages );
 		Component [] westComponents = new Component[1];
 		westComponents[0] = packageSelect;
 		return westComponents;
