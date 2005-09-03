@@ -630,6 +630,16 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Look!  It's the command to complete the Sorceress's Chamber!
+		// This is placed right after for consistency.
+
+		if ( command.equals( "chamber" ) )
+		{
+			scriptRequestor.completeSorceressChamber();
+			printList( SorceressLair.getMissingItems() );
+			return;
+		}
+
 		// Next is the command to handle the retrieval
 		// of breakfast, which is not yet documented.
 

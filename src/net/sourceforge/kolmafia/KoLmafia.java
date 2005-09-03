@@ -1870,4 +1870,13 @@ public abstract class KoLmafia implements KoLConstants
 		SorceressLair.setClient( this );
 		SorceressLair.fightTowerGuardians();
 	}
+
+	public void completeSorceressChamber()
+	{
+		// Use the static method provided in the sorceress
+		// lair to complete the Sorceress's Chamber
+
+		SorceressLair.setClient( this );
+		SorceressLair.completeSorceressChamber();
+	}
 }

@@ -35,6 +35,9 @@
 package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.util.StringTokenizer;
 
 public class SorceressLair implements KoLConstants
 {
@@ -81,6 +84,12 @@ public class SorceressLair implements KoLConstants
 	private static final AdventureResult SNEAKY_PETE = new AdventureResult( 284, 1 );
 	private static final AdventureResult BALLOON = new AdventureResult( 436, 1 );
 
+        // Results of key puzzles
+	private static final AdventureResult STRUMMING = new AdventureResult( 736, 1 );
+	private static final AdventureResult SQUEEZINGS = new AdventureResult( 737, 1 );
+	private static final AdventureResult RHYTHM = new AdventureResult( 738, 1 );
+	private static final AdventureResult SCUBA = new AdventureResult( 734, 1 );
+
 	// Items for the hedge maze
 
 	private static final AdventureResult PUZZLE_PIECE = new AdventureResult( 727, 1 );
@@ -96,6 +105,21 @@ public class SorceressLair implements KoLConstants
 		{ "Bowling Cricket", "sonar-in-a-biscuit" }, { "Ice Cube", "can of hair spray" }, { "Pretty Fly", "spider web" }
 	};
 
+	// Items for the Sorceress's Chamber
+	private static final AdventureResult SHARD = new AdventureResult( 726, 1 );
+	private static final AdventureResult RED_PIXEL_POTION = new AdventureResult( 464, 1 );
+
+	// Familiars and the familiars that defeat them
+
+	private static final String [][] FAMILIAR_DATA =
+	{
+		{ "sabre-toothed lime", "levitating potato" },
+		{ "mosquito", "sabre-toothed lime" },
+		{ "barrrnacle", "angry goat" },
+		{ "angry goat", "mosquito" },
+		{ "levitating potato", "barrrnacle" }
+	};
+
 	public static void setClient( KoLmafia client )
 	{
 		SorceressLair.client = client;
@@ -106,8 +130,10 @@ public class SorceressLair implements KoLConstants
 	{	return missingItems;
 	}
 
-	private static boolean checkPrerequisites()
+	private static boolean checkPrerequisites( int min, int max )
 	{
+		KoLRequest request;
+
 		// If the client has not yet been set, then there is
 		// no entryway to complete.
 
@@ -124,6 +150,65 @@ public class SorceressLair implements KoLConstants
 			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
 			client.cancelRequest();
 			return false;
+		}
+
+		// Make sure he's been given the quest
+
+		request = new KoLRequest( client, "main.php", true );
+		request.run();
+
+		if ( request.responseText.indexOf( "lair.php" ) == -1 )
+		{
+			client.updateDisplay( ERROR_STATE, "You haven't been given the quest to fight the Sorceress!" );
+			client.cancelRequest();
+			return false;
+		}
+
+		// Make sure he can get to the desired area
+
+		// Deduce based on which image map is used:
+		//
+		// NoMap = lair1
+		// Map = lair1, lair3
+		// Map2 = lair1, lair3, lair4
+		// Map3 = lair1, lair3, lair4, lair5
+		// Map4 = lair1, lair3, lair4, lair5, lair6
+
+		request = new KoLRequest( client, "lair.php", true );
+		request.run();
+
+		Matcher mapMatcher = Pattern.compile( "usemap=\"#(\\w+)\"" ).matcher( request.responseText );
+		if ( mapMatcher.find() )
+		{
+			String map = mapMatcher.group( 1 );
+			int reached;
+
+			if ( map.equals( "NoMap" ) )
+				reached = 1;
+			else if ( map.equals( "Map" ) )
+				reached = 3;
+			else if ( map.equals( "Map2" ) )
+				reached = 4;
+			else if ( map.equals( "Map3" ) )
+				reached = 5;
+			else if ( map.equals( "Map4" ) )
+				reached = 6;
+			else
+				reached = 0;
+
+			if ( reached < min )
+			{
+				client.updateDisplay( ERROR_STATE, "You can't use this script yet." );
+				client.cancelRequest();
+				return false;
+			}
+
+			if ( reached > max )
+			{
+				client.updateDisplay( ERROR_STATE, "You're already past this script." );
+				client.cancelRequest();
+				return false;
+			}
 		}
 
 		// Otherwise, they've passed all the standard checks
@@ -159,7 +244,9 @@ public class SorceressLair implements KoLConstants
 	{
 		KoLCharacter data = client.getCharacterData();
 
-		if ( !checkPrerequisites() )
+		// Make sure he's ascended at least once
+
+		if ( !checkPrerequisites( 1, 2 ) )
 			return;
 
 		List requirements = new ArrayList();
@@ -189,50 +276,57 @@ public class SorceressLair implements KoLConstants
 				requirements.add( BLACK_CANDLE );
 		}
 
-		if ( request.responseText.indexOf( "lair2.php" ) != -1 )
+		// Make sure required keys are available
+
+		// Digital key unless you already have the Squeezings of Woe
+		if ( SQUEEZINGS.getCount( client.getInventory() ) < 1 )
+                        requirements.add( DIGITAL );
+
+		// Skeleton key and a clover unless you already have the
+		// Really Evil Rhythms
+		if ( RHYTHM.getCount( client.getInventory() ) < 1 )
 		{
-			KoLRequest complete = new KoLRequest( client, "lair2.php" );
-			complete.run();
-
-			if ( complete.responseText.indexOf( "lair3.php" ) != -1 )
-			{
-				client.updateDisplay( ENABLED_STATE, "Lair entryway already completed." );
-				return;
-			}
+			requirements.add( SKELETON );
+			requirements.add( CLOVER );
 		}
-
-		// Other effect-gaining items, including the inherent
-		// luckiness granted by the clover.
-
-		requirements.add( CLOVER );
 
 		// Decide on which star weapon should be available for
 		// this whole process.
 
-		AdventureResult starWeapon = STAR_SWORD.getCount( client.getInventory() ) > 0 ? STAR_SWORD :
-			STAR_CROSSBOW.getCount( client.getInventory() ) > 0 ? STAR_CROSSBOW : STAR_STAFF;
+		AdventureResult starWeapon =
+			STAR_SWORD.getCount( client.getInventory() ) > 0 ? STAR_SWORD :
+			( STAR_CROSSBOW.getCount( client.getInventory() ) > 0 ? STAR_CROSSBOW :
+			  STAR_STAFF );
 
 		boolean needsWeapon = !data.getEquipment( KoLCharacter.WEAPON ).startsWith( "star" );
-
-		if ( needsWeapon )
-			requirements.add( starWeapon );
-
 		boolean needsBuckler = !data.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
 			!data.getEquipment( KoLCharacter.ACCESSORY2 ).startsWith( "star" ) && !data.getEquipment( KoLCharacter.ACCESSORY3 ).startsWith( "star" );
 
-		if ( needsBuckler )
-			requirements.add( STAR_BUCKLER );
+		// Star equipment unless you already have Sinister Strummings
+		if ( STRUMMING.getCount( client.getInventory() ) < 1 )
+		{
+			if ( needsWeapon )
+				requirements.add( starWeapon );
 
-		// Now, add all the keys which are required for the entire
-		// entryway quest.
+			if ( needsBuckler )
+				requirements.add( STAR_BUCKLER );
+			requirements.add( RICHARD );
+		}
 
-		requirements.add( DIGITAL );
-		requirements.add( RICHARD );
-		requirements.add( SKELETON );
+		// The three hero keys are needed to get the SCUBA gear
 
-		requirements.add( BORIS );
-		requirements.add( JARLSBERG );
-		requirements.add( SNEAKY_PETE );
+		if ( SCUBA.getCount( client.getInventory() ) < 1 )
+		{
+			requirements.add( BORIS );
+			requirements.add( JARLSBERG );
+			requirements.add( SNEAKY_PETE );
+
+			// It's possible that meat paste is also required, if
+			// the person is not in a muscle sign.
+
+			if ( !data.inMuscleSign() )
+				requirements.add( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 2 ) );
+		}
 
 		// Next, figure out which instrument is needed for the final
 		// stage of the entryway.
@@ -244,11 +338,6 @@ public class SorceressLair implements KoLConstants
 		requirements.add( TAMBOURINE.getCount( client.getInventory() ) > 0 ? TAMBOURINE : BONE_RATTLE );
 		requirements.add( ROCKNROLL_LEGEND.getCount( client.getInventory() ) > 0 ? ROCKNROLL_LEGEND : ACCORDION );
 
-		// It's possible that meat paste is also required, if the
-		// person is not in a muscle sign.
-
-		if ( !data.inMuscleSign() )
-			requirements.add( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 2 ) );
 
 		// Now that the array's initialized, issue the checks
 		// on the items needed to finish the entryway.
@@ -302,7 +391,7 @@ public class SorceressLair implements KoLConstants
 		}
 
 		// Now, unequip all of your equipment and cross through
-		// the mirror.  Process the mirror shard that results.
+		// the mirror. Process the mirror shard that results.
 
 		if ( request.responseText.indexOf( "lair2.php" ) == -1 )
 		{
@@ -319,29 +408,39 @@ public class SorceressLair implements KoLConstants
 			request.addFormField( "action", "mirror" );
 			request.run();
 
-			client.processResult( new AdventureResult( 726, 1 ) );
+			client.processResult( SHARD );
 		}
 
 		// Now handle the form for the digital key to get
 		// the Squeezings of Woe.
 
-		client.updateDisplay( DISABLED_STATE, "Inserting digital key..." );
-
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "preaction", "key" );
-		request.addFormField( "whichkey", String.valueOf( DIGITAL.getItemID() ) );
-		request.run();
-
-		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		if ( SQUEEZINGS.getCount( client.getInventory() ) < 1 )
 		{
+			client.updateDisplay( DISABLED_STATE, "Inserting digital key..." );
+
 			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "prepreaction", "sequence" );
-			request.addFormField( "seq1", "up" );  request.addFormField( "seq2", "up" );
-			request.addFormField( "seq3", "down" );  request.addFormField( "seq4", "down" );
-			request.addFormField( "seq5", "left" );  request.addFormField( "seq6", "right" );
-			request.addFormField( "seq7", "left" );  request.addFormField( "seq8", "right" );
-			request.addFormField( "seq9", "b" );  request.addFormField( "seq10", "a" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( DIGITAL.getItemID() ) );
 			request.run();
+
+			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+			{
+				request = new KoLRequest( client, "lair2.php" );
+				request.addFormField( "prepreaction", "sequence" );
+				request.addFormField( "seq1", "up" );
+				request.addFormField( "seq2", "up" );
+				request.addFormField( "seq3", "down" );
+				request.addFormField( "seq4", "down" );
+				request.addFormField( "seq5", "left" );
+				request.addFormField( "seq6", "right" );
+				request.addFormField( "seq7", "left" );
+				request.addFormField( "seq8", "right" );
+				request.addFormField( "seq9", "b" );
+				request.addFormField( "seq10", "a" );
+				request.run();
+			}
+
+			client.processResult( SQUEEZINGS );
 		}
 
 		// Now handle the form for the star key to get
@@ -349,95 +448,120 @@ public class SorceressLair implements KoLConstants
 		// require you to re-equip your star weapon and
 		// a star buckler and switch to a starfish first.
 
-		if ( needsWeapon )
-			(new EquipmentRequest( client, starWeapon.getName() )).run();
-
-		if ( needsBuckler )
-			(new EquipmentRequest( client, STAR_BUCKLER.getName() )).run();
-
-		(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
-
-		client.updateDisplay( DISABLED_STATE, "Inserting Richard's star key..." );
-
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "preaction", "key" );
-		request.addFormField( "whichkey", String.valueOf( RICHARD.getItemID() ) );
-		request.run();
-
-		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		if ( STRUMMING.getCount( client.getInventory() ) < 1 )
 		{
+			if ( needsWeapon )
+				(new EquipmentRequest( client, starWeapon.getName() )).run();
+
+			if ( needsBuckler )
+				(new EquipmentRequest( client, STAR_BUCKLER.getName() )).run();
+
+			(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
+
+			client.updateDisplay( DISABLED_STATE, "Inserting Richard's star key..." );
+
 			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "prepreaction", "starcage" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( RICHARD.getItemID() ) );
 			request.run();
+
+			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+			{
+				request = new KoLRequest( client, "lair2.php" );
+				request.addFormField( "prepreaction", "starcage" );
+				request.run();
+
+				// Result "stone tablet (Sinister Strumming)"
+				// doesn't parse correctly...
+
+				client.processResult( STRUMMING );
+			}
 		}
 
 		// Next, handle the form for the skeleton key to
-		// get the Really Evil Rhythm.  This uses up the
+		// get the Really Evil Rhythm. This uses up the
 		// clover you had, so process it.
 
-		client.updateDisplay( DISABLED_STATE, "Inserting skeleton key..." );
-
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "preaction", "key" );
-		request.addFormField( "whichkey", String.valueOf( SKELETON.getItemID() ) );
-		request.run();
-
-		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		if ( RHYTHM.getCount( client.getInventory() ) < 1 )
 		{
+			client.updateDisplay( DISABLED_STATE, "Inserting skeleton key..." );
+
 			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "prepreaction", "skel" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( SKELETON.getItemID() ) );
 			request.run();
 
-			client.processResult( CLOVER.getNegation() );
+			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+			{
+				request = new KoLRequest( client, "lair2.php" );
+				request.addFormField( "prepreaction", "skel" );
+				request.run();
+
+				client.processResult( RHYTHM );
+				client.processResult( CLOVER.getNegation() );
+			}
 		}
 
 		// Next, handle the three hero keys, which involve
 		// answering the riddles with the forms of fish.
 
-		client.updateDisplay( DISABLED_STATE, "Inserting Boris's key..." );
-
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "preaction", "key" );
-		request.addFormField( "whichkey", String.valueOf( BORIS.getItemID() ) );
-		request.run();
-
-		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		if ( SCUBA.getCount( client.getInventory() ) < 1 )
 		{
+			client.updateDisplay( DISABLED_STATE, "Inserting Boris's key..." );
+
 			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "prepreaction", "sorcriddle1" );
-			request.addFormField( "answer", "fish" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( BORIS.getItemID() ) );
 			request.run();
+
+			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+			{
+				request = new KoLRequest( client, "lair2.php" );
+				request.addFormField( "prepreaction", "sorcriddle1" );
+				request.addFormField( "answer", "fish" );
+				request.run();
+				client.processResults( request.responseText );
+			}
+
+			client.updateDisplay( DISABLED_STATE, "Inserting Jarlsberg's key..." );
+
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( JARLSBERG.getItemID() ) );
+			request.run();
+
+			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+			{
+				request = new KoLRequest( client, "lair2.php" );
+				request.addFormField( "prepreaction", "sorcriddle2" );
+				request.addFormField( "answer", "phish" );
+				request.run();
+				client.processResults( request.responseText );
+			}
+
+			client.updateDisplay( DISABLED_STATE, "Inserting Sneaky Pete's key..." );
+
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( SNEAKY_PETE.getItemID() ) );
+			request.run();
+
+			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+			{
+				request = new KoLRequest( client, "lair2.php" );
+				request.addFormField( "prepreaction", "sorcriddle3" );
+				request.addFormField( "answer", "fsh" );
+				request.run();
+				client.processResults( request.responseText );
+			}
+
+			// Now use the components to make the SCUBA gear
+			ItemCreationRequest.getInstance( client, 734, 1 ).run();
 		}
 
-		client.updateDisplay( DISABLED_STATE, "Inserting Jarlsberg's key..." );
+                // Equip the SCUBA gear
 
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "preaction", "key" );
-		request.addFormField( "whichkey", String.valueOf( JARLSBERG.getItemID() ) );
-		request.run();
-
-		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
-		{
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "prepreaction", "sorcriddle2" );
-			request.addFormField( "answer", "phish" );
-			request.run();
-		}
-
-		client.updateDisplay( DISABLED_STATE, "Inserting Sneaky Pete's key..." );
-
-		request = new KoLRequest( client, "lair2.php" );
-		request.addFormField( "preaction", "key" );
-		request.addFormField( "whichkey", String.valueOf( SNEAKY_PETE.getItemID() ) );
-		request.run();
-
-		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
-		{
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "prepreaction", "sorcriddle3" );
-			request.addFormField( "answer", "fsh" );
-			request.run();
-		}
+		(new EquipmentRequest( client, "makeshift SCUBA gear" )).run();
 
 		// If he brought a balloon monkey, get him an easter egg
 
@@ -447,17 +571,9 @@ public class SorceressLair implements KoLConstants
 			request.addFormField( "preaction", "key" );
 			request.addFormField( "whichkey", String.valueOf( BALLOON.getItemID() ) );
 			request.run();
+
+			client.processResults( request.responseText );
 		}
-
-		// Next, issue combine requests on the makeshift
-		// scuba gear components and then equip the gear.
-
-		client.processResult( new AdventureResult( 729, 1 ) );
-		client.processResult( new AdventureResult( 730, 1 ) );
-		client.processResult( new AdventureResult( 731, 1 ) );
-
-		ItemCreationRequest.getInstance( client, 734, 1 ).run();
-		(new EquipmentRequest( client, "makeshift SCUBA gear" )).run();
 
 		// Now, press the switch beyond the odor by
 		// visiting the appropriate page.
@@ -471,16 +587,17 @@ public class SorceressLair implements KoLConstants
 		client.updateDisplay( DISABLED_STATE, "Arming stone mariachis..." );
 		(new KoLRequest( client, "lair2.php?action=statues" )).run();
 
-		// Because this has never been tested, just
-		// enable the display and pretend that the
-		// process is now complete.
+		// This consumes the tablets
+		client.processResult( RHYTHM.getNegation() );
+		client.processResult( STRUMMING.getNegation() );
+		client.processResult( SQUEEZINGS.getNegation() );
 
 		client.updateDisplay( ENABLED_STATE, "Sorceress entryway complete.  Maybe." );
 	}
 
 	public static void completeHedgeMaze()
 	{
-		if ( !checkPrerequisites() )
+		if ( !checkPrerequisites( 3, 3 ) )
 			return;
 
 		// Check to see if you've run out of puzzle pieces.
@@ -670,7 +787,7 @@ public class SorceressLair implements KoLConstants
 
 	public static void fightTowerGuardians()
 	{
-		if ( !checkPrerequisites() )
+		if ( !checkPrerequisites( 4, 5 ) )
 			return;
 
 		// Check to see if they've already completed the
@@ -743,7 +860,7 @@ public class SorceressLair implements KoLConstants
 			return false;
 		}
 
-                // Decrement adventure tally
+		// Decrement adventure tally
 		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 
 		// Parse response to see which item we need.
@@ -793,5 +910,233 @@ public class SorceressLair implements KoLConstants
 
 		client.updateDisplay( ERROR_STATE, "Unknown guardian!" );
 		return new AdventureResult( 666, 1 );
+	}
+
+	public static void completeSorceressChamber()
+	{
+		KoLCharacter data = client.getCharacterData();
+		KoLRequest request;
+
+		// Make sure he's ascended at least once
+
+		if ( !checkPrerequisites( 6, 6 ) )
+			return;
+
+		// Figure out how far he's gotten into the Sorceress's Chamber
+		request = new KoLRequest( client, "lair6.php", true );
+		request.run();
+
+		int n = -1;
+		Matcher placeMatcher = Pattern.compile( "lair6.php\\?place=(\\d+)" ).matcher( request.responseText );
+		if ( placeMatcher.find() )
+		{
+			try
+			{
+				n = df.parse( placeMatcher.group(1) ).intValue();
+			}
+			catch ( Exception e )
+			{
+				// Ignore parse error
+			}
+		}
+
+		if ( n < 0)
+		{
+			client.updateDisplay( ERROR_STATE, "I can't tell how far you've gotten into the Sorceress's Chamber yet." );
+			client.cancelRequest();
+			return;
+		}
+
+		while ( n < 5 )
+		{
+			switch (n)
+			{
+			case 0:
+				findDoorCode();
+				break;
+			case 1:
+				reflectEnergyBolt();
+				break;
+			case 2:
+				fightShadow();
+				break;
+			case 3:
+				familiarBattle(3);
+				break;
+			case 4:
+				familiarBattle(4);
+				break;
+			}
+
+			if ( !client.permitsContinue() )
+				return;
+
+			n += 1;
+		}
+
+		client.updateDisplay( ENABLED_STATE, "Her Naughtiness awaits. Go battle her!" );
+	}
+
+	private static void findDoorCode()
+	{
+		KoLRequest request;
+
+		client.updateDisplay( DISABLED_STATE, "Cracking door code" );
+
+		// Talk to the guards
+
+		request = new KoLRequest( client, "lair6.php", true );
+		request.addFormField( "place", "0" );
+		request.addFormField( "preaction", "lightdoor" );
+		request.run();
+
+		// Crack the code
+
+		int code = deduceCode( request.responseText );
+
+		if ( code < 0 )
+		{
+			client.updateDisplay( ERROR_STATE, "Couldn't solve door code. Do it yourself and come back!" );
+			client.cancelRequest();
+			return;
+		}
+
+		request = new KoLRequest( client, "lair6.php", true );
+		request.addFormField( "place", "0" );
+		request.addFormField( "action", "doorcode" );
+		request.addFormField( "code", String.valueOf( code ) );
+		request.run();
+
+		// Check for success - TBC
+
+		if ( request.responseText.indexOf( "beeps" ) == -1 )
+		{
+			// Account for HP loss
+			client.processResults( request.responseText );
+			client.updateDisplay( ERROR_STATE, "I used the wrong code. Sorry." );
+			client.cancelRequest();
+		}
+	}
+
+	private static int deduceCode( String dialog )
+	{
+		/// To Be Coded...
+		return -1;
+	}
+
+	private static void reflectEnergyBolt()
+	{
+		KoLRequest request;
+
+		client.updateDisplay( DISABLED_STATE, "Reflecting energy bolt" );
+
+		// Equip the huge mirror shard
+		(new EquipmentRequest( client, SHARD.getName() )).run();
+
+		// Reflect the energy bolt
+		request = new KoLRequest( client, "lair6.php", true );
+		request.addFormField( "place", "1" );
+		request.run();
+	}
+
+	private static void fightShadow()
+	{
+		KoLRequest request;
+
+		client.updateDisplay( DISABLED_STATE, "Fighting your shadow" );
+
+		int potions = RED_PIXEL_POTION.getCount( client.getInventory() );
+		if ( potions < 5 )
+		{
+			client.updateDisplay( ERROR_STATE, "You don't have enoough red pixel potions." );
+			missingItems.add( new AdventureResult( "red pixel potion", 5 - potions ) );
+			client.cancelRequest();
+			return;
+		}
+
+		// If he has an HP recovery script, call it here?
+
+		// Need to be at full health to face your shadow
+
+		(new CharsheetRequest( client )).run();
+
+		KoLCharacter data = client.getCharacterData();
+		if ( data.getCurrentHP() < data.getMaximumHP() )
+		{
+			client.updateDisplay( ERROR_STATE, "You must be fully healed." );
+			client.cancelRequest();
+			return;
+		}
+
+		// Start the battle!
+
+		request = new KoLRequest( client, "lair6.php", true );
+		request.addFormField( "place", "2" );
+		request.run();
+
+		do
+		{
+			// Heal yourself and damage your shadow
+
+			request = new KoLRequest( client, "fight.php" );
+			request.addFormField( "action", "useitem" );
+			request.addFormField( "whichitem", "464" );
+			request.run();
+
+			// Use up the item
+			client.processResult( RED_PIXEL_POTION.getNegation() );
+		} while ( request.responseText.indexOf( "WINWINWIN" ) == -1 );
+
+		// Account for stat gains
+		client.processResults( request.responseText );
+		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+	}
+
+	private static void familiarBattle( int n )
+	{
+		KoLRequest request;
+
+		client.updateDisplay( DISABLED_STATE, "Facing giant familiar" );
+
+		// If he has an HP recovery script, call it here?
+
+		// Need more than 50 hit points.
+
+		(new CharsheetRequest( client )).run();
+
+		KoLCharacter data = client.getCharacterData();
+		if ( data.getCurrentHP() < 50 )
+		{
+			client.updateDisplay( ERROR_STATE, "You must have more than 50 HP." );
+			client.cancelRequest();
+			return;
+		}
+
+		request = new KoLRequest( client, "lair6.php", true );
+		request.addFormField( "place", String.valueOf( n ) );
+		request.run();
+
+		// TBC
+		if ( request.responseText.indexOf( "You win" ) == -1 )
+		{
+			// Account for HP loss
+			client.processResults( request.responseText );
+
+			// Parse opponent - TBC
+			String enemy = "steaming evil";
+
+			// Determine necessary familiar
+			String familiar = "steaming evil";
+
+			for ( int i = 0; i < FAMILIAR_DATA.length; ++i)
+				if ( enemy.equals( FAMILIAR_DATA[i][0] ) )
+				{
+					familiar = FAMILIAR_DATA[i][1];
+					break;
+				}
+
+			client.updateDisplay( ERROR_STATE, "Come back with a 20 pound" + familiar );
+			client.cancelRequest();
+		}
 	}
 }

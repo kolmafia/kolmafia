@@ -1257,6 +1257,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				modulesMenu.add( new InvocationMenuItem( "Lair Entryway", KeyEvent.VK_L, client, "completeEntryway" ) );
 				modulesMenu.add( new InvocationMenuItem( "Hedge Rotation", KeyEvent.VK_H, client, "completeHedgeMaze" ) );
 				modulesMenu.add( new InvocationMenuItem( "Tower Guardians", KeyEvent.VK_T, client, "fightTowerGuardians" ) );
+				modulesMenu.add( new InvocationMenuItem( "Sorceress Chamber", KeyEvent.VK_C, client, "completeSorceressChamber" ) );
 
 				headers[3] = modulesMenu;
 			}
