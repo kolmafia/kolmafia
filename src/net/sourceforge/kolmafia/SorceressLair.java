@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.StringTokenizer;
 
 public class SorceressLair implements KoLConstants
 {
@@ -352,12 +351,15 @@ public class SorceressLair implements KoLConstants
 		// the skeleton dice game.  Healthy is determined as
 		// having at least 25% of your maximum HP.
 
-		(new CharsheetRequest( client )).run();
-
-		if ( data.getCurrentHP() * 4 < data.getMaximumHP() )
+		if ( RHYTHM.getCount( client.getInventory() ) < 1 )
 		{
-			client.updateDisplay( ERROR_STATE, "You need more health to continue." );
-			return;
+			(new CharsheetRequest( client )).run();
+
+			if ( data.getCurrentHP() * 4 < data.getMaximumHP() )
+			{
+				client.updateDisplay( ERROR_STATE, "You need more health to continue." );
+				return;
+			}
 		}
 
 		// Use the rice candy, wussiness potion, and black candle
