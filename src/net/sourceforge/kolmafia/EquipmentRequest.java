@@ -169,7 +169,9 @@ public class EquipmentRequest extends KoLRequest
 			if ( outfit == SpecialOutfit.BIRTHDAY_SUIT )
 			{
 				(new EquipmentRequest( client, UNEQUIP_ALL )).run();
-				(new EquipmentRequest( client, UNEQUIP, KoLCharacter.FAMILIAR )).run();
+
+				if ( !character.getEquipment( KoLCharacter.FAMILIAR ).equals( UNEQUIP ) )
+					(new EquipmentRequest( client, UNEQUIP, KoLCharacter.FAMILIAR )).run();
 
 				return;
 			}
