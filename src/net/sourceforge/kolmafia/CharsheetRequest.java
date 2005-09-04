@@ -170,6 +170,8 @@ public class CharsheetRequest extends KoLRequest
 				while ( !token.startsWith( "Adven" ) )
 					token = parsedContent.nextToken();
 			}
+			else
+				character.setInebriety( 0 );
 
 			// Now parse the number of adventures remaining,
 			// the monetary value in the character's pocket,
