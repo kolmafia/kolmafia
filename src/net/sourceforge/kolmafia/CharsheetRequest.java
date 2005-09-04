@@ -251,8 +251,10 @@ public class CharsheetRequest extends KoLRequest
 			// sheet -- because we now have consumption types,
 			// it is now possible to retrieve all the equipment.
 
-			String [] equipment = new String[8];
-			for ( int i = 0; i < 8; ++i )
+			// We can't get familiar equipment from this page,
+			// so don't reset it.
+			String [] equipment = new String[7];
+			for ( int i = 0; i < 7; ++i )
 				equipment[i] = EquipmentRequest.UNEQUIP;
 
 			Matcher equipmentMatcher = Pattern.compile( "<b>Equipment.*?<table>(.*?)</table>" ).matcher( responseText );

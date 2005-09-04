@@ -1357,8 +1357,7 @@ public class KoLCharacter
 
 	public void setFamiliar( FamiliarData familiar )
 	{
-		currentFamiliar = familiar;
-		addFamiliar( currentFamiliar );
+		currentFamiliar = addFamiliar( familiar );
 		familiars.setSelectedItem( currentFamiliar );
 	}
 
@@ -1378,15 +1377,17 @@ public class KoLCharacter
 	 * @param	familiar	The ID of the familiar to be added
 	 */
 
-	public void addFamiliar( FamiliarData familiar )
+	public FamiliarData addFamiliar( FamiliarData familiar )
 	{
-		if ( familiar == null )
-			return;
-
-		if ( familiars.contains( familiar ) )
-			familiars.remove( familiars.indexOf( familiar ) );
-
-		familiars.add( familiar );
+		if ( familiar != null )
+		{
+			int index = familiars.indexOf( familiar );
+			if ( index >= 0)
+				familiar = (FamiliarData)familiars.get( index );
+			else 
+				familiars.add( familiar );
+		}
+		return familiar;
 	}
 
 	/**

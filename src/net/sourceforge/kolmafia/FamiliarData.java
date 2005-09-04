@@ -102,14 +102,12 @@ public class FamiliarData implements KoLConstants, Comparable
 		KoLCharacter characterData = client.getCharacterData();
 
 		FamiliarData firstFamiliar = null;
-		FamiliarData examinedFamiliar;
 
 		Matcher familiarMatcher = SEARCH_PATTERN.matcher( searchText );
 
 		while ( familiarMatcher.find() )
 		{
-			examinedFamiliar = new FamiliarData( client, familiarMatcher );
-			characterData.addFamiliar( examinedFamiliar );
+			FamiliarData examinedFamiliar = characterData.addFamiliar( new FamiliarData( client, familiarMatcher ) );
 
 			if ( firstFamiliar == null )
 				firstFamiliar = examinedFamiliar;
@@ -256,6 +254,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			weightModifier += 5;
 			dodecaModifier -= 5;
 		}
+
 
 		if ( owner.getEffects().contains( LEASH ) )
 		{
