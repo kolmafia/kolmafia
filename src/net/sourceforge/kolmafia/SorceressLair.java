@@ -1015,6 +1015,12 @@ public class SorceressLair implements KoLConstants
 
 		client.updateDisplay( DISABLED_STATE, "Cracking door code" );
 
+		// Enter the chamber
+
+		request = new KoLRequest( client, "lair6.php", true );
+		request.addFormField( "place", "0" );
+		request.run();
+
 		// Talk to the guards
 
 		request = new KoLRequest( client, "lair6.php", true );
@@ -1114,7 +1120,6 @@ public class SorceressLair implements KoLConstants
 	{
 		KoLRequest request;
 
-		client.updateDisplay( DISABLED_STATE, "Reflecting energy bolt" );
 		if ( SHARD.getCount( client.getInventory() ) < 1 )
 		{
 			// He can't get here without a huge mirror shard.
@@ -1127,6 +1132,8 @@ public class SorceressLair implements KoLConstants
 		// Equip the huge mirror shard
 		(new EquipmentRequest( client, SHARD.getName() )).run();
 
+		client.updateDisplay( DISABLED_STATE, "Reflecting energy bolt" );
+
 		// Reflect the energy bolt
 		request = new KoLRequest( client, "lair6.php", true );
 		request.addFormField( "place", "1" );
@@ -1136,8 +1143,6 @@ public class SorceressLair implements KoLConstants
 	private static void fightShadow()
 	{
 		KoLRequest request;
-
-		client.updateDisplay( DISABLED_STATE, "Fighting your shadow" );
 
 		int potions = RED_PIXEL_POTION.getCount( client.getInventory() );
 		if ( potions < 5 )
@@ -1162,6 +1167,8 @@ public class SorceressLair implements KoLConstants
 			client.cancelRequest();
 			return;
 		}
+
+		client.updateDisplay( DISABLED_STATE, "Fighting your shadow" );
 
 		// Start the battle!
 
@@ -1191,8 +1198,6 @@ public class SorceressLair implements KoLConstants
 	{
 		KoLRequest request;
 
-		client.updateDisplay( DISABLED_STATE, "Facing giant familiar" );
-
 		// If he has an HP recovery script, call it here?
 
 		// Need more than 50 hit points.
@@ -1202,10 +1207,12 @@ public class SorceressLair implements KoLConstants
 		KoLCharacter data = client.getCharacterData();
 		if ( data.getCurrentHP() < 50 )
 		{
-			client.updateDisplay( ERROR_STATE, "You must have more than 50 HP." );
+			client.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );
 			client.cancelRequest();
 			return;
 		}
+
+		client.updateDisplay( DISABLED_STATE, "Facing giant familiar" );
 
 		request = new KoLRequest( client, "lair6.php", true );
 		request.addFormField( "place", String.valueOf( n ) );
@@ -1225,8 +1232,5 @@ public class SorceressLair implements KoLConstants
 				}
                         client.cancelRequest();
 		}
-
-		// Decrement adventure tally
-		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 	}
 }
