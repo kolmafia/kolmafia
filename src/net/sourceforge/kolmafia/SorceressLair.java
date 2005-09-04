@@ -855,13 +855,6 @@ public class SorceressLair implements KoLConstants
 		else
 			currentLevel += 4;
 
-
-		if ( currentLevel > 6 )
-		{
-			client.updateDisplay( ENABLED_STATE, "You've already defeated the tower guardians" );
-			return;
-		}
-
 		for ( int towerLevel = currentLevel; towerLevel <= 6; ++towerLevel )
 			if ( !fightGuardian( towerLevel ) )
 				return;
