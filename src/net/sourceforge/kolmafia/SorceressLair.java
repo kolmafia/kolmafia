@@ -940,6 +940,15 @@ public class SorceressLair implements KoLConstants
 		if ( !checkPrerequisites( 6, 6 ) )
 			return;
 
+		// You must have at least 70 in all stats before you can enter
+		// the chamber.
+
+		if ( data.getBaseMuscle() < 70 || data.getBaseMysticality() < 70 || data.getBaseMoxie() < 70 )
+		{
+			client.updateDisplay( ERROR_STATE, "You can't enter the chamber unless all base stats are 70 or higher." );
+			return;
+		}
+
 		// Figure out how far he's gotten into the Sorceress's Chamber
 		request = new KoLRequest( client, "lair6.php", true );
 		request.run();
