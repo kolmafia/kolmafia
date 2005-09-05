@@ -832,6 +832,7 @@ public class KoLCharacter
 
 		this.outfits.addAll( outfits );
 		FamiliarData.updateWeightModifier();
+		ClassSkillsDatabase.updateManaModifier();
 	}
 
 	/**
@@ -1384,7 +1385,7 @@ public class KoLCharacter
 			int index = familiars.indexOf( familiar );
 			if ( index >= 0)
 				familiar = (FamiliarData)familiars.get( index );
-			else 
+			else
 				familiars.add( familiar );
 		}
 		return familiar;

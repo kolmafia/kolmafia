@@ -48,6 +48,8 @@ import java.io.BufferedReader;
 
 public class ClassSkillsDatabase extends KoLDatabase
 {
+	private static int manaModifier = 0;
+
 	private static Map skillByID = new TreeMap();
 	private static Map skillByName = new TreeMap();
 	private static Map mpConsumptionByID = new TreeMap();
@@ -121,7 +123,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 	public static final int getMPConsumptionByID( int skillID )
 	{
 		Object mpConsumption = mpConsumptionByID.get( new Integer( skillID ) );
-		return mpConsumption == null ? 0 : ((Integer)mpConsumption).intValue();
+		return mpConsumption == null ? 0 : Math.max( ((Integer)mpConsumption).intValue() + manaModifier, 1 );
 	}
 
 	/**
@@ -188,5 +190,47 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 	public static final boolean contains( String skillName )
 	{	return skillByName.containsKey( getCanonicalName( skillName ) );
+	}
+
+	public static void updateManaModifier()
+	{
+		manaModifier = 0;
+
+		if ( client == null || client.getCharacterData() == null )
+			return;
+
+		int [] accessoryID = new int[3];
+		accessoryID[0] = TradeableItemDatabase.getItemID( client.getCharacterData().getEquipment( KoLCharacter.ACCESSORY1 ) );
+		accessoryID[1] = TradeableItemDatabase.getItemID( client.getCharacterData().getEquipment( KoLCharacter.ACCESSORY2 ) );
+		accessoryID[2] = TradeableItemDatabase.getItemID( client.getCharacterData().getEquipment( KoLCharacter.ACCESSORY3 ) );
+
+		for ( int i = 0; i < 3; ++i )
+		{
+			switch ( accessoryID[i] )
+			{
+				case 717:  // baconstone bracelet
+
+					manaModifier -= 1;
+					break;
+
+				case 1226: // stainless steel solitaire
+
+					manaModifier -= 2;
+					break;
+
+				case 1235: // plexiglass pocket watch
+
+					manaModifier -= 3;
+					break;
+
+				default:
+					break;
+			}
+		}
+
+		// Make sure the modifier is no more than
+		// three, no matter what.
+
+		manaModifier = Math.max( manaModifier, -3 );
 	}
 }

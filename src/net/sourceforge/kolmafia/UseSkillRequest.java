@@ -40,10 +40,10 @@ public class UseSkillRequest extends KoLRequest
 {
 	protected static String lastUpdate = "";
 
-	private int buffCount;
-	private int consumedMP;
-	private String target;
+	private int skillID;
 	private String skillName;
+	private String target;
+	private int buffCount;
 
 	/**
 	 * Constructs a new <code>UseSkillRequest</code>.
@@ -59,7 +59,7 @@ public class UseSkillRequest extends KoLRequest
 		addFormField( "action", "Skillz." );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		int skillID = ClassSkillsDatabase.getSkillID( skillName );
+		this.skillID = ClassSkillsDatabase.getSkillID( skillName );
 		this.skillName = ClassSkillsDatabase.getSkillName( skillID );
 		addFormField( "whichskill", String.valueOf( skillID ) );
 
@@ -82,7 +82,6 @@ public class UseSkillRequest extends KoLRequest
 
 		this.target = target;
 		this.buffCount = buffCount < 1 ? 1 : buffCount;
-		this.consumedMP = ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount;
 	}
 
 	public int getBuffCount()
@@ -94,7 +93,7 @@ public class UseSkillRequest extends KoLRequest
 	}
 
 	public String toString()
-	{	return skillName + " (" + consumedMP + " mp)";
+	{	return skillName + " (" + ClassSkillsDatabase.getMPConsumptionByID( skillID ) + " mp)";
 	}
 
 	public void run()
@@ -200,7 +199,7 @@ public class UseSkillRequest extends KoLRequest
 		else
 		{
 			lastUpdate = "";
-			client.processResult( new AdventureResult( AdventureResult.MP, 0 - consumedMP ) );
+			client.processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount) ) );
 
 			processResults( responseText.replaceFirst(
 				"</b><br>\\(duration: ", " (" ).replaceAll( " Adventures", "" ) );
