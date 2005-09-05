@@ -128,6 +128,13 @@ public class FightRequest extends KoLRequest
 		if ( !client.permitsContinue() )
 			updateDisplay( DISABLED_STATE, "Completing battle, round " + (roundCount+1) + "..." );
 
+		if ( action.equals( "runaway" ) )
+		{
+			client.cancelRequest();
+			client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
+			return;
+		}
+
 		super.run();
 
 		// If there were no problems, then begin fighting the battle,

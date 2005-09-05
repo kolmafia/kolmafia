@@ -169,6 +169,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "autoStockRestores", "-1" );
 		ensureProperty( "autoStockScript", "" );
 		ensureProperty( "battleAction", "attack" );
+		ensureProperty( "battleStop", "0.0" );
 		ensureProperty( "browserBookmarks", "" );
 		ensureProperty( "buffBotCasting", "" );
 		ensureProperty( "buffBotMessageDisposal", "0" );
@@ -192,7 +193,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "defaultLimit", "13" );
 		ensureProperty( "fontSize", "3" );
 		ensureProperty( "forceReconnect", "false" );
-		ensureProperty( "hpAutoFlee", "0.0" );
 		ensureProperty( "hpAutoRecover", "-0.1" );
 		ensureProperty( "hpRecoveryScript", "" );
 		ensureProperty( "http.proxyHost", "" );
