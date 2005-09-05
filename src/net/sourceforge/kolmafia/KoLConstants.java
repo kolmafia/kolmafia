@@ -45,8 +45,8 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public interface KoLConstants extends UtilityConstants
 {
-	public static final String VERSION_NAME = "KoLmafia v5.3";
-	public static final String VERSION_DATE = "Released August 28, 2005";
+	public static final String VERSION_NAME = "KoLmafia v5.4";
+	public static final String VERSION_DATE = "Released September 6, 2005";
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings();
 
 	public static final List existingFrames = new ArrayList();
