@@ -33,7 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class PasswordHashRequest extends KoLRequest
 {
@@ -43,7 +44,7 @@ public class PasswordHashRequest extends KoLRequest
 	 */
 
 	public PasswordHashRequest( KoLmafia client )
-	{	super( client, "account_changecap.php" );
+	{	super( client, "account.php" );
 	}
 
 	public void run()
@@ -51,15 +52,15 @@ public class PasswordHashRequest extends KoLRequest
 		updateDisplay( DISABLED_STATE, "Retrieving password hash..." );
 		super.run();
 
-		StringTokenizer parsedContent = new StringTokenizer( responseText, "\'" );
-		while ( parsedContent.hasMoreTokens() && !parsedContent.nextToken().endsWith( "value=" ) );
+		Matcher pwdmatch = Pattern.compile( "name=pwd value=\"(.*?)\">" ).matcher( responseText );
 
-		if ( parsedContent.hasMoreTokens() )
-			client.setPasswordHash( parsedContent.nextToken() );
-		else
+		if ( !pwdmatch.find() )
 		{
 			client.updateDisplay( ERROR_STATE, "I/O Error.  Please retry." );
 			client.cancelRequest();
+			return;
 		}
+
+		client.setPasswordHash( pwdmatch.group(1) );
 	}
 }
