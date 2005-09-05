@@ -108,7 +108,16 @@ public class AdventureDatabase extends KoLDatabase
 			{ "miner's helmet", "miner's pants", "75 meat" } },
 
 		{ { "choiceAdventure20" }, { "See You Next Fall" },
-			{ "miner's helmet", "7-Foot Dwarven mattock", "100 meat" } }
+			{ "miner's helmet", "7-Foot Dwarven mattock", "100 meat" } },
+
+		{ { "choiceAdventure22" }, { "The Arrrbitrator" },
+			{ "eyepatch", "swashbuckling pants", "100 meat" } },
+
+		{ { "choiceAdventure23" }, { "Barrie Me at Sea" },
+			{ "stuffed shoulder parrot", "swashbuckling pants", "100 meat" } },
+
+		{ { "choiceAdventure24" }, { "Amatearrr Night" },
+			{ "stuffed shoulder parrot", "100 meat", "eyepatch" } }
 	};
 
 	private static List [] adventureTable;
