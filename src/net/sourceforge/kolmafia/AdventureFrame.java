@@ -392,7 +392,12 @@ public class AdventureFrame extends KoLFrame
 			contentPanel = this;
 
 			if ( client != null )
+			{
+				if ( actionNames.getSelectedIndex() < 0 || actions.getSelectedIndex() >= actions.size() )
+					actions.setSelectedIndex( 0 );
+
 				setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
+			}
 
 			Runnable request = (Runnable) locationSelect.getSelectedItem();
 			setProperty( "lastAdventure", request.toString() );
