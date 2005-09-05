@@ -60,12 +60,16 @@ import javax.swing.JEditorPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
+import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CommandDisplayFrame extends KoLFrame
 {
 	private KoLmafiaCLI instance;
 	private LimitedSizeChatBuffer commandBuffer;
+
+	private static int lastCommandIndex = 0;
+	private static ArrayList recentCommands = new ArrayList();
 
 	public CommandDisplayFrame( KoLmafia client )
 	{
@@ -171,13 +175,31 @@ public class CommandDisplayFrame extends KoLFrame
 
 			public void keyReleased( KeyEvent e )
 			{
-				if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+				if ( e.getKeyCode() == KeyEvent.VK_UP )
+				{
+					if ( lastCommandIndex <= 0 )
+						return;
+
+					entryField.setText( (String) recentCommands.get( --lastCommandIndex ) );
+				}
+				else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
+				{
+					if ( lastCommandIndex + 1 >= recentCommands.size() )
+						return;
+
+					entryField.setText( (String) recentCommands.get( ++lastCommandIndex ) );
+				}
+				else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
 					submitCommand();
 			}
 
 			private void submitCommand()
 			{
 				this.command = entryField.getText().trim();
+
+				recentCommands.add( command );
+				lastCommandIndex = recentCommands.size();
+
 				(new DaemonThread( this )).start();
 				entryField.setText( "" );
 			}
