@@ -354,7 +354,7 @@ public class StoreManageFrame extends KoLFrame
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 12, 640, 25, client == null ? new LockableListModel() : client.getStoreManager().getSoldItemList() );
+		{	super( 12, 640, 30, client == null ? new LockableListModel() : client.getStoreManager().getSoldItemList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
