@@ -63,8 +63,6 @@ import java.io.FileOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.BufferedInputStream;
 
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-
 /**
  * An extension of a standard <code>HTMLEditorKit</code> which overrides the
  * <code>getViewFactory()</code> method in order to return a different factory
