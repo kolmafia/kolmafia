@@ -43,10 +43,6 @@ import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.text.View;
 import javax.swing.text.Element;
 import javax.swing.text.ViewFactory;
@@ -79,7 +75,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 {
 	private static TreeMap images = new TreeMap();
 	private static KoLmafia client;
-	private static RequestFrame frame;
 
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
@@ -118,10 +113,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	 * and stores it locally.
 	 */
 
-	public static Image downloadImage( String filename )
+	public static URL downloadImage( String filename )
 	{
 		if ( images.containsKey( filename ) )
-			return (Image) images.get( filename );
+			return (URL) images.get( filename );
 
 		String localname = filename.replaceAll( "http://images.kingdomofloathing.com/", "" ).replaceAll( "/",
 			File.separator.replaceAll( "\\\\", "\\\\\\\\" ) );
@@ -156,12 +151,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			out.flush();
 			out.close();
 
-			ImageIcon imageIcon = new ImageIcon();
-			Image newImage = Toolkit.getDefaultToolkit().createImage( localfile.toURL() );
-			imageIcon.setImage( newImage );
-
-			images.put( filename, newImage );
-			return newImage;
+			images.put( filename, localfile.toURL() );
+			return (URL) images.get( filename );
 		}
 		catch ( Exception e )
 		{
@@ -180,7 +171,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{	super( elem );
 		}
 
-	    public Image getImage()
+	    public URL getImageURL()
 		{
 			String src = (String) getElement().getAttributes().getAttribute( HTML.Attribute.SRC );
 
