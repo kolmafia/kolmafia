@@ -306,7 +306,8 @@ public class OptionsFrame extends KoLFrame
 			{ "skipOutfits", "Skip outfit list retrieval" },
 			{ "skipFamiliars", "Skip terrarium retrieval" },
 			{ "savePositions", "Reload windows in original positions" },
-			{ "cloverProtectActive", "Guard against accidental clover usage" }
+			{ "cloverProtectActive", "Guard against accidental clover usage" },
+			{ "ignoreChoiceAdventures", "Ignore all choice adventures" }
 		};
 
 		/**

@@ -99,7 +99,16 @@ public class AdventureDatabase extends KoLDatabase
 			{ "Turn to muscle position", "Turn to map quest position", "Leave the wheel alone" } },
 
 		{ { "choiceAdventure14" }, { "A Bard Day's Night" },
-			{ "Knob goblin harem veil", "Knob goblin harem pants", "Meat adventure" } }
+			{ "Knob goblin harem veil", "Knob goblin harem pants", "100 meat" } },
+
+		{ { "choiceAdventure18" }, { "A Flat Miner" },
+			{ "miner's pants", "7-Foot Dwarven mattock", "100 meat" } },
+
+		{ { "choiceAdventure19" }, { "100% Legal" },
+			{ "miner's helmet", "miner's pants", "75 meat" } },
+
+		{ { "choiceAdventure20" }, { "See You Next Fall" },
+			{ "miner's helmet", "7-Foot Dwarven mattock", "100 meat" } }
 	};
 
 	private static List [] adventureTable;

@@ -315,6 +315,12 @@ public class AdventureRequest extends KoLRequest
 
 	public void processChoiceAdventure()
 	{
+		if ( getProperty( "ignoreChoiceAdventures" ).equals( "true" ) )
+		{
+			ignoreChoiceAdventure();
+			return;
+		}
+
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
@@ -355,9 +361,15 @@ public class AdventureRequest extends KoLRequest
 		}
 		else
 		{
-			updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
-			this.run();
+			ignoreChoiceAdventure();
 			return;
 		}
+	}
+
+	private void ignoreChoiceAdventure()
+	{
+		updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
+		this.run();
+		return;
 	}
 }

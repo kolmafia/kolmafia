@@ -182,6 +182,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "choiceAdventure11", "3" );
 		ensureProperty( "choiceAdventure12", "3" );
 		ensureProperty( "choiceAdventure14", "3" );
+		ensureProperty( "choiceAdventure18", "3" );
+		ensureProperty( "choiceAdventure19", "3" );
+		ensureProperty( "choiceAdventure20", "3" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		ensureProperty( "closeSending", "false" );
 		ensureProperty( "cloverProtectActive", "true" );
@@ -197,6 +200,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "http.proxyUser", "" );
 		ensureProperty( "http.proxyPassword", "" );
 		ensureProperty( "includeAscensionRecipes", "false" );
+		ensureProperty( "ignoreChoiceAdventures", "false" );
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		ensureProperty( "lastAdventure", "" );
 		ensureProperty( "lastOtoriRequest", "19700101" );
