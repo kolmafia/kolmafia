@@ -40,8 +40,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLMailManager
 {
-	private KoLmafia client;
-	private Map mailboxes;
+	protected KoLmafia client;
+	protected Map mailboxes;
 
 	public KoLMailManager()
 	{	this( null );

@@ -59,9 +59,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 {
 	public static final int SAVEBOX = 0;
 	public static final int DISPOSE = 1;
-	public static final int INBOX = 2;
 
-	private KoLmafia client;
 	private KoLCharacter characterData;
 	private List inventory;
 	private KoLSettings settings;
@@ -75,9 +73,8 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	private String refundMessage;
 	private String thanksMessage;
 
-	private static final int SLEEP_TIME = 1000;       // Sleep this much each time
-	private static final int SHORT_SLEEP_COUNT = 75;  // This many times
-	private static final int LONG_SLEEP_COUNT = 300;  // This many times for slot needs
+	private static final int SLEEP_TIME = 1000;  // Sleep this much each time
+	private static final int SLEEP_COUNT = 75;   // Sleep his many times
 
 	private Map buffCostMap;
 	private int maxPhilanthropy;
@@ -94,7 +91,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	public BuffBotManager( KoLmafia client, LockableListModel buffCostTable )
 	{
 		super( client );
-		this.client = client;
 
 		this.buffCostMap = new TreeMap();
 		this.buffCostTable = buffCostTable;
@@ -203,9 +199,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		if ( useChatBasedBuffBot )
 		{
-			if ( messageDisposalSetting == INBOX )
-				messageDisposalSetting = SAVEBOX;
-
 			iterations = 1;
 			client.initializeChat();
 		}
@@ -232,8 +225,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 		// The outer loop goes until user cancels
 
-		int sleepCount = messageDisposalSetting == INBOX ? LONG_SLEEP_COUNT : SHORT_SLEEP_COUNT;
-
 		for ( int i = 1; client.isBuffBotActive() && i <= iterations; ++i )
 		{
 			// Request the inbox for the user.  Each call
@@ -243,6 +234,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 			// initiate the mailbox request.
 
 			newMessages = false;
+			((List)mailboxes.get( "Inbox" )).clear();
 			deleteList.clear();  saveList.clear();
 			(new MailboxRequest( client, "Inbox" )).run();
 
@@ -276,7 +268,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 				client.updateDisplay( DISABLED_STATE, "BuffBot is sleeping" );
 
-				for ( int j = 0; j < sleepCount; ++j )
+				for ( int j = 0; j < SLEEP_COUNT; ++j )
 					if ( client.isBuffBotActive() )
 						KoLRequest.delay( SLEEP_TIME );
 			}
