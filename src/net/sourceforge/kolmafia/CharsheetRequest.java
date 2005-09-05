@@ -304,7 +304,6 @@ public class CharsheetRequest extends KoLRequest
 			// Use a regular expression to locate the familiar data
 			// and let the familiar data parser handle the rest.
 
-			FamiliarData.registerFamiliarData( client, responseText );
 			logStream.println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )
