@@ -173,6 +173,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
+		itemID = itemByName.get( canonicalName.replaceFirst( "es-in", "-in" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
 		// If it's a plural form of "tooth", then make
 		// sure that it's handled.  Other things which
 		// also have "ee" plural forms should be clumped
