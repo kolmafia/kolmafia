@@ -159,7 +159,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
 			name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
 			name.equals(DIVIDER) ? DIVIDER_PRIORITY :
-			TradeableItemDatabase.contains( name ) ? ITEM_PRIORITY : EFFECT_PRIORITY );
+			StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY );
 	}
 
 	/**
@@ -424,22 +424,6 @@ public class AdventureResult implements Comparable, KoLConstants
 		int priorityDifference = priority - ar.priority;
 		int nameComparison = name.compareToIgnoreCase( ar.name );
 		return priorityDifference != 0 ? priorityDifference : nameComparison != 0 ? nameComparison : isItem() ? itemID - ar.itemID : 0;
-	}
-
-	/**
-	 * Utility method for decrementing every value of the list by the
-	 * given amount.  This is used specifically by effect management,
-	 * but can be applied elsewhere.
-	 *
-	 * @param	tally	The tally accumulating <code>AdventureResult</code>s
-	 * @param	reductionAmount	The amount to reduce the tally by
-	 */
-
-	public static void reduceTally( List tally, int reductionAmount )
-	{
-		Object [] tallyAsArray = tally.toArray();
-		for ( int i = 0; i < tallyAsArray.length; ++i )
-			addResultToList( tally, new AdventureResult( ((AdventureResult)tallyAsArray[i]).name, reductionAmount ) );
 	}
 
 	/**

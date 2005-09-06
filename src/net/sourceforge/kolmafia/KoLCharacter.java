@@ -1452,7 +1452,10 @@ public class KoLCharacter
 			setAdventuresLeft( getAdventuresLeft() + result.getCount() );
 			if ( result.getCount() < 0 )
 			{
-				AdventureResult.reduceTally( getEffects(), result.getCount() );
+				Object [] effectsArray = getEffects().toArray();
+				for ( int i = 0; i < effectsArray.length; ++i )
+					AdventureResult.addResultToList( getEffects(), new AdventureResult( ((AdventureResult)effectsArray[i]).getName(), result.getCount() ) );
+
 				setTotalTurnsUsed( getTotalTurnsUsed() + result.getCount() );
 			}
 
