@@ -1196,15 +1196,28 @@ public class SorceressLair implements KoLConstants
 
 	private static void familiarBattle( int n )
 	{
-		KoLRequest request;
-
-		// If he has an HP recovery script, call it here?
-
-		// Need more than 50 hit points.
-
-		(new CharsheetRequest( client )).run();
-
 		KoLCharacter data = client.getCharacterData();
+
+		// Make sure that the familiar is at least twenty pounds.
+		// Otherwise, it's a wasted request.
+
+		FamiliarData currentFamiliar = (FamiliarData) data.getFamiliarList().getSelectedItem();
+		if ( currentFamiliar == null )
+		{
+			client.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
+			client.cancelRequest();
+			return;
+		}
+
+		// Ensure that the player has more than 50 HP, since
+		// you cannot enter the familiar chamber with less.
+
+		while ( data.getCurrentHP() < 50 && client.permitsContinue() )
+			client.autoRecoverHP();
+
+		// Need more than 50 hit points.  Abort if this is
+		// not the case.
+
 		if ( data.getCurrentHP() < 50 )
 		{
 			client.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );
@@ -1212,25 +1225,52 @@ public class SorceressLair implements KoLConstants
 			return;
 		}
 
-		client.updateDisplay( DISABLED_STATE, "Facing giant familiar" );
-
-		request = new KoLRequest( client, "lair6.php", true );
+		client.updateDisplay( DISABLED_STATE, "Facing giant familiar..." );
+		KoLRequest request = new KoLRequest( client, "lair6.php", true );
 		request.addFormField( "place", String.valueOf( n ) );
 		request.run();
 
+		client.processResults( request.responseText );
+
+		// If you do not successfully pass the familiar, you
+		// will get a "stomp off in a huff" message.
+
 		if ( request.responseText.indexOf( "stomp off in a huff" ) != -1 )
 		{
-			// Account for HP loss
-			client.processResults( request.responseText );
+			// Determine the necessary familiar, and switch to
+			// it (if it is possessed).  If the player does not
+			// have it, or it is not heavy enough, then tell the
+			// player they need to come back.
 
-			// Determine necessary familiar
-			for ( int i = 0; i < FAMILIAR_DATA.length; ++i)
+			for ( int i = 0; i < FAMILIAR_DATA.length; ++i )
+			{
 				if ( request.responseText.indexOf( FAMILIAR_DATA[i][0] ) != -1 )
 				{
+					FamiliarData neededFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( FAMILIAR_DATA[i][1] ) );
+					int neededFamiliarIndex = data.getFamiliarList().indexOf( neededFamiliar );
+
+					// If the player does have the needed familiar, then switch
+					// to it and recursively recall this method if the familiar
+					// is over twenty pounds.  Otherwise, cancel and notify the
+					// user that more familiar leveling is necessary.
+
+					if ( neededFamiliarIndex != -1 )
+					{
+						neededFamiliar = (FamiliarData) data.getFamiliarList().get( neededFamiliarIndex );
+
+						if ( neededFamiliar.getModifiedWeight() >= 20 )
+						{
+							(new FamiliarRequest( client, neededFamiliar )).run();
+							familiarBattle( n );
+							return;
+						}
+					}
+
 					client.updateDisplay( ERROR_STATE, "Come back with a 20 pound " + FAMILIAR_DATA[i][1] );
-					break;
+					client.cancelRequest();
+					return;
 				}
-                        client.cancelRequest();
+			}
 		}
 	}
 }
