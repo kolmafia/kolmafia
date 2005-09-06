@@ -701,9 +701,19 @@ public class KoLmafiaCLI extends KoLmafia
 		// request.  Again, complicated request, so
 		// delegate to the appropriate utility method.
 
-		if ( command.equals( "create" ) || command.equals( "make" ) || command.equals( "bake" ) || command.equals( "mix" ) || command.equals( "smith" ) )
+		if ( command.equals( "create" ) || command.equals( "make" ) || command.equals( "bake" ) || command.equals( "mix" ) || command.equals( "smith" ) || command.equals( "tinker" ) )
 		{
 			executeItemCreationRequest( parameters );
+			return;
+		}
+
+		// Another item-related command is an untinker
+		// request.  Again, complicated request, so
+		// delegate to the appropriate utility method.
+
+		if ( command.equals( "untinker" ) )
+		{
+			executeUntinkerRequest( parameters );
 			return;
 		}
 
@@ -1480,6 +1490,20 @@ public class KoLmafiaCLI extends KoLmafia
 		items[0] = firstMatch;
 
 		scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items, ClanStashRequest.ITEMS_TO_STASH ), 1 );
+	}
+
+	/**
+	 * A special module used specifically for properly instantiating
+	 * UntinkerRequests which untinkers items.
+	 */
+
+	private void executeUntinkerRequest( String parameters )
+	{
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, INVENTORY );
+		if ( firstMatch == null )
+			return;
+
+		scriptRequestor.makeRequest( new UntinkerRequest( scriptRequestor, firstMatch.getItemID() ), 1 );
 	}
 
 	/**
