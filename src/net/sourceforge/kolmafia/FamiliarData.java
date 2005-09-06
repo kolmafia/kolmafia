@@ -141,19 +141,49 @@ public class FamiliarData implements KoLConstants, Comparable
 	{	return weight;
 	}
 
+	public int getModifiedWeight()
+	{
+		int modifiedWeight = weight;
+
+		if ( id == 38 )
+			modifiedWeight += dodecaModifier;
+		else
+			modifiedWeight += weightModifier;
+
+		switch ( TradeableItemDatabase.getItemID( getItem() ) )
+		{
+			case -1:
+			case 1040:
+			case 1152:
+			case 1260:
+
+				break;
+
+			case 865:
+
+				modifiedWeight += 3;
+				break;
+
+			case 1243:
+
+				modifiedWeight -= 5;
+				break;
+
+			default:
+
+				modifiedWeight += 5;
+				break;
+		}
+
+		return modifiedWeight;
+	}
+
 	public String getRace()
 	{	return race;
 	}
 
 	public String toString()
-	{
-		if ( id == -1 )
-			return EquipmentRequest.UNEQUIP;
-
-		if ( id == 38 )
-			return race + " (" + Math.max( weight + dodecaModifier, 1 ) + " lbs)";
-
-		return race + " (" + (weight + weightModifier) + " lbs)";
+	{	return id == -1 ? EquipmentRequest.UNEQUIP : race + " (" + getModifiedWeight() + " lbs)";
 	}
 
 	public boolean equals( Object o )
@@ -223,28 +253,6 @@ public class FamiliarData implements KoLConstants, Comparable
 		// that the familiar is wearing
 
 		dodecaModifier = weightModifier;
-
-		switch ( TradeableItemDatabase.getItemID( owner.getFamiliarItem() ) )
-		{
-			case -1:
-			case 1040:
-			case 1152:
-			case 1260:
-
-				break;
-
-			case 865:
-
-				weightModifier += 3;
-				dodecaModifier += 3;
-				break;
-
-			default:
-
-				weightModifier += 5;
-				dodecaModifier -= 5;
-				break;
-		}
 
 		// Empathy and Leash of Linguini each add five pounds.
 		// The passive "Amphibian Sympathy" skill does too.
