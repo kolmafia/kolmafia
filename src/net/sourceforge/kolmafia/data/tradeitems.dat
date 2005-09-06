@@ -1274,18 +1274,19 @@
 1274	Medicinal Herb's medicinal herbs	3	50
 1275
 1276	Otorian Battle Scar	0	-1
-1277
+1277	basic meat kilt	10	140
 1278
-1279
-1280
-1281
-1282
-1283
-1284
-1285
-1286
-1287
-1288
-1289
+1279	sticky meat kilt	10	145
+1280	penguinskin mini-skirt	10	140
+1281	penguinskin mini-kilt	10	140
+1282	yakskin skirt	10	142
+1283	yakskin kilt	10	142
+1284	hippopotamus skirt	10	141
+1285	hippopotamus kilt	10	141
+1286	furry skirt	10	165
+1287	furry kilt	10	165
+1288	gnauga hide skirt	10	120
+1289	gnauga hide kilt	10	120
 1290	cheap wind-up clock	3	100
-1291	Jekyllin hide belt	10	-1
+1291	Jekyllin hide belt	8	-1
+1292	skirt / kilt kit	0	50
