@@ -1142,7 +1142,7 @@ public class SorceressLair implements KoLConstants
 
 	private static void fightShadow()
 	{
-		KoLRequest request;
+		KoLCharacter data = client.getCharacterData();
 
 		int potions = RED_PIXEL_POTION.getCount( client.getInventory() );
 		if ( potions < 5 )
@@ -1154,13 +1154,15 @@ public class SorceressLair implements KoLConstants
 			return;
 		}
 
-		// If he has an HP recovery script, call it here?
+		// Ensure that the player is at full HP since the shadow will
+		// probably beat him up if he has less.
 
-		// Need to be at full health to face your shadow
+		while ( data.getCurrentHP() < data.getMaximumHP() && client.permitsContinue() )
+			client.autoRecoverHP();
 
-		(new CharsheetRequest( client )).run();
+		// Need to be at full health.  Abort if this is
+		// not the case.
 
-		KoLCharacter data = client.getCharacterData();
 		if ( data.getCurrentHP() < data.getMaximumHP() )
 		{
 			client.updateDisplay( ERROR_STATE, "You must be fully healed to fight your shadow." );
@@ -1168,11 +1170,11 @@ public class SorceressLair implements KoLConstants
 			return;
 		}
 
-		client.updateDisplay( DISABLED_STATE, "Fighting your shadow" );
+		client.updateDisplay( DISABLED_STATE, "Fighting your shadow..." );
 
 		// Start the battle!
 
-		request = new KoLRequest( client, "lair6.php", true );
+		KoLRequest request = new KoLRequest( client, "lair6.php", true );
 		request.addFormField( "place", "2" );
 		request.run();
 
