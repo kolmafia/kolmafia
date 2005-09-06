@@ -552,7 +552,13 @@ public class OptionsFrame extends KoLFrame
 			{
 				selected = getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ).split( "," );
 				for ( int j = 0; j < selected.length; ++j )
-					optionRadios[i][ Integer.parseInt( selected[j] ) - 1 ].setSelected( true );
+				{
+					int value = Integer.parseInt( selected[j] );
+					// Handle broken values in .kcs file
+					if ( value == 0 )
+						value = 1;
+					optionRadios[i][ value - 1 ].setSelected( true );
+				}
 			}
 		}
 	}
