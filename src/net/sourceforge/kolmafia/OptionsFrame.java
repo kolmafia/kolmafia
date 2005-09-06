@@ -356,7 +356,7 @@ public class OptionsFrame extends KoLFrame
 
 	private class RestoreOptionsPanel extends OptionsPanel
 	{
-		private JComboBox hpAutoFleeSelect;
+		private JComboBox battleStopSelect;
 		private JComboBox hpAutoRecoverSelect;
 		private JComboBox mpAutoRecoverSelect;
 		private JTextField hpRecoveryScriptField;
@@ -372,10 +372,10 @@ public class OptionsFrame extends KoLFrame
 		{
 			super( "Auto-Recovery" );
 
-			hpAutoFleeSelect = new JComboBox();
-			hpAutoFleeSelect.addItem( "Never stop combat" );
+			battleStopSelect = new JComboBox();
+			battleStopSelect.addItem( "Never stop combat" );
 			for ( int i = 1; i <= 9; ++i )
-				hpAutoFleeSelect.addItem( "Autostop at " + (i*10) + "% HP" );
+				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
 
 			// All the components of autorecovery
 
@@ -396,7 +396,7 @@ public class OptionsFrame extends KoLFrame
 			// Add the elements to the panel
 
 			VerifiableElement [] elements = new VerifiableElement[7];
-			elements[0] = new VerifiableElement( "Stop Combat: ", hpAutoFleeSelect );
+			elements[0] = new VerifiableElement( "Stop Combat: ", battleStopSelect );
 
 			elements[1] = new VerifiableElement( "", new JLabel() );
 
@@ -414,7 +414,7 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "battleStop", String.valueOf( ((double)(hpAutoFleeSelect.getSelectedIndex()) / 10.0) ) );
+			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex()) / 10.0) ) );
 			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
 			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
@@ -425,7 +425,7 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			hpAutoFleeSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) );
+			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) );
 			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
 			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
 			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );

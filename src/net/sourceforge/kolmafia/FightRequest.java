@@ -66,7 +66,7 @@ public class FightRequest extends KoLRequest
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
 
-		int fleeTolerance = (int)( Double.parseDouble( getProperty( "hpAutoFlee" ) ) * (double) client.getCharacterData().getMaximumHP() );
+		int fleeTolerance = (int)( Double.parseDouble( getProperty( "battleStop" ) ) * (double) client.getCharacterData().getMaximumHP() );
 
 		// For now, there will not be any attempts to handle
 		// special skills - the user will simply attack, use
