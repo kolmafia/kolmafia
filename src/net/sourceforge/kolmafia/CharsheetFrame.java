@@ -322,16 +322,16 @@ public class CharsheetFrame extends KoLFrame
 
 		if ( levelPanel != null )
 		{
-			String advancement = characterData.getAdvancement();
-			int currentLevel = characterData.getLevel();
-			int neededStat = currentLevel * currentLevel + 4;
-			int currentStat = neededStat - Integer.parseInt( advancement.split( " " )[0] );
+			int currentLevel = characterData.calculateLastLevel();
+			int nextLevel = characterData.calculateNextLevel();
+			int totalPrime = characterData.getTotalPrime();
 
-			levelMeter.setMaximum( neededStat );
-			levelMeter.setValue( currentStat );
+			levelMeter.setMaximum( nextLevel - currentLevel );
+			levelMeter.setValue( totalPrime - currentLevel );
 			levelMeter.setString( "" );
 
-			levelPanel.setToolTipText( advancement );
+			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + characterData.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
+				df.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 		}
 	}
 

@@ -50,7 +50,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
  * the various aspects of <code>KoLmafia</code>, leading to extensibility.
  */
 
-public class KoLCharacter
+public class KoLCharacter implements KoLConstants
 {
 	private static List SEAL_CLUBBER = new ArrayList();
 	static
@@ -355,23 +355,7 @@ public class KoLCharacter
 	 */
 
 	public void setClassName( String classname )
-	{
-		this.classname = classname;
-
-		if ( SEAL_CLUBBER.contains( classname ) )
-			classtype = "Seal Clubber";
-		else if ( TURTLE_TAMER.contains( classname ) )
-			classtype = "Turtle Tamer";
-		else if ( PASTAMANCER.contains( classname ) )
-			classtype = "Pastamancer";
-		else if ( SAUCEROR.contains( classname ) )
-			classtype = "Sauceror";
-		else if ( DISCO_BANDIT.contains( classname ) )
-			classtype = "Disco Bandit";
-		else if ( ACCORDION_THIEF.contains( classname ) )
-			classtype = "Accordion Thief";
-		else
-			classtype = "";
+	{	this.classname = classname;
 	}
 
 	/**
@@ -389,7 +373,13 @@ public class KoLCharacter
 	 */
 
 	public String getClassType()
-	{	return classtype;
+	{
+		return SEAL_CLUBBER.contains( classname ) ? "Seal Clubber" :
+			TURTLE_TAMER.contains( classname ) ? "Turtle Tamer" :
+			PASTAMANCER.contains( classname ) ? "Pastamancer" :
+			SAUCEROR.contains( classname ) ? "Sauceror" :
+			DISCO_BANDIT.contains( classname ) ? "Disco Bandit" :
+			ACCORDION_THIEF.contains( classname ) ? "Accordion Thief" : "Sauceror";
 	}
 
 	/**
@@ -588,6 +578,41 @@ public class KoLCharacter
 
 	public static int calculateBasePoints( int totalSubpoints )
 	{	return (int) Math.floor( Math.sqrt( totalSubpoints + 1 ) );
+	}
+
+	/**
+	 * Returns the total number of subpoints to the current level.
+	 * @return	The total subpoints to the current level
+	 */
+
+	public int calculateLastLevel()
+	{
+		int level = getLevel() - 1;
+		int basePointsNeeded = level * level + 4;
+		return basePointsNeeded * basePointsNeeded - 1;
+	}
+
+	/**
+	 * Returns the total number of subpoints to the next level.
+	 * @return	The total subpoints to the next level
+	 */
+
+	public int calculateNextLevel()
+	{
+		int level = getLevel();
+		int basePointsNeeded = level * level + 4;
+		return basePointsNeeded * basePointsNeeded - 1;
+	}
+
+	/**
+	 * Returns the total number of subpoints acquired in the prime stat.
+	 * @return	The total subpoints in the prime stat
+	 */
+
+	public int getTotalPrime()
+	{
+		return classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? totalSubpoints[0] :
+			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? totalSubpoints[1] : totalSubpoints[2];
 	}
 
 	/**
@@ -1412,11 +1437,11 @@ public class KoLCharacter
 			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? calculateBasePoints( totalSubpoints[1] ) :
 				calculateBasePoints( totalSubpoints[2] );
 
-		String primeStat = classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? "Muscle" :
-			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? "Mysticality" : "Moxie";
+		String primeStat = classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? "muscle" :
+			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? "mysticality" : "moxie";
 
 		int level = getLevel();
-		return (level * level + 4 - currentPrime) + " " + primeStat + " until level " + (level + 1);
+		return df.format( level * level + 4 - currentPrime ) + " " + primeStat + " until level " + (level + 1);
 	}
 
 	/**
