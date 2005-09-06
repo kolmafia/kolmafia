@@ -287,8 +287,8 @@ public class TradeableItemDatabase extends KoLDatabase
 		// by checking every single space location.  Do
 		// this recursively for best results.
 
-		int lastSpaceIndex = itemName.indexOf( " " );
-		return lastSpaceIndex != -1 ? getItemID( itemName.substring( lastSpaceIndex ).trim() ) : -1;
+		int lastSpaceIndex = canonicalName.indexOf( " " );
+		return lastSpaceIndex != -1 ? getItemID( canonicalName.substring( lastSpaceIndex ).trim() ) : -1;
 	}
 
 	/**
@@ -325,8 +325,12 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( substring.indexOf( "\"" ) != -1 )
 		{
-			if ( itemByName.containsKey( getCanonicalName( searchString ) ) )
-				substringList.add( getDisplayName( searchString ) );
+			if ( itemByName.containsKey( searchString ) )
+				substringList.add( getItemName( getItemID( searchString ) ) );
+		}
+		else if ( itemByName.containsKey( searchString ) )
+		{
+			substringList.add( getItemName( getItemID( searchString ) ) );
 		}
 		else
 		{
