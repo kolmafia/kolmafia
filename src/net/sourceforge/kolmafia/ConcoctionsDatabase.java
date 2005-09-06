@@ -134,9 +134,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * Returns the concoctions which are available given the list of
 	 * ingredients.  The list returned contains formal requests for
 	 * item creation.
-	 *
-	 * @param	client	The client to be consulted of the results
-	 * @return	A list of possible concoctions
 	 */
 
 	public static synchronized void refreshConcoctions()
