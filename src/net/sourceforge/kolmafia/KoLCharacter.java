@@ -355,7 +355,9 @@ public class KoLCharacter implements KoLConstants
 	 */
 
 	public void setClassName( String classname )
-	{	this.classname = classname;
+	{
+		this.classname = classname;
+		this.classtype = getClassType();
 	}
 
 	/**
