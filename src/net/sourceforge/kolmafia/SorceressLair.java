@@ -1214,13 +1214,13 @@ public class SorceressLair implements KoLConstants
 		// Ensure that the player has more than 50 HP, since
 		// you cannot enter the familiar chamber with less.
 
-		if ( data.getCurrentHP() < 50 )
+		if ( data.getCurrentHP() <= 50 )
 			client.autoRecoverHP();
 
 		// Need more than 50 hit points.  Abort if this is
 		// not the case.
 
-		if ( data.getCurrentHP() < 50 )
+		if ( data.getCurrentHP() <= 50 )
 		{
 			client.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );
 			client.cancelRequest();
