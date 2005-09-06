@@ -983,22 +983,22 @@ public class SorceressLair implements KoLConstants
 		{
 			switch (n)
 			{
-			case 0:
-				findDoorCode();
-				break;
-			case 1:
-				reflectEnergyBolt();
-				break;
-			case 2:
-				fightShadow();
-				break;
-			case 3:
-				familiarBattle(3);
-				break;
-			case 4:
-				familiarBattle(4);
-				break;
-			}
+				case 0:
+					findDoorCode();
+					break;
+				case 1:
+					reflectEnergyBolt();
+					break;
+				case 2:
+					fightShadow();
+					break;
+				case 3:
+					familiarBattle(3);
+					break;
+				case 4:
+					familiarBattle(4);
+					break;
+				}
 
 			if ( !client.permitsContinue() )
 				return;
@@ -1157,7 +1157,7 @@ public class SorceressLair implements KoLConstants
 		// Ensure that the player is at full HP since the shadow will
 		// probably beat him up if he has less.
 
-		while ( data.getCurrentHP() < data.getMaximumHP() && client.permitsContinue() )
+		if ( data.getCurrentHP() < data.getMaximumHP() )
 			client.autoRecoverHP();
 
 		// Need to be at full health.  Abort if this is
@@ -1214,7 +1214,7 @@ public class SorceressLair implements KoLConstants
 		// Ensure that the player has more than 50 HP, since
 		// you cannot enter the familiar chamber with less.
 
-		while ( data.getCurrentHP() < 50 && client.permitsContinue() )
+		if ( data.getCurrentHP() < 50 )
 			client.autoRecoverHP();
 
 		// Need more than 50 hit points.  Abort if this is
