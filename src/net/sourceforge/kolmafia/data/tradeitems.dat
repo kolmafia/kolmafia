@@ -1197,17 +1197,17 @@
 1197	stuffed Mob Penguin	0	10000
 1198	stuffed sabre toothed lime	0	25000
 1199	giant stuffed bugbear	0	50000
-1200	mugcake	2	25
-1201	urinal cake	2	50
-1202	Happy Birthday, Claude! cake	2	100
-1203	personalized birthday cake	2	250
-1204	three-tiered wedding cake	2	500
-1205	babycakes	2	1000
-1206	blue velvet cake	2	2500
-1207	congratulatory cake	2	5000
-1208	angel-food cake	2	10000
-1209	devil's-food cake	2	25000
-1210	birthday party jellybean cheesecake	2	50000
+1200	mugcake	1	25
+1201	urinal cake	1	50
+1202	Happy Birthday, Claude! cake	1	100
+1203	personalized birthday cake	1	250
+1204	three-tiered wedding cake	1	500
+1205	babycakes	1	1000
+1206	blue velvet cake	1	2500
+1207	congratulatory cake	1	5000
+1208	angel-food cake	1	10000
+1209	devil's-food cake	1	25000
+1210	birthday party jellybean cheesecake	1	50000
 1211	white balloon	8	25
 1212	green balloon	8	50
 1213	heart-shaped balloon	8	100
@@ -1251,10 +1251,10 @@
 1251	Knob shroomkabob	1	30
 1252	spooky shroomkabob	1	30
 1253	jumping beans	0	23
-1254	jumping bean burrito	2	50
-1255	spicy jumping bean burrito	2	60
-1256	insanely spicy jumping bean burrito	2	90
-1257	rat scrapple	2	40
+1254	jumping bean burrito	1	50
+1255	spicy jumping bean burrito	1	60
+1256	insanely spicy jumping bean burrito	1	90
+1257	rat scrapple	1	40
 1258	pail of pretentious paint	0	0
 1259	yellow traffic cone	9	100
 1260	wax lips	6	-1
