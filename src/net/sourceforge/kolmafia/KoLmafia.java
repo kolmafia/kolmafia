@@ -819,7 +819,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * the user has specified this in their settings).
 	 */
 
-	private void autoRecoverHP()
+	protected final void autoRecoverHP()
 	{
 		disableMacro = true;
 		double autoRecover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) characterData.getMaximumHP();
@@ -909,7 +909,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * the user has specified this in their settings).
 	 */
 
-	private void autoRecoverMP()
+	protected final void autoRecoverMP()
 	{
 		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) characterData.getMaximumMP();
 
