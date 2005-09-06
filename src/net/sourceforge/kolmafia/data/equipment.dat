@@ -79,7 +79,9 @@ yellow traffic cone	60	Mox: 15
 # which go in the "pants" slot of the equipment menu.
 
 1337 7r0uZ0RZ	110	Mox: 40
+basic meat kilt	40	Mox: 5
 basic meat pants	40	Mox: 5
+basic meat skirt	40	Mox: 5
 bloody clown pants	50	Mox: 10
 Boss Bat britches	65	Mox: 17
 bowlegged pants	100	Mox: 35
@@ -90,9 +92,15 @@ demonskin trousers	50	Mox: 10
 dungeoneer's dungarees	30	none
 filthy corduroys	60	Mox: 15
 frilly skirt	35	Mox: 2
+furry kilt	150	Mox: 60
 furry pants	150	Mox: 60
+furry skirt	150	Mox: 60
 gnauga hide chaps	80	Mox: 25
+gnauga hide kilt	80	Mox: 25
+gnauga hide skirt	80	Mox: 25
+hippopotamus kilt	130	Mox: 50
 hippopotamus pants	130	Mox: 50
+hippopotamus skirt	130	Mox: 50
 Knob Goblin elite pants	60	Mox: 15
 Knob Goblin harem pants	10	none
 Knob Goblin pants	25	none
@@ -106,6 +114,8 @@ ninja hot pants	70	Mox: 20
 old school Mafia knickerbockers	100	Mox: 35
 Orcish cargo shorts	60	Mox: 15
 pants of the Slug Lord	35	Mox: 2
+penguin mini-kilt	120	Mox: 45
+penguin mini-skirt	120	Mox: 45
 penguin shorts	120	Mox: 45
 pixel pants	50	Mox: 10
 plexiglass pants	180	Mox: 75
@@ -113,11 +123,15 @@ Radio Free Pants	150	Mox: 60
 snowboarder pants	100	Mox: 35
 stainless steel slacks	90	Mox: 30
 star pants	165	Mox: 67
+sticky meat kilt	45	Mox: 7
 sticky meat pants	45	Mox: 7
+sticky meat skirt	45	Mox: 7
 studded leather boxer shorts	20	none
 swashbuckling pants	80	Mox: 25
 white satin pants	40	Mox: 5
+yakskin kilt	140	Mox: 55
 yakskin pants	140	Mox: 55
+yakskin skirt	140	Mox: 55
 
 # Shirt section.  This section includes all the items
 # which go in the "shirt" slot of the equipment menu.
