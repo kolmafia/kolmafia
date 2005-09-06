@@ -78,10 +78,11 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class CharsheetFrame extends KoLFrame
 {
 	private KoLCharacter characterData;
-	private JPanel namePanel;
+
+	private JPanel levelPanel;
 	private JLabel levelLabel;
 
-	private JProgressBar hpMeter, mpMeter;
+	private JProgressBar levelMeter, hpMeter, mpMeter;
 
 	private JLabel [] statusLabel;
 	private JProgressBar [] tnpDisplay;
@@ -146,13 +147,24 @@ public class CharsheetFrame extends KoLFrame
 		JPanel imagePanel = new JPanel();
 		imagePanel.setLayout( new BorderLayout( 10, 10 ) );
 
-		this.namePanel = new JPanel();
+		JPanel namePanel = new JPanel();
 		namePanel.setLayout( new GridLayout( 2, 1 ) );
 		namePanel.add( new JLabel( characterData.getUsername() + " (#" + characterData.getUserID() + ")", JLabel.CENTER ) );
 
 		this.levelLabel = new JLabel( "Level " + characterData.getLevel() + " " + characterData.getClassName(), JLabel.CENTER );
 		namePanel.add( levelLabel );
-		imagePanel.add( namePanel, BorderLayout.NORTH );
+
+		this.levelPanel = new JPanel();
+		levelPanel.setLayout( new BorderLayout() );
+		levelPanel.add( namePanel, BorderLayout.CENTER );
+
+		this.levelMeter = new JProgressBar();
+		levelMeter.setValue( 0 );
+		levelMeter.setStringPainted( true );
+		JComponentUtilities.setComponentSize( levelMeter, 40, 5 );
+
+		levelPanel.add( levelMeter, BorderLayout.SOUTH );
+		imagePanel.add( levelPanel, BorderLayout.NORTH );
 
 		StringBuffer imagename = new StringBuffer( characterData.getClassType().replaceAll( " ", "" ).toLowerCase() );
 
@@ -308,8 +320,19 @@ public class CharsheetFrame extends KoLFrame
 		refreshValuePanel( 1, characterData.getBaseMysticality(), characterData.getAdjustedMysticality(), characterData.getMysticalityTNP() );
 		refreshValuePanel( 2, characterData.getBaseMoxie(), characterData.getAdjustedMoxie(), characterData.getMoxieTNP() );
 
-		if ( namePanel != null )
-			namePanel.setToolTipText( characterData.getAdvancement() );
+		if ( levelPanel != null )
+		{
+			String advancement = characterData.getAdvancement();
+			int currentLevel = characterData.getLevel();
+			int neededStat = currentLevel * currentLevel + 4;
+			int currentStat = neededStat - Integer.parseInt( advancement.split( " " )[0] );
+
+			levelMeter.setMaximum( neededStat );
+			levelMeter.setValue( currentStat );
+			levelMeter.setString( "" );
+
+			levelPanel.setToolTipText( advancement );
+		}
 	}
 
 	private class StatusRefreshListener implements ActionListener, Runnable
