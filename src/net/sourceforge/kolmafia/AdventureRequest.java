@@ -235,6 +235,17 @@ public class AdventureRequest extends KoLRequest
 					this.run();
 					return;
 				}
+				else if ( responseText.indexOf( "You shouldn't be here." ) != -1 ||
+					  responseText.indexOf( "The Factory has faded back into the spectral mists" ) != -1 )
+				{
+					// He's missing an item, hasn't been give a quest yet,
+					// or otherwise is trying to go somewhere he's not allowed.
+
+					isErrorState = true;
+					client.cancelRequest();
+					updateDisplay( ERROR_STATE, "You can't get to that area." );
+					return;
+				}
 				else if ( responseText.indexOf( "You acquire an item" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
 				{
 					// Notify the client of failure by telling it that
