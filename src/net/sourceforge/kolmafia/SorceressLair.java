@@ -1013,7 +1013,7 @@ public class SorceressLair implements KoLConstants
 	{
 		KoLRequest request;
 
-		client.updateDisplay( DISABLED_STATE, "Cracking door code" );
+		client.updateDisplay( DISABLED_STATE, "Cracking door code..." );
 
 		// Enter the chamber
 
@@ -1132,7 +1132,7 @@ public class SorceressLair implements KoLConstants
 		// Equip the huge mirror shard
 		(new EquipmentRequest( client, SHARD.getName() )).run();
 
-		client.updateDisplay( DISABLED_STATE, "Reflecting energy bolt" );
+		client.updateDisplay( DISABLED_STATE, "Reflecting energy bolt..." );
 
 		// Reflect the energy bolt
 		request = new KoLRequest( client, "lair6.php", true );
@@ -1145,11 +1145,11 @@ public class SorceressLair implements KoLConstants
 		KoLCharacter data = client.getCharacterData();
 
 		int potions = RED_PIXEL_POTION.getCount( client.getInventory() );
-		if ( potions < 5 )
+		if ( potions < 4 )
 		{
 			client.updateDisplay( ERROR_STATE, "You don't have enoough red pixel potions." );
 			missingItems.clear();
-			missingItems.add( new AdventureResult( "red pixel potion", 5 - potions ) );
+			missingItems.add( new AdventureResult( "red pixel potion", 4 - potions ) );
 			client.cancelRequest();
 			return;
 		}
@@ -1178,22 +1178,20 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "place", "2" );
 		request.run();
 
-		do
-		{
-			// Heal yourself and damage your shadow
+		String action = client.getSettings().getProperty( "battleAction" );
+		client.getSettings().setProperty( "battleAction", "item464" );
 
-			request = new KoLRequest( client, "fight.php" );
-			request.addFormField( "action", "useitem" );
-			request.addFormField( "whichitem", "464" );
-			request.run();
+		request = new FightRequest( client );
+		request.run();
 
-			// Use up the item
-			client.processResult( RED_PIXEL_POTION.getNegation() );
-		} while ( request.responseText.indexOf( "WINWINWIN" ) == -1 );
-
-		// Account for stat gains
-		client.processResults( request.responseText );
+		client.getSettings().setProperty( "battleAction", action );
 		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+
+		if ( !client.permitsContinue() )
+		{
+			client.updateDisplay( ERROR_STATE, "KoLmafia was unable to defeat your shadow." );
+			return;
+		}
 	}
 
 	private static void familiarBattle( int n )
