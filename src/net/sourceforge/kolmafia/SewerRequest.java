@@ -59,11 +59,8 @@ public class SewerRequest extends KoLRequest
 
 	public SewerRequest( KoLmafia client, boolean isLuckySewer )
 	{
-		super( client, isLuckySewer ? "luckysewer.php" : "adventure.php" );
+		super( client, "sewer.php" );
 		this.isLuckySewer = isLuckySewer;
-
-		if ( !this.isLuckySewer )
-			addFormField( "adv", "12" );
 	}
 
 	/**
@@ -97,25 +94,42 @@ public class SewerRequest extends KoLRequest
 
 		String [] items = getProperty( "luckySewer" ).split( "," );
 
-		addFormField( "action", "take" );
-		addFormField( "i" + items[0], "on" );
-		addFormField( "i" + items[1], "on" );
-		addFormField( "i" + items[2], "on" );
+		if ( items.length != 3 )
+		{
+			// The Sewer Gnomes insist on giving precisely three items
 
+			isErrorState = true;
+			updateDisplay( ERROR_STATE, "You must select three items to get from the Sewer Gnomes." );
+			client.cancelRequest();
+			return;
+		}
+
+		// Enter the sewer
 		super.run();
-
-		// Update if you're redirected to a page the client does not
-		// yet recognize.
 
 		if ( isErrorState )
 			return;
 
-		if ( responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
+		// Now invoke sewer.php with additional fields to get desired items.
+
+		addFormField( "doodit", "1" );
+
+		for ( int i = 0; i < 3; i++)
 		{
-			updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
-			client.cancelRequest();
-			return;
+			int value = Integer.parseInt( items[i] );
+
+			// Values are now ItemIDs. Indices 1-12 are itemID 1-12, but index 13 is itemID 43
+
+			if (value == 13 )
+				value = 43;
+
+			addFormField( "i" + value, "on" );
 		}
+
+		super.run();
+
+		if ( isErrorState )
+			return;
 
 		processResults( responseText );
 		client.processResult( CLOVER );
@@ -151,21 +165,10 @@ public class SewerRequest extends KoLRequest
 		// You may have randomly received a clover from some other
 		// source - detect this occurence and notify the user
 
-		if ( responseCode == 302 && redirectLocation.equals( "luckysewer.php" ) )
+		if ( responseText.indexOf( "Sewage Gnomes" ) != -1 )
 		{
 			isErrorState = true;
 			updateDisplay( ERROR_STATE, "You have an unaccounted for ten-leaf clover." );
-			client.cancelRequest();
-			return;
-		}
-
-		// Update if you're redirected to a page the client does not
-		// yet recognize.
-
-		if ( responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
-		{
-			isErrorState = true;
-			updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
 			client.cancelRequest();
 			return;
 		}

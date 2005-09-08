@@ -209,7 +209,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "lastAdventure", "" );
 		ensureProperty( "lastOtoriRequest", "19700101" );
 		ensureProperty( "loginServer", "0" );
-		ensureProperty( "luckySewer", "2,8,13" );
+		ensureProperty( "luckySewer", "2,8,43" );
 		ensureProperty( "maxPhilanthropy", "1" );
 		ensureProperty( "mpAutoRecover", "-0.1" );
 		ensureProperty( "nameClickOpens", "0" );
