@@ -90,7 +90,7 @@ public class FightRequest extends KoLRequest
 		else if ( action.startsWith( "item" ) )
 		{
 			addFormField( "action", "useitem" );
-			addFormField( "whichitem", "536" );
+			addFormField( "whichitem", action.substring( 4 ) );
 		}
 		else if ( client.getCharacterData().getCurrentMP() < 0 - getMPCost() )
 		{
