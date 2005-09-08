@@ -1174,14 +1174,11 @@ public class SorceressLair implements KoLConstants
 
 		// Start the battle!
 
-		KoLRequest request = new KoLRequest( client, "lair6.php", true );
-		request.addFormField( "place", "2" );
-		request.run();
-
 		String action = client.getSettings().getProperty( "battleAction" );
 		client.getSettings().setProperty( "battleAction", "item464" );
 
-		request = new FightRequest( client );
+		KoLRequest request = new KoLRequest( client, "lair6.php" );
+		request.addFormField( "place", "2" );
 		request.run();
 
 		client.getSettings().setProperty( "battleAction", action );
