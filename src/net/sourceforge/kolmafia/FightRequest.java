@@ -194,8 +194,17 @@ public class FightRequest extends KoLRequest
 
 	private int getMPCost()
 	{
-		if ( action.equals( "attack" ) || action.equals( "runaway" ) || action.startsWith( "item" ) )
+		if ( action.equals( "attack" ) || action.equals( "runaway" ) )
 			return 0;
+
+		if ( action.startsWith( "item" ) )
+		{
+			int itemID = Integer.parseInt( action.substring( 4 ) );
+			if ( itemID != 536 )
+				client.processResult( new AdventureResult( itemID, -1 ) );
+
+			return 0;
+		}
 
 		if ( action.equals( "moxman" ) )
 			return 0 - client.getCharacterData().getLevel();
