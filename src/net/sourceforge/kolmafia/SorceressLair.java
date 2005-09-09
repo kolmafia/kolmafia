@@ -352,13 +352,18 @@ public class SorceressLair implements KoLConstants
 		if ( !checkRequirements( requirementsArray ) )
 			return;
 
-		// The character needs to be healthy in order to play
-		// the skeleton dice game.  Healthy is determined as
-		// having at least 25% of your maximum HP.
-
 		if ( RHYTHM.getCount( client.getInventory() ) < 1 )
 		{
-			(new CharsheetRequest( client )).run();
+			// The character needs to be healthy in order to play
+			// the skeleton dice game.  Healthy is determined as
+			// having at least 25% of your maximum HP.
+
+			// Autorecover HP is necessary
+
+			if ( data.getCurrentHP() * 4 < data.getMaximumHP() )
+				client.autoRecoverHP();
+
+			// Check current health
 
 			if ( data.getCurrentHP() * 4 < data.getMaximumHP() )
 			{
