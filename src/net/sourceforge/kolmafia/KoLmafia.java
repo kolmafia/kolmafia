@@ -821,8 +821,17 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected final void autoRecoverHP()
 	{
-		disableMacro = true;
 		double autoRecover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) characterData.getMaximumHP();
+		autoRecoverHPInternal( autoRecover );
+	}
+
+	/**
+	 * Internal method to recover HP up to specified threshold.
+
+	 */
+	protected final void autoRecoverHPInternal( double autoRecover )
+	{
+		disableMacro = true;
 
 		if ( (double) characterData.getCurrentHP() <= autoRecover )
 		{

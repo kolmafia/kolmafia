@@ -358,10 +358,10 @@ public class SorceressLair implements KoLConstants
 			// the skeleton dice game.  Healthy is determined as
 			// having at least 25% of your maximum HP.
 
-			// Autorecover HP is necessary
+			// Autorecover HP if necessary
 
 			if ( data.getCurrentHP() * 4 < data.getMaximumHP() )
-				client.autoRecoverHP();
+				client.autoRecoverHPInternal( data.getMaximumHP() / 4.0 );
 
 			// Check current health
 
@@ -1163,7 +1163,7 @@ public class SorceressLair implements KoLConstants
 		// probably beat him up if he has less.
 
 		if ( data.getCurrentHP() < data.getMaximumHP() )
-			client.autoRecoverHP();
+			client.autoRecoverHPInternal( data.getMaximumHP() );
 
 		// Need to be at full health.  Abort if this is
 		// not the case.
@@ -1215,7 +1215,7 @@ public class SorceressLair implements KoLConstants
 		// you cannot enter the familiar chamber with less.
 
 		if ( data.getCurrentHP() <= 50 )
-			client.autoRecoverHP();
+			client.autoRecoverHPInternal( 51.0 );
 
 		// Need more than 50 hit points.  Abort if this is
 		// not the case.
