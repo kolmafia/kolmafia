@@ -532,7 +532,7 @@ public class KoLmafiaCLI extends KoLmafia
 					// occur.  However, since there could still be something
 					// bad happening, print an error message.
 
-					scriptRequestor.updateDisplay( ERROR_STATE, "I/O error in opening file <" + parameters + ">" );
+					scriptRequestor.updateDisplay( ERROR_STATE, "I/O error in opening file \"" + parameters + "\"" );
 					scriptRequestor.cancelRequest();
 					return;
 				}
@@ -992,7 +992,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( lastScript == null )
 			{
-				scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
+				scriptRequestor.updateDisplay( ERROR_STATE, "Script file \"" + parameters + "\" could not be found." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -1007,7 +1007,7 @@ public class KoLmafiaCLI extends KoLmafia
 			// Because everything is checked for consistency
 			// before being loaded, this should not happen.
 
-			scriptRequestor.updateDisplay( ERROR_STATE, "Script file <" + parameters + "> could not be found." );
+			scriptRequestor.updateDisplay( ERROR_STATE, "Script file \"" + parameters + "\" could not be found." );
 			scriptRequestor.cancelRequest();
 			return;
 		}
@@ -1312,7 +1312,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// occur.  However, since there could still be something
 				// bad happening, print an error message.
 
-				scriptRequestor.updateDisplay( ERROR_STATE, "I/O error in opening file <" + parameterList[1] + ">" );
+				scriptRequestor.updateDisplay( ERROR_STATE, "I/O error in opening file \"" + parameterList[1] + "\"" );
 				scriptRequestor.cancelRequest();
 				return;
 			}
@@ -1323,7 +1323,7 @@ public class KoLmafiaCLI extends KoLmafia
 		executePrintCommand( parameterList[0].toLowerCase(), desiredOutputStream );
 
 		if ( parameterList.length != 1 )
-			scriptRequestor.updateDisplay( ENABLED_STATE, "Data has been printed to <" + parameterList[1] + ">" );
+			scriptRequestor.updateDisplay( ENABLED_STATE, "Data has been printed to \"" + parameterList[1] + "\"" );
 	}
 
 	/**
@@ -1434,7 +1434,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private AdventureResult getFirstMatchingItem( String parameters, int matchType )
 	{
-		String itemName = null;  int itemCount;
+		int itemID = -1;
+		int itemCount = 0;
 
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
@@ -1443,13 +1444,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( matchingNames.size() != 0 )
 		{
-			for ( int i = 0; i < matchingNames.size(); ++i )
-				if ( parameters.equals( matchingNames.get(i) ) )
-					itemName = parameters;
-
-			if ( itemName == null )
-				itemName = (String) matchingNames.get(0);
-
+			itemID = TradeableItemDatabase.getItemID( (String) matchingNames.get(0) );
 			itemCount = 1;
 		}
 		else
@@ -1466,15 +1461,9 @@ public class KoLmafiaCLI extends KoLmafia
 				return null;
 			}
 
-			for ( int i = 0; i < matchingNames.size(); ++i )
-				if ( itemNameString.equals( matchingNames.get(i) ) )
-					itemName = itemNameString;
-
-			if ( itemName == null )
-				itemName = (String) matchingNames.get(0);
-
 			try
 			{
+				itemID = TradeableItemDatabase.getItemID( (String) matchingNames.get(0) );
 				itemCount = itemCountString.equals( "*" ) ? 0 : df.parse( itemCountString ).intValue();
 			}
 			catch ( Exception e )
@@ -1488,14 +1477,14 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		if ( !TradeableItemDatabase.contains( itemName ) )
+		if ( itemID == -1 )
 		{
-			scriptRequestor.updateDisplay( ERROR_STATE, "[" + itemName + "] does not match anything in the item database." );
+			scriptRequestor.updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
 			scriptRequestor.cancelRequest();
 			return null;
 		}
 
-		AdventureResult firstMatch = new AdventureResult( itemName, itemCount );
+		AdventureResult firstMatch = new AdventureResult( itemID, itemCount );
 
 		// The result also depends on the number of items which
 		// are available in the given match area.
@@ -1525,7 +1514,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( matchType != NOWHERE && itemCount > matchCount )
 		{
-			scriptRequestor.updateDisplay( ERROR_STATE, "Insufficient " + itemName + " to continue." );
+			scriptRequestor.updateDisplay( ERROR_STATE, "Insufficient " + TradeableItemDatabase.getItemName( itemID ) + " to continue." );
 			scriptRequestor.cancelRequest();
 			return null;
 		}
@@ -1577,6 +1566,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		Object [] items = new Object[1];
 		items[0] = firstMatch;
+
+System.out.println( firstMatch.getItemID() );
 
 		scriptRequestor.makeRequest( new ItemStorageRequest( scriptRequestor, ItemStorageRequest.STORAGE_TO_INVENTORY, items ), 1 );
 	}

@@ -109,8 +109,23 @@ public class AdventureResult implements Comparable, KoLConstants
 		this.itemID = TradeableItemDatabase.getItemID( name );
 	}
 
+	/**
+	 * Constructs a new <code>AdventureResult</code> with the given item ID.
+	 * which increased/decreased by the given value.  This constructor
+	 * should be used for item-related results.
+	 *
+	 * @param	itemID	The itemID of the result
+	 * @param	count	How many of the noted result were gained
+	 */
+
 	public AdventureResult( int itemID, int count )
-	{	this( TradeableItemDatabase.getItemName( itemID ), count, false );
+	{
+		this.itemID = itemID;
+		this.count = new int[1];
+		this.count[0] = count;
+		this.priority = ITEM_PRIORITY;
+
+		this.name = TradeableItemDatabase.getItemName( itemID );
 	}
 
 	/**
