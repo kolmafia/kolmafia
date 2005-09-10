@@ -94,18 +94,9 @@ public class HermitRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		// If you don't have a Hermit Permit, quit now
-
-		if ( responseText.indexOf( "You don't have a Hermit Permit") != -1)
-		{
-			updateDisplay( ERROR_STATE, "You can't visit the Hermit." );
-			client.cancelRequest();
-			return;
-		}
-
 		// If you don't have enough Hermit Permits, scale back.
 
-		if ( responseText.indexOf( "You don't have enough Hermit Permits") != -1)
+		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1)
 		{
 			// Figure out how many you do have.
 			int permits = PERMIT.getCount( client.getInventory() );
@@ -115,7 +106,7 @@ public class HermitRequest extends KoLRequest
 
 		// If you don't have enough worthless items, scale back.
 
-		if ( responseText.indexOf( "You don't have enough stuff") != -1)
+		if ( responseText.indexOf( "You don't have enough stuff" ) != -1 )
 		{
 			// Figure out how many items you do have.
 
@@ -149,7 +140,7 @@ public class HermitRequest extends KoLRequest
 
 		// If you still didn't acquire items, what went wrong?
 
-		if ( responseText.indexOf( "You acquire") == -1)
+		if ( responseText.indexOf( "You acquire" ) == -1 )
 		{
 			updateDisplay( ERROR_STATE, "The hermit kept his stuff." );
 			client.cancelRequest();
