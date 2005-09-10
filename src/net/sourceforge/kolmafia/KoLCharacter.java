@@ -335,17 +335,21 @@ public class KoLCharacter implements KoLConstants
 	}
 
 	/**
+	 * Accessor method to retrieve the index of the prime stat.
+	 * @return	The index of the prime stat
+	 */
+
+	public int getPrimeIndex()
+	{	return classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? 0 : classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? 1 : 2;
+	}
+
+	/**
 	 * Accessor method to retrieve the level of this character.
 	 * @return	The level of this character
 	 */
 
 	public int getLevel()
-	{
-		int currentPrime = classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? calculateBasePoints( totalSubpoints[0] ) :
-			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? calculateBasePoints( totalSubpoints[1] ) :
-				calculateBasePoints( totalSubpoints[2] );
-
-		return (int) Math.sqrt( currentPrime - 4 ) + 1;
+	{	return (int) Math.sqrt( getTotalPrime() - 4 ) + 1;
 	}
 
 
@@ -612,9 +616,7 @@ public class KoLCharacter implements KoLConstants
 	 */
 
 	public int getTotalPrime()
-	{
-		return classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? totalSubpoints[0] :
-			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? totalSubpoints[1] : totalSubpoints[2];
+	{	return totalSubpoints[ getPrimeIndex() ];
 	}
 
 	/**
@@ -1435,15 +1437,9 @@ public class KoLCharacter implements KoLConstants
 
 	public String getAdvancement()
 	{
-		int currentPrime = classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? calculateBasePoints( totalSubpoints[0] ) :
-			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? calculateBasePoints( totalSubpoints[1] ) :
-				calculateBasePoints( totalSubpoints[2] );
-
-		String primeStat = classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? "muscle" :
-			classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? "mysticality" : "moxie";
-
 		int level = getLevel();
-		return df.format( level * level + 4 - currentPrime ) + " " + primeStat + " until level " + (level + 1);
+		return df.format( level * level + 4 - calculateBasePoints( getTotalPrime() ) ) + " " + AdventureResult.STAT_NAMES[ getPrimeIndex() ] +
+			" until level " + (level + 1);
 	}
 
 	/**

@@ -1036,11 +1036,69 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( conditionString.endsWith( "choiceadv" ) )
 			{
+				// If it's a choice adventure condition, parse out the
+				// number of choice adventures the user wishes to do.
+
 				String [] splitCondition = conditionString.split( "\\s+" );
 				condition = new AdventureResult( AdventureResult.ADV, splitCondition.length > 1 ? Integer.parseInt( splitCondition[0] ) : 1 );
 			}
+			else if ( conditionString.startsWith( "level" ) )
+			{
+				// If the condition is a level, then determine how many
+				// substat points are required to the next level and
+				// add the substat points as a condition.
+
+				String [] splitCondition = conditionString.split( "\\s+" );
+				int level = Integer.parseInt( splitCondition[1] );
+
+				int [] subpoints = new int[3];
+				int primeIndex = scriptRequestor.getCharacterData().getPrimeIndex();
+
+				subpoints[ primeIndex ] = KoLCharacter.calculateSubpoints( level * level - 4, 0 ) -
+					scriptRequestor.getCharacterData().getTotalPrime();
+
+				for ( int i = 0; i < subpoints.length; ++i )
+					subpoints[i] = Math.max( 0, subpoints[i] );
+
+				condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+				if ( condition.getCount() == 0 )
+					condition = null;
+			}
+			else if ( conditionString.endsWith( "muscle" ) || conditionString.endsWith( "mysticality" ) || conditionString.endsWith( "moxie" ) )
+			{
+				try
+				{
+					String [] splitCondition = conditionString.split( "\\s+" );
+					int points = df.parse( splitCondition[0] ).intValue();
+
+					int [] subpoints = new int[3];
+					int statIndex = conditionString.endsWith( "muscle" ) ? 0 : conditionString.endsWith( "mysticality" ) ? 1 : 2;
+					subpoints[ statIndex ] = KoLCharacter.calculateSubpoints( statIndex, 0 );
+
+					subpoints[ statIndex ] -= conditionString.endsWith( "muscle" ) ? scriptRequestor.getCharacterData().getTotalMuscle() :
+						conditionString.endsWith( "mysticality" ) ? scriptRequestor.getCharacterData().getTotalMysticality() :
+						scriptRequestor.getCharacterData().getTotalMoxie();
+
+					for ( int i = 0; i < subpoints.length; ++i )
+						subpoints[i] = Math.max( 0, subpoints[i] );
+
+					condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+					if ( condition.getCount() == 0 )
+						condition = null;
+				}
+				catch ( Exception e )
+				{
+					// In the event that some exception occurred in
+					// parsing, return a null result.
+
+					condition = null;
+				}
+			}
 			else
 			{
+				// Otherwise, it's an item condition, so parse out which
+				// item is desired and set that as the condition.
+
 				condition = getFirstMatchingItem( conditionString, NOWHERE );
 			}
 

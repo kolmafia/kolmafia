@@ -57,6 +57,8 @@ import javax.swing.JList;
 
 public class AdventureResult implements Comparable, KoLConstants
 {
+	public static final String [] STAT_NAMES = { "muscle", "mysticality", "moxie" };
+
 	private int itemID;
 	private int [] count;
 	private String name;
@@ -108,7 +110,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	public AdventureResult( int itemID, int count )
-	{	this( TradeableItemDatabase.getItemName( itemID ), count );
+	{	this( TradeableItemDatabase.getItemName( itemID ), count, false );
 	}
 
 	/**
@@ -281,6 +283,17 @@ public class AdventureResult implements Comparable, KoLConstants
 		for ( int i = 0; i < count.length; ++i )
 			totalCount += count[i];
 		return totalCount;
+	}
+
+	/**
+	 * Accessor method to retrieve the total value associated with the result
+	 * stored at the given index of the count array.
+	 *
+	 * @return	The total value at the given index of the count array
+	 */
+
+	public int getCount( int index )
+	{	return index < 0 || index >= count.length ? 0 : count[ index ];
 	}
 
 	/**
@@ -633,7 +646,20 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	public AdventureResult getNegation()
-	{	return isItem() ? new AdventureResult( itemID, 0 - getCount() ) : new AdventureResult( name, 0 - getCount() );
+	{
+		// Allow for negation of substats as well.
+
+		if ( isItem() )
+			return new AdventureResult( itemID, 0 - getCount() );
+
+		else if ( isStatusEffect() )
+			return new AdventureResult( name, 0 - getCount(), true );
+
+		int [] newcount = new int[ count.length ];
+		for ( int i = 0; i < count.length; ++i )
+			newcount[i] = 0 - count[i];
+
+		return new AdventureResult( name, newcount );
 	}
 
 	public AdventureResult getInstance( int quantity )

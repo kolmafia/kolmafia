@@ -586,15 +586,33 @@ public abstract class KoLmafia implements KoLConstants
 		// Process the adventure result through the conditions
 		// list, removing it if the condition is satisfied.
 
+		int conditionsIndex = conditions.indexOf( result );
 		if ( result.isItem() )
 		{
-			int conditionsIndex = conditions.indexOf( result );
 			if ( conditionsIndex != -1 )
 			{
 				if ( result.getCount( conditions ) <= result.getCount() )
 					conditions.remove( conditionsIndex );
 				else
 					AdventureResult.addResultToList( conditions, result.getNegation() );
+			}
+		}
+		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
+		{
+			if ( conditionsIndex != -1 )
+			{
+				AdventureResult condition = (AdventureResult) conditions.get( conditionsIndex );
+
+				int [] substats = new int[3];
+				for ( int i = 0; i < 3; ++i )
+					substats[i] = Math.max( 0, condition.getCount(i) - result.getCount(i) );
+
+				condition = new AdventureResult( AdventureResult.SUBSTATS, substats );
+
+				if ( condition.getCount() == 0 )
+					conditions.remove( conditionsIndex );
+				else
+					conditions.set( conditionsIndex, condition );
 			}
 		}
 	}
