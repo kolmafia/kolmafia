@@ -349,7 +349,7 @@ public class KoLCharacter implements KoLConstants
 	 */
 
 	public int getLevel()
-	{	return (int) Math.sqrt( getTotalPrime() - 4 ) + 1;
+	{	return (int) Math.sqrt( calculateBasePoints( getTotalPrime() ) - 4 ) + 1;
 	}
 
 
