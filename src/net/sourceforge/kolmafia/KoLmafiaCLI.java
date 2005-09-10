@@ -1567,8 +1567,6 @@ public class KoLmafiaCLI extends KoLmafia
 		Object [] items = new Object[1];
 		items[0] = firstMatch;
 
-System.out.println( firstMatch.getItemID() );
-
 		scriptRequestor.makeRequest( new ItemStorageRequest( scriptRequestor, ItemStorageRequest.STORAGE_TO_INVENTORY, items ), 1 );
 	}
 
