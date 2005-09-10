@@ -1054,7 +1054,7 @@ public class KoLmafiaCLI extends KoLmafia
 				int [] subpoints = new int[3];
 				int primeIndex = scriptRequestor.getCharacterData().getPrimeIndex();
 
-				subpoints[ primeIndex ] = KoLCharacter.calculateSubpoints( level * level - 4, 0 ) -
+				subpoints[ primeIndex ] = KoLCharacter.calculateSubpoints( (level - 1) * (level - 1) + 4, 0 ) -
 					scriptRequestor.getCharacterData().getTotalPrime();
 
 				for ( int i = 0; i < subpoints.length; ++i )
