@@ -1073,7 +1073,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 					int [] subpoints = new int[3];
 					int statIndex = conditionString.endsWith( "muscle" ) ? 0 : conditionString.endsWith( "mysticality" ) ? 1 : 2;
-					subpoints[ statIndex ] = KoLCharacter.calculateSubpoints( statIndex, 0 );
+					subpoints[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
 
 					subpoints[ statIndex ] -= conditionString.endsWith( "muscle" ) ? scriptRequestor.getCharacterData().getTotalMuscle() :
 						conditionString.endsWith( "mysticality" ) ? scriptRequestor.getCharacterData().getTotalMysticality() :
