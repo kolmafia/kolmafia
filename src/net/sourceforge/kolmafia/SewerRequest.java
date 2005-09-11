@@ -72,10 +72,26 @@ public class SewerRequest extends KoLRequest
 
 	public void run()
 	{
+		// Both lucky and unlucky sewer adventures now consume one
+		// piece of gum per invocation.
+
+		if ( !client.getInventory().contains( GUM ) )
+		{
+			isErrorState = true;
+			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
+			client.cancelRequest();
+			return;
+		}
+
 		if ( isLuckySewer )
 			runLuckySewer();
 		else
 			runUnluckySewer();
+
+		// Consume the gum if we actually visited
+
+		if ( isErrorState )
+			client.processResult( GUM );
 	}
 
 	/**
@@ -130,20 +146,8 @@ public class SewerRequest extends KoLRequest
 		if ( request.isErrorState )
 			return;
 
-		if ( request.responseText.indexOf( "you're unable to get your hand far enough down" ) != -1 )
-		{
-			isErrorState = true;
-			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
-			client.cancelRequest();
-			return;
-		}
-
 		processResults( request.responseText );
 		client.processResult( CLOVER );
-
-		// New sewer interface seems to let you make one trade per piece of gum
-
-		client.processResult( GUM );
 	}
 
 	/**
@@ -156,14 +160,6 @@ public class SewerRequest extends KoLRequest
 		{
 			isErrorState = true;
 			updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
-			client.cancelRequest();
-			return;
-		}
-
-		if ( !client.getInventory().contains( GUM ) )
-		{
-			isErrorState = true;
-			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
 			client.cancelRequest();
 			return;
 		}
@@ -185,7 +181,6 @@ public class SewerRequest extends KoLRequest
 		}
 
 		processResults( responseText );
-		client.processResult( GUM );
 	}
 
 	/**
