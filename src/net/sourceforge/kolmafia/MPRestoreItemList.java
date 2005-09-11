@@ -52,7 +52,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MPRestoreItemList extends SortedListModel implements KoLConstants
 {
-	public final MPRestoreItem BEANBAG = new MPRestoreItem( "rest in beanbag chair", 80, -1 );
+	public final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", 80, -1 );
+	public final MPRestoreItem HOUSE = new MPRestoreItem( "rest at campsite", 40, -1 );
 
 	private KoLmafia client;
 	private KoLSettings settings;
@@ -71,6 +72,8 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 		this.characterData = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 
 		this.add( BEANBAG );
+		this.add( HOUSE );
+
 		this.add( new MPRestoreItem( "magical mystery juice", (int) (characterData.getLevel() * 1.5 + 4.0), 150 ) );
 		this.add( new MPRestoreItem( "soda water", 4, 70 ) );
 
@@ -172,6 +175,13 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 			{
 				client.updateDisplay( DISABLED_STATE, "Relaxing in beanbag chair..." );
 				(new CampgroundRequest( client, "relax" )).run();
+				return;
+			}
+
+			if ( this == HOUSE )
+			{
+				client.updateDisplay( DISABLED_STATE, "Resting at campground..." );
+				(new CampgroundRequest( client, "rest" )).run();
 				return;
 			}
 
