@@ -110,37 +110,44 @@ public class SewerRequest extends KoLRequest
 
 		String [] items = getProperty( "luckySewer" ).split( "," );
 
+		// The Sewer Gnomes insist on giving precisely three items,
+		// so if you have fewer than three items, report an error.
+
 		if ( items.length != 3 )
 		{
-			// The Sewage Gnomes insist on giving precisely three items
-
 			isErrorState = true;
 			updateDisplay( ERROR_STATE, "You must select three items to get from the Sewage Gnomes." );
 			client.cancelRequest();
 			return;
 		}
 
-		// Use a new request so we don't keep appending fields.
+		// Enter the sewer for the first time.  For whatever
+		// reason, you need to view this page before you can
+		// start submitting data.
+
+		super.run();
 
 		KoLRequest request = new KoLRequest( client, "sewer.php", false );
 
-		// Set form fields to request the desired items
+		// Now invoke sewer.php with additional fields to get
+		// the desired items.
 
 		request.addFormField( "doodit", "1" );
 
 		for ( int i = 0; i < 3; i++)
 		{
-			int value = Integer.parseInt( items[i] );
+			// Values are now item IDs. Indices 1-12 in the
+			// options correspond correctly to item IDs, but
+			// index 13 corresponds to item ID 43.
 
-			// Values are now ItemIDs. Indices 1-12 are itemID 1-12, but index 13 is itemID 43
+			if ( items[i].equals( "13" ) )
+				items[i] = "43";
 
-			if (value == 13 )
-				value = 43;
-
-			request.addFormField( "i" + value, "on" );
+			addFormField( "i" + items[i], "on" );
 		}
 
 		// Enter the sewer
+
 		request.run();
 
 		if ( request.isErrorState )
@@ -148,6 +155,7 @@ public class SewerRequest extends KoLRequest
 
 		processResults( request.responseText );
 		client.processResult( CLOVER );
+		client.processResult( GUM );
 	}
 
 	/**
