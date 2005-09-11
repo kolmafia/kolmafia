@@ -176,7 +176,10 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "buffBotMPRestore", "tiny house" );
 		ensureProperty( "channelColors", "" );
 		ensureProperty( "chatStyle", "0" );
-                // Choice Adventure indices are 1-based
+
+			// Begin choice adventure section.
+			// Reminder: choice Adventure indices are 1-based
+
 		ensureProperty( "choiceAdventure2", "1" );
 		ensureProperty( "choiceAdventure4", "1" );
 		ensureProperty( "choiceAdventure9", "1" );
@@ -190,6 +193,10 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "choiceAdventure22", "1" );
 		ensureProperty( "choiceAdventure23", "1" );
 		ensureProperty( "choiceAdventure24", "1" );
+
+			// End choice adventure section.
+			// Treat the remaining settings as normal.
+
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		ensureProperty( "closeSending", "false" );
 		ensureProperty( "cloverProtectActive", "true" );
@@ -209,7 +216,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "lastAdventure", "" );
 		ensureProperty( "lastOtoriRequest", "19700101" );
 		ensureProperty( "loginServer", "0" );
-		ensureProperty( "luckySewer", "2,8,43" );
+		ensureProperty( "luckySewer", "2,8,13" );
 		ensureProperty( "maxPhilanthropy", "1" );
 		ensureProperty( "mpAutoRecover", "-0.1" );
 		ensureProperty( "nameClickOpens", "0" );
