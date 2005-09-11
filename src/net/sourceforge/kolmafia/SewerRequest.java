@@ -104,15 +104,13 @@ public class SewerRequest extends KoLRequest
 			return;
 		}
 
-		// Enter the sewer
-		super.run();
+		// Use a new request so we don't keep appending fields.
 
-		if ( isErrorState )
-			return;
+		KoLRequest request = new KoLRequest( client, "sewer.php", false );
 
-		// Now invoke sewer.php with additional fields to get desired items.
+		// Set form fields to request the desired items
 
-		addFormField( "doodit", "1" );
+		request.addFormField( "doodit", "1" );
 
 		for ( int i = 0; i < 3; i++)
 		{
@@ -123,16 +121,29 @@ public class SewerRequest extends KoLRequest
 			if (value == 13 )
 				value = 43;
 
-			addFormField( "i" + value, "on" );
+			request.addFormField( "i" + value, "on" );
 		}
 
-		super.run();
+		// Enter the sewer
+		request.run();
 
-		if ( isErrorState )
+		if ( request.isErrorState )
 			return;
 
-		processResults( responseText );
+		if ( request.responseText.indexOf( "you're unable to get your hand far enough down" ) != -1 )
+		{
+			isErrorState = true;
+			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
+			client.cancelRequest();
+			return;
+		}
+
+		processResults( request.responseText );
 		client.processResult( CLOVER );
+
+		// New sewer interface seems to let you make one trade per piece of gum
+
+		client.processResult( GUM );
 	}
 
 	/**
