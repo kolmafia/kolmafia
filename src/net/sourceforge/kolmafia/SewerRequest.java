@@ -96,10 +96,10 @@ public class SewerRequest extends KoLRequest
 
 		if ( items.length != 3 )
 		{
-			// The Sewer Gnomes insist on giving precisely three items
+			// The Sewage Gnomes insist on giving precisely three items
 
 			isErrorState = true;
-			updateDisplay( ERROR_STATE, "You must select three items to get from the Sewer Gnomes." );
+			updateDisplay( ERROR_STATE, "You must select three items to get from the Sewage Gnomes." );
 			client.cancelRequest();
 			return;
 		}
