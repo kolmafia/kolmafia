@@ -147,12 +147,7 @@ public class SearchMallRequest extends KoLRequest
 		// somewhere in ronin.
 
 		if ( searchString == null || searchString.trim().length() == 0 )
-		{
-			if ( client.getCharacterData().canInteract() && client.getCharacterData().getLevel() >= 5 )
-				searchStore();
-			else
-				updateDisplay( ERROR_STATE, "You cannot use the mall." );
-		}
+			searchStore();
 		else
 			searchMall();
 	}
@@ -221,25 +216,29 @@ public class SearchMallRequest extends KoLRequest
 
 	private void searchMall()
 	{
-		if ( searchString == null || searchString.trim().length() == 0 )
-			return;
-
+		results.clear();
 		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
 
-		if ( !retainAll )
+		// In the event that it's all NPC stores, and the person
+		// cannot use the mall, then only display the items which
+		// are available from NPC stores, since that's all that
+		// can be used in this circumstance.
+
+		boolean npcStoreExists = true;
+		for ( int i = 0; i < itemNames.size(); ++i )
+			npcStoreExists &= NPCStoreDatabase.contains( (String) itemNames.get(i) );
+
+		if ( client.getCharacterData().getLevel() < 5 || (npcStoreExists && !client.getCharacterData().canInteract()) )
 		{
-			if ( !client.getCharacterData().canInteract() || client.getCharacterData().getLevel() < 5 )
-			{
-				results.clear();
-				finalizeList( itemNames );
-				return;
-			}
+			finalizeList( itemNames );
+			return;
 		}
 
-		updateDisplay( DISABLED_STATE, "Searching for items..." );
+		// Otherwise, conduct the normal mall search, processing
+		// the NPC results as needed.
 
+		updateDisplay( DISABLED_STATE, "Searching for items..." );
 		super.run();
-		results.clear();
 
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
@@ -247,32 +246,26 @@ public class SearchMallRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		int startIndex = responseText.indexOf( "Search Results:" );
-
-		if ( startIndex == -1 )
-		{
-			finalizeList( itemNames );
-			return;
-		}
-
 		// Change all multi-line store names into single line store names so that the
 		// parser doesn't get confused; remove all stores where limits have already
 		// been reached (which have been greyed out), and then remove all non-anchor
 		// tags to make everything easy to parse.
 
-		String storeListResult = responseText.substring( startIndex );
-		if ( !retainAll )  storeListResult = storeListResult.replaceAll( "<td style=.*?<tr>", "" );
+		int startIndex = responseText.indexOf( "Search Results:" );
+		String storeListResult = responseText.substring( startIndex == -1 ? 0 : startIndex );
 
-		String plainTextResult = storeListResult.replaceAll( "<br>", " " ).replaceAll(
-			"</?b>", "\n" ).replaceAll( "</?p>", "" ).replaceAll( "</c.*?>", "" ).replaceAll( "</?t.*?>", "\n" ).replaceAll(
-				"</a>", "\n" );
+		if ( !retainAll )
+			storeListResult = storeListResult.replaceAll( "<td style=.*?<tr>", "" );
+
+		String plainTextResult = storeListResult.replaceAll( "<br>", " " ).replaceAll( "</?b>", "\n" ).replaceAll(
+			"</?p>", "" ).replaceAll( "</c.*?>", "" ).replaceAll( "</?t.*?>", "\n" ).replaceAll( "</a>", "\n" );
 
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
 
 		// Now, check to see if there was actually
 		// no results in a limited search
 
-		if ( parsedResults.countTokens() < 9 )
+		if ( startIndex == -1 || parsedResults.countTokens() < 9 )
 		{
 			finalizeList( itemNames );
 			return;
@@ -284,7 +277,7 @@ public class SearchMallRequest extends KoLRequest
 		skipTokens( parsedResults, 4 );
 
 		String lastItemName = "";
-		boolean npcStoreAdded = true;
+		boolean npcStoreAdded = false;
 		int npcStorePrice = -1;
 
 		while ( parsedResults.countTokens() > 1 )
@@ -302,12 +295,10 @@ public class SearchMallRequest extends KoLRequest
 				// most recently encountered item type.
 
 				lastItemName = itemName;
-				npcStoreAdded = !NPCStoreDatabase.contains( itemName );
-				if ( !npcStoreAdded )
-				{
-					itemNames.remove( itemName );
-					npcStorePrice = NPCStoreDatabase.getNPCStorePrice( itemName );
-				}
+				itemNames.remove( itemName );
+				npcStoreExists = NPCStoreDatabase.contains( itemName );
+				npcStorePrice = npcStoreExists ? NPCStoreDatabase.getNPCStorePrice( itemName ) : Integer.MAX_VALUE;
+				npcStoreAdded = false;
 			}
 
 			// The next token contains the number of items being sold
@@ -335,13 +326,14 @@ public class SearchMallRequest extends KoLRequest
 			// Now, check to see if you should add the NPC
 			// store at the current time
 
-			if ( !npcStoreAdded && npcStorePrice < price )
+			if ( npcStoreExists && !npcStoreAdded && npcStorePrice < price )
 			{
 				npcStoreAdded = true;
 				results.add( NPCStoreDatabase.getPurchaseRequest( client, itemName ) );
 			}
 
-			results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit ) );
+			if ( !npcStoreExists || client.getCharacterData().canInteract() )
+				results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC
@@ -367,9 +359,6 @@ public class SearchMallRequest extends KoLRequest
 				results.add( NPCStoreDatabase.getPurchaseRequest( client, lastItemName ) );
 		}
 
-		if ( client.getCharacterData().canInteract() && client.getCharacterData().getLevel() >= 5 )
-			updateDisplay( ENABLED_STATE, results.size() == 0 ? "No results found." : "Search complete." );
-		else if ( results.isEmpty() )
-			updateDisplay( ERROR_STATE, "You cannot use the mall." );
+		updateDisplay( ENABLED_STATE, results.size() == 0 ? "No results found." : "Search complete." );
 	}
 }
