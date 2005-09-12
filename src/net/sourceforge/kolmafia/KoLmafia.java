@@ -844,7 +844,9 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Internal method to recover HP up to specified threshold.
+	 * Internal method to recover HP above to specified threshold.
+	 * If the threshold is equal to or greater than your maximum
+	 * hit points
 	 */
 
 	protected final void autoRecoverHP( int autoRecover )
@@ -858,7 +860,8 @@ public abstract class KoLmafia implements KoLConstants
 				int currentHP = -1;
 				permitContinue = true;
 
-				while ( permitContinue && characterData.getCurrentHP() <= autoRecover && currentHP != characterData.getCurrentHP() )
+				while ( permitContinue && characterData.getCurrentHP() <= autoRecover &&
+					characterData.getCurrentHP() < characterData.getMaximumHP() && currentHP != characterData.getCurrentHP() )
 				{
 					currentHP = characterData.getCurrentHP();
 					updateDisplay( DISABLED_STATE, "Executing HP auto-recovery script..." );
@@ -877,7 +880,7 @@ public abstract class KoLmafia implements KoLConstants
 					}
 				}
 
-				if ( currentHP == characterData.getCurrentHP() && currentHP != characterData.getMaximumHP() )
+				if ( currentHP == characterData.getCurrentHP() )
 				{
 					updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore HP." );
 					permitContinue = false;
@@ -946,7 +949,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Utility method which restores the character's current
-	 * mana points to the given value.
+	 * mana points above the given value.
 	 */
 
 	public boolean recoverMP( int mpNeeded )
@@ -966,7 +969,8 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				if ( itemName.equals( mpRestoreItemList.BEANBAG.toString() ) )
 				{
-					while ( characterData.getAdventuresLeft() > 0 && characterData.getCurrentMP() > previousMP )
+					while ( characterData.getAdventuresLeft() > 0 &&
+						characterData.getCurrentMP() < characterData.getMaximumMP() && characterData.getCurrentMP() > previousMP )
 					{
 						previousMP = characterData.getCurrentMP();
  						restorer.recoverMP( mpNeeded );
@@ -984,7 +988,8 @@ public abstract class KoLmafia implements KoLConstants
 				else
 				{
 					AdventureResult item = new AdventureResult( itemName, 0 );
- 					while ( inventory.contains( item ) && characterData.getCurrentMP() > previousMP )
+ 					while ( inventory.contains( item ) &&
+						characterData.getCurrentMP() < characterData.getMaximumMP() && characterData.getCurrentMP() > previousMP )
  					{
  						previousMP = characterData.getCurrentMP();
  						restorer.recoverMP( mpNeeded );
