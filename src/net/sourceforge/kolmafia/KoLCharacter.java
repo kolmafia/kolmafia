@@ -220,6 +220,8 @@ public class KoLCharacter implements KoLConstants
 
 	private SortedListModel familiars;
 	private FamiliarData currentFamiliar;
+	private LockableListModel accomplishments;
+
 	private List listenerList;
 
 	private boolean canInteract;
@@ -273,6 +275,8 @@ public class KoLCharacter implements KoLConstants
 
 		this.familiars = new SortedListModel( FamiliarData.class );
 		this.familiars.add( FamiliarData.NO_FAMILIAR );
+
+		this.accomplishments = new LockableListModel();
 		this.listenerList = new ArrayList();
 
 		this.ascensions = 0;
@@ -1432,6 +1436,7 @@ public class KoLCharacter implements KoLConstants
 	/**
 	 * Returns the string used on the character pane to detrmine
 	 * how many points remain until the character's next level.
+	 *
 	 * @return	The string indicating the TNP advancement
 	 */
 
@@ -1440,6 +1445,32 @@ public class KoLCharacter implements KoLConstants
 		int level = getLevel();
 		return df.format( level * level + 4 - calculateBasePoints( getTotalPrime() ) ) + " " + AdventureResult.STAT_NAMES[ getPrimeIndex() ] +
 			" until level " + (level + 1);
+	}
+
+	/**
+	 * Sets the list of accomplishments that the player has
+	 * completed.  This value is provided as a complete
+	 * string array, where each index is a new accomplishment.
+	 *
+	 * @param	accomplishments	The accomplishments of this player
+	 */
+
+	public void setAccomplishments( String [] accomplishments )
+	{
+		this.accomplishments.clear();
+		for ( int i = 0; i < accomplishments.length; ++i )
+			this.accomplishments.add( accomplishments[i] );
+	}
+
+	/**
+	 * Returns whether or not the player has the given accomplishment
+	 * (the accomplishment being an entire string of text).
+	 *
+	 * @return	<code>true</code> if the accomplishment exists
+	 */
+
+	public boolean hasAccomplishment( String accomplishment )
+	{	return accomplishments.contains( accomplishment );
 	}
 
 	/**

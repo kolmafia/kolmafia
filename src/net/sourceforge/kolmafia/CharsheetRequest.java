@@ -255,6 +255,7 @@ public class CharsheetRequest extends KoLRequest
 
 			// We can't get familiar equipment from this page,
 			// so don't reset it.
+
 			String [] equipment = new String[7];
 			for ( int i = 0; i < 7; ++i )
 				equipment[i] = EquipmentRequest.UNEQUIP;
@@ -301,8 +302,16 @@ public class CharsheetRequest extends KoLRequest
 
 			character.setEquipment( equipment, new ArrayList() );
 
-			// Use a regular expression to locate the familiar data
-			// and let the familiar data parser handle the rest.
+			// Now, parse out the player's accomplishments, if any
+			// exist.  These are found in the "Accomplishments"
+			// section of the character sheet.
+
+			Matcher accomplishMatcher = Pattern.compile( "<b>Accomplishments:</b><br><table>(.*?)</table>" ).matcher( responseText );
+			if ( accomplishMatcher.find() )
+				character.setAccomplishments( accomplishMatcher.group(1).split( "(<.*?>)*?)" ) );
+
+			// Parsing of the character sheet is now complete.
+			// Report this to the log stream and return.
 
 			logStream.println( "Parsing complete." );
 		}
