@@ -200,8 +200,33 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
-		// Check to make sure that if a scroll of drastic healing
-		// were used and didn't dissolve, the scroll is not consumed
+		// If a beanstalk grows out of an enchanted bean, visit it.
+
+		else if ( itemUsed.getName().equals( "enchanted bean" ) )
+		{
+			// There are three possibilities.
+
+			// If you haven't been give the quest, "you can't find
+			// anywhere that looks like a good place to plant the
+			// bean" and you're told to "wait until later"
+
+			// If you've already planted one, "There's already a
+			// beanstalk in the Nearby Plains." In either case, the
+			// bean is not consumed.
+
+			// Otherwise, "it immediately grows into an enormous beanstalk".
+
+			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
+				return;
+
+			// Consume the item and visit the beanstalk.
+
+			KoLRequest stalk = new KoLRequest( client, "beanstalk.php" );
+			stalk.run();
+		}
+
+		// If a scroll of drastic healing was used and didn't dissolve,
+		// it is not consumed
 
 		else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
 		{
