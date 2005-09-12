@@ -387,11 +387,10 @@ public class StrangeLeaflet implements KoLConstants
 		if ( torch )
 			return;
 
+		cutHedge();
+
 		if ( !stick )
-		{
-			cutHedge();
 			getStick();
-		}
 
 		goTo( CLEARING );
 		executeCommand( "light stick" );
