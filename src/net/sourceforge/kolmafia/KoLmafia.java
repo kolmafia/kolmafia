@@ -1893,6 +1893,14 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( ENABLED_STATE, "Session timed in." );
 	}
 
+	public void robStrangeLeaflet()
+	{
+		// Use the static method provided in the Strange Leaflet
+
+		StrangeLeaflet.setClient( this );
+		StrangeLeaflet.robStrangeLeaflet();
+	}
+
 	public void completeEntryway()
 	{
 		// Use the static method provided in the sorceress

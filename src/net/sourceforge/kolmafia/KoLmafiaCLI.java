@@ -649,6 +649,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Next is the command to rob the strange leaflet
+
+		if ( command.equals( "leaflet" ) )
+		{
+			scriptRequestor.robStrangeLeaflet();
+			return;
+		}
+
 		// Campground activities are fairly common, so
 		// they will be listed first after the above.
 

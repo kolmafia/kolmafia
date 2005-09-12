@@ -332,6 +332,11 @@ public class KoLmafiaGUI extends KoLmafia
 				JOptionPane.INFORMATION_MESSAGE, null, SorceressLair.getMissingItems().toArray(), null );
 	}
 
+	public void robStrangeLeaflet()
+	{
+		super.robStrangeLeaflet();
+	}
+
 	public void setVisible( boolean isVisible )
 	{
 		if ( displayer != null && displayer.getCreation() != null )
