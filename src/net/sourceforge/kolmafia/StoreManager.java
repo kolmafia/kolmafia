@@ -215,12 +215,10 @@ public class StoreManager implements KoLConstants
 
 			// In all other cases, an exact match is only
 			// available if you enclose the item name in
-			// double quotes (which are magically replaced
-			// with two single quotes, so just leave it
-			// in the two-single quotes form).
+			// double quotes.
 
 			else
-				itemName = "\'\'" + itemName + "\'\'";
+				itemName = "\"" + itemName + "\"";
 
 			// With the item name properly formatted, issue
 			// the search request.
