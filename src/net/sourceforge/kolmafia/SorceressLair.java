@@ -356,14 +356,13 @@ public class SorceressLair implements KoLConstants
 		{
 			// The character needs to be healthy in order to play
 			// the skeleton dice game.  Healthy is determined as
-			// having at least 25% of your maximum HP.
+			// having at least 25% of your maximum HP.  If you're
+			// below this amount, recover your HP using scripts.
 
-			// Autorecover HP if necessary
+			client.autoRecoverHP( data.getMaximumHP() / 4 );
 
-			if ( data.getCurrentHP() * 4 < data.getMaximumHP() )
-				client.autoRecoverHPInternal( data.getMaximumHP() / 4.0 );
-
-			// Check current health
+			// Verify that you have enough HP to proceed with the
+			// skeleton dice game.
 
 			if ( data.getCurrentHP() * 4 < data.getMaximumHP() )
 			{
@@ -1162,8 +1161,7 @@ public class SorceressLair implements KoLConstants
 		// Ensure that the player is at full HP since the shadow will
 		// probably beat him up if he has less.
 
-		if ( data.getCurrentHP() < data.getMaximumHP() )
-			client.autoRecoverHPInternal( data.getMaximumHP() );
+		client.autoRecoverHP( data.getMaximumHP() );
 
 		// Need to be at full health.  Abort if this is
 		// not the case.
@@ -1175,6 +1173,7 @@ public class SorceressLair implements KoLConstants
 			return;
 		}
 
+		client.resetContinueState();
 		client.updateDisplay( DISABLED_STATE, "Fighting your shadow..." );
 
 		// Start the battle!
@@ -1214,8 +1213,7 @@ public class SorceressLair implements KoLConstants
 		// Ensure that the player has more than 50 HP, since
 		// you cannot enter the familiar chamber with less.
 
-		if ( data.getCurrentHP() <= 50 )
-			client.autoRecoverHPInternal( 51.0 );
+		client.autoRecoverHP( 50 );
 
 		// Need more than 50 hit points.  Abort if this is
 		// not the case.

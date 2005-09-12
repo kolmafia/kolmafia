@@ -840,18 +840,18 @@ public abstract class KoLmafia implements KoLConstants
 	protected final void autoRecoverHP()
 	{
 		double autoRecover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) characterData.getMaximumHP();
-		autoRecoverHPInternal( autoRecover );
+		autoRecoverHP( (int) autoRecover );
 	}
 
 	/**
 	 * Internal method to recover HP up to specified threshold.
-
 	 */
-	protected final void autoRecoverHPInternal( double autoRecover )
+
+	protected final void autoRecoverHP( int autoRecover )
 	{
 		disableMacro = true;
 
-		if ( (double) characterData.getCurrentHP() <= autoRecover )
+		if ( characterData.getCurrentHP() <= autoRecover )
 		{
 			try
 			{
@@ -877,7 +877,7 @@ public abstract class KoLmafia implements KoLConstants
 					}
 				}
 
-				if ( currentHP == characterData.getCurrentHP() )
+				if ( currentHP == characterData.getCurrentHP() && currentHP != characterData.getMaximumHP() )
 				{
 					updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore HP." );
 					permitContinue = false;
