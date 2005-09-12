@@ -133,6 +133,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			isErrorState = true;
 			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
+			return;
 		}
 
 		// If the test is successful, then it is safe to run the

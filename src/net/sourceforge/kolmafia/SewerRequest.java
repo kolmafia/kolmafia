@@ -83,6 +83,8 @@ public class SewerRequest extends KoLRequest
 			return;
 		}
 
+		isErrorState = false;
+
 		if ( isLuckySewer )
 			runLuckySewer();
 		else
@@ -110,7 +112,7 @@ public class SewerRequest extends KoLRequest
 
 		String [] items = getProperty( "luckySewer" ).split( "," );
 
-		// The Sewer Gnomes insist on giving precisely three items,
+		// The Sewage Gnomes insist on giving precisely three items,
 		// so if you have fewer than three items, report an error.
 
 		if ( items.length != 3 )
@@ -120,12 +122,6 @@ public class SewerRequest extends KoLRequest
 			client.cancelRequest();
 			return;
 		}
-
-		// Enter the sewer for the first time.  For whatever
-		// reason, you need to view this page before you can
-		// start submitting data.
-
-		super.run();
 
 		KoLRequest request = new KoLRequest( client, "sewer.php", false );
 
@@ -143,7 +139,7 @@ public class SewerRequest extends KoLRequest
 			if ( items[i].equals( "13" ) )
 				items[i] = "43";
 
-			addFormField( "i" + items[i], "on" );
+			request.addFormField( "i" + items[i], "on" );
 		}
 
 		// Enter the sewer
