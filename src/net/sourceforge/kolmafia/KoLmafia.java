@@ -86,6 +86,8 @@ public abstract class KoLmafia implements KoLConstants
 	protected KoLSettings settings;
 	protected PrintStream logStream;
 	protected PrintStream macroStream;
+
+	protected int currentState;
 	protected boolean permitContinue;
 
 	protected int [] initialStats;
@@ -177,10 +179,12 @@ public abstract class KoLmafia implements KoLConstants
 
 	public synchronized void updateDisplay( int state, String message )
 	{
+		this.currentState = state;
+
 		if ( commandBuffer != null )
 		{
 			StringBuffer colorBuffer = new StringBuffer();
-			if ( state == ERROR_STATE )
+			if ( state == ERROR_STATE || state == CANCELLED_STATE )
 				colorBuffer.append( "<font color=red>" );
 			else
 				colorBuffer.append( "<font color=black>" );
@@ -851,8 +855,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected final void autoRecoverHP( int autoRecover )
 	{
-		disableMacro = true;
-
 		if ( characterData.getCurrentHP() <= autoRecover )
 		{
 			try
@@ -870,7 +872,10 @@ public abstract class KoLmafia implements KoLConstants
 					File autoRecoveryScript = new File( scriptPath );
 
 					if ( autoRecoveryScript.exists() )
+					{
+						disableMacro = true;
 						(new KoLmafiaCLI( this, new FileInputStream( autoRecoveryScript ) )).listenForCommands();
+					}
 					else
 					{
 						updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
@@ -906,8 +911,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public MPRestoreItemList getMPRestoreItemList()
-	{
-		return mpRestoreItemList;
+	{	return mpRestoreItemList;
 	}
 
 	/**
@@ -942,9 +946,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected final void autoRecoverMP()
 	{
 		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) characterData.getMaximumMP();
-
-		if ( permitContinue )
-			permitContinue = recoverMP( (int) mpNeeded );
+		permitContinue = recoverMP( (int) mpNeeded );
 	}
 
 	/**
@@ -958,6 +960,8 @@ public abstract class KoLmafia implements KoLConstants
 			return true;
 
 		int previousMP = -1;
+		disableMacro = true;
+
 		String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
 
 		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
@@ -976,7 +980,10 @@ public abstract class KoLmafia implements KoLConstants
  						restorer.recoverMP( mpNeeded );
 
  						if ( characterData.getCurrentMP() >= mpNeeded )
+ 						{
+							disableMacro = false;
  							return true;
+						}
 
 						if ( characterData.getCurrentMP() == previousMP )
 						{
@@ -995,7 +1002,10 @@ public abstract class KoLmafia implements KoLConstants
  						restorer.recoverMP( mpNeeded );
 
  						if ( characterData.getCurrentMP() >= mpNeeded )
+ 						{
+							disableMacro = false;
  							return true;
+						}
 
 						if ( characterData.getCurrentMP() == previousMP )
 						{
@@ -1008,6 +1018,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		updateDisplay( ERROR_STATE, "Unable to acquire enough MP!" );
+		disableMacro = false;
 		return false;
 	}
 
@@ -1163,11 +1174,14 @@ public abstract class KoLmafia implements KoLConstants
 				// Finally, check to see if you have the appropriate
 				// amount of hit points and mana points to continue.
 
-				if ( request instanceof KoLAdventure && !request.toString().startsWith( "Camp" ) )
-					autoRecoverHP();
+				if ( currentState != CANCELLED_STATE )
+				{
+					if ( request instanceof KoLAdventure && !request.toString().startsWith( "Camp" ) )
+						autoRecoverHP();
 
-				if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Camp" )) || request instanceof UseSkillRequest )
-					autoRecoverMP();
+					if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Camp" )) || request instanceof UseSkillRequest )
+						autoRecoverMP();
+				}
 
 				// Check to see if there are any end conditions.  If
 				// there are conditions, be sure that they are checked
@@ -1238,8 +1252,11 @@ public abstract class KoLmafia implements KoLConstants
 					}
 					else if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Camp" )) || request instanceof UseSkillRequest )
 					{
-						autoRecoverHP();
-						autoRecoverMP();
+						if ( currentState != CANCELLED_STATE )
+						{
+							autoRecoverHP();
+							autoRecoverMP();
+						}
 
 						if ( permitContinue )
 						{

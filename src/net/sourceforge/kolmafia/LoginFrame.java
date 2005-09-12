@@ -127,12 +127,12 @@ public class LoginFrame extends KoLFrame
 
 		switch ( displayState )
 		{
-			case ERROR_STATE:
-				setEnabled( true );
-				break;
-
 			case DISABLED_STATE:
 				setEnabled( false );
+				break;
+
+			default:
+				setEnabled( true );
 				break;
 		}
 	}
@@ -267,7 +267,7 @@ public class LoginFrame extends KoLFrame
 				login( true );
 			else
 			{
-				updateDisplay( ERROR_STATE, "Login cancelled." );
+				client.updateDisplay( CANCELLED_STATE, "Login cancelled." );
 				client.cancelRequest();
 				requestFocus();
 			}
@@ -282,7 +282,7 @@ public class LoginFrame extends KoLFrame
 
 			if ( loginname == null || password == null || loginname.equals("") || password.equals("") )
 			{
-				updateDisplay( ERROR_STATE, "Invalid login." );
+				client.updateDisplay( ERROR_STATE, "Invalid login." );
 				return;
 			}
 
@@ -294,7 +294,7 @@ public class LoginFrame extends KoLFrame
 			if ( isQuickLogin && !loginname.endsWith( "/q" ) )
 				loginname += "/q";
 
-			updateDisplay( DISABLED_STATE, "Determining login settings..." );
+			client.updateDisplay( DISABLED_STATE, "Determining login settings..." );
 			(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected(), isQuickLogin )).run();
 		}
 

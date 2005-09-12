@@ -245,7 +245,7 @@ public class ClanManageFrame extends KoLFrame
 			{
 				contentPanel = clanBuff;
 				client.cancelRequest();
-				updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
+				client.updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
 			}
 		}
 	}

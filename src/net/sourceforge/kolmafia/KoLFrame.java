@@ -273,10 +273,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		switch ( displayState )
 		{
-			case ERROR_STATE:
-				setEnabled( true );
-				break;
-
 			case DISABLED_STATE:
 				setEnabled( false );
 				break;
@@ -607,14 +603,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// Here, notify the display that the script
 				// file specified could not be loaded
 
-				updateDisplay( ERROR_STATE, "Script <" + scriptPath + "> could not be loaded." );
+				client.updateDisplay( ERROR_STATE, "Script \"" + scriptPath + "\" could not be loaded." );
 				return;
 			}
 
-			updateDisplay( ERROR_STATE, "" );
-
 			if ( client.permitsContinue() )
-				updateDisplay( ENABLED_STATE, "Script completed successfully." );
+				client.updateDisplay( ENABLED_STATE, "Script completed successfully." );
+
+			setEnabled( true );
 		}
 	}
 

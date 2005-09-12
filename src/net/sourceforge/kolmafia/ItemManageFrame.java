@@ -520,7 +520,8 @@ public class ItemManageFrame extends KoLFrame
 				// pretend nothing happened.  Using exceptions
 				// for flow control is bad style, but this will
 				// be fixed once we add functionality.
-                                client.updateDisplay( ENABLED_STATE, "" );
+
+				client.updateDisplay( ENABLED_STATE, "" );
 			}
 		}
 	}

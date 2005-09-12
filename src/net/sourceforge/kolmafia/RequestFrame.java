@@ -300,7 +300,7 @@ public class RequestFrame extends KoLFrame
 
 				if ( getProperty( "cloverProtectActive" ).equals( "true" ) && subtractClover )
 				{
-					updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
+					client.updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
 					mainBuffer.append( "<h1><font color=\"red\">You have a ten-leaf clover.  Please de-active clover protection in your startup options first if you are certain you want to use your clovers while adventuring.</font></h1>" );
 					return;
 				}

@@ -136,7 +136,12 @@ public class AdventureFrame extends KoLFrame
 		contentPanel = adventureSelect;
 
 		addWindowListener( new LogoutRequestAdapter() );
-		updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+
+		if ( client == null )
+			updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+		else
+			client.updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+
 		addMenuBar();
 	}
 
@@ -433,7 +438,7 @@ public class AdventureFrame extends KoLFrame
 			// there's no actual functionality, simply request focus
 
 			contentPanel = this;
-			updateDisplay( ERROR_STATE, "Adventuring terminated." );
+			client.updateDisplay( CANCELLED_STATE, "Adventuring terminated." );
 			client.cancelRequest();
 			requestFocus();
 		}
@@ -540,6 +545,7 @@ public class AdventureFrame extends KoLFrame
 			switch ( displayState )
 			{
 				case ERROR_STATE:
+				case CANCELLED_STATE:
 					compactPane.setBackground( ERROR_COLOR );
 					break;
 				case ENABLED_STATE:
@@ -641,7 +647,8 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			if ( client.permitsContinue() )
-				updateDisplay( ENABLED_STATE, "Purchases complete." );
+				client.updateDisplay( ENABLED_STATE, "Purchases complete." );
+
 			client.resetContinueState();
 		}
 
@@ -730,7 +737,7 @@ public class AdventureFrame extends KoLFrame
 
 				if ( increments == 0 )
 				{
-					updateDisplay( ENABLED_STATE, "Donation cancelled." );
+					client.updateDisplay( ENABLED_STATE, "Donation cancelled." );
 					return;
 				}
 
@@ -790,7 +797,7 @@ public class AdventureFrame extends KoLFrame
 
 				case 1:
 					contentPanel = this;
-					updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
+					client.updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
 					return;
 			}
 		}
