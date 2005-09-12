@@ -730,7 +730,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "untinker" ) )
 		{
-			executeUntinkerRequest( parameters );
+			makeUntinkerRequest();
 			return;
 		}
 
@@ -1557,13 +1557,15 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * A special module used specifically for properly instantiating
-	 * UntinkerRequests which untinkers items.
+	 * Untinkers an item (not specified).  This is generally not
+	 * used by the CLI interface, but is defined to override the
+	 * abstract method provided in the KoLmafia class.
 	 */
 
-	private void executeUntinkerRequest( String parameters )
+	public void makeUntinkerRequest()
 	{
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, INVENTORY );
+		String item = previousCommand.substring( previousCommand.split( " " )[0].length() );
+		AdventureResult firstMatch = getFirstMatchingItem( item, INVENTORY );
 		if ( firstMatch == null )
 			return;
 

@@ -1327,35 +1327,37 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Makes a request which attempts to remove the given effect.
-	 * This method should prompt the user to determine which effect
-	 * the player would like to remove.
 	 */
 
 	public abstract void makeUneffectRequest();
 
 	/**
-	 * Makes a request to the hermit, looking for the given number of
-	 * items.  This method should prompt the user to determine which
-	 * item to retrieve the hermit.
+	 * Makes a request to the hermit in order to trade worthless
+	 * items for more useful items.
 	 */
 
 	public abstract void makeHermitRequest();
 
 	/**
-	 * Makes a request to the trapper, looking for the given number of
-	 * items.  This method should prompt the user to determine which
-	 * item to retrieve the trapper.
+	 * Makes a request to the trapper to trade yeti furs for
+	 * other kinds of furs.
 	 */
 
 	public abstract void makeTrapperRequest();
 
 	/**
-	 * Makes a request to the hunter, looking for the given number of
-	 * items.  This method should prompt the user to determine which
-	 * item to retrieve the hunter.
+	 * Makes a request to the hunter to trade today's bounty
+	 * items in for meat.
 	 */
 
 	public abstract void makeHunterRequest();
+
+	/**
+	 * Makes a request to the untinkerer to untinker items
+	 * into their component parts.
+	 */
+
+	public abstract void makeUntinkerRequest();
 
 	/**
 	 * Confirms whether or not the user wants to make a drunken

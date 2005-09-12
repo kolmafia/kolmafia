@@ -33,6 +33,10 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 /**
@@ -176,16 +180,6 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 	}
 
-	public void pwnClanOtori()
-	{
-		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-			"This attempt to pwn Clan Otori will cost you 13 meat.\nAre you sure you want to continue?",
-			"YES!  This does use meat!", JOptionPane.YES_NO_OPTION ) )
-				return;
-
-		super.pwnClanOtori();
-	}
-
 	/**
 	 * Makes a request which attempts to remove the given effect.
 	 * This method should prompt the user to determine which effect
@@ -278,7 +272,41 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( selectedValue != null )
 			(new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) )).run();
+	}
 
+	/**
+	 * Makes a request to the hunter, looking for the given number of
+	 * items.  This method should prompt the user to determine which
+	 * item to retrieve the hunter.
+	 */
+
+	public void makeUntinkerRequest()
+	{
+		AdventureResult currentItem;
+		List untinkerItems = new ArrayList();
+
+		for ( int i = 0; i < inventory.size(); ++i )
+		{
+			currentItem = (AdventureResult) inventory.get(i);
+			if ( ConcoctionsDatabase.getMixingMethod( currentItem.getItemID() ) == ItemCreationRequest.COMBINE )
+				untinkerItems.add( currentItem );
+		}
+
+		if ( untinkerItems.isEmpty() )
+		{
+			updateDisplay( ERROR_STATE, "You don't have any untinkerable items." );
+			return;
+		}
+
+		Object [] untinkerItemArray = untinkerItems.toArray();
+		Arrays.sort( untinkerItemArray );
+
+		AdventureResult selectedValue = (AdventureResult) JOptionPane.showInputDialog(
+			null, "I want to untinker this item...", "You can unscrew meat paste?", JOptionPane.INFORMATION_MESSAGE, null,
+			untinkerItemArray, untinkerItemArray[0] );
+
+		if ( selectedValue != null )
+			(new UntinkerRequest( this, selectedValue.getItemID() )).run();
 	}
 
 	/**

@@ -343,6 +343,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", KeyEvent.VK_L, client, "makeHermitRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Mountain Traps", KeyEvent.VK_M, client, "makeTrapperRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Bounty Hunter", KeyEvent.VK_B, client, "makeHunterRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Untinker Items", KeyEvent.VK_U, client, "makeUntinkerRequest" ) );
 
 		return travelMenu;
 	}
