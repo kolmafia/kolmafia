@@ -433,6 +433,20 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( ENABLED_STATE, "Pwning of Clan Otori complete." );
 	}
 
+
+	/**
+	 * Utility method used to notify the client that it should attempt
+	 * to visit the council
+	 */
+
+	public void visitCouncil()
+	{
+		KoLRequest request = new KoLRequest( this, "council.php", true );
+		request.run();
+		processResults( request.responseText );
+		updateDisplay( ENABLED_STATE, "Council visited." );
+	}
+
 	/**
 	 * Deinitializes the <code>KoLmafia</code> session.  Called after
 	 * the user has logged out.

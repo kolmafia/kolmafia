@@ -649,6 +649,15 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Next is the command to visit the council
+
+		if ( command.equals( "council" ) )
+		{
+			scriptRequestor.visitCouncil();
+			return;
+		}
+
+
 		// Next is the command to rob the strange leaflet
 
 		if ( command.equals( "leaflet" ) )

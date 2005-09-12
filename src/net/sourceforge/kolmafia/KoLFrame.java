@@ -1247,6 +1247,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 				modulesMenu.add( new InvocationMenuItem( "Get Breakfast!", KeyEvent.VK_G, client, "getBreakfast" ) );
 				modulesMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", KeyEvent.VK_P, client, "pwnClanOtori" ) );
+				modulesMenu.add( new InvocationMenuItem( "Get Council Quests", KeyEvent.VK_Q, client, "visitCouncil" ) );
 				modulesMenu.add( new InvocationMenuItem( "Rob Strange Leaflet", KeyEvent.VK_R, client, "robStrangeLeaflet" ) );
 
 				modulesMenu.add( new JSeparator() );
