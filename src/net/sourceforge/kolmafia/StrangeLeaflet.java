@@ -74,24 +74,18 @@ public class StrangeLeaflet implements KoLConstants
 
 	private static int location;
 
-	// Item status
-
-	private static final int UNKNOWN = -1;
-	private static final int NO = 0;
-	private static final int YES = 1;
-
 	// Items we can pick up
 
-	private static int sword;
-	private static int stick;
+	private static boolean sword;
+	private static boolean stick;
 
 	// Things we can manipulate
 
-	private static int door;
-	private static int hedge;
-	private static int torch;
-	private static int serpent;
-	private static int chest;
+	private static boolean door;
+	private static boolean hedge;
+	private static boolean torch;
+	private static boolean serpent;
+	private static boolean chest;
 
 	public static void setClient( KoLmafia client )
 	{
@@ -100,23 +94,24 @@ public class StrangeLeaflet implements KoLConstants
 
 	public static void robStrangeLeaflet()
 	{
-		KoLRequest request;
+		// See if there is anything left to do.  If the player's
+		// accomplishments include completion of the leaflet,
+		// then there is nothing left to do.
 
-		// See if there is anything left to do.
-		request = new KoLRequest( client, "charsheet.php", true );
-		request.run();
-
-		if ( request.responseText.indexOf( "You have found everything there is to find in the Strange Leaflet." ) != -1 )
+		(new CharsheetRequest( client )).run();
+		if ( client.getCharacterData().hasAccomplishment( "You have found everything there is to find in the Strange Leaflet." ) )
 		{
 			client.updateDisplay( ERROR_STATE, "You have nothing left to do in the leaflet." );
 			client.cancelRequest();
 			return;
 		}
-		// Make sure he has the Strange Leaflet
+
+		// Make sure the player has the Strange Leaflet.
+		// The item will be located inside of the inventory
 
 		if ( LEAFLET.getCount( client.getInventory() ) < 1 )
 		{
-			// Not in his inventory. Is it in the closet?
+			// Not in the inventory. Is it in the closet?
 			if ( LEAFLET.getCount( client.getCloset() ) < 1 )
 			{
 				client.updateDisplay( ERROR_STATE, "You don't have a leaflet." );
@@ -125,19 +120,22 @@ public class StrangeLeaflet implements KoLConstants
 			}
 
 			// Yes. Pull it out.
-
 			AdventureResult [] leaflet = new AdventureResult[1];
 			leaflet[0] = LEAFLET.getInstance( 1 );
 			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, leaflet )).run();
 		}
 
-		// Deduce location and status of items and actions.
+		// Deduce location and status of items and actions
+		// by initializing the leaflet variables.
 
 		initialize();
+
 		if ( !client.permitsContinue() )
 			return;
 
-		// Solve the puzzles
+		// Solve the puzzles.  In order, you are trying to
+		// open the chest, take the grue egg from the hole
+		// behind the chest, and use the "magic phrase".
 
 		openChest();
 		robHole();
@@ -148,95 +146,99 @@ public class StrangeLeaflet implements KoLConstants
 
 	private static void initialize()
 	{
-		// Find out where we are in the leaflet
+		// We know nothing about the state of the items,
+		// so assume that we have nothing for now.
 
-		KoLRequest request = new KoLRequest( client, "text.php", true );
-		request.addFormField( "justgothere", "yes" );
-		request.run();
+		sword = false;
+		stick = false;
+		door = false;
+		hedge = false;
+		torch = false;
+		serpent = false;
+		chest = false;
 
-		// We know nothing about the state of the items
-		sword = UNKNOWN;
-		stick = UNKNOWN;
-		door = UNKNOWN;
-		hedge = UNKNOWN;
-		torch = UNKNOWN;
-		serpent = UNKNOWN;
-		chest = UNKNOWN;
+		// Find out where we are in the leaflet by using
+		// the "inv" command -- this will return your
+		// current virtual inventory and will show you your
+		// current location in the after-text.
 
-		// See what we can deduce from the response text
-		parseLocation( request.responseText );
+		executeCommand( "inv" );
 	}
 
-	private static void parseLocation( String response)
+	private static void parseLocation( String response )
 	{
-		for ( location = 0 ; location < LOCATIONS.length; ++location )
+		for ( location = 0; location < LOCATIONS.length; ++location )
 			if ( response.indexOf( LOCATIONS[location] ) != -1 )
 				break;
 
 		switch ( location )
 		{
-		case HOUSE:
-			sword = response.indexOf( "ornate sword" ) != -1 ? NO : YES;
-			door = YES;
-			break;
+			case HOUSE:
+				sword = response.indexOf( "ornate sword" ) == -1;
+				door = true;
+				break;
 
-		case FIELD:
-			door = response.indexOf( "front door is closed" ) != -1 ? NO : YES;
-			break;
+			case FIELD:
+				door = response.indexOf( "front door is closed" ) == -1;
+				break;
 
-		case PATH:
-			stick = response.indexOf( "hefty stick" ) != -1 ? NO : YES;
-			hedge = response.indexOf( "thick hedge" ) != -1 ? NO : YES;
-			if ( hedge == NO )
-			{
-				torch = NO;
-				serpent = NO;
-				chest = NO;
-			}
-			else
-			{
-				door = YES;
-				sword = YES;
-			}
-			break;
+			case PATH:
+				stick = response.indexOf( "hefty stick" ) == -1;
+				hedge = response.indexOf( "thick hedge" ) == -1;
 
-		case CLEARING:
-			sword = YES;
-			door = YES;
-			hedge = YES;
-			break;
+				if ( !hedge )
+				{
+					torch = false;
+					serpent = false;
+					chest = false;
+				}
+				else
+				{
+					door = true;
+					sword = true;
+				}
+				break;
 
-		case  CAVE:
-			sword = YES;
-			stick = YES;
-			door = YES;
-			hedge = YES;
-			torch = YES;
-			chest =	 response.indexOf( "empty treasure chest" ) == -1 ? NO : YES;
-			serpent = response.indexOf( "dangerous-looking serpent" ) != -1 ? NO : YES;
-			break;
+			case CLEARING:
+				sword = true;
+				door = true;
+				hedge = true;
+				break;
 
-		default:
-			client.updateDisplay( ERROR_STATE, "I can't figure out where you are!" );
-			client.cancelRequest();
-			break;
+			case CAVE:
+				sword = true;
+				stick = true;
+				door = true;
+				hedge = true;
+				torch = true;
+				chest =	 response.indexOf( "empty treasure chest" ) != -1;
+				serpent = response.indexOf( "dangerous-looking serpent" ) == -1;
+				break;
+
+			default:
+				client.updateDisplay( ERROR_STATE, "I can't figure out where you are!" );
+				client.cancelRequest();
+				break;
 		}
 	}
 
 	private static void openChest()
 	{
-		if (chest == YES)
+		if ( chest )
 			return;
 
 		client.updateDisplay( DISABLED_STATE, "Looking for treasure..." );
 
 		goTo( CAVE );
 		killSerpent();
-		if (chest != YES)
+
+		if ( !chest )
 		{
 			executeCommand( "open chest" );
 
-			// Can't parse "Frobozz Real-Estate Company Instant House (TM)". Do it by hand.
+			// Can't parse "Frobozz Real-Estate Company Instant House (TM)"
+			// because it contains parentheses. Do it manually.
+
 			client.processResult( FROBOZZ );
 		}
 	}
@@ -257,143 +259,153 @@ public class StrangeLeaflet implements KoLConstants
 	private static void goTo( int destination )
 	{
 		// Bail immediately if we're already there
-	       if ( location == destination )
+
+		if ( location == destination )
 			return;
 
-	       KoLRequest request;
+		KoLRequest request;
 
-	       // Otherwise, get necessary items and go where you need to go
-	       switch ( destination )
-	       {
-	       case HOUSE:
-		       switch ( location )
-		       {
-		       case PATH:
-		       case CLEARING:
-		       case CAVE:
-			       goTo( FIELD );
-			       // Fall through
-		       case FIELD:
-			       openDoor();
-			       executeCommand( "east" );
-			       break;
-		       default:
-			       break;
-		       }
-		       break;
+		// Otherwise, get necessary items and go where you need to go
 
-	       case FIELD:
-		       switch ( location )
-		       {
-		       case HOUSE:
-			       executeCommand( "west" );
-			       break;
-		       case CLEARING:
-		       case CAVE:
-			       goTo( PATH );
-			       // Fall through
-		       case PATH:
-			       executeCommand( "south" );
-			       break;
-		       default:
-			       break;
-		       }
-		       break;
+		switch ( destination )
+		{
+			case HOUSE:
+			   switch ( location )
+			   {
+				   case PATH:
+				   case CLEARING:
+				   case CAVE:
+					   goTo( FIELD );
+					   // Fall through
+				   case FIELD:
+					   openDoor();
+					   executeCommand( "east" );
+					   break;
+				   default:
+					   break;
+			   }
+		   break;
 
-	       case PATH:
-		       switch ( location )
-		       {
-		       case HOUSE:
-			       goTo( FIELD );
-			       // Fall through
-		       case FIELD:
-			       executeCommand( "north" );
-			       break;
-		       case CLEARING:
-			       executeCommand( "east" );
-			       break;
-		       case CAVE:
-			       executeCommand( "south" );
-			       break;
-		       default:
-			       break;
-		       }
-		       break;
+		case FIELD:
+		   switch ( location )
+		   {
+			   case HOUSE:
+				   executeCommand( "west" );
+				   break;
+			   case CLEARING:
+			   case CAVE:
+				   goTo( PATH );
+				   // Fall through
+			   case PATH:
+				   executeCommand( "south" );
+				   break;
+			   default:
+				   break;
+		   }
+		   break;
 
-	       case CLEARING:
-		       cutHedge();
-		       goTo( PATH );
-		       executeCommand( "west" );
-		       break;
+		case PATH:
+		   switch ( location )
+		   {
+			   case HOUSE:
+				   goTo( FIELD );
+				   // Fall through
+			   case FIELD:
+				   executeCommand( "north" );
+				   break;
+			   case CLEARING:
+				   executeCommand( "east" );
+				   break;
+			   case CAVE:
+				   executeCommand( "south" );
+				   break;
+			   default:
+				   break;
+		   }
+		   break;
 
-	       case CAVE:
-		       getTorch();
-		       goTo( PATH );
-		       executeCommand( "north" );
-		       break;
-	       }
+		case CLEARING:
+		   cutHedge();
+		   goTo( PATH );
+		   executeCommand( "west" );
+		   break;
+
+		case CAVE:
+		   getTorch();
+		   goTo( PATH );
+		   executeCommand( "north" );
+		   break;
+		}
 	}
 
 	private static void getSword()
 	{
-		if (sword == YES)
+		if ( sword )
 			return;
 
 		goTo( HOUSE );
-		if (sword != YES )
+
+		if ( !sword )
 			executeCommand( "take sword" );
 	}
 
 	private static void getStick()
 	{
-		if (stick == YES)
+		if ( stick || torch )
 			return;
 
 		goTo( PATH );
-		if (stick != YES)
+		if ( !stick )
 			executeCommand( "take stick" );
 	}
 
 	private static void cutHedge()
 	{
-		if (hedge == YES)
-                        return;
+		if ( hedge )
+			return;
 
-                getSword();
-                goTo( PATH );
-		if (hedge != YES)
+		getSword();
+		goTo( PATH );
+
+		if ( !hedge )
 			executeCommand( "cut hedge" );
 	}
 
 	private static void openDoor()
 	{
-		if (door == YES)
-                        return;
+		if ( door )
+			return;
 
-                goTo( FIELD );
-		if (door != YES)
-                        executeCommand( "open door" );
+		goTo( FIELD );
+
+		if ( !door )
+			executeCommand( "open door" );
 	}
 
 	private static void getTorch()
 	{
-		if (torch == YES)
+		if ( torch )
 			return;
 
-		cutHedge();
-		getStick();
+		if ( !stick )
+		{
+			cutHedge();
+			getStick();
+		}
+
 		goTo( CLEARING );
 		executeCommand( "light stick" );
-		torch = YES;
+		torch = true;
 	}
 
 	private static void killSerpent()
 	{
-		if (serpent == YES)
+		if ( serpent )
 			return;
 
 		goTo( CAVE );
-		if (serpent != YES)
+
+		if ( !serpent )
 			executeCommand( "kill serpent" );
 	}
 
@@ -403,9 +415,23 @@ public class StrangeLeaflet implements KoLConstants
 		request.addFormField( "pwd", client.getPasswordHash() );
 		request.addFormField( "command", command );
 		request.run();
-		client.processResults( request.responseText );
 
-		// Deduce status of items and objects
+		// The inventory command is handled specially because
+		// it resets the state of your items.  For now, only
+		// the strings for the sword and torch are known;
+		// later, check for the hefty stick text.
+
+		if ( command.equals( "inv" ) )
+		{
+			sword = request.responseText.indexOf( "An ornate sword" ) != -1;
+			torch = request.responseText.indexOf( "A burning torch" ) != -1;
+		}
+		else
+			client.processResults( request.responseText );
+
+		// Deduce status of items and objects based on your
+		// current location.
+
 		parseLocation( request.responseText );
 	}
 }
