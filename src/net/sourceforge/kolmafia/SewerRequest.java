@@ -123,6 +123,16 @@ public class SewerRequest extends KoLRequest
 			return;
 		}
 
+		// Enter the sewer for the first time. For whatever
+		// reason, you need to view this page before you can
+		// start submitting data.
+
+		// Is that really true? I've had good success without doing the
+		// following call. In any case, it's harmless, except for the
+		// (possibly unnecessary) server hit.
+
+		super.run();
+
 		KoLRequest request = new KoLRequest( client, "sewer.php", false );
 
 		// Now invoke sewer.php with additional fields to get
