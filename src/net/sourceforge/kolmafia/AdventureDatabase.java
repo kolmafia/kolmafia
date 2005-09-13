@@ -74,29 +74,18 @@ public class AdventureDatabase extends KoLDatabase
 		"29"   // The Orcish Frat House (in disguise)
 	};
 
+	public static final String [] SEWER_OPTIONS =
+	{ "seal-clubbing club", "seal tooth", "helmet turtle", "scroll of turtle summoning", "pasta spoon", "ravioli hat",
+	  "saucepan", "spices", "disco mask", "disco ball", "stolen accordion", "mariachi pants", "worthless trinket" };
+
+
 	public static final String [][][] CHOICE_ADVS =
 	{
-		{ { "luckySewer" }, { "Lucky Sewer Gnome Trading" },
-			{ "seal-clubbing club", "seal tooth", "helmet turtle", "scroll of turtle summoning", "pasta spoon", "ravioli hat",
-			  "saucepan", "spices", "disco mask", "disco ball", "stolen accordion", "mariachi pants", "worthless trinket" } },
-
-		{ { "choiceAdventure2" }, { "Palindome Axe Trade" },
+		{ { "choiceAdventure2" }, { "Palindome Axe" },
 			{ "Trade for a denim axe", "Keep your rubber axe" } },
 
 		{ { "choiceAdventure4" }, { "Finger-Lickin' Death" },
 			{ "Bet on Tapajunta Del Maiz", "Bet on Cuerno De...  the other one", "Walk away in disgust" } },
-
-		{ { "choiceAdventure9" }, { "Castle Wheel (Muscle Position)" },
-			{ "Turn to mysticality position", "Turn to moxie position", "Leave the wheel alone" } },
-
-		{ { "choiceAdventure10" }, { "Castle Wheel (Mysticality Position)" },
-			{ "Turn to map quest position", "Turn to muscle position", "Leave the wheel alone" } },
-
-		{ { "choiceAdventure11" }, { "Castle Wheel (Map Quest Position)" },
-			{ "Turn to moxie position", "Turn to mysticality position", "Leave the wheel alone" } },
-
-		{ { "choiceAdventure12" }, { "Castle Wheel (Moxie Position)" },
-			{ "Turn to muscle position", "Turn to map quest position", "Leave the wheel alone" } },
 
 		{ { "choiceAdventure14" }, { "A Bard Day's Night" },
 			{ "Knob goblin harem veil", "Knob goblin harem pants", "100 meat" } },

@@ -102,7 +102,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class OptionsFrame extends KoLFrame
 {
-	private CardLayout optionCards;
+	private JTabbedPane tabs;
 
 	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
@@ -120,68 +120,34 @@ public class OptionsFrame extends KoLFrame
 		super( client, "Preferences" );
 
 		setResizable( false );
-
-		optionCards = new CardLayout( 10, 10 );
-		getContentPane().setLayout( optionCards );
-
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
-
-		int cardCount = 0;
-
-		JMenu loginMenu = new JMenu( "Login" );
-		menuBar.add( loginMenu );
-
-		addCard( loginMenu, "Startup Options", new StartupOptionsPanel(), String.valueOf( cardCount++ ) );
+		tabs = new JTabbedPane();
 
 		JPanel connectPanel = new JPanel();
 		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
 		connectPanel.add( new ServerSelectPanel() );
 		connectPanel.add( new ProxyOptionsPanel() );
 
-		addCard( loginMenu, "Connecting to KoL", connectPanel, String.valueOf( cardCount++ ) );
+		addTab( "Startup", new StartupOptionsPanel() );
+		addTab( "Connect", connectPanel );
+		addTab( "Areas", new AreaOptionsPanel() );
+		addTab( "Restore", new RestoreOptionsPanel() );
+		addTab( "Sewer", new SewerOptionsPanel() );
+		addTab( "Choice", new ChoiceOptionsPanel() );
+		addTab( "Chat", new ChatOptionsPanel() );
 
-		JMenu adventureMenu = new JMenu( "Advs" );
-		menuBar.add( adventureMenu );
-
-		addCard( adventureMenu, "Adventure List", new AdventureOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( adventureMenu, "Auto-Recovering", new RestoreOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( adventureMenu, "Choice Adventures", new ChoiceOptionsPanel(), String.valueOf( cardCount++ ) );
-
-		JMenu miscMenu = new JMenu( "Misc" );
-		menuBar.add( miscMenu );
-
-		addCard( miscMenu, "KoLmafia Chat", new ChatOptionsPanel(), String.valueOf( cardCount++ ) );
-		addCard( miscMenu, "Item Creation", new CreationOptionsPanel(), String.valueOf( cardCount++ ) );
+		getContentPane().setLayout( new CardLayout( 10, 10 ) );
+		getContentPane().add( tabs, "" );
 	}
 
-	private void addCard( JMenu menu, String name, JComponent panel, String cardID )
+	private void addTab( String name, JComponent panel )
 	{
 		JScrollPane scroller = new JScrollPane( panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( scroller, 520, 400 );
-
-		getContentPane().add( scroller, cardID );
-		menu.add( new ShowCardMenuItem( name, cardID ) );
+		tabs.add( name, scroller );
 	}
 
 	public boolean isEnabled()
 	{	return true;
-	}
-
-	private class ShowCardMenuItem extends JMenuItem implements ActionListener
-	{
-		private String cardID;
-
-		public ShowCardMenuItem( String title, String cardID )
-		{
-			super( title );
-			addActionListener( this );
-			this.cardID = cardID;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	optionCards.show( getContentPane(), cardID );
-		}
 	}
 
 	private class ServerSelectPanel extends OptionsPanel
@@ -224,11 +190,11 @@ public class OptionsFrame extends KoLFrame
 		}
 	}
 
-	private class AdventureOptionsPanel extends OptionsPanel
+	private class AreaOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
 
-		public AdventureOptionsPanel()
+		public AreaOptionsPanel()
 		{
 			super( "Adventure List", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 
@@ -370,7 +336,7 @@ public class OptionsFrame extends KoLFrame
 
 		public RestoreOptionsPanel()
 		{
-			super( "Auto-Recovery" );
+			super( "Auto-Recovery Settings" );
 
 			battleStopSelect = new JComboBox();
 			battleStopSelect.addItem( "Never stop combat" );
@@ -434,87 +400,32 @@ public class OptionsFrame extends KoLFrame
 
 	/**
 	 * This panel allows the user to select which item they would like
-	 * to do for each of the different choice adventures.
+	 * to do when running the lucky sewer adventure.
 	 */
 
-	private class ChoiceOptionsPanel extends OptionsPanel
+	private class SewerOptionsPanel extends OptionsPanel
 	{
-		private AbstractButton [][] optionRadios;
+		private AbstractButton [] sewerOptions;
 
 		/**
-		 * Constructs a new <code>ChoiceOptionsPanel</code> containing an
-		 * alphabetized list of optionRadios available through the lucky sewer
-		 * adventure.
+		 * Constructs a new <code>SewerOptionsPanel</code> containing a
+		 * list of items available through the lucky sewer adventure.
 		 */
 
-		public ChoiceOptionsPanel()
+		public SewerOptionsPanel()
 		{
-			super( "" );
-			setContent( null );
+			super( "Lucky Sewer Trade", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
+			sewerOptions = new JCheckBox[ AdventureDatabase.SEWER_OPTIONS.length ];
+			for ( int i = 0; i < sewerOptions.length; ++i )
+				sewerOptions[i] = new JCheckBox();
 
-			JPanel selectPanel;
-			JScrollPane scrollArea;
-			JPanel containerPanel;
+			VerifiableElement [] elements = new VerifiableElement[ sewerOptions.length ];
 
-			ButtonGroup optionRadiosGroup = null;
-			JPanel labelPanel, optionsPanel;
-			JLabel currentLabel;
+			for ( int i = 0; i < elements.length; ++i )
+				elements[i] = new VerifiableElement( AdventureDatabase.SEWER_OPTIONS[i], JLabel.LEFT, sewerOptions[i] );
 
-			optionRadios = new AbstractButton[ AdventureDatabase.CHOICE_ADVS.length ][];
-
-			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
-			{
-				labelPanel = new JPanel();
-				labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.Y_AXIS ) );
-
-				optionsPanel = new JPanel();
-				optionsPanel.setLayout( new BoxLayout( optionsPanel, BoxLayout.Y_AXIS ) );
-
-				if ( i != 0 )
-					optionRadiosGroup = new ButtonGroup();
-
-				optionRadios[i] = new AbstractButton[ AdventureDatabase.CHOICE_ADVS[i][2].length ];
-
-				for ( int j = 0; j < AdventureDatabase.CHOICE_ADVS[i][2].length; ++j )
-				{
-					currentLabel = new JLabel( AdventureDatabase.CHOICE_ADVS[i][2][j], JLabel.LEFT );
-					JComponentUtilities.setComponentSize( currentLabel, 330, 20 );
-					labelPanel.add( currentLabel );
-
-					if ( i == 0 )
-						optionRadios[i][j] = new JCheckBox();
-					else
-					{
-						optionRadios[i][j] = new JRadioButton();
-						optionRadiosGroup.add( optionRadios[i][j] );
-					}
-
-					JComponentUtilities.setComponentSize( optionRadios[i][j], 30, 20 );
-					optionsPanel.add( optionRadios[i][j] );
-				}
-
-				selectPanel = new JPanel();
-				selectPanel.setLayout( new BorderLayout() );
-
-				selectPanel.add( labelPanel, BorderLayout.CENTER );
-				selectPanel.add( optionsPanel, BorderLayout.WEST );
-
-				scrollArea = new JScrollPane( selectPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-				JComponentUtilities.setComponentSize( scrollArea, 320, 80 );
-
-				containerPanel = new JPanel();
-				containerPanel.setLayout( new BorderLayout() );
-				containerPanel.add( JComponentUtilities.createLabel( AdventureDatabase.CHOICE_ADVS[i][1][0], JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-				containerPanel.add( scrollArea, BorderLayout.CENTER );
-
-				centerPanel.add( containerPanel );
-				centerPanel.add( Box.createVerticalStrut( 20 ) );
-			}
-
-			add( centerPanel, BorderLayout.WEST );
+			setContent( elements, false );
 			actionCancelled();
 		}
 
@@ -522,19 +433,116 @@ public class OptionsFrame extends KoLFrame
 		{
 			StringBuffer currentSetting = new StringBuffer();
 
-			for ( int i = 0; i < optionRadios.length; ++i )
+			for ( int i = 0; i < sewerOptions.length; ++i )
 			{
-				currentSetting.setLength(0);
-				for ( int j = 0; j < optionRadios[i].length; ++j )
-					if ( optionRadios[i][j].isSelected() )
-					{
-						if ( currentSetting.length() != 0 )
-							currentSetting.append( ',' );
+				if ( sewerOptions[i].isSelected() )
+				{
+					if ( currentSetting.length() != 0 )
+						currentSetting.append( ',' );
 
-						currentSetting.append( j + 1 );
-					}
+					currentSetting.append( i + 1 );
+				}
+			}
 
-				setProperty( AdventureDatabase.CHOICE_ADVS[i][0][0], currentSetting.toString() );
+			setProperty( "luckySewer", currentSetting.toString() );
+			super.actionConfirmed();
+		}
+
+		protected void actionCancelled()
+		{
+			for ( int i = 0; i < sewerOptions.length; ++i )
+				sewerOptions[i].setSelected( false );
+
+			String [] selected = getProperty( "luckySewer" ).split( "," );
+			for ( int i = 0; i < selected.length; ++i )
+			{
+				// Handle broken values in .kcs file.  These values
+				// include a 43 in the case of the lucky sewer.
+
+				int value = Integer.parseInt( selected[i] );
+				sewerOptions[ value == 43 ? 12 : value - 1 ].setSelected( true );
+			}
+		}
+	}
+
+	/**
+	 * This panel allows the user to select which item they would like
+	 * to do for each of the different choice adventures.
+	 */
+
+	private class ChoiceOptionsPanel extends OptionsPanel
+	{
+		private JComboBox [] optionSelects;
+		private JComboBox castleWheelSelect;
+
+		/**
+		 * Constructs a new <code>ChoiceOptionsPanel</code>.
+		 */
+
+		public ChoiceOptionsPanel()
+		{
+			super( "Choice Adventure Setup" );
+
+			optionSelects = new JComboBox[ AdventureDatabase.CHOICE_ADVS.length ];
+			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+			{
+				optionSelects[i] = new JComboBox();
+				optionSelects[i].addItem( "Ignore this adventure" );
+
+				for ( int j = 0; j < AdventureDatabase.CHOICE_ADVS[i][2].length; ++j )
+					optionSelects[i].addItem( AdventureDatabase.CHOICE_ADVS[i][2][j] );
+			}
+
+			castleWheelSelect = new JComboBox();
+			castleWheelSelect.addItem( "Turn to map quest position" );
+			castleWheelSelect.addItem( "Turn to muscle position" );
+			castleWheelSelect.addItem( "Turn to mysticality position" );
+			castleWheelSelect.addItem( "Turn to moxie position" );
+
+			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 1 ];
+			elements[0] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
+
+			for ( int i = 1; i < elements.length; ++i )
+				elements[i] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i-1][1][0], optionSelects[i-1] );
+
+			setContent( elements );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			for ( int i = 0; i < optionSelects.length; ++i )
+				setProperty( AdventureDatabase.CHOICE_ADVS[i][0][0], String.valueOf( optionSelects[i].getSelectedIndex() ) );
+
+			switch ( castleWheelSelect.getSelectedIndex() )
+			{
+				case 0: // Map quest position
+					setProperty( "choiceAdventure9", "1" );   // Turn the muscle position clockwise
+					setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
+					setProperty( "choiceAdventure11", "0" );  // Leave the map quest position alone
+					setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
+					break;
+
+				case 1: // Muscle position
+					setProperty( "choiceAdventure9", "0" );   // Leave the muscle position alone
+					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
+					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+					break;
+
+				case 2: // Mysticality position
+					setProperty( "choiceAdventure9", "1" );   // Turn the muscle position clockwise
+					setProperty( "choiceAdventure10", "0" );  // Leave the mysticality position alone
+					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
+					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+					break;
+
+				case 3: // Moxie position
+					setProperty( "choiceAdventure9", "2" );   // Turn the muscle position counterclockwise
+					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
+					setProperty( "choiceAdventure12", "0" );  // Leave the moxie position alone
+					break;
 			}
 
 			super.actionConfirmed();
@@ -542,24 +550,36 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			for ( int i = 0; i < optionRadios.length; ++i )
-				for ( int j = 0; j < optionRadios[i].length; ++j )
-					optionRadios[i][j].setSelected( false );
+			for ( int i = 0; i < optionSelects.length; ++i )
+				optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );
 
-			String [] selected;
+			// Determine the desired wheel position by
+			// examining which choice adventure has the
+			// "0" value.  If none exists, assume the
+			// user wishes to turn it to the map quest.
 
-			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+			int zeroOption = 11;
+			for ( int i = 9; i < 13; ++i )
+				if ( getProperty( "choiceAdventure" + i ).equals( "0" ) )
+					zeroOption = i;
+
+			switch ( zeroOption )
 			{
-				selected = getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ).split( "," );
-				for ( int j = 0; j < selected.length; ++j )
-				{
-					// Handle broken values in .kcs file.  These values
-					// include a zero for some of the default adventures
-					// and a 43 in the case of the lucky sewer.
+				case 9: // Muscle position
+					castleWheelSelect.setSelectedIndex(1);
+					break;
 
-					int value = Integer.parseInt( selected[j] );
-					optionRadios[i][ value == 0 ? 0 : value == 43 ? 12 : value - 1 ].setSelected( true );
-				}
+				case 10: // Mysticality position
+					castleWheelSelect.setSelectedIndex(2);
+					break;
+
+				case 11: // Map quest position
+					castleWheelSelect.setSelectedIndex(0);
+					break;
+
+				case 12: // Moxie position
+					castleWheelSelect.setSelectedIndex(3);
+					break;
 			}
 		}
 	}
@@ -672,66 +692,6 @@ public class OptionsFrame extends KoLFrame
 				for ( int i = colors.length; i < KoLMessenger.ROOMS.length; ++i )
 					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], Color.black ) );
 			}
-		}
-	}
-
-	/**
-	 * An internal class used for handling item creation options.  This includes
-	 * whether or not the closet is used as an ingredient source and whether
-	 * or not the box servant will be repaired on explosion.
-	 */
-
-	private class CreationOptionsPanel extends OptionsPanel
-	{
-		private JCheckBox useClosetForCreationCheckBox;
-		private JCheckBox autoRepairBoxesCheckBox;
-		private JCheckBox useClockworkBoxesCheckBox;
-		private JCheckBox createWithoutBoxServantsCheckBox;
-		private JCheckBox includeAscensionRecipesCheckBox;
-
-		public CreationOptionsPanel()
-		{
-			super( "Item Creation", new Dimension( 340, 20 ), new Dimension( 20, 20 ) );
-
-			useClosetForCreationCheckBox = new JCheckBox();
-			autoRepairBoxesCheckBox = new JCheckBox();
-			useClockworkBoxesCheckBox = new JCheckBox();
-			createWithoutBoxServantsCheckBox = new JCheckBox();
-			includeAscensionRecipesCheckBox = new JCheckBox();
-
-			VerifiableElement [] elements = new VerifiableElement[5];
-			elements[0] = new VerifiableElement( "Use closet as ingredient source", JLabel.LEFT, useClosetForCreationCheckBox );
-			elements[1] = new VerifiableElement( "Auto-repair box servants on explosion", JLabel.LEFT, autoRepairBoxesCheckBox );
-			elements[2] = new VerifiableElement( "Use clockwork box servants", JLabel.LEFT, useClockworkBoxesCheckBox );
-			elements[3] = new VerifiableElement( "Cook or mix without a box servant", JLabel.LEFT, createWithoutBoxServantsCheckBox );
-			elements[4] = new VerifiableElement( "Include post-ascension recipes", JLabel.LEFT, includeAscensionRecipesCheckBox );
-
-			setContent( elements, false );
-			actionCancelled();
-		}
-
-		protected void actionConfirmed()
-		{
-			setProperty( "useClosetForCreation", String.valueOf( useClosetForCreationCheckBox.isSelected() ) );
-			setProperty( "autoRepairBoxes", String.valueOf( autoRepairBoxesCheckBox.isSelected() ) );
-			setProperty( "useClockworkBoxes", String.valueOf( useClockworkBoxesCheckBox.isSelected() ) );
-			setProperty( "createWithoutBoxServants", String.valueOf( createWithoutBoxServantsCheckBox.isSelected() ) );
-			setProperty( "includeAscensionRecipes", String.valueOf( includeAscensionRecipesCheckBox.isSelected() ) );
-
-			if ( client != null && client.getInventory() != null )
-				ConcoctionsDatabase.refreshConcoctions();
-
-			super.actionConfirmed();
-		}
-
-		protected void actionCancelled()
-		{
-			useClosetForCreationCheckBox.setSelected( getProperty( "useClosetForCreation" ).equals( "true" ) );
-			autoRepairBoxesCheckBox.setSelected( getProperty( "autoRepairBoxes" ).equals( "true" ) );
-			useClockworkBoxesCheckBox.setSelected( getProperty( "useClockworkBoxes" ).equals( "true" ) );
-			includeAscensionRecipesCheckBox.setSelected( getProperty( "includeAscensionRecipes" ).equals( "true" ) );
-			createWithoutBoxServantsCheckBox.setSelected( getProperty( "createWithoutBoxServants" ).equals( "true" ) );
-			includeAscensionRecipesCheckBox.setSelected( getProperty( "includeAscensionRecipes" ).equals( "true" ) );
 		}
 	}
 
