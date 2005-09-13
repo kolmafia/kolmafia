@@ -666,6 +666,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Next is the command to face your nemesis
+
+		if ( command.equals( "nemesis" ) )
+		{
+			scriptRequestor.faceNemesis();
+			return;
+		}
+
 		// Campground activities are fairly common, so
 		// they will be listed first after the above.
 

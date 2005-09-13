@@ -370,6 +370,17 @@ public class KoLmafiaGUI extends KoLmafia
 		super.robStrangeLeaflet();
 	}
 
+	public void faceNemesis()
+	{
+		super.faceNemesis();
+
+		if ( !Nemesis.getMissingItems().isEmpty() )
+			JOptionPane.showInputDialog( null, "The following items are still missing...",
+						     "Oops, you did it again!",
+						     JOptionPane.INFORMATION_MESSAGE, null,
+						     Nemesis.getMissingItems().toArray(), null );
+	}
+
 	public void setVisible( boolean isVisible )
 	{
 		if ( displayer != null && displayer.getCreation() != null )

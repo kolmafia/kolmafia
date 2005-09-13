@@ -1917,6 +1917,14 @@ public abstract class KoLmafia implements KoLConstants
 		StrangeLeaflet.robStrangeLeaflet();
 	}
 
+	public void faceNemesis()
+	{
+		// Use the static method provided to face your Nemesis
+
+		Nemesis.setClient( this );
+		Nemesis.faceNemesis();
+	}
+
 	public void completeEntryway()
 	{
 		// Use the static method provided in the sorceress
