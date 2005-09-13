@@ -561,11 +561,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( scriptRequestor instanceof KoLmafiaGUI )
 			{
-				Object [] parameters = new Object[2];
-				parameters[0] = scriptRequestor;
-				parameters[1] = request;
+				Object [] params = new Object[2];
+				params[0] = scriptRequestor;
+				params[1] = request;
 
-				(new CreateFrameRunnable( RequestFrame.class, parameters )).run();
+				(new CreateFrameRunnable( RequestFrame.class, params )).run();
 			}
 			else
 			{
@@ -604,7 +604,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "entryway" ) )
 		{
 			scriptRequestor.completeEntryway();
-			printList( SorceressLair.getMissingItems() );
 			return;
 		}
 
@@ -615,7 +614,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "hedgemaze" ) )
 		{
 			scriptRequestor.completeHedgeMaze();
-			printList( SorceressLair.getMissingItems() );
 			return;
 		}
 
@@ -626,7 +624,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "guardians" ) )
 		{
 			scriptRequestor.fightTowerGuardians();
-			printList( SorceressLair.getMissingItems() );
 			return;
 		}
 
@@ -636,7 +633,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "chamber" ) )
 		{
 			scriptRequestor.completeSorceressChamber();
-			printList( SorceressLair.getMissingItems() );
 			return;
 		}
 
@@ -680,11 +676,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( scriptRequestor instanceof KoLmafiaGUI )
 			{
-				Object [] parameters = new Object[2];
-				parameters[0] = scriptRequestor;
-				parameters[1] = request;
+				Object [] params = new Object[2];
+				params[0] = scriptRequestor;
+				params[1] = request;
 
-				(new CreateFrameRunnable( RequestFrame.class, parameters )).run();
+				(new CreateFrameRunnable( RequestFrame.class, params )).run();
 			}
 			else
 			{
@@ -2047,7 +2043,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * stream, simply pass the output stream to this method.
 	 */
 
-	private void printList( List printing )
+	protected void printList( List printing )
 	{
 		Iterator printingIterator = printing.iterator();
 		while ( printingIterator.hasNext() )

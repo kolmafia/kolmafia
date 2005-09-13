@@ -39,7 +39,6 @@ import java.util.ArrayList;
 public class Nemesis implements KoLConstants
 {
 	private static KoLmafia client;
-	private static List missingItems;
 
 	// Items for the cave
 
@@ -54,11 +53,6 @@ public class Nemesis implements KoLConstants
 	public static void setClient( KoLmafia client )
 	{
 		Nemesis.client = client;
-		missingItems = new ArrayList();
-	}
-
-	public static List getMissingItems()
-	{	return missingItems;
 	}
 
 	private static boolean checkPrerequisites()
@@ -95,28 +89,6 @@ public class Nemesis implements KoLConstants
 		}
 
 		return true;
-	}
-
-	private static boolean checkRequirements( AdventureResult [] requirements )
-	{
-		missingItems.clear();
-
-		// Check the items required for this quest
-
-		for ( int i = 0; i < requirements.length; ++i )
-			if ( requirements[i] == null || requirements[i].getCount( client.getInventory() ) < requirements[i].getCount() )
-				missingItems.add( requirements[i] );
-
-		// If there are any missing requirements
-		// be sure to return false.
-
-		if ( !missingItems.isEmpty() )
-		{
-			client.updateDisplay( ERROR_STATE, "Insufficient items to continue." );
-			client.cancelRequest();
-		}
-
-		return missingItems.isEmpty();
 	}
 
 	public static void faceNemesis()
@@ -158,12 +130,12 @@ public class Nemesis implements KoLConstants
 
 		// Need a flyswatter to get past the Fly Bend
 
-		if ( region <= 4)
+		if ( region <= 4 )
 			requirements.add( FLY_SWATTER );
 
 		// Need a cog and a sprocket to get past the Stone Door
 
-		if ( region <= 5)
+		if ( region <= 5 )
 		{
 			requirements.add( COG );
 			requirements.add( SPROCKET );
@@ -171,25 +143,22 @@ public class Nemesis implements KoLConstants
 
 		// Need fairy gravy to get past the first lavatory troll
 
-		if ( region <= 6)
+		if ( region <= 6 )
 			requirements.add( GRAVY );
 
 		// Need tongs to get past the salad covered door
 
-		if ( region <= 7)
+		if ( region <= 7 )
 			requirements.add( TONGS );
 
 		// Need some kind of ketchup to get past the second lavatory troll
 
 		AdventureResult ketchup = CATSUP.getCount( client.getInventory() ) > 0 ? CATSUP : KETCHUP;
 
-		if ( region <= 8)
+		if ( region <= 8 )
 			requirements.add( ketchup );
 
-		AdventureResult [] requirementsArray = new AdventureResult[ requirements.size() ];
-		requirements.toArray( requirementsArray );
-
-		if ( !checkRequirements( requirementsArray ) )
+		if ( !client.checkRequirements( requirements ) )
 			return;
 
 		// Save currently equipped weapon so we can re-equip it for the final battle.

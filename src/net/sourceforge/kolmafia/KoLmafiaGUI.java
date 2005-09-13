@@ -324,61 +324,19 @@ public class KoLmafiaGUI extends KoLmafia
 			"You're not drunk!?", JOptionPane.YES_NO_OPTION );
 	}
 
-	public void completeEntryway()
+	/**
+	 * Utility method used to print a list to the given output
+	 * stream.  If there's a need to print to the current output
+	 * stream, simply pass the output stream to this method.
+	 */
+
+	protected void printList( List printing )
 	{
-		super.completeEntryway();
+		if ( printing.isEmpty() )
+			return;
 
-		if ( !SorceressLair.getMissingItems().isEmpty() )
-			JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
-				JOptionPane.INFORMATION_MESSAGE, null, SorceressLair.getMissingItems().toArray(), null );
-	}
-
-	public void completeHedgeMaze()
-	{
-		super.completeHedgeMaze();
-
-		if ( !SorceressLair.getMissingItems().isEmpty() )
-			JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
-				JOptionPane.INFORMATION_MESSAGE, null, SorceressLair.getMissingItems().toArray(), null );
-	}
-
-	public void fightTowerGuardians()
-	{
-		super.fightTowerGuardians();
-
-		if ( !SorceressLair.getMissingItems().isEmpty() )
-			JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
-				JOptionPane.INFORMATION_MESSAGE, null, SorceressLair.getMissingItems().toArray(), null );
-	}
-
-	public void completeSorceressChamber()
-	{
-		super.completeSorceressChamber();
-
-		if ( !SorceressLair.getMissingItems().isEmpty() )
-			JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
-				JOptionPane.INFORMATION_MESSAGE, null, SorceressLair.getMissingItems().toArray(), null );
-	}
-
-	public void visitCouncil()
-	{
-		super.visitCouncil();
-	}
-
-	public void robStrangeLeaflet()
-	{
-		super.robStrangeLeaflet();
-	}
-
-	public void faceNemesis()
-	{
-		super.faceNemesis();
-
-		if ( !Nemesis.getMissingItems().isEmpty() )
-			JOptionPane.showInputDialog( null, "The following items are still missing...",
-						     "Oops, you did it again!",
-						     JOptionPane.INFORMATION_MESSAGE, null,
-						     Nemesis.getMissingItems().toArray(), null );
+		JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
+			JOptionPane.INFORMATION_MESSAGE, null, printing.toArray(), null );
 	}
 
 	public void setVisible( boolean isVisible )

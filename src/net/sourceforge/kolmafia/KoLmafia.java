@@ -110,7 +110,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	private int pullsRemaining;
 	protected LockableListModel adventureList;
-	protected SortedListModel tally, conditions;
+	protected SortedListModel tally, conditions, missingItems;
 	protected SortedListModel inventory, closet, usableItems, sellableItems, hunterItems, storage;
 
 	/**
@@ -165,6 +165,7 @@ public abstract class KoLmafia implements KoLConstants
 		seenPlayerIDs = new TreeMap();
 		seenPlayerNames = new TreeMap();
 		adventureList = new LockableListModel();
+		missingItems = new SortedListModel();
 		commandBuffer = null;
 	}
 
@@ -211,6 +212,7 @@ public abstract class KoLmafia implements KoLConstants
 		// all over the place
 
 		this.sessionID = sessionID;
+		this.missingItems.clear();
 
 		if ( !permitContinue )
 		{
@@ -954,10 +956,10 @@ public abstract class KoLmafia implements KoLConstants
 	 * mana points above the given value.
 	 */
 
-	public void recoverMP( int mpNeeded )
+	public boolean recoverMP( int mpNeeded )
 	{
 		if ( characterData.getCurrentMP() >= mpNeeded )
-			return;
+			return true;
 
 		int previousMP = -1;
 		disableMacro = true;
@@ -983,7 +985,7 @@ public abstract class KoLmafia implements KoLConstants
  						{
 							disableMacro = false;
 							permitContinue = true;
- 							return;
+ 							return true;
 						}
 
 						if ( characterData.getCurrentMP() == previousMP )
@@ -1006,7 +1008,7 @@ public abstract class KoLmafia implements KoLConstants
  						{
 							disableMacro = false;
 							permitContinue = true;
-							return;
+							return true;
 						}
 
 						if ( characterData.getCurrentMP() == previousMP )
@@ -1022,6 +1024,7 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( ERROR_STATE, "Unable to acquire enough MP!" );
 		disableMacro = false;
 		permitContinue = false;
+		return false;
 	}
 
 	/**
@@ -1948,4 +1951,38 @@ public abstract class KoLmafia implements KoLConstants
 		SorceressLair.setClient( this );
 		SorceressLair.completeSorceressChamber();
 	}
+
+	public boolean checkRequirements( List requirements )
+	{
+		AdventureResult [] requirementsArray = new AdventureResult[ requirements.size() ];
+		requirements.toArray( requirementsArray );
+
+		missingItems.clear();
+
+		// Check the items required for this quest
+
+		for ( int i = 0; i < requirementsArray.length; ++i )
+			if ( requirementsArray[i] == null || requirementsArray[i].getCount( inventory ) < requirementsArray[i].getCount() )
+				missingItems.add( requirementsArray[i] );
+
+		// If there are any missing requirements
+		// be sure to return false.
+
+		if ( !missingItems.isEmpty() )
+		{
+			updateDisplay( ERROR_STATE, "Insufficient items to continue." );
+			printList( missingItems );
+			cancelRequest();
+		}
+
+		return missingItems.isEmpty();
+	}
+
+	/**
+	 * Utility method used to print a list to the given output
+	 * stream.  If there's a need to print to the current output
+	 * stream, simply pass the output stream to this method.
+	 */
+
+	protected abstract void printList( List printing );
 }

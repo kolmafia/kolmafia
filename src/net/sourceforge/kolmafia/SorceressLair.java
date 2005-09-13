@@ -41,7 +41,6 @@ import java.util.regex.Matcher;
 public class SorceressLair implements KoLConstants
 {
 	private static KoLmafia client;
-	private static List missingItems;
 
 	// Items for the entryway
 
@@ -122,11 +121,6 @@ public class SorceressLair implements KoLConstants
 	public static void setClient( KoLmafia client )
 	{
 		SorceressLair.client = client;
-		missingItems = new ArrayList();
-	}
-
-	public static List getMissingItems()
-	{	return missingItems;
 	}
 
 	private static boolean checkPrerequisites( int min, int max )
@@ -214,29 +208,6 @@ public class SorceressLair implements KoLConstants
 		// on prerequisites.  Return true.
 
 		return true;
-	}
-
-	private static boolean checkRequirements( AdventureResult [] requirements )
-	{
-		missingItems.clear();
-
-		// First, check the standard item requirements
-		// for this accomplishment.
-
-		for ( int i = 0; i < requirements.length; ++i )
-			if ( requirements[i] == null || requirements[i].getCount( client.getInventory() ) < requirements[i].getCount() )
-				missingItems.add( requirements[i] );
-
-		// If there are any missing requirements
-		// be sure to return false.
-
-		if ( !missingItems.isEmpty() )
-		{
-			client.updateDisplay( ERROR_STATE, "Insufficient items to continue." );
-			client.cancelRequest();
-		}
-
-		return missingItems.isEmpty();
 	}
 
 	public static void completeEntryway()
@@ -342,14 +313,10 @@ public class SorceressLair implements KoLConstants
 		requirements.add( TAMBOURINE.getCount( client.getInventory() ) > 0 ? TAMBOURINE : BONE_RATTLE );
 		requirements.add( ROCKNROLL_LEGEND.getCount( client.getInventory() ) > 0 ? ROCKNROLL_LEGEND : ACCORDION );
 
-
 		// Now that the array's initialized, issue the checks
 		// on the items needed to finish the entryway.
 
-		AdventureResult [] requirementsArray = new AdventureResult[ requirements.size() ];
-		requirements.toArray( requirementsArray );
-
-		if ( !checkRequirements( requirementsArray ) )
+		if ( !client.checkRequirements( requirements ) )
 			return;
 
 		if ( RHYTHM.getCount( client.getInventory() ) < 1 )
@@ -632,10 +599,10 @@ public class SorceressLair implements KoLConstants
 		// Check to see if you've run out of puzzle pieces.
 		// If you have, don't bother running the puzzle.
 
-		AdventureResult [] requirements = new AdventureResult[1];
-		requirements[0] = PUZZLE_PIECE;
+		List requirements = new ArrayList();
+		requirements.add( PUZZLE_PIECE );
 
-		if ( !checkRequirements( requirements ) )
+		if ( !client.checkRequirements( requirements ) )
 			return;
 
 		// Check to see if they've already completed the
@@ -704,7 +671,7 @@ public class SorceressLair implements KoLConstants
 		if ( responseText.indexOf( "Click one" ) == -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
-			missingItems.add( requirements[0] );
+			client.checkRequirements( requirements );
 			client.cancelRequest();
 			return;
 		}
@@ -917,8 +884,11 @@ public class SorceressLair implements KoLConstants
 		request.run();
 
 		client.updateDisplay( ERROR_STATE, "You need an additional " + guardianItem.getName() + " to continue." );
-		missingItems.clear();
-		missingItems.add( guardianItem );
+
+		List requirements = new ArrayList();
+		requirements.add( guardianItem );
+		client.checkRequirements( requirements );
+
 		return false;
 	}
 
@@ -1148,15 +1118,11 @@ public class SorceressLair implements KoLConstants
 	{
 		KoLCharacter data = client.getCharacterData();
 
-		int potions = RED_PIXEL_POTION.getCount( client.getInventory() );
-		if ( potions < 4 )
-		{
-			client.updateDisplay( ERROR_STATE, "You don't have enoough red pixel potions." );
-			missingItems.clear();
-			missingItems.add( new AdventureResult( "red pixel potion", 4 - potions ) );
-			client.cancelRequest();
+		List requirements = new ArrayList();
+		requirements.add( new AdventureResult( "red pixel potion", 4 ) );
+
+		if ( !client.checkRequirements( requirements ) )
 			return;
-		}
 
 		// Ensure that the player is at full HP since the shadow will
 		// probably beat him up if he has less.
