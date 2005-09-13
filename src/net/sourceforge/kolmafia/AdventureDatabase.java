@@ -81,46 +81,46 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final String [][][] CHOICE_ADVS =
 	{
-		{ { "choiceAdventure2" }, { "Palindome Axe" },
+		{ { "choiceAdventure2" }, { "Palindome" },
 			{ "Trade for a denim axe", "Keep your rubber axe" } },
 
-		{ { "choiceAdventure3" }, { "Oracle Will See You" },
+		{ { "choiceAdventure3" }, { "Teleportitis" },
 			{ "Leave the oracle", "Pay for a minor consultation", "Pay for a major consultation" } },
 
-		{ { "choiceAdventure4" }, { "Finger-Lickin' Death" },
+		{ { "choiceAdventure4" }, { "South of the Border" },
 			{ "Bet on Tapajunta Del Maiz", "Bet on Cuerno De...  the other one", "Walk away in disgust" } },
 
-		{ { "choiceAdventure14" }, { "A Bard Day's Night" },
+		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
 			{ "Knob goblin harem veil", "Knob goblin harem pants", "100 meat" } },
 
-		{ { "choiceAdventure15" }, { "Yeti Nother Hippy" },
+		{ { "choiceAdventure15" }, { "eXtreme Slope 1" },
 			{ "eXtreme mittens", "eXtreme scarf", "75 meat" } },
 
-		{ { "choiceAdventure16" }, { "Saint Beernard" },
+		{ { "choiceAdventure16" }, { "eXtreme Slope 2" },
 			{ "snowboarder pants", "eXtreme scarf", "75 meat" } },
 
-		{ { "choiceAdventure17" }, { "Generic Teen Comedy" },
+		{ { "choiceAdventure17" }, { "eXtreme Slope 3" },
 			{ "eXtreme mittens", "snowboarder pants", "75 meat" } },
 
-		{ { "choiceAdventure18" }, { "A Flat Miner" },
+		{ { "choiceAdventure18" }, { "Itznotyerzitz Mine 1" },
 			{ "miner's pants", "7-Foot Dwarven mattock", "100 meat" } },
 
-		{ { "choiceAdventure19" }, { "100% Legal" },
+		{ { "choiceAdventure19" }, { "Itznotyerzitz Mine 2" },
 			{ "miner's helmet", "miner's pants", "75 meat" } },
 
-		{ { "choiceAdventure20" }, { "See You Next Fall" },
+		{ { "choiceAdventure20" }, { "Itznotyerzitz Mine 3" },
 			{ "miner's helmet", "7-Foot Dwarven mattock", "100 meat" } },
 
-		{ { "choiceAdventure22" }, { "The Arrrbitrator" },
+		{ { "choiceAdventure22" }, { "Pirate's Cove 1" },
 			{ "eyepatch", "swashbuckling pants", "100 meat" } },
 
-		{ { "choiceAdventure23" }, { "Barrie Me at Sea" },
+		{ { "choiceAdventure23" }, { "Pirate's Cove 2" },
 			{ "stuffed shoulder parrot", "swashbuckling pants", "100 meat" } },
 
-		{ { "choiceAdventure24" }, { "Amatearrr Night" },
+		{ { "choiceAdventure24" }, { "Pirate's Cove 3" },
 			{ "stuffed shoulder parrot", "100 meat", "eyepatch" } },
 
-		{ { "choiceAdventure25" }, { "Izchak's Store" },
+		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
 			{ "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } }
 	};
 
