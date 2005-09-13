@@ -91,6 +91,8 @@ public class KoLMessenger implements KoLConstants
 		contactsFrame = new ContactListFrame( client, onlineContacts );
 		setTabbedFrameSetting( client.getSettings().getProperty( "useTabbedChat" ).equals( "1" ) );
 
+		if ( client.getSettings().getProperty( "autoLogChat" ).equals( "true" ) )
+			initializeChatLogs();
 	}
 
 	/**
@@ -639,17 +641,39 @@ public class KoLMessenger implements KoLConstants
 
 		String displayHTML = null;
 
-		if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "New" ) || message.indexOf( "logged" ) != -1 )
+		// There are a bunch of messages that are supposed to be
+		// formatted in green.  These are all handled first.
+
+		if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) )
 			displayHTML = "<font color=green>" + message + "</font>";
+
+		else if ( message.startsWith( "<a target=mainpane href=\'" ) )
+			displayHTML = "<font color=green>" + message + "</font>";
+
+		else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
+			displayHTML = "<font color=green>" + message + "</font>";
+
+		// Then, private messages resulting from a /last command
+		// show up in blue.  These are handled next.
 
 		else if ( message.startsWith( "<b>from " ) || message.startsWith( "<b>to " ) )
 			displayHTML = "<font color=blue>" + message + "</font>";
 
+		// Mod warnings and system messages turn up in red.  There
+		// are kick messages which show up in red as well, but those
+		// should also have mod warning attached.
+
 		else if ( message.indexOf( ">Mod Warning<" ) != -1 || message.indexOf( ">System Message<" ) != -1 )
 			displayHTML = "<font color=red>" + message + "</font>";
 
+		// All messages which don't have a colon following the name
+		// are italicized messages from actions.
+
 		else if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
 			displayHTML = "<i>" + message + "</i>";
+
+		// Finally, all other messages are treated normally, with
+		// no special formatting needed.
 
 		else
 			displayHTML = message;
@@ -778,7 +802,7 @@ public class KoLMessenger implements KoLConstants
 	{
 
 		Date currentTime = new Date();
-		CHATLOG_BASENAME = "chats" + File.separator + currentTime.toString() + "_";
+		CHATLOG_BASENAME = "chats" + File.separator + sdf.format( currentTime ) + "_";
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		String filename, currentKey;
