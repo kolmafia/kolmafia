@@ -84,11 +84,23 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure2" }, { "Palindome Axe" },
 			{ "Trade for a denim axe", "Keep your rubber axe" } },
 
+		{ { "choiceAdventure3" }, { "Oracle Will See You" },
+			{ "Leave the oracle", "Pay for a minor consultation", "Pay for a major consultation" } },
+
 		{ { "choiceAdventure4" }, { "Finger-Lickin' Death" },
 			{ "Bet on Tapajunta Del Maiz", "Bet on Cuerno De...  the other one", "Walk away in disgust" } },
 
 		{ { "choiceAdventure14" }, { "A Bard Day's Night" },
 			{ "Knob goblin harem veil", "Knob goblin harem pants", "100 meat" } },
+
+		{ { "choiceAdventure15" }, { "Yeti Nother Hippy" },
+			{ "eXtreme mittens", "eXtreme scarf", "75 meat" } },
+
+		{ { "choiceAdventure16" }, { "Saint Beernard" },
+			{ "snowboarder pants", "eXtreme scarf", "75 meat" } },
+
+		{ { "choiceAdventure17" }, { "Generic Teen Comedy" },
+			{ "eXtreme mittens", "snowboarder pants", "75 meat" } },
 
 		{ { "choiceAdventure18" }, { "A Flat Miner" },
 			{ "miner's pants", "7-Foot Dwarven mattock", "100 meat" } },
@@ -106,7 +118,10 @@ public class AdventureDatabase extends KoLDatabase
 			{ "stuffed shoulder parrot", "swashbuckling pants", "100 meat" } },
 
 		{ { "choiceAdventure24" }, { "Amatearrr Night" },
-			{ "stuffed shoulder parrot", "100 meat", "eyepatch" } }
+			{ "stuffed shoulder parrot", "100 meat", "eyepatch" } },
+
+		{ { "choiceAdventure25" }, { "Izchak's Store" },
+			{ "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } }
 	};
 
 	private static List [] adventureTable;

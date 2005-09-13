@@ -179,24 +179,27 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "chatStyle", "0" );
 
 			// Begin choice adventure section.
-			// Reminder: choice Adventure indices are 1-based
 
-		ensureProperty( "choiceAdventure2", "1" );
-		ensureProperty( "choiceAdventure4", "1" );
+		ensureProperty( "choiceAdventure2", "0" );
+		ensureProperty( "choiceAdventure3", "0" );
+		ensureProperty( "choiceAdventure4", "2" );
 		ensureProperty( "choiceAdventure9", "1" );
 		ensureProperty( "choiceAdventure10", "1" );
-		ensureProperty( "choiceAdventure11", "1" );
-		ensureProperty( "choiceAdventure12", "1" );
-		ensureProperty( "choiceAdventure14", "1" );
-		ensureProperty( "choiceAdventure18", "1" );
-		ensureProperty( "choiceAdventure19", "1" );
-		ensureProperty( "choiceAdventure20", "1" );
-		ensureProperty( "choiceAdventure22", "1" );
-		ensureProperty( "choiceAdventure23", "1" );
-		ensureProperty( "choiceAdventure24", "1" );
+		ensureProperty( "choiceAdventure11", "0" );
+		ensureProperty( "choiceAdventure12", "2" );
+		ensureProperty( "choiceAdventure14", "0" );
+		ensureProperty( "choiceAdventure15", "0" );
+		ensureProperty( "choiceAdventure16", "0" );
+		ensureProperty( "choiceAdventure17", "0" );
+		ensureProperty( "choiceAdventure18", "0" );
+		ensureProperty( "choiceAdventure19", "0" );
+		ensureProperty( "choiceAdventure20", "0" );
+		ensureProperty( "choiceAdventure22", "0" );
+		ensureProperty( "choiceAdventure23", "0" );
+		ensureProperty( "choiceAdventure24", "0" );
+		ensureProperty( "choiceAdventure25", "2" );
 
 			// End choice adventure section.
-			// Treat the remaining settings as normal.
 
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		ensureProperty( "closeSending", "false" );
