@@ -94,6 +94,16 @@ public class StrangeLeaflet implements KoLConstants
 
 	public static void robStrangeLeaflet()
 	{
+		// If the player has never ascended, then they're going
+		// to have to do it all by hand.
+
+		if ( client.getCharacterData().getAscensions() < 1 )
+		{
+			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
+			client.cancelRequest();
+			return false;
+		}
+
 		// See if there is anything left to do.  If the player's
 		// accomplishments include completion of the leaflet,
 		// then there is nothing left to do.
