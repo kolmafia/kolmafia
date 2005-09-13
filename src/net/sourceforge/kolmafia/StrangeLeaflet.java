@@ -101,7 +101,7 @@ public class StrangeLeaflet implements KoLConstants
 		{
 			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
 			client.cancelRequest();
-			return false;
+			return;
 		}
 
 		// See if there is anything left to do.  If the player's
