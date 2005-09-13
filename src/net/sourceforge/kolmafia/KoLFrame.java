@@ -459,7 +459,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
-	 * Auxilary method used to enable and disable a frame.  By default,
+	 * Auxiliary method used to enable and disable a frame.  By default,
 	 * this attempts to toggle the enable/disable status on the core
 	 * content panel.  It is advised that descendants override this
 	 * behavior whenever necessary.

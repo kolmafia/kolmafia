@@ -166,7 +166,7 @@ public class BuffBotFrame extends KoLFrame
 	}
 
 	/**
-	 * Auxilary method used to enable and disable a frame.  By default,
+	 * Auxiliary method used to enable and disable a frame.  By default,
 	 * this attempts to toggle the enable/disable status on all tabs.
 	 *
 	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
