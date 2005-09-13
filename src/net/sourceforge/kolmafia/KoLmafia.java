@@ -433,20 +433,6 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( ENABLED_STATE, "Pwning of Clan Otori complete." );
 	}
 
-
-	/**
-	 * Utility method used to notify the client that it should attempt
-	 * to visit the council
-	 */
-
-	public void visitCouncil()
-	{
-		KoLRequest request = new KoLRequest( this, "council.php", true );
-		request.run();
-		processResults( request.responseText );
-		updateDisplay( ENABLED_STATE, "Council visited." );
-	}
-
 	/**
 	 * Deinitializes the <code>KoLmafia</code> session.  Called after
 	 * the user has logged out.
@@ -960,7 +946,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected final void autoRecoverMP()
 	{
 		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) characterData.getMaximumMP();
-		permitContinue = recoverMP( (int) mpNeeded );
+		recoverMP( (int) mpNeeded );
 	}
 
 	/**
@@ -968,10 +954,10 @@ public abstract class KoLmafia implements KoLConstants
 	 * mana points above the given value.
 	 */
 
-	public boolean recoverMP( int mpNeeded )
+	public void recoverMP( int mpNeeded )
 	{
 		if ( characterData.getCurrentMP() >= mpNeeded )
-			return true;
+			return;
 
 		int previousMP = -1;
 		disableMacro = true;
@@ -996,7 +982,8 @@ public abstract class KoLmafia implements KoLConstants
  						if ( characterData.getCurrentMP() >= mpNeeded )
  						{
 							disableMacro = false;
- 							return true;
+							permitContinue = true;
+ 							return;
 						}
 
 						if ( characterData.getCurrentMP() == previousMP )
@@ -1018,7 +1005,8 @@ public abstract class KoLmafia implements KoLConstants
  						if ( characterData.getCurrentMP() >= mpNeeded )
  						{
 							disableMacro = false;
- 							return true;
+							permitContinue = true;
+							return;
 						}
 
 						if ( characterData.getCurrentMP() == previousMP )
@@ -1033,7 +1021,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		updateDisplay( ERROR_STATE, "Unable to acquire enough MP!" );
 		disableMacro = false;
-		return false;
+		permitContinue = false;
 	}
 
 	/**
