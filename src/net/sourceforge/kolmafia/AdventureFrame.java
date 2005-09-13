@@ -136,11 +136,7 @@ public class AdventureFrame extends KoLFrame
 		contentPanel = adventureSelect;
 
 		addWindowListener( new LogoutRequestAdapter() );
-
-		if ( client == null )
-			updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
-		else
-			client.updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+		updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
 
 		addMenuBar();
 	}
