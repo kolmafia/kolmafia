@@ -215,8 +215,7 @@ public class Nemesis implements KoLConstants
 			}
 
 			// Visit the cave
-			request = new KoLRequest( client, "cave.php", true );
-			request.addFormField( "action", action );
+			request = new AdventureRequest( client, "cave.php", action );
 			request.run();
 
 			// Consume items
