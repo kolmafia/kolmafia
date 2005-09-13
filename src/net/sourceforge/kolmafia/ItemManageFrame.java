@@ -111,7 +111,22 @@ public class ItemManageFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		addOptionsMenu( menuBar ).add( new ListRefreshMenuItem() );
+		JMenu refreshMenu = new JMenu( "Refresh" );
+		refreshMenu.setMnemonic( KeyEvent.VK_R );
+		refreshMenu.add( new ListRefreshMenuItem() );
+
+		menuBar.add( refreshMenu );
+
+		JMenu creationMenu = new JMenu( "Creation" );
+		creationMenu.setMnemonic( KeyEvent.VK_C );
+
+		creationMenu.add( new CreationDisplayMenuItem( "Use closet as ingredient source", "useClosetForCreation" ) );
+		creationMenu.add( new CreationDisplayMenuItem( "Auto-repair box servants on explosion", "autoRepairBoxes" ) );
+		creationMenu.add( new CreationDisplayMenuItem( "Use clockwork box servants", "useClockworkBoxes" ) );
+		creationMenu.add( new CreationDisplayMenuItem( "Cook or mix without a box servant", "createWithoutBoxServants" ) );
+		creationMenu.add( new CreationDisplayMenuItem( "Include post-ascension recipes", "includeAscensionRecipes" ) );
+
+		menuBar.add( creationMenu );
 		addHelpMenu( menuBar );
 	}
 
@@ -536,6 +551,19 @@ public class ItemManageFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{	(new RequestThread( new EquipmentRequest( client, EquipmentRequest.CLOSET ) )).start();
+		}
+	}
+
+	private class CreationDisplayMenuItem extends SettingChangeMenuItem implements ActionListener
+	{
+		public CreationDisplayMenuItem( String title, String property )
+		{	super( title, property );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			super.actionPerformed( e );
+			ConcoctionsDatabase.refreshConcoctions();
 		}
 	}
 
