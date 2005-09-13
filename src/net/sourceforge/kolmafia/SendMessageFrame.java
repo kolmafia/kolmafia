@@ -168,11 +168,8 @@ public abstract class SendMessageFrame extends KoLFrame
 		JMenu optionsMenu = new JMenu( "Options" );
 		optionsMenu.setMnemonic( KeyEvent.VK_O );
 
-		saveOutgoingCheckBox = new JCheckBoxMenuItem( "Save message in Outbox" );
-		closeSendingCheckBox = new JCheckBoxMenuItem( "Close window after sending" );
-
-		saveOutgoingCheckBox.setSelected( getProperty( "saveOutgoing" ).equals( "true" ) );
-		closeSendingCheckBox.setSelected( getProperty( "closeSending" ).equals( "true" ) );
+		saveOutgoingCheckBox = new SettingChangeMenuItem( "Save message in Outbox", "saveOutgoing" );
+		closeSendingCheckBox = new SettingChangeMenuItem( "Close window after sending", "closeSending" );
 
 		optionsMenu.add( saveOutgoingCheckBox );
 		optionsMenu.add( closeSendingCheckBox );

@@ -41,6 +41,7 @@ import javax.swing.JTextField;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import javax.swing.Box;
@@ -1137,6 +1138,29 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
+	 * An internal class used to handle requests which reset a property
+	 * in the settings file.
+	 */
+
+	protected class SettingChangeMenuItem extends JCheckBoxMenuItem implements ActionListener
+	{
+		private String property;
+
+		public SettingChangeMenuItem( String title, String property )
+		{
+			super( title );
+			setSelected( getProperty( property ).equals( "true" ) );
+
+			this.property = property;
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	setProperty( property, String.valueOf( isSelected() ) );
+		}
+	}
+
+	/**
 	 * This internal class is used to process the request for selecting
 	 * a script using the file dialog.
 	 */
@@ -1451,6 +1475,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			client.getSettings().setProperty( name, value );
 			client.getSettings().saveSettings();
+		}
+		else
+		{
+			GLOBAL_SETTINGS.setProperty( name, value );
+			GLOBAL_SETTINGS.saveSettings();
 		}
 	}
 
