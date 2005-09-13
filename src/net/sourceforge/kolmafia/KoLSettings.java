@@ -164,6 +164,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	private void ensureDefaults()
 	{
 		ensureProperty( "aggregatePrices", "true" );
+		ensureProperty( "autoLogChat", "false" );
 		ensureProperty( "autoLogin", "" );
 		ensureProperty( "autoRepairBoxes", "false" );
 		ensureProperty( "autoStockRestores", "-1" );

@@ -146,7 +146,6 @@ public class ChatFrame extends KoLFrame
 
 		optionsMenu.add( new JSeparator() );
 		optionsMenu.add( new MessengerListener( "Clear Displays", KeyEvent.VK_C, "clearChatBuffers" ) );
-		optionsMenu.add( new MessengerListener( "Initialize Chatlog", KeyEvent.VK_I, "initializeChatLogs" ) );
 		optionsMenu.add( new MessengerListener( "Add Highlight", KeyEvent.VK_A, "addHighlighting" ) );
 		optionsMenu.add( new MessengerListener( "Remove Highlight", KeyEvent.VK_R, "removeHighlighting" ) );
 
