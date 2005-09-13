@@ -241,6 +241,18 @@ public class ConsumeItemRequest extends KoLRequest
 		else if ( itemUsed.getName().equals( "tiny house" ) )
 			client.applyTinyHouseEffect();
 
+		// The first time you use an Elf Farm Raffle ticket with a
+		// ten-leaf clover in your inventory, the clover disappears in
+		// a puff of smoke and you get pagoda plans.
+		//
+		// Subsequent raffle tickets don't consume clovers.
+
+		else if ( itemUsed.getName().equals( "Elf Farm Raffle ticket" ) )
+		{
+			if ( responseText.indexOf( "puff of smoke" ) != -1 )
+				client.processResult( SewerRequest.CLOVER );
+		}
+
 		// Check to see if you were using a Jumbo Dr. Lucifer, which
 		// reduces your hit points to 1.
 

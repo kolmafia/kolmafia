@@ -74,6 +74,8 @@ public abstract class KoLmafia implements KoLConstants
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
 	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
 
+	protected static final AdventureResult CLOVER = new AdventureResult( 24, 1 );
+
 	protected boolean isLoggingIn;
 	protected LoginRequest loginRequest;
 
@@ -826,14 +828,12 @@ public abstract class KoLmafia implements KoLConstants
 
 	/**
 	 * Returns whether or not the current user has a ten-leaf clover.
-	 * Because inventory management is not yet implemented, this
-	 * method always returns true.
 	 *
 	 * @return	<code>true</code>
 	 */
 
 	public boolean isLuckyCharacter()
-	{	return inventory != null && inventory.contains( new AdventureResult( "ten-leaf clover", 0 ) );
+	{	return inventory != null && inventory.contains( CLOVER );
 	}
 
 	/**
