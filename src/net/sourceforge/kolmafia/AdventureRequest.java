@@ -338,12 +338,13 @@ public class AdventureRequest extends KoLRequest
 		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( request.responseText );
 		if ( choiceMatcher.find() )
 		{
-			String decision = getProperty( "choiceAdventure" + choiceMatcher.group(1) );
+			String choice = choiceMatcher.group(1);
+			String decision = getProperty( "choiceAdventure" + choice );
 
 			// If there is currently no setting which determines the
 			// decision, assume it can be skipped and skip it.
 
-			if ( decision == null )
+			if ( decision == null || decision.equals( "0" ) )
 			{
 				updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
 				this.run();
@@ -354,7 +355,7 @@ public class AdventureRequest extends KoLRequest
 			// decision, make that decision and submit the form.
 
 			request.addFormField( "pwd", client.getPasswordHash() );
-			request.addFormField( "whichchoice", choiceMatcher.group(1) );
+			request.addFormField( "whichchoice", choice );
 			request.addFormField( "option", decision );
 
 			request.run();
