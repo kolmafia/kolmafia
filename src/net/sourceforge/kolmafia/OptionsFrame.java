@@ -651,7 +651,7 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			autoLogSelect.setSelectedIndex( Boolean.parseBoolean( getProperty( "autoLogChat" ) ) == true ? 1 : 0 );
+			autoLogSelect.setSelectedIndex( getProperty( "autoLogChat" ).equals( "true" ) ? 1 : 0 );
 			fontSizeSelect.setSelectedItem( getProperty( "fontSize" ) );
 			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( getProperty( "fontSize" ) ) );
 
