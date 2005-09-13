@@ -118,17 +118,22 @@ public class OptionsFrame extends KoLFrame
 	public OptionsFrame( KoLmafia client )
 	{
 		super( client, "Preferences" );
-
-		setResizable( false );
 		tabs = new JTabbedPane();
+
+		JPanel generalPanel = new JPanel();
+		generalPanel.setLayout( new BoxLayout( generalPanel, BoxLayout.Y_AXIS ) );
+		generalPanel.add( new StartupOptionsPanel() );
+		generalPanel.add( new GeneralOptionsPanel() );
+
+		addTab( "General", generalPanel );
 
 		JPanel connectPanel = new JPanel();
 		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
 		connectPanel.add( new ServerSelectPanel() );
 		connectPanel.add( new ProxyOptionsPanel() );
 
-		addTab( "Startup", new StartupOptionsPanel() );
 		addTab( "Connect", connectPanel );
+
 		addTab( "Areas", new AreaOptionsPanel() );
 		addTab( "Restore", new RestoreOptionsPanel() );
 		addTab( "Sewer", new SewerOptionsPanel() );
@@ -267,13 +272,9 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "forceReconnect", "Automatically time-in on time-out" },
 			{ "skipInventory", "Skip inventory retrieval" },
 			{ "skipOutfits", "Skip outfit list retrieval" },
-			{ "skipFamiliars", "Skip terrarium retrieval" },
-			{ "savePositions", "Reload windows in original positions" },
-			{ "cloverProtectActive", "Guard against accidental clover usage" },
-			{ "ignoreChoiceAdventures", "Ignore all choice adventures" }
+			{ "skipFamiliars", "Skip terrarium retrieval" }
 		};
 
 		/**
@@ -285,6 +286,62 @@ public class OptionsFrame extends KoLFrame
 		public StartupOptionsPanel()
 		{
 			super( "Startup Options", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			for ( int i = 0; i < options.length; ++i )
+				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			for ( int i = 0; i < options.length; ++i )
+				setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+
+			super.actionConfirmed();
+		}
+
+		protected void actionCancelled()
+		{
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
+		}
+	}
+
+	/**
+	 * This panel handles all of the things related to login
+	 * options, including which server to use for login and
+	 * all other requests, as well as the user's proxy settings
+	 * (if applicable).
+	 */
+
+	private class GeneralOptionsPanel extends OptionsPanel
+	{
+		private JCheckBox [] optionBoxes;
+
+		private final String [][] options =
+		{
+			{ "forceReconnect", "Automatically time-in on time-out" },
+			{ "savePositions", "Reload windows in original positions" },
+			{ "cloverProtectActive", "Guard against accidental clover usage" },
+			{ "ignoreChoiceAdventures", "Ignore all choice adventures" }
+		};
+
+		/**
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
+		 * place for the users to select their desired server and for them
+		 * to modify any applicable proxy settings.
+		 */
+
+		public GeneralOptionsPanel()
+		{
+			super( "General Options", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
 			optionBoxes = new JCheckBox[ options.length ];
