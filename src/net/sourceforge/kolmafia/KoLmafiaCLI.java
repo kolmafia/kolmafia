@@ -561,11 +561,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( scriptRequestor instanceof KoLmafiaGUI )
 			{
-				Object [] lookup = new Object[2];
-				lookup[0] = scriptRequestor;
-				lookup[1] = request;
+				Object [] parameters = new Object[2];
+				parameters[0] = scriptRequestor;
+				parameters[1] = request;
 
-				(new CreateFrameRunnable( RequestFrame.class, lookup )).run();
+				(new CreateFrameRunnable( RequestFrame.class, parameters )).run();
 			}
 			else
 			{
@@ -630,13 +630,33 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Look!  It's the command to complete the Sorceress's Chamber!
-		// This is placed right after for consistency.
+		// Look!  It's the command to complete the Sorceress's
+		// Chamber! This is placed right after for consistency.
 
 		if ( command.equals( "chamber" ) )
 		{
 			scriptRequestor.completeSorceressChamber();
 			printList( SorceressLair.getMissingItems() );
+			return;
+		}
+
+		// Next is the command to rob the strange leaflet.
+		// This method invokes the "robStrangeLeaflet" method
+		// on the script requestor.
+
+		if ( command.equals( "leaflet" ) )
+		{
+			scriptRequestor.robStrangeLeaflet();
+			return;
+		}
+
+		// Next is the command to face your nemesis.  This
+		// method invokes the "faceNemesis" method on the
+		// script requestor.
+
+		if ( command.equals( "nemesis" ) )
+		{
+			scriptRequestor.faceNemesis();
 			return;
 		}
 
@@ -649,28 +669,30 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Next is the command to visit the council
+		// Next is the command to visit the council.
+		// This prints data to the command line.
 
 		if ( command.equals( "council" ) )
 		{
-			scriptRequestor.visitCouncil();
-			return;
-		}
+			KoLRequest request = new KoLRequest( scriptRequestor, "council.php", true );
 
+			request.run();
 
-		// Next is the command to rob the strange leaflet
+			if ( scriptRequestor instanceof KoLmafiaGUI )
+			{
+				Object [] parameters = new Object[2];
+				parameters[0] = scriptRequestor;
+				parameters[1] = request;
 
-		if ( command.equals( "leaflet" ) )
-		{
-			scriptRequestor.robStrangeLeaflet();
-			return;
-		}
+				(new CreateFrameRunnable( RequestFrame.class, parameters )).run();
+			}
+			else
+			{
+				updateDisplay( NOCHANGE, request.responseText.replaceAll(
+					"<(br|p|blockquote)>", System.getProperty( "line.separator" ) ).replaceAll( "<.*?>", "" ).replaceAll(
+						"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "ñ" ).replaceAll( "&quot;", "\"" ) );
+			}
 
-		// Next is the command to face your nemesis
-
-		if ( command.equals( "nemesis" ) )
-		{
-			scriptRequestor.faceNemesis();
 			return;
 		}
 
