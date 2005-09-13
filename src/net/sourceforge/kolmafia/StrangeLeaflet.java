@@ -258,83 +258,96 @@ public class StrangeLeaflet implements KoLConstants
 
 	private static void goTo( int destination )
 	{
-		// Bail immediately if we're already there
+		// If you've already reached your destination,
+		// you do not need to move.
 
 		if ( location == destination )
 			return;
 
-		KoLRequest request;
-
-		// Otherwise, get necessary items and go where you need to go
+		// Otherwise, get necessary items and go where
+		// you need to go.
 
 		switch ( destination )
 		{
 			case HOUSE:
-			   switch ( location )
-			   {
-				   case PATH:
-				   case CLEARING:
-				   case CAVE:
-					   goTo( FIELD );
-					   // Fall through
-				   case FIELD:
-					   openDoor();
-					   executeCommand( "east" );
-					   break;
-				   default:
-					   break;
-			   }
-		   break;
+			{
+				switch ( location )
+				{
+					case PATH:
+					case CLEARING:
+					case CAVE:
+						goTo( FIELD );
+						// Fall through
+					case FIELD:
+						openDoor();
+						executeCommand( "east" );
+						break;
+					default:
+						break;
+				}
 
-		case FIELD:
-		   switch ( location )
-		   {
-			   case HOUSE:
-				   executeCommand( "west" );
-				   break;
-			   case CLEARING:
-			   case CAVE:
-				   goTo( PATH );
-				   // Fall through
-			   case PATH:
-				   executeCommand( "south" );
-				   break;
-			   default:
-				   break;
-		   }
-		   break;
+				break;
+			}
 
-		case PATH:
-		   switch ( location )
-		   {
-			   case HOUSE:
-				   goTo( FIELD );
-				   // Fall through
-			   case FIELD:
-				   executeCommand( "north" );
-				   break;
-			   case CLEARING:
-				   executeCommand( "east" );
-				   break;
-			   case CAVE:
-				   executeCommand( "south" );
-				   break;
-			   default:
-				   break;
-		   }
-		   break;
+			case FIELD:
+			{
+				switch ( location )
+				{
+					case HOUSE:
+						executeCommand( "west" );
+						break;
+					case CLEARING:
+					case CAVE:
+						goTo( PATH );
+						// Fall through
+					case PATH:
+						executeCommand( "south" );
+						break;
+					default:
+						break;
+				}
 
-		case CLEARING:
-		   cutHedge();
-		   goTo( PATH );
-		   executeCommand( "west" );
-		   break;
+				break;
+			}
 
-		case CAVE:
-		   getTorch();
-		   goTo( PATH );
-		   executeCommand( "north" );
-		   break;
+			case PATH:
+			{
+				switch ( location )
+				{
+					case HOUSE:
+						goTo( FIELD );
+						// Fall through
+					case FIELD:
+						executeCommand( "north" );
+						break;
+					case CLEARING:
+						executeCommand( "east" );
+						break;
+					case CAVE:
+						executeCommand( "south" );
+						break;
+					default:
+						break;
+				}
+
+				break;
+			}
+
+			case CLEARING:
+			{
+				cutHedge();
+				goTo( PATH );
+				executeCommand( "west" );
+				break;
+			}
+
+			case CAVE:
+			{
+				getTorch();
+				goTo( PATH );
+				executeCommand( "north" );
+				break;
+			}
 		}
 	}
 
