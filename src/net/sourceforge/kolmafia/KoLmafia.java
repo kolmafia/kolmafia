@@ -1143,7 +1143,9 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			this.permitContinue = true;
 			boolean pulledOver = false;
+			boolean shouldRefreshStatus;
 
+			int currentEffectCount = characterData.getEffects().size();
 			int iterationsRemaining = iterations;
 
 			// If you're currently recording commands, be sure to
@@ -1282,9 +1284,26 @@ public abstract class KoLmafia implements KoLConstants
 						}
 					}
 
+					shouldRefreshStatus = currentEffectCount != characterData.getEffects().size();
+
+					// If this is a KoLRequest request, make sure to process
+					// any applicable adventure usage.
+
 					if ( request instanceof KoLRequest )
 						processResult( new AdventureResult( AdventureResult.ADV, 0 - ((KoLRequest)request).getAdventuresUsed() ) );
+
+					shouldRefreshStatus |= currentEffectCount != characterData.getEffects().size();
+					currentEffectCount = characterData.getEffects().size();
+
+					// If it turns out that you need to refresh the player's
+					// status, go ahead and refresh it.
+
+					if ( shouldRefreshStatus )
+						(new CharpaneRequest( this )).run();
 				}
+
+				// If you've completed the request, make sure to update
+				// the display.
 
 				if ( permitContinue && iterations > 0 && iterationsRemaining <= 0 && !(request instanceof UseSkillRequest || request instanceof AutoSellRequest) )
 					updateDisplay( ENABLED_STATE, "Requests completed!" );
