@@ -1072,6 +1072,11 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.conditions.clear();
 			return;
 		}
+		else if ( option.equals( "check" ) )
+		{
+			scriptRequestor.checkRequirements( scriptRequestor.conditions );
+			return;
+		}
 		else if ( option.equals( "add" ) )
 		{
 			String conditionString = parameters.substring( option.length() ).trim();
@@ -1104,10 +1109,31 @@ public class KoLmafiaCLI extends KoLmafia
 					subpoints[i] = Math.max( 0, subpoints[i] );
 
 				condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+
+				// Make sure that if there was a previous substat condition,
+				// and it modifies the same stat as this condition, that the
+				// greater of the two remains and the two aren't added.
+
+				int previousIndex = scriptRequestor.conditions.indexOf( condition );
+				if ( previousIndex != -1 )
+				{
+					AdventureResult previousCondition = (AdventureResult) scriptRequestor.conditions.get( previousIndex );
+
+					for ( int i = 0; i < subpoints.length; ++i )
+						if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
+							subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
+
+					condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+				}
+
+				// Make sure that the stats are non-zero -- if they are all
+				// zero, then don't add a condition.
+
 				if ( condition.getCount() == 0 )
 					condition = null;
 			}
-			else if ( conditionString.endsWith( "muscle" ) || conditionString.endsWith( "mysticality" ) || conditionString.endsWith( "moxie" ) )
+			else if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) ||
+				conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mysticality" ) )
 			{
 				try
 				{
@@ -1115,17 +1141,37 @@ public class KoLmafiaCLI extends KoLmafia
 					int points = df.parse( splitCondition[0] ).intValue();
 
 					int [] subpoints = new int[3];
-					int statIndex = conditionString.endsWith( "muscle" ) ? 0 : conditionString.endsWith( "mysticality" ) ? 1 : 2;
+					int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
 					subpoints[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
 
-					subpoints[ statIndex ] -= conditionString.endsWith( "muscle" ) ? scriptRequestor.getCharacterData().getTotalMuscle() :
-						conditionString.endsWith( "mysticality" ) ? scriptRequestor.getCharacterData().getTotalMysticality() :
+					subpoints[ statIndex ] -= conditionString.indexOf( "mus" ) != -1 ? scriptRequestor.getCharacterData().getTotalMuscle() :
+						conditionString.indexOf( "mys" ) != -1 ? scriptRequestor.getCharacterData().getTotalMysticality() :
 						scriptRequestor.getCharacterData().getTotalMoxie();
 
 					for ( int i = 0; i < subpoints.length; ++i )
 						subpoints[i] = Math.max( 0, subpoints[i] );
 
 					condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+
+					// Make sure that if there was a previous substat condition,
+					// and it modifies the same stat as this condition, that the
+					// greater of the two remains and the two aren't added.
+
+					int previousIndex = scriptRequestor.conditions.indexOf( condition );
+					if ( previousIndex != -1 )
+					{
+						AdventureResult previousCondition = (AdventureResult) scriptRequestor.conditions.get( previousIndex );
+
+						for ( int i = 0; i < subpoints.length; ++i )
+							if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
+								subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
+
+						condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+					}
+
+					// Make sure that the stats are non-zero -- if they are all
+					// zero, then don't add a condition.
+
 					if ( condition.getCount() == 0 )
 						condition = null;
 				}
