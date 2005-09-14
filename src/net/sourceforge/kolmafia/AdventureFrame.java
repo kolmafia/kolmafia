@@ -410,10 +410,19 @@ public class AdventureFrame extends KoLFrame
 					KoLmafiaCLI conditioner = new KoLmafiaCLI( client, System.in );
 					conditioner.executeLine( "conditions clear" );
 
+					boolean verifyConditions = false;
 					String [] conditions = conditionField.getText().split( "\\s*,\\s*" );
 
 					for ( int i = 0; i < conditions.length; ++i )
-						conditioner.executeLine( "conditions add " + conditions[i] );
+					{
+						if ( conditions[i].equals( "check" ) )
+							verifyConditions = true;
+						else
+							conditioner.executeLine( "conditions add " + conditions[i] );
+					}
+
+					if ( verifyConditions )
+						conditioner.executeLine( "conditions check" );
 				}
 				catch ( Exception e )
 				{
