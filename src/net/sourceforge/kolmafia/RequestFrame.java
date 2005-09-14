@@ -71,7 +71,7 @@ public class RequestFrame extends KoLFrame
 	private RequestFrame parent;
 	private KoLRequest currentRequest;
 	private LimitedSizeChatBuffer mainBuffer, sideBuffer;
-	private KoLRequest sidePaneRequest;
+	private CharpaneRequest sidePaneRequest;
 
 	protected JEditorPane mainDisplay;
 
@@ -284,7 +284,7 @@ public class RequestFrame extends KoLFrame
 		{
 			if ( sidePaneRequest == null && sideBuffer != null )
 			{
-				sidePaneRequest = new KoLRequest( client, "charpane.php" );
+				sidePaneRequest = new CharpaneRequest( client );
 				refreshSidePane();
 			}
 
@@ -335,7 +335,7 @@ public class RequestFrame extends KoLFrame
 
 			if ( sidePaneRequest == null && sideBuffer != null )
 			{
-				sidePaneRequest = new KoLRequest( client, "charpane.php" );
+				sidePaneRequest = new CharpaneRequest( client );
 				refreshSidePane();
 			}
 			else if ( currentRequest.responseText.indexOf( ">You " ) != -1 || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
