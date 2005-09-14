@@ -1075,6 +1075,8 @@ public class KoLmafiaCLI extends KoLmafia
 		else if ( option.equals( "check" ) )
 		{
 			scriptRequestor.checkRequirements( scriptRequestor.conditions );
+			scriptRequestor.conditions.clear();
+			scriptRequestor.conditions.addAll( scriptRequestor.missingItems );
 			return;
 		}
 		else if ( option.equals( "add" ) )
