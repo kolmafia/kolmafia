@@ -93,6 +93,15 @@ public class AdventureRequest extends KoLRequest
 				addFormField( "option", "1" );
 				addFormField( "pwd", client.getPasswordHash() );
 			}
+			else if ( formSource.equals( "bathole.php" ) )
+				addFormField( "adv", adventureID );
+			else if ( formSource.equals( "knob.php" ) )
+			{
+				addFormField( "pwd", client.getPasswordHash() );
+				addFormField( "king", "Yep." );
+			}
+			else if ( formSource.equals( "cyrpt.php" ) )
+				addFormField( "action", "Yep." );
 			else
 				addFormField( "action", adventureID );
 
@@ -220,7 +229,7 @@ public class AdventureRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "Ran out of health." );
 			return;
 		}
-		else if ( formSource.equals( "adventure.php" ) || formSource.equals( "lair3.php" ) || formSource.equals( "cyrpt.php" ) )
+		else if ( formSource.equals( "adventure.php" ) || formSource.equals( "lair3.php" ) )
 		{
 			if ( responseText.indexOf( "againform.submit" ) == -1 )
 			{
@@ -246,8 +255,7 @@ public class AdventureRequest extends KoLRequest
 					updateDisplay( ERROR_STATE, "You can't get to that area." );
 					return;
 				}
-				else if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 ||
-					  responseText.indexOf( "the Bonerdagon has been defeated" ) != -1 )
+				else if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 )
 				{
 					// Nothing more to do in this area
 
@@ -268,6 +276,20 @@ public class AdventureRequest extends KoLRequest
 					updateDisplay( ERROR_STATE, "Adventures aborted!" );
 					return;
 				}
+			}
+		}
+		else if ( formSource.equals( "bathole.php" ) || formSource.equals( "knob.php" ) || formSource.equals( "cyrpt.php" ) )
+		{
+			if ( responseText.indexOf( "The Boss Bat has been slain" ) != -1 ||
+			     responseText.indexOf( "You've already slain the Goblin King" ) != -1 ||
+			     responseText.indexOf( "Bonerdagon has been defeated" ) != -1 )
+			{
+				// Nothing more to do in this area
+
+				isErrorState = true;
+				client.cancelRequest();
+				updateDisplay( ERROR_STATE, "You already defeated the Boss." );
+				return;
 			}
 		}
 		else if ( responseText.indexOf( "You can't" ) != -1 || responseText.indexOf( "You shouldn't" ) != -1 ||

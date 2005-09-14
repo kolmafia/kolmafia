@@ -53,7 +53,6 @@
 8	adventure.php	55	Defiled Cranny
 8	adventure.php	56	Defiled Alcove
 8	adventure.php	57	Defiled Niche
-8	cyrpt.php	0	Haert of the Cyrpt
 
 9	adventure.php	15	Spooky Forest
 9	adventure.php	17	Hidden Temple
@@ -97,4 +96,7 @@
 17	adventure.php	47	Bugbear Pens
 17	adventure.php	48	Spooky Gravy Barrow
 
+18	bathole.php	34	The Boss Bat's Lair
+18	knob.php	0	The King's Chamber
+18	cyrpt.php	0	Haert of the Cyrpt
 18	adventure.php	37	Spectral Pickle Factory
