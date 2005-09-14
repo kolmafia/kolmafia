@@ -220,7 +220,7 @@ public class AdventureRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "Ran out of health." );
 			return;
 		}
-		else if ( formSource.equals( "adventure.php" ) || formSource.equals( "lair3.php" ) )
+		else if ( formSource.equals( "adventure.php" ) || formSource.equals( "lair3.php" ) || formSource.equals( "cyrpt.php" ) )
 		{
 			if ( responseText.indexOf( "againform.submit" ) == -1 )
 			{
@@ -246,7 +246,8 @@ public class AdventureRequest extends KoLRequest
 					updateDisplay( ERROR_STATE, "You can't get to that area." );
 					return;
 				}
-				else if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 )
+				else if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 ||
+					  responseText.indexOf( "the Bonerdagon has been defeated" ) != -1 )
 				{
 					// Nothing more to do in this area
 
