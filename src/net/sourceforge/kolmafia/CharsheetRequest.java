@@ -306,9 +306,9 @@ public class CharsheetRequest extends KoLRequest
 			// exist.  These are found in the "Accomplishments"
 			// section of the character sheet.
 
-			Matcher accomplishMatcher = Pattern.compile( "<b>Accomplishments:</b><br><table>(.*?)</table>" ).matcher( responseText );
+			Matcher accomplishMatcher = Pattern.compile( "Accomplishments:(.*?)</table>" ).matcher( responseText );
 			if ( accomplishMatcher.find() )
-				character.setAccomplishments( accomplishMatcher.group(1).split( "(<.*?>)*?)" ) );
+				character.setAccomplishments( accomplishMatcher.group(1).split( "(<.*?>)+" ) );
 
 			// If no familiars are known, then parse out the
 			// familiars -- this is to ensure that at least
