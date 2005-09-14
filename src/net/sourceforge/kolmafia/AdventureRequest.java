@@ -246,6 +246,15 @@ public class AdventureRequest extends KoLRequest
 					updateDisplay( ERROR_STATE, "You can't get to that area." );
 					return;
 				}
+				else if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 )
+				{
+					// Nothing more to do in this area
+
+					isErrorState = true;
+					client.cancelRequest();
+					updateDisplay( ERROR_STATE, "Nothing more to do here." );
+					return;
+				}
 				else if ( responseText.indexOf( "You acquire an item" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
 				{
 					// Notify the client of failure by telling it that
