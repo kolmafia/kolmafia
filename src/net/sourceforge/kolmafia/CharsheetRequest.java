@@ -310,6 +310,14 @@ public class CharsheetRequest extends KoLRequest
 			if ( accomplishMatcher.find() )
 				character.setAccomplishments( accomplishMatcher.group(1).split( "(<.*?>)*?)" ) );
 
+			// If no familiars are known, then parse out the
+			// familiars -- this is to ensure that at least
+			// the equipped familiar shows up.  Remember that
+			// "(none)" may show up -- this counts as one.
+
+			if ( character.getFamiliarList().size() <= 1 )
+				FamiliarData.registerFamiliarData( client, responseText );
+
 			// Parsing of the character sheet is now complete.
 			// Report this to the log stream and return.
 
