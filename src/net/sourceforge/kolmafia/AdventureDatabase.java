@@ -46,6 +46,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
+	private static final AdventureResult CASINO = new AdventureResult( 40, 1 );
+	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
+
 	public static final String [][] ZONES =
 	{
 		{ "Shore", "vacations at the shore" }, { "Camp", "campground resting" }, { "Gym", "clan gym equipment" },
@@ -197,5 +200,80 @@ public class AdventureDatabase extends KoLDatabase
 					(String) adventureTable[2].get(i), (String) adventureTable[3].get(i) );
 
 		return null;
+	}
+
+	/**
+	 * Checks the map location of the given zone.  This is to ensure that
+	 * KoLmafia arms any needed flags (such as for the beanstalk).
+	 */
+
+	public static void validateAdventure( KoLAdventure adventure )
+	{
+		// First, determine the identifier for the
+		// zone in which the adventure is located.
+
+		int zoneID = -1;
+		for ( int i = 0; zoneID == -1 && i < ZONES.length; ++i )
+			if ( ZONES[i][0].equals( adventure.getZone() ) )
+				zoneID = i;
+
+		KoLRequest request = null;
+		client.updateDisplay( DISABLED_STATE, "Validating map location..." );
+
+		switch ( zoneID )
+		{
+			// The beach is unlocked provided the player
+			// has the meat car accomplishment.
+
+			case 0:
+			case 15:
+			{
+				if ( !client.getCharacterData().hasAccomplishment( "You have built your own Bitchin' Meat Car." ) )
+				{
+					client.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
+					client.cancelRequest();
+					return;
+				}
+
+				break;
+			}
+
+			// The beanstalk is unlocked when the player
+			// has planted a beanstalk -- but, the zone
+			// needs to be armed first.
+
+			case 14:
+			{
+				if ( !client.getCharacterData().hasAccomplishment( "You have planted a Beanstalk in the Nearby Plains." ) )
+				{
+					client.updateDisplay( ERROR_STATE, "Beanstalk is not yet unlocked." );
+					client.cancelRequest();
+					return;
+				}
+
+				request = new KoLRequest( client, "beanstalk.php" );
+				break;
+			}
+		}
+
+		// If you do not need to arm anything, then
+		// return from this method.
+
+		if ( request == null )
+			return;
+
+		request.run();
+
+		// Now that the zone is armed, check to see
+		// if the adventure is even available.  If
+		// it's not, cancel the request before it's
+		// even made to minimize server hits.
+
+		if ( request.responseText.indexOf( adventure.getAdventureID() ) == -1 )
+		{
+			client.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
+			client.cancelRequest();
+			return;
+		}
 	}
 }

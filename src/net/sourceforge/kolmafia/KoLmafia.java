@@ -1194,6 +1194,12 @@ public abstract class KoLmafia implements KoLConstants
 
 				boolean hasConditions = !conditions.isEmpty();
 
+				// If this is an adventure request, make sure that it
+				// gets validated before running.
+
+				if ( request instanceof KoLAdventure )
+					AdventureDatabase.validateAdventure( (KoLAdventure) request );
+
 				// Begin the adventuring process, or the request execution
 				// process (whichever is applicable).
 

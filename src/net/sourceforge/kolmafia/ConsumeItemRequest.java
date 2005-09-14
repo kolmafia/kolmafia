@@ -218,11 +218,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
 				return;
-
-			// Consume the item and visit the beanstalk.
-
-			KoLRequest stalk = new KoLRequest( client, "beanstalk.php" );
-			stalk.run();
 		}
 
 		// If a scroll of drastic healing was used and didn't dissolve,
