@@ -358,8 +358,12 @@ public class GearChangeFrame extends KoLFrame
 				{
 					// Familiar event firing is usually only caused
 					// by an actual attempt to change the familiar.
+					// Check to see if the selected item is the same
+					// as your current familiar before executing the
+					// change.
 
-					(new DaemonThread( this )).start();
+					if ( !parameters[1].equals( client.getCharacterData().getFamiliarList().getSelectedItem() ) )
+						(new DaemonThread( this )).start();
 				}
 				else if ( this == equipment[ KoLCharacter.FAMILIAR ] )
 				{
