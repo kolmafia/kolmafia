@@ -238,6 +238,24 @@ public class AdventureDatabase extends KoLDatabase
 				break;
 			}
 
+			// The casino is unlocked provided the player
+			// has a casino pass in their inventory.
+
+			case 4:
+			{
+				retrieveItem( CASINO );
+				break;
+			}
+
+			// The island is unlocked provided the player
+			// has a dingy dinghy in their inventory.
+
+			case 13:
+			{
+				retrieveItem( DINGHY );
+				break;
+			}
+
 			// The beanstalk is unlocked when the player
 			// has planted a beanstalk -- but, the zone
 			// needs to be armed first.
@@ -275,5 +293,26 @@ public class AdventureDatabase extends KoLDatabase
 			client.cancelRequest();
 			return;
 		}
+	}
+
+	public static final void retrieveItem( AdventureResult item )
+	{
+		int missingCount = item.getCount() - item.getCount( client.getInventory() );
+		if ( missingCount <= 0 )
+			return;
+
+		String itemName = item.getName();
+		int closetCount = item.getCount( client.getCloset() );
+
+		if ( closetCount < missingCount )
+		{
+			client.updateDisplay( ERROR_STATE, "You need " + (missingCount - closetCount) + " more " + itemName + " to continue." );
+			client.cancelRequest();
+			return;
+		}
+
+		AdventureResult [] itemArray = new AdventureResult[1];
+		itemArray[0] = item.getInstance( Math.min( missingCount, closetCount ) );
+		(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, itemArray )).run();
 	}
 }

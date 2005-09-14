@@ -1093,15 +1093,7 @@ public class SorceressLair implements KoLConstants
 	private static void reflectEnergyBolt()
 	{
 		KoLRequest request;
-
-		if ( SHARD.getCount( client.getInventory() ) < 1 )
-		{
-			// He can't get here without a huge mirror shard.
-			// It must be in the closet. Pull it out.
-			AdventureResult [] shard = new AdventureResult[1];
-			shard[0] = SHARD.getInstance( 1 );
-			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, shard )).run();
-		}
+		AdventureDatabase.retrieveItem( SHARD );
 
 		// Equip the huge mirror shard
 		(new EquipmentRequest( client, SHARD.getName() )).run();
