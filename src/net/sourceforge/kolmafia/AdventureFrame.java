@@ -422,7 +422,11 @@ public class AdventureFrame extends KoLFrame
 					}
 
 					if ( verifyConditions )
+					{
 						conditioner.executeLine( "conditions check" );
+						if ( client.getConditions().isEmpty() )
+							return;
+					}
 				}
 				catch ( Exception e )
 				{
