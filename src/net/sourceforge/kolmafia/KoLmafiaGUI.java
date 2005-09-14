@@ -51,7 +51,7 @@ import javax.swing.JOptionPane;
 public class KoLmafiaGUI extends KoLmafia
 {
 	protected boolean shouldRefresh;
-	protected ConcoctionsRefresher refresher;
+	protected Runnable refresher;
 
 	private boolean isEnabled;
 	private CreateFrameRunnable displayer;
@@ -60,7 +60,7 @@ public class KoLmafiaGUI extends KoLmafia
 	public KoLmafiaGUI()
 	{
 		this.shouldRefresh = true;
-		this.refresher = new ConcoctionsRefresher();
+		this.refresher = new ListRefresher();
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 	}
 
-	public class ConcoctionsRefresher implements Runnable
+	public class ListRefresher implements Runnable
 	{
 		public synchronized void run()
 		{
@@ -156,7 +156,10 @@ public class KoLmafiaGUI extends KoLmafia
 			// running, then there is nothing left to do.
 
 			if ( shouldRefresh )
+			{
+				characterData.updateEquipmentLists();
 				ConcoctionsDatabase.refreshConcoctions();
+			}
 		}
 	}
 
