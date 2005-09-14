@@ -50,8 +50,11 @@ import javax.swing.JMenuItem;
 
 // event listeners
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.lang.reflect.Constructor;
 
 // utilities
@@ -176,8 +179,7 @@ public class GearChangeFrame extends KoLFrame
 
 		for ( int i = 0; i < 4; ++i )
 		{
-			equipment[i] = new JComboBox( equipmentLists[i] );
-			equipment[i].addActionListener( new ChangeListener( equipment[i], EquipmentRequest.class, String.class, new Integer(i) ) );
+			equipment[i] = new ChangeComboBox( equipmentLists[i], EquipmentRequest.class, String.class, new Integer(i) );
 			JComponentUtilities.setComponentSize( equipment[i], 300, 20 );
 			valuePanel.add( equipment[i] );
 		}
@@ -186,28 +188,24 @@ public class GearChangeFrame extends KoLFrame
 
 		for ( int i = 4; i < 7; ++i )
 		{
-			equipment[i] = new JComboBox( equipmentLists[i] );
-			equipment[i].addActionListener( new ChangeListener( equipment[i], EquipmentRequest.class, String.class, new Integer(i) ) );
+			equipment[i] = new ChangeComboBox( equipmentLists[i], EquipmentRequest.class, String.class, new Integer(i) );
 			JComponentUtilities.setComponentSize( equipment[i], 300, 20 );
 			valuePanel.add( equipment[i] );
 		}
 
 		valuePanel.add( new JLabel( " " ) );
 
-		familiarSelect = new JComboBox( characterData.getFamiliarList() );
-		familiarSelect.addActionListener( new ChangeListener( familiarSelect, FamiliarRequest.class, FamiliarData.class ) );
+		familiarSelect = new ChangeComboBox( characterData.getFamiliarList(), FamiliarRequest.class, FamiliarData.class );
 		JComponentUtilities.setComponentSize( familiarSelect, 300, 20 );
 		valuePanel.add( familiarSelect );
 
-		equipment[7] = new JComboBox( equipmentLists[7] );
-		equipment[7].addActionListener( new ChangeListener( equipment[7], EquipmentRequest.class, String.class, new Integer(7) ) );
+		equipment[7] = new ChangeComboBox( equipmentLists[7], EquipmentRequest.class, String.class, new Integer(7) );
 		JComponentUtilities.setComponentSize( equipment[7], 300, 20 );
 		valuePanel.add( equipment[7] );
 
 		valuePanel.add( new JLabel( " " ) );
 
-		outfitSelect = new JComboBox( characterData.getOutfits() );
-		outfitSelect.addActionListener( new ChangeListener( outfitSelect, EquipmentRequest.class, SpecialOutfit.class ) );
+		outfitSelect = new ChangeComboBox( characterData.getOutfits(), EquipmentRequest.class, SpecialOutfit.class );
 		JComponentUtilities.setComponentSize( outfitSelect, 300, 20 );
 		valuePanel.add( outfitSelect );
 
@@ -260,16 +258,16 @@ public class GearChangeFrame extends KoLFrame
 		}
 	}
 
-	private class ChangeListener implements ActionListener, Runnable
+	private class ChangeComboBox extends JComboBox implements Runnable
 	{
 		private Integer slot;
-		private JComboBox selector;
 		private Object [] parameters;
 		private Constructor constructor;
 
-		public ChangeListener( JComboBox selector, Class requestClass, Class parameterClass )
+		public ChangeComboBox( LockableListModel selector, Class requestClass, Class parameterClass )
 		{
-			this.selector = selector;
+			super( selector );
+			addActionListener( this );
 
 			Class [] parameterTypes = new Class[2];
 			parameterTypes[0] = KoLmafia.class;
@@ -279,9 +277,10 @@ public class GearChangeFrame extends KoLFrame
 			this.slot = null;
 		}
 
-		public ChangeListener( JComboBox selector, Class requestClass, Class parameterClass, Integer slot )
+		public ChangeComboBox( LockableListModel selector, Class requestClass, Class parameterClass, Integer slot )
 		{
-			this.selector = selector;
+			super( selector );
+			addActionListener( this );
 
 			Class [] parameterTypes = new Class[3];
 			parameterTypes[0] = KoLmafia.class;
@@ -312,49 +311,73 @@ public class GearChangeFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			parameters[1] = selector.getSelectedItem();
+			// Ignore the event if the window is currently not
+			// shwoing, you're in the middle of changing items,
+			// or the frame is currently disabled, skip.
+
+			if ( !isShowing() || isChanging || !isEnabled() )
+				return;
+
+			if ( e.paramString().endsWith( "=" ) )
+				return;
+
+			// Once all the tests above fail, that means the
+			// change can be tested.
+
+			executeChange();
+		}
+
+		public void firePopupMenuWillBecomeInvisible()
+		{
+			super.firePopupMenuWillBecomeInvisible();
+			executeChange();
+		}
+
+		public void executeChange()
+		{
+			parameters[1] = getSelectedItem();
+
+			if ( parameters[1] == null )
+				return;
 
 			// In order to avoid constant misfiring of the table,
 			// make sure that the change thread is not started
 			// unless your current equipment does not match the
 			// selected equipment.
 
-			if ( isShowing() && !isChanging && selector.isEnabled() && this.parameters[1] != null )
+			if ( slot == null )
 			{
-				if ( slot == null )
+				if ( this == outfitSelect )
 				{
-					if ( selector == outfitSelect )
-					{
-						// Outfit event firing is usually only caused by
-						// an actual attempt to change the outfit.
-
-						(new DaemonThread( this )).start();
-					}
-					else if ( selector == familiarSelect )
-					{
-						// Familiar event firing is usually only caused
-						// by an actual attempt to change the familiar.
-
-						(new DaemonThread( this )).start();
-					}
-					else if ( selector == equipment[ KoLCharacter.FAMILIAR ] )
-					{
-						// If you're attempting to change your familiar
-						// equipment, check to see if the selected item
-						// is the same as your current familiar item
-						// before executing the change.
-
-						if ( !parameters[1].equals( client.getCharacterData().getEquipment( KoLCharacter.FAMILIAR ) ) )
-							(new DaemonThread( this )).start();
-					}
-				}
-				else if ( !client.getCharacterData().getEquipment( this.slot.intValue() ).equals( this.parameters[1] ) )
-				{
-					// Other equipment only gets fired when there's an
-					// actual equipment change.
+					// Outfit event firing is usually only caused by
+					// an actual attempt to change the outfit.
 
 					(new DaemonThread( this )).start();
 				}
+				else if ( this == familiarSelect )
+				{
+					// Familiar event firing is usually only caused
+					// by an actual attempt to change the familiar.
+
+					(new DaemonThread( this )).start();
+				}
+				else if ( this == equipment[ KoLCharacter.FAMILIAR ] )
+				{
+					// If you're attempting to change your familiar
+					// equipment, check to see if the selected item
+					// is the same as your current familiar item
+					// before executing the change.
+
+					if ( !parameters[1].equals( client.getCharacterData().getEquipment( KoLCharacter.FAMILIAR ) ) )
+						(new DaemonThread( this )).start();
+				}
+			}
+			else if ( !client.getCharacterData().getEquipment( this.slot.intValue() ).equals( this.parameters[1] ) )
+			{
+				// Other equipment only gets fired when there's an
+				// actual equipment change.
+
+				(new DaemonThread( this )).start();
 			}
 		}
 
@@ -364,7 +387,9 @@ public class GearChangeFrame extends KoLFrame
 			{
 				isChanging = true;
 				GearChangeFrame.this.setEnabled( false );
+
 				client.makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
+
 				refreshEquipPanel();
 				isChanging = false;
 			}
