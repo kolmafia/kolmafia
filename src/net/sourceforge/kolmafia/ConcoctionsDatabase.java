@@ -590,10 +590,39 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// by the number of that ingredient needed in this
 			// concoction.
 
+			int instanceCount;
+
 			for ( int i = 0; i < ingredientArray.length; ++i )
+			{
+				// In order to ensure that the multiplier
+				// is added correctly, make sure you count
+				// the ingredient as many times as it appears,
+				// but only multi-count the ingredient once.
+
+				instanceCount = ingredientArray[i].getCount();
+
+				for ( int j = 0; j < i; ++j )
+					if ( ingredientArray[i].getItemID() == ingredientArray[j].getItemID() )
+						instanceCount += ingredientArray[j].getCount();
+
+				// If the ingredient has already been counted
+				// before, continue with the next ingredient.
+
+				if ( instanceCount > ingredientArray[i].getCount() )
+					continue;
+
+				// Now that you know that this is the first
+				// time the ingredient has been seen, proceed.
+
+				instanceCount = ingredientArray[i].getCount();
+
+				for ( int j = i + 1; j < ingredientArray.length; ++j )
+					if ( ingredientArray[i].getItemID() == ingredientArray[j].getItemID() )
+						instanceCount += ingredientArray[j].getCount();
+
 				concoctions[ ingredientArray[i].getItemID() ].mark(
-					(this.modifier + this.initial) * ingredientArray[i].getCount(),
-					this.multiplier * ingredientArray[i].getCount(), inMuscleSign );
+					(this.modifier + this.initial) * instanceCount, this.multiplier * instanceCount, inMuscleSign );
+			}
 
 			// Mark the implicit adventure ingredient, being
 			// sure to multiply by the number of adventures
