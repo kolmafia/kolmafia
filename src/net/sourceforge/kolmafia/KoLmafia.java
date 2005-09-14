@@ -2006,9 +2006,11 @@ public abstract class KoLmafia implements KoLConstants
 			updateDisplay( ERROR_STATE, "Insufficient items to continue." );
 			printList( missingItems );
 			cancelRequest();
+			return false;
 		}
 
-		return missingItems.isEmpty();
+		updateDisplay( ENABLED_STATE, "Requirements met." );
+		return true;
 	}
 
 	/**
