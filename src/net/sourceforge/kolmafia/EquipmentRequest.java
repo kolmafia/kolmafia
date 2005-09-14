@@ -185,8 +185,10 @@ public class EquipmentRequest extends KoLRequest
 			switch ( equipmentSlot )
 			{
 				case KoLCharacter.FAMILIAR:
+
 					// If we are requesting another familiar's
 					// equipment, make it available.
+
 					AdventureResult result = new AdventureResult( changeItemName, 0 );
 					if ( !client.getInventory().contains( changeItemName ) )
 					{
@@ -211,7 +213,9 @@ public class EquipmentRequest extends KoLRequest
 							}
 						}
 					}
+
 					// Fall through
+
 				case KoLCharacter.ACCESSORY1:
 				case KoLCharacter.ACCESSORY2:
 				case KoLCharacter.ACCESSORY3:
@@ -278,12 +282,19 @@ public class EquipmentRequest extends KoLRequest
 			{
 				String [] oldEquipment = new String[8];
 
+				// Ensure that the inventory stays up-to-date by
+				// switching items around, as needed.
+
 				for ( int i = 0; i < 8; ++i )
 					oldEquipment[i] = character.getEquipment( i );
+
 				parseEquipment();
 
 				for ( int i = 0; i < 8; ++i )
-					switchItem( oldEquipment[i], character.getEquipment( i ));
+					switchItem( oldEquipment[i], character.getEquipment( i ) );
+
+				// Because changing equipment can potentially change
+				// a player's stats, also refresh status.
 
 				updateDisplay( ENABLED_STATE, "Equipment retrieved." );
 			}
@@ -299,19 +310,21 @@ public class EquipmentRequest extends KoLRequest
 
 	private void switchItem( String oldItem, String newItem )
 	{
-		if ( !oldItem.equals( UNEQUIP ) && oldItem.indexOf( "(" ) != -1 )
-			oldItem = oldItem.substring( 0, oldItem.indexOf( "(" ) - 1 );
+		int switchIn = newItem.equals( UNEQUIP ) ? -1 :
+			TradeableItemDatabase.getItemID( newItem.indexOf( "(" ) == -1 ? newItem :
+				newItem.substring( 0, newItem.indexOf( "(" ) - 1 ) );
 
-		if ( !newItem.equals( UNEQUIP ) && newItem.indexOf( "(" ) != -1 )
-			newItem = newItem.substring( 0, newItem.indexOf( "(" ) - 1 );
+		int switchOut = oldItem.equals( UNEQUIP ) ? -1 :
+			TradeableItemDatabase.getItemID( oldItem.indexOf( "(" ) == -1 ? oldItem :
+				oldItem.substring( 0, oldItem.indexOf( "(" ) - 1 ) );
 
-		if ( !oldItem.equals( newItem ) )
+		if ( switchIn != switchOut )
 		{
-			if ( !oldItem.equals( UNEQUIP ) )
-				AdventureResult.addResultToList( client.getInventory(), new AdventureResult( oldItem, 1 ) );
+			if ( switchIn != -1 )
+				client.processResult( new AdventureResult( switchIn, -1 ) );
 
-			if ( !newItem.equals( UNEQUIP ) )
-				AdventureResult.addResultToList( client.getInventory(), new AdventureResult( newItem, -1 ) );
+			if ( switchOut != -1 )
+				client.processResult( new AdventureResult( switchOut, 1 ) );
 		}
 	}
 
