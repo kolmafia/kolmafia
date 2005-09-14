@@ -1463,6 +1463,14 @@ public class KoLCharacter implements KoLConstants
 	}
 
 	/**
+	 * Adds the given accomplishment to the list of accomplishments.
+	 */
+
+	public void addAccomplishment( String accomplishment )
+	{	this.accomplishments.add( accomplishment );
+	}
+
+	/**
 	 * Returns whether or not the player has the given accomplishment
 	 * (the accomplishment being an entire string of text).
 	 *
