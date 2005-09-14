@@ -218,6 +218,8 @@ public class ConsumeItemRequest extends KoLRequest
 
 			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
 				return;
+
+			client.getCharacterData().addAccomplishment( AdventureDatabase.BEANSTALK );
 		}
 
 		// If a scroll of drastic healing was used and didn't dissolve,
