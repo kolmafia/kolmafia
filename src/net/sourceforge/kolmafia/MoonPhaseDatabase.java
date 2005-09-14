@@ -193,7 +193,7 @@ public class MoonPhaseDatabase implements KoLConstants
 	public static final String getJekyllinEffect( int ronaldPhase, int grimacePhase )
 	{
 		int moonlight = getMoonlight( ronaldPhase, grimacePhase );
-		return "+" + (9 - moonlight) + "stats, " + (15 + moonlight * 5) + "% items";
+		return "+" + (9 - moonlight) + " stats, " + (15 + moonlight * 5) + "% items";
 	}
 
 	/**

@@ -310,7 +310,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( client == null || !client.inLoginState() )
 		{
 			statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php" ) );
-			statusMenu.add( new MiniBrowserMenuItem( "Visit Council", KeyEvent.VK_V, "council.php" ) );
+			//statusMenu.add( new MiniBrowserMenuItem( "Visit Council", KeyEvent.VK_V, "council.php" ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Visit Council", KeyEvent.VK_V, CouncilFrame.class ) );
 			statusMenu.add( new MiniBrowserMenuItem( "Weird Records", KeyEvent.VK_W, "records.php?which=0" ) );
 		}
 

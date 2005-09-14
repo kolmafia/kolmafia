@@ -49,10 +49,10 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	private static final Class [] SINGLE_INSTANCE =
 	{
 		BuffBotFrame.class, CalendarFrame.class, CakeArenaFrame.class, CharsheetFrame.class,
-		ClanManageFrame.class, CommandDisplayFrame.class, ContactListFrame.class, GearChangeFrame.class,
-		HagnkStorageFrame.class, ItemManageFrame.class, LoginFrame.class, MailboxFrame.class,
-		MuseumFrame.class, OptionsFrame.class, PendingTradesFrame.class, StoreManageFrame.class,
-		TabbedChatFrame.class
+		ClanManageFrame.class, CommandDisplayFrame.class, ContactListFrame.class, CouncilFrame.class,
+		GearChangeFrame.class, HagnkStorageFrame.class, ItemManageFrame.class, LoginFrame.class,
+		MailboxFrame.class, MuseumFrame.class, OptionsFrame.class, PendingTradesFrame.class,
+		StoreManageFrame.class, TabbedChatFrame.class
 	};
 
 	private KoLmafia client;
