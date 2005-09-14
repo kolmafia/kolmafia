@@ -298,21 +298,55 @@ public class AdventureDatabase extends KoLDatabase
 	public static final void retrieveItem( AdventureResult item )
 	{
 		int missingCount = item.getCount() - item.getCount( client.getInventory() );
+
+		// If there are already enough items in the player's
+		// inventory, then return.
+
 		if ( missingCount <= 0 )
 			return;
 
 		String itemName = item.getName();
 		int closetCount = item.getCount( client.getCloset() );
 
-		if ( closetCount < missingCount )
+		// If there are some items which are sitting in the
+		// player's closet, then pull them out.
+
+		if ( closetCount > 0 )
 		{
-			client.updateDisplay( ERROR_STATE, "You need " + (missingCount - closetCount) + " more " + itemName + " to continue." );
-			client.cancelRequest();
+			AdventureResult [] itemArray = new AdventureResult[1];
+			itemArray[0] = item.getInstance( Math.min( missingCount, closetCount ) );
+			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, itemArray )).run();
+		}
+
+		missingCount = item.getCount() - item.getCount( client.getInventory() );
+
+		// If there are now enough items in the player's inventory
+		// after pulling them from the closet, then return.
+
+		if ( missingCount <= 0 )
+			return;
+
+		// Now, check to see if the items can be created from the
+		// ingredients in the player's inventory.
+
+		ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), missingCount );
+		int creationCount = creation.getCount( ConcoctionsDatabase.getConcoctions() );
+
+		// If the item can be created to the extent needed, then
+		// go ahead and create the item.
+
+		if ( creationCount >= missingCount )
+		{
+			creation.run();
 			return;
 		}
 
-		AdventureResult [] itemArray = new AdventureResult[1];
-		itemArray[0] = item.getInstance( Math.min( missingCount, closetCount ) );
-		(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, itemArray )).run();
+		// If the item does not exist in sufficient quantities,
+		// then notify the client that there aren't enough items
+		// available to continue adventuring.
+
+		client.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + itemName + " to continue." );
+		client.cancelRequest();
+		return;
 	}
 }

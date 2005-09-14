@@ -1965,11 +1965,19 @@ public abstract class KoLmafia implements KoLConstants
 
 		missingItems.clear();
 
-		// Check the items required for this quest
+		// Check the items required for this quest,
+		// retrieving any items which might be inside
+		// of a closet somewhere.
 
 		for ( int i = 0; i < requirementsArray.length; ++i )
-			if ( requirementsArray[i] == null || requirementsArray[i].getCount( inventory ) < requirementsArray[i].getCount() )
+		{
+			if ( requirementsArray[i] == null )
+				continue;
+
+			AdventureDatabase.retrieveItem( requirementsArray[i] );
+			if ( requirementsArray[i].getCount( inventory ) < requirementsArray[i].getCount() )
 				missingItems.add( requirementsArray[i] );
+		}
 
 		// If there are any missing requirements
 		// be sure to return false.
