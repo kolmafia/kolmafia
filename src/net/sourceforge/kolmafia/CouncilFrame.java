@@ -83,6 +83,9 @@ public class CouncilFrame extends KoLFrame
 		// Strip out the link back to the town
 		String text = request.responseText.replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" );
 
+		// Pretty it up a little
+		text = text.replaceFirst( "table width=95%", "table width=100%" );
+
 		// Append the result into the display buffer
 		displayHTML.append( text );
 
