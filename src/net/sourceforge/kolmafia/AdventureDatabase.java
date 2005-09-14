@@ -46,6 +46,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
+	public static final String MEATCAR = "You have built your own Bitchin' Meat Car.";
+	public static final String BEANSTALK = "You have planted a Beanstalk in the Nearby Plains.";
+
 	private static final AdventureResult CASINO = new AdventureResult( 40, 1 );
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 
@@ -228,11 +231,26 @@ public class AdventureDatabase extends KoLDatabase
 			case 0:
 			case 15:
 			{
-				if ( !client.getCharacterData().hasAccomplishment( "You have built your own Bitchin' Meat Car." ) )
+				if ( !client.getCharacterData().hasAccomplishment( MEATCAR ) )
 				{
-					client.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
-					client.cancelRequest();
-					return;
+					// Sometimes, the player has just built the meatcar
+					// and visited the council -- check the main map to
+					// see if the beach is unlocked.
+
+					request = new KoLRequest( client, "main.php" );
+					request.run();
+
+					if ( request.responseText.indexOf( "beach.php" ) != -1 )
+					{
+						client.getCharacterData().addAccomplishment( MEATCAR );
+						request = null;
+					}
+					else
+					{
+						client.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
+						client.cancelRequest();
+						return;
+					}
 				}
 
 				break;
@@ -262,11 +280,27 @@ public class AdventureDatabase extends KoLDatabase
 
 			case 14:
 			{
-				if ( !client.getCharacterData().hasAccomplishment( "You have planted a Beanstalk in the Nearby Plains." ) )
+				if ( !client.getCharacterData().hasAccomplishment( BEANSTALK ) )
 				{
-					client.updateDisplay( ERROR_STATE, "Beanstalk is not yet unlocked." );
-					client.cancelRequest();
-					return;
+					// Sometimes, the player has just used the enchanted
+					// bean, and therefore does not have the accomplishment.
+					// Check the map, and if the beanstalk is available,
+					// go ahead and update the accomplishments.
+
+					request = new KoLRequest( client, "plains.php" );
+					request.run();
+
+					if ( request.responseText.indexOf( "beanstalk.php" ) != -1 )
+					{
+						client.getCharacterData().addAccomplishment( BEANSTALK );
+						request = null;
+					}
+					else
+					{
+						client.updateDisplay( ERROR_STATE, "Beanstalk is not yet unlocked." );
+						client.cancelRequest();
+						return;
+					}
 				}
 
 				request = new KoLRequest( client, "beanstalk.php" );
