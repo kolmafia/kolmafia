@@ -282,12 +282,6 @@ public class RequestFrame extends KoLFrame
 	{
 		public void run()
 		{
-			if ( sidePaneRequest == null && sideBuffer != null )
-			{
-				sidePaneRequest = new CharpaneRequest( client );
-				refreshSidePane();
-			}
-
 			if ( currentRequest == null )
 				return;
 
@@ -329,6 +323,12 @@ public class RequestFrame extends KoLFrame
 			if ( currentRequest.responseText == null )
 				currentRequest.run();
 
+			mainBuffer.clearBuffer();
+			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
+			mainDisplay.setCaretPosition( 0 );
+
+			client.processResults( currentRequest.responseText );
+
 			// In the event that something resembling a gain event
 			// is seen in the response text, or in the event that you
 			// switch between compact and full mode, refresh the sidebar.
@@ -340,12 +340,6 @@ public class RequestFrame extends KoLFrame
 			}
 			else if ( currentRequest.responseText.indexOf( ">You " ) != -1 || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
 				refreshSidePane();
-
-			mainBuffer.clearBuffer();
-			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
-			mainDisplay.setCaretPosition( 0 );
-
-			client.processResults( currentRequest.responseText );
 		}
 	}
 
