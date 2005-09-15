@@ -221,7 +221,6 @@ public class AdventureDatabase extends KoLDatabase
 				zoneID = i;
 
 		KoLRequest request = null;
-		client.updateDisplay( DISABLED_STATE, "Validating map location..." );
 
 		switch ( zoneID )
 		{
@@ -237,6 +236,7 @@ public class AdventureDatabase extends KoLDatabase
 					// and visited the council -- check the main map to
 					// see if the beach is unlocked.
 
+					client.updateDisplay( DISABLED_STATE, "Validating map location..." );
 					request = new KoLRequest( client, "main.php" );
 					request.run();
 
@@ -287,6 +287,7 @@ public class AdventureDatabase extends KoLDatabase
 					// Check the map, and if the beanstalk is available,
 					// go ahead and update the accomplishments.
 
+					client.updateDisplay( DISABLED_STATE, "Validating map location..." );
 					request = new KoLRequest( client, "plains.php" );
 					request.run();
 
@@ -314,6 +315,7 @@ public class AdventureDatabase extends KoLDatabase
 		if ( request == null )
 			return;
 
+		client.updateDisplay( DISABLED_STATE, "Validating map location..." );
 		request.run();
 
 		// Now that the zone is armed, check to see
