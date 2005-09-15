@@ -267,8 +267,8 @@ public class StoreManageFrame extends KoLFrame
 			JComponentUtilities.setComponentSize( sellingList, 280, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
 			JComponentUtilities.setComponentSize( lowestPrice, 80, 20 );
-			JComponentUtilities.setComponentSize( itemLimit, 30, 20 );
-			JComponentUtilities.setComponentSize( itemQty, 30, 20 );
+			JComponentUtilities.setComponentSize( itemLimit, 50, 20 );
+			JComponentUtilities.setComponentSize( itemQty, 50, 20 );
 			JComponentUtilities.setComponentSize( addButton, 30, 20 );
 			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
 
@@ -287,8 +287,8 @@ public class StoreManageFrame extends KoLFrame
 			label[0] = new JLabel( "Item Name", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[0], 280, 20 );
 			label[1] = new JLabel( "Price", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[1], 80, 20 );
 			label[2] = new JLabel( "Lowest", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 80, 20 );
-			label[3] = new JLabel( "Lim", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 30, 20 );
-			label[4] = new JLabel( "Qty", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[4], 30, 20 );
+			label[3] = new JLabel( "Lim", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 50, 20 );
+			label[4] = new JLabel( "Qty", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[4], 50, 20 );
 			label[5] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[5], 70, 20 );
 
 			JPanel labelPanel = new JPanel();
@@ -354,7 +354,7 @@ public class StoreManageFrame extends KoLFrame
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 12, 640, 30, client == null ? new LockableListModel() : client.getStoreManager().getSoldItemList() );
+		{	super( 12, 680, 30, client == null ? new LockableListModel() : client.getStoreManager().getSoldItemList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -390,10 +390,10 @@ public class StoreManageFrame extends KoLFrame
 			searchButton.setToolTipText( "Price Analysis" );
 
 			JComponentUtilities.setComponentSize( itemName, 280, 20 );
-			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
+			JComponentUtilities.setComponentSize( itemPrice, 800, 20 );
 			JComponentUtilities.setComponentSize( lowestPrice, 80, 20 );
-			JComponentUtilities.setComponentSize( itemLimit, 30, 20 );
-			JComponentUtilities.setComponentSize( itemQuantity, 30, 20 );
+			JComponentUtilities.setComponentSize( itemLimit, 50, 20 );
+			JComponentUtilities.setComponentSize( itemQuantity, 50, 20 );
 			JComponentUtilities.setComponentSize( takeButton, 30, 20 );
 			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
 
