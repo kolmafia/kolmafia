@@ -309,7 +309,7 @@ public class GearChangeFrame extends KoLFrame
 				this.parameters[i] = null;
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public synchronized void actionPerformed( ActionEvent e )
 		{
 			// Ignore the event if the window is currently not
 			// shwoing, you're in the middle of changing items,
@@ -327,13 +327,17 @@ public class GearChangeFrame extends KoLFrame
 			executeChange();
 		}
 
-		public void firePopupMenuWillBecomeInvisible()
+		public synchronized void firePopupMenuWillBecomeInvisible()
 		{
 			super.firePopupMenuWillBecomeInvisible();
+
+			if ( !isShowing() || isChanging || !isEnabled() )
+				return;
+
 			executeChange();
 		}
 
-		public void executeChange()
+		public synchronized void executeChange()
 		{
 			parameters[1] = getSelectedItem();
 
@@ -352,6 +356,7 @@ public class GearChangeFrame extends KoLFrame
 					// Outfit event firing is usually only caused by
 					// an actual attempt to change the outfit.
 
+					isChanging = true;
 					(new DaemonThread( this )).start();
 				}
 				else if ( this == familiarSelect )
@@ -363,7 +368,10 @@ public class GearChangeFrame extends KoLFrame
 					// change.
 
 					if ( !parameters[1].equals( client.getCharacterData().getFamiliarList().getSelectedItem() ) )
+					{
+						isChanging = true;
 						(new DaemonThread( this )).start();
+					}
 				}
 				else if ( this == equipment[ KoLCharacter.FAMILIAR ] )
 				{
@@ -373,7 +381,10 @@ public class GearChangeFrame extends KoLFrame
 					// before executing the change.
 
 					if ( !parameters[1].equals( client.getCharacterData().getEquipment( KoLCharacter.FAMILIAR ) ) )
+					{
+						isChanging = true;
 						(new DaemonThread( this )).start();
+					}
 				}
 			}
 			else if ( !client.getCharacterData().getEquipment( this.slot.intValue() ).equals( this.parameters[1] ) )
@@ -381,6 +392,7 @@ public class GearChangeFrame extends KoLFrame
 				// Other equipment only gets fired when there's an
 				// actual equipment change.
 
+				isChanging = true;
 				(new DaemonThread( this )).start();
 			}
 		}
@@ -389,9 +401,7 @@ public class GearChangeFrame extends KoLFrame
 		{
 			try
 			{
-				isChanging = true;
 				GearChangeFrame.this.setEnabled( false );
-
 				client.makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
 
 				refreshEquipPanel();
