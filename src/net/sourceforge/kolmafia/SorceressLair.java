@@ -596,14 +596,24 @@ public class SorceressLair implements KoLConstants
 		if ( !checkPrerequisites( 3, 3 ) )
 			return;
 
+		// Retrieve any puzzle pieces that might be sitting
+		// inside of the player's closet.
+
+		int closetCount = PUZZLE_PIECE.getCount( client.getCloset() );
+		int inventoryCount = PUZZLE_PIECE.getCount( client.getInventory() );
+
+		if ( closetCount > 0 )
+			AdventureDatabase.retrieveItem( PUZZLE_PIECE.getInstance( inventoryCount + closetCount ) );
+
 		// Check to see if you've run out of puzzle pieces.
 		// If you have, don't bother running the puzzle.
 
-		List requirements = new ArrayList();
-		requirements.add( PUZZLE_PIECE );
-
-		if ( !client.checkRequirements( requirements ) )
+		if ( inventoryCount + closetCount == 0 )
+		{
+			client.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
+			client.cancelRequest();
 			return;
+		}
 
 		// Check to see if they've already completed the
 		// hedge maze puzzle.
@@ -882,12 +892,11 @@ public class SorceressLair implements KoLConstants
 		request.addFormField( "action", "runaway" );
 		request.run();
 
+		AdventureDatabase.retrieveItem( guardianItem );
+		if ( guardianItem.getCount( client.getInventory() ) != 0 )
+			return fightGuardian( towerLevel );
+
 		client.updateDisplay( ERROR_STATE, "You need an additional " + guardianItem.getName() + " to continue." );
-
-		List requirements = new ArrayList();
-		requirements.add( guardianItem );
-		client.checkRequirements( requirements );
-
 		return false;
 	}
 
