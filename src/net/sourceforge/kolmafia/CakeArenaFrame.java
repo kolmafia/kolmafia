@@ -128,8 +128,7 @@ public class CakeArenaFrame extends KoLFrame
 				opponentData[i][0] = opponents.get(i).toString();
 
 				for ( int j = 1; j <= 4; ++j )
-					opponentData[i][j] = new OpponentButton( i, j, JComponentUtilities.getSharedImage(
-						FamiliarsDatabase.getFamiliarSkill( opponentRace, j ).toString() + "star.gif" ) );
+					opponentData[i][j] = new OpponentButton( i, j, FamiliarsDatabase.getFamiliarSkill( opponentRace, j ) );
 			}
 
 			JTable opponentTable = new JTable( opponentData, columnNames );
@@ -174,12 +173,16 @@ public class CakeArenaFrame extends KoLFrame
 	private class OpponentButton extends JButton implements MouseListener
 	{
 		private int row, column;
+		private String skill;
 
-		public OpponentButton( int row, int column, ImageIcon value )
+		public OpponentButton( int row, int column, Integer skill )
 		{
-			super( value );
+			super( JComponentUtilities.getSharedImage( skill.toString() + "star.gif" ) );
+
 			this.row = row;
 			this.column = column;
+			this.skill = skill.intValue() == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
+
 			addMouseListener( this );
 		}
 
@@ -203,7 +206,15 @@ public class CakeArenaFrame extends KoLFrame
 		{
 			try
 			{
-				int battleCount = df.parse( JOptionPane.showInputDialog( "Number of battles:" ) ).intValue();
+				FamiliarData currentFamiliar = client == null ? new FamiliarData(1) :
+					(FamiliarData) client.getCharacterData().getFamiliarList().getSelectedItem();
+
+				int currentSkillValue = FamiliarsDatabase.getFamiliarSkill( currentFamiliar.getRace(), column ).intValue();
+				String currentSkill = currentSkillValue == 1 ? "1 star (yours)" : currentSkillValue + " stars (yours)";
+
+				int battleCount = df.parse( JOptionPane.showInputDialog( "<html>" + opponents.get( row ).toString() + ", " +
+					CakeArenaManager.getEvent( column ) + "<br>" + currentSkill + " vs. " + skill + "</html>" ) ).intValue();
+
 				client.getCakeArenaManager().fightOpponent( opponents.get( row ).toString(), column, battleCount );
 			}
 			catch ( Exception e1 )

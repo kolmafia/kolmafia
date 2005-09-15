@@ -151,6 +151,23 @@ public class CakeArenaManager implements KoLConstants
 	{	return opponentList;
 	}
 
+	public static String getEvent( int eventID )
+	{
+		switch ( eventID )
+		{
+			case 1:
+				return "Cage Match";
+			case 2:
+				return "Scavenger Hunt";
+			case 3:
+				return "Obstacle Course";
+			case 4:
+				return "Hide and Seek";
+			default:
+				return "Unknown Event";
+		}
+	}
+
 	/**
 	 * An internal class which represents a single arena
 	 * opponent.  Used to track the opponent.
