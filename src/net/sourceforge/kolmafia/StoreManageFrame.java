@@ -390,7 +390,7 @@ public class StoreManageFrame extends KoLFrame
 			searchButton.setToolTipText( "Price Analysis" );
 
 			JComponentUtilities.setComponentSize( itemName, 280, 20 );
-			JComponentUtilities.setComponentSize( itemPrice, 800, 20 );
+			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
 			JComponentUtilities.setComponentSize( lowestPrice, 80, 20 );
 			JComponentUtilities.setComponentSize( itemLimit, 50, 20 );
 			JComponentUtilities.setComponentSize( itemQuantity, 50, 20 );
