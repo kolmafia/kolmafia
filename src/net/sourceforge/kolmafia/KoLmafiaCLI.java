@@ -1063,26 +1063,26 @@ public class KoLmafiaCLI extends KoLmafia
 	 * added, and then adds it to the conditions list.
 	 */
 
-	private void executeConditionsCommand( String parameters )
+	public boolean executeConditionsCommand( String parameters )
 	{
+		AdventureResult condition = null;
 		String option = parameters.split( " " )[0];
 
 		if ( option.equals( "clear" ) )
 		{
 			scriptRequestor.conditions.clear();
-			return;
+			return true;
 		}
 		else if ( option.equals( "check" ) )
 		{
 			scriptRequestor.checkRequirements( scriptRequestor.conditions );
 			scriptRequestor.conditions.clear();
 			scriptRequestor.conditions.addAll( scriptRequestor.missingItems );
-			return;
+			return true;
 		}
 		else if ( option.equals( "add" ) )
 		{
 			String conditionString = parameters.substring( option.length() ).trim();
-			AdventureResult condition;
 
 			if ( conditionString.endsWith( "choiceadv" ) )
 			{
@@ -1127,12 +1127,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 					condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
 				}
-
-				// Make sure that the stats are non-zero -- if they are all
-				// zero, then don't add a condition.
-
-				if ( condition.getCount() == 0 )
-					condition = null;
 			}
 			else if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) ||
 				conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mysticality" ) )
@@ -1170,12 +1164,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 						condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
 					}
-
-					// Make sure that the stats are non-zero -- if they are all
-					// zero, then don't add a condition.
-
-					if ( condition.getCount() == 0 )
-						condition = null;
 				}
 				catch ( Exception e )
 				{
@@ -1192,15 +1180,19 @@ public class KoLmafiaCLI extends KoLmafia
 
 				condition = getFirstMatchingItem( conditionString, NOWHERE );
 			}
-
-			if ( condition != null )
-			{
-				AdventureResult.addResultToList( scriptRequestor.conditions, condition );
-				updateDisplay( NOCHANGE, "Condition added: " + condition.toString() );
-			}
 		}
 
-		printList( scriptRequestor.conditions );
+		if ( condition == null )
+			return false;
+
+		if ( condition.getCount() != 0 )
+		{
+			AdventureResult.addResultToList( scriptRequestor.conditions, condition );
+			updateDisplay( NOCHANGE, "Condition added: " + condition.toString() );
+			printList( scriptRequestor.conditions );
+		}
+
+		return true;
 	}
 
 	/**

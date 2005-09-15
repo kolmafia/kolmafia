@@ -416,16 +416,36 @@ public class AdventureFrame extends KoLFrame
 					for ( int i = 0; i < conditions.length; ++i )
 					{
 						if ( conditions[i].equals( "check" ) )
+						{
+							// Postpone verification of conditions
+							// until all other conditions added.
+
 							verifyConditions = true;
+						}
 						else
-							conditioner.executeLine( "conditions add " + conditions[i] );
+						{
+							if ( !conditioner.executeConditionsCommand( "add " + conditions[i] ) )
+							{
+								client.updateDisplay( ERROR_STATE, "Invalid condition: " + conditions[i] );
+								return;
+							}
+						}
+					}
+
+					if ( client.getConditions().isEmpty() )
+					{
+						client.updateDisplay( ENABLED_STATE, "Conditions already satisfied." );
+						return;
 					}
 
 					if ( verifyConditions )
 					{
-						conditioner.executeLine( "conditions check" );
+						conditioner.executeConditionsCommand( "check" );
 						if ( client.getConditions().isEmpty() )
+						{
+							client.updateDisplay( ENABLED_STATE, "Conditions already satisfied." );
 							return;
+						}
 					}
 				}
 				catch ( Exception e )
