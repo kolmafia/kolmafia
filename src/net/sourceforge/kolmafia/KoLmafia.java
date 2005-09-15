@@ -312,11 +312,11 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Retrieve the items which are available for consumption
-		// and item creation.
+		// Retrieve the list of outfits which are available to the
+		// character, should this be something they want.
 
-		if ( !isQuickLogin && settings.getProperty( "skipInventory" ).equals( "false" ) )
-			(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
+		if ( !isQuickLogin && settings.getProperty( "skipOutfits" ).equals( "false" ) )
+			(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
 
 		if ( !permitContinue )
 		{
@@ -324,11 +324,11 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Retrieve the list of outfits which are available to the
-		// character, should this be something they want.
+		// Retrieve the items which are available for consumption
+		// and item creation.
 
-		if ( !isQuickLogin && settings.getProperty( "skipOutfits" ).equals( "false" ) )
-			(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
+		if ( !isQuickLogin && settings.getProperty( "skipInventory" ).equals( "false" ) )
+			(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
 
 		if ( !permitContinue )
 		{
