@@ -169,6 +169,7 @@ public class FightRequest extends KoLRequest
 				// but that the loop should be halted.
 
 				updateDisplay( ERROR_STATE, "You were defeated!" );
+				client.processResult( new AdventureResult( "Beaten Up", 4 ) );
 				client.cancelRequest();
 			}
 			else if ( responseText.indexOf( "You run away," ) != -1 )
