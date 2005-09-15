@@ -364,15 +364,18 @@ public class AdventureDatabase extends KoLDatabase
 		// ingredients in the player's inventory.
 
 		ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), missingCount );
-		int creationCount = creation.getCount( ConcoctionsDatabase.getConcoctions() );
-
-		// If the item can be created to the extent needed, then
-		// go ahead and create the item.
-
-		if ( creationCount >= missingCount )
+		if ( creation != null )
 		{
-			creation.run();
-			return;
+			int creationCount = creation.getCount( ConcoctionsDatabase.getConcoctions() );
+
+			// If the item can be created to the extent needed, then
+			// go ahead and create the item.
+
+			if ( creationCount >= missingCount )
+			{
+				creation.run();
+				return;
+			}
 		}
 
 		// If the item does not exist in sufficient quantities,
