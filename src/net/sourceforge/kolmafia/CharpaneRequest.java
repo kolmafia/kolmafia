@@ -139,7 +139,7 @@ public class CharpaneRequest extends KoLRequest
 
 	private void handleMiscPoints( String hpString, String mpString, String meatString, String advString, String spacerString ) throws Exception
 	{
-		Matcher miscMatcher = Pattern.compile( hpString + ".*?<font color=black>(.*?)" + spacerString + "/" + spacerString + "(.*?)</font>.*?" +
+		Matcher miscMatcher = Pattern.compile( hpString + ".*?<font.*?>(.*?)" + spacerString + "/" + spacerString + "(.*?)</font>.*?" +
 			mpString + ".*?<b>(<font.*?>)?(.*?)" + spacerString + "/" + spacerString + "(.*?)(</font>)?</b>.*?" +
 			meatString + ".*?<b>(<font.*?>)?(.*?)(</font>)?</b>.*?" + advString + ".*?<b>(<font.*?>)?(.*?)(</font>)?</b>" ).matcher( responseText );
 
