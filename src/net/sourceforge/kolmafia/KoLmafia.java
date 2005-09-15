@@ -167,6 +167,7 @@ public abstract class KoLmafia implements KoLConstants
 		seenPlayerIDs = new TreeMap();
 		seenPlayerNames = new TreeMap();
 		adventureList = new LockableListModel();
+		conditions = new SortedListModel();
 		missingItems = new SortedListModel();
 		commandBuffer = null;
 	}
@@ -214,6 +215,8 @@ public abstract class KoLmafia implements KoLConstants
 		// all over the place
 
 		this.sessionID = sessionID;
+
+		this.conditions.clear();
 		this.missingItems.clear();
 
 		if ( !permitContinue )
@@ -237,7 +240,6 @@ public abstract class KoLmafia implements KoLConstants
 			this.recentEffects = new ArrayList();
 
 			this.tally = new SortedListModel();
-			this.conditions = new SortedListModel();
 
 			resetSessionTally();
 		}
@@ -1982,6 +1984,7 @@ public abstract class KoLmafia implements KoLConstants
 		AdventureResult [] requirementsArray = new AdventureResult[ requirements.size() ];
 		requirements.toArray( requirementsArray );
 
+		int missingCount;
 		missingItems.clear();
 
 		// Check the items required for this quest,
@@ -1994,8 +1997,10 @@ public abstract class KoLmafia implements KoLConstants
 				continue;
 
 			AdventureDatabase.retrieveItem( requirementsArray[i] );
-			if ( requirementsArray[i].getCount( inventory ) < requirementsArray[i].getCount() )
-				missingItems.add( requirementsArray[i] );
+			missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( inventory );
+
+			if ( missingCount > 0 )
+				missingItems.add( requirementsArray[i].getInstance( missingCount ) );
 		}
 
 		// If there are any missing requirements
