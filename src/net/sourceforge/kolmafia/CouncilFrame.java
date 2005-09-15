@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
 import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -46,29 +47,27 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CouncilFrame extends KoLFrame
 {
-	private static KoLmafia client;
-	private static LimitedSizeChatBuffer councilBuffer;
+	private LimitedSizeChatBuffer councilBuffer;
 
 	public CouncilFrame( KoLmafia client )
 	{
 		super( client, "Council Quests" );
 		getContentPane().setLayout( new BorderLayout() );
-
 		councilBuffer = new LimitedSizeChatBuffer( "KoLmafia: Council" );
 
 		JEditorPane councilDisplay = new JEditorPane();
-		JComponentUtilities.setComponentSize( councilDisplay, 400, 300 );
 		councilDisplay.setEditable( false );
 		councilDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 		councilBuffer.setChatDisplay( councilDisplay );
 
-		getContentPane().add( councilDisplay, BorderLayout.CENTER );
+		JScrollPane scroller = new JScrollPane( councilDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JComponentUtilities.setComponentSize( scroller, 400, 300 );
+		getContentPane().add( scroller, BorderLayout.CENTER );
 
-		this.client = client;
 		(new UpdateCouncilThread()).start();
 	}
 
-	private static void updateCouncilPage()
+	private void updateCouncilPage()
 	{
 		StringBuffer displayHTML = new StringBuffer();
 
@@ -106,7 +105,8 @@ public class CouncilFrame extends KoLFrame
 	{
 		public void run()
 		{
-			updateCouncilPage();
+			if ( client != null )
+				updateCouncilPage();
 		}
 	}
 
