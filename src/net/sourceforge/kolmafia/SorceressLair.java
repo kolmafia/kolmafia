@@ -671,7 +671,6 @@ public class SorceressLair implements KoLConstants
 		if ( responseText.indexOf( "Click one" ) == -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
-			client.checkRequirements( requirements );
 			client.cancelRequest();
 			return;
 		}
