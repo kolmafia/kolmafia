@@ -47,6 +47,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CouncilFrame extends KoLFrame
 {
+	private JEditorPane councilDisplay;
 	private LimitedSizeChatBuffer councilBuffer;
 
 	public CouncilFrame( KoLmafia client )
@@ -55,7 +56,7 @@ public class CouncilFrame extends KoLFrame
 		getContentPane().setLayout( new BorderLayout() );
 		councilBuffer = new LimitedSizeChatBuffer( "KoLmafia: Council" );
 
-		JEditorPane councilDisplay = new JEditorPane();
+		councilDisplay = new JEditorPane();
 		councilDisplay.setEditable( false );
 		councilDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 		councilBuffer.setChatDisplay( councilDisplay );
@@ -66,34 +67,6 @@ public class CouncilFrame extends KoLFrame
 
 		(new UpdateCouncilThread()).start();
 	}
-
-	private void updateCouncilPage()
-	{
-		StringBuffer displayHTML = new StringBuffer();
-
-		// Visit the council and see what they have to say.
-
-		KoLRequest request = new KoLRequest( client, "council.php", true );
-		request.run();
-
-		// Process the results in case they gave us meat or items
-		client.processResults( request.responseText );
-
-		// Strip out the link back to the town
-		String text = request.responseText.replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" );
-
-		// Pretty it up a little
-		text = text.replaceFirst( "table width=95%", "table width=100%" );
-
-		// Append the result into the display buffer
-		displayHTML.append( text );
-
-		// Clear the display councilBuffer and append the text.
-
-		councilBuffer.clearBuffer();
-		councilBuffer.append( displayHTML.toString() );
-	}
-
 
 	/**
 	 * Special thread which allows the council page to be updated outside
@@ -106,7 +79,28 @@ public class CouncilFrame extends KoLFrame
 		public void run()
 		{
 			if ( client != null )
-				updateCouncilPage();
+			{
+				// Visit the council and see what they have to say.
+
+				KoLRequest request = new KoLRequest( client, "council.php", true );
+				request.run();
+
+				// Strip out the link back to the town and pretty up
+				// the text a little.
+
+				String text = request.responseText.replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ).replaceFirst( "table width=95%", "table width=100%" );
+
+				// Clear the display buffer and append the
+				// modified response text.
+
+				councilBuffer.clearBuffer();
+				councilBuffer.append( text );
+				councilDisplay.setCaretPosition( 0 );
+
+				// Process the results in case they gave us meat or items
+
+				client.processResults( request.responseText );
+			}
 		}
 	}
 
