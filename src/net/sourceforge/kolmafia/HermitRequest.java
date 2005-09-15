@@ -96,9 +96,10 @@ public class HermitRequest extends KoLRequest
 
 		// If you don't have enough Hermit Permits, scale back.
 
-		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1)
+		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
 		{
 			// Figure out how many you do have.
+
 			int permits = PERMIT.getCount( client.getInventory() );
 			(new HermitRequest( client, itemID, permits )).run();
 			return;
@@ -161,7 +162,7 @@ public class HermitRequest extends KoLRequest
 		// permit for the items being exchanged.
 
 		if ( responseText.indexOf( "I already took your Hermit Permits, right?" ) == -1 )
-			client.processResult( new AdventureResult( 42, -1 ) );
+			client.processResult( new AdventureResult( 42, 0 - quantity ) );
 
 		updateDisplay( ENABLED_STATE, "Hermit successfully looted!" );
 	}
