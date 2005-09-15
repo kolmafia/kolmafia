@@ -1091,6 +1091,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 				String [] splitCondition = conditionString.split( "\\s+" );
 				condition = new AdventureResult( AdventureResult.ADV, splitCondition.length > 1 ? Integer.parseInt( splitCondition[0] ) : 1 );
+
+				// Make sure that the settings are forced to true --
+				// otherwise, this condition will not work.
+
+				scriptRequestor.getSettings().setProperty( "ignoreChoiceAdventures", "false" );
+				scriptRequestor.getSettings().saveSettings();
 			}
 			else if ( conditionString.startsWith( "level" ) )
 			{
@@ -1188,7 +1194,12 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( condition.getCount() != 0 )
 		{
 			AdventureResult.addResultToList( scriptRequestor.conditions, condition );
-			updateDisplay( NOCHANGE, "Condition added: " + condition.toString() );
+			updateDisplay( NOCHANGE, "Condition added." );
+			printList( scriptRequestor.conditions );
+		}
+		else
+		{
+			updateDisplay( NOCHANGE, "Condition already met." );
 			printList( scriptRequestor.conditions );
 		}
 
