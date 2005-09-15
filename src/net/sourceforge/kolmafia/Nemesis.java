@@ -131,7 +131,10 @@ public class Nemesis implements KoLConstants
 		// Need a flyswatter to get past the Fly Bend
 
 		if ( region <= 4 )
-			requirements.add( FLY_SWATTER );
+		{
+			if ( data.getEquipment( KoLCharacter.WEAPON ).indexOf( "fly" ) == -1 )
+				requirements.add( FLY_SWATTER );
+		}
 
 		// Need a cog and a sprocket to get past the Stone Door
 
@@ -144,12 +147,17 @@ public class Nemesis implements KoLConstants
 		// Need fairy gravy to get past the first lavatory troll
 
 		if ( region <= 6 )
+		{
 			requirements.add( GRAVY );
+		}
 
 		// Need tongs to get past the salad covered door
 
 		if ( region <= 7 )
-			requirements.add( TONGS );
+		{
+			if ( data.getEquipment( KoLCharacter.WEAPON ).indexOf( "tongs" ) == -1 )
+				requirements.add( TONGS );
+		}
 
 		// Need some kind of ketchup to get past the second lavatory troll
 
@@ -174,44 +182,65 @@ public class Nemesis implements KoLConstants
 
 			switch (i)
 			{
-			case 4: // The Fly Bend
-				// Equip fly swatter
-				(new EquipmentRequest( client, FLY_SWATTER.getName() )).run();
-				needsWeapon = true;
-				action = "flies";
-				client.updateDisplay( DISABLED_STATE, "Swatting flies..." );
-				break;
+				case 4: // The Fly Bend
 
-			case 5: // A Stone Door
-				action = "door1";
-				client.updateDisplay( DISABLED_STATE, "Passing Stone Door..." );
-				break;
+					// Equip fly swatter, but only do so if the
+					// person has not equipped it already.
 
-			case 6: // Lavatory Troll 1
-				action = "troll1";
-				client.updateDisplay( DISABLED_STATE, "Feeding first troll..." );
-				break;
+					if ( data.getEquipment( KoLCharacter.WEAPON ).indexOf( "fly" ) == -1 )
+					{
+						(new EquipmentRequest( client, FLY_SWATTER.getName() )).run();
+						needsWeapon = true;
+					}
 
-			case 7:	// Salad-Covered Door
-				// Equip tongs
-				(new EquipmentRequest( client, TONGS.getName() )).run();
-				needsWeapon = true;
-				action = "door2";
-				client.updateDisplay( DISABLED_STATE, "Plucking Salad..." );
-				break;
+					action = "flies";
+					client.updateDisplay( DISABLED_STATE, "Swatting flies..." );
+					break;
 
-			case 8: // Lavatory Troll 2
-				action = "troll2";
-				client.updateDisplay( DISABLED_STATE, "Feeding second troll..." );
-				break;
+				case 5: // A Stone Door
 
-			case 9: // Chamber of Epic Conflict
-				// Equip your original weapon
-				if ( needsWeapon )
-					(new EquipmentRequest( client, weapon )).run();
-				action = "end";
-				client.updateDisplay( DISABLED_STATE, "Fighting your nemesis..." );
-				break;
+					action = "door1";
+					client.updateDisplay( DISABLED_STATE, "Passing Stone Door..." );
+					break;
+
+				case 6: // Lavatory Troll 1
+
+					action = "troll1";
+					client.updateDisplay( DISABLED_STATE, "Feeding first troll..." );
+					break;
+
+				case 7:	// Salad-Covered Door
+
+					// Equip tongs, but only do so if the person
+					// has not equipped it already.
+
+					if ( data.getEquipment( KoLCharacter.WEAPON ).indexOf( "tongs" ) == -1 )
+					{
+						(new EquipmentRequest( client, TONGS.getName() )).run();
+						needsWeapon = true;
+					}
+
+					action = "door2";
+					client.updateDisplay( DISABLED_STATE, "Plucking Salad..." );
+					break;
+
+				case 8: // Lavatory Troll 2
+
+					action = "troll2";
+					client.updateDisplay( DISABLED_STATE, "Feeding second troll..." );
+					break;
+
+				case 9: // Chamber of Epic Conflict
+
+					// Equip your original weapon if your weapon
+					// changed (according to variable resets).
+
+					if ( needsWeapon )
+						(new EquipmentRequest( client, weapon )).run();
+
+					action = "end";
+					client.updateDisplay( DISABLED_STATE, "Fighting your nemesis..." );
+					break;
 			}
 
 			// Visit the cave
@@ -221,25 +250,30 @@ public class Nemesis implements KoLConstants
 			// Consume items
 			switch (i)
 			{
-			case 5: // A Stone Door
-				// Use up cog & sprocket
-				client.processResult( COG.getNegation() );
-				client.processResult( SPROCKET.getNegation() );
-				break;
+				case 5: // A Stone Door
 
-			case 6: // Lavatory Troll 1
-				// Use up fairy gravy
-				client.processResult( GRAVY.getNegation() );
-				break;
+					// Use up cog & sprocket
+					client.processResult( COG.getNegation() );
+					client.processResult( SPROCKET.getNegation() );
+					break;
 
-			case 8: // Lavatory Troll 2
-				// Use up ketchup
-				client.processResult( ketchup.getNegation() );
-				break;
+				case 6: // Lavatory Troll 1
 
-			case 9: // Chamber of Epic Conflict
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-				break;
+					// Use up fairy gravy
+					client.processResult( GRAVY.getNegation() );
+					break;
+
+				case 8: // Lavatory Troll 2
+
+					// Use up ketchup
+					client.processResult( ketchup.getNegation() );
+					break;
+
+				case 9: // Chamber of Epic Conflict
+
+					// Use up an adventure
+					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+					break;
 			}
 
 			// Gain items and stats
