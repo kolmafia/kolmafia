@@ -250,7 +250,7 @@ public class SorceressLair implements KoLConstants
 
 		// Digital key unless you already have the Squeezings of Woe
 		if ( SQUEEZINGS.getCount( client.getInventory() ) < 1 )
-                        requirements.add( DIGITAL );
+			requirements.add( DIGITAL );
 
 		// Skeleton key and a clover unless you already have the
 		// Really Evil Rhythms
@@ -265,10 +265,10 @@ public class SorceressLair implements KoLConstants
 
 		AdventureResult starWeapon = STAR_SWORD;
 
-		if ( STAR_CROSSBOW.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() ) )
+		if ( data.getEquipment( KoLCharacter.WEAPON ).startsWith( "star crossbow" ) || (STAR_CROSSBOW.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() )) )
 			starWeapon = STAR_CROSSBOW;
 
-		if ( STAR_STAFF.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_STAFF.getName() ) )
+		if ( data.getEquipment( KoLCharacter.WEAPON ).startsWith( "star staff" ) || (STAR_STAFF.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_STAFF.getName() )) )
 			starWeapon = STAR_STAFF;
 
 		boolean needsWeapon = starWeapon.getCount( client.getInventory() ) == 0 && !data.getEquipment( KoLCharacter.WEAPON ).startsWith( "star" );
