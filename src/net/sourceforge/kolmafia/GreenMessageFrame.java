@@ -63,22 +63,22 @@ public class GreenMessageFrame extends SendMessageFrame
 	{	return HEADERS;
 	}
 
-	protected boolean sendMessage()
+	protected boolean sendMessage( String recipient, String [] messages )
 	{
 		GreenMessageFrame.this.setEnabled( false );
-		(new GreenMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
+		(new GreenMessageRequest( client, recipient, messages[0], getAttachedItems(), getAttachedMeat() )).run();
 		GreenMessageFrame.this.setEnabled( true );
 
 		if ( client.permitsContinue() )
 		{
-			client.updateDisplay( ENABLED_STATE, "Message sent to " + recipientEntry.getText() );
-			setTitle( "Message sent to " + recipientEntry.getText() );
+			client.updateDisplay( ENABLED_STATE, "Message sent to " + recipient );
+			setTitle( "Message sent to " + recipient );
 			return true;
 		}
 		else
 		{
-			client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipientEntry.getText() );
-			setTitle( "Failed to send message to " + recipientEntry.getText() );
+			client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
+			setTitle( "Failed to send message to " + recipient );
 			return false;
 		}
 	}

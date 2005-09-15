@@ -256,7 +256,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		return label;
 	}
 
-	protected abstract boolean sendMessage();
+	protected abstract boolean sendMessage( String recipient, String [] messages );
 
 	private class SendMessageListener implements ActionListener, Runnable
 	{
@@ -266,10 +266,19 @@ public abstract class SendMessageFrame extends KoLFrame
 
 		public void run()
 		{
+			if ( client == null )
+				return;
+
 			setProperty( "saveOutgoing", String.valueOf( saveOutgoingCheckBox.isSelected() ) );
 			setProperty( "closeSending", String.valueOf( closeSendingCheckBox.isSelected() ) );
 
-			if ( client != null && sendMessage() && closeSendingCheckBox != null && closeSendingCheckBox.isSelected() )
+			String recipient = recipientEntry.getText();
+			String [] messages = new String[ messageEntry.length ];
+
+			for ( int i = 0; i < messageEntry.length; ++i )
+				messages[i] = messageEntry[i].getText();
+
+			if ( sendMessage( recipient, messages ) && closeSendingCheckBox.isSelected() )
 				SendMessageFrame.this.dispose();
 		}
 	}

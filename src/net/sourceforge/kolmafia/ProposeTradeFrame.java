@@ -72,15 +72,15 @@ public class ProposeTradeFrame extends SendMessageFrame
 			recipientEntry.setEnabled( false );
 	}
 
-	protected boolean sendMessage()
+	protected boolean sendMessage( String recipient, String [] messages )
 	{
 		if ( offerID != null )
-			(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() )).run();
+			(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messages[0], getAttachedItems(), getAttachedMeat() )).run();
 
 		Object [] parameters = new Object[2];
 		parameters[0] = client;
 		parameters[1] = offerID != null ? new ProposeTradeRequest( client ) :
-			new ProposeTradeRequest( client, recipientEntry.getText(), messageEntry[0].getText(), getAttachedItems(), getAttachedMeat() );
+			new ProposeTradeRequest( client, recipient, messages[0], getAttachedItems(), getAttachedMeat() );
 
 		(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
 		return true;

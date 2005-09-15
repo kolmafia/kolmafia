@@ -71,26 +71,16 @@ public class GiftMessageFrame extends SendMessageFrame
 
 	protected Component [] getWestComponents()
 	{
-                // Which packages are available depends on ascension count
+		// Which packages are available depends on ascension count.
+		// You start with two packages and receive an additional
+		// package every three ascensions you complete.
 
-                // Package 1 - 0 ascensions
-                // Package 2 - 0 ascensions
-                // Package 3 - 3 ascensions
-                // Package 4 - 6 ascensions
-                // Package 5 - 9 ascensions
-                // Package 6 - 12 ascensions
-                // Package 7 - 15 ascensions
-                // Package 8 - 18 ascensions
-                // Package 9 - 21 ascensions
-                // Package 10 - 24 ascensions
-                // Package 11 - 27 ascensions
+		int ascensions = client.getCharacterData().getAscensions();
+		int count = Math.min( ascensions / 3 + 2, 11 );
+		LockableListModel packages = new LockableListModel();
 
-                int ascensions = client.getCharacterData().getAscensions();
-                int count = Math.min(ascensions / 3 + 2, 11);
-                LockableListModel packages = new LockableListModel();
-
-                for ( int i = 0; i < count; ++i )
-                        packages.add( GiftMessageRequest.PACKAGES.get( i ) );
+		for ( int i = 0; i < count; ++i )
+			packages.add( GiftMessageRequest.PACKAGES.get( i ) );
 
 		packageSelect = new JComboBox( packages );
 		Component [] westComponents = new Component[1];
@@ -98,23 +88,22 @@ public class GiftMessageFrame extends SendMessageFrame
 		return westComponents;
 	}
 
-	protected boolean sendMessage()
+	protected boolean sendMessage( String recipient, String [] messages )
 	{
 		GiftMessageFrame.this.setEnabled( false );
-		(new GiftMessageRequest( client, recipientEntry.getText(), messageEntry[0].getText(), messageEntry[1].getText(),
-			packageSelect.getSelectedItem(), getAttachedItems(), getAttachedMeat() )).run();
+		(new GiftMessageRequest( client, recipient, messages[0], messages[1], packageSelect.getSelectedItem(), getAttachedItems(), getAttachedMeat() )).run();
 		GiftMessageFrame.this.setEnabled( true );
 
 		if ( client.permitsContinue() )
 		{
-			client.updateDisplay( ENABLED_STATE, "Gift sent to " + recipientEntry.getText() );
-			setTitle( "Gift sent to " + recipientEntry.getText() );
+			client.updateDisplay( ENABLED_STATE, "Gift sent to " + recipient );
+			setTitle( "Gift sent to " + recipient );
 			return true;
 		}
 		else
 		{
-			client.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipientEntry.getText() );
-			setTitle( "Failed to send gift to " + recipientEntry.getText() );
+			client.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipient );
+			setTitle( "Failed to send gift to " + recipient );
 			return false;
 		}
 	}
