@@ -51,6 +51,7 @@ public class AdventureRequest extends KoLRequest
 	private String adventureID;
 	private int adventuresUsed;
 	private boolean hasLuckyVersion;
+	public static final AdventureResult BRIDGE = new AdventureResult( "bridge", -1 );
 
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the
@@ -102,6 +103,11 @@ public class AdventureRequest extends KoLRequest
 			}
 			else if ( formSource.equals( "cyrpt.php" ) )
 				addFormField( "action", "Yep." );
+			else if ( formSource.equals( "mountains.php" ) )
+			{
+				addFormField( "pwd", client.getPasswordHash() );
+				addFormField( "orcs", "1" );
+			}
 			else
 				addFormField( "action", adventureID );
 
@@ -292,6 +298,20 @@ public class AdventureRequest extends KoLRequest
 				updateDisplay( ERROR_STATE, "You already defeated the Boss." );
 				return;
 			}
+		}
+		else if ( formSource.equals( "mountains.php" ) )
+		{
+			if ( responseText.indexOf( "see no way to cross it" ) != -1 )
+				updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
+			else if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
+			{
+				updateDisplay( ENABLED_STATE, "You can now cross the Orc Chasm." );
+				client.processResult( BRIDGE );
+			}
+			else
+				updateDisplay( ERROR_STATE, "You've already crossed the Orc Chasm." );
+			client.cancelRequest();
+			return;
 		}
 		else if ( responseText.indexOf( "You can't" ) != -1 || responseText.indexOf( "You shouldn't" ) != -1 ||
 			responseText.indexOf( "You don't" ) != -1 || responseText.indexOf( "You need" ) != -1 ||
