@@ -58,8 +58,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
 
 	private static boolean INCLUDE_ASCENSION = false;
-	private static boolean [] PERMIT_METHOD = new boolean[16];
-	private static int [] ADVENTURE_USAGE = new int[16];
+	private static boolean [] PERMIT_METHOD = new boolean[15];
+	private static int [] ADVENTURE_USAGE = new int[15];
 
 	private static final int CHEF = 438;
 	private static final int CLOCKWORK_CHEF = 1112;
@@ -357,9 +357,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = true;
 		ADVENTURE_USAGE[ ItemCreationRequest.ROLLING_PIN ] = 0;
 
-		PERMIT_METHOD[ ItemCreationRequest.UNROLLING_PIN ] = true;
-		ADVENTURE_USAGE[ ItemCreationRequest.UNROLLING_PIN ] = 0;
-
 		// The gnomish tinkerer is available if the person is in a
 		// moxie sign and they have a bitchin' meat car.
 
@@ -604,8 +601,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.multiplier += multiplier;
 
 			// Avoid mutual recursion
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN ||
-			     mixingMethod == ItemCreationRequest.UNROLLING_PIN )
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN )
 				return;
 
 			// Mark all the ingredients, being sure to multiply
@@ -673,8 +669,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.multiplier = 0;
 
 			// Avoid mutual recursion
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN ||
-			     mixingMethod == ItemCreationRequest.UNROLLING_PIN )
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN )
 				return;
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
