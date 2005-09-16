@@ -1641,7 +1641,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeUntinkerRequest()
 	{
-		String item = previousCommand.substring( previousCommand.split( " " )[0].length() );
+		String item = previousCommand.substring( previousCommand.split( " " )[0].length() ).trim();
 		AdventureResult firstMatch = getFirstMatchingItem( item, INVENTORY );
 		if ( firstMatch == null )
 			return;
