@@ -447,6 +447,7 @@ public class StrangeLeaflet implements KoLConstants
 		{
 			sword = request.responseText.indexOf( "An ornate sword" ) != -1;
 			torch = request.responseText.indexOf( "A burning torch" ) != -1;
+			stick = torch || request.responseText.indexOf( "A hefty stick" ) != -1;
 		}
 		else
 			client.processResults( request.responseText );
