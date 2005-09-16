@@ -68,6 +68,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int TINKER = 12;
 	public static final int SMITH_WEAPON = 13;
 	public static final int SMITH_ARMOR = 14;
+	public static final int UNROLLING_PIN = 15;
 
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
@@ -78,6 +79,17 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private int itemID, quantityNeeded, mixingMethod;
 	private String name;
+
+	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
+	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
+	private static final AdventureResult ROLLING = new AdventureResult( 873, 1 );
+	private static final AdventureResult UNROLLING = new AdventureResult( 874, 1 );
+
+        private static final AdventureResult [][] DOUGH_DATA =
+        {       // input, tool, output
+                { DOUGH, ROLLING, FLAT_DOUGH },
+                { FLAT_DOUGH, UNROLLING, DOUGH }
+        };
 
 	/**
 	 * Constructs a new <code>ItemCreationRequest</code> with nothing known
@@ -171,6 +183,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return new ItemCreationRequest( client, "jewelry.php", itemID, mixingMethod, quantityNeeded );
 
 			case ROLLING_PIN:
+			case UNROLLING_PIN:
 				return new ItemCreationRequest( client, "inv_use.php", itemID, mixingMethod, quantityNeeded );
 
 			case STARCHART:
@@ -213,10 +226,56 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				break;
 
 			case ROLLING_PIN:
+			case UNROLLING_PIN:
 
-				updateDisplay( DISABLED_STATE, "Using a rolling pin..." );
-				(new ConsumeItemRequest( client, new AdventureResult( 873, 1 ))).run();
-				updateDisplay( ENABLED_STATE, "Flat dough created." );
+				AdventureResult input = null;
+				AdventureResult tool = null;
+				AdventureResult output = null;
+
+				// Find the array row
+
+				for ( int i = 0; i < DOUGH_DATA.length; ++i )
+				{
+					output = DOUGH_DATA[i][2];
+					if ( itemID == output.getItemID() )
+					{
+						tool = DOUGH_DATA[i][1];
+						input = DOUGH_DATA[i][0];
+						break;
+					}
+				}
+
+				if ( tool == null )
+				{
+					client.cancelRequest();
+					updateDisplay( ERROR_STATE, "Can't deduce correct tool to use" );
+					return;
+				}
+
+				// If we have the correct tool, use it
+
+				if ( tool.getCount( client.getInventory() ) > 0 )
+				{
+					updateDisplay( DISABLED_STATE, "Using " + tool.getName() + "..." );
+					(new ConsumeItemRequest( client, tool )).run();
+					updateDisplay( ENABLED_STATE, "Done creating " + output.getName() );
+					break;
+				}
+
+				// Without the right tool, we must manipulate
+				// the dough by hand
+
+				String name = output.getName();
+				ConsumeItemRequest request = new ConsumeItemRequest( client, input );
+				for ( int i = 1; i <= quantityNeeded; ++i )
+				{
+					updateDisplay( DISABLED_STATE, "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
+					request.run();
+					if ( !client.permitsContinue() )
+						return;
+				}
+
+                                updateDisplay( ENABLED_STATE, "Done creating " + name );
 				break;
 
 			default:
@@ -595,8 +654,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public void setQuantityNeeded( int quantityNeeded )
 	{
-		if ( mixingMethod != ROLLING_PIN )
-			this.quantityNeeded = quantityNeeded;
+		this.quantityNeeded = quantityNeeded;
 	}
 
 	/**

@@ -58,20 +58,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
 
 	private static boolean INCLUDE_ASCENSION = false;
-	private static boolean [] PERMIT_METHOD = new boolean[15];
-	private static int [] ADVENTURE_USAGE = new int[15];
+	private static boolean [] PERMIT_METHOD = new boolean[16];
+	private static int [] ADVENTURE_USAGE = new int[16];
 
 	private static final int CHEF = 438;
 	private static final int CLOCKWORK_CHEF = 1112;
 	private static final int BARTENDER = 440;
 	private static final int CLOCKWORK_BARTENDER = 1111;
+	private static final int DOUGH = 159;
+	private static final int FLAT_DOUGH = 301;
 	private static final AdventureResult CAR = new AdventureResult( 134, 1 );
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
 	private static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
 	private static final AdventureResult PLIERS = new AdventureResult( 709, 1 );
-	private static final AdventureResult ROLLING_PIN = new AdventureResult( 873, 1 );
-
 	static
 	{
 		// This begins by opening up the data file and preparing
@@ -215,6 +215,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		cachePermitted();
 
+		// Flat dough and wads of dough can be created from each other.
+		// Calculate manually to prevent mutual recursion
+
+		int dough = concoctions[ DOUGH ].concoction.getCount( availableIngredients );
+		int flat_dough = concoctions[ FLAT_DOUGH ].concoction.getCount( availableIngredients );
+
+		concoctions[ DOUGH ].initial = dough;
+		concoctions[ DOUGH ].creatable = flat_dough;
+		concoctions[ DOUGH ].total = dough + flat_dough;
+		concoctions[ FLAT_DOUGH ].initial = flat_dough;
+		concoctions[ FLAT_DOUGH ].creatable = dough;
+		concoctions[ FLAT_DOUGH ].total = dough + flat_dough;
+
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
 		// mixture before doing the calculation.
@@ -337,11 +350,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.PIXEL ] = true;
 		ADVENTURE_USAGE[ ItemCreationRequest.PIXEL ] = 0;
 
-		// A rolling pin can be used in item creation whenever the
-		// person has a rolling pin.
+		// A rolling pin or unrolling pin can be always used in item
+		// creation because we can get the same effect even without the
+		// tool.
 
-		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = data.getInventory().contains( ROLLING_PIN );
+		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = true;
 		ADVENTURE_USAGE[ ItemCreationRequest.ROLLING_PIN ] = 0;
+
+		PERMIT_METHOD[ ItemCreationRequest.UNROLLING_PIN ] = true;
+		ADVENTURE_USAGE[ ItemCreationRequest.UNROLLING_PIN ] = 0;
 
 		// The gnomish tinkerer is available if the person is in a
 		// moxie sign and they have a bitchin' meat car.
@@ -586,6 +603,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.modifier += modifier;
 			this.multiplier += multiplier;
 
+			// Avoid mutual recursion
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN ||
+			     mixingMethod == ItemCreationRequest.UNROLLING_PIN )
+				return;
+
 			// Mark all the ingredients, being sure to multiply
 			// by the number of that ingredient needed in this
 			// concoction.
@@ -647,6 +669,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		private void unmark()
 		{
+			this.modifier = 0;
+			this.multiplier = 0;
+
+			// Avoid mutual recursion
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN ||
+			     mixingMethod == ItemCreationRequest.UNROLLING_PIN )
+				return;
+
 			for ( int i = 0; i < ingredientArray.length; ++i )
 				concoctions[ ingredientArray[i].getItemID() ].unmark();
 
@@ -655,9 +685,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( mixingMethod == ItemCreationRequest.COMBINE )
 				concoctions[ ItemCreationRequest.MEAT_PASTE ].unmark();
-
-			this.modifier = 0;
-			this.multiplier = 0;
 		}
 
 		/**
