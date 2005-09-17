@@ -259,20 +259,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					break;
 				}
 
-				// Without the right tool, we must manipulate
-				// the dough by hand
-
-				String name = output.getName();
-				ConsumeItemRequest request = new ConsumeItemRequest( client, input );
-				for ( int i = 1; i <= quantityNeeded; ++i )
-				{
-					updateDisplay( DISABLED_STATE, "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
-					request.run();
-					if ( !client.permitsContinue() )
-						return;
-				}
-
-                                updateDisplay( ENABLED_STATE, "Done creating " + name );
 				break;
 
 			default:

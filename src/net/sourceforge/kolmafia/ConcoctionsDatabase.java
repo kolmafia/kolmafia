@@ -65,13 +65,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final int CLOCKWORK_CHEF = 1112;
 	private static final int BARTENDER = 440;
 	private static final int CLOCKWORK_BARTENDER = 1111;
-	private static final int DOUGH = 159;
-	private static final int FLAT_DOUGH = 301;
+
 	private static final AdventureResult CAR = new AdventureResult( 134, 1 );
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
 	private static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
 	private static final AdventureResult PLIERS = new AdventureResult( 709, 1 );
+
+	private static final AdventureResult ROLLING_PIN = new AdventureResult( 873, 1 );
+	private static final AdventureResult UNROLLING_PIN = new AdventureResult( 873, 1 );
+
+	private static final int DOUGH = 159;
+	private static final int FLAT_DOUGH = 301;
+
 	static
 	{
 		// This begins by opening up the data file and preparing
@@ -221,12 +227,49 @@ public class ConcoctionsDatabase extends KoLDatabase
 		int dough = concoctions[ DOUGH ].concoction.getCount( availableIngredients );
 		int flat_dough = concoctions[ FLAT_DOUGH ].concoction.getCount( availableIngredients );
 
-		concoctions[ DOUGH ].initial = dough;
-		concoctions[ DOUGH ].creatable = flat_dough;
-		concoctions[ DOUGH ].total = dough + flat_dough;
-		concoctions[ FLAT_DOUGH ].initial = flat_dough;
-		concoctions[ FLAT_DOUGH ].creatable = dough;
-		concoctions[ FLAT_DOUGH ].total = dough + flat_dough;
+		if ( PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] )
+		{
+			// In the event that you do have a rolling or unrolling pin,
+			// then the amount that can be made is equal to the total.
+
+			concoctions[ DOUGH ].initial = dough;
+			concoctions[ DOUGH ].creatable = flat_dough;
+			concoctions[ DOUGH ].total = dough + flat_dough;
+
+			concoctions[ FLAT_DOUGH ].initial = flat_dough;
+			concoctions[ FLAT_DOUGH ].creatable = dough;
+			concoctions[ FLAT_DOUGH ].total = dough + flat_dough;
+		}
+		else
+		{
+			// Determine the maximum of the two values.  Whichever value
+			// is the maximum will overwrite the smaller value.
+
+			int maximum = Math.max( dough, flat_dough );
+			int searchItem = maximum == dough ? FLAT_DOUGH : DOUGH;
+			int replaceItem = maximum == dough ? DOUGH : FLAT_DOUGH;
+
+			// Reset the ingredients so that the search item is replaced
+			// with the replacer item so that the greatest quantity is
+			// shown in the calculation.
+
+			for ( int i = 0; i < concoctions.length; ++i )
+				if ( concoctions[i] != null )
+					for ( int j = 0; j < concoctions[i].ingredientArray.length; ++j )
+						if ( concoctions[i].ingredientArray[j].getItemID() == searchItem )
+							concoctions[i].ingredientArray[j] = new AdventureResult( replaceItem, concoctions[i].ingredientArray[j].getCount() );
+
+			// For calculation purposes, assume that you have none of the
+			// lesser item and the appropriate number of the greater item.
+
+			concoctions[ searchItem ].initial = 0;
+			concoctions[ searchItem ].creatable = 0;
+			concoctions[ searchItem ].total = 0;
+
+			concoctions[ replaceItem ].initial = maximum;
+			concoctions[ replaceItem ].creatable = 0;
+			concoctions[ replaceItem ].total = maximum;
+		}
 
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
@@ -354,7 +397,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// creation because we can get the same effect even without the
 		// tool.
 
-		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = true;
+		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = data.getInventory().contains( ROLLING_PIN ) ||
+			data.getInventory().contains( UNROLLING_PIN );
+
 		ADVENTURE_USAGE[ ItemCreationRequest.ROLLING_PIN ] = 0;
 
 		// The gnomish tinkerer is available if the person is in a
