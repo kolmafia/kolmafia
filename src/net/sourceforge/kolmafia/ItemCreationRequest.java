@@ -225,46 +225,77 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case ROLLING_PIN:
 
-				AdventureResult input = null;
-				AdventureResult tool = null;
-				AdventureResult output = null;
-
-				// Find the array row
-
-				for ( int i = 0; i < DOUGH_DATA.length; ++i )
-				{
-					output = DOUGH_DATA[i][2];
-					if ( itemID == output.getItemID() )
-					{
-						tool = DOUGH_DATA[i][1];
-						input = DOUGH_DATA[i][0];
-						break;
-					}
-				}
-
-				if ( tool == null )
-				{
-					client.cancelRequest();
-					updateDisplay( ERROR_STATE, "Can't deduce correct tool to use" );
-					return;
-				}
-
-				// If we have the correct tool, use it
-
-				if ( tool.getCount( client.getInventory() ) > 0 )
-				{
-					updateDisplay( DISABLED_STATE, "Using " + tool.getName() + "..." );
-					(new ConsumeItemRequest( client, tool )).run();
-					updateDisplay( ENABLED_STATE, "Done creating " + output.getName() );
-					break;
-				}
-
+				makeDough();
 				break;
 
 			default:
 
 				combineItems();
 				break;
+		}
+	}
+
+	protected void makeDough()
+	{
+		AdventureResult input = null;
+		AdventureResult tool = null;
+		AdventureResult output = null;
+
+		// Find the array row and load the
+		// correct tool/input/output data.
+
+		for ( int i = 0; i < DOUGH_DATA.length; ++i )
+		{
+			output = DOUGH_DATA[i][2];
+			if ( itemID == output.getItemID() )
+			{
+				tool = DOUGH_DATA[i][1];
+				input = DOUGH_DATA[i][0];
+				break;
+			}
+		}
+
+		if ( tool == null )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Can't deduce correct tool to use." );
+			return;
+		}
+
+		// If we have the correct tool, use it to
+		// create the needed dough type.
+
+		if ( tool.getCount( client.getInventory() ) > 0 )
+		{
+			updateDisplay( DISABLED_STATE, "Using " + tool.getName() + "..." );
+			(new ConsumeItemRequest( client, tool )).run();
+			updateDisplay( ENABLED_STATE, "Successfully converted " + input.getName() + " to " + output.getName() );
+			return;
+		}
+
+		// If we don't have the correct tool, and the
+		// person wishes to create more than 10 dough,
+		// then notify the person that they should
+		// purchase a tool before continuing.
+
+		if ( quantityNeeded >= 10 )
+		{
+			updateDisplay( ERROR_STATE, "Please purchase a " + tool.getName() + " first." );
+			client.cancelRequest();
+			return;
+		}
+
+		// Without the right tool, we must manipulate
+		// the dough by hand.
+
+		String name = output.getName();
+		ConsumeItemRequest request = new ConsumeItemRequest( client, input );
+		for ( int i = 1; i <= quantityNeeded; ++i )
+		{
+			updateDisplay( DISABLED_STATE, "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
+			request.run();
+			if ( !client.permitsContinue() )
+				return;
 		}
 	}
 
