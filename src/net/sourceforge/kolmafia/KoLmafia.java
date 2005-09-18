@@ -2000,7 +2000,12 @@ public abstract class KoLmafia implements KoLConstants
 			missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( inventory );
 
 			if ( missingCount > 0 )
+			{
 				missingItems.add( requirementsArray[i].getInstance( missingCount ) );
+				// Allow later requirements to be created.
+				// We'll cancel the request again later.
+				resetContinueState();
+			}
 		}
 
 		// If there are any missing requirements
