@@ -297,6 +297,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			if ( !client.permitsContinue() )
 				return;
 		}
+
+		updateDisplay( ENABLED_STATE, "Successfully converted " + input.getName() + " to " + output.getName() );
 	}
 
 	protected void makeIngredients()
