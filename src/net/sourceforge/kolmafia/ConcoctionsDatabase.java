@@ -247,7 +247,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			int maximum = Math.max( dough, flat_dough );
 			int searchItem = maximum == dough ? FLAT_DOUGH : DOUGH;
-			int replaceItem = maximum == dough ? DOUGH : FLAT_DOUGH;
+			int replaceItem = searchItem == DOUGH ? FLAT_DOUGH : DOUGH;
 
 			// Reset the ingredients so that the search item is replaced
 			// with the replacer item so that the greatest quantity is
@@ -605,6 +605,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// multiplier exists.
 
 			int quantity = (this.total + this.modifier) / this.multiplier;
+
+			// Avoid mutual recursion
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN )
+				return Math.min( quantity, concoctions[0].quantity( inMuscleSign ) );
 
 			// The true value is affected by the maximum value for
 			// the ingredients.  Therefore, calculate the quantity
