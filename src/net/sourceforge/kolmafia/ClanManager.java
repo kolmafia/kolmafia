@@ -62,6 +62,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 
+import edu.stanford.ejalbert.BrowserLauncher;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ClanManager implements KoLConstants
@@ -530,6 +531,21 @@ public class ClanManager implements KoLConstants
 			}
 
 			client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
+
+			try
+			{
+				// To make things less confusing, load the summary
+				// file inside of the default browser after completion.
+
+				BrowserLauncher.openURL( summaryFile.toURL().toString() );
+			}
+			catch ( Exception e )
+			{
+				client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
+				e.printStackTrace( client.getLogStream() );
+				e.printStackTrace( System.err );
+				return;
+			}
 		}
 
 		protected void actionCancelled()
