@@ -109,20 +109,55 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
+	protected static KoLmafia client;
+
 	static
 	{
+		// Ensure that images are properly loaded
+		// and the appropriate HTML rendering engine
+		// is installed to the frames.
+
 		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 	};
 
-	private static LockableListModel scripts = new LockableListModel();
+	protected static LockableListModel scripts = new LockableListModel();
+	static
+	{
+		// Load the scripts statically, rather than
+		// inside of the addScriptMenu() call.
+
+		File scriptDirectory = new File( "scripts" );
+
+		if ( !scriptDirectory.exists() )
+			scriptDirectory.mkdirs();
+
+		int addedScriptCount = 0;
+		String currentScriptName;
+		JMenuItem currentScript;
+
+		File [] scriptList = scriptDirectory.listFiles();
+		for ( int i = 0; i < scriptList.length; ++i )
+		{
+			if ( !scriptList[i].isDirectory() )
+			{
+				try
+				{
+					String [] pieces = scriptList[i].getCanonicalPath().split( "[\\\\/]" );
+					scripts.add( new LoadScriptMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ], "scripts" + File.separator + pieces[ pieces.length - 1 ] ) );
+				}
+				catch ( Exception e )
+				{
+				}
+			}
+		}
+	}
 
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
 	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher" };
 
 	private String frameName;
 	protected boolean isEnabled;
-	protected KoLmafia client;
 	protected KoLPanel contentPanel;
 
 	protected JPanel compactPane;
@@ -138,7 +173,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		super( VERSION_NAME + ": " + title );
 
-		this.client = client;
+		KoLFrame.client = client;
 		this.isEnabled = true;
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -380,35 +415,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		JMenu scriptMenu = new ScriptMenu();
 		menu.add( scriptMenu );
-
-		File scriptDirectory = new File( "scripts" );
-		if ( !scriptDirectory.exists() )
-			scriptDirectory.mkdirs();
-		else
-		{
-			int addedScriptCount = 0;
-			String currentScriptName;
-			JMenuItem currentScript;
-
-			scripts.clear();
-
-			File [] scriptList = scriptDirectory.listFiles();
-			for ( int i = 0; i < scriptList.length; ++i )
-			{
-				if ( !scriptList[i].isDirectory() )
-				{
-					try
-					{
-						String [] pieces = scriptList[i].getCanonicalPath().split( "[\\\\/]" );
-						scripts.add( new LoadScriptMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ], "scripts" + File.separator + pieces[ pieces.length - 1 ] ) );
-					}
-					catch ( Exception e )
-					{
-					}
-				}
-			}
-		}
-
 		return scriptMenu;
 	}
 
@@ -557,7 +563,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * the request for loading a script.
 	 */
 
-	private class LoadScriptMenuItem extends JMenuItem implements ActionListener, Runnable
+	private static class LoadScriptMenuItem extends JMenuItem implements ActionListener, Runnable
 	{
 		private String scriptPath;
 
@@ -586,7 +592,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				if ( scriptPath == null )
 				{
 					JFileChooser chooser = new JFileChooser( "scripts" );
-					int returnVal = chooser.showOpenDialog( KoLFrame.this );
+					int returnVal = chooser.showOpenDialog( null );
 
 					if ( chooser.getSelectedFile() == null )
 						return;

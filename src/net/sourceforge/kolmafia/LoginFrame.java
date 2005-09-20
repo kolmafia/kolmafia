@@ -95,7 +95,6 @@ public class LoginFrame extends KoLFrame
 		super( client, "Login" );
 		setResizable( false );
 
-		this.client = client;
 		this.saveStateNames = new SortedListModel();
 		this.saveStateNames.addAll( saveStateNames );
 		contentPanel = new LoginPanel();
