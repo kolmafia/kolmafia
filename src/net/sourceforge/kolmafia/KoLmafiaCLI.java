@@ -1202,6 +1202,13 @@ public class KoLmafiaCLI extends KoLmafia
 						scriptRequestor.getCharacterData().getCurrentMP();
 
 					condition = new AdventureResult( conditionString.endsWith( "health" ) ? AdventureResult.HP : AdventureResult.MP, points );
+
+					int previousIndex = scriptRequestor.conditions.indexOf( condition );
+					if ( previousIndex != -1 )
+					{
+						AdventureResult previousCondition = (AdventureResult) scriptRequestor.conditions.get( previousIndex );
+						condition = condition.getInstance( condition.getCount() - previousCondition.getCount() );
+					}
 				}
 				catch ( Exception e )
 				{
