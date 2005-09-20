@@ -112,8 +112,11 @@ public abstract class KoLmafia implements KoLConstants
 
 	private int pullsRemaining;
 	protected LockableListModel adventureList;
-	protected SortedListModel tally, conditions, missingItems;
+	protected SortedListModel tally, missingItems;
 	protected SortedListModel inventory, closet, usableItems, sellableItems, hunterItems, storage;
+
+	protected boolean useDisjunction;
+	protected SortedListModel conditions;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -146,6 +149,7 @@ public abstract class KoLmafia implements KoLConstants
 	public KoLmafia()
 	{
 		this.isLoggingIn = true;
+		this.useDisjunction = false;
 
 		this.initialStats = new int[3];
 		this.fullStatGain = new int[3];
@@ -597,20 +601,16 @@ public abstract class KoLmafia implements KoLConstants
 		// list, removing it if the condition is satisfied.
 
 		int conditionsIndex = conditions.indexOf( result );
-		if ( result.isItem() )
+
+		if ( conditionsIndex != -1 )
 		{
-			if ( conditionsIndex != -1 )
+			if ( resultName.equals( AdventureResult.SUBSTATS ) )
 			{
-				if ( result.getCount( conditions ) <= result.getCount() )
-					conditions.remove( conditionsIndex );
-				else
-					AdventureResult.addResultToList( conditions, result.getNegation() );
-			}
-		}
-		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
-		{
-			if ( conditionsIndex != -1 )
-			{
+				// If the condition is a substat condition,
+				// then zero out the appropriate count, if
+				// applicable, and remove the substat condition
+				// if the overall count dropped to zero.
+
 				AdventureResult condition = (AdventureResult) conditions.get( conditionsIndex );
 
 				int [] substats = new int[3];
@@ -623,6 +623,21 @@ public abstract class KoLmafia implements KoLConstants
 					conditions.remove( conditionsIndex );
 				else
 					conditions.set( conditionsIndex, condition );
+			}
+			else if ( result.getCount( conditions ) <= result.getCount() )
+			{
+				// If this results in the satisfaction of a
+				// condition, then remove it.
+
+				conditions.remove( conditionsIndex );
+			}
+			else
+			{
+				// Otherwise, this was a partial satisfaction
+				// of a condition.  Decrement the count by the
+				// negation of this result.
+
+				AdventureResult.addResultToList( conditions, result.getNegation() );
 			}
 		}
 	}
@@ -1196,7 +1211,7 @@ public abstract class KoLmafia implements KoLConstants
 				// there are conditions, be sure that they are checked
 				// during the iterations.
 
-				boolean hasConditions = !conditions.isEmpty();
+				int remainingConditions = conditions.size();
 
 				// If this is an adventure request, make sure that it
 				// gets validated before running.
@@ -1209,18 +1224,19 @@ public abstract class KoLmafia implements KoLConstants
 
 				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
 				{
-					// Allow people to add conditions mid-request.
-
-					hasConditions |= !conditions.isEmpty();
-
 					// If the conditions existed and have been satisfied,
 					// then you should stop.
 
-					if ( hasConditions && conditions.isEmpty() )
+					if ( conditions.size() < remainingConditions )
 					{
-						updateDisplay( ENABLED_STATE, "Conditions satisfied." );
-						return;
+						if ( conditions.size() == 0 || useDisjunction )
+						{
+							updateDisplay( ENABLED_STATE, "Conditions satisfied." );
+							return;
+						}
 					}
+
+					remainingConditions = conditions.size();
 
 					// Otherwise, disable the display and update the user
 					// and the current request number.  Different requests

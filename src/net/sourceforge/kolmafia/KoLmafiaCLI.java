@@ -1080,6 +1080,20 @@ public class KoLmafiaCLI extends KoLmafia
 			scriptRequestor.conditions.addAll( scriptRequestor.missingItems );
 			return true;
 		}
+		else if ( option.equals( "mode" ) )
+		{
+			String conditionString = parameters.substring( option.length() ).trim();
+
+			if ( conditionString.startsWith( "conjunction" ) )
+				scriptRequestor.useDisjunction = false;
+			else if ( conditionString.startsWith( "disjunction" ) )
+				scriptRequestor.useDisjunction = true;
+
+			if ( scriptRequestor.useDisjunction )
+				scriptRequestor.updateDisplay( ENABLED_STATE, "All conditions will be ORed together." );
+			else
+				scriptRequestor.updateDisplay( ENABLED_STATE, "All conditions will be ANDed together." );
+		}
 		else if ( option.equals( "add" ) )
 		{
 			String conditionString = parameters.substring( option.length() ).trim();
@@ -1179,19 +1193,43 @@ public class KoLmafiaCLI extends KoLmafia
 					condition = null;
 				}
 			}
+			else if ( conditionString.endsWith( "health" ) || conditionString.endsWith( "mana" ) )
+			{
+				try
+				{
+					int points = df.parse( conditionString.split( "\\s+" )[0] ).intValue();
+					points -= conditionString.endsWith( "health" ) ? scriptRequestor.getCharacterData().getCurrentHP() :
+						scriptRequestor.getCharacterData().getCurrentMP();
+
+					condition = new AdventureResult( conditionString.endsWith( "health" ) ? AdventureResult.HP : AdventureResult.MP, points );
+				}
+				catch ( Exception e )
+				{
+					// In the event that some exception occurred in
+					// parsing, return a null result.
+
+					condition = null;
+				}
+			}
 			else
 			{
-				// Otherwise, it's an item condition, so parse out which
-				// item is desired and set that as the condition.
+				// Otherwise, it's an item or status-effect condition, so parse
+				// out which item or effect is desired and set that as the condition.
 
 				condition = getFirstMatchingItem( conditionString, NOWHERE );
+
+				// If no item exists, then it must be a status effect that the
+				// player is looking for.
+
+				if ( condition == null )
+					condition = getFirstMatchingEffect( conditionString );
 			}
 		}
 
 		if ( condition == null )
 			return false;
 
-		if ( condition.getCount() != 0 )
+		if ( condition.getCount() > 0 )
 		{
 			AdventureResult.addResultToList( scriptRequestor.conditions, condition );
 			updateDisplay( NOCHANGE, "Condition added." );
@@ -1518,6 +1556,67 @@ public class KoLmafiaCLI extends KoLmafia
 		statString.append( df.format( tnp ) );
 
 		return statString.toString();
+	}
+
+	/**
+	 * Utility method which determines the first effect which matches
+	 * the given parameter string.  Note that the string may also
+	 * specify an effect duration before the string.
+	 */
+
+	private AdventureResult getFirstMatchingEffect( String parameters )
+	{
+		String effectName = null;
+		int duration = 0;
+
+		// First, allow for the person to type without specifying
+		// the amount, if the amount is 1.
+
+		List matchingNames = StatusEffectDatabase.getMatchingNames( parameters );
+
+		if ( matchingNames.size() != 0 )
+		{
+			effectName = (String) matchingNames.get(0);
+			duration = 1;
+		}
+		else
+		{
+			String durationString = parameters.split( " " )[0];
+			String effectNameString = parameters.substring( durationString.length() ).trim();
+
+			matchingNames = StatusEffectDatabase.getMatchingNames( effectNameString );
+
+			if ( matchingNames.size() == 0 )
+			{
+				scriptRequestor.updateDisplay( ERROR_STATE, "[" + effectNameString + "] does not match anything in the status effect database." );
+				scriptRequestor.cancelRequest();
+				return null;
+			}
+
+			try
+			{
+				effectName = (String) matchingNames.get(0);
+				duration = durationString.equals( "*" ) ? 0 : df.parse( durationString ).intValue();
+			}
+			catch ( Exception e )
+			{
+				// Technically, this exception should not be thrown, but if
+				// it is, then print an error message and return.
+
+				scriptRequestor.updateDisplay( ERROR_STATE, durationString + " is not a number." );
+				scriptRequestor.cancelRequest();
+				return null;
+			}
+		}
+
+		if ( effectName == null )
+		{
+			scriptRequestor.updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the status effect database." );
+			scriptRequestor.cancelRequest();
+			return null;
+		}
+
+		return new AdventureResult( effectName, duration, true );
 	}
 
 	/**
