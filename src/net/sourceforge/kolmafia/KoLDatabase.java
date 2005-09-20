@@ -34,6 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
@@ -95,6 +99,44 @@ public class KoLDatabase implements KoLConstants
 
 	public static final String getDisplayName( String name )
 	{	return name == null ? null : name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&eacute;", "é" ).replaceAll( "&trade;", " [TM]" );
+	}
+
+	/**
+	 * Returns a list of all elements which contain the given
+	 * substring in their name.
+	 *
+	 * @param	nameMap	The map in which to search for the string
+	 * @param	substring	The substring for which to search
+	 */
+
+	public static final List getMatchingNames( Map nameMap, String substring )
+	{
+		List substringList = new ArrayList();
+		String searchString = getCanonicalName( substring.replaceAll( "\"", "" ) );
+
+		if ( substring.indexOf( "\"" ) != -1 )
+		{
+			if ( nameMap.containsKey( searchString ) )
+				substringList.add( searchString );
+		}
+		else if ( nameMap.containsKey( searchString ) )
+		{
+			substringList.add( searchString );
+		}
+		else
+		{
+			String currentName;
+
+			Iterator nameIterator = nameMap.keySet().iterator();
+			while ( nameIterator.hasNext() )
+			{
+				currentName = (String) nameIterator.next();
+				if ( currentName.indexOf( searchString ) != -1 )
+					substringList.add( currentName );
+			}
+		}
+
+		return substringList;
 	}
 
 	protected static final void setProperty( String name, String value )

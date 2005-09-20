@@ -319,33 +319,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final List getMatchingNames( String substring )
-	{
-		List substringList = new ArrayList();
-		String searchString = getCanonicalName( substring.replaceAll( "\"", "" ) );
-
-		if ( substring.indexOf( "\"" ) != -1 )
-		{
-			if ( itemByName.containsKey( searchString ) )
-				substringList.add( getItemName( getItemID( searchString ) ) );
-		}
-		else if ( itemByName.containsKey( searchString ) )
-		{
-			substringList.add( getItemName( getItemID( searchString ) ) );
-		}
-		else
-		{
-			String currentItemName;
-
-			Iterator completeItems = itemByName.keySet().iterator();
-			while ( completeItems.hasNext() )
-			{
-				currentItemName = (String) completeItems.next();
-				if ( currentItemName.indexOf( searchString ) != -1 )
-					substringList.add( getItemName( getItemID( currentItemName ) ) );
-			}
-		}
-
-		return substringList;
+	{	return getMatchingNames( itemByName, substring );
 	}
 
 	/**

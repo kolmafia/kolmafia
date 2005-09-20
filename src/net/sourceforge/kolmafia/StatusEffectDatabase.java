@@ -40,6 +40,7 @@ import java.io.BufferedReader;
 
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -133,4 +134,13 @@ public class StatusEffectDatabase extends KoLDatabase
 	{	return tinyHouseByName.containsKey( getDisplayName( effectName ) );
 	}
 
+	/**
+	 * Returns a list of all items which contain the given
+	 * substring.  This is useful for people who are doing
+	 * lookups on items.
+	 */
+
+	public static final List getMatchingNames( String substring )
+	{	return getMatchingNames( effectByName, substring );
+	}
 }
