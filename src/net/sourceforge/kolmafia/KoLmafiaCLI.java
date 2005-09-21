@@ -1632,7 +1632,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an item quantity before the string.
 	 */
 
-	private AdventureResult getFirstMatchingItem( String parameters, int matchType )
+	private AdventureResult getFirstMatchingItem( String parameters, int matchType, int def )
 	{
 		int itemID = -1;
 		int itemCount = 0;
@@ -1645,7 +1645,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( matchingNames.size() != 0 )
 		{
 			itemID = TradeableItemDatabase.getItemID( (String) matchingNames.get(0) );
-			itemCount = 1;
+			itemCount = def;
 		}
 		else
 		{
@@ -1720,6 +1720,11 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		return itemCount == 0 ? null : firstMatch.getInstance( itemCount );
+	}
+
+	private AdventureResult getFirstMatchingItem( String parameters, int matchType )
+	{
+                return getFirstMatchingItem( parameters, matchType, 1 );
 	}
 
 	/**
@@ -2104,14 +2109,26 @@ public class KoLmafiaCLI extends KoLmafia
 	 * furs for the given fur.
 	 */
 
-	public void makeTrapperRequest()
+	public void makeTrapperRequest( )
 	{
-		String item = previousCommand.split( " " )[1];
+		String command = previousCommand.split( " " )[0];
+		String parameters = previousCommand.substring( command.length() ).trim();
 
-		for ( int i = 0; i < trapperItemNames.length; ++i )
-			if ( trapperItemNames[i].indexOf( item ) != -1 )
+		int furs = TrapperRequest.YETI_FUR.getCount( scriptRequestor.getInventory() );
+
+		// If he doesn't specify a number, use number of yeti furs
+		AdventureResult item = getFirstMatchingItem( parameters, NOWHERE, furs );
+		if ( item == null )
+			return;
+
+		int itemID = item.getItemID();
+		int tradeCount = item.getCount();
+
+		// Ensure that the requested item is available from the trapper
+		for ( int i = 0; i < trapperItemNumbers.length; ++i )
+			if ( trapperItemNumbers[i] == itemID )
 			{
-				(new TrapperRequest( scriptRequestor, trapperItemNumbers[i] )).run();
+				(new TrapperRequest( scriptRequestor, itemID, tradeCount ) ).run();
 				return;
 			}
 	}

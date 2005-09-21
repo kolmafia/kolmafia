@@ -45,31 +45,38 @@ import java.util.StringTokenizer;
 public class TrapperRequest extends KoLRequest
 {
 	private int quantity;
-	private static final AdventureResult YETI_FUR = new AdventureResult( 388, 0 );
+	public static final AdventureResult YETI_FUR = new AdventureResult( 388, 0 );
 
 	/**
 	 * Constructs a new <code>TrapperRequest</code>.
 	 *
 	 * @param	client	The client to which this request will report errors/results
 	 * @param	itemID	The item which will be traded at the trapper
+	 * @param	quantity	How many items to trade
 	 */
 
-	public TrapperRequest( KoLmafia client, int itemID )
+	public TrapperRequest( KoLmafia client, int itemID, int quantity )
 	{
 		super( client, "trapper.php" );
 
-		this.quantity = YETI_FUR.getCount( client.getInventory() );
+		this.quantity = quantity;
 		addFormField( "action", "Yep." );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "whichitem", String.valueOf( itemID ) );
-		addFormField( "tradeall", "on" );
+		addFormField( "qty", String.valueOf( quantity ) );
+	}
+
+	public TrapperRequest( KoLmafia client, int itemID )
+	{
+		this( client, itemID, YETI_FUR.getCount( client.getInventory() ) );
+
 	}
 
 	/**
 	 * Executes the <code>TrapperRequest</code>.  This will trade the item
-	 * specified in the character's <code>KoLSettings</code> for their
-	 * worthless trinket; if the character has no worthless trinkets, this
-	 * method will report an error to the client.
+	 * specified in the character's <code>KoLSettings</code> for their yeti
+	 * furs; if the character has no yeti furs, this method will report an
+	 * error to the client.
 	 */
 
 	public void run()

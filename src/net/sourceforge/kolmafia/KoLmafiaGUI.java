@@ -248,12 +248,28 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedValue == null )
 			return;
 
+		int selected = -1;
 		for ( int i = 0; i < trapperItemNames.length; ++i )
 			if ( selectedValue.equals( trapperItemNames[i] ) )
 			{
-				(new TrapperRequest( this, trapperItemNumbers[i] )).run();
-				return;
+				selected = trapperItemNumbers[i];
+				break;
 			}
+
+		// Should not be possible...
+		if ( selected == -1 )
+			return;
+
+		try
+		{
+			int tradeCount = df.parse( JOptionPane.showInputDialog(
+				null, "How many " + selectedValue + " to get?", "I want this many!", JOptionPane.INFORMATION_MESSAGE ) ).intValue();
+
+			(new TrapperRequest( this, selected, tradeCount )).run();
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	/**
