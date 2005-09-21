@@ -330,7 +330,8 @@ public class OptionsFrame extends KoLFrame
 			{ "forceReconnect", "Automatically time-in on time-out" },
 			{ "savePositions", "Reload windows in original positions" },
 			{ "cloverProtectActive", "Guard against accidental clover usage" },
-			{ "ignoreChoiceAdventures", "Ignore all choice adventures" }
+			{ "ignoreChoiceAdventures", "Ignore all choice adventures" },
+			{ "autoSatisfyWithMall", "Automatically buy missing items on conditions check" }
 		};
 
 		/**

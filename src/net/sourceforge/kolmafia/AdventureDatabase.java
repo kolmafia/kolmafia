@@ -378,7 +378,36 @@ public class AdventureDatabase extends KoLDatabase
 				creation.run();
 				return;
 			}
+			else if ( creationCount > 0 )
+			{
+				// Otherwise, create as many of the item as you can
+				// and fall through to the next satisfaction attempt.
+
+				ItemCreationRequest.getInstance( client, item.getItemID(), creationCount ).run();
+				missingCount -= creationCount;
+			}
 		}
+
+		// Now, if the user wishes to retrieve items from the mall,
+		// then allow them to make the purchases.
+
+		if ( client.getSettings().getProperty( "autoSatisfyWithMall" ).equals( "true" ) )
+		{
+			try
+			{
+				KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
+				purchaser.executeLine( "buy " + missingCount + " " + item.getName() );
+				missingCount = 0;
+			}
+			catch ( Exception e )
+			{
+				// This should not happen, so go
+				// ahead and ignore it.
+			}
+		}
+
+		if ( missingCount <= 0 )
+			return;
 
 		// If the item does not exist in sufficient quantities,
 		// then notify the client that there aren't enough items
