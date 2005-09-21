@@ -1860,56 +1860,13 @@ public class KoLmafiaCLI extends KoLmafia
 	 * given quantity of items.
 	 */
 
-	private void executeBuyCommand( String parameters )
+	public int executeBuyCommand( String parameters )
 	{
 		AdventureResult firstMatch = getFirstMatchingItem( parameters, NOWHERE );
 		ArrayList results = new ArrayList();
 		(new SearchMallRequest( scriptRequestor, '\"' + firstMatch.getName() + '\"', 0, results )).run();
 
-		Object [] purchases = results.toArray();
-
-		MallPurchaseRequest currentRequest;
-		scriptRequestor.resetContinueState();
-
-		int maxPurchases = firstMatch.getCount();
-
-		for ( int i = 0; i < purchases.length && maxPurchases > 0 && scriptRequestor.permitsContinue(); ++i )
-		{
-			if ( purchases[i] instanceof MallPurchaseRequest )
-			{
-				currentRequest = (MallPurchaseRequest) purchases[i];
-
-				// Keep track of how many of the item you had before
-				// you run the purchase request
-
-				AdventureResult oldResult = new AdventureResult( currentRequest.getItemName(), 0 );
-				int oldResultIndex = scriptRequestor.getInventory().indexOf( oldResult );
-
-				if ( oldResultIndex != -1 )
-					oldResult = (AdventureResult) scriptRequestor.getInventory().get( oldResultIndex );
-
-				currentRequest.setLimit( maxPurchases );
-				currentRequest.run();
-
-				// Calculate how many of the item you have now after
-				// you run the purchase request
-
-				int newResultIndex = scriptRequestor.getInventory().indexOf( oldResult );
-				if ( newResultIndex != -1 )
-				{
-					AdventureResult newResult = (AdventureResult) scriptRequestor.getInventory().get( newResultIndex );
-					maxPurchases -= newResult.getCount() - oldResult.getCount();
-				}
-
-				// Remove the purchase from the list!  Because you
-				// have already made a purchase from the store
-
-				if ( scriptRequestor.permitsContinue() )
-					results.remove( purchases[i] );
-			}
-		}
-
-		scriptRequestor.updateDisplay( ENABLED_STATE, "Purchases complete." );
+		return scriptRequestor.makePurchases( results, results.toArray(), firstMatch.getCount() );
 	}
 
 	/**

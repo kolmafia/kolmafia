@@ -2046,4 +2046,61 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	protected abstract void printList( List printing );
+
+	/**
+	 * Utility method used to purchase the given number of items
+	 * from the mall using the given purchase requests.
+	 */
+
+	public int makePurchases( List results, Object [] purchases, int maxPurchases )
+	{
+		MallPurchaseRequest currentRequest;
+		permitContinue = true;
+
+		for ( int i = 0; i < purchases.length && maxPurchases > 0 && permitContinue; ++i )
+		{
+			if ( purchases[i] instanceof MallPurchaseRequest )
+			{
+				currentRequest = (MallPurchaseRequest) purchases[i];
+
+				// Keep track of how many of the item you had before
+				// you run the purchase request
+
+				AdventureResult oldResult = new AdventureResult( currentRequest.getItemName(), 0 );
+				int oldResultIndex = inventory.indexOf( oldResult );
+
+				if ( oldResultIndex != -1 )
+					oldResult = (AdventureResult) inventory.get( oldResultIndex );
+
+				currentRequest.setLimit( maxPurchases );
+				currentRequest.run();
+
+				// Calculate how many of the item you have now after
+				// you run the purchase request
+
+				int newResultIndex = inventory.indexOf( oldResult );
+				if ( newResultIndex != -1 )
+				{
+					AdventureResult newResult = (AdventureResult) inventory.get( newResultIndex );
+					maxPurchases -= newResult.getCount() - oldResult.getCount();
+				}
+
+				// Remove the purchase from the list!  Because you
+				// have already made a purchase from the store
+
+				if ( permitContinue )
+					results.remove( purchases[i] );
+			}
+		}
+
+		if ( maxPurchases == 0 )
+			updateDisplay( ENABLED_STATE, "Purchases complete." );
+		else
+			updateDisplay( ERROR_STATE, "Purchases aborted.  Unexpected error." );
+
+		// Return the number of purchases still remaining
+		// after running the request.
+
+		return maxPurchases;
+	}
 }

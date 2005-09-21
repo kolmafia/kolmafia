@@ -534,7 +534,7 @@ public class AdventureFrame extends KoLFrame
 
 		public MallSearchPanel()
 		{
-			super( "search", "purchase", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
+			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 			setDefaultButton( confirmedButton );
 
 			actionStatusPanel = new JPanel();
@@ -632,64 +632,31 @@ public class AdventureFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			if ( currentlyBuying )
+			{
+				client.cancelRequest();
 				return;
+			}
 
-			contentPanel = this;
-
-			MallPurchaseRequest currentRequest;
-			client.resetContinueState();
-
-			int maxPurchases = 0;
+			Object [] purchases = resultsDisplay.getSelectedValues();
+			if ( purchases.length == 0 )
+			{
+				client.updateDisplay( ERROR_STATE, "Please select a store from which to purchase." );
+				return;
+			}
 
 			try
 			{
-				maxPurchases = limitPurchasesCheckBox.isSelected() ?
+				contentPanel = this;
+				int maxPurchases = limitPurchasesCheckBox.isSelected() ?
 					df.parse( JOptionPane.showInputDialog( "Maximum number of items to purchase?" ) ).intValue() : Integer.MAX_VALUE;
+
+				currentlyBuying = true;
+				client.makePurchases( results, purchases, maxPurchases );
+				currentlyBuying = false;
 			}
 			catch ( Exception e )
 			{
 			}
-
-			Object [] purchases = resultsDisplay.getSelectedValues();
-			for ( int i = 0; i < purchases.length && maxPurchases > 0 && client.permitsContinue(); ++i )
-			{
-				if ( purchases[i] instanceof MallPurchaseRequest )
-				{
-					currentRequest = (MallPurchaseRequest) purchases[i];
-
-					// Keep track of how many of the item you had before
-					// you run the purchase request
-
-					AdventureResult oldResult = new AdventureResult( currentRequest.getItemName(), 0 );
-					int oldResultIndex = client.getInventory().indexOf( oldResult );
-					if ( oldResultIndex != -1 )
-						oldResult = (AdventureResult) client.getInventory().get( oldResultIndex );
-
-					currentRequest.setLimit( maxPurchases );
-					currentRequest.run();
-
-					// Calculate how many of the item you have now after
-					// you run the purchase request
-
-					int newResultIndex = client.getInventory().indexOf( oldResult );
-					if ( newResultIndex != -1 )
-					{
-						AdventureResult newResult = (AdventureResult) client.getInventory().get( newResultIndex );
-						maxPurchases -= newResult.getCount() - oldResult.getCount();
-					}
-
-					// Remove the purchase from the list!  Because you
-					// have already made a purchase from the store
-
-					if ( client.permitsContinue() )
-						results.remove( purchases[i] );
-				}
-			}
-
-			if ( client.permitsContinue() )
-				client.updateDisplay( ENABLED_STATE, "Purchases complete." );
-
-			client.resetContinueState();
 		}
 
 		public void requestFocus()
