@@ -113,6 +113,7 @@ public class CharpaneRequest extends KoLRequest
 	{
 		handleStatPoints( "Muscle", "Mysticality", "Moxie" );
 		handleMiscPoints( "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;" );
+		handleMindControl();
 	}
 
 	private void handleStatPoints( String musString, String mysString, String moxString ) throws Exception
@@ -155,5 +156,13 @@ public class CharpaneRequest extends KoLRequest
 			character.setAdventuresLeft( df.parse( miscMatcher.group(11) ).intValue() );
 
 		}
+	}
+
+	private void handleMindControl() throws Exception
+	{
+		Matcher matcher = Pattern.compile( "Mind Control</a>: <b>(.*?)</b>" ).matcher( responseText );
+
+		if ( matcher.find() )
+			character.setMindControlLevel( df.parse( matcher.group(1) ).intValue() );
 	}
 }

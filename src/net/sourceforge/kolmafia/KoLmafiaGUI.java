@@ -329,6 +329,24 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	/**
+	 * Set the Canadian Mind Control device to selected setting.
+	 */
+
+	public void makeMindControlRequest()
+	{
+		try
+		{
+			int level = df.parse( JOptionPane.showInputDialog(
+				null, "Set the device to what level?", "Send instructions to monsters", JOptionPane.INFORMATION_MESSAGE ) ).intValue();
+
+			(new MindControlRequest( this, level )).run();
+		}
+		catch ( Exception e )
+		{
+		}
+	}
+
+	/**
 	 * Confirms whether or not the user wants to make a drunken
 	 * request.  This should be called before doing requests when
 	 * the user is in an inebrieted state.

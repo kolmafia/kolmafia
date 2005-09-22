@@ -34,53 +34,43 @@
 
 package net.sourceforge.kolmafia;
 
-public class TinkerRequest extends ItemCreationRequest
+public class MindControlRequest extends KoLRequest
 {
-	private AdventureResult [] ingredients;
+	int level;
 
-	public TinkerRequest( KoLmafia client, int itemID, int quantityNeeded )
+	public MindControlRequest( KoLmafia client, int level )
 	{
-		super( client, "gnomes.php", itemID, quantityNeeded );
+		super( client, "canadia.php" );
 
-		addFormField( "place", "tinker" );
-		addFormField( "action", "tinksomething" );
+		addFormField( "action", "changedial" );
+		addFormField( "whichlevel", String.valueOf( level ) );
 
-		ingredients = ConcoctionsDatabase.getIngredients( itemID );
-		if ( ingredients != null && ingredients.length == 3 )
-		{
-			addFormField( "item1", String.valueOf( ingredients[0].getItemID() ) );
-			addFormField( "item2", String.valueOf( ingredients[1].getItemID() ) );
-			addFormField( "item3", String.valueOf( ingredients[2].getItemID() ) );
-		}
+		this.level = level;
 	}
 
 	public void run()
 	{
-		// If this doesn't contain a valid number of ingredients,
-		// just return from the method call to avoid hitting on
-		// the server as a result of a bad mixture in the database.
+		// Avoid server hits if user gives an invalid level
 
-		if ( ingredients == null || ingredients.length != 3 )
+		if ( level < 0 || level > 11 )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "The dial only goes from 0 to 11." );
 			return;
+		}
 
-		// Attempting to make the ingredients will pull the
-		// needed items from the closet if they are missing.
+		// This is only available in Mysticality signs
 
-		makeIngredients();
+		KoLCharacter data = client.getCharacterData();
+		if ( !data.inMysticalitySign() )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "You can't find the Mind Control device." );
+			return;
+		}
 
-		int quantity = getQuantityNeeded();
-
-		// Disable controls
-		updateDisplay( DISABLED_STATE, "Creating " + quantity + " " + getName() + "..." );
-		addFormField( "qty", String.valueOf( quantity ) );
-		// addFormField( "makeall", "off" );
-
-		// Run the request
 		super.run();
 
-		// Account for the results
-		client.processResult( new AdventureResult( getItemID(), quantity ) );
-		for ( int i = 0; i < ingredients.length; ++i )
-			client.processResult( ingredients[i].getInstance( 0 - quantity ) );
+		data.setMindControlLevel( level );
 	}
 }

@@ -800,6 +800,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Setting the Canadian mind control machine
+
+		if ( command.equals( "mind-control" ) )
+		{
+			makeMindControlRequest();
+			return;
+		}
+
 		// One of the largest commands is adventuring,
 		// which (as usual) gets its own module.
 
@@ -1758,6 +1766,25 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		scriptRequestor.makeRequest( new UntinkerRequest( scriptRequestor, firstMatch.getItemID() ), 1 );
+	}
+
+	/**
+	 * Set the Canadian Mind Control device to selected setting.
+	 */
+
+	public void makeMindControlRequest()
+	{
+		try
+		{
+			String [] command = previousCommand.split( " " );
+
+			int setting = df.parse( command[1] ).intValue();
+			scriptRequestor.makeRequest( new MindControlRequest( scriptRequestor, setting ), 1 );
+		}
+		catch ( Exception e )
+		{
+			updateDisplay( ERROR_STATE, "Invalid setting for device." );
+		}
 	}
 
 	/**

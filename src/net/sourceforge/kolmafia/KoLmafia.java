@@ -1394,6 +1394,12 @@ public abstract class KoLmafia implements KoLConstants
 	public abstract void makeUntinkerRequest();
 
 	/**
+	 * Makes a request to set the mind control device to the desired value
+	 */
+
+	public abstract void makeMindControlRequest();
+
+	/**
 	 * Confirms whether or not the user wants to make a drunken
 	 * request.  This should be called before doing requests when
 	 * the user is in an inebrieted state.

@@ -234,6 +234,8 @@ public class KoLCharacter implements KoLConstants
 	public static final int MYSTICALITY = 2;
 	public static final int MOXIE = 3;
 
+	public int mindControlLevel;
+
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
 	 * All fields are initialized to their default values (nothing),
@@ -282,6 +284,8 @@ public class KoLCharacter implements KoLConstants
 		this.ascensions = 0;
 		this.ascensionSign = "None";
 		this.ascensionSignType = NONE;
+
+                this.mindControlLevel = 0;
 
 		// Initialize the equipment lists inside
 		// of the character data
@@ -1187,6 +1191,25 @@ public class KoLCharacter implements KoLConstants
 			ascensionSignType = MOXIE;
 		else
 			ascensionSignType = NONE;
+	}
+
+	/**
+	 * Accessor method for the current mind control setting
+	 * @return	String
+	 */
+
+	public int getMindControlLevel()
+	{	return mindControlLevel;
+	}
+
+	/**
+	 * Accessor method to set  the current mind control level
+	 * @param	level	the new level
+	 */
+
+	public void setMindControlLevel( int level )
+	{
+		this.mindControlLevel = level;
 	}
 
 	/**
