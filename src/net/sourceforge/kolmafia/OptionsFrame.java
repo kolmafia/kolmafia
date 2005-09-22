@@ -574,28 +574,28 @@ public class OptionsFrame extends KoLFrame
 
 			switch ( castleWheelSelect.getSelectedIndex() )
 			{
-				case 0: // Map quest position
+				case 0: // Map quest position (choice adventure 11)
 					setProperty( "choiceAdventure9", "1" );   // Turn the muscle position clockwise
 					setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
 					setProperty( "choiceAdventure11", "0" );  // Leave the map quest position alone
 					setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
 					break;
 
-				case 1: // Muscle position
+				case 1: // Muscle position (choice adventure 9)
 					setProperty( "choiceAdventure9", "0" );   // Leave the muscle position alone
 					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
 					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
 					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
 					break;
 
-				case 2: // Mysticality position
+				case 2: // Mysticality position (choice adventure 10)
 					setProperty( "choiceAdventure9", "1" );   // Turn the muscle position clockwise
 					setProperty( "choiceAdventure10", "0" );  // Leave the mysticality position alone
 					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
 					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
 					break;
 
-				case 3: // Moxie position
+				case 3: // Moxie position (choice adventure 12)
 					setProperty( "choiceAdventure9", "2" );   // Turn the muscle position counterclockwise
 					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
 					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise

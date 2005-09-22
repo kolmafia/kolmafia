@@ -535,7 +535,8 @@ public class ClanManager implements KoLConstants
 		// like during the clan standardSnapshot process.
 
 		JDialog dialog = new SnapshotOptionsDialog();
-		dialog.pack();  dialog.setVisible( true );
+		dialog.pack();  dialog.setLocationRelativeTo( null );
+		dialog.setVisible( true );
 	}
 
 	public class SnapshotOptionsDialog extends JDialog
@@ -543,18 +544,22 @@ public class ClanManager implements KoLConstants
 		private JCheckBox [] optionBoxes;
 		private final String [][] options =
 		{
-			{ "Lv", "Player level" }, { "Mus", "Muscle points" }, { "Mys", "Mysticality points" }, { "Mox", "Moxie points" },
-			{ "Total", "Total power points" }, { "Title", "Title within clan" }, { "Rank", "Rank within clan" },
-			{ "Karma", "Accumulated karma" }, { "PVP", "PVP ranking" }, { "Class", "Class type" }, { "Meat", "Meat on hand" },
-			{ "Turns", "Turns played" }, { "Food", "Favorite food" }, { "Drink", "Favorite booze" },
-			{ "Last Login", "Last login date" }, { "Ascensions", "Ascension snapshot" }
+			{ "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>", "Stat points and power" },
+			{ "<td>Title</td><td>Rank</td><td>Karma</td>", "Clan (title, rank, karma)" },
+			{ "<td>PVP</td>", "Current PVP rankings" },
+			{ "<td>Class</td>", "Current class" },
+			{ "<td>Meat</td>", "Wealth accumulated" },
+			{ "<td>Turns</td>", "Total turns used" },
+			{ "<td>Food</td><td>Drink</td>", "Favorites (food, booze)" },
+			{ "<td>Last Login</td>", "Last login date" },
+			{ "<td>Ascensions</td>", "Ascension breakdown" }
 		};
 
 		public SnapshotOptionsDialog()
 		{
 			setTitle( "Clan Snapshot Settings" );
-			getContentPane().setLayout( new CardLayout( 10, 10 ) );
-			getContentPane().add( new SnapshotOptionsPanel(), "" );
+			getContentPane().setLayout( new BorderLayout() );
+			getContentPane().add( new SnapshotOptionsPanel(), BorderLayout.CENTER );
 		}
 
 		/**
@@ -592,11 +597,7 @@ public class ClanManager implements KoLConstants
 
 				for ( int i = 0; i < options.length; ++i )
 					if ( optionBoxes[i].isSelected() )
-					{
-						tableHeaderSetting.append( "<td>" );
 						tableHeaderSetting.append( options[i][0] );
-						tableHeaderSetting.append( "</td>" );
-					}
 
 				client.getSettings().setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
 				client.getSettings().saveSettings();
@@ -610,11 +611,8 @@ public class ClanManager implements KoLConstants
 
 				String header = tableHeaderSetting.toString();
 
-
 				boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
-					header.indexOf( "<td>Meat</td>" ) != -1 || header.indexOf( "<td>Turns</td>" ) != -1 ||
-					header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Drink</td>" ) != -1 ||
-					header.indexOf( "<td>Last Login</td>" ) != -1;
+					header.indexOf( "<td>Meat</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Last Login</td>" ) != -1;
 
 				boolean retrieveAscensionData = header.indexOf( "<td>Ascensions</td>" ) != -1;
 
@@ -624,27 +622,36 @@ public class ClanManager implements KoLConstants
 					return;
 				}
 
+				standardFile.getParentFile().mkdirs();
+
 				// Now, store the clan standardSnapshot into the appropriate
 				// data folder.
 
 				try
 				{
-					standardFile.getParentFile().mkdirs();
-					client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
+					PrintStream ostream;
 
-					PrintStream ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
-					ostream.println( standardSnapshot.getStandardData() );
-					ostream.close();
+					if ( !header.equals( "<td>Ascensions</td>" ) && !header.equals( "" ) )
+					{
+						client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
 
-					client.updateDisplay( DISABLED_STATE, "Storing ascension snapshot..." );
+						ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
+						ostream.println( standardSnapshot.getStandardData() );
+						ostream.close();
+					}
 
-					ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
-					ostream.println( ascensionSnapshot.getAscensionData( true ) );
-					ostream.close();
+					if ( retrieveAscensionData )
+					{
+						client.updateDisplay( DISABLED_STATE, "Storing ascension snapshot..." );
 
-					ostream = new PrintStream( new FileOutputStream( hardcoreFile, true ), true );
-					ostream.println( ascensionSnapshot.getAscensionData( false ) );
-					ostream.close();
+						ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
+						ostream.println( ascensionSnapshot.getAscensionData( true ) );
+						ostream.close();
+
+						ostream = new PrintStream( new FileOutputStream( hardcoreFile, true ), true );
+						ostream.println( ascensionSnapshot.getAscensionData( false ) );
+						ostream.close();
+					}
 				}
 				catch ( Exception e )
 				{
@@ -661,9 +668,14 @@ public class ClanManager implements KoLConstants
 					// To make things less confusing, load the summary
 					// file inside of the default browser after completion.
 
-					BrowserLauncher.openURL( standardFile.toURL().toString() );
-					BrowserLauncher.openURL( softcoreFile.toURL().toString() );
-					BrowserLauncher.openURL( hardcoreFile.toURL().toString() );
+					if ( !header.equals( "<td>Ascensions</td>" ) && !header.equals( "" ) )
+						BrowserLauncher.openURL( standardFile.toURL().toString() );
+
+					if ( retrieveAscensionData )
+					{
+						BrowserLauncher.openURL( softcoreFile.toURL().toString() );
+						BrowserLauncher.openURL( hardcoreFile.toURL().toString() );
+					}
 				}
 				catch ( Exception e )
 				{
@@ -678,7 +690,7 @@ public class ClanManager implements KoLConstants
 			{
 				String tableHeaderSetting = client.getSettings().getProperty( "clanRosterHeader" );
 				for ( int i = 0; i < options.length; ++i )
-					optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + options[i][0] + "</td>" ) != -1 );
+					optionBoxes[i].setSelected( tableHeaderSetting.indexOf( options[i][0] ) != -1 );
 			}
 		}
 	}

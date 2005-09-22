@@ -165,7 +165,7 @@ public class AscensionDataRequest extends KoLRequest
 
 				this.pathID = path[1].equals( "NoPath" ) ? AscensionSnapshotTable.NOPATH :
 					path[1].equals( "Teetotaler" ) ? AscensionSnapshotTable.TEETOTALER :
-					path[1].equals( "Boozefetarian" ) ? AscensionSnapshotTable.BOOZEFETARIAN : AscensionSnapshotTable.OXYGENARIAN;
+					path[1].equals( "Boozetafarian" ) ? AscensionSnapshotTable.BOOZETAFARIAN : AscensionSnapshotTable.OXYGENARIAN;
 			}
 			catch ( Exception e )
 			{

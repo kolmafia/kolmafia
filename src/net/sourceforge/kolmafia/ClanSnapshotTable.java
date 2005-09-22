@@ -277,12 +277,20 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		StringBuffer strbuf = new StringBuffer();
 
-		strbuf.append( "<html><head><title>Clan Snapshot for " + clanName + "(" + (new Date()) + ")</title>" );
+		strbuf.append( "<html><head><title>Clan Snapshot for " );
+		strbuf.append( clanName );
+		strbuf.append( " (" );
+		strbuf.append( new Date() );
+		strbuf.append( ")</title>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
-		strbuf.append( "<center><h1>" + clanName + " (#" + clanID + ")</h1></center>" );
+		strbuf.append( "<center><h2>" );
+		strbuf.append( clanName );
+		strbuf.append( " (#" );
+		strbuf.append( clanID );
+		strbuf.append( ")</h2></center>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		strbuf.append( getStandardSummary() );

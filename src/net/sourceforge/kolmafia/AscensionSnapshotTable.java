@@ -53,7 +53,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 	public static final int NOPATH = 1;
 	public static final int TEETOTALER = 2;
-	public static final int BOOZEFETARIAN = 3;
+	public static final int BOOZETAFARIAN = 3;
 	public static final int OXYGENARIAN = 4;
 
 	public static final int SEAL_CLUBBER = 1;
@@ -121,20 +121,28 @@ public class AscensionSnapshotTable extends KoLDatabase
 		else
 			strbuf.append( "Hardcore" );
 
-		strbuf.append( " Ascension Data for " + clanName + "(" + (new Date()) + ")</title>" );
+		strbuf.append( " Ascension Data for " );
+		strbuf.append( clanName );
+		strbuf.append( " (" );
+		strbuf.append( new Date() );
+		strbuf.append( ")</title>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
-		strbuf.append( "<center><table cellspacing=0 cellpadding=0><tr><td align=center><h1>" + clanName + " (#" + clanID + ")</h1></td></tr>" );
+		strbuf.append( "<center><table cellspacing=0 cellpadding=0><tr><td align=center><h2><u>" );
+		strbuf.append( clanName );
+		strbuf.append( " (#" );
+		strbuf.append( clanID );
+		strbuf.append( ")</u></h2></td></tr>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		// Right below the name of the clan, write the average
 		// number of this kind of ascension.
 
-		strbuf.append( "<tr><td align=center>Avg: " );
-		strbuf.append( (isSoftcore ? (double)softcoreAscensionList.size() : (double)hardcoreAscensionList.size()) / (double)ascensionMap.size() );
-		strbuf.append( "<td align=center></tr></table><br><br><br><br>" );
+		strbuf.append( "<tr><td align=center><h3>Avg: " );
+		strbuf.append( ((isSoftcore ? (double)softcoreAscensionList.size() : 0.0) + (double)hardcoreAscensionList.size()) / (double)ascensionMap.size() );
+		strbuf.append( "</h3></td></tr></table><br><br><br><br>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		strbuf.append( getAscensionData( isSoftcore, NO_FILTER ) );
@@ -143,7 +151,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( getAscensionData( isSoftcore, TEETOTALER ) );
 		strbuf.append( System.getProperty( "line.separator" ) );
-		strbuf.append( getAscensionData( isSoftcore, BOOZEFETARIAN ) );
+		strbuf.append( getAscensionData( isSoftcore, BOOZETAFARIAN ) );
 		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( getAscensionData( isSoftcore, NOPATH ) );
 		strbuf.append( System.getProperty( "line.separator" ) );
@@ -260,7 +268,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 				strbuf.append( isSoftcore ? "Normal " : "Hardcore " );
 				strbuf.append( pathFilter == NO_FILTER ? "" : pathFilter == NOPATH ? "No-Path " :
-					pathFilter == TEETOTALER ? "Teetotaler " : pathFilter == BOOZEFETARIAN ? "Boozefetarian " : " Oxygenarian " );
+					pathFilter == TEETOTALER ? "Teetotaler " : pathFilter == BOOZETAFARIAN ? "Boozetafarian " : " Oxygenarian " );
 
 				strbuf.append( "Ascensions (Out of " );
 				strbuf.append( resultsList.size() );
