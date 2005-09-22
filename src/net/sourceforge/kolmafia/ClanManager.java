@@ -603,6 +603,10 @@ public class ClanManager implements KoLConstants
 				// If initialization was unsuccessful, then there isn't
 				// enough data to create a clan standardSnapshot.
 
+				File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
+				File softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
+				File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
+
 				String header = tableHeaderSetting.toString();
 
 				boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
@@ -623,8 +627,6 @@ public class ClanManager implements KoLConstants
 
 				try
 				{
-					File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
-
 					standardFile.getParentFile().mkdirs();
 					client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
 
@@ -634,15 +636,11 @@ public class ClanManager implements KoLConstants
 
 					client.updateDisplay( DISABLED_STATE, "Storing ascension snapshot..." );
 
-					File ascensionFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
-
-					ostream = new PrintStream( new FileOutputStream( ascensionFile, true ), true );
+					ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
 					ostream.println( ascensionSnapshot.getAscensionData( true ) );
 					ostream.close();
 
-					ascensionFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
-
-					ostream = new PrintStream( new FileOutputStream( ascensionFile, true ), true );
+					ostream = new PrintStream( new FileOutputStream( hardcoreFile, true ), true );
 					ostream.println( ascensionSnapshot.getAscensionData( false ) );
 					ostream.close();
 				}
@@ -662,6 +660,8 @@ public class ClanManager implements KoLConstants
 					// file inside of the default browser after completion.
 
 					BrowserLauncher.openURL( standardFile.toURL().toString() );
+					BrowserLauncher.openURL( softcoreFile.toURL().toString() );
+					BrowserLauncher.openURL( hardcoreFile.toURL().toString() );
 				}
 				catch ( Exception e )
 				{
