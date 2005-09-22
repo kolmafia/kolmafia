@@ -37,7 +37,10 @@ package net.sourceforge.kolmafia;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
+import javax.swing.JDialog;
+import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
+import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -76,6 +79,7 @@ public class ClanManager implements KoLConstants
 
 	private static final String TIME_REGEX = "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M)";
 	private static final SimpleDateFormat STASH_FORMAT = new SimpleDateFormat( "MM/dd/yy, hh:mma" );
+	private static final SimpleDateFormat DIRECTORY_FORMAT = new SimpleDateFormat( "yyyyMM" );
 
 	private String SNAPSHOT_DIRECTORY;
 
@@ -83,10 +87,12 @@ public class ClanManager implements KoLConstants
 	private String clanID;
 	private String clanName;
 
-	private ClanSnapshotTable snapshot;
+	private ClanSnapshotTable standardSnapshot;
+	private AscensionSnapshotTable ascensionSnapshot;
 
 	boolean ranksRetrieved;
 	private Map profileMap;
+	private Map ascensionMap;
 	private Map stashMap;
 	private List battleList;
 
@@ -99,8 +105,12 @@ public class ClanManager implements KoLConstants
 		SNAPSHOT_DIRECTORY = "clan" + File.separator;
 
 		this.ranksRetrieved = false;
-		this.snapshot = new ClanSnapshotTable( client );
-		this.profileMap = snapshot.getProfileMap();
+
+		this.standardSnapshot = new ClanSnapshotTable( client );
+		this.profileMap = standardSnapshot.getProfileMap();
+
+		this.ascensionSnapshot = new AscensionSnapshotTable( client );
+		this.ascensionMap = ascensionSnapshot.getAscensionMap();
 
 		this.stashMap = new TreeMap();
 		this.battleList = new ArrayList();
@@ -161,50 +171,69 @@ public class ClanManager implements KoLConstants
 			cmr.run();
 
 			this.clanID = cmr.getClanID();
-			snapshot.setClanID( this.clanID );
+			standardSnapshot.setClanID( this.clanID );
+			ascensionSnapshot.setClanID( this.clanID );
 
 			this.clanName = cmr.getClanName();
-			snapshot.setClanName( this.clanName );
+			standardSnapshot.setClanName( this.clanName );
+			ascensionSnapshot.setClanName( this.clanName );
 
-			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + "_" + sdf.format( new Date() ) + File.separator;
+			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + File.separator + DIRECTORY_FORMAT.format( new Date() ) + File.separator;
 			client.updateDisplay( ENABLED_STATE, "Clan data retrieved." );
 		}
 	}
 
-	private boolean retrieveMemberData()
+	private boolean retrieveMemberData( boolean retrieveProfileData, boolean retrieveAscensionData )
 	{
 		// First, determine how many member profiles need to be retrieved
 		// before this happens.
 
-		int profilesNeeded = 0;
+		int requestsNeeded = 0;
 
-		File profile;  String currentName;  String currentProfile;
+		File profile, ascensionData;
+		String currentName, currentProfile, currentAscensionData;
+
 		Iterator nameIterator = profileMap.keySet().iterator();
 
 		while ( nameIterator.hasNext() )
 		{
 			currentName = (String) nameIterator.next();
+
 			currentProfile = (String) profileMap.get( currentName );
+			currentAscensionData = (String) ascensionMap.get( currentName );
 
 			profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + client.getPlayerID( currentName ) + ".htm" );
+			ascensionData = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + client.getPlayerID( currentName ) + ".htm" );
 
-			if ( currentProfile.equals( "" ) && !profile.exists() )
-				++profilesNeeded;
+			if ( retrieveProfileData )
+			{
+				if ( currentProfile.equals( "" ) && !profile.exists() )
+					++requestsNeeded;
 
-			if ( currentProfile.equals( "" ) && profile.exists() )
-				initializeProfile( currentName );
+				if ( currentProfile.equals( "" ) && profile.exists() )
+					initializeProfile( currentName );
+			}
+
+			if ( retrieveAscensionData )
+			{
+				if ( currentAscensionData.equals( "" ) && !ascensionData.exists() )
+					++requestsNeeded;
+
+				if ( currentAscensionData.equals( "" ) && ascensionData.exists() )
+					initializeAscensionData( currentName );
+			}
 		}
 
 		// If all the member profiles have already been retrieved, then
 		// you won't need to look up any profiles, so it takes no time.
 		// No need to confirm with the user.  Therefore, return.
 
-		if ( profilesNeeded == 0 )
+		if ( requestsNeeded == 0 )
 			return true;
 
 		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 			profileMap.size() + " members are currently in your clan.\nThis process will take " +
-			((int)(profilesNeeded / 10) + 1) + " minutes to complete.\nAre you sure you want to continue?",
+			((int)(requestsNeeded / 10) + 1) + " minutes to complete.\nAre you sure you want to continue?",
 			"Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
 				return false;
 
@@ -215,7 +244,7 @@ public class ClanManager implements KoLConstants
 		nameIterator = profileMap.keySet().iterator();
 
 		// Create a special HTML file for each of the
-		// players in the snapshot so that it can be
+		// players in the standardSnapshot so that it can be
 		// navigated at leisure.
 
 		for ( int i = 1; nameIterator.hasNext() && client.permitsContinue(); ++i )
@@ -224,9 +253,13 @@ public class ClanManager implements KoLConstants
 
 			currentName = (String) nameIterator.next();
 			currentProfile = (String) profileMap.get( currentName );
+			currentAscensionData = (String) ascensionMap.get( currentName );
 
-			if ( currentProfile.equals( "" ) )
+			if ( retrieveProfileData && currentProfile.equals( "" ) )
 				initializeProfile( currentName );
+
+			if ( retrieveAscensionData && currentAscensionData.equals( "" ) )
+				initializeAscensionData( currentName );
 		}
 
 		return true;
@@ -297,12 +330,81 @@ public class ClanManager implements KoLConstants
 		}
 	}
 
+	private void initializeAscensionData( String name )
+	{
+		File ascension = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + client.getPlayerID( name ) + ".htm" );
+
+		if ( ascension.exists() )
+		{
+			// In the event that the ascension has already been retrieved,
+			// then load the data from disk.
+
+			try
+			{
+				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( ascension ) ) );
+				StringBuffer ascensionString = new StringBuffer();
+				String currentLine;
+
+				while ( (currentLine = istream.readLine()) != null )
+				{
+					ascensionString.append( currentLine );
+					ascensionString.append( System.getProperty( "line.separator" ) );
+				}
+
+				ascensionMap.put( name, ascensionString.toString() );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( client.getLogStream() );
+				e.printStackTrace( System.err );
+				return;
+			}
+		}
+		else
+		{
+			// Otherwise, run the request and pull the data from the
+			// web server.
+
+			AscensionDataRequest request = new AscensionDataRequest( client, name );
+			request.initialize();
+			ascensionMap.put( name, request.responseText );
+
+			// Manually add in a bit of lag so that it doesn't turn into
+			// hammering the server for information.
+
+			KoLRequest.delay( 500 );
+
+			// To avoid retrieving the file again, store the intermediate
+			// result in a local file.
+
+			try
+			{
+				ascension.getParentFile().mkdirs();
+				PrintStream ostream = new PrintStream( new FileOutputStream( ascension, true ), true );
+				ostream.println( request.responseText );
+				ostream.close();
+			}
+			catch ( Exception e )
+			{
+				client.updateDisplay( ERROR_STATE, "Failed to load cached ascension." );
+				e.printStackTrace( client.getLogStream() );
+				e.printStackTrace( System.err );
+				return;
+			}
+
+		}
+	}
+
 	public void registerMember( String playerName, String level )
-	{	snapshot.registerMember( playerName, level );
+	{
+		standardSnapshot.registerMember( playerName, level );
+		ascensionSnapshot.registerMember( playerName );
 	}
 
 	public void unregisterMember( String playerID )
-	{	snapshot.unregisterMember( playerID );
+	{
+		standardSnapshot.unregisterMember( playerID );
+		ascensionSnapshot.registerMember( playerID );
 	}
 
 	/**
@@ -407,8 +509,8 @@ public class ClanManager implements KoLConstants
 	}
 
 	/**
-	 * Takes a snapshot of clan member data for this clan.  The user will
-	 * be prompted for the data they would like to include in this snapshot,
+	 * Takes a standardSnapshot of clan member data for this clan.  The user will
+	 * be prompted for the data they would like to include in this standardSnapshot,
 	 * including complete player profiles, favorite food, and any other
 	 * data gathered by KoLmafia.  If the clan member list was not previously
 	 * initialized, this method will also initialize that list.
@@ -418,141 +520,149 @@ public class ClanManager implements KoLConstants
 	{
 		retrieveClanData();
 
-		// If the file already exists, a snapshot cannot be taken.
+		// If the file already exists, a standardSnapshot cannot be taken.
 		// Therefore, notify the user of this. :)
 
-		File summaryFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
+		File standardFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
 
-		if ( summaryFile.exists() )
+		if ( standardFile.exists() )
 		{
-			JOptionPane.showMessageDialog( null, "You already created a snapshot today." );
+			JOptionPane.showMessageDialog( null, "You already created a snapshot this month." );
 			return;
 		}
 
 		// Prompt the user to determine which settings they would
-		// like during the clan snapshot process.
+		// like during the clan standardSnapshot process.
 
-		Object [] parameters = new Object[3];
-		parameters[0] = client;
-		parameters[1] = "Clan Snapshot Settings";
-		parameters[2] = new SnapshotOptionsPanel();
-
-		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
+		JDialog dialog = new SnapshotOptionsDialog();
+		dialog.pack();  dialog.setVisible( true );
 	}
 
-
-	/**
-	 * This panel handles all of the things related to the clan
-	 * snapshot.  For now, just a list of checkboxes to show
-	 * which fields you want there.
-	 */
-
-	private class SnapshotOptionsPanel extends KoLPanel
+	public class SnapshotOptionsDialog extends JDialog
 	{
 		private JCheckBox [] optionBoxes;
-
 		private final String [][] options =
 		{
 			{ "Lv", "Player level" }, { "Mus", "Muscle points" }, { "Mys", "Mysticality points" }, { "Mox", "Moxie points" },
 			{ "Total", "Total power points" }, { "Title", "Title within clan" }, { "Rank", "Rank within clan" },
 			{ "Karma", "Accumulated karma" }, { "PVP", "PVP ranking" }, { "Class", "Class type" }, { "Meat", "Meat on hand" },
-			{ "Turns", "Turns played" }, { "Food", "Favorite food" }, { "Drink", "Favorite booze" }, { "Last Login", "Last login date" },
-			{ "Ascensions", "Number of ascensions" }
+			{ "Turns", "Turns played" }, { "Food", "Favorite food" }, { "Drink", "Favorite booze" },
+			{ "Last Login", "Last login date" }, { "Ascensions", "Ascension snapshot" }
 		};
 
-		public SnapshotOptionsPanel()
+		public SnapshotOptionsDialog()
 		{
-			super( "confirm", "cancel", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ options.length ];
-
-			optionBoxes = new JCheckBox[ options.length ];
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i] = new JCheckBox();
-
-			for ( int i = 0; i < options.length; ++i )
-				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
-
-			setContent( elements, false );
-			actionCancelled();
+			setTitle( "Clan Snapshot Settings" );
+			getContentPane().setLayout( new CardLayout( 10, 10 ) );
+			getContentPane().add( new SnapshotOptionsPanel(), "" );
 		}
 
-		protected void actionConfirmed()
+		/**
+		 * This panel handles all of the things related to the clan
+		 * standardSnapshot.  For now, just a list of checkboxes to show
+		 * which fields you want there.
+		 */
+
+		private class SnapshotOptionsPanel extends KoLPanel
 		{
-			// If initialization was unsuccessful, then there isn't
-			// enough data to create a clan snapshot.
-
-			File summaryFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
-			String header = snapshot.getHeader();
-
-			if ( header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 || header.indexOf( "<td>Meat</td>" ) != -1 ||
-				header.indexOf( "<td>Turns</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Drink</td>" ) != -1 ||
-					header.indexOf( "<td>Last Login</td>" ) != -1 || header.indexOf( "<td>Ascensions</td>" ) != -1 )
+			public SnapshotOptionsPanel()
 			{
-				if ( !retrieveMemberData() )
+				super( "confirm", "cancel", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
+				VerifiableElement [] elements = new VerifiableElement[ options.length ];
+
+				optionBoxes = new JCheckBox[ options.length ];
+				for ( int i = 0; i < options.length; ++i )
+					optionBoxes[i] = new JCheckBox();
+
+				for ( int i = 0; i < options.length; ++i )
+					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+				setContent( elements, false );
+				actionCancelled();
+			}
+
+			protected void actionConfirmed()
+			{
+				dispose();
+
+				// Apply all the settings before generating the
+				// needed clan standardSnapshot.
+
+				StringBuffer tableHeaderSetting = new StringBuffer();
+
+				for ( int i = 0; i < options.length; ++i )
+					if ( optionBoxes[i].isSelected() )
+					{
+						tableHeaderSetting.append( "<td>" );
+						tableHeaderSetting.append( options[i][0] );
+						tableHeaderSetting.append( "</td>" );
+					}
+
+				client.getSettings().setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
+
+				// If initialization was unsuccessful, then there isn't
+				// enough data to create a clan standardSnapshot.
+
+				File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
+				String header = tableHeaderSetting.toString();
+
+				boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
+					header.indexOf( "<td>Meat</td>" ) != -1 || header.indexOf( "<td>Turns</td>" ) != -1 ||
+					header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Drink</td>" ) != -1 ||
+					header.indexOf( "<td>Last Login</td>" ) != -1;
+
+				boolean retrieveAscensionData = header.indexOf( "<td>Ascensions</td>" ) != -1;
+
+				if ( !retrieveMemberData( retrieveProfileData, retrieveAscensionData ) )
 				{
 					client.updateDisplay( ERROR_STATE, "Initialization failed." );
 					return;
 				}
-			}
 
-			// Apply all the settings before generating the
-			// needed clan snapshot.
+				// Now, store the clan standardSnapshot into the appropriate
+				// data folder.
 
-			StringBuffer tableHeaderSetting = new StringBuffer();
-
-			for ( int i = 0; i < options.length; ++i )
-				if ( optionBoxes[i].isSelected() )
+				try
 				{
-					tableHeaderSetting.append( "<td>" );
-					tableHeaderSetting.append( options[i][0] );
-					tableHeaderSetting.append( "</td>" );
+					standardFile.getParentFile().mkdirs();
+					client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
+
+					PrintStream ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
+					ostream.println( standardSnapshot.getStandardData() );
+					ostream.close();
+				}
+				catch ( Exception e )
+				{
+					client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
+					e.printStackTrace( client.getLogStream() );
+					e.printStackTrace( System.err );
+					return;
 				}
 
-			client.getSettings().setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
+				client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
 
-			// Now, store the clan snapshot into the appropriate
-			// data folder.
+				try
+				{
+					// To make things less confusing, load the summary
+					// file inside of the default browser after completion.
 
-			try
-			{
-				summaryFile.getParentFile().mkdirs();
-				client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
-
-				PrintStream ostream = new PrintStream( new FileOutputStream( summaryFile, true ), true );
-				ostream.println( snapshot.toString() );
-				ostream.close();
-			}
-			catch ( Exception e )
-			{
-				client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
-				e.printStackTrace( client.getLogStream() );
-				e.printStackTrace( System.err );
-				return;
+					BrowserLauncher.openURL( standardFile.toURL().toString() );
+				}
+				catch ( Exception e )
+				{
+					client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
+					e.printStackTrace( client.getLogStream() );
+					e.printStackTrace( System.err );
+					return;
+				}
 			}
 
-			client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
-
-			try
+			protected void actionCancelled()
 			{
-				// To make things less confusing, load the summary
-				// file inside of the default browser after completion.
-
-				BrowserLauncher.openURL( summaryFile.toURL().toString() );
+				String tableHeaderSetting = client.getSettings().getProperty( "clanRosterHeader" );
+				for ( int i = 0; i < options.length; ++i )
+					optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + options[i][0] + "</td>" ) != -1 );
 			}
-			catch ( Exception e )
-			{
-				client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
-				e.printStackTrace( client.getLogStream() );
-				e.printStackTrace( System.err );
-				return;
-			}
-		}
-
-		protected void actionCancelled()
-		{
-			String tableHeaderSetting = client.getSettings().getProperty( "clanRosterHeader" );
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( "<td>" + options[i][0] + "</td>" ) != -1 );
 		}
 	}
 
@@ -1013,7 +1123,7 @@ public class ClanManager implements KoLConstants
 
 	public LockableListModel getFilteredList()
 	{
-		return snapshot != null ? snapshot.getFilteredList() : new LockableListModel();
+		return standardSnapshot != null ? standardSnapshot.getFilteredList() : new LockableListModel();
 	}
 
 	public void applyFilter( int matchType, int filterType, String filter )
@@ -1036,10 +1146,10 @@ public class ClanManager implements KoLConstants
 
 			default:
 
-				retrieveMemberData();
+				retrieveMemberData( true, false );
 				break;
 		}
 
-		snapshot.applyFilter( matchType, filterType, filter );
+		standardSnapshot.applyFilter( matchType, filterType, filter );
 	}
 }

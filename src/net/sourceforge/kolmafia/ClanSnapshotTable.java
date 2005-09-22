@@ -45,10 +45,9 @@ import java.util.regex.Matcher;
 import java.util.Date;
 import java.io.File;
 
-import net.java.dev.spellcast.utilities.DiskAccessBTree;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class ClanSnapshotTable implements KoLConstants
+public class ClanSnapshotTable extends KoLDatabase
 {
 	public static final int EXACT_MATCH = 0;
 	public static final int BELOW_MATCH = -1;
@@ -87,12 +86,9 @@ public class ClanSnapshotTable implements KoLConstants
 		// arrays which are used by the request.
 
 		this.client = client;
-		this.clanID = clanID;
-		this.clanName = clanName;
-
 		this.levelMap = new TreeMap();
-		this.rosterMap = new TreeMap();
 		this.profileMap = new TreeMap();
+		this.rosterMap = new TreeMap();
 
 		this.filterList = new LockableListModel();
 
@@ -189,7 +185,7 @@ public class ClanSnapshotTable implements KoLConstants
 	{	return ProfileRequest.getInstance( name, (String) levelMap.get(name), (String) profileMap.get(name), (String) rosterMap.get(name) );
 	}
 
-	public int compare( int filterType, String name, String filter )
+	private int compare( int filterType, String name, String filter )
 	{
 		int compareValue = 0;
 		ProfileRequest request = getProfile( name );
@@ -271,7 +267,7 @@ public class ClanSnapshotTable implements KoLConstants
 		return compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
 	}
 
-	public String toString()
+	public String getStandardData()
 	{
 		// First, if you haven't retrieved a detailed
 		// roster for the clan, do so.
@@ -289,14 +285,14 @@ public class ClanSnapshotTable implements KoLConstants
 		strbuf.append( "<center><h1>" + clanName + " (#" + clanID + ")</h1></center>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
-		strbuf.append( getSummary() );
+		strbuf.append( getStandardSummary() );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		strbuf.append( "<br><br><table border=1 cellspacing=4 cellpadding=4>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( "<tr bgcolor=\"#000000\" style=\"color:#ffffff; font-weight: bold\"><td>Name</td>" );
 
-		strbuf.append( getHeader() );
+		strbuf.append( getRosterHeader().replaceFirst( "<td>Ascensions</td>", "" ) );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		Iterator memberIterator = profileMap.keySet().iterator();
@@ -312,9 +308,9 @@ public class ClanSnapshotTable implements KoLConstants
 		return strbuf.toString();
 	}
 
-	private String getSummary()
+	private String getStandardSummary()
 	{
-		String header = getHeader();
+		String header = getRosterHeader();
 		StringBuffer strbuf = new StringBuffer();
 
 		List classList = new ArrayList();
@@ -332,8 +328,6 @@ public class ClanSnapshotTable implements KoLConstants
 		List musList = new ArrayList();
 		List mysList = new ArrayList();
 		List moxList = new ArrayList();
-
-		List ascensionsList = new ArrayList();
 
 		// Iterate through the list of clan members
 		// and populate the lists.
@@ -380,16 +374,12 @@ public class ClanSnapshotTable implements KoLConstants
 			moxList.add( memberLookup.getMoxie() );
 			powerList.add( memberLookup.getPower() );
 			karmaList.add( memberLookup.getKarma() );
-
-			if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
-				ascensionsList.add( memberLookup.getAscensionCount() );
 		}
 
 		Collections.sort( classList );
 		Collections.sort( foodList );
 		Collections.sort( drinkList );
 		Collections.sort( rankList );
-		Collections.sort( ascensionsList );
 
 		strbuf.append( "<table border=0 cellspacing=4 cellpadding=4><tr>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
@@ -413,9 +403,6 @@ public class ClanSnapshotTable implements KoLConstants
 		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
 			strbuf.append( "<li>Turns: " + df.format( calculateAverage( turnsList ) ) + "</li>" );
 
-		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
-			strbuf.append( "<li>Ascensions: " + calculateAverage( ascensionsList ) + "</li>" );
-
 		strbuf.append( "</ul>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( "<b>Totals</b>:<ul>" );
@@ -435,9 +422,6 @@ public class ClanSnapshotTable implements KoLConstants
 
 		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
 			strbuf.append( "<li>Turns: " + df.format( calculateTotal( turnsList ) ) + "</li>" );
-
-		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
-			strbuf.append( "<li>Ascensions: " + calculateTotal( ascensionsList ) + "</li>" );
 
 		strbuf.append( "</ul></td>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
@@ -467,76 +451,10 @@ public class ClanSnapshotTable implements KoLConstants
 			strbuf.append( "</td>" );
 		}
 
-		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
-		{
-			strbuf.append( "<td valign=top><b>Ascension Breakdown</b>:" );
-			strbuf.append( getBreakdown( ascensionsList.iterator() ) );
-			strbuf.append( "</td>" );
-		}
-
 		strbuf.append( "</tr></table>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		return strbuf.toString();
-	}
-
-	private String getBreakdown( Iterator itemIterator )
-	{
-		StringBuffer strbuf = new StringBuffer();
-
-		int maximumCount = 0;
-		int currentCount = 0;
-		Object currentItem = itemIterator.next();
-		Object favorite = currentItem;
-		Object nextItem;
-
-		strbuf.append( "<ul>" );
-
-		while ( itemIterator.hasNext() )
-		{
-			++currentCount;
-			nextItem = itemIterator.next();
-			if ( !currentItem.equals( nextItem ) )
-			{
-				strbuf.append( "<li>" + currentItem.toString() + ": " + currentCount + "</li>" );
-				strbuf.append( System.getProperty( "line.separator" ) );
-
-				if ( currentCount > maximumCount )
-				{
-					maximumCount = currentCount;
-					favorite = currentItem;
-				}
-
-				currentItem = nextItem;
-				currentCount = 0;
-			}
-		}
-
-		strbuf.append( "<li>" + currentItem.toString() + ": " + (currentCount + 1) + "</li>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
-
-		if ( currentCount > maximumCount )
-			favorite = currentItem;
-
-		strbuf.append( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
-		strbuf.append( System.getProperty( "line.separator" ) );
-
-		return strbuf.toString();
-	}
-
-	private long calculateTotal( List values )
-	{
-		long total = 0;
-		String currentValue;
-
-		for ( int i = 0; i < values.size(); ++i )
-			total += ((Integer)values.get(i)).intValue();
-
-		return total;
-	}
-
-	private double calculateAverage( List values )
-	{	return (double)calculateTotal( values ) / (double)values.size();
 	}
 
 	private String getMemberDetail( String memberName )
@@ -556,7 +474,7 @@ public class ClanSnapshotTable implements KoLConstants
 		// Each of these are printed, pending on what
 		// fields are desired in this particular table.
 
-		String header = getHeader();
+		String header = getRosterHeader();
 
 		if ( header.indexOf( "<td>Lv</td>" ) != -1 )
 		{
@@ -648,18 +566,12 @@ public class ClanSnapshotTable implements KoLConstants
 			strbuf.append( memberLookup.getLastLoginAsString() );
 		}
 
-		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( memberLookup.getAscensionCount().intValue() ) );
-		}
-
 		strbuf.append( "</td></tr>" );
 		return strbuf.toString();
 	}
 
-	public String getHeader()
-	{	return client.getSettings().getProperty( "clanRosterHeader" );
+	public String getRosterHeader()
+	{	return getProperty( "clanRosterHeader" );
 	}
 
 	public static final String getDefaultHeader()

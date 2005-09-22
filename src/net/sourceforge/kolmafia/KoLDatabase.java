@@ -139,6 +139,75 @@ public class KoLDatabase implements KoLConstants
 		return substringList;
 	}
 
+	public static String getBreakdown( Iterator itemIterator )
+	{
+		StringBuffer strbuf = new StringBuffer();
+
+		int maximumCount = 0;
+		int currentCount = 0;
+		Object currentItem = itemIterator.next();
+		Object favorite = currentItem;
+		Object nextItem;
+
+		strbuf.append( "<ul>" );
+
+		while ( itemIterator.hasNext() )
+		{
+			++currentCount;
+			nextItem = itemIterator.next();
+			if ( !currentItem.equals( nextItem ) )
+			{
+				strbuf.append( "<li>" + currentItem.toString() + ": " + currentCount + "</li>" );
+				strbuf.append( System.getProperty( "line.separator" ) );
+
+				if ( currentCount > maximumCount )
+				{
+					maximumCount = currentCount;
+					favorite = currentItem;
+				}
+
+				currentItem = nextItem;
+				currentCount = 0;
+			}
+		}
+
+		strbuf.append( "<li>" + currentItem.toString() + ": " + (currentCount + 1) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
+		if ( currentCount > maximumCount )
+			favorite = currentItem;
+
+		strbuf.append( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
+		return strbuf.toString();
+	}
+
+	/**
+	 * Calculates the sum of all the integers in the given list.
+	 * Note that the list must consist entirely of Integer objects.
+	 */
+
+	public static final long calculateTotal( List values )
+	{
+		long total = 0;
+		String currentValue;
+
+		for ( int i = 0; i < values.size(); ++i )
+			total += ((Integer)values.get(i)).intValue();
+
+		return total;
+	}
+
+	/**
+	 * Calculates the average of all the integers in the given list.
+	 * Note that the list must consist entirely of Integer objects.
+	 */
+
+	public static final double calculateAverage( List values )
+	{	return (double)calculateTotal( values ) / (double)values.size();
+	}
+
 	protected static final void setProperty( String name, String value )
 	{
 		if ( client != null )

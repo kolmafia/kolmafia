@@ -80,6 +80,7 @@ public class ProfileRequest extends KoLRequest
 	public void run()
 	{
 		super.run();
+		responseText.replaceFirst( "http://www[23]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)", "../ascensions/$1.htm" );
 		refreshFields();
 	}
 
