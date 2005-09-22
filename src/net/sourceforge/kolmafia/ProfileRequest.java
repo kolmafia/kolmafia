@@ -43,7 +43,8 @@ import java.text.SimpleDateFormat;
 
 public class ProfileRequest extends KoLRequest
 {
-	private static final SimpleDateFormat sdf = new SimpleDateFormat( "MMMM d, yyyy" );
+	private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat( "MMMM d, yyyy" );
+	private static final SimpleDateFormat OUTPUT_FORMAT = new SimpleDateFormat( "yyyy-MM-dd" );
 
 	private String playerName;
 	private String playerID;
@@ -142,7 +143,7 @@ public class ProfileRequest extends KoLRequest
 			this.turnsPlayed = new Integer( df.parse( st.nextToken().trim() ).intValue() );
 
 			while ( !st.nextToken().startsWith( "Last" ) );
-			this.lastLogin = sdf.parse( st.nextToken().trim() );
+			this.lastLogin = INPUT_FORMAT.parse( st.nextToken().trim() );
 
 			if ( cleanHTML.indexOf( "\nFavorite Food" ) != -1 )
 			{
@@ -296,7 +297,7 @@ public class ProfileRequest extends KoLRequest
 	public String getLastLoginAsString()
 	{
 		initialize();
-		return sdf.format( lastLogin );
+		return OUTPUT_FORMAT.format( lastLogin );
 	}
 
 	public String getFood()
