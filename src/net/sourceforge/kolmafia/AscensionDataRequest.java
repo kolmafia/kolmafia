@@ -77,10 +77,14 @@ public class AscensionDataRequest extends KoLRequest
 	private void refreshFields()
 	{
 		ascensionData.clear();
-		Matcher fieldMatcher = Pattern.compile( "<tr.*?</tr>" ).matcher( responseText );
+		Matcher fieldMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( responseText );
 
-		while ( fieldMatcher.find() )
+		int lastFindIndex = 0;
+		while ( fieldMatcher.find( lastFindIndex ) )
+		{
+			lastFindIndex = fieldMatcher.end() - 5;
 			ascensionData.add( new AscensionDataField( playerName, playerID, fieldMatcher.group() ) );
+		}
 	}
 
 	/**
