@@ -34,13 +34,17 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.text.SimpleDateFormat;
 
 public class AscensionDataRequest extends KoLRequest
 {
+	private static final SimpleDateFormat ASCEND_DATE_FORMAT = new SimpleDateFormat( "MM/dd/yy" );
+
 	private String playerName;
 	private String playerID;
 	private List ascensionData;
@@ -117,10 +121,91 @@ public class AscensionDataRequest extends KoLRequest
 			this.run();
 	}
 
-	public static class AscensionDataField
+	public static class AscensionDataField implements Comparable
 	{
+		private String sign;
+		private Date timestamp;
+		private boolean isSoftcore;
+		private int level, classID, pathID;
+		private int dayCount, turnCount;
+
 		public AscensionDataField( String playerName, String playerID, String rowData )
 		{
+			try
+			{
+				String [] columns = rowData.replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
+
+				// The level at which the ascension took place is found
+				// in the third column, or index 2 in the array.
+
+				this.timestamp = ASCEND_DATE_FORMAT.parse( columns[1] );
+				this.level = df.parse( columns[2] ).intValue();
+
+				this.classID = columns[3].startsWith( "Se" ) ? AscensionSnapshotTable.SEAL_CLUBBER :
+					columns[3].startsWith( "Tu" ) ? AscensionSnapshotTable.TURTLE_TAMER :
+					columns[3].startsWith( "Pa" ) ? AscensionSnapshotTable.PASTAMANCER :
+					columns[3].startsWith( "Sa" ) ? AscensionSnapshotTable.SAUCEROR :
+					columns[3].startsWith( "Di" ) ? AscensionSnapshotTable.DISCO_BANDIT : AscensionSnapshotTable.ACCORDION_THIEF;
+
+				this.sign = columns[4];
+				this.turnCount = df.parse( columns[5] ).intValue();
+				this.dayCount = df.parse( columns[6] ).intValue();
+
+				String [] path = columns[7].split( "," );
+				this.isSoftcore = path[0].equals( "Normal" );
+
+				this.pathID = path[1].equals( "NoPath" ) ? AscensionSnapshotTable.NOPATH :
+					path[1].equals( "Teetotaler" ) ? AscensionSnapshotTable.TEETOTALER :
+					path[1].equals( "Boozefetarian" ) ? AscensionSnapshotTable.BOOZEFETARIAN : AscensionSnapshotTable.OXYGENARIAN;
+			}
+			catch ( Exception e )
+			{
+				// Because the data is properly structured,
+				// this exception should never be thrown.
+			}
+		}
+
+		public boolean matchesFilter( boolean isSoftcore, int pathFilter, int classFilter )
+		{
+			return isSoftcore == this.isSoftcore && (pathFilter == AscensionSnapshotTable.NO_FILTER || pathFilter == this.pathID) &&
+				(classFilter == AscensionSnapshotTable.NO_FILTER || classFilter == this.classID);
+		}
+
+		public int compareTo( Object o )
+		{
+			if ( o == null || !(o instanceof AscensionDataField) )
+				return -1;
+
+			AscensionDataField adf = (AscensionDataField) o;
+
+			// First, compare the number of days between
+			// ascension runs.
+
+			int dayDifference = dayCount - adf.dayCount;
+			if ( dayDifference != 0 )
+				return dayDifference;
+
+			// Next, compare the number of turns it took
+			// in order to complete the ascension.
+
+			int turnDifference = turnCount - adf.turnCount;
+			if ( turnDifference != 0 )
+				return turnDifference;
+
+			// Earlier ascensions take priority.  Therefore,
+			// compare the timestamp.  Later, this will also
+			// take the 60-day sliding window into account.
+
+			if ( timestamp.before( adf.timestamp ) )
+				return -1;
+			if ( timestamp.after( adf.timestamp ) )
+				return 1;
+
+			// If it still is equal, then check the difference
+			// in levels, and return that -- effectively, if all
+			// comparable elements are the same, then they are equal.
+
+			return level - adf.level;
 		}
 	}
 }

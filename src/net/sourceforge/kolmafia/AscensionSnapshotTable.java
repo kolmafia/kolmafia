@@ -49,6 +49,20 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AscensionSnapshotTable extends KoLDatabase
 {
+	public static final int NO_FILTER = 0;
+
+	public static final int NOPATH = 1;
+	public static final int TEETOTALER = 2;
+	public static final int BOOZEFETARIAN = 3;
+	public static final int OXYGENARIAN = 4;
+
+	public static final int SEAL_CLUBBER = 1;
+	public static final int TURTLE_TAMER = 2;
+	public static final int PASTAMANCER = 3;
+	public static final int SAUCEROR = 4;
+	public static final int DISCO_BANDIT = 5;
+	public static final int ACCORDION_THIEF = 6;
+
 	private KoLmafia client;
 	private String clanID;
 	private String clanName;
@@ -89,11 +103,18 @@ public class AscensionSnapshotTable extends KoLDatabase
 	{	return ascensionMap;
 	}
 
-	public String getAscensionData()
+	public String getAscensionData( boolean isSoftcore )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
-		strbuf.append( "<html><head><title>Ascension Data for " + clanName + "(" + (new Date()) + ")</title>" );
+		strbuf.append( "<html><head><title>" );
+
+		if ( isSoftcore )
+			strbuf.append( "Softcore" );
+		else
+			strbuf.append( "Hardcore" );
+
+		strbuf.append( " Ascension Data for " + clanName + "(" + (new Date()) + ")</title>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
@@ -104,7 +125,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	public String getAscensionData( int pathFilter, int classFilter )
+	public String getAscensionData( boolean isSoftcore, int pathFilter, int classFilter )
 	{
 		return "";
 	}
