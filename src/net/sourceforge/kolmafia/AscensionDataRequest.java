@@ -49,7 +49,7 @@ public class AscensionDataRequest extends KoLRequest
 	private String playerID;
 	private List ascensionData;
 
-	public AscensionDataRequest( KoLmafia client, String playerName )
+	public AscensionDataRequest( KoLmafia client, String playerName, String playerID )
 	{
 		super( client, "ascensionhistory.php" );
 		addFormField( "back", "self" );
@@ -58,9 +58,7 @@ public class AscensionDataRequest extends KoLRequest
 			addFormField( "who", client.getPlayerID( playerName ) );
 
 		this.playerName = playerName;
-
-		if ( client != null )
-			this.playerID = client.getPlayerID( playerName );
+		this.playerID = playerID;
 
 		this.ascensionData = new ArrayList();
 	}
@@ -97,9 +95,9 @@ public class AscensionDataRequest extends KoLRequest
 	 * data already known.
 	 */
 
-	public static AscensionDataRequest getInstance( String playerName, String responseText )
+	public static AscensionDataRequest getInstance( String playerName, String playerID, String responseText )
 	{
-		AscensionDataRequest instance = new AscensionDataRequest( null, playerName );
+		AscensionDataRequest instance = new AscensionDataRequest( null, playerName, playerID );
 
 		instance.responseText = responseText;
 		instance.refreshFields();
@@ -176,7 +174,7 @@ public class AscensionDataRequest extends KoLRequest
 			}
 
 			stringForm = new StringBuffer();
-			stringForm.append( "<tr><td><a href=\"profiles/" + this.playerID + ".htm\"><b>" + this.playerName + "</b></a>  (" );
+			stringForm.append( "<tr><td><a href=\"ascensions/" + this.playerID + ".htm\"><b>" + this.playerName + "</b></a>&nbsp;(" );
 
 			switch ( this.classID )
 			{
@@ -217,7 +215,7 @@ public class AscensionDataRequest extends KoLRequest
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && o instanceof AscensionDataField && playerID.equals( ((AscensionDataField)o).playerID );
+		{	return o != null && o instanceof AscensionDataField && playerName.equals( ((AscensionDataField)o).playerName );
 		}
 
 		public boolean matchesFilter( boolean isSoftcore, int pathFilter, int classFilter )

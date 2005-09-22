@@ -126,20 +126,29 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
-		strbuf.append( "<center><h1>" + clanName + " (#" + clanID + ")</h1><br>" );
+		strbuf.append( "<center><table cellspacing=0 cellpadding=0><tr><td align=center><h1>" + clanName + " (#" + clanID + ")</h1></td></tr>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		// Right below the name of the clan, write the average
 		// number of this kind of ascension.
 
+		strbuf.append( "<tr><td align=center>Avg: " );
 		strbuf.append( (isSoftcore ? (double)softcoreAscensionList.size() : (double)hardcoreAscensionList.size()) / (double)ascensionMap.size() );
-
-		strbuf.append( "</center>" );
+		strbuf.append( "<td align=center></tr></table><br><br><br><br>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
-		for ( int i = 0; i <= 4; ++i )
-			strbuf.append( getAscensionData( isSoftcore, i ) );
+		strbuf.append( getAscensionData( isSoftcore, NO_FILTER ) );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( getAscensionData( isSoftcore, OXYGENARIAN ) );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( getAscensionData( isSoftcore, TEETOTALER ) );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( getAscensionData( isSoftcore, BOOZEFETARIAN ) );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( getAscensionData( isSoftcore, NOPATH ) );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
+		strbuf.append( "</center>" );
 		return strbuf.toString();
 	}
 
@@ -155,7 +164,8 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// Next, print the nifty disappearing link bar that
 		// is used in the KoL leaderboard frame.
 
-		strbuf.append( "<a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec" );
 		strbuf.append( pathFilter );
 		strbuf.append( "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">" );
 		strbuf.append( "hide/show records by class</a><div id=\"sec" );
@@ -165,24 +175,37 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// Finally, add in all the breakdown tables, just like
 		// in the KoL leaderboard frame.
 
-		strbuf.append( "<table><tr><td>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "<table><tr><td valign=top>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, SEAL_CLUBBER ) );
-		strbuf.append( "</td><td>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "</td><td valign=top>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, SAUCEROR ) );
-		strbuf.append( "</td></tr><tr><td>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "</td></tr><tr><td valign=top>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, TURTLE_TAMER ) );
-		strbuf.append( "</td><td>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "</td><td valign=top>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, DISCO_BANDIT ) );
-		strbuf.append( "</td></tr><tr><td>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "</td></tr><tr><td valign=top>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, PASTAMANCER ) );
-		strbuf.append( "</td><td>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "</td><td valign=top>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, ACCORDION_THIEF ) );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( "</td></tr></table>" );
 
 		// Close the disappearing section and return the complete
 		// code for this path filter.
 
-		strbuf.append( "</div>" );
+		strbuf.append( "</div><br><br>" );
 		return strbuf.toString();
 	}
 
@@ -210,20 +233,24 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// Next, retrieve only the top ten list so that
 		// a maximum of ten elements are printed.
 
-		List topTenList = new ArrayList();
+		List leaderList = new ArrayList();
+		int leaderListSize = classFilter == NO_FILTER ? 10 : 5;
+
 		fieldIterator = resultsList.iterator();
 
-		while ( fieldIterator.hasNext() && topTenList.size() < 10 )
+		while ( fieldIterator.hasNext() && leaderList.size() < leaderListSize )
 		{
 			currentField = (AscensionDataRequest.AscensionDataField) fieldIterator.next();
-			if ( !topTenList.contains( currentField ) )
-				topTenList.add( currentField );
+			if ( !leaderList.contains( currentField ) )
+				leaderList.add( currentField );
 		}
 
 		// Now that the data has been retrieved, go ahead
 		// and print the table header data.
 
-		strbuf.append( "<table width=400 cellspacing=0 cellpadding=0>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "<table width=500 cellspacing=0 cellpadding=0>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( "<tr><td style=\"color:white\" align=center bgcolor=blue><b>" );
 
 		switch ( classFilter )
@@ -232,8 +259,8 @@ public class AscensionSnapshotTable extends KoLDatabase
 				strbuf.append( "Fastest " );
 
 				strbuf.append( isSoftcore ? "Normal " : "Hardcore " );
-				strbuf.append( pathFilter == NO_FILTER ? "" : pathFilter == TEETOTALER ? "Teetotaler " :
-					pathFilter == BOOZEFETARIAN ? "Boozefetarian " : " Oxygenarian " );
+				strbuf.append( pathFilter == NO_FILTER ? "" : pathFilter == NOPATH ? "No-Path " :
+					pathFilter == TEETOTALER ? "Teetotaler " : pathFilter == BOOZEFETARIAN ? "Boozefetarian " : " Oxygenarian " );
 
 				strbuf.append( "Ascensions (Out of " );
 				strbuf.append( resultsList.size() );
@@ -266,17 +293,26 @@ public class AscensionSnapshotTable extends KoLDatabase
 		}
 
 		strbuf.append( "</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( "<tr><td align=center><b>Player&nbsp;&nbsp;&nbsp;&nbsp;</b></td>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( "<td align=center><b>Days</b></td>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( "<td align=center><b>Adventures</b></td></tr>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		// Now, print the actual table data inside, using
 		// the top ten list.
 
-		for ( int i = 0; i < 10 && i < topTenList.size(); ++i )
-			strbuf.append( topTenList.get(i).toString() );
+		for ( int i = 0; i < leaderListSize && i < leaderList.size(); ++i )
+		{
+			strbuf.append( leaderList.get(i).toString() );
+			strbuf.append( System.getProperty( "line.separator" ) );
+		}
 
 		strbuf.append( "</table></td></tr></table>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		return strbuf.toString();
 	}
 
@@ -300,7 +336,8 @@ public class AscensionSnapshotTable extends KoLDatabase
 		while ( nameIterator.hasNext() )
 		{
 			currentName = (String) nameIterator.next();
-			ascensionIterator = AscensionDataRequest.getInstance( currentName, (String) ascensionMap.get( currentName ) ).getAscensionData().iterator();
+			ascensionIterator = AscensionDataRequest.getInstance( currentName, client.getPlayerID( currentName ),
+				(String) ascensionMap.get( currentName ) ).getAscensionData().iterator();
 
 			while ( ascensionIterator.hasNext() )
 			{

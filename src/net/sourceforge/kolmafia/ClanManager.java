@@ -365,7 +365,7 @@ public class ClanManager implements KoLConstants
 			// Otherwise, run the request and pull the data from the
 			// web server.
 
-			AscensionDataRequest request = new AscensionDataRequest( client, name );
+			AscensionDataRequest request = new AscensionDataRequest( client, name, client.getPlayerID( name ) );
 			request.initialize();
 			ascensionMap.put( name, request.responseText );
 
@@ -599,6 +599,7 @@ public class ClanManager implements KoLConstants
 					}
 
 				client.getSettings().setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
+				client.getSettings().saveSettings();
 
 				// If initialization was unsuccessful, then there isn't
 				// enough data to create a clan standardSnapshot.
@@ -608,6 +609,7 @@ public class ClanManager implements KoLConstants
 				File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
 
 				String header = tableHeaderSetting.toString();
+
 
 				boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
 					header.indexOf( "<td>Meat</td>" ) != -1 || header.indexOf( "<td>Turns</td>" ) != -1 ||
