@@ -68,6 +68,9 @@ public class AscensionSnapshotTable extends KoLDatabase
 	private String clanName;
 	private Map ascensionMap;
 
+	private List softcoreAscensionList;
+	private List hardcoreAscensionList;
+
 	public AscensionSnapshotTable( KoLmafia client )
 	{
 		// First, initialize all of the lists and
@@ -77,6 +80,9 @@ public class AscensionSnapshotTable extends KoLDatabase
 		this.clanID = clanID;
 		this.clanName = clanName;
 		this.ascensionMap = new TreeMap();
+
+		this.softcoreAscensionList = new ArrayList();
+		this.hardcoreAscensionList = new ArrayList();
 	}
 
 	public void registerMember( String playerName )
@@ -105,6 +111,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 	public String getAscensionData( boolean isSoftcore )
 	{
+		initializeAscensionData();
 		StringBuffer strbuf = new StringBuffer();
 
 		strbuf.append( "<html><head><title>" );
@@ -119,14 +126,197 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
-		strbuf.append( "<center><h1>" + clanName + " (#" + clanID + ")</h1></center>" );
+		strbuf.append( "<center><h1>" + clanName + " (#" + clanID + ")</h1><br>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
+		// Right below the name of the clan, write the average
+		// number of this kind of ascension.
+
+		strbuf.append( (isSoftcore ? (double)softcoreAscensionList.size() : (double)hardcoreAscensionList.size()) / (double)ascensionMap.size() );
+
+		strbuf.append( "</center>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
+		for ( int i = 0; i <= 4; ++i )
+			strbuf.append( getAscensionData( isSoftcore, i ) );
+
+		return strbuf.toString();
+	}
+
+	public String getAscensionData( boolean isSoftcore, int pathFilter )
+	{
+		StringBuffer strbuf = new StringBuffer();
+
+		// First, print the table showing the top ascenders
+		// without a class-based filter.
+
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, NO_FILTER ) );
+
+		// Next, print the nifty disappearing link bar that
+		// is used in the KoL leaderboard frame.
+
+		strbuf.append( "<a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec" );
+		strbuf.append( pathFilter );
+		strbuf.append( "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">" );
+		strbuf.append( "hide/show records by class</a><div id=\"sec" );
+		strbuf.append( pathFilter );
+		strbuf.append( "\" style=\"display:none\">" );
+
+		// Finally, add in all the breakdown tables, just like
+		// in the KoL leaderboard frame.
+
+		strbuf.append( "<table><tr><td>" );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, SEAL_CLUBBER ) );
+		strbuf.append( "</td><td>" );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, SAUCEROR ) );
+		strbuf.append( "</td></tr><tr><td>" );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, TURTLE_TAMER ) );
+		strbuf.append( "</td><td>" );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, DISCO_BANDIT ) );
+		strbuf.append( "</td></tr><tr><td>" );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, PASTAMANCER ) );
+		strbuf.append( "</td><td>" );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, ACCORDION_THIEF ) );
+		strbuf.append( "</td></tr></table>" );
+
+		// Close the disappearing section and return the complete
+		// code for this path filter.
+
+		strbuf.append( "</div>" );
 		return strbuf.toString();
 	}
 
 	public String getAscensionData( boolean isSoftcore, int pathFilter, int classFilter )
 	{
-		return "";
+		StringBuffer strbuf = new StringBuffer();
+
+		Iterator fieldIterator;
+		AscensionDataRequest.AscensionDataField currentField;
+
+		// First, retrieve all the ascensions which
+		// satisfy the current filter so that the
+		// total count can be displayed in the header.
+
+		List resultsList = new ArrayList();
+		fieldIterator = (isSoftcore ? softcoreAscensionList : hardcoreAscensionList).iterator();
+
+		while ( fieldIterator.hasNext() )
+		{
+			currentField = (AscensionDataRequest.AscensionDataField) fieldIterator.next();
+			if ( currentField.matchesFilter( isSoftcore, pathFilter, classFilter ) )
+				resultsList.add( currentField );
+		}
+
+		// Next, retrieve only the top ten list so that
+		// a maximum of ten elements are printed.
+
+		List topTenList = new ArrayList();
+		fieldIterator = resultsList.iterator();
+
+		while ( fieldIterator.hasNext() && topTenList.size() < 10 )
+		{
+			currentField = (AscensionDataRequest.AscensionDataField) fieldIterator.next();
+			if ( !topTenList.contains( currentField ) )
+				topTenList.add( currentField );
+		}
+
+		// Now that the data has been retrieved, go ahead
+		// and print the table header data.
+
+		strbuf.append( "<table width=400 cellspacing=0 cellpadding=0>" );
+		strbuf.append( "<tr><td style=\"color:white\" align=center bgcolor=blue><b>" );
+
+		switch ( classFilter )
+		{
+			case NO_FILTER:
+				strbuf.append( "Fastest " );
+
+				strbuf.append( isSoftcore ? "Normal " : "Hardcore " );
+				strbuf.append( pathFilter == NO_FILTER ? "" : pathFilter == TEETOTALER ? "Teetotaler " :
+					pathFilter == BOOZEFETARIAN ? "Boozefetarian " : " Oxygenarian " );
+
+				strbuf.append( "Ascensions (Out of " );
+				strbuf.append( resultsList.size() );
+				strbuf.append( ")" );
+				break;
+
+			case SEAL_CLUBBER:
+				strbuf.append( "Seal Clubber" );
+				break;
+
+			case TURTLE_TAMER:
+				strbuf.append( "Turtle Tamer" );
+				break;
+
+			case PASTAMANCER:
+				strbuf.append( "Pastamancer" );
+				break;
+
+			case SAUCEROR:
+				strbuf.append( "Sauceror" );
+				break;
+
+			case DISCO_BANDIT:
+				strbuf.append( "Disco Bandit" );
+				break;
+
+			case ACCORDION_THIEF:
+				strbuf.append( "Accordion Thief" );
+				break;
+		}
+
+		strbuf.append( "</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table>" );
+		strbuf.append( "<tr><td align=center><b>Player&nbsp;&nbsp;&nbsp;&nbsp;</b></td>" );
+		strbuf.append( "<td align=center><b>Days</b></td>" );
+		strbuf.append( "<td align=center><b>Adventures</b></td></tr>" );
+
+		// Now, print the actual table data inside, using
+		// the top ten list.
+
+		for ( int i = 0; i < 10 && i < topTenList.size(); ++i )
+			strbuf.append( topTenList.get(i).toString() );
+
+		strbuf.append( "</table></td></tr></table>" );
+		return strbuf.toString();
+	}
+
+	private void initializeAscensionData()
+	{
+		// If the ascension lists have already been initialized,
+		// then return from this method call.
+
+		if ( !softcoreAscensionList.isEmpty() && !hardcoreAscensionList.isEmpty() )
+			return;
+
+		// If the lists are not initialized, then go ahead and
+		// load the appropriate data into them.
+
+		String currentName;
+		Iterator nameIterator = ascensionMap.keySet().iterator();
+
+		AscensionDataRequest.AscensionDataField field;
+		Iterator ascensionIterator;
+
+		while ( nameIterator.hasNext() )
+		{
+			currentName = (String) nameIterator.next();
+			ascensionIterator = AscensionDataRequest.getInstance( currentName, (String) ascensionMap.get( currentName ) ).getAscensionData().iterator();
+
+			while ( ascensionIterator.hasNext() )
+			{
+				field = (AscensionDataRequest.AscensionDataField) ascensionIterator.next();
+
+				if ( field.matchesFilter( true, NO_FILTER, NO_FILTER ) )
+					softcoreAscensionList.add( field );
+				else
+					hardcoreAscensionList.add( field );
+			}
+		}
+
+		// Now that you've retrieved all the data from all the
+		// players, sort the lists for easier loading later.
+
+		Collections.sort( softcoreAscensionList );
+		Collections.sort( hardcoreAscensionList );
 	}
 }

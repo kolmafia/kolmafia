@@ -527,7 +527,7 @@ public class ClanManager implements KoLConstants
 
 		if ( standardFile.exists() )
 		{
-			JOptionPane.showMessageDialog( null, "You already created a snapshot this month." );
+			JOptionPane.showMessageDialog( null, "You already created a snapshot this week." );
 			return;
 		}
 
@@ -603,7 +603,6 @@ public class ClanManager implements KoLConstants
 				// If initialization was unsuccessful, then there isn't
 				// enough data to create a clan standardSnapshot.
 
-				File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
 				String header = tableHeaderSetting.toString();
 
 				boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
@@ -624,11 +623,27 @@ public class ClanManager implements KoLConstants
 
 				try
 				{
+					File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
+
 					standardFile.getParentFile().mkdirs();
 					client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
 
 					PrintStream ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
 					ostream.println( standardSnapshot.getStandardData() );
+					ostream.close();
+
+					client.updateDisplay( DISABLED_STATE, "Storing ascension snapshot..." );
+
+					File ascensionFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
+
+					ostream = new PrintStream( new FileOutputStream( ascensionFile, true ), true );
+					ostream.println( ascensionSnapshot.getAscensionData( true ) );
+					ostream.close();
+
+					ascensionFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
+
+					ostream = new PrintStream( new FileOutputStream( ascensionFile, true ), true );
+					ostream.println( ascensionSnapshot.getAscensionData( false ) );
 					ostream.close();
 				}
 				catch ( Exception e )
@@ -639,7 +654,7 @@ public class ClanManager implements KoLConstants
 					return;
 				}
 
-				client.updateDisplay( ENABLED_STATE, "Clan snapshot generation completed." );
+				client.updateDisplay( ENABLED_STATE, "Snapshot generation completed." );
 
 				try
 				{
@@ -676,7 +691,7 @@ public class ClanManager implements KoLConstants
 	public void saveStashLog()
 	{
 		retrieveClanData();
-		File file = new File( "clan/stashlog_" + clanID + ".htm" );
+		File file = new File( "clan" + File.separator + clanID + File.separator + "stashlog.htm" );
 
 		try
 		{

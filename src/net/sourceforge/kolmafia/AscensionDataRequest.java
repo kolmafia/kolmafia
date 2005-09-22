@@ -121,8 +121,16 @@ public class AscensionDataRequest extends KoLRequest
 			this.run();
 	}
 
+	public List getAscensionData()
+	{	return ascensionData;
+	}
+
 	public static class AscensionDataField implements Comparable
 	{
+		private String playerName;
+		private String playerID;
+		private StringBuffer stringForm;
+
 		private String sign;
 		private Date timestamp;
 		private boolean isSoftcore;
@@ -131,6 +139,9 @@ public class AscensionDataRequest extends KoLRequest
 
 		public AscensionDataField( String playerName, String playerID, String rowData )
 		{
+			this.playerName = playerName;
+			this.playerID = playerID;
+
 			try
 			{
 				String [] columns = rowData.replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
@@ -163,6 +174,50 @@ public class AscensionDataRequest extends KoLRequest
 				// Because the data is properly structured,
 				// this exception should never be thrown.
 			}
+
+			stringForm = new StringBuffer();
+			stringForm.append( "<tr><td><a href=\"profiles/" + this.playerID + ".htm\"><b>" + this.playerName + "</b></a>  (" );
+
+			switch ( this.classID )
+			{
+				case AscensionSnapshotTable.SEAL_CLUBBER:
+					stringForm.append( "SC" );
+					break;
+
+				case AscensionSnapshotTable.TURTLE_TAMER:
+					stringForm.append( "TT" );
+					break;
+
+				case AscensionSnapshotTable.PASTAMANCER:
+					stringForm.append( "P" );
+					break;
+
+				case AscensionSnapshotTable.SAUCEROR:
+					stringForm.append( "S" );
+					break;
+
+				case AscensionSnapshotTable.DISCO_BANDIT:
+					stringForm.append( "DB" );
+					break;
+
+				case AscensionSnapshotTable.ACCORDION_THIEF:
+					stringForm.append( "AT" );
+					break;
+			}
+
+			stringForm.append( ")&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=right>" );
+			stringForm.append( this.dayCount );
+			stringForm.append( "</td><td align=right>" );
+			stringForm.append( this.turnCount );
+			stringForm.append( "</td></tr>" );
+		}
+
+		public String toString()
+		{	return stringForm.toString();
+		}
+
+		public boolean equals( Object o )
+		{	return o != null && o instanceof AscensionDataField && playerID.equals( ((AscensionDataField)o).playerID );
 		}
 
 		public boolean matchesFilter( boolean isSoftcore, int pathFilter, int classFilter )
