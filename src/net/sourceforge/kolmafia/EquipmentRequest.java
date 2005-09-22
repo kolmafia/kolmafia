@@ -190,7 +190,7 @@ public class EquipmentRequest extends KoLRequest
 					// equipment, make it available.
 
 					AdventureResult result = new AdventureResult( changeItemName, 0 );
-					if ( !client.getInventory().contains( changeItemName ) )
+					if ( !client.getInventory().contains( result ) )
 					{
 						// Find first familiar with item
 						LockableListModel familiars = character.getFamiliarList();
