@@ -142,6 +142,7 @@ public class KoLDatabase implements KoLConstants
 	public static String getBreakdown( Iterator itemIterator )
 	{
 		StringBuffer strbuf = new StringBuffer();
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		int maximumCount = 0;
 		int currentCount = 0;
