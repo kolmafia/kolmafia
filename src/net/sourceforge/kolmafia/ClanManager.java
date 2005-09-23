@@ -608,6 +608,7 @@ public class ClanManager implements KoLConstants
 				// enough data to create a clan standardSnapshot.
 
 				File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
+				File sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
 				File softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
 				File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
 
@@ -626,7 +627,7 @@ public class ClanManager implements KoLConstants
 
 				standardFile.getParentFile().mkdirs();
 
-				// Now, store the clan standardSnapshot into the appropriate
+				// Now, store the clan snapshot into the appropriate
 				// data folder.
 
 				try
@@ -639,6 +640,15 @@ public class ClanManager implements KoLConstants
 
 						ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
 						ostream.println( standardSnapshot.getStandardData() );
+						ostream.close();
+
+						String line;
+						BufferedReader script = KoLDatabase.getReader( "sorttable.js" );
+						ostream = new PrintStream( new FileOutputStream( sortingScript, true ), true );
+
+						while ( (line = script.readLine()) != null )
+							ostream.println( line );
+
 						ostream.close();
 					}
 

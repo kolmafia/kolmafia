@@ -284,8 +284,13 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( ")</title>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
+		strbuf.append( "<script language=\"Javascript\" src=\"sorttable.js\"></script>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		strbuf.append( "<center><h2>" );
 		strbuf.append( clanName );
 		strbuf.append( " (#" );
@@ -296,11 +301,11 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( getStandardSummary() );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
-		strbuf.append( "<br><br><table border=1 cellspacing=4 cellpadding=4>" );
+		strbuf.append( "<br><br><table class=\"sortable\" id=\"details\" border=1 cellspacing=4 cellpadding=4>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
-		strbuf.append( "<tr bgcolor=\"#000000\" style=\"color:#ffffff; font-weight: bold\"><td>Name</td>" );
+		strbuf.append( "<tr style=\"font-weight: bold\"><td align=center>Name</td>" );
 
-		strbuf.append( getRosterHeader().replaceFirst( "<td>Ascensions</td>", "" ) );
+		strbuf.append( getRosterHeader().replaceAll( "<td>", "<td align=center>" ) );
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		Iterator memberIterator = profileMap.keySet().iterator();
@@ -403,19 +408,37 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
+		{
 			strbuf.append( "<li>PVP Rank: " + df.format( calculateAverage( pvpList ) ) + "</li>" );
+			strbuf.append( System.getProperty( "line.separator" ) );
+		}
 
 		strbuf.append( "<li>Muscle: " + df.format( calculateAverage( musList ) ) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		strbuf.append( "<li>Myst: " + df.format( calculateAverage( mysList ) ) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		strbuf.append( "<li>Moxie: " + df.format( calculateAverage( moxList ) ) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		strbuf.append( "<li>Power: " + df.format( calculateAverage( powerList ) ) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		strbuf.append( "<li>Karma: " + df.format( calculateAverage( karmaList ) ) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		if ( header.indexOf( "<td>Meat</td>" ) != -1 )
+		{
 			strbuf.append( "<li>Meat: " + df.format( calculateAverage( meatList ) ) + "</li>" );
+			strbuf.append( System.getProperty( "line.separator" ) );
+		}
 
 		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
+		{
 			strbuf.append( "<li>Turns: " + df.format( calculateAverage( turnsList ) ) + "</li>" );
+			strbuf.append( System.getProperty( "line.separator" ) );
+		}
 
 		strbuf.append( "</ul>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
@@ -423,19 +446,37 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( System.getProperty( "line.separator" ) );
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
+		{
 			strbuf.append( "<li>PVP Rank: " + df.format( calculateTotal( pvpList ) ) + "</li>" );
+			strbuf.append( System.getProperty( "line.separator" ) );
+		}
 
 		strbuf.append( "<li>Muscle: " + df.format( calculateTotal( musList ) ) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		strbuf.append( "<li>Myst: " + df.format( calculateTotal( mysList ) ) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		strbuf.append( "<li>Moxie: " + df.format( calculateTotal( moxList ) ) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		strbuf.append( "<li>Power: " + df.format( calculateTotal( powerList ) ) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
 		strbuf.append( "<li>Karma: " + df.format( calculateTotal( karmaList ) ) + "</li>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
 
 		if ( header.indexOf( "<td>Meat</td>" ) != -1 )
+		{
 			strbuf.append( "<li>Meat: " + df.format( calculateTotal( meatList ) ) + "</li>" );
+			strbuf.append( System.getProperty( "line.separator" ) );
+		}
 
 		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
+		{
 			strbuf.append( "<li>Turns: " + df.format( calculateTotal( turnsList ) ) + "</li>" );
+			strbuf.append( System.getProperty( "line.separator" ) );
+		}
 
 		strbuf.append( "</ul></td>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
