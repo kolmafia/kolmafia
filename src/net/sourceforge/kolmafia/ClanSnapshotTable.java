@@ -587,6 +587,12 @@ public class ClanSnapshotTable extends KoLDatabase
 			strbuf.append( memberLookup.getLastLoginAsString() );
 		}
 
+		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
+		{
+			strbuf.append( "</td><td>" );
+			strbuf.append( df.format( memberLookup.getAscensionCount().intValue() ) );
+		}
+
 		strbuf.append( "</td></tr>" );
 		return strbuf.toString();
 	}
