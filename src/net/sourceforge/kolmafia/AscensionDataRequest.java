@@ -41,13 +41,15 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.text.SimpleDateFormat;
 
-public class AscensionDataRequest extends KoLRequest
+public class AscensionDataRequest extends KoLRequest implements Comparable
 {
+	private static boolean isSoftcoreComparator = true;
 	private static final SimpleDateFormat ASCEND_DATE_FORMAT = new SimpleDateFormat( "MM/dd/yy" );
 
 	private String playerName;
 	private String playerID;
 	private List ascensionData;
+	private int hardcoreCount, softcoreCount;
 
 	public AscensionDataRequest( KoLmafia client, String playerName, String playerID )
 	{
@@ -61,6 +63,27 @@ public class AscensionDataRequest extends KoLRequest
 		this.playerID = playerID;
 
 		this.ascensionData = new ArrayList();
+	}
+
+	public static void setComparator( boolean isSoftcoreComparator )
+	{	AscensionDataRequest.isSoftcoreComparator = isSoftcoreComparator;
+	}
+
+	public String toString()
+	{
+		StringBuffer stringForm = new StringBuffer();
+		stringForm.append( "<tr><td><a href=\"ascensions/" + this.playerID + ".htm\"><b>" + this.playerName + "</b></a></td>" );
+		stringForm.append( "<td align=right>" );
+		stringForm.append( isSoftcoreComparator ? softcoreCount : hardcoreCount );
+		stringForm.append( "</td></tr>" );
+		return stringForm.toString();
+	}
+
+	public int compareTo( Object o )
+	{
+		return o == null || !(o instanceof AscensionDataRequest) ? -1 :
+			isSoftcoreComparator ? ((AscensionDataRequest)o).softcoreCount - softcoreCount :
+			((AscensionDataRequest)o).hardcoreCount - hardcoreCount;
 	}
 
 	public void run()
@@ -82,10 +105,18 @@ public class AscensionDataRequest extends KoLRequest
 		Matcher fieldMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( responseText );
 
 		int lastFindIndex = 0;
+		AscensionDataField lastField;
+
 		while ( fieldMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = fieldMatcher.end() - 5;
-			ascensionData.add( new AscensionDataField( playerName, playerID, fieldMatcher.group() ) );
+			lastField = new AscensionDataField( playerName, playerID, fieldMatcher.group() );
+			ascensionData.add( lastField );
+
+			if ( lastField.isSoftcore )
+				++softcoreCount;
+			else
+				++hardcoreCount;
 		}
 	}
 

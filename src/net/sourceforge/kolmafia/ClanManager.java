@@ -523,9 +523,11 @@ public class ClanManager implements KoLConstants
 		// If the file already exists, a standardSnapshot cannot be taken.
 		// Therefore, notify the user of this. :)
 
-		File standardFile = new File( SNAPSHOT_DIRECTORY + "summary.htm" );
+		File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
+		File softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
+		File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
 
-		if ( standardFile.exists() )
+		if ( standardFile.exists() || softcoreFile.exists() || hardcoreFile.exists() )
 		{
 			JOptionPane.showMessageDialog( null, "You already created a snapshot this week." );
 			return;

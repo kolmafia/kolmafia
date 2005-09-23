@@ -68,6 +68,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 	private String clanName;
 	private Map ascensionMap;
 
+	private List ascensionDataList;
 	private List softcoreAscensionList;
 	private List hardcoreAscensionList;
 
@@ -81,6 +82,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		this.clanName = clanName;
 		this.ascensionMap = new TreeMap();
 
+		this.ascensionDataList = new ArrayList();
 		this.softcoreAscensionList = new ArrayList();
 		this.hardcoreAscensionList = new ArrayList();
 	}
@@ -142,8 +144,40 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 		strbuf.append( "<tr><td align=center><h3>Avg: " );
 		strbuf.append( ((isSoftcore ? (double)softcoreAscensionList.size() : 0.0) + (double)hardcoreAscensionList.size()) / (double)ascensionMap.size() );
-		strbuf.append( "</h3></td></tr></table><br><br><br><br>" );
+		strbuf.append( "</h3></td></tr></table><br><br>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
+
+		// Next, the ascension leaderboards for most (numeric)
+		// ascensions.
+
+		strbuf.append( "<table width=500 cellspacing=0 cellpadding=0>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "<tr><td style=\"color:white\" align=center bgcolor=blue><b>Most " );
+		strbuf.append( isSoftcore ? "Normal " : "Hardcore " );
+		strbuf.append( "Ascensions</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "<tr><td align=center><b>Player&nbsp;&nbsp;&nbsp;&nbsp;</b></td>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( "<td align=center><b>Ascensions</b></td></tr>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
+		// Resort the lists, and print the results to the buffer
+		// so that you have the "most ascensions" leaderboard.
+
+		AscensionDataRequest.setComparator( isSoftcore );
+		Collections.sort( ascensionDataList );
+
+		for ( int i = 0; i < ascensionDataList.size() && i < 20; ++i )
+		{
+			strbuf.append( ascensionDataList.get(i).toString() );
+			strbuf.append( System.getProperty( "line.separator" ) );
+		}
+
+		strbuf.append( "</table></td></tr></table><br><br>" );
+		strbuf.append( System.getProperty( "line.separator" ) );
+
+		// Finally, the ascension leaderboards for fastest
+		// ascension speed.  Do this for all paths individually.
 
 		strbuf.append( getAscensionData( isSoftcore, NO_FILTER ) );
 		strbuf.append( System.getProperty( "line.separator" ) );
@@ -178,7 +212,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		strbuf.append( "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">" );
 		strbuf.append( "hide/show records by class</a><div id=\"sec" );
 		strbuf.append( pathFilter );
-		strbuf.append( "\" style=\"display:none\">" );
+		strbuf.append( "\" style=\"display:none\"><br><br>" );
 
 		// Finally, add in all the breakdown tables, just like
 		// in the KoL leaderboard frame.
@@ -329,7 +363,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// If the ascension lists have already been initialized,
 		// then return from this method call.
 
-		if ( !softcoreAscensionList.isEmpty() && !hardcoreAscensionList.isEmpty() )
+		if ( !ascensionDataList.isEmpty() )
 			return;
 
 		// If the lists are not initialized, then go ahead and
@@ -338,14 +372,18 @@ public class AscensionSnapshotTable extends KoLDatabase
 		String currentName;
 		Iterator nameIterator = ascensionMap.keySet().iterator();
 
+		AscensionDataRequest request;
 		AscensionDataRequest.AscensionDataField field;
 		Iterator ascensionIterator;
 
 		while ( nameIterator.hasNext() )
 		{
 			currentName = (String) nameIterator.next();
-			ascensionIterator = AscensionDataRequest.getInstance( currentName, client.getPlayerID( currentName ),
-				(String) ascensionMap.get( currentName ) ).getAscensionData().iterator();
+
+			request = AscensionDataRequest.getInstance( currentName, client.getPlayerID( currentName ), (String) ascensionMap.get( currentName ) );
+			ascensionDataList.add( request );
+
+			ascensionIterator = request.getAscensionData().iterator();
 
 			while ( ascensionIterator.hasNext() )
 			{
