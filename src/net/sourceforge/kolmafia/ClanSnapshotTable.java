@@ -337,6 +337,8 @@ public class ClanSnapshotTable extends KoLDatabase
 		List mysList = new ArrayList();
 		List moxList = new ArrayList();
 
+		List ascensionsList = new ArrayList();
+
 		// Iterate through the list of clan members
 		// and populate the lists.
 
@@ -382,12 +384,16 @@ public class ClanSnapshotTable extends KoLDatabase
 			moxList.add( memberLookup.getMoxie() );
 			powerList.add( memberLookup.getPower() );
 			karmaList.add( memberLookup.getKarma() );
+
+			if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
+				ascensionsList.add( memberLookup.getAscensionCount() );
 		}
 
 		Collections.sort( classList );
 		Collections.sort( foodList );
 		Collections.sort( drinkList );
 		Collections.sort( rankList );
+		Collections.sort( ascensionsList );
 
 		strbuf.append( "<table border=0 cellspacing=4 cellpadding=4><tr>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
@@ -456,6 +462,13 @@ public class ClanSnapshotTable extends KoLDatabase
 		{
 			strbuf.append( "<td valign=top><b>Drink Breakdown</b>:" );
 			strbuf.append( getBreakdown( drinkList.iterator() ) );
+			strbuf.append( "</td>" );
+		}
+
+		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
+		{
+			strbuf.append( "<td valign=top><b>Ascension Breakdown</b>:" );
+			strbuf.append( getBreakdown( ascensionsList.iterator() ) );
 			strbuf.append( "</td>" );
 		}
 
