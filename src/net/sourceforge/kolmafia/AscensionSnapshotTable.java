@@ -179,8 +179,6 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// Finally, the ascension leaderboards for fastest
 		// ascension speed.  Do this for all paths individually.
 
-		strbuf.append( getAscensionData( isSoftcore, NO_FILTER ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( getAscensionData( isSoftcore, OXYGENARIAN ) );
 		strbuf.append( System.getProperty( "line.separator" ) );
 		strbuf.append( getAscensionData( isSoftcore, TEETOTALER ) );
