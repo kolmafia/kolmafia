@@ -327,6 +327,7 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "forceReconnect", "Automatically time-in on time-out" },
 			{ "savePositions", "Reload windows in original positions" },
 			{ "cloverProtectActive", "Guard against accidental clover usage" },

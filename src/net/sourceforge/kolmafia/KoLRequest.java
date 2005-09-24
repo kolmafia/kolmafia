@@ -67,17 +67,18 @@ import java.util.regex.Pattern;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
-	protected static final int REFRESH_RATE = 500;
 	protected static boolean isCompactMode = false;
+	protected static boolean isServerFriendly = true;
 
-	private static final String [] HOSTNAMES = {
-		"www.kingdomofloathing.com", "www2.kingdomofloathing.com", "www3.kingdomofloathing.com" };
+	private static final String [][] SERVERS =
+	{
+		{ "www.kingdomofloathing.com", "67.18.115.2" },
+		{ "www2.kingdomofloathing.com", "67.18.223.170" },
+		{ "www3.kingdomofloathing.com", "67.18.223.194" }
+	};
 
-	private static final String [] DNS_NAMES = {
-		"67.18.115.2", "67.18.223.170", "67.18.223.194" };
-
-	private static String KOL_HOST = HOSTNAMES[0];
-	private static String KOL_ROOT = "http://" + DNS_NAMES[0] + "/";
+	private static String KOL_HOST = SERVERS[0][0];
+	private static String KOL_ROOT = "http://" + SERVERS[0][1] + "/";
 
 	static
 	{	applySettings();
@@ -163,15 +164,15 @@ public class KoLRequest implements Runnable, KoLConstants
 					break;
 
 				case 1:
-					setLoginServer( HOSTNAMES[0] );
+					setLoginServer( SERVERS[0][0] );
 					break;
 
 				case 2:
-					setLoginServer( HOSTNAMES[1] );
+					setLoginServer( SERVERS[1][0] );
 					break;
 
 				case 3:
-					setLoginServer( HOSTNAMES[2] );
+					setLoginServer( SERVERS[2][0] );
 					break;
 			}
 		}
@@ -179,7 +180,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// An exception here means that the attempt to set up the proxy
 			// server failed or the attempt to set the login server failed.
-			// Because these result in default values,, pretend nothing
+			// Because these result in default values, pretend nothing
 			// happened and carry on with business.
 		}
 	}
@@ -226,11 +227,11 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private static void setLoginServer( String server )
 	{
-		for ( int i = 0; i < HOSTNAMES.length; ++i )
-			if ( HOSTNAMES[i].equals( server ) )
+		for ( int i = 0; i < SERVERS.length; ++i )
+			if ( SERVERS[i][0].equals( server ) )
 			{
-				KOL_HOST = HOSTNAMES[i];
-				KOL_ROOT = "http://" + DNS_NAMES[i] + "/";
+				KOL_HOST = SERVERS[i][0];
+				KOL_ROOT = "http://" + SERVERS[i][1] + "/";
 			}
 	}
 
@@ -374,6 +375,16 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
+	 * Utility method which waits for the default refresh rate
+	 * without using Thread.sleep() - this means CPU usage can
+	 * be greatly reduced.
+	 */
+
+	protected static void delay()
+	{	delay( isServerFriendly ? 5000 : 500 );
+	}
+
+	/**
 	 * Utility method which waits for the given duration without
 	 * using Thread.sleep() - this means CPU usage can be greatly
 	 * reduced.
@@ -406,6 +417,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private void execute()
 	{
+		KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
+
 		this.hadTimeout = false;
 		this.logStream = client == null || formURLString.indexOf( "chat" ) != -1 ? new NullStream() : client.getLogStream();
 		logStream.println( "Connecting to " + formURLString + "..." );
@@ -413,7 +426,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		do
 		{
 			this.isErrorState = false;
-			delay( REFRESH_RATE );
+			delay();
 		}
 		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 
@@ -450,7 +463,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			this.isErrorState = true;
 			updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLBuffer.toString() );
 
-			delay( REFRESH_RATE );
+			KoLRequest.delay();
 			return false;
 		}
 
@@ -473,7 +486,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !client.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Error opening connection.  Retrying..." );
 
-			delay( REFRESH_RATE );
+			KoLRequest.delay();
 			return false;
 		}
 
@@ -549,7 +562,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				e.printStackTrace( logStream );
 			}
 
-			delay( REFRESH_RATE );
+			KoLRequest.delay();
 			return false;
 		}
 	}
@@ -606,7 +619,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					e.printStackTrace( logStream );
 				}
 
-				delay( REFRESH_RATE );
+				KoLRequest.delay();
 				return false;
 			}
 
@@ -622,7 +635,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// Add in an extra delay in the event of a time-out in order
 			// to be nicer on the KoL servers.
 
-			delay( REFRESH_RATE );
+			KoLRequest.delay();
 			return true;
 		}
 
