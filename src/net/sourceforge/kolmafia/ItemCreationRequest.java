@@ -269,7 +269,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			updateDisplay( DISABLED_STATE, "Using " + tool.getName() + "..." );
 			(new ConsumeItemRequest( client, tool )).run();
-			updateDisplay( ENABLED_STATE, "Successfully converted " + input.getName() + " to " + output.getName() );
 			return;
 		}
 
@@ -297,8 +296,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			if ( !client.permitsContinue() )
 				return;
 		}
-
-		updateDisplay( ENABLED_STATE, "Successfully converted " + input.getName() + " to " + output.getName() );
 	}
 
 	protected void makeIngredients()
@@ -481,9 +478,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				break;
 			}
 		}
-
-		if ( client.permitsContinue() )
-			updateDisplay( ENABLED_STATE,  "Successfully created " + quantityNeeded + " " + itemName );
 	}
 
 	private boolean autoRepairBoxServant()
