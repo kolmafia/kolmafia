@@ -383,7 +383,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected static void delay()
-	{	delay( isServerFriendly ? 5000 : 500 );
+	{	delay( isServerFriendly ? 2000 : 500 );
 	}
 
 	/**
