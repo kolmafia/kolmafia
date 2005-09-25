@@ -79,28 +79,6 @@ public class HagnkStorageFrame extends KoLFrame
 		getContentPane().add( tabs, "" );
 		addMenuBar();
 		refreshFilters();
-
-		if ( client != null )
-		{
-			switch ( client.getPullsRemaining() )
-			{
-				case -1:
-					setTitle( "Ancestral Storage: Pulls remaining unknown" );
-					break;
-
-				case 0:
-					setTitle( "Ancestral Storage: No pulls remaining" );
-					break;
-
-				case 1:
-					setTitle( "Ancestral Storage: 1 pull remaining" );
-					break;
-
-				default:
-					setTitle( "Ancestral Storage: " + client.getPullsRemaining() + " pulls remaining" );
-					break;
-			}
-		}
 	}
 
 	private void addTab( String name, HagnkStoragePanel panel )

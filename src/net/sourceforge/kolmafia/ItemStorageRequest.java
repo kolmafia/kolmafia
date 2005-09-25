@@ -254,8 +254,5 @@ public class ItemStorageRequest extends SendMessageRequest
 				e.printStackTrace( logStream );
 			}
 		}
-
-		storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
-		client.setPullsRemaining( storageMatcher.find() ? Integer.parseInt( storageMatcher.group(1) ) : 0 );
 	}
 }

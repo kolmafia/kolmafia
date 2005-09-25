@@ -824,24 +824,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Retrieves the number of pulls the player has left.
-	 * @return	The number of pulls remaining
-	 */
-
-	public int getPullsRemaining()
-	{	return pullsRemaining;
-	}
-
-	/**
-	 * Sets the number of pulls the player has left.
-	 * @param	pullsRemaining	The number of pulls remaining
-	 */
-
-	public void setPullsRemaining( int pullsRemaining )
-	{	this.pullsRemaining = pullsRemaining;
-	}
-
-	/**
 	 * Returns whether or not the current user has a ten-leaf clover.
 	 *
 	 * @return	<code>true</code>
