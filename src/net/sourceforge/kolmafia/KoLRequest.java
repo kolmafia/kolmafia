@@ -352,11 +352,13 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( this instanceof ChatRequest )
+		if ( this instanceof ChatRequest || this instanceof CharpaneRequest )
 		{
 			// Chat requests can run without problems concurrently
-			// with other requests.  Therefore, there is no thread
-			// synchronization done on chat requests.
+			// with other requests.  The same is true of requests
+			// to the character pane.  Therefore, there is no thread
+			// synchronization done on chat requests and requests to
+			// the character pane.
 
 			execute();
 		}
@@ -426,7 +428,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		do
 		{
 			this.isErrorState = false;
-			delay();
+
+			// Only add in a delay when you're out of login.
+			// If you're still doing the login process, ignore
+			// the delay to avoid people switching the option
+			// off just to avoid login slowdown.
+
+			if ( !client.inLoginState() && getClass() != KoLRequest.class && getClass() != CharpaneRequest.class )
+				delay();
 		}
 		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 
