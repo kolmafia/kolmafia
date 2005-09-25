@@ -101,7 +101,12 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			for ( int j = 0; j < 9; ++j )
 				HOLIDAYS[i][j] = "No known holiday today.";
 
-		HOLIDAYS[4][2] = "Oyster Day";
+		// Initialize all the known holidays here so that
+		// they can be used in later initializers.
+
+		HOLIDAYS[2][4] = "Valentine's Day";
+		HOLIDAYS[3][3] = "Sneaky Pete's Day";
+		HOLIDAYS[4][2] = "Oyster Egg Day";
 		HOLIDAYS[10][8] = "Halloween";
 		HOLIDAYS[11][7] = "Feast of Boris";
 	}
@@ -152,9 +157,10 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// computed based on the recurring day in the year
 		// at which these occur.
 
-		SPECIAL[25] = SP_HOLIDAY;
-		SPECIAL[79] = SP_HOLIDAY;
-		SPECIAL[86] = SP_HOLIDAY;
+		for ( int i = 0; i < 13; ++i )
+			for ( int j = 0; j < 9; ++j )
+				if ( !HOLIDAYS[i][j].equals( "No known holiday today." ) )
+					SPECIAL[ 8 * i + j - 9 ] = SP_HOLIDAY;
 	}
 
 	// The following are static variables used to track the calendar.
@@ -439,18 +445,21 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		appendDayCount( displayHTML, Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 ) );
 		displayHTML.append( "<br><br>" );
 
-		// Next display the upcoming holidays.
+		// Next display the upcoming holidays.  This is done
+		// through loop calculations in order to minimize the
+		// amount of code done to handle individual holidays.
 
-		displayHTML.append( "<b>Oyster Day</b>:&nbsp;" );
-		appendDayCount( displayHTML, ((16 - currentMonth) % 12) * 8 + (2 - currentDay) );
-		displayHTML.append( "<br>" );
+		int currentDate = currentMonth * 8 + currentDay - 9;
 
-		displayHTML.append( "<b>Halloween</b>:&nbsp;" );
-		appendDayCount( displayHTML, ((22 - currentMonth) % 12) * 8 + (8 - currentDay) );
-		displayHTML.append( "<br>" );
-
-		displayHTML.append( "<b>Feast of Boris</b>:&nbsp;" );
-		appendDayCount( displayHTML, ((23 - currentMonth) % 12) * 8 + (7 - currentDay) );
+		for ( int i = 0; i < 96; ++i )
+			if ( SPECIAL[i] == SP_HOLIDAY )
+			{
+				displayHTML.append( "<b>" );
+				displayHTML.append( HOLIDAYS[ i / 8 + 1 ][ i % 8 + 1 ] );
+				displayHTML.append( "</b>:&nbsp;" );
+				appendDayCount( displayHTML, (i - currentDate + 96) % 96 );
+				displayHTML.append( "<br>" );
+			}
 
 		// Now that the HTML has been completely
 		// constructed, clear the display dailyBuffer
