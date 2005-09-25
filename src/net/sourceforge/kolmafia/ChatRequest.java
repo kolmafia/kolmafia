@@ -43,7 +43,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class ChatRequest extends KoLRequest
 {
-	private static final int ADDED_DELAY = 6000;
+	private static final int CHAT_DELAY = 8000;
 
 	private static int lastSeen;
 	private static ChatContinuationThread thread = null;
@@ -176,7 +176,7 @@ public class ChatRequest extends KoLRequest
 				// refresh rate indicated - this is likely the default rate
 				// used for the KoLChat.
 
-				ChatRequest.delay( ADDED_DELAY );
+				ChatRequest.delay( CHAT_DELAY );
 				(new ChatRequest( client, lastSeen )).run();
 			}
 

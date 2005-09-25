@@ -352,7 +352,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( this instanceof ChatRequest || this instanceof CharpaneRequest )
+		if ( !isDelayExempt() )
 		{
 			// Chat requests can run without problems concurrently
 			// with other requests.  The same is true of requests
@@ -411,6 +411,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 	}
 
+	private boolean isDelayExempt()
+	{	return client.inLoginState() || this instanceof ChatRequest || getClass() == KoLRequest.class || this instanceof CharpaneRequest;
+	}
+
 	/**
 	 * Utility method used to retry requests - this allows the KoLRequest
 	 * itself to rerun without calling the run method that instantiated
@@ -434,7 +438,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// the delay to avoid people switching the option
 			// off just to avoid login slowdown.
 
-			if ( !client.inLoginState() && getClass() != KoLRequest.class && getClass() != CharpaneRequest.class )
+			if ( !isDelayExempt() )
 				delay();
 		}
 		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
