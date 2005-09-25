@@ -479,7 +479,7 @@ public class RequestFrame extends KoLFrame
 			JMenu spoilerMenu = new JMenu( "KoL Spoiler Sites" );
 			spoilerMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.subjunctive.net/kol/FrontPage.html" ) );
 			spoilerMenu.add( new DisplayPageMenuItem( "KoL @ Coldfront", KeyEvent.KEY_LOCATION_UNKNOWN, "http://kol.coldfront.net/" ) );
-			spoilerMenu.add( new DisplayPageMenuItem( "Jinya's Visual KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://kol.thraeryn.org/" ) );
+			spoilerMenu.add( new DisplayPageMenuItem( "Jinya's KoL Wiki", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.thekolwiki.net/" ) );
 
 			headers[3] = spoilerMenu;
 
