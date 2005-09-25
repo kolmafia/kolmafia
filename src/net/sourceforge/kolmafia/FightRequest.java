@@ -66,7 +66,7 @@ public class FightRequest extends KoLRequest
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
 
-		int fleeTolerance = (int)( Double.parseDouble( getProperty( "battleStop" ) ) * (double) client.getCharacterData().getMaximumHP() );
+		int haltTolerance = (int)( Double.parseDouble( getProperty( "battleStop" ) ) * (double) client.getCharacterData().getMaximumHP() );
 
 		// For now, there will not be any attempts to handle
 		// special skills - the user will simply attack, use
@@ -82,10 +82,12 @@ public class FightRequest extends KoLRequest
 
 			this.action = "attack";
 		}
-		else if ( fleeTolerance != 0 && client.getCharacterData().getCurrentHP() <= fleeTolerance )
+		else if ( haltTolerance != 0 && client.getCharacterData().getCurrentHP() <= haltTolerance )
 		{
-			this.action = "runaway";
-			addFormField( "action", action );
+			// If you plan on halting the battle
+			// due to HP loss, then flag it.
+
+			this.action = "...";
 		}
 		else if ( action.startsWith( "item" ) )
 		{
@@ -128,7 +130,7 @@ public class FightRequest extends KoLRequest
 		if ( !client.permitsContinue() )
 			updateDisplay( DISABLED_STATE, "Completing battle, round " + (roundCount+1) + "..." );
 
-		if ( action.equals( "runaway" ) )
+		if ( action.equals( "..." ) )
 		{
 			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
@@ -169,16 +171,6 @@ public class FightRequest extends KoLRequest
 				// but that the loop should be halted.
 
 				updateDisplay( ERROR_STATE, "You were defeated!" );
-				client.processResult( new AdventureResult( "Beaten Up", 4 ) );
-				client.cancelRequest();
-			}
-			else if ( responseText.indexOf( "You run away," ) != -1 )
-			{
-				// If you successfully run away, then you should update
-				// the display to indicate that you ran away and adventuring
-				// should terminate.
-
-				updateDisplay( ERROR_STATE, "Autoflee succeeded." );
 				client.cancelRequest();
 			}
 			else
@@ -195,7 +187,7 @@ public class FightRequest extends KoLRequest
 
 	private int getMPCost()
 	{
-		if ( action.equals( "attack" ) || action.equals( "runaway" ) )
+		if ( action.equals( "attack" ) )
 			return 0;
 
 		if ( action.startsWith( "item" ) )

@@ -144,6 +144,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Once the request is complete, be sure to deduct the
 		// used adventures from the tally
 
+		if ( client.getCharacterData().getCurrentHP() == 0 )
+			client.processResult( new AdventureResult( "Beaten Up", request.responseCode == 302 ? 4 : 5 ) );
+
 		client.processResult( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
 		isErrorState = false;
 	}
