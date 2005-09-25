@@ -238,11 +238,11 @@ public class ClanManager implements KoLConstants
 
 		// Server friendly requests take an additional 5 seconds per
 		// request.  Because the estimate is that the server takes
-		// 5 seconds per response, this effectively should double
-		// the amount of time estimated.
+		// 5 seconds per response, this effectively should triple
+		// the amount of time estimated (because you delay twice).
 
 		message.append( "This process will take " );
-		message.append( ((int)(requestsNeeded / (KoLRequest.isServerFriendly ? 5 : 10)) + 1) );
+		message.append( ((int)(requestsNeeded / (KoLRequest.isServerFriendly ? 3 : 10)) + 1) );
 		message.append( " minutes to complete." );
 		message.append( System.getProperty( "line.separator" ) );
 
