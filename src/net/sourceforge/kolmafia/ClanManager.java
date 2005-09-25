@@ -231,11 +231,26 @@ public class ClanManager implements KoLConstants
 		if ( requestsNeeded == 0 )
 			return true;
 
-		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-			profileMap.size() + " members are currently in your clan.\nThis process will take " +
-			((int)(requestsNeeded / 10) + 1) + " minutes to complete.\nAre you sure you want to continue?",
-			"Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
-				return false;
+		StringBuffer message = new StringBuffer();
+		message.append( profileMap.size() );
+		message.append( " members are currently in your clan." );
+		message.append( System.getProperty( "line.separator" ) );
+
+		// Server friendly requests take an additional 5 seconds per
+		// request.  Because the estimate is that the server takes
+		// 5 seconds per response, this effectively should double
+		// the amount of time estimated.
+
+		message.append( "This process will take " );
+		message.append( ((int)(requestsNeeded / (KoLRequest.isServerFriendly ? 5 : 10)) + 1) );
+		message.append( " minutes to complete." );
+		message.append( System.getProperty( "line.separator" ) );
+
+		message.append( "Are you sure you want to continue?" );
+		message.append( System.getProperty( "line.separator" ) );
+
+		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, message.toString(), "Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
+			return false;
 
 		// Now that it's known what the user wishes to continue,
 		// you begin initializing all the data.
