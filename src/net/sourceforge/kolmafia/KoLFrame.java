@@ -347,6 +347,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php" ) );
 			statusMenu.add( new DisplayFrameMenuItem( "Visit Council", KeyEvent.VK_V, CouncilFrame.class ) );
 			statusMenu.add( new MiniBrowserMenuItem( "Weird Records", KeyEvent.VK_W, "records.php?which=0" ) );
+			statusMenu.add( new JSeparator() );
 		}
 
 		statusMenu.add( new DisplayFrameMenuItem( "KoL Almanac", KeyEvent.VK_K, CalendarFrame.class ) );
@@ -376,7 +377,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		travelMenu.setMnemonic( KeyEvent.VK_T );
 		menu.add( travelMenu );
 
-		travelMenu.add( new DisplayFrameMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, CakeArenaFrame.class ) );
+		travelMenu.add( new InvocationMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, client, "visitCakeShapedArena" ) );
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", KeyEvent.VK_L, client, "makeHermitRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Mountain Traps", KeyEvent.VK_M, client, "makeTrapperRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Bounty Hunter", KeyEvent.VK_B, client, "makeHunterRequest" ) );

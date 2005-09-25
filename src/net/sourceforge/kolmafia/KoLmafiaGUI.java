@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  * The main class for the <code>KoLmafia</code> package.  This
@@ -397,4 +398,14 @@ public class KoLmafiaGUI extends KoLmafia
 		refresher.run();
 	}
 
+	public void visitCakeShapedArena()
+	{
+		if ( cakeArenaManager.getOpponentList().isEmpty() )
+			(new CakeArenaRequest( this )).run();
+
+		Object [] parameters = new KoLmafia[1];
+		parameters[0] = this;
+
+		SwingUtilities.invokeLater( new CreateFrameRunnable( CakeArenaFrame.class, parameters ) );
+	}
 }

@@ -57,6 +57,9 @@ public class CakeArenaRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( !isCompetition )
+			updateDisplay( DISABLED_STATE, "Retrieving opponent list..." );
+
 		super.run();
 
 		if ( responseText.indexOf( "You can't" ) != -1 || responseText.indexOf( "You shouldn't" ) != -1 ||
@@ -90,6 +93,8 @@ public class CakeArenaRequest extends KoLRequest
 			lastMatchIndex = opponentMatcher.end() + 1;
 			client.getCakeArenaManager().registerOpponent( Integer.parseInt( opponentMatcher.group(1) ), opponentMatcher.group(2).substring(4), opponentMatcher.group(3) );
 		}
+
+		updateDisplay( ENABLED_STATE, "Opponent list retrieved." );
 	}
 
 	public String toString()
