@@ -99,30 +99,39 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
 			{ "Knob goblin harem veil", "Knob goblin harem pants", "100 meat" } },
 
+		// Yeti Nother Hippy
 		{ { "choiceAdventure15" }, { "eXtreme Slope 1" },
 			{ "eXtreme mittens", "eXtreme scarf", "75 meat" } },
 
+		// Saint Beernard
 		{ { "choiceAdventure16" }, { "eXtreme Slope 2" },
 			{ "snowboarder pants", "eXtreme scarf", "75 meat" } },
 
+		// Generic Teen Comedy
 		{ { "choiceAdventure17" }, { "eXtreme Slope 3" },
 			{ "eXtreme mittens", "snowboarder pants", "75 meat" } },
 
+		// A Flat Miner
 		{ { "choiceAdventure18" }, { "Itznotyerzitz Mine 1" },
 			{ "miner's pants", "7-Foot Dwarven mattock", "100 meat" } },
 
+		// 100% Legal
 		{ { "choiceAdventure19" }, { "Itznotyerzitz Mine 2" },
 			{ "miner's helmet", "miner's pants", "75 meat" } },
 
+		// See You Next Fall
 		{ { "choiceAdventure20" }, { "Itznotyerzitz Mine 3" },
 			{ "miner's helmet", "7-Foot Dwarven mattock", "100 meat" } },
 
+		// The Arrrbitrator
 		{ { "choiceAdventure22" }, { "Pirate's Cove 1" },
 			{ "eyepatch", "swashbuckling pants", "100 meat" } },
 
+		// Barrie Me at Sea
 		{ { "choiceAdventure23" }, { "Pirate's Cove 2" },
 			{ "stuffed shoulder parrot", "swashbuckling pants", "100 meat" } },
 
+		// Amatearrr Night
 		{ { "choiceAdventure24" }, { "Pirate's Cove 3" },
 			{ "stuffed shoulder parrot", "100 meat", "eyepatch" } },
 
