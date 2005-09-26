@@ -107,13 +107,14 @@ public class CharpaneRequest extends KoLRequest
 	{
 		handleStatPoints( "Mus", "Mys", "Mox" );
 		handleMiscPoints( "HP", "MP", "Meat", "Adv", "" );
+		handleMindControl( "MC" );
 	}
 
 	private void handleExpandedMode() throws Exception
 	{
 		handleStatPoints( "Muscle", "Mysticality", "Moxie" );
 		handleMiscPoints( "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;" );
-		handleMindControl();
+		handleMindControl( "Mind Control" );
 	}
 
 	private void handleStatPoints( String musString, String mysString, String moxString ) throws Exception
@@ -140,7 +141,7 @@ public class CharpaneRequest extends KoLRequest
 
 	private void handleMiscPoints( String hpString, String mpString, String meatString, String advString, String spacerString ) throws Exception
 	{
-		Matcher miscMatcher = Pattern.compile( hpString + ".*?<font.*?>(.*?)" + spacerString + "/" + spacerString + "(.*?)</font>.*?" +
+		Matcher miscMatcher = Pattern.compile( hpString + ".*?<font.*?><font.*?>(.*?)" + spacerString + "/" + spacerString + "(.*?)</font>.*?" +
 			mpString + ".*?<b>(<font.*?>)?(.*?)" + spacerString + "/" + spacerString + "(.*?)(</font>)?</b>.*?" +
 			meatString + ".*?<b>(<font.*?>)?(.*?)(</font>)?</b>.*?" + advString + ".*?<b>(<font.*?>)?(.*?)(</font>)?</b>" ).matcher( responseText );
 
@@ -158,11 +159,11 @@ public class CharpaneRequest extends KoLRequest
 		}
 	}
 
-	private void handleMindControl() throws Exception
+	private void handleMindControl( String mcString) throws Exception
 	{
-		Matcher matcher = Pattern.compile( "Mind Control</a>: <b>(.*?)</b>" ).matcher( responseText );
+		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(.*?)</b>" ).matcher( responseText );
 
 		if ( matcher.find() )
-			character.setMindControlLevel( df.parse( matcher.group(1) ).intValue() );
+			character.setMindControlLevel( df.parse( matcher.group(2) ).intValue() );
 	}
 }

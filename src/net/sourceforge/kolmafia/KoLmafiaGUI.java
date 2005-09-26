@@ -337,8 +337,11 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		try
 		{
+			// Make sure we know current setting
+			(new CharpaneRequest( this )).run();
+
 			int level = df.parse( JOptionPane.showInputDialog(
-				null, "Set the device to what level?", "Send instructions to monsters", JOptionPane.INFORMATION_MESSAGE ) ).intValue();
+				null, "Set the device to what level?", "Change mind control device from level " + characterData.getMindControlLevel(), JOptionPane.INFORMATION_MESSAGE ) ).intValue();
 
 			(new MindControlRequest( this, level )).run();
 		}
