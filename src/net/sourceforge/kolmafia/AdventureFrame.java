@@ -226,7 +226,7 @@ public class AdventureFrame extends KoLFrame
 
 		public AdventureSelectPanel()
 		{
-			super( "begin", "stop", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
+			super( "begin", "win game", "stop", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
 
 			actions = new LockableListModel();
 			actionNames = new LockableListModel();
@@ -478,9 +478,39 @@ public class AdventureFrame extends KoLFrame
 			// there's no actual functionality, simply request focus
 
 			contentPanel = this;
-			client.updateDisplay( CANCELLED_STATE, "Adventuring terminated." );
-			client.cancelRequest();
-			requestFocus();
+
+			if ( isEnabled() )
+				(new WinGameThread()).start();
+			else
+			{
+				client.updateDisplay( CANCELLED_STATE, "Adventuring terminated." );
+				client.cancelRequest();
+				requestFocus();
+			}
+		}
+
+		private class WinGameThread extends DaemonThread
+		{
+			public void run()
+			{
+				if ( client != null )
+					client.resetContinueState();
+
+				if ( client == null || client.permitsContinue() )
+					updateDisplay( DISABLED_STATE, "Petitioning the Seaside Town Council for automatic game completion..." );
+
+				KoLRequest.delay( 3000 );
+				if ( client == null || client.permitsContinue() )
+					updateDisplay( DISABLED_STATE, "The Seaside Town Council has rejected your petition.  Game incomplete." );
+
+				KoLRequest.delay( 3000 );
+				if ( client == null || client.permitsContinue() )
+					updateDisplay( DISABLED_STATE, "You reject the Seaside Town's decision.  Fighting the council..." );
+
+				KoLRequest.delay( 3000 );
+				if ( client == null || client.permitsContinue() )
+					updateDisplay( ERROR_STATE, "You have been defeated by the Seaside Town Council.  Game Over." );
+			}
 		}
 
 		public void requestFocus()
