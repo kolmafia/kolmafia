@@ -385,7 +385,6 @@ public class AdventureDatabase extends KoLDatabase
 			if ( creationCount >= missingCount )
 			{
 				creation.run();
-				return;
 			}
 			else if ( creationCount > 0 )
 			{
@@ -393,27 +392,32 @@ public class AdventureDatabase extends KoLDatabase
 				// and fall through to the next satisfaction attempt.
 
 				ItemCreationRequest.getInstance( client, item.getItemID(), creationCount ).run();
-				missingCount -= creationCount;
 			}
 		}
+
+		missingCount = item.getCount() - item.getCount( client.getInventory() );
 
 		// Now, if the user wishes to retrieve items from the mall,
 		// then allow them to make the purchases.
 
-		if ( client.getSettings().getProperty( "autoSatisfyWithMall" ).equals( "true" ) )
+		if ( missingCount > 0 )
 		{
-			try
+			if ( client.getSettings().getProperty( "autoSatisfyWithMall" ).equals( "true" ) )
 			{
-				KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
-				purchaser.executeLine( "buy " + missingCount + " " + item.getName() );
-				missingCount = 0;
-			}
-			catch ( Exception e )
-			{
-				// This should not happen, so go
-				// ahead and ignore it.
+				try
+				{
+					KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
+					purchaser.executeLine( "buy " + missingCount + " " + item.getName() );
+				}
+				catch ( Exception e )
+				{
+					// This should not happen, so go
+					// ahead and ignore it.
+				}
 			}
 		}
+
+		missingCount = item.getCount() - item.getCount( client.getInventory() );
 
 		if ( missingCount <= 0 )
 			return;
