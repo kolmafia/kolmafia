@@ -230,7 +230,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "savePositions", "false" );
 		ensureProperty( "saveOutgoing", "false" );
 		ensureProperty( "saveState", "" );
-		ensureProperty( "serverFriendly", "true" );
+		ensureProperty( "serverFriendly", "false" );
 		ensureProperty( "showAdventureZone", "true" );
 		ensureProperty( "skipFamiliars", "false" );
 		ensureProperty( "skipInventory", "false" );

@@ -242,7 +242,7 @@ public class ClanManager implements KoLConstants
 		// the amount of time estimated (because you delay twice).
 
 		message.append( "This process will take " );
-		message.append( ((int)(requestsNeeded / (KoLRequest.isServerFriendly ? 5 : 10)) + 1) );
+		message.append( ((int)(requestsNeeded / (KoLRequest.isServerFriendly ? 4 : 10)) + 1) );
 		message.append( " minutes to complete." );
 		message.append( System.getProperty( "line.separator" ) );
 

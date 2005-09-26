@@ -68,7 +68,7 @@ import java.util.regex.Pattern;
 public class KoLRequest implements Runnable, KoLConstants
 {
 	protected static boolean isCompactMode = false;
-	protected static boolean isServerFriendly = true;
+	protected static boolean isServerFriendly = false;
 
 	private static final String [][] SERVERS =
 	{
@@ -352,7 +352,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( !isDelayExempt() )
+		if ( isDelayExempt() )
 		{
 			// Chat requests can run without problems concurrently
 			// with other requests.  The same is true of requests
@@ -383,7 +383,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected static void delay()
-	{	delay( isServerFriendly ? 2000 : 500 );
+	{	delay( isServerFriendly ? 4000 : 500 );
 	}
 
 	/**
