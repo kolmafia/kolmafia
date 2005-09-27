@@ -22,6 +22,7 @@ full meat tank	1	0	empty meat tank	meat stack
 heavy metal sonata	1	0	chrome ore	drab sonata
 heavy metal thunderrr guitarrr	1	0	acoustic guitarrr	chrome ore
 hosed tank	1	0	fishtank	fish hose
+intragalactic rowboat	1	0	S.O.C.K.	quantum egg
 makeshift SCUBA gear	1	0	hosed tank	fishbowl
 really really sticky spider web	1	0	really sticky spider web	really sticky spider web
 really sticky spider web	1	0	spider web	spider web
@@ -51,28 +52,41 @@ spooky scarecrow	1	0	wooden stakes	spooky staff
 # Weapons and accessories that can be created by non-seal clubbers by
 # combining items.
 
-5-Alarm Saucepan	1	0	heavy hot sauce	saucepan
 asshat	1	0	bum cheek	bum cheek
-Bjorn's Hammer	1	0	seal-clubbing club	seal-toothed rock
 charrrm bracelet	1	0	hemp bracelet	charrrm
 detective skull	1	0	gnoll lips	brainy skull
-Disco Banjo	1	0	disco ball	stone banjo
 enchanted eyepatch	1	0	eyepatch	lihc eye
 gnatwing earring	1	0	gnatwing	piercing post
 gnoll-tooth necklace	1	0	gnoll teeth	necklace chain
 Gnollish autoplunger	1	0	Gnollish plunger	meat engine
-heart of rock and roll	1	0	big rock	hot buttered roll
-heavy hot sauce	1	0	big rock	jaba&ntilde;ero pepper
 icy-hot katana	1	0	icy katana hilt	hot katana blade
 meat cowboy hat	1	0	basic meat helmet	whitesnake skin
 phat turquoise bracelet	1	0	hemp bracelet	phat turquoise bead
 pimpin' meat hat	1	0	basic meat helmet	bling-bling
-Rock and Roll Legend	1	0	heart of rock and roll	stolen accordion
-seal-toothed rock	1	0	big rock	seal tooth
-stone banjo	1	0	big rock	banjo strings
 spooky staff	1	0	spooky shrunken head	spooky stick
 Talisman o' Nam	1	0	snakehead charrrm	snakehead charrrm
+
+
+# Clover weapons and their subcomponents.  These can be made by all
+# classes by combining items.
+
+seal-toothed rock	1	0	big rock	seal tooth
+Bjorn's Hammer	1	0	seal-clubbing club	seal-toothed rock
+
+turtle factory	1	0	big rock	tortoise's blessing
 Turtleslinger	1	0	slingshot	turtle factory
+
+spaghetti with rock-balls	1	0	big rock	ravioli hat
+Pasta of Peril	1	0	spaghetti with rock-balls	pasta spoon
+
+heavy hot sauce	1	0	big rock	jaba&ntilde;ero pepper
+5-Alarm Saucepan	1	0	heavy hot sauce	saucepan
+
+stone banjo	1	0	big rock	banjo strings
+Disco Banjo	1	0	disco ball	stone banjo
+
+heart of rock and roll	1	0	big rock	hot buttered roll
+Rock and Roll Legend	1	0	heart of rock and roll	stolen accordion
 
 
 # Familiar items and their subcomponents which do not serve any other
@@ -124,15 +138,6 @@ Wand of Nagamar	1	0	WA	ND
 wang	1	0	WA	NG
 
 
-# Items with no remembered purpose.
-
-Pasta of Peril	1	0	spaghetti with rock-balls	pasta spoon
-pie crust	2	0	Gnollish pie tin	wad of dough
-intragalactic rowboat	1	0	S.O.C.K.	quantum egg
-spaghetti with rock-balls	1	0	big rock	ravioli hat
-turtle factory	1	0	big rock	tortoise's blessing
-
-
 # Burritos, pizza and statue lime pies.  These are a class all their own
 # because of their popularity.  Other really popular items, like spectral
 # pickles, are also included.
@@ -155,6 +160,7 @@ Jarlsberg's key lime pie	2	0	Jarlsberg's key lime	pie crust
 jumping bean burrito	2	0	flat dough	jumping beans
 Lucky Surprise Egg	2	0	ten-leaf clover	cocoa egg
 mushroom pizza	2	0	plain pizza	Knob mushroom
+pie crust	2	0	Gnollish pie tin	wad of dough
 plain pizza	2	0	wad of dough	tomato
 sausage pizza	2	0	plain pizza	Knob sausage
 spicy bean burrito	2	0	bean burrito	spices
