@@ -1112,7 +1112,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// number of choice adventures the user wishes to do.
 
 				String [] splitCondition = conditionString.split( "\\s+" );
-				condition = new AdventureResult( AdventureResult.ADV, splitCondition.length > 1 ? Integer.parseInt( splitCondition[0] ) : 1 );
+				condition = new AdventureResult( AdventureResult.CHOICE, splitCondition.length > 1 ? Integer.parseInt( splitCondition[0] ) : 1 );
 
 				// Make sure that the settings are forced to true --
 				// otherwise, this condition will not work.

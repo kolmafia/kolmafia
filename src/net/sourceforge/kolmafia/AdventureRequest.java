@@ -415,7 +415,7 @@ public class AdventureRequest extends KoLRequest
 
 			client.processResults( request.responseText );
 
-			AdventureResult loseAdventure = new AdventureResult( AdventureResult.ADV, -1 );
+			AdventureResult loseAdventure = new AdventureResult( AdventureResult.CHOICE, -1 );
 
 			if ( loseAdventure.getCount( client.getConditions() ) > 0 )
 			{

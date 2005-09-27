@@ -78,6 +78,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	public static final String HP = "HP";
 	public static final String MP = "MP";
 	public static final String ADV = "Adv";
+	public static final String CHOICE = "Choice";
 	public static final String DRUNK = "Drunk";
 	public static final String MEAT = "Meat";
 	public static final String SUBSTATS = "Substats";
@@ -402,6 +403,9 @@ public class AdventureResult implements Comparable, KoLConstants
 			return "(Unrecognized result)";
 
 		if ( name.equals(ADV) )
+			return " Adventures: " + df.format(count[0]);
+
+		if ( name.equals(CHOICE) )
 			return " Choice Adventures: " + df.format(count[0]);
 
 		if ( name.equals(HP) || name.equals(MP) || name.equals(DRUNK) || name.equals(MEAT) )
