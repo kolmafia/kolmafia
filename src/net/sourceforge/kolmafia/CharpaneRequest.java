@@ -151,25 +151,21 @@ public class CharpaneRequest extends KoLRequest
 
 	private void handleMiscPoints( String hpString, String mpString, String meatString, String advString, String spacerString ) throws Exception
 	{
-		Matcher miscMatcher = Pattern.compile( hpString + ".*?<font.*?><font.*?>(.*?)" + spacerString + "/" + spacerString + "(.*?)</font>.*?" +
+		Matcher miscMatcher = Pattern.compile( hpString + ".*?(<font.*?>)?<font.*?>(.*?)" + spacerString + "/" + spacerString + "(.*?)</font>.*?" +
 			mpString + ".*?<b>(<font.*?>)?(.*?)" + spacerString + "/" + spacerString + "(.*?)(</font>)?</b>.*?" +
 			meatString + ".*?<b>(<font.*?>)?(.*?)(</font>)?</b>.*?" + advString + ".*?<b>(<font.*?>)?(.*?)(</font>)?</b>" ).matcher( responseText );
 
 		if ( miscMatcher.find() )
 		{
-			character.setHP( df.parse( miscMatcher.group(1) ).intValue(), df.parse( miscMatcher.group(2) ).intValue(),
-				character.getBaseMaxHP() );
+			character.setHP( df.parse( miscMatcher.group(2) ).intValue(), df.parse( miscMatcher.group(3) ).intValue(), df.parse( miscMatcher.group(3) ).intValue() );
+			character.setMP( df.parse( miscMatcher.group(5) ).intValue(), df.parse( miscMatcher.group(6) ).intValue(), df.parse( miscMatcher.group(6) ).intValue() );
 
-			character.setMP( df.parse( miscMatcher.group(4) ).intValue(), df.parse( miscMatcher.group(5) ).intValue(),
-				character.getBaseMaxMP() );
-
-			character.setAvailableMeat( df.parse( miscMatcher.group(8) ).intValue() );
-			character.setAdventuresLeft( df.parse( miscMatcher.group(11) ).intValue() );
-
+			character.setAvailableMeat( df.parse( miscMatcher.group(9) ).intValue() );
+			character.setAdventuresLeft( df.parse( miscMatcher.group(12) ).intValue() );
 		}
 	}
 
-	private void handleMindControl( String mcString) throws Exception
+	private void handleMindControl( String mcString ) throws Exception
 	{
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(.*?)</b>" ).matcher( responseText );
 
