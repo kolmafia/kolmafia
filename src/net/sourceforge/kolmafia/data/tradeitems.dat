@@ -191,7 +191,7 @@
 191	Boss Bat bandana	0	0
 192	batskin belt	0	0
 193	birthday candle	0	50
-194	Mr. Accessory	8	0
+194	Mr. Accessory	8	-1
 195	eXtreme nose ring	8	75
 196	disassembled clover	4	-1
 197	rat whisker	0	0
@@ -642,12 +642,12 @@
 642	skeleton key	0	31
 643	skeleton key ring	0	67
 644	Crimbo pressie	0	0
-645	wrapping paper	0	0
-646	fruitcake	1	0
-647	present	0	0
-648	Crimbo sword	12	0
-649	Crimbo hat	9	0
-650	Crimbo pants	10	0
+645	wrapping paper	0	-1
+646	fruitcake	1	-1
+647	present	0	-1
+648	Crimbo sword	12	-1
+649	Crimbo hat	9	-1
+650	Crimbo pants	10	-1
 651	exclusive ultra-rare item	8	0
 652	quantum egg	0	0
 653	intragalactic rowboat	0	0
@@ -689,17 +689,17 @@
 689	pixel pants	10	45
 690	pixel sword	12	65
 691	digital key	0	65
-692	Ascension souvenir t-shirt	11	0
+692	Ascension souvenir t-shirt	11	20
 693	harem girl t-shirt	11	30
 694	Knob Goblin elite shirt	11	40
 695
 696	frilly shirt	11	25
-697	soggy wofl t-shirt	11	0
-698	loathing eagle baby-doll t-shirt	11	0
-699	pirate shirt	11	0
-700	filthy hippy poncho	11	0
-701	floral print shirt	11	0
-702	coconut bikini top	11	0
+697	soggy wofl t-shirt	11	55
+698	loathing eagle baby-doll t-shirt	11	50
+699	pirate shirt	11	55
+700	filthy hippy poncho	11	45
+701	floral print shirt	11	25
+702	coconut bikini top	11	25
 703	goth kid t-shirt	11	105
 704	hamethyst	0	500
 705	baconstone	0	500
@@ -781,19 +781,19 @@
 781	mafia aria	0	110
 782	Mr. Exploiter	8	250000000
 783	'Villa' document	0	125000000
-784	Acqua Del Piatto Merlot	2	0
+784	Acqua Del Piatto Merlot	2	-1
 785
 786	strawberry	1	35
 787	bottle of rum	2	35
 788	strawberry daiquiri	2	65
 789	rum and cola	2	75
 790	grog	2	78
-791	Mafia bow tie	8	0
-792	Golden Mr. Accessory	8	0
+791	Mafia bow tie	8	-1
+792	Golden Mr. Accessory	8	-1
 793	potion of chalky equality	4	36
 794	alarming strawberry juice	4	36
-795	Acque Luride Grezze Cabernet	2	0
-796	cement shoes	8	0
+795	Acque Luride Grezze Cabernet	2	-1
+796	cement shoes	8	-1
 797	rockin' wagon	2	115
 798	ocean motion	2	115
 799	fuzzbump	2	115
@@ -902,7 +902,7 @@
 902	100-Watt bulb	6	75
 903	Spasmi Dolorosi Del Rene Champagne	2	-1
 904	old school Mafia knickerbockers	10	0
-905	Yummy Tummy bean	0	0
+905	Yummy Tummy bean	0	-1
 906	Rock Pops	0	-1
 907	Mr. Mediocrebar	0	-1
 908	Cold Hots candy	0	-1
@@ -1290,3 +1290,10 @@
 1290	cheap wind-up clock	4	100
 1291	Jekyllin hide belt	8	-1
 1292	skirt / kilt kit	0	50
+1293	
+1294	
+1295	
+1296	
+1297	
+1298	
+1299	pirate hook	0	0
