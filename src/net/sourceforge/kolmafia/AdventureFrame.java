@@ -955,6 +955,18 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
+	protected void processWindowEvent( WindowEvent e )
+	{
+		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
+		{
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+				"Are you sure you wish to end this KoLmafia session?", "SDUGA Accidental Exit Protection Feature", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
+					return;
+		}
+
+		super.processWindowEvent( e );
+	}
+
 	/**
 	 * The main method used in the event of testing the way the
 	 * user interface looks.  This allows the UI to be tested
