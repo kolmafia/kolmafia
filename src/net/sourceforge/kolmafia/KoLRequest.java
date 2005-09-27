@@ -412,7 +412,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	private boolean isDelayExempt()
-	{	return client.inLoginState() || this instanceof ChatRequest || getClass() == KoLRequest.class || this instanceof CharpaneRequest;
+	{	return client == null || client.inLoginState() || this instanceof ChatRequest || getClass() == KoLRequest.class || this instanceof CharpaneRequest;
 	}
 
 	/**
