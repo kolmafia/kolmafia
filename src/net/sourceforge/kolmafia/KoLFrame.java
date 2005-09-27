@@ -159,6 +159,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	private String frameName;
 	protected boolean isEnabled;
 	protected KoLPanel contentPanel;
+	protected JCheckBoxMenuItem [] consumeFilter;
 
 	protected JPanel compactPane;
 	protected JLabel hpLabel, mpLabel, advLabel;
@@ -406,6 +407,28 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		commMenu.add( new DisplayFrameMenuItem( "Gift Shop Back Room", KeyEvent.VK_G, GiftMessageFrame.class ) );
 
 		return commMenu;
+	}
+
+	protected final JMenu addConsumeMenu( JComponent menu )
+	{
+		JMenu consumeMenu = new JMenu( "Consumables" );
+		menu.add( consumeMenu );
+
+		consumeFilter = new JCheckBoxMenuItem[3];
+		int restriction = client == null ? AscensionSnapshotTable.NOPATH : client.getCharacterData().getConsumptionRestriction();
+
+		consumeFilter[0] = new FilterMenuItem( "Show food", client == null || client.getCharacterData() == null ||
+			restriction == AscensionSnapshotTable.NOPATH || restriction == AscensionSnapshotTable.TEETOTALER );
+
+		consumeFilter[1] = new FilterMenuItem( "Show booze", client == null || client.getCharacterData() == null ||
+			restriction == AscensionSnapshotTable.NOPATH || restriction == AscensionSnapshotTable.BOOZETAFARIAN );
+
+		consumeFilter[2] = new FilterMenuItem( "Show others", true );
+
+		for ( int i = 0; i < consumeFilter.length; ++i )
+			consumeMenu.add( consumeFilter[i] );
+
+		return consumeMenu;
 	}
 
 	/**
@@ -1115,6 +1138,28 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
+	}
+
+	public void refreshFilters()
+	{
+	}
+
+	protected class FilterMenuItem extends JCheckBoxMenuItem implements ActionListener
+	{
+		public FilterMenuItem( String name )
+		{	this( name, true );
+		}
+
+		public FilterMenuItem( String name, boolean isSelected )
+		{
+			super( name );
+			setSelected( isSelected );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	refreshFilters();
+		}
 	}
 
 	/**

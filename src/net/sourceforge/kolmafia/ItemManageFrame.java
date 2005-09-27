@@ -57,6 +57,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JOptionPane;
 
 // other imports
@@ -104,6 +105,7 @@ public class ItemManageFrame extends KoLFrame
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
 		addMenuBar();
+		refreshFilters();
 	}
 
 	private void addMenuBar()
@@ -112,22 +114,26 @@ public class ItemManageFrame extends KoLFrame
 		this.setJMenuBar( menuBar );
 
 		JMenu refreshMenu = new JMenu( "Refresh" );
-		refreshMenu.setMnemonic( KeyEvent.VK_R );
 		refreshMenu.add( new ListRefreshMenuItem() );
-
 		menuBar.add( refreshMenu );
 
-		JMenu creationMenu = new JMenu( "Creation" );
-		creationMenu.setMnemonic( KeyEvent.VK_C );
+		addConsumeMenu( menuBar );
 
+		JMenu creationMenu = new JMenu( "Creation" );
 		creationMenu.add( new CreationDisplayMenuItem( "Use closet as ingredient source", "useClosetForCreation" ) );
 		creationMenu.add( new CreationDisplayMenuItem( "Auto-repair box servants on explosion", "autoRepairBoxes" ) );
 		creationMenu.add( new CreationDisplayMenuItem( "Use clockwork box servants", "useClockworkBoxes" ) );
 		creationMenu.add( new CreationDisplayMenuItem( "Cook or mix without a box servant", "createWithoutBoxServants" ) );
 		creationMenu.add( new CreationDisplayMenuItem( "Include post-ascension recipes", "includeAscensionRecipes" ) );
-
 		menuBar.add( creationMenu );
+
 		addHelpMenu( menuBar );
+	}
+
+	public void refreshFilters()
+	{
+		((ConsumePanel)using).consumePanel.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
+			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
 	}
 
 	/**

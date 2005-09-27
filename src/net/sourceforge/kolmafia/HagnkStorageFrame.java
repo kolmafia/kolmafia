@@ -56,7 +56,6 @@ public class HagnkStorageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
 	private HagnkStoragePanel all, consume, equip;
-	private JCheckBoxMenuItem [] consumeFilter;
 	private JCheckBoxMenuItem [] equipFilter;
 
 	public HagnkStorageFrame( KoLmafia client )
@@ -94,15 +93,7 @@ public class HagnkStorageFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu consumeMenu = new JMenu( "Consumables" );
-		consumeFilter = new JCheckBoxMenuItem[3];
-		consumeFilter[0] = new FilterMenuItem( "Show food" );
-		consumeFilter[1] = new FilterMenuItem( "Show booze" );
-		consumeFilter[2] = new FilterMenuItem( "Show others" );
-
-		for ( int i = 0; i < consumeFilter.length; ++i )
-			consumeMenu.add( consumeFilter[i] );
-		menuBar.add( consumeMenu );
+		addConsumeMenu( menuBar );
 
 		JMenu equipMenu = new JMenu( "Equipment" );
 		equipFilter = new JCheckBoxMenuItem[5];
@@ -124,20 +115,6 @@ public class HagnkStorageFrame extends KoLFrame
 
 		equip.elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer( equipFilter[0].isSelected(),
 			equipFilter[1].isSelected(), equipFilter[2].isSelected(), equipFilter[3].isSelected(), equipFilter[4].isSelected() ) );
-	}
-
-	private class FilterMenuItem extends JCheckBoxMenuItem implements ActionListener
-	{
-		public FilterMenuItem( String name )
-		{
-			super( name );
-			setSelected( true );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	refreshFilters();
-		}
 	}
 
 	public void setEnabled( boolean isEnabled )
