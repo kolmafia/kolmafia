@@ -568,6 +568,7 @@ public class ClanManager implements KoLConstants
 			{ "<td>Meat</td>", "Wealth accumulated" },
 			{ "<td>Turns</td>", "Total turns used" },
 			{ "<td>Food</td><td>Drink</td>", "Favorites (food, booze)" },
+			{ "<td>Created</td>", "Account creation date" },
 			{ "<td>Last Login</td>", "Last login date" },
 			{ "<td>Ascensions</td>", "Ascension breakdown" }
 		};

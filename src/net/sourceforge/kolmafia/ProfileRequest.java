@@ -53,7 +53,7 @@ public class ProfileRequest extends KoLRequest
 	private Integer turnsPlayed;
 	private String classType;
 
-	private Date lastLogin;
+	private Date created, lastLogin;
 	private String food, drink;
 	private Integer ascensionCount, pvpRank, karma;
 
@@ -116,6 +116,7 @@ public class ProfileRequest extends KoLRequest
 				this.currentMeat = new Integer( 0 );
 				this.ascensionCount = new Integer( 0 );
 				this.turnsPlayed = new Integer( 0 );
+				this.created = new Date();
 				this.lastLogin = new Date();
 				this.food = "none";
 				this.drink = "none";
@@ -141,6 +142,9 @@ public class ProfileRequest extends KoLRequest
 
 			while ( !st.nextToken().startsWith( "Turns" ) );
 			this.turnsPlayed = new Integer( df.parse( st.nextToken().trim() ).intValue() );
+
+			while ( !st.nextToken().startsWith( "Account" ) );
+			this.created = INPUT_FORMAT.parse( st.nextToken().trim() );
 
 			while ( !st.nextToken().startsWith( "Last" ) );
 			this.lastLogin = INPUT_FORMAT.parse( st.nextToken().trim() );
@@ -292,6 +296,18 @@ public class ProfileRequest extends KoLRequest
 	{
 		initialize();
 		return lastLogin;
+	}
+
+	public Date getCreation()
+	{
+		initialize();
+		return created;
+	}
+
+	public String getCreationAsString()
+	{
+		initialize();
+		return OUTPUT_FORMAT.format( created );
 	}
 
 	public String getLastLoginAsString()

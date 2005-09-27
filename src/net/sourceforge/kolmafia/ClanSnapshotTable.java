@@ -303,7 +303,7 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		strbuf.append( "<br><br><table class=\"sortable\" id=\"details\" border=1 cellspacing=4 cellpadding=4>" );
 		strbuf.append( System.getProperty( "line.separator" ) );
-		strbuf.append( "<tr style=\"font-weight: bold\"><td align=center>Name</td>" );
+		strbuf.append( "<tr style=\"font-weight: bold\"><td align=center>Name</td><td align=center>User ID</td>" );
 
 		strbuf.append( getRosterHeader().replaceAll( "<td>", "<td align=center>" ) );
 		strbuf.append( System.getProperty( "line.separator" ) );
@@ -531,7 +531,8 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( client.getPlayerID( memberName ) );
 		strbuf.append( ".htm\">" );
 		strbuf.append( client.getPlayerName( client.getPlayerID( memberName ) ) );
-		strbuf.append( "</a>" );
+		strbuf.append( "</a></td><td>" );
+		strbuf.append( client.getPlayerID( memberName ) );
 
 		// Each of these are printed, pending on what
 		// fields are desired in this particular table.
@@ -620,6 +621,12 @@ public class ClanSnapshotTable extends KoLDatabase
 		{
 			strbuf.append( "</td><td>" );
 			strbuf.append( memberLookup.getDrink() );
+		}
+
+		if ( header.indexOf( "<td>Created</td>" ) != -1 )
+		{
+			strbuf.append( "</td><td>" );
+			strbuf.append( memberLookup.getCreationAsString() );
 		}
 
 		if ( header.indexOf( "<td>Last Login</td>" ) != -1 )
