@@ -490,7 +490,7 @@ public class AdventureFrame extends KoLFrame
 
 			contentPanel = this;
 
-			if ( isEnabled() )
+			if ( confirmedButton.isEnabled() )
 				(new WinGameThread()).start();
 			else
 			{
