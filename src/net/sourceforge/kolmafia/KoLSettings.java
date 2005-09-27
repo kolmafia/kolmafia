@@ -163,66 +163,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 	private void ensureDefaults()
 	{
-		ensureProperty( "choiceAdventure2", "0" );
-		ensureProperty( "choiceAdventure3", "0" );
-		ensureProperty( "choiceAdventure4", "2" );
-		ensureProperty( "choiceAdventure9", "1" );
-		ensureProperty( "choiceAdventure10", "1" );
-		ensureProperty( "choiceAdventure11", "0" );
-		ensureProperty( "choiceAdventure12", "2" );
-		ensureProperty( "choiceAdventure14", "0" );
-		ensureProperty( "choiceAdventure15", "0" );
-		ensureProperty( "choiceAdventure16", "0" );
-		ensureProperty( "choiceAdventure17", "0" );
-		ensureProperty( "choiceAdventure18", "0" );
-		ensureProperty( "choiceAdventure19", "0" );
-		ensureProperty( "choiceAdventure20", "0" );
-		ensureProperty( "choiceAdventure22", "0" );
-		ensureProperty( "choiceAdventure23", "0" );
-		ensureProperty( "choiceAdventure24", "0" );
-		ensureProperty( "choiceAdventure25", "2" );
-
-		// Wheel choice adventures need special handling.
-		// This is where everything is validated for that.
-
-		int [] wheelChoices = new int[4];
-		for ( int i = 0; i < 4; ++i )
-			wheelChoices[i] = Integer.parseInt( getProperty( "choiceAdventure" + (9+i) ) );
-
-		int clockwiseCount = 0, counterClockwiseCount = 0;
-		for ( int i = 0; i < 4; ++i )
-		{
-			switch ( wheelChoices[i] )
-			{
-				case 1:
-					++clockwiseCount;
-					break;
-
-				case 2:
-					++counterClockwiseCount;
-					break;
-
-				case 3:
-					wheelChoices[i] = 0;
-					break;
-			}
-		}
-
-		// Check for valid settings.  Valid settings are
-		// ones where there are exactly two of one setting
-		// and one of the other, and one leave alone.
-
-		if ( !( (clockwiseCount == 1 && counterClockwiseCount == 2) || (clockwiseCount == 2 && counterClockwiseCount == 1) ) )
-		{
-			wheelChoices[0] = 1;
-			wheelChoices[1] = 1;
-			wheelChoices[2] = 0;
-			wheelChoices[3] = 2;
-		}
-
-		for ( int i = 0; i < 4; ++i )
-			setProperty( "choiceAdventure" + (9+i), String.valueOf( wheelChoices[i] ) );
-
 		// The remaining settings are not related to choice
 		// adventures and require no special handling.
 
@@ -282,6 +222,70 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "useTabbedChat", "1" );
 		ensureProperty( "whiteList", "" );
 		ensureProperty( "zoneExcludeList", "" );
+
+		// These are settings related to choice adventures.
+		// Ensure that they exist, and if they do not, load
+		// them to their default settings.
+
+		ensureProperty( "choiceAdventure2", "0" );
+		ensureProperty( "choiceAdventure3", "0" );
+		ensureProperty( "choiceAdventure4", "2" );
+		ensureProperty( "choiceAdventure9", "1" );
+		ensureProperty( "choiceAdventure10", "1" );
+		ensureProperty( "choiceAdventure11", "0" );
+		ensureProperty( "choiceAdventure12", "2" );
+		ensureProperty( "choiceAdventure14", "0" );
+		ensureProperty( "choiceAdventure15", "0" );
+		ensureProperty( "choiceAdventure16", "0" );
+		ensureProperty( "choiceAdventure17", "0" );
+		ensureProperty( "choiceAdventure18", "0" );
+		ensureProperty( "choiceAdventure19", "0" );
+		ensureProperty( "choiceAdventure20", "0" );
+		ensureProperty( "choiceAdventure22", "0" );
+		ensureProperty( "choiceAdventure23", "0" );
+		ensureProperty( "choiceAdventure24", "0" );
+		ensureProperty( "choiceAdventure25", "2" );
+
+		// Wheel choice adventures need special handling.
+		// This is where everything is validated for that.
+
+		int [] wheelChoices = new int[4];
+		for ( int i = 0; i < 4; ++i )
+			wheelChoices[i] = Integer.parseInt( getProperty( "choiceAdventure" + (9+i) ) );
+
+		int clockwiseCount = 0, counterClockwiseCount = 0;
+		for ( int i = 0; i < 4; ++i )
+		{
+			switch ( wheelChoices[i] )
+			{
+				case 1:
+					++clockwiseCount;
+					break;
+
+				case 2:
+					++counterClockwiseCount;
+					break;
+
+				case 3:
+					wheelChoices[i] = 0;
+					break;
+			}
+		}
+
+		// Check for valid settings.  Valid settings are
+		// ones where there are exactly two of one setting
+		// and one of the other, and one leave alone.
+
+		if ( !( (clockwiseCount == 1 && counterClockwiseCount == 2) || (clockwiseCount == 2 && counterClockwiseCount == 1) ) )
+		{
+			wheelChoices[0] = 1;
+			wheelChoices[1] = 1;
+			wheelChoices[2] = 0;
+			wheelChoices[3] = 2;
+		}
+
+		for ( int i = 0; i < 4; ++i )
+			setProperty( "choiceAdventure" + (9+i), String.valueOf( wheelChoices[i] ) );
 	}
 
 	/**
