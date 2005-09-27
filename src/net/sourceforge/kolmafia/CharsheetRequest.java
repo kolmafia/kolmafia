@@ -211,6 +211,14 @@ public class CharsheetRequest extends KoLRequest
 			character.setInteraction( responseText.indexOf( "You may not receive items from other players" ) == -1 &&
 				responseText.indexOf( "You are in Hardcore mode" ) == -1 );
 
+			// Determine the current consumption restrictions
+			// the player possesses.
+
+			character.setConsumptionRestriction(
+				responseText.indexOf( "eat or drink" ) != -1 ? AscensionSnapshotTable.OXYGENARIAN :
+				responseText.indexOf( "eat any food" ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
+				responseText.indexOf( "any alcohol" ) != -1 ? AscensionSnapshotTable.TEETOTALER : AscensionSnapshotTable.NOPATH );
+
 			// Determine whether or not the player has any
 			// active effects - if so, retrieve them.
 

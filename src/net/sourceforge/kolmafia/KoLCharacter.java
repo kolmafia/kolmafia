@@ -228,6 +228,7 @@ public class KoLCharacter implements KoLConstants
 	private int ascensions;
 	private String ascensionSign;
 	private int ascensionSignType;
+	private int consumptionRestriction;
 
 	public static final int NONE = 0;
 	public static final int MUSCLE = 1;
@@ -1167,8 +1168,7 @@ public class KoLCharacter implements KoLConstants
 	 */
 
 	public void setAscensions( int ascensions )
-	{
-		this.ascensions = ascensions;
+	{	this.ascensions = ascensions;
 	}
 
 	/**
@@ -1191,6 +1191,14 @@ public class KoLCharacter implements KoLConstants
 			ascensionSignType = MOXIE;
 		else
 			ascensionSignType = NONE;
+	}
+
+	public int getConsumptionRestriction()
+	{	return consumptionRestriction;
+	}
+
+	public void setConsumptionRestriction( int restriction )
+	{	this.consumptionRestriction = consumptionRestriction;
 	}
 
 	/**
