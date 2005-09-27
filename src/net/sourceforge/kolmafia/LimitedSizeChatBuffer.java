@@ -176,7 +176,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		if ( requiresUpdate )
 			fireBufferChanged( CONTENT_CHANGE, null );
 
-		String highlightMessage = message;
+		String highlightMessage = message.replaceAll( "<br>", "<br>" + System.getProperty( "line.separator" );
 
 		if ( this != highlightBuffer )
 		{
