@@ -143,7 +143,7 @@ public abstract class SendMessageRequest extends KoLRequest
 				return;
 			}
 
-			if ( getCapacity() > 1 )
+			if ( getCapacity() > 1 || this instanceof GiftMessageRequest )
 			{
 				for ( int i = 0; i < attachments.length; ++i )
 				{

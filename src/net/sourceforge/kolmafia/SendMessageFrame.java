@@ -273,6 +273,7 @@ public abstract class SendMessageFrame extends KoLFrame
 			setProperty( "closeSending", String.valueOf( closeSendingCheckBox.isSelected() ) );
 
 			String recipient = recipientEntry.getText();
+
 			String [] messages = new String[ messageEntry.length ];
 
 			for ( int i = 0; i < messageEntry.length; ++i )
@@ -288,7 +289,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			Object [] parameters = new Object[3];
-			parameters[0] = null;
+			parameters[0] = client;
 			parameters[1] = inventory;
 			parameters[2] = attachments;
 
@@ -378,24 +379,12 @@ public abstract class SendMessageFrame extends KoLFrame
 
 				for ( int i = 0; i < items.length; ++i )
 				{
-					try
-					{
-						currentItem = (AdventureResult) items[i];
-						maximumCount = currentItem.getCount( inventory );
+					currentItem = (AdventureResult) items[i];
+					attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...", currentItem.getCount( inventory ) );
 
-						attachmentCount = df.parse( JOptionPane.showInputDialog( "Attaching " + currentItem.getName() + "...",
-							String.valueOf( maximumCount ) ) ).intValue();
-
-						currentItem = currentItem.getInstance( Math.min( attachmentCount, maximumCount ) );
-						AdventureResult.addResultToList( attachments, currentItem );
-						AdventureResult.addResultToList( inventory, currentItem.getNegation() );
-
-					}
-					catch ( Exception e )
-					{
-						// If the number placed inside of the count list was not
-						// an actual integer value, pretend nothing happened.
-					}
+					currentItem = currentItem.getInstance( attachmentCount );
+					AdventureResult.addResultToList( attachments, currentItem );
+					AdventureResult.addResultToList( inventory, currentItem.getNegation() );
 				}
 			}
 
