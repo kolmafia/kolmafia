@@ -176,7 +176,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 		if ( requiresUpdate )
 			fireBufferChanged( CONTENT_CHANGE, null );
 
-		String highlightMessage = message.replaceAll( "<br>", "<br>" + System.getProperty( "line.separator" ) );
+		String highlightMessage = message;
 
 		if ( this != highlightBuffer )
 		{
@@ -191,10 +191,10 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 			}
 		}
 
-		super.append( highlightMessage );
+		super.append( highlightMessage.replaceAll( "<br>", "<br>" + System.getProperty( "line.separator" ) ) );
 
 		if ( message.compareToIgnoreCase( highlightMessage ) != 0 )
-			highlightBuffer.append( highlightMessage + "<br>" );
+			highlightBuffer.append( highlightMessage.replaceAll( "<br>", "<br>" + System.getProperty( "line.separator" ) + "<br>" ) );
 
 		previousFontSize = fontSize;
 	}
