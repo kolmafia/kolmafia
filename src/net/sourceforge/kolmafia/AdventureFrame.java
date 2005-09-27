@@ -411,67 +411,72 @@ public class AdventureFrame extends KoLFrame
 
 			if ( conditionField.getText().trim().length() > 0 )
 			{
+				KoLmafiaCLI conditioner = null;
+
 				try
 				{
-					KoLmafiaCLI conditioner = new KoLmafiaCLI( client, System.in );
-					conditioner.executeLine( "conditions clear" );
+					conditioner = new KoLmafiaCLI( client, System.in );
+				}
+				catch ( Exception e )
+				{
+					// While this should not happen, return from the
+					// call in the event that there was an error in
+					// the initialization process.
 
-					boolean verifyConditions = false;
-					boolean useDisjunction = false;
+					updateDisplay( ERROR_STATE, "Unexpected error." );
+					return;
+				}
 
-					String [] conditions = conditionField.getText().split( "\\s*,\\s*" );
+				conditioner.executeLine( "conditions clear" );
 
-					for ( int i = 0; i < conditions.length; ++i )
+				boolean verifyConditions = false;
+				boolean useDisjunction = false;
+
+				String [] conditions = conditionField.getText().split( "\\s*,\\s*" );
+
+				for ( int i = 0; i < conditions.length; ++i )
+				{
+					if ( conditions[i].equals( "check" ) )
 					{
-						if ( conditions[i].equals( "check" ) )
-						{
-							// Postpone verification of conditions
-							// until all other conditions added.
+						// Postpone verification of conditions
+						// until all other conditions added.
 
-							verifyConditions = true;
-						}
-						else if ( conditions[i].startsWith( "conjunction" ) || conditions[i].startsWith( "disjunction" ) )
-						{
-							// Postpone mode setting until all of
-							// the other conditions are added.
+						verifyConditions = true;
+					}
+					else if ( conditions[i].startsWith( "conjunction" ) || conditions[i].startsWith( "disjunction" ) )
+					{
+						// Postpone mode setting until all of
+						// the other conditions are added.
 
-							useDisjunction = conditions[i].startsWith( "disjunction" );
-						}
-						else
+						useDisjunction = conditions[i].startsWith( "disjunction" );
+					}
+					else
+					{
+						if ( !conditioner.executeConditionsCommand( "add " + conditions[i] ) )
 						{
-							if ( !conditioner.executeConditionsCommand( "add " + conditions[i] ) )
-							{
-								client.updateDisplay( ERROR_STATE, "Invalid condition: " + conditions[i] );
-								return;
-							}
+							client.updateDisplay( ERROR_STATE, "Invalid condition: " + conditions[i] );
+							return;
 						}
 					}
+				}
 
+				if ( client.getConditions().isEmpty() )
+				{
+					client.updateDisplay( ENABLED_STATE, "Conditions already satisfied." );
+					return;
+				}
+
+				if ( verifyConditions )
+				{
+					conditioner.executeConditionsCommand( "check" );
 					if ( client.getConditions().isEmpty() )
 					{
 						client.updateDisplay( ENABLED_STATE, "Conditions already satisfied." );
 						return;
 					}
-
-					if ( verifyConditions )
-					{
-						conditioner.executeConditionsCommand( "check" );
-						if ( client.getConditions().isEmpty() )
-						{
-							client.updateDisplay( ENABLED_STATE, "Conditions already satisfied." );
-							return;
-						}
-					}
-
-					conditioner.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 				}
-				catch ( Exception e )
-				{
-					// This catches the IOException from initializing the
-					// conditioner variable.  Given that System.in is a
-					// real input stream which can be wrapped, this should
-					// not happen.
-				}
+
+				conditioner.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 			}
 
 			(new RequestThread( request, getValue( countField ) )).start();
@@ -680,19 +685,10 @@ public class AdventureFrame extends KoLFrame
 				return;
 			}
 
-			try
-			{
-				contentPanel = this;
-				int maxPurchases = limitPurchasesCheckBox.isSelected() ?
-					df.parse( JOptionPane.showInputDialog( "Maximum number of items to purchase?" ) ).intValue() : Integer.MAX_VALUE;
-
-				currentlyBuying = true;
-				client.makePurchases( results, purchases, maxPurchases );
-				currentlyBuying = false;
-			}
-			catch ( Exception e )
-			{
-			}
+			contentPanel = this;
+			currentlyBuying = true;
+			client.makePurchases( results, purchases, limitPurchasesCheckBox.isSelected() ? getQuantity( "Maximum number of items to purchase?", 1 ) : Integer.MAX_VALUE );
+			currentlyBuying = false;
 		}
 
 		public void requestFocus()

@@ -214,27 +214,16 @@ public class ItemManageFrame extends KoLFrame
 
 				for ( int i = 0; i < items.length; ++i )
 				{
-					try
-					{
-						currentItem = (AdventureResult) items[i];
+					currentItem = (AdventureResult) items[i];
 
-						consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
-						consumptionCount = useMultiple ? df.parse( JOptionPane.showInputDialog(
-							"Using multiple " + currentItem.getName() + "..." ) ).intValue() : 1;
+					consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
+					consumptionCount = useMultiple ? getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
 
-						requests[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ?
-							new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) ) :
-							new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
+					requests[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ?
+						new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) ) :
+						new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
 
-						repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
-					}
-					catch ( Exception e )
-					{
-						// If the number placed inside of the count list was not
-						// an actual integer value, pretend nothing happened.
-						// Using exceptions for flow control is bad style, but
-						// this will be fixed once we add functionality.
-					}
+					repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
 				}
 
 				(new RequestThread( requests, repeatCount )).start();
@@ -515,35 +504,10 @@ public class ItemManageFrame extends KoLFrame
 			client.updateDisplay( DISABLED_STATE, "Verifying ingredients..." );
 			Object selected = elementList.getSelectedValue();
 
-			try
-			{
-				ItemCreationRequest selection = (ItemCreationRequest) selected;
+			ItemCreationRequest selection = (ItemCreationRequest) selected;
+			selection.setQuantityNeeded( createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1 );
 
-				String itemName = selection.getName();
-				int creatable = selection.getQuantityNeeded();
-				int creationCount = createMultiple ? df.parse( JOptionPane.showInputDialog(
-					"Creating multiple " + itemName + "...", String.valueOf( selection.getQuantityNeeded() ) ) ).intValue() : 1;
-
-				if ( creationCount > creatable )
-					creationCount = creatable;
-
-				if ( creationCount > 0 )
-				{
-					selection.setQuantityNeeded( creationCount );
-					(new RequestThread( selection )).start();
-				}
-
-			}
-			catch ( Exception e )
-			{
-				// If the number placed inside of the count
-				// list was not an actual integer value,
-				// pretend nothing happened.  Using exceptions
-				// for flow control is bad style, but this will
-				// be fixed once we add functionality.
-
-				client.updateDisplay( ENABLED_STATE, "" );
-			}
+			(new RequestThread( selection )).start();
 		}
 	}
 

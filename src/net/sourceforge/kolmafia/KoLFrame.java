@@ -1521,6 +1521,27 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	protected static final int getQuantity( String title, int maximumValue )
+	{
+		if ( maximumValue == 1 )
+			return 1;
+
+		try
+		{
+			String currentValue = JOptionPane.showInputDialog( title, df.format( maximumValue ) );
+			if ( currentValue == null )
+				return 0;
+
+			int desiredValue = df.parse( currentValue ).intValue();
+			return Math.max( 0, Math.min( desiredValue, maximumValue ) );
+		}
+		catch ( Exception e )
+		{
+			return 0;
+		}
+	}
+
+
 	protected final void setProperty( String name, String value )
 	{
 		if ( client != null )
