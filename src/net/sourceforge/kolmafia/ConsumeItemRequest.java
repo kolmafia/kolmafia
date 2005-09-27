@@ -244,17 +244,25 @@ public class ConsumeItemRequest extends KoLRequest
 		//
 		// Subsequent raffle tickets don't consume clovers.
 
-		else if ( itemUsed.getName().equals( "Elf Farm Raffle ticket" ) )
-		{
-			if ( responseText.indexOf( "puff of smoke" ) != -1 )
-				client.processResult( SewerRequest.CLOVER );
-		}
+		else if ( itemUsed.getName().equals( "Elf Farm Raffle ticket" ) && responseText.indexOf( "puff of smoke" ) != -1 )
+			client.processResult( SewerRequest.CLOVER );
 
 		// Check to see if you were using a Jumbo Dr. Lucifer, which
 		// reduces your hit points to 1.
 
 		else if ( itemUsed.getName().equals( "Jumbo Dr. Lucifer" ) )
 			client.processResult( new AdventureResult( AdventureResult.HP, 1 - client.getCharacterData().getCurrentHP() ) );
+
+		// If you use a 64735 scroll, you will also lose a dictionary,
+		// if it's successful.  Otherwise, nothing happens.
+
+		else if ( itemUsed.getName().startsWith( "64735" ) )
+		{
+			if ( responseText.indexOf( "You are magically transported" ) != -1 )
+				client.processResult( FightRequest.DICTIONARY.getNegation() );
+			else
+				return;
+		}
 
 		// Parse the reply, which can be found before the
 		// word "Inventory".  In theory, this could've caused

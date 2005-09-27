@@ -44,6 +44,8 @@ import java.util.StringTokenizer;
 
 public class FightRequest extends KoLRequest
 {
+	public static final AdventureResult DICTIONARY = new AdventureResult( 536, 1 );
+
 	private String action;
 	private int roundCount;
 

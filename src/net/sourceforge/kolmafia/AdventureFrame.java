@@ -244,14 +244,13 @@ public class AdventureFrame extends KoLFrame
 					actionNames.add( "Skill: Moxious Maneuver" );
 				}
 
-				// Add in dictionary if the player has a
-				// dictionary in their inventory.
+				// Add in dictionary regardless of whether
+				// or not the player has a dictionary in
+				// their inventory.  Just ignore the option
+				// if the person turns out not to have one.
 
-				if ( client.getInventory().contains( new AdventureResult( 536, 1 ) ) )
-				{
-					actions.add( "item0536" );
-					actionNames.add( "Item: Use a Dictionary" );
-				}
+				actions.add( "item0536" );
+				actionNames.add( "Item: Use a Dictionary" );
 
 				// Add in all of the player's combat skills;
 				// parse the skill list to find out.
@@ -392,10 +391,17 @@ public class AdventureFrame extends KoLFrame
 
 			contentPanel = this;
 
+
 			if ( client != null )
 			{
 				if ( actionNames.getSelectedIndex() < 0 || actions.getSelectedIndex() >= actions.size() )
 					actions.setSelectedIndex( 0 );
+
+				if ( actions.get( actionNames.getSelectedIndex() ).equals( "item0536" ) && FightRequest.DICTIONARY.getCount( client.getInventory() ) < 1 )
+				{
+					updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
+					return;
+				}
 
 				setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
 			}
