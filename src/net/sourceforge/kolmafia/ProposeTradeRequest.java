@@ -47,15 +47,6 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{	super( client, "makeoffer.php", new Object[0], 0 );
 	}
 
-	public ProposeTradeRequest( KoLmafia client, String action, String offerID )
-	{
-		super( client, "makeoffer.php", new Object[0], 0 );
-		addFormField( "action", action );
-
-		if ( action.equals( "accept" ) )
-			addFormField( "pwd", client.getPasswordHash() );
-	}
-
 	public ProposeTradeRequest( KoLmafia client, int offerID, String message, Object [] attachments, int meatAttachment )
 	{
 		super( client, "counteroffer.php", attachments, meatAttachment );

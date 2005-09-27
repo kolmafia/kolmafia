@@ -53,27 +53,26 @@ public class PendingTradesFrame extends RequestFrame
 	{
 		protected void handleInternalLink( String location )
 		{
-			if ( location.startsWith( "counteroffer.php" ) )
+			// If it's not a special kind of hyperlink, then
+			// just use the original hyperlink handling that
+			// is provided by the parent class.
+
+			if ( !location.startsWith( "counteroffer.php" ) )
 			{
-				Object [] parameters = new Object[2];
-				parameters[0] = client;
-				parameters[1] = location.substring( location.lastIndexOf( "=" ) + 1 );
-
-				(new CreateFrameRunnable( StoreManageFrame.class, parameters )).run();
+				super.handleInternalLink( location );
+				return;
 			}
-			else
-			{
-				Matcher actionMatcher = Pattern.compile( "action=(.*?)&" ).matcher( location );
-				actionMatcher.find();
 
-				Object [] parameters = new Object[3];
-				parameters[0] = client;
-				parameters[1] = actionMatcher.group(1);
-				parameters[2] = location.substring( location.lastIndexOf( "=" ) + 1 );
+			// Otherwise, instantiate a brand-new trade frame
+			// so that the person can respond properly to the
+			// trade request.
 
-				PendingTradesFrame.this.dispose();
-				(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
-			}
+			Object [] parameters = new Object[2];
+			parameters[0] = client;
+			parameters[1] = location.substring( location.lastIndexOf( "=" ) + 1 );
+
+			(new CreateFrameRunnable( ProposeTradeFrame.class, parameters )).run();
+			return;
 		}
 	}
 }
