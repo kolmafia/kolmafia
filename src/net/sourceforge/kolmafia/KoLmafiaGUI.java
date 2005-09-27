@@ -338,7 +338,9 @@ public class KoLmafiaGUI extends KoLmafia
 		try
 		{
 			// Make sure we know current setting
-			(new CharpaneRequest( this )).run();
+
+			if ( !CharpaneRequest.wasRunOnce() )
+				(new CharpaneRequest( this )).run();
 
 			String [] levelArray = new String[12];
 			for ( int i = 0; i < 12; ++i )

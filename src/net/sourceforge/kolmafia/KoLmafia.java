@@ -174,6 +174,8 @@ public abstract class KoLmafia implements KoLConstants
 		conditions = new SortedListModel();
 		missingItems = new SortedListModel();
 		commandBuffer = null;
+
+		CharpaneRequest.reset();
 	}
 
 	public boolean isEnabled()

@@ -51,6 +51,7 @@ import java.util.StringTokenizer;
 
 public class CharpaneRequest extends KoLRequest
 {
+	private static boolean runOnce = false;
 	private KoLCharacter character;
 
 	public CharpaneRequest( KoLmafia client )
@@ -63,6 +64,14 @@ public class CharpaneRequest extends KoLRequest
 		this.character = client.getCharacterData();
 	}
 
+	public static final boolean wasRunOnce()
+	{	return runOnce;
+	}
+
+	public static final void reset()
+	{	runOnce = false;
+	}
+
 	/**
 	 * Runs the request.  Note that only the character's statistics
 	 * are retrieved via this retrieval.
@@ -70,6 +79,7 @@ public class CharpaneRequest extends KoLRequest
 
 	public void run()
 	{
+		runOnce = true;
 		super.run();
 
 		// If an error state occurred, return from this
