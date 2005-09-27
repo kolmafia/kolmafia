@@ -739,7 +739,7 @@ public class AdventureFrame extends KoLFrame
 
 		public HeroDonationPanel()
 		{
-			super( "Donations to the Greater Good", "lump sum", "increments", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Donations to the Greater Good", "to one", "to all", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			LockableListModel heroes = new LockableListModel();
 			heroes.add( "Statue of Boris" );
@@ -773,26 +773,13 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			try
-			{
-				contentPanel = this;
-				int increments = df.parse( JOptionPane.showInputDialog( "How many increments?" ) ).intValue();
+			contentPanel = this;
+			HeroDonationRequest [] requests = new HeroDonationRequest[3];
 
-				if ( increments == 0 )
-				{
-					client.updateDisplay( ENABLED_STATE, "Donation cancelled." );
-					return;
-				}
+			for ( int i = 0; i < 3; ++i )
+				requests[i] = new HeroDonationRequest( client, i, getValue( amountField ) );
 
-				if ( heroField.getSelectedIndex() != -1 )
-				{
-					int eachAmount = getValue( amountField ) / increments;
-					(new RequestThread( new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, eachAmount ), increments )).start();
-				}
-			}
-			catch ( Exception e )
-			{
-			}
+			(new RequestThread( requests )).start();
 		}
 	}
 
