@@ -1368,7 +1368,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeDonateCommand( String parameters )
 	{
-		int heroID;  int amount = -1;  int increments;
+		int heroID;  int amount = -1;
 
 		String [] parameterList = parameters.split( " " );
 
@@ -1388,7 +1388,6 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			amount = df.parse( parameterList[1] ).intValue();
-			increments = parameterList.length > 2 ? df.parse( parameterList[2] ).intValue() : 1;
 		}
 		catch ( Exception e )
 		{
@@ -1401,21 +1400,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		int amountRemaining = amount;
-		int eachAmount = amountRemaining / increments;
-
-		updateDisplay( DISABLED_STATE, "Donating " + amount + " to the shrine..." );
-		scriptRequestor.makeRequest( new HeroDonationRequest( scriptRequestor, heroID, eachAmount ), increments - 1 );
-		amountRemaining -= eachAmount * (increments - 1);
-
-		if ( scriptRequestor.permitsContinue() )
-		{
-			updateDisplay( DISABLED_STATE, "Request " + increments + " in progress..." );
-			scriptRequestor.makeRequest( new HeroDonationRequest( scriptRequestor, heroID, amountRemaining ), 1 );
-
-			if ( scriptRequestor.permitsContinue() )
-				updateDisplay( ENABLED_STATE, "Requests complete!" );
-		}
+		scriptRequestor.makeRequest( new HeroDonationRequest( scriptRequestor, heroID, amount ), 1 );
 	}
 
 	/**
