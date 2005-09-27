@@ -340,10 +340,15 @@ public class KoLmafiaGUI extends KoLmafia
 			// Make sure we know current setting
 			(new CharpaneRequest( this )).run();
 
-			int level = df.parse( JOptionPane.showInputDialog(
-				null, "Set the device to what level?", "Change mind control device from level " + characterData.getMindControlLevel(), JOptionPane.INFORMATION_MESSAGE ) ).intValue();
+			String [] levelArray = new String[12];
+			for ( int i = 0; i < 12; ++i )
+				levelArray[i] = "Level " + i;
 
-			(new MindControlRequest( this, level )).run();
+			String selectedLevel = (String) JOptionPane.showInputDialog(
+				null, "Set the device to what level?", "Change mind control device from level " + characterData.getMindControlLevel(),
+					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ characterData.getMindControlLevel() ] );
+
+			(new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() )).run();
 		}
 		catch ( Exception e )
 		{
