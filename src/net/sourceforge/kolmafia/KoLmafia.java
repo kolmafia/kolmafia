@@ -1224,7 +1224,7 @@ public abstract class KoLmafia implements KoLConstants
 					// and the current request number.  Different requests
 					// have different displays.  They are handled here.
 
-					if ( request instanceof KoLAdventure || request instanceof HeroDonationRequest )
+					if ( request instanceof KoLAdventure )
 						updateDisplay( DISABLED_STATE, "Request " + i + " of " + iterations + " (" + request.toString() + ") in progress..." );
 
 					else if ( request instanceof ConsumeItemRequest )
@@ -1305,8 +1305,9 @@ public abstract class KoLmafia implements KoLConstants
 				// If you've completed the request, make sure to update
 				// the display.
 
-				if ( permitContinue && iterations > 0 && iterationsRemaining <= 0 && !(request instanceof UseSkillRequest || request instanceof AutoSellRequest) )
-					updateDisplay( ENABLED_STATE, "Requests completed!" );
+				if ( permitContinue && iterations > 0 && iterationsRemaining <= 0 &&
+					!(request instanceof UseSkillRequest || request instanceof AutoSellRequest || request instanceof HeroDonationRequest) )
+						updateDisplay( ENABLED_STATE, "Requests completed!" );
 			}
 		}
 		catch ( RuntimeException e )
