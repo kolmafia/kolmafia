@@ -163,24 +163,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 	private void ensureDefaults()
 	{
-		ensureProperty( "aggregatePrices", "true" );
-		ensureProperty( "autoLogChat", "false" );
-		ensureProperty( "autoLogin", "" );
-		ensureProperty( "autoRepairBoxes", "false" );
-		ensureProperty( "autoSatisfyWithMall", "false" );
-		ensureProperty( "autoStockRestores", "-1" );
-		ensureProperty( "autoStockScript", "" );
-		ensureProperty( "battleAction", "attack" );
-		ensureProperty( "battleStop", "0.0" );
-		ensureProperty( "browserBookmarks", "" );
-		ensureProperty( "buffBotCasting", "" );
-		ensureProperty( "buffBotMessageDisposal", "0" );
-		ensureProperty( "buffBotMPRestore", "tiny house" );
-		ensureProperty( "channelColors", "" );
-		ensureProperty( "chatStyle", "0" );
-
-			// Begin choice adventure section.
-
 		ensureProperty( "choiceAdventure2", "0" );
 		ensureProperty( "choiceAdventure3", "0" );
 		ensureProperty( "choiceAdventure4", "2" );
@@ -200,8 +182,65 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "choiceAdventure24", "0" );
 		ensureProperty( "choiceAdventure25", "2" );
 
-			// End choice adventure section.
+		// Wheel choice adventures need special handling.
+		// This is where everything is validated for that.
 
+		int [] wheelChoices = new int[4];
+		for ( int i = 0; i < 4; ++i )
+			wheelChoices[i] = Integer.parseInt( getProperty( "choiceAdventure" + (9+i) ) );
+
+		int clockwiseCount = 0, counterClockwiseCount = 0;
+		for ( int i = 0; i < 4; ++i )
+		{
+			switch ( wheelChoices[i] )
+			{
+				case 1:
+					++clockwiseCount;
+					break;
+
+				case 2:
+					++counterClockwiseCount;
+					break;
+
+				case 3:
+					wheelChoices[i] = 0;
+					break;
+			}
+		}
+
+		// Check for valid settings.  Valid settings are
+		// ones where there are exactly two of one setting
+		// and one of the other, and one leave alone.
+
+		if ( !( (clockwiseCount == 1 && counterClockwiseCount == 2) || (clockwiseCount == 2 && counterClockwiseCount == 1) ) )
+		{
+			wheelChoices[0] = 1;
+			wheelChoices[1] = 1;
+			wheelChoices[2] = 0;
+			wheelChoices[3] = 2;
+		}
+
+		for ( int i = 0; i < 4; ++i )
+			setProperty( "choiceAdventure" + (9+i), String.valueOf( wheelChoices[i] ) );
+
+		// The remaining settings are not related to choice
+		// adventures and require no special handling.
+
+		ensureProperty( "aggregatePrices", "true" );
+		ensureProperty( "autoLogChat", "false" );
+		ensureProperty( "autoLogin", "" );
+		ensureProperty( "autoRepairBoxes", "false" );
+		ensureProperty( "autoSatisfyWithMall", "false" );
+		ensureProperty( "autoStockRestores", "-1" );
+		ensureProperty( "autoStockScript", "" );
+		ensureProperty( "battleAction", "attack" );
+		ensureProperty( "battleStop", "0.0" );
+		ensureProperty( "browserBookmarks", "" );
+		ensureProperty( "buffBotCasting", "" );
+		ensureProperty( "buffBotMessageDisposal", "0" );
+		ensureProperty( "buffBotMPRestore", "tiny house" );
+		ensureProperty( "channelColors", "" );
+		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		ensureProperty( "closeSending", "false" );
 		ensureProperty( "cloverProtectActive", "true" );
