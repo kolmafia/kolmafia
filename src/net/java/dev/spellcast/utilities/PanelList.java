@@ -126,7 +126,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 					add( (Component) constructPanelListCell( contents.next(), i ), i );
 
 				validatePanelList();
-				associatedListModel.addListDataListener( new PanelListListener( this ) );
+				associatedListModel.addListDataListener( new PanelListListener() );
 			}
 		}
 	}
@@ -244,18 +244,6 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 	private class PanelListListener implements javax.swing.event.ListDataListener
 	{
-		private PanelList associatedPanelList;
-
-		/**
-		 * Constructs a new <code>PanelListListener</code> which will apply all
-		 * changes in the <code>LockableListModel</code> to the given
-		 * <code>PanelList</code>.
-		 */
-
-		public PanelListListener( PanelList associatedPanelList )
-		{	this.associatedPanelList = associatedPanelList;
-		}
-
 		/**
 		 * Called whenever contents have been added to the original list; a
 		 * function required by every <code>ListDataListener</code>.
@@ -272,9 +260,9 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 				return;
 
 			for ( int i = index0; i <= index1; ++i )
-				associatedPanelList.add( (Component) constructPanelListCell( source.get(i), i ), i );
+				add( (Component) constructPanelListCell( source.get(i), i ), i );
 
-			associatedPanelList.validatePanelList();
+			validatePanelList();
 		}
 
 		/**
@@ -293,9 +281,9 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 				return;
 
 			for ( int i = index1; i >= index0; --i )
-				associatedPanelList.remove(i);
+				remove(i);
 
-			associatedPanelList.validatePanelList();
+			validatePanelList();
 		}
 
 		/**
@@ -314,9 +302,9 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 				return;
 
 			for ( int i = index1; i >= index0; --i )
-				((PanelListCell)associatedPanelList.getComponent(i)).updateDisplay( associatedPanelList, source.get(i), i );
+				((PanelListCell)getComponent(i)).updateDisplay( PanelList.this, source.get(i), i );
 
-			associatedPanelList.validatePanelList();
+			validatePanelList();
 		}
 	}
 }
