@@ -905,7 +905,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						e1.printStackTrace( client.getLogStream() );
 					}
 				}
-				else if ( location.startsWith( "javascript:" ) && location.indexOf( "submit()" ) == -1 )
+				else if ( location.startsWith( "javascript:" ) && (location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1) )
 				{
 					// The default editor pane does not handle
 					// Javascript links.  Adding support would
