@@ -484,7 +484,7 @@ public class ClanManageFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Constraint: ", matchSelect );
 			elements[2] = new VerifiableElement( "Value:", valueField );
 
-			setContent( elements );
+			setContent( elements, null, null, null, true, true );
 
 			results = new ClanMemberPanelList();
 
@@ -503,13 +503,15 @@ public class ClanManageFrame extends KoLFrame
 
 			JPanel headerPanel = new JPanel();
 			headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.X_AXIS ) );
-			headerPanel.add( Box.createHorizontalStrut( 30 ) );
+			headerPanel.add( Box.createHorizontalStrut( 25 ) );
 
 			for ( int i = 0; i < header.length; ++i )
 			{
-				headerPanel.add( header[i] );
 				headerPanel.add( Box.createHorizontalStrut( 10 ) );
+				headerPanel.add( header[i] );
 			}
+
+			headerPanel.add( Box.createHorizontalStrut( 5 ) );
 
 			JPanel centerPanel = new JPanel();
 			centerPanel.setLayout( new BorderLayout( 0, 0 ) );

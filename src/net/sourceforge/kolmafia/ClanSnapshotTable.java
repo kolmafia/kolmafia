@@ -86,6 +86,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		// arrays which are used by the request.
 
 		this.client = client;
+
 		this.levelMap = new TreeMap();
 		this.profileMap = new TreeMap();
 		this.rosterMap = new TreeMap();
@@ -129,10 +130,10 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		for ( int i = 0; i < filterArray.length; ++i )
 		{
+			String lowerCaseName = filterArray[i].getPlayerName().toLowerCase();
+
 			if ( filterArray[i].getPlayerID().equals( playerID ) )
 			{
-				String lowerCaseName = filterArray[i].getPlayerName().toLowerCase();
-
 				filterList.remove(i);
 
 				levelMap.remove( lowerCaseName );
@@ -182,7 +183,9 @@ public class ClanSnapshotTable extends KoLDatabase
 	}
 
 	private ProfileRequest getProfile( String name )
-	{	return ProfileRequest.getInstance( name, (String) levelMap.get(name), (String) profileMap.get(name), (String) rosterMap.get(name) );
+	{
+		return ProfileRequest.getInstance( name, client.getPlayerID( name ), (String) levelMap.get(name),
+			(String) profileMap.get(name), (String) rosterMap.get(name) );
 	}
 
 	private int compare( int filterType, String name, String filter )

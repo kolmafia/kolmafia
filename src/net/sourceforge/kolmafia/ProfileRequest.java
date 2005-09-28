@@ -184,9 +184,10 @@ public class ProfileRequest extends KoLRequest
 	 * data already known.
 	 */
 
-	public static ProfileRequest getInstance( String playerName, String playerLevel, String responseText, String rosterRow )
+	public static ProfileRequest getInstance( String playerName, String playerID, String playerLevel, String responseText, String rosterRow )
 	{
 		ProfileRequest instance = new ProfileRequest( null, playerName );
+		instance.playerID = playerID;
 
 		// First, initialize the level field for the
 		// current player.
