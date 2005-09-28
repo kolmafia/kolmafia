@@ -517,6 +517,7 @@ public class RequestFrame extends KoLFrame
 					return;
 
 				bookmarks.add( new DisplayRequestMenuItem( name, getCurrentLocation() ) );
+				saveBookmarks();
 			}
 		}
 	}
