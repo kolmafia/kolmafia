@@ -538,14 +538,29 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to add an adventure result to the
-	 * tally directly.  This is used whenever the nature of the
-	 * result is already known and no additional parsing is needed.
+	 * Utility method used to process a result.  By default, this
+	 * method will also add an adventure result to the tally directly.
+	 * This is used whenever the nature of the result is already known
+	 * and no additional parsing is needed.
 	 *
 	 * @param	result	Result to add to the running tally of adventure results
 	 */
 
 	public void processResult( AdventureResult result )
+	{	processResult( result, true );
+	}
+
+	/**
+	 * Utility method used to process a result, and the user wishes to
+	 * specify whether or not the result should be added to the running
+	 * tally.  This is used whenever the nature of the result is already
+	 * known and no additional parsing is needed.
+	 *
+	 * @param	result	Result to add to the running tally of adventure results
+	 * @param	shouldTally	Whether or not the result should be added to the running tally
+	 */
+
+	public void processResult( AdventureResult result, boolean shouldTally )
 	{
 		// This should not happen, but check just in case and
 		// return if the result was null.
@@ -572,15 +587,28 @@ public abstract class KoLmafia implements KoLConstants
 			AdventureResult.addResultToList( recentEffects, result );
 		else if ( result.isItem() || resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.MEAT ) )
 		{
-			AdventureResult.addResultToList( tally, result );
+			if ( shouldTally )
+				AdventureResult.addResultToList( tally, result );
+
 			if ( result.isItem() && TradeableItemDatabase.isUsable( resultName ) )
+			{
 				AdventureResult.addResultToList( usableItems, result );
+				if ( result.getCount( usableItems ) < 0 )
+					usableItems.remove( usableItems.indexOf( result ) );
+			}
 			if ( result.isItem() && TradeableItemDatabase.getPriceByID( result.getItemID() ) != 0 )
+			{
 				AdventureResult.addResultToList( sellableItems, result );
+				if ( result.getCount( sellableItems ) < 0 )
+					sellableItems.remove( sellableItems.indexOf( result ) );
+			}
 		}
 
 		if ( characterData != null )
 			characterData.processResult( result );
+
+		if ( !shouldTally )
+			return;
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.

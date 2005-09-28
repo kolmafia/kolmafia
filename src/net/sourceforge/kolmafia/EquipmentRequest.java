@@ -59,7 +59,7 @@ public class EquipmentRequest extends KoLRequest
 	private static final int CHANGE_ITEM = 4;
 	private static final int REMOVE_ITEM = 5;
 
-	// Array indexed by equipment "equipmentSlot" from KoLCharacter
+	// Array indexed by equipment "slot" from KoLCharacter
 	//
 	// Perhaps this should be in that module, except this is closely tied
 	// to the PHP files that are manipulated by THIS module.
@@ -321,10 +321,10 @@ public class EquipmentRequest extends KoLRequest
 		if ( switchIn != switchOut )
 		{
 			if ( switchIn != -1 )
-				client.processResult( new AdventureResult( switchIn, -1 ) );
+				client.processResult( new AdventureResult( switchIn, -1 ), false );
 
 			if ( switchOut != -1 )
-				client.processResult( new AdventureResult( switchOut, 1 ) );
+				client.processResult( new AdventureResult( switchOut, 1 ), false );
 		}
 	}
 
