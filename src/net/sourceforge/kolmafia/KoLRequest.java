@@ -287,7 +287,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected String getURLString()
-	{	return formURLString;
+	{	return formURLBuffer.toString();
 	}
 
 	/**
@@ -469,12 +469,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		try
 		{
-			this.formURL = new URL( KOL_ROOT + formURLBuffer.toString() );
+			this.formURL = new URL( KOL_ROOT + formURLString );
 		}
 		catch ( MalformedURLException e )
 		{
 			this.isErrorState = true;
-			updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLBuffer.toString() );
+			updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLString );
 
 			KoLRequest.delay();
 			return false;
@@ -542,6 +542,11 @@ public class KoLRequest implements Runnable, KoLConstants
 		try
 		{
 			String dataString = getDataString();
+
+			formURLBuffer.setLength(0);
+			formURLBuffer.append( formURLString );
+			formURLBuffer.append( "?" );
+			formURLBuffer.append( dataString );
 
 			if ( client != null && !formURLString.equals( "login.php" ) )
 			{
@@ -704,7 +709,9 @@ public class KoLRequest implements Runnable, KoLConstants
 					// redirect desired and rerun the request.
 
 					this.formURLString = redirectLocation;
-					this.formURLBuffer = new StringBuffer( this.formURLString );
+
+					this.formURLBuffer.setLength(0);
+					this.formURLBuffer.append( this.formURLString );
 
 					this.data.clear();
 
