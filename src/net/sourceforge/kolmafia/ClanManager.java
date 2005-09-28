@@ -322,7 +322,8 @@ public class ClanManager implements KoLConstants
 			// Manually add in a bit of lag so that it doesn't turn into
 			// hammering the server for information.
 
-			KoLRequest.delay();
+			if ( !KoLRequest.isServerFriendly )
+				KoLRequest.delay();
 
 			// To avoid retrieving the file again, store the intermediate
 			// result in a local file.
