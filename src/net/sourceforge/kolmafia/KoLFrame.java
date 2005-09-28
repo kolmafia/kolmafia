@@ -929,35 +929,80 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					// being submitted and submit it manually.
 
 					String [] locationSplit = location.split( "\\." );
-					String formID = locationSplit[ locationSplit.length - 2 ];
+					String formID = "\"" + locationSplit[ locationSplit.length - 2 ] + "\"";
 
 					String editorText = ((JEditorPane)e.getSource()).getText();
+					int formIndex =  editorText.indexOf( formID );
 
-					String locationText = editorText.substring( editorText.substring( 0, editorText.indexOf( formID ) ).lastIndexOf( "<" ),
-						editorText.indexOf( ">", editorText.lastIndexOf( formID ) ) );
-
-					Matcher actionMatcher = Pattern.compile( "action=\"(.*?)\"" ).matcher( locationText );
-					actionMatcher.find();
+					String locationText = editorText.substring( editorText.lastIndexOf( "<form", formIndex ),
+						editorText.toLowerCase().indexOf( "</form>", formIndex ) );
 
 					Matcher inputMatcher = Pattern.compile( "<input.*?>" ).matcher( locationText );
-					Pattern namePattern = Pattern.compile( "name=\"(.*?)\"" );
-					Pattern valuePattern = Pattern.compile( "value=\"(.*?)\"" );
+
+					Pattern [] actionPatterns = new Pattern[3];
+					Pattern [] namePatterns = new Pattern[3];
+					Pattern [] valuePatterns = new Pattern[3];
+
+					actionPatterns[0] = Pattern.compile( "action=\"(.*?)\"" );
+					namePatterns[0] = Pattern.compile( "name=\"(.*?)\"" );
+					valuePatterns[0]  = Pattern.compile( "value=\"(.*?)\"" );
+
+					actionPatterns[1] = Pattern.compile( "action=\'(.*?)\'" );
+					namePatterns[1] = Pattern.compile( "name=\'(.*?)\'" );
+					valuePatterns[1]  = Pattern.compile( "value=\'(.*?)\'" );
+
+					actionPatterns[2] = Pattern.compile( "action=([^\\s]*?)" );
+					namePatterns[2] = Pattern.compile( "name=([^\\s]*?)" );
+					valuePatterns[2] = Pattern.compile( "value=([^\\s]*?)" );
 
 					String lastInput;
-					int lastInputIndex = 0;
-					Matcher nameMatcher, valueMatcher;
+					int patternIndex;
+					Matcher actionMatcher, nameMatcher, valueMatcher;
 					StringBuffer inputString = new StringBuffer();
 
-					while ( inputMatcher.find( lastInputIndex ) )
+					// Determine the action associated with the
+					// form -- this is used for the URL.
+
+					patternIndex = 0;
+					do
 					{
-						lastInputIndex = inputMatcher.end();
+						actionMatcher = actionPatterns[patternIndex].matcher( editorText );
+						++patternIndex;
+					}
+					while ( !actionMatcher.find() && patternIndex < 3 );
+
+					// Figure out which inputs need to be submitted.
+					// This is determined through the existing HTML,
+					// looking at preset values only.
+
+					while ( inputMatcher.find() )
+					{
 						lastInput = inputMatcher.group();
 
-						nameMatcher = namePattern.matcher( lastInput );
-						nameMatcher.find();
+						// Each input has a name associated with it.
+						// This should be determined first.
 
-						valueMatcher = valuePattern.matcher( lastInput );
-						valueMatcher.find();
+						patternIndex = 0;
+						do
+						{
+							nameMatcher = namePatterns[patternIndex].matcher( lastInput );
+							++patternIndex;
+						}
+						while ( !nameMatcher.find() && patternIndex < 3 );
+
+						// Each input has a name associated with it.
+						// This should be determined next.
+
+						patternIndex = 0;
+						do
+						{
+							valueMatcher = valuePatterns[patternIndex].matcher( lastInput );
+							++patternIndex;
+						}
+						while ( !valueMatcher.find() && patternIndex < 3 );
+
+						// Append the latest input's name and value to
+						// the complete input string.
 
 						inputString.append( inputString.length() == 0 ? '?' : '&' );
 
