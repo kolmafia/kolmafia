@@ -1566,14 +1566,18 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
-	protected static final int getQuantity( String title, int maximumValue )
+	protected static final int getQuantity( String title, int maximumValue, int defaultValue )
 	{
-		if ( maximumValue == 1 )
+		// Check parameters; avoid programmer error.
+		if ( defaultValue > maximumValue )
+			return 0;
+
+		if ( maximumValue == 1 && maximumValue == defaultValue )
 			return 1;
 
 		try
 		{
-			String currentValue = JOptionPane.showInputDialog( title, df.format( maximumValue ) );
+			String currentValue = JOptionPane.showInputDialog( title, df.format( defaultValue ) );
 			if ( currentValue == null )
 				return 0;
 
@@ -1584,6 +1588,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			return 0;
 		}
+	}
+
+	protected static final int getQuantity( String title, int maximumValue )
+	{	return getQuantity( title, maximumValue, maximumValue );
 	}
 
 
