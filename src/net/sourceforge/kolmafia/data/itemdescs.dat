@@ -1,8 +1,8 @@
 # Kingdom of Loathing Item Database
 # Compiled by Max Demian
 #
-# Latest Item: 1299
-# Date: 09/20/2005
+# Latest Item: 1302
+# Date: 09/28/2005
 #
 # Please credit if you use in your own project
 
@@ -60,7 +60,7 @@
 52	546702280	banjo strings
 53	232520882	stone banjo
 54	244279521	Disco Banjo
-55	189906805	jaba&ntilde;ero pepper
+55	189906805	jabañero pepper
 56	915847243	heavy hot sauce
 57	695837819	5-Alarm Saucepan
 58	273862210	turtle factory
@@ -74,7 +74,7 @@
 66	244181505	golden twig
 67	192265650	spaghetti with rock-balls
 68	942969095	Pasta of Peril
-69	564164501	Newbiesport&trade; tent
+69	564164501	Newbiesport™ tent
 70	757174348	bar skin
 71	449563853	wooden stakes
 72	435786424	barskin hat
@@ -162,7 +162,7 @@
 154	674402305	Disco 'Fro Pick
 155	156097981	El Sombrero De Lopez
 156	382799349	guild application
-157	300557156	E-Z Cook Oven&trade;
+157	300557156	E-Z Cook Oven™
 158	213655637	Gnollish pie tin
 159	288162100	wad of dough
 160	601030110	pie crust
@@ -279,7 +279,7 @@
 271	437207139	enchanted barbell
 272	808329045	concentrated magicalness pill
 273	332180626	giant moxie weed
-274	369846540	Familiar-Gro&trade; Terrarium
+274	369846540	Familiar-Gro™ Terrarium
 275	187601582	mosquito larva
 276	957862893	leprechaun hatchling
 277	567949941	extra-strength strongness elixir
@@ -305,7 +305,7 @@
 297	955502325	tamarind-flavored chewing gum
 298	278245380	lime-and-chile-flavored chewing gum
 299	238820559	pickle-flavored chewing gum
-300	653201781	jaba&ntilde;ero-flavored chewing gum
+300	653201781	jabañero-flavored chewing gum
 301	420577615	flat dough
 302	517250862	Knob sausage
 303	561848329	Knob mushroom
@@ -488,7 +488,7 @@
 480	455935752	box of birthday candles
 481	294854152	eldritch butterknife
 482	969408234	Mr. Container
-483	521931231	Newbiesport&trade; backpack
+483	521931231	Newbiesport™ backpack
 484	478166706	hemp backpack
 485	997590293	snakehead charrrm
 486	898684465	Talisman o' Nam
@@ -1158,12 +1158,12 @@
 1150	987274542	bottle of single-barrel whiskey
 1151	434938162	giant discarded plastic fork
 1152	352170676	miniature gravy-covered maypole
-1153	987474542	Retenez L'Herbe Pat&eacute;
-1154	947696360	Breathetastic&trade; Premium Canned Air
+1153	987474542	Retenez L'Herbe Paté
+1154	947696360	Breathetastic™ Premium Canned Air
 1155	880040707	letter from King Ralph XI
 1156	
 1157	312278075	wholeberd
-1158	208619711	Meleegra&trade; pills
+1158	208619711	Meleegra™ pills
 1159	414783196	mariachi G-string
 1160	465947106	irate sombrero
 1161	808957762	pile of candy
@@ -1305,3 +1305,6 @@
 1297	
 1298	
 1299	688927956	pirate hook
+1300	123353646	monster bait
+1301	119071035	deodorant
+1302	406730890	reodorant

@@ -478,6 +478,7 @@ pixel pants	10	0	black pixel (15)	red pixel (20)
 pixel sword	10	0	white pixel (20)	black pixel (10)	blue pixel (10)
 digital key	10	0	white pixel (30)
 white pixel	10	0	red pixel	green pixel	blue pixel
+monster bait	10	0	red pixel (20)	white pixel (15)
 
 
 # Jewelry making recipes.  These are recipes which are only available
