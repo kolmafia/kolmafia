@@ -1418,9 +1418,16 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		String [] parameterList = parameters.split( " " );
+
+		String filter = "";
 		PrintStream desiredOutputStream;
 
-		if ( parameterList.length != 1 )
+		if ( parameterList.length > 1 && parameterList[1].equals( "filter" ) )
+		{
+			filter = parameters.substring( parameters.indexOf( "filter" ) + 6 ).toLowerCase().trim();
+			desiredOutputStream = outputStream;
+		}
+		else if ( parameterList.length > 1 )
 		{
 			File outputFile = new File( parameterList[1] );
 			outputFile = new File( outputFile.getAbsolutePath() );
@@ -1452,9 +1459,9 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 			desiredOutputStream = outputStream;
 
-		executePrintCommand( parameterList[0].toLowerCase(), desiredOutputStream );
+		executePrintCommand( parameterList[0].toLowerCase(), filter, desiredOutputStream );
 
-		if ( parameterList.length != 1 )
+		if ( parameterList.length > 1 && !parameterList[1].equals( "filter" ) )
 			updateDisplay( ENABLED_STATE, "Data has been printed to \"" + parameterList[1] + "\"" );
 	}
 
@@ -1466,7 +1473,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * Usually called by its counterpart to handle specific instances.
 	 */
 
-	private void executePrintCommand( String desiredData, PrintStream outputStream )
+	private void executePrintCommand( String desiredData, String filter, PrintStream outputStream )
 	{
 		PrintStream originalStream = this.outputStream;
 		this.outputStream = outputStream;
@@ -1510,35 +1517,24 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( NOCHANGE, " Acc. 2: " + data.getEquipment( KoLCharacter.ACCESSORY2 ) );
 			updateDisplay( NOCHANGE, " Acc. 3: " + data.getEquipment( KoLCharacter.ACCESSORY3 ) );
 		}
-		else if ( desiredData.startsWith( "inv" ) )
-		{
-			printList( scriptRequestor.getInventory() );
-		}
-		else if ( desiredData.equals( "closet" ) )
-		{
-			printList( scriptRequestor.getCloset() );
-		}
-		else if ( desiredData.equals( "summary" ) )
-		{
-			printList( scriptRequestor.tally );
-		}
-		else if ( desiredData.equals( "outfits" ) )
-		{
-			printList( data.getOutfits() );
-		}
-		else if ( desiredData.equals( "familiars" ) )
-		{
-			printList( data.getFamiliarList() );
-		}
-		else if ( desiredData.equals( "effects" ) )
-		{
-			printList( data.getEffects() );
-		}
 		else
 		{
-			updateDisplay( ERROR_STATE, "Unknown data type: " + desiredData );
-			if ( scriptRequestor != this )
-				scriptRequestor.cancelRequest();
+			List mainList = desiredData.equals( "closet" ) ? scriptRequestor.getCloset() : desiredData.equals( "summary" ) ? scriptRequestor.tally :
+				desiredData.equals( "outfits" ) ? data.getOutfits() : desiredData.equals( "familiars" ) ? data.getFamiliarList() :
+				desiredData.equals( "effects" ) ? data.getEffects() : scriptRequestor.getInventory();
+
+			String currentItem;
+			List resultList = new ArrayList();
+			Iterator itemIterator = mainList.iterator();
+
+			while ( itemIterator.hasNext() )
+			{
+				currentItem = itemIterator.next().toString();
+				if ( currentItem.indexOf( filter ) != -1 )
+					resultList.add( currentItem );
+			}
+
+			printList( resultList );
 		}
 
 		this.outputStream = originalStream;
