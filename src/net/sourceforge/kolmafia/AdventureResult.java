@@ -172,6 +172,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			name.equals(HP) ? HP_PRIORITY :
 			name.equals(MP) ? MP_PRIORITY :
 			name.equals(ADV) ? ADV_PRIORITY :
+			name.equals(CHOICE) ? ADV_PRIORITY :
 			name.equals(DRUNK) ? DRUNK_PRIORITY :
 			name.equals(MEAT) ? MEAT_PRIORITY :
 			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :

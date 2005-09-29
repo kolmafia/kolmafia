@@ -230,6 +230,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "choiceAdventure2", "0" );
 		ensureProperty( "choiceAdventure3", "0" );
 		ensureProperty( "choiceAdventure4", "2" );
+		ensureProperty( "choiceAdventure5", "0" );
+		ensureProperty( "choiceAdventure7", "0" );
+		ensureProperty( "choiceAdventure8", "0" );
 		ensureProperty( "choiceAdventure9", "1" );
 		ensureProperty( "choiceAdventure10", "1" );
 		ensureProperty( "choiceAdventure11", "0" );

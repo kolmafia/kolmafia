@@ -96,6 +96,18 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure4" }, { "South of the Border" },
 			{ "Bet on Tapajunta Del Maiz", "Bet on Cuerno De...  the other one", "Walk away in disgust" } },
 
+		// Heart of Very, Very Dark Darkness
+		{ { "choiceAdventure5" }, { "Spooky Gravy Barrow" },
+			{ "Enter the cave", "Don't enter the cave" } },
+
+		// How Depressing
+		{ { "choiceAdventure7" }, { "Spooky Gravy Barrow" },
+			{ "Put you hand in the depression", "Leave" } },
+
+		// On the Verge of a Dirge
+		{ { "choiceAdventure8" }, { "Spooky Gravy Barrow" },
+		  { "Enter the chamber", "Enter the chamber", "Enter the chamber" } },
+
 		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
 			{ "Knob goblin harem veil", "Knob goblin harem pants", "100 meat" } },
 
