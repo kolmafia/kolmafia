@@ -47,6 +47,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.JOptionPane;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -63,24 +64,23 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
  * for this KoLmafia session.
  */
 
-public class ContactListFrame extends JFrame
+public class ContactListFrame extends KoLFrame
 {
-	private KoLmafia client;
 	private SortedListModel contacts;
+	private JList contactsDisplay;
 
 	protected ButtonGroup clickGroup;
 	protected JRadioButtonMenuItem [] clickOptions;
 
 	public ContactListFrame( KoLmafia client, SortedListModel contacts )
 	{
-		this.client = client;
+		super( client, "Contact List" );
 		this.contacts = contacts;
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( new ContactListPanel(), "" );
 
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
-		addMenuBar();
-		pack();
+		addMenuBar();  pack();
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -96,7 +96,7 @@ public class ContactListFrame extends JFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
-		JMenu clicksMenu = new JMenu( "N-Click" );
+		JMenu clicksMenu = new JMenu( "Namelinks" );
 		clicksMenu.setMnemonic( KeyEvent.VK_N );
 		menuBar.add( clicksMenu );
 
@@ -115,6 +115,66 @@ public class ContactListFrame extends JFrame
 			clickGroup.add( clickOptions[i] );
 			clicksMenu.add( clickOptions[i] );
 		}
+
+		JMenu selectMenu = new JMenu( "Wholist" );
+		selectMenu.setMnemonic( KeyEvent.VK_W );
+		menuBar.add( selectMenu );
+
+		selectMenu.add( new InvocationMenuItem( "Comma-delimited list", KeyEvent.VK_C, this, "convertToCDL" ) );
+		selectMenu.add( new InvocationMenuItem( "Buff selected players", KeyEvent.VK_B, this, "buffSelected" ) );
+	}
+
+	public Object [] getSelectedPlayers()
+	{
+		Object [] selectedPlayers = contactsDisplay.getSelectedValues();
+
+		// If no players are selected, and the player uses the
+		// option, assume they want everyone.
+
+		if ( selectedPlayers.length == 0 )
+			selectedPlayers = contacts.toArray();
+
+		return selectedPlayers;
+	}
+
+	public void buffSelected()
+	{
+		if ( client == null )
+			return;
+
+		Object [] selectedPlayers = getSelectedPlayers();
+		UseSkillRequest selectedBuff = (UseSkillRequest) JOptionPane.showInputDialog(
+			null, "I want to use this skill on " + selectedPlayers.length + " players...", "The Ultra-Rare Chat Buffing System (CBS)",
+			JOptionPane.INFORMATION_MESSAGE, null, client.getCharacterData().getAvailableSkills().toArray(), client.getCharacterData().getAvailableSkills().get(0) );
+
+		if ( selectedBuff == null )
+			return;
+
+		int buffCount = getQuantity( "This many casts per player...", 1 );
+
+		UseSkillRequest [] requests = new UseSkillRequest[ selectedPlayers.length ];
+
+		for ( int i = 0; i < requests.length; ++i )
+			requests[i] = new UseSkillRequest( client, selectedBuff.getSkillName(), (String) selectedPlayers[i], buffCount );
+
+		(new RequestThread( requests )).start();
+	}
+
+	public void convertToCDL()
+	{
+		if ( client == null )
+			return;
+
+		StringBuffer listCDL = new StringBuffer();
+		Object [] selectedPlayers = getSelectedPlayers();
+
+		for ( int i = 0; i < selectedPlayers.length; ++i )
+		{
+			if ( i != 0 )  listCDL.append( ", " );
+			listCDL.append( (String) selectedPlayers[i] );
+		}
+
+		JOptionPane.showInputDialog( "Here's your CDL!", listCDL.toString() );
 	}
 
 	private class ContactListPanel extends JPanel
@@ -122,7 +182,7 @@ public class ContactListFrame extends JFrame
 		public ContactListPanel()
 		{
 			setLayout( new GridLayout( 1, 1 ) );
-			JList contactsDisplay = new JList( contacts );
+			contactsDisplay = new JList( contacts );
 			contactsDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 			contactsDisplay.setVisibleRowCount( 25 );

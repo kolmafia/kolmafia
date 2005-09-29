@@ -149,7 +149,7 @@ public class ChatFrame extends KoLFrame
 		optionsMenu.add( new MessengerListener( "Add Highlight", KeyEvent.VK_A, "addHighlighting" ) );
 		optionsMenu.add( new MessengerListener( "Remove Highlight", KeyEvent.VK_R, "removeHighlighting" ) );
 
-		JMenu clicksMenu = new JMenu( "N-Click" );
+		JMenu clicksMenu = new JMenu( "Namelinks" );
 		clicksMenu.setMnemonic( KeyEvent.VK_N );
 		menuBar.add( clicksMenu );
 
