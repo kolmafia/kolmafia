@@ -176,6 +176,7 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 			{
 				client.updateDisplay( DISABLED_STATE, "Relaxing in beanbag chair..." );
 				(new CampgroundRequest( client, "relax" )).run();
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				return;
 			}
 
@@ -183,6 +184,7 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 			{
 				client.updateDisplay( DISABLED_STATE, "Resting at campground..." );
 				(new CampgroundRequest( client, "rest" )).run();
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				return;
 			}
 

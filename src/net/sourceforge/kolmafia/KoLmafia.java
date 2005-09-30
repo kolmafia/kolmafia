@@ -1000,7 +1000,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
 			{
-				if ( itemName.equals( mpRestoreItemList.BEANBAG.toString() ) )
+				if ( restorer == mpRestoreItemList.BEANBAG || restorer == mpRestoreItemList.HOUSE )
 				{
 					while ( characterData.getAdventuresLeft() > 0 &&
 						characterData.getCurrentMP() < characterData.getMaximumMP() && characterData.getCurrentMP() > previousMP )
