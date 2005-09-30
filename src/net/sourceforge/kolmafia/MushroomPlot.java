@@ -48,7 +48,9 @@ public class MushroomPlot implements KoLConstants
 	//  9 10 11 12
 	// 13 14 15 16
 
-	private static int [] plot = new int[16];
+	private static int [][] actualPlot = new int[4][4];
+	private static int [][] forecastPlot = new int[4][4];
+
 	private static boolean initialized = false;
 	private static boolean ownsPlot = false;
 
@@ -79,23 +81,36 @@ public class MushroomPlot implements KoLConstants
 	public static final Object [][] MUSHROOMS =
 	{
 		// Sprout and emptiness
-		{ new Integer( EMPTY ), "dirt1.gif", "__" },
-		{ new Integer( SPROUT ), "mushsprout.gif", ".." },
+		{ new Integer( EMPTY ), "dirt1.gif", "__", new Integer( 0 ) },
+		{ new Integer( SPROUT ), "mushsprout.gif", "..", new Integer( 0 ) },
 
 		// First generation mushrooms
-		{ new Integer( SPOOKY ), "spooshroom.gif", "Sp" },
-		{ new Integer( KNOB ), "bmushroom.gif", "Kb" },
-		{ new Integer( KNOLL ), "mushroom.gif", "Kn" },
+		{ new Integer( KNOB ), "bmushroom.gif", "Kb", new Integer( 1 ) },
+		{ new Integer( KNOLL ), "mushroom.gif", "Kn", new Integer( 2 ) },
+		{ new Integer( SPOOKY ), "spooshroom.gif", "Sp", new Integer( 3 ) },
 
 		// Second generation mushrooms
-		{ new Integer( WARM ), "flatshroom.gif", "Wa" },
-		{ new Integer( COOL ), "plaidroom.gif", "Co" },
-		{ new Integer( POINTY ), "tallshroom.gif", "Po" },
+		{ new Integer( WARM ), "flatshroom.gif", "Wa", new Integer( 4 ) },
+		{ new Integer( COOL ), "plaidroom.gif", "Co", new Integer( 5 ) },
+		{ new Integer( POINTY ), "tallshroom.gif", "Po", new Integer( 6 ) },
 
 		// Third generation mushrooms
-		{ new Integer( FLAMING ), "fireshroom.gif", "Fl" },
-		{ new Integer( FROZEN ), "iceshroom", "Fr" },
-		{ new Integer( STINKY ), "stinkshroo", "St" }
+		{ new Integer( FLAMING ), "fireshroom.gif", "Fl", new Integer( 0 ) },
+		{ new Integer( FROZEN ), "iceshroom", "Fr", new Integer( 0 ) },
+		{ new Integer( STINKY ), "stinkshroo", "St", new Integer( 0 ) }
+	};
+
+	public static final int [][] BREEDING =
+	{
+		// EMPTY,   KNOB,    KNOLL,   SPOOKY,  WARM,    COOL,    POINTY
+
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY   },  // EMPTY
+		{  EMPTY,   KNOB,    COOL,    WARM,    EMPTY,   EMPTY,   EMPTY   },  // KNOB
+		{  EMPTY,   COOL,    KNOLL,   POINTY,  EMPTY,   EMPTY,   EMPTY   },  // KNOLL
+		{  EMPTY,   WARM,    POINTY,  SPOOKY,  EMPTY,   EMPTY,   EMPTY   },  // SPOOKY
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   WARM,    STINKY,  FLAMING },  // WARM
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   STINKY,  COOL,    FROZEN  },  // COOL
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   FLAMING, FROZEN,  POINTY  }   // POINTY
 	};
 
 	// Spore data - includes price of the spore
@@ -122,11 +137,81 @@ public class MushroomPlot implements KoLConstants
 	{
 		// If for some reason, the plot was invalid, then
 		// the flag would have been set on the client.  In
-		// this case, return a null string.
+		// this case, return a message.
 
 		if ( !initialize( client ) )
 			return "Your plot is unavailable.";
 
+		return getMushroomPlot( client, isHypertext, actualPlot );
+	}
+
+	/**
+	 * Utility method which returns a two-dimensional
+	 * array showing the arrangement of the forecasted
+	 * plot (ie: what the plot will look like tomorrow).
+	 */
+
+	public static String getForecastedPlot( KoLmafia client, boolean isHypertext )
+	{
+		// If for some reason, the plot was invalid, then
+		// the flag would have been set on the client.  In
+		// this case, return a message.
+
+		if ( !initialize( client ) )
+			return "Your plot is unavailable.";
+
+		// Construct the forecasted plot now.  Initialize
+		// all the entries to empty.
+
+		for ( int row = 0; row < 4; ++row )
+			for ( int col = 0; col < 4; ++col )
+				forecastPlot[ row ][ col ] = EMPTY;
+
+		// Based on the algorithm provided
+
+		return getMushroomPlot( client, isHypertext, forecastPlot );
+	}
+
+	private static int getForecastSquare( int row, int col )
+	{
+		int [] touched = new int[4];
+
+		// First, determine what kinds of mushrooms
+		// touch the square.
+
+		touched[0] = row == 0 ? EMPTY : actualPlot[ row - 1 ][ col ];
+		touched[1] = row == 3 ? EMPTY : actualPlot[ row + 1 ][ col ];
+		touched[2] = col == 0 ? EMPTY : actualPlot[ row ][ col - 1 ];
+		touched[3] = col == 3 ? EMPTY : actualPlot[ row ][ col + 1 ];
+
+		// Determine how many mushrooms total touch
+		// the square.
+
+		int [] touchIndex = new int[4];
+		int touchCount = 0;
+
+		for ( int i = 0; i < 4; ++i )
+		{
+			if ( touched[i] != EMPTY && touched[i] != SPROUT )
+			{
+				for ( int j = 0; j < MUSHROOMS.length; ++j )
+					if ( touched[i] == ((Integer)MUSHROOMS[j][0]).intValue() )
+						touchIndex[ touchCount ] = ((Integer)MUSHROOMS[j][3]).intValue();
+
+				++touchCount;
+			}
+		}
+
+		// If exactly two mushrooms are touching the
+		// square, then return the result of the breed.
+		// Otherwise, it'll be the same as whatever is
+		// there right now.
+
+		return touchCount == 2 ? BREEDING[ touchIndex[0] ][ touchIndex[1] ] : actualPlot[ row ][ col ];
+	}
+
+	private static String getMushroomPlot( KoLmafia client, boolean isHypertext, int [][] plot )
+	{
 		// Otherwise, you need to construct the string form
 		// of the mushroom plot.  Shorthand and hpertext are
 		// the only two versions at the moment.
@@ -135,7 +220,6 @@ public class MushroomPlot implements KoLConstants
 
 		buffer.append( isHypertext ? "<center><table cellspacing=4 cellpadding=4>" : LINE_BREAK );
 
-		int squareIndex = 0;
 		for ( int row = 0; row < 4; ++row )
 		{
 			// In a hypertext document, you initialize the
@@ -145,13 +229,13 @@ public class MushroomPlot implements KoLConstants
 			if ( isHypertext )
 				buffer.append( "<tr>" );
 
-			for ( int col = 0; col < 4; ++col, ++squareIndex )
+			for ( int col = 0; col < 4; ++col )
 			{
 				// Hypertext documents need to have their cells opened before
 				// the cell can be printed.
 
 				buffer.append( isHypertext ? "<td>" : "  " );
-				int square = plot[ squareIndex ];
+				int square = plot[ row ][ col ];
 
 				String description = MushroomPlot.mushroomDescription( square );
 
@@ -196,7 +280,6 @@ public class MushroomPlot implements KoLConstants
 		// return it to the calling method.
 
 		return buffer.toString();
-
 	}
 
 	/**
@@ -294,7 +377,10 @@ public class MushroomPlot implements KoLConstants
 
 		// If the square isn't empty, pick what's there
 
-		if ( plot[ square - 1 ] != EMPTY && !pickMushroom( client, square ) )
+		int row = (square - 1) / 4;
+		int col = (square - 1) % 4;
+
+		if ( actualPlot[ row ][ col ] != EMPTY && !pickMushroom( client, square ) )
 			return false;
 
 		// Plant the requested spore.
@@ -340,7 +426,10 @@ public class MushroomPlot implements KoLConstants
 		// If the square is not empty, run a request to pick
 		// the mushroom in the square.
 
-		if ( plot[ square - 1 ] != EMPTY )
+		int row = (square - 1) / 4;
+		int col = (square - 1) % 4;
+
+		if ( actualPlot[ row ][ col ] != EMPTY )
 		{
 			MushroomPlotRequest request = new MushroomPlotRequest( client, square );
 			request.run();
@@ -432,8 +521,9 @@ public class MushroomPlot implements KoLConstants
 			// Pretend all of the sections on the plot are empty
 			// before you begin parsing the plot.
 
-			for ( int i = 0; i < plot.length; ++i )
-				plot[i] = EMPTY;
+			for ( int row = 0; row < 4; ++row )
+				for ( int col = 0; col < 4; ++col )
+					actualPlot[ row ][ col ] = EMPTY;
 
 			Matcher plotMatcher = Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" ).matcher( text );
 			ownsPlot = plotMatcher.find();
@@ -448,8 +538,9 @@ public class MushroomPlot implements KoLConstants
 
 			Matcher squareMatcher = Pattern.compile( "<td>(.*?)</td>" ).matcher( plotMatcher.group(1) );
 
-			for ( int i = 0; i < 16 && squareMatcher.find(); ++i )
-				plot[i] = parseSquare( squareMatcher.group(1) );
+			for ( int row = 0; row < 4; ++row )
+				for ( int col = 0; col < 4 && squareMatcher.find(); ++col )
+					actualPlot[ row ][ col ] = parseSquare( squareMatcher.group(1) );
 		}
 
 		private int parseSquare( String text )

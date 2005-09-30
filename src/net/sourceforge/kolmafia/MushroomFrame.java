@@ -34,41 +34,55 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import javax.swing.JPanel;
 import javax.swing.JEditorPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-/**
- * A class which displays the calendar image to be used for today's
- * moon phases and today's calendar.
- */
-
 public class MushroomFrame extends KoLFrame
 {
-	private JEditorPane mushroomDisplay;
-	private LimitedSizeChatBuffer mushroomBuffer;
+	private JEditorPane currentDisplay, forecastDisplay;
+	private LimitedSizeChatBuffer currentBuffer, forecastBuffer;
 
 	public MushroomFrame( KoLmafia client )
 	{
-		super( client, "Mushroom Plot" );
+		super( client, "Mushroom Fields" );
+
+		currentBuffer = new LimitedSizeChatBuffer( "Current Plot" );
+
+		currentDisplay = new JEditorPane();
+		JComponentUtilities.setComponentSize( currentDisplay, 200, 200 );
+
+		currentDisplay.setEditable( false );
+		currentDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
+		currentBuffer.setChatDisplay( currentDisplay );
+
+		forecastBuffer = new LimitedSizeChatBuffer( "Forecast Plot" );
+
+		forecastDisplay = new JEditorPane();
+		JComponentUtilities.setComponentSize( forecastDisplay, 200, 200 );
+
+		forecastDisplay.setEditable( false );
+		forecastDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
+		forecastBuffer.setChatDisplay( forecastDisplay );
+
 		getContentPane().setLayout( new BorderLayout() );
-		mushroomBuffer = new LimitedSizeChatBuffer( "Mushroom Plot" );
 
-		mushroomDisplay = new JEditorPane();
-		JComponentUtilities.setComponentSize( mushroomDisplay, 160, 160 );
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout( new GridLayout( 1, 2, 20, 20 ) );
+		centerPanel.add( currentDisplay );
+		centerPanel.add( forecastDisplay );
 
-		mushroomDisplay.setEditable( false );
-		mushroomDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
-		mushroomBuffer.setChatDisplay( mushroomDisplay );
-
-		getContentPane().add( mushroomDisplay, BorderLayout.CENTER );
+		getContentPane().add( centerPanel, BorderLayout.CENTER );
 
 		(new UpdateMushroomThread()).start();
 	}
 
 	/**
-	 * Special thread which allows the mushroom page to be updated outside
+	 * Special thread which allows the current page to be updated outside
 	 * of the Swing thread -- this means images can be downloaded without
 	 * locking the UI.
 	 */
@@ -79,10 +93,13 @@ public class MushroomFrame extends KoLFrame
 		{
 			if ( client != null )
 			{
-				mushroomBuffer.clearBuffer();
+				currentBuffer.clearBuffer();
+				currentBuffer.append( MushroomPlot.getMushroomPlot( client, true ) );
+				currentDisplay.setCaretPosition( 0 );
 
-				mushroomBuffer.append( MushroomPlot.getMushroomPlot( client, true ) );
-				mushroomDisplay.setCaretPosition( 0 );
+				forecastBuffer.clearBuffer();
+				forecastBuffer.append( MushroomPlot.getForecastedPlot( client, true ) );
+				forecastDisplay.setCaretPosition( 0 );
 			}
 		}
 	}
