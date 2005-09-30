@@ -34,10 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
-public class StrangeLeaflet implements KoLConstants
+public class StrangeLeaflet extends StaticEntity
 {
-	private static KoLmafia client;
-
 	private static final AdventureResult LEAFLET = new AdventureResult( 520, 1 );
 	private static final AdventureResult FROBOZZ = new AdventureResult( 526, 1 );
 
@@ -86,11 +84,6 @@ public class StrangeLeaflet implements KoLConstants
 	private static boolean torch;
 	private static boolean serpent;
 	private static boolean chest;
-
-	public static void setClient( KoLmafia client )
-	{
-		StrangeLeaflet.client = client;
-	}
 
 	public static void robStrangeLeaflet()
 	{

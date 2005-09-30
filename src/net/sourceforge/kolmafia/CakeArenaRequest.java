@@ -91,7 +91,7 @@ public class CakeArenaRequest extends KoLRequest
 		while ( opponentMatcher.find( lastMatchIndex ) )
 		{
 			lastMatchIndex = opponentMatcher.end() + 1;
-			client.getCakeArenaManager().registerOpponent( Integer.parseInt( opponentMatcher.group(1) ), opponentMatcher.group(2).substring(4), opponentMatcher.group(3) );
+			CakeArenaManager.registerOpponent( Integer.parseInt( opponentMatcher.group(1) ), opponentMatcher.group(2).substring(4), opponentMatcher.group(3) );
 		}
 
 		updateDisplay( ENABLED_STATE, "Opponent list retrieved." );

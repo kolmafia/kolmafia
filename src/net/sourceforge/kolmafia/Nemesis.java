@@ -36,10 +36,8 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Nemesis implements KoLConstants
+public class Nemesis extends StaticEntity
 {
-	private static KoLmafia client;
-
 	// Items for the cave
 
 	private static final AdventureResult FLY_SWATTER = new AdventureResult( 123, 1 );
@@ -49,11 +47,6 @@ public class Nemesis implements KoLConstants
 	private static final AdventureResult TONGS = new AdventureResult( 36, 1 );
 	private static final AdventureResult KETCHUP = new AdventureResult( 106, 1 );
 	private static final AdventureResult CATSUP = new AdventureResult( 107, 1 );
-
-	public static void setClient( KoLmafia client )
-	{
-		Nemesis.client = client;
-	}
 
 	private static boolean checkPrerequisites()
 	{

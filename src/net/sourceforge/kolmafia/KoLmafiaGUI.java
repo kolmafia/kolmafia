@@ -75,7 +75,7 @@ public class KoLmafiaGUI extends KoLmafia
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
     	KoLmafiaGUI session = new KoLmafiaGUI();
 
-		KoLDatabase.client = session;
+		StaticEntity.setClient( session );
 
 		String login = session.settings.getProperty( "autoLogin" );
 		String password = session.getSaveState( login );
@@ -410,7 +410,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void visitCakeShapedArena()
 	{
-		if ( cakeArenaManager.getOpponentList().isEmpty() )
+		if ( CakeArenaManager.getOpponentList().isEmpty() )
 			(new CakeArenaRequest( this )).run();
 
 		Object [] parameters = new KoLmafia[1];

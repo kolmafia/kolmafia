@@ -35,10 +35,15 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.JEditorPane;
+import javax.swing.table.TableCellRenderer;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -94,13 +99,20 @@ public class MushroomFrame extends KoLFrame
 			if ( client != null )
 			{
 				currentBuffer.clearBuffer();
-				currentBuffer.append( MushroomPlot.getMushroomPlot( client, true ) );
+				currentBuffer.append( MushroomPlot.getMushroomPlot( true ) );
 				currentDisplay.setCaretPosition( 0 );
 
 				forecastBuffer.clearBuffer();
-				forecastBuffer.append( MushroomPlot.getForecastedPlot( client, true ) );
+				forecastBuffer.append( MushroomPlot.getForecastedPlot( true ) );
 				forecastDisplay.setCaretPosition( 0 );
 			}
+		}
+	}
+
+	private class MushroomButtonRenderer implements TableCellRenderer
+	{
+		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
+		{	return value == null ? null : value instanceof Component ? (Component) value : new JLabel( value.toString() );
 		}
 	}
 

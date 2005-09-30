@@ -38,17 +38,15 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class CakeArenaManager implements KoLConstants
+public class CakeArenaManager extends StaticEntity
 {
-	private KoLmafia client;
-	private LimitedSizeChatBuffer results;
-	private LockableListModel opponentList;
+	private static LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( "Arena Tracker" );
+	private static LockableListModel opponentList = new LockableListModel();
 
-	public CakeArenaManager( KoLmafia client )
+	public static void reset()
 	{
-		this.client = client;
-		this.results = new LimitedSizeChatBuffer( "Arena Tracker" );
-		opponentList = new LockableListModel();
+		results.clearBuffer();
+		opponentList.clear();
 	}
 
 	/**
@@ -57,7 +55,7 @@ public class CakeArenaManager implements KoLConstants
 	 * relates to the arena.
 	 */
 
-	public void registerOpponent( int opponentID, String race, String weight )
+	public static void registerOpponent( int opponentID, String race, String weight )
 	{
 		ArenaOpponent ao = new ArenaOpponent( opponentID, race, weight );
 
@@ -76,7 +74,7 @@ public class CakeArenaManager implements KoLConstants
 	 * description for the opponent.
 	 */
 
-	public void fightOpponent( String opponent, int eventID, int battleCount )
+	public static void fightOpponent( String opponent, int eventID, int battleCount )
 	{
 		for ( int i = 0; i < opponentList.size(); ++i )
 		{
@@ -90,7 +88,7 @@ public class CakeArenaManager implements KoLConstants
 		client.updateDisplay( ENABLED_STATE, "Arena battles complete." );
 	}
 
-	private class ArenaThread extends DaemonThread
+	private static class ArenaThread extends DaemonThread
 	{
 		private CakeArenaRequest request;
 		private int battleCount;
@@ -138,7 +136,7 @@ public class CakeArenaManager implements KoLConstants
 	 * arena results.
 	 */
 
-	public LimitedSizeChatBuffer getResults()
+	public static LimitedSizeChatBuffer getResults()
 	{	return results;
 	}
 
@@ -147,7 +145,7 @@ public class CakeArenaManager implements KoLConstants
 	 * the cake-shaped arena.
 	 */
 
-	public LockableListModel getOpponentList()
+	public static LockableListModel getOpponentList()
 	{	return opponentList;
 	}
 

@@ -41,10 +41,8 @@ import java.util.Iterator;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
-public class KoLDatabase implements KoLConstants
+public class KoLDatabase extends StaticEntity
 {
-	public static KoLmafia client;
-
 	static { System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" ); };
 
 	protected static BufferedReader getReader( String file )
@@ -207,18 +205,5 @@ public class KoLDatabase implements KoLConstants
 
 	public static final double calculateAverage( List values )
 	{	return (double)calculateTotal( values ) / (double)values.size();
-	}
-
-	protected static final void setProperty( String name, String value )
-	{
-		if ( client != null )
-		{
-			client.getSettings().setProperty( name, value );
-			client.getSettings().saveSettings();
-		}
-	}
-
-	protected static final String getProperty( String name )
-	{	return client == null ? GLOBAL_SETTINGS.getProperty( name ) : client.getSettings().getProperty( name );
 	}
 }

@@ -99,7 +99,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected BuffBotManager buffBotManager;
 	protected MPRestoreItemList mpRestoreItemList;
 
-	protected CakeArenaManager cakeArenaManager;
 	protected StoreManager storeManager;
 	protected ClanManager clanManager;
 	protected MuseumManager museumManager;
@@ -222,6 +221,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		CharpaneRequest.reset();
 		MushroomPlot.reset();
+		CakeArenaManager.reset();
 
 		this.conditions.clear();
 		this.missingItems.clear();
@@ -361,7 +361,6 @@ public abstract class KoLmafia implements KoLConstants
 		this.isLoggingIn = false;
 		this.settings = new KoLSettings( loginname );
 		this.loathingMail = new KoLMailManager( this );
-		this.cakeArenaManager = new CakeArenaManager( this );
 		this.storeManager = new StoreManager( this );
 		this.clanManager = new ClanManager( this );
 		this.museumManager = new MuseumManager( this );
@@ -1875,15 +1874,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Retrieves the <code>CakeArenaManager</code> used for managing requests
-	 * to the cake-shaped arena.
-	 */
-
-	public CakeArenaManager getCakeArenaManager()
-	{	return cakeArenaManager;
-	}
-
-	/**
 	 * Retrieves the <code>StoreManager</code> used for managing data relating
 	 * to the player's store.
 	 */
@@ -1964,16 +1954,12 @@ public abstract class KoLmafia implements KoLConstants
 	public void robStrangeLeaflet()
 	{
 		// Use the static method provided in the Strange Leaflet
-
-		StrangeLeaflet.setClient( this );
 		StrangeLeaflet.robStrangeLeaflet();
 	}
 
 	public void faceNemesis()
 	{
 		// Use the static method provided to face your Nemesis
-
-		Nemesis.setClient( this );
 		Nemesis.faceNemesis();
 	}
 
@@ -1982,7 +1968,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Use the static method provided in the sorceress
 		// lair to complete the entryway process.
 
-		SorceressLair.setClient( this );
 		SorceressLair.completeEntryway();
 	}
 
@@ -1991,7 +1976,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Use the static method provided in the sorceress
 		// lair to pass through the hedge maze
 
-		SorceressLair.setClient( this );
 		SorceressLair.completeHedgeMaze();
 	}
 
@@ -2000,7 +1984,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Use the static method provided in the sorceress
 		// lair to fight all the tower guardians
 
-		SorceressLair.setClient( this );
 		SorceressLair.fightTowerGuardians();
 	}
 
@@ -2009,7 +1992,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Use the static method provided in the sorceress
 		// lair to complete the Sorceress's Chamber
 
-		SorceressLair.setClient( this );
 		SorceressLair.completeSorceressChamber();
 	}
 

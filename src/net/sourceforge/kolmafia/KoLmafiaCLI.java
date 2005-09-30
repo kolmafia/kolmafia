@@ -101,7 +101,7 @@ public class KoLmafiaCLI extends KoLmafia
 			System.out.println();
 
 			KoLmafiaCLI session = new KoLmafiaCLI( null, System.in );
-			KoLDatabase.client = session;
+			StaticEntity.setClient( session );
 
 			if ( initialScript == null )
 			{
@@ -1793,7 +1793,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	private void showMushroomPlot()
-	{	updateDisplay( NOCHANGE, MushroomPlot.getMushroomPlot( scriptRequestor, false ) );
+	{	updateDisplay( NOCHANGE, MushroomPlot.getMushroomPlot( false ) );
 	}
 
 	/**
@@ -1809,7 +1809,7 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			int square = df.parse( squareString ).intValue();
-			MushroomPlot.plantMushroom( scriptRequestor, square, spore );
+			MushroomPlot.plantMushroom( square, spore );
 		}
 		catch  ( Exception e )
 		{
@@ -1826,7 +1826,7 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			int square = df.parse( parameters ).intValue();
-			MushroomPlot.pickMushroom( scriptRequestor, square );
+			MushroomPlot.pickMushroom( square );
 		}
 		catch  ( Exception e )
 		{

@@ -44,6 +44,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JButton;
+import javax.swing.JTable;
 import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -61,6 +62,7 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
+import javax.swing.table.TableColumnModel;
 
 // event listeners
 import java.awt.event.KeyEvent;
@@ -71,6 +73,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListDataEvent;
@@ -1532,6 +1535,68 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 
 			validate();
+		}
+	}
+
+	/**
+	 * Utility class used to forward events to JButtons enclosed inside
+	 * of a JTable object.
+	 */
+
+	protected class ButtonEventListener extends MouseAdapter
+	{
+		private JTable table;
+
+		public ButtonEventListener( JTable table )
+		{	this.table = table;
+		}
+
+		public void mouseReleased( MouseEvent e )
+		{
+		    TableColumnModel columnModel = table.getColumnModel();
+
+		    int row = e.getY() / table.getRowHeight();
+		    int column = columnModel.getColumnIndexAtX( e.getX() );
+
+			if ( row >= 0 && row < table.getRowCount() && column >= 0 && column < table.getColumnCount() )
+			{
+				Object value = table.getValueAt( row, column );
+
+				if ( value instanceof JButton )
+				{
+					((JButton) value).dispatchEvent( SwingUtilities.convertMouseEvent( table, e, (JButton) value ) );
+					table.repaint();
+				}
+			}
+		}
+	}
+
+	protected class MouseListeningButton extends JButton implements MouseListener
+	{
+		public MouseListeningButton( ImageIcon icon )
+		{
+			super( icon );
+			addMouseListener( this );
+		}
+
+		public void mouseClicked( MouseEvent e )
+		{
+		}
+
+		public void mouseEntered( MouseEvent e )
+		{
+		}
+
+		public void mouseExited( MouseEvent e )
+		{
+		}
+
+		public void mousePressed( MouseEvent e )
+		{
+		}
+
+		public void mouseReleased( MouseEvent e )
+		{
 		}
 	}
 

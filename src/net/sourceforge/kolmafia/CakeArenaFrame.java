@@ -43,8 +43,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseAdapter;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -85,14 +83,7 @@ public class CakeArenaFrame extends KoLFrame
 
 		public CakeArenaPanel()
 		{
-			if ( client == null )
-			{
-				opponents = new LockableListModel();
-				for ( int i = 0; i < 5; ++i )
-					opponents.add( new CakeArenaManager.ArenaOpponent( 1, "Mosquito", "0 lbs" ) );
-			}
-			else
-				opponents = client.getCakeArenaManager().getOpponentList();
+			opponents = CakeArenaManager.getOpponentList();
 
 			String opponentRace;
 			String [] columnNames = { "Familiar", "Cage Match", "Scavenger Hunt", "Obstacle Course", "Hide and Seek" };
@@ -149,8 +140,7 @@ public class CakeArenaFrame extends KoLFrame
 			JEditorPane resultsDisplay = new JEditorPane();
 			resultsDisplay.setEditable( false );
 
-			if ( client != null )
-				client.getCakeArenaManager().getResults().setChatDisplay( resultsDisplay );
+			CakeArenaManager.getResults().setChatDisplay( resultsDisplay );
 
 			JScrollPane scroller = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -170,7 +160,7 @@ public class CakeArenaFrame extends KoLFrame
 		}
 	}
 
-	private class OpponentButton extends JButton implements MouseListener
+	private class OpponentButton extends MouseListeningButton
 	{
 		private int row, column;
 		private String skill;
@@ -182,24 +172,6 @@ public class CakeArenaFrame extends KoLFrame
 			this.row = row;
 			this.column = column;
 			this.skill = skill.intValue() == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
-
-			addMouseListener( this );
-		}
-
-		public void mouseClicked( MouseEvent e )
-		{
-		}
-
-		public void mouseEntered( MouseEvent e )
-		{
-		}
-
-		public void mouseExited( MouseEvent e )
-		{
-		}
-
-		public void mousePressed( MouseEvent e )
-		{
 		}
 
 		public void mouseReleased( MouseEvent e )
@@ -215,38 +187,10 @@ public class CakeArenaFrame extends KoLFrame
 				int battleCount = df.parse( JOptionPane.showInputDialog( "<html>" + opponents.get( row ).toString() + ", " +
 					CakeArenaManager.getEvent( column ) + "<br>" + currentSkill + " vs. " + skill + "</html>" ) ).intValue();
 
-				client.getCakeArenaManager().fightOpponent( opponents.get( row ).toString(), column, battleCount );
+				CakeArenaManager.fightOpponent( opponents.get( row ).toString(), column, battleCount );
 			}
 			catch ( Exception e1 )
 			{
-			}
-		}
-	}
-
-	private class ButtonEventListener extends MouseAdapter
-	{
-		private JTable table;
-
-		public ButtonEventListener( JTable table )
-		{	this.table = table;
-		}
-
-		public void mouseReleased( MouseEvent e )
-		{
-		    TableColumnModel columnModel = table.getColumnModel();
-
-		    int row = e.getY() / table.getRowHeight();
-		    int column = columnModel.getColumnIndexAtX( e.getX() );
-
-			if ( row >= 0 && row < table.getRowCount() && column >= 0 && column < table.getColumnCount() )
-			{
-				Object value = table.getValueAt( row, column );
-
-				if ( value instanceof OpponentButton )
-				{
-					((OpponentButton) value).dispatchEvent( SwingUtilities.convertMouseEvent( table, e, (JButton) value ) );
-					table.repaint();
-				}
 			}
 		}
 	}

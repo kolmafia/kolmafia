@@ -38,10 +38,8 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-public class SorceressLair implements KoLConstants
+public class SorceressLair extends StaticEntity
 {
-	private static KoLmafia client;
-
 	// Items for the entryway
 
 	private static final AdventureResult SUGAR = new AdventureResult( "Sugar Rush", 0 );
@@ -117,11 +115,6 @@ public class SorceressLair implements KoLConstants
 		{ "goat", "mosquito" },
 		{ "potato", "barrrnacle" }
 	};
-
-	public static void setClient( KoLmafia client )
-	{
-		SorceressLair.client = client;
-	}
 
 	private static boolean checkPrerequisites( int min, int max )
 	{
@@ -1144,14 +1137,14 @@ public class SorceressLair implements KoLConstants
 
 		// Start the battle!
 
-		String action = client.getSettings().getProperty( "battleAction" );
-		client.getSettings().setProperty( "battleAction", "item464" );
+		String action = getProperty( "battleAction" );
+		setProperty( "battleAction", "item464" );
 
 		KoLRequest request = new KoLRequest( client, "lair6.php" );
 		request.addFormField( "place", "2" );
 		request.run();
 
-		client.getSettings().setProperty( "battleAction", action );
+		setProperty( "battleAction", action );
 		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 
 		if ( !client.permitsContinue() )

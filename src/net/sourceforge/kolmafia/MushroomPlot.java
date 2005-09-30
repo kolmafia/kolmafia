@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MushroomPlot implements KoLConstants
+public class MushroomPlot extends StaticEntity
 {
 	// The player's mushroom plot
 	//
@@ -133,16 +133,16 @@ public class MushroomPlot implements KoLConstants
 	 * array showing the arrangement of the plot.
 	 */
 
-	public static String getMushroomPlot( KoLmafia client, boolean isHypertext )
+	public static String getMushroomPlot( boolean isHypertext )
 	{
 		// If for some reason, the plot was invalid, then
 		// the flag would have been set on the client.  In
 		// this case, return a message.
 
-		if ( !initialize( client ) )
+		if ( !initialize() )
 			return "Your plot is unavailable.";
 
-		return getMushroomPlot( client, isHypertext, actualPlot );
+		return getMushroomPlot( isHypertext, actualPlot );
 	}
 
 	/**
@@ -151,17 +151,17 @@ public class MushroomPlot implements KoLConstants
 	 * plot (ie: what the plot will look like tomorrow).
 	 */
 
-	public static String getForecastedPlot( KoLmafia client, boolean isHypertext )
-	{	return getForecastedPlot( client, isHypertext, actualPlot );
+	public static String getForecastedPlot( boolean isHypertext )
+	{	return getForecastedPlot( isHypertext, actualPlot );
 	}
 
-	public static String getForecastedPlot( KoLmafia client, boolean isHypertext, int [][] plot )
+	public static String getForecastedPlot( boolean isHypertext, int [][] plot )
 	{
 		// If for some reason, the plot was invalid, then
 		// the flag would have been set on the client.  In
 		// this case, return a message.
 
-		if ( !initialize( client ) )
+		if ( !initialize() )
 			return "Your plot is unavailable.";
 
 		// Construct the forecasted plot now.
@@ -170,7 +170,7 @@ public class MushroomPlot implements KoLConstants
 			for ( int col = 0; col < 4; ++col )
 				forecastPlot[ row ][ col ] = getForecastSquare( row, col, plot );
 
-		return getMushroomPlot( client, isHypertext, forecastPlot );
+		return getMushroomPlot( isHypertext, forecastPlot );
 	}
 
 	private static int getForecastSquare( int row, int col, int [][] plot )
@@ -211,7 +211,7 @@ public class MushroomPlot implements KoLConstants
 		return touchCount == 2 ? BREEDING[ touchIndex[0] ][ touchIndex[1] ] : plot[ row ][ col ];
 	}
 
-	private static String getMushroomPlot( KoLmafia client, boolean isHypertext, int [][] plot )
+	private static String getMushroomPlot( boolean isHypertext, int [][] plot )
 	{
 		// Otherwise, you need to construct the string form
 		// of the mushroom plot.  Shorthand and hpertext are
@@ -328,7 +328,7 @@ public class MushroomPlot implements KoLConstants
 	 * (or square) of the mushroom plot.
 	 */
 
-	public static boolean plantMushroom( KoLmafia client, int square, int spore )
+	public static boolean plantMushroom( int square, int spore )
 	{
 		// Validate square parameter.  It's possible that
 		// the user input the wrong spore number.
@@ -373,7 +373,7 @@ public class MushroomPlot implements KoLConstants
 		// Make sure we know current state of mushroom plot
 		// before we plant the mushroom.  Bail if it fails.
 
-		if ( !initialize( client ) )
+		if ( !initialize() )
 			return false;
 
 		// If the square isn't empty, pick what's there
@@ -381,12 +381,12 @@ public class MushroomPlot implements KoLConstants
 		int row = (square - 1) / 4;
 		int col = (square - 1) % 4;
 
-		if ( actualPlot[ row ][ col ] != EMPTY && !pickMushroom( client, square ) )
+		if ( actualPlot[ row ][ col ] != EMPTY && !pickMushroom( square ) )
 			return false;
 
 		// Plant the requested spore.
 
-		MushroomPlotRequest request = new MushroomPlotRequest( client, square, sporeIndex );
+		MushroomPlotRequest request = new MushroomPlotRequest( square, sporeIndex );
 		request.run();
 
 		// If it failed, bail.
@@ -406,7 +406,7 @@ public class MushroomPlot implements KoLConstants
 	 * this method picks the mushroom located in the given square.
 	 */
 
-	public static boolean pickMushroom( KoLmafia client, int square )
+	public static boolean pickMushroom( int square )
 	{
 		// Validate square parameter.  It's possible that
 		// the user input the wrong spore number.
@@ -421,7 +421,7 @@ public class MushroomPlot implements KoLConstants
 		// Make sure we know current state of mushroom plot
 		// before we plant the mushroom.  Bail if it fails.
 
-		if ( !initialize( client ) )
+		if ( !initialize() )
 			return false;
 
 		// If the square is not empty, run a request to pick
@@ -432,7 +432,7 @@ public class MushroomPlot implements KoLConstants
 
 		if ( actualPlot[ row ][ col ] != EMPTY )
 		{
-			MushroomPlotRequest request = new MushroomPlotRequest( client, square );
+			MushroomPlotRequest request = new MushroomPlotRequest( square );
 			request.run();
 		}
 
@@ -444,7 +444,7 @@ public class MushroomPlot implements KoLConstants
 	 * the plot into the one-dimensional array.
 	 */
 
-	private static boolean initialize( KoLmafia client )
+	private static boolean initialize()
 	{
 		// Clear error state so that the flags are
 		// properly detected.
@@ -468,7 +468,7 @@ public class MushroomPlot implements KoLConstants
 		// Ask for the state of your plot.
 
 		initialized = true;
-		MushroomPlotRequest request = new MushroomPlotRequest( client );
+		MushroomPlotRequest request = new MushroomPlotRequest();
 		request.run();
 
 		return client.permitsContinue();
@@ -476,20 +476,20 @@ public class MushroomPlot implements KoLConstants
 
 	private static class MushroomPlotRequest extends KoLRequest
 	{
-		public MushroomPlotRequest( KoLmafia client )
-		{	super( client, "knoll_mushrooms.php", true );
+		public MushroomPlotRequest()
+		{	super( MushroomPlot.client, "knoll_mushrooms.php", true );
 		}
 
-		public MushroomPlotRequest( KoLmafia client, int square )
+		public MushroomPlotRequest( int square )
 		{
-			this( client );
+			this();
 			addFormField( "action", "click" );
 			addFormField( "pos", String.valueOf( square - 1 ) );
 		}
 
-		public MushroomPlotRequest( KoLmafia client, int square, int spore )
+		public MushroomPlotRequest( int square, int spore )
 		{
-			this( client );
+			this();
 			addFormField( "action", "plant" );
 			addFormField( "pos", String.valueOf( square - 1 ) );
 			addFormField( "whichspore", String.valueOf( spore ) );
