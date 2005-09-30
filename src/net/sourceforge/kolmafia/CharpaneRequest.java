@@ -52,7 +52,6 @@ import java.util.StringTokenizer;
 public class CharpaneRequest extends KoLRequest
 {
 	private static boolean runOnce = false;
-	private KoLCharacter character;
 
 	public CharpaneRequest( KoLmafia client )
 	{
@@ -61,7 +60,6 @@ public class CharpaneRequest extends KoLRequest
 		// when the request is actually run.
 
 		super( client, "charpane.php" );
-		this.character = client.getCharacterData();
 	}
 
 	public static final boolean wasRunOnce()
@@ -73,7 +71,7 @@ public class CharpaneRequest extends KoLRequest
 	}
 
 	/**
-	 * Runs the request.  Note that only the character's statistics
+	 * Runs the request.  Note that only the KoLCharacter's statistics
 	 * are retrieved via this retrieval.
 	 */
 
@@ -88,13 +86,13 @@ public class CharpaneRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		// By refreshing the character pane, you can
+		// By refreshing the KoLCharacter pane, you can
 		// determine whether or not you are in compact
 		// mode - be sure to refresh this value.
 
 		KoLRequest.isCompactMode = responseText.indexOf( "<br>Lvl. " ) != -1;
 
-		// The easiest way to retrieve the character pane
+		// The easiest way to retrieve the KoLCharacter pane
 		// data is to use regular expressions.  But, the
 		// only data that requires synchronization is the
 		// modified stat values, health and mana.
@@ -144,8 +142,8 @@ public class CharpaneRequest extends KoLRequest
 					df.parse( statMatcher.group( i + 1 ) ).intValue();
 			}
 
-			character.setStatPoints( modified[0], character.getTotalMuscle(), modified[1],
-				character.getTotalMysticality(), modified[2], character.getTotalMoxie() );
+			KoLCharacter.setStatPoints( modified[0], KoLCharacter.getTotalMuscle(), modified[1],
+				KoLCharacter.getTotalMysticality(), modified[2], KoLCharacter.getTotalMoxie() );
 		}
 	}
 
@@ -157,11 +155,11 @@ public class CharpaneRequest extends KoLRequest
 
 		if ( miscMatcher.find() )
 		{
-			character.setHP( df.parse( miscMatcher.group(2) ).intValue(), df.parse( miscMatcher.group(3) ).intValue(), df.parse( miscMatcher.group(3) ).intValue() );
-			character.setMP( df.parse( miscMatcher.group(5) ).intValue(), df.parse( miscMatcher.group(6) ).intValue(), df.parse( miscMatcher.group(6) ).intValue() );
+			KoLCharacter.setHP( df.parse( miscMatcher.group(2) ).intValue(), df.parse( miscMatcher.group(3) ).intValue(), df.parse( miscMatcher.group(3) ).intValue() );
+			KoLCharacter.setMP( df.parse( miscMatcher.group(5) ).intValue(), df.parse( miscMatcher.group(6) ).intValue(), df.parse( miscMatcher.group(6) ).intValue() );
 
-			character.setAvailableMeat( df.parse( miscMatcher.group(9) ).intValue() );
-			character.setAdventuresLeft( df.parse( miscMatcher.group(12) ).intValue() );
+			KoLCharacter.setAvailableMeat( df.parse( miscMatcher.group(9) ).intValue() );
+			KoLCharacter.setAdventuresLeft( df.parse( miscMatcher.group(12) ).intValue() );
 		}
 	}
 
@@ -170,6 +168,6 @@ public class CharpaneRequest extends KoLRequest
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(.*?)</b>" ).matcher( responseText );
 
 		if ( matcher.find() )
-			character.setMindControlLevel( df.parse( matcher.group(2) ).intValue() );
+			KoLCharacter.setMindControlLevel( df.parse( matcher.group(2) ).intValue() );
 	}
 }

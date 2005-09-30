@@ -68,7 +68,7 @@ public class FightRequest extends KoLRequest
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
 
-		int haltTolerance = (int)( Double.parseDouble( getProperty( "battleStop" ) ) * (double) client.getCharacterData().getMaximumHP() );
+		int haltTolerance = (int)( Double.parseDouble( getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
 
 		// For now, there will not be any attempts to handle
 		// special skills - the user will simply attack, use
@@ -84,7 +84,7 @@ public class FightRequest extends KoLRequest
 
 			this.action = "attack";
 		}
-		else if ( haltTolerance != 0 && client.getCharacterData().getCurrentHP() <= haltTolerance )
+		else if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 		{
 			// If you plan on halting the battle
 			// due to HP loss, then flag it.
@@ -96,7 +96,7 @@ public class FightRequest extends KoLRequest
 			addFormField( "action", "useitem" );
 			addFormField( "whichitem", action.substring( 4 ) );
 		}
-		else if ( client.getCharacterData().getCurrentMP() < 0 - getMPCost() )
+		else if ( KoLCharacter.getCurrentMP() < 0 - getMPCost() )
 		{
 			this.action = "attack";
 			addFormField( "action", action );
@@ -202,7 +202,7 @@ public class FightRequest extends KoLRequest
 		}
 
 		if ( action.equals( "moxman" ) )
-			return 0 - client.getCharacterData().getLevel();
+			return 0 - KoLCharacter.getLevel();
 
 		return 0 - ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
 	}

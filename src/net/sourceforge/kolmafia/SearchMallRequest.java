@@ -228,7 +228,7 @@ public class SearchMallRequest extends KoLRequest
 		for ( int i = 0; i < itemNames.size(); ++i )
 			npcStoreExists &= NPCStoreDatabase.contains( (String) itemNames.get(i) );
 
-		if ( client.getCharacterData().getLevel() < 5 || (npcStoreExists && !client.getCharacterData().canInteract()) )
+		if ( KoLCharacter.getLevel() < 5 || (npcStoreExists && !KoLCharacter.canInteract()) )
 		{
 			finalizeList( itemNames );
 			return;
@@ -332,7 +332,7 @@ public class SearchMallRequest extends KoLRequest
 				results.add( NPCStoreDatabase.getPurchaseRequest( client, itemName ) );
 			}
 
-			if ( !npcStoreExists || client.getCharacterData().canInteract() )
+			if ( !npcStoreExists || KoLCharacter.canInteract() )
 				results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit ) );
 		}
 

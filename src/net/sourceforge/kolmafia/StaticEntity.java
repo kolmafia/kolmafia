@@ -34,7 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
-public class StaticEntity implements KoLConstants
+public abstract class StaticEntity implements KoLConstants
 {
 	protected static KoLmafia client;
 

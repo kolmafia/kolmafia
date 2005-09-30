@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MushroomPlot extends StaticEntity
+public abstract class MushroomPlot extends StaticEntity
 {
 	// The player's mushroom plot
 	//
@@ -367,7 +367,7 @@ public class MushroomPlot extends StaticEntity
 		// Rather than using requirements validation, check the
 		// character data.
 
-		if ( client.getCharacterData().getAvailableMeat() < sporePrice )
+		if ( KoLCharacter.getAvailableMeat() < sporePrice )
 			return false;
 
 		// Make sure we know current state of mushroom plot
@@ -453,7 +453,7 @@ public class MushroomPlot extends StaticEntity
 
 		// If you're not in a Muscle sign, no go.
 
-		if ( !client.getCharacterData().inMuscleSign() )
+		if ( !KoLCharacter.inMuscleSign() )
 		{
 			client.updateDisplay( ERROR_STATE, "You can't find the mushroom fields." );
 			client.cancelRequest();

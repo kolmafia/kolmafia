@@ -126,9 +126,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( client != null )
 			addFormField( "pwd", client.getPasswordHash() );
 
-		if ( mixingMethod != SUBCLASS && client != null && !(client.getCharacterData().inMuscleSign() && mixingMethod == SMITH) )
+		if ( mixingMethod != SUBCLASS && client != null && !(KoLCharacter.inMuscleSign() && mixingMethod == SMITH) )
 			addFormField( "action", "combine" );
-		else if ( client != null && client.getCharacterData().inMuscleSign() && mixingMethod == SMITH )
+		else if ( client != null && KoLCharacter.inMuscleSign() && mixingMethod == SMITH )
 			addFormField( "action", "smith" );
 	}
 
@@ -158,7 +158,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		switch ( mixingMethod )
 		{
 			case COMBINE:
-				return new ItemCreationRequest( client, (client != null && client.getCharacterData().inMuscleSign()) ?
+				return new ItemCreationRequest( client, (client != null && KoLCharacter.inMuscleSign()) ?
 					"knoll.php" : "combine.php", itemID, mixingMethod, quantityNeeded );
 
 			case MIX:
@@ -171,7 +171,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return new ItemCreationRequest( client, "cook.php", itemID, mixingMethod, quantityNeeded );
 
 			case SMITH:
-				return new ItemCreationRequest( client, (client != null && client.getCharacterData().inMuscleSign()) ?
+				return new ItemCreationRequest( client, (client != null && KoLCharacter.inMuscleSign()) ?
 					"knoll.php" : "smith.php", itemID, mixingMethod, quantityNeeded );
 
 			case SMITH_ARMOR:
@@ -325,7 +325,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If this is a combining request, you will need
 		// to make meat paste as well.
 
-		if ( mixingMethod == COMBINE && !client.getCharacterData().inMuscleSign() )
+		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
 			makeIngredient( new AdventureResult( MEAT_PASTE, quantityNeeded ), 1 );
 	}
 
@@ -423,12 +423,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			switch ( mixingMethod )
 			{
 			case COMBINE:
-				if ( !client.getCharacterData().inMuscleSign() )
+				if ( !KoLCharacter.inMuscleSign() )
 					client.processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
 				break;
 
 			case SMITH:
-				if ( !client.getCharacterData().inMuscleSign() )
+				if ( !KoLCharacter.inMuscleSign() )
 					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
 				break;
 
@@ -444,13 +444,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK:
 			case COOK_REAGENT:
 			case COOK_PASTA:
-				if ( !client.getCharacterData().hasChef() )
+				if ( !KoLCharacter.hasChef() )
 					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
 				break;
 
 			case MIX:
 			case MIX_SPECIAL:
-				if ( !client.getCharacterData().hasBartender() )
+				if ( !KoLCharacter.hasBartender() )
 					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
 				break;
 			}
@@ -467,13 +467,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK:
 			case COOK_REAGENT:
 			case COOK_PASTA:
-				client.getCharacterData().setChef( false );
+				KoLCharacter.setChef( false );
 				leftOver.run();
 				break;
 
 			case MIX:
 			case MIX_SPECIAL:
-				client.getCharacterData().setBartender( false );
+				KoLCharacter.setBartender( false );
 				leftOver.run();
 				break;
 			}
@@ -488,7 +488,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() )
 			return false;
 
-		KoLCharacter data = client.getCharacterData();
 		boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
 
 		switch ( mixingMethod )
@@ -497,14 +496,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_REAGENT:
 			case COOK_PASTA:
 
-				if ( data.hasChef() || ( noServantNeeded && data.getInventory().contains( OVEN ) ) )
+				if ( KoLCharacter.hasChef() || ( noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) ) )
 					return true;
 				break;
 
 			case MIX:
 			case MIX_SPECIAL:
 
-				if ( data.hasBartender() || ( noServantNeeded && data.getInventory().contains( KIT ) ) )
+				if ( KoLCharacter.hasBartender() || ( noServantNeeded && KoLCharacter.getInventory().contains( KIT ) ) )
 					return true;
 				break;
 

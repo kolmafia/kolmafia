@@ -91,7 +91,7 @@ public class ClanMembersRequest extends KoLRequest
 		// profile lookup on yourself.
 
 		updateDisplay( DISABLED_STATE, "Determining clan ID..." );
-		ProfileRequest clanIDLookup = new ProfileRequest( client, client.getCharacterData().getUsername() );
+		ProfileRequest clanIDLookup = new ProfileRequest( client, KoLCharacter.getUsername() );
 		clanIDLookup.run();
 
 		Matcher clanIDMatcher = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" ).matcher( clanIDLookup.responseText );

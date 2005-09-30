@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Nemesis extends StaticEntity
+public abstract class Nemesis extends StaticEntity
 {
 	// Items for the cave
 
@@ -62,7 +62,7 @@ public class Nemesis extends StaticEntity
 		// If the player has never ascended, then they're going
 		// to have to do it all by hand.
 
-		if ( client.getCharacterData().getAscensions() < 0 )
+		if ( KoLCharacter.getAscensions() < 0 )
 		{
 			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
 			client.cancelRequest();
@@ -86,8 +86,6 @@ public class Nemesis extends StaticEntity
 
 	public static void faceNemesis()
 	{
-		KoLCharacter data = client.getCharacterData();
-
 		// Make sure the player is qualified to use this script
 
 		if ( !checkPrerequisites() )
@@ -125,7 +123,7 @@ public class Nemesis extends StaticEntity
 
 		if ( region <= 4 )
 		{
-			if ( data.getEquipment( KoLCharacter.WEAPON ).indexOf( "fly" ) == -1 )
+			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).indexOf( "fly" ) == -1 )
 				requirements.add( FLY_SWATTER );
 		}
 
@@ -148,7 +146,7 @@ public class Nemesis extends StaticEntity
 
 		if ( region <= 7 )
 		{
-			if ( data.getEquipment( KoLCharacter.WEAPON ).indexOf( "tongs" ) == -1 )
+			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).indexOf( "tongs" ) == -1 )
 				requirements.add( TONGS );
 		}
 
@@ -164,7 +162,7 @@ public class Nemesis extends StaticEntity
 
 		// Save currently equipped weapon so we can re-equip it for the final battle.
 
-		String weapon = data.getEquipment( KoLCharacter.WEAPON );
+		String weapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		boolean needsWeapon = false;
 
 		// Pass the obstacles one at a time.
@@ -180,7 +178,7 @@ public class Nemesis extends StaticEntity
 					// Equip fly swatter, but only do so if the
 					// person has not equipped it already.
 
-					if ( data.getEquipment( KoLCharacter.WEAPON ).indexOf( "fly" ) == -1 )
+					if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).indexOf( "fly" ) == -1 )
 					{
 						(new EquipmentRequest( client, FLY_SWATTER.getName() )).run();
 						needsWeapon = true;
@@ -207,7 +205,7 @@ public class Nemesis extends StaticEntity
 					// Equip tongs, but only do so if the person
 					// has not equipped it already.
 
-					if ( data.getEquipment( KoLCharacter.WEAPON ).indexOf( "tongs" ) == -1 )
+					if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).indexOf( "tongs" ) == -1 )
 					{
 						(new EquipmentRequest( client, TONGS.getName() )).run();
 						needsWeapon = true;

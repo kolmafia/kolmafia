@@ -73,20 +73,19 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static boolean canEquip( String itemName )
 	{
-		KoLCharacter data = client.getCharacterData();
 		int itemID = TradeableItemDatabase.getItemID( itemName );
 
 		if ( itemID == -1 || requirement[ itemID ] == null )
 			return false;
 
 		if ( requirement[ itemID ].startsWith( "Mus:" ) )
-			return data.getBaseMuscle() >= Integer.parseInt( requirement[ itemID ].substring(5) );
+			return KoLCharacter.getBaseMuscle() >= Integer.parseInt( requirement[ itemID ].substring(5) );
 
 		if ( requirement[ itemID ].startsWith( "Mys:" ) )
-			return data.getBaseMysticality() >= Integer.parseInt( requirement[ itemID ].substring(5) );
+			return KoLCharacter.getBaseMysticality() >= Integer.parseInt( requirement[ itemID ].substring(5) );
 
 		if ( requirement[ itemID ].startsWith( "Mox:" ) )
-			return data.getBaseMoxie() >= Integer.parseInt( requirement[ itemID ].substring(5) );
+			return KoLCharacter.getBaseMoxie() >= Integer.parseInt( requirement[ itemID ].substring(5) );
 
 		return true;
 	}

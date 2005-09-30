@@ -73,7 +73,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class GearChangeFrame extends KoLFrame
 {
 	private boolean isChanging = false;
-	private KoLCharacter characterData;
 	private JComboBox [] equipment;
 	private JComboBox outfitSelect, familiarSelect;
 
@@ -90,11 +89,6 @@ public class GearChangeFrame extends KoLFrame
 
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
-
-		if ( client != null )
-			characterData = client.getCharacterData();
-		else
-			characterData = new KoLCharacter( "UI Test" );
 
 		setResizable( false );
 		contentPanel = null;
@@ -175,7 +169,7 @@ public class GearChangeFrame extends KoLFrame
 		valuePanel.add( new JLabel( " " ) );
 
 		equipment = new JComboBox[8];
-		LockableListModel [] equipmentLists = characterData.getEquipmentLists();
+		LockableListModel [] equipmentLists = KoLCharacter.getEquipmentLists();
 
 		for ( int i = 0; i < 4; ++i )
 		{
@@ -195,7 +189,7 @@ public class GearChangeFrame extends KoLFrame
 
 		valuePanel.add( new JLabel( " " ) );
 
-		familiarSelect = new ChangeComboBox( characterData.getFamiliarList().getMirrorImage(), FamiliarRequest.class, FamiliarData.class );
+		familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList().getMirrorImage(), FamiliarRequest.class, FamiliarData.class );
 		JComponentUtilities.setComponentSize( familiarSelect, 300, 20 );
 		valuePanel.add( familiarSelect );
 
@@ -205,7 +199,7 @@ public class GearChangeFrame extends KoLFrame
 
 		valuePanel.add( new JLabel( " " ) );
 
-		outfitSelect = new ChangeComboBox( characterData.getOutfits(), EquipmentRequest.class, SpecialOutfit.class );
+		outfitSelect = new ChangeComboBox( KoLCharacter.getOutfits(), EquipmentRequest.class, SpecialOutfit.class );
 		JComponentUtilities.setComponentSize( outfitSelect, 300, 20 );
 		valuePanel.add( outfitSelect );
 
@@ -221,7 +215,7 @@ public class GearChangeFrame extends KoLFrame
 	{
 		setEnabled( false );
 		outfitSelect.setSelectedItem( null );
-		characterData.updateEquipmentLists();
+		KoLCharacter.updateEquipmentLists();
 		setEnabled( true );
 	}
 
@@ -367,7 +361,7 @@ public class GearChangeFrame extends KoLFrame
 					// as your current familiar before executing the
 					// change.
 
-					if ( !parameters[1].equals( client.getCharacterData().getFamiliarList().getSelectedItem() ) )
+					if ( !parameters[1].equals( KoLCharacter.getFamiliarList().getSelectedItem() ) )
 					{
 						isChanging = true;
 						(new DaemonThread( this )).start();
@@ -380,14 +374,14 @@ public class GearChangeFrame extends KoLFrame
 					// is the same as your current familiar item
 					// before executing the change.
 
-					if ( !parameters[1].equals( client.getCharacterData().getEquipment( KoLCharacter.FAMILIAR ) ) )
+					if ( !parameters[1].equals( KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ) ) )
 					{
 						isChanging = true;
 						(new DaemonThread( this )).start();
 					}
 				}
 			}
-			else if ( !client.getCharacterData().getEquipment( this.slot.intValue() ).equals( this.parameters[1] ) )
+			else if ( !KoLCharacter.getEquipment( this.slot.intValue() ).equals( this.parameters[1] ) )
 			{
 				// Other equipment only gets fired when there's an
 				// actual equipment change.

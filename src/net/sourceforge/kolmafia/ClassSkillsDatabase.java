@@ -196,13 +196,13 @@ public class ClassSkillsDatabase extends KoLDatabase
 	{
 		manaModifier = 0;
 
-		if ( client == null || client.getCharacterData() == null )
+		if ( client == null )
 			return;
 
 		int [] accessoryID = new int[3];
-		accessoryID[0] = TradeableItemDatabase.getItemID( client.getCharacterData().getEquipment( KoLCharacter.ACCESSORY1 ) );
-		accessoryID[1] = TradeableItemDatabase.getItemID( client.getCharacterData().getEquipment( KoLCharacter.ACCESSORY2 ) );
-		accessoryID[2] = TradeableItemDatabase.getItemID( client.getCharacterData().getEquipment( KoLCharacter.ACCESSORY3 ) );
+		accessoryID[0] = TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
+		accessoryID[1] = TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
+		accessoryID[2] = TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 
 		for ( int i = 0; i < 3; ++i )
 		{

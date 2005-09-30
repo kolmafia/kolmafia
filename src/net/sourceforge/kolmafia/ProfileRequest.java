@@ -124,9 +124,7 @@ public class ProfileRequest extends KoLRequest
 				return;
 			}
 
-			KoLCharacter data = new KoLCharacter( playerName );
-			data.setClassName( st.nextToken().trim() );
-			this.classType = data.getClassType();
+			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
 
 			while ( !st.nextToken().startsWith( "Meat" ) );
 			this.currentMeat = new Integer( df.parse( st.nextToken().trim() ).intValue() );

@@ -158,7 +158,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 			if ( shouldRefresh )
 			{
-				characterData.updateEquipmentLists();
+				KoLCharacter.updateEquipmentLists();
 				ConcoctionsDatabase.refreshConcoctions();
 			}
 		}
@@ -194,7 +194,7 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		Object selectedValue = JOptionPane.showInputDialog(
 			null, "I want to remove this effect...", "It's Soft Green Martian Time!", JOptionPane.INFORMATION_MESSAGE, null,
-			characterData.getEffects().toArray(), characterData.getEffects().get(0) );
+			KoLCharacter.getEffects().toArray(), KoLCharacter.getEffects().get(0) );
 
 		if ( selectedValue == null )
 			return;
@@ -347,8 +347,8 @@ public class KoLmafiaGUI extends KoLmafia
 				levelArray[i] = "Level " + i;
 
 			String selectedLevel = (String) JOptionPane.showInputDialog(
-				null, "Set the device to what level?", "Change mind control device from level " + characterData.getMindControlLevel(),
-					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ characterData.getMindControlLevel() ] );
+				null, "Set the device to what level?", "Change mind control device from level " + KoLCharacter.getMindControlLevel(),
+					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ KoLCharacter.getMindControlLevel() ] );
 
 			(new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() )).run();
 		}

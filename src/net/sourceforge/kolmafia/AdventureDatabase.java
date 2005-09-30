@@ -251,7 +251,7 @@ public class AdventureDatabase extends KoLDatabase
 			case 0:
 			case 15:
 			{
-				if ( !client.getCharacterData().hasAccomplishment( MEATCAR ) )
+				if ( !KoLCharacter.hasAccomplishment( MEATCAR ) )
 				{
 					// Sometimes, the player has just built the meatcar
 					// and visited the council -- check the main map to
@@ -263,7 +263,7 @@ public class AdventureDatabase extends KoLDatabase
 
 					if ( request.responseText.indexOf( "beach.php" ) != -1 )
 					{
-						client.getCharacterData().addAccomplishment( MEATCAR );
+						KoLCharacter.addAccomplishment( MEATCAR );
 						request = null;
 					}
 					else
@@ -301,7 +301,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			case 14:
 			{
-				if ( !client.getCharacterData().hasAccomplishment( BEANSTALK ) )
+				if ( !KoLCharacter.hasAccomplishment( BEANSTALK ) )
 				{
 					// Sometimes, the player has just used the enchanted
 					// bean, and therefore does not have the accomplishment.
@@ -314,7 +314,7 @@ public class AdventureDatabase extends KoLDatabase
 
 					if ( request.responseText.indexOf( "beanstalk.php" ) != -1 )
 					{
-						client.getCharacterData().addAccomplishment( BEANSTALK );
+						KoLCharacter.addAccomplishment( BEANSTALK );
 						request = null;
 					}
 					else

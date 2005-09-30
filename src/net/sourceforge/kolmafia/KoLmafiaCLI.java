@@ -879,13 +879,12 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( match != null )
 			{
 				String item = match.getName();
-				KoLCharacter data = scriptRequestor.getCharacterData();
 
 				// The following loop removes ALL items with
 				// the specified name.
 
 				for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
-					if ( data.getEquipment( i ).equals( item ) )
+					if ( KoLCharacter.getEquipment( i ).equals( item ) )
 					     scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, EquipmentRequest.UNEQUIP, i ), 1 );
 			}
 			return;
@@ -908,7 +907,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			String lowerCaseName = parameters.toLowerCase();
-			List familiars = scriptRequestor.getCharacterData().getFamiliarList();
+			List familiars = KoLCharacter.getFamiliarList();
 
 			for ( int i = 0; i < familiars.size(); ++i )
 				if ( familiars.get(i).toString().toLowerCase().indexOf( lowerCaseName ) != -1 )
@@ -1150,10 +1149,10 @@ public class KoLmafiaCLI extends KoLmafia
 				int level = Integer.parseInt( splitCondition[1] );
 
 				int [] subpoints = new int[3];
-				int primeIndex = scriptRequestor.getCharacterData().getPrimeIndex();
+				int primeIndex = KoLCharacter.getPrimeIndex();
 
 				subpoints[ primeIndex ] = KoLCharacter.calculateSubpoints( (level - 1) * (level - 1) + 4, 0 ) -
-					scriptRequestor.getCharacterData().getTotalPrime();
+					KoLCharacter.getTotalPrime();
 
 				for ( int i = 0; i < subpoints.length; ++i )
 					subpoints[i] = Math.max( 0, subpoints[i] );
@@ -1188,9 +1187,9 @@ public class KoLmafiaCLI extends KoLmafia
 					int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
 					subpoints[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
 
-					subpoints[ statIndex ] -= conditionString.indexOf( "mus" ) != -1 ? scriptRequestor.getCharacterData().getTotalMuscle() :
-						conditionString.indexOf( "mys" ) != -1 ? scriptRequestor.getCharacterData().getTotalMysticality() :
-						scriptRequestor.getCharacterData().getTotalMoxie();
+					subpoints[ statIndex ] -= conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() :
+						conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() :
+						KoLCharacter.getTotalMoxie();
 
 					for ( int i = 0; i < subpoints.length; ++i )
 						subpoints[i] = Math.max( 0, subpoints[i] );
@@ -1226,8 +1225,8 @@ public class KoLmafiaCLI extends KoLmafia
 				try
 				{
 					int points = df.parse( conditionString.split( "\\s+" )[0] ).intValue();
-					points -= conditionString.endsWith( "health" ) ? scriptRequestor.getCharacterData().getCurrentHP() :
-						scriptRequestor.getCharacterData().getCurrentMP();
+					points -= conditionString.endsWith( "health" ) ? KoLCharacter.getCurrentHP() :
+						KoLCharacter.getCurrentMP();
 
 					condition = new AdventureResult( conditionString.endsWith( "health" ) ? AdventureResult.HP : AdventureResult.MP, points );
 
@@ -1348,7 +1347,7 @@ public class KoLmafiaCLI extends KoLmafia
 			try
 			{
 				buffCount = firstParameter.equals( "*" ) ?
-					(int) ( scriptRequestor.getCharacterData().getCurrentMP() /
+					(int) ( KoLCharacter.getCurrentMP() /
 						ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) ) :
 							df.parse( firstParameter ).intValue();
 			}
@@ -1373,7 +1372,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private String getSkillName( String substring )
 	{
-		List skills = scriptRequestor.getCharacterData().getAvailableSkills();
+		List skills = KoLCharacter.getAvailableSkills();
 		for ( int i = 0; i < skills.size(); ++i )
 			if ( ((UseSkillRequest)skills.get(i)).getSkillName().toLowerCase().indexOf( substring ) != -1 )
 				return ((UseSkillRequest) skills.get(i)).getSkillName();
@@ -1502,8 +1501,6 @@ public class KoLmafiaCLI extends KoLmafia
 		updateDisplay( NOCHANGE, MoonPhaseDatabase.getMoonEffect() );
 		updateDisplay( NOCHANGE, "" );
 
-		KoLCharacter data = scriptRequestor.getCharacterData();
-
 		if ( desiredData.equals( "session" ) )
 		{
 			updateDisplay( NOCHANGE, "Player: " + scriptRequestor.getLoginName() );
@@ -1512,36 +1509,36 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else if ( desiredData.startsWith( "stat" ) )
 		{
-			updateDisplay( NOCHANGE, "Lv: " + data.getLevel() );
-			updateDisplay( NOCHANGE, "HP: " + data.getCurrentHP() + " / " + df.format( data.getMaximumHP() ) );
-			updateDisplay( NOCHANGE, "MP: " + data.getCurrentMP() + " / " + df.format( data.getMaximumMP() ) );
+			updateDisplay( NOCHANGE, "Lv: " + KoLCharacter.getLevel() );
+			updateDisplay( NOCHANGE, "HP: " + KoLCharacter.getCurrentHP() + " / " + df.format( KoLCharacter.getMaximumHP() ) );
+			updateDisplay( NOCHANGE, "MP: " + KoLCharacter.getCurrentMP() + " / " + df.format( KoLCharacter.getMaximumMP() ) );
 			updateDisplay( NOCHANGE, "" );
-			updateDisplay( NOCHANGE, "Mus: " + getStatString( data.getBaseMuscle(), data.getAdjustedMuscle(), data.getMuscleTNP() ) );
-			updateDisplay( NOCHANGE, "Mys: " + getStatString( data.getBaseMysticality(), data.getAdjustedMysticality(), data.getMysticalityTNP() ) );
-			updateDisplay( NOCHANGE, "Mox: " + getStatString( data.getBaseMoxie(), data.getAdjustedMoxie(), data.getMoxieTNP() ) );
+			updateDisplay( NOCHANGE, "Mus: " + getStatString( KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() ) );
+			updateDisplay( NOCHANGE, "Mys: " + getStatString( KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() ) );
+			updateDisplay( NOCHANGE, "Mox: " + getStatString( KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() ) );
 			updateDisplay( NOCHANGE, "" );
-			updateDisplay( NOCHANGE, "Meat: " + df.format( data.getAvailableMeat() ) );
-			updateDisplay( NOCHANGE, "Drunk: " + data.getInebriety() );
-			updateDisplay( NOCHANGE, "Adv: " + data.getAdventuresLeft() );
+			updateDisplay( NOCHANGE, "Meat: " + df.format( KoLCharacter.getAvailableMeat() ) );
+			updateDisplay( NOCHANGE, "Drunk: " + KoLCharacter.getInebriety() );
+			updateDisplay( NOCHANGE, "Adv: " + KoLCharacter.getAdventuresLeft() );
 
-			updateDisplay( NOCHANGE, "Fam: " + data.getFamiliarList().getSelectedItem() );
-			updateDisplay( NOCHANGE, "Item: " + data.getFamiliarItem() );
+			updateDisplay( NOCHANGE, "Fam: " + KoLCharacter.getFamiliarList().getSelectedItem() );
+			updateDisplay( NOCHANGE, "Item: " + KoLCharacter.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "equip" ) )
 		{
-			updateDisplay( NOCHANGE, "    Hat: " + data.getEquipment( KoLCharacter.HAT ) );
-			updateDisplay( NOCHANGE, " Weapon: " + data.getEquipment( KoLCharacter.WEAPON ) );
-			updateDisplay( NOCHANGE, "  Shirt: " + data.getEquipment( KoLCharacter.SHIRT ) );
-			updateDisplay( NOCHANGE, "  Pants: " + data.getEquipment( KoLCharacter.PANTS ) );
-			updateDisplay( NOCHANGE, " Acc. 1: " + data.getEquipment( KoLCharacter.ACCESSORY1 ) );
-			updateDisplay( NOCHANGE, " Acc. 2: " + data.getEquipment( KoLCharacter.ACCESSORY2 ) );
-			updateDisplay( NOCHANGE, " Acc. 3: " + data.getEquipment( KoLCharacter.ACCESSORY3 ) );
+			updateDisplay( NOCHANGE, "    Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
+			updateDisplay( NOCHANGE, " Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
+			updateDisplay( NOCHANGE, "  Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
+			updateDisplay( NOCHANGE, "  Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
+			updateDisplay( NOCHANGE, " Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
+			updateDisplay( NOCHANGE, " Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
+			updateDisplay( NOCHANGE, " Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 		}
 		else
 		{
 			List mainList = desiredData.equals( "closet" ) ? scriptRequestor.getCloset() : desiredData.equals( "summary" ) ? scriptRequestor.tally :
-				desiredData.equals( "outfits" ) ? data.getOutfits() : desiredData.equals( "familiars" ) ? data.getFamiliarList() :
-				desiredData.equals( "effects" ) ? data.getEffects() : scriptRequestor.getInventory();
+				desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() : desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
+				desiredData.equals( "effects" ) ? KoLCharacter.getEffects() : scriptRequestor.getInventory();
 
 			String currentItem;
 			List resultList = new ArrayList();
@@ -2025,9 +2022,9 @@ public class KoLmafiaCLI extends KoLmafia
 				adventureCount = adventureCountString.equals( "*" ) ? 0 : df.parse( adventureCountString ).intValue();
 
 				if ( adventureCount <= 0 && adventure.getZone().equals( "Shore" ) )
-					adventureCount += (int) Math.floor( scriptRequestor.getCharacterData().getAdventuresLeft() / 3 );
+					adventureCount += (int) Math.floor( KoLCharacter.getAdventuresLeft() / 3 );
 				else if ( adventureCount <= 0 )
-					adventureCount += scriptRequestor.getCharacterData().getAdventuresLeft();
+					adventureCount += KoLCharacter.getAdventuresLeft();
 			}
 			catch ( Exception e )
 			{
@@ -2052,7 +2049,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeChangeOutfitCommand( String parameters )
 	{
 		String lowercaseOutfitName = parameters.toLowerCase().trim();
-		Iterator outfitIterator = scriptRequestor.characterData.getOutfits().iterator();
+		Iterator outfitIterator = KoLCharacter.getOutfits().iterator();
 		SpecialOutfit intendedOutfit = null;
 		SpecialOutfit currentOutfit;
 
@@ -2149,7 +2146,7 @@ public class KoLmafiaCLI extends KoLmafia
 		AdventureResult currentEffect;
 		String effectToUneffect = previousCommand.trim().substring( previousCommand.split( " " )[0].length() ).trim().toLowerCase();
 
-		Iterator effectIterator = scriptRequestor.getCharacterData().getEffects().iterator();
+		Iterator effectIterator = KoLCharacter.getEffects().iterator();
 
 		while ( effectIterator.hasNext() )
 		{

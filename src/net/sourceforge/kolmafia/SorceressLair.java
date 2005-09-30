@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-public class SorceressLair extends StaticEntity
+public abstract class SorceressLair extends StaticEntity
 {
 	// Items for the entryway
 
@@ -131,7 +131,7 @@ public class SorceressLair extends StaticEntity
 		// If the player has never ascended, then they're going
 		// to have to do it all by hand.
 
-		if ( client.getCharacterData().getAscensions() < 1 )
+		if ( KoLCharacter.getAscensions() < 1 )
 		{
 			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
 			client.cancelRequest();
@@ -205,8 +205,6 @@ public class SorceressLair extends StaticEntity
 
 	public static void completeEntryway()
 	{
-		KoLCharacter data = client.getCharacterData();
-
 		// Make sure he's ascended at least once
 
 		if ( !checkPrerequisites( 1, 2 ) )
@@ -229,13 +227,13 @@ public class SorceressLair extends StaticEntity
 
 		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
 		{
-			if ( !data.getEffects().contains( SUGAR ) )
+			if ( !KoLCharacter.getEffects().contains( SUGAR ) )
 				requirements.add( candy );
 
-			if ( !data.getEffects().contains( WUSSINESS ) )
+			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) )
 				requirements.add( WUSSY_POTION );
 
-			if ( !data.getEffects().contains( MIASMA ) )
+			if ( !KoLCharacter.getEffects().contains( MIASMA ) )
 				requirements.add( BLACK_CANDLE );
 		}
 
@@ -258,15 +256,15 @@ public class SorceressLair extends StaticEntity
 
 		AdventureResult starWeapon = STAR_SWORD;
 
-		if ( data.getEquipment( KoLCharacter.WEAPON ).startsWith( "star crossbow" ) || (STAR_CROSSBOW.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() )) )
+		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star crossbow" ) || (STAR_CROSSBOW.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() )) )
 			starWeapon = STAR_CROSSBOW;
 
-		if ( data.getEquipment( KoLCharacter.WEAPON ).startsWith( "star staff" ) || (STAR_STAFF.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_STAFF.getName() )) )
+		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star staff" ) || (STAR_STAFF.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_STAFF.getName() )) )
 			starWeapon = STAR_STAFF;
 
-		boolean needsWeapon = starWeapon.getCount( client.getInventory() ) == 0 && !data.getEquipment( KoLCharacter.WEAPON ).startsWith( "star" );
-		boolean needsBuckler = STAR_BUCKLER.getCount( client.getInventory() ) == 0 && !data.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
-			!data.getEquipment( KoLCharacter.ACCESSORY2 ).startsWith( "star" ) && !data.getEquipment( KoLCharacter.ACCESSORY3 ).startsWith( "star" );
+		boolean needsWeapon = starWeapon.getCount( client.getInventory() ) == 0 && !KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star" );
+		boolean needsBuckler = STAR_BUCKLER.getCount( client.getInventory() ) == 0 && !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
+			!KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).startsWith( "star" ) && !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).startsWith( "star" );
 
 		// Star equipment unless you already have Sinister Strummings
 
@@ -292,7 +290,7 @@ public class SorceressLair extends StaticEntity
 			// It's possible that meat paste is also required, if
 			// the person is not in a muscle sign.
 
-			if ( !data.inMuscleSign() )
+			if ( !KoLCharacter.inMuscleSign() )
 				requirements.add( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 2 ) );
 		}
 
@@ -319,12 +317,12 @@ public class SorceressLair extends StaticEntity
 			// having at least 25% of your maximum HP.  If you're
 			// below this amount, recover your HP using scripts.
 
-			client.autoRecoverHP( data.getMaximumHP() / 4 );
+			client.autoRecoverHP( KoLCharacter.getMaximumHP() / 4 );
 
 			// Verify that you have enough HP to proceed with the
 			// skeleton dice game.
 
-			if ( data.getCurrentHP() * 4 < data.getMaximumHP() )
+			if ( KoLCharacter.getCurrentHP() * 4 < KoLCharacter.getMaximumHP() )
 			{
 				client.updateDisplay( ERROR_STATE, "You need more health to continue." );
 				return;
@@ -354,19 +352,19 @@ public class SorceressLair extends StaticEntity
 
 		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
 		{
-			if ( !data.getEffects().contains( SUGAR ) )
+			if ( !KoLCharacter.getEffects().contains( SUGAR ) )
 			{
 				client.updateDisplay( DISABLED_STATE, "Getting jittery..." );
 				(new ConsumeItemRequest( client, candy )).run();
 			}
 
-			if ( !data.getEffects().contains( WUSSINESS ) )
+			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) )
 			{
 				client.updateDisplay( DISABLED_STATE, "Becoming a pansy..." );
 				(new ConsumeItemRequest( client, WUSSY_POTION )).run();
 			}
 
-			if ( !data.getEffects().contains( MIASMA ) )
+			if ( !KoLCharacter.getEffects().contains( MIASMA ) )
 			{
 				client.updateDisplay( DISABLED_STATE, "Inverting anime smileyness..." );
 				(new ConsumeItemRequest( client, BLACK_CANDLE )).run();
@@ -907,7 +905,6 @@ public class SorceressLair extends StaticEntity
 
 	public static void completeSorceressChamber()
 	{
-		KoLCharacter data = client.getCharacterData();
 		KoLRequest request;
 
 		// Make sure he's ascended at least once
@@ -918,7 +915,7 @@ public class SorceressLair extends StaticEntity
 		// You must have at least 70 in all stats before you can enter
 		// the chamber.
 
-		if ( data.getBaseMuscle() < 70 || data.getBaseMysticality() < 70 || data.getBaseMoxie() < 70 )
+		if ( KoLCharacter.getBaseMuscle() < 70 || KoLCharacter.getBaseMysticality() < 70 || KoLCharacter.getBaseMoxie() < 70 )
 		{
 			client.updateDisplay( ERROR_STATE, "You can't enter the chamber unless all base stats are 70 or higher." );
 			return;
@@ -1109,8 +1106,6 @@ public class SorceressLair extends StaticEntity
 
 	private static void fightShadow()
 	{
-		KoLCharacter data = client.getCharacterData();
-
 		List requirements = new ArrayList();
 		requirements.add( new AdventureResult( "red pixel potion", 4 ) );
 
@@ -1120,12 +1115,12 @@ public class SorceressLair extends StaticEntity
 		// Ensure that the player is at full HP since the shadow will
 		// probably beat him up if he has less.
 
-		client.autoRecoverHP( data.getMaximumHP() );
+		client.autoRecoverHP( KoLCharacter.getMaximumHP() );
 
 		// Need to be at full health.  Abort if this is
 		// not the case.
 
-		if ( data.getCurrentHP() < data.getMaximumHP() )
+		if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
 		{
 			client.updateDisplay( ERROR_STATE, "You must be fully healed to fight your shadow." );
 			client.cancelRequest();
@@ -1156,12 +1151,10 @@ public class SorceressLair extends StaticEntity
 
 	private static void familiarBattle( int n )
 	{
-		KoLCharacter data = client.getCharacterData();
-
 		// Make sure that the familiar is at least twenty pounds.
 		// Otherwise, it's a wasted request.
 
-		FamiliarData currentFamiliar = (FamiliarData) data.getFamiliarList().getSelectedItem();
+		FamiliarData currentFamiliar = (FamiliarData) KoLCharacter.getFamiliarList().getSelectedItem();
 		if ( currentFamiliar == null )
 		{
 			client.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
@@ -1177,7 +1170,7 @@ public class SorceressLair extends StaticEntity
 		// Need more than 50 hit points.  Abort if this is
 		// not the case.
 
-		if ( data.getCurrentHP() <= 50 )
+		if ( KoLCharacter.getCurrentHP() <= 50 )
 		{
 			client.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );
 			client.cancelRequest();
@@ -1206,7 +1199,7 @@ public class SorceressLair extends StaticEntity
 				if ( request.responseText.indexOf( FAMILIAR_DATA[i][0] ) != -1 )
 				{
 					FamiliarData neededFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( FAMILIAR_DATA[i][1] ) );
-					int neededFamiliarIndex = data.getFamiliarList().indexOf( neededFamiliar );
+					int neededFamiliarIndex = KoLCharacter.getFamiliarList().indexOf( neededFamiliar );
 
 					// If the player does have the needed familiar, then switch
 					// to it and recursively recall this method if the familiar
@@ -1215,7 +1208,7 @@ public class SorceressLair extends StaticEntity
 
 					if ( neededFamiliarIndex != -1 )
 					{
-						neededFamiliar = (FamiliarData) data.getFamiliarList().get( neededFamiliarIndex );
+						neededFamiliar = (FamiliarData) KoLCharacter.getFamiliarList().get( neededFamiliarIndex );
 
 						if ( neededFamiliar.getModifiedWeight() >= 20 )
 						{

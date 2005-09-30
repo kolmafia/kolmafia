@@ -230,7 +230,7 @@ public class AdventureRequest extends KoLRequest
 		// machines and the shore vacations when you don't have
 		// enough meat, adventures or are too drunk to continue.
 
-		if ( client.getCharacterData().getCurrentHP() == 0 )
+		if ( KoLCharacter.getCurrentHP() == 0 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Ran out of health." );

@@ -70,7 +70,6 @@ public class EquipmentRequest extends KoLRequest
 		"acc1", "acc2", "acc3", "familiarequip"
 	};
 
-	private KoLCharacter character;
 	private int requestType;
 	private int equipmentSlot;
 	private String changeItemName;
@@ -79,7 +78,6 @@ public class EquipmentRequest extends KoLRequest
 	public EquipmentRequest( KoLmafia client, int requestType )
 	{
 		super( client, requestType == CLOSET ? "closet.php" : requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
-		this.character = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 		this.requestType = requestType;
 		this.outfit = null;
 
@@ -108,8 +106,6 @@ public class EquipmentRequest extends KoLRequest
 	{
 		super( client, "inv_equip.php" );
 		addFormField( "which", "2" );
-
-		this.character = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 		this.equipmentSlot = equipmentSlot;
 
 		if ( change.equals( UNEQUIP ) )
@@ -135,8 +131,6 @@ public class EquipmentRequest extends KoLRequest
 	public EquipmentRequest( KoLmafia client, SpecialOutfit change )
 	{
 		super( client, "inv_equip.php" );
-
-		this.character = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 
 		addFormField( "action", "outfit" );
 		addFormField( "which", "2" );
@@ -170,7 +164,7 @@ public class EquipmentRequest extends KoLRequest
 			{
 				(new EquipmentRequest( client, UNEQUIP_ALL )).run();
 
-				if ( !character.getEquipment( KoLCharacter.FAMILIAR ).equals( UNEQUIP ) )
+				if ( !KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ).equals( UNEQUIP ) )
 					(new EquipmentRequest( client, UNEQUIP, KoLCharacter.FAMILIAR )).run();
 
 				return;
@@ -193,7 +187,7 @@ public class EquipmentRequest extends KoLRequest
 					if ( !client.getInventory().contains( result ) )
 					{
 						// Find first familiar with item
-						LockableListModel familiars = character.getFamiliarList();
+						LockableListModel familiars = KoLCharacter.getFamiliarList();
 						for ( int i = 0; i < familiars.size(); ++i )
 						{
 							FamiliarData familiar = (FamiliarData)familiars.get(i);
@@ -220,7 +214,7 @@ public class EquipmentRequest extends KoLRequest
 				case KoLCharacter.ACCESSORY2:
 				case KoLCharacter.ACCESSORY3:
 
-					if ( !character.getEquipment(equipmentSlot).equals( UNEQUIP ) )
+					if ( !KoLCharacter.getEquipment(equipmentSlot).equals( UNEQUIP ) )
 						(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
 
 					 break;
@@ -286,12 +280,12 @@ public class EquipmentRequest extends KoLRequest
 				// switching items around, as needed.
 
 				for ( int i = 0; i < 8; ++i )
-					oldEquipment[i] = character.getEquipment( i );
+					oldEquipment[i] = KoLCharacter.getEquipment( i );
 
 				parseEquipment();
 
 				for ( int i = 0; i < 8; ++i )
-					switchItem( oldEquipment[i], character.getEquipment( i ) );
+					switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
 
 				// Because changing equipment can potentially change
 				// a player's stats, also refresh status.
@@ -343,7 +337,7 @@ public class EquipmentRequest extends KoLRequest
 			try
 			{
 				String meatInCloset = meatInClosetMatcher.group();
-				client.getCharacterData().setClosetMeat( df.parse( meatInCloset ).intValue() );
+				KoLCharacter.setClosetMeat( df.parse( meatInCloset ).intValue() );
 			}
 			catch ( Exception e )
 			{
@@ -512,6 +506,6 @@ public class EquipmentRequest extends KoLRequest
 		LockableListModel outfits = outfitsMatcher.find() ?
 			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();
 
-		character.setEquipment( equipment, outfits );
+		KoLCharacter.setEquipment( equipment, outfits );
 	}
 }

@@ -75,7 +75,7 @@ public class GiftMessageFrame extends SendMessageFrame
 		// You start with two packages and receive an additional
 		// package every three ascensions you complete.
 
-		int ascensions = client.getCharacterData().getAscensions();
+		int ascensions = KoLCharacter.getAscensions();
 		int count = Math.min( ascensions / 3 + 2, 11 );
 		LockableListModel packages = new LockableListModel();
 

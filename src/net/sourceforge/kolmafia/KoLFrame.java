@@ -262,21 +262,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		getContentPane().add( this.compactPane, BorderLayout.WEST );
 		(new StatusRefresher()).run();
 
-		if ( client != null )
-			client.getCharacterData().addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
+		KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
 	}
 
 	protected class StatusRefresher implements Runnable
 	{
 		public void run()
 		{
-			KoLCharacter characterData = client == null ? new KoLCharacter( "UI Test" ) : client.getCharacterData();
-			hpLabel.setText( characterData.getCurrentHP() + " / " + characterData.getMaximumHP() );
-			mpLabel.setText( characterData.getCurrentMP() + " / " + characterData.getMaximumMP() );
-			meatLabel.setText( df.format( characterData.getAvailableMeat() ) );
-			closetLabel.setText( df.format( characterData.getClosetMeat() ) );
-			advLabel.setText( String.valueOf( characterData.getAdventuresLeft() ) );
-			drunkLabel.setText( String.valueOf( characterData.getInebriety() ) );
+			hpLabel.setText( KoLCharacter.getCurrentHP() + " / " + KoLCharacter.getMaximumHP() );
+			mpLabel.setText( KoLCharacter.getCurrentMP() + " / " + KoLCharacter.getMaximumMP() );
+			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
+			closetLabel.setText( df.format( KoLCharacter.getClosetMeat() ) );
+			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
 		}
 	}
 
@@ -419,14 +417,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menu.add( consumeMenu );
 
 		consumeFilter = new JCheckBoxMenuItem[3];
-		int restriction = client == null ? AscensionSnapshotTable.NOPATH : client.getCharacterData().getConsumptionRestriction();
+		int restriction = KoLCharacter.getConsumptionRestriction();
 
-		consumeFilter[0] = new FilterMenuItem( "Show food", client == null || client.getCharacterData() == null ||
-			restriction == AscensionSnapshotTable.NOPATH || restriction == AscensionSnapshotTable.TEETOTALER );
-
-		consumeFilter[1] = new FilterMenuItem( "Show booze", client == null || client.getCharacterData() == null ||
-			restriction == AscensionSnapshotTable.NOPATH || restriction == AscensionSnapshotTable.BOOZETAFARIAN );
-
+		consumeFilter[0] = new FilterMenuItem( "Show food", restriction == AscensionSnapshotTable.NOPATH || restriction == AscensionSnapshotTable.TEETOTALER );
+		consumeFilter[1] = new FilterMenuItem( "Show booze", restriction == AscensionSnapshotTable.NOPATH || restriction == AscensionSnapshotTable.BOOZETAFARIAN );
 		consumeFilter[2] = new FilterMenuItem( "Show others", true );
 
 		for ( int i = 0; i < consumeFilter.length; ++i )

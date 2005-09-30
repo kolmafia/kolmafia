@@ -77,8 +77,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CharsheetFrame extends KoLFrame
 {
-	private KoLCharacter characterData;
-
 	private JPanel levelPanel;
 	private JLabel levelLabel;
 
@@ -98,7 +96,6 @@ public class CharsheetFrame extends KoLFrame
 	public CharsheetFrame( KoLmafia client )
 	{
 		super( client, "Character Sheet" );
-		this.characterData = client == null ? new KoLCharacter( "UI Test" ) : client.getCharacterData();
 
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
@@ -115,8 +112,7 @@ public class CharsheetFrame extends KoLFrame
 		entirePanel.add( createStatusPanel(), BorderLayout.CENTER );
 		entirePanel.add( createImagePanel(), BorderLayout.WEST );
 
-		JScrollPane scroller = new JScrollPane(
-			new JList( client == null ? new LockableListModel() : client.getCharacterData().getEffects() ),
+		JScrollPane scroller = new JScrollPane( new JList( KoLCharacter.getEffects() ),
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		entirePanel.add( scroller, BorderLayout.SOUTH );
@@ -124,7 +120,7 @@ public class CharsheetFrame extends KoLFrame
 		refreshStatus();
 
 		getContentPane().add( entirePanel, "" );
-		characterData.addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefreshRunnable() ) );
+		KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefreshRunnable() ) );
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -149,9 +145,9 @@ public class CharsheetFrame extends KoLFrame
 
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout( new GridLayout( 2, 1 ) );
-		namePanel.add( new JLabel( characterData.getUsername() + " (#" + characterData.getUserID() + ")", JLabel.CENTER ) );
+		namePanel.add( new JLabel( KoLCharacter.getUsername() + " (#" + KoLCharacter.getUserID() + ")", JLabel.CENTER ) );
 
-		this.levelLabel = new JLabel( "Level " + characterData.getLevel() + " " + characterData.getClassName(), JLabel.CENTER );
+		this.levelLabel = new JLabel( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassName(), JLabel.CENTER );
 		namePanel.add( levelLabel );
 
 		this.levelPanel = new JPanel();
@@ -166,9 +162,9 @@ public class CharsheetFrame extends KoLFrame
 		levelPanel.add( levelMeter, BorderLayout.SOUTH );
 		imagePanel.add( levelPanel, BorderLayout.NORTH );
 
-		StringBuffer imagename = new StringBuffer( characterData.getClassType().replaceAll( " ", "" ).toLowerCase() );
+		StringBuffer imagename = new StringBuffer( KoLCharacter.getClassType().replaceAll( " ", "" ).toLowerCase() );
 
-		if ( !characterData.isMale() )
+		if ( !KoLCharacter.isMale() )
 			imagename.append( "_f" );
 
 		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( imagename.toString() + ".gif" ) ), BorderLayout.CENTER );
@@ -306,31 +302,31 @@ public class CharsheetFrame extends KoLFrame
 		if ( client != null )
 			client.applyRecentEffects();
 
-		levelLabel.setText( "Level " + characterData.getLevel() + " " + characterData.getClassName() );
+		levelLabel.setText( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassName() );
 
-		hpMeter.setMaximum( characterData.getMaximumHP() );
-		hpMeter.setValue( characterData.getCurrentHP() );
-		hpMeter.setString( df.format( characterData.getCurrentHP() ) + " / " + df.format( characterData.getMaximumHP() ) );
+		hpMeter.setMaximum( KoLCharacter.getMaximumHP() );
+		hpMeter.setValue( KoLCharacter.getCurrentHP() );
+		hpMeter.setString( df.format( KoLCharacter.getCurrentHP() ) + " / " + df.format( KoLCharacter.getMaximumHP() ) );
 
-		mpMeter.setMaximum( characterData.getMaximumMP() );
-		mpMeter.setValue( characterData.getCurrentMP() );
-		mpMeter.setString( df.format( characterData.getCurrentMP() ) + " / " + df.format( characterData.getMaximumMP() ) );
+		mpMeter.setMaximum( KoLCharacter.getMaximumMP() );
+		mpMeter.setValue( KoLCharacter.getCurrentMP() );
+		mpMeter.setString( df.format( KoLCharacter.getCurrentMP() ) + " / " + df.format( KoLCharacter.getMaximumMP() ) );
 
-		refreshValuePanel( 0, characterData.getBaseMuscle(), characterData.getAdjustedMuscle(), characterData.getMuscleTNP() );
-		refreshValuePanel( 1, characterData.getBaseMysticality(), characterData.getAdjustedMysticality(), characterData.getMysticalityTNP() );
-		refreshValuePanel( 2, characterData.getBaseMoxie(), characterData.getAdjustedMoxie(), characterData.getMoxieTNP() );
+		refreshValuePanel( 0, KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() );
+		refreshValuePanel( 1, KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() );
+		refreshValuePanel( 2, KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() );
 
 		if ( levelPanel != null )
 		{
-			int currentLevel = characterData.calculateLastLevel();
-			int nextLevel = characterData.calculateNextLevel();
-			int totalPrime = characterData.getTotalPrime();
+			int currentLevel = KoLCharacter.calculateLastLevel();
+			int nextLevel = KoLCharacter.calculateNextLevel();
+			int totalPrime = KoLCharacter.getTotalPrime();
 
 			levelMeter.setMaximum( nextLevel - currentLevel );
 			levelMeter.setValue( totalPrime - currentLevel );
 			levelMeter.setString( "" );
 
-			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + characterData.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
+			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
 				df.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 		}
 	}

@@ -57,7 +57,6 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 
 	private KoLmafia client;
 	private KoLSettings settings;
-	private KoLCharacter characterData;
 
 	private Object [] restoreName;
 	private JCheckBox [] restoreCheckbox;
@@ -69,12 +68,11 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 
 		this.client = client;
 		this.settings = client == null ? GLOBAL_SETTINGS : client.getSettings();
-		this.characterData = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 
 		this.add( BEANBAG );
 		this.add( HOUSE );
 
-		this.add( new MPRestoreItem( "magical mystery juice", (int) (characterData.getLevel() * 1.5 + 4.0), 150 ) );
+		this.add( new MPRestoreItem( "magical mystery juice", (int) (KoLCharacter.getLevel() * 1.5 + 4.0), 150 ) );
 		this.add( new MPRestoreItem( "soda water", 4, 70 ) );
 
 		// On the other hand, these MP restores have a fairly
@@ -188,9 +186,8 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 				return;
 			}
 
-			characterData = client.getCharacterData();
-			int currentMP = characterData.getCurrentMP();
-			int maximumMP = characterData.getMaximumMP();
+			int currentMP = KoLCharacter.getCurrentMP();
+			int maximumMP = KoLCharacter.getMaximumMP();
 
 			// Always buff as close to maxMP as possible, in order to
 			// go as easy on the server as possible.

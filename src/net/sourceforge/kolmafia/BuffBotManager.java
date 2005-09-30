@@ -60,7 +60,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 	public static final int SAVEBOX = 0;
 	public static final int DISPOSE = 1;
 
-	private KoLCharacter characterData;
 	private List inventory;
 	private KoLSettings settings;
 
@@ -96,7 +95,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		this.buffCostTable = buffCostTable;
 
 		this.settings = client == null ? GLOBAL_SETTINGS : client.getSettings();
-		this.characterData = client == null ? new KoLCharacter( "" ) : client.getCharacterData();
 		this.buffbotLog = client == null ? new BuffBotHome( client ) : client.getBuffBotLog();
 
 		saveList = new ArrayList();
@@ -190,7 +188,6 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		buffbotLog.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
 
 		this.settings = (client == null) ? new KoLSettings() : client.getSettings();
-		this.characterData =  client.getCharacterData();
 		this.inventory = client == null ? new LockableListModel() : client.getInventory();
 
 		maxPhilanthropy = Integer.parseInt( settings.getProperty( "maxPhilanthropy" ) );
@@ -629,7 +626,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 			int totalCasts = castCount;
 			double mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
-			double maximumMP = characterData.getMaximumMP();
+			double maximumMP = KoLCharacter.getMaximumMP();
 
 			double currentMP;
 			int currentCast, mpPerEvent;
@@ -643,7 +640,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 
 			while ( totalCasts > 0 )
 			{
-				currentMP = (double) characterData.getCurrentMP();
+				currentMP = (double) KoLCharacter.getCurrentMP();
 				currentCast = Math.min( totalCasts, (int) (maximumMP / mpPerCast) );
 				mpPerEvent = (int) (mpPerCast * currentCast);
 				if ( !client.recoverMP( mpPerEvent ) )

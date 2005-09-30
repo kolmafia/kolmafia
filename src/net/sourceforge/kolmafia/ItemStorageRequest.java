@@ -189,7 +189,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		// by locating "Your closet contains x meat" and
 		// update the display with that information.
 
-		int beforeMeatInCloset = client.getCharacterData().getClosetMeat();
+		int beforeMeatInCloset = KoLCharacter.getClosetMeat();
 		int afterMeatInCloset = 0;
 
 		Matcher meatInClosetMatcher = Pattern.compile( "<b>Your closet contains ([\\d,]+) meat\\.</b>" ).matcher( responseText );
@@ -208,7 +208,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			}
 		}
 
-		client.getCharacterData().setClosetMeat( afterMeatInCloset );
+		KoLCharacter.setClosetMeat( afterMeatInCloset );
 		client.processResult( new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
 	}
 

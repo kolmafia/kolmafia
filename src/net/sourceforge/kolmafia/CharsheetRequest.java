@@ -42,21 +42,18 @@ import java.util.regex.Matcher;
 import java.util.StringTokenizer;
 
 /**
- * An extension of <code>KoLRequest</code> which retrieves the character's
+ * An extension of <code>KoLRequest</code> which retrieves the KoLCharacter's
  * information from the server.  Note that this request only retrieves the
- * character's statistics at the current time; skills and effects will be
+ * KoLCharacter's statistics at the current time; skills and effects will be
  * retrieved at a later date.  Equipment retrieval takes place through a
  * different request.
  */
 
 public class CharsheetRequest extends KoLRequest
 {
-	private KoLCharacter character;
-
 	/**
-	 * Constructs a new <code>CharsheetRequest</code>.  This also
-	 * stores the reference to the character to be provided; the
-	 * data found in that character will be overridden over the
+	 * Constructs a new <code>CharsheetRequest</code>.  The data
+	 * in the KoLCharacter entity will be overridden over the
 	 * course of this request.
 	 *
 	 * @param	client	The client to be notified in case of errors
@@ -69,11 +66,10 @@ public class CharsheetRequest extends KoLRequest
 		// when the request is actually run.
 
 		super( client, "charsheet.php" );
-		this.character = client.getCharacterData();
 	}
 
 	/**
-	 * Runs the request.  Note that only the character's statistics
+	 * Runs the request.  Note that only the KoLCharacter's statistics
 	 * are retrieved via this retrieval.
 	 */
 
@@ -88,10 +84,10 @@ public class CharsheetRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-                // Derive the character's gender from the image filename
-		character.setGender( responseText.indexOf( "_f.gif" ) == -1 );
+		// Derive the KoLCharacter's gender from the image filename
+		KoLCharacter.setGender( responseText.indexOf( "_f.gif" ) == -1 );
 
-		// The easiest way to retrieve the character sheet
+		// The easiest way to retrieve the KoLCharacter sheet
 		// data is to first strip all of the HTML from the
 		// reply, and then tokenize on the stripped-down
 		// version.  This can be done through simple regular
@@ -102,16 +98,16 @@ public class CharsheetRequest extends KoLRequest
 		try
 		{
 			// The first two tokens in the stream contains the
-			// name, but the character's name was known at login.
+			// name, but the KoLCharacter's name was known at login.
 			// Therefore, these tokens can be discarded.
 
 			String token = parsedContent.nextToken();
 			while ( !token.startsWith( " (" ) )
 				token = parsedContent.nextToken();
 
-			character.setUserID( Integer.parseInt( token.substring( 3, token.length() - 1 ) ) );
+			KoLCharacter.setUserID( Integer.parseInt( token.substring( 3, token.length() - 1 ) ) );
 			skipTokens( parsedContent, 3 );
-			character.setClassName( parsedContent.nextToken().trim() );
+			KoLCharacter.setClassName( parsedContent.nextToken().trim() );
 
 			// Hit point parsing begins with the first index of
 			// the words indicating that the upcoming token will
@@ -126,7 +122,7 @@ public class CharsheetRequest extends KoLRequest
 				token = parsedContent.nextToken();
 			skipTokens( parsedContent, 3 );
 			int maximumHP = intToken( parsedContent );
-			character.setHP( currentHP, maximumHP, retrieveBase( parsedContent, maximumHP ) );
+			KoLCharacter.setHP( currentHP, maximumHP, retrieveBase( parsedContent, maximumHP ) );
 
 			// Mana point parsing is exactly the same as hit point
 			// parsing - so this is just a copy-paste of the code.
@@ -140,7 +136,7 @@ public class CharsheetRequest extends KoLRequest
 				token = parsedContent.nextToken();
 			skipTokens( parsedContent, 3 );
 			int maximumMP = intToken( parsedContent );
-			character.setMP( currentMP, maximumMP, retrieveBase( parsedContent, maximumMP ) );
+			KoLCharacter.setMP( currentMP, maximumMP, retrieveBase( parsedContent, maximumMP ) );
 
 			// Next, you begin parsing the different stat points;
 			// this involves hunting for the stat point's name,
@@ -151,10 +147,10 @@ public class CharsheetRequest extends KoLRequest
 			int [] mys = findStatPoints( parsedContent, "Mys" );
 			int [] mox = findStatPoints( parsedContent, "Mox" );
 
-			character.setStatPoints( mus[0], mus[1], mys[0], mys[1], mox[0], mox[1] );
+			KoLCharacter.setStatPoints( mus[0], mus[1], mys[0], mys[1], mox[0], mox[1] );
 
 			// Drunkenness may or may not exist (in other words,
-			// if the character is not drunk, nothing will show
+			// if the KoLCharacter is not drunk, nothing will show
 			// up).  Therefore, parse it if it exists; otherwise,
 			// parse until the "Adventures remaining:" token.
 
@@ -165,25 +161,25 @@ public class CharsheetRequest extends KoLRequest
 			if ( !token.startsWith( "Adven" ) )
 			{
 				skipTokens( parsedContent, 3 );
-				character.setInebriety( intToken( parsedContent ) );
+				KoLCharacter.setInebriety( intToken( parsedContent ) );
 
 				while ( !token.startsWith( "Adven" ) )
 					token = parsedContent.nextToken();
 			}
 			else
-				character.setInebriety( 0 );
+				KoLCharacter.setInebriety( 0 );
 
 			// Now parse the number of adventures remaining,
-			// the monetary value in the character's pocket,
+			// the monetary value in the KoLCharacter's pocket,
 			// and the number of turns accumulated.
 
 			skipTokens( parsedContent, 3 );
-			character.setAdventuresLeft( intToken( parsedContent ) );
+			KoLCharacter.setAdventuresLeft( intToken( parsedContent ) );
 
 			while ( !token.startsWith( "Meat" ) )
 				token = parsedContent.nextToken();
 			skipTokens( parsedContent, 3 );
-			character.setAvailableMeat( intToken( parsedContent ) );
+			KoLCharacter.setAvailableMeat( intToken( parsedContent ) );
 
 			// Determine the player's ascension count, if any.
 			if ( responseText.indexOf( "Ascensions:" ) != -1 )
@@ -191,13 +187,13 @@ public class CharsheetRequest extends KoLRequest
 				while ( !token.startsWith( "Ascensions" ) )
 					token = parsedContent.nextToken();
 				skipTokens( parsedContent, 4 );
-				character.setAscensions( intToken( parsedContent ) );
+				KoLCharacter.setAscensions( intToken( parsedContent ) );
 			}
 
 			while ( !token.startsWith( "Turns" ) )
 				token = parsedContent.nextToken();
 			skipTokens( parsedContent, 3 );
-			character.setTotalTurnsUsed( intToken( parsedContent ) );
+			KoLCharacter.setTotalTurnsUsed( intToken( parsedContent ) );
 
 			// Determine the player's zodiac sign, if any.
 
@@ -205,16 +201,16 @@ public class CharsheetRequest extends KoLRequest
 			{
 				while ( !parsedContent.nextToken().startsWith( "Sign:" ) );
 				skipTokens( parsedContent, 3 );
-				character.setSign( parsedContent.nextToken() );
+				KoLCharacter.setSign( parsedContent.nextToken() );
 			}
 
-			character.setInteraction( responseText.indexOf( "You may not receive items from other players" ) == -1 &&
+			KoLCharacter.setInteraction( responseText.indexOf( "You may not receive items from other players" ) == -1 &&
 				responseText.indexOf( "You are in Hardcore mode" ) == -1 );
 
 			// Determine the current consumption restrictions
 			// the player possesses.
 
-			character.setConsumptionRestriction(
+			KoLCharacter.setConsumptionRestriction(
 				responseText.indexOf( "eat or drink" ) != -1 ? AscensionSnapshotTable.OXYGENARIAN :
 				responseText.indexOf( "eat any food" ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
 				responseText.indexOf( "any alcohol" ) != -1 ? AscensionSnapshotTable.TEETOTALER : AscensionSnapshotTable.NOPATH );
@@ -222,7 +218,7 @@ public class CharsheetRequest extends KoLRequest
 			// Determine whether or not the player has any
 			// active effects - if so, retrieve them.
 
-			character.clearEffects();
+			KoLCharacter.clearEffects();
 			if ( responseText.indexOf( "Effects:" ) != -1 )
 			{
 				while ( !parsedContent.nextToken().startsWith( "Eff" ) );
@@ -254,10 +250,10 @@ public class CharsheetRequest extends KoLRequest
 					token = parsedContent.nextToken();
 				}
 
-				character.setAvailableSkills( availableSkills );
+				KoLCharacter.setAvailableSkills( availableSkills );
 			}
 
-			// Current equipment is also listed on the character
+			// Current equipment is also listed on the KoLCharacter
 			// sheet -- because we now have consumption types,
 			// it is now possible to retrieve all the equipment.
 
@@ -308,25 +304,25 @@ public class CharsheetRequest extends KoLRequest
 				}
 			}
 
-			character.setEquipment( equipment, new ArrayList() );
+			KoLCharacter.setEquipment( equipment, new ArrayList() );
 
 			// Now, parse out the player's accomplishments, if any
 			// exist.  These are found in the "Accomplishments"
-			// section of the character sheet.
+			// section of the KoLCharacter sheet.
 
 			Matcher accomplishMatcher = Pattern.compile( "Accomplishments:(.*?)</table>" ).matcher( responseText );
 			if ( accomplishMatcher.find() )
-				character.setAccomplishments( accomplishMatcher.group(1).split( "(<.*?>)+" ) );
+				KoLCharacter.setAccomplishments( accomplishMatcher.group(1).split( "(<.*?>)+" ) );
 
 			// If no familiars are known, then parse out the
 			// familiars -- this is to ensure that at least
 			// the equipped familiar shows up.  Remember that
 			// "(none)" may show up -- this counts as one.
 
-			if ( character.getFamiliarList().size() <= 1 )
+			if ( KoLCharacter.getFamiliarList().size() <= 1 )
 				FamiliarData.registerFamiliarData( client, responseText );
 
-			// Parsing of the character sheet is now complete.
+			// Parsing of the KoLCharacter sheet is now complete.
 			// Report this to the log stream and return.
 
 			logStream.println( "Parsing complete." );

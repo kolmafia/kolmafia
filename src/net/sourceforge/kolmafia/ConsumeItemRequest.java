@@ -113,17 +113,17 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			case CHEF:
 			case CLOCKWORK_CHEF:
-				alreadyInstalled = client.getCharacterData().hasChef();
+				alreadyInstalled = KoLCharacter.hasChef();
 				break;
 			case BARTENDER:
 			case CLOCKWORK_BARTENDER:
-				alreadyInstalled = client.getCharacterData().hasBartender();
+				alreadyInstalled = KoLCharacter.hasBartender();
 				break;
 			case TOASTER:
-				alreadyInstalled = client.getCharacterData().hasToaster();
+				alreadyInstalled = KoLCharacter.hasToaster();
 				break;
 			case ARCHES:
-				alreadyInstalled = client.getCharacterData().hasArches();
+				alreadyInstalled = KoLCharacter.hasArches();
 				break;
 		}
 
@@ -188,7 +188,7 @@ public class ConsumeItemRequest extends KoLRequest
 				return;
 			}
 
-			client.getCharacterData().addFamiliar( FamiliarsDatabase.growFamiliarLarva( itemUsed.getItemID() ) );
+			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( itemUsed.getItemID() ) );
 		}
 		// Check to make sure that it wasn't a food or drink
 		// that was consumed that resulted in nothing.
@@ -219,7 +219,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
 				return;
 
-			client.getCharacterData().addAccomplishment( AdventureDatabase.BEANSTALK );
+			KoLCharacter.addAccomplishment( AdventureDatabase.BEANSTALK );
 		}
 
 		// If a scroll of drastic healing was used and didn't dissolve,
@@ -227,7 +227,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
 		{
-			client.processResult( new AdventureResult( AdventureResult.HP, client.getCharacterData().getMaximumHP() ) );
+			client.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
 			if ( responseText.indexOf( "crumble" ) == -1 )
 				return;
 		}
@@ -251,7 +251,7 @@ public class ConsumeItemRequest extends KoLRequest
 		// reduces your hit points to 1.
 
 		else if ( itemUsed.getName().equals( "Jumbo Dr. Lucifer" ) )
-			client.processResult( new AdventureResult( AdventureResult.HP, 1 - client.getCharacterData().getCurrentHP() ) );
+			client.processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
 
 		// If you use a 64735 scroll, you will also lose a dictionary,
 		// if it's successful.  Otherwise, nothing happens.
@@ -291,17 +291,17 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			case CHEF:
 			case CLOCKWORK_CHEF:
-				client.getCharacterData().setChef( true );
+				KoLCharacter.setChef( true );
 				break;
 			case BARTENDER:
 			case CLOCKWORK_BARTENDER:
-				client.getCharacterData().setBartender( true );
+				KoLCharacter.setBartender( true );
 				break;
 			case TOASTER:
-				client.getCharacterData().setToaster( true );
+				KoLCharacter.setToaster( true );
 				break;
 			case ARCHES:
-				client.getCharacterData().setArches( true );
+				KoLCharacter.setArches( true );
 				break;
 		}
 	}

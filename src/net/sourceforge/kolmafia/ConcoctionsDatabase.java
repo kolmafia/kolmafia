@@ -190,16 +190,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
 
-		concoctions[0].total = client.getCharacterData().getAdventuresLeft();
+		concoctions[0].total = KoLCharacter.getAdventuresLeft();
 
 		// Next, meat paste and meat stacks can be created directly
 		// and are dependent upon the amount of meat available.
 		// This should also be calculated to allow for meat stack
 		// recipes to be calculated.
 
-		int availableMeat = client.getCharacterData().getAvailableMeat();
+		int availableMeat = KoLCharacter.getAvailableMeat();
 		if ( getProperty( "useClosetForCreation" ).equals( "true" ) )
-			availableMeat += client.getCharacterData().getClosetMeat();
+			availableMeat += KoLCharacter.getClosetMeat();
 
 		concoctions[ ItemCreationRequest.MEAT_PASTE ].total += availableMeat / 10;
 		concoctions[ ItemCreationRequest.MEAT_PASTE ].creatable += availableMeat / 10;
@@ -263,7 +263,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static void cachePermitted()
 	{
-		KoLCharacter data = client.getCharacterData();
 		boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
 
 		// It is never possible to create items which are flagged
@@ -281,7 +280,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF );
 
-		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && data.getInventory().contains( OVEN ) )
+		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) )
 		{
 			PERMIT_METHOD[ ItemCreationRequest.COOK ] = true;
 			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 1;
@@ -292,10 +291,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Cooking of reagents and noodles is possible whenever
 		// the person can cook and has the appropriate skill.
 
-		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && data.canSummonReagent();
+		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonReagent();
 		ADVENTURE_USAGE[ ItemCreationRequest.COOK_REAGENT ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
 
-		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && data.canSummonNoodles();
+		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonNoodles();
 		ADVENTURE_USAGE[ ItemCreationRequest.COOK_PASTA ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
 
 		// Mixing is possible whenever the person has a bartender
@@ -303,7 +302,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER );
 
-		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && data.getInventory().contains( KIT ) )
+		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && KoLCharacter.getInventory().contains( KIT ) )
 		{
 			PERMIT_METHOD[ ItemCreationRequest.MIX ] = true;
 			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 1;
@@ -314,27 +313,27 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Mixing of advanced drinks is possible whenever the
 		// person can mix drinks and has the appropriate skill.
 
-		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = PERMIT_METHOD[ ItemCreationRequest.MIX ] && data.canSummonShore();
+		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = PERMIT_METHOD[ ItemCreationRequest.MIX ] && KoLCharacter.canSummonShore();
 		ADVENTURE_USAGE[ ItemCreationRequest.MIX_SPECIAL ] = ADVENTURE_USAGE[ ItemCreationRequest.MIX ];
 
 		// Smithing of items is possible whenever the person
 		// has a hammer.
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = data.getInventory().contains( HAMMER );
+		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = KoLCharacter.getInventory().contains( HAMMER );
 
 		// Advanced smithing is available whenever the person can
 		// smith and has access to the appropriate skill.
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] && data.canSmithWeapons();
+		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] && KoLCharacter.canSmithWeapons();
 		ADVENTURE_USAGE[ ItemCreationRequest.SMITH_WEAPON ] = 1;
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] && data.canSmithArmor();
+		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] && KoLCharacter.canSmithArmor();
 		ADVENTURE_USAGE[ ItemCreationRequest.SMITH_ARMOR ] = 1;
 
 		// Standard smithing is also possible if the person is in
 		// a muscle sign.
 
-		if ( data.inMuscleSign() )
+		if ( KoLCharacter.inMuscleSign() )
 		{
 			PERMIT_METHOD[ ItemCreationRequest.SMITH ] = true;
 			ADVENTURE_USAGE[ ItemCreationRequest.SMITH ] = 0;
@@ -345,7 +344,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Jewelry making is possible as long as the person has the
 		// appropriate pliers.
 
-		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = data.getInventory().contains( PLIERS );
+		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = KoLCharacter.getInventory().contains( PLIERS );
 		ADVENTURE_USAGE[ ItemCreationRequest.JEWELRY ] = 3;
 
 		// Star charts and pixel chart recipes are available to all
@@ -367,20 +366,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// The gnomish tinkerer is available if the person is in a
 		// moxie sign and they have a bitchin' meat car.
 
-		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = data.inMoxieSign() && data.getInventory().contains( CAR );
+		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( CAR );
 		ADVENTURE_USAGE[ ItemCreationRequest.TINKER ] = 0;
 	}
 
 	private static boolean isAvailable( int servantID )
 	{
-		KoLCharacter data = client.getCharacterData();
-
 		// If it's a base case, return whether or not the
 		// servant is already available at the camp.
 
-		if ( servantID == CHEF && data.hasChef() )
+		if ( servantID == CHEF && KoLCharacter.hasChef() )
 			return true;
-		if ( servantID == BARTENDER && data.hasBartender() )
+		if ( servantID == BARTENDER && KoLCharacter.hasBartender() )
 			return true;
 
 		// If the user did not wish to repair their boxes
@@ -517,7 +514,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			for ( int i = 0; i < ingredientArray.length; ++i )
 				concoctions[ ingredientArray[i].getItemID() ].calculate( availableIngredients );
 
-			boolean inMuscleSign = client.getCharacterData().inMuscleSign();
+			boolean inMuscleSign = KoLCharacter.inMuscleSign();
 
 			// Next, preprocess the ingredients again by marking
 			// them with the equation variables.  This can be

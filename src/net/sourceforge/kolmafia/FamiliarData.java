@@ -45,7 +45,6 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	private static int weightModifier;
 	private static int dodecaModifier;
-	private static KoLCharacter owner;
 
 	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0 );
 	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0 );
@@ -99,15 +98,13 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	public static final void registerFamiliarData( KoLmafia client, String searchText )
 	{
-		KoLCharacter characterData = client.getCharacterData();
-
 		FamiliarData firstFamiliar = null;
 
 		Matcher familiarMatcher = SEARCH_PATTERN.matcher( searchText );
 
 		while ( familiarMatcher.find() )
 		{
-			FamiliarData examinedFamiliar = characterData.addFamiliar( new FamiliarData( client, familiarMatcher ) );
+			FamiliarData examinedFamiliar = KoLCharacter.addFamiliar( new FamiliarData( client, familiarMatcher ) );
 
 			if ( firstFamiliar == null )
 				firstFamiliar = examinedFamiliar;
@@ -118,7 +115,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		if ( searchText.indexOf( "You do not currently have a familiar" ) != -1 )
 			firstFamiliar = null;
 
-		characterData.setFamiliar( firstFamiliar );
+		KoLCharacter.setFamiliar( firstFamiliar );
 	}
 
 	public int getID()
@@ -222,10 +219,8 @@ public class FamiliarData implements KoLConstants, Comparable
 		}
 	}
 
-	public static void setOwner( KoLCharacter owner )
-	{
-		FamiliarData.owner = owner;
-		updateWeightModifier();
+	public static void reset()
+	{	updateWeightModifier();
 	}
 
 	/**
@@ -241,9 +236,9 @@ public class FamiliarData implements KoLConstants, Comparable
 		// accessories the character is wearing
 
 		int [] accessoryID = new int[3];
-		accessoryID[0] = TradeableItemDatabase.getItemID( owner.getEquipment( KoLCharacter.ACCESSORY1 ) );
-		accessoryID[1] = TradeableItemDatabase.getItemID( owner.getEquipment( KoLCharacter.ACCESSORY2 ) );
-		accessoryID[2] = TradeableItemDatabase.getItemID( owner.getEquipment( KoLCharacter.ACCESSORY3 ) );
+		accessoryID[0] = TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
+		accessoryID[1] = TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
+		accessoryID[2] = TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 
 		for ( int i = 0; i < 3; ++i )
 			if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
@@ -257,20 +252,20 @@ public class FamiliarData implements KoLConstants, Comparable
 		// Empathy and Leash of Linguini each add five pounds.
 		// The passive "Amphibian Sympathy" skill does too.
 
-		if ( owner.getEffects().contains( EMPATHY ) )
+		if ( KoLCharacter.getEffects().contains( EMPATHY ) )
 		{
 			weightModifier += 5;
 			dodecaModifier -= 5;
 		}
 
 
-		if ( owner.getEffects().contains( LEASH ) )
+		if ( KoLCharacter.getEffects().contains( LEASH ) )
 		{
 			weightModifier += 5;
 			dodecaModifier -= 5;
 		}
 
-		if ( owner.hasAmphibianSympathy() )
+		if ( KoLCharacter.hasAmphibianSympathy() )
 		{
 			weightModifier += 5;
 			dodecaModifier -= 5;

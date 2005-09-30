@@ -238,7 +238,7 @@ public class AdventureFrame extends KoLFrame
 				// Add in moxious maneuver if the player
 				// is of the appropriate class.
 
-				if ( client.getCharacterData().getClassType().startsWith( "Ac" ) || client.getCharacterData().getClassType().startsWith( "Di" ) )
+				if ( KoLCharacter.getClassType().startsWith( "Ac" ) || KoLCharacter.getClassType().startsWith( "Di" ) )
 				{
 					actions.add( "moxman" );
 					actionNames.add( "Skill: Moxious Maneuver" );
@@ -255,10 +255,9 @@ public class AdventureFrame extends KoLFrame
 				// Add in all of the player's combat skills;
 				// parse the skill list to find out.
 
-				if ( client != null && client.getCharacterData() != null )
+				if ( client != null )
 				{
-					KoLCharacter playerData = client.getCharacterData();
-					Iterator skills = playerData.getAvailableSkills().iterator();
+					Iterator skills = KoLCharacter.getAvailableSkills().iterator();
 
 					int currentSkillID;
 					UseSkillRequest currentSkill;
@@ -327,7 +326,7 @@ public class AdventureFrame extends KoLFrame
 
 			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
 			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
-			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getCharacterData().getEffects() ), "2" );
+			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : KoLCharacter.getEffects() ), "2" );
 
 			resultSelect = new JComboBox();
 			resultSelect.addItem( "Session Results" );
@@ -860,7 +859,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			skillSelect = new JComboBox( client == null ? new LockableListModel() : client.getCharacterData().getUsableSkills() );
+			skillSelect = new JComboBox( client == null ? new LockableListModel() : KoLCharacter.getUsableSkills() );
 
 			targetField = new JTextField();
 			countField = new JTextField();
@@ -909,7 +908,7 @@ public class AdventureFrame extends KoLFrame
 							targets[j] = null;
 
 			int buffCount = maxBuff ?
-				(int) ( client.getCharacterData().getCurrentMP() /
+				(int) ( KoLCharacter.getCurrentMP() /
 					ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) : getValue( countField, 1 );
 
 			Runnable [] requests;

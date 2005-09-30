@@ -8,17 +8,17 @@
  * are met:
  *
  *  [1] Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
+ *      notice, KoLCharacter list of conditions and the following disclaimer.
  *  [2] Redistributions in binary form must reproduce the above copyright
- *      notice, this list of conditions and the following disclaimer in
+ *      notice, KoLCharacter list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
  *  [3] Neither the name "KoLmafia development team" nor the names of
  *      its contributors may be used to endorse or promote products
- *      derived from this software without specific prior written
+ *      derived from KoLCharacter software without specific prior written
  *      permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * KoLCharacter SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
  * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
@@ -28,7 +28,7 @@
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * ANY WAY OUT OF THE USE OF KoLCharacter SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
@@ -41,16 +41,16 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
- * A container class representing the <code>KoLCharacter</code>.  This
+ * A container class representing the <code>KoLCharacter</code>.  KoLCharacter
  * class also allows for data listeners that are updated whenever the
- * character changes; ultimately, the purpose of this class is to shift
+ * character changes; ultimately, the purpose of KoLCharacter class is to shift
  * away from the centralized-notification paradigm (inefficient) towards
  * a listener paradigm, which is both cleaner and easier to manage with
  * regards to extensions.  In addition, it loosens the coupling between
  * the various aspects of <code>KoLmafia</code>, leading to extensibility.
  */
 
-public class KoLCharacter implements KoLConstants
+public abstract class KoLCharacter extends StaticEntity
 {
 	private static List SEAL_CLUBBER = new ArrayList();
 	static
@@ -172,28 +172,7 @@ public class KoLCharacter implements KoLConstants
 		ACCORDION_THIEF.add( "Accordion Thief" );
 	}
 
-	private String username;
-	private boolean isMale;
-	private int userID;
-	private String classname, classtype;
-
-	private int currentHP, maximumHP, baseMaxHP;
-	private int currentMP, maximumMP, baseMaxMP;
-
-	private int [] adjustedStats;
-	private int [] totalSubpoints;
-
-	private LockableListModel equipment;
-	private LockableListModel outfits;
-
-	private SortedListModel inventory;
-	private SortedListModel closet;
-	private SortedListModel collection;
-
-	private LockableListModel activeEffects;
-
-	private LockableListModel usableSkills;
-	private LockableListModel availableSkills;
+	// Equipment constants
 
 	public static final int HAT = 0;
 	public static final int WEAPON = 1;
@@ -204,38 +183,70 @@ public class KoLCharacter implements KoLConstants
 	public static final int ACCESSORY3 = 6;
 	public static final int FAMILIAR = 7;
 
-	private LockableListModel [] equipmentLists;
-
-	private int availableMeat;
-	private int closetMeat;
-
-	private int inebriety;
-	private int adventuresLeft;
-	private int totalTurnsUsed;
-
-	private boolean hasToaster;
-	private boolean hasArches;
-	private boolean hasChef;
-	private boolean hasBartender;
-
-	private SortedListModel familiars;
-	private FamiliarData currentFamiliar;
-	private LockableListModel accomplishments;
-
-	private List listenerList;
-
-	private boolean canInteract;
-	private int ascensions;
-	private String ascensionSign;
-	private int ascensionSignType;
-	private int consumptionRestriction;
+	// Ascension sign constants
 
 	public static final int NONE = 0;
 	public static final int MUSCLE = 1;
 	public static final int MYSTICALITY = 2;
 	public static final int MOXIE = 3;
 
-	public int mindControlLevel;
+	// General static variables
+
+	private static String username = "";
+	private static boolean isMale = false;
+	private static int userID = 0;
+	private static String classname = "";
+	private static String classtype = "";
+
+	private static int currentHP, maximumHP, baseMaxHP;
+	private static int currentMP, maximumMP, baseMaxMP;
+
+	private static int [] adjustedStats = new int[3];
+	private static int [] totalSubpoints = new int[3];
+
+	private static LockableListModel equipment = new LockableListModel();
+	private static LockableListModel outfits = new LockableListModel();
+
+	private static SortedListModel inventory = new SortedListModel( AdventureResult.class );
+	private static SortedListModel closet = new SortedListModel( AdventureResult.class );
+	private static SortedListModel collection = new SortedListModel( AdventureResult.class );
+
+	private static LockableListModel activeEffects = new LockableListModel();
+	private static LockableListModel usableSkills = new LockableListModel();
+	private static LockableListModel availableSkills = new LockableListModel();
+
+	private static LockableListModel [] equipmentLists = new LockableListModel[8];
+	static
+	{
+		for ( int i = 0; i < 8; ++i )
+			equipmentLists[i] = new SortedListModel();
+	}
+
+	private static int availableMeat = 0;
+	private static int closetMeat = 0;
+
+	private static int inebriety = 0;
+	private static int adventuresLeft = 0;
+	private static int totalTurnsUsed = 0;
+
+	private static boolean hasToaster = false;
+	private static boolean hasArches = false;
+	private static boolean hasChef = false;
+	private static boolean hasBartender = false;
+
+	private static SortedListModel familiars = new SortedListModel( FamiliarData.class );
+	private static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
+	private static LockableListModel accomplishments = new LockableListModel();
+
+	private static List listenerList = new ArrayList();
+
+	private static boolean canInteract = false;
+	private static int ascensions = 0;
+	private static String ascensionSign = "None";
+	private static int ascensionSignType = NONE;
+	private static int consumptionRestriction = AscensionSnapshotTable.NOPATH;
+
+	private static int mindControlLevel;
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
@@ -243,103 +254,104 @@ public class KoLCharacter implements KoLConstants
 	 * and it is the responsibility of other methods to initialize
 	 * the fields with their real values.
 	 *
-	 * @param	username	The name of the character this <code>KoLCharacter</code> represents
+	 * @param	username	The name of the character KoLCharacter <code>KoLCharacter</code> represents
 	 */
 
-	public KoLCharacter( String username )
+	public static final void reset( String username )
 	{
-		this.username = username;
-		this.classname = "";
-		this.classtype = "";
+		if ( client == null )
+			return;
 
-		this.adjustedStats = new int[3];
-		this.totalSubpoints = new int[3];
+		KoLCharacter.username = username;
+		classname = "";
+		classtype = "";
 
-		this.equipment = new LockableListModel();
-		this.outfits = new LockableListModel();
+		adjustedStats = new int[3];
+		totalSubpoints = new int[3];
 
-		this.inventory = new SortedListModel( AdventureResult.class );
-		this.closet = new SortedListModel( AdventureResult.class );
-		this.collection = new SortedListModel( AdventureResult.class );
-
-		this.activeEffects = new LockableListModel();
-
-		this.usableSkills = new LockableListModel();
-		this.availableSkills = new LockableListModel();
-
+		equipment.clear();
 		for ( int i = 0; i < 7; ++i )
 			equipment.add( EquipmentRequest.UNEQUIP );
 
-		this.canInteract = true;
-		this.hasToaster = false;
-		this.hasArches = false;
-		this.hasChef = false;
-		this.hasBartender = false;
+		outfits.clear();
 
-		this.familiars = new SortedListModel( FamiliarData.class );
-		this.familiars.add( FamiliarData.NO_FAMILIAR );
+		inventory.clear();
+		closet.clear();
+		collection.clear();
 
-		this.accomplishments = new LockableListModel();
-		this.listenerList = new ArrayList();
+		activeEffects.clear();
+		usableSkills.clear();
+		availableSkills.clear();
 
-		this.ascensions = 0;
-		this.ascensionSign = "None";
-		this.ascensionSignType = NONE;
+		canInteract = true;
+		hasToaster = false;
+		hasArches = false;
+		hasChef = false;
+		hasBartender = false;
 
-                this.mindControlLevel = 0;
+		familiars.clear();
+		familiars.add( FamiliarData.NO_FAMILIAR );
+
+		accomplishments.clear();
+		listenerList.clear();
+
+		ascensions = 0;
+		ascensionSign = "None";
+		ascensionSignType = NONE;
+
+		mindControlLevel = 0;
 
 		// Initialize the equipment lists inside
 		// of the character data
 
-		equipmentLists = new LockableListModel[8];
 		for ( int i = 0; i < 8; ++i )
-			equipmentLists[i] = new SortedListModel();
+			equipmentLists[i].clear();
 
 		updateEquipmentLists();
 	}
 
 	/**
-	 * Accessor method to retrieve the name of this character.
-	 * @return	The name of this character
+	 * Accessor method to retrieve the name of KoLCharacter character.
+	 * @return	The name of KoLCharacter character
 	 */
 
-	public String getUsername()
+	public static String getUsername()
 	{	return username;
 	}
 
 	/**
-	 * Accessor method to set the user ID associated with this character.
-	 * @param	userID	The user ID associated with this character
+	 * Accessor method to set the user ID associated with KoLCharacter character.
+	 * @param	userID	The user ID associated with KoLCharacter character
 	 */
 
-	public void setUserID( int userID )
-	{	this.userID = userID;
+	public static void setUserID( int userID )
+	{	KoLCharacter.userID = userID;
 	}
 
 	/**
-	 * Accessor method to retrieve the user ID associated with this character.
-	 * @return	The user ID associated with this character
+	 * Accessor method to retrieve the user ID associated with KoLCharacter character.
+	 * @return	The user ID associated with KoLCharacter character
 	 */
 
-	public int getUserID()
+	public static int getUserID()
 	{	return userID;
 	}
 
 	/**
-	 * Accessor method to get the gender associated with this character.
-	 * @param	isMale	The gender of this character
+	 * Accessor method to get the gender associated with KoLCharacter character.
+	 * @param	isMale	The gender of KoLCharacter character
 	 */
 
-	public void setGender( boolean isMale )
-	{	this.isMale = isMale;
+	public static void setGender( boolean isMale )
+	{	KoLCharacter.isMale = isMale;
 	}
 
 	/**
-	 * Accessor method to get the gender associated with this character.
+	 * Accessor method to get the gender associated with KoLCharacter character.
 	 * @return	<code>true</code> if the player is male
 	 */
 
-	public boolean isMale()
+	public static boolean isMale()
 	{	return isMale;
 	}
 
@@ -348,16 +360,16 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The index of the prime stat
 	 */
 
-	public int getPrimeIndex()
+	public static int getPrimeIndex()
 	{	return classtype.startsWith( "Se" ) || classtype.startsWith( "Tu" ) ? 0 : classtype.startsWith( "Sa" ) || classtype.startsWith( "Pa" ) ? 1 : 2;
 	}
 
 	/**
-	 * Accessor method to retrieve the level of this character.
-	 * @return	The level of this character
+	 * Accessor method to retrieve the level of KoLCharacter character.
+	 * @return	The level of KoLCharacter character
 	 */
 
-	public int getLevel()
+	public static int getLevel()
 	{	return (int) Math.sqrt( calculateBasePoints( getTotalPrime() ) - 4 ) + 1;
 	}
 
@@ -367,10 +379,10 @@ public class KoLCharacter implements KoLConstants
 	 * @param	classname	The name of the character's class
 	 */
 
-	public void setClassName( String classname )
+	public static void setClassName( String classname )
 	{
-		this.classname = classname;
-		this.classtype = getClassType();
+		KoLCharacter.classname = classname;
+		KoLCharacter.classtype = getClassType();
 	}
 
 	/**
@@ -378,7 +390,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The name of the character's class
 	 */
 
-	public String getClassName()
+	public static String getClassName()
 	{	return classname;
 	}
 
@@ -387,7 +399,22 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The type of the character's class
 	 */
 
-	public String getClassType()
+	public static String getClassType()
+	{
+		return SEAL_CLUBBER.contains( classname ) ? "Seal Clubber" :
+			TURTLE_TAMER.contains( classname ) ? "Turtle Tamer" :
+			PASTAMANCER.contains( classname ) ? "Pastamancer" :
+			SAUCEROR.contains( classname ) ? "Sauceror" :
+			DISCO_BANDIT.contains( classname ) ? "Disco Bandit" :
+			ACCORDION_THIEF.contains( classname ) ? "Accordion Thief" : "Sauceror";
+	}
+
+	/**
+	 * Accessor method to retrieve the type of the character's class.
+	 * @return	The type of the character's class
+	 */
+
+	public static String getClassType( String classname )
 	{
 		return SEAL_CLUBBER.contains( classname ) ? "Seal Clubber" :
 			TURTLE_TAMER.contains( classname ) ? "Turtle Tamer" :
@@ -404,11 +431,11 @@ public class KoLCharacter implements KoLConstants
 	 * @param	baseMaxHP	The base value for the character's maximum HP
 	 */
 
-	public void setHP( int currentHP, int maximumHP, int baseMaxHP )
+	public static void setHP( int currentHP, int maximumHP, int baseMaxHP )
 	{
-		this.currentHP = currentHP < 0 ? 0 :currentHP > maximumHP ? maximumHP : currentHP;
-		this.maximumHP = maximumHP;
-		this.baseMaxHP = baseMaxHP;
+		KoLCharacter.currentHP = currentHP < 0 ? 0 :currentHP > maximumHP ? maximumHP : currentHP;
+		KoLCharacter.maximumHP = maximumHP;
+		KoLCharacter.baseMaxHP = baseMaxHP;
 
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
@@ -420,7 +447,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's current HP
 	 */
 
-	public int getCurrentHP()
+	public static int getCurrentHP()
 	{	return currentHP;
 	}
 
@@ -429,7 +456,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's maximum HP
 	 */
 
-	public int getMaximumHP()
+	public static int getMaximumHP()
 	{	return maximumHP;
 	}
 
@@ -438,7 +465,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The base value for the character's maximum HP
 	 */
 
-	public int getBaseMaxHP()
+	public static int getBaseMaxHP()
 	{	return baseMaxHP;
 	}
 
@@ -449,11 +476,11 @@ public class KoLCharacter implements KoLConstants
 	 * @param	baseMaxMP	The base value for the character's maximum MP
 	 */
 
-	public void setMP( int currentMP, int maximumMP, int baseMaxMP )
+	public static void setMP( int currentMP, int maximumMP, int baseMaxMP )
 	{
-		this.currentMP = currentMP < 0 ? 0 : currentMP > maximumMP ? maximumMP : currentMP;
-		this.maximumMP = maximumMP;
-		this.baseMaxMP = baseMaxMP;
+		KoLCharacter.currentMP = currentMP < 0 ? 0 : currentMP > maximumMP ? maximumMP : currentMP;
+		KoLCharacter.maximumMP = maximumMP;
+		KoLCharacter.baseMaxMP = baseMaxMP;
 
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
@@ -465,7 +492,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's current MP
 	 */
 
-	public int getCurrentMP()
+	public static int getCurrentMP()
 	{	return currentMP;
 	}
 
@@ -474,7 +501,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's maximum MP
 	 */
 
-	public int getMaximumMP()
+	public static int getMaximumMP()
 	{	return maximumMP;
 	}
 
@@ -483,7 +510,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The base value for the character's maximum MP
 	 */
 
-	public int getBaseMaxMP()
+	public static int getBaseMaxMP()
 	{	return baseMaxMP;
 	}
 
@@ -492,9 +519,9 @@ public class KoLCharacter implements KoLConstants
 	 * @param	closetMeat	The amount of meat in the character's closet.
 	 */
 
-	public void setClosetMeat( int closetMeat )
+	public static void setClosetMeat( int closetMeat )
 	{
-		this.closetMeat = closetMeat;
+		KoLCharacter.closetMeat = closetMeat;
 
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
@@ -506,7 +533,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The amount of meat in the character's closet.
 	 */
 
-	public int getClosetMeat()
+	public static int getClosetMeat()
 	{	return closetMeat;
 	}
 
@@ -517,9 +544,9 @@ public class KoLCharacter implements KoLConstants
 	 * @param	availableMeat	The character's available meat for spending
 	 */
 
-	public void setAvailableMeat( int availableMeat )
+	public static void setAvailableMeat( int availableMeat )
 	{
-		this.availableMeat = availableMeat;
+		KoLCharacter.availableMeat = availableMeat;
 
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
@@ -533,14 +560,14 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's available meat for spending
 	 */
 
-	public int getAvailableMeat()
+	public static int getAvailableMeat()
 	{	return availableMeat;
 	}
 
 	/**
 	 * Sets the character's current stat values.  Each parameter in the list comes in
 	 * pairs: the adjusted value (based on equipment and spell effects) and the total
-	 * number of subpoints acquired through adventuring for that statistic.  This is
+	 * number of subpoints acquired through adventuring for that statistic.  KoLCharacter is
 	 * preferred over the character's current base and/or distance from base as it
 	 * allows for more accurate reporting of statistic gains and losses, as statistic
 	 * losses are not reported by KoL.
@@ -553,7 +580,7 @@ public class KoLCharacter implements KoLConstants
 	 * @param	totalMoxie	The total number of moxie subpoints acquired thus far
 	 */
 
-	public void setStatPoints( int adjustedMuscle, int totalMuscle,
+	public static void setStatPoints( int adjustedMuscle, int totalMuscle,
 		int adjustedMysticality, int totalMysticality, int adjustedMoxie, int totalMoxie )
 	{
 		adjustedStats[0] = adjustedMuscle;
@@ -600,7 +627,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The total subpoints to the current level
 	 */
 
-	public int calculateLastLevel()
+	public static int calculateLastLevel()
 	{
 		int level = getLevel() - 1;
 		int basePointsNeeded = level * level + 4;
@@ -612,7 +639,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The total subpoints to the next level
 	 */
 
-	public int calculateNextLevel()
+	public static int calculateNextLevel()
 	{
 		int level = getLevel();
 		int basePointsNeeded = level * level + 4;
@@ -624,7 +651,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The total subpoints in the prime stat
 	 */
 
-	public int getTotalPrime()
+	public static int getTotalPrime()
 	{	return totalSubpoints[ getPrimeIndex() ];
 	}
 
@@ -644,7 +671,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's base value for muscle
 	 */
 
-	public int getBaseMuscle()
+	public static int getBaseMuscle()
 	{	return calculateBasePoints( totalSubpoints[0] );
 	}
 
@@ -655,7 +682,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The total muscle subpoints so far
 	 */
 
-	public int getTotalMuscle()
+	public static int getTotalMuscle()
 	{	return totalSubpoints[0];
 	}
 
@@ -664,7 +691,7 @@ public class KoLCharacter implements KoLConstants
 	 * before the character gains another full point of muscle.
 	 */
 
-	public int getMuscleTNP()
+	public static int getMuscleTNP()
 	{	return calculateTillNextPoint( totalSubpoints[0] );
 	}
 
@@ -673,7 +700,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's adjusted value for muscle
 	 */
 
-	public int getAdjustedMuscle()
+	public static int getAdjustedMuscle()
 	{	return adjustedStats[0];
 	}
 
@@ -682,7 +709,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's base value for muscle
 	 */
 
-	public int getBaseMysticality()
+	public static int getBaseMysticality()
 	{	return calculateBasePoints( totalSubpoints[1] );
 	}
 
@@ -693,7 +720,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The total mysticality subpoints so far
 	 */
 
-	public int getTotalMysticality()
+	public static int getTotalMysticality()
 	{	return totalSubpoints[1];
 	}
 
@@ -702,7 +729,7 @@ public class KoLCharacter implements KoLConstants
 	 * before the character gains another full point of mysticality.
 	 */
 
-	public int getMysticalityTNP()
+	public static int getMysticalityTNP()
 	{	return calculateTillNextPoint( totalSubpoints[1] );
 	}
 
@@ -711,7 +738,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's adjusted value for mysticality
 	 */
 
-	public int getAdjustedMysticality()
+	public static int getAdjustedMysticality()
 	{	return adjustedStats[1];
 	}
 
@@ -720,7 +747,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's base value for moxie
 	 */
 
-	public int getBaseMoxie()
+	public static int getBaseMoxie()
 	{	return calculateBasePoints( totalSubpoints[2] );
 	}
 
@@ -731,7 +758,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The total moxie subpoints so far
 	 */
 
-	public int getTotalMoxie()
+	public static int getTotalMoxie()
 	{	return totalSubpoints[2];
 	}
 
@@ -740,7 +767,7 @@ public class KoLCharacter implements KoLConstants
 	 * before the character gains another full point of moxie.
 	 */
 
-	public int getMoxieTNP()
+	public static int getMoxieTNP()
 	{	return calculateTillNextPoint( totalSubpoints[2] );
 	}
 
@@ -749,7 +776,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's adjusted value for moxie
 	 */
 
-	public int getAdjustedMoxie()
+	public static int getAdjustedMoxie()
 	{	return adjustedStats[2];
 	}
 
@@ -760,9 +787,9 @@ public class KoLCharacter implements KoLConstants
 	 * @param	inebriety	The character's current inebriety level
 	 */
 
-	public void setInebriety( int inebriety )
+	public static void setInebriety( int inebriety )
 	{
-		this.inebriety = inebriety;
+		KoLCharacter.inebriety = inebriety;
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
 			((KoLCharacterListener)listenerIterator.next()).inebrietyChanged();
@@ -775,20 +802,20 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The character's current inebriety level
 	 */
 
-	public int getInebriety()
+	public static int getInebriety()
 	{	return inebriety;
 	}
 
 	/**
 	 * Accessor method to set the number of adventures the character has left to
-	 * spend in this session.
+	 * spend in KoLCharacter session.
 	 *
 	 * @param	adventuresLeft	The number of adventures the character has left
 	 */
 
-	public void setAdventuresLeft( int adventuresLeft )
+	public static void setAdventuresLeft( int adventuresLeft )
 	{
-		this.adventuresLeft = adventuresLeft;
+		KoLCharacter.adventuresLeft = adventuresLeft;
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
 			((KoLCharacterListener)listenerIterator.next()).adventuresLeftChanged();
@@ -796,26 +823,26 @@ public class KoLCharacter implements KoLConstants
 
 	/**
 	 * Accessor method to retrieve the number of adventures the character has left
-	 * to spend in this session.
+	 * to spend in KoLCharacter session.
 	 *
 	 * @return	The number of adventures the character has left
 	 */
 
-	public int getAdventuresLeft()
+	public static int getAdventuresLeft()
 	{	return adventuresLeft;
 	}
 
 	/**
 	 * Accessor method to set the total number of turns the character has used
-	 * since creation.  This method is only interesting from an averages point of
+	 * since creation.  KoLCharacter method is only interesting from an averages point of
 	 * view, but sometimes, it's interesting to know.
 	 *
 	 * @param	totalTurnsUsed	The total number of turns used since creation
 	 */
 
-	public void setTotalTurnsUsed( int totalTurnsUsed )
+	public static void setTotalTurnsUsed( int totalTurnsUsed )
 	{
-		this.totalTurnsUsed = totalTurnsUsed;
+		KoLCharacter.totalTurnsUsed = totalTurnsUsed;
 		Iterator listenerIterator = listenerList.iterator();
 		while ( listenerIterator.hasNext() )
 			((KoLCharacterListener)listenerIterator.next()).totalTurnsChanged();
@@ -823,19 +850,19 @@ public class KoLCharacter implements KoLConstants
 
 	/**
 	 * Accessor method to retrieve the total number of turns the character has used
-	 * since creation.  This method is only interesting from an averages point of
+	 * since creation.  KoLCharacter method is only interesting from an averages point of
 	 * view, but sometimes, it's interesting to know.
 	 *
 	 * @return	The total number of turns used since creation
 	 */
 
-	public int getTotalTurnsUsed()
+	public static int getTotalTurnsUsed()
 	{	return totalTurnsUsed;
 	}
 
 	/**
 	 * Accessor method to set the equipment the character is currently using.
-	 * This does not take into account the power of the item or anything of
+	 * KoLCharacter does not take into account the power of the item or anything of
 	 * that nature; only the item's name is stored.  Note that if no item is
 	 * equipped, the value should be <code>none</code>, not <code>null</code>
 	 * or the empty string.
@@ -844,31 +871,31 @@ public class KoLCharacter implements KoLConstants
 	 * @param	outfits	A listing of available outfits
 	 */
 
-	public void setEquipment( String [] equipment, List outfits )
+	public static void setEquipment( String [] equipment, List outfits )
 	{
-		for ( int i = 0; i < this.equipment.size(); ++i )
+		for ( int i = 0; i < KoLCharacter.equipment.size(); ++i )
 		{
 			if ( i == FAMILIAR )
 				continue;
 
 			if ( equipment[i] == null || equipment[i].equals( "none" ) || equipment[i].equals( EquipmentRequest.UNEQUIP ) )
-				this.equipment.set( i, EquipmentRequest.UNEQUIP );
+				KoLCharacter.equipment.set( i, EquipmentRequest.UNEQUIP );
 			else if ( TradeableItemDatabase.getConsumptionType( equipment[i] ) == ConsumeItemRequest.EQUIP_ACCESSORY )
-				this.equipment.set( i, equipment[i].toLowerCase() );
+				KoLCharacter.equipment.set( i, equipment[i].toLowerCase() );
 			else
-				this.equipment.set( i, equipment[i].toLowerCase() + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
+				KoLCharacter.equipment.set( i, equipment[i].toLowerCase() + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
 		}
 
 		if ( equipment.length > FAMILIAR && currentFamiliar != null )
 			currentFamiliar.setItem( equipment[FAMILIAR].toLowerCase() );
 
 		if ( !outfits.isEmpty() )
-			this.outfits.clear();
+			KoLCharacter.outfits.clear();
 
-		if ( this.outfits.isEmpty() )
-			this.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
+		if ( KoLCharacter.outfits.isEmpty() )
+			KoLCharacter.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
 
-		this.outfits.addAll( outfits );
+		KoLCharacter.outfits.addAll( outfits );
 		FamiliarData.updateWeightModifier();
 		ClassSkillsDatabase.updateManaModifier();
 	}
@@ -878,7 +905,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The name of the item equipped on the character's familiar, <code>none</code> if no such item exists
 	 */
 
-	public String getFamiliarItem()
+	public static String getFamiliarItem()
 	{	return currentFamiliar == null ? EquipmentRequest.UNEQUIP : currentFamiliar.getItem();
 	}
 
@@ -888,7 +915,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The name of the equipment, <code>none</code> if no such item exists
 	 */
 
-	public String getEquipment( int type )
+	public static String getEquipment( int type )
 	{
 		if ( type >= HAT && type < FAMILIAR )
 			return (String) equipment.get( type );
@@ -901,14 +928,14 @@ public class KoLCharacter implements KoLConstants
 
 	/**
 	 * Accessor method to retrieve a list of all available items which can be equipped
-	 * by familiars.  Note this lists items which the current familiar cannot equip.
+	 * by familiars.  Note KoLCharacter lists items which the current familiar cannot equip.
 	 */
 
-	public LockableListModel [] getEquipmentLists()
+	public static LockableListModel [] getEquipmentLists()
 	{	return equipmentLists;
 	}
 
-	public void updateEquipmentLists()
+	public static void updateEquipmentLists()
 	{
 		updateEquipmentList( equipmentLists[HAT], ConsumeItemRequest.EQUIP_HAT, getEquipment( HAT ) );
 		updateEquipmentList( equipmentLists[WEAPON], ConsumeItemRequest.EQUIP_WEAPON, getEquipment( WEAPON ) );
@@ -920,7 +947,7 @@ public class KoLCharacter implements KoLConstants
 		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getEquipment( FAMILIAR ) );
 	}
 
-	public void updateEquipmentList( LockableListModel currentList, int currentFilter, String equippedItem )
+	public static void updateEquipmentList( LockableListModel currentList, int currentFilter, String equippedItem )
 	{
 		currentList.setSelectedItem( null );
 		currentList.clear();
@@ -928,7 +955,7 @@ public class KoLCharacter implements KoLConstants
 		currentList.setSelectedItem( equippedItem );
 	}
 
-	private List getFilteredItems( int filterID, String equippedItem )
+	private static List getFilteredItems( int filterID, String equippedItem )
 	{
 		String currentItem;
 		List items = new ArrayList();
@@ -995,53 +1022,53 @@ public class KoLCharacter implements KoLConstants
 	}
 
 	/**
-	 * Accessor method to retrieve a list of the outfits available to this character, based
-	 * on the last time the equipment screen was requested.  Note that this list may be outdated
+	 * Accessor method to retrieve a list of the outfits available to KoLCharacter character, based
+	 * on the last time the equipment screen was requested.  Note that KoLCharacter list may be outdated
 	 * or outright wrong because of changes to the character's status.
 	 *
 	 * @return	A <code>LockableListModel</code> of the available outfits
 	 */
 
-	public LockableListModel getOutfits()
+	public static LockableListModel getOutfits()
 	{	return outfits;
 	}
 
 	/**
 	 * Accessor method to retrieve a list of the items contained within the character's inventory.
-	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
+	 * Note that each of the elements within KoLCharacter list is an <code>AdventureResult</code> object
 	 * and that any changes to the internal character inventory will be reflected in the returned
 	 * <code>SortedListModel</code>.
 	 *
 	 * @return	A <code>SortedListModel</code> of the items in the character's inventory
 	 */
 
-	public SortedListModel getInventory()
+	public static SortedListModel getInventory()
 	{	return inventory;
 	}
 
 	/**
 	 * Accessor method to retrieve a list of the items contained within the character's closet.
-	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
+	 * Note that each of the elements within KoLCharacter list is an <code>AdventureResult</code> object
 	 * and that any changes to the internal character closet will be reflected in the returned
 	 * <code>LockableListModel</code>.
 	 *
 	 * @return	A <code>SortedListModel</code> of the items in the character's closet
 	 */
 
-	public SortedListModel getCloset()
+	public static SortedListModel getCloset()
 	{	return closet;
 	}
 
 	/**
 	 * Accessor method to retrieve a list of the items contained within the character's collection.
-	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
+	 * Note that each of the elements within KoLCharacter list is an <code>AdventureResult</code> object
 	 * and that any changes to the internal character collection will be reflected in the returned
 	 * <code>LockableListModel</code>.
 	 *
 	 * @return	A <code>SortedListModel</code> of the items in the character's collection
 	 */
 
-	public SortedListModel getCollection()
+	public static SortedListModel getCollection()
 	{	return collection;
 	}
 
@@ -1050,7 +1077,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	<code>true</code> if the character has a toaster
 	 */
 
-	public boolean hasToaster()
+	public static boolean hasToaster()
 	{	return hasToaster;
 	}
 
@@ -1059,8 +1086,8 @@ public class KoLCharacter implements KoLConstants
 	 * @param	hasToaster	Whether or not the character currently has a toaster
 	 */
 
-	public void setToaster( boolean hasToaster )
-	{	this.hasToaster = hasToaster;
+	public static void setToaster( boolean hasToaster )
+	{	KoLCharacter.hasToaster = hasToaster;
 	}
 
 	/**
@@ -1068,7 +1095,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	<code>true</code> if the character has golden arches
 	 */
 
-	public boolean hasArches()
+	public static boolean hasArches()
 	{	return hasArches;
 	}
 
@@ -1077,8 +1104,8 @@ public class KoLCharacter implements KoLConstants
 	 * @param	hasArches	Whether or not the character currently has golden arches
 	 */
 
-	public void setArches( boolean hasArches )
-	{	this.hasArches = hasArches;
+	public static void setArches( boolean hasArches )
+	{	KoLCharacter.hasArches = hasArches;
 	}
 
 	/**
@@ -1086,7 +1113,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	<code>true</code> if the character has a bartender-in-the-box
 	 */
 
-	public boolean hasBartender()
+	public static boolean hasBartender()
 	{	return hasBartender;
 	}
 
@@ -1095,8 +1122,8 @@ public class KoLCharacter implements KoLConstants
 	 * @param	hasBartender	Whether or not the character currently has a bartender
 	 */
 
-	public void setBartender( boolean hasBartender )
-	{	this.hasBartender = hasBartender;
+	public static void setBartender( boolean hasBartender )
+	{	KoLCharacter.hasBartender = hasBartender;
 	}
 
 	/**
@@ -1104,7 +1131,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	<code>true</code> if the character has a chef-in-the-box
 	 */
 
-	public boolean hasChef()
+	public static boolean hasChef()
 	{	return hasChef;
 	}
 
@@ -1113,8 +1140,8 @@ public class KoLCharacter implements KoLConstants
 	 * @param	hasChef	Whether or not the character currently has a chef
 	 */
 
-	public void setChef( boolean hasChef )
-	{	this.hasChef = hasChef;
+	public static void setChef( boolean hasChef )
+	{	KoLCharacter.hasChef = hasChef;
 	}
 
 	/**
@@ -1122,7 +1149,7 @@ public class KoLCharacter implements KoLConstants
 	 * with other players (Ronin or Hardcore players cannot).
 	 */
 
-	public boolean canInteract()
+	public static boolean canInteract()
 	{	return canInteract;
 	}
 
@@ -1131,8 +1158,8 @@ public class KoLCharacter implements KoLConstants
 	 * with other players (Ronin or Hardcore players cannot).
 	 */
 
-	public void setInteraction( boolean canInteract )
-	{	this.canInteract = canInteract;
+	public static void setInteraction( boolean canInteract )
+	{	KoLCharacter.canInteract = canInteract;
 	}
 
 	/**
@@ -1140,7 +1167,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	String
 	 */
 
-	public int getAscensions()
+	public static int getAscensions()
 	{	return ascensions;
 	}
 
@@ -1149,7 +1176,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	String
 	 */
 
-	public String getSign()
+	public static String getSign()
 	{	return ascensionSign;
 	}
 
@@ -1158,7 +1185,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	int
 	 */
 
-	public int getSignStat()
+	public static int getSignStat()
 	{	return ascensionSignType;
 	}
 
@@ -1167,8 +1194,8 @@ public class KoLCharacter implements KoLConstants
 	 * @param	ascensions	the new ascension count
 	 */
 
-	public void setAscensions( int ascensions )
-	{	this.ascensions = ascensions;
+	public static void setAscensions( int ascensions )
+	{	KoLCharacter.ascensions = ascensions;
 	}
 
 	/**
@@ -1176,12 +1203,12 @@ public class KoLCharacter implements KoLConstants
 	 * @param	ascensionSign	the new sign
 	 */
 
-	public void setSign( String ascensionSign )
+	public static void setSign( String ascensionSign )
 	{
 		if ( ascensionSign.startsWith("The ") )
 		     ascensionSign = ascensionSign.substring(4);
 
-		this.ascensionSign = ascensionSign;
+		KoLCharacter.ascensionSign = ascensionSign;
 
 		if (ascensionSign.equals("Wallaby") || ascensionSign.equals("Mongoose") || ascensionSign.equals("Vole"))
 			ascensionSignType = MUSCLE;
@@ -1193,12 +1220,12 @@ public class KoLCharacter implements KoLConstants
 			ascensionSignType = NONE;
 	}
 
-	public int getConsumptionRestriction()
+	public static int getConsumptionRestriction()
 	{	return consumptionRestriction;
 	}
 
-	public void setConsumptionRestriction( int restriction )
-	{	this.consumptionRestriction = consumptionRestriction;
+	public static void setConsumptionRestriction( int restriction )
+	{	KoLCharacter.consumptionRestriction = consumptionRestriction;
 	}
 
 	/**
@@ -1206,7 +1233,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	String
 	 */
 
-	public int getMindControlLevel()
+	public static int getMindControlLevel()
 	{	return mindControlLevel;
 	}
 
@@ -1215,16 +1242,16 @@ public class KoLCharacter implements KoLConstants
 	 * @param	level	the new level
 	 */
 
-	public void setMindControlLevel( int level )
+	public static void setMindControlLevel( int level )
 	{
-		this.mindControlLevel = level;
+		KoLCharacter.mindControlLevel = level;
 	}
 
 	/**
 	 * Accessor method which indicates whether the character is in a
 	 * Muscle sign
 	 *
-	 * KoLmafia could/should use this to:
+	 * KoLmafia could/should use KoLCharacter to:
 	 *
 	 * - Allow adventuring in The Bugbear Pens
 	 * - Provide access to npcstore #4: The Degrassi Knoll Bakery
@@ -1236,7 +1263,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	<code>true</code> if the character is in a Muscle sign
 	 */
 
-	public boolean inMuscleSign()
+	public static boolean inMuscleSign()
 	{	return (ascensionSignType == MUSCLE);
 	}
 
@@ -1244,7 +1271,7 @@ public class KoLCharacter implements KoLConstants
 	 * Accessor method which indicates whether the character is in a
 	 * Mysticality sign
 	 *
-	 * KoLmafia could/should use this to:
+	 * KoLmafia could/should use KoLCharacter to:
 	 *
 	 * - Allow adventuring in Outskirts of Camp Logging Camp
 	 * - Allow adventuring in Camp Logging Camp
@@ -1254,7 +1281,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	<code>true</code> if the character is in a Mysticality sign
 	 */
 
-	public boolean inMysticalitySign()
+	public static boolean inMysticalitySign()
 	{	return (ascensionSignType == MYSTICALITY);
 	}
 
@@ -1262,7 +1289,7 @@ public class KoLCharacter implements KoLConstants
 	 * Accessor method which indicates whether the character is in a
 	 * Moxie sign
 	 *
-	 * KoLmafia could/should use this to:
+	 * KoLmafia could/should use KoLCharacter to:
 	 *
 	 * - Allow adventuring in Thugnderdome
 	 * - Provide access to TINKER recipes
@@ -1271,7 +1298,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	<code>true</code> if the character is in a Moxie sign
 	 */
 
-	public boolean inMoxieSign()
+	public static boolean inMoxieSign()
 	{	return (ascensionSignType == MOXIE);
 	}
 
@@ -1279,7 +1306,7 @@ public class KoLCharacter implements KoLConstants
 	 * Accessor method to clear the list of active effects.
 	 */
 
-	public void clearEffects()
+	public static void clearEffects()
 	{	activeEffects.clear();
 	}
 
@@ -1288,7 +1315,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	A list of current effects
 	 */
 
-	public LockableListModel getEffects()
+	public static LockableListModel getEffects()
 	{	return activeEffects;
 	}
 
@@ -1297,15 +1324,15 @@ public class KoLCharacter implements KoLConstants
 	 * @param	availableSkills	The list of the names of available skills
 	 */
 
-	public void setAvailableSkills( List availableSkills )
+	public static void setAvailableSkills( List availableSkills )
 	{
-		this.availableSkills.clear();
-		this.availableSkills.addAll( availableSkills );
+		KoLCharacter.availableSkills.clear();
+		KoLCharacter.availableSkills.addAll( availableSkills );
 
 		int currentSkillID;
 		UseSkillRequest currentSkill;
 
-		this.usableSkills.clear();
+		KoLCharacter.usableSkills.clear();
 		Iterator skills = availableSkills.iterator();
 
 		while ( skills.hasNext() )
@@ -1323,7 +1350,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	A list of the names of available skills
 	 */
 
-	public LockableListModel getAvailableSkills()
+	public static LockableListModel getAvailableSkills()
 	{	return availableSkills;
 	}
 
@@ -1332,7 +1359,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	A list of the names of usable skills
 	 */
 
-	public LockableListModel getUsableSkills()
+	public static LockableListModel getUsableSkills()
 	{	return usableSkills;
 	}
 
@@ -1340,10 +1367,10 @@ public class KoLCharacter implements KoLConstants
 	 * Accessor method to look up whether or not the character can
 	 * summon noodles.
 	 *
-	 * @return	<code>true</code> if noodles can be summoned by this character
+	 * @return	<code>true</code> if noodles can be summoned by KoLCharacter character
 	 */
 
-	public boolean canSummonNoodles()
+	public static boolean canSummonNoodles()
 	{	return hasSkill( "Pastamastery" );
 	}
 
@@ -1351,10 +1378,10 @@ public class KoLCharacter implements KoLConstants
 	 * Accessor method to look up whether or not the character can
 	 * summon reagent.
 	 *
-	 * @return	<code>true</code> if reagent can be summoned by this character
+	 * @return	<code>true</code> if reagent can be summoned by KoLCharacter character
 	 */
 
-	public boolean canSummonReagent()
+	public static boolean canSummonReagent()
 	{	return hasSkill( "Advanced Saucecrafting" );
 	}
 
@@ -1362,10 +1389,10 @@ public class KoLCharacter implements KoLConstants
 	 * Accessor method to look up whether or not the character can
 	 * summon shore-based items.
 	 *
-	 * @return	<code>true</code> if shore-based items can be summoned by this character
+	 * @return	<code>true</code> if shore-based items can be summoned by KoLCharacter character
 	 */
 
-	public boolean canSummonShore()
+	public static boolean canSummonShore()
 	{	return hasSkill( "Advanced Cocktailcrafting" );
 	}
 
@@ -1373,10 +1400,10 @@ public class KoLCharacter implements KoLConstants
 	 * Accessor method to look up whether or not the character can
 	 * smith weapons.
 	 *
-	 * @return	<code>true</code> if this character can smith advanced weapons
+	 * @return	<code>true</code> if KoLCharacter character can smith advanced weapons
 	 */
 
-	public boolean canSmithWeapons()
+	public static boolean canSmithWeapons()
 	{	return hasSkill( "Super-Advanced Meatsmithing" );
 	}
 
@@ -1384,10 +1411,10 @@ public class KoLCharacter implements KoLConstants
 	 * Accessor method to look up whether or not the character can
 	 * smith armor.
 	 *
-	 * @return	<code>true</code> if this character can smith advanced armor
+	 * @return	<code>true</code> if KoLCharacter character can smith advanced armor
 	 */
 
-	public boolean canSmithArmor()
+	public static boolean canSmithArmor()
 	{	return hasSkill( "Armorcraftiness" );
 	}
 
@@ -1395,10 +1422,10 @@ public class KoLCharacter implements KoLConstants
 	 * Accessor method to look up whether or not the character has
 	 * Amphibian Sympathy
 	 *
-	 * @return	<code>true</code> if this character has Amphibian Sympathy
+	 * @return	<code>true</code> if KoLCharacter character has Amphibian Sympathy
 	 */
 
-	public boolean hasAmphibianSympathy()
+	public static boolean hasAmphibianSympathy()
 	{	return hasSkill( "Amphibian Sympathy" );
 	}
 
@@ -1407,7 +1434,7 @@ public class KoLCharacter implements KoLConstants
 	 * has a skill of the given name.
 	 */
 
-	public boolean hasSkill( String skillName )
+	public static boolean hasSkill( String skillName )
 	{
 		for ( int i = 0; i < availableSkills.size(); ++i )
 			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( skillName ) )
@@ -1420,7 +1447,7 @@ public class KoLCharacter implements KoLConstants
 	 * @param	familiar
 	 */
 
-	public void setFamiliar( FamiliarData familiar )
+	public static void setFamiliar( FamiliarData familiar )
 	{
 		currentFamiliar = addFamiliar( familiar );
 		familiars.setSelectedItem( currentFamiliar );
@@ -1431,7 +1458,7 @@ public class KoLCharacter implements KoLConstants
 	 * by one.
 	 */
 
-	public void incrementFamilarWeight()
+	public static void incrementFamilarWeight()
 	{
 		if ( currentFamiliar != null )
 			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
@@ -1442,7 +1469,7 @@ public class KoLCharacter implements KoLConstants
 	 * @param	familiar	The ID of the familiar to be added
 	 */
 
-	public FamiliarData addFamiliar( FamiliarData familiar )
+	public static FamiliarData addFamiliar( FamiliarData familiar )
 	{
 		if ( familiar != null )
 		{
@@ -1460,7 +1487,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The list of familiars available to the character
 	 */
 
-	public LockableListModel getFamiliarList()
+	public static LockableListModel getFamiliarList()
 	{	return familiars;
 	}
 
@@ -1471,7 +1498,7 @@ public class KoLCharacter implements KoLConstants
 	 * @return	The string indicating the TNP advancement
 	 */
 
-	public String getAdvancement()
+	public static String getAdvancement()
 	{
 		int level = getLevel();
 		return df.format( level * level + 4 - calculateBasePoints( getTotalPrime() ) ) + " " + AdventureResult.STAT_NAMES[ getPrimeIndex() ] +
@@ -1480,25 +1507,25 @@ public class KoLCharacter implements KoLConstants
 
 	/**
 	 * Sets the list of accomplishments that the player has
-	 * completed.  This value is provided as a complete
+	 * completed.  KoLCharacter value is provided as a complete
 	 * string array, where each index is a new accomplishment.
 	 *
-	 * @param	accomplishments	The accomplishments of this player
+	 * @param	accomplishments	The accomplishments of KoLCharacter player
 	 */
 
-	public void setAccomplishments( String [] accomplishments )
+	public static void setAccomplishments( String [] accomplishments )
 	{
-		this.accomplishments.clear();
+		KoLCharacter.accomplishments.clear();
 		for ( int i = 0; i < accomplishments.length; ++i )
-			this.accomplishments.add( accomplishments[i] );
+			KoLCharacter.accomplishments.add( accomplishments[i] );
 	}
 
 	/**
 	 * Adds the given accomplishment to the list of accomplishments.
 	 */
 
-	public void addAccomplishment( String accomplishment )
-	{	this.accomplishments.add( accomplishment );
+	public static void addAccomplishment( String accomplishment )
+	{	KoLCharacter.accomplishments.add( accomplishment );
 	}
 
 	/**
@@ -1508,17 +1535,17 @@ public class KoLCharacter implements KoLConstants
 	 * @return	<code>true</code> if the accomplishment exists
 	 */
 
-	public boolean hasAccomplishment( String accomplishment )
+	public static boolean hasAccomplishment( String accomplishment )
 	{	return accomplishments.contains( accomplishment );
 	}
 
 	/**
 	 * Adds a new <code>KoLCharacterListener</code> to the
-	 * list of listeners listening to this <code>KoLCharacter</code>.
+	 * list of listeners listening to KoLCharacter <code>KoLCharacter</code>.
 	 * @param	listener	The listener to be added to the listener list
 	 */
 
-	public void addKoLCharacterListener( KoLCharacterListener listener )
+	public static void addKoLCharacterListener( KoLCharacterListener listener )
 	{
 		if ( listener != null && listener.isStatusListener() && !listenerList.contains( listener ) )
 			listenerList.add( listener );
@@ -1528,7 +1555,7 @@ public class KoLCharacter implements KoLConstants
 	 * Processes a result.
 	 */
 
-	public void processResult( AdventureResult result )
+	public static void processResult( AdventureResult result )
 	{
 		String resultName = result.getName();
 

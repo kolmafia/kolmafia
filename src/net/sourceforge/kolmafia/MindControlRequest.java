@@ -61,8 +61,7 @@ public class MindControlRequest extends KoLRequest
 
 		// This is only available in Mysticality signs
 
-		KoLCharacter data = client.getCharacterData();
-		if ( !data.inMysticalitySign() )
+		if ( !KoLCharacter.inMysticalitySign() )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You can't find the Mind Control device." );
@@ -73,6 +72,6 @@ public class MindControlRequest extends KoLRequest
 		super.run();
 		updateDisplay( ENABLED_STATE, "Mind control device reset." );
 
-		data.setMindControlLevel( level );
+		KoLCharacter.setMindControlLevel( level );
 	}
 }

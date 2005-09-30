@@ -80,7 +80,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected LoginRequest loginRequest;
 
 	protected String password, sessionID, passwordHash;
-	protected KoLCharacter characterData;
 	protected KoLMessenger loathingChat;
 	protected KoLMailManager loathingMail;
 
@@ -219,35 +218,33 @@ public abstract class KoLmafia implements KoLConstants
 
 		this.sessionID = sessionID;
 
-		CharpaneRequest.reset();
-		MushroomPlot.reset();
-		CakeArenaManager.reset();
-
-		this.conditions.clear();
-		this.missingItems.clear();
-
 		if ( !permitContinue )
 		{
 			deinitialize();
 			return;
 		}
 
-		if ( this.characterData == null )
+		if ( KoLCharacter.getUsername().equals( "" ) )
 		{
 			this.pullsRemaining = -1;
-			this.characterData = new KoLCharacter( loginname );
-			FamiliarData.setOwner( this.characterData );
+			FamiliarData.reset();
 
-			this.inventory = characterData.getInventory();
+			CharpaneRequest.reset();
+			MushroomPlot.reset();
+			CakeArenaManager.reset();
+
+			this.conditions.clear();
+			this.missingItems.clear();
+
+			this.inventory = KoLCharacter.getInventory();
 			this.usableItems = new SortedListModel();
 			this.sellableItems = new SortedListModel();
 			this.hunterItems = new SortedListModel();
 			this.storage = new SortedListModel();
-			this.closet = characterData.getCloset();
+			this.closet = KoLCharacter.getCloset();
 			this.recentEffects = new ArrayList();
 
 			this.tally = new SortedListModel();
-
 			resetSessionTally();
 		}
 
@@ -281,7 +278,7 @@ public abstract class KoLmafia implements KoLConstants
 		// case adventures or HP changed.
 
 		(new CharsheetRequest( this )).run();
-		registerPlayer( loginname, String.valueOf( characterData.getUserID() ) );
+		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
 
 		if ( !permitContinue )
 		{
@@ -384,28 +381,28 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		updateDisplay( DISABLED_STATE, "Retrieving breakfast..." );
 
-		if ( characterData.hasToaster() )
+		if ( KoLCharacter.hasToaster() )
 			for ( int i = 0; i < 3 && permitContinue; ++i )
 				(new CampgroundRequest( this, "toast" )).run();
 
 		permitContinue = true;
 
-		if ( characterData.hasArches() )
+		if ( KoLCharacter.hasArches() )
 			(new CampgroundRequest( this, "arches" )).run();
 
 		permitContinue = true;
 
-		if ( characterData.canSummonNoodles() )
+		if ( KoLCharacter.canSummonNoodles() )
 			(new UseSkillRequest( this, "Pastamastery", "", 3 )).run();
 
 		permitContinue = true;
 
-		if ( characterData.canSummonReagent() )
+		if ( KoLCharacter.canSummonReagent() )
 			(new UseSkillRequest( this, "Advanced Saucecrafting", "", 3 )).run();
 
 		permitContinue = true;
 
-		if ( characterData.canSummonShore() )
+		if ( KoLCharacter.canSummonShore() )
 			(new UseSkillRequest( this, "Advanced Cocktailcrafting", "", 3 )).run();
 
 		permitContinue = true;
@@ -459,6 +456,7 @@ public abstract class KoLmafia implements KoLConstants
 		deinitializeLogStream();
 		deinitializeMacroStream();
 		permitContinue = false;
+		KoLCharacter.reset( "" );
 	}
 
 	/**
@@ -469,9 +467,9 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		tally.clear();
 
-		initialStats[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() );
-		initialStats[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() );
-		initialStats[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() );
+		initialStats[0] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() );
+		initialStats[1] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() );
+		initialStats[2] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() );
 
 		fullStatGain[0] = 0;
 		fullStatGain[1] = 0;
@@ -604,8 +602,7 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		if ( characterData != null )
-			characterData.processResult( result );
+		KoLCharacter.processResult( result );
 
 		if ( !shouldTally )
 			return;
@@ -615,9 +612,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() >= 2 )
 		{
-			fullStatGain[0] = KoLCharacter.calculateBasePoints( characterData.getTotalMuscle() ) - initialStats[0];
-			fullStatGain[1] = KoLCharacter.calculateBasePoints( characterData.getTotalMysticality() ) - initialStats[1];
-			fullStatGain[2] = KoLCharacter.calculateBasePoints( characterData.getTotalMoxie() ) - initialStats[2];
+			fullStatGain[0] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() ) - initialStats[0];
+			fullStatGain[1] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() ) - initialStats[1];
+			fullStatGain[2] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() ) - initialStats[2];
 
 			if ( tally.size() > 2 )
 				tally.set( 2, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
@@ -679,21 +676,10 @@ public abstract class KoLmafia implements KoLConstants
 	public void applyRecentEffects()
 	{
 		for ( int j = 0; j < recentEffects.size(); ++j )
-			AdventureResult.addResultToList( characterData.getEffects(), (AdventureResult) recentEffects.get(j) );
+			AdventureResult.addResultToList( KoLCharacter.getEffects(), (AdventureResult) recentEffects.get(j) );
 
 		recentEffects.clear();
 		FamiliarData.updateWeightModifier();
-	}
-
-	/**
-	 * Retrieves the character data for the character associated with the current
-	 * gaming session.
-	 *
-	 * @return	The character data for this character
-	 */
-
-	public KoLCharacter getCharacterData()
-	{	return characterData;
 	}
 
 	/**
@@ -702,7 +688,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public int getUserID()
-	{	return characterData.getUserID();
+	{	return KoLCharacter.getUserID();
 	}
 
 	/**
@@ -760,7 +746,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public String getLoginName()
-	{	return (characterData == null) ? null : characterData.getUsername();
+	{	return KoLCharacter.getUsername();
 	}
 
 	/**
@@ -872,7 +858,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected final void autoRecoverHP()
 	{
-		double autoRecover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) characterData.getMaximumHP();
+		double autoRecover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) KoLCharacter.getMaximumHP();
 		autoRecoverHP( (int) autoRecover );
 	}
 
@@ -884,17 +870,17 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected final void autoRecoverHP( int autoRecover )
 	{
-		if ( characterData.getCurrentHP() <= autoRecover )
+		if ( KoLCharacter.getCurrentHP() <= autoRecover )
 		{
 			try
 			{
 				int currentHP = -1;
 				permitContinue = true;
 
-				while ( permitContinue && characterData.getCurrentHP() <= autoRecover &&
-					characterData.getCurrentHP() < characterData.getMaximumHP() && currentHP != characterData.getCurrentHP() )
+				while ( permitContinue && KoLCharacter.getCurrentHP() <= autoRecover &&
+					KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() && currentHP != KoLCharacter.getCurrentHP() )
 				{
-					currentHP = characterData.getCurrentHP();
+					currentHP = KoLCharacter.getCurrentHP();
 					updateDisplay( DISABLED_STATE, "Executing HP auto-recovery script..." );
 
 					String scriptPath = settings.getProperty( "hpRecoveryScript" ) ;
@@ -914,7 +900,7 @@ public abstract class KoLmafia implements KoLConstants
 					}
 				}
 
-				if ( currentHP == characterData.getCurrentHP() )
+				if ( currentHP == KoLCharacter.getCurrentHP() )
 				{
 					updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore HP." );
 					permitContinue = false;
@@ -974,7 +960,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected final void autoRecoverMP()
 	{
-		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) characterData.getMaximumMP();
+		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) KoLCharacter.getMaximumMP();
 		recoverMP( (int) mpNeeded );
 	}
 
@@ -985,7 +971,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public boolean recoverMP( int mpNeeded )
 	{
-		if ( characterData.getCurrentMP() >= mpNeeded )
+		if ( KoLCharacter.getCurrentMP() >= mpNeeded )
 			return true;
 
 		int previousMP = -1;
@@ -1002,20 +988,20 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				if ( restorer == mpRestoreItemList.BEANBAG || restorer == mpRestoreItemList.HOUSE )
 				{
-					while ( characterData.getAdventuresLeft() > 0 &&
-						characterData.getCurrentMP() < characterData.getMaximumMP() && characterData.getCurrentMP() > previousMP )
+					while ( KoLCharacter.getAdventuresLeft() > 0 &&
+						KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() && KoLCharacter.getCurrentMP() > previousMP )
 					{
-						previousMP = characterData.getCurrentMP();
+						previousMP = KoLCharacter.getCurrentMP();
  						restorer.recoverMP( mpNeeded );
 
- 						if ( characterData.getCurrentMP() >= mpNeeded )
+ 						if ( KoLCharacter.getCurrentMP() >= mpNeeded )
  						{
 							disableMacro = false;
 							permitContinue = true;
  							return true;
 						}
 
-						if ( characterData.getCurrentMP() == previousMP )
+						if ( KoLCharacter.getCurrentMP() == previousMP )
 						{
 							updateDisplay( ERROR_STATE, "Detected no MP change.  Refreshing status to verify..." );
 							(new CharsheetRequest( this )).run();
@@ -1026,19 +1012,19 @@ public abstract class KoLmafia implements KoLConstants
 				{
 					AdventureResult item = new AdventureResult( itemName, 0 );
  					while ( inventory.contains( item ) &&
-						characterData.getCurrentMP() < characterData.getMaximumMP() && characterData.getCurrentMP() > previousMP )
+						KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() && KoLCharacter.getCurrentMP() > previousMP )
  					{
- 						previousMP = characterData.getCurrentMP();
+ 						previousMP = KoLCharacter.getCurrentMP();
  						restorer.recoverMP( mpNeeded );
 
- 						if ( characterData.getCurrentMP() >= mpNeeded )
+ 						if ( KoLCharacter.getCurrentMP() >= mpNeeded )
  						{
 							disableMacro = false;
 							permitContinue = true;
 							return true;
 						}
 
-						if ( characterData.getCurrentMP() == previousMP )
+						if ( KoLCharacter.getCurrentMP() == previousMP )
 						{
 							updateDisplay( ERROR_STATE, "Detected no MP change.  Refreshing status to verify..." );
 							(new CharsheetRequest( this )).run();
@@ -1067,7 +1053,7 @@ public abstract class KoLmafia implements KoLConstants
 		logStream.println( "Processing results..." );
 
 		if ( results.indexOf( "gains a pound!</b>" ) != -1 )
-			characterData.incrementFamilarWeight();
+			KoLCharacter.incrementFamilarWeight();
 
 		String plainTextResult = results.replaceAll( "<.*?>", "\n" );
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
@@ -1172,7 +1158,7 @@ public abstract class KoLmafia implements KoLConstants
 			boolean pulledOver = false;
 			boolean shouldRefreshStatus;
 
-			int currentEffectCount = characterData.getEffects().size();
+			int currentEffectCount = KoLCharacter.getEffects().size();
 			int iterationsRemaining = iterations;
 
 			// If you're currently recording commands, be sure to
@@ -1198,7 +1184,7 @@ public abstract class KoLmafia implements KoLConstants
 				// sure to check to see if you're allowed to continue
 				// after drunkenness.
 
-				if ( characterData.getInebriety() > 19 )
+				if ( KoLCharacter.getInebriety() > 19 )
 				{
 					if ( request instanceof KoLAdventure && !((KoLAdventure)request).getZone().equals( "Camp" ) )
 						permitContinue = confirmDrunkenRequest();
@@ -1285,7 +1271,7 @@ public abstract class KoLmafia implements KoLConstants
 						if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Camp" )) || request instanceof UseSkillRequest )
 							autoRecoverMP();
 
-						if ( request instanceof KoLAdventure && characterData.getInebriety() > 19 && !pulledOver )
+						if ( request instanceof KoLAdventure && KoLCharacter.getInebriety() > 19 && !pulledOver )
 						{
 							permitContinue = confirmDrunkenRequest();
 							pulledOver = true;
@@ -1301,7 +1287,7 @@ public abstract class KoLmafia implements KoLConstants
 
 						if ( permitContinue )
 						{
-							if ( request instanceof KoLAdventure && characterData.getInebriety() > 19 && !pulledOver )
+							if ( request instanceof KoLAdventure && KoLCharacter.getInebriety() > 19 && !pulledOver )
 							{
 								permitContinue = confirmDrunkenRequest();
 								pulledOver = true;
@@ -1312,7 +1298,7 @@ public abstract class KoLmafia implements KoLConstants
 						}
 					}
 
-					shouldRefreshStatus = currentEffectCount != characterData.getEffects().size();
+					shouldRefreshStatus = currentEffectCount != KoLCharacter.getEffects().size();
 
 					// If this is a KoLRequest request, make sure to process
 					// any applicable adventure usage.
@@ -1320,8 +1306,8 @@ public abstract class KoLmafia implements KoLConstants
 					if ( request instanceof KoLRequest )
 						processResult( new AdventureResult( AdventureResult.ADV, 0 - ((KoLRequest)request).getAdventuresUsed() ) );
 
-					shouldRefreshStatus |= currentEffectCount != characterData.getEffects().size();
-					currentEffectCount = characterData.getEffects().size();
+					shouldRefreshStatus |= currentEffectCount != KoLCharacter.getEffects().size();
+					currentEffectCount = KoLCharacter.getEffects().size();
 
 					// If it turns out that you need to refresh the player's
 					// status, go ahead and refresh it.
@@ -1359,14 +1345,14 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void applyTinyHouseEffect()
 	{
-		Object [] effects = characterData.getEffects().toArray();
+		Object [] effects = KoLCharacter.getEffects().toArray();
 		AdventureResult currentEffect;
 
 		for ( int i = effects.length - 1; i >= 0; --i )
 		{
 			currentEffect = (AdventureResult) effects[i];
 			if ( StatusEffectDatabase.isTinyHouseClearable( currentEffect.getName() ) )
-				characterData.getEffects().remove(i);
+				KoLCharacter.getEffects().remove(i);
 		}
 	}
 

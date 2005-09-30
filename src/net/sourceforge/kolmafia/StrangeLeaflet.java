@@ -34,7 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
-public class StrangeLeaflet extends StaticEntity
+public abstract class StrangeLeaflet extends StaticEntity
 {
 	private static final AdventureResult LEAFLET = new AdventureResult( 520, 1 );
 	private static final AdventureResult FROBOZZ = new AdventureResult( 526, 1 );
@@ -90,7 +90,7 @@ public class StrangeLeaflet extends StaticEntity
 		// If the player has never ascended, then they're going
 		// to have to do it all by hand.
 
-		if ( client.getCharacterData().getAscensions() < 1 )
+		if ( KoLCharacter.getAscensions() < 1 )
 		{
 			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
 			client.cancelRequest();
@@ -102,7 +102,7 @@ public class StrangeLeaflet extends StaticEntity
 		// then there is nothing left to do.
 
 		(new CharsheetRequest( client )).run();
-		if ( client.getCharacterData().hasAccomplishment( "You have found everything there is to find in the Strange Leaflet." ) )
+		if ( KoLCharacter.hasAccomplishment( "You have found everything there is to find in the Strange Leaflet." ) )
 		{
 			client.updateDisplay( ERROR_STATE, "You have nothing left to do in the leaflet." );
 			client.cancelRequest();
