@@ -81,8 +81,7 @@ public class MushroomFrame extends KoLFrame
 			{
 				mushroomBuffer.clearBuffer();
 
-				String text = MushroomPlot.html( client );
-				mushroomBuffer.append( text );
+				mushroomBuffer.append( MushroomPlot.getMushroomPlot( client, true ) );
 				mushroomDisplay.setCaretPosition( 0 );
 			}
 		}

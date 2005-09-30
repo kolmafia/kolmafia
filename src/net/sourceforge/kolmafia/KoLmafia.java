@@ -174,8 +174,6 @@ public abstract class KoLmafia implements KoLConstants
 		conditions = new SortedListModel();
 		missingItems = new SortedListModel();
 		commandBuffer = null;
-
-		CharpaneRequest.reset();
 	}
 
 	public boolean isEnabled()
@@ -221,6 +219,9 @@ public abstract class KoLmafia implements KoLConstants
 		// all over the place
 
 		this.sessionID = sessionID;
+
+		CharpaneRequest.reset();
+		MushroomPlot.reset();
 
 		this.conditions.clear();
 		this.missingItems.clear();
@@ -373,9 +374,6 @@ public abstract class KoLmafia implements KoLConstants
 		adventureList.clear();
 		adventureList.addAll( AdventureDatabase.getAsLockableListModel() );
 		this.mpRestoreItemList = new MPRestoreItemList( this );
-
-		// Reset the mushroom plot
-		MushroomPlot.reset( this );
 	}
 
 	/**

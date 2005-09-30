@@ -1793,19 +1793,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	private void showMushroomPlot()
-	{
-		int [] plot = MushroomPlot.getMushroomPlot( scriptRequestor );
-
-		if ( plot != null )
-		{
-			for ( int row = 0; row < 4; ++row )
-			{
-				StringBuffer line = new StringBuffer();
-				for ( int col = 0; col < 4; ++col )
-					line.append( " " + MushroomPlot.squareName( plot[ row * 4 + col ] ) );
-				scriptRequestor.updateDisplay( NOCHANGE, line.toString() );
-			}
-		}
+	{	updateDisplay( NOCHANGE, MushroomPlot.getMushroomPlot( scriptRequestor, false ) );
 	}
 
 	/**
@@ -1816,7 +1804,8 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		String squareString = parameters.split( " " )[0];
 		String sporeString = parameters.substring( squareString.length() ).trim();
-                int spore = TradeableItemDatabase.getItemID( sporeString );
+		int spore = TradeableItemDatabase.getItemID( sporeString );
+
 		try
 		{
 			int square = df.parse( squareString ).intValue();
