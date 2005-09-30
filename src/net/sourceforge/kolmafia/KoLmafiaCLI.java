@@ -1813,6 +1813,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch  ( Exception e )
 		{
+			updateDisplay( ERROR_STATE, squareString + " is not a number." );
 		}
 	}
 
@@ -1822,14 +1823,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void pickMushroom( String parameters )
 	{
-		String squareString = parameters.split( " " )[0];
 		try
 		{
-			int square = df.parse( squareString ).intValue();
+			int square = df.parse( parameters ).intValue();
 			MushroomPlot.pickMushroom( scriptRequestor, square );
 		}
 		catch  ( Exception e )
 		{
+			updateDisplay( ERROR_STATE, parameters + " is not a number." );
 		}
 	}
 
