@@ -576,7 +576,7 @@ public abstract class KoLCharacter extends StaticEntity
 	/**
 	 * Sets the character's current stat values.  Each parameter in the list comes in
 	 * pairs: the adjusted value (based on equipment and spell effects) and the total
-	 * number of subpoints acquired through adventuring for that statistic.  KoLCharacter is
+	 * number of subpoints acquired through adventuring for that statistic.  This is
 	 * preferred over the character's current base and/or distance from base as it
 	 * allows for more accurate reporting of statistic gains and losses, as statistic
 	 * losses are not reported by KoL.
@@ -817,7 +817,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to set the number of adventures the character has left to
-	 * spend in KoLCharacter session.
+	 * spend in this session.
 	 *
 	 * @param	adventuresLeft	The number of adventures the character has left
 	 */
@@ -832,7 +832,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to retrieve the number of adventures the character has left
-	 * to spend in KoLCharacter session.
+	 * to spend in this session.
 	 *
 	 * @return	The number of adventures the character has left
 	 */
@@ -843,7 +843,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to set the total number of turns the character has used
-	 * since creation.  KoLCharacter method is only interesting from an averages point of
+	 * since creation.  This method is only interesting from an averages point of
 	 * view, but sometimes, it's interesting to know.
 	 *
 	 * @param	totalTurnsUsed	The total number of turns used since creation
@@ -859,7 +859,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to retrieve the total number of turns the character has used
-	 * since creation.  KoLCharacter method is only interesting from an averages point of
+	 * since creation.  This method is only interesting from an averages point of
 	 * view, but sometimes, it's interesting to know.
 	 *
 	 * @return	The total number of turns used since creation
@@ -871,7 +871,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to set the equipment the character is currently using.
-	 * KoLCharacter does not take into account the power of the item or anything of
+	 * This does not take into account the power of the item or anything of
 	 * that nature; only the item's name is stored.  Note that if no item is
 	 * equipped, the value should be <code>none</code>, not <code>null</code>
 	 * or the empty string.
@@ -937,7 +937,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to retrieve a list of all available items which can be equipped
-	 * by familiars.  Note KoLCharacter lists items which the current familiar cannot equip.
+	 * by familiars.  Note this lists items which the current familiar cannot equip.
 	 */
 
 	public static LockableListModel [] getEquipmentLists()
@@ -1034,7 +1034,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to retrieve a list of the outfits available to this character, based
-	 * on the last time the equipment screen was requested.  Note that KoLCharacter list may be outdated
+	 * on the last time the equipment screen was requested.  Note that this list may be outdated
 	 * or outright wrong because of changes to the character's status.
 	 *
 	 * @return	A <code>LockableListModel</code> of the available outfits
@@ -1046,7 +1046,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to retrieve a list of the items contained within the character's inventory.
-	 * Note that each of the elements within KoLCharacter list is an <code>AdventureResult</code> object
+	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
 	 * and that any changes to the internal character inventory will be reflected in the returned
 	 * <code>SortedListModel</code>.
 	 *
@@ -1059,7 +1059,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to retrieve a list of the items contained within the character's closet.
-	 * Note that each of the elements within KoLCharacter list is an <code>AdventureResult</code> object
+	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
 	 * and that any changes to the internal character closet will be reflected in the returned
 	 * <code>LockableListModel</code>.
 	 *
@@ -1072,7 +1072,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to retrieve a list of the items contained within the character's collection.
-	 * Note that each of the elements within KoLCharacter list is an <code>AdventureResult</code> object
+	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
 	 * and that any changes to the internal character collection will be reflected in the returned
 	 * <code>LockableListModel</code>.
 	 *
@@ -1262,7 +1262,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method which indicates whether the character is in a
 	 * Muscle sign
 	 *
-	 * KoLmafia could/should use KoLCharacter to:
+	 * KoLmafia could/should use this to:
 	 *
 	 * - Allow adventuring in The Bugbear Pens
 	 * - Provide access to npcstore #4: The Degrassi Knoll Bakery
@@ -1282,7 +1282,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method which indicates whether the character is in a
 	 * Mysticality sign
 	 *
-	 * KoLmafia could/should use KoLCharacter to:
+	 * KoLmafia could/should use this to:
 	 *
 	 * - Allow adventuring in Outskirts of Camp Logging Camp
 	 * - Allow adventuring in Camp Logging Camp
@@ -1300,7 +1300,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method which indicates whether the character is in a
 	 * Moxie sign
 	 *
-	 * KoLmafia could/should use KoLCharacter to:
+	 * KoLmafia could/should use this to:
 	 *
 	 * - Allow adventuring in Thugnderdome
 	 * - Provide access to TINKER recipes
@@ -1518,10 +1518,10 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Sets the list of accomplishments that the player has
-	 * completed.  KoLCharacter value is provided as a complete
+	 * completed.  This value is provided as a complete
 	 * string array, where each index is a new accomplishment.
 	 *
-	 * @param	accomplishments	The accomplishments of KoLCharacter player
+	 * @param	accomplishments	The accomplishments of this player
 	 */
 
 	public static void setAccomplishments( String [] accomplishments )
@@ -1552,7 +1552,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Adds a new <code>KoLCharacterListener</code> to the
-	 * list of listeners listening to KoLCharacter <code>KoLCharacter</code>.
+	 * list of listeners listening to this <code>KoLCharacter</code>.
 	 * @param	listener	The listener to be added to the listener list
 	 */
 
