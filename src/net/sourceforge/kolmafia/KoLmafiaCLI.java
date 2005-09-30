@@ -1790,7 +1790,12 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	private void showMushroomPlot()
-	{	updateDisplay( NOCHANGE, MushroomPlot.getMushroomPlot( false ) );
+	{
+		updateDisplay( NOCHANGE, "Current:" );
+		updateDisplay( NOCHANGE, MushroomPlot.getMushroomPlot( false ) );
+		updateDisplay( NOCHANGE, "" );
+		updateDisplay( NOCHANGE, "Forecast:" );
+		updateDisplay( NOCHANGE, MushroomPlot.getForecastedPlot( false ) );
 	}
 
 	/**
