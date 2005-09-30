@@ -120,17 +120,11 @@ public class MushroomPlot implements KoLConstants
 
 	public static String getMushroomPlot( KoLmafia client, boolean isHypertext )
 	{
-		// First, try to initialize the mushroom plot.  In
-		// this way, you ensure that you're getting a real
-		// look at the mushroom plot.
-
-		initialize( client );
-
 		// If for some reason, the plot was invalid, then
 		// the flag would have been set on the client.  In
 		// this case, return a null string.
 
-		if ( !client.permitsContinue() )
+		if ( !initialize( client ) )
 			return "Your plot is unavailable.";
 
 		// Otherwise, you need to construct the string form
@@ -139,9 +133,9 @@ public class MushroomPlot implements KoLConstants
 
 		StringBuffer buffer = new StringBuffer();
 
-		if ( isHypertext )
-			buffer.append( "<center><table cellspacing=4 cellpadding=4>" );
+		buffer.append( isHypertext ? "<center><table cellspacing=4 cellpadding=4>" : LINE_BREAK );
 
+		int squareIndex = 0;
 		for ( int row = 0; row < 4; ++row )
 		{
 			// In a hypertext document, you initialize the
@@ -151,13 +145,13 @@ public class MushroomPlot implements KoLConstants
 			if ( isHypertext )
 				buffer.append( "<tr>" );
 
-			for ( int col = 0; col < 4; ++col )
+			for ( int col = 0; col < 4; ++col, ++squareIndex )
 			{
 				// Hypertext documents need to have their cells opened before
 				// the cell can be printed.
 
-				buffer.append( isHypertext ? "<td>" : " " );
-				int square = plot [ row * 4 + col ];
+				buffer.append( isHypertext ? "<td>" : "  " );
+				int square = plot[ squareIndex ];
 
 				String description = MushroomPlot.mushroomDescription( square );
 
@@ -191,13 +185,16 @@ public class MushroomPlot implements KoLConstants
 			// continuing.  Note that both documents can have a full
 			// line break.
 
-			if ( isHypertext )
-				buffer.append( "</tr>" );
-
-			buffer.append( System.getProperty( "line.separator" ) );
+			buffer.append( isHypertext ? "</tr>" : LINE_BREAK );
+			buffer.append( LINE_BREAK );
 		}
 
-		buffer.append( "</table></center>" );
+		if ( isHypertext )
+			buffer.append( "</table></center>" );
+
+		// Now that the appropriate string has been constructed,
+		// return it to the calling method.
+
 		return buffer.toString();
 
 	}
