@@ -49,7 +49,6 @@ public abstract class MushroomPlot extends StaticEntity
 	// 13 14 15 16
 
 	private static int [][] actualPlot = new int[4][4];
-	private static int [][] forecastPlot = new int[4][4];
 
 	private static boolean initialized = false;
 	private static boolean ownsPlot = false;
@@ -165,10 +164,25 @@ public abstract class MushroomPlot extends StaticEntity
 			return "Your plot is unavailable.";
 
 		// Construct the forecasted plot now.
+		int [][] forecastPlot = new int[4][4];
 
 		for ( int row = 0; row < 4; ++row )
 			for ( int col = 0; col < 4; ++col )
 				forecastPlot[ row ][ col ] = getForecastSquare( row, col, plot );
+
+		// Whenever the forecasted plot doesn't
+		// match the original plot, the surrounding
+		// mushrooms are assumed to disappear.
+
+		for ( int row = 0; row < 4; ++row )
+			for ( int col = 0; col < 4; ++col )
+				if ( plot[ row ][ col ] != forecastPlot[ row ][ col ] )
+				{
+					if ( row != 0 )  forecastPlot[ row - 1 ][ col ] = EMPTY;
+					if ( row != 3 )  forecastPlot[ row + 1 ][ col ] = EMPTY;
+					if ( col != 0 )  forecastPlot[ row ][ col - 1 ] = EMPTY;
+					if ( col != 3 )  forecastPlot[ row ][ col + 1 ] = EMPTY;
+				}
 
 		return getMushroomPlot( isHypertext, forecastPlot );
 	}
@@ -268,9 +282,11 @@ public abstract class MushroomPlot extends StaticEntity
 
 			// In a hypertext document, you need to close the row before
 			// continuing.  Note that both documents can have a full
-			// line break.
+			// line break at the end.
 
-			buffer.append( isHypertext ? "</tr>" : LINE_BREAK );
+			if ( isHypertext )
+				buffer.append( "</tr>" );
+
 			buffer.append( LINE_BREAK );
 		}
 
