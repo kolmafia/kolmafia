@@ -166,6 +166,9 @@ public abstract class KoLmafia implements KoLConstants
 		storeSaveStates();
 		deinitialize();
 
+		deinitializeLogStream();
+		deinitializeMacroStream();
+
 		seenPlayerIDs = new TreeMap();
 		seenPlayerNames = new TreeMap();
 		adventureList = new LockableListModel();
@@ -195,7 +198,7 @@ public abstract class KoLmafia implements KoLConstants
 			else
 				colorBuffer.append( "<font color=black>" );
 
-			colorBuffer.append( message );
+			colorBuffer.append( message.indexOf( LINE_BREAK ) != -1 ? ("<pre>" + message + "</pre>") : message );
 			colorBuffer.append( "</font><br>" );
 			colorBuffer.append( LINE_BREAK );
 
@@ -450,13 +453,7 @@ public abstract class KoLmafia implements KoLConstants
 		sessionID = null;
 		passwordHash = null;
 		loginRequest = null;
-
-		deinitializeChat();
-		setBuffBotActive( false );
-		deinitializeLogStream();
-		deinitializeMacroStream();
 		permitContinue = false;
-		KoLCharacter.reset( "" );
 	}
 
 	/**
