@@ -397,12 +397,13 @@ public abstract class MushroomPlot extends StaticEntity
 		int row = (square - 1) / 4;
 		int col = (square - 1) % 4;
 
-		if ( actualPlot[ row ][ col ] != EMPTY && !pickMushroom( square ) )
+		if ( actualPlot[ row ][ col ] != EMPTY && !pickMushroom( square, true ) )
 			return false;
 
 		// Plant the requested spore.
 
 		MushroomPlotRequest request = new MushroomPlotRequest( square, sporeIndex );
+		client.updateDisplay( DISABLED_STATE, "Planting " + TradeableItemDatabase.getItemName( spore ) + " spore..." );
 		request.run();
 
 		// If it failed, bail.
@@ -414,6 +415,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// that the client allows you to continue.
 
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - sporePrice ) );
+		client.updateDisplay( ENABLED_STATE, "Spore successfully planted." );
 		return true;
 	}
 
@@ -422,7 +424,7 @@ public abstract class MushroomPlot extends StaticEntity
 	 * this method picks the mushroom located in the given square.
 	 */
 
-	public static boolean pickMushroom( int square )
+	public static boolean pickMushroom( int square, boolean pickSpores )
 	{
 		// Validate square parameter.  It's possible that
 		// the user input the wrong spore number.
@@ -448,8 +450,12 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( actualPlot[ row ][ col ] != EMPTY )
 		{
-			MushroomPlotRequest request = new MushroomPlotRequest( square );
-			request.run();
+			if ( actualPlot[ row ][ col ] != SPROUT || pickSpores )
+			{
+				MushroomPlotRequest request = new MushroomPlotRequest( square );
+				client.updateDisplay( DISABLED_STATE, "Picking square " + square + "..." );
+				request.run();
+			}
 		}
 
 		return client.permitsContinue();

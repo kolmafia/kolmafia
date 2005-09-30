@@ -810,21 +810,9 @@ public class KoLmafiaCLI extends KoLmafia
 
                 // Commands to manipulate the mushroom plot
 
-		if ( command.equals( "mushroom" ) )
+		if ( command.equals( "field" ) )
 		{
-			showMushroomPlot();
-			return;
-		}
-
-		if ( command.equals( "plant" ) )
-		{
-			plantMushroom( parameters );
-			return;
-		}
-
-		if ( command.equals( "pick" ) )
-		{
-			pickMushroom( parameters );
+			executeMushroomCommand( parameters );
 			return;
 		}
 
@@ -1729,8 +1717,7 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	private AdventureResult getFirstMatchingItem( String parameters, int matchType )
-	{
-                return getFirstMatchingItem( parameters, matchType, 1 );
+	{	return getFirstMatchingItem( parameters, matchType, NOWHERE );
 	}
 
 	/**
@@ -1789,51 +1776,51 @@ public class KoLmafiaCLI extends KoLmafia
 	 * Show the current state of the player's mushroom plot
 	 */
 
-	private void showMushroomPlot()
+	private void executeMushroomCommand( String parameters )
 	{
+		String [] split = parameters.split( " " );
+
+		if ( split[0].equals( "plant" ) )
+		{
+			String squareString = split[2];
+			String sporeString = parameters.substring(5).trim();
+			int spore = TradeableItemDatabase.getItemID( sporeString );
+
+			try
+			{
+				int square = df.parse( squareString ).intValue();
+				MushroomPlot.plantMushroom( square, spore );
+			}
+			catch  ( Exception e )
+			{
+				updateDisplay( ERROR_STATE, squareString + " is not a number." );
+				return;
+			}
+		}
+		else if ( split[0].equals( "pick" ) )
+		{
+			try
+			{
+				int square = df.parse( parameters ).intValue();
+				MushroomPlot.pickMushroom( square, true );
+			}
+			catch  ( Exception e )
+			{
+				updateDisplay( ERROR_STATE, parameters + " is not a number." );
+				return;
+			}
+		}
+		else if ( split[0].equals( "harvest" ) )
+		{
+			for ( int i = 1; i <= 16; ++i )
+				MushroomPlot.pickMushroom( i, false );
+		}
+
 		updateDisplay( NOCHANGE, "Current:" );
 		updateDisplay( NOCHANGE, MushroomPlot.getMushroomPlot( false ) );
 		updateDisplay( NOCHANGE, "" );
 		updateDisplay( NOCHANGE, "Forecast:" );
 		updateDisplay( NOCHANGE, MushroomPlot.getForecastedPlot( false ) );
-	}
-
-	/**
-	 * Plant a mushroom in the mushroom plot
-	 */
-
-	private void plantMushroom( String parameters )
-	{
-		String squareString = parameters.split( " " )[0];
-		String sporeString = parameters.substring( squareString.length() ).trim();
-		int spore = TradeableItemDatabase.getItemID( sporeString );
-
-		try
-		{
-			int square = df.parse( squareString ).intValue();
-			MushroomPlot.plantMushroom( square, spore );
-		}
-		catch  ( Exception e )
-		{
-			updateDisplay( ERROR_STATE, squareString + " is not a number." );
-		}
-	}
-
-	/**
-	 * Pick a mushroom in the mushroom plot
-	 */
-
-	private void pickMushroom( String parameters )
-	{
-		try
-		{
-			int square = df.parse( parameters ).intValue();
-			MushroomPlot.pickMushroom( square );
-		}
-		catch  ( Exception e )
-		{
-			updateDisplay( ERROR_STATE, parameters + " is not a number." );
-		}
 	}
 
 	/**
@@ -2190,7 +2177,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * furs for the given fur.
 	 */
 
-	public void makeTrapperRequest( )
+	public void makeTrapperRequest()
 	{
 		String command = previousCommand.split( " " )[0];
 		String parameters = previousCommand.substring( command.length() ).trim();
