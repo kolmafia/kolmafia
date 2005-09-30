@@ -95,8 +95,8 @@ public abstract class MushroomPlot extends StaticEntity
 
 		// Third generation mushrooms
 		{ new Integer( FLAMING ), "fireshroom.gif", "Fl", new Integer( 0 ) },
-		{ new Integer( FROZEN ), "iceshroom", "Fr", new Integer( 0 ) },
-		{ new Integer( STINKY ), "stinkshroo", "St", new Integer( 0 ) }
+		{ new Integer( FROZEN ), "iceshroom.gif", "Fr", new Integer( 0 ) },
+		{ new Integer( STINKY ), "stinkshroo.gif", "St", new Integer( 0 ) }
 	};
 
 	public static final int [][] BREEDING =
@@ -176,7 +176,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		for ( int row = 0; row < 4; ++row )
 			for ( int col = 0; col < 4; ++col )
-				if ( plot[ row ][ col ] != forecastPlot[ row ][ col ] )
+				if ( forecastPlot[ row ][ col ] != EMPTY && plot[ row ][ col ] != forecastPlot[ row ][ col ] )
 				{
 					if ( row != 0 )  forecastPlot[ row - 1 ][ col ] = EMPTY;
 					if ( row != 3 )  forecastPlot[ row + 1 ][ col ] = EMPTY;
@@ -468,6 +468,9 @@ public abstract class MushroomPlot extends StaticEntity
 
 	private static boolean initialize()
 	{
+		if ( client == null )
+			return true;
+
 		// Clear error state so that the flags are
 		// properly detected.
 
@@ -583,5 +586,21 @@ public abstract class MushroomPlot extends StaticEntity
 
 			return EMPTY;
 		}
+	}
+
+	public static void main( String [] args )
+	{
+		initialized = true;
+		ownsPlot = true;
+
+		actualPlot[0][0] = KNOB;
+		actualPlot[0][2] = KNOLL;
+		actualPlot[1][3] = SPOOKY;
+		actualPlot[2][0] = SPOOKY;
+		actualPlot[3][1] = KNOLL;
+		actualPlot[3][3] = KNOB;
+
+		System.out.println( getMushroomPlot( false ) );
+		System.out.println( getForecastedPlot( false ) );
 	}
 }
