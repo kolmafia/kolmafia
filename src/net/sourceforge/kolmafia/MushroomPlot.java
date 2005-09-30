@@ -537,55 +537,54 @@ public abstract class MushroomPlot extends StaticEntity
 			}
 
 			client.processResults( responseText );
-
 		}
+	}
 
-		private void parsePlot( String text )
+	public static void parsePlot( String text )
+	{
+		initialized = true;
+
+		// Pretend all of the sections on the plot are empty
+		// before you begin parsing the plot.
+
+		for ( int row = 0; row < 4; ++row )
+			for ( int col = 0; col < 4; ++col )
+				actualPlot[ row ][ col ] = EMPTY;
+
+		Matcher plotMatcher = Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" ).matcher( text );
+		ownsPlot = plotMatcher.find();
+
+		// If there is no plot data, then we can assume that
+		// the person does not own a plot.  Return from the
+		// method if this is the case.  Otherwise, try to find
+		// all of the squares.
+
+		if ( !ownsPlot )
+			return;
+
+		Matcher squareMatcher = Pattern.compile( "<td>(.*?)</td>" ).matcher( plotMatcher.group(1) );
+
+		for ( int row = 0; row < 4; ++row )
+			for ( int col = 0; col < 4 && squareMatcher.find(); ++col )
+				actualPlot[ row ][ col ] = parseSquare( squareMatcher.group(1) );
+	}
+
+	private static int parseSquare( String text )
+	{
+		// We figure out what's there based on the image.  This
+		// is done by checking the text in the square against
+		// the table of square values.
+
+		Matcher gifMatcher = Pattern.compile( ".*/((.*)\\.gif)" ).matcher( text );
+		if ( gifMatcher.find() )
 		{
-			initialized = true;
-
-			// Pretend all of the sections on the plot are empty
-			// before you begin parsing the plot.
-
-			for ( int row = 0; row < 4; ++row )
-				for ( int col = 0; col < 4; ++col )
-					actualPlot[ row ][ col ] = EMPTY;
-
-			Matcher plotMatcher = Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" ).matcher( text );
-			ownsPlot = plotMatcher.find();
-
-			// If there is no plot data, then we can assume that
-			// the person does not own a plot.  Return from the
-			// method if this is the case.  Otherwise, try to find
-			// all of the squares.
-
-			if ( !ownsPlot )
-				return;
-
-			Matcher squareMatcher = Pattern.compile( "<td>(.*?)</td>" ).matcher( plotMatcher.group(1) );
-
-			for ( int row = 0; row < 4; ++row )
-				for ( int col = 0; col < 4 && squareMatcher.find(); ++col )
-					actualPlot[ row ][ col ] = parseSquare( squareMatcher.group(1) );
+			String gif = gifMatcher.group(1);
+			for ( int i = 0; i < MUSHROOMS.length; ++i )
+				if ( gif.equals( MUSHROOMS[i][1] ) )
+					return ((Integer) MUSHROOMS[i][0]).intValue();
 		}
 
-		private int parseSquare( String text )
-		{
-			// We figure out what's there based on the image.  This
-			// is done by checking the text in the square against
-			// the table of square values.
-
-			Matcher gifMatcher = Pattern.compile( ".*/((.*)\\.gif)" ).matcher( text );
-			if ( gifMatcher.find() )
-			{
-				String gif = gifMatcher.group(1);
-				for ( int i = 0; i < MUSHROOMS.length; ++i )
-					if ( gif.equals( MUSHROOMS[i][1] ) )
-						return ((Integer) MUSHROOMS[i][0]).intValue();
-			}
-
-			return EMPTY;
-		}
+		return EMPTY;
 	}
 
 	public static void main( String [] args )

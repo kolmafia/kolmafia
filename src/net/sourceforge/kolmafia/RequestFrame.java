@@ -341,6 +341,9 @@ public class RequestFrame extends KoLFrame
 			}
 			else if ( currentRequest.responseText.indexOf( ">You " ) != -1 || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
 				refreshSidePane();
+
+			if ( getCurrentLocation().indexOf( "mushroom" ) != -1 )
+				MushroomPlot.parsePlot( currentRequest.responseText );
 		}
 	}
 
