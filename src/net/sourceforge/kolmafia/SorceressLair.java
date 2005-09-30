@@ -786,23 +786,11 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !checkPrerequisites( 4, 5 ) )
 			return;
 
-		// Check to see if they've already completed the
-		// hedge maze puzzle.
-
-		KoLRequest request = new KoLRequest( client, "lair3.php" );
-		request.run();
-
-		if ( request.responseText.indexOf( "lair4.php" ) == -1 )
-		{
-			client.updateDisplay( ERROR_STATE, "You haven't reached the tower yet." );
-			return;
-		}
-
 		// Determine which level you actually need to start from.
 
 		client.updateDisplay( DISABLED_STATE, "Climbing the tower..." );
 
-		request = new KoLRequest( client, "lair4.php" );
+		KoLRequest request = new KoLRequest( client, "lair4.php" );
 		request.run();
 
 		int currentLevel = 0;
