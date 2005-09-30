@@ -207,6 +207,12 @@ public abstract class KoLCharacter extends StaticEntity
 	private static LockableListModel equipment = new LockableListModel();
 	private static LockableListModel outfits = new LockableListModel();
 
+	static
+	{
+		for ( int i = 0; i < 7; ++i )
+			equipment.add( EquipmentRequest.UNEQUIP );
+	}
+
 	private static SortedListModel inventory = new SortedListModel( AdventureResult.class );
 	private static SortedListModel closet = new SortedListModel( AdventureResult.class );
 	private static SortedListModel collection = new SortedListModel( AdventureResult.class );
@@ -246,7 +252,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int ascensionSignType = NONE;
 	private static int consumptionRestriction = AscensionSnapshotTable.NOPATH;
 
-	private static int mindControlLevel;
+	private static int mindControlLevel = 0;
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
@@ -305,7 +311,10 @@ public abstract class KoLCharacter extends StaticEntity
 		// of the character data
 
 		for ( int i = 0; i < 8; ++i )
+		{
 			equipmentLists[i].clear();
+			equipmentLists[i].add( EquipmentRequest.UNEQUIP );
+		}
 
 		updateEquipmentLists();
 	}
@@ -951,6 +960,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		currentList.setSelectedItem( null );
 		currentList.clear();
+
 		currentList.addAll( getFilteredItems( currentFilter, equippedItem ) );
 		currentList.setSelectedItem( equippedItem );
 	}
@@ -1001,11 +1011,12 @@ public abstract class KoLCharacter extends StaticEntity
 		// If we are looking at familiar items, include those which can
 		// be universally equipped, but are currently on another
 		// familiar.
+
 		if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR )
 		{
 			for ( int i = 0; i < familiars.size(); ++i )
 			{
-				FamiliarData familiar = (FamiliarData)familiars.get(i);
+				FamiliarData familiar = (FamiliarData) familiars.get(i);
 				String item = familiar.getItem();
 				if ( item != null && !items.contains( item ) && currentFamiliar.canEquip( item ) )
 					items.add( item );
