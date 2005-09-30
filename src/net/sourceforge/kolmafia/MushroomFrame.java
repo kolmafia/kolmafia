@@ -38,7 +38,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
-
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JPanel;
@@ -74,16 +74,26 @@ public class MushroomFrame extends KoLFrame
 		forecastDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 		forecastBuffer.setChatDisplay( forecastDisplay );
 
-		getContentPane().setLayout( new BorderLayout() );
-
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout( new GridLayout( 1, 2, 20, 20 ) );
-		centerPanel.add( currentDisplay );
-		centerPanel.add( forecastDisplay );
+		centerPanel.add( constructPanel( "Current Plot", currentDisplay ) );
+		centerPanel.add( constructPanel( "Forecasted Plot", forecastDisplay ) );
 
+		getContentPane().setLayout( new BorderLayout() );
 		getContentPane().add( centerPanel, BorderLayout.CENTER );
 
 		(new UpdateMushroomThread()).start();
+	}
+
+	public JPanel constructPanel( String label, Component c )
+	{
+		JPanel panel = new JPanel();
+		panel.setLayout( new BorderLayout() );
+		panel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+		panel.add( new JLabel( label, JLabel.CENTER ), BorderLayout.NORTH );
+		panel.add( c, BorderLayout.CENTER );
+
+		return panel;
 	}
 
 	/**
