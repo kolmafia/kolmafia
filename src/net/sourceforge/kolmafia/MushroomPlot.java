@@ -84,8 +84,8 @@ public abstract class MushroomPlot extends StaticEntity
 		{ new Integer( SPROUT ), "mushsprout.gif", "..", new Integer( 0 ) },
 
 		// First generation mushrooms
-		{ new Integer( KNOB ), "bmushroom.gif", "Kb", new Integer( 1 ) },
-		{ new Integer( KNOLL ), "mushroom.gif", "Kn", new Integer( 2 ) },
+		{ new Integer( KNOB ), "mushroom.gif", "Kb", new Integer( 1 ) },
+		{ new Integer( KNOLL ), "bmushroom.gif", "Kn", new Integer( 2 ) },
 		{ new Integer( SPOOKY ), "spooshroom.gif", "Sp", new Integer( 3 ) },
 
 		// Second generation mushrooms

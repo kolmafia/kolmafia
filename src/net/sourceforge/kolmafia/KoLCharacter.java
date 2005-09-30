@@ -8,17 +8,17 @@
  * are met:
  *
  *  [1] Redistributions of source code must retain the above copyright
- *      notice, KoLCharacter list of conditions and the following disclaimer.
+ *      notice, this list of conditions and the following disclaimer.
  *  [2] Redistributions in binary form must reproduce the above copyright
- *      notice, KoLCharacter list of conditions and the following disclaimer in
+ *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
  *  [3] Neither the name "KoLmafia development team" nor the names of
  *      its contributors may be used to endorse or promote products
- *      derived from KoLCharacter software without specific prior written
+ *      derived from this software without specific prior written
  *      permission.
  *
- * KoLCharacter SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
  * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
@@ -28,7 +28,7 @@
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF KoLCharacter SOFTWARE, EVEN IF ADVISED OF THE
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
@@ -41,9 +41,9 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
- * A container class representing the <code>KoLCharacter</code>.  KoLCharacter
+ * A container class representing the <code>KoLCharacter</code>.  This
  * class also allows for data listeners that are updated whenever the
- * character changes; ultimately, the purpose of KoLCharacter class is to shift
+ * character changes; ultimately, the purpose of this class is to shift
  * away from the centralized-notification paradigm (inefficient) towards
  * a listener paradigm, which is both cleaner and easier to manage with
  * regards to extensions.  In addition, it loosens the coupling between
@@ -260,7 +260,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * and it is the responsibility of other methods to initialize
 	 * the fields with their real values.
 	 *
-	 * @param	username	The name of the character KoLCharacter <code>KoLCharacter</code> represents
+	 * @param	username	The name of the character this <code>KoLCharacter</code> represents
 	 */
 
 	public static final void reset( String username )
@@ -320,8 +320,8 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to retrieve the name of KoLCharacter character.
-	 * @return	The name of KoLCharacter character
+	 * Accessor method to retrieve the name of this character.
+	 * @return	The name of this character
 	 */
 
 	public static String getUsername()
@@ -329,8 +329,8 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to set the user ID associated with KoLCharacter character.
-	 * @param	userID	The user ID associated with KoLCharacter character
+	 * Accessor method to set the user ID associated with this character.
+	 * @param	userID	The user ID associated with this character
 	 */
 
 	public static void setUserID( int userID )
@@ -338,8 +338,8 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to retrieve the user ID associated with KoLCharacter character.
-	 * @return	The user ID associated with KoLCharacter character
+	 * Accessor method to retrieve the user ID associated with this character.
+	 * @return	The user ID associated with this character
 	 */
 
 	public static int getUserID()
@@ -347,8 +347,8 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to get the gender associated with KoLCharacter character.
-	 * @param	isMale	The gender of KoLCharacter character
+	 * Accessor method to get the gender associated with this character.
+	 * @param	isMale	The gender of this character
 	 */
 
 	public static void setGender( boolean isMale )
@@ -356,7 +356,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to get the gender associated with KoLCharacter character.
+	 * Accessor method to get the gender associated with this character.
 	 * @return	<code>true</code> if the player is male
 	 */
 
@@ -374,8 +374,8 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to retrieve the level of KoLCharacter character.
-	 * @return	The level of KoLCharacter character
+	 * Accessor method to retrieve the level of this character.
+	 * @return	The level of this character
 	 */
 
 	public static int getLevel()
@@ -1033,7 +1033,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to retrieve a list of the outfits available to KoLCharacter character, based
+	 * Accessor method to retrieve a list of the outfits available to this character, based
 	 * on the last time the equipment screen was requested.  Note that KoLCharacter list may be outdated
 	 * or outright wrong because of changes to the character's status.
 	 *
@@ -1378,7 +1378,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method to look up whether or not the character can
 	 * summon noodles.
 	 *
-	 * @return	<code>true</code> if noodles can be summoned by KoLCharacter character
+	 * @return	<code>true</code> if noodles can be summoned by this character
 	 */
 
 	public static boolean canSummonNoodles()
@@ -1389,7 +1389,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method to look up whether or not the character can
 	 * summon reagent.
 	 *
-	 * @return	<code>true</code> if reagent can be summoned by KoLCharacter character
+	 * @return	<code>true</code> if reagent can be summoned by this character
 	 */
 
 	public static boolean canSummonReagent()
@@ -1400,7 +1400,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method to look up whether or not the character can
 	 * summon shore-based items.
 	 *
-	 * @return	<code>true</code> if shore-based items can be summoned by KoLCharacter character
+	 * @return	<code>true</code> if shore-based items can be summoned by this character
 	 */
 
 	public static boolean canSummonShore()
@@ -1411,7 +1411,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method to look up whether or not the character can
 	 * smith weapons.
 	 *
-	 * @return	<code>true</code> if KoLCharacter character can smith advanced weapons
+	 * @return	<code>true</code> if this character can smith advanced weapons
 	 */
 
 	public static boolean canSmithWeapons()
@@ -1422,7 +1422,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method to look up whether or not the character can
 	 * smith armor.
 	 *
-	 * @return	<code>true</code> if KoLCharacter character can smith advanced armor
+	 * @return	<code>true</code> if this character can smith advanced armor
 	 */
 
 	public static boolean canSmithArmor()
@@ -1433,7 +1433,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * Accessor method to look up whether or not the character has
 	 * Amphibian Sympathy
 	 *
-	 * @return	<code>true</code> if KoLCharacter character has Amphibian Sympathy
+	 * @return	<code>true</code> if this character has Amphibian Sympathy
 	 */
 
 	public static boolean hasAmphibianSympathy()
