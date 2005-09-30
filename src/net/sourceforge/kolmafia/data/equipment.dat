@@ -227,6 +227,7 @@ linoleum staff	100	Mus: 35
 linoleum sword	100	Mus: 35
 little paper umbrella	30	none
 Mafia violin case	100	Mus: 35
+Mjolnir Jr.	200	Mus: 85
 Pasta of Peril	50	Mus: 10
 pasta spoon	10	none
 penguin whip	20	none
@@ -340,20 +341,28 @@ Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
 Mr. Eh?	0	none
 Mr. Exploiter	0	none
+monster bait	0	none
 Ms. Accessory	0	none
 Mylar balloon	0	none
 oyster basket	0	none
 penguin skin buckler	0	Mys: 30
 phat turquoise bracelet	0	Mys: 20
 Pine-Fresh air freshener	0	Mys: 10
+pirate hook	0	none
 plexiglass pendant	0	Mys: 75
 plexiglass pinky ring	0	Mys: 75
 porquoise bracelet	0	Mys: 10
 porquoise eyebrow ring	0	Mys: 10
 porquoise necklace	0	Mys: 10
 porquoise ring	0	Mys: 10
+ring of adornment	0	Mys: 25
 ring of aggravate monster	0	Mys: 25
+ring of cold-resistance	0	Mys: 25
+ring of conflict	0	Mys: 25
+ring of fire-resistance	0	Mys: 25
+ring of gain strength	0	Mys: 25
 ring of half-assed regeneration	0	Mys: 10
+ring of increase damage	0	Mys: 25
 severed rocking horse head	0	Mys: 10
 shiny ring	0	Mys: 10
 sk8board	0	Mys: 20

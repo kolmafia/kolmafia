@@ -1290,13 +1290,14 @@
 1290	cheap wind-up clock	4	100
 1291	Jekyllin hide belt	8	-1
 1292	skirt / kilt kit	0	50
-1293	
-1294	
-1295	
-1296	
-1297	
-1298	
+1293	ring of adornment	8	90
+1294	ring of increase damage	8	90
+1295	ring of gain strength	8	90
+1296	ring of cold resistance	8	90
+1297	ring of fire resistance	8	90
+1298	ring of conflict	8	90
 1299	pirate hook	8	0
-1300	monster bait	8	0
-1301	deodorant	0	65
+1300	monster bait	8	50
+1301	deodorant	3	65
 1302	reodorant	3	65
+1303	Mjolnir Jr.	12	0
