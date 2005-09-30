@@ -947,7 +947,12 @@ public class AdventureFrame extends KoLFrame
 				for ( int i = 0; i < frames.length; ++i )
 					((KoLFrame)frames[i]).dispose();
 
-				client.deinitialize();
+				client.deinitializeChat();
+				client.setBuffBotActive( false );
+				client.deinitializeLogStream();
+				client.deinitializeMacroStream();
+
+				KoLCharacter.reset( "" );
 				(new RequestThread( new LogoutRequest( client ) )).start();
 				KoLmafiaGUI.main( new String[0] );
 			}
