@@ -373,6 +373,9 @@ public abstract class KoLmafia implements KoLConstants
 		adventureList.clear();
 		adventureList.addAll( AdventureDatabase.getAsLockableListModel() );
 		this.mpRestoreItemList = new MPRestoreItemList( this );
+
+		// Reset the mushroom plot
+		MushroomPlot.reset( this );
 	}
 
 	/**

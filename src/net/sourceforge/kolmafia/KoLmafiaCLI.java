@@ -808,6 +808,26 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+                // Commands to manipulate the mushroom plot
+
+		if ( command.equals( "mushroom" ) )
+		{
+			showMushroomPlot();
+			return;
+		}
+
+		if ( command.equals( "plant" ) )
+		{
+			plantMushroom( parameters );
+			return;
+		}
+
+		if ( command.equals( "pick" ) )
+		{
+			pickMushroom( parameters );
+			return;
+		}
+
 		// One of the largest commands is adventuring,
 		// which (as usual) gets its own module.
 
@@ -1765,6 +1785,62 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( Exception e )
 		{
 			updateDisplay( ERROR_STATE, "Invalid setting for device." );
+		}
+	}
+
+	/**
+	 * Show the current state of the player's mushroom plot
+	 */
+
+	private void showMushroomPlot()
+	{
+		int [] plot = MushroomPlot.getMushroomPlot( scriptRequestor );
+
+		if ( plot != null )
+		{
+			for ( int row = 0; row < 4; ++row )
+			{
+				StringBuffer line = new StringBuffer();
+				for ( int col = 0; col < 4; ++col )
+					line.append( " " + MushroomPlot.squareName( plot[ row * 4 + col ] ) );
+				scriptRequestor.updateDisplay( NOCHANGE, line.toString() );
+			}
+		}
+	}
+
+	/**
+	 * Plant a mushroom in the mushroom plot
+	 */
+
+	private void plantMushroom( String parameters )
+	{
+		String squareString = parameters.split( " " )[0];
+		String sporeString = parameters.substring( squareString.length() ).trim();
+                int spore = TradeableItemDatabase.getItemID( sporeString );
+		try
+		{
+			int square = df.parse( squareString ).intValue();
+			MushroomPlot.plantMushroom( scriptRequestor, square, spore );
+		}
+		catch  ( Exception e )
+		{
+		}
+	}
+
+	/**
+	 * Pick a mushroom in the mushroom plot
+	 */
+
+	private void pickMushroom( String parameters )
+	{
+		String squareString = parameters.split( " " )[0];
+		try
+		{
+			int square = df.parse( squareString ).intValue();
+			MushroomPlot.pickMushroom( scriptRequestor, square );
+		}
+		catch  ( Exception e )
+		{
 		}
 	}
 
