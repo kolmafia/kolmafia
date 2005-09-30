@@ -44,7 +44,7 @@ import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 
-public class LimitedSizeChatBuffer extends ChatBuffer
+public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 {
 	protected static List colors;
 	protected static List highlights;
@@ -191,10 +191,10 @@ public class LimitedSizeChatBuffer extends ChatBuffer
 			}
 		}
 
-		super.append( highlightMessage.replaceAll( "<br>", "<br>" + System.getProperty( "line.separator" ) ) );
+		super.append( highlightMessage.replaceAll( "<br>", "<br>" + LINE_BREAK ) );
 
 		if ( message.compareToIgnoreCase( highlightMessage ) != 0 )
-			highlightBuffer.append( highlightMessage.replaceAll( "<br>", "<br>" + System.getProperty( "line.separator" ) + "<br>" ) );
+			highlightBuffer.append( highlightMessage.replaceAll( "<br>", "<br>" + LINE_BREAK + "<br>" ) );
 
 		previousFontSize = fontSize;
 	}

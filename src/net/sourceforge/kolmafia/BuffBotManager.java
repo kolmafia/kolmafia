@@ -340,7 +340,7 @@ public class BuffBotManager extends KoLMailManager implements KoLConstants
 		if ( !thanksMessage.equals("") )
 		{
 			String reason = thanksMessage +
-				System.getProperty( "line.separator" ) + System.getProperty( "line.separator" ) +
+				LINE_BREAK + LINE_BREAK +
 				">" + messageHTML.replaceAll( "<.*?>", " " ).replaceAll( "[ ]+", " " );
 
 			(new GreenMessageRequest( client, recipient, reason, new AdventureResult( AdventureResult.MEAT, 0 ) )).run();

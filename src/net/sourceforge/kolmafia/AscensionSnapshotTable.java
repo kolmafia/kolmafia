@@ -128,16 +128,16 @@ public class AscensionSnapshotTable extends KoLDatabase
 		strbuf.append( " (" );
 		strbuf.append( new Date() );
 		strbuf.append( ")</title>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<center><table cellspacing=0 cellpadding=0><tr><td align=center><h2><u>" );
 		strbuf.append( clanName );
 		strbuf.append( " (#" );
 		strbuf.append( clanID );
 		strbuf.append( ")</u></h2></td></tr>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		// Right below the name of the clan, write the average
 		// number of this kind of ascension.
@@ -145,21 +145,21 @@ public class AscensionSnapshotTable extends KoLDatabase
 		strbuf.append( "<tr><td align=center><h3>Avg: " );
 		strbuf.append( ((isSoftcore ? (double)softcoreAscensionList.size() : 0.0) + (double)hardcoreAscensionList.size()) / (double)ascensionMap.size() );
 		strbuf.append( "</h3></td></tr></table><br><br>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		// Next, the ascension leaderboards for most (numeric)
 		// ascensions.
 
 		strbuf.append( "<table width=500 cellspacing=0 cellpadding=0>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<tr><td style=\"color:white\" align=center bgcolor=blue><b>Most " );
 		strbuf.append( isSoftcore ? "Normal " : "Hardcore " );
 		strbuf.append( "Ascensions</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<tr><td align=center><b>Player&nbsp;&nbsp;&nbsp;&nbsp;</b></td>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<td align=center><b>Ascensions</b></td></tr>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		// Resort the lists, and print the results to the buffer
 		// so that you have the "most ascensions" leaderboard.
@@ -170,23 +170,23 @@ public class AscensionSnapshotTable extends KoLDatabase
 		for ( int i = 0; i < ascensionDataList.size() && i < 20; ++i )
 		{
 			strbuf.append( ascensionDataList.get(i).toString() );
-			strbuf.append( System.getProperty( "line.separator" ) );
+			strbuf.append( LINE_BREAK );
 		}
 
 		strbuf.append( "</table></td></tr></table><br><br>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		// Finally, the ascension leaderboards for fastest
 		// ascension speed.  Do this for all paths individually.
 
 		strbuf.append( getAscensionData( isSoftcore, OXYGENARIAN ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( getAscensionData( isSoftcore, TEETOTALER ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( getAscensionData( isSoftcore, BOOZETAFARIAN ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( getAscensionData( isSoftcore, NOPATH ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		strbuf.append( "</center>" );
 		return strbuf.toString();
@@ -204,7 +204,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// Next, print the nifty disappearing link bar that
 		// is used in the KoL leaderboard frame.
 
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec" );
 		strbuf.append( pathFilter );
 		strbuf.append( "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">" );
@@ -215,31 +215,31 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// Finally, add in all the breakdown tables, just like
 		// in the KoL leaderboard frame.
 
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<table><tr><td valign=top>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, SEAL_CLUBBER ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td><td valign=top>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, SAUCEROR ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td></tr><tr><td valign=top>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, TURTLE_TAMER ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td><td valign=top>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, DISCO_BANDIT ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td></tr><tr><td valign=top>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, PASTAMANCER ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td><td valign=top>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( getAscensionData( isSoftcore, pathFilter, ACCORDION_THIEF ) );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td></tr></table>" );
 
 		// Close the disappearing section and return the complete
@@ -288,9 +288,9 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// Now that the data has been retrieved, go ahead
 		// and print the table header data.
 
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<table width=500 cellspacing=0 cellpadding=0>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<tr><td style=\"color:white\" align=center bgcolor=blue><b>" );
 
 		switch ( classFilter )
@@ -333,13 +333,13 @@ public class AscensionSnapshotTable extends KoLDatabase
 		}
 
 		strbuf.append( "</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<tr><td align=center><b>Player&nbsp;&nbsp;&nbsp;&nbsp;</b></td>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<td align=center><b>Days</b></td>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 		strbuf.append( "<td align=center><b>Adventures</b></td></tr>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		// Now, print the actual table data inside, using
 		// the top ten list.
@@ -347,11 +347,11 @@ public class AscensionSnapshotTable extends KoLDatabase
 		for ( int i = 0; i < leaderListSize && i < leaderList.size(); ++i )
 		{
 			strbuf.append( leaderList.get(i).toString() );
-			strbuf.append( System.getProperty( "line.separator" ) );
+			strbuf.append( LINE_BREAK );
 		}
 
 		strbuf.append( "</table></td></tr></table>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		return strbuf.toString();
 	}

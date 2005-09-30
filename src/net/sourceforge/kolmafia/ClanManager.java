@@ -234,7 +234,7 @@ public class ClanManager implements KoLConstants
 		StringBuffer message = new StringBuffer();
 		message.append( profileMap.size() );
 		message.append( " members are currently in your clan." );
-		message.append( System.getProperty( "line.separator" ) );
+		message.append( LINE_BREAK );
 
 		// Server friendly requests take an additional 2 seconds per
 		// request.  Because the estimate is that the server takes
@@ -244,10 +244,10 @@ public class ClanManager implements KoLConstants
 		message.append( "This process will take " );
 		message.append( ((int)(requestsNeeded / (KoLRequest.isServerFriendly ? 4 : 10)) + 1) );
 		message.append( " minutes to complete." );
-		message.append( System.getProperty( "line.separator" ) );
+		message.append( LINE_BREAK );
 
 		message.append( "Are you sure you want to continue?" );
-		message.append( System.getProperty( "line.separator" ) );
+		message.append( LINE_BREAK );
 
 		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, message.toString(), "Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
 			return false;
@@ -298,7 +298,7 @@ public class ClanManager implements KoLConstants
 				while ( (currentLine = istream.readLine()) != null )
 				{
 					profileString.append( currentLine );
-					profileString.append( System.getProperty( "line.separator" ) );
+					profileString.append( LINE_BREAK );
 				}
 
 				profileMap.put( name, profileString.toString() );
@@ -364,7 +364,7 @@ public class ClanManager implements KoLConstants
 				while ( (currentLine = istream.readLine()) != null )
 				{
 					ascensionString.append( currentLine );
-					ascensionString.append( System.getProperty( "line.separator" ) );
+					ascensionString.append( LINE_BREAK );
 				}
 
 				ascensionMap.put( name, ascensionString.toString() );

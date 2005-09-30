@@ -333,7 +333,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			String recipient = tokens.nextToken();
 			String quotedMessage = displayed.getMessageHTML().substring(
 				displayed.getMessageHTML().indexOf( "<br><br>" ) + 8 ).replaceAll( "<b>", " " ).replaceAll(
-					"><", "" ).replaceAll( "<.*?>", System.getProperty( "line.separator" ) );
+					"><", "" ).replaceAll( "<.*?>", LINE_BREAK );
 
 			Object [] parameters = new Object[ tokens.hasMoreTokens() ? 2 : 3 ];
 			parameters[0] = client;

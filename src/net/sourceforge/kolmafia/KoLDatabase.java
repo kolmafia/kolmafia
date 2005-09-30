@@ -142,7 +142,7 @@ public class KoLDatabase implements KoLConstants
 	public static String getBreakdown( Iterator itemIterator )
 	{
 		StringBuffer strbuf = new StringBuffer();
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		int maximumCount = 0;
 		int currentCount = 0;
@@ -159,7 +159,7 @@ public class KoLDatabase implements KoLConstants
 			if ( !currentItem.equals( nextItem ) )
 			{
 				strbuf.append( "<li>" + currentItem.toString() + ": " + currentCount + "</li>" );
-				strbuf.append( System.getProperty( "line.separator" ) );
+				strbuf.append( LINE_BREAK );
 
 				if ( currentCount > maximumCount )
 				{
@@ -173,13 +173,13 @@ public class KoLDatabase implements KoLConstants
 		}
 
 		strbuf.append( "<li>" + currentItem.toString() + ": " + (currentCount + 1) + "</li>" );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		if ( currentCount > maximumCount )
 			favorite = currentItem;
 
 		strbuf.append( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
-		strbuf.append( System.getProperty( "line.separator" ) );
+		strbuf.append( LINE_BREAK );
 
 		return strbuf.toString();
 	}

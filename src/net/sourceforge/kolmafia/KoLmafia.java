@@ -199,7 +199,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			colorBuffer.append( message );
 			colorBuffer.append( "</font><br>" );
-			colorBuffer.append( System.getProperty( "line.separator" ) );
+			colorBuffer.append( LINE_BREAK );
 
 			commandBuffer.append( colorBuffer.toString() );
 		}

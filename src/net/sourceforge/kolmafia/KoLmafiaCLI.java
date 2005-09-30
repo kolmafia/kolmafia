@@ -570,7 +570,7 @@ public class KoLmafiaCLI extends KoLmafia
 			else
 			{
 				updateDisplay( NOCHANGE, request.responseText.substring( request.responseText.indexOf( "<p>" ) + 3 ).replaceAll(
-					"<(br|p|blockquote)>", System.getProperty( "line.separator" ) ).replaceAll( "<.*?>", "" ).replaceAll(
+					"<(br|p|blockquote)>", LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll(
 						"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "ñ" ).replaceAll( "&quot;", "\"" ) );
 			}
 
@@ -685,7 +685,7 @@ public class KoLmafiaCLI extends KoLmafia
 			else
 			{
 				updateDisplay( NOCHANGE, request.responseText.replaceAll(
-					"<(br|p|blockquote)>", System.getProperty( "line.separator" ) ).replaceAll( "<.*?>", "" ).replaceAll(
+					"<(br|p|blockquote)>", LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll(
 						"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "ñ" ).replaceAll( "&quot;", "\"" ) );
 			}
 
@@ -2365,7 +2365,7 @@ public class KoLmafiaCLI extends KoLmafia
 				for ( int i = 0; i < itemList.size(); ++i )
 				{
 					if ( i != 0 )
-						commandString.append( System.getProperty( "line.separator" ) );
+						commandString.append( LINE_BREAK );
 
 					commandString.append( moveType == ItemStorageRequest.INVENTORY_TO_CLOSET ? "closet put " : "closet take " );
 
@@ -2391,7 +2391,7 @@ public class KoLmafiaCLI extends KoLmafia
 				for ( int i = 0; i < itemList.size(); ++i )
 				{
 					if ( i != 0 )
-						commandString.append( System.getProperty( "line.separator" ) );
+						commandString.append( LINE_BREAK );
 
 					commandString.append( "stash " );
 
@@ -2459,7 +2459,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( commandString.length() > 0 )
-			commandString.append( System.getProperty( "line.separator" ) );
+			commandString.append( LINE_BREAK );
 
 		return commandString.toString();
 	}
