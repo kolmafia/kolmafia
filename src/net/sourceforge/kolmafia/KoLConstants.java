@@ -45,6 +45,8 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public interface KoLConstants extends UtilityConstants
 {
+	public static final String LINE_BREAK = System.getProperty( "line.separator" );
+
 	public static final String VERSION_NAME = "KoLmafia v5.6";
 	public static final String VERSION_DATE = "Released September 30, 2005";
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings();
