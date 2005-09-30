@@ -145,6 +145,7 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 		}
 
 		settings.setProperty( "buffBotMPRestore", mpRestoreSetting.toString() );
+		settings.saveSettings();
 	}
 
 	public class MPRestoreItem implements Comparable
