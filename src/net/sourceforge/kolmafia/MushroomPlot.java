@@ -152,6 +152,10 @@ public class MushroomPlot implements KoLConstants
 	 */
 
 	public static String getForecastedPlot( KoLmafia client, boolean isHypertext )
+	{	return getForecastedPlot( client, isHypertext, actualPlot );
+	}
+
+	public static String getForecastedPlot( KoLmafia client, boolean isHypertext, int [][] plot )
 	{
 		// If for some reason, the plot was invalid, then
 		// the flag would have been set on the client.  In
@@ -160,29 +164,26 @@ public class MushroomPlot implements KoLConstants
 		if ( !initialize( client ) )
 			return "Your plot is unavailable.";
 
-		// Construct the forecasted plot now.  Initialize
-		// all the entries to empty.
+		// Construct the forecasted plot now.
 
 		for ( int row = 0; row < 4; ++row )
 			for ( int col = 0; col < 4; ++col )
-				forecastPlot[ row ][ col ] = EMPTY;
-
-		// Based on the algorithm provided
+				forecastPlot[ row ][ col ] = getForecastSquare( row, col, plot );
 
 		return getMushroomPlot( client, isHypertext, forecastPlot );
 	}
 
-	private static int getForecastSquare( int row, int col )
+	private static int getForecastSquare( int row, int col, int [][] plot )
 	{
 		int [] touched = new int[4];
 
 		// First, determine what kinds of mushrooms
 		// touch the square.
 
-		touched[0] = row == 0 ? EMPTY : actualPlot[ row - 1 ][ col ];
-		touched[1] = row == 3 ? EMPTY : actualPlot[ row + 1 ][ col ];
-		touched[2] = col == 0 ? EMPTY : actualPlot[ row ][ col - 1 ];
-		touched[3] = col == 3 ? EMPTY : actualPlot[ row ][ col + 1 ];
+		touched[0] = row == 0 ? EMPTY : plot[ row - 1 ][ col ];
+		touched[1] = row == 3 ? EMPTY : plot[ row + 1 ][ col ];
+		touched[2] = col == 0 ? EMPTY : plot[ row ][ col - 1 ];
+		touched[3] = col == 3 ? EMPTY : plot[ row ][ col + 1 ];
 
 		// Determine how many mushrooms total touch
 		// the square.
@@ -207,7 +208,7 @@ public class MushroomPlot implements KoLConstants
 		// Otherwise, it'll be the same as whatever is
 		// there right now.
 
-		return touchCount == 2 ? BREEDING[ touchIndex[0] ][ touchIndex[1] ] : actualPlot[ row ][ col ];
+		return touchCount == 2 ? BREEDING[ touchIndex[0] ][ touchIndex[1] ] : plot[ row ][ col ];
 	}
 
 	private static String getMushroomPlot( KoLmafia client, boolean isHypertext, int [][] plot )
