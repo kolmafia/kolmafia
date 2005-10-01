@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Locale;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -45,6 +46,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public interface KoLConstants extends UtilityConstants
 {
+	public static final Random RNG = new Random();
 	public static final String LINE_BREAK = System.getProperty( "line.separator" );
 
 	public static final String VERSION_NAME = "KoLmafia v5.6";
