@@ -318,7 +318,7 @@ public class AdventureFrame extends KoLFrame
 
 			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
 			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
-			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : KoLCharacter.getEffects() ), "2" );
+			resultPanel.add( new AdventureResultsPanel( KoLCharacter.getEffects() ), "2" );
 
 			resultSelect = new JComboBox();
 			resultSelect.addItem( "Session Results" );

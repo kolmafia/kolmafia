@@ -172,7 +172,7 @@ public class MuseumFrame extends KoLFrame
 		private class InsideDisplayPanel extends ItemManagePanel
 		{
 			public InsideDisplayPanel()
-			{	super( "Display Case", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getCollection() );
+			{	super( "Display Case", "put in bag", "put in closet", MuseumManager.getItems() );
 			}
 
 			protected void actionConfirmed()
@@ -198,7 +198,7 @@ public class MuseumFrame extends KoLFrame
 	public class MuseumShelfList extends PanelList
 	{
 		public MuseumShelfList()
-		{	super( 2, 480, 200, client == null ? new LockableListModel() : client.getMuseumManager().getShelves(), true );
+		{	super( 2, 480, 200, MuseumManager.getShelves(), true );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -215,13 +215,13 @@ public class MuseumFrame extends KoLFrame
 
 		public MuseumShelfPanel( int index, SortedListModel value )
 		{
-			super( client.getMuseumManager().getHeader( index ), "move", "remove", value );
+			super( MuseumManager.getHeader( index ), "move", "remove", value );
 			this.index = index;
 		}
 
 		public void actionConfirmed()
 		{
-			Object [] headerArray = client.getMuseumManager().getHeaders().toArray();
+			Object [] headerArray = MuseumManager.getHeaders().toArray();
 
 			String selectedValue = (String) JOptionPane.showInputDialog(
 				null, "Moving to this shelf...", "Shelfishness!", JOptionPane.INFORMATION_MESSAGE, null,
@@ -229,7 +229,7 @@ public class MuseumFrame extends KoLFrame
 
 			for ( int i = 0; i < headerArray.length; ++i )
 				if ( selectedValue.equals( headerArray[i] ) )
-					client.getMuseumManager().move( elementList.getSelectedValues(), index, i );
+					MuseumManager.move( elementList.getSelectedValues(), index, i );
 		}
 
 		public void actionCancelled()
@@ -254,9 +254,7 @@ public class MuseumFrame extends KoLFrame
 
 		public OrderingPanel()
 		{
-			super( "Reorder Shelves", "move up", "apply", client == null ? new LockableListModel() :
-				(LockableListModel) client.getMuseumManager().getHeaders().getMirrorImage() );
-
+			super( "Reorder Shelves", "move up", "apply", (LockableListModel) MuseumManager.getHeaders().getMirrorImage() );
 			headers = (LockableListModel) elementList.getModel();
 		}
 
@@ -275,7 +273,7 @@ public class MuseumFrame extends KoLFrame
 		{
 			String [] headerArray = new String[ headers.size() ];
 			headers.toArray( headerArray );
-			client.getMuseumManager().reorder( headerArray );
+			MuseumManager.reorder( headerArray );
 		}
 	}
 

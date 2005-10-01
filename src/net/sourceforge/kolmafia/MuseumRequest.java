@@ -66,8 +66,8 @@ public class MuseumRequest extends SendMessageRequest
 		this.isManagement = true;
 		this.isDeposit = isDeposit;
 
-		this.source = isDeposit ? client.getInventory() : client.getCollection();
-		this.destination = isDeposit ? client.getCollection() : client.getInventory();
+		this.source = isDeposit ? client.getInventory() : MuseumManager.getItems();
+		this.destination = isDeposit ? MuseumManager.getItems() : client.getInventory();
 	}
 
 	public MuseumRequest( KoLmafia client, AdventureResult [] items, int [] shelves )
@@ -107,6 +107,6 @@ public class MuseumRequest extends SendMessageRequest
 		super.run();
 
 		if ( !isErrorState && responseCode == 200 && !isManagement )
-			client.getMuseumManager().update( responseText );
+			MuseumManager.update( responseText );
 	}
 }

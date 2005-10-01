@@ -327,7 +327,7 @@ public class StoreManageFrame extends KoLFrame
 				if ( soldItem == null )
 					return;
 
-				int price = getValue( itemPrice, client.getStoreManager().getPrice( soldItem.getItemID() ) );
+				int price = getValue( itemPrice, StoreManager.getPrice( soldItem.getItemID() ) );
 				int limit = getValue( itemLimit );
 				int qty = getValue( itemQty, soldItem.getCount() );
 
@@ -345,7 +345,7 @@ public class StoreManageFrame extends KoLFrame
 				if ( sellingList.getSelectedItem() == null )
 					return;
 
-				client.getStoreManager().searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary, scanOptions[0].isSelected() );
+				StoreManager.searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary, scanOptions[0].isSelected() );
 				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
 			}
 		}
@@ -354,7 +354,7 @@ public class StoreManageFrame extends KoLFrame
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 12, 680, 30, client == null ? new LockableListModel() : client.getStoreManager().getSoldItemList() );
+		{	super( 12, 680, 30, StoreManager.getSoldItemList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -459,7 +459,7 @@ public class StoreManageFrame extends KoLFrame
 		private class TakeButtonListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{	client.getStoreManager().takeItem( itemID );
+			{	StoreManager.takeItem( itemID );
 			}
 		}
 
@@ -467,7 +467,7 @@ public class StoreManageFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				client.getStoreManager().searchMall( itemName.getText(), priceSummary, scanOptions[0].isSelected() );
+				StoreManager.searchMall( itemName.getText(), priceSummary, scanOptions[0].isSelected() );
 				searchLabel.setText( itemName.getText() );
 			}
 		}

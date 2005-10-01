@@ -178,9 +178,7 @@ public class CakeArenaFrame extends KoLFrame
 		{
 			try
 			{
-				FamiliarData currentFamiliar = client == null ? new FamiliarData(1) :
-					(FamiliarData) KoLCharacter.getFamiliarList().getSelectedItem();
-
+				FamiliarData currentFamiliar = (FamiliarData) KoLCharacter.getFamiliarList().getSelectedItem();
 				int currentSkillValue = FamiliarsDatabase.getFamiliarSkill( currentFamiliar.getRace(), column ).intValue();
 				String currentSkill = currentSkillValue == 1 ? "1 star (yours)" : currentSkillValue + " stars (yours)";
 
@@ -203,8 +201,7 @@ public class CakeArenaFrame extends KoLFrame
 
 		private Component getFamiliarComponent( int column )
 		{
-			FamiliarData currentFamiliar = client == null ? null :
-				(FamiliarData) KoLCharacter.getFamiliarList().getSelectedItem();
+			FamiliarData currentFamiliar = (FamiliarData) KoLCharacter.getFamiliarList().getSelectedItem();
 
 			if ( column == 0 )
 				return currentFamiliar == null ? getStandardComponent( "NO DATA (0 lbs)" ) :

@@ -98,9 +98,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected BuffBotManager buffBotManager;
 	protected MPRestoreItemList mpRestoreItemList;
 
-	protected StoreManager storeManager;
 	protected ClanManager clanManager;
-	protected MuseumManager museumManager;
 
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
@@ -235,7 +233,9 @@ public abstract class KoLmafia implements KoLConstants
 			KoLCharacter.reset( loginname );
 			CharpaneRequest.reset();
 			MushroomPlot.reset();
+			StoreManager.reset();
 			CakeArenaManager.reset();
+			MuseumManager.reset();
 
 			this.conditions.clear();
 			this.missingItems.clear();
@@ -362,9 +362,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.isLoggingIn = false;
 		this.settings = new KoLSettings( loginname );
 		this.loathingMail = new KoLMailManager( this );
-		this.storeManager = new StoreManager( this );
 		this.clanManager = new ClanManager( this );
-		this.museumManager = new MuseumManager( this );
 		this.permitContinue = true;
 
 		// There's a possibility that the adventure list settings
@@ -681,15 +679,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Retrieves the user ID for the character of the current gaming session.
-	 * @return	The user ID of the current user
-	 */
-
-	public int getUserID()
-	{	return KoLCharacter.getUserID();
-	}
-
-	/**
 	 * Returns the string form of the player ID associated
 	 * with the given player name.
 	 *
@@ -739,15 +728,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Retrieves the login name for this <code>KoLmafia</code> session.
-	 * @return	The login name of the current user
-	 */
-
-	public String getLoginName()
-	{	return KoLCharacter.getUsername();
-	}
-
-	/**
 	 * Retrieves the session ID for this <code>KoLmafia</code> session.
 	 * @return	The session ID of the current session
 	 */
@@ -790,15 +770,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public SortedListModel getCloset()
 	{	return closet;
-	}
-
-	/**
-	 * Retrieves the character's collection.
-	 * @return	The character's collection
-	 */
-
-	public SortedListModel getCollection()
-	{	return museumManager.getItems();
 	}
 
 	/**
@@ -1855,24 +1826,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public ClanManager getClanManager()
 	{	return clanManager;
-	}
-
-	/**
-	 * Retrieves the <code>StoreManager</code> used for managing data relating
-	 * to the player's store.
-	 */
-
-	public StoreManager getStoreManager()
-	{	return storeManager;
-	}
-
-	/**
-	 * Retrieves the <code>MuseumManager</code> used for managing data relating
-	 * to the player's display case.
-	 */
-
-	public MuseumManager getMuseumManager()
-	{	return museumManager;
 	}
 
 	public LockableListModel getAdventureList()

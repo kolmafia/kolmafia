@@ -148,7 +148,7 @@ public class AutoSellRequest extends KoLRequest
 			}
 		}
 		else
-			client.getStoreManager().update( responseText, false );
+			StoreManager.update( responseText, false );
 
 		updateDisplay( ENABLED_STATE, "Items sold." );
 	}

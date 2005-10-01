@@ -43,15 +43,12 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class StoreManager implements KoLConstants
+public abstract class StoreManager extends StaticEntity
 {
-	private KoLmafia client;
-	private LockableListModel soldItemList;
+	private static LockableListModel soldItemList = new LockableListModel();
 
-	public StoreManager( KoLmafia client )
-	{
-		this.client = client;
-		soldItemList = new LockableListModel();
+	public static void reset()
+	{	soldItemList.clear();
 	}
 
 	/**
@@ -60,7 +57,7 @@ public class StoreManager implements KoLConstants
 	 * limit which is used to sell the item.
 	 */
 
-	public void registerItem( int itemID, int quantity, int price, int limit, int lowest )
+	public static void registerItem( int itemID, int quantity, int price, int limit, int lowest )
 	{	soldItemList.add( new SoldItem( itemID, quantity, price, limit, lowest ) );
 	}
 
@@ -70,7 +67,7 @@ public class StoreManager implements KoLConstants
 	 * existing price.
 	 */
 
-	public int getPrice( int itemID )
+	public static int getPrice( int itemID )
 	{
 		int currentPrice = 999999999;
 		for ( int i = 0; i < soldItemList.size(); ++i )
@@ -86,11 +83,11 @@ public class StoreManager implements KoLConstants
 	 * may or may not be up-to-date.
 	 */
 
-	public LockableListModel getSoldItemList()
+	public static LockableListModel getSoldItemList()
 	{	return soldItemList;
 	}
 
-	public synchronized void update( String storeText, boolean isPriceManagement )
+	public static synchronized void update( String storeText, boolean isPriceManagement )
 	{
 		soldItemList.clear();
 
@@ -170,13 +167,13 @@ public class StoreManager implements KoLConstants
 	 * given item.
 	 */
 
-	public void searchMall( String itemName, List priceSummary, boolean aggregatePrices )
+	public static void searchMall( String itemName, List priceSummary, boolean aggregatePrices )
 	{
 		client.getSettings().setProperty( "aggregatePrices", String.valueOf( aggregatePrices ) );
 		(new MallSearchThread( itemName, priceSummary, aggregatePrices )).start();
 	}
 
-	private class MallSearchThread extends DaemonThread
+	private static class MallSearchThread extends DaemonThread
 	{
 		private String itemName;
 		private List priceSummary;
@@ -272,7 +269,7 @@ public class StoreManager implements KoLConstants
 	 * player's store.
 	 */
 
-	public void takeItem( int itemID )
+	public static void takeItem( int itemID )
 	{	(new RequestThread( new StoreManageRequest( client, itemID ) )).start();
 	}
 

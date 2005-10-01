@@ -42,37 +42,36 @@ import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class MuseumManager implements KoLConstants
+public class MuseumManager extends StaticEntity
 {
-	private KoLmafia client;
-	private SortedListModel items;
-	private LockableListModel headers, shelves;
+	private static SortedListModel items = new SortedListModel();
+	private static LockableListModel headers = new LockableListModel();
+	private static LockableListModel shelves = new LockableListModel();
 
-	public MuseumManager( KoLmafia client )
+	public static void reset()
 	{
-		this.client = client;
-		this.items = new SortedListModel();
-		this.headers = new LockableListModel();
-		this.shelves = new LockableListModel();
+		items.clear();
+		headers.clear();
+		shelves.clear();
 	}
 
-	public SortedListModel getItems()
+	public static SortedListModel getItems()
 	{	return items;
 	}
 
-	public LockableListModel getHeaders()
+	public static LockableListModel getHeaders()
 	{	return headers;
 	}
 
-	public String getHeader( int shelf )
+	public static String getHeader( int shelf )
 	{	return (String) headers.get( shelf );
 	}
 
-	public LockableListModel getShelves()
+	public static LockableListModel getShelves()
 	{	return shelves;
 	}
 
-	public void move( Object [] moving, int sourceShelf, int destinationShelf )
+	public static void move( Object [] moving, int sourceShelf, int destinationShelf )
 	{
 		// In order to take advantage of the utilities of the
 		// Collections interface, place everything inside of
@@ -91,11 +90,11 @@ public class MuseumManager implements KoLConstants
 		// Save the lists to the server and update the display
 		// on the client to reflect the change.
 
-		save( this.shelves );
+		save( MuseumManager.shelves );
 		client.updateDisplay( ENABLED_STATE, "Display case updated." );
 	}
 
-	public void reorder( String [] headers )
+	public static void reorder( String [] headers )
 	{
 		headers[0] = "Display Case";
 
@@ -132,7 +131,7 @@ public class MuseumManager implements KoLConstants
 
 		List shelforder = new ArrayList();
 		for ( int i = 0; i < headers.length; ++i )
-			shelforder.add( shelves.get( this.headers.indexOf( headers[i] ) ) );
+			shelforder.add( shelves.get( MuseumManager.headers.indexOf( headers[i] ) ) );
 
 		// Save the lists to the server and update the display
 		// on the client to reflect the change.
@@ -158,7 +157,7 @@ public class MuseumManager implements KoLConstants
 		client.updateDisplay( ENABLED_STATE, "Display case updated." );
 	}
 
-	private void save( List shelfOrder )
+	private static void save( List shelfOrder )
 	{
 		int elementCounter = 0;
 		SortedListModel currentShelf;
@@ -167,8 +166,8 @@ public class MuseumManager implements KoLConstants
 		// glitches server side, all items submit their state.
 		// Store the data in two parallel arrays.
 
-		int [] newShelves = new int[ this.items.size() ];
-		AdventureResult [] newItems = new AdventureResult[ this.items.size() ];
+		int [] newShelves = new int[ MuseumManager.items.size() ];
+		AdventureResult [] newItems = new AdventureResult[ MuseumManager.items.size() ];
 
 		// Iterate through each shelf and place the item into
 		// the parallel arrays.
@@ -189,7 +188,7 @@ public class MuseumManager implements KoLConstants
 		(new MuseumRequest( client, newItems, newShelves )).run();
 	}
 
-	public void update( String data )
+	public static void update( String data )
 	{
 		updateShelves( data );
 
@@ -214,17 +213,15 @@ public class MuseumManager implements KoLConstants
 		}
 	}
 
-	private void registerItem( AdventureResult item, int shelf )
+	private static void registerItem( AdventureResult item, int shelf )
 	{
 		items.add( item );
 		((SortedListModel)shelves.get( shelf )).add( item );
 	}
 
-	private void updateShelves( String data )
+	private static void updateShelves( String data )
 	{
-		items.clear();
-		headers.clear();
-
+		reset();
 		Matcher selectMatcher = Pattern.compile( "<select.*?</select>" ).matcher( data );
 		if ( selectMatcher.find() )
 		{
@@ -243,10 +240,8 @@ public class MuseumManager implements KoLConstants
 
 		if ( headers.size() == 0 )
 			headers.add( "" );
-
 		headers.set( 0, "Display Case" );
 
-		shelves.clear();
 		for ( int i = 0; i < headers.size(); ++i )
 			shelves.add( new SortedListModel() );
 	}

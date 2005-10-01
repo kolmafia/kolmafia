@@ -107,7 +107,7 @@ public class ContactListFrame extends KoLFrame
 		clickOptions[2] = new JRadioButtonMenuItem( "Open purple message", false );
 		clickOptions[3] = new JRadioButtonMenuItem( "Open player profile", false );
 
-		int clickSelect = client == null ? 0 : Integer.parseInt( client.getSettings().getProperty( "nameClickOpens" ) );
+		int clickSelect = Integer.parseInt( getProperty( "nameClickOpens" ) );
 		clickOptions[ clickSelect ].setSelected( true );
 
 		for ( int i = 0; i < clickOptions.length; ++i )
