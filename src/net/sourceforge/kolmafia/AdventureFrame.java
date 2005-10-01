@@ -110,7 +110,7 @@ public class AdventureFrame extends KoLFrame
 
 	public AdventureFrame( KoLmafia client )
 	{
-		super( client, ((client == null) ? "UI Test" : client.getLoginName()) + " (" + KoLRequest.getRootHostName() + ")" );
+		super( client, KoLCharacter.getUsername() + " (" + KoLRequest.getRootHostName() + ")" );
 
 		this.isEnabled = true;
 		this.tabs = new JTabbedPane();
@@ -226,59 +226,51 @@ public class AdventureFrame extends KoLFrame
 
 		public AdventureSelectPanel()
 		{
-			super( "begin", "win game", "stop", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
+			super( "begin advs", "win game", "stop all", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
 
 			actions = new LockableListModel();
 			actionNames = new LockableListModel();
 
 			actions.add( "attack" );  actionNames.add( "Normal: Attack with Weapon" );
 
-			if ( client != null )
+			// Add in moxious maneuver if the player
+			// is of the appropriate class.
+
+			if ( KoLCharacter.getClassType().startsWith( "Ac" ) || KoLCharacter.getClassType().startsWith( "Di" ) )
 			{
-				// Add in moxious maneuver if the player
-				// is of the appropriate class.
+				actions.add( "moxman" );
+				actionNames.add( "Skill: Moxious Maneuver" );
+			}
 
-				if ( KoLCharacter.getClassType().startsWith( "Ac" ) || KoLCharacter.getClassType().startsWith( "Di" ) )
+			// Add in dictionary regardless of whether
+			// or not the player has a dictionary in
+			// their inventory.  Just ignore the option
+			// if the person turns out not to have one.
+
+			actions.add( "item0536" );
+			actionNames.add( "Item: Use a Dictionary" );
+
+			// Add in all of the player's combat skills;
+			// parse the skill list to find out.
+
+			Iterator skills = KoLCharacter.getAvailableSkills().iterator();
+
+			int currentSkillID;
+			UseSkillRequest currentSkill;
+
+			while ( skills.hasNext() )
+			{
+				currentSkill = (UseSkillRequest) skills.next();
+				currentSkillID = ClassSkillsDatabase.getSkillID( currentSkill.getSkillName() );
+
+				if ( ClassSkillsDatabase.isCombat( currentSkillID ) )
 				{
-					actions.add( "moxman" );
-					actionNames.add( "Skill: Moxious Maneuver" );
-				}
-
-				// Add in dictionary regardless of whether
-				// or not the player has a dictionary in
-				// their inventory.  Just ignore the option
-				// if the person turns out not to have one.
-
-				actions.add( "item0536" );
-				actionNames.add( "Item: Use a Dictionary" );
-
-				// Add in all of the player's combat skills;
-				// parse the skill list to find out.
-
-				if ( client != null )
-				{
-					Iterator skills = KoLCharacter.getAvailableSkills().iterator();
-
-					int currentSkillID;
-					UseSkillRequest currentSkill;
-
-					while ( skills.hasNext() )
-					{
-						currentSkill = (UseSkillRequest) skills.next();
-						currentSkillID = ClassSkillsDatabase.getSkillID( currentSkill.getSkillName() );
-
-						if ( ClassSkillsDatabase.isCombat( currentSkillID ) )
-						{
-							actions.add( String.valueOf( currentSkillID ) );
-							actionNames.add( "Skill: " + currentSkill.getSkillName() );
-						}
-					}
+					actions.add( String.valueOf( currentSkillID ) );
+					actionNames.add( "Skill: " + currentSkill.getSkillName() );
 				}
 			}
 
-			if ( client != null )
-				actionNames.setSelectedIndex( actions.indexOf( getProperty( "battleAction" ) ) );
-
+			actionNames.setSelectedIndex( actions.indexOf( getProperty( "battleAction" ) ) );
 			actionSelect = new JComboBox( actionNames );
 
 			actionStatusPanel = new JPanel();
@@ -390,23 +382,27 @@ public class AdventureFrame extends KoLFrame
 
 			contentPanel = this;
 
+			if ( actionNames.getSelectedIndex() < 0 || actions.getSelectedIndex() >= actions.size() )
+				actions.setSelectedIndex( 0 );
 
-			if ( client != null )
+			if ( actions.get( actionNames.getSelectedIndex() ).equals( "item0536" ) && FightRequest.DICTIONARY.getCount( client.getInventory() ) < 1 )
 			{
-				if ( actionNames.getSelectedIndex() < 0 || actions.getSelectedIndex() >= actions.size() )
-					actions.setSelectedIndex( 0 );
-
-				if ( actions.get( actionNames.getSelectedIndex() ).equals( "item0536" ) && FightRequest.DICTIONARY.getCount( client.getInventory() ) < 1 )
-				{
-					updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
-					return;
-				}
-
-				setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
+				updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
+				return;
 			}
 
+			setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
 			Runnable request = (Runnable) locationSelect.getSelectedItem();
 			setProperty( "lastAdventure", request.toString() );
+
+			// If it turns out that you have a null client (you are
+			// just demoing), stop here.
+
+			if ( client == null )
+				return;
+
+			// If there are conditions in the condition field, be
+			// sure to process them.
 
 			if ( conditionField.getText().trim().length() > 0 )
 			{
@@ -506,20 +502,19 @@ public class AdventureFrame extends KoLFrame
 				if ( client != null )
 					client.resetContinueState();
 
-				if ( client == null || client.permitsContinue() )
-					updateDisplay( DISABLED_STATE, "Petitioning the Seaside Town Council for automatic game completion..." );
+				updateDisplay( DISABLED_STATE, "Petitioning the Seaside Town Council for automatic game completion..." );
+				updateDisplay( DISABLED_STATE, "The Seaside Town Council has rejected your petition.  Game incomplete." );
+				updateDisplay( DISABLED_STATE, "You reject the Seaside Town's decision.  Fighting the council..." );
+				updateDisplay( ERROR_STATE, "You have been defeated by the Seaside Town Council.  Game Over." );
+			}
 
-				KoLRequest.delay( 3000 );
+			private void updateDisplay( int state, String message )
+			{
 				if ( client == null || client.permitsContinue() )
-					updateDisplay( DISABLED_STATE, "The Seaside Town Council has rejected your petition.  Game incomplete." );
-
-				KoLRequest.delay( 3000 );
-				if ( client == null || client.permitsContinue() )
-					updateDisplay( DISABLED_STATE, "You reject the Seaside Town's decision.  Fighting the council..." );
-
-				KoLRequest.delay( 3000 );
-				if ( client == null || client.permitsContinue() )
-					updateDisplay( ERROR_STATE, "You have been defeated by the Seaside Town Council.  Game Over." );
+				{
+					AdventureFrame.this.updateDisplay( state, message );
+					KoLRequest.delay( 3000 );
+				}
 			}
 		}
 
