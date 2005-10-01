@@ -96,7 +96,7 @@ public class StoreManageRequest extends KoLRequest
 			}
 		}
 
-		client.getStoreManager().update( responseText, isPriceManagement );
+		StoreManager.update( responseText, isPriceManagement );
 		updateDisplay( ENABLED_STATE, "Store inventory request complete." );
 	}
 }
