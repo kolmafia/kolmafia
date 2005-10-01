@@ -10,7 +10,7 @@
   <property name="lib" location="lib"/>
   <property name="build" location="build"/>
   <property name="dist" location="dist"/>
-  <property name="docs" location="${dist}/docs/api"/>
+  <property name="docs" location="${dist}/docs"/>
   <property name="cvscheck" location="cvscheck"/>
 
   <property name="cvsroot" value=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/kolmafia"/>
@@ -121,6 +121,7 @@
           description="generate javadocs from sourcecode">
 
     <mkdir dir="${docs}"/>
+    <mkdir dir="${docs}/api"/>
 
     <javadoc sourcepath="${src}"
              destdir="${docs}"
