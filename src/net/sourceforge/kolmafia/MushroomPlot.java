@@ -455,6 +455,7 @@ public abstract class MushroomPlot extends StaticEntity
 				MushroomPlotRequest request = new MushroomPlotRequest( square );
 				client.updateDisplay( DISABLED_STATE, "Picking square " + square + "..." );
 				request.run();
+				client.updateDisplay( ENABLED_STATE, "Square picked." );
 			}
 		}
 

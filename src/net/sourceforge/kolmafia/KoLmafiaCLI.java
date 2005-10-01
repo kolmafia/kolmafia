@@ -1779,17 +1779,57 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeMushroomCommand( String parameters )
 	{
 		String [] split = parameters.split( " " );
+		String command = split[0];
 
-		if ( split[0].equals( "plant" ) )
+		if ( command.equals( "plant" ) )
 		{
-			String squareString = split[2];
-			String sporeString = parameters.substring(5).trim();
-			int spore = TradeableItemDatabase.getItemID( sporeString );
+			if ( split.length < 3 )
+			{
+				updateDisplay( ERROR_STATE, "Syntax: field plant square spore" );
+				return;
+			}
+
+			String squareString = split[1];
+			int square;
+
+			try
+			{
+				square = df.parse( squareString ).intValue();
+			}
+			catch  ( Exception e )
+			{
+				updateDisplay( ERROR_STATE, squareString + " is not a number." );
+				return;
+			}
+
+			// Skip past command and square
+			parameters = parameters.substring( command.length() ).trim();
+			parameters = parameters.substring( squareString.length() ).trim();
+
+			int spore = TradeableItemDatabase.getItemID( parameters );
+
+			if ( spore == -1 )
+			{
+				updateDisplay( ERROR_STATE, "Unknown spore: " + parameters);
+				return;
+			}
+
+			MushroomPlot.plantMushroom( square, spore );
+		}
+		else if ( command.equals( "pick" ) )
+		{
+			if ( split.length < 2 )
+			{
+				updateDisplay( ERROR_STATE, "Syntax: field pick square" );
+				return;
+			}
+
+			String squareString = split[1];
 
 			try
 			{
 				int square = df.parse( squareString ).intValue();
-				MushroomPlot.plantMushroom( square, spore );
+				MushroomPlot.pickMushroom( square, true );
 			}
 			catch  ( Exception e )
 			{
@@ -1797,20 +1837,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 		}
-		else if ( split[0].equals( "pick" ) )
-		{
-			try
-			{
-				int square = df.parse( parameters ).intValue();
-				MushroomPlot.pickMushroom( square, true );
-			}
-			catch  ( Exception e )
-			{
-				updateDisplay( ERROR_STATE, parameters + " is not a number." );
-				return;
-			}
-		}
-		else if ( split[0].equals( "harvest" ) )
+		else if ( command.equals( "harvest" ) )
 		{
 			for ( int i = 1; i <= 16; ++i )
 				MushroomPlot.pickMushroom( i, false );
