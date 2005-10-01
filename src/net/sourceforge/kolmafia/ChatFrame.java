@@ -127,7 +127,7 @@ public class ChatFrame extends KoLFrame
 			if ( associatedContact.startsWith( "/" ) )
 				setTitle( "KoLmafia Chat: " + associatedContact );
 			else
-				setTitle( "KoLmafia NSIPM: " + client.getLoginName() + " / " + associatedContact );
+				setTitle( "KoLmafia NSIPM: " + KoLCharacter.getUsername() + " / " + associatedContact );
 		}
 	}
 

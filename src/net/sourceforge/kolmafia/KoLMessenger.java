@@ -596,7 +596,7 @@ public class KoLMessenger implements KoLConstants
 			}
 			else if ( message.startsWith( "<b>private to" ) )
 			{
-				String sender = client.getLoginName();
+				String sender = KoLCharacter.getUsername();
 				String recipient = message.substring( 0, message.indexOf( ":" ) ).replaceAll( "<.*?>", "" ).substring( 11 );
 
 				String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=red>" +
@@ -761,7 +761,7 @@ public class KoLMessenger implements KoLConstants
 
 		public void run()
 		{
-			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( client.getLoginName() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString() );
+			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString() );
 			instantMessageBuffers.put( channel, buffer );
 			ChatFrame frame = new ChatFrame( client, KoLMessenger.this, channel );
 
@@ -784,7 +784,7 @@ public class KoLMessenger implements KoLConstants
 			if ( CHATLOG_BASENAME != null )
 			{
 				String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) : client.getPlayerID( channel )) + ".html";
-				buffer.setActiveLogFile( filename, "Loathing Chat: " + client.getLoginName() + " (" + Calendar.getInstance().getTime().toString() + ")" );
+				buffer.setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + Calendar.getInstance().getTime().toString() + ")" );
 			}
 
 			if ( highlighting && !channel.equals( "[highs]" ) )
@@ -811,7 +811,7 @@ public class KoLMessenger implements KoLConstants
 		{
 			currentKey = (String) keys[i];
 			filename = CHATLOG_BASENAME + (currentKey.startsWith( "/" ) ? currentKey.substring( 1 ) : client.getPlayerID( currentKey )) + ".html";
-			getChatBuffer( currentKey ).setActiveLogFile( filename, "Loathing Chat: " + client.getLoginName() + " (" + currentTime + ")" );
+			getChatBuffer( currentKey ).setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + currentTime + ")" );
 		}
 	}
 
@@ -838,7 +838,7 @@ public class KoLMessenger implements KoLConstants
 
 	public void addHighlighting()
 	{
-		String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", client.getLoginName() );
+		String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", KoLCharacter.getUsername() );
 
 		if ( highlight == null )
 			return;

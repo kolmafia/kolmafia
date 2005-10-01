@@ -68,7 +68,7 @@ public class ChatRequest extends KoLRequest
 	public ChatRequest( KoLmafia client, String contact, String message )
 	{
 		super( client, "submitnewchat.php" );
-		addFormField( "playerid", String.valueOf( client.getUserID() ) );
+		addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
 		addFormField( "pwd", client.getPasswordHash() );
 
 		String contactID = client.getPlayerID( contact );

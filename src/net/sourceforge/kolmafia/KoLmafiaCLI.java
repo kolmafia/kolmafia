@@ -1491,7 +1491,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( desiredData.equals( "session" ) )
 		{
-			updateDisplay( NOCHANGE, "Player: " + scriptRequestor.getLoginName() );
+			updateDisplay( NOCHANGE, "Player: " + KoLCharacter.getUsername() );
 			updateDisplay( NOCHANGE, "Session ID: " + scriptRequestor.getSessionID() );
 			updateDisplay( NOCHANGE, "Password Hash: " + scriptRequestor.getPasswordHash() );
 		}

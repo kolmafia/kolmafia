@@ -117,7 +117,7 @@ public class BuffBotHome implements KoLConstants
 	private final File getFile( String extension )
 	{
 		String dayOfYear = sdf.format(new Date());
-		String characterName = client == null ? "" : client.getLoginName();
+		String characterName = client == null ? "" : KoLCharacter.getUsername();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 
 		return new File( "buffs" + File.separator + noExtensionName + "_" + dayOfYear + extension );
