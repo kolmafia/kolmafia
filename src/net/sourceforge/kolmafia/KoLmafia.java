@@ -232,6 +232,7 @@ public abstract class KoLmafia implements KoLConstants
 			this.pullsRemaining = -1;
 			FamiliarData.reset();
 
+			KoLCharacter.reset( loginname );
 			CharpaneRequest.reset();
 			MushroomPlot.reset();
 			CakeArenaManager.reset();
