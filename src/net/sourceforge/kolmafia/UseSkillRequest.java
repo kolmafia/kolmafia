@@ -114,8 +114,8 @@ public class UseSkillRequest extends KoLRequest
 			lastUpdate = "I had lag problems.";
 			updateDisplay( ERROR_STATE, "No response to skill request." );
 
-			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "No response to skill request." );
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "No response to skill request." );
 
 			return;
 		}
@@ -125,8 +125,8 @@ public class UseSkillRequest extends KoLRequest
 			lastUpdate = "You don't have that skill.";
 			updateDisplay( ERROR_STATE, "You don't have that skill." );
 
-			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "You don't have that skill." );
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "You don't have that skill." );
 
 			return;
 		}
@@ -136,8 +136,8 @@ public class UseSkillRequest extends KoLRequest
 			lastUpdate = "I don't have enough mana to continue.";
 			updateDisplay( ERROR_STATE, "You don't have enough mana." );
 
-			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "You don't have enough mana." );
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "You don't have enough mana." );
 
 			return;
 		}
@@ -147,8 +147,8 @@ public class UseSkillRequest extends KoLRequest
 			lastUpdate = "I can't cast that spell that many times.";
 			updateDisplay( ERROR_STATE, "Summon limited exceeded." );
 
-			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "Summon limit exceeded." );
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "Summon limit exceeded." );
 
 			return;
 		}
@@ -158,8 +158,8 @@ public class UseSkillRequest extends KoLRequest
 			lastUpdate = "You have 3 AT buffs already.";
 			updateDisplay( ERROR_STATE, target + " is overbuffed." );
 
-			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is overbuffed." );
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is overbuffed." );
 
 			return;
 		}
@@ -169,8 +169,8 @@ public class UseSkillRequest extends KoLRequest
 			lastUpdate = "KoL did not recognize you as a valid player.";
 			updateDisplay( ERROR_STATE, target + " is not a valid target." );
 
-			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is not a valid target." );
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is not a valid target." );
 
 			return;
 		}
@@ -180,8 +180,8 @@ public class UseSkillRequest extends KoLRequest
 			lastUpdate = "You were busy fighting.";
 			updateDisplay( ERROR_STATE, target + " is busy fighting." );
 
-			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is busy fighting." );
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is busy fighting." );
 
 			return;
 		}
@@ -191,8 +191,8 @@ public class UseSkillRequest extends KoLRequest
 			lastUpdate = "You cannot receive buffs.";
 			updateDisplay( ERROR_STATE, target + " cannot receive buffs." );
 
-			if ( client.isBuffBotActive() )
-				client.getBuffBotLog().timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " cannot receive buffs." );
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " cannot receive buffs." );
 
 			return;
 		}

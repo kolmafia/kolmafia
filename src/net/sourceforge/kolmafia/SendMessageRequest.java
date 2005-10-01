@@ -77,7 +77,7 @@ public abstract class SendMessageRequest extends KoLRequest
 			this.attachments[0] = attachment;
 		}
 
-		this.source = client.getInventory();
+		this.source = KoLCharacter.getInventory();
 		this.destination = new ArrayList();
 
                 quantityField = "howmany";
@@ -90,7 +90,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		this.meatAttachment = meatAttachment;
 		this.attachments = attachments;
 
-		this.source = client.getInventory();
+		this.source = KoLCharacter.getInventory();
 		this.destination = new ArrayList();
 
                 quantityField = "howmany";
@@ -183,18 +183,18 @@ public abstract class SendMessageRequest extends KoLRequest
 
 			for ( int i = 0; i < attachments.length; ++i )
 			{
-				if ( client != null && source == client.getInventory() )
+				if ( client != null && source == KoLCharacter.getInventory() )
 					client.processResult( ((AdventureResult)attachments[i]).getNegation() );
 				else
 					AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
 
-				if ( client != null && destination == client.getInventory() )
+				if ( client != null && destination == KoLCharacter.getInventory() )
 					client.processResult( (AdventureResult) attachments[i] );
 				else
 					AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
 			}
 
-			if ( source == client.getInventory() )
+			if ( source == KoLCharacter.getInventory() )
 				client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meatAttachment ) );
 			else
 				client.processResult( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );

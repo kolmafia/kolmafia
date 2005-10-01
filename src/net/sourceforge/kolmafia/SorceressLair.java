@@ -215,8 +215,8 @@ public abstract class SorceressLair extends StaticEntity
 		// Make sure the character has some candy, or at least
 		// the appropriate status effect.
 
-		AdventureResult candy = MARZIPAN.getCount( client.getInventory() ) > 0 ? MARZIPAN :
-			FARMER_CANDY.getCount( client.getInventory() ) > 0 ? FARMER_CANDY : RICE_CANDY;
+		AdventureResult candy = MARZIPAN.getCount( KoLCharacter.getInventory() ) > 0 ? MARZIPAN :
+			FARMER_CANDY.getCount( KoLCharacter.getInventory() ) > 0 ? FARMER_CANDY : RICE_CANDY;
 
 		// Check to see if the person has crossed through the
 		// gates already.  If they haven't, then that's the
@@ -240,12 +240,12 @@ public abstract class SorceressLair extends StaticEntity
 		// Make sure required keys are available
 
 		// Digital key unless you already have the Squeezings of Woe
-		if ( SQUEEZINGS.getCount( client.getInventory() ) < 1 )
+		if ( SQUEEZINGS.getCount( KoLCharacter.getInventory() ) < 1 )
 			requirements.add( DIGITAL );
 
 		// Skeleton key and a clover unless you already have the
 		// Really Evil Rhythms
-		if ( RHYTHM.getCount( client.getInventory() ) < 1 )
+		if ( RHYTHM.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
 			requirements.add( SKELETON );
 			requirements.add( CLOVER );
@@ -256,19 +256,19 @@ public abstract class SorceressLair extends StaticEntity
 
 		AdventureResult starWeapon = STAR_SWORD;
 
-		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star crossbow" ) || (STAR_CROSSBOW.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() )) )
+		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star crossbow" ) || (STAR_CROSSBOW.getCount( KoLCharacter.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() )) )
 			starWeapon = STAR_CROSSBOW;
 
-		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star staff" ) || (STAR_STAFF.getCount( client.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_STAFF.getName() )) )
+		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star staff" ) || (STAR_STAFF.getCount( KoLCharacter.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_STAFF.getName() )) )
 			starWeapon = STAR_STAFF;
 
-		boolean needsWeapon = starWeapon.getCount( client.getInventory() ) == 0 && !KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star" );
-		boolean needsBuckler = STAR_BUCKLER.getCount( client.getInventory() ) == 0 && !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
+		boolean needsWeapon = starWeapon.getCount( KoLCharacter.getInventory() ) == 0 && !KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star" );
+		boolean needsBuckler = STAR_BUCKLER.getCount( KoLCharacter.getInventory() ) == 0 && !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
 			!KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).startsWith( "star" ) && !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).startsWith( "star" );
 
 		// Star equipment unless you already have Sinister Strummings
 
-		if ( STRUMMING.getCount( client.getInventory() ) < 1 )
+		if ( STRUMMING.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
 			if ( needsWeapon )
 				requirements.add( starWeapon );
@@ -281,7 +281,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// The three hero keys are needed to get the SCUBA gear
 
-		if ( SCUBA.getCount( client.getInventory() ) < 1 )
+		if ( SCUBA.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
 			requirements.add( BORIS );
 			requirements.add( JARLSBERG );
@@ -297,12 +297,12 @@ public abstract class SorceressLair extends StaticEntity
 		// Next, figure out which instrument is needed for the final
 		// stage of the entryway.
 
-		requirements.add( HEAVY_METAL_GUITAR.getCount( client.getInventory() ) > 0 ? HEAVY_METAL_GUITAR :
-			STONE_BANJO.getCount( client.getInventory() ) > 0 ? STONE_BANJO :
-			DISCO_BANJO.getCount( client.getInventory() ) > 0 ? DISCO_BANJO : ACOUSTIC_GUITAR );
+		requirements.add( HEAVY_METAL_GUITAR.getCount( KoLCharacter.getInventory() ) > 0 ? HEAVY_METAL_GUITAR :
+			STONE_BANJO.getCount( KoLCharacter.getInventory() ) > 0 ? STONE_BANJO :
+			DISCO_BANJO.getCount( KoLCharacter.getInventory() ) > 0 ? DISCO_BANJO : ACOUSTIC_GUITAR );
 
-		requirements.add( TAMBOURINE.getCount( client.getInventory() ) > 0 ? TAMBOURINE : BONE_RATTLE );
-		requirements.add( ROCKNROLL_LEGEND.getCount( client.getInventory() ) > 0 ? ROCKNROLL_LEGEND : ACCORDION );
+		requirements.add( TAMBOURINE.getCount( KoLCharacter.getInventory() ) > 0 ? TAMBOURINE : BONE_RATTLE );
+		requirements.add( ROCKNROLL_LEGEND.getCount( KoLCharacter.getInventory() ) > 0 ? ROCKNROLL_LEGEND : ACCORDION );
 
 		// Now that the array's initialized, issue the checks
 		// on the items needed to finish the entryway.
@@ -310,7 +310,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !client.checkRequirements( requirements ) )
 			return;
 
-		if ( RHYTHM.getCount( client.getInventory() ) < 1 )
+		if ( RHYTHM.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
 			// The character needs to be healthy in order to play
 			// the skeleton dice game.  Healthy is determined as
@@ -332,7 +332,7 @@ public abstract class SorceressLair extends StaticEntity
 		// If you can't equip the appropriate weapon and buckler,
 		// then tell the player they lack the required stats.
 
-		if ( STRUMMING.getCount( client.getInventory() ) < 1 )
+		if ( STRUMMING.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
 			if ( !EquipmentDatabase.canEquip( starWeapon.getName() ) )
 			{
@@ -401,7 +401,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Now handle the form for the digital key to get
 		// the Squeezings of Woe.
 
-		if ( SQUEEZINGS.getCount( client.getInventory() ) < 1 )
+		if ( SQUEEZINGS.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
 			client.updateDisplay( DISABLED_STATE, "Inserting digital key..." );
 
@@ -435,7 +435,7 @@ public abstract class SorceressLair extends StaticEntity
 		// require you to re-equip your star weapon and
 		// a star buckler and switch to a starfish first.
 
-		if ( STRUMMING.getCount( client.getInventory() ) < 1 )
+		if ( STRUMMING.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
 			if ( needsWeapon )
 				(new EquipmentRequest( client, starWeapon.getName() )).run();
@@ -469,7 +469,7 @@ public abstract class SorceressLair extends StaticEntity
 		// get the Really Evil Rhythm. This uses up the
 		// clover you had, so process it.
 
-		if ( RHYTHM.getCount( client.getInventory() ) < 1 )
+		if ( RHYTHM.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
 			client.updateDisplay( DISABLED_STATE, "Inserting skeleton key..." );
 
@@ -492,7 +492,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Next, handle the three hero keys, which involve
 		// answering the riddles with the forms of fish.
 
-		if ( SCUBA.getCount( client.getInventory() ) < 1 )
+		if ( SCUBA.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
 			client.updateDisplay( DISABLED_STATE, "Inserting Boris's key..." );
 
@@ -552,7 +552,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// If he brought a balloon monkey, get him an easter egg
 
-		if ( BALLOON.getCount( client.getInventory() ) > 0 )
+		if ( BALLOON.getCount( KoLCharacter.getInventory() ) > 0 )
 		{
 			request = new KoLRequest( client, "lair2.php" );
 			request.addFormField( "preaction", "key" );
@@ -590,8 +590,8 @@ public abstract class SorceressLair extends StaticEntity
 		// Retrieve any puzzle pieces that might be sitting
 		// inside of the player's closet.
 
-		int closetCount = PUZZLE_PIECE.getCount( client.getCloset() );
-		int inventoryCount = PUZZLE_PIECE.getCount( client.getInventory() );
+		int closetCount = PUZZLE_PIECE.getCount( KoLCharacter.getCloset() );
+		int inventoryCount = PUZZLE_PIECE.getCount( KoLCharacter.getInventory() );
 
 		if ( closetCount > 0 )
 			AdventureDatabase.retrieveItem( PUZZLE_PIECE.getInstance( inventoryCount + closetCount ) );
@@ -630,7 +630,7 @@ public abstract class SorceressLair extends StaticEntity
 		// First mission -- retrieve the key from the hedge
 		// maze puzzle.
 
-		if ( !client.getInventory().contains( HEDGE_KEY ) )
+		if ( !KoLCharacter.getInventory().contains( HEDGE_KEY ) )
 		{
 			client.updateDisplay( DISABLED_STATE, "Retrieving hedge key..." );
 			responseText = retrieveHedgeKey( responseText );
@@ -691,7 +691,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( responseText.indexOf( "Click one" ) == -1 )
 			{
-				int puzzlePieceCount = PUZZLE_PIECE.getCount( client.getInventory() );
+				int puzzlePieceCount = PUZZLE_PIECE.getCount( KoLCharacter.getInventory() );
 
 				// Reduce your hedge piece count by one; if
 				// it turns out that you've run out of puzzle
@@ -850,7 +850,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		request = new KoLRequest( client, "fight.php" );
 
-		if ( client.getInventory().contains( guardianItem ) )
+		if ( KoLCharacter.getInventory().contains( guardianItem ) )
 		{
 			request.addFormField( "action", "useitem" );
 			request.addFormField( "whichitem", String.valueOf( guardianItem.getItemID() ) );
@@ -872,7 +872,7 @@ public abstract class SorceressLair extends StaticEntity
 		request.run();
 
 		AdventureDatabase.retrieveItem( guardianItem );
-		if ( guardianItem.getCount( client.getInventory() ) != 0 )
+		if ( guardianItem.getCount( KoLCharacter.getInventory() ) != 0 )
 			return fightGuardian( towerLevel );
 
 		client.updateDisplay( ERROR_STATE, "You need an additional " + guardianItem.getName() + " to continue." );

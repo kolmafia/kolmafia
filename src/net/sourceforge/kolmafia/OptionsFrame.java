@@ -241,11 +241,10 @@ public class OptionsFrame extends KoLFrame
 			setProperty( "zoneExcludeList", areas.toString() );
 			super.actionConfirmed();
 
-			client.getAdventureList().clear();
-			client.getAdventureList().addAll( AdventureDatabase.getAsLockableListModel() );
+			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 
 			if ( client != null && optionBoxes[0].isSelected() )
-				Collections.sort( client.getAdventureList() );
+				Collections.sort( adventureList );
 		}
 
 		protected void actionCancelled()
@@ -385,7 +384,6 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox hpAutoRecoverSelect;
 		private JComboBox mpAutoRecoverSelect;
 		private JTextField hpRecoveryScriptField;
-		private MPRestoreItemList mpRestoreItemList;
 
 		/**
 		 * Constructs a new <code>RestoreOptionsPanel</code> containing a
@@ -415,8 +413,6 @@ public class OptionsFrame extends KoLFrame
 				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
 
 			hpRecoveryScriptField = new JTextField();
-			mpRestoreItemList = client == null || client.getMPRestoreItemList() == null ?
-				new MPRestoreItemList( null ) : client.getMPRestoreItemList();
 
 			// Add the elements to the panel
 
@@ -431,7 +427,7 @@ public class OptionsFrame extends KoLFrame
 			elements[4] = new VerifiableElement( "", new JLabel() );
 
 			elements[5] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
-			elements[6] = new VerifiableElement( "Use these restores: ", mpRestoreItemList.getDisplay() );
+			elements[6] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
 
 			setContent( elements );
 			actionCancelled();
@@ -443,7 +439,7 @@ public class OptionsFrame extends KoLFrame
 			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
 			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-			mpRestoreItemList.setProperty();
+			MPRestoreItemList.setProperty();
 
 			super.actionConfirmed();
 		}

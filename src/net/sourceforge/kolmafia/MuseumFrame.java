@@ -152,7 +152,7 @@ public class MuseumFrame extends KoLFrame
 		private class OutsideDisplayPanel extends ItemManagePanel
 		{
 			public OutsideDisplayPanel()
-			{	super( "Inventory", "add to display", "put in closet", client == null ? new LockableListModel() : client.getInventory() );
+			{	super( "Inventory", "add to display", "put in closet", KoLCharacter.getInventory() );
 			}
 
 			protected void actionConfirmed()

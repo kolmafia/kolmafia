@@ -80,8 +80,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected LoginRequest loginRequest;
 
 	protected String password, sessionID, passwordHash;
-	protected KoLMessenger loathingChat;
-	protected KoLMailManager loathingMail;
 
 	private boolean disableMacro;
 	protected KoLSettings settings;
@@ -94,10 +92,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected int [] initialStats;
 	protected int [] fullStatGain;
 
-	protected BuffBotHome buffBotHome;
-	protected BuffBotManager buffBotManager;
-	protected MPRestoreItemList mpRestoreItemList;
-
+	protected KoLMessenger loathingChat;
 	protected ClanManager clanManager;
 
 	protected SortedListModel saveStateNames;
@@ -109,7 +104,7 @@ public abstract class KoLmafia implements KoLConstants
 	private int pullsRemaining;
 	protected LockableListModel adventureList;
 	protected SortedListModel tally, missingItems;
-	protected SortedListModel inventory, closet, usableItems, sellableItems, hunterItems, storage;
+	protected SortedListModel usableItems, sellableItems, hunterItems, storage;
 
 	protected boolean useDisjunction;
 	protected SortedListModel conditions;
@@ -240,12 +235,10 @@ public abstract class KoLmafia implements KoLConstants
 			this.conditions.clear();
 			this.missingItems.clear();
 
-			this.inventory = KoLCharacter.getInventory();
 			this.usableItems = new SortedListModel();
 			this.sellableItems = new SortedListModel();
 			this.hunterItems = new SortedListModel();
 			this.storage = new SortedListModel();
-			this.closet = KoLCharacter.getCloset();
 			this.recentEffects = new ArrayList();
 
 			this.tally = new SortedListModel();
@@ -361,7 +354,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		this.isLoggingIn = false;
 		this.settings = new KoLSettings( loginname );
-		this.loathingMail = new KoLMailManager( this );
 		this.clanManager = new ClanManager( this );
 		this.permitContinue = true;
 
@@ -371,7 +363,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		adventureList.clear();
 		adventureList.addAll( AdventureDatabase.getAsLockableListModel() );
-		this.mpRestoreItemList = new MPRestoreItemList( this );
+		MPRestoreItemList.reset();
 	}
 
 	/**
@@ -755,24 +747,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Retrieves the character's inventory.
-	 * @return	The character's inventory
-	 */
-
-	public SortedListModel getInventory()
-	{	return inventory;
-	}
-
-	/**
-	 * Retrieves the character's closet.
-	 * @return	The character's closet
-	 */
-
-	public SortedListModel getCloset()
-	{	return closet;
-	}
-
-	/**
 	 * Retrieves the usable items in the character's inventory
 	 * @return	The character's usable items
 	 */
@@ -815,7 +789,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public boolean isLuckyCharacter()
-	{	return inventory != null && inventory.contains( CLOVER );
+	{	return KoLCharacter.getInventory().contains( CLOVER );
 	}
 
 	/**
@@ -890,15 +864,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Returns the list of mana restores being maintained
-	 * by the current client.
-	 */
-
-	public MPRestoreItemList getMPRestoreItemList()
-	{	return mpRestoreItemList;
-	}
-
-	/**
 	 * Returns the total number of mana restores currently
 	 * available to the player.
 	 */
@@ -908,14 +873,9 @@ public abstract class KoLmafia implements KoLConstants
 		int restoreCount = 0;
 		String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
 
-		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
-		{
-			MPRestoreItemList.MPRestoreItem restorer = (MPRestoreItemList.MPRestoreItem) mpRestoreItemList.get(i);
-			String itemName = restorer.toString();
-
-			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
-				restoreCount += restorer.getItem().getCount( inventory );
-		}
+		for ( int i = 0; i < MPRestoreItemList.size(); ++i )
+			if ( mpRestoreSetting.indexOf( MPRestoreItemList.get(i).toString() ) != -1 )
+				restoreCount += MPRestoreItemList.get(i).getItem().getCount( KoLCharacter.getInventory() );
 
 		return restoreCount;
 	}
@@ -948,20 +908,17 @@ public abstract class KoLmafia implements KoLConstants
 
 		String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
 
-		for ( int i = 0; i < mpRestoreItemList.size(); ++i )
+		for ( int i = 0; i < MPRestoreItemList.size(); ++i )
 		{
-			MPRestoreItemList.MPRestoreItem restorer = (MPRestoreItemList.MPRestoreItem) mpRestoreItemList.get(i);
-			String itemName = restorer.toString();
-
-			if ( mpRestoreSetting.indexOf( itemName ) != -1 )
+			if ( mpRestoreSetting.indexOf( MPRestoreItemList.get(i).toString() ) != -1 )
 			{
-				if ( restorer == mpRestoreItemList.BEANBAG || restorer == mpRestoreItemList.HOUSE )
+				if ( MPRestoreItemList.get(i) == MPRestoreItemList.BEANBAG || MPRestoreItemList.get(i) == MPRestoreItemList.HOUSE )
 				{
 					while ( KoLCharacter.getAdventuresLeft() > 0 &&
 						KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() && KoLCharacter.getCurrentMP() > previousMP )
 					{
 						previousMP = KoLCharacter.getCurrentMP();
- 						restorer.recoverMP( mpNeeded );
+ 						MPRestoreItemList.get(i).recoverMP( mpNeeded );
 
  						if ( KoLCharacter.getCurrentMP() >= mpNeeded )
  						{
@@ -979,12 +936,12 @@ public abstract class KoLmafia implements KoLConstants
 				}
 				else
 				{
-					AdventureResult item = new AdventureResult( itemName, 0 );
- 					while ( inventory.contains( item ) &&
+					AdventureResult item = new AdventureResult( MPRestoreItemList.get(i).toString(), 0 );
+ 					while ( KoLCharacter.getInventory().contains( item ) &&
 						KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() && KoLCharacter.getCurrentMP() > previousMP )
  					{
  						previousMP = KoLCharacter.getCurrentMP();
- 						restorer.recoverMP( mpNeeded );
+ 						MPRestoreItemList.get(i).recoverMP( mpNeeded );
 
  						if ( KoLCharacter.getCurrentMP() >= mpNeeded )
  						{
@@ -1484,17 +1441,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Returns the mailing client associated with the current
-	 * session of KoLmafia.
-	 *
-	 * @return	The mailing client for the current session
-	 */
-
-	public KoLMailManager getMailManager()
-	{	return isBuffBotActive() ? buffBotManager : loathingMail;
-	}
-
-	/**
 	 * Initializes the chat buffer with the provided chat pane.
 	 * Note that the chat refresher will also be initialized
 	 * by calling this method; to stop the chat refresher, call
@@ -1749,76 +1695,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Utility method used to initialize the buffbot and the
-	 * buffbot logs.
-	 */
-
-	public void initializeBuffBot()
-	{
-		if ( buffBotHome == null )
-			buffBotHome = new BuffBotHome(this);
-	}
-
-	/**
-	 * Utility method used to deinitialize the buffbot and the
-	 * buffbot logs.
-	 */
-
-	public void deinitializeBuffBot()
-	{
-		if ( buffBotHome != null )
-		{
-			buffBotHome.deinitialize();
-			buffBotHome = null;
-		}
-	}
-
-	/**
-	 * Utility method used to retrieve the actual logger used
-	 * for logging information related to the buffbut.
-	 */
-
-	public BuffBotHome getBuffBotLog()
-	{	return buffBotHome;
-	}
-
-	/**
-	 * Returns whether or not the buffbot is active.
-	 * @return	<code>true</code> if the buffbot is active
-	 */
-
-	public boolean isBuffBotActive()
-	{	return (buffBotHome == null) ? false : buffBotHome.isBuffBotActive();
-	}
-
-	/**
-	 * Sets the active state of the buffbot.
-	 * @param	isActive	The active state of the buffbot
-	 */
-
-	public void setBuffBotActive(boolean isActive)
-	{	if (buffBotHome != null) buffBotHome.setBuffBotActive(isActive);
-	}
-
-	/**
-	 * Sets the <code>BuffBotManager</code> used for managing the buffbot.
-	 * @param	buffBotManager	The <code>BuffBotManager</code> to be used
-	 */
-
-	public void setBuffBotManager( BuffBotManager buffBotManager )
-	{	this.buffBotManager = buffBotManager;
-	}
-
-	/**
-	 * Retrieves the <code>BuffBotManager</code> used for managing the buffbot.
-	 * @return	The <code>BuffBotManager</code> used for managing the buffbot
-	 */
-
-	public BuffBotManager getBuffBotManager()
-	{	return buffBotManager;
-	}
-
-	/**
 	 * Retrieves the <code>ClanManager</code> used for managing data relating
 	 * to this player's clan.
 	 * @return	The <code>ClanManager</code> used for managing the clan
@@ -1826,10 +1702,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public ClanManager getClanManager()
 	{	return clanManager;
-	}
-
-	public LockableListModel getAdventureList()
-	{	return adventureList;
 	}
 
 	public SortedListModel getSessionTally()
@@ -1854,7 +1726,7 @@ public abstract class KoLmafia implements KoLConstants
 		isLoggingIn = true;
 		LoginRequest cachedLogin = loginRequest;
 
-		boolean previouslyActive = isBuffBotActive();
+		boolean previouslyActive = BuffBotHome.isBuffBotActive();
 
 		deinitialize();
 		updateDisplay( DISABLED_STATE, "Timing in session..." );
@@ -1884,7 +1756,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		(new CharsheetRequest( KoLmafia.this )).run();
 
-		setBuffBotActive( previouslyActive );
+		BuffBotHome.setBuffBotActive( previouslyActive );
 		updateDisplay( ENABLED_STATE, "Session timed in." );
 	}
 
@@ -1950,7 +1822,7 @@ public abstract class KoLmafia implements KoLConstants
 				continue;
 
 			AdventureDatabase.retrieveItem( requirementsArray[i] );
-			missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( inventory );
+			missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( KoLCharacter.getInventory() );
 
 			if ( missingCount > 0 )
 			{
@@ -2004,10 +1876,10 @@ public abstract class KoLmafia implements KoLConstants
 				// you run the purchase request
 
 				AdventureResult oldResult = new AdventureResult( currentRequest.getItemName(), 0 );
-				int oldResultIndex = inventory.indexOf( oldResult );
+				int oldResultIndex = KoLCharacter.getInventory().indexOf( oldResult );
 
 				if ( oldResultIndex != -1 )
-					oldResult = (AdventureResult) inventory.get( oldResultIndex );
+					oldResult = (AdventureResult) KoLCharacter.getInventory().get( oldResultIndex );
 
 				currentRequest.setLimit( maxPurchases );
 				currentRequest.run();
@@ -2015,10 +1887,10 @@ public abstract class KoLmafia implements KoLConstants
 				// Calculate how many of the item you have now after
 				// you run the purchase request
 
-				int newResultIndex = inventory.indexOf( oldResult );
+				int newResultIndex = KoLCharacter.getInventory().indexOf( oldResult );
 				if ( newResultIndex != -1 )
 				{
-					AdventureResult newResult = (AdventureResult) inventory.get( newResultIndex );
+					AdventureResult newResult = (AdventureResult) KoLCharacter.getInventory().get( newResultIndex );
 					maxPurchases -= newResult.getCount() - oldResult.getCount();
 				}
 

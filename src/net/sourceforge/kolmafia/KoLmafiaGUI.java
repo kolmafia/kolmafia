@@ -98,8 +98,8 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( displayer != null && displayer.getCreation() != null )
 			{
 				((KoLFrame)displayer.getCreation()).updateDisplay( state, message );
-				if ( isBuffBotActive() )
-					buffBotHome.updateStatus( message );
+				if ( BuffBotHome.isBuffBotActive() )
+					BuffBotHome.updateStatus( message );
 			}
 		}
 
@@ -128,7 +128,7 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
-		this.inventory.addListDataListener( new KoLCharacterAdapter( null, refresher ) );
+		KoLCharacter.getInventory().addListDataListener( new KoLCharacterAdapter( null, refresher ) );
 		this.refresher.run();
 
 		if ( displayer.getCreation() instanceof AdventureFrame )
@@ -305,9 +305,9 @@ public class KoLmafiaGUI extends KoLmafia
 		AdventureResult currentItem;
 		List untinkerItems = new ArrayList();
 
-		for ( int i = 0; i < inventory.size(); ++i )
+		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
 		{
-			currentItem = (AdventureResult) inventory.get(i);
+			currentItem = (AdventureResult) KoLCharacter.getInventory().get(i);
 			if ( ConcoctionsDatabase.getMixingMethod( currentItem.getItemID() ) == ItemCreationRequest.COMBINE )
 				untinkerItems.add( currentItem );
 		}

@@ -152,7 +152,7 @@ public abstract class Nemesis extends StaticEntity
 
 		// Need some kind of ketchup to get past the second lavatory troll
 
-		AdventureResult ketchup = CATSUP.getCount( client.getInventory() ) > 0 ? CATSUP : KETCHUP;
+		AdventureResult ketchup = CATSUP.getCount( KoLCharacter.getInventory() ) > 0 ? CATSUP : KETCHUP;
 
 		if ( region <= 8 )
 			requirements.add( ketchup );

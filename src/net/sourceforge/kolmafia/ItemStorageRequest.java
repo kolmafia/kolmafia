@@ -78,7 +78,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		if ( moveType == PULL_MEAT_FROM_STORAGE )
 		{
 			source = client.getStorage();
-			destination = client.getInventory();
+			destination = KoLCharacter.getInventory();
 		}
 	}
 
@@ -100,18 +100,18 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		if ( moveType == CLOSET_TO_INVENTORY )
 		{
-			source = client.getCloset();
-			destination = client.getInventory();
+			source = KoLCharacter.getCloset();
+			destination = KoLCharacter.getInventory();
 		}
 		else if ( moveType == INVENTORY_TO_CLOSET )
 		{
-			source = client.getInventory();
-			destination = client.getCloset();
+			source = KoLCharacter.getInventory();
+			destination = KoLCharacter.getCloset();
 		}
 		else if ( moveType == STORAGE_TO_INVENTORY )
 		{
 			source = client.getStorage();
-			destination = client.getInventory();
+			destination = KoLCharacter.getInventory();
 		}
 	}
 

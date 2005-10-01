@@ -65,7 +65,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
  * the BuffBot frame)
  */
 
-public class BuffBotHome implements KoLConstants
+public class BuffBotHome extends StaticEntity
 {
 	private static final DateFormat TIMESTAMP_FORMAT = DateFormat.getDateTimeInstance( DateFormat.SHORT, DateFormat.SHORT );
 
@@ -74,14 +74,14 @@ public class BuffBotHome implements KoLConstants
 	public static Color NONBUFFCOLOR = new Color( 0, 0, 128 );
 	public static Color BUFFCOLOR = new Color( 0, 128, 0 );
 
-	private KoLmafia client;
-	private boolean isActive;
+	private static boolean isActive;
 
-	private List pastRecipients;
-	private LockableListModel messages;
-	private PrintStream textLogStream, hypertextLogStream;
+	private static List pastRecipients = new ArrayList();
+	private static LockableListModel messages = new LockableListModel();
+	private static PrintStream textLogStream = System.out;
+	private static PrintStream hypertextLogStream = System.out;
 
-	private BuffBotFrame frame;
+	private static BuffBotFrame frame;
 
 	/**
 	 * Constructs a new <code>BuffBotHome</code>.  However, note that this
@@ -90,23 +90,22 @@ public class BuffBotHome implements KoLConstants
 	 * content to be displayed.
 	 */
 
-	public BuffBotHome( KoLmafia client )
+	public static void reset()
 	{
-		this.client = client;
-		this.messages = new LockableListModel();
-		this.pastRecipients = new ArrayList();
+		messages.clear();
+		pastRecipients .clear();
 
 		// Create the text log file which shows only the buffs
 		// which have been requested in a comma-delimited format.
 
-		this.textLogStream = getPrintStream( ".log" );
+		textLogStream = getPrintStream( ".log" );
 
 		// Create the standard HTML log which can be opened
 		// up to see all activity.
 
-		this.hypertextLogStream = getPrintStream( ".html" );
-		this.hypertextLogStream.println( "<html><head><style> body { font-family: sans-serif; } </style>" );
-		this.hypertextLogStream.flush();
+		hypertextLogStream = getPrintStream( ".html" );
+		hypertextLogStream.println( "<html><head><style> body { font-family: sans-serif; } </style>" );
+		hypertextLogStream.flush();
 	}
 
 	/**
@@ -114,7 +113,7 @@ public class BuffBotHome implements KoLConstants
 	 * placed in the given folder and given the appropriate extension.
 	 */
 
-	private final File getFile( String extension )
+	private static final File getFile( String extension )
 	{
 		String dayOfYear = sdf.format(new Date());
 		String characterName = client == null ? "" : KoLCharacter.getUsername();
@@ -128,7 +127,7 @@ public class BuffBotHome implements KoLConstants
 	 * player, placed in the given folder and given the appropriate extension.
 	 */
 
-	private final PrintStream getPrintStream( String extension )
+	private static final PrintStream getPrintStream( String extension )
 	{
 		File output = getFile( extension );
 
@@ -150,7 +149,7 @@ public class BuffBotHome implements KoLConstants
 	 * given meat amount.
 	 */
 
-	private List getPastRecipients( int meatSent )
+	private static List getPastRecipients( int meatSent )
 	{
 		List pastRecipients = new ArrayList();
 		File input = getFile( "_" + meatSent + ".txt" );
@@ -180,7 +179,7 @@ public class BuffBotHome implements KoLConstants
 	 * associated with the given meat amount.
 	 */
 
-	public int getInstanceCount( int meatSent, String name )
+	public static int getInstanceCount( int meatSent, String name )
 	{
 		List pastRecipients = getPastRecipients( meatSent );
 
@@ -196,7 +195,7 @@ public class BuffBotHome implements KoLConstants
 	 * with the given meat amount.
 	 */
 
-	public void addToRecipientList( int meatSent, String name )
+	public static void addToRecipientList( int meatSent, String name )
 	{
 		List pastRecipients = getPastRecipients( meatSent );
 		pastRecipients.add( name );
@@ -213,7 +212,7 @@ public class BuffBotHome implements KoLConstants
 	 * updates are attempted.
 	 */
 
-	public void deinitialize()
+	public static void deinitialize()
 	{
 		hypertextLogStream.println();
 		hypertextLogStream.println();
@@ -230,7 +229,7 @@ public class BuffBotHome implements KoLConstants
 	 * is required for a given buffbot entry.
 	 */
 
-	public void update( Color c, String entry )
+	public static void update( Color c, String entry )
 	{
 		if ( entry != null )
 		{
@@ -254,7 +253,7 @@ public class BuffBotHome implements KoLConstants
 	 * the standard appending procedure is still valid.
 	 */
 
-	public void timeStampedLogEntry( Color c, String entry )
+	public static void timeStampedLogEntry( Color c, String entry )
 	{	update( c, TIMESTAMP_FORMAT.format( new Date() ) + ": " + entry );
 	}
 
@@ -264,7 +263,7 @@ public class BuffBotHome implements KoLConstants
 	 * and successfully processed.
 	 */
 
-	public void recordBuff( String name, String buff, int casts, int meatSent )
+	public static void recordBuff( String name, String buff, int casts, int meatSent )
 	{
 		textLogStream.println( TIMESTAMP_FORMAT.format( new Date() ) + "," + name + "," +
 			client.getPlayerID( name ) + "," + buff + "," + casts + "," + meatSent );
@@ -275,8 +274,8 @@ public class BuffBotHome implements KoLConstants
 	 * message arrives.
 	 */
 
-	public void setFrame( BuffBotFrame frame )
-	{	this.frame = frame;
+	public static void setFrame( BuffBotFrame frame )
+	{	BuffBotHome.frame = frame;
 	}
 
 	/**
@@ -284,7 +283,7 @@ public class BuffBotHome implements KoLConstants
 	 * while the buffbot is running.
 	 */
 
-	public void updateStatus( String statusMessage )
+	public static void updateStatus( String statusMessage )
 	{
 		if ( frame != null )
 			frame.setTitle( VERSION_NAME + ": Buffbot - " + statusMessage );
@@ -297,8 +296,8 @@ public class BuffBotHome implements KoLConstants
 	 * buffbot itself is running.
 	 */
 
-	public void setBuffBotActive( boolean isActive )
-	{	this.isActive = isActive;
+	public static void setBuffBotActive( boolean isActive )
+	{	BuffBotHome.isActive = isActive;
 	}
 
 	/**
@@ -308,7 +307,7 @@ public class BuffBotHome implements KoLConstants
 	 * not the buffbot itself is running.
 	 */
 
-	public boolean isBuffBotActive()
+	public static boolean isBuffBotActive()
 	{	return isActive;
 	}
 
@@ -318,7 +317,7 @@ public class BuffBotHome implements KoLConstants
 	 * is a need to display the messages in some list form.
 	 */
 
-	public LockableListModel getMessages()
+	public static LockableListModel getMessages()
 	{	return messages;
 	}
 

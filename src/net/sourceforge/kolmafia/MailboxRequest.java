@@ -40,7 +40,6 @@ public class MailboxRequest extends KoLRequest
 {
 	private static boolean isRequesting = false;
 	private static long lastRequest = System.currentTimeMillis();
-	private KoLMailManager currentMailManager;
 
 	private String boxname;
 	private int startingIndex;
@@ -100,7 +99,6 @@ public class MailboxRequest extends KoLRequest
 		this.boxname = boxname;
 		this.startingIndex = startingIndex;
 		this.endingIndex = endingIndex;
-		this.currentMailManager = client.getMailManager();
 	}
 
 	public void run()
@@ -228,7 +226,8 @@ public class MailboxRequest extends KoLRequest
 				// records the message and updates whether or not you should continue.
 
 				if ( addMessage )
-					shouldContinueParsing &= currentMailManager.addMessage( boxname, currentMessage );
+					shouldContinueParsing &= BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( boxname, currentMessage ) :
+						KoLMailManager.addMessage( boxname, currentMessage );
 			}
 		}
 

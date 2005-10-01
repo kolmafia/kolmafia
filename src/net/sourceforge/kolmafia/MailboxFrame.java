@@ -73,7 +73,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MailboxFrame extends KoLFrame implements ChangeListener
 {
-	private KoLMailManager mailbox;
 	private KoLMailMessage displayed;
 	private JEditorPane messageContent;
 	private JTabbedPane tabbedListDisplay;
@@ -86,7 +85,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	public MailboxFrame( KoLmafia client )
 	{
 		super( client, "IcePenguin Express" );
-		this.mailbox = (client == null) ? new KoLMailManager() : client.getMailManager();
 
 		this.messageListInbox = new MailSelectList( "Inbox" );
 		JScrollPane messageListInboxDisplay = new JScrollPane( messageListInbox,
@@ -207,13 +205,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	private void refreshMailManager()
 	{
-		if ( client != null && (mailbox != client.getMailManager() || client.isBuffBotActive()) )
-		{
-			mailbox = client.getMailManager();
-			messageListInbox.setModel( mailbox.getMessages( "Inbox" ) );
-			messageListOutbox.setModel( mailbox.getMessages( "Outbox" ) );
-			messageListSaved.setModel( mailbox.getMessages( "Saved" ) );
-		}
+		messageListInbox.setModel( KoLMailManager.getMessages( "Inbox" ) );
+		messageListOutbox.setModel( KoLMailManager.getMessages( "Outbox" ) );
+		messageListSaved.setModel( KoLMailManager.getMessages( "Saved" ) );
 	}
 
 	public void refreshMailbox()
@@ -267,7 +261,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public MailSelectList( String mailboxName )
 		{
-			super( mailbox.getMessages( mailboxName ) );
+			super( KoLMailManager.getMessages( mailboxName ) );
 			setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			this.mailboxName = mailboxName;
 			addListSelectionListener( this );
@@ -294,7 +288,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				{
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-							mailbox.deleteMessages( mailboxName, getSelectedValues() );
+							KoLMailManager.deleteMessages( mailboxName, getSelectedValues() );
 
 				}
 			}
@@ -309,7 +303,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 				if ( newIndex >= 0 && getModel().getSize() > 0 )
 				{
-					displayed = ((KoLMailMessage)mailbox.getMessages( mailboxName ).get( newIndex ));
+					displayed = ((KoLMailMessage)KoLMailManager.getMessages( mailboxName ).get( newIndex ));
 					mailBuffer.append( displayed.getMessageHTML() );
 					messageContent.setCaretPosition( 0 );
 				}
@@ -360,7 +354,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public void actionPerformed( ActionEvent e )
 		{
-			mailbox.getMessages( boxname ).clear();
+			KoLMailManager.getMessages( boxname ).clear();
 			(new RequestThread( new MailboxRequest( client, boxname ) )).start();
 		}
 	}
@@ -378,7 +372,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	mailbox.deleteMessages( boxname, mailbox.getMessages( boxname ).toArray() );
+		{	KoLMailManager.deleteMessages( boxname, KoLMailManager.getMessages( boxname ).toArray() );
 		}
 	}
 

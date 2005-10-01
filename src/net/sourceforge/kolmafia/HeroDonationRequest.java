@@ -78,7 +78,7 @@ public class HeroDonationRequest extends KoLRequest
 
 		this.amount = amount;
 		this.statue = heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "pete";
-		this.hasStatueKey = client.getInventory().contains( STATUE_KEYS[ heroID ] );
+		this.hasStatueKey = KoLCharacter.getInventory().contains( STATUE_KEYS[ heroID ] );
 	}
 
 	public String getHero()

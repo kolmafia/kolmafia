@@ -50,50 +50,54 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
  * items which are available for use as MP buffers.
  */
 
-public class MPRestoreItemList extends SortedListModel implements KoLConstants
+public abstract class MPRestoreItemList extends StaticEntity
 {
-	public final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", 80, -1 );
-	public final MPRestoreItem HOUSE = new MPRestoreItem( "rest at campsite", 40, -1 );
+	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", 80, -1 );
+	public static final MPRestoreItem HOUSE = new MPRestoreItem( "rest at campsite", 40, -1 );
 
-	private KoLmafia client;
-	private KoLSettings settings;
+	private static Object [] restoreName = new Object[0];
+	private static JCheckBox [] restoreCheckbox = new JCheckBox[0];
+	private static SortedListModel list = new SortedListModel();
 
-	private Object [] restoreName;
-	private JCheckBox [] restoreCheckbox;
-
-	public MPRestoreItemList( KoLmafia client )
+	public static void reset()
 	{
+		list.clear();
+		list.add( BEANBAG );
+		list.add( HOUSE );
+
 		// These MP restores come from NPCs, so they have a
 		// constant market value
 
-		this.client = client;
-		this.settings = client == null ? GLOBAL_SETTINGS : client.getSettings();
-
-		this.add( BEANBAG );
-		this.add( HOUSE );
-
-		this.add( new MPRestoreItem( "magical mystery juice", (int) (KoLCharacter.getLevel() * 1.5 + 4.0), 150 ) );
-		this.add( new MPRestoreItem( "soda water", 4, 70 ) );
+		list.add( new MPRestoreItem( "magical mystery juice", (int) (KoLCharacter.getLevel() * 1.5 + 4.0), 150 ) );
+		list.add( new MPRestoreItem( "soda water", 4, 70 ) );
 
 		// On the other hand, these MP restores have a fairly
 		// arbitrary value and may be subject to arbitrary
 		// inflation, based on player spending habits.
 
-		this.add( new MPRestoreItem( "tiny house", 22, 400 ) );
-		this.add( new MPRestoreItem( "phonics down", 48, 800 ) );
-		this.add( new MPRestoreItem( "Knob Goblin superseltzer", 27, 900 ) );
-		this.add( new MPRestoreItem( "Mountain Stream soda", 9, 120 ) );
-		this.add( new MPRestoreItem( "Dyspepsi-Cola", 12, 250 ) );
-		this.add( new MPRestoreItem( "Knob Goblin seltzer", 5, 80 ) );
-		this.add( new MPRestoreItem( "green pixel potion", 15, 500 ) );
-		this.add( new MPRestoreItem( "blue pixel potion", 19, 800 ) );
-		this.add( new MPRestoreItem( "Blatantly Canadian", 24, 1000 ) );
+		list.add( new MPRestoreItem( "tiny house", 22, 400 ) );
+		list.add( new MPRestoreItem( "phonics down", 48, 800 ) );
+		list.add( new MPRestoreItem( "Knob Goblin superseltzer", 27, 900 ) );
+		list.add( new MPRestoreItem( "Mountain Stream soda", 9, 120 ) );
+		list.add( new MPRestoreItem( "Dyspepsi-Cola", 12, 250 ) );
+		list.add( new MPRestoreItem( "Knob Goblin seltzer", 5, 80 ) );
+		list.add( new MPRestoreItem( "green pixel potion", 15, 500 ) );
+		list.add( new MPRestoreItem( "blue pixel potion", 19, 800 ) );
+		list.add( new MPRestoreItem( "Blatantly Canadian", 24, 1000 ) );
 	}
 
-	public JScrollPane getDisplay()
+	public static MPRestoreItem get( int index )
+	{	return (MPRestoreItem) list.get( index );
+	}
+
+	public static int size()
+	{	return list.size();
+	}
+
+	public static JScrollPane getDisplay()
 	{
-		this.restoreName = toArray();
-		this.restoreCheckbox = new JCheckBox[ restoreName.length ];
+		restoreName = list.toArray();
+		restoreCheckbox = new JCheckBox[ restoreName.length ];
 
 		JPanel checkboxPanel = new JPanel();
 		checkboxPanel.setLayout( new GridLayout( restoreCheckbox.length, 1 ) );
@@ -114,7 +118,7 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 		restorePanel.add( checkboxPanel, BorderLayout.WEST );
 		restorePanel.add( labelPanel, BorderLayout.CENTER );
 
-		String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
+		String mpRestoreSetting = getProperty( "buffBotMPRestore" );
 
 		for ( int i = 0; i < restoreName.length; ++i )
 			if ( mpRestoreSetting.indexOf( restoreName[i].toString() ) != -1 )
@@ -126,7 +130,7 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 		return scrollArea;
 	}
 
-	public void setProperty()
+	public static void setProperty()
 	{
 		StringBuffer mpRestoreSetting = new StringBuffer();
 
@@ -142,11 +146,10 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 			}
 		}
 
-		settings.setProperty( "buffBotMPRestore", mpRestoreSetting.toString() );
-		settings.saveSettings();
+		setProperty( "buffBotMPRestore", mpRestoreSetting.toString() );
 	}
 
-	public class MPRestoreItem implements Comparable
+	public static class MPRestoreItem implements Comparable
 	{
 		private String itemName;
 		private int mpPerUse;
@@ -195,7 +198,7 @@ public class MPRestoreItemList extends SortedListModel implements KoLConstants
 			// But, don't go too far over (thus wasting restorers)
 
 			int mpShort = Math.max(maximumMP + 5 - mpPerUse, mpNeeded) - currentMP;
-			int numberToUse = Math.min( 1 + ((mpShort - 1) / mpPerUse), itemUsed.getCount( client.getInventory() ) );
+			int numberToUse = Math.min( 1 + ((mpShort - 1) / mpPerUse), itemUsed.getCount( KoLCharacter.getInventory() ) );
 
 			if ( numberToUse > 0 )
 			{

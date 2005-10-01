@@ -100,7 +100,7 @@ public class HermitRequest extends KoLRequest
 		{
 			// Figure out how many you do have.
 
-			int permits = PERMIT.getCount( client.getInventory() );
+			int permits = PERMIT.getCount( KoLCharacter.getInventory() );
 			(new HermitRequest( client, itemID, permits )).run();
 			return;
 		}
@@ -149,7 +149,7 @@ public class HermitRequest extends KoLRequest
 		}
 
 		processResults( responseText );
-		List inventory = client.getInventory();
+		List inventory = KoLCharacter.getInventory();
 
 		// Subtract the worthless items in order of their priority;
 		// as far as we know, the priority is the item ID.

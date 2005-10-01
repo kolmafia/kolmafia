@@ -112,10 +112,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 		// Make sure the player has the Strange Leaflet.
 		// The item will be located inside of the inventory
 
-		if ( LEAFLET.getCount( client.getInventory() ) < 1 )
+		if ( LEAFLET.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
 			// Not in the inventory. Is it in the closet?
-			if ( LEAFLET.getCount( client.getCloset() ) < 1 )
+			if ( LEAFLET.getCount( KoLCharacter.getCloset() ) < 1 )
 			{
 				client.updateDisplay( ERROR_STATE, "You don't have a leaflet." );
 				client.cancelRequest();

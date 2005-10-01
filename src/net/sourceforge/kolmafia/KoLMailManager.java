@@ -38,22 +38,16 @@ import java.util.Map;
 import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class KoLMailManager
+public abstract class KoLMailManager extends StaticEntity
 {
-	protected KoLmafia client;
-	protected Map mailboxes;
+	protected static Map mailboxes = new TreeMap();
 
-	public KoLMailManager()
-	{	this( null );
-	}
-
-	public KoLMailManager( KoLmafia client )
+	public static void reset()
 	{
-		this.client = client;
-		this.mailboxes = new TreeMap();
-		this.mailboxes.put( "Inbox", new LockableListModel() );
-		this.mailboxes.put( "Outbox", new LockableListModel() );
-		this.mailboxes.put( "Saved", new LockableListModel() );
+		mailboxes.clear();
+		mailboxes.put( "Inbox", new LockableListModel() );
+		mailboxes.put( "Outbox", new LockableListModel() );
+		mailboxes.put( "Saved", new LockableListModel() );
 	}
 
 	/**
@@ -61,7 +55,7 @@ public class KoLMailManager
 	 * specified mailbox.
 	 */
 
-	public LockableListModel getMessages( String mailbox )
+	public static LockableListModel getMessages( String mailbox )
 	{	return (LockableListModel) mailboxes.get( mailbox );
 	}
 
@@ -75,7 +69,7 @@ public class KoLMailManager
 	 * @param	message	The message to add to the given mailbox
 	 */
 
-	public boolean addMessage( String boxname, String message )
+	public static boolean addMessage( String boxname, String message )
 	{
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
 		KoLMailMessage toadd = new KoLMailMessage( message );
@@ -93,7 +87,7 @@ public class KoLMailManager
 		return true;
 	}
 
-	public void deleteMessage( String boxname, KoLMailMessage message )
+	public static void deleteMessage( String boxname, KoLMailMessage message )
 	{
 		(new RequestThread( new MailboxRequest( client, boxname, message, "delete" ) )).start();
 
@@ -103,7 +97,7 @@ public class KoLMailManager
 			mailbox.remove( messageIndex );
 	}
 
-	public void deleteMessages( String boxname, Object [] messages )
+	public static void deleteMessages( String boxname, Object [] messages )
 	{
 		(new RequestThread( new MailboxRequest( client, boxname, messages, "delete" ) )).start();
 
@@ -117,7 +111,7 @@ public class KoLMailManager
 		}
 	}
 
-	public void saveMessage( KoLMailMessage message )
+	public static void saveMessage( KoLMailMessage message )
 	{
 		(new RequestThread( new MailboxRequest( client, "Inbox", message, "save" ) )).start();
 
@@ -127,7 +121,7 @@ public class KoLMailManager
 			mailbox.remove( messageIndex );
 	}
 
-	public void saveMessages( Object [] messages )
+	public static void saveMessages( Object [] messages )
 	{
 		(new RequestThread( new MailboxRequest( client, "Inbox", messages, "save" ) )).start();
 

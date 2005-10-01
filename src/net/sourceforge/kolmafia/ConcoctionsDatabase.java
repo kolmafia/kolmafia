@@ -144,20 +144,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static synchronized void refreshConcoctions()
 	{
-		if ( client == null || client.getInventory() == null )
+		if ( client == null || KoLCharacter.getInventory() == null )
 		{
 			concoctionsList.clear();
 			return;
 		}
 
 		List availableIngredients = new ArrayList();
-		availableIngredients.addAll( client.getInventory() );
+		availableIngredients.addAll( KoLCharacter.getInventory() );
 
 		if ( client != null )
 		{
 			if ( getProperty( "useClosetForCreation" ).equals( "true" ) )
 			{
-				List closetList = (List) client.getCloset();
+				List closetList = (List) KoLCharacter.getCloset();
 				for ( int i = 0; i < closetList.size(); ++i )
 					AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
 			}

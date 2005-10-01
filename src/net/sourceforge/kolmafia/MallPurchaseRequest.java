@@ -339,9 +339,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.successful = true;
 		AdventureResult searchItem = new AdventureResult( itemID, 0 );
 
-		int beforeCount = searchItem.getCount( client.getInventory() );
+		int beforeCount = searchItem.getCount( KoLCharacter.getInventory() );
 		processResults( result );
-		int afterCount = searchItem.getCount( client.getInventory() );
+		int afterCount = searchItem.getCount( KoLCharacter.getInventory() );
 
 		// Also report how much meat you lost in the purchase
 		// so that gets updated in the session summary as well.

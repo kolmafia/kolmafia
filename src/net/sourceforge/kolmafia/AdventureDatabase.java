@@ -49,6 +49,7 @@ public class AdventureDatabase extends KoLDatabase
 	public static final String MEATCAR = "You have built your own Bitchin' Meat Car.";
 	public static final String BEANSTALK = "You have planted a Beanstalk in the Nearby Plains.";
 
+	private static LockableListModel adventures = new LockableListModel();
 	private static final AdventureResult CASINO = new AdventureResult( 40, 1 );
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 
@@ -187,7 +188,8 @@ public class AdventureDatabase extends KoLDatabase
 
 		boolean shouldAdd = true;
 		String zoneName;
-		LockableListModel adventures = new LockableListModel();
+
+		adventures.clear();
 
 		for ( int i = 0; i < adventureTable[1].size(); ++i )
 		{
@@ -354,7 +356,7 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final void retrieveItem( AdventureResult item )
 	{
-		int missingCount = item.getCount() - item.getCount( client.getInventory() );
+		int missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 		// If there are already enough items in the player's
 		// inventory, then return.
@@ -363,7 +365,7 @@ public class AdventureDatabase extends KoLDatabase
 			return;
 
 		String itemName = item.getName();
-		int closetCount = item.getCount( client.getCloset() );
+		int closetCount = item.getCount( KoLCharacter.getCloset() );
 
 		// If there are some items which are sitting in the
 		// player's closet, then pull them out.
@@ -375,7 +377,7 @@ public class AdventureDatabase extends KoLDatabase
 			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, itemArray )).run();
 		}
 
-		missingCount = item.getCount() - item.getCount( client.getInventory() );
+		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 		// If there are now enough items in the player's inventory
 		// after pulling them from the closet, then return.
@@ -407,7 +409,7 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
-		missingCount = item.getCount() - item.getCount( client.getInventory() );
+		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 		// Now, if the user wishes to retrieve items from the mall,
 		// then allow them to make the purchases.
@@ -429,7 +431,7 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
-		missingCount = item.getCount() - item.getCount( client.getInventory() );
+		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 		if ( missingCount <= 0 )
 			return;

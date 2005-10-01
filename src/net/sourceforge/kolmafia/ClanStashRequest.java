@@ -88,14 +88,14 @@ public class ClanStashRequest extends SendMessageRequest
                 if ( moveType == ITEMS_TO_STASH )
                 {
                         addFormField( "action", "addgoodies" );
-                        source = client.getInventory();
+                        source = KoLCharacter.getInventory();
                         destination = new ArrayList();
                 }
                 else
                 {
                         addFormField( "action", "takegoodies" );
                         source = new ArrayList();
-                        destination = client.getInventory();
+                        destination = KoLCharacter.getInventory();
                 }
 
 		this.quantityField = "quantity";

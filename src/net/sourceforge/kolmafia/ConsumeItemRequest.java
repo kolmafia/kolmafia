@@ -138,7 +138,7 @@ public class ConsumeItemRequest extends KoLRequest
 		// inventory first - if not, report the error message and
 		// return from the method.
 
-		int itemCount = itemUsed.getCount( client.getInventory() );
+		int itemCount = itemUsed.getCount( KoLCharacter.getInventory() );
 		if ( itemCount == 0 || itemUsed.getCount() > itemCount )
 		{
 			updateDisplay( ERROR_STATE, "You do not have enough " + itemUsed.getName() + "." );
@@ -281,7 +281,7 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( itemUsed.getName().indexOf( "rolling" ) != -1 )
 		{
 			AdventureResult consumedItem = new AdventureResult( itemUsed.getName().startsWith( "r" ) ? "wad of dough" : "flat dough", 0 );
-			client.processResult( consumedItem.getInstance( consumedItem.getCount( client.getInventory() ) ).getNegation() );
+			client.processResult( consumedItem.getInstance( consumedItem.getCount( KoLCharacter.getInventory() ) ).getNegation() );
 		}
 
 		// Handle campground items which change the state

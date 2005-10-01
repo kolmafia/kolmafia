@@ -91,7 +91,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	{
 		super( client, title );
 
-		inventory = client == null ? new LockableListModel() : client.getInventory();
+		inventory = KoLCharacter.getInventory();
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout( new BoxLayout( mainPanel, BoxLayout.Y_AXIS ) );

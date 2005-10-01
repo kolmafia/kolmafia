@@ -265,7 +265,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If we have the correct tool, use it to
 		// create the needed dough type.
 
-		if ( tool.getCount( client.getInventory() ) > 0 )
+		if ( tool.getCount( KoLCharacter.getInventory() ) > 0 )
 		{
 			updateDisplay( DISABLED_STATE, "Using " + tool.getName() + "..." );
 			(new ConsumeItemRequest( client, tool )).run();
@@ -400,14 +400,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// may get your initial creation attempt back.
 
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
-		int beforeQuantity = createdItem.getCount( client.getInventory() );
+		int beforeQuantity = createdItem.getCount( KoLCharacter.getInventory() );
 
 		processResults( responseText );
 
 		// Figure out how many items were created
 		String itemName = TradeableItemDatabase.getItemName( itemID );
 
-		int createdQuantity = createdItem.getCount( client.getInventory() ) - beforeQuantity;
+		int createdQuantity = createdItem.getCount( KoLCharacter.getInventory() ) - beforeQuantity;
 
 		if ( createdQuantity > 0 )
 		{
@@ -556,9 +556,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// in the inventory, inside of the closet, or ready
 		// for creation.  Issue the appropriate checks.
 
-		if ( !client.getInventory().contains( servant ) )
+		if ( !KoLCharacter.getInventory().contains( servant ) )
 		{
-			if ( getProperty( "useClosetForCreation" ).equals( "true" ) && client.getCloset().contains( servant ) )
+			if ( getProperty( "useClosetForCreation" ).equals( "true" ) && KoLCharacter.getCloset().contains( servant ) )
 			{
 				updateDisplay( DISABLED_STATE, "Retrieving " + servant.getName() + " from closet..." );
 				AdventureResult [] servantArray = { servant };
@@ -594,7 +594,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	protected void makeIngredient( AdventureResult ingredient, int multiplier )
 	{
-		int actualQuantityNeeded = (quantityNeeded * multiplier) - ingredient.getCount( client.getInventory() );
+		int actualQuantityNeeded = (quantityNeeded * multiplier) - ingredient.getCount( KoLCharacter.getInventory() );
 
 		// In order to minimize server overload by making exact quantities,
 		// the client will attempt to overcompensate by making more meat
@@ -607,7 +607,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			if ( getProperty( "useClosetForCreation" ).equals( "true" ) )
 			{
-				int closetCount = ingredient.getCount( client.getCloset() );
+				int closetCount = ingredient.getCount( KoLCharacter.getCloset() );
 
 				if ( closetCount != 0 )
 				{

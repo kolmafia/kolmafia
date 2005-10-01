@@ -184,7 +184,7 @@ public class EquipmentRequest extends KoLRequest
 					// equipment, make it available.
 
 					AdventureResult result = new AdventureResult( changeItemName, 0 );
-					if ( !client.getInventory().contains( result ) )
+					if ( !KoLCharacter.getInventory().contains( result ) )
 					{
 						// Find first familiar with item
 						LockableListModel familiars = KoLCharacter.getFamiliarList();
@@ -347,7 +347,7 @@ public class EquipmentRequest extends KoLRequest
 		Matcher inventoryMatcher = Pattern.compile( "<b>Put:.*?</select>" ).matcher( responseText );
 		if ( inventoryMatcher.find() )
 		{
-			List inventory = client.getInventory();
+			List inventory = KoLCharacter.getInventory();
 			inventory.clear();
 
 			List usableItems = client.getUsableItems();
@@ -362,7 +362,7 @@ public class EquipmentRequest extends KoLRequest
 		Matcher closetMatcher = Pattern.compile( "<b>Take:.*?</select>" ).matcher( responseText );
 		if ( closetMatcher.find() )
 		{
-			List closet = client.getCloset();
+			List closet = KoLCharacter.getCloset();
 			closet.clear();
 			parseCloset( closetMatcher.group(), closet, false );
 		}

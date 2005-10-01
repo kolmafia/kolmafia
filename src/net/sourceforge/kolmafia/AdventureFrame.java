@@ -159,7 +159,7 @@ public class AdventureFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		this.isEnabled = isEnabled && (client == null || !client.isBuffBotActive());
+		this.isEnabled = isEnabled && (client == null || !BuffBotHome.isBuffBotActive());
 
 		if ( heroDonation != null )
 		{
@@ -280,7 +280,7 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
-			LockableListModel adventureList = client == null ? AdventureDatabase.getAsLockableListModel() : client.getAdventureList();
+			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 
 			locationSelect = new JComboBox( adventureList );
 			countField = new JTextField();
@@ -385,7 +385,7 @@ public class AdventureFrame extends KoLFrame
 			if ( actionNames.getSelectedIndex() < 0 || actions.getSelectedIndex() >= actions.size() )
 				actions.setSelectedIndex( 0 );
 
-			if ( actions.get( actionNames.getSelectedIndex() ).equals( "item0536" ) && FightRequest.DICTIONARY.getCount( client.getInventory() ) < 1 )
+			if ( actions.get( actionNames.getSelectedIndex() ).equals( "item0536" ) && FightRequest.DICTIONARY.getCount( KoLCharacter.getInventory() ) < 1 )
 			{
 				updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
 				return;
@@ -943,7 +943,7 @@ public class AdventureFrame extends KoLFrame
 					((KoLFrame)frames[i]).dispose();
 
 				client.deinitializeChat();
-				client.setBuffBotActive( false );
+				BuffBotHome.setBuffBotActive( false );
 				client.deinitializeLogStream();
 				client.deinitializeMacroStream();
 

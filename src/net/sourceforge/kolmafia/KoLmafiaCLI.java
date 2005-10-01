@@ -1524,9 +1524,9 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else
 		{
-			List mainList = desiredData.equals( "closet" ) ? scriptRequestor.getCloset() : desiredData.equals( "summary" ) ? scriptRequestor.tally :
+			List mainList = desiredData.equals( "closet" ) ? KoLCharacter.getCloset() : desiredData.equals( "summary" ) ? scriptRequestor.tally :
 				desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() : desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
-				desiredData.equals( "effects" ) ? KoLCharacter.getEffects() : scriptRequestor.getInventory();
+				desiredData.equals( "effects" ) ? KoLCharacter.getEffects() : KoLCharacter.getInventory();
 
 			String currentItem;
 			List resultList = new ArrayList();
@@ -1691,9 +1691,9 @@ public class KoLmafiaCLI extends KoLmafia
 			matchCount = ItemCreationRequest.getInstance( scriptRequestor, firstMatch ).getCount( ConcoctionsDatabase.getConcoctions() );
 		}
 		else if ( matchType == CLOSET )
-			matchCount = firstMatch.getCount( scriptRequestor.getCloset() );
+			matchCount = firstMatch.getCount( KoLCharacter.getCloset() );
 		else if ( matchType == INVENTORY )
-			matchCount = firstMatch.getCount( scriptRequestor.getInventory() );
+			matchCount = firstMatch.getCount( KoLCharacter.getInventory() );
 		else
 			matchCount = 0;
 
@@ -2097,10 +2097,8 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		LockableListModel buffCostTable = new LockableListModel();
 
-		scriptRequestor.initializeBuffBot();
-		BuffBotHome buffbotLog = scriptRequestor.getBuffBotLog();
-		BuffBotManager currentManager = new BuffBotManager( scriptRequestor, buffCostTable );
-		scriptRequestor.setBuffBotManager( currentManager );
+		BuffBotHome.reset();
+		BuffBotManager.reset( buffCostTable );
 
 		if ( buffCostTable.isEmpty() )
 		{
@@ -2115,8 +2113,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 			(new CharsheetRequest( scriptRequestor )).run();
 			scriptRequestor.resetContinueState();
-			scriptRequestor.setBuffBotActive( true );
-			currentManager.runBuffBot( buffBotIterations );
+
+			BuffBotHome.setBuffBotActive( true );
+			BuffBotManager.runBuffBot( buffBotIterations );
+
 			updateDisplay( ENABLED_STATE, "BuffBot execution complete." );
 			scriptRequestor.cancelRequest();
 
@@ -2209,7 +2209,7 @@ public class KoLmafiaCLI extends KoLmafia
 		String command = previousCommand.split( " " )[0];
 		String parameters = previousCommand.substring( command.length() ).trim();
 
-		int furs = TrapperRequest.YETI_FUR.getCount( scriptRequestor.getInventory() );
+		int furs = TrapperRequest.YETI_FUR.getCount( KoLCharacter.getInventory() );
 
 		// If he doesn't specify a number, use number of yeti furs
 		AdventureResult item = getFirstMatchingItem( parameters, NOWHERE, furs );

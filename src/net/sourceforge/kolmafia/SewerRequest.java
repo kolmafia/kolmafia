@@ -75,7 +75,7 @@ public class SewerRequest extends KoLRequest
 		// Both lucky and unlucky sewer adventures now consume one
 		// piece of gum per invocation.
 
-		if ( !client.getInventory().contains( GUM ) )
+		if ( !KoLCharacter.getInventory().contains( GUM ) )
 		{
 			isErrorState = true;
 			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );

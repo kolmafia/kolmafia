@@ -59,7 +59,7 @@ public class UneffectRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( !client.getInventory().contains( REMEDY ) )
+		if ( !KoLCharacter.getInventory().contains( REMEDY ) )
 		{
 			updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
 			return;

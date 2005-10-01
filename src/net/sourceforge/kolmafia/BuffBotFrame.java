@@ -91,15 +91,11 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffBotFrame extends KoLFrame
 {
-	private BuffBotManager currentManager;
-
 	private MainBuffPanel mainBuff;
 	private BuffOptionsPanel buffOptions;
 	private MainSettingsPanel mainSettings;
 	private CustomSettingsPanel customSettings;
-
 	private LockableListModel buffCostTable;
-	private BuffBotHome buffbotLog;
 
 	/**
 	 * Constructs a new <code>BuffBotFrame</code> and inserts all
@@ -111,21 +107,15 @@ public class BuffBotFrame extends KoLFrame
 	public BuffBotFrame( KoLmafia client )
 	{
 		super( client, "BuffBot" );
+
 		buffCostTable = new LockableListModel();
 
-		if ( client != null )
-		{
-			client.initializeBuffBot();
-			currentManager = new BuffBotManager( client, buffCostTable );
-			client.setBuffBotManager( currentManager );
-		}
+		BuffBotHome.reset();
+		BuffBotManager.reset( buffCostTable );
 
 		// Initialize the display log buffer and the file log
 
-		buffbotLog = client == null ? new BuffBotHome( null ) : client.getBuffBotLog();
-
 		JTabbedPane tabs = new JTabbedPane();
-
 		mainBuff = new MainBuffPanel();
 
 		JPanel containerPanel = new JPanel();
@@ -193,15 +183,15 @@ public class BuffBotFrame extends KoLFrame
 	{
 		public MainBuffPanel()
 		{
-			super( "BuffBot Activities", "start", "stop", buffbotLog.getMessages() );
+			super( "BuffBot Activities", "start", "stop", BuffBotHome.getMessages() );
 
-			buffbotLog.setFrame( BuffBotFrame.this );
+			BuffBotHome.setFrame( BuffBotFrame.this );
 			elementList.setCellRenderer( BuffBotHome.getMessageRenderer() );
 		}
 
 		protected void actionConfirmed()
 		{
-			if ( client.isBuffBotActive() )
+			if ( BuffBotHome.isBuffBotActive() )
 				return;
 
 			// Need to make sure everything is up to date.
@@ -211,14 +201,14 @@ public class BuffBotFrame extends KoLFrame
 			(new CharsheetRequest( client )).run();
 
 			client.resetContinueState();
-			client.setBuffBotActive( true );
-			currentManager.runBuffBot( Integer.MAX_VALUE );
+			BuffBotHome.setBuffBotActive( true );
+			BuffBotManager.runBuffBot( Integer.MAX_VALUE );
 		}
 
 		protected void actionCancelled()
 		{
-			client.setBuffBotActive( false );
-			buffbotLog.updateStatus("BuffBot stopped by user.");
+			BuffBotHome.setBuffBotActive( false );
+			BuffBotHome.updateStatus("BuffBot stopped by user.");
 		}
 	}
 
@@ -286,7 +276,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			try
 			{
-				client.getBuffBotManager().addBuff( ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName(),
+				BuffBotManager.addBuff( ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName(),
 					df.parse( priceField.getText() ).intValue(), df.parse( countField.getText() ).intValue(),
 						restrictBox.isSelected(), singletonBox.isSelected() );
 			}
@@ -296,7 +286,7 @@ public class BuffBotFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	client.getBuffBotManager().removeBuffs( buffListDisplay.getSelectedValues() );
+		{	BuffBotManager.removeBuffs( buffListDisplay.getSelectedValues() );
 		}
 
 		private class BuffListPanel extends JPanel
@@ -328,9 +318,7 @@ public class BuffBotFrame extends KoLFrame
 		private JComboBox buffBotModeSelect;
 		private JComboBox messageDisposalSelect;
 		private WhiteListEntry whiteListEntry;
-
 		private JTextArea whiteListEditor;
-		private MPRestoreItemList mpRestoreItemList;
 
 		public MainSettingsPanel()
 		{
@@ -350,12 +338,10 @@ public class BuffBotFrame extends KoLFrame
 			messageDisposalChoices.add( "Do nothing to non-requests" );
 			messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
-			mpRestoreItemList = client == null ? new MPRestoreItemList( null ) : client.getMPRestoreItemList();
-
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Mail refreshes: ", buffBotModeSelect );
 			elements[1] = new VerifiableElement( "Message disposal: ", messageDisposalSelect );
-			elements[2] = new VerifiableElement( "Use these restores: ", mpRestoreItemList.getDisplay() );
+			elements[2] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
 
 			setContent( elements );
 			actionCancelled();
@@ -381,7 +367,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			setProperty( "useChatBasedBuffBot", String.valueOf( buffBotModeSelect.getSelectedIndex() == 1 ) );
 			setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
-			mpRestoreItemList.setProperty();
+			MPRestoreItemList.setProperty();
 
 			String[] whiteListString = whiteListEditor.getText().split("\\s*,\\s*");
 			java.util.Arrays.sort( whiteListString );
@@ -558,7 +544,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			if ( client != null )
 			{
-				client.deinitializeBuffBot();
+				BuffBotHome.deinitialize();
 				((KoLmafiaGUI)client).setVisible( true );
 				client.updateDisplay( ENABLED_STATE, "Buffbot deactivated." );
 			}

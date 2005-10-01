@@ -67,12 +67,12 @@ public class BountyHunterRequest extends KoLRequest
 		if ( isExchange )
 		{
 			itemTraded = new AdventureResult( itemID, 0 );
-			index = client.getInventory().indexOf( itemTraded );
+			index = KoLCharacter.getInventory().indexOf( itemTraded );
 
 			if ( index == -1 )
 				return;
 
-			itemTraded = (AdventureResult) client.getInventory().get( index );
+			itemTraded = (AdventureResult) KoLCharacter.getInventory().get( index );
 			updateDisplay( DISABLED_STATE, "Hunting rabbits (or something)..." );
 		}
 
