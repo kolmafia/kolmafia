@@ -1776,33 +1776,27 @@ public abstract class KoLmafia implements KoLConstants
 		MallPurchaseRequest currentRequest;
 		permitContinue = true;
 
-		for ( int i = 0; i < purchases.length && maxPurchases > 0 && permitContinue; ++i )
+		int purchaseCount = 0;
+
+		for ( int i = 0; i < purchases.length && purchaseCount != maxPurchases && permitContinue; ++i )
 		{
 			if ( purchases[i] instanceof MallPurchaseRequest )
 			{
 				currentRequest = (MallPurchaseRequest) purchases[i];
+				AdventureResult result = new AdventureResult( currentRequest.getItemName(), 0 );
 
 				// Keep track of how many of the item you had before
 				// you run the purchase request
 
-				AdventureResult oldResult = new AdventureResult( currentRequest.getItemName(), 0 );
-				int oldResultIndex = KoLCharacter.getInventory().indexOf( oldResult );
-
-				if ( oldResultIndex != -1 )
-					oldResult = (AdventureResult) KoLCharacter.getInventory().get( oldResultIndex );
-
-				currentRequest.setLimit( maxPurchases );
+				int oldResultCount = result.getCount( KoLCharacter.getInventory() );
+				currentRequest.setLimit( maxPurchases - purchaseCount );
 				currentRequest.run();
 
 				// Calculate how many of the item you have now after
 				// you run the purchase request
 
-				int newResultIndex = KoLCharacter.getInventory().indexOf( oldResult );
-				if ( newResultIndex != -1 )
-				{
-					AdventureResult newResult = (AdventureResult) KoLCharacter.getInventory().get( newResultIndex );
-					maxPurchases -= newResult.getCount() - oldResult.getCount();
-				}
+				int newResultCount = result.getCount( KoLCharacter.getInventory() );
+				purchaseCount += newResultCount - oldResultCount;
 
 				// Remove the purchase from the list!  Because you
 				// have already made a purchase from the store
