@@ -940,6 +940,17 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
+		if ( n == 0)
+		{
+			// We know that all base stats are at least 70. But if
+			// we attained that goal this session without
+			// charpane.php having been invoked, KoL itself
+			// sometimes doesn't realize it and will complain
+			// "You're not tough enough to fight up here."
+
+			(new CharpaneRequest( client )).run();
+		}
+
 		while ( n < 5 )
 		{
 			switch (n)
