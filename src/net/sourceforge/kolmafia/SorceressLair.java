@@ -834,6 +834,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( request.responseText.indexOf( "You're out of adventures." ) != -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "You're out of adventures." );
+			client.cancelRequest();
 			return false;
 		}
 
@@ -1128,6 +1129,14 @@ public abstract class SorceressLair extends StaticEntity
 		request.run();
 
 		setProperty( "battleAction", action );
+
+		if ( request.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
+		{
+			client.updateDisplay( ERROR_STATE, "You're out of adventures." );
+			client.cancelRequest();
+			return;
+		}
+
 		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 
 		if ( !client.permitsContinue() )
