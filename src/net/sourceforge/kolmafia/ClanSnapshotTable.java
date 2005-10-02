@@ -69,29 +69,22 @@ public class ClanSnapshotTable extends KoLDatabase
 	public static final int LOGIN_FILTER = 14;
 	public static final int ASCENSION_FILTER = 15;
 
-	private KoLmafia client;
-	private String clanID;
-	private String clanName;
+	private static Map levelMap = new TreeMap();
+	private static Map profileMap = new TreeMap();
+	private static Map rosterMap = new TreeMap();
 
-	private Map levelMap;
-	private Map profileMap;
-	private Map rosterMap;
+	private static LockableListModel filterList = new LockableListModel();
+	private static DetailRosterRequest request = null;
 
-	private LockableListModel filterList;
-	private DetailRosterRequest request;
-
-	public ClanSnapshotTable( KoLmafia client )
+	public static void reset()
 	{
 		// First, initialize all of the lists and
 		// arrays which are used by the request.
 
-		this.client = client;
-
-		this.levelMap = new TreeMap();
-		this.profileMap = new TreeMap();
-		this.rosterMap = new TreeMap();
-
-		this.filterList = new LockableListModel();
+		levelMap.clear();
+		profileMap.clear();
+		rosterMap.clear();
+		filterList.clear();
 
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
@@ -99,23 +92,15 @@ public class ClanSnapshotTable extends KoLDatabase
 		request = new DetailRosterRequest( client );
 	}
 
-	public Map getProfileMap()
+	public static Map getProfileMap()
 	{	return profileMap;
 	}
 
-	public void setClanID( String clanID )
-	{	this.clanID = clanID;
-	}
-
-	public void setClanName( String clanName )
-	{	this.clanName = clanName;
-	}
-
-	public LockableListModel getFilteredList()
+	public static LockableListModel getFilteredList()
 	{	return filterList;
 	}
 
-	public void registerMember( String playerName, String level )
+	public static void registerMember( String playerName, String level )
 	{
 		String lowerCaseName = playerName.toLowerCase();
 
@@ -123,7 +108,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		profileMap.put( lowerCaseName, "" );
 	}
 
-	public void unregisterMember( String playerID )
+	public static void unregisterMember( String playerID )
 	{
 		ProfileRequest [] filterArray = new ProfileRequest[ filterList.size() ];
 		filterList.toArray( filterArray );
@@ -143,7 +128,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		}
 	}
 
-	public void applyFilter( int matchType, int filterType, String filter )
+	public static void applyFilter( int matchType, int filterType, String filter )
 	{
 		// First, if you haven't retrieved a detailed
 		// roster for the clan, do so.
@@ -182,13 +167,13 @@ public class ClanSnapshotTable extends KoLDatabase
 		client.updateDisplay( ENABLED_STATE, "Search results rendered." );
 	}
 
-	private ProfileRequest getProfile( String name )
+	private static ProfileRequest getProfile( String name )
 	{
 		return ProfileRequest.getInstance( name, client.getPlayerID( name ), (String) levelMap.get(name),
 			(String) profileMap.get(name), (String) rosterMap.get(name) );
 	}
 
-	private int compare( int filterType, String name, String filter )
+	private static int compare( int filterType, String name, String filter )
 	{
 		int compareValue = 0;
 		ProfileRequest request = getProfile( name );
@@ -270,7 +255,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
 	}
 
-	public String getStandardData()
+	public static String getStandardData()
 	{
 		// First, if you haven't retrieved a detailed
 		// roster for the clan, do so.
@@ -281,7 +266,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		StringBuffer strbuf = new StringBuffer();
 
 		strbuf.append( "<html><head><title>Clan Snapshot for " );
-		strbuf.append( clanName );
+		strbuf.append( ClanManager.getClanName() );
 		strbuf.append( " (" );
 		strbuf.append( new Date() );
 		strbuf.append( ")</title>" );
@@ -295,9 +280,9 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( LINE_BREAK );
 
 		strbuf.append( "<center><h2>" );
-		strbuf.append( clanName );
+		strbuf.append( ClanManager.getClanName() );
 		strbuf.append( " (#" );
-		strbuf.append( clanID );
+		strbuf.append( ClanManager.getClanID() );
 		strbuf.append( ")</h2></center>" );
 		strbuf.append( LINE_BREAK );
 
@@ -324,7 +309,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private String getStandardSummary()
+	private static String getStandardSummary()
 	{
 		String header = getRosterHeader();
 		StringBuffer strbuf = new StringBuffer();
@@ -522,7 +507,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private String getMemberDetail( String memberName )
+	private static String getMemberDetail( String memberName )
 	{
 		ProfileRequest memberLookup = getProfile( memberName );
 		StringBuffer strbuf = new StringBuffer();
@@ -648,7 +633,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	public String getRosterHeader()
+	public static String getRosterHeader()
 	{	return getProperty( "clanRosterHeader" );
 	}
 
@@ -659,7 +644,7 @@ public class ClanSnapshotTable extends KoLDatabase
 				"<td>Food</td><td>Drink</td><td>Last Login</td>";
 	}
 
-	private class DetailRosterRequest extends KoLRequest
+	private static class DetailRosterRequest extends KoLRequest
 	{
 		public DetailRosterRequest( KoLmafia client )
 		{	super( client, "clan_detailedroster.php" );

@@ -63,55 +63,40 @@ public class AscensionSnapshotTable extends KoLDatabase
 	public static final int DISCO_BANDIT = 5;
 	public static final int ACCORDION_THIEF = 6;
 
-	private KoLmafia client;
-	private String clanID;
-	private String clanName;
-	private Map ascensionMap;
+	private static Map ascensionMap = new TreeMap();
+	private static List ascensionDataList = new ArrayList();
+	private static List softcoreAscensionList = new ArrayList();
+	private static List hardcoreAscensionList = new ArrayList();
 
-	private List ascensionDataList;
-	private List softcoreAscensionList;
-	private List hardcoreAscensionList;
-
-	public AscensionSnapshotTable( KoLmafia client )
+	public static void reset()
 	{
 		// First, initialize all of the lists and
 		// arrays which are used by the request.
 
-		this.client = client;
-		this.clanID = clanID;
-		this.clanName = clanName;
-		this.ascensionMap = new TreeMap();
+		ascensionMap.clear();
 
-		this.ascensionDataList = new ArrayList();
-		this.softcoreAscensionList = new ArrayList();
-		this.hardcoreAscensionList = new ArrayList();
+		ascensionDataList.clear();
+		softcoreAscensionList.clear();
+		hardcoreAscensionList.clear();
 	}
 
-	public void registerMember( String playerName )
+	public static void registerMember( String playerName )
 	{
 		String lowerCaseName = playerName.toLowerCase();
 		ascensionMap.put( lowerCaseName, "" );
 	}
 
-	public void unregisterMember( String playerID )
+	public static void unregisterMember( String playerID )
 	{
 		String lowerCaseName = client.getPlayerName( playerID ).toLowerCase();
 		ascensionMap.remove( lowerCaseName );
 	}
 
-	public void setClanID( String clanID )
-	{	this.clanID = clanID;
-	}
-
-	public void setClanName( String clanName )
-	{	this.clanName = clanName;
-	}
-
-	public Map getAscensionMap()
+	public static Map getAscensionMap()
 	{	return ascensionMap;
 	}
 
-	public String getAscensionData( boolean isSoftcore )
+	public static String getAscensionData( boolean isSoftcore )
 	{
 		initializeAscensionData();
 		StringBuffer strbuf = new StringBuffer();
@@ -124,7 +109,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 			strbuf.append( "Hardcore" );
 
 		strbuf.append( " Ascension Data for " );
-		strbuf.append( clanName );
+		strbuf.append( ClanManager.getClanName() );
 		strbuf.append( " (" );
 		strbuf.append( new Date() );
 		strbuf.append( ")</title>" );
@@ -133,9 +118,9 @@ public class AscensionSnapshotTable extends KoLDatabase
 		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "<center><table cellspacing=0 cellpadding=0><tr><td align=center><h2><u>" );
-		strbuf.append( clanName );
+		strbuf.append( ClanManager.getClanName() );
 		strbuf.append( " (#" );
-		strbuf.append( clanID );
+		strbuf.append( ClanManager.getClanID() );
 		strbuf.append( ")</u></h2></td></tr>" );
 		strbuf.append( LINE_BREAK );
 
@@ -192,7 +177,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	public String getAscensionData( boolean isSoftcore, int pathFilter )
+	public static String getAscensionData( boolean isSoftcore, int pathFilter )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
@@ -249,7 +234,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	public String getAscensionData( boolean isSoftcore, int pathFilter, int classFilter )
+	public static String getAscensionData( boolean isSoftcore, int pathFilter, int classFilter )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
@@ -356,7 +341,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	private void initializeAscensionData()
+	private static void initializeAscensionData()
 	{
 		// If the ascension lists have already been initialized,
 		// then return from this method call.

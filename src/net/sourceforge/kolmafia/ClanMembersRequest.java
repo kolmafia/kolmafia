@@ -71,7 +71,7 @@ public class ClanMembersRequest extends KoLRequest
 
 		for ( int i = 0; i < boots.length; ++i )
 		{
-			client.getClanManager().unregisterMember( client.getPlayerID( (String) boots[i] ) );
+			ClanManager.unregisterMember( client.getPlayerID( (String) boots[i] ) );
 			addFormField( "boot" + client.getPlayerID( (String) boots[i] ), "on" );
 		}
 	}
@@ -127,7 +127,7 @@ public class ClanMembersRequest extends KoLRequest
 			String playerLevel = memberMatcher.group(3);
 
 			client.registerPlayer( playerName, playerID );
-			client.getClanManager().registerMember( playerName, playerLevel );
+			ClanManager.registerMember( playerName, playerLevel );
 		}
 	}
 

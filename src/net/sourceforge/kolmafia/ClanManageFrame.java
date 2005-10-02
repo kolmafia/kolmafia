@@ -398,7 +398,7 @@ public class ClanManageFrame extends KoLFrame
 	private class WithdrawPanel extends ItemManagePanel
 	{
 		public WithdrawPanel()
-		{	super( "Inside Clan Stash", "put in bag", "refresh", client == null ? new LockableListModel() : client.getClanManager().getStash() );
+		{	super( "Inside Clan Stash", "put in bag", "refresh", ClanManager.getStash() );
 		}
 
 		protected void actionConfirmed()
@@ -408,7 +408,7 @@ public class ClanManageFrame extends KoLFrame
 
 			if ( rankList.isEmpty() )
 			{
-				rankList = client.getClanManager().getRankList();
+				rankList = ClanManager.getRankList();
 
 				// If it's been double-confirmed that you're
 				// not a clan administrator, then tell them
@@ -534,7 +534,7 @@ public class ClanManageFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			client.getClanManager().applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
+			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
 			client.updateDisplay( ENABLED_STATE, "Search results retrieved." );
 		}
 
@@ -619,14 +619,14 @@ public class ClanManageFrame extends KoLFrame
 	private class ManagerMenuItem extends InvocationMenuItem
 	{
 		public ManagerMenuItem( String title, int mnemonic, String methodName )
-		{	super( title, mnemonic, client == null ? new ClanManager( null ) : client.getClanManager(), methodName );
+		{	super( title, mnemonic, ClanManager.class, methodName );
 		}
 	}
 
 	public class ClanMemberPanelList extends PanelList
 	{
 		public ClanMemberPanelList()
-		{	super( 12, 600, 30, client == null ? new LockableListModel() : client.getClanManager().getFilteredList() );
+		{	super( 12, 600, 30, ClanSnapshotTable.getFilteredList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
@@ -655,7 +655,7 @@ public class ClanManageFrame extends KoLFrame
 			memberName = new JLabel( value.getPlayerName(), JLabel.LEFT );
 
 			if ( rankList.isEmpty() )
-				rankList = client.getClanManager().getRankList();
+				rankList = ClanManager.getRankList();
 
 			rankSelect = rankList.isEmpty() ? new JComboBox() : new JComboBox( (LockableListModel) rankList.clone() );
 

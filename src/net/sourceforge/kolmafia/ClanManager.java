@@ -68,7 +68,7 @@ import javax.swing.JOptionPane;
 import edu.stanford.ejalbert.BrowserLauncher;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class ClanManager implements KoLConstants
+public class ClanManager extends StaticEntity
 {
 	private static final String STASH_ADD = "add";
 	private static final String STASH_TAKE = "take";
@@ -81,48 +81,47 @@ public class ClanManager implements KoLConstants
 	private static final SimpleDateFormat STASH_FORMAT = new SimpleDateFormat( "MM/dd/yy, hh:mma" );
 	private static final SimpleDateFormat DIRECTORY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W" );
 
-	private String SNAPSHOT_DIRECTORY;
+	private static String SNAPSHOT_DIRECTORY = "clan" + File.separator;
 
-	private KoLmafia client;
-	private String clanID;
-	private String clanName;
+	private static String clanID;
+	private static String clanName;
 
-	private ClanSnapshotTable standardSnapshot;
-	private AscensionSnapshotTable ascensionSnapshot;
+	private static boolean ranksRetrieved = false;
+	private static Map profileMap = ClanSnapshotTable.getProfileMap();
+	private static Map ascensionMap = AscensionSnapshotTable.getAscensionMap();
+	private static Map stashMap = new TreeMap();
+	private static List battleList = new ArrayList();
 
-	boolean ranksRetrieved;
-	private Map profileMap;
-	private Map ascensionMap;
-	private Map stashMap;
-	private List battleList;
+	private static LockableListModel rankList = new LockableListModel();
+	private static LockableListModel stashContents = new LockableListModel();
 
-	private LockableListModel rankList;
-	private LockableListModel stashContents;
-
-	public ClanManager( KoLmafia client )
+	public static void reset()
 	{
-		this.client = client;
-		SNAPSHOT_DIRECTORY = "clan" + File.separator;
+		ClanSnapshotTable.reset();
+		AscensionSnapshotTable.reset();
 
-		this.ranksRetrieved = false;
-
-		this.standardSnapshot = new ClanSnapshotTable( client );
-		this.profileMap = standardSnapshot.getProfileMap();
-
-		this.ascensionSnapshot = new AscensionSnapshotTable( client );
-		this.ascensionMap = ascensionSnapshot.getAscensionMap();
-
-		this.stashMap = new TreeMap();
-		this.battleList = new ArrayList();
-		this.rankList = new LockableListModel();
-		this.stashContents = new LockableListModel();
+		ranksRetrieved = false;
+		profileMap.clear();
+		ascensionMap.clear();
+		stashMap.clear();
+		battleList.clear();
+		rankList.clear();
+		stashContents.clear();
 	}
 
-	public LockableListModel getStash()
+	public static String getClanID()
+	{	return clanID;
+	}
+
+	public static String getClanName()
+	{	return clanName;
+	}
+
+	public static LockableListModel getStash()
 	{	return stashContents;
 	}
 
-	public LockableListModel getRankList()
+	public static LockableListModel getRankList()
 	{
 		if ( !ranksRetrieved )
 		{
@@ -133,7 +132,7 @@ public class ClanManager implements KoLConstants
 		return rankList;
 	}
 
-	private class RankListRequest extends KoLRequest
+	private static class RankListRequest extends KoLRequest
 	{
 		public RankListRequest( KoLmafia client )
 		{	super( client, "clan_members.php" );
@@ -163,27 +162,22 @@ public class ClanManager implements KoLConstants
 		}
 	}
 
-	private void retrieveClanData()
+	private static void retrieveClanData()
 	{
 		if ( profileMap.isEmpty() )
 		{
 			ClanMembersRequest cmr = new ClanMembersRequest( client );
 			cmr.run();
 
-			this.clanID = cmr.getClanID();
-			standardSnapshot.setClanID( this.clanID );
-			ascensionSnapshot.setClanID( this.clanID );
-
-			this.clanName = cmr.getClanName();
-			standardSnapshot.setClanName( this.clanName );
-			ascensionSnapshot.setClanName( this.clanName );
+			clanID = cmr.getClanID();
+			clanName = cmr.getClanName();
 
 			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + File.separator + DIRECTORY_FORMAT.format( new Date() ) + File.separator;
 			client.updateDisplay( ENABLED_STATE, "Clan data retrieved." );
 		}
 	}
 
-	private boolean retrieveMemberData( boolean retrieveProfileData, boolean retrieveAscensionData )
+	private static boolean retrieveMemberData( boolean retrieveProfileData, boolean retrieveAscensionData )
 	{
 		// First, determine how many member profiles need to be retrieved
 		// before this happens.
@@ -259,7 +253,7 @@ public class ClanManager implements KoLConstants
 		nameIterator = profileMap.keySet().iterator();
 
 		// Create a special HTML file for each of the
-		// players in the standardSnapshot so that it can be
+		// players in the ClanSnapshotTable so that it can be
 		// navigated at leisure.
 
 		for ( int i = 1; nameIterator.hasNext() && client.permitsContinue(); ++i )
@@ -280,7 +274,7 @@ public class ClanManager implements KoLConstants
 		return true;
 	}
 
-	private void initializeProfile( String name )
+	private static void initializeProfile( String name )
 	{
 		File profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + client.getPlayerID( name ) + ".htm" );
 
@@ -346,7 +340,7 @@ public class ClanManager implements KoLConstants
 		}
 	}
 
-	private void initializeAscensionData( String name )
+	private static void initializeAscensionData( String name )
 	{
 		File ascension = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + client.getPlayerID( name ) + ".htm" );
 
@@ -411,16 +405,16 @@ public class ClanManager implements KoLConstants
 		}
 	}
 
-	public void registerMember( String playerName, String level )
+	public static void registerMember( String playerName, String level )
 	{
-		standardSnapshot.registerMember( playerName, level );
-		ascensionSnapshot.registerMember( playerName );
+		ClanSnapshotTable.registerMember( playerName, level );
+		AscensionSnapshotTable.registerMember( playerName );
 	}
 
-	public void unregisterMember( String playerID )
+	public static void unregisterMember( String playerID )
 	{
-		standardSnapshot.unregisterMember( playerID );
-		ascensionSnapshot.registerMember( playerID );
+		ClanSnapshotTable.unregisterMember( playerID );
+		AscensionSnapshotTable.registerMember( playerID );
 	}
 
 	/**
@@ -431,11 +425,11 @@ public class ClanManager implements KoLConstants
 	 * user will be notified that an attack is not possible.
 	 */
 
-	public void attackClan()
+	public static void attackClan()
 	{	(new ClanListRequest( client )).run();
 	}
 
-	private class ClanListRequest extends KoLRequest
+	private static class ClanListRequest extends KoLRequest
 	{
 		public ClanListRequest( KoLmafia client )
 		{	super( client, "clan_attack.php" );
@@ -482,10 +476,10 @@ public class ClanManager implements KoLConstants
 			enemy.run();
 		}
 
-		private class ClanAttackRequest extends KoLRequest implements Comparable
+		private static class ClanAttackRequest extends KoLRequest implements Comparable
 		{
-			private String name;
-			private int goodies;
+			private static String name;
+			private static int goodies;
 
 			public ClanAttackRequest( KoLmafia client, String id, String name, int goodies )
 			{
@@ -525,18 +519,18 @@ public class ClanManager implements KoLConstants
 	}
 
 	/**
-	 * Takes a standardSnapshot of clan member data for this clan.  The user will
-	 * be prompted for the data they would like to include in this standardSnapshot,
+	 * Takes a ClanSnapshotTable of clan member data for this clan.  The user will
+	 * be prompted for the data they would like to include in this ClanSnapshotTable,
 	 * including complete player profiles, favorite food, and any other
 	 * data gathered by KoLmafia.  If the clan member list was not previously
 	 * initialized, this method will also initialize that list.
 	 */
 
-	public void takeSnapshot()
+	public static void takeSnapshot()
 	{
 		retrieveClanData();
 
-		// If the file already exists, a standardSnapshot cannot be taken.
+		// If the file already exists, a ClanSnapshotTable cannot be taken.
 		// Therefore, notify the user of this. :)
 
 		File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
@@ -550,14 +544,14 @@ public class ClanManager implements KoLConstants
 		}
 
 		// Prompt the user to determine which settings they would
-		// like during the clan standardSnapshot process.
+		// like during the clan ClanSnapshotTable process.
 
 		JDialog dialog = new SnapshotOptionsDialog();
 		dialog.pack();  dialog.setLocationRelativeTo( null );
 		dialog.setVisible( true );
 	}
 
-	public class SnapshotOptionsDialog extends JDialog
+	public static class SnapshotOptionsDialog extends JDialog
 	{
 		private JCheckBox [] optionBoxes;
 		private final String [][] options =
@@ -583,7 +577,7 @@ public class ClanManager implements KoLConstants
 
 		/**
 		 * This panel handles all of the things related to the clan
-		 * standardSnapshot.  For now, just a list of checkboxes to show
+		 * ClanSnapshotTable.  For now, just a list of checkboxes to show
 		 * which fields you want there.
 		 */
 
@@ -610,7 +604,7 @@ public class ClanManager implements KoLConstants
 				dispose();
 
 				// Apply all the settings before generating the
-				// needed clan standardSnapshot.
+				// needed clan ClanSnapshotTable.
 
 				StringBuffer tableHeaderSetting = new StringBuffer();
 
@@ -622,7 +616,7 @@ public class ClanManager implements KoLConstants
 				client.getSettings().saveSettings();
 
 				// If initialization was unsuccessful, then there isn't
-				// enough data to create a clan standardSnapshot.
+				// enough data to create a clan ClanSnapshotTable.
 
 				File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
 				File sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
@@ -656,7 +650,7 @@ public class ClanManager implements KoLConstants
 						client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
 
 						ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
-						ostream.println( standardSnapshot.getStandardData() );
+						ostream.println( ClanSnapshotTable.getStandardData() );
 						ostream.close();
 
 						String line;
@@ -674,11 +668,11 @@ public class ClanManager implements KoLConstants
 						client.updateDisplay( DISABLED_STATE, "Storing ascension snapshot..." );
 
 						ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
-						ostream.println( ascensionSnapshot.getAscensionData( true ) );
+						ostream.println( AscensionSnapshotTable.getAscensionData( true ) );
 						ostream.close();
 
 						ostream = new PrintStream( new FileOutputStream( hardcoreFile, true ), true );
-						ostream.println( ascensionSnapshot.getAscensionData( false ) );
+						ostream.println( AscensionSnapshotTable.getAscensionData( false ) );
 						ostream.close();
 					}
 				}
@@ -731,7 +725,7 @@ public class ClanManager implements KoLConstants
 	 * is being done with the stash.
 	 */
 
-	public void saveStashLog()
+	public static void saveStashLog()
 	{
 		retrieveClanData();
 		File file = new File( "clan" + File.separator + clanID + File.separator + "stashlog.htm" );
@@ -836,7 +830,7 @@ public class ClanManager implements KoLConstants
 		}
 	}
 
-	private class StashLogEntry implements Comparable
+	private static class StashLogEntry implements Comparable
 	{
 		private String entryType;
 		private Date timestamp;
@@ -887,7 +881,7 @@ public class ClanManager implements KoLConstants
 		}
 	}
 
-	private class StashLogRequest extends KoLRequest
+	private static class StashLogRequest extends KoLRequest
 	{
 		public StashLogRequest( KoLmafia client )
 		{	super( client, "clan_log.php" );
@@ -1047,7 +1041,7 @@ public class ClanManager implements KoLConstants
 		}
 	}
 
-	public void postMessage()
+	public static void postMessage()
 	{
 		Object [] parameters = new Object[3];
 		parameters[0] = client;
@@ -1057,7 +1051,7 @@ public class ClanManager implements KoLConstants
 		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
 	}
 
-	public void postAnnouncement()
+	public static void postAnnouncement()
 	{
 		Object [] parameters = new Object[3];
 		parameters[0] = client;
@@ -1067,10 +1061,10 @@ public class ClanManager implements KoLConstants
 		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
 	}
 
-	private class MessagePostPanel extends KoLPanel
+	private static class MessagePostPanel extends KoLPanel
 	{
-		private String action;
-		private JTextArea messageEntry;
+		private static String action;
+		private static JTextArea messageEntry;
 
 		public MessagePostPanel( String action )
 		{
@@ -1107,7 +1101,7 @@ public class ClanManager implements KoLConstants
 	 * them in a standard JFrame.
 	 */
 
-	public void getAnnouncements()
+	public static void getAnnouncements()
 	{
 		Object [] parameters = new Object[3];
 		parameters[0] = client;
@@ -1122,7 +1116,7 @@ public class ClanManager implements KoLConstants
 	 * them in a standard JFrame.
 	 */
 
-	public void getMessageBoard()
+	public static void getMessageBoard()
 	{
 		Object [] parameters = new Object[3];
 		parameters[0] = client;
@@ -1132,7 +1126,7 @@ public class ClanManager implements KoLConstants
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
 	}
 
-	private class ClanMessageRequest extends KoLRequest
+	private static class ClanMessageRequest extends KoLRequest
 	{
 		public ClanMessageRequest( KoLmafia client, String location )
 		{	super( client, location );
@@ -1163,7 +1157,7 @@ public class ClanManager implements KoLConstants
 	 * CDL (comma-delimited list)
 	 */
 
-	public String retrieveClanListAsCDL()
+	public static String retrieveClanListAsCDL()
 	{
 		retrieveClanData();
 
@@ -1179,12 +1173,7 @@ public class ClanManager implements KoLConstants
 		return clanCDL.toString();
 	}
 
-	public LockableListModel getFilteredList()
-	{
-		return standardSnapshot != null ? standardSnapshot.getFilteredList() : new LockableListModel();
-	}
-
-	public void applyFilter( int matchType, int filterType, String filter )
+	public static void applyFilter( int matchType, int filterType, String filter )
 	{
 		retrieveClanData();
 
@@ -1208,6 +1197,6 @@ public class ClanManager implements KoLConstants
 				break;
 		}
 
-		standardSnapshot.applyFilter( matchType, filterType, filter );
+		ClanSnapshotTable.applyFilter( matchType, filterType, filter );
 	}
 }

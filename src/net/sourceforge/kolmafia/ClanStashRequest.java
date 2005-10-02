@@ -178,7 +178,7 @@ public class ClanStashRequest extends SendMessageRequest
 		if ( responseText == null || responseText.length() == 0 )
 			return;
 
-		List stashContents = client.getClanManager().getStash();
+		List stashContents = ClanManager.getStash();
 
 		// Start with an empty list
 		stashContents.clear();

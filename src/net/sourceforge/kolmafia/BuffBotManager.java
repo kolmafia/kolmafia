@@ -190,7 +190,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		String whiteListString = getProperty( "whiteList" ).toLowerCase();
 		if ( whiteListString.indexOf( "$clan" ) != -1 )
-			whiteListString = whiteListString.replaceFirst( "\\$clan", client.getClanManager().retrieveClanListAsCDL() );
+			whiteListString = whiteListString.replaceFirst( "\\$clan", ClanManager.retrieveClanListAsCDL() );
 
 		whiteListArray = whiteListString.split( "\\s*,\\s*" );
 		Arrays.sort( whiteListArray );

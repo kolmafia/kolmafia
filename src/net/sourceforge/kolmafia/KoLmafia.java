@@ -92,8 +92,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected int [] initialStats;
 	protected int [] fullStatGain;
 
-	protected ClanManager clanManager;
-
 	protected SortedListModel saveStateNames;
 	protected List recentEffects;
 
@@ -228,6 +226,7 @@ public abstract class KoLmafia implements KoLConstants
 			StoreManager.reset();
 			CakeArenaManager.reset();
 			MuseumManager.reset();
+			ClanManager.reset();
 
 			this.conditions.clear();
 			this.missingItems.clear();
@@ -351,7 +350,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		this.isLoggingIn = false;
 		this.settings = new KoLSettings( loginname );
-		this.clanManager = new ClanManager( this );
 		this.permitContinue = true;
 
 		// There's a possibility that the adventure list settings
@@ -1646,16 +1644,6 @@ public abstract class KoLmafia implements KoLConstants
 
 			return null;
 		}
-	}
-
-	/**
-	 * Retrieves the <code>ClanManager</code> used for managing data relating
-	 * to this player's clan.
-	 * @return	The <code>ClanManager</code> used for managing the clan
-	 */
-
-	public ClanManager getClanManager()
-	{	return clanManager;
 	}
 
 	public SortedListModel getSessionTally()
