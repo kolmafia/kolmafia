@@ -86,16 +86,14 @@ public class ChatFrame extends KoLFrame
 
 	private JMenuBar menuBar;
 	private ChatPanel mainPanel;
-	protected KoLMessenger messenger;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code>.
 	 * @param	client	The client associated with the chat session
-	 * @param	messenger	The messenger associated with the chat session
 	 */
 
-	public ChatFrame( KoLmafia client, KoLMessenger messenger )
-	{	this( client, messenger, "" );
+	public ChatFrame( KoLmafia client )
+	{	this( client, "" );
 	}
 
 	/**
@@ -103,11 +101,10 @@ public class ChatFrame extends KoLFrame
 	 * used for instant messaging to the specified contact.
 	 */
 
-	public ChatFrame( KoLmafia client, KoLMessenger messenger, String associatedContact )
+	public ChatFrame( KoLmafia client, String associatedContact )
 	{
 		super( client, "" );
 
-		this.messenger = messenger;
 		initialize( associatedContact );
 
 		if ( client != null && mainPanel != null )
@@ -377,7 +374,7 @@ public class ChatFrame extends KoLFrame
 			parameters[1] = client.getPlayerName( location.split( "=" )[1] );
 
 			if ( clickOptions[0].isSelected() )
-				client.getMessenger().openInstantMessage( (String) parameters[1] );
+				KoLMessenger.openInstantMessage( (String) parameters[1] );
 			else
 				SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
 		}
@@ -386,7 +383,7 @@ public class ChatFrame extends KoLFrame
 	private class MessengerListener extends InvocationMenuItem
 	{
 		public MessengerListener( String title, int mnemonic, String method )
-		{	super( title, mnemonic, messenger, method );
+		{	super( title, mnemonic, KoLMessenger.class, method );
 		}
 	}
 
@@ -406,9 +403,7 @@ public class ChatFrame extends KoLFrame
 		}
 
 		public void windowClosed( WindowEvent e )
-		{
-			if ( client != null && client.getMessenger() != null )
-				client.getMessenger().removeChat( associatedContact );
+		{	KoLMessenger.removeChat( associatedContact );
 		}
 	}
 
@@ -424,7 +419,7 @@ public class ChatFrame extends KoLFrame
 		public void windowClosed( WindowEvent e )
 		{
 			if ( client != null )
-				client.deinitializeChat();
+				KoLMessenger.dispose();
 		}
 	}
 

@@ -396,7 +396,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		commMenu.setMnemonic( KeyEvent.VK_P );
 		menu.add( commMenu );
 
-		commMenu.add( new InvocationMenuItem( "Chat of Loathing", KeyEvent.VK_C, client, "initializeChat" ) );
+		commMenu.add( new InvocationMenuItem( "Chat of Loathing", KeyEvent.VK_C, KoLMessenger.class, "initialize" ) );
 		commMenu.add( new DisplayFrameMenuItem( "IcePenguin Express", KeyEvent.VK_I, MailboxFrame.class ) );
 		commMenu.add( new DisplayFrameMenuItem( "Administrate Clan", KeyEvent.VK_A, ClanManageFrame.class ) );
 		commMenu.add( new DisplayFrameMenuItem( "Run a KoL BuffBot", KeyEvent.VK_R, BuffBotFrame.class ) );
@@ -1091,18 +1091,24 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public InvocationMenuItem( String title, int mnemonic, Object object, String methodName )
 		{
+			this( title, mnemonic, object == null ? null : object.getClass(), methodName );
+			this.object = object;
+		}
+
+		public InvocationMenuItem( String title, int mnemonic, Class c, String methodName )
+		{
 			super( title, mnemonic );
 			addActionListener( this );
 
 			try
 			{
 				this.object = object;
-				this.method = this.object == null ? null : this.object.getClass().getMethod( methodName, NOPARAMS );
+				this.method = c.getMethod( methodName, NOPARAMS );
 				this.requiresCancel = methodName.equals( "executeTimeInRequest" );
 			}
 			catch ( Exception e )
 			{
-				System.out.println( object.getClass() );
+				System.out.println( c );
 				System.out.println( methodName );
 			}
 		}
@@ -1371,15 +1377,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 				modulesMenu.add( new JSeparator() );
 
-				modulesMenu.add( new InvocationMenuItem( "Face Nemesis", KeyEvent.VK_N, client, "faceNemesis" ) );
-				modulesMenu.add( new InvocationMenuItem( "Rob Strange Leaflet", KeyEvent.VK_R, client, "robStrangeLeaflet" ) );
+				modulesMenu.add( new InvocationMenuItem( "Face Nemesis", KeyEvent.VK_N, Nemesis.class, "faceNemesis" ) );
+				modulesMenu.add( new InvocationMenuItem( "Rob Strange Leaflet", KeyEvent.VK_R, StrangeLeaflet.class, "robStrangeLeaflet" ) );
 
 				modulesMenu.add( new JSeparator() );
 
-				modulesMenu.add( new InvocationMenuItem( "Lair Entryway", KeyEvent.VK_L, client, "completeEntryway" ) );
-				modulesMenu.add( new InvocationMenuItem( "Hedge Rotation", KeyEvent.VK_H, client, "completeHedgeMaze" ) );
-				modulesMenu.add( new InvocationMenuItem( "Tower Guardians", KeyEvent.VK_T, client, "fightTowerGuardians" ) );
-				modulesMenu.add( new InvocationMenuItem( "Naughty Chamber", KeyEvent.VK_N, client, "completeSorceressChamber" ) );
+				modulesMenu.add( new InvocationMenuItem( "Lair Entryway", KeyEvent.VK_L, SorceressLair.class, "completeEntryway" ) );
+				modulesMenu.add( new InvocationMenuItem( "Hedge Rotation", KeyEvent.VK_H, SorceressLair.class, "completeHedgeMaze" ) );
+				modulesMenu.add( new InvocationMenuItem( "Tower Guardians", KeyEvent.VK_T, SorceressLair.class, "fightTowerGuardians" ) );
+				modulesMenu.add( new InvocationMenuItem( "Naughty Chamber", KeyEvent.VK_N, SorceressLair.class, "completeSorceressChamber" ) );
 
 				headers[3] = modulesMenu;
 			}

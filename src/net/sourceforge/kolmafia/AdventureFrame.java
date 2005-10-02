@@ -942,8 +942,9 @@ public class AdventureFrame extends KoLFrame
 				for ( int i = 0; i < frames.length; ++i )
 					((KoLFrame)frames[i]).dispose();
 
-				client.deinitializeChat();
+				KoLMessenger.dispose();
 				BuffBotHome.setBuffBotActive( false );
+
 				client.deinitializeLogStream();
 				client.deinitializeMacroStream();
 

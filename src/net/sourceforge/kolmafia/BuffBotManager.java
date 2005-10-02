@@ -185,7 +185,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		if ( useChatBasedBuffBot )
 		{
 			iterations = 1;
-			client.initializeChat();
+			KoLMessenger.initialize();
 		}
 
 		String whiteListString = getProperty( "whiteList" ).toLowerCase();

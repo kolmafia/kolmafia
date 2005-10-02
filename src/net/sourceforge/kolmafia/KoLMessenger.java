@@ -54,7 +54,7 @@ import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
-public class KoLMessenger implements KoLConstants
+public abstract class KoLMessenger extends StaticEntity
 {
 	private static String CHATLOG_BASENAME = "";
 	private static final Color DEFAULT_HIGHLIGHT = new Color( 128, 0, 128 );
@@ -64,34 +64,31 @@ public class KoLMessenger implements KoLConstants
 		"newbie", "normal", "trade", "clan", "games", "villa", "radio", "pvp", "haiku", "foodcourt", "valhalla", "hardcore"
 	};
 
-	private KoLmafia client;
-	private ContactListFrame contactsFrame;
+	private static boolean isRunning = false;
+	private static String currentChannel = "";
+	private static ContactListFrame contactsFrame = null;
+	private static TabbedChatFrame tabbedFrame = null;
 
-	private TreeMap instantMessageFrames;
-	private TreeMap instantMessageBuffers;
-	private SortedListModel onlineContacts;
+	private static TreeMap instantMessageFrames = new TreeMap();
+	private static TreeMap instantMessageBuffers = new TreeMap();
+	private static SortedListModel onlineContacts = new SortedListModel();
 
-	private String currentChannel;
+	private static int chattingStyle = 0;
+	private static boolean useTabbedFrame = false;
+	private static boolean highlighting = false;
 
-	private int chattingStyle;
-	private boolean useTabbedFrame;
-	private TabbedChatFrame tabbedFrame;
-
-	private boolean highlighting;
-
-	public KoLMessenger( KoLmafia client )
+	public static void reset()
 	{
-		this.client = client;
-		this.onlineContacts = new SortedListModel();
+		isRunning = false;
+		onlineContacts.clear();
+		instantMessageFrames.clear();
+		instantMessageBuffers.clear();
 
-		this.instantMessageFrames = new TreeMap();
-		this.instantMessageBuffers = new TreeMap();
-
-		chattingStyle = Integer.parseInt( client.getSettings().getProperty( "chatStyle" ) );
+		chattingStyle = Integer.parseInt( getProperty( "chatStyle" ) );
 		contactsFrame = new ContactListFrame( client, onlineContacts );
-		setTabbedFrameSetting( client.getSettings().getProperty( "useTabbedChat" ).equals( "1" ) );
+		setTabbedFrameSetting( getProperty( "useTabbedChat" ).equals( "1" ) );
 
-		if ( client.getSettings().getProperty( "autoLogChat" ).equals( "true" ) )
+		if ( getProperty( "autoLogChat" ).equals( "true" ) )
 			initializeChatLogs();
 	}
 
@@ -101,22 +98,22 @@ public class KoLMessenger implements KoLConstants
 	 * frames into a single frame or splitting it, as desired.
 	 */
 
-	public void setTabbedFrameSetting( boolean useTabbedFrame )
+	public static void setTabbedFrameSetting( boolean useTabbedFrame )
 	{
-		if ( this.useTabbedFrame != useTabbedFrame )
+		if ( KoLMessenger.useTabbedFrame != useTabbedFrame )
 		{
 			Object [] keys = instantMessageBuffers.keySet().toArray();
 			String currentKey;  LimitedSizeChatBuffer currentBuffer;  ChatFrame currentFrame;
 
 			if ( useTabbedFrame )
 			{
-				this.tabbedFrame = new TabbedChatFrame( client, this );
-				this.tabbedFrame.setVisible( true );
+				tabbedFrame = new TabbedChatFrame( client );
+				tabbedFrame.setVisible( true );
 			}
 			else
 			{
-				this.tabbedFrame.dispose();
-				this.tabbedFrame = null;
+				tabbedFrame.dispose();
+				tabbedFrame = null;
 			}
 
 			for ( int i = 0; i < keys.length; ++i )
@@ -141,7 +138,7 @@ public class KoLMessenger implements KoLConstants
 
 			}
 
-			this.useTabbedFrame = useTabbedFrame;
+			KoLMessenger.useTabbedFrame = useTabbedFrame;
 		}
 	}
 
@@ -149,11 +146,15 @@ public class KoLMessenger implements KoLConstants
 	 * Initializes the chat buffer with the provided chat pane.
 	 * Note that the chat refresher will also be initialized
 	 * by calling this method; to stop the chat refresher, call
-	 * the <code>deinitializeChat()</code> method.
+	 * the <code>dispose()</code> method.
 	 */
 
-	public void initialize()
+	public static void initialize()
 	{
+		if ( isRunning )
+			return;
+
+		reset();  isRunning = true;
 		(new RequestThread( new ChatRequest( client, null, "/channel" ) )).start();
 		LimitedSizeChatBuffer.clearHighlights();
 	}
@@ -163,7 +164,7 @@ public class KoLMessenger implements KoLConstants
 	 * whenever the user wishes for there to be less text.
 	 */
 
-	public void clearChatBuffer( String contact )
+	public static void clearChatBuffer( String contact )
 	{
 		LimitedSizeChatBuffer bufferToClear = getChatBuffer( contact );
 		if ( bufferToClear != null )
@@ -177,7 +178,7 @@ public class KoLMessenger implements KoLConstants
 	 * returned to the currently active frame at a later time.
 	 */
 
-	public String getNameOfActiveFrame()
+	public static String getNameOfActiveFrame()
 	{
 		Object [] names = instantMessageBuffers.keySet().toArray();
 		String currentName;  ChatFrame currentFrame;
@@ -202,7 +203,7 @@ public class KoLMessenger implements KoLConstants
 	 * @return	The chat buffer for the given contact
 	 */
 
-	public LimitedSizeChatBuffer getChatBuffer( String contact )
+	public static LimitedSizeChatBuffer getChatBuffer( String contact )
 	{
 		String neededBufferName = getBufferKey( contact );
 		LimitedSizeChatBuffer neededBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( neededBufferName );
@@ -226,7 +227,7 @@ public class KoLMessenger implements KoLConstants
 	 * and inactive state for the frames.
 	 */
 
-	public ChatFrame getChatFrame( String contact )
+	public static ChatFrame getChatFrame( String contact )
 	{
 		String neededFrameName = getBufferKey( contact );
 		return (ChatFrame) instantMessageFrames.get( neededFrameName );
@@ -238,7 +239,7 @@ public class KoLMessenger implements KoLConstants
 	 * title to the frame.
 	 */
 
-	public void setChatFrameTitle( String contact, String title )
+	public static void setChatFrameTitle( String contact, String title )
 	{
 		ChatFrame neededFrame = getChatFrame( contact );
 		if ( neededFrame == null || neededFrame.getTitle().indexOf( contact ) == -1 )
@@ -253,7 +254,7 @@ public class KoLMessenger implements KoLConstants
 	 * a key value used by the buffers and frames.
 	 */
 
-	private String getBufferKey( String contact )
+	private static String getBufferKey( String contact )
 	{
 		return contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
 			chattingStyle != 0 && !contact.startsWith( "/" ) ? "/reply" : chattingStyle == 2 && contact.startsWith( "/" ) ? "[chat]" : contact;
@@ -264,7 +265,7 @@ public class KoLMessenger implements KoLConstants
 	 * method is called whenever a window is closed.
 	 */
 
-	public void removeChat( String contact )
+	public static void removeChat( String contact )
 	{
 		synchronized ( existingFrames )
 		{
@@ -282,7 +283,7 @@ public class KoLMessenger implements KoLConstants
 			{
 				(new RequestThread( new ChatRequest( client, currentChannel, "/exit" ) )).start();
 				currentChannel = null;
-				client.deinitializeChat();
+				dispose();
 				return;
 			}
 
@@ -300,7 +301,7 @@ public class KoLMessenger implements KoLConstants
 	 * @return	<code>true</code> if the messenger is showing.
 	 */
 
-	public boolean isShowing()
+	public static boolean isShowing()
 	{	return instantMessageBuffers.size() == 0;
 	}
 
@@ -308,7 +309,7 @@ public class KoLMessenger implements KoLConstants
 	 * Disposes the messenger's frames.
 	 */
 
-	public void dispose()
+	public static void dispose()
 	{
 		while ( !instantMessageFrames.isEmpty() )
 			removeChat( (String) instantMessageFrames.firstKey() );
@@ -324,6 +325,16 @@ public class KoLMessenger implements KoLConstants
 			tabbedFrame.setVisible( false );
 			tabbedFrame.dispose();
 		}
+
+		isRunning = false;
+	}
+
+	/**
+	 * Returns whether or not the messenger is currently running.
+	 */
+
+	public static boolean isRunning()
+	{	return isRunning;
 	}
 
 	/**
@@ -331,7 +342,7 @@ public class KoLMessenger implements KoLConstants
 	 * list.  This is used after every call to /friends or /who.
 	 */
 
-	protected void updateContactList( String [] contactList )
+	protected static void updateContactList( String [] contactList )
 	{
 		onlineContacts.clear();
 
@@ -355,7 +366,7 @@ public class KoLMessenger implements KoLConstants
 		return noCommentsContent.replaceAll( "<table>.*?</table>", "" );
 	}
 
-	private void handleTableContent( String content, String nameOfActiveFrame )
+	private static void handleTableContent( String content, String nameOfActiveFrame )
 	{
 		Matcher tableMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( content );
 
@@ -414,7 +425,7 @@ public class KoLMessenger implements KoLConstants
 		}
 	}
 
-	private void handlePlayerData( String content )
+	private static void handlePlayerData( String content )
 	{
 		Matcher playerMatcher = Pattern.compile( "showplayer.php\\?who\\=(\\d+)[\'\"]>(.*?)</a>" ).matcher( content );
 
@@ -427,7 +438,7 @@ public class KoLMessenger implements KoLConstants
 		}
 	}
 
-	private void handleChatData( String content )
+	private static void handleChatData( String content )
 	{
 		// If the exit command was issued, then deinitialize
 		// the chat.  Exit can be detected by seeing if there
@@ -435,7 +446,7 @@ public class KoLMessenger implements KoLConstants
 
 		if ( content.indexOf( "<img" ) != -1 )
 		{
-			client.deinitializeChat();
+			dispose();
 			return;
 		}
 
@@ -480,7 +491,7 @@ public class KoLMessenger implements KoLConstants
 	 * @param	content	The content with which to update the chat
 	 */
 
-	public void updateChat( String content )
+	public static void updateChat( String content )
 	{
 		// First, retrieve the currently active window - that way, the
 		// focus can be returned once the chat's been updated.
@@ -520,7 +531,7 @@ public class KoLMessenger implements KoLConstants
 	 * the /channel command is used to switch to a different channel.
 	 */
 
-	public void stopConversation()
+	public static void stopConversation()
 	{
 		if ( currentChannel != null )
 			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (inactive)" );
@@ -532,7 +543,7 @@ public class KoLMessenger implements KoLConstants
 	 * after the /switch command is used to switch to a different channel.
 	 */
 
-	public void switchConversation()
+	public static void switchConversation()
 	{
 		if ( currentChannel != null )
 			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (listening)" );
@@ -543,7 +554,7 @@ public class KoLMessenger implements KoLConstants
 	 * given message.
 	 */
 
-	public void processChatMessage( String message )
+	public static void processChatMessage( String message )
 	{
 		try
 		{
@@ -587,14 +598,14 @@ public class KoLMessenger implements KoLConstants
 				currentChannel = "/" + message.substring( startIndex ).replaceAll( "\\.", "" );
 				processChatMessage( currentChannel, message );
 			}
-			else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
+			else if ( message.indexOf( "(private static)</b></a>:" ) != -1 )
 			{
 				String sender = message.substring( 0, message.indexOf( " (" ) ).replaceAll( "<.*?>", "" );
 				String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=blue>" +
 					sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
 				processChatMessage( sender, cleanHTML );
 			}
-			else if ( message.startsWith( "<b>private to" ) )
+			else if ( message.startsWith( "<b>private static to" ) )
 			{
 				String sender = KoLCharacter.getUsername();
 				String recipient = message.substring( 0, message.indexOf( ":" ) ).replaceAll( "<.*?>", "" ).substring( 11 );
@@ -620,12 +631,12 @@ public class KoLMessenger implements KoLConstants
 	}
 
 	/**
-	 * Private method for handling individual channel methods.
+	 * private static method for handling individual channel methods.
 	 * @param	channel	The name of the channel
 	 * @param	message	The message that was sent to the channel
 	 */
 
-	private void processChatMessage( String channel, String message )
+	private static void processChatMessage( String channel, String message )
 	{
 		if ( message == null )
 			return;
@@ -653,7 +664,7 @@ public class KoLMessenger implements KoLConstants
 		else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
 			displayHTML = "<font color=green>" + message + "</font>";
 
-		// Then, private messages resulting from a /last command
+		// Then, private static messages resulting from a /last command
 		// show up in blue.  These are handled next.
 
 		else if ( message.startsWith( "<b>from " ) || message.startsWith( "<b>to " ) )
@@ -700,9 +711,9 @@ public class KoLMessenger implements KoLConstants
 	 * use customized colors.
 	 */
 
-	private String getColor( String channel )
+	private static String getColor( String channel )
 	{
-		String [] colors = client.getSettings().getProperty( "channelColors" ).split( "," );
+		String [] colors = getProperty( "channelColors" ).split( "," );
 
 		for ( int i = 0; i < ROOMS.length; ++i )
 			if ( ROOMS[i].equals( channel ) )
@@ -713,12 +724,12 @@ public class KoLMessenger implements KoLConstants
 
 	/**
 	 * Opens an instant message window to the character with the
-	 * given name so that a private conversation can be started.
+	 * given name so that a private static conversation can be started.
 	 *
 	 * @param	channel	The channel to be opened
 	 */
 
-	public void openInstantMessage( String channel )
+	public static void openInstantMessage( String channel )
 	{
 		// If the window exists, don't open another one as it
 		// just confuses the disposal issue
@@ -751,7 +762,7 @@ public class KoLMessenger implements KoLConstants
 	 * to ensure it gets opened in the Swing thread.
 	 */
 
-	private class OpenMessageRunnable implements Runnable
+	private static class OpenMessageRunnable implements Runnable
 	{
 		private String channel;
 
@@ -763,7 +774,7 @@ public class KoLMessenger implements KoLConstants
 		{
 			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString() );
 			instantMessageBuffers.put( channel, buffer );
-			ChatFrame frame = new ChatFrame( client, KoLMessenger.this, channel );
+			ChatFrame frame = new ChatFrame( client, channel );
 
 			if ( useTabbedFrame )
 			{
@@ -798,7 +809,7 @@ public class KoLMessenger implements KoLConstants
 	 * channel name will be appended to the end of the chat log name.
 	 */
 
-	public void initializeChatLogs()
+	public static void initializeChatLogs()
 	{
 
 		Date currentTime = new Date();
@@ -821,7 +832,7 @@ public class KoLMessenger implements KoLConstants
 	 * the desire not to log a specific part of a conversation.
 	 */
 
-	public void clearChatBuffers()
+	public static void clearChatBuffers()
 	{
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -836,7 +847,7 @@ public class KoLMessenger implements KoLConstants
 	 * point of this process results in no chat highlighting being added.
 	 */
 
-	public void addHighlighting()
+	public static void addHighlighting()
 	{
 		String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", KoLCharacter.getUsername() );
 
@@ -867,7 +878,7 @@ public class KoLMessenger implements KoLConstants
 	 * that only one highlight at a time can be removed with this method.
 	 */
 
-	public void removeHighlighting()
+	public static void removeHighlighting()
 	{
 		Object [] patterns = LimitedSizeChatBuffer.highlights.toArray();
 		if ( patterns.length == 0 )

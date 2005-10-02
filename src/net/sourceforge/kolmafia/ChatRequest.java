@@ -91,11 +91,11 @@ public class ChatRequest extends KoLRequest
 
 		addFormField( "graf", actualMessage );
 
-		if ( client.getMessenger() != null && !actualMessage.equals( "/c" ) && !actualMessage.equals( "/channel" ) && actualMessage.indexOf( " " ) != -1 )
-			client.getMessenger().stopConversation();
+		if ( (actualMessage.equals( "/c" ) || actualMessage.equals( "/channel" )) && actualMessage.indexOf( " " ) != -1 )
+			KoLMessenger.stopConversation();
 
-		if ( client.getMessenger() != null && !actualMessage.equals( "/s" ) && !actualMessage.equals( "/switch" ) &&  actualMessage.indexOf( " " ) != -1 )
-			client.getMessenger().switchConversation();
+		if ( (actualMessage.equals( "/s" ) || actualMessage.equals( "/switch" )) && actualMessage.indexOf( " " ) != -1 )
+			KoLMessenger.switchConversation();
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class ChatRequest extends KoLRequest
 		// In the event of an error, anything can be the cause; for
 		// now, simply return
 
-		if ( isErrorState || responseCode != 200 || client.getMessenger() == null )
+		if ( isErrorState || responseCode != 200 || !KoLMessenger.isRunning() )
 			return;
 
 		int index = responseText.indexOf( "<!--lastseen:" );
@@ -151,7 +151,7 @@ public class ChatRequest extends KoLRequest
 		}
 
 		if ( !(client instanceof KoLmafiaCLI) )
-			client.getMessenger().updateChat( responseText );
+			KoLMessenger.updateChat( responseText );
 
 		// If the person is running the chat-based buffbot engine,
 		// then go ahead and immediately process the buffs before
@@ -170,7 +170,7 @@ public class ChatRequest extends KoLRequest
 	{
 		public void run()
 		{
-			while ( client.getMessenger() != null )
+			while ( KoLMessenger.isRunning() )
 			{
 				// Before running the next request, you should wait for the
 				// refresh rate indicated - this is likely the default rate

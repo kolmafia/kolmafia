@@ -63,9 +63,9 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 {
 	private CloseableTabbedPane tabs;
 
-	public TabbedChatFrame( KoLmafia client, KoLMessenger messenger )
+	public TabbedChatFrame( KoLmafia client )
 	{
-		super( client, messenger );
+		super( client );
 		tabs.addChangeListener( this );
 	}
 

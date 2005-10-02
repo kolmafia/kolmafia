@@ -702,8 +702,8 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			if ( autoLogSelect.getSelectedIndex() == 1 && client != null && client.getMessenger() != null )
-				client.getMessenger().initializeChatLogs();
+			if ( autoLogSelect.getSelectedIndex() == 1 )
+				KoLMessenger.initializeChatLogs();
 
 			setProperty( "autoLogChat", String.valueOf( autoLogSelect.getSelectedIndex() == 1 ) );
 			setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );

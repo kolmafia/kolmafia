@@ -224,7 +224,7 @@ public class ContactListFrame extends KoLFrame
 			parameters[1] = contactName;
 
 			if ( clickOptions[0].isSelected() )
-				client.getMessenger().openInstantMessage( contactName );
+				KoLMessenger.openInstantMessage( contactName );
 			else
 				SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
 		}

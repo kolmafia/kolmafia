@@ -603,7 +603,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "entryway" ) )
 		{
-			scriptRequestor.completeEntryway();
+			SorceressLair.completeEntryway();
 			return;
 		}
 
@@ -613,7 +613,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "hedgemaze" ) )
 		{
-			scriptRequestor.completeHedgeMaze();
+			SorceressLair.completeHedgeMaze();
 			return;
 		}
 
@@ -623,7 +623,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "guardians" ) )
 		{
-			scriptRequestor.fightTowerGuardians();
+			SorceressLair.fightTowerGuardians();
 			return;
 		}
 
@@ -632,7 +632,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "chamber" ) )
 		{
-			scriptRequestor.completeSorceressChamber();
+			SorceressLair.completeSorceressChamber();
 			return;
 		}
 
@@ -642,7 +642,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "leaflet" ) )
 		{
-			scriptRequestor.robStrangeLeaflet();
+			StrangeLeaflet.robStrangeLeaflet();
 			return;
 		}
 
@@ -652,7 +652,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "nemesis" ) )
 		{
-			scriptRequestor.faceNemesis();
+			Nemesis.faceNemesis();
 			return;
 		}
 

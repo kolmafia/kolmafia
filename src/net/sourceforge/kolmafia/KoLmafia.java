@@ -92,7 +92,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected int [] initialStats;
 	protected int [] fullStatGain;
 
-	protected KoLMessenger loathingChat;
 	protected ClanManager clanManager;
 
 	protected SortedListModel saveStateNames;
@@ -101,7 +100,6 @@ public abstract class KoLmafia implements KoLConstants
 	private TreeMap seenPlayerIDs;
 	private TreeMap seenPlayerNames;
 
-	private int pullsRemaining;
 	protected LockableListModel adventureList;
 	protected SortedListModel tally, missingItems;
 	protected SortedListModel usableItems, sellableItems, hunterItems, storage;
@@ -222,10 +220,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( KoLCharacter.getUsername().equals( "" ) )
 		{
-			this.pullsRemaining = -1;
-			FamiliarData.reset();
-
 			KoLCharacter.reset( loginname );
+
+			FamiliarData.reset();
 			CharpaneRequest.reset();
 			MushroomPlot.reset();
 			StoreManager.reset();
@@ -1430,49 +1427,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Returns the messaging client associated with the current
-	 * session of KoLmafia.
-	 *
-	 * @return	The messaging client for the current session
-	 */
-
-	public KoLMessenger getMessenger()
-	{	return loathingChat;
-	}
-
-	/**
-	 * Initializes the chat buffer with the provided chat pane.
-	 * Note that the chat refresher will also be initialized
-	 * by calling this method; to stop the chat refresher, call
-	 * the <code>deinitializeChat()</code> method.
-	 */
-
-	public void initializeChat()
-	{
-		if ( loathingChat == null )
-		{
-			loathingChat = new KoLMessenger( this );
-			loathingChat.initialize();
-		}
-	}
-
-	/**
-	 * De-initializes the chat.  This closes any existing logging
-	 * activity occurring within the chat and disables future
-	 * chat refresher requests.  In order to re-initialize the
-	 * chat, please call the <code>initializeChat()</code> method.
-	 */
-
-	public void deinitializeChat()
-	{
-		if ( loathingChat != null )
-		{
-			loathingChat.dispose();
-			loathingChat = null;
-		}
-	}
-
-	/**
 	 * Initializes the macro recording stream.  This will only
 	 * work if no macro streams are currently running.  If
 	 * a call is made while a macro stream exists, this method
@@ -1758,50 +1712,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		BuffBotHome.setBuffBotActive( previouslyActive );
 		updateDisplay( ENABLED_STATE, "Session timed in." );
-	}
-
-	public void robStrangeLeaflet()
-	{
-		// Use the static method provided in the Strange Leaflet
-		StrangeLeaflet.robStrangeLeaflet();
-	}
-
-	public void faceNemesis()
-	{
-		// Use the static method provided to face your Nemesis
-		Nemesis.faceNemesis();
-	}
-
-	public void completeEntryway()
-	{
-		// Use the static method provided in the sorceress
-		// lair to complete the entryway process.
-
-		SorceressLair.completeEntryway();
-	}
-
-	public void completeHedgeMaze()
-	{
-		// Use the static method provided in the sorceress
-		// lair to pass through the hedge maze
-
-		SorceressLair.completeHedgeMaze();
-	}
-
-	public void fightTowerGuardians()
-	{
-		// Use the static method provided in the sorceress
-		// lair to fight all the tower guardians
-
-		SorceressLair.fightTowerGuardians();
-	}
-
-	public void completeSorceressChamber()
-	{
-		// Use the static method provided in the sorceress
-		// lair to complete the Sorceress's Chamber
-
-		SorceressLair.completeSorceressChamber();
 	}
 
 	public boolean checkRequirements( List requirements )
