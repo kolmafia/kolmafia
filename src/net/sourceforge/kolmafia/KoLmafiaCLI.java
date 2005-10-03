@@ -1955,13 +1955,13 @@ public class KoLmafiaCLI extends KoLmafia
 	 * given quantity of items.
 	 */
 
-	public int executeBuyCommand( String parameters )
+	public void executeBuyCommand( String parameters )
 	{
 		AdventureResult firstMatch = getFirstMatchingItem( parameters, NOWHERE );
 		ArrayList results = new ArrayList();
 		(new SearchMallRequest( scriptRequestor, '\"' + firstMatch.getName() + '\"', 0, results )).run();
 
-		return scriptRequestor.makePurchases( results, results.toArray(), firstMatch.getCount() );
+		scriptRequestor.makePurchases( results, results.toArray(), firstMatch.getCount() );
 	}
 
 	/**

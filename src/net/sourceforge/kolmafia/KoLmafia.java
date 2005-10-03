@@ -1759,7 +1759,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * from the mall using the given purchase requests.
 	 */
 
-	public int makePurchases( List results, Object [] purchases, int maxPurchases )
+	public void makePurchases( List results, Object [] purchases, int maxPurchases )
 	{
 		MallPurchaseRequest currentRequest;
 		permitContinue = true;
@@ -1794,14 +1794,6 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		if ( maxPurchases == 0 )
-			updateDisplay( ENABLED_STATE, "Purchases complete." );
-		else
-			updateDisplay( ERROR_STATE, "Purchases aborted.  Unexpected error." );
-
-		// Return the number of purchases still remaining
-		// after running the request.
-
-		return maxPurchases;
+		updateDisplay( ENABLED_STATE, "Purchases complete." );
 	}
 }

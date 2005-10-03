@@ -681,7 +681,9 @@ public class AdventureFrame extends KoLFrame
 
 			contentPanel = this;
 			currentlyBuying = true;
-			client.makePurchases( results, purchases, limitPurchasesCheckBox.isSelected() ? getQuantity( "Maximum number of items to purchase?", Integer.MAX_VALUE, 0 ) : Integer.MAX_VALUE );
+			client.makePurchases( results, purchases, limitPurchasesCheckBox.isSelected() ?
+				getQuantity( "Maximum number of items to purchase?", Integer.MAX_VALUE, 1 ) : Integer.MAX_VALUE );
+
 			currentlyBuying = false;
 		}
 
