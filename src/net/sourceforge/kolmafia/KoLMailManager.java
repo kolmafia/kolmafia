@@ -41,13 +41,18 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public abstract class KoLMailManager extends StaticEntity
 {
 	protected static Map mailboxes = new TreeMap();
-
-	public static void reset()
+	static
 	{
-		mailboxes.clear();
 		mailboxes.put( "Inbox", new LockableListModel() );
 		mailboxes.put( "Outbox", new LockableListModel() );
 		mailboxes.put( "Saved", new LockableListModel() );
+	}
+
+	public static void reset()
+	{
+		getMessages( "Inbox" ).clear();
+		getMessages( "Outbox" ).clear();
+		getMessages( "Saved" ).clear();
 	}
 
 	/**
