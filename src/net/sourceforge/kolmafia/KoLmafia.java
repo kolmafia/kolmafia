@@ -209,7 +209,7 @@ public abstract class KoLmafia implements KoLConstants
 		// all over the place
 
 		this.sessionID = sessionID;
-		isQuickLogin |= GLOBAL_SETTINGS.getProperty( "chatOnlyMode" ).equals( "true" );
+		isQuickLogin |= GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "2" );
 
 		if ( !permitContinue )
 		{
