@@ -1601,6 +1601,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
+	 * An internal class used to handle logout whenever the window
+	 * is closed.  An instance of this class is added to the window
+	 * listener list.
+	 */
+
+	protected class LogoutRequestAdapter extends WindowAdapter
+	{
+		public void windowClosed( WindowEvent e )
+		{
+			StaticEntity.closeSession();
+			KoLMessenger.dispose();
+		}
+	}
+
+	/**
 	 * Utility method which retrieves an integer value from the given
 	 * field.  In the event that the field does not contain an integer
 	 * value, the number "0" is returned instead.
@@ -1659,7 +1674,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected static final int getQuantity( String title, int maximumValue )
 	{	return getQuantity( title, maximumValue, maximumValue );
 	}
-
 
 	protected final void setProperty( String name, String value )
 	{

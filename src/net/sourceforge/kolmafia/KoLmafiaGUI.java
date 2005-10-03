@@ -154,6 +154,10 @@ public class KoLmafiaGUI extends KoLmafia
 					frameClass = null;
 					KoLMessenger.initialize();
 					break;
+
+				case 3:
+					frameClass = ClanManageFrame.class;
+					break;
 			}
 
 			if ( frameClass == null )

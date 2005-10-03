@@ -927,36 +927,6 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	/**
-	 * An internal class used to handle logout whenever the window
-	 * is closed.  An instance of this class is added to the window
-	 * listener list.
-	 */
-
-	private class LogoutRequestAdapter extends WindowAdapter
-	{
-		public void windowClosed( WindowEvent e )
-		{
-			if ( client != null )
-			{
-				Object [] frames = existingFrames.toArray();
-
-				for ( int i = 0; i < frames.length; ++i )
-					((KoLFrame)frames[i]).dispose();
-
-				KoLMessenger.dispose();
-				BuffBotHome.setBuffBotActive( false );
-
-				client.deinitializeLogStream();
-				client.deinitializeMacroStream();
-
-				KoLCharacter.reset( "" );
-				(new RequestThread( new LogoutRequest( client ) )).start();
-				KoLmafiaGUI.main( new String[0] );
-			}
-		}
-	}
-
 	protected void processWindowEvent( WindowEvent e )
 	{
 		if ( e.getID() == WindowEvent.WINDOW_CLOSING && !existingFrames.isEmpty() )

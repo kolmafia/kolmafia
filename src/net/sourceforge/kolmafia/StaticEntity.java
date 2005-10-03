@@ -42,6 +42,23 @@ public abstract class StaticEntity implements KoLConstants
 	{	StaticEntity.client = client;
 	}
 
+	public static void closeSession()
+	{
+		Object [] frames = existingFrames.toArray();
+
+		for ( int i = 0; i < frames.length; ++i )
+			((KoLFrame)frames[i]).dispose();
+
+		BuffBotHome.setBuffBotActive( false );
+
+		client.deinitializeLogStream();
+		client.deinitializeMacroStream();
+
+		KoLCharacter.reset( "" );
+		(new RequestThread( new LogoutRequest( client ) )).start();
+		KoLmafiaGUI.main( new String[0] );
+	}
+
 	protected static final void setProperty( String name, String value )
 	{
 		if ( client != null )

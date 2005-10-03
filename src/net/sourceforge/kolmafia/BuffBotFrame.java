@@ -514,9 +514,9 @@ public class BuffBotFrame extends KoLFrame
 	 * listener list.
 	 */
 
-	private class DisableBuffBotAdapter extends WindowAdapter
+	private class DisableBuffBotAdapter extends LogoutRequestAdapter
 	{
-		public void windowClosing( WindowEvent e )
+		public void windowClosed( WindowEvent e )
 		{
 			if ( client != null && !GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "1" ) )
 			{
@@ -524,7 +524,7 @@ public class BuffBotFrame extends KoLFrame
 				client.updateDisplay( ENABLED_STATE, "Buffbot deactivated." );
 			}
 			else
-				System.exit(0);
+				super.windowClosed( e );
 		}
 	}
 

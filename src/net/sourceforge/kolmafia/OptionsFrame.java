@@ -173,6 +173,7 @@ public class OptionsFrame extends KoLFrame
 			uimodes.addItem( "Use standard framing mode" );
 			uimodes.addItem( "Use buffbot frame mode" );
 			uimodes.addItem( "Use chat-only frame mode" );
+			uimodes.addItem( "Use clan management frame mode" );
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Server Select: ", servers );

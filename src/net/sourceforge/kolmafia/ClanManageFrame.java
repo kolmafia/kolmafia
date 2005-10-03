@@ -148,6 +148,7 @@ public class ClanManageFrame extends KoLFrame
 			(new RequestThread( new ClanStashRequest( client ) )).start();
 		}
 
+		addWindowListener( new CloseManagerAdapter() );
 		addMenuBar();
 	}
 
@@ -156,6 +157,8 @@ public class ClanManageFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
+		addStatusMenu( menuBar );
+		addPeopleMenu( menuBar );
 		JMenu optionsMenu = addOptionsMenu( menuBar );
 
 		optionsMenu.add( new JSeparator() );
@@ -720,6 +723,21 @@ public class ClanManageFrame extends KoLFrame
 
 				(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
 			}
+		}
+	}
+
+	/**
+	 * An internal class used to handle logout whenever the window
+	 * is closed.  An instance of this class is added to the window
+	 * listener list.
+	 */
+
+	private class CloseManagerAdapter extends LogoutRequestAdapter
+	{
+		public void windowClosed( WindowEvent e )
+		{
+			if ( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "3" ) )
+				super.windowClosed( e );
 		}
 	}
 
