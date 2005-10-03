@@ -502,10 +502,34 @@ public class AdventureFrame extends KoLFrame
 				if ( client != null )
 					client.resetContinueState();
 
+				switch ( RNG.nextInt(2) )
+				{
+					case 0:
+						fightCouncil();
+						break;
+
+					case 1:
+						createWeapon();
+						break;
+				}
+
+			}
+
+			private void fightCouncil()
+			{
 				updateDisplay( DISABLED_STATE, "Petitioning the Seaside Town Council for automatic game completion..." );
 				updateDisplay( DISABLED_STATE, "The Seaside Town Council has rejected your petition.  Game incomplete." );
 				updateDisplay( DISABLED_STATE, "You reject the Seaside Town's decision.  Fighting the council..." );
 				updateDisplay( ERROR_STATE, "You have been defeated by the Seaside Town Council.  Game Over." );
+			}
+
+			private void createWeapon()
+			{
+				updateDisplay( DISABLED_STATE, "You enter the super-secret code into the Strange Leaflet..." );
+				updateDisplay( DISABLED_STATE, "Your ruby W and metallic A fuse to form the mysterious R!" );
+				updateDisplay( DISABLED_STATE, "Moxie sign backdoor accessed.  Supertinkering The Ultimate Weapon..." );
+				updateDisplay( DISABLED_STATE, "Supertinkering complete.  Executing tower script..." );
+				updateDisplay( ERROR_STATE, "Your RNG spawns an enraged cow on Floors 1-6.  Game Over." );
 			}
 
 			private void updateDisplay( int state, String message )
