@@ -1134,7 +1134,10 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setBartender( boolean hasBartender )
-	{	KoLCharacter.hasBartender = hasBartender;
+	{
+		KoLCharacter.hasBartender = hasBartender;
+		if ( client instanceof KoLmafiaGUI )
+			((KoLmafiaGUI)client).refresher.run();
 	}
 
 	/**
@@ -1152,7 +1155,10 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setChef( boolean hasChef )
-	{	KoLCharacter.hasChef = hasChef;
+	{
+		KoLCharacter.hasChef = hasChef;
+		if ( client instanceof KoLmafiaGUI )
+			((KoLmafiaGUI)client).refresher.run();
 	}
 
 	/**
