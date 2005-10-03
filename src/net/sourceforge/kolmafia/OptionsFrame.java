@@ -158,40 +158,42 @@ public class OptionsFrame extends KoLFrame
 	private class ServerSelectPanel extends OptionsPanel
 	{
 		private static final int SERVER_COUNT = 3;
-		private JRadioButton [] servers;
+		private JComboBox servers, uimodes;
 
 		public ServerSelectPanel()
 		{
-			super( "Server Select", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ SERVER_COUNT + 1 ];
+			super( "Server Select" );
 
-			servers = new JRadioButton[ SERVER_COUNT + 1 ];
-			ButtonGroup serverGroup = new ButtonGroup();
-			for ( int i = 0; i <= SERVER_COUNT; ++i )
-			{
-				servers[i] = new JRadioButton();
-				serverGroup.add( servers[i] );
-			}
-
-			elements[0] = new VerifiableElement( "Auto-detect login server", JLabel.LEFT, servers[0] );
+			servers = new JComboBox();
+			servers.addItem( "Auto-detect login server" );
 			for ( int i = 1; i <= SERVER_COUNT; ++i )
-				elements[i] = new VerifiableElement( "Use login server " + i, JLabel.LEFT, servers[i] );
+				servers.addItem( "Use login server " + i );
 
-			setContent( elements, false );
+			uimodes = new JComboBox();
+			uimodes.addItem( "Use standard framing mode" );
+			uimodes.addItem( "Use buffbot frame mode" );
+			uimodes.addItem( "Use chat-only frame mode" );
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Server Select: ", servers );
+			elements[1] = new VerifiableElement( "Framing Mode: ", uimodes );
+
+			setContent( elements );
 			actionCancelled();
 		}
 
 		protected void actionConfirmed()
 		{
-			for ( int i = 0; i < 4; ++i )
-				if ( servers[i].isSelected() )
-					setProperty( "loginServer", String.valueOf( i ) );
+			setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
+			setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
 
 			super.actionConfirmed();
 		}
 
 		protected void actionCancelled()
-		{	servers[ Integer.parseInt( getProperty( "loginServer" ) ) ].setSelected( true );
+		{
+			servers.setSelectedIndex( Integer.parseInt( getProperty( "loginServer" ) ) );
+			uimodes.setSelectedIndex( Integer.parseInt( getProperty( "userInterfaceMode" ) ) );
 		}
 	}
 
@@ -271,9 +273,9 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "skipInventory", "Skip inventory retrieval" },
 			{ "skipOutfits", "Skip outfit list retrieval" },
-			{ "skipFamiliars", "Skip terrarium retrieval" }
+			{ "skipFamiliars", "Skip terrarium retrieval" },
+			{ "skipMoonPhases", "Skip moon phase synchronization" }
 		};
 
 		/**

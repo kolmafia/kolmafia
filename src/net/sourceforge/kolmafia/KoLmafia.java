@@ -209,6 +209,7 @@ public abstract class KoLmafia implements KoLConstants
 		// all over the place
 
 		this.sessionID = sessionID;
+		isQuickLogin |= GLOBAL_SETTINGS.getProperty( "chatOnlyMode" ).equals( "true" );
 
 		if ( !permitContinue )
 		{
@@ -241,10 +242,6 @@ public abstract class KoLmafia implements KoLConstants
 			resetSessionTally();
 		}
 
-		// Get the password hash for the session
-
-		(new PasswordHashRequest( this )).run();
-
 		if ( !permitContinue )
 		{
 			deinitialize();
@@ -259,7 +256,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Get current moon phases
 
-		(new MoonPhaseRequest( this )).run();
+		if ( !isQuickLogin && settings.getProperty( "skipMoonPhases" ).equals( "false" ) )
+			(new MoonPhaseRequest( this )).run();
 
 		if ( !permitContinue )
 		{
@@ -324,8 +322,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
-		if ( !isQuickLogin && settings.getProperty( "skipInventory" ).equals( "false" ) )
-			(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
+		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
 
 		if ( !permitContinue )
 		{

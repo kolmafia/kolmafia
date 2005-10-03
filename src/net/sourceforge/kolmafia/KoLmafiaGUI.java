@@ -131,21 +131,45 @@ public class KoLmafiaGUI extends KoLmafia
 		KoLCharacter.getInventory().addListDataListener( new KoLCharacterAdapter( null, refresher ) );
 		this.refresher.run();
 
-		if ( displayer.getCreation() instanceof AdventureFrame )
+		if ( displayer == null || displayer.getCreation() instanceof AdventureFrame )
 			return;
 
 		if ( !isLoggingIn )
 		{
 			CreateFrameRunnable previousDisplayer = displayer;
+			int userInterfaceMode = Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) );
+			Class frameClass = null;
 
-			Object [] parameters = new Object[1];
-			parameters[0] = this;
+			switch ( userInterfaceMode )
+			{
+				case 0:
+					frameClass = AdventureFrame.class;
+					break;
 
-			displayer = new CreateFrameRunnable( AdventureFrame.class, parameters );
-			displayer.run();
+				case 1:
+					frameClass = BuffBotFrame.class;
+					break;
+
+				case 2:
+					frameClass = null;
+					KoLMessenger.initialize();
+					break;
+			}
+
+			if ( frameClass == null )
+				displayer = null;
+			else
+			{
+				Object [] parameters = new Object[1];
+				parameters[0] = this;
+
+				displayer = new CreateFrameRunnable( frameClass, parameters );
+				displayer.run();
+			}
 
 			((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
 			((KoLFrame)previousDisplayer.getCreation()).dispose();
+
 		}
 	}
 
@@ -385,19 +409,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 		JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
 			JOptionPane.INFORMATION_MESSAGE, null, printing.toArray(), null );
-	}
-
-	public void setVisible( boolean isVisible )
-	{
-		if ( displayer != null && displayer.getCreation() != null )
-			((KoLFrame)displayer.getCreation()).setVisible( isVisible );
-	}
-
-	public boolean isVisible()
-	{
-		if ( displayer != null && displayer.getCreation() != null )
-			return ((KoLFrame)displayer.getCreation()).isVisible();
-		return false;
 	}
 
 	public void processResults( String results )

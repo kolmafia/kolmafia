@@ -311,6 +311,9 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void dispose()
 	{
+		if ( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "2" ) )
+			System.exit(0);
+
 		while ( !instantMessageFrames.isEmpty() )
 			removeChat( (String) instantMessageFrames.firstKey() );
 

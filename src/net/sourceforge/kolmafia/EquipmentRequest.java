@@ -47,7 +47,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
  * which are currently equipped are retrieved.
  */
 
-public class EquipmentRequest extends KoLRequest
+public class EquipmentRequest extends PasswordHashRequest
 {
 	public static final String UNEQUIP = "(none)";
 

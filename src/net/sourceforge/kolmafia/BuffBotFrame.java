@@ -149,7 +149,6 @@ public class BuffBotFrame extends KoLFrame
 		JMenu optionsMenu = addOptionsMenu( menuBar );
 
 		optionsMenu.add( new JSeparator() );
-		optionsMenu.add( new ToggleMenuItem() );
 		optionsMenu.add( new ShowStatisticsMenuItem() );
 
 		addHelpMenu( menuBar );
@@ -510,29 +509,6 @@ public class BuffBotFrame extends KoLFrame
 	}
 
 	/**
-	 * Menu item which toggles the visibility of the main
-	 * adventuring frame.
-	 */
-
-	private class ToggleMenuItem extends JCheckBoxMenuItem implements ActionListener
-	{
-		public ToggleMenuItem()
-		{
-			super( "Show Main", true );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			boolean isSelected = getSelectedObjects() != null;
-
-			setSelected( isSelected );
-			if ( client != null && client instanceof KoLmafiaGUI )
-				((KoLmafiaGUI)client).setVisible( isSelected );
-		}
-	}
-
-	/**
 	 * An internal class used to handle logout whenever the window
 	 * is closed.  An instance of this class is added to the window
 	 * listener list.
@@ -542,10 +518,9 @@ public class BuffBotFrame extends KoLFrame
 	{
 		public void windowClosing( WindowEvent e )
 		{
-			if ( client != null )
+			if ( client != null && !GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "1" ) )
 			{
 				BuffBotHome.deinitialize();
-				((KoLmafiaGUI)client).setVisible( true );
 				client.updateDisplay( ENABLED_STATE, "Buffbot deactivated." );
 			}
 			else

@@ -36,31 +36,23 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-public class PasswordHashRequest extends KoLRequest
+public abstract class PasswordHashRequest extends KoLRequest
 {
 	/**
 	 * Constructs a new <code>PasswordHashRequest</code>.
 	 * @param	client	The client where the hash will be stored
 	 */
 
-	public PasswordHashRequest( KoLmafia client )
-	{	super( client, "account.php" );
+	public PasswordHashRequest( KoLmafia client, String location )
+	{	super( client, location );
 	}
 
 	public void run()
 	{
-		updateDisplay( DISABLED_STATE, "Retrieving password hash..." );
 		super.run();
 
-		Matcher pwdmatch = Pattern.compile( "name=pwd value=\"(.*?)\">" ).matcher( responseText );
-
-		if ( !pwdmatch.find() )
-		{
-			client.updateDisplay( ERROR_STATE, "I/O Error.  Please retry." );
-			client.cancelRequest();
-			return;
-		}
-
-		client.setPasswordHash( pwdmatch.group(1) );
+		Matcher pwdmatch = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" ).matcher( responseText );
+		if ( pwdmatch.find() )
+			client.setPasswordHash( pwdmatch.group(1) );
 	}
 }
