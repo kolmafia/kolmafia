@@ -77,7 +77,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected static final AdventureResult CLOVER = new AdventureResult( 24, 1 );
 
 	protected boolean isLoggingIn;
-	protected LoginRequest loginRequest;
+	protected LoginRequest cachedLogin;
 
 	protected String password, sessionID, passwordHash;
 
@@ -280,7 +280,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If this is a time-in request, this is all the
 		// data that is actually required.
 
-		if ( loginRequest != null )
+		if ( cachedLogin != null )
 			return;
 
 		// Retrieve campground data to see if the user is able to
@@ -435,7 +435,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		sessionID = null;
 		passwordHash = null;
-		loginRequest = null;
+		cachedLogin = null;
 		permitContinue = false;
 	}
 
@@ -1663,8 +1663,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		isLoggingIn = true;
-		LoginRequest cachedLogin = loginRequest;
-
+		LoginRequest cachedLogin = this.cachedLogin;
 		boolean previouslyActive = BuffBotHome.isBuffBotActive();
 
 		deinitialize();

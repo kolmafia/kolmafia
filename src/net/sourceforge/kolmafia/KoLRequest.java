@@ -695,6 +695,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 					{
 						client.executeTimeInRequest();
+						client.resetContinueState();
 						return true;
 					}
 

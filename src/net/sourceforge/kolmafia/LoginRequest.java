@@ -104,7 +104,7 @@ public class LoginRequest extends KoLRequest
 				client.removeSaveState( loginname.replaceFirst( "/q", "" ) );
 
 			client.initialize( loginname.replaceFirst( "/q", "" ), formConnection.getHeaderField( "Set-Cookie" ), getBreakfast, isQuickLogin );
-			client.loginRequest = client.inLoginState() ? null : new LoginRequest( client, loginname, password, false, savePassword, true );
+			client.cachedLogin = client.inLoginState() ? null : new LoginRequest( client, loginname, password, false, savePassword, true );
 		}
 		else if ( !isErrorState )
 		{
