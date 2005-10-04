@@ -226,7 +226,7 @@ public class BuffBotFrame extends KoLFrame
 
 		public BuffOptionsPanel()
 		{
-			super( "add", "remove", new Dimension( 120, 20 ),  new Dimension( 240, 20 ));
+			super( "add", "remove", new Dimension( 120, 20 ),  new Dimension( 300, 20 ));
 			UseSkillRequest skill;
 
 			LockableListModel skillSet = KoLCharacter.getAvailableSkills();
@@ -321,7 +321,7 @@ public class BuffBotFrame extends KoLFrame
 
 		public MainSettingsPanel()
 		{
-			super( "apply", "defaults", new Dimension( 120, 20 ),  new Dimension( 240, 20 ));
+			super( "apply", "defaults", new Dimension( 120, 20 ),  new Dimension( 300, 20 ));
 
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout() );
@@ -427,7 +427,7 @@ public class BuffBotFrame extends KoLFrame
 
 		public CustomSettingsPanel()
 		{
-			super( "apply", "defaults", new Dimension( 120, 20 ),  new Dimension( 240, 20 ));
+			super( "apply", "defaults", new Dimension( 120, 20 ),  new Dimension( 300, 20 ));
 
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout() );

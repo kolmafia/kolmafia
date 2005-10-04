@@ -111,101 +111,66 @@ public class UseSkillRequest extends KoLRequest
 		if ( responseText == null || responseText.trim().length() == 0 )
 		{
 			client.cancelRequest();
-			lastUpdate = "I had lag problems.";
-			updateDisplay( ERROR_STATE, "No response to skill request." );
-
-			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "No response to skill request." );
-
-			return;
+			lastUpdate = "Encountered lag problems.";
 		}
 		else if ( responseText.indexOf( "You don't have that skill" ) != -1 )
 		{
 			client.cancelRequest();
-			lastUpdate = "You don't have that skill.";
-			updateDisplay( ERROR_STATE, "You don't have that skill." );
-
-			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "You don't have that skill." );
-
-			return;
+			lastUpdate = "That skill is unavailable.";
 		}
 		else if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
 			client.cancelRequest();
-			lastUpdate = "I don't have enough mana to continue.";
-			updateDisplay( ERROR_STATE, "You don't have enough mana." );
-
-			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "You don't have enough mana." );
-
-			return;
+			lastUpdate = "Not enough mana to continue.";
 		}
 		else if ( responseText.indexOf( "You can only conjure" ) != -1 )
 		{
 			client.cancelRequest();
-			lastUpdate = "I can't cast that spell that many times.";
-			updateDisplay( ERROR_STATE, "Summon limited exceeded." );
-
-			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, "Summon limit exceeded." );
-
-			return;
+			lastUpdate = "Summon limit exceeded.";
 		}
 		else if ( responseText.indexOf( "too many songs" ) != -1 )
 		{
 			client.cancelRequest();
-			lastUpdate = "You have 3 AT buffs already.";
-			updateDisplay( ERROR_STATE, target + " is overbuffed." );
-
-			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is overbuffed." );
-
-			return;
+			lastUpdate = target + "has 3 AT buffs already.";
 		}
 		else if ( responseText.indexOf( "Invalid target player" ) != -1 )
 		{
 			client.cancelRequest();
-			lastUpdate = "KoL did not recognize you as a valid player.";
-			updateDisplay( ERROR_STATE, target + " is not a valid target." );
-
-			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is not a valid target." );
-
-			return;
+			lastUpdate = target + " is not a valid target.";
 		}
 		else if ( responseText.indexOf( "busy fighting" ) != -1 )
 		{
 			client.cancelRequest();
-			lastUpdate = "You were busy fighting.";
-			updateDisplay( ERROR_STATE, target + " is busy fighting." );
-
-			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " is busy fighting." );
-
-			return;
+			lastUpdate = target + " is busy fighting.";
 		}
 		else if ( responseText.indexOf( "cannot currently" ) != -1 )
 		{
 			client.cancelRequest();
-			lastUpdate = "You cannot receive buffs.";
-			updateDisplay( ERROR_STATE, target + " cannot receive buffs." );
-
-			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, target + " cannot receive buffs." );
-
-			return;
+			lastUpdate = target + " cannot receive buffs.";
 		}
 		else
 		{
+			client.resetContinueState();
 			lastUpdate = "";
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount) ) );
-
-			processResults( responseText.replaceFirst(
-				"</b><br>\\(duration: ", " (" ).replaceAll( " Adventures", "" ) );
+			processResults( responseText.replaceFirst( "</b><br>\\(duration: ", " (" ).replaceAll( " Adventures", "" ) );
 
 			client.applyRecentEffects();
-			updateDisplay( ENABLED_STATE, skillName + " was successfully cast." );
+		}
+
+		// Now that all the checks are complete, proceed
+		// to determine how to update the user display.
+
+		if ( client.permitsContinue() )
+		{
+			updateDisplay( ENABLED_STATE, skillName + " was successfully cast on " + target );
+		}
+		else
+		{
+			updateDisplay( ERROR_STATE, lastUpdate );
+
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
 		}
 	}
 }
