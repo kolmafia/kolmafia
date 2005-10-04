@@ -167,7 +167,7 @@ public class CakeArenaFrame extends KoLFrame
 
 		public OpponentButton( int row, int column, Integer skill )
 		{
-			super( JComponentUtilities.getSharedImage( skill.toString() + "star.gif" ) );
+			super( JComponentUtilities.getSharedImage( (skill == null ? "0" : skill.toString()) + "star.gif" ) );
 
 			this.row = row;
 			this.column = column;
