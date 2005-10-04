@@ -68,9 +68,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static String refundMessage;
 	private static String thanksMessage;
 
-	private static final int SLEEP_TIME = 1000;  // Sleep this much each time
-	private static final int SLEEP_COUNT = 75;   // Sleep his many times
-
 	private static Map buffCostMap = new TreeMap();
 	private static int maxPhilanthropy = 0;
 	private static int autoBuySetting = -1;
@@ -122,13 +119,26 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	public static void addBuff( String skillName, int price, int castCount, boolean restricted, boolean philanthropic )
 	{
+		Integer newPrice = new Integer( price );
 		BuffBotCaster newCast = new BuffBotCaster( skillName, price, castCount, restricted, philanthropic );
+
 		buffCostTable.add( newCast );
-		Object oldCast = buffCostMap.put( new Integer( price ), newCast );
 
-		if ( oldCast != null )
-			buffCostTable.remove( oldCast );
+		// Because the new concept allows multiple buffs
+		// to have the same price, store things in a list.
 
+		List castList = (List) buffCostMap.get( newPrice );
+
+		// If this price has never existing before, go
+		// ahead and add a new list to the data structure.
+
+		if ( castList == null )
+		{
+			castList = new ArrayList();
+			buffCostMap.put( newPrice, castList );
+		}
+
+		castList.add( newCast );
 		saveBuffs();
 	}
 
@@ -139,12 +149,16 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	public static void removeBuffs( Object [] buffs )
 	{
+		List castList;
 		BuffBotCaster toRemove;
+
 		for ( int i = 0; i < buffs.length; ++i )
 		{
 			toRemove = (BuffBotCaster) buffs[i];
 			buffCostTable.remove( toRemove );
-			buffCostMap.remove( new Integer( toRemove.getPrice() ) );
+
+			castList = (List) buffCostMap.get( new Integer( toRemove.getPrice() ) );
+			castList.remove( toRemove );
 		}
 
 		saveBuffs();
@@ -210,7 +224,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{
 		}
 
-		// The outer loop goes until user cancels
+		// The outer loop goes until user cancels, or
+		// for however many iterations are needed.
 
 		for ( int i = 1; BuffBotHome.isBuffBotActive() && i <= iterations; ++i )
 		{
@@ -244,23 +259,18 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// (don't go away for more than 1 second at a time
 			// to avoid re-enabling problems).
 
-			if ( i != iterations )
+			if ( newMessages )
 			{
-				if ( newMessages )
-				{
-					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete." );
-					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot is sleeping." );
-					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
-				}
-
-				client.updateDisplay( DISABLED_STATE, "BuffBot is sleeping" );
-
-				for ( int j = 0; j < SLEEP_COUNT; ++j )
-					if ( BuffBotHome.isBuffBotActive() )
-						KoLRequest.delay( SLEEP_TIME );
-			}
-			else if ( newMessages )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
+			}
+
+			client.updateDisplay( DISABLED_STATE, "Buffbot is sleeping." );
+
+			if ( i != iterations )
+				for ( int j = 0; j < 75; ++j )
+					if ( BuffBotHome.isBuffBotActive() )
+						KoLRequest.delay( 1000 );
 		}
 
 		if ( !useChatBasedBuffBot )
@@ -410,10 +420,21 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		Matcher meatMatcher = Pattern.compile( MEAT_REGEX ).matcher( message.getMessageHTML() );
 		int meatSent = meatMatcher.find() ? df.parse( meatMatcher.group(1) ).intValue() : 0;
 
-		// Look for this amount in the buff table, and prepare
-		// the buffing.
+		// Look for this amount in the buff table, and use up all the applicable
+		// buffs at the given price.
 
-		BuffBotCaster buff = (BuffBotCaster) buffCostMap.get( new Integer( meatSent ) );
+		List castList = (List) buffCostMap.get( new Integer( meatSent ) );
+		for ( int i = 0; castList != null && i < castList.size() && executeBuff( (BuffBotCaster) castList.get(i), message, meatSent ); ++i );
+
+		// Must not be a buff request message, so notify user and save/delete;
+		// also check to see if it was an attempted scam
+
+		detectScam( message, "You gain ([\\d,]+) Meat" );
+		return true;
+	}
+
+	private static boolean executeBuff( BuffBotCaster buff, KoLMailMessage message, int meatSent )
+	{
 		if ( buff != null )
 		{
 			if ( buff.restricted && !onWhiteList( message.getSenderName() ) )
@@ -428,26 +449,27 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 				sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price." + refundMessage, meatSent );
 
-				if ( !saveList.contains( message ) )
-					deleteList.add( message );
-
+				queueMessage( message, true );
 				return true;
 			}
 			else if ( buff.philanthropic && BuffBotHome.getInstanceCount( meatSent, message.getSenderName() ) >= maxPhilanthropy )
 			{
-				// This is a  philanthropic buff request, but the
-				// user already requested the buff previously.
+				if ( meatSent != 0 )
+				{
+					// This is a philanthropic buff request, but the
+					// user already requested the buff previously.
+					// Notify the user that this buff can only be
+					// requested once per day.
 
-				BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Repeated request: from [" +
+					BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Repeated request: from [" +
 						message.getSenderName() + "] meat received: " + meatSent );
 
-				sendRefund( message.getSenderName(), "Sorry, this buff may only be requested " + maxPhilanthropy +
-					(maxPhilanthropy == 1 ? " time" : " times") + " per day.", meatSent );
+					sendRefund( message.getSenderName(), "Sorry, this buff may only be requested " + maxPhilanthropy +
+						(maxPhilanthropy == 1 ? " time" : " times") + " per day.", meatSent );
 
-				if ( !saveList.contains( message ) )
-					deleteList.add( message );
-
-				return true;
+					queueMessage( message, true );
+					return true;
+				}
 			}
 			else
 			{
@@ -455,71 +477,71 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				// process the buff request.
 
 				client.resetContinueState();
-				return executeBuff( buff, message, meatSent );
+
+				double buffPercentRemaining = buff.castOnTarget( message.getSenderName() );
+
+				if ( buffPercentRemaining != 0.0 )
+				{
+					// Can't send refund to ronin/hardcore, so don't attempt
+					// to send the refund.
+
+					if ( UseSkillRequest.lastUpdate.endsWith( " cannot receive buffs." ) )
+						buffPercentRemaining = 0.0;
+
+					// If there was no update message, that means all the buffs
+					// were successful, but the buffbot ran out of MP.
+
+					if ( UseSkillRequest.lastUpdate.equals( "" ) )
+						UseSkillRequest.lastUpdate = "Ran out of MP restores.";
+
+					sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " +
+						UseSkillRequest.lastUpdate + "  Please try again later.", (int) Math.floor( (double)meatSent * buffPercentRemaining ) );
+
+					queueMessage( message, true );
+					return true;
+				}
+
+				if ( buff.philanthropic )
+					BuffBotHome.addToRecipientList( meatSent, message.getSenderName() );
+
+				queueMessage( message, true );
+				return true;
+
 			}
 		}
 		else if ( meatSent >= 100000 )
 		{
-			sendThankYou( message.getSenderName(), message.getMessageHTML() );
-			if ( !saveList.contains( message ) )
-				saveList.add( message );
+			// If the amount of meat sent is extremely large,
+			// and no buff matches that value, assume that it's
+			// a donation and send a thank you note.
 
+			sendThankYou( message.getSenderName(), message.getMessageHTML() );
+			queueMessage( message, false );
 			return true;
 		}
 		else if ( meatSent != 0 )
 		{
+			// If the amount of meat is non-zero, then you can
+			// go ahead and send a refund message.
+
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Meat received does not match anything in database: from [" +
 				message.getSenderName() + "] meat received: " + meatSent );
 
 			sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price." + refundMessage, meatSent );
-
-			if ( !saveList.contains( message ) )
-				deleteList.add( message );
-
+			queueMessage( message, true );
 			return true;
 		}
 
-		// Must not be a buff request message, so notify user and save/delete;
-		// also check to see if it was an attempted scam
+		// If it gets this far, then it's an empty message.  The
+		// scam detection will automatically fix the problem.
 
-		detectScam( message, "You gain ([\\d,]+) Meat" );
 		return true;
 	}
 
-	private static boolean executeBuff( BuffBotCaster buff, KoLMailMessage message, int meatSent )
+	protected static void queueMessage( KoLMailMessage message, boolean delete )
 	{
-		double buffPercentRemaining = buff.castOnTarget( message.getSenderName() );
-
-		if ( buffPercentRemaining != 0.0 )
-		{
-			// Can't send refund to ronin/hardcore, so don't attempt
-			// to send the refund.
-
-			if ( UseSkillRequest.lastUpdate.endsWith( " cannot receive buffs." ) )
-				buffPercentRemaining = 0.0;
-
-			// If there was no update message, that means all the buffs
-			// were successful, but the buffbot ran out of MP.
-
-			if ( UseSkillRequest.lastUpdate.equals( "" ) )
-				UseSkillRequest.lastUpdate = "Ran out of MP restores.";
-
-			sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " +
-				UseSkillRequest.lastUpdate + "  Please try again later.", (int) Math.floor( (double)meatSent * buffPercentRemaining ) );
-
-			if ( !saveList.contains( message ) )
-				deleteList.add( message );
-
-			return true;
-		}
-
-		if ( buff.philanthropic )
-			BuffBotHome.addToRecipientList( meatSent, message.getSenderName() );
-
-		if ( !saveList.contains( message ) )
-			deleteList.add( message );
-
-		return true;
+		if ( !saveList.contains( message ) && !deleteList.contains( message ) )
+			(delete ? deleteList : saveList).add( message );
 	}
 
 	private static void detectScam( KoLMailMessage message, String scamString )
@@ -536,12 +558,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		else if ( messageDisposalSetting == SAVEBOX )
 		{
-			saveList.add( message );
+			queueMessage( message, false );
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Saving non-buff message from [" + message.getSenderName() + "]" );
 		}
 		else if ( messageDisposalSetting == DISPOSE )
 		{
-			deleteList.add( message );
+			queueMessage( message, true );
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Deleting non-buff message from [" + message.getSenderName() + "]" );
 		}
 		else
