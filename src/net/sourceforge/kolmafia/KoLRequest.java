@@ -379,11 +379,12 @@ public class KoLRequest implements Runnable, KoLConstants
 	/**
 	 * Utility method which waits for the default refresh rate
 	 * without using Thread.sleep() - this means CPU usage can
-	 * be greatly reduced.
+	 * be greatly reduced.  This will always use the server
+	 * friendly delay speed.
 	 */
 
 	protected static void delay()
-	{	delay( isServerFriendly ? 4000 : 500 );
+	{	delay( 4000 );
 	}
 
 	/**
@@ -439,7 +440,12 @@ public class KoLRequest implements Runnable, KoLConstants
 			// off just to avoid login slowdown.
 
 			if ( !isDelayExempt() )
-				delay();
+			{
+				if ( isServerFriendly )
+					KoLRequest.delay();
+				else
+					KoLRequest.delay( 500 );
+			}
 		}
 		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 
