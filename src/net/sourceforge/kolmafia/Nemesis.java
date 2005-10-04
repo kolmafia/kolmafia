@@ -238,6 +238,13 @@ public abstract class Nemesis extends StaticEntity
 			request = new AdventureRequest( client, "cave.php", action );
 			request.run();
 
+			if ( request.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
+			{
+				client.updateDisplay( ERROR_STATE, "You're out of adventures." );
+				client.cancelRequest();
+				return;
+			}
+
 			// Consume items
 			switch (i)
 			{
