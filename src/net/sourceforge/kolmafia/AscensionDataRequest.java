@@ -89,7 +89,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	public void run()
 	{
 		super.run();
-		responseText = responseText.replaceAll( "<a.*?</a>", "" );
+		responseText = responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" );
 		refreshFields();
 	}
 
@@ -181,11 +181,11 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				this.timestamp = ASCEND_DATE_FORMAT.parse( columns[1] );
 				this.level = df.parse( columns[2] ).intValue();
 
-				this.classID = columns[3].startsWith( "Se" ) ? AscensionSnapshotTable.SEAL_CLUBBER :
-					columns[3].startsWith( "Tu" ) ? AscensionSnapshotTable.TURTLE_TAMER :
-					columns[3].startsWith( "Pa" ) ? AscensionSnapshotTable.PASTAMANCER :
-					columns[3].startsWith( "Sa" ) ? AscensionSnapshotTable.SAUCEROR :
-					columns[3].startsWith( "Di" ) ? AscensionSnapshotTable.DISCO_BANDIT : AscensionSnapshotTable.ACCORDION_THIEF;
+				this.classID = columns[3].startsWith( "SC" ) ? AscensionSnapshotTable.SEAL_CLUBBER :
+					columns[3].startsWith( "T" ) ? AscensionSnapshotTable.TURTLE_TAMER :
+					columns[3].startsWith( "P" ) ? AscensionSnapshotTable.PASTAMANCER :
+					columns[3].startsWith( "S" ) ? AscensionSnapshotTable.SAUCEROR :
+					columns[3].startsWith( "D" ) ? AscensionSnapshotTable.DISCO_BANDIT : AscensionSnapshotTable.ACCORDION_THIEF;
 
 				this.sign = columns[4];
 				this.turnCount = df.parse( columns[5] ).intValue();
