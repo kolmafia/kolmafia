@@ -148,7 +148,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		client.processResult( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
 
 		if ( KoLCharacter.getCurrentHP() == 0 )
-			client.processResult( BEATEN_UP.getInstance( (request.responseCode == 302 ? 4 : 3) - BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+			client.processResult( BEATEN_UP.getInstance( 4 - BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 
 		isErrorState = false;
 	}
