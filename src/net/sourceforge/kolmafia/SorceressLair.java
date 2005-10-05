@@ -606,23 +606,11 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
-		// Check to see if they've already completed the
-		// hedge maze puzzle.
-
-		KoLRequest request = new KoLRequest( client, "lair3.php" );
-		request.run();
-
-		if ( request.responseText.indexOf( "lair4.php" ) != -1 )
-		{
-			client.updateDisplay( ENABLED_STATE, "Hedge maze already completed." );
-			return;
-		}
-
 		// Otherwise, check their current state relative
 		// to the hedge maze, and begin!
 
 		client.updateDisplay( DISABLED_STATE, "Retrieving maze status..." );
-		request = new KoLRequest( client, "hedgepuzzle.php" );
+		KoLRequest request = new KoLRequest( client, "hedgepuzzle.php" );
 		request.run();
 
 		String responseText = request.responseText;
@@ -634,16 +622,12 @@ public abstract class SorceressLair extends StaticEntity
 		{
 			client.updateDisplay( DISABLED_STATE, "Retrieving hedge key..." );
 			responseText = retrieveHedgeKey( responseText );
-		}
 
-		// Retrieving the key after rotating the puzzle pieces uses an
-		// adventure.
+			// Retrieving the key after rotating the puzzle pieces
+			// uses an adventure. If we ran out, we canceled.
 
-		if ( responseText.indexOf( "You're out of adventures." ) != -1 )
-		{
-			client.updateDisplay( ERROR_STATE, "Ran out of adventures." );
-			client.cancelRequest();
-			return;
+			if ( !client.permitsContinue() )
+				return;
 		}
 
 		// Second mission -- rotate the hedge maze until
@@ -653,16 +637,13 @@ public abstract class SorceressLair extends StaticEntity
 		{
 			client.updateDisplay( DISABLED_STATE, "Executing final rotations..." );
 			responseText = finalizeHedgeMaze( responseText );
-		}
 
-		// Navigating up to the tower door after rotating the puzzle
-		// pieces requires an adventure
+			// Navigating up to the tower door after rotating the
+			// puzzle pieces requires an adventure. If we ran out,
+			// we canceled.
 
-		if ( responseText.indexOf( "You're out of adventures." ) != -1 )
-		{
-			client.updateDisplay( ERROR_STATE, "Ran out of adventures." );
-			client.cancelRequest();
-			return;
+			if ( !client.permitsContinue() )
+				return;
 		}
 
 		// Check to see if you ran out of puzzle pieces
@@ -683,35 +664,28 @@ public abstract class SorceressLair extends StaticEntity
 	{
 		KoLRequest request;
 
+		// Rotate puzzle sections until we reach our goal
 		while ( responseText.indexOf( searchText ) == -1 )
 		{
-			// If the topiary golem stole one of your hedge
-			// pieces, then make sure you have another before
-			// continuing.
+			// We're out of puzzles unless the response says:
+
+			// "Click one of the puzzle sections to rotate that
+			// section 90 degrees to the right."
 
 			if ( responseText.indexOf( "Click one" ) == -1 )
-			{
-				int puzzlePieceCount = PUZZLE_PIECE.getCount( KoLCharacter.getInventory() );
-
-				// Reduce your hedge piece count by one; if
-				// it turns out that you've run out of puzzle
-				// pieces, return the original response text
-
-				if ( puzzlePieceCount > 0 )
-					client.processResult( PUZZLE_PIECE.getNegation() );
-
-				// If you've run out of hedge puzzle pieces,
-				// return the original response text.
-
-				if ( puzzlePieceCount < 2 )
-					return responseText;
-			}
+				return responseText;
 
 			request = new KoLRequest( client, "hedgepuzzle.php" );
 			request.addFormField( "action", hedgePiece );
 			request.run();
 
 			responseText = request.responseText;
+
+			// If the topiary golem stole one of your hedge
+			// pieces, take it away.
+
+			if ( responseText.indexOf( "Topiary Golem" ) != -1 )
+				client.processResult( PUZZLE_PIECE.getNegation() );
 		}
 
 		return responseText;
@@ -741,14 +715,19 @@ public abstract class SorceressLair extends StaticEntity
 			request.addFormField( "action", "hedge" );
 			request.run();
 
-			if ( responseText.indexOf( "You're out of adventures." ) == -1 )
+			if ( request.responseText.indexOf( "You're out of adventures." ) != -1 )
 			{
-				// Decrement adventure tally
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-
-				// Add key to inventory
-				client.processResult( HEDGE_KEY );
+				// Cancel and return now
+				client.updateDisplay( ERROR_STATE, "Ran out of adventures." );
+				client.cancelRequest();
+				return responseText;
 			}
+
+			// Decrement adventure tally
+			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+
+			// Add key to inventory
+			client.processResult( HEDGE_KEY );
 		}
 
 		return responseText;
@@ -771,11 +750,15 @@ public abstract class SorceressLair extends StaticEntity
 			request.addFormField( "action", "hedge" );
 			request.run();
 
-			if ( responseText.indexOf( "You're out of adventures." ) == -1 )
+			if ( request.responseText.indexOf( "You're out of adventures." ) != -1 )
 			{
-				// Decrement adventure tally
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+				client.updateDisplay( ERROR_STATE, "Ran out of adventures." );
+				client.cancelRequest();
+				return responseText;
 			}
+
+			// Decrement adventure tally
+			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 		}
 
 		return responseText;
