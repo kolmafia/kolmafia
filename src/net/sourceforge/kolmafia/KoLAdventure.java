@@ -45,8 +45,9 @@ package net.sourceforge.kolmafia;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
-	protected KoLmafia client;
+	private static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1 );
 
+	protected KoLmafia client;
 	private boolean isErrorState;
 	private String zone, adventureID, formSource, adventureName;
 	private KoLRequest request;
@@ -144,10 +145,11 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Once the request is complete, be sure to deduct the
 		// used adventures from the tally
 
-		if ( KoLCharacter.getCurrentHP() == 0 )
-			client.processResult( new AdventureResult( "Beaten Up", request.responseCode == 302 ? 4 : 5 ) );
-
 		client.processResult( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
+
+		if ( KoLCharacter.getCurrentHP() == 0 )
+			client.processResult( BEATEN_UP.getInstance( (request.responseCode == 302 ? 4 : 3) - BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+
 		isErrorState = false;
 	}
 
