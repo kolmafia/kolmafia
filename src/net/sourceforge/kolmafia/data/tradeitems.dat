@@ -244,7 +244,7 @@
 244	grapes	1	35
 245	olive	1	35
 246	tomato	1	35
-247	fermenting powder	0	150
+247	fermenting powder	0	35
 248	salty dog	2	65
 249	bloody mary	2	65
 250	screwdriver	2	65
@@ -537,7 +537,7 @@
 537	pr0n legs	0	52
 538	f3d0r4	9	130
 539	lowercase N	0	51
-540	Tasty Fun Good rice candy	0	54
+540	Tasty Fun Good rice candy	3	54
 541	draggin' ball hat	9	120
 542	1337 7r0uZ0RZ	10	130
 543	Trollhouse cookies	1	58
@@ -614,7 +614,7 @@
 614	probability potion	0	128
 615	chaos butterfly	0	124
 616	furry fur	0	129
-617	Angry Farmer candy	0	137
+617	Angry Farmer candy	3	137
 618	Mick's IcyVapoHotness Rub	4	141
 619	giant needle	12	165
 620	thin black candle	3	144
