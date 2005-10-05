@@ -1249,7 +1249,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( condition == null )
+		{
+			printList( scriptRequestor.conditions );
 			return false;
+		}
 
 		if ( condition.getCount() > 0 )
 		{
