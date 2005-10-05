@@ -93,8 +93,18 @@ public class FightRequest extends KoLRequest
 		}
 		else if ( action.startsWith( "item" ) )
 		{
-			addFormField( "action", "useitem" );
-			addFormField( "whichitem", action.substring( 4 ) );
+			int itemID = Integer.parseInt( action.substring( 4 ) );
+
+			if ( (new AdventureResult( itemID, 1 )).getCount( KoLCharacter.getInventory() ) == 0 )
+			{
+				this.action = "attack";
+				addFormField( "action", action );
+			}
+			else
+			{
+				addFormField( "action", "useitem" );
+				addFormField( "whichitem", String.valueOf( itemID ) );
+			}
 		}
 		else if ( KoLCharacter.getCurrentMP() < 0 - getMPCost() )
 		{
