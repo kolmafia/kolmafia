@@ -105,7 +105,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// they can be used in later initializers.
 
 		HOLIDAYS[2][4] = "Valentine's Day";
-		HOLIDAYS[3][3] = "Sneaky Pete's Day";
+		HOLIDAYS[3][3] = "St. Sneaky Pete's Day";
 		HOLIDAYS[4][2] = "Oyster Egg Day";
 		HOLIDAYS[10][8] = "Halloween";
 		HOLIDAYS[11][7] = "Feast of Boris";
