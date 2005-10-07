@@ -161,9 +161,19 @@ public class FamiliarData implements KoLConstants, Comparable
 				modifiedWeight += 3;
 				break;
 
+			case 1218:
+
+				modifiedWeight -= 3;
+				break;
+
 			case 1243:
 
 				modifiedWeight -= 5;
+				break;
+
+			case 1305:
+
+				modifiedWeight += 15;
 				break;
 
 			default:
@@ -243,6 +253,11 @@ public class FamiliarData implements KoLConstants, Comparable
 		for ( int i = 0; i < 3; ++i )
 			if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
 				++weightModifier;
+
+		// Plexiglass Pith Helmet adds +5 pounds if equipped.
+
+                if ( TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.HAT ) ) == 1231 )
+			weightModifier += 5;
 
 		// Next, update the weight due to the accessory
 		// that the familiar is wearing
