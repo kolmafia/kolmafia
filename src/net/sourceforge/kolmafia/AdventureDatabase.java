@@ -103,7 +103,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// How Depressing
 		{ { "choiceAdventure7" }, { "Spooky Gravy Barrow" },
-			{ "Put you hand in the depression", "Leave" } },
+			{ "Put your hand in the depression", "Leave" } },
 
 		// On the Verge of a Dirge
 		{ { "choiceAdventure8" }, { "Spooky Gravy Barrow" },
