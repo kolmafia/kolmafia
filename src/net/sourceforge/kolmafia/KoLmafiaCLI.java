@@ -1020,7 +1020,10 @@ public class KoLmafiaCLI extends KoLmafia
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
-		executeScriptCommand( command + " " + parameters );
+		if ( parameters.length() != 0 )
+			executeScriptCommand( command + " " + parameters );
+		else
+			executeScriptCommand( command );
 	}
 
 	/**
@@ -1032,29 +1035,30 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			// First, assume that it's inside of the scripts
-			// directory and make an attempt to retrieve it
-			// from there.
+			// Locate the script file.  In order of preference,
+			// the script files will either have no extension
+			// and be in the scripts directory, have a ".txt"
+			// extension and be in the scripts directory, have
+			// no extension and not be in the scripts directory,
+			// and have a ".txt" extension and not be in the
+			// scripts directory.
 
-			lastScript = null;
 			File scriptFile = new File( "scripts" + File.separator + parameters );
-
-			if ( scriptFile.exists() )
-				lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
-			else
-			{
+			if ( !scriptFile.exists() )
+				scriptFile = new File( "scripts" + File.separator + parameters + ".txt" );
+			if ( !scriptFile.exists() )
 				scriptFile = new File( parameters );
-				if ( scriptFile.exists() )
-					lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
-			}
+			if ( !scriptFile.exists() )
+				scriptFile = new File( parameters + ".txt" );
 
-			if ( lastScript == null )
+			if ( !scriptFile.exists() )
 			{
 				updateDisplay( ERROR_STATE, "Script file \"" + parameters + "\" could not be found." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
 
+			lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
 			lastScript.commandBuffer = commandBuffer;
 			lastScript.listenForCommands();
 			if ( lastScript.previousCommand == null )
