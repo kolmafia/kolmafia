@@ -65,7 +65,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLmafia implements KoLConstants
 {
-	protected static LimitedSizeChatBuffer commandBuffer;
+	protected static LimitedSizeChatBuffer commandBuffer = null;
 
 	protected static final String [] hermitItemNames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
 		"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
@@ -163,7 +163,6 @@ public abstract class KoLmafia implements KoLConstants
 		adventureList = new LockableListModel();
 		conditions = new SortedListModel();
 		missingItems = new SortedListModel();
-		commandBuffer = null;
 	}
 
 	public boolean isEnabled()
