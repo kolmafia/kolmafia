@@ -397,8 +397,8 @@ public class AdventureRequest extends KoLRequest
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
-                handleChoiceResponse( request.responseText );
-        }
+		handleChoiceResponse( request.responseText );
+	}
 
 	private void handleChoiceResponse( String text )
 	{
@@ -431,10 +431,23 @@ public class AdventureRequest extends KoLRequest
 
 		request.run();
 
-		client.processResults( request.responseText );
+		// Check for a battle resulting from a choice being made.
+		// This is the same test used in KoLRequest.
+
+		if ( request.responseCode == 302 && request.redirectLocation.equals( "fight.php" ) )
+		{
+			FightRequest choiceBattle = new FightRequest( client );
+			choiceBattle.run();
+		}
+		else
+		{
+			// If it's not a fight, then make sure to process the
+			// results of the choice being submitted.
+
+			client.processResults( request.responseText );
+		}
 
 		AdventureResult loseAdventure = new AdventureResult( AdventureResult.CHOICE, -1 );
-
 		if ( loseAdventure.getCount( client.getConditions() ) > 0 )
 		{
 			AdventureResult.addResultToList( client.getConditions(), loseAdventure );
