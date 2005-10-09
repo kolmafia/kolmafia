@@ -179,6 +179,8 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		this.currentState = state;
 
+		logStream.println( message );
+
 		if ( commandBuffer != null )
 		{
 			StringBuffer colorBuffer = new StringBuffer();

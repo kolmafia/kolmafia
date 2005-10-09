@@ -101,9 +101,9 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( BuffBotHome.isBuffBotActive() )
 					BuffBotHome.updateStatus( message );
 			}
-		}
 
-		isEnabled = state != DISABLED_STATE;
+			isEnabled = state != DISABLED_STATE;
+		}
 	}
 
 	public boolean isEnabled()

@@ -303,9 +303,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	public void updateDisplay( int displayState, String message )
 	{
-		if ( client != null )
-			client.getLogStream().println( message );
-
 		if ( contentPanel != null )
 			contentPanel.setStatusMessage( displayState, message );
 

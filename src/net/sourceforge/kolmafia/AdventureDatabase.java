@@ -130,7 +130,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// 100% Legal
 		{ { "choiceAdventure19" }, { "Itznotyerzitz Mine 2" },
-			{ "miner's helmet", "miner's pants", "75 meat" } },
+			{ "miner's helmet", "miner's pants", "100 meat" } },
 
 		// See You Next Fall
 		{ { "choiceAdventure20" }, { "Itznotyerzitz Mine 3" },

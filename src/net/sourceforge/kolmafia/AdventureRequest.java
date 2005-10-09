@@ -111,8 +111,8 @@ public class AdventureRequest extends KoLRequest
 			else
 				addFormField( "action", adventureID );
 
-			// If you took a trip to the shore, you would use up 3 adventures
-			// for each trip
+			// If you took a trip to the shore, you would use up 3
+			// adventures for each trip
 
 			this.adventuresUsed = 0;
 			if ( formSource.equals( "shore.php" ) )
@@ -148,7 +148,7 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( client.isLuckyCharacter() && getProperty( "cloverProtectActive" ).equals( "true" ) && hasLuckyVersion )
+		if (  hasLuckyVersion && client.isLuckyCharacter() && getProperty( "cloverProtectActive" ).equals( "true" ) )
 		{
 			isErrorState = true;
 			client.cancelRequest();
@@ -168,36 +168,38 @@ public class AdventureRequest extends KoLRequest
 
 		super.run();
 
-		// In the case of a denim axe (which redirects you to a
-		// different URL), let the client decide what to do.
+		// Handle certain redirections
 
-		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "choice.php" ) )
+		if ( !isErrorState && responseCode == 302 )
 		{
-			processChoiceAdventure();
-			return;
-		}
+			// If it's a choice, handle it as directed.
 
-		// Also, if you're using KoLmafia, you're probably not
-		// trying to complete the /haiku subquest, so the subquest
-		// will be ignored as well
+			if ( redirectLocation.equals( "choice.php" ) )
+			{
+				processChoiceAdventure();
+				return;
+			}
 
-		if ( !isErrorState && responseCode == 302 && redirectLocation.equals( "haiku.php" ) )
-		{
-			isErrorState = true;
-			updateDisplay( ERROR_STATE, "Encountered haiku subquest." );
-			client.cancelRequest();
-			return;
-		}
+			// KoLmafia will not complete the /haiku subquest
 
-		// Update if you're redirected to a page the client does not
-		// yet recognize.
+			if ( redirectLocation.equals( "haiku.php" ) )
+			{
+				isErrorState = true;
+				updateDisplay( ERROR_STATE, "Encountered haiku subquest." );
+				client.cancelRequest();
+				return;
+			}
 
-		if ( !isErrorState && responseCode == 302 && !redirectLocation.equals( "fight.php" ) )
-		{
-			isErrorState = true;
-			updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
-			client.cancelRequest();
-			return;
+			// Otherwise, the only redirect we understand is
+			// fight.php. That was handled for us by KoLRequest
+
+			if ( !redirectLocation.equals( "fight.php" ) )
+			{
+				isErrorState = true;
+				updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
+				client.cancelRequest();
+				return;
+			}
 		}
 
 		// From here on out, there will only be data handling
@@ -210,7 +212,7 @@ public class AdventureRequest extends KoLRequest
 		// If this is a lucky adventure, then remove a clover
 		// from the player's inventory.
 
-		if ( client.isLuckyCharacter() && hasLuckyVersion )
+		if ( hasLuckyVersion && client.isLuckyCharacter() )
 			client.processResult( SewerRequest.CLOVER );
 
 		// Sometimes, there's no response from the server.
@@ -236,7 +238,8 @@ public class AdventureRequest extends KoLRequest
 			updateDisplay( ERROR_STATE, "Ran out of health." );
 			return;
 		}
-		else if ( formSource.equals( "adventure.php" ) || formSource.equals( "lair3.php" ) )
+
+		if ( formSource.equals( "adventure.php" ) || formSource.equals( "lair3.php" ) )
 		{
 			if ( responseText.indexOf( "againform.submit" ) == -1 )
 			{
@@ -251,7 +254,8 @@ public class AdventureRequest extends KoLRequest
 					this.run();
 					return;
 				}
-				else if ( responseText.indexOf( "You shouldn't be here." ) != -1 ||
+
+				if ( responseText.indexOf( "You shouldn't be here." ) != -1 ||
 					  responseText.indexOf( "The Factory has faded back into the spectral mists" ) != -1 )
 				{
 					// He's missing an item, hasn't been give a quest yet,
@@ -262,7 +266,8 @@ public class AdventureRequest extends KoLRequest
 					updateDisplay( ERROR_STATE, "You can't get to that area." );
 					return;
 				}
-				else if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 )
+
+				if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 )
 				{
 					// Nothing more to do in this area
 
@@ -271,15 +276,17 @@ public class AdventureRequest extends KoLRequest
 					updateDisplay( ERROR_STATE, "Nothing more to do here." );
 					return;
 				}
-				else if ( responseText.indexOf( "You acquire an item" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
-				{
-					// Notify the client of failure by telling it that
-					// the adventure did not take place and the client
-					// should not continue with the next iteration.
-					// Friendly error messages to come later.
 
+				// We can no longer adventure in this area.
+
+				client.cancelRequest();
+
+				// If we gained nothing, assume adventure
+				// didn't take place.
+
+				if ( responseText.indexOf( "You acquire an item" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
+				{
 					isErrorState = true;
-					client.cancelRequest();
 					updateDisplay( ERROR_STATE, "Adventures aborted!" );
 					return;
 				}
@@ -340,14 +347,16 @@ public class AdventureRequest extends KoLRequest
 		// If you're at the casino, each of the different slot machines
 		// deducts meat from your tally
 
-		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "70" ) )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
-		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "71" ) )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
-		if ( formSource.equals( "adventure.php" ) && adventureID.equals( "72" ) )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
-
-		if ( formSource.equals( "casino.php" ) )
+		if ( formSource.equals( "adventure.php" ) )
+		{
+			if ( adventureID.equals( "70" ) )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			else if ( adventureID.equals( "71" ) )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
+			else if ( adventureID.equals( "72" ) )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+		}
+		else if ( formSource.equals( "casino.php" ) )
 		{
 			if ( adventureID.equals( "1" ) )
 				client.processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
@@ -388,47 +397,56 @@ public class AdventureRequest extends KoLRequest
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
-		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( request.responseText );
-		if ( choiceMatcher.find() )
-		{
-			String choice = choiceMatcher.group(1);
-			String decision = getProperty( "choiceAdventure" + choice );
+                handleChoiceResponse( request.responseText );
+        }
 
-			// If there is currently no setting which determines the
-			// decision, assume it can be skipped and skip it.
-
-			if ( decision == null || decision.equals( "0" ) )
-			{
-				updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
-				this.run();
-				return;
-			}
-
-			// If there is currently a setting which determines the
-			// decision, make that decision and submit the form.
-
-			request.addFormField( "pwd", client.getPasswordHash() );
-			request.addFormField( "whichchoice", choice );
-			request.addFormField( "option", decision );
-
-			request.run();
-
-			client.processResults( request.responseText );
-
-			AdventureResult loseAdventure = new AdventureResult( AdventureResult.CHOICE, -1 );
-
-			if ( loseAdventure.getCount( client.getConditions() ) > 0 )
-			{
-				AdventureResult.addResultToList( client.getConditions(), loseAdventure );
-				if ( loseAdventure.getCount( client.getConditions() ) == 0 )
-					client.getConditions().remove( client.getConditions().indexOf( loseAdventure ) );
-			}
-		}
-		else
+	private void handleChoiceResponse( String text )
+	{
+		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( text );
+		if ( !choiceMatcher.find() )
 		{
 			ignoreChoiceAdventure();
 			return;
 		}
+
+		String choice = choiceMatcher.group(1);
+		String decision = getProperty( "choiceAdventure" + choice );
+
+		// If there is currently no setting which determines the
+		// decision, assume it can be skipped and skip it.
+
+		if ( decision == null || decision.equals( "0" ) )
+		{
+			ignoreChoiceAdventure();
+			return;
+		}
+
+		// If there is currently a setting which determines the
+		// decision, make that decision and submit the form.
+
+		KoLRequest request = new KoLRequest( client, "choice.php" );
+		request.addFormField( "pwd", client.getPasswordHash() );
+		request.addFormField( "whichchoice", choice );
+		request.addFormField( "option", decision );
+
+		request.run();
+
+		client.processResults( request.responseText );
+
+		AdventureResult loseAdventure = new AdventureResult( AdventureResult.CHOICE, -1 );
+
+		if ( loseAdventure.getCount( client.getConditions() ) > 0 )
+		{
+			AdventureResult.addResultToList( client.getConditions(), loseAdventure );
+			if ( loseAdventure.getCount( client.getConditions() ) == 0 )
+				client.getConditions().remove( client.getConditions().indexOf( loseAdventure ) );
+		}
+
+		// Choice adventures can lead to other choice adventures
+		// without a redirect. Detect this and recurse, as needed.
+
+		if ( request.responseText.indexOf( "action=choice.php" ) != -1 )
+			handleChoiceResponse( request.responseText );
 	}
 
 	private void ignoreChoiceAdventure()
