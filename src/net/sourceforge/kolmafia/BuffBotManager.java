@@ -71,22 +71,17 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static Map buffCostMap = new TreeMap();
 	private static int maxPhilanthropy = 0;
 	private static int autoBuySetting = -1;
-	private static LockableListModel buffCostTable = new LockableListModel();
+	private static SortedListModel buffCostTable = new SortedListModel();
 	private static String [] whiteListArray = new String[0];
 
 	public static final String MEAT_REGEX = "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat";
 
-	/**
-	 * Constructor for the <code>BuffBotManager</code> class.
-	 */
-
-	public static void reset( LockableListModel costTable )
+	public static void reset()
 	{
 		KoLMailManager.reset();
 
 		buffCostMap.clear();
 		buffCostTable.clear();
-		buffCostTable.addAll( costTable );
 
 		saveList.clear();
 		deleteList.clear();
@@ -109,6 +104,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				}
 			}
 		}
+	}
+
+	public static SortedListModel getBuffCostTable()
+	{	return buffCostTable;
 	}
 
 	/**
@@ -576,7 +575,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * class by simply calling a method after a simple lookup.
 	 */
 
-	public static class BuffBotCaster
+	public static class BuffBotCaster implements Comparable
 	{
 		private int price;
 		private int buffID;
@@ -622,6 +621,30 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			this.stringForm = stringForm.toString();
 			this.settingString = buffID + ":" + price + ":" + castCount + ":" + restricted + ":" + philanthropic;
+		}
+
+		public int compareTo( Object o )
+		{	return o == null || !(o instanceof BuffBotCaster) ? - 1 : compareTo( (BuffBotCaster) o );
+		}
+
+		public int compareTo( BuffBotCaster bbc )
+		{
+			if ( price != bbc.price )
+				return price - bbc.price;
+
+			if ( restricted && !bbc.restricted )
+				return -1;
+
+			if ( !restricted && bbc.restricted )
+				return 1;
+
+			if ( philanthropic && !bbc.philanthropic )
+				return -1;
+
+			if ( !philanthropic && bbc.philanthropic )
+				return 1;
+
+			return 0;
 		}
 
 		public double castOnTarget( String target )

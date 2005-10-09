@@ -2102,12 +2102,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeBuffBotCommand( String parameters )
 	{
-		LockableListModel buffCostTable = new LockableListModel();
-
 		BuffBotHome.reset();
-		BuffBotManager.reset( buffCostTable );
+		BuffBotManager.reset();
 
-		if ( buffCostTable.isEmpty() )
+		if ( BuffBotManager.getBuffCostTable().isEmpty() )
 		{
 			updateDisplay( ERROR_STATE, "No sellable buffs defined." );
 			scriptRequestor.cancelRequest();

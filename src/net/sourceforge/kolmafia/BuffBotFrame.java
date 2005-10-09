@@ -81,6 +81,7 @@ import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -95,7 +96,6 @@ public class BuffBotFrame extends KoLFrame
 	private BuffOptionsPanel buffOptions;
 	private MainSettingsPanel mainSettings;
 	private CustomSettingsPanel customSettings;
-	private LockableListModel buffCostTable;
 
 	/**
 	 * Constructs a new <code>BuffBotFrame</code> and inserts all
@@ -108,10 +108,8 @@ public class BuffBotFrame extends KoLFrame
 	{
 		super( client, "BuffBot" );
 
-		buffCostTable = new LockableListModel();
-
 		BuffBotHome.reset();
-		BuffBotManager.reset( buffCostTable );
+		BuffBotManager.reset();
 
 		// Initialize the display log buffer and the file log
 
@@ -297,7 +295,7 @@ public class BuffBotFrame extends KoLFrame
 				add( JComponentUtilities.createLabel( "Active Buffing List", JLabel.CENTER,
 					Color.black, Color.white ), BorderLayout.NORTH );
 
-				buffListDisplay = new JList( buffCostTable );
+				buffListDisplay = new JList( BuffBotManager.getBuffCostTable() );
 				buffListDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 				buffListDisplay.setVisibleRowCount( 5 );
 
@@ -543,7 +541,7 @@ public class BuffBotFrame extends KoLFrame
 
 			statBuffer.append( "\n\nBuff Request Frequency:\n" );
 
-			Iterator costIterator = buffCostTable.iterator();
+			Iterator costIterator = BuffBotManager.getBuffCostTable().iterator();
 			statBuffer.append( costIterator.hasNext() ? "\n" : "No buff statistics available." );
 
 			BuffBotManager.BuffBotCaster currentCast;
