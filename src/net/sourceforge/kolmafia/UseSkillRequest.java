@@ -168,7 +168,10 @@ public class UseSkillRequest extends KoLRequest
 
 		if ( client.permitsContinue() )
 		{
-			updateDisplay( ENABLED_STATE, skillName + " was successfully cast on " + target );
+			if ( target.equals( "" ) )
+				updateDisplay( ENABLED_STATE, skillName + " was successfully cast" );
+			else
+				updateDisplay( ENABLED_STATE, skillName + " was successfully cast on " + target );
 		}
 		else
 		{
