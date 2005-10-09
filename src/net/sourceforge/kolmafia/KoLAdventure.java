@@ -129,6 +129,15 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public void run()
 	{
+		// Before running the request, make sure you have enough
+		// mana to continue.
+
+		if ( !zone.startsWith( "Camp" ) )
+		{
+			client.autoRecoverHP();
+			client.autoRecoverMP();
+		}
+
 		if ( KoLCharacter.getAdventuresLeft() < request.getAdventuresUsed() )
 		{
 			isErrorState = true;

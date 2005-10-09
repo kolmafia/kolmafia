@@ -98,6 +98,11 @@ public class UseSkillRequest extends KoLRequest
 
 	public void run()
 	{
+		// Before executing the skill, ensure that all necessary mana is
+		// recovered in advance.
+
+		client.autoRecoverMP();
+
 		if ( target == null || target.trim().length() == 0 )
 			updateDisplay( DISABLED_STATE, "Casting " + skillName + "..." );
 		else

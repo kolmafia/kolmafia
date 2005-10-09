@@ -1075,11 +1075,6 @@ public abstract class KoLmafia implements KoLConstants
 		try
 		{
 			this.permitContinue = true;
-			boolean pulledOver = false;
-			boolean shouldRefreshStatus;
-
-			int currentEffectCount = KoLCharacter.getEffects().size();
-			int iterationsRemaining = iterations;
 
 			// If you're currently recording commands, be sure to
 			// record the current command to the macro stream.
@@ -1100,6 +1095,10 @@ public abstract class KoLmafia implements KoLConstants
 				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
 			else
 			{
+				int currentEffectCount = KoLCharacter.getEffects().size();
+				boolean pulledOver = false;
+				boolean shouldRefreshStatus;
+
 				// Otherwise, you're handling a standard adventure.  Be
 				// sure to check to see if you're allowed to continue
 				// after drunkenness.
@@ -1109,18 +1108,6 @@ public abstract class KoLmafia implements KoLConstants
 					if ( request instanceof KoLAdventure && !((KoLAdventure)request).getZone().equals( "Camp" ) )
 						permitContinue = confirmDrunkenRequest();
 					pulledOver = true;
-				}
-
-				// Finally, check to see if you have the appropriate
-				// amount of hit points and mana points to continue.
-
-				if ( currentState != CANCELLED_STATE )
-				{
-					if ( request instanceof KoLAdventure && !request.toString().startsWith( "Camp" ) )
-						autoRecoverHP();
-
-					if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Camp" )) || request instanceof UseSkillRequest )
-						autoRecoverMP();
 				}
 
 				// Check to see if there are any end conditions.  If
@@ -1138,7 +1125,9 @@ public abstract class KoLmafia implements KoLConstants
 				// Begin the adventuring process, or the request execution
 				// process (whichever is applicable).
 
-				for ( int i = 1; permitContinue && iterationsRemaining > 0; ++i )
+				int currentIteration = 0;
+
+				while ( permitContinue && currentIteration++ < iterations )
 				{
 					// If the conditions existed and have been satisfied,
 					// then you should stop.
@@ -1159,7 +1148,7 @@ public abstract class KoLmafia implements KoLConstants
 					// have different displays.  They are handled here.
 
 					if ( request instanceof KoLAdventure )
-						updateDisplay( DISABLED_STATE, "Request " + i + " of " + iterations + " (" + request.toString() + ") in progress..." );
+						updateDisplay( DISABLED_STATE, "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress..." );
 
 					else if ( request instanceof ConsumeItemRequest )
 					{
@@ -1170,64 +1159,39 @@ public abstract class KoLmafia implements KoLConstants
 						if ( iterations == 1 )
 							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().toString() + "..." );
 						else
-							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getName() + " (" + i + " of " + iterations + ")..." );
+							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getName() + " (" + currentIteration + " of " + iterations + ")..." );
 					}
 
 					request.run();
 					applyRecentEffects();
 
-					// Make sure you only decrement iterations if the
-					// continue was permitted.  This resolves the issue
-					// of incorrectly updating the client if something
-					// occurred on the last iteration.
+					// Prevent drunkenness adventures from occurring by
+					// testing inebriety levels after the request is run.
 
-					if ( permitContinue )
+					if ( request instanceof KoLAdventure && KoLCharacter.getInebriety() > 19 && !pulledOver )
 					{
-						--iterationsRemaining;
-
-						if ( request instanceof KoLAdventure && !request.toString().startsWith( "Camp" ) )
-							autoRecoverHP();
-
-						if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Camp" )) || request instanceof UseSkillRequest )
-							autoRecoverMP();
-
-						if ( request instanceof KoLAdventure && KoLCharacter.getInebriety() > 19 && !pulledOver )
-						{
-							permitContinue = confirmDrunkenRequest();
-							pulledOver = true;
-						}
-					}
-					else if ( (request instanceof KoLAdventure && !request.toString().startsWith( "Camp" )) || request instanceof UseSkillRequest )
-					{
-						if ( currentState != CANCELLED_STATE )
-						{
-							autoRecoverHP();
-							autoRecoverMP();
-						}
-
-						if ( permitContinue )
-						{
-							if ( request instanceof KoLAdventure && KoLCharacter.getInebriety() > 19 && !pulledOver )
-							{
-								permitContinue = confirmDrunkenRequest();
-								pulledOver = true;
-							}
-
-							if ( permitContinue )
-								--iterationsRemaining;
-						}
+						permitContinue = confirmDrunkenRequest();
+						pulledOver = true;
 					}
 
 					shouldRefreshStatus = currentEffectCount != KoLCharacter.getEffects().size();
 
-					// If this is a KoLRequest request, make sure to process
+					// If this is a KoLRequest, make sure to process
 					// any applicable adventure usage.
 
 					if ( request instanceof KoLRequest )
 						processResult( new AdventureResult( AdventureResult.ADV, 0 - ((KoLRequest)request).getAdventuresUsed() ) );
 
+					// One circumstance where you need a refresh is if
+					// you gain/lose a status effect.
+
 					shouldRefreshStatus |= currentEffectCount != KoLCharacter.getEffects().size();
 					currentEffectCount = KoLCharacter.getEffects().size();
+
+					// Another instance is if the player's equipment
+					// results in autorecovery.
+
+					shouldRefreshStatus |= request instanceof KoLAdventure && KoLCharacter.hasRecoveringEquipment();
 
 					// If it turns out that you need to refresh the player's
 					// status, go ahead and refresh it.
@@ -1239,9 +1203,8 @@ public abstract class KoLmafia implements KoLConstants
 				// If you've completed the request, make sure to update
 				// the display.
 
-				if ( permitContinue && iterations > 0 && iterationsRemaining <= 0 &&
-					!(request instanceof UseSkillRequest || request instanceof AutoSellRequest || request instanceof HeroDonationRequest) )
-						updateDisplay( ENABLED_STATE, "Requests completed!" );
+				if ( permitContinue && currentIteration == iterations && request instanceof KoLAdventure )
+					updateDisplay( ENABLED_STATE, "Requests completed!" );
 			}
 		}
 		catch ( RuntimeException e )

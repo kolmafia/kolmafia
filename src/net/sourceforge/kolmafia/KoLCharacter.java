@@ -1618,4 +1618,15 @@ public abstract class KoLCharacter extends StaticEntity
 
 		}
 	}
+
+	/**
+	 * Returns whether or not the character is wearing an item where
+	 * auto-recovery occurs between adventures.
+	 */
+
+	public static boolean hasRecoveringEquipment()
+	{
+		return getEquipment( HAT ).startsWith( "plexiglass" ) || getEquipment( ACCESSORY1 ).startsWith( "ring of half" ) ||
+			getEquipment( ACCESSORY2 ).startsWith( "ring of half" ) || getEquipment( ACCESSORY3 ).startsWith( "ring of half" );
+	}
 }
