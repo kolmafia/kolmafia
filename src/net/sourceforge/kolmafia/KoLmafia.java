@@ -196,10 +196,6 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public int currentState()
-	{	return currentState;
-	}
-
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
 	 * the login has been confirmed to notify the client that the
@@ -1206,7 +1202,27 @@ public abstract class KoLmafia implements KoLConstants
 			// If you've completed the request, make sure to update
 			// the display.
 
-			if ( permitContinue && currentIteration >= iterations )
+			if ( !permitContinue )
+			{
+				// Special processing for adventures.
+
+				if ( request instanceof KoLAdventure )
+				{
+					// If we canceled the iteration without
+					// generating a real error, permit
+					// scripts to continue.
+
+					if ( !((KoLAdventure)request).getErrorState() )
+						permitContinue = true;
+
+					// If we are not displaying an error
+					// message, give a comforting message.
+
+					if ( currentState != ERROR_STATE && currentState != CANCELLED_STATE )
+						updateDisplay( ENABLED_STATE, "Nothing more to do here." );
+				}
+			}
+                        else if ( currentIteration >= iterations )
 				updateDisplay( ENABLED_STATE, "Requests completed!" );
 		}
 		catch ( RuntimeException e )

@@ -202,10 +202,6 @@ public class AdventureRequest extends KoLRequest
 			}
 
 			// We're back from a fight.
-
-			if ( !client.permitsContinue() && ( client.currentState() != ERROR_STATE ) )
-				updateDisplay( ENABLED_STATE, "Nothing more to do here." );
-
 			return;
 		}
 
@@ -280,6 +276,7 @@ public class AdventureRequest extends KoLRequest
 
 					client.cancelRequest();
 					updateDisplay( ENABLED_STATE, "Nothing more to do here." );
+					adventuresUsed = 0;
 					return;
 				}
 
