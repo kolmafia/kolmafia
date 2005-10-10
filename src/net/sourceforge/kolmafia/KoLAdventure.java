@@ -176,6 +176,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{	return isErrorState ? 0 : request.getAdventuresUsed();
 	}
 
+	public boolean getErrorState()
+	{	return isErrorState;
+	}
+
 	public int compareTo( Object o )
 	{
 		return ( o == null || !( o instanceof KoLAdventure ) ) ? 1 :

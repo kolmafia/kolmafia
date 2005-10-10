@@ -2059,7 +2059,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 		updateDisplay( DISABLED_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
 		scriptRequestor.makeRequest( adventure, adventureCount );
-	}
+
+		// Even if we canceled the iterations in the middle, if we're
+		// not in an error state, continue within the script.
+
+		if ( !adventure.getErrorState() )
+			scriptRequestor.resetContinueState();
+		}
 
 	/**
 	 * Special module used specifically for properly instantiating

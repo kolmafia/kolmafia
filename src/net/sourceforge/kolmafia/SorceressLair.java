@@ -840,6 +840,9 @@ public abstract class SorceressLair extends StaticEntity
 			request.addFormField( "whichitem", String.valueOf( guardianItem.getItemID() ) );
 			request.run();
 
+			// Un-cancel
+			client.resetContinueState();
+
 			// Account for stat gains
 			client.processResults( request.responseText );
 
@@ -879,7 +882,7 @@ public abstract class SorceressLair extends StaticEntity
 	{
 		KoLRequest request;
 
-		// Make sure he's ascended at least once
+		// Make sure the player has ascended at least once
 
 		if ( !checkPrerequisites( 6, 6 ) )
 			return;
@@ -1132,12 +1135,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-
-		if ( !client.permitsContinue() )
-		{
-			client.updateDisplay( ERROR_STATE, "KoLmafia was unable to defeat your shadow." );
-			return;
-		}
+		client.resetContinueState();
 	}
 
 	private static void familiarBattle( int n )

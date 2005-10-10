@@ -196,6 +196,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public int currentState()
+	{	return currentState;
+	}
+
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
 	 * the login has been confirmed to notify the client that the

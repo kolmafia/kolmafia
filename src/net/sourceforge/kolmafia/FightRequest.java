@@ -163,12 +163,18 @@ public class FightRequest extends KoLRequest
 
 			if ( winmsgIndex != -1 )
 			{
-				// The battle was won!  Therefore, update the display to
-				// reflect a victory and notify the client that an adventure
-				// was completed.
+				// The battle was won!
+
+				// If the user canceled, say it's complete.
 
 				if ( !client.permitsContinue() )
 					updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
+
+				// If you can't battle again in this location,
+				// cancel future iterations.
+
+				else if ( responseText.indexOf( "againform.submit" ) == -1 )
+					client.cancelRequest();
 			}
 			else if ( roundCount > 30 )
 			{

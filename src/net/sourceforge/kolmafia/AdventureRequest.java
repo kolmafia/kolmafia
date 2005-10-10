@@ -200,6 +200,13 @@ public class AdventureRequest extends KoLRequest
 				client.cancelRequest();
 				return;
 			}
+
+			// We're back from a fight.
+
+			if ( !client.permitsContinue() && ( client.currentState() != ERROR_STATE ) )
+				updateDisplay( ENABLED_STATE, "Nothing more to do here." );
+
+			return;
 		}
 
 		// From here on out, there will only be data handling
@@ -271,9 +278,8 @@ public class AdventureRequest extends KoLRequest
 				{
 					// Nothing more to do in this area
 
-					isErrorState = true;
 					client.cancelRequest();
-					updateDisplay( ERROR_STATE, "Nothing more to do here." );
+					updateDisplay( ENABLED_STATE, "Nothing more to do here." );
 					return;
 				}
 
@@ -355,8 +361,10 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
 			else if ( adventureID.equals( "72" ) )
 				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			return;
 		}
-		else if ( formSource.equals( "casino.php" ) )
+
+		if ( formSource.equals( "casino.php" ) )
 		{
 			if ( adventureID.equals( "1" ) )
 				client.processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
@@ -364,6 +372,7 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 			else if ( adventureID.equals( "11" ) )
 				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			return;
 		}
 	}
 
