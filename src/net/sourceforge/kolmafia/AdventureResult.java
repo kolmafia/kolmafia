@@ -528,8 +528,8 @@ public class AdventureResult implements Comparable, KoLConstants
 	{	return new ConsumableCellRenderer( food, booze, other );
 	}
 
-	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory )
-	{	return new EquipmentCellRenderer( weapon, hat, shirt, pants, accessory );
+	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
+	{	return new EquipmentCellRenderer( weapon, hat, shirt, pants, accessory, familiar );
 	}
 
 	private static class AutoSellCellRenderer extends DefaultListCellRenderer
@@ -607,9 +607,9 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private static class EquipmentCellRenderer extends DefaultListCellRenderer
 	{
-		private boolean weapon, hat, shirt, pants, accessory;
+		private boolean weapon, hat, shirt, pants, accessory, familiar;
 
-		public EquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory )
+		public EquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
 		{
 			setOpaque( true );
 			this.weapon = weapon;
@@ -617,6 +617,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			this.shirt = shirt;
 			this.pants = pants;
 			this.accessory = accessory;
+			this.familiar = familiar;
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -652,6 +653,11 @@ public class AdventureResult implements Comparable, KoLConstants
 
 				case ConsumeItemRequest.EQUIP_ACCESSORY:
 					if ( !accessory )
+						return new JLabel();
+					break;
+
+				case ConsumeItemRequest.EQUIP_FAMILIAR:
+					if ( !familiar )
 						return new JLabel();
 					break;
 
