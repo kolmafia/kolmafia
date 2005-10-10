@@ -1627,7 +1627,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		isLoggingIn = true;
 		LoginRequest cachedLogin = this.cachedLogin;
-		boolean previouslyActive = BuffBotHome.isBuffBotActive();
 
 		deinitialize();
 		updateDisplay( DISABLED_STATE, "Timing in session..." );
@@ -1646,18 +1645,31 @@ public abstract class KoLmafia implements KoLConstants
 		// because if the above two failed, that
 		// means it's nightly maintenance.
 
-		while ( isLoggingIn )
+		int retryCount = 0;
+
+		while ( isLoggingIn && ++retryCount < 4 )
 		{
 			KoLRequest.delay( 300000 );
 			cachedLogin.run();
+		}
+
+		// If it took more than four retries, then
+		// go ahead and stop.  If the time-in was
+		// automated retry, then it will repeat
+		// these four retries four more times
+		// before completely stopping.
+
+		if ( retryCount == 4 )
+		{
+			updateDisplay( ERROR_STATE, "Session time-in failed." );
+			permitContinue = false;
+			return;
 		}
 
 		// Refresh the character data after a
 		// successful login.
 
 		(new CharsheetRequest( KoLmafia.this )).run();
-
-		BuffBotHome.setBuffBotActive( previouslyActive );
 		updateDisplay( ENABLED_STATE, "Session timed in." );
 	}
 

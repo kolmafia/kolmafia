@@ -418,7 +418,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private void execute()
 	{
-		int requestRepeatCount = 0;
+		int retryCount = 0;
 		this.logStream = client == null || formURLString.indexOf( "chat" ) != -1 ? new NullStream() : client.getLogStream();
 
 		do
@@ -438,7 +438,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLRequest.delay( 500 );
 			}
 		}
-		while ( ++requestRepeatCount < 4 && !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
+		while ( ++retryCount < 4 && !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 
 		// In the event that you have a timeout during a situation
 		// where the display does not update afterwards, be sure
@@ -446,12 +446,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( client != null )
 		{
-			if ( requestRepeatCount == 4 )
+			if ( retryCount == 4 )
 			{
 				client.updateDisplay( ERROR_STATE, "Too many connection retry attempts." );
 				client.cancelRequest();
 			}
-			else if ( requestRepeatCount > 1 )
+			else if ( retryCount > 1 )
 				client.updateDisplay( NOCHANGE, "Retry attempt successful.  Processing..." );
 		}
 	}
@@ -678,7 +678,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					updateDisplay( ERROR_STATE, "Nightly maintenance." );
 					isErrorState = true;
 
-					if ( client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
+					if ( !(this instanceof LoginRequest) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 					{
 						client.executeTimeInRequest();
 						return true;
