@@ -94,7 +94,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected KoLmafia client;
 	protected PrintStream logStream;
 
-	private boolean hadTimeout;
 	protected int responseCode;
 	protected boolean isErrorState;
 	protected boolean followRedirects;
@@ -352,28 +351,23 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( isDelayExempt() )
-		{
-			// Chat requests can run without problems concurrently
-			// with other requests.  The same is true of requests
-			// to the character pane.  Therefore, there is no thread
-			// synchronization done on chat requests and requests to
-			// the character pane.
+		// Chat requests can run without problems concurrently
+		// with other requests.  The same is true of requests
+		// to the character pane.  Therefore, there is no thread
+		// synchronization is needed.
 
-			execute();
-		}
-		else
+		if ( !isDelayExempt() )
 		{
-			// However, all other requests cannot run concurrently
-			// with other requests without problems potentially
-			// arising.  Therefore, synchronize on something that
-			// is static before running the request.
-
-			synchronized ( KoLmafia.class )
+			synchronized ( client )
 			{
-				execute();
+				KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
 			}
 		}
+
+		// Now that you know there is good synchronization,
+		// go ahead and execute the request.
+
+		execute();
 	}
 
 	/**
@@ -424,11 +418,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private void execute()
 	{
-		KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
-
-		this.hadTimeout = false;
+		int requestRepeatCount = 0;
 		this.logStream = client == null || formURLString.indexOf( "chat" ) != -1 ? new NullStream() : client.getLogStream();
-		logStream.println( "Connecting to " + formURLString + "..." );
 
 		do
 		{
@@ -447,14 +438,22 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLRequest.delay( 500 );
 			}
 		}
-		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
+		while ( ++requestRepeatCount < 4 && !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 
 		// In the event that you have a timeout during a situation
 		// where the display does not update afterwards, be sure
 		// you clear the display.
 
-		if ( this.hadTimeout && (followRedirects || formURLString.startsWith( "chat" ) || BuffBotHome.isBuffBotActive()) )
-			client.updateDisplay( NOCHANGE, "Retry successful." );
+		if ( client != null )
+		{
+			if ( requestRepeatCount == 4 )
+			{
+				client.updateDisplay( ERROR_STATE, "Too many connection retry attempts." );
+				client.cancelRequest();
+			}
+			else if ( requestRepeatCount > 1 )
+				client.updateDisplay( NOCHANGE, "Retry attempt successful.  Processing..." );
+		}
 	}
 
 	/**
@@ -467,6 +466,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean prepareConnection()
 	{
+		logStream.println( "Connecting to " + formURLString + "..." );
+
 		if ( client != null )
 			this.sessionID = client.getSessionID();
 
@@ -496,8 +497,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
-			this.hadTimeout = true;
-
 			// In the event that an Exception is thrown, one can assume
 			// that there was a timeout; return false and let the loop
 			// attempt to connect again
@@ -575,8 +574,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
-			this.hadTimeout = true;
-
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
 				updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
 
@@ -627,8 +624,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
-			this.hadTimeout = true;
-
 			// Now that the proxy problem has been resolved, FNFEs
 			// should only happen if the file does not exist.  In
 			// this case, stop retrying.
