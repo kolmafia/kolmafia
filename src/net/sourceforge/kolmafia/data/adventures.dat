@@ -1,32 +1,29 @@
-0	shore.php	1	Muscle Vacation
-0	shore.php	2	Mysticality Vacation
-0	shore.php	3	Moxie Vacation
+0	campground.php	rest	Rest at Campsite
+0	campground.php	relax	Relax in Beanbag
 
-1	campground.php	rest	To the Bed!
-1	campground.php	relax	To the Beanbag!
+1	shore.php	1	Muscle Vacation
+1	shore.php	2	Mysticality Vacation
+1	shore.php	3	Moxie Vacation
+1	adventure.php	45	South of the Border
 
-2	clangym.php	1	Hobo-Flex Workout Machine
-2	clangym.php	2	Big Book of Magicalness
-2	clangym.php	3	Tan-U-Lots Tanning Bed
+2	luckysewer.php	0	Market Sewer (Lucky)
+2	sewer.php	0	Market Sewer (Unlucky)
 
-3	luckysewer.php	0	Market Sewer (Lucky)
-3	sewer.php	0	Market Sewer (Unlucky)
+3	casino.php	1	Goat Party
+3	casino.php	2	Pirate Treasure
+3	casino.php	11	Fruit Insanity
 
-4	casino.php	1	Goat Party
-4	casino.php	2	Pirate Treasure
-4	casino.php	11	Fruit Insanity
+3	adventure.php	70	Roulette Tables
+3	adventure.php	71	Poker Room
+3	adventure.php	72	Money-Making Game
 
-4	adventure.php	70	Roulette Tables
-4	adventure.php	71	Poker Room
-4	adventure.php	72	Money-Making Game
+4	adventure.php	9	Sleazy Back Alley
+4	adventure.php	10	Haunted Pantry
 
-3	adventure.php	9	Sleazy Back Alley
-3	adventure.php	10	Haunted Pantry
-
-3	adventure.php	16	Haiku Dungeon
-3	adventure.php	19	Limerick Dungeon
-3	adventure.php	39	Dungeons of Doom
-3	dungeon.php	1	Daily Dungeon
+4	adventure.php	16	Haiku Dungeon
+4	adventure.php	19	Limerick Dungeon
+4	adventure.php	39	Dungeons of Doom
+4	dungeon.php	1	Daily Dungeon
 
 5	adventure.php	18	Degrassi Knoll
 5	adventure.php	20	Fun House
@@ -39,6 +36,7 @@
 6	adventure.php	40	Knob Goblin Kitchens
 6	adventure.php	41	Knob Goblin Treasury
 6	adventure.php	42	Knob Goblin Harem
+6	knob.php	0	The King's Chamber
 6	adventure.php	50	Knob Goblin Laboratory
 6	adventure.php	51	Menagerie (Level 1)
 6	adventure.php	52	Menagerie (Level 2)
@@ -48,11 +46,13 @@
 7	adventure.php	31	Guano Junction
 7	adventure.php	32	Batrat and Ratbat Burrow
 7	adventure.php	33	Beanbat Chamber
+7	bathole.php	34	The Boss Bat's Lair
 
 8	adventure.php	54	Defiled Nook
 8	adventure.php	55	Defiled Cranny
 8	adventure.php	56	Defiled Alcove
 8	adventure.php	57	Defiled Niche
+8	cyrpt.php	0	Haert of the Cyrpt
 
 9	adventure.php	15	Spooky Forest
 9	adventure.php	17	Hidden Temple
@@ -64,8 +64,10 @@
 10	adventure.php	75	Dark Neck of the Woods
 10	adventure.php	76	Dark Heart of the Woods
 10	adventure.php	77	Dark Elbow of the Woods
+10	adventure.php	78	Friar Ceremony Location
 10	adventure.php	79	Deep Fat Friar's Gate
 
+11	mountains.php	0	The Orc Chasm (Pre-Bridge)
 11	adventure.php	35	Barrel Full of Barrels
 11	adventure.php	80	Valley Beyond Orc Chasm
 
@@ -86,18 +88,14 @@
 14	adventure.php	82	Castle in the Clouds in the Sky
 14	adventure.php	83	Hole in the Sky
 
-15	adventure.php	45	South of the Border
+15	adventure.php	43	Outskirts of Camp
+15	adventure.php	44	Camp Logging Camp
+15	adventure.php	46	Thugnderdome
+15	adventure.php	47	Bugbear Pens
+15	adventure.php	48	Spooky Gravy Barrow
 
+16	clangym.php	1	Hobo-Flex Workout Machine
+16	clangym.php	2	Big Book of Magicalness
+16	clangym.php	3	Tan-U-Lots Tanning Bed
 16	lair3.php	hedge	Sorceress' Hedge Maze
-
-17	adventure.php	43	Outskirts of Camp
-17	adventure.php	44	Camp Logging Camp
-17	adventure.php	46	Thugnderdome
-17	adventure.php	47	Bugbear Pens
-17	adventure.php	48	Spooky Gravy Barrow
-
-18	bathole.php	34	The Boss Bat's Lair
-18	knob.php	0	The King's Chamber
-18	cyrpt.php	0	Haert of the Cyrpt
-18	mountains.php	0	The Orc Chasm
-18	adventure.php	37	Spectral Pickle Factory
+16	adventure.php	37	Spectral Pickle Factory

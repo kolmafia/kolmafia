@@ -1081,130 +1081,129 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !this.disableMacro )
 				macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
 
-			// Handle the special adventures, which include the
-			// hermitage, trapper, bounty hunter, and gym.
+			// Handle the gym, which is the only adventure type
+			// which needs to be specially handled.
 
-			if ( request.toString().equals( "The Hermitage" ) )
-				makeHermitRequest();
-			else if ( request.toString().equals( "The 1337 Trapper" ) )
-				makeTrapperRequest();
-			else if ( request.toString().equals( "The Bounty Hunter" ) )
-				makeHunterRequest();
-			else if ( request.toString().startsWith( "Gym" ) )
-				(new ClanGymRequest( this, Integer.parseInt( ((KoLAdventure)request).getAdventureID() ), iterations )).run();
-			else
+			if ( request instanceof KoLAdventure )
 			{
-				int currentEffectCount = KoLCharacter.getEffects().size();
-				boolean pulledOver = false;
-				boolean shouldRefreshStatus;
-
-				// Otherwise, you're handling a standard adventure.  Be
-				// sure to check to see if you're allowed to continue
-				// after drunkenness.
-
-				if ( KoLCharacter.getInebriety() > 19 )
+				KoLAdventure adventure = (KoLAdventure) request;
+				if ( adventure.getZone().equals( "Gym" ) )
 				{
-					if ( request instanceof KoLAdventure && !((KoLAdventure)request).getZone().equals( "Camp" ) )
-						permitContinue = confirmDrunkenRequest();
+					(new ClanGymRequest( this, Integer.parseInt( adventure.getAdventureID() ), iterations )).run();
+					return;
+				}
+			}
+
+			int currentEffectCount = KoLCharacter.getEffects().size();
+			boolean pulledOver = false;
+			boolean shouldRefreshStatus;
+
+			// Otherwise, you're handling a standard adventure.  Be
+			// sure to check to see if you're allowed to continue
+			// after drunkenness.
+
+			if ( KoLCharacter.getInebriety() > 19 )
+			{
+				if ( request instanceof KoLAdventure && !((KoLAdventure)request).getZone().equals( "Camp" ) )
+					permitContinue = confirmDrunkenRequest();
+				pulledOver = true;
+			}
+
+			// Check to see if there are any end conditions.  If
+			// there are conditions, be sure that they are checked
+			// during the iterations.
+
+			int remainingConditions = conditions.size();
+
+			// If this is an adventure request, make sure that it
+			// gets validated before running.
+
+			if ( request instanceof KoLAdventure )
+				AdventureDatabase.validateAdventure( (KoLAdventure) request );
+
+			// Begin the adventuring process, or the request execution
+			// process (whichever is applicable).
+
+			int currentIteration = 0;
+
+			while ( permitContinue && currentIteration++ < iterations )
+			{
+				// If the conditions existed and have been satisfied,
+				// then you should stop.
+
+				if ( conditions.size() < remainingConditions )
+				{
+					if ( conditions.size() == 0 || useDisjunction )
+					{
+						updateDisplay( ENABLED_STATE, "Conditions satisfied." );
+						return;
+					}
+				}
+
+				remainingConditions = conditions.size();
+
+				// Otherwise, disable the display and update the user
+				// and the current request number.  Different requests
+				// have different displays.  They are handled here.
+
+				if ( request instanceof KoLAdventure )
+					updateDisplay( DISABLED_STATE, "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress..." );
+
+				else if ( request instanceof ConsumeItemRequest )
+				{
+					int consumptionType = ((ConsumeItemRequest)request).getConsumptionType();
+					String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
+						(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
+
+					if ( iterations == 1 )
+						updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().toString() + "..." );
+					else
+						updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getName() + " (" + currentIteration + " of " + iterations + ")..." );
+				}
+
+				request.run();
+				applyRecentEffects();
+
+				// Prevent drunkenness adventures from occurring by
+				// testing inebriety levels after the request is run.
+
+				if ( request instanceof KoLAdventure && KoLCharacter.getInebriety() > 19 && !pulledOver )
+				{
+					permitContinue = confirmDrunkenRequest();
 					pulledOver = true;
 				}
 
-				// Check to see if there are any end conditions.  If
-				// there are conditions, be sure that they are checked
-				// during the iterations.
+				shouldRefreshStatus = currentEffectCount != KoLCharacter.getEffects().size();
 
-				int remainingConditions = conditions.size();
+				// If this is a KoLRequest, make sure to process
+				// any applicable adventure usage.
 
-				// If this is an adventure request, make sure that it
-				// gets validated before running.
+				if ( request instanceof KoLRequest )
+					processResult( new AdventureResult( AdventureResult.ADV, 0 - ((KoLRequest)request).getAdventuresUsed() ) );
 
-				if ( request instanceof KoLAdventure )
-					AdventureDatabase.validateAdventure( (KoLAdventure) request );
+				// One circumstance where you need a refresh is if
+				// you gain/lose a status effect.
 
-				// Begin the adventuring process, or the request execution
-				// process (whichever is applicable).
+				shouldRefreshStatus |= currentEffectCount != KoLCharacter.getEffects().size();
+				currentEffectCount = KoLCharacter.getEffects().size();
 
-				int currentIteration = 0;
+				// Another instance is if the player's equipment
+				// results in autorecovery.
 
-				while ( permitContinue && currentIteration++ < iterations )
-				{
-					// If the conditions existed and have been satisfied,
-					// then you should stop.
+				shouldRefreshStatus |= request instanceof KoLAdventure && KoLCharacter.hasRecoveringEquipment();
 
-					if ( conditions.size() < remainingConditions )
-					{
-						if ( conditions.size() == 0 || useDisjunction )
-						{
-							updateDisplay( ENABLED_STATE, "Conditions satisfied." );
-							return;
-						}
-					}
+				// If it turns out that you need to refresh the player's
+				// status, go ahead and refresh it.
 
-					remainingConditions = conditions.size();
-
-					// Otherwise, disable the display and update the user
-					// and the current request number.  Different requests
-					// have different displays.  They are handled here.
-
-					if ( request instanceof KoLAdventure )
-						updateDisplay( DISABLED_STATE, "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress..." );
-
-					else if ( request instanceof ConsumeItemRequest )
-					{
-						int consumptionType = ((ConsumeItemRequest)request).getConsumptionType();
-						String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
-							(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
-
-						if ( iterations == 1 )
-							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().toString() + "..." );
-						else
-							updateDisplay( DISABLED_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getName() + " (" + currentIteration + " of " + iterations + ")..." );
-					}
-
-					request.run();
-					applyRecentEffects();
-
-					// Prevent drunkenness adventures from occurring by
-					// testing inebriety levels after the request is run.
-
-					if ( request instanceof KoLAdventure && KoLCharacter.getInebriety() > 19 && !pulledOver )
-					{
-						permitContinue = confirmDrunkenRequest();
-						pulledOver = true;
-					}
-
-					shouldRefreshStatus = currentEffectCount != KoLCharacter.getEffects().size();
-
-					// If this is a KoLRequest, make sure to process
-					// any applicable adventure usage.
-
-					if ( request instanceof KoLRequest )
-						processResult( new AdventureResult( AdventureResult.ADV, 0 - ((KoLRequest)request).getAdventuresUsed() ) );
-
-					// One circumstance where you need a refresh is if
-					// you gain/lose a status effect.
-
-					shouldRefreshStatus |= currentEffectCount != KoLCharacter.getEffects().size();
-					currentEffectCount = KoLCharacter.getEffects().size();
-
-					// Another instance is if the player's equipment
-					// results in autorecovery.
-
-					shouldRefreshStatus |= request instanceof KoLAdventure && KoLCharacter.hasRecoveringEquipment();
-
-					// If it turns out that you need to refresh the player's
-					// status, go ahead and refresh it.
-
-					if ( shouldRefreshStatus )
-						(new CharpaneRequest( this )).run();
-				}
-
-				// If you've completed the request, make sure to update
-				// the display.
-
-				if ( permitContinue && currentIteration == iterations && request instanceof KoLAdventure )
-					updateDisplay( ENABLED_STATE, "Requests completed!" );
+				if ( shouldRefreshStatus )
+					(new CharpaneRequest( this )).run();
 			}
+
+			// If you've completed the request, make sure to update
+			// the display.
+
+			if ( permitContinue && currentIteration >= iterations )
+				updateDisplay( ENABLED_STATE, "Requests completed!" );
 		}
 		catch ( RuntimeException e )
 		{

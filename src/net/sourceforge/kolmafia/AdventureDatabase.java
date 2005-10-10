@@ -55,13 +55,12 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final String [][] ZONES =
 	{
-		{ "Shore", "vacations at the shore" }, { "Camp", "campground resting" }, { "Gym", "clan gym equipment" },
+		{ "Camp", "campground resting" }, { "Beach", "the desert beach areas" }, { "Sewer", "market sewer" },
 		{ "Town", "Seaside Town areas" }, { "Casino", "Seaside Town's casino games" }, { "Plains", "general plains areas" },
 		{ "Knob", "Cobb's knob areas" }, { "Bat", "Bat Hole areas" }, { "Cyrpt", "the defiled cyrpt quest" },
 		{ "Woods", "general woods areas" }, { "Friars", "deep fat friar's quest" }, { "Mount", "general mountain areas" },
-		{ "Mclarge", "Mt. McLargeHuge areas" }, { "Island", "the mysterious island areas" }, { "Stalk", "the areas beyond the beanstalk" },
-		{ "Beach", "the desert beach areas" }, { "Tower", "the Sorceress Tower maze" }, { "Signed", "sign-restricted areas" },
-		{ "Special", "special areas" }
+		{ "Mclarge", "Mt. McLargeHuge areas" }, { "Island", "the mysterious island areas" }, { "Stalk", "areas beyond the beanstalk" },
+		{ "Signed", "sign-restricted areas" }, { "Special", "special areas" }
 	};
 
 	public static final String [] CLOVER_ADVS =

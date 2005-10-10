@@ -998,12 +998,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "gym" ) )
-		{
-			executeAdventureRequest( parameters );
-			return;
-		}
-
 		if ( command.equals( "toast" ) || command.equals( "rest" ) || command.equals( "relax" ) || command.equals( "arches" ) )
 		{
 			executeCampgroundRequest( command + " " + parameters );
@@ -2430,11 +2424,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			String adventureName = ((KoLAdventure)request).getAdventureName();
 
-			if ( !request.toString().startsWith( "Gym" ) )
-				commandString.append( "adventure " );
-			else
-				commandString.append( "gym " );
-
+			commandString.append( "adventure " );
 			commandString.append( iterations );
 			commandString.append( ' ' );
 			commandString.append( adventureName );
