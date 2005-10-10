@@ -133,8 +133,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		Integer newPrice = new Integer( price );
 		BuffBotCaster newCast = new BuffBotCaster( skillName, price, castCount, restricted, philanthropic );
 
-		buffCostTable.add( newCast );
-
 		// Because the new concept allows multiple buffs
 		// to have the same price, store things in a list.
 
@@ -149,7 +147,16 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			buffCostMap.put( newPrice, castList );
 		}
 
+		// Do not allow the same buff type to appear on
+		// the list more than once.
+
+		int currentIndex = castList.indexOf( newCast );
+		if ( currentIndex != -1 )
+			buffCostTable.remove( castList.remove( currentIndex ) );
+
 		castList.add( newCast );
+		buffCostTable.add( newCast );
+
 		saveBuffs();
 	}
 
@@ -670,6 +677,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			this.stringForm = stringForm.toString();
 			this.settingString = buffID + ":" + price + ":" + castCount + ":" + restricted + ":" + philanthropic;
+		}
+
+		public boolean equals( Object o )
+		{	return o != null && o instanceof BuffBotCaster && buffID == ((BuffBotCaster)o).buffID;
 		}
 
 		public int compareTo( Object o )
