@@ -280,7 +280,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// ones where there are exactly two of one setting
 		// and one of the other, and one leave alone.
 
-		if ( !( (clockwiseCount == 1 && counterClockwiseCount == 2) || (clockwiseCount == 2 && counterClockwiseCount == 1) ) )
+		if ( !( (clockwiseCount == 1 && counterClockwiseCount == 2) || (clockwiseCount == 2 && counterClockwiseCount == 1) || (clockwiseCount == 0 && counterClockwiseCount == 0) ) )
 		{
 			wheelChoices[0] = 1;
 			wheelChoices[1] = 1;
