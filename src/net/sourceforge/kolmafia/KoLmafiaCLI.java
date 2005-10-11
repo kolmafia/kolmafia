@@ -272,41 +272,60 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void listenForCommands()
 	{
-		try
+		if ( scriptRequestor == this )
+			outputStream.print( " > " );
+
+		String line = null;
+		scriptRequestor.resetContinueState();
+
+		do
 		{
+			line = getNextLine();
+			if ( line == null )
+				return;
+
+			if ( scriptRequestor == this )
+				updateDisplay( NOCHANGE, "" );
+
+			executeLine( line );
+
+			if ( scriptRequestor == this )
+				updateDisplay( NOCHANGE, "" );
+
 			if ( scriptRequestor == this )
 				outputStream.print( " > " );
+		}
+		while ( (scriptRequestor.permitsContinue() || scriptRequestor == this) );
 
-			String line = null;
-			scriptRequestor.resetContinueState();
-
-			while ( (scriptRequestor.permitsContinue() || scriptRequestor == this) && (line = commandStream.readLine()) != null )
-			{
-				// Skip comment lines
-
-				while ( line != null && (line.startsWith( "#" ) || line.trim().length() == 0) )
-					line = commandStream.readLine();
-
-				if ( line == null )
-					return;
-
-				if ( scriptRequestor == this )
-					updateDisplay( NOCHANGE, "" );
-
-				executeLine( line.trim() );
-
-				if ( scriptRequestor == this )
-					updateDisplay( NOCHANGE, "" );
-
-				if ( scriptRequestor == this )
-					outputStream.print( " > " );
-			}
-
-			if ( line == null || line.trim().length() == 0 || !(scriptRequestor instanceof KoLmafiaCLI) )
+		if ( line == null || line.trim().length() == 0 || !(scriptRequestor instanceof KoLmafiaCLI) )
+		{
+			try
 			{
 				commandStream.close();
 				previousCommand = null;
 			}
+			catch ( IOException e )
+			{
+			}
+		}
+	}
+
+	private String getNextLine()
+	{
+		try
+		{
+			String line;
+
+			do
+			{
+				// Read a line from input, and break out of the do-while
+				// loop when you've read a valid line (which is a non-comment
+				// and a non-blank line) or when you've reached EOF.
+
+				line = commandStream.readLine();
+			}
+			while ( line != null && (line.startsWith( "#" ) || line.trim().length() == 0) );
+			return line == null ? null : line.trim();
 		}
 		catch ( IOException e )
 		{
@@ -315,7 +334,7 @@ public class KoLmafiaCLI extends KoLmafia
 			// error state after printing the stack trace.
 
 			e.printStackTrace();
-			System.exit( -1 );
+			return null;
 		}
 	}
 
@@ -379,6 +398,22 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "conditions" ) )
 		{
 			executeConditionsCommand( parameters );
+			return;
+		}
+
+		// Handle the if-statement and the while-statement.
+		// The while-statement will not get a separate comment
+		// because it is unloved.
+
+		if ( command.equals( "if" ) )
+		{
+			executeIfStatement( parameters );
+			return;
+		}
+
+		if ( command.equals( "while" ) )
+		{
+			executeWhileStatement( parameters );
 			return;
 		}
 
@@ -1066,6 +1101,70 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( ERROR_STATE, "Script file \"" + parameters + "\" could not be found." );
 			scriptRequestor.cancelRequest();
 			return;
+		}
+	}
+
+	private void executeIfStatement( String parameters )
+	{
+		String statement = getNextLine();
+		if ( testConditional( parameters ) )
+			executeLine( statement );
+	}
+
+	private void executeWhileStatement( String parameters )
+	{
+		String statement = getNextLine();
+		while ( testConditional( parameters ) )
+			executeLine( statement );
+	}
+
+	private boolean testConditional( String parameters )
+	{
+		StringBuffer left = new StringBuffer();
+		StringBuffer right = new StringBuffer();
+		String operator = null;
+
+		boolean parsingLeft = true;
+		String [] tokens = parameters.split( "\\s*" );
+
+		for ( int i = 0; i < tokens.length; ++i )
+		{
+			if ( tokens[i].equals( "==" ) || tokens[i].equals( "!=" ) || tokens[i].startsWith( ">" ) || tokens[i].startsWith( "<" ) )
+			{
+				parsingLeft = false;
+				operator = tokens[i];
+			}
+			else if ( parsingLeft )
+			{
+				left.append( tokens[i] );
+				left.append( ' ' );
+			}
+			else
+			{
+				right.append( tokens[i] );
+				left.append( ' ' );
+			}
+		}
+
+		try
+		{
+			String condition = left.toString().trim();
+
+			int leftValue = condition.equals( "level" ) ? KoLCharacter.getLevel() : condition.equals( "health" ) ? KoLCharacter.getCurrentHP() :
+				condition.equals( "mana" ) ? KoLCharacter.getCurrentMP() : getFirstMatchingItem( condition, NOWHERE ).getCount();
+
+			int rightValue = df.parse( right.toString() ).intValue();
+
+			return operator == null ? false : operator.equals( "==" ) ? leftValue == rightValue : operator.equals( "!=" ) ? leftValue != rightValue :
+				operator.equals( ">=" ) ? leftValue >= rightValue : operator.equals( ">" ) ? leftValue > rightValue :
+				operator.equals( "<=" ) ? leftValue <= rightValue : operator.equals( "<" ) ? leftValue < rightValue : false;
+		}
+		catch ( Exception e )
+		{
+			// If the right side was non-numeric, then go
+			// ahead and return false.
+
+			return false;
 		}
 	}
 
