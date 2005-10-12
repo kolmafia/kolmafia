@@ -125,6 +125,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	};
 
 	protected static LockableListModel scripts = new LockableListModel();
+	protected static int addedScriptCount = 0;
 	static
 	{
 		// Load the scripts statically, rather than
@@ -135,25 +136,55 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( !scriptDirectory.exists() )
 			scriptDirectory.mkdirs();
 
-		int addedScriptCount = 0;
-		String currentScriptName;
-		JMenuItem currentScript;
+		// Add all the scripts from this directory
+		addScripts( scripts, scriptDirectory, "scripts" );
+	}
 
-		File [] scriptList = scriptDirectory.listFiles();
+	private static void addScripts( LockableListModel list, File directory, String prefix )
+	{
+		// Get the list of files in the current directory
+		File [] scriptList = directory.listFiles();
+
+		// Iterate through the files
 		for ( int i = 0; i < scriptList.length; ++i )
+			// Add the menu item to the list
+			list.add( addScriptFile( scriptList[i], prefix ) );
+	}
+
+	private static JComponent addScriptFile( File file, String prefix )
+	{
+		// Get path components of this file
+		String [] pieces = null;
+
+		try
 		{
-			if ( !scriptList[i].isDirectory() )
-			{
-				try
-				{
-					String [] pieces = scriptList[i].getCanonicalPath().split( "[\\\\/]" );
-					scripts.add( new LoadScriptMenuItem( (++addedScriptCount) + "  " + pieces[ pieces.length - 1 ], "scripts" + File.separator + pieces[ pieces.length - 1 ] ) );
-				}
-				catch ( Exception e )
-				{
-				}
-			}
+			pieces = file.getCanonicalPath().split( "[\\\\/]" );
 		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+
+		String name = pieces[ pieces.length - 1 ];
+
+		if ( file.isDirectory() )
+		{
+			// Make a list to store menu items in
+			LockableListModel list = new LockableListModel();
+
+			// Add all the files to the list
+			addScripts( list, file, prefix + File.separator + name );
+
+			//  Convert the list into a menu
+			JMenu menu = new JMenu( name );
+			for ( int i = 0; i < list.size(); ++i )
+				menu.add( (JComponent) list.get(i) );
+
+			// Return the menu
+			return menu;
+		}
+
+		return new LoadScriptMenuItem( (++addedScriptCount) + "	 " + name, prefix + File.separator + name );
 	}
 
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
