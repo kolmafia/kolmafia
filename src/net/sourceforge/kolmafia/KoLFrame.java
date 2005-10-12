@@ -992,10 +992,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					patternIndex = 0;
 					do
 					{
-						actionMatcher = actionPatterns[patternIndex].matcher( editorText );
-						++patternIndex;
+						actionMatcher = actionPatterns[patternIndex].matcher( locationText );
 					}
-					while ( !actionMatcher.find() && patternIndex < 3 );
+					while ( !actionMatcher.find() && ++patternIndex < 3 );
 
 					// Figure out which inputs need to be submitted.
 					// This is determined through the existing HTML,
@@ -1012,9 +1011,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						do
 						{
 							nameMatcher = namePatterns[patternIndex].matcher( lastInput );
-							++patternIndex;
 						}
-						while ( !nameMatcher.find() && patternIndex < 3 );
+						while ( !nameMatcher.find() && ++patternIndex < 3 );
 
 						// Each input has a name associated with it.
 						// This should be determined next.
@@ -1023,9 +1021,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						do
 						{
 							valueMatcher = valuePatterns[patternIndex].matcher( lastInput );
-							++patternIndex;
 						}
-						while ( !valueMatcher.find() && patternIndex < 3 );
+						while ( !valueMatcher.find() && ++patternIndex < 3 );
 
 						// Append the latest input's name and value to
 						// the complete input string.
@@ -1042,6 +1039,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						{
 						}
 					}
+
+System.out.println( actionMatcher.group(1) );
 
 					// Now that the entire form string is known, handle
 					// the appropriate internal link.
