@@ -147,14 +147,18 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		// Iterate through the files
 		for ( int i = 0; i < scriptList.length; ++i )
-			// Add the menu item to the list
-			list.add( addScriptFile( scriptList[i], prefix ) );
+		{
+			JComponent item = addScriptFile( scriptList[i], prefix );
+			if ( item != null)
+				// Add the menu item to the list
+				list.add( item );
+		}
 	}
 
 	private static JComponent addScriptFile( File file, String prefix )
 	{
 		// Get path components of this file
-		String [] pieces = null;
+		String [] pieces;
 
 		try
 		{
@@ -165,7 +169,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			return null;
 		}
 
+		// There must be at least a file name
+		if ( pieces.length < 1 )
+			return null;
+
 		String name = pieces[ pieces.length - 1 ];
+		String path = prefix + File.separator + name;
 
 		if ( file.isDirectory() )
 		{
@@ -173,7 +182,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			LockableListModel list = new LockableListModel();
 
 			// Add all the files to the list
-			addScripts( list, file, prefix + File.separator + name );
+			addScripts( list, file, path );
 
 			//  Convert the list into a menu
 			JMenu menu = new JMenu( name );
@@ -184,7 +193,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			return menu;
 		}
 
-		return new LoadScriptMenuItem( (++addedScriptCount) + "	 " + name, prefix + File.separator + name );
+		return new LoadScriptMenuItem( (++addedScriptCount) + "	 " + name, path );
 	}
 
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
