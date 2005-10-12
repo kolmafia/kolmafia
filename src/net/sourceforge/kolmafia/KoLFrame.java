@@ -124,8 +124,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 	};
 
-	protected static LockableListModel scripts = new LockableListModel();
+	protected static LockableListModel scripts = null;
 	protected static int addedScriptCount = 0;
+
 	static
 	{
 		// Load the scripts statically, rather than
@@ -137,11 +138,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			scriptDirectory.mkdirs();
 
 		// Add all the scripts from this directory
-		addScripts( scripts, scriptDirectory, "scripts" );
+		scripts = addScripts(scriptDirectory, "scripts" );
 	}
 
-	private static void addScripts( LockableListModel list, File directory, String prefix )
+	private static LockableListModel addScripts( File directory, String prefix )
 	{
+		// Make a list to store menu items in
+		LockableListModel list = new LockableListModel();
+
 		// Get the list of files in the current directory
 		File [] scriptList = directory.listFiles();
 
@@ -153,6 +157,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// Add the menu item to the list
 				list.add( item );
 		}
+
+		return list;
 	}
 
 	private static JComponent addScriptFile( File file, String prefix )
@@ -178,11 +184,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		if ( file.isDirectory() )
 		{
-			// Make a list to store menu items in
-			LockableListModel list = new LockableListModel();
-
-			// Add all the files to the list
-			addScripts( list, file, path );
+			// Get a list of all the files
+			LockableListModel list = addScripts( file, path );
 
 			//  Convert the list into a menu
 			JMenu menu = new JMenu( name );
