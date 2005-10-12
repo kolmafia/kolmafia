@@ -437,21 +437,9 @@ public class AdventureRequest extends KoLRequest
 
 		request.run();
 
-		// Check for a battle resulting from a choice being made.
-		// This is the same test used in KoLRequest.
+		// Handle any items or stat gains resulting from the adventure
 
-		if ( request.responseCode == 302 && request.redirectLocation.equals( "fight.php" ) )
-		{
-			FightRequest choiceBattle = new FightRequest( client );
-			choiceBattle.run();
-		}
-		else
-		{
-			// If it's not a fight, then make sure to process the
-			// results of the choice being submitted.
-
-			client.processResults( request.responseText );
-		}
+		client.processResults( request.responseText );
 
 		AdventureResult loseAdventure = new AdventureResult( AdventureResult.CHOICE, -1 );
 		if ( loseAdventure.getCount( client.getConditions() ) > 0 )
