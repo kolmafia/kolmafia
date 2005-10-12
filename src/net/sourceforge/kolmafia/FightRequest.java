@@ -154,7 +154,7 @@ public class FightRequest extends KoLRequest
 		// If there were no problems, then begin fighting the battle,
 		// checking for termination conditions
 
-		if ( !isErrorState )
+		if ( !isErrorState && responseCode == 200 )
 		{
 			client.processResult( new AdventureResult( AdventureResult.MP, getMPCost() ) );
 
