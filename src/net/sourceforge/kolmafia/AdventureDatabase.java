@@ -56,7 +56,7 @@ public class AdventureDatabase extends KoLDatabase
 	public static final String [][] ZONES =
 	{
 		{ "Camp", "campground resting" }, { "Beach", "the desert beach areas" }, { "Sewer", "market sewer" },
-		{ "Town", "Seaside Town areas" }, { "Casino", "Seaside Town's casino games" }, { "Plains", "general plains areas" },
+		{ "Casino", "Seaside Town's casino games" }, { "Town", "Seaside Town areas" }, { "Plains", "general plains areas" },
 		{ "Knob", "Cobb's knob areas" }, { "Bat", "Bat Hole areas" }, { "Cyrpt", "the defiled cyrpt quest" },
 		{ "Woods", "general woods areas" }, { "Friars", "deep fat friar's quest" }, { "Mount", "general mountain areas" },
 		{ "Mclarge", "Mt. McLargeHuge areas" }, { "Island", "the mysterious island areas" }, { "Stalk", "areas beyond the beanstalk" },
