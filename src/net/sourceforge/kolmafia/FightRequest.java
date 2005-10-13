@@ -140,7 +140,7 @@ public class FightRequest extends KoLRequest
 	public void run()
 	{
 		if ( !client.permitsContinue() )
-			updateDisplay( DISABLED_STATE, "Completing battle, round " + (roundCount+1) + "..." );
+			return;
 
 		if ( action.equals( "..." ) )
 		{

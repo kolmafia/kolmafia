@@ -354,6 +354,7 @@ public class AdventureFrame extends KoLFrame
 			switch ( displayState )
 			{
 				case ERROR_STATE:
+				case CANCELLED_STATE:
 					compactPane.setBackground( ERROR_COLOR );
 					break;
 				case ENABLED_STATE:
