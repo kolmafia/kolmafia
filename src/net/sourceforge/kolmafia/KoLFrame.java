@@ -1052,8 +1052,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						}
 					}
 
-System.out.println( actionMatcher.group(1) );
-
 					// Now that the entire form string is known, handle
 					// the appropriate internal link.
 
