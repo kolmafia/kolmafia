@@ -257,7 +257,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// needs to be done is clear the lists and
 			// initiate the mailbox request.
 
-			newMessages = false;
 			((List)mailboxes.get( "Inbox" )).clear();
 			deleteList.clear();  saveList.clear();
 			(new MailboxRequest( client, "Inbox" )).run();
