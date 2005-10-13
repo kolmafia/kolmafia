@@ -104,6 +104,9 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void deleteMessages( String boxname, Object [] messages )
 	{
+		if ( messages.length == 0 )
+			return;
+
 		(new RequestThread( new MailboxRequest( client, boxname, messages, "delete" ) )).start();
 
 		int messageIndex;
@@ -128,6 +131,9 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void saveMessages( Object [] messages )
 	{
+		if ( messages.length == 0 )
+			return;
+
 		(new RequestThread( new MailboxRequest( client, "Inbox", messages, "save" ) )).start();
 
 		int messageIndex;

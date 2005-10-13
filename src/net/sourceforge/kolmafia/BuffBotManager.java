@@ -212,7 +212,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	public static synchronized void runBuffBot( int iterations )
 	{
-		boolean newMessages = false;
 		BuffBotHome.setBuffBotActive( true );
 		client.updateDisplay( DISABLED_STATE, "Buffbot started." );
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
@@ -266,28 +265,15 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// Do all the deletes and saves now that all
 			// the buffbot activity has been processed.
 
-			if ( !deleteList.isEmpty() )
-			{
-				newMessages = true;
-				deleteMessages( "Inbox", deleteList.toArray() );
-			}
-
-			if ( !saveList.isEmpty() )
-			{
-				newMessages = true;
-				saveMessages( saveList.toArray() );
-			}
+			deleteMessages( "Inbox", deleteList.toArray() );
+			saveMessages( saveList.toArray() );
 
 			// Otherwise sleep for a while and then try again
 			// (don't go away for more than 1 second at a time
 			// to avoid re-enabling problems).
 
-			if ( newMessages )
-			{
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
-			}
-
+			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
+			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
 			client.updateDisplay( DISABLED_STATE, "Buffbot is sleeping." );
 
 			if ( i != iterations )
@@ -336,7 +322,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	protected static void queueIncomingMessage( KoLMailMessage message, boolean delete )
 	{
 		if ( !saveList.contains( message ) && !deleteList.contains( message ) )
-			(delete ? deleteList : saveList).add( message );
+		{
+			if ( delete )
+				deleteList.add( message );
+			else
+				saveList.add( message );
+		}
 	}
 
 	/**
@@ -360,6 +351,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!" );
 					BuffBotHome.setBuffBotActive( false );
 					BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to process a buff message." );
+				}
+
+				if ( !sendList.isEmpty() )
+				{
+					((GreenMessageRequest)sendList.get(0)).run();
+					sendList.clear();
 				}
 			}
 			catch ( Exception e )
@@ -554,17 +551,34 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, meatSent + " meat received from [" + message.getSenderName() + "]: invalid buff price" );
 			sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price.  " + refundMessage, meatSent );
 		}
-		else if ( receivedBuffs && !client.permitsContinue() )
+		else if ( receivedBuffs )
 		{
-			queueIncomingMessage( message, true );
-			sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
-				"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
+			if ( !client.permitsContinue() )
+			{
+				queueIncomingMessage( message, true );
+				sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
+					"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
+			}
+
+			return client.permitsContinue();
 		}
 
-		// Must not be a buff request message, so notify user and save/delete;
-		// also check to see if it was an attempted scam
+		// Must not be a buff request message, so notify user and
+		// save/delete, pending on the users settings.
 
-		detectScam( message, "You gain ([\\d,]+) Meat" );
+		if ( messageDisposalSetting == SAVEBOX )
+		{
+			queueIncomingMessage( message, false );
+			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Saving non-buff message from [" + message.getSenderName() + "]" );
+		}
+		else if ( messageDisposalSetting == DISPOSE )
+		{
+			queueIncomingMessage( message, true );
+			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Deleting non-buff message from [" + message.getSenderName() + "]" );
+		}
+		else
+			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Ignoring non-buff message from [" + message.getSenderName() + "]" );
+
 		return client.permitsContinue();
 	}
 
@@ -591,38 +605,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		client.resetContinueState();
 		return buff.castOnTarget( message.getSenderName() );
-	}
-
-	/**
-	 * Utility method used to detect an attempted scam message.
-	 * This notifies the maintainer of the buffbot that someone
-	 * tried to send a false message.
-	 */
-
-	private static void detectScam( KoLMailMessage message, String scamString )
-	{
-		// For scam messages, leave the scam messages in
-		// the player's inbox until further notice.
-
-		Matcher scamMatcher = Pattern.compile( scamString ).matcher( message.getMessageHTML() );
-		if ( scamMatcher.find() )
-			BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Possible attempted scam message from [" + message.getSenderName() + "]" );
-
-		// Now, mark for either save or delete the message,
-		// or ignore the message, if applicable.
-
-		else if ( messageDisposalSetting == SAVEBOX )
-		{
-			queueIncomingMessage( message, false );
-			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Saving non-buff message from [" + message.getSenderName() + "]" );
-		}
-		else if ( messageDisposalSetting == DISPOSE )
-		{
-			queueIncomingMessage( message, true );
-			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Deleting non-buff message from [" + message.getSenderName() + "]" );
-		}
-		else
-			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Ignoring non-buff message from [" + message.getSenderName() + "]" );
 	}
 
 	/**
