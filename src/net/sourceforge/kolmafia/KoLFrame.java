@@ -631,12 +631,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private String scriptPath;
 
 		public LoadScriptMenuItem()
-		{	this( "Load script...", null );
+		{
+			this( "Load script...", null );
+			setMnemonic( KeyEvent.VK_L );
 		}
 
 		public LoadScriptMenuItem( String scriptName, String scriptPath )
 		{
-			super( scriptName, KeyEvent.VK_L );
+			super( scriptName );
 			addActionListener( this );
 
 			this.scriptPath = scriptPath;
