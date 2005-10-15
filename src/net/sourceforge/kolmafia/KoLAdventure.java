@@ -122,6 +122,13 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		return includeZoneName ? zone + ": " + adventureName : adventureName;
 	}
 
+
+	public void initialize()
+	{
+		if ( request instanceof SewerRequest )
+			((SewerRequest)request).initialize();
+	}
+
 	/**
 	 * Executes the appropriate <code>KoLRequest</code> for the adventure
 	 * encapsulated by this <code>KoLAdventure</code>.

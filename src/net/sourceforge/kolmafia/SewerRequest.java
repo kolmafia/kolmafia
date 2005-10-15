@@ -46,6 +46,7 @@ public class SewerRequest extends KoLRequest
 	public static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
 
 	private boolean isLuckySewer;
+	private KoLRequest request;
 
 	/**
 	 * Constructs a new <code>SewerRequest</code>.  This method will
@@ -61,6 +62,12 @@ public class SewerRequest extends KoLRequest
 	{
 		super( client, "sewer.php" );
 		this.isLuckySewer = isLuckySewer;
+		request = null;
+	}
+
+	public void initialize()
+	{
+		request = null;
 	}
 
 	/**
@@ -72,28 +79,12 @@ public class SewerRequest extends KoLRequest
 
 	public void run()
 	{
-		// Both lucky and unlucky sewer adventures now consume one
-		// piece of gum per invocation.
-
-		if ( !KoLCharacter.getInventory().contains( GUM ) )
-		{
-			isErrorState = true;
-			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
-			client.cancelRequest();
-			return;
-		}
-
 		isErrorState = false;
 
 		if ( isLuckySewer )
 			runLuckySewer();
 		else
 			runUnluckySewer();
-
-		// Consume the gum if we actually visited
-
-		if ( !isErrorState )
-			client.processResult( GUM );
 	}
 
 	/**
@@ -110,46 +101,57 @@ public class SewerRequest extends KoLRequest
 			return;
 		}
 
-		String [] items = getProperty( "luckySewer" ).split( "," );
-
-		// The Sewage Gnomes insist on giving precisely three items,
-		// so if you have fewer than three items, report an error.
-
-		if ( items.length != 3 )
+		if ( !KoLCharacter.getInventory().contains( GUM ) )
 		{
 			isErrorState = true;
-			updateDisplay( ERROR_STATE, "You must select three items to get from the Sewage Gnomes." );
+			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
 			client.cancelRequest();
 			return;
 		}
 
-		// Enter the sewer for the first time. For whatever
-		// reason, you need to view this page before you can
-		// start submitting data.
-
-		// Is that really true? I've had good success without doing the
-		// following call. In any case, it's harmless, except for the
-		// (possibly unnecessary) server hit.
-
-		super.run();
-
-		KoLRequest request = new KoLRequest( client, "sewer.php", false );
-
-		// Now invoke sewer.php with additional fields to get
-		// the desired items.
-
-		request.addFormField( "doodit", "1" );
-
-		for ( int i = 0; i < 3; i++)
+		if ( request == null )
 		{
-			// Values are now item IDs. Indices 1-12 in the
-			// options correspond correctly to item IDs, but
-			// index 13 corresponds to item ID 43.
+			// First time here.
 
-			if ( items[i].equals( "13" ) )
-				items[i] = "43";
+                        // The Sewage Gnomes insist on giving precisely three
+			// items, so if you have fewer than three items, report
+			// an error.
 
-			request.addFormField( "i" + items[i], "on" );
+			String [] items = getProperty( "luckySewer" ).split( "," );
+
+			if ( items.length != 3 )
+			{
+				isErrorState = true;
+				updateDisplay( ERROR_STATE, "You must select three items to get from the Sewage Gnomes." );
+				client.cancelRequest();
+				return;
+			}
+
+			// Enter the sewer for the first time. For whatever
+			// reason, you need to view this page before you can
+			// start submitting data.
+
+			super.run();
+
+			if ( isErrorState )
+				return;
+
+			// Make a request to use from now on.
+
+			request = new KoLRequest( client, "sewer.php", false );
+			request.addFormField( "doodit", "1" );
+
+			for ( int i = 0; i < 3; i++)
+			{
+				// Values are now item IDs. Indices 1-12 in the
+				// options correspond correctly to item IDs,
+				// but index 13 corresponds to item ID 43.
+
+				if ( items[i].equals( "13" ) )
+					items[i] = "43";
+
+				request.addFormField( "i" + items[i], "on" );
+			}
 		}
 
 		// Enter the sewer
@@ -161,6 +163,7 @@ public class SewerRequest extends KoLRequest
 
 		processResults( request.responseText );
 		client.processResult( CLOVER );
+		client.processResult( GUM );
 	}
 
 	/**
@@ -173,6 +176,17 @@ public class SewerRequest extends KoLRequest
 		{
 			isErrorState = true;
 			updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
+			client.cancelRequest();
+			return;
+		}
+
+		// The unlucky sewer adventure consumes one piece of gum per
+		// invocation.
+
+		if ( !KoLCharacter.getInventory().contains( GUM ) )
+		{
+			isErrorState = true;
+			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
 			client.cancelRequest();
 			return;
 		}
@@ -194,6 +208,9 @@ public class SewerRequest extends KoLRequest
 		}
 
 		processResults( responseText );
+
+		// Consume the gum
+		client.processResult( GUM );
 	}
 
 	/**
