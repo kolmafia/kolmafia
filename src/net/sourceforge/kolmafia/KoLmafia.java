@@ -1122,11 +1122,11 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				KoLAdventure adventure = (KoLAdventure)request;
 
+				// Initialize the adventure before the run
+				adventure.startRun();
+
 				// Validate the adventure
 				AdventureDatabase.validateAdventure( adventure );
-
-				// Initialize the adventure, if necessary
-				adventure.initialize();
 			}
 
 			// Begin the adventuring process, or the request execution

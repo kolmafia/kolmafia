@@ -65,7 +65,10 @@ public class SewerRequest extends KoLRequest
 		request = null;
 	}
 
-	public void initialize()
+	/**
+	 * Set up this request before a series of run() calls
+	 */
+	public void startRun()
 	{
 		request = null;
 	}

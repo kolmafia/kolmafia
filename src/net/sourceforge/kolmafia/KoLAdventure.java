@@ -123,10 +123,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 
-	public void initialize()
+	public void startRun()
 	{
-		if ( request instanceof SewerRequest )
-			((SewerRequest)request).initialize();
+		request.startRun();
 	}
 
 	/**
