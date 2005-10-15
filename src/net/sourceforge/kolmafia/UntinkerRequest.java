@@ -43,7 +43,7 @@ public class UntinkerRequest extends KoLRequest
 		super( client, "town_right.php" );
 
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "action", "untinker" );
+		addFormField( "place", "untinker" );
 		addFormField( "whichitem", String.valueOf( itemID ) );
 
 		this.itemID = itemID;
