@@ -1241,7 +1241,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return consumptionRestriction;
 	}
 
-	public static void setConsumptionRestriction( int restriction )
+	public static void setConsumptionRestriction( int consumptionRestriction )
 	{	KoLCharacter.consumptionRestriction = consumptionRestriction;
 	}
 

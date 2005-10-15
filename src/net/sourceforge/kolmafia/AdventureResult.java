@@ -572,12 +572,22 @@ public class AdventureResult implements Comparable, KoLConstants
 		{
 			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
-			if ( value == null || !(value instanceof AdventureResult) )
-				return defaultComponent;
+			return value == null ? defaultComponent : value instanceof AdventureResult ?
+				getRendererComponent( (JLabel) defaultComponent, (AdventureResult) value ) : value instanceof ItemCreationRequest ?
+				getRendererComponent( (JLabel) defaultComponent, (ItemCreationRequest) value ) : defaultComponent;
+		}
 
-			AdventureResult ar = (AdventureResult) value;
+		public Component getRendererComponent( JLabel defaultComponent, AdventureResult value )
+		{	return getRendererComponent( defaultComponent, value.getName(), value.getCount() );
+		}
 
-			switch ( TradeableItemDatabase.getConsumptionType( ar.getName() ) )
+		public Component getRendererComponent( JLabel defaultComponent, ItemCreationRequest value )
+		{	return getRendererComponent( defaultComponent, value.getName(), value.getQuantityNeeded() );
+		}
+
+		public Component getRendererComponent( JLabel defaultComponent, String name, int count )
+		{
+			switch ( TradeableItemDatabase.getConsumptionType( name ) )
 			{
 				case ConsumeItemRequest.CONSUME_EAT:
 					if ( !food )
@@ -599,10 +609,11 @@ public class AdventureResult implements Comparable, KoLConstants
 					return new JLabel();
 			}
 
-			String stringForm = ar.getName() + " (" + df.format(ar.getCount()) + ")";
-			((JLabel) defaultComponent).setText( stringForm );
+			String stringForm = name + " (" + df.format( count ) + ")";
+			defaultComponent.setText( stringForm );
 			return defaultComponent;
 		}
+
 	}
 
 	private static class EquipmentCellRenderer extends DefaultListCellRenderer

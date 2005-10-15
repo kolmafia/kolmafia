@@ -211,9 +211,9 @@ public class CharsheetRequest extends KoLRequest
 			// the player possesses.
 
 			KoLCharacter.setConsumptionRestriction(
-				responseText.indexOf( "eat or drink" ) != -1 ? AscensionSnapshotTable.OXYGENARIAN :
-				responseText.indexOf( "eat any food" ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
-				responseText.indexOf( "any alcohol" ) != -1 ? AscensionSnapshotTable.TEETOTALER : AscensionSnapshotTable.NOPATH );
+				responseText.indexOf( "You may not eat or drink anything." ) != -1 ? AscensionSnapshotTable.OXYGENARIAN :
+				responseText.indexOf( "You may not eat any food or drink any non-alcoholic beverages." ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
+				responseText.indexOf( "You may not consume any alcohol." ) != -1 ? AscensionSnapshotTable.TEETOTALER : AscensionSnapshotTable.NOPATH );
 
 			// Determine whether or not the player has any
 			// active effects - if so, retrieve them.

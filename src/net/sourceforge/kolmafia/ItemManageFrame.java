@@ -53,6 +53,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -77,6 +79,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ItemManageFrame extends KoLFrame
 {
+	protected ButtonGroup clickGroup;
+	protected JRadioButtonMenuItem [] clickOptions;
+
 	private JTabbedPane tabs;
 	private JPanel using, selling, museum, stash;
 
@@ -104,6 +109,7 @@ public class ItemManageFrame extends KoLFrame
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
+
 		addMenuBar();
 		refreshFilters();
 	}
@@ -119,20 +125,41 @@ public class ItemManageFrame extends KoLFrame
 
 		addConsumeMenu( menuBar );
 
-		JMenu creationMenu = new JMenu( "Creation" );
+		JMenu clicksMenu = new JMenu( "Sellables" );
+		clicksMenu.setMnemonic( KeyEvent.VK_N );
+		menuBar.add( clicksMenu );
+
+		clickGroup = new ButtonGroup();
+		clickOptions = new JRadioButtonMenuItem[4];
+		clickOptions[0] = new JRadioButtonMenuItem( "Sell all", true );
+		clickOptions[1] = new JRadioButtonMenuItem( "Sell all but one", false );
+		clickOptions[2] = new JRadioButtonMenuItem( "Sell multiple", false );
+		clickOptions[3] = new JRadioButtonMenuItem( "Sell exactly one", false );
+
+		for ( int i = 0; i < clickOptions.length; ++i )
+		{
+			clickGroup.add( clickOptions[i] );
+			clicksMenu.add( clickOptions[i] );
+		}
+
+		JMenu creationMenu = new JMenu( "Creatables" );
 		creationMenu.add( new CreationDisplayMenuItem( "Use closet as ingredient source", "useClosetForCreation" ) );
 		creationMenu.add( new CreationDisplayMenuItem( "Auto-repair box servants on explosion", "autoRepairBoxes" ) );
 		creationMenu.add( new CreationDisplayMenuItem( "Use clockwork box servants", "useClockworkBoxes" ) );
 		creationMenu.add( new CreationDisplayMenuItem( "Cook or mix without a box servant", "createWithoutBoxServants" ) );
 		creationMenu.add( new CreationDisplayMenuItem( "Include post-ascension recipes", "includeAscensionRecipes" ) );
 		menuBar.add( creationMenu );
-
-		addHelpMenu( menuBar );
 	}
 
 	public void refreshFilters()
 	{
 		((ConsumePanel)using).consumePanel.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
+			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
+
+		((ConsumePanel)using).createPanel.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
+			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
+
+		((SellPanel)selling).createPanel.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
 			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
 	}
 
@@ -302,9 +329,23 @@ public class ItemManageFrame extends KoLFrame
 				Object [] items = elementList.getSelectedValues();
 				Runnable [] requests = new Runnable[ items.length ];
 
+				AdventureResult currentItem;
+
 				for ( int i = 0; i < items.length; ++i )
-					requests[i] = sellType == AutoSellRequest.AUTOSELL ? new AutoSellRequest( client, (AdventureResult) items[i] ) :
-						new AutoSellRequest( client, (AdventureResult) items[i], 999999999 );
+				{
+					currentItem = (AdventureResult) items[i];
+
+					int quantity = clickOptions[0].isSelected() ? currentItem.getCount() : clickOptions[1].isSelected() ?
+						currentItem.getCount() - 1 : clickOptions[2].isSelected() ?
+						getQuantity( "Autoselling " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
+
+					if ( quantity == 0 )
+						return;
+
+					currentItem = currentItem.getInstance( quantity );
+					requests[i] = sellType == AutoSellRequest.AUTOSELL ? new AutoSellRequest( client, currentItem ) :
+						new AutoSellRequest( client, currentItem, 999999999 );
+				}
 
 				(new RequestThread( requests )).start();
 			}
