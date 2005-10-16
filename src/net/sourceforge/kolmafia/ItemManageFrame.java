@@ -156,10 +156,10 @@ public class ItemManageFrame extends KoLFrame
 		((ConsumePanel)using).consumePanel.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
 			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
 
-		((ConsumePanel)using).createPanel.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
+		((ConsumePanel)using).createPanel.elementList.setCellRenderer( AdventureResult.getCreatableCellRenderer(
 			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
 
-		((SellPanel)selling).createPanel.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
+		((SellPanel)selling).createPanel.elementList.setCellRenderer( AdventureResult.getCreatableCellRenderer(
 			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
 	}
 

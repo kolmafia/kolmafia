@@ -528,6 +528,10 @@ public class AdventureResult implements Comparable, KoLConstants
 	{	return new ConsumableCellRenderer( food, booze, other );
 	}
 
+	public static DefaultListCellRenderer getCreatableCellRenderer( boolean food, boolean booze, boolean other )
+	{	return new CreatableCellRenderer( food, booze, other );
+	}
+
 	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
 	{	return new EquipmentCellRenderer( weapon, hat, shirt, pants, accessory, familiar );
 	}
@@ -558,7 +562,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private static class ConsumableCellRenderer extends DefaultListCellRenderer
 	{
-		private boolean food, booze, other;
+		protected boolean food, booze, other;
 
 		public ConsumableCellRenderer( boolean food, boolean booze, boolean other )
 		{
@@ -607,6 +611,40 @@ public class AdventureResult implements Comparable, KoLConstants
 
 				default:
 					return new JLabel();
+			}
+
+			String stringForm = name + " (" + df.format( count ) + ")";
+			defaultComponent.setText( stringForm );
+			return defaultComponent;
+		}
+
+	}
+
+	private static class CreatableCellRenderer extends ConsumableCellRenderer
+	{
+		public CreatableCellRenderer( boolean food, boolean booze, boolean other )
+		{
+                        super( food, booze, other );
+		}
+
+		public Component getRendererComponent( JLabel defaultComponent, String name, int count )
+		{
+			switch ( TradeableItemDatabase.getConsumptionType( name ) )
+			{
+				case ConsumeItemRequest.CONSUME_EAT:
+					if ( !food )
+						return new JLabel();
+					break;
+
+				case ConsumeItemRequest.CONSUME_DRINK:
+					if ( !booze )
+						return new JLabel();
+					break;
+
+				default:
+					if ( !other )
+						return new JLabel();
+					break;
 			}
 
 			String stringForm = name + " (" + df.format( count ) + ")";
