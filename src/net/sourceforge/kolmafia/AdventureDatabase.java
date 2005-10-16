@@ -291,7 +291,7 @@ public class AdventureDatabase extends KoLDatabase
 			// The casino is unlocked provided the player
 			// has a casino pass in their inventory.
 
-			case 4:
+			case 3:
 			{
 				retrieveItem( CASINO );
 				break;
