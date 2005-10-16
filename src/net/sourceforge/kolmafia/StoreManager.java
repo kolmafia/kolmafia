@@ -220,7 +220,7 @@ public abstract class StoreManager extends StaticEntity
 			// With the item name properly formatted, issue
 			// the search request.
 
-			(new SearchMallRequest( client, itemName, 0, results )).run();
+			(new SearchMallRequest( client, itemName, 0, results, true )).run();
 
 			Iterator i = results.iterator();
 			MallPurchaseRequest currentItem;
