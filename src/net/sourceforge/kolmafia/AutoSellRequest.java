@@ -56,7 +56,6 @@ public class AutoSellRequest extends SendMessageRequest
 	public AutoSellRequest( KoLmafia client, Object [] items, int sellType )
 	{
 		this( client, items, new int[0], new int[0], sellType );
-		this.sellType = sellType;
 	}
 
 	public AutoSellRequest( KoLmafia client, Object [] items, int [] prices, int [] limits, int sellType )
@@ -64,21 +63,22 @@ public class AutoSellRequest extends SendMessageRequest
 		super( client, sellType == AUTOSELL ? "sellstuff.php" : "managestore.php", items, 0 );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		if ( sellType == AUTOMALL )
-			addFormField( "action", "additem" );
-
-		this.quantityField = "qty";
-
+		this.sellType = sellType;
 		this.prices = new int[ prices.length ];
 		this.limits = new int[ prices.length ];
 
-		for ( int i = 0; i < prices.length; ++i )
+		if ( sellType == AUTOMALL )
 		{
-			this.prices[i] = prices[i];
-			this.limits[i] = limits[i];
-		}
+			addFormField( "action", "additem" );
 
-		this.sellType = AUTOMALL;
+			this.quantityField = "qty";
+
+			for ( int i = 0; i < prices.length; ++i )
+			{
+				this.prices[i] = prices[i];
+				this.limits[i] = limits[i];
+			}
+		}
 	}
 
 	protected void attachItem( AdventureResult item, int index )
@@ -139,10 +139,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 	public void run()
 	{
-		if ( sellType == AUTOSELL )
-			updateDisplay( DISABLED_STATE, "Autoselling items..." );
-		else
-			updateDisplay( DISABLED_STATE, "Placing items in the mall..." );
+		updateDisplay( DISABLED_STATE, ( sellType == AUTOSELL ) ? "Autoselling items..." : "Placing items in the mall..." );
 
 		super.run();
 
