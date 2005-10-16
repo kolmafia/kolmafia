@@ -44,6 +44,7 @@ public class UntinkerRequest extends KoLRequest
 
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "place", "untinker" );
+		addFormField( "action", "untinker" );
 		addFormField( "whichitem", String.valueOf( itemID ) );
 
 		this.itemID = itemID;
