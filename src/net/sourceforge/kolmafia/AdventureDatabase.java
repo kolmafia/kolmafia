@@ -55,12 +55,23 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final String [][] ZONES =
 	{
-		{ "Camp", "campground resting" }, { "Beach", "the desert beach areas" }, { "Sewer", "market sewer" },
-		{ "Casino", "Seaside Town's casino games" }, { "Town", "Seaside Town areas" }, { "Plains", "general plains areas" },
-		{ "Knob", "Cobb's knob areas" }, { "Bat", "Bat Hole areas" }, { "Cyrpt", "the defiled cyrpt quest" },
-		{ "Woods", "general woods areas" }, { "Friars", "deep fat friar's quest" }, { "Mount", "general mountain areas" },
-		{ "Mclarge", "Mt. McLargeHuge areas" }, { "Island", "the mysterious island areas" }, { "Stalk", "areas beyond the beanstalk" },
-		{ "Signed", "sign-restricted areas" }, { "Special", "special areas" }
+		{ "Camp", "campground resting" },                 // zone 0
+		{ "Beach", "the desert beach areas" },            // zone 1
+		{ "Sewer", "market sewer" },                      // zone 2
+		{ "Casino", "Seaside Town's casino games" },      // zone 3
+		{ "Town", "Seaside Town areas" },                 // zone 4
+		{ "Plains", "general plains areas" },             // zone 5
+		{ "Knob", "Cobb's knob areas" },                  // zone 6
+		{ "Bat", "Bat Hole areas" },                      // zone 7
+		{ "Cyrpt", "the defiled cyrpt quest" },           // zone 8
+		{ "Woods", "general woods areas" },               // zone 9
+		{ "Friars", "deep fat friar's quest" },           // zone 10
+		{ "Mount", "general mountain areas" },            // zone 11
+		{ "Mclarge", "Mt. McLargeHuge areas" },           // zone 12
+		{ "Island", "the mysterious island areas" },      // zone 13
+		{ "Stalk", "areas beyond the beanstalk" },        // zone 14
+		{ "Signed", "sign-restricted areas" },            // zone 15
+		{ "Special", "special areas" }                    // zone 16
 	};
 
 	public static final String [] CLOVER_ADVS =
@@ -249,8 +260,7 @@ public class AdventureDatabase extends KoLDatabase
 			// The beach is unlocked provided the player
 			// has the meat car accomplishment.
 
-			case 0:
-			case 15:
+			case 1:
 			{
 				if ( !KoLCharacter.hasAccomplishment( MEATCAR ) )
 				{
