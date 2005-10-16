@@ -327,8 +327,6 @@ public class ItemManageFrame extends KoLFrame
 							return;
 
 				Object [] items = elementList.getSelectedValues();
-				Runnable [] requests = new Runnable[ items.length ];
-
 				AdventureResult currentItem;
 
 				for ( int i = 0; i < items.length; ++i )
@@ -342,12 +340,10 @@ public class ItemManageFrame extends KoLFrame
 					if ( quantity == 0 )
 						return;
 
-					currentItem = currentItem.getInstance( quantity );
-					requests[i] = sellType == AutoSellRequest.AUTOSELL ? new AutoSellRequest( client, currentItem ) :
-						new AutoSellRequest( client, currentItem, 999999999 );
+					items[i] = currentItem.getInstance( quantity );
 				}
 
-				(new RequestThread( requests )).start();
+				(new RequestThread( new AutoSellRequest( client, items, sellType ) )).start();
 			}
 		}
 	}

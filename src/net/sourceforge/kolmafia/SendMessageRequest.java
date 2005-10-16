@@ -46,7 +46,7 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected int meatAttachment;
 	protected Object [] attachments;
 	protected List source, destination;
-        protected String quantityField;
+	protected String quantityField;
 
 	protected SendMessageRequest( KoLmafia client, String formSource )
 	{
@@ -58,7 +58,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		this.source = new ArrayList();
 		this.destination = new ArrayList();
 
-                quantityField = "howmany";
+		this.quantityField = "howmany";
 	}
 
 	protected SendMessageRequest( KoLmafia client, String formSource, AdventureResult attachment )
@@ -80,7 +80,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		this.source = KoLCharacter.getInventory();
 		this.destination = new ArrayList();
 
-                quantityField = "howmany";
+		this.quantityField = "howmany";
 	}
 
 	protected SendMessageRequest( KoLmafia client, String formSource, Object [] attachments, int meatAttachment )
@@ -93,7 +93,21 @@ public abstract class SendMessageRequest extends KoLRequest
 		this.source = KoLCharacter.getInventory();
 		this.destination = new ArrayList();
 
-                quantityField = "howmany";
+		this.quantityField = "howmany";
+	}
+
+	protected void attachItem( AdventureResult item, int index )
+	{
+		if ( getCapacity() != 1 )
+		{
+			addFormField( "whichitem" + index, String.valueOf( item.getItemID() ) );
+			addFormField( quantityField + index, String.valueOf( item.getCount() ) );
+		}
+		else
+		{
+			addFormField( "whichitem", String.valueOf( item.getItemID() ) );
+			addFormField( quantityField, String.valueOf( item.getCount() ) );
+		}
 	}
 
 	protected abstract int getCapacity();
@@ -143,20 +157,14 @@ public abstract class SendMessageRequest extends KoLRequest
 				return;
 			}
 
-			if ( getCapacity() > 1 || this instanceof GiftMessageRequest )
+			if ( getCapacity() > 1 )
 			{
-				for ( int i = 0; i < attachments.length; ++i )
-				{
-					AdventureResult result = (AdventureResult) attachments[i];
-					addFormField( "whichitem" + (i+1), String.valueOf( result.getItemID() ) );
-					addFormField( quantityField + (i+1), String.valueOf( result.getCount() ) );
-				}
+				for ( int i = 1; i <= attachments.length; ++i )
+					attachItem( (AdventureResult) attachments[i-1], i );
 			}
 			else if ( getCapacity() == 1 )
 			{
-				AdventureResult result = (AdventureResult) attachments[0];
-				addFormField( "whichitem", String.valueOf( result.getItemID() ) );
-				addFormField( quantityField, String.valueOf( result.getCount() ) );
+				attachItem( (AdventureResult) attachments[0], 0 );
 			}
 		}
 

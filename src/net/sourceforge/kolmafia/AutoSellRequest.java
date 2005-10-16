@@ -35,67 +35,100 @@
 package net.sourceforge.kolmafia;
 import java.util.StringTokenizer;
 
-public class AutoSellRequest extends KoLRequest
+public class AutoSellRequest extends SendMessageRequest
 {
 	private int sellType;
-	private int price, limit;
-	private AdventureResult soldResult;
+
+	private int [] prices;
+	private int [] limits;
 
 	public static final int AUTOSELL = 1;
 	public static final int AUTOMALL = 2;
 
-	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell )
+	public AutoSellRequest( KoLmafia client, AdventureResult item )
+	{	this( client, new AdventureResult [] { item }, AUTOSELL );
+	}
+
+	public AutoSellRequest( KoLmafia client, AdventureResult item, int price, int limit )
+	{	this( client, new AdventureResult [] { item }, new int [] { price }, new int [] { limit }, AUTOMALL );
+	}
+
+	public AutoSellRequest( KoLmafia client, Object [] items, int sellType )
 	{
-		super( client, "sellstuff.php" );
-		addFormField( "whichitem", String.valueOf( itemToSell.getItemID() ) );
-		addFormField( "action", "sell" );
-		addFormField( "type", "quant" );
-		addFormField( "howmany", String.valueOf( itemToSell.getCount() ) );
+		this( client, items, new int[0], new int[0], sellType );
+		this.sellType = sellType;
+	}
+
+	public AutoSellRequest( KoLmafia client, Object [] items, int [] prices, int [] limits, int sellType )
+	{
+		super( client, sellType == AUTOSELL ? "sellstuff.php" : "managestore.php", items, 0 );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		this.limit = 0;
-		this.price = TradeableItemDatabase.getPriceByID( itemToSell.getItemID() );
-		this.sellType = AUTOSELL;
-		this.soldResult = itemToSell.getNegation();
-	}
+		if ( sellType == AUTOMALL )
+			addFormField( "action", "additem" );
 
-	public String getName()
-	{	return soldResult.getName();
-	}
+		this.quantityField = "qty";
 
-	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell, int desiredPrice )
-	{	this( client, itemToSell, desiredPrice, 0 );
-	}
+		this.prices = new int[ prices.length ];
+		this.limits = new int[ prices.length ];
 
-	public AutoSellRequest( KoLmafia client, AdventureResult itemToSell, int desiredPrice, int limit )
-	{
-		super( client, "managestore.php" );
-		addFormField( "whichitem", String.valueOf( itemToSell.getItemID() ) );
-		addFormField( "action", "additem" );
+		for ( int i = 0; i < prices.length; ++i )
+		{
+			this.prices[i] = prices[i];
+			this.limits[i] = limits[i];
+		}
 
-		this.price = Math.max( Math.max( TradeableItemDatabase.getPriceByID( itemToSell.getItemID() ), 100 ), desiredPrice );
-
-		addFormField( "sellprice", String.valueOf( price ) );
-		addFormField( "limit", String.valueOf( limit ) );
-		addFormField( "addtype", "addquantity" );
-		addFormField( "quantity", String.valueOf( itemToSell.getCount() ) );
-		addFormField( "pwd", client.getPasswordHash() );
-
-		this.limit = limit;
 		this.sellType = AUTOMALL;
-		this.soldResult = itemToSell.getNegation();
 	}
 
-	public int getSellType()
-	{	return sellType;
+	protected void attachItem( AdventureResult item, int index )
+	{
+		if ( sellType == AUTOMALL )
+		{
+			addFormField( "item" + index, String.valueOf( item.getItemID() ) );
+			addFormField( quantityField + index, String.valueOf( item.getCount() ) );
+
+			if ( prices.length == 0 )
+			{
+				addFormField( "price" + index, "999999999" );
+				addFormField( "limit" + index, "0" );
+			}
+			else
+			{
+				addFormField( "price" + index, String.valueOf(
+					Math.max( Math.max( TradeableItemDatabase.getPriceByID( item.getItemID() ), 100 ), prices[ index - 1 ] ) ) );
+				addFormField( "limit" + index, String.valueOf( limits[ index - 1 ] ) );
+			}
+		}
+		else
+		{
+			addFormField( "whichitem", String.valueOf( item.getItemID() ) );
+			addFormField( "action", "sell" );
+			addFormField( "type", "quant" );
+			addFormField( "howmany", String.valueOf( item.getCount() ) );
+		}
 	}
 
-	public int getPrice()
-	{	return price;
+	protected int getCapacity()
+	{	return sellType == AUTOSELL ? 1 : 11;
 	}
 
-	public int getLimit()
-	{	return limit;
+	protected void repeat( Object [] attachments )
+	{
+		int [] prices = new int[ this.prices.length == 0 ? 0 : attachments.length ];
+		int [] limits = new int[ this.prices.length == 0 ? 0 : attachments.length ];
+
+		for ( int i = 0; i < prices.length; ++i )
+		{
+			for ( int j = 0; j < this.attachments.length; ++j )
+				if ( attachments[i].equals( this.attachments[j] ) )
+				{
+					prices[i] = this.prices[i];
+					limits[i] = this.limits[i];
+				}
+		}
+
+		(new AutoSellRequest( client, attachments, limits, prices, sellType )).run();
 	}
 
 	/**
@@ -107,9 +140,9 @@ public class AutoSellRequest extends KoLRequest
 	public void run()
 	{
 		if ( sellType == AUTOSELL )
-			updateDisplay( DISABLED_STATE, "Autoselling " + soldResult.getName() + "..." );
+			updateDisplay( DISABLED_STATE, "Autoselling items..." );
 		else
-			updateDisplay( DISABLED_STATE, "Placing " + soldResult.getName() + " in the mall..." );
+			updateDisplay( DISABLED_STATE, "Placing items in the mall..." );
 
 		super.run();
 
@@ -123,13 +156,11 @@ public class AutoSellRequest extends KoLRequest
 		// sold all the items of the given time, and acquired a certain amount
 		// of meat from the recipient.
 
-		client.processResult( soldResult );
-
-		String plainTextResult = responseText.replaceAll( "<.*?>", "" );
-		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, " " );
-
 		if ( sellType == AUTOSELL )
 		{
+			String plainTextResult = responseText.replaceAll( "<.*?>", "" );
+			StringTokenizer parsedResults = new StringTokenizer( plainTextResult, " " );
+
 			try
 			{
 				while ( !parsedResults.nextToken().equals( "for" ) );
@@ -151,5 +182,9 @@ public class AutoSellRequest extends KoLRequest
 			StoreManager.update( responseText, false );
 
 		updateDisplay( ENABLED_STATE, "Items sold." );
+	}
+
+	protected String getSuccessMessage()
+	{	return "";
 	}
 }

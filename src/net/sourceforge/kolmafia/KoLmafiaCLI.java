@@ -2440,31 +2440,6 @@ public class KoLmafiaCLI extends KoLmafia
 			commandString.append( "\"" );
 		}
 
-		// Another item-related command is the autosell
-		// request.  This one's simple, but it still
-		// gets its own utility method.
-
-		if ( request instanceof AutoSellRequest )
-		{
-			AutoSellRequest asr = (AutoSellRequest) request;
-
-			if ( asr.getSellType() == AutoSellRequest.AUTOSELL )
-				commandString.append( "autosell * \"" );
-			else
-				commandString.append( "mallsell \"" );
-
-			commandString.append( ((AutoSellRequest)request).getName() );
-			commandString.append( "\"" );
-
-			if ( asr.getSellType() == AutoSellRequest.AUTOMALL )
-			{
-				commandString.append( ' ' );
-				commandString.append( df.format( asr.getPrice() ) );
-				commandString.append( ' ' );
-				commandString.append( df.format( asr.getLimit() ) );
-			}
-		}
-
 		// Item storage script recording is also a
 		// little interesting.
 
