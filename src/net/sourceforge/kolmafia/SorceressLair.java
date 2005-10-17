@@ -814,7 +814,7 @@ public abstract class SorceressLair extends StaticEntity
 		request.addFormField( "action", "level" + ((towerLevel - 1) % 3 + 1) );
 		request.run();
 
-		if ( request.responseText.indexOf( "You're out of adventures." ) != -1 )
+		if ( request.responseText.indexOf( "You don't have time to mess around in the Tower." ) != -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "You're out of adventures." );
 			client.cancelRequest();
