@@ -342,16 +342,23 @@ gnauga hide whip	13	1	gnauga hide	whip kit
 # Meat-smithing armor pieces.  These items are helmets, pants,
 # and sometimes accessories which are created in smithing.
 
-asbestos helmet turtle	14	0	meaty helmet turtle	asbestos ore
-chrome helmet turtle	14	0	chrome ore	meaty helmet turtle
-linoleum helmet turtle	14	0	meaty helmet turtle	linoleum ore
 meaty helmet turtle	14	0	helmet turtle	dense meat stack
+asbestos helmet turtle	14	0	meaty helmet turtle	asbestos ore
+chrome helmet turtle	14	0	meaty helmet turtle	chrome ore
+linoleum helmet turtle	14	0	meaty helmet turtle	linoleum ore
+
+basic meat pants	4	0	meat stack	pants kit
+basic meat helmet	4	0	meat stack	helmet recipe
+meatloaf helmet	4	0	basic meat helmet	ketchup
 
 basic meat fez	4	0	basic meat helmet	tassel
-basic meat helmet	4	0	meat stack	helmet recipe
-basic meat pants	4	0	meat stack	pants kit
-meatloaf helmet	4	0	basic meat helmet	ketchup
 sequined fez	4	1	basic meat fez	teeny-tiny ninja stars
+
+# The dictionary you get from the an abridged dictionary (item 536) is
+# not a smithing ingredient. The dictionary the Baron rewards you with
+# (item 1316) is. How can we reject the first and accept the second?
+
+# fez of etymology	4	0	basic meat fez	dictionary
 
 furry pants	14	0	furry fur	pants kit
 hippopotamus pants	14	0	hippopotamus skin	pants kit
