@@ -253,15 +253,18 @@ public class ConsumeItemRequest extends KoLRequest
 		else if ( itemUsed.getName().equals( "Jumbo Dr. Lucifer" ) )
 			client.processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
 
-		// If you use a 64735 scroll, you will also lose a dictionary,
-		// if it's successful.  Otherwise, nothing happens.
+		// If you successfully use a 64735 scroll, you lose the
+		// dictionary you untinkered from the abridged dictionary, but
+		// gain another, just as usable in combat, but also smithable
+		// and sellable
 
 		else if ( itemUsed.getName().startsWith( "64735" ) )
 		{
-			if ( responseText.indexOf( "You are magically transported" ) != -1 )
-				client.processResult( FightRequest.DICTIONARY.getNegation() );
-			else
+			if ( responseText.indexOf( "You are magically transported" ) == -1 )
 				return;
+
+			client.processResult( FightRequest.DICTIONARY1.getNegation() );
+			client.processResult( FightRequest.DICTIONARY2 );
 		}
 
 		// Parse the reply, which can be found before the

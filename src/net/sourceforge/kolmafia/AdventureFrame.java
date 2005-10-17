@@ -247,7 +247,7 @@ public class AdventureFrame extends KoLFrame
 			// their inventory.  Just ignore the option
 			// if the person turns out not to have one.
 
-			actions.add( "item0536" );
+			actions.add( KoLCharacter.hasAccomplishment( FightRequest.BARON ) ? "item1316" : "item0536" );
 			actionNames.add( "Item: Use a Dictionary" );
 
 			// Add in all of the player's combat skills;
@@ -386,13 +386,15 @@ public class AdventureFrame extends KoLFrame
 			if ( actionNames.getSelectedIndex() < 0 || actions.getSelectedIndex() >= actions.size() )
 				actions.setSelectedIndex( 0 );
 
-			if ( actions.get( actionNames.getSelectedIndex() ).equals( "item0536" ) && FightRequest.DICTIONARY.getCount( KoLCharacter.getInventory() ) < 1 )
+			String action = (String)actions.get( actionNames.getSelectedIndex() );
+			if ( ( action.equals( "item0536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||
+			     ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) < 1 ) )
 			{
 				updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
 				return;
 			}
 
-			setProperty( "battleAction", (String) actions.get( actionNames.getSelectedIndex() ) );
+			setProperty( "battleAction", action );
 			Runnable request = (Runnable) locationSelect.getSelectedItem();
 			setProperty( "lastAdventure", request.toString() );
 

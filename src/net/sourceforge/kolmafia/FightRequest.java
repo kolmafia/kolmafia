@@ -44,7 +44,9 @@ import java.util.StringTokenizer;
 
 public class FightRequest extends KoLRequest
 {
-	public static final AdventureResult DICTIONARY = new AdventureResult( 536, 1 );
+	public static final String BARON = "You have helped the Baron Rof L'm Fao.";
+	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
+	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
 	private String action;
 	private int roundCount;
