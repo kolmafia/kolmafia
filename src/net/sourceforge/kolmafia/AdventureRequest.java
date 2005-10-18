@@ -52,8 +52,6 @@ public class AdventureRequest extends KoLRequest
 	private int adventuresUsed;
 	private boolean hasLuckyVersion;
 
-	public static final String FRIARS = "You have cleansed the taint for the Deep Fat Friars.";
-
 	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
 	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
 	public static final AdventureResult CANDLES = new AdventureResult( 480, -1 );
@@ -332,10 +330,10 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( DODECAGRAM );
 				client.processResult( CANDLES );
 				client.processResult( BUTTERKNIFE );
-				KoLCharacter.addAccomplishment( FRIARS );
+				KoLCharacter.addAccomplishment( KoLCharacter.FRIARS );
 				updateDisplay( ENABLED_STATE, "Taint cleansed." );
 			}
-			else if ( !KoLCharacter.hasAccomplishment( FRIARS ) )
+			else if ( !KoLCharacter.hasAccomplishment( KoLCharacter.FRIARS ) )
 			{
 				// Even after you've performed the ritual:
 				//   "You don't appear to have all of the

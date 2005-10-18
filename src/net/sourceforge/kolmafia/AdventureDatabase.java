@@ -46,9 +46,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AdventureDatabase extends KoLDatabase
 {
-	public static final String MEATCAR = "You have built your own Bitchin' Meat Car.";
-	public static final String BEANSTALK = "You have planted a Beanstalk in the Nearby Plains.";
-
 	private static LockableListModel adventures = new LockableListModel();
 	private static final AdventureResult CASINO = new AdventureResult( 40, 1 );
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
@@ -262,7 +259,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			case 1:
 			{
-				if ( !KoLCharacter.hasAccomplishment( MEATCAR ) )
+				if ( !KoLCharacter.hasAccomplishment( KoLCharacter.MEATCAR ) )
 				{
 					// Sometimes, the player has just built the meatcar
 					// and visited the council -- check the main map to
@@ -274,7 +271,7 @@ public class AdventureDatabase extends KoLDatabase
 
 					if ( request.responseText.indexOf( "beach.php" ) != -1 )
 					{
-						KoLCharacter.addAccomplishment( MEATCAR );
+						KoLCharacter.addAccomplishment( KoLCharacter.MEATCAR );
 						request = null;
 					}
 					else
@@ -312,7 +309,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			case 14:
 			{
-				if ( !KoLCharacter.hasAccomplishment( BEANSTALK ) )
+				if ( !KoLCharacter.hasAccomplishment( KoLCharacter.BEANSTALK ) )
 				{
 					// Sometimes, the player has just used the enchanted
 					// bean, and therefore does not have the accomplishment.
@@ -325,7 +322,7 @@ public class AdventureDatabase extends KoLDatabase
 
 					if ( request.responseText.indexOf( "beanstalk.php" ) != -1 )
 					{
-						KoLCharacter.addAccomplishment( BEANSTALK );
+						KoLCharacter.addAccomplishment( KoLCharacter.BEANSTALK );
 						request = null;
 					}
 					else

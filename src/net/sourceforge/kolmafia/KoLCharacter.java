@@ -244,6 +244,13 @@ public abstract class KoLCharacter extends StaticEntity
 	private static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
 	private static LockableListModel accomplishments = new LockableListModel();
 
+        // Interesting accomplishments
+
+	public static final String MEATCAR = "You have built your own Bitchin' Meat Car.";
+	public static final String FRIARS = "You have cleansed the taint for the Deep Fat Friars.";
+	public static final String BARON = "You have helped the Baron Rof L'm Fao.";
+	public static final String BEANSTALK = "You have planted a Beanstalk in the Nearby Plains.";
+
 	private static List listenerList = new ArrayList();
 
 	private static boolean canInteract = false;

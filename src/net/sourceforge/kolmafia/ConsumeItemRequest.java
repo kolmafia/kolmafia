@@ -221,7 +221,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
 				return;
 
-			KoLCharacter.addAccomplishment( AdventureDatabase.BEANSTALK );
+			KoLCharacter.addAccomplishment( KoLCharacter.BEANSTALK );
 		}
 
 		// If a scroll of drastic healing was used and didn't dissolve,
@@ -270,7 +270,7 @@ public class ConsumeItemRequest extends KoLRequest
 				client.processResult( FightRequest.DICTIONARY1.getNegation() );
 				client.processResult( FightRequest.DICTIONARY2 );
 				client.processResult( AXE );
-				KoLCharacter.addAccomplishment( FightRequest.BARON );
+				KoLCharacter.addAccomplishment( KoLCharacter.BARON );
 			}
 			return;
 		}
