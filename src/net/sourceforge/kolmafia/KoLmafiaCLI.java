@@ -507,8 +507,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "moon" ) )
 		{
-			updateDisplay( NOCHANGE, "Ronald: " + MoonPhaseDatabase.getRonaldMoonPhase() );
-			updateDisplay( NOCHANGE, "Grimace: " + MoonPhaseDatabase.getGrimaceMoonPhase() );
+			updateDisplay( NOCHANGE, "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
+			updateDisplay( NOCHANGE, "Grimace: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
 			updateDisplay( NOCHANGE, "" );
 			updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
 

@@ -66,7 +66,20 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	// done as a string, since sdf.parse() throws an
 	// exception, most of the time.
 
-	private static final String NEWYEAR = "20050614";
+	private static long NEWYEAR = 0;
+
+	static
+	{
+		try
+		{
+			NEWYEAR = sdf.parse( "20050917" ).getTime();
+		}
+		catch ( Exception e )
+		{
+			// Because the date string was manually
+			// constructed, this error will not happen.
+		}
+	}
 
 	// Special date formatter which formats according to
 	// the standard Western format of month, day, year.
@@ -167,14 +180,11 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	// They are made static as a design decision to allow the oracle
 	// table nested inside of this class the access it needs to data.
 
-	private static int phaseError = Integer.MAX_VALUE;
-
 	private static int currentMonth = 0;
 	private static int currentDay = 0;
 
 	private static int ronaldPhase = -1;
 	private static int grimacePhase = -1;
-	private static int phaseStep = -1;
 
 	private static JCalendar calendar;
 	private static OracleTable oracleTable;
@@ -190,20 +200,16 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		selectedRow = -1;
 		selectedColumn = -1;
-		selectedDate = new Date();
 
-		if ( MoonPhaseDatabase.PHASE_STEP == -1 )
+		try
 		{
-			phaseError = 0;
-			calculatePhases( new Date() );
-			MoonPhaseDatabase.setMoonPhases( ronaldPhase, grimacePhase );
+			selectedDate = sdf.parse( sdf.format( new Date() ) );
 		}
-		else
-			phaseError = Integer.MAX_VALUE;
+		catch ( Exception e )
+		{
+		}
 
-		ronaldPhase = MoonPhaseDatabase.RONALD_PHASE;
-		grimacePhase = MoonPhaseDatabase.GRIMACE_PHASE;
-		phaseStep = MoonPhaseDatabase.PHASE_STEP;
+		calculatePhases( selectedDate );
 
 		dailyBuffer = new LimitedSizeChatBuffer( "KoLmafia: Calendar" );
 		predictBuffer = new LimitedSizeChatBuffer( "KoLmafia: Next Event" );
@@ -314,11 +320,16 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	{
 		try
 		{
-			int timeDifference = calculateDifferenceInDays( sdf.parse( NEWYEAR ).getTime(), time.getTime() ) + phaseError;
+			// In order to ensure that everything is computed
+			// based on new-year, wrap the date inside of the
+			// formatter (which strips time information) and
+			// reparse the date.
 
-			phaseStep = ((timeDifference % 16) + 16) % 16;
+			int calendarDay = calculateCalendarDay( time.getTime() );
+			int phaseStep = ((calendarDay % 16) + 16) % 16;
+
 			ronaldPhase = phaseStep % 8;
-			grimacePhase = ( phaseStep / 2 ) % 8;
+			grimacePhase = phaseStep / 2;
 		}
 		catch ( Exception e )
 		{
@@ -386,7 +397,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( MoonPhaseDatabase.getPhaseName( grimacePhase ) );
 		displayHTML.append( ")</td></tr>" );
 		displayHTML.append( "<tr><td align=right><b>Stats</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getMoonEffect( phaseStep ) );
+		displayHTML.append( MoonPhaseDatabase.getMoonEffect( ronaldPhase, grimacePhase ) );
 		displayHTML.append( "</td></tr><td align=right><b>Grue</b>:&nbsp;</td><td>" );
 		displayHTML.append( MoonPhaseDatabase.getGrueEffect( ronaldPhase, grimacePhase ) ? "bloodlusty" : "pacifistic" );
 		displayHTML.append( "</td></tr><td align=right><b>Blood</b>:&nbsp;</td><td>" );
@@ -420,6 +431,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	private static void updatePredictionsPage()
 	{
 		StringBuffer displayHTML = new StringBuffer();
+		int phaseStep = MoonPhaseDatabase.getPhaseStep( ronaldPhase, grimacePhase );
 
 		// First display today's date along with the
 		// appropriate calendar picture.  Include the
@@ -521,30 +533,16 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			// This difference should be computed in terms
 			// of days for ease of later computations.
 
-			int estimatedDifference = calculateDifferenceInDays( sdf.parse( NEWYEAR ).getTime(), timeCalculate );
+			int calendarDay = calculateCalendarDay( timeCalculate );
 
 			// Next, compare this value with the actual
 			// computed phase step to see how far off
 			// you are in the computation.
 
-			int estimatedMoonPhase = ((estimatedDifference % 16) + 16) % 16;
+			int phaseStep = ((calendarDay % 16) + 16) % 16;
 
-			if ( phaseError == Integer.MAX_VALUE )
-			{
-				phaseError = (estimatedMoonPhase == 15 && phaseStep == 0) ? -1 :
-					(estimatedMoonPhase == 0 && phaseStep == 15) ? 1 : phaseStep - estimatedMoonPhase;
-			}
-
-			int actualDifference = estimatedDifference + phaseError;
-
-			// Now that you have the actual difference
-			// in days, do the computation of the KoL
-			// calendar date.
-
-			int daysSinceLastNewYear = ((actualDifference % 96) + 96) % 96;
-
-			currentMonth = (daysSinceLastNewYear / 8) + 1;
-			currentDay = (daysSinceLastNewYear % 8) + 1;
+			currentMonth = (calendarDay / 8) + 1;
+			currentDay = (calendarDay % 8) + 1;
 		}
 		catch ( Exception e )
 		{
@@ -556,10 +554,11 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * millisecond counts since January 1, 1970.
 	 */
 
-	private static int calculateDifferenceInDays( long timeStart, long timeEnd )
+	private static int calculateCalendarDay( long time )
 	{
-		long difference = timeEnd - timeStart;
-		return (int) (difference / 86400000L);
+		long timeDifference = time - NEWYEAR;
+		int dayDifference = (int) Math.floor( timeDifference / 86400000L );
+		return ((dayDifference % 96) + 96) % 96;
 	}
 
 	/**
@@ -610,8 +609,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				// Otherwise, if the date selected is equal
 				// to a special day, then highlight it.
 
-				int difference = calculateDifferenceInDays( sdf.parse( NEWYEAR ).getTime(), sdf.parse( cellDate ).getTime() );
-				int calendarDay = (((difference + phaseError) % 96) + 96) % 96;
+				int calendarDay = calculateCalendarDay( sdf.parse( cellDate ).getTime() );
 
 				if ( SPECIAL[ calendarDay ] == SP_HOLIDAY )
 					return holidayRenderer;

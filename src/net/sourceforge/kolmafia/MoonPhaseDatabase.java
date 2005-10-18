@@ -43,11 +43,10 @@ import java.util.Date;
  * cleaner to do things this way, so it goes.
  */
 
-public class MoonPhaseDatabase implements KoLConstants
+public class MoonPhaseDatabase extends StaticEntity
 {
-	protected static int PHASE_STEP = -1;
-	protected static int RONALD_PHASE = -1;
-	protected static int GRIMACE_PHASE = -1;
+	private static int RONALD_PHASE = -1;
+	private static int GRIMACE_PHASE = -1;
 
 	private static final String [] STAT_EFFECT =
 	{
@@ -57,11 +56,10 @@ public class MoonPhaseDatabase implements KoLConstants
 		"Mysticism day today (not tomorrow).", "2 days until Moxie.", "Moxie tomorrow (not today).", "Moxie day today and tomorrow."
 	};
 
-	public static final void setMoonPhases( int ronald, int grimace )
+	public static final void setMoonPhases( int ronaldPhase, int grimacePhase )
 	{
-		RONALD_PHASE = ronald;
-		GRIMACE_PHASE = grimace;
-		PHASE_STEP = RONALD_PHASE + ((GRIMACE_PHASE >= 4) ? 8 : 0);
+		RONALD_PHASE = ronaldPhase;
+		GRIMACE_PHASE = grimacePhase;
 	}
 
 	/**
@@ -71,7 +69,7 @@ public class MoonPhaseDatabase implements KoLConstants
 	 * @return	The current phase of Ronald
 	 */
 
-	public static final String getRonaldMoonPhase()
+	public static final String getRonaldPhaseAsString()
 	{	return getPhaseName( RONALD_PHASE );
 	}
 
@@ -82,7 +80,7 @@ public class MoonPhaseDatabase implements KoLConstants
 	 * @return	The current phase of Ronald
 	 */
 
-	public static final String getGrimaceMoonPhase()
+	public static final String getGrimacePhaseAsString()
 	{	return getPhaseName( GRIMACE_PHASE );
 	}
 
@@ -109,7 +107,7 @@ public class MoonPhaseDatabase implements KoLConstants
 	 */
 
 	public static final String getMoonEffect()
-	{	return getMoonEffect( PHASE_STEP );
+	{	return getMoonEffect( RONALD_PHASE, GRIMACE_PHASE );
 	}
 
 	/**
@@ -118,10 +116,27 @@ public class MoonPhaseDatabase implements KoLConstants
 	 * given the phase value.
 	 */
 
-	public static final String getMoonEffect( int phaseStep )
-	{	return phaseStep == -1 || phaseStep >= STAT_EFFECT.length ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
+	public static final String getMoonEffect( int ronaldPhase, int grimacePhase )
+	{
+		int phaseStep = getPhaseStep( ronaldPhase, grimacePhase );
+		return phaseStep == -1 || phaseStep >= STAT_EFFECT.length ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
 	}
 
+	public static final int getPhaseStep()
+	{	return getPhaseStep( RONALD_PHASE, GRIMACE_PHASE );
+	}
+
+	public static final int getRonaldPhase()
+	{	return RONALD_PHASE;
+	}
+
+	public static final int getGrimacePhase()
+	{	return GRIMACE_PHASE;
+	}
+
+	public static final int getPhaseStep( int ronaldPhase, int grimacePhase )
+	{	return grimacePhase >= 4 ? 8 + ronaldPhase : ronaldPhase;
+	}
 
 	/**
 	 * Returns whether or not the grue will fight during the
