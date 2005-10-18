@@ -134,21 +134,28 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{
 		try
 		{
-			AdventureResult ingredient = AdventureResult.parseResult( data );
+			// If the ingredient is specified inside of brackets,
+			// then a specific item ID is being designated.
 
-			if ( ingredient.getItemID() != -1 )
-				return ingredient;
+			if ( data.startsWith( "[" ) )
+			{
+				int closeBracketIndex = data.indexOf( "]" );
+				String itemIDString = data.substring( 0, closeBracketIndex ).replaceAll( "[\\[\\]]", "" ).trim();
+				String quantityString = data.substring( closeBracketIndex + 1 ).trim();
 
-			// Perhaps it is a raw item number
-			int itemID = Integer.parseInt( data );
-			return new AdventureResult( itemID, 1 );
+				return new AdventureResult( df.parse( itemIDString ).intValue(), quantityString.length() == 0 ? 1 :
+					df.parse( quantityString.replaceAll( "[\\(\\)]", "" ) ).intValue() );
+			}
+
+			// Otherwise, it's a standard ingredient - use
+			// the standard adventure result parsing routine.
+
+			return AdventureResult.parseResult( data );
 		}
 		catch ( Exception e )
 		{
+			return null;
 		}
-
-		// Or not.
-		return null;
 	}
 
 	public static synchronized SortedListModel getConcoctions()
