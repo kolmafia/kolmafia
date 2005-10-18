@@ -86,11 +86,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// and again in the ID lookup.
 
 		BufferedReader reader = getReader( "concoctions.dat" );
-
 		String [] data;
-		int itemID, mixingMethod;
-		boolean ascensionRecipe;
-		AdventureResult item;
 
 		while ( (data = readData( reader )) != null )
 		{
@@ -98,26 +94,28 @@ public class ConcoctionsDatabase extends KoLDatabase
 			{
 				if ( data.length > 3 )
 				{
-					item = AdventureResult.parseResult( data[0] );
-					itemID = item.getItemID();
-					mixingMethod = Integer.parseInt( data[1] );
-					ascensionRecipe = ( Integer.parseInt( data[2] ) != 0);
+					AdventureResult item = AdventureResult.parseResult( data[0] );
+					int itemID = item.getItemID();
 
 					if ( itemID != -1 )
 					{
-						concoctions[itemID] = new Concoction( item, mixingMethod, ascensionRecipe );
+						int mixingMethod = Integer.parseInt( data[1] );
+						boolean ascensionRecipe = ( Integer.parseInt( data[2] ) != 0);
+						Concoction concoction = new Concoction( item, mixingMethod, ascensionRecipe );
 
-						if ( concoctions[itemID].isBadRecipe() )
+
+						for ( int i = 3; i < data.length; ++i )
+							concoction.addIngredient( parseIngredient( data[i] ) );
+
+						if ( !concoction.isBadRecipe() )
 						{
-							System.out.println( "Bad recipe: " + item );
-							concoctions[ itemID ] = null;
+							concoctions[itemID] = concoction;
+							continue;
 						}
 					}
-					else
-						System.out.println( "Bad recipe: " + item );
 
-					for ( int i = 3; i < data.length; ++i )
-						concoctions[itemID].addIngredient( AdventureResult.parseResult( data[i] ) );
+					// Bad item or bad ingredients
+					System.out.println( "Bad recipe: " + data[0] );
 				}
 			}
 			catch ( Exception e )
@@ -130,6 +128,27 @@ public class ConcoctionsDatabase extends KoLDatabase
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( concoctions[i] == null )
 				concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE, false );
+	}
+
+	private static AdventureResult parseIngredient( String data )
+	{
+		try
+		{
+			AdventureResult ingredient = AdventureResult.parseResult( data );
+
+			if ( ingredient.getItemID() != -1 )
+				return ingredient;
+
+			// Perhaps it is a raw item number
+			int itemID = Integer.parseInt( data );
+			return new AdventureResult( itemID, 1 );
+		}
+		catch ( Exception e )
+		{
+		}
+
+		// Or not.
+		return null;
 	}
 
 	public static synchronized SortedListModel getConcoctions()
@@ -243,10 +262,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			if ( concoctions[i].concoction.getName() == null )
 				continue;
-			else if ( concoctions[i].isBadRecipe() )
-				client.getLogStream().println( "Bad recipe: " + concoctions[i] );
-			else
-				concoctions[i].calculate( availableIngredients );
+			concoctions[i].calculate( availableIngredients );
 		}
 
 		concoctionsList.clear();
@@ -467,8 +483,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		public boolean isBadRecipe()
 		{
 			for ( int i = 0; i < ingredientArray.length; ++i )
-				if ( ingredientArray[i].getItemID() == -1 )
+			{
+				AdventureResult ingredient = ingredientArray[i];
+				if ( ingredient == null || ingredient.getItemID() == -1 || ingredient.getName() == null )
 					return true;
+			}
 
 			return false;
 		}

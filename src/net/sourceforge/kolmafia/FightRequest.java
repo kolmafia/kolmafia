@@ -158,7 +158,9 @@ public class FightRequest extends KoLRequest
 
 		if ( !isErrorState && responseCode == 200 )
 		{
-			client.processResult( new AdventureResult( AdventureResult.MP, getMPCost() ) );
+			int mpUsed = getMPCost();
+			if ( mpUsed > 0)
+				client.processResult( new AdventureResult( AdventureResult.MP, mpUsed ) );
 
 			processResults( responseText );
 			int winmsgIndex = responseText.indexOf( "WINWINWIN" );
@@ -213,7 +215,9 @@ public class FightRequest extends KoLRequest
 		if ( action.startsWith( "item" ) )
 		{
 			int itemID = Integer.parseInt( action.substring( 4 ) );
-			if ( itemID != 536 )
+
+			// Dictionaries are not consumed when used in combat
+			if ( itemID != 536 && itemID != 1316 )
 				client.processResult( new AdventureResult( itemID, -1 ) );
 
 			return 0;

@@ -356,9 +356,9 @@ sequined fez	4	1	basic meat fez	teeny-tiny ninja stars
 
 # The dictionary you get from the an abridged dictionary (item 536) is
 # not a smithing ingredient. The dictionary the Baron rewards you with
-# (item 1316) is. How can we reject the first and accept the second?
+# (item 1316) is.
 
-# fez of etymology	4	0	basic meat fez	dictionary
+fez of etymology	4	0	basic meat fez	1316
 
 furry pants	14	0	furry fur	pants kit
 hippopotamus pants	14	0	hippopotamus skin	pants kit
