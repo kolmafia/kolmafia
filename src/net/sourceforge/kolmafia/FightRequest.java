@@ -159,7 +159,7 @@ public class FightRequest extends KoLRequest
 		if ( !isErrorState && responseCode == 200 )
 		{
 			int mpUsed = getMPCost();
-			if ( mpUsed > 0)
+			if ( mpUsed != 0)
 				client.processResult( new AdventureResult( AdventureResult.MP, mpUsed ) );
 
 			processResults( responseText );
