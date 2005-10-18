@@ -440,7 +440,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// the delay to avoid people switching the option
 			// off just to avoid login slowdown.
 
-			if ( !isDelayExempt() )
+			if ( !isDelayExempt() || retryCount != 0 )
 			{
 				if ( isServerFriendly )
 					KoLRequest.delay();
