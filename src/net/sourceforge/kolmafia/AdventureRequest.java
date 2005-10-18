@@ -75,6 +75,8 @@ public class AdventureRequest extends KoLRequest
 
 		if ( client != null )
 		{
+                        // Almost all requests use one adventure
+			this.adventuresUsed = 1;
 
 			if ( formSource.equals( "adventure.php" ) )
 				addFormField( "adv", adventureID );
@@ -82,11 +84,14 @@ public class AdventureRequest extends KoLRequest
 			{
 				addFormField( "whichtrip", adventureID );
 				addFormField( "pwd", client.getPasswordHash() );
+				this.adventuresUsed = 3;
 			}
 			else if ( formSource.equals( "casino.php" ) )
 			{
 				addFormField( "action", "slot" );
 				addFormField( "whichslot", adventureID );
+				if ( !adventureID.equals( "11" ) )
+					this.adventuresUsed = 0;
 			}
 			else if ( formSource.equals( "dungeon.php" ) )
 			{
@@ -108,22 +113,14 @@ public class AdventureRequest extends KoLRequest
 				addFormField( "pwd", client.getPasswordHash() );
 				addFormField( "orcs", "1" );
 			}
-			else
-				addFormField( "action", adventureID );
-
-			// If you took a trip to the shore, you would use up 3
-			// adventures for each trip
-
-			this.adventuresUsed = 0;
-			if ( formSource.equals( "shore.php" ) )
-				this.adventuresUsed = 3;
-			else if ( formSource.equals( "casino.php" ) )
+			else if ( formSource.equals( "friars.php" ) )
 			{
-				if ( adventureID.equals( "11" ) )
-					this.adventuresUsed = 1;
+				addFormField( "pwd", client.getPasswordHash() );
+				addFormField( "action", "ritual" );
+				this.adventuresUsed = 0;
 			}
 			else
-				this.adventuresUsed = 1;
+				addFormField( "action", adventureID );
 		}
 
 		hasLuckyVersion = hasLuckyVersion( adventureID );
@@ -315,6 +312,13 @@ public class AdventureRequest extends KoLRequest
 			}
 			else
 				updateDisplay( ERROR_STATE, "You've already crossed the Orc Chasm." );
+			client.cancelRequest();
+			return;
+		}
+		else if ( formSource.equals( "friars.php" ) )
+		{
+			if ( responseText.indexOf( "You don't appear to have all of the elements necessary to perform the ritual." ) != -1 )
+				updateDisplay( ERROR_STATE, "You can't perform the ritual." );
 			client.cancelRequest();
 			return;
 		}
