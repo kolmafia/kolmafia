@@ -74,8 +74,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
 	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
 
-	protected static final AdventureResult CLOVER = new AdventureResult( 24, 1 );
-
 	protected boolean isLoggingIn;
 	protected LoginRequest cachedLogin;
 
@@ -98,7 +96,6 @@ public abstract class KoLmafia implements KoLConstants
 	private TreeMap seenPlayerIDs;
 	private TreeMap seenPlayerNames;
 
-	protected LockableListModel adventureList;
 	protected SortedListModel tally, missingItems;
 	protected SortedListModel usableItems, sellableItems, hunterItems, storage;
 
@@ -160,7 +157,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		seenPlayerIDs = new TreeMap();
 		seenPlayerNames = new TreeMap();
-		adventureList = new LockableListModel();
 		conditions = new SortedListModel();
 		missingItems = new SortedListModel();
 	}
@@ -248,12 +244,6 @@ public abstract class KoLmafia implements KoLConstants
 			deinitialize();
 			return;
 		}
-
-		// Reset the adventure list to use the
-		// new password hash
-
-		adventureList.clear();
-		adventureList.addAll( AdventureDatabase.getAsLockableListModel() );
 
 		// Get current moon phases
 
@@ -350,12 +340,6 @@ public abstract class KoLmafia implements KoLConstants
 		this.settings = new KoLSettings( loginname );
 		this.permitContinue = true;
 
-		// There's a possibility that the adventure list settings
-		// for global use are different from the list settings for
-		// individual use.  Recompile the adventure list.
-
-		adventureList.clear();
-		adventureList.addAll( AdventureDatabase.getAsLockableListModel() );
 		MPRestoreItemList.reset();
 	}
 
@@ -782,7 +766,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public boolean isLuckyCharacter()
-	{	return KoLCharacter.getInventory().contains( CLOVER );
+	{	return KoLCharacter.getInventory().contains( SewerRequest.CLOVER );
 	}
 
 	/**
