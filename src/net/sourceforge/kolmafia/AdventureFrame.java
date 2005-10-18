@@ -72,6 +72,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
 // other imports
+import java.util.Date;
 import java.util.Iterator;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -136,7 +137,21 @@ public class AdventureFrame extends KoLFrame
 		contentPanel = adventureSelect;
 
 		addWindowListener( new LogoutRequestAdapter() );
-		updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+
+		try
+		{
+			String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
+
+			if ( holiday.startsWith( "No" ) )
+				updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+			else
+				updateDisplay( ENABLED_STATE, holiday );
+		}
+		catch ( Exception e )
+		{
+			// Should not happen - you're having the parser
+			// parse something that it formatted.
+		}
 
 		addMenuBar();
 	}

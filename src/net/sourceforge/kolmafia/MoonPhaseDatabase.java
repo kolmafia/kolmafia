@@ -35,6 +35,8 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A special class used to determine the current moon phase.
@@ -45,8 +47,45 @@ import java.util.Date;
 
 public class MoonPhaseDatabase extends StaticEntity
 {
+	// Special date marked as the new year.  This is
+	// done as a string, since sdf.parse() throws an
+	// exception, most of the time.
+
+	private static long NEWYEAR = 0;
+
+	static
+	{
+		try
+		{
+			NEWYEAR = sdf.parse( "20050917" ).getTime();
+		}
+		catch ( Exception e )
+		{
+			// Because the date string was manually
+			// constructed, this error will not happen.
+		}
+	}
+
 	private static int RONALD_PHASE = -1;
 	private static int GRIMACE_PHASE = -1;
+
+	static
+	{
+		try
+		{
+			int calendarDay = getCalendarDay( sdf.parse( sdf.format( new Date() ) ) );
+			int phaseStep = ((calendarDay % 16) + 16) % 16;
+
+			RONALD_PHASE = phaseStep % 8;
+			GRIMACE_PHASE = phaseStep / 2;
+		}
+		catch ( Exception e )
+		{
+		}
+	}
+
+	// Static array of status effect day predictions
+	// within the KoL lunar calendar.
 
 	private static final String [] STAT_EFFECT =
 	{
@@ -55,6 +94,89 @@ public class MoonPhaseDatabase extends StaticEntity
 		"Muscle day today and tomorrow.", "Muscle day today and yesterday.", "2 days until Mysticism.", "Mysticism tomorrow (not today).",
 		"Mysticism day today (not tomorrow).", "2 days until Moxie.", "Moxie tomorrow (not today).", "Moxie day today and tomorrow."
 	};
+
+	// Static array of month names, as they exist within
+	// the KoL calendar.
+
+	private static final String [] MONTH_NAMES =
+	{
+		"", "Jarlsuary", "Frankruary", "Starch", "April", "Martinus", "Bill",
+		"Bor", "Petember", "Carlvember", "Porktober", "Boozember", "Dougtember"
+	};
+
+	// Static array of holidays.  This holiday is filled with the
+	// name of the holiday which occurs on the given KoL month and
+	// given KoL day.
+
+	private static String [][] HOLIDAYS = new String[13][9];
+
+	static
+	{
+		for ( int i = 0; i < 13; ++i )
+			for ( int j = 0; j < 9; ++j )
+				HOLIDAYS[i][j] = "No known holiday today.";
+
+		// Initialize all the known holidays here so that
+		// they can be used in later initializers.
+
+		HOLIDAYS[2][4] = "Valentine's Day";
+		HOLIDAYS[3][3] = "St. Sneaky Pete's Day";
+		HOLIDAYS[4][2] = "Oyster Egg Day";
+		HOLIDAYS[10][8] = "Halloween";
+		HOLIDAYS[11][7] = "Feast of Boris";
+	}
+
+	// Static array of when the special events in KoL occur, including
+	// stat days, holidays and all that jazz.  Values are false where
+	// there is no special occasion, and true where there is.
+
+	private static int [] SPECIAL = new int[96];
+
+	public static final int SP_NOTHING = 0;
+	public static final int SP_HOLIDAY = 1;
+	public static int SP_STATDAY = 2;
+
+	static
+	{
+		// Assume there are no special days at all, and then
+		// fill them in once they're encountered.
+
+		for ( int i = 0; i < 96; ++i )
+			SPECIAL[i] = SP_NOTHING;
+
+		// Muscle days occur every phase 8 and phase 9 on the
+		// KoL calendar.
+
+		for ( int i = 8; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+		for ( int i = 9; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+
+		// Mysticism days occur every phase 4 and phase 12 on the
+		// KoL calendar.
+
+		for ( int i = 4; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+		for ( int i = 12; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+
+		// Moxie days occur every phase 0 and phase 15 on the
+		// KoL calendar.
+
+		for ( int i = 0; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+		for ( int i = 15; i < 96; i += 16 )
+			SPECIAL[i] = SP_STATDAY;
+
+		// Next, fill in the holidays.  These are manually
+		// computed based on the recurring day in the year
+		// at which these occur.
+
+		for ( int i = 0; i < 13; ++i )
+			for ( int j = 0; j < 9; ++j )
+				if ( !HOLIDAYS[i][j].equals( "No known holiday today." ) )
+					SPECIAL[ 8 * i + j - 9 ] = SP_HOLIDAY;
+	}
 
 	public static final void setMoonPhases( int ronaldPhase, int grimacePhase )
 	{
@@ -122,17 +244,22 @@ public class MoonPhaseDatabase extends StaticEntity
 		return phaseStep == -1 || phaseStep >= STAT_EFFECT.length ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
 	}
 
+	/**
+	 * Returns the "phase step" currently recognized by the
+	 * KoL calendar.  This corresponds to the day within the
+	 * KoL lunar calendar, which has a cycle of 16 days.
+	 */
+
 	public static final int getPhaseStep()
 	{	return getPhaseStep( RONALD_PHASE, GRIMACE_PHASE );
 	}
 
-	public static final int getRonaldPhase()
-	{	return RONALD_PHASE;
-	}
-
-	public static final int getGrimacePhase()
-	{	return GRIMACE_PHASE;
-	}
+	/**
+	 * Returns the "phase step" currently recognized by the
+	 * KoL calendar, corresponding to the given phases.  This
+	 * corresponds to the day within the KoL lunar calendar,
+	 * which has a cycle of 16 days.
+	 */
 
 	public static final int getPhaseStep( int ronaldPhase, int grimacePhase )
 	{	return grimacePhase >= 4 ? 8 + ronaldPhase : ronaldPhase;
@@ -222,5 +349,116 @@ public class MoonPhaseDatabase extends StaticEntity
 		int grimaceLight = grimacePhase > 4 ? 8 - grimacePhase : grimacePhase;
 
 		return ronaldLight + grimaceLight;
+	}
+
+	/**
+	 * Computes the difference in days based on the given
+	 * millisecond counts since January 1, 1970.
+	 */
+
+	public static int getCalendarDay( Date time )
+	{
+		long timeDifference = time.getTime() - NEWYEAR;
+		int dayDifference = (int) Math.floor( timeDifference / 86400000L );
+		return ((dayDifference % 96) + 96) % 96;
+	}
+
+	/**
+	 * Utility method which calculates which day of the
+	 * KoL calendar you're currently on, based on the number
+	 * of milliseconds since January 1, 1970.
+	 */
+
+	public static final String getCalendarDayAsString( Date time )
+	{
+		int [] calendarDayAsArray = convertCalendarDayToArray( getCalendarDay( time ) );
+		return MONTH_NAMES[ calendarDayAsArray[0] ] + " " + calendarDayAsArray[1];
+	}
+
+	/**
+	 * Utility method which decomposes a given calendar day
+	 * into its actual calendar components.
+	 */
+
+	private static final int [] convertCalendarDayToArray( int calendarDay )
+	{	return new int [] { (calendarDay / 8) + 1, (calendarDay % 8) + 1 };
+	}
+
+	/**
+	 * Utility method which returns the given day count as
+	 * an easily-understood string (today, tomorrow) instead
+	 * of just "x days".
+	 */
+
+	public static final String getDayCountAsString( int dayCount )
+	{	return dayCount == 0 ? "today" : dayCount == 1 ? "tomorrow" : dayCount + " days";
+	}
+
+	/**
+	 * Returns the KoL calendar month associated with the
+	 * given date in the real world.
+	 */
+
+	public static final int getCalendarMonth( Date time )
+	{	return convertCalendarDayToArray( getCalendarDay( time ) )[0];
+	}
+
+	/**
+	 * Returns whether or not the given day's most important
+	 * attribute is being a holiday.
+	 */
+
+	public static boolean isHoliday( Date time )
+	{	return SPECIAL[ getCalendarDay( time ) ] == SP_HOLIDAY;
+	}
+
+	/**
+	 * Returns whether or not the given day's most important
+	 * attribute is being a stat day.  Note that this ranks
+	 * behind being a holiday, so holidays which are also stat
+	 * days (Halloween and Oyster Egg Day, for example), will
+	 * not be recognized as "stat days" in this method.
+	 */
+
+	public static boolean isStatDay( Date time )
+	{	return SPECIAL[ getCalendarDay( time ) ] == SP_STATDAY;
+	}
+
+	/**
+	 * Returns a complete list of all holiday predictions for
+	 * the given day, as an array.
+	 */
+
+	public static final String [] getHolidayPredictions( Date time )
+	{
+		List predictionsList = new ArrayList();
+		int currentCalendarDay = getCalendarDay( time );
+
+		int [] calendarDayAsArray;
+
+		for ( int i = 0; i < 96; ++i )
+		{
+			if ( SPECIAL[i] == SP_HOLIDAY )
+			{
+				calendarDayAsArray = convertCalendarDayToArray( i );
+				predictionsList.add( HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ] + ": " +
+					getDayCountAsString( (i - currentCalendarDay + 96) % 96 ) );
+			}
+		}
+
+		String [] predictionsArray = new String[ predictionsList.size() ];
+		predictionsList.toArray( predictionsArray );
+		return predictionsArray;
+	}
+
+	/**
+	 * Returns the KoL holiday associated with the given
+	 * date in the real world.
+	 */
+
+	public static final String getHoliday( Date time )
+	{
+		int [] calendarDayAsArray = convertCalendarDayToArray( getCalendarDay( time ) );
+		return HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
 	}
 }

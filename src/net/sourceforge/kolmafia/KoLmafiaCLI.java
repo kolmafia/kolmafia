@@ -510,7 +510,29 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( NOCHANGE, "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
 			updateDisplay( NOCHANGE, "Grimace: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
 			updateDisplay( NOCHANGE, "" );
-			updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+
+			updateDisplay( NOCHANGE, MoonPhaseDatabase.getMoonEffect() );
+			updateDisplay( NOCHANGE, "" );
+
+			Date today = new Date();
+
+			try
+			{
+				today = sdf.parse( sdf.format( today ) );
+			}
+			catch ( Exception e )
+			{
+				// Should not happen - you're having the parser
+				// parse something that it formatted.
+			}
+
+			String [] holidayPredictions = MoonPhaseDatabase.getHolidayPredictions( today );
+			for ( int i = 0; i < holidayPredictions.length; ++i )
+				updateDisplay( NOCHANGE, holidayPredictions[i] );
+
+			updateDisplay( NOCHANGE, "" );
+			updateDisplay( NOCHANGE, MoonPhaseDatabase.getHoliday( today ) );
+			updateDisplay( ENABLED_STATE, "" );
 
 			return;
 		}

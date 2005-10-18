@@ -62,39 +62,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CalendarFrame extends KoLFrame implements ListSelectionListener
 {
-	// Special date marked as the new year.  This is
-	// done as a string, since sdf.parse() throws an
-	// exception, most of the time.
-
-	private static long NEWYEAR = 0;
-
-	static
-	{
-		try
-		{
-			NEWYEAR = sdf.parse( "20050917" ).getTime();
-		}
-		catch ( Exception e )
-		{
-			// Because the date string was manually
-			// constructed, this error will not happen.
-		}
-	}
-
-	// Special date formatter which formats according to
-	// the standard Western format of month, day, year.
-
-	private static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy" );
-
-	// Static array of month names, as they exist within
-	// the KoL calendar.
-
-	private static final String [] MONTH_NAMES =
-	{
-		"", "Jarlsuary", "Frankruary", "Starch", "April", "Martinus", "Bill",
-		"Bor", "Petember", "Carlvember", "Porktober", "Boozember", "Dougtember"
-	};
-
 	// Static array of file names (not including .gif extension)
 	// for the various months in the KoL calendar.
 
@@ -102,86 +69,14 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	{	"", "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"
 	};
 
-	// Static array of holidays.  This holiday is filled with the
-	// name of the holiday which occurs on the given KoL month and
-	// given KoL day.
+	// Special date formatter which formats according to
+	// the standard Western format of month, day, year.
 
-	private static String [][] HOLIDAYS = new String[13][9];
-
-	static
-	{
-		for ( int i = 0; i < 13; ++i )
-			for ( int j = 0; j < 9; ++j )
-				HOLIDAYS[i][j] = "No known holiday today.";
-
-		// Initialize all the known holidays here so that
-		// they can be used in later initializers.
-
-		HOLIDAYS[2][4] = "Valentine's Day";
-		HOLIDAYS[3][3] = "St. Sneaky Pete's Day";
-		HOLIDAYS[4][2] = "Oyster Egg Day";
-		HOLIDAYS[10][8] = "Halloween";
-		HOLIDAYS[11][7] = "Feast of Boris";
-	}
-
-	// Static array of when the special events in KoL occur, including
-	// stat days, holidays and all that jazz.  Values are false where
-	// there is no special occasion, and true where there is.
-
-	private static int [] SPECIAL = new int[96];
-
-	private static int SP_NOTHING = 0;
-	private static int SP_HOLIDAY = 1;
-	private static int SP_STATDAY = 2;
-
-	static
-	{
-		// Assume there are no special days at all, and then
-		// fill them in once they're encountered.
-
-		for ( int i = 0; i < 96; ++i )
-			SPECIAL[i] = SP_NOTHING;
-
-		// Muscle days occur every phase 8 and phase 9 on the
-		// KoL calendar.
-
-		for ( int i = 8; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
-		for ( int i = 9; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
-
-		// Mysticism days occur every phase 4 and phase 12 on the
-		// KoL calendar.
-
-		for ( int i = 4; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
-		for ( int i = 12; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
-
-		// Moxie days occur every phase 0 and phase 15 on the
-		// KoL calendar.
-
-		for ( int i = 0; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
-		for ( int i = 15; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
-
-		// Next, fill in the holidays.  These are manually
-		// computed based on the recurring day in the year
-		// at which these occur.
-
-		for ( int i = 0; i < 13; ++i )
-			for ( int j = 0; j < 9; ++j )
-				if ( !HOLIDAYS[i][j].equals( "No known holiday today." ) )
-					SPECIAL[ 8 * i + j - 9 ] = SP_HOLIDAY;
-	}
+	private static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy" );
 
 	// The following are static variables used to track the calendar.
 	// They are made static as a design decision to allow the oracle
 	// table nested inside of this class the access it needs to data.
-
-	private static int currentMonth = 0;
-	private static int currentDay = 0;
 
 	private static int ronaldPhase = -1;
 	private static int grimacePhase = -1;
@@ -207,6 +102,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		}
 		catch ( Exception e )
 		{
+			// Should not happen - you're having the parser
+			// parse something that it formatted.
 		}
 
 		calculatePhases( selectedDate );
@@ -224,8 +121,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		JComponentUtilities.setComponentSize( predictDisplay, 400, 300 );
 		predictDisplay.setEditable( false );
 		predictBuffer.setChatDisplay( predictDisplay );
-
-		calculateCalendar( System.currentTimeMillis() );
 
 		JTabbedPane tabs = new JTabbedPane();
 		tabs.addTab( "KoL One-a-Day", dailyDisplay );
@@ -270,7 +165,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				selectedDate = sdf.parse( constructDateString( calendar.getModel(), selectedRow, selectedColumn ) );
 
 				calculatePhases( selectedDate );
-				calculateCalendar( selectedDate.getTime() );
 				(new UpdateTabsThread()).start();
 			}
 			catch ( Exception e1 )
@@ -325,7 +219,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			// formatter (which strips time information) and
 			// reparse the date.
 
-			int calendarDay = calculateCalendarDay( time.getTime() );
+			int calendarDay = MoonPhaseDatabase.getCalendarDay( time );
 			int phaseStep = ((calendarDay % 16) + 16) % 16;
 
 			ronaldPhase = phaseStep % 8;
@@ -334,17 +228,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		catch ( Exception e )
 		{
 		}
-	}
-
-	/**
-	 * Returns the calendar date for today.  This is calculated
-	 * based on estimating today's server date using the current
-	 * moon phase and relevant calendars, based on the local time
-	 * on the machine.
-	 */
-
-	private static final String getCalendarDay()
-	{	return MONTH_NAMES[ currentMonth ] + " " + currentDay;
 	}
 
 	/**
@@ -365,11 +248,11 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		displayHTML.append( "<center><table border=1><tr><td align=center>drawn by <b><a href=\"http://elfwood.lysator.liu.se/loth/l/e/leigh/leigh.html\">SpaceMonkey</a></b></td></tr>" );
 		displayHTML.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/otherimages/bikini/" );
-		displayHTML.append( CALENDARS[ currentMonth ] );
+		displayHTML.append( CALENDARS[ MoonPhaseDatabase.getCalendarMonth( selectedDate ) ] );
 		displayHTML.append( ".gif\"></td></tr><tr><td align=center>" );
 		displayHTML.append( TODAY_FORMATTER.format( selectedDate ) );
 		displayHTML.append( "</td></tr><tr><td align=center><font size=+1><b>" );
-		displayHTML.append( getCalendarDay() );
+		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate ) );
 		displayHTML.append( "</b></font></td></tr></table></center>" );
 
 		displayHTML.append( "</td><td valign=top>" );
@@ -379,7 +262,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// row, just in case.
 
 		displayHTML.append( "<tr><td colspan=2 align=center><b>" );
-		displayHTML.append( HOLIDAYS[ currentMonth ][ currentDay ] );
+		displayHTML.append( MoonPhaseDatabase.getHoliday( selectedDate ) );
 		displayHTML.append( "</b></td></tr><tr><td colspan=2></td></tr>" );
 
 		// Next display today's moon phases, including
@@ -440,38 +323,34 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( "<b><u>" );
 		displayHTML.append( TODAY_FORMATTER.format( selectedDate ) );
 		displayHTML.append( "</u></b><br><i>" );
-		displayHTML.append( getCalendarDay() );
+		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate ) );
 		displayHTML.append( "</i><br><br>" );
 
 		// Next display the upcoming stat days.
 
 		displayHTML.append( "<b>Muscle Day</b>:&nbsp;" );
-		appendDayCount( displayHTML, Math.min( (24 - phaseStep) % 16, (25 - phaseStep) % 16 ) );
+		displayHTML.append( MoonPhaseDatabase.getDayCountAsString( Math.min( (24 - phaseStep) % 16, (25 - phaseStep) % 16 ) ) );
 		displayHTML.append( "<br>" );
 
 		displayHTML.append( "<b>Mysticality Day</b>:&nbsp;" );
-		appendDayCount( displayHTML, Math.min( (20 - phaseStep) % 16, (28 - phaseStep) % 16 ) );
+		displayHTML.append( MoonPhaseDatabase.getDayCountAsString( Math.min( (20 - phaseStep) % 16, (28 - phaseStep) % 16 ) ) );
 		displayHTML.append( "<br>" );
 
 		displayHTML.append( "<b>Moxie Day</b>:&nbsp;" );
-		appendDayCount( displayHTML, Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 ) );
+		displayHTML.append( MoonPhaseDatabase.getDayCountAsString( Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 ) ) );
 		displayHTML.append( "<br><br>" );
 
 		// Next display the upcoming holidays.  This is done
 		// through loop calculations in order to minimize the
 		// amount of code done to handle individual holidays.
 
-		int currentDate = currentMonth * 8 + currentDay - 9;
-
-		for ( int i = 0; i < 96; ++i )
-			if ( SPECIAL[i] == SP_HOLIDAY )
-			{
-				displayHTML.append( "<b>" );
-				displayHTML.append( HOLIDAYS[ i / 8 + 1 ][ i % 8 + 1 ] );
-				displayHTML.append( "</b>:&nbsp;" );
-				appendDayCount( displayHTML, (i - currentDate + 96) % 96 );
-				displayHTML.append( "<br>" );
-			}
+		String [] holidayPredictions = MoonPhaseDatabase.getHolidayPredictions( selectedDate );
+		for ( int i = 0; i < holidayPredictions.length; ++i )
+		{
+			displayHTML.append( "<b>" );
+			displayHTML.append( holidayPredictions[i].replaceAll( ":", ":</b>&nbsp;" ) );
+			displayHTML.append( "<br>" );
+		}
 
 		// Now that the HTML has been completely
 		// constructed, clear the display dailyBuffer
@@ -479,19 +358,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		predictBuffer.clearBuffer();
 		predictBuffer.append( displayHTML.toString() );
-	}
-
-	private static void appendDayCount( StringBuffer buffer, int count )
-	{
-		if ( count == 0 )
-			buffer.append( "today" );
-		else if ( count == 1 )
-			buffer.append( "tomorrow" );
-		else
-		{
-			buffer.append( count );
-			buffer.append( " days" );
-		}
 	}
 
 	/**
@@ -516,49 +382,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		}
 		else if ( percentage == 0 )
 			buffer.append( "no effect" );
-	}
-
-	/**
-	 * Utility method which calculates which day of the
-	 * KoL calendar you're currently on, based on the number
-	 * of milliseconds since January 1, 1970.
-	 */
-
-	private static void calculateCalendar( long timeCalculate )
-	{
-		try
-		{
-			// First, compute the time difference between
-			// today and the start time for the year.
-			// This difference should be computed in terms
-			// of days for ease of later computations.
-
-			int calendarDay = calculateCalendarDay( timeCalculate );
-
-			// Next, compare this value with the actual
-			// computed phase step to see how far off
-			// you are in the computation.
-
-			int phaseStep = ((calendarDay % 16) + 16) % 16;
-
-			currentMonth = (calendarDay / 8) + 1;
-			currentDay = (calendarDay % 8) + 1;
-		}
-		catch ( Exception e )
-		{
-		}
-	}
-
-	/**
-	 * Computes the difference in days based on the given
-	 * millisecond counts since January 1, 1970.
-	 */
-
-	private static int calculateCalendarDay( long time )
-	{
-		long timeDifference = time - NEWYEAR;
-		int dayDifference = (int) Math.floor( timeDifference / 86400000L );
-		return ((dayDifference % 96) + 96) % 96;
 	}
 
 	/**
@@ -600,21 +423,21 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				// First, if the date today is equal to the
 				// date selected, highlight it.
 
-				String todayDate = sdf.format( new Date() );
-				String cellDate = constructDateString( model, row, column );
+				String todayDateString = sdf.format( new Date() );
+				String cellDateString = constructDateString( model, row, column );
 
-				if ( todayDate.equals( cellDate ) )
+				if ( todayDateString.equals( cellDateString ) )
 					return todayRenderer;
 
 				// Otherwise, if the date selected is equal
 				// to a special day, then highlight it.
 
-				int calendarDay = calculateCalendarDay( sdf.parse( cellDate ).getTime() );
+				Date cellDate = sdf.parse( cellDateString );
 
-				if ( SPECIAL[ calendarDay ] == SP_HOLIDAY )
+				if ( MoonPhaseDatabase.isHoliday( cellDate ) )
 					return holidayRenderer;
 
-				if ( SPECIAL[ calendarDay ] == SP_STATDAY )
+				if ( MoonPhaseDatabase.isStatDay( cellDate ) )
 					return statdayRenderer;
 			}
 			catch ( Exception e )
