@@ -270,6 +270,7 @@ public class ConsumeItemRequest extends KoLRequest
 				client.processResult( FightRequest.DICTIONARY1.getNegation() );
 				client.processResult( FightRequest.DICTIONARY2 );
 				client.processResult( AXE );
+				KoLCharacter.addAccomplishment( FightRequest.BARON );
 			}
 			return;
 		}

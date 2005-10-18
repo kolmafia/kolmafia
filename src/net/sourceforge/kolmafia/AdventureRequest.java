@@ -51,7 +51,13 @@ public class AdventureRequest extends KoLRequest
 	private String adventureID;
 	private int adventuresUsed;
 	private boolean hasLuckyVersion;
-	public static final AdventureResult BRIDGE = new AdventureResult( "bridge", -1 );
+
+	public static final String FRIARS = "You have cleansed the taint for the Deep Fat Friars.";
+
+	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
+	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
+	public static final AdventureResult CANDLES = new AdventureResult( 480, -1 );
+	public static final AdventureResult BUTTERKNIFE = new AdventureResult( 482, -1 );
 
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the
@@ -317,8 +323,27 @@ public class AdventureRequest extends KoLRequest
 		}
 		else if ( formSource.equals( "friars.php" ) )
 		{
-			if ( responseText.indexOf( "You don't appear to have all of the elements necessary to perform the ritual." ) != -1 )
+			// "The infernal creatures who have tainted the Friar's
+			// copse stream back into the gate, hooting and
+			// shrieking."
+
+			if ( responseText.indexOf( "hooting and shrieking" ) != -1 )
+			{
+				client.processResult( DODECAGRAM );
+				client.processResult( CANDLES );
+				client.processResult( BUTTERKNIFE );
+				KoLCharacter.addAccomplishment( FRIARS );
+				updateDisplay( ENABLED_STATE, "Taint cleansed." );
+			}
+			else if ( !KoLCharacter.hasAccomplishment( FRIARS ) )
+			{
+				// Even after you've performed the ritual:
+				//   "You don't appear to have all of the
+				//   elements necessary to perform the ritual."
+				// Detect completion via accomplishments.
 				updateDisplay( ERROR_STATE, "You can't perform the ritual." );
+			}
+
 			client.cancelRequest();
 			return;
 		}
