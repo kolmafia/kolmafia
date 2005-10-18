@@ -826,6 +826,7 @@ public abstract class KoLmafia implements KoLConstants
 					{
 						disableMacro = true;
 						(new KoLmafiaCLI( this, new FileInputStream( autoRecoveryScript ) )).listenForCommands();
+						updateDisplay( DISABLED_STATE, "Autorecover complete.  Resuming requests..." );
 					}
 					else
 					{
@@ -1230,7 +1231,7 @@ public abstract class KoLmafia implements KoLConstants
 						updateDisplay( ENABLED_STATE, "Nothing more to do here." );
 				}
 			}
-                        else if ( currentIteration >= iterations )
+			else if ( currentIteration >= iterations )
 				updateDisplay( ENABLED_STATE, "Requests completed!" );
 		}
 		catch ( RuntimeException e )
