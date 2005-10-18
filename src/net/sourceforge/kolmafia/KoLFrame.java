@@ -1461,6 +1461,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 						ensureIndexIsVisible( index );
 						openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((AdventureResult)item).getItemID() ) );
 					}
+					if ( item instanceof ItemCreationRequest )
+					{
+						ensureIndexIsVisible( index );
+						openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((ItemCreationRequest)item).getItemID() ) );
+					}
 				}
 			}
 		}
