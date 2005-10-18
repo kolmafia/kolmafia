@@ -67,9 +67,9 @@ public class AdventureDatabase extends KoLDatabase
 		{ "Woods", "general woods areas" },               // zone 9
 		{ "Friars", "deep fat friar's quest" },           // zone 10
 		{ "Mount", "general mountain areas" },            // zone 11
-		{ "Mclarge", "Mt. McLargeHuge areas" },           // zone 12
+		{ "McLarge", "Mt. McLargeHuge areas" },           // zone 12
 		{ "Island", "the mysterious island areas" },      // zone 13
-		{ "Stalk", "areas beyond the beanstalk" },        // zone 14
+		{ "Stalk", "areas above the beanstalk" },        // zone 14
 		{ "Signed", "sign-restricted areas" },            // zone 15
 		{ "Special", "special areas" }                    // zone 16
 	};
