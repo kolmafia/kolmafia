@@ -93,8 +93,10 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	public ItemStorageRequest( KoLmafia client, int moveType )
 	{
-		this( client, moveType, new Object [] {
+		this( client, INVENTORY_TO_CLOSET, new Object [] {
 			SewerRequest.CLOVER.getInstance( SewerRequest.CLOVER.getCount( KoLCharacter.getInventory() ) ) } );
+
+		this.moveType = moveType;
 	}
 
 	/**
