@@ -247,7 +247,7 @@ public class AdventureFrame extends KoLFrame
 			// their inventory.  Just ignore the option
 			// if the person turns out not to have one.
 
-			actions.add( KoLCharacter.hasAccomplishment( FightRequest.BARON ) ? "item1316" : "item0536" );
+			actions.add( KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) ? "item1316" : "item0536" );
 			actionNames.add( "Item: Use a Dictionary" );
 
 			// Add in all of the player's combat skills;
