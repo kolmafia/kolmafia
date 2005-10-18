@@ -43,6 +43,7 @@ public class ItemStorageRequest extends SendMessageRequest
 {
 	private int moveType;
 
+	public static final int CLOSET_YOUR_CLOVERS = -1;
 	public static final int RETRIEVE_STORAGE = 0;
 	public static final int INVENTORY_TO_CLOSET = 1;
 	public static final int CLOSET_TO_INVENTORY = 2;
@@ -80,6 +81,20 @@ public class ItemStorageRequest extends SendMessageRequest
 			source = client.getStorage();
 			destination = KoLCharacter.getInventory();
 		}
+	}
+
+	/**
+	 * A tribute to the "Closet Your Clovers" speech:
+	 * http://forums.kingdomofloathing.com/viewtopic.php?t=33250
+	 *
+	 * @param	client	The client to be notified of the results
+	 * @param	client	Whether or not clovers are being closeted
+	 */
+
+	public ItemStorageRequest( KoLmafia client, int moveType )
+	{
+		this( client, moveType, new Object [] {
+			SewerRequest.CLOVER.getInstance( SewerRequest.CLOVER.getCount( KoLCharacter.getInventory() ) ) } );
 	}
 
 	/**
@@ -162,6 +177,11 @@ public class ItemStorageRequest extends SendMessageRequest
 			case CLOSET_TO_INVENTORY:
 			case STORAGE_TO_INVENTORY:
 				updateDisplay( DISABLED_STATE, "Moving items..." );
+				super.run();
+				break;
+
+			case CLOSET_YOUR_CLOVERS:
+				updateDisplay( DISABLED_STATE, "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
 				super.run();
 				break;
 

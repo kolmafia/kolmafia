@@ -149,12 +149,7 @@ public class AdventureRequest extends KoLRequest
 	public void run()
 	{
 		if (  hasLuckyVersion && client.isLuckyCharacter() && getProperty( "cloverProtectActive" ).equals( "true" ) )
-		{
-			isErrorState = true;
-			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
-			return;
-		}
+			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_YOUR_CLOVERS )).run();
 
 		// Prevent the request from happening if the client attempted
 		// to cancel in the delay period.
