@@ -58,6 +58,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
 
+	private static final AdventureResult AXE = new AdventureResult( 555, 1 );
+
 	private int consumptionType;
 	private AdventureResult itemUsed;
 
@@ -256,15 +258,20 @@ public class ConsumeItemRequest extends KoLRequest
 		// If you successfully use a 64735 scroll, you lose the
 		// dictionary you untinkered from the abridged dictionary, but
 		// gain another, just as usable in combat, but also smithable
-		// and sellable
+		// and sellable.
 
 		else if ( itemUsed.getName().startsWith( "64735" ) )
 		{
-			if ( responseText.indexOf( "You are magically transported" ) == -1 )
-				return;
-
-			client.processResult( FightRequest.DICTIONARY1.getNegation() );
-			client.processResult( FightRequest.DICTIONARY2 );
+			if ( responseText.indexOf( "You are magically transported" ) != -1 )
+			{
+				// Do it all by hand, since processResults
+				// cannot tell that you are getting the second
+				// kind of dictionary.
+				client.processResult( FightRequest.DICTIONARY1.getNegation() );
+				client.processResult( FightRequest.DICTIONARY2 );
+				client.processResult( AXE );
+			}
+			return;
 		}
 
 		// Parse the reply, which can be found before the
