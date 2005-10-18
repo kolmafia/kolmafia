@@ -36,6 +36,16 @@ package net.sourceforge.kolmafia;
 
 public abstract class StaticEntity implements KoLConstants
 {
+	static
+	{
+		// Rollover occurs at midnight, -04:00 GMT (not factoring in
+		// daylight savings).  In order to minimize error, internally,
+		// KoLmafia will use that time zone for calculations.
+
+		System.setProperty( "user.timezone", "America/Santiago" );
+		java.util.TimeZone.setDefault( java.util.TimeZone.getTimeZone( "America/Santiago" ) );
+	}
+
 	protected static KoLmafia client;
 
 	public static final void setClient( KoLmafia client )
