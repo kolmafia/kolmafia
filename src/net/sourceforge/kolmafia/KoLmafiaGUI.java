@@ -289,16 +289,8 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selected == -1 )
 			return;
 
-		try
-		{
-			int tradeCount = df.parse( JOptionPane.showInputDialog(
-				null, "How many " + selectedValue + " to get?", "I want this many!", JOptionPane.INFORMATION_MESSAGE ) ).intValue();
-
-			(new TrapperRequest( this, selected, tradeCount )).run();
-		}
-		catch ( Exception e )
-		{
-		}
+                int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", TrapperRequest.YETI_FUR.getCount( KoLCharacter.getInventory() ) );
+                (new TrapperRequest( this, selected, tradeCount )).run();
 	}
 
 	/**
