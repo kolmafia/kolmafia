@@ -197,6 +197,12 @@ public class AdventureRequest extends KoLRequest
 				return;
 			}
 
+			// Make sure that the daily dungeon allows continues
+			// even after a fight.
+
+			if ( formSource.equals( "dungeon.php" ) )
+				client.resetContinueState();
+
 			// We're back from a fight.
 			return;
 		}
@@ -434,6 +440,10 @@ public class AdventureRequest extends KoLRequest
 
 	private void handleChoiceResponse( String text )
 	{
+		Matcher encounterMatcher = Pattern.compile( "<center><b>(.*?)</b>" ).matcher( text );
+		if ( encounterMatcher.find() )
+			client.registerEncounter( encounterMatcher.group(1) );
+
 		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( text );
 		if ( !choiceMatcher.find() )
 		{
