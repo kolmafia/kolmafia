@@ -70,6 +70,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JRadioButtonMenuItem;
 
 // other imports
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -287,6 +289,8 @@ public class ChatFrame extends KoLFrame
 
 		private class ChatEntryListener extends KeyAdapter implements ActionListener
 		{
+			private String lastMessage;
+
 			public void actionPerformed( ActionEvent e )
 			{	submitChat();
 			}
@@ -299,7 +303,67 @@ public class ChatFrame extends KoLFrame
 
 			private void submitChat()
 			{
-				(new RequestThread( new ChatRequest( client, associatedContact, entryField.getText().trim() ) )).start();
+				if ( lastMessage.equals( entryField.getText().trim() ) )
+					return;
+
+				lastMessage = entryField.getText().trim();
+				ChatRequest [] requests;
+
+				if ( lastMessage.length() <= 256 )
+				{
+					// This is a standard-length message.  Send it
+					// without adding additional divisions.
+
+					requests = new ChatRequest[1];
+					requests[0] = new ChatRequest( client, associatedContact, lastMessage );
+				}
+				else if ( lastMessage.length() < 1000 || associatedContact.equals( "/clan" ) )
+				{
+					// If the message is too long for one message, then
+					// divide it into its component pieces.
+
+					String trimmedMessage;
+					List splitMessages = new ArrayList();
+					int prevSpaceIndex = 0, nextSpaceIndex = 0;
+
+					while ( nextSpaceIndex <= lastMessage.length() )
+					{
+						nextSpaceIndex = prevSpaceIndex + 240 >= lastMessage.length() ? lastMessage.length() :
+							lastMessage.lastIndexOf( " ", Math.min( prevSpaceIndex + 240, lastMessage.length() ) );
+
+						if ( nextSpaceIndex == -1 )
+							nextSpaceIndex = Math.min( prevSpaceIndex + 240, lastMessage.length() );
+
+						trimmedMessage = lastMessage.substring( prevSpaceIndex, nextSpaceIndex ).trim();
+
+						if ( prevSpaceIndex != 0 )
+							trimmedMessage = "... " + trimmedMessage;
+						if ( nextSpaceIndex != lastMessage.length() )
+							trimmedMessage = trimmedMessage + " ...";
+
+						splitMessages.add( trimmedMessage );
+						prevSpaceIndex = nextSpaceIndex;
+					}
+
+					splitMessages.add( lastMessage.substring( prevSpaceIndex ).trim() );
+					requests = new ChatRequest[ splitMessages.size() ];
+
+					for ( int i = 0; i < splitMessages.size(); ++i )
+						requests[i] = new ChatRequest( client, associatedContact, (String) splitMessages.get(i) );
+				}
+				else
+				{
+					// If the person tried to send a message with more than
+					// 1000 characters to a normal channel, that would flood
+					// the chat too quickly.  Automatically truncate in this
+					// case.
+
+					requests = new ChatRequest[1];
+					requests[0] = new ChatRequest( client, associatedContact, lastMessage.substring( 0, 256 ) );
+					return;
+				}
+
+				(new RequestThread( requests )).start();
 				entryField.setText( "" );
 			}
 		}
