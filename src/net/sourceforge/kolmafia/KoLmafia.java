@@ -1816,7 +1816,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void registerEncounter( String encounterName )
 	{
-		encounterName = encounterName.toLowerCase();
+		encounterName = encounterName.toLowerCase().trim();
 
 		RegisteredEncounter [] encounters = new RegisteredEncounter[ encounterList.size() ];
 		encounterList.toArray( encounters );
@@ -1842,6 +1842,10 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			this.name = name;
 			encounterCount = 1;
+		}
+
+		public String toString()
+		{	return name + " (" + encounterCount + ")";
 		}
 	}
 }
