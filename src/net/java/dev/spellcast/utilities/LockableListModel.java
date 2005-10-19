@@ -35,8 +35,8 @@
 package net.java.dev.spellcast.utilities;
 
 // list-related imports
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import java.util.ListIterator;
 import java.util.Collection;
 import java.util.Iterator;
@@ -63,7 +63,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	implements Cloneable, java.util.List, javax.swing.ListModel, javax.swing.ComboBoxModel, LockableObject
 {
 	private ObjectLock lock;
-	private List elements;
+	private Vector elements;
 	private int selectedIndex;
 
 	/**
@@ -72,7 +72,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public LockableListModel()
 	{
-		elements = new ArrayList();
+		elements = new Vector();
 		selectedIndex = -1;
 	}
 
@@ -345,6 +345,15 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
 	/**
+	 * Please refer to {@link java.util.Vector#lastElement()} for more
+	 * information regarding this function.
+	 */
+
+	public Object lastElement()
+	{	return elements.lastElement();
+	}
+
+	/**
 	 * Please refer to {@link java.util.List#lastIndexOf(Object)} for more
 	 * information regarding this function.
 	 */
@@ -583,7 +592,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
 	/**
-	 * Because <code>ArrayList</code> only creates a shallow copy of the objects,
+	 * Because <code>Vector</code> only creates a shallow copy of the objects,
 	 * the one used as a data structure here must be cloned manually in order
 	 * to satifsy the contract established by <code>clone()</code>.  However,
 	 * the individual elements are known to be of class <code>Object</code>,
@@ -594,9 +603,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * @return	as deep a copy of the object as can be obtained
 	 */
 
-	private List cloneList()
+	private Vector cloneList()
 	{
-		List clonedList = new ArrayList();
+		Vector clonedList = new Vector();
 		java.lang.reflect.Method cloneMethod;  Object toClone;
 
 		for ( int i = 0; i < size(); ++i )
