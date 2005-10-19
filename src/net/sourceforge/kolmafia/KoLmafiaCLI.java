@@ -1061,6 +1061,18 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( (command.equals( "status" ) || command.equals( "effects" )) && parameters.startsWith( "refresh" ) )
+		{
+			(new CharsheetRequest( scriptRequestor )).run();
+			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
+		}
+
+		if ( command.equals( "inv" ) && parameters.equals( "refresh" ) )
+		{
+			(new EquipmentRequest( scriptRequestor, EquipmentRequest.CLOSET )).run();
+			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
+		}
+
 		if ( command.startsWith( "inv" ) || command.equals( "session" ) || command.equals( "summary" ) ||
 			command.equals( "effects" ) || command.startsWith( "status" ) || command.equals( "encounters" ) )
 		{
