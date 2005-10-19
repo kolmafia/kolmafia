@@ -267,6 +267,7 @@ public class ConsumeItemRequest extends KoLRequest
 				// Do it all by hand, since processResults
 				// cannot tell that you are getting the second
 				// kind of dictionary.
+				client.processResult( itemUsed.getNegation() );
 				client.processResult( FightRequest.DICTIONARY1.getNegation() );
 				client.processResult( FightRequest.DICTIONARY2 );
 				client.processResult( AXE );
