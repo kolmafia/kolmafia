@@ -632,6 +632,8 @@ public class AdventureFrame extends KoLFrame
 			countField = new JTextField();
 
 			limitPurchasesCheckBox = new JCheckBox();
+			limitPurchasesCheckBox.setSelected( true );
+
 			forceSortingCheckBox = new JCheckBox();
 
 			results = new LockableListModel();

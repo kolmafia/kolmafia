@@ -1803,7 +1803,7 @@ public abstract class KoLmafia implements KoLConstants
 		String adventureName = adventureLocation.getAdventureName();
 		RegisteredEncounter lastAdventure = (RegisteredEncounter) adventureList.lastElement();
 
-		if ( lastAdventure.name.equals( adventureName ) )
+		if ( lastAdventure != null && lastAdventure.name.equals( adventureName ) )
 			++lastAdventure.encounterCount;
 		else
 			adventureList.add( new RegisteredEncounter( adventureName ) );

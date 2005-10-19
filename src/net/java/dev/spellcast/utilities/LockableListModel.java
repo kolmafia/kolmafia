@@ -350,7 +350,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public Object lastElement()
-	{	return elements.lastElement();
+	{	return elements.isEmpty() ? null : elements.lastElement();
 	}
 
 	/**
