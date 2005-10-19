@@ -345,7 +345,7 @@ public class GearChangeFrame extends KoLFrame
 
 			if ( slot == null )
 			{
-				if ( this == outfitSelect )
+				if ( this == outfitSelect && parameters[1] instanceof SpecialOutfit )
 				{
 					// Outfit event firing is usually only caused by
 					// an actual attempt to change the outfit.

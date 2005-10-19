@@ -57,6 +57,8 @@ public class SpecialOutfit
 		this.outfitName = "Birthday Suit";
 	}
 
+	public static final String NO_CHANGE = " - No Change - ";
+
 	/**
 	 * Constructs a new <code>SpecialOutfit</code> from the given
 	 * HTML.  The HTML should include the option value as well
