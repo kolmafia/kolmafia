@@ -152,12 +152,17 @@ public class HagnkStorageFrame extends KoLFrame
 		{
 			Object [] items = elementList.getSelectedValues();
 			AdventureResult selection;
+			int quantity;
 
 			for ( int i = 0; i < items.length; ++i )
 			{
 				selection = (AdventureResult) items[i];
-				items[i] = new AdventureResult( selection.getItemID(),
-					getQuantity( "Retrieving " + selection.getName() + " from the storage...", selection.getCount() ) );
+				quantity = getQuantity( "Retrieving " + selection.getName() + " from the storage...", Math.min( 20, selection.getCount() ) );
+
+				if ( quantity == 0 )
+					return;
+
+				items[i] = new AdventureResult( selection.getItemID(), quantity );
 			}
 
 			Runnable [] requests = isCloset ? new Runnable[2] : new Runnable[1];
