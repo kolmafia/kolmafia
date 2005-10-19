@@ -1062,7 +1062,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( command.startsWith( "inv" ) || command.equals( "session" ) || command.equals( "summary" ) ||
-			command.equals( "effects" ) || command.startsWith( "status" ) )
+			command.equals( "effects" ) || command.startsWith( "status" ) || command.equals( "encounters" ) )
 		{
 			executePrintCommand( command + " " + parameters );
 			return;
@@ -1643,6 +1643,19 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( NOCHANGE, " Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
 			updateDisplay( NOCHANGE, " Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
 			updateDisplay( NOCHANGE, " Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
+		}
+		else if ( desiredData.startsWith( "encounters" ) )
+		{
+			updateDisplay( NOCHANGE, "Visited Locations: " );
+			updateDisplay( NOCHANGE, "" );
+			printList( scriptRequestor.adventureList );
+
+			updateDisplay( NOCHANGE, "" );
+			updateDisplay( NOCHANGE, "" );
+
+			updateDisplay( NOCHANGE, "Encounter Listing: " );
+			updateDisplay( NOCHANGE, "" );
+			printList( scriptRequestor.encounterList );
 		}
 		else
 		{
