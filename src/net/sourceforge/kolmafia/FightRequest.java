@@ -35,6 +35,8 @@
 package net.sourceforge.kolmafia;
 import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * An extension of <code>KoLRequest</code> which handles fights
@@ -158,8 +160,15 @@ public class FightRequest extends KoLRequest
 		if ( !isErrorState && responseCode == 200 )
 		{
 			int mpUsed = getMPCost();
-			if ( mpUsed != 0)
+			if ( mpUsed != 0 )
 				client.processResult( new AdventureResult( AdventureResult.MP, mpUsed ) );
+
+			// If this is the first round, then register the opponent
+			// you are fighting against.
+
+			Matcher encounterMatcher = Pattern.compile( "<td valign=center>You're fighting (.*?)</td>" ).matcher( responseText );
+			if ( encounterMatcher.find() )
+				client.registerEncounter( encounterMatcher.group(1) );
 
 			processResults( responseText );
 			int winmsgIndex = responseText.indexOf( "WINWINWIN" );

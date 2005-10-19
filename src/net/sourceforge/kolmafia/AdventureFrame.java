@@ -330,15 +330,22 @@ public class AdventureFrame extends KoLFrame
 			resultPanel = new JPanel();
 			resultCards = new CardLayout( 0, 0 );
 			resultPanel.setLayout( resultCards );
+			resultSelect = new JComboBox();
 
+			resultSelect.addItem( "Session Results" );
 			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
+
+			resultSelect.addItem( "Conditions Left" );
 			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
+
+			resultSelect.addItem( "Active Effects" );
 			resultPanel.add( new AdventureResultsPanel( KoLCharacter.getEffects() ), "2" );
 
-			resultSelect = new JComboBox();
-			resultSelect.addItem( "Session Results" );
-			resultSelect.addItem( "Conditions Left" );
-			resultSelect.addItem( "Active Effects" );
+			resultSelect.addItem( "Visited Locations" );
+			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getAdventureList() ), "3" );
+
+			resultSelect.addItem( "Encounter Listing" );
+			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getEncounterList() ), "4" );
 
 			resultSelect.addActionListener( new ResultSelectListener() );
 

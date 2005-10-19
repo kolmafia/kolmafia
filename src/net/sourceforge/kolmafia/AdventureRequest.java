@@ -79,7 +79,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( client != null )
 		{
-                        // Almost all requests use one adventure
+			// Almost all requests use one adventure
 			this.adventuresUsed = 1;
 
 			if ( formSource.equals( "adventure.php" ) )
@@ -149,7 +149,7 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
-		if (  hasLuckyVersion && client.isLuckyCharacter() && getProperty( "cloverProtectActive" ).equals( "true" ) )
+		if ( hasLuckyVersion && client.isLuckyCharacter() && getProperty( "cloverProtectActive" ).equals( "true" ) )
 			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_YOUR_CLOVERS )).run();
 
 		// Prevent the request from happening if the client attempted
@@ -223,6 +223,10 @@ public class AdventureRequest extends KoLRequest
 			this.run();
 			return;
 		}
+
+		Matcher encounterMatcher = Pattern.compile( "<center><b>(.*?)</b>" ).matcher( responseText );
+		if ( encounterMatcher.find() )
+			client.registerEncounter( encounterMatcher.group(1) );
 
 		processResults( responseText );
 

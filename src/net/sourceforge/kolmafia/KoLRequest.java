@@ -80,10 +80,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static String KOL_HOST = SERVERS[0][0];
 	private static String KOL_ROOT = "http://" + SERVERS[0][1] + "/";
 
-	static
-	{	applySettings();
-	}
-
 	private URL formURL;
 	private StringBuffer formURLBuffer;
 
@@ -198,7 +194,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// server again to make sure that it's okay with the current
 			// login server.
 
-			KoLRequest root = new KoLRequest( null, "login.php" );
+			KoLRequest root = new KoLRequest( null, "index.php" );
 			root.run();
 
 			// Once the request is complete, because there was no header
@@ -348,6 +344,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * there is anything which must be done once only at the beginning,
 	 * this is the place.
 	 */
+
 	public void startRun()
 	{
 	}
@@ -429,7 +426,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private void execute()
 	{
 		int retryCount = 0;
-		this.logStream = client == null || formURLString.indexOf( "chat" ) != -1 ? new NullStream() : client.getLogStream();
+		this.logStream = client == null ? System.out : formURLString.indexOf( "chat" ) != -1 ? new NullStream() : client.getLogStream();
 
 		do
 		{
@@ -611,7 +608,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	private boolean retrieveServerReply()
 	{
 		BufferedReader istream;
-		this.isErrorState = true;
+		boolean shouldContinue = true;
+		this.isErrorState = false;
 
 		try
 		{
@@ -620,7 +618,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			// one that results in something happening), or an error-type one
 			// (ie: maintenance).
 
-			logStream.println( "Retrieving server reply..." );
+			if ( client != null )
+				logStream.println( "Retrieving server reply..." );
 
 			responseText = "";
 			redirectLocation = "";
@@ -638,6 +637,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			// should only happen if the file does not exist.  In
 			// this case, stop retrying.
 
+			this.isErrorState = true;
+
 			if ( e instanceof FileNotFoundException )
 			{
 				updateDisplay( ERROR_STATE, "Page <" + formURLString + "> not found." );
@@ -652,8 +653,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				return false;
 			}
 
-			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
-				updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
+			updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
 
 			if ( client != null )
 			{
@@ -686,39 +686,37 @@ public class KoLRequest implements Runnable, KoLConstants
 					// notified that they should try again later.
 
 					updateDisplay( ERROR_STATE, "Nightly maintenance." );
-					isErrorState = true;
+					this.isErrorState = true;
 
 					if ( !(this instanceof LoginRequest) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
-					{
 						client.executeTimeInRequest();
-						return true;
+					else
+					{
+						client.cancelRequest();
+						shouldContinue = false;
 					}
-
-					client.cancelRequest();
-					return false;
 				}
 				else if ( redirectLocation.startsWith( "login.php" ) )
 				{
 					updateDisplay( ERROR_STATE, "Session timed out." );
 					client.cancelRequest();
-					isErrorState = true;
+					this.isErrorState = true;
 
 					if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 					{
 						client.executeTimeInRequest();
 						client.resetContinueState();
-						return true;
 					}
-
-					client.cancelRequest();
-					return false;
+					else
+					{
+						client.cancelRequest();
+						shouldContinue = false;
+					}
 				}
 				else if ( followRedirects )
 				{
-					// You're no longer caught with error code!  However,
-					// this is set to follow redirects automatically.
-					// Therefore, re-setup this request to follow the
-					// redirect desired and rerun the request.
+					// Re-setup this request to follow the redirect
+					// desired and rerun the request.
 
 					this.formURLString = redirectLocation;
 
@@ -729,65 +727,43 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					this.isErrorState = true;
 					this.followRedirects = followRedirects;
-
-					return true;
 				}
 				else if ( redirectLocation.equals( "fight.php" ) )
 				{
 					// You have been redirected to a fight!  Here, you need
 					// to complete the fight before you can continue.
 
+					this.isErrorState = false;
 					(new FightRequest( client )).run();
-
-					// If it's not a straightforward adventure, then you
-					// need to re-run the request to get the correct data.
-
-					if ( client.inLoginState() )
-						return true;
 				}
 				else
 				{
 					this.isErrorState = false;
+					shouldContinue = false;
 					logStream.println( "Redirected: " + redirectLocation );
-					return false;
 				}
 			}
-			else if ( responseCode != 200 )
+			else if ( responseCode == 200 )
 			{
-				// Other error states occur when the server does not return
-				// an "OK" reply.  For example, there is a reported issue
-				// where the server returns 500.
-
-				return true;
-			}
-			else
-			{
-				String line;
+				String line = null;
+				this.isErrorState = false;
 				StringBuffer replyBuffer = new StringBuffer();
 
 				try
 				{
-					if ( formURL.getPath().indexOf( "chat" ) == -1 )
+					line = istream.readLine();
+
+					// There's a chance that there was no content in the reply
+					// (header-only reply) - if that's the case, the line will
+					// be null and you've hit an error state.
+
+					if ( line == null )
 					{
-						// In this case, there is actual content, and you're not being
-						// redirected - therefore, store the server's reply inside of
-						// the designated string for this purpose.  Note that the first
-						// ten lines on every KoL site contains a script that tells the
-						// browser to renest the page in frames (and hence is useless).
-
-						line = istream.readLine();
-
-						// There's a chance that there was no content in the reply
-						// (header-only reply) - if that's the case, the line will
-						// be null and you've hit an error state.
-
-						if ( line == null )
-						{
-							isErrorState = true;
-							logStream.println( "No reply content.  Retrying..." );
-							return true;
-						}
-
+						this.isErrorState = true;
+						logStream.println( "No reply content.  Retrying..." );
+					}
+					else
+					{
 						// Check for MySQL errors, since those have been getting more
 						// frequent, and would cause an I/O Exception to be thrown
 						// unnecessarily, when a re-request would do.  I'm not sure
@@ -796,27 +772,31 @@ public class KoLRequest implements Runnable, KoLConstants
 
 						if ( line.indexOf( "error" ) != -1 )
 						{
-							isErrorState = true;
+							this.isErrorState = true;
 							logStream.println( "Encountered MySQL error.  Retrying..." );
-							return true;
 						}
+						else
+						{
+							logStream.println( "Reading page content..." );
 
-						replyBuffer.append( line );
-						logStream.println( "Reading page content..." );
+							// The remaining lines form the rest of the content.  In order
+							// to make it easier for string parsing, the line breaks will
+							// ultimately be preserved.
+
+							while ( line != null )
+							{
+								replyBuffer.append( line );
+								line = istream.readLine();
+							}
+						}
 					}
-
-					// The remaining lines form the rest of the content.  In order
-					// to make it easier for string parsing, the line breaks will
-					// ultimately be preserved.
-
-					while ( (line = istream.readLine()) != null )
-						replyBuffer.append( line );
 				}
 				catch ( Exception e )
 				{
 					// An Exception is clearly an error; here it will be reported
 					// to the client, but another attempt will be made
 
+					this.isErrorState = true;
 					if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
 						updateDisplay( NOCHANGE, "Error reading server reply.  Retrying..." );
 
@@ -825,8 +805,6 @@ public class KoLRequest implements Runnable, KoLConstants
 						logStream.println( e );
 						e.printStackTrace( logStream );
 					}
-
-					return true;
 				}
 
 				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
@@ -843,24 +821,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		try
 		{
-			// Now that you're done, close the stream,
-			// making sure to catch the exception if
-			// it happens.
-
 			istream.close();
 		}
 		catch ( Exception e )
 		{
-			// An Exception here is unusual, but it means that
-			// something happened which disallowed closing of the
-			// input stream.  Print the error to the log and
-			// pretend nothing happened.
-
-			if ( client != null )
-			{
-				logStream.println( e );
-				e.printStackTrace( logStream );
-			}
+			// Errors equate to an input stream that
+			// has already been closed.
 		}
 
 		// Null the pointer to help the garbage collector
@@ -868,8 +834,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// from the function call.
 
 		istream = null;
-		this.isErrorState = false;
-		return true;
+		return shouldContinue;
 	}
 
 	/**

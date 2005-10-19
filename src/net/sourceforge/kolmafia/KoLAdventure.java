@@ -156,6 +156,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// request (without spamming the server).
 
 		request.run();
+		client.registerAdventure( this );
 
 		// Once the request is complete, be sure to deduct the
 		// used adventures from the tally

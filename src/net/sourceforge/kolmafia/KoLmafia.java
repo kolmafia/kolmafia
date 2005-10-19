@@ -101,6 +101,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected boolean useDisjunction;
 	protected SortedListModel conditions;
+	protected LockableListModel adventureList, encounterList;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -159,6 +160,9 @@ public abstract class KoLmafia implements KoLConstants
 		seenPlayerNames = new TreeMap();
 		conditions = new SortedListModel();
 		missingItems = new SortedListModel();
+
+		adventureList = new LockableListModel();
+		encounterList = new LockableListModel();
 	}
 
 	public boolean isEnabled()
@@ -1627,6 +1631,14 @@ public abstract class KoLmafia implements KoLConstants
 	{	return conditions;
 	}
 
+	public LockableListModel getAdventureList()
+	{	return adventureList;
+	}
+
+	public LockableListModel getEncounterList()
+	{	return encounterList;
+	}
+
 	public synchronized void executeTimeInRequest()
 	{
 		// If the client is permitted to continue,
@@ -1779,5 +1791,57 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		updateDisplay( ENABLED_STATE, "Purchases complete." );
+	}
+
+	/**
+	 * Utility method used to register a given adventure in
+	 * the running adventure summary.
+	 */
+
+	public void registerAdventure( KoLAdventure adventureLocation )
+	{
+		String adventureName = adventureLocation.getAdventureName();
+		RegisteredEncounter lastAdventure = (RegisteredEncounter) adventureList.lastElement();
+
+		if ( lastAdventure.name.equals( adventureName ) )
+			++lastAdventure.encounterCount;
+		else
+			adventureList.add( new RegisteredEncounter( adventureName ) );
+	}
+
+	/**
+	 * Utility method used to register a given encounter in
+	 * the running adventure summary.
+	 */
+
+	public void registerEncounter( String encounterName )
+	{
+		encounterName = encounterName.toLowerCase();
+
+		RegisteredEncounter [] encounters = new RegisteredEncounter[ encounterList.size() ];
+		encounterList.toArray( encounters );
+
+		for ( int i = 0; i < encounters.length; ++i )
+		{
+			if ( encounters[i].name.equals( encounterName ) )
+			{
+				++encounters[i].encounterCount;
+				return;
+			}
+		}
+
+		encounterList.add( new RegisteredEncounter( encounterName ) );
+	}
+
+	private class RegisteredEncounter
+	{
+		private String name;
+		private int encounterCount;
+
+		public RegisteredEncounter( String name )
+		{
+			this.name = name;
+			encounterCount = 1;
+		}
 	}
 }
