@@ -1064,12 +1064,14 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( (command.equals( "status" ) || command.equals( "effects" )) && parameters.startsWith( "refresh" ) )
 		{
 			(new CharsheetRequest( scriptRequestor )).run();
+			updateDisplay( ENABLED_STATE, "Status refreshed." );
 			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
 		}
 
 		if ( command.equals( "inv" ) && parameters.equals( "refresh" ) )
 		{
 			(new EquipmentRequest( scriptRequestor, EquipmentRequest.CLOSET )).run();
+			updateDisplay( ENABLED_STATE, "Status refreshed." );
 			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
 		}
 
