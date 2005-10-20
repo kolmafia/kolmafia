@@ -1715,14 +1715,41 @@ public abstract class KoLmafia implements KoLConstants
 			if ( requirementsArray[i] == null )
 				continue;
 
-			AdventureDatabase.retrieveItem( requirementsArray[i] );
-			missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( KoLCharacter.getInventory() );
+			missingCount = 0;
+
+			if ( requirementsArray[i].isItem() )
+			{
+				AdventureDatabase.retrieveItem( requirementsArray[i] );
+				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( KoLCharacter.getInventory() );
+			}
+			else if ( requirementsArray[i].isStatusEffect() )
+			{
+				// Status effects should be compared against
+				// the status effects list.  This is used to
+				// help people detect which effects they are
+				// missing (like in PVP).
+
+				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( KoLCharacter.getEffects() );
+			}
+			else if ( requirementsArray[i].getName().equals( AdventureResult.MEAT ) )
+			{
+				// Currency is compared against the amount
+				// actually liquid -- amount in closet is
+				// ignored in this case.
+
+				missingCount = requirementsArray[i].getCount() - KoLCharacter.getAvailableMeat();
+			}
 
 			if ( missingCount > 0 )
 			{
+				// If there are any missing items, add
+				// them to the list of needed items.
+
 				missingItems.add( requirementsArray[i].getInstance( missingCount ) );
+
 				// Allow later requirements to be created.
 				// We'll cancel the request again later.
+
 				resetContinueState();
 			}
 		}

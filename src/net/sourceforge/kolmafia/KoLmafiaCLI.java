@@ -1138,6 +1138,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
+	/**
+	 * Utility method to handle an if-statement.
+	 */
+
 	private void executeIfStatement( String parameters )
 	{
 		String statement = getNextLine();
@@ -1145,12 +1149,22 @@ public class KoLmafiaCLI extends KoLmafia
 			executeLine( statement );
 	}
 
+	/**
+	 * Utility method to handle a while-statement.
+	 */
+
 	private void executeWhileStatement( String parameters )
 	{
 		String statement = getNextLine();
 		while ( testConditional( parameters ) )
 			executeLine( statement );
 	}
+
+	/**
+	 * Utility method which tests if the given condition is true.
+	 * Note that this only examines level, health, mana, items,
+	 * meat and status effects.
+	 */
 
 	private boolean testConditional( String parameters )
 	{
@@ -1185,7 +1199,9 @@ public class KoLmafiaCLI extends KoLmafia
 			String condition = left.toString().trim();
 
 			int leftValue = condition.equals( "level" ) ? KoLCharacter.getLevel() : condition.equals( "health" ) ? KoLCharacter.getCurrentHP() :
-				condition.equals( "mana" ) ? KoLCharacter.getCurrentMP() : getFirstMatchingItem( condition, NOWHERE ).getCount();
+				condition.equals( "mana" ) ? KoLCharacter.getCurrentMP() : condition.equals( "meat" ) ? KoLCharacter.getAvailableMeat() :
+				KoLCharacter.getEffects().contains( getFirstMatchingEffect( condition ) ) ? getFirstMatchingEffect( condition ).getCount( KoLCharacter.getEffects() ) :
+				getFirstMatchingItem( condition, NOWHERE ).getCount();
 
 			int rightValue = df.parse( right.toString() ).intValue();
 
@@ -1292,6 +1308,23 @@ public class KoLmafiaCLI extends KoLmafia
 							subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
 
 					condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+				}
+			}
+			else if ( conditionString.endsWith( " meat" ) )
+			{
+				try
+				{
+					String [] splitCondition = conditionString.split( "\\s+" );
+					int amount = df.parse( splitCondition[0] ).intValue();
+
+					condition = new AdventureResult( AdventureResult.MEAT, amount );
+				}
+				catch ( Exception e )
+				{
+					// In the event that some exception occurred in
+					// parsing, return a null result.
+
+					condition = null;
 				}
 			}
 			else if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) ||
@@ -1681,13 +1714,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 			while ( itemIterator.hasNext() )
 			{
-				currentItem = itemIterator.next().toString();
+				currentItem = itemIterator.next().toString().toLowerCase();
 				if ( currentItem.indexOf( filter ) != -1 )
 					resultList.add( currentItem );
 			}
 
 			printList( resultList );
 		}
+
+		if ( this.outputStream != originalStream )
+			this.outputStream.close();
 
 		this.outputStream = originalStream;
 	}
