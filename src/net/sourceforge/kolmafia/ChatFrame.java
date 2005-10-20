@@ -289,7 +289,7 @@ public class ChatFrame extends KoLFrame
 
 		private class ChatEntryListener extends KeyAdapter implements ActionListener
 		{
-			private String lastMessage;
+			private String lastMessage = null;
 
 			public void actionPerformed( ActionEvent e )
 			{	submitChat();
@@ -303,7 +303,7 @@ public class ChatFrame extends KoLFrame
 
 			private void submitChat()
 			{
-				if ( lastMessage.equals( entryField.getText().trim() ) )
+				if ( lastMessage != null && lastMessage.equals( entryField.getText().trim() ) )
 					return;
 
 				lastMessage = entryField.getText().trim();
@@ -326,7 +326,7 @@ public class ChatFrame extends KoLFrame
 					List splitMessages = new ArrayList();
 					int prevSpaceIndex = 0, nextSpaceIndex = 0;
 
-					while ( nextSpaceIndex <= lastMessage.length() )
+					while ( nextSpaceIndex < lastMessage.length() )
 					{
 						nextSpaceIndex = prevSpaceIndex + 240 >= lastMessage.length() ? lastMessage.length() :
 							lastMessage.lastIndexOf( " ", Math.min( prevSpaceIndex + 240, lastMessage.length() ) );
@@ -360,7 +360,6 @@ public class ChatFrame extends KoLFrame
 
 					requests = new ChatRequest[1];
 					requests[0] = new ChatRequest( client, associatedContact, lastMessage.substring( 0, 256 ) );
-					return;
 				}
 
 				(new RequestThread( requests )).start();
