@@ -340,6 +340,8 @@ public class ChatFrame extends KoLFrame
 							trimmedMessage = "... " + trimmedMessage;
 						if ( nextSpaceIndex != lastMessage.length() )
 							trimmedMessage = trimmedMessage + " ...";
+						if ( lastMessage.startsWith( "/" ) )
+							trimmedMessage = "/me " + trimmedMessage.replaceFirst( "/[^\\s]*\\s+", "" );
 
 						splitMessages.add( trimmedMessage );
 						prevSpaceIndex = nextSpaceIndex;
