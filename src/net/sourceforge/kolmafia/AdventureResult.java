@@ -605,6 +605,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 				case ConsumeItemRequest.CONSUME_USE:
 				case ConsumeItemRequest.CONSUME_MULTIPLE:
+				case ConsumeItemRequest.GROW_FAMILIAR:
 					if ( !other )
 						return new JLabel();
 					break;
