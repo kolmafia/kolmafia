@@ -440,7 +440,7 @@ public class AdventureRequest extends KoLRequest
 
 	private void handleChoiceResponse( String text )
 	{
-		Matcher encounterMatcher = Pattern.compile( "<center><b>(.*?)</b>" ).matcher( text );
+		Matcher encounterMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( text );
 		if ( encounterMatcher.find() )
 			client.registerEncounter( encounterMatcher.group(1) );
 
