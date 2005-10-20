@@ -188,7 +188,10 @@ public class FightRequest extends KoLRequest
 				// If you can't battle again in this location,
 				// cancel future iterations.
 
-				else if ( responseText.indexOf( "againform.submit" ) == -1 )
+				else if ( responseText.indexOf( "againform.submit" ) == -1  &&
+					  // Special case: the hedge maze never
+					  // has an "adventure again" link.
+					  responseText.indexOf( "Go back to the Sorceress' Hedge Maze" ) == -1 )
 					client.cancelRequest();
 			}
 			else if ( roundCount > 30 )
