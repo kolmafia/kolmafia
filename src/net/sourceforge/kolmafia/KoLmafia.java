@@ -1831,7 +1831,12 @@ public abstract class KoLmafia implements KoLConstants
 		RegisteredEncounter lastAdventure = (RegisteredEncounter) adventureList.lastElement();
 
 		if ( lastAdventure != null && lastAdventure.name.equals( adventureName ) )
+		{
 			++lastAdventure.encounterCount;
+
+			// Manually set to force repainting in GUI
+			adventureList.set( adventureList.size() - 1, lastAdventure );
+		}
 		else
 			adventureList.add( new RegisteredEncounter( adventureName ) );
 	}
@@ -1853,6 +1858,9 @@ public abstract class KoLmafia implements KoLConstants
 			if ( encounters[i].name.equals( encounterName ) )
 			{
 				++encounters[i].encounterCount;
+
+				// Manually set to force repainting in GUI
+				encounterList.set( i, encounters[i] );
 				return;
 			}
 		}
