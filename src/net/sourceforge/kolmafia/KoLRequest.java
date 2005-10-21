@@ -268,8 +268,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.formURLString = formURLString;
 		this.formURLBuffer = new StringBuffer( formURLString );
 
-		data = new ArrayList();
-
+		this.data = new ArrayList();
 		this.isErrorState = true;
 		this.followRedirects = followRedirects;
 	}
@@ -910,7 +909,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( client != null )
 			client.updateDisplay( displayState, message );
 		else
-			System.out.println( message );
+			KoLmafia.getLogStream().println( message );
 	}
 
 	/**
