@@ -196,7 +196,7 @@ public class MuseumManager extends StaticEntity
 		Matcher selectedMatcher;
 
 		int itemID, itemCount;
-		String [] itemCountString;
+		String [] itemString;
 
 		Matcher optionMatcher = Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" ).matcher( data );
 		while ( optionMatcher.find() )
@@ -205,8 +205,11 @@ public class MuseumManager extends StaticEntity
 
 			itemID = Integer.parseInt( optionMatcher.group(2) );
 
-			itemCountString = optionMatcher.group(1).split( "[\\(\\)]" );
-			itemCount = itemCountString.length == 1 ? 1 : Integer.parseInt( itemCountString[1] );
+			itemString = optionMatcher.group(1).split( "[\\(\\)]" );
+			if ( TradeableItemDatabase.getItemName( itemID ) == null )
+				TradeableItemDatabase.registerItem( itemID, itemString[0].trim() );
+
+			itemCount = itemString.length == 1 ? 1 : Integer.parseInt( itemString[1] );
 
 			registerItem( new AdventureResult( itemID, itemCount ),
 				selectedMatcher.find() ? Integer.parseInt( selectedMatcher.group(1) ) : 0 );
