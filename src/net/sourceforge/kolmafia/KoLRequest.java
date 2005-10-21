@@ -355,23 +355,50 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		// Chat requests can run without problems concurrently
-		// with other requests.  The same is true of requests
-		// to the character pane.  Therefore, there is no thread
-		// synchronization is needed.
+		// No thread synchronization.  Simply reset the
+		// appropriate property and execute the request.
 
-		if ( !isDelayExempt() )
+		KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
+
+		// You are allowed a maximum of four attempts
+		// to run the request.  This prevents KoLmafia
+		// from spamming the servers.
+
+		int retryCount = 0;
+
+		do
 		{
-			synchronized ( client )
+			this.isErrorState = false;
+
+			// Only add in a delay when you're out of login.
+			// If you're still doing the login process, ignore
+			// the delay to avoid people switching the option
+			// off just to avoid login slowdown.
+
+			if ( !isDelayExempt() || retryCount != 0 )
 			{
-				KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
+				if ( isServerFriendly )
+					KoLRequest.delay();
+				else
+					KoLRequest.delay( 500 );
 			}
 		}
+		while ( ++retryCount < 4 && !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 
-		// Now that you know there is good synchronization,
-		// go ahead and execute the request.
+		// In the event that you have a timeout during a situation
+		// where the display does not update afterwards, be sure
+		// you clear the display.
 
-		execute();
+		if ( client != null )
+		{
+			if ( retryCount == 4 )
+			{
+				client.updateDisplay( ERROR_STATE, "Too many connection retry attempts." );
+				client.cancelRequest();
+			}
+			else if ( retryCount > 1 )
+				client.updateDisplay( NOCHANGE, "Retry attempt successful.  Processing..." );
+		}
 	}
 
 	/**
@@ -412,51 +439,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean isDelayExempt()
 	{	return client == null || client.inLoginState() || this instanceof ChatRequest || getClass() == KoLRequest.class || this instanceof CharpaneRequest;
-	}
-
-	/**
-	 * Utility method used to retry requests - this allows the KoLRequest
-	 * itself to rerun without calling the run method that instantiated
-	 * this request.
-	 */
-
-	private void execute()
-	{
-		int retryCount = 0;
-
-		do
-		{
-			this.isErrorState = false;
-
-			// Only add in a delay when you're out of login.
-			// If you're still doing the login process, ignore
-			// the delay to avoid people switching the option
-			// off just to avoid login slowdown.
-
-			if ( !isDelayExempt() || retryCount != 0 )
-			{
-				if ( isServerFriendly )
-					KoLRequest.delay();
-				else
-					KoLRequest.delay( 500 );
-			}
-		}
-		while ( ++retryCount < 4 && !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
-
-		// In the event that you have a timeout during a situation
-		// where the display does not update afterwards, be sure
-		// you clear the display.
-
-		if ( client != null )
-		{
-			if ( retryCount == 4 )
-			{
-				client.updateDisplay( ERROR_STATE, "Too many connection retry attempts." );
-				client.cancelRequest();
-			}
-			else if ( retryCount > 1 )
-				client.updateDisplay( NOCHANGE, "Retry attempt successful.  Processing..." );
-		}
 	}
 
 	/**
