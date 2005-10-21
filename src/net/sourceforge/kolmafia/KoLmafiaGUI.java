@@ -406,6 +406,12 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( printing.isEmpty() )
 			return;
 
+		if ( printing.size() == 1 )
+		{
+			updateDisplay( ERROR_STATE, "You need " + printing.get(0).toString() + " before continuing." );
+			return;
+		}
+
 		JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
 			JOptionPane.INFORMATION_MESSAGE, null, printing.toArray(), null );
 	}
