@@ -140,11 +140,19 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		JMenu optionsMenu = addOptionsMenu( menuBar );
 
 		optionsMenu.add( new JSeparator() );
-		optionsMenu.add( new BoxRefreshMenuItem( "Inbox" ) );
-		optionsMenu.add( new BoxRefreshMenuItem( "Outbox" ) );
-		optionsMenu.add( new BoxRefreshMenuItem( "Saved" ) );
-		optionsMenu.add( new BoxEmptyMenuItem( "Inbox" ) );
-		optionsMenu.add( new BoxEmptyMenuItem( "Outbox" ) );
+
+		JMenu refreshMenu = new JMenu( "Refresh" );
+		refreshMenu.add( new BoxRefreshMenuItem( "Inbox" ) );
+		refreshMenu.add( new BoxRefreshMenuItem( "Outbox" ) );
+		refreshMenu.add( new BoxRefreshMenuItem( "Saved" ) );
+		optionsMenu.add( refreshMenu );
+
+		JMenu emptyMenu = new JMenu( "Move Mail" );
+		emptyMenu.add( new BoxEmptyMenuItem( "" ) );
+		emptyMenu.add( new BoxEmptyMenuItem( "Inbox" ) );
+		emptyMenu.add( new BoxEmptyMenuItem( "Outbox" ) );
+		emptyMenu.add( new BoxEmptyMenuItem( "Saved" ) );
+		optionsMenu.add( emptyMenu );
 
 		addHelpMenu( menuBar );
 	}
@@ -265,7 +273,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			this.mailboxName = mailboxName;
 			addListSelectionListener( this );
-			addKeyListener( new DeleteKeyListener() );
+			addKeyListener( new MailboxKeyListener() );
 		}
 
 		public void valueChanged( ListSelectionEvent e )
@@ -280,7 +288,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		{	this.initialized = initialized;
 		}
 
-		private class DeleteKeyListener extends KeyAdapter
+		private class MailboxKeyListener extends KeyAdapter
 		{
 			public void keyPressed( KeyEvent e )
 			{
@@ -290,6 +298,13 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 							KoLMailManager.deleteMessages( mailboxName, getSelectedValues() );
 
+				}
+
+				if ( e.getKeyCode() == KeyEvent.VK_S )
+				{
+					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
+							KoLMailManager.saveMessages( getSelectedValues() );
 				}
 			}
 		}
@@ -346,7 +361,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public BoxRefreshMenuItem( String boxname )
 		{
-			super( "Refresh " + boxname );
+			super( boxname );
 			addActionListener( this );
 
 			this.boxname = boxname;
@@ -365,14 +380,18 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public BoxEmptyMenuItem( String boxname )
 		{
-			super( "Empty " + boxname );
+			super( boxname.equals( "" ) ? "Save All in Inbox" : "Delete All in " + boxname );
 			addActionListener( this );
 
 			this.boxname = boxname;
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	KoLMailManager.deleteMessages( boxname, KoLMailManager.getMessages( boxname ).toArray() );
+		{
+			if ( boxname.equals( "" ) )
+				KoLMailManager.saveMessages( KoLMailManager.getMessages( boxname ).toArray() );
+			else
+				KoLMailManager.deleteMessages( boxname, KoLMailManager.getMessages( boxname ).toArray() );
 		}
 	}
 
