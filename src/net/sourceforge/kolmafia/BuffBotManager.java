@@ -271,8 +271,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// (don't go away for more than 1 second at a time
 			// to avoid re-enabling problems).
 
-			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
-			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
+			if ( !deleteList.isEmpty() )
+			{
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
+			}
+
 			client.updateDisplay( DISABLED_STATE, "Buffbot is sleeping." );
 
 			if ( i != iterations )
