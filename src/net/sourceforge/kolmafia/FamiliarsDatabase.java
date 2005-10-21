@@ -104,7 +104,7 @@ public class FamiliarsDatabase extends KoLDatabase
 
 	public static void registerFamiliar( int familiarID, String familiarName )
 	{
-		client.getLogStream().println( "New familiar: \"" + familiarID + "\" (" + familiarName + ")" );
+		KoLmafia.getLogStream().println( "New familiar: \"" + familiarID + "\" (" + familiarName + ")" );
 
 		// Because I'm intelligent, assume that both the familiar item
 		// and the familiar larva are the steaming evil (for now).

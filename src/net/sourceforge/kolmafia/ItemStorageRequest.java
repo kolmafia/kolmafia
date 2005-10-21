@@ -269,11 +269,11 @@ public class ItemStorageRequest extends SendMessageRequest
 			catch ( Exception e )
 			{
 				// If an exception occurs during the parsing, just
-				// continue after notifying the LogStream of the
+				// continue after notifying the KoLmafia.getLogStream() of the
 				// error.  This could be handled better, but not now.
 
-				logStream.println( e );
-				e.printStackTrace( logStream );
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
 			}
 		}
 	}

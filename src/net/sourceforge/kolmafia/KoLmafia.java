@@ -65,6 +65,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLmafia implements KoLConstants
 {
+	protected static PrintStream logStream = NullStream.INSTANCE;
 	protected static LimitedSizeChatBuffer commandBuffer = null;
 
 	protected static final String [] hermitItemNames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
@@ -81,7 +82,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	private boolean disableMacro;
 	protected KoLSettings settings;
-	protected PrintStream logStream;
 	protected PrintStream macroStream;
 
 	protected int currentState;
@@ -140,6 +140,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.fullStatGain = new int[3];
 
 		this.settings = GLOBAL_SETTINGS;
+		this.macroStream = NullStream.INSTANCE;
 		this.saveStateNames = new SortedListModel();
 
 		String [] currentNames = settings.getProperty( "saveState" ).split( "//" );
@@ -152,9 +153,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		storeSaveStates();
 		deinitialize();
-
-		deinitializeLogStream();
-		deinitializeMacroStream();
 
 		seenPlayerIDs = new TreeMap();
 		seenPlayerNames = new TreeMap();
@@ -426,6 +424,7 @@ public abstract class KoLmafia implements KoLConstants
 		passwordHash = null;
 		cachedLogin = null;
 		permitContinue = false;
+		closeMacroStream();
 	}
 
 	/**
@@ -1341,7 +1340,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * assist in beta testing because the output is VERY verbose.
 	 */
 
-	public void initializeLogStream()
+	public static void openDebugLog()
 	{
 		// First, ensure that a log stream has not already been
 		// initialized - this can be checked by observing what
@@ -1368,16 +1367,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	/**
-	 * De-initializes the log stream.  This method should only
-	 * be called when the user wishes to stop logging the session.
-	 */
-
-	public void deinitializeLogStream()
+	public static void closeDebugLog()
 	{
-		if ( logStream != null )
-			logStream.close();
-		logStream = new NullStream();
+		logStream.close();
+		logStream = NullStream.INSTANCE;
 	}
 
 	/**
@@ -1397,7 +1390,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @return	The stream used for debug output
 	 */
 
-	public PrintStream getLogStream()
+	public static PrintStream getLogStream()
 	{	return logStream;
 	}
 
@@ -1410,7 +1403,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @param	filename	The name of the file to be created
 	 */
 
-	public void initializeMacroStream( String filename )
+	public void openMacroStream( String filename )
 	{
 		// First, ensure that a macro stream has not already been
 		// initialized - this can be checked by observing what
@@ -1453,11 +1446,10 @@ public abstract class KoLmafia implements KoLConstants
 	 * Deinitializes the macro stream.
 	 */
 
-	public void deinitializeMacroStream()
+	public void closeMacroStream()
 	{
-		if ( macroStream != null )
-			macroStream.close();
-		macroStream = new NullStream();
+		macroStream.close();
+		macroStream = NullStream.INSTANCE;
 	}
 
 	/**

@@ -299,8 +299,8 @@ public class ClanManager extends StaticEntity
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( client.getLogStream() );
-				e.printStackTrace( System.err );
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
 				return;
 			}
 		}
@@ -332,8 +332,10 @@ public class ClanManager extends StaticEntity
 			catch ( Exception e )
 			{
 				client.updateDisplay( ERROR_STATE, "Failed to load cached profile." );
-				e.printStackTrace( client.getLogStream() );
-				e.printStackTrace( System.err );
+
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
+
 				return;
 			}
 
@@ -365,8 +367,8 @@ public class ClanManager extends StaticEntity
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( client.getLogStream() );
-				e.printStackTrace( System.err );
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
 				return;
 			}
 		}
@@ -397,8 +399,9 @@ public class ClanManager extends StaticEntity
 			catch ( Exception e )
 			{
 				client.updateDisplay( ERROR_STATE, "Failed to load cached ascension." );
-				e.printStackTrace( client.getLogStream() );
-				e.printStackTrace( System.err );
+
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
 				return;
 			}
 
@@ -679,8 +682,9 @@ public class ClanManager extends StaticEntity
 				catch ( Exception e )
 				{
 					client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
-					e.printStackTrace( client.getLogStream() );
-					e.printStackTrace( System.err );
+
+					KoLmafia.getLogStream().println( e );
+					e.printStackTrace( KoLmafia.getLogStream() );
 					return;
 				}
 
@@ -703,8 +707,9 @@ public class ClanManager extends StaticEntity
 				catch ( Exception e )
 				{
 					client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
-					e.printStackTrace( client.getLogStream() );
-					e.printStackTrace( System.err );
+
+					KoLmafia.getLogStream().println( e );
+					e.printStackTrace( KoLmafia.getLogStream() );
 					return;
 				}
 			}

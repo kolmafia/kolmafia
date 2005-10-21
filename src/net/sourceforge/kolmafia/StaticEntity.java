@@ -60,9 +60,7 @@ public abstract class StaticEntity implements KoLConstants
 			((KoLFrame)frames[i]).dispose();
 
 		BuffBotHome.setBuffBotActive( false );
-
-		client.deinitializeLogStream();
-		client.deinitializeMacroStream();
+		client.closeMacroStream();
 
 		KoLCharacter.reset( "" );
 		(new RequestThread( new LogoutRequest( client ) )).start();

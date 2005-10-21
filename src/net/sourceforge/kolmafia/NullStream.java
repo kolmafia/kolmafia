@@ -48,7 +48,9 @@ public class NullStream extends java.io.PrintStream
 {
 	private boolean errorState;
 
-	public NullStream()
+	public static final NullStream INSTANCE = new NullStream();
+
+	private NullStream()
 	{
 		super( System.out );
 		this.errorState = false;

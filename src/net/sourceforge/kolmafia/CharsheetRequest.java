@@ -325,12 +325,12 @@ public class CharsheetRequest extends KoLRequest
 			// Parsing of the KoLCharacter sheet is now complete.
 			// Report this to the log stream and return.
 
-			logStream.println( "Parsing complete." );
+			KoLmafia.getLogStream().println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )
 		{
-			logStream.println( e );
-			e.printStackTrace( logStream );
+			KoLmafia.getLogStream().println( e );
+			e.printStackTrace( KoLmafia.getLogStream() );
 		}
 	}
 

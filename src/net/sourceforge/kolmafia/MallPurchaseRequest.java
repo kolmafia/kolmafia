@@ -337,7 +337,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			// it to the log stream and then return from the
 			// run call, for future reference.
 
-			e.printStackTrace( logStream );
+			e.printStackTrace( KoLmafia.getLogStream() );
 			return;
 		}
 

@@ -177,9 +177,9 @@ public class KoLmafiaCLI extends KoLmafia
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
 		this.scriptRequestor.resetContinueState();
 
-		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : new NullStream();
+		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : NullStream.INSTANCE;
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
-		mirrorStream = new NullStream();
+		mirrorStream = NullStream.INSTANCE;
 	}
 
 	/**
@@ -543,9 +543,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.startsWith( "debug" ) )
 		{
 			if ( parameters.startsWith( "on" ) )
-				scriptRequestor.initializeLogStream();
+				openDebugLog();
 			else if ( parameters.startsWith( "off" ) )
-				scriptRequestor.deinitializeLogStream();
+				closeDebugLog();
 			else
 			{
 				updateDisplay( ERROR_STATE, parameters + " is not a valid option." );
@@ -563,7 +563,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.length() == 0 )
 			{
 				this.mirrorStream.close();
-				this.mirrorStream = new NullStream();
+				this.mirrorStream = NullStream.INSTANCE;
 			}
 			else
 			{

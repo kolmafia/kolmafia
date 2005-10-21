@@ -168,11 +168,11 @@ public class AutoSellRequest extends SendMessageRequest
 			catch ( Exception e )
 			{
 				// If an exception is caught, then this is a situation that isn't
-				// currently handled by the parser.  Report it to the LogStream
+				// currently handled by the parser.  Report it to the KoLmafia.getLogStream()
 				// and continue on.
 
-				logStream.println( e );
-				e.printStackTrace( logStream );
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
 			}
 		}
 		else

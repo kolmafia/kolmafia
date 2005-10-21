@@ -628,7 +628,7 @@ public abstract class KoLMessenger extends StaticEntity
 			// stop refreshing.  So, to make things easier, print the
 			// error message to the main window. :D
 
-			e.printStackTrace( client.getLogStream() );
+			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 		}
 	}

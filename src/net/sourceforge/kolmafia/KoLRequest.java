@@ -88,7 +88,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	private List data;
 
 	protected KoLmafia client;
-	protected PrintStream logStream;
 
 	protected int responseCode;
 	protected boolean isErrorState;
@@ -269,7 +268,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.formURLString = formURLString;
 		this.formURLBuffer = new StringBuffer( formURLString );
 
-		this.logStream = new NullStream();
 		data = new ArrayList();
 
 		this.isErrorState = true;
@@ -308,7 +306,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// appropriate log stream and add in the unencoded
 			// data (in case it's fine).
 
-			logStream.println( "Could not encode: " + name + "=" + value );
+			KoLmafia.getLogStream().println( "Could not encode: " + name + "=" + value );
 		}
 	}
 
@@ -426,7 +424,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	private void execute()
 	{
 		int retryCount = 0;
-		this.logStream = client == null ? System.out : formURLString.indexOf( "chat" ) != -1 ? new NullStream() : client.getLogStream();
 
 		do
 		{
@@ -473,7 +470,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean prepareConnection()
 	{
-		logStream.println( "Connecting to " + formURLString + "..." );
+		KoLmafia.getLogStream().println( "Connecting to " + formURLString + "..." );
 
 		if ( client != null )
 			this.sessionID = client.getSessionID();
@@ -499,7 +496,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
 
-			logStream.println( "Attempting to establish connection..." );
+			KoLmafia.getLogStream().println( "Attempting to establish connection..." );
 			formConnection = (HttpURLConnection) formURL.openConnection();
 		}
 		catch ( Exception e )
@@ -515,7 +512,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			return false;
 		}
 
-		logStream.println( "Connection established." );
+		KoLmafia.getLogStream().println( "Connection established." );
 
 		formConnection.setDoInput( true );
 		formConnection.setDoOutput( !data.isEmpty() );
@@ -549,7 +546,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( data.isEmpty() )
 			return true;
 
-		logStream.println( "Posting form data..." );
+		KoLmafia.getLogStream().println( "Posting form data..." );
 
 		try
 		{
@@ -563,9 +560,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( client != null && !formURLString.equals( "login.php" ) )
 			{
 				if ( client.getPasswordHash() == null )
-					logStream.println( dataString );
+					KoLmafia.getLogStream().println( dataString );
 				else
-					logStream.println( dataString.replaceAll( client.getPasswordHash(), "" ) );
+					KoLmafia.getLogStream().println( dataString.replaceAll( client.getPasswordHash(), "" ) );
 			}
 
 			formConnection.setRequestMethod( "POST" );
@@ -576,7 +573,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			ostream.close();
 			ostream = null;
 
-			logStream.println( "Posting data posted." );
+			KoLmafia.getLogStream().println( "Posting data posted." );
 			return true;
 		}
 		catch ( Exception e )
@@ -586,8 +583,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( client != null )
 			{
-				logStream.println( e );
-				e.printStackTrace( logStream );
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
 			}
 
 			KoLRequest.delay();
@@ -619,7 +616,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// (ie: maintenance).
 
 			if ( client != null )
-				logStream.println( "Retrieving server reply..." );
+				KoLmafia.getLogStream().println( "Retrieving server reply..." );
 
 			responseText = "";
 			redirectLocation = "";
@@ -645,8 +642,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				if ( client != null )
 				{
-					logStream.println( e );
-					e.printStackTrace( logStream );
+					KoLmafia.getLogStream().println( e );
+					e.printStackTrace( KoLmafia.getLogStream() );
 				}
 
 				KoLRequest.delay();
@@ -657,8 +654,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( client != null )
 			{
-				logStream.println( e );
-				e.printStackTrace( logStream );
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
 			}
 
 			// Add in an extra delay in the event of a time-out in order
@@ -670,7 +667,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( client != null )
 		{
-			logStream.println( "Server response code: " + responseCode );
+			KoLmafia.getLogStream().println( "Server response code: " + responseCode );
 
 			if ( responseCode >= 300 && responseCode <= 399 )
 			{
@@ -740,7 +737,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				{
 					this.isErrorState = false;
 					shouldContinue = false;
-					logStream.println( "Redirected: " + redirectLocation );
+					KoLmafia.getLogStream().println( "Redirected: " + redirectLocation );
 				}
 			}
 			else if ( responseCode == 200 )
@@ -760,7 +757,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					if ( line == null )
 					{
 						this.isErrorState = true;
-						logStream.println( "No reply content.  Retrying..." );
+						KoLmafia.getLogStream().println( "No reply content.  Retrying..." );
 					}
 					else
 					{
@@ -773,11 +770,11 @@ public class KoLRequest implements Runnable, KoLConstants
 						if ( line.indexOf( "error" ) != -1 )
 						{
 							this.isErrorState = true;
-							logStream.println( "Encountered MySQL error.  Retrying..." );
+							KoLmafia.getLogStream().println( "Encountered MySQL error.  Retrying..." );
 						}
 						else
 						{
-							logStream.println( "Reading page content..." );
+							KoLmafia.getLogStream().println( "Reading page content..." );
 
 							// The remaining lines form the rest of the content.  In order
 							// to make it easier for string parsing, the line breaks will
@@ -802,8 +799,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					if ( client != null )
 					{
-						logStream.println( e );
-						e.printStackTrace( logStream );
+						KoLmafia.getLogStream().println( e );
+						e.printStackTrace( KoLmafia.getLogStream() );
 					}
 				}
 
@@ -812,9 +809,9 @@ public class KoLRequest implements Runnable, KoLConstants
 				if ( client != null )
 				{
 					if ( client.getPasswordHash() == null )
-						logStream.println( responseText );
+						KoLmafia.getLogStream().println( responseText );
 					else
-						logStream.println( responseText.replaceAll( client.getPasswordHash(), "" ) );
+						KoLmafia.getLogStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
 				}
 			}
 		}

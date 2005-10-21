@@ -578,13 +578,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				String filename = chooser.getSelectedFile().getAbsolutePath();
 
 				if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-					client.initializeMacroStream( filename );
+					client.openMacroStream( filename );
 
 				setText( "Stop Recording" );
 			}
 			else if ( client != null )
 			{
-				client.deinitializeMacroStream();
+				client.closeMacroStream();
 				setText( "Record Script..." );
 			}
 		}
@@ -602,19 +602,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super( "", KeyEvent.VK_S );
 			addActionListener( this );
 
-			setText( client == null || client.getLogStream() instanceof NullStream ? "Start Debug" : "Stop Debug" );
+			setText( KoLmafia.getLogStream() instanceof NullStream ? "Start Debug" : "Stop Debug" );
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( client != null && client.getLogStream() instanceof NullStream )
+			if ( KoLmafia.getLogStream() instanceof NullStream )
 			{
-				client.initializeLogStream();
+				KoLmafia.openDebugLog();
 				setText( "Stop Debug" );
 			}
 			else if ( client != null )
 			{
-				client.deinitializeLogStream();
+				KoLmafia.closeDebugLog();
 				setText( "Start Debug" );
 			}
 		}
@@ -907,9 +907,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			catch ( java.io.IOException e1 )
 			{
-				client.getLogStream().println( "Failed to open browser:" );
-				client.getLogStream().print( e1 );
-				e1.printStackTrace( client.getLogStream() );
+				KoLmafia.getLogStream().println( "Failed to open browser:" );
+				KoLmafia.getLogStream().print( e1 );
+				e1.printStackTrace( KoLmafia.getLogStream() );
 			}
 		}
 	}
@@ -940,9 +940,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					}
 					catch ( java.io.IOException e1 )
 					{
-						client.getLogStream().println( "Failed to open browser:" );
-						client.getLogStream().print( e1 );
-						e1.printStackTrace( client.getLogStream() );
+						KoLmafia.getLogStream().println( "Failed to open browser:" );
+						KoLmafia.getLogStream().print( e1 );
+						e1.printStackTrace( KoLmafia.getLogStream() );
 					}
 				}
 				else if ( location.startsWith( "javascript:" ) && (location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1) )

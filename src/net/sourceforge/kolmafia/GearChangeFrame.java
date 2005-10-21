@@ -294,7 +294,8 @@ public class GearChangeFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
-				client.getLogStream().println(e);
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
 			}
 
 			this.parameters = new Object[ parameterTypes.length ];

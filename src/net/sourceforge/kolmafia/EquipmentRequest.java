@@ -265,7 +265,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		try
 		{
-			logStream.println( "Parsing data..." );
+			KoLmafia.getLogStream().println( "Parsing data..." );
 
 			if ( requestType == CLOSET )
 			{
@@ -293,12 +293,12 @@ public class EquipmentRequest extends PasswordHashRequest
 				updateDisplay( ENABLED_STATE, "Equipment retrieved." );
 			}
 
-			logStream.println( "Parsing complete." );
+			KoLmafia.getLogStream().println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )
 		{
-			logStream.println( e );
-			e.printStackTrace( logStream );
+			KoLmafia.getLogStream().println( e );
+			e.printStackTrace( KoLmafia.getLogStream() );
 		}
 	}
 
@@ -403,11 +403,11 @@ public class EquipmentRequest extends PasswordHashRequest
 			catch ( Exception e )
 			{
 				// If an exception occurs during the parsing, just
-				// continue after notifying the LogStream of the
+				// continue after notifying the KoLmafia.getLogStream() of the
 				// error.  This could be handled better, but not now.
 
-				logStream.println( e );
-				e.printStackTrace( logStream );
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
 			}
 		}
 	}
@@ -426,7 +426,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.HAT ] = equipmentMatcher.group(1);
-				logStream.println( "Hat: " + equipment[ KoLCharacter.HAT ] );
+				KoLmafia.getLogStream().println( "Hat: " + equipment[ KoLCharacter.HAT ] );
 			}
 		}
 
@@ -436,7 +436,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.WEAPON ] = equipmentMatcher.group(1);
-				logStream.println( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
+				KoLmafia.getLogStream().println( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
 			}
 		}
 
@@ -446,7 +446,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.SHIRT ] = equipmentMatcher.group(1);
-				logStream.println( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
+				KoLmafia.getLogStream().println( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
 			}
 		}
 
@@ -456,7 +456,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.PANTS ] = equipmentMatcher.group(1);
-				logStream.println( "Pants: " + equipment[ KoLCharacter.PANTS ] );
+				KoLmafia.getLogStream().println( "Pants: " + equipment[ KoLCharacter.PANTS ] );
 			}
 		}
 
@@ -466,7 +466,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.ACCESSORY1 ] = equipmentMatcher.group(1);
-				logStream.println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
+				KoLmafia.getLogStream().println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
 			}
 		}
 
@@ -476,7 +476,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.ACCESSORY2 ] = equipmentMatcher.group(1);
-				logStream.println( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
+				KoLmafia.getLogStream().println( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
 			}
 		}
 
@@ -486,7 +486,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.ACCESSORY3 ] = equipmentMatcher.group(1);
-				logStream.println( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
+				KoLmafia.getLogStream().println( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
 			}
 
 		}
@@ -497,7 +497,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.FAMILIAR ] = equipmentMatcher.group(1);
-				logStream.println( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
+				KoLmafia.getLogStream().println( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
 			}
 		}
 

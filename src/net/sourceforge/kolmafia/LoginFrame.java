@@ -119,7 +119,7 @@ public class LoginFrame extends KoLFrame
 	public void updateDisplay( int displayState, String message )
 	{
 		if ( client != null )
-			client.getLogStream().println( message );
+			KoLmafia.getLogStream().println( message );
 
 		if ( contentPanel != null )
 			contentPanel.setStatusMessage( displayState, message );
