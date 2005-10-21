@@ -59,6 +59,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int CLOCKWORK_CHEF = 1112;
 
 	private static final AdventureResult AXE = new AdventureResult( 555, 1 );
+	private static final AdventureResult NUTS = new AdventureResult( 509, -1 );
+	private static final AdventureResult PLAN = new AdventureResult( 502, -1 );
 
 	private int consumptionType;
 	private AdventureResult itemUsed;
@@ -248,6 +250,21 @@ public class ConsumeItemRequest extends KoLRequest
 
 		else if ( itemUsed.getName().equals( "Elf Farm Raffle ticket" ) && responseText.indexOf( "puff of smoke" ) != -1 )
 			client.processResult( SewerRequest.CLOVER );
+
+		// Successfully using a ketchup hound uses up the Hey Deze nuts
+		// and pagoda plan.
+
+		else if ( itemUsed.getName().equals( "ketchup hound" ) )
+		{
+			if ( responseText.indexOf( "pagoda" ) != -1 )
+			{
+				client.processResult( NUTS );
+				client.processResult( PLAN );
+			}
+
+			// The ketchup hound does not go away...
+			return;
+		}
 
 		// Check to see if you were using a Jumbo Dr. Lucifer, which
 		// reduces your hit points to 1.

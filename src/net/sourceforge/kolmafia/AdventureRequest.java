@@ -55,7 +55,7 @@ public class AdventureRequest extends KoLRequest
 	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
 	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
 	public static final AdventureResult CANDLES = new AdventureResult( 480, -1 );
-	public static final AdventureResult BUTTERKNIFE = new AdventureResult( 482, -1 );
+	public static final AdventureResult BUTTERKNIFE = new AdventureResult( 481, -1 );
 
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the
