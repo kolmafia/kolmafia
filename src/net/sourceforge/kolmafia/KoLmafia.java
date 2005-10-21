@@ -210,7 +210,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.sessionID = sessionID;
 		isQuickLogin |= GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "2" );
 
-		if ( !permitContinue )
+		if ( !permitsContinue() )
 		{
 			deinitialize();
 			return;
@@ -241,7 +241,7 @@ public abstract class KoLmafia implements KoLConstants
 			resetSessionTally();
 		}
 
-		if ( !permitContinue )
+		if ( !permitsContinue() )
 		{
 			deinitialize();
 			return;
@@ -252,7 +252,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !isQuickLogin && settings.getProperty( "skipMoonPhases" ).equals( "false" ) )
 			(new MoonPhaseRequest( this )).run();
 
-		if ( !permitContinue )
+		if ( !permitsContinue() )
 		{
 			deinitialize();
 			return;
@@ -264,7 +264,7 @@ public abstract class KoLmafia implements KoLConstants
 		(new CharsheetRequest( this )).run();
 		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
 
-		if ( !permitContinue )
+		if ( !permitsContinue() )
 		{
 			deinitialize();
 			return;
@@ -282,7 +282,7 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( DISABLED_STATE, "Retrieving campground data..." );
 		(new CampgroundRequest( this )).run();
 
-		if ( !permitContinue )
+		if ( !permitsContinue() )
 		{
 			deinitialize();
 			return;
@@ -294,7 +294,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !isQuickLogin && settings.getProperty( "skipFamiliars" ).equals( "false" ) )
 			(new FamiliarRequest( this )).run();
 
-		if ( !permitContinue )
+		if ( !permitsContinue() )
 		{
 			deinitialize();
 			return;
@@ -306,7 +306,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !isQuickLogin && settings.getProperty( "skipOutfits" ).equals( "false" ) )
 			(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
 
-		if ( !permitContinue )
+		if ( !permitsContinue() )
 		{
 			deinitialize();
 			return;
@@ -317,7 +317,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
 
-		if ( !permitContinue )
+		if ( !permitsContinue() )
 		{
 			deinitialize();
 			return;
@@ -332,7 +332,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( getBreakfast )
 			getBreakfast();
 
-		if ( !permitContinue )
+		if ( !permitsContinue() )
 		{
 			deinitialize();
 			return;
@@ -340,7 +340,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		this.isLoggingIn = false;
 		this.settings = new KoLSettings( loginname );
-		this.permitContinue = true;
+		resetContinueState();
 
 		MPRestoreItemList.reset();
 	}
@@ -355,30 +355,30 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( DISABLED_STATE, "Retrieving breakfast..." );
 
 		if ( KoLCharacter.hasToaster() )
-			for ( int i = 0; i < 3 && permitContinue; ++i )
+			for ( int i = 0; i < 3 && permitsContinue(); ++i )
 				(new CampgroundRequest( this, "toast" )).run();
 
-		permitContinue = true;
+		resetContinueState();
 
 		if ( KoLCharacter.hasArches() )
 			(new CampgroundRequest( this, "arches" )).run();
 
-		permitContinue = true;
+		resetContinueState();
 
 		if ( KoLCharacter.canSummonNoodles() )
 			(new UseSkillRequest( this, "Pastamastery", "", 3 )).run();
 
-		permitContinue = true;
+		resetContinueState();
 
 		if ( KoLCharacter.canSummonReagent() )
 			(new UseSkillRequest( this, "Advanced Saucecrafting", "", 3 )).run();
 
-		permitContinue = true;
+		resetContinueState();
 
 		if ( KoLCharacter.canSummonShore() )
 			(new UseSkillRequest( this, "Advanced Cocktailcrafting", "", 3 )).run();
 
-		permitContinue = true;
+		resetContinueState();
 		updateDisplay( ENABLED_STATE, "Breakfast retrieved." );
 	}
 
@@ -409,7 +409,7 @@ public abstract class KoLmafia implements KoLConstants
 		(new GreenMessageRequest( this, "246325", "Oh, and KoLmafia says, \"Your shoes are mine, [censored]!\"", new AdventureResult( AdventureResult.MEAT, 2 ) )).run();
 		(new GreenMessageRequest( this, "246325", "But you're a bot, too, so you won't see this.  Sadness.", new AdventureResult( AdventureResult.MEAT, 3 ) )).run();
 
-		permitContinue = true;
+		resetContinueState();
 		updateDisplay( ENABLED_STATE, "Pwning of Clan Otori complete." );
 	}
 
@@ -423,7 +423,8 @@ public abstract class KoLmafia implements KoLConstants
 		sessionID = null;
 		passwordHash = null;
 		cachedLogin = null;
-		permitContinue = false;
+
+		cancelRequest();
 		closeMacroStream();
 	}
 
@@ -798,9 +799,9 @@ public abstract class KoLmafia implements KoLConstants
 			try
 			{
 				int currentHP = -1;
-				permitContinue = true;
+				resetContinueState();
 
-				while ( permitContinue && KoLCharacter.getCurrentHP() <= autoRecover &&
+				while ( permitsContinue() && KoLCharacter.getCurrentHP() <= autoRecover &&
 					KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() && currentHP != KoLCharacter.getCurrentHP() )
 				{
 					currentHP = KoLCharacter.getCurrentHP();
@@ -818,7 +819,7 @@ public abstract class KoLmafia implements KoLConstants
 					else
 					{
 						updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
-						permitContinue = false;
+						cancelRequest();
 						disableMacro = false;
 						return;
 					}
@@ -827,7 +828,7 @@ public abstract class KoLmafia implements KoLConstants
 				if ( currentHP == KoLCharacter.getCurrentHP() )
 				{
 					updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore HP." );
-					permitContinue = false;
+					cancelRequest();
 					disableMacro = false;
 					return;
 				}
@@ -835,7 +836,7 @@ public abstract class KoLmafia implements KoLConstants
 			catch ( Exception e )
 			{
 				updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
-				permitContinue = false;
+				cancelRequest();
 				disableMacro = false;
 				return;
 			}
@@ -904,7 +905,7 @@ public abstract class KoLmafia implements KoLConstants
  						if ( KoLCharacter.getCurrentMP() >= mpNeeded )
  						{
 							disableMacro = false;
-							permitContinue = true;
+							resetContinueState();
  							return true;
 						}
 
@@ -927,7 +928,7 @@ public abstract class KoLmafia implements KoLConstants
  						if ( KoLCharacter.getCurrentMP() >= mpNeeded )
  						{
 							disableMacro = false;
-							permitContinue = true;
+							resetContinueState();
 							return true;
 						}
 
@@ -943,7 +944,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		updateDisplay( ERROR_STATE, "Unable to acquire enough MP!" );
 		disableMacro = false;
-		permitContinue = false;
+		cancelRequest();
 		return false;
 	}
 
@@ -1061,7 +1062,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			this.permitContinue = true;
+			resetContinueState();
 
 			// If you're currently recording commands, be sure to
 			// record the current command to the macro stream.
@@ -1090,10 +1091,11 @@ public abstract class KoLmafia implements KoLConstants
 			// sure to check to see if you're allowed to continue
 			// after drunkenness.
 
-			if ( KoLCharacter.getInebriety() > 19 )
+			if ( KoLCharacter.getInebriety() > 19 && request instanceof KoLAdventure && !((KoLAdventure)request).getZone().equals( "Camp" ) )
 			{
-				if ( request instanceof KoLAdventure && !((KoLAdventure)request).getZone().equals( "Camp" ) )
-					permitContinue = confirmDrunkenRequest();
+				if ( !confirmDrunkenRequest() )
+					cancelRequest();
+
 				pulledOver = true;
 			}
 
@@ -1122,20 +1124,8 @@ public abstract class KoLmafia implements KoLConstants
 
 			int currentIteration = 0;
 
-			while ( permitContinue && currentIteration++ < iterations )
+			while ( permitsContinue() && currentIteration++ < iterations )
 			{
-				// If the conditions existed and have been satisfied,
-				// then you should stop.
-
-				if ( conditions.size() < remainingConditions )
-				{
-					if ( conditions.size() == 0 || useDisjunction )
-					{
-						updateDisplay( ENABLED_STATE, "Conditions satisfied." );
-						return;
-					}
-				}
-
 				remainingConditions = conditions.size();
 
 				// Otherwise, disable the display and update the user
@@ -1165,7 +1155,9 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( request instanceof KoLAdventure && KoLCharacter.getInebriety() > 19 && !pulledOver )
 				{
-					permitContinue = confirmDrunkenRequest();
+					if ( permitsContinue() && !confirmDrunkenRequest() )
+						cancelRequest();
+
 					pulledOver = true;
 				}
 
@@ -1193,12 +1185,24 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( shouldRefreshStatus )
 					(new CharpaneRequest( this )).run();
+
+				// If the conditions existed and have been satisfied,
+				// then you should stop.
+
+				if ( conditions.size() < remainingConditions )
+				{
+					if ( conditions.size() == 0 || useDisjunction )
+					{
+						updateDisplay( ENABLED_STATE, "Conditions satisfied." );
+						return;
+					}
+				}
 			}
 
 			// If you've completed the request, make sure to update
 			// the display.
 
-			if ( !permitContinue )
+			if ( !permitsContinue() )
 			{
 				// Special processing for adventures.
 
@@ -1209,7 +1213,7 @@ public abstract class KoLmafia implements KoLConstants
 					// scripts to continue.
 
 					if ( !((KoLAdventure)request).getErrorState() )
-						permitContinue = true;
+						resetContinueState();
 
 					// If we are not displaying an error
 					// message, give a comforting message.
@@ -1218,7 +1222,7 @@ public abstract class KoLmafia implements KoLConstants
 						updateDisplay( ENABLED_STATE, "Nothing more to do here." );
 				}
 			}
-			else if ( currentIteration >= iterations )
+			else if ( currentIteration >= iterations && conditions.size() >= remainingConditions )
 				updateDisplay( ENABLED_STATE, "Requests completed!" );
 		}
 		catch ( RuntimeException e )
@@ -1636,7 +1640,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If the client is permitted to continue,
 		// then the session has already timed in.
 
-		if ( permitContinue )
+		if ( permitsContinue() )
 		{
 			updateDisplay( ERROR_STATE, "No timeout detected." );
 			return;
@@ -1679,7 +1683,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( retryCount == 4 )
 		{
 			updateDisplay( ERROR_STATE, "Session time-in failed." );
-			permitContinue = false;
+			cancelRequest();
 			return;
 		}
 
@@ -1777,11 +1781,11 @@ public abstract class KoLmafia implements KoLConstants
 	public void makePurchases( List results, Object [] purchases, int maxPurchases )
 	{
 		MallPurchaseRequest currentRequest;
-		permitContinue = true;
+		resetContinueState();
 
 		int purchaseCount = 0;
 
-		for ( int i = 0; i < purchases.length && purchaseCount != maxPurchases && permitContinue; ++i )
+		for ( int i = 0; i < purchases.length && purchaseCount != maxPurchases && permitsContinue(); ++i )
 		{
 			if ( purchases[i] instanceof MallPurchaseRequest )
 			{
@@ -1804,7 +1808,7 @@ public abstract class KoLmafia implements KoLConstants
 				// Remove the purchase from the list!  Because you
 				// have already made a purchase from the store
 
-				if ( permitContinue )
+				if ( permitsContinue() )
 					results.remove( purchases[i] );
 			}
 		}
