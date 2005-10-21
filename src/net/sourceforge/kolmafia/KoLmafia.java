@@ -1126,6 +1126,18 @@ public abstract class KoLmafia implements KoLConstants
 
 			while ( permitsContinue() && currentIteration++ < iterations )
 			{
+				// If the conditions existed and have been satisfied,
+				// then you should stop.
+
+				if ( conditions.size() < remainingConditions )
+				{
+					if ( conditions.size() == 0 || useDisjunction )
+					{
+						updateDisplay( ENABLED_STATE, "Conditions satisfied." );
+						return;
+					}
+				}
+
 				remainingConditions = conditions.size();
 
 				// Otherwise, disable the display and update the user
@@ -1185,18 +1197,6 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( shouldRefreshStatus )
 					(new CharpaneRequest( this )).run();
-
-				// If the conditions existed and have been satisfied,
-				// then you should stop.
-
-				if ( conditions.size() < remainingConditions )
-				{
-					if ( conditions.size() == 0 || useDisjunction )
-					{
-						updateDisplay( ENABLED_STATE, "Conditions satisfied." );
-						return;
-					}
-				}
 			}
 
 			// If you've completed the request, make sure to update
@@ -1222,7 +1222,9 @@ public abstract class KoLmafia implements KoLConstants
 						updateDisplay( ENABLED_STATE, "Nothing more to do here." );
 				}
 			}
-			else if ( currentIteration >= iterations && conditions.size() >= remainingConditions )
+			else if ( currentIteration >= iterations && conditions.size() != 0 )
+				updateDisplay( ENABLED_STATE, "Requests completed!  (Conditions not yet met)" );
+			else if ( currentIteration >= iterations )
 				updateDisplay( ENABLED_STATE, "Requests completed!" );
 		}
 		catch ( RuntimeException e )
