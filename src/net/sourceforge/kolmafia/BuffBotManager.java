@@ -554,11 +554,11 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{
 			if ( !client.permitsContinue() )
 			{
-				queueIncomingMessage( message, true );
 				sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
 					"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
 			}
 
+			queueIncomingMessage( message, true );
 			return client.permitsContinue();
 		}
 
