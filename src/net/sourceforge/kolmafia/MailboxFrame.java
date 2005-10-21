@@ -388,10 +388,16 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( boxname.equals( "" ) )
-				KoLMailManager.saveMessages( KoLMailManager.getMessages( boxname ).toArray() );
-			else
-				KoLMailManager.deleteMessages( boxname, KoLMailManager.getMessages( boxname ).toArray() );
+			if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+				"Would you like to move all the messages in your " + (boxname.equals( "" ) ? "inbox" : boxname.toLowerCase()) +
+					" to " + (boxname.equals( "" ) ? "your savebox" : "the trash") + "?",
+				"Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
+			{
+				if ( boxname.equals( "" ) )
+					KoLMailManager.saveMessages( KoLMailManager.getMessages( boxname ).toArray() );
+				else
+					KoLMailManager.deleteMessages( boxname, KoLMailManager.getMessages( boxname ).toArray() );
+			}
 		}
 	}
 
