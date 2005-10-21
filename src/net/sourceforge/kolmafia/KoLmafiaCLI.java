@@ -276,7 +276,6 @@ public class KoLmafiaCLI extends KoLmafia
 			outputStream.print( " > " );
 
 		String line = null;
-		scriptRequestor.resetContinueState();
 
 		do
 		{
@@ -347,6 +346,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void executeLine( String line )
 	{
+		scriptRequestor.resetContinueState();
 		if ( line.trim().length() == 0 )
 			return;
 
