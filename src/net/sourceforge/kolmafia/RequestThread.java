@@ -167,7 +167,11 @@ public class RequestThread extends Thread implements KoLConstants
 			client.updateDisplay( ENABLED_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 		}
 
-		if ( client != null && !client.isEnabled() )
-			client.updateDisplay( ENABLED_STATE, "" );
+		if ( client != null )
+		{
+			client.resetContinueState();
+			if ( !client.isEnabled() )
+				client.updateDisplay( ENABLED_STATE, "" );
+		}
 	}
 }
