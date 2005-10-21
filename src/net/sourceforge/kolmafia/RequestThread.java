@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 public class RequestThread extends Thread implements KoLConstants
 {
+	private KoLmafia client;
 	private int [] repeatCount;
 	private Runnable [] requests;
 
@@ -56,6 +57,8 @@ public class RequestThread extends Thread implements KoLConstants
 		}
 		else
 		{
+			this.client = request instanceof KoLRequest ? ((KoLRequest)request).client : null;
+
 			this.requests = new Runnable[1];
 			this.requests[0] = request;
 			this.repeatCount = new int[1];
@@ -78,11 +81,16 @@ public class RequestThread extends Thread implements KoLConstants
 
 		this.requests = new Runnable[ requestCount ];
 		this.repeatCount = new int[ requestCount ];
+
 		requestCount = 0;
+		this.client = null;
 
 		for ( int i = 0; i < requests.length; ++i )
 			if ( requests[i] != null )
 			{
+				if ( this.client == null )
+					this.client = requests[i] instanceof KoLRequest ? ((KoLRequest)requests[i]).client : null;
+
 				this.requests[ requestCount ] = requests[i];
 				this.repeatCount[ requestCount++ ] = repeatCount;
 			}
@@ -99,11 +107,16 @@ public class RequestThread extends Thread implements KoLConstants
 
 		this.requests = new Runnable[ requestCount ];
 		this.repeatCount = new int[ requestCount ];
+
 		requestCount = 0;
+		this.client = null;
 
 		for ( int i = 0; i < requests.length; ++i )
 			if ( requests[i] != null )
 			{
+				if ( this.client == null )
+					this.client = requests[i] instanceof KoLRequest ? ((KoLRequest)requests[i]).client : null;
+
 				this.requests[ requestCount ] = requests[i];
 				this.repeatCount[ requestCount++ ] = repeatCount[i];
 			}
@@ -113,7 +126,8 @@ public class RequestThread extends Thread implements KoLConstants
 
 	public void run()
 	{
-		KoLmafia client = null;
+		if ( this.client != null )
+			client.resetContinueState();
 
 		for ( int i = 0; i < requests.length; ++i )
 		{
@@ -128,10 +142,7 @@ public class RequestThread extends Thread implements KoLConstants
 			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLRequest && !((KoLRequest)requests[i]).client.inLoginState() )
-			{
-				client = ((KoLRequest)requests[i]).client;
 				client.makeRequest( requests[i], repeatCount[i] );
-			}
 
 			// Standard KoL adventures are handled through the
 			// client.makeRequest() method.
