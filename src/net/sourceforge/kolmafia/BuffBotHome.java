@@ -231,7 +231,7 @@ public class BuffBotHome extends StaticEntity
 
 	public static void update( Color c, String entry )
 	{
-		if ( entry != null )
+		if ( entry != null && client != null && hypertextLogStream != null )
 		{
 			if ( client instanceof KoLmafiaGUI )
 				messages.add( 0, new BuffMessage( c, entry ) );
