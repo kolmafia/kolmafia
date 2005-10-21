@@ -82,9 +82,6 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( !client.permitsContinue() )
-			return;
-
 		updateDisplay( DISABLED_STATE, "Robbing the hermit..." );
 		super.run();
 
