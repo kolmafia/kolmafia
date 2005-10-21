@@ -186,6 +186,10 @@ public class BuffBotFrame extends KoLFrame
 			elementList.setCellRenderer( BuffBotHome.getMessageRenderer() );
 		}
 
+		public void setEnabled( boolean isEnabled )
+		{	confirmedButton.setEnabled( isEnabled );
+		}
+
 		protected void actionConfirmed()
 		{
 			if ( BuffBotHome.isBuffBotActive() )
