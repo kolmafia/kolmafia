@@ -954,15 +954,10 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	protected final void setProperty( String name, String value )
-	{
-		if ( client != null )
-		{
-			client.getSettings().setProperty( name, value );
-			client.getSettings().saveSettings();
-		}
+	{	StaticEntity.setProperty( name, value );
 	}
 
 	protected final String getProperty( String name )
-	{	return client == null ? GLOBAL_SETTINGS.getProperty( name ) : client.getSettings().getProperty( name );
+	{	return StaticEntity.getProperty( name );
 	}
 }

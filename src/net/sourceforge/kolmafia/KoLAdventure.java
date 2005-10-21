@@ -152,6 +152,17 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
+		// Check for dictionaries as a battle strategy, if the
+		// person is not adventuring at the chasm.
+
+		if ( !adventureID.equals( "80" ) && StaticEntity.getProperty( "battleAction" ).startsWith( "item" ) )
+		{
+			isErrorState = true;
+			client.cancelRequest();
+			client.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
+			return;
+		}
+
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 
