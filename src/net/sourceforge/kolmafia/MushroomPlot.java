@@ -486,18 +486,22 @@ public abstract class MushroomPlot extends StaticEntity
 			return false;
 		}
 
-		// Do this only once.
+		// Fetch the state of the plot only once
 
-		if ( initialized )
-			return true;
+		if ( !initialized )
+		{
+			ownsPlot = false;
+			(new MushroomPlotRequest()).run();
+		}
 
-		// Ask for the state of your plot.
+		if ( ownsPlot == false )
+		{
+			client.updateDisplay( ERROR_STATE, "You haven't bought a mushroom plot yet." );
+			client.cancelRequest();
+			return false;
+		}
 
-		initialized = true;
-		MushroomPlotRequest request = new MushroomPlotRequest();
-		request.run();
-
-		return client.permitsContinue();
+		return true;
 	}
 
 	private static class MushroomPlotRequest extends KoLRequest
@@ -526,18 +530,8 @@ public abstract class MushroomPlot extends StaticEntity
 			super.run();
 			parsePlot( responseText );
 
-			// If you don't own a mushroom plot, there is nothing
-			// left to do.  Update the display indicating this and
-			// cancel the request.
-
-			if ( ownsPlot == false )
-			{
-				client.updateDisplay( ERROR_STATE, "You haven't bought a mushroom plot yet." );
-				client.cancelRequest();
-				return;
-			}
-
-			client.processResults( responseText );
+			if ( ownsPlot )
+				client.processResults( responseText );
 		}
 	}
 
@@ -568,6 +562,9 @@ public abstract class MushroomPlot extends StaticEntity
 		for ( int row = 0; row < 4; ++row )
 			for ( int col = 0; col < 4 && squareMatcher.find(); ++col )
 				actualPlot[ row ][ col ] = parseSquare( squareMatcher.group(1) );
+
+		// Tell MushroomFrame that the plot has changed
+		plotChanged();
 	}
 
 	private static int parseSquare( String text )
@@ -586,6 +583,24 @@ public abstract class MushroomPlot extends StaticEntity
 		}
 
 		return EMPTY;
+	}
+
+	/*
+	 * Method to tell the Mushroom Frame that the plot has changed
+	 */
+
+	private static void plotChanged()
+	{
+		Object [] frames = existingFrames.toArray();
+
+		for ( int i = 0; i < frames.length; ++i )
+		{
+			if ( frames[i] instanceof MushroomFrame )
+			{
+				((MushroomFrame)frames[i]).plotChanged();
+				break;
+			}
+		}
 	}
 
 	public static void main( String [] args )

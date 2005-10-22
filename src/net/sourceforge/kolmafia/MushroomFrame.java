@@ -96,6 +96,15 @@ public class MushroomFrame extends KoLFrame
 		return panel;
 	}
 
+	/*
+	 * Method invoked by MushroomPlot when the field has changed
+	 */
+	public void plotChanged()
+	{
+		// Get the current state of the field and update
+		(new UpdateMushroomThread()).start();
+	}
+
 	/**
 	 * Special thread which allows the current page to be updated outside
 	 * of the Swing thread -- this means images can be downloaded without

@@ -2028,11 +2028,16 @@ public class KoLmafiaCLI extends KoLmafia
 				MushroomPlot.pickMushroom( i, false );
 		}
 
-		updateDisplay( NOCHANGE, "Current:" );
-		updateDisplay( NOCHANGE, MushroomPlot.getMushroomPlot( false ) );
-		updateDisplay( NOCHANGE, "" );
-		updateDisplay( NOCHANGE, "Forecast:" );
-		updateDisplay( NOCHANGE, MushroomPlot.getForecastedPlot( false ) );
+		String plot = MushroomPlot.getMushroomPlot( false );
+
+		if ( scriptRequestor.permitsContinue() )
+		{
+			updateDisplay( NOCHANGE, "Current:" );
+			updateDisplay( NOCHANGE, plot );
+			updateDisplay( NOCHANGE, "" );
+			updateDisplay( NOCHANGE, "Forecast:" );
+			updateDisplay( NOCHANGE, MushroomPlot.getForecastedPlot( false ) );
+		}
 	}
 
 	/**
