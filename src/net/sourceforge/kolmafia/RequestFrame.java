@@ -334,7 +334,7 @@ public class RequestFrame extends KoLFrame
 			}
 
 			if ( currentRequest.responseText == null )
-				currentRequest.responseText = "Empty response.";
+				currentRequest.run();
 
 			mainBuffer.clearBuffer();
 			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
