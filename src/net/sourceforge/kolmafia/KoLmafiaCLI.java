@@ -2260,13 +2260,13 @@ public class KoLmafiaCLI extends KoLmafia
 		String lowercaseOutfitName = parameters.toLowerCase().trim();
 		Iterator outfitIterator = KoLCharacter.getOutfits().iterator();
 		SpecialOutfit intendedOutfit = null;
-		SpecialOutfit currentOutfit;
+		Object currentOutfit;
 
 		while ( intendedOutfit == null && outfitIterator.hasNext() )
 		{
-			currentOutfit = (SpecialOutfit) outfitIterator.next();
-			if ( currentOutfit.toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
-				intendedOutfit = currentOutfit;
+			currentOutfit = outfitIterator.next();
+			if ( currentOutfit instanceof SpecialOutfit && currentOutfit.toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
+				intendedOutfit = (SpecialOutfit) currentOutfit;
 		}
 
 		if ( intendedOutfit == null )
