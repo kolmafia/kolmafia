@@ -70,7 +70,10 @@ public class RequestFrame extends KoLFrame
 	private JMenu bookmarkMenu;
 	private RequestFrame parent;
 	private KoLRequest currentRequest;
-	private LimitedSizeChatBuffer mainBuffer, sideBuffer;
+	private LimitedSizeChatBuffer mainBuffer;
+
+	private boolean hideSideBar;
+	private LimitedSizeChatBuffer sideBuffer;
 	private CharpaneRequest sidePaneRequest;
 
 	protected JEditorPane mainDisplay;
@@ -80,6 +83,12 @@ public class RequestFrame extends KoLFrame
 	}
 
 	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request )
+	{
+		this( client, null, request, request == null || request.getURLString().startsWith( "desc" ) ||
+			request.getURLString().startsWith( "doc" ) || request.getURLString().startsWith( "search" ) );
+	}
+
+	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request, boolean hideSideBar )
 	{
 		super( client, "" );
 
@@ -100,7 +109,9 @@ public class RequestFrame extends KoLFrame
 		// Game text descriptions and player searches should not add
 		// extra requests to the server by having a side panel.
 
-		if ( getCurrentLocation().startsWith( "desc" ) || getCurrentLocation().startsWith( "doc" ) || getCurrentLocation().startsWith( "search" ) )
+		this.hideSideBar = hideSideBar;
+
+		if ( hideSideBar )
 		{
 			this.sideBuffer = null;
 
@@ -116,6 +127,7 @@ public class RequestFrame extends KoLFrame
 
 			this.sideBuffer = new LimitedSizeChatBuffer( "" );
 			this.sideBuffer.setChatDisplay( sideDisplay );
+			this.sidePaneRequest = new CharpaneRequest( client );
 
 			JScrollPane sideScroller = new JScrollPane( sideDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
 			JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
@@ -232,7 +244,7 @@ public class RequestFrame extends KoLFrame
 
 	private void refreshSidePane()
 	{
-		if ( sideBuffer != null )
+		if ( !hideSideBar )
 		{
 			sidePaneRequest.run();
 			sideBuffer.clearBuffer();
@@ -328,19 +340,13 @@ public class RequestFrame extends KoLFrame
 			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
 			mainDisplay.setCaretPosition( 0 );
 
-			client.processResults( currentRequest.responseText );
-
 			// In the event that something resembling a gain event
 			// is seen in the response text, or in the event that you
 			// switch between compact and full mode, refresh the sidebar.
 
-			if ( sidePaneRequest == null && sideBuffer != null )
-			{
-				sidePaneRequest = new CharpaneRequest( client );
-				refreshSidePane();
-			}
-			else if ( currentRequest.responseText.indexOf( ">You " ) != -1 || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
-				refreshSidePane();
+			if ( client.processResults( currentRequest.responseText ) || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
+				if ( !hideSideBar )
+					refreshSidePane();
 
 			if ( getCurrentLocation().indexOf( "mushroom" ) != -1 )
 				MushroomPlot.parsePlot( currentRequest.responseText );
@@ -354,7 +360,7 @@ public class RequestFrame extends KoLFrame
 	 * but can still be properly rendered by post-3.2 browsers.
 	 */
 
-	private String getDisplayHTML( String responseText )
+	protected String getDisplayHTML( String responseText )
 	{
 		// Switch all the <BR> tags that are not understood
 		// by the default Java browser to an understood form,

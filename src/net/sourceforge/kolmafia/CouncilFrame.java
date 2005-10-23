@@ -45,63 +45,16 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
  * moon phases and today's calendar.
  */
 
-public class CouncilFrame extends KoLFrame
+public class CouncilFrame extends RequestFrame
 {
-	private JEditorPane councilDisplay;
-	private LimitedSizeChatBuffer councilBuffer;
-
 	public CouncilFrame( KoLmafia client )
-	{
-		super( client, "Council Quests" );
-		getContentPane().setLayout( new BorderLayout() );
-		councilBuffer = new LimitedSizeChatBuffer( "KoLmafia: Council" );
-
-		councilDisplay = new JEditorPane();
-		councilDisplay.setEditable( false );
-		councilDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
-		councilBuffer.setChatDisplay( councilDisplay );
-
-		JScrollPane scroller = new JScrollPane( councilDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		JComponentUtilities.setComponentSize( scroller, 400, 300 );
-		getContentPane().add( scroller, BorderLayout.CENTER );
-
-		(new UpdateCouncilThread()).start();
+	{	super( client, null, new KoLRequest( client, "council.php", true ), true );
 	}
 
-	/**
-	 * Special thread which allows the council page to be updated outside
-	 * of the Swing thread -- this means images can be downloaded without
-	 * locking the UI.
-	 */
-
-	private class UpdateCouncilThread extends DaemonThread
+	protected String getDisplayHTML( String responseText )
 	{
-		public void run()
-		{
-			if ( client != null )
-			{
-				// Visit the council and see what they have to say.
-
-				KoLRequest request = new KoLRequest( client, "council.php", true );
-				request.run();
-
-				// Strip out the link back to the town and pretty up
-				// the text a little.
-
-				String text = request.responseText.replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ).replaceFirst( "table width=95%", "table width=100%" );
-
-				// Clear the display buffer and append the
-				// modified response text.
-
-				councilBuffer.clearBuffer();
-				councilBuffer.append( text );
-				councilDisplay.setCaretPosition( 0 );
-
-				// Process the results in case they gave us meat or items
-
-				client.processResults( request.responseText );
-			}
-		}
+		return super.getDisplayHTML( responseText ).replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ).replaceFirst(
+			"table width=95%", "table width=100%" );
 	}
 
 	public static void main( String [] args )

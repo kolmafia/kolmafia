@@ -416,12 +416,13 @@ public class KoLmafiaGUI extends KoLmafia
 			JOptionPane.INFORMATION_MESSAGE, null, printing.toArray(), null );
 	}
 
-	public void processResults( String results )
+	public boolean processResults( String results )
 	{
 		shouldRefresh = false;
-		super.processResults( results );
+		boolean hadResults = super.processResults( results );
 		shouldRefresh = true;
 		refresher.run();
+		return hadResults;
 	}
 
 	public void visitCakeShapedArena()

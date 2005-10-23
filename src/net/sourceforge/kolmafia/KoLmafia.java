@@ -954,14 +954,19 @@ public abstract class KoLmafia implements KoLConstants
 	 * stat gains, and losses within the provided string.
 	 *
 	 * @param	results	The string containing the results of the adventure
+	 * @return	<code>true</code> if any results existed
 	 */
 
-	public void processResults( String results )
+	public boolean processResults( String results )
 	{
+		boolean hadResults = false;
 		logStream.println( "Processing results..." );
 
 		if ( results.indexOf( "gains a pound!</b>" ) != -1 )
+		{
 			KoLCharacter.incrementFamilarWeight();
+			hadResults = true;
+		}
 
 		String plainTextResult = results.replaceAll( "<.*?>", "\n" );
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
@@ -974,6 +979,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			lastDamageIndex = damageMatcher.end();
 			parseResult( "You lose " + damageMatcher.group(1) + " hit points" );
+			hadResults = true;
 		}
 
 		damageMatcher = Pattern.compile( "You drop .*? ([\\d,]+) damage" ).matcher( plainTextResult );
@@ -983,6 +989,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			lastDamageIndex = damageMatcher.end();
 			parseResult( "You lose " + damageMatcher.group(1) + " hit points" );
+			hadResults = true;
 		}
 
 		while ( parsedResults.hasMoreTokens() )
@@ -994,6 +1001,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( lastToken.startsWith( "You acquire" ) )
 			{
+				hadResults = true;
 				if ( lastToken.indexOf( "effect" ) == -1 )
 				{
 					String acquisition = parsedResults.nextToken();
@@ -1044,8 +1052,13 @@ public abstract class KoLmafia implements KoLConstants
 				}
 			}
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
+			{
+				hadResults = true;
 				parseResult( lastToken.indexOf( "." ) == -1 ? lastToken : lastToken.substring( 0, lastToken.indexOf( "." ) ) );
+			}
 		}
+
+		return hadResults;
 	}
 
 	/**
