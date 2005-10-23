@@ -224,8 +224,6 @@ public class AdventureFrame extends KoLFrame
 
 	private class AdventureSelectPanel extends KoLPanel
 	{
-		private LockableListModel actions;
-		private LockableListModel actionNames;
 		private JComboBox actionSelect;
 
 		private JPanel actionStatusPanel;
@@ -243,50 +241,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			super( "begin advs", "win game", "stop all", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
 
-			actions = new LockableListModel();
-			actionNames = new LockableListModel();
-
-			actions.add( "attack" );  actionNames.add( "Normal: Attack with Weapon" );
-
-			// Add in moxious maneuver if the player
-			// is of the appropriate class.
-
-			if ( KoLCharacter.getClassType().startsWith( "Ac" ) || KoLCharacter.getClassType().startsWith( "Di" ) )
-			{
-				actions.add( "moxman" );
-				actionNames.add( "Skill: Moxious Maneuver" );
-			}
-
-			// Add in dictionary regardless of whether
-			// or not the player has a dictionary in
-			// their inventory.  Just ignore the option
-			// if the person turns out not to have one.
-
-			actions.add( KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) ? "item1316" : "item0536" );
-			actionNames.add( "Item: Use a Dictionary" );
-
-			// Add in all of the player's combat skills;
-			// parse the skill list to find out.
-
-			Iterator skills = KoLCharacter.getAvailableSkills().iterator();
-
-			int currentSkillID;
-			UseSkillRequest currentSkill;
-
-			while ( skills.hasNext() )
-			{
-				currentSkill = (UseSkillRequest) skills.next();
-				currentSkillID = ClassSkillsDatabase.getSkillID( currentSkill.getSkillName() );
-
-				if ( ClassSkillsDatabase.isCombat( currentSkillID ) )
-				{
-					actions.add( String.valueOf( currentSkillID ) );
-					actionNames.add( "Skill: " + currentSkill.getSkillName() );
-				}
-			}
-
-			actionNames.setSelectedIndex( actions.indexOf( getProperty( "battleAction" ) ) );
-			actionSelect = new JComboBox( actionNames );
+			actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -404,11 +359,16 @@ public class AdventureFrame extends KoLFrame
 			// placed in the input fields.
 
 			contentPanel = this;
+			int selectedOption = actionSelect.getSelectedIndex();
 
-			if ( actionNames.getSelectedIndex() < 0 || actions.getSelectedIndex() >= actions.size() )
-				actions.setSelectedIndex( 0 );
+			if ( selectedOption < 0 )
+			{
+				updateDisplay( ERROR_STATE, "Please select a combat option." );
+				return;
+			}
 
-			String action = (String)actions.get( actionNames.getSelectedIndex() );
+			String action = (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() );
+
 			if ( ( action.equals( "item0536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||
 			     ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) < 1 ) )
 			{

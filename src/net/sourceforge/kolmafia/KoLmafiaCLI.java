@@ -1529,7 +1529,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private String getSkillName( String substring )
 	{
-		List skills = KoLCharacter.getAvailableSkills();
+		List skills = KoLCharacter.getUsableSkills();
 		for ( int i = 0; i < skills.size(); ++i )
 			if ( ((UseSkillRequest)skills.get(i)).getSkillName().toLowerCase().indexOf( substring ) != -1 )
 				return ((UseSkillRequest) skills.get(i)).getSkillName();

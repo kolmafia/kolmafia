@@ -334,7 +334,7 @@ public class RequestFrame extends KoLFrame
 			}
 
 			if ( currentRequest.responseText == null )
-				currentRequest.run();
+				currentRequest.responseText = "Empty response.";
 
 			mainBuffer.clearBuffer();
 			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
@@ -347,6 +347,15 @@ public class RequestFrame extends KoLFrame
 			if ( client.processResults( currentRequest.responseText ) || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
 				if ( !hideSideBar )
 					refreshSidePane();
+
+			// See if the person learned a new skill from using a
+			// mini-browser frame.
+
+			Matcher learnedMatcher = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" ).matcher( currentRequest.responseText );
+			if ( learnedMatcher.find() )
+				KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
+
+			// Update the mushroom plot, if applicable.
 
 			if ( getCurrentLocation().indexOf( "mushroom" ) != -1 )
 				MushroomPlot.parsePlot( currentRequest.responseText );

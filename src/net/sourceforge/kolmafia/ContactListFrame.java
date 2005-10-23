@@ -145,7 +145,7 @@ public class ContactListFrame extends KoLFrame
 		Object [] selectedPlayers = getSelectedPlayers();
 		UseSkillRequest selectedBuff = (UseSkillRequest) JOptionPane.showInputDialog(
 			null, "I want to use this skill on " + selectedPlayers.length + " players...", "The Ultra-Rare Chat Buffing System (CBS)",
-			JOptionPane.INFORMATION_MESSAGE, null, KoLCharacter.getAvailableSkills().toArray(), KoLCharacter.getAvailableSkills().get(0) );
+			JOptionPane.INFORMATION_MESSAGE, null, KoLCharacter.getUsableSkills().toArray(), KoLCharacter.getUsableSkills().get(0) );
 
 		if ( selectedBuff == null )
 			return;

@@ -221,6 +221,9 @@ public abstract class KoLCharacter extends StaticEntity
 	private static LockableListModel usableSkills = new LockableListModel();
 	private static LockableListModel availableSkills = new LockableListModel();
 
+	private static LockableListModel battleSkillIDs = new LockableListModel();
+	private static LockableListModel battleSkillNames = new LockableListModel();
+
 	private static LockableListModel [] equipmentLists = new LockableListModel[8];
 	static
 	{
@@ -1352,31 +1355,94 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setAvailableSkills( List availableSkills )
 	{
 		KoLCharacter.availableSkills.clear();
-		KoLCharacter.availableSkills.addAll( availableSkills );
-
-		int currentSkillID;
-		UseSkillRequest currentSkill;
-
 		KoLCharacter.usableSkills.clear();
+		KoLCharacter.battleSkillIDs.clear();
+		KoLCharacter.battleSkillNames.clear();
+
+		// All characters get the option to
+		// attack something.
+
+		KoLCharacter.battleSkillIDs.add( "attack" );
+		KoLCharacter.battleSkillNames.add( "Normal: Attack with Weapon" );
+
+		// If the player has a dictionary, add it
+		// to the available skills list.
+
+		if ( FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) >= 1 )
+		{
+			battleSkillIDs.add( "item0536" );
+			battleSkillNames.add( "Item: Use a Dictionary" );
+		}
+		else if ( FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) >= 1 )
+		{
+			battleSkillIDs.add( "item1316" );
+			battleSkillNames.add( "Item: Use a Dictionary" );
+		}
+
+		// Add in moxious maneuver if the player
+		// is of the appropriate class.
+
+		if ( KoLCharacter.getClassType().startsWith( "Ac" ) || KoLCharacter.getClassType().startsWith( "Di" ) )
+		{
+			battleSkillIDs.add( "moxman" );
+			battleSkillNames.add( "Special: Moxious Maneuver" );
+		}
+
+		// Check all available skills to see if they
+		// qualify to be added as combat or usables.
+
 		Iterator skills = availableSkills.iterator();
 
 		while ( skills.hasNext() )
-		{
-			currentSkill = (UseSkillRequest) skills.next();
-			currentSkillID = ClassSkillsDatabase.getSkillID( currentSkill.getSkillName() );
+			addAvailableSkill( (UseSkillRequest) skills.next() );
 
-			if ( ClassSkillsDatabase.isNormal( currentSkillID ) || ClassSkillsDatabase.isBuff( currentSkillID ) )
-				usableSkills.add( currentSkill );
+		// Set the selected combat skill based on
+		// the user's current setting.
+
+		battleSkillIDs.setSelectedItem( getProperty( "battleAction" ) );
+		if ( battleSkillIDs.getSelectedIndex() != -1 )
+			battleSkillNames.setSelectedIndex( battleSkillIDs.getSelectedIndex() );
+	}
+
+	/**
+	 * Adds a single skill to the list of known skills
+	 * possessed by this character.
+	 */
+
+	public static void addAvailableSkill( UseSkillRequest skill )
+	{
+		int id = ClassSkillsDatabase.getSkillID( skill.getSkillName() );
+
+		availableSkills.add( skill );
+
+		if ( ClassSkillsDatabase.isNormal( id ) || ClassSkillsDatabase.isBuff( id ) )
+			usableSkills.add( skill );
+
+		if ( ClassSkillsDatabase.isCombat( id ) )
+		{
+			battleSkillIDs.add( String.valueOf( id ) );
+			battleSkillNames.add( "Skill: " + skill.getSkillName() );
 		}
 	}
 
 	/**
-	 * Accessor method to look up the list of available skills.
-	 * @return	A list of the names of available skills
+	 * Returns a list of the identifiers of all available combat
+	 * skills.  The selected index in this list should match
+	 * the selected index in the battle skill names list.
 	 */
 
-	public static LockableListModel getAvailableSkills()
-	{	return availableSkills;
+	public static LockableListModel getBattleSkillIDs()
+	{	return battleSkillIDs;
+	}
+
+	/**
+	 * Returns a list of the names of all available combat
+	 * skills.  The selected index in this list should match
+	 * the selected index in the battle skills list.
+	 */
+
+	public static LockableListModel getBattleSkillNames()
+	{	return battleSkillNames;
 	}
 
 	/**
@@ -1582,6 +1648,44 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void processResult( AdventureResult result )
 	{
+		// If the person acquired the first dictionary,
+		// add it to the list of tactics.
+
+		if ( result.getItemID() == FightRequest.DICTIONARY1.getItemID() )
+		{
+			battleSkillIDs.add( 1, "item0536" );
+			battleSkillNames.add( 1, "Item: Use a Dictionary" );
+		}
+
+		// If the person has acquired or lost the second
+		// dictionary, modify the list of tactics.
+
+		if ( result.getItemID() == FightRequest.DICTIONARY2.getItemID() )
+		{
+			if ( result.getCount() > 0 )
+			{
+				// If the person acquired the second dictionary,
+				// remove the old dictionary tactic and replace
+				// it with the new dictionary tactic.
+
+				battleSkillIDs.set( 1, "item1316" );
+				battleSkillNames.set( 1, "Item: Use a Dictionary" );
+			}
+			else
+			{
+				// If the person is autoselling the second dictionary,
+				// or it's consumed in some request, then remove the
+				// ability to use the skill in combat.
+
+				battleSkillIDs.remove( 1 );
+				battleSkillNames.remove( 1 );
+			}
+		}
+
+		// Treat the result as normal from this point forward.
+		// Figure out which list the skill should be added to
+		// and add it to that list.
+
 		String resultName = result.getName();
 
 		if ( result.isItem() )

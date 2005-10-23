@@ -231,7 +231,7 @@ public class BuffBotFrame extends KoLFrame
 			super( "add", "remove", new Dimension( 120, 20 ),  new Dimension( 300, 20 ));
 			UseSkillRequest skill;
 
-			LockableListModel skillSet = KoLCharacter.getAvailableSkills();
+			LockableListModel skillSet = KoLCharacter.getUsableSkills();
 			LockableListModel buffSet = new LockableListModel();
 			for (int i = 0; (skill = (UseSkillRequest) skillSet.get(i)) != null; ++i )
 				if (ClassSkillsDatabase.isBuff( ClassSkillsDatabase.getSkillID( skill.getSkillName() ) ))
