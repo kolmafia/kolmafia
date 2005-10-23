@@ -232,6 +232,8 @@ public class ItemManageFrame extends KoLFrame
 			private void consume( boolean useMultiple )
 			{
 				Object [] items = elementList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
 
 				int consumptionType, consumptionCount;
 				AdventureResult currentItem;
@@ -324,12 +326,15 @@ public class ItemManageFrame extends KoLFrame
 
 			private void sell( int sellType )
 			{
+				Object [] items = elementList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
 				if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 					"Are you sure you would like to sell the selected items?",
 						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 							return;
 
-				Object [] items = elementList.getSelectedValues();
 				AdventureResult currentItem;
 
 				for ( int i = 0; i < items.length; ++i )
@@ -388,11 +393,21 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, availableList.getSelectedValues() ) )).start();
+			{
+				Object [] items = availableList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
+				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items ) )).start();
 			}
 
 			protected void actionCancelled()
-			{	(new RequestThread( new MuseumRequest( client, availableList.getSelectedValues(), true ) )).start();
+			{
+				Object [] items = availableList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
+				(new RequestThread( new MuseumRequest( client, items, true ) )).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -411,14 +426,23 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, closetList.getSelectedValues() ) )).start();
+			{
+				Object [] items = closetList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
+				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ) )).start();
 			}
 
 			protected void actionCancelled()
 			{
+				Object [] items = closetList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
 				Runnable [] requests = new Runnable[2];
-				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, closetList.getSelectedValues() );
-				requests[1] = new MuseumRequest( client, closetList.getSelectedValues(), true );
+				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+				requests[1] = new MuseumRequest( client, items, true );
 
 				(new RequestThread( requests )).start();
 			}
@@ -468,11 +492,21 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, availableList.getSelectedValues() ) )).start();
+			{
+				Object [] items = availableList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
+				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items ) )).start();
 			}
 
 			protected void actionCancelled()
-			{	(new RequestThread( new ClanStashRequest( client, availableList.getSelectedValues(), ClanStashRequest.ITEMS_TO_STASH ) )).start();
+			{
+				Object [] items = availableList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
+				(new RequestThread( new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH ) )).start();
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -491,14 +525,23 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, closetList.getSelectedValues() ) )).start();
+			{
+				Object [] items = closetList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
+				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ) )).start();
 			}
 
 			protected void actionCancelled()
 			{
+				Object [] items = closetList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
 				Runnable [] requests = new Runnable[2];
-				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, closetList.getSelectedValues() );
-				requests[1] = new ClanStashRequest( client, closetList.getSelectedValues(), ClanStashRequest.ITEMS_TO_STASH );
+				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+				requests[1] = new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH );
 
 				(new RequestThread( requests )).start();
 			}
@@ -541,9 +584,12 @@ public class ItemManageFrame extends KoLFrame
 
 		private void create( boolean createMultiple )
 		{
-			client.updateDisplay( DISABLED_STATE, "Verifying ingredients..." );
 			Object selected = elementList.getSelectedValue();
 
+			if ( selected == null )
+				return;
+
+			client.updateDisplay( DISABLED_STATE, "Verifying ingredients..." );
 			ItemCreationRequest selection = (ItemCreationRequest) selected;
 			selection.setQuantityNeeded( createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1 );
 
