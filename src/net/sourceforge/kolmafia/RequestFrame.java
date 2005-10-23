@@ -127,7 +127,6 @@ public class RequestFrame extends KoLFrame
 
 			this.sideBuffer = new LimitedSizeChatBuffer( "" );
 			this.sideBuffer.setChatDisplay( sideDisplay );
-			this.sidePaneRequest = new CharpaneRequest( client );
 
 			JScrollPane sideScroller = new JScrollPane( sideDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
 			JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
@@ -343,6 +342,12 @@ public class RequestFrame extends KoLFrame
 			// In the event that something resembling a gain event
 			// is seen in the response text, or in the event that you
 			// switch between compact and full mode, refresh the sidebar.
+
+			if ( !hideSideBar && sidePaneRequest == null )
+			{
+				sidePaneRequest = new CharpaneRequest( client );
+				refreshSidePane();
+			}
 
 			if ( client.processResults( currentRequest.responseText ) || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
 				if ( !hideSideBar )
