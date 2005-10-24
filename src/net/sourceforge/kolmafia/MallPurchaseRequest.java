@@ -71,9 +71,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		{
 			// Annoying special case.
 			addFormField( "action", "buyitem" );
-
-			// Not for this store, for some reason. Yet.
-			// addFormField( "phash", client.getPasswordHash() );
+			addFormField( "pwd", client.getPasswordHash() );
 		}
 		else
 		{
