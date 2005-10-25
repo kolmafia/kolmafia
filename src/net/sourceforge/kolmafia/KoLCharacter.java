@@ -908,14 +908,17 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( equipment.length > FAMILIAR && currentFamiliar != null )
 			currentFamiliar.setItem( equipment[FAMILIAR].toLowerCase() );
 
-		KoLCharacter.outfits.clear();
-		if ( KoLCharacter.outfits.isEmpty() )
+		if ( KoLCharacter.outfits.equals( outfits ) )
 		{
-			KoLCharacter.outfits.add( SpecialOutfit.NO_CHANGE );
-			KoLCharacter.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
+			KoLCharacter.outfits.clear();
+			if ( KoLCharacter.outfits.isEmpty() )
+			{
+				KoLCharacter.outfits.add( SpecialOutfit.NO_CHANGE );
+				KoLCharacter.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
+			}
+			KoLCharacter.outfits.addAll( outfits );
 		}
 
-		KoLCharacter.outfits.addAll( outfits );
 		FamiliarData.updateWeightModifier();
 		ClassSkillsDatabase.updateManaModifier();
 	}

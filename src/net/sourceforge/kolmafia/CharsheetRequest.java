@@ -304,7 +304,7 @@ public class CharsheetRequest extends KoLRequest
 				}
 			}
 
-			KoLCharacter.setEquipment( equipment, new ArrayList() );
+			KoLCharacter.setEquipment( equipment, KoLCharacter.getOutfits() );
 
 			// Now, parse out the player's accomplishments, if any
 			// exist.  These are found in the "Accomplishments"
