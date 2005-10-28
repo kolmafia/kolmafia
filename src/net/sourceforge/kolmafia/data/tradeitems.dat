@@ -1320,9 +1320,22 @@
 1320	questionable taco	1	25
 1321	Doc's Miracle Cure	3	50
 1322	petrified time	0	0
+1323	time helmet	9	0
+1324	time trousers	10	0
+1325	time sword	12	0
 1326	Dyspepsi-Cola helmet	9	35
 1327	Cloaca-Cola shield	8	35
 1328	Cloaca-Cola fatigues	10	35
 1329	Dyspepsi-Cola shield	8	35
 1330	Dyspepsi-Cola fatigues	10	35
 1331	Cloaca-Cola helmet	9	35
+1332	Cloaca-Cola knapsack	3	0
+1333	Dyspepsi-Cola knapsack	3	0
+1334	Cloaca-Cola	1	0
+1335	Dyspepsi grenade	0	0
+1336	Cloaca grenade	0	0
+1338	Dyspepsi-Cola d-rations	1	0
+1339	Cloaca-Cola c-rations	1	0
+1340	Cloaca-Cola-issue combat knife	12	0
+1341	Dyspepsi-Cola-issue canteen	8	0
+1342	picture of a dead guy's girlfriend	3	0
