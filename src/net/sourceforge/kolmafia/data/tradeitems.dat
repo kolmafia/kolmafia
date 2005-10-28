@@ -1329,13 +1329,13 @@
 1329	Dyspepsi-Cola shield	8	35
 1330	Dyspepsi-Cola fatigues	10	35
 1331	Cloaca-Cola helmet	9	35
-1332	Cloaca-Cola knapsack	3	0
-1333	Dyspepsi-Cola knapsack	3	0
-1334	Cloaca-Cola	1	0
-1335	Dyspepsi grenade	0	0
-1336	Cloaca grenade	0	0
-1338	Dyspepsi-Cola d-rations	1	0
-1339	Cloaca-Cola c-rations	1	0
-1340	Cloaca-Cola-issue combat knife	12	0
-1341	Dyspepsi-Cola-issue canteen	8	0
-1342	picture of a dead guy's girlfriend	3	0
+1332	Cloaca-Cola knapsack	3	200
+1333	Dyspepsi-Cola knapsack	3	200
+1334	Cloaca-Cola	3	52
+1335	Dyspepsi grenade	0	150
+1336	Cloaca grenade	0	150
+1338	Dyspepsi-Cola d-rations	3	132
+1339	Cloaca-Cola c-rations	3	132
+1340	Cloaca-Cola-issue combat knife	12	35
+1341	Dyspepsi-Cola-issue canteen	8	35
+1342	picture of a dead guy's girlfriend	3	35

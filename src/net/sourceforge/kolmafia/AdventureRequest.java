@@ -116,6 +116,7 @@ public class AdventureRequest extends KoLRequest
 			{
 				addFormField( "pwd", client.getPasswordHash() );
 				addFormField( "orcs", "1" );
+				this.adventuresUsed = 0;
 			}
 			else if ( formSource.equals( "friars.php" ) )
 			{
