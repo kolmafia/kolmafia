@@ -156,7 +156,21 @@ public class AdventureDatabase extends KoLDatabase
 			{ "stuffed shoulder parrot", "100 meat", "eyepatch" } },
 
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
-			{ "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } }
+                  { "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } },
+
+		// The Effervescent Fray
+		{ { "choiceAdventure40" }, { "Cola Wars 1" },
+			{ "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "15 Mysticality" } },
+
+		// Smells Like Team Spirit
+		{ { "choiceAdventure41" }, { "Cola Wars 2" },
+			{ "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "15 Muscle" } },
+
+		// What is it Good For?
+		{ { "choiceAdventure42" }, { "Cola Wars 3" },
+			{ "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "15 Moxie" } }
+
+
 	};
 
 	private static List [] adventureTable;

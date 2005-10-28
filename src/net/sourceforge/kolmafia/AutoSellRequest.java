@@ -102,7 +102,7 @@ public class AutoSellRequest extends SendMessageRequest
 		}
 		else
 		{
-			addFormField( "whichitem", String.valueOf( item.getItemID() ) );
+			addFormField( "whichitem[]", String.valueOf( item.getItemID() ) );
 			addFormField( "action", "sell" );
 			addFormField( "type", "quant" );
 			addFormField( "howmany", String.valueOf( item.getCount() ) );
