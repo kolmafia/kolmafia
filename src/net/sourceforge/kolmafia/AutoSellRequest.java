@@ -102,15 +102,47 @@ public class AutoSellRequest extends SendMessageRequest
 		}
 		else
 		{
-			addFormField( "whichitem[]", String.valueOf( item.getItemID() ) );
-			addFormField( "action", "sell" );
-			addFormField( "type", "quant" );
-			addFormField( "howmany", String.valueOf( item.getCount() ) );
+			// index = 0 if capacity is 1, otherwise from 1 - n
+
+			if ( index <= 1 )
+			{
+				addFormField( "action", "sell" );
+
+				// All items use the same type of sale:
+
+				//     type=all
+				//     type=allbutone
+				//     type=quant
+
+				addFormField( "type", "quant" );
+
+				// For type "quant", all items use the same
+				// number.
+
+				addFormField( "howmany", String.valueOf( item.getCount() ) );
+
+				// KoLmafia doesn't support this properly
+				// yet; we don't know the "sell type" when
+				// we attach items. Instead, we attempt to
+				// convert everything to a "quant" type of
+				// sale - but that only really works if we
+				// are selling a single item, or are selling
+				// exactly one of multiple items.
+			}
+
+			// This is a multiple selection input field.
+			// Therefore, you can give it multiple items.
+
+			addFormField( "whichitem[" + index + "]", String.valueOf( item.getItemID() ) );
 		}
 	}
 
 	protected int getCapacity()
-	{	return sellType == AUTOSELL ? 1 : 11;
+	{
+		// Limit autosell to 1 until we figure out how to use the
+		// "all" and "allbutone" radio buttons of the form
+
+		return sellType == AUTOSELL ? 1 : 11;
 	}
 
 	protected void repeat( Object [] attachments )
