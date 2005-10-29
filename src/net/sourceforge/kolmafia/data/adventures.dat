@@ -31,9 +31,6 @@
 5	adventure.php	22	Fernswarthy's Tower
 5	adventure.php	58	Cemetary (Post-Cyrpt)
 5	adventure.php	78	Palindome
-5	adventure.php	85	The Cola Wars Battlefield
-5	adventure.php	86	Cola Wars Battlefield (Cloaca Uniform)
-5	adventure.php	87	Cola Wars Battlefield (Dyspepsi Uniform)
 
 6	adventure.php	11	Outskirts of The Knob
 6	adventure.php	40	Knob Goblin Kitchens
@@ -96,8 +93,19 @@
 15	adventure.php	47	Bugbear Pens
 15	adventure.php	48	Spooky Gravy Barrow
 
+# Always available
 16	clangym.php	1	Hobo-Flex Workout Machine
 16	clangym.php	2	Big Book of Magicalness
 16	clangym.php	3	Tan-U-Lots Tanning Bed
+
+# Available once you've passed the Sorceress's Entrance
 16	lair3.php	hedge	Sorceress' Hedge Maze
+
+# Available at the whim of Jick
 16	adventure.php	37	Spectral Pickle Factory
+
+# Available while the Temporal Rifts are open
+16	adventure.php	85	The Cola Wars Battlefield
+16	adventure.php	86	Cola Wars Battlefield (Cloaca Uniform)
+16	adventure.php	87	Cola Wars Battlefield (Dyspepsi Uniform)
+16	adventure.php	59	Icy Peak (Through Rift)
