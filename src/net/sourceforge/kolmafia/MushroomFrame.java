@@ -51,7 +51,7 @@ public class MushroomFrame extends KoLFrame
 {
 	private JEditorPane currentDisplay, forecastDisplay;
 	private LimitedSizeChatBuffer currentBuffer, forecastBuffer;
-	private boolean updating;
+	private boolean updating = true;
 
 	public MushroomFrame( KoLmafia client )
 	{
@@ -82,6 +82,8 @@ public class MushroomFrame extends KoLFrame
 
 		getContentPane().setLayout( new BorderLayout() );
 		getContentPane().add( centerPanel, BorderLayout.CENTER );
+
+		updating = false;
 
 		(new UpdateMushroomThread()).start();
 	}
