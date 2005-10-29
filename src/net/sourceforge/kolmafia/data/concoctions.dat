@@ -1,5 +1,5 @@
-# Christmas-specific items which can be created through combination.
-# Seal-clubber items are also included in this list.
+# Christmas-specific items which can be created through combination or
+# smithing.
 
 present	1	0	box	wrapping paper
 bow staff	4	0	big stick	bow
@@ -281,8 +281,8 @@ dirty martini	3	0	dry martini	skewered jumbo olive
 vesper	3	0	dry vodka martini	skewered jumbo olive
 
 
-# Meat-smithing base ingredients.  These items are used later in
-# the construction of meat-smithing weapons.
+# Super-advanced Meatsmithing base ingredients.  These items are used
+# later in the construction of meat-smithing weapons.
 
 asbestos crossbow string	13	0	crossbow string	asbestos ore
 asbestos meat stack	13	0	asbestos ore	dense meat stack
@@ -361,12 +361,16 @@ sequined fez	4	1	basic meat fez	teeny-tiny ninja stars
 
 fez of etymology	4	0	basic meat fez	[1316]
 
+# Pants made of hides of various sorts.
+
 furry pants	14	0	furry fur	pants kit
 hippopotamus pants	14	0	hippopotamus skin	pants kit
 penguin shorts	14	0	penguin skin	pants kit
 sticky meat pants	4	0	really really sticky spider web	basic meat pants
 yakskin pants	14	0	yak skin	pants kit
 gnauga hide chaps	14	1	gnauga hide	pants kit
+
+# Skirts made of hides of various sorts.
 
 furry skirt	14	0	furry fur	skirt / kilt kit
 hippopotamus skirt	14	0	hippopotamus skin	skirt / kilt kit
@@ -375,12 +379,16 @@ sticky meat skirt	4	0	really really sticky spider web	basic meat skirt
 yakskin skirt	14	0	yak skin	skirt / kilt kit
 gnauga hide skirt	14	0	gnauga hide	skirt / kilt kit
 
+# Kilts made of hides of various sorts.
+
 furry kilt	14	0	furry fur	skirt / kilt kit
 hippopotamus kilt	14	0	hippopotamus skin	skirt / kilt kit
 penguinskin mini-kilt	14	0	penguin skin	skirt / kilt kit
 sticky meat kilt	4	0	really really sticky spider web	basic meat kilt
 yakskin kilt	14	0	yak skin	skirt / kilt kit
 gnauga hide kilt	14	0	gnauga hide	skirt / kilt kit
+
+# Bucklers made of hides of various sorts.
 
 hippo skin buckler	14	0	hippopotamus skin	buckler buckle
 penguin skin buckler	14	0	penguin skin	buckler buckle
@@ -390,6 +398,11 @@ gnauga hide buckler	14	1	gnauga hide	buckler buckle
 eXtreme nose ring	4	0	stone of eXtreme power	piercing post
 spooky glove	2	1	spooky fairy gravy	small leather glove
 
+# Time Trappings, smithable by anyone.
+
+time helmet	4	0	petrified time	helmet recipe
+time trousers	4	0	petrified time	pants kit
+time sword	4	0	petrified time	sword hilt
 
 # Reagent potions.  Not to be confused with reagent broth mixtures
 # which can be combined with pasta by pastamancers.
