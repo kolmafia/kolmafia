@@ -81,6 +81,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
+	 * Returns the form source for this adventure.
+	 */
+
+	public String getFormSource()
+	{	return formSource;
+	}
+
+	/**
 	 * Returns the name of this adventure.
 	 */
 
@@ -124,8 +132,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 
 	public void startRun()
-	{
-		request.startRun();
+	{	request.startRun();
 	}
 
 	/**

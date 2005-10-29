@@ -70,6 +70,7 @@ import javax.swing.AbstractButton;
 import javax.swing.Box;
 
 // utilities
+import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -200,24 +201,34 @@ public class OptionsFrame extends KoLFrame
 
 	private class AreaOptionsPanel extends OptionsPanel
 	{
-		private JCheckBox [] optionBoxes;
+		private String [] zones;
+		private JCheckBox [] options;
 
 		public AreaOptionsPanel()
 		{
 			super( "Adventure List", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 
-			optionBoxes = new JCheckBox[ AdventureDatabase.ZONES.length + 2 ];
-			for ( int i = 0; i < optionBoxes.length; ++i )
-				optionBoxes[i] = new JCheckBox();
+			zones = new String[ AdventureDatabase.ZONE_NAMES.size() ];
+			options = new JCheckBox[ AdventureDatabase.ZONE_NAMES.size() + 2 ];
 
-			VerifiableElement [] elements = new VerifiableElement[ AdventureDatabase.ZONES.length + 3 ];
+			for ( int i = 0; i < options.length; ++i )
+				options[i] = new JCheckBox();
 
-			elements[0] = new VerifiableElement( "Sort adventure list", JLabel.LEFT, optionBoxes[0] );
-			elements[1] = new VerifiableElement( "Show associated zone", JLabel.LEFT, optionBoxes[1] );
+			VerifiableElement [] elements = new VerifiableElement[ AdventureDatabase.ZONE_NAMES.size() + 3 ];
+
+			elements[0] = new VerifiableElement( "Sort adventure list", JLabel.LEFT, options[0] );
+			elements[1] = new VerifiableElement( "Show associated zone", JLabel.LEFT, options[1] );
 			elements[2] = new VerifiableElement( " ", new JLabel( "" ) );
 
-			for ( int i = 0; i < AdventureDatabase.ZONES.length; ++i )
-				elements[i+3] = new VerifiableElement( "Hide " + AdventureDatabase.ZONES[i][1], JLabel.LEFT, optionBoxes[i+2] );
+			String currentID;
+			Iterator nameIterator = AdventureDatabase.ZONE_NAMES.keySet().iterator();
+
+			for ( int i = 0; nameIterator.hasNext(); ++i )
+			{
+				currentID = (String) nameIterator.next();
+				zones[i] = (String) AdventureDatabase.ZONE_NAMES.get( currentID );
+				elements[i+3] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_DESCRIPTIONS.get( currentID ), JLabel.LEFT, options[i+2] );
+			}
 
 			setContent( elements, false );
 			actionCancelled();
@@ -225,19 +236,19 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "sortAdventures", String.valueOf( optionBoxes[0].isSelected() ) );
-			setProperty( "showAdventureZone", String.valueOf( optionBoxes[1].isSelected() ) );
+			setProperty( "sortAdventures", String.valueOf( options[0].isSelected() ) );
+			setProperty( "showAdventureZone", String.valueOf( options[1].isSelected() ) );
 
 			StringBuffer areas = new StringBuffer();
 
-			for ( int i = 2; i < optionBoxes.length; ++i )
+			for ( int i = 2; i < options.length; ++i )
 			{
-				if ( optionBoxes[i].isSelected() )
+				if ( options[i].isSelected() )
 				{
 					if ( areas.length() != 0 )
 						areas.append( ',' );
 
-					areas.append( AdventureDatabase.ZONES[i-2][0] );
+					areas.append( zones[i-2] );
 				}
 			}
 
@@ -246,18 +257,18 @@ public class OptionsFrame extends KoLFrame
 
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 
-			if ( client != null && optionBoxes[0].isSelected() )
+			if ( client != null && options[0].isSelected() )
 				Collections.sort( adventureList );
 		}
 
 		protected void actionCancelled()
 		{
-			optionBoxes[0].setSelected( getProperty( "sortAdventures" ).equals( "true" ) );
-			optionBoxes[1].setSelected( getProperty( "showAdventureZone" ).equals( "true" ) );
+			options[0].setSelected( getProperty( "sortAdventures" ).equals( "true" ) );
+			options[1].setSelected( getProperty( "showAdventureZone" ).equals( "true" ) );
 
-			String zones = getProperty( "zoneExcludeList" );
-			for ( int i = 0; i < AdventureDatabase.ZONES.length; ++i )
-				optionBoxes[i+2].setSelected( zones.indexOf( AdventureDatabase.ZONES[i][0] ) != -1 );
+			String excluded = getProperty( "zoneExcludeList" );
+			for ( int i = 0; i < zones.length; ++i )
+				options[i+2].setSelected( excluded.indexOf( zones[i] ) != -1 );
 		}
 	}
 

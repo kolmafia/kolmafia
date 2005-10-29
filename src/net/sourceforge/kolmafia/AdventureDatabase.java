@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -50,26 +52,23 @@ public class AdventureDatabase extends KoLDatabase
 	private static final AdventureResult CASINO = new AdventureResult( 40, 1 );
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 
-	public static final String [][] ZONES =
+	public static final Map ZONE_NAMES = new TreeMap();
+	public static final Map ZONE_DESCRIPTIONS = new TreeMap();
+
+	static
 	{
-		{ "Camp", "campground resting" },                 // zone 0
-		{ "Beach", "the desert beach areas" },            // zone 1
-		{ "Sewer", "market sewer" },                      // zone 2
-		{ "Casino", "Seaside Town's casino games" },      // zone 3
-		{ "Town", "Seaside Town areas" },                 // zone 4
-		{ "Plains", "general plains areas" },             // zone 5
-		{ "Knob", "Cobb's knob areas" },                  // zone 6
-		{ "Bat", "Bat Hole areas" },                      // zone 7
-		{ "Cyrpt", "the defiled cyrpt quest" },           // zone 8
-		{ "Woods", "general woods areas" },               // zone 9
-		{ "Friars", "deep fat friar's quest" },           // zone 10
-		{ "Mount", "general mountain areas" },            // zone 11
-		{ "McLarge", "Mt. McLargeHuge areas" },           // zone 12
-		{ "Island", "the mysterious island areas" },      // zone 13
-		{ "Stalk", "areas above the beanstalk" },        // zone 14
-		{ "Signed", "sign-restricted areas" },            // zone 15
-		{ "Special", "special areas" }                    // zone 16
-	};
+		BufferedReader reader = getReader( "zonelist.dat" );
+		String [] data;
+
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length == 3 )
+			{
+				ZONE_NAMES.put( data[0], data[1] );
+				ZONE_DESCRIPTIONS.put( data[0], data[2] );
+			}
+		}
+	}
 
 	public static final String [] CLOVER_ADVS =
 	{
@@ -188,7 +187,7 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			if ( data.length == 4 )
 			{
-				adventureTable[0].add( ZONES[ Integer.parseInt( data[0] ) ][0] );
+				adventureTable[0].add( ZONE_NAMES.get( data[0] ) );
 				for ( int i = 1; i < 4; ++i )
 					adventureTable[i].add( data[i] );
 			}
@@ -256,100 +255,88 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static void validateAdventure( KoLAdventure adventure )
 	{
-		// First, determine the identifier for the
-		// zone in which the adventure is located.
-
-		int zoneID = -1;
-		for ( int i = 0; zoneID == -1 && i < ZONES.length; ++i )
-			if ( ZONES[i][0].equals( adventure.getZone() ) )
-				zoneID = i;
-
 		KoLRequest request = null;
 
-		switch ( zoneID )
+		String formSource = adventure.getFormSource();
+		String adventureID = adventure.getAdventureID();
+
+		// The beach is unlocked provided the player
+		// has the meat car accomplishment.
+
+		if ( formSource.equals( "shore.php" ) || adventureID.equals( "45" ) )
 		{
-			// The beach is unlocked provided the player
-			// has the meat car accomplishment.
-
-			case 1:
+			if ( !KoLCharacter.hasAccomplishment( KoLCharacter.MEATCAR ) )
 			{
-				if ( !KoLCharacter.hasAccomplishment( KoLCharacter.MEATCAR ) )
+				// Sometimes, the player has just built the meatcar
+				// and visited the council -- check the main map to
+				// see if the beach is unlocked.
+
+				client.updateDisplay( DISABLED_STATE, "Validating map location..." );
+				request = new KoLRequest( client, "main.php" );
+				request.run();
+
+				if ( request.responseText.indexOf( "beach.php" ) != -1 )
 				{
-					// Sometimes, the player has just built the meatcar
-					// and visited the council -- check the main map to
-					// see if the beach is unlocked.
-
-					client.updateDisplay( DISABLED_STATE, "Validating map location..." );
-					request = new KoLRequest( client, "main.php" );
-					request.run();
-
-					if ( request.responseText.indexOf( "beach.php" ) != -1 )
-					{
-						KoLCharacter.addAccomplishment( KoLCharacter.MEATCAR );
-						request = null;
-					}
-					else
-					{
-						client.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
-						client.cancelRequest();
-						return;
-					}
+					KoLCharacter.addAccomplishment( KoLCharacter.MEATCAR );
+					request = null;
 				}
-
-				break;
-			}
-
-			// The casino is unlocked provided the player
-			// has a casino pass in their inventory.
-
-			case 3:
-			{
-				retrieveItem( CASINO );
-				break;
-			}
-
-			// The island is unlocked provided the player
-			// has a dingy dinghy in their inventory.
-
-			case 13:
-			{
-				retrieveItem( DINGHY );
-				break;
-			}
-
-			// The beanstalk is unlocked when the player
-			// has planted a beanstalk -- but, the zone
-			// needs to be armed first.
-
-			case 14:
-			{
-				if ( !KoLCharacter.hasAccomplishment( KoLCharacter.BEANSTALK ) )
+				else
 				{
-					// Sometimes, the player has just used the enchanted
-					// bean, and therefore does not have the accomplishment.
-					// Check the map, and if the beanstalk is available,
-					// go ahead and update the accomplishments.
-
-					client.updateDisplay( DISABLED_STATE, "Validating map location..." );
-					request = new KoLRequest( client, "plains.php" );
-					request.run();
-
-					if ( request.responseText.indexOf( "beanstalk.php" ) != -1 )
-					{
-						KoLCharacter.addAccomplishment( KoLCharacter.BEANSTALK );
-						request = null;
-					}
-					else
-					{
-						client.updateDisplay( ERROR_STATE, "Beanstalk is not yet unlocked." );
-						client.cancelRequest();
-						return;
-					}
+					client.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
+					client.cancelRequest();
+					return;
 				}
-
-				request = new KoLRequest( client, "beanstalk.php" );
-				break;
 			}
+		}
+
+		// The casino is unlocked provided the player
+		// has a casino pass in their inventory.
+
+		else if ( formSource.equals( "casino.php" ) )
+		{
+			retrieveItem( CASINO );
+		}
+
+		// The island is unlocked provided the player
+		// has a dingy dinghy in their inventory.
+
+		else if ( adventureID.equals( "26" ) || adventureID.equals( "65" ) || adventureID.equals( "27" ) ||
+			adventureID.equals( "29" ) || adventureID.equals( "66" ) || adventureID.equals( "67" ) )
+		{
+			retrieveItem( DINGHY );
+		}
+
+		// The beanstalk is unlocked when the player
+		// has planted a beanstalk -- but, the zone
+		// needs to be armed first.
+
+		else if ( adventureID.equals( "81" ) || adventureID.equals( "82" ) || adventureID.equals( "83" ) )
+		{
+			if ( !KoLCharacter.hasAccomplishment( KoLCharacter.BEANSTALK ) )
+			{
+				// Sometimes, the player has just used the enchanted
+				// bean, and therefore does not have the accomplishment.
+				// Check the map, and if the beanstalk is available,
+				// go ahead and update the accomplishments.
+
+				client.updateDisplay( DISABLED_STATE, "Validating map location..." );
+				request = new KoLRequest( client, "plains.php" );
+				request.run();
+
+				if ( request.responseText.indexOf( "beanstalk.php" ) != -1 )
+				{
+					KoLCharacter.addAccomplishment( KoLCharacter.BEANSTALK );
+					request = null;
+				}
+				else
+				{
+					client.updateDisplay( ERROR_STATE, "Beanstalk is not yet unlocked." );
+					client.cancelRequest();
+					return;
+				}
+			}
+
+			request = new KoLRequest( client, "beanstalk.php" );
 		}
 
 		// If you do not need to arm anything, then

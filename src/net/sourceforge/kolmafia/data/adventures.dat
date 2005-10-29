@@ -76,11 +76,11 @@
 12	adventure.php	63	eXtreme Slope
 12	adventure.php	64	Icy Peak
 
-13	adventure.php	26	Hippy Camp
+13	adventure.php	26	Hippy Camp (No Disguise)
 13	adventure.php	65	Hippy Camp (In Disguise)
-13	adventure.php	27	Frat House
+13	adventure.php	27	Frat House (No Disguise)
 13	adventure.php	29	Frat House (In Disguise)
-13	adventure.php	66	Pirate Cove
+13	adventure.php	66	Pirate Cove (No Disguise)
 13	adventure.php	67	Pirate Cove (In Disguise)
 
 14	adventure.php	81	Penultimate Fantasy Airship
@@ -93,19 +93,17 @@
 15	adventure.php	47	Bugbear Pens
 15	adventure.php	48	Spooky Gravy Barrow
 
-# Always available
+# Special Locations - Pre-Rift
+
 16	clangym.php	1	Hobo-Flex Workout Machine
 16	clangym.php	2	Big Book of Magicalness
 16	clangym.php	3	Tan-U-Lots Tanning Bed
-
-# Available once you've passed the Sorceress's Entrance
 16	lair3.php	hedge	Sorceress' Hedge Maze
-
-# Available at the whim of Jick
 16	adventure.php	37	Spectral Pickle Factory
 
-# Available while the Temporal Rifts are open
-16	adventure.php	85	The Cola Wars Battlefield
-16	adventure.php	86	Cola Wars Battlefield (Cloaca Uniform)
-16	adventure.php	87	Cola Wars Battlefield (Dyspepsi Uniform)
+# Special Locations - Post-Rift
+
+16	adventure.php	85	Battlefield (No Uniform)
+16	adventure.php	86	Battlefield (Cloaca Uniform)
+16	adventure.php	87	Battlefield (Dyspepsi Uniform)
 16	adventure.php	59	Icy Peak (Through Rift)
