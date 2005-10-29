@@ -1192,7 +1192,11 @@ public abstract class KoLmafia implements KoLConstants
 				// any applicable adventure usage.
 
 				if ( request instanceof KoLRequest )
-					processResult( new AdventureResult( AdventureResult.ADV, 0 - ((KoLRequest)request).getAdventuresUsed() ) );
+				{
+					int adventures = ((KoLRequest)request).getAdventuresUsed();
+					if ( adventures > 0 )
+						processResult( new AdventureResult( AdventureResult.ADV, 0 - adventures ) );
+				}
 
 				// One circumstance where you need a refresh is if
 				// you gain/lose a status effect.

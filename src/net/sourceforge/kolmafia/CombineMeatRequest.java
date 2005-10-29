@@ -48,7 +48,6 @@ public class CombineMeatRequest extends ItemCreationRequest
 	public CombineMeatRequest( KoLmafia client, int meatType, int quantityNeeded )
 	{
 		super( client, "inventory.php", meatType, quantityNeeded );
-		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "action", "makestuff" );
 
 		addFormField( "whichitem", String.valueOf( meatType ) );

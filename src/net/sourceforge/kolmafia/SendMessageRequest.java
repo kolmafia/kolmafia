@@ -202,10 +202,13 @@ public abstract class SendMessageRequest extends KoLRequest
 					AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
 			}
 
-			if ( source == KoLCharacter.getInventory() )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meatAttachment ) );
-			else
-				client.processResult( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
+			if ( meatAttachment > 0 )
+			{
+				if ( source == KoLCharacter.getInventory() )
+					client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meatAttachment ) );
+				else
+					client.processResult( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
+			}
 		}
 		else
 		{

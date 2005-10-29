@@ -117,6 +117,9 @@ public class AutoSellRequest extends SendMessageRequest
 
 				addFormField( "howmany", String.valueOf( item.getCount() ) );
 			}
+                        else
+				// Otherwise, we are selling all
+				addFormField( "type", "all" );
 
 			// This is a multiple selection input field.
 			// Therefore, you can give it multiple items.
