@@ -51,6 +51,7 @@ public class MushroomFrame extends KoLFrame
 {
 	private JEditorPane currentDisplay, forecastDisplay;
 	private LimitedSizeChatBuffer currentBuffer, forecastBuffer;
+	private boolean updating;
 
 	public MushroomFrame( KoLmafia client )
 	{
@@ -115,8 +116,9 @@ public class MushroomFrame extends KoLFrame
 	{
 		public void run()
 		{
-			if ( client != null )
+			if ( client != null && !updating )
 			{
+				updating = true;
 				currentBuffer.clearBuffer();
 				currentBuffer.append( MushroomPlot.getMushroomPlot( true ) );
 				currentDisplay.setCaretPosition( 0 );
@@ -124,6 +126,7 @@ public class MushroomFrame extends KoLFrame
 				forecastBuffer.clearBuffer();
 				forecastBuffer.append( MushroomPlot.getForecastedPlot( true ) );
 				forecastDisplay.setCaretPosition( 0 );
+				updating = false;
 			}
 		}
 	}
