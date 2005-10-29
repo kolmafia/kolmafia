@@ -45,9 +45,9 @@ import java.util.StringTokenizer;
 public class HermitRequest extends KoLRequest
 {
 	private static final AdventureResult PERMIT =  new AdventureResult( 42, 0 );
-	private static final AdventureResult TRINKET = new AdventureResult( 43, 0 );
-	private static final AdventureResult GEWGAW = new AdventureResult( 44, 0 );
-	private static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 0 );
+	public static final AdventureResult TRINKET = new AdventureResult( 43, 0 );
+	public static final AdventureResult GEWGAW = new AdventureResult( 44, 0 );
+	public static final AdventureResult KNICK_KNACK =  new AdventureResult( 45, 0 );
 
 	private int itemID, quantity;
 

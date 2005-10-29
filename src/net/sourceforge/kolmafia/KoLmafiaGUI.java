@@ -250,16 +250,15 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( selectedValue.equals( hermitItemNames[i] ) )
 				selected = hermitItemNumbers[i];
 
-		try
-		{
-			int tradeCount = df.parse( JOptionPane.showInputDialog(
-				null, "How many " + selectedValue + " to get?", "I want this many!", JOptionPane.INFORMATION_MESSAGE ) ).intValue();
+		int trinkets = HermitRequest.TRINKET.getCount( KoLCharacter.getInventory() ) + 
+			HermitRequest.GEWGAW.getCount( KoLCharacter.getInventory() ) + 
+			HermitRequest.KNICK_KNACK.getCount( KoLCharacter.getInventory() );
+		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", trinkets );
 
-			(new HermitRequest( this, selected, tradeCount )).run();
-		}
-		catch ( Exception e )
-		{
-		}
+		if ( tradeCount == 0 )
+			return;
+
+		(new HermitRequest( this, selected, tradeCount )).run();
 	}
 
 	/**
