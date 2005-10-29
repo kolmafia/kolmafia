@@ -82,19 +82,17 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private URL formURL;
 	private StringBuffer formURLBuffer;
-
+	private boolean followRedirects;
 	private String formURLString;
+
 	private String sessionID;
 	private List data;
 
 	protected KoLmafia client;
-
 	protected int responseCode;
-	protected boolean isErrorState;
-	protected boolean followRedirects;
-	protected String redirectLocation;
-
 	protected String responseText;
+	protected boolean isErrorState;
+	protected String redirectLocation;
 	protected HttpURLConnection formConnection;
 
 	/**
@@ -395,6 +393,11 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				client.updateDisplay( ERROR_STATE, "Too many connection retry attempts." );
 				client.cancelRequest();
+
+				this.responseCode = 0;
+				this.responseText = "";
+				this.isErrorState = true;
+				this.redirectLocation = "";
 			}
 			else if ( retryCount > 1 )
 				client.updateDisplay( NOCHANGE, "Retry attempt successful.  Processing..." );
