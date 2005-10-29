@@ -102,47 +102,54 @@ public class AutoSellRequest extends SendMessageRequest
 		}
 		else
 		{
-			// index = 0 if capacity is 1, otherwise from 1 - n
+			addFormField( "action", "sell" );
 
-			if ( index <= 1 )
+			// If you only have a capacity of 1, then
+			// you need to add the quantity field.
+			// Otherwise, no quantity field is needed.
+
+			if ( getCapacity() == 1 )
 			{
-				addFormField( "action", "sell" );
-
-				// All items use the same type of sale:
-
-				//     type=all
-				//     type=allbutone
-				//     type=quant
-
 				addFormField( "type", "quant" );
 
 				// For type "quant", all items use the same
 				// number.
 
 				addFormField( "howmany", String.valueOf( item.getCount() ) );
-
-				// KoLmafia doesn't support this properly
-				// yet; we don't know the "sell type" when
-				// we attach items. Instead, we attempt to
-				// convert everything to a "quant" type of
-				// sale - but that only really works if we
-				// are selling a single item, or are selling
-				// exactly one of multiple items.
 			}
 
 			// This is a multiple selection input field.
 			// Therefore, you can give it multiple items.
 
-			addFormField( "whichitem[" + index + "]", String.valueOf( item.getItemID() ) );
+			addFormField( "whichitem[]", String.valueOf( item.getItemID() ) );
 		}
 	}
 
 	protected int getCapacity()
 	{
-		// Limit autosell to 1 until we figure out how to use the
-		// "all" and "allbutone" radio buttons of the form
+		// If you are attempting to send things to the mall,
+		// the capacity is one.
 
-		return sellType == AUTOSELL ? 1 : 11;
+		if ( sellType == AUTOMALL )
+			return 11;
+
+		// Otherwise, if you are autoselling multiple items,
+		// but for one of them, you're not selling the maximum
+		// amount, then set the capacity to 1.
+
+		AdventureResult currentAttachment;
+
+		for ( int i = 0; i < attachments.length; ++i )
+		{
+			currentAttachment = (AdventureResult) attachments[i];
+			if ( currentAttachment.getCount( KoLCharacter.getInventory() ) != currentAttachment.getCount() )
+				return 1;
+		}
+
+		// Otherwise, if all items are the maximum amount,
+		// then autosell everything in one request.
+
+		return Integer.MAX_VALUE;
 	}
 
 	protected void repeat( Object [] attachments )
