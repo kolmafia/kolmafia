@@ -2230,7 +2230,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				adventureCount = adventureCountString.equals( "*" ) ? 0 : df.parse( adventureCountString ).intValue();
 
-				if ( adventureCount <= 0 && adventure.getZone().equals( "Shore" ) )
+				if ( adventureCount <= 0 && adventure.getFormSource().equals( "shore.php" ) )
 					adventureCount += (int) Math.floor( KoLCharacter.getAdventuresLeft() / 3 );
 				else if ( adventureCount <= 0 )
 					adventureCount += KoLCharacter.getAdventuresLeft();
