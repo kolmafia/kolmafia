@@ -248,8 +248,6 @@ public class StoreManageFrame extends KoLFrame
 		{
 			sellingList = new JComboBox( client == null ? new LockableListModel() : client.getSellableItems() );
 			sellingList.setRenderer( AdventureResult.getAutoSellCellRenderer() );
-			if ( KoLCharacter.getInventory().size() > 0 )
-				sellingList.setSelectedIndex( 0 );
 
 			itemPrice = new JTextField( "" );
 			itemLimit = new JTextField( "" );
