@@ -97,7 +97,9 @@ public abstract class KoLmafia implements KoLConstants
 	private TreeMap seenPlayerNames;
 
 	protected SortedListModel tally, missingItems;
-	protected SortedListModel usableItems, sellableItems, hunterItems, storage;
+	protected SortedListModel usableItems, sellableItems, storage;
+	protected SortedListModel hunterItems;
+        protected LockableListModel restaurantItems, microbreweryItems;
 
 	protected boolean useDisjunction;
 	protected SortedListModel conditions;
@@ -233,8 +235,10 @@ public abstract class KoLmafia implements KoLConstants
 
 			this.usableItems = new SortedListModel();
 			this.sellableItems = new SortedListModel();
-			this.hunterItems = new SortedListModel();
 			this.storage = new SortedListModel();
+			this.hunterItems = new SortedListModel();
+			this.restaurantItems = new LockableListModel();
+			this.microbreweryItems = new LockableListModel();
 			this.recentEffects = new ArrayList();
 
 			this.tally = new SortedListModel();
@@ -752,6 +756,24 @@ public abstract class KoLmafia implements KoLConstants
 
 	public SortedListModel getBountyHunterItems()
 	{	return hunterItems;
+	}
+
+	/**
+	 * Returns the list of items which are available from 
+	 * Chez Snootee today.
+	 */
+
+	public LockableListModel getRestaurantItems()
+	{	return restaurantItems;
+	}
+
+	/**
+	 * Returns the list of items which are available from the
+	 * Gnomish Micromicrobrewery today.
+	 */
+
+	public LockableListModel getMicrobreweryItems()
+	{	return microbreweryItems;
 	}
 
 	/**
@@ -1302,6 +1324,18 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public abstract void makeHunterRequest();
+
+	/**
+	 * Makes a request to the restaurant to purchase today's meals
+	 */
+
+	public abstract void makeRestaurantRequest();
+
+	/**
+	 * Makes a request to the microbrewery to purchase today's drinks
+	 */
+
+	public abstract void makeMicrobreweryRequest();
 
 	/**
 	 * Makes a request to the untinkerer to untinker items

@@ -1055,6 +1055,18 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "restaurant" ) )
+		{
+			makeRestaurantRequest();
+			return;
+		}
+
+		if ( command.equals( "microbrewery" ) )
+		{
+			makeMicrobreweryRequest();
+			return;
+		}
+
 		if ( command.equals( "toast" ) || command.equals( "rest" ) || command.equals( "relax" ) || command.equals( "arches" ) )
 		{
 			executeCampgroundRequest( command + " " + parameters );
@@ -2437,6 +2449,64 @@ public class KoLmafiaCLI extends KoLmafia
 		for ( int i = 0; i < hunterItems.size(); ++i )
 			if ( ((String)hunterItems.get(i)).indexOf( item ) != -1 )
 				(new BountyHunterRequest( scriptRequestor, TradeableItemDatabase.getItemID( (String) scriptRequestor.hunterItems.get(i) ) )).run();
+	}
+
+	/**
+	 * Makes a request to the restaurant to purchase a meal.  If the item
+	 * is not available, this method does not report an error.
+	 */
+
+	public void makeRestaurantRequest()
+	{
+		List items = scriptRequestor.restaurantItems;
+		if ( items.isEmpty() )
+			(new RestaurantRequest( scriptRequestor )).run();
+
+		if ( previousCommand.indexOf( " " ) == -1 )
+		{
+			printList( items );
+			return;
+		}
+
+		String item = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
+		for ( int i = 0; i < items.size(); ++i )
+		{
+			String name = (String)items.get(i);
+			if ( name.indexOf( item ) != -1 )
+			{
+				(new RestaurantRequest( scriptRequestor, name )).run();
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Makes a request to the microbrewery to purchase a drink.  If the
+	 * item is not available, this method does not report an error.
+	 */
+
+	public void makeMicrobreweryRequest()
+	{
+		List items = scriptRequestor.microbreweryItems;
+		if ( items.isEmpty() )
+			(new MicrobreweryRequest( scriptRequestor )).run();
+
+		if ( previousCommand.indexOf( " " ) == -1 )
+		{
+			printList( items );
+			return;
+		}
+
+		String item = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
+		for ( int i = 0; i < items.size(); ++i )
+		{
+			String name = (String)items.get(i);
+			if ( name.indexOf( item ) != -1 )
+			{
+				(new MicrobreweryRequest( scriptRequestor, name )).run();
+				return;
+			}
+		}
 	}
 
 	/**
