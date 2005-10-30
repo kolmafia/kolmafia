@@ -359,9 +359,8 @@ public class AdventureFrame extends KoLFrame
 			// placed in the input fields.
 
 			contentPanel = this;
-			int selectedOption = actionSelect.getSelectedIndex();
 
-			if ( selectedOption < 0 )
+			if ( actionSelect.getSelectedItem() == null )
 			{
 				updateDisplay( ERROR_STATE, "Please select a combat option." );
 				return;
@@ -593,9 +592,7 @@ public class AdventureFrame extends KoLFrame
 
 			limitPurchasesCheckBox = new JCheckBox();
 			limitPurchasesCheckBox.setSelected( true );
-
 			forceSortingCheckBox = new JCheckBox();
-
 			results = new LockableListModel();
 
 			VerifiableElement [] elements = new VerifiableElement[4];
@@ -692,6 +689,27 @@ public class AdventureFrame extends KoLFrame
 
 			contentPanel = this;
 			currentlyBuying = true;
+
+			if ( !limitPurchasesCheckBox.isSelected() && getProperty( "oversightProtect" ).equals( "true" ) )
+			{
+				int totalPrice = 0;
+				int totalPurchases = 0;
+				MallPurchaseRequest currentPurchase = null;
+
+				for ( int i = 0; i < purchases.length; ++i )
+				{
+					currentPurchase = (MallPurchaseRequest) purchases[i];
+					totalPurchases += currentPurchase.getLimit();
+					totalPrice += currentPurchase.getLimit() * currentPurchase.getPrice();
+				}
+
+				if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+					"Are you sure you would like to purchase\n" + df.format( totalPurchases ) + " " +
+						currentPurchase.getItemName() + " for " + df.format( totalPrice ) + " meat?",
+						"You sure you wanna ride that wave, dude?", JOptionPane.YES_NO_OPTION ) )
+							return;
+			}
+
 			client.makePurchases( results, purchases, limitPurchasesCheckBox.isSelected() ?
 				getQuantity( "Maximum number of items to purchase?", Integer.MAX_VALUE, 1 ) : Integer.MAX_VALUE );
 
@@ -940,7 +958,7 @@ public class AdventureFrame extends KoLFrame
 
 	protected void processWindowEvent( WindowEvent e )
 	{
-		if ( e.getID() == WindowEvent.WINDOW_CLOSING && !existingFrames.isEmpty() )
+		if ( e.getID() == WindowEvent.WINDOW_CLOSING && !existingFrames.isEmpty() && getProperty( "oversightProtect" ).equals( "true" ) )
 		{
 			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 				"Are you sure you wish to end this KoLmafia session?", "SDUGA Accidental Exit Protection Feature", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )

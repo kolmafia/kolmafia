@@ -204,6 +204,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "maxPhilanthropy", "1" );
 		ensureProperty( "mpAutoRecover", "-0.1" );
 		ensureProperty( "nameClickOpens", "0" );
+		ensureProperty( "oversightProtect", "false" );
 		ensureProperty( "proxySet", "false" );
 		ensureProperty( "reloadFrames", "" );
 		ensureProperty( "savePositions", "false" );
