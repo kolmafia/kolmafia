@@ -369,13 +369,13 @@ public abstract class KoLmafia implements KoLConstants
 
 		resetContinueState();
 
-		if ( KoLCharacter.canSummonNoodles() )
-			(new UseSkillRequest( this, "Pastamastery", "", 3 )).run();
+		if ( KoLCharacter.canSummonReagent() )
+			(new UseSkillRequest( this, "Advanced Saucecrafting", "", 3 )).run();
 
 		resetContinueState();
 
-		if ( KoLCharacter.canSummonReagent() )
-			(new UseSkillRequest( this, "Advanced Saucecrafting", "", 3 )).run();
+		if ( KoLCharacter.canSummonNoodles() )
+			(new UseSkillRequest( this, "Pastamastery", "", 3 )).run();
 
 		resetContinueState();
 
