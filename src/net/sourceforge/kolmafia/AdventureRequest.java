@@ -124,6 +124,8 @@ public class AdventureRequest extends KoLRequest
 				addFormField( "action", "ritual" );
 				this.adventuresUsed = 0;
 			}
+			else if ( formSource.equals( "trickortreat.php" ) )
+				addFormField( "action", "Yep." );
 			else
 				addFormField( "action", adventureID );
 		}
@@ -355,6 +357,16 @@ public class AdventureRequest extends KoLRequest
 
 			client.cancelRequest();
 			return;
+		}
+		else if ( formSource.equals( "trickortreat.php" ) )
+		{
+			if ( responseText.indexOf( "You can't go Trick-or-Treating without a costume!" ) != -1 )
+			{
+				isErrorState = true;
+				updateDisplay( ERROR_STATE, "Put on a costume and try again!" );
+				client.cancelRequest();
+				return;
+			}
 		}
 		else if ( responseText.indexOf( "You can't" ) != -1 || responseText.indexOf( "You shouldn't" ) != -1 ||
 			responseText.indexOf( "You don't" ) != -1 || responseText.indexOf( "You need" ) != -1 ||
