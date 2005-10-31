@@ -103,7 +103,7 @@ public class MicrobreweryRequest extends KoLRequest
 				return;
 			}
 
-			if ( !KoLCharacter.canEat() )
+			if ( !KoLCharacter.canDrink() )
 			{
 				client.updateDisplay( ERROR_STATE, "You can't drink. Why are you here?" );
 				client.cancelRequest();
