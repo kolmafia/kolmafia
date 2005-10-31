@@ -110,8 +110,6 @@ public class AdventureRequest extends KoLRequest
 				addFormField( "pwd", client.getPasswordHash() );
 				addFormField( "king", "Yep." );
 			}
-			else if ( formSource.equals( "cyrpt.php" ) )
-				addFormField( "action", "Yep." );
 			else if ( formSource.equals( "mountains.php" ) )
 			{
 				addFormField( "pwd", client.getPasswordHash() );
@@ -124,8 +122,6 @@ public class AdventureRequest extends KoLRequest
 				addFormField( "action", "ritual" );
 				this.adventuresUsed = 0;
 			}
-			else if ( formSource.equals( "trickortreat.php" ) )
-				addFormField( "action", "Yep." );
 			else
 				addFormField( "action", adventureID );
 		}
