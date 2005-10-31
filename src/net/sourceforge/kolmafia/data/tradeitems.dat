@@ -1119,10 +1119,10 @@
 1119	pregnant frozen mushroom	5	0
 1120	pregnant stinky mushroom	5	0
 1121	inexplicably glowing rock	0	0
-1122	spooky fairy gravy	0	-1
+1122	spooky fairy gravy	0	0
 1123	halfberd	12	35
 1124	small leather glove	0	75
-1125	spooky glove	8	-1
+1125	spooky glove	8	0
 1126	enchanted toothpick	8	95
 1127	tiny ninja sword	12	25
 1128	teeny-tiny ninja stars	0	30
@@ -1319,10 +1319,10 @@
 1319	plastic passion fruit	0	25
 1320	questionable taco	1	25
 1321	Doc's Miracle Cure	3	50
-1322	petrified time	0	0
-1323	time helmet	9	0
-1324	time trousers	10	0
-1325	time sword	12	0
+1322	petrified time	0	-1
+1323	time helmet	9	-1
+1324	time trousers	10	-1
+1325	time sword	12	-1
 1326	Dyspepsi-Cola helmet	9	35
 1327	Cloaca-Cola shield	8	35
 1328	Cloaca-Cola fatigues	10	35
