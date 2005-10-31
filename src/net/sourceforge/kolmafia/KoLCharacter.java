@@ -1256,6 +1256,14 @@ public abstract class KoLCharacter extends StaticEntity
 	{	KoLCharacter.consumptionRestriction = consumptionRestriction;
 	}
 
+	public static boolean canEat()
+	{	return consumptionRestriction == AscensionSnapshotTable.NOPATH || consumptionRestriction == AscensionSnapshotTable.TEETOTALER;
+	}
+
+	public static boolean canDrink()
+	{	return consumptionRestriction == AscensionSnapshotTable.NOPATH || consumptionRestriction == AscensionSnapshotTable.BOOZETAFARIAN;
+	}
+
 	/**
 	 * Accessor method for the current mind control setting
 	 * @return	String

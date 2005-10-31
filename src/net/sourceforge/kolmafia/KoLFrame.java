@@ -459,10 +459,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menu.add( consumeMenu );
 
 		consumeFilter = new JCheckBoxMenuItem[3];
-		int restriction = KoLCharacter.getConsumptionRestriction();
 
-		consumeFilter[0] = new FilterMenuItem( "Show food", restriction == AscensionSnapshotTable.NOPATH || restriction == AscensionSnapshotTable.TEETOTALER );
-		consumeFilter[1] = new FilterMenuItem( "Show booze", restriction == AscensionSnapshotTable.NOPATH || restriction == AscensionSnapshotTable.BOOZETAFARIAN );
+		consumeFilter[0] = new FilterMenuItem( "Show food", KoLCharacter.canEat() );
+		consumeFilter[1] = new FilterMenuItem( "Show booze", KoLCharacter.canDrink() );
 		consumeFilter[2] = new FilterMenuItem( "Show others", true );
 
 		for ( int i = 0; i < consumeFilter.length; ++i )

@@ -66,7 +66,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final int BARTENDER = 440;
 	private static final int CLOCKWORK_BARTENDER = 1111;
 
-	private static final AdventureResult CAR = new AdventureResult( 134, 1 );
+	public static final AdventureResult CAR = new AdventureResult( 134, 1 );
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
 	private static final AdventureResult HAMMER = new AdventureResult( 338, 1 );

@@ -87,11 +87,28 @@ public class MicrobreweryRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( !KoLCharacter.inMoxieSign() )
+		if ( !KoLCharacter.inMoxieSign() || !KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
 		{
 			client.updateDisplay( ERROR_STATE, "You can't find the microbrewery." );
 			client.cancelRequest();
 			return;
+		}
+
+		if ( isPurchase )
+		{
+			if ( price == 0 )
+			{
+				client.updateDisplay( ERROR_STATE, "The micromicrobrewery doesn't sell that." );
+				client.cancelRequest();
+				return;
+			}
+
+			if ( !KoLCharacter.canEat() )
+			{
+				client.updateDisplay( ERROR_STATE, "You can't drink. Why are you here?" );
+				client.cancelRequest();
+				return;
+			}
 		}
 
 		client.updateDisplay( DISABLED_STATE, "Visiting the microbrewery..." );

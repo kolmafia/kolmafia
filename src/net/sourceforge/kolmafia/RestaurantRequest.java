@@ -94,6 +94,23 @@ public class RestaurantRequest extends KoLRequest
 			return;
 		}
 
+		if ( isPurchase )
+		{
+			if ( price == 0 )
+			{
+				client.updateDisplay( ERROR_STATE, "The restaurant doesn't sell that." );
+				client.cancelRequest();
+				return;
+			}
+
+			if ( !KoLCharacter.canEat() )
+			{
+				client.updateDisplay( ERROR_STATE, "You can't eat. Why are you here?" );
+				client.cancelRequest();
+				return;
+			}
+		}
+
 		client.updateDisplay( DISABLED_STATE, "Visiting the restaurant..." );
 
 		super.run();

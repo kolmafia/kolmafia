@@ -2478,6 +2478,8 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 		}
+
+		updateDisplay( ERROR_STATE, "The restaurant isn't selling " + item + " today." );
 	}
 
 	/**
@@ -2507,6 +2509,8 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 		}
+
+		updateDisplay( ERROR_STATE, "The microbrewery isn't selling " + item + " today." );
 	}
 
 	/**
