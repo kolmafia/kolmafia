@@ -1048,7 +1048,7 @@ public abstract class KoLmafia implements KoLConstants
 
 							boolean isNumeric = true;
 							for ( int i = 0; isNumeric && i < countString.length(); ++i )
-								isNumeric &= Character.isDigit( countString.charAt(i) );
+								isNumeric &= Character.isDigit( countString.charAt(i) ) || countString.charAt(i) == ',';
 
 							processResult( new AdventureResult( itemName, isNumeric ? df.parse( countString ).intValue() : 1 ) );
 						}
