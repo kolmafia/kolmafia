@@ -100,10 +100,14 @@
 16	clangym.php	3	Tan-U-Lots Tanning Bed
 16	lair3.php	hedge	Sorceress' Hedge Maze
 16	adventure.php	37	Spectral Pickle Factory
+16	trickortreat.php	Yep.	Trick-or-Treating
 
 # Special Locations - Post-Rift
 
-16	adventure.php	85	Battlefield (No Uniform)
-16	adventure.php	86	Battlefield (Cloaca Uniform)
-16	adventure.php	87	Battlefield (Dyspepsi Uniform)
-16	adventure.php	59	Icy Peak (Through Rift)
+17	adventure.php	85	Battlefield (No Uniform)
+17	adventure.php	86	Battlefield (Cloaca Uniform)
+17	adventure.php	87	Battlefield (Dyspepsi Uniform)
+17	adventure.php	59	Icy Peak (Past)
+17	adventure.php	88	Market Square (Future)
+17	adventure.php	89	The Mall (Future)
+17	adventure.php	90	Wrong Side of the Tracks (Future)

@@ -83,7 +83,14 @@ public class AdventureRequest extends KoLRequest
 			this.adventuresUsed = 1;
 
 			if ( formSource.equals( "adventure.php" ) )
-				addFormField( "adv", adventureID );
+			{
+				// Temporary, we assume...
+				int num = Integer.parseInt( adventureID );
+				if ( num >= 89 && num <= 90 )
+					addFormField( "snarfblat", adventureID );
+				else
+					addFormField( "adv", adventureID );
+			}
 			else if ( formSource.equals( "shore.php" ) )
 			{
 				addFormField( "whichtrip", adventureID );
