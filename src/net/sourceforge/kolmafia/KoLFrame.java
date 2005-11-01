@@ -426,8 +426,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		travelMenu.add( new InvocationMenuItem( "Untinker Items", KeyEvent.VK_U, client, "makeUntinkerRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Canadian Device", KeyEvent.VK_C, client, "makeMindControlRequest" ) );
                 travelMenu.add( new DisplayFrameMenuItem( "Knoll Mushrooms", KeyEvent.VK_K, MushroomFrame.class ) );
-		travelMenu.add( new InvocationMenuItem( "Snooty Restaurant", KeyEvent.VK_S, client, "makeRestaurantRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Gnomish Microbrewery", KeyEvent.VK_G, client, "makeMicrobreweryRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Snooty Cafe", KeyEvent.VK_S, client, "makeRestaurantRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Gnomish Bar", KeyEvent.VK_G, client, "makeMicrobreweryRequest" ) );
 
 		return travelMenu;
 	}

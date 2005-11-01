@@ -89,7 +89,7 @@ public class MicrobreweryRequest extends KoLRequest
 	{
 		if ( !KoLCharacter.inMoxieSign() || !KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
 		{
-			client.updateDisplay( ERROR_STATE, "You can't find the microbrewery." );
+			client.updateDisplay( ERROR_STATE, "You can't find the micromicrobrewery." );
 			client.cancelRequest();
 			return;
 		}
@@ -98,7 +98,7 @@ public class MicrobreweryRequest extends KoLRequest
 		{
 			if ( price == 0 )
 			{
-				client.updateDisplay( ERROR_STATE, "The micromicrobrewery doesn't sell that." );
+				client.updateDisplay( ERROR_STATE, "The micromicromicrobrewery doesn't sell that." );
 				client.cancelRequest();
 				return;
 			}
@@ -111,12 +111,19 @@ public class MicrobreweryRequest extends KoLRequest
 			}
 		}
 
-		client.updateDisplay( DISABLED_STATE, "Visiting the microbrewery..." );
+		client.updateDisplay( DISABLED_STATE, "Visiting the micromicrobrewery..." );
 
 		super.run();
 
 		if ( isPurchase )
 		{
+			if ( responseText.indexOf( "You're way too drunk already." ) != -1 )
+			{
+				client.updateDisplay( ERROR_STATE, "Consumption limit reached." );
+				client.cancelRequest();
+				return;
+			}
+
 			processResults( responseText );
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 			updateDisplay( ENABLED_STATE, "Drink purchased." );
