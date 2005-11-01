@@ -150,6 +150,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		switch ( TradeableItemDatabase.getItemID( getItem() ) )
 		{
 			case -1:
+			case 857:
 			case 1040:
 			case 1152:
 			case 1260:
