@@ -468,7 +468,9 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
+			scriptRequestor.resetContinueState();
 			lastScript.listenForCommands();
+
 			if ( lastScript.previousCommand == null )
 				lastScript = null;
 
