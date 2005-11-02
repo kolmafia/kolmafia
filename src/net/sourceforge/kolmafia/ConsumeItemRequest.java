@@ -281,6 +281,8 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You are magically transported" ) != -1 )
 			{
+				KoLCharacter.addAccomplishment( KoLCharacter.BARON );
+
 				// Do it all by hand, since processResults
 				// cannot tell that you are getting the second
 				// kind of dictionary.
@@ -288,7 +290,6 @@ public class ConsumeItemRequest extends KoLRequest
 				client.processResult( FightRequest.DICTIONARY1.getNegation() );
 				client.processResult( FightRequest.DICTIONARY2 );
 				client.processResult( AXE );
-				KoLCharacter.addAccomplishment( KoLCharacter.BARON );
 			}
 			return;
 		}

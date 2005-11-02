@@ -1376,16 +1376,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// If the player has a dictionary, add it
 		// to the available skills list.
 
-		if ( FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) >= 1 )
-		{
-			battleSkillIDs.add( "item0536" );
-			battleSkillNames.add( "Item: Use a Dictionary" );
-		}
-		else if ( FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) >= 1 )
-		{
-			battleSkillIDs.add( "item1316" );
-			battleSkillNames.add( "Item: Use a Dictionary" );
-		}
+		addDictionary();
 
 		// Add in moxious maneuver if the player
 		// is of the appropriate class.
@@ -1410,6 +1401,50 @@ public abstract class KoLCharacter extends StaticEntity
 		battleSkillIDs.setSelectedItem( getProperty( "battleAction" ) );
 		if ( battleSkillIDs.getSelectedIndex() != -1 )
 			battleSkillNames.setSelectedIndex( battleSkillIDs.getSelectedIndex() );
+	}
+
+	public static void addDictionary()
+	{
+		if ( FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) >= 1 )
+			addDictionary( FightRequest.DICTIONARY1 );
+		else if ( FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) >= 1 )
+			addDictionary( FightRequest.DICTIONARY2 );
+	}
+
+	public static void addDictionary( AdventureResult dictionary )
+	{
+		switch ( dictionary.getItemID() )
+		{
+		case 536:
+			// We have the first dictionary. Add attack method to list
+			if ( dictionary.getCount() > 0 )
+			{
+				battleSkillIDs.add( 1, "item0536" );
+				battleSkillNames.add( 1, "Item: Use a Dictionary" );
+			}
+			else
+			// We got traded in the first dictionary. Remove attack method from list
+			{
+				battleSkillIDs.remove( 1 );
+				battleSkillNames.remove( 1 );
+			}
+			break;
+
+		case 1316:
+			// We have the second dictionary. Add attack method to list
+			if ( dictionary.getCount() > 0 )
+			{
+				battleSkillIDs.add( 1, "item1316" );
+				battleSkillNames.add( 1, "Item: Use a Dictionary" );
+			}
+			else
+			// We sold the second dictionary. Remove attack method from list
+			{
+				battleSkillIDs.remove( 1 );
+				battleSkillNames.remove( 1 );
+			}
+			break;
+		}
 	}
 
 	/**
@@ -1656,39 +1691,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void processResult( AdventureResult result )
 	{
-		// If the person acquired the first dictionary,
-		// add it to the list of tactics.
+		// If this is a dictionary, adjust battle tactics.
 
-		if ( result.getItemID() == FightRequest.DICTIONARY1.getItemID() )
-		{
-			battleSkillIDs.add( 1, "item0536" );
-			battleSkillNames.add( 1, "Item: Use a Dictionary" );
-		}
-
-		// If the person has acquired or lost the second
-		// dictionary, modify the list of tactics.
-
-		if ( result.getItemID() == FightRequest.DICTIONARY2.getItemID() )
-		{
-			if ( result.getCount() > 0 )
-			{
-				// If the person acquired the second dictionary,
-				// remove the old dictionary tactic and replace
-				// it with the new dictionary tactic.
-
-				battleSkillIDs.set( 1, "item1316" );
-				battleSkillNames.set( 1, "Item: Use a Dictionary" );
-			}
-			else
-			{
-				// If the person is autoselling the second dictionary,
-				// or it's consumed in some request, then remove the
-				// ability to use the skill in combat.
-
-				battleSkillIDs.remove( 1 );
-				battleSkillNames.remove( 1 );
-			}
-		}
+		addDictionary( result );
 
 		// Treat the result as normal from this point forward.
 		// Figure out which list the skill should be added to

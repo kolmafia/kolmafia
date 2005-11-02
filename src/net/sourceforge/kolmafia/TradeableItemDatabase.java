@@ -140,6 +140,9 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemName.equals( "ice-cold beer (Willer)" ) )
 			return 81;
 
+		if ( itemName.equals( "dictionary" ) )
+			return KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) ? 536: 1316;
+
 		String canonicalName = getCanonicalName( itemName );
 		Object itemID = itemByName.get( canonicalName );
 
