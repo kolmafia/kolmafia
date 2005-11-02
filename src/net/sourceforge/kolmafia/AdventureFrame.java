@@ -455,6 +455,7 @@ public class AdventureFrame extends KoLFrame
 					}
 				}
 
+				conditionField.setText( "" );
 				conditioner.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 			}
 
