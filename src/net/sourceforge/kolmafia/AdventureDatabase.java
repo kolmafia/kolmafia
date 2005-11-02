@@ -460,11 +460,11 @@ public class AdventureDatabase extends KoLDatabase
 		return;
 	}
 
-	public static boolean ignorableChoice( String choice )
+	public static String ignoreChoiceOption( String choice )
 	{
 		for ( int i = 0; i < IGNORABLE_CHOICES.length; ++i )
 			if ( choice.equals( IGNORABLE_CHOICES[i][0] ) )
-				return true;
-		return false;
+				return IGNORABLE_CHOICES[i][1];
+		return null;
 	}
 }

@@ -558,7 +558,7 @@ public class OptionsFrame extends KoLFrame
 			{
 				optionSelects[i] = new JComboBox();
 
-                                boolean ignorable = AdventureDatabase.ignorableChoice( AdventureDatabase.CHOICE_ADVS[i][0][0] );
+                                boolean ignorable = AdventureDatabase.ignoreChoiceOption( AdventureDatabase.CHOICE_ADVS[i][0][0] ) != null;
                                 optionSelects[i].addItem( ignorable ?
                                                           "Ignore this adventure" :
                                                           "Can't ignore this adventure" );
@@ -590,7 +590,7 @@ public class OptionsFrame extends KoLFrame
 			{
 				int index = optionSelects[i].getSelectedIndex();
 				String choice = AdventureDatabase.CHOICE_ADVS[i][0][0];
-				boolean ignorable = AdventureDatabase.ignorableChoice( choice );
+                                boolean ignorable = AdventureDatabase.ignoreChoiceOption( choice ) != null;
 
 				if ( ignorable || index != 0 )
 					setProperty( choice, String.valueOf( index ) );

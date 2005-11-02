@@ -442,11 +442,9 @@ public class AdventureRequest extends KoLRequest
 
 	public void processChoiceAdventure()
 	{
-		if ( getProperty( "ignoreChoiceAdventures" ).equals( "true" ) )
-		{
-			ignoreChoiceAdventure();
-			return;
-		}
+		// You can no longer simply ignore a choice adventure.	One of
+		// the options may have that effect, but we must at least run
+		// choice.php to find out which choice it is.
 
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
@@ -463,19 +461,48 @@ public class AdventureRequest extends KoLRequest
 		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( text );
 		if ( !choiceMatcher.find() )
 		{
-			ignoreChoiceAdventure();
+			// choice.php did not offer us any choices. This would
+			// be a bug in KoL itself. Bail now and let the user
+			// finish by hand.
+
+			updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
+			isErrorState = true;
+			client.cancelRequest();
 			return;
 		}
 
 		String choice = choiceMatcher.group(1);
-		String decision = getProperty( "choiceAdventure" + choice );
+		String option = "choiceAdventure" + choice;
+		String decision = getProperty( option );
 
 		// If there is currently no setting which determines the
-		// decision, assume it can be skipped and skip it.
+		// decision, give an error and bail.
 
-		if ( decision == null || decision.equals( "0" ) )
+		if ( decision == null )
 		{
-			ignoreChoiceAdventure();
+			updateDisplay( ERROR_STATE, "Encountered unsupported choice adventure #" + choice );
+			isErrorState = true;
+			client.cancelRequest();
+			return;
+		}
+
+		// If the user wants to ignore this specific choice or all
+		// choices, see if this choice is ignorable.
+
+		if ( decision.equals( "0" ) || getProperty( "ignoreChoiceAdventures" ).equals( "true" ) )
+		{
+			String ignoreChoice = AdventureDatabase.ignoreChoiceOption( option );
+			if ( ignoreChoice != null )
+				decision = ignoreChoice;
+		}
+
+		// Make sure that we've resolved to a non-0 choice.
+
+		if ( decision.equals( "0" ) )
+		{
+			updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
+			isErrorState = true;
+			client.cancelRequest();
 			return;
 		}
 
@@ -506,12 +533,5 @@ public class AdventureRequest extends KoLRequest
 
 		if ( request.responseText.indexOf( "action=choice.php" ) != -1 )
 			handleChoiceResponse( request.responseText );
-	}
-
-	private void ignoreChoiceAdventure()
-	{
-		updateDisplay( NOCHANGE, "Encountered choice adventure.  Retrying..." );
-		this.run();
-		return;
 	}
 }
