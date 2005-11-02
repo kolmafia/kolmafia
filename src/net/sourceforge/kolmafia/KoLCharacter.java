@@ -1421,12 +1421,7 @@ public abstract class KoLCharacter extends StaticEntity
 			{
 				battleSkillIDs.add( 1, "item0536" );
 				battleSkillNames.add( 1, "Item: Use a Dictionary" );
-			}
-			else
-			// We got traded in the first dictionary. Remove attack method from list
-			{
-				battleSkillIDs.remove( 1 );
-				battleSkillNames.remove( 1 );
+				return;
 			}
 			break;
 
@@ -1436,15 +1431,17 @@ public abstract class KoLCharacter extends StaticEntity
 			{
 				battleSkillIDs.add( 1, "item1316" );
 				battleSkillNames.add( 1, "Item: Use a Dictionary" );
-			}
-			else
-			// We sold the second dictionary. Remove attack method from list
-			{
-				battleSkillIDs.remove( 1 );
-				battleSkillNames.remove( 1 );
+				return;
 			}
 			break;
+
+		default:
+			return;
 		}
+
+		// We are removing a dictionary from the inventory. Remove tactic.
+		battleSkillIDs.remove( 1 );
+		battleSkillNames.remove( 1 );
 	}
 
 	/**
