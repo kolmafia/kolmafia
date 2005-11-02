@@ -234,7 +234,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 		ensureNonZeroProperty( "choiceAdventure2", "2" );
 		ensureNonZeroProperty( "choiceAdventure3", "1" );
-		ensureNonZeroProperty( "choiceAdventure4", "2" );
+		ensureNonZeroProperty( "choiceAdventure4", "3" );
 		ensureNonZeroProperty( "choiceAdventure5", "2" );
 		ensureNonZeroProperty( "choiceAdventure7", "2" );
 		ensureNonZeroProperty( "choiceAdventure8", "3" );
@@ -249,6 +249,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureNonZeroProperty( "choiceAdventure18", "3" );
 		ensureNonZeroProperty( "choiceAdventure19", "3" );
 		ensureNonZeroProperty( "choiceAdventure20", "3" );
+		ensureNonZeroProperty( "choiceAdventure21", "2" );
 		ensureNonZeroProperty( "choiceAdventure22", "3" );
 		ensureNonZeroProperty( "choiceAdventure23", "3" );
 		ensureNonZeroProperty( "choiceAdventure24", "2" );
@@ -317,12 +318,13 @@ public class KoLSettings extends Properties implements UtilityConstants
 	/**
 	 * Ensures that the given property exists, and if it does not exist,
 	 * initializes it to the given value. Additionally, if the property exists
-	 * and is 0, force it to the default value
+	 * and is 0, force it to the default value. This is for choice adventures.
 	 */
 
 	private void ensureNonZeroProperty( String key, String defaultValue )
 	{
-		if ( !containsKey( key ) || get( key).equals( "0" ) )
+		if ( !containsKey( key ) ||
+                     ( get( key).equals( "0" ) && AdventureDatabase.ignoreChoiceOption( key ) == null ) )
 			setProperty( key, defaultValue );
 	}
 

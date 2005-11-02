@@ -141,6 +141,10 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure20" }, { "Itznotyerzitz Mine 3" },
 		  { "miner's helmet", "7-Foot Dwarven mattock", "100 meat" } },
 
+		// Under the Knife
+		{ { "choiceAdventure21" }, { "Sleazy Back Alley" },
+		  { "Change Gender", "Keep your Gender" } },
+
 		// The Arrrbitrator
 		{ { "choiceAdventure22" }, { "Pirate's Cove 1" },
 		  { "eyepatch", "swashbuckling pants", "100 meat" } },
@@ -174,10 +178,20 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final String [][] IGNORABLE_CHOICES =
 	{
+		// Palindome
+		{ "choiceAdventure2", "2" },
+
+		// South of the Border
+		{ "choiceAdventure4", "3" },
+
+		// Giant Castle
 		{ "choiceAdventure9", "3" },
 		{ "choiceAdventure10","3" },
 		{ "choiceAdventure11", "3" },
-		{ "choiceAdventure12", "3" }
+		{ "choiceAdventure12", "3" },
+
+		// Sleazy Back Alley
+		{ "choiceAdventure21", "2" }
 	};
 
 	private static List [] adventureTable;
