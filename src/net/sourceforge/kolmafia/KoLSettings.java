@@ -229,33 +229,40 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// Ensure that they exist, and if they do not, load
 		// them to their default settings.
 
-		ensureProperty( "choiceAdventure2", "0" );
-		ensureProperty( "choiceAdventure3", "0" );
-		ensureProperty( "choiceAdventure4", "2" );
-		ensureProperty( "choiceAdventure5", "0" );
-		ensureProperty( "choiceAdventure7", "0" );
-		ensureProperty( "choiceAdventure8", "0" );
-		ensureProperty( "choiceAdventure9", "1" );
-		ensureProperty( "choiceAdventure10", "1" );
-		ensureProperty( "choiceAdventure11", "0" );
-		ensureProperty( "choiceAdventure12", "2" );
-		ensureProperty( "choiceAdventure14", "0" );
-		ensureProperty( "choiceAdventure15", "0" );
-		ensureProperty( "choiceAdventure16", "0" );
-		ensureProperty( "choiceAdventure17", "0" );
-		ensureProperty( "choiceAdventure18", "0" );
-		ensureProperty( "choiceAdventure19", "0" );
-		ensureProperty( "choiceAdventure20", "0" );
-		ensureProperty( "choiceAdventure22", "0" );
-		ensureProperty( "choiceAdventure23", "0" );
-		ensureProperty( "choiceAdventure24", "0" );
-		ensureProperty( "choiceAdventure25", "2" );
-		ensureProperty( "choiceAdventure40", "0" );
-		ensureProperty( "choiceAdventure41", "0" );
-		ensureProperty( "choiceAdventure42", "0" );
+		// KoL no longer allows you to "ignore" a choice adventure.
+		// Therefore, reset saved "0" settings to the default.
+
+		ensureNonZeroProperty( "choiceAdventure2", "2" );
+		ensureNonZeroProperty( "choiceAdventure3", "1" );
+		ensureNonZeroProperty( "choiceAdventure4", "2" );
+		ensureNonZeroProperty( "choiceAdventure5", "2" );
+		ensureNonZeroProperty( "choiceAdventure7", "2" );
+		ensureNonZeroProperty( "choiceAdventure8", "3" );
+		ensureNonZeroProperty( "choiceAdventure9", "1" );
+		ensureNonZeroProperty( "choiceAdventure10", "1" );
+		ensureNonZeroProperty( "choiceAdventure11", "3" );
+		ensureNonZeroProperty( "choiceAdventure12", "2" );
+		ensureNonZeroProperty( "choiceAdventure14", "3" );
+		ensureNonZeroProperty( "choiceAdventure15", "3" );
+		ensureNonZeroProperty( "choiceAdventure16", "3" );
+		ensureNonZeroProperty( "choiceAdventure17", "3" );
+		ensureNonZeroProperty( "choiceAdventure18", "3" );
+		ensureNonZeroProperty( "choiceAdventure19", "3" );
+		ensureNonZeroProperty( "choiceAdventure20", "3" );
+		ensureNonZeroProperty( "choiceAdventure22", "3" );
+		ensureNonZeroProperty( "choiceAdventure23", "3" );
+		ensureNonZeroProperty( "choiceAdventure24", "2" );
+		ensureNonZeroProperty( "choiceAdventure25", "2" );
+		ensureNonZeroProperty( "choiceAdventure40", "3" );
+		ensureNonZeroProperty( "choiceAdventure41", "3" );
+		ensureNonZeroProperty( "choiceAdventure42", "3" );
 
 		// Wheel choice adventures need special handling.
 		// This is where everything is validated for that.
+
+		// KoL no longer allows you to "ignore" a choice adventure.
+		// Fortunately, the wheel choices all provide a "leave the wheel alone" option
+		// which does exactly that - and doesn't use an adventure to take it.
 
 		int [] wheelChoices = new int[4];
 		for ( int i = 0; i < 4; ++i )
@@ -266,16 +273,16 @@ public class KoLSettings extends Properties implements UtilityConstants
 		{
 			switch ( wheelChoices[i] )
 			{
+				case 0:
+					wheelChoices[i] = 3;
+					break;
+
 				case 1:
 					++clockwiseCount;
 					break;
 
 				case 2:
 					++counterClockwiseCount;
-					break;
-
-				case 3:
-					wheelChoices[i] = 0;
 					break;
 			}
 		}
@@ -288,7 +295,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		{
 			wheelChoices[0] = 1;
 			wheelChoices[1] = 1;
-			wheelChoices[2] = 0;
+			wheelChoices[2] = 3;
 			wheelChoices[3] = 2;
 		}
 
@@ -304,6 +311,18 @@ public class KoLSettings extends Properties implements UtilityConstants
 	private void ensureProperty( String key, String defaultValue )
 	{
 		if ( !containsKey( key ) )
+			setProperty( key, defaultValue );
+	}
+
+	/**
+	 * Ensures that the given property exists, and if it does not exist,
+	 * initializes it to the given value. Additionally, if the property exists
+	 * and is 0, force it to the default value
+	 */
+
+	private void ensureNonZeroProperty( String key, String defaultValue )
+	{
+		if ( !containsKey( key ) || get( key).equals( "0" ) )
 			setProperty( key, defaultValue );
 	}
 

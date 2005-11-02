@@ -91,85 +91,93 @@ public class AdventureDatabase extends KoLDatabase
 	{ "seal-clubbing club", "seal tooth", "helmet turtle", "scroll of turtle summoning", "pasta spoon", "ravioli hat",
 	  "saucepan", "spices", "disco mask", "disco ball", "stolen accordion", "mariachi pants", "worthless trinket" };
 
-
 	public static final String [][][] CHOICE_ADVS =
 	{
 		{ { "choiceAdventure2" }, { "Palindome" },
-			{ "Trade for a denim axe", "Keep your rubber axe" } },
+		  { "Trade for a denim axe", "Keep your rubber axe" } },
 
 		{ { "choiceAdventure3" }, { "Teleportitis" },
-			{ "Leave the oracle", "Pay for a minor consultation", "Pay for a major consultation" } },
+		  { "Leave the oracle", "Pay for a minor consultation", "Pay for a major consultation" } },
 
 		{ { "choiceAdventure4" }, { "South of the Border" },
-			{ "Bet on Tapajunta Del Maiz", "Bet on Cuerno De...  the other one", "Walk away in disgust" } },
+		  { "Bet on Tapajunta Del Maiz", "Bet on Cuerno De...  the other one", "Walk away in disgust" } },
 
 		// Heart of Very, Very Dark Darkness
 		{ { "choiceAdventure5" }, { "Spooky Gravy Barrow" },
-			{ "Enter the cave", "Don't enter the cave" } },
+		  { "Enter the cave", "Don't enter the cave" } },
 
 		// How Depressing
 		{ { "choiceAdventure7" }, { "Spooky Gravy Barrow" },
-			{ "Put your hand in the depression", "Leave" } },
+		  { "Put your hand in the depression", "Leave" } },
 
 		// On the Verge of a Dirge
 		{ { "choiceAdventure8" }, { "Spooky Gravy Barrow" },
 		  { "Enter the chamber", "Enter the chamber", "Enter the chamber" } },
 
 		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
-			{ "Knob goblin harem veil", "Knob goblin harem pants", "100 meat" } },
+		  { "Knob goblin harem veil", "Knob goblin harem pants", "100 meat" } },
 
 		// Yeti Nother Hippy
 		{ { "choiceAdventure15" }, { "eXtreme Slope 1" },
-			{ "eXtreme mittens", "eXtreme scarf", "75 meat" } },
+		  { "eXtreme mittens", "eXtreme scarf", "75 meat" } },
 
 		// Saint Beernard
 		{ { "choiceAdventure16" }, { "eXtreme Slope 2" },
-			{ "snowboarder pants", "eXtreme scarf", "75 meat" } },
+		  { "snowboarder pants", "eXtreme scarf", "75 meat" } },
 
 		// Generic Teen Comedy
 		{ { "choiceAdventure17" }, { "eXtreme Slope 3" },
-			{ "eXtreme mittens", "snowboarder pants", "75 meat" } },
+		  { "eXtreme mittens", "snowboarder pants", "75 meat" } },
 
 		// A Flat Miner
 		{ { "choiceAdventure18" }, { "Itznotyerzitz Mine 1" },
-			{ "miner's pants", "7-Foot Dwarven mattock", "100 meat" } },
+		  { "miner's pants", "7-Foot Dwarven mattock", "100 meat" } },
 
 		// 100% Legal
 		{ { "choiceAdventure19" }, { "Itznotyerzitz Mine 2" },
-			{ "miner's helmet", "miner's pants", "100 meat" } },
+		  { "miner's helmet", "miner's pants", "100 meat" } },
 
 		// See You Next Fall
 		{ { "choiceAdventure20" }, { "Itznotyerzitz Mine 3" },
-			{ "miner's helmet", "7-Foot Dwarven mattock", "100 meat" } },
+		  { "miner's helmet", "7-Foot Dwarven mattock", "100 meat" } },
 
 		// The Arrrbitrator
 		{ { "choiceAdventure22" }, { "Pirate's Cove 1" },
-			{ "eyepatch", "swashbuckling pants", "100 meat" } },
+		  { "eyepatch", "swashbuckling pants", "100 meat" } },
 
 		// Barrie Me at Sea
 		{ { "choiceAdventure23" }, { "Pirate's Cove 2" },
-			{ "stuffed shoulder parrot", "swashbuckling pants", "100 meat" } },
+		  { "stuffed shoulder parrot", "swashbuckling pants", "100 meat" } },
 
 		// Amatearrr Night
 		{ { "choiceAdventure24" }, { "Pirate's Cove 3" },
-			{ "stuffed shoulder parrot", "100 meat", "eyepatch" } },
+		  { "stuffed shoulder parrot", "100 meat", "eyepatch" } },
 
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
-                  { "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } },
+		  { "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } },
 
 		// The Effervescent Fray
 		{ { "choiceAdventure40" }, { "Cola Wars 1" },
-			{ "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "15 Mysticality" } },
+		  { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "15 Mysticality" } },
 
 		// Smells Like Team Spirit
 		{ { "choiceAdventure41" }, { "Cola Wars 2" },
-			{ "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "15 Muscle" } },
+		  { "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "15 Muscle" } },
 
 		// What is it Good For?
 		{ { "choiceAdventure42" }, { "Cola Wars 3" },
-			{ "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "15 Moxie" } }
+		  { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "15 Moxie" } }
+	};
 
+	// Some choice adventures have a choice that behaves as an "ignore"
+	// setting: if you select it, no adventure is consumed.
 
+	public static final String [][] IGNORABLE_CHOICES =
+	{
+		{ "choiceAdventure9", "3" },
+		{ "choiceAdventure10","3" },
+		{ "choiceAdventure11", "3" },
+		{ "choiceAdventure12", "3" }
 	};
 
 	private static List [] adventureTable;
@@ -450,5 +458,13 @@ public class AdventureDatabase extends KoLDatabase
 		client.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + itemName + " to continue." );
 		client.cancelRequest();
 		return;
+	}
+
+	public static boolean ignorableChoice( String choice )
+	{
+		for ( int i = 0; i < IGNORABLE_CHOICES.length; ++i )
+			if ( choice.equals( IGNORABLE_CHOICES[i][0] ) )
+				return true;
+		return false;
 	}
 }

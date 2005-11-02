@@ -557,7 +557,11 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
 			{
 				optionSelects[i] = new JComboBox();
-				optionSelects[i].addItem( "Ignore this adventure" );
+
+                                boolean ignorable = AdventureDatabase.ignorableChoice( AdventureDatabase.CHOICE_ADVS[i][0][0] );
+                                optionSelects[i].addItem( ignorable ?
+                                                          "Ignore this adventure" :
+                                                          "Can't ignore this adventure" );
 
 				for ( int j = 0; j < AdventureDatabase.CHOICE_ADVS[i][2].length; ++j )
 					optionSelects[i].addItem( AdventureDatabase.CHOICE_ADVS[i][2][j] );
@@ -583,25 +587,38 @@ public class OptionsFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			for ( int i = 0; i < optionSelects.length; ++i )
-				setProperty( AdventureDatabase.CHOICE_ADVS[i][0][0], String.valueOf( optionSelects[i].getSelectedIndex() ) );
+			{
+				int index = optionSelects[i].getSelectedIndex();
+				String choice = AdventureDatabase.CHOICE_ADVS[i][0][0];
+				boolean ignorable = AdventureDatabase.ignorableChoice( choice );
 
-			// The Wheel:
-			//
-			//		  Muscle
-			// Moxie	  +	  Mysticality
-			//		Map Quest
+				if ( ignorable || index != 0 )
+					setProperty( choice, String.valueOf( index ) );
+				else
+					optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( choice ) ) );
+			}
+
+			//              The Wheel:
+
+			//              Muscle
+			// Moxie          +         Mysticality
+			//            Map Quest
+
+			// Option 1: Turn the wheel counterclockwise
+			// Option 2: Turn the wheel clockwise
+			// Option 3: Leave the wheel alone
 
 			switch ( castleWheelSelect.getSelectedIndex() )
 			{
 				case 0: // Map quest position (choice adventure 11)
 					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
 					setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
-					setProperty( "choiceAdventure11", "0" );  // Leave the map quest position alone
+					setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
 					setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
 					break;
 
 				case 1: // Muscle position (choice adventure 9)
-					setProperty( "choiceAdventure9", "0" );	  // Leave the muscle position alone
+					setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
 					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
 					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
 					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
@@ -609,7 +626,7 @@ public class OptionsFrame extends KoLFrame
 
 				case 2: // Mysticality position (choice adventure 10)
 					setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
-					setProperty( "choiceAdventure10", "0" );  // Leave the mysticality position alone
+					setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
 					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
 					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
 					break;
@@ -618,14 +635,14 @@ public class OptionsFrame extends KoLFrame
 					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
 					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
 					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
-					setProperty( "choiceAdventure12", "0" );  // Leave the moxie position alone
+					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
 					break;
 
 				case 4: // Ignore this adventure
-					setProperty( "choiceAdventure9", "0" );	  // Leave the muscle position alone
-					setProperty( "choiceAdventure10", "0" );  // Leave the mysticality position alone
-					setProperty( "choiceAdventure11", "0" );  // Leave the map quest position alone
-					setProperty( "choiceAdventure12", "0" );  // Leave the moxie position alone
+					setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
+					setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
+					setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
+					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
 					break;
 			}
 
@@ -637,23 +654,23 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < optionSelects.length; ++i )
 				optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );
 
-			// Determine the desired wheel position by
-			// examining which choice adventure has the
-			// "0" value.  If none exists, assume the
-			// user wishes to turn it to the map quest.
+			// Determine the desired wheel position by examining
+			// which choice adventure has the "3" value.  If none
+			// exists, assume the user wishes to turn it to the map
+			// quest.
 
-			// If they are all zero
+			// If they are all "3", user wants the wheel left alone
 
-			int zeroOption = 11;
-			int zeroCount = 0;
+			int option = 11;
+			int count = 0;
 			for ( int i = 9; i < 13; ++i )
-				if ( getProperty( "choiceAdventure" + i ).equals( "0" ) )
+				if ( getProperty( "choiceAdventure" + i ).equals( "3" ) )
 				{
-					zeroOption = i;
-					zeroCount++;
+					option = i;
+					count++;
 				}
 
-			switch ( zeroCount )
+			switch ( count )
 			{
 			default:	// Bogus saved options
 			case 0:		// Map quest position
@@ -661,7 +678,7 @@ public class OptionsFrame extends KoLFrame
 				break;
 
 			case 1:		// One chosen target
-				switch ( zeroOption )
+				switch ( option )
 				{
 				case 9: // Muscle position
 					castleWheelSelect.setSelectedIndex(1);
