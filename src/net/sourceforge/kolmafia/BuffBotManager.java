@@ -65,7 +65,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	protected static ArrayList sendList = new ArrayList();
 
 	private static int messageDisposalSetting;
-	private static boolean useChatBasedBuffBot;
 	private static String refundMessage;
 	private static String thanksMessage;
 
@@ -217,10 +216,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
 
 		maxPhilanthropy = Integer.parseInt( getProperty( "maxPhilanthropy" ) );
-		useChatBasedBuffBot = getProperty( "useChatBasedBuffBot" ).equals( "true" );
 		messageDisposalSetting = Integer.parseInt( getProperty( "buffBotMessageDisposal" ) );
 
-		if ( useChatBasedBuffBot )
+		if ( getProperty( "useChatBasedBuffBot" ).equals( "true" ) )
 		{
 			iterations = 1;
 			KoLMessenger.initialize();
@@ -285,7 +283,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 						KoLRequest.delay( 1000 );
 		}
 
-		if ( !useChatBasedBuffBot )
+		// After the buffbot is finished running, make sure
+		// to reset the continue state.
+
+		client.resetContinueState();
+
+		if ( !getProperty( "useChatBasedBuffBot" ).equals( "true" ) )
 		{
 			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
 			client.updateDisplay( ENABLED_STATE, "Buffbot stopped." );
@@ -349,7 +352,13 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			try
 			{
-				if ( !processMessage( (KoLMailMessage) messages.get( messages.size() - 1 ) ) )
+				processMessage( (KoLMailMessage) messages.get( messages.size() - 1 ) );
+
+				// Abort the buffbot only when you run out of MP
+				// restores -- otherwise, it's always okay to
+				// continue using the buffbot.
+
+				if ( client.getRestoreCount() == 0 )
 				{
 					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!" );
 					BuffBotHome.setBuffBotActive( false );
@@ -371,6 +380,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			}
 		}
 
+		client.resetContinueState();
 		return success;
 	}
 
@@ -473,7 +483,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * sends any applicable thank you messages.
 	 */
 
-	private static boolean processMessage( KoLMailMessage message ) throws Exception
+	private static void processMessage( KoLMailMessage message ) throws Exception
 	{
 		// Now that you're guaranteed to be above the threshold,
 		// go ahead and process the message.
@@ -503,7 +513,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 				sendThankYou( message.getSenderName(), message.getMessageHTML() );
 				queueIncomingMessage( message, false );
-				return true;
 			}
 			else if ( meatSent != 0 )
 			{
@@ -563,13 +572,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			}
 
 			queueIncomingMessage( message, true );
-			return client.permitsContinue();
 		}
 
 		// Must not be a buff request message, so notify user and
 		// save/delete, pending on the users settings.
 
-		if ( messageDisposalSetting == SAVEBOX )
+		else if ( messageDisposalSetting == SAVEBOX )
 		{
 			queueIncomingMessage( message, false );
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Saving non-buff message from [" + message.getSenderName() + "]" );
@@ -581,8 +589,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 		else
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Ignoring non-buff message from [" + message.getSenderName() + "]" );
-
-		return client.permitsContinue();
 	}
 
 	private static boolean executeBuff( BuffBotCaster buff, KoLMailMessage message, int meatSent )
