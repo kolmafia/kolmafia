@@ -57,7 +57,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		this.id = id;
 		this.race = id == -1 ? EquipmentRequest.UNEQUIP : FamiliarsDatabase.getFamiliarName( id );
 
-		this.weight = 0;
+		this.weight = 1;
 		this.item = EquipmentRequest.UNEQUIP;
 	}
 
