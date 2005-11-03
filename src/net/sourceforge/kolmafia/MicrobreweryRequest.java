@@ -131,7 +131,7 @@ public class MicrobreweryRequest extends KoLRequest
 		}
 
 		int lastMatchIndex = 0;
-		Matcher purchaseMatcher = Pattern.compile( "<td>([\\w ]*?\\(.*? Meat\\))</td>" ).matcher( responseText );
+		Matcher purchaseMatcher = Pattern.compile( "<td>([\\w-' ]*?\\(.*? Meat\\))</td>" ).matcher( responseText );
 
 		while ( purchaseMatcher.find( lastMatchIndex ) )
 		{
