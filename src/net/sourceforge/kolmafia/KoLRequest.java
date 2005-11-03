@@ -563,7 +563,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		catch ( Exception e )
 		{
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
-				updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
+				updateDisplay( NOCHANGE, "Connection timed out during post.  Retrying..." );
 
 			if ( client != null )
 			{
@@ -634,7 +634,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				return false;
 			}
 
-			updateDisplay( NOCHANGE, "Connection timed out.  Retrying..." );
+			updateDisplay( NOCHANGE, "Connection timed out during response.  Retrying..." );
 
 			if ( client != null )
 			{
