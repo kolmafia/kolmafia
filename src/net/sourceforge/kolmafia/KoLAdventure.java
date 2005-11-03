@@ -145,7 +145,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Before running the request, make sure you have enough
 		// mana to continue.
 
-		if ( !zone.startsWith( "Camp" ) )
+		if ( !formSource.equals( "campground.php" ) )
 		{
 			client.autoRecoverHP();
 			client.autoRecoverMP();

@@ -136,6 +136,13 @@ public class AdventureRequest extends KoLRequest
 		hasLuckyVersion = hasLuckyVersion( adventureID );
 	}
 
+	private void resetAdventuresUsed()
+	{
+		this.adventuresUsed = formSource.equals( "shore.php" ) ? 3 :
+			formSource.equals( "casino.php" ) && !adventureID.equals( "11" ) ? 0 :
+			formSource.equals( "mountains.php" ) || formSource.equals( "friars.php" ) ? 0 : 1;
+	}
+
 	public static final boolean hasLuckyVersion( String adventureID )
 	{
 		for ( int i = 0; i < AdventureDatabase.CLOVER_ADVS.length; ++i )
@@ -155,6 +162,7 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
+		resetAdventuresUsed();
 		if ( hasLuckyVersion && client.isLuckyCharacter() && getProperty( "cloverProtectActive" ).equals( "true" ) )
 			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_YOUR_CLOVERS )).run();
 
@@ -520,7 +528,11 @@ public class AdventureRequest extends KoLRequest
 
 		client.processResults( request.responseText );
 
+		if ( !AdventureDatabase.consumesAdventure( choice, decision ) )
+			this.adventuresUsed = 0;
+
 		AdventureResult loseAdventure = new AdventureResult( AdventureResult.CHOICE, -1 );
+
 		if ( loseAdventure.getCount( client.getConditions() ) > 0 )
 		{
 			AdventureResult.addResultToList( client.getConditions(), loseAdventure );
