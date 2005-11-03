@@ -1184,42 +1184,23 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private boolean testConditional( String parameters )
 	{
-		StringBuffer left = new StringBuffer();
-		StringBuffer right = new StringBuffer();
-		String operator = null;
+		String [] tokens = parameters.split( "[!<>=]" );
 
-		boolean parsingLeft = true;
-		String [] tokens = parameters.split( "\\s*" );
+		String left = tokens[0].trim();
+		String right = tokens[1].trim();
 
-		for ( int i = 0; i < tokens.length; ++i )
-		{
-			if ( tokens[i].equals( "==" ) || tokens[i].equals( "!=" ) || tokens[i].startsWith( ">" ) || tokens[i].startsWith( "<" ) )
-			{
-				parsingLeft = false;
-				operator = tokens[i];
-			}
-			else if ( parsingLeft )
-			{
-				left.append( tokens[i] );
-				left.append( ' ' );
-			}
-			else
-			{
-				right.append( tokens[i] );
-				left.append( ' ' );
-			}
-		}
+		String operator = parameters.indexOf( "==" ) != -1 ? "==" : parameters.indexOf( "!=" ) != -1 ? "!=" :
+			parameters.indexOf( ">=" ) != -1 ? ">=" : parameters.indexOf( "<=" ) != -1 ? "<=" :
+			parameters.indexOf( ">" ) != -1 ? ">" : parameters.indexOf( "<" ) != -1 ? "<" : null;
 
 		try
 		{
-			String condition = left.toString().trim();
+			int leftValue = left.equals( "level" ) ? KoLCharacter.getLevel() : left.equals( "health" ) ? KoLCharacter.getCurrentHP() :
+				left.equals( "mana" ) ? KoLCharacter.getCurrentMP() : left.equals( "meat" ) ? KoLCharacter.getAvailableMeat() :
+				KoLCharacter.getEffects().contains( getFirstMatchingEffect( left ) ) ? getFirstMatchingEffect( left ).getCount( KoLCharacter.getEffects() ) :
+				getFirstMatchingItem( left, NOWHERE ).getCount();
 
-			int leftValue = condition.equals( "level" ) ? KoLCharacter.getLevel() : condition.equals( "health" ) ? KoLCharacter.getCurrentHP() :
-				condition.equals( "mana" ) ? KoLCharacter.getCurrentMP() : condition.equals( "meat" ) ? KoLCharacter.getAvailableMeat() :
-				KoLCharacter.getEffects().contains( getFirstMatchingEffect( condition ) ) ? getFirstMatchingEffect( condition ).getCount( KoLCharacter.getEffects() ) :
-				getFirstMatchingItem( condition, NOWHERE ).getCount();
-
-			int rightValue = df.parse( right.toString() ).intValue();
+			int rightValue = df.parse( right ).intValue();
 
 			return operator == null ? false : operator.equals( "==" ) ? leftValue == rightValue : operator.equals( "!=" ) ? leftValue != rightValue :
 				operator.equals( ">=" ) ? leftValue >= rightValue : operator.equals( ">" ) ? leftValue > rightValue :
