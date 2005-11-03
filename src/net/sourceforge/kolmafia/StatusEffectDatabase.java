@@ -69,18 +69,22 @@ public class StatusEffectDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "statuseffects.dat" );
 
 		String [] data;
+
+		String name;
 		Integer effectID;
 
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length == 3 )
 			{
+				name = getCanonicalName( data[2] );
 				effectID = Integer.valueOf( data[0] );
-				effectByID.put( effectID, getDisplayName( data[2] ) );
-				effectByName.put( getDisplayName( data[2] ), effectID );
+
+				effectByID.put( effectID, name );
+				effectByName.put( name, effectID );
 
 				if ( data[1].equals( "1" ) )
-					tinyHouseByName.put( getDisplayName( data[2] ), data[1] );
+					tinyHouseByName.put( name, data[1] );
 			}
 		}
 	}
@@ -92,7 +96,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	 */
 
 	public static final String getEffectName( int effectID )
-	{	return effectID == -1 ? "Unknown effect" : ((String) effectByID.get( new Integer( effectID ) ));
+	{	return effectID == -1 ? "Unknown effect" : getDisplayName( (String) effectByID.get( new Integer( effectID ) ) );
 	}
 
 	/**
@@ -103,7 +107,7 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	public static final int getEffectID( String effectName )
 	{
-		Object effectID = effectByName.get( getDisplayName( effectName ) );
+		Object effectID = effectByName.get( getCanonicalName( effectName ) );
 		return effectID == null ? -1 : ((Integer)effectID).intValue();
 	}
 
@@ -118,7 +122,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	 */
 
 	public static final boolean contains( String effectName )
-	{	return effectByName.containsKey( getDisplayName( effectName ) );
+	{	return effectByName.containsKey( getCanonicalName( effectName ) );
 	}
 
 	/**
@@ -131,7 +135,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	 */
 
 	public static final boolean isTinyHouseClearable( String effectName )
-	{	return tinyHouseByName.containsKey( getDisplayName( effectName ) );
+	{	return tinyHouseByName.containsKey( getCanonicalName( effectName ) );
 	}
 
 	/**

@@ -139,21 +139,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( String name, int count )
-	{
-		this( name, new int[1] );
-
-		if ( isStatusEffect() )
-		{
-			this.itemID = -1;
-			this.name = StatusEffectDatabase.getEffectName( StatusEffectDatabase.getEffectID( name ) );
-		}
-		else if ( isItem() )
-		{
-			this.itemID = TradeableItemDatabase.getItemID( name );
-			this.name = TradeableItemDatabase.getItemName( this.itemID );
-		}
-
-		this.count[0] = count;
+	{	this( name, count, StatusEffectDatabase.contains( name ) );
 	}
 
 	/**
@@ -194,6 +180,18 @@ public class AdventureResult implements Comparable, KoLConstants
 	public AdventureResult( String name, int count, boolean isStatusEffect )
 	{
 		this( name, new int[1], isStatusEffect ? EFFECT_PRIORITY : ITEM_PRIORITY );
+
+		if ( isStatusEffect )
+		{
+			this.itemID = -1;
+			this.name = StatusEffectDatabase.getEffectName( StatusEffectDatabase.getEffectID( name ) );
+		}
+		else if ( isItem() )
+		{
+			this.itemID = TradeableItemDatabase.getItemID( name );
+			this.name = TradeableItemDatabase.getItemName( this.itemID );
+		}
+
 		this.count[0] = count;
 	}
 
