@@ -1043,8 +1043,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		// Manually process any adventure usage for choice adventures,
 		// since they necessarily consume an adventure.
 
-		if ( AdventureDatabase.consumesAdventure( choice, decision ) )
+		if ( AdventureDatabase.consumesAdventure( option, decision ) )
 			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+
+		// Certain choices cost meat when selected
+
+		int meat = AdventureDatabase.consumesMeat( option, decision );
+		if ( meat > 0 )
+			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meat ) );
 
 		AdventureResult loseAdventure = new AdventureResult( AdventureResult.CHOICE, -1 );
 

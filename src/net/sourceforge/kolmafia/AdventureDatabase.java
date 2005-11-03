@@ -93,12 +93,15 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final String [][][] CHOICE_ADVS =
 	{
+		// Denim Axes Examined
 		{ { "choiceAdventure2" }, { "Palindome" },
 		  { "Trade for a denim axe", "Keep your rubber axe" } },
 
+		// The Oracle Will See You Now
 		{ { "choiceAdventure3" }, { "Teleportitis" },
 		  { "Leave the oracle", "Pay for a minor consultation", "Pay for a major consultation" } },
 
+		// Finger-Lickin'... Death.
 		{ { "choiceAdventure4" }, { "South of the Border" },
 		  { "Bet on Tapajunta Del Maiz", "Bet on Cuerno De...  the other one", "Walk away in disgust" } },
 
@@ -114,6 +117,7 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure8" }, { "Spooky Gravy Barrow" },
 		  { "Enter the chamber", "Enter the chamber", "Enter the chamber" } },
 
+                // A Bard Day's Night
 		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
 		  { "Knob goblin harem veil", "Knob goblin harem pants", "100 meat" } },
 
@@ -157,6 +161,7 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure24" }, { "Pirate's Cove 3" },
 		  { "stuffed shoulder parrot", "100 meat", "eyepatch" } },
 
+		// Ouch! You bump into a door!
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
 		  { "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } },
 
@@ -178,10 +183,10 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final String [][] IGNORABLE_CHOICES =
 	{
-		// Palindome
+		// Denim Axes Examined
 		{ "choiceAdventure2", "2" },
 
-		// South of the Border
+		// Finger-Lickin'... Death.
 		{ "choiceAdventure4", "3" },
 
 		// Giant Castle
@@ -190,8 +195,28 @@ public class AdventureDatabase extends KoLDatabase
 		{ "choiceAdventure11", "3" },
 		{ "choiceAdventure12", "3" },
 
-		// Sleazy Back Alley
+		// Under the Knife
 		{ "choiceAdventure21", "2" }
+	};
+
+	// Some choice adventures have options that cost meat
+
+	public static final String [][] CHOICE_MEAT_COST =
+	{
+		// The Oracle Will See You Now
+		{ "choiceAdventure3", "2", "100" },
+		{ "choiceAdventure3", "3", "1000" },
+
+		// Finger-Lickin'... Death
+		{ "choiceAdventure4", "1", "500" },
+		{ "choiceAdventure4", "2", "500" },
+
+		// Under the Knife
+		{ "choiceAdventure21", "1", "500" },
+
+		// Ouch! You bump into a door!
+		{ "choiceAdventure25", "1", "50" },
+		{ "choiceAdventure25", "2", "5000" }
 	};
 
 	private static List [] adventureTable;
@@ -488,5 +513,14 @@ public class AdventureDatabase extends KoLDatabase
 			if ( choice.equals( IGNORABLE_CHOICES[i][0] ) )
 				return decision.equals( IGNORABLE_CHOICES[i][1] );
 		return true;
+	}
+
+	public static int consumesMeat( String choice, String decision )
+	{
+		for ( int i = 0; i < CHOICE_MEAT_COST.length; ++i )
+			if ( choice.equals( CHOICE_MEAT_COST[i][0] ) &&
+			     decision.equals( CHOICE_MEAT_COST[i][1] ) )
+				return Integer.parseInt( CHOICE_MEAT_COST[i][2] );
+		return 0;
 	}
 }
