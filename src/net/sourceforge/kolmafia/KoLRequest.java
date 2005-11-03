@@ -717,6 +717,10 @@ public class KoLRequest implements Runnable, KoLConstants
 					(new FightRequest( client )).run();
 					this.isErrorState = !(this instanceof AdventureRequest);
 				}
+				else if ( redirectLocation.equals( "choice.php" ) )
+				{
+					shouldContinue = processChoiceAdventure();
+				}
 				else
 				{
 					this.isErrorState = false;
@@ -944,5 +948,119 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected final String getProperty( String name )
 	{	return StaticEntity.getProperty( name );
+	}
+
+	/**
+	 * Utility method which notifies the client that it needs to process
+	 * the given choice adventure.
+	 */
+
+	public boolean processChoiceAdventure()
+	{
+		// You can no longer simply ignore a choice adventure.	One of
+		// the options may have that effect, but we must at least run
+		// choice.php to find out which choice it is.
+
+		KoLRequest request = new KoLRequest( client, "choice.php" );
+		request.run();
+
+		return handleChoiceResponse( request.responseText );
+	}
+
+	/**
+	 * Utility method to handle the response for a specific choice
+	 * adventure.
+	 */
+
+	private boolean handleChoiceResponse( String text )
+	{
+		Matcher encounterMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( text );
+		if ( encounterMatcher.find() )
+			client.registerEncounter( encounterMatcher.group(1) );
+
+		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( text );
+		if ( !choiceMatcher.find() )
+		{
+			// choice.php did not offer us any choices. This would
+			// be a bug in KoL itself. Bail now and let the user
+			// finish by hand.
+
+			updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
+			isErrorState = true;
+			client.cancelRequest();
+			return false;
+		}
+
+		String choice = choiceMatcher.group(1);
+		String option = "choiceAdventure" + choice;
+		String decision = getProperty( option );
+
+		// If there is currently no setting which determines the
+		// decision, give an error and bail.
+
+		if ( decision == null )
+		{
+			updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
+			isErrorState = true;
+			client.cancelRequest();
+			return false;
+		}
+
+		// If the user wants to ignore this specific choice or all
+		// choices, see if this choice is ignorable.
+
+		if ( decision.equals( "0" ) || getProperty( "ignoreChoiceAdventures" ).equals( "true" ) )
+		{
+			String ignoreChoice = AdventureDatabase.ignoreChoiceOption( option );
+			if ( ignoreChoice != null )
+				decision = ignoreChoice;
+		}
+
+		// Make sure that we've resolved to a non-0 choice.
+
+		if ( decision.equals( "0" ) )
+		{
+			updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
+			isErrorState = true;
+			client.cancelRequest();
+			return false;
+		}
+
+		// If there is currently a setting which determines the
+		// decision, make that decision and submit the form.
+
+		KoLRequest request = new KoLRequest( client, "choice.php" );
+		request.addFormField( "pwd", client.getPasswordHash() );
+		request.addFormField( "whichchoice", choice );
+		request.addFormField( "option", decision );
+
+		request.run();
+
+		// Handle any items or stat gains resulting from the adventure
+
+		client.processResults( request.responseText );
+
+		// Manually process any adventure usage for choice adventures,
+		// since they necessarily consume an adventure.
+
+		if ( AdventureDatabase.consumesAdventure( choice, decision ) )
+			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+
+		AdventureResult loseAdventure = new AdventureResult( AdventureResult.CHOICE, -1 );
+
+		if ( loseAdventure.getCount( client.getConditions() ) > 0 )
+		{
+			AdventureResult.addResultToList( client.getConditions(), loseAdventure );
+			if ( loseAdventure.getCount( client.getConditions() ) == 0 )
+				client.getConditions().remove( client.getConditions().indexOf( loseAdventure ) );
+		}
+
+		// Choice adventures can lead to other choice adventures
+		// without a redirect. Detect this and recurse, as needed.
+
+		if ( request.responseText.indexOf( "action=choice.php" ) != -1 )
+			return handleChoiceResponse( request.responseText );
+
+		return true;
 	}
 }

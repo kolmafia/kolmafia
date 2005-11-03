@@ -49,8 +49,8 @@ public class AdventureRequest extends KoLRequest
 {
 	private String formSource;
 	private String adventureID;
-	private int adventuresUsed;
 	private boolean hasLuckyVersion;
+	protected int adventuresUsed;
 
 	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
 	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
@@ -182,14 +182,6 @@ public class AdventureRequest extends KoLRequest
 
 		if ( !isErrorState && responseCode == 302 )
 		{
-			// If it's a choice, handle it as directed.
-
-			if ( redirectLocation.equals( "choice.php" ) )
-			{
-				processChoiceAdventure();
-				return;
-			}
-
 			// KoLmafia will not complete the /haiku subquest
 
 			if ( redirectLocation.equals( "haiku.php" ) )
@@ -201,9 +193,10 @@ public class AdventureRequest extends KoLRequest
 			}
 
 			// Otherwise, the only redirect we understand is
-			// fight.php. That was handled for us by KoLRequest
+			// fight.php and choice.php.  If it's neither of
+			// those, report an error.
 
-			if ( !redirectLocation.equals( "fight.php" ) )
+			if ( !redirectLocation.equals( "fight.php" ) && !redirectLocation.equals( "choice.php" ) )
 			{
 				isErrorState = true;
 				updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
@@ -217,7 +210,10 @@ public class AdventureRequest extends KoLRequest
 			if ( formSource.equals( "dungeon.php" ) )
 				client.resetContinueState();
 
-			// We're back from a fight.
+			// We're back from a fight, or we completed a choice
+			// adventure -- in both cases, adventure usage is zero.
+
+			this.adventuresUsed = 0;
 			return;
 		}
 
@@ -441,109 +437,5 @@ public class AdventureRequest extends KoLRequest
 
 	public int getAdventuresUsed()
 	{	return isErrorState ? 0 : adventuresUsed;
-	}
-
-	/**
-	 * Utility method which notifies the client that it needs to process
-	 * the given choice adventure.
-	 */
-
-	public void processChoiceAdventure()
-	{
-		// You can no longer simply ignore a choice adventure.	One of
-		// the options may have that effect, but we must at least run
-		// choice.php to find out which choice it is.
-
-		KoLRequest request = new KoLRequest( client, "choice.php" );
-		request.run();
-
-		handleChoiceResponse( request.responseText );
-	}
-
-	private void handleChoiceResponse( String text )
-	{
-		Matcher encounterMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( text );
-		if ( encounterMatcher.find() )
-			client.registerEncounter( encounterMatcher.group(1) );
-
-		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( text );
-		if ( !choiceMatcher.find() )
-		{
-			// choice.php did not offer us any choices. This would
-			// be a bug in KoL itself. Bail now and let the user
-			// finish by hand.
-
-			updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
-			isErrorState = true;
-			client.cancelRequest();
-			return;
-		}
-
-		String choice = choiceMatcher.group(1);
-		String option = "choiceAdventure" + choice;
-		String decision = getProperty( option );
-
-		// If there is currently no setting which determines the
-		// decision, give an error and bail.
-
-		if ( decision == null )
-		{
-			updateDisplay( ERROR_STATE, "Encountered unsupported choice adventure #" + choice );
-			isErrorState = true;
-			client.cancelRequest();
-			return;
-		}
-
-		// If the user wants to ignore this specific choice or all
-		// choices, see if this choice is ignorable.
-
-		if ( decision.equals( "0" ) || getProperty( "ignoreChoiceAdventures" ).equals( "true" ) )
-		{
-			String ignoreChoice = AdventureDatabase.ignoreChoiceOption( option );
-			if ( ignoreChoice != null )
-				decision = ignoreChoice;
-		}
-
-		// Make sure that we've resolved to a non-0 choice.
-
-		if ( decision.equals( "0" ) )
-		{
-			updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
-			isErrorState = true;
-			client.cancelRequest();
-			return;
-		}
-
-		// If there is currently a setting which determines the
-		// decision, make that decision and submit the form.
-
-		KoLRequest request = new KoLRequest( client, "choice.php" );
-		request.addFormField( "pwd", client.getPasswordHash() );
-		request.addFormField( "whichchoice", choice );
-		request.addFormField( "option", decision );
-
-		request.run();
-
-		// Handle any items or stat gains resulting from the adventure
-
-		client.processResults( request.responseText );
-
-		if ( !AdventureDatabase.consumesAdventure( choice, decision ) )
-			this.adventuresUsed = 0;
-
-		AdventureResult loseAdventure = new AdventureResult( AdventureResult.CHOICE, -1 );
-
-		if ( loseAdventure.getCount( client.getConditions() ) > 0 )
-		{
-			AdventureResult.addResultToList( client.getConditions(), loseAdventure );
-			if ( loseAdventure.getCount( client.getConditions() ) == 0 )
-				client.getConditions().remove( client.getConditions().indexOf( loseAdventure ) );
-		}
-
-		// Choice adventures can lead to other choice adventures
-		// without a redirect. Detect this and recurse, as needed.
-
-		if ( request.responseText.indexOf( "action=choice.php" ) != -1 )
-			handleChoiceResponse( request.responseText );
 	}
 }

@@ -142,10 +142,7 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( !client.permitsContinue() )
-			return;
-
-		if ( action.equals( "..." ) )
+		if ( action.equals( "..." ) || !client.permitsContinue() )
 		{
 			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
@@ -178,25 +175,26 @@ public class FightRequest extends KoLRequest
 
 			if ( winmsgIndex != -1 )
 			{
-				// The battle was won!
-
-				// If the user canceled, say it's complete.
+				// The battle was won!  If the user canceled, say
+				// it's complete.
 
 				if ( !client.permitsContinue() )
 					updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
 
 				// If you can't battle again in this location,
-				// cancel future iterations.
+				// cancel future iterations.  Note that there
+				// is a special case: the hedge maze never
+				// has an "adventure again" link.
 
-				else if ( responseText.indexOf( "againform.submit" ) == -1  &&
-					  // Special case: the hedge maze never
-					  // has an "adventure again" link.
-					  responseText.indexOf( "Go back to the Sorceress' Hedge Maze" ) == -1 )
+				else if ( responseText.indexOf( "againform.submit" ) == -1 && responseText.indexOf( "Go back to the Sorceress' Hedge Maze" ) == -1 )
 					client.cancelRequest();
+
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			}
 			else if ( roundCount > 30 )
 			{
 				updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				client.cancelRequest();
 			}
 			else if ( responseText.indexOf( "You lose." ) != -1 )
@@ -207,6 +205,7 @@ public class FightRequest extends KoLRequest
 				// but that the loop should be halted.
 
 				updateDisplay( ERROR_STATE, "You were defeated!" );
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				client.cancelRequest();
 			}
 			else
