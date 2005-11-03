@@ -770,6 +770,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			elementList.setVisibleRowCount( 8 );
 		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			elementList.setEnabled( isEnabled );
+		}
 	}
 
 	/**

@@ -125,16 +125,16 @@ public class ItemManageFrame extends KoLFrame
 
 		addConsumeMenu( menuBar );
 
-		JMenu clicksMenu = new JMenu( "Sellables" );
+		JMenu clicksMenu = new JMenu( "Transfers" );
 		clicksMenu.setMnemonic( KeyEvent.VK_N );
 		menuBar.add( clicksMenu );
 
 		clickGroup = new ButtonGroup();
 		clickOptions = new JRadioButtonMenuItem[4];
-		clickOptions[0] = new JRadioButtonMenuItem( "Sell all", true );
-		clickOptions[1] = new JRadioButtonMenuItem( "Sell all but one", false );
-		clickOptions[2] = new JRadioButtonMenuItem( "Sell multiple", false );
-		clickOptions[3] = new JRadioButtonMenuItem( "Sell exactly one", false );
+		clickOptions[0] = new JRadioButtonMenuItem( "Move all", true );
+		clickOptions[1] = new JRadioButtonMenuItem( "Move all but one", false );
+		clickOptions[2] = new JRadioButtonMenuItem( "Move multiple", false );
+		clickOptions[3] = new JRadioButtonMenuItem( "Move exactly one", false );
 
 		for ( int i = 0; i < clickOptions.length; ++i )
 		{
@@ -260,12 +260,6 @@ public class ItemManageFrame extends KoLFrame
 
 				(new RequestThread( requests, repeatCount )).start();
 			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				elementList.setEnabled( isEnabled );
-			}
 		}
 	}
 
@@ -318,42 +312,73 @@ public class ItemManageFrame extends KoLFrame
 			{	sell( AutoSellRequest.AUTOMALL );
 			}
 
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				elementList.setEnabled( isEnabled );
-			}
-
 			private void sell( int sellType )
 			{
-				Object [] items = elementList.getSelectedValues();
-				if ( items.length == 0 )
-					return;
-
 				if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 					"Are you sure you would like to sell the selected items?",
 						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 							return;
 
-				AdventureResult currentItem;
-
-				for ( int i = 0; i < items.length; ++i )
-				{
-					currentItem = (AdventureResult) items[i];
-
-					int quantity = clickOptions[0].isSelected() ? currentItem.getCount() : clickOptions[1].isSelected() ?
-						currentItem.getCount() - 1 : clickOptions[2].isSelected() ?
-						getQuantity( "Autoselling " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
-
-					if ( quantity == 0 )
-						return;
-
-					items[i] = currentItem.getInstance( quantity );
-				}
-
+				Object [] items = getDesiredItems( elementList, sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Malling" );
 				(new RequestThread( new AutoSellRequest( client, items, sellType ) )).start();
 			}
 		}
+	}
+
+	private Object [] getDesiredItems( ShowDescriptionList elementList, String message )
+	{
+		Object [] items = elementList.getSelectedValues();
+		if ( items.length == 0 )
+			return null;
+
+		int neededSize = items.length;
+		AdventureResult currentItem;
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			currentItem = (AdventureResult) items[i];
+
+			int quantity = clickOptions[0].isSelected() ? currentItem.getCount() : clickOptions[1].isSelected() ?
+				currentItem.getCount() - 1 : clickOptions[2].isSelected() ?
+				getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
+
+			// If the user manually enters zero, return from
+			// this, since they probably wanted to cancel.
+
+			if ( quantity == 0 && clickOptions[2].isSelected() )
+				return null;
+
+			// Otherwise, if it was not a manual entry, then reset
+			// the entry to null so that it can be re-processed.
+
+			if ( quantity == 0 )
+			{
+				items[i] = null;
+				--neededSize;
+			}
+			else
+			{
+				items[i] = currentItem.getInstance( quantity );
+			}
+		}
+
+		// If none of the array entries were nulled,
+		// then return the array as-is.
+
+		if ( neededSize == items.length )
+			return items;
+
+		// Otherwise, shrink the array which will be
+		// returned so that it removes any nulled values.
+
+		Object [] desiredItems = new Object[ neededSize ];
+		neededSize = 0;
+
+		for ( int i = 0; i < items.length; ++i )
+			if ( items[i] != null )
+				desiredItems[ neededSize++ ] = items[i];
+
+		return desiredItems;
 	}
 
 	/**
@@ -363,7 +388,6 @@ public class ItemManageFrame extends KoLFrame
 
 	private class MuseumStoragePanel extends JPanel
 	{
-		private ShowDescriptionList availableList, closetList;
 		private ItemManagePanel inventoryPanel, closetPanel;
 
 		public MuseumStoragePanel()
@@ -387,15 +411,13 @@ public class ItemManageFrame extends KoLFrame
 		private class OutsideClosetPanel extends ItemManagePanel
 		{
 			public OutsideClosetPanel()
-			{
-				super( "Inside Inventory", "put in closet", "put in case", KoLCharacter.getInventory() );
-				availableList = elementList;
+			{	super( "Inside Inventory", "put in closet", "put in case", KoLCharacter.getInventory() );
 			}
 
 			protected void actionConfirmed()
 			{
-				Object [] items = availableList.getSelectedValues();
-				if ( items.length == 0 )
+				Object [] items = getDesiredItems( elementList, "Closeting" );
+				if ( items == null )
 					return;
 
 				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items ) )).start();
@@ -403,32 +425,24 @@ public class ItemManageFrame extends KoLFrame
 
 			protected void actionCancelled()
 			{
-				Object [] items = availableList.getSelectedValues();
-				if ( items.length == 0 )
+				Object [] items = getDesiredItems( elementList, "Displaying" );
+				if ( items == null )
 					return;
 
 				(new RequestThread( new MuseumRequest( client, items, true ) )).start();
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				availableList.setEnabled( isEnabled );
 			}
 		}
 
 		private class InsideClosetPanel extends ItemManagePanel
 		{
 			public InsideClosetPanel()
-			{
-				super( "Inside Closet", "put in bag", "put in case", KoLCharacter.getCloset() );
-				closetList = elementList;
+			{	super( "Inside Closet", "put in bag", "put in case", KoLCharacter.getCloset() );
 			}
 
 			protected void actionConfirmed()
 			{
-				Object [] items = closetList.getSelectedValues();
-				if ( items.length == 0 )
+				Object [] items = getDesiredItems( elementList, "Bagging" );
+				if ( items == null )
 					return;
 
 				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ) )).start();
@@ -436,8 +450,8 @@ public class ItemManageFrame extends KoLFrame
 
 			protected void actionCancelled()
 			{
-				Object [] items = closetList.getSelectedValues();
-				if ( items.length == 0 )
+				Object [] items = getDesiredItems( elementList, "Displaying" );
+				if ( items == null )
 					return;
 
 				Runnable [] requests = new Runnable[2];
@@ -445,12 +459,6 @@ public class ItemManageFrame extends KoLFrame
 				requests[1] = new MuseumRequest( client, items, true );
 
 				(new RequestThread( requests )).start();
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				closetList.setEnabled( isEnabled );
 			}
 		}
 	}
@@ -462,7 +470,6 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ClanStoragePanel extends JPanel
 	{
-		private ShowDescriptionList availableList, closetList;
 		private ItemManagePanel inventoryPanel, closetPanel;
 
 		public ClanStoragePanel()
@@ -486,15 +493,13 @@ public class ItemManageFrame extends KoLFrame
 		private class OutsideClosetPanel extends ItemManagePanel
 		{
 			public OutsideClosetPanel()
-			{
-				super( "Inside Inventory", "put in closet", "give to clan", KoLCharacter.getInventory() );
-				availableList = elementList;
+			{	super( "Inside Inventory", "put in closet", "give to clan", KoLCharacter.getInventory() );
 			}
 
 			protected void actionConfirmed()
 			{
-				Object [] items = availableList.getSelectedValues();
-				if ( items.length == 0 )
+				Object [] items = getDesiredItems( elementList, "Closeting" );
+				if ( items == null )
 					return;
 
 				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items ) )).start();
@@ -502,32 +507,24 @@ public class ItemManageFrame extends KoLFrame
 
 			protected void actionCancelled()
 			{
-				Object [] items = availableList.getSelectedValues();
-				if ( items.length == 0 )
+				Object [] items = getDesiredItems( elementList, "Stashing" );
+				if ( items == null )
 					return;
 
 				(new RequestThread( new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH ) )).start();
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				availableList.setEnabled( isEnabled );
 			}
 		}
 
 		private class InsideClosetPanel extends ItemManagePanel
 		{
 			public InsideClosetPanel()
-			{
-				super( "Inside Closet", "put in bag", "give to clan", KoLCharacter.getCloset() );
-				closetList = elementList;
+			{	super( "Inside Closet", "put in bag", "give to clan", KoLCharacter.getCloset() );
 			}
 
 			protected void actionConfirmed()
 			{
-				Object [] items = closetList.getSelectedValues();
-				if ( items.length == 0 )
+				Object [] items = getDesiredItems( elementList, "Bagging" );
+				if ( items == null )
 					return;
 
 				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ) )).start();
@@ -535,8 +532,8 @@ public class ItemManageFrame extends KoLFrame
 
 			protected void actionCancelled()
 			{
-				Object [] items = closetList.getSelectedValues();
-				if ( items.length == 0 )
+				Object [] items = getDesiredItems( elementList, "Stashing" );
+				if ( items == null )
 					return;
 
 				Runnable [] requests = new Runnable[2];
@@ -544,12 +541,6 @@ public class ItemManageFrame extends KoLFrame
 				requests[1] = new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH );
 
 				(new RequestThread( requests )).start();
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				super.setEnabled( isEnabled );
-				closetList.setEnabled( isEnabled );
 			}
 		}
 	}
@@ -574,12 +565,6 @@ public class ItemManageFrame extends KoLFrame
 
 		public void actionCancelled()
 		{	create( true );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			elementList.setEnabled( isEnabled );
 		}
 
 		private void create( boolean createMultiple )
