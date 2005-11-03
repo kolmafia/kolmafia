@@ -930,7 +930,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// The following loop removes ALL items with
 				// the specified name.
 
-				for ( int i = 0; i < KoLCharacter.FAMILIAR; ++i )
+				for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 					if ( KoLCharacter.getEquipment( i ).equals( item ) )
 					     scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, EquipmentRequest.UNEQUIP, i ), 1 );
 			}
