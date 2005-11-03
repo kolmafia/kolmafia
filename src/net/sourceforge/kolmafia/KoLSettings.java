@@ -229,19 +229,23 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// Ensure that they exist, and if they do not, load
 		// them to their default settings.
 
-		// KoL no longer allows you to "ignore" a choice adventure.
-		// Therefore, reset saved "0" settings to the default.
+		// KoL no longer allows you to "ignore" a choice adventure,
+		// although some of them have a setting that is the equivalent
+		// of "ignore".
 
-		ensureNonZeroProperty( "choiceAdventure2", "2" );
+		// Choices that have an "ignore" setting: use ensureProperty
+		// Choices that have no "ignore" setting: use ensureNonZeroProperty
+
+		ensureProperty( "choiceAdventure2", "2" );
 		ensureNonZeroProperty( "choiceAdventure3", "1" );
-		ensureNonZeroProperty( "choiceAdventure4", "3" );
+		ensureProperty( "choiceAdventure4", "3" );
 		ensureNonZeroProperty( "choiceAdventure5", "2" );
 		ensureNonZeroProperty( "choiceAdventure7", "2" );
 		ensureNonZeroProperty( "choiceAdventure8", "3" );
-		ensureNonZeroProperty( "choiceAdventure9", "1" );
-		ensureNonZeroProperty( "choiceAdventure10", "1" );
-		ensureNonZeroProperty( "choiceAdventure11", "3" );
-		ensureNonZeroProperty( "choiceAdventure12", "2" );
+		ensureProperty( "choiceAdventure9", "1" );
+		ensureProperty( "choiceAdventure10", "1" );
+		ensureProperty( "choiceAdventure11", "3" );
+		ensureProperty( "choiceAdventure12", "2" );
 		ensureNonZeroProperty( "choiceAdventure14", "3" );
 		ensureNonZeroProperty( "choiceAdventure15", "3" );
 		ensureNonZeroProperty( "choiceAdventure16", "3" );
@@ -249,7 +253,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureNonZeroProperty( "choiceAdventure18", "3" );
 		ensureNonZeroProperty( "choiceAdventure19", "3" );
 		ensureNonZeroProperty( "choiceAdventure20", "3" );
-		ensureNonZeroProperty( "choiceAdventure21", "2" );
+		ensureProperty( "choiceAdventure21", "2" );
 		ensureNonZeroProperty( "choiceAdventure22", "3" );
 		ensureNonZeroProperty( "choiceAdventure23", "3" );
 		ensureNonZeroProperty( "choiceAdventure24", "2" );
@@ -323,8 +327,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 	private void ensureNonZeroProperty( String key, String defaultValue )
 	{
-		if ( !containsKey( key ) ||
-                     ( get( key).equals( "0" ) && AdventureDatabase.ignoreChoiceOption( key ) == null ) )
+		if ( !containsKey( key ) || ( get( key).equals( "0" ) ) )
 			setProperty( key, defaultValue );
 	}
 
