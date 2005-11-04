@@ -1184,21 +1184,27 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private boolean testConditional( String parameters )
 	{
-		String [] tokens = parameters.split( "[!<>=]" );
+		String [] tokens = parameters.split( "[\\!<>=]" );
 
 		String left = tokens[0].trim();
-		String right = tokens[1].trim();
+		String right = tokens[ tokens.length - 1 ].trim();
 
 		String operator = parameters.indexOf( "==" ) != -1 ? "==" : parameters.indexOf( "!=" ) != -1 ? "!=" :
 			parameters.indexOf( ">=" ) != -1 ? ">=" : parameters.indexOf( "<=" ) != -1 ? "<=" :
 			parameters.indexOf( ">" ) != -1 ? ">" : parameters.indexOf( "<" ) != -1 ? "<" : null;
 
+		List potentialItems = TradeableItemDatabase.getMatchingNames( left );
+		List potentialEffects = StatusEffectDatabase.getMatchingNames( left );
+
+		AdventureResult effect = potentialEffects.isEmpty() ? null : new AdventureResult(  (String) potentialEffects.get(0), 0, true );
+		AdventureResult item =  potentialItems.isEmpty() ? null : new AdventureResult( (String) potentialItems.get(0), 0, false );
+
 		try
 		{
 			int leftValue = left.equals( "level" ) ? KoLCharacter.getLevel() : left.equals( "health" ) ? KoLCharacter.getCurrentHP() :
 				left.equals( "mana" ) ? KoLCharacter.getCurrentMP() : left.equals( "meat" ) ? KoLCharacter.getAvailableMeat() :
-				KoLCharacter.getEffects().contains( getFirstMatchingEffect( left ) ) ? getFirstMatchingEffect( left ).getCount( KoLCharacter.getEffects() ) :
-				getFirstMatchingItem( left, NOWHERE ).getCount();
+				effect != null && KoLCharacter.getEffects().contains( effect ) ? effect.getCount( KoLCharacter.getEffects() ) :
+				item != null ? item.getCount( KoLCharacter.getInventory() ) : 0;
 
 			int rightValue = df.parse( right ).intValue();
 
