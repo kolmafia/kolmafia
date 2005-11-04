@@ -147,7 +147,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Under the Knife
 		{ { "choiceAdventure21" }, { "Sleazy Back Alley" },
-		  { "Change Gender", "Keep your Gender" } },
+		  { "Switch Genders", "Umm. No thanks" } },
 
 		// The Arrrbitrator
 		{ { "choiceAdventure22" }, { "Pirate's Cove 1" },
@@ -189,7 +189,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Finger-Lickin'... Death.
 		{ "choiceAdventure4", "3" },
 
-		// Giant Castle
+		// Wheel in the Clouds in the Sky, Keep on Turning
 		{ "choiceAdventure9", "3" },
 		{ "choiceAdventure10","3" },
 		{ "choiceAdventure11", "3" },
@@ -207,7 +207,7 @@ public class AdventureDatabase extends KoLDatabase
 		{ "choiceAdventure3", "2", "100" },
 		{ "choiceAdventure3", "3", "1000" },
 
-		// Finger-Lickin'... Death
+		// Finger-Lickin'... Death.
 		{ "choiceAdventure4", "1", "500" },
 		{ "choiceAdventure4", "2", "500" },
 
@@ -234,7 +234,16 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			if ( data.length == 4 )
 			{
-				adventureTable[0].add( ZONE_NAMES.get( data[0] ) );
+				Object zone = ZONE_NAMES.get( data[0] );
+
+				// Be defensive: user can supply a broken data file
+				if ( zone == null)
+				{
+					System.out.println( "Bad adventure zone: " + data[0] );
+					continue;
+				}
+
+				adventureTable[0].add( zone );
 				for ( int i = 1; i < 4; ++i )
 					adventureTable[i].add( data[i] );
 			}
