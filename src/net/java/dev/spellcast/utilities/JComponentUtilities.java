@@ -46,6 +46,10 @@ import java.io.FileNotFoundException;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JComboBox;
+import javax.swing.JList;
 
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common
@@ -84,10 +88,14 @@ public class JComponentUtilities implements UtilityConstants
 
 	public static void setComponentSize( JComponent component, Dimension d )
 	{
-		component.setMaximumSize( d );
 		component.setPreferredSize( d );
 		component.setMinimumSize( d );
 		component.setSize( d );
+
+		if ( component instanceof JTextField || component instanceof JPasswordField || component instanceof JList || component instanceof JComboBox )
+			component.setMaximumSize( new Dimension( Integer.MAX_VALUE, (int) d.getHeight() ) );
+		else
+			component.setMaximumSize( d );
 	}
 
 	/**

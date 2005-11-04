@@ -106,15 +106,15 @@ public class AdventureDatabase extends KoLDatabase
 		  { "Bet on Tapajunta Del Maiz", "Bet on Cuerno De...  the other one", "Walk away in disgust" } },
 
 		// Heart of Very, Very Dark Darkness
-		{ { "choiceAdventure5" }, { "Spooky Gravy Barrow" },
+		{ { "choiceAdventure5" }, { "Gravy Barrow 1" },
 		  { "Enter the cave", "Don't enter the cave" } },
 
 		// How Depressing
-		{ { "choiceAdventure7" }, { "Spooky Gravy Barrow" },
+		{ { "choiceAdventure7" }, { "Gravy Barrow 2" },
 		  { "Put your hand in the depression", "Leave" } },
 
 		// On the Verge of a Dirge
-		{ { "choiceAdventure8" }, { "Spooky Gravy Barrow" },
+		{ { "choiceAdventure8" }, { "Gravy Barrow 3" },
 		  { "Enter the chamber", "Enter the chamber", "Enter the chamber" } },
 
                 // A Bard Day's Night

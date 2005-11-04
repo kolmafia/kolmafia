@@ -179,7 +179,7 @@ public class StoreManageFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "", scrollArea );
 
 			searchResults = new SearchResultsPanel();
-			setContent( elements, null, null, searchResults, true, true );
+			setContent( elements, null, searchResults, true, true );
 		}
 
 		public void actionConfirmed()

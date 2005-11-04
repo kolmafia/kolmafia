@@ -41,6 +41,7 @@ import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
+import java.awt.FlowLayout;
 
 // events
 import java.awt.event.ActionEvent;
@@ -930,15 +931,13 @@ public class OptionsFrame extends KoLFrame
 			setLayout( new BorderLayout( 5, 5 ) );
 
 			colorSelect = new JButton();
-			JComponentUtilities.setComponentSize( colorSelect, 20, 20 );
+			JComponentUtilities.setComponentSize( colorSelect, 24, 24 );
 			colorSelect.setBackground( selectedColor );
 			colorSelect.addActionListener( new ChatColorChanger() );
-
 			add( colorSelect, BorderLayout.WEST );
 
 			channelField = new JLabel( label, JLabel.LEFT );
 			add( channelField, BorderLayout.CENTER );
-			JComponentUtilities.setComponentSize( this, 200, 20 );
 		}
 
 		/**
@@ -951,8 +950,12 @@ public class OptionsFrame extends KoLFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				selectedColor = JColorChooser.showDialog( OptionsFrame.this, "Choose color for channel /" + channelField.getText() + "...", selectedColor );
-				colorSelect.setBackground( selectedColor );
-				channelField.setForeground( selectedColor );
+
+				if ( selectedColor != null )
+				{
+					colorSelect.setBackground( selectedColor );
+					channelField.setForeground( selectedColor );
+				}
 			}
 		}
 	}

@@ -608,7 +608,7 @@ public class AdventureFrame extends KoLFrame
 
 		protected void setContent( VerifiableElement [] elements )
 		{
-			super.setContent( elements, null, null, null, true, true );
+			super.setContent( elements, null, null, true, true );
 			countField.setText( getProperty( "defaultLimit" ) );
 
 			JPanel centerPanel = new JPanel();

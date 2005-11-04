@@ -255,7 +255,7 @@ public class BuffBotFrame extends KoLFrame
 
 		public void setContent( VerifiableElement [] elements )
 		{
-			super.setContent( elements, null, null, null, true, true );
+			super.setContent( elements, null, null, true, true );
 
 			JPanel centerPanel = new JPanel();
 			centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );

@@ -40,7 +40,10 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+
+import javax.swing.JScrollPane;
+import javax.swing.SpringLayout;
+import com.sun.java.forums.SpringUtilities;
 
 // event listeners
 import java.awt.event.ActionEvent;
@@ -95,19 +98,19 @@ public abstract class ActionVerifyPanel extends ActionPanel
 	}
 
 	protected void setContent( VerifiableElement [] elements )
-	{	setContent( elements, null, null, null, true, false );
+	{	setContent( elements, null, null, true, false );
 	}
 
 
 	protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
-	{	setContent( elements, null, null, null, isLabelPreceeding, false );
+	{	setContent( elements, null, null, isLabelPreceeding, false );
 	}
 
-	protected void setContent( VerifiableElement [] elements, JPanel [] extras, JPanel westPanel, JPanel eastPanel )
-	{	setContent( elements, extras, westPanel, eastPanel, true, false );
+	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel )
+	{	setContent( elements, mainPanel, eastPanel, true, false );
 	}
 
-	protected void setContent( VerifiableElement [] elements, JPanel [] extras, JPanel westPanel, JPanel eastPanel, boolean isLabelPreceeding, boolean bothDisabledOnClick )
+	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean isLabelPreceeding, boolean bothDisabledOnClick )
 	{
 		if ( contentSet )
 			return;
@@ -117,13 +120,8 @@ public abstract class ActionVerifyPanel extends ActionPanel
 		container.setLayout( new BorderLayout( 10, 10 ) );
 		container.add( Box.createVerticalStrut( 2 ), BorderLayout.NORTH );
 
-		// add the west container
-		container.add( constructWestContainer( elements, westPanel, isLabelPreceeding ), BorderLayout.WEST );
-
-		// add the extras panel
-		JPanel extrasPanel = constructExtrasPanel( extras );
-		if ( extrasPanel != null )
-			container.add( extrasPanel, BorderLayout.CENTER );
+		// add the main container
+		container.add( constructMainContainer( elements, mainPanel, isLabelPreceeding ), BorderLayout.CENTER );
 
 		// construct the east container, which usually consists of only the
 		// button panel, if an east panel is not specified; if one happens
@@ -151,98 +149,53 @@ public abstract class ActionVerifyPanel extends ActionPanel
 			buttonPanel.setBothDisabledOnClick( true );
 	}
 
-	private JPanel constructWestContainer( VerifiableElement [] elements, JPanel westPanel, boolean isLabelPreceeding )
+	private JPanel constructMainContainer( VerifiableElement [] elements, JPanel mainPanel, boolean isLabelPreceeding )
 	{
-		JPanel westContainer = new JPanel();
-		westContainer.setLayout( new BorderLayout() );
+		JPanel mainContainer = new JPanel();
+		mainContainer.setLayout( new BorderLayout() );
 
-		if ( westPanel != null )
-		{
-			westContainer.add( westPanel, BorderLayout.NORTH );
-			westContainer.add( Box.createVerticalStrut( 10 ), BorderLayout.CENTER );
-		}
+		if ( mainPanel != null )
+			mainContainer.add( mainPanel, BorderLayout.NORTH );
 
 		if ( elements != null && elements.length > 0 )
 		{
-			JPanel elementsContainer = new JPanel();
-			elementsContainer.setLayout( new BoxLayout( elementsContainer, BoxLayout.X_AXIS ) );
+			// Layout the elements using springs
+			// instead of standard panel elements.
 
-			if ( isLabelPreceeding )
+			JPanel elementsContainer = new JPanel( new SpringLayout() );
+
+			for ( int i = 0; i < elements.length; ++i )
 			{
-				elementsContainer.add( constructLabelPanel( elements ) );
-				elementsContainer.add( Box.createHorizontalStrut( 10 ) );
+				if ( isLabelPreceeding )
+				{
+					JComponentUtilities.setComponentSize( elements[i].getLabel(), labelSize );
+					elementsContainer.add( elements[i].getLabel() );
+				}
+
+				if ( !(elements[i].getInputField() instanceof JScrollPane) )
+					JComponentUtilities.setComponentSize( elements[i].getInputField(), fieldSize );
+
+				elementsContainer.add( elements[i].getInputField() );
+
+				if ( !isLabelPreceeding )
+				{
+					JComponentUtilities.setComponentSize( elements[i].getLabel(), labelSize );
+					elementsContainer.add( elements[i].getLabel() );
+				}
 			}
 
-			elementsContainer.add( constructFieldPanel( elements ), BorderLayout.CENTER );
+			// Construct the compact grid with the
+			// SpringUtilities module.
 
-			if ( !isLabelPreceeding )
-			{
-				elementsContainer.add( Box.createHorizontalStrut( 10 ) );
-				elementsContainer.add( constructLabelPanel( elements ) );
-			}
+			SpringUtilities.makeCompactGrid( elementsContainer, elements.length, 2, 5, 5, 5, 5 );
 
-			westContainer.add( elementsContainer,
-				westPanel == null ? BorderLayout.NORTH : BorderLayout.SOUTH );
+			// Add in the original main container
+			// that was being planned.
+
+			mainContainer.add( elementsContainer, BorderLayout.CENTER );
 		}
 
-		return westContainer;
-	}
-
-	private JPanel constructLabelPanel( VerifiableElement [] elements )
-	{
-		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.Y_AXIS ) );
-		labelPanel.add( Box.createVerticalStrut( 5 ) );
-
-		JLabel label;
-		for ( int i = 0; i < elements.length; ++i )
-		{
-			label = elements[i].getLabel();
-
-			JComponentUtilities.setComponentSize( label, labelSize );
-			labelPanel.add( label );
-			labelPanel.add( Box.createVerticalStrut( 5 ) );
-		}
-
-		JPanel alignedPanel = new JPanel();
-		alignedPanel.setLayout( new BorderLayout() );
-		alignedPanel.add( labelPanel, BorderLayout.NORTH );
-
-		return alignedPanel;
-	}
-
-	private JPanel constructFieldPanel( VerifiableElement [] elements )
-	{
-		JPanel fieldPanel = new JPanel();
-		fieldPanel.setLayout( new BoxLayout( fieldPanel, BoxLayout.Y_AXIS ) );
-		fieldPanel.add( Box.createVerticalStrut( 5 ) );
-
-		JComponent inputField;
-
-		for ( int i = 0; i < elements.length; ++i )
-		{
-			inputField = elements[i].getInputField();
-
-			if ( inputField instanceof JTextField )
-			{
-				JComponentUtilities.setComponentSize( inputField, fieldSize );
-				fieldPanel.add( inputField );
-			}
-			else
-			{
-				JPanel containerPanel = new JPanel();
-				containerPanel.setLayout( new BoxLayout( containerPanel, BoxLayout.X_AXIS ) );
-				containerPanel.add( inputField );
-
-				if ( !(inputField instanceof javax.swing.JScrollPane) )
-					JComponentUtilities.setComponentSize( containerPanel, fieldSize );
-
-				fieldPanel.add( containerPanel );
-			}
-			fieldPanel.add( Box.createVerticalStrut( 5 ) );
-		}
-
-		return fieldPanel;
+		return mainContainer;
 	}
 
 	private JPanel constructExtrasPanel( JPanel [] extras )
@@ -299,6 +252,9 @@ public abstract class ActionVerifyPanel extends ActionPanel
 		{
 			this.label = new JLabel( label, direction );
 			this.inputField = inputField;
+
+			this.label.setLabelFor( inputField );
+			this.label.setVerticalAlignment( JLabel.TOP );
 		}
 
 		public JLabel getLabel()
