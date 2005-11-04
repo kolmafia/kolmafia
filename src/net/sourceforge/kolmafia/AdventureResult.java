@@ -106,8 +106,8 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public AdventureResult( String name )
 	{
-		this( name, name.equals(SUBSTATS) ? new int[3] : new int[1] );
-		this.itemID = TradeableItemDatabase.getItemID( name );
+		this( name, name.equals( SUBSTATS ) ? new int[3] : new int[1] );
+		validateName();
 	}
 
 	/**
@@ -121,12 +121,9 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public AdventureResult( int itemID, int count )
 	{
+		this( TradeableItemDatabase.getItemName( itemID ), count, false );
 		this.itemID = itemID;
-		this.count = new int[1];
-		this.count[0] = count;
-		this.priority = ITEM_PRIORITY;
-
-		this.name = TradeableItemDatabase.getItemName( itemID );
+		validateName();
 	}
 
 	/**
@@ -139,7 +136,10 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( String name, int count )
-	{	this( name, count, StatusEffectDatabase.contains( name ) );
+	{
+		this( name, new int[1] );
+		this.count[0] = count;
+		validateName();
 	}
 
 	/**
@@ -180,19 +180,29 @@ public class AdventureResult implements Comparable, KoLConstants
 	public AdventureResult( String name, int count, boolean isStatusEffect )
 	{
 		this( name, new int[1], isStatusEffect ? EFFECT_PRIORITY : ITEM_PRIORITY );
+		this.count[0] = count;
+		validateName();
+	}
 
-		if ( isStatusEffect )
+	/**
+	 * Utility method which validates the name for this
+	 * adventure result.
+	 */
+
+	private void validateName()
+	{
+		if ( isStatusEffect() )
 		{
 			this.itemID = -1;
 			this.name = StatusEffectDatabase.getEffectName( StatusEffectDatabase.getEffectID( name ) );
 		}
 		else if ( isItem() )
 		{
-			this.itemID = TradeableItemDatabase.getItemID( name );
+			if ( this.itemID == 0 || this.itemID == -1 )
+				this.itemID = TradeableItemDatabase.getItemID( name );
+
 			this.name = TradeableItemDatabase.getItemName( this.itemID );
 		}
-
-		this.count[0] = count;
 	}
 
 	/**
