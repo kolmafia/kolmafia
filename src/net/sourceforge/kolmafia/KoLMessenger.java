@@ -601,14 +601,14 @@ public abstract class KoLMessenger extends StaticEntity
 				currentChannel = "/" + message.substring( startIndex ).replaceAll( "\\.", "" );
 				processChatMessage( currentChannel, message );
 			}
-			else if ( message.indexOf( "(private static)</b></a>:" ) != -1 )
+			else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
 			{
 				String sender = message.substring( 0, message.indexOf( " (" ) ).replaceAll( "<.*?>", "" );
 				String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=blue>" +
 					sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
 				processChatMessage( sender, cleanHTML );
 			}
-			else if ( message.startsWith( "<b>private static to" ) )
+			else if ( message.startsWith( "<b>private to" ) )
 			{
 				String sender = KoLCharacter.getUsername();
 				String recipient = message.substring( 0, message.indexOf( ":" ) ).replaceAll( "<.*?>", "" ).substring( 11 );
@@ -634,7 +634,7 @@ public abstract class KoLMessenger extends StaticEntity
 	}
 
 	/**
-	 * private static method for handling individual channel methods.
+	 * Static method for handling individual channel methods.
 	 * @param	channel	The name of the channel
 	 * @param	message	The message that was sent to the channel
 	 */
@@ -667,7 +667,7 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
 			displayHTML = "<font color=green>" + message + "</font>";
 
-		// Then, private static messages resulting from a /last command
+		// Then, private messages resulting from a /last command
 		// show up in blue.  These are handled next.
 
 		else if ( message.startsWith( "<b>from " ) || message.startsWith( "<b>to " ) )
@@ -727,7 +727,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	/**
 	 * Opens an instant message window to the character with the
-	 * given name so that a private static conversation can be started.
+	 * given name so that a private conversation can be started.
 	 *
 	 * @param	channel	The channel to be opened
 	 */
