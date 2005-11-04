@@ -797,7 +797,7 @@ public class OptionsFrame extends KoLFrame
 			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( getProperty( "fontSize" ) ) );
 
 			chatStyleSelect.setSelectedIndex( Integer.parseInt( getProperty( "chatStyle" ) ) );
-			useTabsSelect.setSelectedIndex( getProperty( "useTabbedChat" ).equals( "true" ) ? 1 : 0 );
+			useTabsSelect.setSelectedIndex( Integer.parseInt( getProperty( "useTabbedChat" ) ) );
 			nameClickSelect.setSelectedIndex( Integer.parseInt( getProperty( "nameClickOpens" ) ) );
 
 			if ( colorPanel.getComponentCount() == 0 )
