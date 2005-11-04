@@ -73,7 +73,7 @@ public class KoLmafiaGUI extends KoLmafia
 	public static void main( String [] args )
 	{
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
-    	KoLmafiaGUI session = new KoLmafiaGUI();
+		KoLmafiaGUI session = new KoLmafiaGUI();
 
 		StaticEntity.setClient( session );
 

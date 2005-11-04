@@ -145,7 +145,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.macroStream = NullStream.INSTANCE;
 		this.saveStateNames = new SortedListModel();
 
-		String [] currentNames = settings.getProperty( "saveState" ).split( "//" );
+		String [] currentNames = GLOBAL_SETTINGS.getProperty( "saveState" ).split( "//" );
 		for ( int i = 0; i < currentNames.length; ++i )
 			saveStateNames.add( currentNames[i] );
 
@@ -1564,8 +1564,8 @@ public abstract class KoLmafia implements KoLConstants
 				}
 			}
 
-			settings.setProperty( "saveState." + loginname.toLowerCase(), (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
-			settings.saveSettings();
+			GLOBAL_SETTINGS.setProperty( "saveState." + loginname.toLowerCase(), (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
+			GLOBAL_SETTINGS.saveSettings();
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
@@ -1603,16 +1603,16 @@ public abstract class KoLmafia implements KoLConstants
 				saveStateBuffer.append( "//" );
 				saveStateBuffer.append( nameIterator.next() );
 			}
-			settings.setProperty( "saveState", saveStateBuffer.toString() );
+			GLOBAL_SETTINGS.setProperty( "saveState", saveStateBuffer.toString() );
 		}
 		else
-			settings.setProperty( "saveState", "" );
+			GLOBAL_SETTINGS.setProperty( "saveState", "" );
 
 		// Now, removing any passwords that were stored
 		// which are no longer in the save state list
 
 		String currentKey;
-		Object [] settingsArray = settings.keySet().toArray();
+		Object [] settingsArray = GLOBAL_SETTINGS.keySet().toArray();
 
 		nameIterator = saveStateNames.iterator();
 		List lowerCaseNames = new ArrayList();
@@ -1624,10 +1624,10 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			currentKey = (String) settingsArray[i];
 			if ( currentKey.startsWith( "saveState." ) && !lowerCaseNames.contains( currentKey.substring( 10 ) ) )
-				settings.remove( currentKey );
+				GLOBAL_SETTINGS.remove( currentKey );
 		}
 
-		settings.saveSettings();
+		GLOBAL_SETTINGS.saveSettings();
 	}
 
 	/**
@@ -1640,7 +1640,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			Object [] settingKeys = settings.keySet().toArray();
+			Object [] settingKeys = GLOBAL_SETTINGS.keySet().toArray();
 			String password = null;
 			String lowerCaseKey = "saveState." + loginname.toLowerCase();
 			String currentKey;
@@ -1649,7 +1649,7 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				currentKey = (String) settingKeys[i];
 				if ( currentKey.equals( lowerCaseKey ) )
-					password = settings.getProperty( currentKey );
+					password = GLOBAL_SETTINGS.getProperty( currentKey );
 			}
 
 			if ( password == null )
