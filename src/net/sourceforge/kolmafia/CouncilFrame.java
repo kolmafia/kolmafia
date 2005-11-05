@@ -41,8 +41,7 @@ import javax.swing.JScrollPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
- * A class which displays the calendar image to be used for today's
- * moon phases and today's calendar.
+ * A class which displays what the council currently has to say to you.
  */
 
 public class CouncilFrame extends RequestFrame

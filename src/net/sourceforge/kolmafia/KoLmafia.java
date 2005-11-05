@@ -1122,7 +1122,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( request instanceof KoLAdventure )
 			{
 				KoLAdventure adventure = (KoLAdventure) request;
-				if ( adventure.getZone().equals( "Gym" ) )
+				if ( adventure.getFormSource().equals( "clan_gym.php" ) )
 				{
 					(new ClanGymRequest( this, Integer.parseInt( adventure.getAdventureID() ), iterations )).run();
 					return;
