@@ -41,9 +41,9 @@ package net.sourceforge.kolmafia;
 
 public class ClanGymRequest extends KoLRequest
 {
-	public static final int HOBOFLEX = 1;
-	public static final int BIGBOOK = 2;
-	public static final int TANULOTS = 3;
+	public static final int MUSCLE = 1;
+	public static final int MYSTICALITY = 2;
+	public static final int MOXIE = 3;
 
 	private int turnCount;
 
@@ -57,11 +57,66 @@ public class ClanGymRequest extends KoLRequest
 
 	public ClanGymRequest( KoLmafia client, int equipmentID, int turnCount )
 	{
-		super( client, "clan_gym.php" );
-		addFormField( "action", equipmentID == HOBOFLEX ? "hoboflex" : equipmentID == BIGBOOK ? "bigbook" : "tanningbed" );
+		super( client, chooseGym( client, equipmentID) );
+		addFormField( "action", chooseAction( client, equipmentID) );
 		addFormField( "numturns", String.valueOf( turnCount ) );
 
 		this.turnCount = turnCount;
+	}
+
+	private static String chooseGym( KoLmafia client, int equipmentID )
+	{
+		switch ( equipmentID )
+		{
+		case MUSCLE:
+			// If we are in a Muscle sign, Degrassi Knoll has a gym.
+			if ( KoLCharacter.inMuscleSign() )
+				return "knoll.php";
+
+			// Otherwise, use the one in our clan - if we're in one.
+			return "clan_gym.php";
+
+		case MYSTICALITY:
+			// If we are in a Mysticality sign, Canadia has a gym.
+			if ( KoLCharacter.inMysticalitySign() )
+				return "canadia.php";
+
+			// Otherwise, use the one in our clan - if we're in one.
+			return "clan_gym.php";
+
+		case MOXIE:
+			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
+			if ( KoLCharacter.inMoxieSign() && 
+			     KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR )  )
+				return "gnomes.php";
+
+			// Otherwise, use the one in our clan - if we're in one.
+			return "clan_gym.php";
+		}
+
+		// Better not get here.
+		return "clan_gym.php";
+	}
+
+	private static String chooseAction( KoLmafia client, int equipmentID )
+	{
+		switch ( equipmentID )
+		{
+		case MUSCLE:
+			// If we are in a Muscle sign, Degrassi Knoll has a gym.
+			return KoLCharacter.inMuscleSign() ? "gym" : "hoboflex";
+
+		case MYSTICALITY:
+			// If we are in a Mysticality sign, Canadia has a gym.
+			return KoLCharacter.inMysticalitySign() ? "institute" : "bigbook";
+
+		case MOXIE:
+			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
+			return ( KoLCharacter.inMoxieSign() && 
+				 KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR )  ) ? "train" : "tanningbed";
+		}
+
+		return null;
 	}
 
 	/**
