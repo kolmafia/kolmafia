@@ -76,6 +76,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
 
 	protected boolean isLoggingIn;
+	protected boolean isMakingRequest;
 	protected LoginRequest cachedLogin;
 
 	protected String password, sessionID, passwordHash;
@@ -251,6 +252,17 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		// Retrieve the items which are available for consumption
+		// and item creation.
+
+		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
+
+		if ( !permitsContinue() )
+		{
+			deinitialize();
+			return;
+		}
+
 		// Get current moon phases
 
 		if ( !isQuickLogin && settings.getProperty( "skipMoonPhases" ).equals( "false" ) )
@@ -316,17 +328,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Retrieve the items which are available for consumption
-		// and item creation.
-
-		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
-
-		if ( !permitsContinue() )
-		{
-			deinitialize();
-			return;
-		}
-
 		// Now that we've parsed equipment, make dictionary available
 		// as combat option, if he has one
 
@@ -352,6 +353,7 @@ public abstract class KoLmafia implements KoLConstants
 		resetContinueState();
 
 		MPRestoreItemList.reset();
+		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**
@@ -784,7 +786,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Returns the list of items which are available from 
+	 * Returns the list of items which are available from
 	 * Chez Snootee today.
 	 */
 
@@ -1247,9 +1249,14 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( shouldRefreshStatus )
 					(new CharpaneRequest( this )).run();
+
+				// With all that information parsed out, every request
+				// should end with the special lists refreshing.
+
+				KoLCharacter.refreshCalculatedLists();
 			}
 
-			// If you've completed the request, make sure to update
+			// If you've completed the requests, make sure to update
 			// the display.
 
 			if ( !permitsContinue() )
@@ -1521,7 +1528,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Returns whether or not the client is current in a login state.
+	 * Returns whether or not the client is currently in a login state.
 	 * While the client is in a login state, only login-related
 	 * activities should be permitted.
 	 */

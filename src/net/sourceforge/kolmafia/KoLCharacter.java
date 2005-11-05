@@ -231,38 +231,48 @@ public abstract class KoLCharacter extends StaticEntity
 			equipmentLists[i] = new SortedListModel();
 	}
 
+	// Status pane data which is rendered whenever
+	// the user issues a "status" type command.
+
 	private static int availableMeat = 0;
 	private static int closetMeat = 0;
-
 	private static int inebriety = 0;
 	private static int adventuresLeft = 0;
 	private static int totalTurnsUsed = 0;
+
+	// Campground information
 
 	private static boolean hasToaster = false;
 	private static boolean hasArches = false;
 	private static boolean hasChef = false;
 	private static boolean hasBartender = false;
 
+	// Familiar data for reference
+
 	private static SortedListModel familiars = new SortedListModel( FamiliarData.class );
 	private static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
+
+	// Listener-driven container items
+
+	private static List listenerList = new ArrayList();
+
+	// Interesting accomplishments
+
 	private static LockableListModel accomplishments = new LockableListModel();
-
-        // Interesting accomplishments
-
 	public static final String MEATCAR = "You have built your own Bitchin' Meat Car.";
 	public static final String FRIARS = "You have cleansed the taint for the Deep Fat Friars.";
 	public static final String BARON = "You have helped the Baron Rof L'm Fao.";
 	public static final String BEANSTALK = "You have planted a Beanstalk in the Nearby Plains.";
 
-	private static List listenerList = new ArrayList();
+	// Ascension-related variables
 
 	private static boolean canInteract = false;
 	private static int ascensions = 0;
 	private static String ascensionSign = "None";
 	private static int ascensionSignType = NONE;
 	private static int consumptionRestriction = AscensionSnapshotTable.NOPATH;
-
 	private static int mindControlLevel = 0;
+
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
@@ -1147,8 +1157,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setBartender( boolean hasBartender )
 	{
 		KoLCharacter.hasBartender = hasBartender;
-		if ( client instanceof KoLmafiaGUI )
-			((KoLmafiaGUI)client).refresher.run();
+		refreshCalculatedLists();
 	}
 
 	/**
@@ -1168,8 +1177,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setChef( boolean hasChef )
 	{
 		KoLCharacter.hasChef = hasChef;
-		if ( client instanceof KoLmafiaGUI )
-			((KoLmafiaGUI)client).refresher.run();
+		refreshCalculatedLists();
 	}
 
 	/**
@@ -1683,7 +1691,22 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Processes a result.
+	 * Utility method which forces the update of a group
+	 * of results.  This should be called immediately after
+	 * the processing of results.
+	 */
+
+	public static void refreshCalculatedLists()
+	{
+		KoLCharacter.updateEquipmentLists();
+		ConcoctionsDatabase.refreshConcoctions();
+	}
+
+
+	/**
+	 * Processes a result received through adventuring.
+	 * This places items inside of inventories and lots
+	 * of other good stuff.
 	 */
 
 	public static void processResult( AdventureResult result )
@@ -1717,7 +1740,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 				setTotalTurnsUsed( getTotalTurnsUsed() + result.getCount() );
 			}
-
 		}
 		else if ( resultName.equals( AdventureResult.DRUNK ) )
 			setInebriety( getInebriety() + result.getCount() );

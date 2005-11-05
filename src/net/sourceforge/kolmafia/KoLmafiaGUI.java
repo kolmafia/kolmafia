@@ -51,18 +51,9 @@ import javax.swing.SwingUtilities;
 
 public class KoLmafiaGUI extends KoLmafia
 {
-	protected boolean shouldRefresh;
-	protected Runnable refresher;
-
 	private boolean isEnabled;
 	private CreateFrameRunnable displayer;
 	private LimitedSizeChatBuffer buffer;
-
-	public KoLmafiaGUI()
-	{
-		this.shouldRefresh = true;
-		this.refresher = new ListRefresher();
-	}
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -128,68 +119,54 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
-		KoLCharacter.getInventory().addListDataListener( new KoLCharacterAdapter( null, refresher ) );
-		this.refresher.run();
+		// If you've already loaded an adventure frame,
+		// or the login failed, then there's nothing left
+		// to do.  Return from the method.
 
-		if ( displayer == null || displayer.getCreation() instanceof AdventureFrame )
+		if ( isLoggingIn || displayer == null || displayer.getCreation() instanceof AdventureFrame )
 			return;
 
-		if ( !isLoggingIn )
+		// Figure out which user interface is being
+		// used -- account for minimalist loadings.
+
+		CreateFrameRunnable previousDisplayer = displayer;
+
+		Class frameClass;
+		int userInterfaceMode = Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) );
+
+		switch ( userInterfaceMode )
 		{
-			CreateFrameRunnable previousDisplayer = displayer;
-			int userInterfaceMode = Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) );
-			Class frameClass = null;
+			case 0:
+				frameClass = AdventureFrame.class;
+				break;
 
-			switch ( userInterfaceMode )
-			{
-				case 0:
-					frameClass = AdventureFrame.class;
-					break;
+			case 1:
+				frameClass = BuffBotFrame.class;
+				break;
 
-				case 1:
-					frameClass = BuffBotFrame.class;
-					break;
+			case 2:
+				KoLMessenger.initialize();
+				return;
 
-				case 2:
-					frameClass = null;
-					KoLMessenger.initialize();
-					break;
+			case 3:
+				frameClass = ClanManageFrame.class;
+				break;
 
-				case 3:
-					frameClass = ClanManageFrame.class;
-					break;
-			}
-
-			if ( frameClass == null )
-				displayer = null;
-			else
-			{
-				Object [] parameters = new Object[1];
-				parameters[0] = this;
-
-				displayer = new CreateFrameRunnable( frameClass, parameters );
-				displayer.run();
-			}
-
-			((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
-			((KoLFrame)previousDisplayer.getCreation()).dispose();
-
+			default:
+				return;
 		}
-	}
 
-	public class ListRefresher implements Runnable
-	{
-		public synchronized void run()
-		{
-			// If there is already an instance of this thread
-			// running, then there is nothing left to do.
+		// Instantiate the appropriate instance of the
+		// frame that should be loaded based on the mode.
 
-			if ( shouldRefresh )
-			{
-				KoLCharacter.updateEquipmentLists();
-				ConcoctionsDatabase.refreshConcoctions();
-			}
-		}
+		Object [] parameters = new Object[1];
+		parameters[0] = this;
+
+		displayer = new CreateFrameRunnable( frameClass, parameters );
+		displayer.run();
+
+		((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
+		((KoLFrame)previousDisplayer.getCreation()).dispose();
 	}
 
 	/**
@@ -250,8 +227,8 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( selectedValue.equals( hermitItemNames[i] ) )
 				selected = hermitItemNumbers[i];
 
-		int trinkets = HermitRequest.TRINKET.getCount( KoLCharacter.getInventory() ) + 
-			HermitRequest.GEWGAW.getCount( KoLCharacter.getInventory() ) + 
+		int trinkets = HermitRequest.TRINKET.getCount( KoLCharacter.getInventory() ) +
+			HermitRequest.GEWGAW.getCount( KoLCharacter.getInventory() ) +
 			HermitRequest.KNICK_KNACK.getCount( KoLCharacter.getInventory() );
 		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", trinkets );
 
@@ -453,15 +430,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 		JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
 			JOptionPane.INFORMATION_MESSAGE, null, printing.toArray(), null );
-	}
-
-	public boolean processResults( String results )
-	{
-		shouldRefresh = false;
-		boolean hadResults = super.processResults( results );
-		shouldRefresh = true;
-		refresher.run();
-		return hadResults;
 	}
 
 	public void visitCakeShapedArena()

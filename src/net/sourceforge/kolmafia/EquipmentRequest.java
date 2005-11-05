@@ -304,13 +304,23 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private void switchItem( String oldItem, String newItem )
 	{
-		int switchIn = newItem.equals( UNEQUIP ) ? -1 :
-			TradeableItemDatabase.getItemID( newItem.indexOf( "(" ) == -1 ? newItem :
-				newItem.substring( 0, newItem.indexOf( "(" ) - 1 ) );
+		if ( client.inLoginState() )
+			return;
 
-		int switchOut = oldItem.equals( UNEQUIP ) ? -1 :
-			TradeableItemDatabase.getItemID( oldItem.indexOf( "(" ) == -1 ? oldItem :
-				oldItem.substring( 0, oldItem.indexOf( "(" ) - 1 ) );
+		// Determine the item which is being switched
+		// in and out.
+
+		if ( !newItem.equals( UNEQUIP ) && newItem.indexOf( "(" ) != -1 )
+			newItem = newItem.substring( 0, newItem.indexOf( "(" ) - 1 ).trim();
+
+		if ( !oldItem.equals( UNEQUIP ) && oldItem.indexOf( "(" ) != -1 )
+			oldItem = oldItem.substring( 0, oldItem.indexOf( "(" ) - 1 ).trim();
+
+		int switchIn = newItem.equals( UNEQUIP ) ? -1 : TradeableItemDatabase.getItemID( newItem );
+		int switchOut = oldItem.equals( UNEQUIP ) ? -1 : TradeableItemDatabase.getItemID( oldItem );
+
+		// If the items are not equivalent, make sure
+		// the items should get switched out.
 
 		if ( switchIn != switchOut )
 		{
@@ -324,9 +334,6 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private void parseCloset()
 	{
-		if ( client instanceof KoLmafiaGUI )
-			((KoLmafiaGUI)client).shouldRefresh = false;
-
 		// Try to find how much meat is in your character's closet -
 		// this way, the program's meat manager frame auto-updates
 
@@ -365,12 +372,6 @@ public class EquipmentRequest extends PasswordHashRequest
 			List closet = KoLCharacter.getCloset();
 			closet.clear();
 			parseCloset( closetMatcher.group(), closet, false );
-		}
-
-		if ( client instanceof KoLmafiaGUI )
-		{
-			((KoLmafiaGUI)client).shouldRefresh = true;
-			((KoLmafiaGUI)client).refresher.run();
 		}
 	}
 
