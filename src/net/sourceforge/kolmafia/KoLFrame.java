@@ -386,9 +386,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		if ( client == null || !client.inLoginState() )
 		{
-			statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php" ) );
+			statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php", true ) );
 			statusMenu.add( new DisplayFrameMenuItem( "Visit Council", KeyEvent.VK_V, CouncilFrame.class ) );
-			statusMenu.add( new MiniBrowserMenuItem( "Weird Records", KeyEvent.VK_W, "records.php?which=0" ) );
+			statusMenu.add( new MiniBrowserMenuItem( "Weird Records", KeyEvent.VK_W, "records.php?which=0", false ) );
 			statusMenu.add( new JSeparator() );
 		}
 
@@ -1106,17 +1106,30 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected class MiniBrowserMenuItem extends JMenuItem implements ActionListener
 	{
 		private String location;
+		private boolean useSavedRequest;
 
-		public MiniBrowserMenuItem( String title, int mnemonic, String location )
+		public MiniBrowserMenuItem( String title, int mnemonic, String location, boolean useSavedRequest )
 		{
 			super( title, mnemonic );
 			addActionListener( this );
 
 			this.location = location;
+			this.useSavedRequest = useSavedRequest;
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	openRequestFrame( location );
+		{
+			if ( useSavedRequest )
+			{
+				KoLRequest request = client.getCurrentRequest();
+				if ( request != null )
+				{
+					client.setCurrentRequest( null );
+					openRequestFrame( request );
+					return;
+				}
+			}
+			openRequestFrame( location );
 		}
 	}
 
@@ -1215,6 +1228,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 */
 
 	public void openRequestFrame( String location )
+	{	openRequestFrame( extractRequest( location ) );
+	}
+
+	public void openRequestFrame( KoLRequest request )
 	{
 		Object [] parameters;
 
@@ -1223,13 +1240,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			parameters = new Object[3];
 			parameters[0] = client;
 			parameters[1] = this;
-			parameters[2] = extractRequest( location );
+			parameters[2] = request;
 		}
 		else
 		{
 			parameters = new Object[2];
 			parameters[0] = client;
-			parameters[1] = extractRequest( location );
+			parameters[1] = request;
 		}
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );

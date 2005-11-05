@@ -64,7 +64,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
-	private static int combatRound = 0;
+	private static int combatRound;
 	private static LockableListModel bookmarks = new LockableListModel();
 
 	private JMenu bookmarkMenu;
@@ -94,6 +94,11 @@ public class RequestFrame extends KoLFrame
 
 		this.parent = parent;
 		this.currentRequest = request;
+		this.hideSideBar = hideSideBar;
+		this.combatRound = 0;
+
+		if ( request != null && request instanceof FightRequest )
+			combatRound = ((FightRequest)request).getCombatRound();
 
 		this.mainDisplay = new JEditorPane();
 		this.mainDisplay.setEditable( false );
@@ -108,8 +113,6 @@ public class RequestFrame extends KoLFrame
 
 		// Game text descriptions and player searches should not add
 		// extra requests to the server by having a side panel.
-
-		this.hideSideBar = hideSideBar;
 
 		if ( hideSideBar )
 		{
@@ -315,8 +318,6 @@ public class RequestFrame extends KoLFrame
 					client.processResult( SewerRequest.CLOVER );
 			}
 
-			mainBuffer.append( "Retrieving..." );
-
 			// Update the title for the RequestFrame to include the
 			// current round of combat (for people who track this
 			// sort of thing).
@@ -333,7 +334,10 @@ public class RequestFrame extends KoLFrame
 			}
 
 			if ( currentRequest.responseText == null )
+			{
+				mainBuffer.append( "Retrieving..." );
 				currentRequest.run();
+			}
 
 			mainBuffer.clearBuffer();
 			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );

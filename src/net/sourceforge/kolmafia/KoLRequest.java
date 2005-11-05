@@ -358,6 +358,11 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
 
+		// Clear current request. We'll save it if this one needs
+		// to be finished in a browser
+
+		client.setCurrentRequest( null );
+
 		// You are allowed a maximum of four attempts
 		// to run the request.  This prevents KoLmafia
 		// from spamming the servers.
@@ -964,7 +969,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
-		return handleChoiceResponse( request.responseText );
+		return handleChoiceResponse( request );
 	}
 
 	/**
@@ -972,8 +977,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * adventure.
 	 */
 
-	private boolean handleChoiceResponse( String text )
+	private boolean handleChoiceResponse( KoLRequest request )
 	{
+                String text = request.responseText;
 		Matcher encounterMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( text );
 		if ( encounterMatcher.find() )
 			client.registerEncounter( encounterMatcher.group(1) );
@@ -988,6 +994,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
 			isErrorState = true;
 			client.cancelRequest();
+			finishInBrowser( client, request );
 			return false;
 		}
 
@@ -1003,6 +1010,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
 			isErrorState = true;
 			client.cancelRequest();
+			finishInBrowser( client, request );
 			return false;
 		}
 
@@ -1023,13 +1031,14 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
 			isErrorState = true;
 			client.cancelRequest();
+			finishInBrowser( client, request );
 			return false;
 		}
 
 		// If there is currently a setting which determines the
 		// decision, make that decision and submit the form.
 
-		KoLRequest request = new KoLRequest( client, "choice.php" );
+		request = new KoLRequest( client, "choice.php" );
 		request.addFormField( "pwd", client.getPasswordHash() );
 		request.addFormField( "whichchoice", choice );
 		request.addFormField( "option", decision );
@@ -1065,8 +1074,18 @@ public class KoLRequest implements Runnable, KoLConstants
 		// without a redirect. Detect this and recurse, as needed.
 
 		if ( request.responseText.indexOf( "action=choice.php" ) != -1 )
-			return handleChoiceResponse( request.responseText );
+			return handleChoiceResponse( request );
 
 		return true;
+	}
+
+	private void finishInBrowser( KoLmafia client, KoLRequest request )
+	{
+		// Save request so we can open it in a browser window
+		client.setCurrentRequest( request);
+
+		// Open one immediately if the user wants it
+		if ( getProperty( "finishInBrowser" ).equals( "true" ) )
+			FightFrame.finishInBrowser( client );
 	}
 }

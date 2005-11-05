@@ -77,6 +77,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected boolean isLoggingIn;
 	protected boolean isMakingRequest;
+	protected KoLRequest currentRequest;
 	protected LoginRequest cachedLogin;
 
 	protected String password, sessionID, passwordHash;
@@ -1915,5 +1916,13 @@ public abstract class KoLmafia implements KoLConstants
 		public String toString()
 		{	return name + " (" + encounterCount + ")";
 		}
+	}
+
+	public KoLRequest getCurrentRequest()
+	{	return currentRequest;
+	}
+
+	public void setCurrentRequest( KoLRequest request)
+	{	currentRequest = request;
 	}
 }

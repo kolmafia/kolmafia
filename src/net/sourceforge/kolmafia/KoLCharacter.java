@@ -1107,7 +1107,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to retrieve a lusable items contained within the character's inventory.
+	 * Accessor method to retrieve all usable items contained within the character's inventory.
 	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
 	 * and that any changes to the internal character inventory will be reflected in the returned
 	 * <code>SortedListModel</code>.
@@ -1120,7 +1120,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to retrieve a lusable items contained within the character's inventory.
+	 * Accessor method to retrieve all sellable items contained within the character's inventory.
 	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
 	 * and that any changes to the internal character inventory will be reflected in the returned
 	 * <code>SortedListModel</code>.
