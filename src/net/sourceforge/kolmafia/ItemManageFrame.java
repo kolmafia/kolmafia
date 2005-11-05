@@ -218,7 +218,7 @@ public class ItemManageFrame extends KoLFrame
 		private class ConsumeItemPanel extends ItemManagePanel
 		{
 			public ConsumeItemPanel()
-			{	super( "Usable Items", "use one", "use multiple", client == null ? new LockableListModel() : client.getUsableItems() );
+			{	super( "Usable Items", "use one", "use multiple", KoLCharacter.getUsables() );
 			}
 
 			protected void actionConfirmed()
@@ -300,7 +300,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			public SellItemPanel()
 			{
-				super( "Inside Inventory", "autosell", "send to store", client == null ? new SortedListModel() : client.getSellableItems() );
+				super( "Inside Inventory", "autosell", "send to store", KoLCharacter.getSellables() );
 				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			}
 

@@ -357,12 +357,6 @@ public class EquipmentRequest extends PasswordHashRequest
 			List inventory = KoLCharacter.getInventory();
 			inventory.clear();
 
-			List usableItems = client.getUsableItems();
-			usableItems.clear();
-
-			List sellableItems = client.getSellableItems();
-			sellableItems.clear();
-
 			parseCloset( inventoryMatcher.group(), inventory, true );
 		}
 
@@ -377,10 +371,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private void parseCloset( String content, List resultList, boolean updateUsableList )
 	{
-		List usableItems = client.getUsableItems();
-		List sellableItems = client.getSellableItems();
 		int lastFindIndex = 0;
-
 		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( content );
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
@@ -394,12 +385,6 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
 				AdventureResult.addResultToList( resultList, result );
-
-				if ( updateUsableList && TradeableItemDatabase.isUsable( result.getName() ) )
-					AdventureResult.addResultToList( usableItems, result );
-
-				if ( updateUsableList && TradeableItemDatabase.getPriceByID( result.getItemID() ) != 0 )
-					AdventureResult.addResultToList( sellableItems, result );
 			}
 			catch ( Exception e )
 			{

@@ -216,6 +216,8 @@ public abstract class KoLCharacter extends StaticEntity
 	private static SortedListModel inventory = new SortedListModel( AdventureResult.class );
 	private static SortedListModel closet = new SortedListModel( AdventureResult.class );
 	private static SortedListModel collection = new SortedListModel( AdventureResult.class );
+	private static SortedListModel usables = new SortedListModel( AdventureResult.class );
+	private static SortedListModel sellables = new SortedListModel( AdventureResult.class );
 
 	private static LockableListModel activeEffects = new LockableListModel();
 	private static LockableListModel usableSkills = new LockableListModel();
@@ -1105,6 +1107,32 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to retrieve a lusable items contained within the character's inventory.
+	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
+	 * and that any changes to the internal character inventory will be reflected in the returned
+	 * <code>SortedListModel</code>.
+	 *
+	 * @return	A <code>SortedListModel</code> of the items in the character's inventory
+	 */
+
+	public static SortedListModel getUsables()
+	{	return usables;
+	}
+
+	/**
+	 * Accessor method to retrieve a lusable items contained within the character's inventory.
+	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
+	 * and that any changes to the internal character inventory will be reflected in the returned
+	 * <code>SortedListModel</code>.
+	 *
+	 * @return	A <code>SortedListModel</code> of the items in the character's inventory
+	 */
+
+	public static SortedListModel getSellables()
+	{	return sellables;
+	}
+
+	/**
 	 * Accessor method which indicates whether or not the character has a toaster
 	 * @return	<code>true</code> if the character has a toaster
 	 */
@@ -1700,6 +1728,21 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		KoLCharacter.updateEquipmentLists();
 		ConcoctionsDatabase.refreshConcoctions();
+
+		AdventureResult currentItem;
+		Iterator itemIterator = inventory.iterator();
+		sellables.clear();  usables.clear();
+
+		while ( itemIterator.hasNext() )
+		{
+			currentItem = (AdventureResult) itemIterator.next();
+
+			if ( TradeableItemDatabase.isUsable( currentItem.getName() ) )
+				usables.add( currentItem );
+
+			if ( TradeableItemDatabase.getPriceByID( currentItem.getItemID() ) != 0 )
+				sellables.add( currentItem );
+		}
 	}
 
 

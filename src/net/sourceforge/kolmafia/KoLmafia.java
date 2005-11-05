@@ -97,10 +97,9 @@ public abstract class KoLmafia implements KoLConstants
 	private TreeMap seenPlayerIDs;
 	private TreeMap seenPlayerNames;
 
-	protected SortedListModel tally, missingItems;
-	protected SortedListModel usableItems, sellableItems, storage;
-	protected SortedListModel hunterItems;
-        protected LockableListModel restaurantItems, microbreweryItems;
+	protected SortedListModel tally, storage;
+	protected SortedListModel missingItems, hunterItems;
+	protected LockableListModel restaurantItems, microbreweryItems;
 
 	protected boolean useDisjunction;
 	protected SortedListModel conditions;
@@ -234,8 +233,6 @@ public abstract class KoLmafia implements KoLConstants
 			this.conditions.clear();
 			this.missingItems.clear();
 
-			this.usableItems = new SortedListModel();
-			this.sellableItems = new SortedListModel();
 			this.storage = new SortedListModel();
 			this.hunterItems = new SortedListModel();
 			this.restaurantItems = new LockableListModel();
@@ -587,19 +584,6 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			if ( shouldTally )
 				AdventureResult.addResultToList( tally, result );
-
-			if ( result.isItem() && TradeableItemDatabase.isUsable( resultName ) )
-			{
-				AdventureResult.addResultToList( usableItems, result );
-				if ( result.getCount( usableItems ) < 0 )
-					usableItems.remove( usableItems.indexOf( result ) );
-			}
-			if ( result.isItem() && TradeableItemDatabase.getPriceByID( result.getItemID() ) != 0 )
-			{
-				AdventureResult.addResultToList( sellableItems, result );
-				if ( result.getCount( sellableItems ) < 0 )
-					sellableItems.remove( sellableItems.indexOf( result ) );
-			}
 		}
 
 		KoLCharacter.processResult( result );
@@ -756,24 +740,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public String getPasswordHash()
 	{	return passwordHash;
-	}
-
-	/**
-	 * Retrieves the usable items in the character's inventory
-	 * @return	The character's usable items
-	 */
-
-	public SortedListModel getUsableItems()
-	{	return usableItems;
-	}
-
-	/**
-	 * Retrieves the sellable items in the character's inventory
-	 * @return	The character's sellable items
-	 */
-
-	public SortedListModel getSellableItems()
-	{	return sellableItems;
 	}
 
 	/**
@@ -1074,15 +1040,15 @@ public abstract class KoLmafia implements KoLConstants
 				}
 				else
 				{
-					String effect = parsedResults.nextToken();
+					String effectName = parsedResults.nextToken();
 					lastToken = parsedResults.nextToken();
 
 					if ( lastToken.indexOf( "duration" ) == -1 )
-						parseEffect( effect );
+						parseEffect( effectName );
 					else
 					{
 						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
-						parseEffect( effect + " (" + duration + ")" );
+						parseEffect( effectName + " (" + duration + ")" );
 					}
 				}
 			}
