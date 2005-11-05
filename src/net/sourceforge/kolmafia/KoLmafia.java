@@ -1069,7 +1069,7 @@ public abstract class KoLmafia implements KoLConstants
 						for ( int i = 0; isNumeric && i < countString.length(); ++i )
 							isNumeric &= Character.isDigit( countString.charAt(i) ) || countString.charAt(i) == ',';
 
-						parseEffect( itemName + " (" + ( isNumeric ? countString : "1" ) + ")" );
+						parseItem( itemName + " (" + ( isNumeric ? countString : "1" ) + ")" );
 					}
 				}
 				else
