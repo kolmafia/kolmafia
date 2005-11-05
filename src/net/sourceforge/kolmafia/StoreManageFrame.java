@@ -102,7 +102,7 @@ public class StoreManageFrame extends KoLFrame
 		JMenu optionsMenu = addOptionsMenu( menuBar );
 
 		optionsMenu.add( new JSeparator() );
-		optionsMenu.add( new MiniBrowserMenuItem( "View Store Log", KeyEvent.VK_V, "storelog.php" ) );
+		optionsMenu.add( new MiniBrowserMenuItem( "View Store Log", KeyEvent.VK_V, "storelog.php", false ) );
 
 		JMenu scanMenu = new JMenu( "Price Scanning" );
 		scanMenu.setMnemonic( KeyEvent.VK_P );
