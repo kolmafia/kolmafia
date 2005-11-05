@@ -493,6 +493,26 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public void parseItem( String result )
+	{
+		if ( logStream != null )
+			logStream.println( "Parsing item: " + result );
+
+		StringTokenizer parsedItem = new StringTokenizer( result, "()" );
+		String parsedItemName = parsedItem.nextToken().trim();
+		String parsedCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
+
+		try
+		{
+			processResult( new AdventureResult( parsedItemName, df.parse( parsedCount ).intValue(), false ) );
+		}
+		catch ( Exception e )
+		{
+			logStream.println( e );
+			e.printStackTrace( logStream );
+		}
+	}
+
 	public void parseEffect( String result )
 	{
 		if ( logStream != null )
@@ -1031,37 +1051,23 @@ public abstract class KoLmafia implements KoLConstants
 				hadResults = true;
 				if ( lastToken.indexOf( "effect" ) == -1 )
 				{
-					String acquisition = parsedResults.nextToken();
+					String item = parsedResults.nextToken();
 
-					try
+					if ( lastToken.indexOf( "an item" ) != -1 )
+						parseItem( item );
+                                        else
 					{
-						if ( lastToken.indexOf( "an item" ) != -1 )
-						{
-							// If the item is in the standard adventure
-							// result format (before Jick's change), then
-							// make sure that the item is processed.
+						// The name of the item follows the number
+						// that appears after the first index.
 
-							processResult( AdventureResult.parseResult( acquisition ) );
-						}
-						else
-						{
-							// The name of the item follows the number
-							// that appears after the first index.
+						String countString = item.split( " " )[0];
+						String itemName = item.substring( item.indexOf( " " ) ).trim();
+						boolean isNumeric = true;
 
-							String countString = acquisition.split( " " )[0];
-							String itemName = acquisition.substring( acquisition.indexOf( " " ) ).trim();
+						for ( int i = 0; isNumeric && i < countString.length(); ++i )
+							isNumeric &= Character.isDigit( countString.charAt(i) ) || countString.charAt(i) == ',';
 
-							boolean isNumeric = true;
-							for ( int i = 0; isNumeric && i < countString.length(); ++i )
-								isNumeric &= Character.isDigit( countString.charAt(i) ) || countString.charAt(i) == ',';
-
-							processResult( new AdventureResult( itemName, isNumeric ? df.parse( countString ).intValue() : 1 ) );
-						}
-					}
-					catch ( Exception e )
-					{
-						// Because the number is always the first token
-						// listed, this should not happen.
+						parseEffect( itemName + " (" + ( isNumeric ? countString : "1" ) + ")" );
 					}
 				}
 				else
