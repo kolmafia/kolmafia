@@ -193,7 +193,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// General static variables
 
 	private static String username = "";
-	private static boolean isMale = false;
+	private static String avatar = "";
 	private static int userID = 0;
 	private static String classname = "";
 	private static String classtype = "";
@@ -369,21 +369,21 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to get the gender associated with this character.
-	 * @param	isMale	The gender of this character
+	 * Accessor method to get the avatar associated with this character.
+	 * @param	avatar	The avatar for this character
 	 */
 
-	public static void setGender( boolean isMale )
-	{	KoLCharacter.isMale = isMale;
+	public static void setAvatar( String avatar )
+	{	KoLCharacter.avatar = avatar;
 	}
 
 	/**
-	 * Accessor method to get the gender associated with this character.
-	 * @return	<code>true</code> if the player is male
+	 * Accessor method to get the avatar associated with this character.
+	 * @return	The avatar for this character
 	 */
 
-	public static boolean isMale()
-	{	return isMale;
+	public static String getAvatar()
+	{	return avatar;
 	}
 
 	/**

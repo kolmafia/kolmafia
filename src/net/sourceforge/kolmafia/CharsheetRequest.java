@@ -84,10 +84,14 @@ public class CharsheetRequest extends KoLRequest
 		if ( isErrorState || responseCode != 200 )
 			return;
 
-		// Derive the KoLCharacter's gender from the image filename
-		KoLCharacter.setGender( responseText.indexOf( "_f.gif" ) == -1 );
+		// Set the character's avatar.
+		Matcher avatarMatcher = Pattern.compile( "http://images.kingdomofloathing.com/([^>]*?)\\.gif" ).matcher( responseText );
+		avatarMatcher.find();
 
-		// The easiest way to retrieve the KoLCharacter sheet
+		RequestEditorKit.downloadImage( avatarMatcher.group() );
+		KoLCharacter.setAvatar( avatarMatcher.group(1) + ".gif" );
+
+		// The easiest way to retrieve the character sheet
 		// data is to first strip all of the HTML from the
 		// reply, and then tokenize on the stripped-down
 		// version.  This can be done through simple regular
@@ -98,7 +102,7 @@ public class CharsheetRequest extends KoLRequest
 		try
 		{
 			// The first two tokens in the stream contains the
-			// name, but the KoLCharacter's name was known at login.
+			// name, but the character's name was known at login.
 			// Therefore, these tokens can be discarded.
 
 			String token = parsedContent.nextToken();

@@ -161,13 +161,7 @@ public class CharsheetFrame extends KoLFrame
 
 		levelPanel.add( levelMeter, BorderLayout.SOUTH );
 		imagePanel.add( levelPanel, BorderLayout.NORTH );
-
-		StringBuffer imagename = new StringBuffer( KoLCharacter.getClassType().replaceAll( " ", "" ).toLowerCase() );
-
-		if ( !KoLCharacter.isMale() )
-			imagename.append( "_f" );
-
-		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( imagename.toString() + ".gif" ) ), BorderLayout.CENTER );
+		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) ), BorderLayout.CENTER );
 
 		this.refreshButton = new JButton( "Refresh Status" );
 		refreshButton.addActionListener( new StatusRefreshListener() );
