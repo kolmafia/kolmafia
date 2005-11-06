@@ -70,9 +70,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
  * An extension of <code>KoLFrame</code> used to display the character
  * sheet for the current user.  Note that this can only be instantiated
  * when the character is logged in; if the character has logged out,
- * this method will contain blank data.  Note also that the avatar that
- * is currently displayed will be the default avatar from the class and
- * will not reflect outfits or customizations.
+ * this method will contain blank data.
  */
 
 public class CharsheetFrame extends KoLFrame
@@ -81,7 +79,7 @@ public class CharsheetFrame extends KoLFrame
 	private JLabel levelLabel;
 
 	private JProgressBar levelMeter, hpMeter, mpMeter;
-
+	private JLabel avatar;
 	private JLabel [] statusLabel;
 	private JProgressBar [] tnpDisplay;
 	private JButton refreshButton;
@@ -131,9 +129,8 @@ public class CharsheetFrame extends KoLFrame
 	}
 
 	/**
-	 * Utility method used for creating a panel displaying the character's avatar.
-	 * Because image retrieval has not been implemented, this method displays
-	 * only the default avatar for the character's class.
+	 * Utility method used for creating a panel displaying the character's
+	 * avatar.
 	 *
 	 * @return	a <code>JPanel</code> displaying the class-specific avatar
 	 */
@@ -161,7 +158,8 @@ public class CharsheetFrame extends KoLFrame
 
 		levelPanel.add( levelMeter, BorderLayout.SOUTH );
 		imagePanel.add( levelPanel, BorderLayout.NORTH );
-		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) ), BorderLayout.CENTER );
+		this.avatar = new JLabel( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) );
+		imagePanel.add( avatar, BorderLayout.CENTER );
 
 		this.refreshButton = new JButton( "Refresh Status" );
 		refreshButton.addActionListener( new StatusRefreshListener() );
@@ -323,6 +321,9 @@ public class CharsheetFrame extends KoLFrame
 			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
 				df.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 		}
+
+		// Set the current avatar
+		avatar.setIcon( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) );
 	}
 
 	private class StatusRefreshListener implements ActionListener, Runnable
