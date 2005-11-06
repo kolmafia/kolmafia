@@ -195,38 +195,27 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		protected void submitData( String data )
 		{
-			String [] elements = data.split( "&" );
-			String [] fields = new String[ elements.length ];
+			// Get the element
 
-			int valueIndex = 0;
+			Element inputElement = getElement();
 
-			if ( elements[0].length() > 0 )
-			{
-				for ( int i = 0; i < elements.length; ++i )
-					fields[i] = elements[i].substring( 0, elements[i].indexOf( "=" ) );
-			}
-			else
-				fields[0] = "";
+			if ( inputElement == null )
+				return;
 
-			// First, attempt to retrieve the frame which
-			// is being used by this form viewer.
+			// Get the "value" associated with this input
 
-			String frameText = null;
-			RequestFrame frame = null;
-			Object [] frames = existingFrames.toArray();
+			String value = (String)inputElement.getAttributes().getAttribute( HTML.Attribute.VALUE );
 
-			for ( int i = 0; i < frames.length && frame == null; ++i )
-			{
-				if ( frames[i] instanceof RequestFrame )
-				{
-					frame = (RequestFrame) frames[i];
-					frameText = frame.mainDisplay.getText();
+			// If there is no value, we won't be able to find the
+			// frame that handles this form.
 
-					for ( int j = 0; j < fields.length && frame != null; ++j )
-						if ( frameText.indexOf( fields[j] ) == -1 )
-							frame = null;
-				}
-			}
+			if ( value == null )
+				return;
+
+			// Retrieve the frame which is being used by this form
+			// viewer.
+
+			RequestFrame frame = findFrame( value );
 
 			// If there is no frame, then there's nothing to
 			// refresh, so return.
@@ -234,17 +223,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( frame == null )
 				return;
 
-			// Next, retrieve the form element so that
-			// you know where you need to submit the data.
+			// Retrieve the form element so that you know where you
+			// need to submit the data.
 
-			Element formElement = getElement();
+			Element formElement = inputElement;
 
 			while ( formElement != null && formElement.getAttributes().getAttribute( StyleConstants.NameAttribute ) != HTML.Tag.FORM )
 				formElement = formElement.getParentElement();
 
-			// At this point, if the form element is null,
-			// then there was no enclosing form for the
-			// <INPUT> tag, so you can return, doing nothing.
+			// If the form element is null, then there was no
+			// enclosing form for the <INPUT> tag, so you can
+			// return, doing nothing.
 
 			if ( formElement == null )
 				return;
@@ -261,6 +250,21 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( action == null )
 				action = frame.getCurrentLocation();
 
+			// Now get the data fields we will submit to this form
+
+			String [] elements = data.split( "&" );
+			String [] fields = new String[ elements.length ];
+
+			int valueIndex = 0;
+
+			if ( elements[0].length() > 0 )
+			{
+				for ( int i = 0; i < elements.length; ++i )
+					fields[i] = elements[i].substring( 0, elements[i].indexOf( "=" ) );
+			}
+			else
+				fields[0] = "";
+
 			// Prepare the element string -- make sure that
 			// you don't have duplicate fields.
 
@@ -276,6 +280,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			if ( action.indexOf( "?" ) != -1 )
 			{
+				// For quirky URLs where there's a question mark
+				// in the middle of the URL, just string the data
+				// onto the URL.  This is the way browsers work,
+				// so it's the way KoL expects the data.
+
 				StringBuffer actionString = new StringBuffer();
 				actionString.append( action );
 
@@ -285,11 +294,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						actionString.append( '&' );
 						actionString.append( elements[i] );
 					}
-
-				// For quirky URLs where there's a question mark
-				// in the middle of the URL, just string the data
-				// onto the URL.  This is the way browsers work,
-				// so it's the way KoL expects the data.
 
 				request = new KoLRequest( frame.client, actionString.toString(), true );
 			}
@@ -306,6 +310,24 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 
 			frame.refresh( request );
+		}
+
+		private RequestFrame findFrame( String value )
+		{
+			Object [] frames = existingFrames.toArray();
+			String search = "value=\"" + value + "\"";
+
+			for ( int i = 0; i < frames.length; ++i )
+			{
+				if ( !( frames[i] instanceof RequestFrame ) )
+					continue;
+
+				RequestFrame frame = (RequestFrame)frames[i];
+				if  ( frame.mainDisplay.getText().indexOf( search ) != -1 )
+				      return frame;
+			}
+
+			return null;
 		}
 	}
 }
