@@ -44,8 +44,10 @@ import javax.swing.JOptionPane;
 
 public class MallPurchaseRequest extends KoLRequest implements Comparable
 {
-	private static final int BEER_SCHLITZ = 41;
-	private static final int BEER_WILLER = 81;
+	// In order to prevent overflows from happening, make
+	// it so that the maximum quantity is 10 million
+
+	public static final int MAX_QUANTITY = 10000000;
 
 	private boolean successful;
 	private String itemName, shopName;
@@ -85,7 +87,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.shopName = storeName;
 		this.itemID = itemID;
 		this.shopID = 0;
-		this.quantity = Integer.MAX_VALUE >> 1;
+		this.quantity = MAX_QUANTITY;
 		this.limit = quantity;
 		this.price = price;
 		this.isNPCStore = true;
@@ -204,7 +206,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public String toString()
 	{
-		String stringForm = itemName + " (" + df.format( limit ) + " @ " + df.format( price ) + "): " + shopName;
+		String stringForm = itemName + " (" + (limit == MAX_QUANTITY ? "unlimited" : df.format( limit )) + " @ " + df.format( price ) + "): " + shopName;
 		return client instanceof KoLmafiaGUI ? "<html><nobr>" + stringForm + "</nobr></html>" : stringForm;
 	}
 

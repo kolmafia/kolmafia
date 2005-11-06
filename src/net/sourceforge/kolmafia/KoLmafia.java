@@ -1846,7 +1846,7 @@ public abstract class KoLmafia implements KoLConstants
 				// Remove the purchase from the list!  Because you
 				// have already made a purchase from the store
 
-				if ( permitsContinue() )
+				if ( permitsContinue() && currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
 					results.remove( purchases[i] );
 			}
 		}

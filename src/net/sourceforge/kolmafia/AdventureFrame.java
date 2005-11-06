@@ -53,6 +53,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 // containers
 import javax.swing.JList;
@@ -574,7 +576,7 @@ public class AdventureFrame extends KoLFrame
 		private JCheckBox forceSortingCheckBox;
 
 		private LockableListModel results;
-		private JList resultsDisplay;
+		private JList resultsList;
 
 		public MallSearchPanel()
 		{
@@ -650,7 +652,7 @@ public class AdventureFrame extends KoLFrame
 			limitPurchasesCheckBox.setEnabled( isEnabled );
 			forceSortingCheckBox.setEnabled( isEnabled );
 
-			resultsDisplay.setEnabled( isEnabled );
+			resultsList.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
@@ -667,7 +669,7 @@ public class AdventureFrame extends KoLFrame
 
 			if ( results.size() > 0 )
 			{
-				resultsDisplay.ensureIndexIsVisible( 0 );
+				resultsList.ensureIndexIsVisible( 0 );
 				if ( forceSortingCheckBox.isSelected() )
 					java.util.Collections.sort( results );
 			}
@@ -681,8 +683,8 @@ public class AdventureFrame extends KoLFrame
 				return;
 			}
 
-			Object [] purchases = resultsDisplay.getSelectedValues();
-			if ( purchases.length == 0 )
+			Object [] purchases = resultsList.getSelectedValues();
+			if ( purchases == null || purchases.length == 0 )
 			{
 				client.updateDisplay( ERROR_STATE, "Please select a store from which to purchase." );
 				return;
@@ -693,20 +695,9 @@ public class AdventureFrame extends KoLFrame
 
 			if ( !limitPurchasesCheckBox.isSelected() && getProperty( "oversightProtect" ).equals( "true" ) )
 			{
-				int totalPrice = 0;
-				int totalPurchases = 0;
-				MallPurchaseRequest currentPurchase = null;
-
-				for ( int i = 0; i < purchases.length; ++i )
-				{
-					currentPurchase = (MallPurchaseRequest) purchases[i];
-					totalPurchases += currentPurchase.getLimit();
-					totalPrice += currentPurchase.getLimit() * currentPurchase.getPrice();
-				}
 
 				if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-					"Are you sure you would like to purchase\n" + df.format( totalPurchases ) + " " +
-						currentPurchase.getItemName() + " for " + df.format( totalPrice ) + " meat?",
+					"Are you sure you would like to purchase\n" + getPurchaseSummary( purchases ) + "?",
 						"You sure you wanna ride that wave, dude?", JOptionPane.YES_NO_OPTION ) )
 							return;
 			}
@@ -715,6 +706,25 @@ public class AdventureFrame extends KoLFrame
 				getQuantity( "Maximum number of items to purchase?", Integer.MAX_VALUE, 1 ) : Integer.MAX_VALUE );
 
 			currentlyBuying = false;
+		}
+
+		private String getPurchaseSummary( Object [] purchases )
+		{
+			if ( purchases == null || purchases.length == 0 )
+				return "";
+
+			int totalPrice = 0;
+			int totalPurchases = 0;
+			MallPurchaseRequest currentPurchase = null;
+
+			for ( int i = 0; i < purchases.length; ++i )
+			{
+				currentPurchase = (MallPurchaseRequest) purchases[i];
+				totalPurchases += currentPurchase.getLimit();
+				totalPrice += currentPurchase.getLimit() * currentPurchase.getPrice();
+			}
+
+			return df.format( totalPurchases ) + " " + currentPurchase.getItemName() + " for " + df.format( totalPrice ) + " meat";
 		}
 
 		public void requestFocus()
@@ -737,13 +747,35 @@ public class AdventureFrame extends KoLFrame
 				add( JComponentUtilities.createLabel( "Search Results", JLabel.CENTER,
 					Color.black, Color.white ), BorderLayout.NORTH );
 
-				resultsDisplay = new JList( results );
-				resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				resultsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-				resultsDisplay.setVisibleRowCount( 11 );
+				resultsList = new JList( results );
+				resultsList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+				resultsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+				resultsList.setVisibleRowCount( 11 );
 
-				add( new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				resultsList.addListSelectionListener( new PurchaseSelectListener() );
+
+				add( new JScrollPane( resultsList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+			}
+
+			/**
+			 * An internal listener class which detects which values are selected
+			 * in the search results panel.
+			 */
+
+			private class PurchaseSelectListener implements ListSelectionListener
+			{
+				public void valueChanged( ListSelectionEvent e )
+				{
+					if ( e.getValueIsAdjusting() )
+						return;
+
+					// Reset the status message on this panel to
+					// show what the current state of the selections
+					// is at this time.
+
+					setStatusMessage( NOCHANGE, getPurchaseSummary( resultsList.getSelectedValues() ) );
+				}
 			}
 		}
 	}
