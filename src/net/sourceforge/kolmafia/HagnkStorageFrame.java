@@ -157,7 +157,7 @@ public class HagnkStorageFrame extends KoLFrame
 			for ( int i = 0; i < items.length; ++i )
 			{
 				selection = (AdventureResult) items[i];
-				quantity = getQuantity( "Retrieving " + selection.getName() + " from the storage...", selection.getCount(), 20 );
+				quantity = getQuantity( "Retrieving " + selection.getName() + " from the storage...", selection.getCount(), Math.min( 20, selection.getCount() ) );
 
 				if ( quantity == 0 )
 					return;
