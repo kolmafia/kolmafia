@@ -82,7 +82,33 @@ public class GalaktikRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( isPurchase && price == 0 )
+		if ( !isPurchase )
+		{
+			// Assuming KoLmafia accurately tracks HP & MP,
+			// we can derive the prices for the cures
+
+			// retrieveCures();
+
+			client.getGalaktikCures().clear();
+
+			int currentHP = KoLCharacter.getCurrentHP();
+			int maxHP = KoLCharacter.getMaximumHP();
+
+			if ( currentHP < maxHP )
+				client.getGalaktikCures().add( "Restore all HP for " + ( maxHP - currentHP ) * 10 + " Meat" );
+
+			int currentMP = KoLCharacter.getCurrentMP();
+			int maxMP = KoLCharacter.getMaximumMP();
+
+			if ( currentMP < maxMP )
+				client.getGalaktikCures().add( "Restore all MP for " + ( maxMP - currentMP ) * 20 + " Meat" );
+
+			updateDisplay( ENABLED_STATE, "Cures retrieved." );
+
+			return;
+		}
+
+		if ( price == 0 )
 		{
 			client.updateDisplay( ERROR_STATE, "You don't need that cure." );
 			client.cancelRequest();
@@ -93,18 +119,23 @@ public class GalaktikRequest extends KoLRequest
 
 		super.run();
 
-		if ( isPurchase )
-		{
-			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
+		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 
-			if ( cure.equals( "HP" ) )
-				client.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
-			else
-				client.processResult( new AdventureResult( AdventureResult.MP, KoLCharacter.getMaximumMP() ) );
+		if ( cure.equals( "HP" ) )
+			client.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
+		else
+			client.processResult( new AdventureResult( AdventureResult.MP, KoLCharacter.getMaximumMP() ) );
 
-			updateDisplay( ENABLED_STATE, "Cure purchased." );
-			return;
-		}
+		updateDisplay( ENABLED_STATE, "Cure purchased." );
+	}
+
+	private void retrieveCures()
+	{
+		// This method visits Doc Galaktik to find what he offers.
+
+		client.updateDisplay( DISABLED_STATE, "Visiting Doc Galaktik..." );
+
+		super.run();
 
 		int lastMatchIndex = 0;
 		Matcher cureMatcher = Pattern.compile( "Restore all .. for [0123456789,]* Meat" ).matcher( responseText );
@@ -115,7 +146,5 @@ public class GalaktikRequest extends KoLRequest
 			lastMatchIndex = cureMatcher.end();
 			client.getGalaktikCures().add( cureMatcher.group(0) );
 		}
-
-		updateDisplay( ENABLED_STATE, "Cures retrieved." );
 	}
 }
