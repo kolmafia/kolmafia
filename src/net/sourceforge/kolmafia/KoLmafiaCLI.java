@@ -1057,6 +1057,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "galaktik" ) )
+		{
+			makeGalaktikRequest();
+			return;
+		}
+
 		if ( command.equals( "restaurant" ) )
 		{
 			makeRestaurantRequest();
@@ -2469,6 +2475,38 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		updateDisplay( ERROR_STATE, "The restaurant isn't selling " + item + " today." );
+	}
+
+	/**
+	 * Makes a request to Doc Galaktik to purchase a cure.  If the
+	 * cure is not available, this method does not report an error.
+	 */
+
+	public void makeGalaktikRequest()
+	{
+		(new GalaktikRequest( scriptRequestor )).run();
+
+		List cures = scriptRequestor.galaktikCures;
+		if ( previousCommand.indexOf( " " ) == -1 )
+		{
+			printList( cures );
+			return;
+		}
+
+		// Cure "HP" or "MP"
+
+		String cure = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
+		for ( int i = 0; i < cures.size(); ++i )
+		{
+			String name = (String)cures.get(i);
+			if ( name.indexOf( cure ) != -1 )
+			{
+				(new GalaktikRequest( scriptRequestor, name )).run();
+				return;
+			}
+		}
+
+		updateDisplay( NOCHANGE, "You don't need that cure." );
 	}
 
 	/**

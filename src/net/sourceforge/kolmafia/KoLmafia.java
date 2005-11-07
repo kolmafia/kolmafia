@@ -100,7 +100,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected SortedListModel tally, storage;
 	protected SortedListModel missingItems, hunterItems;
-	protected LockableListModel restaurantItems, microbreweryItems;
+	protected LockableListModel restaurantItems, microbreweryItems, galaktikCures;
 
 	protected boolean useDisjunction;
 	protected SortedListModel conditions;
@@ -238,6 +238,7 @@ public abstract class KoLmafia implements KoLConstants
 			this.hunterItems = new SortedListModel();
 			this.restaurantItems = new LockableListModel();
 			this.microbreweryItems = new LockableListModel();
+			this.galaktikCures = new LockableListModel();
 			this.recentEffects = new ArrayList();
 
 			this.tally = new SortedListModel();
@@ -768,6 +769,15 @@ public abstract class KoLmafia implements KoLConstants
 
 	public LockableListModel getMicrobreweryItems()
 	{	return microbreweryItems;
+	}
+
+	/**
+	 * Returns the list of cures which are currently available from 
+	 * Doc Galaktik
+	 */
+
+	public LockableListModel getGalaktikCures()
+	{	return galaktikCures;
 	}
 
 	/**

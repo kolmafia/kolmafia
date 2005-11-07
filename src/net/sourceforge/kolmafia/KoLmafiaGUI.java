@@ -294,6 +294,31 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	/**
+	 * Makes a request to Doc Galaktik, looking for a cure.
+	 */
+
+	public void makeGalaktikRequest()
+	{
+		// Currently available cures change
+		(new GalaktikRequest( this )).run();
+
+		Object [] galaktikCureArray = galaktikCures.toArray();
+
+		if ( galaktikCureArray.length == 0 )
+		{
+			updateDisplay( ENABLED_STATE, "You don't need any cures." );
+			return;
+		}
+
+		String selectedValue = (String) JOptionPane.showInputDialog(
+			null, "Cure me, Doc!", "Doc Galaktik", JOptionPane.INFORMATION_MESSAGE, null,
+			galaktikCureArray, galaktikCureArray[0] );
+
+		if ( selectedValue != null )
+			(new GalaktikRequest( this, selectedValue )).run();
+	}
+
+	/**
 	 * Makes a request to the restaurant, looking for a meal.  This method
 	 * should prompt the user to determine which meal to buy.
 	 */
