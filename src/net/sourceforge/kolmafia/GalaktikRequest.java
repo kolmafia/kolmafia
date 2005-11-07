@@ -39,6 +39,8 @@ import java.util.List;
 
 public class GalaktikRequest extends KoLRequest
 {
+	public static final int HP = 1;
+	public static final int MP = 2;
 	private boolean isPurchase;
 	private int price;
 	private String cure;
@@ -78,6 +80,31 @@ public class GalaktikRequest extends KoLRequest
 		{
 			// Should never come here
 		}
+	}
+
+	public GalaktikRequest( KoLmafia client, int type )
+	{	this( client, findCure( client, type ) );
+	}
+
+	private static String findCure( KoLmafia client, int type )
+	{
+		List cures = client.galaktikCures;
+		for ( int i = 0; i < cures.size(); ++i )
+		{
+			String name = (String)cures.get(i);
+			switch ( type )
+			{
+			case HP:
+				if ( name.indexOf( "HP" ) != -1 )
+					return name;
+				break;
+			case MP:
+				if ( name.indexOf( "MP" ) != -1 )
+					return name;
+				break;
+			}
+		}
+		return null;
 	}
 
 	public void run()
