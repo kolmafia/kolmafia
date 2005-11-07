@@ -308,19 +308,16 @@ public class CharsheetFrame extends KoLFrame
 		refreshValuePanel( 1, KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() );
 		refreshValuePanel( 2, KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() );
 
-		if ( levelPanel != null )
-		{
-			int currentLevel = KoLCharacter.calculateLastLevel();
-			int nextLevel = KoLCharacter.calculateNextLevel();
-			int totalPrime = KoLCharacter.getTotalPrime();
+		int currentLevel = KoLCharacter.calculateLastLevel();
+		int nextLevel = KoLCharacter.calculateNextLevel();
+		int totalPrime = KoLCharacter.getTotalPrime();
 
-			levelMeter.setMaximum( nextLevel - currentLevel );
-			levelMeter.setValue( totalPrime - currentLevel );
-			levelMeter.setString( "" );
+		levelMeter.setMaximum( nextLevel - currentLevel );
+		levelMeter.setValue( totalPrime - currentLevel );
+		levelMeter.setString( "" );
 
-			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
-				df.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
-		}
+		levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
+					   df.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 
 		// Set the current avatar
 		avatar.setIcon( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) );
