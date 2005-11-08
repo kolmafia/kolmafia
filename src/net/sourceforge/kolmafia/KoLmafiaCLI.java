@@ -2484,11 +2484,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeGalaktikRequest()
 	{
-		(new GalaktikRequest( scriptRequestor )).run();
-
-		List cures = scriptRequestor.galaktikCures;
 		if ( previousCommand.indexOf( " " ) == -1 )
 		{
+			List cures = GalaktikRequest.retrieveCures( scriptRequestor );
 			printList( cures );
 			return;
 		}
@@ -2496,17 +2494,19 @@ public class KoLmafiaCLI extends KoLmafia
 		// Cure "HP" or "MP"
 
 		String cure = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
-		for ( int i = 0; i < cures.size(); ++i )
+
+		int type = 0;
+		if ( cure.equals( "HP" ) )
+			type = GalaktikRequest.HP;
+		else if ( cure.equals( "MP" ) )
+			type = GalaktikRequest.MP;
+		else
 		{
-			String name = (String)cures.get(i);
-			if ( name.indexOf( cure ) != -1 )
-			{
-				(new GalaktikRequest( scriptRequestor, name )).run();
-				return;
-			}
+			updateDisplay( NOCHANGE, "Unknown Doc Galaktik request" );
+			return;
 		}
 
-		updateDisplay( NOCHANGE, "You don't need that cure." );
+		(new GalaktikRequest( scriptRequestor, type )).run();
 	}
 
 	/**

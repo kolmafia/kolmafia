@@ -36,99 +36,65 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.List;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GalaktikRequest extends KoLRequest
 {
 	public static final int HP = 1;
 	public static final int MP = 2;
-	private boolean isPurchase;
+
 	private int price;
-	private String cure;
+	private int type;
 
 	public GalaktikRequest( KoLmafia client )
 	{
 		super( client, "galaktik.php" );
-		this.isPurchase = false;
-	}
-
-	public GalaktikRequest( KoLmafia client, String name )
-	{
-		super( client, "galaktik.php" );
-		this.isPurchase = true;
-
-		// Parse string to determine which cure he's buying and how
-		// much it costs.
-
-		// "Restore all HP for 400 Meat"
-		// "Restore all MP for 3,520 Meat"
-		Matcher cureMatcher = Pattern.compile( "Restore all (..) for ([0123456789,]*) Meat" ).matcher( name );
-
-		if ( !cureMatcher.find( 0 ) )
-			return;
-
-		this.price = 0;
-		try
-		{
-			this.price = df.parse( cureMatcher.group(2) ).intValue();
-			cure = cureMatcher.group(1);
-			// HP Cure: action=curehp
-			// MP Cure: action=curemp
-			addFormField( "action", "cure" + cure.toLowerCase() );
-			addFormField( "pwd", client.getPasswordHash() );
-		}
-		catch ( Exception e )
-		{
-			// Should never come here
-		}
+		this.price = -1;
 	}
 
 	public GalaktikRequest( KoLmafia client, int type )
-	{	this( client, findCure( client, type ) );
-	}
-
-	private static String findCure( KoLmafia client, int type )
 	{
-		List cures = client.galaktikCures;
-		for ( int i = 0; i < cures.size(); ++i )
+		super( client, "galaktik.php" );
+
+		this.type = type;
+		switch ( type )
 		{
-			String name = (String)cures.get(i);
-			switch ( type )
-			{
-			case HP:
-				if ( name.indexOf( "HP" ) != -1 )
-					return name;
-				break;
-			case MP:
-				if ( name.indexOf( "MP" ) != -1 )
-					return name;
-				break;
-			}
+		case HP:
+			addFormField( "action", "curehp" );
+			addFormField( "pwd", client.getPasswordHash() );
+			this.price =  ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() ) * 10;
+			break;
+
+		case MP:
+			addFormField( "action", "curemp" );
+			addFormField( "pwd", client.getPasswordHash() );
+			this.price =  ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() ) * 20;
+			break;
+
+		default:
+			this.price = 0;
+			break;
 		}
-		return null;
 	}
 
 	public void run()
 	{
-		if ( !isPurchase )
+		if ( price < 0 )
 		{
-			// Assuming KoLmafia accurately tracks HP & MP,
-			// we can derive the prices for the cures
+			// Ask Doc Galaktik for his available cures.
 
-			// retrieveCures();
+			client.updateDisplay( DISABLED_STATE, "Visiting Doc Galaktik..." );
+			super.run();
+
+			int lastMatchIndex = 0;
+			Matcher cureMatcher = Pattern.compile( "Restore all .. for [0123456789,]* Meat" ).matcher( responseText );
 
 			client.getGalaktikCures().clear();
-
-			int currentHP = KoLCharacter.getCurrentHP();
-			int maxHP = KoLCharacter.getMaximumHP();
-
-			if ( currentHP < maxHP )
-				client.getGalaktikCures().add( "Restore all HP for " + ( maxHP - currentHP ) * 10 + " Meat" );
-
-			int currentMP = KoLCharacter.getCurrentMP();
-			int maxMP = KoLCharacter.getMaximumMP();
-
-			if ( currentMP < maxMP )
-				client.getGalaktikCures().add( "Restore all MP for " + ( maxMP - currentMP ) * 20 + " Meat" );
+			while ( cureMatcher.find( lastMatchIndex ) )
+			{
+				lastMatchIndex = cureMatcher.end();
+				client.getGalaktikCures().add( cureMatcher.group(0) );
+			}
 
 			updateDisplay( ENABLED_STATE, "Cures retrieved." );
 
@@ -137,7 +103,13 @@ public class GalaktikRequest extends KoLRequest
 
 		if ( price == 0 )
 		{
-			client.updateDisplay( ERROR_STATE, "You don't need that cure." );
+			client.updateDisplay( NOCHANGE, "You don't need that cure." );
+			return;
+		}
+
+		if ( price > KoLCharacter.getAvailableMeat() )
+		{
+			client.updateDisplay( ERROR_STATE, "You need " + ( price - KoLCharacter.getAvailableMeat() ) + " more meat." );
 			client.cancelRequest();
 			return;
 		}
@@ -146,9 +118,19 @@ public class GalaktikRequest extends KoLRequest
 
 		super.run();
 
+		if ( responseText.indexOf( "You can't afford that" ) != -1 )
+		{
+			// This will only happen if we didn't track HP/MP
+			// correctly
+
+			client.updateDisplay( ERROR_STATE, "You can't afford that cure." );
+			client.cancelRequest();
+			return;
+		}
+
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 
-		if ( cure.equals( "HP" ) )
+		if ( type == HP )
 			client.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
 		else
 			client.processResult( new AdventureResult( AdventureResult.MP, KoLCharacter.getMaximumMP() ) );
@@ -156,22 +138,31 @@ public class GalaktikRequest extends KoLRequest
 		updateDisplay( ENABLED_STATE, "Cure purchased." );
 	}
 
-	private void retrieveCures()
+	public static List retrieveCures( KoLmafia client )
 	{
-		// This method visits Doc Galaktik to find what he offers.
+		// We can visit Doc Galatik, if we don't think we're tracking
+		// HP and MP accurately
 
-		client.updateDisplay( DISABLED_STATE, "Visiting Doc Galaktik..." );
+		// (new GalaktikRequest( client )).run();
+		// return client.getGalaktikCures();
 
-		super.run();
+		// On the other hand, we can calculate what we think he
+		// offers based on current/maximum HP & MP
 
-		int lastMatchIndex = 0;
-		Matcher cureMatcher = Pattern.compile( "Restore all .. for [0123456789,]* Meat" ).matcher( responseText );
+		LockableListModel cures = new LockableListModel();
 
-		client.getGalaktikCures().clear();
-		while ( cureMatcher.find( lastMatchIndex ) )
-		{
-			lastMatchIndex = cureMatcher.end();
-			client.getGalaktikCures().add( cureMatcher.group(0) );
-		}
+		int currentHP = KoLCharacter.getCurrentHP();
+		int maxHP = KoLCharacter.getMaximumHP();
+
+		if ( currentHP < maxHP )
+			cures.add( "Restore all HP for " + ( maxHP - currentHP ) * 10 + " Meat" );
+
+		int currentMP = KoLCharacter.getCurrentMP();
+		int maxMP = KoLCharacter.getMaximumMP();
+
+		if ( currentMP < maxMP )
+			cures.add( "Restore all MP for " + ( maxMP - currentMP ) * 20 + " Meat" );
+
+		return cures;
 	}
 }

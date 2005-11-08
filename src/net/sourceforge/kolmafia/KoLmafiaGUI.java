@@ -299,12 +299,9 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void makeGalaktikRequest()
 	{
-		// Currently available cures change
-		(new GalaktikRequest( this )).run();
+		Object [] cureArray = GalaktikRequest.retrieveCures( this ).toArray();
 
-		Object [] galaktikCureArray = galaktikCures.toArray();
-
-		if ( galaktikCureArray.length == 0 )
+		if ( cureArray.length == 0 )
 		{
 			updateDisplay( ENABLED_STATE, "You don't need any cures." );
 			return;
@@ -312,10 +309,19 @@ public class KoLmafiaGUI extends KoLmafia
 
 		String selectedValue = (String) JOptionPane.showInputDialog(
 			null, "Cure me, Doc!", "Doc Galaktik", JOptionPane.INFORMATION_MESSAGE, null,
-			galaktikCureArray, galaktikCureArray[0] );
+			cureArray, cureArray[0] );
 
 		if ( selectedValue != null )
-			(new GalaktikRequest( this, selectedValue )).run();
+		{
+			int type = 0;
+			if ( selectedValue.indexOf( "HP" ) != -1 )
+				type = GalaktikRequest.HP;
+			else if ( selectedValue.indexOf( "MP" ) != -1 )
+				type = GalaktikRequest.MP;
+			else
+				return;
+			(new GalaktikRequest( this, type )).run();
+		}
 	}
 
 	/**
