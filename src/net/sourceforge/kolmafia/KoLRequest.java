@@ -386,7 +386,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLRequest.delay( 500 );
 			}
 		}
-		while ( ++retryCount < 4 && !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
+		while ( ++retryCount < 4 && (!prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState)) );
 
 		// In the event that you have a timeout during a situation
 		// where the display does not update afterwards, be sure
