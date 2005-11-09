@@ -135,6 +135,10 @@ public class GiftMessageRequest extends SendMessageRequest
 	{	return maxCapacity;
 	}
 
+	protected boolean alwaysIndex()
+	{	return true;
+	}
+
 	protected void repeat( Object [] attachments )
 	{	(new GiftMessageRequest( client, recipient, outsideMessage, insideMessage, wrappingType, attachments, 0 )).run();
 	}
@@ -166,7 +170,8 @@ public class GiftMessageRequest extends SendMessageRequest
 		// With that done, the client needs to be updated
 		// on the package sending costs.
 
-		if ( responseText.indexOf( getSuccessMessage() ) != -1 )
+		if ( ( responseText.indexOf( getSuccessMessage() ) != -1 ) &&
+		     ( materialCost > 0 ) )
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
 	}
 }

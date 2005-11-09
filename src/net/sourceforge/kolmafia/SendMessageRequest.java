@@ -98,16 +98,30 @@ public abstract class SendMessageRequest extends KoLRequest
 
 	protected void attachItem( AdventureResult item, int index )
 	{
-		if ( getCapacity() != 1 )
+		String which, quantity;
+
+		if ( alwaysIndex() )
 		{
-			addFormField( "whichitem" + index, String.valueOf( item.getItemID() ) );
-			addFormField( quantityField + index, String.valueOf( item.getCount() ) );
+			which = "whichitem" + ( index + 1 );
+			quantity = quantityField + ( index + 1 );
+		}
+		else if ( getCapacity() != 1 )
+		{
+			which = "whichitem" + index;
+			quantity = quantityField + index;
 		}
 		else
 		{
-			addFormField( "whichitem", String.valueOf( item.getItemID() ) );
-			addFormField( quantityField, String.valueOf( item.getCount() ) );
+			which = "whichitem";
+			quantity = quantityField;
 		}
+
+		addFormField( which, String.valueOf( item.getItemID() ) );
+		addFormField( quantity, String.valueOf( item.getCount() ) );
+	}
+
+	protected boolean alwaysIndex()
+	{	return false;
 	}
 
 	protected abstract int getCapacity();
