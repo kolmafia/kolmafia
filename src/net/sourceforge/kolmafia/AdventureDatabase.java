@@ -189,6 +189,12 @@ public class AdventureDatabase extends KoLDatabase
 		// Finger-Lickin'... Death.
 		{ "choiceAdventure4", "3" },
 
+		// Heart of Very, Very Dark Darkness
+		{ "choiceAdventure5", "2" },
+
+		// How Depressing
+		{ "choiceAdventure7", "2" },
+
 		// Wheel in the Clouds in the Sky, Keep on Turning
 		{ "choiceAdventure9", "3" },
 		{ "choiceAdventure10","3" },
