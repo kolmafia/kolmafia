@@ -622,6 +622,25 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	private class RefreshScriptsMenuItem extends JMenuItem implements ActionListener
+	{
+		public RefreshScriptsMenuItem()
+		{
+			super( "Refresh Script Menu", KeyEvent.VK_M );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			// Update existing list in place so that change
+			// listeners can update as appropriate
+
+			scripts.clear();
+			addedScriptCount = 0;
+			scripts.addAll( addScripts( new File( "scripts" ), "scripts" ) );
+		}
+	}
+
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
@@ -1424,14 +1443,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[ KoLFrame.this instanceof AdventureFrame ? 4 : 2 ];
+			JComponent [] headers = new JComponent[ KoLFrame.this instanceof AdventureFrame ? 5 : 3 ];
 
 			headers[0] = new LoadScriptMenuItem();
 			headers[1] = new ToggleMacroMenuItem();
+			headers[2] = new RefreshScriptsMenuItem();
 
 			if ( KoLFrame.this instanceof AdventureFrame )
 			{
-				headers[2] = new JSeparator();
+				headers[3] = new JSeparator();
 
 				JMenu modulesMenu = new JMenu( "Built-In Scripts" );
 				modulesMenu.setMnemonic( KeyEvent.VK_B );
@@ -1451,7 +1471,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				modulesMenu.add( new InvocationMenuItem( "Tower Guardians", KeyEvent.VK_T, SorceressLair.class, "fightTowerGuardians" ) );
 				modulesMenu.add( new InvocationMenuItem( "Naughty Chamber", KeyEvent.VK_N, SorceressLair.class, "completeSorceressChamber" ) );
 
-				headers[3] = modulesMenu;
+				headers[4] = modulesMenu;
 			}
 
 			return headers;
