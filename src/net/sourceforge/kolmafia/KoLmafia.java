@@ -327,11 +327,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Now that we've parsed equipment, make dictionary available
-		// as combat option, if he has one
-
-		KoLCharacter.addDictionary();
-
 		resetSessionTally();
 		applyRecentEffects();
 

@@ -141,7 +141,7 @@ public class TradeableItemDatabase extends KoLDatabase
 			return 81;
 
 		if ( itemName.equals( "dictionary" ) )
-			return KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) ? 536: 1316;
+			return KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) ? 1316: 536;
 
 		String canonicalName = getCanonicalName( itemName );
 		Object itemID = itemByName.get( canonicalName );
