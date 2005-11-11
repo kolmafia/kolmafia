@@ -265,6 +265,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static final String FRIARS = "You have cleansed the taint for the Deep Fat Friars.";
 	public static final String BARON = "You have helped the Baron Rof L'm Fao.";
 	public static final String BEANSTALK = "You have planted a Beanstalk in the Nearby Plains.";
+	private static boolean beanstalkArmed;
 
 	// Ascension-related variables
 
@@ -321,6 +322,7 @@ public abstract class KoLCharacter extends StaticEntity
 		familiars.add( FamiliarData.NO_FAMILIAR );
 
 		accomplishments.clear();
+		beanstalkArmed = false;
 		listenerList.clear();
 
 		ascensions = 0;
@@ -1130,6 +1132,23 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static SortedListModel getSellables()
 	{	return sellables;
+	}
+
+	/**
+	 * Accessor method which indicates whether or not the the beanstalk has been armed this session.
+	 * @return	<code>true</code> if the beanstalk has been armed
+	 */
+
+	public static boolean beanstalkArmed()
+	{	return beanstalkArmed;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the beanstalk
+	 */
+
+	public static void armBeanstalk()
+	{	KoLCharacter.beanstalkArmed = true;
 	}
 
 	/**

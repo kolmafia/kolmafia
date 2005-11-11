@@ -51,6 +51,8 @@ public class AdventureDatabase extends KoLDatabase
 	private static LockableListModel adventures = new LockableListModel();
 	private static final AdventureResult CASINO = new AdventureResult( 40, 1 );
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
+	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
+	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
 
 	public static final Map ZONE_NAMES = new TreeMap();
 	public static final Map ZONE_DESCRIPTIONS = new TreeMap();
@@ -319,13 +321,13 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		KoLRequest request = null;
 
-		String formSource = adventure.getFormSource();
 		String adventureID = adventure.getAdventureID();
+		String zone = adventure.getZone();
 
-		// The beach is unlocked provided the player
-		// has the meat car accomplishment.
+		// The beach is unlocked provided the player has the meat car
+		// accomplishment and a meatcar in inventory.
 
-		if ( formSource.equals( "shore.php" ) || adventureID.equals( "45" ) )
+		if ( zone.equals( "Beach" ) )
 		{
 			if ( !KoLCharacter.hasAccomplishment( KoLCharacter.MEATCAR ) )
 			{
@@ -337,24 +339,25 @@ public class AdventureDatabase extends KoLDatabase
 				request = new KoLRequest( client, "main.php" );
 				request.run();
 
-				if ( request.responseText.indexOf( "beach.php" ) != -1 )
-				{
-					KoLCharacter.addAccomplishment( KoLCharacter.MEATCAR );
-					request = null;
-				}
-				else
+				if ( request.responseText.indexOf( "beach.php" ) == -1 )
 				{
 					client.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
 					client.cancelRequest();
 					return;
 				}
+
+				KoLCharacter.addAccomplishment( KoLCharacter.MEATCAR );
+				request = null;
 			}
+
+			// Make sure the car is in the inventory
+			retrieveItem( ConcoctionsDatabase.CAR );
 		}
 
 		// The casino is unlocked provided the player
 		// has a casino pass in their inventory.
 
-		else if ( formSource.equals( "casino.php" ) )
+		else if ( zone.equals( "Casino" ) )
 		{
 			retrieveItem( CASINO );
 		}
@@ -362,43 +365,75 @@ public class AdventureDatabase extends KoLDatabase
 		// The island is unlocked provided the player
 		// has a dingy dinghy in their inventory.
 
-		else if ( adventureID.equals( "26" ) || adventureID.equals( "65" ) || adventureID.equals( "27" ) ||
-			adventureID.equals( "29" ) || adventureID.equals( "66" ) || adventureID.equals( "67" ) )
+		else if ( zone.equals( "Island" ) )
 		{
 			retrieveItem( DINGHY );
+		}
+
+		// The Castle in the Clouds in the Sky is unlocked provided the
+		// player has a S.O.C.K. or intragalactic rowboat in their
+		// inventory.
+
+		else if ( adventureID.equals( "82" ) )
+		{
+			// If he has a rowboat in the closet, fetch it.
+			if ( ROWBOAT.getCount( KoLCharacter.getCloset() ) > 0 )
+				retrieveItem( ROWBOAT );
+
+			// If he doesn't have a rowboat in inventory, he must
+			// have a S.O.C.K.
+			else if ( ROWBOAT.getCount( KoLCharacter.getInventory() ) == 0 )
+				retrieveItem( SOCK );
+		}
+
+		// The Hole in the Sky is unlocked provided the player has an
+		// intragalactic rowboat in their inventory.
+
+		else if ( adventureID.equals( "83" ) )
+		{
+			retrieveItem( ROWBOAT );
 		}
 
 		// The beanstalk is unlocked when the player
 		// has planted a beanstalk -- but, the zone
 		// needs to be armed first.
 
-		else if ( adventureID.equals( "81" ) || adventureID.equals( "82" ) || adventureID.equals( "83" ) )
+		else if ( adventureID.equals( "81" ) && !KoLCharacter.beanstalkArmed() )
 		{
-			if ( !KoLCharacter.hasAccomplishment( KoLCharacter.BEANSTALK ) )
+			// If the player has either the S.O.C.K. or the
+			// rowboat, we deduce that the beanstalk is unlocked
+
+			if ( ROWBOAT.getCount( KoLCharacter.getInventory() ) == 0 &&
+			     ROWBOAT.getCount( KoLCharacter.getCloset() ) == 0 &&
+			     SOCK.getCount( KoLCharacter.getInventory() ) == 0 &&
+			     SOCK.getCount( KoLCharacter.getCloset() ) == 0 )
 			{
-				// Sometimes, the player has just used the enchanted
-				// bean, and therefore does not have the accomplishment.
-				// Check the map, and if the beanstalk is available,
-				// go ahead and update the accomplishments.
-
-				client.updateDisplay( DISABLED_STATE, "Validating map location..." );
-				request = new KoLRequest( client, "plains.php" );
-				request.run();
-
-				if ( request.responseText.indexOf( "beanstalk.php" ) != -1 )
+				if ( !KoLCharacter.hasAccomplishment( KoLCharacter.BEANSTALK ) )
 				{
+					// Sometimes, the player has just used
+					// the enchanted bean, and therefore
+					// does not have the accomplishment.
+					// Check the map, and if the beanstalk
+					// is available, go ahead and update
+					// the accomplishments.
+
+					client.updateDisplay( DISABLED_STATE, "Validating map location..." );
+					request = new KoLRequest( client, "plains.php" );
+					request.run();
+
+					if ( request.responseText.indexOf( "beanstalk.php" ) == -1 )
+					{
+						client.updateDisplay( ERROR_STATE, "Beanstalk is not yet unlocked." );
+						client.cancelRequest();
+						return;
+					}
+
 					KoLCharacter.addAccomplishment( KoLCharacter.BEANSTALK );
-					request = null;
 				}
-				else
-				{
-					client.updateDisplay( ERROR_STATE, "Beanstalk is not yet unlocked." );
-					client.cancelRequest();
-					return;
-				}
-			}
 
-			request = new KoLRequest( client, "beanstalk.php" );
+				request = new KoLRequest( client, "beanstalk.php" );
+				KoLCharacter.armBeanstalk();
+			}
 		}
 
 		// If you do not need to arm anything, then
