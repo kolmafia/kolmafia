@@ -65,7 +65,6 @@ import javax.swing.BoxLayout;
 import javax.swing.table.TableColumnModel;
 
 // event listeners
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -381,33 +380,32 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected final JMenu addStatusMenu( JComponent menu )
 	{
 		JMenu statusMenu = new JMenu( "My KoL" );
-		statusMenu.setMnemonic( KeyEvent.VK_M );
 		menu.add( statusMenu );
 
 		if ( client == null || !client.inLoginState() )
 		{
-			statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", KeyEvent.VK_N, "main.php", true ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Visit Council", KeyEvent.VK_V, CouncilFrame.class ) );
-			statusMenu.add( new MiniBrowserMenuItem( "Weird Records", KeyEvent.VK_W, "records.php?which=0", false ) );
+			statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", "main.php", true ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Visit Council", CouncilFrame.class ) );
+			statusMenu.add( new MiniBrowserMenuItem( "Weird Records", "records.php?which=0", false ) );
 			statusMenu.add( new JSeparator() );
 		}
 
-		statusMenu.add( new DisplayFrameMenuItem( "KoL Almanac", KeyEvent.VK_K, CalendarFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", KeyEvent.VK_G, CommandDisplayFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "KoL Almanac", CalendarFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
 
 		if ( client == null || !client.inLoginState() )
 		{
 			statusMenu.add( new JSeparator() );
 
-			statusMenu.add( new DisplayFrameMenuItem( "Status Pane", KeyEvent.VK_S, CharsheetFrame.class ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", KeyEvent.VK_G, GearChangeFrame.class ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Item Manager", KeyEvent.VK_I, ItemManageFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Status Pane", CharsheetFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", GearChangeFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Item Manager", ItemManageFrame.class ) );
 
 			statusMenu.add( new JSeparator() );
 
-			statusMenu.add( new DisplayFrameMenuItem( "Your Mall Store", KeyEvent.VK_Y, StoreManageFrame.class ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Museum Display", KeyEvent.VK_M, MuseumFrame.class ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", KeyEvent.VK_H, HagnkStorageFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Your Mall Store", StoreManageFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Museum Display", MuseumFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", HagnkStorageFrame.class ) );
 		}
 
 		return statusMenu;
@@ -416,19 +414,18 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected final JMenu addTravelMenu( JComponent menu )
 	{
 		JMenu travelMenu = new JMenu( "Travel" );
-		travelMenu.setMnemonic( KeyEvent.VK_T );
 		menu.add( travelMenu );
 
-		travelMenu.add( new InvocationMenuItem( "Eat Cake-Arena", KeyEvent.VK_E, client, "visitCakeShapedArena" ) );
-		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", KeyEvent.VK_L, client, "makeHermitRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Mountain Traps", KeyEvent.VK_M, client, "makeTrapperRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Bounty Hunter", KeyEvent.VK_B, client, "makeHunterRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Untinker Items", KeyEvent.VK_U, client, "makeUntinkerRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", KeyEvent.VK_D, client, "makeGalaktikRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Canadian Device", KeyEvent.VK_C, client, "makeMindControlRequest" ) );
-                travelMenu.add( new DisplayFrameMenuItem( "Knoll Mushrooms", KeyEvent.VK_K, MushroomFrame.class ) );
-		travelMenu.add( new InvocationMenuItem( "Snooty Cafe", KeyEvent.VK_S, client, "makeRestaurantRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Gnomish Bar", KeyEvent.VK_G, client, "makeMicrobreweryRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Eat Cake-Arena", client, "visitCakeShapedArena" ) );
+		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", client, "makeHermitRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Mountain Traps", client, "makeTrapperRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Bounty Hunter", client, "makeHunterRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Untinker Items", client, "makeUntinkerRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", client, "makeGalaktikRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Canadian Device", client, "makeMindControlRequest" ) );
+                travelMenu.add( new DisplayFrameMenuItem( "Knoll Mushrooms", MushroomFrame.class ) );
+		travelMenu.add( new InvocationMenuItem( "Snooty Cafe", client, "makeRestaurantRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Gnomish Bar", client, "makeMicrobreweryRequest" ) );
 
 		return travelMenu;
 	}
@@ -436,20 +433,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected final JMenu addPeopleMenu( JComponent menu )
 	{
 		JMenu commMenu = new JMenu( "People" );
-		commMenu.setMnemonic( KeyEvent.VK_P );
 		menu.add( commMenu );
 
-		commMenu.add( new InvocationMenuItem( "Chat of Loathing", KeyEvent.VK_C, KoLMessenger.class, "initialize" ) );
-		commMenu.add( new DisplayFrameMenuItem( "IcePenguin Express", KeyEvent.VK_I, MailboxFrame.class ) );
-		commMenu.add( new DisplayFrameMenuItem( "Administrate Clan", KeyEvent.VK_A, ClanManageFrame.class ) );
-		commMenu.add( new DisplayFrameMenuItem( "Run a KoL BuffBot", KeyEvent.VK_R, BuffBotFrame.class ) );
+		commMenu.add( new InvocationMenuItem( "Chat of Loathing", KoLMessenger.class, "initialize" ) );
+		commMenu.add( new DisplayFrameMenuItem( "IcePenguin Express", MailboxFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Administrate Clan", ClanManageFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Run a KoL BuffBot", BuffBotFrame.class ) );
 
 		commMenu.add( new JSeparator() );
 
-		commMenu.add( new DisplayFrameMenuItem( "Write a New K-mail", KeyEvent.VK_W, GreenMessageFrame.class ) );
-		commMenu.add( new DisplayFrameMenuItem( "Propose a New Trade", KeyEvent.VK_P, ProposeTradeFrame.class ) );
-		commMenu.add( new DisplayFrameMenuItem( "View Pending Offers", KeyEvent.VK_V, PendingTradesFrame.class ) );
-		commMenu.add( new DisplayFrameMenuItem( "Gift Shop Back Room", KeyEvent.VK_G, GiftMessageFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Write a New K-mail", GreenMessageFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Propose a New Trade", ProposeTradeFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "View Pending Offers", PendingTradesFrame.class ) );
+		commMenu.add( new DisplayFrameMenuItem( "Gift Shop Back Room", GiftMessageFrame.class ) );
 
 		return commMenu;
 	}
@@ -496,10 +492,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected final JMenu addOptionsMenu( JComponent menu )
 	{
 		JMenu optionsMenu = new JMenu( "Options" );
-		optionsMenu.setMnemonic( KeyEvent.VK_O );
 		menu.add( optionsMenu );
 
-		optionsMenu.add( new DisplayFrameMenuItem( "Preferences", KeyEvent.VK_P, OptionsFrame.class ) );
+		optionsMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
 		optionsMenu.add( new ToggleDebugMenuItem() );
 
 		return optionsMenu;
@@ -516,14 +511,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected final JMenu addHelpMenu( JComponent menu )
 	{
 		JMenu helpMenu = new JMenu( "Help" );
-		helpMenu.setMnemonic( KeyEvent.VK_H );
 		menu.add( helpMenu );
 
-		helpMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", KeyEvent.VK_A, LicenseDisplay.class ) );
-		helpMenu.add( new DisplayPageMenuItem( "KoLmafia Home", KeyEvent.VK_K, "http://kolmafia.sourceforge.net/" ) );
-		helpMenu.add( new DisplayPageMenuItem( "End-User Manual", KeyEvent.VK_E, "http://kolmafia.sourceforge.net/manual.html" ) );
-		helpMenu.add( new DisplayPageMenuItem( "Sourceforge Page", KeyEvent.VK_S, "https://sourceforge.net/project/showfiles.php?group_id=126572&package_id=138474" ) );
-		helpMenu.add( new DisplayPageMenuItem( "Read Forum Thread", KeyEvent.VK_R, "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
+		helpMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", LicenseDisplay.class ) );
+		helpMenu.add( new DisplayPageMenuItem( "KoLmafia Home", "http://kolmafia.sourceforge.net/" ) );
+		helpMenu.add( new DisplayPageMenuItem( "End-User Manual", "http://kolmafia.sourceforge.net/manual.html" ) );
+		helpMenu.add( new DisplayPageMenuItem( "Sourceforge Page", "https://sourceforge.net/project/showfiles.php?group_id=126572&package_id=138474" ) );
+		helpMenu.add( new DisplayPageMenuItem( "Read Forum Thread", "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
 
 		return helpMenu;
 	}
@@ -561,7 +555,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public ToggleMacroMenuItem()
 		{
-			super( "", KeyEvent.VK_R );
+			super( "" );
 			addActionListener( this );
 
 			setText( client == null || client.getMacroStream() instanceof NullStream ? "Record Script..." : "Stop Recording" );
@@ -601,7 +595,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public ToggleDebugMenuItem()
 		{
-			super( "", KeyEvent.VK_S );
+			super( "" );
 			addActionListener( this );
 
 			setText( KoLmafia.getLogStream() instanceof NullStream ? "Start Debug" : "Stop Debug" );
@@ -626,7 +620,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public RefreshScriptsMenuItem()
 		{
-			super( "Refresh Script Menu", KeyEvent.VK_M );
+			super( "Refresh Script Menu" );
 			addActionListener( this );
 		}
 
@@ -652,9 +646,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private String scriptPath;
 
 		public LoadScriptMenuItem()
-		{
-			this( "Load script...", null );
-			setMnemonic( KeyEvent.VK_L );
+		{	this( "Load script...", null );
 		}
 
 		public LoadScriptMenuItem( String scriptName, String scriptPath )
@@ -877,9 +869,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private Class frameClass;
 		private CreateFrameRunnable displayer;
 
-		public DisplayFrameMenuItem( String title, int mnemonic, Class frameClass )
+		public DisplayFrameMenuItem( String title, Class frameClass )
 		{
-			super( title, mnemonic );
+			super( title );
 			addActionListener( this );
 
 			this.frameClass = frameClass;
@@ -918,9 +910,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		private String location;
 
-		public DisplayPageMenuItem( String title, int mnemonic, String location )
+		public DisplayPageMenuItem( String title, String location )
 		{
-			super( title, mnemonic );
+			super( title );
 			addActionListener( this );
 
 			this.location = location;
@@ -1128,9 +1120,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private String location;
 		private boolean useSavedRequest;
 
-		public MiniBrowserMenuItem( String title, int mnemonic, String location, boolean useSavedRequest )
+		public MiniBrowserMenuItem( String title, String location, boolean useSavedRequest )
 		{
-			super( title, mnemonic );
+			super( title );
 			addActionListener( this );
 
 			this.location = location;
@@ -1168,15 +1160,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private Method method;
 		private boolean requiresCancel;
 
-		public InvocationMenuItem( String title, int mnemonic, Object object, String methodName )
+		public InvocationMenuItem( String title, Object object, String methodName )
 		{
-			this( title, mnemonic, object == null ? null : object.getClass(), methodName );
+			this( title, object == null ? null : object.getClass(), methodName );
 			this.object = object;
 		}
 
-		public InvocationMenuItem( String title, int mnemonic, Class c, String methodName )
+		public InvocationMenuItem( String title, Class c, String methodName )
 		{
-			super( title, mnemonic );
+			super( title );
 			addActionListener( this );
 
 			try
@@ -1303,9 +1295,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		private CreateFrameRunnable creator;
 
-		public KoLPanelFrameMenuItem( String title, int mnemonic, ActionPanel panel )
+		public KoLPanelFrameMenuItem( String title, ActionPanel panel )
 		{
-			super( title, mnemonic );
+			super( title );
 			addActionListener( this );
 
 			Object [] parameters = new Object[3];
@@ -1414,8 +1406,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			JButton donateButton = new JButton( JComponentUtilities.getSharedImage( "paypal.gif" ) );
 			JComponentUtilities.setComponentSize( donateButton, 74, 31 );
-			donateButton.addActionListener( new DisplayPageMenuItem( "", KeyEvent.KEY_LOCATION_UNKNOWN,
-				"http://sourceforge.net/donate/index.php?user_id=813949" ) );
+			donateButton.addActionListener( new DisplayPageMenuItem( "", "http://sourceforge.net/donate/index.php?user_id=813949" ) );
 
 			JPanel donatePanel = new JPanel();
 			donatePanel.setLayout( new FlowLayout() );
@@ -1438,7 +1429,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	private class ScriptMenu extends MenuItemList
 	{
 		public ScriptMenu()
-		{	super( "Scripts", KeyEvent.VK_S, scripts );
+		{	super( "Scripts", scripts );
 		}
 
 		public JComponent [] getHeaders()
@@ -1454,22 +1445,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				headers[3] = new JSeparator();
 
 				JMenu modulesMenu = new JMenu( "Built-In Scripts" );
-				modulesMenu.setMnemonic( KeyEvent.VK_B );
 
-				modulesMenu.add( new InvocationMenuItem( "Get Breakfast!", KeyEvent.VK_G, client, "getBreakfast" ) );
-				modulesMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", KeyEvent.VK_P, client, "pwnClanOtori" ) );
-
-				modulesMenu.add( new JSeparator() );
-
-				modulesMenu.add( new InvocationMenuItem( "Face Nemesis", KeyEvent.VK_N, Nemesis.class, "faceNemesis" ) );
-				modulesMenu.add( new InvocationMenuItem( "Rob Strange Leaflet", KeyEvent.VK_R, StrangeLeaflet.class, "robStrangeLeaflet" ) );
+				modulesMenu.add( new InvocationMenuItem( "Get Breakfast!", client, "getBreakfast" ) );
+				modulesMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", client, "pwnClanOtori" ) );
 
 				modulesMenu.add( new JSeparator() );
 
-				modulesMenu.add( new InvocationMenuItem( "Lair Entryway", KeyEvent.VK_L, SorceressLair.class, "completeEntryway" ) );
-				modulesMenu.add( new InvocationMenuItem( "Hedge Rotation", KeyEvent.VK_H, SorceressLair.class, "completeHedgeMaze" ) );
-				modulesMenu.add( new InvocationMenuItem( "Tower Guardians", KeyEvent.VK_T, SorceressLair.class, "fightTowerGuardians" ) );
-				modulesMenu.add( new InvocationMenuItem( "Naughty Chamber", KeyEvent.VK_N, SorceressLair.class, "completeSorceressChamber" ) );
+				modulesMenu.add( new InvocationMenuItem( "Face Nemesis", Nemesis.class, "faceNemesis" ) );
+				modulesMenu.add( new InvocationMenuItem( "Rob Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
+
+				modulesMenu.add( new JSeparator() );
+
+				modulesMenu.add( new InvocationMenuItem( "Lair Entryway", SorceressLair.class, "completeEntryway" ) );
+				modulesMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
+				modulesMenu.add( new InvocationMenuItem( "Tower Guardians", SorceressLair.class, "fightTowerGuardians" ) );
+				modulesMenu.add( new InvocationMenuItem( "Naughty Chamber", SorceressLair.class, "completeSorceressChamber" ) );
 
 				headers[4] = modulesMenu;
 			}
@@ -1526,11 +1516,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private int headerCount;
 		private LockableListModel model;
 
-		public MenuItemList( String title, int mnemonic, LockableListModel model )
+		public MenuItemList( String title, LockableListModel model )
 		{
 			super( title );
-			this.setMnemonic( mnemonic );
-
+			
 			// Add the headers to the list of items which
 			// need to be added.
 

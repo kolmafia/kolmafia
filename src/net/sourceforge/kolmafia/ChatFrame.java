@@ -144,12 +144,11 @@ public class ChatFrame extends KoLFrame
 		JMenu optionsMenu = addOptionsMenu( menuBar );
 
 		optionsMenu.add( new JSeparator() );
-		optionsMenu.add( new MessengerListener( "Clear Displays", KeyEvent.VK_C, "clearChatBuffers" ) );
-		optionsMenu.add( new MessengerListener( "Add Highlight", KeyEvent.VK_A, "addHighlighting" ) );
-		optionsMenu.add( new MessengerListener( "Remove Highlight", KeyEvent.VK_R, "removeHighlighting" ) );
+		optionsMenu.add( new MessengerListener( "Clear Displays", "clearChatBuffers" ) );
+		optionsMenu.add( new MessengerListener( "Add Highlight", "addHighlighting" ) );
+		optionsMenu.add( new MessengerListener( "Remove Highlight", "removeHighlighting" ) );
 
 		JMenu clicksMenu = new JMenu( "Namelinks" );
-		clicksMenu.setMnemonic( KeyEvent.VK_N );
 		menuBar.add( clicksMenu );
 
 		clickGroup = new ButtonGroup();
@@ -447,8 +446,8 @@ public class ChatFrame extends KoLFrame
 
 	private class MessengerListener extends InvocationMenuItem
 	{
-		public MessengerListener( String title, int mnemonic, String method )
-		{	super( title, mnemonic, KoLMessenger.class, method );
+		public MessengerListener( String title, String method )
+		{	super( title, KoLMessenger.class, method );
 		}
 	}
 

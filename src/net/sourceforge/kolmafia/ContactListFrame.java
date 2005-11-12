@@ -53,7 +53,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.KeyEvent;
 import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -97,7 +96,6 @@ public class ContactListFrame extends KoLFrame
 		this.setJMenuBar( menuBar );
 
 		JMenu clicksMenu = new JMenu( "Namelinks" );
-		clicksMenu.setMnemonic( KeyEvent.VK_N );
 		menuBar.add( clicksMenu );
 
 		clickGroup = new ButtonGroup();
@@ -117,11 +115,10 @@ public class ContactListFrame extends KoLFrame
 		}
 
 		JMenu selectMenu = new JMenu( "Wholist" );
-		selectMenu.setMnemonic( KeyEvent.VK_W );
 		menuBar.add( selectMenu );
 
-		selectMenu.add( new InvocationMenuItem( "Comma-delimited list", KeyEvent.VK_C, this, "convertToCDL" ) );
-		selectMenu.add( new InvocationMenuItem( "Buff selected players", KeyEvent.VK_B, this, "buffSelected" ) );
+		selectMenu.add( new InvocationMenuItem( "Comma-delimited list", this, "convertToCDL" ) );
+		selectMenu.add( new InvocationMenuItem( "Buff selected players", this, "buffSelected" ) );
 	}
 
 	public Object [] getSelectedPlayers()

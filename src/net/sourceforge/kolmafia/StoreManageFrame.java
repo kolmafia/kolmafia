@@ -39,7 +39,6 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -102,10 +101,9 @@ public class StoreManageFrame extends KoLFrame
 		JMenu optionsMenu = addOptionsMenu( menuBar );
 
 		optionsMenu.add( new JSeparator() );
-		optionsMenu.add( new MiniBrowserMenuItem( "View Store Log", KeyEvent.VK_V, "storelog.php", false ) );
+		optionsMenu.add( new MiniBrowserMenuItem( "View Store Log", "storelog.php", false ) );
 
 		JMenu scanMenu = new JMenu( "Price Scanning" );
-		scanMenu.setMnemonic( KeyEvent.VK_P );
 		optionsMenu.add( scanMenu );
 
 		scanGroup = new ButtonGroup();

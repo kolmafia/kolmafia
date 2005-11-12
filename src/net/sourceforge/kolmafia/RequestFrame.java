@@ -52,7 +52,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JList;
 
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ListDataEvent;
@@ -157,25 +156,22 @@ public class RequestFrame extends KoLFrame
 		if ( this.sideBuffer != null )
 		{
 			JMenu functionMenu = new JMenu( "Function" );
-			functionMenu.setMnemonic( KeyEvent.VK_F );
-
 			functionMenu.add( new DisplayRequestMenuItem( "Inventory", "inventory.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Character", "charsheet.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Class Skills", "skills.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Read Messages", "messages.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Account Menu", "account.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Documentation", "doc.php?topic=home" ) );
-			functionMenu.add( new DisplayPageMenuItem( "KoL Forums", KeyEvent.KEY_LOCATION_UNKNOWN, "http://forums.kingdomofloathing.com/" ) );
-			functionMenu.add( new DisplayPageMenuItem( "Radio KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://radiokol24.kicks-ass.net:8015/listen.pls" ) );
-			functionMenu.add( new DisplayPageMenuItem( "Radio WKoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://72.35.226.80:9140/listen.pls" ) );
+			functionMenu.add( new DisplayPageMenuItem( "KoL Forums", "http://forums.kingdomofloathing.com/" ) );
+			functionMenu.add( new DisplayPageMenuItem( "Radio KoL", "http://radiokol24.kicks-ass.net:8015/listen.pls" ) );
+			functionMenu.add( new DisplayPageMenuItem( "Radio WKoL", "http://72.35.226.80:9140/listen.pls" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Report Bug", "sendmessage.php?toid=Jick" ) );
-			functionMenu.add( new DisplayPageMenuItem( "Donate to KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.kingdomofloathing.com/donatepopup.php?pid=" + KoLCharacter.getUserID() ) );
+			functionMenu.add( new DisplayPageMenuItem( "Donate to KoL", "http://www.kingdomofloathing.com/donatepopup.php?pid=" + KoLCharacter.getUserID() ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Log Out", "logout.php" ) );
 
 			menuBar.add( functionMenu );
 
 			JMenu gotoMenu = new JMenu( "Goto (Maki)" );
-			gotoMenu.setMnemonic( KeyEvent.VK_G );
 
 			gotoMenu.add( new DisplayRequestMenuItem( "Main Map", "main.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Seaside Town", "town.php" ) );
@@ -493,7 +489,7 @@ public class RequestFrame extends KoLFrame
 	private class BookmarkMenu extends MenuItemList
 	{
 		public BookmarkMenu()
-		{	super( "Bookmarks", KeyEvent.VK_B, bookmarks );
+		{	super( "Bookmarks", bookmarks );
 		}
 
 		public JComponent [] getHeaders()
@@ -501,20 +497,20 @@ public class RequestFrame extends KoLFrame
 			JComponent [] headers = new JComponent[5];
 
 			headers[0] = new AddBookmarkMenuItem();
-			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", KeyEvent.VK_M, new BookmarkManagePanel() );
+			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
 			headers[2] = new JSeparator();
 
 			JMenu spoilerMenu = new JMenu( "KoL Spoiler Sites" );
-			spoilerMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.subjunctive.net/kol/FrontPage.html" ) );
-			spoilerMenu.add( new DisplayPageMenuItem( "KoL @ Coldfront", KeyEvent.KEY_LOCATION_UNKNOWN, "http://kol.coldfront.net/" ) );
-			spoilerMenu.add( new DisplayPageMenuItem( "Jinya's KoL Wiki", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.thekolwiki.net/" ) );
+			spoilerMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
+			spoilerMenu.add( new DisplayPageMenuItem( "KoL @ Coldfront", "http://kol.coldfront.net/" ) );
+			spoilerMenu.add( new DisplayPageMenuItem( "Jinya's KoL Wiki", "http://www.thekolwiki.net/" ) );
 
 			headers[3] = spoilerMenu;
 
 			JMenu refMenu = new JMenu( "Reference Tables" );
-			refMenu.add( new DisplayPageMenuItem( "Item Effects", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
-			refMenu.add( new DisplayPageMenuItem( "KoL Helper", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.agesoftime.com/kol/index.php" ) );
-			refMenu.add( new DisplayPageMenuItem( "Familiar Chart", KeyEvent.KEY_LOCATION_UNKNOWN, "http://www.the-rye.dreamhosters.com/familiars/" ) );
+			refMenu.add( new DisplayPageMenuItem( "Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
+			refMenu.add( new DisplayPageMenuItem( "KoL Helper", "http://www.agesoftime.com/kol/index.php" ) );
+			refMenu.add( new DisplayPageMenuItem( "Familiar Chart", "http://www.the-rye.dreamhosters.com/familiars/" ) );
 
 			headers[4] = refMenu;
 			return headers;
@@ -529,7 +525,7 @@ public class RequestFrame extends KoLFrame
 		{
 			public AddBookmarkMenuItem()
 			{
-				super( "Bookmark This Page", KeyEvent.VK_B );
+				super( "Bookmark This Page" );
 				addActionListener( this );
 			}
 

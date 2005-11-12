@@ -44,7 +44,6 @@ import java.awt.BorderLayout;
 // event listeners
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import javax.swing.ListSelectionModel;
 
 // containers
@@ -126,7 +125,6 @@ public class ItemManageFrame extends KoLFrame
 		addConsumeMenu( menuBar );
 
 		JMenu clicksMenu = new JMenu( "Transfers" );
-		clicksMenu.setMnemonic( KeyEvent.VK_N );
 		menuBar.add( clicksMenu );
 
 		clickGroup = new ButtonGroup();
@@ -586,7 +584,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public ListRefreshMenuItem()
 		{
-			super( "Refresh Lists", KeyEvent.VK_R );
+			super( "Refresh Lists" );
 			addActionListener( this );
 		}
 

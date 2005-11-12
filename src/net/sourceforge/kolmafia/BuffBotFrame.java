@@ -47,7 +47,6 @@ import java.awt.Font;
 // event listeners
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -534,7 +533,7 @@ public class BuffBotFrame extends KoLFrame
 	{
 		public ShowStatisticsMenuItem()
 		{
-			super( "Session Stats", KeyEvent.VK_S );
+			super( "Session Stats" );
 			addActionListener( this );
 		}
 

@@ -48,7 +48,6 @@ import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.event.ChangeListener;
@@ -213,8 +212,8 @@ public class AdventureFrame extends KoLFrame
 		addScriptMenu( menuBar );
 
 		JMenu optionsMenu = addOptionsMenu( menuBar );
-		optionsMenu.add( new InvocationMenuItem( "Clear Results", KeyEvent.VK_C, client, "resetSessionTally" ) );
-		optionsMenu.add( new InvocationMenuItem( "Session Time-In", KeyEvent.VK_S, client, "executeTimeInRequest" ) );
+		optionsMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSessionTally" ) );
+		optionsMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
 
 		addHelpMenu( menuBar );
 	}

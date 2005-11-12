@@ -49,7 +49,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 // event listeners
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -107,11 +106,10 @@ public class GearChangeFrame extends KoLFrame
 		this.setJMenuBar( menuBar );
 
 		JMenu refreshMenu = new JMenu( "Refresh" );
-		refreshMenu.setMnemonic( KeyEvent.VK_R );
 		menuBar.add( refreshMenu );
 
-		refreshMenu.add( new RefreshMenuItem( "Equipment", KeyEvent.VK_E, new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
-		refreshMenu.add( new RefreshMenuItem( "Familiars", KeyEvent.VK_F, new FamiliarRequest( client ) ) );
+		refreshMenu.add( new RefreshMenuItem( "Equipment", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
+		refreshMenu.add( new RefreshMenuItem( "Familiars", new FamiliarRequest( client ) ) );
 
 		addOptionsMenu( menuBar );
 		addHelpMenu( menuBar );
@@ -223,9 +221,9 @@ public class GearChangeFrame extends KoLFrame
 	{
 		private KoLRequest request;
 
-		public RefreshMenuItem( String title, int mnemonic, KoLRequest request )
+		public RefreshMenuItem( String title, KoLRequest request )
 		{
-			super( title, mnemonic );
+			super( title );
 			addActionListener( this );
 
 			this.request = request;
