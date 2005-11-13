@@ -94,7 +94,7 @@ public class RequestFrame extends KoLFrame
 		this.parent = parent;
 		this.currentRequest = request;
 		this.hideSideBar = hideSideBar;
-		this.combatRound = 0;
+		this.combatRound = 1;
 
 		if ( request != null && request instanceof FightRequest )
 			combatRound = ((FightRequest)request).getCombatRound();
@@ -301,17 +301,21 @@ public class RequestFrame extends KoLFrame
 			if ( getCurrentLocation().startsWith( "adventure.php" ) )
 			{
 				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( currentRequest.getDataString() );
-				boolean subtractClover = client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(1) );
 
-				if ( getProperty( "cloverProtectActive" ).equals( "true" ) && subtractClover )
+				if ( client.isLuckyCharacter() && 
+				     dataMatcher.find() &&
+				     AdventureRequest.hasLuckyVersion( dataMatcher.group(1) ) )
 				{
-					client.updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
-					mainBuffer.append( "<h1><font color=\"red\">You have a ten-leaf clover.  Please de-active clover protection in your startup options first if you are certain you want to use your clovers while adventuring.</font></h1>" );
-					return;
-				}
 
-				if ( subtractClover )
+					if ( getProperty( "cloverProtectActive" ).equals( "true" ) )
+					{
+						client.updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
+						mainBuffer.append( "<h1><font color=\"red\">You have a ten-leaf clover.	 Please deactivate clover protection in your startup options first if you are certain you want to use your clovers while adventuring.</font></h1>" );
+						return;
+					}
+
 					client.processResult( SewerRequest.CLOVER );
+				}
 			}
 
 			// Update the title for the RequestFrame to include the
@@ -320,7 +324,7 @@ public class RequestFrame extends KoLFrame
 
 			if ( getCurrentLocation().startsWith( "fight" ) )
 			{
-				++combatRound;
+				combatRound++;
 				setTitle( "Mini-Browser: Combat Round " + combatRound );
 			}
 			else
