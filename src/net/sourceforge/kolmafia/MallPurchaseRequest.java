@@ -47,8 +47,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	// In order to prevent overflows from happening, make
 	// it so that the maximum quantity is 10 million
 
-	public static final int MAX_QUANTITY = 10000000;
-
 	private boolean successful;
 	private String itemName, shopName;
 	private int itemID, shopID, quantity, price, limit;
@@ -87,7 +85,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.shopName = storeName;
 		this.itemID = itemID;
 		this.shopID = 0;
-		this.quantity = MAX_QUANTITY;
+		this.quantity = Integer.MAX_VALUE / price;
 		this.limit = quantity;
 		this.price = price;
 		this.isNPCStore = true;
@@ -195,7 +193,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public void setLimit( int limit )
-	{	this.limit = Math.min( limit, this.quantity == MAX_QUANTITY ? MAX_QUANTITY : this.limit );
+	{
+		int max = Integer.MAX_VALUE / price;
+		this.limit = Math.min( limit, quantity == max ? max : this.limit );
 	}
 
 	/**
@@ -206,7 +206,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public String toString()
 	{
-		String stringForm = itemName + " (" + (limit == MAX_QUANTITY ? "unlimited" : df.format( limit )) + " @ " + df.format( price ) + "): " + shopName;
+		int max = Integer.MAX_VALUE / price;
+		String stringForm = itemName + " (" + (limit == max ? "unlimited" : df.format( limit )) + " @ " + df.format( price ) + "): " + shopName;
 		return client instanceof KoLmafiaGUI ? "<html><nobr>" + stringForm + "</nobr></html>" : stringForm;
 	}
 
