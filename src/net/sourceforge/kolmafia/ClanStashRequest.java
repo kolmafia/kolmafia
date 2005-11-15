@@ -65,6 +65,7 @@ public class ClanStashRequest extends SendMessageRequest
 	public ClanStashRequest( KoLmafia client, int amount )
 	{
 		super( client, "clan_stash.php", new Object[0], amount );
+		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "action", "contribute" );
 		addFormField( "howmuch", String.valueOf( amount ) );
 
@@ -85,21 +86,22 @@ public class ClanStashRequest extends SendMessageRequest
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.moveType = moveType;
-                if ( moveType == ITEMS_TO_STASH )
-                {
-                        addFormField( "action", "addgoodies" );
-                        source = KoLCharacter.getInventory();
-                        destination = new ArrayList();
+		if ( moveType == ITEMS_TO_STASH )
+		{
+			addFormField( "action", "addgoodies" );
 			this.whichField = "item";
 			this.quantityField = "qty";
-                }
-                else
-                {
-                        addFormField( "action", "takegoodies" );
-                        source = new ArrayList();
-                        destination = KoLCharacter.getInventory();
+			source = KoLCharacter.getInventory();
+			destination = new ArrayList();
+		}
+		else
+		{
+			addFormField( "action", "takegoodies" );
+			this.whichField = "whichitem";
 			this.quantityField = "quantity";
-                }
+			source = new ArrayList();
+			destination = KoLCharacter.getInventory();
+		}
 
 	}
 
