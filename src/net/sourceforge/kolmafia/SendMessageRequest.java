@@ -46,7 +46,7 @@ public abstract class SendMessageRequest extends KoLRequest
 	protected int meatAttachment;
 	protected Object [] attachments;
 	protected List source, destination;
-	protected String quantityField;
+	protected String whichField, quantityField;
 
 	protected SendMessageRequest( KoLmafia client, String formSource )
 	{
@@ -58,6 +58,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		this.source = new ArrayList();
 		this.destination = new ArrayList();
 
+		this.whichField = "whichitem";
 		this.quantityField = "howmany";
 	}
 
@@ -80,6 +81,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		this.source = KoLCharacter.getInventory();
 		this.destination = new ArrayList();
 
+		this.whichField = "whichitem";
 		this.quantityField = "howmany";
 	}
 
@@ -93,6 +95,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		this.source = KoLCharacter.getInventory();
 		this.destination = new ArrayList();
 
+		this.whichField = "whichitem";
 		this.quantityField = "howmany";
 	}
 
@@ -102,17 +105,17 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		if ( alwaysIndex() )
 		{
-			which = "whichitem" + ( index + 1 );
+			which = whichField + ( index + 1 );
 			quantity = quantityField + ( index + 1 );
 		}
 		else if ( getCapacity() != 1 )
 		{
-			which = "whichitem" + index;
+			which = whichField + index;
 			quantity = quantityField + index;
 		}
 		else
 		{
-			which = "whichitem";
+			which = whichField;
 			quantity = quantityField;
 		}
 

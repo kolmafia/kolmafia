@@ -90,15 +90,17 @@ public class ClanStashRequest extends SendMessageRequest
                         addFormField( "action", "addgoodies" );
                         source = KoLCharacter.getInventory();
                         destination = new ArrayList();
+			this.whichField = "item";
+			this.quantityField = "qty";
                 }
                 else
                 {
                         addFormField( "action", "takegoodies" );
                         source = new ArrayList();
                         destination = KoLCharacter.getInventory();
+			this.quantityField = "quantity";
                 }
 
-		this.quantityField = "quantity";
 	}
 
 	public int getMoveType()
@@ -119,7 +121,7 @@ public class ClanStashRequest extends SendMessageRequest
 	}
 
 	protected int getCapacity()
-	{	return 1;
+	{	return source == KoLCharacter.getInventory() ? 11 : 1;
 	}
 
 	protected void repeat( Object [] attachments )
