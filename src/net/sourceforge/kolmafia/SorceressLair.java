@@ -458,10 +458,50 @@ public abstract class SorceressLair extends StaticEntity
 				request.addFormField( "prepreaction", "starcage" );
 				request.run();
 
-				// Result "stone tablet (Sinister Strumming)"
-				// doesn't parse correctly...
+				// For unknown reasons, this doesn't always work
+				// Error check the possibilities
 
-				client.processResult( STRUMMING );
+				// "You beat on the cage with your weapon, but
+				// to no avail.	 It doesn't appear to be made
+				// out of the right stuff."
+
+				if ( request.responseText.indexOf( "right stuff" ) != -1 )
+				{
+					client.updateDisplay( ERROR_STATE, "Failed to equip a star weapon." );
+					return;
+				}
+
+				// "A fragment of a line hits you really hard
+				// on the arm, and it knocks you back into the
+				// main cavern."
+
+				if ( request.responseText.indexOf( "knocks you back" ) != -1 )
+				{
+					client.updateDisplay( ERROR_STATE, "Failed to equip star buckler." );
+					return;
+				}
+
+				// "Trog creeps toward the pedestal, but is
+				// blown backwards.  You give up, and go back
+				// out to the main cavern."
+
+				if ( request.responseText.indexOf( "You give up" ) != -1 )
+				{
+					client.updateDisplay( ERROR_STATE, "Failed to equip star starfish." );
+					return;
+				}
+
+				// "Gron crawls toward the pedestal, picks it
+				// up, and brings it back to you."
+
+				if ( request.responseText.indexOf( "brings it back to you" ) != -1 )
+				{
+					// Result "stone tablet (Sinister
+					// Strumming)" doesn't parse
+					// correctly...
+
+					client.processResult( STRUMMING );
+				}
 			}
 		}
 
@@ -546,7 +586,7 @@ public abstract class SorceressLair extends StaticEntity
 			ItemCreationRequest.getInstance( client, 734, 1 ).run();
 		}
 
-                // Equip the SCUBA gear
+		// Equip the SCUBA gear
 
 		(new EquipmentRequest( client, "makeshift SCUBA gear" )).run();
 
@@ -572,14 +612,30 @@ public abstract class SorceressLair extends StaticEntity
 		// appropriate instruments.
 
 		client.updateDisplay( DISABLED_STATE, "Arming stone mariachis..." );
-		(new KoLRequest( client, "lair2.php?action=statues" )).run();
+
+		request = new KoLRequest( client, "lair2.php" );
+		request.addFormField( "action", "statues" );
+		request.run();
+
+		// "As the mariachis reach a dire crescendo (Hey, have you
+		// heard my new band, Dire Crescendo?) the gate behind the
+		// statues slowly grinds open, revealing the way to the
+		// Sorceress' courtyard."
+
+		// Just check to see if there is a link to lair3.php
+
+		if ( request.responseText.indexOf( "lair3.ohp" ) == -1 )
+		{
+			client.updateDisplay( ERROR_STATE, "Failed to complete entryway." );
+			return;
+		}
 
 		// This consumes the tablets
 		client.processResult( RHYTHM.getNegation() );
 		client.processResult( STRUMMING.getNegation() );
 		client.processResult( SQUEEZINGS.getNegation() );
 
-		client.updateDisplay( ENABLED_STATE, "Sorceress entryway complete.  Maybe." );
+		client.updateDisplay( ENABLED_STATE, "Sorceress entryway complete." );
 	}
 
 	public static void completeHedgeMaze()
