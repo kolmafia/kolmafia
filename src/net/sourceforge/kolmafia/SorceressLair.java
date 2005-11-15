@@ -254,15 +254,62 @@ public abstract class SorceressLair extends StaticEntity
 		// Decide on which star weapon should be available for
 		// this whole process.
 
-		AdventureResult starWeapon = STAR_SWORD;
+		String currentWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
+		AdventureResult starWeapon;
 
-		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star crossbow" ) || (STAR_CROSSBOW.getCount( KoLCharacter.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() )) )
-			starWeapon = STAR_CROSSBOW;
+		boolean needsWeapon;
 
-		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star staff" ) || (STAR_STAFF.getCount( KoLCharacter.getInventory() ) > 0 && EquipmentDatabase.canEquip( STAR_STAFF.getName() )) )
-			starWeapon = STAR_STAFF;
+		// If he's currently wielding a star weapon, use that one.
 
-		boolean needsWeapon = starWeapon.getCount( KoLCharacter.getInventory() ) == 0 && !KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "star" );
+		if ( currentWeapon.startsWith( "star" ) )
+		{
+			starWeapon = new AdventureResult( currentWeapon );
+			needsWeapon = false;
+		}
+		else
+		{
+			// Otherwise, he'll need to equip one
+			needsWeapon = true;
+
+			// See which ones are available
+			boolean hasSword = ( STAR_SWORD.getCount( KoLCharacter.getInventory() ) > 0 ) || ( STAR_SWORD.getCount( KoLCharacter.getCloset() ) > 0 );
+			boolean hasStaff = ( STAR_STAFF.getCount( KoLCharacter.getInventory() ) > 0 ) || ( STAR_STAFF.getCount( KoLCharacter.getCloset() ) > 0 );
+			boolean hasCrossbow = ( STAR_CROSSBOW.getCount( KoLCharacter.getInventory() ) > 0 ) || ( STAR_CROSSBOW.getCount( KoLCharacter.getCloset() ) > 0 );
+
+			// See which ones he can use
+			boolean canUseSword = EquipmentDatabase.canEquip( STAR_SWORD.getName() );
+			boolean canUseStaff = EquipmentDatabase.canEquip( STAR_STAFF.getName() );
+			boolean canUseCrossbow = EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() );
+
+			// Pick one that he has and can use
+			if ( hasSword && canUseSword )
+				starWeapon = STAR_SWORD;
+			else if ( hasStaff && canUseStaff )
+				starWeapon = STAR_STAFF;
+			else if ( hasCrossbow && canUseCrossbow )
+				starWeapon = STAR_CROSSBOW;
+
+			// Otherwise, pick one that he has
+			else if ( hasSword )
+				starWeapon = STAR_SWORD;
+			else if ( hasStaff )
+				starWeapon = STAR_STAFF;
+			else if ( hasCrossbow )
+				starWeapon = STAR_CROSSBOW;
+
+			// At least pick one that he can use
+			else if ( canUseSword )
+				starWeapon = STAR_SWORD;
+			else if ( canUseStaff )
+				starWeapon = STAR_STAFF;
+			else if ( canUseCrossbow )
+				starWeapon = STAR_CROSSBOW;
+
+			// What a wimp!
+			else
+				starWeapon = STAR_SWORD;
+		}
+
 		boolean needsBuckler = STAR_BUCKLER.getCount( KoLCharacter.getInventory() ) == 0 && !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
 			!KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).startsWith( "star" ) && !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).startsWith( "star" );
 
