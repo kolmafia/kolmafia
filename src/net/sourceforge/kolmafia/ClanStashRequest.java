@@ -158,18 +158,9 @@ public class ClanStashRequest extends SendMessageRequest
 
 			case ITEMS_TO_STASH:
 			case STASH_TO_ITEMS:
-
-				if ( attachments.length == 1 )
-					updateDisplay( DISABLED_STATE, "Moving " + attachments[0] +
-						(moveType == ITEMS_TO_STASH ? " to the stash..." : " to your bag...") );
-
+				updateDisplay( DISABLED_STATE, "Moving items..." );
 				super.run();
 				parseStash();
-
-				if ( attachments.length > 0 )
-					updateDisplay( ENABLED_STATE, "Successfully moved " + attachments[ attachments.length - 1 ] +
-						(moveType == ITEMS_TO_STASH ? " to the stash." : " to your bag.") );
-
 				break;
 		}
 	}
