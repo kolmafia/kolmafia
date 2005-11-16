@@ -162,7 +162,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Check for dictionaries as a battle strategy, if the
 		// person is not adventuring at the chasm.
 
-		if ( !adventureID.equals( "80" ) && StaticEntity.getProperty( "battleAction" ).startsWith( "item" ) )
+		if ( !adventureID.equals( "80" ) && request instanceof AdventureRequest &&
+			request.getAdventuresUsed() != 0 && StaticEntity.getProperty( "battleAction" ).startsWith( "item" ) )
 		{
 			isErrorState = true;
 			client.cancelRequest();
@@ -176,15 +177,18 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		request.run();
 		client.registerAdventure( this );
 
-		// Once the request is complete, be sure to deduct the
-		// used adventures from the tally
-
 		int adventures = getAdventuresUsed();
 		if ( adventures > 0 )
 			client.processResult( new AdventureResult( AdventureResult.ADV, 0 - adventures ) );
 
+		// Once the request is complete, be sure to deduct the
+		// used adventures from the tally
+
 		if ( KoLCharacter.getCurrentHP() == 0 )
-			client.processResult( BEATEN_UP.getInstance( 4 - BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+		{
+			int beatenUpCount = request.responseCode == 302 ? 3 : 4;
+			client.processResult( BEATEN_UP.getInstance( beatenUpCount - BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+		}
 
 		isErrorState = false;
 	}
