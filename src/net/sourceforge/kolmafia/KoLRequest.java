@@ -386,27 +386,14 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLRequest.delay( 500 );
 			}
 		}
-		while ( ++retryCount < 4 && (!prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState)) );
+		while ( ++retryCount > 0 && !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 
 		// In the event that you have a timeout during a situation
 		// where the display does not update afterwards, be sure
 		// you clear the display.
 
-		if ( client != null )
-		{
-			if ( retryCount == 4 )
-			{
-				client.updateDisplay( ERROR_STATE, "Too many connection retry attempts." );
-				client.cancelRequest();
-
-				this.responseCode = 0;
-				this.responseText = "";
-				this.isErrorState = true;
-				this.redirectLocation = "";
-			}
-			else if ( retryCount > 1 )
-				client.updateDisplay( NOCHANGE, "Retry attempt successful.  Processing..." );
-		}
+		if ( client != null && retryCount > 1 )
+			client.updateDisplay( NOCHANGE, "Retry attempt successful.  Processing..." );
 	}
 
 	/**

@@ -767,7 +767,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Returns the list of cures which are currently available from 
+	 * Returns the list of cures which are currently available from
 	 * Doc Galaktik
 	 */
 
@@ -921,7 +921,7 @@ public abstract class KoLmafia implements KoLConstants
 						KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() && KoLCharacter.getCurrentMP() > previousMP )
 					{
 						previousMP = KoLCharacter.getCurrentMP();
- 						MPRestoreItemList.get(i).recoverMP( mpNeeded );
+ 						MPRestoreItemList.get(i).recoverMP();
 
  						if ( KoLCharacter.getCurrentMP() >= mpNeeded )
  						{
@@ -944,7 +944,7 @@ public abstract class KoLmafia implements KoLConstants
 						KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() && KoLCharacter.getCurrentMP() > previousMP )
  					{
  						previousMP = KoLCharacter.getCurrentMP();
- 						MPRestoreItemList.get(i).recoverMP( mpNeeded );
+ 						MPRestoreItemList.get(i).recoverMP();
 
  						if ( KoLCharacter.getCurrentMP() >= mpNeeded )
  						{

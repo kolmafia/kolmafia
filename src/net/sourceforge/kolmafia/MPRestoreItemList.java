@@ -171,7 +171,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverMP( int mpNeeded )
+		public void recoverMP()
 		{
 			if ( this == BEANBAG )
 			{
@@ -192,13 +192,17 @@ public abstract class MPRestoreItemList extends StaticEntity
 			int currentMP = KoLCharacter.getCurrentMP();
 			int maximumMP = KoLCharacter.getMaximumMP();
 
-			// Always buff as close to maxMP as possible, in order to
+			// Always buff as close to max MP as possible, in order to
 			// go as easy on the server as possible.
 
-			// But, don't go too far over (thus wasting restorers)
+			int mpShort = maximumMP - currentMP;
+			int numberToUse = Math.min( (int) Math.ceil( mpShort / mpPerUse ), itemUsed.getCount( KoLCharacter.getInventory() ) );
 
-			int mpShort = Math.max(maximumMP + 5 - mpPerUse, mpNeeded) - currentMP;
-			int numberToUse = Math.min( 1 + ((mpShort - 1) / mpPerUse), itemUsed.getCount( KoLCharacter.getInventory() ) );
+			// Because there aren't many buffbots running anymore, it's
+			// okay to use one less than is actually necessary.
+
+			if ( numberToUse > 1 )
+				--numberToUse;
 
 			if ( numberToUse > 0 )
 			{
