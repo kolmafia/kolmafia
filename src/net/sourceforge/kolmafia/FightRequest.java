@@ -142,6 +142,8 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
+		super.run();
+
 		if ( action.equals( "..." ) || !client.permitsContinue() )
 		{
 			client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
@@ -149,8 +151,6 @@ public class FightRequest extends KoLRequest
 			finishInBrowser();
 			return;
 		}
-
-		super.run();
 
 		// If there were no problems, then begin fighting the battle,
 		// checking for termination conditions
@@ -167,8 +167,18 @@ public class FightRequest extends KoLRequest
 			if ( roundCount == 0 )
 			{
 				Matcher encounterMatcher = Pattern.compile( "<td valign=center>You're fighting (.*?)</td>" ).matcher( responseText );
+				String encounter = encounterMatcher.group(1);
+
 				if ( encounterMatcher.find() )
-					client.registerEncounter( encounterMatcher.group(1) );
+					client.registerEncounter( encounter );
+
+				if ( encounter.equals( "a MagiMechTech MechaMech" ) && getProperty( "autoAbortMechaMech" ).equals( "true" ) )
+				{
+					client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
+					client.cancelRequest();
+					finishInBrowser();
+					return;
+				}
 			}
 
 			processResults( responseText );
@@ -227,9 +237,6 @@ public class FightRequest extends KoLRequest
 
 	private void finishInBrowser()
 	{
-		// Get current response text for the fight
-		super.run();
-
 		// Save request so we can open it in a browser window
 		client.setCurrentRequest( this );
 
