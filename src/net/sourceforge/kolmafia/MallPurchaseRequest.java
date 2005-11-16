@@ -206,7 +206,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public String toString()
 	{
-		String stringForm = KoLDatabase.getCanonicalName( itemName ) + " (" + (limit == MAX_QUANTITY ? "unlimited" : df.format( limit )) + " @ " + df.format( price ) + "): " + shopName;
+		String stringForm = itemName.replaceAll( "ñ", "&ntilde;" ) + " (" + (limit == MAX_QUANTITY ? "unlimited" : df.format( limit )) + " @ " + df.format( price ) + "): " + shopName;
 		return client instanceof KoLmafiaGUI ? "<html><nobr>" + stringForm + "</nobr></html>" : stringForm;
 	}
 
