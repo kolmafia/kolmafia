@@ -167,17 +167,19 @@ public class FightRequest extends KoLRequest
 			if ( roundCount == 0 )
 			{
 				Matcher encounterMatcher = Pattern.compile( "<td valign=center>You're fighting (.*?)</td>" ).matcher( responseText );
-				String encounter = encounterMatcher.group(1);
 
 				if ( encounterMatcher.find() )
+				{
+					String encounter = encounterMatcher.group(1);
 					client.registerEncounter( encounter );
 
-				if ( encounter.equals( "a MagiMechTech MechaMech" ) && getProperty( "autoAbortMechaMech" ).equals( "true" ) )
-				{
-					client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
-					client.cancelRequest();
-					finishInBrowser();
-					return;
+					if ( encounter.equals( "a MagiMechTech MechaMech" ) && getProperty( "autoAbortMechaMech" ).equals( "true" ) )
+					{
+						client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
+						client.cancelRequest();
+						finishInBrowser();
+						return;
+					}
 				}
 			}
 
