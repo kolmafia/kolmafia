@@ -1859,6 +1859,11 @@ public abstract class KoLmafia implements KoLConstants
 						currentRequest.setLimit( MallPurchaseRequest.MAX_QUANTITY );
 				}
 			}
+
+			// With all that information parsed out, every request
+			// should end with the special lists refreshing.
+
+			KoLCharacter.refreshCalculatedLists();
 		}
 
 		updateDisplay( ENABLED_STATE, "Purchases complete." );

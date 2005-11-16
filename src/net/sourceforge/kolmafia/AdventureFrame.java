@@ -712,7 +712,7 @@ public class AdventureFrame extends KoLFrame
 			if ( purchases == null || purchases.length == 0 )
 				return "";
 
-			int totalPrice = 0;
+			long totalPrice = 0;
 			int totalPurchases = 0;
 			MallPurchaseRequest currentPurchase = null;
 
@@ -720,7 +720,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				currentPurchase = (MallPurchaseRequest) purchases[i];
 				totalPurchases += currentPurchase.getLimit();
-				totalPrice += currentPurchase.getLimit() * currentPurchase.getPrice();
+				totalPrice += ((long)currentPurchase.getLimit()) * ((long)currentPurchase.getPrice());
 			}
 
 			return df.format( totalPurchases ) + " " + currentPurchase.getItemName() + " for " + df.format( totalPrice ) + " meat";

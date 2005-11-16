@@ -52,6 +52,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	private int itemID, shopID, quantity, price, limit;
 	private boolean isNPCStore;
 
+	public static final int MAX_QUANTITY = 10000000;
+
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> which retrieves
 	 * things from NPC stores.
@@ -85,7 +87,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.shopName = storeName;
 		this.itemID = itemID;
 		this.shopID = 0;
-		this.quantity = Integer.MAX_VALUE / price;
+		this.quantity = MAX_QUANTITY;
 		this.limit = quantity;
 		this.price = price;
 		this.isNPCStore = true;
@@ -193,9 +195,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public void setLimit( int limit )
-	{
-		int max = Integer.MAX_VALUE / price;
-		this.limit = Math.min( limit, quantity == max ? max : this.limit );
+	{	this.limit = Math.min( limit, this.quantity == MAX_QUANTITY ? MAX_QUANTITY : this.limit );
 	}
 
 	/**
@@ -206,8 +206,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public String toString()
 	{
-		int max = Integer.MAX_VALUE / price;
-		String stringForm = itemName + " (" + (limit == max ? "unlimited" : df.format( limit )) + " @ " + df.format( price ) + "): " + shopName;
+		String stringForm = KoLDatabase.getCanonicalName( itemName ) + " (" + (limit == MAX_QUANTITY ? "unlimited" : df.format( limit )) + " @ " + df.format( price ) + "): " + shopName;
 		return client instanceof KoLmafiaGUI ? "<html><nobr>" + stringForm + "</nobr></html>" : stringForm;
 	}
 
