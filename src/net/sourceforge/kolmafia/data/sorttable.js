@@ -96,7 +96,23 @@ function ts_resortTable(lnk) {
     }
     var spantext = ts_getInnerText(span);
     var td = lnk.parentNode;
-    var column = td.cellIndex;
+
+// Begin modified code section.  In order to account for
+// the bug in Safari, make sure that you manually calculate
+// the cell index to ensure proper sorting.
+
+	var column = td.cellIndex;
+	var tr = td.parentNode;
+	if ( column == 0 ) {
+		for (var tri=0;tri<tr.childNodes.length;tri++) {
+			if (td==tr.childNodes[tri])
+				column = tri;
+		}
+	}
+		
+// End modified section.  All code outside of this
+// section and not similarly marked is unmodified.
+	
     var table = getParent(td,'TABLE');
 
     // Work out a type for the column
