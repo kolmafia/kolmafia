@@ -187,7 +187,7 @@ public class GearChangeFrame extends KoLFrame
 
 		valuePanel.add( new JLabel( " " ) );
 
-		familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList().getMirrorImage(), FamiliarRequest.class, FamiliarData.class );
+		familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList(), FamiliarRequest.class, FamiliarData.class );
 		JComponentUtilities.setComponentSize( familiarSelect, 300, 20 );
 		valuePanel.add( familiarSelect );
 
