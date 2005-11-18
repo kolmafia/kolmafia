@@ -278,7 +278,7 @@ public abstract class Nemesis extends StaticEntity
 			client.processResults( request.responseText );
 		}
 
-		if ( !client.permitsContinue() )
+		if ( request.responseText.indexOf( "WINWINWIN") == -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "KoLmafia was unable to defeat your nemesis." );
 			return;
