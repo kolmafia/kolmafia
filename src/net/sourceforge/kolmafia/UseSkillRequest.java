@@ -38,6 +38,8 @@ import java.util.regex.Pattern;
 
 public class UseSkillRequest extends KoLRequest
 {
+	private static final int WALRUS_TONGUE = 1010;
+
 	protected static String lastUpdate = "";
 
 	private int skillID;
@@ -172,6 +174,16 @@ public class UseSkillRequest extends KoLRequest
 				updateDisplay( ENABLED_STATE, skillName + " was successfully cast" );
 			else
 				updateDisplay( ENABLED_STATE, skillName + " was successfully cast on " + target );
+
+			// Tongue of the Walrus (1010) automatically
+			// removes any beaten up.
+
+			if ( skillID == WALRUS_TONGUE )
+			{
+				int roundsBeatenUp = KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() );
+				if ( roundsBeatenUp != 0 )
+					client.processResult( KoLAdventure.BEATEN_UP.getInstance( 0 - roundsBeatenUp ) );
+			}
 		}
 		else
 		{

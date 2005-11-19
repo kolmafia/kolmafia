@@ -45,7 +45,7 @@ package net.sourceforge.kolmafia;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
-	private static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1 );
+	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1 );
 
 	protected KoLmafia client;
 	private boolean isErrorState;
