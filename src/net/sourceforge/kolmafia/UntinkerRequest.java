@@ -36,6 +36,9 @@ package net.sourceforge.kolmafia;
 
 public class UntinkerRequest extends KoLRequest
 {
+	private static final AdventureResult SCREWDRIVER = new AdventureResult( 454, -1 );
+	private static final String ACCOMPLISHMENT = "You have found the Untinker's screwdriver.";
+
 	private int itemID;
 
 	public UntinkerRequest( KoLmafia client, int itemID )
@@ -61,6 +64,35 @@ public class UntinkerRequest extends KoLRequest
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You cannot untinker that item." );
 			return;
+		}
+
+		// Check to see if the person has the untinkering accomplishment
+		// before starting.
+
+		if ( !KoLCharacter.hasAccomplishment( ACCOMPLISHMENT ) )
+		{
+			// If the person does not have the accomplishment, visit
+			// the untinkerer to ensure that they get the quest.
+
+			KoLRequest request = new KoLRequest( client, "town_right.php" );
+			request.addFormField( "place", "untinker" );
+			request.run();
+
+			// If they do not have a screwdriver, tell them they
+			// need to complete the untinkerer quest.
+
+			if ( !KoLCharacter.getInventory().contains( SCREWDRIVER ) )
+			{
+				client.cancelRequest();
+				client.updateDisplay( ERROR_STATE, "You have not completed the rusty quest." );
+				return;
+			}
+
+			// Visiting the untinkerer automatically deducts a
+			// screwdriver from the inventory.
+
+			KoLCharacter.addAccomplishment( ACCOMPLISHMENT );
+			KoLCharacter.processResult( SCREWDRIVER );
 		}
 
 		super.run();
