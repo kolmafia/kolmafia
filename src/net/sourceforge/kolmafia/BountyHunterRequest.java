@@ -87,7 +87,7 @@ public class BountyHunterRequest extends KoLRequest
 		}
 
 		int lastMatchIndex = 0;
-		Matcher exchangeMatcher = Pattern.compile( "<tr><td>.*?<b>(.*?)</b>.*?</tr>" ).matcher( responseText );
+		Matcher exchangeMatcher = Pattern.compile( "<b>([^<]*?)</b></td><td>" ).matcher( responseText );
 
 		while ( exchangeMatcher.find( lastMatchIndex ) )
 		{
