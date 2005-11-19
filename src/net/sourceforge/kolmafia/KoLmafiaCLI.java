@@ -192,13 +192,18 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			if ( scriptRequestor == this )
-			{
-				outputStream.println();
-				outputStream.print( "username: " );
-			}
+			String username = scriptRequestor.getSettings().getProperty( "autoLogin" );
 
-			String username = commandStream.readLine();
+			if ( username == null || username.equals( "" ) )
+			{
+				if ( scriptRequestor == this )
+				{
+					outputStream.println();
+					outputStream.print( "username: " );
+				}
+
+				username = commandStream.readLine();
+			}
 
 			if ( username == null )
 				return;
@@ -209,13 +214,19 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
+			String password = scriptRequestor.getSaveState( username );
+
 			if ( !username.endsWith( "/q" ) )
 				username += "/q";
 
-			if ( scriptRequestor == this )
-				outputStream.print( "password: " );
 
-			String password = commandStream.readLine();
+			if ( password == null )
+			{
+				if ( scriptRequestor == this )
+					outputStream.print( "password: " );
+
+				password = commandStream.readLine();
+			}
 
 			if ( password == null )
 				return;
@@ -230,7 +241,7 @@ public class KoLmafiaCLI extends KoLmafia
 				outputStream.println();
 
 			scriptRequestor.deinitialize();
-			(new LoginRequest( scriptRequestor, username, password, false, false, false )).run();
+			(new LoginRequest( scriptRequestor, username, password, false, true, false )).run();
 		}
 		catch ( IOException e )
 		{
@@ -422,8 +433,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) || command.equals( "relogin" ) )
 		{
-			scriptRequestor.deinitialize();
-			attemptLogin();
+			if ( scriptRequestor.getSaveState( parameters ) != null )
+			{
+				scriptRequestor.deinitialize();
+				(new LoginRequest( scriptRequestor, parameters, scriptRequestor.getSaveState( parameters ), false, true, false )).run();
+			}
+			else
+				updateDisplay( ERROR_STATE, "No password saved for that username." );
+
 			return;
 		}
 
