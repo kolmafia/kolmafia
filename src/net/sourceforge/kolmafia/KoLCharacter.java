@@ -1629,6 +1629,15 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to get the current familiar.
+	 * @return	familiar
+	 */
+
+	public static FamiliarData getFamiliar()
+	{	return currentFamiliar;
+	}
+
+	/**
 	 * Accessor method to set the data for the current familiar.
 	 * @param	familiar
 	 */

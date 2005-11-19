@@ -342,52 +342,13 @@ public class GearChangeFrame extends KoLFrame
 			// unless your current equipment does not match the
 			// selected equipment.
 
-			if ( slot == null )
-			{
-				if ( this == outfitSelect && parameters[1] instanceof SpecialOutfit )
-				{
-					// Outfit event firing is usually only caused by
-					// an actual attempt to change the outfit.
+			if ( ( slot != null && parameters[1].equals( KoLCharacter.getEquipment( slot.intValue() ) ) ) ||
+			     ( this == familiarSelect && parameters[1].equals( KoLCharacter.getFamiliar() ) ) ||
+			     ( this == outfitSelect && !( parameters[1] instanceof SpecialOutfit ) ) )
+				return;
 
-					isChanging = true;
-					(new DaemonThread( this )).start();
-				}
-				else if ( this == familiarSelect )
-				{
-					// Familiar event firing is usually only caused
-					// by an actual attempt to change the familiar.
-					// Check to see if the selected item is the same
-					// as your current familiar before executing the
-					// change.
-
-					if ( !parameters[1].equals( KoLCharacter.getFamiliarList().getSelectedItem() ) )
-					{
-						isChanging = true;
-						(new DaemonThread( this )).start();
-					}
-				}
-				else if ( this == equipment[ KoLCharacter.FAMILIAR ] )
-				{
-					// If you're attempting to change your familiar
-					// equipment, check to see if the selected item
-					// is the same as your current familiar item
-					// before executing the change.
-
-					if ( !parameters[1].equals( KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ) ) )
-					{
-						isChanging = true;
-						(new DaemonThread( this )).start();
-					}
-				}
-			}
-			else if ( !KoLCharacter.getEquipment( this.slot.intValue() ).equals( this.parameters[1] ) )
-			{
-				// Other equipment only gets fired when there's an
-				// actual equipment change.
-
-				isChanging = true;
-				(new DaemonThread( this )).start();
-			}
+			isChanging = true;
+			(new DaemonThread( this )).start();
 		}
 
 		public void run()

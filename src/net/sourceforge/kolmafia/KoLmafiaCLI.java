@@ -1685,7 +1685,7 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( NOCHANGE, "Drunk: " + KoLCharacter.getInebriety() );
 			updateDisplay( NOCHANGE, "Adv: " + KoLCharacter.getAdventuresLeft() );
 
-			updateDisplay( NOCHANGE, "Fam: " + KoLCharacter.getFamiliarList().getSelectedItem() );
+			updateDisplay( NOCHANGE, "Fam: " + KoLCharacter.getFamiliar() );
 			updateDisplay( NOCHANGE, "Item: " + KoLCharacter.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "equip" ) )

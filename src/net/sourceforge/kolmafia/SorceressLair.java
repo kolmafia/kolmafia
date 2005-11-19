@@ -1246,7 +1246,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Make sure that the familiar is at least twenty pounds.
 		// Otherwise, it's a wasted request.
 
-		FamiliarData currentFamiliar = (FamiliarData) KoLCharacter.getFamiliarList().getSelectedItem();
+		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 		if ( currentFamiliar == null )
 		{
 			client.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
