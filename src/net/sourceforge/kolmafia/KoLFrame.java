@@ -689,7 +689,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// Here, notify the display that the script
 				// file specified could not be loaded
 
-				client.updateDisplay( ERROR_STATE, "Script \"" + scriptPath + "\" could not be loaded." );
+				client.updateDisplay( ERROR_STATE, "Script \"" + executePath + "\" could not be loaded." );
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
+
 				return;
 			}
 
@@ -1519,7 +1522,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		public MenuItemList( String title, LockableListModel model )
 		{
 			super( title );
-			
+
 			// Add the headers to the list of items which
 			// need to be added.
 
