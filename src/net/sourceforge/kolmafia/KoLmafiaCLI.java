@@ -2441,8 +2441,8 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		String item = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
-		for ( int i = 0; i < hunterItems.size(); ++i )
-			if ( ((String)hunterItems.get(i)).indexOf( item ) != -1 )
+		for ( int i = 0; i < scriptRequestor.hunterItems.size(); ++i )
+			if ( ((String)scriptRequestor.hunterItems.get(i)).indexOf( item ) != -1 )
 				(new BountyHunterRequest( scriptRequestor, TradeableItemDatabase.getItemID( (String) scriptRequestor.hunterItems.get(i) ) )).run();
 	}
 
