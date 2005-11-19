@@ -103,15 +103,15 @@ public abstract class SendMessageRequest extends KoLRequest
 	{
 		String which, quantity;
 
-		if ( alwaysIndex() )
-		{
-			which = whichField + ( index + 1 );
-			quantity = quantityField + ( index + 1 );
-		}
-		else if ( getCapacity() != 1 )
+		if ( getCapacity() > 1 )
 		{
 			which = whichField + index;
 			quantity = quantityField + index;
+		}
+		else if ( alwaysIndex() )
+		{
+			which = whichField + "1";
+			quantity = quantityField + "1";
 		}
 		else
 		{
