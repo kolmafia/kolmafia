@@ -939,6 +939,7 @@ public class AdventureFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "The Victim: ", targetField );
 			elements[2] = new VerifiableElement( "# of Times: ", countField );
 			setContent( elements, true, true );
+			setDefaultButton( confirmedButton );
 		}
 
 		public void setEnabled( boolean isEnabled )
