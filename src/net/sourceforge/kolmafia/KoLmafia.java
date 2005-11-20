@@ -350,9 +350,6 @@ public abstract class KoLmafia implements KoLConstants
 		resetSessionTally();
 		applyRecentEffects();
 
-		// If the person is in one of the signs, then make sure that
-		// you retrieve the information on
-
 		// Retrieve breakfast if the option to retrieve breakfast
 		// was previously selected.
 
