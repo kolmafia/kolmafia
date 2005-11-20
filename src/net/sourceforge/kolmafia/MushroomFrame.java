@@ -57,7 +57,7 @@ public class MushroomFrame extends KoLFrame
 	{
 		super( client, "Mushroom Fields" );
 
-		currentBuffer = new LimitedSizeChatBuffer( "Current Plot" );
+		currentBuffer = new LimitedSizeChatBuffer( "Current Plot", false );
 
 		currentDisplay = new JEditorPane();
 		JComponentUtilities.setComponentSize( currentDisplay, 200, 200 );
@@ -66,7 +66,7 @@ public class MushroomFrame extends KoLFrame
 		currentDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 		currentBuffer.setChatDisplay( currentDisplay );
 
-		forecastBuffer = new LimitedSizeChatBuffer( "Forecast Plot" );
+		forecastBuffer = new LimitedSizeChatBuffer( "Forecast Plot", false );
 
 		forecastDisplay = new JEditorPane();
 		JComponentUtilities.setComponentSize( forecastDisplay, 200, 200 );

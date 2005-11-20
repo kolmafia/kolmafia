@@ -53,6 +53,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 	private static final int BUFFER_LIMIT = 30000;
 	private int previousFontSize;
+	private boolean affectsHighlightBuffer;
 
 	private static int fontSize = 3;
 	static
@@ -63,10 +64,11 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		setFontSize( fontSize );
 	}
 
-	public LimitedSizeChatBuffer( String title )
+	public LimitedSizeChatBuffer( String title, boolean affectsHighlightBuffer )
 	{
 		super( title );
 		previousFontSize = fontSize;
+		this.affectsHighlightBuffer = affectsHighlightBuffer;
 	}
 
 	public static void clearHighlights()
@@ -193,7 +195,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 		super.append( highlightMessage.replaceAll( "<br>", "<br>" + LINE_BREAK ) );
 
-		if ( message.compareToIgnoreCase( highlightMessage ) != 0 )
+		if ( affectsHighlightBuffer && message.compareToIgnoreCase( highlightMessage ) != 0 )
 			highlightBuffer.append( highlightMessage.replaceAll( "<br>", "<br>" + LINE_BREAK + "<br>" ) );
 
 		previousFontSize = fontSize;

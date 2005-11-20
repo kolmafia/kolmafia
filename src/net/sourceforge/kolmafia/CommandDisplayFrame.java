@@ -77,7 +77,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 		try
 		{
-			commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI" );
+			commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );
 			instance = new KoLmafiaCLI( client, commandBuffer );
 		}
 		catch ( Exception e )

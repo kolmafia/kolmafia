@@ -105,7 +105,7 @@ public class RequestFrame extends KoLFrame
 		if ( !(this instanceof PendingTradesFrame) )
 			this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
-		this.mainBuffer = new LimitedSizeChatBuffer( "Mini-Browser" );
+		this.mainBuffer = new LimitedSizeChatBuffer( "Mini-Browser", false );
 		this.mainBuffer.setChatDisplay( this.mainDisplay );
 
 		JScrollPane mainScroller = new JScrollPane( this.mainDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
@@ -127,7 +127,7 @@ public class RequestFrame extends KoLFrame
 			sideDisplay.setEditable( false );
 			sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
-			this.sideBuffer = new LimitedSizeChatBuffer( "" );
+			this.sideBuffer = new LimitedSizeChatBuffer( "", false );
 			this.sideBuffer.setChatDisplay( sideDisplay );
 
 			JScrollPane sideScroller = new JScrollPane( sideDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
@@ -302,7 +302,7 @@ public class RequestFrame extends KoLFrame
 			{
 				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( currentRequest.getDataString() );
 
-				if ( client.isLuckyCharacter() && 
+				if ( client.isLuckyCharacter() &&
 				     dataMatcher.find() &&
 				     AdventureRequest.hasLuckyVersion( dataMatcher.group(1) ) )
 				{

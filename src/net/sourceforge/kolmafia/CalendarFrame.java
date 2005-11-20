@@ -108,8 +108,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		calculatePhases( selectedDate );
 
-		dailyBuffer = new LimitedSizeChatBuffer( "KoLmafia: Calendar" );
-		predictBuffer = new LimitedSizeChatBuffer( "KoLmafia: Next Event" );
+		dailyBuffer = new LimitedSizeChatBuffer( "KoLmafia: Calendar", false );
+		predictBuffer = new LimitedSizeChatBuffer( "KoLmafia: Next Event", false );
 
 		JEditorPane dailyDisplay = new JEditorPane();
 		JComponentUtilities.setComponentSize( dailyDisplay, 400, 300 );

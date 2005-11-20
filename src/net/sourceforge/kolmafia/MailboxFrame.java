@@ -114,7 +114,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		messageContentDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
-		this.mailBuffer = new LimitedSizeChatBuffer( "KoL Mail Message" );
+		this.mailBuffer = new LimitedSizeChatBuffer( "KoL Mail Message", false );
 		mailBuffer.setChatDisplay( messageContent );
 
 		JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true,

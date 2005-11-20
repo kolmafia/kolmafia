@@ -775,7 +775,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		public void run()
 		{
-			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString() );
+			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(), true );
 			instantMessageBuffers.put( channel, buffer );
 			ChatFrame frame = new ChatFrame( client, channel );
 

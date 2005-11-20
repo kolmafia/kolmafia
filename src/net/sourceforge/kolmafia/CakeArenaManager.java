@@ -40,7 +40,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class CakeArenaManager extends StaticEntity
 {
-	private static LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( "Arena Tracker" );
+	private static LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( "Arena Tracker", false );
 	private static LockableListModel opponentList = new LockableListModel();
 
 	public static void reset()
