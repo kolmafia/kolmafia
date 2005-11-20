@@ -41,6 +41,14 @@ public class UntinkerRequest extends KoLRequest
 
 	private int itemID;
 
+	public UntinkerRequest( KoLmafia client )
+	{
+		super( client, "town_right.php" );
+		addFormField( "place", "untinker" );
+
+		this.itemID = -1;
+	}
+
 	public UntinkerRequest( KoLmafia client, int itemID )
 	{
 		super( client, "town_right.php" );
@@ -74,8 +82,7 @@ public class UntinkerRequest extends KoLRequest
 			// If the person does not have the accomplishment, visit
 			// the untinkerer to ensure that they get the quest.
 
-			KoLRequest request = new KoLRequest( client, "town_right.php" );
-			request.addFormField( "place", "untinker" );
+			UntinkerRequest request = new UntinkerRequest( client );
 			request.run();
 
 			// If they do not have a screwdriver, tell them they
@@ -97,7 +104,10 @@ public class UntinkerRequest extends KoLRequest
 
 		super.run();
 
-		client.processResults( responseText );
-		client.processResult( new AdventureResult( itemID, -1 ) );
+		if ( itemID != -1 )
+		{
+			client.processResults( responseText );
+			client.processResult( new AdventureResult( itemID, -1 ) );
+		}
 	}
 }

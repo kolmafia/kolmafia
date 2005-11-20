@@ -1974,6 +1974,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeUntinkerRequest()
 	{
+		if ( previousCommand.indexOf( " " ) == -1 )
+		{
+			scriptRequestor.makeRequest( new UntinkerRequest( scriptRequestor ), 1 );
+			return;
+		}
+
 		String item = previousCommand.substring( previousCommand.split( " " )[0].length() ).trim();
 		AdventureResult firstMatch = getFirstMatchingItem( item, INVENTORY );
 		if ( firstMatch == null )
