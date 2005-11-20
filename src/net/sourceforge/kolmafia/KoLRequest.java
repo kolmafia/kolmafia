@@ -706,8 +706,10 @@ public class KoLRequest implements Runnable, KoLConstants
 					// You have been redirected to a fight!  Here, you need
 					// to complete the fight before you can continue.
 
-					(new FightRequest( client )).run();
-					this.isErrorState = !(this instanceof AdventureRequest);
+					FightRequest battle = new FightRequest( client );
+					battle.run();
+
+					this.isErrorState = !(this instanceof AdventureRequest) || battle.isErrorState;
 				}
 				else if ( redirectLocation.equals( "choice.php" ) )
 				{
