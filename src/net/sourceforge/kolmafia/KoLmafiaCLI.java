@@ -1229,7 +1229,14 @@ public class KoLmafiaCLI extends KoLmafia
 				effect != null && KoLCharacter.getEffects().contains( effect ) ? effect.getCount( KoLCharacter.getEffects() ) :
 				item != null ? item.getCount( KoLCharacter.getInventory() ) : 0;
 
-			int rightValue = df.parse( right ).intValue();
+			int rightValue = df.parse( right.endsWith( "%" ) ? right.substring( 0, right.length() - 1 ) : right ).intValue();
+			if ( right.endsWith( "%" ) )
+			{
+				if ( left.equals( "health" ) )
+					rightValue = (int) ((double) rightValue * (double)KoLCharacter.getMaximumHP() / 100.0);
+				else if ( left.equals( "mana" ) )
+					rightValue = (int) ((double) rightValue * (double)KoLCharacter.getMaximumMP() / 100.0);
+			}
 
 			return operator == null ? false : operator.equals( "==" ) ? leftValue == rightValue : operator.equals( "!=" ) ? leftValue != rightValue :
 				operator.equals( ">=" ) ? leftValue >= rightValue : operator.equals( ">" ) ? leftValue > rightValue :
@@ -1402,7 +1409,20 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				try
 				{
-					int points = df.parse( conditionString.split( "\\s+" )[0] ).intValue();
+
+					String numberString = conditionString.split( "\\s+" )[0];
+
+					int points = df.parse( numberString.endsWith( "%" ) ? numberString.substring( 0, numberString.length() - 1 ) :
+						numberString ).intValue();
+
+					if ( numberString.endsWith( "%" ) )
+					{
+						if ( conditionString.endsWith( "health" ) )
+							points = (int) ((double) points * (double)KoLCharacter.getMaximumHP() / 100.0);
+						else if ( conditionString.endsWith( "mana" ) )
+							points = (int) ((double) points * (double)KoLCharacter.getMaximumMP() / 100.0);
+					}
+
 					points -= conditionString.endsWith( "health" ) ? KoLCharacter.getCurrentHP() :
 						KoLCharacter.getCurrentMP();
 
