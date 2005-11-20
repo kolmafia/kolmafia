@@ -177,7 +177,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public synchronized void updateDisplay( int state, String message )
 	{
-		this.currentState = state;
+		if ( state != NOCHANGE )
+			this.currentState = state;
 
 		logStream.println( message );
 
@@ -1029,7 +1030,7 @@ public abstract class KoLmafia implements KoLConstants
 
 					if ( lastToken.indexOf( "an item" ) != -1 )
 						parseItem( item );
-                                        else
+					else
 					{
 						// The name of the item follows the number
 						// that appears after the first index.
@@ -1231,7 +1232,7 @@ public abstract class KoLmafia implements KoLConstants
 			// If you've completed the requests, make sure to update
 			// the display.
 
-			if ( !permitsContinue() )
+			if ( !permitsContinue() && currentState != CANCELLED_STATE && currentState != ERROR_STATE )
 			{
 				// Special processing for adventures.
 
