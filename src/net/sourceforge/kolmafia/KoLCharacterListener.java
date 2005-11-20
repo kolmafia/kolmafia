@@ -54,6 +54,7 @@ public interface KoLCharacterListener
 	public void adventuresLeftChanged();
 	public void inebrietyChanged();
 	public void totalTurnsChanged();
+	public void familiarChanged();
 	public boolean isStatusListener();
 	public boolean isInventoryListener();
 }

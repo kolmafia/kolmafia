@@ -78,6 +78,8 @@ public class FamiliarData implements KoLConstants, Comparable
 		}
 
 		this.id = Integer.parseInt( dataMatcher.group(1) );
+		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/familiar" + this.id + ".gif" );
+
 		this.race = dataMatcher.group(2);
 
 		if ( !FamiliarsDatabase.contains( this.race ) )
@@ -113,7 +115,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		// If he really has a familiar, first one parsed is it.
 
 		if ( searchText.indexOf( "You do not currently have a familiar" ) != -1 )
-			firstFamiliar = null;
+			firstFamiliar = NO_FAMILIAR;
 
 		KoLCharacter.setFamiliar( firstFamiliar );
 	}

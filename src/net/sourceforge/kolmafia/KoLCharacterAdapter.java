@@ -116,6 +116,12 @@ public class KoLCharacterAdapter implements KoLCharacterListener, ListDataListen
 			statusUpdater.run();
 	}
 
+	public void familiarChanged()
+	{
+		if ( statusUpdater != null )
+			statusUpdater.run();
+	}
+
 	public void contentsChanged( ListDataEvent e )
 	{
 		if ( listUpdater != null )

@@ -208,7 +208,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected JPanel compactPane;
 	protected JLabel hpLabel, mpLabel, advLabel;
-	protected JLabel meatLabel, closetLabel, drunkLabel;
+	protected JLabel meatLabel, drunkLabel;
+	protected JLabel familiarLabel, weightLabel;
 
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
@@ -282,11 +283,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
 		compactPane.add( mpLabel = new JLabel( " ", JLabel.CENTER ) );
 
+		compactPane.add( familiarLabel = new JLabel( " ", JLabel.CENTER ) );
+		compactPane.add( weightLabel = new JLabel( " ", JLabel.CENTER ) );
+
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
 		compactPane.add( meatLabel = new JLabel( " ", JLabel.CENTER ) );
-
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "closet.gif" ), JLabel.CENTER ) );
-		compactPane.add( closetLabel = new JLabel( " ", JLabel.CENTER ) );
 
 		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
 		compactPane.add( advLabel = new JLabel( " ",  JLabel.CENTER) );
@@ -314,9 +315,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			hpLabel.setText( KoLCharacter.getCurrentHP() + " / " + KoLCharacter.getMaximumHP() );
 			mpLabel.setText( KoLCharacter.getCurrentMP() + " / " + KoLCharacter.getMaximumMP() );
 			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
-			closetLabel.setText( df.format( KoLCharacter.getClosetMeat() ) );
 			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
+			familiarLabel.setIcon( JComponentUtilities.getSharedImage( "itemimages/familiar" + KoLCharacter.getFamiliar().getID() + ".gif" ) );
+			weightLabel.setText( KoLCharacter.getFamiliar().getWeight() + " lbs." );
 		}
 	}
 

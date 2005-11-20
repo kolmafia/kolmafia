@@ -844,7 +844,7 @@ public class AdventureFrame extends KoLFrame
 	private class MeatStoragePanel extends LabeledKoLPanel
 	{
 		private JComboBox fundSource;
-		private JTextField amountField;
+		private JTextField amountField, closetField;
 
 		public MeatStoragePanel()
 		{
@@ -855,11 +855,16 @@ public class AdventureFrame extends KoLFrame
 			fundSource.addItem( "Hagnk's Storage" );
 
 			amountField = new JTextField();
+			closetField = new JTextField( String.valueOf( KoLCharacter.getClosetMeat() ) );
+			closetField.setEnabled( false );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
 			elements[1] = new VerifiableElement( "Amount: ", amountField );
+			elements[2] = new VerifiableElement( "In Closet: ", closetField );
 			setContent( elements, true, true );
+
+			KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new ClosetUpdater() ) );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -882,6 +887,13 @@ public class AdventureFrame extends KoLFrame
 					contentPanel = this;
 					client.updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
 					return;
+			}
+		}
+
+		private class ClosetUpdater implements Runnable
+		{
+			public void run()
+			{	closetField.setText( String.valueOf( KoLCharacter.getClosetMeat() ) );
 			}
 		}
 

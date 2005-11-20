@@ -1649,6 +1649,10 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		currentFamiliar = addFamiliar( familiar );
 		familiars.setSelectedItem( currentFamiliar );
+
+		Iterator listenerIterator = listenerList.iterator();
+		while ( listenerIterator.hasNext() )
+			((KoLCharacterListener)listenerIterator.next()).familiarChanged();
 	}
 
 	/**
@@ -1660,6 +1664,10 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		if ( currentFamiliar != null )
 			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
+
+		Iterator listenerIterator = listenerList.iterator();
+		while ( listenerIterator.hasNext() )
+			((KoLCharacterListener)listenerIterator.next()).familiarChanged();
 	}
 
 	/**
