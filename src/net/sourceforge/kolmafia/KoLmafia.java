@@ -317,10 +317,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		// Retrieve the list of outfits which are available to the
-		// character, should this be something they want.
+		// character.  Due to lots of bug reports, this is no longer
+		// a skippable option.
 
-		if ( !isQuickLogin && settings.getProperty( "skipOutfits" ).equals( "false" ) )
-			(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
+		(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
 
 		if ( !permitsContinue() )
 		{
@@ -328,8 +328,30 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		// If the person is in a mysticality sign, make sure
+		// you retrieve information from the restaurant.
+
+		if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
+		{
+			updateDisplay( DISABLED_STATE, "Retrieving menu..." );
+			(new RestaurantRequest( this )).run();
+		}
+
+		// If the person is in a moxie sign and they have completed
+		// the beach quest, then retrieve information from the
+		// microbrewery.
+
+		if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.hasAccomplishment( KoLCharacter.MEATCAR ) )
+		{
+			updateDisplay( DISABLED_STATE, "Retrieving menu..." );
+			(new MicrobreweryRequest( this )).run();
+		}
+
 		resetSessionTally();
 		applyRecentEffects();
+
+		// If the person is in one of the signs, then make sure that
+		// you retrieve the information on
 
 		// Retrieve breakfast if the option to retrieve breakfast
 		// was previously selected.
@@ -1315,18 +1337,6 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public abstract void makeHunterRequest();
-
-	/**
-	 * Makes a request to the restaurant to purchase today's meals
-	 */
-
-	public abstract void makeRestaurantRequest();
-
-	/**
-	 * Makes a request to the microbrewery to purchase today's drinks
-	 */
-
-	public abstract void makeMicrobreweryRequest();
 
 	/**
 	 * Makes a request to the untinkerer to untinker items

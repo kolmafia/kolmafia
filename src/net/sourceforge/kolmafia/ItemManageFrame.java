@@ -86,7 +86,7 @@ public class ItemManageFrame extends KoLFrame
 	protected JRadioButtonMenuItem [] clickOptions;
 
 	private JTabbedPane tabs;
-	private ItemManagePanel consume, create;
+	private ItemManagePanel consume, create, special;
 	private MultiButtonPanel inventory, closet;
 
 	/**
@@ -109,6 +109,25 @@ public class ItemManageFrame extends KoLFrame
 		JPanel consumeContainer = new JPanel();
 		consumeContainer.setLayout( new BorderLayout() );
 		consumeContainer.add( consume, BorderLayout.CENTER );
+
+		// If the player is in a muscle sign, then make sure
+		// that the restaurant panel is there.
+
+		special = null;
+
+		if ( client != null )
+		{
+			if ( !client.getRestaurantItems().isEmpty() )
+			{
+				special = new SpecialPanel( client.getRestaurantItems() );
+				consumeContainer.add( special, BorderLayout.SOUTH );
+			}
+			else if ( !client.getMicrobreweryItems().isEmpty() )
+			{
+				special = new SpecialPanel( client.getMicrobreweryItems() );
+				consumeContainer.add( special, BorderLayout.SOUTH );
+			}
+		}
 
 		JPanel createContainer = new JPanel();
 		createContainer.setLayout( new BorderLayout() );
@@ -192,6 +211,9 @@ public class ItemManageFrame extends KoLFrame
 
 		if ( closet != null )
 			closet.setEnabled( isEnabled );
+
+		if ( special != null )
+			special.setEnabled( isEnabled );
 	}
 
 	private class MultiButtonPanel extends JPanel
@@ -281,6 +303,50 @@ public class ItemManageFrame extends KoLFrame
 					new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
 
 				repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
+			}
+
+			(new RequestThread( requests, repeatCount )).start();
+		}
+	}
+
+	private class SpecialPanel extends ItemManagePanel
+	{
+		public SpecialPanel( LockableListModel items )
+		{	super( "Sign-Specific Stuffs", "buy one", "buy multiple", items );
+		}
+
+		protected void actionConfirmed()
+		{	purchase( false );
+		}
+
+		protected void actionCancelled()
+		{	purchase( true );
+		}
+
+		private void purchase( boolean purchaseMultiple )
+		{
+			Object [] items = elementList.getSelectedValues();
+			if ( items.length == 0 )
+				return;
+
+			String currentItem;
+			int consumptionCount;
+
+			Runnable [] requests = new Runnable[ items.length ];
+			int [] repeatCount = new int[ items.length ];
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				currentItem = (String) items[i];
+				consumptionCount = purchaseMultiple ? getQuantity( "Buying multiple " + currentItem + "...", 1 ) : 1;
+
+				if ( consumptionCount == 0 )
+					return;
+
+				requests[i] = elementList.getModel() == client.getRestaurantItems() ?
+					(KoLRequest) (new RestaurantRequest( client, currentItem )) : (KoLRequest) (new MicrobreweryRequest( client, currentItem ));
+
+				repeatCount[i] = consumptionCount;
 			}
 
 			(new RequestThread( requests, repeatCount )).start();

@@ -286,7 +286,6 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "skipOutfits", "Skip outfit list retrieval" },
 			{ "skipFamiliars", "Skip terrarium retrieval" },
 			{ "skipMoonPhases", "Skip moon phase synchronization" }
 		};

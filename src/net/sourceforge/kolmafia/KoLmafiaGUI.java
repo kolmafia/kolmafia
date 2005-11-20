@@ -325,46 +325,6 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	/**
-	 * Makes a request to the restaurant, looking for a meal.  This method
-	 * should prompt the user to determine which meal to buy.
-	 */
-
-	public void makeRestaurantRequest()
-	{
-		if ( restaurantItems.isEmpty() )
-			(new RestaurantRequest( this )).run();
-
-		Object [] restaurantItemArray = restaurantItems.toArray();
-
-		String selectedValue = (String) JOptionPane.showInputDialog(
-			null, "I want to buy this from Chez Snootee...", "Chez Snootee", JOptionPane.INFORMATION_MESSAGE, null,
-			restaurantItemArray, restaurantItemArray[0] );
-
-		if ( selectedValue != null )
-			(new RestaurantRequest( this, selectedValue )).run();
-	}
-
-	/**
-	 * Makes a request to the microbrewery, looking for a drink.  This
-	 * method should prompt the user to determine which drink to buy.
-	 */
-
-	public void makeMicrobreweryRequest()
-	{
-		if ( microbreweryItems.isEmpty() )
-			(new MicrobreweryRequest( this )).run();
-
-		Object [] microbreweryItemArray = microbreweryItems.toArray();
-
-		String selectedValue = (String) JOptionPane.showInputDialog(
-			null, "I want to buy this from the Gnomish Micromicrobrewery...", "Gnomish Micromicrobrewery", JOptionPane.INFORMATION_MESSAGE, null,
-			microbreweryItemArray, microbreweryItemArray[0] );
-
-		if ( selectedValue != null )
-			(new MicrobreweryRequest( this, selectedValue )).run();
-	}
-
-	/**
 	 * Makes a request to the hunter, looking for the given number of
 	 * items.  This method should prompt the user to determine which
 	 * item to retrieve the hunter.
