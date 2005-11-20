@@ -671,7 +671,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Just check to see if there is a link to lair3.php
 
-		if ( request.responseText.indexOf( "lair3.ohp" ) == -1 )
+		if ( request.responseText.indexOf( "lair3.php" ) == -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "Failed to complete entryway." );
 			return;
