@@ -40,6 +40,7 @@ import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
 
 // event listeners
 import java.awt.event.ActionListener;
@@ -47,6 +48,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 
 // containers
+import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -60,6 +63,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 // other imports
 import java.util.List;
@@ -82,7 +86,8 @@ public class ItemManageFrame extends KoLFrame
 	protected JRadioButtonMenuItem [] clickOptions;
 
 	private JTabbedPane tabs;
-	private JPanel using, selling, museum, stash;
+	private ItemManagePanel consume, create;
+	private MultiButtonPanel inventory, closet;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -96,21 +101,28 @@ public class ItemManageFrame extends KoLFrame
 		super( client, "Item Management" );
 
 		tabs = new JTabbedPane();
-		using = new ConsumePanel();
-		selling = new SellPanel();
-		museum = new MuseumStoragePanel();
-		stash = new ClanStoragePanel();
+		consume = new ConsumePanel();
+		create = new CreateItemPanel();
+		inventory = new OutsideClosetPanel();
+		closet = new InsideClosetPanel();
 
-		tabs.addTab( "Use", using );
-		tabs.addTab( "Sell", selling );
-		tabs.addTab( "Museum", museum );
-		tabs.addTab( "Clan", stash );
+		JPanel consumeContainer = new JPanel();
+		consumeContainer.setLayout( new BorderLayout() );
+		consumeContainer.add( consume, BorderLayout.CENTER );
+
+		JPanel createContainer = new JPanel();
+		createContainer.setLayout( new BorderLayout() );
+		createContainer.add( create, BorderLayout.CENTER );
+
+		tabs.addTab( "Consume", consumeContainer );
+		tabs.addTab( "Create", createContainer );
+		tabs.addTab( "Inventory", inventory );
+		tabs.addTab( "Closet", closet );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
 
 		addMenuBar();
-		refreshFilters();
 	}
 
 	private void addMenuBar()
@@ -151,13 +163,10 @@ public class ItemManageFrame extends KoLFrame
 
 	public void refreshFilters()
 	{
-		((ConsumePanel)using).consumePanel.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
+		consume.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
 			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
 
-		((ConsumePanel)using).createPanel.elementList.setCellRenderer( AdventureResult.getCreatableCellRenderer(
-			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
-
-		((SellPanel)selling).createPanel.elementList.setCellRenderer( AdventureResult.getCreatableCellRenderer(
+		create.elementList.setCellRenderer( AdventureResult.getCreatableCellRenderer(
 			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
 	}
 
@@ -172,154 +181,222 @@ public class ItemManageFrame extends KoLFrame
 	{
 		super.setEnabled( isEnabled );
 
-		if ( using != null )
-			using.setEnabled( isEnabled );
+		if ( consume != null )
+			consume.setEnabled( isEnabled );
 
-		if ( selling != null )
-			selling.setEnabled( isEnabled );
+		if ( create != null )
+			create.setEnabled( isEnabled );
 
-		if ( museum != null )
-			museum.setEnabled( isEnabled );
+		if ( inventory != null )
+			inventory.setEnabled( isEnabled );
 
-		if ( stash != null )
-			stash.setEnabled( isEnabled );
+		if ( closet != null )
+			closet.setEnabled( isEnabled );
 	}
 
-	/**
-	 * Internal class used to handle everything related to
-	 * using up consumable items.
-	 */
-
-	private class ConsumePanel extends JPanel
+	private class MultiButtonPanel extends JPanel
 	{
-		private ItemManagePanel consumePanel, createPanel;
-		private ShowDescriptionList usableItemList;
+		private JPanel enclosingPanel;
+		protected ShowDescriptionList elementList;
+		protected JButton [] buttons;
 
-		public ConsumePanel()
+		public MultiButtonPanel( String title, LockableListModel elementModel )
 		{
-			setLayout( new GridLayout( 2, 1, 10, 10 ) );
+			enclosingPanel = new JPanel( new BorderLayout( 10, 10 ) );
+			this.elementList = new ShowDescriptionList( elementModel );
 
-			consumePanel = new ConsumeItemPanel();
-			createPanel = new CreateItemPanel();
+			JPanel centerPanel = new JPanel( new BorderLayout() );
+			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+			centerPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
-			add( consumePanel );
-			add( createPanel );
+			enclosingPanel.add( centerPanel, BorderLayout.CENTER );
+			setLayout( new CardLayout( 10, 10 ) );
+			add( enclosingPanel, "" );
+		}
+
+		public void setButtons( String [] buttonLabels, ActionListener [] buttonListeners )
+		{
+			JPanel containerPanel = new JPanel( new GridLayout( buttonLabels.length, 1, 5, 5 ) );
+			buttons = new JButton[ buttonLabels.length ];
+
+			for ( int i = 0; i < buttonLabels.length; ++i )
+			{
+				buttons[i] = new JButton( buttonLabels[i] );
+				buttons[i].addActionListener( buttonListeners[i] );
+				containerPanel.add( buttons[i] );
+			}
+
+			JPanel eastPanel = new JPanel( new BorderLayout() );
+			eastPanel.add( containerPanel, BorderLayout.NORTH );
+			enclosingPanel.add( eastPanel, BorderLayout.EAST );
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
-			super.setEnabled( isEnabled );
-			consumePanel.setEnabled( isEnabled );
-			createPanel.setEnabled( isEnabled );
+			elementList.setEnabled( isEnabled );
+			for ( int i = 0; i < buttons.length; ++i )
+				buttons[i].setEnabled( isEnabled );
+		}
+	}
+
+	private class ConsumePanel extends ItemManagePanel
+	{
+		public ConsumePanel()
+		{	super( "Usable Items", "use one", "use multiple", KoLCharacter.getUsables() );
 		}
 
-		private class ConsumeItemPanel extends ItemManagePanel
+		protected void actionConfirmed()
+		{	consume( false );
+		}
+
+		protected void actionCancelled()
+		{	consume( true );
+		}
+
+		private void consume( boolean useMultiple )
 		{
-			public ConsumeItemPanel()
-			{	super( "Usable Items", "use one", "use multiple", KoLCharacter.getUsables() );
-			}
+			Object [] items = elementList.getSelectedValues();
+			if ( items.length == 0 )
+				return;
 
-			protected void actionConfirmed()
-			{	consume( false );
-			}
+			int consumptionType, consumptionCount;
+			AdventureResult currentItem;
 
-			protected void actionCancelled()
-			{	consume( true );
-			}
+			Runnable [] requests = new Runnable[ items.length ];
+			int [] repeatCount = new int[ items.length ];
 
-			private void consume( boolean useMultiple )
+			for ( int i = 0; i < items.length; ++i )
 			{
-				Object [] items = elementList.getSelectedValues();
-				if ( items.length == 0 )
+				currentItem = (AdventureResult) items[i];
+
+				consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
+				consumptionCount = useMultiple ? getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
+
+				if ( consumptionCount == 0 )
 					return;
 
-				int consumptionType, consumptionCount;
-				AdventureResult currentItem;
+				requests[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ?
+					new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) ) :
+					new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
 
-				Runnable [] requests = new Runnable[ items.length ];
-				int [] repeatCount = new int[ items.length ];
-
-				for ( int i = 0; i < items.length; ++i )
-				{
-					currentItem = (AdventureResult) items[i];
-
-					consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
-					consumptionCount = useMultiple ? getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
-
-					if ( consumptionCount == 0 )
-						return;
-
-					requests[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ?
-						new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) ) :
-						new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
-
-					repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
-				}
-
-				(new RequestThread( requests, repeatCount )).start();
+				repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
 			}
+
+			(new RequestThread( requests, repeatCount )).start();
 		}
 	}
 
-	/**
-	 * Internal class used to handle everything related to
-	 * selling items, including item creation.
-	 */
-
-	private class SellPanel extends JPanel
+	private class OutsideClosetPanel extends MultiButtonPanel
 	{
-		private ItemManagePanel sellPanel, createPanel;
-
-		public SellPanel()
+		public OutsideClosetPanel()
 		{
-			setLayout( new GridLayout( 2, 1, 10, 10 ) );
+			super( "Inside Inventory", KoLCharacter.getInventory() );
+			setButtons( new String [] { "put in closet", "sell to npcs", "send to store", "donate to clan" },
+				new ActionListener [] { new PutInClosetListener( false, elementList ), new AutoSellListener( false, AutoSellRequest.AUTOSELL, elementList ), new AutoSellListener( false, AutoSellRequest.AUTOMALL, elementList ), new GiveToClanListener( false, elementList ) } );
+		}
+	}
 
-			sellPanel = new SellItemPanel();
-			createPanel = new CreateItemPanel();
+	private class InsideClosetPanel extends MultiButtonPanel
+	{
+		public InsideClosetPanel()
+		{
+			super( "Inside Closet", KoLCharacter.getCloset() );
+			setButtons( new String [] { "put in bag", "sell to npcs", "send to store", "donate to clan" },
+				new ActionListener [] { new PutInClosetListener( true, elementList ), new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ), new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ), new GiveToClanListener( true, elementList ) } );
+		}
+	}
 
-			add( sellPanel );
-			add( createPanel );
+	private abstract class TransferListener implements ActionListener
+	{
+		protected String description;
+		protected boolean retrieveFromClosetFirst;
+
+		protected Runnable [] requests;
+		protected ShowDescriptionList elementList;
+
+		public TransferListener( String description, boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
+		{
+			this.description = description;
+			this.retrieveFromClosetFirst = retrieveFromClosetFirst;
+			this.elementList = elementList;
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public Object [] initialSetup()
 		{
-			super.setEnabled( isEnabled );
-			sellPanel.setEnabled( isEnabled );
-			createPanel.setEnabled( isEnabled );
+			Object [] items = getDesiredItems( elementList, description );
+			this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
+
+			if ( retrieveFromClosetFirst )
+				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+
+			return items;
 		}
 
-		/**
-		 * Internal class used to handle everything related to
-		 * selling items; this allows autoselling of items as
-		 * well as placing item inside of a store.
-		 */
+		public void initializeTransfer()
+		{	(new RequestThread( requests )).start();
+		}
+	}
 
-		private class SellItemPanel extends ItemManagePanel
+	private class PutInClosetListener extends TransferListener
+	{
+		public PutInClosetListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
+		{	super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst, elementList );
+		}
+
+		public void actionPerformed( ActionEvent e )
 		{
-			public SellItemPanel()
-			{
-				super( "Inside Inventory", "autosell", "send to store", KoLCharacter.getSellables() );
-				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
-			}
+			Object [] items = initialSetup();
+			if ( items == null )
+				return;
 
-			protected void actionConfirmed()
-			{	sell( AutoSellRequest.AUTOSELL );
-			}
+			if ( !retrieveFromClosetFirst )
+				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
-			protected void actionCancelled()
-			{	sell( AutoSellRequest.AUTOMALL );
-			}
+			initializeTransfer();
+		}
+	}
 
-			private void sell( int sellType )
-			{
-				if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-					"Are you sure you would like to sell the selected items?",
-						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
-							return;
+	private class AutoSellListener extends TransferListener
+	{
+		private int sellType;
 
-				Object [] items = getDesiredItems( elementList, sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Malling" );
-				(new RequestThread( new AutoSellRequest( client, items, sellType ) )).start();
-			}
+		public AutoSellListener( boolean retrieveFromClosetFirst, int sellType, ShowDescriptionList elementList )
+		{
+			super( sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Automalling", retrieveFromClosetFirst, elementList );
+			this.sellType = sellType;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+				"Are you sure you would like to sell the selected items?",
+					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
+						return;
+
+			Object [] items = initialSetup();
+			if ( items == null )
+				return;
+
+			requests[ requests.length - 1 ] = new AutoSellRequest( client, items, sellType );
+			initializeTransfer();
+		}
+	}
+
+	private class GiveToClanListener extends TransferListener
+	{
+		public GiveToClanListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
+		{	super( "Stashing", retrieveFromClosetFirst, elementList );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			Object [] items = initialSetup();
+			if ( items == null )
+				return;
+
+			requests[ requests.length - 1 ] = new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH );
+			initializeTransfer();
 		}
 	}
 
@@ -377,170 +454,6 @@ public class ItemManageFrame extends KoLFrame
 				desiredItems[ neededSize++ ] = items[i];
 
 		return desiredItems;
-	}
-
-	/**
-	 * Internal class used to handle everything related to
-	 * placing items into the display case.
-	 */
-
-	private class MuseumStoragePanel extends JPanel
-	{
-		private ItemManagePanel inventoryPanel, closetPanel;
-
-		public MuseumStoragePanel()
-		{
-			setLayout( new GridLayout( 2, 1, 10, 10 ) );
-
-			inventoryPanel = new OutsideClosetPanel();
-			closetPanel = new InsideClosetPanel();
-
-			add( inventoryPanel );
-			add( closetPanel );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			inventoryPanel.setEnabled( isEnabled );
-			closetPanel.setEnabled( isEnabled );
-		}
-
-		private class OutsideClosetPanel extends ItemManagePanel
-		{
-			public OutsideClosetPanel()
-			{	super( "Inside Inventory", "put in closet", "put in case", KoLCharacter.getInventory() );
-			}
-
-			protected void actionConfirmed()
-			{
-				Object [] items = getDesiredItems( elementList, "Closeting" );
-				if ( items == null )
-					return;
-
-				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items ) )).start();
-			}
-
-			protected void actionCancelled()
-			{
-				Object [] items = getDesiredItems( elementList, "Displaying" );
-				if ( items == null )
-					return;
-
-				(new RequestThread( new MuseumRequest( client, items, true ) )).start();
-			}
-		}
-
-		private class InsideClosetPanel extends ItemManagePanel
-		{
-			public InsideClosetPanel()
-			{	super( "Inside Closet", "put in bag", "put in case", KoLCharacter.getCloset() );
-			}
-
-			protected void actionConfirmed()
-			{
-				Object [] items = getDesiredItems( elementList, "Bagging" );
-				if ( items == null )
-					return;
-
-				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ) )).start();
-			}
-
-			protected void actionCancelled()
-			{
-				Object [] items = getDesiredItems( elementList, "Displaying" );
-				if ( items == null )
-					return;
-
-				Runnable [] requests = new Runnable[2];
-				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
-				requests[1] = new MuseumRequest( client, items, true );
-
-				(new RequestThread( requests )).start();
-			}
-		}
-	}
-
-	/**
-	 * Internal class used to handle everything related to
-	 * placing items into the closet and the clan stash.
-	 */
-
-	private class ClanStoragePanel extends JPanel
-	{
-		private ItemManagePanel inventoryPanel, closetPanel;
-
-		public ClanStoragePanel()
-		{
-			setLayout( new GridLayout( 2, 1, 10, 10 ) );
-
-			inventoryPanel = new OutsideClosetPanel();
-			closetPanel = new InsideClosetPanel();
-
-			add( inventoryPanel );
-			add( closetPanel );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			inventoryPanel.setEnabled( isEnabled );
-			closetPanel.setEnabled( isEnabled );
-		}
-
-		private class OutsideClosetPanel extends ItemManagePanel
-		{
-			public OutsideClosetPanel()
-			{	super( "Inside Inventory", "put in closet", "give to clan", KoLCharacter.getInventory() );
-			}
-
-			protected void actionConfirmed()
-			{
-				Object [] items = getDesiredItems( elementList, "Closeting" );
-				if ( items == null )
-					return;
-
-				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items ) )).start();
-			}
-
-			protected void actionCancelled()
-			{
-				Object [] items = getDesiredItems( elementList, "Stashing" );
-				if ( items == null )
-					return;
-
-				(new RequestThread( new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH ) )).start();
-			}
-		}
-
-		private class InsideClosetPanel extends ItemManagePanel
-		{
-			public InsideClosetPanel()
-			{	super( "Inside Closet", "put in bag", "give to clan", KoLCharacter.getCloset() );
-			}
-
-			protected void actionConfirmed()
-			{
-				Object [] items = getDesiredItems( elementList, "Bagging" );
-				if ( items == null )
-					return;
-
-				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items ) )).start();
-			}
-
-			protected void actionCancelled()
-			{
-				Object [] items = getDesiredItems( elementList, "Stashing" );
-				if ( items == null )
-					return;
-
-				Runnable [] requests = new Runnable[2];
-				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
-				requests[1] = new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH );
-
-				(new RequestThread( requests )).start();
-			}
-		}
 	}
 
 	/**
