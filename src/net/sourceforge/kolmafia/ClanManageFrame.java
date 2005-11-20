@@ -404,10 +404,12 @@ public class ClanManageFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			Object [] items = elementList.getSelectedValues();
+
 			// Check the rank list to see if you're one
 			// of the clan administrators.
 
-			if ( rankList.isEmpty() )
+			if ( items.length > 1 && rankList.isEmpty() )
 			{
 				rankList = ClanManager.getRankList();
 
@@ -422,7 +424,6 @@ public class ClanManageFrame extends KoLFrame
 				}
 			}
 
-			Object [] items = elementList.getSelectedValues();
 			AdventureResult selection;
 
 			for ( int i = 0; i < items.length; ++i )
