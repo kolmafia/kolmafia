@@ -73,6 +73,18 @@ public class NPCStoreDatabase extends KoLDatabase
 	{
 		int itemIndex = npcstoreTable[4].indexOf( new Integer( TradeableItemDatabase.getItemID( itemName ) ) );
 
+		// If the person is not in a muscle sign, then items from the
+		// Degrassi Knoll are not available.
+
+		if ( npcstoreTable[0].get(itemIndex).equals( "5" ) && !KoLCharacter.inMuscleSign() )
+			return null;
+
+		// If the person is not in a mysticality sign, then items from the
+		// Canadia Jewelers are not available.
+
+		if ( npcstoreTable[0].get(itemIndex).equals( "j" ) && !KoLCharacter.inMysticalitySign() )
+			return null;
+
 		return itemIndex == -1 ? null :
 			new MallPurchaseRequest( client, (String) npcstoreTable[1].get(itemIndex), (String) npcstoreTable[0].get(itemIndex),
 				Integer.parseInt( (String) npcstoreTable[2].get(itemIndex) ), Integer.parseInt( (String) npcstoreTable[3].get(itemIndex) ) );
