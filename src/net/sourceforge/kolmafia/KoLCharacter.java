@@ -1683,7 +1683,14 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( index >= 0)
 				familiar = (FamiliarData)familiars.get( index );
 			else
+			{
 				familiars.add( familiar );
+
+				// Keep current familiar selected even if new
+				// familiar added earlier in list
+
+				familiars.setSelectedItem( currentFamiliar );
+			}
 		}
 		return familiar;
 	}
