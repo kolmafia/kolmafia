@@ -261,10 +261,13 @@ public abstract class KoLCharacter extends StaticEntity
 	// Interesting accomplishments
 
 	private static LockableListModel accomplishments = new LockableListModel();
+	public static final String UNTINKER = "You have found the Untinker's screwdriver.";
 	public static final String MEATCAR = "You have built your own Bitchin' Meat Car.";
 	public static final String FRIARS = "You have cleansed the taint for the Deep Fat Friars.";
 	public static final String BARON = "You have helped the Baron Rof L'm Fao.";
+	public static final String ICY_PEAK = "You have helped the L337 Tr4pz0r clear the way to the Icy Peak.";
 	public static final String BEANSTALK = "You have planted a Beanstalk in the Nearby Plains.";
+
 	private static boolean beanstalkArmed;
 
 	// Ascension-related variables

@@ -354,6 +354,20 @@ public class AdventureDatabase extends KoLDatabase
 			retrieveItem( ConcoctionsDatabase.CAR );
 		}
 
+		else if ( zone.equals( "McLarge" ) )
+		{
+			// For Mt. McLargeHuge, all you need to do is visit
+			// the trapper in order to arm the location.
+
+			if ( !KoLCharacter.hasAccomplishment( KoLCharacter.ICY_PEAK ) )
+			{
+				request = new KoLRequest( client, "trapper.php" );
+				request.run();
+
+				request = new KoLRequest( client, "mclargehuge.php" );
+			}
+		}
+
 		// The casino is unlocked provided the player
 		// has a casino pass in their inventory.
 
