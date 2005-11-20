@@ -1865,7 +1865,10 @@ public abstract class KoLmafia implements KoLConstants
 		// refresh the lists at the very end.
 
 		KoLCharacter.refreshCalculatedLists();
-		updateDisplay( ENABLED_STATE, "Purchases complete." );
+		if ( purchaseCount == maxPurchases || maxPurchases == Integer.MAX_VALUE )
+			updateDisplay( ENABLED_STATE, "Purchases complete." );
+		else
+			updateDisplay( ERROR_STATE, "Desired purchase quantity not reached." );
 	}
 
 	/**
