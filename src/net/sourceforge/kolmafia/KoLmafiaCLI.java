@@ -1257,15 +1257,16 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( left.equals( "meat" ) )
 			return KoLCharacter.getAvailableMeat();
 
-		AdventureResult effect = effectParameter( left );
-
-		if ( effect != null )
-			return effect.getCount( KoLCharacter.getEffects() );
-
+		// Items first for one reason: Knob Goblin perfume
 		AdventureResult item = itemParameter( left );
 
 		if ( item != null )
 			return item.getCount( KoLCharacter.getInventory() );
+
+		AdventureResult effect = effectParameter( left );
+
+		if ( effect != null )
+			return effect.getCount( KoLCharacter.getEffects() );
 
 		return 0;
 	}
@@ -1290,23 +1291,21 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			return Integer.parseInt( right );
 		}
-		catch ( Exception e )
+		catch ( NumberFormatException e )
 		{
+			// Items first for one reason: Knob Goblin perfume
+			AdventureResult item = itemParameter( right );
+			
+			if ( item != null )
+				return item.getCount( KoLCharacter.getInventory() );
+
+			AdventureResult effect = effectParameter( right );
+
+			if ( effect != null )
+				return effect.getCount( KoLCharacter.getEffects() );
+
+			throw e;
 		}
-
-		AdventureResult effect = effectParameter( right );
-
-		if ( effect != null )
-			return effect.getCount( KoLCharacter.getEffects() );
-
-		AdventureResult item = itemParameter( right );
-
-		if ( item != null )
-			return item.getCount( KoLCharacter.getInventory() );
-
-		// Why doesn't this work?
-		// throw NumberFormatException();
-		return Integer.parseInt( right );
 	}
 
 	private AdventureResult effectParameter( String parameter )
