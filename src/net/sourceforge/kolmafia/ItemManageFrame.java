@@ -142,6 +142,7 @@ public class ItemManageFrame extends KoLFrame
 		getContentPane().add( tabs, "" );
 
 		addMenuBar();
+		refreshFilters();
 	}
 
 	private void addMenuBar()
