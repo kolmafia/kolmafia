@@ -43,6 +43,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.NumberFormatException;
 
 // utility imports
 import java.util.Date;
@@ -1207,48 +1208,123 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private boolean testConditional( String parameters )
 	{
-		String [] tokens = parameters.split( "[\\!<>=]" );
-
-		String left = tokens[0].trim();
-		String right = tokens[ tokens.length - 1 ].trim();
 
 		String operator = parameters.indexOf( "==" ) != -1 ? "==" : parameters.indexOf( "!=" ) != -1 ? "!=" :
 			parameters.indexOf( ">=" ) != -1 ? ">=" : parameters.indexOf( "<=" ) != -1 ? "<=" :
 			parameters.indexOf( ">" ) != -1 ? ">" : parameters.indexOf( "<" ) != -1 ? "<" : null;
 
-		List potentialItems = TradeableItemDatabase.getMatchingNames( left );
-		List potentialEffects = StatusEffectDatabase.getMatchingNames( left );
+		if ( operator == null )
+			return false;
 
-		AdventureResult effect = potentialEffects.isEmpty() ? null : new AdventureResult(  (String) potentialEffects.get(0), 0, true );
-		AdventureResult item =  potentialItems.isEmpty() ? null : new AdventureResult( (String) potentialItems.get(0), 0, false );
+		String [] tokens = parameters.split( "[\\!<>=]" );
+
+		String left = tokens[0].trim();
+		String right = tokens[ tokens.length - 1 ].trim();
+
+		int leftValue;
+		int rightValue;
 
 		try
 		{
-			int leftValue = left.equals( "level" ) ? KoLCharacter.getLevel() : left.equals( "health" ) ? KoLCharacter.getCurrentHP() :
-				left.equals( "mana" ) ? KoLCharacter.getCurrentMP() : left.equals( "meat" ) ? KoLCharacter.getAvailableMeat() :
-				effect != null && KoLCharacter.getEffects().contains( effect ) ? effect.getCount( KoLCharacter.getEffects() ) :
-				item != null ? item.getCount( KoLCharacter.getInventory() ) : 0;
-
-			int rightValue = df.parse( right.endsWith( "%" ) ? right.substring( 0, right.length() - 1 ) : right ).intValue();
-			if ( right.endsWith( "%" ) )
-			{
-				if ( left.equals( "health" ) )
-					rightValue = (int) ((double) rightValue * (double)KoLCharacter.getMaximumHP() / 100.0);
-				else if ( left.equals( "mana" ) )
-					rightValue = (int) ((double) rightValue * (double)KoLCharacter.getMaximumMP() / 100.0);
-			}
-
-			return operator == null ? false : operator.equals( "==" ) ? leftValue == rightValue : operator.equals( "!=" ) ? leftValue != rightValue :
-				operator.equals( ">=" ) ? leftValue >= rightValue : operator.equals( ">" ) ? leftValue > rightValue :
-				operator.equals( "<=" ) ? leftValue <= rightValue : operator.equals( "<" ) ? leftValue < rightValue : false;
+			leftValue = lvalue( left );
+			rightValue = rvalue( left, right );
 		}
 		catch ( Exception e )
 		{
-			// If the right side was non-numeric, then go
-			// ahead and return false.
-
 			return false;
 		}
+
+		return	operator.equals( "==" ) ? leftValue == rightValue :
+			operator.equals( "!=" ) ? leftValue != rightValue :
+			operator.equals( ">=" ) ? leftValue >= rightValue :
+			operator.equals( ">" ) ? leftValue > rightValue :
+			operator.equals( "<=" ) ? leftValue <= rightValue :
+			operator.equals( "<" ) ? leftValue < rightValue :
+			false;
+	}
+
+	private int lvalue( String left )
+	{
+		if ( left.equals( "level" ) )
+			return KoLCharacter.getLevel();
+
+		if ( left.equals( "health" ) )
+			return KoLCharacter.getCurrentHP();
+
+		if ( left.equals( "mana" ) )
+			return KoLCharacter.getCurrentMP();
+
+		if ( left.equals( "meat" ) )
+			return KoLCharacter.getAvailableMeat();
+
+		AdventureResult effect = effectParameter( left );
+
+		if ( effect != null )
+			return effect.getCount( KoLCharacter.getEffects() );
+
+		AdventureResult item = itemParameter( left );
+
+		if ( item != null )
+			return item.getCount( KoLCharacter.getInventory() );
+
+		return 0;
+	}
+
+	private int rvalue( String left, String right ) throws NumberFormatException
+	{
+		if ( right.endsWith( "%" ) )
+		{
+			right = right.substring( 0, right.length() - 1 );
+			int value = Integer.parseInt( right );
+
+			if ( left.equals( "health" ) )
+				return(int) ((double) value * (double)KoLCharacter.getMaximumHP() / 100.0);
+
+			if ( left.equals( "mana" ) )
+				return (int) ((double) value * (double)KoLCharacter.getMaximumMP() / 100.0);
+
+			return value;
+		}
+
+		try
+		{
+			return Integer.parseInt( right );
+		}
+		catch ( Exception e )
+		{
+		}
+
+		AdventureResult effect = effectParameter( right );
+
+		if ( effect != null )
+			return effect.getCount( KoLCharacter.getEffects() );
+
+		AdventureResult item = itemParameter( right );
+
+		if ( item != null )
+			return item.getCount( KoLCharacter.getInventory() );
+
+		// Why doesn't this work?
+		// throw NumberFormatException();
+		return Integer.parseInt( right );
+	}
+
+	private AdventureResult effectParameter( String parameter )
+	{
+		List potentialEffects = StatusEffectDatabase.getMatchingNames( parameter );
+		if ( potentialEffects.isEmpty() )
+			return null;
+
+		return new AdventureResult(  (String) potentialEffects.get(0), 0, true );
+	}
+
+	private AdventureResult itemParameter( String parameter )
+	{
+		List potentialItems = TradeableItemDatabase.getMatchingNames( parameter );
+		if ( potentialItems.isEmpty() )
+			return null;
+
+		return new AdventureResult( (String) potentialItems.get(0), 0, false );
 	}
 
 	/**
