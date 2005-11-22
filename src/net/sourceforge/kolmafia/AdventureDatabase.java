@@ -189,7 +189,7 @@ public class AdventureDatabase extends KoLDatabase
 		{ "choiceAdventure2", "2" },
 
 		// The Oracle Will See You Now
-		{ "choiceAdventure3" "3" },
+		{ "choiceAdventure3", "3" },
 
 		// Finger-Lickin'... Death.
 		{ "choiceAdventure4", "3" },
@@ -210,7 +210,7 @@ public class AdventureDatabase extends KoLDatabase
 		{ "choiceAdventure21", "2" }
 
 		// Ouch! You bump into a door!
-		{ "choiceAdventure25" "3" },
+		{ "choiceAdventure25", "3" },
 	};
 
 	// Some choice adventures have options that cost meat
