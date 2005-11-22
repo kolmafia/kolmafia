@@ -104,6 +104,19 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class OptionsFrame extends KoLFrame
 {
+	public static final Object [][] BUFF_OPTIONS =
+	{
+		// Buffbot / price / buff / turns
+
+		// Buffs from Testudinata
+
+		{ "537858", new Integer(1), "Moxious Madrigal", "150" },
+		{ "537858", new Integer(2), "Jalapeno Saucesphere", "150" },
+		{ "537858", new Integer(3), "Elemental Saucesphere", "150" },
+		{ "537858", new Integer(4), "Jabanero Saucesphere", "150" },
+		{ "537858", new Integer(5), "Empathy of the Newt", "150" }
+	};
+
 	private JTabbedPane tabs;
 
 	/**
@@ -141,6 +154,7 @@ public class OptionsFrame extends KoLFrame
 		addTab( "Sewer", new SewerOptionsPanel() );
 		addTab( "Choice", new ChoiceOptionsPanel() );
 		addTab( "Chat", new ChatOptionsPanel() );
+		addTab( "Buff", new BuffOptionsPanel() );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -533,6 +547,74 @@ public class OptionsFrame extends KoLFrame
 
 				int value = Integer.parseInt( selected[i] );
 				sewerOptions[ value == 43 ? 12 : value - 1 ].setSelected( true );
+			}
+		}
+	}
+
+	/**
+	 * This panel allows the user to select which buffs they would like to
+	 * get from buffbots we've registered in the BUFF_OPTIONS table
+	 */
+
+	private class BuffOptionsPanel extends OptionsPanel
+	{
+		private AbstractButton [] buffOptions;
+
+		/**
+		 * Constructs a new <code>BuffOptionsPanel</code> containing a
+		 * list of cheap buffs available from stable public buffbots
+		 */
+
+		public BuffOptionsPanel()
+		{
+			super( "Buff Preferences", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
+
+			buffOptions = new JCheckBox[ BUFF_OPTIONS.length ];
+			for ( int i = 0; i < buffOptions.length; ++i )
+				buffOptions[i] = new JCheckBox();
+
+			VerifiableElement [] elements = new VerifiableElement[ buffOptions.length ];
+
+			for ( int i = 0; i < elements.length; ++i )
+			{
+				Object [] options = BUFF_OPTIONS[i];
+				String name = options[3] + " turns of " + options[2] + " for " + options[1] + " meat";
+				elements[i] = new VerifiableElement( name, JLabel.LEFT, buffOptions[i] );
+			}
+
+			setContent( elements, false );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			StringBuffer currentSetting = new StringBuffer();
+
+			for ( int i = 0; i < buffOptions.length; ++i )
+			{
+				if ( buffOptions[i].isSelected() )
+				{
+					if ( currentSetting.length() != 0 )
+						currentSetting.append( ',' );
+
+					currentSetting.append( i + 1 );
+				}
+			}
+
+			setProperty( "buffOptions", currentSetting.toString() );
+			super.actionConfirmed();
+		}
+
+		protected void actionCancelled()
+		{
+			for ( int i = 0; i < buffOptions.length; ++i )
+				buffOptions[i].setSelected( false );
+
+			String [] selected = getProperty( "buffOptions" ).split( "," );
+			for ( int i = 0; i < selected.length; ++i )
+			{
+				int value = Integer.parseInt( selected[i] );
+				buffOptions[ value - 1 ].setSelected( true );
 			}
 		}
 	}

@@ -413,6 +413,11 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void pwnClanOtori()
 	{
+		// Is there a better way to do this? We don't want to hammer
+		// the bots with too many requests, but now that you can select
+		// which buffs you want, there's nothing wrong with requesting
+		// a buff we didn't request earlier today.
+
 		String todaySetting = sdf.format( new Date() );
 
 		if ( settings.getProperty( "lastOtoriRequest" ).equals( todaySetting ) )
@@ -422,17 +427,18 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		settings.setProperty( "lastOtoriRequest", todaySetting );
+
 		updateDisplay( DISABLED_STATE, "Pwning Clan Otori..." );
 
-		(new GreenMessageRequest( this, "79826", "I really didn't want to do this...", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
-		(new GreenMessageRequest( this, "79826", "The hermit made me do it!", new AdventureResult( AdventureResult.MEAT, 2 ) )).run();
-		(new GreenMessageRequest( this, "79826", "Or was it Toot Oriole?  -hic-", new AdventureResult( AdventureResult.MEAT, 3 ) )).run();
-
-		(new GreenMessageRequest( this, "121179", "I'm flipping you upside-down, turtle boy.", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
-
-		(new GreenMessageRequest( this, "246325", "Mint says, \"World domination, baby!\"", new AdventureResult( AdventureResult.MEAT, 1 ) )).run();
-		(new GreenMessageRequest( this, "246325", "Oh, and KoLmafia says, \"Your shoes are mine, [censored]!\"", new AdventureResult( AdventureResult.MEAT, 2 ) )).run();
-		(new GreenMessageRequest( this, "246325", "But you're a bot, too, so you won't see this.  Sadness.", new AdventureResult( AdventureResult.MEAT, 3 ) )).run();
+		String [] buffs = settings.getProperty( "buffOptions" ).split( "," );
+		for ( int i = 0; i < buffs.length; ++i )
+		{
+			int value = Integer.parseInt( buffs[i] );
+			Object [] options = OptionsFrame.BUFF_OPTIONS[ value - 1 ];
+			String bot = (String)options[0];
+			int price = ((Integer)options[1]).intValue();
+			(new GreenMessageRequest( this, bot, "Buff me, baby!", new AdventureResult( AdventureResult.MEAT, price ) )).run();
+		}
 
 		resetContinueState();
 		updateDisplay( ENABLED_STATE, "Pwning of Clan Otori complete." );
