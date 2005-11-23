@@ -42,8 +42,7 @@ public class MailboxRequest extends KoLRequest
 	private static long lastRequest = System.currentTimeMillis();
 
 	private String boxname;
-	private int startingIndex;
-	private int endingIndex;
+	private int beginIndex;
 	private String action;
 
 	public static boolean isRequesting()
@@ -55,7 +54,7 @@ public class MailboxRequest extends KoLRequest
 	}
 
 	public MailboxRequest( KoLmafia client, String boxname )
-	{	this( client, boxname, 0 );
+	{	this( client, boxname, 1 );
 	}
 
 	public MailboxRequest( KoLmafia client, String boxname, KoLMailMessage message, String action )
@@ -83,22 +82,15 @@ public class MailboxRequest extends KoLRequest
 			addFormField( ((KoLMailMessage) messages[i]).getMessageID(), "on" );
 	}
 
-	private MailboxRequest( KoLmafia client, String boxname, int startingIndex )
-	{	this( client, boxname, startingIndex, Integer.MAX_VALUE );
-	}
-
-	private MailboxRequest( KoLmafia client, String boxname, int startingIndex, int endingIndex )
+	private MailboxRequest( KoLmafia client, String boxname, int beginIndex )
 	{
 		super( client, "messages.php" );
 		addFormField( "box", boxname );
-
-		if ( startingIndex != 0 )
-			addFormField( "begin", String.valueOf( startingIndex ) );
+		addFormField( "begin", String.valueOf( beginIndex ) );
 
 		this.action = null;
 		this.boxname = boxname;
-		this.startingIndex = startingIndex;
-		this.endingIndex = endingIndex;
+		this.beginIndex = beginIndex;
 	}
 
 	public void run()
@@ -173,28 +165,25 @@ public class MailboxRequest extends KoLRequest
 		// recent message sending (which would cause early
 		// termination of the retrieval loop).
 
-		nextMessageIndex = processMessage( totalMessages - endingIndex, nextMessageIndex, false );
-		nextMessageIndex = processMessage( Integer.MAX_VALUE, nextMessageIndex, true );
+		nextMessageIndex = processMessages( nextMessageIndex, true );
 
 		isRequesting = false;
 
 		if ( nextMessageIndex != -1 && lastMessageID != totalMessages )
-			(new MailboxRequest( client, boxname, lastMessageID )).run();
+			(new MailboxRequest( client, boxname, beginIndex + 1 )).run();
 		else
 			updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
 	}
 
-	private int processMessage( int iterations, int startIndex, boolean addMessage )
+	private int processMessages( int startIndex, boolean addMessage )
 	{
 		boolean shouldContinueParsing = true;
-		int remainingIterations = iterations;
 		int lastMessageIndex = startIndex;
 		int nextMessageIndex = lastMessageIndex;
 
 		String currentMessage;
-		while ( remainingIterations > 0 && shouldContinueParsing )
+		while ( nextMessageIndex != -1 && shouldContinueParsing )
 		{
-			--remainingIterations;
 			lastMessageIndex = nextMessageIndex;
 			nextMessageIndex = responseText.indexOf( "<td valign=top>", lastMessageIndex + 15 );
 
@@ -226,8 +215,10 @@ public class MailboxRequest extends KoLRequest
 				// records the message and updates whether or not you should continue.
 
 				if ( addMessage )
+				{
 					shouldContinueParsing &= BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( boxname, currentMessage ) :
 						KoLMailManager.addMessage( boxname, currentMessage );
+				}
 			}
 		}
 
