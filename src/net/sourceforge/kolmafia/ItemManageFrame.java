@@ -339,7 +339,7 @@ public class ItemManageFrame extends KoLFrame
 			for ( int i = 0; i < items.length; ++i )
 			{
 				currentItem = (String) items[i];
-				consumptionCount = purchaseMultiple ? getQuantity( "Buying multiple " + currentItem + "...", 1 ) : 1;
+				consumptionCount = purchaseMultiple ? getQuantity( "Buying multiple " + currentItem + "...", Integer.MAX_VALUE, 1 ) : 1;
 
 				if ( consumptionCount == 0 )
 					return;
