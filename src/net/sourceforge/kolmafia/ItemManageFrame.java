@@ -359,6 +359,7 @@ public class ItemManageFrame extends KoLFrame
 		public OutsideClosetPanel()
 		{
 			super( "Inside Inventory", KoLCharacter.getInventory() );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			setButtons( new String [] { "put in closet", "sell to npcs", "send to store", "donate to clan" },
 				new ActionListener [] { new PutInClosetListener( false, elementList ), new AutoSellListener( false, AutoSellRequest.AUTOSELL, elementList ), new AutoSellListener( false, AutoSellRequest.AUTOMALL, elementList ), new GiveToClanListener( false, elementList ) } );
 		}
@@ -369,6 +370,7 @@ public class ItemManageFrame extends KoLFrame
 		public InsideClosetPanel()
 		{
 			super( "Inside Closet", KoLCharacter.getCloset() );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			setButtons( new String [] { "put in bag", "sell to npcs", "send to store", "donate to clan" },
 				new ActionListener [] { new PutInClosetListener( true, elementList ), new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ), new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ), new GiveToClanListener( true, elementList ) } );
 		}

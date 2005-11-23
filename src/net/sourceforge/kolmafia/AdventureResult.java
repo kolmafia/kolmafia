@@ -563,10 +563,27 @@ public class AdventureResult implements Comparable, KoLConstants
 			AdventureResult ar = (AdventureResult) value;
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
 
-			String stringForm = ar.getName() + " (" + (autoSellValue < 0 ? "0" : df.format(autoSellValue)) + " meat)" +
-				((ar.count[0] == 1) ? "" : (" (" + df.format(ar.count[0]) + ")"));
+			StringBuffer stringForm = new StringBuffer();
+			stringForm.append( ar.getName() );
+			stringForm.append( " (" );
 
-			((JLabel) defaultComponent).setText( stringForm );
+			if ( autoSellValue < 0 )
+				stringForm.append( "no-autosell" );
+			else if ( autoSellValue == 0 )
+				stringForm.append( "no-trade" );
+			else
+				stringForm.append( df.format( autoSellValue ) + " meat" );
+
+			stringForm.append( ")" );
+			
+			if ( ar.count[0] > 1 )
+			{
+				stringForm.append( " (" );
+				stringForm.append( df.format( ar.count[0] ) );
+				stringForm.append( ")" );
+			}
+
+			((JLabel) defaultComponent).setText( stringForm.toString() );
 			return defaultComponent;
 		}
 	}
