@@ -263,7 +263,9 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( currentWeapon.startsWith( "star" ) )
 		{
-			starWeapon = new AdventureResult( currentWeapon );
+			// Stored in character as "star sword (+165)"
+			String current = currentWeapon.substring( 0, currentWeapon.indexOf( " (" ));
+			starWeapon = new AdventureResult( current );
 			needsWeapon = false;
 		}
 		else
