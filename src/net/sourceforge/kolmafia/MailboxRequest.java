@@ -161,12 +161,7 @@ public class MailboxRequest extends KoLRequest
 			return;
 		}
 
-		// First, skip over any messages which resulted from a
-		// recent message sending (which would cause early
-		// termination of the retrieval loop).
-
-		nextMessageIndex = processMessages( nextMessageIndex, true );
-
+		nextMessageIndex = processMessages( nextMessageIndex );
 		isRequesting = false;
 
 		if ( nextMessageIndex != -1 && lastMessageID != totalMessages )
@@ -175,7 +170,7 @@ public class MailboxRequest extends KoLRequest
 			updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
 	}
 
-	private int processMessages( int startIndex, boolean addMessage )
+	private int processMessages( int startIndex )
 	{
 		boolean shouldContinueParsing = true;
 		int lastMessageIndex = startIndex;
@@ -214,11 +209,8 @@ public class MailboxRequest extends KoLRequest
 				// At this point, the message is registered with the mail manager, which
 				// records the message and updates whether or not you should continue.
 
-				if ( addMessage )
-				{
-					shouldContinueParsing &= BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( boxname, currentMessage ) :
-						KoLMailManager.addMessage( boxname, currentMessage );
-				}
+				shouldContinueParsing &= BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( boxname, currentMessage ) :
+					KoLMailManager.addMessage( boxname, currentMessage );
 			}
 		}
 
