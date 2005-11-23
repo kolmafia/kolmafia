@@ -121,24 +121,40 @@ public class MailboxRequest extends KoLRequest
 			return;
 		}
 
-		// Determine how many messages there are, and how many there are left
-		// to go.  This will cause a lot of server load for those with lots
-		// of messages.  But!  This can be fixed by testing the mail manager
-		// to see if it thinks all the new messages have been retrieved.
+		// Determine how many messages there are, and how many there
+		// are left to go.  This will cause a lot of server load for
+		// those with lots of messages.	 But!  This can be fixed by
+		// testing the mail manager to see if it thinks all the new
+		// messages have been retrieved.
+
+		if ( responseText.indexOf( "There are no messages in this mailbox." ) != -1 )
+		{
+			updateDisplay( ENABLED_STATE, "Your mailbox is empty." );
+			isRequesting = false;
+			return;
+		}
 
 		int lastMessageID = 0;
 		int totalMessages = Integer.MAX_VALUE;
 
 		try
 		{
-			Matcher messageCountMatcher = Pattern.compile( "\\d+" ).matcher(
-				responseText.substring( responseText.indexOf( " - " ) + 3, responseText.indexOf( "</b>" ) ) );
+			Matcher matcher = Pattern.compile( "Messages: \\w*?, page \\d* \\(\\d* - (\\d*) of (\\d*)\\)</b>" ).matcher( responseText );
 
-			messageCountMatcher.find();
-			lastMessageID = df.parse( messageCountMatcher.group() ).intValue();
-
-			messageCountMatcher.find( 4 );
-			totalMessages = df.parse( messageCountMatcher.group() ).intValue();
+			if ( matcher.find() )
+			{
+				lastMessageID = Integer.parseInt( matcher.group(1) );
+				totalMessages = Integer.parseInt( matcher.group(2) );
+			}
+			else
+			{
+				matcher = Pattern.compile( "Messages: \\w*?, page 1 \\((\\d*) messages\\)</b>" ).matcher( responseText );
+				if ( matcher.find() )
+				{
+					lastMessageID = Integer.parseInt( matcher.group(1) );
+					totalMessages = lastMessageID;
+				}
+			}
 		}
 		catch ( Exception e )
 		{
@@ -150,7 +166,6 @@ public class MailboxRequest extends KoLRequest
 			isRequesting = false;
 			return;
 		}
-
 
 		int nextMessageIndex = responseText.indexOf( "<td valign=top>" );
 
