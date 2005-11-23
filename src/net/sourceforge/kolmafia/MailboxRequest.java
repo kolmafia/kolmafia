@@ -63,7 +63,7 @@ public class MailboxRequest extends KoLRequest
 		super( client, "messages.php" );
 		addFormField( "box", boxname );
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "action", action );
+		addFormField( "the_action", action );
 
 		this.action = action;
 		this.boxname = boxname;
@@ -75,7 +75,7 @@ public class MailboxRequest extends KoLRequest
 		super( client, "messages.php" );
 		addFormField( "box", boxname );
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "action", action );
+		addFormField( "the_action", action );
 
 		this.action = action;
 		this.boxname = boxname;
