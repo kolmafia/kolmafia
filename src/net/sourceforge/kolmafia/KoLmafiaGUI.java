@@ -146,6 +146,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 			case 2:
 				KoLMessenger.initialize();
+				((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
+				((KoLFrame)previousDisplayer.getCreation()).dispose();
 				return;
 
 			case 3:
