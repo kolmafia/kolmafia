@@ -218,7 +218,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 					manaModifier -= 2;
 					break;
 
-				case 1235: // plexiglass pocketwatch
+				case 1232: // plexiglass pocketwatch
 
 					manaModifier -= 3;
 					break;
