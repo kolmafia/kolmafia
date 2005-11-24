@@ -49,6 +49,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	private static final Class [] SINGLE_INSTANCE =
 	{
 		BuffBotFrame.class,
+		BuffRequestFrame.class,
 		CalendarFrame.class,
 		CakeArenaFrame.class,
 		CharsheetFrame.class,
