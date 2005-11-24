@@ -360,8 +360,13 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Inside Inventory", KoLCharacter.getInventory() );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
-			setButtons( new String [] { "put in closet", "sell to npcs", "send to store", "donate to clan" },
-				new ActionListener [] { new PutInClosetListener( false, elementList ), new AutoSellListener( false, AutoSellRequest.AUTOSELL, elementList ), new AutoSellListener( false, AutoSellRequest.AUTOMALL, elementList ), new GiveToClanListener( false, elementList ) } );
+			setButtons( new String [] { "put in closet", "sell to npcs", "send to store", "put on display", "donate to clan" },
+				new ActionListener [] {
+					new PutInClosetListener( false, elementList ),
+					new AutoSellListener( false, AutoSellRequest.AUTOSELL, elementList ),
+					new AutoSellListener( false, AutoSellRequest.AUTOMALL, elementList ),
+					new PutOnDisplayListener( false, elementList ),
+					new GiveToClanListener( false, elementList ) } );
 		}
 	}
 
@@ -371,8 +376,13 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Inside Closet", KoLCharacter.getCloset() );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
-			setButtons( new String [] { "put in bag", "sell to npcs", "send to store", "donate to clan" },
-				new ActionListener [] { new PutInClosetListener( true, elementList ), new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ), new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ), new GiveToClanListener( true, elementList ) } );
+			setButtons( new String [] { "put in bag", "sell to npcs", "send to store", "put on display", "donate to clan" },
+				new ActionListener [] {
+					new PutInClosetListener( true, elementList ),
+					new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ),
+					new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ),
+					new PutOnDisplayListener( true, elementList ),
+					new GiveToClanListener( true, elementList ) } );
 		}
 	}
 
@@ -465,6 +475,23 @@ public class ItemManageFrame extends KoLFrame
 				return;
 
 			requests[ requests.length - 1 ] = new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH );
+			initializeTransfer();
+		}
+	}
+
+	private class PutOnDisplayListener extends TransferListener
+	{
+		public PutOnDisplayListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
+		{	super( "Showcasing", retrieveFromClosetFirst, elementList );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			Object [] items = initialSetup();
+			if ( items == null )
+				return;
+
+			requests[ requests.length - 1 ] = new MuseumRequest( client, items, true );
 			initializeTransfer();
 		}
 	}
