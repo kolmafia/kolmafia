@@ -329,7 +329,7 @@ public class SearchMallRequest extends KoLRequest
 			if ( npcStoreExists && !npcStoreAdded && npcStorePrice < price )
 			{
 				npcStoreAdded = true;
-				results.add( NPCStoreDatabase.getPurchaseRequest( client, itemName ) );
+				results.add( NPCStoreDatabase.getPurchaseRequest( itemName ) );
 			}
 
 			if ( !npcStoreExists || KoLCharacter.canInteract() )
@@ -356,7 +356,7 @@ public class SearchMallRequest extends KoLRequest
 		{
 			lastItemName = (String) itemNameIterator.next();
 			if ( NPCStoreDatabase.contains( lastItemName ) )
-				results.add( NPCStoreDatabase.getPurchaseRequest( client, lastItemName ) );
+				results.add( NPCStoreDatabase.getPurchaseRequest( lastItemName ) );
 		}
 
 		updateDisplay( ENABLED_STATE, results.size() == 0 ? "No results found." : "Search complete." );

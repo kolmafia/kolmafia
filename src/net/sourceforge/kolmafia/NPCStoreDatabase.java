@@ -69,7 +69,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		}
 	}
 
-	public static final MallPurchaseRequest getPurchaseRequest( KoLmafia client, String itemName )
+	public static final MallPurchaseRequest getPurchaseRequest( String itemName )
 	{
 		int itemIndex = npcstoreTable[4].indexOf( new Integer( TradeableItemDatabase.getItemID( itemName ) ) );
 
@@ -91,7 +91,7 @@ public class NPCStoreDatabase extends KoLDatabase
 	}
 
 	public static final boolean contains( String itemName )
-	{	return npcstoreTable[4].contains( new Integer( TradeableItemDatabase.getItemID( itemName ) ) );
+	{	return getPurchaseRequest( itemName ) != null;
 	}
 
 	public static final int getNPCStorePrice( String itemName )
