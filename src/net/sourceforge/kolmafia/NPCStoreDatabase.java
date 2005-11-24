@@ -91,7 +91,7 @@ public class NPCStoreDatabase extends KoLDatabase
 	}
 
 	public static final boolean contains( String itemName )
-	{	return getPurchaseRequest( itemName ) != null;
+	{	return npcstoreTable[4].contains( new Integer( TradeableItemDatabase.getItemID( itemName ) ) ) && getPurchaseRequest( itemName ) != null;
 	}
 
 	public static final int getNPCStorePrice( String itemName )
