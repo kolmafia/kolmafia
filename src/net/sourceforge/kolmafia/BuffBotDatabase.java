@@ -36,7 +36,8 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Iterator;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 
 /**
@@ -49,26 +50,58 @@ import java.util.ArrayList;
 
 public class BuffBotDatabase extends KoLDatabase
 {
-	// List of { "bot", skill, { { price, turns }, ... } }
-	private static List buffList;
+	// All buffs: skill #, display name, abbreviation
+	private static final Object [][] buffs =
+	{
+		// Accordion Thief Buffs
+		{ new Integer(6003), "Antiphon of Aptitude", "Antiphon" },
+		{ new Integer(6004), "Moxious Madrigal", "Madrigal" },
+		{ new Integer(6005), "Canticle of Celerity", "Celerity" },
+		{ new Integer(6006), "Polka of Plenty", "Polka" },
+		{ new Integer(6007), "Magical Mojomuscular Melody", "MMMelody" },
+		{ new Integer(6008), "Power Ballad of the Arrowsmith", "Power Ballad" },
+		{ new Integer(6009), "Anthem of Absorption", "Anthem" },
+		{ new Integer(6010), "Phat Loot Lyric", "Phat Loot" },
+		{ new Integer(6011), "Psalm of Pointiness", "Psalm" },
+		{ new Integer(6012), "Symphony of Destruction", "Symphony" },
+		{ new Integer(6013), "Shanty of Superiority", "Shanty" },
+		{ new Integer(6014), "Ode to Booze", "Ode" },
+
+		// Sauceress Buffs
+		{ new Integer(4007), "Elemental Saucesphere", "Elemental" },
+		{ new Integer(4008), "Jalape&ntilde;o Saucesphere", "Jalapeno" },
+		{ new Integer(4011), "Jaba&ntilde;ero Saucesphere", "Jabanero" },
+
+		// Turtle Tamer Buffs
+		{ new Integer(2007), "Ghostly Shell", "Ghostly" },
+		{ new Integer(2008), "Reptilian Fortitude", "Fortitude" },
+		{ new Integer(2009), "Empathy of the Newt", "Empathy" },
+		{ new Integer(2010), "Tenacity of the Snapper", "Tenacity" },
+		{ new Integer(2012), "Astral Shell", "Astral" }
+	};
+
+	// List of all Buffs
+	private static SortedListModel buffList;
 
 	static
 	{
-		// Initialize data
-		buffList = new ArrayList();
+		// Initialize data.
+		// Make the array
+		buffList = new SortedListModel();
 
-		// Current bot/skill pair we are working with
-		Object [] current = null;
+		// Fill it with Buff objects
+		for ( int i = 0; i < buffs.length; ++i )
+			buffList.add( new Buff( ((Integer)buffs[i][0]).intValue() ) );
 
 		// Open the data file
-		BufferedReader reader = getReader( "buffbots.dat" );
+		BufferedReader reader = getReader( "buffs.dat" );
 
 		// Read a line at a time
 
 		String [] data;
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 4 )
+			if ( data.length == 5 )
 			{
 				// Get the fields
 
@@ -76,10 +109,12 @@ public class BuffBotDatabase extends KoLDatabase
 
 				// Validate the fields
 
-				int skill = ClassSkillsDatabase.getSkillID( data[1] );
-				if ( skill < 0 )
+				String skillName = data[1];
+				Buff buff = findBuff( skillName );
+
+				if ( buff == null )
 				{
-					System.out.println( "Unknown buff: " + data[1] );
+					System.out.println( "Unknown buff: " + skillName );
 					continue;
 				}
 
@@ -105,72 +140,76 @@ public class BuffBotDatabase extends KoLDatabase
 					continue;
 				}
 
-				// Massage the data into a usable form.
-
-				// Make a new entry for each bot/buff pair.
-				if ( current == null ||
-				     !bot.equals( (String)current[0] ) ||
-				     skill != ((Integer)current[1]).intValue() )
+				int free;
+				try
 				{
-					current = new Object[3];
-					current[0] = bot;
-					current[1] = new Integer( skill );
-					current[2] = new ArrayList();
-
-					buffList.add( current );
+					free = Integer.parseInt( data[4] );
+				}
+				catch ( Exception e )
+				{
+					System.out.println( "Bad free: " + data[2] );
+					continue;
 				}
 
-				// Make a new price/turn pair
-				Object [] pair = new Object[2];
-				pair[0] = new Integer( price );
-				pair[1] = new Integer( turns );
-
-				// Append it to current entry
-				ArrayList pairs = (ArrayList)current[2];
-				pairs.add( pair );
+				// Add this offering to the buff
+				buff.addOffering( new Offering( bot, price, turns, free != 0 ) );
 			}
 		}
+	}
+
+	private static Buff findBuff( String name )
+	{
+		int skill = ClassSkillsDatabase.getSkillID( name );
+		Iterator iterator = buffList.iterator();
+
+		while ( iterator.hasNext() )
+		{
+			Buff buff = (Buff)iterator.next();
+			if ( skill == buff.getSkill() )
+			     return buff;
+		}
+
+		return null;
 	}
 
 	public static final int buffCount()
 	{	return buffList.size();
 	}
 
-	public static Object [] getBuff( int index )
-	{	return (Object [])buffList.get( index );
-	}
-
-	public static String getBuffBot( int index )
-	{
-		Object [] buff = getBuff( index );
-		String bot = (String)buff[0];
-		return bot;
+	private static Buff getBuff( int index )
+	{	return (Buff)buffList.get( index );
 	}
 
 	public static String getBuffName( int index )
-	{
-		Object [] buff = getBuff( index );
-		int skill = ((Integer)buff[1]).intValue();
-		String name = ClassSkillsDatabase.getSkillName( skill );
-		return name;
+	{	return getBuff( index ).getName();
+	}
+
+	public static int getBuffOfferingCount( int index )
+	{	return getBuff( index ).getOfferingCount();
+	}
+
+	public static String getBuffBot( int index1, int index2 )
+	{	return getBuff( index1 ).getOfferingBot( index2 );
 	}
 
 	public static int getBuffPrice( int index1, int index2 )
-	{
-		Object [] buff = getBuff( index1 );
-		ArrayList pairs = (ArrayList)buff[2];
-		Object [] pair = (Object [])pairs.get( index2 );
-		int price = ((Integer)pair[0]).intValue();
-		return price;
+	{	return getBuff( index1 ).getOfferingPrice( index2 );
 	}
 
 	public static int getBuffTurns( int index1, int index2 )
-	{
-		Object [] buff = getBuff( index1 );
-		ArrayList pairs = (ArrayList)buff[2];
-		Object [] pair = (Object [])pairs.get( index2 );
-		int turns = ((Integer)pair[1]).intValue();
-		return turns;
+	{	return getBuff( index1 ).getOfferingTurns( index2 );
+	}
+
+	public static long getBuffRate( int index1, int index2 )
+	{	return getBuff( index1 ).getOfferingRate( index2 );
+	}
+
+	public static boolean getBuffFree( int index1, int index2 )
+	{	return getBuff( index1 ).getOfferingFree( index2 );
+	}
+
+	public static String getBuffLabel( int index1, int index2, boolean compact )
+                {	return getBuff( index1 ).getOfferingLabel( index2, compact );
 	}
 
 	private static void printBuffs()
@@ -179,20 +218,175 @@ public class BuffBotDatabase extends KoLDatabase
 		System.out.println( count + " available buffs." );
 		for ( int i = 0; i < count; ++i )
 		{
-			Object [] buff = getBuff( i );
-			String bot = (String)buff[0];
-			int skill = ((Integer)buff[1]).intValue();
-			String name = ClassSkillsDatabase.getSkillName( skill );
-			ArrayList pairs = (ArrayList)buff[2];
+			String skill = getBuffName( i );
+			System.out.println( skill );
 
-			System.out.println( "Bot " + bot + " provides " + name );
-			for (int j = 0; j < pairs.size(); ++j )
-			{
-				Object [] pair = (Object [])pairs.get( j );
-				int price = ((Integer)pair[0]).intValue();
-				int turns = ((Integer)pair[1]).intValue();
-				System.out.println( "  " + turns + " turns for " + price + " meat");
-			}
+			int offerings = getBuffOfferingCount( i );
+			for (int j = 0; j < offerings; ++j )
+				System.out.println( "  " + getBuffLabel( i, j, false ) );
+		}
+	}
+
+	private static class Buff implements Comparable
+	{
+		int skill;
+		private SortedListModel offerings;
+		String name;
+
+		public Buff( int skill )
+		{
+			this.skill = skill;
+			this.offerings = new SortedListModel();
+			this.name = ClassSkillsDatabase.getSkillName( skill );
+		}
+
+		public void addOffering( Offering off )
+		{
+			offerings.add( off );
+		}
+
+		public int getSkill()
+		{	return skill;
+		}
+
+		public String getName()
+		{	return name;
+		}
+
+		public int getOfferingCount()
+		{	return offerings.size();
+		}
+
+		public Offering getOffering( int index )
+		{	return (Offering)offerings.get( index );
+		}
+
+		public String getOfferingBot( int index )
+		{	return getOffering( index).getBot();
+		}
+
+		public int getOfferingPrice( int index )
+		{	return getOffering( index).getPrice();
+		}
+
+		public int getOfferingTurns( int index )
+		{	return getOffering( index).getTurns();
+		}
+
+		public boolean getOfferingFree( int index )
+		{	return getOffering( index).getFree();
+		}
+
+		public long getOfferingRate( int index )
+		{	return getOffering( index).getRate();
+		}
+
+		public String getOfferingLabel( int index, boolean compact )
+		{	return getOffering( index).getLabel( compact );
+		}
+
+		public boolean equals( Object o )
+		{
+			if ( !(o instanceof Buff) || o == null )
+				return false;
+
+			Buff buff = (Buff) o;
+			return name.equals( buff.name );
+		}
+
+		public int compareTo( Object o )
+		{
+			if ( !(o instanceof Buff) || o == null )
+				return -1;
+
+			Buff buff = (Buff) o;
+			return name.compareTo( buff.name );
+		}
+	}
+
+	private static class Offering implements Comparable
+	{
+		String bot;
+		int price;
+		int turns;
+		boolean free;
+		long rate;
+
+		public Offering( String bot, int price, int turns, boolean free )
+		{
+			this.bot = bot;
+			this.price = price;
+			this.turns = turns;
+			this.free = free;
+			this.rate = (100 * (long)price) / turns;
+		}
+
+		public String getBot()
+		{	return bot;
+		}
+
+		public int getPrice()
+		{	return price;
+		}
+
+		public int getTurns()
+		{	return turns;
+		}
+
+		public boolean getFree()
+		{	return free;
+		}
+
+		public long getRate()
+		{	return rate;
+		}
+
+		public String getLabel( boolean compact )
+		{
+			String rate = ff.format( (double)(this.rate / 100.0) );
+
+			if ( compact )
+				return turns + " for " + price + " (" + rate + " M/T) from " + bot;
+
+			String isFree = free ? " (once a day)" : "";
+			return turns + " turns for " + price + " meat (" + rate + " meat/turn) from " + bot + isFree;
+		}
+
+		public boolean equals( Object o )
+		{
+			if ( o == null || !(o instanceof Offering) )
+				return false;
+
+			Offering off = (Offering) o;
+			return bot.equals( off.bot ) &&
+				price == off.price &&
+				turns == off.turns &&
+				free == off.free;
+		}
+
+		public int compareTo( Object o )
+		{
+			if ( o == null || !(o instanceof Offering) )
+				return -1;
+
+			Offering off = (Offering) o;
+
+			// First compare rates
+			if ( rate < off.rate )
+				return -1;
+
+			if ( rate > off.rate )
+				return 1;
+
+			// If rates are equal compare turns
+
+			if ( turns < off.turns )
+				return -1;
+
+			if ( turns > off.turns )
+				return 1;
+
+			return 0;
 		}
 	}
 }

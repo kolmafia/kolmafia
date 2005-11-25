@@ -58,6 +58,9 @@ public interface KoLConstants extends UtilityConstants
 	public static final DecimalFormat df = new DecimalFormat(
 		"#,##0", new DecimalFormatSymbols( Locale.US ) );
 
+	public static final DecimalFormat ff = new DecimalFormat(
+		"#,##0.00", new DecimalFormatSymbols( Locale.US ) );
+
 	public static final SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd" );
 
 	public static final int NOCHANGE        = 0;

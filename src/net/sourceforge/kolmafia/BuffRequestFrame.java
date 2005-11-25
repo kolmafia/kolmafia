@@ -73,8 +73,8 @@ public class BuffRequestFrame extends KoLFrame
 		getContentPane().setLayout( new BorderLayout() );
 
 		BuffRequestPanel buffs = new BuffRequestPanel();
-		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		JComponentUtilities.setComponentSize( scroller, 600, 600 );
+		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JComponentUtilities.setComponentSize( scroller, 640, 600 );
 		getContentPane().add( scroller, BorderLayout.CENTER );
 	}
 
@@ -108,26 +108,22 @@ public class BuffRequestFrame extends KoLFrame
 				setLayout( new BorderLayout( 10, 10 ) );
 
 				this.index = index;
-				Object [] buff = BuffBotDatabase.getBuff( index );
 
-				ArrayList pairs = (ArrayList)buff[2];
-
+                                // Make a combo box and fill it with offerings
 				selects = new JComboBox();
-				for (int j = 0; j < pairs.size(); ++j )
+
+                                int count = BuffBotDatabase.getBuffOfferingCount( index );
+				for (int j = 0; j < count; ++j )
 				{
-					Object [] pair = (Object [])pairs.get( j );
-					int price = ((Integer)pair[0]).intValue();
-					int turns = ((Integer)pair[1]).intValue();
-					String label = turns + " turns for " + price + " meat";
+                                        String label = BuffBotDatabase.getBuffLabel( index, j , true );
 					selects.addItem( label );
 				}
 
 				// Now add the controls to the pane
 
 				// Label the box with the Skill name
-				int skill = ((Integer)buff[1]).intValue();
-				String skillName = ClassSkillsDatabase.getSkillName( skill );
-				JLabel label = new JLabel( skillName, JLabel.RIGHT );
+                                String name = BuffBotDatabase.getBuffName( index );
+				JLabel label = new JLabel( name, JLabel.RIGHT );
 				this.add( label, BorderLayout.WEST );
 
 				// Add the combo box of available buffs
@@ -147,10 +143,10 @@ public class BuffRequestFrame extends KoLFrame
 
 				public void run()
 				{
-					int selection = selects.getSelectedIndex();
-					String bot = BuffBotDatabase.getBuffBot( index );
-					int price = BuffBotDatabase.getBuffPrice( index, selection );
 					String buff = BuffBotDatabase.getBuffName( index );
+					int selection = selects.getSelectedIndex();
+					String bot = BuffBotDatabase.getBuffBot( index, selection );
+					int price = BuffBotDatabase.getBuffPrice( index, selection );
 					int turns = BuffBotDatabase.getBuffTurns( index, selection );
 					client.updateDisplay( DISABLED_STATE, "Buying " + turns + " turns of " + buff + " from " + bot );
 					(new GreenMessageRequest( client, bot, "Buff me, baby!", new AdventureResult( AdventureResult.MEAT, price ) )).run();
