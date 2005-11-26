@@ -83,7 +83,7 @@ public class BuffBotDatabase extends KoLDatabase
 		{ new Integer(2012), "Astral Shell", "Astral" }
 	};
 
-	// Buffs obtainable from statically configured Buffs
+	// Buffs obtainable from statically configured buffbots
 	private static BuffList staticBots;
 
 	// buffs.dat configures the statically configured buffbots
@@ -188,10 +188,7 @@ public class BuffBotDatabase extends KoLDatabase
 		}
 	}
 
-	// Buffs obtainable from dynamically configured Buffs
-	private static BuffList dynamicBots;
-
-	// Buffs obtainable from all public Buffs
+	// Buffs obtainable from all public buffbots
 	private static BuffList allBots = new BuffList();
 
 	public static int buffCount()
@@ -238,8 +235,9 @@ public class BuffBotDatabase extends KoLDatabase
 	{
 		client.updateDisplay( DISABLED_STATE, "Configuring dynamic buff prices" );
 
-		// Initialize list of offerings from dynamic buffbots
-		dynamicBots = new BuffList();
+		// List of all bots includes static + dynamic
+		allBots = new BuffList();
+		allBots.addBuffList( staticBots );
 
 		// Iterate over list of bots and configure each one
 		int botCount = bots.size();
@@ -252,11 +250,6 @@ public class BuffBotDatabase extends KoLDatabase
 
 			configureDynamicBot( client, name, id );
 		}
-
-		// List of all bots includes static + dynamic
-		allBots = new BuffList();
-		allBots.addBuffList( staticBots );
-		allBots.addBuffList( dynamicBots );
 
 		client.updateDisplay( ENABLED_STATE, "Buff prices fetched." );
 	}
@@ -335,8 +328,8 @@ public class BuffBotDatabase extends KoLDatabase
 			}
 		}
 
-		// Add these buffs to the dynamic buffs
-		dynamicBots.addBuffList( buffs );
+		// Add this bot's buffs to the global list
+		allBots.addBuffList( buffs );
 	}
 
 	private static class BuffList
