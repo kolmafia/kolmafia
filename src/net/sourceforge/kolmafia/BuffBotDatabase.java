@@ -192,32 +192,7 @@ public class BuffBotDatabase extends KoLDatabase
 	private static BuffList dynamicBots;
 
 	// Buffs obtainable from all public Buffs
-	private static BuffList allBots;
-
-	static
-	{
-		// Dynamic bots will be configured later
-		dynamicBots = new BuffList();
-
-		// Initial list of all bots therefore has only the static data
-		allBots = new BuffList();
-		allBots.addBuffList( staticBots );
-	}
-
-	private static void printBuffs()
-	{
-		int count = buffCount();
-		System.out.println( count + " available buffs." );
-		for ( int i = 0; i < count; ++i )
-		{
-			String skill = getBuffName( i );
-			System.out.println( skill );
-
-			int offerings = getBuffOfferingCount( i );
-			for (int j = 0; j < offerings; ++j )
-				System.out.println( "  " + getBuffLabel( i, j, false ) );
-		}
-	}
+	private static BuffList allBots = new BuffList();
 
 	public static int buffCount()
 	{	return allBots.buffCount();
@@ -225,6 +200,10 @@ public class BuffBotDatabase extends KoLDatabase
 
 	public static String getBuffName( int index )
 	{	return allBots.getBuffName( index );
+	}
+
+	public static String getBuffAbbreviation( int index )
+	{	return allBots.getBuffAbbreviation( index );
 	}
 
 	public static int getBuffOfferingCount( int index )
@@ -255,6 +234,111 @@ public class BuffBotDatabase extends KoLDatabase
 	{	return allBots.getBuffLabel( index1, index2, compact );
 	}
 
+	public static void configureBuffBots( KoLmafia client )
+	{
+		client.updateDisplay( DISABLED_STATE, "Configuring dynamic buff prices" );
+
+		// Initialize list of offerings from dynamic buffbots
+		dynamicBots = new BuffList();
+
+		// Iterate over list of bots and configure each one
+		int botCount = bots.size();
+
+		for ( int i = 0; i < botCount; ++i )
+		{
+			String [] entry = (String [])bots.get(i);
+			String name = entry[0];
+			String id = entry[1];
+
+			configureDynamicBot( client, name, id );
+		}
+
+		// List of all bots includes static + dynamic
+		allBots = new BuffList();
+		allBots.addBuffList( staticBots );
+		allBots.addBuffList( dynamicBots );
+
+		client.updateDisplay( ENABLED_STATE, "Buff prices fetched." );
+	}
+
+	private static void configureDynamicBot( KoLmafia client, String name, String id )
+	{
+		client.updateDisplay( NOCHANGE, "Fetching buff prices from " + name + "..." );
+
+		KoLRequest request = new KoLRequest( client, "displaycollection.php" );
+		request.addFormField( "who", id );
+		request.run();
+
+		String data = request.responseText;
+
+		// Look for start tag
+		int start = data.indexOf( "CONDENSED PRICE LIST" );
+		if ( start < 0 )
+			return;
+
+		// Look for end tag
+		int end = data.indexOf( "</td></tr></table>", start );
+		if ( end < 0 )
+			return;
+
+		// Focus on the data of interest
+		data = data.substring( start, end );
+
+		// Split it into lines
+		String lines[] = data.split( "<br>" );
+
+		// Make a BuffList to store what we parse
+		BuffList buffs = new BuffList();
+
+		// Parse data and add buffs to list
+
+		Buff current = null;
+		for (int i = 0; i < lines.length; ++i )
+		{
+			String line = lines[i];
+
+			if ( line.length() == 0 )
+				continue;
+
+			// If the line doesn't start with a digit, assume this
+			// is a buff abbreviation
+			if ( !Character.isDigit( line.charAt( 0 ) ) )
+			{
+				// Look up abbreviated buff name
+				current = buffs.findAbbreviation( line );
+				continue;
+			}
+
+			// If the line does start with a digit, it's a buff
+			// price. Make sure we have a buff.
+			if ( current == null )
+				continue;
+
+			// Parse standard format: <turns>-<price>(*)?
+			int hyphen = line.indexOf( "-" );
+			if ( hyphen < 0 )
+				continue;
+
+			int star = line.indexOf( "*" );
+			String num1 = line.substring( 0, hyphen );
+			String num2 = ( star > 0 ) ? line.substring( hyphen + 1, star ) : line.substring( hyphen + 1 );
+
+			try
+			{
+				int turns = Integer.parseInt( num1 );
+				int price = Integer.parseInt( num2 );
+				current.addOffering( new Offering( name, price, turns, star > 0 ) );
+			}
+			catch ( Exception e )
+			{
+				continue;
+			}
+		}
+
+		// Add these buffs to the dynamic buffs
+		dynamicBots.addBuffList( buffs );
+	}
+
 	private static class BuffList
 	{
 		private SortedListModel buffs;
@@ -263,14 +347,10 @@ public class BuffBotDatabase extends KoLDatabase
 		{
 			this.buffs = new SortedListModel();
 			for ( int i = 0; i < buffData.length; ++i )
-			{
-				Object [] data = buffData[i];
-				int skill = ((Integer)data[0]).intValue();
-				buffs.add( new Buff( skill ) );
-			}
+				buffs.add( new Buff( i ) );
 		}
 
-		private Buff findBuff( String name )
+		public Buff findBuff( String name )
 		{
 			int skill = ClassSkillsDatabase.getSkillID( name );
 			Iterator iterator = buffs.iterator();
@@ -279,6 +359,20 @@ public class BuffBotDatabase extends KoLDatabase
 			{
 				Buff buff = (Buff)iterator.next();
 				if ( skill == buff.getSkill() )
+					return buff;
+			}
+
+			return null;
+		}
+
+		public Buff findAbbreviation( String name )
+		{
+			Iterator iterator = buffs.iterator();
+
+			while ( iterator.hasNext() )
+			{
+				Buff buff = (Buff)iterator.next();
+				if ( name.equals( buff.getAbbreviation() ) )
 					return buff;
 			}
 
@@ -295,6 +389,10 @@ public class BuffBotDatabase extends KoLDatabase
 
 		public String getBuffName( int index )
 		{	return getBuff( index ).getName();
+		}
+
+		public String getBuffAbbreviation( int index )
+		{	return getBuff( index ).getAbbreviation();
 		}
 
 		public int getBuffOfferingCount( int index )
@@ -345,19 +443,38 @@ public class BuffBotDatabase extends KoLDatabase
 					buff.addOffering( bl.getBuffOffering( i, j ) );
 			}
 		}
+
+		private void print()
+		{
+			int count = buffCount();
+			System.out.println( count + " available buffs." );
+			for ( int i = 0; i < count; ++i )
+			{
+				String name = getBuffName( i );
+				String abbreviation = getBuffAbbreviation( i );
+				System.out.println( name + " (" + abbreviation + ")" );
+
+				int offerings = getBuffOfferingCount( i );
+				for (int j = 0; j < offerings; ++j )
+					System.out.println( "  " + getBuffLabel( i, j, false ) );
+			}
+		}
 	}
 
 	private static class Buff implements Comparable
 	{
 		int skill;
-		private SortedListModel offerings;
 		String name;
+		String abbreviation;
+		private SortedListModel offerings;
 
-		public Buff( int skill )
+		public Buff( int index )
 		{
-			this.skill = skill;
-			this.offerings = new SortedListModel();
+			Object [] data = buffData[index];
+			this.skill = ((Integer)data[0]).intValue();
 			this.name = ClassSkillsDatabase.getSkillName( skill );
+			this.abbreviation = (String)data[2];
+			this.offerings = new SortedListModel();
 		}
 
 		public void addOffering( Offering off )
@@ -371,6 +488,10 @@ public class BuffBotDatabase extends KoLDatabase
 
 		public String getName()
 		{	return name;
+		}
+
+		public String getAbbreviation()
+		{	return abbreviation;
 		}
 
 		public int getOfferingCount()

@@ -70,6 +70,10 @@ public class BuffRequestFrame extends KoLFrame
 	public BuffRequestFrame( KoLmafia client )
 	{
 		super( client, "Buff Requests" );
+
+		// Configure buffbot offerings
+		BuffBotDatabase.configureBuffBots( client );
+
 		getContentPane().setLayout( new BorderLayout() );
 
 		BuffRequestPanel buffs = new BuffRequestPanel();
@@ -109,20 +113,20 @@ public class BuffRequestFrame extends KoLFrame
 
 				this.index = index;
 
-                                // Make a combo box and fill it with offerings
+				// Make a combo box and fill it with offerings
 				selects = new JComboBox();
 
-                                int count = BuffBotDatabase.getBuffOfferingCount( index );
+				int count = BuffBotDatabase.getBuffOfferingCount( index );
 				for (int j = 0; j < count; ++j )
 				{
-                                        String label = BuffBotDatabase.getBuffLabel( index, j , true );
+					String label = BuffBotDatabase.getBuffLabel( index, j , false );
 					selects.addItem( label );
 				}
 
 				// Now add the controls to the pane
 
 				// Label the box with the Skill name
-                                String name = BuffBotDatabase.getBuffName( index );
+				String name = BuffBotDatabase.getBuffAbbreviation( index );
 				JLabel label = new JLabel( name, JLabel.RIGHT );
 				this.add( label, BorderLayout.WEST );
 
