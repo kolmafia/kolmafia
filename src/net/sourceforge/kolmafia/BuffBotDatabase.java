@@ -35,23 +35,26 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 
 /**
- * A static class which retrieves all the tradeable items available in
- * the Kingdom of Loathing and allows the client to do item look-ups.
- * The item list being used is a parsed and resorted list found on
- * Ohayou's Kingdom of Loathing website.  In order to decrease server
- * load, this item list is stored within the JAR archive.
+ * A static class which handles the officially "supported" buffbots.
+ *
+ * Buffbots can have their buff offerings statically listed in buffs.dat
+ *
+ * Alternatively, if they keep their display case up-to-date with the current
+ * price list - and use a "standard" format for listing prices, the bot is
+ * listed in bots.dat and KoLmafia will read and parse the display case
  */
 
 public class BuffBotDatabase extends KoLDatabase
 {
 	// All buffs: skill #, display name, abbreviation
-	private static final Object [][] buffs =
+	private static final Object [][] buffData =
 	{
 		// Accordion Thief Buffs
 		{ new Integer(6003), "Antiphon of Aptitude", "Antiphon" },
@@ -80,18 +83,15 @@ public class BuffBotDatabase extends KoLDatabase
 		{ new Integer(2012), "Astral Shell", "Astral" }
 	};
 
-	// List of all Buffs
-	private static SortedListModel buffList;
+	// Buffs obtainable from statically configured Buffs
+	private static BuffList staticBots;
 
+	// buffs.dat configures the statically configured buffbots
 	static
 	{
 		// Initialize data.
-		// Make the array
-		buffList = new SortedListModel();
 
-		// Fill it with Buff objects
-		for ( int i = 0; i < buffs.length; ++i )
-			buffList.add( new Buff( ((Integer)buffs[i][0]).intValue() ) );
+		staticBots = new BuffList();
 
 		// Open the data file
 		BufferedReader reader = getReader( "buffs.dat" );
@@ -110,7 +110,7 @@ public class BuffBotDatabase extends KoLDatabase
 				// Validate the fields
 
 				String skillName = data[1];
-				Buff buff = findBuff( skillName );
+				Buff buff = staticBots.findBuff( skillName );
 
 				if ( buff == null )
 				{
@@ -157,59 +157,51 @@ public class BuffBotDatabase extends KoLDatabase
 		}
 	}
 
-	private static Buff findBuff( String name )
+	// List of supported buffbots with parsable display cases
+	private static ArrayList bots;
+
+	// buffbots.dat lists dynamically configured buffbots
+	static
 	{
-		int skill = ClassSkillsDatabase.getSkillID( name );
-		Iterator iterator = buffList.iterator();
+		// Initialize data.
 
-		while ( iterator.hasNext() )
+		bots = new ArrayList();
+
+		// Open the data file
+		BufferedReader reader = getReader( "buffbots.dat" );
+
+		// Read a line at a time
+
+		String [] data;
+		while ( (data = readData( reader )) != null )
 		{
-			Buff buff = (Buff)iterator.next();
-			if ( skill == buff.getSkill() )
-			     return buff;
+			if ( data.length == 2 )
+			{
+				// { bot name, bot ID }
+				String [] pair = new String[2];
+
+				pair[0] = data[0];
+				pair[1] = data[1];
+
+				bots.add( pair );
+			}
 		}
-
-		return null;
 	}
 
-	public static final int buffCount()
-	{	return buffList.size();
-	}
+	// Buffs obtainable from dynamically configured Buffs
+	private static BuffList dynamicBots;
 
-	private static Buff getBuff( int index )
-	{	return (Buff)buffList.get( index );
-	}
+	// Buffs obtainable from all public Buffs
+	private static BuffList allBots;
 
-	public static String getBuffName( int index )
-	{	return getBuff( index ).getName();
-	}
+	static
+	{
+		// Dynamic bots will be configured later
+		dynamicBots = new BuffList();
 
-	public static int getBuffOfferingCount( int index )
-	{	return getBuff( index ).getOfferingCount();
-	}
-
-	public static String getBuffBot( int index1, int index2 )
-	{	return getBuff( index1 ).getOfferingBot( index2 );
-	}
-
-	public static int getBuffPrice( int index1, int index2 )
-	{	return getBuff( index1 ).getOfferingPrice( index2 );
-	}
-
-	public static int getBuffTurns( int index1, int index2 )
-	{	return getBuff( index1 ).getOfferingTurns( index2 );
-	}
-
-	public static long getBuffRate( int index1, int index2 )
-	{	return getBuff( index1 ).getOfferingRate( index2 );
-	}
-
-	public static boolean getBuffFree( int index1, int index2 )
-	{	return getBuff( index1 ).getOfferingFree( index2 );
-	}
-
-	public static String getBuffLabel( int index1, int index2, boolean compact )
-                {	return getBuff( index1 ).getOfferingLabel( index2, compact );
+		// Initial list of all bots therefore has only the static data
+		allBots = new BuffList();
+		allBots.addBuffList( staticBots );
 	}
 
 	private static void printBuffs()
@@ -224,6 +216,134 @@ public class BuffBotDatabase extends KoLDatabase
 			int offerings = getBuffOfferingCount( i );
 			for (int j = 0; j < offerings; ++j )
 				System.out.println( "  " + getBuffLabel( i, j, false ) );
+		}
+	}
+
+	public static int buffCount()
+	{	return allBots.buffCount();
+	}
+
+	public static String getBuffName( int index )
+	{	return allBots.getBuffName( index );
+	}
+
+	public static int getBuffOfferingCount( int index )
+	{	return allBots.getBuffOfferingCount( index );
+	}
+
+	public static String getBuffBot( int index1, int index2 )
+	{	return allBots.getBuffBot( index1, index2 );
+	}
+
+	public static int getBuffPrice( int index1, int index2 )
+	{	return allBots.getBuffPrice( index1, index2 );
+	}
+
+	public static int getBuffTurns( int index1, int index2 )
+	{	return allBots.getBuffTurns( index1, index2 );
+	}
+
+	public static long getBuffRate( int index1, int index2 )
+	{	return allBots.getBuffRate( index1, index2 );
+	}
+
+	public static boolean getBuffFree( int index1, int index2 )
+	{	return allBots.getBuffFree( index1, index2 );
+	}
+
+	public static String getBuffLabel( int index1, int index2, boolean compact )
+	{	return allBots.getBuffLabel( index1, index2, compact );
+	}
+
+	private static class BuffList
+	{
+		private SortedListModel buffs;
+
+		public BuffList()
+		{
+			this.buffs = new SortedListModel();
+			for ( int i = 0; i < buffData.length; ++i )
+			{
+				Object [] data = buffData[i];
+				int skill = ((Integer)data[0]).intValue();
+				buffs.add( new Buff( skill ) );
+			}
+		}
+
+		private Buff findBuff( String name )
+		{
+			int skill = ClassSkillsDatabase.getSkillID( name );
+			Iterator iterator = buffs.iterator();
+
+			while ( iterator.hasNext() )
+			{
+				Buff buff = (Buff)iterator.next();
+				if ( skill == buff.getSkill() )
+					return buff;
+			}
+
+			return null;
+		}
+
+		public int buffCount()
+		{	return buffs.size();
+		}
+
+		private Buff getBuff( int index )
+		{	return (Buff)buffs.get( index );
+		}
+
+		public String getBuffName( int index )
+		{	return getBuff( index ).getName();
+		}
+
+		public int getBuffOfferingCount( int index )
+		{	return getBuff( index ).getOfferingCount();
+		}
+
+		public Offering getBuffOffering( int index1, int index2 )
+		{	return getBuff( index1 ).getOffering( index2 );
+		}
+
+		public String getBuffBot( int index1, int index2 )
+		{	return getBuff( index1 ).getOfferingBot( index2 );
+		}
+
+		public int getBuffPrice( int index1, int index2 )
+		{	return getBuff( index1 ).getOfferingPrice( index2 );
+		}
+
+		public int getBuffTurns( int index1, int index2 )
+		{	return getBuff( index1 ).getOfferingTurns( index2 );
+		}
+
+		public long getBuffRate( int index1, int index2 )
+		{	return getBuff( index1 ).getOfferingRate( index2 );
+		}
+
+		public boolean getBuffFree( int index1, int index2 )
+		{	return getBuff( index1 ).getOfferingFree( index2 );
+		}
+
+		public String getBuffLabel( int index1, int index2, boolean compact )
+		{	return getBuff( index1 ).getOfferingLabel( index2, compact );
+		}
+
+		public void addBuffList( BuffList bl )
+		{
+			// All BuffList objects have the same number of
+			// Buff structures in the sorted list.
+
+			int buffCount = buffCount();
+
+			for ( int i = 0; i < buffCount; ++i )
+			{
+				Buff buff = getBuff( i );
+				int offerings = bl.getBuffOfferingCount( i );
+
+				for ( int j = 0; j < offerings; ++j )
+					buff.addOffering( bl.getBuffOffering( i, j ) );
+			}
 		}
 	}
 
