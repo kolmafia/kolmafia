@@ -525,7 +525,7 @@ public class BuffBotDatabase extends KoLDatabase
 				return false;
 
 			Buff buff = (Buff) o;
-			return name.equals( buff.name );
+			return abbreviation.equals( buff.abbreviation );
 		}
 
 		public int compareTo( Object o )
@@ -534,7 +534,7 @@ public class BuffBotDatabase extends KoLDatabase
 				return -1;
 
 			Buff buff = (Buff) o;
-			return name.compareTo( buff.name );
+			return abbreviation.compareTo( buff.abbreviation );
 		}
 	}
 

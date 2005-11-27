@@ -581,7 +581,7 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		for ( int i = 0; i < IGNORABLE_CHOICES.length; ++i )
 			if ( choice.equals( IGNORABLE_CHOICES[i][0] ) )
-				return decision.equals( IGNORABLE_CHOICES[i][1] );
+				return !decision.equals( IGNORABLE_CHOICES[i][1] );
 		return true;
 	}
 
