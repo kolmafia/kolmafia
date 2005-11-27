@@ -368,7 +368,8 @@ public class OptionsFrame extends KoLFrame
 			{ "ignoreChoiceAdventures", "Ignore all choice adventures" },
 			{ "autoAbortMechaMech", "Auto-abort battles with the MagiMechaMech" },
 			{ "finishInBrowser", "Open browser window to finish aborted battles" },
-			{ "autoSatisfyWithMall", "Automatically buy missing items on conditions check" }
+			{ "autoSatisfyWithMall", "Automatically buy missing items on conditions check" },
+			{ "girlCalendar", "Display Girls of Loathing on Farmer's Almanac" }
 		};
 
 		/**

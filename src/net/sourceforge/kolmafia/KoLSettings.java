@@ -191,6 +191,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "finishInBrowser", "false" );
 		ensureProperty( "fontSize", "3" );
 		ensureProperty( "forceReconnect", "false" );
+		ensureProperty( "girlCalendar", "true" );
 		ensureProperty( "hpAutoRecover", "-0.1" );
 		ensureProperty( "hpRecoveryScript", "" );
 		ensureProperty( "http.proxyHost", "" );

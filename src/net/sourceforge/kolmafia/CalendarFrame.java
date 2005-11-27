@@ -246,8 +246,29 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		displayHTML.append( "<center><table><tr><td valign=top>" );
 
-		displayHTML.append( "<center><table border=1><tr><td align=center>drawn by <b><a href=\"http://elfwood.lysator.liu.se/loth/l/e/leigh/leigh.html\">SpaceMonkey</a></b></td></tr>" );
-		displayHTML.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/otherimages/bikini/" );
+		displayHTML.append( "<center><table border=1><tr><td align=center>drawn by <b>" );
+
+		// Display either girls or boys of loathing, as desired
+
+		String artistURL;
+		String artistName;
+		String artDirectory;
+
+		if ( ( client.getSettings().getProperty( "girlCalendar" ).equals( "true" ) ) )
+		{
+			artistURL = "http://elfwood.lysator.liu.se/loth/l/e/leigh/leigh.html";
+			artistName = "SpaceMonkey";
+			artDirectory = "bikini";
+		}
+		else
+		{
+			artistURL = "http://photobucket.com/albums/v367/cynnart/";
+			artistName = "Cynn";
+			artDirectory = "beefcake";
+		}
+
+		displayHTML.append( "<a href=\"" + artistURL + "\">" + artistName + "</a></b></td></tr>" );
+		displayHTML.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/otherimages/" + artDirectory + "/" );
 		displayHTML.append( CALENDARS[ MoonPhaseDatabase.getCalendarMonth( selectedDate ) ] );
 		displayHTML.append( ".gif\"></td></tr><tr><td align=center>" );
 		displayHTML.append( TODAY_FORMATTER.format( selectedDate ) );
