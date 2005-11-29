@@ -141,16 +141,23 @@ public class OptionsFrame extends KoLFrame
 		super( client, "Preferences" );
 		tabs = new JTabbedPane();
 
-		if ( client == null || KoLCharacter.getUsername().equals( "" ) )
+		addTab( "General", new GeneralOptionsPanel() );
+
+		JPanel connectPanel = new JPanel();
+		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
+
+		if ( client != null && KoLCharacter.getUsername().equals( "" ) )
 		{
-			JPanel connectPanel = new JPanel();
-			connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
 			connectPanel.add( new ServerSelectPanel() );
 			connectPanel.add( new ProxyOptionsPanel() );
-			addTab( "Connect", connectPanel );
+		}
+		else
+		{
+			connectPanel.add( Box.createVerticalStrut( 10 ) );
+			connectPanel.add( new JLabel( "    Sorry, these settings cannot be modified after login." ) );
 		}
 
-		addTab( "General", new GeneralOptionsPanel() );
+		addTab( "Connect", connectPanel );
 		addTab( "Areas", new AreaOptionsPanel() );
 		addTab( "Restore", new RestoreOptionsPanel() );
 		addTab( "Sewer", new SewerOptionsPanel() );
