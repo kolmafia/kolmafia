@@ -220,31 +220,28 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		if ( KoLCharacter.getUsername().equals( "" ) )
-		{
-			KoLCharacter.reset( loginname );
+		KoLCharacter.reset( loginname );
 
-			FamiliarData.reset();
-			CharpaneRequest.reset();
-			MushroomPlot.reset();
-			StoreManager.reset();
-			CakeArenaManager.reset();
-			MuseumManager.reset();
-			ClanManager.reset();
+		FamiliarData.reset();
+		CharpaneRequest.reset();
+		MushroomPlot.reset();
+		StoreManager.reset();
+		CakeArenaManager.reset();
+		MuseumManager.reset();
+		ClanManager.reset();
 
-			this.conditions.clear();
-			this.missingItems.clear();
+		this.conditions.clear();
+		this.missingItems.clear();
 
-			this.storage = new SortedListModel();
-			this.hunterItems = new SortedListModel();
-			this.restaurantItems = new LockableListModel();
-			this.microbreweryItems = new LockableListModel();
-			this.galaktikCures = new LockableListModel();
-			this.recentEffects = new ArrayList();
+		this.storage = new SortedListModel();
+		this.hunterItems = new SortedListModel();
+		this.restaurantItems = new LockableListModel();
+		this.microbreweryItems = new LockableListModel();
+		this.galaktikCures = new LockableListModel();
+		this.recentEffects = new ArrayList();
 
-			this.tally = new SortedListModel();
-			resetSessionTally();
-		}
+		this.tally = new SortedListModel();
+		resetSessionTally();
 
 		if ( !permitsContinue() )
 		{
@@ -285,12 +282,6 @@ public abstract class KoLmafia implements KoLConstants
 			deinitialize();
 			return;
 		}
-
-		// If this is a time-in request, this is all the
-		// data that is actually required.
-
-		if ( cachedLogin != null )
-			return;
 
 		// Retrieve campground data to see if the user is able to
 		// cook, make drinks or make toast.
