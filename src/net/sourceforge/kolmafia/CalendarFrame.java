@@ -262,7 +262,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		}
 		else
 		{
-			artistURL = "http://photobucket.com/albums/v367/cynnart/";
+			artistURL = "http://www.myimagehosting.com/album.php?u_id=2341UT9vj";
 			artistName = "Cynn";
 			artDirectory = "beefcake";
 		}
