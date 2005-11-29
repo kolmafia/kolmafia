@@ -143,13 +143,23 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	public void run()
 	{
 		// Before running the request, make sure you have enough
-		// mana to continue.
+		// mana and health to continue.
 
 		if ( !formSource.equals( "campground.php" ) )
 		{
 			client.autoRecoverHP();
 			client.autoRecoverMP();
 		}
+
+		// If auto-recovery failed, return from the run attempt.
+		// This prevents other messages from overriding the actual
+		// error message.
+
+		if ( !client.permitsContinue() )
+			return;
+
+		// Make sure there are enough adventures to run the request
+		// so that you don't spam the server unnecessarily.
 
 		if ( KoLCharacter.getAdventuresLeft() < request.getAdventuresUsed() )
 		{

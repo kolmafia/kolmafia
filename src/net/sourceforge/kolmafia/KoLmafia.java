@@ -1180,6 +1180,7 @@ public abstract class KoLmafia implements KoLConstants
 					if ( conditions.size() == 0 || useDisjunction )
 					{
 						updateDisplay( ENABLED_STATE, "Conditions satisfied." );
+						conditions.clear();
 						return;
 					}
 				}
@@ -1279,7 +1280,7 @@ public abstract class KoLmafia implements KoLConstants
 			}
 			else if ( currentIteration >= iterations && conditions.size() != 0 )
 				updateDisplay( ENABLED_STATE, "Requests completed!  (Conditions not yet met)" );
-			else if ( currentIteration >= iterations )
+			else if ( permitsContinue() && currentState != ERROR_STATE && currentIteration >= iterations )
 				updateDisplay( ENABLED_STATE, "Requests completed!" );
 		}
 		catch ( RuntimeException e )

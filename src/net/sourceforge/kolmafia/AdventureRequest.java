@@ -162,7 +162,6 @@ public class AdventureRequest extends KoLRequest
 
 		if ( !client.permitsContinue() )
 		{
-			client.updateDisplay( CANCELLED_STATE, "Adventuring terminated." );
 			isErrorState = true;
 			return;
 		}
