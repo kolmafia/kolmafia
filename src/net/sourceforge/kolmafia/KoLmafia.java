@@ -262,7 +262,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Get current moon phases
 
-		if ( !isQuickLogin && settings.getProperty( "skipMoonPhases" ).equals( "false" ) )
+		if ( !isQuickLogin )
 			(new MoonPhaseRequest( this )).run();
 
 		if ( !permitsContinue() )
@@ -298,7 +298,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the list of familiars which are available to
 		// the player, if they haven't opted to skip them.
 
-		if ( !isQuickLogin && settings.getProperty( "skipFamiliars" ).equals( "false" ) )
+		if ( !isQuickLogin )
 			(new FamiliarRequest( this )).run();
 
 		if ( !permitsContinue() )
@@ -322,7 +322,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If the person is in a mysticality sign, make sure
 		// you retrieve information from the restaurant.
 
-		if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
+		if ( !isQuickLogin && KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
 		{
 			updateDisplay( DISABLED_STATE, "Retrieving menu..." );
 			(new RestaurantRequest( this )).run();

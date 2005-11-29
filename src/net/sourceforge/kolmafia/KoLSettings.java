@@ -216,8 +216,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "saveState", "" );
 		ensureProperty( "serverFriendly", "false" );
 		ensureProperty( "showAdventureZone", "true" );
-		ensureProperty( "skipFamiliars", "false" );
-		ensureProperty( "skipMoonPhases", "false" );
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
 		ensureProperty( "useChatBasedBuffBot", "false" );
