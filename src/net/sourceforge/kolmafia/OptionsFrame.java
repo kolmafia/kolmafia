@@ -141,26 +141,22 @@ public class OptionsFrame extends KoLFrame
 		super( client, "Preferences" );
 		tabs = new JTabbedPane();
 
-		JPanel generalPanel = new JPanel();
-		generalPanel.setLayout( new BoxLayout( generalPanel, BoxLayout.Y_AXIS ) );
-		generalPanel.add( new StartupOptionsPanel() );
-		generalPanel.add( new GeneralOptionsPanel() );
+		if ( client == null || KoLCharacter.getUsername().equals( "" ) )
+		{
+			JPanel connectPanel = new JPanel();
+			connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
+			connectPanel.add( new ServerSelectPanel() );
+			connectPanel.add( new ProxyOptionsPanel() );
+			addTab( "Connect", connectPanel );
+		}
 
-		addTab( "General", generalPanel );
-
-		JPanel connectPanel = new JPanel();
-		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
-		connectPanel.add( new ServerSelectPanel() );
-		connectPanel.add( new ProxyOptionsPanel() );
-
-		addTab( "Connect", connectPanel );
-
+		addTab( "General", new GeneralOptionsPanel() );
 		addTab( "Areas", new AreaOptionsPanel() );
 		addTab( "Restore", new RestoreOptionsPanel() );
 		addTab( "Sewer", new SewerOptionsPanel() );
 		addTab( "Choice", new ChoiceOptionsPanel() );
 		addTab( "Chat", new ChatOptionsPanel() );
-		addTab( "Buff", new BuffOptionsPanel() );
+		addTab( "Otori", new OtoriOptionsPanel() );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
@@ -290,60 +286,6 @@ public class OptionsFrame extends KoLFrame
 			String excluded = getProperty( "zoneExcludeList" );
 			for ( int i = 0; i < zones.length; ++i )
 				options[i+2].setSelected( excluded.indexOf( zones[i] ) != -1 );
-		}
-	}
-
-	/**
-	 * This panel handles all of the things related to login
-	 * options, including which server to use for login and
-	 * all other requests, as well as the user's proxy settings
-	 * (if applicable).
-	 */
-
-	private class StartupOptionsPanel extends OptionsPanel
-	{
-		private JCheckBox [] optionBoxes;
-
-		private final String [][] options =
-		{
-			{ "skipFamiliars", "Skip terrarium retrieval" },
-			{ "skipMoonPhases", "Skip moon phase synchronization" }
-		};
-
-		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
-		 * place for the users to select their desired server and for them
-		 * to modify any applicable proxy settings.
-		 */
-
-		public StartupOptionsPanel()
-		{
-			super( "Startup Options", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ options.length ];
-
-			optionBoxes = new JCheckBox[ options.length ];
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i] = new JCheckBox();
-
-			for ( int i = 0; i < options.length; ++i )
-				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
-
-			setContent( elements, false );
-			actionCancelled();
-		}
-
-		protected void actionConfirmed()
-		{
-			for ( int i = 0; i < options.length; ++i )
-				setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
-
-			super.actionConfirmed();
-		}
-
-		protected void actionCancelled()
-		{
-			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
 		}
 	}
 
@@ -563,16 +505,16 @@ public class OptionsFrame extends KoLFrame
 	 * get from buffbots we've registered in the BUFF_OPTIONS table
 	 */
 
-	private class BuffOptionsPanel extends OptionsPanel
+	private class OtoriOptionsPanel extends OptionsPanel
 	{
 		private AbstractButton [] buffOptions;
 
 		/**
-		 * Constructs a new <code>BuffOptionsPanel</code> containing a
+		 * Constructs a new <code>OtoriOptionsPanel</code> containing a
 		 * list of cheap buffs available from stable public buffbots
 		 */
 
-		public BuffOptionsPanel()
+		public OtoriOptionsPanel()
 		{
 			super( "Free Buffs from Clan Otori", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
 
