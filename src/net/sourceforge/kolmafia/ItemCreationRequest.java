@@ -624,7 +624,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// item (since that's really the only way).
 
 			if ( actualQuantityNeeded > 0 )
-				ItemCreationRequest.getInstance( client, ingredient.getItemID(), actualQuantityNeeded ).run();
+			{
+				ItemCreationRequest creator = ItemCreationRequest.getInstance( client, ingredient.getItemID(), actualQuantityNeeded );
+				if ( creator == null )
+				{
+					client.updateDisplay( ERROR_STATE, "Insufficient " + ingredient.getName() + " to continue." );
+					client.cancelRequest();
+				}
+
+				creator.run();
+			}
 		}
 	}
 
