@@ -62,9 +62,20 @@ public class UntinkerRequest extends KoLRequest
 
 	public void run()
 	{
-		// For convenience purposes, check to see if the item can
-		// be constructed using meat paste, and only execute the
-		// request if it is known to be creatable through combination.
+		// If we are not untinkering an item, then the user wants to
+		// visit the untinker and get or fulfill the quest
+
+		if ( itemID == -1 )
+		{
+			updateDisplay( DISABLED_STATE, "Visiting the Untinker..." );
+			super.run();
+			updateDisplay( ENABLED_STATE, "Back from Untinker." );
+			return;
+		}
+
+		// Check to see if the item can be constructed using meat
+		// paste, and only execute the request if it is known to be
+		// creatable through combination.
 
 		if ( ConcoctionsDatabase.getMixingMethod( itemID ) != ItemCreationRequest.COMBINE )
 		{
@@ -73,19 +84,21 @@ public class UntinkerRequest extends KoLRequest
 			return;
 		}
 
+		updateDisplay( DISABLED_STATE, "Visiting the Untinker." );
+
 		// Check to see if the person has the untinkering accomplishment
 		// before starting.
 
 		if ( !KoLCharacter.hasAccomplishment( KoLCharacter.UNTINKER ) )
 		{
 			// If the person does not have the accomplishment, visit
-			// the untinkerer to ensure that they get the quest.
+			// the untinker to ensure that they get the quest.
 
 			UntinkerRequest request = new UntinkerRequest( client );
 			request.run();
 
 			// If they do not have a screwdriver, tell them they
-			// need to complete the untinkerer quest.
+			// need to complete the untinker quest.
 
 			if ( !KoLCharacter.getInventory().contains( SCREWDRIVER ) )
 			{
@@ -94,19 +107,20 @@ public class UntinkerRequest extends KoLRequest
 				return;
 			}
 
-			// Visiting the untinkerer automatically deducts a
+			// Visiting the untinker automatically deducts a
 			// screwdriver from the inventory.
 
 			KoLCharacter.addAccomplishment( KoLCharacter.UNTINKER );
 			KoLCharacter.processResult( SCREWDRIVER );
 		}
 
+		updateDisplay( DISABLED_STATE, "Untinkering an item..." );
+
 		super.run();
 
-		if ( itemID != -1 )
-		{
-			client.processResults( responseText );
-			client.processResult( new AdventureResult( itemID, -1 ) );
-		}
+		client.processResults( responseText );
+		client.processResult( new AdventureResult( itemID, -1 ) );
+
+		updateDisplay( ENABLED_STATE, "Untinkering complete" );
 	}
 }
