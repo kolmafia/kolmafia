@@ -298,43 +298,24 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 	}
 
-	protected void makeIngredients()
-	{
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
-
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			if ( !client.permitsContinue() )
-				return;
-
-			// First, calculate the multiplier that's needed
-			// for this ingredient to avoid not making enough
-			// intermediate ingredients and getting an error.
-
-			int multiplier = 0;
-			for ( int j = 0; j < ingredients.length; ++j )
-				if ( ingredients[i].getItemID() == ingredients[j].getItemID() )
-					multiplier += ingredients[i].getCount();
-
-			// Then, make enough of the ingredient in order
-			// to proceed with the concoction.
-
-			makeIngredient( ingredients[i], multiplier );
-		}
-
-		// If this is a combining request, you will need
-		// to make meat paste as well.
-
-		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
-			makeIngredient( new AdventureResult( MEAT_PASTE, quantityNeeded ), 1 );
-	}
-
 	/**
 	 * Helper routine which actually does the item combination.
 	 */
 
 	private void combineItems()
 	{
+		// Auto-create chef or bartender if one doesn't
+		// exist and the user has opted to repair.
+
+		if ( !autoRepairBoxServant() )
+			client.cancelRequest();
+
+		// If the request has been cancelled midway, be
+		// sure to return from here.
+
+		if ( !client.permitsContinue() )
+			return;
+
 		// First, make all the required ingredients for
 		// this concoction.
 
@@ -354,12 +335,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemID() ) );
 
 		addFormField( "quantity", String.valueOf( quantityNeeded ) );
-
-		// Auto-create chef or bartender if one doesn't
-		// exist and the user has opted to repair.
-
-		if ( !autoRepairBoxServant() )
-			client.cancelRequest();
 
 		// If the request has been cancelled midway, be
 		// sure to return from here.
@@ -582,6 +557,37 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		updateDisplay( DISABLED_STATE, "Repairing " + servant.getName() + "..." );
 		(new ConsumeItemRequest( client, servant )).run();
 		return true;
+	}
+
+	protected void makeIngredients()
+	{
+		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			if ( !client.permitsContinue() )
+				return;
+
+			// First, calculate the multiplier that's needed
+			// for this ingredient to avoid not making enough
+			// intermediate ingredients and getting an error.
+
+			int multiplier = 0;
+			for ( int j = 0; j < ingredients.length; ++j )
+				if ( ingredients[i].getItemID() == ingredients[j].getItemID() )
+					multiplier += ingredients[i].getCount();
+
+			// Then, make enough of the ingredient in order
+			// to proceed with the concoction.
+
+			makeIngredient( ingredients[i], multiplier );
+		}
+
+		// If this is a combining request, you will need
+		// to make meat paste as well.
+
+		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
+			makeIngredient( new AdventureResult( MEAT_PASTE, quantityNeeded ), 1 );
 	}
 
 	/**
