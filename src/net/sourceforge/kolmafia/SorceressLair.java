@@ -361,17 +361,19 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( RHYTHM.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
-			// The character needs to have at least 50 HP in order
-			// to play the skeleton dice game
+			// The character needs to have at least 50 HP, or 25% of
+			// maximum HP (whichever is greater) in order to play
+			// the skeleton dice game
 
-			client.autoRecoverHP( 50 );
+			int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
+			client.autoRecoverHP( healthNeeded );
 
 			// Verify that you have enough HP to proceed with the
 			// skeleton dice game.
 
-			if ( KoLCharacter.getCurrentHP() < 50 )
+			if ( KoLCharacter.getCurrentHP() < healthNeeded )
 			{
-				client.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );
+				client.updateDisplay( ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
 				return;
 			}
 		}
