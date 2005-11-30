@@ -698,8 +698,8 @@
 698	loathing eagle baby-doll shirt	11	50
 699	pirate shirt	11	55
 700	filthy hippy poncho	11	45
-701	floral print shirt	11	25
-702	coconut bikini top	11	25
+701	floral print shirt	11	105
+702	coconut bikini top	11	105
 703	goth kid t-shirt	11	105
 704	hamethyst	0	500
 705	baconstone	0	500
@@ -1348,3 +1348,6 @@
 1349	miniscule temporal rip	5	-1
 1350	1.21 jigawatts	6	75
 1352	redrum	2	35
+1370	rhinestone cowboy shirt	11	105
+1371	gingham blouse	11	105
+1372	souvenir ski t-shirt	11	105
