@@ -398,8 +398,6 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 			else if ( adventureID.equals( "71" ) )
 				client.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
-			else if ( adventureID.equals( "72" ) )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
 			return;
 		}
 

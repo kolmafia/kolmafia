@@ -636,6 +636,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				{
 					client.updateDisplay( ERROR_STATE, "Insufficient " + ingredient.getName() + " to continue." );
 					client.cancelRequest();
+					return;
 				}
 
 				creator.run();
