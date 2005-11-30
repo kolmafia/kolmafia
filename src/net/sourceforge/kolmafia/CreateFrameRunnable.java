@@ -57,6 +57,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		CommandDisplayFrame.class,
 		ContactListFrame.class,
 		CouncilFrame.class,
+		ExamineItemsFrame.class,
 		GearChangeFrame.class,
 		HagnkStorageFrame.class,
 		ItemManageFrame.class,

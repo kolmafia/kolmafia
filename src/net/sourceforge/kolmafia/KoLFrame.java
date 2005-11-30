@@ -521,6 +521,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		helpMenu.add( new DisplayPageMenuItem( "Sourceforge Page", "https://sourceforge.net/project/showfiles.php?group_id=126572&package_id=138474" ) );
 		helpMenu.add( new DisplayPageMenuItem( "Read Forum Thread", "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
 
+
+		if ( client == null || !client.inLoginState() )
+		{
+			helpMenu.add( new JSeparator() );
+			helpMenu.add( new DisplayFrameMenuItem( "Examine Items", ExamineItemsFrame.class ) );
+		}
+
 		return helpMenu;
 	}
 
