@@ -438,6 +438,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		commMenu.add( new InvocationMenuItem( "Chat of Loathing", KoLMessenger.class, "initialize" ) );
 		commMenu.add( new DisplayFrameMenuItem( "IcePenguin Express", MailboxFrame.class ) );
 		commMenu.add( new DisplayFrameMenuItem( "Administrate Clan", ClanManageFrame.class ) );
+		commMenu.add( new JSeparator() );
 		commMenu.add( new DisplayFrameMenuItem( "Run a KoL BuffBot", BuffBotFrame.class ) );
 		commMenu.add( new DisplayFrameMenuItem( "Patronize a BuffBot", BuffRequestFrame.class ) );
 
