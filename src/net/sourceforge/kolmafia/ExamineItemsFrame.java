@@ -63,7 +63,18 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ExamineItemsFrame extends KoLFrame
 {
-	private LockableListModel allItems = null;
+	private static LockableListModel allItems = null;
+
+	static
+	{
+		allItems = new LockableListModel();
+		for ( int i = 1; i < TradeableItemDatabase.ITEM_COUNT; ++i )
+		{
+			String name = TradeableItemDatabase.getItemName( i );
+			if ( name != null)
+				allItems.add( new AdventureResult( name, 0, false ) );
+		}
+	}
 
 	public ExamineItemsFrame( KoLmafia client )
 	{
@@ -81,7 +92,7 @@ public class ExamineItemsFrame extends KoLFrame
 	{
 		public ExamineItemsPanel()
 		{
-			super( "All KoL Items", "Sort by name", "Sort by item #", allKoLItems() );
+			super( "All KoL Items", "Sort by name", "Sort by item #", allItems );
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			actionConfirmed();
 		}
@@ -89,6 +100,7 @@ public class ExamineItemsFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			// Sort elements by name
+			elementList.clearSelection();
 			java.util.Collections.sort( allItems );
 			elementList.setCellRenderer( new ItemNumberCellRenderer() );
 		}
@@ -96,6 +108,7 @@ public class ExamineItemsFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			// Sort elements by item number
+			elementList.clearSelection();
 			java.util.Collections.sort( allItems, new ItemNumberComparator() );
 			elementList.setCellRenderer( new ItemNumberCellRenderer() );
 		}
@@ -125,22 +138,6 @@ public class ExamineItemsFrame extends KoLFrame
 			((JLabel) defaultComponent).setText( stringForm.toString() );
 			return defaultComponent;
 		}
-	}
-
-	private LockableListModel allKoLItems()
-	{
-		if ( allItems == null )
-		{
-			allItems = new LockableListModel();;
-			for ( int i = 1; i < TradeableItemDatabase.ITEM_COUNT; ++i )
-			{
-				String name = TradeableItemDatabase.getItemName( i );
-				if ( name != null)
-					allItems.add( new AdventureResult( name, 0, false ) );
-			}
-		}
-
-		return allItems;
 	}
 
 	private class ItemNumberComparator implements Comparator
