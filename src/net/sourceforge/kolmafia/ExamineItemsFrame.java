@@ -120,7 +120,7 @@ public class ExamineItemsFrame extends KoLFrame
 
 		tabs = new JTabbedPane();
 
-		items = new ExamineItemsPanel();
+		items = new ExamineItemsPanel( allItems );
 		JPanel itemsContainer = new JPanel();
 		itemsContainer.setLayout( new BorderLayout() );
 		itemsContainer.add( items, BorderLayout.CENTER );
@@ -187,6 +187,10 @@ public class ExamineItemsFrame extends KoLFrame
 			elementList.setCellRenderer( new EntryCellRenderer() );
 		}
 
+		public String IDNumberMapper( int id )
+		{	return "" + id;
+		}
+
 		private class ShowEntryAdapter extends MouseAdapter
 		{
 			public void mouseClicked( MouseEvent e )
@@ -199,7 +203,7 @@ public class ExamineItemsFrame extends KoLFrame
 					if ( !(entry instanceof Map.Entry ) )
 						return;
 
-					int id = ((Integer)((Map.Entry)entry).getValue()).intValue();
+					String id = IDNumberMapper( ((Integer)((Map.Entry)entry).getValue()).intValue() );
 					elementList.ensureIndexIsVisible( index );
 					openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
 				}
@@ -207,50 +211,14 @@ public class ExamineItemsFrame extends KoLFrame
 		}
 	}
 
-	private class ExamineItemsPanel extends ItemManagePanel
+	private class ExamineItemsPanel extends ItemLookupPanel
 	{
-		public ExamineItemsPanel()
-		{
-			super( "All KoL Items", "Sort by name", "Sort by item #", allItems );
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			elementList.addMouseListener( new ShowItemAdapter() );
-			actionConfirmed();
+		public ExamineItemsPanel( LockableListModel list )
+		{	super( list, "Items", "item", "whichitem" );
 		}
 
-		protected void actionConfirmed()
-		{
-			// Sort elements by name
-			elementList.clearSelection();
-			java.util.Collections.sort( allItems, new EntryNameComparator() );
-			elementList.setCellRenderer( new EntryCellRenderer() );
-		}
-
-		public void actionCancelled()
-		{
-			// Sort elements by item number
-			elementList.clearSelection();
-			java.util.Collections.sort( allItems, new EntryIDComparator() );
-			elementList.setCellRenderer( new EntryCellRenderer() );
-		}
-
-		private class ShowItemAdapter extends MouseAdapter
-		{
-			public void mouseClicked( MouseEvent e )
-			{
-				if ( e.getClickCount() == 2 )
-				{
-					int index = elementList.locationToIndex( e.getPoint() );
-					Object item = elementList.getModel().getElementAt( index );
-
-					if ( !(item instanceof Map.Entry ) )
-						return;
-
-					int id = ((Integer)((Map.Entry)item).getValue()).intValue();
-					String desc = TradeableItemDatabase.getDescriptionID( id );
-					elementList.ensureIndexIsVisible( index );
-					openRequestFrame( "desc_item.php?whichitem=" + desc );
-				}
-			}
+		public String IDNumberMapper( int id )
+		{	return TradeableItemDatabase.getDescriptionID( id );
 		}
 	}
 
