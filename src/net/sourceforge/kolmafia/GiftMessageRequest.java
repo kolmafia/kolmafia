@@ -107,6 +107,8 @@ public class GiftMessageRequest extends SendMessageRequest
 		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
 		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
 
+		// You can take from inventory (0) or Hagnks (1)
+		addFormField( "fromwhere", "0" );
 	}
 
 	public GiftMessageRequest( KoLmafia client, String recipient, String outsideMessage, String insideMessage,
@@ -129,6 +131,9 @@ public class GiftMessageRequest extends SendMessageRequest
 
 		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
 		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
+
+		// You can take from inventory (0) or Hagnks (1)
+		addFormField( "fromwhere", "0" );
 	}
 
 	protected int getCapacity()
