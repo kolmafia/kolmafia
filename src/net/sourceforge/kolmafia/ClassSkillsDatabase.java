@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 import java.util.Map;
 import java.util.TreeMap;
 import java.io.BufferedReader;
+import java.util.Iterator;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -232,5 +233,13 @@ public class ClassSkillsDatabase extends KoLDatabase
 		// three, no matter what.
 
 		manaModifier = Math.max( manaModifier, -3 );
+	}
+
+	/**
+	 * Returns an iterator over the entrySet of skills keyed by name
+	 * @return	The Iterator
+	 */
+	public static Iterator iterator()
+	{	return skillByName.entrySet().iterator();
 	}
 }

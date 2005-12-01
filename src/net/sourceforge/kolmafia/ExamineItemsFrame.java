@@ -73,6 +73,8 @@ public class ExamineItemsFrame extends KoLFrame
 	private JTabbedPane tabs;
 	private ExamineItemsPanel items;
 	private ExamineEffectsPanel effects;
+	private ExamineSkillsPanel skills;
+	private ExamineFamiliarsPanel familiars;
 
 	private static LockableListModel allItems;
 	static
@@ -94,9 +96,29 @@ public class ExamineItemsFrame extends KoLFrame
 			allEffects.add( effects.next() );
 	}
 
+	private static LockableListModel allSkills;
+	static
+	{
+		allSkills = new LockableListModel();
+
+		Iterator skills = ClassSkillsDatabase.iterator();
+		while ( skills.hasNext() )
+			allSkills.add( skills.next() );
+	}
+
+	private static LockableListModel allFamiliars;
+	static
+	{
+		allFamiliars = new LockableListModel();
+
+		Iterator familiars = FamiliarsDatabase.iterator();
+		while ( familiars.hasNext() )
+			allFamiliars.add( familiars.next() );
+	}
+
 	public ExamineItemsFrame( KoLmafia client )
 	{
-		super( client, "Examine Things" );
+		super( client, "Kingdom of Loathing Encyclopedia" );
 
 		tabs = new JTabbedPane();
 
@@ -105,6 +127,18 @@ public class ExamineItemsFrame extends KoLFrame
 		itemsContainer.setLayout( new BorderLayout() );
 		itemsContainer.add( items, BorderLayout.CENTER );
 		tabs.addTab( "Items", itemsContainer );
+
+		familiars = new ExamineFamiliarsPanel();
+		JPanel familiarsContainer = new JPanel();
+		familiarsContainer.setLayout( new BorderLayout() );
+		familiarsContainer.add( familiars, BorderLayout.CENTER );
+		tabs.addTab( "Familiars", familiarsContainer );
+
+		skills = new ExamineSkillsPanel();
+		JPanel skillsContainer = new JPanel();
+		skillsContainer.setLayout( new BorderLayout() );
+		skillsContainer.add( skills, BorderLayout.CENTER );
+		tabs.addTab( "Skills", skillsContainer );
 
 		effects = new ExamineEffectsPanel();
 		JPanel effectsContainer = new JPanel();
@@ -162,6 +196,98 @@ public class ExamineItemsFrame extends KoLFrame
 					String desc = TradeableItemDatabase.getDescriptionID( id );
 					elementList.ensureIndexIsVisible( index );
 					openRequestFrame( "desc_item.php?whichitem=" + desc );
+				}
+			}
+		}
+	}
+
+	private class ExamineFamiliarsPanel extends ItemManagePanel
+	{
+		public ExamineFamiliarsPanel()
+		{
+			super( "All KoL familiars", "Sort by name", "Sort by familiar #", allFamiliars );
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			elementList.addMouseListener( new ShowFamiliarAdapter() );
+			actionConfirmed();
+		}
+
+		protected void actionConfirmed()
+		{
+			// Sort elements by name
+			elementList.clearSelection();
+			java.util.Collections.sort( allFamiliars, new EntryNameComparator() );
+			elementList.setCellRenderer( new EntryCellRenderer() );
+		}
+
+		public void actionCancelled()
+		{
+			// Sort elements by familiar number
+			elementList.clearSelection();
+			java.util.Collections.sort( allFamiliars, new EntryIDComparator() );
+			elementList.setCellRenderer( new EntryCellRenderer() );
+		}
+
+		private class ShowFamiliarAdapter extends MouseAdapter
+		{
+			public void mouseClicked( MouseEvent e )
+			{
+				if ( e.getClickCount() == 2 )
+				{
+					int index = elementList.locationToIndex( e.getPoint() );
+					Object familiar = elementList.getModel().getElementAt( index );
+
+					if ( !(familiar instanceof Map.Entry ) )
+						return;
+
+					int id = ((Integer)((Map.Entry)familiar).getValue()).intValue();
+					elementList.ensureIndexIsVisible( index );
+					openRequestFrame( "desc_familiar.php?which=" + id );
+				}
+			}
+		}
+	}
+
+	private class ExamineSkillsPanel extends ItemManagePanel
+	{
+		public ExamineSkillsPanel()
+		{
+			super( "All KoL skills", "Sort by name", "Sort by skill #", allSkills );
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			elementList.addMouseListener( new ShowSkillAdapter() );
+			actionConfirmed();
+		}
+
+		protected void actionConfirmed()
+		{
+			// Sort elements by name
+			elementList.clearSelection();
+			java.util.Collections.sort( allSkills, new EntryNameComparator() );
+			elementList.setCellRenderer( new EntryCellRenderer() );
+		}
+
+		public void actionCancelled()
+		{
+			// Sort elements by skill number
+			elementList.clearSelection();
+			java.util.Collections.sort( allSkills, new EntryIDComparator() );
+			elementList.setCellRenderer( new EntryCellRenderer() );
+		}
+
+		private class ShowSkillAdapter extends MouseAdapter
+		{
+			public void mouseClicked( MouseEvent e )
+			{
+				if ( e.getClickCount() == 2 )
+				{
+					int index = elementList.locationToIndex( e.getPoint() );
+					Object skill = elementList.getModel().getElementAt( index );
+
+					if ( !(skill instanceof Map.Entry ) )
+						return;
+
+					int id = ((Integer)((Map.Entry)skill).getValue()).intValue();
+					elementList.ensureIndexIsVisible( index );
+					openRequestFrame( "desc_skill.php?whichskill=" + id );
 				}
 			}
 		}

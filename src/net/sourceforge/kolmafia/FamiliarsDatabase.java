@@ -191,4 +191,12 @@ public class FamiliarsDatabase extends KoLDatabase
 	public static Integer getFamiliarSkill( String name, int event )
 	{	return (Integer) eventSkillByName[ event - 1 ].get( getCanonicalName( name ) );
 	}
+
+	/**
+	 * Returns an iterator over the entrySet of familiars keyed by name
+	 * @return	The Iterator
+	 */
+	public static Iterator iterator()
+	{	return familiarByName.entrySet().iterator();
+	}
 }

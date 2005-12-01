@@ -525,7 +525,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( client == null || !client.inLoginState() )
 		{
 			helpMenu.add( new JSeparator() );
-			helpMenu.add( new DisplayFrameMenuItem( "Examine Things", ExamineItemsFrame.class ) );
+			helpMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
 		}
 
 		return helpMenu;
