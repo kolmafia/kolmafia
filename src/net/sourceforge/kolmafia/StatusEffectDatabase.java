@@ -40,6 +40,7 @@ import java.io.BufferedReader;
 
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -109,6 +110,14 @@ public class StatusEffectDatabase extends KoLDatabase
 	{
 		Object effectID = effectByName.get( getCanonicalName( effectName ) );
 		return effectID == null ? -1 : ((Integer)effectID).intValue();
+	}
+
+	/**
+	 * Returns an iterator over the entrySet of status effects keyed by id
+	 * @return	The Iterator
+	 */
+	public static Iterator iterator()
+	{	return effectByID.entrySet().iterator();
 	}
 
 	/**
