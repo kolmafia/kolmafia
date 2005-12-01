@@ -113,11 +113,11 @@ public class StatusEffectDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns an iterator over the entrySet of status effects keyed by id
+	 * Returns an iterator over the entrySet of status effects keyed by name
 	 * @return	The Iterator
 	 */
 	public static Iterator iterator()
-	{	return effectByID.entrySet().iterator();
+	{	return effectByName.entrySet().iterator();
 	}
 
 	/**

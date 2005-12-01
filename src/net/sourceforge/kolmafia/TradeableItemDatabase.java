@@ -375,4 +375,12 @@ public class TradeableItemDatabase extends KoLDatabase
 	public static final String getDescriptionID( int itemID )
 	{	return itemID == -1 || itemID >= ITEM_COUNT ? "" : descByID[ itemID ];
 	}
+
+	/**
+	 * Returns an iterator over the entrySet of items keyed by name
+	 * @return	The Iterator
+	 */
+	public static Iterator iterator()
+	{	return itemByName.entrySet().iterator();
+	}
 }

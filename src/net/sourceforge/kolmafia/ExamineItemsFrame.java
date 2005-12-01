@@ -78,12 +78,10 @@ public class ExamineItemsFrame extends KoLFrame
 	static
 	{
 		allItems = new LockableListModel();
-		for ( int i = 1; i < TradeableItemDatabase.ITEM_COUNT; ++i )
-		{
-			String name = TradeableItemDatabase.getItemName( i );
-			if ( name != null)
-				allItems.add( new AdventureResult( name, 0, false ) );
-		}
+
+		Iterator items = TradeableItemDatabase.iterator();
+		while ( items.hasNext() )
+			allItems.add( items.next() );
 	}
 
 	private static LockableListModel allEffects;
@@ -128,6 +126,7 @@ public class ExamineItemsFrame extends KoLFrame
 		{
 			super( "All KoL Items", "Sort by name", "Sort by item #", allItems );
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			elementList.addMouseListener( new ShowItemAdapter() );
 			actionConfirmed();
 		}
 
@@ -135,53 +134,35 @@ public class ExamineItemsFrame extends KoLFrame
 		{
 			// Sort elements by name
 			elementList.clearSelection();
-			java.util.Collections.sort( allItems );
-			elementList.setCellRenderer( new ItemCellRenderer() );
+			java.util.Collections.sort( allItems, new EntryNameComparator() );
+			elementList.setCellRenderer( new EntryCellRenderer() );
 		}
 
 		public void actionCancelled()
 		{
 			// Sort elements by item number
 			elementList.clearSelection();
-			java.util.Collections.sort( allItems, new ItemIDComparator() );
-			elementList.setCellRenderer( new ItemCellRenderer() );
+			java.util.Collections.sort( allItems, new EntryIDComparator() );
+			elementList.setCellRenderer( new EntryCellRenderer() );
 		}
 
-		private class ItemCellRenderer extends DefaultListCellRenderer
+		private class ShowItemAdapter extends MouseAdapter
 		{
-			public ItemCellRenderer()
-			{	setOpaque( true );
-			}
-
-			public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+			public void mouseClicked( MouseEvent e )
 			{
-				Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+				if ( e.getClickCount() == 2 )
+				{
+					int index = elementList.locationToIndex( e.getPoint() );
+					Object item = elementList.getModel().getElementAt( index );
 
-				if ( value == null || !(value instanceof AdventureResult) )
-					return defaultComponent;
+					if ( !(item instanceof Map.Entry ) )
+						return;
 
-				AdventureResult ar = (AdventureResult) value;
-
-				StringBuffer stringForm = new StringBuffer();
-				stringForm.append( ar.getName() );
-				stringForm.append( " (" );
-				stringForm.append( ar.getItemID() );
-				stringForm.append( ")" );
-
-				((JLabel) defaultComponent).setText( stringForm.toString() );
-				return defaultComponent;
-			}
-		}
-
-		private class ItemIDComparator implements Comparator
-		{
-			public int compare( Object o1, Object o2 )
-			{
-				if ( !(o1 instanceof AdventureResult ) ||
-				     !(o2 instanceof AdventureResult ) )
-					throw new ClassCastException();
-
-				return ((AdventureResult)o1).getItemID() - ((AdventureResult)o2).getItemID();
+					int id = ((Integer)((Map.Entry)item).getValue()).intValue();
+					String desc = TradeableItemDatabase.getDescriptionID( id );
+					elementList.ensureIndexIsVisible( index );
+					openRequestFrame( "desc_item.php?whichitem=" + desc );
+				}
 			}
 		}
 	}
@@ -200,70 +181,16 @@ public class ExamineItemsFrame extends KoLFrame
 		{
 			// Sort elements by name
 			elementList.clearSelection();
-			java.util.Collections.sort( allEffects, new EffectNameComparator() );
-			elementList.setCellRenderer( new EffectCellRenderer() );
+			java.util.Collections.sort( allEffects, new EntryNameComparator() );
+			elementList.setCellRenderer( new EntryCellRenderer() );
 		}
 
 		public void actionCancelled()
 		{
 			// Sort elements by item number
 			elementList.clearSelection();
-			java.util.Collections.sort( allEffects, new EffectIDComparator() );
-			elementList.setCellRenderer( new EffectCellRenderer() );
-		}
-
-		private class EffectCellRenderer extends DefaultListCellRenderer
-		{
-			public EffectCellRenderer()
-			{	setOpaque( true );
-			}
-
-			public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
-			{
-				Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-
-				if ( value == null || !(value instanceof Map.Entry ) )
-					return defaultComponent;
-
-				Map.Entry entry = (Map.Entry) value;
-
-				StringBuffer stringForm = new StringBuffer();
-				stringForm.append( (String)entry.getValue() );
-				stringForm.append( " (" );
-				stringForm.append( (Integer)entry.getKey() );
-				stringForm.append( ")" );
-
-				((JLabel) defaultComponent).setText( stringForm.toString() );
-				return defaultComponent;
-			}
-		}
-
-		private class EffectIDComparator implements Comparator
-		{
-			public int compare( Object o1, Object o2 )
-			{
-				if ( !(o1 instanceof Map.Entry ) ||
-				     !(o2 instanceof Map.Entry ) )
-					throw new ClassCastException();
-
-				int i1 = ((Integer)((Map.Entry)o1).getKey()).intValue();
-				int i2 = ((Integer)((Map.Entry)o2).getKey()).intValue();
-				return i1 - i2;
-			}
-		}
-
-		private class EffectNameComparator implements Comparator
-		{
-			public int compare( Object o1, Object o2 )
-			{
-				if ( !(o1 instanceof Map.Entry ) ||
-				     !(o2 instanceof Map.Entry ) )
-					throw new ClassCastException();
-
-				String s1 = (String)((Map.Entry)o1).getValue();
-				String s2 = (String)((Map.Entry)o2).getValue();
-				return s1.compareTo( s2 );
-			}
+			java.util.Collections.sort( allEffects, new EntryIDComparator() );
+			elementList.setCellRenderer( new EntryCellRenderer() );
 		}
 
 		private class ShowEffectAdapter extends MouseAdapter
@@ -278,11 +205,65 @@ public class ExamineItemsFrame extends KoLFrame
 					if ( !(item instanceof Map.Entry ) )
 						return;
 
-					int id = ((Integer)((Map.Entry)item).getKey()).intValue();
+					int id = ((Integer)((Map.Entry)item).getValue()).intValue();
 					elementList.ensureIndexIsVisible( index );
 					openRequestFrame( "desc_effect.php?whicheffect=" + id );
 				}
 			}
+		}
+	}
+
+	private class EntryCellRenderer extends DefaultListCellRenderer
+	{
+		public EntryCellRenderer()
+		{	setOpaque( true );
+		}
+
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+		{
+			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+
+			if ( value == null || !(value instanceof Map.Entry ) )
+				return defaultComponent;
+
+			Map.Entry entry = (Map.Entry) value;
+
+			StringBuffer stringForm = new StringBuffer();
+			stringForm.append( (String)entry.getKey() );
+			stringForm.append( " (" );
+			stringForm.append( (Integer)entry.getValue() );
+			stringForm.append( ")" );
+
+			((JLabel) defaultComponent).setText( stringForm.toString() );
+			return defaultComponent;
+		}
+	}
+
+	private class EntryIDComparator implements Comparator
+	{
+		public int compare( Object o1, Object o2 )
+		{
+			if ( !(o1 instanceof Map.Entry ) ||
+			     !(o2 instanceof Map.Entry ) )
+				throw new ClassCastException();
+
+			int i1 = ((Integer)((Map.Entry)o1).getValue()).intValue();
+			int i2 = ((Integer)((Map.Entry)o2).getValue()).intValue();
+			return i1 - i2;
+		}
+	}
+
+	private class EntryNameComparator implements Comparator
+	{
+		public int compare( Object o1, Object o2 )
+		{
+			if ( !(o1 instanceof Map.Entry ) ||
+			     !(o2 instanceof Map.Entry ) )
+				throw new ClassCastException();
+
+			String s1 = (String)((Map.Entry)o1).getKey();
+			String s2 = (String)((Map.Entry)o2).getKey();
+			return s1.compareTo( s2 );
 		}
 	}
 
