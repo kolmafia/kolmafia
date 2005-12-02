@@ -237,7 +237,7 @@ public class ChatFrame extends KoLFrame
 			public void setValue( int value )
 			{
 				if ( getValueIsAdjusting() )
-					autoscroll = getMaximum() - getVisibleAmount() - getValue() < 10;
+					autoscroll = getMaximum() - getVisibleAmount() - getValue() < 100;
 
 				if ( autoscroll || getValueIsAdjusting() )
 					super.setValue( value );
