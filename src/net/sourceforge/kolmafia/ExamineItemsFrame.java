@@ -188,7 +188,7 @@ public class ExamineItemsFrame extends KoLFrame
 		}
 
 		public String IDNumberMapper( int id )
-		{	return "" + id;
+		{	return String.valueOf( id );
 		}
 
 		private class ShowEntryAdapter extends MouseAdapter
