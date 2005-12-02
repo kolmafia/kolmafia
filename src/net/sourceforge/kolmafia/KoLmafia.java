@@ -89,22 +89,27 @@ public abstract class KoLmafia implements KoLConstants
 	protected int currentState;
 	protected boolean permitContinue;
 
-	protected int [] initialStats;
-	protected int [] fullStatGain;
+	protected int [] initialStats = new int[3];
+	protected int [] fullStatGain = new int[3];
 
-	protected SortedListModel saveStateNames;
-	protected List recentEffects;
+	protected SortedListModel saveStateNames = new SortedListModel();
+	protected List recentEffects = new ArrayList();
 
-	private TreeMap seenPlayerIDs;
-	private TreeMap seenPlayerNames;
+	private TreeMap seenPlayerIDs = new TreeMap();
+	private TreeMap seenPlayerNames = new TreeMap();
 
-	protected SortedListModel tally, storage;
-	protected SortedListModel missingItems, hunterItems;
-	protected LockableListModel restaurantItems, microbreweryItems, galaktikCures;
+	protected SortedListModel tally = new SortedListModel();
+	protected SortedListModel storage = new SortedListModel();
+	protected SortedListModel missingItems = new SortedListModel();
+	protected SortedListModel hunterItems = new SortedListModel();
+	protected LockableListModel restaurantItems = new LockableListModel();
+	protected LockableListModel microbreweryItems = new LockableListModel();
+	protected LockableListModel galaktikCures = new LockableListModel();
 
 	protected boolean useDisjunction;
-	protected SortedListModel conditions;
-	protected LockableListModel adventureList, encounterList;
+	protected SortedListModel conditions = new SortedListModel();
+	protected LockableListModel adventureList = new LockableListModel();
+	protected LockableListModel encounterList = new LockableListModel();
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -139,12 +144,8 @@ public abstract class KoLmafia implements KoLConstants
 		this.isLoggingIn = true;
 		this.useDisjunction = false;
 
-		this.initialStats = new int[3];
-		this.fullStatGain = new int[3];
-
 		this.settings = GLOBAL_SETTINGS;
 		this.macroStream = NullStream.INSTANCE;
-		this.saveStateNames = new SortedListModel();
 
 		String [] currentNames = GLOBAL_SETTINGS.getProperty( "saveState" ).split( "//" );
 		for ( int i = 0; i < currentNames.length; ++i )
@@ -156,14 +157,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		storeSaveStates();
 		deinitialize();
-
-		seenPlayerIDs = new TreeMap();
-		seenPlayerNames = new TreeMap();
-		conditions = new SortedListModel();
-		missingItems = new SortedListModel();
-
-		adventureList = new LockableListModel();
-		encounterList = new LockableListModel();
 	}
 
 	public boolean isEnabled()
@@ -233,14 +226,14 @@ public abstract class KoLmafia implements KoLConstants
 		this.conditions.clear();
 		this.missingItems.clear();
 
-		this.storage = new SortedListModel();
-		this.hunterItems = new SortedListModel();
-		this.restaurantItems = new LockableListModel();
-		this.microbreweryItems = new LockableListModel();
-		this.galaktikCures = new LockableListModel();
-		this.recentEffects = new ArrayList();
+		this.storage.clear();
+		this.hunterItems.clear();
+		this.restaurantItems.clear();
+		this.microbreweryItems.clear();
+		this.galaktikCures.clear();
+		this.recentEffects.clear();
 
-		this.tally = new SortedListModel();
+		this.tally.clear();
 		resetSessionTally();
 
 		if ( !permitsContinue() )
