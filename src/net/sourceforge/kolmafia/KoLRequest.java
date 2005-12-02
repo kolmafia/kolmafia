@@ -281,6 +281,17 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
+	 * Clears the data fields so that the descending class
+	 * can have a fresh set of data fields.  This allows
+	 * requests with variable numbers of parameters to be
+	 * reused.
+	 */
+	
+	protected void clearDataFields()
+	{	this.data.clear();
+	}
+
+	/**
 	 * Adds the given form field to the KoLRequest.  Descendant classes should
 	 * use this method if they plan on submitting forms to Kingdom of Loathing
 	 * before a call to the <code>super.run()</code> method.  Ideally, these
@@ -292,9 +303,16 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void addFormField( String name, String value )
 	{
+		String [] existingData = new String[ data.size() ];
+		data.toArray( existingData );
+
+		String encodedName = null;
+		String encodedValue = null;
+		
 		try
 		{
-			data.add( URLEncoder.encode( name, "UTF-8" ) + "=" + URLEncoder.encode( value, "UTF-8" ) );
+			encodedName = URLEncoder.encode( name, "UTF-8" ) + "=";
+			encodedValue = URLEncoder.encode( value, "UTF-8" );
 		}
 		catch ( Exception e )
 		{
@@ -304,7 +322,26 @@ public class KoLRequest implements Runnable, KoLConstants
 			// data (in case it's fine).
 
 			KoLmafia.getLogStream().println( "Could not encode: " + name + "=" + value );
+			data.add( name + "=" + value );
+			return;
 		}
+
+		// Make sure that when you're adding data
+		// fields, you don't submit duplicate fields.
+
+		for ( int i = 0; i < existingData.length; ++i )
+		{
+			if ( existingData[i].startsWith( encodedName ) )
+			{
+				data.set( i, encodedName + encodedValue );
+				return;
+			}
+		}
+
+		// If the data did not already exist, then
+		// add it to the end of the array.
+
+		data.add( encodedName + encodedValue );
 	}
 
 	/**

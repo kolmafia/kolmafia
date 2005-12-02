@@ -60,13 +60,15 @@ public class FightRequest extends KoLRequest
 	 */
 
 	public FightRequest( KoLmafia client )
-	{	this( client, 0 );
-	}
-
-	private FightRequest( KoLmafia client, int roundCount )
 	{
 		super( client, "fight.php" );
-		this.roundCount = roundCount;
+		this.roundCount = 0;
+	}
+
+	public void nextRound()
+	{
+		clearDataFields();
+		++this.roundCount;
 
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
@@ -164,7 +166,7 @@ public class FightRequest extends KoLRequest
 			// If this is the first round, then register the opponent
 			// you are fighting against.
 
-			if ( roundCount == 0 )
+			if ( roundCount == 1 )
 			{
 				Matcher encounterMatcher = Pattern.compile( "<td valign=center>You're fighting (.*?)</td>" ).matcher( responseText );
 
@@ -228,19 +230,19 @@ public class FightRequest extends KoLRequest
 			}
 			else
 			{
-				// The battle was not lost, but it was not won - therefore there
-				// are still a few rounds left to handle; because reopening a
-				// connection to an existing URL may cause unforeseen errors,
-				// start a new thread and allow this one to die.
-
-				(new FightRequest( client, roundCount + 1 )).run();
+				// Otherwise, you still have more rounds to fight.
+				// move onto the next round and then rerun the
+				// request.
+				
+				nextRound();
+				run();
 			}
 		}
 	}
 
 	public int getCombatRound()
 	{	return roundCount;
-        }
+	}	
 
 	private void finishInBrowser()
 	{

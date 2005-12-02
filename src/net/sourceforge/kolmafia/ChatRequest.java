@@ -170,6 +170,8 @@ public class ChatRequest extends KoLRequest
 	{
 		public void run()
 		{
+			ChatRequest request = new ChatRequest( client, lastSeen ); 
+			
 			while ( KoLMessenger.isRunning() )
 			{
 				// Before running the next request, you should wait for the
@@ -177,7 +179,9 @@ public class ChatRequest extends KoLRequest
 				// used for the KoLChat.
 
 				ChatRequest.delay( CHAT_DELAY );
-				(new ChatRequest( client, lastSeen )).run();
+				request.run();
+
+				request.addFormField( "lasttime", String.valueOf( lastSeen ) );
 			}
 
 			thread = null;
