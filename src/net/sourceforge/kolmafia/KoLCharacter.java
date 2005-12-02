@@ -1776,18 +1776,33 @@ public abstract class KoLCharacter extends StaticEntity
 		ConcoctionsDatabase.refreshConcoctions();
 
 		AdventureResult currentItem;
+		sellables.retainAll( inventory );
+		usables.retainAll( inventory );
+
 		Iterator itemIterator = inventory.iterator();
-		sellables.clear();  usables.clear();
+
 
 		while ( itemIterator.hasNext() )
 		{
 			currentItem = (AdventureResult) itemIterator.next();
 
-			if ( TradeableItemDatabase.isUsable( currentItem.getName() ) )
-				usables.add( currentItem );
+			if ( TradeableItemDatabase.isUsable( currentItem.getName() ) &&
+				currentItem.getCount( usables ) != currentItem.getCount() )
+			{
+				if ( currentItem.getCount( usables ) == 0 )
+					usables.add( currentItem );
+				else
+					usables.set( usables.indexOf( currentItem ), currentItem );
+			}
 
-			if ( TradeableItemDatabase.getPriceByID( currentItem.getItemID() ) != 0 )
-				sellables.add( currentItem );
+			if ( TradeableItemDatabase.getPriceByID( currentItem.getItemID() ) != 0 &&
+				currentItem.getCount( usables ) != currentItem.getCount() )
+			{
+				if ( currentItem.getCount( usables ) == 0 )
+					sellables.add( currentItem );
+				else
+					sellables.set( sellables.indexOf( currentItem ), currentItem );
+			}
 		}
 	}
 
