@@ -1838,9 +1838,16 @@ public abstract class KoLCharacter extends StaticEntity
 			setAdventuresLeft( getAdventuresLeft() + result.getCount() );
 			if ( result.getCount() < 0 )
 			{
-				Object [] effectsArray = getEffects().toArray();
-				for ( int i = 0; i < effectsArray.length; ++i )
-					AdventureResult.addResultToList( getEffects(), new AdventureResult( ((AdventureResult)effectsArray[i]).getName(), result.getCount() ) );
+				AdventureResult [] effectsArray = new AdventureResult[ getEffects().size() ];
+				getEffects().toArray( effectsArray );
+
+				for ( int i = effectsArray.length - 1; i >= 0; --i )
+				{
+					if ( effectsArray[i].getCount() < 0 - result.getCount() )
+						getEffects().remove( i );
+					else
+						getEffects().set( i, effectsArray[i].getInstance( effectsArray[i].getCount() + result.getCount() ) );
+				}					
 
 				setTotalTurnsUsed( getTotalTurnsUsed() + result.getCount() );
 			}

@@ -194,7 +194,11 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( isStatusEffect() )
 		{
 			this.itemID = -1;
+			String originalName = this.name;
 			this.name = StatusEffectDatabase.getEffectName( StatusEffectDatabase.getEffectID( name ) );
+
+			if ( this.name.startsWith( "Unknown" ) )
+				this.name = originalName;
 		}
 		else if ( isItem() )
 		{
@@ -445,11 +449,10 @@ public class AdventureResult implements Comparable, KoLConstants
 			return false;
 
 		AdventureResult ar = (AdventureResult) o;
-		if ( name == null || ar.name == null || count == null || ar.count == null)
+		if ( name == null || ar.name == null || count == null || ar.count == null )
 			return false;
 
-		return count.length == ar.count.length && (!ar.isItem() || (itemID == ar.itemID)) &&
-			KoLDatabase.getCanonicalName( name ).equalsIgnoreCase( KoLDatabase.getCanonicalName( ar.name ) );
+		return count.length == ar.count.length && (!ar.isItem() || (itemID == ar.itemID)) && name.equalsIgnoreCase( ar.name );
 	}
 
 	/**
@@ -769,7 +772,10 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	public AdventureResult getInstance( int quantity )
-	{	return isItem() ? new AdventureResult( itemID, quantity ) : new AdventureResult( name, quantity );
+	{
+		return isItem() ? new AdventureResult( itemID, quantity ) :
+			isStatusEffect() ? new AdventureResult( name, quantity, true ) :
+				new AdventureResult( name, quantity );
 	}
 
 	private AdventureResult getInstance( int [] count )
