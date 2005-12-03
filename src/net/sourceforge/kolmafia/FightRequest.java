@@ -63,6 +63,7 @@ public class FightRequest extends KoLRequest
 	{
 		super( client, "fight.php" );
 		this.roundCount = 0;
+		nextRound();
 	}
 
 	public void nextRound()
