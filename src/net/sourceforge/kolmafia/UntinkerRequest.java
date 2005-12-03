@@ -84,8 +84,6 @@ public class UntinkerRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( DISABLED_STATE, "Visiting the Untinker." );
-
 		// Check to see if the person has the untinkering accomplishment
 		// before starting.
 
