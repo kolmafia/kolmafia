@@ -176,6 +176,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "autoStockScript", "" );
 		ensureProperty( "battleAction", "attack" );
 		ensureProperty( "battleStop", "0.0" );
+		ensureProperty( "betweenBattleScript", "" );
 		ensureProperty( "browserBookmarks", "" );
 		ensureProperty( "buffBotCasting", "" );
 		ensureProperty( "buffBotMessageDisposal", "0" );

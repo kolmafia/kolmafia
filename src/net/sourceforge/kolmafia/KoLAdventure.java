@@ -34,6 +34,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 /**
  * An auxiliary class which stores runnable adventures so that they
  * can be created directly from a database.  Encapsulates the nature
@@ -149,6 +152,33 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			client.autoRecoverHP();
 			client.autoRecoverMP();
+
+			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" ) ;
+			if ( !scriptPath.equals( "" ) )
+			{
+				File betweenBattleScript = new File( scriptPath );
+
+				if ( betweenBattleScript.exists() )
+				{
+					try
+					{
+						(new KoLmafiaCLI( client, new FileInputStream( betweenBattleScript ) )).listenForCommands();
+					}
+					catch ( Exception e )
+					{
+						// If an exception is thrown, then cancel the request
+						// and echo an error message.
+
+						client.updateDisplay( ERROR_STATE, "Unexpected error in between-battle script." );
+						client.cancelRequest();
+					}
+				}
+				else
+				{
+					client.updateDisplay( ERROR_STATE, "Could not find between-battle script." );
+					client.cancelRequest();
+				}
+			}
 		}
 
 		// If auto-recovery failed, return from the run attempt.

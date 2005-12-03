@@ -371,6 +371,7 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox hpAutoRecoverSelect;
 		private JComboBox mpAutoRecoverSelect;
 		private JTextField hpRecoveryScriptField;
+		private JTextField betweenBattleScriptField;
 
 		/**
 		 * Constructs a new <code>RestoreOptionsPanel</code> containing a
@@ -386,6 +387,10 @@ public class OptionsFrame extends KoLFrame
 			battleStopSelect.addItem( "Never stop combat" );
 			for ( int i = 1; i <= 9; ++i )
 				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
+
+			// Add in the bewteen-adventures field
+
+			betweenBattleScriptField = new JTextField();
 
 			// All the components of autorecovery
 
@@ -403,18 +408,19 @@ public class OptionsFrame extends KoLFrame
 
 			// Add the elements to the panel
 
-			VerifiableElement [] elements = new VerifiableElement[7];
+			VerifiableElement [] elements = new VerifiableElement[8];
 			elements[0] = new VerifiableElement( "Stop Combat: ", battleStopSelect );
+			elements[1] = new VerifiableElement( "Between Battles: ", new ScriptSelectPanel( betweenBattleScriptField ) );
 
-			elements[1] = new VerifiableElement( "", new JLabel() );
+			elements[2] = new VerifiableElement( "", new JLabel() );
 
-			elements[2] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
-			elements[3] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
+			elements[3] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
+			elements[4] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
 
-			elements[4] = new VerifiableElement( "", new JLabel() );
+			elements[5] = new VerifiableElement( "", new JLabel() );
 
-			elements[5] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
-			elements[6] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
+			elements[6] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
+			elements[7] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
 
 			setContent( elements );
 			actionCancelled();
@@ -423,6 +429,7 @@ public class OptionsFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex()) / 10.0) ) );
+			setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
 			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
 			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
@@ -434,6 +441,7 @@ public class OptionsFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) );
+			betweenBattleScriptField.setText( getProperty( "betweenBattleScript" ) );
 			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
 			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
 			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
