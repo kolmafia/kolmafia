@@ -632,6 +632,8 @@ public abstract class SorceressLair extends StaticEntity
 			}
 
 			// Now use the components to make the SCUBA gear
+
+			KoLCharacter.refreshCalculatedLists();
 			ItemCreationRequest.getInstance( client, 734, 1 ).run();
 		}
 
