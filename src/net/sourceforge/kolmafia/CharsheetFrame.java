@@ -144,7 +144,7 @@ public class CharsheetFrame extends KoLFrame
 		namePanel.setLayout( new GridLayout( 2, 1 ) );
 		namePanel.add( new JLabel( KoLCharacter.getUsername() + " (#" + KoLCharacter.getUserID() + ")", JLabel.CENTER ) );
 
-		this.levelLabel = new JLabel( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassName(), JLabel.CENTER );
+		this.levelLabel = new JLabel( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassType(), JLabel.CENTER );
 		namePanel.add( levelLabel );
 
 		this.levelPanel = new JPanel();
