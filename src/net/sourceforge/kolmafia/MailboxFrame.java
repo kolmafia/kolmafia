@@ -394,7 +394,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				"Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 			{
 				if ( boxname.equals( "" ) )
-					KoLMailManager.saveMessages( KoLMailManager.getMessages( boxname ).toArray() );
+					KoLMailManager.saveMessages( KoLMailManager.getMessages( "Inbox" ).toArray() );
 				else
 					KoLMailManager.deleteMessages( boxname, KoLMailManager.getMessages( boxname ).toArray() );
 			}
