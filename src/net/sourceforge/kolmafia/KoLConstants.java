@@ -49,8 +49,8 @@ public interface KoLConstants extends UtilityConstants
 	public static final Random RNG = new Random();
 	public static final String LINE_BREAK = System.getProperty( "line.separator" );
 
-	public static final String VERSION_NAME = "KoLmafia v5.9";
-	public static final String VERSION_DATE = "Released November 20, 2005";
+	public static final String VERSION_NAME = "KoLmafia v6.0";
+	public static final String VERSION_DATE = "Released December 3, 2005";
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings();
 
 	public static final List existingFrames = new ArrayList();
