@@ -96,6 +96,9 @@ public class ChatRequest extends KoLRequest
 
 		if ( (actualMessage.equals( "/s" ) || actualMessage.equals( "/switch" )) && actualMessage.indexOf( " " ) != -1 )
 			KoLMessenger.switchConversation();
+
+		if ( actualMessage.equals( "/exit" ) )
+			KoLMessenger.dispose();
 	}
 
 	/**
@@ -170,8 +173,8 @@ public class ChatRequest extends KoLRequest
 	{
 		public void run()
 		{
-			ChatRequest request = new ChatRequest( client, lastSeen ); 
-			
+			ChatRequest request = new ChatRequest( client, lastSeen );
+
 			while ( KoLMessenger.isRunning() )
 			{
 				// Before running the next request, you should wait for the

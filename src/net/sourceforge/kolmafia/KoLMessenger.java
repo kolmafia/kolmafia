@@ -314,6 +314,11 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "2" ) )
 			System.exit(0);
 
+		if ( !isRunning )
+			return;
+
+		isRunning = false;
+
 		while ( !instantMessageFrames.isEmpty() )
 			removeChat( (String) instantMessageFrames.firstKey() );
 
@@ -329,7 +334,6 @@ public abstract class KoLMessenger extends StaticEntity
 			tabbedFrame.dispose();
 		}
 
-		isRunning = false;
 	}
 
 	/**
@@ -358,7 +362,8 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static final String getNormalizedContent( String originalContent )
 	{
-		String condensedContent = originalContent.replaceAll( "(</?p>)+", "<br>" );
+		String noImageContent = originalContent.replaceAll( "<img.*?>", "" );
+		String condensedContent = noImageContent.replaceAll( "(</?p>)+", "<br>" );
 		String noColorContent = condensedContent.replaceAll( "</?font.*?>", "" );
 		String noItalicsContent = noColorContent.replaceAll( "</?i>", "" );
 		String normalBreaksContent = noItalicsContent.replaceAll( "</?[Bb][Rr]>", "<br>" );
@@ -443,16 +448,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static void handleChatData( String content )
 	{
-		// If the exit command was issued, then deinitialize
-		// the chat.  Exit can be detected by seeing if there
-		// were any image tags in the content.
-
-		if ( content.indexOf( "<img" ) != -1 )
-		{
-			dispose();
-			return;
-		}
-
 		// Now that you know that there was no intent to exit
 		// chat, go ahead and split up the lines in chat.
 
