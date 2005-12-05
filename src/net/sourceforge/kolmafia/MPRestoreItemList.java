@@ -68,7 +68,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		// These MP restores come from NPCs, so they have a
 		// constant market value
 
-		list.add( new MPRestoreItem( "magical mystery juice", (int) (KoLCharacter.getLevel() * 1.5 + 4.0), 150 ) );
+		list.add( new MPRestoreItem( "magical mystery juice", (int) (KoLCharacter.getLevel() * 1.5 + 4.0), 100 ) );
 		list.add( new MPRestoreItem( "soda water", 4, 70 ) );
 
 		// On the other hand, these MP restores have a fairly
