@@ -86,12 +86,16 @@ public class CakeArenaRequest extends KoLRequest
 
 		int lastMatchIndex = 0;
 		Matcher opponentMatcher = Pattern.compile(
-			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?</b> (.*?)<br/?>(.*?)\\..*?</tr>" ).matcher( responseText );
+			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?<b>(.*?)</b> the (.*?)<br/?>(\\d*).*?</tr>" ).matcher( responseText );
 
 		while ( opponentMatcher.find( lastMatchIndex ) )
 		{
 			lastMatchIndex = opponentMatcher.end() + 1;
-			CakeArenaManager.registerOpponent( Integer.parseInt( opponentMatcher.group(1) ), opponentMatcher.group(2).substring(4), opponentMatcher.group(3) );
+			int id = Integer.parseInt( opponentMatcher.group(1) );
+			String name = opponentMatcher.group(2);
+			String race = opponentMatcher.group(3);
+			int weight = Integer.parseInt( opponentMatcher.group(4) );
+			CakeArenaManager.registerOpponent( id, name, race, weight );
 		}
 
 		updateDisplay( ENABLED_STATE, "Opponent list retrieved." );

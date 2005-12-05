@@ -55,9 +55,9 @@ public class CakeArenaManager extends StaticEntity
 	 * relates to the arena.
 	 */
 
-	public static void registerOpponent( int opponentID, String race, String weight )
+	public static void registerOpponent( int opponentID, String name, String race, int weight )
 	{
-		ArenaOpponent ao = new ArenaOpponent( opponentID, race, weight );
+		ArenaOpponent ao = new ArenaOpponent( opponentID, name, race, weight );
 
 		int index = opponentList.indexOf( ao );
 
@@ -174,22 +174,35 @@ public class CakeArenaManager extends StaticEntity
 	public static class ArenaOpponent
 	{
 		private int id;
+		private String name;
 		private String race;
+		private int weight;
 		private String description;
 
-		public ArenaOpponent( int id, String race, String weight )
+		public ArenaOpponent( int id, String name, String race, int weight )
 		{
 			this.id = id;
+			this.name = name;
 			this.race = race;
-			this.description = race + " (" + weight + ")";
+			this.weight = weight;
+			this.description = race + " (" + weight + " lbs)";
+			FamiliarsDatabase.downloadFamiliarImage( this.race );
 		}
 
 		public int getID()
 		{	return id;
 		}
 
+		public String getName()
+		{	return name;
+		}
+
 		public String getRace()
 		{	return race;
+		}
+
+		public int getWeight()
+		{	return weight;
 		}
 
 		public String toString()

@@ -402,6 +402,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			statusMenu.add( new DisplayFrameMenuItem( "Status Pane", CharsheetFrame.class ) );
 			statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", GearChangeFrame.class ) );
 			statusMenu.add( new DisplayFrameMenuItem( "Item Manager", ItemManageFrame.class ) );
+			statusMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
 
 			statusMenu.add( new JSeparator() );
 

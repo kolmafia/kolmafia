@@ -38,6 +38,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Iterator;
 import java.io.BufferedReader;
+import javax.swing.ImageIcon;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -173,6 +175,22 @@ public class FamiliarsDatabase extends KoLDatabase
 	{
 		Object familiarID = familiarByItem.get( getCanonicalName( item ) );
 		return familiarID == null ? -1 : ((Integer)familiarID).intValue();
+	}
+
+	public static void downloadFamiliarImage( int familiarID )
+	{	RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/familiar" + familiarID + ".gif" );
+	}
+
+	public static void downloadFamiliarImage( String name )
+	{	downloadFamiliarImage( getFamiliarID( name ) );
+	}
+
+	public static ImageIcon getFamiliarImage( int familiarID )
+	{	return JComponentUtilities.getSharedImage( "itemimages/familiar" + familiarID + ".gif" );
+	}
+
+	public static ImageIcon getFamiliarImage( String name )
+	{	return getFamiliarImage( getFamiliarID( name ) );
 	}
 
 	/**
