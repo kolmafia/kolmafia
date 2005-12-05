@@ -305,8 +305,8 @@ public class GearChangeFrame extends KoLFrame
 		public synchronized void actionPerformed( ActionEvent e )
 		{
 			// Ignore the event if the window is currently not
-			// shwoing, you're in the middle of changing items,
-			// or the frame is currently disabled, skip.
+			// showing, you're in the middle of changing items,
+			// or the frame is currently disabled.
 
 			if ( !isShowing() || isChanging || !isEnabled() )
 				return;

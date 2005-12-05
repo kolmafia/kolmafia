@@ -52,6 +52,7 @@ import javax.swing.JComponent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
@@ -79,6 +80,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 		"Hide and Seek"
 	};
 
+	private static final int BASE = 1;
+	private static final int BUFFED = 2;
+	private static final int TURNS = 3;
+
 	public FamiliarTrainingFrame( KoLmafia client )
 	{
 		super( client, "Familiar Training Tool" );
@@ -93,17 +98,24 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private class FamiliarTrainingPanel extends JPanel
 	{
 		FamiliarData familiar;
+		int weight;
 
 		// Components
 		FamiliarPanel familiarPanel;
 		OpponentsPanel opponentsPanel;
 		ButtonPanel buttonPanel;
 		ResultsPanel resultsPanel;
+		ChangePanel changePanel;
 
 		public FamiliarTrainingPanel()
 		{
 			setLayout( new BorderLayout( 10, 10 ) );
 
+			// Get current familiar & base weight
+			familiar = KoLCharacter.getFamiliar();
+			weight = familiar.getWeight();
+
+			// Put current familiar on top
 			familiarPanel = new FamiliarPanel();
 			add( familiarPanel, BorderLayout.NORTH );
 
@@ -118,6 +130,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Put results in center
 			resultsPanel = new ResultsPanel();
 			add( resultsPanel, BorderLayout.CENTER );
+
+			// Put familiar changer on bottom
+			changePanel = new ChangePanel();
+			add( changePanel, BorderLayout.SOUTH );
+
+			// Register a listener to keep it updated
+			KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new FamiliarRefresh() ) );
 		}
 
 		private class FamiliarPanel extends JPanel
@@ -133,34 +152,23 @@ public class FamiliarTrainingFrame extends KoLFrame
 				familiarLabel = new JLabel( "", JLabel.CENTER );
 				add( familiarLabel );
 
-				// Get current familiar
-				familiar = KoLCharacter.getFamiliar();
-
 				// Set the icon and label
 				refreshFamiliar();
-
-				// Register a listener to keep it updated
-				KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new FamiliarRefresh() ) );
 			}
 
 			private void refreshFamiliar()
 			{
-				familiarIcon.setIcon( FamiliarsDatabase.getFamiliarImage( familiar.getID() ) );
-
-				String label = familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace();
-				familiarLabel.setText( label );
-			}
-
-			private class FamiliarRefresh implements Runnable
-			{
-				public void run()
+				if ( familiar == FamiliarData.NO_FAMILIAR )
 				{
-					FamiliarData data = KoLCharacter.getFamiliar();
-					if ( data != familiar )
-					{
-						familiar = data;
-						refreshFamiliar();
-					}
+					familiarIcon.setIcon( null );
+					familiarLabel.setText( "(no familiar)" );
+				}
+				else
+				{
+					familiarIcon.setIcon( FamiliarsDatabase.getFamiliarImage( familiar.getID() ) );
+
+					String label = familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace();
+					familiarLabel.setText( label );
 				}
 			}
 		}
@@ -214,17 +222,22 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			JButton base;
 			JButton buffed;
+			JButton turns;
 
 			public ButtonPanel()
 			{
 				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-				base = new JButton( "Base" );
+				base = new JButton( "Base weight" );
 				base.addActionListener( new BaseListener() );
 				this.add( base );
 
-				buffed = new JButton( "Buffed" );
+				buffed = new JButton( "Buffed weight" );
 				buffed.addActionListener( new BuffedListener() );
 				this.add( buffed );
+
+				turns = new JButton( "Turns" );
+				turns.addActionListener( new TurnsListener() );
+				this.add( turns );
 			}
 
 			private class BaseListener implements ActionListener, Runnable
@@ -236,10 +249,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 				public void run()
 				{
 					// Prompt for goal
-					int goal = getGoal( "base" );
+					int goal = getQuantity( "Train up to what base weight?", 20, 20 );
 
 					// Level the familiar
-					levelFamiliar( client, goal, true );
+					levelFamiliar( client, goal, BASE );
 				}
 			}
 
@@ -252,16 +265,27 @@ public class FamiliarTrainingFrame extends KoLFrame
 				public void run()
 				{
 					// Prompt for goal
-					int goal = getGoal( "buffed" );
+					int goal = getQuantity( "Train up to what buffed weight?", 20, 20 );
 
 					// Level the familiar
-					levelFamiliar( client, goal, false );
+					levelFamiliar( client, goal, BUFFED );
 				}
 			}
 
-			private int getGoal( String type )
+			private class TurnsListener implements ActionListener, Runnable
 			{
-				return getQuantity( "Train up to what " + type + " weight?", 20, 20 );
+				public void actionPerformed( ActionEvent e )
+				{	(new DaemonThread( this )).start();
+				}
+
+				public void run()
+				{
+					// Prompt for goal
+					int goal = getQuantity( "Train for how many turns?", Integer.MAX_VALUE, 1 );
+
+					// Level the familiar
+					levelFamiliar( client, goal, TURNS );
+				}
 			}
 		}
 
@@ -279,6 +303,80 @@ public class FamiliarTrainingFrame extends KoLFrame
 				JComponentUtilities.setComponentSize( scroller, 400, 400 );
 
 				add( scroller, BorderLayout.CENTER );
+			}
+		}
+
+		private class ChangePanel extends JPanel
+		{
+			private JComboBox familiars;
+			private boolean isChanging = false;
+
+			public ChangePanel()
+			{
+				familiars = new ChangeComboBox( KoLCharacter.getFamiliarList() );
+				add( familiars );
+			}
+
+			private class ChangeComboBox extends JComboBox implements Runnable
+			{
+				public ChangeComboBox( LockableListModel selector )
+				{
+					super( selector );
+					addActionListener( this );
+				}
+
+				public synchronized void actionPerformed( ActionEvent e )
+				{
+					if ( !isShowing() || isChanging || !isEnabled() )
+						return;
+
+					if ( e.paramString().endsWith( "=" ) )
+						return;
+
+					executeChange();
+				}
+
+				public synchronized void firePopupMenuWillBecomeInvisible()
+				{
+					super.firePopupMenuWillBecomeInvisible();
+
+					if ( !isShowing() || isChanging || !isEnabled() )
+						return;
+
+					executeChange();
+				}
+
+				public synchronized void executeChange()
+				{
+					FamiliarData selection = (FamiliarData)getSelectedItem();
+
+					if ( selection == null || selection == familiar )
+						return;
+
+					isChanging = true;
+					(new DaemonThread( this )).start();
+				}
+
+				public void run()
+				{
+					FamiliarData selection = (FamiliarData)getSelectedItem();
+					(new FamiliarRequest( client, selection )).run();
+					isChanging = false;
+				}
+			}
+		}
+
+		private class FamiliarRefresh implements Runnable
+		{
+			public void run()
+			{
+				FamiliarData data = KoLCharacter.getFamiliar();
+				if ( data != familiar || weight != data.getWeight() )
+				{
+					familiar = data;
+					weight = familiar.getWeight();
+					familiarPanel.refreshFamiliar();
+				}
 			}
 		}
 	}
@@ -299,10 +397,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * @param	base	true if goal is base weight, false if buffed
 	 */
 
-	public void levelFamiliar( KoLmafia client, int goal, boolean base )
+	public void levelFamiliar( KoLmafia client, int goal, int type )
 	{
+		// Clear the output
+		results.clearBuffer();
+
 		// Get current familiar
 		FamiliarData familiar = KoLCharacter.getFamiliar();
+
+		if ( familiar == FamiliarData.NO_FAMILIAR )
+		{
+			results.append( "No familiar selected to train<br>" );
+			return;
+		}
+
 		int id = familiar.getID();
 
 		// Get opponent list
@@ -317,16 +425,27 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Make a Familiar Tool
 		FamiliarTool tool = new FamiliarTool( opponents );
 
-		// Clear the output
-		results.clearBuffer();
-
 		// Print some initial stuff
 		String name = familiar.getName();
 		String race = familiar.getRace();
 		int weight = familiar.getWeight();
 
 		results.append( "Training " + name + ", the " + weight + " lb. " + race + ".<br>" );
-		results.append( "Goal: " + goal + " lbs. " + ( base ? "base" : "buffed" ) + " weight.<br>");
+
+		switch ( type )
+		{
+		case BASE:
+			results.append( "Goal: " + goal + " lbs. " + " base weight.<br>");
+			break;
+
+		case BUFFED:
+			results.append( "Goal: " + goal + " lbs. " + " buffed weight.<br>");
+			break;
+
+		case TURNS:
+			results.append( "Goal: train for " + goal + " turn" + ( ( goal > 1) ? "s<br>" : "<br>" ) );
+			break;
+		}
 
 		// List the opponents
 
