@@ -210,6 +210,15 @@ public class FamiliarsDatabase extends KoLDatabase
 	{	return (Integer) eventSkillByName[ event - 1 ].get( getCanonicalName( name ) );
 	}
 
+	public static int [] getFamiliarSkills( int id )
+	{
+		String name = getCanonicalName( getFamiliarName( id ) );
+		int skills [] = new int[4];
+		for ( int i = 0; i < 4; ++i )
+			skills[i] = ((Integer)eventSkillByName[i].get( name )).intValue();
+		return skills;
+	}
+
 	/**
 	 * Returns an iterator over the entrySet of familiars keyed by name
 	 * @return	The Iterator

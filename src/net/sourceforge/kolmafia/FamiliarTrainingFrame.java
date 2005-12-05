@@ -1,6 +1,6 @@
 /**
- * Copyright (c) 2003, Spellcast development team
- * http://spellcast.dev.java.net/
+ * Copyright (c) 2005, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -13,7 +13,7 @@
  *      notice, this list of conditions and the following disclaimer in
  *      the documentation and/or other materials provided with the
  *      distribution.
- *  [3] Neither the name "Spellcast development team" nor the names of
+ *  [3] Neither the name "KoLmafia development team" nor the names of
  *      its contributors may be used to endorse or promote products
  *      derived from this software without specific prior written
  *      permission.
@@ -70,6 +70,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 {
 	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
 	private LockableListModel opponents;
+
+	private static final String [] events =
+	{
+		"Ultimate Cage Match",
+		"Scavenger Hunt",
+		"Obstacle Course",
+		"Hide and Seek"
+	};
 
 	public FamiliarTrainingFrame( KoLmafia client )
 	{
@@ -293,13 +301,21 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	public void levelFamiliar( KoLmafia client, int goal, boolean base )
 	{
-		// Get current familiar;
+		// Get current familiar
 		FamiliarData familiar = KoLCharacter.getFamiliar();
+		int id = familiar.getID();
 
 		// Get opponent list
 		getOpponents( client );
 
 		// Find available items
+
+		// Choose possible weights
+		int [] weights = new int[1];
+		weights[0] = familiar.getModifiedWeight();
+
+		// Make a Familiar Tool
+		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Clear the output
 		results.clearBuffer();
@@ -310,7 +326,25 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int weight = familiar.getWeight();
 
 		results.append( "Training " + name + ", the " + weight + " lb. " + race + ".<br>" );
-                results.append( "Goal: " + goal + " lbs. " + ( base ? "base" : "buffed" ) + " weight.<br>");
+		results.append( "Goal: " + goal + " lbs. " + ( base ? "base" : "buffed" ) + " weight.<br>");
+
+		// List the opponents
+
+		results.append( "<br>" );
+
+		// Select initial battle
+		{
+			int opp = FamiliarTool.bestOpponent( id, weights );
+			CakeArenaManager.ArenaOpponent opponent = (CakeArenaManager.ArenaOpponent)opponents.get( opp );
+
+			int match = FamiliarTool.bestMatch();
+			String event = events[match];
+
+			int famweight = FamiliarTool.bestWeight();
+			int diff = FamiliarTool.difference();
+
+			results.append( "Match: " + name + " (" + famweight + " lbs) vs. " + opponent.getName() + " in the " + event + "<br>" );
+		}
 	}
 
 	public static void main( String [] args )
