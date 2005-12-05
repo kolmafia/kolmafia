@@ -196,7 +196,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					add( familiarLabel, BorderLayout.WEST );
 
-					familiarIcon = new JLabel( FamiliarsDatabase.getFamiliarImage( opponent.getRace() ), JLabel.CENTER );
+					familiarIcon = new JLabel( FamiliarsDatabase.getFamiliarImage( opponent.getRace() ) );
 					add( familiarIcon, BorderLayout.EAST );
 				}
 			}
@@ -268,7 +268,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				results.setChatDisplay( resultsDisplay );
 
 				JScrollPane scroller = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-				JComponentUtilities.setComponentSize( scroller, 600, 300 );
+				JComponentUtilities.setComponentSize( scroller, 400, 400 );
 
 				add( scroller, BorderLayout.CENTER );
 			}
@@ -309,7 +309,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		String race = familiar.getRace();
 		int weight = familiar.getWeight();
 
-		results.append( "Training " + name + ", the " + weight + " lb. " + race + ", up to " + goal + " lbs. " + ( base ? "base" : "buffed" ) + " weight.");
+		results.append( "Training " + name + ", the " + weight + " lb. " + race + ".<br>" );
+                results.append( "Goal: " + goal + " lbs. " + ( base ? "base" : "buffed" ) + " weight.<br>");
 	}
 
 	public static void main( String [] args )
