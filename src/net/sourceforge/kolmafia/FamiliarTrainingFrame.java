@@ -456,6 +456,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 			int opp = FamiliarTool.bestOpponent( id, weights );
 			CakeArenaManager.ArenaOpponent opponent = (CakeArenaManager.ArenaOpponent)opponents.get( opp );
 
+			if ( opponent == null )
+			{
+				results.append( "Can't determine an appropriate opponent.<br>");
+				return;
+			}
+
 			int match = FamiliarTool.bestMatch();
 			String event = events[match];
 
