@@ -71,15 +71,16 @@ public class BuffRequestFrame extends KoLFrame
 	{
 		super( client, "Buff Requests" );
 
+		CardLayout cards = new CardLayout( 10, 10 );
+		getContentPane().setLayout( cards );
+
 		// Configure buffbot offerings
 		BuffBotDatabase.configureBuffBots( client );
-
-		getContentPane().setLayout( new BorderLayout() );
 
 		BuffRequestPanel buffs = new BuffRequestPanel();
 		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( scroller, 640, 600 );
-		getContentPane().add( scroller, BorderLayout.CENTER );
+		getContentPane().add( scroller, "" );
 	}
 
 	public boolean isEnabled()

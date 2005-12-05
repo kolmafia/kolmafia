@@ -39,7 +39,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
 
@@ -60,6 +59,7 @@ import javax.swing.ImageIcon;
 
 // utilities
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -68,13 +68,18 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FamiliarTrainingFrame extends KoLFrame
 {
-	private static LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( "Arena Tracker", false );
+	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
 	private LockableListModel opponents;
 
 	public FamiliarTrainingFrame( KoLmafia client )
 	{
 		super( client, "Familiar Training Tool" );
-		getContentPane().add( new FamiliarTrainingPanel(), BorderLayout.CENTER );
+
+		CardLayout cards = new CardLayout( 10, 10 );
+		getContentPane().setLayout( cards );
+
+		FamiliarTrainingPanel training = new FamiliarTrainingPanel();
+		getContentPane().add( training, "" );
 	}
 
 	private class FamiliarTrainingPanel extends JPanel
