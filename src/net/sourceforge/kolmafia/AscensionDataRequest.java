@@ -113,7 +113,6 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		ascensionData.clear();
 		Matcher fieldMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( responseText );
 		
-		//new
 		JFileChooser filechooser = new JFileChooser();
 		FileSystemView fileview = filechooser.getFileSystemView();
 		File dir = new File("clan" + File.separator);
@@ -255,8 +254,6 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				}
 				else
 				{
-					//subtract columns[turns] from columnsNew[turns] -5
-					//subtract columns[days] from columnsNew[days] -6
 					lastField = new AscensionDataField( playerName, playerID, columnsOld );
 					ascensionData.add( lastField );
 					
@@ -267,9 +264,32 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					
 					try
 					{
+						//subtract columns[turns] from columnsNew[turns] [5]
+						//subtract columns[days] from columnsNew[days] [6]
 						inconsistency = true;
 						columnsNew[5] = Integer.toString(df.parse( columnsNew[5] ).intValue() - df.parse( columnsOld[5] ).intValue());
-						columnsNew[6] = Integer.toString(df.parse( columnsNew[6] ).intValue() - df.parse( columnsOld[6] ).intValue());
+						
+						//I'm not sure exactly what the day amount on multiple ascension runs added together means.
+						//It's not the exact difference between the dates + 1, but it doesn't seem to be exactly the ascension day counts
+						//added up.
+						//columnsNew[6] = Integer.toString(df.parse( columnsNew[6] ).intValue() - df.parse( columnsOld[6] ).intValue());
+						
+						
+						//So let's just calculate the correct day count from the two dates
+						long oldDate = new java.util.GregorianCalendar(
+							Integer.parseInt(columnsOld[1].substring(6,8)) + 2000, //'05' stands for 2005.
+							Integer.parseInt(columnsOld[1].substring(0,2)) - 1, //month is 0 based - ie 0 for January
+							Integer.parseInt(columnsOld[1].substring(3,5))
+							).getTime().getTime();
+						long newDate = new java.util.GregorianCalendar(
+							Integer.parseInt(columnsNew[1].substring(6,8)) + 2000,
+							Integer.parseInt(columnsNew[1].substring(0,2)) - 1,
+							Integer.parseInt(columnsNew[1].substring(3,5))
+							).getTime().getTime();
+						double difference = newDate - oldDate;
+						int days = (int)(Math.round((difference/(1000*60*60*24))));
+						days++;	//Ascensions count both first day and last day
+						columnsNew[6] = Integer.toString(days);
 					}
 					catch ( Exception e )
 					{
