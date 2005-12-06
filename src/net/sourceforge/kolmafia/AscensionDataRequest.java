@@ -40,6 +40,15 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.text.SimpleDateFormat;
+import java.lang.reflect.Array;
+
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 
 public class AscensionDataRequest extends KoLRequest implements Comparable
 {
@@ -103,21 +112,216 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	{
 		ascensionData.clear();
 		Matcher fieldMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( responseText );
-
+		
+		//new
+		JFileChooser filechooser = new JFileChooser();
+		FileSystemView fileview = filechooser.getFileSystemView();
+		File dir = new File("clan" + File.separator);
+		File[] results = fileview.getFiles(dir, false);
+		File charFile = null;
+		File bestFile = null;
+		int bestMonth = 0;
+		int bestWeek = 0;
+		int currentMonth;
+		int currentWeek;
+		StringBuffer ascensionString;
+		
+		for(int i = 0; i < Array.getLength(results); i++)
+		{
+			if(!results[i].isDirectory())
+				continue;
+			
+			File[] ascensionFolders = fileview.getFiles(results[i], false);
+			
+			for(int j = 0; j < Array.getLength(ascensionFolders); j++)
+			{
+				if(!ascensionFolders[j].getName().substring(0,4).equals("2005"))
+					continue;
+				currentMonth = Integer.parseInt(ascensionFolders[j].getName().substring(4,6));
+				currentWeek = Integer.parseInt(ascensionFolders[j].getName().substring(8,9));
+				if(currentMonth < 9 || currentMonth > 10)
+					continue;
+				if(bestFile == null)
+					; //current file is best yet
+				else if(currentMonth > bestMonth)
+					; //current file is best yet
+				else if(currentMonth == bestMonth && currentWeek > bestWeek)
+					; //current file is best yet
+				else
+					continue; //current file is not as good as bestFile
+				
+				bestFile = ascensionFolders[j];
+				bestMonth = currentMonth;
+				bestWeek = currentWeek;
+			}
+			
+			if(bestFile != null)
+			{
+				//try to find own charID
+				charFile = new File(bestFile, "ascensions" + File.separator + "" + playerID + ".htm");
+				if(charFile.exists())
+					break;
+				else
+				{
+					charFile = null;
+					bestFile = null;
+					bestMonth = 0;
+					bestWeek = 0;
+				}
+			}
+		}
+		
+		
+		
 		int lastFindIndex = 0;
 		AscensionDataField lastField;
+		
+		
+		if(charFile != null)
+		{
+			try
+			{
+				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( charFile ) ) );
+				ascensionString = new StringBuffer();
+				String currentLine;
 
+				while ( (currentLine = istream.readLine()) != null )
+				{
+					ascensionString.append( currentLine );
+					ascensionString.append( LINE_BREAK );
+				}
+
+			}
+			catch ( Exception e )
+			{
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
+				return;
+			}
+			
+			int oldFindIndex = 0;
+			boolean inconsistency = false;
+			boolean newDataAvailable = true;
+			String [] columnsNew = null;
+			
+			Matcher oldDataMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( ascensionString );
+			if(!fieldMatcher.find( lastFindIndex ))
+				{
+				newDataAvailable = false;
+				}
+			else
+				{
+				lastFindIndex = fieldMatcher.end() - 5;
+				columnsNew = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
+				}
+			
+			while ( oldDataMatcher.find( oldFindIndex ) )
+			{
+				oldFindIndex = oldDataMatcher.end() - 5;
+				
+				String [] columnsOld = oldDataMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
+				if(!newDataAvailable)
+					{
+					lastField = new AscensionDataField( playerName, playerID, columnsOld );
+					ascensionData.add( lastField );
+				
+					if ( lastField.isSoftcore )
+						++softcoreCount;
+					else
+						++hardcoreCount;
+					}
+				
+				else if(columnsNew != null && columnsNew[1].equals(columnsOld[1]))
+				{
+					if(!fieldMatcher.find( lastFindIndex ))
+						{
+						newDataAvailable = false;
+						}
+					else
+						{
+						lastFindIndex = fieldMatcher.end() - 5;
+						columnsNew = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
+						}
+					
+					
+					
+					lastField = new AscensionDataField( playerName, playerID, columnsOld );
+					ascensionData.add( lastField );
+				
+					if ( lastField.isSoftcore )
+						++softcoreCount;
+					else
+						++hardcoreCount;
+				}
+				else
+				{
+					//subtract columns[turns] from columnsNew[turns] -5
+					//subtract columns[days] from columnsNew[days] -6
+					lastField = new AscensionDataField( playerName, playerID, columnsOld );
+					ascensionData.add( lastField );
+					
+					if ( lastField.isSoftcore )
+						++softcoreCount;
+					else
+						++hardcoreCount;
+					
+					try
+					{
+						inconsistency = true;
+						columnsNew[5] = Integer.toString(df.parse( columnsNew[5] ).intValue() - df.parse( columnsOld[5] ).intValue());
+						columnsNew[6] = Integer.toString(df.parse( columnsNew[6] ).intValue() - df.parse( columnsOld[6] ).intValue());
+					}
+					catch ( Exception e )
+					{
+						// Because the data is properly structured,
+						// this exception should never be thrown.
+					}
+				}
+				/*
+				lastField = new AscensionDataField( playerName, playerID, columns );
+				ascensionData.add( lastField );
+				
+				if ( lastField.isSoftcore )
+					++softcoreCount;
+				else
+					++hardcoreCount;
+				*/
+			}
+			if(inconsistency)
+			{
+				
+				
+				lastField = new AscensionDataField( playerName, playerID, columnsNew );
+				ascensionData.add( lastField );
+				
+				if ( lastField.isSoftcore )
+					++softcoreCount;
+				else
+					++hardcoreCount;
+				
+				lastFindIndex = fieldMatcher.end() - 5;
+				
+			}
+			
+
+		}
+		
+		
 		while ( fieldMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = fieldMatcher.end() - 5;
-			lastField = new AscensionDataField( playerName, playerID, fieldMatcher.group() );
+			
+			String [] columns = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
+			
+			lastField = new AscensionDataField( playerName, playerID, columns );
 			ascensionData.add( lastField );
-
+			
 			if ( lastField.isSoftcore )
 				++softcoreCount;
 			else
 				++hardcoreCount;
 		}
+
 	}
 
 	/**
@@ -168,12 +372,24 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 		public AscensionDataField( String playerName, String playerID, String rowData )
 		{
+			
+			String [] columns = rowData.replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
+			setData( playerName, playerID, columns );
+			
+		}
+		
+		public AscensionDataField( String playerName, String playerID, String[] columns )
+		{
+			setData( playerName, playerID, columns );
+		}
+		
+		private void setData( String playerName, String playerID, String[] columns )
+		{
 			this.playerName = playerName;
 			this.playerID = playerID;
 
 			try
 			{
-				String [] columns = rowData.replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
 
 				// The level at which the ascension took place is found
 				// in the third column, or index 2 in the array.
