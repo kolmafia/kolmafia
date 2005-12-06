@@ -49,6 +49,11 @@ import javax.swing.SwingUtilities;
 
 // containers
 import javax.swing.JComponent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -59,6 +64,10 @@ import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
 
 // utilities
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -71,6 +80,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 {
 	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
 	private LockableListModel opponents;
+	FamiliarTrainingPanel training;
 
 	private static final String [] events =
 	{
@@ -84,6 +94,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final int BUFFED = 2;
 	private static final int TURNS = 3;
 
+	// Familiar buffing skills
+	private static final String EMPATHY = "Empathy of the Newt";
+	private static final String LEASH = "Leash of Linguini";
+
 	public FamiliarTrainingFrame( KoLmafia client )
 	{
 		super( client, "Familiar Training Tool" );
@@ -91,8 +105,53 @@ public class FamiliarTrainingFrame extends KoLFrame
 		CardLayout cards = new CardLayout( 10, 10 );
 		getContentPane().setLayout( cards );
 
-		FamiliarTrainingPanel training = new FamiliarTrainingPanel();
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar( menuBar );
+
+		JMenu optionsMenu = new JMenu( "File" );
+		optionsMenu.add( new FileMenuItem() );
+		menuBar.add( optionsMenu );
+
+		training = new FamiliarTrainingPanel();
 		getContentPane().add( training, "" );
+	}
+
+	public void setEnabled( boolean isEnabled )
+	{
+		super.setEnabled( isEnabled );
+
+		if ( training != null )
+			training.setEnabled( isEnabled );
+	}
+
+	private class FileMenuItem extends JMenuItem implements ActionListener
+	{
+		public FileMenuItem()
+		{
+			super( "Save transcript" );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			JFileChooser chooser = new JFileChooser( "data" );
+			int returnVal = chooser.showSaveDialog( FamiliarTrainingFrame.this );
+
+			File output = chooser.getSelectedFile();
+
+			if ( output == null )
+				return;
+
+			try
+			{
+				PrintStream ostream = new PrintStream( new FileOutputStream( output, true ), true );
+				ostream.println( training.transcript() );
+				ostream.close();
+			}
+			catch ( Exception ex )
+			{
+			}
+		}
 	}
 
 	private class FamiliarTrainingPanel extends JPanel
@@ -137,6 +196,23 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Register a listener to keep it updated
 			KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new FamiliarRefresh() ) );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+
+			if ( buttonPanel != null )
+				buttonPanel.setEnabled( isEnabled );
+			if ( changePanel != null )
+				changePanel.setEnabled( isEnabled );
+		}
+
+		public String transcript()
+		{
+			if ( resultsPanel != null )
+				return resultsPanel.transcript();
+			return "";
 		}
 
 		private class FamiliarPanel extends JPanel
@@ -227,17 +303,29 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public ButtonPanel()
 			{
 				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-				base = new JButton( "Base weight" );
+				base = new JButton( "Base" );
 				base.addActionListener( new BaseListener() );
 				this.add( base );
 
-				buffed = new JButton( "Buffed weight" );
+				buffed = new JButton( "Buffed" );
 				buffed.addActionListener( new BuffedListener() );
 				this.add( buffed );
 
 				turns = new JButton( "Turns" );
 				turns.addActionListener( new TurnsListener() );
 				this.add( turns );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+
+				if ( base != null )
+					base.setEnabled( isEnabled );
+				if ( buffed != null )
+					buffed.setEnabled( isEnabled );
+				if ( turns != null )
+					turns.setEnabled( isEnabled );
 			}
 
 			private class BaseListener implements ActionListener, Runnable
@@ -265,7 +353,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				public void run()
 				{
 					// Prompt for goal
-					int goal = getQuantity( "Train up to what buffed weight?", 20, 20 );
+					int goal = getQuantity( "Train up to what buffed weight?", 48, 20 );
 
 					// Level the familiar
 					levelFamiliar( client, goal, BUFFED );
@@ -291,6 +379,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private class ResultsPanel extends JPanel
 		{
+			JEditorPane resultsDisplay;
+
 			public ResultsPanel()
 			{
 				setLayout( new BorderLayout( 10, 10 ) );
@@ -304,6 +394,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 				add( scroller, BorderLayout.CENTER );
 			}
+
+			public String transcript()
+			{
+				if ( resultsDisplay != null )
+					return resultsDisplay.getText();
+				return "";
+			}
 		}
 
 		private class ChangePanel extends JPanel
@@ -315,6 +412,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				familiars = new ChangeComboBox( KoLCharacter.getFamiliarList() );
 				add( familiars );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+
+				if ( familiars != null )
+					familiars.setEnabled( isEnabled );
 			}
 
 			private class ChangeComboBox extends JComboBox implements Runnable
@@ -407,48 +512,48 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
-			results.append( "No familiar selected to train<br>" );
+			results.append( "No familiar selected to train.<br>" );
 			return;
 		}
 
-		int id = familiar.getID();
-
-		// Get opponent list
-		getOpponents( client );
-
-		// Find available items
-
-		// Choose possible weights
-		int [] weights = new int[1];
-		weights[0] = familiar.getModifiedWeight();
-
-		// Make a Familiar Tool
-		FamiliarTool tool = new FamiliarTool( opponents );
-
-		// Print some initial stuff
+		// Identify the familiar we are training
 		String name = familiar.getName();
 		String race = familiar.getRace();
 		int weight = familiar.getWeight();
 
 		results.append( "Training " + name + ", the " + weight + " lb. " + race + ".<br>" );
 
-		switch ( type )
+		if ( goalMet( familiar, goal, type) )
 		{
-		case BASE:
-			results.append( "Goal: " + goal + " lbs. " + " base weight.<br>");
-			break;
-
-		case BUFFED:
-			results.append( "Goal: " + goal + " lbs. " + " buffed weight.<br>");
-			break;
-
-		case TURNS:
-			results.append( "Goal: train for " + goal + " turn" + ( ( goal > 1) ? "s<br>" : "<br>" ) );
-			break;
+			results.append( "Goal already met.<br>" );
+			return;
 		}
+
+		// Find available items
+
+		// Print them.
+
+		// Update character sheet: remaining adventures, meat, and
+		// turns of buffs MUST be accurate.
+
+		// Find currently in-place buffs
+
+		// Print them.
+
+		// Choose possible weights
+		int [] weights = new int[1];
+		weights[0] = familiar.getModifiedWeight();
+
+		// Get opponent list
+		getOpponents( client );
 
 		// List the opponents
 
+		// Make a Familiar Tool
+		FamiliarTool tool = new FamiliarTool( opponents );
+
+		// Let the battles begin!
+		int id = familiar.getID();
 		results.append( "<br>" );
 
 		// Select initial battle
@@ -470,6 +575,119 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			results.append( "Match: " + name + " (" + famweight + " lbs) vs. " + opponent.getName() + " in the " + event + "<br>" );
 		}
+	}
+
+	private boolean goalMet( FamiliarData familiar, int goal, int type )
+	{
+		switch ( type )
+		{
+		case BASE:
+			results.append( "Goal: " + goal + " lbs. " + " base weight.<br>");
+			if ( familiar.getWeight() >= goal )
+				return true;
+			break;
+
+		case BUFFED:
+			results.append( "Goal: " + goal + " lbs. " + " buffed weight.<br>");
+			if ( maxFamiliarWeight( familiar ) >= goal )
+				return true;
+			break;
+
+		case TURNS:
+			results.append( "Goal: train for " + goal + " turn" + ( ( goal > 1) ? "s<br>" : "<br>" ) );
+			break;
+		}
+
+		return false;
+	}
+
+	private int maxFamiliarWeight( FamiliarData familiar )
+	{
+		// Start with current weight of familiar
+		int weight = familiar.getWeight();
+
+		// The character might have a suitable familiar item
+
+		weight += equipableFamiliarItem( familiar );
+
+		// The character might have a familiar buffing skills
+
+		weight += availableFamiliarSkills();
+
+		// The character can wear up to three tiny plastic accessories,
+		// Each adds one pound of familiar weight
+
+		weight += equipableAccessories();
+
+		// The character might have a suitable hat
+
+		weight += equipableHat();
+
+		return weight;
+	}
+
+	private int currentFamiliarSkills()
+	{
+		int weight = 0;
+
+		// Empathy and Leash of Linguini each add five pounds.
+		// The passive "Amphibian Sympathy" skill does too.
+
+		if ( KoLCharacter.getEffects().contains( EMPATHY ) )
+			weight += 5;
+
+		if ( KoLCharacter.getEffects().contains( LEASH ) )
+			weight += 5;
+
+		if ( KoLCharacter.hasAmphibianSympathy() )
+			weight += 5;
+
+		return weight;
+	}
+
+	private int availableFamiliarSkills()
+	{
+		int weight = 0;
+
+		// Empathy and Leash of Linguini each add five pounds.
+		// The passive "Amphibian Sympathy" skill does too.
+
+		if ( KoLCharacter.hasSkill( EMPATHY ) )
+			weight += 5;
+
+		if ( KoLCharacter.hasSkill( LEASH ) )
+			weight += 5;
+
+		if ( KoLCharacter.hasAmphibianSympathy() )
+			weight += 5;
+
+		return weight;
+	}
+
+	private int equipableFamiliarItem( FamiliarData familiar )
+	{
+		// If the character owns this familiar's special item and it
+		// adds weight, count it.
+
+		// Otherwise, if the character owns a lead necklace, anywhere,
+		// count it.
+
+		// Otherwise, the character owns no helpful familiar item
+		return 0;
+	}
+
+	private int equipableAccessories()
+	{
+		//  Count number of available tiny plastic accessories. Return
+		//  total number which can be equipped (up to three).
+		return 0;
+	}
+
+	private int equipableHat()
+	{
+		//  See if the character owns a plexiglass pith helmet and can
+		//  equip it.
+		return 0;
 	}
 
 	public static void main( String [] args )
