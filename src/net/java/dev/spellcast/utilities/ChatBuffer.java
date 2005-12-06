@@ -102,6 +102,15 @@ public class ChatBuffer
 	}
 
 	/**
+	 * Method used to get the current content of the buffer as a string
+	 */
+
+	public String getBuffer()
+	{
+		return displayBuffer.toString();
+	}
+
+	/**
 	 * Sets the chat display used to display the chat messages currently
 	 * being stored in the buffer.  Note that whenever modifications are
 	 * made to the buffer, the display will also be modified to reflect

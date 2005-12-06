@@ -66,7 +66,7 @@ import javax.swing.ImageIcon;
 // utilities
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.ChatBuffer;
@@ -78,9 +78,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FamiliarTrainingFrame extends KoLFrame
 {
-	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
+	private ChatBuffer results = new ChatBuffer( "Arena Tracker" );
 	private LockableListModel opponents;
-	FamiliarTrainingPanel training;
+	private FamiliarTrainingPanel training;
 
 	private static final String [] events =
 	{
@@ -144,8 +144,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			try
 			{
-				PrintStream ostream = new PrintStream( new FileOutputStream( output, true ), true );
-				ostream.println( training.transcript() );
+				PrintWriter ostream = new PrintWriter( new FileOutputStream( output, true ), true );
+				ostream.println( results.getBuffer().replaceAll( "<br>", LINE_BREAK) );
 				ostream.close();
 			}
 			catch ( Exception ex )
@@ -206,13 +206,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 				buttonPanel.setEnabled( isEnabled );
 			if ( changePanel != null )
 				changePanel.setEnabled( isEnabled );
-		}
-
-		public String transcript()
-		{
-			if ( resultsPanel != null )
-				return resultsPanel.transcript();
-			return "";
 		}
 
 		private class FamiliarPanel extends JPanel
@@ -393,13 +386,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 				JComponentUtilities.setComponentSize( scroller, 400, 400 );
 
 				add( scroller, BorderLayout.CENTER );
-			}
-
-			public String transcript()
-			{
-				if ( resultsDisplay != null )
-					return resultsDisplay.getText();
-				return "";
 			}
 		}
 
