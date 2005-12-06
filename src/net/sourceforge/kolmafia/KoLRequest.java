@@ -292,16 +292,17 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
-	 * Adds the given form field to the KoLRequest.  Descendant classes should
-	 * use this method if they plan on submitting forms to Kingdom of Loathing
-	 * before a call to the <code>super.run()</code> method.  Ideally, these
-	 * fields can be added at construction time.
+	 * Adds the given form field to the KoLRequest.  Descendant classes
+	 * should use this method if they plan on submitting forms to Kingdom
+	 * of Loathing before a call to the <code>super.run()</code> method.
+	 * Ideally, these fields can be added at construction time.
 	 *
 	 * @param	name	The name of the field to be added
 	 * @param	value	The value of the field to be added
+	 * @param	allowDuplicates	true if duplicate names are OK
 	 */
 
-	protected void addFormField( String name, String value )
+	protected void addFormField( String name, String value, boolean allowDuplicates )
 	{
 		String [] existingData = new String[ data.size() ];
 		data.toArray( existingData );
@@ -317,7 +318,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		catch ( Exception e )
 		{
 			// In this case, you failed to encode the appropriate
-			// name and value data.  So, just print this to the
+			// name and value data.	 So, just print this to the
 			// appropriate log stream and add in the unencoded
 			// data (in case it's fine).
 
@@ -326,15 +327,18 @@ public class KoLRequest implements Runnable, KoLConstants
 			return;
 		}
 
-		// Make sure that when you're adding data
-		// fields, you don't submit duplicate fields.
+		// Make sure that when you're adding data fields, you don't
+		// submit duplicate fields.
 
-		for ( int i = 0; i < existingData.length; ++i )
+		if ( !allowDuplicates )
 		{
-			if ( existingData[i].startsWith( encodedName ) )
+			for ( int i = 0; i < existingData.length; ++i )
 			{
-				data.set( i, encodedName + encodedValue );
-				return;
+				if ( existingData[i].startsWith( encodedName ) )
+				{
+					data.set( i, encodedName + encodedValue );
+					return;
+				}
 			}
 		}
 
@@ -342,6 +346,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		// add it to the end of the array.
 
 		data.add( encodedName + encodedValue );
+	}
+
+	protected void addFormField( String name, String value )
+	{	addFormField( name, value, false );
 	}
 
 	/**
