@@ -174,7 +174,7 @@ public class FamiliarTool
 			return newVal < oldVal && newVal >= -2;
 	}
 
-	private static class Opponent
+	private class Opponent
 	{
 		// Familiar type
 		private int type;
