@@ -78,8 +78,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FamiliarTrainingFrame extends KoLFrame
 {
-	private ChatBuffer results = new ChatBuffer( "Arena Tracker" );
-	private LockableListModel opponents;
+	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
 	private FamiliarTrainingPanel training;
 
 	private static final String [] events =
@@ -248,7 +247,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 				// Get current opponents 
-				getOpponents( client );
+				LockableListModel opponents = getOpponents( client );
 
 				int opponentCount = opponents.size();
 				for ( int i = 0; i < opponentCount; ++i )
@@ -472,11 +471,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 	}
 
-	private void getOpponents( KoLmafia client )
+	private LockableListModel getOpponents( KoLmafia client )
 	{
 		if ( CakeArenaManager.getOpponentList().isEmpty() )
 			(new CakeArenaRequest( client )).run();
-		opponents = CakeArenaManager.getOpponentList();
+		return CakeArenaManager.getOpponentList();
 	}
 
 
@@ -531,7 +530,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		weights[0] = familiar.getModifiedWeight();
 
 		// Get opponent list
-		getOpponents( client );
+		LockableListModel opponents = getOpponents( client );
 
 		// List the opponents
 
@@ -544,7 +543,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		// Select initial battle
 		{
-			int opp = FamiliarTool.bestOpponent( id, weights );
+			int opp = tool.bestOpponent( id, weights );
 			CakeArenaManager.ArenaOpponent opponent = (CakeArenaManager.ArenaOpponent)opponents.get( opp );
 
 			if ( opponent == null )
@@ -553,11 +552,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 				return;
 			}
 
-			int match = FamiliarTool.bestMatch();
+			int match = tool.bestMatch();
 			String event = events[match];
 
-			int famweight = FamiliarTool.bestWeight();
-			int diff = FamiliarTool.difference();
+			int famweight = tool.bestWeight();
+			int diff = tool.difference();
 
 			results.append( "Match: " + name + " (" + famweight + " lbs) vs. " + opponent.getName() + " in the " + event + "<br>" );
 		}

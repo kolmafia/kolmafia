@@ -44,19 +44,19 @@ import java.util.List;
 public class FamiliarTool
 {
 	// Array of current five opponents
-	private static Opponent [] opponents = new Opponent[5];
+	private Opponent [] opponents = new Opponent[5];
 	
 	// Index of best opponent to fight
-	private static int bestOpponent;
+	private int bestOpponent;
 
 	// Index of best arena match against that opponent
-	private static int bestMatch;
+	private int bestMatch;
 
 	// Best weight for own familiar during that match
-	private static int bestWeight;
+	private int bestWeight;
 
 	// Difference from "perfect" weight for that match
-	private static int difference;
+	private int difference;
 
 	/**
 	 * Initializes Familiar Tool with all Arena Data
@@ -82,7 +82,7 @@ public class FamiliarTool
 	 * @param	possibleOwnWeights	Array with all possibilities for familiar weight
 	 * @return	The ID number of the best opponent. Further information can be collected through other functions
 	 */
-	public static int bestOpponent( int ownFamiliar, int [] possibleOwnWeights)
+	public int bestOpponent( int ownFamiliar, int [] possibleOwnWeights )
 	{
 		int [] ownSkills = FamiliarsDatabase.getFamiliarSkills( ownFamiliar );
 		int possibleWeights = possibleOwnWeights.length;
@@ -135,7 +135,7 @@ public class FamiliarTool
 	 * Retrieves match data. Will only supply relevant data for last call to bestOpponent
 	 * @return	The ID number of the best match. 0 = 'Ultimate Cage Match', 1 = 'Scavenger Hunt', 2 = 'Obstacle Course', 3 = 'Hide and Seek'
 	 */
-	public static int bestMatch()
+	public int bestMatch()
 	{	return bestMatch;
 	}
 
@@ -143,20 +143,19 @@ public class FamiliarTool
 	 * Retrieves weight for matchup. This weight will be a value from the possibleOwnWeights parameter in bestOpponent()
 	 * @return	Weight value for chosen matchup
 	 */
-	public static int bestWeight()
-	{
-		return bestWeight;
+	public int bestWeight()
+	{	return bestWeight;
 	}
 		
 	/**
 	 * Retrieves difference from perfect weight for matchup. Will only supply relevant data for last call to bestOpponent()
 	 * @return	Difference from the perfect weight. 0 = perfect, +X = X pounds too heavy, -X is X pounds too light.
 	 */
-	public static int difference()
+	public int difference()
 	{	return difference;
 	}
 	
-	private static boolean betterWeightDifference(int newVal, int oldVal)
+	private boolean betterWeightDifference( int newVal, int oldVal )
 	{
 		//I am assuming priority to flow as follows: 0/+1/-1/+2/-2/+3/+4/+5/etc
 		if ( oldVal == 0 )
