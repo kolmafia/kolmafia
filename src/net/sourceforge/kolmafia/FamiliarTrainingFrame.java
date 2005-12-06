@@ -471,7 +471,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 	}
 
-	private LockableListModel getOpponents( KoLmafia client )
+	private static LockableListModel getOpponents( KoLmafia client )
 	{
 		if ( CakeArenaManager.getOpponentList().isEmpty() )
 			(new CakeArenaRequest( client )).run();
@@ -487,7 +487,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * @param	base	true if goal is base weight, false if buffed
 	 */
 
-	public void levelFamiliar( KoLmafia client, int goal, int type )
+	public static void levelFamiliar( KoLmafia client, int goal, int type )
 	{
 		// Clear the output
 		results.clearBuffer();
@@ -562,7 +562,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 	}
 
-	private boolean goalMet( FamiliarData familiar, int goal, int type )
+	private static boolean goalMet( FamiliarData familiar, int goal, int type )
 	{
 		switch ( type )
 		{
@@ -586,7 +586,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		return false;
 	}
 
-	private int maxFamiliarWeight( FamiliarData familiar )
+	private static int maxFamiliarWeight( FamiliarData familiar )
 	{
 		// Start with current weight of familiar
 		int weight = familiar.getWeight();
@@ -611,7 +611,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		return weight;
 	}
 
-	private int currentFamiliarSkills()
+	private static int currentFamiliarSkills()
 	{
 		int weight = 0;
 
@@ -630,7 +630,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		return weight;
 	}
 
-	private int availableFamiliarSkills()
+	private static int availableFamiliarSkills()
 	{
 		int weight = 0;
 
@@ -649,7 +649,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		return weight;
 	}
 
-	private int equipableFamiliarItem( FamiliarData familiar )
+	private static int equipableFamiliarItem( FamiliarData familiar )
 	{
 		// If the character owns this familiar's special item and it
 		// adds weight, count it.
@@ -661,14 +661,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 		return 0;
 	}
 
-	private int equipableAccessories()
+	private static int equipableAccessories()
 	{
 		//  Count number of available tiny plastic accessories. Return
 		//  total number which can be equipped (up to three).
 		return 0;
 	}
 
-	private int equipableHat()
+	private static int equipableHat()
 	{
 		//  See if the character owns a plexiglass pith helmet and can
 		//  equip it.
