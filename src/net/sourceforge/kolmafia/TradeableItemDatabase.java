@@ -353,16 +353,17 @@ public class TradeableItemDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns the kind of consumption associated with the
-	 * item with the given name.
+	 * Returns the kind of consumption associated with an item
 	 *
 	 * @return	The consumption associated with the item
 	 */
 
+	public static final int getConsumptionType( int itemID )
+	{	return itemID == -1 ? ConsumeItemRequest.NO_CONSUME : consumptionID[ itemID ];
+	}
+
 	public static final int getConsumptionType( String itemName )
-	{
-		int itemID = getItemID( itemName );
-		return itemID == -1 ? ConsumeItemRequest.NO_CONSUME : consumptionID[ itemID ];
+	{	return getConsumptionType( getItemID( itemName ) );
 	}
 
 	/**

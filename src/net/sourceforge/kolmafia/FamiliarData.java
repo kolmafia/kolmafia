@@ -152,43 +152,39 @@ public class FamiliarData implements KoLConstants, Comparable
 		else
 			modifiedWeight += weightModifier;
 
-		switch ( TradeableItemDatabase.getItemID( getItem() ) )
-		{
-			case -1:
-			case 857:
-			case 1040:
-			case 1152:
-			case 1260:
-
-				break;
-
-			case 865:
-
-				modifiedWeight += 3;
-				break;
-
-			case 1218:
-
-				modifiedWeight -= 3;
-				break;
-
-			case 1243:
-
-				modifiedWeight -= 5;
-				break;
-
-			case 1305:
-
-				modifiedWeight += 15;
-				break;
-
-			default:
-
-				modifiedWeight += 5;
-				break;
-		}
+		modifiedWeight += itemWeightModifier( TradeableItemDatabase.getItemID( getItem() ) );
 
 		return modifiedWeight;
+	}
+
+	public static int itemWeightModifier( int itemID )
+	{
+		switch ( itemID )
+		{
+		case -1:	// bogus item ID
+		case 857:	// moonglasses
+		case 1040:	// lucky Tam O'Shanter
+		case 1152:	// miniature gravy-covered maypole
+		case 1260:	// wax lips
+			return 0;
+
+		case 865:	// lead necklace
+			return 3;
+
+		case 1218:	// rat head balloon
+			return -3;
+
+		case 1243:	// toy six-seater hovercraft
+			return -5;
+
+		case 1305:	// tiny makeup kit
+			return 15;
+
+		default:
+			if ( TradeableItemDatabase.getConsumptionType( itemID ) == ConsumeItemRequest.EQUIP_FAMILIAR )
+				return 5;
+			return 0;
+		}
 	}
 
 	public String getName()

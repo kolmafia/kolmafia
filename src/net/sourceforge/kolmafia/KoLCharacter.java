@@ -964,6 +964,29 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to retrieve a piece of equipment
+	 * @param	type	the type of equipment
+	 * @return	AdventureResult for the equipment, <code>null</code> if no such item exists
+	 */
+
+	public static AdventureResult getCurrentEquipment( int type )
+	{
+		String name = getEquipment( type );
+
+		// If slot not currently equipped, return null
+		if ( name.equals( EquipmentRequest.UNEQUIP ))
+			return null;
+
+		// Strip off item power
+		int paren = name.indexOf( " (" );
+		if ( paren >= 0 )
+			name = name.substring( 0, paren );
+
+		// Make an AdventureResult describing this item
+		return new AdventureResult( name, 1, false );
+	}
+
+	/**
 	 * Accessor method to retrieve a list of all available items which can be equipped
 	 * by familiars.  Note this lists items which the current familiar cannot equip.
 	 */

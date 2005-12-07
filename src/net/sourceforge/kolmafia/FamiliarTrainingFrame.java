@@ -94,8 +94,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final int TURNS = 3;
 
 	// Familiar buffing skills
-	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0 );
-	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0 );
+	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0, true );
+	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0, true );
+
+	// Familiar buffing items
+	private static final AdventureResult PITH_HELMET = new AdventureResult( "plexiglass pith helmet", 0, false );
+	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( "lead necklace", 0, false );
+	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( "rat head balloon", 0, false );
+	private static final int firstTinyPlastic = 969;
+	private static final int lastTinyPlastic = 988;
 
 	public FamiliarTrainingFrame( KoLmafia client )
 	{
@@ -494,7 +501,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		// Get the status of current familiar
-		FamiliarStatus status = new FamiliarStatus( client, true );
+		FamiliarStatus status = new FamiliarStatus( client, false );
 
 		// Identify the familiar we are training
 		String name = familiar.getName();
@@ -509,16 +516,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return;
 		}
 
-		// Find available items
-
-		// Print them.
-
-		// Update character sheet: remaining adventures, meat, and
-		// turns of buffs MUST be accurate.
-
-		// Find currently in-place buffs
-
-		// Print them.
+		// Print available buffs and items and current buffs
 
 		// Choose possible weights
 		int [] weights = new int[1];
@@ -593,6 +591,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// The familiar we are tracking
 		FamiliarData familiar;
 
+		// Details about its special familiar item
+		AdventureResult familiarItem ;
+		int familiarItemWeight;
+
 		// Available skills which affect weight
 		boolean sympathyAvailable;
 		boolean leashAvailable;
@@ -602,19 +604,55 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int leashActive;
 		int empathyActive;
 
+		// Currently equipped gear which affects weight
+		AdventureResult hat;
+		AdventureResult item;
+		int itemWeight;
+		AdventureResult [] acc = new AdventureResult [3];
+
+		// Available equipment which affects weight
+		AdventureResult pithHelmet;
+		AdventureResult specItem;
+		int specWeight;
+		AdventureResult leadNecklace;
+		FamiliarData leadNecklaceOwner;
+		AdventureResult ratHeadBalloon;
+		FamiliarData ratHeadBalloonOwner;
+		int tpCount;
+		AdventureResult [] tp = new AdventureResult [3];
+
 		public FamiliarStatus( KoLmafia client, boolean refresh )
 		{
-			familiar = KoLCharacter.getFamiliar();
-
-			// If directed, refresh the character status to ensure
+			// If requested, refresh the character status to ensure
 			// accuracy of available skills, currently cast buffs,
-			// met, adventures remaining, and equipment.
+			// meat, adventures remaining, and equipment.
 
 			if ( refresh )
-                        {
+			{
 				(new CharsheetRequest( client )).run();
-                                client.updateDisplay( ENABLED_STATE, "Status updated." );
-                        }
+				client.updateDisplay( ENABLED_STATE, "Status updated." );
+			}
+
+			// Find out which familiar we are working with
+			familiar = KoLCharacter.getFamiliar();
+
+			// Get details about the special item it can wear
+			String name = FamiliarsDatabase.getFamiliarItem( familiar.getID() );
+			familiarItem = new AdventureResult( name, 1, false );
+			familiarItemWeight = FamiliarData.itemWeightModifier( familiarItem.getItemID() );
+
+			// Check available skills
+			checkSkills();
+
+			// Check current equipment
+			checkCurrentEquipment();
+
+			// Check available equipment
+			checkAvailableEquipment();
+		}
+
+		private void checkSkills()
+		{
 			// Look at skills to decide which ones are possible
 			sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
 			empathyAvailable = KoLCharacter.hasSkill( EMPATHY.getName() );
@@ -626,6 +664,94 @@ public class FamiliarTrainingFrame extends KoLFrame
 			leashActive = LEASH.getCount( active );
 		}
 
+		private void checkCurrentEquipment()
+		{
+			// Initialize defaults
+			pithHelmet = null;
+			itemWeight = 0;
+			specItem = null;
+			specWeight = 0;
+			leadNecklace = null;
+			leadNecklaceOwner = null;
+			ratHeadBalloon = null;
+			ratHeadBalloonOwner = null;
+			tpCount = 0;
+
+			// Check hat for pithiness
+			hat = KoLCharacter.getCurrentEquipment( KoLCharacter.HAT );
+
+			if ( hat != null && hat.equals( PITH_HELMET ) )
+				pithHelmet = hat;
+
+			// Check current familiar item
+			item = KoLCharacter.getCurrentEquipment( KoLCharacter.FAMILIAR );
+			if ( item != null )
+			{
+				itemWeight = FamiliarData.itemWeightModifier( item.getItemID() );
+				if ( item.equals( familiarItem ) )
+				{
+					specItem = item;
+					specWeight = itemWeight;
+				}
+				else if ( item.equals( LEAD_NECKLACE) )
+				{
+					leadNecklace = item;
+					leadNecklaceOwner = familiar;
+				}
+				else if ( item.equals( RAT_HEAD_BALLOON) )
+				{
+					ratHeadBalloon = item;
+					ratHeadBalloonOwner = familiar;
+				}
+			}
+
+			// Check accessories for tininess and plasticity
+			checkAccessory( 0, KoLCharacter.ACCESSORY1 );
+			checkAccessory( 1, KoLCharacter.ACCESSORY2 );
+			checkAccessory( 2, KoLCharacter.ACCESSORY3 );
+		}
+
+		private void checkAccessory( int index, int type )
+		{
+			AdventureResult accessory = KoLCharacter.getCurrentEquipment( type );
+			acc[ index] = accessory;
+			int id = accessory.getItemID();
+			if ( id >= firstTinyPlastic && id <= lastTinyPlastic )
+				tp[ tpCount++ ] = accessory;
+		}
+
+		private void checkAvailableEquipment()
+		{
+			// If not wearing a pith helmet, search inventory
+			if ( hat == null )
+			{
+			}
+
+			// If current familiar item not the special item and
+			// such an item affects weight, search inventory
+			if ( familiarItemWeight != 0 && !familiarItem.equals( item ) )
+			{
+			}
+
+			// If familiar not wearing lead necklace, search
+			// inventory and other familiars
+			if ( leadNecklace == null )
+			{
+			}
+
+			// If familiar not wearing rat head balloon, search
+			// inventory and other familiars
+			if ( ratHeadBalloon == null )
+			{
+			}
+
+			// If equipped with fewer than three tiny plastic items
+			// equipped, search inventory for more
+			if ( tpCount < 3 )
+			{
+			}
+		}
+
 		public int baseWeight()
 		{	return familiar.getWeight();
 		}
@@ -633,93 +759,31 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private int maxBuffedWeight()
 		{
-			// Start with current weight of familiar
+			// Start with current base weight of familiar
 			int weight = familiar.getWeight();
 
-			// The character might have a suitable familiar item
-
-			weight += equipableFamiliarItem( familiar );
-
-			// The character might have a familiar buffing skills
-
-			weight += availableFamiliarSkills();
-
-			// The character can wear up to three tiny plastic accessories,
-			// Each adds one pound of familiar weight
-
-			weight += equipableAccessories();
-
-			// The character might have a suitable hat
-
-			weight += equipableHat();
-
-			return weight;
-		}
-
-		private int currentFamiliarSkills()
-		{
-			int weight = 0;
-
-			// Empathy and Leash of Linguini each add five pounds.
-			// The passive "Amphibian Sympathy" skill does too.
-
+			// Add possible skills
 			if ( sympathyAvailable )
 				weight += 5;
-
-			if ( empathyActive > 0 )
+			if ( leashAvailable )
 				weight += 5;
-
-			if ( leashActive > 0 )
-				weight += 5;
-
-			return weight;
-		}
-
-		private int availableFamiliarSkills()
-		{
-			int weight = 0;
-
-			// Empathy and Leash of Linguini each add five pounds.
-			// The passive "Amphibian Sympathy" skill does too.
-
-			if ( sympathyAvailable )
-				weight += 5;
-
 			if ( empathyAvailable )
 				weight += 5;
 
-			if ( leashAvailable )
+			// Add available familiar items
+			if ( specItem != null)
+				weight += specWeight;
+			else if (leadNecklace != null)
+				weight += 3;
+
+			// Add available tiny plastic items
+			weight += tpCount;
+
+			// Add pith helmet
+			if ( pithHelmet != null )
 				weight += 5;
 
 			return weight;
-		}
-
-		private int equipableFamiliarItem( FamiliarData familiar )
-		{
-			// If the character owns this familiar's special item
-			// and it adds weight, count it.
-
-			// Otherwise, if the character owns a lead necklace,
-			// anywhere, count it.
-
-			// Otherwise, the character owns no helpful familiar
-			// item
-			return 0;
-		}
-
-		private int equipableAccessories()
-		{
-			//  Count number of available tiny plastic
-			//  accessories. Return total number which can be
-			//  equipped (up to three).
-			return 0;
-		}
-
-		private int equipableHat()
-		{
-			//  See if the character owns a plexiglass pith helmet
-			//  and can equip it.
-			return 0;
 		}
 	}
 
