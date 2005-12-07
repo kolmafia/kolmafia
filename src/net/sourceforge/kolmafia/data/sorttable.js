@@ -105,14 +105,15 @@ function ts_resortTable(lnk) {
 	var tr = td.parentNode;
 	if ( column == 0 ) {
 		for (var tri=0;tri<tr.childNodes.length;tri++) {
-			if (td==tr.childNodes[tri])
-				column = tri;
+			if (td==tr.childNodes[tri]) {
+				column = tr.childNodes[0] ? tri : tri - 1;
+			}
 		}
 	}
-		
+
 // End modified section.  All code outside of this
 // section and not similarly marked is unmodified.
-	
+
     var table = getParent(td,'TABLE');
 
     // Work out a type for the column
