@@ -98,6 +98,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			itemData.indexOf( "waxlips.gif" ) != -1 ? "wax lips" :
 			itemData.indexOf( "pitchfork.gif" ) != -1 ? "annoying pitchfork" :
 			itemData.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" :
+			itemData.indexOf( "ratbal.gif" ) != -1 ? "rat head balloon" :
 			FamiliarsDatabase.getFamiliarItem( this.id ).toLowerCase();
 	}
 
@@ -164,6 +165,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case -1:	// bogus item ID
 		case 857:	// moonglasses
 		case 1040:	// lucky Tam O'Shanter
+		case 1116:	// annoying pitchfork
 		case 1152:	// miniature gravy-covered maypole
 		case 1260:	// wax lips
 			return 0;
@@ -227,6 +229,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			case 1040:
 			case 1116:
 			case 1152:
+			case 1218:
 			case 1260:
 				return true;
 
