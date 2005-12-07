@@ -427,9 +427,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void visitCakeShapedArena()
 	{
-		if ( CakeArenaManager.getOpponentList().isEmpty() )
-			(new CakeArenaRequest( this )).run();
-
 		Object [] parameters = new KoLmafia[1];
 		parameters[0] = this;
 
