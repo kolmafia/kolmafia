@@ -194,7 +194,7 @@ public class EquipmentRequest extends PasswordHashRequest
 							String item = familiar.getItem();
 							if ( item != null && item.equals(changeItemName) )
 							{
-								FamiliarData currentFamiliar = (FamiliarData) familiars.getSelectedItem();
+								FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 								// Switch to it
 								(new FamiliarRequest( client, familiar )).run();
 

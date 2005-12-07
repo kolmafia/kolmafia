@@ -120,6 +120,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		training = new FamiliarTrainingPanel();
 		getContentPane().add( training, "" );
+
+		// Clear left over results from the buffer
+		results.clearBuffer();
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -504,45 +507,41 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarStatus status = new FamiliarStatus( client, false );
 
 		// Identify the familiar we are training
-		String name = familiar.getName();
-		String race = familiar.getRace();
-		int weight = familiar.getWeight();
-
-		results.append( "Training " + name + ", the " + weight + " lb. " + race + ".<br>" );
-
-		if ( goalMet( status, goal, type) )
-		{
-			results.append( "Goal already met.<br>" );
-			return;
-		}
+		printFamiliar( status, goal, type );
+		results.append( "<br>" );
 
 		// Print available buffs and items and current buffs
-
-		// Choose possible weights
-		int [] weights = new int[1];
-		weights[0] = familiar.getModifiedWeight();
+		results.append( status.printCurrentBuffs() );
+		results.append( status.printAvailableBuffs() );
+		results.append( status.printAvailableEquipment() );
+		results.append( "<br>" );
 
 		// Get opponent list
 		LockableListModel opponents = CakeArenaManager.getOpponentList( client );
 
-		// List the opponents
+		// Print the opponents
 
 		// Make a Familiar Tool
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
 		int id = familiar.getID();
-		results.append( "<br>" );
 
-		// Select initial battle
+		// Iterate until we reach the goal
+		boolean success = goalMet( status, goal, type);
+		while ( !success )
 		{
+			// Choose possible weights
+			int [] weights = new int[1];
+			weights[0] = familiar.getModifiedWeight();
+
 			int opp = tool.bestOpponent( id, weights );
 			CakeArenaManager.ArenaOpponent opponent = (CakeArenaManager.ArenaOpponent)opponents.get( opp );
 
 			if ( opponent == null )
 			{
 				results.append( "Can't determine an appropriate opponent.<br>");
-				return;
+				break;
 			}
 
 			int match = tool.bestMatch();
@@ -551,29 +550,43 @@ public class FamiliarTrainingFrame extends KoLFrame
 			int famweight = tool.bestWeight();
 			int diff = tool.difference();
 
-			results.append( "Match: " + name + " (" + famweight + " lbs) vs. " + opponent.getName() + " in the " + event + "<br>" );
+			results.append( "Match: " + familiar.getName() + " (" + famweight + " lbs) vs. " + opponent.getName() + " in the " + event + " event.<br>" );
+			break;
 		}
+
+		results.append( "Goal " + ( success ? "" : "not" ) + " met.<br>" );
+	}
+
+	private static void printFamiliar( FamiliarStatus status, int goal, int type )
+	{
+		FamiliarData familiar = status.getFamiliar();
+		String name = familiar.getName();
+		String race = familiar.getRace();
+		int weight = familiar.getWeight();
+		String hope = "";
+
+		if ( type == BASE )
+			hope = " to " + goal + " lbs. base weight";
+		else if ( type == BUFFED )
+			hope = " to " + goal + " lbs. buffed weight";
+		else if ( type == TURNS )
+			hope = " for " + goal + " turns";
+
+		results.append( "Training " + name + " the " + weight + " lb. " + race + hope +	 ".<br>" );
 	}
 
 	private static boolean goalMet( FamiliarStatus status, int goal, int type )
 	{
-		switch ( type )
+		switch (type)
 		{
 		case BASE:
-			results.append( "Goal: " + goal + " lbs. " + " base weight.<br>");
-			if ( status.baseWeight() >= goal )
-				return true;
-			break;
+			return ( status.baseWeight() >= goal );
 
 		case BUFFED:
-			results.append( "Goal: " + goal + " lbs. " + " buffed weight.<br>");
-			if ( status.maxBuffedWeight() >= goal )
-				return true;
-			break;
+			return ( status.maxBuffedWeight() >= goal );
 
 		case TURNS:
-			results.append( "Goal: train for " + goal + " turn" + ( ( goal > 1) ? "s<br>" : "<br>" ) );
-			break;
+			return ( status.turnsUsed() >= goal );
 		}
 
 		return false;
@@ -590,6 +603,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 	{
 		// The familiar we are tracking
 		FamiliarData familiar;
+
+		// How many turns we have trained it
+		int turns;
 
 		// Details about its special familiar item
 		AdventureResult familiarItem ;
@@ -649,14 +665,17 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Check available equipment
 			checkAvailableEquipment();
+
+			// No turns have been used yet
+			turns = 0;
 		}
 
 		private void checkSkills()
 		{
 			// Look at skills to decide which ones are possible
 			sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
-			empathyAvailable = KoLCharacter.hasSkill( EMPATHY.getName() );
-			leashAvailable = KoLCharacter.hasSkill( LEASH.getName() );
+			empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" );
+			leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
 
 			// Look at effects to decide which ones are active;
 			LockableListModel active = KoLCharacter.getEffects();
@@ -722,42 +741,117 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void checkAvailableEquipment()
 		{
-			// If not wearing a pith helmet, search inventory
-			if ( hat == null )
-			{
-			}
+			LockableListModel inventory = KoLCharacter.getInventory();
 
-			// If current familiar item not the special item and
+			// If not wearing a pith helmet, search inventory
+			if ( hat == null &&
+			     PITH_HELMET.getCount( inventory ) > 0 &&
+			     EquipmentDatabase.canEquip( "plexiglass pith helmet" ) )
+				pithHelmet = PITH_HELMET;
+
+			// If current familiar item is not the special item and
 			// such an item affects weight, search inventory
-			if ( familiarItemWeight != 0 && !familiarItem.equals( item ) )
+			if ( familiarItemWeight != 0 &&
+			     !familiarItem.equals( item ) &&
+			     familiarItem.getCount( inventory ) > 0 )
 			{
+				specItem = familiarItem;
+				specWeight = familiarItemWeight;
 			}
 
 			// If familiar not wearing lead necklace, search
-			// inventory and other familiars
-			if ( leadNecklace == null )
+			// inventory
+			if ( leadNecklace == null &&
+			     LEAD_NECKLACE.getCount( inventory ) > 0 )
 			{
+				leadNecklace = LEAD_NECKLACE;
+				leadNecklaceOwner = null;
 			}
 
 			// If familiar not wearing rat head balloon, search
-			// inventory and other familiars
-			if ( ratHeadBalloon == null )
+			// inventory
+			if ( ratHeadBalloon == null &&
+			     RAT_HEAD_BALLOON.getCount( inventory ) > 0)
 			{
+				ratHeadBalloon = RAT_HEAD_BALLOON;
+				ratHeadBalloonOwner = null;
+			}
+
+			// If we don't have a lead necklace or a rat head
+			// balloon, search other familiars; we'll steal it from
+			// them if necessary
+			if ( leadNecklace == null && ratHeadBalloon == null )
+			{
+				// Find first familiar with item
+				LockableListModel familiars = KoLCharacter.getFamiliarList();
+				for ( int i = 0; i < familiars.size(); ++i )
+				{
+					FamiliarData familiar = (FamiliarData)familiars.get(i);
+					String item = familiar.getItem();
+					if ( item == null )
+						continue;
+
+					if ( item.equals( "lead necklace") )
+					{
+						// We found a lead necklace
+						if ( leadNecklace == null )
+						{
+							leadNecklace = LEAD_NECKLACE;
+							leadNecklaceOwner = familiar;
+						}
+
+						// Continue looking for balloon
+						if ( ratHeadBalloon == null )
+							continue;
+
+						// Both are available
+						break;
+					}
+
+					if ( item.equals( "rat head balloon") )
+					{
+						// We found a balloon
+						if ( ratHeadBalloon == null )
+						{
+							ratHeadBalloon = RAT_HEAD_BALLOON;
+							ratHeadBalloonOwner = familiar;
+						}
+
+						// Continue looking for necklace
+						if ( leadNecklace == null )
+							continue;
+
+						// Both are available
+						break;
+					}
+				}
 			}
 
 			// If equipped with fewer than three tiny plastic items
 			// equipped, search inventory for more
-			if ( tpCount < 3 )
+			for ( int i = firstTinyPlastic; tpCount < 3 && i <= lastTinyPlastic; ++i )
 			{
+				AdventureResult ar = new AdventureResult( i, 1 );
+				int count = ar.getCount( inventory );
+
+				while ( count-- > 0 && tpCount < 3 )
+					tp[ tpCount++ ] = ar;
 			}
+		}
+
+		public FamiliarData getFamiliar()
+		{	return familiar;
+		}
+
+		public int turnsUsed()
+		{	return turns;
 		}
 
 		public int baseWeight()
 		{	return familiar.getWeight();
 		}
 
-
-		private int maxBuffedWeight()
+		public int maxBuffedWeight()
 		{
 			// Start with current base weight of familiar
 			int weight = familiar.getWeight();
@@ -784,6 +878,60 @@ public class FamiliarTrainingFrame extends KoLFrame
 				weight += 5;
 
 			return weight;
+		}
+
+		public String printAvailableBuffs()
+		{
+			StringBuffer text = new StringBuffer();
+
+			text.append( "Castable buffs:" );
+			if ( empathyAvailable )
+				text.append( " Empathy (+5)" );
+			if ( leashAvailable )
+				text.append( " Leash (+5)" );
+			if ( !empathyAvailable && !leashAvailable )
+				text.append( " None" );
+			text.append( "<br>" );
+
+			return text.toString();
+		}
+
+		public String printCurrentBuffs()
+		{
+			StringBuffer text = new StringBuffer();
+
+			text.append( "Current buffs:" );
+			if ( sympathyAvailable )
+				text.append( " Sympathy (+5 permanent)" );
+			if ( empathyActive > 0 )
+				text.append( " Empathy (+5 for " + empathyActive + " turns)" );
+			if ( leashActive > 0 )
+				text.append( " Leash (+5 for " + leashActive + " turns)" );
+			if ( !sympathyAvailable && empathyActive == 0 && leashActive == 0 )
+				text.append( " None" );
+			text.append( "<br>" );
+
+			return text.toString();
+		}
+
+		public String printAvailableEquipment()
+		{
+			StringBuffer text = new StringBuffer();
+
+			text.append( "Available equipment:" );
+			if ( pithHelmet != null)
+				text.append( " plexiglass pith helmet (+5)" );
+			if ( specItem != null)
+				text.append( " " + specItem.getName() + " (+" + specWeight + ")" );
+			if ( leadNecklace != null)
+				text.append( " lead necklace (+3)" );
+			if ( ratHeadBalloon != null)
+				text.append( " rat head balloon (-3)" );
+			for ( int i = 0; i < tpCount; ++i )
+				text.append( " " + tp[i].getName() + " (+1)" );
+			text.append( "<br>" );
+
+			return text.toString();
 		}
 	}
 
