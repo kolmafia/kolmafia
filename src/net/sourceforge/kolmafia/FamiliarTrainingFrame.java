@@ -64,6 +64,7 @@ import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
 
 // utilities
+import java.util.TreeSet;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -120,6 +121,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		JMenu optionsMenu = new JMenu( "Options" );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Refresh before session", "refreshBeforeFamiliarSession" ) );
+		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Cast buffs during training", "castBuffsWhileTraining" ) );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Verbose logging", "verboseFamiliarLogging" ) );
 		menuBar.add( optionsMenu );
 
@@ -508,6 +510,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	public static void levelFamiliar( KoLmafia client, int goal, int type )
 	{
+		boolean verbose = client.getLocalBooleanProperty( "verboseFamiliarLogging" );
+		boolean buffs = client.getLocalBooleanProperty( "castBuffsWhileTraining" );
+
 		// Clear the output
 		results.clearBuffer();
 
@@ -551,9 +556,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 		while ( !success )
 		{
 			// Choose possible weights
-			int [] weights = new int[1];
-			weights[0] = familiar.getModifiedWeight();
+			int [] weights = status.getWeights( buffs );
 
+			if ( verbose )
+				printWeights( weights, buffs );
+
+			// Choose next opponent
 			CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( id, weights );
 
 			if ( opponent == null )
@@ -562,12 +570,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 				break;
 			}
 
+			printMatch( familiar, opponent, tool, verbose );
+
 			int match = tool.bestMatch();
 			int famweight = tool.bestWeight();
-			int diff = tool.difference();
 
-			String event = events[match];
-			results.append( "Match: " + familiar.getName() + " (" + famweight + " lbs) vs. " + opponent.getName() + " in the " + event + " event.<br>" );
+			// Do the event
+
 			break;
 		}
 
@@ -623,6 +632,45 @@ public class FamiliarTrainingFrame extends KoLFrame
 		return false;
 	}
 
+	private static void printWeights( int [] weights, boolean buffs )
+	{
+		StringBuffer text = new StringBuffer();
+
+		text.append( "Possible familiar weights" );
+		if ( buffs )
+			text.append( " (including castable buffs)" );
+		text.append( ":");
+		for (int i = 0; i < weights.length; ++i )
+		{
+			text.append( ( i > 0 ) ? ", " : " ");
+			text.append( weights[i] );
+		}
+		text.append( "<br>");
+
+		results.append( text.toString() );
+	}
+
+	private static void printMatch( FamiliarData familiar, CakeArenaManager.ArenaOpponent opponent, FamiliarTool tool, boolean verbose )
+	{
+		StringBuffer text = new StringBuffer();
+		int weight = tool.bestWeight();
+		int diff = tool.difference();
+
+		text.append( "Match: " + familiar.getName() );
+		text.append( " (" + weight + " lbs." );
+		if ( verbose )
+		{
+			text.append( "; optimum = " );
+			text.append( weight - diff );
+			text.append( " lbs." );
+		}
+		text.append( ") vs. " + opponent.getName() );
+		text.append( " in the " + events[ tool.bestMatch() ] );
+		text.append( " event.<br>" );
+
+		results.append( text.toString() );
+	}
+
 	/**
 	 * A class to hold everything that can modify the weight of the
 	 * current familiar:
@@ -671,6 +719,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Settings
 		boolean verbose;
 
+		// Weights
+		TreeSet weights;
+
 		public FamiliarStatus( KoLmafia client )
 		{
 			// Get local setting
@@ -705,6 +756,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// No turns have been used yet
 			turns = 0;
+
+			// Initialize set of weights
+			weights = new TreeSet();
 		}
 
 		private void checkSkills()
@@ -874,6 +928,91 @@ public class FamiliarTrainingFrame extends KoLFrame
 				while ( count-- > 0 && tpCount < 3 )
 					tp[ tpCount++ ] = ar;
 			}
+		}
+
+		public int [] getWeights( boolean buffs )
+		{
+			// Clear the set of possible weights
+			weights.clear();
+
+			// Calculate base weight
+			int weight = familiar.getWeight();
+			if ( sympathyAvailable )
+				weight += 5;
+			if ( empathyActive > 0 )
+				weight += 5;
+			if ( leashActive > 0 )
+				weight += 5;
+
+			// Start with buffs
+			getBuffWeights( buffs, weight );
+
+			// Make an array to hold values
+			Object [] vals = weights.toArray();
+			int [] value = new int[ vals.length ];
+
+			// Read Integers from the set and store ints
+			for ( int i = 0; i < vals.length; ++i )
+				value[i] = ((Integer)vals[i]).intValue();
+
+			return value;
+		}
+
+		private void getBuffWeights( boolean buffs, int weight )
+		{
+			if ( buffs )
+			{
+				if ( empathyAvailable && empathyActive == 0 )
+					getItemWeights( weight + 5 );
+
+				if ( leashAvailable && leashActive == 0 )
+					getItemWeights( weight + 5 );
+
+				if ( empathyAvailable && leashAvailable &&
+				     empathyActive == 0 && leashActive == 0 )
+					getItemWeights( weight + 10 );
+			}
+
+			// Calculate item weights with no additional buffs
+			getItemWeights( weight );
+		}
+
+		private void getItemWeights( int weight )
+		{
+			// If familiar specific item adds weight, calculate
+			if ( specWeight != 0 )
+				getAccessoryWeights( Math.max( 1, weight + specWeight ) );
+
+			// If we have a lead necklace, use it
+			if ( leadNecklace != null )
+				getAccessoryWeights( weight + 3);
+
+			// If we have a rat head balloon, use it
+			if ( ratHeadBalloon != null )
+				getAccessoryWeights( Math.max( 1, weight -3) );
+
+			// Calculate Accessory Weights with no Familiar Items
+			getAccessoryWeights( weight );
+		}
+
+		private void getAccessoryWeights( int weight )
+		{
+			// Calculate using variable #s of tiny plastic objects
+			for ( int i = 0; i < tpCount; ++i )
+				getHatWeights( weight + i + 1 );
+
+			// Calculate Hat Weights with no accessories
+			getHatWeights( weight );
+		}
+
+		private void getHatWeights( int weight )
+		{
+			// Add weight with helmet
+			if ( pithHelmet != null )
+				weights.add( new Integer( weight + 5 ) );
+
+			// Add weight with no helmet
+			weights.add( new Integer( weight ) );
 		}
 
 		public FamiliarData getFamiliar()
