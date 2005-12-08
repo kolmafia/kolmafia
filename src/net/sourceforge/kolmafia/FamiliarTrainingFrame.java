@@ -114,8 +114,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar( menuBar );
 
-		JMenu optionsMenu = new JMenu( "File" );
-		optionsMenu.add( new FileMenuItem() );
+		JMenu fileMenu = new JMenu( "File" );
+		fileMenu.add( new FileMenuItem() );
+		menuBar.add( fileMenu );
+
+		JMenu optionsMenu = new JMenu( "Options" );
+		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Refresh before session", "refreshBeforeFamiliarSession" ) );
+		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Verbose logging", "verboseFamiliarLogging" ) );
 		menuBar.add( optionsMenu );
 
 		training = new FamiliarTrainingPanel();
@@ -516,7 +521,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		// Get the status of current familiar
-		FamiliarStatus status = new FamiliarStatus( client, false );
+		FamiliarStatus status = new FamiliarStatus( client );
 
 		// Identify the familiar we are training
 		printFamiliar( status, goal, type );
@@ -591,7 +596,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static void printOpponents( LockableListModel opponents )
 	{
-                results.append( "Opponents:<br>" );
+		results.append( "Opponents:<br>" );
 		int opponentCount = opponents.size();
 		for ( int i = 0; i < opponentCount; ++i )
 		{
@@ -665,13 +670,19 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int tpCount;
 		AdventureResult [] tp = new AdventureResult [3];
 
-		public FamiliarStatus( KoLmafia client, boolean refresh )
+		// Settings
+		boolean verbose;
+
+		public FamiliarStatus( KoLmafia client )
 		{
+			// Get local setting
+			verbose = client.getLocalBooleanProperty( "verboseFamiliarLogging" );
+
 			// If requested, refresh the character status to ensure
 			// accuracy of available skills, currently cast buffs,
 			// meat, adventures remaining, and equipment.
 
-			if ( refresh )
+			if ( client.getLocalBooleanProperty( "refreshBeforeFamiliarSession" ) )
 			{
 				(new CharsheetRequest( client )).run();
 				client.updateDisplay( ENABLED_STATE, "Status updated." );

@@ -1350,6 +1350,29 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
+	 * An internal class used to handle requests which resets a property
+	 * for the duration of the current session.
+	 */
+
+	protected class LocalSettingChangeMenuItem extends JCheckBoxMenuItem implements ActionListener
+	{
+		private String property;
+
+		public LocalSettingChangeMenuItem( KoLmafia client, String title, String property )
+		{
+			super( title );
+			setSelected( client.getLocalBooleanProperty( property ) );
+
+			this.property = property;
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	client.setLocalProperty( property, isSelected() );
+		}
+	}
+
+	/**
 	 * This internal class is used to process the request for selecting
 	 * a script using the file dialog.
 	 */

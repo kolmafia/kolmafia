@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.math.BigInteger;
@@ -85,6 +86,7 @@ public abstract class KoLmafia implements KoLConstants
 	private boolean disableMacro;
 	protected KoLSettings settings;
 	protected PrintStream macroStream;
+	protected Properties LOCAL_SETTINGS = new Properties();
 
 	protected int currentState;
 	protected boolean permitContinue;
@@ -1940,5 +1942,35 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void setCurrentRequest( KoLRequest request)
 	{	currentRequest = request;
+	}
+
+	public void setLocalProperty( String property, String value )
+	{	LOCAL_SETTINGS.setProperty( property, value );
+	}
+
+	public void setLocalProperty( String property, boolean value )
+	{	LOCAL_SETTINGS.setProperty( property, String.valueOf( value ) );
+	}
+
+	public void setLocalProperty( String property, int value )
+	{	LOCAL_SETTINGS.setProperty( property, String.valueOf( value ) );
+	}
+
+	public String getLocalProperty( String property )
+	{
+		String value = LOCAL_SETTINGS.getProperty( property );
+		return ( value == null) ? "" : value;
+	}
+
+	public boolean getLocalBooleanProperty( String property )
+	{
+		String value = LOCAL_SETTINGS.getProperty( property );
+		return ( value == null) ? false : value.equals( "true" );
+	}
+
+	public int getLocalIntegerProperty( String property )
+	{
+		String value = LOCAL_SETTINGS.getProperty( property );
+		return ( value == null) ? 0 : Integer.parseInt( value );
 	}
 }
