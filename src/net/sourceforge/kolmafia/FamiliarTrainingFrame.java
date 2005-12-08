@@ -341,6 +341,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 					// Prompt for goal
 					int goal = getQuantity( "Train up to what base weight?", 20, 20 );
 
+					// Quit if canceled
+					if ( goal == 0 )
+						return;
+
 					// Level the familiar
 					levelFamiliar( client, goal, BASE );
 				}
@@ -357,6 +361,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 					// Prompt for goal
 					int goal = getQuantity( "Train up to what buffed weight?", 48, 20 );
 
+					// Quit if canceled
+					if ( goal == 0 )
+						return;
+
 					// Level the familiar
 					levelFamiliar( client, goal, BUFFED );
 				}
@@ -372,6 +380,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 				{
 					// Prompt for goal
 					int goal = getQuantity( "Train for how many turns?", Integer.MAX_VALUE, 1 );
+
+					// Quit if canceled
+					if ( goal == 0 )
+						return;
 
 					// Level the familiar
 					levelFamiliar( client, goal, TURNS );
@@ -520,6 +532,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		LockableListModel opponents = CakeArenaManager.getOpponentList( client );
 
 		// Print the opponents
+		printOpponents( opponents );
+		results.append( "<br>" );
 
 		// Make a Familiar Tool
 		FamiliarTool tool = new FamiliarTool( opponents );
@@ -573,6 +587,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 			hope = " for " + goal + " turns";
 
 		results.append( "Training " + name + " the " + weight + " lb. " + race + hope +	 ".<br>" );
+	}
+
+	private static void printOpponents( LockableListModel opponents )
+	{
+                results.append( "Opponents:<br>" );
+		int opponentCount = opponents.size();
+		for ( int i = 0; i < opponentCount; ++i )
+		{
+			CakeArenaManager.ArenaOpponent opponent = (CakeArenaManager.ArenaOpponent)opponents.get( i );
+			String name = opponent.getName();
+			String race = opponent.getRace();
+			int weight = opponent.getWeight();
+			results.append( name + " the " + weight + " lb. " + race + "<br>");
+		}
 	}
 
 	private static boolean goalMet( FamiliarStatus status, int goal, int type )
