@@ -554,8 +554,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			int [] weights = new int[1];
 			weights[0] = familiar.getModifiedWeight();
 
-			int opp = tool.bestOpponent( id, weights );
-			CakeArenaManager.ArenaOpponent opponent = (CakeArenaManager.ArenaOpponent)opponents.get( opp );
+			CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( id, weights );
 
 			if ( opponent == null )
 			{
@@ -564,11 +563,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			int match = tool.bestMatch();
-			String event = events[match];
-
 			int famweight = tool.bestWeight();
 			int diff = tool.difference();
 
+			String event = events[match];
 			results.append( "Match: " + familiar.getName() + " (" + famweight + " lbs) vs. " + opponent.getName() + " in the " + event + " event.<br>" );
 			break;
 		}

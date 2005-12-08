@@ -43,8 +43,8 @@ import java.util.List;
 
 public class FamiliarTool
 {
-	// Array of current five opponents
-	private Opponent [] opponents = new Opponent[5];
+	// Array of current opponents
+	private Opponent [] opponents;
 	
 	// Index of best opponent to fight
 	private int bestOpponent;
@@ -66,13 +66,11 @@ public class FamiliarTool
 	public FamiliarTool( List opponents )
 	{
 		int opponentCount = opponents.size();
+		this.opponents = new Opponent[ opponentCount ];
 		for ( int i = 0; i < opponentCount; ++i )
 		{
 			CakeArenaManager.ArenaOpponent opponent = (CakeArenaManager.ArenaOpponent)opponents.get( i );
-			int id = FamiliarsDatabase.getFamiliarID( opponent.getRace() );
-			int weight = opponent.getWeight();
-			
-			this.opponents[i] = new Opponent( id, weight );
+			this.opponents[i] = new Opponent( opponent );
 		}
 	}
 
@@ -82,8 +80,9 @@ public class FamiliarTool
 	 * @param	possibleOwnWeights	Array with all possibilities for familiar weight
 	 * @return	The ID number of the best opponent. Further information can be collected through other functions
 	 */
-	public int bestOpponent( int ownFamiliar, int [] possibleOwnWeights )
+	public CakeArenaManager.ArenaOpponent bestOpponent( int ownFamiliar, int [] possibleOwnWeights )
 	{
+		int opponentCount = opponents.length;
 		int [] ownSkills = FamiliarsDatabase.getFamiliarSkills( ownFamiliar );
 		int possibleWeights = possibleOwnWeights.length;
 
@@ -98,7 +97,7 @@ public class FamiliarTool
 			if ( ownSkill == 0 )
 				continue;
 
-			for ( int opponent = 0; opponent < 5; ++opponent )
+			for ( int opponent = 0; opponent < opponentCount; ++opponent )
 			{
 				Opponent opp = opponents[opponent];
 				int opponentWeight = opp.getWeight();
@@ -128,7 +127,10 @@ public class FamiliarTool
 			}
 		}
 
-		return bestOpponent;
+		if ( bestOpponent >= 0 )
+			return opponents[bestOpponent].getOpponent();
+
+		return null;
 	}
 
 	/**
@@ -176,6 +178,9 @@ public class FamiliarTool
 
 	private class Opponent
 	{
+		// Cake Arena data structure
+		private CakeArenaManager.ArenaOpponent opponent;
+
 		// Familiar type
 		private int type;
 
@@ -185,11 +190,16 @@ public class FamiliarTool
 		// Arena parameters
 		private int [] arena = new int[4];
 
-		public Opponent( int type, int weight )
+		public Opponent( CakeArenaManager.ArenaOpponent opponent )
 		{
-			this.type = type;
-			this.weight = weight;
+			this.opponent = opponent;
+			this.type = FamiliarsDatabase.getFamiliarID( opponent.getRace() );
+			this.weight = opponent.getWeight();
 			this.arena = FamiliarsDatabase.getFamiliarSkills( type );
+		}
+
+		public CakeArenaManager.ArenaOpponent getOpponent()
+		{	return opponent;
 		}
 
 		public int getWeight()
