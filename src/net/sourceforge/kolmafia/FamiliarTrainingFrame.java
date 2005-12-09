@@ -69,6 +69,8 @@ import java.util.TreeSet;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.ChatBuffer;
@@ -82,14 +84,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 {
 	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
 	private FamiliarTrainingPanel training;
-
-	private static final String [] events =
-	{
-		"Ultimate Cage Match",
-		"Scavenger Hunt",
-		"Obstacle Course",
-		"Hide and Seek"
-	};
 
 	private static final int BASE = 1;
 	private static final int BUFFED = 2;
@@ -555,9 +549,23 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int id = familiar.getID();
 
 		// Iterate until we reach the goal
-		boolean success = goalMet( status, goal, type);
-		while ( !success )
+		boolean success;
+		while ( !( success = goalMet( status, goal, type) ) )
 		{
+			// Make sure you have an adventure left
+			if ( KoLCharacter.getAdventuresLeft() < 1 )
+			{
+				results.append( "You're out of adventures.<br>" );
+				break;
+			}
+
+			// Make sure you have enough meat to pay for the contest
+			if ( KoLCharacter.getAvailableMeat() < 100 )
+			{
+				results.append( "You don't have enough meat to continue.<br>" );
+				break;
+			}
+
 			// Choose possible weights
 			int [] weights = status.getWeights( buffs );
 
@@ -573,10 +581,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				break;
 			}
 
-			printMatch( familiar, opponent, tool, verbose );
-
 			// Change into appropriate gear
-
 			if ( !status.changeGear( tool.bestWeight(), buffs ) )
 			{
 				if ( buffs )
@@ -590,11 +595,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				break;
 			}
 
-			int match = tool.bestMatch();
-
-			// Do the event
-
-			break;
+			// Enter the contest
+			if ( !fightMatch( client, status, tool, opponent, verbose ) )
+				break;
 		}
 
 		results.append( "Goal " + ( success ? "" : "not" ) + " met.<br>" );
@@ -667,25 +670,48 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.append( text.toString() );
 	}
 
-	private static void printMatch( FamiliarData familiar, CakeArenaManager.ArenaOpponent opponent, FamiliarTool tool, boolean verbose )
+	private static void printMatch( FamiliarStatus status, CakeArenaManager.ArenaOpponent opponent, FamiliarTool tool )
 	{
-		StringBuffer text = new StringBuffer();
+		FamiliarData familiar = status.getFamiliar();
 		int weight = tool.bestWeight();
 		int diff = tool.difference();
 
-		text.append( "Match: " + familiar.getName() );
+		StringBuffer text = new StringBuffer();
+		text.append( "Round " + ( status.turnsUsed() + 1) + ": " );
+		text.append( familiar.getName() );
 		text.append( " (" + weight + " lbs." );
-		if ( verbose )
+		if ( diff != 0 )
 		{
 			text.append( "; optimum = " );
 			text.append( weight - diff );
 			text.append( " lbs." );
 		}
 		text.append( ") vs. " + opponent.getName() );
-		text.append( " in the " + events[ tool.bestMatch() ] );
+		text.append( " in the " + CakeArenaManager.getEvent( tool.bestMatch() ) );
 		text.append( " event.<br>" );
 
 		results.append( text.toString() );
+	}
+
+	private static boolean fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, boolean verbose )
+	{
+		// Tell the user about the match
+		printMatch( status, opponent, tool );
+
+		// Run the match
+		KoLRequest request = new CakeArenaRequest( client, opponent.getID(), tool.bestMatch() );
+		request.run();
+
+		// If couldn't run the match, bail now
+		if ( !client.permitsContinue())
+			return false;
+
+		// Pass the response text to the FamiliarStatus to
+		// add familiar items and deduct a turn.
+		String text = status.processMatchResult( request.responseText, verbose );
+		results.append( text );
+
+		return true;
 	}
 
 	/**
@@ -825,24 +851,25 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Check hat for pithiness
 			equipment = KoLCharacter.getCurrentEquipment( KoLCharacter.HAT );
 
-			if ( equipment != null && equipment.equals( PITH_HELMET ) )
+			if ( equipment != null && equipment.getName().equals( PITH_HELMET.getName() ) )
 				hat = pithHelmet = equipment;
 
 			// Check current familiar item
 			equipment = KoLCharacter.getCurrentEquipment( KoLCharacter.FAMILIAR );
 			if ( equipment != null )
 			{
-				if ( equipment.equals( familiarItem ) )
+                                String name = equipment.getName();
+				if ( name.equals( familiarItem.getName() ) )
 				{
 					item = specItem = equipment;
 					specWeight = familiarItemWeight;
 				}
-				else if ( equipment.equals( LEAD_NECKLACE) )
+				else if ( name.equals( LEAD_NECKLACE.getName() ) )
 				{
 					item = leadNecklace = LEAD_NECKLACE;
 					leadNecklaceOwner = familiar;
 				}
-				else if ( equipment.equals( RAT_HEAD_BALLOON) )
+				else if ( name.equals( RAT_HEAD_BALLOON.getName() ) )
 				{
 					item = ratHeadBalloon = RAT_HEAD_BALLOON;
 					ratHeadBalloonOwner = familiar;
@@ -916,7 +943,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// If we don't have a lead necklace or a rat head
 			// balloon, search other familiars; we'll steal it from
 			// them if necessary
-			if ( leadNecklace == null && ratHeadBalloon == null )
+			if ( leadNecklace == null || ratHeadBalloon == null )
 			{
 				// Find first familiar with item
 				LockableListModel familiars = KoLCharacter.getFamiliarList();
@@ -1082,7 +1109,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			GearSet next = chooseGearSet( current, weight, buffs );
 
 			// If we couldn't pick one, that's an internal error
-			if ( weight != next.weight() )
+			if ( next == null || weight != next.weight() )
 				return false;
 
 			// Change into the new GearSet
@@ -1126,7 +1153,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Steal a lead necklace, if needed
 			if ( next == leadNecklace && leadNecklaceOwner != null && leadNecklaceOwner != familiar )
 			{
-				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getRace() + "<br>" );
+				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getName() + " the " + leadNecklaceOwner.getRace() + "<br>" );
 				stealFamiliarItem( leadNecklaceOwner );
 				leadNecklaceOwner = familiar;
 			}
@@ -1134,7 +1161,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Steal a rat head balloon necklace, if needed
 			if ( next == ratHeadBalloon && ratHeadBalloonOwner != null && ratHeadBalloonOwner != familiar )
 			{
-				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getRace() + "<br>" );
+				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getName() + " the " + ratHeadBalloonOwner.getRace() + "<br>" );
 				stealFamiliarItem( ratHeadBalloonOwner );
 				ratHeadBalloonOwner = familiar;
 			}
@@ -1233,13 +1260,32 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void getBuffGearSets( int weight, boolean buffs )
 		{
-			if ( leashActive > 0 || (buffs && leashAvailable ) )
-				getHatGearSets( weight, true, false );
-			if ( empathyActive > 0 || (buffs && empathyAvailable ) )
-				getHatGearSets( weight, false, true );
-			if ( ( leashActive > 0 && empathyActive > 0) ||
-			     ( buffs && leashAvailable && empathyAvailable ) )
+			if ( leashActive > 0 && empathyActive > 0 )
 				getHatGearSets( weight, true, true );
+			else if ( leashActive > 0 )
+			{
+				getHatGearSets( weight, true, false );
+				if ( buffs && empathyAvailable )
+					getHatGearSets( weight, true, true );
+			}
+			else if ( empathyActive > 0 )
+			{
+				getHatGearSets( weight, false, true );
+				if ( buffs && leashAvailable )
+					getHatGearSets( weight, true, true );
+			}
+			else if ( buffs )
+			{
+				getHatGearSets( weight, false, false );
+				if ( leashAvailable )
+					getHatGearSets( weight, true, false );
+				if ( empathyAvailable )
+					getHatGearSets( weight, false, true );
+				if ( leashAvailable && empathyAvailable)
+					getHatGearSets( weight, true, true );
+			}
+			else
+				getHatGearSets( weight, false, false );
 		}
 
 		private void getHatGearSets( int weight, boolean leash, boolean empathy )
@@ -1258,6 +1304,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				getAccessoryGearSets( weight, leadNecklace, hat, leash, empathy );
 			if ( ratHeadBalloon != null )
 				getAccessoryGearSets( weight, ratHeadBalloon, hat, leash, empathy );
+			getAccessoryGearSets( weight, null, hat, leash, empathy );
 		}
 
 		private void getAccessoryGearSets( int weight, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
@@ -1276,6 +1323,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				addGearSet( weight, null, tp[0], null, item, hat, leash, empathy );
 				addGearSet( weight, null, null, tp[0], item, hat, leash, empathy );
 			}
+			addGearSet( weight, null, null, null, item, hat, leash, empathy );
 		}
 
 		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
@@ -1286,6 +1334,58 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		/**************************************************************/
+
+		public String processMatchResult( String response, boolean verbose )
+		{
+			Matcher matcher;
+			StringBuffer text = new StringBuffer();
+
+			// Find and report how much experience was gained
+			matcher = Pattern.compile( "gains (\\d+) experience" ).matcher( response );
+			if ( matcher.find() )
+			{
+				text.append( familiar.getName() + " gains " + matcher.group(1) + " experience" );
+
+				// If the familiar gained a pound, report it
+				// and add a pound to the base weight.
+				matcher = Pattern.compile( "gains a pound" ).matcher( response );
+				if ( matcher.find() )
+					text.append( " and a pound" );
+				text.append( ".<br>" );
+			}
+			else
+				text.append( familiar.getName() + " lost.<br>" );
+
+			// If a prize was won, report it
+			matcher = Pattern.compile( "You acquire an item: <b>(.*?)</b>" ).matcher( response );
+			if ( matcher.find() )
+			{
+				String prize = matcher.group(1);
+				text.append( "You win a prize: " + prize + ".<br>" );
+				if ( prize.equals( LEAD_NECKLACE.getName() ) )
+				{
+					if ( leadNecklace == null )
+					{
+						leadNecklace = LEAD_NECKLACE;
+						leadNecklaceOwner = familiar;
+					}
+				}
+				else if ( familiarItemWeight > 0 )
+				{
+					if ( specItem == null )
+					{
+						specItem = familiarItem;
+						specWeight = familiarItemWeight;
+					}
+				}
+			}
+
+			// Account for the turn
+			turns++;
+
+			text.append( "<br>" );
+			return text.toString();
+		}
 
 		public FamiliarData getFamiliar()
 		{	return familiar;

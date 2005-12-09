@@ -138,7 +138,7 @@ public class FamiliarTool
 	 * @return	The ID number of the best match. 0 = 'Ultimate Cage Match', 1 = 'Scavenger Hunt', 2 = 'Obstacle Course', 3 = 'Hide and Seek'
 	 */
 	public int bestMatch()
-	{	return bestMatch;
+	{	return bestMatch + 1;
 	}
 
 	/**
