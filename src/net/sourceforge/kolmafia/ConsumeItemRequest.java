@@ -61,6 +61,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final AdventureResult AXE = new AdventureResult( 555, 1 );
 	private static final AdventureResult NUTS = new AdventureResult( 509, -1 );
 	private static final AdventureResult PLAN = new AdventureResult( 502, -1 );
+	private static final AdventureResult FOUNTAIN = new AdventureResult( 211, -1 );
+	private static final AdventureResult WINDCHIMES = new AdventureResult( 212, -1 );
 
 	private int consumptionType;
 	private AdventureResult itemUsed;
@@ -292,6 +294,19 @@ public class ConsumeItemRequest extends KoLRequest
 				client.processResult( AXE );
 			}
 			return;
+		}
+
+		// Successfully using the "Feng Shui for Big Dumb Idiots" uses
+		// up the decorative fountain and windchimes
+
+		else if ( itemUsed.getName().startsWith( "Feng Shui" ) )
+		{
+			// Only used up once
+			if ( responseText.indexOf( "Feng Shui goodness" ) == -1 )
+				return;
+
+			client.processResult( FOUNTAIN );
+			client.processResult( WINDCHIMES );
 		}
 
 		// Parse the reply, which can be found before the

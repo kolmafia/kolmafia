@@ -62,9 +62,12 @@ public class CakeArenaRequest extends KoLRequest
 
 		super.run();
 
-		if ( responseText.indexOf( "You can't" ) != -1 || responseText.indexOf( "You shouldn't" ) != -1 ||
-			responseText.indexOf( "You don't" ) != -1 || responseText.indexOf( "You need" ) != -1 ||
-			responseText.indexOf( "You're way too beaten" ) != -1 || responseText.indexOf( "You're too drunk" ) != -1 )
+		if ( responseText.indexOf( "You can't" ) != -1 ||
+		     responseText.indexOf( "You shouldn't" ) != -1 ||
+		     responseText.indexOf( "You don't" ) != -1 ||
+		     responseText.indexOf( "You need" ) != -1 ||
+		     responseText.indexOf( "You're way too beaten" ) != -1 ||
+		     responseText.indexOf( "You're too drunk" ) != -1 )
 		{
 			// Notify the client of failure by telling it that
 			// the adventure did not take place and the client

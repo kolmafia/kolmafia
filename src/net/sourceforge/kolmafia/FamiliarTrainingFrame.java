@@ -303,6 +303,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			JButton base;
 			JButton buffed;
 			JButton turns;
+			JButton stop;
 
 			public ButtonPanel()
 			{
@@ -318,6 +319,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 				turns = new JButton( "Turns" );
 				turns.addActionListener( new TurnsListener() );
 				this.add( turns );
+
+				stop = new JButton( "Stop Training" );
+				stop.addActionListener( new StopListener() );
+				this.add( stop );
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -389,6 +394,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Level the familiar
 					levelFamiliar( client, goal, TURNS );
+				}
+			}
+
+			private class StopListener implements ActionListener
+			{
+				public void actionPerformed( ActionEvent e )
+				{	client.cancelRequest();
 				}
 			}
 		}
@@ -546,12 +558,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
-		int id = familiar.getID();
+		client.updateDisplay( DISABLED_STATE, "Starting training session." );
 
 		// Iterate until we reach the goal
 		boolean success;
 		while ( !( success = goalMet( status, goal, type) ) )
 		{
+			// If user canceled, bail now
+			if ( !client.permitsContinue() )
+			{
+				results.append( "Training session aborted.<br>" );
+				client.updateDisplay( ERROR_STATE, "Training session aborted." );
+				return;
+			}
+
 			// Make sure you have an adventure left
 			if ( KoLCharacter.getAdventuresLeft() < 1 )
 			{
@@ -573,7 +593,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				printWeights( weights, buffs );
 
 			// Choose next opponent
-			CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( id, weights );
+			CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( familiar.getID(), weights );
 
 			if ( opponent == null )
 			{
@@ -596,11 +616,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Enter the contest
-			if ( !fightMatch( client, status, tool, opponent, verbose ) )
-				break;
+			fightMatch( client, status, tool, opponent, verbose );
 		}
 
 		results.append( "Goal " + ( success ? "" : "not" ) + " met.<br>" );
+		client.updateDisplay( ENABLED_STATE, "Training session completed." );
 	}
 
 	private static void printFamiliar( FamiliarStatus status, int goal, int type )
@@ -693,8 +713,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.append( text.toString() );
 	}
 
-	private static boolean fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, boolean verbose )
+	private static void fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, boolean verbose )
 	{
+		// If user aborted, bail now
+		if ( !client.permitsContinue())
+			return;
+
 		// Tell the user about the match
 		printMatch( status, opponent, tool );
 
@@ -702,16 +726,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 		KoLRequest request = new CakeArenaRequest( client, opponent.getID(), tool.bestMatch() );
 		request.run();
 
-		// If couldn't run the match, bail now
-		if ( !client.permitsContinue())
-			return false;
-
 		// Pass the response text to the FamiliarStatus to
 		// add familiar items and deduct a turn.
 		String text = status.processMatchResult( request.responseText, verbose );
 		results.append( text );
-
-		return true;
 	}
 
 	/**
@@ -1337,6 +1355,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		public String processMatchResult( String response, boolean verbose )
 		{
+			// If the contest did not take place, bail now
+			if ( response.indexOf( "You enter" ) == -1 )
+				return "";
+
 			Matcher matcher;
 			StringBuffer text = new StringBuffer();
 
@@ -1382,6 +1404,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Account for the turn
 			turns++;
+                        if ( leashActive > 0 )
+                                leashActive--;
+                        if ( empathyActive > 0 )
+                                empathyActive--;
 
 			text.append( "<br>" );
 			return text.toString();
