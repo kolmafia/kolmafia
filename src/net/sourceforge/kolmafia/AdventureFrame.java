@@ -146,7 +146,7 @@ public class AdventureFrame extends KoLFrame
 			if ( holiday.startsWith( "No" ) )
 				updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
 			else
-				updateDisplay( ENABLED_STATE, holiday );
+				updateDisplay( ENABLED_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 		}
 		catch ( Exception e )
 		{
