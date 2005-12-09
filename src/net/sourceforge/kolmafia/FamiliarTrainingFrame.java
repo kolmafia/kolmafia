@@ -785,7 +785,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Initialize set of weights
 			weights = new TreeSet();
 
-			// Initial the list of GearSets
+			// Initialize the list of GearSets
 			gearSets = new ArrayList();
 		}
 
@@ -993,7 +993,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				weight += 5;
 
 			// Start with buffs
-			getBuffWeights( buffs, weight );
+			getBuffWeights( weight, buffs );
 
 			// Make an array to hold values
 			Object [] vals = weights.toArray();
@@ -1006,7 +1006,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return value;
 		}
 
-		private void getBuffWeights( boolean buffs, int weight )
+		private void getBuffWeights( int weight, boolean buffs )
 		{
 			if ( buffs )
 			{
@@ -1074,16 +1074,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Make a GearSet describing what we have now
 			GearSet current = new GearSet();
 
-                        results.append( "Current gear = " + current + " weight = " + current.weight() + "<br>" );
-
 			// If we are already suitably equipped, stop now
 			if ( weight == current.weight() )
 				return true;
 
 			// Choose a new GearSet with desired weight
 			GearSet next = chooseGearSet( current, weight, buffs );
-
-                        results.append( "Next gear = " + next + " weight = " + next.weight() + "<br>" );
 
 			// If we couldn't pick one, that's an internal error
 			if ( weight != next.weight() )
@@ -1122,23 +1118,23 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// first, if necessary
 			if ( current != null )
 			{
-				results.append( "Taking off " + current.getName() );
+				results.append( "Taking off " + current.getName() + "<br>" );
 				(new EquipmentRequest( client, EquipmentRequest.UNEQUIP, slot)).run();
 				setItem( slot, null );
 			}
 
 			// Steal a lead necklace, if needed
-			if ( next == leadNecklace && leadNecklaceOwner != familiar )
+			if ( next == leadNecklace && leadNecklaceOwner != null && leadNecklaceOwner != familiar )
 			{
-				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getRace() );
+				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getRace() + "<br>" );
 				stealFamiliarItem( leadNecklaceOwner );
 				leadNecklaceOwner = familiar;
 			}
 
 			// Steal a rat head balloon necklace, if needed
-			if ( next == ratHeadBalloon && ratHeadBalloonOwner != familiar )
+			if ( next == ratHeadBalloon && ratHeadBalloonOwner != null && ratHeadBalloonOwner != familiar )
 			{
-				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getRace() );
+				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getRace() + "<br>" );
 				stealFamiliarItem( ratHeadBalloonOwner );
 				ratHeadBalloonOwner = familiar;
 			}
@@ -1147,7 +1143,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next != null )
 			{
 				String name = next.getName();
-				results.append( "Putting on " + name );
+				results.append( "Putting on " + name + "<br>" );
 				(new EquipmentRequest( client, name, slot)).run();
 				setItem( slot, next );
 			}
@@ -1187,6 +1183,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				(new UseSkillRequest( client, "Leash of Linguini", null, 1 )).run();
 				if ( !client.permitsContinue())
 					return false;
+
+				// Remember it
+				leashActive += 10;
 			}
 
 			if ( next.empathy && !current.empathy )
@@ -1195,6 +1194,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				(new UseSkillRequest( client, "Empathy of the Newt", null, 1 )).run();
 				if ( !client.permitsContinue())
 					return false;
+
+				// Remember it
+				empathyActive += 10;
 			}
 
 			return true;
@@ -1208,7 +1210,79 @@ public class FamiliarTrainingFrame extends KoLFrame
 		 */
 		private GearSet chooseGearSet( GearSet current, int weight, boolean buffs )
 		{
-			return current;
+			// Clear out the accumulated list of GearSets
+			gearSets.clear();
+
+			// Start with buffs
+			getBuffGearSets( weight, buffs );
+
+			// Iterate over all the GearSets and choose the first
+			// one which is closest to the current GearSet
+			int changes = Integer.MAX_VALUE;
+			GearSet choice = null;
+			int count = gearSets.size();
+			for ( int i = 0; i < count; ++i )
+			{
+				GearSet next = (GearSet)gearSets.get( i );
+				if ( next.compareTo( current ) < changes )
+					choice = next;
+			}
+
+			return choice;
+		}
+
+		private void getBuffGearSets( int weight, boolean buffs )
+		{
+			if ( leashActive > 0 || (buffs && leashAvailable ) )
+				getHatGearSets( weight, true, false );
+			if ( empathyActive > 0 || (buffs && empathyAvailable ) )
+				getHatGearSets( weight, false, true );
+			if ( ( leashActive > 0 && empathyActive > 0) ||
+			     ( buffs && leashAvailable && empathyAvailable ) )
+				getHatGearSets( weight, true, true );
+		}
+
+		private void getHatGearSets( int weight, boolean leash, boolean empathy )
+		{
+			if ( pithHelmet != null )
+				getItemGearSets( weight, pithHelmet, leash, empathy );
+
+			getItemGearSets( weight, null, leash, empathy );
+		}
+
+		private void getItemGearSets( int weight, AdventureResult hat, boolean leash, boolean empathy )
+		{
+			if ( specItem != null )
+				getAccessoryGearSets( weight, specItem, hat, leash, empathy );
+			if ( leadNecklace != null )
+				getAccessoryGearSets( weight, leadNecklace, hat, leash, empathy );
+			if ( ratHeadBalloon != null )
+				getAccessoryGearSets( weight, ratHeadBalloon, hat, leash, empathy );
+		}
+
+		private void getAccessoryGearSets( int weight, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
+		{
+			if ( tpCount > 2 )
+				addGearSet( weight, tp[0], tp[1], tp[2], item, hat, leash, empathy );
+			if ( tpCount > 1 )
+			{
+				addGearSet( weight, tp[0], tp[1], null, item, hat, leash, empathy );
+				addGearSet( weight, tp[0], null, tp[1], item, hat, leash, empathy );
+				addGearSet( weight, null, tp[0], tp[1], item, hat, leash, empathy );
+			}
+			if ( tpCount > 0 )
+			{
+				addGearSet( weight, tp[0], null, null, item, hat, leash, empathy );
+				addGearSet( weight, null, tp[0], null, item, hat, leash, empathy );
+				addGearSet( weight, null, null, tp[0], item, hat, leash, empathy );
+			}
+		}
+
+		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
+		{
+			GearSet next = new GearSet( hat, item, acc1, acc2, acc3, leash, empathy );
+			if ( weight == next.weight() )
+				gearSets.add( next );
 		}
 
 		/**************************************************************/
@@ -1349,6 +1423,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public int weight()
 			{
 				int weight = FamiliarStatus.this.baseWeight();
+
+				if ( sympathyAvailable )
+					weight += 5;
 
 				if ( hat == PITH_HELMET )
 					weight += 5;
