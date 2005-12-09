@@ -279,14 +279,14 @@ public class FamiliarData implements KoLConstants, Comparable
 		if ( KoLCharacter.getEffects().contains( EMPATHY ) )
 		{
 			weightModifier += 5;
-			dodecaModifier -= 5;
+			dodecaModifier += 5;
 		}
 
 
 		if ( KoLCharacter.getEffects().contains( LEASH ) )
 		{
 			weightModifier += 5;
-			dodecaModifier -= 5;
+			dodecaModifier += 5;
 		}
 
 		if ( KoLCharacter.hasAmphibianSympathy() )
