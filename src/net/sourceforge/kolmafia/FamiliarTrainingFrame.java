@@ -728,7 +728,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int diff = tool.difference();
 
 		StringBuffer text = new StringBuffer();
-		text.append( "Round " + ( status.turnsUsed() + 1) + ": " );
+                int round = ( status.turnsUsed() + 1);
+		text.append( "Round " + round + ": " );
 		text.append( familiar.getName() );
 		text.append( " (" + weight + " lbs." );
 		if ( diff != 0 )
@@ -742,6 +743,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		text.append( " event.<br>" );
 
 		results.append( text.toString() );
+
+		client.updateDisplay( DISABLED_STATE, "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
 	private static void fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, boolean verbose )
