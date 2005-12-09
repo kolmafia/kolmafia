@@ -43,6 +43,8 @@ import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
 
 // events
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingUtilities;
@@ -83,6 +85,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class FamiliarTrainingFrame extends KoLFrame
 {
 	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
+	private static boolean stop = false;
 	private FamiliarTrainingPanel training;
 
 	private static final int BASE = 1;
@@ -100,9 +103,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final int firstTinyPlastic = 969;
 	private static final int lastTinyPlastic = 988;
 
+	// An adventure
+	private static final AdventureResult ADV = new AdventureResult( AdventureResult.ADV, -1 );
+
 	public FamiliarTrainingFrame( KoLmafia client )
 	{
 		super( client, "Familiar Training Tool" );
+
+		addWindowListener( new CloseFamiliarTrainerListener() );
 
 		CardLayout cards = new CardLayout( 10, 10 );
 		getContentPane().setLayout( cards );
@@ -118,6 +126,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Refresh before session", "refreshBeforeFamiliarSession" ) );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Cast buffs during training", "castBuffsWhileTraining" ) );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Verbose logging", "verboseFamiliarLogging" ) );
+		// optionsMenu.add( new LocalSettingChangeMenuItem( client, "Debug", "debugFamiliarTraining" ) );
 		menuBar.add( optionsMenu );
 
 		training = new FamiliarTrainingPanel();
@@ -133,6 +142,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		if ( training != null )
 			training.setEnabled( isEnabled );
+	}
+
+	/**
+	 * Internal class to handle de-initializing the chat when
+	 * the window is closed.  This helps stop constantly
+	 * spamming the chat server with a request when nothing
+	 * is being done with the replies.
+	 */
+
+	protected final class CloseFamiliarTrainerListener extends WindowAdapter
+	{
+		public void windowClosed( WindowEvent e )
+		{	stop = true;
+		}
 	}
 
 	private class FileMenuItem extends JMenuItem implements ActionListener
@@ -400,7 +423,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			private class StopListener implements ActionListener
 			{
 				public void actionPerformed( ActionEvent e )
-				{	client.cancelRequest();
+				{	FamiliarTrainingFrame.stop = true;
 				}
 			}
 		}
@@ -519,10 +542,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 	{
 		boolean verbose = client.getLocalBooleanProperty( "verboseFamiliarLogging" );
 		boolean buffs = client.getLocalBooleanProperty( "castBuffsWhileTraining" );
+		boolean debug = client.getLocalBooleanProperty( "debugFamiliarTraining" );
 
 		// Clear the output
 		results.clearBuffer();
 
+		// Permit training session to proceed
+		stop = false;
 		client.resetContinueState();
 
 		// Get current familiar
@@ -544,6 +570,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Print available buffs and items and current buffs
 		results.append( status.printCurrentBuffs() );
 		results.append( status.printAvailableBuffs() );
+		results.append( status.printCurrentEquipment() );
 		results.append( status.printAvailableEquipment() );
 		results.append( "<br>" );
 
@@ -565,7 +592,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		while ( !( success = goalMet( status, goal, type) ) )
 		{
 			// If user canceled, bail now
-			if ( !client.permitsContinue() )
+			if ( stop || !client.permitsContinue() )
 			{
 				results.append( "Training session aborted.<br>" );
 				client.updateDisplay( ERROR_STATE, "Training session aborted." );
@@ -607,6 +634,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( buffs )
 				{
 					results.append( "Trying again without buffs...<br>" );
+					client.resetContinueState();
 					buffs = false;
 					continue;
 				}
@@ -614,6 +642,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 				results.append( "Could not swap equipment.<br>" );
 				break;
 			}
+
+			if ( debug )
+				break;
 
 			// Enter the contest
 			fightMatch( client, status, tool, opponent, verbose );
@@ -870,16 +901,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 			equipment = KoLCharacter.getCurrentEquipment( KoLCharacter.HAT );
 
 			if ( equipment != null && equipment.getName().equals( PITH_HELMET.getName() ) )
-				hat = pithHelmet = equipment;
+				hat = pithHelmet = PITH_HELMET;
 
 			// Check current familiar item
 			equipment = KoLCharacter.getCurrentEquipment( KoLCharacter.FAMILIAR );
 			if ( equipment != null )
 			{
-                                String name = equipment.getName();
+				String name = equipment.getName();
 				if ( name.equals( familiarItem.getName() ) )
 				{
-					item = specItem = equipment;
+					item = specItem = familiarItem;
 					specWeight = familiarItemWeight;
 				}
 				else if ( name.equals( LEAD_NECKLACE.getName() ) )
@@ -1263,14 +1294,18 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Iterate over all the GearSets and choose the first
 			// one which is closest to the current GearSet
-			int changes = Integer.MAX_VALUE;
 			GearSet choice = null;
+			int choiceSwaps = Integer.MAX_VALUE;
 			int count = gearSets.size();
 			for ( int i = 0; i < count; ++i )
 			{
-				GearSet next = (GearSet)gearSets.get( i );
-				if ( next.compareTo( current ) < changes )
-					choice = next;
+				GearSet gear = (GearSet)gearSets.get( i );
+				int swaps = gear.compareTo( current );
+				if ( swaps < choiceSwaps )
+				{
+					choice = gear;
+					choiceSwaps = swaps;
+				}
 			}
 
 			return choice;
@@ -1402,12 +1437,17 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
-			// Account for the turn
+			// Tell KoLmafia that we've used an adventure
+			client.processResult( ADV );
+
+			// Increment count of turns in this training session
 			turns++;
-                        if ( leashActive > 0 )
-                                leashActive--;
-                        if ( empathyActive > 0 )
-                                empathyActive--;
+
+			// Decrement buffs
+			if ( leashActive > 0 )
+				leashActive--;
+			if ( empathyActive > 0 )
+				empathyActive--;
 
 			text.append( "<br>" );
 			return text.toString();
@@ -1488,14 +1528,35 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return text.toString();
 		}
 
+		public String printCurrentEquipment()
+		{
+			StringBuffer text = new StringBuffer();
+
+			text.append( "Current equipment:" );
+			if ( hat == PITH_HELMET)
+				text.append( " plexiglass pith helmet (+5)" );
+			if ( item == LEAD_NECKLACE )
+				text.append( " lead necklace (+3)" );
+			else if ( item == RAT_HEAD_BALLOON )
+				text.append( " rat head balloon (-3)" );
+			else if ( item != null )
+				text.append( " " + specItem.getName() + " (+" + specWeight + ")" );
+			for ( int i = 0; i < 3; ++i )
+				if ( acc[i] != null )
+					text.append( " " + acc[i].getName() + " (+1)" );
+			text.append( "<br>" );
+
+			return text.toString();
+		}
+
 		public String printAvailableEquipment()
 		{
 			StringBuffer text = new StringBuffer();
 
 			text.append( "Available equipment:" );
-			if ( pithHelmet != null)
+			if ( pithHelmet != null )
 				text.append( " plexiglass pith helmet (+5)" );
-			if ( specItem != null)
+			if ( specItem != null )
 				text.append( " " + specItem.getName() + " (+" + specWeight + ")" );
 			if ( leadNecklace != null)
 				text.append( " lead necklace (+3)" );
