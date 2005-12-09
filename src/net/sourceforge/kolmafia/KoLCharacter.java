@@ -295,6 +295,7 @@ public abstract class KoLCharacter extends StaticEntity
 			return;
 
 		KoLCharacter.username = username;
+
 		classname = "";
 		classtype = "";
 
@@ -326,7 +327,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		accomplishments.clear();
 		beanstalkArmed = false;
-		listenerList.clear();
 
 		ascensions = 0;
 		ascensionSign = "None";
@@ -1870,7 +1870,7 @@ public abstract class KoLCharacter extends StaticEntity
 						getEffects().remove( i );
 					else
 						getEffects().set( i, effectsArray[i].getInstance( effectsArray[i].getCount() + result.getCount() ) );
-				}					
+				}
 
 				setTotalTurnsUsed( getTotalTurnsUsed() + result.getCount() );
 			}
