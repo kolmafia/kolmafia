@@ -1365,21 +1365,52 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void getAccessoryGearSets( int weight, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
 		{
-			if ( tpCount > 2 )
-				addGearSet( weight, tp[0], tp[1], tp[2], item, hat, leash, empathy );
-			if ( tpCount > 1 )
-			{
-				addGearSet( weight, tp[0], tp[1], null, item, hat, leash, empathy );
-				addGearSet( weight, tp[0], null, tp[1], item, hat, leash, empathy );
-				addGearSet( weight, null, tp[0], tp[1], item, hat, leash, empathy );
-			}
-			if ( tpCount > 0 )
-			{
-				addGearSet( weight, tp[0], null, null, item, hat, leash, empathy );
-				addGearSet( weight, null, tp[0], null, item, hat, leash, empathy );
-				addGearSet( weight, null, null, tp[0], item, hat, leash, empathy );
-			}
+			// No matter how many Tiny Plastic Objects we have, a
+			// configuration with none equipped is legal
 			addGearSet( weight, null, null, null, item, hat, leash, empathy );
+			if ( tpCount == 0 )
+				return;
+
+			// If we have at least one and it started out equipped,
+			// then it might be in any of the three accessory
+			// slots.
+			addGearSet( weight, tp[0], null, null, item, hat, leash, empathy );
+			addGearSet( weight, null, tp[0], null, item, hat, leash, empathy );
+			addGearSet( weight, null, null, tp[0], item, hat, leash, empathy );
+			if ( tpCount == 1)
+				return;
+
+			// If we have at least two and they were both equipped
+			// when we came in, they'll be in one of the following
+			// patterns.
+
+			addGearSet( weight, tp[0], tp[1], null, item, hat, leash, empathy );
+			addGearSet( weight, tp[0], null, tp[1], item, hat, leash, empathy );
+			addGearSet( weight, null, tp[0], tp[1], item, hat, leash, empathy );
+
+			// If one of the two was in the inventory, the first
+			// could have been in any of the three accessory
+			// slots. Add a pattern for where it was in the third
+			// slot.
+
+			addGearSet( weight, tp[1], null, tp[0], item, hat, leash, empathy );
+
+			if ( tpCount == 2 )
+				return;
+
+			// If we have three and they were all equipped when we
+			// came in, they'll be in the following pattern
+			addGearSet( weight, tp[0], tp[1], tp[2], item, hat, leash, empathy );
+
+			// If two of them were equipped and the third was in
+			// the inventory, the following patterns are legal
+			addGearSet( weight, tp[0], tp[2], tp[1], item, hat, leash, empathy );
+			addGearSet( weight, tp[2], tp[0], tp[1], item, hat, leash, empathy );
+
+			// If only one was equipped, based on which
+			// two-accessory patterns are legal, the following
+			// three-accessory patterns are also legal
+			addGearSet( weight, tp[1], tp[2], tp[0], item, hat, leash, empathy );
 		}
 
 		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
