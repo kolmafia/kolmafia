@@ -135,7 +135,7 @@ public class FamiliarTool
 
 	/**
 	 * Retrieves match data. Will only supply relevant data for last call to bestOpponent
-	 * @return	The ID number of the best match. 0 = 'Ultimate Cage Match', 1 = 'Scavenger Hunt', 2 = 'Obstacle Course', 3 = 'Hide and Seek'
+	 * @return	The ID number of the best match. 1 = 'Ultimate Cage Match', 2 = 'Scavenger Hunt', 3 = 'Obstacle Course', 4 = 'Hide and Seek'
 	 */
 	public int bestMatch()
 	{	return bestMatch + 1;
