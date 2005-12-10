@@ -238,12 +238,14 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new HermitRequest( this, selected, tradeCount )).run();
+		// We might have traded for a craftable item
+		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**
 	 * Makes a request to the trapper, looking for the given number of
 	 * items.  This method should prompt the user to determine which
-	 * item to retrieve the trapper.
+	 * item to retrieve from the trapper.
 	 */
 
 	public void makeTrapperRequest()
@@ -272,12 +274,14 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new TrapperRequest( this, selected, tradeCount )).run();
+		// We might have traded for a craftable item
+		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**
-	 * Makes a request to the hunter, looking for the given number of
-	 * items.  This method should prompt the user to determine which
-	 * item to retrieve the hunter.
+	 * Makes a request to the hunter, looking to sell a given type of
+	 * item.  This method should prompt the user to determine which
+	 * item to sell to the hunter.
 	 */
 
 	public void makeHunterRequest()
@@ -291,8 +295,13 @@ public class KoLmafiaGUI extends KoLmafia
 			null, "I want to sell this to the hunter...", "The Quilted Thicker Picker Upper!", JOptionPane.INFORMATION_MESSAGE, null,
 			hunterItemArray, hunterItemArray[0] );
 
-		if ( selectedValue != null )
-			(new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) )).run();
+		if ( selectedValue == null )
+                        return;
+
+		(new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) )).run();
+
+		// We might have sold a craftable item
+		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**
@@ -313,17 +322,17 @@ public class KoLmafiaGUI extends KoLmafia
 			null, "Cure me, Doc!", "Doc Galaktik", JOptionPane.INFORMATION_MESSAGE, null,
 			cureArray, cureArray[0] );
 
-		if ( selectedValue != null )
-		{
-			int type = 0;
-			if ( selectedValue.indexOf( "HP" ) != -1 )
-				type = GalaktikRequest.HP;
-			else if ( selectedValue.indexOf( "MP" ) != -1 )
-				type = GalaktikRequest.MP;
-			else
-				return;
-			(new GalaktikRequest( this, type )).run();
-		}
+		if ( selectedValue == null )
+			return;
+
+		int type = 0;
+		if ( selectedValue.indexOf( "HP" ) != -1 )
+			type = GalaktikRequest.HP;
+		else if ( selectedValue.indexOf( "MP" ) != -1 )
+			type = GalaktikRequest.MP;
+		else
+			return;
+		(new GalaktikRequest( this, type )).run();
 	}
 
 	/**
@@ -357,8 +366,12 @@ public class KoLmafiaGUI extends KoLmafia
 			null, "I want to untinker this item...", "You can unscrew meat paste?", JOptionPane.INFORMATION_MESSAGE, null,
 			untinkerItemArray, untinkerItemArray[0] );
 
-		if ( selectedValue != null )
-			(new UntinkerRequest( this, selectedValue.getItemID() )).run();
+		if ( selectedValue == null )
+			return;
+
+		(new UntinkerRequest( this, selectedValue.getItemID() )).run();
+		// Recalculate recipes
+		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**

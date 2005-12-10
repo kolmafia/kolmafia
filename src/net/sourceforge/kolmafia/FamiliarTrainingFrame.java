@@ -66,6 +66,7 @@ import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
 
 // utilities
+import java.lang.Math;
 import java.util.ArrayList;
 import java.util.TreeSet;
 import java.io.File;
@@ -629,7 +630,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			// Change into appropriate gear
-			if ( !status.changeGear( tool.bestWeight(), buffs ) )
+			status.changeGear( tool.bestWeight(), buffs );
+			if ( !client.permitsContinue() )
 			{
 				if ( buffs )
 				{
@@ -728,7 +730,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int diff = tool.difference();
 
 		StringBuffer text = new StringBuffer();
-                int round = ( status.turnsUsed() + 1);
+		int round = ( status.turnsUsed() + 1);
 		text.append( "Round " + round + ": " );
 		text.append( familiar.getName() );
 		text.append( " (" + weight + " lbs." );
@@ -1139,7 +1141,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				weights.add( new Integer( weight + 5 ) );
 
 			// Add weight with no helmet
-			weights.add( new Integer( weight ) );
+			weights.add( new Integer( Math.max( weight, 1 ) ) );
 		}
 
 		/**************************************************************/
@@ -1148,24 +1150,28 @@ public class FamiliarTrainingFrame extends KoLFrame
 		 * Change gear and cast buffs such that your familiar's
 		 * modified weight is as specified.
 		 */
-		public boolean changeGear( int weight, boolean buffs )
+		public void changeGear( int weight, boolean buffs )
 		{
 			// Make a GearSet describing what we have now
 			GearSet current = new GearSet();
 
 			// If we are already suitably equipped, stop now
 			if ( weight == current.weight() )
-				return true;
+				return;
 
 			// Choose a new GearSet with desired weight
 			GearSet next = chooseGearSet( current, weight, buffs );
 
 			// If we couldn't pick one, that's an internal error
 			if ( next == null || weight != next.weight() )
-				return false;
+			{
+				results.append( "Internal error: could not select gear set.<br>" );
+				client.cancelRequest();
+				return;
+			}
 
 			// Change into the new GearSet
-			return changeGear( current, next);
+			changeGear( current, next);
 		}
 
 		/*
@@ -1173,14 +1179,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 		 * Return false if failed to swap or buff
 		 */
 
-		public boolean changeGear( GearSet current, GearSet next )
+		public void changeGear( GearSet current, GearSet next )
 		{
 			swapItem( current.hat, next.hat, KoLCharacter.HAT );
 			swapItem( current.item, next.item, KoLCharacter.FAMILIAR );
 			swapItem( current.acc1, next.acc1, KoLCharacter.ACCESSORY1 );
 			swapItem( current.acc2, next.acc2, KoLCharacter.ACCESSORY2 );
 			swapItem( current.acc3, next.acc3, KoLCharacter.ACCESSORY3 );
-			return castNeededBuffs( current, next );
+			castNeededBuffs( current, next );
 		}
 
 		private void swapItem( AdventureResult current, AdventureResult next, int slot )
@@ -1254,14 +1260,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			(new FamiliarRequest( client, familiar )).run();
 		}
 
-		private boolean castNeededBuffs( GearSet current, GearSet next )
+		private void castNeededBuffs( GearSet current, GearSet next )
 		{
 			if ( next.leash && !current.leash )
 			{
 				// Cast Leash. Bail if can't.
 				(new UseSkillRequest( client, "Leash of Linguini", null, 1 )).run();
 				if ( !client.permitsContinue())
-					return false;
+					return;
 
 				// Remember it
 				leashActive += 10;
@@ -1272,13 +1278,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 				// Cast Empathy. Bail if can't.
 				(new UseSkillRequest( client, "Empathy of the Newt", null, 1 )).run();
 				if ( !client.permitsContinue())
-					return false;
+					return;
 
 				// Remember it
 				empathyActive += 10;
 			}
-
-			return true;
 		}
 
 		/*
@@ -1415,9 +1419,40 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
 		{
-			GearSet next = new GearSet( hat, item, acc1, acc2, acc3, leash, empathy );
-			if ( weight == next.weight() )
-				gearSets.add( next );
+			if ( weight == gearSetWeight( acc1, acc2, acc3, item, hat, leash, empathy ) )
+				gearSets.add( new GearSet( hat, item, acc1, acc2, acc3, leash, empathy ) );
+		}
+
+		private int gearSetWeight( AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
+		{
+			int weight = familiar.getWeight();
+
+			if ( sympathyAvailable )
+				weight += 5;
+
+			if ( hat == PITH_HELMET )
+				weight += 5;
+
+			if ( item == specItem )
+				weight += specWeight;
+			else if ( item == LEAD_NECKLACE )
+				weight += 3;
+			else if ( item == RAT_HEAD_BALLOON )
+				weight -= 3;
+
+			if ( isTinyPlasticItem( acc1 ) )
+				weight += 1;
+			if ( isTinyPlasticItem( acc2 ) )
+				weight += 1;
+			if ( isTinyPlasticItem( acc3 ) )
+				weight += 1;
+
+			if ( leash )
+				weight += 5;
+			if ( empathy )
+				weight += 5;
+
+			return Math.max( weight, 1 );
 		}
 
 		/**************************************************************/
@@ -1642,35 +1677,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			public int weight()
-			{
-				int weight = FamiliarStatus.this.baseWeight();
-
-				if ( sympathyAvailable )
-					weight += 5;
-
-				if ( hat == PITH_HELMET )
-					weight += 5;
-
-				if ( item == FamiliarStatus.this.specItem )
-					weight += FamiliarStatus.this.specWeight;
-				else if ( item == LEAD_NECKLACE )
-					weight += 3;
-				else if ( item == RAT_HEAD_BALLOON )
-					weight -= 3;
-
-				if ( isTinyPlasticItem( acc1 ) )
-					weight += 1;
-				if ( isTinyPlasticItem( acc2 ) )
-					weight += 1;
-				if ( isTinyPlasticItem( acc3 ) )
-					weight += 1;
-
-				if ( leash )
-					weight += 5;
-				if ( empathy )
-					weight += 5;
-
-				return weight;
+			{	return gearSetWeight( acc[0], acc[1], acc[2], item, hat, leash, empathy );
 			}
 
 			public int compareTo( GearSet that )
