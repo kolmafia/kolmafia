@@ -101,6 +101,9 @@ public class LoginFrame extends KoLFrame
 
 		JTabbedPane tabs = new JTabbedPane();
 
+		this.saveStateNames = new SortedListModel();
+		this.saveStateNames.addAll( saveStateNames );
+
 		tabs.addTab( "Login", constructLoginPanel() );
 
 		JPanel connectPanel = new JPanel();
@@ -117,8 +120,6 @@ public class LoginFrame extends KoLFrame
 	
 	public JPanel constructLoginPanel()
 	{
-		this.saveStateNames = new SortedListModel();
-		this.saveStateNames.addAll( saveStateNames );
 		contentPanel = new LoginPanel();
 
 		JPanel imagePanel = new JPanel();
