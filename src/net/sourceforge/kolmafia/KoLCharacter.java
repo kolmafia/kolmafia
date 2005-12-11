@@ -346,6 +346,11 @@ public abstract class KoLCharacter extends StaticEntity
 		updateEquipmentLists();
 	}
 
+	public static boolean isFallingDown()
+	{
+		return getInebriety() > (KoLCharacter.accomplishments.contains( FRIARS ) ? 19 : 14);
+	}
+
 	/**
 	 * Accessor method to retrieve the name of this character.
 	 * @return	The name of this character

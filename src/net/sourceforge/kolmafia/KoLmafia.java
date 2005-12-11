@@ -1123,7 +1123,7 @@ public abstract class KoLmafia implements KoLConstants
 			// sure to check to see if you're allowed to continue
 			// after drunkenness.
 
-			if ( KoLCharacter.getInebriety() > 19 && request instanceof KoLAdventure && !((KoLAdventure)request).getZone().equals( "Camp" ) )
+			if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && !((KoLAdventure)request).getZone().equals( "Camp" ) )
 			{
 				if ( !confirmDrunkenRequest() )
 					cancelRequest();
@@ -1198,7 +1198,7 @@ public abstract class KoLmafia implements KoLConstants
 				// Prevent drunkenness adventures from occurring by
 				// testing inebriety levels after the request is run.
 
-				if ( request instanceof KoLAdventure && KoLCharacter.getInebriety() > 19 && !pulledOver )
+				if ( request instanceof KoLAdventure && KoLCharacter.isFallingDown() && !pulledOver )
 				{
 					if ( permitsContinue() && !confirmDrunkenRequest() )
 						cancelRequest();
