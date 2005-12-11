@@ -157,24 +157,12 @@ public abstract class SendMessageFrame extends KoLFrame
 		this.getContentPane().add( messagePanel, "" );
 		this.getRootPane().setDefaultButton( sendMessageButton );
 
-		addMenuBar();
-	}
-
-	protected final void addMenuBar()
-	{
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar( menuBar );
-
-		JMenu optionsMenu = new JMenu( "Options" );
-		optionsMenu.setMnemonic( KeyEvent.VK_O );
+// The following lines of code no longer do anything because
+// there is no longer a menu to hold these items.  This will
+// be fixed once the options are integrated into the frame.
 
 		saveOutgoingCheckBox = new SettingChangeMenuItem( "Save message in Outbox", "saveOutgoing" );
 		closeSendingCheckBox = new SettingChangeMenuItem( "Close window after sending", "closeSending" );
-
-		optionsMenu.add( saveOutgoingCheckBox );
-		optionsMenu.add( closeSendingCheckBox );
-
-		menuBar.add( optionsMenu );
 	}
 
 	protected JPanel constructWestPanel()

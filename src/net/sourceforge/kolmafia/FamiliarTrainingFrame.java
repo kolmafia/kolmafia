@@ -116,19 +116,18 @@ public class FamiliarTrainingFrame extends KoLFrame
 		CardLayout cards = new CardLayout( 10, 10 );
 		getContentPane().setLayout( cards );
 
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar( menuBar );
+		JMenuBar menuBar = getJMenuBar();
 
 		JMenu fileMenu = new JMenu( "File" );
 		fileMenu.add( new FileMenuItem() );
-		menuBar.add( fileMenu );
+		menuBar.add( fileMenu, 0 );
 
 		JMenu optionsMenu = new JMenu( "Options" );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Refresh before session", "refreshBeforeFamiliarSession" ) );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Cast buffs during training", "castBuffsWhileTraining" ) );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Verbose logging", "verboseFamiliarLogging" ) );
 		// optionsMenu.add( new LocalSettingChangeMenuItem( client, "Debug", "debugFamiliarTraining" ) );
-		menuBar.add( optionsMenu );
+		menuBar.add( optionsMenu, 1 );
 
 		training = new FamiliarTrainingPanel();
 		getContentPane().add( training, "" );
@@ -217,7 +216,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			opponentsPanel = new OpponentsPanel();
 			add( opponentsPanel, BorderLayout.WEST );
 
-			// Put buttons on right 
+			// Put buttons on right
 			buttonPanel = new ButtonPanel();
 			add( buttonPanel, BorderLayout.EAST );
 
@@ -282,7 +281,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public OpponentsPanel()
 			{
 				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-				// Get current opponents 
+				// Get current opponents
 				LockableListModel opponents = CakeArenaManager.getOpponentList( client );
 
 				int opponentCount = opponents.size();

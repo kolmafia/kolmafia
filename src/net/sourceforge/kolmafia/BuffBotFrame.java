@@ -132,23 +132,6 @@ public class BuffBotFrame extends KoLFrame
 		getContentPane().add( tabs, BorderLayout.CENTER );
 
 		addWindowListener( new DisableBuffBotAdapter() );
-		addMenuBar();
-	}
-
-	private void addMenuBar()
-	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
-
-		addStatusMenu( menuBar );
-		addPeopleMenu( menuBar );
-
-		JMenu optionsMenu = addOptionsMenu( menuBar );
-
-		optionsMenu.add( new JSeparator() );
-		optionsMenu.add( new ShowStatisticsMenuItem() );
-
-		addHelpMenu( menuBar );
 	}
 
 	/**
@@ -526,62 +509,6 @@ public class BuffBotFrame extends KoLFrame
 			}
 			else
 				super.windowClosed( e );
-		}
-	}
-
-	private class ShowStatisticsMenuItem extends JMenuItem implements ActionListener
-	{
-		public ShowStatisticsMenuItem()
-		{
-			super( "Session Stats" );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			StringBuffer statBuffer = new StringBuffer();
-			statBuffer.append( (new Date()).toString() );
-
-			statBuffer.append( "\n\nBuff Request Frequency:\n" );
-
-			Iterator costIterator = BuffBotManager.getBuffCostTable().iterator();
-			statBuffer.append( costIterator.hasNext() ? "\n" : "No buff statistics available." );
-
-			BuffBotManager.BuffBotCaster currentCast;
-			while ( costIterator.hasNext() )
-			{
-				currentCast = (BuffBotManager.BuffBotCaster) costIterator.next();
-				statBuffer.append( currentCast.toString() );
-				statBuffer.append( "\n  - Requested " );
-				statBuffer.append( currentCast.getRequestsThisSession() );
-				statBuffer.append( " time" );
-
-				if ( currentCast.getRequestsThisSession() != 1 )
-					statBuffer.append( 's' );
-
-				statBuffer.append( " this session\n\n" );
-			}
-
-			Object [] parameters = new Object[2];
-			parameters[0] = client;
-			parameters[1] = statBuffer.toString();
-
-			SwingUtilities.invokeLater( new CreateFrameRunnable( StatisticsFrame.class, parameters ) );
-		}
-	}
-
-	public static class StatisticsFrame extends KoLFrame
-	{
-		public StatisticsFrame( KoLmafia client, String statistics )
-		{
-			super( client, "KoLmafia: Buffbot Statistics" );
-
-			JTextArea content = new JTextArea( 12, 32 );
-			JScrollPane scroller = new JScrollPane( content, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-			content.setText( statistics );
-
-			getContentPane().setLayout( new CardLayout( 10, 10 ) );
-			getContentPane().add( scroller, "" );
 		}
 	}
 

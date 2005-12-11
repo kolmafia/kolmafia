@@ -148,33 +148,27 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		addWindowListener( new CloseManagerAdapter() );
-		addMenuBar();
 	}
 
-	private void addMenuBar()
+	protected void addMenuBar()
 	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
+		super.addMenuBar();
+		JMenuBar menuBar = getJMenuBar();
 
-		addStatusMenu( menuBar );
-		addPeopleMenu( menuBar );
-		JMenu optionsMenu = addOptionsMenu( menuBar );
-
-		optionsMenu.add( new JSeparator() );
-		optionsMenu.add( new InvocationMenuItem( "Member Search", this, "searchClan" ) );
-		optionsMenu.add( new ManagerMenuItem( "Attack a Clan", "attackClan" ) );
-		optionsMenu.add( new ManagerMenuItem( "Clan Snapshot", "takeSnapshot" ) );
-		optionsMenu.add( new ManagerMenuItem( "Save Stash Log", "saveStashLog" ) );
+		JMenu toolsMenu = new JMenu( "Tools" );
+		menuBar.add( toolsMenu, 0 );
+		toolsMenu.add( new InvocationMenuItem( "Member Search", this, "searchClan" ) );
+		toolsMenu.add( new ManagerMenuItem( "Attack a Clan", "attackClan" ) );
+		toolsMenu.add( new ManagerMenuItem( "Clan Snapshot", "takeSnapshot" ) );
+		toolsMenu.add( new ManagerMenuItem( "Save Stash Log", "saveStashLog" ) );
 
 		JMenu messageMenu = new JMenu( "Messages" );
-		menuBar.add( messageMenu );
+		menuBar.add( messageMenu, 1 );
 
 		messageMenu.add( new ManagerMenuItem( "Post to Clan Board", "postMessage" ) );
 		messageMenu.add( new ManagerMenuItem( "Post Announcement", "postAnnouncement" ) );
 		messageMenu.add( new ManagerMenuItem( "Read Clan Messages", "getMessageBoard" ) );
 		messageMenu.add( new ManagerMenuItem( "Read Announcements", "getAnnouncements" ) );
-
-		addHelpMenu( menuBar );
 	}
 
 	public void searchClan()

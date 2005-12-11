@@ -97,22 +97,18 @@ public class GearChangeFrame extends KoLFrame
 
 		getContentPane().add( createEquipPanel(), "" );
 		refreshEquipPanel();
-		addMenuBar();
 	}
 
-	private void addMenuBar()
+	protected void addMenuBar()
 	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
+		super.addMenuBar();
 
+		JMenuBar menuBar = getJMenuBar();
 		JMenu refreshMenu = new JMenu( "Refresh" );
 		menuBar.add( refreshMenu );
 
 		refreshMenu.add( new RefreshMenuItem( "Equipment", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
 		refreshMenu.add( new RefreshMenuItem( "Familiars", new FamiliarRequest( client ) ) );
-
-		addOptionsMenu( menuBar );
-		addHelpMenu( menuBar );
 	}
 
 	/**

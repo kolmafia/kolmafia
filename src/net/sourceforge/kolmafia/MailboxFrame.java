@@ -124,37 +124,27 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		JComponentUtilities.setComponentSize( splitPane, 500, 300 );
 		getContentPane().add( splitPane );
 
-		addMenuBar();
-
 		if ( client != null )
 			(new RequestMailboxThread( "Inbox" )).start();
 	}
 
-	private void addMenuBar()
+	protected void addMenuBar()
 	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
-
-		addPeopleMenu( menuBar );
-
-		JMenu optionsMenu = addOptionsMenu( menuBar );
-
-		optionsMenu.add( new JSeparator() );
+		super.addMenuBar();
+		JMenuBar menuBar = getJMenuBar();
 
 		JMenu refreshMenu = new JMenu( "Refresh" );
 		refreshMenu.add( new BoxRefreshMenuItem( "Inbox" ) );
 		refreshMenu.add( new BoxRefreshMenuItem( "Outbox" ) );
 		refreshMenu.add( new BoxRefreshMenuItem( "Saved" ) );
-		optionsMenu.add( refreshMenu );
+		menuBar.add( refreshMenu );
 
 		JMenu emptyMenu = new JMenu( "Move Mail" );
 		emptyMenu.add( new BoxEmptyMenuItem( "" ) );
 		emptyMenu.add( new BoxEmptyMenuItem( "Inbox" ) );
 		emptyMenu.add( new BoxEmptyMenuItem( "Outbox" ) );
 		emptyMenu.add( new BoxEmptyMenuItem( "Saved" ) );
-		optionsMenu.add( emptyMenu );
-
-		addHelpMenu( menuBar );
+		menuBar.add( emptyMenu );
 	}
 
 	public void setEnabled( boolean isEnabled )

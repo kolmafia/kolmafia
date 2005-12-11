@@ -141,15 +141,14 @@ public class ItemManageFrame extends KoLFrame
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
 
-		addMenuBar();
 		refreshFilters();
 	}
 
-	private void addMenuBar()
+	protected void addMenuBar()
 	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
+		super.addMenuBar();
 
+		JMenuBar menuBar = getJMenuBar();
 		JMenu refreshMenu = new JMenu( "Refresh" );
 		refreshMenu.add( new ListRefreshMenuItem() );
 		menuBar.add( refreshMenu );

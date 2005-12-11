@@ -39,6 +39,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComponent;
+import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
@@ -231,6 +232,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		if ( !(this instanceof LoginFrame || this instanceof AdventureFrame) )
 			existingFrames.add( this );
+
+		// All frames will have to access the same menu bar for consistency.
+		// Later on, all menu items not added by default will be placed onto
+		// the panel for increased visibility.
+
+		addMenuBar();
 	}
 
 	public void dispose()
@@ -379,6 +386,30 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			contentPanel.requestFocus();
 	}
 
+	/**
+	 * Utility method which adds a menu bar to the frame.
+	 * This is called by default to allow for all frames to
+	 * have equivalent menu items.
+	 */
+
+	protected void addMenuBar()
+	{
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
+
+		addStatusMenu( menuBar );
+		addTravelMenu( menuBar );
+		addPeopleMenu( menuBar );
+		addScriptMenu( menuBar );
+		addOptionsMenu( menuBar );
+		addHelpMenu( menuBar );
+	}
+
+	/**
+	 * Utility method which encapsulates the addition of
+	 * things to the standard status menu.
+	 */
+
 	protected final JMenu addStatusMenu( JComponent menu )
 	{
 		JMenu statusMenu = new JMenu( "My KoL" );
@@ -413,6 +444,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		return statusMenu;
 	}
+
+	/**
+	 * Utility method which encapsulates the addition of
+	 * things to the travel menu.
+	 */
 
 	protected final JMenu addTravelMenu( JComponent menu )
 	{
@@ -499,6 +535,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		optionsMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
 		optionsMenu.add( new ToggleDebugMenuItem() );
+		optionsMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSessionTally" ) );
+		optionsMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
 
 		return optionsMenu;
 	}

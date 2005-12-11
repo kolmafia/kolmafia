@@ -141,14 +141,12 @@ public class RequestFrame extends KoLFrame
 			getContentPane().add( splitPane );
 		}
 
-		addMenuBar();
 		(new DisplayRequestThread()).start();
 	}
 
-	private void addMenuBar()
+	protected void addMenuBar()
 	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
+		JMenuBar menuBar = getJMenuBar();
 
 		// The function and goto menus are only available if there is a sidebar;
 		// otherwise, adding them clutters the user interface.
@@ -169,7 +167,7 @@ public class RequestFrame extends KoLFrame
 			functionMenu.add( new DisplayPageMenuItem( "Donate to KoL", "http://www.kingdomofloathing.com/donatepopup.php?pid=" + KoLCharacter.getUserID() ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Log Out", "logout.php" ) );
 
-			menuBar.add( functionMenu );
+			menuBar.add( functionMenu, 0 );
 
 			JMenu gotoMenu = new JMenu( "Goto (Maki)" );
 
@@ -195,14 +193,14 @@ public class RequestFrame extends KoLFrame
 			gotoMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
 			gotoMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
 
-			menuBar.add( gotoMenu );
+			menuBar.add( gotoMenu, 1 );
 		}
 
 		// All frames get the benefit of the bookmarks menu bar, eventhough it
 		// might be a little counterintuitive when viewing player profiles.
 
 		compileBookmarks();
-		menuBar.add( new BookmarkMenu() );
+		menuBar.add( new BookmarkMenu(), 0 );
 	}
 
 	/**

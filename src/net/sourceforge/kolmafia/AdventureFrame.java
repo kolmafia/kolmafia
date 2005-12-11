@@ -153,8 +153,6 @@ public class AdventureFrame extends KoLFrame
 			// Should not happen - you're having the parser
 			// parse something that it formatted.
 		}
-
-		addMenuBar();
 	}
 
 	public void updateDisplay( int displayState, String message )
@@ -191,31 +189,6 @@ public class AdventureFrame extends KoLFrame
 		for ( int i = 0; i < frames.length; ++i )
 			if ( frames[i] != this )
 				((KoLFrame) frames[i]).setEnabled( isEnabled );
-	}
-
-	/**
-	 * Utility method used to add a menu bar to the <code>AdventureFrame</code>.
-	 * The menu bar contains configuration options and the general license
-	 * information associated with <code>KoLmafia</code>.  In addition, the
-	 * method adds an item which allows the user to view their character sheet.
-	 */
-
-	private void addMenuBar()
-	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
-
-		addStatusMenu( menuBar );
-
-		addTravelMenu( menuBar );
-		addPeopleMenu( menuBar );
-		addScriptMenu( menuBar );
-
-		JMenu optionsMenu = addOptionsMenu( menuBar );
-		optionsMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSessionTally" ) );
-		optionsMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
-
-		addHelpMenu( menuBar );
 	}
 
 	/**

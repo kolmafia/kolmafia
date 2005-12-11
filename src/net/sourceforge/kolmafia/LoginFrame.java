@@ -142,7 +142,7 @@ public class LoginFrame extends KoLFrame
 	 * information associated with <code>KoLmafia</code>.
 	 */
 
-	private void addMenuBar()
+	protected void addMenuBar()
 	{
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );

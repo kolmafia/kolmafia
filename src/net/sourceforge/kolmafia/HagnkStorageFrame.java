@@ -76,7 +76,6 @@ public class HagnkStorageFrame extends KoLFrame
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
 		getContentPane().add( tabs, "" );
-		addMenuBar();
 		refreshFilters();
 	}
 
@@ -88,11 +87,11 @@ public class HagnkStorageFrame extends KoLFrame
 		tabs.add( name, wrapperPanel );
 	}
 
-	private void addMenuBar()
+	protected void addMenuBar()
 	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
+		super.addMenuBar();
 
+		JMenuBar menuBar = getJMenuBar();
 		addConsumeMenu( menuBar );
 
 		JMenu equipMenu = new JMenu( "Equipment" );
@@ -106,6 +105,7 @@ public class HagnkStorageFrame extends KoLFrame
 
 		for ( int i = 0; i < equipFilter.length; ++i )
 			equipMenu.add( equipFilter[i] );
+
 		menuBar.add( equipMenu );
 	}
 

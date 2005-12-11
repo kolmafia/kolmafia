@@ -138,18 +138,17 @@ public class ChatFrame extends KoLFrame
 
 	private void addMenuBar( String associatedContact )
 	{
-		menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
+		menuBar = getJMenuBar();
 
-		JMenu optionsMenu = addOptionsMenu( menuBar );
+		JMenu toolsMenu = new JMenu( "Tools" );
+		menuBar.add( toolsMenu, 0 );
 
-		optionsMenu.add( new JSeparator() );
-		optionsMenu.add( new MessengerListener( "Clear Displays", "clearChatBuffers" ) );
-		optionsMenu.add( new MessengerListener( "Add Highlight", "addHighlighting" ) );
-		optionsMenu.add( new MessengerListener( "Remove Highlight", "removeHighlighting" ) );
+		toolsMenu.add( new MessengerListener( "Clear Displays", "clearChatBuffers" ) );
+		toolsMenu.add( new MessengerListener( "Add Highlight", "addHighlighting" ) );
+		toolsMenu.add( new MessengerListener( "Remove Highlight", "removeHighlighting" ) );
 
 		JMenu clicksMenu = new JMenu( "Namelinks" );
-		menuBar.add( clicksMenu );
+		menuBar.add( clicksMenu, 1 );
 
 		clickGroup = new ButtonGroup();
 		clickOptions = new JRadioButtonMenuItem[4];

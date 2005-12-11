@@ -79,7 +79,7 @@ public class ContactListFrame extends KoLFrame
 		getContentPane().add( new ContactListPanel(), "" );
 
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
-		addMenuBar();  pack();
+		pack();
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -90,11 +90,11 @@ public class ContactListFrame extends KoLFrame
 	{	return true;
 	}
 
-	private void addMenuBar()
+	protected void addMenuBar()
 	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
+		super.addMenuBar();
 
+		JMenuBar menuBar = getJMenuBar();
 		JMenu clicksMenu = new JMenu( "Namelinks" );
 		menuBar.add( clicksMenu );
 

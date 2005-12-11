@@ -76,9 +76,6 @@ public class StoreManageFrame extends KoLFrame
 	private StoreItemPanelList storeItemList;
 	private JPanel searchResults;
 
-	private ButtonGroup scanGroup;
-	private JRadioButtonMenuItem [] scanOptions;
-
 	public StoreManageFrame( KoLmafia client )
 	{
 		super( client, "Dropkicking Prices" );
@@ -89,39 +86,6 @@ public class StoreManageFrame extends KoLFrame
 		setResizable( false );
 		storeManager = new StoreManagePanel();
 		getContentPane().add( storeManager, BorderLayout.CENTER );
-
-		addMenuBar();
-	}
-
-	private void addMenuBar()
-	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
-
-		JMenu optionsMenu = addOptionsMenu( menuBar );
-
-		optionsMenu.add( new JSeparator() );
-		optionsMenu.add( new MiniBrowserMenuItem( "View Store Log", "storelog.php", false ) );
-
-		JMenu scanMenu = new JMenu( "Price Scanning" );
-		optionsMenu.add( scanMenu );
-
-		scanGroup = new ButtonGroup();
-		scanOptions = new JRadioButtonMenuItem[2];
-
-		scanOptions[0] = new JRadioButtonMenuItem( "Aggregate store data", false );
-		scanOptions[1] = new JRadioButtonMenuItem( "Keep stores separate", false );
-
-		int scanSelect = getProperty( "aggregatePrices" ).equals( "true" ) ? 0 : 1;
-		scanOptions[ scanSelect ].setSelected( true );
-
-		for ( int i = 0; i < 2; ++i )
-		{
-			scanGroup.add( scanOptions[i] );
-			scanMenu.add( scanOptions[i] );
-		}
-
-		addHelpMenu( menuBar );
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -341,7 +305,7 @@ public class StoreManageFrame extends KoLFrame
 				if ( sellingList.getSelectedItem() == null )
 					return;
 
-				StoreManager.searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary, scanOptions[0].isSelected() );
+				StoreManager.searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary, false );
 				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
 			}
 		}
@@ -463,7 +427,7 @@ public class StoreManageFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				StoreManager.searchMall( itemName.getText(), priceSummary, scanOptions[0].isSelected() );
+				StoreManager.searchMall( itemName.getText(), priceSummary, false );
 				searchLabel.setText( itemName.getText() );
 			}
 		}
