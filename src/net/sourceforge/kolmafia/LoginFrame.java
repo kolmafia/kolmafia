@@ -35,8 +35,10 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import java.awt.Dimension;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
@@ -51,6 +53,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 // containers
+import javax.swing.JTabbedPane;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -62,6 +65,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 
 // other imports
@@ -95,6 +99,24 @@ public class LoginFrame extends KoLFrame
 		super( client, "Login" );
 		setResizable( false );
 
+		JTabbedPane tabs = new JTabbedPane();
+
+		tabs.addTab( "Login", constructLoginPanel() );
+
+		JPanel connectPanel = new JPanel();
+		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
+		connectPanel.add( new ServerSelectPanel() );
+		connectPanel.add( new ProxyOptionsPanel() );
+		tabs.addTab( "Settings", connectPanel );
+
+		getContentPane().setLayout( new CardLayout( 10, 10 ) );
+		getContentPane().add( tabs, "" );
+
+		addWindowListener( new ExitRequestAdapter() );
+	}
+	
+	public JPanel constructLoginPanel()
+	{
 		this.saveStateNames = new SortedListModel();
 		this.saveStateNames.addAll( saveStateNames );
 		contentPanel = new LoginPanel();
@@ -104,10 +126,10 @@ public class LoginFrame extends KoLFrame
 		imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
 		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.SOUTH );
 
-		getContentPane().add( imagePanel, BorderLayout.NORTH );
-		getContentPane().add( contentPanel, BorderLayout.CENTER );
-		addWindowListener( new ExitRequestAdapter() );
-		addMenuBar();
+		JPanel containerPanel = new JPanel( new BorderLayout() );
+		containerPanel.add( imagePanel, BorderLayout.NORTH );
+		containerPanel.add( contentPanel, BorderLayout.CENTER );		
+		return containerPanel;		
 	}
 
 	/**
@@ -196,7 +218,6 @@ public class LoginFrame extends KoLFrame
 			getBreakfastCheckBox = new JCheckBox();
 
 			JPanel checkBoxPanels = new JPanel();
-			checkBoxPanels.setLayout( new BoxLayout( checkBoxPanels, BoxLayout.X_AXIS ) );
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
 			checkBoxPanels.add( new JLabel( "Save Password: " ), "" );
 			checkBoxPanels.add( savePasswordCheckBox );
@@ -449,6 +470,118 @@ public class LoginFrame extends KoLFrame
 					findMatch( e.getKeyCode() );
 				}
 			}
+		}
+	}
+
+	/**
+	 * Allows the user to select a server to use when
+	 * using KoLmafia to login.  Also allows the user
+	 * to select the framing mode to use.
+	 */
+
+	private class ServerSelectPanel extends LabeledKoLPanel
+	{
+		private static final int SERVER_COUNT = 3;
+		private JComboBox servers, uimodes;
+
+		public ServerSelectPanel()
+		{
+			super( "Server Select", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			servers = new JComboBox();
+			servers.addItem( "Auto-detect login server" );
+			for ( int i = 1; i <= SERVER_COUNT; ++i )
+				servers.addItem( "Use login server " + i );
+
+			uimodes = new JComboBox();
+			uimodes.addItem( "Use standard framing mode" );
+			uimodes.addItem( "Use buffbot frame mode" );
+			uimodes.addItem( "Use chat-only frame mode" );
+			uimodes.addItem( "Use clan management frame mode" );
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Server: ", servers );
+			elements[1] = new VerifiableElement( "UI Mode: ", uimodes );
+
+			setContent( elements );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
+			setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
+
+			JOptionPane.showMessageDialog( null, "Settings saved." );
+		}
+
+		protected void actionCancelled()
+		{
+			servers.setSelectedIndex( Integer.parseInt( getProperty( "loginServer" ) ) );
+			uimodes.setSelectedIndex( Integer.parseInt( getProperty( "userInterfaceMode" ) ) );
+		}
+	}
+
+	/**
+	 * This panel handles all of the things related to proxy
+	 * options (if applicable).
+	 */
+
+	private class ProxyOptionsPanel extends LabeledKoLPanel
+	{
+		private JTextField proxyHost;
+		private JTextField proxyPort;
+		private JTextField proxyLogin;
+		private JTextField proxyPassword;
+
+		/**
+		 * Constructs a new <code>ProxyOptionsPanel</code>, containing a
+		 * place for the users to select their desired server and for them
+		 * to modify any applicable proxy settings.
+		 */
+
+		public ProxyOptionsPanel()
+		{
+			super( "Proxy Setup", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			proxyHost = new JTextField();
+			proxyPort = new JTextField();
+			proxyLogin = new JTextField();
+			proxyPassword = new JPasswordField();
+
+			VerifiableElement [] elements = new VerifiableElement[4];
+			elements[0] = new VerifiableElement( "Host: ", proxyHost );
+			elements[1] = new VerifiableElement( "Port: ", proxyPort );
+			elements[2] = new VerifiableElement( "Login: ", proxyLogin );
+			elements[3] = new VerifiableElement( "Password: ", proxyPassword );
+
+			setContent( elements, true );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			client.updateDisplay( DISABLED_STATE, "Applying network settings..." );
+			setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() != 0 ) );
+			setProperty( "http.proxyHost", proxyHost.getText() );
+			setProperty( "http.proxyPort", proxyPort.getText() );
+			setProperty( "http.proxyUser", proxyLogin.getText() );
+			setProperty( "http.proxyPassword", proxyPassword.getText() );
+
+			// Save the settings that were just set; that way,
+			// the next login can use them.
+
+			KoLRequest.applySettings();
+			JOptionPane.showMessageDialog( null, "Settings saved." );
+			client.updateDisplay( ENABLED_STATE, "Network settings applied." );
+		}
+
+		protected void actionCancelled()
+		{
+			proxyHost.setText( getProperty( "http.proxyHost" ) );
+			proxyPort.setText( getProperty( "http.proxyPort" ) );
+			proxyLogin.setText( getProperty( "http.proxyUser" ) );
+			proxyPassword.setText( getProperty( "http.proxyPassword" ) );
 		}
 	}
 

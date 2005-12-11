@@ -142,22 +142,6 @@ public class OptionsFrame extends KoLFrame
 		tabs = new JTabbedPane();
 
 		addTab( "General", new GeneralOptionsPanel() );
-
-		JPanel connectPanel = new JPanel();
-		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
-
-		if ( client != null && KoLCharacter.getUsername().equals( "" ) )
-		{
-			connectPanel.add( new ServerSelectPanel() );
-			connectPanel.add( new ProxyOptionsPanel() );
-		}
-		else
-		{
-			connectPanel.add( Box.createVerticalStrut( 10 ) );
-			connectPanel.add( new JLabel( "    Sorry, these settings cannot be modified after login." ) );
-		}
-
-		addTab( "Connect", connectPanel );
 		addTab( "Areas", new AreaOptionsPanel() );
 		addTab( "Restore", new RestoreOptionsPanel() );
 		addTab( "Sewer", new SewerOptionsPanel() );
@@ -178,49 +162,6 @@ public class OptionsFrame extends KoLFrame
 
 	public boolean isEnabled()
 	{	return true;
-	}
-
-	private class ServerSelectPanel extends OptionsPanel
-	{
-		private static final int SERVER_COUNT = 3;
-		private JComboBox servers, uimodes;
-
-		public ServerSelectPanel()
-		{
-			super( "Server Select" );
-
-			servers = new JComboBox();
-			servers.addItem( "Auto-detect login server" );
-			for ( int i = 1; i <= SERVER_COUNT; ++i )
-				servers.addItem( "Use login server " + i );
-
-			uimodes = new JComboBox();
-			uimodes.addItem( "Use standard framing mode" );
-			uimodes.addItem( "Use buffbot frame mode" );
-			uimodes.addItem( "Use chat-only frame mode" );
-			uimodes.addItem( "Use clan management frame mode" );
-
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Server Select: ", servers );
-			elements[1] = new VerifiableElement( "Framing Mode: ", uimodes );
-
-			setContent( elements );
-			actionCancelled();
-		}
-
-		protected void actionConfirmed()
-		{
-			setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
-			setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
-
-			super.actionConfirmed();
-		}
-
-		protected void actionCancelled()
-		{
-			servers.setSelectedIndex( Integer.parseInt( getProperty( "loginServer" ) ) );
-			uimodes.setSelectedIndex( Integer.parseInt( getProperty( "userInterfaceMode" ) ) );
-		}
 	}
 
 	private class AreaOptionsPanel extends OptionsPanel
@@ -865,69 +806,6 @@ public class OptionsFrame extends KoLFrame
 	}
 
 	/**
-	 * This panel handles all of the things related to proxy
-	 * options (if applicable).
-	 */
-
-	private class ProxyOptionsPanel extends OptionsPanel
-	{
-		private JTextField proxyHost;
-		private JTextField proxyPort;
-		private JTextField proxyLogin;
-		private JTextField proxyPassword;
-
-		/**
-		 * Constructs a new <code>ProxyOptionsPanel</code>, containing a
-		 * place for the users to select their desired server and for them
-		 * to modify any applicable proxy settings.
-		 */
-
-		public ProxyOptionsPanel()
-		{
-			super( "Proxy Setup" );
-
-			proxyHost = new JTextField();
-			proxyPort = new JTextField();
-			proxyLogin = new JTextField();
-			proxyPassword = new JPasswordField();
-
-			VerifiableElement [] elements = new VerifiableElement[4];
-			elements[0] = new VerifiableElement( "Proxy Host: ", proxyHost );
-			elements[1] = new VerifiableElement( "Proxy Port: ", proxyPort );
-			elements[2] = new VerifiableElement( "Proxy Login: ", proxyLogin );
-			elements[3] = new VerifiableElement( "Proxy Password: ", proxyPassword );
-
-			setContent( elements, true );
-			actionCancelled();
-		}
-
-		protected void actionConfirmed()
-		{
-			client.updateDisplay( DISABLED_STATE, "Applying network settings..." );
-			setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() != 0 ) );
-			setProperty( "http.proxyHost", proxyHost.getText() );
-			setProperty( "http.proxyPort", proxyPort.getText() );
-			setProperty( "http.proxyUser", proxyLogin.getText() );
-			setProperty( "http.proxyPassword", proxyPassword.getText() );
-
-			// Save the settings that were just set; that way,
-			// the next login can use them.
-
-			KoLRequest.applySettings();
-			super.actionConfirmed();
-			client.updateDisplay( ENABLED_STATE, "Network settings applied." );
-		}
-
-		protected void actionCancelled()
-		{
-			proxyHost.setText( getProperty( "http.proxyHost" ) );
-			proxyPort.setText( getProperty( "http.proxyPort" ) );
-			proxyLogin.setText( getProperty( "http.proxyUser" ) );
-			proxyPassword.setText( getProperty( "http.proxyPassword" ) );
-		}
-	}
-
-	/**
 	 * A generic panel which adds a label to the bottom of the KoLPanel
 	 * to update the panel's status.  It also provides a thread which is
 	 * guaranteed to be a daemon thread for updating the frame which
@@ -937,11 +815,11 @@ public class OptionsFrame extends KoLFrame
 	private abstract class OptionsPanel extends LabeledKoLPanel
 	{
 		public OptionsPanel()
-		{	this( new Dimension( 120, 20 ), new Dimension( 240, 20 ) );
+		{	this( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
 		}
 
 		public OptionsPanel( String panelTitle )
-		{	this( panelTitle, new Dimension( 120, 20 ), new Dimension( 240, 20 ) );
+		{	this( panelTitle, new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
 		}
 
 		public OptionsPanel( Dimension left, Dimension right )
