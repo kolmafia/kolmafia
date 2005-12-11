@@ -556,7 +556,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
-			results.append( "No familiar selected to train.<br>" );
+			statusMessage( client, ERROR_STATE, "No familiar selected to train." );
 			return;
 		}
 
@@ -588,29 +588,27 @@ public class FamiliarTrainingFrame extends KoLFrame
 		client.updateDisplay( DISABLED_STATE, "Starting training session." );
 
 		// Iterate until we reach the goal
-		boolean success;
-		while ( !( success = goalMet( status, goal, type) ) )
+		while ( !goalMet( status, goal, type) )
 		{
 			// If user canceled, bail now
 			if ( stop || !client.permitsContinue() )
 			{
-				results.append( "Training session aborted.<br>" );
-				client.updateDisplay( ERROR_STATE, "Training session aborted." );
+				statusMessage( client, ERROR_STATE, "Training session aborted." );
 				return;
 			}
 
 			// Make sure you have an adventure left
 			if ( KoLCharacter.getAdventuresLeft() < 1 )
 			{
-				results.append( "You're out of adventures.<br>" );
-				break;
+				statusMessage( client, ERROR_STATE, "Training stopped: out of adventures." );
+				return;
 			}
 
 			// Make sure you have enough meat to pay for the contest
 			if ( KoLCharacter.getAvailableMeat() < 100 )
 			{
-				results.append( "You don't have enough meat to continue.<br>" );
-				break;
+				statusMessage( client, ERROR_STATE, "Training stopped: out of meat." );
+				return;
 			}
 
 			// Choose possible weights
@@ -624,8 +622,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( opponent == null )
 			{
-				results.append( "Can't determine an appropriate opponent.<br>");
-				break;
+				statusMessage( client, ERROR_STATE, "Don't know how to train a " + familiar.getRace() + " yet." );
+				return;
 			}
 
 			// Change into appropriate gear
@@ -640,8 +638,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 					continue;
 				}
 
-				results.append( "Could not swap equipment.<br>" );
-				break;
+				statusMessage( client, ERROR_STATE, "Training stopped: internal error." );
+				return;
 			}
 
 			if ( debug )
@@ -651,8 +649,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 			fightMatch( client, status, tool, opponent, verbose );
 		}
 
-		results.append( "Goal " + ( success ? "" : "not" ) + " met.<br>" );
-		client.updateDisplay( ENABLED_STATE, "Training session completed." );
+		statusMessage( client, ENABLED_STATE, "Training session completed." );
+	}
+
+	private static void statusMessage( KoLmafia client, int state, String message )
+	{
+		results.append( message + "<br>" );
+		client.updateDisplay( state, message );
 	}
 
 	private static void printFamiliar( FamiliarStatus status, int goal, int type )
