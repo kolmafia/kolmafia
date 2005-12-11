@@ -534,11 +534,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * Utility method to level the current familiar by fighting the
 	 * current arena opponents.
 	 *
+	 * @param	client	KoLmafia client
 	 * @param	goal	Weight goal for the familiar
-	 * @param	base	true if goal is base weight, false if buffed
+	 * @param	type	BASE, BUFF, or TURNS
 	 */
 
-	public static void levelFamiliar( KoLmafia client, int goal, int type )
+	public static boolean levelFamiliar( KoLmafia client, int goal, int type )
 	{
 		boolean verbose = client.getLocalBooleanProperty( "verboseFamiliarLogging" );
 		boolean buffs = client.getLocalBooleanProperty( "castBuffsWhileTraining" );
@@ -557,7 +558,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
 			statusMessage( client, ERROR_STATE, "No familiar selected to train." );
-			return;
+			return false;
 		}
 
 		// Get the status of current familiar
@@ -594,21 +595,21 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( stop || !client.permitsContinue() )
 			{
 				statusMessage( client, ERROR_STATE, "Training session aborted." );
-				return;
+				return false;
 			}
 
 			// Make sure you have an adventure left
 			if ( KoLCharacter.getAdventuresLeft() < 1 )
 			{
 				statusMessage( client, ERROR_STATE, "Training stopped: out of adventures." );
-				return;
+				return false;
 			}
 
 			// Make sure you have enough meat to pay for the contest
 			if ( KoLCharacter.getAvailableMeat() < 100 )
 			{
 				statusMessage( client, ERROR_STATE, "Training stopped: out of meat." );
-				return;
+				return false;
 			}
 
 			// Choose possible weights
@@ -623,7 +624,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( opponent == null )
 			{
 				statusMessage( client, ERROR_STATE, "Don't know how to train a " + familiar.getRace() + " yet." );
-				return;
+				return false;
 			}
 
 			// Change into appropriate gear
@@ -639,7 +640,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 
 				statusMessage( client, ERROR_STATE, "Training stopped: internal error." );
-				return;
+				return false;
 			}
 
 			if ( debug )
@@ -650,6 +651,65 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		statusMessage( client, ENABLED_STATE, "Training session completed." );
+		return true;
+	}
+
+	/**
+	 * Utility method to buff the current familiar to the specified weight
+	 * or higher.
+	 *
+	 * @param	client	KoLmafia client
+	 * @param	weight	Weight goal for the familiar
+	 */
+
+	public static boolean buffFamiliar( KoLmafia client, int weight )
+	{
+		// Get current familiar. If none, punt.
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		if ( familiar == FamiliarData.NO_FAMILIAR )
+			return false;
+
+		// Get the status of current familiar
+		FamiliarStatus status = new FamiliarStatus( client );
+
+		// Initially, allow buffs
+		boolean buffs = true;
+
+		// Try to buff and equip to reach goal
+		while ( true )
+		{
+			// Find possible weights
+			int [] weights = status.getWeights( buffs );
+
+			// Examine list and see if it is possible
+			int goal = 0;
+			for (int i = 0; i < weights.length; ++i )
+			{
+				goal = weights[i];
+				if ( goal >= weight )
+					break;
+			}
+
+			// Punt if goal is not possible
+			if ( goal < weight )
+				return false;
+
+			// Change into appropriate gear
+			status.changeGear( goal, buffs );
+
+			// See if we succeeded
+			if ( client.permitsContinue() )
+				return true;
+
+			// If we failed using only equipment, punt.
+			if ( !buffs )
+				return false;
+
+			// Perhaps we failed to cast a buff. Try again
+			// using nothing but equipment.
+			client.resetContinueState();
+			buffs = false;
+		}
 	}
 
 	private static void statusMessage( KoLmafia client, int state, String message )
