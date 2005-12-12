@@ -67,6 +67,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffRequestFrame extends KoLFrame
 {
+	BuffRequestPanel buffs;
+
 	public BuffRequestFrame( KoLmafia client )
 	{
 		super( client, "Buff Requests" );
@@ -81,14 +83,23 @@ public class BuffRequestFrame extends KoLFrame
 		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( scroller, 640, 600 );
 		getContentPane().add( scroller, "" );
+
+		// Enable the display after fetching buffs
+		client.enableDisplay();
 	}
 
-	public boolean isEnabled()
-	{	return true;
+	public void setEnabled( boolean isEnabled )
+	{
+		super.setEnabled( isEnabled );
+
+		if ( buffs != null )
+			buffs.setEnabled( isEnabled );
 	}
 
 	private class BuffRequestPanel extends JPanel
 	{
+		BuffRequestBox [] boxes;
+
 		public BuffRequestPanel()
 		{
 			super();
@@ -98,14 +109,32 @@ public class BuffRequestFrame extends KoLFrame
 
 			// Add a panel for each available buff
 			int buffCount = BuffBotDatabase.buffCount();
+			boxes = new BuffRequestBox[buffCount];
+
 			for ( int i = 0; i < buffCount; ++i )
-				this.add( new BuffRequestBox( i ) );
+			{
+				boxes[i] = new BuffRequestBox( i );
+				this.add( boxes[i] );
+			}
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+
+			if ( boxes == null )
+				return;
+
+			for ( int i = 0; i < boxes.length; ++i)
+				if ( boxes[i] != null )
+					boxes[i].setEnabled( isEnabled );
 		}
 
 		private class BuffRequestBox extends JPanel
 		{
 			private int index;
 			JComboBox selects;
+			JButton button;
 
 			public BuffRequestBox( int index)
 			{
@@ -135,9 +164,17 @@ public class BuffRequestFrame extends KoLFrame
 				this.add( selects, BorderLayout.CENTER );
 
 				// Add a button to purchase this buff
-				JButton button = new JButton( "Buy" );
+				button = new JButton( "Buy" );
 				button.addActionListener( new BuyBuffListener() );
 				this.add( button, BorderLayout.EAST );
+			}
+
+			public void setEnabled( boolean isEnabled )
+			{
+				super.setEnabled( isEnabled );
+
+				if ( button != null )
+					button.setEnabled( isEnabled );
 			}
 
 			private class BuyBuffListener implements ActionListener, Runnable
@@ -155,7 +192,7 @@ public class BuffRequestFrame extends KoLFrame
 					int turns = BuffBotDatabase.getBuffTurns( index, selection );
 					client.updateDisplay( DISABLE_STATE, "Buying " + turns + " turns of " + buff + " from " + bot );
 					(new GreenMessageRequest( client, bot, "Buff me, baby!", new AdventureResult( AdventureResult.MEAT, price ) )).run();
-					client.updateDisplay( NORMAL_STATE, "Buff request complete." );
+					client.updateDisplay( ENABLE_STATE, "Buff request complete." );
 				}
 			}
 		}

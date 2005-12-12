@@ -191,6 +191,37 @@ public class AdventureFrame extends KoLFrame
 				((KoLFrame) frames[i]).setEnabled( isEnabled );
 	}
 
+	private class StatusLabel extends JLabel
+	{
+		public StatusLabel()
+		{	super( " ", JLabel.CENTER );
+		}
+
+		public void setStatusMessage( int displayState, String s )
+		{
+			String label = getText();
+			if ( !s.equals( "Timing in session..." ) && (label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." ) ))
+				return;
+
+			if ( !s.equals( "" ) )
+				setText( s );
+
+			switch ( displayState )
+			{
+				case ERROR_STATE:
+				case CANCEL_STATE:
+					compactPane.setBackground( ERROR_COLOR );
+					break;
+				case ENABLE_STATE:
+					compactPane.setBackground( ENABLED_COLOR );
+					break;
+				case DISABLE_STATE:
+					compactPane.setBackground( DISABLED_COLOR );
+					break;
+			}
+		}
+	}
+
 	/**
 	 * An internal class which represents the panel used for adventure
 	 * selection in the <code>AdventureFrame</code>.
@@ -201,7 +232,7 @@ public class AdventureFrame extends KoLFrame
 		private JComboBox actionSelect;
 
 		private JPanel actionStatusPanel;
-		private JLabel actionStatusLabel;
+		private StatusLabel actionStatusLabel;
 
 		private JComboBox locationSelect;
 		private JTextField countField;
@@ -220,7 +251,7 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
 
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusLabel = new StatusLabel();
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
@@ -294,27 +325,7 @@ public class AdventureFrame extends KoLFrame
 		}
 
 		public void setStatusMessage( int displayState, String s )
-		{
-			String label = actionStatusLabel.getText();
-			if ( !s.equals( "Timing in session..." ) && (label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." ) ))
-				return;
-
-			if ( !s.equals( "" ) )
-				actionStatusLabel.setText( s );
-
-			switch ( displayState )
-			{
-				case ERROR_STATE:
-				case CANCEL_STATE:
-					compactPane.setBackground( ERROR_COLOR );
-					break;
-				case ENABLE_STATE:
-					compactPane.setBackground( ENABLED_COLOR );
-					break;
-				case DISABLE_STATE:
-					compactPane.setBackground( DISABLED_COLOR );
-					break;
-			}
+		{	actionStatusLabel.setStatusMessage( displayState, s );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -539,7 +550,7 @@ public class AdventureFrame extends KoLFrame
 		private boolean currentlyBuying;
 
 		private JPanel actionStatusPanel;
-		private JLabel actionStatusLabel;
+		private StatusLabel actionStatusLabel;
 
 		private JTextField searchField;
 		private JTextField countField;
@@ -558,7 +569,7 @@ public class AdventureFrame extends KoLFrame
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
 
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusLabel = new StatusLabel();
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
@@ -594,27 +605,7 @@ public class AdventureFrame extends KoLFrame
 		}
 
 		public void setStatusMessage( int displayState, String s )
-		{
-			String label = actionStatusLabel.getText();
-			if ( !client.inLoginState() && (label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." )) )
-				return;
-
-			if ( !s.equals( "" ) )
-				actionStatusLabel.setText( s );
-
-			switch ( displayState )
-			{
-				case ERROR_STATE:
-				case CANCEL_STATE:
-					compactPane.setBackground( ERROR_COLOR );
-					break;
-				case ENABLE_STATE:
-					compactPane.setBackground( ENABLED_COLOR );
-					break;
-				case DISABLE_STATE:
-					compactPane.setBackground( DISABLED_COLOR );
-					break;
-			}
+		{	actionStatusLabel.setStatusMessage( displayState, s );
 		}
 
 		public void setEnabled( boolean isEnabled )
