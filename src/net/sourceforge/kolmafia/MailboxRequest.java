@@ -105,9 +105,9 @@ public class MailboxRequest extends KoLRequest
 		// reset the variable (to avoid concurrent requests).
 
 		if ( action == null )
-			updateDisplay( DISABLED_STATE, "Retrieving mail from " + boxname + "..." );
+			updateDisplay( DISABLE_STATE, "Retrieving mail from " + boxname + "..." );
 		else
-			updateDisplay( DISABLED_STATE, "Executing " + action + " request for " + boxname + "..." );
+			updateDisplay( DISABLE_STATE, "Executing " + action + " request for " + boxname + "..." );
 
 		lastRequest = System.currentTimeMillis();
 		isRequesting = true;
@@ -116,7 +116,7 @@ public class MailboxRequest extends KoLRequest
 
 		if ( action != null )
 		{
-			updateDisplay( ENABLED_STATE, "Selected mail successfully " + action + "d" );
+			updateDisplay( NORMAL_STATE, "Selected mail successfully " + action + "d" );
 			isRequesting = false;
 			return;
 		}
@@ -129,7 +129,7 @@ public class MailboxRequest extends KoLRequest
 
 		if ( responseText.indexOf( "There are no messages in this mailbox." ) != -1 )
 		{
-			updateDisplay( ENABLED_STATE, "Your mailbox is empty." );
+			updateDisplay( NORMAL_STATE, "Your mailbox is empty." );
 			isRequesting = false;
 			return;
 		}
@@ -171,7 +171,7 @@ public class MailboxRequest extends KoLRequest
 
 		if ( nextMessageIndex == -1 )
 		{
-			updateDisplay( ENABLED_STATE, "Your mailbox is empty." );
+			updateDisplay( NORMAL_STATE, "Your mailbox is empty." );
 			isRequesting = false;
 			return;
 		}
@@ -182,7 +182,7 @@ public class MailboxRequest extends KoLRequest
 		if ( nextMessageIndex != -1 && lastMessageID != totalMessages )
 			(new MailboxRequest( client, boxname, beginIndex + 1 )).run();
 		else
-			updateDisplay( ENABLED_STATE, "Mail retrieved from " + boxname );
+			updateDisplay( NORMAL_STATE, "Mail retrieved from " + boxname );
 	}
 
 	private int processMessages( int startIndex )

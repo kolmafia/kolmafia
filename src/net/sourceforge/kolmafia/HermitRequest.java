@@ -82,7 +82,7 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( DISABLED_STATE, "Robbing the hermit..." );
+		updateDisplay( DISABLE_STATE, "Robbing the hermit..." );
 		super.run();
 
 		// If an error state occurred, return from this
@@ -161,7 +161,7 @@ public class HermitRequest extends KoLRequest
 		if ( responseText.indexOf( "I already took your Hermit Permits, right?" ) == -1 )
 			client.processResult( new AdventureResult( 42, 0 - quantity ) );
 
-		updateDisplay( ENABLED_STATE, "Hermit successfully looted!" );
+		updateDisplay( NORMAL_STATE, "Hermit successfully looted!" );
 	}
 
 	private int subtractWorthlessItems( AdventureResult item, List inventory, int total )

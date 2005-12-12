@@ -72,7 +72,7 @@ public class StoreManageRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( DISABLED_STATE, "Requesting store inventory..." );
+		updateDisplay( DISABLE_STATE, "Requesting store inventory..." );
 
 		super.run();
 
@@ -97,6 +97,6 @@ public class StoreManageRequest extends KoLRequest
 		}
 
 		StoreManager.update( responseText, isPriceManagement );
-		updateDisplay( ENABLED_STATE, "Store inventory request complete." );
+		updateDisplay( NORMAL_STATE, "Store inventory request complete." );
 	}
 }

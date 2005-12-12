@@ -88,7 +88,7 @@ public class TrapperRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( DISABLED_STATE, "Robbing the trapper..." );
+		updateDisplay( DISABLE_STATE, "Robbing the trapper..." );
 		super.run();
 
 		// If an error state occurred, return from this
@@ -99,6 +99,6 @@ public class TrapperRequest extends KoLRequest
 
 		processResults( responseText );
 		client.processResult( YETI_FUR.getInstance( 0 - quantity ) );
-		updateDisplay( ENABLED_STATE, "Trapper successfully looted!" );
+		updateDisplay( NORMAL_STATE, "Trapper successfully looted!" );
 	}
 }

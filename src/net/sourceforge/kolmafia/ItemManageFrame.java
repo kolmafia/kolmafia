@@ -580,7 +580,7 @@ public class ItemManageFrame extends KoLFrame
 			if ( selected == null )
 				return;
 
-			client.updateDisplay( DISABLED_STATE, "Verifying ingredients..." );
+			client.updateDisplay( DISABLE_STATE, "Verifying ingredients..." );
 			ItemCreationRequest selection = (ItemCreationRequest) selected;
 			selection.setQuantityNeeded( createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1 );
 

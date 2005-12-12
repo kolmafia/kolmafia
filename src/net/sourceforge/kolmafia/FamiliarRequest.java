@@ -69,7 +69,7 @@ public class FamiliarRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( DISABLED_STATE, "Retrieving familiar data..." );
+		updateDisplay( DISABLE_STATE, "Retrieving familiar data..." );
 		super.run();
 
 		// There's nothing to parse if an error was encountered,
@@ -83,6 +83,6 @@ public class FamiliarRequest extends KoLRequest
 		FamiliarData.registerFamiliarData( client, responseText );
 		FamiliarData.updateWeightModifier();
 
-		updateDisplay( ENABLED_STATE, "Familiar data retrieved." );
+		updateDisplay( NORMAL_STATE, "Familiar data retrieved." );
 	}
 }

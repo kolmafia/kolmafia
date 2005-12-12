@@ -144,9 +144,9 @@ public class AdventureFrame extends KoLFrame
 			String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
 
 			if ( holiday.startsWith( "No" ) )
-				updateDisplay( ENABLED_STATE, MoonPhaseDatabase.getMoonEffect() );
+				updateDisplay( NORMAL_STATE, MoonPhaseDatabase.getMoonEffect() );
 			else
-				updateDisplay( ENABLED_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+				updateDisplay( NORMAL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 		}
 		catch ( Exception e )
 		{
@@ -305,13 +305,13 @@ public class AdventureFrame extends KoLFrame
 			switch ( displayState )
 			{
 				case ERROR_STATE:
-				case CANCELLED_STATE:
+				case CANCEL_STATE:
 					compactPane.setBackground( ERROR_COLOR );
 					break;
-				case ENABLED_STATE:
+				case ENABLE_STATE:
 					compactPane.setBackground( ENABLED_COLOR );
 					break;
-				case DISABLED_STATE:
+				case DISABLE_STATE:
 					compactPane.setBackground( DISABLED_COLOR );
 					break;
 			}
@@ -415,7 +415,7 @@ public class AdventureFrame extends KoLFrame
 
 				if ( client.getConditions().isEmpty() )
 				{
-					client.updateDisplay( ENABLED_STATE, "Conditions already satisfied." );
+					client.updateDisplay( NORMAL_STATE, "Conditions already satisfied." );
 					return;
 				}
 
@@ -424,7 +424,7 @@ public class AdventureFrame extends KoLFrame
 					conditioner.executeConditionsCommand( "check" );
 					if ( client.getConditions().isEmpty() )
 					{
-						client.updateDisplay( ENABLED_STATE, "Conditions already satisfied." );
+						client.updateDisplay( NORMAL_STATE, "Conditions already satisfied." );
 						return;
 					}
 				}
@@ -448,7 +448,7 @@ public class AdventureFrame extends KoLFrame
 				(new WinGameThread()).start();
 			else
 			{
-				client.updateDisplay( CANCELLED_STATE, "Adventuring terminated." );
+				client.updateDisplay( CANCEL_STATE, "Adventuring terminated." );
 				client.cancelRequest();
 				requestFocus();
 			}
@@ -476,18 +476,18 @@ public class AdventureFrame extends KoLFrame
 
 			private void fightCouncil()
 			{
-				updateDisplay( DISABLED_STATE, "Petitioning the Seaside Town Council for automatic game completion..." );
-				updateDisplay( DISABLED_STATE, "The Seaside Town Council has rejected your petition.  Game incomplete." );
-				updateDisplay( DISABLED_STATE, "You reject the Seaside Town's decision.  Fighting the council..." );
+				updateDisplay( DISABLE_STATE, "Petitioning the Seaside Town Council for automatic game completion..." );
+				updateDisplay( DISABLE_STATE, "The Seaside Town Council has rejected your petition.  Game incomplete." );
+				updateDisplay( DISABLE_STATE, "You reject the Seaside Town's decision.  Fighting the council..." );
 				updateDisplay( ERROR_STATE, "You have been defeated by the Seaside Town Council.  Game Over." );
 			}
 
 			private void createWeapon()
 			{
-				updateDisplay( DISABLED_STATE, "You enter the super-secret code into the Strange Leaflet..." );
-				updateDisplay( DISABLED_STATE, "Your ruby W and metallic A fuse to form the mysterious R!" );
-				updateDisplay( DISABLED_STATE, "Moxie sign backdoor accessed.  Supertinkering The Ultimate Weapon..." );
-				updateDisplay( DISABLED_STATE, "Supertinkering complete.  Executing tower script..." );
+				updateDisplay( DISABLE_STATE, "You enter the super-secret code into the Strange Leaflet..." );
+				updateDisplay( DISABLE_STATE, "Your ruby W and metallic A fuse to form the mysterious R!" );
+				updateDisplay( DISABLE_STATE, "Moxie sign backdoor accessed.  Supertinkering The Ultimate Weapon..." );
+				updateDisplay( DISABLE_STATE, "Supertinkering complete.  Executing tower script..." );
 				updateDisplay( ERROR_STATE, "Your RNG spawns an enraged cow on Floors 1-6.  Game Over." );
 			}
 
@@ -603,13 +603,13 @@ public class AdventureFrame extends KoLFrame
 			switch ( displayState )
 			{
 				case ERROR_STATE:
-				case CANCELLED_STATE:
+				case CANCEL_STATE:
 					compactPane.setBackground( ERROR_COLOR );
 					break;
-				case ENABLED_STATE:
+				case ENABLE_STATE:
 					compactPane.setBackground( ENABLED_COLOR );
 					break;
-				case DISABLED_STATE:
+				case DISABLE_STATE:
 					compactPane.setBackground( DISABLED_COLOR );
 					break;
 			}
@@ -746,7 +746,7 @@ public class AdventureFrame extends KoLFrame
 					// show what the current state of the selections
 					// is at this time.
 
-					setStatusMessage( NOCHANGE, getPurchaseSummary( resultsList.getSelectedValues() ) );
+					setStatusMessage( NORMAL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
 				}
 			}
 		}

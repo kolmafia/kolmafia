@@ -143,22 +143,22 @@ public class ClanStashRequest extends SendMessageRequest
 		switch ( moveType )
 		{
 			case REFRESH_ONLY:
-				updateDisplay( DISABLED_STATE, "Retrieving stash list..." );
+				updateDisplay( DISABLE_STATE, "Retrieving stash list..." );
 				super.run();
 				parseStash();
-				updateDisplay( ENABLED_STATE, "Stash list retrieved." );
+				updateDisplay( NORMAL_STATE, "Stash list retrieved." );
 				break;
 
 			case MEAT_TO_STASH:
-				updateDisplay( DISABLED_STATE, "Attempting clan donation..." );
+				updateDisplay( DISABLE_STATE, "Attempting clan donation..." );
 				super.run();
 				parseStash();
-				updateDisplay( ENABLED_STATE, "Clan donation attempt complete." );
+				updateDisplay( NORMAL_STATE, "Clan donation attempt complete." );
 				break;
 
 			case ITEMS_TO_STASH:
 			case STASH_TO_ITEMS:
-				updateDisplay( DISABLED_STATE, "Moving items..." );
+				updateDisplay( DISABLE_STATE, "Moving items..." );
 				super.run();
 				parseStash();
 				break;

@@ -68,9 +68,9 @@ public class MindControlRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( DISABLED_STATE, "Resetting mind control device..." );
+		updateDisplay( DISABLE_STATE, "Resetting mind control device..." );
 		super.run();
-		updateDisplay( ENABLED_STATE, "Mind control device reset." );
+		updateDisplay( NORMAL_STATE, "Mind control device reset." );
 
 		KoLCharacter.setMindControlLevel( level );
 	}

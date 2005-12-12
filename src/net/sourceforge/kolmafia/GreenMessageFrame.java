@@ -71,7 +71,7 @@ public class GreenMessageFrame extends SendMessageFrame
 
 		if ( client.permitsContinue() )
 		{
-			client.updateDisplay( ENABLED_STATE, "Message sent to " + recipient );
+			client.updateDisplay( NORMAL_STATE, "Message sent to " + recipient );
 			setTitle( "Message sent to " + recipient );
 			return true;
 		}

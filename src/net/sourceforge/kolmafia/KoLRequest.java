@@ -286,7 +286,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * requests with variable numbers of parameters to be
 	 * reused.
 	 */
-	
+
 	protected void clearDataFields()
 	{	this.data.clear();
 	}
@@ -309,7 +309,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		String encodedName = null;
 		String encodedValue = null;
-		
+
 		try
 		{
 			encodedName = URLEncoder.encode( name, "UTF-8" ) + "=";
@@ -438,7 +438,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// you clear the display.
 
 		if ( client != null && retryCount > 1 )
-			client.updateDisplay( NOCHANGE, "Retry attempt successful.  Processing..." );
+			client.updateDisplay( NORMAL_STATE, "Retry attempt successful.  Processing..." );
 	}
 
 	/**
@@ -527,7 +527,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// attempt to connect again
 
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
-				updateDisplay( NOCHANGE, "Error opening connection.  Retrying..." );
+				updateDisplay( NORMAL_STATE, "Error opening connection.  Retrying..." );
 
 			KoLRequest.delay();
 			return false;
@@ -600,7 +600,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		catch ( Exception e )
 		{
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
-				updateDisplay( NOCHANGE, "Connection timed out during post.  Retrying..." );
+				updateDisplay( NORMAL_STATE, "Connection timed out during post.  Retrying..." );
 
 			if ( client != null )
 			{
@@ -671,7 +671,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				return false;
 			}
 
-			updateDisplay( NOCHANGE, "Connection timed out during response.  Retrying..." );
+			updateDisplay( NORMAL_STATE, "Connection timed out during response.  Retrying..." );
 
 			if ( client != null )
 			{
@@ -822,7 +822,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					this.isErrorState = true;
 					if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
-						updateDisplay( NOCHANGE, "Error reading server reply.  Retrying..." );
+						updateDisplay( NORMAL_STATE, "Error reading server reply.  Retrying..." );
 
 					if ( client != null )
 					{

@@ -140,7 +140,7 @@ public class ClanManager extends StaticEntity
 
 		public void run()
 		{
-			updateDisplay( DISABLED_STATE, "Retrieving list of ranks..." );
+			updateDisplay( DISABLE_STATE, "Retrieving list of ranks..." );
 			super.run();
 
 			rankList.clear();
@@ -158,7 +158,7 @@ public class ClanManager extends StaticEntity
 				}
 			}
 
-			updateDisplay( ENABLED_STATE, "List of ranks retrieved." );
+			updateDisplay( NORMAL_STATE, "List of ranks retrieved." );
 		}
 	}
 
@@ -173,7 +173,7 @@ public class ClanManager extends StaticEntity
 			clanName = cmr.getClanName();
 
 			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + File.separator + DIRECTORY_FORMAT.format( new Date() ) + File.separator;
-			client.updateDisplay( ENABLED_STATE, "Clan data retrieved." );
+			client.updateDisplay( NORMAL_STATE, "Clan data retrieved." );
 		}
 	}
 
@@ -249,7 +249,7 @@ public class ClanManager extends StaticEntity
 		// Now that it's known what the user wishes to continue,
 		// you begin initializing all the data.
 
-		client.updateDisplay( DISABLED_STATE, "Processing request..." );
+		client.updateDisplay( DISABLE_STATE, "Processing request..." );
 		nameIterator = profileMap.keySet().iterator();
 
 		// Create a special HTML file for each of the
@@ -258,7 +258,7 @@ public class ClanManager extends StaticEntity
 
 		for ( int i = 1; nameIterator.hasNext() && client.permitsContinue(); ++i )
 		{
-			client.updateDisplay( DISABLED_STATE, "Examining member " + i + " of " + profileMap.size() + "..." );
+			client.updateDisplay( DISABLE_STATE, "Examining member " + i + " of " + profileMap.size() + "..." );
 
 			currentName = (String) nameIterator.next();
 			currentProfile = (String) profileMap.get( currentName );
@@ -440,7 +440,7 @@ public class ClanManager extends StaticEntity
 
 		public void run()
 		{
-			client.updateDisplay( DISABLED_STATE, "Retrieving list of attackable clans..." );
+			client.updateDisplay( DISABLE_STATE, "Retrieving list of attackable clans..." );
 
 			super.run();
 
@@ -460,7 +460,7 @@ public class ClanManager extends StaticEntity
 			if ( enemyClans.isEmpty() )
 			{
 				JOptionPane.showMessageDialog( null, "Sorry, you cannot attack a clan at this time." );
-				client.updateDisplay( ENABLED_STATE, "" );
+				client.updateDisplay( NORMAL_STATE, "" );
 				return;
 			}
 
@@ -472,7 +472,7 @@ public class ClanManager extends StaticEntity
 
 			if ( enemy == null )
 			{
-				client.updateDisplay( ENABLED_STATE, "" );
+				client.updateDisplay( NORMAL_STATE, "" );
 				return;
 			}
 
@@ -495,14 +495,14 @@ public class ClanManager extends StaticEntity
 
 			public void run()
 			{
-				client.updateDisplay( DISABLED_STATE, "Attacking " + name + "..." );
+				client.updateDisplay( DISABLE_STATE, "Attacking " + name + "..." );
 
 				super.run();
 
 				// Theoretically, there should be a test for error state,
 				// but because I'm lazy, that's not happening.
 
-				client.updateDisplay( ENABLED_STATE, "Attack request processed." );
+				client.updateDisplay( NORMAL_STATE, "Attack request processed." );
 			}
 
 			public String toString()
@@ -650,7 +650,7 @@ public class ClanManager extends StaticEntity
 
 					if ( !header.equals( "<td>Ascensions</td>" ) && !header.equals( "" ) )
 					{
-						client.updateDisplay( DISABLED_STATE, "Storing clan snapshot..." );
+						client.updateDisplay( DISABLE_STATE, "Storing clan snapshot..." );
 
 						ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
 						ostream.println( ClanSnapshotTable.getStandardData() );
@@ -668,7 +668,7 @@ public class ClanManager extends StaticEntity
 
 					if ( retrieveAscensionData )
 					{
-						client.updateDisplay( DISABLED_STATE, "Storing ascension snapshot..." );
+						client.updateDisplay( DISABLE_STATE, "Storing ascension snapshot..." );
 
 						ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
 						ostream.println( AscensionSnapshotTable.getAscensionData( true ) );
@@ -688,7 +688,7 @@ public class ClanManager extends StaticEntity
 					return;
 				}
 
-				client.updateDisplay( ENABLED_STATE, "Snapshot generation completed." );
+				client.updateDisplay( NORMAL_STATE, "Snapshot generation completed." );
 
 				try
 				{
@@ -775,9 +775,9 @@ public class ClanManager extends StaticEntity
 				istream.close();
 			}
 
-			client.updateDisplay( DISABLED_STATE, "Retrieving clan stash log..." );
+			client.updateDisplay( DISABLE_STATE, "Retrieving clan stash log..." );
 			(new StashLogRequest( client )).run();
-			client.updateDisplay( ENABLED_STATE, "Stash log retrieved." );
+			client.updateDisplay( NORMAL_STATE, "Stash log retrieved." );
 
 			file.delete();
 			file.getParentFile().mkdirs();

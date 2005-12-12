@@ -126,7 +126,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( client == null )
 			return false;
 
-		client.updateDisplay( DISABLED_STATE, "Checking prerequisites..." );
+		client.updateDisplay( DISABLE_STATE, "Checking prerequisites..." );
 
 		// If the player has never ascended, then they're going
 		// to have to do it all by hand.
@@ -403,23 +403,23 @@ public abstract class SorceressLair extends StaticEntity
 		{
 			if ( !KoLCharacter.getEffects().contains( SUGAR ) )
 			{
-				client.updateDisplay( DISABLED_STATE, "Getting jittery..." );
+				client.updateDisplay( DISABLE_STATE, "Getting jittery..." );
 				(new ConsumeItemRequest( client, candy )).run();
 			}
 
 			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) )
 			{
-				client.updateDisplay( DISABLED_STATE, "Becoming a pansy..." );
+				client.updateDisplay( DISABLE_STATE, "Becoming a pansy..." );
 				(new ConsumeItemRequest( client, WUSSY_POTION )).run();
 			}
 
 			if ( !KoLCharacter.getEffects().contains( MIASMA ) )
 			{
-				client.updateDisplay( DISABLED_STATE, "Inverting anime smileyness..." );
+				client.updateDisplay( DISABLE_STATE, "Inverting anime smileyness..." );
 				(new ConsumeItemRequest( client, BLACK_CANDLE )).run();
 			}
 
-			client.updateDisplay( DISABLED_STATE, "Crossing three door puzzle..." );
+			client.updateDisplay( DISABLE_STATE, "Crossing three door puzzle..." );
 
 			request = new KoLRequest( client, "lair1.php" );
 			request.addFormField( "action", "gates" );
@@ -438,7 +438,7 @@ public abstract class SorceressLair extends StaticEntity
 			needsWeapon = true;
 			needsBuckler = true;
 
-			client.updateDisplay( DISABLED_STATE, "Crossing mirror puzzle..." );
+			client.updateDisplay( DISABLE_STATE, "Crossing mirror puzzle..." );
 
 			request = new KoLRequest( client, "lair1.php" );
 			request.addFormField( "action", "mirror" );
@@ -452,7 +452,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( SQUEEZINGS.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
-			client.updateDisplay( DISABLED_STATE, "Inserting digital key..." );
+			client.updateDisplay( DISABLE_STATE, "Inserting digital key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
 			request.addFormField( "preaction", "key" );
@@ -494,7 +494,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
 
-			client.updateDisplay( DISABLED_STATE, "Inserting Richard's star key..." );
+			client.updateDisplay( DISABLE_STATE, "Inserting Richard's star key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
 			request.addFormField( "preaction", "key" );
@@ -560,7 +560,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( RHYTHM.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
-			client.updateDisplay( DISABLED_STATE, "Inserting skeleton key..." );
+			client.updateDisplay( DISABLE_STATE, "Inserting skeleton key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
 			request.addFormField( "preaction", "key" );
@@ -583,7 +583,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( SCUBA.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
-			client.updateDisplay( DISABLED_STATE, "Inserting Boris's key..." );
+			client.updateDisplay( DISABLE_STATE, "Inserting Boris's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
 			request.addFormField( "preaction", "key" );
@@ -599,7 +599,7 @@ public abstract class SorceressLair extends StaticEntity
 				client.processResults( request.responseText );
 			}
 
-			client.updateDisplay( DISABLED_STATE, "Inserting Jarlsberg's key..." );
+			client.updateDisplay( DISABLE_STATE, "Inserting Jarlsberg's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
 			request.addFormField( "preaction", "key" );
@@ -615,7 +615,7 @@ public abstract class SorceressLair extends StaticEntity
 				client.processResults( request.responseText );
 			}
 
-			client.updateDisplay( DISABLED_STATE, "Inserting Sneaky Pete's key..." );
+			client.updateDisplay( DISABLE_STATE, "Inserting Sneaky Pete's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
 			request.addFormField( "preaction", "key" );
@@ -656,13 +656,13 @@ public abstract class SorceressLair extends StaticEntity
 		// Now, press the switch beyond the odor by
 		// visiting the appropriate page.
 
-		client.updateDisplay( DISABLED_STATE, "Pressing switch beyond odor..." );
+		client.updateDisplay( DISABLE_STATE, "Pressing switch beyond odor..." );
 		(new KoLRequest( client, "lair2.php?action=odor" )).run();
 
 		// Finally, arm the stone mariachis with their
 		// appropriate instruments.
 
-		client.updateDisplay( DISABLED_STATE, "Arming stone mariachis..." );
+		client.updateDisplay( DISABLE_STATE, "Arming stone mariachis..." );
 
 		request = new KoLRequest( client, "lair2.php" );
 		request.addFormField( "action", "statues" );
@@ -686,7 +686,7 @@ public abstract class SorceressLair extends StaticEntity
 		client.processResult( STRUMMING.getNegation() );
 		client.processResult( SQUEEZINGS.getNegation() );
 
-		client.updateDisplay( ENABLED_STATE, "Sorceress entryway complete." );
+		client.updateDisplay( NORMAL_STATE, "Sorceress entryway complete." );
 	}
 
 	public static void completeHedgeMaze()
@@ -716,7 +716,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Otherwise, check their current state relative
 		// to the hedge maze, and begin!
 
-		client.updateDisplay( DISABLED_STATE, "Retrieving maze status..." );
+		client.updateDisplay( DISABLE_STATE, "Retrieving maze status..." );
 		KoLRequest request = new KoLRequest( client, "hedgepuzzle.php" );
 		request.run();
 
@@ -727,7 +727,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !KoLCharacter.getInventory().contains( HEDGE_KEY ) )
 		{
-			client.updateDisplay( DISABLED_STATE, "Retrieving hedge key..." );
+			client.updateDisplay( DISABLE_STATE, "Retrieving hedge key..." );
 			responseText = retrieveHedgeKey( responseText );
 
 			// Retrieving the key after rotating the puzzle pieces
@@ -742,7 +742,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( responseText.indexOf( "Click one" ) != -1 )
 		{
-			client.updateDisplay( DISABLED_STATE, "Executing final rotations..." );
+			client.updateDisplay( DISABLE_STATE, "Executing final rotations..." );
 			responseText = finalizeHedgeMaze( responseText );
 
 			// Navigating up to the tower door after rotating the
@@ -764,7 +764,7 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
-		client.updateDisplay( ENABLED_STATE, "Hedge maze quest complete." );
+		client.updateDisplay( NORMAL_STATE, "Hedge maze quest complete." );
 	}
 
 	private static String rotateHedgePiece( String responseText, String hedgePiece, String searchText )
@@ -878,7 +878,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Determine which level you actually need to start from.
 
-		client.updateDisplay( DISABLED_STATE, "Climbing the tower..." );
+		client.updateDisplay( DISABLE_STATE, "Climbing the tower..." );
 
 		KoLRequest request = new KoLRequest( client, "lair4.php" );
 		request.run();
@@ -908,12 +908,12 @@ public abstract class SorceressLair extends StaticEntity
 			if ( !fightGuardian( towerLevel ) )
 				return;
 
-		client.updateDisplay( ENABLED_STATE, "Path to Sorceress's chamber cleared." );
+		client.updateDisplay( NORMAL_STATE, "Path to Sorceress's chamber cleared." );
 	}
 
 	private static boolean fightGuardian( int towerLevel )
 	{
-		client.updateDisplay( DISABLED_STATE, "Fighting guardian on level " + towerLevel + " of the tower..." );
+		client.updateDisplay( DISABLE_STATE, "Fighting guardian on level " + towerLevel + " of the tower..." );
 
 		// Boldly climb the stairs.
 
@@ -1009,7 +1009,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( request.responseText.indexOf( "ascend.php" ) != -1 )
 		{
-			client.updateDisplay( ENABLED_STATE, "You've already beaten Her Naughtiness. Go forth and ascend!" );
+			client.updateDisplay( NORMAL_STATE, "You've already beaten Her Naughtiness. Go forth and ascend!" );
 			return;
 		}
 
@@ -1071,14 +1071,14 @@ public abstract class SorceressLair extends StaticEntity
 			n += 1;
 		}
 
-		client.updateDisplay( ENABLED_STATE, "Her Naughtiness awaits. Go battle her!" );
+		client.updateDisplay( NORMAL_STATE, "Her Naughtiness awaits. Go battle her!" );
 	}
 
 	private static void findDoorCode()
 	{
 		KoLRequest request;
 
-		client.updateDisplay( DISABLED_STATE, "Cracking door code..." );
+		client.updateDisplay( DISABLE_STATE, "Cracking door code..." );
 
 		// Enter the chamber
 
@@ -1189,7 +1189,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Equip the huge mirror shard
 		(new EquipmentRequest( client, SHARD.getName() )).run();
 
-		client.updateDisplay( DISABLED_STATE, "Reflecting energy bolt..." );
+		client.updateDisplay( DISABLE_STATE, "Reflecting energy bolt..." );
 
 		// Reflect the energy bolt
 		request = new KoLRequest( client, "lair6.php", true );
@@ -1221,7 +1221,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		client.resetContinueState();
-		client.updateDisplay( DISABLED_STATE, "Fighting your shadow..." );
+		client.updateDisplay( DISABLE_STATE, "Fighting your shadow..." );
 
 		// Start the battle!
 
@@ -1273,7 +1273,7 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
-		client.updateDisplay( DISABLED_STATE, "Facing giant familiar..." );
+		client.updateDisplay( DISABLE_STATE, "Facing giant familiar..." );
 		KoLRequest request = new KoLRequest( client, "lair6.php", true );
 		request.addFormField( "place", String.valueOf( n ) );
 		request.run();

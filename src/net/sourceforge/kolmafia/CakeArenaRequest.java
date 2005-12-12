@@ -58,7 +58,7 @@ public class CakeArenaRequest extends KoLRequest
 	public void run()
 	{
 		if ( !isCompetition )
-			updateDisplay( DISABLED_STATE, "Retrieving opponent list..." );
+			updateDisplay( DISABLE_STATE, "Retrieving opponent list..." );
 
 		super.run();
 
@@ -101,7 +101,7 @@ public class CakeArenaRequest extends KoLRequest
 			CakeArenaManager.registerOpponent( id, name, race, weight );
 		}
 
-		updateDisplay( ENABLED_STATE, "Opponent list retrieved." );
+		updateDisplay( NORMAL_STATE, "Opponent list retrieved." );
 	}
 
 	public String toString()

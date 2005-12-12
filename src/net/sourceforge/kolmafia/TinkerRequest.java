@@ -71,7 +71,7 @@ public class TinkerRequest extends ItemCreationRequest
 		int quantity = getQuantityNeeded();
 
 		// Disable controls
-		updateDisplay( DISABLED_STATE, "Creating " + quantity + " " + getName() + "..." );
+		updateDisplay( DISABLE_STATE, "Creating " + quantity + " " + getName() + "..." );
 		addFormField( "qty", String.valueOf( quantity ) );
 		// addFormField( "makeall", "off" );
 

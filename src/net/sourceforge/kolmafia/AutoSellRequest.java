@@ -181,7 +181,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 	public void run()
 	{
-		updateDisplay( DISABLED_STATE, ( sellType == AUTOSELL ) ? "Autoselling items..." : "Placing items in the mall..." );
+		updateDisplay( DISABLE_STATE, ( sellType == AUTOSELL ) ? "Autoselling items..." : "Placing items in the mall..." );
 
 		super.run();
 
@@ -220,7 +220,7 @@ public class AutoSellRequest extends SendMessageRequest
 		else
 			StoreManager.update( responseText, false );
 
-		updateDisplay( ENABLED_STATE, "Items sold." );
+		updateDisplay( NORMAL_STATE, "Items sold." );
 	}
 
 	protected String getSuccessMessage()

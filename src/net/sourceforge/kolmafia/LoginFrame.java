@@ -117,7 +117,7 @@ public class LoginFrame extends KoLFrame
 
 		addWindowListener( new ExitRequestAdapter() );
 	}
-	
+
 	public JPanel constructLoginPanel()
 	{
 		contentPanel = new LoginPanel();
@@ -129,8 +129,8 @@ public class LoginFrame extends KoLFrame
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
 		containerPanel.add( imagePanel, BorderLayout.NORTH );
-		containerPanel.add( contentPanel, BorderLayout.CENTER );		
-		return containerPanel;		
+		containerPanel.add( contentPanel, BorderLayout.CENTER );
+		return containerPanel;
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class LoginFrame extends KoLFrame
 
 		switch ( displayState )
 		{
-			case DISABLED_STATE:
+			case DISABLE_STATE:
 				setEnabled( false );
 				break;
 
@@ -263,7 +263,9 @@ public class LoginFrame extends KoLFrame
 		}
 
 		public void setStatusMessage( int displayState, String s )
-		{	actionStatusLabel.setText( s );
+		{
+			if ( !s.equals( "" ) )
+				actionStatusLabel.setText( s );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -286,7 +288,7 @@ public class LoginFrame extends KoLFrame
 				login( true );
 			else
 			{
-				client.updateDisplay( CANCELLED_STATE, "Login cancelled." );
+				client.updateDisplay( CANCEL_STATE, "Login cancelled." );
 				client.cancelRequest();
 				requestFocus();
 			}
@@ -313,7 +315,7 @@ public class LoginFrame extends KoLFrame
 			if ( isQuickLogin && !loginname.endsWith( "/q" ) )
 				loginname += "/q";
 
-			client.updateDisplay( DISABLED_STATE, "Determining login settings..." );
+			client.updateDisplay( DISABLE_STATE, "Determining login settings..." );
 			(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected(), isQuickLogin )).run();
 		}
 
@@ -562,7 +564,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			client.updateDisplay( DISABLED_STATE, "Applying network settings..." );
+			client.updateDisplay( DISABLE_STATE, "Applying network settings..." );
 			setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() != 0 ) );
 			setProperty( "http.proxyHost", proxyHost.getText() );
 			setProperty( "http.proxyPort", proxyPort.getText() );
@@ -574,7 +576,7 @@ public class LoginFrame extends KoLFrame
 
 			KoLRequest.applySettings();
 			JOptionPane.showMessageDialog( null, "Settings saved." );
-			client.updateDisplay( ENABLED_STATE, "Network settings applied." );
+			client.updateDisplay( NORMAL_STATE, "Network settings applied." );
 		}
 
 		protected void actionCancelled()

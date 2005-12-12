@@ -67,9 +67,9 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( itemID == -1 )
 		{
-			updateDisplay( DISABLED_STATE, "Visiting the Untinker..." );
+			updateDisplay( DISABLE_STATE, "Visiting the Untinker..." );
 			super.run();
-			updateDisplay( ENABLED_STATE, "Back from Untinker." );
+			updateDisplay( NORMAL_STATE, "Back from Untinker." );
 			return;
 		}
 
@@ -112,13 +112,13 @@ public class UntinkerRequest extends KoLRequest
 			KoLCharacter.processResult( SCREWDRIVER );
 		}
 
-		updateDisplay( DISABLED_STATE, "Untinkering an item..." );
+		updateDisplay( DISABLE_STATE, "Untinkering an item..." );
 
 		super.run();
 
 		client.processResults( responseText );
 		client.processResult( new AdventureResult( itemID, -1 ) );
 
-		updateDisplay( ENABLED_STATE, "Untinkering complete" );
+		updateDisplay( NORMAL_STATE, "Untinkering complete" );
 	}
 }

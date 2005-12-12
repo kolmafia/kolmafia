@@ -146,7 +146,7 @@ public class StoreManageFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			client.updateDisplay( DISABLED_STATE, "Compiling reprice data..." );
+			client.updateDisplay( DISABLE_STATE, "Compiling reprice data..." );
 
 			java.awt.Component [] components = storeItemList.getComponents();
 			int [] itemID = new int[ components.length ];

@@ -138,7 +138,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			scriptDirectory.mkdirs();
 
 		// Add all the scripts from this directory
-		scripts = addScripts(scriptDirectory, "scripts" );
+		scripts = addScripts( scriptDirectory, "scripts" );
 	}
 
 	private static LockableListModel addScripts( File directory, String prefix )
@@ -359,11 +359,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		switch ( displayState )
 		{
-			case DISABLED_STATE:
+			case DISABLE_STATE:
 				setEnabled( false );
 				break;
 
-			case NOCHANGE:
+			case NORMAL_STATE:
 				break;
 
 			default:
@@ -731,6 +731,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					return;
 
 				(new KoLmafiaCLI( client, new FileInputStream( executePath ) )).listenForCommands();
+
+				if ( client.permitsContinue() )
+					updateDisplay( ENABLE_STATE, "" );
+				else
+					updateDisplay( ERROR_STATE, "" );
 			}
 			catch ( Exception e )
 			{
@@ -745,7 +750,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 
 			if ( client.permitsContinue() )
-				client.updateDisplay( ENABLED_STATE, "Script completed successfully." );
+				client.updateDisplay( NORMAL_STATE, "Script completed successfully." );
 
 			setEnabled( true );
 		}
@@ -800,7 +805,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void setStatusMessage( int displayState, String s )
-		{	actionStatusLabel.setText( s );
+		{
+			if ( !s.equals( "" ) )
+				actionStatusLabel.setText( s );
 		}
 
 		protected void actionCancelled()

@@ -586,7 +586,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
-		client.updateDisplay( DISABLED_STATE, "Starting training session." );
+		client.updateDisplay( DISABLE_STATE, "Starting training session." );
 
 		// Iterate until we reach the goal
 		while ( !goalMet( status, goal, type) )
@@ -650,7 +650,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			fightMatch( client, status, tool, opponent, verbose );
 		}
 
-		statusMessage( client, ENABLED_STATE, "Training session completed." );
+		statusMessage( client, ENABLE_STATE, "Training session completed." );
 		return true;
 	}
 
@@ -808,7 +808,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		results.append( text.toString() );
 
-		client.updateDisplay( DISABLED_STATE, "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
+		client.updateDisplay( DISABLE_STATE, "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
 	private static void fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, boolean verbose )
@@ -901,7 +901,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( client.getLocalBooleanProperty( "refreshBeforeFamiliarSession" ) )
 			{
 				(new CharsheetRequest( client )).run();
-				client.updateDisplay( ENABLED_STATE, "Status updated." );
+				client.updateDisplay( NORMAL_STATE, "Status updated." );
 			}
 
 			// Find out which familiar we are working with

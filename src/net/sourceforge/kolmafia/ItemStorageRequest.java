@@ -170,29 +170,29 @@ public class ItemStorageRequest extends SendMessageRequest
 		switch ( moveType )
 		{
 			case RETRIEVE_STORAGE:
-				updateDisplay( DISABLED_STATE, "Retrieving list of items in storage..." );
+				updateDisplay( DISABLE_STATE, "Retrieving list of items in storage..." );
 				parseStorage();
-				updateDisplay( ENABLED_STATE, "Item list retrieved." );
+				updateDisplay( NORMAL_STATE, "Item list retrieved." );
 				break;
 
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
 			case STORAGE_TO_INVENTORY:
-				updateDisplay( DISABLED_STATE, "Moving items..." );
+				updateDisplay( DISABLE_STATE, "Moving items..." );
 				super.run();
 				break;
 
 			case CLOSET_YOUR_CLOVERS:
-				updateDisplay( DISABLED_STATE, "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
+				updateDisplay( DISABLE_STATE, "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
 				super.run();
 				break;
 
 			case MEAT_TO_CLOSET:
 			case MEAT_TO_INVENTORY:
 			case PULL_MEAT_FROM_STORAGE:
-				updateDisplay( DISABLED_STATE, "Executing transaction..." );
+				updateDisplay( DISABLE_STATE, "Executing transaction..." );
 				meat();
-				updateDisplay( ENABLED_STATE, "" );
+				updateDisplay( NORMAL_STATE, "" );
 				break;
 		}
 	}

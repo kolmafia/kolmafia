@@ -240,7 +240,7 @@ public class ClanManageFrame extends KoLFrame
 			{
 				contentPanel = clanBuff;
 				client.cancelRequest();
-				client.updateDisplay( ENABLED_STATE, "Purchase attempts cancelled." );
+				client.updateDisplay( NORMAL_STATE, "Purchase attempts cancelled." );
 			}
 		}
 	}
@@ -313,14 +313,14 @@ public class ClanManageFrame extends KoLFrame
 
 			public void run()
 			{
-				client.updateDisplay( DISABLED_STATE, "Purchasing clan materials..." );
+				client.updateDisplay( DISABLE_STATE, "Purchasing clan materials..." );
 
 				super.run();
 
 				// Theoretically, there should be a test for error state,
 				// but because I'm lazy, that's not happening.
 
-				client.updateDisplay( ENABLED_STATE, "Purchase request processed." );
+				client.updateDisplay( NORMAL_STATE, "Purchase request processed." );
 			}
 		}
 	}
@@ -531,12 +531,12 @@ public class ClanManageFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
-			client.updateDisplay( ENABLED_STATE, "Search results retrieved." );
+			client.updateDisplay( NORMAL_STATE, "Search results retrieved." );
 		}
 
 		protected void actionCancelled()
 		{
-			client.updateDisplay( DISABLED_STATE, "Determining changes..." );
+			client.updateDisplay( DISABLE_STATE, "Determining changes..." );
 
 			List rankChange = new ArrayList();
 			List newRanks = new ArrayList();
@@ -575,9 +575,9 @@ public class ClanManageFrame extends KoLFrame
 				}
 			}
 
-			client.updateDisplay( DISABLED_STATE, "Applying changes..." );
+			client.updateDisplay( DISABLE_STATE, "Applying changes..." );
 			(new ClanMembersRequest( client, rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
-			client.updateDisplay( ENABLED_STATE, "Changes have been applied." );
+			client.updateDisplay( NORMAL_STATE, "Changes have been applied." );
 		}
 
 		private class SelectAllForBootButton extends JButton implements ActionListener

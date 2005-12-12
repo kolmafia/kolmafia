@@ -835,7 +835,7 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	setStatusMessage( ENABLED_STATE, "Settings saved." );
+		{	setStatusMessage( NORMAL_STATE, "Settings saved." );
 		}
 	}
 

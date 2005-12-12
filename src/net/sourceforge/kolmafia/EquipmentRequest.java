@@ -224,19 +224,19 @@ public class EquipmentRequest extends PasswordHashRequest
 		switch ( requestType )
 		{
 			case CHANGE_OUTFIT:
-				updateDisplay( DISABLED_STATE, "Changing outfit..." );
+				updateDisplay( DISABLE_STATE, "Changing outfit..." );
 				break;
 
 			case CLOSET:
-				updateDisplay( DISABLED_STATE, "Refreshing closet..." );
+				updateDisplay( DISABLE_STATE, "Refreshing closet..." );
 				break;
 
 			case REMOVE_ITEM:
-				updateDisplay( DISABLED_STATE, "Removing item..." );
+				updateDisplay( DISABLE_STATE, "Removing item..." );
 				break;
 
 			default:
-				updateDisplay( DISABLED_STATE, "Updating equipment..." );
+				updateDisplay( DISABLE_STATE, "Updating equipment..." );
 				break;
 		}
 
@@ -247,7 +247,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( !isErrorState && responseCode == 302 )
 		{
-			updateDisplay( DISABLED_STATE, "Updating equipment..." );
+			updateDisplay( DISABLE_STATE, "Updating equipment..." );
 			KoLRequest message = new KoLRequest( client, redirectLocation );
 			message.run();
 
@@ -270,7 +270,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( requestType == CLOSET )
 			{
 				parseCloset();
-				updateDisplay( ENABLED_STATE, "Inventory retrieved." );
+				updateDisplay( NORMAL_STATE, "Inventory retrieved." );
 			}
 			else
 			{
@@ -290,7 +290,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				// Because changing equipment can potentially change
 				// a player's stats, also refresh status.
 
-				updateDisplay( ENABLED_STATE, "Equipment retrieved." );
+				updateDisplay( NORMAL_STATE, "Equipment retrieved." );
 			}
 
 			KoLmafia.getLogStream().println( "Parsing complete." );

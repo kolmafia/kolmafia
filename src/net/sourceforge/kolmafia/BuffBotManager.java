@@ -212,7 +212,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static synchronized void runBuffBot( int iterations )
 	{
 		BuffBotHome.setBuffBotActive( true );
-		client.updateDisplay( DISABLED_STATE, "Buffbot started." );
+		client.updateDisplay( DISABLE_STATE, "Buffbot started." );
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
 
 		maxPhilanthropy = Integer.parseInt( getProperty( "maxPhilanthropy" ) );
@@ -275,7 +275,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
 			}
 
-			client.updateDisplay( DISABLED_STATE, "Buffbot is sleeping." );
+			client.updateDisplay( DISABLE_STATE, "Buffbot is sleeping." );
 
 			if ( i != iterations )
 				for ( int j = 0; j < 75; ++j )
@@ -291,7 +291,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		if ( !getProperty( "useChatBasedBuffBot" ).equals( "true" ) )
 		{
 			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
-			client.updateDisplay( ENABLED_STATE, "Buffbot stopped." );
+			client.updateDisplay( NORMAL_STATE, "Buffbot stopped." );
 			BuffBotHome.setBuffBotActive( false );
 		}
 	}
@@ -360,7 +360,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 				if ( client.getRestoreCount() == 0 )
 				{
-					client.updateDisplay( ENABLED_STATE, "Unable to continue BuffBot!" );
+					client.updateDisplay( NORMAL_STATE, "Unable to continue BuffBot!" );
 					BuffBotHome.setBuffBotActive( false );
 					BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to process a buff message." );
 				}
@@ -453,7 +453,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			while ( BuffBotHome.isBuffBotActive() && calculatedRestores <= autoBuySetting && currentRestores != calculatedRestores )
 			{
 				currentRestores = calculatedRestores;
-				client.updateDisplay( DISABLED_STATE, "Executing auto-stocking script..." );
+				client.updateDisplay( DISABLE_STATE, "Executing auto-stocking script..." );
 
 				String scriptPath = getProperty( "autoStockScript" ) ;
 				File autoStockScript = new File( scriptPath );

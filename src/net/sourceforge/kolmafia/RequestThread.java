@@ -164,14 +164,14 @@ public class RequestThread extends Thread implements KoLConstants
 		if ( requests[0] instanceof ItemCreationRequest && client.permitsContinue() )
 		{
 			ItemCreationRequest irequest = (ItemCreationRequest) requests[0];
-			client.updateDisplay( ENABLED_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
+			client.updateDisplay( NORMAL_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 		}
 
 		if ( client != null )
 		{
 			client.resetContinueState();
 			if ( !client.isEnabled() && !(requests[0] instanceof ChatRequest) )
-				client.updateDisplay( ENABLED_STATE, "" );
+				client.updateDisplay( ENABLE_STATE, "" );
 		}
 	}
 }

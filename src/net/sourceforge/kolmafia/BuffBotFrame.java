@@ -369,7 +369,7 @@ public class BuffBotFrame extends KoLFrame
 			buffBotModeSelect.setSelectedIndex( getProperty( "useChatBasedBuffBot" ).equals( "true" ) ? 1 : 0 );
 			whiteListEditor.setText( getProperty( "whiteList" ) );
 
-			setStatusMessage( ENABLED_STATE, "Settings loaded." );
+			setStatusMessage( NORMAL_STATE, "Settings loaded." );
 		}
 
 		private class WhiteListEntry extends JPanel
@@ -458,7 +458,7 @@ public class BuffBotFrame extends KoLFrame
 			invalidPriceMessage.setText( getProperty( "invalidBuffMessage" ) );
 			thanksMessage.setText( getProperty( "thanksMessage" ) );
 
-			setStatusMessage( ENABLED_STATE, "Settings loaded." );
+			setStatusMessage( NORMAL_STATE, "Settings loaded." );
 		}
 
 		public void setContent( VerifiableElement [] elements )
@@ -505,7 +505,7 @@ public class BuffBotFrame extends KoLFrame
 			if ( client != null && !GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "1" ) )
 			{
 				BuffBotHome.deinitialize();
-				client.updateDisplay( ENABLED_STATE, "Buffbot deactivated." );
+				client.updateDisplay( NORMAL_STATE, "Buffbot deactivated." );
 			}
 			else
 				super.windowClosed( e );

@@ -84,7 +84,7 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.updateDisplay( state, message );
 
-		if ( state != NOCHANGE )
+		if ( state != NORMAL_STATE )
 		{
 			if ( displayer != null && displayer.getCreation() != null )
 			{
@@ -93,7 +93,7 @@ public class KoLmafiaGUI extends KoLmafia
 					BuffBotHome.updateStatus( message );
 			}
 
-			isEnabled = state != DISABLED_STATE;
+			isEnabled = state != DISABLE_STATE;
 		}
 	}
 
@@ -314,7 +314,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( cureArray.length == 0 )
 		{
-			updateDisplay( ENABLED_STATE, "You don't need any cures." );
+			updateDisplay( NORMAL_STATE, "You don't need any cures." );
 			return;
 		}
 

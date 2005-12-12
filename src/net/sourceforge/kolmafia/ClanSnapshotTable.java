@@ -162,9 +162,9 @@ public class ClanSnapshotTable extends KoLDatabase
 			// which is exactly what's wanted.
 		}
 
-		client.updateDisplay( DISABLED_STATE, "Rendering list (KoLmafia may temporary lock)..." );
+		client.updateDisplay( DISABLE_STATE, "Rendering list (KoLmafia may temporary lock)..." );
 		filterList.addAll( interimList );
-		client.updateDisplay( ENABLED_STATE, "Search results rendered." );
+		client.updateDisplay( NORMAL_STATE, "Search results rendered." );
 	}
 
 	private static ProfileRequest getProfile( String name )
@@ -652,7 +652,7 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		public void run()
 		{
-			updateDisplay( DISABLED_STATE, "Retrieving detailed roster..." );
+			updateDisplay( DISABLE_STATE, "Retrieving detailed roster..." );
 			super.run();
 
 			Matcher rowMatcher = Pattern.compile( "<tr>(.*?)</tr>" ).matcher( responseText.substring( responseText.indexOf( "clan_detailedroster.php" ) ) );
@@ -685,7 +685,7 @@ public class ClanSnapshotTable extends KoLDatabase
 				}
 			}
 
-			updateDisplay( ENABLED_STATE, "Detail roster retrieved." );
+			updateDisplay( NORMAL_STATE, "Detail roster retrieved." );
 		}
 	}
 }

@@ -86,7 +86,7 @@ public class ClanGymRequest extends KoLRequest
 
 		case MOXIE:
 			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
-			if ( KoLCharacter.inMoxieSign() && 
+			if ( KoLCharacter.inMoxieSign() &&
 			     KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR )  )
 				return "gnomes.php";
 
@@ -112,7 +112,7 @@ public class ClanGymRequest extends KoLRequest
 
 		case MOXIE:
 			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
-			return ( KoLCharacter.inMoxieSign() && 
+			return ( KoLCharacter.inMoxieSign() &&
 				 KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR )  ) ? "train" : "tanningbed";
 		}
 
@@ -133,7 +133,7 @@ public class ClanGymRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( DISABLED_STATE, "Beginning workout..." );
+		updateDisplay( DISABLE_STATE, "Beginning workout..." );
 		super.run();
 
 		// All the gains will be found before the first </center> tag;
@@ -141,7 +141,7 @@ public class ClanGymRequest extends KoLRequest
 
 		processResults( responseText.substring( 0, responseText.indexOf( "</center>" ) ) );
 		client.processResult( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
-		updateDisplay( ENABLED_STATE, "Workout completed." );
+		updateDisplay( NORMAL_STATE, "Workout completed." );
 	}
 
 	/**
