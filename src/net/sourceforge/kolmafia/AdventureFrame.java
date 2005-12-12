@@ -599,7 +599,9 @@ public class AdventureFrame extends KoLFrame
 			if ( !client.inLoginState() && (label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." )) )
 				return;
 
-			actionStatusLabel.setText( s );
+			if ( !s.equals( "" ) )
+				actionStatusLabel.setText( s );
+
 			switch ( displayState )
 			{
 				case ERROR_STATE:
@@ -645,6 +647,8 @@ public class AdventureFrame extends KoLFrame
 				if ( forceSortingCheckBox.isSelected() )
 					java.util.Collections.sort( results );
 			}
+
+			client.enableDisplay();
 		}
 
 		protected void actionCancelled()
@@ -663,7 +667,6 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			contentPanel = this;
-			currentlyBuying = true;
 
 			if ( !limitPurchasesCheckBox.isSelected() && getProperty( "oversightProtect" ).equals( "true" ) )
 			{
@@ -674,10 +677,18 @@ public class AdventureFrame extends KoLFrame
 							return;
 			}
 
-			client.makePurchases( results, purchases, limitPurchasesCheckBox.isSelected() ?
-				getQuantity( "Maximum number of items to purchase?", Integer.MAX_VALUE, 1 ) : Integer.MAX_VALUE );
+			int count = limitPurchasesCheckBox.isSelected() ?
+				getQuantity( "Maximum number of items to purchase?", Integer.MAX_VALUE, 1 ) :
+				Integer.MAX_VALUE;
 
+			if ( count == 0 )
+				return;
+
+			currentlyBuying = true;
+			client.makePurchases( results, purchases, count );
 			currentlyBuying = false;
+
+			client.enableDisplay();
 		}
 
 		private String getPurchaseSummary( Object [] purchases )

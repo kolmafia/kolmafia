@@ -134,6 +134,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		// Clear left over results from the buffer
 		results.clearBuffer();
+
+		// Enable the display after fetching opponents
+		client.enableDisplay();
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -377,6 +380,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Level the familiar
 					levelFamiliar( client, goal, BASE );
+
+					// Re-enable the display
+					client.enableDisplay();
 				}
 			}
 
@@ -397,6 +403,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Level the familiar
 					levelFamiliar( client, goal, BUFFED );
+
+					// Re-enable the display
+					client.enableDisplay();
 				}
 			}
 
@@ -417,6 +426,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Level the familiar
 					levelFamiliar( client, goal, TURNS );
+
+					// Re-enable the display
+					client.enableDisplay();
 				}
 			}
 
@@ -511,6 +523,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					FamiliarData selection = (FamiliarData)getSelectedItem();
 					(new FamiliarRequest( client, selection )).run();
 					isChanging = false;
+					client.enableDisplay();
 				}
 			}
 		}
@@ -650,7 +663,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			fightMatch( client, status, tool, opponent, verbose );
 		}
 
-		statusMessage( client, ENABLE_STATE, "Training session completed." );
+		statusMessage( client, NORMAL_STATE, "Training session completed." );
 		return true;
 	}
 
