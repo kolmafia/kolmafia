@@ -243,6 +243,7 @@ public class GearChangeFrame extends KoLFrame
 
 			request.run();
 			refreshEquipPanel();
+			client.enableDisplay();
 		}
 	}
 
@@ -356,6 +357,7 @@ public class GearChangeFrame extends KoLFrame
 
 				refreshEquipPanel();
 				isChanging = false;
+				client.enableDisplay();
 			}
 			catch ( Exception e )
 			{
