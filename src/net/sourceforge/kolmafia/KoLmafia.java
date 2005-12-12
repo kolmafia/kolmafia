@@ -193,6 +193,12 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public void enableDisplay()
+	{
+		int state =  permitsContinue() ? ENABLE_STATE : ERROR_STATE;
+		updateDisplay( state, "" );
+	}
+
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
 	 * the login has been confirmed to notify the client that the

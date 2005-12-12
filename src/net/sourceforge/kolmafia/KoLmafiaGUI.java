@@ -205,6 +205,8 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new RequestThread( new UneffectRequest( this, (AdventureResult) selectedValue ) )).start();
+
+		enableDisplay();
 	}
 
 	/**
@@ -236,6 +238,8 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new HermitRequest( this, selected, tradeCount )).run();
+		enableDisplay();
+
 		// We might have traded for a craftable item
 		KoLCharacter.refreshCalculatedLists();
 	}
@@ -272,6 +276,8 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new TrapperRequest( this, selected, tradeCount )).run();
+		enableDisplay();
+
 		// We might have traded for a craftable item
 		KoLCharacter.refreshCalculatedLists();
 	}
@@ -297,6 +303,7 @@ public class KoLmafiaGUI extends KoLmafia
                         return;
 
 		(new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) )).run();
+		enableDisplay();
 
 		// We might have sold a craftable item
 		KoLCharacter.refreshCalculatedLists();
@@ -331,6 +338,7 @@ public class KoLmafiaGUI extends KoLmafia
 		else
 			return;
 		(new GalaktikRequest( this, type )).run();
+		enableDisplay();
 	}
 
 	/**
@@ -368,6 +376,8 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new UntinkerRequest( this, selectedValue.getItemID() )).run();
+		enableDisplay();
+
 		// Recalculate recipes
 		KoLCharacter.refreshCalculatedLists();
 	}
@@ -394,6 +404,7 @@ public class KoLmafiaGUI extends KoLmafia
 					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ KoLCharacter.getMindControlLevel() ] );
 
 			(new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() )).run();
+			enableDisplay();
 		}
 		catch ( Exception e )
 		{
