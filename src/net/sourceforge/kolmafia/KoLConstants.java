@@ -49,8 +49,8 @@ public interface KoLConstants extends UtilityConstants
 	public static final Random RNG = new Random();
 	public static final String LINE_BREAK = System.getProperty( "line.separator" );
 
-	public static final String VERSION_NAME = "KoLmafia v6.0";
-	public static final String VERSION_DATE = "Released December 3, 2005";
+	public static final String VERSION_NAME = "KoLmafia v6.1";
+	public static final String VERSION_DATE = "Released December 15, 2005";
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings();
 
 	public static final List existingFrames = new ArrayList();
@@ -63,7 +63,7 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd" );
 
-	public static final int NORMAL_STATE = 0;
+	public static final int NORMAL_STATE   = 0;
 	public static final int ERROR_STATE    = 1;
 	public static final int DISABLE_STATE  = 2;
 	public static final int CANCEL_STATE   = 3;
