@@ -1679,8 +1679,14 @@ public abstract class KoLmafia implements KoLConstants
 	{	return encounterList;
 	}
 
-	public synchronized void executeTimeInRequest()
+	public void executeTimeInRequest()
 	{
+		// If you're already trying to login, then
+		// don't continue.
+
+		if ( isLoggingIn )
+			return;
+
 		// If the client is permitted to continue,
 		// then the session has already timed in.
 

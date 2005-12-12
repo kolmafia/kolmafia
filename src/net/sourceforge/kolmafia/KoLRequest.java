@@ -398,10 +398,17 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		// No thread synchronization.  Simply reset the
-		// appropriate property and execute the request.
+		// Returning to thread synchronization.  Because requests
+		// are forced to occur in separate threads, and the only
+		// loop is the time-in loop, this should not cause a deadlock.
 
-		KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
+		if ( !isDelayExempt() )
+		{
+			synchronized ( KoLRequest.class )
+			{
+				KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
+			}
+		}
 
 		// Clear current request. We'll save it if this one needs
 		// to be finished in a browser
@@ -478,7 +485,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	private boolean isDelayExempt()
-	{	return client == null || client.inLoginState() || this instanceof ChatRequest || getClass() == KoLRequest.class || this instanceof CharpaneRequest;
+	{
+		return client == null || client.inLoginState() || this instanceof LoginRequest || this instanceof ChatRequest ||
+			getClass() == KoLRequest.class || this instanceof CharpaneRequest;
 	}
 
 	/**
