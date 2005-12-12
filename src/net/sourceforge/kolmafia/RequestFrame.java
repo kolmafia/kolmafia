@@ -146,7 +146,8 @@ public class RequestFrame extends KoLFrame
 
 	protected void addMenuBar()
 	{
-		JMenuBar menuBar = getJMenuBar();
+		JMenuBar menuBar = new JMenuBar();
+		this.setJMenuBar( menuBar );
 
 		// The function and goto menus are only available if there is a sidebar;
 		// otherwise, adding them clutters the user interface.
