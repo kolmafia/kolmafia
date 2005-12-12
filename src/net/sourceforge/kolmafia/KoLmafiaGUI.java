@@ -84,17 +84,15 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.updateDisplay( state, message );
 
-		if ( state != NORMAL_STATE )
+		if ( displayer != null && displayer.getCreation() != null )
 		{
-			if ( displayer != null && displayer.getCreation() != null )
-			{
-				((KoLFrame)displayer.getCreation()).updateDisplay( state, message );
-				if ( BuffBotHome.isBuffBotActive() )
-					BuffBotHome.updateStatus( message );
-			}
-
-			isEnabled = state != DISABLE_STATE;
+			((KoLFrame)displayer.getCreation()).updateDisplay( state, message );
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.updateStatus( message );
 		}
+
+		if ( state != NORMAL_STATE )
+			isEnabled = state != DISABLE_STATE;
 	}
 
 	public boolean isEnabled()
