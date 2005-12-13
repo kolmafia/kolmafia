@@ -117,7 +117,7 @@ public class ChatFrame extends KoLFrame
 
 		getContentPane().add( toolsPanel, BorderLayout.NORTH );
 
-		// Add a window listener to handle existing and closing
+		// Add a window listener to handle exiting and closing
 		// chat, pending on how the initialization functions.
 
 		if ( client != null && mainPanel != null )
