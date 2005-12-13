@@ -653,6 +653,16 @@ public abstract class KoLMessenger extends StaticEntity
 		// There are a bunch of messages that are supposed to be
 		// formatted in green.  These are all handled first.
 
+		Matcher whoMatcher = Pattern.compile( "showplayer.php\\?who=[\\d]+" ).matcher( message );
+		if ( whoMatcher.find() )
+		{
+			String link = whoMatcher.group();
+			message = message.replaceFirst( "</b>", "</b> " +
+				"<a href=\"" + link + "_1\"><font color=blue>[p]</font></a>" +
+				"<a href=\"" + link + "_2\"><font color=green>[k]</font></a>" +
+				"<a href=\"" + link + "_3\"><font color=purple>[g]</font></a>" );
+		}
+
 		if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) )
 			displayHTML = "<font color=green>" + message + "</font>";
 
@@ -682,7 +692,8 @@ public abstract class KoLMessenger extends StaticEntity
 			displayHTML = "<i>" + message + "</i>";
 
 		// Finally, all other messages are treated normally, with
-		// no special formatting needed.
+		// no special formatting needed, except for the additional
+		// eSolu-style additions.
 
 		else
 			displayHTML = message;

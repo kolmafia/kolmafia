@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.CardLayout;
+import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JMenuItem;
 import javax.swing.JComponent;
@@ -86,10 +87,9 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 
 	protected void initialize( String associatedContact )
 	{
-		getContentPane().setLayout( new CardLayout( 5, 5 ) );
 		tabs = new CloseableTabbedPane();
 		tabs.addCloseableTabbedPaneListener( this );
-		getContentPane().add( tabs, "" );
+		getContentPane().add( tabs, BorderLayout.CENTER );
 	}
 
 	/**

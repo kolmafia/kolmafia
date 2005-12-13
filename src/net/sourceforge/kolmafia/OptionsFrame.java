@@ -44,8 +44,8 @@ import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
 
 // events
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import javax.swing.SwingUtilities;
 
 // containers
@@ -146,7 +146,14 @@ public class OptionsFrame extends KoLFrame
 		addTab( "Restore", new RestoreOptionsPanel() );
 		addTab( "Sewer", new SewerOptionsPanel() );
 		addTab( "Choice", new ChoiceOptionsPanel() );
-		addTab( "Chat", new ChatOptionsPanel() );
+
+		JPanel chatContainer = new JPanel();
+		chatContainer.setLayout( new BoxLayout( chatContainer, BoxLayout.Y_AXIS ) );
+		chatContainer.add( new ChatOptionsPanel() );
+		chatContainer.add( new ChatColorsPanel() );
+		chatContainer.add( new JPanel() );
+
+		addTab( "Chat", chatContainer );
 		addTab( "Otori", new OtoriOptionsPanel() );
 
 		getContentPane().setLayout( new CardLayout( 10, 10 ) );
@@ -156,7 +163,7 @@ public class OptionsFrame extends KoLFrame
 	private void addTab( String name, JComponent panel )
 	{
 		JScrollPane scroller = new JScrollPane( panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		JComponentUtilities.setComponentSize( scroller, 520, 400 );
+		JComponentUtilities.setComponentSize( scroller, 560, 400 );
 		tabs.add( name, scroller );
 	}
 
@@ -171,7 +178,7 @@ public class OptionsFrame extends KoLFrame
 
 		public AreaOptionsPanel()
 		{
-			super( "Adventure List", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
+			super( "Adventure List", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
 
 			zones = new String[ AdventureDatabase.ZONE_NAMES.size() ];
 			options = new JCheckBox[ AdventureDatabase.ZONE_NAMES.size() + 2 ];
@@ -272,7 +279,7 @@ public class OptionsFrame extends KoLFrame
 
 		public GeneralOptionsPanel()
 		{
-			super( "General Options", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
+			super( "General Options", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
 			optionBoxes = new JCheckBox[ options.length ];
@@ -407,7 +414,7 @@ public class OptionsFrame extends KoLFrame
 
 		public SewerOptionsPanel()
 		{
-			super( "Lucky Sewer Trade", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
+			super( "Lucky Sewer Trade", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
 
 			sewerOptions = new JCheckBox[ AdventureDatabase.SEWER_OPTIONS.length ];
 			for ( int i = 0; i < sewerOptions.length; ++i )
@@ -474,7 +481,7 @@ public class OptionsFrame extends KoLFrame
 
 		public OtoriOptionsPanel()
 		{
-			super( "Free Buffs from Clan Otori", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
+			super( "Free Buffs from Clan Otori", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
 
 			buffOptions = new JCheckBox[ BUFF_OPTIONS.length ];
 			for ( int i = 0; i < buffOptions.length; ++i )
@@ -708,7 +715,6 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox fontSizeSelect;
 		private JComboBox chatStyleSelect;
 		private JComboBox useTabsSelect;
-		private JComboBox nameClickSelect;
 		private JPanel colorPanel;
 
 		public ChatOptionsPanel()
@@ -732,26 +738,11 @@ public class OptionsFrame extends KoLFrame
 			useTabsSelect.addItem( "Use windowed chat interface" );
 			useTabsSelect.addItem( "Use tabbed chat interface" );
 
-			nameClickSelect = new JComboBox();
-			nameClickSelect.addItem( "Open blue message" );
-			nameClickSelect.addItem( "Open green message" );
-			nameClickSelect.addItem( "Open purple message" );
-			nameClickSelect.addItem( "Open player profile" );
-
-			colorPanel = new JPanel();
-			colorPanel.setLayout( new BoxLayout( colorPanel, BoxLayout.Y_AXIS ) );
-			JScrollPane scrollArea = new JScrollPane( colorPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
-
-			VerifiableElement [] elements = new VerifiableElement[6];
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Chat Logs: ", autoLogSelect );
 			elements[1] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[2] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 			elements[3] = new VerifiableElement( "Windowing: ", useTabsSelect );
-			elements[4] = new VerifiableElement( "N-Clicks: ", nameClickSelect );
-			elements[5] = new VerifiableElement( "Chat Colors: ", scrollArea );
 
 			setContent( elements );
 			actionCancelled();
@@ -768,16 +759,7 @@ public class OptionsFrame extends KoLFrame
 
 			setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
 			setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
-			setProperty( "nameClickOpens", String.valueOf( nameClickSelect.getSelectedIndex() ) );
-
-			StringBuffer colors = new StringBuffer();
-			for ( int i = 0; i < KoLMessenger.ROOMS.length; ++i )
-			{
-				colors.append( DataUtilities.toHexString( ((ChatColorPanel) colorPanel.getComponent( i )).selectedColor ) );
-				colors.append( ',' );
-			}
-
-			setProperty( "channelColors", colors.toString() );
+			
 			super.actionConfirmed();
 		}
 
@@ -789,20 +771,95 @@ public class OptionsFrame extends KoLFrame
 
 			chatStyleSelect.setSelectedIndex( Integer.parseInt( getProperty( "chatStyle" ) ) );
 			useTabsSelect.setSelectedIndex( Integer.parseInt( getProperty( "useTabbedChat" ) ) );
-			nameClickSelect.setSelectedIndex( Integer.parseInt( getProperty( "nameClickOpens" ) ) );
+		}
+	}
 
-			if ( colorPanel.getComponentCount() == 0 )
+	/**
+	 * Internal class which represents the color being used
+	 * for a channel in chat.
+	 */
+
+	private class ChatColorsPanel extends JPanel
+	{
+		private Color [] selectedColors;
+		private JPanel [] colorSelectors;
+		private JLabel [] channelNameLabels;
+	
+		public ChatColorsPanel()
+		{
+			JPanel colorPanel = new JPanel( new GridLayout( (int) Math.ceil( KoLMessenger.ROOMS.length / 4 ), 4, 5, 5 ) );
+
+			selectedColors = new Color[ KoLMessenger.ROOMS.length ];
+			colorSelectors = new JPanel[ KoLMessenger.ROOMS.length ];
+			channelNameLabels = new JLabel[ KoLMessenger.ROOMS.length ];			
+
+			String [] colors = getProperty( "channelColors" ).split( "," );
+
+			if ( colors.length == 1 && colors[0].length() == 0 )
+				colors = new String[0];
+
+			for ( int i = 0; i < KoLMessenger.ROOMS.length; ++i )
 			{
-				String [] colors = getProperty( "channelColors" ).split( "," );
+				selectedColors[i] = i < colors.length ? DataUtilities.toColor( colors[i] ) : Color.black;
 
-				if ( colors.length == 1 && colors[0].length() == 0 )
-					colors = new String[0];
+				channelNameLabels[i] = new JLabel( KoLMessenger.ROOMS[i], JLabel.LEFT );
+				channelNameLabels[i].setForeground( selectedColors[i] );
 
-				for ( int i = 0; i < colors.length ; ++i )
-					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], DataUtilities.toColor( colors[i] ) ) );
+				colorSelectors[i] = new JPanel();
+				colorSelectors[i].setOpaque( true );
+				colorSelectors[i].setBackground( selectedColors[i] );
+				colorSelectors[i].addMouseListener( new ChatColorChanger(i) );
+				
+				JComponentUtilities.setComponentSize( colorSelectors[i], 24, 24 );
+				
+				JPanel containerPanel = new JPanel( new BorderLayout( 5, 5 ) );
+				containerPanel.add( colorSelectors[i], BorderLayout.WEST );
+				containerPanel.add( channelNameLabels[i], BorderLayout.CENTER );
+				
+				colorPanel.add( containerPanel );
+			}
 
-				for ( int i = colors.length; i < KoLMessenger.ROOMS.length; ++i )
-					colorPanel.add( new ChatColorPanel( KoLMessenger.ROOMS[i], Color.black ) );
+			this.setLayout( new BorderLayout( 10, 10 ) );
+			this.add( JComponentUtilities.createLabel( "Channel Color", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+
+			JPanel colorContainer = new JPanel();
+			colorContainer.add( colorPanel );
+			this.add( colorContainer, BorderLayout.CENTER );
+		}
+
+		/**
+		 * An internal class that processes all the information related to
+		 * changing the color of the names for players in chat.
+		 */
+
+		private class ChatColorChanger extends MouseAdapter
+		{
+			private int index;
+		
+			public ChatColorChanger( int index )
+			{	this.index = index;
+			}
+		
+			public void mousePressed( MouseEvent e )
+			{
+				Color selectedColor = JColorChooser.showDialog( OptionsFrame.this,
+					"Choose color for channel /" + channelNameLabels[ index ].getText() + "...", selectedColors[ index ] );
+
+				if ( selectedColor != null )
+				{
+					selectedColors[ index ] = selectedColor;
+					colorSelectors[ index ].setBackground( selectedColor );
+					channelNameLabels[ index ].setForeground( selectedColor );
+				}
+
+				StringBuffer colors = new StringBuffer();
+				for ( int i = 0; i < selectedColors.length; ++i )
+				{
+					colors.append( DataUtilities.toHexString( selectedColors[i] ) );
+					colors.append( ',' );
+				}
+
+				setProperty( "channelColors", colors.toString() );
 			}
 		}
 	}
@@ -838,52 +895,6 @@ public class OptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{	setStatusMessage( NORMAL_STATE, "Settings saved." );
-		}
-	}
-
-	/**
-	 * Internal class which represents the color being used
-	 * for a single player in chat.
-	 */
-
-	private class ChatColorPanel extends JPanel
-	{
-		private Color selectedColor;
-		private JButton colorSelect;
-		private JLabel channelField;
-
-		public ChatColorPanel( String label, Color c )
-		{
-			selectedColor = c;
-			setLayout( new BorderLayout( 5, 5 ) );
-
-			colorSelect = new JButton();
-			JComponentUtilities.setComponentSize( colorSelect, 24, 24 );
-			colorSelect.setBackground( selectedColor );
-			colorSelect.addActionListener( new ChatColorChanger() );
-			add( colorSelect, BorderLayout.WEST );
-
-			channelField = new JLabel( label, JLabel.LEFT );
-			add( channelField, BorderLayout.CENTER );
-		}
-
-		/**
-		 * An internal class that processes all the information related to
-		 * changing the color of the names for players in chat.
-		 */
-
-		private class ChatColorChanger implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				selectedColor = JColorChooser.showDialog( OptionsFrame.this, "Choose color for channel /" + channelField.getText() + "...", selectedColor );
-
-				if ( selectedColor != null )
-				{
-					colorSelect.setBackground( selectedColor );
-					channelField.setForeground( selectedColor );
-				}
-			}
 		}
 	}
 

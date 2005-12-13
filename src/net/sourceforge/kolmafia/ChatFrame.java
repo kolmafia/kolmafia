@@ -107,14 +107,23 @@ public class ChatFrame extends KoLFrame
 	{
 		super( client, "" );
 
+		getContentPane().setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
+
+		JPanel toolsPanel = new JPanel();
+		toolsPanel.add( new MessengerButton( "Clear Displays", "clearChatBuffers" ) );
+		toolsPanel.add( new MessengerButton( "Add Highlight", "addHighlighting" ) );
+		toolsPanel.add( new MessengerButton( "Remove Highlight", "removeHighlighting" ) );
+
+		getContentPane().add( toolsPanel, BorderLayout.NORTH );
+
+		// Add a window listener to handle existing and closing
+		// chat, pending on how the initialization functions.
 
 		if ( client != null && mainPanel != null )
 			addWindowListener( new CloseChatListener( associatedContact ) );
 		else
 			addWindowListener( new ExitChatListener() );
-
-		addMenuBar( associatedContact );
 
 		// Set the default size so that it doesn't appear super-small
 		// when it's first constructed
@@ -136,19 +145,13 @@ public class ChatFrame extends KoLFrame
 	 * <code>KoLmafia</code> and the ability to save the chat to a log.
 	 */
 
-	private void addMenuBar( String associatedContact )
+	protected void addMenuBar()
 	{
+		super.addMenuBar();
 		menuBar = getJMenuBar();
 
-		JMenu toolsMenu = new JMenu( "Tools" );
-		menuBar.add( toolsMenu, 0 );
-
-		toolsMenu.add( new MessengerListener( "Clear Displays", "clearChatBuffers" ) );
-		toolsMenu.add( new MessengerListener( "Add Highlight", "addHighlighting" ) );
-		toolsMenu.add( new MessengerListener( "Remove Highlight", "removeHighlighting" ) );
-
 		JMenu clicksMenu = new JMenu( "Namelinks" );
-		menuBar.add( clicksMenu, 1 );
+		menuBar.add( clicksMenu, 0 );
 
 		clickGroup = new ButtonGroup();
 		clickOptions = new JRadioButtonMenuItem[4];
@@ -175,9 +178,8 @@ public class ChatFrame extends KoLFrame
 
 	protected void initialize( String associatedContact )
 	{
-		getContentPane().setLayout( new CardLayout( 5, 5 ) );
 		this.mainPanel = new ChatPanel( associatedContact );
-		getContentPane().add( mainPanel, "" );
+		getContentPane().add( mainPanel, BorderLayout.CENTER );
 	}
 
 	/**
@@ -425,28 +427,59 @@ public class ChatFrame extends KoLFrame
 	 * a browser if you're clicking something other than the username.
 	 */
 
+	private static final String [] CHAT_OPTIONS =
+		{ "Open blue message", "Open green message", "Open purple message", "Open player profile" };
+
 	private class ChatLinkClickedListener extends KoLHyperlinkAdapter
 	{
 		protected void handleInternalLink( String location )
 		{
-			Class frameClass = clickOptions[1].isSelected() ? GreenMessageFrame.class :
-				clickOptions[2].isSelected() ? GiftMessageFrame.class : ProfileFrame.class;
+			String [] locationSplit = location.split( "[=_]" );
+
+			// First, determine the parameters inside of the
+			// location which will be passed to frame classes.
 
 			Object [] parameters = new Object[2];
 			parameters[0] = client;
-			parameters[1] = client.getPlayerName( location.split( "=" )[1] );
+			parameters[1] = client.getPlayerName( locationSplit[1] );
 
-			if ( clickOptions[0].isSelected() )
+			// Next, determine the option which had been
+			// selected in the link-click.
+
+			int linkOption = locationSplit.length == 2 ? 0 : Integer.parseInt( locationSplit[2] );
+
+			Class frameClass = linkOption == 2 ? GreenMessageFrame.class :
+				linkOption == 3 ? GiftMessageFrame.class : ProfileFrame.class;
+
+			// Now, determine what needs to be done based
+			// on the link option.
+
+			if ( linkOption == 1 )
 				KoLMessenger.openInstantMessage( (String) parameters[1] );
 			else
 				SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
 		}
 	}
 
-	private class MessengerListener extends InvocationMenuItem
+	private class MessengerButton extends JButton implements ActionListener
 	{
-		public MessengerListener( String title, String method )
-		{	super( title, KoLMessenger.class, method );
+		private String method;
+	
+		public MessengerButton( String title, String method )
+		{
+			super( title );
+			this.method = method;
+			this.addActionListener( this );
+		}
+		
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( method.equals( "clearChatBuffers" ) )
+				KoLMessenger.clearChatBuffers();
+			if ( method.equals( "addHighlighting" ) )
+				KoLMessenger.addHighlighting();
+			if ( method.equals( "removeHighlighting" ) )
+				KoLMessenger.removeHighlighting();
 		}
 	}
 
