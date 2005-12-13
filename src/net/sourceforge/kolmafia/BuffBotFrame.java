@@ -129,7 +129,7 @@ public class BuffBotFrame extends KoLFrame
 		tabs.addTab( "Customizations", customSettings );
 
 		addCompactPane();
-		getContentPane().add( tabs, BorderLayout.CENTER );
+		framePanel.add( tabs, BorderLayout.CENTER );
 
 		addWindowListener( new DisableBuffBotAdapter() );
 	}

@@ -153,8 +153,8 @@ public abstract class SendMessageFrame extends KoLFrame
 		messagePanel.setLayout( new BorderLayout() );
 		messagePanel.add( mainPanel, BorderLayout.CENTER );
 
-		this.getContentPane().setLayout( new CardLayout( 20, 20 ) );
-		this.getContentPane().add( messagePanel, "" );
+		this.framePanel.setLayout( new CardLayout( 20, 20 ) );
+		this.framePanel.add( messagePanel, "" );
 		this.getRootPane().setDefaultButton( sendMessageButton );
 
 // The following lines of code no longer do anything because
@@ -347,9 +347,9 @@ public abstract class SendMessageFrame extends KoLFrame
 			eastPanel.setLayout( new CardLayout( 10, 10 ) );
 			eastPanel.add( labeledArea, "" );
 
-			getContentPane().setLayout( new BorderLayout() );
-			getContentPane().add( new InventoryPanel(), BorderLayout.CENTER );
-			getContentPane().add( eastPanel, BorderLayout.EAST );
+			framePanel.setLayout( new BorderLayout() );
+			framePanel.add( new InventoryPanel(), BorderLayout.CENTER );
+			framePanel.add( eastPanel, BorderLayout.EAST );
 		}
 
 		private class InventoryPanel extends ItemManagePanel

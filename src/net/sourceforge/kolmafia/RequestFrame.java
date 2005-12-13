@@ -118,8 +118,8 @@ public class RequestFrame extends KoLFrame
 			this.sideBuffer = null;
 
 			JComponentUtilities.setComponentSize( mainScroller, 400, 300 );
-			getContentPane().setLayout( new GridLayout( 1, 1 ) );
-			getContentPane().add( mainScroller );
+			framePanel.setLayout( new GridLayout( 1, 1 ) );
+			framePanel.add( mainScroller );
 		}
 		else
 		{
@@ -137,8 +137,8 @@ public class RequestFrame extends KoLFrame
 			splitPane.setOneTouchExpandable( true );
 			JComponentUtilities.setComponentSize( splitPane, 600, 450 );
 
-			getContentPane().setLayout( new GridLayout( 1, 1 ) );
-			getContentPane().add( splitPane );
+			framePanel.setLayout( new GridLayout( 1, 1 ) );
+			framePanel.add( splitPane );
 		}
 
 		(new DisplayRequestThread()).start();

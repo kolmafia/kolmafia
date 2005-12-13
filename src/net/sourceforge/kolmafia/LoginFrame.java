@@ -112,8 +112,8 @@ public class LoginFrame extends KoLFrame
 		connectPanel.add( new ProxyOptionsPanel() );
 		tabs.addTab( "Settings", connectPanel );
 
-		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( tabs, "" );
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.add( tabs, "" );
 
 		addWindowListener( new ExitRequestAdapter() );
 	}

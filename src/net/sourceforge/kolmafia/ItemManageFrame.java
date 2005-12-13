@@ -134,8 +134,8 @@ public class ItemManageFrame extends KoLFrame
 		tabs.addTab( "Inventory", inventory );
 		tabs.addTab( "Closet", closet );
 
-		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( tabs, "" );
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.add( tabs, "" );
 
 		refreshFilters();
 	}

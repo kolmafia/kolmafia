@@ -144,8 +144,8 @@ public class ExamineItemsFrame extends KoLFrame
 		effectsContainer.add( effects, BorderLayout.CENTER );
 		tabs.addTab( "Effects", effectsContainer );
 
-		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( tabs, "" );
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.add( tabs, "" );
 	}
 
 	public boolean isEnabled()

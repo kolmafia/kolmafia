@@ -93,9 +93,9 @@ public class GearChangeFrame extends KoLFrame
 		contentPanel = null;
 
 		CardLayout cards = new CardLayout( 10, 10 );
-		getContentPane().setLayout( cards );
+		framePanel.setLayout( cards );
 
-		getContentPane().add( createEquipPanel(), "" );
+		framePanel.add( createEquipPanel(), "" );
 		refreshEquipPanel();
 	}
 

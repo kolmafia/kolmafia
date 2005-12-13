@@ -85,7 +85,7 @@ public class StoreManageFrame extends KoLFrame
 
 		setResizable( false );
 		storeManager = new StoreManagePanel();
-		getContentPane().add( storeManager, BorderLayout.CENTER );
+		framePanel.add( storeManager, BorderLayout.CENTER );
 	}
 
 	public void setEnabled( boolean isEnabled )

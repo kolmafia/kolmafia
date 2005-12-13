@@ -107,8 +107,8 @@ public class MuseumFrame extends KoLFrame
 		tabs.addTab( "Shelves", shelvesScroller );
 		tabs.addTab( "Ordering", orderingScroller );
 
-		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( tabs, "" );
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.add( tabs, "" );
 	}
 
 	public void setEnabled( boolean isEnabled )

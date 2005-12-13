@@ -205,8 +205,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	private String frameName;
 	protected boolean isEnabled;
+
+	protected JPanel framePanel;
 	protected KoLPanel contentPanel;
-	protected JCheckBoxMenuItem [] consumeFilter;
 
 	protected JPanel compactPane;
 	protected JLabel hpLabel, mpLabel, advLabel;
@@ -222,8 +223,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		super( VERSION_NAME + ": " + title );
 
-		KoLFrame.client = client;
 		this.isEnabled = true;
+		KoLFrame.client = client;
+
+		this.framePanel = new JPanel();
+		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
+		getContentPane().add( this.framePanel, BorderLayout.CENTER );
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		addWindowListener( new LocationAdapter() );
@@ -276,7 +281,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	public void addCompactPane()
 	{
-		if ( getContentPane().getComponentCount() != 0 )
+		if ( framePanel.getComponentCount() != 0 )
 			return;
 
 		JPanel compactPane = new JPanel();
@@ -309,8 +314,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		this.compactPane.setLayout( new BorderLayout() );
 		this.compactPane.add( compactPane, BorderLayout.NORTH );
 
-		getContentPane().setLayout( new BorderLayout() );
-		getContentPane().add( this.compactPane, BorderLayout.WEST );
+		framePanel.setLayout( new BorderLayout() );
+		framePanel.add( this.compactPane, BorderLayout.WEST );
 		(new StatusRefresher()).run();
 
 		KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
@@ -488,23 +493,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		commMenu.add( new DisplayFrameMenuItem( "Gift Shop Back Room", GiftMessageFrame.class ) );
 
 		return commMenu;
-	}
-
-	protected final JMenu addConsumeMenu( JComponent menu )
-	{
-		JMenu consumeMenu = new JMenu( "Consumables" );
-		menu.add( consumeMenu );
-
-		consumeFilter = new JCheckBoxMenuItem[3];
-
-		consumeFilter[0] = new FilterMenuItem( "Show food", KoLCharacter.canEat() );
-		consumeFilter[1] = new FilterMenuItem( "Show booze", KoLCharacter.canDrink() );
-		consumeFilter[2] = new FilterMenuItem( "Show others", true );
-
-		for ( int i = 0; i < consumeFilter.length; ++i )
-			consumeMenu.add( consumeFilter[i] );
-
-		return consumeMenu;
 	}
 
 	/**

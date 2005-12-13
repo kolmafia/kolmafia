@@ -134,7 +134,7 @@ public class AdventureFrame extends KoLFrame
 		tabs.addTab( "Other Activities", otherPanel );
 
 		addCompactPane();
-		getContentPane().add( tabs, BorderLayout.CENTER );
+		framePanel.add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
 
 		addWindowListener( new LogoutRequestAdapter() );

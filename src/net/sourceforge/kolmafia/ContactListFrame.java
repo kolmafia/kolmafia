@@ -75,8 +75,8 @@ public class ContactListFrame extends KoLFrame
 	{
 		super( client, "Contact List" );
 		this.contacts = contacts;
-		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( new ContactListPanel(), "" );
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.add( new ContactListPanel(), "" );
 
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 		pack();

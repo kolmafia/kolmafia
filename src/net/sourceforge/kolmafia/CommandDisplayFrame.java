@@ -84,8 +84,8 @@ public class CommandDisplayFrame extends KoLFrame
 		{
 		}
 
-		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
-		getContentPane().add( new CommandDisplayPanel() );
+		framePanel.setLayout( new BorderLayout( 0, 0 ) );
+		framePanel.add( new CommandDisplayPanel() );
 	}
 
 	private class CommandDisplayPanel extends JPanel

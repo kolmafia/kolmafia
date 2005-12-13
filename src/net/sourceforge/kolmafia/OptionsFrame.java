@@ -156,8 +156,8 @@ public class OptionsFrame extends KoLFrame
 		addTab( "Chat", chatContainer );
 		addTab( "Otori", new OtoriOptionsPanel() );
 
-		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( tabs, "" );
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.add( tabs, "" );
 	}
 
 	private void addTab( String name, JComponent panel )

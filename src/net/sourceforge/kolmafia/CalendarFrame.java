@@ -91,7 +91,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	public CalendarFrame( KoLmafia client )
 	{
 		super( client, "Farmer's Almanac" );
-		getContentPane().setLayout( new BorderLayout() );
+		framePanel.setLayout( new BorderLayout() );
 
 		selectedRow = -1;
 		selectedColumn = -1;
@@ -126,14 +126,14 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		tabs.addTab( "KoL One-a-Day", dailyDisplay );
 		tabs.addTab( "Upcoming Events", predictDisplay );
 
-		getContentPane().add( tabs, BorderLayout.CENTER );
+		framePanel.add( tabs, BorderLayout.CENTER );
 
 		calendar = new JCalendar( OracleTable.class );
 		oracleTable = (OracleTable) calendar.getTable();
 		oracleTable.getSelectionModel().addListSelectionListener( this );
 		oracleTable.getColumnModel().getSelectionModel().addListSelectionListener( this );
 
-		getContentPane().add( calendar, BorderLayout.EAST );
+		framePanel.add( calendar, BorderLayout.EAST );
 		setResizable( false );
 
 		(new UpdateTabsThread()).start();

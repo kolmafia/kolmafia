@@ -107,7 +107,7 @@ public class ChatFrame extends KoLFrame
 	{
 		super( client, "" );
 
-		getContentPane().setLayout( new BorderLayout( 5, 5 ) );
+		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
 
 		JPanel toolsPanel = new JPanel();
@@ -115,7 +115,7 @@ public class ChatFrame extends KoLFrame
 		toolsPanel.add( new MessengerButton( "Add Highlight", "addHighlighting" ) );
 		toolsPanel.add( new MessengerButton( "Remove Highlight", "removeHighlighting" ) );
 
-		getContentPane().add( toolsPanel, BorderLayout.NORTH );
+		framePanel.add( toolsPanel, BorderLayout.NORTH );
 
 		// Add a window listener to handle exiting and closing
 		// chat, pending on how the initialization functions.
@@ -179,7 +179,7 @@ public class ChatFrame extends KoLFrame
 	protected void initialize( String associatedContact )
 	{
 		this.mainPanel = new ChatPanel( associatedContact );
-		getContentPane().add( mainPanel, BorderLayout.CENTER );
+		framePanel.add( mainPanel, BorderLayout.CENTER );
 	}
 
 	/**

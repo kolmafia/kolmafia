@@ -89,7 +89,7 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 	{
 		tabs = new CloseableTabbedPane();
 		tabs.addCloseableTabbedPaneListener( this );
-		getContentPane().add( tabs, BorderLayout.CENTER );
+		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
 	/**

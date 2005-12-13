@@ -80,8 +80,8 @@ public class MushroomFrame extends KoLFrame
 		centerPanel.add( constructPanel( "Current Plot", currentDisplay ) );
 		centerPanel.add( constructPanel( "Forecasted Plot", forecastDisplay ) );
 
-		getContentPane().setLayout( new BorderLayout() );
-		getContentPane().add( centerPanel, BorderLayout.CENTER );
+		framePanel.setLayout( new BorderLayout() );
+		framePanel.add( centerPanel, BorderLayout.CENTER );
 
 		updating = false;
 

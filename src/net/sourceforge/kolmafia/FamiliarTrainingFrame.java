@@ -114,7 +114,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		addWindowListener( new CloseFamiliarTrainerListener() );
 
 		CardLayout cards = new CardLayout( 10, 10 );
-		getContentPane().setLayout( cards );
+		framePanel.setLayout( cards );
 
 		JMenuBar menuBar = getJMenuBar();
 
@@ -130,7 +130,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		menuBar.add( optionsMenu, 1 );
 
 		training = new FamiliarTrainingPanel();
-		getContentPane().add( training, "" );
+		framePanel.add( training, "" );
 
 		// Clear left over results from the buffer
 		results.clearBuffer();

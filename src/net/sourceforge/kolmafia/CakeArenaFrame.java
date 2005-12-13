@@ -72,7 +72,7 @@ public class CakeArenaFrame extends KoLFrame
 	public CakeArenaFrame( KoLmafia client )
 	{
 		super( client, "Susie's Secret Bedroom!" );
-		getContentPane().add( new CakeArenaPanel(), BorderLayout.CENTER );
+		framePanel.add( new CakeArenaPanel(), BorderLayout.CENTER );
 	}
 
 	private class CakeArenaPanel extends JPanel

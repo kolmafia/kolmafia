@@ -102,7 +102,7 @@ public class CharsheetFrame extends KoLFrame
 		contentPanel = null;
 
 		CardLayout cards = new CardLayout( 10, 10 );
-		getContentPane().setLayout( cards );
+		framePanel.setLayout( cards );
 
 		JPanel entirePanel = new JPanel();
 		entirePanel.setLayout( new BorderLayout( 20, 20 ) );
@@ -117,7 +117,7 @@ public class CharsheetFrame extends KoLFrame
 
 		refreshStatus();
 
-		getContentPane().add( entirePanel, "" );
+		framePanel.add( entirePanel, "" );
 		KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefreshRunnable() ) );
 	}
 
