@@ -67,7 +67,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> used to display the current
- * maiblox contents.  This updates whenever the user wishes to retrieve
+ * mailbox contents.  This updates whenever the user wishes to retrieve
  * more mail from their mailbox but otherwise does nothing.
  */
 
@@ -208,18 +208,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		messageListSaved.setModel( KoLMailManager.getMessages( "Saved" ) );
 	}
 
-	public void refreshMailbox()
-	{
-		if ( messageListInbox.isInitialized() )
-			(new RequestMailboxThread( "Inbox" )).run();
-
-		if ( messageListOutbox.isInitialized() )
-			(new RequestMailboxThread( "Outbox" )).run();
-
-		if ( messageListSaved.isInitialized() )
-			(new RequestMailboxThread( "Saved" )).run();
-	}
-
 	private class RequestMailboxThread extends DaemonThread
 	{
 		private String mailboxName;
@@ -244,6 +232,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				messageListOutbox.setInitialized( true );
 			else
 				messageListSaved.setInitialized( true );
+
+			if ( client != null )
+				client.enableDisplay();
 		}
 	}
 
