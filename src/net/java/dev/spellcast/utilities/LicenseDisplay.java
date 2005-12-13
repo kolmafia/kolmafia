@@ -65,7 +65,7 @@ public class LicenseDisplay extends javax.swing.JFrame
 
 		this.fileTypes = new int[ fileNames.length ];
 		for ( int i = 0; i < fileNames.length; ++i )
-			this.fileTypes[i] = fileNames[i].endsWith( ".htm" ) || fileNames[i].endsWith( ".html" ) ? DATA_FILE : IMAGE_FILE;
+			this.fileTypes[i] = fileNames[i].endsWith( ".txt" ) || fileNames[i].endsWith( ".htm" ) || fileNames[i].endsWith( ".html" ) ? DATA_FILE : IMAGE_FILE;
 
 		this.tabNames = tabNames;
 
@@ -125,7 +125,11 @@ public class LicenseDisplay extends javax.swing.JFrame
 				{
 				}
 
-				((JEditorPane)licenseDisplay).setContentType( "text/html" );
+				if ( fileNames[ index ].endsWith( ".txt" ) )
+					((JEditorPane)licenseDisplay).setContentType( "text/plain" );
+				else
+					((JEditorPane)licenseDisplay).setContentType( "text/html" );
+
 				((JEditorPane)licenseDisplay).setText( licenseText.toString() );
 				((JEditorPane)licenseDisplay).setCaretPosition( 0 );
 				((JEditorPane)licenseDisplay).setEditable( false );

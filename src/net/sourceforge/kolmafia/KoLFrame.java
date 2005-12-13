@@ -200,8 +200,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		return new LoadScriptMenuItem( (++addedScriptCount) + "	 " + name, path );
 	}
 
-	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm" };
-	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher" };
+	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "sungraphics-license.txt" };
+	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher", "Sun Graphics" };
 
 	private String frameName;
 	protected boolean isEnabled;
