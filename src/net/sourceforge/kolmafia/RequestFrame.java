@@ -146,62 +146,59 @@ public class RequestFrame extends KoLFrame
 
 	protected void addMenuBar()
 	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
+		super.addMenuBar();
+		JMenuBar menuBar = getJMenuBar();
 
 		// The function and goto menus are only available if there is a sidebar;
 		// otherwise, adding them clutters the user interface.
 
-		if ( this.sideBuffer != null )
-		{
-			JMenu functionMenu = new JMenu( "Function" );
-			functionMenu.add( new DisplayRequestMenuItem( "Inventory", "inventory.php" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Character", "charsheet.php" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Class Skills", "skills.php" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Read Messages", "messages.php" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Account Menu", "account.php" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Documentation", "doc.php?topic=home" ) );
-			functionMenu.add( new DisplayPageMenuItem( "KoL Forums", "http://forums.kingdomofloathing.com/" ) );
-			functionMenu.add( new DisplayPageMenuItem( "Radio KoL", "http://radiokol24.kicks-ass.net:8015/listen.pls" ) );
-			functionMenu.add( new DisplayPageMenuItem( "Radio WKoL", "http://72.35.226.80:9140/listen.pls" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Report Bug", "sendmessage.php?toid=Jick" ) );
-			functionMenu.add( new DisplayPageMenuItem( "Donate to KoL", "http://www.kingdomofloathing.com/donatepopup.php?pid=" + KoLCharacter.getUserID() ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Log Out", "logout.php" ) );
+		JMenu functionMenu = new JMenu( "Function" );
+		functionMenu.add( new DisplayRequestMenuItem( "Inventory", "inventory.php" ) );
+		functionMenu.add( new DisplayRequestMenuItem( "Character", "charsheet.php" ) );
+		functionMenu.add( new DisplayRequestMenuItem( "Class Skills", "skills.php" ) );
+		functionMenu.add( new DisplayRequestMenuItem( "Read Messages", "messages.php" ) );
+		functionMenu.add( new DisplayRequestMenuItem( "Account Menu", "account.php" ) );
+		functionMenu.add( new DisplayRequestMenuItem( "Documentation", "doc.php?topic=home" ) );
+		functionMenu.add( new DisplayPageMenuItem( "KoL Forums", "http://forums.kingdomofloathing.com/" ) );
+		functionMenu.add( new DisplayPageMenuItem( "Radio KoL", "http://radiokol24.kicks-ass.net:8015/listen.pls" ) );
+		functionMenu.add( new DisplayPageMenuItem( "Radio WKoL", "http://72.35.226.80:9140/listen.pls" ) );
+		functionMenu.add( new DisplayRequestMenuItem( "Report Bug", "sendmessage.php?toid=Jick" ) );
+		functionMenu.add( new DisplayPageMenuItem( "Donate to KoL", "http://www.kingdomofloathing.com/donatepopup.php?pid=" + KoLCharacter.getUserID() ) );
+		functionMenu.add( new DisplayRequestMenuItem( "Log Out", "logout.php" ) );
 
-			menuBar.add( functionMenu );
+		menuBar.add( functionMenu, 0 );
 
-			JMenu gotoMenu = new JMenu( "Goto (Maki)" );
+		JMenu gotoMenu = new JMenu( "Goto (Maki)" );
 
-			gotoMenu.add( new DisplayRequestMenuItem( "Main Map", "main.php" ) );
-			gotoMenu.add( new DisplayRequestMenuItem( "Seaside Town", "town.php" ) );
-			gotoMenu.add( new DisplayRequestMenuItem( "The Mall", "mall.php" ) );
-			gotoMenu.add( new DisplayRequestMenuItem( "Clan Hall", "clan_hall.php" ) );
-			gotoMenu.add( new DisplayRequestMenuItem( "Campground", "campground.php" ) );
+		gotoMenu.add( new DisplayRequestMenuItem( "Main Map", "main.php" ) );
+		gotoMenu.add( new DisplayRequestMenuItem( "Seaside Town", "town.php" ) );
+		gotoMenu.add( new DisplayRequestMenuItem( "The Mall", "mall.php" ) );
+		gotoMenu.add( new DisplayRequestMenuItem( "Clan Hall", "clan_hall.php" ) );
+		gotoMenu.add( new DisplayRequestMenuItem( "Campground", "campground.php" ) );
 
-			gotoMenu.add( new DisplayRequestMenuItem( "Big Mountains", "mountains.php" ) );
-			gotoMenu.add( new DisplayRequestMenuItem( "Nearby Plains", "plains.php" ) );
+		gotoMenu.add( new DisplayRequestMenuItem( "Big Mountains", "mountains.php" ) );
+		gotoMenu.add( new DisplayRequestMenuItem( "Nearby Plains", "plains.php" ) );
 
-			JMenu lairMenu = new JMenu( "Sorceress' Lair" );
-				lairMenu.add( new DisplayRequestMenuItem( "Entrance Cavern", "lair1.php" ) );
-				lairMenu.add( new DisplayRequestMenuItem( "Entryway Statues", "lair2.php" ) );
-				lairMenu.add( new DisplayRequestMenuItem( "Hedge Maze Puzzle", "lair3.php" ) );
-				lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 1-3", "lair4.php" ) );
-				lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 4-6", "lair5.php" ) );
-				lairMenu.add( new DisplayRequestMenuItem( "Outside the Chamber", "lair6.php" ) );
-			gotoMenu.add( lairMenu );
+		JMenu lairMenu = new JMenu( "Sorceress' Lair" );
+			lairMenu.add( new DisplayRequestMenuItem( "Entrance Cavern", "lair1.php" ) );
+			lairMenu.add( new DisplayRequestMenuItem( "Entryway Statues", "lair2.php" ) );
+			lairMenu.add( new DisplayRequestMenuItem( "Hedge Maze Puzzle", "lair3.php" ) );
+			lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 1-3", "lair4.php" ) );
+			lairMenu.add( new DisplayRequestMenuItem( "Tower: Floors 4-6", "lair5.php" ) );
+			lairMenu.add( new DisplayRequestMenuItem( "Outside the Chamber", "lair6.php" ) );
+		gotoMenu.add( lairMenu );
 
-			gotoMenu.add( new DisplayRequestMenuItem( "Desert Beach", "beach.php" ) );
-			gotoMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
-			gotoMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
+		gotoMenu.add( new DisplayRequestMenuItem( "Desert Beach", "beach.php" ) );
+		gotoMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
+		gotoMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
 
-			menuBar.add( gotoMenu );
-		}
+		menuBar.add( gotoMenu, 1 );
 
 		// All frames get the benefit of the bookmarks menu bar, eventhough it
 		// might be a little counterintuitive when viewing player profiles.
 
 		compileBookmarks();
-		menuBar.add( new BookmarkMenu() );
+		menuBar.add( new BookmarkMenu(), 2 );
 	}
 
 	/**
