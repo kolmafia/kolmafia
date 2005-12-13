@@ -333,7 +333,7 @@ public abstract class KoLmafia implements KoLConstants
 		// the beach quest, then retrieve information from the
 		// microbrewery.
 
-		if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.hasAccomplishment( KoLCharacter.MEATCAR ) && KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
+		if ( !isQuickLogin && KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.hasAccomplishment( KoLCharacter.MEATCAR ) && KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
 		{
 			updateDisplay( DISABLE_STATE, "Retrieving menu..." );
 			(new MicrobreweryRequest( this )).run();
