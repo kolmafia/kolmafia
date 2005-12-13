@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 // containers
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -833,7 +834,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			super( title, confirmedText, cancelledText, new ShowDescriptionList( elements ) );
 
-			elementList = (ShowDescriptionList) getScrollComponent();
+			elementList = (ShowDescriptionList) scrollComponent;
 			elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			elementList.setVisibleRowCount( 8 );
 		}
@@ -854,8 +855,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected abstract class LabeledScrollPanel extends ActionPanel
 	{
-		private JComponent scrollComponent;
-		private VerifyButtonPanel buttonPanel;
+		protected JPanel actualPanel;
+		protected VerifyButtonPanel buttonPanel;
+		protected JComponent scrollComponent;
 
 		public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent )
 		{
@@ -868,10 +870,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
-			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText );
+			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText );
 			buttonPanel.setBothDisabledOnClick( true );
 
-			JPanel actualPanel = new JPanel();
+			actualPanel = new JPanel();
 			actualPanel.setLayout( new BorderLayout( 20, 10 ) );
 			actualPanel.add( centerPanel, BorderLayout.CENTER );
 			actualPanel.add( buttonPanel, BorderLayout.EAST );
@@ -879,10 +881,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			setLayout( new CardLayout( 10, 10 ) );
 			add( actualPanel, "" );
 			buttonPanel.setBothDisabledOnClick( true );
-		}
-
-		public JComponent getScrollComponent()
-		{	return scrollComponent;
 		}
 
 		protected abstract void actionConfirmed();
@@ -1234,8 +1232,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			catch ( Exception e )
 			{
-				System.out.println( c );
-				System.out.println( methodName );
 			}
 		}
 
@@ -1378,6 +1374,24 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private String property;
 
 		public SettingChangeMenuItem( String title, String property )
+		{
+			super( title );
+			setSelected( getProperty( property ).equals( "true" ) );
+
+			this.property = property;
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	setProperty( property, String.valueOf( isSelected() ) );
+		}
+	}
+
+	protected class SettingChangeCheckBox extends JCheckBox implements ActionListener
+	{
+		private String property;
+
+		public SettingChangeCheckBox( String title, String property )
 		{
 			super( title );
 			setSelected( getProperty( property ).equals( "true" ) );

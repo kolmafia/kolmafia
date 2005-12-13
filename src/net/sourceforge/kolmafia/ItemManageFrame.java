@@ -50,6 +50,7 @@ import javax.swing.ListSelectionModel;
 // containers
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -82,9 +83,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ItemManageFrame extends KoLFrame
 {
-	protected ButtonGroup clickGroup;
-	protected JRadioButtonMenuItem [] clickOptions;
-
 	private JTabbedPane tabs;
 	private ItemManagePanel consume, create, special;
 	private MultiButtonPanel inventory, closet;
@@ -129,9 +127,8 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
-		JPanel createContainer = new JPanel();
-		createContainer.setLayout( new BorderLayout() );
-		createContainer.add( create, BorderLayout.CENTER );
+		JPanel createContainer = new JPanel( new CardLayout() );
+		createContainer.add( create, "" );
 
 		tabs.addTab( "Consume", consumeContainer );
 		tabs.addTab( "Create", createContainer );
@@ -147,46 +144,9 @@ public class ItemManageFrame extends KoLFrame
 	protected void addMenuBar()
 	{
 		super.addMenuBar();
-
 		JMenuBar menuBar = getJMenuBar();
-		JMenu refreshMenu = new JMenu( "Refresh" );
-		refreshMenu.add( new ListRefreshMenuItem() );
-		menuBar.add( refreshMenu );
 
-		addConsumeMenu( menuBar );
-
-		JMenu clicksMenu = new JMenu( "Transfers" );
-		menuBar.add( clicksMenu );
-
-		clickGroup = new ButtonGroup();
-		clickOptions = new JRadioButtonMenuItem[4];
-		clickOptions[0] = new JRadioButtonMenuItem( "Move all", true );
-		clickOptions[1] = new JRadioButtonMenuItem( "Move all but one", false );
-		clickOptions[2] = new JRadioButtonMenuItem( "Move multiple", false );
-		clickOptions[3] = new JRadioButtonMenuItem( "Move exactly one", false );
-
-		for ( int i = 0; i < clickOptions.length; ++i )
-		{
-			clickGroup.add( clickOptions[i] );
-			clicksMenu.add( clickOptions[i] );
-		}
-
-		JMenu creationMenu = new JMenu( "Creatables" );
-		creationMenu.add( new CreationDisplayMenuItem( "Use closet as ingredient source", "useClosetForCreation" ) );
-		creationMenu.add( new CreationDisplayMenuItem( "Auto-repair box servants on explosion", "autoRepairBoxes" ) );
-		creationMenu.add( new CreationDisplayMenuItem( "Use clockwork box servants", "useClockworkBoxes" ) );
-		creationMenu.add( new CreationDisplayMenuItem( "Cook or mix without a box servant", "createWithoutBoxServants" ) );
-		creationMenu.add( new CreationDisplayMenuItem( "Include post-ascension recipes", "includeAscensionRecipes" ) );
-		menuBar.add( creationMenu );
-	}
-
-	public void refreshFilters()
-	{
-		consume.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
-			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
-
-		create.elementList.setCellRenderer( AdventureResult.getCreatableCellRenderer(
-			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
+		menuBar.add( new ListRefreshMenuItem() );
 	}
 
 	/**
@@ -220,26 +180,26 @@ public class ItemManageFrame extends KoLFrame
 	{
 		private JPanel enclosingPanel;
 		protected ShowDescriptionList elementList;
+
 		protected JButton [] buttons;
+		protected JRadioButton [] movers;
 
 		public MultiButtonPanel( String title, LockableListModel elementModel )
 		{
-			enclosingPanel = new JPanel( new BorderLayout( 10, 10 ) );
 			this.elementList = new ShowDescriptionList( elementModel );
 
-			JPanel centerPanel = new JPanel( new BorderLayout() );
-			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-			centerPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			enclosingPanel = new JPanel( new BorderLayout( 10, 10 ) );
+			enclosingPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+			enclosingPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
-			enclosingPanel.add( centerPanel, BorderLayout.CENTER );
-			setLayout( new CardLayout( 10, 10 ) );
+			setLayout( new CardLayout( 10, 0 ) );
 			add( enclosingPanel, "" );
 		}
 
 		public void setButtons( String [] buttonLabels, ActionListener [] buttonListeners )
 		{
-			JPanel containerPanel = new JPanel( new GridLayout( buttonLabels.length, 1, 5, 5 ) );
+			JPanel containerPanel = new JPanel( new GridLayout( 1, buttonLabels.length, 5, 5 ) );
 			buttons = new JButton[ buttonLabels.length ];
 
 			for ( int i = 0; i < buttonLabels.length; ++i )
@@ -249,9 +209,25 @@ public class ItemManageFrame extends KoLFrame
 				containerPanel.add( buttons[i] );
 			}
 
-			JPanel eastPanel = new JPanel( new BorderLayout() );
-			eastPanel.add( containerPanel, BorderLayout.NORTH );
-			enclosingPanel.add( eastPanel, BorderLayout.EAST );
+			JPanel moverPanel = new JPanel();
+			movers = new JRadioButton[4];
+			movers[0] = new JRadioButton( "Move all" );
+			movers[1] = new JRadioButton( "Move all but one" );
+			movers[2] = new JRadioButton( "Move multiple" );
+			movers[3] = new JRadioButton( "Move exactly one" );
+
+			ButtonGroup moverGroup = new ButtonGroup();
+			for ( int i = 0; i < 4; ++i )
+			{
+				moverPanel.add( movers[i] );
+				moverGroup.add( movers[i] );
+			}
+
+			JPanel southPanel = new JPanel( new BorderLayout() );
+			southPanel.add( moverPanel, BorderLayout.NORTH );
+			southPanel.add( containerPanel, BorderLayout.SOUTH );
+
+			enclosingPanel.add( southPanel, BorderLayout.NORTH );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -260,12 +236,181 @@ public class ItemManageFrame extends KoLFrame
 			for ( int i = 0; i < buttons.length; ++i )
 				buttons[i].setEnabled( isEnabled );
 		}
+
+		protected Object [] getDesiredItems( ShowDescriptionList elementList, String message )
+		{
+			Object [] items = elementList.getSelectedValues();
+			if ( items.length == 0 )
+				return null;
+
+			int neededSize = items.length;
+			AdventureResult currentItem;
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				currentItem = (AdventureResult) items[i];
+
+				int quantity = movers[0].isSelected() ? currentItem.getCount() : movers[1].isSelected() ?
+					currentItem.getCount() - 1 : movers[2].isSelected() ? getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
+
+				// If the user manually enters zero, return from
+				// this, since they probably wanted to cancel.
+
+				if ( quantity == 0 && movers[2].isSelected() )
+					return null;
+
+				// Otherwise, if it was not a manual entry, then reset
+				// the entry to null so that it can be re-processed.
+
+				if ( quantity == 0 )
+				{
+					items[i] = null;
+					--neededSize;
+				}
+				else
+				{
+					items[i] = currentItem.getInstance( quantity );
+				}
+			}
+
+			// If none of the array entries were nulled,
+			// then return the array as-is.
+
+			if ( neededSize == items.length )
+				return items;
+
+			// Otherwise, shrink the array which will be
+			// returned so that it removes any nulled values.
+
+			Object [] desiredItems = new Object[ neededSize ];
+			neededSize = 0;
+
+			for ( int i = 0; i < items.length; ++i )
+				if ( items[i] != null )
+					desiredItems[ neededSize++ ] = items[i];
+
+			return desiredItems;
+		}
+
+		protected abstract class TransferListener implements ActionListener
+		{
+			protected String description;
+			protected boolean retrieveFromClosetFirst;
+
+			protected Runnable [] requests;
+			protected ShowDescriptionList elementList;
+
+			public TransferListener( String description, boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
+			{
+				this.description = description;
+				this.retrieveFromClosetFirst = retrieveFromClosetFirst;
+				this.elementList = elementList;
+			}
+
+			public Object [] initialSetup()
+			{
+				Object [] items = getDesiredItems( elementList, description );
+				this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
+
+				if ( retrieveFromClosetFirst )
+					requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+
+				return items;
+			}
+
+			public void initializeTransfer()
+			{	(new RequestThread( requests )).start();
+			}
+		}
+
+		protected class PutInClosetListener extends TransferListener
+		{
+			public PutInClosetListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
+			{	super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst, elementList );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = initialSetup();
+				if ( items == null )
+					return;
+
+				if ( !retrieveFromClosetFirst )
+					requests[0] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+
+				initializeTransfer();
+			}
+		}
+
+		protected class AutoSellListener extends TransferListener
+		{
+			private int sellType;
+
+			public AutoSellListener( boolean retrieveFromClosetFirst, int sellType, ShowDescriptionList elementList )
+			{
+				super( sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Automalling", retrieveFromClosetFirst, elementList );
+				this.sellType = sellType;
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+					"Are you sure you would like to sell the selected items?",
+						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
+							return;
+
+				Object [] items = initialSetup();
+				if ( items == null )
+					return;
+
+				requests[ requests.length - 1 ] = new AutoSellRequest( client, items, sellType );
+				initializeTransfer();
+			}
+		}
+
+		protected class GiveToClanListener extends TransferListener
+		{
+			public GiveToClanListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
+			{	super( "Stashing", retrieveFromClosetFirst, elementList );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = initialSetup();
+				if ( items == null )
+					return;
+
+				requests[ requests.length - 1 ] = new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH );
+				initializeTransfer();
+			}
+		}
+
+		protected class PutOnDisplayListener extends TransferListener
+		{
+			public PutOnDisplayListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
+			{	super( "Showcasing", retrieveFromClosetFirst, elementList );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = initialSetup();
+				if ( items == null )
+					return;
+
+				requests[ requests.length - 1 ] = new MuseumRequest( client, items, true );
+				initializeTransfer();
+			}
+		}
+
 	}
 
 	private class ConsumePanel extends ItemManagePanel
 	{
 		public ConsumePanel()
-		{	super( "Usable Items", "use one", "use multiple", KoLCharacter.getUsables() );
+		{
+			super( "Usable Items", "use one", "use multiple", KoLCharacter.getUsables() );
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
+				KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
 		protected void actionConfirmed()
@@ -359,7 +504,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Inside Inventory", KoLCharacter.getInventory() );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
-			setButtons( new String [] { "put in closet", "sell to npcs", "send to store", "put on display", "donate to clan" },
+			setButtons( new String [] { "closet", "autosell", "automall", "museum", "stash" },
 				new ActionListener [] {
 					new PutInClosetListener( false, elementList ),
 					new AutoSellListener( false, AutoSellRequest.AUTOSELL, elementList ),
@@ -375,7 +520,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Inside Closet", KoLCharacter.getCloset() );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
-			setButtons( new String [] { "put in bag", "sell to npcs", "send to store", "put on display", "donate to clan" },
+			setButtons( new String [] { "backpack", "autosell", "automall", "museum", "stash" },
 				new ActionListener [] {
 					new PutInClosetListener( true, elementList ),
 					new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ),
@@ -383,172 +528,6 @@ public class ItemManageFrame extends KoLFrame
 					new PutOnDisplayListener( true, elementList ),
 					new GiveToClanListener( true, elementList ) } );
 		}
-	}
-
-	private abstract class TransferListener implements ActionListener
-	{
-		protected String description;
-		protected boolean retrieveFromClosetFirst;
-
-		protected Runnable [] requests;
-		protected ShowDescriptionList elementList;
-
-		public TransferListener( String description, boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
-		{
-			this.description = description;
-			this.retrieveFromClosetFirst = retrieveFromClosetFirst;
-			this.elementList = elementList;
-		}
-
-		public Object [] initialSetup()
-		{
-			Object [] items = getDesiredItems( elementList, description );
-			this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
-
-			if ( retrieveFromClosetFirst )
-				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
-
-			return items;
-		}
-
-		public void initializeTransfer()
-		{	(new RequestThread( requests )).start();
-		}
-	}
-
-	private class PutInClosetListener extends TransferListener
-	{
-		public PutInClosetListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
-		{	super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst, elementList );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			Object [] items = initialSetup();
-			if ( items == null )
-				return;
-
-			if ( !retrieveFromClosetFirst )
-				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-
-			initializeTransfer();
-		}
-	}
-
-	private class AutoSellListener extends TransferListener
-	{
-		private int sellType;
-
-		public AutoSellListener( boolean retrieveFromClosetFirst, int sellType, ShowDescriptionList elementList )
-		{
-			super( sellType == AutoSellRequest.AUTOSELL ? "Autoselling" : "Automalling", retrieveFromClosetFirst, elementList );
-			this.sellType = sellType;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-				"Are you sure you would like to sell the selected items?",
-					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
-						return;
-
-			Object [] items = initialSetup();
-			if ( items == null )
-				return;
-
-			requests[ requests.length - 1 ] = new AutoSellRequest( client, items, sellType );
-			initializeTransfer();
-		}
-	}
-
-	private class GiveToClanListener extends TransferListener
-	{
-		public GiveToClanListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
-		{	super( "Stashing", retrieveFromClosetFirst, elementList );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			Object [] items = initialSetup();
-			if ( items == null )
-				return;
-
-			requests[ requests.length - 1 ] = new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH );
-			initializeTransfer();
-		}
-	}
-
-	private class PutOnDisplayListener extends TransferListener
-	{
-		public PutOnDisplayListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
-		{	super( "Showcasing", retrieveFromClosetFirst, elementList );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			Object [] items = initialSetup();
-			if ( items == null )
-				return;
-
-			requests[ requests.length - 1 ] = new MuseumRequest( client, items, true );
-			initializeTransfer();
-		}
-	}
-
-	private Object [] getDesiredItems( ShowDescriptionList elementList, String message )
-	{
-		Object [] items = elementList.getSelectedValues();
-		if ( items.length == 0 )
-			return null;
-
-		int neededSize = items.length;
-		AdventureResult currentItem;
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			currentItem = (AdventureResult) items[i];
-
-			int quantity = clickOptions[0].isSelected() ? currentItem.getCount() : clickOptions[1].isSelected() ?
-				currentItem.getCount() - 1 : clickOptions[2].isSelected() ?
-				getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
-
-			// If the user manually enters zero, return from
-			// this, since they probably wanted to cancel.
-
-			if ( quantity == 0 && clickOptions[2].isSelected() )
-				return null;
-
-			// Otherwise, if it was not a manual entry, then reset
-			// the entry to null so that it can be re-processed.
-
-			if ( quantity == 0 )
-			{
-				items[i] = null;
-				--neededSize;
-			}
-			else
-			{
-				items[i] = currentItem.getInstance( quantity );
-			}
-		}
-
-		// If none of the array entries were nulled,
-		// then return the array as-is.
-
-		if ( neededSize == items.length )
-			return items;
-
-		// Otherwise, shrink the array which will be
-		// returned so that it removes any nulled values.
-
-		Object [] desiredItems = new Object[ neededSize ];
-		neededSize = 0;
-
-		for ( int i = 0; i < items.length; ++i )
-			if ( items[i] != null )
-				desiredItems[ neededSize++ ] = items[i];
-
-		return desiredItems;
 	}
 
 	/**
@@ -563,6 +542,9 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Create an Item", "create one", "create multiple", ConcoctionsDatabase.getConcoctions() );
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
+				KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
 		protected void actionConfirmed()
@@ -592,7 +574,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public ListRefreshMenuItem()
 		{
-			super( "Refresh Lists" );
+			super( JComponentUtilities.getSharedImage( "refresh.gif" ) );
 			addActionListener( this );
 		}
 
@@ -601,9 +583,9 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class CreationDisplayMenuItem extends SettingChangeMenuItem implements ActionListener
+	private class CreationCheckBox extends SettingChangeCheckBox implements ActionListener
 	{
-		public CreationDisplayMenuItem( String title, String property )
+		public CreationCheckBox( String title, String property )
 		{	super( title, property );
 		}
 

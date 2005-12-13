@@ -259,7 +259,9 @@ public class OptionsFrame extends KoLFrame
 			{ "autoAbortMechaMech", "Auto-abort battles with the MagiMechaMech" },
 			{ "finishInBrowser", "Open browser window to finish aborted battles" },
 			{ "autoSatisfyWithMall", "Automatically buy missing items on conditions check" },
-			{ "girlCalendar", "Display Girls of Loathing on Farmer's Almanac" }
+			{ "girlCalendar", "Display Girls of Loathing on Farmer's Almanac" },
+			{ "useClockworkBoxes", "Use clockwork box servants in item creation" },
+			{ "createWithoutBoxServants", "Allow cooking/mixing without box servants" }
 		};
 
 		/**

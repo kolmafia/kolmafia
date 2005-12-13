@@ -57,7 +57,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
 
-	private static boolean INCLUDE_ASCENSION = false;
 	private static boolean [] PERMIT_METHOD = new boolean[15];
 	private static int [] ADVENTURE_USAGE = new int[15];
 
@@ -181,12 +180,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( client != null )
 		{
-			if ( getProperty( "useClosetForCreation" ).equals( "true" ) )
-			{
-				List closetList = (List) KoLCharacter.getCloset();
-				for ( int i = 0; i < closetList.size(); ++i )
-					AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
-			}
+			List closetList = (List) KoLCharacter.getCloset();
+			for ( int i = 0; i < closetList.size(); ++i )
+				AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
 		}
 
 		// First, zero out the quantities table.  Though this is not
@@ -195,10 +191,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 			concoctions[i].resetCalculations();
-
-		// Determine if user wants ascension recipes
-
-		INCLUDE_ASCENSION = getProperty( "includeAscensionRecipes" ).equals( "true" );
 
 		// Make initial assessment of availability of mixing methods.
 		// Do this here since some COMBINE recipes have ingredients
@@ -223,9 +215,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// This should also be calculated to allow for meat stack
 		// recipes to be calculated.
 
-		int availableMeat = KoLCharacter.getAvailableMeat();
-		if ( getProperty( "useClosetForCreation" ).equals( "true" ) )
-			availableMeat += KoLCharacter.getClosetMeat();
+		int availableMeat = KoLCharacter.getAvailableMeat() + KoLCharacter.getClosetMeat();
 
 		concoctions[ ItemCreationRequest.MEAT_PASTE ].total += availableMeat / 10;
 		concoctions[ ItemCreationRequest.MEAT_PASTE ].creatable += availableMeat / 10;
@@ -402,12 +392,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 			return true;
 		if ( servantID == BARTENDER && KoLCharacter.hasBartender() )
 			return true;
-
-		// If the user did not wish to repair their boxes
-		// on explosion, then the box servant is not available
-
-		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
-			return false;
 
 		// Otherwise, return whether or not the quantity possible for
 		// the given box servants is non-zero.	This works because
@@ -723,7 +707,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		 */
 
 		private boolean isPermitted()
-		{	return (isAscensionRecipe ? INCLUDE_ASCENSION : true) && PERMIT_METHOD[ mixingMethod ];
+		{	return PERMIT_METHOD[ mixingMethod ];
 		}
 
 		/**

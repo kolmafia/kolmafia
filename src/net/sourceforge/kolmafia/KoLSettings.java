@@ -170,7 +170,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "autoAbortMechaMech", "false" );
 		ensureProperty( "autoLogChat", "false" );
 		ensureProperty( "autoLogin", "" );
-		ensureProperty( "autoRepairBoxes", "false" );
 		ensureProperty( "autoSatisfyWithMall", "false" );
 		ensureProperty( "autoStockRestores", "-1" );
 		ensureProperty( "autoStockScript", "" );
@@ -199,7 +198,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "http.proxyPort", "" );
 		ensureProperty( "http.proxyUser", "" );
 		ensureProperty( "http.proxyPassword", "" );
-		ensureProperty( "includeAscensionRecipes", "false" );
 		ensureProperty( "ignoreChoiceAdventures", "false" );
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		ensureProperty( "lastAdventure", "" );
@@ -221,7 +219,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
 		ensureProperty( "useChatBasedBuffBot", "false" );
 		ensureProperty( "useClockworkBoxes", "false" );
-		ensureProperty( "useClosetForCreation", "false" );
 		ensureProperty( "userInterfaceMode", "0" );
 		ensureProperty( "useTabbedChat", "1" );
 		ensureProperty( "whiteList", "" );

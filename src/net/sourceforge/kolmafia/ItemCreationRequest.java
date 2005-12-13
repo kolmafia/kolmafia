@@ -486,15 +486,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return true;
 		}
 
-		// No currently installed servant and player insists on using
-		// one.	 Check to see if they want to autorepair
-
-		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
-		{
-			updateDisplay( ERROR_STATE, "Box servant explosion!" );
-			return false;
-		}
-
 		// If they do want to auto-repair, make sure that
 		// the appropriate item is available in their inventory
 
@@ -533,7 +524,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( !KoLCharacter.getInventory().contains( servant ) )
 		{
-			if ( getProperty( "useClosetForCreation" ).equals( "true" ) && KoLCharacter.getCloset().contains( servant ) )
+			if ( KoLCharacter.getCloset().contains( servant ) )
 			{
 				updateDisplay( DISABLE_STATE, "Retrieving " + servant.getName() + " from closet..." );
 				AdventureResult [] servantArray = { servant };
@@ -611,19 +602,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// Now, if you are to retrieve an item from the closet, this is where
 			// that retrieval would be done.
 
-			if ( getProperty( "useClosetForCreation" ).equals( "true" ) )
+			int closetCount = ingredient.getCount( KoLCharacter.getCloset() );
+
+			if ( closetCount != 0 )
 			{
-				int closetCount = ingredient.getCount( KoLCharacter.getCloset() );
+				AdventureResult [] retrieval = new AdventureResult[1];
+				retrieval[0] = ingredient.getInstance( Math.min( actualQuantityNeeded, closetCount ) );
 
-				if ( closetCount != 0 )
-				{
-					AdventureResult [] retrieval = new AdventureResult[1];
-					retrieval[0] = ingredient.getInstance( Math.min( actualQuantityNeeded, closetCount ) );
-
-					updateDisplay( DISABLE_STATE, "Retrieving " + retrieval[0].toString() + " from closet..." );
-					(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, retrieval )).run();
-					actualQuantityNeeded -= retrieval[0].getCount();
-				}
+				updateDisplay( DISABLE_STATE, "Retrieving " + retrieval[0].toString() + " from closet..." );
+				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, retrieval )).run();
+				actualQuantityNeeded -= retrieval[0].getCount();
 			}
 
 			// If more items are still needed, then attempt to create the desired
