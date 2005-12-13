@@ -57,7 +57,6 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
 import javax.swing.ButtonGroup;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.BorderFactory;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -211,7 +210,7 @@ public class ItemManageFrame extends KoLFrame
 
 			JPanel moverPanel = new JPanel();
 			movers = new JRadioButton[4];
-			movers[0] = new JRadioButton( "Move all" );
+			movers[0] = new JRadioButton( "Move all", true );
 			movers[1] = new JRadioButton( "Move all but one" );
 			movers[2] = new JRadioButton( "Move multiple" );
 			movers[3] = new JRadioButton( "Move exactly one" );
