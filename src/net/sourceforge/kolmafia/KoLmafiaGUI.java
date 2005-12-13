@@ -122,7 +122,10 @@ public class KoLmafiaGUI extends KoLmafia
 		// to do.  Return from the method.
 
 		if ( isLoggingIn || displayer == null || displayer.getCreation() instanceof AdventureFrame )
+		{
+			enableDisplay();
 			return;
+		}
 
 		// Figure out which user interface is being
 		// used -- account for minimalist loadings.
@@ -167,6 +170,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 		((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
 		((KoLFrame)previousDisplayer.getCreation()).dispose();
+
+		enableDisplay();
 	}
 
 	/**
