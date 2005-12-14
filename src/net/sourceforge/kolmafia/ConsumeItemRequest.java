@@ -42,9 +42,8 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int CONSUME_USE = 3;
 	public static final int CONSUME_MULTIPLE = 4;
 	public static final int GROW_FAMILIAR = 5;
-
-	public static final int EQUIP_FAMILIAR = 6;
-
+	public static final int CONSUME_ZAP = 6;
+	public static final int EQUIP_FAMILIAR = 7;
 	public static final int EQUIP_ACCESSORY = 8;
 	public static final int EQUIP_HAT = 9;
 	public static final int EQUIP_PANTS = 10;
@@ -107,6 +106,12 @@ public class ConsumeItemRequest extends KoLRequest
 		if ( itemUsed.getItemID() == UneffectRequest.REMEDY.getItemID() )
 		{
 			client.makeUneffectRequest();
+			return;
+		}
+
+		if ( consumptionType == CONSUME_ZAP )
+		{
+			client.makeZapRequest();
 			return;
 		}
 

@@ -1926,4 +1926,23 @@ public abstract class KoLCharacter extends StaticEntity
 		return getEquipment( HAT ).startsWith( "plexiglass" ) || getEquipment( ACCESSORY1 ).startsWith( "ring of half" ) ||
 			getEquipment( ACCESSORY2 ).startsWith( "ring of half" ) || getEquipment( ACCESSORY3 ).startsWith( "ring of half" );
 	}
+
+	/**
+	 * Returns the character's zapping wand, if any
+	 */
+
+	public static AdventureResult getZapper()
+	{
+		// Search for a wand
+		Iterator iterator = inventory.iterator();
+		while ( iterator.hasNext() )
+		{
+			AdventureResult item = (AdventureResult)iterator.next();
+			if ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) == ConsumeItemRequest.CONSUME_ZAP )
+				return item;
+		}
+
+		// No wand
+		return null;
+	}
 }

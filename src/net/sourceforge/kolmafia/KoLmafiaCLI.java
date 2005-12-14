@@ -817,6 +817,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Zapping with wands is a type of item usage
+
+		if ( command.equals( "zap" ) )
+		{
+			makeZapRequest();
+			return;
+		}
+
 		// Another item-related command is a creation
 		// request.  Again, complicated request, so
 		// delegate to the appropriate utility method.
@@ -2486,6 +2494,37 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( currentEffect.getName().toLowerCase().indexOf( effectToUneffect ) != -1 )
 				(new UneffectRequest( scriptRequestor, currentEffect )).run();
 		}
+	}
+
+	/**
+	 * Attempts to zap the specified item with the specified wand
+	 */
+
+	public void makeZapRequest()
+	{
+		AdventureResult wand = KoLCharacter.getZapper();
+
+		if ( wand == null )
+		{
+			updateDisplay( ERROR_STATE, "You don't have an appropriate wand" );
+			scriptRequestor.cancelRequest();
+			return;
+		}
+
+		String command = previousCommand.split( " " )[0];
+		String parameters = previousCommand.substring( command.length() ).trim();
+		if ( parameters.length() == 0 )
+		{
+			updateDisplay( ERROR_STATE, "Zap what?" );
+			scriptRequestor.cancelRequest();
+			return;
+		}
+
+		AdventureResult item = getFirstMatchingItem( parameters, INVENTORY );
+		if ( item == null )
+			return;
+
+		(new ZapRequest( scriptRequestor, wand, item )).run();
 	}
 
 	/**

@@ -1303,6 +1303,12 @@ public abstract class KoLmafia implements KoLConstants
 	public abstract void makeUneffectRequest();
 
 	/**
+	 * Makes a request which attempts to zap a chosen item
+	 */
+
+	public abstract void makeZapRequest();
+
+	/**
 	 * Makes a request to the hermit in order to trade worthless
 	 * items for more useful items.
 	 */

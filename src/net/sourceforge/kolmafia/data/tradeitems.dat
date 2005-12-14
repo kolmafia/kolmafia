@@ -845,30 +845,30 @@
 845	MAHI fez	9	0
 846	especially homoerotic frat-paddle	12	90
 847	heteroerotic frat-paddle	12	75
-848	hypodermic needle	6	75
-849	Meat detector	6	75
-850	many-eyed glasses	6	75
-851	prosthetic forehead	6	75
-852	tiny shaker of salt	6	75
-853	blundarrrbus	6	75
-854	sucky decal	6	75
-855	tiny balloon knife	6	75
-856	shock collar	6	75
-857	moonglasses	6	75
-858	palm-frond toupee	6	75
-859	tiny knife and fork	6	75
-860	eye-pod	6	75
-861	chocolate spurs	6	75
-862	magnifying glass	6	75
-863	skewer-mounted razor blade	6	75
-864	brass stinger	6	75
-865	lead necklace	6	75
+848	hypodermic needle	7	75
+849	Meat detector	7	75
+850	many-eyed glasses	7	75
+851	prosthetic forehead	7	75
+852	tiny shaker of salt	7	75
+853	blundarrrbus	7	75
+854	sucky decal	7	75
+855	tiny balloon knife	7	75
+856	shock collar	7	75
+857	moonglasses	7	75
+858	palm-frond toupee	7	75
+859	tiny knife and fork	7	75
+860	eye-pod	7	75
+861	chocolate spurs	7	75
+862	magnifying glass	7	75
+863	skewer-mounted razor blade	7	75
+864	brass stinger	7	75
+865	lead necklace	7	75
 866	shaving cream	1	35
 867	pine tar	1	31
 868
 869	forest tears	1	33
 870	fetus-smashing club	12	0
-871	meatcar model	6	75
+871	meatcar model	7	75
 872	Time Juice	0	0
 873	rolling pin	3	250
 874	unrolling pin	3	250
@@ -897,9 +897,9 @@
 897	coffee sprite	5	-1
 898	Cheshire Bitten	5	-1
 899	custom avatar form	0	-1
-900	smile-sharpening stone	6	75
-901	miniature espresso maker	6	75
-902	100-Watt bulb	6	75
+900	smile-sharpening stone	7	75
+901	miniature espresso maker	7	75
+902	100-Watt bulb	7	75
 903	Spasmi Dolorosi Del Rene Champagne	2	-1
 904	old school Mafia knickerbockers	10	0
 905	Yummy Tummy bean	0	-1
@@ -912,7 +912,7 @@
 912	pixellated candy heart	0	-1
 913	candied kobold	0	-1
 914	hand turkey outline	5	-1
-915	candied yam pinky ring	6	75
+915	candied yam pinky ring	7	75
 916	intergalactic pom poms	8	0
 917	Mob Penguin protection contract	0	0
 918	Radio Free Baseball Cap	9	-1
@@ -922,7 +922,7 @@
 922	severed rocking horse head	8	-1
 923	broken cellular phone	0	-1
 924	crimbo elfling	5	-1
-925	dental pliers	6	75
+925	dental pliers	7	75
 926	papotion of papower	4	38
 927	Ferita Del Petto Zinfandel	2	-1
 928	fuzzy bracelets	8	0
@@ -934,7 +934,7 @@
 934	gingerbread bugbear	1	-1
 935	imitation nice watch	8	-1
 936	Hanukkimbo dreidl	5	-1
-937	menorette	6	70
+937	menorette	7	70
 938	tiny plastic sword	12	-1
 939	small Crimbo Pressie	3	-1
 940	bow	0	-1
@@ -950,7 +950,7 @@
 950	cherry bomb	2	-1
 951	extra special Crimbo stocking	3	-1
 952	spooky hockey mask	9	-1
-953	penguin-smacking club	6	70
+953	penguin-smacking club	7	70
 954	orphan baby yeti	5	-1
 955	fez of etymology	9	142
 956	carob chunk noodles	1	75
@@ -959,7 +959,7 @@
 959	flange	0	10
 960	clockwork key	0	100
 961	silk garter snake	5	-1
-962	velvet choker	6	70
+962	velvet choker	7	70
 963	tiny plastic seal clubber	8	30
 964	tiny plastic turtle tamer	8	30
 965	tiny plastic pastamancer	8	30
@@ -1037,7 +1037,7 @@
 1037	gnauga hide buckler	8	140
 1038	maraschino moxiosity potion	4	38
 1039
-1040	lucky Tam O'Shanter	6	-1
+1040	lucky Tam O'Shanter	7	-1
 1041	green beer	2	100
 1042	string of red beads	8	75
 1043	string of blue beads	8	75
@@ -1079,9 +1079,9 @@
 1079	yellow plastic oyster egg	0	50
 1080	oyster basket	8	150
 1081	emo roe	5	-1
-1082	gazing shoes	6	70
+1082	gazing shoes	7	70
 1083	personal raindrop	5	-1
-1084	rainbow tie	6	70
+1084	rainbow tie	7	70
 1085	clockwork widget	0	30
 1086	clockwork thingamajig	0	30
 1087	clockwork doohickey	0	30
@@ -1098,10 +1098,10 @@
 1098	clockwork trench coat	11	200
 1099	clockwork pants	10	200
 1100	gnauga hide chaps	10	120
-1101	false eyelashes	6	75
-1102	targeting chip	6	75
+1101	false eyelashes	7	75
+1102	targeting chip	7	75
 1103	unwound clockwork grapefruit	5	220
-1104	tiny mountie hat	6	75
+1104	tiny mountie hat	7	75
 1105	clockwork bartender head	0	245
 1106	clockwork chef head	0	220
 1107	clockwork maid head	0	225
@@ -1113,7 +1113,7 @@
 1113	clockwork maid	3	350
 1114	tisket	0	70
 1115	tasket	0	70
-1116	annoying pitchfork	6	75
+1116	annoying pitchfork	7	75
 1117	Stupid University Diploma	0	0
 1118	pregnant flaming mushroom	5	0
 1119	pregnant frozen mushroom	5	0
@@ -1149,7 +1149,7 @@
 1149	flower petal pie	1	45
 1150	bottle of single-barrel whiskey	2	-1
 1151	giant discarded plastic fork	12	205
-1152	miniature gravy-covered maypole	6	-1
+1152	miniature gravy-covered maypole	7	-1
 1153	Retenez L'Herbe Pat&eacute;	1	-1
 1154	Breathetastic&trade; Premium Canned Air	3	-1
 1155	Letter from King Ralph XI	0	0
@@ -1163,7 +1163,7 @@
 1163	marzipan skull	3	40
 1164	poultrygeist	0	50
 1165	hovering sombrero	5	100
-1166	tiny maracas	6	70
+1166	tiny maracas	7	70
 1167	plain brown wrapper	0	0
 1168	less-than-three-shaped box	0	0
 1169	exactly-three-shaped box	0	0
@@ -1215,7 +1215,7 @@
 1215	Mylar balloon	8	500
 1216	Kevlar balloon	8	1000
 1217	thought balloon	8	2500
-1218	rat head balloon	6	5000
+1218	rat head balloon	7	5000
 1219	mini-zeppelin	8	10000
 1220	Mr. Balloon	8	25000
 1221	red balloon	8	50000
@@ -1235,12 +1235,12 @@
 1235	plexiglass pendant	8	0
 1236	hockey stick of furious angry rage	12	-1
 1237	tapped black lotus	0	50000
-1238	flaming glowsticks	6	70
-1239	iced-out bling	6	70
-1240	limburger biker boots	6	70
+1238	flaming glowsticks	7	70
+1239	iced-out bling	7	70
+1240	limburger biker boots	7	70
 1241
 1242	deflated inflatable dodecapede	5	-1
-1243	toy six-seater hovercraft	6	70
+1243	toy six-seater hovercraft	7	70
 1244	Glass Balls of the Goblin King	8	0
 1245	Cape of the Goblin King	8	0
 1246	rib of the Bonerdagon	12	0
@@ -1257,19 +1257,19 @@
 1257	rat scrapple	1	40
 1258	pail of pretentious paint	0	0
 1259	yellow traffic cone	9	100
-1260	wax lips	6	-1
+1260	wax lips	7	-1
 1261	Hatorade	3	250
 1262	off-hand balloon	0	50
 1263	pygmy bugbear shaman	5	-1
-1264	tiny nose-bone fetish	6	75
+1264	tiny nose-bone fetish	7	75
 1265	box of sunshine	3	0
 1266
 1267	dead mimic	3	0
-1268	pine wand	0	0
-1269	ebony wand	0	0
-1270	hexagonal wand	0	0
-1271	aluminum wand	0	0
-1272	marble wand	0	0
+1268	pine wand	6	0
+1269	ebony wand	6	0
+1270	hexagonal wand	6	0
+1271	aluminum wand	6	0
+1272	marble wand	6	0
 1273	magic lamp	8	0
 1274	Medicinal Herb's medicinal herbs	3	50
 1275	basic meat skirt	10	140
@@ -1302,12 +1302,12 @@
 1302	reodorant	4	65
 1303	Mjolnir Jr.	12	0
 1304	doppelshifter egg	5	-1
-1305	tiny makeup kit	6	75
+1305	tiny makeup kit	7	75
 1306	red traffic cone	9	100
 1307	calm attention-deficit demon	5	-1
 1308	unwound cymbal-playing monkey	5	-1
-1309	attention spanner	6	75
-1310	funky brass fez	6	75
+1309	attention spanner	7	75
+1310	funky brass fez	7	75
 1311	comfy blanket	0	0
 1312	Baron Von Ratsworth's monocle	8	0
 1313	Baron Von Ratsworth's money clip	8	0
@@ -1346,7 +1346,7 @@
 1347	loaded serum blowgun	0	-1
 1348	empty blowgun	0	-1
 1349	miniscule temporal rip	5	-1
-1350	1.21 jigawatts	6	75
+1350	1.21 jigawatts	7	75
 1352	redrum	2	35
 1354	pile of shiny pebbles	0	0
 1355	bowl of oriole's nest soup	1	0
@@ -1361,6 +1361,6 @@
 1371	gingham blouse	11	105
 1372	souvenir ski t-shirt	11	105
 1373	sweet nutcracker	5	-1
-1374	metal mandible	6	75
+1374	metal mandible	7	75
 1381	aspirin	3	0
 1382	fancy chocolate	3	0

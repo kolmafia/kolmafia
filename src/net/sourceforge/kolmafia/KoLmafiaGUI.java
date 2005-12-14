@@ -210,8 +210,35 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new RequestThread( new UneffectRequest( this, (AdventureResult) selectedValue ) )).start();
+		// Do a start() rather than a run() since this is invoked by
+		// the ItemManageFrame, not the menu. Let that frame enable the
+		// display and allow our thread to put up a status message.
+	}
 
-		enableDisplay();
+	/**
+	 * Makes a request which attempts to zap the chosen item
+	 * This method should prompt the user to determine which effect
+	 * the player would like to remove.
+	 */
+
+	public void makeZapRequest(  )
+	{
+		AdventureResult wand = KoLCharacter.getZapper();
+
+		if ( wand == null )
+			return;
+
+		Object selectedValue = JOptionPane.showInputDialog(
+			null, "I want to zap this item...", "Zzzzzzzzzap!", JOptionPane.INFORMATION_MESSAGE, null,
+			KoLCharacter.getInventory().toArray(), KoLCharacter.getInventory().get(0) );
+
+		if ( selectedValue == null )
+			return;
+
+		(new RequestThread( new ZapRequest( this, wand, (AdventureResult) selectedValue ) )).start();
+		// Do a start() rather than a run() since this is invoked by
+		// the ItemManageFrame, not the menu. Let that frame enable the
+		// display and allow our thread to put up a status message.
 	}
 
 	/**

@@ -637,6 +637,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				case ConsumeItemRequest.CONSUME_USE:
 				case ConsumeItemRequest.CONSUME_MULTIPLE:
 				case ConsumeItemRequest.GROW_FAMILIAR:
+				case ConsumeItemRequest.CONSUME_ZAP:
 					if ( !other )
 						return new JLabel();
 					break;
@@ -649,7 +650,6 @@ public class AdventureResult implements Comparable, KoLConstants
 			defaultComponent.setText( stringForm );
 			return defaultComponent;
 		}
-
 	}
 
 	private static class CreatableCellRenderer extends ConsumableCellRenderer
