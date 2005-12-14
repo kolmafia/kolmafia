@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.regex.Pattern;
 
-public class UseSkillRequest extends KoLRequest
+public class UseSkillRequest extends KoLRequest implements Comparable
 {
 	private static final int WALRUS_TONGUE = 1010;
 
@@ -84,6 +84,15 @@ public class UseSkillRequest extends KoLRequest
 
 		this.target = target;
 		this.buffCount = buffCount < 1 ? 1 : buffCount;
+	}
+
+	public int compareTo( Object o )
+	{
+		if ( o == null || !(o instanceof UseSkillRequest) )
+			return -1;
+
+		return ClassSkillsDatabase.getMPConsumptionByID( skillID ) -
+			ClassSkillsDatabase.getMPConsumptionByID( ((UseSkillRequest)o).skillID );
 	}
 
 	public int getBuffCount()

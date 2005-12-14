@@ -221,7 +221,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static SortedListModel sellables = new SortedListModel( AdventureResult.class );
 
 	private static LockableListModel activeEffects = new LockableListModel();
-	private static LockableListModel usableSkills = new LockableListModel();
+	private static SortedListModel usableSkills = new SortedListModel( UseSkillRequest.class );
 	private static LockableListModel availableSkills = new LockableListModel();
 
 	private static LockableListModel battleSkillIDs = new LockableListModel();
