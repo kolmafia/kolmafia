@@ -1852,7 +1852,11 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( this.outputStream != originalStream )
+		{
+			this.outputStream.println();
+			this.outputStream.println();
 			this.outputStream.close();
+		}
 
 		this.outputStream = originalStream;
 	}
