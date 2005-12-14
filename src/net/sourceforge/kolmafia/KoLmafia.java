@@ -240,7 +240,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.recentEffects.clear();
 
 		this.tally.clear();
-		resetSessionTally();
+		resetSession();
 
 		if ( !permitsContinue() )
 		{
@@ -337,7 +337,7 @@ public abstract class KoLmafia implements KoLConstants
 			(new MicrobreweryRequest( this )).run();
 		}
 
-		resetSessionTally();
+		resetSession();
 		applyRecentEffects();
 
 		// Retrieve breakfast if the option to retrieve breakfast
@@ -453,9 +453,11 @@ public abstract class KoLmafia implements KoLConstants
 	 * Used to reset the session tally to its original values.
 	 */
 
-	public void resetSessionTally()
+	public void resetSession()
 	{
 		tally.clear();
+		encounterList.clear();
+		adventureList.clear();
 
 		initialStats[0] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() );
 		initialStats[1] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() );

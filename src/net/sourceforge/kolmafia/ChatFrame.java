@@ -73,6 +73,7 @@ import javax.swing.JRadioButtonMenuItem;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> used to display the current
@@ -83,10 +84,6 @@ import java.util.Calendar;
 
 public class ChatFrame extends KoLFrame
 {
-	protected ButtonGroup clickGroup;
-	protected JRadioButtonMenuItem [] clickOptions;
-
-	private JMenuBar menuBar;
 	private ChatPanel mainPanel;
 
 	/**
@@ -110,12 +107,9 @@ public class ChatFrame extends KoLFrame
 		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
 
-		JPanel toolsPanel = new JPanel();
-		toolsPanel.add( new MessengerButton( "Clear Displays", "clearChatBuffers" ) );
-		toolsPanel.add( new MessengerButton( "Add Highlight", "addHighlighting" ) );
-		toolsPanel.add( new MessengerButton( "Remove Highlight", "removeHighlighting" ) );
-
-		framePanel.add( toolsPanel, BorderLayout.NORTH );
+		toolbarPanel.add( new MessengerButton( "clear.gif", "clearChatBuffers" ) );
+		toolbarPanel.add( new MessengerButton( "highlight1.gif", "addHighlighting" ) );
+		toolbarPanel.add( new MessengerButton( "highlight2.gif", "removeHighlighting" ) );
 
 		// Add a window listener to handle exiting and closing
 		// chat, pending on how the initialization functions.
@@ -241,11 +235,17 @@ public class ChatFrame extends KoLFrame
 		}
 
 		public boolean hasFocus()
-		{	return entryField.hasFocus() || chatDisplay.hasFocus();
+		{
+			if ( entryField == null || chatDisplay == null )
+				return false;
+
+			return entryField.hasFocus() || chatDisplay.hasFocus();
 		}
 
 		public void requestFocus()
-		{	entryField.requestFocus();
+		{
+			if ( entryField != null )
+				entryField.requestFocus();
 		}
 
 		/**
@@ -353,7 +353,7 @@ public class ChatFrame extends KoLFrame
 	 */
 
 	public boolean hasFocus()
-	{	return super.hasFocus() || menuBar.isSelected() || (mainPanel != null && mainPanel.hasFocus());
+	{	return super.hasFocus() || (mainPanel != null && mainPanel.hasFocus());
 	}
 
 	/**
@@ -436,7 +436,9 @@ public class ChatFrame extends KoLFrame
 
 		public MessengerButton( String title, String method )
 		{
-			super( title );
+			super( JComponentUtilities.getSharedImage( title ) );
+			JComponentUtilities.setComponentSize( this, 24, 24 );
+
 			this.method = method;
 			this.addActionListener( this );
 		}

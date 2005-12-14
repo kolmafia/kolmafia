@@ -160,23 +160,6 @@ public class LoginFrame extends KoLFrame
 	}
 
 	/**
-	 * Utility method used to add a menu bar to the <code>LoginFrame</code>.
-	 * The menu bar contains configuration options and the general license
-	 * information associated with <code>KoLmafia</code>.
-	 */
-
-	protected void addMenuBar()
-	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
-
-		addStatusMenu( menuBar );
-		addScriptMenu( menuBar );
-		addOptionsMenu( menuBar );
-		addHelpMenu( menuBar );
-	}
-
-	/**
 	 * An internal class which represents the panel which is nested
 	 * inside of the <code>LoginFrame</code>.
 	 */

@@ -148,11 +148,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		addWindowListener( new CloseManagerAdapter() );
-	}
 
-	protected void addMenuBar()
-	{
-		super.addMenuBar();
 		JMenuBar menuBar = getJMenuBar();
 
 		JMenu toolsMenu = new JMenu( "Tools" );

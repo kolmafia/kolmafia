@@ -200,6 +200,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected boolean isEnabled;
 
 	protected JPanel framePanel;
+	protected JPanel toolbarPanel;
 	protected KoLPanel contentPanel;
 
 	protected JPanel compactPane;
@@ -222,6 +223,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		this.framePanel = new JPanel();
 		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );
+
+		this.toolbarPanel = new JPanel();
+		JPanel toolbarContainer = new JPanel();
+		toolbarContainer = new JPanel( new BorderLayout() );
+		toolbarContainer.add( this.toolbarPanel, BorderLayout.WEST );
+		getContentPane().add( toolbarContainer, BorderLayout.NORTH );
+
+		addToolBar();
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		addWindowListener( new LocationAdapter() );
@@ -400,10 +409,16 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		addTravelMenu( menuBar );
 		addPeopleMenu( menuBar );
 		addScriptMenu( menuBar );
-		addOptionsMenu( menuBar );
-		addHelpMenu( menuBar );
-
 		addRefreshMenu( menuBar );
+	}
+
+	protected void addToolBar()
+	{
+		toolbarPanel.add( new MiniBrowserButton() );
+		toolbarPanel.add( new DisplayFrameButton( "inventory.gif", GearChangeFrame.class ) );
+		toolbarPanel.add( new DisplayFrameButton( "equipment.gif", GearChangeFrame.class ) );
+		toolbarPanel.add( new DisplayFrameButton( "preferences.gif", OptionsFrame.class ) );
+		toolbarPanel.add( new InvocationButton( "debug.gif", KoLmafia.class, "openDebugLog" ) );
 	}
 
 	protected JMenu addRefreshMenu( JComponent menu )
@@ -412,10 +427,16 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menu.add( refreshMenu );
 
 		refreshMenu.setIcon( JComponentUtilities.getSharedImage( "refresh.gif" ) );
-		refreshMenu.add( new RequestMenuItem( "Status", new CharsheetRequest( client ) ) );
-		refreshMenu.add( new RequestMenuItem( "Inventory", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) );
-		refreshMenu.add( new RequestMenuItem( "Outfits", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
-		refreshMenu.add( new RequestMenuItem( "Familiars", new FamiliarRequest( client ) ) );
+		refreshMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
+		refreshMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
+		refreshMenu.add( new JSeparator() );
+
+		refreshMenu.add( new RequestMenuItem( "Refresh Status", new CharsheetRequest( client ) ) );
+		refreshMenu.add( new RequestMenuItem( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) );
+		refreshMenu.add( new JSeparator() );
+
+		refreshMenu.add( new RequestMenuItem( "Refresh Outfits", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
+		refreshMenu.add( new RequestMenuItem( "Refresh Familiars", new FamiliarRequest( client ) ) );
 		return refreshMenu;
 	}
 
@@ -429,32 +450,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenu statusMenu = new JMenu( "My KoL" );
 		menu.add( statusMenu );
 
-		if ( client == null || !client.inLoginState() )
-		{
-			statusMenu.add( new MiniBrowserMenuItem( "Navigate Map", "main.php", true ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Visit Council", CouncilFrame.class ) );
-			statusMenu.add( new MiniBrowserMenuItem( "Weird Records", "records.php?which=0", false ) );
-			statusMenu.add( new JSeparator() );
-		}
-
+		statusMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", LicenseDisplay.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "KoL Almanac", CalendarFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
 
-		if ( client == null || !client.inLoginState() )
-		{
-			statusMenu.add( new JSeparator() );
+		statusMenu.add( new JSeparator() );
 
-			statusMenu.add( new DisplayFrameMenuItem( "Status Pane", CharsheetFrame.class ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", GearChangeFrame.class ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Item Manager", ItemManageFrame.class ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Status Pane", CharsheetFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
 
-			statusMenu.add( new JSeparator() );
+		statusMenu.add( new JSeparator() );
 
-			statusMenu.add( new DisplayFrameMenuItem( "Your Mall Store", StoreManageFrame.class ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Museum Display", MuseumFrame.class ) );
-			statusMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", HagnkStorageFrame.class ) );
-		}
+		statusMenu.add( new DisplayFrameMenuItem( "Your Mall Store", StoreManageFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Museum Display", MuseumFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", HagnkStorageFrame.class ) );
 
 		return statusMenu;
 	}
@@ -469,6 +479,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenu travelMenu = new JMenu( "Travel" );
 		menu.add( travelMenu );
 
+		travelMenu.add( new DisplayFrameMenuItem( "Visit Council", CouncilFrame.class ) );
 		travelMenu.add( new InvocationMenuItem( "Eat Cake-Arena", client, "visitCakeShapedArena" ) );
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", client, "makeHermitRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Mountain Traps", client, "makeTrapperRequest" ) );
@@ -516,58 +527,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
-	 * Utility method used to add the default <code>KoLmafia</code>
-	 * configuration menu to the given menu bar.  The default menu
-	 * contains the ability to customize preferences (global if it
-	 * is invoked before login, character-specific if after) and
-	 * initialize the debugger.
-	 *
-	 * @param	menu	The <code>JMenuBar</code> to which the configuration menu will be attached
-	 */
-
-	protected final JMenu addOptionsMenu( JComponent menu )
-	{
-		JMenu optionsMenu = new JMenu( "Options" );
-		menu.add( optionsMenu );
-
-		optionsMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
-		optionsMenu.add( new ToggleDebugMenuItem() );
-		optionsMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSessionTally" ) );
-		optionsMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
-
-		return optionsMenu;
-	}
-
-	/**
-	 * Utility method used to add the default <code>KoLmafia</code> Help
-	 * menu to the given menu bar.  The default Help menu contains the
-	 * copyright statement for <code>KoLmafia</code>.
-	 *
-	 * @param	menu	The <code>JMenuBar</code> to which the Help menu will be attached
-	 */
-
-	protected final JMenu addHelpMenu( JComponent menu )
-	{
-		JMenu helpMenu = new JMenu( "Help" );
-		menu.add( helpMenu );
-
-		helpMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", LicenseDisplay.class ) );
-		helpMenu.add( new DisplayPageMenuItem( "KoLmafia Home", "http://kolmafia.sourceforge.net/" ) );
-		helpMenu.add( new DisplayPageMenuItem( "End-User Manual", "http://kolmafia.sourceforge.net/manual.html" ) );
-		helpMenu.add( new DisplayPageMenuItem( "Sourceforge Page", "https://sourceforge.net/project/showfiles.php?group_id=126572&package_id=138474" ) );
-		helpMenu.add( new DisplayPageMenuItem( "Read Forum Thread", "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
-
-
-		if ( client == null || !client.inLoginState() )
-		{
-			helpMenu.add( new JSeparator() );
-			helpMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
-		}
-
-		return helpMenu;
-	}
-
-	/**
 	 * Auxiliary method used to enable and disable a frame.  By default,
 	 * this attempts to toggle the enable/disable status on the core
 	 * content panel.  It is advised that descendants override this
@@ -603,7 +562,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super( "" );
 			addActionListener( this );
 
-			setText( client == null || client.getMacroStream() instanceof NullStream ? "Record Script..." : "Stop Recording" );
+			setText( client == null || client.getMacroStream() instanceof NullStream ? "Record script..." : "Stop recording" );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -621,42 +580,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
 					client.openMacroStream( filename );
 
-				setText( "Stop Recording" );
+				setText( "Stop recording" );
 			}
 			else if ( client != null )
 			{
 				client.closeMacroStream();
-				setText( "Record Script..." );
-			}
-		}
-	}
-
-	/**
-	 * Internal class which attempts to create a menu item
-	 * which toggles the text pending on current debug state.
-	 */
-
-	private class ToggleDebugMenuItem extends JMenuItem implements ActionListener
-	{
-		public ToggleDebugMenuItem()
-		{
-			super( "" );
-			addActionListener( this );
-
-			setText( KoLmafia.getLogStream() instanceof NullStream ? "Start Debug" : "Stop Debug" );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( KoLmafia.getLogStream() instanceof NullStream )
-			{
-				KoLmafia.openDebugLog();
-				setText( "Stop Debug" );
-			}
-			else if ( client != null )
-			{
-				KoLmafia.closeDebugLog();
-				setText( "Start Debug" );
+				setText( "Record script..." );
 			}
 		}
 	}
@@ -665,7 +594,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public RefreshScriptsMenuItem()
 		{
-			super( "Script Menu" );
+			super( "Refresh menu" );
 			addActionListener( this );
 		}
 
@@ -803,6 +732,51 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * the request for viewing frames.
 	 */
 
+	protected class DisplayFrameButton extends JButton implements ActionListener
+	{
+		private Class frameClass;
+		private CreateFrameRunnable displayer;
+
+		public DisplayFrameButton( String icon, Class frameClass )
+		{
+			super( JComponentUtilities.getSharedImage( icon ) );
+			JComponentUtilities.setComponentSize( this, 32, 32 );
+
+			addActionListener( this );
+			this.frameClass = frameClass;
+
+			Object [] parameters;
+			if ( frameClass == LicenseDisplay.class )
+			{
+				parameters = new Object[4];
+				parameters[0] = "KoLmafia: Copyright Notice";
+				parameters[1] = new VersionDataPanel();
+				parameters[2] = LICENSE_FILENAME;
+				parameters[3] = LICENSE_NAME;
+			}
+			else
+			{
+				parameters = new KoLmafia[1];
+				parameters[0] = client;
+			}
+
+			this.displayer = new CreateFrameRunnable( frameClass, parameters );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			displayer.setEnabled( isEnabled );
+			SwingUtilities.invokeLater( displayer );
+		}
+	}
+
+
+	/**
+	 * In order to keep the user interface from freezing (or at least
+	 * appearing to freeze), this internal class is used to process
+	 * the request for viewing frames.
+	 */
+
 	protected class DisplayFrameMenuItem extends JMenuItem implements ActionListener
 	{
 		private Class frameClass;
@@ -913,33 +887,29 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * to the given frame whenever an action event is triggered.
 	 */
 
-	protected class MiniBrowserMenuItem extends JMenuItem implements ActionListener
+	protected class MiniBrowserButton extends JButton implements ActionListener
 	{
 		private String location;
 		private boolean useSavedRequest;
 
-		public MiniBrowserMenuItem( String title, String location, boolean useSavedRequest )
+		public MiniBrowserButton()
 		{
-			super( title );
+			super( JComponentUtilities.getSharedImage( "browser.gif" ) );
+			JComponentUtilities.setComponentSize( this, 32, 32 );
 			addActionListener( this );
-
-			this.location = location;
-			this.useSavedRequest = useSavedRequest;
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( useSavedRequest )
+			KoLRequest request = client.getCurrentRequest();
+			if ( request != null )
 			{
-				KoLRequest request = client.getCurrentRequest();
-				if ( request != null )
-				{
-					client.setCurrentRequest( null );
-					openRequestFrame( request );
-					return;
-				}
+				client.setCurrentRequest( null );
+				openRequestFrame( request );
+				return;
 			}
-			openRequestFrame( location );
+			else
+				openRequestFrame( "main.php" );
 		}
 	}
 
@@ -995,6 +965,57 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 					method.invoke( object, null );
 				}
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+	}
+
+	/**
+	 * Internal class used to invoke the given no-parameter
+	 * method on the given object.  This is used whenever
+	 * there is the need to invoke a method and the creation
+	 * of an additional class is unnecessary.
+	 */
+
+	protected class InvocationButton extends JButton implements ActionListener, Runnable
+	{
+		private Object object;
+		private Method method;
+
+		public InvocationButton( String icon, Object object, String methodName )
+		{
+			this( icon, object == null ? null : object.getClass(), methodName );
+			this.object = object;
+		}
+
+		public InvocationButton( String icon, Class c, String methodName )
+		{
+			super( JComponentUtilities.getSharedImage( icon ) );
+			JComponentUtilities.setComponentSize( this, 32, 32 );
+			addActionListener( this );
+
+			try
+			{
+				this.object = object;
+				this.method = c.getMethod( methodName, NOPARAMS );
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new DaemonThread( this )).start();
+		}
+
+		public void run()
+		{
+			try
+			{
+				if ( method != null )
+					method.invoke( object, null );
 			}
 			catch ( Exception e )
 			{
@@ -1249,35 +1270,32 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[ KoLFrame.this instanceof AdventureFrame ? 5 : 3 ];
+			JComponent [] headers = new JComponent[ 5 ];
 
 			headers[0] = new LoadScriptMenuItem();
 			headers[1] = new ToggleMacroMenuItem();
 			headers[2] = new RefreshScriptsMenuItem();
 
-			if ( KoLFrame.this instanceof AdventureFrame )
-			{
-				headers[3] = new JSeparator();
+			headers[3] = new JSeparator();
 
-				JMenu modulesMenu = new JMenu( "Built-In Scripts" );
+			JMenu modulesMenu = new JMenu( "Built-In Scripts" );
 
-				modulesMenu.add( new InvocationMenuItem( "Get Breakfast!", client, "getBreakfast" ) );
-				modulesMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", client, "pwnClanOtori" ) );
+			modulesMenu.add( new InvocationMenuItem( "Get Breakfast!", client, "getBreakfast" ) );
+			modulesMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", client, "pwnClanOtori" ) );
 
-				modulesMenu.add( new JSeparator() );
+			modulesMenu.add( new JSeparator() );
 
-				modulesMenu.add( new InvocationMenuItem( "Face Nemesis", Nemesis.class, "faceNemesis" ) );
-				modulesMenu.add( new InvocationMenuItem( "Rob Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
+			modulesMenu.add( new InvocationMenuItem( "Face Nemesis", Nemesis.class, "faceNemesis" ) );
+			modulesMenu.add( new InvocationMenuItem( "Rob Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
 
-				modulesMenu.add( new JSeparator() );
+			modulesMenu.add( new JSeparator() );
 
-				modulesMenu.add( new InvocationMenuItem( "Lair Entryway", SorceressLair.class, "completeEntryway" ) );
-				modulesMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
-				modulesMenu.add( new InvocationMenuItem( "Tower Guardians", SorceressLair.class, "fightTowerGuardians" ) );
-				modulesMenu.add( new InvocationMenuItem( "Naughty Chamber", SorceressLair.class, "completeSorceressChamber" ) );
+			modulesMenu.add( new InvocationMenuItem( "Lair Entryway", SorceressLair.class, "completeEntryway" ) );
+			modulesMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
+			modulesMenu.add( new InvocationMenuItem( "Tower Guardians", SorceressLair.class, "fightTowerGuardians" ) );
+			modulesMenu.add( new InvocationMenuItem( "Naughty Chamber", SorceressLair.class, "completeSorceressChamber" ) );
 
-				headers[4] = modulesMenu;
-			}
+			headers[4] = modulesMenu;
 
 			return headers;
 		}
