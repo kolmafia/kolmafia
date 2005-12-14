@@ -64,7 +64,7 @@ public class HagnkStorageFrame extends KoLFrame
 	{
 		super( client, "Ancestral Storage" );
 
-		if ( client != null && client.getStorage().isEmpty() )
+		if ( client != null && KoLCharacter.getStorage().isEmpty() )
 			(new RequestThread( new ItemStorageRequest( client ) )).start();
 
 		tabs = new JTabbedPane();
@@ -152,7 +152,7 @@ public class HagnkStorageFrame extends KoLFrame
 	private class HagnkStoragePanel extends ItemManagePanel
 	{
 		public HagnkStoragePanel()
-		{	super( "Inside Storage", "put in bag", "put in closet", client == null ? new LockableListModel() : client.getStorage() );
+		{	super( "Inside Storage", "put in bag", "put in closet", KoLCharacter.getStorage() );
 		}
 
 		protected void actionConfirmed()
@@ -188,6 +188,24 @@ public class HagnkStorageFrame extends KoLFrame
 				requests[1] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
 			(new RequestThread( requests )).start();
+		}
+	}
+
+	protected class FilterMenuItem extends JCheckBoxMenuItem implements ActionListener
+	{
+		public FilterMenuItem( String name )
+		{	this( name, true );
+		}
+
+		public FilterMenuItem( String name, boolean isSelected )
+		{
+			super( name );
+			setSelected( isSelected );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	refreshFilters();
 		}
 	}
 

@@ -101,7 +101,6 @@ public abstract class KoLmafia implements KoLConstants
 	private TreeMap seenPlayerNames = new TreeMap();
 
 	protected SortedListModel tally = new SortedListModel();
-	protected SortedListModel storage = new SortedListModel();
 	protected SortedListModel missingItems = new SortedListModel();
 	protected SortedListModel hunterItems = new SortedListModel();
 	protected LockableListModel restaurantItems = new LockableListModel();
@@ -234,7 +233,6 @@ public abstract class KoLmafia implements KoLConstants
 		this.conditions.clear();
 		this.missingItems.clear();
 
-		this.storage.clear();
 		this.hunterItems.clear();
 		this.restaurantItems.clear();
 		this.microbreweryItems.clear();
@@ -791,15 +789,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public LockableListModel getGalaktikCures()
 	{	return galaktikCures;
-	}
-
-	/**
-	 * Retrieves the character's storage contents.
-	 * @return	The character's items in storage
-	 */
-
-	public SortedListModel getStorage()
-	{	return storage;
 	}
 
 	/**

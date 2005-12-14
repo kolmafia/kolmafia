@@ -136,8 +136,6 @@ public class ItemManageFrame extends KoLFrame
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
-
-		refreshFilters();
 	}
 
 	/**

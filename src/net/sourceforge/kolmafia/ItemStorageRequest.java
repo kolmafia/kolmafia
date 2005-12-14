@@ -78,7 +78,7 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		if ( moveType == PULL_MEAT_FROM_STORAGE )
 		{
-			source = client.getStorage();
+			source = KoLCharacter.getStorage();
 			destination = KoLCharacter.getInventory();
 		}
 	}
@@ -127,7 +127,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		}
 		else if ( moveType == STORAGE_TO_INVENTORY )
 		{
-			source = client.getStorage();
+			source = KoLCharacter.getStorage();
 			destination = KoLCharacter.getInventory();
 		}
 	}
@@ -238,7 +238,7 @@ public class ItemStorageRequest extends SendMessageRequest
 	{
 		super.run();
 
-		List storageContents = client.getStorage();
+		List storageContents = KoLCharacter.getStorage();
 
 		// Start with an empty list
 

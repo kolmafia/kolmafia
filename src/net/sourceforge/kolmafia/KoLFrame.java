@@ -76,15 +76,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListDataListener;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.event.HyperlinkEvent;
 
 // basic utilities
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URLEncoder;
 import java.lang.reflect.Method;
 
 import java.util.List;
@@ -92,8 +87,6 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 // other stuff
 import javax.swing.SwingUtilities;
@@ -758,69 +751,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
-	 * A generic panel which adds a label to the bottom of the KoLPanel
-	 * to update the panel's status.  It also provides a thread which is
-	 * guaranteed to be a daemon thread for updating the frame which
-	 * also retrieves a reference to the client's current settings.
-	 */
-
-	protected abstract class LabeledKoLPanel extends KoLPanel
-	{
-		private String panelTitle;
-		private JPanel actionStatusPanel;
-		private JLabel actionStatusLabel;
-
-		public LabeledKoLPanel( String panelTitle, Dimension left, Dimension right )
-		{	this( panelTitle, "apply", "defaults", left, right );
-		}
-
-		public LabeledKoLPanel( String panelTitle, String confirmButton, String cancelButton, Dimension left, Dimension right )
-		{
-			super( confirmButton, cancelButton, left, right, true );
-			this.panelTitle = panelTitle;
-		}
-
-		protected void setContent( VerifiableElement [] elements )
-		{	setContent( elements, true );
-		}
-
-		protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
-		{	setContent( elements, isLabelPreceeding, false );
-		}
-
-		protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding, boolean bothDisabledOnClick )
-		{
-			super.setContent( elements, null, null, isLabelPreceeding, bothDisabledOnClick );
-
-			if ( panelTitle != null )
-				add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
-
-			add( actionStatusPanel, BorderLayout.SOUTH );
-		}
-
-		public void setStatusMessage( int displayState, String s )
-		{
-			if ( !s.equals( "" ) )
-				actionStatusLabel.setText( s );
-		}
-
-		protected void actionCancelled()
-		{
-		}
-
-		public void requestFocus()
-		{
-		}
-	}
-
-	/**
 	 * An internal class which creates a panel which manages items.
 	 * This is done because most of the item management displays
 	 * are replicated.  Note that a lot of this code was borrowed
@@ -846,53 +776,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			super.setEnabled( isEnabled );
 			elementList.setEnabled( isEnabled );
-		}
-	}
-
-	/**
-	 * An internal class which creates a panel which displays
-	 * a generic scroll pane.  Note that the code for this
-	 * frame was lifted from the ActionVerifyPanel found in
-	 * the Spellcast package.
-	 */
-
-	protected abstract class LabeledScrollPanel extends ActionPanel
-	{
-		protected JPanel actualPanel;
-		protected VerifyButtonPanel buttonPanel;
-		protected JComponent scrollComponent;
-
-		public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent )
-		{
-			this.scrollComponent = scrollComponent;
-
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new BorderLayout() );
-
-			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-			centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText );
-			buttonPanel.setBothDisabledOnClick( true );
-
-			actualPanel = new JPanel();
-			actualPanel.setLayout( new BorderLayout( 20, 10 ) );
-			actualPanel.add( centerPanel, BorderLayout.CENTER );
-			actualPanel.add( buttonPanel, BorderLayout.EAST );
-
-			setLayout( new CardLayout( 10, 10 ) );
-			add( actualPanel, "" );
-			buttonPanel.setBothDisabledOnClick( true );
-		}
-
-		protected abstract void actionConfirmed();
-		protected abstract void actionCancelled();
-
-		public void setEnabled( boolean isEnabled )
-		{
-			scrollComponent.setEnabled( isEnabled );
-			buttonPanel.setEnabled( isEnabled );
 		}
 	}
 
@@ -994,149 +877,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * inside of a <code>JEditorPane</code>.
 	 */
 
-	protected class KoLHyperlinkAdapter implements HyperlinkListener
+	protected class KoLHyperlinkAdapter extends HyperlinkAdapter
 	{
-		public void hyperlinkUpdate( HyperlinkEvent e )
-		{
-			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
-			{
-				String location = e.getDescription();
-
-				if ( location.startsWith( "http://" ) || location.startsWith( "https://" ) )
-				{
-					// Attempt to open the URL on the system's default
-					// browser.  This could theoretically cause problems,
-					// but for now, let's just do a try-catch and cross
-					// our fingers.
-
-					try
-					{
-						BrowserLauncher.openURL( location );
-					}
-					catch ( java.io.IOException e1 )
-					{
-						KoLmafia.getLogStream().println( "Failed to open browser:" );
-						KoLmafia.getLogStream().print( e1 );
-						e1.printStackTrace( KoLmafia.getLogStream() );
-					}
-				}
-				else if ( location.startsWith( "javascript:" ) && (location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1) )
-				{
-					// The default editor pane does not handle
-					// Javascript links.  Adding support would
-					// be an unnecessary time investment.
-
-					JOptionPane.showMessageDialog( null, "Ironically, Java does not support Javascript." );
-				}
-				else if ( location.indexOf( "submit()" ) == -1 )
-				{
-					// If it's a link internal to KoL, handle the
-					// internal link.  Note that by default, this
-					// method does nothing, but descending classes
-					// can change this behavior.
-
-					handleInternalLink( location );
-				}
-				else
-				{
-					// If it's an attempt to submit an adventure form,
-					// examine the location string to see which form is
-					// being submitted and submit it manually.
-
-					String [] locationSplit = location.split( "\\." );
-					String formID = "\"" + locationSplit[ locationSplit.length - 2 ] + "\"";
-
-					String editorText = ((JEditorPane)e.getSource()).getText();
-					int formIndex =  editorText.indexOf( formID );
-
-					String locationText = editorText.substring( editorText.lastIndexOf( "<form", formIndex ),
-						editorText.toLowerCase().indexOf( "</form>", formIndex ) );
-
-					Matcher inputMatcher = Pattern.compile( "<input.*?>" ).matcher( locationText );
-
-					Pattern [] actionPatterns = new Pattern[3];
-					Pattern [] namePatterns = new Pattern[3];
-					Pattern [] valuePatterns = new Pattern[3];
-
-					actionPatterns[0] = Pattern.compile( "action=\"(.*?)\"" );
-					namePatterns[0] = Pattern.compile( "name=\"(.*?)\"" );
-					valuePatterns[0]  = Pattern.compile( "value=\"(.*?)\"" );
-
-					actionPatterns[1] = Pattern.compile( "action=\'(.*?)\'" );
-					namePatterns[1] = Pattern.compile( "name=\'(.*?)\'" );
-					valuePatterns[1]  = Pattern.compile( "value=\'(.*?)\'" );
-
-					actionPatterns[2] = Pattern.compile( "action=([^\\s]*?)" );
-					namePatterns[2] = Pattern.compile( "name=([^\\s]*?)" );
-					valuePatterns[2] = Pattern.compile( "value=([^\\s]*?)" );
-
-					String lastInput;
-					int patternIndex;
-					Matcher actionMatcher, nameMatcher, valueMatcher;
-					StringBuffer inputString = new StringBuffer();
-
-					// Determine the action associated with the
-					// form -- this is used for the URL.
-
-					patternIndex = 0;
-					do
-					{
-						actionMatcher = actionPatterns[patternIndex].matcher( locationText );
-					}
-					while ( !actionMatcher.find() && ++patternIndex < 3 );
-
-					// Figure out which inputs need to be submitted.
-					// This is determined through the existing HTML,
-					// looking at preset values only.
-
-					while ( inputMatcher.find() )
-					{
-						lastInput = inputMatcher.group();
-
-						// Each input has a name associated with it.
-						// This should be determined first.
-
-						patternIndex = 0;
-						do
-						{
-							nameMatcher = namePatterns[patternIndex].matcher( lastInput );
-						}
-						while ( !nameMatcher.find() && ++patternIndex < 3 );
-
-						// Each input has a name associated with it.
-						// This should be determined next.
-
-						patternIndex = 0;
-						do
-						{
-							valueMatcher = valuePatterns[patternIndex].matcher( lastInput );
-						}
-						while ( !valueMatcher.find() && ++patternIndex < 3 );
-
-						// Append the latest input's name and value to
-						// the complete input string.
-
-						inputString.append( inputString.length() == 0 ? '?' : '&' );
-
-						try
-						{
-							inputString.append( URLEncoder.encode( nameMatcher.group(1), "UTF-8" ) );
-							inputString.append( '=' );
-							inputString.append( URLEncoder.encode( valueMatcher.group(1), "UTF-8" ) );
-						}
-						catch ( Exception e2 )
-						{
-						}
-					}
-
-					// Now that the entire form string is known, handle
-					// the appropriate internal link.
-
-					handleInternalLink( actionMatcher.group(1) + inputString.toString() );
-				}
-			}
-		}
-
 		protected void handleInternalLink( String location )
 		{
 			if ( location.startsWith( "desc" ) || location.startsWith( "doc" ) || location.startsWith( "searchp" ) )
@@ -1316,28 +1058,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
-	}
-
-	public void refreshFilters()
-	{
-	}
-
-	protected class FilterMenuItem extends JCheckBoxMenuItem implements ActionListener
-	{
-		public FilterMenuItem( String name )
-		{	this( name, true );
-		}
-
-		public FilterMenuItem( String name, boolean isSelected )
-		{
-			super( name );
-			setSelected( isSelected );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	refreshFilters();
-		}
 	}
 
 	/**
@@ -1601,175 +1321,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
-	/**
-	 * A special class which renders the menu holding the list of menu items
-	 * Tsynchronized to a lockable list model.
-	 */
-
-	protected abstract class MenuItemList extends JMenu implements ListDataListener
+	private class RequestMenuItem extends JMenuItem implements ActionListener
 	{
-		private int headerCount;
-		private LockableListModel model;
+		private KoLRequest request;
 
-		public MenuItemList( String title, LockableListModel model )
+		public RequestMenuItem( String title, KoLRequest request )
 		{
 			super( title );
-
-			// Add the headers to the list of items which
-			// need to be added.
-
-			JComponent [] headers = getHeaders();
-
-			for ( int i = 0; i < headers.length; ++i )
-				this.add( headers[i] );
-
-			// Add a separator between the headers and the
-			// elements displayed in the list.  Also go
-			// ahead and initialize the header count.
-
-			this.add( new JSeparator() );
-			this.headerCount = headers.length + 1;
-
-			// Now, add everything that's contained inside of
-			// the current list.
-
-			for ( int i = 0; i < model.size(); ++i )
-				this.add( (JComponent) model.get(i) );
-
-			// Add this as a listener to the list of so that
-			// the menu gets updated whenever the list updates.
-
-			model.addListDataListener( this );
+			this.request = request;
+			addActionListener( this );
 		}
 
-		public abstract JComponent [] getHeaders();
-
-		/**
-		 * Called whenever contents have been added to the original list; a
-		 * function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public synchronized void intervalAdded( ListDataEvent e )
-		{
-			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
-
-			if ( index1 >= source.size() || source.size() + headerCount == getMenuComponentCount() )
-				return;
-
-			for ( int i = index0; i <= index1; ++i )
-				add( (JComponent) source.get(i), i + headerCount );
-
-			validate();
-		}
-
-		/**
-		 * Called whenever contents have been removed from the original list;
-		 * a function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public synchronized void intervalRemoved( ListDataEvent e )
-		{
-			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
-
-			if ( index1 + headerCount >= getMenuComponentCount() || source.size() + headerCount == getMenuComponentCount() )
-				return;
-
-			for ( int i = index1; i >= index0; --i )
-				remove( i + headerCount );
-
-			validate();
-		}
-
-		/**
-		 * Called whenever contents in the original list have changed; a
-		 * function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public synchronized void contentsChanged( ListDataEvent e )
-		{
-			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
-
-			if ( index1 + headerCount >= getMenuComponentCount() || source.size() + headerCount == getMenuComponentCount() )
-				return;
-
-			for ( int i = index1; i >= index0; --i )
-			{
-				remove( i + headerCount );
-				add( (JComponent) source.get(i), i + headerCount );
-			}
-
-			validate();
-		}
-	}
-
-	/**
-	 * Utility class used to forward events to JButtons enclosed inside
-	 * of a JTable object.
-	 */
-
-	protected class ButtonEventListener extends MouseAdapter
-	{
-		private JTable table;
-
-		public ButtonEventListener( JTable table )
-		{	this.table = table;
-		}
-
-		public void mouseReleased( MouseEvent e )
-		{
-		    TableColumnModel columnModel = table.getColumnModel();
-
-		    int row = e.getY() / table.getRowHeight();
-		    int column = columnModel.getColumnIndexAtX( e.getX() );
-
-			if ( row >= 0 && row < table.getRowCount() && column >= 0 && column < table.getColumnCount() )
-			{
-				Object value = table.getValueAt( row, column );
-
-				if ( value instanceof JButton )
-				{
-					((JButton) value).dispatchEvent( SwingUtilities.convertMouseEvent( table, e, (JButton) value ) );
-					table.repaint();
-				}
-			}
-		}
-	}
-
-	protected class MouseListeningButton extends JButton implements MouseListener
-	{
-		public MouseListeningButton( ImageIcon icon )
-		{
-			super( icon );
-			addMouseListener( this );
-		}
-
-		public void mouseClicked( MouseEvent e )
-		{
-		}
-
-		public void mouseEntered( MouseEvent e )
-		{
-		}
-
-		public void mouseExited( MouseEvent e )
-		{
-		}
-
-		public void mousePressed( MouseEvent e )
-		{
-		}
-
-		public void mouseReleased( MouseEvent e )
-		{
+		public void actionPerformed( ActionEvent e )
+		{	(new RequestThread( request )).start();
 		}
 	}
 
@@ -1854,21 +1418,5 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected final String getProperty( String name )
 	{	return StaticEntity.getProperty( name );
-	}
-
-	private class RequestMenuItem extends JMenuItem implements ActionListener
-	{
-		private KoLRequest request;
-
-		public RequestMenuItem( String title, KoLRequest request )
-		{
-			super( title );
-			this.request = request;
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( request )).start();
-		}
 	}
 }

@@ -216,6 +216,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static SortedListModel inventory = new SortedListModel( AdventureResult.class );
 	private static SortedListModel closet = new SortedListModel( AdventureResult.class );
 	private static SortedListModel collection = new SortedListModel( AdventureResult.class );
+	private static SortedListModel storage = new SortedListModel( AdventureResult.class );
 	private static SortedListModel usables = new SortedListModel( AdventureResult.class );
 	private static SortedListModel sellables = new SortedListModel( AdventureResult.class );
 
@@ -310,6 +311,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		inventory.clear();
 		closet.clear();
+		storage.clear();
 		collection.clear();
 
 		activeEffects.clear();
@@ -1140,6 +1142,19 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to retrieve a list of the items contained within the character's storage.
+	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
+	 * and that any changes to the internal character collection will be reflected in the returned
+	 * <code>LockableListModel</code>.
+	 *
+	 * @return	A <code>SortedListModel</code> of the items in the character's collection
+	 */
+
+	public static SortedListModel getStorage()
+	{	return storage;
+	}
+
+	/**
 	 * Accessor method to retrieve all usable items contained within the character's inventory.
 	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
 	 * and that any changes to the internal character inventory will be reflected in the returned
@@ -1809,7 +1824,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		Iterator itemIterator = inventory.iterator();
 
-
 		while ( itemIterator.hasNext() )
 		{
 			currentItem = (AdventureResult) itemIterator.next();
@@ -1824,9 +1838,9 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 
 			if ( TradeableItemDatabase.getPriceByID( currentItem.getItemID() ) != 0 &&
-				currentItem.getCount( usables ) != currentItem.getCount() )
+				currentItem.getCount( sellables ) != currentItem.getCount() )
 			{
-				if ( currentItem.getCount( usables ) == 0 )
+				if ( currentItem.getCount( sellables ) == 0 )
 					sellables.add( currentItem );
 				else
 					sellables.set( sellables.indexOf( currentItem ), currentItem );

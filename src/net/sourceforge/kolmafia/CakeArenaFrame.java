@@ -43,6 +43,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -160,7 +162,40 @@ public class CakeArenaFrame extends KoLFrame
 		}
 	}
 
-	private class OpponentButton extends MouseListeningButton
+	/**
+	 * Utility class used to forward events to JButtons enclosed inside
+	 * of a JTable object.
+	 */
+
+	protected class ButtonEventListener extends MouseAdapter
+	{
+		private JTable table;
+
+		public ButtonEventListener( JTable table )
+		{	this.table = table;
+		}
+
+		public void mouseReleased( MouseEvent e )
+		{
+		    TableColumnModel columnModel = table.getColumnModel();
+
+		    int row = e.getY() / table.getRowHeight();
+		    int column = columnModel.getColumnIndexAtX( e.getX() );
+
+			if ( row >= 0 && row < table.getRowCount() && column >= 0 && column < table.getColumnCount() )
+			{
+				Object value = table.getValueAt( row, column );
+
+				if ( value instanceof JButton )
+				{
+					((JButton) value).dispatchEvent( SwingUtilities.convertMouseEvent( table, e, (JButton) value ) );
+					table.repaint();
+				}
+			}
+		}
+	}
+
+	private class OpponentButton extends JButton implements MouseListener
 	{
 		private int row, column;
 		private String skill;
@@ -168,6 +203,7 @@ public class CakeArenaFrame extends KoLFrame
 		public OpponentButton( int row, int column, Integer skill )
 		{
 			super( JComponentUtilities.getSharedImage( (skill == null ? "0" : skill.toString()) + "star.gif" ) );
+			addMouseListener( this );
 
 			this.row = row;
 			this.column = column;
@@ -190,6 +226,22 @@ public class CakeArenaFrame extends KoLFrame
 			catch ( Exception e1 )
 			{
 			}
+		}
+
+		public void mouseClicked( MouseEvent e )
+		{
+		}
+
+		public void mouseEntered( MouseEvent e )
+		{
+		}
+
+		public void mouseExited( MouseEvent e )
+		{
+		}
+
+		public void mousePressed( MouseEvent e )
+		{
 		}
 	}
 
