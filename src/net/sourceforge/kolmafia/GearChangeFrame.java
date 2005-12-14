@@ -99,18 +99,6 @@ public class GearChangeFrame extends KoLFrame
 		refreshEquipPanel();
 	}
 
-	protected void addMenuBar()
-	{
-		super.addMenuBar();
-
-		JMenuBar menuBar = getJMenuBar();
-		JMenu refreshMenu = new JMenu( "Refresh" );
-		menuBar.add( refreshMenu );
-
-		refreshMenu.add( new RefreshMenuItem( "Equipment", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
-		refreshMenu.add( new RefreshMenuItem( "Familiars", new FamiliarRequest( client ) ) );
-	}
-
 	/**
 	 * Sets all of the internal panels to a disabled or enabled state; this
 	 * prevents the user from modifying the data as it's getting sent, leading
@@ -211,40 +199,6 @@ public class GearChangeFrame extends KoLFrame
 		outfitSelect.setSelectedItem( null );
 		KoLCharacter.updateEquipmentLists();
 		setEnabled( true );
-	}
-
-	private class RefreshMenuItem extends JMenuItem implements ActionListener, Runnable
-	{
-		private KoLRequest request;
-
-		public RefreshMenuItem( String title, KoLRequest request )
-		{
-			super( title );
-			addActionListener( this );
-
-			this.request = request;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new DaemonThread( this )).start();
-		}
-
-		public void run()
-		{
-			GearChangeFrame.this.setEnabled( false );
-
-			if ( request instanceof FamiliarRequest )
-				familiarSelect.setSelectedItem( null );
-			else
-			{
-				for ( int i = 0; i < equipment.length; ++i )
-					equipment[i].setSelectedItem( null );
-			}
-
-			request.run();
-			refreshEquipPanel();
-			client.enableDisplay();
-		}
 	}
 
 	private class ChangeComboBox extends JComboBox implements Runnable

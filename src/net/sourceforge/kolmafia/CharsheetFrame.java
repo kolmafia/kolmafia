@@ -82,7 +82,7 @@ public class CharsheetFrame extends KoLFrame
 	private JLabel avatar;
 	private JLabel [] statusLabel;
 	private JProgressBar [] tnpDisplay;
-	private JButton refreshButton;
+
 
 	/**
 	 * Constructs a new character sheet, using the data located
@@ -121,13 +121,6 @@ public class CharsheetFrame extends KoLFrame
 		KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefreshRunnable() ) );
 	}
 
-	public void setEnabled( boolean isEnabled )
-	{
-		super.setEnabled( isEnabled );
-		if ( refreshButton != null )
-			refreshButton.setEnabled( isEnabled );
-	}
-
 	/**
 	 * Utility method used for creating a panel displaying the character's
 	 * avatar.
@@ -161,9 +154,6 @@ public class CharsheetFrame extends KoLFrame
 		this.avatar = new JLabel( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) );
 		imagePanel.add( avatar, BorderLayout.CENTER );
 
-		this.refreshButton = new JButton( "Refresh Status" );
-		refreshButton.addActionListener( new StatusRefreshListener() );
-		imagePanel.add( refreshButton, BorderLayout.SOUTH );
 		return imagePanel;
 	}
 
@@ -321,20 +311,6 @@ public class CharsheetFrame extends KoLFrame
 
 		// Set the current avatar
 		avatar.setIcon( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) );
-	}
-
-	private class StatusRefreshListener implements ActionListener, Runnable
-	{
-		public void actionPerformed( ActionEvent e )
-		{	(new DaemonThread( this )).start();
-		}
-
-		public void run()
-		{
-			(new CharsheetRequest( client )).run();
-			refreshStatus();
-			client.updateDisplay( ENABLE_STATE, "Status refreshed." );
-		}
 	}
 
 	private class StatusRefreshRunnable implements Runnable

@@ -409,6 +409,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		addScriptMenu( menuBar );
 		addOptionsMenu( menuBar );
 		addHelpMenu( menuBar );
+
+		addRefreshMenu( menuBar );
+	}
+
+	protected JMenu addRefreshMenu( JComponent menu )
+	{
+		JMenu refreshMenu = new JMenu();
+		menu.add( refreshMenu );
+
+		refreshMenu.setIcon( JComponentUtilities.getSharedImage( "refresh.gif" ) );
+		refreshMenu.add( new RequestMenuItem( "Status", new CharsheetRequest( client ) ) );
+		refreshMenu.add( new RequestMenuItem( "Inventory", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) );
+		refreshMenu.add( new RequestMenuItem( "Outfits", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
+		refreshMenu.add( new RequestMenuItem( "Familiars", new FamiliarRequest( client ) ) );
+		return refreshMenu;
 	}
 
 	/**
@@ -657,7 +672,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public RefreshScriptsMenuItem()
 		{
-			super( "Refresh Script Menu" );
+			super( "Script Menu" );
 			addActionListener( this );
 		}
 
@@ -1839,5 +1854,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected final String getProperty( String name )
 	{	return StaticEntity.getProperty( name );
+	}
+
+	private class RequestMenuItem extends JMenuItem implements ActionListener
+	{
+		private KoLRequest request;
+
+		public RequestMenuItem( String title, KoLRequest request )
+		{
+			super( title );
+			this.request = request;
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new RequestThread( request )).start();
+		}
 	}
 }

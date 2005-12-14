@@ -140,14 +140,6 @@ public class ItemManageFrame extends KoLFrame
 		refreshFilters();
 	}
 
-	protected void addMenuBar()
-	{
-		super.addMenuBar();
-		JMenuBar menuBar = getJMenuBar();
-
-		menuBar.add( new ListRefreshMenuItem() );
-	}
-
 	/**
 	 * Auxiliary method used to enable and disable a frame.  By default,
 	 * this attempts to toggle the enable/disable status on all tabs.
@@ -566,19 +558,6 @@ public class ItemManageFrame extends KoLFrame
 			selection.setQuantityNeeded( createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1 );
 
 			(new RequestThread( selection )).start();
-		}
-	}
-
-	private class ListRefreshMenuItem extends JMenuItem implements ActionListener
-	{
-		public ListRefreshMenuItem()
-		{
-			super( JComponentUtilities.getSharedImage( "refresh.gif" ) );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( new EquipmentRequest( client, EquipmentRequest.CLOSET ) )).start();
 		}
 	}
 

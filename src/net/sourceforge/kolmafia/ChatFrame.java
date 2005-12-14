@@ -140,37 +140,6 @@ public class ChatFrame extends KoLFrame
 	}
 
 	/**
-	 * Utility method used to add a menu bar to the <code>ChatFrame</code>.
-	 * The menu bar contains the general license information associated with
-	 * <code>KoLmafia</code> and the ability to save the chat to a log.
-	 */
-
-	protected void addMenuBar()
-	{
-		super.addMenuBar();
-		menuBar = getJMenuBar();
-
-		JMenu clicksMenu = new JMenu( "Namelinks" );
-		menuBar.add( clicksMenu, 0 );
-
-		clickGroup = new ButtonGroup();
-		clickOptions = new JRadioButtonMenuItem[4];
-		clickOptions[0] = new JRadioButtonMenuItem( "Open blue message", false );
-		clickOptions[1] = new JRadioButtonMenuItem( "Open green message", false );
-		clickOptions[2] = new JRadioButtonMenuItem( "Open purple message", false );
-		clickOptions[3] = new JRadioButtonMenuItem( "Open player profile", false );
-
-		int clickSelect = Integer.parseInt( getProperty( "nameClickOpens" ) );
-		clickOptions[ clickSelect ].setSelected( true );
-
-		for ( int i = 0; i < clickOptions.length; ++i )
-		{
-			clickGroup.add( clickOptions[i] );
-			clicksMenu.add( clickOptions[i] );
-		}
-	}
-
-	/**
 	 * Utility method called to initialize the frame.  This
 	 * method should be overridden, should a different means
 	 * of initializing the content of the frame be needed.
@@ -464,14 +433,14 @@ public class ChatFrame extends KoLFrame
 	private class MessengerButton extends JButton implements ActionListener
 	{
 		private String method;
-	
+
 		public MessengerButton( String title, String method )
 		{
 			super( title );
 			this.method = method;
 			this.addActionListener( this );
 		}
-		
+
 		public void actionPerformed( ActionEvent e )
 		{
 			if ( method.equals( "clearChatBuffers" ) )
