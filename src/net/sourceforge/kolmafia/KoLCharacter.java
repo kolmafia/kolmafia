@@ -348,7 +348,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean isFallingDown()
 	{
-		return getInebriety() > (KoLCharacter.accomplishments.contains( FRIARS ) ? 19 : 14);
+		return getInebriety() > (KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 : 14);
 	}
 
 	/**
