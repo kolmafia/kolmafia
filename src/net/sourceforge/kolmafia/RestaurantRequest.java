@@ -132,7 +132,7 @@ public class RestaurantRequest extends KoLRequest
 		}
 
 		int lastMatchIndex = 0;
-		Matcher purchaseMatcher = Pattern.compile( "<td>([\\w ]*?\\(.*? Meat\\))</td>" ).matcher( responseText );
+		Matcher purchaseMatcher = Pattern.compile( "<td>([\\w -]*?\\(.*? Meat\\))</td>" ).matcher( responseText );
 
 		List items = client.getRestaurantItems();
 
