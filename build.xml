@@ -46,7 +46,7 @@
            destdir="${build}"
            classpath="${lib}/*.jar" />
 
-    <copy todir="${build}">
+    <copy todir="${build}" preservelastmodified="true">
        <fileset dir="${src}">
           <exclude name="**/*.java"/>
        </fileset>
