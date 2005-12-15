@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 // containers
+import javax.swing.JToolBar;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -202,7 +203,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected boolean isEnabled;
 
 	protected JPanel framePanel;
-	protected JPanel toolbarPanel;
+	protected JToolBar toolbarPanel;
 	protected KoLPanel contentPanel;
 
 	protected JPanel compactPane;
@@ -226,11 +227,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );
 
-		this.toolbarPanel = new JPanel();
-		JPanel toolbarContainer = new JPanel();
-		toolbarContainer = new JPanel( new BorderLayout() );
-		toolbarContainer.add( this.toolbarPanel, BorderLayout.WEST );
-		getContentPane().add( toolbarContainer, BorderLayout.NORTH );
+		this.toolbarPanel = new JToolBar();
+		getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 
 		addToolBar();
 
@@ -416,20 +414,17 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected void addToolBar()
 	{
+		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
 		toolbarPanel.add( new MiniBrowserButton() );
 		toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
-
-		toolbarPanel.add( new JSeparator( JSeparator.VERTICAL ) );
 
 		toolbarPanel.add( new DisplayFrameButton( "Adventure", "adventure.gif", AdventureFrame.class ) );
 		toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
 		toolbarPanel.add( new DisplayFrameButton( "Gear Changer", "equipment.gif", GearChangeFrame.class ) );
 
-		toolbarPanel.add( new JSeparator( JSeparator.VERTICAL ) );
-
-		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
 		toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
 		toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );
+		toolbarPanel.add( new InvocationButton( "Debugger", "debug.gif", KoLmafia.class, "openDebugLog" ) );
 	}
 
 	protected JMenu addRefreshMenu( JComponent menu )
@@ -462,7 +457,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menu.add( statusMenu );
 
 		statusMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", LicenseDisplay.class ) );
-		statusMenu.add( new InvocationMenuItem( "Debugger", "debug.gif", KoLmafia.class, "openDebugLog" ) );
 
 		statusMenu.add( new JSeparator() );
 
