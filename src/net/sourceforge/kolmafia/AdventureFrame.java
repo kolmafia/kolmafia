@@ -137,8 +137,6 @@ public class AdventureFrame extends KoLFrame
 		framePanel.add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
 
-		addWindowListener( new LogoutRequestAdapter() );
-
 		try
 		{
 			String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );

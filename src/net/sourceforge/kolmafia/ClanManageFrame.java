@@ -45,13 +45,9 @@ import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 
 // event listeners
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
@@ -146,8 +142,6 @@ public class ClanManageFrame extends KoLFrame
 			setEnabled( false );
 			(new RequestThread( new ClanStashRequest( client ) )).start();
 		}
-
-		addWindowListener( new CloseManagerAdapter() );
 
 		JMenuBar menuBar = getJMenuBar();
 
@@ -712,21 +706,6 @@ public class ClanManageFrame extends KoLFrame
 
 				(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
 			}
-		}
-	}
-
-	/**
-	 * An internal class used to handle logout whenever the window
-	 * is closed.  An instance of this class is added to the window
-	 * listener list.
-	 */
-
-	private class CloseManagerAdapter extends LogoutRequestAdapter
-	{
-		public void windowClosed( WindowEvent e )
-		{
-			if ( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "3" ) )
-				super.windowClosed( e );
 		}
 	}
 

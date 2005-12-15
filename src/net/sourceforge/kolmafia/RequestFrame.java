@@ -75,6 +75,7 @@ public class RequestFrame extends KoLFrame
 	private LimitedSizeChatBuffer sideBuffer;
 	private CharpaneRequest sidePaneRequest;
 
+	protected JEditorPane sideDisplay;
 	protected JEditorPane mainDisplay;
 
 	public RequestFrame( KoLmafia client, KoLRequest request )
@@ -83,8 +84,7 @@ public class RequestFrame extends KoLFrame
 
 	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request )
 	{
-		this( client, null, request, request == null || request.getURLString().startsWith( "desc" ) ||
-			request.getURLString().startsWith( "doc" ) || request.getURLString().startsWith( "search" ) );
+		this( client, null, request, request == null || request.getURLString().equals( "main.php" ) );
 	}
 
 	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request, boolean hideSideBar )
@@ -123,14 +123,14 @@ public class RequestFrame extends KoLFrame
 		}
 		else
 		{
-			JEditorPane sideDisplay = new JEditorPane();
-			sideDisplay.setEditable( false );
-			sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
+			this.sideDisplay = new JEditorPane();
+			this.sideDisplay.setEditable( false );
+			this.sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
 			this.sideBuffer = new LimitedSizeChatBuffer( "", false );
 			this.sideBuffer.setChatDisplay( sideDisplay );
 
-			JScrollPane sideScroller = new JScrollPane( sideDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+			JScrollPane sideScroller = new JScrollPane( this.sideDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
 			JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
 
 			JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, sideScroller, mainScroller );
@@ -243,6 +243,7 @@ public class RequestFrame extends KoLFrame
 			sidePaneRequest.run();
 			sideBuffer.clearBuffer();
 			sideBuffer.append( getDisplayHTML( sidePaneRequest.responseText ) );
+			sideDisplay.setCaretPosition(0);
 		}
 	}
 

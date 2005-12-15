@@ -130,8 +130,6 @@ public class BuffBotFrame extends KoLFrame
 
 		addCompactPane();
 		framePanel.add( tabs, BorderLayout.CENTER );
-
-		addWindowListener( new DisableBuffBotAdapter() );
 	}
 
 	/**
@@ -492,24 +490,13 @@ public class BuffBotFrame extends KoLFrame
 		}
 	}
 
-	/**
-	 * An internal class used to handle logout whenever the window
-	 * is closed.  An instance of this class is added to the window
-	 * listener list.
-	 */
-
-	private class DisableBuffBotAdapter extends LogoutRequestAdapter
+	public void dispose()
 	{
-		public void windowClosed( WindowEvent e )
-		{
-			if ( client != null && !GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "1" ) )
-			{
-				BuffBotHome.deinitialize();
-				client.updateDisplay( NORMAL_STATE, "Buffbot deactivated." );
-			}
-			else
-				super.windowClosed( e );
-		}
+		super.dispose();
+		BuffBotHome.deinitialize();
+
+		if ( client != null )
+			client.updateDisplay( NORMAL_STATE, "Buffbot deactivated." );
 	}
 
 	/**
