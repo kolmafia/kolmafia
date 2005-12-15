@@ -181,12 +181,6 @@ public class AdventureFrame extends KoLFrame
 			skillBuff.setEnabled( this.isEnabled );
 			heroDonation.setEnabled( this.isEnabled );
 		}
-
-		Object [] frames = existingFrames.toArray();
-
-		for ( int i = 0; i < frames.length; ++i )
-			if ( frames[i] != this )
-				((KoLFrame) frames[i]).setEnabled( isEnabled );
 	}
 
 	private class StatusLabel extends JLabel

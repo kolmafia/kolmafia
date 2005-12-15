@@ -91,8 +91,14 @@ public class KoLmafiaGUI extends KoLmafia
 				BuffBotHome.updateStatus( message );
 		}
 
-		if ( state != NORMAL_STATE )
-			isEnabled = state != DISABLE_STATE;
+		isEnabled = state != NORMAL_STATE && state != DISABLE_STATE;
+
+		Object [] frames = existingFrames.toArray();
+
+		for ( int i = 0; i < frames.length; ++i )
+			if ( frames[i] != this )
+				((KoLFrame) frames[i]).setEnabled( isEnabled );
+
 	}
 
 	public boolean isEnabled()

@@ -261,6 +261,8 @@ public abstract class StoreManager extends StaticEntity
 						priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + "(limit " + df.format( currentItem.getLimit() ) + ") @ " + df.format( currentItem.getPrice() ) );
 				}
 			}
+
+			client.updateDisplay( ENABLE_STATE, "" );
 		}
 	}
 
