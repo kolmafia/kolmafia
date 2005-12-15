@@ -47,7 +47,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class FightFrame extends RequestFrame
 {
 	public FightFrame( KoLmafia client, KoLRequest request )
-	{	super( client, null, request, true );
+	{	super( client, null, request );
 	}
 
 	public static void finishInBrowser( KoLmafia client )

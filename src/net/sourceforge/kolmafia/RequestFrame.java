@@ -71,7 +71,7 @@ public class RequestFrame extends KoLFrame
 	private KoLRequest currentRequest;
 	private LimitedSizeChatBuffer mainBuffer;
 
-	private boolean hideSideBar;
+	private boolean showSideBar;
 	private LimitedSizeChatBuffer sideBuffer;
 	private CharpaneRequest sidePaneRequest;
 
@@ -87,13 +87,13 @@ public class RequestFrame extends KoLFrame
 		this( client, null, request, request == null || request.getURLString().equals( "main.php" ) );
 	}
 
-	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request, boolean hideSideBar )
+	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request, boolean showSideBar )
 	{
 		super( client, "" );
 
 		this.parent = parent;
 		this.currentRequest = request;
-		this.hideSideBar = hideSideBar;
+		this.showSideBar = showSideBar;
 		this.combatRound = 1;
 
 		if ( request != null && request instanceof FightRequest )
@@ -113,7 +113,7 @@ public class RequestFrame extends KoLFrame
 		// Game text descriptions and player searches should not add
 		// extra requests to the server by having a side panel.
 
-		if ( hideSideBar )
+		if ( !showSideBar )
 		{
 			this.sideBuffer = null;
 
@@ -238,7 +238,7 @@ public class RequestFrame extends KoLFrame
 
 	private void refreshSidePane()
 	{
-		if ( !hideSideBar )
+		if ( showSideBar )
 		{
 			sidePaneRequest.run();
 			sideBuffer.clearBuffer();
@@ -344,7 +344,7 @@ public class RequestFrame extends KoLFrame
 			// is seen in the response text, or in the event that you
 			// switch between compact and full mode, refresh the sidebar.
 
-			if ( !hideSideBar && sidePaneRequest == null )
+			if ( showSideBar && sidePaneRequest == null )
 			{
 				sidePaneRequest = new CharpaneRequest( client );
 				refreshSidePane();
@@ -353,7 +353,7 @@ public class RequestFrame extends KoLFrame
 			if ( client.processResults( currentRequest.responseText ) || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
 			{
 				KoLCharacter.refreshCalculatedLists();
-				if ( !hideSideBar )
+				if ( showSideBar )
 					refreshSidePane();
 			}
 
