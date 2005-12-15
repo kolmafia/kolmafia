@@ -53,6 +53,7 @@ import java.awt.event.AdjustmentListener;
 import javax.swing.SwingUtilities;
 
 // containers
+import javax.swing.JToolBar;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -107,6 +108,7 @@ public class ChatFrame extends KoLFrame
 		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
 
+		toolbarPanel.add( new JToolBar.Separator() );
 		toolbarPanel.add( new MessengerButton( "clear.gif", "clearChatBuffers" ) );
 		toolbarPanel.add( new MessengerButton( "highlight1.gif", "addHighlighting" ) );
 		toolbarPanel.add( new MessengerButton( "highlight2.gif", "removeHighlighting" ) );
