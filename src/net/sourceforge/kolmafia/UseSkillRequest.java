@@ -91,8 +91,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( o == null || !(o instanceof UseSkillRequest) )
 			return -1;
 
-		return ClassSkillsDatabase.getMPConsumptionByID( skillID ) -
+		int mpDifference = ClassSkillsDatabase.getMPConsumptionByID( skillID ) -
 			ClassSkillsDatabase.getMPConsumptionByID( ((UseSkillRequest)o).skillID );
+
+		return mpDifference != 0 ? mpDifference : skillName.compareToIgnoreCase( ((UseSkillRequest)o).skillName );
 	}
 
 	public int getBuffCount()
