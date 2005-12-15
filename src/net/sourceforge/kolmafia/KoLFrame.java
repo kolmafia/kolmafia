@@ -428,10 +428,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			toolbarPanel.add( new MiniBrowserButton() );
 			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
+			toolbarPanel.add( new InvocationButton( "Chat of Loathing", "chat.gif", KoLMessenger.class, "initialize" ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
+
 			toolbarPanel.add( new DisplayFrameButton( "Adventure", "hourglass.gif", AdventureFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", CouncilFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Status", "hp.gif", CharsheetFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Equipment", "equipment.gif", GearChangeFrame.class ) );
 
@@ -491,7 +494,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenu travelMenu = new JMenu( "Travel" );
 		menu.add( travelMenu );
 
-		travelMenu.add( new DisplayFrameMenuItem( "Visit Council", CouncilFrame.class ) );
 		travelMenu.add( new InvocationMenuItem( "Eat Cake-Arena", client, "visitCakeShapedArena" ) );
 		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", client, "makeGalaktikRequest" ) );
 		travelMenu.add( new DisplayFrameMenuItem( "Knoll Mushrooms", MushroomFrame.class ) );
@@ -504,7 +506,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenu commMenu = new JMenu( "People" );
 		menu.add( commMenu );
 
-		commMenu.add( new InvocationMenuItem( "Chat of Loathing", KoLMessenger.class, "initialize" ) );
 		commMenu.add( new DisplayFrameMenuItem( "IcePenguin Express", MailboxFrame.class ) );
 		commMenu.add( new DisplayFrameMenuItem( "Administrate Clan", ClanManageFrame.class ) );
 
