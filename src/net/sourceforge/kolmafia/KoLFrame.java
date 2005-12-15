@@ -1484,26 +1484,30 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[ KoLCharacter.inMysticalitySign() ? 12 : 11 ];
+			JComponent [] headers = new JComponent[5];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
 			headers[2] = new JSeparator();
 
-			headers[3] = new DisplayPageMenuItem( "Visual Wiki", "http://www.thekolwiki.net/" );
-			headers[4] = new DisplayPageMenuItem( "Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" );
-			headers[5] = new DisplayPageMenuItem( "Moxie Survival", "http://kol.network-forums.com/cgi-bin/moxie.cgi" );
+			JMenu helperMenu = new JMenu( "Helper Sites" );
+			helperMenu.add( new DisplayPageMenuItem( "Visual Wiki", "http://www.thekolwiki.net/" ) );
+			helperMenu.add( new DisplayPageMenuItem( "Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
+			helperMenu.add( new DisplayPageMenuItem( "Moxie Survival", "http://kol.network-forums.com/cgi-bin/moxie.cgi" ) );
 
-			headers[6] = new JSeparator();
+			headers[3] = helperMenu;
 
-			headers[7] = new DisplayPageMenuItem( "Loot the Hermit", "hermit.php" );
-			headers[8] = new DisplayPageMenuItem( "Mountain Trapper", "trapper.php" );
-			headers[9] = new DisplayPageMenuItem( "Bounty Hunter", "town_wrong?place=bountyhunter" );
-			headers[10] = new DisplayPageMenuItem( "Untinker Items", "town_right.php?place=untinker" );
+			JMenu tradeMenu = new JMenu( "Trading Areas" );
+
+			tradeMenu.add( new DisplayRequestMenuItem( "Loot the Hermit", "hermit.php" ) );
+			tradeMenu.add( new DisplayRequestMenuItem( "Mountain Trapper", "trapper.php" ) );
+			tradeMenu.add( new DisplayRequestMenuItem( "Bounty Hunter", "town_wrong?place=bountyhunter" ) );
+			tradeMenu.add( new DisplayRequestMenuItem( "Untinker Items", "town_right.php?place=untinker" ) );
 
 			if ( KoLCharacter.inMysticalitySign() )
-				headers[11] = new DisplayPageMenuItem( "Canadian Device", "canadia.php?place=machine" );
+				tradeMenu.add( new DisplayPageMenuItem( "Canadian Device", "canadia.php?place=machine" ) );
 
+			headers[4] = tradeMenu;
 			return headers;
 		}
 
