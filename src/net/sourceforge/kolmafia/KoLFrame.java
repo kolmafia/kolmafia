@@ -661,8 +661,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					return;
 
 				(new KoLmafiaCLI( client, new FileInputStream( executePath ) )).listenForCommands();
-
-				client.enableDisplay();
 			}
 			catch ( Exception e )
 			{
@@ -672,14 +670,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				client.updateDisplay( ERROR_STATE, "Script \"" + executePath + "\" could not be loaded." );
 				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
-
-				return;
 			}
 
-			if ( client.permitsContinue() )
-				client.updateDisplay( NORMAL_STATE, "Script completed successfully." );
-
-			setEnabled( true );
+			client.enableDisplay();
 		}
 	}
 
