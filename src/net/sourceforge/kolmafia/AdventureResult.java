@@ -538,12 +538,12 @@ public class AdventureResult implements Comparable, KoLConstants
 	{	return new AutoSellCellRenderer();
 	}
 
-	public static DefaultListCellRenderer getConsumableCellRenderer( boolean food, boolean booze, boolean other )
-	{	return new ConsumableCellRenderer( food, booze, other );
+	public static DefaultListCellRenderer getConsumableCellRenderer()
+	{	return new ConsumableCellRenderer();
 	}
 
-	public static DefaultListCellRenderer getCreatableCellRenderer( boolean food, boolean booze, boolean other )
-	{	return new CreatableCellRenderer( food, booze, other );
+	public static DefaultListCellRenderer getCreatableCellRenderer()
+	{	return new ConsumableCellRenderer();
 	}
 
 	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
@@ -578,7 +578,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				stringForm.append( df.format( autoSellValue ) + " meat" );
 
 			stringForm.append( ")" );
-			
+
 			if ( ar.count[0] > 1 )
 			{
 				stringForm.append( " (" );
@@ -593,14 +593,8 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private static class ConsumableCellRenderer extends DefaultListCellRenderer
 	{
-		protected boolean food, booze, other;
-
-		public ConsumableCellRenderer( boolean food, boolean booze, boolean other )
-		{
-			setOpaque( true );
-			this.food = food;
-			this.booze = booze;
-			this.other = other;
+		public ConsumableCellRenderer()
+		{	setOpaque( true );
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -625,12 +619,12 @@ public class AdventureResult implements Comparable, KoLConstants
 			switch ( TradeableItemDatabase.getConsumptionType( name ) )
 			{
 				case ConsumeItemRequest.CONSUME_EAT:
-					if ( !food )
+					if ( !KoLCharacter.canEat() )
 						return new JLabel();
 					break;
 
 				case ConsumeItemRequest.CONSUME_DRINK:
-					if ( !booze )
+					if ( !KoLCharacter.canDrink() )
 						return new JLabel();
 					break;
 
@@ -638,8 +632,6 @@ public class AdventureResult implements Comparable, KoLConstants
 				case ConsumeItemRequest.CONSUME_MULTIPLE:
 				case ConsumeItemRequest.GROW_FAMILIAR:
 				case ConsumeItemRequest.CONSUME_ZAP:
-					if ( !other )
-						return new JLabel();
 					break;
 
 				default:
@@ -654,27 +646,17 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private static class CreatableCellRenderer extends ConsumableCellRenderer
 	{
-		public CreatableCellRenderer( boolean food, boolean booze, boolean other )
-		{
-                        super( food, booze, other );
-		}
-
 		public Component getRendererComponent( JLabel defaultComponent, String name, int count )
 		{
 			switch ( TradeableItemDatabase.getConsumptionType( name ) )
 			{
 				case ConsumeItemRequest.CONSUME_EAT:
-					if ( !food )
+					if ( !KoLCharacter.canEat() )
 						return new JLabel();
 					break;
 
 				case ConsumeItemRequest.CONSUME_DRINK:
-					if ( !booze )
-						return new JLabel();
-					break;
-
-				default:
-					if ( !other )
+					if ( !KoLCharacter.canDrink() )
 						return new JLabel();
 					break;
 			}

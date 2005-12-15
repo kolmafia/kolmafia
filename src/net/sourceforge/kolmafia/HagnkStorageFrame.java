@@ -56,8 +56,6 @@ public class HagnkStorageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
 	private HagnkStoragePanel all, consume, equip;
-
-	private JCheckBoxMenuItem [] consumeFilter;
 	private JCheckBoxMenuItem [] equipFilter;
 
 	public HagnkStorageFrame( KoLmafia client )
@@ -71,6 +69,8 @@ public class HagnkStorageFrame extends KoLFrame
 		all = new HagnkStoragePanel();
 		consume = new HagnkStoragePanel();
 		equip = new HagnkStoragePanel();
+
+		consume.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer() );
 
 		addTab( "All Items", all );
 		addTab( "Consumables", consume );
@@ -95,19 +95,6 @@ public class HagnkStorageFrame extends KoLFrame
 
 		JMenuBar menuBar = getJMenuBar();
 
-		JMenu consumeMenu = new JMenu( "Consumables" );
-
-		consumeFilter = new JCheckBoxMenuItem[3];
-
-		consumeFilter[0] = new FilterMenuItem( "Show food", KoLCharacter.canEat() );
-		consumeFilter[1] = new FilterMenuItem( "Show booze", KoLCharacter.canDrink() );
-		consumeFilter[2] = new FilterMenuItem( "Show others", true );
-
-		for ( int i = 0; i < consumeFilter.length; ++i )
-			consumeMenu.add( consumeFilter[i] );
-
-		menuBar.add( consumeMenu );
-
 		JMenu equipMenu = new JMenu( "Equipment" );
 
 		equipFilter = new JCheckBoxMenuItem[6];
@@ -126,9 +113,6 @@ public class HagnkStorageFrame extends KoLFrame
 
 	public void refreshFilters()
 	{
-		consume.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
-			consumeFilter[0].isSelected(), consumeFilter[1].isSelected(), consumeFilter[2].isSelected() ) );
-
 		equip.elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer( equipFilter[0].isSelected(),
 			equipFilter[1].isSelected(), equipFilter[2].isSelected(), equipFilter[3].isSelected(), equipFilter[4].isSelected(),
 			equipFilter[5].isSelected() ) );

@@ -167,17 +167,21 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	public void run()
 	{
+		if ( moveType == RETRIEVE_STORAGE )
+			updateDisplay( DISABLE_STATE, "Retrieving list of items in storage..." );
+
 		switch ( moveType )
 		{
+			case STORAGE_TO_INVENTORY:
+				updateDisplay( DISABLE_STATE, "Moving items..." );
+
 			case RETRIEVE_STORAGE:
-				updateDisplay( DISABLE_STATE, "Retrieving list of items in storage..." );
 				parseStorage();
 				updateDisplay( NORMAL_STATE, "Item list retrieved." );
 				break;
 
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
-			case STORAGE_TO_INVENTORY:
 				updateDisplay( DISABLE_STATE, "Moving items..." );
 				super.run();
 				break;

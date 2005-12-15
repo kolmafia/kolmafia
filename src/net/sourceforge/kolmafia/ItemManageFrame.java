@@ -165,9 +165,9 @@ public class ItemManageFrame extends KoLFrame
 			special.setEnabled( isEnabled );
 	}
 
-	private class MultiButtonPanel extends JPanel
+	protected class MultiButtonPanel extends JPanel
 	{
-		private JPanel enclosingPanel;
+		protected JPanel enclosingPanel;
 		protected ShowDescriptionList elementList;
 
 		protected JButton [] buttons;
@@ -213,8 +213,8 @@ public class ItemManageFrame extends KoLFrame
 			}
 
 			JPanel southPanel = new JPanel( new BorderLayout() );
-			southPanel.add( moverPanel, BorderLayout.NORTH );
 			southPanel.add( containerPanel, BorderLayout.SOUTH );
+			southPanel.add( moverPanel, BorderLayout.NORTH );
 
 			enclosingPanel.add( southPanel, BorderLayout.NORTH );
 		}
@@ -398,8 +398,7 @@ public class ItemManageFrame extends KoLFrame
 		public ConsumePanel()
 		{
 			super( "Usable Items", "use one", "use multiple", KoLCharacter.getUsables() );
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
-				KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer() );
 		}
 
 		protected void actionConfirmed()
@@ -531,9 +530,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Create an Item", "create one", "create multiple", ConcoctionsDatabase.getConcoctions() );
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer(
-				KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			elementList.setCellRenderer( AdventureResult.getCreatableCellRenderer() );
 		}
 
 		protected void actionConfirmed()

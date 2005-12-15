@@ -35,6 +35,8 @@
 package net.sourceforge.kolmafia;
 
 // containers
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -415,10 +417,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected void addToolBar()
 	{
 		toolbarPanel.add( new MiniBrowserButton() );
-		toolbarPanel.add( new DisplayFrameButton( "inventory.gif", GearChangeFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "equipment.gif", GearChangeFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "preferences.gif", OptionsFrame.class ) );
-		toolbarPanel.add( new InvocationButton( "debug.gif", KoLmafia.class, "openDebugLog" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
+
+		toolbarPanel.add( new JSeparator( JSeparator.VERTICAL ) );
+
+		toolbarPanel.add( new DisplayFrameButton( "Adventure", "adventure.gif", AdventureFrame.class ) );
+		toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
+		toolbarPanel.add( new DisplayFrameButton( "Gear Changer", "equipment.gif", GearChangeFrame.class ) );
+
+		toolbarPanel.add( new JSeparator( JSeparator.VERTICAL ) );
+
+		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
+		toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
+		toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );
 	}
 
 	protected JMenu addRefreshMenu( JComponent menu )
@@ -451,9 +462,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menu.add( statusMenu );
 
 		statusMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", LicenseDisplay.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "KoL Almanac", CalendarFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
+		statusMenu.add( new InvocationMenuItem( "Debugger", "debug.gif", KoLmafia.class, "openDebugLog" ) );
 
 		statusMenu.add( new JSeparator() );
 
@@ -737,10 +746,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private Class frameClass;
 		private CreateFrameRunnable displayer;
 
-		public DisplayFrameButton( String icon, Class frameClass )
+		public DisplayFrameButton( String tooltip, String icon, Class frameClass )
 		{
 			super( JComponentUtilities.getSharedImage( icon ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
+			setToolTipText( tooltip );
 
 			addActionListener( this );
 			this.frameClass = frameClass;
@@ -897,6 +907,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super( JComponentUtilities.getSharedImage( "browser.gif" ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
 			addActionListener( this );
+			setToolTipText( "Mini-Browser" );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -935,8 +946,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public InvocationMenuItem( String title, Class c, String methodName )
+		{	this( title, null, c, methodName );
+		}
+
+		public InvocationMenuItem( String title, String icon, Class c, String methodName )
 		{
 			super( title );
+			if ( icon != null )
+				setIcon( JComponentUtilities.getSharedImage( icon ) );
+
 			addActionListener( this );
 
 			try
@@ -984,17 +1002,18 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private Object object;
 		private Method method;
 
-		public InvocationButton( String icon, Object object, String methodName )
+		public InvocationButton( String tooltip, String icon, Object object, String methodName )
 		{
-			this( icon, object == null ? null : object.getClass(), methodName );
+			this( tooltip, icon, object == null ? null : object.getClass(), methodName );
 			this.object = object;
 		}
 
-		public InvocationButton( String icon, Class c, String methodName )
+		public InvocationButton( String tooltip, String icon, Class c, String methodName )
 		{
 			super( JComponentUtilities.getSharedImage( icon ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
 			addActionListener( this );
+			setToolTipText( tooltip );
 
 			try
 			{

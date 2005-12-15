@@ -437,7 +437,7 @@ public class ChatFrame extends KoLFrame
 		public MessengerButton( String title, String method )
 		{
 			super( JComponentUtilities.getSharedImage( title ) );
-			JComponentUtilities.setComponentSize( this, 24, 24 );
+			JComponentUtilities.setComponentSize( this, 32, 32 );
 
 			this.method = method;
 			this.addActionListener( this );
