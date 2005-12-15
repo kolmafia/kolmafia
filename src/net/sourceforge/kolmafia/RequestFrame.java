@@ -64,9 +64,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class RequestFrame extends KoLFrame
 {
 	private static int combatRound;
-	private static LockableListModel bookmarks = new LockableListModel();
 
-	private JMenu bookmarkMenu;
 	private RequestFrame parent;
 	private KoLRequest currentRequest;
 	private LimitedSizeChatBuffer mainBuffer;
@@ -193,12 +191,6 @@ public class RequestFrame extends KoLFrame
 		gotoMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
 
 		menuBar.add( gotoMenu, 1 );
-
-		// All frames get the benefit of the bookmarks menu bar, eventhough it
-		// might be a little counterintuitive when viewing player profiles.
-
-		compileBookmarks();
-		menuBar.add( new BookmarkMenu(), 2 );
 	}
 
 	/**
@@ -248,37 +240,67 @@ public class RequestFrame extends KoLFrame
 	}
 
 	/**
-	 * Internal class which displays the given request inside
-	 * of the current frame.
+	 * Utility method which converts the given text into a form which
+	 * can be displayed properly in a <code>JEditorPane</code>.  This
+	 * method is necessary primarily due to the bad HTML which is used
+	 * but can still be properly rendered by post-3.2 browsers.
 	 */
 
-	private class DisplayRequestMenuItem extends JMenuItem implements ActionListener
+	protected String getDisplayHTML( String responseText )
 	{
-		private String location;
+		// Switch all the <BR> tags that are not understood
+		// by the default Java browser to an understood form,
+		// and remove all <HR> tags.
 
-		public DisplayRequestMenuItem( String label, String location )
-		{
-			super( label.replaceAll( "\\|", "" ) );
-			addActionListener( this );
-			this.location = location;
-		}
+		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
 
-		public void actionPerformed( ActionEvent e )
-		{
-			currentRequest = new KoLRequest( client, location );
-			(new DisplayRequestThread()).start();
-		}
+		// Fix all the super-small font displays used in the
+		// various KoL panes.
 
-		public String toString()
-		{	return getText();
-		}
+		displayHTML = displayHTML.replaceAll( "font-size: .8em;", "" ).replaceAll( "<font size=[12]>", "" ).replaceAll(
+			" class=small", "" ).replaceAll( " class=tiny", "" );
 
-		public String toSettingString()
-		{
-			return getText() +  "|" +
-				location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) + "|" +
-					String.valueOf( location.indexOf( "pwd=" ) != -1 );
-		}
+		// This is to replace all the rows with a black background
+		// because they are not properly rendered.
+
+		displayHTML = displayHTML.replaceAll( "<tr><td([^>]*?) bgcolor=black([^>]*?)>((</td>)?)</tr>", "<tr><td$1$2></td></tr>" );
+
+		// The default browser doesn't understand the table directive
+		// style="border: 1px solid black"; turn it into a simple "border=1"
+
+		displayHTML = displayHTML.replaceAll( "style=\"border: 1px solid black\"", "border=1" );
+
+		// turn:  <form...><td...>...</td></form>
+		// into:  <td...><form...>...</form></td>
+
+		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)", "$4$1$2" );
+		displayHTML = displayHTML.replaceAll( "</td></form>", "</form></td>" );
+
+		// turn:  <form...><tr...><td...>...</td></tr></form>
+		// into:  <tr...><td...><form...>...</form></td></tr>
+
+		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)<tr>(<td[^>]*>)", "<tr>$4$1$2" );
+		displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
+
+		// KoL also has really crazy nested Javascript links, and
+		// since the default browser doesn't recognize these, be
+		// sure to convert them to standard <A> tags linking to
+		// the correct document.
+
+		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\([\'\"](.*?)[\'\"].*?>", "<a href=\"$1\">" );
+		displayHTML = displayHTML.replaceAll( "<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
+
+		// The search form for viewing players has an </html>
+		// tag appearing right after </style>, which may confuse
+		// the HTML parser.
+
+		displayHTML = displayHTML.replaceAll( "</style></html>" , "</style>" );
+
+		// For some reason, character entitites are not properly
+		// handled by the mini browser.
+
+		displayHTML = displayHTML.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&infin;", "**" );
+		return displayHTML;
 	}
 
 	/**
@@ -286,7 +308,7 @@ public class RequestFrame extends KoLFrame
 	 * refresh the frame with data do not long the Swing thread.
 	 */
 
-	private class DisplayRequestThread extends DaemonThread
+	protected class DisplayRequestThread extends DaemonThread
 	{
 		public void run()
 		{
@@ -370,223 +392,4 @@ public class RequestFrame extends KoLFrame
 				MushroomPlot.parsePlot( currentRequest.responseText );
 		}
 	}
-
-	/**
-	 * Utility method which converts the given text into a form which
-	 * can be displayed properly in a <code>JEditorPane</code>.  This
-	 * method is necessary primarily due to the bad HTML which is used
-	 * but can still be properly rendered by post-3.2 browsers.
-	 */
-
-	protected String getDisplayHTML( String responseText )
-	{
-		// Switch all the <BR> tags that are not understood
-		// by the default Java browser to an understood form,
-		// and remove all <HR> tags.
-
-		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
-
-		// Fix all the super-small font displays used in the
-		// various KoL panes.
-
-		displayHTML = displayHTML.replaceAll( "font-size: .8em;", "" ).replaceAll( "<font size=[12]>", "" ).replaceAll(
-			" class=small", "" ).replaceAll( " class=tiny", "" );
-
-		// This is to replace all the rows with a black background
-		// because they are not properly rendered.
-
-		displayHTML = displayHTML.replaceAll( "<tr><td([^>]*?) bgcolor=black([^>]*?)>((</td>)?)</tr>", "<tr><td$1$2></td></tr>" );
-
-		// The default browser doesn't understand the table directive
-		// style="border: 1px solid black"; turn it into a simple "border=1"
-
-		displayHTML = displayHTML.replaceAll( "style=\"border: 1px solid black\"", "border=1" );
-
-		// turn:  <form...><td...>...</td></form>
-		// into:  <td...><form...>...</form></td>
-
-		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)", "$4$1$2" );
-		displayHTML = displayHTML.replaceAll( "</td></form>", "</form></td>" );
-
-		// turn:  <form...><tr...><td...>...</td></tr></form>
-		// into:  <tr...><td...><form...>...</form></td></tr>
-
-		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)<tr>(<td[^>]*>)", "<tr>$4$1$2" );
-		displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
-
-		// KoL also has really crazy nested Javascript links, and
-		// since the default browser doesn't recognize these, be
-		// sure to convert them to standard <A> tags linking to
-		// the correct document.
-
-		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\([\'\"](.*?)[\'\"].*?>", "<a href=\"$1\">" );
-		displayHTML = displayHTML.replaceAll( "<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
-
-		// The search form for viewing players has an </html>
-		// tag appearing right after </style>, which may confuse
-		// the HTML parser.
-
-		displayHTML = displayHTML.replaceAll( "</style></html>" , "</style>" );
-
-		// For some reason, character entitites are not properly
-		// handled by the mini browser.
-
-		displayHTML = displayHTML.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&infin;", "**" );
-		return displayHTML;
-	}
-
-	/**
-	 * Utility method to compile the list of bookmarks based on the
-	 * current server settings.
-	 */
-
-	private void compileBookmarks()
-	{
-		bookmarks.clear();
-
-		String [] bookmarkData = GLOBAL_SETTINGS.getProperty( "browserBookmarks" ).split( "\\|" );
-		String name, location, pwdhash;
-
-		if ( bookmarkData.length > 1 )
-		{
-			for ( int i = 0; i < bookmarkData.length; ++i )
-			{
-				name = bookmarkData[i];
-				location = bookmarkData[++i];
-				pwdhash = bookmarkData[++i];
-
-				if ( pwdhash.equals( "true" ) )
-					location += "&pwd=" + client.getPasswordHash();
-
-				bookmarks.add( new DisplayRequestMenuItem( name, location ) );
-			}
-		}
-	}
-
-	/**
-	 * Utility method to save the entire list of bookmarks to the settings
-	 * file.  This should be called after every update.
-	 */
-
-	private void saveBookmarks()
-	{
-		StringBuffer bookmarkData = new StringBuffer();
-
-		if ( !bookmarks.isEmpty() )
-			bookmarkData.append( ((DisplayRequestMenuItem)bookmarks.get(0)).toSettingString() );
-
-		for ( int i = 1; i < bookmarks.size(); ++i )
-		{
-			bookmarkData.append( '|' );
-			bookmarkData.append( ((DisplayRequestMenuItem)bookmarks.get(i)).toSettingString() );
-		}
-
-		GLOBAL_SETTINGS.setProperty( "browserBookmarks", bookmarkData.toString() );
-		GLOBAL_SETTINGS.saveSettings();
-	}
-
-	/**
-	 * A special class which renders the menu holding the list of bookmarks.
-	 * This class also synchronizes with the list of available bookmarks.
-	 */
-
-	private class BookmarkMenu extends MenuItemList
-	{
-		public BookmarkMenu()
-		{	super( "Bookmarks", bookmarks );
-		}
-
-		public JComponent [] getHeaders()
-		{
-			JComponent [] headers = new JComponent[5];
-
-			headers[0] = new AddBookmarkMenuItem();
-			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
-			headers[2] = new JSeparator();
-
-			JMenu spoilerMenu = new JMenu( "KoL Spoiler Sites" );
-			spoilerMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
-			spoilerMenu.add( new DisplayPageMenuItem( "KoL @ Coldfront", "http://kol.coldfront.net/" ) );
-			spoilerMenu.add( new DisplayPageMenuItem( "Jinya's KoL Wiki", "http://www.thekolwiki.net/" ) );
-
-			headers[3] = spoilerMenu;
-
-			JMenu refMenu = new JMenu( "Reference Tables" );
-			refMenu.add( new DisplayPageMenuItem( "Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
-			refMenu.add( new DisplayPageMenuItem( "KoL Helper", "http://www.agesoftime.com/kol/index.php" ) );
-			refMenu.add( new DisplayPageMenuItem( "Familiar Chart", "http://www.the-rye.dreamhosters.com/familiars/" ) );
-
-			headers[4] = refMenu;
-			return headers;
-		}
-
-		/**
-		 * An internal class which handles the addition of new
-		 * bookmarks to the bookmark menu.
-		 */
-
-		private class AddBookmarkMenuItem extends JMenuItem implements ActionListener
-		{
-			public AddBookmarkMenuItem()
-			{
-				super( "Bookmark This Page" );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				if ( client == null )
-					return;
-
-				String name = JOptionPane.showInputDialog( "Name your bookmark?" );
-
-				if ( name == null )
-					return;
-
-				bookmarks.add( new DisplayRequestMenuItem( name, getCurrentLocation() ) );
-				saveBookmarks();
-			}
-		}
-	}
-
-	/**
-	 * A special panel which generates a list of bookmarks which
-	 * can subsequently be managed.
-	 */
-
-	private class BookmarkManagePanel extends ItemManagePanel
-	{
-		public BookmarkManagePanel()
-		{
-			super( "Bookmark Management", "rename", "delete", bookmarks );
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		}
-
-		public void actionConfirmed()
-		{
-			DisplayRequestMenuItem currentItem = (DisplayRequestMenuItem) elementList.getSelectedValue();
-			if ( currentItem == null )
-				return;
-
-			String name = JOptionPane.showInputDialog( "Name your bookmark?", currentItem.getText() );
-
-			if ( name == null )
-				return;
-
-			currentItem.setText( name );
-			saveBookmarks();
-		}
-
-		public void actionCancelled()
-		{
-			int index = elementList.getSelectedIndex();
-			if ( index == -1 )
-				return;
-
-			bookmarks.remove( index );
-			saveBookmarks();
-		}
-	}
-
-
 }

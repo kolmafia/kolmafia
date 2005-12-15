@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 // containers
+import javax.swing.JDialog;
 import javax.swing.JToolBar;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -195,6 +196,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		return new LoadScriptMenuItem( (++addedScriptCount) + "	 " + name, path );
 	}
+
+	protected static LockableListModel bookmarks = new LockableListModel();
+	protected JMenu bookmarkMenu;
 
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "sungraphics-license.txt" };
 	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher", "Sun Graphics" };
@@ -411,6 +415,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		addTravelMenu( menuBar );
 		addPeopleMenu( menuBar );
 		addScriptMenu( menuBar );
+
+		// All frames get the benefit of the bookmarks menu bar, eventhough it
+		// might be a little counterintuitive when viewing player profiles.
+
+		compileBookmarks();
+		menuBar.add( new BookmarkMenu() );
+
 		addRefreshMenu( menuBar );
 	}
 
@@ -1436,5 +1447,218 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected final String getProperty( String name )
 	{	return StaticEntity.getProperty( name );
+	}
+
+	/**
+	 * Internal class which displays the given request inside
+	 * of the current frame.
+	 */
+
+	protected class DisplayRequestMenuItem extends JMenuItem implements ActionListener
+	{
+		private String location;
+
+		public DisplayRequestMenuItem( String label, String location )
+		{
+			super( label.replaceAll( "\\|", "" ) );
+			addActionListener( this );
+			this.location = location;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	openRequestFrame( location );
+		}
+
+		public String toString()
+		{	return getText();
+		}
+
+		public String toSettingString()
+		{
+			return getText() +  "|" +
+				location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) + "|" +
+					String.valueOf( location.indexOf( "pwd=" ) != -1 );
+		}
+	}
+
+	/**
+	 * A special class which renders the menu holding the list of bookmarks.
+	 * This class also synchronizes with the list of available bookmarks.
+	 */
+
+	protected class BookmarkMenu extends MenuItemList
+	{
+		public BookmarkMenu()
+		{	super( "Bookmarks", bookmarks );
+		}
+
+		public JComponent [] getHeaders()
+		{
+			JComponent [] headers = new JComponent[4];
+
+			headers[0] = new AddBookmarkMenuItem();
+			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
+			headers[2] = new JSeparator();
+
+			JMenu spoilerMenu = new JMenu( "KoL Spoiler Sites" );
+			spoilerMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
+			spoilerMenu.add( new DisplayPageMenuItem( "KoL @ Coldfront", "http://kol.coldfront.net/" ) );
+			spoilerMenu.add( new DisplayPageMenuItem( "Jinya's KoL Wiki", "http://www.thekolwiki.net/" ) );
+
+			spoilerMenu.add( new JSeparator() );
+
+			spoilerMenu.add( new DisplayPageMenuItem( "Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
+			spoilerMenu.add( new DisplayPageMenuItem( "Familiar Chart", "http://www.the-rye.dreamhosters.com/familiars/" ) );
+
+			headers[3] = spoilerMenu;
+			return headers;
+		}
+
+		/**
+		 * An internal class which handles the addition of new
+		 * bookmarks to the bookmark menu.
+		 */
+
+		private class AddBookmarkMenuItem extends JMenuItem implements ActionListener
+		{
+			public AddBookmarkMenuItem()
+			{
+				super( "Add Bookmark..." );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				AddBookmarkDialog prompter = new AddBookmarkDialog();
+				prompter.pack();  prompter.setVisible( true );
+			}
+		}
+
+		private class AddBookmarkDialog extends JDialog
+		{
+			public AddBookmarkDialog()
+			{
+				super( KoLFrame.this, "Add a KoLmafia Bookmark!" );
+				getContentPane().add( new AddBookmarkPanel() );
+			}
+
+			private class AddBookmarkPanel extends KoLPanel
+			{
+				private JTextField nameField;
+				private JTextField locationField;
+
+				public AddBookmarkPanel()
+				{
+					super( "add", "cancel" );
+
+					VerifiableElement [] elements = new VerifiableElement[2];
+					elements[0] = new VerifiableElement( "Name", nameField = new JTextField() );
+					elements[1] = new VerifiableElement( "Location", locationField = new JTextField() );
+					setContent( elements );
+				}
+
+				public void actionConfirmed()
+				{
+					bookmarks.add( new DisplayRequestMenuItem( nameField.getText(), locationField.getText() ) );
+					saveBookmarks();
+
+					AddBookmarkDialog.this.dispose();
+				}
+
+				public void actionCancelled()
+				{
+					AddBookmarkDialog.this.dispose();
+				}
+			}
+		}
+	}
+
+	/**
+	 * A special panel which generates a list of bookmarks which
+	 * can subsequently be managed.
+	 */
+
+	protected class BookmarkManagePanel extends ItemManagePanel
+	{
+		public BookmarkManagePanel()
+		{
+			super( "Bookmark Management", "rename", "delete", bookmarks );
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+		}
+
+		public void actionConfirmed()
+		{
+			DisplayRequestMenuItem currentItem = (DisplayRequestMenuItem) elementList.getSelectedValue();
+			if ( currentItem == null )
+				return;
+
+			String name = JOptionPane.showInputDialog( "Name your bookmark?", currentItem.getText() );
+
+			if ( name == null )
+				return;
+
+			currentItem.setText( name );
+			saveBookmarks();
+		}
+
+		public void actionCancelled()
+		{
+			int index = elementList.getSelectedIndex();
+			if ( index == -1 )
+				return;
+
+			bookmarks.remove( index );
+			saveBookmarks();
+		}
+	}
+
+	/**
+	 * Utility method to compile the list of bookmarks based on the
+	 * current server settings.
+	 */
+
+	protected void compileBookmarks()
+	{
+		bookmarks.clear();
+
+		String [] bookmarkData = GLOBAL_SETTINGS.getProperty( "browserBookmarks" ).split( "\\|" );
+		String name, location, pwdhash;
+
+		if ( bookmarkData.length > 1 )
+		{
+			for ( int i = 0; i < bookmarkData.length; ++i )
+			{
+				name = bookmarkData[i];
+				location = bookmarkData[++i];
+				pwdhash = bookmarkData[++i];
+
+				if ( pwdhash.equals( "true" ) )
+					location += "&pwd=" + client.getPasswordHash();
+
+				bookmarks.add( new DisplayRequestMenuItem( name, location ) );
+			}
+		}
+	}
+
+	/**
+	 * Utility method to save the entire list of bookmarks to the settings
+	 * file.  This should be called after every update.
+	 */
+
+	protected void saveBookmarks()
+	{
+		StringBuffer bookmarkData = new StringBuffer();
+
+		if ( !bookmarks.isEmpty() )
+			bookmarkData.append( ((DisplayRequestMenuItem)bookmarks.get(0)).toSettingString() );
+
+		for ( int i = 1; i < bookmarks.size(); ++i )
+		{
+			bookmarkData.append( '|' );
+			bookmarkData.append( ((DisplayRequestMenuItem)bookmarks.get(i)).toSettingString() );
+		}
+
+		GLOBAL_SETTINGS.setProperty( "browserBookmarks", bookmarkData.toString() );
+		GLOBAL_SETTINGS.saveSettings();
 	}
 }
