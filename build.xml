@@ -182,6 +182,25 @@
 
   </target>
 
+  <!-- =================================================== -->
+  <!--  generate the executable JAR file from clean state  -->
+  <!-- =================================================== -->
+
+  <target name="rejar"
+          depends="recompile"
+          description="generate the executable JAR file from clean state">
+
+    <jar destfile="${jarfile}"
+         basedir="${build}"
+         update="true">
+
+      <manifest>
+        <attribute name="Main-Class" value="${main-class}"/>
+      </manifest>
+
+    </jar>
+
+  </target>
 
   <!-- =================================================== -->
   <!--  checks to see if the current files in CVS compile  -->
