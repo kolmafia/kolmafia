@@ -394,7 +394,7 @@ public abstract class KoLmafia implements KoLConstants
 			(new UseSkillRequest( this, "Advanced Cocktailcrafting", "", 3 )).run();
 
 		resetContinueState();
-		updateDisplay( NORMAL_STATE, "Breakfast retrieved." );
+		updateDisplay( ENABLE_STATE, "Breakfast retrieved." );
 	}
 
 	/**
@@ -431,7 +431,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		resetContinueState();
-		updateDisplay( NORMAL_STATE, "Pwning of Clan Otori complete." );
+		updateDisplay( ENABLE_STATE, "Pwning of Clan Otori complete." );
 	}
 
 	/**
