@@ -496,7 +496,7 @@ blue pixel potion	10	0	black pixel (3)	blue pixel (2)
 green pixel potion	10	0	black pixel (4)	green pixel (3)
 purple pixel pie	10	0	white pixel (5)	red pixel (2)	blue pixel (2)
 pixel hat	10	0	white pixel (10)	green pixel (15)
-pixel pants	10	0	black pixel (15)	red pixel (20)
+pixel pants	10	0	black pixel (10)	red pixel (20)
 pixel sword	10	0	white pixel (20)	black pixel (10)	blue pixel (10)
 digital key	10	0	white pixel (30)
 white pixel	10	0	red pixel	green pixel	blue pixel
