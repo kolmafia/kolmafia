@@ -227,7 +227,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );
 
-		this.toolbarPanel = new JToolBar();
+		this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
 		getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 
 		addToolBar();
