@@ -138,32 +138,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		CreateFrameRunnable previousDisplayer = displayer;
 
-		Class frameClass;
-		int userInterfaceMode = Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) );
-
-		switch ( userInterfaceMode )
-		{
-			case 0:
-				frameClass = AdventureFrame.class;
-				break;
-
-			case 1:
-				frameClass = BuffBotFrame.class;
-				break;
-
-			case 2:
-				KoLMessenger.initialize();
-				((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
-				((KoLFrame)previousDisplayer.getCreation()).dispose();
-				return;
-
-			case 3:
-				frameClass = ClanManageFrame.class;
-				break;
-
-			default:
-				return;
-		}
+		Class frameClass = INTERFACE_MODES[ Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) ];
 
 		// Instantiate the appropriate instance of the
 		// frame that should be loaded based on the mode.

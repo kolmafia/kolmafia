@@ -69,6 +69,9 @@ public interface KoLConstants extends UtilityConstants
 	public static final int CANCEL_STATE   = 3;
 	public static final int ENABLE_STATE   = 4;
 
+	public static final Class [] INTERFACE_MODES =
+		{ AdventureFrame.class, BuffBotFrame.class, ChatFrame.class, ClanManageFrame.class };
+
 	public static class DaemonThread extends Thread
 	{
 		public DaemonThread()

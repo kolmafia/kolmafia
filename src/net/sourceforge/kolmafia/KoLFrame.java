@@ -416,31 +416,42 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected void addToolBar()
 	{
-		toolbarPanel.add( new MiniBrowserButton() );
-		toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
+		boolean isMainFrame =
+			INTERFACE_MODES[ Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) ].isAssignableFrom( getClass() );
 
-		toolbarPanel.add( new JToolBar.Separator() );
+		if ( isMainFrame )
+		{
+			toolbarPanel.add( new MiniBrowserButton() );
+			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "Adventure", "hourglass.gif", AdventureFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "Status", "hp.gif", CharsheetFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "Equipment", "equipment.gif", GearChangeFrame.class ) );
+			toolbarPanel.add( new JToolBar.Separator() );
 
-		toolbarPanel.add( new JToolBar.Separator() );
+			toolbarPanel.add( new DisplayFrameButton( "Adventure", "hourglass.gif", AdventureFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Status", "hp.gif", CharsheetFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Equipment", "equipment.gif", GearChangeFrame.class ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", StoreManageFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "Display Case", "museum.gif", MuseumFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", HagnkStorageFrame.class ) );
+			toolbarPanel.add( new JToolBar.Separator() );
 
-		toolbarPanel.add( new JToolBar.Separator() );
+			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", StoreManageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Display Case", "museum.gif", MuseumFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", HagnkStorageFrame.class ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );
+			toolbarPanel.add( new JToolBar.Separator() );
+		}
 
-		toolbarPanel.add( new JToolBar.Separator() );
+		if ( isMainFrame || this instanceof LoginFrame )
+		{
+			toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
-		toolbarPanel.add( new InvocationButton( "Debugger", "debug.gif", KoLmafia.class, "openDebugLog" ) );
+			toolbarPanel.add( new JToolBar.Separator() );
+
+			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
+			toolbarPanel.add( new InvocationButton( "Debugger", "debug.gif", KoLmafia.class, "openDebugLog" ) );
+
+			toolbarPanel.add( new JToolBar.Separator() );
+		}
 	}
 
 	protected JMenu addRefreshMenu( JComponent menu )
