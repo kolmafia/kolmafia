@@ -405,17 +405,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected void addMenuBar()
 	{
+		compileBookmarks();
+
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar( menuBar );
 
 		addTravelMenu( menuBar );
 		addPeopleMenu( menuBar );
-		addScriptMenu( menuBar );
 
-		// All frames get the benefit of the bookmarks menu bar, eventhough it
-		// might be a little counterintuitive when viewing player profiles.
-
-		compileBookmarks();
+		menuBar.add( new ScriptMenu() );
 		menuBar.add( new BookmarkMenu() );
 
 		addRefreshMenu( menuBar );
@@ -495,12 +493,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		travelMenu.add( new DisplayFrameMenuItem( "Visit Council", CouncilFrame.class ) );
 		travelMenu.add( new InvocationMenuItem( "Eat Cake-Arena", client, "visitCakeShapedArena" ) );
-		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", client, "makeHermitRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Mountain Traps", client, "makeTrapperRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Bounty Hunter", client, "makeHunterRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Untinker Items", client, "makeUntinkerRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", client, "makeGalaktikRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Canadian Device", client, "makeMindControlRequest" ) );
 		travelMenu.add( new DisplayFrameMenuItem( "Knoll Mushrooms", MushroomFrame.class ) );
 
 		return travelMenu;
@@ -523,18 +516,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		commMenu.add( new DisplayFrameMenuItem( "Gift Shop Back Room", GiftMessageFrame.class ) );
 
 		return commMenu;
-	}
-
-	/**
-	 * Utility method used to add the default <code>KoLmafia</code>
-	 * scripting menu to the given menu bar.
-	 */
-
-	protected final JMenu addScriptMenu( JComponent menu )
-	{
-		JMenu scriptMenu = new ScriptMenu();
-		menu.add( scriptMenu );
-		return scriptMenu;
 	}
 
 	/**
@@ -1087,6 +1068,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		if ( this instanceof RequestFrame )
 		{
+			if ( ((RequestFrame)this).hasSideBar() )
+			{
+				((RequestFrame)this).refresh( request );
+				return;
+			}
+
 			parameters = new Object[3];
 			parameters[0] = client;
 			parameters[1] = this;
@@ -1497,23 +1484,26 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[4];
+			JComponent [] headers = new JComponent[ KoLCharacter.inMysticalitySign() ? 12 : 11 ];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
 			headers[2] = new JSeparator();
 
-			JMenu spoilerMenu = new JMenu( "KoL Spoiler Sites" );
-			spoilerMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
-			spoilerMenu.add( new DisplayPageMenuItem( "KoL @ Coldfront", "http://kol.coldfront.net/" ) );
-			spoilerMenu.add( new DisplayPageMenuItem( "Jinya's KoL Wiki", "http://www.thekolwiki.net/" ) );
+			headers[3] = new DisplayPageMenuItem( "Visual Wiki", "http://www.thekolwiki.net/" );
+			headers[4] = new DisplayPageMenuItem( "Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" );
+			headers[5] = new DisplayPageMenuItem( "Moxie Survival", "http://kol.network-forums.com/cgi-bin/moxie.cgi" );
 
-			spoilerMenu.add( new JSeparator() );
+			headers[6] = new JSeparator();
 
-			spoilerMenu.add( new DisplayPageMenuItem( "Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
-			spoilerMenu.add( new DisplayPageMenuItem( "Familiar Chart", "http://www.the-rye.dreamhosters.com/familiars/" ) );
+			headers[7] = new DisplayPageMenuItem( "Loot the Hermit", "hermit.php" );
+			headers[8] = new DisplayPageMenuItem( "Mountain Trapper", "trapper.php" );
+			headers[9] = new DisplayPageMenuItem( "Bounty Hunter", "town_wrong?place=bountyhunter" );
+			headers[10] = new DisplayPageMenuItem( "Untinker Items", "town_right.php?place=untinker" );
 
-			headers[3] = spoilerMenu;
+			if ( KoLCharacter.inMysticalitySign() )
+				headers[11] = new DisplayPageMenuItem( "Canadian Device", "canadia.php?place=machine" );
+
 			return headers;
 		}
 

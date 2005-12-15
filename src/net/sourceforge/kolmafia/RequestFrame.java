@@ -69,7 +69,7 @@ public class RequestFrame extends KoLFrame
 	private KoLRequest currentRequest;
 	private LimitedSizeChatBuffer mainBuffer;
 
-	private boolean showSideBar;
+	private boolean hasSideBar;
 	private LimitedSizeChatBuffer sideBuffer;
 	private CharpaneRequest sidePaneRequest;
 
@@ -85,13 +85,13 @@ public class RequestFrame extends KoLFrame
 		this( client, null, request, request == null || request.getURLString().equals( "main.php" ) );
 	}
 
-	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request, boolean showSideBar )
+	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request, boolean hasSideBar )
 	{
 		super( client, "" );
 
 		this.parent = parent;
 		this.currentRequest = request;
-		this.showSideBar = showSideBar;
+		this.hasSideBar = hasSideBar;
 		this.combatRound = 1;
 
 		if ( request != null && request instanceof FightRequest )
@@ -111,7 +111,7 @@ public class RequestFrame extends KoLFrame
 		// Game text descriptions and player searches should not add
 		// extra requests to the server by having a side panel.
 
-		if ( !showSideBar )
+		if ( !hasSideBar )
 		{
 			this.sideBuffer = null;
 
@@ -194,6 +194,16 @@ public class RequestFrame extends KoLFrame
 	}
 
 	/**
+	 * Returns whether or not this request frame has a side bar.
+	 * This is used to ensure that bookmarks correctly use a
+	 * new frame if this frame does not have one.
+	 */
+
+	public boolean hasSideBar()
+	{	return hasSideBar;
+	}
+
+	/**
 	 * Utility method which returns the current URL being pointed
 	 * to by this <code>RequestFrame</code>.
 	 */
@@ -230,7 +240,7 @@ public class RequestFrame extends KoLFrame
 
 	private void refreshSidePane()
 	{
-		if ( showSideBar )
+		if ( hasSideBar )
 		{
 			sidePaneRequest.run();
 			sideBuffer.clearBuffer();
@@ -366,7 +376,7 @@ public class RequestFrame extends KoLFrame
 			// is seen in the response text, or in the event that you
 			// switch between compact and full mode, refresh the sidebar.
 
-			if ( showSideBar && sidePaneRequest == null )
+			if ( hasSideBar && sidePaneRequest == null )
 			{
 				sidePaneRequest = new CharpaneRequest( client );
 				refreshSidePane();
@@ -375,7 +385,7 @@ public class RequestFrame extends KoLFrame
 			if ( client.processResults( currentRequest.responseText ) || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
 			{
 				KoLCharacter.refreshCalculatedLists();
-				if ( showSideBar )
+				if ( hasSideBar )
 					refreshSidePane();
 			}
 
