@@ -748,23 +748,12 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "council" ) )
 		{
 			KoLRequest request = new KoLRequest( scriptRequestor, "council.php", true );
-
 			request.run();
 
-			if ( scriptRequestor instanceof KoLmafiaGUI )
-			{
-				Object [] params = new Object[2];
-				params[0] = scriptRequestor;
-				params[1] = request;
-
-				(new CreateFrameRunnable( RequestFrame.class, params )).run();
-			}
-			else
-			{
-				updateDisplay( NORMAL_STATE, request.responseText.replaceAll(
-					"<(br|p|blockquote)>", LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll(
-						"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "ñ" ).replaceAll( "&quot;", "\"" ) );
-			}
+			scriptRequestor.processResults( request.responseText );
+			updateDisplay( NORMAL_STATE, request.responseText.replaceAll(
+				"<(br|p|blockquote)>", LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll(
+					"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "ñ" ).replaceAll( "&quot;", "\"" ) );
 
 			return;
 		}
