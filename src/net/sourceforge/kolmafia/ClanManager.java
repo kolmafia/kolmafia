@@ -444,23 +444,27 @@ public class ClanManager extends StaticEntity
 
 			super.run();
 
+
 			if ( isErrorState )
 				return;
 
 			List enemyClans = new ArrayList();
 			Matcher clanMatcher = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" ).matcher( responseText );
-			int lastMatchIndex = 0;
 
-			while ( clanMatcher.find( lastMatchIndex ) )
-			{
-				lastMatchIndex = clanMatcher.end();
+			while ( clanMatcher.find() )
 				enemyClans.add( new ClanAttackRequest( client, clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );
-			}
 
 			if ( enemyClans.isEmpty() )
 			{
-				JOptionPane.showMessageDialog( null, "Sorry, you cannot attack a clan at this time." );
-				client.updateDisplay( NORMAL_STATE, "" );
+				KoLRequest details = new KoLRequest( client, "clan_war.php" );
+				details.run();
+
+				Matcher nextMatcher = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" ).matcher( details.responseText );
+				nextMatcher.find();
+
+				JOptionPane.showMessageDialog( null, "Your clan can attack again in " + nextMatcher.group(1) );
+				client.updateDisplay( ENABLE_STATE, "" );
+
 				return;
 			}
 
@@ -472,17 +476,17 @@ public class ClanManager extends StaticEntity
 
 			if ( enemy == null )
 			{
-				client.updateDisplay( NORMAL_STATE, "" );
+				client.updateDisplay( ERROR_STATE, "" );
 				return;
 			}
 
 			enemy.run();
 		}
 
-		private static class ClanAttackRequest extends KoLRequest implements Comparable
+		private class ClanAttackRequest extends KoLRequest implements Comparable
 		{
-			private static String name;
-			private static int goodies;
+			private String name;
+			private int goodies;
 
 			public ClanAttackRequest( KoLmafia client, String id, String name, int goodies )
 			{
@@ -502,11 +506,11 @@ public class ClanManager extends StaticEntity
 				// Theoretically, there should be a test for error state,
 				// but because I'm lazy, that's not happening.
 
-				client.updateDisplay( NORMAL_STATE, "Attack request processed." );
+				client.updateDisplay( ENABLE_STATE, "Attack request processed." );
 			}
 
 			public String toString()
-			{	return name + " (" + goodies + " " + (goodies == 1 ? "bag" : "bags") + ")";
+			{	return name + " (" + df.format( goodies ) + " " + (goodies == 1 ? "bag" : "bags") + ")";
 			}
 
 			public int compareTo( Object o )
@@ -688,7 +692,7 @@ public class ClanManager extends StaticEntity
 					return;
 				}
 
-				client.updateDisplay( NORMAL_STATE, "Snapshot generation completed." );
+				client.updateDisplay( ENABLE_STATE, "Snapshot generation completed." );
 
 				try
 				{
@@ -777,7 +781,7 @@ public class ClanManager extends StaticEntity
 
 			client.updateDisplay( DISABLE_STATE, "Retrieving clan stash log..." );
 			(new StashLogRequest( client )).run();
-			client.updateDisplay( NORMAL_STATE, "Stash log retrieved." );
+			client.updateDisplay( ENABLE_STATE, "Stash log retrieved." );
 
 			file.delete();
 			file.getParentFile().mkdirs();
@@ -1068,8 +1072,8 @@ public class ClanManager extends StaticEntity
 
 	private static class MessagePostPanel extends KoLPanel
 	{
-		private static String action;
-		private static JTextArea messageEntry;
+		private String action;
+		private JTextArea messageEntry;
 
 		public MessagePostPanel( String action )
 		{
