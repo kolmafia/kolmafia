@@ -1292,7 +1292,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			headers[3] = new JSeparator();
 
-			JMenu toolsMenu = new JMenu( "Buit-In Tools" );
+			JMenu toolsMenu = new JMenu( "Built-In Tools" );
 
 			toolsMenu.add( new InvocationMenuItem( "Get Breakfast!", client, "getBreakfast" ) );
 			toolsMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", client, "pwnClanOtori" ) );
