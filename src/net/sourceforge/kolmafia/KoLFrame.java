@@ -223,6 +223,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected KoLFrame( KoLmafia client, String title )
 	{
 		super( VERSION_NAME + ": " + title );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		this.isEnabled = true;
 		KoLFrame.client = client;
@@ -234,11 +235,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
 		getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 
-		addToolBar();
-
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-		addWindowListener( new LocationAdapter() );
-
 		this.frameName = getClass().getName();
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
 
@@ -248,7 +244,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Later on, all menu items not added by default will be placed onto
 		// the panel for increased visibility.
 
-		addMenuBar();
+		addToolBar();  addMenuBar();
 	}
 
 	public void dispose()
@@ -716,14 +712,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
-	/**
-	 * In order to do the things we need to do when windows are closed,
-	 * this internal class is used to listen for window events.
-	 */
-
-	private class LocationAdapter extends WindowAdapter
+	protected void processWindowEvent( WindowEvent e )
 	{
-		public void windowClosing( WindowEvent e )
+		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
 		{
 			if ( client != null && client.getSettings().getProperty( "savePositions" ).equals( "true" ) )
 			{
@@ -731,7 +722,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				client.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 				client.getSettings().saveSettings();
 			}
+
+			if ( !existingFrames.isEmpty() && getProperty( "oversightProtect" ).equals( "true" ) )
+			{
+				boolean isMainFrame =
+					INTERFACE_MODES[ Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) ].isAssignableFrom( getClass() );
+
+				if ( isMainFrame && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+					"Would you like to stay logged in?", "SDUGA Keep-Alive Feature", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
+						existingFrames.clear();
+			}
 		}
+
+		super.processWindowEvent( e );
 	}
 
 	/**
