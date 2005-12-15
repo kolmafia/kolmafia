@@ -67,7 +67,6 @@ public abstract class StaticEntity implements KoLConstants
 
 		KoLCharacter.reset( "" );
 		(new RequestThread( new LogoutRequest( client ) )).start();
-		KoLmafiaGUI.main( new String[0] );
 	}
 
 	protected static final void setProperty( String name, String value )
