@@ -250,14 +250,18 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		Matcher matching = highlight.matcher( message );
 		String highlightMessage = matching.replaceAll( "<font color=\"" + colorString + "\">" + highlight.pattern() + "</font>" );
 
-		matching = dehighlight.matcher( highlightMessage );
-		if ( matching.find( 0 ) )
+		// Now make sure that the changes occuring inside of
+		// HTML tags don't get saved.
+
+		if ( !message.equals( highlightMessage ) )
 		{
-			String part1 = highlightMessage.substring( 0, matching.start() );
-			String part2 = highlightMessage.substring( matching.start() ).replaceFirst( matching.group(), "href=\"" + matching.group(1) + highlight.pattern() );
-			highlightMessage = part1 + part2;
-			matching = dehighlight.matcher( highlightMessage );
+			Pattern nestedPattern = Pattern.compile( "(<[^>]*)<font color=\"" + colorString + "\">" + highlight.pattern() + "</font>([^<]*>)" );
+			Matcher nestedMatcher = nestedPattern.matcher( highlightMessage );
+			highlightMessage = nestedMatcher.replaceAll( "$1" + highlight.pattern() + "$2" );
 		}
+
+		// Now that everything is properly replaced, go ahead
+		// and return the finalized string.
 
 		return highlightMessage;
 	}
