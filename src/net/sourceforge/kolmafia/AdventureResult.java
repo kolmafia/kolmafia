@@ -543,7 +543,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	public static DefaultListCellRenderer getCreatableCellRenderer()
-	{	return new ConsumableCellRenderer();
+	{	return new CreatableCellRenderer();
 	}
 
 	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
