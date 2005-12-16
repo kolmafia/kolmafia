@@ -184,7 +184,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "channelColors", "" );
 		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
-		ensureProperty( "closeSending", "false" );
 		ensureProperty( "cloverProtectActive", "true" );
 		ensureProperty( "createWithoutBoxServants", "false" );
 		ensureProperty( "defaultLimit", "13" );
@@ -210,7 +209,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "proxySet", "false" );
 		ensureProperty( "reloadFrames", "" );
 		ensureProperty( "savePositions", "false" );
-		ensureProperty( "saveOutgoing", "false" );
 		ensureProperty( "saveState", "" );
 		ensureProperty( "serverFriendly", "false" );
 		ensureProperty( "showAdventureZone", "true" );

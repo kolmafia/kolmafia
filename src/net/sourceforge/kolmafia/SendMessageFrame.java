@@ -84,9 +84,6 @@ public abstract class SendMessageFrame extends KoLFrame
 	protected JTextField attachedMeat;
 	protected LockableListModel attachments;
 
-	protected JCheckBoxMenuItem saveOutgoingCheckBox;
-	protected JCheckBoxMenuItem closeSendingCheckBox;
-
 	protected SendMessageFrame( KoLmafia client, String title )
 	{
 		super( client, title );
@@ -156,13 +153,6 @@ public abstract class SendMessageFrame extends KoLFrame
 		this.framePanel.setLayout( new CardLayout( 20, 20 ) );
 		this.framePanel.add( messagePanel, "" );
 		this.getRootPane().setDefaultButton( sendMessageButton );
-
-// The following lines of code no longer do anything because
-// there is no longer a menu to hold these items.  This will
-// be fixed once the options are integrated into the frame.
-
-		saveOutgoingCheckBox = new SettingChangeMenuItem( "Save message in Outbox", "saveOutgoing" );
-		closeSendingCheckBox = new SettingChangeMenuItem( "Close window after sending", "closeSending" );
 	}
 
 	protected JPanel constructWestPanel()
@@ -257,17 +247,13 @@ public abstract class SendMessageFrame extends KoLFrame
 			if ( client == null )
 				return;
 
-			setProperty( "saveOutgoing", String.valueOf( saveOutgoingCheckBox.isSelected() ) );
-			setProperty( "closeSending", String.valueOf( closeSendingCheckBox.isSelected() ) );
-
 			String recipient = recipientEntry.getText();
-
 			String [] messages = new String[ messageEntry.length ];
 
 			for ( int i = 0; i < messageEntry.length; ++i )
 				messages[i] = messageEntry[i].getText();
 
-			if ( sendMessage( recipient, messages ) && closeSendingCheckBox.isSelected() )
+			if ( sendMessage( recipient, messages ) && SendMessageFrame.this instanceof ProposeTradeFrame )
 				SendMessageFrame.this.dispose();
 		}
 	}

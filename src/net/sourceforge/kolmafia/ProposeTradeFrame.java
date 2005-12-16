@@ -55,10 +55,6 @@ public class ProposeTradeFrame extends SendMessageFrame
 
 		if ( this.offerID != null )
 			recipientEntry.setEnabled( false );
-
-		saveOutgoingCheckBox.setEnabled( false );
-		closeSendingCheckBox.setSelected( true );
-		closeSendingCheckBox.setEnabled( false );
 	}
 
 	protected String [] getEntryHeaders()
