@@ -194,7 +194,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			return menu;
 		}
 
-		return new LoadScriptMenuItem( (++addedScriptCount) + "	 " + name, path );
+		return new LoadScriptMenuItem( (++addedScriptCount) + "  " + name, path );
 	}
 
 	protected static LockableListModel bookmarks = new LockableListModel();

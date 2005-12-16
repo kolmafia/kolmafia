@@ -18,7 +18,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public abstract class MenuItemList extends JMenu implements ListDataListener
 {
 	private int headerCount;
-	private LockableListModel model;
 
 	public MenuItemList( String title, LockableListModel model )
 	{
@@ -45,8 +44,8 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 		for ( int i = 0; i < model.size(); ++i )
 			this.add( (JComponent) model.get(i) );
 
-		// Add this as a listener to the list of so that
-		// the menu gets updated whenever the list updates.
+		// Add this as a listener to the list so that the menu gets
+		// updated whenever the list updates.
 
 		model.addListDataListener( this );
 	}
