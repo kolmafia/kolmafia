@@ -71,6 +71,8 @@
        <exclude name="build/**"/>
        <exclude name="dist/**"/>
        <exclude name="www/data/**"/>
+       <exclude name="www/contest**"/>
+       <exclude name="www/contest/**"/>
 
     </tar>
 
