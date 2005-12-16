@@ -142,7 +142,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		openChest();
 		robHole();
-		invokeMagic();
 
 		client.updateDisplay( ENABLE_STATE, "Strange Leaflet robbed." );
 	}
@@ -251,12 +250,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 		client.updateDisplay( DISABLE_STATE, "Hunting eggs..." );
 		executeCommand( "look behind chest" );
 		executeCommand( "look in hole" );
-	}
-
-	private static void invokeMagic()
-	{
-		client.updateDisplay( DISABLE_STATE, "Invoking magic..." );
-		executeCommand( "plugh" );
 	}
 
 	private static void goTo( int destination )
