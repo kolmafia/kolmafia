@@ -409,22 +409,97 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		compileBookmarks();
 
-		// Now, add in the tools that people commonly use
-		// inside of KoLmafia.
+		// Add general features.
+
+		JMenu statusMenu = new JMenu( "General" );
+		menuBar.add( statusMenu );
+
+		statusMenu.add( new DisplayFrameMenuItem( "Main Interface", AdventureFrame.class ) );
+		statusMenu.add( new DisplayRequestMenuItem( "Mini-Browser", "main.php" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
+
+		statusMenu.add( new JSeparator() );
+
+		statusMenu.add( new DisplayFrameMenuItem( "Player Status", CharsheetFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", ItemManageFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", GearChangeFrame.class ) );
+
+		statusMenu.add( new JSeparator() );
+
+		statusMenu.add( new DisplayFrameMenuItem( "Mall Manager", StoreManageFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Museum Display", MuseumFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", HagnkStorageFrame.class ) );
+
+		// Add the communication menu.
+
+		JMenu peopleMenu = new JMenu( "People" );
+		menuBar.add( peopleMenu );
+
+		peopleMenu.add( new InvocationMenuItem( "Mail Manager", KoLMessenger.class, "initialize" ) );
+		peopleMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
+
+		peopleMenu.add( new JSeparator() );
+
+		peopleMenu.add( new DisplayFrameMenuItem( "Green Message", GreenMessageFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Purple Message", GiftMessageFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Propose Trade", ProposeTradeFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Accept Trades", PendingTradesFrame.class ) );
+
+		// Add specialized tools.
 
 		JMenu toolsMenu = new JMenu( "Tools" );
 		menuBar.add( toolsMenu );
 
 		toolsMenu.add( new InvocationMenuItem( "Doc Galaktik", client, "makeGalaktikRequest" ) );
+		toolsMenu.add( new InvocationMenuItem( "Get Breakfast", client, "getBreakfast" ) );
+
+		toolsMenu.add( new JSeparator() );
+
+		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
+		toolsMenu.add( new InvocationMenuItem( "Pwn Clan Otori", client, "pwnClanOtori" ) );
+
+		toolsMenu.add( new JSeparator() );
+
+		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Susie's Arena", CakeArenaFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Run a KoL BuffBot", BuffBotFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Patronize a BuffBot", BuffRequestFrame.class ) );
+
+		// Add script and bookmark menus, which use the
+		// listener-driven static lists.
 
 		menuBar.add( new ScriptMenu() );
 		menuBar.add( new BookmarkMenu() );
 
-		addRefreshMenu( menuBar );
+		// Add the refresh menu, which holds the ability
+		// to refresh everything in the session.
+
+		JMenu refreshMenu = new JMenu();
+		menuBar.add( refreshMenu );
+
+		refreshMenu.setIcon( JComponentUtilities.getSharedImage( "refresh.gif" ) );
+
+		refreshMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
+		refreshMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", LicenseDisplay.class ) );
+
+		refreshMenu.add( new JSeparator() );
+
+		refreshMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
+		refreshMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
+		refreshMenu.add( new JSeparator() );
+
+		refreshMenu.add( new RequestMenuItem( "Refresh Status", new CharsheetRequest( client ) ) );
+		refreshMenu.add( new RequestMenuItem( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) );
+		refreshMenu.add( new RequestMenuItem( "Refresh Outfits", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
+		refreshMenu.add( new RequestMenuItem( "Refresh Familiars", new FamiliarRequest( client ) ) );
+		refreshMenu.add( new JSeparator() );
 	}
+
+	/**
+	 * Utility method which adds a tool bar to the frame.
+	 * Currently, only the adventure frame has a toolbar.
+	 */
 
 	protected void addToolBar()
 	{
@@ -450,7 +525,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
-			toolbarPanel.add( new InvocationButton( "Cake-Shaped Arena", "arena.gif", client, "visitCakeShapedArena" ) );
+			toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", FamiliarTrainingFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", MushroomFrame.class ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
@@ -468,28 +543,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			toolbarPanel.add( new JToolBar.Separator() );
 		}
-	}
-
-	protected JMenu addRefreshMenu( JComponent menu )
-	{
-		JMenu refreshMenu = new JMenu();
-		menu.add( refreshMenu );
-
-		refreshMenu.setIcon( JComponentUtilities.getSharedImage( "refresh.gif" ) );
-		refreshMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
-		refreshMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
-		refreshMenu.add( new JSeparator() );
-
-		refreshMenu.add( new RequestMenuItem( "Refresh Status", new CharsheetRequest( client ) ) );
-		refreshMenu.add( new RequestMenuItem( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) );
-		refreshMenu.add( new JSeparator() );
-
-		refreshMenu.add( new RequestMenuItem( "Refresh Outfits", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
-		refreshMenu.add( new RequestMenuItem( "Refresh Familiars", new FamiliarRequest( client ) ) );
-		refreshMenu.add( new JSeparator() );
-
-		refreshMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", LicenseDisplay.class ) );
-		return refreshMenu;
 	}
 
 	/**
@@ -1267,26 +1320,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			headers[1] = new ToggleMacroMenuItem();
 			headers[2] = new RefreshScriptsMenuItem();
 
+			JMenu questsMenu = new JMenu( "Quest completion" );
+
 			headers[3] = new JSeparator();
+			headers[4] = questsMenu;
 
-			JMenu modulesMenu = new JMenu( "Built-In Scripts" );
+			questsMenu.add( new InvocationMenuItem( "Face Nemesis", Nemesis.class, "faceNemesis" ) );
+			questsMenu.add( new InvocationMenuItem( "Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
 
-			modulesMenu.add( new InvocationMenuItem( "Get Breakfast!", client, "getBreakfast" ) );
-			modulesMenu.add( new InvocationMenuItem( "Pwn Clan Otori!", client, "pwnClanOtori" ) );
+			questsMenu.add( new JSeparator() );
 
-			modulesMenu.add( new JSeparator() );
+			questsMenu.add( new InvocationMenuItem( "Lair Entryway", SorceressLair.class, "completeEntryway" ) );
+			questsMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
+			questsMenu.add( new InvocationMenuItem( "Tower Guardians", SorceressLair.class, "fightTowerGuardians" ) );
+			questsMenu.add( new InvocationMenuItem( "Final Chamber", SorceressLair.class, "completeSorceressChamber" ) );
 
-			modulesMenu.add( new InvocationMenuItem( "Face Nemesis", Nemesis.class, "faceNemesis" ) );
-			modulesMenu.add( new InvocationMenuItem( "Rob Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
-
-			modulesMenu.add( new JSeparator() );
-
-			modulesMenu.add( new InvocationMenuItem( "Lair Entryway", SorceressLair.class, "completeEntryway" ) );
-			modulesMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
-			modulesMenu.add( new InvocationMenuItem( "Tower Guardians", SorceressLair.class, "fightTowerGuardians" ) );
-			modulesMenu.add( new InvocationMenuItem( "Naughty Chamber", SorceressLair.class, "completeSorceressChamber" ) );
-
-			headers[4] = modulesMenu;
 
 			return headers;
 		}
@@ -1485,9 +1533,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				tasksMenu.add( new DisplayRequestMenuItem( "Mountain Trapper", "trapper.php" ) );
 				tasksMenu.add( new DisplayRequestMenuItem( "Bounty Hunter", "town_wrong?place=bountyhunter" ) );
 				tasksMenu.add( new DisplayRequestMenuItem( "Untinker Items", "town_right.php?place=untinker" ) );
-
-				if ( KoLCharacter.inMysticalitySign() )
-					tasksMenu.add( new DisplayPageMenuItem( "Canadian Device", "canadia.php?place=machine" ) );
+				tasksMenu.add( new DisplayPageMenuItem( "Canadian Device", "canadia.php?place=machine" ) );
 
 			headers[4] = tasksMenu;
 
