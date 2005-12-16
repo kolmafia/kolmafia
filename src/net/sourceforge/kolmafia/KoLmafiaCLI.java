@@ -257,7 +257,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
-	 * the login has been confirmed to notify the client that the
+	 * the login has been confirmed to notify the scriptRequestor that the
 	 * login was successful, the user-specific settings should be
 	 * loaded, and the user can begin adventuring.
 	 */
@@ -505,7 +505,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( previousCommand != null )
 				{
 					int repeatCount = parameters.length() == 0 ? 1 : df.parse( parameters ).intValue();
-					for ( int i = 0; i < repeatCount; ++i )
+					for ( int i = 0; i < repeatCount && scriptRequestor.permitsContinue(); ++i )
 						executeLine( previousCommand );
 				}
 
@@ -513,7 +513,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			catch ( Exception e )
 			{
-				// Notify the client that the command could not be repeated
+				// Notify the scriptRequestor that the command could not be repeated
 				// the given number of times.
 
 				updateDisplay( ERROR_STATE, parameters + " is not a number." );
@@ -655,7 +655,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		// If there's any commands which suggest that the
-		// client is in a login state, you should not do
+		// scriptRequestor is in a login state, you should not do
 		// any commands listed beyond this point
 
 		if ( scriptRequestor.inLoginState() )
@@ -786,9 +786,9 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		// One command available after login is a request
-		// to print the current state of the client.  This
+		// to print the current state of the scriptRequestor.  This
 		// should be handled in a separate method, since
-		// there are many things the client may want to print
+		// there are many things the scriptRequestor may want to print
 
 		if ( command.equals( "print" ) || command.equals( "list" ) || command.equals( "show" ) )
 		{
@@ -1174,7 +1174,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			for ( int i = 0; i < runCount; ++i )
+			for ( int i = 0; i < runCount && scriptRequestor.permitsContinue(); ++i )
 			{
 				lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
 				lastScript.commandBuffer = commandBuffer;
@@ -1653,7 +1653,8 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, buffCount ), 1 );
+			if ( buffCount > 0 )
+				scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, buffCount ), 1 );
 		}
 	}
 
