@@ -284,6 +284,10 @@ public abstract class Nemesis extends StaticEntity
 			return;
 		}
 
-		client.updateDisplay( NORMAL_STATE, "You defeated your nemesis. Congratulations!" );
+		// Unfortunately, we never get here. When we get redirected to
+		// fight.php, we don't seem to get the responseText from our
+		// battle, and therefore can't tell that we've won.
+
+		client.updateDisplay( ENABLE_STATE, "You defeated your nemesis. Congratulations!" );
 	}
 }
