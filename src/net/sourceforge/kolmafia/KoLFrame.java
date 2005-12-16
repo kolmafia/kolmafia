@@ -244,7 +244,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Later on, all menu items not added by default will be placed onto
 		// the panel for increased visibility.
 
-		if ( !(this instanceof ContactListFrame) )
+		if ( !(this instanceof ContactListFrame || this instanceof LoginFrame) )
 			addMenuBar();
 
 		if ( this instanceof AdventureFrame || this instanceof LoginFrame )

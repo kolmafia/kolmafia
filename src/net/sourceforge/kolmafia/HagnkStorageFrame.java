@@ -46,6 +46,7 @@ import javax.swing.JMenu;
 import javax.swing.JCheckBoxMenuItem;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> which handles all the clan
@@ -62,8 +63,31 @@ public class HagnkStorageFrame extends KoLFrame
 	{
 		super( client, "Ancestral Storage" );
 
+		// For now, add a special filter menu
+		// along the side.
+
+		JMenuBar menuBar = getJMenuBar();
+		JMenu equipMenu = new JMenu();
+		equipMenu.setIcon( JComponentUtilities.getSharedImage( "adventure.gif" ) );
+
+		equipFilter = new JCheckBoxMenuItem[6];
+		equipFilter[0] = new FilterMenuItem( "Show weapons" );
+		equipFilter[1] = new FilterMenuItem( "Show hats" );
+		equipFilter[2] = new FilterMenuItem( "Show shirts" );
+		equipFilter[3] = new FilterMenuItem( "Show pants" );
+		equipFilter[4] = new FilterMenuItem( "Show accessories" );
+		equipFilter[5] = new FilterMenuItem( "Show familiar equipment" );
+
+		for ( int i = 0; i < equipFilter.length; ++i )
+			equipMenu.add( equipFilter[i] );
+
+		menuBar.add( equipMenu );
+
 		if ( client != null && KoLCharacter.getStorage().isEmpty() )
 			(new RequestThread( new ItemStorageRequest( client ) )).start();
+
+		// Finally, add the actual content to the
+		// storage frame.
 
 		tabs = new JTabbedPane();
 		all = new HagnkStoragePanel();
@@ -87,28 +111,6 @@ public class HagnkStorageFrame extends KoLFrame
 		wrapperPanel.setLayout( new CardLayout( 10, 10 ) );
 		wrapperPanel.add( panel, "" );
 		tabs.add( name, wrapperPanel );
-	}
-
-	protected void addMenuBar()
-	{
-		super.addMenuBar();
-
-		JMenuBar menuBar = getJMenuBar();
-
-		JMenu equipMenu = new JMenu( "Equipment" );
-
-		equipFilter = new JCheckBoxMenuItem[6];
-		equipFilter[0] = new FilterMenuItem( "Show weapons" );
-		equipFilter[1] = new FilterMenuItem( "Show hats" );
-		equipFilter[2] = new FilterMenuItem( "Show shirts" );
-		equipFilter[3] = new FilterMenuItem( "Show pants" );
-		equipFilter[4] = new FilterMenuItem( "Show accessories" );
-		equipFilter[5] = new FilterMenuItem( "Show familiar equipment" );
-
-		for ( int i = 0; i < equipFilter.length; ++i )
-			equipMenu.add( equipFilter[i] );
-
-		menuBar.add( equipMenu );
 	}
 
 	public void refreshFilters()

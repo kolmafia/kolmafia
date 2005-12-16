@@ -79,7 +79,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	private LimitedSizeChatBuffer mailBuffer;
 
 	private MailSelectList messageListInbox;
-	private MailSelectList messageListOutbox;
 	private MailSelectList messageListSaved;
 
 	public MailboxFrame( KoLmafia client )
@@ -90,17 +89,12 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		JScrollPane messageListInboxDisplay = new JScrollPane( messageListInbox,
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-		this.messageListOutbox = new MailSelectList( "Outbox" );
-		JScrollPane messageListOutboxDisplay = new JScrollPane( messageListOutbox,
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
 		this.messageListSaved = new MailSelectList( "Saved" );
 		JScrollPane messageListSavedDisplay = new JScrollPane( messageListSaved,
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		this.tabbedListDisplay = new JTabbedPane();
 		tabbedListDisplay.addTab( "Inbox", messageListInboxDisplay );
-		tabbedListDisplay.addTab( "Outbox", messageListOutboxDisplay );
 		tabbedListDisplay.addTab( "Saved", messageListSavedDisplay );
 		tabbedListDisplay.addChangeListener( this );
 
@@ -128,25 +122,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			(new RequestMailboxThread( "Inbox" )).start();
 	}
 
-	protected void addMenuBar()
-	{
-		super.addMenuBar();
-		JMenuBar menuBar = getJMenuBar();
-
-		JMenu refreshMenu = new JMenu( "Refresh" );
-		refreshMenu.add( new BoxRefreshMenuItem( "Inbox" ) );
-		refreshMenu.add( new BoxRefreshMenuItem( "Outbox" ) );
-		refreshMenu.add( new BoxRefreshMenuItem( "Saved" ) );
-		menuBar.add( refreshMenu );
-
-		JMenu emptyMenu = new JMenu( "Move Mail" );
-		emptyMenu.add( new BoxEmptyMenuItem( "" ) );
-		emptyMenu.add( new BoxEmptyMenuItem( "Inbox" ) );
-		emptyMenu.add( new BoxEmptyMenuItem( "Outbox" ) );
-		emptyMenu.add( new BoxEmptyMenuItem( "Saved" ) );
-		menuBar.add( emptyMenu );
-	}
-
 	public void setEnabled( boolean isEnabled )
 	{
 		refreshMailManager();
@@ -157,9 +132,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		if ( messageListInbox != null )
 			messageListInbox.setEnabled( isEnabled );
-
-		if ( messageListOutbox != null )
-			messageListOutbox.setEnabled( isEnabled );
 
 		if ( messageListSaved != null )
 			messageListSaved.setEnabled( isEnabled );
@@ -184,12 +156,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				messageListInbox.valueChanged( null );
 			requestMailbox = !messageListInbox.isInitialized();
 		}
-		else if ( currentTabName.equals( "Outbox" ) )
-		{
-			if ( messageListOutbox.isInitialized() )
-				messageListOutbox.valueChanged( null );
-			requestMailbox = !messageListOutbox.isInitialized();
-		}
 		else
 		{
 			if ( messageListSaved.isInitialized() )
@@ -204,7 +170,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	private void refreshMailManager()
 	{
 		messageListInbox.setModel( KoLMailManager.getMessages( "Inbox" ) );
-		messageListOutbox.setModel( KoLMailManager.getMessages( "Outbox" ) );
 		messageListSaved.setModel( KoLMailManager.getMessages( "Saved" ) );
 	}
 
@@ -228,8 +193,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 			if ( mailboxName.equals( "Inbox" ) )
 				messageListInbox.setInitialized( true );
-			else if ( mailboxName.equals( "Outbox" ) )
-				messageListOutbox.setInitialized( true );
 			else
 				messageListSaved.setInitialized( true );
 
@@ -333,52 +296,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				parameters[2] = quotedMessage;
 
 			(new CreateFrameRunnable( GreenMessageFrame.class, parameters )).run();
-		}
-	}
-
-	private class BoxRefreshMenuItem extends JMenuItem implements ActionListener
-	{
-		private String boxname;
-
-		public BoxRefreshMenuItem( String boxname )
-		{
-			super( boxname );
-			addActionListener( this );
-
-			this.boxname = boxname;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			KoLMailManager.getMessages( boxname ).clear();
-			(new RequestThread( new MailboxRequest( client, boxname ) )).start();
-		}
-	}
-
-	private class BoxEmptyMenuItem extends JMenuItem implements ActionListener
-	{
-		private String boxname;
-
-		public BoxEmptyMenuItem( String boxname )
-		{
-			super( boxname.equals( "" ) ? "Save All in Inbox" : "Delete All in " + boxname );
-			addActionListener( this );
-
-			this.boxname = boxname;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-				"Would you like to move all the messages in your " + (boxname.equals( "" ) ? "inbox" : boxname.toLowerCase()) +
-					" to " + (boxname.equals( "" ) ? "your savebox" : "the trash") + "?",
-				"Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-			{
-				if ( boxname.equals( "" ) )
-					KoLMailManager.saveMessages( KoLMailManager.getMessages( "Inbox" ).toArray() );
-				else
-					KoLMailManager.deleteMessages( boxname, KoLMailManager.getMessages( boxname ).toArray() );
-			}
 		}
 	}
 
