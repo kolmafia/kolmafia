@@ -160,10 +160,6 @@ public abstract class KoLmafia implements KoLConstants
 		deinitialize();
 	}
 
-	public boolean isEnabled()
-	{	return true;
-	}
-
 	/**
 	 * Updates the currently active display in the <code>KoLmafia</code>
 	 * session.

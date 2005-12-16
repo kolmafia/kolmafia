@@ -142,9 +142,9 @@ public class AdventureFrame extends KoLFrame
 			String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
 
 			if ( holiday.startsWith( "No" ) )
-				updateDisplay( NORMAL_STATE, MoonPhaseDatabase.getMoonEffect() );
+				client.updateDisplay( NORMAL_STATE, MoonPhaseDatabase.getMoonEffect() );
 			else
-				updateDisplay( NORMAL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+				client.updateDisplay( NORMAL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 		}
 		catch ( Exception e )
 		{
@@ -156,6 +156,7 @@ public class AdventureFrame extends KoLFrame
 	public void updateDisplay( int displayState, String message )
 	{
 		super.updateDisplay( displayState, message );
+
 		if ( contentPanel != adventureSelect )
 			adventureSelect.setStatusMessage( displayState, message );
 	}
@@ -339,7 +340,7 @@ public class AdventureFrame extends KoLFrame
 
 			if ( actionSelect.getSelectedItem() == null )
 			{
-				updateDisplay( ERROR_STATE, "Please select a combat option." );
+				client.updateDisplay( ERROR_STATE, "Please select a combat option." );
 				return;
 			}
 
@@ -348,7 +349,7 @@ public class AdventureFrame extends KoLFrame
 			if ( ( action.equals( "item0536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||
 			     ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) < 1 ) )
 			{
-				updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
+				client.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
 				return;
 			}
 
@@ -379,7 +380,7 @@ public class AdventureFrame extends KoLFrame
 					// call in the event that there was an error in
 					// the initialization process.
 
-					updateDisplay( ERROR_STATE, "Unexpected error." );
+					client.updateDisplay( ERROR_STATE, "Unexpected error." );
 					return;
 				}
 
@@ -498,7 +499,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				if ( client == null || client.permitsContinue() )
 				{
-					AdventureFrame.this.updateDisplay( state, message );
+					client.updateDisplay( state, message );
 					KoLRequest.delay( 3000 );
 				}
 			}

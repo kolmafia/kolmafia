@@ -51,7 +51,6 @@ import javax.swing.SwingUtilities;
 
 public class KoLmafiaGUI extends KoLmafia
 {
-	private boolean isEnabled;
 	private CreateFrameRunnable displayer;
 	private LimitedSizeChatBuffer buffer;
 
@@ -84,32 +83,14 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.updateDisplay( state, message );
 
-		if ( displayer != null && displayer.getCreation() != null )
-		{
-			((KoLFrame)displayer.getCreation()).updateDisplay( state, message );
-			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.updateStatus( message );
-		}
+		if ( BuffBotHome.isBuffBotActive() )
+			BuffBotHome.updateStatus( message );
 
-		isEnabled = state != NORMAL_STATE && state != DISABLE_STATE;
-
-		Object [] frames = existingFrames.toArray();
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
 
 		for ( int i = 0; i < frames.length; ++i )
-			if ( frames[i] != this )
-				((KoLFrame) frames[i]).setEnabled( isEnabled );
-
-	}
-
-	public boolean isEnabled()
-	{	return isEnabled;
-	}
-
-	public void setEnabled( boolean isEnabled )
-	{
-		this.isEnabled = isEnabled;
-		if ( displayer != null && displayer.getCreation() != null )
-			((KoLFrame)displayer.getCreation()).setEnabled( isEnabled );
+			frames[i].updateDisplay( state, message );
 	}
 
 	/**
@@ -202,7 +183,7 @@ public class KoLmafiaGUI extends KoLmafia
 	 * the player would like to remove.
 	 */
 
-	public void makeZapRequest(  )
+	public void makeZapRequest()
 	{
 		AdventureResult wand = KoLCharacter.getZapper();
 

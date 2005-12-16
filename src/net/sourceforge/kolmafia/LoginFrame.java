@@ -134,32 +134,6 @@ public class LoginFrame extends KoLFrame
 	}
 
 	/**
-	 * Updates the display to reflect the given display state and
-	 * to contain the given message.  Note that if there is no
-	 * content panel, this method does nothing.
-	 */
-
-	public void updateDisplay( int displayState, String message )
-	{
-		if ( client != null )
-			KoLmafia.getLogStream().println( message );
-
-		if ( contentPanel != null )
-			contentPanel.setStatusMessage( displayState, message );
-
-		switch ( displayState )
-		{
-			case DISABLE_STATE:
-				setEnabled( false );
-				break;
-
-			default:
-				setEnabled( true );
-				break;
-		}
-	}
-
-	/**
 	 * An internal class which represents the panel which is nested
 	 * inside of the <code>LoginFrame</code>.
 	 */

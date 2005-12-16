@@ -169,9 +169,8 @@ public class RequestThread extends Thread implements KoLConstants
 
 		if ( client != null )
 		{
+			client.enableDisplay();
 			client.resetContinueState();
-			if ( !client.isEnabled() && !(requests[0] instanceof ChatRequest) )
-				client.updateDisplay( ENABLE_STATE, "" );
 		}
 	}
 }

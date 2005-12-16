@@ -209,9 +209,7 @@ public class CommandDisplayFrame extends KoLFrame
 				commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
 				instance.executeLine( command );
 				commandBuffer.append( "<br>" );
-
-				if ( client.permitsContinue() )
-					client.updateDisplay( ENABLE_STATE, "" );
+				client.enableDisplay();
 			}
 		}
 	}
