@@ -686,7 +686,7 @@ public abstract class SorceressLair extends StaticEntity
 		client.processResult( STRUMMING.getNegation() );
 		client.processResult( SQUEEZINGS.getNegation() );
 
-		client.updateDisplay( NORMAL_STATE, "Sorceress entryway complete." );
+		client.updateDisplay( ENABLE_STATE, "Sorceress entryway complete." );
 	}
 
 	public static void completeHedgeMaze()
@@ -764,7 +764,7 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
-		client.updateDisplay( NORMAL_STATE, "Hedge maze quest complete." );
+		client.updateDisplay( ENABLE_STATE, "Hedge maze quest complete." );
 	}
 
 	private static String rotateHedgePiece( String responseText, String hedgePiece, String searchText )
@@ -908,7 +908,7 @@ public abstract class SorceressLair extends StaticEntity
 			if ( !fightGuardian( towerLevel ) )
 				return;
 
-		client.updateDisplay( NORMAL_STATE, "Path to Sorceress's chamber cleared." );
+		client.updateDisplay( ENABLE_STATE, "Path to Sorceress's chamber cleared." );
 	}
 
 	private static boolean fightGuardian( int towerLevel )
@@ -1009,7 +1009,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( request.responseText.indexOf( "ascend.php" ) != -1 )
 		{
-			client.updateDisplay( NORMAL_STATE, "You've already beaten Her Naughtiness. Go forth and ascend!" );
+			client.updateDisplay( ENABLE_STATE, "You've already beaten Her Naughtiness. Go forth and ascend!" );
 			return;
 		}
 
@@ -1071,7 +1071,7 @@ public abstract class SorceressLair extends StaticEntity
 			n += 1;
 		}
 
-		client.updateDisplay( NORMAL_STATE, "Her Naughtiness awaits. Go battle her!" );
+		client.updateDisplay( ENABLE_STATE, "Her Naughtiness awaits. Go battle her!" );
 	}
 
 	private static void findDoorCode()

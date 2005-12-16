@@ -144,7 +144,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		robHole();
 		invokeMagic();
 
-		client.updateDisplay( NORMAL_STATE, "Strange Leaflet robbed." );
+		client.updateDisplay( ENABLE_STATE, "Strange Leaflet robbed." );
 	}
 
 	private static void initialize()
