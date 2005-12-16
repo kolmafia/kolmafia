@@ -1158,7 +1158,9 @@ public abstract class KoLmafia implements KoLConstants
 				{
 					if ( conditions.size() == 0 || useDisjunction )
 					{
-						updateDisplay( NORMAL_STATE, "Conditions satisfied." );
+						updateDisplay( NORMAL_STATE, "Conditions satisfied after " + (currentIteration - 1) +
+							((currentIteration == 2) ? " request." : "requests.") );
+
 						conditions.clear();
 						return;
 					}
