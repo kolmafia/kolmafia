@@ -108,11 +108,11 @@ public class ChatFrame extends KoLFrame
 		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
 
-		toolbarPanel.add( new MessengerButton( "clear.gif", "clearChatBuffers" ) );
-		toolbarPanel.add( new MessengerButton( "highlight1.gif", "addHighlighting" ) );
-		toolbarPanel.add( new MessengerButton( "highlight2.gif", "removeHighlighting" ) );
-		toolbarPanel.add( new MessengerButton( "who1.gif", "checkFriends" ) );
-		toolbarPanel.add( new MessengerButton( "who2.gif", "checkChannel" ) );
+		toolbarPanel.add( new MessengerButton( "Clear Chat Buffers", "clear.gif", "clearChatBuffers" ) );
+		toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
+		toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
+		toolbarPanel.add( new MessengerButton( "/friends", "who1.gif", "checkFriends" ) );
+		toolbarPanel.add( new MessengerButton( "/who on talking channel", "who2.gif", "checkChannel" ) );
 
 		// Add a window listener to handle exiting and closing
 		// chat, pending on how the initialization functions.
@@ -433,27 +433,10 @@ public class ChatFrame extends KoLFrame
 		}
 	}
 
-	private class MessengerButton extends JButton implements ActionListener
+	private class MessengerButton extends InvocationButton
 	{
-		private String method;
-
-		public MessengerButton( String title, String method )
-		{
-			super( JComponentUtilities.getSharedImage( title ) );
-			JComponentUtilities.setComponentSize( this, 32, 32 );
-
-			this.method = method;
-			this.addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( method.equals( "clearChatBuffers" ) )
-				KoLMessenger.clearChatBuffers();
-			if ( method.equals( "addHighlighting" ) )
-				KoLMessenger.addHighlighting();
-			if ( method.equals( "removeHighlighting" ) )
-				KoLMessenger.removeHighlighting();
+		public MessengerButton( String title, String image, String method )
+		{	super( title, image, KoLMessenger.class, method );
 		}
 	}
 

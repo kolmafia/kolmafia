@@ -78,11 +78,13 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		dehighlights.clear();
 	}
 
-	public static void removeHighlight( int index )
+	public static String removeHighlight( int index )
 	{
-		colors.remove( index );
-		highlights.remove( index );
+		String removedColor = (String) colors.remove( index );
+		String removedPattern = ((Pattern) highlights.remove( index )).toString();
 		dehighlights.remove( index );
+
+		return removedPattern + "\n" + removedColor;
 	}
 
 	/**
@@ -201,13 +203,15 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		previousFontSize = fontSize;
 	}
 
-	public static void addHighlight( String highlight, Color color )
+	public static String addHighlight( String highlight, Color color )
 	{
 		String colorString = DataUtilities.toHexString( color );
 
 		colors.add( colorString );
 		highlights.add( Pattern.compile( highlight, Pattern.CASE_INSENSITIVE ) );
 		dehighlights.add( Pattern.compile( "href=\"([^\"]*)<font color=\"" + colorString + "\">" + highlight + "</font>", Pattern.CASE_INSENSITIVE ) );
+
+		return highlight + "\n" + colorString;
 	}
 
 	public void applyHighlights()

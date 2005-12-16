@@ -124,15 +124,21 @@ public class KoLmafiaGUI extends KoLmafia
 		// Instantiate the appropriate instance of the
 		// frame that should be loaded based on the mode.
 
-		Object [] parameters = new Object[1];
-		parameters[0] = this;
+		if ( frameClass == ChatFrame.class )
+		{
+			KoLMessenger.initialize();
+		}
+		else
+		{
+			Object [] parameters = new Object[1];
+			parameters[0] = this;
 
-		displayer = new CreateFrameRunnable( frameClass, parameters );
-		displayer.run();
+			displayer = new CreateFrameRunnable( frameClass, parameters );
+			displayer.run();
+		}
 
 		((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
 		((KoLFrame)previousDisplayer.getCreation()).dispose();
-
 		enableDisplay();
 	}
 

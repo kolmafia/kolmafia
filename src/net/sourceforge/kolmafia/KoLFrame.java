@@ -244,7 +244,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Later on, all menu items not added by default will be placed onto
 		// the panel for increased visibility.
 
-		if ( !(this instanceof ContactListFrame || this instanceof LoginFrame) )
+		if ( !(this instanceof ContactListFrame) )
 			addMenuBar();
 
 		if ( this instanceof AdventureFrame || this instanceof LoginFrame )
@@ -416,6 +416,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Add general features.
 
 		JMenu statusMenu = new JMenu( "General" );
+		statusMenu.setEnabled( client == null || !client.inLoginState() );
 		menuBar.add( statusMenu );
 
 		statusMenu.add( new DisplayFrameMenuItem( "Main Interface", AdventureFrame.class ) );
@@ -437,6 +438,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Add the communication menu.
 
 		JMenu peopleMenu = new JMenu( "People" );
+		peopleMenu.setEnabled( client == null || !client.inLoginState() );
 		menuBar.add( peopleMenu );
 
 		peopleMenu.add( new InvocationMenuItem( "Mail Manager", KoLMessenger.class, "initialize" ) );
@@ -453,6 +455,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Add specialized tools.
 
 		JMenu toolsMenu = new JMenu( "Tools" );
+		toolsMenu.setEnabled( client == null || !client.inLoginState() );
 		menuBar.add( toolsMenu );
 
 		toolsMenu.add( new InvocationMenuItem( "Doc Galaktik", client, "makeGalaktikRequest" ) );
@@ -473,13 +476,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Add script and bookmark menus, which use the
 		// listener-driven static lists.
 
-		menuBar.add( new ScriptMenu() );
-		menuBar.add( new BookmarkMenu() );
+		JMenu scriptMenu = new ScriptMenu();
+		scriptMenu.setEnabled( client == null || !client.inLoginState() );
+		menuBar.add( scriptMenu );
+
+		JMenu bookmarkMenu = new BookmarkMenu();
+		bookmarkMenu.setEnabled( client == null || !client.inLoginState() );
+		menuBar.add( bookmarkMenu );
 
 		// Add the refresh menu, which holds the ability
 		// to refresh everything in the session.
 
 		JMenu refreshMenu = new JMenu();
+		refreshMenu.setEnabled( client == null || !client.inLoginState() );
 		menuBar.add( refreshMenu );
 
 		refreshMenu.setIcon( JComponentUtilities.getSharedImage( "refresh.gif" ) );

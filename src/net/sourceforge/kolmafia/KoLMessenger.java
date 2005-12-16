@@ -52,7 +52,9 @@ import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
+
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.DataUtilities;
 
 public abstract class KoLMessenger extends StaticEntity
 {
@@ -156,7 +158,22 @@ public abstract class KoLMessenger extends StaticEntity
 
 		reset();  isRunning = true;
 		(new RequestThread( new ChatRequest( client, null, "/channel" ) )).start();
+
+		// Clear the highlights and add all the ones which
+		// were saved from the last session.
+
 		LimitedSizeChatBuffer.clearHighlights();
+
+		String [] highlights = getProperty( "highlightList" ).split( "\n" );
+
+		if ( highlights.length != 1 )
+		{
+			LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
+			LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+
+			for ( int i = 1; i < highlights.length; ++i )
+				LimitedSizeChatBuffer.addHighlight( highlights[i], DataUtilities.toColor( highlights[++i] ) );
+		}
 	}
 
 	/**
@@ -881,7 +898,8 @@ public abstract class KoLMessenger extends StaticEntity
 		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
 		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
-		LimitedSizeChatBuffer.addHighlight( highlight, color );
+		String settingString = LimitedSizeChatBuffer.addHighlight( highlight, color );
+		setProperty( "highlightList", getProperty( "highlightList" ) + "\n" + settingString );
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -916,8 +934,10 @@ public abstract class KoLMessenger extends StaticEntity
 		for ( int i = 0; i < patterns.length; ++i )
 			if ( patterns[i].equals( selectedValue ) )
 			{
-				LimitedSizeChatBuffer.removeHighlight(i);
+				String settingString = LimitedSizeChatBuffer.removeHighlight(i);
 				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+
+				setProperty( "highlightList", getProperty( "highlightList" ).replaceAll( settingString, "" ) );
 
 				Object [] keys = instantMessageBuffers.keySet().toArray();
 				for ( int j = 0; j < keys.length; ++j )
