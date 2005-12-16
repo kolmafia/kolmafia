@@ -68,15 +68,15 @@ public class ContactListFrame extends KoLFrame
 	private SortedListModel contacts;
 	private JList contactsDisplay;
 
-	protected ButtonGroup clickGroup;
-	protected JRadioButtonMenuItem [] clickOptions;
-
 	public ContactListFrame( KoLmafia client, SortedListModel contacts )
 	{
 		super( client, "Contact List" );
 		this.contacts = contacts;
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( new ContactListPanel(), "" );
+
+		this.toolbarPanel.add( new InvocationButton( "Convert to list", "copy.gif", this, "convertToCDL" ) );
+		this.toolbarPanel.add( new InvocationButton( "Buff selected players", "buff.gif", this, "buffSelected" ) );
 
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 		pack();
@@ -88,34 +88,6 @@ public class ContactListFrame extends KoLFrame
 
 	public boolean isEnabled()
 	{	return true;
-	}
-
-	protected void addMenuBar()
-	{
-		super.addMenuBar();
-
-		JMenuBar menuBar = getJMenuBar();
-		JMenu clicksMenu = new JMenu( "Namelinks" );
-		menuBar.add( clicksMenu );
-
-		clickGroup = new ButtonGroup();
-		clickOptions = new JRadioButtonMenuItem[4];
-		clickOptions[0] = new JRadioButtonMenuItem( "Open blue message", true );
-		clickOptions[1] = new JRadioButtonMenuItem( "Open green message", false );
-		clickOptions[2] = new JRadioButtonMenuItem( "Open purple message", false );
-		clickOptions[3] = new JRadioButtonMenuItem( "Open player profile", false );
-
-		for ( int i = 0; i < clickOptions.length; ++i )
-		{
-			clickGroup.add( clickOptions[i] );
-			clicksMenu.add( clickOptions[i] );
-		}
-
-		JMenu selectMenu = new JMenu( "Wholist" );
-		menuBar.add( selectMenu );
-
-		selectMenu.add( new InvocationMenuItem( "Comma-delimited list", this, "convertToCDL" ) );
-		selectMenu.add( new InvocationMenuItem( "Buff selected players", this, "buffSelected" ) );
 	}
 
 	public Object [] getSelectedPlayers()
@@ -204,23 +176,8 @@ public class ContactListFrame extends KoLFrame
 				int index = list.locationToIndex( e.getPoint() );
 
 				if ( index >= 0 && index < contacts.size() )
-					handleName( (String) contacts.get( index ) );
+					KoLMessenger.openInstantMessage( (String) contacts.get( index ) );
 			}
-		}
-
-		private void handleName( String contactName )
-		{
-			Class frameClass = clickOptions[1].isSelected() ? GreenMessageFrame.class :
-				clickOptions[2].isSelected() ? GiftMessageFrame.class : ProfileFrame.class;
-
-			Object [] parameters = new Object[2];
-			parameters[0] = client;
-			parameters[1] = contactName;
-
-			if ( clickOptions[0].isSelected() )
-				KoLMessenger.openInstantMessage( contactName );
-			else
-				SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
 		}
 	}
 }

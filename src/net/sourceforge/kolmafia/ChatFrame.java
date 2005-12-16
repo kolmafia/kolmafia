@@ -111,6 +111,8 @@ public class ChatFrame extends KoLFrame
 		toolbarPanel.add( new MessengerButton( "clear.gif", "clearChatBuffers" ) );
 		toolbarPanel.add( new MessengerButton( "highlight1.gif", "addHighlighting" ) );
 		toolbarPanel.add( new MessengerButton( "highlight2.gif", "removeHighlighting" ) );
+		toolbarPanel.add( new MessengerButton( "who1.gif", "checkFriends" ) );
+		toolbarPanel.add( new MessengerButton( "who2.gif", "checkChannel" ) );
 
 		// Add a window listener to handle exiting and closing
 		// chat, pending on how the initialization functions.

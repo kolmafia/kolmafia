@@ -193,6 +193,14 @@ public abstract class KoLMessenger extends StaticEntity
 		return null;
 	}
 
+	public static void checkFriends()
+	{	(new RequestThread( new ChatRequest( client, currentChannel, "/friends" ) )).start();
+	}
+
+	public static void checkChannel()
+	{	(new RequestThread( new ChatRequest( client, currentChannel, "/who" ) )).start();
+	}
+
 	/**
 	 * Retrieves the chat buffer currently used for storing and
 	 * saving the currently running chat associated with the
