@@ -64,7 +64,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 		LockableListModel source = (LockableListModel) e.getSource();
 		int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-		if ( index1 >= source.size() || source.size() + headerCount == getMenuComponentCount() )
+		if ( index1 >= source.size() )
 			return;
 
 		for ( int i = index0; i <= index1; ++i )
@@ -85,7 +85,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 		LockableListModel source = (LockableListModel) e.getSource();
 		int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-		if ( index1 + headerCount >= getMenuComponentCount() || source.size() + headerCount == getMenuComponentCount() )
+		if ( index0 + headerCount >= getMenuComponentCount() || source.size() + headerCount == getMenuComponentCount() )
 			return;
 
 		for ( int i = index1; i >= index0; --i )
@@ -106,7 +106,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 		LockableListModel source = (LockableListModel) e.getSource();
 		int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-		if ( index1 + headerCount >= getMenuComponentCount() || source.size() + headerCount == getMenuComponentCount() )
+		if ( index1 + headerCount >= getMenuComponentCount() )
 			return;
 
 		for ( int i = index1; i >= index0; --i )
