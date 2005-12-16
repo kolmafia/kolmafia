@@ -1143,6 +1143,8 @@ public class KoLmafiaCLI extends KoLmafia
 			// and have a ".txt" extension and not be in the
 			// scripts directory.
 
+			int runCount = 1;
+
 			File scriptFile = new File( "scripts" + File.separator + parameters );
 			if ( !scriptFile.exists() )
 				scriptFile = new File( "scripts" + File.separator + parameters + ".txt" );
@@ -1153,16 +1155,33 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( !scriptFile.exists() )
 			{
+				runCount = Integer.parseInt( parameters.split( " " )[0] );
+				String scriptName = parameters.substring( parameters.indexOf( " " ) ).trim();
+
+				scriptFile = new File( "scripts" + File.separator + scriptName );
+				if ( !scriptFile.exists() )
+					scriptFile = new File( "scripts" + File.separator + scriptName + ".txt" );
+				if ( !scriptFile.exists() )
+					scriptFile = new File( scriptName );
+				if ( !scriptFile.exists() )
+					scriptFile = new File( scriptName + ".txt" );
+			}
+
+			if ( !scriptFile.exists() )
+			{
 				updateDisplay( ERROR_STATE, "Script file \"" + parameters + "\" could not be found." );
 				scriptRequestor.cancelRequest();
 				return;
 			}
 
-			lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
-			lastScript.commandBuffer = commandBuffer;
-			lastScript.listenForCommands();
-			if ( lastScript.previousCommand == null )
-				lastScript = null;
+			for ( int i = 0; i < runCount; ++i )
+			{
+				lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
+				lastScript.commandBuffer = commandBuffer;
+				lastScript.listenForCommands();
+				if ( lastScript.previousCommand == null )
+					lastScript = null;
+			}
 		}
 		catch ( Exception e )
 		{
