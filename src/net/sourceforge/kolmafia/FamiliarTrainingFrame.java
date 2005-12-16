@@ -76,6 +76,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -952,7 +953,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
 
 			// Look at effects to decide which ones are active;
-			LockableListModel active = KoLCharacter.getEffects();
+			SortedListModel active = KoLCharacter.getEffects();
 			empathyActive = EMPATHY.getCount( active );
 			leashActive = LEASH.getCount( active );
 		}
