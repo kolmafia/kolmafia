@@ -442,7 +442,7 @@ public class LoginFrame extends KoLFrame
 	private class ServerSelectPanel extends LabeledKoLPanel
 	{
 		private static final int SERVER_COUNT = 3;
-		private JComboBox servers, uimodes;
+		private JComboBox servers, uimodes, toolbars;
 
 		public ServerSelectPanel()
 		{
@@ -459,9 +459,14 @@ public class LoginFrame extends KoLFrame
 			uimodes.addItem( "Use chat-only frame mode" );
 			uimodes.addItem( "Use clan management frame mode" );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
+			toolbars = new JComboBox();
+			toolbars.addItem( "Show toolbars and menus" );
+			toolbars.addItem( "Show global menus only" );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Server: ", servers );
 			elements[1] = new VerifiableElement( "UI Mode: ", uimodes );
+			elements[2] = new VerifiableElement( "Toolbars: ", toolbars );
 
 			setContent( elements );
 			actionCancelled();
@@ -471,6 +476,7 @@ public class LoginFrame extends KoLFrame
 		{
 			setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
 			setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
+			setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() == 0 ) );
 
 			JOptionPane.showMessageDialog( null, "Settings saved." );
 		}
@@ -479,6 +485,7 @@ public class LoginFrame extends KoLFrame
 		{
 			servers.setSelectedIndex( Integer.parseInt( getProperty( "loginServer" ) ) );
 			uimodes.setSelectedIndex( Integer.parseInt( getProperty( "userInterfaceMode" ) ) );
+			toolbars.setSelectedIndex( getProperty( "useToolbars" ).equals( "true" ) ? 0 : 1 );
 		}
 	}
 

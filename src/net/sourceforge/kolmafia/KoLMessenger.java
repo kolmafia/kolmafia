@@ -675,18 +675,21 @@ public abstract class KoLMessenger extends StaticEntity
 
 		String displayHTML = null;
 
+		if ( getProperty( "eSoluScriptlet" ).equals( "true" ) )
+		{
+			Matcher whoMatcher = Pattern.compile( "showplayer.php\\?who=[\\d]+" ).matcher( message );
+			if ( whoMatcher.find() )
+			{
+				String link = whoMatcher.group();
+				message = message.replaceFirst( "</b>", "</b> " +
+					"<a href=\"" + link + "_1\"><font color=blue>[p]</font></a>" +
+					"<a href=\"" + link + "_2\"><font color=green>[k]</font></a>" +
+					"<a href=\"" + link + "_3\"><font color=purple>[g]</font></a>" );
+			}
+		}
+
 		// There are a bunch of messages that are supposed to be
 		// formatted in green.  These are all handled first.
-
-		Matcher whoMatcher = Pattern.compile( "showplayer.php\\?who=[\\d]+" ).matcher( message );
-		if ( whoMatcher.find() )
-		{
-			String link = whoMatcher.group();
-			message = message.replaceFirst( "</b>", "</b> " +
-				"<a href=\"" + link + "_1\"><font color=blue>[p]</font></a>" +
-				"<a href=\"" + link + "_2\"><font color=green>[k]</font></a>" +
-				"<a href=\"" + link + "_3\"><font color=purple>[g]</font></a>" );
-		}
 
 		if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) )
 			displayHTML = "<font color=green>" + message + "</font>";

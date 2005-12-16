@@ -108,11 +108,14 @@ public class ChatFrame extends KoLFrame
 		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
 
-		toolbarPanel.add( new MessengerButton( "Clear Chat Buffers", "clear.gif", "clearChatBuffers" ) );
-		toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
-		toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
-		toolbarPanel.add( new MessengerButton( "/friends", "who1.gif", "checkFriends" ) );
-		toolbarPanel.add( new MessengerButton( "/who on talking channel", "who2.gif", "checkChannel" ) );
+		if ( getProperty( "useToolbars" ).equals( "true" ) )
+		{
+			toolbarPanel.add( new MessengerButton( "Clear Chat Buffers", "clear.gif", "clearChatBuffers" ) );
+			toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
+			toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
+			toolbarPanel.add( new MessengerButton( "/friends", "who1.gif", "checkFriends" ) );
+			toolbarPanel.add( new MessengerButton( "/who on talking channel", "who2.gif", "checkChannel" ) );
+		}
 
 		// Add a window listener to handle exiting and closing
 		// chat, pending on how the initialization functions.
@@ -426,7 +429,7 @@ public class ChatFrame extends KoLFrame
 			// Now, determine what needs to be done based
 			// on the link option.
 
-			if ( linkOption == 1 )
+			if ( getProperty( "eSoluScriptlet" ).equals( "false" ) || linkOption == 1 )
 				KoLMessenger.openInstantMessage( (String) parameters[1] );
 			else
 				SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );

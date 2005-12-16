@@ -516,7 +516,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected void addToolBar()
 	{
-		if ( this instanceof AdventureFrame )
+		if ( GLOBAL_SETTINGS.getProperty( "useToolbars" ).equals( "true" ) && this instanceof AdventureFrame )
 		{
 			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", CouncilFrame.class ) );
 			toolbarPanel.add( new MiniBrowserButton() );
@@ -544,7 +544,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			toolbarPanel.add( new JToolBar.Separator() );
 		}
 
-		if ( this instanceof AdventureFrame || this instanceof LoginFrame )
+		if ( (GLOBAL_SETTINGS.getProperty( "useToolbars" ).equals( "true" ) && this instanceof AdventureFrame) || this instanceof LoginFrame )
 		{
 			toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );

@@ -715,6 +715,7 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox fontSizeSelect;
 		private JComboBox chatStyleSelect;
 		private JComboBox useTabsSelect;
+		private JComboBox eSoluSelect;
 		private JPanel colorPanel;
 
 		public ChatOptionsPanel()
@@ -738,11 +739,16 @@ public class OptionsFrame extends KoLFrame
 			useTabsSelect.addItem( "Use windowed chat interface" );
 			useTabsSelect.addItem( "Use tabbed chat interface" );
 
-			VerifiableElement [] elements = new VerifiableElement[4];
+			eSoluSelect = new JComboBox();
+			eSoluSelect.addItem( "Blue message nameclicks only" );
+			eSoluSelect.addItem( "Use eSolu scriptlet chat links" );
+
+			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "Chat Logs: ", autoLogSelect );
 			elements[1] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[2] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 			elements[3] = new VerifiableElement( "Windowing: ", useTabsSelect );
+			elements[4] = new VerifiableElement( "eSolu Script: ", eSoluSelect );
 
 			setContent( elements );
 			actionCancelled();
@@ -759,7 +765,8 @@ public class OptionsFrame extends KoLFrame
 
 			setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
 			setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
-			
+			setProperty( "eSoluScriptlet", String.valueOf( eSoluSelect.getSelectedIndex() == 1 ) );
+
 			super.actionConfirmed();
 		}
 
@@ -784,14 +791,14 @@ public class OptionsFrame extends KoLFrame
 		private Color [] selectedColors;
 		private JPanel [] colorSelectors;
 		private JLabel [] channelNameLabels;
-	
+
 		public ChatColorsPanel()
 		{
 			JPanel colorPanel = new JPanel( new GridLayout( (int) Math.ceil( KoLMessenger.ROOMS.length / 4 ), 4, 5, 5 ) );
 
 			selectedColors = new Color[ KoLMessenger.ROOMS.length ];
 			colorSelectors = new JPanel[ KoLMessenger.ROOMS.length ];
-			channelNameLabels = new JLabel[ KoLMessenger.ROOMS.length ];			
+			channelNameLabels = new JLabel[ KoLMessenger.ROOMS.length ];
 
 			String [] colors = getProperty( "channelColors" ).split( "," );
 
@@ -809,13 +816,13 @@ public class OptionsFrame extends KoLFrame
 				colorSelectors[i].setOpaque( true );
 				colorSelectors[i].setBackground( selectedColors[i] );
 				colorSelectors[i].addMouseListener( new ChatColorChanger(i) );
-				
+
 				JComponentUtilities.setComponentSize( colorSelectors[i], 24, 24 );
-				
+
 				JPanel containerPanel = new JPanel( new BorderLayout( 5, 5 ) );
 				containerPanel.add( colorSelectors[i], BorderLayout.WEST );
 				containerPanel.add( channelNameLabels[i], BorderLayout.CENTER );
-				
+
 				colorPanel.add( containerPanel );
 			}
 
@@ -835,11 +842,11 @@ public class OptionsFrame extends KoLFrame
 		private class ChatColorChanger extends MouseAdapter
 		{
 			private int index;
-		
+
 			public ChatColorChanger( int index )
 			{	this.index = index;
 			}
-		
+
 			public void mousePressed( MouseEvent e )
 			{
 				Color selectedColor = JColorChooser.showDialog( OptionsFrame.this,
