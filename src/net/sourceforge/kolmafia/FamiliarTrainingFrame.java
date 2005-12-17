@@ -647,7 +647,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				if ( buffs )
 				{
-					results.append( "Trying again without buffs...<br>" );
+					results.append( "Trying again without considering buffs...<br>" );
 					client.resetContinueState();
 					buffs = false;
 					continue;
@@ -1241,7 +1241,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// If we couldn't pick one, that's an internal error
 			if ( next == null || weight != next.weight() )
 			{
-				results.append( "Internal error: could not select gear set.<br>" );
+				results.append( "Internal error: could not select gear set to achieve " + weight + " lbs.<br>" );
+				if ( next == null )
+					results.append( "No gear set found.<br>" );
+				else
+					results.append( "Selected gear set provides " + next.weight() + " lbs.<br>" );
 				client.cancelRequest();
 				return;
 			}
