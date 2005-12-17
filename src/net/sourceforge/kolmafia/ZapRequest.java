@@ -88,7 +88,7 @@ public class ZapRequest extends KoLRequest
 		client.processResults( responseText );
 
 		// Remove old item
-		client.processResult( item.getInstance( 11 ) );
+		client.processResult( item.getInstance( -1 ) );
 
 		// If it blew up, remove wand
 		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
