@@ -331,6 +331,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			JButton buffed;
 			JButton turns;
 			JButton stop;
+			// JButton debug;
 
 			public ButtonPanel()
 			{
@@ -350,6 +351,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 				stop = new JButton( "Stop Training" );
 				stop.addActionListener( new StopListener() );
 				this.add( stop );
+
+				// debug = new JButton( "Debug" );
+				// debug.addActionListener( new DebugListener() );
+				// this.add( debug );
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -439,6 +444,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 				{	FamiliarTrainingFrame.stop = true;
 				}
 			}
+
+			/*
+			private class DebugListener implements ActionListener
+			{
+				public void actionPerformed( ActionEvent e )
+				{	debug( client );
+				}
+			}
+			*/
 		}
 
 		private class ResultsPanel extends JPanel
@@ -933,7 +947,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			checkCurrentEquipment();
 
 			// Check available equipment
-			checkAvailableEquipment();
+			checkAvailableEquipment( KoLCharacter.getInventory() );
 
 			// No turns have been used yet
 			turns = 0;
@@ -944,6 +958,57 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Initialize the list of GearSets
 			gearSets = new ArrayList();
 		}
+
+		/*
+		// Debug initializer
+		public FamiliarStatus( KoLmafia client,
+				       FamiliarData familiar,
+				       boolean sympathyAvailable,
+				       boolean leashAvailable,
+				       boolean empathyAvailable,
+				       int leashActive,
+				       int empathyActive,
+				       AdventureResult hat,
+				       AdventureResult item,
+				       AdventureResult acc1,
+				       AdventureResult acc2,
+				       AdventureResult acc3,
+				       LockableListModel inventory )
+		{
+			// Save client for later use
+			this.client = client;
+
+			// Find out which familiar we are working with
+			this.familiar = familiar;
+
+			// Get details about the special item it can wear
+			String name = FamiliarsDatabase.getFamiliarItem( familiar.getID() );
+			familiarItem = new AdventureResult( name, 1, false );
+			familiarItemWeight = FamiliarData.itemWeightModifier( familiarItem.getItemID() );
+
+			// Check available skills
+			this.sympathyAvailable = sympathyAvailable;
+			this.leashAvailable = leashAvailable;
+			this.empathyAvailable = empathyAvailable;
+			this.leashActive = leashActive;
+			this.empathyActive = empathyActive;
+
+			// Check current equipment
+			checkCurrentEquipment( hat, item, acc1, acc2, acc3 );
+
+			// Check available equipment
+			checkAvailableEquipment( inventory );
+
+			// No turns have been used yet
+			turns = 0;
+
+			// Initialize set of weights
+			weights = new TreeSet();
+
+			// Initialize the list of GearSets
+			gearSets = new ArrayList();
+		}
+		*/
 
 		private void checkSkills()
 		{
@@ -959,15 +1024,25 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		private void checkCurrentEquipment()
-		{
-			AdventureResult equipment;
+		{	checkCurrentEquipment( KoLCharacter.getCurrentEquipment( KoLCharacter.HAT ),
+					       KoLCharacter.getCurrentEquipment( KoLCharacter.FAMILIAR ),
+					       KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY1 ),
+					       KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY2 ),
+					       KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY3 ) );
+		}
 
+		private void checkCurrentEquipment( AdventureResult hat,
+						    AdventureResult item,
+						    AdventureResult acc1,
+						    AdventureResult acc2,
+						    AdventureResult acc3 )
+		{
 			// Initialize equipment to default
-			hat = null;
-			item = null;
-			acc[0] = null;
-			acc[1] = null;
-			acc[2] = null;
+			this.hat = null;
+			this.item = null;
+			this.acc[0] = null;
+			this.acc[1] = null;
+			this.acc[2] = null;
 
 			pithHelmet = null;
 			specItem = null;
@@ -979,42 +1054,38 @@ public class FamiliarTrainingFrame extends KoLFrame
 			tpCount = 0;
 
 			// Check hat for pithiness
-			equipment = KoLCharacter.getCurrentEquipment( KoLCharacter.HAT );
-
-			if ( equipment != null && equipment.getName().equals( PITH_HELMET.getName() ) )
-				hat = pithHelmet = PITH_HELMET;
+			if ( hat != null && hat.getName().equals( PITH_HELMET.getName() ) )
+				this.hat = pithHelmet = PITH_HELMET;
 
 			// Check current familiar item
-			equipment = KoLCharacter.getCurrentEquipment( KoLCharacter.FAMILIAR );
-			if ( equipment != null )
+			if ( item != null )
 			{
-				String name = equipment.getName();
+				String name = item.getName();
 				if ( name.equals( familiarItem.getName() ) )
 				{
-					item = specItem = familiarItem;
+					this.item = specItem = familiarItem;
 					specWeight = familiarItemWeight;
 				}
 				else if ( name.equals( LEAD_NECKLACE.getName() ) )
 				{
-					item = leadNecklace = LEAD_NECKLACE;
+					this.item = leadNecklace = LEAD_NECKLACE;
 					leadNecklaceOwner = familiar;
 				}
 				else if ( name.equals( RAT_HEAD_BALLOON.getName() ) )
 				{
-					item = ratHeadBalloon = RAT_HEAD_BALLOON;
+					this.item = ratHeadBalloon = RAT_HEAD_BALLOON;
 					ratHeadBalloonOwner = familiar;
 				}
 			}
 
 			// Check accessories for tininess and plasticity
-			checkAccessory( 0, KoLCharacter.ACCESSORY1 );
-			checkAccessory( 1, KoLCharacter.ACCESSORY2 );
-			checkAccessory( 2, KoLCharacter.ACCESSORY3 );
+			checkAccessory( 0, acc1 );
+			checkAccessory( 1, acc2 );
+			checkAccessory( 2, acc3 );
 		}
 
-		private void checkAccessory( int index, int type )
+		private void checkAccessory( int index, AdventureResult accessory )
 		{
-			AdventureResult accessory = KoLCharacter.getCurrentEquipment( type );
 			if ( isTinyPlasticItem( accessory ) )
 			{
 				acc[ index] = accessory;
@@ -1032,10 +1103,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return false;
 		}
 
-		private void checkAvailableEquipment()
+		private void checkAvailableEquipment( LockableListModel inventory )
 		{
-			LockableListModel inventory = KoLCharacter.getInventory();
-
 			// If not wearing a pith helmet, search inventory
 			if ( pithHelmet == null &&
 			     PITH_HELMET.getCount( inventory ) > 0 &&
@@ -1252,6 +1321,33 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Change into the new GearSet
 			changeGear( current, next);
+		}
+
+		/*
+		 * Debug: choose and print desired GearSet
+		 */
+		public void chooseGear( int weight, boolean buffs )
+		{
+			// Make a GearSet describing what we have now
+			GearSet current = new GearSet();
+
+			// If we are already suitably equipped, stop now
+			if ( weight == current.weight() )
+			{
+				results.append( "Current gear is acceptable/<br>" );
+				return;
+			}
+
+			// Choose a new GearSet with desired weight
+			GearSet next = chooseGearSet( current, weight, buffs );
+
+			if ( next == null )
+			{
+				results.append( "Could not find a gear set to achieve " + weight + " lbs.<br>" );
+				return;
+			}
+
+			results.append( "Chosen gear set: " + next + " provides " + next.weight() + " lbs.<br>" );
 		}
 
 		/*
@@ -1757,7 +1853,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 
 			public int weight()
-			{	return gearSetWeight( acc[0], acc[1], acc[2], item, hat, leash, empathy );
+			{	return gearSetWeight( acc1, acc2, acc3, item, hat, leash, empathy );
 			}
 
 			public int compareTo( GearSet that )
@@ -1819,6 +1915,73 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 		}
 	}
+
+	// Debug methods
+
+	/*
+	private static LockableListModel debugOpponents = new LockableListModel();
+	static
+	{
+		debugOpponents.add( new CakeArenaManager.ArenaOpponent( 1, "Dirty Pair", "Fuzzy Dice", 15 ) );
+		debugOpponents.add( new CakeArenaManager.ArenaOpponent( 2, "Radi O'Kol", "Leprechaun", 10 ) );
+		debugOpponents.add( new CakeArenaManager.ArenaOpponent( 3, "Captain Scapula", "Spooky Pirate Skeleton", 15 ) );
+		debugOpponents.add( new CakeArenaManager.ArenaOpponent( 4, "Queso Ardilla", "Hovering Sombrero", 10 ));
+		debugOpponents.add( new CakeArenaManager.ArenaOpponent( 5, "Optimus Pram", "MagiMechTech MicroMechaMech", 7 ) );
+	}
+
+	private static FamiliarData debugFamiliar = new FamiliarData( 19, "Creepy", 2, "skewer-mounted razor blade" );
+
+	private static void debug( KoLmafia client )
+	{
+		LockableListModel inventory = new LockableListModel();
+		inventory.add( new AdventureResult( "lead necklace", 1 ) );
+		inventory.add( new AdventureResult( "tiny plastic angry goat", 1 ) );
+		inventory.add( new AdventureResult( "tiny plastic stab bat", 1 ) );
+		inventory.add( new AdventureResult( "tiny plastic cocoabo", 1 ) );
+
+		FamiliarStatus status = new FamiliarStatus( client,
+							    debugFamiliar,
+							    true,
+							    true,
+							    false,
+							    0,
+							    0,
+							    null,
+							    new AdventureResult( "skewer-mounted razor blade" ),
+							    null,
+							    null,
+							    null,
+							    inventory );
+
+		// Identify the familiar we are training
+		printFamiliar( status, 20, BASE );
+		results.append( "<br>" );
+
+		// Print available buffs and items and current buffs
+		results.append( status.printCurrentBuffs() );
+		results.append( status.printAvailableBuffs() );
+		results.append( status.printCurrentEquipment() );
+		results.append( status.printAvailableEquipment() );
+		results.append( "<br>" );
+
+		// Print the opponents
+		printOpponents( debugOpponents );
+		results.append( "<br>" );
+
+		FamiliarTool tool = new FamiliarTool( debugOpponents );
+
+		int [] weights = status.getWeights( false );
+		printWeights( weights, false );
+
+		CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( debugFamiliar.getID(), weights );
+
+		printMatch( status, opponent, tool );
+
+		int weight = tool.bestWeight();
+		results.append( "Equipping to " + weight + " lbs.<br>" );
+		status.chooseGear( weight, false );
+	}
+	*/
 
 	public static void main( String [] args )
 	{

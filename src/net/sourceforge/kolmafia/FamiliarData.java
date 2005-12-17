@@ -53,13 +53,17 @@ public class FamiliarData implements KoLConstants, Comparable
 	private String name, race, item;
 
 	public FamiliarData( int id )
+	{       this( id, "", 1, EquipmentRequest.UNEQUIP );
+	}
+
+	public FamiliarData( int id, String name, int weight, String item )
 	{
 		this.id = id;
-		this.name = "";
+		this.name = name;
 		this.race = id == -1 ? EquipmentRequest.UNEQUIP : FamiliarsDatabase.getFamiliarName( id );
 
-		this.weight = 1;
-		this.item = EquipmentRequest.UNEQUIP;
+		this.weight = weight;
+		this.item = item;
 	}
 
 	private FamiliarData( KoLmafia client, Matcher dataMatcher )

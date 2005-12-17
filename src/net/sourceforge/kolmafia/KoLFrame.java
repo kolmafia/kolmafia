@@ -1544,7 +1544,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				tasksMenu.add( new DisplayRequestMenuItem( "Weird Records", "records.php?which=0" ) );
 				tasksMenu.add( new DisplayRequestMenuItem( "Loot the Hermit", "hermit.php" ) );
 				tasksMenu.add( new DisplayRequestMenuItem( "Mountain Trapper", "trapper.php" ) );
-				tasksMenu.add( new DisplayRequestMenuItem( "Bounty Hunter", "town_wrong?place=bountyhunter" ) );
+				tasksMenu.add( new DisplayRequestMenuItem( "Bounty Hunter", "town_wrong.php?place=bountyhunter" ) );
 				tasksMenu.add( new DisplayRequestMenuItem( "Untinker Items", "town_right.php?place=untinker" ) );
 				tasksMenu.add( new DisplayPageMenuItem( "Canadian Device", "canadia.php?place=machine" ) );
 
