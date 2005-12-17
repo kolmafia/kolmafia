@@ -672,6 +672,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		for ( int j = 0; j < recentEffects.size(); ++j )
 			AdventureResult.addResultToList( KoLCharacter.getEffects(), (AdventureResult) recentEffects.get(j) );
+		KoLCharacter.sortEffects();
 
 		recentEffects.clear();
 		FamiliarData.updateWeightModifier();

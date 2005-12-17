@@ -1018,7 +1018,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
 
 			// Look at effects to decide which ones are active;
-			SortedListModel active = KoLCharacter.getEffects();
+			LockableListModel active = KoLCharacter.getEffects();
 			empathyActive = EMPATHY.getCount( active );
 			leashActive = LEASH.getCount( active );
 		}

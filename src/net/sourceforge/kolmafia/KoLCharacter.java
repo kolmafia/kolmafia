@@ -220,7 +220,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static SortedListModel usables = new SortedListModel( AdventureResult.class );
 	private static SortedListModel sellables = new SortedListModel( AdventureResult.class );
 
-	private static SortedListModel activeEffects = new SortedListModel( AdventureResult.class );
+	private static LockableListModel activeEffects = new LockableListModel();
 	private static SortedListModel usableSkills = new SortedListModel( UseSkillRequest.class );
 	private static LockableListModel availableSkills = new LockableListModel();
 
@@ -1452,8 +1452,16 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	A list of current effects
 	 */
 
-	public static SortedListModel getEffects()
+	public static LockableListModel getEffects()
 	{	return activeEffects;
+	}
+
+	/**
+	 * Method to sort the effects by duration
+	 */
+
+	public static void sortEffects()
+	{	AdventureResult.sortListByCount( activeEffects );
 	}
 
 	/**
@@ -1886,9 +1894,10 @@ public abstract class KoLCharacter extends StaticEntity
 				for ( int i = effectsArray.length - 1; i >= 0; --i )
 				{
 					AdventureResult effect = effectsArray[i];
-					getEffects().remove( effect );
-					if ( effect.getCount() > 0 - result.getCount() )
-						getEffects().add( effect.getInstance( effect.getCount() + result.getCount() ) );
+					if ( effect.getCount() <= 0 - result.getCount() )
+						getEffects().remove( i );
+					else
+						getEffects().set( i, effect.getInstance( effect.getCount() + result.getCount() ) );
 				}
 
 				setTotalTurnsUsed( getTotalTurnsUsed() + result.getCount() );

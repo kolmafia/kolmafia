@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 import java.text.ParseException;
 import java.text.DecimalFormat;
@@ -469,26 +470,10 @@ public class AdventureResult implements Comparable, KoLConstants
 		AdventureResult ar = (AdventureResult) o;
 
 		int priorityDifference = priority - ar.priority;
-
 		if ( priorityDifference != 0 )
 			return priorityDifference;
 
 		int nameComparison = name.compareToIgnoreCase( ar.name );
-
-		if ( isStatusEffect() )
-		{
-			// Same status effect
-			if ( nameComparison == 0 )
-				return 0;
-
-			// Different status effect, same duration
-			if ( getCount() == ar.getCount() )
-				return nameComparison;
-
-			// Different duration
-			return getCount() - ar.getCount();
-		}
-
 		if ( nameComparison != 0 )
 			return nameComparison;
 
@@ -554,6 +539,38 @@ public class AdventureResult implements Comparable, KoLConstants
 			sumResult = new AdventureResult( AdventureResult.ADV, 0 );
 
 		tally.set( index, sumResult );
+	}
+
+	/**
+	 * Utility method used to sort a list of AdventureResults by count
+	 *
+	 * @param	tally	The list of <code>AdventureResult</code>s
+	 */
+
+	public static void sortListByCount( List list )
+	{	 java.util.Collections.sort( list, new CountComparator() );
+	}
+
+	private static class CountComparator implements Comparator
+	{
+		public int compare( Object o1, Object o2 )
+		{
+			if ( !(o1 instanceof AdventureResult ) ||
+			     !(o2 instanceof AdventureResult ) )
+				throw new ClassCastException();
+
+			AdventureResult ar1 = (AdventureResult)o1;
+			AdventureResult ar2 = (AdventureResult)o2;
+
+			// Order first by count
+			int count1 = ar1.getCount();
+			int count2 = ar2.getCount();
+			if ( count1 != count2 )
+				return count1 - count2;
+
+			// Order second by name
+			return ar1.name.compareTo( ar2.name );
+		}
 	}
 
 	public static DefaultListCellRenderer getAutoSellCellRenderer()
