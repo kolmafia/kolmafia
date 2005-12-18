@@ -197,13 +197,13 @@ public class MailboxRequest extends KoLRequest
 			lastMessageIndex = nextMessageIndex;
 			nextMessageIndex = responseText.indexOf( "<td valign=top>", lastMessageIndex + 15 );
 
-			// The last message in the inbox has no "next message index".
-			// In this case, locate the last index of the link tag and
-			// use that as the last message index.
+			// The last message in the inbox has no "next message
+			// index".  In this case, locate the bold X and use
+			// that as the last message index.
 
 			if ( nextMessageIndex == -1 )
 			{
-				nextMessageIndex = responseText.lastIndexOf( "<a" );
+				nextMessageIndex = responseText.lastIndexOf( "<b>X</b>" );
 				shouldContinueParsing = false;
 			}
 
@@ -218,8 +218,12 @@ public class MailboxRequest extends KoLRequest
 				// that can be rendered with the default JEditorPane, and also be subject
 				// to the custom font sizes provided by LimitedSizeChatBuffer.
 
-				currentMessage = currentMessage.replaceAll( "<br />" , "<br>" ).replaceAll( "</?t.*?>" , "\n" ).replaceAll(
-					"<blockquote>", "<br>" ).replaceAll( "</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "<center>", "<br><center>" );
+				currentMessage = currentMessage.replaceAll( "<br />" , "<br>" ).
+					replaceAll( "</?t.*?>" , "\n" ).
+					replaceAll( "<blockquote>", "<br>" ).
+					replaceAll( "</blockquote>", "" ).
+					replaceAll( "\n", "" ).
+					replaceAll( "<center>", "<br><center>" );
 
 				// At this point, the message is registered with the mail manager, which
 				// records the message and updates whether or not you should continue.

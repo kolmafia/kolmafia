@@ -715,7 +715,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected abstract class ItemManagePanel extends LabeledScrollPanel
 	{
 		protected ShowDescriptionList elementList;
-		private VerifyButtonPanel buttonPanel;
 
 		public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
 		{
