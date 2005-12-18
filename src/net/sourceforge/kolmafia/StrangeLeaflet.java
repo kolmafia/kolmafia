@@ -86,25 +86,18 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static boolean chest;
 
 	public static void robStrangeLeaflet()
+	{	robStrangeLeaflet( client.getSettings().getProperty( "invokeStrangeMagic" ).equals( "true" ) );
+	}
+
+	public static void robStrangeLeaflet( boolean magic )
 	{
+
 		// If the player has never ascended, then they're going
 		// to have to do it all by hand.
 
 		if ( KoLCharacter.getAscensions() < 1 )
 		{
 			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
-			client.cancelRequest();
-			return;
-		}
-
-		// See if there is anything left to do.  If the player's
-		// accomplishments include completion of the leaflet,
-		// then there is nothing left to do.
-
-		(new CharsheetRequest( client )).run();
-		if ( KoLCharacter.hasAccomplishment( "You have found everything there is to find in the Strange Leaflet." ) )
-		{
-			client.updateDisplay( ERROR_STATE, "You have nothing left to do in the leaflet." );
 			client.cancelRequest();
 			return;
 		}
@@ -142,6 +135,8 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		openChest();
 		robHole();
+		if ( magic )
+			invokeMagic();
 
 		client.updateDisplay( ENABLE_STATE, "Strange Leaflet robbed." );
 	}
@@ -250,6 +245,12 @@ public abstract class StrangeLeaflet extends StaticEntity
 		client.updateDisplay( DISABLE_STATE, "Hunting eggs..." );
 		executeCommand( "look behind chest" );
 		executeCommand( "look in hole" );
+	}
+
+	private static void invokeMagic()
+	{
+		client.updateDisplay( DISABLE_STATE, "Invoking magic..." );
+		executeCommand( "plugh" );
 	}
 
 	private static void goTo( int destination )

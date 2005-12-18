@@ -201,6 +201,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "http.proxyPassword", "" );
 		ensureProperty( "ignoreChoiceAdventures", "false" );
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
+		ensureProperty( "invokeStrangeMagic", "false" );
 		ensureProperty( "lastAdventure", "" );
 		ensureProperty( "lastOtoriRequest", "19700101" );
 		ensureProperty( "loginServer", "0" );
