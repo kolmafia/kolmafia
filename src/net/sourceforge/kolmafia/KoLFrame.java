@@ -441,7 +441,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		peopleMenu.setEnabled( client == null || !client.inLoginState() );
 		menuBar.add( peopleMenu );
 
-		peopleMenu.add( new InvocationMenuItem( "Mail Manager", KoLMessenger.class, "initialize" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Mail Manager", MailboxFrame.class ) );
 		peopleMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
 
