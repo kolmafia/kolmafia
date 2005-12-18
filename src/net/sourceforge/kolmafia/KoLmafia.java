@@ -1354,6 +1354,12 @@ public abstract class KoLmafia implements KoLConstants
 	protected abstract boolean confirmDrunkenRequest();
 
 	/**
+	 * Show an HTML string to the user
+	 */
+
+	public abstract void showHTML( String text, String title );
+
+	/**
 	 * For requests that do not use the client's "makeRequest()"
 	 * method, this method is used to reset the continue state.
 	 */

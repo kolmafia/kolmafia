@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class ConsumeItemRequest extends KoLRequest
 {
@@ -56,6 +58,9 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int TOASTER = 637;
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
+
+	private static final int FIRST_PACKAGE = 1167;
+	private static final int LAST_PACKAGE = 1177;
 
 	private static final AdventureResult AXE = new AdventureResult( 555, 1 );
 	private static final AdventureResult NUTS = new AdventureResult( 509, -1 );
@@ -166,6 +171,38 @@ public class ConsumeItemRequest extends KoLRequest
 
 			responseCode = message.responseCode;
 			responseText = message.responseText;
+
+			// If it's a gift package, get the inner message
+			if ( itemUsed.getItemID() >= FIRST_PACKAGE && itemUsed.getItemID() <= LAST_PACKAGE )
+			{
+				// "You can't receive things from other players
+				// right now."
+				if ( responseText.indexOf( "You can't receive things" ) != -1 )
+				{
+					client.cancelRequest();
+					updateDisplay( ERROR_STATE, "You can't open that package yet." );
+					return;
+				}
+
+				// Trim copy of responseText
+				String text = responseText;
+
+				// Get rid of first row of first table
+				Matcher matcher = Pattern.compile( "<tr>.*?</tr>" ).matcher( text );
+				if ( matcher.find() )
+					text = matcher.replaceFirst( "" );
+
+				// Get rid of inventory listing
+				matcher = Pattern.compile( "</table><table.*?</body>" ).matcher( text );
+				if ( matcher.find() )
+					text = matcher.replaceFirst( "</table></body>" );
+				// Find out who sent it
+				matcher = Pattern.compile( "From: <b>(.*?)</b>" ).matcher( text );
+				String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
+
+				// Pop up a window showing what was in the gift.
+				client.showHTML( text, title );
+			}
 		}
 
 		// If an error state occurred, return from this

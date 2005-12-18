@@ -646,9 +646,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else
 			{
-				updateDisplay( NORMAL_STATE, request.responseText.substring( request.responseText.indexOf( "<p>" ) + 3 ).replaceAll(
-					"<(br|p|blockquote)>", LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll(
-						"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "ñ" ).replaceAll( "&quot;", "\"" ) );
+				showHTML( request.responseText, "Item Description" );
 			}
 
 			return;
@@ -751,10 +749,7 @@ public class KoLmafiaCLI extends KoLmafia
 			request.run();
 
 			scriptRequestor.processResults( request.responseText );
-			updateDisplay( NORMAL_STATE, request.responseText.replaceAll(
-				"<(br|p|blockquote)>", LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll(
-					"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "ñ" ).replaceAll( "&quot;", "\"" ) );
-
+			showHTML( request.responseText, "Council quests" );
 			return;
 		}
 
@@ -1124,6 +1119,18 @@ public class KoLmafiaCLI extends KoLmafia
 			executeScriptCommand( command + " " + parameters );
 		else
 			executeScriptCommand( command );
+	}
+
+	public void showHTML( String text, String title )
+	{
+		updateDisplay( NORMAL_STATE,
+			       text.
+			       replaceAll( "<(br|p|blockquote)>", LINE_BREAK ).
+			       replaceAll( "<.*?>", "" ).
+			       replaceAll( "&nbsp;", " " ).
+			       replaceAll( "&trade;", " [tm]" ).
+			       replaceAll( "&ntilde;", "ñ" ).
+			       replaceAll( "&quot;", "\"" ) );
 	}
 
 	/**

@@ -162,6 +162,10 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 	}
 
+	public void showHTML( String text, String title )
+	{	JOptionPane.showMessageDialog( null, text, title, JOptionPane.PLAIN_MESSAGE );
+	}
+
 	/**
 	 * Makes a request which attempts to remove the given effect.
 	 * This method should prompt the user to determine which effect
