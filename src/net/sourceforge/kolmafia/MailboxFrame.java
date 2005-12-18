@@ -79,6 +79,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	private LimitedSizeChatBuffer mailBuffer;
 
 	private MailSelectList messageListInbox;
+	private MailSelectList messageListOutbox;
 	private MailSelectList messageListSaved;
 
 	public MailboxFrame( KoLmafia client )
@@ -89,12 +90,17 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		JScrollPane messageListInboxDisplay = new JScrollPane( messageListInbox,
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
+		this.messageListOutbox = new MailSelectList( "Outbox" );
+		JScrollPane messageListOutboxDisplay = new JScrollPane( messageListOutbox,
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
 		this.messageListSaved = new MailSelectList( "Saved" );
 		JScrollPane messageListSavedDisplay = new JScrollPane( messageListSaved,
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		this.tabbedListDisplay = new JTabbedPane();
 		tabbedListDisplay.addTab( "Inbox", messageListInboxDisplay );
+		tabbedListDisplay.addTab( "Outbox", messageListOutboxDisplay );
 		tabbedListDisplay.addTab( "Saved", messageListSavedDisplay );
 		tabbedListDisplay.addChangeListener( this );
 
@@ -133,6 +139,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		if ( messageListInbox != null )
 			messageListInbox.setEnabled( isEnabled );
 
+		if ( messageListOutbox != null )
+			messageListOutbox.setEnabled( isEnabled );
+
 		if ( messageListSaved != null )
 			messageListSaved.setEnabled( isEnabled );
 	}
@@ -156,6 +165,12 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				messageListInbox.valueChanged( null );
 			requestMailbox = !messageListInbox.isInitialized();
 		}
+		else if ( currentTabName.equals( "Outbox" ) )
+		{
+			if ( messageListOutbox.isInitialized() )
+				messageListOutbox.valueChanged( null );
+			requestMailbox = !messageListOutbox.isInitialized();
+		}
 		else
 		{
 			if ( messageListSaved.isInitialized() )
@@ -170,6 +185,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	private void refreshMailManager()
 	{
 		messageListInbox.setModel( KoLMailManager.getMessages( "Inbox" ) );
+		messageListOutbox.setModel( KoLMailManager.getMessages( "Outbox" ) );
 		messageListSaved.setModel( KoLMailManager.getMessages( "Saved" ) );
 	}
 
@@ -193,6 +209,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 			if ( mailboxName.equals( "Inbox" ) )
 				messageListInbox.setInitialized( true );
+			else if ( mailboxName.equals( "Outbox" ) )
+				messageListOutbox.setInitialized( true );
 			else
 				messageListSaved.setInitialized( true );
 
