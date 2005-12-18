@@ -75,6 +75,7 @@ public class CakeArenaFrame extends KoLFrame
 	{
 		super( client, "Susie's Secret Bedroom!" );
 		framePanel.add( new CakeArenaPanel(), BorderLayout.CENTER );
+		client.enableDisplay();
 	}
 
 	private class CakeArenaPanel extends JPanel
@@ -221,7 +222,8 @@ public class CakeArenaFrame extends KoLFrame
 				int battleCount = df.parse( JOptionPane.showInputDialog( "<html>" + opponents.get( row ).toString() + ", " +
 					CakeArenaManager.getEvent( column ) + "<br>" + currentSkill + " vs. " + skill + "</html>" ) ).intValue();
 
-				CakeArenaManager.fightOpponent( opponents.get( row ).toString(), column, battleCount );
+				if ( battleCount > 0 )
+					CakeArenaManager.fightOpponent( opponents.get( row ).toString(), column, battleCount );
 			}
 			catch ( Exception e1 )
 			{

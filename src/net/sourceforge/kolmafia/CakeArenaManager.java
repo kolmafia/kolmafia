@@ -84,8 +84,6 @@ public class CakeArenaManager extends StaticEntity
 				return;
 			}
 		}
-
-		client.updateDisplay( NORMAL_STATE, "Arena battles complete." );
 	}
 
 	private static class ArenaThread extends DaemonThread
@@ -128,6 +126,7 @@ public class CakeArenaManager extends StaticEntity
 
 				results.append( text.toString() );
 			}
+			client.updateDisplay( ENABLE_STATE, "Arena battles complete." );
 		}
 	}
 
