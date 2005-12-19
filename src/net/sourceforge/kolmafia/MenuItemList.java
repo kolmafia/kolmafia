@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import javax.swing.JComponent;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import javax.swing.event.ListDataEvent;
@@ -76,7 +77,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 		// the current list.
 
 		for ( int i = 0; i < model.size(); ++i )
-			this.add( (JComponent) model.get(i) );
+			this.add( constructMenuItem( model.get(i) ) );
 
 		// Add this as a listener to the list so that the menu gets
 		// updated whenever the list updates.
@@ -85,6 +86,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 	}
 
 	public abstract JComponent [] getHeaders();
+	public abstract JComponent constructMenuItem( Object o );
 
 	/**
 	 * Called whenever contents have been added to the original list; a
@@ -102,7 +104,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 			return;
 
 		for ( int i = index0; i <= index1; ++i )
-			add( (JComponent) source.get(i), i + headerCount );
+			add( constructMenuItem( source.get(i) ), i + headerCount );
 
 		validate();
 	}
@@ -146,7 +148,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 		for ( int i = index1; i >= index0; --i )
 		{
 			remove( i + headerCount );
-			add( (JComponent) source.get(i), i + headerCount );
+			add( constructMenuItem( source.get(i) ), i + headerCount );
 		}
 
 		validate();

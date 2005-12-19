@@ -122,80 +122,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 	};
 
-	protected static LockableListModel scripts = null;
-	protected static int addedScriptCount = 0;
-
-	static
-	{
-		// Load the scripts statically, rather than
-		// inside of the addScriptMenu() call.
-
-		File scriptDirectory = new File( "scripts" );
-
-		if ( !scriptDirectory.exists() )
-			scriptDirectory.mkdirs();
-
-		// Add all the scripts from this directory
-		scripts = addScripts( scriptDirectory, "scripts" );
-	}
-
-	private static LockableListModel addScripts( File directory, String prefix )
-	{
-		// Make a list to store menu items in
-		LockableListModel list = new LockableListModel();
-
-		// Get the list of files in the current directory
-		File [] scriptList = directory.listFiles();
-
-		// Iterate through the files
-		for ( int i = 0; i < scriptList.length; ++i )
-		{
-			JComponent item = addScriptFile( scriptList[i], prefix );
-			if ( item != null)
-				// Add the menu item to the list
-				list.add( item );
-		}
-
-		return list;
-	}
-
-	private static JComponent addScriptFile( File file, String prefix )
-	{
-		// Get path components of this file
-		String [] pieces;
-
-		try
-		{
-			pieces = file.getCanonicalPath().split( "[\\\\/]" );
-		}
-		catch ( Exception e )
-		{
-			return null;
-		}
-
-		// There must be at least a file name
-		if ( pieces.length < 1 )
-			return null;
-
-		String name = pieces[ pieces.length - 1 ];
-		String path = prefix + File.separator + name;
-
-		if ( file.isDirectory() )
-		{
-			// Get a list of all the files
-			LockableListModel list = addScripts( file, path );
-
-			//  Convert the list into a menu
-			JMenu menu = new JMenu( name );
-			for ( int i = 0; i < list.size(); ++i )
-				menu.add( (JComponent) list.get(i) );
-
-			// Return the menu
-			return menu;
-		}
-
-		return new LoadScriptMenuItem( (++addedScriptCount) + "  " + name, path );
-	}
+	protected static LockableListModel scripts = new LockableListModel();
 
 	protected static LockableListModel bookmarks = new LockableListModel();
 	protected JMenu bookmarkMenu;
@@ -477,12 +404,27 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// listener-driven static lists.
 
 		JMenu scriptMenu = new ScriptMenu();
-		scriptMenu.setEnabled( client == null || !client.inLoginState() );
 		menuBar.add( scriptMenu );
 
 		JMenu bookmarkMenu = new BookmarkMenu();
 		bookmarkMenu.setEnabled( client == null || !client.inLoginState() );
 		menuBar.add( bookmarkMenu );
+
+		// Add help information for KoLmafia.  This includes
+		// the additional help-oriented stuffs.
+
+		JMenu helperMenu = new JMenu( "Help" );
+		menuBar.add( helperMenu );
+
+		helperMenu.add( new DisplayFrameMenuItem( "Copyrights", LicenseDisplay.class ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
+
+		helperMenu.add( new JSeparator() );
+
+		helperMenu.add( new DisplayPageMenuItem( "KoL Forums", "http://forums.kingdomofloathing.com/" ) );
+		helperMenu.add( new DisplayPageMenuItem( "Visual Wiki", "http://www.thekolwiki.net/" ) );
+		helperMenu.add( new DisplayPageMenuItem( "Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
+		helperMenu.add( new DisplayPageMenuItem( "Moxie Survival", "http://kol.network-forums.com/cgi-bin/moxie.cgi" ) );
 
 		// Add the refresh menu, which holds the ability
 		// to refresh everything in the session.
@@ -492,11 +434,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		menuBar.add( refreshMenu );
 
 		refreshMenu.setIcon( JComponentUtilities.getSharedImage( "refresh.gif" ) );
-
-		refreshMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
-		refreshMenu.add( new DisplayFrameMenuItem( "About KoLmafia...", LicenseDisplay.class ) );
-
-		refreshMenu.add( new JSeparator() );
 
 		refreshMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
 		refreshMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
@@ -619,25 +556,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				client.closeMacroStream();
 				setText( "Record script..." );
 			}
-		}
-	}
-
-	private class RefreshScriptsMenuItem extends JMenuItem implements ActionListener
-	{
-		public RefreshScriptsMenuItem()
-		{
-			super( "Refresh menu" );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			// Update existing list in place so that change
-			// listeners can update as appropriate
-
-			scripts.clear();
-			addedScriptCount = 0;
-			scripts.addAll( addScripts( new File( "scripts" ), "scripts" ) );
 		}
 	}
 
@@ -1321,7 +1239,80 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	private class ScriptMenu extends MenuItemList
 	{
 		public ScriptMenu()
-		{	super( "Scripts", scripts );
+		{
+			super( "Scripts", scripts );
+
+			File scriptDirectory = new File( "scripts" );
+
+			if ( !scriptDirectory.exists() )
+				scriptDirectory.mkdirs();
+
+			compileScripts();
+		}
+
+		public JComponent constructMenuItem( Object o )
+		{	return o instanceof JSeparator ? new JSeparator() : constructMenuItem( (File) o, "scripts" );
+		}
+
+		private JComponent constructMenuItem( File file, String prefix )
+		{
+			// Get path components of this file
+			String [] pieces;
+
+			try
+			{
+				pieces = file.getCanonicalPath().split( "[\\\\/]" );
+			}
+			catch ( Exception e )
+			{
+				return null;
+			}
+
+			// There must be at least a file name
+			if ( pieces.length < 1 )
+				return null;
+
+			String name = pieces[ pieces.length - 1 ];
+			String path = prefix + File.separator + name;
+
+			if ( file.isDirectory() )
+			{
+				// Get a list of all the files
+				File [] scriptList = file.listFiles();
+
+				//  Convert the list into a menu
+				JMenu menu = new JMenu( name );
+
+				// Iterate through the files.  Do this in two
+				// passes to make sure that directories start
+				// up top, followed by non-directories.
+
+				boolean hasDirectories = false;
+
+				for ( int i = 0; i < scriptList.length; ++i )
+				{
+					if ( scriptList[i].isDirectory() )
+					{
+						scripts.add( scriptList[i] );
+						hasDirectories = true;
+					}
+				}
+
+				if ( hasDirectories )
+					menu.add( new JSeparator() );
+
+				for ( int i = 0; i < scriptList.length; ++i )
+					if ( !scriptList[i].isDirectory() )
+						scripts.add( scriptList[i] );
+
+				for ( int i = 0; i < scriptList.length; ++i )
+					menu.add( constructMenuItem( scriptList[i], path ) );
+
+				// Return the menu
+				return menu;
+			}
+
+			return new LoadScriptMenuItem( name, path );
 		}
 
 		public JComponent [] getHeaders()
@@ -1330,7 +1321,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			headers[0] = new LoadScriptMenuItem();
 			headers[1] = new ToggleMacroMenuItem();
-			headers[2] = new RefreshScriptsMenuItem();
+			headers[2] = new InvocationMenuItem( "Refresh menu", KoLFrame.this, "compileScripts" );
 
 			JMenu questsMenu = new JMenu( "Quest completion" );
 
@@ -1500,7 +1491,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public String toSettingString()
 		{
-			return getText() +  "|" +
+			return getText() + "|" +
 				location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) + "|" +
 					String.valueOf( location.indexOf( "pwd=" ) != -1 );
 		}
@@ -1517,22 +1508,27 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{	super( "Bookmarks", bookmarks );
 		}
 
+		public JComponent constructMenuItem( Object o )
+		{
+			String [] bookmarkData = ((String)o).split( "\\|" );
+
+			String name = bookmarkData[0];
+			String location = bookmarkData[1];
+			String pwdhash = bookmarkData[2];
+
+			if ( pwdhash.equals( "true" ) )
+				location += "&pwd=" + client.getPasswordHash();
+
+			return new DisplayRequestMenuItem( name, location );
+		}
+
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[7];
+			JComponent [] headers = new JComponent[4];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
 			headers[2] = new JSeparator();
-
-			JMenu helperMenu = new JMenu( "External Links" );
-
-			helperMenu.add( new DisplayPageMenuItem( "KoL Forums", "http://forums.kingdomofloathing.com/" ) );
-			helperMenu.add( new DisplayPageMenuItem( "Visual Wiki", "http://www.thekolwiki.net/" ) );
-			helperMenu.add( new DisplayPageMenuItem( "Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
-			helperMenu.add( new DisplayPageMenuItem( "Moxie Survival", "http://kol.network-forums.com/cgi-bin/moxie.cgi" ) );
-
-			headers[3] = helperMenu;
 
 			// Add in the most common tasks which are bookmarked.
 			// This includes the seaside council, weird records, etc.
@@ -1547,38 +1543,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				tasksMenu.add( new DisplayRequestMenuItem( "Untinker Items", "town_right.php?place=untinker" ) );
 				tasksMenu.add( new DisplayRequestMenuItem( "Canadian Device", "canadia.php?place=machine" ) );
 
-			headers[4] = tasksMenu;
-
-			// Add the standard locations handled within the
-			// mini-browser, including inventory, character
-			// information, skills and account setup.
-
-				JMenu functionMenu = new JMenu( "KoL Functions" );
-
-				functionMenu.add( new DisplayRequestMenuItem( "Inventory", "inventory.php" ) );
-				functionMenu.add( new DisplayRequestMenuItem( "Character", "charsheet.php" ) );
-				functionMenu.add( new DisplayRequestMenuItem( "Usable Skills", "skills.php" ) );
-				functionMenu.add( new DisplayRequestMenuItem( "Read Messages", "messages.php" ) );
-				functionMenu.add( new DisplayRequestMenuItem( "Account Menu", "account.php" ) );
-
-			headers[5] = functionMenu;
-
-			// Add the browser "goto" menu, because people
-			// are familiar with seeing this as well.  But,
-			// place it all inside of a "travel" menu.
-
-				JMenu zonesMenu = new JMenu( "Adventure Zones" );
-
-				zonesMenu.add( new DisplayRequestMenuItem( "Seaside Town", "town.php" ) );
-				zonesMenu.add( new DisplayRequestMenuItem( "Campground", "campground.php" ) );
-				zonesMenu.add( new DisplayRequestMenuItem( "Big Mountains", "mountains.php" ) );
-				zonesMenu.add( new DisplayRequestMenuItem( "Nearby Plains", "plains.php" ) );
-				zonesMenu.add( new DisplayRequestMenuItem( "Sorceress' Lair", "lair.php" ) );
-				zonesMenu.add( new DisplayRequestMenuItem( "Desert Beach", "beach.php" ) );
-				zonesMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
-				zonesMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
-
-			headers[6] = zonesMenu;
+			headers[3] = tasksMenu;
 
 			// Bookmark headers complete.
 
@@ -1683,6 +1648,37 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	public static void compileScripts()
+	{
+		scripts.clear();
+		File directory = new File( "scripts" );
+
+		// Get the list of files in the current directory
+		File [] scriptList = directory.listFiles();
+
+		// Iterate through the files.  Do this in two
+		// passes to make sure that directories start
+		// up top, followed by non-directories.
+
+		boolean hasDirectories = false;
+
+		for ( int i = 0; i < scriptList.length; ++i )
+		{
+			if ( scriptList[i].isDirectory() )
+			{
+				scripts.add( scriptList[i] );
+				hasDirectories = true;
+			}
+		}
+
+		if ( hasDirectories )
+			scripts.add( new JSeparator() );
+
+		for ( int i = 0; i < scriptList.length; ++i )
+			if ( !scriptList[i].isDirectory() )
+				scripts.add( scriptList[i] );
+	}
+
 	/**
 	 * Utility method to compile the list of bookmarks based on the
 	 * current server settings.
@@ -1696,19 +1692,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		String name, location, pwdhash;
 
 		if ( bookmarkData.length > 1 )
-		{
 			for ( int i = 0; i < bookmarkData.length; ++i )
-			{
-				name = bookmarkData[i];
-				location = bookmarkData[++i];
-				pwdhash = bookmarkData[++i];
-
-				if ( pwdhash.equals( "true" ) )
-					location += "&pwd=" + client.getPasswordHash();
-
-				bookmarks.add( new DisplayRequestMenuItem( name, location ) );
-			}
-		}
+				bookmarks.add( bookmarkData[i] + "|" + bookmarkData[++i] + "|" + bookmarkData[++i] );
 	}
 
 	/**
