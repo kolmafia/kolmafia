@@ -121,7 +121,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 
-		System.setProperty( "com.apple.macos.useScreenMenuBar", "true" );
+		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
 	};
@@ -1297,7 +1297,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				{
 					if ( scriptList[i].isDirectory() )
 					{
-						scripts.add( scriptList[i] );
+						menu.add( constructMenuItem( scriptList[i], path ) );
 						hasDirectories = true;
 					}
 				}
@@ -1307,10 +1307,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 				for ( int i = 0; i < scriptList.length; ++i )
 					if ( !scriptList[i].isDirectory() )
-						scripts.add( scriptList[i] );
-
-				for ( int i = 0; i < scriptList.length; ++i )
-					menu.add( constructMenuItem( scriptList[i], path ) );
+						menu.add( constructMenuItem( scriptList[i], path ) );
 
 				// Return the menu
 				return menu;
