@@ -460,8 +460,11 @@ public class LoginFrame extends KoLFrame
 			uimodes.addItem( "Use clan management frame mode" );
 
 			toolbars = new JComboBox();
-			toolbars.addItem( "Show toolbars and menus" );
 			toolbars.addItem( "Show global menus only" );
+			toolbars.addItem( "Put toolbar along top of panel" );
+			toolbars.addItem( "Put toolbar along bottom of panel" );
+			toolbars.addItem( "Put toolbar along left of panel" );
+			toolbars.addItem( "Put toolbar right of panel" );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Server: ", servers );
@@ -476,7 +479,8 @@ public class LoginFrame extends KoLFrame
 		{
 			setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
 			setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
-			setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() == 0 ) );
+			setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
+			setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
 
 			JOptionPane.showMessageDialog( null, "Settings saved." );
 		}
@@ -485,7 +489,7 @@ public class LoginFrame extends KoLFrame
 		{
 			servers.setSelectedIndex( Integer.parseInt( getProperty( "loginServer" ) ) );
 			uimodes.setSelectedIndex( Integer.parseInt( getProperty( "userInterfaceMode" ) ) );
-			toolbars.setSelectedIndex( getProperty( "useToolbars" ).equals( "true" ) ? 0 : 1 );
+			toolbars.setSelectedIndex( Integer.parseInt( getProperty( "toolbarPosition" ) ) );
 		}
 	}
 

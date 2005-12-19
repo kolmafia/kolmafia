@@ -163,8 +163,39 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );
 
-		this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-		getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+		this.toolbarPanel = null;
+
+		switch ( Integer.parseInt( getProperty( "toolbarPosition" ) ) )
+		{
+			case 1:
+				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+				getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+				break;
+
+			case 2:
+				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+				getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
+				break;
+
+			case 3:
+				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
+				getContentPane().add( toolbarPanel, BorderLayout.WEST );
+				break;
+
+			case 4:
+				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
+				getContentPane().add( toolbarPanel, BorderLayout.EAST );
+				break;
+
+			default:
+
+				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+				if ( this instanceof LoginFrame )
+				{
+					getContentPane().add( toolbarPanel, BorderLayout.NORTH );
+					break;
+				}
+		}
 
 		this.frameName = getClass().getName();
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );

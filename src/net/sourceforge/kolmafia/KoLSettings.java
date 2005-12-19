@@ -217,6 +217,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "showAdventureZone", "true" );
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
+		ensureProperty( "toolbarPosition", "1" );
 		ensureProperty( "useChatBasedBuffBot", "false" );
 		ensureProperty( "useClockworkBoxes", "false" );
 		ensureProperty( "userInterfaceMode", "0" );
