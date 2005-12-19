@@ -203,7 +203,7 @@ public class MailboxRequest extends KoLRequest
 
 			if ( nextMessageIndex == -1 )
 			{
-				nextMessageIndex = responseText.lastIndexOf( "<b>X</b>" );
+				nextMessageIndex = responseText.indexOf( "<b>X</b>", lastMessageIndex + 15 );
 				shouldContinueParsing = false;
 			}
 

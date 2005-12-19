@@ -463,7 +463,7 @@ public class LoginFrame extends KoLFrame
 			toolbars.addItem( "Show global menus only" );
 			toolbars.addItem( "Put toolbar along top of panel" );
 			toolbars.addItem( "Put toolbar along bottom of panel" );
-			toolbars.addItem( "Put toolbar along left of panel" );
+			toolbars.addItem( "Put toolbar left of panel" );
 			toolbars.addItem( "Put toolbar right of panel" );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
