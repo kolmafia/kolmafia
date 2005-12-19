@@ -202,7 +202,13 @@ public abstract class KoLMessenger extends StaticEntity
 		for ( int i = 0; i < names.length; ++i )
 		{
 			currentName = (String) names[i];
+			if ( currentName == null )
+				continue;
+
 			currentFrame = getChatFrame( currentName );
+			if ( currentFrame == null )
+				continue;
+
 			if ( currentFrame.isShowing() && currentFrame.hasFocus() )
 				return currentName;
 		}
@@ -336,9 +342,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void dispose()
 	{
-		if ( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "2" ) )
-			System.exit(0);
-
 		if ( !isRunning )
 			return;
 

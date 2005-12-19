@@ -346,14 +346,7 @@ public class ClanSnapshotTable extends KoLDatabase
 			memberLookup = getProfile( currentMember );
 
 			if ( header.indexOf( "<td>Class</td>" ) != -1 )
-			{
 				classList.add( memberLookup.getClassType() );
-				if ( memberLookup.getClassType() == null )
-				{
-					System.out.println( memberLookup.responseText );
-					System.exit(0);
-				}
-			}
 
 			if ( header.indexOf( "<td>Food</td>" ) != -1 )
 				foodList.add( memberLookup.getFood() );

@@ -227,7 +227,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			KoLMessenger.dispose();
 			StaticEntity.closeSession();
-			System.exit(0);
+
+			if ( this instanceof LoginFrame )
+				System.exit(0);
+			else
+				KoLmafiaGUI.main( new String[0] );
 		}
 	}
 

@@ -117,14 +117,6 @@ public class ChatFrame extends KoLFrame
 			toolbarPanel.add( new MessengerButton( "/who on talking channel", "who2.gif", "checkChannel" ) );
 		}
 
-		// Add a window listener to handle exiting and closing
-		// chat, pending on how the initialization functions.
-
-		if ( client != null && mainPanel != null )
-			addWindowListener( new CloseChatListener( associatedContact ) );
-		else
-			addWindowListener( new ExitChatListener() );
-
 		// Set the default size so that it doesn't appear super-small
 		// when it's first constructed
 
@@ -443,39 +435,16 @@ public class ChatFrame extends KoLFrame
 		}
 	}
 
-	/**
-	 * Internal class to handle de-initializing the chat when
-	 * the window is closed.  This helps stop constantly
-	 * spamming the chat server with a request when nothing
-	 * is being done with the replies.
-	 */
-
-	protected final class CloseChatListener extends WindowAdapter
+	protected void processWindowEvent( WindowEvent e )
 	{
-		private String associatedContact;
+		super.processWindowEvent( e );
 
-		public CloseChatListener( String associatedContact )
-		{	this.associatedContact = associatedContact;
-		}
-
-		public void windowClosed( WindowEvent e )
-		{	KoLMessenger.removeChat( associatedContact );
-		}
-	}
-
-	/**
-	 * Internal class to handle de-initializing the chat when
-	 * the window is closed.  This helps stop constantly
-	 * spamming the chat server with a request when nothing
-	 * is being done with the replies.
-	 */
-
-	private class ExitChatListener extends WindowAdapter
-	{
-		public void windowClosed( WindowEvent e )
+		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
 		{
-			if ( client != null )
+			if ( getAssociatedContact() == null )
 				KoLMessenger.dispose();
+			else
+				KoLMessenger.removeChat( getAssociatedContact() );
 		}
 	}
 

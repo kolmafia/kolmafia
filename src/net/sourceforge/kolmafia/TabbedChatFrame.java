@@ -115,7 +115,7 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 
 	public boolean closeTab( int tabIndexToClose )
 	{
-		(new CloseChatListener( tabs.getTitleAt( tabIndexToClose ).trim() )).windowClosed( null );
+		KoLMessenger.removeChat( tabs.getTitleAt( tabIndexToClose ).trim() );
 		return true;
 	}
 

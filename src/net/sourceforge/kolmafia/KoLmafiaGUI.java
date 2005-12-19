@@ -450,12 +450,4 @@ public class KoLmafiaGUI extends KoLmafia
 		JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
 			JOptionPane.INFORMATION_MESSAGE, null, printing.toArray(), null );
 	}
-
-	public void visitCakeShapedArena()
-	{
-		Object [] parameters = new KoLmafia[1];
-		parameters[0] = this;
-
-		SwingUtilities.invokeLater( new CreateFrameRunnable( CakeArenaFrame.class, parameters ) );
-	}
 }
