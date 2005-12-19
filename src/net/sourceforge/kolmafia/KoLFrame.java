@@ -437,6 +437,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		refreshMenu.setEnabled( client == null || !client.inLoginState() );
 		menuBar.add( refreshMenu );
 
+		// If the Menu is in the actual Mac Menu bar, we need a text label
+		refreshMenu.setText( "Refresh" );
+		// Otherwise, use a fancy icon
 		refreshMenu.setIcon( JComponentUtilities.getSharedImage( "refresh.gif" ) );
 
 		refreshMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
