@@ -269,7 +269,7 @@ public class OptionsFrame extends KoLFrame
 			{ "girlCalendar", "Display Girls of Loathing on Farmer's Almanac" },
 			{ "useClockworkBoxes", "Use clockwork box servants in item creation" },
 			{ "createWithoutBoxServants", "Allow cooking/mixing without box servants" },
-			{ "invokeStrangeMagic", "Invoke magic words if needed" },
+			{ "invokeStrangeMagic", "Invoke magic words in strange leaflet" },
 		};
 
 		/**
