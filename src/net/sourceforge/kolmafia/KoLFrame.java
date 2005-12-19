@@ -120,6 +120,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
+
+		System.setProperty( "com.apple.macos.useScreenMenuBar", "true" );
+		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
+		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
 	};
 
 	protected static LockableListModel scripts = new LockableListModel();
