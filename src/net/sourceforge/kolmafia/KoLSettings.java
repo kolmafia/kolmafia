@@ -180,7 +180,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "buffBotCasting", "" );
 		ensureProperty( "buffBotMessageDisposal", "0" );
 		ensureProperty( "buffBotMPRestore", "tiny house" );
-		ensureProperty( "buffOptions", "1,3,5" );
+		ensureProperty( "buffOptions", "2,3,4,5,6,7,8,9" );
 		ensureProperty( "channelColors", "" );
 		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );

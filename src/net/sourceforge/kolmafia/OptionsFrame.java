@@ -116,11 +116,14 @@ public class OptionsFrame extends KoLFrame
 		{ "537858", new Integer(4), "Jabanero Saucesphere", "150" },
 		{ "537858", new Integer(5), "Empathy of the Newt", "150" },
 
-		// Buffs from sneaksie
+		// The following replace comparable buffs from sneaksie.
+		// They are in this order for backward compatibility
+		{ "537858", new Integer(9), "The Ode to Booze", "15" },
+		{ "537858", new Integer(7), "The Polka of Plenty", "150" },
+		{ "537858", new Integer(8), "Fat Leon's Phat Loot Lyric", "150" },
 
-		{ "79826", new Integer(1), "The Ode to Booze", "15" },
-		{ "79826", new Integer(2), "The Polka of Plenty", "330" },
-		{ "79826", new Integer(3), "Fat Leon's Phat Loot Lyric", "330" }
+		// The following completes Testudinata's set of "philanthropic" buffs
+		{ "537858", new Integer(6), "Tenacity of the Snapper", "150" }
 	};
 
 	private JTabbedPane tabs;
