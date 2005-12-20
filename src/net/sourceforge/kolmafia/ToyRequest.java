@@ -34,15 +34,14 @@
 
 package net.sourceforge.kolmafia;
 
-public class PixelRequest extends ItemCreationRequest
+public class ToyRequest extends ItemCreationRequest
 {
-	public PixelRequest( KoLmafia client, int itemID, int quantityNeeded )
+	public ToyRequest( KoLmafia client, int itemID, int quantityNeeded )
 	{
-		super( client, "town_wrong.php", itemID, quantityNeeded );
-		addFormField( "place", "crackpot" );
+		super( client, "crimbo_uncle.php", itemID, quantityNeeded );
 
-		addFormField( "action", "makepixel" );
-		addFormField( "makewhich", String.valueOf( itemID ) );
+		addFormField( "action", "1" );
+		addFormField( "whichitem", String.valueOf( itemID ) );
 	}
 
 	public void run()

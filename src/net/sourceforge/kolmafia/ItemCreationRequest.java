@@ -68,6 +68,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int TINKER = 12;
 	public static final int SMITH_WEAPON = 13;
 	public static final int SMITH_ARMOR = 14;
+	public static final int TOY = 15;
 
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
@@ -192,6 +193,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case TINKER:
 				return new TinkerRequest( client, itemID, quantityNeeded );
+
+			case TOY:
+				return new ToyRequest( client, itemID, quantityNeeded );
 
 			default:
 				return null;

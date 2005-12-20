@@ -593,3 +593,9 @@ clockwork chef-in-the-box	1	1	clockwork chef-head-in-the-box	E-Z Cook Oven&trade
 clockwork bartender head	1	1	clockwork sphere	beer goggles
 clockwork bartender-head-in-the-box	1	1	clockwork bartender head	nothing-in-the-box
 clockwork bartender-in-the-box	1	1	clockwork bartender-head-in-the-box	cocktailcrafting kit
+
+# Crimbo toys.  These are items which are created at Uncle Crimbo
+# after collecting enough toy components.
+
+top	15	0	wooden block	toy wheel
+rag doll	15	0	googly eye (2)	stuffing (3)	felt (2)

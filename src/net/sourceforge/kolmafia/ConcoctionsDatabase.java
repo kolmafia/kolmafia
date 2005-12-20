@@ -57,8 +57,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
 
-	private static boolean [] PERMIT_METHOD = new boolean[15];
-	private static int [] ADVENTURE_USAGE = new int[15];
+	private static boolean [] PERMIT_METHOD = new boolean[16];
+	private static int [] ADVENTURE_USAGE = new int[16];
 
 	private static final int CHEF = 438;
 	private static final int CLOCKWORK_CHEF = 1112;
@@ -381,6 +381,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( CAR );
 		ADVENTURE_USAGE[ ItemCreationRequest.TINKER ] = 0;
+
+		// It's always possible to ask Uncle Crimbo to make toys
+
+		PERMIT_METHOD[ ItemCreationRequest.TOY ] = true;
+		ADVENTURE_USAGE[ ItemCreationRequest.TOY ] = 0;
 	}
 
 	private static boolean isAvailable( int servantID )

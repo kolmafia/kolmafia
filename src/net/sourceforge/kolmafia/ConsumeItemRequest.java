@@ -51,6 +51,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int EQUIP_PANTS = 10;
 	public static final int EQUIP_SHIRT = 11;
 	public static final int EQUIP_WEAPON = 12;
+	public static final int EQUIP_OFFHAND = 13;
 
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
