@@ -108,21 +108,22 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	public static final void registerFamiliarData( KoLmafia client, String searchText )
 	{
+		// Assume he has no familiar
 		FamiliarData firstFamiliar = null;
 
+		// Examine all the familiars in the list
 		Matcher familiarMatcher = SEARCH_PATTERN.matcher( searchText );
-
 		while ( familiarMatcher.find() )
 		{
 			FamiliarData examinedFamiliar = KoLCharacter.addFamiliar( new FamiliarData( client, familiarMatcher ) );
 
+			// First in the list might be equipped
 			if ( firstFamiliar == null )
 				firstFamiliar = examinedFamiliar;
 		}
 
-		// If he really has a familiar, first one parsed is it.
-
-		if ( searchText.indexOf( "You do not currently have a familiar" ) != -1 )
+		// On the other hand, he may have familiars but none are equipped.
+		if ( firstFamiliar == null || searchText.indexOf( "You do not currently have a familiar" ) != -1 )
 			firstFamiliar = NO_FAMILIAR;
 
 		KoLCharacter.setFamiliar( firstFamiliar );

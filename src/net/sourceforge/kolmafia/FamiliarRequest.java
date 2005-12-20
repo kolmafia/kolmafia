@@ -64,7 +64,7 @@ public class FamiliarRequest extends KoLRequest
 	}
 
 	public String getFamiliarChange()
-	{	return changeTo.toString();
+	{	return changeTo == null ? null : changeTo.toString();
 	}
 
 	public void run()

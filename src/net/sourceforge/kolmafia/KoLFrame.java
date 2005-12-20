@@ -305,8 +305,20 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
 			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
-			familiarLabel.setIcon( JComponentUtilities.getSharedImage( "itemimages/familiar" + KoLCharacter.getFamiliar().getID() + ".gif" ) );
-			weightLabel.setText( KoLCharacter.getFamiliar().getWeight() + " lbs." );
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+			int id = familiar == null ? -1 : familiar.getID();
+			if ( id == -1 )
+			{
+				familiarLabel.setIcon( null );
+				weightLabel.setText( "" );
+			}
+			else
+			{
+				// The following can fail, for unknown reasons.
+				ImageIcon image = JComponentUtilities.getSharedImage( "itemimages/familiar" + id + ".gif" );
+				familiarLabel.setIcon( image );
+				weightLabel.setText( familiar.getWeight() + " lbs." );
+			}
 		}
 	}
 
