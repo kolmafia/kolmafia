@@ -1011,6 +1011,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
+		request.showInBrowser();
 		return handleChoiceResponse( request );
 	}
 
@@ -1036,7 +1037,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
 			isErrorState = true;
 			client.cancelRequest();
-			request.showInBrowser();
 			return false;
 		}
 
@@ -1052,7 +1052,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
 			isErrorState = true;
 			client.cancelRequest();
-			request.showInBrowser();
 			return false;
 		}
 
@@ -1073,7 +1072,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
 			isErrorState = true;
 			client.cancelRequest();
-			request.showInBrowser();
 			return false;
 		}
 
@@ -1086,6 +1084,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		request.addFormField( "option", decision );
 
 		request.run();
+		request.showInBrowser();
 
 		// Handle any items or stat gains resulting from the adventure
 
