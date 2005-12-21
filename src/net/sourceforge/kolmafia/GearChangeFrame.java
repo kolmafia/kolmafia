@@ -109,7 +109,13 @@ public class GearChangeFrame extends KoLFrame
 	{
 		if ( equipment != null )
 			for ( int i = 0; i < equipment.length; ++i )
+			{
+				// Do not enable Off-Hand combo box if
+				// character has a big weapon
+				if ( isEnabled && i == KoLCharacter.OFFHAND && KoLCharacter.bigWeapon() )
+					continue;
 				equipment[i].setEnabled( isEnabled );
+			}
 
 		if ( outfitSelect != null )
 			outfitSelect.setEnabled( isEnabled );

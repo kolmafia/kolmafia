@@ -168,11 +168,11 @@ supportive bra	50	Mox: 10
 # which go in the "weapon" slot of the equipment menu.
 
 5-Alarm Saucepan	50	Mus: 10
-7-Foot Dwarven mattock	80	Mus: 25
+7-Foot Dwarven mattock	80	Mus: 25	2
 arse-shooting crossbow	160	Mox: 65	2
 asbestos crossbow	110	Mox: 40	2
 asbestos staff	110	Mus: 40	2
-asbestos sword	110	Mus: 40
+asbestos sword	110	Mus: 40	2
 asparagus knife	15	none
 balloon sword	50	Mus: 10
 basic meat crossbow	40	Mox: 5	2
@@ -181,63 +181,63 @@ basic meat spork	45	Mus: 7
 basic meat staff	40	Mus: 5	2
 basic meat sword	40	Mus: 5
 batblade	110	Mus: 40
-big stick	10	none
-Bigger Bugfinder Blade	200	Mus: 85
+big stick	10	none	2
+Bigger Bugfinder Blade	200	Mus: 85	2
 Bjorn's Hammer	50	Mus: 10
-bow staff	100	Mus: 35
-bugbear-smiting sword	150	Mus: 60
-Bugfinder Blade	180	Mus: 75
+bow staff	100	Mus: 35	2
+bugbear-smiting sword	150	Mus: 60	2
+Bugfinder Blade	180	Mus: 75	2
 can of maces	50	Mox: 10
 cheap plastic bottle opener	30	none
 chrome crossbow	120	Mox: 45	2
 chrome staff	120	Mus: 45	2
-chrome sword	120	Mus: 45
+chrome sword	120	Mus: 45	2
 Cloaca-Cola-issue combat knife	30	none
 cool whip	10	none
-crazy bastard sword	75	Mus: 22
-Crimbo sword	100	Mus: 35
-crowbarrr	80	Mus: 25
-denim axe	120	Mus: 45
+crazy bastard sword	75	Mus: 22	2
+Crimbo sword	100	Mus: 35	2
+crowbarrr	80	Mus: 25	2
+denim axe	120	Mus: 45	2
 diamond-studded cane	60	Mus: 15
 disco ball	10	none
-Disco Banjo	50	Mox: 10
+Disco Banjo	50	Mox: 10	2
 Dr. Hobo's scalpel	35	Mus: 2
 dripping meat crossbow	50	Mox: 10	2
 dripping meat staff	50	Mus: 10	2
-dripping meat sword	50	Mus: 10
-drywall axe	150	Mus: 60
+dripping meat sword	50	Mus: 10	2
+drywall axe	150	Mus: 60	2
 especially homoerotic frat-paddle	150	Mus: 60
 eXtreme meat crossbow	60	Mox: 15	2
 eXtreme meat staff	60	Mus: 15	2
-eXtreme meat sword	60	Mus: 15
-fetus-smashing club	200	Mus: 85
+eXtreme meat sword	60	Mus: 15	2
+fetus-smashing club	200	Mus: 85	2
 foon	30	none
-frozen nunchaku	80	Mus: 25
-giant discarded plastic fork	155	Mus: 62
-giant needle	150	Mus: 60
+frozen nunchaku	80	Mus: 25	2
+giant discarded plastic fork	155	Mus: 62	3
+giant needle	150	Mus: 60	2
 gnauga hide whip	20	none
-Gnollish autoplunger	60	Mus: 15
+Gnollish autoplunger	60	Mus: 15	3
 Gnollish flyswatter	35	Mus: 2
-Gnollish nunchaku	45	Mus: 7
+Gnollish nunchaku	45	Mus: 7	2
 Gnollish plunger	35	Mus: 2
-grave robbing shovel	80	Mus: 25
+grave robbing shovel	80	Mus: 25	2
 halfberd	30	none
 heteroerotic frat-paddle	150	Mus: 60
 hippo whip	20	none
 homoerotic frat-paddle	70	Mus: 20
 huge mirror shard	30	none
-icy-hot katana	90	Mus: 30
+icy-hot katana	90	Mus: 30	2
 iron pasta spoon	110	Mus: 40
 Kentucky-fried meat crossbow	80	Mox: 25	2
 Kentucky-fried meat staff	80	Mus: 25	2
-Kentucky-fried meat sword	80	Mus: 25
+Kentucky-fried meat sword	80	Mus: 25	2
 kneecapping stick	90	Mus: 30
-Knob Goblin elite polearm	60	Mus: 15
+Knob Goblin elite polearm	60	Mus: 15	2
 Knob Goblin scimitar	15	none
 Knob Goblin tongs	20	none
 linoleum crossbow	100	Mox: 35	2
 linoleum staff	100	Mus: 35	2
-linoleum sword	100	Mus: 35
+linoleum sword	100	Mus: 35	2
 little paper umbrella	30	none
 Mafia violin case	100	Mus: 35
 Mjolnir Jr.	200	Mus: 85
@@ -245,41 +245,41 @@ Pasta of Peril	50	Mus: 10
 pasta spoon	10	none
 penguin whip	20	none
 pixel sword	50	Mus: 10
-plexiglass pike pike	180	Mus: 75
+plexiglass pike pike	180	Mus: 75	2
 Radio Free Foil	150	Mus: 60
-rib of the Bonerdagon	80	Mus: 25
+rib of the Bonerdagon	80	Mus: 25	2
 ridiculously huge sword	140	Mus: 55	3
-Rock and Roll Legend	50	Mox: 10
-rubber axe	40	Mus: 5
+Rock and Roll Legend	50	Mox: 10	2
+rubber axe	40	Mus: 5	2
 sabre teeth	60	Mus: 15
 saucepan	10	none
 seal-clubbing club	10	none
 skeleton bone	30	none
-slingshot	20	none
+slingshot	20	none	2
 spiked femur	100	Mus: 35
 spooky bicycle chain	80	Mus: 25
 spooky staff	35	Mus: 2
-spooky stick	30	none
+spooky stick	30	none	2
 spork	30	none
 stainless steel shillelagh	90	Mus: 30
 star crossbow	165	Mox: 67	2
 star staff	165	Mus: 67	2
-star sword	165	Mus: 67
+star sword	165	Mus: 67	2
 steaming evil	180	Mus: 75
-stolen accordion	10	none
-stone banjo	25	none
+stolen accordion	10	none	2
+stone banjo	25	none	2
 sweet ninja sword	20	none
 time sword	100	Mus: 35
 tiny ninja sword	20	none
 tiny plastic sword	10	none
-titanium assault umbrella	130	Mus: 50
-Totally Gay Claymore	69	Mus: 19
-Turtleslinger	50	Mus: 10
+titanium assault umbrella	130	Mus: 50	2
+Totally Gay Claymore	69	Mus: 19	2
+Turtleslinger	50	Mus: 10	2
 vorpal blade	90	Mus: 30
 Wand of Nagamar	30	none
 white sword	40	Mus: 5
-wholeberd	80	Mus: 25
-wooden axe	60	Mus: 15
+wholeberd	80	Mus: 25	2
+wooden axe	60	Mus: 15	2
 wooden stakes	25	none
 yak whip	20	none
 

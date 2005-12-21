@@ -972,12 +972,12 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to retrieve a piece of equipment
+	 * Accessor method to retrieve the name of a piece of equipment
 	 * @param	type	the type of equipment
-	 * @return	AdventureResult for the equipment, <code>null</code> if no such item exists
+	 * @return	String	name of the equipped item or null if none
 	 */
 
-	public static AdventureResult getCurrentEquipment( int type )
+	public static String getCurrentEquipmentName( int type )
 	{
 		String name = getEquipment( type );
 
@@ -990,8 +990,30 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( paren >= 0 )
 			name = name.substring( 0, paren );
 
-		// Make an AdventureResult describing this item
-		return new AdventureResult( name, 1, false );
+		return name;
+	}
+
+	/**
+	 * Accessor method to retrieve a piece of equipment
+	 * @param	type	the type of equipment
+	 * @return	AdventureResult for the equipment, <code>null</code> if no such item exists
+	 */
+
+	public static AdventureResult getCurrentEquipment( int type )
+	{
+		String name = getCurrentEquipmentName( type );
+		return ( name == null) ? null : new AdventureResult( name, 1, false );
+	}
+
+	/**
+	 * Accessor method to retrieve whether the character has a big weapon
+	 * @return	boolean	true if the weapon takes more than one hand to hold
+	 */
+
+	public static boolean bigWeapon()
+	{
+		String name = getCurrentEquipmentName( WEAPON );
+		return ( name == null) ? false : EquipmentDatabase.getHands( name ) > 1;
 	}
 
 	/**
