@@ -81,8 +81,7 @@ public class RequestFrame extends KoLFrame
 	}
 
 	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request )
-	{
-		this( client, null, request, request == null || request.getURLString().equals( "main.php" ) );
+	{	this( client, null, request, true );
 	}
 
 	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request, boolean hasSideBar )

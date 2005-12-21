@@ -934,15 +934,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public void actionPerformed( ActionEvent e )
 		{
-			KoLRequest request = client.getCurrentRequest();
-			if ( request != null )
-			{
-				client.setCurrentRequest( null );
-				openRequestFrame( request );
-				return;
-			}
-			else
-				openRequestFrame( "main.php" );
+			client.setCurrentRequest( null );
+			openRequestFrame( "main.php" );
 		}
 	}
 

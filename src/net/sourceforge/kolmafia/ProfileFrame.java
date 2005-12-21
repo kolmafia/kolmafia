@@ -47,6 +47,6 @@ public class ProfileFrame extends RequestFrame
 	}
 
 	public ProfileFrame( KoLmafia client, ProfileRequest profile )
-	{	super( client, profile );
+	{	super( client, null, profile, false );
 	}
 }
