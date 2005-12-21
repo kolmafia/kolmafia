@@ -827,9 +827,6 @@ public abstract class SorceressLair extends StaticEntity
 
 			// Decrement adventure tally
 			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-
-			// Add key to inventory
-			client.processResult( HEDGE_KEY );
 		}
 
 		return responseText;

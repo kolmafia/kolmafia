@@ -124,7 +124,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 		menuBar.add( fileMenu, 0 );
 
 		JMenu optionsMenu = new JMenu( "Options" );
-		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Refresh before session", "refreshBeforeFamiliarSession" ) );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Cast buffs during training", "castBuffsWhileTraining" ) );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Verbose logging", "verboseFamiliarLogging" ) );
 		// optionsMenu.add( new LocalSettingChangeMenuItem( client, "Debug", "debugFamiliarTraining" ) );
@@ -921,16 +920,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Get local setting
 			verbose = client.getLocalBooleanProperty( "verboseFamiliarLogging" );
-
-			// If requested, refresh the character status to ensure
-			// accuracy of available skills, currently cast buffs,
-			// meat, adventures remaining, and equipment.
-
-			if ( client.getLocalBooleanProperty( "refreshBeforeFamiliarSession" ) )
-			{
-				(new CharsheetRequest( client )).run();
-				client.updateDisplay( NORMAL_STATE, "Status updated." );
-			}
 
 			// Find out which familiar we are working with
 			familiar = KoLCharacter.getFamiliar();
