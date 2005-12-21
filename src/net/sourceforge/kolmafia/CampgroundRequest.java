@@ -95,8 +95,6 @@ public class CampgroundRequest extends KoLRequest
 		KoLCharacter.setToaster( responseText.indexOf( "action=toast" ) != -1 );
 		KoLCharacter.setArches( responseText.indexOf( "action=arches" ) != -1 );
 
-		processResults( responseText.substring( 0, responseText.indexOf( "Your Campsite" ) ) );
-
 		// Update adventure tally for resting and relaxing
 		// at the campground.
 

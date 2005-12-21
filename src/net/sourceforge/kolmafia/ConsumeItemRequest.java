@@ -328,14 +328,10 @@ public class ConsumeItemRequest extends KoLRequest
 			{
 				KoLCharacter.addAccomplishment( KoLCharacter.BARON );
 
-				// Do it all by hand, since processResults
-				// cannot tell that you are getting the second
-				// kind of dictionary.
 				client.processResult( itemUsed.getNegation() );
 				client.processResult( FightRequest.DICTIONARY1.getNegation() );
-				client.processResult( FightRequest.DICTIONARY2 );
-				client.processResult( AXE );
 			}
+
 			return;
 		}
 
@@ -360,8 +356,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( itemUsed.getName().indexOf( "rolling" ) == -1 && itemUsed.getName().indexOf( "Protest" ) == -1 )
 			client.processResult( itemUsed.getNegation() );
-
-		processResults( responseText );
 
 		// Handle rolling and unrolling pins removing your
 		// dough from the inventory.

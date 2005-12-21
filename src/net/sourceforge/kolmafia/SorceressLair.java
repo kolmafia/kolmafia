@@ -596,7 +596,6 @@ public abstract class SorceressLair extends StaticEntity
 				request.addFormField( "prepreaction", "sorcriddle1" );
 				request.addFormField( "answer", "fish" );
 				request.run();
-				client.processResults( request.responseText );
 			}
 
 			client.updateDisplay( DISABLE_STATE, "Inserting Jarlsberg's key..." );
@@ -612,7 +611,6 @@ public abstract class SorceressLair extends StaticEntity
 				request.addFormField( "prepreaction", "sorcriddle2" );
 				request.addFormField( "answer", "phish" );
 				request.run();
-				client.processResults( request.responseText );
 			}
 
 			client.updateDisplay( DISABLE_STATE, "Inserting Sneaky Pete's key..." );
@@ -628,7 +626,6 @@ public abstract class SorceressLair extends StaticEntity
 				request.addFormField( "prepreaction", "sorcriddle3" );
 				request.addFormField( "answer", "fsh" );
 				request.run();
-				client.processResults( request.responseText );
 			}
 
 			// Now use the components to make the SCUBA gear
@@ -649,8 +646,6 @@ public abstract class SorceressLair extends StaticEntity
 			request.addFormField( "preaction", "key" );
 			request.addFormField( "whichkey", String.valueOf( BALLOON.getItemID() ) );
 			request.run();
-
-			client.processResults( request.responseText );
 		}
 
 		// Now, press the switch beyond the odor by
@@ -950,9 +945,6 @@ public abstract class SorceressLair extends StaticEntity
 			// Un-cancel
 			client.resetContinueState();
 
-			// Account for stat gains
-			client.processResults( request.responseText );
-
 			// Use up the item
 			client.processResult( guardianItem.getNegation() );
 
@@ -1115,7 +1107,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( request.responseText.indexOf( "the door slides open" ) == -1 )
 		{
 			// Account for HP loss
-			client.processResults( request.responseText );
 			client.updateDisplay( ERROR_STATE, "I used the wrong code. Sorry." );
 			client.cancelRequest();
 		}
@@ -1277,8 +1268,6 @@ public abstract class SorceressLair extends StaticEntity
 		KoLRequest request = new KoLRequest( client, "lair6.php", true );
 		request.addFormField( "place", String.valueOf( n ) );
 		request.run();
-
-		client.processResults( request.responseText );
 
 		// If you do not successfully pass the familiar, you
 		// will get a "stomp off in a huff" message.

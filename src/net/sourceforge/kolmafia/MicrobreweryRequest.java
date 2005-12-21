@@ -124,7 +124,6 @@ public class MicrobreweryRequest extends KoLRequest
 				return;
 			}
 
-			processResults( responseText );
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 			updateDisplay( NORMAL_STATE, "Drink purchased." );
 			return;

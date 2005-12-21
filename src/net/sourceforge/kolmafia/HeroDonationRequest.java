@@ -123,7 +123,6 @@ public class HeroDonationRequest extends KoLRequest
 			return;
 		}
 
-		processResults( responseText.substring( 0, responseText.indexOf( "</center>" ) ) );
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
 		updateDisplay( NORMAL_STATE, "Donation complete." );
 	}

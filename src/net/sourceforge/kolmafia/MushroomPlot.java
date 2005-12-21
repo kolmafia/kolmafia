@@ -529,9 +529,6 @@ public abstract class MushroomPlot extends StaticEntity
 		{
 			super.run();
 			parsePlot( responseText );
-
-			if ( ownsPlot )
-				client.processResults( responseText );
 		}
 	}
 

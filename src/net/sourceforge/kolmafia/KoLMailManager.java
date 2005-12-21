@@ -83,12 +83,7 @@ public abstract class KoLMailManager extends StaticEntity
 			return false;
 
 		client.registerPlayer( toadd.getSenderName(), toadd.getSenderID() );
-
 		mailbox.add( toadd );
-
-		if ( boxname.equals( "Inbox" ) )
-			client.processResults( toadd.getMessageHTML() );
-
 		return true;
 	}
 

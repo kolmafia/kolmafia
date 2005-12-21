@@ -116,9 +116,7 @@ public class UntinkerRequest extends KoLRequest
 
 		super.run();
 
-		client.processResults( responseText );
 		client.processResult( new AdventureResult( itemID, -1 ) );
-
 		updateDisplay( NORMAL_STATE, "Untinkering complete" );
 	}
 }

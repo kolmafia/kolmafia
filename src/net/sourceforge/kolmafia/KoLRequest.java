@@ -442,9 +442,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If the user wants to show all the requests in the browser, then
 		// make sure it's updated.
 
-		if ( !isErrorState && getProperty( "synchronizeFightFrame" ).equals( "true" ) &&
-			(this instanceof AdventureRequest || this instanceof FightRequest) && this.responseCode == 200 )
-			showInBrowser();
+		if ( responseCode == 200 )
+		{
+			client.processResults( responseText );
+
+			if ( !isErrorState && getProperty( "synchronizeFightFrame" ).equals( "true" ) &&
+				(this instanceof AdventureRequest || this instanceof FightRequest) )
+					showInBrowser();
+		}
 	}
 
 	/**
@@ -867,18 +872,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		istream = null;
 		return shouldContinue;
-	}
-
-	/**
-	 * Utility method used to process the results of any adventure
-	 * in the Kingdom of Loathing.  This method searches for items,
-	 * stat gains, and losses within the provided string.
-	 *
-	 * @param	results	The string containing the results of the adventure
-	 */
-
-	protected final void processResults( String results )
-	{	client.processResults( results );
 	}
 
 	/**

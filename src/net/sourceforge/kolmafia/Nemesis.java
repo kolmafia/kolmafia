@@ -273,9 +273,6 @@ public abstract class Nemesis extends StaticEntity
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 					break;
 			}
-
-			// Gain items and stats
-			client.processResults( request.responseText );
 		}
 
 		if ( request.responseText.indexOf( "WINWINWIN") == -1 )

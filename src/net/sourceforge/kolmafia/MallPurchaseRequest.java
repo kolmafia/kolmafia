@@ -237,6 +237,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		updateDisplay( DISABLE_STATE, "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
 
+		AdventureResult searchItem = new AdventureResult( itemID, 0 );
+		int beforeCount = searchItem.getCount( KoLCharacter.getInventory() );
+
 		super.run();
 
 		// If an error state occurred, return from this
@@ -347,10 +350,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// you report to the client whatever you gained.
 
 		this.successful = true;
-		AdventureResult searchItem = new AdventureResult( itemID, 0 );
-
-		int beforeCount = searchItem.getCount( KoLCharacter.getInventory() );
-		processResults( result );
 		int afterCount = searchItem.getCount( KoLCharacter.getInventory() );
 
 		// Also report how much meat you lost in the purchase

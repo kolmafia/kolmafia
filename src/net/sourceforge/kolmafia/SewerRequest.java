@@ -164,7 +164,6 @@ public class SewerRequest extends KoLRequest
 		if ( request.isErrorState )
 			return;
 
-		processResults( request.responseText );
 		client.processResult( CLOVER );
 		client.processResult( GUM );
 	}
@@ -209,8 +208,6 @@ public class SewerRequest extends KoLRequest
 			client.cancelRequest();
 			return;
 		}
-
-		processResults( responseText );
 
 		// Consume the gum
 		client.processResult( GUM );

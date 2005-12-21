@@ -748,7 +748,6 @@ public class KoLmafiaCLI extends KoLmafia
 			KoLRequest request = new KoLRequest( scriptRequestor, "council.php", true );
 			request.run();
 
-			scriptRequestor.processResults( request.responseText );
 			showHTML( request.responseText, "Council quests" );
 			return;
 		}

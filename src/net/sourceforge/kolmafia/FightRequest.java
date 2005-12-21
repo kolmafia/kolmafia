@@ -186,7 +186,6 @@ public class FightRequest extends KoLRequest
 				}
 			}
 
-			processResults( responseText );
 			int winmsgIndex = responseText.indexOf( "WINWINWIN" );
 
 			if ( winmsgIndex != -1 )

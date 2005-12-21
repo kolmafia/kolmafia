@@ -359,12 +359,9 @@ public class RequestFrame extends KoLFrame
 				refreshSidePane();
 			}
 
-			if ( client.processResults( currentRequest.responseText ) || getCurrentLocation().indexOf( "togglecompact" ) != -1 )
-			{
-				KoLCharacter.refreshCalculatedLists();
-				if ( hasSideBar )
-					refreshSidePane();
-			}
+			KoLCharacter.refreshCalculatedLists();
+			if ( hasSideBar )
+				refreshSidePane();
 
 			// See if the person learned a new skill from using a
 			// mini-browser frame.

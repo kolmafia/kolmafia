@@ -124,8 +124,6 @@ public class RestaurantRequest extends KoLRequest
 				return;
 			}
 
-			processResults( responseText );
-
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 			updateDisplay( NORMAL_STATE, "Food purchased." );
 			return;

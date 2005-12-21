@@ -347,6 +347,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return;
 
 		updateDisplay( DISABLE_STATE, "Creating " + toString() + "..." );
+		AdventureResult createdItem = new AdventureResult( itemID, 0 );
+		int beforeQuantity = createdItem.getCount( KoLCharacter.getInventory() );
 
 		super.run();
 
@@ -372,20 +374,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return;
 		}
 
-		// Arbitrary results can happen - just throw the
-		// entire string to the results parser and let
-		// it figure out what was actually gained; note
-		// that this is potentially inaccurate, as you
-		// may get your initial creation attempt back.
-
-		AdventureResult createdItem = new AdventureResult( itemID, 0 );
-		int beforeQuantity = createdItem.getCount( KoLCharacter.getInventory() );
-
-		processResults( responseText );
-
 		// Figure out how many items were created
-		String itemName = TradeableItemDatabase.getItemName( itemID );
 
+		String itemName = TradeableItemDatabase.getItemName( itemID );
 		int createdQuantity = createdItem.getCount( KoLCharacter.getInventory() ) - beforeQuantity;
 
 		if ( createdQuantity > 0 )

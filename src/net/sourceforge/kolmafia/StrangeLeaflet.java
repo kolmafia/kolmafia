@@ -436,8 +436,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 			torch = request.responseText.indexOf( "A burning torch" ) != -1;
 			stick = torch || request.responseText.indexOf( "A hefty stick" ) != -1;
 		}
-		else
-			client.processResults( request.responseText );
 
 		// Deduce status of items and objects based on your
 		// current location.

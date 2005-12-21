@@ -234,8 +234,6 @@ public class AdventureRequest extends KoLRequest
 		if ( encounterMatcher.find() )
 			client.registerEncounter( encounterMatcher.group(1) );
 
-		processResults( responseText );
-
 		// You could be beaten up, which halts adventures.  This is
 		// true except for two cases: the casino's standard slot
 		// machines and the shore vacations when you don't have

@@ -84,9 +84,6 @@ public class ZapRequest extends KoLRequest
 			return;
 		}
 
-		// Add new item and deduct HP if it exploded
-		client.processResults( responseText );
-
 		// Remove old item
 		client.processResult( item.getInstance( -1 ) );
 
@@ -95,5 +92,5 @@ public class ZapRequest extends KoLRequest
 		     client.processResult( wand.getNegation() );
 
 		client.updateDisplay( NORMAL_STATE, "Item zapped" );
-	}	
+	}
 }

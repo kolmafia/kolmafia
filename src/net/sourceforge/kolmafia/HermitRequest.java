@@ -145,7 +145,6 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
-		processResults( responseText );
 		List inventory = KoLCharacter.getInventory();
 
 		// Subtract the worthless items in order of their priority;
