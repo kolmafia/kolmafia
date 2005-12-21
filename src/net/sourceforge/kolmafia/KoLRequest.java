@@ -410,16 +410,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 		}
 
-		// Clear current request. We'll save it if this one needs
-		// to be finished in a browser
-
-		client.setCurrentRequest( null );
-
 		// You are allowed a maximum of four attempts
 		// to run the request.  This prevents KoLmafia
 		// from spamming the servers.
-
-		int retryCount = 0;
 
 		do
 		{
@@ -430,7 +423,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// the delay to avoid people switching the option
 			// off just to avoid login slowdown.
 
-			if ( !isDelayExempt() || retryCount != 0 )
+			if ( !isDelayExempt() )
 			{
 				if ( isServerFriendly )
 					KoLRequest.delay();
@@ -438,14 +431,20 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLRequest.delay( 500 );
 			}
 		}
-		while ( ++retryCount > 0 && !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
+		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
 
-		// In the event that you have a timeout during a situation
-		// where the display does not update afterwards, be sure
-		// you clear the display.
+		// Add the ability to set the current request so that KoLmafia
+		// can make use of it, if viewing intermediate results is allowed.
 
-		if ( client != null && retryCount > 1 )
-			client.updateDisplay( NORMAL_STATE, "Retry attempt successful.  Processing..." );
+		if ( !(this instanceof ChatRequest) )
+			client.setCurrentRequest( this );
+
+		// If the user wants to show all the requests in the browser, then
+		// make sure it's updated.
+
+		if ( !isErrorState && getProperty( "synchronizeFightFrame" ).equals( "true" ) &&
+			(this instanceof AdventureRequest || this instanceof FightRequest) && this.responseCode == 200 )
+			showInBrowser();
 	}
 
 	/**
@@ -486,8 +485,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean isDelayExempt()
 	{
-		return client == null || client.inLoginState() || this instanceof LoginRequest || this instanceof ChatRequest ||
-			getClass() == KoLRequest.class || this instanceof CharpaneRequest;
+		return client == null || client.inLoginState() || getClass() == KoLRequest.class ||
+			this instanceof LoginRequest || this instanceof ChatRequest || this instanceof CharpaneRequest;
 	}
 
 	/**
@@ -536,7 +535,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// attempt to connect again
 
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
-				updateDisplay( NORMAL_STATE, "Error opening connection.  Retrying..." );
+				KoLmafia.getLogStream().println( "Error opening connection.  Retrying..." );
 
 			KoLRequest.delay();
 			return false;
@@ -609,7 +608,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		catch ( Exception e )
 		{
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
-				updateDisplay( NORMAL_STATE, "Connection timed out during post.  Retrying..." );
+				KoLmafia.getLogStream().println( "Connection timed out during post.  Retrying..." );
 
 			if ( client != null )
 			{
@@ -680,7 +679,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				return false;
 			}
 
-			updateDisplay( NORMAL_STATE, "Connection timed out during response.  Retrying..." );
+			KoLmafia.getLogStream().println( "Connection timed out during response.  Retrying..." );
 
 			if ( client != null )
 			{
@@ -831,7 +830,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					this.isErrorState = true;
 					if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
-						updateDisplay( NORMAL_STATE, "Error reading server reply.  Retrying..." );
+						KoLmafia.getLogStream().println( "Error reading server reply.  Retrying..." );
 
 					if ( client != null )
 					{
@@ -1022,7 +1021,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean handleChoiceResponse( KoLRequest request )
 	{
-                String text = request.responseText;
+		String text = request.responseText;
 		Matcher encounterMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( text );
 		if ( encounterMatcher.find() )
 			client.registerEncounter( encounterMatcher.group(1) );
@@ -1037,7 +1036,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
 			isErrorState = true;
 			client.cancelRequest();
-			finishInBrowser( client, request );
+			request.showInBrowser();
 			return false;
 		}
 
@@ -1053,7 +1052,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
 			isErrorState = true;
 			client.cancelRequest();
-			finishInBrowser( client, request );
+			request.showInBrowser();
 			return false;
 		}
 
@@ -1074,7 +1073,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
 			isErrorState = true;
 			client.cancelRequest();
-			finishInBrowser( client, request );
+			request.showInBrowser();
 			return false;
 		}
 
@@ -1122,13 +1121,16 @@ public class KoLRequest implements Runnable, KoLConstants
 		return true;
 	}
 
-	private void finishInBrowser( KoLmafia client, KoLRequest request )
+	protected void showInBrowser()
 	{
-		// Save request so we can open it in a browser window
-		client.setCurrentRequest( request);
+		// Check to see if this request should be showed
+		// in a browser.  If you're using a command-line
+		// interface, then you should not display the request.
 
-		// Open one immediately if the user wants it
-		if ( getProperty( "finishInBrowser" ).equals( "true" ) )
-			FightFrame.finishInBrowser( client );
+		if ( client instanceof KoLmafiaCLI )
+			return;
+
+		if ( getProperty( "finishInBrowser" ).equals( "true" ) || getProperty( "synchronizeFightFrame" ).equals( "true" ) )
+			FightFrame.showRequest( this );
 	}
 }

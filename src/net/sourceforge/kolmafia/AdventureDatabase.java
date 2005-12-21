@@ -367,6 +367,8 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( !KoLCharacter.hasAccomplishment( KoLCharacter.ICY_PEAK ) )
 			{
+				client.updateDisplay( DISABLE_STATE, "Validating map location..." );
+
 				request = new KoLRequest( client, "trapper.php" );
 				request.run();
 

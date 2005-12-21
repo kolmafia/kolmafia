@@ -46,24 +46,34 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FightFrame extends RequestFrame
 {
+	private static FightFrame INSTANCE = null;
+
 	public FightFrame( KoLmafia client, KoLRequest request )
-	{	super( client, null, request );
+	{
+		super( client, null, request );
+		FightFrame.INSTANCE = this;
 	}
 
-	public static void finishInBrowser( KoLmafia client )
+	public static void showRequest( KoLRequest request )
 	{
-		KoLRequest request = client.getCurrentRequest();
+		// Parameters which will be used to render the
+		// request frame.
 
-		if ( request == null)
-			return;
+		Object [] parameters = new Object[2];
+
+		parameters[0] = StaticEntity.getClient();
+		parameters[1] = request;
+
+		// If you can find an instance of a fight frame,
+		// go ahead and refresh it.  Otherwise, create a
+		// new frame which renders the request.
 
 		client.setCurrentRequest( null );
 
-		Object [] parameters = new Object[2];
-		parameters[0] = client;
-		parameters[1] = request;
-
-		(new CreateFrameRunnable( FightFrame.class, parameters )).run();
+		if ( INSTANCE == null )
+			(new CreateFrameRunnable( FightFrame.class, parameters )).run();
+		else
+			INSTANCE.refresh( request );
 	}
 
 	public static void main( String [] args )

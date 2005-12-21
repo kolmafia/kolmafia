@@ -214,6 +214,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "savePositions", "false" );
 		ensureProperty( "saveState", "" );
 		ensureProperty( "serverFriendly", "false" );
+		ensureProperty( "synchronizeFightFrame", "false" );
 		ensureProperty( "showAdventureZone", "true" );
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );

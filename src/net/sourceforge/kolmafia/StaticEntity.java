@@ -52,6 +52,10 @@ public abstract class StaticEntity implements KoLConstants
 	{	StaticEntity.client = client;
 	}
 
+	public static KoLmafia getClient()
+	{	return client;
+	}
+
 	public static void closeSession()
 	{
 		if ( client == null )

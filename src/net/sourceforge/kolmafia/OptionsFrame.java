@@ -260,6 +260,9 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "synchronizeFightFrame", "Show requests in mini-browser" },
+			{ "finishInBrowser", "Open browser window to finish aborted battles" },
+
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "forceReconnect", "Automatically time-in on time-out" },
 			{ "savePositions", "Reload windows in original positions" },
@@ -267,7 +270,6 @@ public class OptionsFrame extends KoLFrame
 			{ "cloverProtectActive", "Guard against accidental clover usage" },
 			{ "ignoreChoiceAdventures", "Ignore all choice adventures" },
 			{ "autoAbortMechaMech", "Auto-abort battles with the MagiMechaMech" },
-			{ "finishInBrowser", "Open browser window to finish aborted battles" },
 			{ "autoSatisfyWithMall", "Automatically buy missing items on conditions check" },
 			{ "girlCalendar", "Display Girls of Loathing on Farmer's Almanac" },
 			{ "useClockworkBoxes", "Use clockwork box servants in item creation" },

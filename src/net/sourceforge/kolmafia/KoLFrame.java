@@ -165,7 +165,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		this.toolbarPanel = null;
 
-		switch ( Integer.parseInt( getProperty( "toolbarPosition" ) ) )
+		switch ( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) )
 		{
 			case 1:
 				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );

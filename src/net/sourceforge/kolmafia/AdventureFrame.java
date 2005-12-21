@@ -202,7 +202,6 @@ public class AdventureFrame extends KoLFrame
 			switch ( displayState )
 			{
 				case ERROR_STATE:
-				case CANCEL_STATE:
 					compactPane.setBackground( ERROR_COLOR );
 					break;
 				case ENABLE_STATE:
@@ -344,16 +343,7 @@ public class AdventureFrame extends KoLFrame
 				return;
 			}
 
-			String action = (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() );
-
-			if ( ( action.equals( "item0536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||
-			     ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) < 1 ) )
-			{
-				client.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
-				return;
-			}
-
-			setProperty( "battleAction", action );
+			setProperty( "battleAction", (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() ) );
 			Runnable request = (Runnable) locationSelect.getSelectedItem();
 			setProperty( "lastAdventure", request.toString() );
 
@@ -452,7 +442,11 @@ public class AdventureFrame extends KoLFrame
 				(new WinGameThread()).start();
 			else
 			{
-				client.updateDisplay( CANCEL_STATE, "Adventuring terminated." );
+				if ( client.getCurrentRequest() instanceof FightRequest )
+					client.updateDisplay( DISABLE_STATE, "Completing combat round..." );
+				else
+					client.updateDisplay( ERROR_STATE, "Adventuring terminated." );
+
 				client.cancelRequest();
 				requestFocus();
 			}

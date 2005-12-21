@@ -151,7 +151,7 @@ public class FightRequest extends KoLRequest
 		{
 			client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
 			client.cancelRequest();
-			finishInBrowser();
+			showInBrowser();
 			return;
 		}
 
@@ -180,7 +180,7 @@ public class FightRequest extends KoLRequest
 					{
 						client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
 						client.cancelRequest();
-						finishInBrowser();
+						showInBrowser();
 						return;
 					}
 				}
@@ -234,7 +234,7 @@ public class FightRequest extends KoLRequest
 				// Otherwise, you still have more rounds to fight.
 				// move onto the next round and then rerun the
 				// request.
-				
+
 				nextRound();
 				run();
 			}
@@ -243,16 +243,6 @@ public class FightRequest extends KoLRequest
 
 	public int getCombatRound()
 	{	return roundCount;
-	}	
-
-	private void finishInBrowser()
-	{
-		// Save request so we can open it in a browser window
-		client.setCurrentRequest( this );
-
-		// Open one immediately if the user wants it
-		if ( getProperty( "finishInBrowser" ).equals( "true" ) )
-			FightFrame.finishInBrowser( client );
 	}
 
 	private int getMPCost()

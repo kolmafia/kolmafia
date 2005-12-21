@@ -175,7 +175,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( commandBuffer != null )
 		{
 			StringBuffer colorBuffer = new StringBuffer();
-			if ( state == ERROR_STATE || state == CANCEL_STATE )
+			if ( state == ERROR_STATE )
 				colorBuffer.append( "<font color=red>" );
 			else
 				colorBuffer.append( "<font color=black>" );
@@ -1240,7 +1240,7 @@ public abstract class KoLmafia implements KoLConstants
 			// If you've completed the requests, make sure to update
 			// the display.
 
-			if ( !permitsContinue() && currentState != CANCEL_STATE && currentState != ERROR_STATE )
+			if ( !permitsContinue() && currentState != ERROR_STATE )
 			{
 				// Special processing for adventures.
 
@@ -1256,7 +1256,7 @@ public abstract class KoLmafia implements KoLConstants
 					// If we are not displaying an error
 					// message, give a comforting message.
 
-					if ( currentState != ERROR_STATE && currentState != CANCEL_STATE )
+					if ( currentState != ERROR_STATE )
 						updateDisplay( NORMAL_STATE, "Nothing more to do here." );
 				}
 			}
