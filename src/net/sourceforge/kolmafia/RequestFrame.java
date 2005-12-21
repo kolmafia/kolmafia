@@ -136,36 +136,36 @@ public class RequestFrame extends KoLFrame
 
 			framePanel.setLayout( new GridLayout( 1, 1 ) );
 			framePanel.add( splitPane );
+
+			// Add the standard locations handled within the
+			// mini-browser, including inventory, character
+			// information, skills and account setup.
+
+			JMenu functionMenu = new JMenu( "Function" );
+			getJMenuBar().add( functionMenu, 0 );
+
+			functionMenu.add( new DisplayRequestMenuItem( "Inventory", "inventory.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Character", "charsheet.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Usable Skills", "skills.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Read Messages", "messages.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Account Menu", "account.php" ) );
+
+			// Add the browser "goto" menu, because people
+			// are familiar with seeing this as well.  But,
+			// place it all inside of a "travel" menu.
+
+			JMenu zonesMenu = new JMenu( "Goto" );
+			getJMenuBar().add( zonesMenu, 1 );
+
+			zonesMenu.add( new DisplayRequestMenuItem( "Seaside Town", "town.php" ) );
+			zonesMenu.add( new DisplayRequestMenuItem( "Campground", "campground.php" ) );
+			zonesMenu.add( new DisplayRequestMenuItem( "Big Mountains", "mountains.php" ) );
+			zonesMenu.add( new DisplayRequestMenuItem( "Nearby Plains", "plains.php" ) );
+			zonesMenu.add( new DisplayRequestMenuItem( "Sorceress' Lair", "lair.php" ) );
+			zonesMenu.add( new DisplayRequestMenuItem( "Desert Beach", "beach.php" ) );
+			zonesMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
+			zonesMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
 		}
-
-		// Add the standard locations handled within the
-		// mini-browser, including inventory, character
-		// information, skills and account setup.
-
-		JMenu functionMenu = new JMenu( "Function" );
-		getJMenuBar().add( functionMenu, 0 );
-
-		functionMenu.add( new DisplayRequestMenuItem( "Inventory", "inventory.php" ) );
-		functionMenu.add( new DisplayRequestMenuItem( "Character", "charsheet.php" ) );
-		functionMenu.add( new DisplayRequestMenuItem( "Usable Skills", "skills.php" ) );
-		functionMenu.add( new DisplayRequestMenuItem( "Read Messages", "messages.php" ) );
-		functionMenu.add( new DisplayRequestMenuItem( "Account Menu", "account.php" ) );
-
-		// Add the browser "goto" menu, because people
-		// are familiar with seeing this as well.  But,
-		// place it all inside of a "travel" menu.
-
-		JMenu zonesMenu = new JMenu( "Goto" );
-		getJMenuBar().add( zonesMenu, 1 );
-
-		zonesMenu.add( new DisplayRequestMenuItem( "Seaside Town", "town.php" ) );
-		zonesMenu.add( new DisplayRequestMenuItem( "Campground", "campground.php" ) );
-		zonesMenu.add( new DisplayRequestMenuItem( "Big Mountains", "mountains.php" ) );
-		zonesMenu.add( new DisplayRequestMenuItem( "Nearby Plains", "plains.php" ) );
-		zonesMenu.add( new DisplayRequestMenuItem( "Sorceress' Lair", "lair.php" ) );
-		zonesMenu.add( new DisplayRequestMenuItem( "Desert Beach", "beach.php" ) );
-		zonesMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
-		zonesMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
 
 		(new DisplayRequestThread()).start();
 	}
