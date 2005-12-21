@@ -265,8 +265,12 @@ public class FamiliarData implements KoLConstants, Comparable
 		accessoryID[2] = TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 
 		for ( int i = 0; i < 3; ++i )
+		{
 			if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
 				++weightModifier;
+			else if ( accessoryID[i] == 1377 )
+				++weightModifier;
+		}
 
 		// Plexiglass Pith Helmet adds +5 pounds if equipped.
 

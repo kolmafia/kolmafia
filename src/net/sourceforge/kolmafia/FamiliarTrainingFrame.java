@@ -1098,7 +1098,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( ar != null )
 			{
 				int id = ar.getItemID();
-				return id >= firstTinyPlastic && id <= lastTinyPlastic;
+				if ( id >= firstTinyPlastic && id <= lastTinyPlastic )
+					return true;
+				if ( id == 1377 )
+					return true;
+				return false;
 			}
 			return false;
 		}
@@ -1191,15 +1195,24 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If equipped with fewer than three tiny plastic items
 			// equipped, search inventory for more
-			for ( int i = firstTinyPlastic; tpCount < 3 && i <= lastTinyPlastic; ++i )
-			{
-				AdventureResult ar = new AdventureResult( i, 1 );
-				int count = ar.getCount( inventory );
+			for ( int i = firstTinyPlastic; i <= lastTinyPlastic; ++i )
+				addTinyPlastic( i, inventory );
 
-				// Make a new one for each slot
-				while ( count-- > 0 && tpCount < 3 )
-					tp[ tpCount++ ] = new AdventureResult( i, 1 );
-			}
+			// Check Tiny Plastic Crimbo objects
+			addTinyPlastic( 1377, inventory );
+		}
+
+		private void addTinyPlastic( int id, LockableListModel inventory )
+		{
+			if ( tpCount == 3 )
+				return;
+
+			AdventureResult ar = new AdventureResult( id, 1 );
+			int count = ar.getCount( inventory );
+
+			// Make a new one for each slot
+			while ( count-- > 0 && tpCount < 3 )
+				tp[ tpCount++ ] = new AdventureResult( id, 1 );
 		}
 
 		/**************************************************************/

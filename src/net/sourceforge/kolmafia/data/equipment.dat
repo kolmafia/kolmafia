@@ -169,16 +169,16 @@ supportive bra	50	Mox: 10
 
 5-Alarm Saucepan	50	Mus: 10
 7-Foot Dwarven mattock	80	Mus: 25
-arse-shooting crossbow	160	Mox: 65
-asbestos crossbow	110	Mox: 40
-asbestos staff	110	Mus: 40
+arse-shooting crossbow	160	Mox: 65	2
+asbestos crossbow	110	Mox: 40	2
+asbestos staff	110	Mus: 40	2
 asbestos sword	110	Mus: 40
 asparagus knife	15	none
 balloon sword	50	Mus: 10
-basic meat crossbow	40	Mox: 5
+basic meat crossbow	40	Mox: 5	2
 basic meat foon	50	Mus: 10
 basic meat spork	45	Mus: 7
-basic meat staff	40	Mus: 5
+basic meat staff	40	Mus: 5	2
 basic meat sword	40	Mus: 5
 batblade	110	Mus: 40
 big stick	10	none
@@ -189,8 +189,8 @@ bugbear-smiting sword	150	Mus: 60
 Bugfinder Blade	180	Mus: 75
 can of maces	50	Mox: 10
 cheap plastic bottle opener	30	none
-chrome crossbow	120	Mox: 45
-chrome staff	120	Mus: 45
+chrome crossbow	120	Mox: 45	2
+chrome staff	120	Mus: 45	2
 chrome sword	120	Mus: 45
 Cloaca-Cola-issue combat knife	30	none
 cool whip	10	none
@@ -202,13 +202,13 @@ diamond-studded cane	60	Mus: 15
 disco ball	10	none
 Disco Banjo	50	Mox: 10
 Dr. Hobo's scalpel	35	Mus: 2
-dripping meat crossbow	50	Mox: 10
-dripping meat staff	50	Mus: 10
+dripping meat crossbow	50	Mox: 10	2
+dripping meat staff	50	Mus: 10	2
 dripping meat sword	50	Mus: 10
 drywall axe	150	Mus: 60
 especially homoerotic frat-paddle	150	Mus: 60
-eXtreme meat crossbow	60	Mox: 15
-eXtreme meat staff	60	Mus: 15
+eXtreme meat crossbow	60	Mox: 15	2
+eXtreme meat staff	60	Mus: 15	2
 eXtreme meat sword	60	Mus: 15
 fetus-smashing club	200	Mus: 85
 foon	30	none
@@ -228,15 +228,15 @@ homoerotic frat-paddle	70	Mus: 20
 huge mirror shard	30	none
 icy-hot katana	90	Mus: 30
 iron pasta spoon	110	Mus: 40
-Kentucky-fried meat crossbow	80	Mox: 25
-Kentucky-fried meat staff	80	Mus: 25
+Kentucky-fried meat crossbow	80	Mox: 25	2
+Kentucky-fried meat staff	80	Mus: 25	2
 Kentucky-fried meat sword	80	Mus: 25
 kneecapping stick	90	Mus: 30
 Knob Goblin elite polearm	60	Mus: 15
 Knob Goblin scimitar	15	none
 Knob Goblin tongs	20	none
-linoleum crossbow	100	Mox: 35
-linoleum staff	100	Mus: 35
+linoleum crossbow	100	Mox: 35	2
+linoleum staff	100	Mus: 35	2
 linoleum sword	100	Mus: 35
 little paper umbrella	30	none
 Mafia violin case	100	Mus: 35
@@ -248,7 +248,7 @@ pixel sword	50	Mus: 10
 plexiglass pike pike	180	Mus: 75
 Radio Free Foil	150	Mus: 60
 rib of the Bonerdagon	80	Mus: 25
-ridiculously huge sword	140	Mus: 55
+ridiculously huge sword	140	Mus: 55	3
 Rock and Roll Legend	50	Mox: 10
 rubber axe	40	Mus: 5
 sabre teeth	60	Mus: 15
@@ -262,8 +262,8 @@ spooky staff	35	Mus: 2
 spooky stick	30	none
 spork	30	none
 stainless steel shillelagh	90	Mus: 30
-star crossbow	165	Mox: 67
-star staff	165	Mus: 67
+star crossbow	165	Mox: 67	2
+star staff	165	Mus: 67	2
 star sword	165	Mus: 67
 steaming evil	180	Mus: 75
 stolen accordion	10	none
@@ -282,6 +282,12 @@ wholeberd	80	Mus: 25
 wooden axe	60	Mus: 15
 wooden stakes	25	none
 yak whip	20	none
+
+# Off-hand section.  This section includes all the items
+# which go in the "off-hand" slot of the equipment menu.
+
+rag doll	0	none
+marionette	0	none
 
 # Accessories section.  While Coldfront lists an item
 # power for each item, I have no idea where those values

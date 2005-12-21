@@ -47,6 +47,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class EquipmentDatabase extends KoLDatabase
 {
 	private static int [] power = new int[ TradeableItemDatabase.ITEM_COUNT ];
+	private static int [] hands = new int[ TradeableItemDatabase.ITEM_COUNT ];
 	private static String [] requirement =  new String[ TradeableItemDatabase.ITEM_COUNT ];
 
 	static
@@ -58,7 +59,7 @@ public class EquipmentDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 3 )
+			if ( data.length >= 3 )
 			{
 				itemID = TradeableItemDatabase.getItemID( data[0] );
 
@@ -66,6 +67,7 @@ public class EquipmentDatabase extends KoLDatabase
 				{
 					power[ itemID ] = Integer.parseInt( data[1] );
 					requirement[ itemID ] = data[2];
+					hands[ itemID ] = ( data.length >= 4 ) ? Integer.parseInt( data[3] ) : 1;
 				}
 			}
 		}
@@ -98,5 +100,15 @@ public class EquipmentDatabase extends KoLDatabase
 			return 0;
 
 		return power[ itemID ];
+	}
+
+	public static int getHands( String itemName )
+	{
+		int itemID = TradeableItemDatabase.getItemID( itemName );
+
+		if ( itemID == -1 )
+			return 0;
+
+		return hands[ itemID ];
 	}
 }

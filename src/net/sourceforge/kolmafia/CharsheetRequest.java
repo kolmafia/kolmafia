@@ -264,8 +264,8 @@ public class CharsheetRequest extends KoLRequest
 			// We can't get familiar equipment from this page,
 			// so don't reset it.
 
-			String [] equipment = new String[7];
-			for ( int i = 0; i < 7; ++i )
+			String [] equipment = new String[8];
+			for ( int i = 0; i < 8; ++i )
 				equipment[i] = EquipmentRequest.UNEQUIP;
 
 			Matcher equipmentMatcher = Pattern.compile( "<b>Equipment.*?<table>(.*?)</table>" ).matcher( responseText );
@@ -286,6 +286,10 @@ public class CharsheetRequest extends KoLRequest
 
 						case ConsumeItemRequest.EQUIP_WEAPON:
 							equipment[ KoLCharacter.WEAPON ] = currentItem;
+							break;
+
+						case ConsumeItemRequest.EQUIP_OFFHAND:
+							equipment[ KoLCharacter.OFFHAND ] = currentItem;
 							break;
 
 						case ConsumeItemRequest.EQUIP_SHIRT:

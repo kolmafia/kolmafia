@@ -585,8 +585,8 @@ public class AdventureResult implements Comparable, KoLConstants
 	{	return new CreatableCellRenderer();
 	}
 
-	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
-	{	return new EquipmentCellRenderer( weapon, hat, shirt, pants, accessory, familiar );
+	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
+	{	return new EquipmentCellRenderer( weapon, offhand, hat, shirt, pants, accessory, familiar );
 	}
 
 	private static class AutoSellCellRenderer extends DefaultListCellRenderer
@@ -709,12 +709,13 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private static class EquipmentCellRenderer extends DefaultListCellRenderer
 	{
-		private boolean weapon, hat, shirt, pants, accessory, familiar;
+		private boolean weapon, offhand, hat, shirt, pants, accessory, familiar;
 
-		public EquipmentCellRenderer( boolean weapon, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
+		public EquipmentCellRenderer( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
 		{
 			setOpaque( true );
 			this.weapon = weapon;
+			this.offhand = offhand;
 			this.hat = hat;
 			this.shirt = shirt;
 			this.pants = pants;
@@ -735,6 +736,11 @@ public class AdventureResult implements Comparable, KoLConstants
 			{
 				case ConsumeItemRequest.EQUIP_WEAPON:
 					if ( !weapon )
+						return new JLabel();
+					break;
+
+				case ConsumeItemRequest.EQUIP_OFFHAND:
+					if ( !offhand )
 						return new JLabel();
 					break;
 

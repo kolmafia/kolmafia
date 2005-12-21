@@ -70,13 +70,14 @@ public class HagnkStorageFrame extends KoLFrame
 		JMenu equipMenu = new JMenu();
 		equipMenu.setIcon( JComponentUtilities.getSharedImage( "adventure.gif" ) );
 
-		equipFilter = new JCheckBoxMenuItem[6];
+		equipFilter = new JCheckBoxMenuItem[7];
 		equipFilter[0] = new FilterMenuItem( "Show weapons" );
-		equipFilter[1] = new FilterMenuItem( "Show hats" );
-		equipFilter[2] = new FilterMenuItem( "Show shirts" );
-		equipFilter[3] = new FilterMenuItem( "Show pants" );
-		equipFilter[4] = new FilterMenuItem( "Show accessories" );
-		equipFilter[5] = new FilterMenuItem( "Show familiar equipment" );
+		equipFilter[1] = new FilterMenuItem( "Show offhand items" );
+		equipFilter[2] = new FilterMenuItem( "Show hats" );
+		equipFilter[3] = new FilterMenuItem( "Show shirts" );
+		equipFilter[4] = new FilterMenuItem( "Show pants" );
+		equipFilter[5] = new FilterMenuItem( "Show accessories" );
+		equipFilter[6] = new FilterMenuItem( "Show familiar equipment" );
 
 		for ( int i = 0; i < equipFilter.length; ++i )
 			equipMenu.add( equipFilter[i] );
@@ -115,9 +116,7 @@ public class HagnkStorageFrame extends KoLFrame
 
 	public void refreshFilters()
 	{
-		equip.elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer( equipFilter[0].isSelected(),
-			equipFilter[1].isSelected(), equipFilter[2].isSelected(), equipFilter[3].isSelected(), equipFilter[4].isSelected(),
-			equipFilter[5].isSelected() ) );
+		equip.elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer( equipFilter[0].isSelected(), equipFilter[1].isSelected(), equipFilter[2].isSelected(), equipFilter[3].isSelected(), equipFilter[4].isSelected(), equipFilter[5].isSelected(), equipFilter[6].isSelected() ) );
 	}
 
 	public void setEnabled( boolean isEnabled )

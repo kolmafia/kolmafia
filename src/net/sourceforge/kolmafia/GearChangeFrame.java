@@ -128,11 +128,12 @@ public class GearChangeFrame extends KoLFrame
 	private JPanel createEquipPanel()
 	{
 		JPanel fieldPanel = new JPanel();
-		fieldPanel.setLayout( new GridLayout( 15, 1 ) );
+		fieldPanel.setLayout( new GridLayout( 16, 1 ) );
 
 		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Hat:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Weapon:  ", JLabel.RIGHT ) );
+		fieldPanel.add( new JLabel( "Off-Hand:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Shirt:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Pants:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( " " ) );
@@ -146,14 +147,14 @@ public class GearChangeFrame extends KoLFrame
 		fieldPanel.add( new JLabel( "Outfit:  ", JLabel.RIGHT ) );
 
 		JPanel valuePanel = new JPanel();
-		valuePanel.setLayout( new GridLayout( 15, 1 ) );
+		valuePanel.setLayout( new GridLayout( 16, 1 ) );
 
 		valuePanel.add( new JLabel( " " ) );
 
-		equipment = new JComboBox[8];
+		equipment = new JComboBox[9];
 		LockableListModel [] equipmentLists = KoLCharacter.getEquipmentLists();
 
-		for ( int i = 0; i < 4; ++i )
+		for ( int i = 0; i < 5; ++i )
 		{
 			equipment[i] = new ChangeComboBox( equipmentLists[i], EquipmentRequest.class, String.class, new Integer(i) );
 			JComponentUtilities.setComponentSize( equipment[i], 300, 20 );
@@ -162,7 +163,7 @@ public class GearChangeFrame extends KoLFrame
 
 		valuePanel.add( new JLabel( " " ) );
 
-		for ( int i = 4; i < 7; ++i )
+		for ( int i = 5; i < 8; ++i )
 		{
 			equipment[i] = new ChangeComboBox( equipmentLists[i], EquipmentRequest.class, String.class, new Integer(i) );
 			JComponentUtilities.setComponentSize( equipment[i], 300, 20 );
@@ -175,9 +176,9 @@ public class GearChangeFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( familiarSelect, 300, 20 );
 		valuePanel.add( familiarSelect );
 
-		equipment[7] = new ChangeComboBox( equipmentLists[7], EquipmentRequest.class, String.class, new Integer(7) );
-		JComponentUtilities.setComponentSize( equipment[7], 300, 20 );
-		valuePanel.add( equipment[7] );
+		equipment[8] = new ChangeComboBox( equipmentLists[8], EquipmentRequest.class, String.class, new Integer(8) );
+		JComponentUtilities.setComponentSize( equipment[8], 300, 20 );
+		valuePanel.add( equipment[8] );
 
 		valuePanel.add( new JLabel( " " ) );
 

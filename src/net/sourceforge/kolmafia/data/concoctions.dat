@@ -598,4 +598,6 @@ clockwork bartender-in-the-box	1	1	clockwork bartender-head-in-the-box	cocktailc
 # after collecting enough toy components.
 
 top	15	0	wooden block	toy wheel
+kite	15	0	length of string	felt
+marionette	15	0	length of string (2)	googly eye (2)	wooden block (2)
 rag doll	15	0	googly eye (2)	stuffing (3)	felt (2)

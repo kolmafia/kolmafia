@@ -66,7 +66,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public static final String [] equipmentType =
 	{
-		"hat", "weapon", "shirt", "pants",
+		"hat", "weapon", "offhand", "shirt", "pants",
 		"acc1", "acc2", "acc3", "familiarequip"
 	};
 
@@ -274,17 +274,17 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 			else
 			{
-				String [] oldEquipment = new String[8];
+				String [] oldEquipment = new String[9];
 
 				// Ensure that the inventory stays up-to-date by
 				// switching items around, as needed.
 
-				for ( int i = 0; i < 8; ++i )
+				for ( int i = 0; i < 9; ++i )
 					oldEquipment[i] = KoLCharacter.getEquipment( i );
 
 				parseEquipment();
 
-				for ( int i = 0; i < 8; ++i )
+				for ( int i = 0; i < 9; ++i )
 					switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
 
 				// Because changing equipment can potentially change
@@ -400,7 +400,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private void parseEquipment()
 	{
-		String [] equipment = new String[8];
+		String [] equipment = new String[9];
 		Matcher equipmentMatcher;
 
 		for ( int i = 0; i < equipment.length; ++i )
@@ -423,6 +423,16 @@ public class EquipmentRequest extends PasswordHashRequest
 			{
 				equipment[ KoLCharacter.WEAPON ] = equipmentMatcher.group(1);
 				KoLmafia.getLogStream().println( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
+			}
+		}
+
+		if ( responseText.indexOf( "unequip&type=offhand") != -1 )
+		{
+			equipmentMatcher = Pattern.compile( "Off-Hand:</td>.*?<b>(.*?)</b>.*unequip&type=offhand" ).matcher( responseText );
+			if ( equipmentMatcher.find() )
+			{
+				equipment[ KoLCharacter.OFFHAND ] = equipmentMatcher.group(1);
+				KoLmafia.getLogStream().println( "Off-hand: " + equipment[ KoLCharacter.OFFHAND ] );
 			}
 		}
 

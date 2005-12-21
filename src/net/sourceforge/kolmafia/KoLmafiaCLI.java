@@ -1825,13 +1825,14 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else if ( desiredData.startsWith( "equip" ) )
 		{
-			updateDisplay( NORMAL_STATE, "    Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
-			updateDisplay( NORMAL_STATE, " Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
-			updateDisplay( NORMAL_STATE, "  Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
-			updateDisplay( NORMAL_STATE, "  Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
-			updateDisplay( NORMAL_STATE, " Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
-			updateDisplay( NORMAL_STATE, " Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
-			updateDisplay( NORMAL_STATE, " Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
+			updateDisplay( NORMAL_STATE, "     Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
+			updateDisplay( NORMAL_STATE, "  Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
+			updateDisplay( NORMAL_STATE, "Off-hand: " + KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
+			updateDisplay( NORMAL_STATE, "   Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
+			updateDisplay( NORMAL_STATE, "   Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
+			updateDisplay( NORMAL_STATE, "  Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
+			updateDisplay( NORMAL_STATE, "  Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
+			updateDisplay( NORMAL_STATE, "  Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 		}
 		else if ( desiredData.startsWith( "encounters" ) )
 		{

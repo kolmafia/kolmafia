@@ -176,12 +176,13 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static final int HAT = 0;
 	public static final int WEAPON = 1;
-	public static final int SHIRT = 2;
-	public static final int PANTS = 3;
-	public static final int ACCESSORY1 = 4;
-	public static final int ACCESSORY2 = 5;
-	public static final int ACCESSORY3 = 6;
-	public static final int FAMILIAR = 7;
+	public static final int OFFHAND = 2;
+	public static final int SHIRT = 3;
+	public static final int PANTS = 4;
+	public static final int ACCESSORY1 = 5;
+	public static final int ACCESSORY2 = 6;
+	public static final int ACCESSORY3 = 7;
+	public static final int FAMILIAR = 8;
 
 	// Ascension sign constants
 
@@ -209,7 +210,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	static
 	{
-		for ( int i = 0; i < 7; ++i )
+		for ( int i = 0; i < 8; ++i )
 			equipment.add( EquipmentRequest.UNEQUIP );
 	}
 
@@ -227,10 +228,10 @@ public abstract class KoLCharacter extends StaticEntity
 	private static LockableListModel battleSkillIDs = new LockableListModel();
 	private static LockableListModel battleSkillNames = new LockableListModel();
 
-	private static LockableListModel [] equipmentLists = new LockableListModel[8];
+	private static LockableListModel [] equipmentLists = new LockableListModel[9];
 	static
 	{
-		for ( int i = 0; i < 8; ++i )
+		for ( int i = 0; i < 9; ++i )
 			equipmentLists[i] = new SortedListModel();
 	}
 
@@ -304,7 +305,7 @@ public abstract class KoLCharacter extends StaticEntity
 		totalSubpoints = new int[3];
 
 		equipment.clear();
-		for ( int i = 0; i < 7; ++i )
+		for ( int i = 0; i < 8; ++i )
 			equipment.add( EquipmentRequest.UNEQUIP );
 
 		outfits.clear();
@@ -339,7 +340,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// Initialize the equipment lists inside
 		// of the character data
 
-		for ( int i = 0; i < 8; ++i )
+		for ( int i = 0; i < 9; ++i )
 		{
 			equipmentLists[i].clear();
 			equipmentLists[i].add( EquipmentRequest.UNEQUIP );
@@ -1006,6 +1007,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		updateEquipmentList( equipmentLists[HAT], ConsumeItemRequest.EQUIP_HAT, getEquipment( HAT ) );
 		updateEquipmentList( equipmentLists[WEAPON], ConsumeItemRequest.EQUIP_WEAPON, getEquipment( WEAPON ) );
+		updateEquipmentList( equipmentLists[OFFHAND], ConsumeItemRequest.EQUIP_OFFHAND, getEquipment( OFFHAND ) );
 		updateEquipmentList( equipmentLists[SHIRT], ConsumeItemRequest.EQUIP_SHIRT, getEquipment( SHIRT ) );
 		updateEquipmentList( equipmentLists[PANTS], ConsumeItemRequest.EQUIP_PANTS, getEquipment( PANTS ) );
 		updateEquipmentList( equipmentLists[ACCESSORY1], ConsumeItemRequest.EQUIP_ACCESSORY, getEquipment( ACCESSORY1 ) );
