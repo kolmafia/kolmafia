@@ -1580,7 +1580,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[5];
+			JComponent [] headers = new JComponent[6];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
@@ -1588,6 +1588,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			headers[3] = new DisplayFrameMenuItem( "Seaside Council", CouncilFrame.class );
 			headers[4] = new DisplayRequestMenuItem( "Weird Records", "records.php?which=0" );
+			headers[5] = new DisplayRequestMenuItem( "View Store Log", "storelog.php" );
 
 			// Bookmark headers complete.
 
