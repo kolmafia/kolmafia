@@ -2451,8 +2451,6 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			int buffBotIterations = df.parse( parameters ).intValue();
-
-			(new CharsheetRequest( scriptRequestor )).run();
 			scriptRequestor.resetContinueState();
 
 			BuffBotHome.setBuffBotActive( true );

@@ -161,7 +161,7 @@ public class ChatRequest extends KoLRequest
 		// the next chat refresh iteration.
 
 		if ( BuffBotHome.isBuffBotActive() && getProperty( "useChatBasedBuffBot" ).equals( "true" ) && responseText.indexOf( "New message" ) != -1 )
-			BuffBotManager.runBuffBot( 1 );
+			BuffBotManager.runOnce();
 	}
 
 	/**

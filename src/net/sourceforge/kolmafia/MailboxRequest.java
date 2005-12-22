@@ -38,6 +38,7 @@ import java.util.regex.Matcher;
 
 public class MailboxRequest extends KoLRequest
 {
+	private static boolean hasMoreMessages = false;
 	private static boolean isRequesting = false;
 	private static long lastRequest = System.currentTimeMillis();
 
@@ -47,6 +48,10 @@ public class MailboxRequest extends KoLRequest
 
 	public static boolean isRequesting()
 	{	return isRequesting;
+	}
+
+	public static boolean hasMoreMessages()
+	{	return hasMoreMessages;
 	}
 
 	public static long getLastRequest()
@@ -95,12 +100,6 @@ public class MailboxRequest extends KoLRequest
 
 	public void run()
 	{
-		// In order to prevent multiple mailbox requests from running,
-		// a test is made on a static variable to halt concurrent requests.
-
-		if ( isRequesting )
-			return;
-
 		// Now you know that there is a request in progress, so you
 		// reset the variable (to avoid concurrent requests).
 
@@ -179,10 +178,7 @@ public class MailboxRequest extends KoLRequest
 		nextMessageIndex = processMessages( nextMessageIndex );
 		isRequesting = false;
 
-		if ( nextMessageIndex != -1 && lastMessageID != totalMessages )
-			(new MailboxRequest( client, boxname, beginIndex + 1 )).run();
-		else
-			updateDisplay( NORMAL_STATE, "Mail retrieved from " + boxname );
+		updateDisplay( NORMAL_STATE, "Mail retrieved from page 1 of " + boxname );
 	}
 
 	private int processMessages( int startIndex )

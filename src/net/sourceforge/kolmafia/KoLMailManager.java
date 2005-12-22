@@ -102,7 +102,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messages.length == 0 )
 			return;
 
-		(new RequestThread( new MailboxRequest( client, boxname, messages, "delete" ) )).start();
+		(new MailboxRequest( client, boxname, messages, "delete" )).run();
 
 		int messageIndex;
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
@@ -116,7 +116,7 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void saveMessage( KoLMailMessage message )
 	{
-		(new RequestThread( new MailboxRequest( client, "Inbox", message, "save" ) )).start();
+		(new MailboxRequest( client, "Inbox", message, "save" )).run();
 
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( "Inbox" );
 		int messageIndex = mailbox.indexOf( message );

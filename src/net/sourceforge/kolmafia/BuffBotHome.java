@@ -236,7 +236,7 @@ public class BuffBotHome extends StaticEntity
 			if ( client instanceof KoLmafiaGUI )
 				messages.add( 0, new BuffMessage( c, entry ) );
 
-			hypertextLogStream.println( "<font color=" + DataUtilities.toHexString( c ) + ">" + entry + "</font>" );
+			hypertextLogStream.println( "<br><font color=" + DataUtilities.toHexString( c ) + ">" + entry + "</font>" );
 			hypertextLogStream.flush();
 
 			if ( client instanceof KoLmafiaCLI )

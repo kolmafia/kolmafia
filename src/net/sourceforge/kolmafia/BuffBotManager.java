@@ -60,9 +60,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static final int SAVEBOX = 0;
 	public static final int DISPOSE = 1;
 
-	protected static ArrayList saveList = new ArrayList();
-	protected static ArrayList deleteList = new ArrayList();
-	protected static ArrayList sendList = new ArrayList();
+	private static ArrayList saveList = new ArrayList();
+	private static ArrayList deleteList = new ArrayList();
+	private static ArrayList sendList = new ArrayList();
 
 	private static int messageDisposalSetting;
 	private static String refundMessage;
@@ -249,33 +249,11 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		for ( int i = 1; BuffBotHome.isBuffBotActive() && i <= iterations; ++i )
 		{
-			// Request the inbox for the user.  Each call
-			// to add message will trigger the actual
-			// buffing attempt sequence, so all that
-			// needs to be done is clear the lists and
-			// initiate the mailbox request.
+			BuffBotManager.runOnce();
 
-			((List)mailboxes.get( "Inbox" )).clear();
-			deleteList.clear();  saveList.clear();
-			(new MailboxRequest( client, "Inbox" )).run();
-
-			// Do all the deletes and saves now that all
-			// the buffbot activity has been processed.
-
-			deleteMessages( "Inbox", deleteList.toArray() );
-			saveMessages( saveList.toArray() );
-
-			// Otherwise sleep for a while and then try again
-			// (don't go away for more than 1 second at a time
-			// to avoid re-enabling problems).
-
-			if ( !deleteList.isEmpty() )
-			{
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
-			}
-
-			client.updateDisplay( DISABLE_STATE, "Buffbot is sleeping." );
+			// Sleep for a while and then try again (don't go
+			// away for more than 1 second at a time to avoid
+			// automatic re-enabling problems).
 
 			if ( i != iterations )
 				for ( int j = 0; j < 75; ++j )
@@ -294,6 +272,36 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			client.updateDisplay( NORMAL_STATE, "Buffbot stopped." );
 			BuffBotHome.setBuffBotActive( false );
 		}
+	}
+
+	public static void runOnce()
+	{
+		// Request the inbox for the user.  Each call
+		// to add message will trigger the actual
+		// buffing attempt sequence, so all that
+		// needs to be done is clear the lists and
+		// initiate the mailbox request.
+
+		((List)mailboxes.get( "Inbox" )).clear();
+		(new MailboxRequest( client, "Inbox" )).run();
+
+		// Do all the deletes and saves now that all
+		// the buffbot activity has been processed.
+
+		if ( !deleteList.isEmpty() )
+			deleteMessages( "Inbox", deleteList.toArray() );
+
+		if ( !saveList.isEmpty() )
+			saveMessages( saveList.toArray() );
+
+		if ( !deleteList.isEmpty() )
+		{
+			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
+			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
+		}
+
+		deleteList.clear();  saveList.clear();
+		client.updateDisplay( DISABLE_STATE, "Buffbot is sleeping." );
 	}
 
 	/**
