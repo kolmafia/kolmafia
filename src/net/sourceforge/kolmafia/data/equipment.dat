@@ -286,8 +286,9 @@ yak whip	20	none
 # Off-hand section.  This section includes all the items
 # which go in the "off-hand" slot of the equipment menu.
 
-rag doll	0	none
-marionette	0	none
+marionette	0	Mys: 40
+rag doll	0	Mys: 40
+sock monkey	0	Mys: 40
 
 # Accessories section.  While Coldfront lists an item
 # power for each item, I have no idea where those values

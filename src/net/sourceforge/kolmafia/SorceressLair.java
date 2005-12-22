@@ -254,18 +254,16 @@ public abstract class SorceressLair extends StaticEntity
 		// Decide on which star weapon should be available for
 		// this whole process.
 
-		String currentWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
+		String currentWeapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
 		AdventureResult starWeapon;
 
 		boolean needsWeapon;
 
 		// If he's currently wielding a star weapon, use that one.
 
-		if ( currentWeapon.startsWith( "star" ) )
+		if ( currentWeapon != null && currentWeapon.startsWith( "star" ) )
 		{
-			// Stored in character as "star sword (+165)"
-			String current = currentWeapon.substring( 0, currentWeapon.indexOf( " (" ));
-			starWeapon = new AdventureResult( current );
+			starWeapon = new AdventureResult( currentWeapon );
 			needsWeapon = false;
 		}
 		else
