@@ -79,6 +79,10 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
 	}
 
+	public String getRecipient()
+	{	return recipient;
+	}
+
 	protected int getCapacity()
 	{	return 11;
 	}

@@ -375,7 +375,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 				if ( !sendList.isEmpty() )
 				{
-					((GreenMessageRequest)sendList.get(0)).run();
+					GreenMessageRequest sending = (GreenMessageRequest) sendList.get(0);
+					BuffBotHome.update( BuffBotHome.NOCOLOR, "Sending refund to " + client.getPlayerName( sending.getRecipient() ) + "..." );
+					sending.run();
+
 					sendList.clear();
 				}
 			}
