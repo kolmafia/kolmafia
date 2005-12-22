@@ -108,7 +108,7 @@ public class ChatFrame extends KoLFrame
 		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
 
-		if ( getProperty( "useToolbars" ).equals( "true" ) )
+		if ( GLOBAL_SETTINGS.getProperty( "useToolbars" ).equals( "true" ) )
 		{
 			toolbarPanel.add( new MessengerButton( "Clear Chat Buffers", "clear.gif", "clearChatBuffers" ) );
 			toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
