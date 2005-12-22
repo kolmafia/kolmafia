@@ -440,6 +440,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		toolsMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
 
+		toolsMenu.add( new JSeparator() );
+
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 		toolsMenu.add( new InvocationMenuItem( "Pwn Clan Otori", client, "pwnClanOtori" ) );
