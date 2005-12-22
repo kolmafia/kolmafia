@@ -149,7 +149,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		else if ( responseText.indexOf( "too many songs" ) != -1 )
 		{
 			client.cancelRequest();
-			lastUpdate = target + "has 3 AT buffs already.";
+			lastUpdate = target + " has 3 AT buffs already.";
 		}
 		else if ( responseText.indexOf( "Invalid target player" ) != -1 )
 		{
