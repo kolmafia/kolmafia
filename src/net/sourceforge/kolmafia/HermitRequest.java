@@ -145,6 +145,12 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
+		// If the hermit isn't confused, that means he took a hermit
+		// permit for the items being exchanged.
+
+		if ( responseText.indexOf( "I already took your Hermit Permits, right?" ) == -1 )
+			client.processResult( new AdventureResult( 42, 0 - quantity ) );
+
 		List inventory = KoLCharacter.getInventory();
 
 		// Subtract the worthless items in order of their priority;
@@ -153,12 +159,6 @@ public class HermitRequest extends KoLRequest
 		quantity -= subtractWorthlessItems( TRINKET, inventory, quantity );
 		quantity -= subtractWorthlessItems( GEWGAW, inventory, quantity );
 		subtractWorthlessItems( KNICK_KNACK, inventory, quantity );
-
-		// If the hermit isn't confused, that means he took a hermit
-		// permit for the items being exchanged.
-
-		if ( responseText.indexOf( "I already took your Hermit Permits, right?" ) == -1 )
-			client.processResult( new AdventureResult( 42, 0 - quantity ) );
 
 		updateDisplay( NORMAL_STATE, "Hermit successfully looted!" );
 	}

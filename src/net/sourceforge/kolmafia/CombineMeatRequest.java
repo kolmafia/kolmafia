@@ -63,6 +63,5 @@ public class CombineMeatRequest extends ItemCreationRequest
 		super.run();
 
 		client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * getQuantityNeeded() ) );
-		client.processResult( new AdventureResult( meatType, getQuantityNeeded() ) );
 	}
 }
