@@ -100,7 +100,10 @@ public class ClanStashRequest extends SendMessageRequest
 			this.whichField = "whichitem";
 			this.quantityField = "quantity";
 			source = new ArrayList();
-			destination = KoLCharacter.getInventory();
+			// The request culminates in a standard "You acquire an
+			// item" message. Standard response parsing will find
+			// that and add the item to the inventory.
+			destination = new ArrayList();
 		}
 
 	}
@@ -123,7 +126,7 @@ public class ClanStashRequest extends SendMessageRequest
 	}
 
 	protected int getCapacity()
-	{	return source == KoLCharacter.getInventory() ? 11 : 1;
+	{	return moveType == STASH_TO_ITEMS ? 1 : 11;
 	}
 
 	protected void repeat( Object [] attachments )
@@ -131,7 +134,7 @@ public class ClanStashRequest extends SendMessageRequest
 	}
 
 	protected String getSuccessMessage()
-	{	return "";
+	{	return moveType == STASH_TO_ITEMS ? "You acquire an item" : "";
 	}
 
 	/**
@@ -160,6 +163,11 @@ public class ClanStashRequest extends SendMessageRequest
 			case STASH_TO_ITEMS:
 				updateDisplay( DISABLE_STATE, "Moving items..." );
 				super.run();
+				if ( !client.permitsContinue() )
+					// The move failed. Perhaps you have
+					// insufficient karma. Perhaps somebody
+					// else beat you to it.
+					updateDisplay( ERROR_STATE, "Move failed." );
 				parseStash();
 				break;
 		}
