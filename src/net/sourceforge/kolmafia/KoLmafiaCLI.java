@@ -2671,9 +2671,9 @@ public class KoLmafiaCLI extends KoLmafia
 		String cure = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
 
 		int type = 0;
-		if ( cure.equals( "HP" ) )
+		if ( cure.equalsIgnoreCase( "hp" ) )
 			type = GalaktikRequest.HP;
-		else if ( cure.equals( "MP" ) )
+		else if ( cure.equalsIgnoreCase( "mp" ) )
 			type = GalaktikRequest.MP;
 		else
 		{
