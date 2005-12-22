@@ -104,6 +104,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( "rat head balloon", 0, false );
 	private static final int firstTinyPlastic = 969;
 	private static final int lastTinyPlastic = 988;
+	private static final int firstTinyPlasticCrimbo = 1377;
+	private static final int lastTinyPlasticCrimbo = 1378;
 
 	// An adventure
 	private static final AdventureResult ADV = new AdventureResult( AdventureResult.ADV, -1 );
@@ -1089,7 +1091,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				int id = ar.getItemID();
 				if ( id >= firstTinyPlastic && id <= lastTinyPlastic )
 					return true;
-				if ( id == 1377 )
+				if ( id >= firstTinyPlasticCrimbo && id <= lastTinyPlasticCrimbo )
 					return true;
 				return false;
 			}
@@ -1188,7 +1190,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				addTinyPlastic( i, inventory );
 
 			// Check Tiny Plastic Crimbo objects
-			addTinyPlastic( 1377, inventory );
+			for ( int i = firstTinyPlasticCrimbo; i <= lastTinyPlasticCrimbo; ++i )
+				addTinyPlastic( i, inventory );
 		}
 
 		private void addTinyPlastic( int id, LockableListModel inventory )

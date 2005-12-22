@@ -268,7 +268,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		{
 			if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
 				++weightModifier;
-			else if ( accessoryID[i] == 1377 )
+			else if ( accessoryID[i] >= 1377 && accessoryID[i] <= 1378 )
 				++weightModifier;
 		}
 
