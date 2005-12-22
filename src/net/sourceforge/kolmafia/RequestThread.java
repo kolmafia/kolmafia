@@ -167,7 +167,7 @@ public class RequestThread extends Thread implements KoLConstants
 			client.updateDisplay( NORMAL_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 		}
 
-		if ( client != null )
+		if ( client != null && !(requests[0] instanceof ChatRequest) )
 		{
 			client.enableDisplay();
 			client.resetContinueState();
