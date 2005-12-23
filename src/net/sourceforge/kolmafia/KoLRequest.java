@@ -696,7 +696,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			return false;
 		}
 
-		boolean shouldRetry = true;
+		boolean shouldStop = true;
 
 		if ( client != null )
 		{
@@ -722,7 +722,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					else
 					{
 						client.cancelRequest();
-						shouldRetry = false;
+						shouldStop = true;
 					}
 				}
 				else if ( redirectLocation.startsWith( "login.php" ) )
@@ -738,7 +738,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					else
 					{
 						client.cancelRequest();
-						shouldRetry = false;
+						shouldStop = true;
 					}
 				}
 				else if ( followRedirects )
@@ -764,11 +764,11 @@ public class KoLRequest implements Runnable, KoLConstants
 				}
 				else if ( redirectLocation.equals( "choice.php" ) )
 				{
-					shouldRetry = processChoiceAdventure();
+					shouldStop = processChoiceAdventure();
 				}
 				else
 				{
-					shouldRetry = false;
+					shouldStop = true;
 					KoLmafia.getLogStream().println( "Redirected: " + redirectLocation );
 				}
 			}
@@ -859,7 +859,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// from the function call.
 
 		istream = null;
-		return shouldRetry;
+		return shouldStop;
 	}
 
 	/**
