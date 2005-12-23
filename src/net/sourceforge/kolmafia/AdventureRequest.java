@@ -412,6 +412,6 @@ public class AdventureRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return responseCode == 200 || redirectLocation.equals( "fight.php" ) ? adventuresUsed : 0;
+	{	return responseCode == 200 || redirectLocation == null || redirectLocation.equals( "fight.php" ) ? adventuresUsed : 0;
 	}
 }
