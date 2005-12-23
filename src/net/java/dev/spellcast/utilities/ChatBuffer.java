@@ -274,6 +274,10 @@ public class ChatBuffer
 			{
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 				displayPane.validate();
+
+				if ( verticalScrollBar != null )
+					verticalScrollBar.setValue( verticalScrollBar.getMaximum() );
+
 				return;
 			}
 
@@ -289,7 +293,7 @@ public class ChatBuffer
 				displayPane.validate();
 
 				if ( verticalScrollBar != null )
-					verticalScrollBar.setValue( verticalScrollBar.getMaximum() - verticalScrollBar.getVisibleAmount() );
+					verticalScrollBar.setValue( verticalScrollBar.getMaximum() );
 			}
 			catch ( Exception e )
 			{
