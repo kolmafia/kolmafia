@@ -168,6 +168,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		switch ( itemID )
 		{
 		case -1:	// bogus item ID
+		case 856:	// shock collar
 		case 857:	// moonglasses
 		case 1040:	// lucky Tam O'Shanter
 		case 1116:	// annoying pitchfork
