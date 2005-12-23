@@ -69,7 +69,7 @@ public class FightRequest extends KoLRequest
 	public void nextRound()
 	{
 		clearDataFields();
-		++this.roundCount;
+		++roundCount;
 
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
@@ -80,22 +80,22 @@ public class FightRequest extends KoLRequest
 		// special skills - the user will simply attack, use
 		// a moxious maneuver, or run away.
 
-		this.action = getProperty( "battleAction" );
+		action = getProperty( "battleAction" );
 
-		if ( roundCount == 0 )
+		if ( roundCount == 1 )
 		{
 			// If this is the first round, you
 			// actually wind up submitting no
 			// extra data.
 
-			this.action = "attack";
+			action = "attack";
 		}
 		else if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 		{
 			// If you plan on halting the battle
 			// due to HP loss, then flag it.
 
-			this.action = "...";
+			action = "...";
 		}
 		else if ( action.startsWith( "item" ) )
 		{
@@ -103,7 +103,7 @@ public class FightRequest extends KoLRequest
 
 			if ( (new AdventureResult( itemID, 1 )).getCount( KoLCharacter.getInventory() ) == 0 )
 			{
-				this.action = "attack";
+				action = "attack";
 				addFormField( "action", action );
 			}
 			else
@@ -114,17 +114,17 @@ public class FightRequest extends KoLRequest
 		}
 		else if ( KoLCharacter.getCurrentMP() < 0 - getMPCost() )
 		{
-			this.action = "attack";
+			action = "attack";
 			addFormField( "action", action );
 		}
 		else if ( action.equals( "moxman" ) )
 		{
-			this.action = "moxman";
+			action = "moxman";
 			addFormField( "action", action );
 		}
 		else if ( action.equals( "attack" ) )
 		{
-			this.action = "attack";
+			action = "attack";
 			addFormField( "action", action );
 		}
 		else

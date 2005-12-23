@@ -63,7 +63,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
-	private static int combatRound;
+	private int combatRound;
 
 	private RequestFrame parent;
 	private KoLRequest currentRequest;
@@ -91,10 +91,7 @@ public class RequestFrame extends KoLFrame
 		this.parent = parent;
 		this.currentRequest = request;
 		this.hasSideBar = hasSideBar;
-		this.combatRound = 1;
-
-		if ( request != null && request instanceof FightRequest )
-			combatRound = ((FightRequest)request).getCombatRound();
+		setCombatRound( request );
 
 		this.mainDisplay = new JEditorPane();
 		this.mainDisplay.setEditable( false );
@@ -202,11 +199,20 @@ public class RequestFrame extends KoLFrame
 
 		if ( parent == null || location.startsWith( "search" ) )
 		{
+			setCombatRound( request );
 			currentRequest = request;
 			(new DisplayRequestThread()).start();
 		}
 		else
 			parent.refresh( request );
+	}
+
+	private void setCombatRound( KoLRequest request )
+	{
+		if ( request != null && request instanceof FightRequest )
+			combatRound = ((FightRequest)request).getCombatRound();
+		else
+			combatRound = 1;
 	}
 
 	/**
@@ -329,15 +335,9 @@ public class RequestFrame extends KoLFrame
 			// sort of thing).
 
 			if ( getCurrentLocation().startsWith( "fight" ) )
-			{
-				combatRound++;
 				setTitle( "Mini-Browser: Combat Round " + combatRound );
-			}
 			else
-			{
-				combatRound = 1;
 				setTitle( "Mini-Browser" );
-			}
 
 			if ( currentRequest.responseText == null )
 			{
@@ -354,10 +354,7 @@ public class RequestFrame extends KoLFrame
 			// switch between compact and full mode, refresh the sidebar.
 
 			if ( hasSideBar && sidePaneRequest == null )
-			{
 				sidePaneRequest = new CharpaneRequest( client );
-				refreshSidePane();
-			}
 
 			KoLCharacter.refreshCalculatedLists();
 			if ( hasSideBar )

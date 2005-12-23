@@ -78,8 +78,7 @@ public class FightFrame extends RequestFrame
 		// go ahead and refresh it.  Otherwise, create a
 		// new frame which renders the request.
 
-		client.setCurrentRequest( null );
-
+		client.setCurrentRequest( request );
 		if ( INSTANCE == null )
 			(new CreateFrameRunnable( FightFrame.class, parameters )).run();
 		else
