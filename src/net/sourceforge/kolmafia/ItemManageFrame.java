@@ -84,8 +84,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-	private ItemManagePanel special = null;
-	private MultiButtonPanel inventory, closet, consume, create;
+	private MultiButtonPanel inventory, closet, consume, create, special;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -103,13 +102,14 @@ public class ItemManageFrame extends KoLFrame
 		create = new CreateItemPanel();
 		inventory = new OutsideClosetPanel();
 		closet = new InsideClosetPanel();
+		special = null;
 
 		// If the player is in a muscle sign, then make sure
 		// that the restaurant panel is there.
 
 		tabs.addTab( "Consume", consume );
 
-		if ( client != null && special != null )
+		if ( client != null )
 		{
 			if ( !client.getRestaurantItems().isEmpty() )
 			{
@@ -210,47 +210,51 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class SpecialPanel extends ItemManagePanel
+	private class SpecialPanel extends MultiButtonPanel
 	{
 		public SpecialPanel( LockableListModel items )
-		{	super( "Sign-Specific Stuffs", "buy one", "buy multiple", items );
-		}
-
-		protected void actionConfirmed()
-		{	purchase( false );
-		}
-
-		protected void actionCancelled()
-		{	purchase( true );
-		}
-
-		private void purchase( boolean purchaseMultiple )
 		{
-			Object [] items = elementList.getSelectedValues();
-			if ( items.length == 0 )
-				return;
+			super( "Sign-Specific Stuffs", items, true );
+			setButtons( new String [] { "buy one", "buy multiple" },
+				new ActionListener [] { new BuyListener( false ), new BuyListener( true ) } );
+		}
 
-			String currentItem;
-			int consumptionCount;
+		private class BuyListener implements ActionListener
+		{
+			private boolean purchaseMultiple;
 
-			Runnable [] requests = new Runnable[ items.length ];
-			int [] repeatCount = new int[ items.length ];
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				currentItem = (String) items[i];
-				consumptionCount = purchaseMultiple ? getQuantity( "Buying multiple " + currentItem + "...", Integer.MAX_VALUE, 1 ) : 1;
-
-				if ( consumptionCount == 0 )
-					return;
-
-				requests[i] = elementList.getModel() == client.getRestaurantItems() ?
-					(KoLRequest) (new RestaurantRequest( client, currentItem )) : (KoLRequest) (new MicrobreweryRequest( client, currentItem ));
-
-				repeatCount[i] = consumptionCount;
+			public BuyListener( boolean purchaseMultiple )
+			{	this.purchaseMultiple = purchaseMultiple;
 			}
 
-			(new RequestThread( requests, repeatCount )).start();
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = elementList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
+				String currentItem;
+				int consumptionCount;
+
+				Runnable [] requests = new Runnable[ items.length ];
+				int [] repeatCount = new int[ items.length ];
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					currentItem = (String) items[i];
+					consumptionCount = purchaseMultiple ? getQuantity( "Buying multiple " + currentItem + "...", Integer.MAX_VALUE, 1 ) : 1;
+
+					if ( consumptionCount == 0 )
+						return;
+
+					requests[i] = elementList.getModel() == client.getRestaurantItems() ?
+						(KoLRequest) (new RestaurantRequest( client, currentItem )) : (KoLRequest) (new MicrobreweryRequest( client, currentItem ));
+
+					repeatCount[i] = consumptionCount;
+				}
+
+				(new RequestThread( requests, repeatCount )).start();
+			}
 		}
 	}
 
