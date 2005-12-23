@@ -171,6 +171,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 856:	// shock collar
 		case 857:	// moonglasses
 		case 1040:	// lucky Tam O'Shanter
+		case 1102:	// targeting chip
 		case 1116:	// annoying pitchfork
 		case 1152:	// miniature gravy-covered maypole
 		case 1260:	// wax lips
