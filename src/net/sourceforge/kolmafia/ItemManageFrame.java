@@ -84,7 +84,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-	private ItemManagePanel special;
+	private ItemManagePanel special = null;
 	private MultiButtonPanel inventory, closet, consume, create;
 
 	/**
@@ -104,34 +104,26 @@ public class ItemManageFrame extends KoLFrame
 		inventory = new OutsideClosetPanel();
 		closet = new InsideClosetPanel();
 
-		JPanel consumeContainer = new JPanel();
-		consumeContainer.setLayout( new BorderLayout() );
-		consumeContainer.add( consume, BorderLayout.CENTER );
-
 		// If the player is in a muscle sign, then make sure
 		// that the restaurant panel is there.
 
-		special = null;
+		tabs.addTab( "Consume", consume );
 
-		if ( client != null )
+		if ( client != null && special != null )
 		{
 			if ( !client.getRestaurantItems().isEmpty() )
 			{
 				special = new SpecialPanel( client.getRestaurantItems() );
-				consumeContainer.add( special, BorderLayout.SOUTH );
+				tabs.add( "Restaurant", special );
 			}
 			else if ( !client.getMicrobreweryItems().isEmpty() )
 			{
 				special = new SpecialPanel( client.getMicrobreweryItems() );
-				consumeContainer.add( special, BorderLayout.SOUTH );
+				tabs.add( "Microbrewery", special );
 			}
 		}
 
-		JPanel createContainer = new JPanel( new CardLayout() );
-		createContainer.add( create, "" );
-
-		tabs.addTab( "Consume", consumeContainer );
-		tabs.addTab( "Create", createContainer );
+		tabs.addTab( "Create", create );
 		tabs.addTab( "Inventory", inventory );
 		tabs.addTab( "Closet", closet );
 
@@ -166,139 +158,106 @@ public class ItemManageFrame extends KoLFrame
 			special.setEnabled( isEnabled );
 	}
 
-	protected class MultiButtonPanel extends JPanel
+	private class ConsumePanel extends MultiButtonPanel
 	{
-		protected boolean useFilters;
-		protected JPanel enclosingPanel;
-		protected LockableListModel elementModel;
-		protected ShowDescriptionList elementList;
-
-		protected JButton [] buttons;
-		protected JCheckBox [] filters;
-		protected JRadioButton [] movers;
-
-		public MultiButtonPanel( String title, LockableListModel elementModel, boolean useFilters )
+		public ConsumePanel()
 		{
-			this.useFilters = useFilters;
-			this.elementModel = elementModel;
-			this.elementList = new ShowDescriptionList( elementModel );
-
-			enclosingPanel = new JPanel( new BorderLayout( 10, 10 ) );
-			enclosingPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-			enclosingPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-			setLayout( new CardLayout( 10, 0 ) );
-			add( enclosingPanel, "" );
+			super( "Usable Items", KoLCharacter.getUsables(), true );
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			setButtons( new String [] { "use one", "use multiple" },
+				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ) } );
 		}
 
-		public void setButtons( String [] buttonLabels, ActionListener [] buttonListeners )
+		private class ConsumeListener implements ActionListener
 		{
-			JPanel containerPanel = new JPanel( new GridLayout( 1, buttonLabels.length, 5, 5 ) );
-			buttons = new JButton[ buttonLabels.length ];
+			private boolean useMultiple;
 
-			for ( int i = 0; i < buttonLabels.length; ++i )
-			{
-				buttons[i] = new JButton( buttonLabels[i] );
-				buttons[i].addActionListener( buttonListeners[i] );
-				containerPanel.add( buttons[i] );
+			public ConsumeListener( boolean useMultiple )
+			{	this.useMultiple = useMultiple;
 			}
 
-			JPanel optionPanel = new JPanel();
-
-			if ( this.useFilters )
+			public void actionPerformed( ActionEvent e )
 			{
-				filters = new JCheckBox[3];
-				filters[0] = new FilterCheckBox( "Show food", KoLCharacter.canEat() );
-				filters[1] = new FilterCheckBox( "Show drink", KoLCharacter.canDrink() );
-				filters[2] = new FilterCheckBox( "Show other", true );
+				Object [] items = elementList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
 
-				for ( int i = 0; i < 3; ++i )
-					optionPanel.add( filters[i] );
-			}
-			else
-			{
-				movers = new JRadioButton[4];
-				movers[0] = new JRadioButton( "Move all", true );
-				movers[1] = new JRadioButton( "Move all but one" );
-				movers[2] = new JRadioButton( "Move multiple" );
-				movers[3] = new JRadioButton( "Move exactly one" );
+				int consumptionType, consumptionCount;
+				AdventureResult currentItem;
 
-				ButtonGroup moverGroup = new ButtonGroup();
-				for ( int i = 0; i < 4; ++i )
+				Runnable [] requests = new Runnable[ items.length ];
+				int [] repeatCount = new int[ items.length ];
+
+				for ( int i = 0; i < items.length; ++i )
 				{
-					moverGroup.add( movers[i] );
-					optionPanel.add( movers[i] );
+					currentItem = (AdventureResult) items[i];
+
+					consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
+					consumptionCount = useMultiple ? getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
+
+					if ( consumptionCount == 0 )
+						return;
+
+					requests[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ?
+						new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) ) :
+						new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
+
+					repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
 				}
+
+				(new RequestThread( requests, repeatCount )).start();
 			}
+		}
+	}
 
-			JPanel southPanel = new JPanel( new BorderLayout() );
-			southPanel.add( containerPanel, BorderLayout.SOUTH );
-			southPanel.add( optionPanel, BorderLayout.NORTH );
-
-			enclosingPanel.add( southPanel, BorderLayout.NORTH );
+	private class SpecialPanel extends ItemManagePanel
+	{
+		public SpecialPanel( LockableListModel items )
+		{	super( "Sign-Specific Stuffs", "buy one", "buy multiple", items );
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-			elementList.setEnabled( isEnabled );
-			for ( int i = 0; i < buttons.length; ++i )
-				buttons[i].setEnabled( isEnabled );
+		protected void actionConfirmed()
+		{	purchase( false );
 		}
 
-		protected Object [] getDesiredItems( ShowDescriptionList elementList, String message )
+		protected void actionCancelled()
+		{	purchase( true );
+		}
+
+		private void purchase( boolean purchaseMultiple )
 		{
 			Object [] items = elementList.getSelectedValues();
 			if ( items.length == 0 )
-				return null;
+				return;
 
-			int neededSize = items.length;
-			AdventureResult currentItem;
+			String currentItem;
+			int consumptionCount;
+
+			Runnable [] requests = new Runnable[ items.length ];
+			int [] repeatCount = new int[ items.length ];
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				currentItem = (AdventureResult) items[i];
+				currentItem = (String) items[i];
+				consumptionCount = purchaseMultiple ? getQuantity( "Buying multiple " + currentItem + "...", Integer.MAX_VALUE, 1 ) : 1;
 
-				int quantity = movers[0].isSelected() ? currentItem.getCount() : movers[1].isSelected() ?
-					currentItem.getCount() - 1 : movers[2].isSelected() ? getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
+				if ( consumptionCount == 0 )
+					return;
 
-				// If the user manually enters zero, return from
-				// this, since they probably wanted to cancel.
+				requests[i] = elementList.getModel() == client.getRestaurantItems() ?
+					(KoLRequest) (new RestaurantRequest( client, currentItem )) : (KoLRequest) (new MicrobreweryRequest( client, currentItem ));
 
-				if ( quantity == 0 && movers[2].isSelected() )
-					return null;
-
-				// Otherwise, if it was not a manual entry, then reset
-				// the entry to null so that it can be re-processed.
-
-				if ( quantity == 0 )
-				{
-					items[i] = null;
-					--neededSize;
-				}
-				else
-				{
-					items[i] = currentItem.getInstance( quantity );
-				}
+				repeatCount[i] = consumptionCount;
 			}
 
-			// If none of the array entries were nulled,
-			// then return the array as-is.
+			(new RequestThread( requests, repeatCount )).start();
+		}
+	}
 
-			if ( neededSize == items.length )
-				return items;
-
-			// Otherwise, shrink the array which will be
-			// returned so that it removes any nulled values.
-
-			Object [] desiredItems = new Object[ neededSize ];
-			neededSize = 0;
-
-			for ( int i = 0; i < items.length; ++i )
-				if ( items[i] != null )
-					desiredItems[ neededSize++ ] = items[i];
-
-			return desiredItems;
+	private class ClosetManagePanel extends MultiButtonPanel
+	{
+		public ClosetManagePanel( String title, LockableListModel elementModel, boolean useFilters )
+		{	super( title, elementModel, useFilters );
 		}
 
 		protected abstract class TransferListener implements ActionListener
@@ -410,118 +369,9 @@ public class ItemManageFrame extends KoLFrame
 				initializeTransfer();
 			}
 		}
-
-		protected class FilterCheckBox extends JCheckBox implements ActionListener
-		{
-			public FilterCheckBox( String label, boolean isSelected )
-			{
-				super( label, isSelected );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{	elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
-			}
-		}
 	}
 
-	private class ConsumePanel extends MultiButtonPanel
-	{
-		public ConsumePanel()
-		{
-			super( "Usable Items", KoLCharacter.getUsables(), true );
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
-			setButtons( new String [] { "use one", "use multiple" },
-				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ) } );
-		}
-
-		private class ConsumeListener implements ActionListener
-		{
-			private boolean useMultiple;
-
-			public ConsumeListener( boolean useMultiple )
-			{	this.useMultiple = useMultiple;
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				Object [] items = elementList.getSelectedValues();
-				if ( items.length == 0 )
-					return;
-
-				int consumptionType, consumptionCount;
-				AdventureResult currentItem;
-
-				Runnable [] requests = new Runnable[ items.length ];
-				int [] repeatCount = new int[ items.length ];
-
-				for ( int i = 0; i < items.length; ++i )
-				{
-					currentItem = (AdventureResult) items[i];
-
-					consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
-					consumptionCount = useMultiple ? getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
-
-					if ( consumptionCount == 0 )
-						return;
-
-					requests[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ?
-						new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) ) :
-						new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
-
-					repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
-				}
-
-				(new RequestThread( requests, repeatCount )).start();
-			}
-		}
-	}
-
-	private class SpecialPanel extends ItemManagePanel
-	{
-		public SpecialPanel( LockableListModel items )
-		{	super( "Sign-Specific Stuffs", "buy one", "buy multiple", items );
-		}
-
-		protected void actionConfirmed()
-		{	purchase( false );
-		}
-
-		protected void actionCancelled()
-		{	purchase( true );
-		}
-
-		private void purchase( boolean purchaseMultiple )
-		{
-			Object [] items = elementList.getSelectedValues();
-			if ( items.length == 0 )
-				return;
-
-			String currentItem;
-			int consumptionCount;
-
-			Runnable [] requests = new Runnable[ items.length ];
-			int [] repeatCount = new int[ items.length ];
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				currentItem = (String) items[i];
-				consumptionCount = purchaseMultiple ? getQuantity( "Buying multiple " + currentItem + "...", Integer.MAX_VALUE, 1 ) : 1;
-
-				if ( consumptionCount == 0 )
-					return;
-
-				requests[i] = elementList.getModel() == client.getRestaurantItems() ?
-					(KoLRequest) (new RestaurantRequest( client, currentItem )) : (KoLRequest) (new MicrobreweryRequest( client, currentItem ));
-
-				repeatCount[i] = consumptionCount;
-			}
-
-			(new RequestThread( requests, repeatCount )).start();
-		}
-	}
-
-	private class OutsideClosetPanel extends MultiButtonPanel
+	private class OutsideClosetPanel extends ClosetManagePanel
 	{
 		public OutsideClosetPanel()
 		{
@@ -537,7 +387,7 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class InsideClosetPanel extends MultiButtonPanel
+	private class InsideClosetPanel extends ClosetManagePanel
 	{
 		public InsideClosetPanel()
 		{

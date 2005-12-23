@@ -734,6 +734,155 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	protected class MultiButtonPanel extends JPanel
+	{
+		protected boolean useFilters;
+		protected JPanel enclosingPanel;
+		protected LockableListModel elementModel;
+		protected ShowDescriptionList elementList;
+
+		protected JButton [] buttons;
+		protected JCheckBox [] filters;
+		protected JRadioButton [] movers;
+
+		public MultiButtonPanel( String title, LockableListModel elementModel, boolean useFilters )
+		{
+			this.useFilters = useFilters;
+			this.elementModel = elementModel;
+			this.elementList = new ShowDescriptionList( elementModel );
+
+			enclosingPanel = new JPanel( new BorderLayout( 10, 10 ) );
+			enclosingPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+			enclosingPanel.add( new JScrollPane( elementList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			setLayout( new CardLayout( 10, 0 ) );
+			add( enclosingPanel, "" );
+		}
+
+		public void setButtons( String [] buttonLabels, ActionListener [] buttonListeners )
+		{
+			JPanel containerPanel = new JPanel( new GridLayout( 1, buttonLabels.length, 5, 5 ) );
+			buttons = new JButton[ buttonLabels.length ];
+
+			for ( int i = 0; i < buttonLabels.length; ++i )
+			{
+				buttons[i] = new JButton( buttonLabels[i] );
+				buttons[i].addActionListener( buttonListeners[i] );
+				containerPanel.add( buttons[i] );
+			}
+
+			JPanel optionPanel = new JPanel();
+
+			if ( this.useFilters )
+			{
+				filters = new JCheckBox[3];
+				filters[0] = new FilterCheckBox( "Show food", KoLCharacter.canEat() );
+				filters[1] = new FilterCheckBox( "Show drink", KoLCharacter.canDrink() );
+				filters[2] = new FilterCheckBox( "Show other", true );
+
+				for ( int i = 0; i < 3; ++i )
+					optionPanel.add( filters[i] );
+			}
+			else
+			{
+				movers = new JRadioButton[4];
+				movers[0] = new JRadioButton( "Move all", true );
+				movers[1] = new JRadioButton( "Move all but one" );
+				movers[2] = new JRadioButton( "Move multiple" );
+				movers[3] = new JRadioButton( "Move exactly one" );
+
+				ButtonGroup moverGroup = new ButtonGroup();
+				for ( int i = 0; i < 4; ++i )
+				{
+					moverGroup.add( movers[i] );
+					optionPanel.add( movers[i] );
+				}
+			}
+
+			JPanel southPanel = new JPanel( new BorderLayout() );
+			southPanel.add( containerPanel, BorderLayout.SOUTH );
+			southPanel.add( optionPanel, BorderLayout.NORTH );
+
+			enclosingPanel.add( southPanel, BorderLayout.NORTH );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			elementList.setEnabled( isEnabled );
+			for ( int i = 0; i < buttons.length; ++i )
+				buttons[i].setEnabled( isEnabled );
+		}
+
+		protected Object [] getDesiredItems( ShowDescriptionList elementList, String message )
+		{
+			Object [] items = elementList.getSelectedValues();
+			if ( items.length == 0 )
+				return null;
+
+			int neededSize = items.length;
+			AdventureResult currentItem;
+
+			for ( int i = 0; i < items.length; ++i )
+			{
+				currentItem = (AdventureResult) items[i];
+
+				int quantity = movers[0].isSelected() ? currentItem.getCount() : movers[1].isSelected() ?
+					currentItem.getCount() - 1 : movers[2].isSelected() ? getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
+
+				// If the user manually enters zero, return from
+				// this, since they probably wanted to cancel.
+
+				if ( quantity == 0 && movers[2].isSelected() )
+					return null;
+
+				// Otherwise, if it was not a manual entry, then reset
+				// the entry to null so that it can be re-processed.
+
+				if ( quantity == 0 )
+				{
+					items[i] = null;
+					--neededSize;
+				}
+				else
+				{
+					items[i] = currentItem.getInstance( quantity );
+				}
+			}
+
+			// If none of the array entries were nulled,
+			// then return the array as-is.
+
+			if ( neededSize == items.length )
+				return items;
+
+			// Otherwise, shrink the array which will be
+			// returned so that it removes any nulled values.
+
+			Object [] desiredItems = new Object[ neededSize ];
+			neededSize = 0;
+
+			for ( int i = 0; i < items.length; ++i )
+				if ( items[i] != null )
+					desiredItems[ neededSize++ ] = items[i];
+
+			return desiredItems;
+		}
+
+		protected class FilterCheckBox extends JCheckBox implements ActionListener
+		{
+			public FilterCheckBox( String label, boolean isSelected )
+			{
+				super( label, isSelected );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+			}
+		}
+	}
+
 	protected void processWindowEvent( WindowEvent e )
 	{
 		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
