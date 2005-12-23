@@ -836,7 +836,7 @@ public abstract class KoLmafia implements KoLConstants
 				currentHP = KoLCharacter.getCurrentHP();
 			}
 
-			if ( currentHP == KoLCharacter.getCurrentHP() )
+			if ( currentHP < hpNeeded )
 			{
 				updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore HP." );
 				cancelRequest();
@@ -862,7 +862,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			disableMacro = true;
 			(new KoLmafiaCLI( this, new FileInputStream( recoveryScript ) )).listenForCommands();
-			updateDisplay( DISABLE_STATE, "recover complete.  Resuming requests..." );
+			updateDisplay( DISABLE_STATE, "HP recovery complete.  Resuming requests..." );
 		}
 		else
 		{
