@@ -58,20 +58,8 @@ public class MailboxRequest extends KoLRequest
 	{	return lastRequest;
 	}
 
-	public MailboxRequest( KoLmafia client, String boxname )
-	{	this( client, boxname, 1 );
-	}
-
 	public MailboxRequest( KoLmafia client, String boxname, KoLMailMessage message, String action )
-	{
-		super( client, "messages.php" );
-		addFormField( "box", boxname );
-		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "the_action", action );
-
-		this.action = action;
-		this.boxname = boxname;
-		addFormField( message.getMessageID(), "on" );
+	{	this( client, boxname, new Object[] { message }, action );
 	}
 
 	public MailboxRequest( KoLmafia client, String boxname, Object [] messages, String action )
@@ -87,11 +75,11 @@ public class MailboxRequest extends KoLRequest
 			addFormField( ((KoLMailMessage) messages[i]).getMessageID(), "on" );
 	}
 
-	private MailboxRequest( KoLmafia client, String boxname, int beginIndex )
+	public MailboxRequest( KoLmafia client, String boxname )
 	{
 		super( client, "messages.php" );
 		addFormField( "box", boxname );
-		addFormField( "begin", String.valueOf( beginIndex ) );
+		addFormField( "begin", "1" );
 
 		this.action = null;
 		this.boxname = boxname;
