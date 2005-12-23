@@ -160,8 +160,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( !formSource.equals( "campground.php" ) )
 		{
-			client.autoRecoverHP();
-			client.autoRecoverMP();
+			client.recoverHP();
+			client.recoverMP();
 
 			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" ) ;
 			if ( !scriptPath.equals( "" ) )

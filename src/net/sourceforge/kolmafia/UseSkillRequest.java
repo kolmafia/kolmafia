@@ -114,7 +114,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Before executing the skill, ensure that all necessary mana is
 		// recovered in advance.
 
-		client.autoRecoverMP();
+		client.recoverMP();
 
 		if ( target == null || target.trim().length() == 0 )
 			updateDisplay( DISABLE_STATE, "Casting " + skillName + "..." );

@@ -803,14 +803,14 @@ public abstract class KoLmafia implements KoLConstants
 	/**
 	 * Utility method called inbetween battles.  This method
 	 * checks to see if the character's HP has dropped below
-	 * the tolerance value, and autorecovers if it has (if
+	 * the tolerance value, and recovers if it has (if
 	 * the user has specified this in their settings).
 	 */
 
-	protected final void autoRecoverHP()
+	protected final void recoverHP()
 	{
-		double autoRecover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) KoLCharacter.getMaximumHP();
-		autoRecoverHP( (int) autoRecover );
+		double recover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) KoLCharacter.getMaximumHP();
+		recoverHP( (int) recover );
 	}
 
 	/**
@@ -819,57 +819,56 @@ public abstract class KoLmafia implements KoLConstants
 	 * hit points
 	 */
 
-	protected final void autoRecoverHP( int autoRecover )
+	public final void recoverHP( int hpNeeded )
 	{
-		if ( KoLCharacter.getCurrentHP() <= autoRecover )
+		if ( KoLCharacter.getCurrentHP() >= hpNeeded )
+			return;
+
+		try
 		{
-			try
+			int currentHP = -1;
+			resetContinueState();
+
+			while ( permitsContinue() && KoLCharacter.getCurrentHP() < hpNeeded &&
+				KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() && currentHP != KoLCharacter.getCurrentHP() )
 			{
-				int currentHP = -1;
-				resetContinueState();
-
-				while ( permitsContinue() && KoLCharacter.getCurrentHP() <= autoRecover &&
-					KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() && currentHP != KoLCharacter.getCurrentHP() )
-				{
-					currentHP = KoLCharacter.getCurrentHP();
-					updateDisplay( DISABLE_STATE, "Executing HP auto-recovery script..." );
-
-					String scriptPath = settings.getProperty( "hpRecoveryScript" ) ;
-					File autoRecoveryScript = new File( scriptPath );
-
-					if ( autoRecoveryScript.exists() )
-					{
-						disableMacro = true;
-						(new KoLmafiaCLI( this, new FileInputStream( autoRecoveryScript ) )).listenForCommands();
-						updateDisplay( DISABLE_STATE, "Autorecover complete.  Resuming requests..." );
-					}
-					else
-					{
-						updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
-						cancelRequest();
-						disableMacro = false;
-						return;
-					}
-				}
-
-				if ( currentHP == KoLCharacter.getCurrentHP() )
-				{
-					updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore HP." );
-					cancelRequest();
-					disableMacro = false;
-					return;
-				}
+				recoverHPOnce();
+				currentHP = KoLCharacter.getCurrentHP();
 			}
-			catch ( Exception e )
+
+			if ( currentHP == KoLCharacter.getCurrentHP() )
 			{
-				updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
+				updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore HP." );
 				cancelRequest();
-				disableMacro = false;
-				return;
 			}
+		}
+		catch ( Exception e )
+		{
+			updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
+			cancelRequest();
 		}
 
 		disableMacro = false;
+	}
+
+	private final void recoverHPOnce() throws IOException
+	{
+		updateDisplay( DISABLE_STATE, "Executing HP auto-recovery script..." );
+
+		String scriptPath = settings.getProperty( "hpRecoveryScript" ) ;
+		File recoveryScript = new File( scriptPath );
+
+		if ( recoveryScript.exists() )
+		{
+			disableMacro = true;
+			(new KoLmafiaCLI( this, new FileInputStream( recoveryScript ) )).listenForCommands();
+			updateDisplay( DISABLE_STATE, "recover complete.  Resuming requests..." );
+		}
+		else
+		{
+			updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
+			cancelRequest();
+		}
 	}
 
 	/**
@@ -892,13 +891,13 @@ public abstract class KoLmafia implements KoLConstants
 	/**
 	 * Utility method called inbetween commands.  This method
 	 * checks to see if the character's MP has dropped below
-	 * the tolerance value, and autorecovers if it has (if
+	 * the tolerance value, and recovers if it has (if
 	 * the user has specified this in their settings).
 	 */
 
-	protected final void autoRecoverMP()
+	protected final void recoverMP()
 	{
-		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) KoLCharacter.getMaximumMP();
+		double mpNeeded = Double.parseDouble( settings.getProperty( "mprecover" ) ) * (double) KoLCharacter.getMaximumMP();
 		recoverMP( (int) mpNeeded );
 	}
 
@@ -907,7 +906,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * mana points above the given value.
 	 */
 
-	public boolean recoverMP( int mpNeeded )
+	public final boolean recoverMP( int mpNeeded )
 	{
 		if ( KoLCharacter.getCurrentMP() >= mpNeeded )
 			return true;
@@ -917,62 +916,65 @@ public abstract class KoLmafia implements KoLConstants
 
 		String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
 
+		// Iterate through every single MP restore item, checking to
+		// see if the settings wish to use this item.  If so, go ahead
+		// and process the item's usage.
+
 		for ( int i = 0; i < MPRestoreItemList.size(); ++i )
 		{
 			if ( mpRestoreSetting.indexOf( MPRestoreItemList.get(i).toString() ) != -1 )
 			{
-				if ( MPRestoreItemList.get(i) == MPRestoreItemList.BEANBAG || MPRestoreItemList.get(i) == MPRestoreItemList.HOUSE )
+				while ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() && KoLCharacter.getCurrentMP() > previousMP )
 				{
-					while ( KoLCharacter.getAdventuresLeft() > 0 &&
-						KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() && KoLCharacter.getCurrentMP() > previousMP )
-					{
-						previousMP = KoLCharacter.getCurrentMP();
- 						MPRestoreItemList.get(i).recoverMP();
-
- 						if ( KoLCharacter.getCurrentMP() >= mpNeeded )
- 						{
-							disableMacro = false;
-							resetContinueState();
- 							return true;
-						}
-
-						if ( KoLCharacter.getCurrentMP() == previousMP )
-						{
-							updateDisplay( ERROR_STATE, "Detected no MP change.  Refreshing status to verify..." );
-							(new CharsheetRequest( this )).run();
-						}
- 					}
+					recoverMPOnce( MPRestoreItemList.get(i) );
+					previousMP = KoLCharacter.getCurrentMP();
 				}
-				else
+
+				if ( KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
 				{
-					AdventureResult item = new AdventureResult( MPRestoreItemList.get(i).toString(), 0 );
- 					while ( KoLCharacter.getInventory().contains( item ) &&
-						KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() && KoLCharacter.getCurrentMP() > previousMP )
- 					{
- 						previousMP = KoLCharacter.getCurrentMP();
- 						MPRestoreItemList.get(i).recoverMP();
-
- 						if ( KoLCharacter.getCurrentMP() >= mpNeeded )
- 						{
-							disableMacro = false;
-							resetContinueState();
-							return true;
-						}
-
-						if ( KoLCharacter.getCurrentMP() == previousMP )
-						{
-							updateDisplay( ERROR_STATE, "Detected no MP change.  Refreshing status to verify..." );
-							(new CharsheetRequest( this )).run();
-						}
- 					}
+					disableMacro = false;
+					resetContinueState();
+					return true;
 				}
 			}
 		}
+
+		// Fall-through check, just in case you've reached the
+		// desired value.
+
+		if ( KoLCharacter.getCurrentMP() >= mpNeeded )
+		{
+			disableMacro = false;
+			return true;
+		}
+
+		// Now you know for certain that you did not reach the
+		// desired value.  Report an error message.
 
 		updateDisplay( ERROR_STATE, "Unable to acquire enough MP!" );
 		disableMacro = false;
 		cancelRequest();
 		return false;
+	}
+
+	private final void recoverMPOnce( MPRestoreItemList.MPRestoreItem technique )
+	{
+		// If this attempt to recover MP will cost adventures,
+
+		if ( technique == MPRestoreItemList.BEANBAG || technique == MPRestoreItemList.HOUSE )
+		{
+			if ( KoLCharacter.getAdventuresLeft() == 0 )
+				return;
+		}
+		else if ( technique != null )
+		{
+			AdventureResult item = new AdventureResult( technique.toString(), 0 );
+			if ( !KoLCharacter.getInventory().contains( item ) )
+				return;
+		}
+
+		if ( technique != null )
+			technique.recoverMP();
 	}
 
 	/**
@@ -1221,7 +1223,7 @@ public abstract class KoLmafia implements KoLConstants
 				currentEffectCount = KoLCharacter.getEffects().size();
 
 				// Another instance is if the player's equipment
-				// results in autorecovery.
+				// results in recovery.
 
 				shouldRefreshStatus |= request instanceof KoLAdventure && KoLCharacter.hasRecoveringEquipment();
 

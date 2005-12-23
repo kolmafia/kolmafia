@@ -364,7 +364,7 @@ public abstract class SorceressLair extends StaticEntity
 			// the skeleton dice game
 
 			int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
-			client.autoRecoverHP( healthNeeded );
+			client.recoverHP( healthNeeded );
 
 			// Verify that you have enough HP to proceed with the
 			// skeleton dice game.
@@ -1194,7 +1194,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Ensure that the player is at full HP since the shadow will
 		// probably beat him up if he has less.
 
-		client.autoRecoverHP( KoLCharacter.getMaximumHP() );
+		client.recoverHP( KoLCharacter.getMaximumHP() );
 
 		// Need to be at full health.  Abort if this is
 		// not the case.
@@ -1247,7 +1247,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Ensure that the player has more than 50 HP, since
 		// you cannot enter the familiar chamber with less.
 
-		client.autoRecoverHP( 50 );
+		client.recoverHP( 50 );
 
 		// Need more than 50 hit points.  Abort if this is
 		// not the case.
