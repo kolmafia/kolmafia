@@ -37,6 +37,8 @@ package net.sourceforge.kolmafia;
 import java.awt.BorderLayout;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -52,6 +54,14 @@ public class FightFrame extends RequestFrame
 	{
 		super( client, null, request );
 		FightFrame.INSTANCE = this;
+		addWindowListener( new CloseFightFrameListener() );
+	}
+
+	protected final class CloseFightFrameListener extends WindowAdapter
+	{
+		public void windowClosed( WindowEvent e )
+		{	INSTANCE = null;
+		}
 	}
 
 	public static void showRequest( KoLRequest request )
