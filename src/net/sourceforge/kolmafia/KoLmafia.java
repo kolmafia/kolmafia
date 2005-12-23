@@ -897,7 +897,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected final void recoverMP()
 	{
-		double mpNeeded = Double.parseDouble( settings.getProperty( "mprecover" ) ) * (double) KoLCharacter.getMaximumMP();
+		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) KoLCharacter.getMaximumMP();
 		recoverMP( (int) mpNeeded );
 	}
 
