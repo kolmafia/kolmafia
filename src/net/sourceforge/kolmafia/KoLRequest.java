@@ -446,9 +446,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			client.processResults( responseText );
 
-			if ( !isErrorState && getProperty( "synchronizeFightFrame" ).equals( "true" ) &&
-				(this instanceof AdventureRequest || this instanceof FightRequest) )
-					showInBrowser();
+			if ( !isErrorState && (this instanceof AdventureRequest || this instanceof FightRequest) )
+				// Synchronize if requested
+				showInBrowser( false );
 		}
 	}
 
@@ -1004,7 +1004,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
-		request.showInBrowser();
+		// Synchronize if requested
+		request.showInBrowser( false );
+
 		return handleChoiceResponse( request );
 	}
 
@@ -1030,6 +1032,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
 			isErrorState = true;
 			client.cancelRequest();
+			// Finish in browser if requested
+			request.showInBrowser( true );
 			return false;
 		}
 
@@ -1045,6 +1049,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
 			isErrorState = true;
 			client.cancelRequest();
+			// Finish in browser if requested
+			request.showInBrowser( true );
 			return false;
 		}
 
@@ -1065,6 +1071,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
 			isErrorState = true;
 			client.cancelRequest();
+			// Finish in browser if requested
+			request.showInBrowser( true );
 			return false;
 		}
 
@@ -1077,11 +1085,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		request.addFormField( "option", decision );
 
 		request.run();
-		request.showInBrowser();
 
-		// Handle any items or stat gains resulting from the adventure
-
-		client.processResults( request.responseText );
+		// Synchronize if requested
+		request.showInBrowser( false );
 
 		// Manually process any adventure usage for choice adventures,
 		// since they necessarily consume an adventure.
@@ -1113,7 +1119,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		return true;
 	}
 
-	protected void showInBrowser()
+	/*
+	 * Method to display the current request in the Fight Frame.
+	 *
+	 * If we are synchronizing, show all requests
+	 * If we are finishing, show only exceptional requests
+	 */
+
+	protected void showInBrowser( boolean exceptional )
 	{
 		// Check to see if this request should be showed
 		// in a browser.  If you're using a command-line
@@ -1122,7 +1135,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( client instanceof KoLmafiaCLI )
 			return;
 
-		if ( getProperty( "finishInBrowser" ).equals( "true" ) || getProperty( "synchronizeFightFrame" ).equals( "true" ) )
-			FightFrame.showRequest( this );
+		if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) &&
+		     ( !exceptional || getProperty( "finishInBrowser" ).equals( "false" ) ) )
+			return;
+
+		FightFrame.showRequest( this );
 	}
 }
