@@ -245,7 +245,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// If you changed your outfit, there will be a redirect
 		// to the equipment page - therefore, process it.
 
-		if ( !isErrorState && responseCode == 302 )
+		if ( responseCode == 302 && !redirectLocation.equals( "maint.php" ) )
 		{
 			updateDisplay( DISABLE_STATE, "Updating equipment..." );
 			KoLRequest message = new KoLRequest( client, redirectLocation );
@@ -258,7 +258,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		// Fetch updated equipment

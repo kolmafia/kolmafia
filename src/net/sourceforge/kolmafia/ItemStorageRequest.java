@@ -208,7 +208,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode != 200 || moveType == PULL_MEAT_FROM_STORAGE )
+		if ( responseCode != 200 || moveType == PULL_MEAT_FROM_STORAGE )
 			return;
 
 		// Now, determine how much is left in your closet

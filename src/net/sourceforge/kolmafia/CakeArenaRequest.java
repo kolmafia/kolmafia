@@ -62,6 +62,9 @@ public class CakeArenaRequest extends KoLRequest
 
 		super.run();
 
+		if ( responseCode != 200 )
+			return;
+
 		if ( responseText.indexOf( "You can't" ) != -1 ||
 		     responseText.indexOf( "You shouldn't" ) != -1 ||
 		     responseText.indexOf( "You don't" ) != -1 ||
@@ -74,7 +77,6 @@ public class CakeArenaRequest extends KoLRequest
 			// should not continue with the next iteration.
 			// Friendly error messages to come later.
 
-			isErrorState = true;
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Arena battles aborted!" );
 			return;
@@ -116,6 +118,6 @@ public class CakeArenaRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return isErrorState || !isCompetition ? 0 : 1;
+	{	return isCompetition ? 1 : 0;
 	}
 }

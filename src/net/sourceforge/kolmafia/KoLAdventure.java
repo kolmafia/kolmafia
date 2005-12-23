@@ -51,7 +51,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1 );
 
 	protected KoLmafia client;
-	private boolean isErrorState;
 	private String zone, adventureID, formSource, adventureName;
 	private KoLRequest request;
 
@@ -203,7 +202,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( KoLCharacter.getAdventuresLeft() < request.getAdventuresUsed() )
 		{
-			isErrorState = true;
 			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
 			return;
@@ -215,7 +213,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( !adventureID.equals( "80" ) && request instanceof AdventureRequest &&
 			request.getAdventuresUsed() != 0 && StaticEntity.getProperty( "battleAction" ).startsWith( "item" ) )
 		{
-			isErrorState = true;
 			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
 			return;
@@ -239,8 +236,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			int beatenUpCount = request.responseCode == 302 ? 3 : 4;
 			client.processResult( BEATEN_UP.getInstance( beatenUpCount - BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 		}
-
-		isErrorState = false;
 	}
 
 	/**
@@ -254,11 +249,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	 */
 
 	public int getAdventuresUsed()
-	{	return isErrorState ? 0 : request.getAdventuresUsed();
-	}
-
-	public boolean getErrorState()
-	{	return isErrorState;
+	{	return request.getAdventuresUsed();
 	}
 
 	public int compareTo( Object o )

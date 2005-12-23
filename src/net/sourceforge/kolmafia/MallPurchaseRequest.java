@@ -245,7 +245,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		// Once it reaches this point, you know that the

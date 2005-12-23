@@ -82,8 +82,6 @@ public class SewerRequest extends KoLRequest
 
 	public void run()
 	{
-		isErrorState = false;
-
 		if ( isLuckySewer )
 			runLuckySewer();
 		else
@@ -98,7 +96,6 @@ public class SewerRequest extends KoLRequest
 	{
 		if ( !client.isLuckyCharacter() )
 		{
-			isErrorState = true;
 			updateDisplay( ERROR_STATE, "Ran out of ten-leaf clovers." );
 			client.cancelRequest();
 			return;
@@ -106,7 +103,6 @@ public class SewerRequest extends KoLRequest
 
 		if ( !KoLCharacter.getInventory().contains( GUM ) )
 		{
-			isErrorState = true;
 			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
 			client.cancelRequest();
 			return;
@@ -124,7 +120,6 @@ public class SewerRequest extends KoLRequest
 
 			if ( items.length != 3 )
 			{
-				isErrorState = true;
 				updateDisplay( ERROR_STATE, "You must select three items to get from the Sewage Gnomes." );
 				client.cancelRequest();
 				return;
@@ -136,7 +131,7 @@ public class SewerRequest extends KoLRequest
 
 			super.run();
 
-			if ( isErrorState )
+			if ( responseCode != 200 )
 				return;
 
 			// Make a request to use from now on.
@@ -161,7 +156,7 @@ public class SewerRequest extends KoLRequest
 
 		request.run();
 
-		if ( request.isErrorState )
+		if ( request.responseCode != 200 )
 			return;
 
 		client.processResult( CLOVER );
@@ -176,7 +171,6 @@ public class SewerRequest extends KoLRequest
 	{
 		if ( client.isLuckyCharacter() )
 		{
-			isErrorState = true;
 			updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
 			client.cancelRequest();
 			return;
@@ -187,7 +181,6 @@ public class SewerRequest extends KoLRequest
 
 		if ( !KoLCharacter.getInventory().contains( GUM ) )
 		{
-			isErrorState = true;
 			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
 			client.cancelRequest();
 			return;
@@ -195,7 +188,7 @@ public class SewerRequest extends KoLRequest
 
 		super.run();
 
-		if ( isErrorState )
+		if ( responseCode != 200 )
 			return;
 
 		// You may have randomly received a clover from some other
@@ -203,7 +196,6 @@ public class SewerRequest extends KoLRequest
 
 		if ( responseText.indexOf( "Sewage Gnomes" ) != -1 )
 		{
-			isErrorState = true;
 			updateDisplay( ERROR_STATE, "You have an unaccounted for ten-leaf clover." );
 			client.cancelRequest();
 			return;
@@ -224,6 +216,6 @@ public class SewerRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return isErrorState ? 0 : 1;
+	{	return responseCode == 200 ? 1 : 0;
 	}
 }

@@ -68,7 +68,7 @@ public class MoonPhaseRequest extends KoLRequest
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		// Parse result to get current phase of Ronald and Grimace

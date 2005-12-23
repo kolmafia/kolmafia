@@ -91,7 +91,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected KoLmafia client;
 	protected int responseCode;
 	protected String responseText;
-	protected boolean isErrorState;
 	protected String redirectLocation;
 	protected HttpURLConnection formConnection;
 
@@ -267,7 +266,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.formURLBuffer = new StringBuffer( formURLString );
 
 		this.data = new ArrayList();
-		this.isErrorState = true;
 		this.followRedirects = followRedirects;
 	}
 
@@ -416,8 +414,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		do
 		{
-			this.isErrorState = false;
-
 			// Only add in a delay when you're out of login.
 			// If you're still doing the login process, ignore
 			// the delay to avoid people switching the option
@@ -431,7 +427,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLRequest.delay( 500 );
 			}
 		}
-		while ( !prepareConnection() || !postClientData() || (retrieveServerReply() && this.isErrorState) );
+		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
 
 		// Add the ability to set the current request so that KoLmafia
 		// can make use of it, if viewing intermediate results is allowed.
@@ -446,8 +442,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			client.processResults( responseText );
 
-			if ( !isErrorState && (this instanceof AdventureRequest || this instanceof FightRequest) )
-				// Synchronize if requested
+			// Synchronize if requested
+			if ( this instanceof AdventureRequest || this instanceof FightRequest )
 				showInBrowser( false );
 		}
 	}
@@ -518,9 +514,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( MalformedURLException e )
 		{
-			this.isErrorState = true;
 			updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLString );
-
 			KoLRequest.delay();
 			return false;
 		}
@@ -639,8 +633,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	private boolean retrieveServerReply()
 	{
 		BufferedReader istream;
-		boolean shouldContinue = true;
-		this.isErrorState = false;
 
 		try
 		{
@@ -668,8 +660,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// should only happen if the file does not exist.  In
 			// this case, stop retrying.
 
-			this.isErrorState = true;
-
 			if ( e instanceof FileNotFoundException )
 			{
 				updateDisplay( ERROR_STATE, "Page <" + formURLString + "> not found." );
@@ -680,8 +670,15 @@ public class KoLRequest implements Runnable, KoLConstants
 					e.printStackTrace( KoLmafia.getLogStream() );
 				}
 
-				KoLRequest.delay();
-				return false;
+				// In this case, it's like a false redirect, but to
+				// a page which no longer exists.  Pretend it's the
+				// maintenance page.
+
+				responseCode = 302;
+				responseText = "";
+				redirectLocation = "maint.php";
+
+				return true;
 			}
 
 			KoLmafia.getLogStream().println( "Connection timed out during response.  Retrying..." );
@@ -696,8 +693,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			// to be nicer on the KoL servers.
 
 			KoLRequest.delay();
-			return true;
+			return false;
 		}
+
+		boolean shouldRetry = true;
 
 		if ( client != null )
 		{
@@ -717,21 +716,19 @@ public class KoLRequest implements Runnable, KoLConstants
 					// notified that they should try again later.
 
 					updateDisplay( ERROR_STATE, "Nightly maintenance." );
-					this.isErrorState = true;
 
 					if ( !(this instanceof LoginRequest) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 						client.executeTimeInRequest();
 					else
 					{
 						client.cancelRequest();
-						shouldContinue = false;
+						shouldRetry = false;
 					}
 				}
 				else if ( redirectLocation.startsWith( "login.php" ) )
 				{
 					updateDisplay( ERROR_STATE, "Session timed out." );
 					client.cancelRequest();
-					this.isErrorState = true;
 
 					if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 					{
@@ -741,7 +738,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					else
 					{
 						client.cancelRequest();
-						shouldContinue = false;
+						shouldRetry = false;
 					}
 				}
 				else if ( followRedirects )
@@ -755,8 +752,6 @@ public class KoLRequest implements Runnable, KoLConstants
 					this.formURLBuffer.append( this.formURLString );
 
 					this.data.clear();
-
-					this.isErrorState = true;
 					this.followRedirects = followRedirects;
 				}
 				else if ( redirectLocation.equals( "fight.php" ) )
@@ -766,24 +761,20 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					FightRequest battle = new FightRequest( client );
 					battle.run();
-
-					this.isErrorState = !(this instanceof AdventureRequest) || battle.isErrorState;
 				}
 				else if ( redirectLocation.equals( "choice.php" ) )
 				{
-					shouldContinue = processChoiceAdventure();
+					shouldRetry = processChoiceAdventure();
 				}
 				else
 				{
-					this.isErrorState = false;
-					shouldContinue = false;
+					shouldRetry = false;
 					KoLmafia.getLogStream().println( "Redirected: " + redirectLocation );
 				}
 			}
 			else if ( responseCode == 200 )
 			{
 				String line = null;
-				this.isErrorState = false;
 				StringBuffer replyBuffer = new StringBuffer();
 
 				try
@@ -796,7 +787,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					if ( line == null )
 					{
-						this.isErrorState = true;
 						KoLmafia.getLogStream().println( "No reply content.  Retrying..." );
 					}
 					else
@@ -809,7 +799,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 						if ( line.indexOf( "error" ) != -1 )
 						{
-							this.isErrorState = true;
 							KoLmafia.getLogStream().println( "Encountered MySQL error.  Retrying..." );
 						}
 						else
@@ -833,7 +822,6 @@ public class KoLRequest implements Runnable, KoLConstants
 					// An Exception is clearly an error; here it will be reported
 					// to the client, but another attempt will be made
 
-					this.isErrorState = true;
 					if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
 						KoLmafia.getLogStream().println( "Error reading server reply.  Retrying..." );
 
@@ -871,7 +859,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// from the function call.
 
 		istream = null;
-		return shouldContinue;
+		return shouldRetry;
 	}
 
 	/**
@@ -1030,8 +1018,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			// finish by hand.
 
 			updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
-			isErrorState = true;
 			client.cancelRequest();
+
 			// Finish in browser if requested
 			request.showInBrowser( true );
 			return false;
@@ -1047,8 +1035,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( decision == null )
 		{
 			updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
-			isErrorState = true;
 			client.cancelRequest();
+
 			// Finish in browser if requested
 			request.showInBrowser( true );
 			return false;
@@ -1069,8 +1057,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( decision.equals( "0" ) )
 		{
 			updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
-			isErrorState = true;
 			client.cancelRequest();
+
 			// Finish in browser if requested
 			request.showInBrowser( true );
 			return false;

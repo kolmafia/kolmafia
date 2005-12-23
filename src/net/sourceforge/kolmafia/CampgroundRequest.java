@@ -74,17 +74,14 @@ public class CampgroundRequest extends KoLRequest
 	public void run()
 	{
 		if ( action.equals( "relax" ) && KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
-		{
-			isErrorState = true;
 			return;
-		}
 
 		super.run();
 
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		// For now, just set whether or not you have a
@@ -102,7 +99,6 @@ public class CampgroundRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You sleep" ) == -1 )
 			{
-				isErrorState = true;
 				updateDisplay( ERROR_STATE, "Could not rest." );
 				client.cancelRequest();
 			}
@@ -111,7 +107,6 @@ public class CampgroundRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You relax" ) == -1 )
 			{
-				isErrorState = true;
 				updateDisplay( ERROR_STATE, "Could not relax." );
 				client.cancelRequest();
 			}
@@ -135,6 +130,6 @@ public class CampgroundRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return isErrorState || (!action.equals( "rest" ) && !action.equals( "relax" )) ? 0 : 1;
+	{	return responseCode != 200 || (!action.equals( "rest" ) && !action.equals( "relax" )) ? 0 : 1;
 	}
 }

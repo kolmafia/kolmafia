@@ -159,7 +159,7 @@ public class FightRequest extends KoLRequest
 		// If there were no problems, then begin fighting the battle,
 		// checking for termination conditions
 
-		if ( !isErrorState && responseCode == 200 )
+		if ( responseCode == 200 )
 		{
 			int mpUsed = getMPCost();
 			if ( mpUsed != 0 )
@@ -196,10 +196,7 @@ public class FightRequest extends KoLRequest
 				// it's complete.
 
 				if ( !client.permitsContinue() )
-				{
 					updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
-					this.isErrorState = true;
-				}
 
 				// If you can't battle again in this location,
 				// cancel future iterations.  Note that there
@@ -216,7 +213,6 @@ public class FightRequest extends KoLRequest
 				updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				client.cancelRequest();
-				this.isErrorState = true;
 			}
 			else if ( responseText.indexOf( "You lose." ) != -1 )
 			{
@@ -228,7 +224,6 @@ public class FightRequest extends KoLRequest
 				updateDisplay( ERROR_STATE, "You were defeated!" );
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				client.cancelRequest();
-				this.isErrorState = true;
 			}
 			else
 			{

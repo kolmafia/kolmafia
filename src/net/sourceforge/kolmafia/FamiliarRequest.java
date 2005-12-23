@@ -75,7 +75,7 @@ public class FamiliarRequest extends KoLRequest
 		// There's nothing to parse if an error was encountered,
 		// which could be either an error state or a redirection
 
-		if ( isErrorState || responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		// Determine which familiars are present.

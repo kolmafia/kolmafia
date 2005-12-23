@@ -136,7 +136,7 @@ public class ChatRequest extends KoLRequest
 		// In the event of an error, anything can be the cause; for
 		// now, simply return
 
-		if ( isErrorState || responseCode != 200 || !KoLMessenger.isRunning() )
+		if ( responseCode != 200 || !KoLMessenger.isRunning() )
 			return;
 
 		int index = responseText.indexOf( "<!--lastseen:" );

@@ -188,7 +188,7 @@ public class AutoSellRequest extends SendMessageRequest
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		// Otherwise, update the client with the information stating that you

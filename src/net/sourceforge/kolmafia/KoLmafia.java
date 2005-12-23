@@ -1252,14 +1252,8 @@ public abstract class KoLmafia implements KoLConstants
 					// generating a real error, permit
 					// scripts to continue.
 
-					if ( !((KoLAdventure)request).getErrorState() )
-						resetContinueState();
-
-					// If we are not displaying an error
-					// message, give a comforting message.
-
-					if ( currentState != ERROR_STATE )
-						updateDisplay( NORMAL_STATE, "Nothing more to do here." );
+					resetContinueState();
+					updateDisplay( NORMAL_STATE, "Nothing more to do here." );
 				}
 			}
 			else if ( currentIteration >= iterations && conditions.size() != 0 )

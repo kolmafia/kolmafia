@@ -89,7 +89,7 @@ public class LoginRequest extends KoLRequest
 		updateDisplay( DISABLE_STATE, "Sending login..." );
 		super.run();
 
-		if ( responseCode == 302 && !isErrorState )
+		if ( responseCode == 302 )
 		{
 			if ( redirectLocation.equals( "main_c.html" ) )
 				KoLRequest.isCompactMode = true;
@@ -106,7 +106,7 @@ public class LoginRequest extends KoLRequest
 			client.initialize( loginname.replaceFirst( "/q", "" ), formConnection.getHeaderField( "Set-Cookie" ), getBreakfast, isQuickLogin );
 			client.cachedLogin = client.inLoginState() ? null : new LoginRequest( client, loginname, password, false, savePassword, true );
 		}
-		else if ( !isErrorState )
+		else
 		{
 			// This means that the login failed.  Therefore, the user should
 			// re-input their username and password.

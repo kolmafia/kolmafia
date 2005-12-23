@@ -169,7 +169,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		// With that done, the client needs to be updated

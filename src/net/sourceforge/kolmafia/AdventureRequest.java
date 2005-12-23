@@ -161,22 +161,18 @@ public class AdventureRequest extends KoLRequest
 		// to cancel in the delay period.
 
 		if ( !client.permitsContinue() )
-		{
-			isErrorState = true;
 			return;
-		}
 
 		super.run();
 
 		// Handle certain redirections
 
-		if ( !isErrorState && responseCode == 302 )
+		if ( responseCode == 302 && !redirectLocation.equals( "maint.php" ) )
 		{
 			// KoLmafia will not complete the /haiku subquest
 
 			if ( redirectLocation.equals( "haiku.php" ) )
 			{
-				isErrorState = true;
 				updateDisplay( ERROR_STATE, "Encountered haiku subquest." );
 				client.cancelRequest();
 				return;
@@ -188,7 +184,6 @@ public class AdventureRequest extends KoLRequest
 
 			if ( !redirectLocation.equals( "fight.php" ) && !redirectLocation.equals( "choice.php" ) )
 			{
-				isErrorState = true;
 				updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
 				client.cancelRequest();
 				return;
@@ -211,7 +206,7 @@ public class AdventureRequest extends KoLRequest
 		// if you've encountered a non-redirect request, and
 		// an error hasn't occurred.
 
-		if ( isErrorState || responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		// If this is a lucky adventure, then remove a clover
@@ -268,7 +263,6 @@ public class AdventureRequest extends KoLRequest
 					// He's missing an item, hasn't been give a quest yet,
 					// or otherwise is trying to go somewhere he's not allowed.
 
-					isErrorState = true;
 					client.cancelRequest();
 					updateDisplay( ERROR_STATE, "You can't get to that area." );
 					return;
@@ -294,7 +288,6 @@ public class AdventureRequest extends KoLRequest
 
 				if ( responseText.indexOf( "You acquire an item" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
 				{
-					isErrorState = true;
 					updateDisplay( ERROR_STATE, "Adventures aborted!" );
 					return;
 				}
@@ -307,7 +300,6 @@ public class AdventureRequest extends KoLRequest
 			{
 				// Nothing more to do in this area
 
-				isErrorState = true;
 				client.cancelRequest();
 				updateDisplay( ERROR_STATE, "You already defeated the Boss." );
 				return;
@@ -357,7 +349,6 @@ public class AdventureRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You can't go Trick-or-Treating without a costume!" ) != -1 )
 			{
-				isErrorState = true;
 				updateDisplay( ERROR_STATE, "Put on a costume and try again!" );
 				client.cancelRequest();
 				return;
@@ -372,7 +363,6 @@ public class AdventureRequest extends KoLRequest
 			// should not continue with the next iteration.
 			// Friendly error messages to come later.
 
-			isErrorState = true;
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Turn usage aborted!" );
 			return;
@@ -422,6 +412,6 @@ public class AdventureRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return isErrorState ? 0 : adventuresUsed;
+	{	return responseCode == 200 || redirectLocation.equals( "fight.php" ) ? adventuresUsed : 0;
 	}
 }

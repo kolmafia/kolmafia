@@ -165,7 +165,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		super.run();
 
-		if ( !isErrorState && responseCode == 302 )
+		if ( responseCode == 302 && !redirectLocation.equals( "maint.php" ) )
 		{
 			KoLRequest message = new KoLRequest( client, redirectLocation );
 			message.run();
@@ -209,7 +209,7 @@ public class ConsumeItemRequest extends KoLRequest
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
-		if ( isErrorState || responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		if ( responseText.indexOf( "You may not" ) != -1 )

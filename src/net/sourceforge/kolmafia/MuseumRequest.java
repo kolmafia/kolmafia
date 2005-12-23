@@ -106,7 +106,7 @@ public class MuseumRequest extends SendMessageRequest
 
 		super.run();
 
-		if ( !isErrorState && responseCode == 200 && !isManagement )
+		if ( responseCode == 200 && !isManagement )
 			MuseumManager.update( responseText );
 	}
 }

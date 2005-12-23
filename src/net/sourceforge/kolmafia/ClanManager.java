@@ -444,8 +444,7 @@ public class ClanManager extends StaticEntity
 
 			super.run();
 
-
-			if ( isErrorState )
+			if ( responseCode != 200 )
 				return;
 
 			List enemyClans = new ArrayList();
