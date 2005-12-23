@@ -50,6 +50,7 @@ import javax.swing.ListSelectionModel;
 // containers
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -83,8 +84,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-	private ItemManagePanel consume, create, special;
-	private MultiButtonPanel inventory, closet;
+	private ItemManagePanel special;
+	private MultiButtonPanel inventory, closet, consume, create;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -167,14 +168,19 @@ public class ItemManageFrame extends KoLFrame
 
 	protected class MultiButtonPanel extends JPanel
 	{
+		protected boolean useFilters;
 		protected JPanel enclosingPanel;
+		protected LockableListModel elementModel;
 		protected ShowDescriptionList elementList;
 
 		protected JButton [] buttons;
+		protected JCheckBox [] filters;
 		protected JRadioButton [] movers;
 
-		public MultiButtonPanel( String title, LockableListModel elementModel )
+		public MultiButtonPanel( String title, LockableListModel elementModel, boolean useFilters )
 		{
+			this.useFilters = useFilters;
+			this.elementModel = elementModel;
 			this.elementList = new ShowDescriptionList( elementModel );
 
 			enclosingPanel = new JPanel( new BorderLayout( 10, 10 ) );
@@ -198,23 +204,37 @@ public class ItemManageFrame extends KoLFrame
 				containerPanel.add( buttons[i] );
 			}
 
-			JPanel moverPanel = new JPanel();
-			movers = new JRadioButton[4];
-			movers[0] = new JRadioButton( "Move all", true );
-			movers[1] = new JRadioButton( "Move all but one" );
-			movers[2] = new JRadioButton( "Move multiple" );
-			movers[3] = new JRadioButton( "Move exactly one" );
+			JPanel optionPanel = new JPanel();
 
-			ButtonGroup moverGroup = new ButtonGroup();
-			for ( int i = 0; i < 4; ++i )
+			if ( this.useFilters )
 			{
-				moverPanel.add( movers[i] );
-				moverGroup.add( movers[i] );
+				filters = new JCheckBox[3];
+				filters[0] = new FilterCheckBox( "Show food", KoLCharacter.canEat() );
+				filters[1] = new FilterCheckBox( "Show drink", KoLCharacter.canDrink() );
+				filters[2] = new FilterCheckBox( "Show other", true );
+
+				for ( int i = 0; i < 3; ++i )
+					optionPanel.add( filters[i] );
+			}
+			else
+			{
+				movers = new JRadioButton[4];
+				movers[0] = new JRadioButton( "Move all", true );
+				movers[1] = new JRadioButton( "Move all but one" );
+				movers[2] = new JRadioButton( "Move multiple" );
+				movers[3] = new JRadioButton( "Move exactly one" );
+
+				ButtonGroup moverGroup = new ButtonGroup();
+				for ( int i = 0; i < 4; ++i )
+				{
+					moverGroup.add( movers[i] );
+					optionPanel.add( movers[i] );
+				}
 			}
 
 			JPanel southPanel = new JPanel( new BorderLayout() );
 			southPanel.add( containerPanel, BorderLayout.SOUTH );
-			southPanel.add( moverPanel, BorderLayout.NORTH );
+			southPanel.add( optionPanel, BorderLayout.NORTH );
 
 			enclosingPanel.add( southPanel, BorderLayout.NORTH );
 		}
@@ -391,54 +411,69 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
+		protected class FilterCheckBox extends JCheckBox implements ActionListener
+		{
+			public FilterCheckBox( String label, boolean isSelected )
+			{
+				super( label, isSelected );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+			}
+		}
 	}
 
-	private class ConsumePanel extends ItemManagePanel
+	private class ConsumePanel extends MultiButtonPanel
 	{
 		public ConsumePanel()
 		{
-			super( "Usable Items", "use one", "use multiple", KoLCharacter.getUsables() );
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer() );
+			super( "Usable Items", KoLCharacter.getUsables(), true );
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			setButtons( new String [] { "use one", "use multiple" },
+				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ) } );
 		}
 
-		protected void actionConfirmed()
-		{	consume( false );
-		}
-
-		protected void actionCancelled()
-		{	consume( true );
-		}
-
-		private void consume( boolean useMultiple )
+		private class ConsumeListener implements ActionListener
 		{
-			Object [] items = elementList.getSelectedValues();
-			if ( items.length == 0 )
-				return;
+			private boolean useMultiple;
 
-			int consumptionType, consumptionCount;
-			AdventureResult currentItem;
-
-			Runnable [] requests = new Runnable[ items.length ];
-			int [] repeatCount = new int[ items.length ];
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				currentItem = (AdventureResult) items[i];
-
-				consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
-				consumptionCount = useMultiple ? getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
-
-				if ( consumptionCount == 0 )
-					return;
-
-				requests[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ?
-					new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) ) :
-					new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
-
-				repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
+			public ConsumeListener( boolean useMultiple )
+			{	this.useMultiple = useMultiple;
 			}
 
-			(new RequestThread( requests, repeatCount )).start();
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = elementList.getSelectedValues();
+				if ( items.length == 0 )
+					return;
+
+				int consumptionType, consumptionCount;
+				AdventureResult currentItem;
+
+				Runnable [] requests = new Runnable[ items.length ];
+				int [] repeatCount = new int[ items.length ];
+
+				for ( int i = 0; i < items.length; ++i )
+				{
+					currentItem = (AdventureResult) items[i];
+
+					consumptionType = TradeableItemDatabase.getConsumptionType( currentItem.getName() );
+					consumptionCount = useMultiple ? getQuantity( "Using multiple " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
+
+					if ( consumptionCount == 0 )
+						return;
+
+					requests[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ?
+						new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) ) :
+						new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
+
+					repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
+				}
+
+				(new RequestThread( requests, repeatCount )).start();
+			}
 		}
 	}
 
@@ -490,7 +525,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public OutsideClosetPanel()
 		{
-			super( "Inside Inventory", KoLCharacter.getInventory() );
+			super( "Inside Inventory", KoLCharacter.getInventory(), false );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			setButtons( new String [] { "closet", "autosell", "automall", "museum", "stash" },
 				new ActionListener [] {
@@ -506,7 +541,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public InsideClosetPanel()
 		{
-			super( "Inside Closet", KoLCharacter.getCloset() );
+			super( "Inside Closet", KoLCharacter.getCloset(), false );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			setButtons( new String [] { "backpack", "autosell", "automall", "museum", "stash" },
 				new ActionListener [] {
@@ -524,35 +559,38 @@ public class ItemManageFrame extends KoLFrame
 	 * which usually get resold in malls.
 	 */
 
-	private class CreateItemPanel extends ItemManagePanel
+	private class CreateItemPanel extends MultiButtonPanel
 	{
 		public CreateItemPanel()
 		{
-			super( "Create an Item", "create one", "create multiple", ConcoctionsDatabase.getConcoctions() );
+			super( "Create an Item", ConcoctionsDatabase.getConcoctions(), true );
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			elementList.setCellRenderer( AdventureResult.getCreatableCellRenderer() );
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			setButtons( new String [] { "create one", "create multiple" },
+				new ActionListener [] { new CreateListener( false ), new CreateListener( true ) } );
 		}
 
-		protected void actionConfirmed()
-		{	create( false );
-		}
-
-		public void actionCancelled()
-		{	create( true );
-		}
-
-		private void create( boolean createMultiple )
+		private class CreateListener implements ActionListener
 		{
-			Object selected = elementList.getSelectedValue();
+			private boolean createMultiple;
 
-			if ( selected == null )
-				return;
+			public CreateListener( boolean createMultiple )
+			{	this.createMultiple = createMultiple;
+			}
 
-			client.updateDisplay( DISABLE_STATE, "Verifying ingredients..." );
-			ItemCreationRequest selection = (ItemCreationRequest) selected;
-			selection.setQuantityNeeded( createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1 );
+			public void actionPerformed( ActionEvent e )
+			{
+				Object selected = elementList.getSelectedValue();
 
-			(new RequestThread( selection )).start();
+				if ( selected == null )
+					return;
+
+				client.updateDisplay( DISABLE_STATE, "Verifying ingredients..." );
+				ItemCreationRequest selection = (ItemCreationRequest) selected;
+				selection.setQuantityNeeded( createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1 );
+
+				(new RequestThread( selection )).start();
+			}
 		}
 	}
 

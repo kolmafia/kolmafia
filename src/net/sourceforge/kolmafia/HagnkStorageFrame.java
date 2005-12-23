@@ -95,7 +95,7 @@ public class HagnkStorageFrame extends KoLFrame
 		consume = new HagnkStoragePanel();
 		equip = new HagnkStoragePanel();
 
-		consume.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer() );
+		consume.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 
 		addTab( "All Items", all );
 		addTab( "Consumables", consume );
