@@ -1365,6 +1365,7 @@
 1376	tiny plastic Uncle Crimbo	8	30
 1377	tiny plastic Crimbo elf	8	30
 1378	tiny plastic sweet nutcracker	8	30
+1379	tiny plastic Crimbo reindeer	8	30
 1381	aspirin	3	0
 1382	fancy chocolate	3	0
 1383	length of string	0	13
@@ -1376,6 +1377,8 @@
 1390	top	0	35
 1391	ball	0	31
 1392	kite	0	29
+1394	stuffed doppelshifter	0	29
+1396	duck-on-a-string	0	111
 1400	marionette	13	88
 1401	sock monkey	13	89
 1402	rag doll	13	106

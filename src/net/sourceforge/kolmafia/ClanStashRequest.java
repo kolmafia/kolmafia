@@ -134,7 +134,7 @@ public class ClanStashRequest extends SendMessageRequest
 	}
 
 	protected String getSuccessMessage()
-	{	return moveType == STASH_TO_ITEMS ? "You acquire an item" : "";
+	{	return moveType == STASH_TO_ITEMS ? "You acquire" : "";
 	}
 
 	/**
