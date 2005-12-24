@@ -1362,6 +1362,7 @@
 1372	souvenir ski t-shirt	11	105
 1373	sweet nutcracker	5	-1
 1374	metal mandible	7	75
+1375	tiny plastic Crimbo wreath	8	30
 1376	tiny plastic Uncle Crimbo	8	30
 1377	tiny plastic Crimbo elf	8	30
 1378	tiny plastic sweet nutcracker	8	30
@@ -1377,8 +1378,10 @@
 1390	top	0	35
 1391	ball	0	31
 1392	kite	0	29
+1393	pet rock	5	31
 1394	stuffed doppelshifter	0	29
 1396	duck-on-a-string	0	111
+1399	toy train	8	185
 1400	marionette	13	88
 1401	sock monkey	13	89
 1402	rag doll	13	106

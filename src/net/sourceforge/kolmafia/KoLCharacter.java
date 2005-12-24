@@ -1956,8 +1956,20 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasRecoveringEquipment()
 	{
-		return getEquipment( HAT ).startsWith( "plexiglass" ) || getEquipment( ACCESSORY1 ).startsWith( "ring of half" ) ||
-			getEquipment( ACCESSORY2 ).startsWith( "ring of half" ) || getEquipment( ACCESSORY3 ).startsWith( "ring of half" );
+		// Plexiglass Pith Helmet
+		if ( getEquipment( HAT ).startsWith( "plexiglass pith helmet" ) )
+			return true;
+
+		for ( int i = ACCESSORY1; i <= ACCESSORY3; ++i )
+		{
+			String accessory = getEquipment( i );
+			if ( accessory.equals( "ring of half-assed regeneration" ) )
+			     return true;
+			if ( accessory.compareToIgnoreCase( "tiny plastic crimbo wreath" ) == 0 )
+			     return true;
+		}
+
+		return false;
 	}
 
 	/**
