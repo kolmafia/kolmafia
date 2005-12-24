@@ -88,7 +88,6 @@ public class StarChartRequest extends ItemCreationRequest
 			client.processResult( usedCharts );
 			client.processResult( usedStars );
 			client.processResult( usedLines );
-			client.processResult( singleCreation );
 		}
 	}
 }
