@@ -896,7 +896,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			if ( this instanceof AdventureFrame && existingFrames.size() > 1 && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 				"Would you like to stay logged in?", "SDUGA Keep-Alive Feature", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-					existingFrames.clear();
+			{
+				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+				for ( int i = 0; i < frames.length; ++i )
+					frames[i].dispose();
+
+				return;
+			}
 		}
 
 		super.processWindowEvent( e );
