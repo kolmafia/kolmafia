@@ -121,7 +121,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 
-		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
+		System.setProperty( "apple.laf.useScreencontainer", "true" );
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
 	};
@@ -131,7 +131,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected static LockableListModel bookmarks = new LockableListModel();
 	protected JMenu bookmarkMenu;
 
-	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "sungraphics-license.txt" };
+	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "sungraphics-license.txt", "systray-license.txt" };
 	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher", "Sun Graphics" };
 
 	private String frameName;
@@ -207,11 +207,23 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// the panel for increased visibility.
 
 		if ( !(this instanceof ContactListFrame) )
-			addMenuBar();
+		{
+			JMenuBar container = new JMenuBar();
+			this.setJMenuBar( container );
+
+			compileBookmarks();
+			constructMenus( container );
+		}
 
 		if ( this instanceof AdventureFrame || this instanceof LoginFrame )
-			addToolBar();
+			constructToolBar();
 	}
+
+	/**
+	 * Overrides the default behavior of dispose so that the frames
+	 * are removed from the internal list of existing frames.  Also
+	 * allows for automatic exit.
+	 */
 
 	public void dispose()
 	{
@@ -384,18 +396,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * have equivalent menu items.
 	 */
 
-	protected void addMenuBar()
+	protected void constructMenus( JComponent container )
 	{
-		JMenuBar menuBar = new JMenuBar();
-		this.setJMenuBar( menuBar );
-
-		compileBookmarks();
-
 		// Add general features.
 
 		JMenu statusMenu = new JMenu( "General" );
 		statusMenu.setEnabled( client == null || !client.inLoginState() );
-		menuBar.add( statusMenu );
+		container.add( statusMenu );
 
 			// Add the refresh menu, which holds the ability
 			// to refresh everything in the session.
@@ -434,7 +441,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		JMenu toolsMenu = new JMenu( "Tools" );
 		toolsMenu.setEnabled( client == null || !client.inLoginState() );
-		menuBar.add( toolsMenu );
+		container.add( toolsMenu );
 
 		toolsMenu.add( new DisplayFrameMenuItem( "Mail Manager", MailboxFrame.class ) );
 		toolsMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
@@ -462,7 +469,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		JMenu travelMenu = new JMenu( "Travel" );
 		travelMenu.setEnabled( client == null || !client.inLoginState() );
-		menuBar.add( travelMenu );
+		container.add( travelMenu );
 
 		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", client, "makeGalaktikRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Mind Control", client, "makeMindControlRequest" ) );
@@ -480,7 +487,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		JMenu questsMenu = new JMenu( "Quests" );
 		questsMenu.setEnabled( client == null || !client.inLoginState() );
-		menuBar.add( questsMenu );
+		container.add( questsMenu );
 
 		questsMenu.add( new InvocationMenuItem( "Face Nemesis", Nemesis.class, "faceNemesis" ) );
 		questsMenu.add( new InvocationMenuItem( "Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
@@ -494,19 +501,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		JMenu bookmarkMenu = new BookmarkMenu();
 		bookmarkMenu.setEnabled( client == null || !client.inLoginState() );
-		menuBar.add( bookmarkMenu );
+		container.add( bookmarkMenu );
 
 		// Add script and bookmark menus, which use the
 		// listener-driven static lists.
 
 		JMenu scriptMenu = new ScriptMenu();
-		menuBar.add( scriptMenu );
+		container.add( scriptMenu );
 
 		// Add help information for KoLmafia.  This includes
 		// the additional help-oriented stuffs.
 
 		JMenu helperMenu = new JMenu( "Help" );
-		menuBar.add( helperMenu );
+		container.add( helperMenu );
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", LicenseDisplay.class ) );
 
@@ -535,48 +542,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * Currently, only the adventure frame has a toolbar.
 	 */
 
-	protected void addToolBar()
+	protected void constructToolBar()
 	{
-		if ( GLOBAL_SETTINGS.getProperty( "useToolbars" ).equals( "true" ) && this instanceof AdventureFrame )
-		{
-			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", CouncilFrame.class ) );
-			toolbarPanel.add( new MiniBrowserButton() );
-			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			toolbarPanel.add( new DisplayFrameButton( "Mail", "mail.gif", MailboxFrame.class ) );
-			toolbarPanel.add( new InvocationButton( "Chat", "chat.gif", KoLMessenger.class, "initialize" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Clan", "clan.gif", ClanManageFrame.class ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Equipment", "equipment.gif", GearChangeFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", StoreManageFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Display Case", "museum.gif", MuseumFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", HagnkStorageFrame.class ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", FamiliarTrainingFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", MushroomFrame.class ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-		}
-
-		if ( (GLOBAL_SETTINGS.getProperty( "useToolbars" ).equals( "true" ) && this instanceof AdventureFrame) || this instanceof LoginFrame )
-		{
-			toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
-			toolbarPanel.add( new InvocationButton( "Debugger", "debug.gif", KoLmafia.class, "openDebugLog" ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-		}
 	}
 
 	/**
@@ -890,19 +857,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			Point p = getLocationOnScreen();
 			client.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 			client.getSettings().saveSettings();
-
-			// Only the adventure frame is connected to the
-			// SDUGA keep-alive feature.
-
-			if ( this instanceof AdventureFrame && existingFrames.size() > 1 && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-				"Would you like to stay logged in?", "SDUGA Keep-Alive Feature", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-			{
-				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-				for ( int i = 0; i < frames.length; ++i )
-					frames[i].dispose();
-
-				return;
-			}
 		}
 
 		super.processWindowEvent( e );

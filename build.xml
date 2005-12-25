@@ -52,6 +52,10 @@
        </fileset>
     </copy>
 
+    <copy todir="${build}" preservelastmodified="true">
+       <fileset dir="${lib}"/>
+    </copy>
+
   </target>
 
   <!-- ================================== -->

@@ -56,6 +56,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 // containers
+import javax.swing.JToolBar;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -77,6 +78,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -150,6 +152,45 @@ public class AdventureFrame extends KoLFrame
 		{
 			// Should not happen - you're having the parser
 			// parse something that it formatted.
+		}
+
+		// If the user wishes to add toolbars, go ahead
+		// and add the toolbar.
+
+		if ( GLOBAL_SETTINGS.getProperty( "useToolbars" ).equals( "true" ) )
+		{
+			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", CouncilFrame.class ) );
+			toolbarPanel.add( new MiniBrowserButton() );
+			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
+
+			toolbarPanel.add( new JToolBar.Separator() );
+
+			toolbarPanel.add( new DisplayFrameButton( "Mail", "mail.gif", MailboxFrame.class ) );
+			toolbarPanel.add( new InvocationButton( "Chat", "chat.gif", KoLMessenger.class, "initialize" ) );
+			toolbarPanel.add( new DisplayFrameButton( "Clan", "clan.gif", ClanManageFrame.class ) );
+
+			toolbarPanel.add( new JToolBar.Separator() );
+
+			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Equipment", "equipment.gif", GearChangeFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", StoreManageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Display Case", "museum.gif", MuseumFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", HagnkStorageFrame.class ) );
+
+			toolbarPanel.add( new JToolBar.Separator() );
+
+			toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", FamiliarTrainingFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", MushroomFrame.class ) );
+
+			toolbarPanel.add( new JToolBar.Separator() );
+
+			toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );
+
+			toolbarPanel.add( new JToolBar.Separator() );
+
+			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
+			toolbarPanel.add( new InvocationButton( "Debugger", "debug.gif", KoLmafia.class, "openDebugLog" ) );
 		}
 	}
 

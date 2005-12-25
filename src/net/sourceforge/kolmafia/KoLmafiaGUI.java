@@ -104,6 +104,9 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
+		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+			existingFrames.add( new SystemTrayFrame( this ) );
+
 		// If you've already loaded an adventure frame,
 		// or the login failed, then there's nothing left
 		// to do.  Return from the method.

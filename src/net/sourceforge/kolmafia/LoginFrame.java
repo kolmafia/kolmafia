@@ -53,6 +53,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 // containers
+import javax.swing.JToolBar;
 import javax.swing.JTabbedPane;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -116,6 +117,14 @@ public class LoginFrame extends KoLFrame
 		framePanel.add( tabs, "" );
 
 		addWindowListener( new ExitRequestAdapter() );
+
+		toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
+		toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );
+
+		toolbarPanel.add( new JToolBar.Separator() );
+
+		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
+		toolbarPanel.add( new InvocationButton( "Debugger", "debug.gif", KoLmafia.class, "openDebugLog" ) );
 	}
 
 	public JPanel constructLoginPanel()
