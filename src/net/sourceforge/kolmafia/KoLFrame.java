@@ -891,10 +891,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			client.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 			client.getSettings().saveSettings();
 
-			boolean isMainFrame =
-				INTERFACE_MODES[ Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) ].isAssignableFrom( getClass() );
+			// Only the adventure frame is connected to the
+			// SDUGA keep-alive feature.
 
-			if ( !(this instanceof ChatFrame) && isMainFrame && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+			if ( this instanceof AdventureFrame && existingFrames.size() > 1 && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 				"Would you like to stay logged in?", "SDUGA Keep-Alive Feature", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					existingFrames.clear();
 		}
