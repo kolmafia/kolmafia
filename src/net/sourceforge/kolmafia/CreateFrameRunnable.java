@@ -185,9 +185,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 				if ( frame.client != null )
 				{
-					String positionsSetting = frame.client.getSettings().getProperty( "savePositions" );
-
-					if ( positionsSetting.equals( "true" ) && frame.client.getSettings().containsKey( frameName ) )
+					if ( frame.client.getSettings().containsKey( frameName ) )
 					{
 						String [] location = frame.client.getSettings().getProperty( frameName ).split( "," );
 						frame.setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
