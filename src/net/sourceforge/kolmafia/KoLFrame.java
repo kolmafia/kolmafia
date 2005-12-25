@@ -894,7 +894,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			boolean isMainFrame =
 				INTERFACE_MODES[ Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) ].isAssignableFrom( getClass() );
 
-			if ( isMainFrame && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+			if ( !(this instanceof ChatFrame) && isMainFrame && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 				"Would you like to stay logged in?", "SDUGA Keep-Alive Feature", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					existingFrames.clear();
 		}

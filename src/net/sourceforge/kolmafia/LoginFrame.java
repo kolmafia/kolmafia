@@ -454,10 +454,11 @@ public class LoginFrame extends KoLFrame
 				servers.addItem( "Use login server " + i );
 
 			uimodes = new JComboBox();
-			uimodes.addItem( "Use standard framing mode" );
-			uimodes.addItem( "Use buffbot frame mode" );
-			uimodes.addItem( "Use chat-only frame mode" );
-			uimodes.addItem( "Use clan management frame mode" );
+			uimodes.addItem( "Normal mode" );
+			uimodes.addItem( "Run a buffbot" );
+			uimodes.addItem( "Loathing chat" );
+			uimodes.addItem( "Clan manager" );
+			uimodes.addItem( "Mini-browser" );
 
 			toolbars = new JComboBox();
 			toolbars.addItem( "Show global menus only" );
@@ -468,7 +469,7 @@ public class LoginFrame extends KoLFrame
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Server: ", servers );
-			elements[1] = new VerifiableElement( "UI Mode: ", uimodes );
+			elements[1] = new VerifiableElement( "Startup: ", uimodes );
 			elements[2] = new VerifiableElement( "Toolbars: ", toolbars );
 
 			setContent( elements );
