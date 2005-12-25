@@ -597,11 +597,13 @@ clockwork bartender-in-the-box	1	1	clockwork bartender-head-in-the-box	cocktailc
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
 
+yoyo	15	0	length of string	toy wheel
 top	15	0	wooden block	toy wheel
 ball	15	0	stuffing	felt
 kite	15	0	length of string	felt
 pet rock	15	0	googly eye	wooden block
 stuffed doppelshifter	15	0	googly eye	stuffing
+teddy bear	15	0	googly eye (2)	stuffing (4)	felt (2)
 duck-on-a-string	15	0	length of string	googly eye (2)	wooden block (2)	toy wheel (2)
 toy train	15	0	length of string (2)	wooden block (3)	toy wheel (6) 
 marionette	15	0	length of string (2)	googly eye (2)	wooden block (2)

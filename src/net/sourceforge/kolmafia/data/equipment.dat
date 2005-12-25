@@ -137,6 +137,7 @@ sticky meat skirt	45	Mox: 7
 studded leather boxer shorts	20	none
 swashbuckling pants	80	Mox: 25
 time trousers	100	Mox: 35
+tree skirt	100	Mox: 35
 white satin pants	40	Mox: 5
 yakskin kilt	140	Mox: 55
 yakskin pants	140	Mox: 55
@@ -187,6 +188,7 @@ Bjorn's Hammer	50	Mus: 10
 bow staff	100	Mus: 35	2
 bugbear-smiting sword	150	Mus: 60	2
 Bugfinder Blade	180	Mus: 75	2
+can of fake snow	100	Mox: 35
 can of maces	50	Mox: 10
 cheap plastic bottle opener	30	none
 chrome crossbow	120	Mox: 45	2
@@ -322,6 +324,7 @@ cement shoes	0	Mys: 35
 charrrm bracelet	0	Mys: 20
 Cloaca-Cola shield	0	none
 clown shoes	0	Mys: 10
+colored-light "necklace"	0	Mys: 35
 consolation ribbon	0	none
 continuum transfunctioner	0	none
 dead guy's watch	0	Mys: 10
@@ -447,6 +450,7 @@ tiny plastic star starfish	0	none
 tiny plastic Susie	0	none
 tiny plastic sweet nutcracker	0	none
 tiny plastic turtle tamer	0	none
+tiny plastic Uncle Crimbo	0	none
 toy train	0	none
 voodoo doll	0	none
 walrus-tusk earring	0	Mys: 10

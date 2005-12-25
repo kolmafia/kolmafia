@@ -258,15 +258,22 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				{
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-							KoLMailManager.deleteMessages( mailboxName, getSelectedValues() );
-
+					{
+						KoLMailManager.deleteMessages( mailboxName, getSelectedValues() );
+						client.enableDisplay();
+					}
+					return;
 				}
 
 				if ( e.getKeyCode() == KeyEvent.VK_S )
 				{
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-							KoLMailManager.saveMessages( getSelectedValues() );
+					{
+						KoLMailManager.saveMessages( getSelectedValues() );
+						client.enableDisplay();
+					}
+					return;
 				}
 			}
 		}

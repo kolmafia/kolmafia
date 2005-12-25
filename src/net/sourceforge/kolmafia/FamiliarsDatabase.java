@@ -81,20 +81,26 @@ public class FamiliarsDatabase extends KoLDatabase
 		{
 			if ( data.length == 8 )
 			{
-				familiarID = Integer.valueOf( data[0] );
-				familiarLarva = Integer.valueOf( data[1] );
-				familiarName = getDisplayName( data[2] );
+				try
+				{
+					familiarID = Integer.valueOf( data[0] );
+					familiarLarva = Integer.valueOf( data[1] );
+					familiarName = getDisplayName( data[2] );
 
-				familiarByID.put( familiarID, familiarName );
-				familiarByName.put( getCanonicalName( data[2] ), familiarID );
-				familiarByLarva.put( familiarLarva, familiarID );
-				familiarItemName = getDisplayName( data[3] );
-				familiarItemByID.put( familiarID, familiarItemName );
-				familiarByItem.put( getCanonicalName( data[3] ), familiarID );
+					familiarByID.put( familiarID, familiarName );
+					familiarByName.put( getCanonicalName( data[2] ), familiarID );
+					familiarByLarva.put( familiarLarva, familiarID );
+					familiarItemName = getDisplayName( data[3] );
+					familiarItemByID.put( familiarID, familiarItemName );
+					familiarByItem.put( getCanonicalName( data[3] ), familiarID );
 
-				for ( int i = 0; i < 4; ++i )
-					eventSkillByName[i].put( getCanonicalName( data[2] ), Integer.valueOf( data[i+4] ) );
-			}
+					for ( int i = 0; i < 4; ++i )
+						eventSkillByName[i].put( getCanonicalName( data[2] ), Integer.valueOf( data[i+4] ) );
+				}
+				catch ( Exception e )
+				{
+				}
+                        }
 		}
 	}
 
