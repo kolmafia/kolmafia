@@ -154,6 +154,7 @@
           description="runs program with all needed libraries in the path (avoids UnsatisfiedLinkError)">
 
     <java fork="true" jar="${jarfile}" dir="${dist}">
+        <jvmarg value="-Dcom.apple.mrj.application.apple.menu.about.name=KoLmafia"/>
         <env key="PATH" path="${lib}/:${java.library.path}"/>
         <env key="Path" path="${lib}/:${java.library.path}"/>
     </java>
