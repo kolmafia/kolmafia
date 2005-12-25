@@ -145,7 +145,9 @@ public class RequestFrame extends KoLFrame
 			JMenu functionMenu = new JMenu( "Function" );
 			getJMenuBar().add( functionMenu, 0 );
 
-			functionMenu.add( new DisplayRequestMenuItem( "Inventory", "inventory.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Consumables", "inventory.php?which=1" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Equipment", "inventory.php?which=2" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Miscellaneous", "inventory.php?which=3" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Character", "charsheet.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Usable Skills", "skills.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Read Messages", "messages.php" ) );
@@ -314,15 +316,12 @@ public class RequestFrame extends KoLFrame
 
 			mainBuffer.clearBuffer();
 
-			if ( getCurrentLocation().startsWith( "adventure.php" ) )
+			if ( getCurrentLocation().startsWith( "adventure.php" ) && currentRequest.getDataString() != null )
 			{
 				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( currentRequest.getDataString() );
 
-				if ( client.isLuckyCharacter() &&
-				     dataMatcher.find() &&
-				     AdventureRequest.hasLuckyVersion( dataMatcher.group(1) ) )
+				if ( client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(1) ) )
 				{
-
 					if ( getProperty( "cloverProtectActive" ).equals( "true" ) )
 					{
 						client.updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
@@ -343,7 +342,7 @@ public class RequestFrame extends KoLFrame
 			else
 				setTitle( "Mini-Browser" );
 
-			if ( currentRequest.responseText == null )
+			while ( currentRequest.responseText == null || currentRequest.responseText.length() == 0 )
 			{
 				mainBuffer.append( "Retrieving..." );
 				currentRequest.run();
