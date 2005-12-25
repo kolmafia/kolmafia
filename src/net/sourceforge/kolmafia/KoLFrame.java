@@ -132,7 +132,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected JMenu bookmarkMenu;
 
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "sungraphics-license.txt", "systray-license.txt" };
-	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher", "Sun Graphics" };
+	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher", "Sun Graphics", "System Tray" };
 
 	private String frameName;
 	protected boolean isEnabled;
@@ -214,9 +214,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			compileBookmarks();
 			constructMenus( container );
 		}
-
-		if ( this instanceof AdventureFrame || this instanceof LoginFrame )
-			constructToolBar();
 	}
 
 	/**
@@ -535,15 +532,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		helperMenu.add( new DisplayPageMenuItem( "Jinya's Visual Wiki", "http://www.thekolwiki.net/" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Ohayou's Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Moxie Survival Lookup", "http://kol.network-forums.com/cgi-bin/moxie.cgi" ) );
-	}
-
-	/**
-	 * Utility method which adds a tool bar to the frame.
-	 * Currently, only the adventure frame has a toolbar.
-	 */
-
-	protected void constructToolBar()
-	{
 	}
 
 	/**
