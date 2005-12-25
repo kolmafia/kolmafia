@@ -121,7 +121,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 
-		System.setProperty( "apple.laf.useScreencontainer", "true" );
+		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
 	};
