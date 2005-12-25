@@ -542,18 +542,15 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( missingCount > 0 )
 		{
-			if ( client.getSettings().getProperty( "autoSatisfyWithMall" ).equals( "true" ) )
+			try
 			{
-				try
-				{
-					KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
-					purchaser.executeLine( "buy " + missingCount + " " + item.getName() );
-				}
-				catch ( Exception e )
-				{
-					// This should not happen, so go
-					// ahead and ignore it.
-				}
+				KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
+				purchaser.executeLine( "buy " + missingCount + " " + item.getName() );
+			}
+			catch ( Exception e )
+			{
+				// This should not happen, so go
+				// ahead and ignore it.
 			}
 		}
 

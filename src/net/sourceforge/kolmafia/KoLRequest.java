@@ -1045,7 +1045,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If the user wants to ignore this specific choice or all
 		// choices, see if this choice is ignorable.
 
-		if ( decision.equals( "0" ) || getProperty( "ignoreChoiceAdventures" ).equals( "true" ) )
+		if ( decision.equals( "0" ) )
 		{
 			String ignoreChoice = AdventureDatabase.ignoreChoiceOption( option );
 			if ( ignoreChoice != null )

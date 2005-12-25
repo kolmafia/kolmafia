@@ -76,6 +76,10 @@ public class RequestFrame extends KoLFrame
 	protected JEditorPane sideDisplay;
 	protected JEditorPane mainDisplay;
 
+	public RequestFrame( KoLmafia client )
+	{	this( client, new KoLRequest( client, "main.php" ) );
+	}
+
 	public RequestFrame( KoLmafia client, KoLRequest request )
 	{	this( client, null, request );
 	}
@@ -197,7 +201,7 @@ public class RequestFrame extends KoLFrame
 	{
 		String location = request.getURLString();
 
-		if ( parent == null || location.startsWith( "search" ) )
+		if ( parent == null )
 		{
 			setCombatRound( request );
 			currentRequest = request;

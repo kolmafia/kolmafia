@@ -1397,12 +1397,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 				String [] splitCondition = conditionString.split( "\\s+" );
 				condition = new AdventureResult( AdventureResult.CHOICE, splitCondition.length > 1 ? Integer.parseInt( splitCondition[0] ) : 1 );
-
-				// Make sure that the setting is forced to false --
-				// otherwise, this condition will not work.
-
-				scriptRequestor.getSettings().setProperty( "ignoreChoiceAdventures", "false" );
-				scriptRequestor.getSettings().saveSettings();
 			}
 			else if ( conditionString.startsWith( "level" ) )
 			{

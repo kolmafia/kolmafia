@@ -254,7 +254,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		String artistName;
 		String artDirectory;
 
-		if ( ( client.getSettings().getProperty( "girlCalendar" ).equals( "true" ) ) )
+		if ( RNG.nextInt(2) == 1 )
 		{
 			artistURL = "http://elfwood.lysator.liu.se/loth/l/e/leigh/leigh.html";
 			artistName = "SpaceMonkey";

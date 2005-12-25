@@ -170,7 +170,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "autoAbortMechaMech", "false" );
 		ensureProperty( "autoLogChat", "false" );
 		ensureProperty( "autoLogin", "" );
-		ensureProperty( "autoSatisfyWithMall", "false" );
 		ensureProperty( "autoStockRestores", "-1" );
 		ensureProperty( "autoStockScript", "" );
 		ensureProperty( "battleAction", "attack" );
@@ -191,7 +190,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "finishInBrowser", "false" );
 		ensureProperty( "fontSize", "3" );
 		ensureProperty( "forceReconnect", "false" );
-		ensureProperty( "girlCalendar", "true" );
 		ensureProperty( "hpAutoRecover", "-0.1" );
 		ensureProperty( "hpRecoveryScript", "" );
 		ensureProperty( "highlightList", "" );
@@ -199,7 +197,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "http.proxyPort", "" );
 		ensureProperty( "http.proxyUser", "" );
 		ensureProperty( "http.proxyPassword", "" );
-		ensureProperty( "ignoreChoiceAdventures", "false" );
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		ensureProperty( "invokeStrangeMagic", "false" );
 		ensureProperty( "lastAdventure", "" );
@@ -208,10 +205,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "luckySewer", "2,8,13" );
 		ensureProperty( "maxPhilanthropy", "1" );
 		ensureProperty( "mpAutoRecover", "-0.1" );
-		ensureProperty( "oversightProtect", "false" );
 		ensureProperty( "proxySet", "false" );
 		ensureProperty( "reloadFrames", "" );
-		ensureProperty( "savePositions", "false" );
 		ensureProperty( "saveState", "" );
 		ensureProperty( "serverFriendly", "false" );
 		ensureProperty( "synchronizeFightFrame", "false" );

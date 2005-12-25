@@ -265,13 +265,9 @@ public class OptionsFrame extends KoLFrame
 
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "forceReconnect", "Automatically time-in on time-out" },
-			{ "savePositions", "Reload windows in original positions" },
-			{ "oversightProtect", "Nag to protect against accidental button clicks" },
 			{ "cloverProtectActive", "Guard against accidental clover usage" },
-			{ "ignoreChoiceAdventures", "Ignore all choice adventures" },
+
 			{ "autoAbortMechaMech", "Auto-abort battles with the MagiMechaMech" },
-			{ "autoSatisfyWithMall", "Automatically buy missing items on conditions check" },
-			{ "girlCalendar", "Display Girls of Loathing on Farmer's Almanac" },
 			{ "useClockworkBoxes", "Use clockwork box servants in item creation" },
 			{ "createWithoutBoxServants", "Allow cooking/mixing without box servants" },
 			{ "invokeStrangeMagic", "Invoke magic words in strange leaflet" },

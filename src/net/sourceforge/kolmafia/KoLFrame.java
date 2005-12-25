@@ -887,22 +887,16 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
 		{
-			if ( client != null && client.getSettings().getProperty( "savePositions" ).equals( "true" ) )
-			{
-				Point p = getLocationOnScreen();
-				client.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
-				client.getSettings().saveSettings();
-			}
+			Point p = getLocationOnScreen();
+			client.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+			client.getSettings().saveSettings();
 
-			if ( !existingFrames.isEmpty() && getProperty( "oversightProtect" ).equals( "true" ) )
-			{
-				boolean isMainFrame =
-					INTERFACE_MODES[ Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) ].isAssignableFrom( getClass() );
+			boolean isMainFrame =
+				INTERFACE_MODES[ Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) ].isAssignableFrom( getClass() );
 
-				if ( isMainFrame && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-					"Would you like to stay logged in?", "SDUGA Keep-Alive Feature", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-						existingFrames.clear();
-			}
+			if ( isMainFrame && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+				"Would you like to stay logged in?", "SDUGA Keep-Alive Feature", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
+					existingFrames.clear();
 		}
 
 		super.processWindowEvent( e );
@@ -1257,10 +1251,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	public void openRequestFrame( KoLRequest request )
 	{
 		Object [] parameters;
+		String location = request.getURLString();
 
 		if ( this instanceof RequestFrame )
 		{
-			if ( ((RequestFrame)this).hasSideBar() )
+			if ( !location.startsWith( "search" ) && !location.startsWith( "desc" ) && !((RequestFrame)this).hasSideBar() )
 			{
 				((RequestFrame)this).refresh( request );
 				return;
