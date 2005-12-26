@@ -393,20 +393,20 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		statusMenu.setEnabled( client == null || !client.inLoginState() );
 		container.add( statusMenu );
 
-			// Add the refresh menu, which holds the ability
-			// to refresh everything in the session.
+		// Add the refresh menu, which holds the ability to refresh
+		// everything in the session.
 
-			JMenu refreshMenu = new JMenu( "Refresh" );
-			statusMenu.add( refreshMenu );
+		JMenu refreshMenu = new JMenu( "Refresh" );
+		statusMenu.add( refreshMenu );
 
-			refreshMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
-			refreshMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
-			refreshMenu.add( new JSeparator() );
+		refreshMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
+		refreshMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
+		refreshMenu.add( new JSeparator() );
 
-			refreshMenu.add( new RequestMenuItem( "Refresh Status", new CharsheetRequest( client ) ) );
-			refreshMenu.add( new RequestMenuItem( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) );
-			refreshMenu.add( new RequestMenuItem( "Refresh Outfits", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
-			refreshMenu.add( new RequestMenuItem( "Refresh Familiars", new FamiliarRequest( client ) ) );
+		refreshMenu.add( new RequestMenuItem( "Refresh Status", new CharsheetRequest( client ) ) );
+		refreshMenu.add( new RequestMenuItem( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) );
+		refreshMenu.add( new RequestMenuItem( "Refresh Outfits", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
+		refreshMenu.add( new RequestMenuItem( "Refresh Familiars", new FamiliarRequest( client ) ) );
 
 		statusMenu.add( new JSeparator() );
 

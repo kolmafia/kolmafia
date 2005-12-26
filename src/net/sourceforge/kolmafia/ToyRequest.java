@@ -62,6 +62,7 @@ public class ToyRequest extends ItemCreationRequest
 		super.run();
 
 		// Account for the results
+		client.processResult( new AdventureResult( getItemID(), quantity ) );
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( getItemID() );
 		for ( int i = 0; i < ingredients.length; ++i )
 			client.processResult( ingredients[i].getInstance( 0 - ingredients[i].getCount() * quantity ) );
