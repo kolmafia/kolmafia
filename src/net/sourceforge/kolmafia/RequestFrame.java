@@ -230,13 +230,16 @@ public class RequestFrame extends KoLFrame
 
 	private void refreshSidePane()
 	{
-		if ( hasSideBar )
-		{
-			sidePaneRequest.run();
-			sideBuffer.clearBuffer();
-			sideBuffer.append( getDisplayHTML( sidePaneRequest.responseText ) );
-			sideDisplay.setCaretPosition(0);
-		}
+		if ( !hasSideBar )
+			return;
+
+		if ( sidePaneRequest == null )
+			sidePaneRequest = new CharpaneRequest( client );
+
+		sidePaneRequest.run();
+		sideBuffer.clearBuffer();
+		sideBuffer.append( getDisplayHTML( sidePaneRequest.responseText ) );
+		sideDisplay.setCaretPosition(0);
 	}
 
 	/**
@@ -357,14 +360,15 @@ public class RequestFrame extends KoLFrame
 			// is seen in the response text, or in the event that you
 			// switch between compact and full mode, refresh the sidebar.
 
-			if ( hasSideBar && sidePaneRequest == null )
-				sidePaneRequest = new CharpaneRequest( client );
-
 			KoLCharacter.refreshCalculatedLists();
 			String location = currentRequest.getURLString();
 
-			if ( hasSideBar && location.startsWith( "equipment.php" ) || location.startsWith( "fight.php" ) || location.startsWith( "adventure.php" ) )
-				refreshSidePane();
+			if ( hasSideBar &&
+			     ( sidePaneRequest == null ||
+			       location.startsWith( "equipment.php" ) ||
+			       location.startsWith( "fight.php" ) ||
+			       location.startsWith( "adventure.php" ) ) )
+			     refreshSidePane();
 
 			// Keep the client updated of your current equipment and
 			// familiars, if you visit the appropriate pages.
@@ -384,7 +388,7 @@ public class RequestFrame extends KoLFrame
 
 			// Update the mushroom plot, if applicable.
 
-			if ( getCurrentLocation().indexOf( "mushroom" ) != -1 )
+			if ( location.indexOf( "mushroom" ) != -1 )
 				MushroomPlot.parsePlot( currentRequest.responseText );
 		}
 	}
