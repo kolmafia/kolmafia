@@ -282,7 +282,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				for ( int i = 0; i < 9; ++i )
 					oldEquipment[i] = KoLCharacter.getEquipment( i );
 
-				parseEquipment();
+				parseEquipment( this.responseText );
 
 				for ( int i = 0; i < 9; ++i )
 					switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
@@ -398,7 +398,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	private void parseEquipment()
+	public static void parseEquipment( String responseText )
 	{
 		String [] equipment = new String[9];
 		Matcher equipmentMatcher;

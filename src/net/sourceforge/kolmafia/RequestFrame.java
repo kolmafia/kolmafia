@@ -148,7 +148,8 @@ public class RequestFrame extends KoLFrame
 			functionMenu.add( new DisplayRequestMenuItem( "Consumables", "inventory.php?which=1" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Equipment", "inventory.php?which=2" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Miscellaneous", "inventory.php?which=3" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Character", "charsheet.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Character Sheet", "charsheet.php" ) );
+			functionMenu.add( new DisplayRequestMenuItem( "Terrarium", "familiar.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Usable Skills", "skills.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Read Messages", "messages.php" ) );
 			functionMenu.add( new DisplayRequestMenuItem( "Account Menu", "account.php" ) );
@@ -298,7 +299,7 @@ public class RequestFrame extends KoLFrame
 		// For some reason, character entitites are not properly
 		// handled by the mini browser.
 
-		displayHTML = displayHTML.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&infin;", "**" );
+		displayHTML = displayHTML.replaceAll( "&ntilde;", "n" ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&infin;", "**" );
 		return displayHTML;
 	}
 
@@ -360,8 +361,19 @@ public class RequestFrame extends KoLFrame
 				sidePaneRequest = new CharpaneRequest( client );
 
 			KoLCharacter.refreshCalculatedLists();
-			if ( hasSideBar )
+			String location = currentRequest.getURLString();
+
+			if ( hasSideBar && location.startsWith( "equipment.php" ) || location.startsWith( "fight.php" ) || location.startsWith( "adventure.php" ) )
 				refreshSidePane();
+
+			// Keep the client updated of your current equipment and
+			// familiars, if you visit the appropriate pages.
+
+			if ( location.startsWith( "inventory.php?which=2" ) )
+				EquipmentRequest.parseEquipment( currentRequest.responseText );
+			
+			if ( location.startsWith( "familiar.php" ) )
+				FamiliarData.registerFamiliarData( client, currentRequest.responseText );
 
 			// See if the person learned a new skill from using a
 			// mini-browser frame.
