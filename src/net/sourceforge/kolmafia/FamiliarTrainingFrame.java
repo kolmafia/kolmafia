@@ -1988,6 +1988,30 @@ public class FamiliarTrainingFrame extends KoLFrame
 	}
 	*/
 
+
+	/**
+	 * An internal class used to handle requests which resets a property
+	 * for the duration of the current session.
+	 */
+
+	protected class LocalSettingChangeMenuItem extends JCheckBoxMenuItem implements ActionListener
+	{
+		private String property;
+
+		public LocalSettingChangeMenuItem( KoLmafia client, String title, String property )
+		{
+			super( title );
+			setSelected( client.getLocalBooleanProperty( property ) );
+
+			this.property = property;
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	client.setLocalProperty( property, isSelected() );
+		}
+	}
+
 	public static void main( String [] args )
 	{
 		Object [] parameters = new Object[1];

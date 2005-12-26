@@ -146,8 +146,11 @@ public class CharsheetFrame extends KoLFrame
 
 		levelPanel.add( levelMeter, BorderLayout.SOUTH );
 		imagePanel.add( levelPanel, BorderLayout.NORTH );
+
 		this.avatar = new JLabel( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) );
 		imagePanel.add( avatar, BorderLayout.CENTER );
+		imagePanel.add( new RequestButton( "Refresh Status", new CharsheetRequest( client ) ), BorderLayout.SOUTH );
+
 
 		return imagePanel;
 	}
@@ -228,20 +231,18 @@ public class CharsheetFrame extends KoLFrame
 
 		JComponentUtilities.setComponentSize( mpMeter, 60, 20 );
 
-		JPanel hpPanel = new JPanel();
-		hpPanel.setLayout( new BorderLayout( 5, 5 ) );
+		JPanel hpPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		hpPanel.add( new JLabel( JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
 		hpPanel.add( hpMeter, BorderLayout.SOUTH );
 
-		JPanel mpPanel = new JPanel();
-		mpPanel.setLayout( new BorderLayout( 5, 5 ) );
+		JPanel mpPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		mpPanel.add( new JLabel( JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
 		mpPanel.add( mpMeter, BorderLayout.SOUTH );
 
 		JPanel basicPanel = new JPanel();
-		basicPanel.setLayout( new BorderLayout( 10, 10 ) );
-		basicPanel.add( hpPanel, BorderLayout.WEST );
-		basicPanel.add( mpPanel, BorderLayout.EAST );
+		basicPanel.add( hpPanel );
+		basicPanel.add( Box.createHorizontalStrut( 20 ) );
+		basicPanel.add( mpPanel );
 
 		statusLabelPanel.add( basicPanel );
 		statusLabelPanel.add( Box.createVerticalStrut( 20 ) );

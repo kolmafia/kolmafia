@@ -187,8 +187,12 @@ public class GearChangeFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( outfitSelect, 300, 20 );
 		valuePanel.add( outfitSelect );
 
-		JPanel equipPanel = new JPanel();
-		equipPanel.setLayout( new BorderLayout() );
+		JPanel northPanel = new JPanel();
+		northPanel.add( new RequestButton( "Refresh Outfits", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
+		northPanel.add( new RequestButton( "Refresh Familiars", new FamiliarRequest( client ) ) );
+
+		JPanel equipPanel = new JPanel( new BorderLayout() );
+		equipPanel.add( northPanel, BorderLayout.NORTH );
 		equipPanel.add( fieldPanel, BorderLayout.WEST );
 		equipPanel.add( valuePanel, BorderLayout.EAST );
 

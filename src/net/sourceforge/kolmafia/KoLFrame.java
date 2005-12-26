@@ -110,6 +110,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
+	private String lastTitle;
 	protected static KoLmafia client;
 
 	static
@@ -149,8 +150,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected KoLFrame( KoLmafia client, String title )
 	{
-		super( VERSION_NAME + ": " + title );
+		super( KoLCharacter.getUsername().equals( "" ) ? VERSION_NAME + ": " + title :
+			KoLCharacter.getUsername() + ": " + title + " (" + KoLRequest.getRootHostName() + ")" );
+
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		this.lastTitle = title;
 
 		this.isEnabled = true;
 		KoLFrame.client = client;
@@ -240,8 +244,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	public void updateTitle()
+	{	setTitle( lastTitle );
+	}
+
 	public void setTitle( String title )
-	{	super.setTitle( VERSION_NAME + ": " + title );
+	{
+		this.lastTitle = title;
+		super.setTitle( KoLCharacter.getUsername() + ": " + title + " (" + KoLRequest.getRootHostName() + ")" );
 	}
 
 	public String getFrameName()
@@ -390,29 +400,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Add general features.
 
 		JMenu statusMenu = new JMenu( "General" );
-		statusMenu.setEnabled( client == null || !client.inLoginState() );
 		container.add( statusMenu );
 
 		// Add the refresh menu, which holds the ability to refresh
 		// everything in the session.
 
-		JMenu refreshMenu = new JMenu( "Refresh" );
-		statusMenu.add( refreshMenu );
-
-		refreshMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
-		refreshMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
-		refreshMenu.add( new JSeparator() );
-
-		refreshMenu.add( new RequestMenuItem( "Refresh Status", new CharsheetRequest( client ) ) );
-		refreshMenu.add( new RequestMenuItem( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) );
-		refreshMenu.add( new RequestMenuItem( "Refresh Outfits", new EquipmentRequest( client, EquipmentRequest.EQUIPMENT ) ) );
-		refreshMenu.add( new RequestMenuItem( "Refresh Familiars", new FamiliarRequest( client ) ) );
-
-		statusMenu.add( new JSeparator() );
-
 		statusMenu.add( new DisplayFrameMenuItem( "Main Interface", AdventureFrame.class ) );
 		statusMenu.add( new DisplayRequestMenuItem( "Mini-Browser", "main.php" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
 
 		statusMenu.add( new JSeparator() );
 
@@ -429,12 +425,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Add specialized tools.
 
 		JMenu toolsMenu = new JMenu( "Tools" );
-		toolsMenu.setEnabled( client == null || !client.inLoginState() );
 		container.add( toolsMenu );
 
-		toolsMenu.add( new DisplayFrameMenuItem( "Mail Manager", MailboxFrame.class ) );
-		toolsMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
+		toolsMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
+		toolsMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
+
+		toolsMenu.add( new JSeparator() );
+
+		toolsMenu.add( new DisplayFrameMenuItem( "KoL Almanac", CalendarFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Encyclopedia", ExamineItemsFrame.class ) );
 
 		toolsMenu.add( new JSeparator() );
 
@@ -444,25 +443,33 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		toolsMenu.add( new JSeparator() );
 
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Standard Arena", CakeArenaFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
 
-		toolsMenu.add( new JSeparator() );
+		// Add the old-school people menu.
 
-		toolsMenu.add( new DisplayFrameMenuItem( "Green Message", GreenMessageFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Purple Message", GiftMessageFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Propose Trade", ProposeTradeFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Accept Trades", PendingTradesFrame.class ) );
+		JMenu peopleMenu = new JMenu( "People" );
+		container.add( peopleMenu );
+
+		peopleMenu.add( new DisplayFrameMenuItem( "Mail Manager", MailboxFrame.class ) );
+		peopleMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
+
+		peopleMenu.add( new JSeparator() );
+
+		peopleMenu.add( new DisplayFrameMenuItem( "Green Message", GreenMessageFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Purple Message", GiftMessageFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Propose Trade", ProposeTradeFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Accept Trades", PendingTradesFrame.class ) );
 
 		// Add in common tasks menu
 
 		JMenu travelMenu = new JMenu( "Travel" );
-		travelMenu.setEnabled( client == null || !client.inLoginState() );
 		container.add( travelMenu );
 
 		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", client, "makeGalaktikRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Mind Control", client, "makeMindControlRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Get Breakfast", client, "getBreakfast" ) );
-		travelMenu.add( new DisplayFrameMenuItem( "Susie's Arena", CakeArenaFrame.class ) );
 
 		travelMenu.add( new JSeparator() );
 
@@ -474,7 +481,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Add in automatic quest completion scripts.
 
 		JMenu questsMenu = new JMenu( "Quests" );
-		questsMenu.setEnabled( client == null || !client.inLoginState() );
 		container.add( questsMenu );
 
 		questsMenu.add( new InvocationMenuItem( "Face Nemesis", Nemesis.class, "faceNemesis" ) );
@@ -488,7 +494,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		questsMenu.add( new InvocationMenuItem( "Final Chamber", SorceressLair.class, "completeSorceressChamber" ) );
 
 		JMenu bookmarkMenu = new BookmarkMenu();
-		bookmarkMenu.setEnabled( client == null || !client.inLoginState() );
 		container.add( bookmarkMenu );
 
 		// Add script and bookmark menus, which use the
@@ -504,13 +509,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		container.add( helperMenu );
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", LicenseDisplay.class ) );
-		helperMenu.add( new InvocationMenuItem( "Update Data Files", client, "downloadOverrideFiles" ) );
-
-		helperMenu.add( new JSeparator() );
-
-		helperMenu.add( new DisplayFrameMenuItem( "User Preferences", OptionsFrame.class ) );
-		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", CalendarFrame.class ) );
-		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
+		helperMenu.add( new InvocationMenuItem( "Download Overrides", client, "downloadOverrideFiles" ) );
 
 		helperMenu.add( new JSeparator() );
 
@@ -1221,70 +1220,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
-	 * An internal class used to handle requests which reset a property
-	 * in the settings file.
-	 */
-
-	protected class SettingChangeMenuItem extends JCheckBoxMenuItem implements ActionListener
-	{
-		private String property;
-
-		public SettingChangeMenuItem( String title, String property )
-		{
-			super( title );
-			setSelected( getProperty( property ).equals( "true" ) );
-
-			this.property = property;
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	setProperty( property, String.valueOf( isSelected() ) );
-		}
-	}
-
-	protected class SettingChangeCheckBox extends JCheckBox implements ActionListener
-	{
-		private String property;
-
-		public SettingChangeCheckBox( String title, String property )
-		{
-			super( title );
-			setSelected( getProperty( property ).equals( "true" ) );
-
-			this.property = property;
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	setProperty( property, String.valueOf( isSelected() ) );
-		}
-	}
-
-	/**
-	 * An internal class used to handle requests which resets a property
-	 * for the duration of the current session.
-	 */
-
-	protected class LocalSettingChangeMenuItem extends JCheckBoxMenuItem implements ActionListener
-	{
-		private String property;
-
-		public LocalSettingChangeMenuItem( KoLmafia client, String title, String property )
-		{
-			super( title );
-			setSelected( client.getLocalBooleanProperty( property ) );
-
-			this.property = property;
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	client.setLocalProperty( property, isSelected() );
-		}
-	}
-
-	/**
 	 * This internal class is used to process the request for selecting
 	 * a script using the file dialog.
 	 */
@@ -1505,6 +1440,22 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private KoLRequest request;
 
 		public RequestMenuItem( String title, KoLRequest request )
+		{
+			super( title );
+			this.request = request;
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new RequestThread( request )).start();
+		}
+	}
+
+	protected class RequestButton extends JButton implements ActionListener
+	{
+		private KoLRequest request;
+
+		public RequestButton( String title, KoLRequest request )
 		{
 			super( title );
 			this.request = request;

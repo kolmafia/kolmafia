@@ -160,8 +160,9 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Usable Items", KoLCharacter.getUsables(), false );
 			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
-			setButtons( new String [] { "use one", "use multiple" },
-				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ) } );
+			setButtons( new String [] { "use one", "use multiple", "refresh list" },
+				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
+				new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
 
 			JCheckBox [] filters = new JCheckBox[3];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
@@ -425,8 +426,9 @@ public class ItemManageFrame extends KoLFrame
 
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
-			setButtons( new String [] { "create one", "create multiple" },
-				new ActionListener [] { new CreateListener( false ), new CreateListener( true ) } );
+			setButtons( new String [] { "create one", "create multiple", "refresh list" },
+				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
+				new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
 
 			JCheckBox [] filters = new JCheckBox[3];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );

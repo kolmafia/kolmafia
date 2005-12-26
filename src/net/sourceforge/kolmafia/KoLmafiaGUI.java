@@ -115,6 +115,14 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
 
+		// Reset all the titles on all existing frames.
+
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+			frames[i].updateTitle();
+
 		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
 			existingFrames.add( new SystemTrayFrame( this ) );
 

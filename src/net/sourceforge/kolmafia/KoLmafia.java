@@ -1683,7 +1683,10 @@ public abstract class KoLmafia implements KoLConstants
 		cachedLogin.run();
 
 		if ( isLoggingIn )
+		{
+			resetContinueState();
 			cachedLogin.run();
+		}
 
 		// Wait 5 minutes inbetween each attempt
 		// to re-login to Kingdom of Loathing,
@@ -1692,9 +1695,15 @@ public abstract class KoLmafia implements KoLConstants
 
 		int retryCount = 0;
 
-		while ( isLoggingIn && ++retryCount < 4 )
+		while ( isLoggingIn && ++retryCount < 10 )
 		{
-			KoLRequest.delay( 300000 );
+			for ( int i = 300; i > 0; --i )
+			{
+				updateDisplay( DISABLE_STATE, i + " second" + (i == 1 ? "" : "s") + " before next retry attempt..." );
+				KoLRequest.delay( 1000 );
+			}
+
+			resetContinueState();
 			cachedLogin.run();
 		}
 
@@ -1704,7 +1713,7 @@ public abstract class KoLmafia implements KoLConstants
 		// these four retries four more times
 		// before completely stopping.
 
-		if ( retryCount == 4 )
+		if ( retryCount == 10 )
 		{
 			updateDisplay( ERROR_STATE, "Session time-in failed." );
 			cancelRequest();
@@ -1715,7 +1724,7 @@ public abstract class KoLmafia implements KoLConstants
 		// successful login.
 
 		(new CharsheetRequest( KoLmafia.this )).run();
-		updateDisplay( NORMAL_STATE, "Session timed in." );
+		updateDisplay( ENABLE_STATE, "Session timed in." );
 	}
 
 	public boolean checkRequirements( List requirements )
