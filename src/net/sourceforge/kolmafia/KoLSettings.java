@@ -179,7 +179,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "buffBotCasting", "" );
 		ensureProperty( "buffBotMessageDisposal", "0" );
 		ensureProperty( "buffBotMPRestore", "tiny house" );
-		ensureProperty( "buffOptions", "2,3,4,5,6,7,8,9" );
 		ensureProperty( "channelColors", "" );
 		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
@@ -200,7 +199,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		ensureProperty( "invokeStrangeMagic", "false" );
 		ensureProperty( "lastAdventure", "" );
-		ensureProperty( "lastOtoriRequest", "19700101" );
 		ensureProperty( "loginServer", "0" );
 		ensureProperty( "luckySewer", "2,8,13" );
 		ensureProperty( "maxPhilanthropy", "1" );

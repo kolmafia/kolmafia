@@ -440,7 +440,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
-		toolsMenu.add( new InvocationMenuItem( "Pwn Clan Otori", client, "pwnClanOtori" ) );
 
 		toolsMenu.add( new JSeparator() );
 
@@ -505,6 +504,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		container.add( helperMenu );
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", LicenseDisplay.class ) );
+		helperMenu.add( new InvocationMenuItem( "Update Data Files", client, "downloadOverrideFiles" ) );
 
 		helperMenu.add( new JSeparator() );
 

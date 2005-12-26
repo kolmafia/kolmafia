@@ -413,6 +413,16 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Handle the update command.  This downloads stuff
+		// from the KoLmafia sourceforge website, so it does
+		// not require for you to be online.
+
+		if ( command.equals( "update" ) )
+		{
+			downloadOverrideFiles();
+			return;
+		}
+
 		// Handle the if-statement and the while-statement.
 		// The while-statement will not get a separate comment
 		// because it is unloved.
@@ -663,18 +673,8 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Look!  It's the command to pwn clan Otori.
-		// This is handled first because I'm lazy.
-
-		if ( command.equals( "otori" ) )
-		{
-			scriptRequestor.pwnClanOtori();
-			return;
-		}
-
 		// Look!  It's the command to complete the
-		// Sorceress entryway!  There is no reason
-		// why I put this after the otori command.
+		// Sorceress entryway.
 
 		if ( command.equals( "entryway" ) )
 		{

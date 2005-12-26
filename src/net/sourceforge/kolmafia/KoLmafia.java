@@ -34,19 +34,26 @@
 
 package net.sourceforge.kolmafia;
 
+import java.net.URL;
+import java.net.URLEncoder;
+import java.net.URLDecoder;
+
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.net.URLEncoder;
-import java.net.URLDecoder;
+
 import java.math.BigInteger;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
@@ -391,43 +398,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		resetContinueState();
 		updateDisplay( ENABLE_STATE, "Breakfast retrieved." );
-	}
-
-	/**
-	 * Requests daily buffs from Clan Otori's standard buffbots.
-	 */
-
-	public void pwnClanOtori()
-	{
-		// Is there a better way to do this? We don't want to hammer
-		// the bots with too many requests, but now that you can select
-		// which buffs you want, there's nothing wrong with requesting
-		// a buff we didn't request earlier today.
-
-		String todaySetting = sdf.format( new Date() );
-
-		if ( settings.getProperty( "lastOtoriRequest" ).equals( todaySetting ) )
-		{
-			updateDisplay( ERROR_STATE, "Sorry, Otori can only be pwned once a day." );
-			return;
-		}
-
-		settings.setProperty( "lastOtoriRequest", todaySetting );
-
-		updateDisplay( DISABLE_STATE, "Pwning Clan Otori..." );
-
-		String [] buffs = settings.getProperty( "buffOptions" ).split( "," );
-		for ( int i = 0; i < buffs.length; ++i )
-		{
-			int value = Integer.parseInt( buffs[i] );
-			Object [] options = OptionsFrame.BUFF_OPTIONS[ value - 1 ];
-			String bot = (String)options[0];
-			int price = ((Integer)options[1]).intValue();
-			(new GreenMessageRequest( this, bot, "Buff me, baby!", new AdventureResult( AdventureResult.MEAT, price ) )).run();
-		}
-
-		resetContinueState();
-		updateDisplay( ENABLE_STATE, "Pwning of Clan Otori complete." );
 	}
 
 	/**
@@ -1982,5 +1952,45 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		String value = LOCAL_SETTINGS.getProperty( property );
 		return ( value == null) ? 0 : Integer.parseInt( value );
+	}
+
+	public final void downloadOverrideFiles()
+	{
+		updateDisplay( DISABLE_STATE, "Downloading override data file patches..." );
+
+		String [] files =
+		{
+			"adventures.dat", "buffbots.dat", "buffs.dat", "classskills.dat", "concoctions.dat",
+			"equipment.dat", "familiars.dat", "itemdescs.dat", "npcstores.dat", "packages.dat",
+			"tradeitems.dat", "zonelist.dat"
+		};
+
+		try
+		{
+			for ( int i = 0; i < files.length; ++i )
+			{
+				BufferedReader reader = new BufferedReader( new InputStreamReader(
+					(InputStream) (new URL( "http://kolmafia.sourceforge.net/data/" + files[i] )).getContent() ) );
+
+				File output = new File( "data/" + files[i] );
+				if ( output.exists() )
+					output.delete();
+
+				String line;
+				PrintStream writer = new PrintStream( new FileOutputStream( output ) );
+
+				while ( (line = reader.readLine()) != null )
+					writer.println( line );
+
+				writer.close();
+			}
+		}
+		catch ( IOException e )
+		{
+			updateDisplay( ERROR_STATE, "Error occurred in download attempt.  Update failed." );
+			return;
+		}
+
+		updateDisplay( ENABLE_STATE, "Download completed.  KoLmafia successfully updated." );
 	}
 }
