@@ -121,15 +121,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		JMenuBar menuBar = getJMenuBar();
 
-		JMenu fileMenu = new JMenu( "File" );
-		fileMenu.add( new FileMenuItem() );
-		menuBar.add( fileMenu, 0 );
-
 		JMenu optionsMenu = new JMenu( "Options" );
+		optionsMenu.add( new FileMenuItem() );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Cast buffs during training", "castBuffsWhileTraining" ) );
-		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Verbose logging", "verboseFamiliarLogging" ) );
 		// optionsMenu.add( new LocalSettingChangeMenuItem( client, "Debug", "debugFamiliarTraining" ) );
-		menuBar.add( optionsMenu, 1 );
+		menuBar.add( optionsMenu );
 
 		training = new FamiliarTrainingPanel();
 		framePanel.add( training, "" );
@@ -570,7 +566,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	public static boolean levelFamiliar( KoLmafia client, int goal, int type )
 	{
-		boolean verbose = client.getLocalBooleanProperty( "verboseFamiliarLogging" );
 		boolean buffs = client.getLocalBooleanProperty( "castBuffsWhileTraining" );
 		boolean debug = client.getLocalBooleanProperty( "debugFamiliarTraining" );
 
@@ -644,7 +639,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Choose possible weights
 			int [] weights = status.getWeights( buffs );
 
-			if ( verbose )
+			if ( debug )
 				printWeights( weights, buffs );
 
 			// Choose next opponent
@@ -676,7 +671,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				break;
 
 			// Enter the contest
-			fightMatch( client, status, tool, opponent, verbose );
+			fightMatch( client, status, tool, opponent );
 		}
 
 		statusMessage( client, NORMAL_STATE, "Training session completed." );
@@ -840,7 +835,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		client.updateDisplay( DISABLE_STATE, "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
-	private static void fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, boolean verbose )
+	private static void fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
 	{
 		// If user aborted, bail now
 		if ( !client.permitsContinue())
@@ -855,7 +850,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		// Pass the response text to the FamiliarStatus to
 		// add familiar items and deduct a turn.
-		String text = status.processMatchResult( request.responseText, verbose );
+		String text = status.processMatchResult( request.responseText );
 		results.append( text );
 	}
 
@@ -906,9 +901,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int tpCount;
 		AdventureResult [] tp = new AdventureResult [3];
 
-		// Settings
-		boolean verbose;
-
 		// Weights
 		TreeSet weights;
 
@@ -919,9 +911,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			// Save client for later use
 			this.client = client;
-
-			// Get local setting
-			verbose = client.getLocalBooleanProperty( "verboseFamiliarLogging" );
 
 			// Find out which familiar we are working with
 			familiar = KoLCharacter.getFamiliar();
@@ -1638,7 +1627,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		/**************************************************************/
 
-		public String processMatchResult( String response, boolean verbose )
+		public String processMatchResult( String response )
 		{
 			// If the contest did not take place, bail now
 			if ( response.indexOf( "You enter" ) == -1 )
