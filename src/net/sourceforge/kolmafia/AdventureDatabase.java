@@ -217,10 +217,6 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final String [][] CHOICE_MEAT_COST =
 	{
-		// The Oracle Will See You Now
-		{ "choiceAdventure3", "2", "100" },
-		{ "choiceAdventure3", "3", "1000" },
-
 		// Finger-Lickin'... Death.
 		{ "choiceAdventure4", "1", "500" },
 		{ "choiceAdventure4", "2", "500" },
