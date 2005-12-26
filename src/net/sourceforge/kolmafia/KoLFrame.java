@@ -241,11 +241,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	public void setTitle( String title )
-	{
-		if ( title.startsWith( VERSION_NAME ) )
-			super.setTitle( VERSION_NAME );
-		else
-			super.setTitle( VERSION_NAME + ": " + title );
+	{	super.setTitle( VERSION_NAME + ": " + title );
 	}
 
 	public String getFrameName()
@@ -337,10 +333,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	public void setExtendedState( int state )
 	{
-		if ( this instanceof ChatFrame || this instanceof RequestFrame || state == ICONIFIED )
-			super.setExtendedState( state );
+		if ( state == ICONIFIED && System.getProperty( "os.name" ).startsWith( "Windows" ) )
+			setVisible( false );
 		else
-			super.setExtendedState( NORMAL );
+			super.setExtendedState( state );
 
 	}
 

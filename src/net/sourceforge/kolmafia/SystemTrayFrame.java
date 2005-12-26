@@ -84,6 +84,13 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 	public void dispose()
 	{
 		super.dispose();
+
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+		
+		for ( int i = 0; i < frames.length; ++i )
+			frames[i].dispose();
+	
 		manager.setVisible( false );
 	}
 }
