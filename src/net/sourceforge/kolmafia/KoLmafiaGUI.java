@@ -37,6 +37,8 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -51,6 +53,15 @@ import javax.swing.SwingUtilities;
 
 public class KoLmafiaGUI extends KoLmafia
 {
+	static
+	{
+		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
+
+		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
+		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
+		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
+	}
+
 	private CreateFrameRunnable displayer;
 	private LimitedSizeChatBuffer buffer;
 
