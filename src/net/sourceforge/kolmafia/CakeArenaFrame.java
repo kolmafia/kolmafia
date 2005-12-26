@@ -55,8 +55,6 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
 import javax.swing.JTable;
 import javax.swing.JOptionPane;
 

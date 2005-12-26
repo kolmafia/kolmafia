@@ -41,9 +41,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JCheckBoxMenuItem;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButton;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -56,33 +55,11 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class HagnkStorageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-	private HagnkStoragePanel all, consume, equip;
-	private JCheckBoxMenuItem [] equipFilter;
+	private HagnkStoragePanel all, equip;
 
 	public HagnkStorageFrame( KoLmafia client )
 	{
 		super( client, "Ancestral Storage" );
-
-		// For now, add a special filter menu
-		// along the side.
-
-		JMenuBar menuBar = getJMenuBar();
-		JMenu equipMenu = new JMenu();
-		equipMenu.setIcon( JComponentUtilities.getSharedImage( "adventure.gif" ) );
-
-		equipFilter = new JCheckBoxMenuItem[7];
-		equipFilter[0] = new FilterMenuItem( "Show weapons" );
-		equipFilter[1] = new FilterMenuItem( "Show offhand items" );
-		equipFilter[2] = new FilterMenuItem( "Show hats" );
-		equipFilter[3] = new FilterMenuItem( "Show shirts" );
-		equipFilter[4] = new FilterMenuItem( "Show pants" );
-		equipFilter[5] = new FilterMenuItem( "Show accessories" );
-		equipFilter[6] = new FilterMenuItem( "Show familiar equipment" );
-
-		for ( int i = 0; i < equipFilter.length; ++i )
-			equipMenu.add( equipFilter[i] );
-
-		menuBar.add( equipMenu );
 
 		if ( client != null && KoLCharacter.getStorage().isEmpty() )
 			(new RequestThread( new ItemStorageRequest( client ) )).start();
@@ -91,19 +68,14 @@ public class HagnkStorageFrame extends KoLFrame
 		// storage frame.
 
 		tabs = new JTabbedPane();
-		all = new HagnkStoragePanel();
-		consume = new HagnkStoragePanel();
-		equip = new HagnkStoragePanel();
-
-		consume.elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+		all = new HagnkStoragePanel( false );
+		equip = new HagnkStoragePanel( true );
 
 		addTab( "All Items", all );
-		addTab( "Consumables", consume );
 		addTab( "Equipment", equip );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
-		refreshFilters();
 	}
 
 	private void addTab( String name, HagnkStoragePanel panel )
@@ -114,84 +86,90 @@ public class HagnkStorageFrame extends KoLFrame
 		tabs.add( name, wrapperPanel );
 	}
 
-	public void refreshFilters()
-	{
-		equip.elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer( equipFilter[0].isSelected(), equipFilter[1].isSelected(), equipFilter[2].isSelected(), equipFilter[3].isSelected(), equipFilter[4].isSelected(), equipFilter[5].isSelected(), equipFilter[6].isSelected() ) );
-	}
-
 	public void setEnabled( boolean isEnabled )
 	{
 		if ( all != null )
 			all.setEnabled( isEnabled );
-		if ( consume != null )
-			consume.setEnabled( isEnabled );
 		if ( equip != null )
 			equip.setEnabled( isEnabled );
 	}
 
-	/**
-	 * Internal class used to handle everything related to
-	 * placing items into the stash.
-	 */
-
-	private class HagnkStoragePanel extends ItemManagePanel
+	private class HagnkStoragePanel extends MultiButtonPanel
 	{
-		public HagnkStoragePanel()
-		{	super( "Inside Storage", "put in bag", "put in closet", KoLCharacter.getStorage() );
-		}
+		private FilterRadioButton [] filters;
 
-		protected void actionConfirmed()
-		{	withdraw( false );
-		}
-
-		protected void actionCancelled()
-		{	withdraw( true );
-		}
-
-		private void withdraw( boolean isCloset )
+		public HagnkStoragePanel( boolean isEquipment )
 		{
-			Object [] items = elementList.getSelectedValues();
-			AdventureResult selection;
-			int quantity;
+			super( "Inside Storage", KoLCharacter.getStorage(), !isEquipment );
+			setButtons( new String [] { "put in backpack", "put in closet" },
+				new ActionListener [] { new PullFromStorageListener( false ), new PullFromStorageListener( true ) } );
 
-			for ( int i = 0; i < items.length; ++i )
+			movers[2].setSelected( true );
+
+			if ( isEquipment )
 			{
-				selection = (AdventureResult) items[i];
-				quantity = getQuantity( "Retrieving " + selection.getName() + " from the storage...", selection.getCount(),
-					KoLCharacter.canInteract() ? selection.getCount() : Math.min( 20, selection.getCount() ) );
+				filters = new FilterRadioButton[7];
+				filters[0] = new FilterRadioButton( "weapons", true );
+				filters[1] = new FilterRadioButton( "offhand" );
+				filters[2] = new FilterRadioButton( "hats" );
+				filters[3] = new FilterRadioButton( "shirts" );
+				filters[4] = new FilterRadioButton( "pants" );
+				filters[5] = new FilterRadioButton( "accessories" );
+				filters[6] = new FilterRadioButton( "familiar" );
 
-				if ( quantity == 0 )
-					return;
+				ButtonGroup filterGroup = new ButtonGroup();
+				for ( int i = 0; i < 7; ++i )
+				{
+					filterGroup.add( filters[i] );
+					optionPanel.add( filters[i] );
+				}
 
-				items[i] = new AdventureResult( selection.getItemID(), quantity );
+				elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer( true, false, false, false, false, false, false ) );
+			}
+		}
+
+		private class FilterRadioButton extends JRadioButton implements ActionListener
+		{
+			public FilterRadioButton( String label )
+			{	this( label, false );
 			}
 
-			Runnable [] requests = isCloset ? new Runnable[2] : new Runnable[1];
-			requests[0] = new ItemStorageRequest( client, ItemStorageRequest.STORAGE_TO_INVENTORY, items );
+			public FilterRadioButton( String label, boolean isSelected )
+			{
+				super( label, isSelected );
+				addActionListener( this );
+			}
 
-			if ( isCloset )
-				requests[1] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
-
-			(new RequestThread( requests )).start();
-		}
-	}
-
-	protected class FilterMenuItem extends JCheckBoxMenuItem implements ActionListener
-	{
-		public FilterMenuItem( String name )
-		{	this( name, true );
+			public void actionPerformed( ActionEvent e )
+			{
+				elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer(
+					filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(),
+					filters[4].isSelected(), filters[5].isSelected(), filters[6].isSelected() ) );
+			}
 		}
 
-		public FilterMenuItem( String name, boolean isSelected )
+		private class PullFromStorageListener implements ActionListener
 		{
-			super( name );
-			setSelected( isSelected );
-			addActionListener( this );
+			private boolean isCloset;
+
+			public PullFromStorageListener( boolean withdraw )
+			{	this.isCloset = isCloset;
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = getDesiredItems( "Pulling" );
+
+				Runnable [] requests = isCloset ? new Runnable[2] : new Runnable[1];
+				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.STORAGE_TO_INVENTORY, items );
+
+				if ( isCloset )
+					requests[1] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+
+				(new RequestThread( requests )).start();
+			}
 		}
 
-		public void actionPerformed( ActionEvent e )
-		{	refreshFilters();
-		}
 	}
 
 	public static void main( String [] args )

@@ -510,7 +510,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		helperMenu.add( new DisplayFrameMenuItem( "User Preferences", OptionsFrame.class ) );
 		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", CalendarFrame.class ) );
-		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", OptionsFrame.class ) );
+		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
 
 		helperMenu.add( new JSeparator() );
 
@@ -683,18 +683,20 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected class MultiButtonPanel extends JPanel
 	{
-		protected boolean useFilters;
+		protected boolean showMovers;
 		protected JPanel enclosingPanel;
+		protected JPanel optionPanel;
 		protected LockableListModel elementModel;
 		protected ShowDescriptionList elementList;
 
 		protected JButton [] buttons;
-		protected JCheckBox [] filters;
 		protected JRadioButton [] movers;
 
-		public MultiButtonPanel( String title, LockableListModel elementModel, boolean useFilters )
+		public MultiButtonPanel( String title, LockableListModel elementModel, boolean showMovers )
 		{
-			this.useFilters = useFilters;
+			this.showMovers = showMovers;
+			this.optionPanel = new JPanel();
+
 			this.elementModel = elementModel;
 			this.elementList = new ShowDescriptionList( elementModel );
 
@@ -709,46 +711,32 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public void setButtons( String [] buttonLabels, ActionListener [] buttonListeners )
 		{
-			JPanel containerPanel = new JPanel( new GridLayout( 1, buttonLabels.length, 5, 5 ) );
+			JPanel buttonPanel = new JPanel();
 			buttons = new JButton[ buttonLabels.length ];
 
 			for ( int i = 0; i < buttonLabels.length; ++i )
 			{
 				buttons[i] = new JButton( buttonLabels[i] );
 				buttons[i].addActionListener( buttonListeners[i] );
-				containerPanel.add( buttons[i] );
+				buttonPanel.add( buttons[i] );
 			}
 
-			JPanel optionPanel = new JPanel();
+			movers = new JRadioButton[4];
+			movers[0] = new JRadioButton( "Move all", true );
+			movers[1] = new JRadioButton( "Move all but one" );
+			movers[2] = new JRadioButton( "Move multiple" );
+			movers[3] = new JRadioButton( "Move exactly one" );
 
-			if ( this.useFilters )
+			ButtonGroup moverGroup = new ButtonGroup();
+			for ( int i = 0; i < 4; ++i )
 			{
-				filters = new JCheckBox[3];
-				filters[0] = new FilterCheckBox( "Show food", KoLCharacter.canEat() );
-				filters[1] = new FilterCheckBox( "Show drink", KoLCharacter.canDrink() );
-				filters[2] = new FilterCheckBox( "Show other", true );
-
-				for ( int i = 0; i < 3; ++i )
-					optionPanel.add( filters[i] );
-			}
-			else
-			{
-				movers = new JRadioButton[4];
-				movers[0] = new JRadioButton( "Move all", true );
-				movers[1] = new JRadioButton( "Move all but one" );
-				movers[2] = new JRadioButton( "Move multiple" );
-				movers[3] = new JRadioButton( "Move exactly one" );
-
-				ButtonGroup moverGroup = new ButtonGroup();
-				for ( int i = 0; i < 4; ++i )
-				{
-					moverGroup.add( movers[i] );
+				moverGroup.add( movers[i] );
+				if ( showMovers )
 					optionPanel.add( movers[i] );
-				}
 			}
 
 			JPanel southPanel = new JPanel( new BorderLayout() );
-			southPanel.add( containerPanel, BorderLayout.SOUTH );
+			southPanel.add( buttonPanel, BorderLayout.SOUTH );
 			southPanel.add( optionPanel, BorderLayout.NORTH );
 
 			enclosingPanel.add( southPanel, BorderLayout.NORTH );
@@ -759,9 +747,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			elementList.setEnabled( isEnabled );
 			for ( int i = 0; i < buttons.length; ++i )
 				buttons[i].setEnabled( isEnabled );
+
+			for ( int i = 0; i < movers.length; ++i )
+				movers[i].setEnabled( isEnabled );
 		}
 
-		protected Object [] getDesiredItems( ShowDescriptionList elementList, String message )
+		protected Object [] getDesiredItems( String message )
 		{
 			Object [] items = elementList.getSelectedValues();
 			if ( items.length == 0 )
@@ -815,19 +806,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			return desiredItems;
 		}
-
-		protected class FilterCheckBox extends JCheckBox implements ActionListener
-		{
-			public FilterCheckBox( String label, boolean isSelected )
-			{
-				super( label, isSelected );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{	elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
-			}
-		}
 	}
 
 	protected void processWindowEvent( WindowEvent e )
@@ -835,8 +813,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
 		{
 			Point p = getLocationOnScreen();
-			client.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
-			client.getSettings().saveSettings();
+			setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 		}
 
 		super.processWindowEvent( e );

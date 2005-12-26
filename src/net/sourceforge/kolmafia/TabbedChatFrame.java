@@ -38,7 +38,6 @@ import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
-import javax.swing.JMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;

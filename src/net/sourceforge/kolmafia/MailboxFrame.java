@@ -43,10 +43,6 @@ import javax.swing.JEditorPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
 
 // event listeners
 import javax.swing.SwingUtilities;

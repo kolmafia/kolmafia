@@ -59,10 +59,6 @@ import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
 import javax.swing.ButtonGroup;
 import javax.swing.BorderFactory;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
@@ -162,10 +158,18 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public ConsumePanel()
 		{
-			super( "Usable Items", KoLCharacter.getUsables(), true );
+			super( "Usable Items", KoLCharacter.getUsables(), false );
 			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 			setButtons( new String [] { "use one", "use multiple" },
 				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ) } );
+
+			JCheckBox [] filters = new JCheckBox[3];
+			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
+			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show other", true );
+
+			for ( int i = 0; i < 3; ++i )
+				optionPanel.add( filters[i] );
 		}
 
 		private class ConsumeListener implements ActionListener
@@ -261,7 +265,7 @@ public class ItemManageFrame extends KoLFrame
 	private class ClosetManagePanel extends MultiButtonPanel
 	{
 		public ClosetManagePanel( String title, LockableListModel elementModel, boolean useFilters )
-		{	super( title, elementModel, useFilters );
+		{	super( title, elementModel, true );
 		}
 
 		protected abstract class TransferListener implements ActionListener
@@ -281,7 +285,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public Object [] initialSetup()
 			{
-				Object [] items = getDesiredItems( elementList, description );
+				Object [] items = getDesiredItems( description );
 				this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
 
 				if ( retrieveFromClosetFirst )
@@ -417,11 +421,20 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public CreateItemPanel()
 		{
-			super( "Create an Item", ConcoctionsDatabase.getConcoctions(), true );
+			super( "Create an Item", ConcoctionsDatabase.getConcoctions(), false );
+
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 			setButtons( new String [] { "create one", "create multiple" },
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ) } );
+
+			JCheckBox [] filters = new JCheckBox[3];
+			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
+			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show other", true );
+
+			for ( int i = 0; i < 3; ++i )
+				optionPanel.add( filters[i] );
 		}
 
 		private class CreateListener implements ActionListener
@@ -448,16 +461,22 @@ public class ItemManageFrame extends KoLFrame
 		}
 	}
 
-	private class CreationCheckBox extends SettingChangeCheckBox implements ActionListener
+	protected class FilterCheckBox extends JCheckBox implements ActionListener
 	{
-		public CreationCheckBox( String title, String property )
-		{	super( title, property );
+		private JCheckBox [] filters;
+		private ShowDescriptionList elementList;
+
+		public FilterCheckBox( JCheckBox [] filters, ShowDescriptionList elementList, String label, boolean isSelected )
+		{
+			super( label, isSelected );
+			addActionListener( this );
+
+			this.filters = filters;
+			this.elementList = elementList;
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			super.actionPerformed( e );
-			ConcoctionsDatabase.refreshConcoctions();
+		{	elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
 		}
 	}
 

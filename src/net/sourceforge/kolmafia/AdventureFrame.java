@@ -67,11 +67,7 @@ import javax.swing.JCheckBox;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
 import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
 
 // other imports
 import java.util.Date;

@@ -52,10 +52,6 @@ import java.awt.event.WindowEvent;
 
 // containers
 import javax.swing.JCheckBox;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;

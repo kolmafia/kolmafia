@@ -63,12 +63,6 @@ import javax.swing.JEditorPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JFileChooser;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.ButtonGroup;
-import javax.swing.JRadioButtonMenuItem;
 
 // other imports
 import java.util.List;

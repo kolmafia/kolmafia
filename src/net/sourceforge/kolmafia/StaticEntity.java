@@ -73,6 +73,10 @@ public abstract class StaticEntity implements KoLConstants
 		(new RequestThread( new LogoutRequest( client ) )).start();
 	}
 
+	protected static final KoLSettings getSettings()
+	{	return client == null ? GLOBAL_SETTINGS : client.getSettings();
+	}
+
 	protected static final void setProperty( String name, String value )
 	{
 		if ( client != null )

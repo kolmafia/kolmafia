@@ -58,11 +58,7 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JCheckBoxMenuItem;
 
 // other imports
 import java.util.List;

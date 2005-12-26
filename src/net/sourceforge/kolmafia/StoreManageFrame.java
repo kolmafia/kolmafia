@@ -53,12 +53,6 @@ import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.ButtonGroup;
-import javax.swing.JRadioButtonMenuItem;
 
 // spellcast-related imports
 import net.java.dev.spellcast.utilities.PanelList;

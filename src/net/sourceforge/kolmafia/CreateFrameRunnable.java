@@ -183,15 +183,10 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				KoLFrame frame = (KoLFrame) this.creation;
 				String frameName = frame.getFrameName();
 
-				if ( frame.client != null )
+				if ( StaticEntity.getSettings().containsKey( frameName ) )
 				{
-					if ( frame.client.getSettings().containsKey( frameName ) )
-					{
-						String [] location = frame.client.getSettings().getProperty( frameName ).split( "," );
-						frame.setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
-					}
-					else
-						frame.setLocationRelativeTo( null );
+					String [] location = StaticEntity.getProperty( frameName ).split( "," );
+					frame.setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
 				}
 				else
 					frame.setLocationRelativeTo( null );
