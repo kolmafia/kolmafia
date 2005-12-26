@@ -98,9 +98,7 @@ public class CharsheetFrame extends KoLFrame
 		// For now, because character listeners haven't been implemented
 		// yet, re-request the character sheet from the server
 
-		setResizable( false );
 		contentPanel = null;
-
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
 

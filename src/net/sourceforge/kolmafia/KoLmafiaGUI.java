@@ -55,11 +55,11 @@ public class KoLmafiaGUI extends KoLmafia
 {
 	static
 	{
-		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
-
 		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
+
+		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 	}
 
 	private CreateFrameRunnable displayer;

@@ -134,8 +134,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		oracleTable.getColumnModel().getSelectionModel().addListSelectionListener( this );
 
 		framePanel.add( calendar, BorderLayout.EAST );
-		setResizable( false );
-
 		(new UpdateTabsThread()).start();
 	}
 

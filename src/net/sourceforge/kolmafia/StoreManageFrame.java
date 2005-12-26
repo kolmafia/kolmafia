@@ -83,7 +83,6 @@ public class StoreManageFrame extends KoLFrame
 		if ( client != null )
 			(new RequestThread( new StoreManageRequest( client ) )).start();
 
-		setResizable( false );
 		storeManager = new StoreManagePanel();
 		framePanel.add( storeManager, BorderLayout.CENTER );
 	}

@@ -98,8 +98,6 @@ public class LoginFrame extends KoLFrame
 	public LoginFrame( KoLmafia client, SortedListModel saveStateNames )
 	{
 		super( client, "Login" );
-		setResizable( false );
-
 		JTabbedPane tabs = new JTabbedPane();
 
 		this.saveStateNames = new SortedListModel();
