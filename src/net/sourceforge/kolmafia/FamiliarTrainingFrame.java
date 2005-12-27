@@ -40,6 +40,7 @@ import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
+import java.awt.GridLayout;
 import java.awt.FlowLayout;
 
 // events
@@ -121,11 +122,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		JMenuBar menuBar = getJMenuBar();
 
-		JMenu optionsMenu = new JMenu( "Options" );
+		JMenu optionsMenu = new JMenu( "Trainer" );
 		optionsMenu.add( new FileMenuItem() );
 		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Cast buffs during training", "castBuffsWhileTraining" ) );
 		// optionsMenu.add( new LocalSettingChangeMenuItem( client, "Debug", "debugFamiliarTraining" ) );
-		menuBar.add( optionsMenu );
+		menuBar.add( optionsMenu, 0 );
 
 		training = new FamiliarTrainingPanel();
 		framePanel.add( training, "" );
@@ -134,7 +135,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.clearBuffer();
 
 		// Enable the display after fetching opponents
-		client.enableDisplay();
+		if ( client != null )
+			client.enableDisplay();
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -332,26 +334,28 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			public ButtonPanel()
 			{
-				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+				JPanel containerPanel = new JPanel( new GridLayout( 4, 1, 5, 5 ) );
 				base = new JButton( "Base" );
 				base.addActionListener( new BaseListener() );
-				this.add( base );
+				containerPanel.add( base );
 
 				buffed = new JButton( "Buffed" );
 				buffed.addActionListener( new BuffedListener() );
-				this.add( buffed );
+				containerPanel.add( buffed );
 
 				turns = new JButton( "Turns" );
 				turns.addActionListener( new TurnsListener() );
-				this.add( turns );
+				containerPanel.add( turns );
 
 				stop = new JButton( "Stop Training" );
 				stop.addActionListener( new StopListener() );
-				this.add( stop );
+				containerPanel.add( stop );
 
 				// debug = new JButton( "Debug" );
 				// debug.addActionListener( new DebugListener() );
 				// this.add( debug );
+
+				add( containerPanel );
 			}
 
 			public void setEnabled( boolean isEnabled )
@@ -1990,7 +1994,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		public LocalSettingChangeMenuItem( KoLmafia client, String title, String property )
 		{
 			super( title );
-			setSelected( client.getLocalBooleanProperty( property ) );
+			setSelected( client == null || client.getLocalBooleanProperty( property ) );
 
 			this.property = property;
 			addActionListener( this );

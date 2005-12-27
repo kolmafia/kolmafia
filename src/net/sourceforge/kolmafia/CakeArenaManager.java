@@ -146,7 +146,7 @@ public class CakeArenaManager extends StaticEntity
 
 	public static LockableListModel getOpponentList( KoLmafia client )
 	{
-		if ( opponentList.isEmpty() )
+		if ( client != null && opponentList.isEmpty() )
 			(new CakeArenaRequest( client )).run();
 
 		return opponentList;
