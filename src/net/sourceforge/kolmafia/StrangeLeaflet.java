@@ -138,6 +138,9 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( magic )
 			invokeMagic();
 
+		// Add new items to "Usable" list
+		KoLCharacter.refreshCalculatedLists();
+
 		client.updateDisplay( ENABLE_STATE, "Strange Leaflet robbed." );
 	}
 
