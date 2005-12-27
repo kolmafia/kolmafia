@@ -231,13 +231,17 @@ public class BuffBotDatabase extends KoLDatabase
 	{	return allBots.getBuffLabel( index1, index2, compact );
 	}
 
-	public static void configureBuffBots( KoLmafia client )
+	public static void configureBuffBots()
 	{
-		client.updateDisplay( DISABLE_STATE, "Configuring dynamic buff prices" );
-
 		// List of all bots includes static + dynamic
 		allBots = new BuffList();
 		allBots.addBuffList( staticBots );
+
+		// If there is no client, return.
+		if ( client == null )
+			return;
+
+		client.updateDisplay( DISABLE_STATE, "Configuring dynamic buff prices..." );
 
 		// Iterate over list of bots and configure each one
 		int botCount = bots.size();

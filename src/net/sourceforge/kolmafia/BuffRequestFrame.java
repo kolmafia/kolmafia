@@ -42,6 +42,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import java.awt.FlowLayout;
+import javax.swing.SpringLayout;
 
 // events
 import java.awt.event.ActionEvent;
@@ -59,6 +60,7 @@ import javax.swing.JScrollPane;
 
 // utilities
 import java.util.ArrayList;
+import com.sun.java.forums.SpringUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -77,7 +79,7 @@ public class BuffRequestFrame extends KoLFrame
 		framePanel.setLayout( cards );
 
 		// Configure buffbot offerings
-		BuffBotDatabase.configureBuffBots( client );
+		BuffBotDatabase.configureBuffBots();
 
 		BuffRequestPanel buffs = new BuffRequestPanel();
 		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -85,7 +87,8 @@ public class BuffRequestFrame extends KoLFrame
 		framePanel.add( scroller, "" );
 
 		// Enable the display after fetching buffs
-		client.enableDisplay();
+		if ( client != null )
+			client.enableDisplay();
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -102,20 +105,16 @@ public class BuffRequestFrame extends KoLFrame
 
 		public BuffRequestPanel()
 		{
-			super();
-
-			// Vertically stacked panels within this one
-			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			super( new SpringLayout() );
 
 			// Add a panel for each available buff
 			int buffCount = BuffBotDatabase.buffCount();
 			boxes = new BuffRequestBox[buffCount];
 
 			for ( int i = 0; i < buffCount; ++i )
-			{
 				boxes[i] = new BuffRequestBox( i );
-				this.add( boxes[i] );
-			}
+
+			SpringUtilities.makeCompactGrid( this, buffCount, 3, 10, 10, 10, 10 );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -130,17 +129,14 @@ public class BuffRequestFrame extends KoLFrame
 					boxes[i].setEnabled( isEnabled );
 		}
 
-		private class BuffRequestBox extends JPanel
+		private class BuffRequestBox
 		{
 			private int index;
 			JComboBox selects;
 			JButton button;
 
-			public BuffRequestBox( int index)
+			public BuffRequestBox( int index )
 			{
-				super();
-				setLayout( new BorderLayout( 10, 10 ) );
-
 				this.index = index;
 
 				// Make a combo box and fill it with offerings
@@ -153,26 +149,21 @@ public class BuffRequestFrame extends KoLFrame
 					selects.addItem( label );
 				}
 
-				// Now add the controls to the pane
-
 				// Label the box with the Skill name
 				String name = BuffBotDatabase.getBuffAbbreviation( index );
 				JLabel label = new JLabel( name, JLabel.RIGHT );
-				this.add( label, BorderLayout.WEST );
-
-				// Add the combo box of available buffs
-				this.add( selects, BorderLayout.CENTER );
 
 				// Add a button to purchase this buff
 				button = new JButton( "Buy" );
 				button.addActionListener( new BuyBuffListener() );
-				this.add( button, BorderLayout.EAST );
+
+				BuffRequestPanel.this.add( label );
+				BuffRequestPanel.this.add( selects );
+				BuffRequestPanel.this.add( button );
 			}
 
 			public void setEnabled( boolean isEnabled )
 			{
-				super.setEnabled( isEnabled );
-
 				if ( button != null )
 					button.setEnabled( isEnabled );
 			}
