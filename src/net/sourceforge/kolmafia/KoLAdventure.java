@@ -117,6 +117,15 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
+	 * Returns the request associated with this adventure.
+	 * @return	The request for this adventure
+	 */
+
+	public KoLRequest getRequest()
+	{	return request;
+	}
+
+	/**
 	 * Retrieves the string form of the adventure contained within this
 	 * encapsulation, which is generally the name of the adventure.
 	 *

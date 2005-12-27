@@ -528,7 +528,9 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	refresh( new KoLRequest( client, locationField.getText() ) );
+		{
+			KoLAdventure adventure = AdventureDatabase.getAdventure( locationField.getText() );
+			refresh( adventure == null ? new KoLRequest( client, locationField.getText() ) : adventure.getRequest() );
 		}
 	}
 
