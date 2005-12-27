@@ -429,12 +429,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
 
-		// Add the ability to set the current request so that KoLmafia
-		// can make use of it, if viewing intermediate results is allowed.
-
-		if ( !(this instanceof ChatRequest) )
-			client.setCurrentRequest( this );
-
 		// If the user wants to show all the requests in the browser, then
 		// make sure it's updated.
 
@@ -443,8 +437,11 @@ public class KoLRequest implements Runnable, KoLConstants
 			client.processResults( responseText );
 
 			// Synchronize if requested
-			if ( this instanceof AdventureRequest || this instanceof FightRequest )
+			if ( this instanceof AdventureRequest || this instanceof FightRequest || getClass() == KoLRequest.class )
+			{
+				client.setCurrentRequest( this );
 				showInBrowser( false );
+			}
 		}
 	}
 
@@ -994,7 +991,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		// Synchronize if requested
 		request.showInBrowser( false );
-
 		return handleChoiceResponse( request );
 	}
 
@@ -1127,6 +1123,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		     ( !exceptional || getProperty( "finishInBrowser" ).equals( "false" ) ) )
 			return;
 
-		FightFrame.showRequest( this );
+		// Only show the request if the response code is
+		// 200 (not a redirect or error).
+
+		if ( responseCode == 200 )
+			FightFrame.showRequest( this );
 	}
 }

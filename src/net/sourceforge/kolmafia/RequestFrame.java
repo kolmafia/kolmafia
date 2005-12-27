@@ -318,8 +318,6 @@ public class RequestFrame extends KoLFrame
 			if ( currentRequest == null )
 				return;
 
-			mainBuffer.clearBuffer();
-
 			if ( getCurrentLocation().startsWith( "adventure.php" ) && currentRequest.getDataString() != null )
 			{
 				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( currentRequest.getDataString() );
@@ -329,6 +327,8 @@ public class RequestFrame extends KoLFrame
 					if ( getProperty( "cloverProtectActive" ).equals( "true" ) )
 					{
 						client.updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
+
+						mainBuffer.clearBuffer();
 						mainBuffer.append( "<h1><font color=\"red\">You have a ten-leaf clover.	 Please deactivate clover protection in your startup options first if you are certain you want to use your clovers while adventuring.</font></h1>" );
 						return;
 					}
@@ -346,10 +346,37 @@ public class RequestFrame extends KoLFrame
 			else
 				setTitle( "Mini-Browser" );
 
-			while ( currentRequest.responseText == null || currentRequest.responseText.length() == 0 )
+			// If the request is in the middle of being redirected,
+			// then return from the attempt to display the request,
+			// since there is nothing to display.
+
+			if ( currentRequest.responseCode == 302 )
 			{
+				currentRequest = client.getCurrentRequest();
+				if ( currentRequest.responseCode == 302 )
+					return;
+			}
+
+			if ( currentRequest.responseText == null || currentRequest.responseText.length() == 0 )
+			{
+				mainBuffer.clearBuffer();
 				mainBuffer.append( "Retrieving..." );
 				currentRequest.run();
+			}
+
+			// If this resulted in a redirect, then update the display
+			// to indicate that you were redirected and the display
+			// cannot be shown in the minibrowser.
+
+			if ( currentRequest.responseCode == 302 )
+			{
+				currentRequest = client.getCurrentRequest();
+				if ( currentRequest.responseCode == 302 )
+				{
+					mainBuffer.clearBuffer();
+					mainBuffer.append( "Redirected to unknown page: &lt;" + currentRequest.redirectLocation + "&gt;" );
+					return;
+				}
 			}
 
 			mainBuffer.clearBuffer();
@@ -375,7 +402,7 @@ public class RequestFrame extends KoLFrame
 
 			if ( location.startsWith( "inventory.php?which=2" ) )
 				EquipmentRequest.parseEquipment( currentRequest.responseText );
-			
+
 			if ( location.startsWith( "familiar.php" ) )
 				FamiliarData.registerFamiliarData( client, currentRequest.responseText );
 
