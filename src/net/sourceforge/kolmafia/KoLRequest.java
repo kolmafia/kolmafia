@@ -151,7 +151,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			switch ( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) )
 			{
 				case 0:
-					autoDetectServer();
+					setLoginServer( SERVERS[ RNG.nextInt(3) ][0] );
 					break;
 
 				case 1:
@@ -173,38 +173,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// server failed or the attempt to set the login server failed.
 			// Because these result in default values, pretend nothing
 			// happened and carry on with business.
-		}
-	}
-
-	/**
-	 * Static method used to auto detect the server to be used as
-	 * the root for all requests by all KoLmafia clients running
-	 * on the current JVM instance.
-	 */
-
-	private static void autoDetectServer()
-	{
-		try
-		{
-			// This test uses the Kingdom of Loathing automatic balancing
-			// server again to make sure that it's okay with the current
-			// login server.
-
-			KoLRequest root = new KoLRequest( null, "index.php" );
-			root.run();
-
-			// Once the request is complete, because there was no header
-			// indicating who redirected you there, you'll have a redirect
-			// location pointing to the correct server.
-
-			String location = root.formConnection.getHeaderField( "Location" );
-			if ( location != null )
-				setLoginServer( (new URL( location )).getHost() );
-		}
-		catch ( Exception e )
-		{
-			// This should never happen, but if it does, then the default
-			// root should still be active.  Therefore, do nothing.
 		}
 	}
 
