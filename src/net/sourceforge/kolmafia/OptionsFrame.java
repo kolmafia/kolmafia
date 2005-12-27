@@ -708,6 +708,7 @@ public class OptionsFrame extends KoLFrame
 
 			chatStyleSelect.setSelectedIndex( Integer.parseInt( getProperty( "chatStyle" ) ) );
 			useTabsSelect.setSelectedIndex( Integer.parseInt( getProperty( "useTabbedChat" ) ) );
+			eSoluSelect.setSelectedIndex( getProperty( "eSoluScriptlet" ).equals( "true" ) ? 1 : 0 );
 		}
 	}
 

@@ -445,7 +445,7 @@ public class LoginFrame extends KoLFrame
 
 	private class ServerSelectPanel extends LabeledKoLPanel
 	{
-		private JComboBox servers, uimodes, toolbars;
+		private JComboBox servers, uimodes, toolbars, trayicon;
 
 		public ServerSelectPanel()
 		{
@@ -470,10 +470,17 @@ public class LoginFrame extends KoLFrame
 			toolbars.addItem( "Put toolbar left of panel" );
 			toolbars.addItem( "Put toolbar right of panel" );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
+			trayicon = new JComboBox();
+			trayicon.addItem( "Minimize KoLmafia to taskbar" );
+			trayicon.addItem( "Minimize KoLmafia to system tray" );
+
+			VerifiableElement [] elements = new VerifiableElement[ System.getProperty( "os.name" ).startsWith( "Windows" ) ? 4 : 3 ];
 			elements[0] = new VerifiableElement( "Server: ", servers );
 			elements[1] = new VerifiableElement( "Startup: ", uimodes );
 			elements[2] = new VerifiableElement( "Toolbars: ", toolbars );
+
+			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+				elements[3] = new VerifiableElement( "SysTray: ", trayicon );
 
 			setContent( elements );
 			actionCancelled();
@@ -485,6 +492,7 @@ public class LoginFrame extends KoLFrame
 			GLOBAL_SETTINGS.setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
+			GLOBAL_SETTINGS.setProperty( "useSystemTrayIcon", String.valueOf( trayicon.getSelectedIndex() == 1 ) );
 
 			JOptionPane.showMessageDialog( null, "Settings saved." );
 		}
@@ -494,6 +502,7 @@ public class LoginFrame extends KoLFrame
 			servers.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) );
 			uimodes.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) );
 			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
+			trayicon.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 0 );
 		}
 	}
 

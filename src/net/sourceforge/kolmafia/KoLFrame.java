@@ -345,7 +345,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	public void setExtendedState( int state )
 	{
-		if ( state == ICONIFIED && System.getProperty( "os.name" ).startsWith( "Windows" ) )
+		if ( state == ICONIFIED && System.getProperty( "os.name" ).startsWith( "Windows" ) && GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
 			setVisible( false );
 		else
 			super.setExtendedState( state );

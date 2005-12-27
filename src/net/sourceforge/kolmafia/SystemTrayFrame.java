@@ -19,6 +19,16 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 	{	super( StaticEntity.getClient(), "SystemTrayFrame" );
 	}
 
+	public void setVisible( boolean isVisible )
+	{
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+			if ( !frames[i].isVisible() )
+				frames[i].setVisible( isVisible );
+	}
+
 	public void run()
 	{
 		try
@@ -71,13 +81,19 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 			constructMenus( popup );
 			popup.add( new InvocationMenuItem( "End Session", this, "dispose" ) );
 
-			manager.setLeftClickView( popup );
+			manager.setLeftClickView( this );
 			manager.setRightClickView( popup );
 			manager.setVisible( true );
 		}
 		catch ( Exception e )
 		{
 		}
+	}
+
+	public void dispose()
+	{
+		super.dispose();
+		removeTrayIcon();
 	}
 
 	public static void addTrayIcon()

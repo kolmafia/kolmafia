@@ -123,7 +123,7 @@ public class KoLmafiaGUI extends KoLmafia
 		for ( int i = 0; i < frames.length; ++i )
 			frames[i].updateTitle();
 
-		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) && GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
 			SystemTrayFrame.addTrayIcon();
 
 		// If you've already loaded an adventure frame,
