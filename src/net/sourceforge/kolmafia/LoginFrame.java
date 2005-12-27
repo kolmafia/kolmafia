@@ -481,19 +481,19 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
-			setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
-			setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
-			setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
+			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
+			GLOBAL_SETTINGS.setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
+			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
+			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
 
 			JOptionPane.showMessageDialog( null, "Settings saved." );
 		}
 
 		protected void actionCancelled()
 		{
-			servers.setSelectedIndex( Integer.parseInt( getProperty( "loginServer" ) ) );
-			uimodes.setSelectedIndex( Integer.parseInt( getProperty( "userInterfaceMode" ) ) );
-			toolbars.setSelectedIndex( Integer.parseInt( getProperty( "toolbarPosition" ) ) );
+			servers.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) );
+			uimodes.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) );
+			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
 		}
 	}
 

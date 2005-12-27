@@ -149,27 +149,11 @@ public class KoLRequest implements Runnable, KoLConstants
 				System.setProperty( "http.proxyPassword", GLOBAL_SETTINGS.getProperty( "http.proxyPassword" ) );
 			}
 
-			// Determine the login server that will be used.  It
-			// will either be auto-detection, or using the default.
+			// Determine the login server that will be used.
 
-			switch ( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) )
-			{
-				case 0:
-					setLoginServer( SERVERS[ RNG.nextInt( SERVER_COUNT ) ][0] );
-					break;
-
-				case 1:
-					setLoginServer( SERVERS[0][0] );
-					break;
-
-				case 2:
-					setLoginServer( SERVERS[1][0] );
-					break;
-
-				case 3:
-					setLoginServer( SERVERS[2][0] );
-					break;
-			}
+			int setting = Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) );
+			int server = ( setting == 0 || setting > SERVER_COUNT ) ? RNG.nextInt( SERVER_COUNT ) : setting - 1;
+			setLoginServer( SERVERS[server][0] );
 		}
 		catch ( Exception e )
 		{
