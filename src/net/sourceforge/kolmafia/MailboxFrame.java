@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 // layout and containers
 import java.awt.Dimension;
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -120,6 +121,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		JComponentUtilities.setComponentSize( splitPane, 500, 300 );
 		getContentPane().add( splitPane );
 
+		toolbarPanel.add( new SaveAllButton() );
+		toolbarPanel.add( new DeleteButton() );
+		toolbarPanel.add( new RefreshButton() );
+
 		if ( client != null )
 			(new RequestMailboxThread( "Inbox" )).start();
 	}
@@ -152,8 +157,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	{
 		refreshMailManager();
 		mailBuffer.clearBuffer();
-		String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+
 		boolean requestMailbox;
+		String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
 
 		if ( currentTabName.equals( "Inbox" ) )
 		{
@@ -261,7 +267,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					return;
 				}
 
-				if ( e.getKeyCode() == KeyEvent.VK_S )
+				if ( e.getKeyCode() == KeyEvent.VK_S && mailboxName.equals( "Inbox" ) )
 				{
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
@@ -288,6 +294,75 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					messageContent.setCaretPosition( 0 );
 				}
 			}
+		}
+	}
+
+	private class SaveAllButton extends JButton implements ActionListener
+	{
+		public SaveAllButton()
+		{
+			super( JComponentUtilities.getSharedImage( "saveall.gif" ) );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+			if ( currentTabName.equals( "Inbox" ) )
+			{
+				if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
+				{
+					KoLMailManager.saveMessages( messageListInbox.getSelectedValues() );
+					client.enableDisplay();
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog( null, "Messages in this mailbox cannot be saved." );
+			}
+		}
+	}
+
+	private class DeleteButton extends JButton implements ActionListener
+	{
+		public DeleteButton()
+		{
+			super( JComponentUtilities.getSharedImage( "delete.gif" ) );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+				"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
+					return;
+
+			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+
+			if ( currentTabName.equals( "Inbox" ) )
+				KoLMailManager.deleteMessages( "Inbox", messageListInbox.getSelectedValues() );
+			else if ( currentTabName.equals( "Outbox" ) )
+				KoLMailManager.deleteMessages( "Outbox", messageListOutbox.getSelectedValues() );
+			else
+				KoLMailManager.deleteMessages( "Saved", messageListSaved.getSelectedValues() );
+
+			client.enableDisplay();
+		}
+	}
+
+	private class RefreshButton extends JButton implements ActionListener
+	{
+		public RefreshButton()
+		{
+			super( JComponentUtilities.getSharedImage( "refresh.gif" ) );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+			(new RequestMailboxThread( currentTabName )).start();
 		}
 	}
 

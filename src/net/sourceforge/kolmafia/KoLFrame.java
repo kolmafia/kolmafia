@@ -1649,7 +1649,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					super( "add", "cancel" );
 
 					VerifiableElement [] elements = new VerifiableElement[2];
-					elements[0] = new VerifiableElement( "Name", nameField = new JTextField() );
+					elements[0] = new VerifiableElement( "Name", nameField = new JTextField(
+						client.getCurrentRequest() == null ? "" : client.getCurrentRequest().getURLString() ) );
+
 					elements[1] = new VerifiableElement( "Location", locationField = new JTextField() );
 					setContent( elements );
 				}

@@ -41,6 +41,9 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
@@ -58,11 +61,16 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.ListSelectionModel;
 
+import java.util.List;
+import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
+	private int currentLocation = 0;
+	private List visitedLocations = new ArrayList();
+
 	private int combatRound;
 
 	private RequestFrame parent;
@@ -73,6 +81,7 @@ public class RequestFrame extends KoLFrame
 	private LimitedSizeChatBuffer sideBuffer;
 	private CharpaneRequest sidePaneRequest;
 
+	private JTextField locationField = new JTextField();
 	protected JEditorPane sideDisplay;
 	protected JEditorPane mainDisplay;
 
@@ -169,6 +178,20 @@ public class RequestFrame extends KoLFrame
 			zonesMenu.add( new DisplayRequestMenuItem( "Desert Beach", "beach.php" ) );
 			zonesMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
 			zonesMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
+
+			// Add toolbar pieces so that people can quickly
+			// go to locations they like.
+
+			toolbarPanel.add( new BackButton() );
+			toolbarPanel.add( new ForwardButton() );
+			toolbarPanel.add( new HomeButton() );
+			toolbarPanel.add( new RefreshButton() );
+			toolbarPanel.add( new JToolBar.Separator() );
+			toolbarPanel.add( locationField );
+
+			GoButton button = new GoButton();
+			toolbarPanel.add( button );
+			getRootPane().setDefaultButton( button );
 		}
 
 		(new DisplayRequestThread()).start();
@@ -373,6 +396,19 @@ public class RequestFrame extends KoLFrame
 			}
 
 			mainBuffer.clearBuffer();
+			client.setCurrentRequest( currentRequest );
+
+			// Function exactly like a history in a normal browser -
+			// if you open a new frame after going back, all the ones
+			// in the future get removed.
+
+			while ( visitedLocations.size() > currentLocation )
+				visitedLocations.remove( currentLocation );
+
+			visitedLocations.add( currentRequest );
+			locationField.setText( currentRequest.getURLString() );
+			currentLocation = visitedLocations.size();
+
 			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
 			mainDisplay.setCaretPosition( 0 );
 
@@ -406,6 +442,83 @@ public class RequestFrame extends KoLFrame
 
 			if ( location.indexOf( "mushroom" ) != -1 )
 				MushroomPlot.parsePlot( currentRequest.responseText );
+		}
+	}
+
+	private class HomeButton extends JButton implements ActionListener
+	{
+		public HomeButton()
+		{
+			super( JComponentUtilities.getSharedImage( "home.gif" ) );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	refresh( new KoLRequest( client, "main.php" ) );
+		}
+	}
+
+	private class BackButton extends JButton implements ActionListener
+	{
+		public BackButton()
+		{
+			super( JComponentUtilities.getSharedImage( "back.gif" ) );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( currentLocation > 1 )
+			{
+				--currentLocation;
+				refresh( (KoLRequest) visitedLocations.get( currentLocation - 1 ) );
+			}
+		}
+	}
+
+	private class ForwardButton extends JButton implements ActionListener
+	{
+		public ForwardButton()
+		{
+			super( JComponentUtilities.getSharedImage( "forward.gif" ) );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( currentLocation + 1 < visitedLocations.size() )
+			{
+				++currentLocation;
+				refresh( (KoLRequest) visitedLocations.get( currentLocation - 1 ) );
+			}
+		}
+	}
+
+	private class RefreshButton extends JButton implements ActionListener
+	{
+		public RefreshButton()
+		{
+			super( JComponentUtilities.getSharedImage( "refresh.gif" ) );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			currentRequest.responseText = "";
+			refresh( currentRequest );
+		}
+	}
+
+	private class GoButton extends JButton implements ActionListener
+	{
+		public GoButton()
+		{
+			super( "Go" );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	refresh( new KoLRequest( client, locationField.getText() ) );
 		}
 	}
 }
