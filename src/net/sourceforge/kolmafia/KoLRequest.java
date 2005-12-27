@@ -750,6 +750,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					this.data.clear();
 					this.followRedirects = followRedirects;
+
+					return false;
 				}
 				else if ( redirectLocation.equals( "fight.php" ) )
 				{
