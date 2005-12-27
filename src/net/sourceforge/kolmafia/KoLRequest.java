@@ -72,9 +72,11 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private static final String [][] SERVERS =
 	{
-		{ "www.kingdomofloathing.com", "67.18.115.2" },
-		{ "www2.kingdomofloathing.com", "67.18.223.170" },
-		{ "www3.kingdomofloathing.com", "67.18.223.194" }
+		{ "www.kingdomofloathing.com", "69.16.150.196" },
+		{ "www2.kingdomofloathing.com", "69.16.150.197" },
+		{ "www3.kingdomofloathing.com", "67.18.223.198" },
+		{ "www4.kingdomofloathing.com", "67.18.223.199" },
+		{ "www5.kingdomofloathing.com", "67.18.223.200" }
 	};
 
 	private static String KOL_HOST = SERVERS[0][0];
@@ -151,7 +153,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			switch ( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) )
 			{
 				case 0:
-					setLoginServer( SERVERS[ RNG.nextInt(3) ][0] );
+					setLoginServer( SERVERS[ RNG.nextInt( SERVERS.length ) ][0] );
 					break;
 
 				case 1:
