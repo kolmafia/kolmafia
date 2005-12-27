@@ -102,7 +102,7 @@ public class RequestFrame extends KoLFrame
 		super( client, "" );
 
 		this.parent = parent;
-		this.currentRequest = client.getCurrentRequest() instanceof FightRequest ? client.getCurrentRequest() : request;
+		this.currentRequest = client == null || !(client.getCurrentRequest() instanceof FightRequest) ? request : client.getCurrentRequest();
 		this.hasSideBar = hasSideBar;
 		setCombatRound( request );
 
@@ -185,9 +185,11 @@ public class RequestFrame extends KoLFrame
 			toolbarPanel.add( new BackButton() );
 			toolbarPanel.add( new ForwardButton() );
 			toolbarPanel.add( new HomeButton() );
-			toolbarPanel.add( new RefreshButton() );
+			toolbarPanel.add( new ReloadButton() );
+
 			toolbarPanel.add( new JToolBar.Separator() );
 			toolbarPanel.add( locationField );
+			toolbarPanel.add( new JToolBar.Separator() );
 
 			GoButton button = new GoButton();
 			toolbarPanel.add( button );
@@ -341,7 +343,13 @@ public class RequestFrame extends KoLFrame
 			if ( currentRequest == null )
 				return;
 
-			if ( getCurrentLocation().startsWith( "adventure.php" ) && currentRequest.getDataString() != null )
+			// For testing purposes, indicate the URL which was requested,
+			// along with a "This is a test" notice.
+
+			if ( client == null )
+				currentRequest.responseText = "This is a test: <b>" + currentRequest.getURLString() + "</b>";
+
+			if ( client != null && getCurrentLocation().startsWith( "adventure.php" ) && currentRequest.getDataString() != null )
 			{
 				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( currentRequest.getDataString() );
 
@@ -396,7 +404,9 @@ public class RequestFrame extends KoLFrame
 			}
 
 			mainBuffer.clearBuffer();
-			client.setCurrentRequest( currentRequest );
+
+			if ( client != null )
+				client.setCurrentRequest( currentRequest );
 
 			// Function exactly like a history in a normal browser -
 			// if you open a new frame after going back, all the ones
@@ -419,7 +429,7 @@ public class RequestFrame extends KoLFrame
 			KoLCharacter.refreshCalculatedLists();
 			String location = currentRequest.getURLString();
 
-			if ( hasSideBar || sidePaneRequest == null || location.indexOf( "?" ) != -1 )
+			if ( client != null && (hasSideBar || sidePaneRequest == null || location.indexOf( "?" ) != -1) )
 				refreshSidePane();
 
 			// Keep the client updated of your current equipment and
@@ -494,11 +504,11 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	private class RefreshButton extends JButton implements ActionListener
+	private class ReloadButton extends JButton implements ActionListener
 	{
-		public RefreshButton()
+		public ReloadButton()
 		{
-			super( JComponentUtilities.getSharedImage( "refresh.gif" ) );
+			super( JComponentUtilities.getSharedImage( "reload.gif" ) );
 			addActionListener( this );
 		}
 
@@ -520,5 +530,21 @@ public class RequestFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{	refresh( new KoLRequest( client, locationField.getText() ) );
 		}
+	}
+
+
+	/**
+	 * The main method used in the event of testing the way the
+	 * user interface looks.  This allows the UI to be tested
+	 * without having to constantly log in and out of KoL.
+	 */
+
+	public static void main( String [] args )
+	{
+		Object [] parameters = new Object[2];
+		parameters[0] = null;
+		parameters[1] = new KoLRequest( null, "main.php" );
+
+		(new CreateFrameRunnable( RequestFrame.class, parameters )).run();
 	}
 }
