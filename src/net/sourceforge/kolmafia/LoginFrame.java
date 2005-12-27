@@ -445,7 +445,6 @@ public class LoginFrame extends KoLFrame
 
 	private class ServerSelectPanel extends LabeledKoLPanel
 	{
-		private static final int SERVER_COUNT = 3;
 		private JComboBox servers, uimodes, toolbars;
 
 		public ServerSelectPanel()
@@ -454,7 +453,7 @@ public class LoginFrame extends KoLFrame
 
 			servers = new JComboBox();
 			servers.addItem( "Auto-detect login server" );
-			for ( int i = 1; i <= SERVER_COUNT; ++i )
+			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
 				servers.addItem( "Use login server " + i );
 
 			uimodes = new JComboBox();

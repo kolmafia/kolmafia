@@ -79,6 +79,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		{ "www5.kingdomofloathing.com", "67.18.223.200" }
 	};
 
+	public static final int SERVER_COUNT = SERVERS.length;
+
 	private static String KOL_HOST = SERVERS[0][0];
 	private static String KOL_ROOT = "http://" + SERVERS[0][1] + "/";
 
@@ -153,7 +155,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			switch ( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) )
 			{
 				case 0:
-					setLoginServer( SERVERS[ RNG.nextInt( SERVERS.length ) ][0] );
+					setLoginServer( SERVERS[ RNG.nextInt( SERVER_COUNT ) ][0] );
 					break;
 
 				case 1:
