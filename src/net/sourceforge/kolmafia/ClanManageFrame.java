@@ -62,11 +62,7 @@ import javax.swing.JCheckBox;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
 import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
 
 // other imports
 import java.util.regex.Pattern;
@@ -99,7 +95,10 @@ public class ClanManageFrame extends KoLFrame
 	private StoragePanel storing;
 	private WithdrawPanel withdrawal;
 	private DonationPanel donation;
+	private AttackPanel attacks;
 	private WarfarePanel warfare;
+	private SnapshotPanel snapshot;
+	private MemberSearchPanel search;
 
 	public ClanManageFrame( KoLmafia client )
 	{
@@ -111,7 +110,10 @@ public class ClanManageFrame extends KoLFrame
 		this.clanBuff = new ClanBuffPanel();
 		this.donation = new DonationPanel();
 		this.withdrawal = new WithdrawPanel();
+		this.attacks = new AttackPanel();
 		this.warfare = new WarfarePanel();
+		this.snapshot = new SnapshotPanel();
+		this.search = new MemberSearchPanel();
 
 		this.tabs = new JTabbedPane();
 
@@ -125,14 +127,17 @@ public class ClanManageFrame extends KoLFrame
 		stashPanel.add( withdrawal );
 		karmaPanel.add( stashPanel, BorderLayout.CENTER );
 
-		tabs.addTab( "Adjust Karma", karmaPanel );
+		tabs.addTab( "Stash Manager", karmaPanel );
 
 		JPanel purchasePanel = new JPanel();
 		purchasePanel.setLayout( new BoxLayout( purchasePanel, BoxLayout.Y_AXIS ) );
+		purchasePanel.add( attacks );
 		purchasePanel.add( clanBuff );
 		purchasePanel.add( warfare );
 
-		tabs.addTab( "Purchases", purchasePanel );
+		tabs.addTab( "Warfare & Buffs", purchasePanel );
+		tabs.addTab( "Member Search", search );
+		tabs.addTab( "Clan Snapshot", snapshot );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -142,33 +147,6 @@ public class ClanManageFrame extends KoLFrame
 			setEnabled( false );
 			(new RequestThread( new ClanStashRequest( client ) )).start();
 		}
-
-		JMenuBar menuBar = getJMenuBar();
-
-		JMenu toolsMenu = new JMenu( "Tools" );
-		menuBar.add( toolsMenu, 0 );
-		toolsMenu.add( new InvocationMenuItem( "Member Search", this, "searchClan" ) );
-		toolsMenu.add( new ManagerMenuItem( "Attack a Clan", "attackClan" ) );
-		toolsMenu.add( new ManagerMenuItem( "Clan Snapshot", "takeSnapshot" ) );
-		toolsMenu.add( new ManagerMenuItem( "Save Stash Log", "saveStashLog" ) );
-
-		JMenu messageMenu = new JMenu( "Messages" );
-		menuBar.add( messageMenu, 1 );
-
-		messageMenu.add( new ManagerMenuItem( "Post to Clan Board", "postMessage" ) );
-		messageMenu.add( new ManagerMenuItem( "Post Announcement", "postAnnouncement" ) );
-		messageMenu.add( new ManagerMenuItem( "Read Clan Messages", "getMessageBoard" ) );
-		messageMenu.add( new ManagerMenuItem( "Read Announcements", "getAnnouncements" ) );
-	}
-
-	public void searchClan()
-	{
-		Object [] parameters = new Object[3];
-		parameters[0] = client;
-		parameters[1] = "Member Search";
-		parameters[2] = new MemberSearchPanel();
-
-		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -183,6 +161,8 @@ public class ClanManageFrame extends KoLFrame
 			donation.setEnabled( isEnabled );
 		if ( warfare != null )
 			warfare.setEnabled( isEnabled );
+		if ( attacks != null )
+			attacks.setEnabled( isEnabled );
 	}
 
 	/**
@@ -232,6 +212,44 @@ public class ClanManageFrame extends KoLFrame
 				client.cancelRequest();
 				client.updateDisplay( NORMAL_STATE, "Purchase attempts cancelled." );
 			}
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for clan
+	 * buffs in the <code>ClanManageFrame</code>.
+	 */
+
+	private class AttackPanel extends LabeledKoLPanel
+	{
+		private JComboBox enemyList;
+
+		public AttackPanel()
+		{
+			super( "Loot Another Clan", "attack", "refresh", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			enemyList = new JComboBox( ClanListRequest.getEnemyClans() );
+
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Victim: ", enemyList );
+			setContent( elements );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			enemyList.setEnabled( isEnabled );
+		}
+
+		protected void actionConfirmed()
+		{
+			contentPanel = attacks;
+			(new RequestThread( (Runnable) enemyList.getSelectedItem() )).start();
+		}
+
+		protected void actionCancelled()
+		{
+			contentPanel = attacks;
+			(new RequestThread( new ClanListRequest( client ) )).start();
 		}
 	}
 
@@ -602,13 +620,6 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class ManagerMenuItem extends InvocationMenuItem
-	{
-		public ManagerMenuItem( String title, String methodName )
-		{	super( title, ClanManager.class, methodName );
-		}
-	}
-
 	public class ClanMemberPanelList extends PanelList
 	{
 		public ClanMemberPanelList()
@@ -706,6 +717,68 @@ public class ClanManageFrame extends KoLFrame
 
 				(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
 			}
+		}
+	}
+
+	private class SnapshotPanel extends KoLPanel
+	{
+		private JCheckBox [] optionBoxes;
+		private final String [][] options =
+		{
+			{ "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>", "Stat points and power" },
+			{ "<td>Title</td><td>Rank</td><td>Karma</td>", "Clan (title, rank, karma)" },
+			{ "<td>PVP</td>", "Current PVP rankings" },
+			{ "<td>Class</td>", "Current class" },
+			{ "<td>Meat</td>", "Wealth accumulated" },
+			{ "<td>Turns</td>", "Total turns used" },
+			{ "<td>Food</td><td>Drink</td>", "Favorites (food, booze)" },
+			{ "<td>Created</td>", "Account creation date" },
+			{ "<td>Last Login</td>", "Last login date" },
+			{ "<td>Ascensions</td>", "Ascension breakdown" }
+		};
+
+		public SnapshotPanel()
+		{
+			super( "snapshot", "logshot", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			for ( int i = 0; i < options.length; ++i )
+				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
+
+			String tableHeaderSetting = getProperty( "clanRosterHeader" );
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( options[i][0] ) != -1 );
+		}
+
+		protected void actionConfirmed()
+		{
+			// Apply all the settings before generating the
+			// needed clan ClanSnapshotTable.
+
+			StringBuffer tableHeaderSetting = new StringBuffer();
+
+			for ( int i = 0; i < options.length; ++i )
+				if ( optionBoxes[i].isSelected() )
+					tableHeaderSetting.append( options[i][0] );
+
+			client.getSettings().setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
+			client.getSettings().saveSettings();
+
+			// Now that you've got everything, go ahead and
+			// generate the snapshot.
+
+			ClanManager.takeSnapshot();
+		}
+
+		protected void actionCancelled()
+		{
+			ClanManager.saveStashLog();
 		}
 	}
 

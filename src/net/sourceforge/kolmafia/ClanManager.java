@@ -421,110 +421,6 @@ public class ClanManager extends StaticEntity
 	}
 
 	/**
-	 * Attacks another clan in the Kingdom of Loathing.  This searches the list
-	 * of clans for clans with goodie bags and prompts the user for which clan
-	 * will be attacked.  If the user is not an administrator of the clan, or
-	 * the clan has already attacked someone else in the last three hours, the
-	 * user will be notified that an attack is not possible.
-	 */
-
-	public static void attackClan()
-	{	(new ClanListRequest( client )).run();
-	}
-
-	private static class ClanListRequest extends KoLRequest
-	{
-		public ClanListRequest( KoLmafia client )
-		{	super( client, "clan_attack.php" );
-		}
-
-		public void run()
-		{
-			client.updateDisplay( DISABLE_STATE, "Retrieving list of attackable clans..." );
-
-			super.run();
-
-			if ( responseCode != 200 )
-				return;
-
-			List enemyClans = new ArrayList();
-			Matcher clanMatcher = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" ).matcher( responseText );
-
-			while ( clanMatcher.find() )
-				enemyClans.add( new ClanAttackRequest( client, clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );
-
-			if ( enemyClans.isEmpty() )
-			{
-				KoLRequest details = new KoLRequest( client, "clan_war.php" );
-				details.run();
-
-				Matcher nextMatcher = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" ).matcher( details.responseText );
-				nextMatcher.find();
-
-				JOptionPane.showMessageDialog( null, "Your clan can attack again in " + nextMatcher.group(1) );
-				client.updateDisplay( ENABLE_STATE, "" );
-
-				return;
-			}
-
-			Collections.sort( enemyClans );
-			Object [] enemies = enemyClans.toArray();
-
-			ClanAttackRequest enemy = (ClanAttackRequest) JOptionPane.showInputDialog( null,
-				"Attack the following clan...", "Clans With Goodies", JOptionPane.INFORMATION_MESSAGE, null, enemies, enemies[0] );
-
-			if ( enemy == null )
-			{
-				client.updateDisplay( ERROR_STATE, "" );
-				return;
-			}
-
-			enemy.run();
-		}
-
-		private class ClanAttackRequest extends KoLRequest implements Comparable
-		{
-			private String name;
-			private int goodies;
-
-			public ClanAttackRequest( KoLmafia client, String id, String name, int goodies )
-			{
-				super( client, "clan_attack.php" );
-				addFormField( "whichclan", id );
-
-				this.name = name;
-				this.goodies = goodies;
-			}
-
-			public void run()
-			{
-				client.updateDisplay( DISABLE_STATE, "Attacking " + name + "..." );
-
-				super.run();
-
-				// Theoretically, there should be a test for error state,
-				// but because I'm lazy, that's not happening.
-
-				client.updateDisplay( ENABLE_STATE, "Attack request processed." );
-			}
-
-			public String toString()
-			{	return name + " (" + df.format( goodies ) + " " + (goodies == 1 ? "bag" : "bags") + ")";
-			}
-
-			public int compareTo( Object o )
-			{	return o == null || !(o instanceof ClanAttackRequest) ? -1 : compareTo( (ClanAttackRequest) o );
-			}
-
-			public int compareTo( ClanAttackRequest car )
-			{
-				int goodiesDifference = car.goodies - goodies;
-				return goodiesDifference != 0 ? goodiesDifference : name.compareToIgnoreCase( car.name );
-			}
-		}
-	}
-
-	/**
 	 * Takes a ClanSnapshotTable of clan member data for this clan.  The user will
 	 * be prompted for the data they would like to include in this ClanSnapshotTable,
 	 * including complete player profiles, favorite food, and any other
@@ -542,6 +438,7 @@ public class ClanManager extends StaticEntity
 		File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
 		File softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
 		File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
+		File sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
 
 		if ( standardFile.exists() || softcoreFile.exists() || hardcoreFile.exists() )
 		{
@@ -549,181 +446,96 @@ public class ClanManager extends StaticEntity
 			return;
 		}
 
-		// Prompt the user to determine which settings they would
-		// like during the clan ClanSnapshotTable process.
+		// If initialization was unsuccessful, then there isn't
+		// enough data to create a clan ClanSnapshotTable.
 
-		JDialog dialog = new SnapshotOptionsDialog();
-		dialog.pack();  dialog.setLocationRelativeTo( null );
-		dialog.setVisible( true );
-	}
+		String header = getProperty( "clanRosterHeader" ).toString();
 
-	public static class SnapshotOptionsDialog extends JDialog
-	{
-		private JCheckBox [] optionBoxes;
-		private final String [][] options =
+		boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
+			header.indexOf( "<td>Meat</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Last Login</td>" ) != -1;
+
+		boolean retrieveAscensionData = header.indexOf( "<td>Ascensions</td>" ) != -1;
+
+		if ( !retrieveMemberData( retrieveProfileData, retrieveAscensionData ) )
 		{
-			{ "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>", "Stat points and power" },
-			{ "<td>Title</td><td>Rank</td><td>Karma</td>", "Clan (title, rank, karma)" },
-			{ "<td>PVP</td>", "Current PVP rankings" },
-			{ "<td>Class</td>", "Current class" },
-			{ "<td>Meat</td>", "Wealth accumulated" },
-			{ "<td>Turns</td>", "Total turns used" },
-			{ "<td>Food</td><td>Drink</td>", "Favorites (food, booze)" },
-			{ "<td>Created</td>", "Account creation date" },
-			{ "<td>Last Login</td>", "Last login date" },
-			{ "<td>Ascensions</td>", "Ascension breakdown" }
-		};
-
-		public SnapshotOptionsDialog()
-		{
-			setTitle( "Clan Snapshot Settings" );
-			getContentPane().setLayout( new BorderLayout() );
-			getContentPane().add( new SnapshotOptionsPanel(), BorderLayout.CENTER );
+			client.updateDisplay( ERROR_STATE, "Initialization failed." );
+			return;
 		}
 
-		/**
-		 * This panel handles all of the things related to the clan
-		 * ClanSnapshotTable.  For now, just a list of checkboxes to show
-		 * which fields you want there.
-		 */
+		standardFile.getParentFile().mkdirs();
 
-		private class SnapshotOptionsPanel extends KoLPanel
+		// Now, store the clan snapshot into the appropriate
+		// data folder.
+
+		try
 		{
-			public SnapshotOptionsPanel()
+			PrintStream ostream;
+
+			if ( !header.equals( "<td>Ascensions</td>" ) && !header.equals( "" ) )
 			{
-				super( "confirm", "cancel", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
-				VerifiableElement [] elements = new VerifiableElement[ options.length ];
+				client.updateDisplay( DISABLE_STATE, "Storing clan snapshot..." );
 
-				optionBoxes = new JCheckBox[ options.length ];
-				for ( int i = 0; i < options.length; ++i )
-					optionBoxes[i] = new JCheckBox();
+				ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
+				ostream.println( ClanSnapshotTable.getStandardData() );
+				ostream.close();
 
-				for ( int i = 0; i < options.length; ++i )
-					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+				String line;
+				BufferedReader script = KoLDatabase.getReader( "sorttable.js" );
+				ostream = new PrintStream( new FileOutputStream( sortingScript, true ), true );
 
-				setContent( elements, false );
-				actionCancelled();
+				while ( (line = script.readLine()) != null )
+					ostream.println( line );
+
+				ostream.close();
 			}
 
-			protected void actionConfirmed()
+			if ( retrieveAscensionData )
 			{
-				dispose();
+				client.updateDisplay( DISABLE_STATE, "Storing ascension snapshot..." );
 
-				// Apply all the settings before generating the
-				// needed clan ClanSnapshotTable.
+				ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
+				ostream.println( AscensionSnapshotTable.getAscensionData( true ) );
+				ostream.close();
 
-				StringBuffer tableHeaderSetting = new StringBuffer();
-
-				for ( int i = 0; i < options.length; ++i )
-					if ( optionBoxes[i].isSelected() )
-						tableHeaderSetting.append( options[i][0] );
-
-				client.getSettings().setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
-				client.getSettings().saveSettings();
-
-				// If initialization was unsuccessful, then there isn't
-				// enough data to create a clan ClanSnapshotTable.
-
-				File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
-				File sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
-				File softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
-				File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
-
-				String header = tableHeaderSetting.toString();
-
-				boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
-					header.indexOf( "<td>Meat</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Last Login</td>" ) != -1;
-
-				boolean retrieveAscensionData = header.indexOf( "<td>Ascensions</td>" ) != -1;
-
-				if ( !retrieveMemberData( retrieveProfileData, retrieveAscensionData ) )
-				{
-					client.updateDisplay( ERROR_STATE, "Initialization failed." );
-					return;
-				}
-
-				standardFile.getParentFile().mkdirs();
-
-				// Now, store the clan snapshot into the appropriate
-				// data folder.
-
-				try
-				{
-					PrintStream ostream;
-
-					if ( !header.equals( "<td>Ascensions</td>" ) && !header.equals( "" ) )
-					{
-						client.updateDisplay( DISABLE_STATE, "Storing clan snapshot..." );
-
-						ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
-						ostream.println( ClanSnapshotTable.getStandardData() );
-						ostream.close();
-
-						String line;
-						BufferedReader script = KoLDatabase.getReader( "sorttable.js" );
-						ostream = new PrintStream( new FileOutputStream( sortingScript, true ), true );
-
-						while ( (line = script.readLine()) != null )
-							ostream.println( line );
-
-						ostream.close();
-					}
-
-					if ( retrieveAscensionData )
-					{
-						client.updateDisplay( DISABLE_STATE, "Storing ascension snapshot..." );
-
-						ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
-						ostream.println( AscensionSnapshotTable.getAscensionData( true ) );
-						ostream.close();
-
-						ostream = new PrintStream( new FileOutputStream( hardcoreFile, true ), true );
-						ostream.println( AscensionSnapshotTable.getAscensionData( false ) );
-						ostream.close();
-					}
-				}
-				catch ( Exception e )
-				{
-					client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
-
-					KoLmafia.getLogStream().println( e );
-					e.printStackTrace( KoLmafia.getLogStream() );
-					return;
-				}
-
-				client.updateDisplay( ENABLE_STATE, "Snapshot generation completed." );
-
-				try
-				{
-					// To make things less confusing, load the summary
-					// file inside of the default browser after completion.
-
-					if ( !header.equals( "<td>Ascensions</td>" ) && !header.equals( "" ) )
-						BrowserLauncher.openURL( standardFile.toURL().toString() );
-
-					if ( retrieveAscensionData )
-					{
-						BrowserLauncher.openURL( softcoreFile.toURL().toString() );
-						BrowserLauncher.openURL( hardcoreFile.toURL().toString() );
-					}
-				}
-				catch ( Exception e )
-				{
-					client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
-
-					KoLmafia.getLogStream().println( e );
-					e.printStackTrace( KoLmafia.getLogStream() );
-					return;
-				}
-			}
-
-			protected void actionCancelled()
-			{
-				String tableHeaderSetting = client.getSettings().getProperty( "clanRosterHeader" );
-				for ( int i = 0; i < options.length; ++i )
-					optionBoxes[i].setSelected( tableHeaderSetting.indexOf( options[i][0] ) != -1 );
+				ostream = new PrintStream( new FileOutputStream( hardcoreFile, true ), true );
+				ostream.println( AscensionSnapshotTable.getAscensionData( false ) );
+				ostream.close();
 			}
 		}
+		catch ( Exception e )
+		{
+			client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
+
+			KoLmafia.getLogStream().println( e );
+			e.printStackTrace( KoLmafia.getLogStream() );
+			return;
+		}
+
+		client.updateDisplay( ENABLE_STATE, "Snapshot generation completed." );
+
+		try
+		{
+			// To make things less confusing, load the summary
+			// file inside of the default browser after completion.
+
+			if ( !header.equals( "<td>Ascensions</td>" ) && !header.equals( "" ) )
+				BrowserLauncher.openURL( standardFile.toURL().toString() );
+
+			if ( retrieveAscensionData )
+			{
+				BrowserLauncher.openURL( softcoreFile.toURL().toString() );
+				BrowserLauncher.openURL( hardcoreFile.toURL().toString() );
+			}
+		}
+		catch ( Exception e )
+		{
+			client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
+
+			KoLmafia.getLogStream().println( e );
+			e.printStackTrace( KoLmafia.getLogStream() );
+			return;
+		}
+
 	}
 
 	/**
@@ -1046,117 +858,6 @@ public class ClanManager extends StaticEntity
 					e.printStackTrace();
 				}
 			}
-		}
-	}
-
-	public static void postMessage()
-	{
-		Object [] parameters = new Object[3];
-		parameters[0] = client;
-		parameters[1] = "Clan Board Post";
-		parameters[2] = new MessagePostPanel( "post" );
-
-		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
-	}
-
-	public static void postAnnouncement()
-	{
-		Object [] parameters = new Object[3];
-		parameters[0] = client;
-		parameters[1] = "Clan Announcement";
-		parameters[2] = new MessagePostPanel( "postannounce" );
-
-		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
-	}
-
-	private static class MessagePostPanel extends KoLPanel
-	{
-		private String action;
-		private JTextArea messageEntry;
-
-		public MessagePostPanel( String action )
-		{
-			super( "post", "clear", new Dimension( 1, 20 ), new Dimension( 300, 20 ) );
-			this.action = action;
-
-			messageEntry = new JTextArea( 8, 32 );
-			messageEntry.setLineWrap( true );
-			messageEntry.setWrapStyleWord( true );
-			JScrollPane scrollArea = new JScrollPane( messageEntry,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "", scrollArea );
-			setContent( elements );
-		}
-
-		public void actionConfirmed()
-		{
-			KoLRequest postRequest = new KoLRequest( client, "clan_board.php" );
-			postRequest.addFormField( "action", action );
-			postRequest.addFormField( "message", messageEntry.getText() );
-
-			(new RequestThread( postRequest )).start();
-		}
-
-		public void actionCancelled()
-		{	messageEntry.setText( "" );
-		}
-	}
-
-	/**
-	 * Retrieves the clan announcements from the clan hall and displays
-	 * them in a standard JFrame.
-	 */
-
-	public static void getAnnouncements()
-	{
-		Object [] parameters = new Object[3];
-		parameters[0] = client;
-		parameters[1] = "Clan Announcements";
-		parameters[2] = new ClanMessageRequest( client, "clan_hall.php" );
-
-		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
-	}
-
-	/**
-	 * Retrieves the clan board posts from the clan hall and displays
-	 * them in a standard JFrame.
-	 */
-
-	public static void getMessageBoard()
-	{
-		Object [] parameters = new Object[3];
-		parameters[0] = client;
-		parameters[1] = "Clan Message Board";
-		parameters[2] = new ClanMessageRequest( client, "clan_board.php" );
-
-		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
-	}
-
-	private static class ClanMessageRequest extends KoLRequest
-	{
-		public ClanMessageRequest( KoLmafia client, String location )
-		{	super( client, location );
-		}
-
-		public void run()
-		{
-			super.run();
-
-			int startMessageIndex = responseText.indexOf( "<p><b><center>" );
-			if ( startMessageIndex == -1 )
-				startMessageIndex = responseText.indexOf( "<b><p><center>" );
-
-			// After running the request, filter out the extraneous
-			// HTML in the response text.
-
-			responseText = responseText.substring( startMessageIndex ).replaceAll(
-					"<br />" , "<br>" ).replaceAll( "</?t.*?>" , "\n" ).replaceAll( "<blockquote>", "<br>" ).replaceAll(
-						"</blockquote>", "" ).replaceAll( "\n", "" ).replaceAll( "</?center>", "" ).replaceAll(
-							"</?f.*?>", "" ).replaceAll( "</?p>", "<br><br>" );
-
-			responseText = responseText.substring( responseText.indexOf( "<b>Date" ) );
 		}
 	}
 
