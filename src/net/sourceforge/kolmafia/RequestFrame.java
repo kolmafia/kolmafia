@@ -93,7 +93,7 @@ public class RequestFrame extends KoLFrame
 		super( client, "" );
 
 		this.parent = parent;
-		this.currentRequest = request;
+		this.currentRequest = client.getCurrentRequest() instanceof FightRequest ? client.getCurrentRequest() : request;
 		this.hasSideBar = hasSideBar;
 		setCombatRound( request );
 
