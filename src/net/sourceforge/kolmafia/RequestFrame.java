@@ -350,13 +350,6 @@ public class RequestFrame extends KoLFrame
 			// then return from the attempt to display the request,
 			// since there is nothing to display.
 
-			if ( currentRequest.responseCode == 302 )
-			{
-				currentRequest = client.getCurrentRequest();
-				if ( currentRequest.responseCode == 302 )
-					return;
-			}
-
 			if ( currentRequest.responseText == null || currentRequest.responseText.length() == 0 )
 			{
 				mainBuffer.clearBuffer();
@@ -368,10 +361,10 @@ public class RequestFrame extends KoLFrame
 			// to indicate that you were redirected and the display
 			// cannot be shown in the minibrowser.
 
-			if ( currentRequest.responseCode == 302 )
+			if ( currentRequest.responseText == null || currentRequest.responseText.length() == 0 )
 			{
 				currentRequest = client.getCurrentRequest();
-				if ( currentRequest.responseCode == 302 )
+				if ( currentRequest.responseText == null || currentRequest.responseText.length() == 0 )
 				{
 					mainBuffer.clearBuffer();
 					mainBuffer.append( "Redirected to unknown page: &lt;" + currentRequest.redirectLocation + "&gt;" );
@@ -390,12 +383,8 @@ public class RequestFrame extends KoLFrame
 			KoLCharacter.refreshCalculatedLists();
 			String location = currentRequest.getURLString();
 
-			if ( hasSideBar &&
-			     ( sidePaneRequest == null ||
-			       location.startsWith( "equipment.php" ) ||
-			       location.startsWith( "fight.php" ) ||
-			       location.startsWith( "adventure.php" ) ) )
-			     refreshSidePane();
+			if ( hasSideBar || sidePaneRequest == null || location.indexOf( "?" ) != -1 )
+				refreshSidePane();
 
 			// Keep the client updated of your current equipment and
 			// familiars, if you visit the appropriate pages.

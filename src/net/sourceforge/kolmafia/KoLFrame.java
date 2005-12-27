@@ -200,7 +200,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		this.frameName = getClass().getName();
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
 
-		this.existingFrames.add( this );
+		if ( !(this instanceof SystemTrayFrame) )
+			this.existingFrames.add( this );
 
 		// All frames will have to access the same menu bar for consistency.
 		// Later on, all menu items not added by default will be placed onto
@@ -236,6 +237,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			KoLMessenger.dispose();
 			StaticEntity.closeSession();
+			SystemTrayFrame.removeTrayIcon();
 
 			if ( this instanceof LoginFrame )
 				System.exit(0);

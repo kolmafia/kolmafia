@@ -90,7 +90,6 @@ public class BuffBotFrame extends KoLFrame
 	private MainBuffPanel mainBuff;
 	private BuffOptionsPanel buffOptions;
 	private MainSettingsPanel mainSettings;
-	private CustomSettingsPanel customSettings;
 
 	/**
 	 * Constructs a new <code>BuffBotFrame</code> and inserts all
@@ -103,8 +102,11 @@ public class BuffBotFrame extends KoLFrame
 	{
 		super( client, "BuffBot" );
 
-		BuffBotHome.reset();
-		BuffBotManager.reset();
+		if ( client != null )
+		{
+			BuffBotHome.reset();
+			BuffBotManager.reset();
+		}
 
 		// Initialize the display log buffer and the file log
 
@@ -117,12 +119,10 @@ public class BuffBotFrame extends KoLFrame
 
 		buffOptions = new BuffOptionsPanel();
 		mainSettings = new MainSettingsPanel();
-		customSettings = new CustomSettingsPanel();
 
 		tabs.addTab( "Run Buffbot", containerPanel );
 		tabs.addTab( "Edit Bufflist", buffOptions );
 		tabs.addTab( "Main Settings", mainSettings );
-		tabs.addTab( "Customizations", customSettings );
 
 		addCompactPane();
 		framePanel.add( tabs, BorderLayout.CENTER );
@@ -143,8 +143,6 @@ public class BuffBotFrame extends KoLFrame
 			buffOptions.setEnabled( isEnabled );
 		if ( mainSettings != null )
 			mainSettings.setEnabled( isEnabled );
-		if ( customSettings != null )
-			customSettings.setEnabled( isEnabled );
 	}
 
 	/**
@@ -186,6 +184,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			BuffBotHome.setBuffBotActive( false );
 			BuffBotHome.updateStatus("BuffBot stopped by user.");
+			client.updateDisplay( ERROR_STATE, "Buffbot stopped by user." );
 		}
 	}
 
@@ -292,10 +291,9 @@ public class BuffBotFrame extends KoLFrame
 
 	private class MainSettingsPanel extends KoLPanel
 	{
-		private JComboBox buffBotModeSelect;
 		private JComboBox messageDisposalSelect;
-		private WhiteListEntry whiteListEntry;
-		private JTextArea whiteListEditor;
+		private JTextField autoStockScriptField;
+		private JTextArea whiteListEntry, invalidPriceMessage, thanksMessage;
 
 		public MainSettingsPanel()
 		{
@@ -304,20 +302,17 @@ public class BuffBotFrame extends KoLFrame
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout() );
 
-			LockableListModel buffBotModeChoices = new LockableListModel();
-			buffBotModeChoices.add( "Use standard buffbot" );
-			buffBotModeChoices.add( "Use chat-based buffbot" );
-			buffBotModeSelect = new JComboBox( buffBotModeChoices );
-
 			LockableListModel messageDisposalChoices = new LockableListModel();
 			messageDisposalChoices.add( "Auto-save non-requests" );
 			messageDisposalChoices.add( "Auto-delete non-requests" );
 			messageDisposalChoices.add( "Do nothing to non-requests" );
 			messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
+			autoStockScriptField = new JTextField();
+
 			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Mail refreshes: ", buffBotModeSelect );
-			elements[1] = new VerifiableElement( "Message disposal: ", messageDisposalSelect );
+			elements[0] = new VerifiableElement( "Message disposal: ", messageDisposalSelect );
+			elements[1] = new VerifiableElement( "Autostocking script: ", new ScriptSelectPanel( autoStockScriptField ) );
 			elements[2] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
 
 			setContent( elements );
@@ -327,8 +322,40 @@ public class BuffBotFrame extends KoLFrame
 		public void setContent( VerifiableElement [] elements )
 		{
 			super.setContent( elements );
-			whiteListEntry = new WhiteListEntry();
-			add( whiteListEntry, BorderLayout.CENTER );
+
+			whiteListEntry = new JTextArea();
+			invalidPriceMessage = new JTextArea();
+			thanksMessage = new JTextArea();
+
+			JPanel centerTopPanel = new JPanel( new BorderLayout() );
+			centerTopPanel.add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			centerTopPanel.add( new JScrollPane( whiteListEntry, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			JPanel centerMiddlePanel = new JPanel( new BorderLayout() );
+			centerMiddlePanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			centerMiddlePanel.add( new JScrollPane( invalidPriceMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			JPanel centerBottomPanel = new JPanel( new BorderLayout() );
+			centerBottomPanel.add( JComponentUtilities.createLabel( "Donation Thanks Message", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			centerBottomPanel.add( new JScrollPane( thanksMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			JPanel centerPanel = new JPanel( new GridLayout( 3, 1, 10, 10 ) );
+
+			JComponentUtilities.setComponentSize( centerTopPanel, 300, 120 );
+			JComponentUtilities.setComponentSize( centerMiddlePanel, 300, 120 );
+			JComponentUtilities.setComponentSize( centerBottomPanel, 300, 120 );
+
+			centerPanel.add( centerTopPanel );
+			centerPanel.add( centerMiddlePanel );
+			centerPanel.add( centerBottomPanel );
+
+			add( centerPanel, BorderLayout.CENTER );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -336,107 +363,20 @@ public class BuffBotFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 
 			messageDisposalSelect.setEnabled( isEnabled );
-			buffBotModeSelect.setEnabled( isEnabled );
+			autoStockScriptField.setEnabled( isEnabled );
+
 			whiteListEntry.setEnabled( isEnabled );
+			invalidPriceMessage.setEnabled( isEnabled );
+			thanksMessage.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
 		{
-			setProperty( "useChatBasedBuffBot", String.valueOf( buffBotModeSelect.getSelectedIndex() == 1 ) );
 			setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
+			setProperty( "autoStockScript", autoStockScriptField.getText() );
 			MPRestoreItemList.setProperty();
 
-			String[] whiteListString = whiteListEditor.getText().split("\\s*,\\s*");
-			java.util.Arrays.sort( whiteListString );
-
-			whiteListEditor.setText( whiteListString[0] );
-			for (int i = 1; i < whiteListString.length; i++)
-				if (!whiteListString[i].equals(""))
-					whiteListEditor.append( ", " + whiteListString[i] );
-			setProperty( "whiteList", whiteListEditor.getText() );
-			JOptionPane.showMessageDialog( null, "Settings have been saved!" );
-		}
-
-		public void actionCancelled()
-		{
-			messageDisposalSelect.setSelectedIndex( Integer.parseInt( getProperty( "buffBotMessageDisposal" ) ) );
-			buffBotModeSelect.setSelectedIndex( getProperty( "useChatBasedBuffBot" ).equals( "true" ) ? 1 : 0 );
-			whiteListEditor.setText( getProperty( "whiteList" ) );
-
-			setStatusMessage( NORMAL_STATE, "Settings loaded." );
-		}
-
-		private class WhiteListEntry extends JPanel
-		{
-			public WhiteListEntry()
-			{
-				setLayout( new BorderLayout() );
-
-				whiteListEditor = new JTextArea();
-				whiteListEditor.setEditable( true );
-				whiteListEditor.setLineWrap( true );
-				whiteListEditor.setWrapStyleWord( true );
-
-				JScrollPane scrollArea = new JScrollPane( whiteListEditor,
-						JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-						JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-				add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
-						Color.black, Color.white ), BorderLayout.NORTH );
-
-				JComponentUtilities.setComponentSize( scrollArea, 300, 120 );
-				add( scrollArea, BorderLayout.CENTER );
-			}
-		}
-	}
-
-	/**
-	 * Internal class used to handle everything related to
-	 * additional buffbot features.
-	 */
-
-	private class CustomSettingsPanel extends KoLPanel
-	{
-		private JTextField maxPhilanthropyField;
-		private JTextField autoStockRestoreField;
-		private JTextField autoStockScriptField;
-
-		private JTextArea invalidPriceMessage, thanksMessage;
-
-		public CustomSettingsPanel()
-		{
-			super( "apply", "defaults", new Dimension( 120, 20 ),  new Dimension( 300, 20 ));
-
-			JPanel panel = new JPanel();
-			panel.setLayout( new BorderLayout() );
-
-			maxPhilanthropyField = new JTextField();
-			autoStockRestoreField = new JTextField();
-			autoStockScriptField = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Philanthropy limit: ", maxPhilanthropyField );
-			elements[1] = new VerifiableElement( "When to autostock: ", autoStockRestoreField );
-			elements[2] = new VerifiableElement( "Autostocking script: ", new ScriptSelectPanel( autoStockScriptField ) );
-
-			setContent( elements );
-			actionCancelled();
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			maxPhilanthropyField.setEnabled( isEnabled );
-			autoStockRestoreField.setEnabled( isEnabled );
-			autoStockRestoreField.setEnabled( isEnabled );
-		}
-
-		public void actionConfirmed()
-		{
-			setProperty( "maxPhilanthropy", maxPhilanthropyField.getText() );
-			setProperty( "autoStockRestores", autoStockRestoreField.getText() );
-			setProperty( "autoStockScript", autoStockScriptField.getText() );
-
+			setProperty( "whiteList", whiteListEntry.getText() );
 			setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
 			setProperty( "thanksMessage", thanksMessage.getText() );
 
@@ -445,44 +385,14 @@ public class BuffBotFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			maxPhilanthropyField.setText( getProperty( "maxPhilanthropy" ) );
-			autoStockRestoreField.setText( getProperty( "autoStockRestores" ) );
 			autoStockScriptField.setText( getProperty( "autoStockScript" ) );
+			messageDisposalSelect.setSelectedIndex( Integer.parseInt( getProperty( "buffBotMessageDisposal" ) ) );
 
+			whiteListEntry.setText( getProperty( "whiteList" ) );
 			invalidPriceMessage.setText( getProperty( "invalidBuffMessage" ) );
 			thanksMessage.setText( getProperty( "thanksMessage" ) );
 
 			setStatusMessage( NORMAL_STATE, "Settings loaded." );
-		}
-
-		public void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements );
-
-			invalidPriceMessage = new JTextArea();
-			thanksMessage = new JTextArea();
-
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new GridLayout( 2, 1, 0, 10 ) );
-
-			JPanel centerTopPanel = new JPanel();
-			centerTopPanel.setLayout( new BorderLayout() );
-			centerTopPanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
-			centerTopPanel.add( new JScrollPane( invalidPriceMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-			JPanel centerBottomPanel = new JPanel();
-			centerBottomPanel.setLayout( new BorderLayout() );
-			centerBottomPanel.add( JComponentUtilities.createLabel( "Donation Thanks Message", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
-			centerBottomPanel.add( new JScrollPane( thanksMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-			centerPanel.add( centerTopPanel );
-			centerPanel.add( centerBottomPanel );
-
-			add( centerPanel, BorderLayout.CENTER );
 		}
 	}
 
@@ -492,7 +402,7 @@ public class BuffBotFrame extends KoLFrame
 		BuffBotHome.deinitialize();
 
 		if ( client != null )
-			client.updateDisplay( NORMAL_STATE, "Buffbot deactivated." );
+			client.updateDisplay( ENABLE_STATE, "Buffbot deactivated." );
 	}
 
 	/**

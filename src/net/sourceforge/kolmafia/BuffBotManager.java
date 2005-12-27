@@ -69,8 +69,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static String thanksMessage;
 
 	private static Map buffCostMap = new TreeMap();
-	private static int maxPhilanthropy = 0;
-	private static int autoBuySetting = -1;
 	private static SortedListModel buffCostTable = new SortedListModel();
 	private static String [] whiteListArray = new String[0];
 
@@ -214,15 +212,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		BuffBotHome.setBuffBotActive( true );
 		client.updateDisplay( DISABLE_STATE, "Buffbot started." );
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
-
-		maxPhilanthropy = Integer.parseInt( getProperty( "maxPhilanthropy" ) );
 		messageDisposalSetting = Integer.parseInt( getProperty( "buffBotMessageDisposal" ) );
-
-		if ( getProperty( "useChatBasedBuffBot" ).equals( "true" ) )
-		{
-			iterations = 1;
-			KoLMessenger.initialize();
-		}
 
 		String whiteListString = getProperty( "whiteList" ).toLowerCase();
 		if ( whiteListString.indexOf( "$clan" ) != -1 )
@@ -233,16 +223,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		refundMessage = client.getSettings().getProperty( "invalidBuffMessage" );
 		thanksMessage = client.getSettings().getProperty( "thanksMessage" );
-
-		autoBuySetting = -1;
-
-		try
-		{
-			autoBuySetting = df.parse( client.getSettings().getProperty( "autoBuySetting" ) ).intValue();
-		}
-		catch ( Exception e )
-		{
-		}
 
 		// The outer loop goes until user cancels, or
 		// for however many iterations are needed.
@@ -268,12 +248,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		client.resetContinueState();
 
-		if ( !getProperty( "useChatBasedBuffBot" ).equals( "true" ) )
-		{
-			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
-			client.updateDisplay( NORMAL_STATE, "Buffbot stopped." );
-			BuffBotHome.setBuffBotActive( false );
-		}
+		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
+		client.updateDisplay( NORMAL_STATE, "Buffbot stopped." );
+		BuffBotHome.setBuffBotActive( false );
 	}
 
 	public static void runOnce()
@@ -461,9 +438,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		int currentRestores = -1;
 		int calculatedRestores = client.getRestoreCount();
 
-		if ( calculatedRestores <= autoBuySetting )
+		if ( calculatedRestores < 1000 )
 		{
-			while ( BuffBotHome.isBuffBotActive() && calculatedRestores <= autoBuySetting && currentRestores != calculatedRestores )
+			while ( BuffBotHome.isBuffBotActive() && calculatedRestores < 1000 && currentRestores != calculatedRestores )
 			{
 				currentRestores = calculatedRestores;
 				client.updateDisplay( DISABLE_STATE, "Executing auto-stocking script..." );
@@ -482,7 +459,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				calculatedRestores = client.getRestoreCount();
 			}
 
-			if ( currentRestores == client.getRestoreCount() )
+			if ( currentRestores < 1000 )
 			{
 				client.updateDisplay( ERROR_STATE, "Auto-stocking script failed to buy restores." );
 				return;
@@ -612,7 +589,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			UseSkillRequest.lastUpdate = df.format( meatSent ) + " meat is not a valid buff price.";
 			return false;
 		}
-		else if ( buff.philanthropic && BuffBotHome.getInstanceCount( meatSent, message.getSenderName() ) >= maxPhilanthropy )
+		else if ( buff.philanthropic && BuffBotHome.getInstanceCount( meatSent, message.getSenderName() ) > 0 )
 		{
 			// This is a philanthropic buff and the user has already
 			// requested it the maximum number of times alotted.  The
@@ -620,8 +597,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Philanthropy limit exceeded for " + message.getSenderName() );
 			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + message.getSenderName() );
-			UseSkillRequest.lastUpdate = "This buff may only be requested " + maxPhilanthropy +
-				" time" + (maxPhilanthropy == 1 ? "" : "s") + " per day.";
+			UseSkillRequest.lastUpdate = "This buff may only be requested once per day.";
 
 			return false;
 		}

@@ -124,7 +124,7 @@ public class KoLmafiaGUI extends KoLmafia
 			frames[i].updateTitle();
 
 		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-			existingFrames.add( new SystemTrayFrame( this ) );
+			SystemTrayFrame.addTrayIcon();
 
 		// If you've already loaded an adventure frame,
 		// or the login failed, then there's nothing left

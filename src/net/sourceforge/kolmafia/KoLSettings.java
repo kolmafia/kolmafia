@@ -170,7 +170,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "autoAbortMechaMech", "false" );
 		ensureProperty( "autoLogChat", "false" );
 		ensureProperty( "autoLogin", "" );
-		ensureProperty( "autoStockRestores", "-1" );
 		ensureProperty( "autoStockScript", "" );
 		ensureProperty( "battleAction", "attack" );
 		ensureProperty( "battleStop", "0.0" );
@@ -201,7 +200,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "lastAdventure", "" );
 		ensureProperty( "loginServer", "0" );
 		ensureProperty( "luckySewer", "2,8,13" );
-		ensureProperty( "maxPhilanthropy", "1" );
 		ensureProperty( "mpAutoRecover", "-0.1" );
 		ensureProperty( "proxySet", "false" );
 		ensureProperty( "reloadFrames", "" );
@@ -212,7 +210,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
 		ensureProperty( "toolbarPosition", "1" );
-		ensureProperty( "useChatBasedBuffBot", "false" );
 		ensureProperty( "useClockworkBoxes", "false" );
 		ensureProperty( "userInterfaceMode", "0" );
 		ensureProperty( "useTabbedChat", "1" );

@@ -155,13 +155,6 @@ public class ChatRequest extends KoLRequest
 
 		if ( !(client instanceof KoLmafiaCLI) )
 			KoLMessenger.updateChat( responseText );
-
-		// If the person is running the chat-based buffbot engine,
-		// then go ahead and immediately process the buffs before
-		// the next chat refresh iteration.
-
-		if ( BuffBotHome.isBuffBotActive() && getProperty( "useChatBasedBuffBot" ).equals( "true" ) && responseText.indexOf( "New message" ) != -1 )
-			BuffBotManager.runOnce();
 	}
 
 	/**

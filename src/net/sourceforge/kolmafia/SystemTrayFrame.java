@@ -13,12 +13,10 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class SystemTrayFrame extends KoLFrame implements Runnable
 {
-	private SystemTrayIconManager manager;
+	private static SystemTrayIconManager manager = null;
 
-	public SystemTrayFrame( KoLmafia client )
-	{
-		super( client, "SystemTrayFrame" );
-		(new Thread( this )).start();
+	private SystemTrayFrame()
+	{	super( StaticEntity.getClient(), "SystemTrayFrame" );
 	}
 
 	public void run()
@@ -66,7 +64,8 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 			// to make use of the system tray.
 
 			System.load( library.getAbsolutePath() );
-			this.manager = new SystemTrayIconManager( SystemTrayIconManager.loadImage( trayicon.getAbsolutePath() ), VERSION_NAME );
+			SystemTrayFrame.manager = new SystemTrayIconManager( SystemTrayIconManager.loadImage( trayicon.getAbsolutePath() ),
+				VERSION_NAME + ": " + KoLCharacter.getUsername() );
 
 			JPopupMenu popup = new JPopupMenu();
 			constructMenus( popup );
@@ -81,16 +80,23 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 		}
 	}
 
-	public void dispose()
-	{
-		super.dispose();
+	public static void addTrayIcon()
+	{	(new Thread( new SystemTrayFrame() )).start();
+	}
 
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-		
-		for ( int i = 0; i < frames.length; ++i )
-			frames[i].dispose();
-	
-		manager.setVisible( false );
+	public static void removeTrayIcon()
+	{
+		if ( manager != null )
+		{
+			manager.setVisible( false );
+
+			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+			existingFrames.toArray( frames );
+
+			for ( int i = 0; i < frames.length; ++i )
+				frames[i].dispose();
+
+			manager.setVisible( false );
+		}
 	}
 }
