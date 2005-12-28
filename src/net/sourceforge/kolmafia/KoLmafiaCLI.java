@@ -2043,7 +2043,7 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	private AdventureResult getFirstMatchingItem( String parameters, int matchType )
-	{	return getFirstMatchingItem( parameters, matchType, NOWHERE );
+	{	return getFirstMatchingItem( parameters, matchType, 1 );
 	}
 
 	/**
