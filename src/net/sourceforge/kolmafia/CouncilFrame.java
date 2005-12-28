@@ -47,7 +47,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class CouncilFrame extends RequestFrame
 {
 	public CouncilFrame( KoLmafia client )
-	{	super( client, null, new KoLRequest( client, "council.php", true ), false );
+	{	super( client, null, new KoLRequest( client, "council.php", true ) );
 	}
 
 	protected String getDisplayHTML( String responseText )

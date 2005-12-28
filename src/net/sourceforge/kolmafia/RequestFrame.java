@@ -78,6 +78,7 @@ public class RequestFrame extends KoLFrame
 	private LimitedSizeChatBuffer mainBuffer;
 
 	private boolean hasSideBar;
+	private boolean isRefreshing = false;
 	private LimitedSizeChatBuffer sideBuffer;
 	private CharpaneRequest sidePaneRequest;
 
@@ -94,16 +95,12 @@ public class RequestFrame extends KoLFrame
 	}
 
 	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request )
-	{	this( client, null, request, request == null || request.getURLString().equals( "main.php" ) );
-	}
-
-	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request, boolean hasSideBar )
 	{
 		super( client, "" );
 
 		this.parent = parent;
 		this.currentRequest = client == null || !(client.getCurrentRequest() instanceof FightRequest) ? request : client.getCurrentRequest();
-		this.hasSideBar = hasSideBar;
+		this.hasSideBar = getClass() == RequestFrame.class;
 		setCombatRound( request );
 
 		this.mainDisplay = new JEditorPane();
@@ -258,6 +255,11 @@ public class RequestFrame extends KoLFrame
 		if ( !hasSideBar )
 			return;
 
+		if ( isRefreshing )
+			return;
+
+		isRefreshing = true;
+
 		if ( sidePaneRequest == null )
 			sidePaneRequest = new CharpaneRequest( client );
 
@@ -265,6 +267,8 @@ public class RequestFrame extends KoLFrame
 		sideBuffer.clearBuffer();
 		sideBuffer.append( getDisplayHTML( sidePaneRequest.responseText ) );
 		sideDisplay.setCaretPosition(0);
+
+		isRefreshing = false;
 	}
 
 	/**
@@ -429,7 +433,7 @@ public class RequestFrame extends KoLFrame
 			KoLCharacter.refreshCalculatedLists();
 			String location = currentRequest.getURLString();
 
-			if ( client != null && (hasSideBar || sidePaneRequest == null || location.indexOf( "?" ) != -1) )
+			if ( client != null && hasSideBar && (sidePaneRequest == null || location.indexOf( "?" ) != -1) )
 				refreshSidePane();
 
 			// Keep the client updated of your current equipment and
