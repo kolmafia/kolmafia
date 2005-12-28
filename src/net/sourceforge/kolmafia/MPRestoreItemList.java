@@ -52,6 +52,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class MPRestoreItemList extends StaticEntity
 {
+	public static final MPRestoreItem GALAKTIK = new MPRestoreItem( "doc galaktik", 1, 20 );
 	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", 80, -1 );
 	public static final MPRestoreItem HOUSE = new MPRestoreItem( "rest at campsite", 40, -1 );
 
@@ -83,6 +84,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		list.add( new MPRestoreItem( "Knob Goblin seltzer", 5, 80 ) );
 		list.add( new MPRestoreItem( "green pixel potion", 15, 500 ) );
 		list.add( new MPRestoreItem( "blue pixel potion", 19, 800 ) );
+		list.add( new MPRestoreItem( "blatantly Canadian", 24, 1000 ) );
 	}
 
 	public static MPRestoreItem get( int index )
@@ -172,6 +174,12 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public void recoverMP()
 		{
+			if ( this == GALAKTIK )
+			{
+				(new GalaktikRequest( client, GalaktikRequest.MP )).run();
+				return;
+			}
+
 			if ( this == BEANBAG )
 			{
 				client.updateDisplay( DISABLE_STATE, "Relaxing in beanbag chair..." );

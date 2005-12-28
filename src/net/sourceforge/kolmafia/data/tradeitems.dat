@@ -341,10 +341,10 @@
 341	Knob Goblin love potion	3	85
 342	Knob Goblin stink bomb	0	65
 343	Knob Goblin sharpening spray	4	115
-344	Knob Goblin seltzer	4	44
-345	Knob Goblin superseltzer	4	49
+344	Knob Goblin seltzer	14	44
+345	Knob Goblin superseltzer	14	49
 346	scrumptious reagent	0	1
-347	Dyspepsi-Cola	4	52
+347	Dyspepsi-Cola	14	52
 348	cold ninja mask	9	75
 349	icy katana hilt	0	64
 350	hot katana blade	0	35
@@ -354,7 +354,7 @@
 354	frozen nunchaku	12	90
 355	eXtreme scarf	9	115
 356	snowboarder pants	10	115
-357	Mountain Stream soda	4	58
+357	Mountain Stream soda	14	58
 358	gr8ps	1	59
 359	t8r tots	1	58
 360	miner's helmet	9	85
@@ -462,8 +462,8 @@
 462	green pixel	0	25
 463	blue pixel	0	25
 464	red pixel potion	4	50
-465	blue pixel potion	4	50
-466	green pixel potion	4	50
+465	blue pixel potion	14	50
+466	green pixel potion	14	50
 467	purple pixel pie	1	50
 468	ruby W	0	33
 469	wussiness potion	3	28
@@ -515,7 +515,7 @@
 515	Sneaky Pete's key lime pie	1	123
 516	Hey Deze map	3	0
 517	bejeweled accordion strap	8	1000
-518	magical mystery juice	4	50
+518	magical mystery juice	14	50
 519	moxie magnet	8	1500
 520	strange leaflet	0	0
 521	kickback cookbook	8	2000
@@ -589,8 +589,8 @@
 589	cocoa eggshell fragment	1	114
 590	large cocoa eggshell fragment	1	214
 591	cocoa egg	5	403
-592	tiny house	4	107
-593	phonics down	4	115
+592	tiny house	14	107
+593	phonics down	14	115
 594	amulet of extreme plot significance	8	205
 595	scroll of drastic healing	3	107
 596	titanium assault umbrella	12	155
@@ -879,7 +879,7 @@
 879	goofballs	0	0
 880	disbelief suspenders	0	95
 881	supportive bra	11	55
-882	Blatantly Canadian	3	75
+882	Blatantly Canadian	14	75
 883	maple syrup	2	60
 884	los chinos	10	60
 885	wooden axe	12	65
@@ -1000,7 +1000,7 @@
 1000	Meat maid	3	220
 1001
 1002	Xlyinia's notebook	0	0
-1003	soda water	4	35
+1003	soda water	14	35
 1004	bottle of tequila	2	35
 1005	boxed wine	2	35
 1006	cherry	1	60

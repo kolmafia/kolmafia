@@ -52,6 +52,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int EQUIP_SHIRT = 11;
 	public static final int EQUIP_WEAPON = 12;
 	public static final int EQUIP_OFFHAND = 13;
+	public static final int CONSUME_RESTORE = 14;
 
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
@@ -84,12 +85,18 @@ public class ConsumeItemRequest extends KoLRequest
 	private ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
 	{
 		super( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
-			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" : "inv_use.php" );
+			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" :
+			consumptionType == CONSUME_RESTORE ? "skills.php" : "inv_use.php" );
 
 		if ( consumptionType == CONSUME_MULTIPLE )
 		{
 			addFormField( "action", "useitem" );
 			addFormField( "quantity", String.valueOf( item.getCount() ) );
+		}
+		if ( consumptionType == CONSUME_RESTORE )
+		{
+			addFormField( "action", "useitem" );
+			addFormField( "itemquantity", String.valueOf( item.getCount() ) );
 		}
 
 		addFormField( "whichitem", "" + item.getItemID() );

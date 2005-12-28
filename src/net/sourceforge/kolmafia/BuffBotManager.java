@@ -433,14 +433,14 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * the user has specified this in their settings).
 	 */
 
-	private static void stockRestores() throws Exception
+	private static void stockRestores()
 	{
 		int currentRestores = -1;
 		int calculatedRestores = client.getRestoreCount();
 
-		if ( calculatedRestores < 1000 )
+		if ( calculatedRestores == 0 )
 		{
-			while ( BuffBotHome.isBuffBotActive() && calculatedRestores < 1000 && currentRestores != calculatedRestores )
+			while ( BuffBotHome.isBuffBotActive() && calculatedRestores == 0 && currentRestores != calculatedRestores )
 			{
 				currentRestores = calculatedRestores;
 				client.updateDisplay( DISABLE_STATE, "Executing auto-stocking script..." );
@@ -449,7 +449,15 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				File autoStockScript = new File( scriptPath );
 
 				if ( autoStockScript.exists() )
-					(new KoLmafiaCLI( client, new FileInputStream( autoStockScript ) )).listenForCommands();
+				{
+					try
+					{
+						(new KoLmafiaCLI( client, new FileInputStream( autoStockScript ) )).listenForCommands();
+					}
+					catch ( Exception e )
+					{
+					}
+				}
 				else
 				{
 					client.updateDisplay( ERROR_STATE, "Could not find auto-stocking script." );
@@ -459,7 +467,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				calculatedRestores = client.getRestoreCount();
 			}
 
-			if ( currentRestores < 1000 )
+			if ( currentRestores == 0 )
 			{
 				client.updateDisplay( ERROR_STATE, "Auto-stocking script failed to buy restores." );
 				return;
@@ -720,6 +728,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				// If you're unable to recover your mana, then return
 				// whether or not at least one buff was cast.
 
+				stockRestores();
 				if ( !client.recoverMP( mpPerEvent ) )
 					return castsRemaining < castCount;
 
