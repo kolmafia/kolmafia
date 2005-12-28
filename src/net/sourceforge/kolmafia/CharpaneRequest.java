@@ -52,6 +52,7 @@ import java.util.StringTokenizer;
 public class CharpaneRequest extends KoLRequest
 {
 	private static boolean runOnce = false;
+	private boolean isRunning = false;
 
 	public CharpaneRequest( KoLmafia client )
 	{
@@ -78,11 +79,17 @@ public class CharpaneRequest extends KoLRequest
 	public void run()
 	{
 		runOnce = true;
+
+		if ( isRunning )
+			return;
+
+		isRunning = true;
 		super.run();
 
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
 
+		isRunning = false;
 		if ( responseCode != 200 )
 			return;
 
