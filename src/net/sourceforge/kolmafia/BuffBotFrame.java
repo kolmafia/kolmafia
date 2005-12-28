@@ -327,6 +327,13 @@ public class BuffBotFrame extends KoLFrame
 			invalidPriceMessage = new JTextArea();
 			thanksMessage = new JTextArea();
 
+			whiteListEntry.setLineWrap( true );
+			whiteListEntry.setWrapStyleWord( true );
+			invalidPriceMessage.setLineWrap( true );
+			invalidPriceMessage.setWrapStyleWord( true );
+			thanksMessage.setLineWrap( true );
+			thanksMessage.setWrapStyleWord( true );
+
 			JPanel centerTopPanel = new JPanel( new BorderLayout() );
 			centerTopPanel.add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );

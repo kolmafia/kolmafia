@@ -38,12 +38,14 @@ import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 
+import javax.swing.JDialog;
+import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.JOptionPane;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -71,8 +73,9 @@ public class ContactListFrame extends KoLFrame
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( new ContactListPanel(), "" );
 
-		this.toolbarPanel.add( new InvocationButton( "Convert to list", "copy.gif", this, "convertToCDL" ) );
-		this.toolbarPanel.add( new InvocationButton( "Buff selected players", "buff.gif", this, "buffSelected" ) );
+		this.toolbarPanel.add( new InvocationButton( "Show as list", "copy.gif", this, "convertToCDL" ) );
+		this.toolbarPanel.add( new InvocationButton( "Mass-buff", "buff.gif", this, "buffSelected" ) );
+		this.toolbarPanel.add( new InvocationButton( "Mass-mail", "mail.gif", this, "mailSelected" ) );
 
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 		pack();
@@ -99,6 +102,36 @@ public class ContactListFrame extends KoLFrame
 		return selectedPlayers;
 	}
 
+	public void convertToCDL()
+	{
+		if ( client == null )
+			return;
+
+		StringBuffer listCDL = new StringBuffer();
+		Object [] selectedPlayers = getSelectedPlayers();
+
+		for ( int i = 0; i < selectedPlayers.length; ++i )
+		{
+			if ( i != 0 )  listCDL.append( ", " );
+			listCDL.append( (String) selectedPlayers[i] );
+		}
+
+		JDialog dialogCDL = new JDialog( this, "Here's your CDL!" );
+		JTextArea entryCDL = new JTextArea();
+
+		entryCDL.setLineWrap( true );
+		entryCDL.setWrapStyleWord( true );
+
+		JScrollPane scrollCDL = new JScrollPane( entryCDL, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		JComponentUtilities.setComponentSize( scrollCDL, 250, 120 );
+		dialogCDL.getContentPane().add( scrollCDL );
+
+		entryCDL.setText( listCDL.toString() );
+		dialogCDL.pack();  dialogCDL.show();
+	}
+
 	public void buffSelected()
 	{
 		if ( client == null )
@@ -122,30 +155,12 @@ public class ContactListFrame extends KoLFrame
 		(new RequestThread( requests )).start();
 	}
 
-	public void convertToCDL()
-	{
-		if ( client == null )
-			return;
-
-		StringBuffer listCDL = new StringBuffer();
-		Object [] selectedPlayers = getSelectedPlayers();
-
-		for ( int i = 0; i < selectedPlayers.length; ++i )
-		{
-			if ( i != 0 )  listCDL.append( ", " );
-			listCDL.append( (String) selectedPlayers[i] );
-		}
-
-		JOptionPane.showInputDialog( "Here's your CDL!", listCDL.toString() );
-	}
-
 	private class ContactListPanel extends JPanel
 	{
 		public ContactListPanel()
 		{
 			setLayout( new GridLayout( 1, 1 ) );
 			contactsDisplay = new JList( contacts );
-			contactsDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 			contactsDisplay.setVisibleRowCount( 25 );
 			contactsDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
