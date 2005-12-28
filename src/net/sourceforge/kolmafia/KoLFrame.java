@@ -102,6 +102,7 @@ import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * An extended <code>JFrame</code> which provides all the frames in
@@ -126,7 +127,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected static LockableListModel scripts = new LockableListModel();
 
-	protected static LockableListModel bookmarks = new LockableListModel();
+	protected static SortedListModel bookmarks = new SortedListModel( String.class );
+	private static boolean bookmarksCompiled = false;
 	protected JMenu bookmarkMenu;
 
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "sungraphics-license.txt", "systray-license.txt" };
@@ -1710,7 +1712,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			if ( newName == null )
 				return;
 
-			bookmarks.set( index, newName + "|" + location + "|" + pwdhash );
+			bookmarks.remove( index );
+			bookmarks.add( newName + "|" + location + "|" + pwdhash );
 			saveBookmarks();
 		}
 
@@ -1763,7 +1766,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected void compileBookmarks()
 	{
-		bookmarks.clear();
+		// Read the setting into the list only once.  The list and
+		// setting are subsequently kept in synch.
+		if ( bookmarksCompiled )
+			return;
+
+		bookmarksCompiled = true;
 
 		String [] bookmarkData = GLOBAL_SETTINGS.getProperty( "browserBookmarks" ).split( "\\|" );
 		String name, location, pwdhash;
@@ -1771,9 +1779,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( bookmarkData.length > 1 )
 			for ( int i = 0; i < bookmarkData.length; ++i )
 				bookmarks.add( bookmarkData[i] + "|" + bookmarkData[++i] + "|" + bookmarkData[++i] );
-
-		// Sort the bookmarks
-		java.util.Collections.sort( bookmarks, new BookmarkComparator() );
 	}
 
 	/**
@@ -1783,9 +1788,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected void saveBookmarks()
 	{
-		// Sort the bookmarks
-		java.util.Collections.sort( bookmarks, new BookmarkComparator() );
-
 		StringBuffer bookmarkData = new StringBuffer();
 
 		for ( int i = 0; i < bookmarks.size(); ++i )
@@ -1797,12 +1799,5 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		GLOBAL_SETTINGS.setProperty( "browserBookmarks", bookmarkData.toString() );
 		GLOBAL_SETTINGS.saveSettings();
-	}
-
-	private static class BookmarkComparator implements Comparator
-	{
-		public int compare( Object o1, Object o2 )
-		{	return ((String)o1).compareTo( ((String)o2) );
-		}
 	}
 }
