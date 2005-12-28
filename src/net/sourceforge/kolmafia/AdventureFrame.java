@@ -988,15 +988,7 @@ public class AdventureFrame extends KoLFrame
 			if ( buffName == null )
 				return;
 
-			String [] targets = targetField.getText().split( "," );
-			for ( int i = 0; i < targets.length; ++i )
-				targets[i] = targets[i].trim();
-
-			for ( int i = 0; i < targets.length; ++i )
-				if ( targets[i] != null )
-					for ( int j = i + 1; j < targets.length; ++j )
-						if ( targets[j] == null || targets[i].equals( targets[j] ) )
-							targets[j] = null;
+			String [] targets = client.extractTargets( targetField.getText() );
 
 			int buffCount = maxBuff ?
 				(int) ( KoLCharacter.getCurrentMP() /
