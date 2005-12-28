@@ -510,30 +510,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// of creation.  This can be done by consulting the
 		// creation table.
 
-		ItemCreationRequest creationRequest = ItemCreationRequest.getInstance( client, servant );
+		AdventureDatabase.retrieveItem( servant );
 
-		// If it turns out that you can create the servant,
-		// it is available in one of three locations - already
-		// in the inventory, inside of the closet, or ready
-		// for creation.  Issue the appropriate checks.
-
-		if ( !KoLCharacter.getInventory().contains( servant ) )
+		if ( servant.getCount( KoLCharacter.getInventory() ) < 1 )
 		{
-			if ( KoLCharacter.getCloset().contains( servant ) )
-			{
-				updateDisplay( DISABLE_STATE, "Retrieving " + servant.getName() + " from closet..." );
-				AdventureResult [] servantArray = { servant };
-				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, servantArray )).run();
-			}
-			else if ( ConcoctionsDatabase.getConcoctions().contains( creationRequest ) )
-			{
-				creationRequest.run();
-			}
-			else
-			{
-				updateDisplay( ERROR_STATE, "Could not auto-repair " + servant.getName() + "." );
-				return false;
-			}
+			updateDisplay( ERROR_STATE, "Could not auto-repair " + servant.getName() + "." );
+			return false;
 		}
 
 		// Once you hit this point, you're guaranteed to
