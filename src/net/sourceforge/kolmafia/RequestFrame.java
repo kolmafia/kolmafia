@@ -72,6 +72,7 @@ public class RequestFrame extends KoLFrame
 	private List visitedLocations = new ArrayList();
 
 	private int combatRound;
+	private String lastResponseText = "";
 
 	private RequestFrame parent;
 	private KoLRequest currentRequest;
@@ -227,7 +228,7 @@ public class RequestFrame extends KoLFrame
 
 	public void refresh( KoLRequest request )
 	{
-		if ( request == currentRequest && request.responseText != null && !request.responseText.equals( "" ) )
+		if ( request == currentRequest && lastResponseText.equals( request.responseText ) )
 			return;
 
 		String location = request.getURLString();
@@ -462,6 +463,8 @@ public class RequestFrame extends KoLFrame
 
 			if ( location.indexOf( "mushroom" ) != -1 )
 				MushroomPlot.parsePlot( currentRequest.responseText );
+
+			lastResponseText = currentRequest.responseText;
 		}
 	}
 
