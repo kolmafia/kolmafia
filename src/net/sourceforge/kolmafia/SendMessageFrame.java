@@ -243,13 +243,31 @@ public abstract class SendMessageFrame extends KoLFrame
 			if ( client == null )
 				return;
 
-			String recipient = recipientEntry.getText();
+			String [] recipients = client.extractTargets( recipientEntry.getText() );
+
+			// Limit the number of messages which can be sent
+			// to just eleven, as was the case with KoLmelion.
+
+			if ( recipients.length > 11 )
+			{
+				client.updateDisplay( ERROR_STATE, "Maximum number of users exceeded." );
+				return;
+			}
+
 			String [] messages = new String[ messageEntry.length ];
 
 			for ( int i = 0; i < messageEntry.length; ++i )
 				messages[i] = messageEntry[i].getText();
 
-			if ( sendMessage( recipient, messages ) && SendMessageFrame.this instanceof ProposeTradeFrame )
+			// Send the message to all recipients on the list.
+			// If one of them fails, however, immediately stop
+			// and notify the user that there was failure.
+
+			for ( int i = 0; i < recipients.length; ++i )
+				if ( !sendMessage( recipients[i], messages ) )
+					return;
+
+			if ( SendMessageFrame.this instanceof ProposeTradeFrame )
 				SendMessageFrame.this.dispose();
 		}
 	}
