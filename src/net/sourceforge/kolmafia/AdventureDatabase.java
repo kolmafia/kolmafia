@@ -515,28 +515,54 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			int creationCount = creation.getCount( ConcoctionsDatabase.getConcoctions() );
 
-			// If the item can be created to the extent needed, then
-			// go ahead and create the item.
+			// If the item can be created, then go ahead and try
+			// to create the item.
 
-			if ( creationCount >= missingCount )
-			{
-				creation.run();
-			}
-			else if ( creationCount > 0 )
-			{
-				// Otherwise, create as many of the item as you can
-				// and fall through to the next satisfaction attempt.
+			if ( creationCount > 0 )
+				ItemCreationRequest.getInstance( client, item.getItemID(), Math.min( creationCount, missingCount ) ).run();
+		}
 
-				ItemCreationRequest.getInstance( client, item.getItemID(), creationCount ).run();
+		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+
+		if ( missingCount <= 0 )
+			return;
+
+		// If the character is ready to interact with other players,
+		// then they have infinite pulls.  Go ahead and pull the item
+		// that's needed from storage.
+
+		if ( KoLCharacter.canInteract() )
+		{
+			int storageCount = item.getCount( KoLCharacter.getStorage() );
+
+			// Execute the needed command to pull the item from storage,
+			// rather than attempt to instantiate a new storage request.
+
+			if ( storageCount > 0 )
+			{
+				try
+				{
+					KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
+					purchaser.executeLine( "hagnk " + Math.min( storageCount, missingCount ) + " " + item.getName() );
+				}
+				catch ( Exception e )
+				{
+					// This should not happen, so go
+					// ahead and ignore it.
+				}
 			}
 		}
 
 		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
-		// Now, if the user wishes to retrieve items from the mall,
-		// then allow them to make the purchases.
+		if ( missingCount <= 0 )
+			return;
 
-		if ( missingCount > 0 )
+		// If all else fails, attempt to make a purchase from the
+		// mall.  Note that this is only possible if the character
+		// can interact with other players.
+
+		if ( KoLCharacter.canInteract() )
 		{
 			try
 			{
