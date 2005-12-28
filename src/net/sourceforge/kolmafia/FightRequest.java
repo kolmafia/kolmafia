@@ -145,8 +145,6 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
-		super.run();
-
 		if ( action.equals( "..." ) || !client.permitsContinue() )
 		{
 			client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
@@ -155,6 +153,8 @@ public class FightRequest extends KoLRequest
 			showInBrowser( true );
 			return;
 		}
+
+		super.run();
 
 		// If there were no problems, then begin fighting the battle,
 		// checking for termination conditions
