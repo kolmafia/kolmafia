@@ -562,18 +562,15 @@ public class AdventureDatabase extends KoLDatabase
 		// mall.  Note that this is only possible if the character
 		// can interact with other players.
 
-		if ( KoLCharacter.canInteract() )
+		try
 		{
-			try
-			{
-				KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
-				purchaser.executeLine( "buy " + missingCount + " " + item.getName() );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen, so go
-				// ahead and ignore it.
-			}
+			KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
+			purchaser.executeLine( "buy " + missingCount + " " + item.getName() );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen, so go
+			// ahead and ignore it.
 		}
 
 		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
