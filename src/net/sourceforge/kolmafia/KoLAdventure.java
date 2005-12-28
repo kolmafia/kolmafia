@@ -245,6 +245,16 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			int beatenUpCount = request.responseCode == 302 ? 3 : 4;
 			client.processResult( BEATEN_UP.getInstance( beatenUpCount - BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 		}
+
+		// After running the request, make sure you have enough
+		// mana and health to continue so you don't get an abort
+		// when the user has a good script already there.
+
+		if ( !formSource.equals( "campground.php" ) )
+		{
+			client.recoverHP();
+			client.recoverMP();
+		}
 	}
 
 	/**

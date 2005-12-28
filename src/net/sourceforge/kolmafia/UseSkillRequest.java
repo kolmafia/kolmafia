@@ -201,5 +201,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( BuffBotHome.isBuffBotActive() )
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
 		}
+
+		// To minimize the amount of confusion, go ahead and restore mana
+		// once the request is complete.
+
+		client.recoverMP();
 	}
 }
