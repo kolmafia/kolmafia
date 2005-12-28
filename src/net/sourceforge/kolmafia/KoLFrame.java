@@ -87,6 +87,7 @@ import java.io.FileInputStream;
 import java.lang.reflect.Method;
 
 import java.util.List;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -1659,7 +1660,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 				public void actionConfirmed()
 				{
-					bookmarks.add( new DisplayRequestMenuItem( nameField.getText(), locationField.getText() ) );
+					// Strip pwdhash out of location and
+					// set third parameter correctly
+					bookmarks.add( nameField.getText() + "|" + locationField.getText() + "|false" );
 					saveBookmarks();
 
 					AddBookmarkDialog.this.dispose();
@@ -1688,16 +1691,26 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public void actionConfirmed()
 		{
-			DisplayRequestMenuItem currentItem = (DisplayRequestMenuItem) elementList.getSelectedValue();
+			int index = elementList.getSelectedIndex();
+			if ( index == -1 )
+				return;
+
+			String currentItem = (String)elementList.getSelectedValue();
 			if ( currentItem == null )
 				return;
 
-			String name = JOptionPane.showInputDialog( "Name your bookmark?", currentItem.getText() );
+			String [] bookmarkData = currentItem.split( "\\|" );
 
-			if ( name == null )
+			String name = bookmarkData[0];
+			String location = bookmarkData[1];
+			String pwdhash = bookmarkData[2];
+
+			String newName = JOptionPane.showInputDialog( "Name your bookmark?", name );
+
+			if ( newName == null )
 				return;
 
-			currentItem.setText( name );
+			bookmarks.set( index, newName + "|" + location + "|" + pwdhash );
 			saveBookmarks();
 		}
 
@@ -1758,6 +1771,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( bookmarkData.length > 1 )
 			for ( int i = 0; i < bookmarkData.length; ++i )
 				bookmarks.add( bookmarkData[i] + "|" + bookmarkData[++i] + "|" + bookmarkData[++i] );
+
+		// Sort the bookmarks
+		java.util.Collections.sort( bookmarks, new BookmarkComparator() );
 	}
 
 	/**
@@ -1767,18 +1783,26 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected void saveBookmarks()
 	{
+		// Sort the bookmarks
+		java.util.Collections.sort( bookmarks, new BookmarkComparator() );
+
 		StringBuffer bookmarkData = new StringBuffer();
 
-		if ( !bookmarks.isEmpty() )
-			bookmarkData.append( ((DisplayRequestMenuItem)bookmarks.get(0)).toSettingString() );
-
-		for ( int i = 1; i < bookmarks.size(); ++i )
+		for ( int i = 0; i < bookmarks.size(); ++i )
 		{
-			bookmarkData.append( '|' );
-			bookmarkData.append( ((DisplayRequestMenuItem)bookmarks.get(i)).toSettingString() );
+			if ( i > 0 )
+				bookmarkData.append( '|' );
+			bookmarkData.append( (String)bookmarks.get(i) );
 		}
 
 		GLOBAL_SETTINGS.setProperty( "browserBookmarks", bookmarkData.toString() );
 		GLOBAL_SETTINGS.saveSettings();
+	}
+
+	private static class BookmarkComparator implements Comparator
+	{
+		public int compare( Object o1, Object o2 )
+		{	return ((String)o1).compareTo( ((String)o2) );
+		}
 	}
 }
