@@ -1823,7 +1823,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( purchases[i] instanceof MallPurchaseRequest )
 			{
 				currentRequest = (MallPurchaseRequest) purchases[i];
-				AdventureResult result = new AdventureResult( currentRequest.getItemName(), 0 );
+				AdventureResult result = new AdventureResult( currentRequest.getItemName(), 0, false );
 
 				// Keep track of how many of the item you had before
 				// you run the purchase request
