@@ -100,7 +100,10 @@ public class RequestFrame extends KoLFrame
 
 		this.parent = parent;
 		this.currentRequest = client == null || !(client.getCurrentRequest() instanceof FightRequest) ? request : client.getCurrentRequest();
-		this.hasSideBar = getClass() == RequestFrame.class;
+
+		this.hasSideBar = getClass() == RequestFrame.class && request != null && !request.getURLString().startsWith( "desc" ) &&
+			 !request.getURLString().startsWith( "doc" ) && !request.getURLString().startsWith( "searchp" );
+
 		setCombatRound( request );
 
 		this.mainDisplay = new JEditorPane();
@@ -224,6 +227,9 @@ public class RequestFrame extends KoLFrame
 
 	public void refresh( KoLRequest request )
 	{
+		if ( request == currentRequest && request.responseText != null && !request.responseText.equals( "" ) )
+			return;
+
 		String location = request.getURLString();
 
 		if ( parent == null )

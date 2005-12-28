@@ -66,21 +66,39 @@ public class FightFrame extends RequestFrame
 
 	public static void showRequest( KoLRequest request )
 	{
-		// Parameters which will be used to render the
-		// request frame.
+		// If there's a currently open mini-browser window
+		// that has a sidebar, then use it instead.
 
-		Object [] parameters = new Object[2];
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
 
-		parameters[0] = StaticEntity.getClient();
-		parameters[1] = request;
+		for ( int i = 0; i < frames.length; ++i )
+		{
+			if ( frames[i].getClass() == RequestFrame.class && ((RequestFrame)frames[i]).hasSideBar() )
+			{
+				((RequestFrame)frames[i]).refresh( request );
+				return;
+			}
+		}
 
 		// If you can find an instance of a fight frame,
 		// go ahead and refresh it.  Otherwise, create a
 		// new frame which renders the request.
 
 		client.setCurrentRequest( request );
+
 		if ( INSTANCE == null )
+		{
+			// Parameters which will be used to render the
+			// request frame.
+
+			Object [] parameters = new Object[2];
+
+			parameters[0] = StaticEntity.getClient();
+			parameters[1] = request;
+
 			(new CreateFrameRunnable( FightFrame.class, parameters )).run();
+		}
 		else
 			INSTANCE.refresh( request );
 	}
