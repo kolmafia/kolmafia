@@ -73,7 +73,7 @@ public class ContactListFrame extends KoLFrame
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( new ContactListPanel(), "" );
 
-		this.toolbarPanel.add( new InvocationButton( "Show as list", "copy.gif", this, "convertToCDL" ) );
+		this.toolbarPanel.add( new InvocationButton( "Show as list", "copy.gif", this, "listSelected" ) );
 		this.toolbarPanel.add( new InvocationButton( "Mass-buff", "buff.gif", this, "buffSelected" ) );
 		this.toolbarPanel.add( new InvocationButton( "Mass-mail", "mail.gif", this, "mailSelected" ) );
 
@@ -102,11 +102,8 @@ public class ContactListFrame extends KoLFrame
 		return selectedPlayers;
 	}
 
-	public void convertToCDL()
+	public String convertToCDL()
 	{
-		if ( client == null )
-			return;
-
 		StringBuffer listCDL = new StringBuffer();
 		Object [] selectedPlayers = getSelectedPlayers();
 
@@ -115,6 +112,14 @@ public class ContactListFrame extends KoLFrame
 			if ( i != 0 )  listCDL.append( ", " );
 			listCDL.append( (String) selectedPlayers[i] );
 		}
+
+		return listCDL.toString();
+	}
+
+	public void listSelected()
+	{
+		if ( client == null )
+			return;
 
 		JDialog dialogCDL = new JDialog( this, "Here's your CDL!" );
 		JTextArea entryCDL = new JTextArea();
@@ -128,7 +133,7 @@ public class ContactListFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( scrollCDL, 250, 120 );
 		dialogCDL.getContentPane().add( scrollCDL );
 
-		entryCDL.setText( listCDL.toString() );
+		entryCDL.setText( convertToCDL() );
 		dialogCDL.pack();  dialogCDL.show();
 	}
 
@@ -153,6 +158,24 @@ public class ContactListFrame extends KoLFrame
 			requests[i] = new UseSkillRequest( client, selectedBuff.getSkillName(), (String) selectedPlayers[i], buffCount );
 
 		(new RequestThread( requests )).start();
+	}
+
+	public void mailSelected()
+	{
+		if ( client == null )
+			return;
+
+		// Make sure there's only eleven players
+		// selected, since that's the kmail limit.
+
+		if ( getSelectedPlayers().length > 11 )
+			JOptionPane.showMessageDialog( null, "That's beyond ridiculous." );
+
+		Object [] parameters = new Object[2];
+		parameters[0] = client;
+		parameters[1] = convertToCDL();
+
+		SwingUtilities.invokeLater( new CreateFrameRunnable( GreenMessageFrame.class, parameters ) );
 	}
 
 	private class ContactListPanel extends JPanel
