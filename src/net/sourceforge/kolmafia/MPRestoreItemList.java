@@ -63,6 +63,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 	public static void reset()
 	{
 		list.clear();
+		list.add( GALAKTIK );
 		list.add( BEANBAG );
 		list.add( HOUSE );
 
