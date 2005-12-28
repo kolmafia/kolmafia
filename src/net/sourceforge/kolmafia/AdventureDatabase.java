@@ -486,64 +486,91 @@ public class AdventureDatabase extends KoLDatabase
 		if ( missingCount <= 0 )
 			return;
 
+
 		String itemName = item.getName();
-		int closetCount = item.getCount( KoLCharacter.getCloset() );
-
-		// If there are some items which are sitting in the
-		// player's closet, then pull them out.
-
-		if ( closetCount > 0 )
+		if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) )
 		{
-			AdventureResult [] itemArray = new AdventureResult[1];
-			itemArray[0] = item.getInstance( Math.min( missingCount, closetCount ) );
-			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, itemArray )).run();
-		}
+			int closetCount = item.getCount( KoLCharacter.getCloset() );
 
-		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+			// If there are some items which are sitting in the
+			// player's closet, then pull them out.
 
-		// If there are now enough items in the player's inventory
-		// after pulling them from the closet, then return.
+			if ( closetCount > 0 )
+			{
+				AdventureResult [] itemArray = new AdventureResult[1];
+				itemArray[0] = item.getInstance( Math.min( missingCount, closetCount ) );
+				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, itemArray )).run();
+			}
 
-		if ( missingCount <= 0 )
-			return;
+			missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
-		// Now, check to see if the items can be created from the
-		// ingredients in the player's inventory.
+			// If there are now enough items in the player's inventory
+			// after pulling them from the closet, then return.
 
-		ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), missingCount );
-		if ( creation != null )
-		{
-			int creationCount = creation.getCount( ConcoctionsDatabase.getConcoctions() );
+			if ( missingCount <= 0 )
+				return;
 
-			// If the item can be created, then go ahead and try
-			// to create the item.
+			// Now, check to see if the items can be created from the
+			// ingredients in the player's inventory.
 
-			if ( creationCount > 0 )
-				ItemCreationRequest.getInstance( client, item.getItemID(), Math.min( creationCount, missingCount ) ).run();
-		}
+			ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), missingCount );
+			if ( creation != null )
+			{
+				int creationCount = creation.getCount( ConcoctionsDatabase.getConcoctions() );
 
-		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+				// If the item can be created, then go ahead and try
+				// to create the item.
 
-		if ( missingCount <= 0 )
-			return;
+				if ( creationCount > 0 )
+					ItemCreationRequest.getInstance( client, item.getItemID(), Math.min( creationCount, missingCount ) ).run();
+			}
 
-		// If the character is ready to interact with other players,
-		// then they have infinite pulls.  Go ahead and pull the item
-		// that's needed from storage.
+			missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
-		if ( KoLCharacter.canInteract() )
-		{
-			int storageCount = item.getCount( KoLCharacter.getStorage() );
+			if ( missingCount <= 0 )
+				return;
 
-			// Execute the needed command to pull the item from storage,
-			// rather than attempt to instantiate a new storage request.
+			// If the character is ready to interact with other players,
+			// then they have infinite pulls.  Go ahead and pull the item
+			// that's needed from storage.
 
-			if ( storageCount > 0 )
+			if ( KoLCharacter.canInteract() )
+			{
+				int storageCount = item.getCount( KoLCharacter.getStorage() );
+
+				// Execute the needed command to pull the item from storage,
+				// rather than attempt to instantiate a new storage request.
+
+				if ( storageCount > 0 )
+				{
+					try
+					{
+						KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
+						purchaser.executeLine( "hagnk " + Math.min( storageCount, missingCount ) + " " + itemName );
+					}
+					catch ( Exception e )
+					{
+						// This should not happen, so go
+						// ahead and ignore it.
+					}
+				}
+			}
+
+			missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+
+			if ( missingCount <= 0 )
+				return;
+
+			// If all else fails, attempt to make a purchase from the
+			// mall.  Note that this is only possible if the character
+			// can interact with other players.
+
+			if ( KoLCharacter.canInteract() || NPCStoreDatabase.contains( itemName ) )
 			{
 				try
 				{
 					KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
-					purchaser.executeLine( "hagnk " + Math.min( storageCount, missingCount ) + " " + item.getName() );
+					purchaser.executeLine( "buy " + missingCount + " " + itemName );
 				}
 				catch ( Exception e )
 				{
@@ -551,35 +578,12 @@ public class AdventureDatabase extends KoLDatabase
 					// ahead and ignore it.
 				}
 			}
+
+			missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+
+			if ( missingCount <= 0 )
+				return;
 		}
-
-		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
-
-		if ( missingCount <= 0 )
-			return;
-
-		// If all else fails, attempt to make a purchase from the
-		// mall.  Note that this is only possible if the character
-		// can interact with other players.
-
-		if ( KoLCharacter.canInteract() || NPCStoreDatabase.contains( item.getName() ) )
-		{
-			try
-			{
-				KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
-				purchaser.executeLine( "buy " + missingCount + " " + item.getName() );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen, so go
-				// ahead and ignore it.
-			}
-		}
-
-		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
-
-		if ( missingCount <= 0 )
-			return;
 
 		// If the item does not exist in sufficient quantities,
 		// then notify the client that there aren't enough items

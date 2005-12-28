@@ -168,6 +168,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 		ensureProperty( "aggregatePrices", "true" );
 		ensureProperty( "autoAbortMechaMech", "false" );
+		ensureProperty( "autoSatisfyChecks", "false" );
 		ensureProperty( "autoLogChat", "false" );
 		ensureProperty( "autoLogin", "" );
 		ensureProperty( "autoStockScript", "" );

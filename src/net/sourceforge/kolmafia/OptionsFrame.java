@@ -261,12 +261,15 @@ public class OptionsFrame extends KoLFrame
 
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "forceReconnect", "Automatically time-in on time-out" },
-			{ "cloverProtectActive", "Guard against accidental clover usage" },
 
+			{ "cloverProtectActive", "Guard against accidental clover usage" },
 			{ "autoAbortMechaMech", "Auto-abort battles with the MagiMechaMech" },
+
 			{ "useClockworkBoxes", "Use clockwork box servants in item creation" },
 			{ "createWithoutBoxServants", "Allow cooking/mixing without box servants" },
+
 			{ "invokeStrangeMagic", "Invoke magic words in strange leaflet" },
+			{ "autoSatisfyChecks", "Automatically satisfy conditions on check" }
 		};
 
 		/**
