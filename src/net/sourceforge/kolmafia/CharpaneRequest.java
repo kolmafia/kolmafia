@@ -77,9 +77,6 @@ public class CharpaneRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( runOnce )
-			return;
-
 		runOnce = true;
 		super.run();
 
