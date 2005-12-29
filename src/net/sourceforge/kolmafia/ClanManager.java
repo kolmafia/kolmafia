@@ -313,12 +313,6 @@ public class ClanManager extends StaticEntity
 			request.initialize();
 			profileMap.put( name, request.responseText );
 
-			// Manually add in a bit of lag so that it doesn't turn into
-			// hammering the server for information.
-
-			if ( !KoLRequest.isServerFriendly )
-				KoLRequest.delay();
-
 			// To avoid retrieving the file again, store the intermediate
 			// result in a local file.
 
@@ -380,11 +374,6 @@ public class ClanManager extends StaticEntity
 			AscensionDataRequest request = new AscensionDataRequest( client, name, client.getPlayerID( name ) );
 			request.initialize();
 			ascensionMap.put( name, request.responseText );
-
-			// Manually add in a bit of lag so that it doesn't turn into
-			// hammering the server for information.
-
-			KoLRequest.delay();
 
 			// To avoid retrieving the file again, store the intermediate
 			// result in a local file.
