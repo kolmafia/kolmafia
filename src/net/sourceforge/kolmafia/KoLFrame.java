@@ -1563,13 +1563,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		public String toString()
 		{	return getText();
 		}
-
-		public String toSettingString()
-		{
-			return getText() + "|" +
-				location.replaceFirst( "pwd=" + client.getPasswordHash(), "" ).replaceFirst( "\\?&", "?" ).replaceFirst( "&&", "&" ) + "|" +
-					String.valueOf( location.indexOf( "pwd=" ) != -1 );
-		}
 	}
 
 	/**
