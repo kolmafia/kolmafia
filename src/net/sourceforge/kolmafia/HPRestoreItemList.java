@@ -69,8 +69,8 @@ public abstract class HPRestoreItemList extends StaticEntity
 		// make sure they appear at the top, they have values
 		// which do not reflect their market value.
 
-		list.add( new HPRestoreItem( "Medicinal Herb's medicinal herbs", 1, -2 ) );
-		list.add( new HPRestoreItem( "scroll of drastic healing", 1, -1 ) );
+		list.add( new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 0 ) );
+		list.add( new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE, 0 ) );
 
 		// These HP restores come from NPCs, so they have a
 		// constant market value
