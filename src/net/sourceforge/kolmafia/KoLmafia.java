@@ -837,6 +837,10 @@ public abstract class KoLmafia implements KoLConstants
 				updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore HP." );
 				cancelRequest();
 			}
+			else
+			{
+				updateDisplay( DISABLE_STATE, "HP recovery complete.  Resuming requests..." );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -858,7 +862,6 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			disableMacro = true;
 			(new KoLmafiaCLI( this, new FileInputStream( recoveryScript ) )).listenForCommands();
-			updateDisplay( DISABLE_STATE, "HP recovery complete.  Resuming requests..." );
 		}
 		else
 		{
