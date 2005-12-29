@@ -102,46 +102,43 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void setTabbedFrameSetting( boolean useTabbedFrame )
 	{
-		if ( KoLMessenger.useTabbedFrame != useTabbedFrame )
+		Object [] keys = instantMessageBuffers.keySet().toArray();
+		String currentKey;  LimitedSizeChatBuffer currentBuffer;  ChatFrame currentFrame;
+
+		if ( useTabbedFrame )
 		{
-			Object [] keys = instantMessageBuffers.keySet().toArray();
-			String currentKey;  LimitedSizeChatBuffer currentBuffer;  ChatFrame currentFrame;
+			tabbedFrame = new TabbedChatFrame( client );
+			tabbedFrame.setVisible( true );
+		}
+		else
+		{
+			tabbedFrame.dispose();
+			tabbedFrame = null;
+		}
+
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			currentKey = (String) keys[i];
+			currentBuffer = getChatBuffer( currentKey );
+			currentFrame = getChatFrame( currentKey );
 
 			if ( useTabbedFrame )
 			{
-				tabbedFrame = new TabbedChatFrame( client );
-				tabbedFrame.setVisible( true );
+				ChatFrame.ChatPanel panel = tabbedFrame.addTab( currentKey );
+				currentBuffer.setChatDisplay( panel.getChatDisplay() );
+				currentBuffer.setScrollPane( panel.getScrollPane() );
+				currentFrame.setVisible( false );
 			}
 			else
 			{
-				tabbedFrame.dispose();
-				tabbedFrame = null;
+				currentBuffer.setChatDisplay( currentFrame.getChatDisplay() );
+				currentBuffer.setScrollPane( currentFrame.getScrollPane() );
+				currentFrame.setVisible( true );
 			}
 
-			for ( int i = 0; i < keys.length; ++i )
-			{
-				currentKey = (String) keys[i];
-				currentBuffer = getChatBuffer( currentKey );
-				currentFrame = getChatFrame( currentKey );
-
-				if ( useTabbedFrame )
-				{
-					ChatFrame.ChatPanel panel = tabbedFrame.addTab( currentKey );
-					currentBuffer.setChatDisplay( panel.getChatDisplay() );
-					currentBuffer.setScrollPane( panel.getScrollPane() );
-					currentFrame.setVisible( false );
-				}
-				else
-				{
-					currentBuffer.setChatDisplay( currentFrame.getChatDisplay() );
-					currentBuffer.setScrollPane( currentFrame.getScrollPane() );
-					currentFrame.setVisible( true );
-				}
-
-			}
-
-			KoLMessenger.useTabbedFrame = useTabbedFrame;
 		}
+
+		KoLMessenger.useTabbedFrame = useTabbedFrame;
 	}
 
 	/**
@@ -151,7 +148,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * the <code>dispose()</code> method.
 	 */
 
-	public static void initialize()
+	public static synchronized void initialize()
 	{
 		if ( isRunning )
 			return;
@@ -313,12 +310,12 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( contact.equals( currentChannel ) )
 			{
 				(new RequestThread( new ChatRequest( client, currentChannel, "/exit" ) )).start();
-				currentChannel = null;
+				currentChannel = "";
 				dispose();
 				return;
 			}
 
-			if ( currentChannel != null && contact.startsWith( "/" ) && !removedFrame.getTitle().endsWith( "(inactive)" ) )
+			if ( !currentChannel.equals( "" ) && contact.startsWith( "/" ) && !removedFrame.getTitle().endsWith( "(inactive)" ) )
 				(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
 
 			removedFrame.setVisible( false );
@@ -340,13 +337,9 @@ public abstract class KoLMessenger extends StaticEntity
 	 * Disposes the messenger's frames.
 	 */
 
-	public static void dispose()
+	public static synchronized void dispose()
 	{
-		if ( !isRunning )
-			return;
-
 		isRunning = false;
-
 		while ( !instantMessageFrames.isEmpty() )
 			removeChat( (String) instantMessageFrames.firstKey() );
 
@@ -354,21 +347,22 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			contactsFrame.setVisible( false );
 			contactsFrame.dispose();
+			contactsFrame = null;
 		}
 
 		if ( tabbedFrame != null )
 		{
 			tabbedFrame.setVisible( false );
 			tabbedFrame.dispose();
+			tabbedFrame = null;
 		}
-
 	}
 
 	/**
 	 * Returns whether or not the messenger is currently running.
 	 */
 
-	public static boolean isRunning()
+	public static synchronized boolean isRunning()
 	{	return isRunning;
 	}
 
@@ -491,7 +485,7 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( lines[i].startsWith( "[haiku]" ) )
 				processChatMessage( lines[i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() );
 
-			else if ( currentChannel != null && currentChannel.equals( "/haiku" ) && lines[i].indexOf( "[" ) == -1 && lines[i].indexOf( ":" ) != -1 )
+			else if ( !currentChannel.equals( "" ) && currentChannel.equals( "/haiku" ) && lines[i].indexOf( "[" ) == -1 && lines[i].indexOf( ":" ) != -1 )
 				processChatMessage( lines[i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() );
 
 			else
@@ -501,7 +495,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// Finally, update the title to the frame in which
 		// you are currently talking.
 
-		if ( currentChannel != null )
+		if ( !currentChannel.equals( "" ) )
 		{
 			if ( useTabbedFrame )
 				tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
@@ -559,7 +553,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void stopConversation()
 	{
-		if ( currentChannel != null )
+		if ( !currentChannel.equals( "" ) )
 			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (inactive)" );
 	}
 
@@ -571,7 +565,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void switchConversation()
 	{
-		if ( currentChannel != null )
+		if ( !currentChannel.equals( "" ) )
 			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (listening)" );
 	}
 
