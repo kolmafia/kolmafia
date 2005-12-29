@@ -78,14 +78,15 @@ public class CommandDisplayFrame extends KoLFrame
 		try
 		{
 			commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );
-			instance = new KoLmafiaCLI( client, commandBuffer );
+			if ( client != null )
+				instance = new KoLmafiaCLI( client, commandBuffer );
 		}
 		catch ( Exception e )
 		{
 		}
 
-		framePanel.setLayout( new BorderLayout( 0, 0 ) );
-		framePanel.add( new CommandDisplayPanel() );
+		addCompactPane();
+		framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 	}
 
 	private class CommandDisplayPanel extends JPanel
@@ -212,5 +213,19 @@ public class CommandDisplayFrame extends KoLFrame
 				client.enableDisplay();
 			}
 		}
+	}
+	
+	/**
+	 * The main method used in the event of testing the way the
+	 * user interface looks.  This allows the UI to be tested
+	 * without having to constantly log in and out of KoL.
+	 */
+
+	public static void main( String [] args )
+	{
+		Object [] parameters = new Object[1];
+		parameters[0] = null;
+
+		(new CreateFrameRunnable( CommandDisplayFrame.class, parameters )).run();
 	}
 }
