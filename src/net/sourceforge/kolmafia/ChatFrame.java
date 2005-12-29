@@ -102,11 +102,21 @@ public class ChatFrame extends KoLFrame
 		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
 
-		toolbarPanel.add( new MessengerButton( "Clear Chat Buffers", "clear.gif", "clearChatBuffers" ) );
+		toolbarPanel.add( new MessengerButton( "Clear All", "clear.gif", "clearChatBuffers" ) );
+
+		toolbarPanel.add( new JToolBar.Separator() );
+
 		toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
 		toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
+
+		toolbarPanel.add( new JToolBar.Separator() );
+
 		toolbarPanel.add( new MessengerButton( "/friends", "who1.gif", "checkFriends" ) );
-		toolbarPanel.add( new MessengerButton( "/who on talking channel", "who2.gif", "checkChannel" ) );
+		toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
+
+		toolbarPanel.add( new JToolBar.Separator() );
+
+		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
 
 		// Set the default size so that it doesn't appear super-small
 		// when it's first constructed
