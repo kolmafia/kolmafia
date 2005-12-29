@@ -143,7 +143,6 @@ public class OptionsFrame extends KoLFrame
 
 		addTab( "General", new GeneralOptionsPanel() );
 		addTab( "Areas", new AreaOptionsPanel() );
-		addTab( "Restore", new RestoreOptionsPanel() );
 		addTab( "Sewer", new SewerOptionsPanel() );
 		addTab( "Choice", new ChoiceOptionsPanel() );
 
@@ -306,107 +305,6 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
-		}
-	}
-
-	/**
-	 * This panel allows the user to select how they would like to fight
-	 * their battles.  Everything from attacks, attack items, recovery items,
-	 * retreat, and battle skill usage will be supported when this panel is
-	 * finalized.  For now, however, it only customizes attacks.
-	 */
-
-	private class RestoreOptionsPanel extends OptionsPanel
-	{
-		private JComboBox battleStopSelect;
-		private JComboBox hpAutoRecoverSelect;
-		private JComboBox mpAutoRecoverSelect;
-		private JTextField hpRecoveryScriptField;
-		private JTextField mpRecoveryScriptField;
-		private JTextField betweenBattleScriptField;
-
-		/**
-		 * Constructs a new <code>RestoreOptionsPanel</code> containing a
-		 * way for the users to choose the way they want to recover their
-		 * health and mana inbetween battles encountered during adventuring.
-		 */
-
-		public RestoreOptionsPanel()
-		{
-			super( "Auto-Recovery Settings" );
-
-			battleStopSelect = new JComboBox();
-			battleStopSelect.addItem( "Never stop combat" );
-			for ( int i = 1; i <= 9; ++i )
-				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
-
-			// Add in the bewteen-adventures field
-
-			betweenBattleScriptField = new JTextField();
-
-			// All the components of autorecovery
-
-			hpAutoRecoverSelect = new JComboBox();
-			hpAutoRecoverSelect.addItem( "Do not autorecover HP" );
-			for ( int i = 0; i <= 9; ++i )
-				hpAutoRecoverSelect.addItem( "Autorecover HP at " + (i * 10) + "%" );
-
-			mpAutoRecoverSelect = new JComboBox();
-			mpAutoRecoverSelect.addItem( "Do not autorecover MP" );
-			for ( int i = 0; i <= 9; ++i )
-				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
-
-			hpRecoveryScriptField = new JTextField();
-			mpRecoveryScriptField = new JTextField();
-
-			// Add the elements to the panel
-
-			VerifiableElement [] elements = new VerifiableElement[10];
-			elements[0] = new VerifiableElement( "Stop Combat: ", battleStopSelect );
-			elements[1] = new VerifiableElement( "Between Battles: ", new ScriptSelectPanel( betweenBattleScriptField ) );
-
-			elements[2] = new VerifiableElement( "", new JLabel() );
-
-			elements[3] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
-			elements[4] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
-			elements[5] = new VerifiableElement( "Use these restores: ", HPRestoreItemList.getDisplay() );
-
-			elements[6] = new VerifiableElement( "", new JLabel() );
-
-			elements[7] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
-			elements[8] = new VerifiableElement( "MP Recovery Script: ", new ScriptSelectPanel( mpRecoveryScriptField ) );
-			elements[9] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
-
-			setContent( elements );
-			actionCancelled();
-		}
-
-		protected void actionConfirmed()
-		{
-			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex()) / 10.0) ) );
-			setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
-
-			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
-			HPRestoreItemList.setProperty();
-
-			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-			setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
-			MPRestoreItemList.setProperty();
-
-			super.actionConfirmed();
-		}
-
-		protected void actionCancelled()
-		{
-			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) );
-			betweenBattleScriptField.setText( getProperty( "betweenBattleScript" ) );
-
-			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
-			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
-
-			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
-			mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
 		}
 	}
 

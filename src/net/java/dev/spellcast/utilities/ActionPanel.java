@@ -35,10 +35,9 @@
 package net.java.dev.spellcast.utilities;
 
 import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import javax.swing.BoxLayout;
 
-import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JRootPane;
@@ -68,34 +67,27 @@ public abstract class ActionPanel extends JRootPane
 
 		public VerifyButtonPanel( String confirmedText, String cancelledText1, String cancelledText2 )
 		{
- 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+ 			setLayout( new BorderLayout() );
  			this.cancelledText1 = cancelledText1;
  			this.cancelledText2 = cancelledText2;
+
+			JPanel containerPanel = new JPanel( new GridLayout( 2, 1, 5, 5 ) );
+			add( containerPanel, BorderLayout.NORTH );
 
 			// add the "confirmed" button
 			confirmedButton = new JButton( confirmedText );
 			confirmedButton.addActionListener( new ConfirmedListener() );
-			addButton( confirmedButton );
-			add( Box.createVerticalStrut( 4 ) );
+			containerPanel.add( confirmedButton );
 
 			// add the "cancelled" button
 			if ( cancelledText1 != null )
 			{
 				cancelledButton = new JButton( cancelledText1 );
 				cancelledButton.addActionListener( new CancelledListener() );
-				addButton( cancelledButton );
+				containerPanel.add( cancelledButton );
 			}
 			else
 				cancelledButton = null;
-		}
-
-		private void addButton( JButton buttonToAdd )
-		{
-			JPanel container = new JPanel();
-			container.setLayout( new GridLayout() );
-			container.add( buttonToAdd );
-			container.setMaximumSize( new Dimension( Integer.MAX_VALUE, 24 ) );
-			add( container );
 		}
 
 		public void setEnabled( boolean isEnabled )
