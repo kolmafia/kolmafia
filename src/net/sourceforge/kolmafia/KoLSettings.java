@@ -38,7 +38,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.PrintStream;
+import java.io.InputStreamReader;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Properties;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
@@ -339,9 +344,33 @@ public class KoLSettings extends Properties implements UtilityConstants
 	{
 		try
 		{
+			// Determine the contents of the file by
+			// actually printing them.
+			
 			FileOutputStream ostream = new FileOutputStream( destination );
 			store( ostream, "KoLmafia Settings" );
 			ostream.close();
+
+			// Make sure that all of the settings are
+			// in a sorted order.
+
+			ArrayList contents = new ArrayList();
+			BufferedReader reader = new BufferedReader( new InputStreamReader(
+				new FileInputStream( destination ) ) );
+
+			String line;
+			while ( (line = reader.readLine()) != null )
+				contents.add( line );
+
+			reader.close();
+			Collections.sort( contents );
+
+			PrintStream writer = new PrintStream( new FileOutputStream( destination ) );
+			for ( int i = 0; i < contents.size(); ++i )
+				if ( !line.startsWith( "saveState" ) || characterName.equals( "" ) )
+					writer.println( (String) contents.get(i) );
+				
+			writer.close();
 			ostream = null;
 		}
 		catch ( IOException e )
