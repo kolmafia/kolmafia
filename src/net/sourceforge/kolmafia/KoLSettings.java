@@ -367,7 +367,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 			PrintStream writer = new PrintStream( new FileOutputStream( destination ) );
 			for ( int i = 0; i < contents.size(); ++i )
-				if ( !line.startsWith( "saveState" ) || characterName.equals( "" ) )
+				if ( !((String) contents.get(i)).startsWith( "saveState" ) || characterName.equals( "" ) )
 					writer.println( (String) contents.get(i) );
 				
 			writer.close();
