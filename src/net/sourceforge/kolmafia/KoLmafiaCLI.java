@@ -423,6 +423,15 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Adding the requested echo command.  I guess this is
+		// useful for people who want to echo things...
+		
+		if ( command.equals( "echo" ) )
+		{
+			updateDisplay( NORMAL_STATE, parameters );
+			return;
+		}
+
 		// Handle the if-statement and the while-statement.
 		// The while-statement will not get a separate comment
 		// because it is unloved.
