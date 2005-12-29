@@ -1716,6 +1716,24 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to find the specified familiar.
+	 * @param	race
+	 * @return	familiar
+	 */
+
+	public static FamiliarData findFamiliar( String race )
+	{
+		Iterator familiarIterator = familiars.iterator();
+		while ( familiarIterator.hasNext() )
+		{
+			FamiliarData familiar = (FamiliarData)familiarIterator.next();
+			if ( race.equals( familiar.getRace() ) )
+				return familiar;
+		}
+		return null;
+	}
+
+	/**
 	 * Accessor method to set the data for the current familiar.
 	 * @param	familiar
 	 */

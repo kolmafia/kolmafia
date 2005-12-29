@@ -701,7 +701,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Get current familiar. If none, punt.
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		if ( familiar == FamiliarData.NO_FAMILIAR )
+		{
+			client.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
 			return false;
+		}
 
 		// Get the status of current familiar
 		FamiliarStatus status = new FamiliarStatus( client );
@@ -726,7 +729,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Punt if goal is not possible
 			if ( goal < weight )
-				return false;
+				break;
 
 			// Change into appropriate gear
 			status.changeGear( goal, buffs );
@@ -737,13 +740,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If we failed using only equipment, punt.
 			if ( !buffs )
-				return false;
+				break;
 
 			// Perhaps we failed to cast a buff. Try again
 			// using nothing but equipment.
 			client.resetContinueState();
 			buffs = false;
 		}
+
+		client.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
+		return false;
 	}
 
 	private static void statusMessage( KoLmafia client, int state, String message )

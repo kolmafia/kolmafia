@@ -109,11 +109,11 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static final String [][] FAMILIAR_DATA =
 	{
-		{ "sabre-toothed lime", "levitating potato" },
-		{ "mosquito", "sabre-toothed lime" },
-		{ "barrrnacle", "angry goat" },
-		{ "goat", "mosquito" },
-		{ "potato", "barrrnacle" }
+		{ "sabre-toothed lime", "Levitating Potato" },
+		{ "mosquito", "Sabre-Toothed Lime" },
+		{ "barrrnacle", "Angry Goat" },
+		{ "goat", "Mosquito" },
+		{ "potato", "Barrrnacle" }
 	};
 
 	private static boolean checkPrerequisites( int min, int max )
@@ -1267,42 +1267,64 @@ public abstract class SorceressLair extends StaticEntity
 		// If you do not successfully pass the familiar, you
 		// will get a "stomp off in a huff" message.
 
-		if ( request.responseText.indexOf( "stomp off in a huff" ) != -1 )
+		if ( request.responseText.indexOf( "stomp off in a huff" ) == -1 )
+			return;
+
+		// Find the necessary familiar and see if the player has one.
+
+		String race = "";
+		FamiliarData familiar = null;
+		for ( int i = 0; i < FAMILIAR_DATA.length; ++i )
 		{
-			// Determine the necessary familiar, and switch to
-			// it (if it is possessed).  If the player does not
-			// have it, or it is not heavy enough, then tell the
-			// player they need to come back.
-
-			for ( int i = 0; i < FAMILIAR_DATA.length; ++i )
+			if ( request.responseText.indexOf( FAMILIAR_DATA[i][0] ) != -1 )
 			{
-				if ( request.responseText.indexOf( FAMILIAR_DATA[i][0] ) != -1 )
-				{
-					FamiliarData neededFamiliar = new FamiliarData( FamiliarsDatabase.getFamiliarID( FAMILIAR_DATA[i][1] ) );
-					int neededFamiliarIndex = KoLCharacter.getFamiliarList().indexOf( neededFamiliar );
-
-					// If the player does have the needed familiar, then switch
-					// to it and recursively recall this method if the familiar
-					// is over twenty pounds.  Otherwise, cancel and notify the
-					// user that more familiar leveling is necessary.
-
-					if ( neededFamiliarIndex != -1 )
-					{
-						neededFamiliar = (FamiliarData) KoLCharacter.getFamiliarList().get( neededFamiliarIndex );
-
-						if ( neededFamiliar.getModifiedWeight() >= 20 )
-						{
-							(new FamiliarRequest( client, neededFamiliar )).run();
-							familiarBattle( n );
-							return;
-						}
-					}
-
-					client.updateDisplay( ERROR_STATE, "Come back with a 20 pound " + FAMILIAR_DATA[i][1] );
-					client.cancelRequest();
-					return;
-				}
+				race = FAMILIAR_DATA[i][1];
+				familiar = KoLCharacter.findFamiliar( race );
+				break;
 			}
 		}
+
+		// If not, tell the player to get one and come back.
+
+		if ( familiar == null)
+		{
+			client.updateDisplay( ERROR_STATE, "Come back with a 20 pound " + race );
+			client.cancelRequest();
+			return;
+		}
+
+		// Switch to the required familiar
+
+		if ( currentFamiliar != familiar )
+			(new FamiliarRequest( client, familiar )).run();
+
+		// If we can buff it to 20 pounds, try again.
+
+		if ( FamiliarTrainingFrame.buffFamiliar( client, 20 ) )
+		{
+			familiarBattle( n );
+			return;
+		}
+
+		// We can't buff it high enough. Train it.
+
+		if ( !FamiliarTrainingFrame.levelFamiliar( client, 20, FamiliarTrainingFrame.BUFFED, false, false) )
+		{
+			// Reason for failure already displayed. Cancel.
+			client.cancelRequest();
+			return;
+		}
+
+		// We trained it. Equip and buff it.
+
+		if ( !FamiliarTrainingFrame.buffFamiliar( client, 20 ) )
+		{
+			// Reason for failure already displayed. Cancel.
+			client.cancelRequest();
+			return;
+		}
+
+		// We're good to go. Fight!
+		familiarBattle( n );
 	}
 }
