@@ -69,7 +69,18 @@ public class FamiliarRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( DISABLE_STATE, "Retrieving familiar data..." );
+		if ( changeTo == null)
+			updateDisplay( DISABLE_STATE, "Retrieving familiar data..." );
+		else
+		{
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+			if ( familiar != FamiliarData.NO_FAMILIAR )
+				updateDisplay( DISABLE_STATE, "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
+
+			if (changeTo != FamiliarData.NO_FAMILIAR )
+				updateDisplay( DISABLE_STATE, "Taking " + changeTo.getName() + " the " + changeTo.getRace() + " out of terrarium..." );
+		}
+
 		super.run();
 
 		// There's nothing to parse if an error was encountered,
@@ -83,6 +94,7 @@ public class FamiliarRequest extends KoLRequest
 		FamiliarData.registerFamiliarData( client, responseText );
 		FamiliarData.updateWeightModifier();
 
-		updateDisplay( NORMAL_STATE, "Familiar data retrieved." );
+                if ( changeTo == null)
+                        updateDisplay( NORMAL_STATE, "Familiar data retrieved." );
 	}
 }

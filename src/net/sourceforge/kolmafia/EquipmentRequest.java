@@ -53,11 +53,10 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public static final int EQUIPMENT = 1;
 	public static final int CLOSET = 2;
-	public static final int UNEQUIP_ALL = 6;
-
 	private static final int CHANGE_OUTFIT = 3;
 	private static final int CHANGE_ITEM = 4;
 	private static final int REMOVE_ITEM = 5;
+	public static final int UNEQUIP_ALL = 6;
 
 	// Array indexed by equipment "slot" from KoLCharacter
 	//
@@ -223,20 +222,28 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		switch ( requestType )
 		{
-			case CHANGE_OUTFIT:
-				updateDisplay( DISABLE_STATE, "Changing outfit..." );
+			case EQUIPMENT:
+				updateDisplay( DISABLE_STATE, "Updating equipment..." );
 				break;
 
 			case CLOSET:
 				updateDisplay( DISABLE_STATE, "Refreshing closet..." );
 				break;
 
-			case REMOVE_ITEM:
-				updateDisplay( DISABLE_STATE, "Removing item..." );
+			case CHANGE_OUTFIT:
+				updateDisplay( DISABLE_STATE, "Putting on " + outfit + "..." );
 				break;
 
-			default:
-				updateDisplay( DISABLE_STATE, "Updating equipment..." );
+			case CHANGE_ITEM:
+				updateDisplay( DISABLE_STATE, "Putting on " + changeItemName + "..." );
+				break;
+
+			case REMOVE_ITEM:
+				updateDisplay( DISABLE_STATE, "Taking off " + KoLCharacter.getCurrentEquipmentName( equipmentSlot) + "..." );
+				break;
+
+			case UNEQUIP_ALL:
+				updateDisplay( DISABLE_STATE, "Taking off everything..." );
 				break;
 		}
 
@@ -247,7 +254,6 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseCode == 302 && !redirectLocation.equals( "maint.php" ) )
 		{
-			updateDisplay( DISABLE_STATE, "Updating equipment..." );
 			KoLRequest message = new KoLRequest( client, redirectLocation );
 			message.run();
 
@@ -286,11 +292,6 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				for ( int i = 0; i < 9; ++i )
 					switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
-
-				// Because changing equipment can potentially change
-				// a player's stats, also refresh status.
-
-				updateDisplay( NORMAL_STATE, "Equipment retrieved." );
 			}
 
 			KoLmafia.getLogStream().println( "Parsing complete." );

@@ -939,7 +939,6 @@ public class KoLmafiaCLI extends KoLmafia
 			AdventureResult match = getFirstMatchingItem( parameters, INVENTORY );
 			if ( match != null )
 				scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, match.getName() ), 1 );
-
 			return;
 		}
 
@@ -948,7 +947,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "unequip" ) )
 		{
-			AdventureResult match = getFirstMatchingItem( parameters, INVENTORY );
+			AdventureResult match = getFirstMatchingItem( parameters, NOWHERE );
 			if ( match != null )
 			{
 				String item = match.getName();
@@ -957,7 +956,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// the specified name.
 
 				for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
-					if ( KoLCharacter.getEquipment( i ).equals( item ) )
+					if ( KoLCharacter.getCurrentEquipmentName( i ).equals( item ) )
 					     scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, EquipmentRequest.UNEQUIP, i ), 1 );
 			}
 			return;
