@@ -68,7 +68,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "towho", recipient );
 
-		if ( getProperty( "saveOutgoing" ).equals( "true" ) )
+		if ( !BuffBotHome.isBuffBotActive() )
 			addFormField( "savecopy", "on" );
 
 		addFormField( "message", message );
