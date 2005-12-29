@@ -914,7 +914,11 @@ public abstract class KoLmafia implements KoLConstants
 	protected final void recoverHP()
 	{
 		double recover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) KoLCharacter.getMaximumHP();
-		recover( (int) recover, "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestoreItems", HPRestoreItemList.class );
+		recoverHP( (int) recover );
+	}
+
+	public final void recoverHP( int recover )
+	{	recover( recover, "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestoreItems", HPRestoreItemList.class );
 	}
 
 	/**
