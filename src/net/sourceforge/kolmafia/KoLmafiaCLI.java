@@ -2342,7 +2342,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		consumptionType = TradeableItemDatabase.getConsumptionType( itemName );
 
-		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE )
+		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE || consumptionType == ConsumeItemRequest.CONSUME_RESTORE )
 			scriptRequestor.makeRequest( new ConsumeItemRequest( scriptRequestor, new AdventureResult( itemName, itemCount ) ), 1 );
 		else
 			scriptRequestor.makeRequest( new ConsumeItemRequest( scriptRequestor, new AdventureResult( itemName, 1 ) ), itemCount );

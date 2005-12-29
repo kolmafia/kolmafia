@@ -203,11 +203,16 @@ public class ItemManageFrame extends KoLFrame
 					if ( consumptionCount == 0 )
 						return;
 
-					requests[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ?
-						new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) ) :
-						new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
-
-					repeatCount[i] = consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE ? 1 : consumptionCount;
+					if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE || consumptionType == ConsumeItemRequest.CONSUME_RESTORE )
+					{
+						requests[i] = new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) );
+						repeatCount[i] = 1;
+					}
+					else
+					{
+						requests[i] = new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
+						repeatCount[i] = consumptionCount;
+					}
 				}
 
 				(new RequestThread( requests, repeatCount )).start();
