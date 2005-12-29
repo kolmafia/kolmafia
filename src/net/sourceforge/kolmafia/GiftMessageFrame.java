@@ -56,9 +56,7 @@ public class GiftMessageFrame extends SendMessageFrame
 	}
 
 	public GiftMessageFrame( KoLmafia client, String recipient )
-	{
-		super( client, "Send a Purple Message" );
-		recipientEntry.setText( recipient );
+	{	super( client, "Send a Purple Message", recipient );
 	}
 
 	protected String [] getEntryHeaders()

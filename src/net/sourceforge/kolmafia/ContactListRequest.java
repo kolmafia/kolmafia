@@ -33,65 +33,31 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
-// event listeners
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-
-public class GreenMessageFrame extends SendMessageFrame
+public class ContactListRequest extends KoLRequest
 {
-	private static final String [] HEADERS = { "Send this message:" };
+	private static final Pattern LIST_PATTERN = Pattern.compile( "<b>Contact List</b>.*?</table>" );
+	private static final Pattern ENTRY_PATTERN = Pattern.compile( "<tr><td align=right><b>(.*?)</b></td><td><font size=1><a href=\"showplayer.php\\?who=(\\d+)\">" );
 
-
-	public GreenMessageFrame( KoLmafia client )
-	{	this( client, "" );
+	public ContactListRequest( KoLmafia client )
+	{	super( client, "account_contactlist.php" );
 	}
 
-	public GreenMessageFrame( KoLmafia client, String recipient )
-	{	this( client, recipient, "" );
-	}
-
-	public GreenMessageFrame( KoLmafia client, String recipient, String quotedMessage )
+	public void run()
 	{
-		super( client, "Send a Green Message", recipient );
-		messageEntry[0].setText( quotedMessage );
-	}
+		super.run();
 
-	protected String [] getEntryHeaders()
-	{	return HEADERS;
-	}
+		if ( responseCode != 200 )
+			return;
 
-	protected boolean sendMessage( String recipient, String [] messages )
-	{
-		GreenMessageFrame.this.setEnabled( false );
-		(new GreenMessageRequest( client, recipient, messages[0], getAttachedItems(), getAttachedMeat() )).run();
-		GreenMessageFrame.this.setEnabled( true );
-
-		if ( client.permitsContinue() )
+		Matcher listMatcher = LIST_PATTERN.matcher( responseText );
+		if ( listMatcher.find() )
 		{
-			client.updateDisplay( NORMAL_STATE, "Message sent to " + recipient );
-			setTitle( "Message sent to " + recipient );
-			return true;
+			Matcher entryMatcher = ENTRY_PATTERN.matcher( listMatcher.group() );
+			while ( entryMatcher.find() )
+				client.registerContact( entryMatcher.group(1), entryMatcher.group(2) );
 		}
-		else
-		{
-			client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
-			setTitle( "Failed to send message to " + recipient );
-			return false;
-		}
-	}
-
-	/**
-	 * Main class used to view the user interface without having to actually
-	 * start the program.  Used primarily for user interface testing.
-	 */
-
-	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( GreenMessageFrame.class, parameters )).run();
 	}
 }

@@ -107,6 +107,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	private TreeMap seenPlayerIDs = new TreeMap();
 	private TreeMap seenPlayerNames = new TreeMap();
+	protected SortedListModel contactList = new SortedListModel();
 
 	protected SortedListModel tally = new SortedListModel();
 	protected SortedListModel missingItems = new SortedListModel();
@@ -303,6 +304,15 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !isQuickLogin )
 			(new FamiliarRequest( this )).run();
+
+		if ( !permitsContinue() )
+		{
+			deinitialize();
+			return;
+		}
+
+		updateDisplay( DISABLE_STATE, "Retrieving contact list..." );
+		(new ContactListRequest( this )).run();
 
 		if ( !permitsContinue() )
 		{
@@ -698,6 +708,13 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public void registerContact( String playerName, String playerID )
+	{
+		registerPlayer( playerName, playerID );
+		if ( !contactList.contains( playerName ) )
+			contactList.add( playerName.toLowerCase() );
+	}
+
 	/**
 	 * Retrieves the session ID for this <code>KoLmafia</code> session.
 	 * @return	The session ID of the current session
@@ -723,6 +740,14 @@ public abstract class KoLmafia implements KoLConstants
 
 	public String getPasswordHash()
 	{	return passwordHash;
+	}
+
+	/**
+	 * Returns the character's contact list.
+	 */
+
+	public SortedListModel getContactList()
+	{	return contactList;
 	}
 
 	/**

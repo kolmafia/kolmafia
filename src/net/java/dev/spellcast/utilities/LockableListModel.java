@@ -60,7 +60,7 @@ import javax.swing.event.ListDataEvent;
  */
 
 public class LockableListModel extends javax.swing.AbstractListModel
-	implements Cloneable, java.util.List, javax.swing.ListModel, javax.swing.ComboBoxModel, LockableObject
+	implements Cloneable, java.util.List, javax.swing.ListModel, javax.swing.ComboBoxModel, javax.swing.MutableComboBoxModel, LockableObject
 {
 	private ObjectLock lock;
 	private Vector elements;
@@ -553,6 +553,42 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	{
 		selectedIndex = index;
 		fireContentsChanged( this, -1, -1 );
+	}
+
+    /**
+     * Please refer to {@link javax.swing.MutableComboBoxModel#addElement(Object)} for more
+     * information regarding this function.
+     */
+
+	public void addElement( Object element )
+	{	add( element );
+	}
+
+    /**
+     * Please refer to {@link javax.swing.MutableComboBoxModel#insertElementAt(Object,int)} for more
+     * information regarding this function.
+     */
+
+	public void insertElementAt( Object element, int index )
+	{	add( index, element );
+	}
+
+    /**
+     * Please refer to {@link javax.swing.MutableComboBoxModel#removeElement(Object)} for more
+     * information regarding this function.
+     */
+
+	public void removeElement( Object element )
+	{	remove( element );
+	}
+
+    /**
+     * Please refer to {@link javax.swing.MutableComboBoxModel#removeElementAt(Object,int)} for more
+     * information regarding this function.
+     */
+
+	public void removeElementAt( int index )
+	{	remove( index );
 	}
 
 	/**

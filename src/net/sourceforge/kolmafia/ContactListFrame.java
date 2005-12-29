@@ -66,6 +66,10 @@ public class ContactListFrame extends KoLFrame
 	private SortedListModel contacts;
 	private JList contactsDisplay;
 
+	public ContactListFrame( KoLmafia client )
+	{	this( client, client == null ? new SortedListModel() : client.getContactList() );
+	}
+
 	public ContactListFrame( KoLmafia client, SortedListModel contacts )
 	{
 		super( client, "Contact List" );

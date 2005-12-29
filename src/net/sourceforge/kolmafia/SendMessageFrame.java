@@ -64,12 +64,13 @@ import javax.swing.JOptionPane;
 import java.util.List;
 import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class SendMessageFrame extends KoLFrame
 {
 	protected JPanel messagePanel;
-	protected JTextField recipientEntry;
+	protected JComboBox recipientEntry;
 	protected JTextArea [] messageEntry;
 	protected JButton sendMessageButton;
 
@@ -81,6 +82,10 @@ public abstract class SendMessageFrame extends KoLFrame
 	protected LockableListModel attachments;
 
 	protected SendMessageFrame( KoLmafia client, String title )
+	{	this( client, title, "" );
+	}
+
+	protected SendMessageFrame( KoLmafia client, String title, String recipient )
 	{
 		super( client, title );
 
@@ -155,7 +160,9 @@ public abstract class SendMessageFrame extends KoLFrame
 	{
 		String [] entryHeaders = getEntryHeaders();
 
-		recipientEntry = new JTextField();
+		recipientEntry = new MutableComboBox( client == null ? new SortedListModel() : client.getContactList() );
+		recipientEntry.setEditable( true );
+
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
 
 		messageEntry = new JTextArea[ entryHeaders.length ];
@@ -243,7 +250,7 @@ public abstract class SendMessageFrame extends KoLFrame
 			if ( client == null )
 				return;
 
-			String [] recipients = client.extractTargets( recipientEntry.getText() );
+			String [] recipients = client.extractTargets( (String) recipientEntry.getSelectedItem() );
 
 			// Limit the number of messages which can be sent
 			// to just eleven, as was the case with KoLmelion.

@@ -64,7 +64,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
-import javax.swing.text.JTextComponent;
 
 // other imports
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -295,46 +294,24 @@ public class LoginFrame extends KoLFrame
 		 * key events of a JComboBox to allow you to catch key events.
 		 */
 
-		private class LoginNameComboBox extends JComboBox implements FocusListener
+		private class LoginNameComboBox extends MutableComboBox
 		{
-			private String currentName;
-			private String currentMatch;
-
 			public LoginNameComboBox()
 			{
 				super( saveStateNames );
-				this.setEditable( true );
-				this.getEditor().getEditorComponent().addFocusListener( this );
-				this.getEditor().getEditorComponent().addKeyListener( new NameInputListener() );
+				this.getEditor().getEditorComponent().addKeyListener( new PasswordFocusListener() );
 			}
 
 			public void setSelectedItem( Object anObject )
 			{
 				super.setSelectedItem( anObject );
-				currentMatch = (String) anObject;
 				setPassword();
-			}
-
-			public void focusGained( FocusEvent e )
-			{
-				getEditor().selectAll();
-				findMatch( KeyEvent.VK_DELETE );
 			}
 
 			public void focusLost( FocusEvent e )
 			{
-				if ( currentName == null || currentName.trim().length() == 0 )
-					return;
-
-				if ( currentMatch == null && !saveStateNames.contains( currentName ) )
-				{
-					saveStateNames.add( currentName );
-					currentMatch = currentName;
-				}
-
-				setSelectedItem( currentMatch );
+				super.focusLost( e );
 				setPassword();
-				hidePopup();
 			}
 
 			private void setPassword()
@@ -343,6 +320,7 @@ public class LoginFrame extends KoLFrame
 				{
 					passwordField.setText( "" );
 					savePasswordCheckBox.setSelected( false );
+					return;
 				}
 
 				String password = client.getSaveState( currentMatch );
@@ -358,80 +336,12 @@ public class LoginFrame extends KoLFrame
 				}
 			}
 
-			private void findMatch( int keycode )
-			{
-				// If it wasn't the enter key that was being released,
-				// then make sure that the current name is stored
-				// before the key typed event is fired
-
-				currentName = ((String) getEditor().getItem()).trim();
-				currentMatch = null;
-
-				// Autohighlight and popup - note that this
-				// should only happen for standard typing
-				// keys, or the delete and backspace keys.
-
-				boolean matchNotFound = true;
-				Object [] currentNames = saveStateNames.toArray();
-
-				if ( currentName.length() > 0 )
-				{
-					for ( int i = 0; i < currentNames.length && matchNotFound; ++i )
-					{
-						if ( ((String)currentNames[i]).toLowerCase().startsWith( currentName.toLowerCase() ) )
-						{
-							showPopup();
-							matchNotFound = false;
-
-							if ( ((String)currentNames[i]).toLowerCase().equals( currentName.toLowerCase() ) )
-								setSelectedIndex(i);
-
-							if ( keycode == KeyEvent.VK_BACK_SPACE || keycode == KeyEvent.VK_DELETE )
-							{
-								// If this was an undefined character, then it
-								// was a backspace or a delete - in this case,
-								// you retain the original name after selecting
-								// the index.
-
-								getEditor().setItem( currentName );
-							}
-							else
-							{
-								// If this wasn't an undefined character, then
-								// the user wants autocompletion!  Highlight
-								// the rest of the possible name.
-
-								currentMatch = (String) currentNames[i];
-								getEditor().setItem( currentMatch );
-								JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
-								editor.setSelectionStart( currentName.length() );
-								editor.setSelectionEnd( currentMatch.length() );
-							}
-						}
-					}
-				}
-
-				// In the event that no match was found (or the
-				// user hasn't entered anything), there is no
-				// need to enter the loop
-
-				if ( matchNotFound )
-					hidePopup();
-			}
-
-			private class NameInputListener extends KeyAdapter
+			private class PasswordFocusListener extends KeyAdapter
 			{
 				public void keyReleased( KeyEvent e )
 				{
 					if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-					{
 						passwordField.requestFocus();
-						return;
-					}
-					else if ( e.getKeyChar() == KeyEvent.CHAR_UNDEFINED )
-						return;
-
-					findMatch( e.getKeyCode() );
 				}
 			}
 		}
