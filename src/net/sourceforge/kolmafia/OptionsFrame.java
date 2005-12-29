@@ -322,6 +322,7 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox hpAutoRecoverSelect;
 		private JComboBox mpAutoRecoverSelect;
 		private JTextField hpRecoveryScriptField;
+		private JTextField mpRecoveryScriptField;
 		private JTextField betweenBattleScriptField;
 
 		/**
@@ -356,10 +357,11 @@ public class OptionsFrame extends KoLFrame
 				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
 
 			hpRecoveryScriptField = new JTextField();
+			mpRecoveryScriptField = new JTextField();
 
 			// Add the elements to the panel
 
-			VerifiableElement [] elements = new VerifiableElement[8];
+			VerifiableElement [] elements = new VerifiableElement[10];
 			elements[0] = new VerifiableElement( "Stop Combat: ", battleStopSelect );
 			elements[1] = new VerifiableElement( "Between Battles: ", new ScriptSelectPanel( betweenBattleScriptField ) );
 
@@ -367,11 +369,13 @@ public class OptionsFrame extends KoLFrame
 
 			elements[3] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
 			elements[4] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
+			elements[5] = new VerifiableElement( "Use these restores: ", HPRestoreItemList.getDisplay() );
 
-			elements[5] = new VerifiableElement( "", new JLabel() );
+			elements[6] = new VerifiableElement( "", new JLabel() );
 
-			elements[6] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
-			elements[7] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
+			elements[7] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
+			elements[8] = new VerifiableElement( "MP Recovery Script: ", new ScriptSelectPanel( mpRecoveryScriptField ) );
+			elements[9] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
 
 			setContent( elements );
 			actionCancelled();
@@ -381,9 +385,13 @@ public class OptionsFrame extends KoLFrame
 		{
 			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex()) / 10.0) ) );
 			setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
+
 			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
+			HPRestoreItemList.setProperty();
+
 			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+			setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
 			MPRestoreItemList.setProperty();
 
 			super.actionConfirmed();
@@ -393,9 +401,12 @@ public class OptionsFrame extends KoLFrame
 		{
 			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) );
 			betweenBattleScriptField.setText( getProperty( "betweenBattleScript" ) );
+
 			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
 			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
+
 			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
+			mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
 		}
 	}
 
@@ -850,6 +861,8 @@ public class OptionsFrame extends KoLFrame
 		Object [] parameters = new Object[1];
 		parameters[0] = null;
 
+		HPRestoreItemList.reset();
+		MPRestoreItemList.reset();
 		(new CreateFrameRunnable( OptionsFrame.class, parameters )).run();
 	}
 }

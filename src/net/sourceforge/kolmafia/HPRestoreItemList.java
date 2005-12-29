@@ -19,11 +19,11 @@
  *      permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * "AS IS" AND ANY EXPRESS OR IHPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IHPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
  * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * INCIDENTAL, SPECIAL, EXEHPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
@@ -47,14 +47,13 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * A special class used as a holder class to hold all of the
- * items which are available for use as MP buffers.
+ * items which are available for use as HP buffers.
  */
 
-public abstract class MPRestoreItemList extends StaticEntity
+public abstract class HPRestoreItemList extends StaticEntity
 {
-	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", 1, -2 );
-	public static final MPRestoreItem HOUSE = new MPRestoreItem( "rest at campsite", 1, -1 );
-	public static final MPRestoreItem GALAKTIK = new MPRestoreItem( "doc galaktik", 1, 20 );
+	public static final HPRestoreItem GALAKTIK = new HPRestoreItem( "doc galaktik", 1, 10 );
+	public static final HPRestoreItem HOUSE = new HPRestoreItem( "rest at campsite", 1, -3 );
 
 	private static Object [] restoreName = new Object[0];
 	private static JCheckBox [] restoreCheckbox = new JCheckBox[0];
@@ -64,30 +63,33 @@ public abstract class MPRestoreItemList extends StaticEntity
 	{
 		list.clear();
 		list.add( GALAKTIK );
-		list.add( BEANBAG );
 		list.add( HOUSE );
 
-		// These MP restores come from NPCs, so they have a
+		// These restores maximize your current HP.  To
+		// make sure they appear at the top, they have values
+		// which do not reflect their market value.
+
+		list.add( new HPRestoreItem( "Medicinal Herb's medicinal herbs", 1, -2 ) );
+		list.add( new HPRestoreItem( "scroll of drastic healing", 1, -1 ) );
+
+		// These HP restores come from NPCs, so they have a
 		// constant market value
 
-		list.add( new MPRestoreItem( "magical mystery juice", (int) (KoLCharacter.getLevel() * 1.5 + 4.0), 100 ) );
-		list.add( new MPRestoreItem( "soda water", 4, 70 ) );
+		list.add( new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 4, 30 ) );
+		list.add( new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9, 60 ) );
+		list.add( new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14, 120 ) );
+		list.add( new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ) );
 
-		// On the other hand, these MP restores have a fairly
-		// arbitrary value and may be subject to arbitrary
-		// inflation, based on player spending habits.
+		// Non-standard items which can also be used for HP
+		// recovery, but might be a little expensive.
 
-		list.add( new MPRestoreItem( "tiny house", 22, 400 ) );
-		list.add( new MPRestoreItem( "phonics down", 48, 900 ) );
-		list.add( new MPRestoreItem( "Knob Goblin superseltzer", 27, 1000 ) );
-		list.add( new MPRestoreItem( "Mountain Stream soda", 8, 120 ) );
-		list.add( new MPRestoreItem( "Dyspepsi-Cola", 12, 250 ) );
-		list.add( new MPRestoreItem( "Knob Goblin seltzer", 10, 100 ) );
-		list.add( new MPRestoreItem( "blatantly Canadian", 22, 800 ) );
+		list.add( new HPRestoreItem( "cast", 17, 300 ) );
+		list.add( new HPRestoreItem( "tiny house", 22, 400 ) );
+		list.add( new HPRestoreItem( "phonics down", 48, 900 ) );
 	}
 
-	public static MPRestoreItem get( int index )
-	{	return (MPRestoreItem) list.get( index );
+	public static HPRestoreItem get( int index )
+	{	return (HPRestoreItem) list.get( index );
 	}
 
 	public static int size()
@@ -118,10 +120,10 @@ public abstract class MPRestoreItemList extends StaticEntity
 		restorePanel.add( checkboxPanel, BorderLayout.WEST );
 		restorePanel.add( labelPanel, BorderLayout.CENTER );
 
-		String mpRestoreSetting = getProperty( "buffBotMPRestore" );
+		String HPRestoreSetting = getProperty( "hpRestoreItems" );
 
 		for ( int i = 0; i < restoreName.length; ++i )
-			if ( mpRestoreSetting.indexOf( restoreName[i].toString() ) != -1 )
+			if ( HPRestoreSetting.indexOf( restoreName[i].toString() ) != -1 )
 				restoreCheckbox[i].setSelected( true );
 
 		JScrollPane scrollArea = new JScrollPane( restorePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -132,7 +134,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	public static void setProperty()
 	{
-		StringBuffer mpRestoreSetting = new StringBuffer();
+		StringBuffer HPRestoreSetting = new StringBuffer();
 
 		if ( restoreCheckbox != null )
 		{
@@ -140,30 +142,30 @@ public abstract class MPRestoreItemList extends StaticEntity
 			{
 				if ( restoreCheckbox[i].isSelected() )
 				{
-					mpRestoreSetting.append( restoreName[i].toString() );
-					mpRestoreSetting.append( ';' );
+					HPRestoreSetting.append( restoreName[i].toString() );
+					HPRestoreSetting.append( ';' );
 				}
 			}
 		}
 
-		setProperty( "buffBotMPRestore", mpRestoreSetting.toString() );
+		setProperty( "hpRestoreItems", HPRestoreSetting.toString() );
 	}
 
-	public static class MPRestoreItem implements Comparable
+	public static class HPRestoreItem implements Comparable
 	{
 		private String itemName;
-		private int mpPerUse;
+		private int hpPerUse;
 		private int estimatedPrice;
-		private double priceToMPRatio;
+		private double priceToHPRatio;
 		private AdventureResult itemUsed;
 
-		public MPRestoreItem( String itemName, int mpPerUse, int estimatedPrice )
+		public HPRestoreItem( String itemName, int hpPerUse, int estimatedPrice )
 		{
 			this.itemName = itemName;
-			this.mpPerUse = mpPerUse;
+			this.hpPerUse = hpPerUse;
 			this.estimatedPrice = estimatedPrice;
 
-			this.priceToMPRatio = (double)estimatedPrice / (double)mpPerUse;
+			this.priceToHPRatio = hpPerUse == 0 ? Double.MAX_VALUE : (double)estimatedPrice / (double)hpPerUse;
 			this.itemUsed = new AdventureResult( itemName, 0 );
 		}
 
@@ -171,19 +173,11 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverMP()
+		public void recoverHP()
 		{
 			if ( this == GALAKTIK )
 			{
-				(new GalaktikRequest( client, GalaktikRequest.MP )).run();
-				return;
-			}
-
-			if ( this == BEANBAG )
-			{
-				client.updateDisplay( DISABLE_STATE, "Relaxing in beanbag chair..." );
-				(new CampgroundRequest( client, "relax" )).run();
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+				(new GalaktikRequest( client, GalaktikRequest.HP )).run();
 				return;
 			}
 
@@ -195,14 +189,14 @@ public abstract class MPRestoreItemList extends StaticEntity
 				return;
 			}
 
-			int currentMP = KoLCharacter.getCurrentMP();
-			int maximumMP = KoLCharacter.getMaximumMP();
+			int currentHP = KoLCharacter.getCurrentHP();
+			int maximumHP = KoLCharacter.getMaximumHP();
 
-			// Always buff as close to max MP as possible, in order to
+			// Always buff as close to max HP as possible, in order to
 			// go as easy on the server as possible.
 
-			int mpShort = maximumMP - currentMP;
-			int numberToUse = Math.min( (int) Math.ceil( mpShort / mpPerUse ), itemUsed.getCount( KoLCharacter.getInventory() ) );
+			int hpShort = maximumHP - currentHP;
+			int numberToUse = Math.min( (int) Math.ceil( hpShort / hpPerUse ), itemUsed.getCount( KoLCharacter.getInventory() ) );
 
 			// Because there aren't many buffbots running anymore, it's
 			// okay to use one less than is actually necessary.
@@ -218,10 +212,10 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public int compareTo( Object o )
 		{
-			if ( !(o instanceof MPRestoreItem) || o == null )
+			if ( !(o instanceof HPRestoreItem) || o == null )
 				return -1;
 
-			double ratioDifference = this.priceToMPRatio - ((MPRestoreItem)o).priceToMPRatio;
+			double ratioDifference = this.priceToHPRatio - ((HPRestoreItem)o).priceToHPRatio;
 			return ratioDifference < 0.0 ? -1 : ratioDifference > 0.0 ? 1 : 0;
 		}
 
