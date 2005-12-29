@@ -183,6 +183,14 @@ public class MoonPhaseDatabase extends StaticEntity
 		RONALD_PHASE = ronaldPhase;
 		GRIMACE_PHASE = grimacePhase;
 	}
+	
+	public static final int getRonaldPhase()
+	{	return RONALD_PHASE + 1;
+	}
+	
+	public static final int getGrimacePhase()
+	{	return GRIMACE_PHASE + 1;
+	}
 
 	/**
 	 * Method to return which phase of the moon is currently

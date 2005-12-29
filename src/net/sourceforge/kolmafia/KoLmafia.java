@@ -268,8 +268,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Get current moon phases
 
-		if ( !isQuickLogin )
-			(new MoonPhaseRequest( this )).run();
+		(new MoonPhaseRequest( this )).run();
 
 		if ( !permitsContinue() )
 		{

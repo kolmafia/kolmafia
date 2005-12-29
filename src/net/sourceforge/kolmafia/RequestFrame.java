@@ -41,19 +41,21 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
 import javax.swing.JSplitPane;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JList;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.Box;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,6 +63,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.ListSelectionModel;
 
+import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -141,44 +144,70 @@ public class RequestFrame extends KoLFrame
 			JScrollPane sideScroller = new JScrollPane( this.sideDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
 			JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
 
-			JSplitPane splitPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, sideScroller, mainScroller );
-			splitPane.setOneTouchExpandable( true );
-			JComponentUtilities.setComponentSize( splitPane, 600, 450 );
-
-			framePanel.setLayout( new GridLayout( 1, 1 ) );
-			framePanel.add( splitPane );
+			JSplitPane horizontalSplit = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, sideScroller, mainScroller );
+			horizontalSplit.setOneTouchExpandable( true );
+			JComponentUtilities.setComponentSize( horizontalSplit, 600, 450 );
 
 			// Add the standard locations handled within the
 			// mini-browser, including inventory, character
 			// information, skills and account setup.
 
-			JMenu functionMenu = new JMenu( "Function" );
-			getJMenuBar().add( functionMenu, 0 );
+			BrowserComboBox functionSelect = new BrowserComboBox();
+			functionSelect.addItem( new BrowserComboBoxItem( " - Function - ", "" ) );
 
-			functionMenu.add( new DisplayRequestMenuItem( "Consumables", "inventory.php?which=1" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Equipment", "inventory.php?which=2" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Miscellaneous", "inventory.php?which=3" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Character Sheet", "charsheet.php" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Terrarium", "familiar.php" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Usable Skills", "skills.php" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Read Messages", "messages.php" ) );
-			functionMenu.add( new DisplayRequestMenuItem( "Account Menu", "account.php" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Consumables", "inventory.php?which=1" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Equipment", "inventory.php?which=2" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Miscellaneous", "inventory.php?which=3" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Character Sheet", "charsheet.php" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Terrarium", "familiar.php" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Usable Skills", "skills.php" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Read Messages", "messages.php" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Account Menu", "account.php" ) );
 
 			// Add the browser "goto" menu, because people
 			// are familiar with seeing this as well.  But,
 			// place it all inside of a "travel" menu.
 
-			JMenu zonesMenu = new JMenu( "Goto" );
-			getJMenuBar().add( zonesMenu, 1 );
+			BrowserComboBox gotoSelect = new BrowserComboBox();
+			gotoSelect.addItem( new BrowserComboBoxItem( " - Goto - ", "" ) );
 
-			zonesMenu.add( new DisplayRequestMenuItem( "Seaside Town", "town.php" ) );
-			zonesMenu.add( new DisplayRequestMenuItem( "Campground", "campground.php" ) );
-			zonesMenu.add( new DisplayRequestMenuItem( "Big Mountains", "mountains.php" ) );
-			zonesMenu.add( new DisplayRequestMenuItem( "Nearby Plains", "plains.php" ) );
-			zonesMenu.add( new DisplayRequestMenuItem( "Sorceress' Lair", "lair.php" ) );
-			zonesMenu.add( new DisplayRequestMenuItem( "Desert Beach", "beach.php" ) );
-			zonesMenu.add( new DisplayRequestMenuItem( "Distant Woods", "woods.php" ) );
-			zonesMenu.add( new DisplayRequestMenuItem( "Mysterious Island", "island.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Main Map", "main.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Seaside Town", "town.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Clan Hall", "clan_hall.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Campground", "campground.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Big Mountains", "mountains.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Nearby Plains", "plains.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Sorceress' Lair", "lair.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Desert Beach", "beach.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Distant Woods", "woods.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Mysterious Island", "island.php" ) );
+
+			JPanel topMenu = new JPanel();
+			topMenu.setOpaque( true );
+			topMenu.setBackground( Color.white );
+			
+			topMenu.add( functionSelect );
+			topMenu.add( gotoSelect );
+			topMenu.add( Box.createHorizontalStrut( 20 ) );
+
+			try
+			{
+				topMenu.add( new JLabel( new ImageIcon(
+					new URL( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) ) );
+
+				topMenu.add( new JLabel( new ImageIcon(
+					new URL( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) ) );
+			}
+			catch ( Exception e )
+			{
+			}
+
+			functionSelect.setSelectedIndex( 0 );
+			gotoSelect.setSelectedIndex( 0 );
+
+			framePanel.setLayout( new BorderLayout() );
+			framePanel.add( topMenu, BorderLayout.NORTH );
+			framePanel.add( horizontalSplit, BorderLayout.CENTER );
 
 			// Add toolbar pieces so that people can quickly
 			// go to locations they like.
@@ -198,6 +227,44 @@ public class RequestFrame extends KoLFrame
 		}
 
 		(new DisplayRequestThread()).start();
+	}
+
+	private class BrowserComboBox extends JComboBox implements ActionListener
+	{
+		public BrowserComboBox()
+		{	addActionListener( this );
+		}
+	
+		public void actionPerformed( ActionEvent e )
+		{
+			BrowserComboBox source = (BrowserComboBox) e.getSource();
+			BrowserComboBoxItem selected = (BrowserComboBoxItem) source.getSelectedItem();
+
+			if ( !selected.getLocation().equals( "" ) )
+				refresh( new KoLRequest( client, selected.getLocation() ) );
+			
+			source.setSelectedIndex( 0 );
+		}
+	}
+	
+	private class BrowserComboBoxItem
+	{
+		private String name;
+		private String location;
+	
+		public BrowserComboBoxItem( String name, String location )
+		{
+			this.name = name;
+			this.location = location;
+		}
+		
+		public String toString()
+		{	return name;
+		}
+		
+		public String getLocation()
+		{	return location;
+		}
 	}
 
 	/**

@@ -274,8 +274,7 @@ public abstract class SendMessageFrame extends KoLFrame
 				if ( !sendMessage( recipients[i], messages ) )
 					return;
 
-			if ( SendMessageFrame.this instanceof ProposeTradeFrame )
-				SendMessageFrame.this.dispose();
+			dispose();
 		}
 	}
 
