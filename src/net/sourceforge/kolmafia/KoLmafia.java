@@ -60,6 +60,8 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import java.lang.reflect.Method;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
@@ -370,6 +372,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.settings = new KoLSettings( loginname );
 		resetContinueState();
 
+		HPRestoreItemList.reset();
 		MPRestoreItemList.reset();
 		KoLCharacter.refreshCalculatedLists();
 	}
@@ -797,6 +800,111 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
+	 * Utility method which ensures that the amount needed exists,
+	 * and if not, calls the appropriate scripts to do so.
+	 */
+
+	private final boolean recover( int needed, String currentName, String maximumName, String scriptProperty, String listProperty, Class techniqueList )
+	{
+		try
+		{
+			Object [] empty = new Object[0];
+			Method currentMethod, maximumMethod;
+
+			currentMethod = KoLCharacter.class.getMethod( currentName, new Class[0] );
+			maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
+
+			if ( ((Number)currentMethod.invoke( null, empty )).intValue() >= needed )
+				return true;
+
+			int current = -1;
+			resetContinueState();
+
+			// First, attempt to recover using the appropriate script, if it exists.
+			// This uses a lot of excessive reflection, but the idea is that it
+			// checks the current value of the stat against the needed value of
+			// the stat and makes sure that there's a change with every iteration.
+			// If there is no change, it exists the loop.
+
+			String scriptPath = settings.getProperty( scriptProperty );
+			if ( !scriptPath.trim().equals( "" ) )
+			{
+				while ( permitsContinue() && ((Number)currentMethod.invoke( null, empty )).intValue() < needed &&
+					current < ((Number)maximumMethod.invoke( null, empty )).intValue() && current != ((Number)currentMethod.invoke( null, empty )).intValue() )
+				{
+					current = ((Number)currentMethod.invoke( null, empty )).intValue();
+					recoverOnce( scriptProperty );
+				}
+			}
+
+			// If the recovery script was successful, then report success
+			// and return from the method.
+
+			if ( current >= needed )
+			{
+				updateDisplay( DISABLE_STATE, "Recovery complete.  Resuming requests..." );
+				disableMacro = false;
+				return true;
+			}
+
+			// If it gets this far, then you should attempt to recover
+			// using the selected items.  This involves a few extra
+			// reflection methods.
+
+			String restoreSetting = settings.getProperty( listProperty );
+
+			int totalRestores = ((Number)techniqueList.getMethod( "size", new Class[0] ).invoke( null, empty )).intValue();
+			Method getMethod = techniqueList.getMethod( "get", new Class [] { Integer.TYPE } );
+
+			// Iterate through every single restore item, checking to
+			// see if the settings wish to use this item.  If so, go ahead
+			// and process the item's usage.
+
+			current = -1;
+			Object currentTechnique;
+
+			for ( int i = 0; i < totalRestores; ++i )
+			{
+				currentTechnique = getMethod.invoke( null, new Integer [] { new Integer(i) } );
+				if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
+				{
+					while ( current < ((Number)maximumMethod.invoke( null, empty )).intValue() && current != ((Number)currentMethod.invoke( null, empty )).intValue() )
+					{
+						current = ((Number)currentMethod.invoke( null, empty )).intValue();
+						recoverOnce( currentTechnique );
+					}
+				}
+			}
+
+			// Fall-through check, just in case you've reached the
+			// desired value.
+
+			if ( current >= needed )
+			{
+				updateDisplay( DISABLE_STATE, "Recovery complete.  Resuming requests..." );
+				disableMacro = false;
+				return true;
+			}
+
+			// Now you know for certain that you did not reach the
+			// desired value.  Report an error message.
+
+			updateDisplay( ERROR_STATE, "Auto-recovery failed." );
+			disableMacro = false;
+			cancelRequest();
+			return false;
+		}
+		catch ( Exception e )
+		{
+			logStream.println( e );
+			e.printStackTrace( logStream );
+			cancelRequest();
+			disableMacro = false;
+			return false;
+		}
+	}
+
+	/**
 	 * Utility method called inbetween battles.  This method
 	 * checks to see if the character's HP has dropped below
 	 * the tolerance value, and recovers if it has (if
@@ -806,56 +914,45 @@ public abstract class KoLmafia implements KoLConstants
 	protected final void recoverHP()
 	{
 		double recover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) KoLCharacter.getMaximumHP();
-		recoverHP( (int) recover );
+		recover( (int) recover, "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestoreItems", HPRestoreItemList.class );
 	}
 
 	/**
-	 * Internal method to recover HP above to specified threshold.
-	 * If the threshold is equal to or greater than your maximum
-	 * hit points
+	 * Utility method which uses the given recovery technique (not specified
+	 * in a script) in order to restore.
 	 */
 
-	public final void recoverHP( int hpNeeded )
+	private final void recoverOnce( Object technique )
 	{
-		if ( KoLCharacter.getCurrentHP() >= hpNeeded )
+		if ( technique == null )
 			return;
 
-		try
+		if ( technique == MPRestoreItemList.BEANBAG || technique == MPRestoreItemList.HOUSE || technique == HPRestoreItemList.HOUSE )
 		{
-			int currentHP = -1;
-			resetContinueState();
-
-			while ( permitsContinue() && KoLCharacter.getCurrentHP() < hpNeeded &&
-				KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() && currentHP != KoLCharacter.getCurrentHP() )
-			{
-				recoverHPOnce();
-				currentHP = KoLCharacter.getCurrentHP();
-			}
-
-			if ( currentHP < hpNeeded )
-			{
-				updateDisplay( ERROR_STATE, "Auto-recovery script failed to restore HP." );
-				cancelRequest();
-			}
-			else
-			{
-				updateDisplay( DISABLE_STATE, "HP recovery complete.  Resuming requests..." );
-			}
+			if ( KoLCharacter.getAdventuresLeft() == 0 )
+				return;
 		}
-		catch ( Exception e )
+		else if ( technique != MPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.GALAKTIK )
 		{
-			updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
-			cancelRequest();
+			if ( !KoLCharacter.getInventory().contains( new AdventureResult( technique.toString(), 0 ) ) )
+				return;
 		}
 
-		disableMacro = false;
+		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
+			((HPRestoreItemList.HPRestoreItem)technique).recoverHP();
+
+		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
+			((MPRestoreItemList.MPRestoreItem)technique).recoverMP();
 	}
 
-	private final void recoverHPOnce() throws IOException
-	{
-		updateDisplay( DISABLE_STATE, "Executing HP auto-recovery script..." );
+	/**
+	 * Utility method which attempts to recover once
+	 * using the provided string property.
+	 */
 
-		String scriptPath = settings.getProperty( "hpRecoveryScript" ) ;
+	private final void recoverOnce( String scriptPath ) throws IOException
+	{
+		updateDisplay( DISABLE_STATE, "Executing auto-recovery script..." );
 		File recoveryScript = new File( scriptPath );
 
 		if ( recoveryScript.exists() )
@@ -865,7 +962,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		else
 		{
-			updateDisplay( ERROR_STATE, "Could not find HP auto-recovery script." );
+			updateDisplay( ERROR_STATE, "Could not find auto-recovery script." );
 			cancelRequest();
 		}
 	}
@@ -906,74 +1003,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean recoverMP( int mpNeeded )
-	{
-		if ( KoLCharacter.getCurrentMP() >= mpNeeded )
-			return true;
-
-		int previousMP = -1;
-		disableMacro = true;
-
-		String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
-
-		// Iterate through every single MP restore item, checking to
-		// see if the settings wish to use this item.  If so, go ahead
-		// and process the item's usage.
-
-		for ( int i = 0; i < MPRestoreItemList.size(); ++i )
-		{
-			if ( mpRestoreSetting.indexOf( MPRestoreItemList.get(i).toString() ) != -1 )
-			{
-				while ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() && KoLCharacter.getCurrentMP() > previousMP )
-				{
-					recoverMPOnce( MPRestoreItemList.get(i) );
-					previousMP = KoLCharacter.getCurrentMP();
-				}
-
-				if ( KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
-				{
-					disableMacro = false;
-					resetContinueState();
-					return true;
-				}
-			}
-		}
-
-		// Fall-through check, just in case you've reached the
-		// desired value.
-
-		if ( KoLCharacter.getCurrentMP() >= mpNeeded )
-		{
-			disableMacro = false;
-			return true;
-		}
-
-		// Now you know for certain that you did not reach the
-		// desired value.  Report an error message.
-
-		updateDisplay( ERROR_STATE, "Unable to acquire enough MP!" );
-		disableMacro = false;
-		cancelRequest();
-		return false;
-	}
-
-	private final void recoverMPOnce( MPRestoreItemList.MPRestoreItem technique )
-	{
-		// If this attempt to recover MP will cost adventures,
-
-		if ( technique == MPRestoreItemList.BEANBAG || technique == MPRestoreItemList.HOUSE )
-		{
-			if ( KoLCharacter.getAdventuresLeft() == 0 )
-				return;
-		}
-		else if ( technique != null )
-		{
-			AdventureResult item = new AdventureResult( technique.toString(), 0 );
-			if ( !KoLCharacter.getInventory().contains( item ) )
-				return;
-		}
-
-		if ( technique != null )
-			technique.recoverMP();
+	{	return recover( mpNeeded, "getCurrentMP", "getMaximumMP", "mpRecoveryScript", "buffBotMPRestore", MPRestoreItemList.class );
 	}
 
 	/**
