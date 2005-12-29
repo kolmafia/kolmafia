@@ -146,6 +146,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected JLabel meatLabel, drunkLabel;
 	protected JLabel familiarLabel, weightLabel;
 
+	protected JMenuItem debugMenuItem, macroMenuItem;
+
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
 	 * to be associated with the given client.
@@ -506,6 +508,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		JMenu scriptMenu = new ScriptMenu();
 		container.add( scriptMenu );
+		
+		if ( container instanceof JMenuBar )
+		{
+			JMenu toggleMenu = new JMenu( "Toggles" );
+			container.add( toggleMenu );
+
+			toggleMenu.add( debugMenuItem = new ToggleDebugMenuItem() );
+			toggleMenu.add( macroMenuItem = new ToggleMacroMenuItem() );
+		}
 
 		// Add help information for KoLmafia.  This includes
 		// the additional help-oriented stuffs.
@@ -559,6 +570,37 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{	return true;
 	}
 
+	private class ToggleDebugMenuItem extends JMenuItem implements ActionListener
+	{
+		public ToggleDebugMenuItem()
+		{
+			super( "" );
+			addActionListener( this );
+
+			setIcon( JComponentUtilities.getSharedImage( "debug.gif" ) );
+			setText( client == null || KoLmafia.getLogStream() instanceof NullStream ? "Begin recording debug..." : "Stop recording debug" );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+			existingFrames.toArray( frames );
+		
+			if ( KoLmafia.getLogStream() instanceof NullStream )
+			{
+				KoLmafia.openDebugLog();
+				for ( int i = 0; i < frames.length; ++i )
+					frames[i].debugMenuItem.setText( "Stop recording debug" );
+			}
+			else if ( client != null )
+			{
+				client.closeDebugLog();
+				for ( int i = 0; i < frames.length; ++i )
+					frames[i].debugMenuItem.setText( "Begin recording debug..." );
+			}
+		}
+	}
+
 	private class ToggleMacroMenuItem extends JMenuItem implements ActionListener
 	{
 		public ToggleMacroMenuItem()
@@ -566,11 +608,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super( "" );
 			addActionListener( this );
 
-			setText( client == null || client.getMacroStream() instanceof NullStream ? "Record script..." : "Stop recording" );
+			setIcon( JComponentUtilities.getSharedImage( "command.gif" ) );
+			setText( client == null || client.getMacroStream() instanceof NullStream ? "Begin recording script..." : "Stop recording script" );
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
+			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+			existingFrames.toArray( frames );
+		
 			if ( client != null && client.getMacroStream() instanceof NullStream )
 			{
 				JFileChooser chooser = new JFileChooser( "scripts" );
@@ -584,12 +630,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
 					client.openMacroStream( filename );
 
-				setText( "Stop recording" );
+				for ( int i = 0; i < frames.length; ++i )
+					frames[i].macroMenuItem.setText( "Stop recording script" );
 			}
 			else if ( client != null )
 			{
 				client.closeMacroStream();
-				setText( "Record script..." );
+				for ( int i = 0; i < frames.length; ++i )
+					frames[i].macroMenuItem.setText( "Begin recording script..." );
 			}
 		}
 	}
@@ -1392,11 +1440,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[3];
+			JComponent [] headers = new JComponent[2];
 
 			headers[0] = new LoadScriptMenuItem();
-			headers[1] = new ToggleMacroMenuItem();
-			headers[2] = new InvocationMenuItem( "Refresh menu", KoLFrame.this, "compileScripts" );
+			headers[1] = new InvocationMenuItem( "Refresh menu", KoLFrame.this, "compileScripts" );
 
 			return headers;
 		}

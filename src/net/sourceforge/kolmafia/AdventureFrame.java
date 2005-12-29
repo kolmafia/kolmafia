@@ -183,7 +183,6 @@ public class AdventureFrame extends KoLFrame
 			toolbarPanel.add( new JToolBar.Separator() );
 
 			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
-			toolbarPanel.add( new InvocationButton( "Debugger", "debug.gif", KoLmafia.class, "openDebugLog" ) );
 		}
 	}
 
