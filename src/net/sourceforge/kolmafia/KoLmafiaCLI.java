@@ -749,6 +749,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Next is the command to train your current familiar
+
+		if ( command.equals( "train" ) )
+		{
+			trainFamiliar( parameters );
+			return;
+		}
+
 		// Next is the command to visit the council.
 		// This prints data to the command line.
 
@@ -2111,6 +2119,44 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			updateDisplay( ERROR_STATE, "Invalid setting for device." );
 		}
+	}
+
+	/**
+	 * Train the player's current familiar
+	 */
+
+	private void trainFamiliar( String parameters )
+	{
+		// train (base | buffed | turns) <goal> yes?
+		String [] split = parameters.split( " " );
+
+		if ( split.length < 2 || split.length > 3 )
+		{
+			updateDisplay( ERROR_STATE, "Syntax: train type goal buff?" );
+			return;
+		}
+
+		String typeString = split[0];
+		int type;
+
+		if ( typeString.equals( "base" ) )
+			type = FamiliarTrainingFrame.BASE;
+		else if ( typeString.equals( "buffed" ) )
+			type = FamiliarTrainingFrame.BUFFED;
+		else if ( typeString.equals( "turns" ) )
+			type = FamiliarTrainingFrame.TURNS;
+		else
+		{
+			updateDisplay( ERROR_STATE, "Unknown training type: " + typeString );
+			return;
+		}
+
+		String goalString = split[1];
+		int goal = Integer.parseInt( goalString );
+
+		boolean buffs = ( split.length == 3 && split[2].equals( "yes" ) );
+
+		FamiliarTrainingFrame.levelFamiliar( scriptRequestor, goal, type, buffs, false );
 	}
 
 	/**

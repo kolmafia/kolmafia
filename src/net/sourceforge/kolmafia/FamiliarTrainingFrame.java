@@ -91,9 +91,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static boolean stop = false;
 	private FamiliarTrainingPanel training;
 
-	private static final int BASE = 1;
-	private static final int BUFFED = 2;
-	private static final int TURNS = 3;
+	public static final int BASE = 1;
+	public static final int BUFFED = 2;
+	public static final int TURNS = 3;
 
 	// Familiar buffing skills
 	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0, true );
@@ -559,6 +559,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 	}
 
+	private static boolean levelFamiliar( KoLmafia client, int goal, int type )
+	{
+		boolean buffs = client.getLocalBooleanProperty( "castBuffsWhileTraining" );
+		boolean debug = client.getLocalBooleanProperty( "debugFamiliarTraining" );
+		return levelFamiliar( client, goal, type, buffs, debug );
+	}
+
 	/**
 	 * Utility method to level the current familiar by fighting the
 	 * current arena opponents.
@@ -566,13 +573,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * @param	client	KoLmafia client
 	 * @param	goal	Weight goal for the familiar
 	 * @param	type	BASE, BUFF, or TURNS
+	 * @param	buffs	true if should cast buffs during training
+	 * @param	debug	true if we are debugging
 	 */
 
-	public static boolean levelFamiliar( KoLmafia client, int goal, int type )
+	public static boolean levelFamiliar( KoLmafia client, int goal, int type, boolean buffs, boolean debug )
 	{
-		boolean buffs = client.getLocalBooleanProperty( "castBuffsWhileTraining" );
-		boolean debug = client.getLocalBooleanProperty( "debugFamiliarTraining" );
-
 		// Clear the output
 		results.clearBuffer();
 
@@ -1642,26 +1648,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Find and report how much experience was gained
 			matcher = Pattern.compile( "gains (\\d+) experience" ).matcher( response );
+			String message;
 			if ( matcher.find() )
-			{
-				text.append( familiar.getName() + " gains " + matcher.group(1) + " experience" );
+				message = familiar.getName() + " gains " + matcher.group(1) + " experience" + ( response.indexOf( "gains a pound" ) != -1 ? " and a pound." : "." );
 
-				// If the familiar gained a pound, report it
-				// and add a pound to the base weight.
-				matcher = Pattern.compile( "gains a pound" ).matcher( response );
-				if ( matcher.find() )
-					text.append( " and a pound" );
-				text.append( ".<br>" );
-			}
 			else
-				text.append( familiar.getName() + " lost.<br>" );
+				message = familiar.getName() + " lost.";
+			statusMessage( client, NORMAL_STATE, message );
 
 			// If a prize was won, report it
 			matcher = Pattern.compile( "You acquire an item: <b>(.*?)</b>" ).matcher( response );
 			if ( matcher.find() )
 			{
 				String prize = matcher.group(1);
-				text.append( "You win a prize: " + prize + ".<br>" );
+				statusMessage( client, NORMAL_STATE, "You win a prize: " + prize + "." );
 				if ( prize.equals( LEAD_NECKLACE.getName() ) )
 				{
 					if ( leadNecklace == null )
