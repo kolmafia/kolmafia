@@ -231,7 +231,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected String getURLString()
-	{	return formURLBuffer.toString();
+	{	return data.isEmpty() ? formURLBuffer.toString() : formURLBuffer.toString() + "?" + getDataString();
 	}
 
 	/**
