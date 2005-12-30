@@ -703,11 +703,6 @@ public class AdventureFrame extends KoLFrame
 
 			contentPanel = this;
 
-			if ( !limitPurchasesCheckBox.isSelected() && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-				"Are you sure you would like to purchase\n" + getPurchaseSummary( purchases ) + "?",
-					"You sure you wanna ride that wave, dude?", JOptionPane.YES_NO_OPTION ) )
-						return;
-
 			int count = limitPurchasesCheckBox.isSelected() ?
 				getQuantity( "Maximum number of items to purchase?", Integer.MAX_VALUE, 1 ) : Integer.MAX_VALUE;
 
