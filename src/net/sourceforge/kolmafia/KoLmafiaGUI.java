@@ -328,7 +328,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedValue == null )
                         return;
 
-		makeRequest( BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) ), 1 );
+		makeRequest( new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) ), 1 );
 		enableDisplay();
 
 		// We might have sold a craftable item
