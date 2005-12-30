@@ -118,7 +118,7 @@ public class AdventureFrame extends KoLFrame
 
 		tabs.addTab( "Adventure Select", adventureSelect );
 		tabs.addTab( "Mall of Loathing", mallSearch );
-		tabs.addTab( "Auto-Restoration", restoration );
+		tabs.addTab( "Auto-Restoration", new JScrollPane( restoration, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
 
 		addCompactPane();
 		framePanel.add( tabs, BorderLayout.CENTER );
@@ -618,8 +618,8 @@ public class AdventureFrame extends KoLFrame
 			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Item to Find: ", searchField );
 			elements[1] = new VerifiableElement( "Search Limit: ", countField );
-			elements[2] = new VerifiableElement( "Limit Purchases: ", limitPurchasesCheckBox );
-			elements[3] = new VerifiableElement( "Force Price Sort: ", forceSortingCheckBox );
+			elements[2] = new VerifiableElement( "Buy Limit: ", limitPurchasesCheckBox );
+			elements[3] = new VerifiableElement( "Force Sort: ", forceSortingCheckBox );
 
 			setContent( elements );
 			currentlyBuying = false;
