@@ -295,22 +295,19 @@ public class RequestFrame extends KoLFrame
 
 	public void refresh( KoLRequest request )
 	{
-		synchronized ( RequestFrame.class )
+		if ( request == currentRequest && lastResponseText.equals( request.responseText ) )
+			return;
+
+		String location = request.getURLString();
+
+		if ( parent == null )
 		{
-			if ( request == currentRequest && lastResponseText.equals( request.responseText ) )
-				return;
-
-			String location = request.getURLString();
-
-			if ( parent == null )
-			{
-				setCombatRound( request );
-				currentRequest = request;
-				(new DisplayRequestThread()).start();
-			}
-			else
-				parent.refresh( request );
+			setCombatRound( request );
+			currentRequest = request;
+			(new DisplayRequestThread()).start();
 		}
+		else
+			parent.refresh( request );
 	}
 
 	private void setCombatRound( KoLRequest request )
@@ -421,17 +418,6 @@ public class RequestFrame extends KoLFrame
 	{
 		public void run()
 		{
-			// In order to prevent the contents from displaying twice,
-			// synchronize on the frame class.
-
-			synchronized ( RequestFrame.class )
-			{
-				displayRequest();
-			}
-		}
-
-		public void displayRequest()
-		{
 			if ( currentRequest == null )
 				return;
 
@@ -477,7 +463,14 @@ public class RequestFrame extends KoLFrame
 			{
 				mainBuffer.clearBuffer();
 				mainBuffer.append( "Retrieving..." );
+
+				// New prevention mechanism: tell the requests that there
+				// will be no synchronization.
+
+				String original = getProperty( "synchronizeFightFrame" );
+				setProperty( "synchronizeFightFrame", "false" );
 				currentRequest.run();
+				setProperty( "synchronizeFightFrame", original );
 			}
 
 			// If this resulted in a redirect, then update the display
@@ -495,6 +488,7 @@ public class RequestFrame extends KoLFrame
 				}
 			}
 
+			lastResponseText = currentRequest.responseText;
 			mainBuffer.clearBuffer();
 
 			if ( client != null )
@@ -544,8 +538,6 @@ public class RequestFrame extends KoLFrame
 
 			if ( location.indexOf( "mushroom" ) != -1 )
 				MushroomPlot.parsePlot( currentRequest.responseText );
-
-			lastResponseText = currentRequest.responseText;
 		}
 	}
 
