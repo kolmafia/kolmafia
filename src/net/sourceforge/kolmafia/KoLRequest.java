@@ -393,11 +393,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			client.processResults( responseText );
 
 			// Synchronize if requested
-			if ( this instanceof AdventureRequest || this instanceof FightRequest || getClass() == KoLRequest.class )
-			{
-				client.setCurrentRequest( this );
-				showInBrowser( false );
-			}
+
+			client.setCurrentRequest( this );
+			showInBrowser( false );
 		}
 	}
 
