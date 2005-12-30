@@ -34,16 +34,15 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.Date;
-import java.io.File;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -238,22 +237,28 @@ public class AscensionSnapshotTable extends KoLDatabase
 	{
 		StringBuffer strbuf = new StringBuffer();
 
-		Iterator fieldIterator;
-		AscensionDataRequest.AscensionDataField currentField;
+		AscensionDataRequest.AscensionDataField [] fields;
+
+		if ( isSoftcore )
+		{
+			fields = new AscensionDataRequest.AscensionDataField[ softcoreAscensionList.size() ];
+			softcoreAscensionList.toArray( fields );
+		}
+		else
+		{
+			fields = new AscensionDataRequest.AscensionDataField[ hardcoreAscensionList.size() ];
+			hardcoreAscensionList.toArray( fields );
+		}
 
 		// First, retrieve all the ascensions which
 		// satisfy the current filter so that the
 		// total count can be displayed in the header.
 
 		List resultsList = new ArrayList();
-		fieldIterator = (isSoftcore ? softcoreAscensionList : hardcoreAscensionList).iterator();
 
-		while ( fieldIterator.hasNext() )
-		{
-			currentField = (AscensionDataRequest.AscensionDataField) fieldIterator.next();
-			if ( currentField.matchesFilter( isSoftcore, pathFilter, classFilter ) )
-				resultsList.add( currentField );
-		}
+		for ( int i = 0; i < fields.length; ++i )
+			if ( fields[i].matchesFilter( isSoftcore, pathFilter, classFilter ) )
+				resultsList.add( fields[i] );
 
 		// Next, retrieve only the top ten list so that
 		// a maximum of ten elements are printed.
@@ -261,14 +266,12 @@ public class AscensionSnapshotTable extends KoLDatabase
 		List leaderList = new ArrayList();
 		int leaderListSize = classFilter == NO_FILTER ? 10 : 5;
 
-		fieldIterator = resultsList.iterator();
+		fields = new AscensionDataRequest.AscensionDataField[ resultsList.size() ];
+		resultsList.toArray( fields );
 
-		while ( fieldIterator.hasNext() && leaderList.size() < leaderListSize )
-		{
-			currentField = (AscensionDataRequest.AscensionDataField) fieldIterator.next();
-			if ( !leaderList.contains( currentField ) )
-				leaderList.add( currentField );
-		}
+		for ( int i = 0; i < fields.length && leaderList.size() < leaderListSize; ++i )
+			if ( !leaderList.contains( fields[i] ) )
+				leaderList.add( fields[i] );
 
 		// Now that the data has been retrieved, go ahead
 		// and print the table header data.
@@ -352,30 +355,26 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// If the lists are not initialized, then go ahead and
 		// load the appropriate data into them.
 
-		String currentName;
-		Iterator nameIterator = ascensionMap.keySet().iterator();
+		String [] names = new String[ ascensionMap.keySet().size() ];
+		ascensionMap.keySet().toArray( names );
 
 		AscensionDataRequest request;
-		AscensionDataRequest.AscensionDataField field;
-		Iterator ascensionIterator;
+		AscensionDataRequest.AscensionDataField [] fields;
 
-		while ( nameIterator.hasNext() )
+		for ( int i = 0; i < names.length; ++i )
 		{
-			currentName = (String) nameIterator.next();
-
-			request = AscensionDataRequest.getInstance( currentName, client.getPlayerID( currentName ), (String) ascensionMap.get( currentName ) );
+			request = AscensionDataRequest.getInstance( names[i], client.getPlayerID( names[i] ), (String) ascensionMap.get( names[i] ) );
 			ascensionDataList.add( request );
 
-			ascensionIterator = request.getAscensionData().iterator();
+			fields = new AscensionDataRequest.AscensionDataField[ request.getAscensionData().size() ];
+			request.getAscensionData().toArray( fields );
 
-			while ( ascensionIterator.hasNext() )
+			for ( int j = 0; j < fields.length; ++j )
 			{
-				field = (AscensionDataRequest.AscensionDataField) ascensionIterator.next();
-
-				if ( field.matchesFilter( true, NO_FILTER, NO_FILTER ) )
-					softcoreAscensionList.add( field );
+				if ( fields[j].matchesFilter( true, NO_FILTER, NO_FILTER ) )
+					softcoreAscensionList.add( fields[j] );
 				else
-					hardcoreAscensionList.add( field );
+					hardcoreAscensionList.add( fields[j] );
 			}
 		}
 
