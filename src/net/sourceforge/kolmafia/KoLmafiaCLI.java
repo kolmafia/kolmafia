@@ -2778,6 +2778,7 @@ public class KoLmafiaCLI extends KoLmafia
 	protected void printList( List printing )
 	{
 		Object [] elements = new Object[ printing.size() ];
+		printing.toArray( elements );
 		for ( int i = 0; i < elements.length; ++i )
 			updateDisplay( NORMAL_STATE, elements[i].toString() );
 	}
