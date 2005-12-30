@@ -592,6 +592,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
 			statusMessage( client, ERROR_STATE, "No familiar selected to train." );
+			client.cancelRequest();
 			return false;
 		}
 
@@ -629,6 +630,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( stop || !client.permitsContinue() )
 			{
 				statusMessage( client, ERROR_STATE, "Training session aborted." );
+				client.cancelRequest();
 				return false;
 			}
 
@@ -636,6 +638,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( KoLCharacter.getAdventuresLeft() < 1 )
 			{
 				statusMessage( client, ERROR_STATE, "Training stopped: out of adventures." );
+				client.cancelRequest();
 				return false;
 			}
 
@@ -643,6 +646,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( KoLCharacter.getAvailableMeat() < 100 )
 			{
 				statusMessage( client, ERROR_STATE, "Training stopped: out of meat." );
+				client.cancelRequest();
 				return false;
 			}
 
@@ -658,6 +662,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( opponent == null )
 			{
 				statusMessage( client, ERROR_STATE, "Don't know how to train a " + familiar.getRace() + " yet." );
+				client.cancelRequest();
 				return false;
 			}
 
@@ -674,6 +679,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 
 				statusMessage( client, ERROR_STATE, "Training stopped: internal error." );
+				client.cancelRequest();
 				return false;
 			}
 
@@ -703,6 +709,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
 			client.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
+			client.cancelRequest();
 			return false;
 		}
 
@@ -749,6 +756,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		client.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
+		client.cancelRequest();
 		return false;
 	}
 

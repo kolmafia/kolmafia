@@ -1309,20 +1309,12 @@ public abstract class SorceressLair extends StaticEntity
 		// We can't buff it high enough. Train it.
 
 		if ( !FamiliarTrainingFrame.levelFamiliar( client, 20, FamiliarTrainingFrame.BUFFED, false, false) )
-		{
-			// Reason for failure already displayed. Cancel.
-			client.cancelRequest();
 			return;
-		}
 
 		// We trained it. Equip and buff it.
 
 		if ( !FamiliarTrainingFrame.buffFamiliar( client, 20 ) )
-		{
-			// Reason for failure already displayed. Cancel.
-			client.cancelRequest();
 			return;
-		}
 
 		// We're good to go. Fight!
 		familiarBattle( n );
