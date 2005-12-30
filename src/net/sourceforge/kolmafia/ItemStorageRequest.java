@@ -281,4 +281,59 @@ public class ItemStorageRequest extends SendMessageRequest
 			}
 		}
 	}
+
+	public String getCommandForm( int iterations )
+	{
+		StringBuffer commandString = new StringBuffer();
+
+		AdventureResult [] items = new AdventureResult[ getItems().size() ];
+		getItems().toArray( items );
+
+		// If this is not a handled command form, then
+		// return the empty string.
+
+		switch ( moveType )
+		{
+			case ItemStorageRequest.INVENTORY_TO_CLOSET:
+			case ItemStorageRequest.CLOSET_TO_INVENTORY:
+			case ItemStorageRequest.STORAGE_TO_INVENTORY:
+				break;
+
+			default:
+				return "";
+		}
+
+		// Otherwise, because commands cannot be strung
+		// together on one line, print out one line at
+		// a time to the buffered string.
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( i != 0 )
+				commandString.append( LINE_BREAK );
+
+			switch ( moveType )
+			{
+				case ItemStorageRequest.INVENTORY_TO_CLOSET:
+					commandString.append( "closet put " );
+					break;
+
+				case ItemStorageRequest.CLOSET_TO_INVENTORY:
+					commandString.append( "closet take" );
+					break;
+
+				case ItemStorageRequest.STORAGE_TO_INVENTORY:
+					commandString.append( "hagnk " );
+					break;
+			}
+
+
+			commandString.append( '\"' );
+			commandString.append( items[i].getName() );
+			commandString.append( '\"' );
+		}
+
+		return commandString.toString();
+	}
+
 }

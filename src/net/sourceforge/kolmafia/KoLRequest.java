@@ -390,7 +390,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( responseCode == 200 && !isDelayExempt() )
 		{
-			client.processResults( responseText );
+			processResults();
 
 			// Synchronize if requested
 
@@ -934,6 +934,10 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	return StaticEntity.getProperty( name );
 	}
 
+	protected void processResults()
+	{	client.processResults( responseText );
+	}
+
 	/**
 	 * Utility method which notifies the client that it needs to process
 	 * the given choice adventure.
@@ -1087,5 +1091,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( responseCode == 200 )
 			FightFrame.showRequest( this );
+	}
+
+	public String getCommandForm( int iterations )
+	{	return "";
 	}
 }

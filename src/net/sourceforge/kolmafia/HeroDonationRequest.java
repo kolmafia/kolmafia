@@ -81,14 +81,6 @@ public class HeroDonationRequest extends KoLRequest
 		this.hasStatueKey = KoLCharacter.getInventory().contains( STATUE_KEYS[ heroID ] );
 	}
 
-	public String getHero()
-	{	return statue;
-	}
-
-	public int getAmount()
-	{	return amount;
-	}
-
 	/**
 	 * Runs the request.  Note that this does not report an error if it fails;
 	 * it merely parses the results to see if any gains were made.
@@ -125,5 +117,9 @@ public class HeroDonationRequest extends KoLRequest
 
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
 		updateDisplay( NORMAL_STATE, "Donation complete." );
+	}
+
+	public String getCommandForm( int iterations )
+	{	return "donate " + amount + " " + statue;
 	}
 }

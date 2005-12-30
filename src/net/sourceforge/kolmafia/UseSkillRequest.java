@@ -97,10 +97,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		return mpDifference != 0 ? mpDifference : skillName.compareToIgnoreCase( ((UseSkillRequest)o).skillName );
 	}
 
-	public int getBuffCount()
-	{	return buffCount;
-	}
-
 	public String getSkillName()
 	{	return skillName;
 	}
@@ -206,5 +202,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// once the request is complete.
 
 		client.recoverMP();
+	}
+
+	public String getCommandForm( int iterations )
+	{	return "cast " + buffCount + " " + skillName;
 	}
 }

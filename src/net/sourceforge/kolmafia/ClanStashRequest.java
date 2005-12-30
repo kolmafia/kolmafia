@@ -234,4 +234,29 @@ public class ClanStashRequest extends SendMessageRequest
 			}
 		}
 	}
+
+	public String getCommandForm( int iterations )
+	{
+		StringBuffer commandString = new StringBuffer();
+
+		AdventureResult [] items = new AdventureResult[ getItems().size() ];
+		getItems().toArray( items );
+
+		if ( moveType == ClanStashRequest.ITEMS_TO_STASH )
+		{
+			for ( int i = 0; i < items.length; ++i )
+			{
+				if ( i != 0 )
+					commandString.append( LINE_BREAK );
+
+				commandString.append( "stash " );
+
+				commandString.append( '\"' );
+				commandString.append( items[i].getName() );
+				commandString.append( '\"' );
+			}
+		}
+
+		return commandString.toString();
+	}
 }

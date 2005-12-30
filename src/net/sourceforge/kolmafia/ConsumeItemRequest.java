@@ -394,4 +394,31 @@ public class ConsumeItemRequest extends KoLRequest
 				break;
 		}
 	}
+
+	public String getCommandForm( int iterations )
+	{
+		StringBuffer commandString = new StringBuffer();
+
+		switch ( getConsumptionType() )
+		{
+			case ConsumeItemRequest.CONSUME_EAT:
+				commandString.append( "eat " );
+				break;
+
+			case ConsumeItemRequest.CONSUME_DRINK:
+				commandString.append( "drink " );
+				break;
+
+			default:
+				commandString.append( "use " );
+				break;
+		}
+
+		commandString.append( iterations == 1 ? itemUsed.getCount() : iterations );
+		commandString.append( " \"" );
+		commandString.append( itemUsed.getName() );
+		commandString.append( "\"" );
+
+		return commandString.toString();
+	}
 }

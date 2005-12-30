@@ -94,7 +94,13 @@ public class FamiliarRequest extends KoLRequest
 		FamiliarData.registerFamiliarData( client, responseText );
 		FamiliarData.updateWeightModifier();
 
-                if ( changeTo == null)
-                        updateDisplay( NORMAL_STATE, "Familiar data retrieved." );
+		if ( changeTo == null )
+			updateDisplay( NORMAL_STATE, "Familiar data retrieved." );
+	}
+
+	public String getCommandForm( int iterations )
+	{
+		String familiarName = getFamiliarChange();
+		return familiarName == null ? "" : "familiar " + familiarName;
 	}
 }

@@ -149,8 +149,12 @@ public class FightRequest extends KoLRequest
 		{
 			client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
 			client.cancelRequest();
+
 			// Finish in browser if requested
-			showInBrowser( true );
+
+			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
+				showInBrowser( true );
+
 			return;
 		}
 
@@ -181,8 +185,12 @@ public class FightRequest extends KoLRequest
 					{
 						client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
 						client.cancelRequest();
+
 						// Finish in browser if requested
-						showInBrowser( true );
+
+						if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
+							showInBrowser( true );
+
 						return;
 					}
 				}

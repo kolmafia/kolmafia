@@ -165,4 +165,8 @@ public class GalaktikRequest extends KoLRequest
 
 		return cures;
 	}
+
+	public String getCommandForm( int iterations )
+	{	return "galaktik " + (type == HP ? "hp" : "mp");
+	}
 }

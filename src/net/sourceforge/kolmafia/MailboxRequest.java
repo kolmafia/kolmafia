@@ -86,6 +86,12 @@ public class MailboxRequest extends KoLRequest
 		this.beginIndex = beginIndex;
 	}
 
+	protected void processResults()
+	{
+		if ( boxname.equals( "Inbox" ) )
+			super.processResults();
+	}
+
 	public void run()
 	{
 		// Now you know that there is a request in progress, so you

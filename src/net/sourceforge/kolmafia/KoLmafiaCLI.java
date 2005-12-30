@@ -424,7 +424,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		// Adding the requested echo command.  I guess this is
 		// useful for people who want to echo things...
-		
+
 		if ( command.equals( "echo" ) )
 		{
 			updateDisplay( NORMAL_STATE, parameters );
@@ -1866,7 +1866,7 @@ public class KoLmafiaCLI extends KoLmafia
 			List resultList = new ArrayList();
 			Object [] items = new Object[ mainList.size() ];
 			mainList.toArray( items );
-			
+
 			for ( int i = 0; i < items.length; ++i )
 			{
 				currentItem = items[i].toString().toLowerCase();
@@ -2795,163 +2795,11 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		StringBuffer commandString = new StringBuffer();
 
-		// Buffs are pretty neat, too - for now, it's
-		// just casts on self
-
-		if ( request instanceof UseSkillRequest )
-		{
-			commandString.append( "cast " );
-			commandString.append( ((UseSkillRequest)request).getBuffCount() );
-			commandString.append( ' ' );
-			commandString.append( ((UseSkillRequest)request).getSkillName() );
-		}
-
-		// One item-related command is an item consumption
-		// request.  In other words, eating, drinking, using.
-
-		if ( request instanceof ConsumeItemRequest )
-		{
-			ConsumeItemRequest crequest = (ConsumeItemRequest) request;
-			switch ( crequest.getConsumptionType() )
-			{
-				case ConsumeItemRequest.CONSUME_EAT:
-					commandString.append( "eat " );
-					break;
-
-				case ConsumeItemRequest.CONSUME_DRINK:
-					commandString.append( "drink " );
-					break;
-
-				default:
-					commandString.append( "use " );
-					break;
-			}
-
-			AdventureResult itemUsed = crequest.getItemUsed();
-			commandString.append( iterations == 1 ? itemUsed.getCount() : iterations );
-			commandString.append( " \"" );
-			commandString.append( itemUsed.getName() );
-			commandString.append( "\"" );
-		}
-
-		// Another item-related command is a creation
-		// request.  These could vary based on item,
-		// but rather than do that, just using the
-		// generic "make" command.
-
-		if ( request instanceof ItemCreationRequest )
-		{
-			ItemCreationRequest irequest = (ItemCreationRequest) request;
-
-			commandString.append( "create " );
-			commandString.append( irequest.getQuantityNeeded() );
-			commandString.append( " \"" );
-			commandString.append( irequest.getName() );
-			commandString.append( "\"" );
-		}
-
-		// Item storage script recording is also a
-		// little interesting.
-
-		if ( request instanceof ItemStorageRequest )
-		{
-			ItemStorageRequest isr = (ItemStorageRequest) request;
-			int moveType = isr.getMoveType();
-
-			if ( moveType == ItemStorageRequest.INVENTORY_TO_CLOSET || moveType == ItemStorageRequest.CLOSET_TO_INVENTORY )
-			{
-				List itemList = isr.getItems();
-				for ( int i = 0; i < itemList.size(); ++i )
-				{
-					if ( i != 0 )
-						commandString.append( LINE_BREAK );
-
-					commandString.append( moveType == ItemStorageRequest.INVENTORY_TO_CLOSET ? "closet put " : "closet take " );
-
-					commandString.append( '\"' );
-					commandString.append( ((AdventureResult)itemList.get(i)).getName() );
-					commandString.append( '\"' );
-				}
-			}
-		}
-
-		// Deposits to the clan stash are also interesting
-		// for people who like to regularly deposit to the
-		// clan stash.
-
-		if ( request instanceof ClanStashRequest )
-		{
-			ClanStashRequest csr = (ClanStashRequest) request;
-			int moveType = csr.getMoveType();
-
-			if ( moveType == ClanStashRequest.ITEMS_TO_STASH )
-			{
-				List itemList = csr.getItems();
-				for ( int i = 0; i < itemList.size(); ++i )
-				{
-					if ( i != 0 )
-						commandString.append( LINE_BREAK );
-
-					commandString.append( "stash " );
-
-					commandString.append( '\"' );
-					commandString.append( ((AdventureResult)itemList.get(i)).getName() );
-					commandString.append( '\"' );
-				}
-			}
-		}
-
-		// One of the largest commands is adventuring,
-		// which (as usual) gets its own module.
+		if ( request instanceof KoLRequest )
+			commandString.append( ((KoLRequest)request).getCommandForm( iterations ) );
 
 		if ( request instanceof KoLAdventure )
-		{
-			String adventureName = ((KoLAdventure)request).getAdventureName();
-
-			commandString.append( "adventure " );
-			commandString.append( iterations );
-			commandString.append( ' ' );
-			commandString.append( adventureName );
-		}
-
-		// Donations get their own command and module,
-		// too, which handles hero donations and basic
-		// clan donations.
-
-		if ( request instanceof HeroDonationRequest )
-		{
-			HeroDonationRequest hrequest = (HeroDonationRequest) request;
-
-			commandString.append( "donate " );
-			commandString.append( hrequest.getAmount() );
-			commandString.append( hrequest.getHero() );
-		}
-
-		// Another popular command involves changing
-		// your current familiar.
-
-		if ( request instanceof FamiliarRequest )
-		{
-			String familiarName = ((FamiliarRequest)request).getFamiliarChange();
-			if ( familiarName != null )
-			{
-				commandString.append( "familiar " );
-				commandString.append( familiarName );
-			}
-		}
-
-		// Yet another popular command involves changing
-		// your outfit.
-
-		if ( request instanceof EquipmentRequest )
-		{
-			String outfitName = ((EquipmentRequest)request).getOutfitName();
-			if ( outfitName != null )
-			{
-				commandString.append( "outfit " );
-				commandString.append( outfitName );
-			}
-		}
+			commandString.append( "adventure " + iterations + " " + ((KoLAdventure)request).getAdventureName() );
 
 		if ( commandString.length() > 0 )
 			commandString.append( LINE_BREAK );
