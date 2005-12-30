@@ -146,22 +146,12 @@ public class ContactListFrame extends KoLFrame
 		if ( client == null )
 			return;
 
-		Object [] selectedPlayers = getSelectedPlayers();
-		UseSkillRequest selectedBuff = (UseSkillRequest) JOptionPane.showInputDialog(
-			null, "I want to use this skill on " + selectedPlayers.length + " players...", "The Ultra-Rare Chat Buffing System (CBS)",
-			JOptionPane.INFORMATION_MESSAGE, null, KoLCharacter.getUsableSkills().toArray(), KoLCharacter.getUsableSkills().get(0) );
+		Object [] parameters = new Object[3];
+		parameters[0] = client;
+		parameters[1] = "Mass Buff";
+		parameters[2] = new SkillBuffPanel( convertToCDL() );
 
-		if ( selectedBuff == null )
-			return;
-
-		int buffCount = getQuantity( "This many casts per player...", 1 );
-
-		UseSkillRequest [] requests = new UseSkillRequest[ selectedPlayers.length ];
-
-		for ( int i = 0; i < requests.length; ++i )
-			requests[i] = new UseSkillRequest( client, selectedBuff.getSkillName(), (String) selectedPlayers[i], buffCount );
-
-		(new RequestThread( requests )).start();
+		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
 	}
 
 	public void mailSelected()

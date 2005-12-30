@@ -96,9 +96,6 @@ public class AdventureFrame extends KoLFrame
 	private JTabbedPane tabs;
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
-	private MeatStoragePanel meatStorage;
-	private SkillBuffPanel skillBuff;
-	private HeroDonationPanel heroDonation;
 	private RestoreOptionsPanel restoration;
 
 	/**
@@ -118,20 +115,10 @@ public class AdventureFrame extends KoLFrame
 
 		this.adventureSelect = new AdventureSelectPanel();
 		this.mallSearch = new MallSearchPanel();
-		this.meatStorage = new MeatStoragePanel();
-		this.skillBuff = new SkillBuffPanel();
-		this.heroDonation = new HeroDonationPanel();
 		this.restoration = new RestoreOptionsPanel();
 
 		tabs.addTab( "Adventure Select", adventureSelect );
 		tabs.addTab( "Mall of Loathing", mallSearch );
-
-		JPanel otherPanel = new JPanel();
-		otherPanel.setLayout( new BoxLayout( otherPanel, BoxLayout.Y_AXIS ) );
-		otherPanel.add( meatStorage );
-		otherPanel.add( skillBuff );
-		otherPanel.add( heroDonation );
-		tabs.addTab( "Other Activities", otherPanel );
 		tabs.addTab( "Auto-Restoration", restoration );
 
 		addCompactPane();
@@ -172,6 +159,7 @@ public class AdventureFrame extends KoLFrame
 
 			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Equipment", "equipment.gif", GearChangeFrame.class ) );
+			toolbarPanel.add( new KoLPanelFrameButton( "Cast a Buff", "buff.gif", new SkillBuffPanel() ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
@@ -214,9 +202,6 @@ public class AdventureFrame extends KoLFrame
 		{
 			adventureSelect.setEnabled( this.isEnabled );
 			mallSearch.setEnabled( this.isEnabled );
-			meatStorage.setEnabled( this.isEnabled );
-			skillBuff.setEnabled( this.isEnabled );
-			heroDonation.setEnabled( this.isEnabled );
 			restoration.setEnabled( this.isEnabled );
 		}
 	}
@@ -796,220 +781,6 @@ public class AdventureFrame extends KoLFrame
 					setStatusMessage( NORMAL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
 				}
 			}
-		}
-	}
-
-
-	/**
-	 * An internal class which represents the panel used for donations to
-	 * the statues in the shrine.
-	 */
-
-	private class HeroDonationPanel extends LabeledKoLPanel
-	{
-		private JComboBox heroField;
-		private JTextField amountField;
-
-		public HeroDonationPanel()
-		{
-			super( "Donations to the Greater Good", "to one", "to all", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-
-			LockableListModel heroes = new LockableListModel();
-			heroes.add( "Statue of Boris" );
-			heroes.add( "Statue of Jarlsberg" );
-			heroes.add( "Statue of Sneaky Pete" );
-
-			heroField = new JComboBox( heroes );
-			amountField = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Donate To: ", heroField );
-			elements[1] = new VerifiableElement( "Amount: ", amountField );
-
-			setContent( elements, true, true );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			heroField.setEnabled( isEnabled );
-			amountField.setEnabled( isEnabled );
-		}
-
-		protected void actionConfirmed()
-		{
-			contentPanel = this;
-			if ( heroField.getSelectedIndex() != -1 )
-				(new RequestThread( new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
-
-		}
-
-		protected void actionCancelled()
-		{
-			contentPanel = this;
-			HeroDonationRequest [] requests = new HeroDonationRequest[3];
-
-			for ( int i = 0; i < 3; ++i )
-				requests[i] = new HeroDonationRequest( client, i, getValue( amountField ) );
-
-			(new RequestThread( requests )).start();
-		}
-	}
-
-	/**
-	 * An internal class which represents the panel used for storing and
-	 * removing meat from the closet.
-	 */
-
-	private class MeatStoragePanel extends LabeledKoLPanel
-	{
-		private JComboBox fundSource;
-		private JTextField amountField, closetField;
-
-		public MeatStoragePanel()
-		{
-			super( "Meat Management", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-
-			fundSource = new JComboBox();
-			fundSource.addItem( "Inventory / Closet" );
-			fundSource.addItem( "Hagnk's Storage" );
-
-			amountField = new JTextField();
-			closetField = new JTextField( String.valueOf( KoLCharacter.getClosetMeat() ) );
-			closetField.setEnabled( false );
-
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
-			elements[1] = new VerifiableElement( "Amount: ", amountField );
-			elements[2] = new VerifiableElement( "In Closet: ", closetField );
-			setContent( elements, true, true );
-
-			KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new ClosetUpdater() ) );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			fundSource.setEnabled( isEnabled );
-			amountField.setEnabled( isEnabled );
-		}
-
-		protected void actionConfirmed()
-		{
-			switch ( fundSource.getSelectedIndex() )
-			{
-				case 0:
-					contentPanel = this;
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
-					return;
-
-				case 1:
-					contentPanel = this;
-					client.updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
-					return;
-			}
-		}
-
-		private class ClosetUpdater implements Runnable
-		{
-			public void run()
-			{	closetField.setText( String.valueOf( KoLCharacter.getClosetMeat() ) );
-			}
-		}
-
-		protected void actionCancelled()
-		{
-			switch ( fundSource.getSelectedIndex() )
-			{
-				case 0:
-					contentPanel = this;
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
-					return;
-
-				case 1:
-					contentPanel = this;
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
-					return;
-			}
-		}
-	}
-
-	/**
-	 * An internal class which represents the panel used for adding
-	 * effects to a character (yourself or others).
-	 */
-
-	private class SkillBuffPanel extends LabeledKoLPanel
-	{
-		private JComboBox skillSelect;
-		private JTextField targetField;
-		private JTextField countField;
-
-		public SkillBuffPanel()
-		{
-			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-
-			skillSelect = new JComboBox( client == null ? new LockableListModel() : KoLCharacter.getUsableSkills() );
-
-			targetField = new JTextField();
-			countField = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );
-			elements[1] = new VerifiableElement( "The Victim: ", targetField );
-			elements[2] = new VerifiableElement( "# of Times: ", countField );
-			setContent( elements, true, true );
-			setDefaultButton( confirmedButton );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			skillSelect.setEnabled( isEnabled );
-			targetField.setEnabled( isEnabled );
-			countField.setEnabled( isEnabled );
-		}
-
-		protected void actionConfirmed()
-		{
-			contentPanel = this;
-			buff( false );
-		}
-
-		protected void actionCancelled()
-		{
-			contentPanel = this;
-			buff( true );
-		}
-
-		private void buff( boolean maxBuff )
-		{
-			String buffName = ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName();
-			if ( buffName == null )
-				return;
-
-			String [] targets = client.extractTargets( targetField.getText() );
-
-			int buffCount = maxBuff ?
-				(int) ( KoLCharacter.getCurrentMP() /
-					ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) : getValue( countField, 1 );
-
-			Runnable [] requests;
-
-			if ( targets.length == 0 )
-			{
-				requests = new Runnable[1];
-				requests[0] = new UseSkillRequest( client, buffName, "", buffCount );
-			}
-			else
-			{
-				requests = new Runnable[ targets.length ];
-				for ( int i = 0; i < requests.length; ++i )
-					if ( targets[i] != null )
-						requests[i] = new UseSkillRequest( client, buffName, targets[i], buffCount );
-			}
-
-			(new RequestThread( requests )).start();
 		}
 	}
 

@@ -58,6 +58,7 @@ import javax.swing.JSeparator;
 import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JComboBox;
 
 // layout
 import java.awt.Point;
@@ -88,7 +89,6 @@ import java.lang.reflect.Method;
 
 import java.util.List;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -444,11 +444,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		toolsMenu.add( new JSeparator() );
 
+		toolsMenu.add( new KoLPanelFrameMenuItem( "Cast a Buff", new SkillBuffPanel() ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 
 		toolsMenu.add( new JSeparator() );
 
+		toolsMenu.add( new KoLPanelFrameMenuItem( "Meat Management", new MeatStoragePanel() ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Standard Arena", CakeArenaFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
@@ -1250,6 +1252,35 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * using a local panel inside of the adventure frame.
 	 */
 
+	protected class KoLPanelFrameButton extends JButton implements ActionListener
+	{
+		private CreateFrameRunnable creator;
+
+		public KoLPanelFrameButton( String tooltip, String icon, ActionPanel panel )
+		{
+			super( JComponentUtilities.getSharedImage( icon ) );
+			JComponentUtilities.setComponentSize( this, 32, 32 );
+			setToolTipText( tooltip );
+			addActionListener( this );
+
+			Object [] parameters = new Object[3];
+			parameters[0] = client;
+			parameters[1] = tooltip;
+			parameters[2] = panel;
+
+			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	creator.run();
+		}
+	}
+
+	/**
+	 * An internal class used to handle requests to open a new frame
+	 * using a local panel inside of the adventure frame.
+	 */
+
 	protected class KoLPanelFrameMenuItem extends JMenuItem implements ActionListener
 	{
 		private CreateFrameRunnable creator;
@@ -1839,5 +1870,165 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		GLOBAL_SETTINGS.setProperty( "browserBookmarks", bookmarkData.toString() );
 		GLOBAL_SETTINGS.saveSettings();
+	}
+
+	/**
+	 * An internal class which represents the panel used for adding
+	 * effects to a character (yourself or others).
+	 */
+
+	protected class SkillBuffPanel extends LabeledKoLPanel
+	{
+		private JComboBox skillSelect;
+		private JComboBox targetSelect;
+		private JTextField countField;
+
+		public SkillBuffPanel()
+		{	this ( "" );
+		}
+		
+		public SkillBuffPanel( String initialRecipient )
+		{
+			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			skillSelect = new JComboBox( client == null ? new LockableListModel() : KoLCharacter.getUsableSkills() );
+			targetSelect = new MutableComboBox( client == null ? new SortedListModel() : client.getContactList() );
+
+			countField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );
+			elements[1] = new VerifiableElement( "The Victim: ", targetSelect );
+			elements[2] = new VerifiableElement( "# of Times: ", countField );
+			setContent( elements, true, true );
+			setDefaultButton( confirmedButton );
+
+			if ( !initialRecipient.equals( "" ) )
+			{
+				targetSelect.addItem( initialRecipient );
+				targetSelect.getEditor().setItem( initialRecipient );
+				targetSelect.setSelectedItem( initialRecipient );
+			}
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			skillSelect.setEnabled( isEnabled );
+			targetSelect.setEnabled( isEnabled );
+			countField.setEnabled( isEnabled );
+		}
+
+		protected void actionConfirmed()
+		{	buff( false );
+		}
+
+		protected void actionCancelled()
+		{	buff( true );
+		}
+
+		private void buff( boolean maxBuff )
+		{
+			String buffName = ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName();
+			if ( buffName == null )
+				return;
+
+			String [] targets = client.extractTargets( (String) targetSelect.getSelectedItem() );
+
+			int buffCount = maxBuff ?
+				(int) ( KoLCharacter.getCurrentMP() /
+					ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) : getValue( countField, 1 );
+
+			Runnable [] requests;
+
+			if ( targets.length == 0 )
+			{
+				requests = new Runnable[1];
+				requests[0] = new UseSkillRequest( client, buffName, "", buffCount );
+			}
+			else
+			{
+				requests = new Runnable[ targets.length ];
+				for ( int i = 0; i < requests.length; ++i )
+					if ( targets[i] != null )
+						requests[i] = new UseSkillRequest( client, buffName, targets[i], buffCount );
+			}
+
+			(new RequestThread( requests )).start();
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for storing and
+	 * removing meat from the closet.
+	 */
+
+	private class MeatStoragePanel extends LabeledKoLPanel
+	{
+		private JComboBox fundSource;
+		private JTextField amountField, closetField;
+
+		public MeatStoragePanel()
+		{
+			super( "Meat Management", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			fundSource = new JComboBox();
+			fundSource.addItem( "Inventory / Closet" );
+			fundSource.addItem( "Hagnk's Storage" );
+
+			amountField = new JTextField();
+			closetField = new JTextField( String.valueOf( KoLCharacter.getClosetMeat() ) );
+			closetField.setEnabled( false );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
+			elements[1] = new VerifiableElement( "Amount: ", amountField );
+			elements[2] = new VerifiableElement( "In Closet: ", closetField );
+			setContent( elements, true, true );
+
+			KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new ClosetUpdater() ) );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			fundSource.setEnabled( isEnabled );
+			amountField.setEnabled( isEnabled );
+		}
+
+		protected void actionConfirmed()
+		{
+			switch ( fundSource.getSelectedIndex() )
+			{
+				case 0:
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
+					return;
+
+				case 1:
+					client.updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
+					return;
+			}
+		}
+
+		private class ClosetUpdater implements Runnable
+		{
+			public void run()
+			{	closetField.setText( String.valueOf( KoLCharacter.getClosetMeat() ) );
+			}
+		}
+
+		protected void actionCancelled()
+		{
+			switch ( fundSource.getSelectedIndex() )
+			{
+				case 0:
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
+					return;
+
+				case 1:
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
+					return;
+			}
+		}
 	}
 }
