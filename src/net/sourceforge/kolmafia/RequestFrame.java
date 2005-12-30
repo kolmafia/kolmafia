@@ -129,8 +129,8 @@ public class RequestFrame extends KoLFrame
 			this.sideBuffer = null;
 
 			JComponentUtilities.setComponentSize( mainScroller, 400, 300 );
-			framePanel.setLayout( new GridLayout( 1, 1 ) );
-			framePanel.add( mainScroller );
+			framePanel.setLayout( new BorderLayout() );
+			framePanel.add( mainScroller, BorderLayout.CENTER );
 		}
 		else
 		{
@@ -185,7 +185,7 @@ public class RequestFrame extends KoLFrame
 			JPanel topMenu = new JPanel();
 			topMenu.setOpaque( true );
 			topMenu.setBackground( Color.white );
-			
+
 			topMenu.add( functionSelect );
 			topMenu.add( gotoSelect );
 			topMenu.add( Box.createHorizontalStrut( 20 ) );
@@ -234,7 +234,7 @@ public class RequestFrame extends KoLFrame
 		public BrowserComboBox()
 		{	addActionListener( this );
 		}
-	
+
 		public void actionPerformed( ActionEvent e )
 		{
 			BrowserComboBox source = (BrowserComboBox) e.getSource();
@@ -242,26 +242,26 @@ public class RequestFrame extends KoLFrame
 
 			if ( !selected.getLocation().equals( "" ) )
 				refresh( new KoLRequest( client, selected.getLocation() ) );
-			
+
 			source.setSelectedIndex( 0 );
 		}
 	}
-	
+
 	private class BrowserComboBoxItem
 	{
 		private String name;
 		private String location;
-	
+
 		public BrowserComboBoxItem( String name, String location )
 		{
 			this.name = name;
 			this.location = location;
 		}
-		
+
 		public String toString()
 		{	return name;
 		}
-		
+
 		public String getLocation()
 		{	return location;
 		}
@@ -295,19 +295,22 @@ public class RequestFrame extends KoLFrame
 
 	public void refresh( KoLRequest request )
 	{
-		if ( request == currentRequest && lastResponseText.equals( request.responseText ) )
-			return;
-
-		String location = request.getURLString();
-
-		if ( parent == null )
+		synchronized ( RequestFrame.class )
 		{
-			setCombatRound( request );
-			currentRequest = request;
-			(new DisplayRequestThread()).start();
+			if ( request == currentRequest && lastResponseText.equals( request.responseText ) )
+				return;
+
+			String location = request.getURLString();
+
+			if ( parent == null )
+			{
+				setCombatRound( request );
+				currentRequest = request;
+				(new DisplayRequestThread()).start();
+			}
+			else
+				parent.refresh( request );
 		}
-		else
-			parent.refresh( request );
 	}
 
 	private void setCombatRound( KoLRequest request )
@@ -417,6 +420,17 @@ public class RequestFrame extends KoLFrame
 	protected class DisplayRequestThread extends DaemonThread
 	{
 		public void run()
+		{
+			// In order to prevent the contents from displaying twice,
+			// synchronize on the frame class.
+
+			synchronized ( RequestFrame.class )
+			{
+				displayRequest();
+			}
+		}
+
+		public void displayRequest()
 		{
 			if ( currentRequest == null )
 				return;
