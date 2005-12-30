@@ -388,7 +388,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If the user wants to show all the requests in the browser, then
 		// make sure it's updated.
 
-		if ( responseCode == 200 )
+		if ( responseCode == 200 && !isDelayExempt() )
 		{
 			client.processResults( responseText );
 
@@ -437,7 +437,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean isDelayExempt()
 	{
-		return client == null || client.inLoginState() || getClass() == KoLRequest.class ||
+		return client == null || client.inLoginState() ||
 			this instanceof LoginRequest || this instanceof ChatRequest || this instanceof CharpaneRequest;
 	}
 
