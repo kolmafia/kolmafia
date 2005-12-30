@@ -942,7 +942,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		request.run();
 
 		// Synchronize if requested
-		request.showInBrowser( false );
+		if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
+			request.showInBrowser( false );
+
 		return handleChoiceResponse( request );
 	}
 
@@ -969,7 +971,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			client.cancelRequest();
 
 			// Finish in browser if requested
-			request.showInBrowser( true );
+			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
+				request.showInBrowser( true );
+
 			return false;
 		}
 
@@ -986,7 +990,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			client.cancelRequest();
 
 			// Finish in browser if requested
-			request.showInBrowser( true );
+			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
+				request.showInBrowser( true );
+
 			return false;
 		}
 
@@ -1008,7 +1014,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			client.cancelRequest();
 
 			// Finish in browser if requested
-			request.showInBrowser( true );
+			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
+				request.showInBrowser( true );
+
 			return false;
 		}
 
@@ -1023,7 +1031,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		request.run();
 
 		// Synchronize if requested
-		request.showInBrowser( false );
+		if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
+			request.showInBrowser( false );
 
 		// Manually process any adventure usage for choice adventures,
 		// since they necessarily consume an adventure.
