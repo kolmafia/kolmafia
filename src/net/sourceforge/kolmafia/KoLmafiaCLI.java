@@ -48,7 +48,6 @@ import java.lang.NumberFormatException;
 // utility imports
 import java.util.Date;
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
@@ -1865,11 +1864,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 			String currentItem;
 			List resultList = new ArrayList();
-			Iterator itemIterator = mainList.iterator();
-
-			while ( itemIterator.hasNext() )
+			Object [] items = new Object[ mainList.size() ];
+			mainList.toArray( items );
+			
+			for ( int i = 0; i < items.length; ++i )
 			{
-				currentItem = itemIterator.next().toString().toLowerCase();
+				currentItem = items[i].toString().toLowerCase();
 				if ( currentItem.indexOf( filter ) != -1 )
 					resultList.add( currentItem );
 			}
@@ -2459,16 +2459,12 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeChangeOutfitCommand( String parameters )
 	{
 		String lowercaseOutfitName = parameters.toLowerCase().trim();
-		Iterator outfitIterator = KoLCharacter.getOutfits().iterator();
+		Object [] outfits = new Object[ KoLCharacter.getOutfits().size() ];
 		SpecialOutfit intendedOutfit = null;
-		Object currentOutfit;
 
-		while ( intendedOutfit == null && outfitIterator.hasNext() )
-		{
-			currentOutfit = outfitIterator.next();
-			if ( currentOutfit instanceof SpecialOutfit && currentOutfit.toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
-				intendedOutfit = (SpecialOutfit) currentOutfit;
-		}
+		for ( int i = 0; intendedOutfit == null && i < outfits.length; ++i )
+			if ( outfits[i] instanceof SpecialOutfit && outfits[i].toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
+				intendedOutfit = (SpecialOutfit) outfits[i];
 
 		if ( intendedOutfit == null )
 		{
@@ -2552,14 +2548,12 @@ public class KoLmafiaCLI extends KoLmafia
 		AdventureResult currentEffect;
 		String effectToUneffect = previousCommand.trim().substring( previousCommand.split( " " )[0].length() ).trim().toLowerCase();
 
-		Iterator effectIterator = KoLCharacter.getEffects().iterator();
+		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
+		KoLCharacter.getEffects().toArray( effects );
 
-		while ( effectIterator.hasNext() )
-		{
-			currentEffect = (AdventureResult) effectIterator.next();
-			if ( currentEffect.getName().toLowerCase().indexOf( effectToUneffect ) != -1 )
-				(new UneffectRequest( scriptRequestor, currentEffect )).run();
-		}
+		for ( int i = 0; i < effects.length; ++i )
+			if ( effects[i].getName().toLowerCase().indexOf( effectToUneffect ) != -1 )
+				(new UneffectRequest( scriptRequestor, effects[i] )).run();
 	}
 
 	/**
@@ -2783,9 +2777,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	protected void printList( List printing )
 	{
-		Iterator printingIterator = printing.iterator();
-		while ( printingIterator.hasNext() )
-			updateDisplay( NORMAL_STATE, printingIterator.next().toString() );
+		Object [] elements = new Object[ printing.size() ];
+		for ( int i = 0; i < elements.length; ++i )
+			updateDisplay( NORMAL_STATE, elements[i].toString() );
 	}
 
 	/**
