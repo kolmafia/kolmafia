@@ -205,7 +205,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "invokeStrangeMagic", "false" );
 		ensureProperty( "lastAdventure", "" );
 		ensureProperty( "loginServer", "0" );
-		ensureProperty( "luckySewer", "2,8,13" );
+		ensureProperty( "luckySewerAdventure", "stolen accordion" );
 		ensureProperty( "mpAutoRecover", "-0.1" );
 		ensureProperty( "mpRecoveryScript", "" );
 		ensureProperty( "proxySet", "false" );

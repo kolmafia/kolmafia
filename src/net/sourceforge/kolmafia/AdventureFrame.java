@@ -129,7 +129,6 @@ public class AdventureFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( choiceScroller, 560, 400 );
 		tabs.addTab( "Choice Handling", choiceScroller );
 
-
 		addCompactPane();
 		framePanel.add( tabs, BorderLayout.CENTER );
 		contentPanel = adventureSelect;
@@ -946,11 +945,12 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			for ( int i = 0; i < optionSelects.length; ++i )
+			setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
+			for ( int i = 1; i < optionSelects.length; ++i )
 			{
 				int index = optionSelects[i].getSelectedIndex();
 				String choice = AdventureDatabase.CHOICE_ADVS[i][0][0];
-                                boolean ignorable = AdventureDatabase.ignoreChoiceOption( choice ) != null;
+				boolean ignorable = AdventureDatabase.ignoreChoiceOption( choice ) != null;
 
 				if ( ignorable || index != 0 )
 					setProperty( choice, String.valueOf( index ) );
@@ -1011,7 +1011,8 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			for ( int i = 0; i < optionSelects.length; ++i )
+			optionSelects[0].setSelectedItem( getProperty( "luckySewerAdventure" ) );
+			for ( int i = 1; i < optionSelects.length; ++i )
 				optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );
 
 			// Determine the desired wheel position by examining

@@ -89,12 +89,13 @@ public class AdventureDatabase extends KoLDatabase
 		"29"   // The Orcish Frat House (in disguise)
 	};
 
-	public static final String [] SEWER_OPTIONS =
-	{ "seal-clubbing club", "seal tooth", "helmet turtle", "scroll of turtle summoning", "pasta spoon", "ravioli hat",
-	  "saucepan", "spices", "disco mask", "disco ball", "stolen accordion", "mariachi pants", "worthless trinket" };
-
 	public static final String [][][] CHOICE_ADVS =
 	{
+		// Lucky sewer options
+		{ { "luckySewerAdventure" }, { "Sewer Gnomes" },
+		  { "seal-clubbing club", "seal tooth", "helmet turtle", "scroll of turtle summoning", "pasta spoon", "ravioli hat",
+		    "saucepan", "disco mask", "disco ball", "stolen accordion", "mariachi pants" } },
+
 		// Denim Axes Examined
 		{ { "choiceAdventure2" }, { "Palindome" },
 		  { "Trade for a denim axe", "Keep your rubber axe" } },

@@ -112,15 +112,15 @@ public class SewerRequest extends KoLRequest
 		{
 			// First time here.
 
-                        // The Sewage Gnomes insist on giving precisely three
+			// The Sewage Gnomes insist on giving precisely three
 			// items, so if you have fewer than three items, report
 			// an error.
 
-			String [] items = getProperty( "luckySewer" ).split( "," );
+			int thirdItem = TradeableItemDatabase.getItemID( getProperty( "luckySewerAdventure" ) );
 
-			if ( items.length != 3 )
+			if ( thirdItem < 1 || (thirdItem > 12 && thirdItem != 43) )
 			{
-				updateDisplay( ERROR_STATE, "You must select three items to get from the Sewage Gnomes." );
+				updateDisplay( ERROR_STATE, "You must select a third item from the gnomes." );
 				client.cancelRequest();
 				return;
 			}
@@ -139,17 +139,13 @@ public class SewerRequest extends KoLRequest
 			request = new KoLRequest( client, "sewer.php", false );
 			request.addFormField( "doodit", "1" );
 
-			for ( int i = 0; i < 3; i++)
-			{
-				// Values are now item IDs. Indices 1-12 in the
-				// options correspond correctly to item IDs,
-				// but index 13 corresponds to item ID 43.
+			// Rather than giving people flexibility, it seems like
+			// a better idea to assume everyone wants trinkets and
+			// spices and let them specify the third item.
 
-				if ( items[i].equals( "13" ) )
-					items[i] = "43";
-
-				request.addFormField( "i" + items[i], "on" );
-			}
+			request.addFormField( "i43", "on" );
+			request.addFormField( "i8", "on" );
+			request.addFormField( "i" + thirdItem, "on" );
 		}
 
 		// Enter the sewer

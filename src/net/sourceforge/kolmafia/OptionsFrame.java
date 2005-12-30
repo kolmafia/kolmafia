@@ -100,28 +100,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class OptionsFrame extends KoLFrame
 {
-	public static final Object [][] BUFF_OPTIONS =
-	{
-		// Buffbot / price / buff / turns
-
-		// Buffs from Testudinata
-
-		{ "537858", new Integer(1), "Moxious Madrigal", "150" },
-		{ "537858", new Integer(2), "Jalapeno Saucesphere", "150" },
-		{ "537858", new Integer(3), "Elemental Saucesphere", "150" },
-		{ "537858", new Integer(4), "Jabanero Saucesphere", "150" },
-		{ "537858", new Integer(5), "Empathy of the Newt", "150" },
-
-		// The following replace comparable buffs from sneaksie.
-		// They are in this order for backward compatibility
-		{ "537858", new Integer(9), "The Ode to Booze", "15" },
-		{ "537858", new Integer(7), "The Polka of Plenty", "150" },
-		{ "537858", new Integer(8), "Fat Leon's Phat Loot Lyric", "150" },
-
-		// The following completes Testudinata's set of "philanthropic" buffs
-		{ "537858", new Integer(6), "Tenacity of the Snapper", "150" }
-	};
-
 	private JTabbedPane tabs;
 
 	/**
@@ -142,7 +120,6 @@ public class OptionsFrame extends KoLFrame
 
 		addTab( "General", new GeneralOptionsPanel() );
 		addTab( "Areas", new AreaOptionsPanel() );
-		addTab( "Sewer", new SewerOptionsPanel() );
 
 		JPanel chatContainer = new JPanel();
 		chatContainer.setLayout( new BoxLayout( chatContainer, BoxLayout.Y_AXIS ) );
@@ -302,73 +279,6 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
-		}
-	}
-
-	/**
-	 * This panel allows the user to select which item they would like
-	 * to do when running the lucky sewer adventure.
-	 */
-
-	private class SewerOptionsPanel extends OptionsPanel
-	{
-		private AbstractButton [] sewerOptions;
-
-		/**
-		 * Constructs a new <code>SewerOptionsPanel</code> containing a
-		 * list of items available through the lucky sewer adventure.
-		 */
-
-		public SewerOptionsPanel()
-		{
-			super( "Lucky Sewer Trade", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
-
-			sewerOptions = new JCheckBox[ AdventureDatabase.SEWER_OPTIONS.length ];
-			for ( int i = 0; i < sewerOptions.length; ++i )
-				sewerOptions[i] = new JCheckBox();
-
-			VerifiableElement [] elements = new VerifiableElement[ sewerOptions.length ];
-
-			for ( int i = 0; i < elements.length; ++i )
-				elements[i] = new VerifiableElement( AdventureDatabase.SEWER_OPTIONS[i], JLabel.LEFT, sewerOptions[i] );
-
-			setContent( elements, false );
-			actionCancelled();
-		}
-
-		protected void actionConfirmed()
-		{
-			StringBuffer currentSetting = new StringBuffer();
-
-			for ( int i = 0; i < sewerOptions.length; ++i )
-			{
-				if ( sewerOptions[i].isSelected() )
-				{
-					if ( currentSetting.length() != 0 )
-						currentSetting.append( ',' );
-
-					currentSetting.append( i + 1 );
-				}
-			}
-
-			setProperty( "luckySewer", currentSetting.toString() );
-			super.actionConfirmed();
-		}
-
-		protected void actionCancelled()
-		{
-			for ( int i = 0; i < sewerOptions.length; ++i )
-				sewerOptions[i].setSelected( false );
-
-			String [] selected = getProperty( "luckySewer" ).split( "," );
-			for ( int i = 0; i < selected.length; ++i )
-			{
-				// Handle broken values in .kcs file.  These values
-				// include a 43 in the case of the lucky sewer.
-
-				int value = Integer.parseInt( selected[i] );
-				sewerOptions[ value == 43 ? 12 : value - 1 ].setSelected( true );
-			}
 		}
 	}
 
