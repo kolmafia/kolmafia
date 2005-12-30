@@ -2460,6 +2460,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		String lowercaseOutfitName = parameters.toLowerCase().trim();
 		Object [] outfits = new Object[ KoLCharacter.getOutfits().size() ];
+		KoLCharacter.getOutfits().toArray( outfits );
 		SpecialOutfit intendedOutfit = null;
 
 		for ( int i = 0; intendedOutfit == null && i < outfits.length; ++i )
