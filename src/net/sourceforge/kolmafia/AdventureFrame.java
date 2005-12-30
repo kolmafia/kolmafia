@@ -96,6 +96,7 @@ public class AdventureFrame extends KoLFrame
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
 	private RestoreOptionsPanel restoration;
+	private ChoiceOptionsPanel choices;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -115,10 +116,19 @@ public class AdventureFrame extends KoLFrame
 		this.adventureSelect = new AdventureSelectPanel();
 		this.mallSearch = new MallSearchPanel();
 		this.restoration = new RestoreOptionsPanel();
+		this.choices = new ChoiceOptionsPanel();
 
 		tabs.addTab( "Adventure Select", adventureSelect );
 		tabs.addTab( "Mall of Loathing", mallSearch );
-		tabs.addTab( "Auto-Restoration", new JScrollPane( restoration, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
+
+		JScrollPane restoreScroller = new JScrollPane( restoration, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
+		tabs.addTab( "Auto-Restoration", restoreScroller );
+
+		JScrollPane choiceScroller = new JScrollPane( choices, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JComponentUtilities.setComponentSize( choiceScroller, 560, 400 );
+		tabs.addTab( "Choice Handling", choiceScroller );
+
 
 		addCompactPane();
 		framePanel.add( tabs, BorderLayout.CENTER );
@@ -197,11 +207,12 @@ public class AdventureFrame extends KoLFrame
 	{
 		this.isEnabled = isEnabled && (client == null || !BuffBotHome.isBuffBotActive());
 
-		if ( restoration != null )
+		if ( choices != null )
 		{
 			adventureSelect.setEnabled( this.isEnabled );
 			mallSearch.setEnabled( this.isEnabled );
 			restoration.setEnabled( this.isEnabled );
+			choices.setEnabled( this.isEnabled );
 		}
 	}
 
@@ -881,6 +892,176 @@ public class AdventureFrame extends KoLFrame
 
 			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
 			mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
+		}
+	}
+
+	/**
+	 * This panel allows the user to select which item they would like
+	 * to do for each of the different choice adventures.
+	 */
+
+	private class ChoiceOptionsPanel extends KoLPanel
+	{
+		private JComboBox [] optionSelects;
+		private JComboBox castleWheelSelect;
+
+		/**
+		 * Constructs a new <code>ChoiceOptionsPanel</code>.
+		 */
+
+		public ChoiceOptionsPanel()
+		{
+			super( "apply", "defaults", new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+
+			optionSelects = new JComboBox[ AdventureDatabase.CHOICE_ADVS.length ];
+			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+			{
+				optionSelects[i] = new JComboBox();
+
+				boolean ignorable = AdventureDatabase.ignoreChoiceOption( AdventureDatabase.CHOICE_ADVS[i][0][0] ) != null;
+				optionSelects[i].addItem( ignorable ?
+										  "Ignore this adventure" :
+										  "Can't ignore this adventure" );
+
+				for ( int j = 0; j < AdventureDatabase.CHOICE_ADVS[i][2].length; ++j )
+					optionSelects[i].addItem( AdventureDatabase.CHOICE_ADVS[i][2][j] );
+			}
+
+			castleWheelSelect = new JComboBox();
+			castleWheelSelect.addItem( "Turn to map quest position" );
+			castleWheelSelect.addItem( "Turn to muscle position" );
+			castleWheelSelect.addItem( "Turn to mysticality position" );
+			castleWheelSelect.addItem( "Turn to moxie position" );
+			castleWheelSelect.addItem( "Ignore this adventure" );
+
+			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 1 ];
+			elements[0] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
+
+			for ( int i = 1; i < elements.length; ++i )
+				elements[i] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i-1][1][0], optionSelects[i-1] );
+
+			setContent( elements );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			for ( int i = 0; i < optionSelects.length; ++i )
+			{
+				int index = optionSelects[i].getSelectedIndex();
+				String choice = AdventureDatabase.CHOICE_ADVS[i][0][0];
+                                boolean ignorable = AdventureDatabase.ignoreChoiceOption( choice ) != null;
+
+				if ( ignorable || index != 0 )
+					setProperty( choice, String.valueOf( index ) );
+				else
+					optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( choice ) ) );
+			}
+
+			//              The Wheel:
+
+			//              Muscle
+			// Moxie          +         Mysticality
+			//            Map Quest
+
+			// Option 1: Turn the wheel counterclockwise
+			// Option 2: Turn the wheel clockwise
+			// Option 3: Leave the wheel alone
+
+			switch ( castleWheelSelect.getSelectedIndex() )
+			{
+				case 0: // Map quest position (choice adventure 11)
+					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
+					setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
+					setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
+					setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
+					break;
+
+				case 1: // Muscle position (choice adventure 9)
+					setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
+					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
+					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+					break;
+
+				case 2: // Mysticality position (choice adventure 10)
+					setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
+					setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
+					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
+					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+					break;
+
+				case 3: // Moxie position (choice adventure 12)
+					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
+					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
+					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
+					break;
+
+				case 4: // Ignore this adventure
+					setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
+					setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
+					setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
+					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
+					break;
+			}
+
+			JOptionPane.showMessageDialog( null, "Settings saved." );
+		}
+
+		protected void actionCancelled()
+		{
+			for ( int i = 0; i < optionSelects.length; ++i )
+				optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );
+
+			// Determine the desired wheel position by examining
+			// which choice adventure has the "3" value.  If none
+			// exists, assume the user wishes to turn it to the map
+			// quest.
+
+			// If they are all "3", user wants the wheel left alone
+
+			int option = 11;
+			int count = 0;
+			for ( int i = 9; i < 13; ++i )
+				if ( getProperty( "choiceAdventure" + i ).equals( "3" ) )
+				{
+					option = i;
+					count++;
+				}
+
+			switch ( count )
+			{
+				default:	// Bogus saved options
+				case 0:		// Map quest position
+					castleWheelSelect.setSelectedIndex(0);
+					break;
+
+				case 1:		// One chosen target
+					switch ( option )
+					{
+					case 9: // Muscle position
+						castleWheelSelect.setSelectedIndex(1);
+						break;
+
+					case 10: // Mysticality position
+						castleWheelSelect.setSelectedIndex(2);
+						break;
+
+					case 11: // Map quest position
+						castleWheelSelect.setSelectedIndex(0);
+						break;
+
+					case 12: // Moxie position
+						castleWheelSelect.setSelectedIndex(3);
+						break;
+					}
+					break;
+
+				case 4:		// Ignore this adventure
+					castleWheelSelect.setSelectedIndex(4);
+					break;
+			}
 		}
 	}
 
