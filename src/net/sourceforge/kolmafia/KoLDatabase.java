@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
@@ -123,58 +122,54 @@ public class KoLDatabase extends StaticEntity
 		}
 		else
 		{
-			String currentName;
+			String [] names = new String[ nameMap.keySet().size() ];
+			nameMap.keySet().toArray( names );
 
-			Iterator nameIterator = nameMap.keySet().iterator();
-			while ( nameIterator.hasNext() )
-			{
-				currentName = (String) nameIterator.next();
-				if ( currentName.indexOf( searchString ) != -1 )
-					substringList.add( currentName );
-			}
+			for ( int i = 0; i < names.length; ++i )
+				if ( names[i].indexOf( searchString ) != -1 )
+					substringList.add( names[i] );
 		}
 
 		return substringList;
 	}
 
-	public static String getBreakdown( Iterator itemIterator )
+	public static String getBreakdown( List items )
 	{
 		StringBuffer strbuf = new StringBuffer();
 		strbuf.append( LINE_BREAK );
 
+		Object [] itemArray = new Object[ items.size() ];
+		items.toArray( itemArray );
+
 		int maximumCount = 0;
 		int currentCount = 0;
-		Object currentItem = itemIterator.next();
-		Object favorite = currentItem;
-		Object nextItem;
+		Object favorite = itemArray.length > 0 ? itemArray[0] : null;
 
 		strbuf.append( "<ul>" );
 
-		while ( itemIterator.hasNext() )
+		for ( int i = 1; i < itemArray.length; ++i )
 		{
 			++currentCount;
-			nextItem = itemIterator.next();
-			if ( !currentItem.equals( nextItem ) )
+			if ( !itemArray[ i - 1 ].equals( itemArray[i] ) )
 			{
-				strbuf.append( "<li>" + currentItem.toString() + ": " + currentCount + "</li>" );
+				strbuf.append( "<li>" + itemArray[ i - 1 ].toString() + ": " + currentCount + "</li>" );
 				strbuf.append( LINE_BREAK );
 
 				if ( currentCount > maximumCount )
 				{
 					maximumCount = currentCount;
-					favorite = currentItem;
+					favorite = itemArray[ i - 1 ];
 				}
 
-				currentItem = nextItem;
 				currentCount = 0;
 			}
 		}
 
-		strbuf.append( "<li>" + currentItem.toString() + ": " + (currentCount + 1) + "</li>" );
+		strbuf.append( "<li>" + itemArray[ itemArray.length - 1 ].toString() + ": " + (currentCount + 1) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
 		if ( currentCount > maximumCount )
-			favorite = currentItem;
+			favorite = itemArray[ itemArray.length - 1 ];
 
 		strbuf.append( "</ul><hr width=\"80%\"><b>Favorite</b>: " + favorite.toString() );
 		strbuf.append( LINE_BREAK );

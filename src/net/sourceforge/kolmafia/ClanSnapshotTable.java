@@ -34,16 +34,14 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.io.File;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.Date;
-import java.io.File;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -137,22 +135,19 @@ public class ClanSnapshotTable extends KoLDatabase
 			request.run();
 
 		filterList.clear();
-		List interimList = new ArrayList();
+		ArrayList interimList = new ArrayList();
 
-		String currentName;
-		Iterator nameIterator = profileMap.keySet().iterator();
+		String [] names = new String[ profileMap.keySet().size() ];
+		profileMap.keySet().toArray( names );
 
 		try
 		{
 			// If the comparison value matches the type desired,
 			// add the element to the list.
 
-			while ( nameIterator.hasNext() )
-			{
-				currentName = (String) nameIterator.next();
-				if ( compare( filterType, currentName, filter ) == matchType )
-					interimList.add( getProfile( currentName ) );
-			}
+			for ( int i = 0; i < names.length; ++i )
+				if ( compare( filterType, names[i], filter ) == matchType )
+					interimList.add( getProfile( names[i] ) );
 		}
 		catch ( Exception e )
 		{
@@ -296,10 +291,12 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( getRosterHeader().replaceAll( "<td>", "<td align=center>" ) );
 		strbuf.append( LINE_BREAK );
 
-		Iterator memberIterator = profileMap.keySet().iterator();
-		for ( int i = 1; memberIterator.hasNext(); ++i )
+		String [] members = new String[ profileMap.keySet().size() ];
+		profileMap.keySet().toArray( members );
+
+		for ( int i = 0; i < members.length; ++i )
 		{
-			strbuf.append( getMemberDetail( (String) memberIterator.next() ) );
+			strbuf.append( getMemberDetail( members[i] ) );
 			strbuf.append( LINE_BREAK );
 		}
 
@@ -314,36 +311,34 @@ public class ClanSnapshotTable extends KoLDatabase
 		String header = getRosterHeader();
 		StringBuffer strbuf = new StringBuffer();
 
-		List classList = new ArrayList();
-		List foodList = new ArrayList();
-		List drinkList = new ArrayList();
+		ArrayList classList = new ArrayList();
+		ArrayList foodList = new ArrayList();
+		ArrayList drinkList = new ArrayList();
 
-		List rankList = new ArrayList();
-		List powerList = new ArrayList();
-		List karmaList = new ArrayList();
+		ArrayList rankList = new ArrayList();
+		ArrayList powerList = new ArrayList();
+		ArrayList karmaList = new ArrayList();
 
-		List meatList = new ArrayList();
-		List turnsList = new ArrayList();
-		List pvpList = new ArrayList();
+		ArrayList meatList = new ArrayList();
+		ArrayList turnsList = new ArrayList();
+		ArrayList pvpList = new ArrayList();
 
-		List musList = new ArrayList();
-		List mysList = new ArrayList();
-		List moxList = new ArrayList();
+		ArrayList musList = new ArrayList();
+		ArrayList mysList = new ArrayList();
+		ArrayList moxList = new ArrayList();
 
-		List ascensionsList = new ArrayList();
+		ArrayList ascensionsList = new ArrayList();
 
 		// Iterate through the list of clan members
 		// and populate the lists.
 
-		String currentMember;
 		ProfileRequest memberLookup;
-		Iterator memberIterator = profileMap.keySet().iterator();
+		String [] members = new String[ profileMap.keySet().size() ];
+		profileMap.keySet().toArray( members );
 
-		while ( memberIterator.hasNext() )
+		for ( int i = 0; i < members.length; ++i )
 		{
-
-			currentMember = (String) memberIterator.next();
-			memberLookup = getProfile( currentMember );
+			memberLookup = getProfile( members[i] );
 
 			if ( header.indexOf( "<td>Class</td>" ) != -1 )
 				classList.add( memberLookup.getClassType() );
@@ -465,32 +460,32 @@ public class ClanSnapshotTable extends KoLDatabase
 		if ( header.indexOf( "<td>Class</td>" ) != -1 )
 		{
 			strbuf.append( "<td valign=top><b>Class Breakdown</b>:" );
-			strbuf.append( getBreakdown( classList.iterator() ) );
+			strbuf.append( getBreakdown( classList ) );
 			strbuf.append( "</td>" );
 		}
 
 		strbuf.append( "<td valign=top><b>Rank Breakdown</b>:" );
-		strbuf.append( getBreakdown( rankList.iterator() ) );
+		strbuf.append( getBreakdown( rankList ) );
 		strbuf.append( "</td>" );
 
 		if ( header.indexOf( "<td>Food</td>" ) != -1 )
 		{
 			strbuf.append( "<td valign=top><b>Food Breakdown</b>:" );
-			strbuf.append( getBreakdown( foodList.iterator() ) );
+			strbuf.append( getBreakdown( foodList ) );
 			strbuf.append( "</td>" );
 		}
 
 		if ( header.indexOf( "<td>Drink</td>" ) != -1 )
 		{
 			strbuf.append( "<td valign=top><b>Drink Breakdown</b>:" );
-			strbuf.append( getBreakdown( drinkList.iterator() ) );
+			strbuf.append( getBreakdown( drinkList ) );
 			strbuf.append( "</td>" );
 		}
 
 		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
 		{
 			strbuf.append( "<td valign=top><b>Ascension Breakdown</b>:" );
-			strbuf.append( getBreakdown( ascensionsList.iterator() ) );
+			strbuf.append( getBreakdown( ascensionsList ) );
 			strbuf.append( "</td>" );
 		}
 
