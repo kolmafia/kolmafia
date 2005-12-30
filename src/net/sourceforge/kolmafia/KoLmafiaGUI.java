@@ -263,7 +263,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( tradeCount == 0 )
 			return;
 
-		(new HermitRequest( this, selected, tradeCount )).run();
+		makeRequest( new HermitRequest( this, selected, tradeCount ), 1 );
 		enableDisplay();
 
 		// We might have traded for a craftable item
@@ -301,7 +301,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( tradeCount == 0 )
 			return;
 
-		(new TrapperRequest( this, selected, tradeCount )).run();
+		makeRequest( new TrapperRequest( this, selected, tradeCount ), 1 );
 		enableDisplay();
 
 		// We might have traded for a craftable item
@@ -328,7 +328,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedValue == null )
                         return;
 
-		(new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) )).run();
+		makeRequest( BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) ), 1 );
 		enableDisplay();
 
 		// We might have sold a craftable item
@@ -363,7 +363,8 @@ public class KoLmafiaGUI extends KoLmafia
 			type = GalaktikRequest.MP;
 		else
 			return;
-		(new GalaktikRequest( this, type )).run();
+
+		makeRequest( new GalaktikRequest( this, type ), 1 );
 		enableDisplay();
 	}
 
@@ -401,7 +402,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedValue == null )
 			return;
 
-		(new UntinkerRequest( this, selectedValue.getItemID() )).run();
+		makeRequest( new UntinkerRequest( this, selectedValue.getItemID() ), 1 );
 		enableDisplay();
 
 		// Recalculate recipes
@@ -429,7 +430,7 @@ public class KoLmafiaGUI extends KoLmafia
 				null, "Set the device to what level?", "Change mind control device from level " + KoLCharacter.getMindControlLevel(),
 					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ KoLCharacter.getMindControlLevel() ] );
 
-			(new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() )).run();
+			makeRequest( new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() ), 1 );
 			enableDisplay();
 		}
 		catch ( Exception e )

@@ -333,17 +333,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
-	 * Set up this request before a series of run() calls.	Most classes
-	 * that extend KoLRequest won't need to provide this method, but if
-	 * there is anything which must be done once only at the beginning,
-	 * this is the place.
-	 */
-
-	public void startRun()
-	{
-	}
-
-	/**
 	 * Runs the thread, which prepares the connection for output, posts the data
 	 * to the Kingdom of Loathing, and prepares the input for reading.  Because
 	 * the Kingdom of Loathing has identical page layouts, all page reading and

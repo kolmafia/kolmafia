@@ -92,7 +92,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected String password, sessionID, passwordHash;
 
-	private boolean disableMacro;
 	protected KoLSettings settings;
 	protected PrintStream macroStream;
 	protected Properties LOCAL_SETTINGS = new Properties();
@@ -841,7 +840,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( current >= needed )
 			{
 				updateDisplay( DISABLE_STATE, "Recovery complete.  Resuming requests..." );
-				disableMacro = false;
 				return true;
 			}
 
@@ -881,7 +879,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( current >= needed )
 			{
 				updateDisplay( DISABLE_STATE, "Recovery complete.  Resuming requests..." );
-				disableMacro = false;
 				return true;
 			}
 
@@ -889,7 +886,6 @@ public abstract class KoLmafia implements KoLConstants
 			// desired value.  Report an error message.
 
 			updateDisplay( ERROR_STATE, "Auto-recovery failed." );
-			disableMacro = false;
 			cancelRequest();
 			return false;
 		}
@@ -898,7 +894,6 @@ public abstract class KoLmafia implements KoLConstants
 			logStream.println( e );
 			e.printStackTrace( logStream );
 			cancelRequest();
-			disableMacro = false;
 			return false;
 		}
 	}
@@ -960,7 +955,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( recoveryScript.exists() )
 		{
-			disableMacro = true;
 			(new KoLmafiaCLI( this, new FileInputStream( recoveryScript ) )).listenForCommands();
 		}
 		else
@@ -1123,12 +1117,7 @@ public abstract class KoLmafia implements KoLConstants
 		try
 		{
 			resetContinueState();
-
-			// If you're currently recording commands, be sure to
-			// record the current command to the macro stream.
-
-			if ( !this.disableMacro )
-				macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
+			macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
 
 			// Handle the gym, which is the only adventure type
 			// which needs to be specially handled.
@@ -1170,21 +1159,16 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( request instanceof KoLAdventure )
 			{
-				KoLAdventure adventure = (KoLAdventure)request;
-
-				// Initialize the adventure before the run
-				adventure.startRun();
-
 				// Validate the adventure
-				AdventureDatabase.validateAdventure( adventure );
+				AdventureDatabase.validateAdventure( (KoLAdventure) request );
 			}
 
 			// Begin the adventuring process, or the request execution
 			// process (whichever is applicable).
 
-			int currentIteration = 0;
+			int currentIteration;
 
-			while ( permitsContinue() && currentIteration++ < iterations )
+			for ( currentIteration = 1; permitsContinue() && currentIteration < iterations; ++currentIteration )
 			{
 				// If the conditions existed and have been satisfied,
 				// then you should stop.

@@ -46,7 +46,6 @@ public class SewerRequest extends KoLRequest
 	public static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
 
 	private boolean isLuckySewer;
-	private KoLRequest request;
 
 	/**
 	 * Constructs a new <code>SewerRequest</code>.  This method will
@@ -62,15 +61,6 @@ public class SewerRequest extends KoLRequest
 	{
 		super( client, "sewer.php" );
 		this.isLuckySewer = isLuckySewer;
-		request = null;
-	}
-
-	/**
-	 * Set up this request before a series of run() calls
-	 */
-	public void startRun()
-	{
-		request = null;
 	}
 
 	/**
@@ -108,7 +98,7 @@ public class SewerRequest extends KoLRequest
 			return;
 		}
 
-		if ( request == null )
+		if ( !(client.getCurrentRequest() instanceof SewerRequest) )
 		{
 			// First time here.
 
@@ -136,23 +126,22 @@ public class SewerRequest extends KoLRequest
 
 			// Make a request to use from now on.
 
-			request = new KoLRequest( client, "sewer.php", false );
-			request.addFormField( "doodit", "1" );
+			addFormField( "doodit", "1" );
 
 			// Rather than giving people flexibility, it seems like
 			// a better idea to assume everyone wants trinkets and
 			// spices and let them specify the third item.
 
-			request.addFormField( "i43", "on" );
-			request.addFormField( "i8", "on" );
-			request.addFormField( "i" + thirdItem, "on" );
+			addFormField( "i43", "on" );
+			addFormField( "i8", "on" );
+			addFormField( "i" + thirdItem, "on" );
 		}
 
 		// Enter the sewer
 
-		request.run();
+		super.run();
 
-		if ( request.responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		client.processResult( CLOVER );

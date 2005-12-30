@@ -141,8 +141,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		return includeZoneName ? zone + ": " + adventureName : adventureName;
 	}
 
+	/**
+	 * Executes the appropriate <code>KoLRequest</code> for the adventure
+	 * encapsulated by this <code>KoLAdventure</code>.
+	 */
 
-	public void startRun()
+	public void run()
 	{
 		String action = StaticEntity.getProperty( "battleAction" );
 
@@ -153,16 +157,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		request.startRun();
-	}
-
-	/**
-	 * Executes the appropriate <code>KoLRequest</code> for the adventure
-	 * encapsulated by this <code>KoLAdventure</code>.
-	 */
-
-	public void run()
-	{
 		// Before running the request, make sure you have enough
 		// mana and health to continue.
 
