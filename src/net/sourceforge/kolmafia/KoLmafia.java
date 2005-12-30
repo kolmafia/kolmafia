@@ -858,7 +858,6 @@ public abstract class KoLmafia implements KoLConstants
 			// see if the settings wish to use this item.  If so, go ahead
 			// and process the item's usage.
 
-			current = -1;
 			Object currentTechnique;
 
 			for ( int i = 0; i < totalRestores; ++i )
@@ -866,6 +865,7 @@ public abstract class KoLmafia implements KoLConstants
 				currentTechnique = getMethod.invoke( null, new Integer [] { new Integer(i) } );
 				if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
 				{
+					current = -1;
 					while ( current < ((Number)maximumMethod.invoke( null, empty )).intValue() && current != ((Number)currentMethod.invoke( null, empty )).intValue() )
 					{
 						current = ((Number)currentMethod.invoke( null, empty )).intValue();
