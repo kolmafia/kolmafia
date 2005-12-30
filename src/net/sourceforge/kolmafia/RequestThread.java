@@ -49,23 +49,7 @@ public class RequestThread extends Thread implements KoLConstants
 	}
 
 	public RequestThread( Runnable request, int repeatCount )
-	{
-		if ( request == null )
-		{
-			this.requests = new Runnable[0];
-			this.repeatCount = new int[0];
-		}
-		else
-		{
-			this.client = request instanceof KoLRequest ? ((KoLRequest)request).client : null;
-
-			this.requests = new Runnable[1];
-			this.requests[0] = request;
-			this.repeatCount = new int[1];
-			this.repeatCount[0] = repeatCount;
-		}
-
-		setDaemon( true );
+	{	this( new Runnable [] { request }, new int [] { repeatCount } );
 	}
 
 	public RequestThread( Runnable [] requests )
@@ -89,7 +73,8 @@ public class RequestThread extends Thread implements KoLConstants
 			if ( requests[i] != null )
 			{
 				if ( this.client == null )
-					this.client = requests[i] instanceof KoLRequest ? ((KoLRequest)requests[i]).client : null;
+					this.client = requests[i] instanceof KoLRequest ? ((KoLRequest)requests[i]).client :
+						requests[i] instanceof KoLAdventure ? ((KoLAdventure)requests[i]).client : null;
 
 				this.requests[ requestCount ] = requests[i];
 				this.repeatCount[ requestCount++ ] = repeatCount;
@@ -138,17 +123,14 @@ public class RequestThread extends Thread implements KoLConstants
 			// Standard KoL requests are handled through the
 			// client.makeRequest() method.
 
-			else if ( requests[i] instanceof KoLRequest && !((KoLRequest)requests[i]).client.inLoginState() )
+			else if ( requests[i] instanceof KoLRequest && !client.inLoginState() )
 				client.makeRequest( requests[i], repeatCount[i] );
 
 			// Standard KoL adventures are handled through the
 			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLAdventure )
-			{
-				client = ((KoLAdventure)requests[i]).client;
 				client.makeRequest( requests[i], repeatCount[i] );
-			}
 
 			// All other runnables are run, as expected, with
 			// no updates to the client.
