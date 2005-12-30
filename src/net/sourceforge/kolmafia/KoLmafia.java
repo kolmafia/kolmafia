@@ -1168,7 +1168,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			int currentIteration;
 
-			for ( currentIteration = 1; permitsContinue() && currentIteration < iterations; ++currentIteration )
+			for ( currentIteration = 1; permitsContinue() && currentIteration <= iterations; ++currentIteration )
 			{
 				// If the conditions existed and have been satisfied,
 				// then you should stop.
