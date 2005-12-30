@@ -126,9 +126,6 @@ public class RequestThread extends Thread implements KoLConstants
 
 	public void run()
 	{
-		if ( this.client != null )
-			client.resetContinueState();
-
 		for ( int i = 0; i < requests.length; ++i )
 		{
 			// Chat requests are only run once, no matter what
