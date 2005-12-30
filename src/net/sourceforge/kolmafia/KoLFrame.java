@@ -439,18 +439,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new DisplayFrameMenuItem( "KoL Almanac", CalendarFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Encyclopedia", ExamineItemsFrame.class ) );
-
-		toolsMenu.add( new JSeparator() );
-
 		toolsMenu.add( new KoLPanelFrameMenuItem( "Cast a Buff", new SkillBuffPanel() ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new KoLPanelFrameMenuItem( "Meat Management", new MeatStoragePanel() ) );
+		toolsMenu.add( new KoLPanelFrameMenuItem( "Meat Manager", new MeatStoragePanel() ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Standard Arena", CakeArenaFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
@@ -510,7 +505,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		JMenu scriptMenu = new ScriptMenu();
 		container.add( scriptMenu );
-		
+
 		if ( container instanceof JMenuBar )
 		{
 			JMenu toggleMenu = new JMenu( "Toggles" );
@@ -528,6 +523,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", LicenseDisplay.class ) );
 		helperMenu.add( new InvocationMenuItem( "Download Overrides", client, "downloadOverrideFiles" ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", CalendarFrame.class ) );
+		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
 
 		helperMenu.add( new JSeparator() );
 
@@ -587,7 +584,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 			existingFrames.toArray( frames );
-		
+
 			if ( KoLmafia.getLogStream() instanceof NullStream )
 			{
 				KoLmafia.openDebugLog();
@@ -618,7 +615,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 			existingFrames.toArray( frames );
-		
+
 			if ( client != null && client.getMacroStream() instanceof NullStream )
 			{
 				JFileChooser chooser = new JFileChooser( "scripts" );
@@ -1725,7 +1722,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					VerifiableElement [] elements = new VerifiableElement[2];
 					nameField = new JTextField();
 					elements[0] = new VerifiableElement( "Name", nameField );
-					
+
 					locationField = new JTextField( client.getCurrentRequest() == null ? "" : client.getCurrentRequest().getURLString() );
 					elements[1] = new VerifiableElement( "Location", locationField );
 					setContent( elements );
@@ -1886,7 +1883,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		public SkillBuffPanel()
 		{	this ( "" );
 		}
-		
+
 		public SkillBuffPanel( String initialRecipient )
 		{
 			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
