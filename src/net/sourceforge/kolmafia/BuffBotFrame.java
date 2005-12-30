@@ -68,7 +68,6 @@ import javax.swing.JSeparator;
 
 // utilities
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Properties;
 import java.text.ParseException;
 import javax.swing.SwingUtilities;

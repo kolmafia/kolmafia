@@ -71,7 +71,6 @@ import javax.swing.JOptionPane;
 
 // other imports
 import java.util.Date;
-import java.util.Iterator;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 

@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -349,15 +348,12 @@ public class SearchMallRequest extends KoLRequest
 		// add - this is just in case some of the items become notrade
 		// so items can still be bought from the NPC stores.
 
-		String lastItemName;
+		String [] names = new String[ itemNames.size() ];
+		itemNames.toArray( names );
 
-		Iterator itemNameIterator = itemNames.iterator();
-		while ( itemNameIterator.hasNext() )
-		{
-			lastItemName = (String) itemNameIterator.next();
-			if ( NPCStoreDatabase.contains( lastItemName ) )
-				results.add( NPCStoreDatabase.getPurchaseRequest( lastItemName ) );
-		}
+		for ( int i = 0; i < names.length; ++i )
+			if ( NPCStoreDatabase.contains( names[i] ) )
+				results.add( NPCStoreDatabase.getPurchaseRequest( names[i] ) );
 
 		updateDisplay( NORMAL_STATE, results.size() == 0 ? "No results found." : "Search complete." );
 	}

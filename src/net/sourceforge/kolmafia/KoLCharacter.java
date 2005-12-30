@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -481,9 +480,11 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.maximumHP = maximumHP;
 		KoLCharacter.baseMaxHP = baseMaxHP;
 
-		Iterator listenerIterator = listenerList.iterator();
-		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).hpChanged();
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].hpChanged();
 	}
 
 	/**
@@ -526,9 +527,11 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.maximumMP = maximumMP;
 		KoLCharacter.baseMaxMP = baseMaxMP;
 
-		Iterator listenerIterator = listenerList.iterator();
-		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).mpChanged();
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].mpChanged();
 	}
 
 	/**
@@ -567,9 +570,11 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		KoLCharacter.closetMeat = closetMeat;
 
-		Iterator listenerIterator = listenerList.iterator();
-		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).closetMeatChanged();
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].closetMeatChanged();
 	}
 
 	/**
@@ -592,9 +597,11 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		KoLCharacter.availableMeat = availableMeat;
 
-		Iterator listenerIterator = listenerList.iterator();
-		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).availableMeatChanged();
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].availableMeatChanged();
 	}
 
 	/**
@@ -635,9 +642,11 @@ public abstract class KoLCharacter extends StaticEntity
 		totalSubpoints[1] = totalMysticality;
 		totalSubpoints[2] = totalMoxie;
 
-		Iterator listenerIterator = listenerList.iterator();
-		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).statusPointsChanged();
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].statusPointsChanged();
 	}
 
 	/**
@@ -834,9 +843,12 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setInebriety( int inebriety )
 	{
 		KoLCharacter.inebriety = inebriety;
-		Iterator listenerIterator = listenerList.iterator();
-		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).inebrietyChanged();
+
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].inebrietyChanged();
 	}
 
 	/**
@@ -860,9 +872,12 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setAdventuresLeft( int adventuresLeft )
 	{
 		KoLCharacter.adventuresLeft = adventuresLeft;
-		Iterator listenerIterator = listenerList.iterator();
-		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).adventuresLeftChanged();
+
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].adventuresLeftChanged();
 	}
 
 	/**
@@ -887,9 +902,12 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setTotalTurnsUsed( int totalTurnsUsed )
 	{
 		KoLCharacter.totalTurnsUsed = totalTurnsUsed;
-		Iterator listenerIterator = listenerList.iterator();
-		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).totalTurnsChanged();
+
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].totalTurnsChanged();
 	}
 
 	/**
@@ -1523,10 +1541,11 @@ public abstract class KoLCharacter extends StaticEntity
 		// Check all available skills to see if they
 		// qualify to be added as combat or usables.
 
-		Iterator skills = availableSkills.iterator();
+		UseSkillRequest [] skillArray = new UseSkillRequest[ availableSkills.size() ];
+		availableSkills.toArray( skillArray );
 
-		while ( skills.hasNext() )
-			addAvailableSkill( (UseSkillRequest) skills.next() );
+		for ( int i = 0; i < skillArray.length; ++i )
+			addAvailableSkill( skillArray[i] );
 
 		// Set the selected combat skill based on
 		// the user's current setting.
@@ -1723,13 +1742,13 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static FamiliarData findFamiliar( String race )
 	{
-		Iterator familiarIterator = familiars.iterator();
-		while ( familiarIterator.hasNext() )
-		{
-			FamiliarData familiar = (FamiliarData)familiarIterator.next();
-			if ( race.equals( familiar.getRace() ) )
-				return familiar;
-		}
+		FamiliarData [] familiarArray = new FamiliarData[ familiars.size() ];
+		familiars.toArray( familiarArray );
+
+		for ( int i = 0; i < familiarArray.length; ++i )
+			if ( race.equals( familiarArray[i].getRace() ) )
+				return familiarArray[i];
+
 		return null;
 	}
 
@@ -1743,9 +1762,11 @@ public abstract class KoLCharacter extends StaticEntity
 		currentFamiliar = addFamiliar( familiar );
 		familiars.setSelectedItem( currentFamiliar );
 
-		Iterator listenerIterator = listenerList.iterator();
-		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).familiarChanged();
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].familiarChanged();
 	}
 
 	/**
@@ -1758,9 +1779,11 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( currentFamiliar != null )
 			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
 
-		Iterator listenerIterator = listenerList.iterator();
-		while ( listenerIterator.hasNext() )
-			((KoLCharacterListener)listenerIterator.next()).familiarChanged();
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].familiarChanged();
 	}
 
 	/**
@@ -1868,32 +1891,28 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.updateEquipmentLists();
 		ConcoctionsDatabase.refreshConcoctions();
 
-		AdventureResult currentItem;
 		sellables.retainAll( inventory );
 		usables.retainAll( inventory );
 
-		Iterator itemIterator = inventory.iterator();
+		AdventureResult [] items = new AdventureResult[ inventory.size() ];
+		inventory.toArray( items );
 
-		while ( itemIterator.hasNext() )
+		for ( int i = 0; i < items.length; ++i )
 		{
-			currentItem = (AdventureResult) itemIterator.next();
-
-			if ( TradeableItemDatabase.isUsable( currentItem.getName() ) &&
-				currentItem.getCount( usables ) != currentItem.getCount() )
+			if ( TradeableItemDatabase.isUsable( items[i].getName() ) && items[i].getCount( usables ) != items[i].getCount() )
 			{
-				if ( currentItem.getCount( usables ) == 0 )
-					usables.add( currentItem );
+				if ( items[i].getCount( usables ) == 0 )
+					usables.add( items[i] );
 				else
-					usables.set( usables.indexOf( currentItem ), currentItem );
+					usables.set( usables.indexOf( items[i] ), items[i] );
 			}
 
-			if ( TradeableItemDatabase.getPriceByID( currentItem.getItemID() ) != 0 &&
-				currentItem.getCount( sellables ) != currentItem.getCount() )
+			if ( TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 && items[i].getCount( sellables ) != items[i].getCount() )
 			{
-				if ( currentItem.getCount( sellables ) == 0 )
-					sellables.add( currentItem );
+				if ( items[i].getCount( sellables ) == 0 )
+					sellables.add( items[i] );
 				else
-					sellables.set( sellables.indexOf( currentItem ), currentItem );
+					sellables.set( sellables.indexOf( items[i] ), items[i] );
 			}
 		}
 	}
@@ -1960,10 +1979,11 @@ public abstract class KoLCharacter extends StaticEntity
 			else if ( result.isMoxieGain() )
 				totalSubpoints[2] += result.getCount();
 
-			Iterator listenerIterator = listenerList.iterator();
-			while ( listenerIterator.hasNext() )
-				((KoLCharacterListener)listenerIterator.next()).statusPointsChanged();
+			KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+			listenerList.toArray( listenerArray );
 
+			for ( int i = 0; i < listenerArray.length; ++i )
+				listenerArray[i].statusPointsChanged();
 		}
 	}
 
@@ -1996,14 +2016,12 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static AdventureResult getZapper()
 	{
-		// Search for a wand
-		Iterator iterator = inventory.iterator();
-		while ( iterator.hasNext() )
-		{
-			AdventureResult item = (AdventureResult)iterator.next();
-			if ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) == ConsumeItemRequest.CONSUME_ZAP )
-				return item;
-		}
+		AdventureResult [] items = new AdventureResult[ inventory.size() ];
+		inventory.toArray( items );
+
+		for ( int i = 0; i < items.length; ++i )
+			if ( TradeableItemDatabase.getConsumptionType( items[i].getItemID() ) == ConsumeItemRequest.CONSUME_ZAP )
+				return items[i];
 
 		// No wand
 		return null;

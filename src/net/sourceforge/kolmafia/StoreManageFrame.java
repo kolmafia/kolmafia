@@ -298,7 +298,7 @@ public class StoreManageFrame extends KoLFrame
 				if ( sellingList.getSelectedItem() == null )
 					return;
 
-				StoreManager.searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary, false );
+				StoreManager.searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary );
 				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
 			}
 		}
@@ -420,7 +420,7 @@ public class StoreManageFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				StoreManager.searchMall( itemName.getText(), priceSummary, false );
+				StoreManager.searchMall( itemName.getText(), priceSummary );
 				searchLabel.setText( itemName.getText() );
 			}
 		}

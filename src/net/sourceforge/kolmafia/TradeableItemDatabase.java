@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Set;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -391,10 +391,10 @@ public class TradeableItemDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns an iterator over the entrySet of items keyed by name
-	 * @return	The Iterator
+	 * Returns the set of items keyed by name
+	 * @return	The set of items keyed by name
 	 */
-	public static Iterator iterator()
-	{	return itemByName.entrySet().iterator();
+	public static Set entrySet()
+	{	return itemByName.entrySet();
 	}
 }

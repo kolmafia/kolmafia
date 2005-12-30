@@ -34,10 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Set;
 import java.util.Map;
 import java.util.TreeMap;
 import java.io.BufferedReader;
-import java.util.Iterator;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -236,10 +236,10 @@ public class ClassSkillsDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns an iterator over the entrySet of skills keyed by name
-	 * @return	The Iterator
+	 * Returns the set of skills keyed by name
+	 * @return	The set of skills keyed by name
 	 */
-	public static Iterator iterator()
-	{	return skillByName.entrySet().iterator();
+	public static Set entrySet()
+	{	return skillByName.entrySet();
 	}
 }

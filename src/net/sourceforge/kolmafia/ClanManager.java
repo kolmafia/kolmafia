@@ -47,7 +47,6 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -183,21 +182,19 @@ public class ClanManager extends StaticEntity
 		// before this happens.
 
 		int requestsNeeded = 0;
-
 		File profile, ascensionData;
-		String currentName, currentProfile, currentAscensionData;
+		String currentProfile, currentAscensionData;
 
-		Iterator nameIterator = profileMap.keySet().iterator();
+		String [] names = new String[ profileMap.keySet().size() ];
+		profileMap.keySet().toArray( names );
 
-		while ( nameIterator.hasNext() )
+		for ( int i = 0; i < names.length; ++i )
 		{
-			currentName = (String) nameIterator.next();
+			currentProfile = (String) profileMap.get( names[i] );
+			currentAscensionData = (String) ascensionMap.get( names[i] );
 
-			currentProfile = (String) profileMap.get( currentName );
-			currentAscensionData = (String) ascensionMap.get( currentName );
-
-			profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + client.getPlayerID( currentName ) + ".htm" );
-			ascensionData = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + client.getPlayerID( currentName ) + ".htm" );
+			profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + client.getPlayerID( names[i] ) + ".htm" );
+			ascensionData = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + client.getPlayerID( names[i] ) + ".htm" );
 
 			if ( retrieveProfileData )
 			{
@@ -205,7 +202,7 @@ public class ClanManager extends StaticEntity
 					++requestsNeeded;
 
 				if ( currentProfile.equals( "" ) && profile.exists() )
-					initializeProfile( currentName );
+					initializeProfile( names[i] );
 			}
 
 			if ( retrieveAscensionData )
@@ -214,7 +211,7 @@ public class ClanManager extends StaticEntity
 					++requestsNeeded;
 
 				if ( currentAscensionData.equals( "" ) && ascensionData.exists() )
-					initializeAscensionData( currentName );
+					initializeAscensionData( names[i] );
 			}
 		}
 
@@ -250,25 +247,23 @@ public class ClanManager extends StaticEntity
 		// you begin initializing all the data.
 
 		client.updateDisplay( DISABLE_STATE, "Processing request..." );
-		nameIterator = profileMap.keySet().iterator();
 
 		// Create a special HTML file for each of the
 		// players in the ClanSnapshotTable so that it can be
 		// navigated at leisure.
 
-		for ( int i = 1; nameIterator.hasNext() && client.permitsContinue(); ++i )
+		for ( int i = 0; i < names.length && client.permitsContinue(); ++i )
 		{
 			client.updateDisplay( DISABLE_STATE, "Examining member " + i + " of " + profileMap.size() + "..." );
 
-			currentName = (String) nameIterator.next();
-			currentProfile = (String) profileMap.get( currentName );
-			currentAscensionData = (String) ascensionMap.get( currentName );
+			currentProfile = (String) profileMap.get( names[i] );
+			currentAscensionData = (String) ascensionMap.get( names[i] );
 
 			if ( retrieveProfileData && currentProfile.equals( "" ) )
-				initializeProfile( currentName );
+				initializeProfile( names[i] );
 
 			if ( retrieveAscensionData && currentAscensionData.equals( "" ) )
-				initializeAscensionData( currentName );
+				initializeAscensionData( names[i] );
 		}
 
 		return true;
@@ -541,13 +536,12 @@ public class ClanManager extends StaticEntity
 
 		try
 		{
-			String currentMember = "";
-
 			List entryList;
 			StashLogEntry entry;
 
 			if ( file.exists() )
 			{
+				String currentMember = "";
 				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( file ) ) );
 				String line;
 
@@ -587,9 +581,11 @@ public class ClanManager extends StaticEntity
 			file.getParentFile().mkdirs();
 			file.createNewFile();
 
-			Iterator memberIterator = stashMap.keySet().iterator();
+			String [] members = new String[ stashMap.keySet().size() ];
+			stashMap.keySet().toArray( members );
+
 			PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
-			Iterator entries;
+			Object [] entries;
 
 			ostream.println( "<html><head>" );
 			ostream.println( "<title>Clan Stash Log @ " + (new Date()).toString() + "</title>" );
@@ -611,19 +607,17 @@ public class ClanManager extends StaticEntity
 			ostream.println();
 			ostream.println( "<!-- Begin Stash Log: Do Not Modify Beyond This Point -->" );
 
-			while ( memberIterator.hasNext() )
+			for ( int i = 0; i < members.length; ++i )
 			{
-				currentMember = (String) memberIterator.next();
-				ostream.println( currentMember + ":" );
+				ostream.println( members[i] + ":" );
 
-				entryList = (List) stashMap.get( currentMember );
+				entryList = (List) stashMap.get( members[i] );
 				Collections.sort( entryList );
-
-				entries = entryList.iterator();
+				entries = entryList.toArray();
 
 				ostream.println( "<ul>" );
-				while ( entries.hasNext() )
-					ostream.println( entries.next().toString() );
+				for ( int j = 0; j < entries.length; ++j )
+					ostream.println( entries[j].toString() );
 				ostream.println( "</ul>" );
 
 				ostream.println();
@@ -860,12 +854,15 @@ public class ClanManager extends StaticEntity
 		retrieveClanData();
 
 		StringBuffer clanCDL = new StringBuffer();
-		Iterator memberIterator = profileMap.keySet().iterator();
+		String [] members = new String[ profileMap.keySet().size() ];
 
-		for ( int i = 1; memberIterator.hasNext(); ++i )
+		if ( members.length > 0 )
+			clanCDL.append( members[0] );
+
+		for ( int i = 1; i < members.length; ++i )
 		{
-			if ( i != 1 )  clanCDL.append( ", " );
-			clanCDL.append( (String) memberIterator.next() );
+			clanCDL.append( ", " );
+			clanCDL.append( members[i] );
 		}
 
 		return clanCDL.toString();

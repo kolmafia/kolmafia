@@ -34,9 +34,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Set;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Iterator;
 import java.io.BufferedReader;
 import javax.swing.ImageIcon;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -159,13 +159,14 @@ public class FamiliarsDatabase extends KoLDatabase
 		String searchString = substring.toLowerCase();
 		String currentFamiliarName;
 
-		Iterator completeFamiliars = familiarByName.keySet().iterator();
-		while ( completeFamiliars.hasNext() )
+		String [] familiarNames = new String[ familiarByName.keySet().size() ];
+		familiarByName.keySet().toArray( familiarNames );
+
+		for ( int i = 0; i < familiarNames.length; ++i )
 		{
-			currentFamiliarName = (String) completeFamiliars.next();
-			if ( currentFamiliarName.indexOf( searchString ) != -1 )
+			if ( familiarNames[i].indexOf( searchString ) != -1 )
 			{
-				Object familiarID = familiarByName.get( currentFamiliarName );
+				Object familiarID = familiarByName.get( familiarNames[i] );
 				return familiarID == null ? -1 : ((Integer)familiarID).intValue();
 			}
 		}
@@ -226,10 +227,10 @@ public class FamiliarsDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns an iterator over the entrySet of familiars keyed by name
-	 * @return	The Iterator
+	 * Returns the set of familiars keyed by name
+	 * @return	The set of familiars keyed by name
 	 */
-	public static Iterator iterator()
-	{	return familiarByName.entrySet().iterator();
+	public static Set entrySet()
+	{	return familiarByName.entrySet();
 	}
 }

@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.TreeMap;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -167,23 +166,19 @@ public abstract class StoreManager extends StaticEntity
 	 * given item.
 	 */
 
-	public static void searchMall( String itemName, List priceSummary, boolean aggregatePrices )
-	{
-		client.getSettings().setProperty( "aggregatePrices", String.valueOf( aggregatePrices ) );
-		(new MallSearchThread( itemName, priceSummary, aggregatePrices )).start();
+	public static void searchMall( String itemName, List priceSummary )
+	{	(new MallSearchThread( itemName, priceSummary )).start();
 	}
 
 	private static class MallSearchThread extends DaemonThread
 	{
 		private String itemName;
 		private List priceSummary;
-		private boolean aggregatePrices;
 
-		public MallSearchThread( String itemName, List priceSummary, boolean aggregatePrices )
+		public MallSearchThread( String itemName, List priceSummary )
 		{
 			this.itemName = itemName;
 			this.priceSummary = priceSummary;
-			this.aggregatePrices = aggregatePrices;
 		}
 
 		public void run()
@@ -222,44 +217,15 @@ public abstract class StoreManager extends StaticEntity
 
 			(new SearchMallRequest( client, itemName, 0, results, true )).run();
 
-			Iterator i = results.iterator();
-			MallPurchaseRequest currentItem;
+			MallPurchaseRequest [] resultsArray = new MallPurchaseRequest[ results.size() ];
+			results.toArray( resultsArray );
 
-			if ( aggregatePrices )
+			for ( int i = 0; i < resultsArray.length; ++i )
 			{
-				TreeMap prices = new TreeMap();
-				Integer currentQuantity, currentPrice;
-
-				while ( i.hasNext() )
-				{
-					currentItem = (MallPurchaseRequest) i.next();
-					currentPrice = new Integer( currentItem.getPrice() );
-
-					currentQuantity = (Integer) prices.get( currentPrice );
-					if ( currentQuantity == null )
-						prices.put( currentPrice, new Integer( currentItem.getLimit() ) );
-					else
-						prices.put( currentPrice, new Integer( currentQuantity.intValue() + currentItem.getQuantity() ) );
-				}
-
-				i = prices.keySet().iterator();
-
-				while ( i.hasNext() )
-				{
-					currentPrice = (Integer) i.next();
-					priceSummary.add( "  " + df.format( ((Integer)prices.get( currentPrice )).intValue() ) + " @ " + df.format( currentPrice.intValue() ) + " meat" );
-				}
-			}
-			else
-			{
-				while ( i.hasNext() )
-				{
-					currentItem = (MallPurchaseRequest) i.next();
-					if ( currentItem.getQuantity() == currentItem.getLimit() )
-						priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + " @ " + df.format( currentItem.getPrice() ) + " meat" );
-					else
-						priceSummary.add( "  " + df.format( currentItem.getQuantity() ) + "(limit " + df.format( currentItem.getLimit() ) + ") @ " + df.format( currentItem.getPrice() ) );
-				}
+				if ( resultsArray[i].getQuantity() == resultsArray[i].getLimit() )
+					priceSummary.add( "  " + df.format( resultsArray[i].getQuantity() ) + " @ " + df.format( resultsArray[i].getPrice() ) + " meat" );
+				else
+					priceSummary.add( "  " + df.format( resultsArray[i].getQuantity() ) + "(limit " + df.format( resultsArray[i].getLimit() ) + ") @ " + df.format( resultsArray[i].getPrice() ) );
 			}
 
 			client.updateDisplay( ENABLE_STATE, "" );

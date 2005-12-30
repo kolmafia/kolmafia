@@ -36,9 +36,6 @@ package net.sourceforge.kolmafia;
 
 import java.io.File;
 import java.util.TreeMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;

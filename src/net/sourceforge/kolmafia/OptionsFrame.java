@@ -68,7 +68,6 @@ import javax.swing.AbstractButton;
 import javax.swing.Box;
 
 // utilities
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -190,14 +189,13 @@ public class OptionsFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Show associated zone", JLabel.LEFT, options[1] );
 			elements[2] = new VerifiableElement( " ", new JLabel( "" ) );
 
-			String currentID;
-			Iterator nameIterator = AdventureDatabase.ZONE_NAMES.keySet().iterator();
+			String [] names = new String[ AdventureDatabase.ZONE_NAMES.keySet().size() ];
+			AdventureDatabase.ZONE_NAMES.keySet().toArray( names );
 
-			for ( int i = 0; nameIterator.hasNext(); ++i )
+			for ( int i = 0; i < names.length; ++i )
 			{
-				currentID = (String) nameIterator.next();
-				zones[i] = (String) AdventureDatabase.ZONE_NAMES.get( currentID );
-				elements[i+3] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_DESCRIPTIONS.get( currentID ), JLabel.LEFT, options[i+2] );
+				zones[i] = (String) AdventureDatabase.ZONE_NAMES.get( names[i] );
+				elements[i+3] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_DESCRIPTIONS.get( names[i] ), JLabel.LEFT, options[i+2] );
 			}
 
 			setContent( elements, false );

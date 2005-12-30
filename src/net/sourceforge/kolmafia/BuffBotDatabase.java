@@ -36,8 +36,6 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 
@@ -350,28 +348,25 @@ public class BuffBotDatabase extends KoLDatabase
 		public Buff findBuff( String name )
 		{
 			int skill = ClassSkillsDatabase.getSkillID( name );
-			Iterator iterator = buffs.iterator();
+			Buff [] buffArray = new Buff[ buffs.size() ];
+			buffs.toArray( buffArray );
 
-			while ( iterator.hasNext() )
-			{
-				Buff buff = (Buff)iterator.next();
-				if ( skill == buff.getSkill() )
-					return buff;
-			}
+			for ( int i = 0; i < buffArray.length; ++i )
+				if ( skill == buffArray[i].getSkill() )
+					return buffArray[i];
 
 			return null;
 		}
 
 		public Buff findAbbreviation( String name )
 		{
-			Iterator iterator = buffs.iterator();
 
-			while ( iterator.hasNext() )
-			{
-				Buff buff = (Buff)iterator.next();
-				if ( name.equals( buff.getAbbreviation() ) )
-					return buff;
-			}
+			Buff [] buffArray = new Buff[ buffs.size() ];
+			buffs.toArray( buffArray );
+
+			for ( int i = 0; i < buffArray.length; ++i )
+				if ( name.equals( buffArray[i].getAbbreviation() ) )
+					return buffArray[i];
 
 			return null;
 		}
@@ -381,7 +376,7 @@ public class BuffBotDatabase extends KoLDatabase
 		}
 
 		private Buff getBuff( int index )
-		{	return (Buff)buffs.get( index );
+		{	return (Buff) buffs.get( index );
 		}
 
 		public String getBuffName( int index )

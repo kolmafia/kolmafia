@@ -50,7 +50,6 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -1615,39 +1614,35 @@ public abstract class KoLmafia implements KoLConstants
 	private void storeSaveStates()
 	{
 		StringBuffer saveStateBuffer = new StringBuffer();
-		Iterator nameIterator = saveStateNames.iterator();
+		String [] names = new String[ saveStateNames.size() ];
+		saveStateNames.toArray( names );
 
-		if ( nameIterator.hasNext() )
+		if ( names.length > 0 )
 		{
-			saveStateBuffer.append( nameIterator.next() );
-			while ( nameIterator.hasNext() )
+			saveStateBuffer.append( names[0] );
+			for ( int i = 1; i < names.length; ++i )
 			{
 				saveStateBuffer.append( "//" );
-				saveStateBuffer.append( nameIterator.next() );
+				saveStateBuffer.append( names[i] );
 			}
-			GLOBAL_SETTINGS.setProperty( "saveState", saveStateBuffer.toString() );
 		}
-		else
-			GLOBAL_SETTINGS.setProperty( "saveState", "" );
+
+		GLOBAL_SETTINGS.setProperty( "saveState", saveStateBuffer.toString() );
 
 		// Now, removing any passwords that were stored
 		// which are no longer in the save state list
 
-		String currentKey;
-		Object [] settingsArray = GLOBAL_SETTINGS.keySet().toArray();
 
-		nameIterator = saveStateNames.iterator();
 		List lowerCaseNames = new ArrayList();
+		for ( int i = 0; i < names.length; ++i )
+			lowerCaseNames.add( names[i].toLowerCase() );
 
-		while ( nameIterator.hasNext() )
-			lowerCaseNames.add( ((String)nameIterator.next()).toLowerCase() );
+		String [] settingsArray = new String[ GLOBAL_SETTINGS.keySet().size() ];
+		GLOBAL_SETTINGS.keySet().toArray( settingsArray );
 
 		for ( int i = 0; i < settingsArray.length; ++i )
-		{
-			currentKey = (String) settingsArray[i];
-			if ( currentKey.startsWith( "saveState." ) && !lowerCaseNames.contains( currentKey.substring( 10 ) ) )
-				GLOBAL_SETTINGS.remove( currentKey );
-		}
+			if ( settingsArray[i].startsWith( "saveState." ) && !lowerCaseNames.contains( settingsArray[i].substring( 10 ) ) )
+				GLOBAL_SETTINGS.remove( settingsArray[i] );
 
 		GLOBAL_SETTINGS.saveSettings();
 	}

@@ -40,7 +40,7 @@ import java.io.BufferedReader;
 
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Iterator;
+import java.util.Set;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -113,11 +113,11 @@ public class StatusEffectDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns an iterator over the entrySet of status effects keyed by name
-	 * @return	The Iterator
+	 * Returns the set of status effects keyed by name
+	 * @return	The set of status effects keyed by name
 	 */
-	public static Iterator iterator()
-	{	return effectByName.entrySet().iterator();
+	public static Set entrySet()
+	{	return effectByName.entrySet();
 	}
 
 	/**

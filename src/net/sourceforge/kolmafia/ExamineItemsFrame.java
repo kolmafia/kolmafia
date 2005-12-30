@@ -59,7 +59,6 @@ import javax.swing.JTabbedPane;
 
 // utilities
 import java.util.Map;
-import java.util.Iterator;
 import java.util.Comparator;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -74,45 +73,10 @@ public class ExamineItemsFrame extends KoLFrame
 	private ExamineItemsPanel items;
 	private ItemLookupPanel familiars, skills, effects;
 
-	private static LockableListModel allItems;
-	static
-	{
-		allItems = new LockableListModel();
-
-		Iterator items = TradeableItemDatabase.iterator();
-		while ( items.hasNext() )
-			allItems.add( items.next() );
-	}
-
-	private static LockableListModel allEffects;
-	static
-	{
-		allEffects = new LockableListModel();
-
-		Iterator effects = StatusEffectDatabase.iterator();
-		while ( effects.hasNext() )
-			allEffects.add( effects.next() );
-	}
-
-	private static LockableListModel allSkills;
-	static
-	{
-		allSkills = new LockableListModel();
-
-		Iterator skills = ClassSkillsDatabase.iterator();
-		while ( skills.hasNext() )
-			allSkills.add( skills.next() );
-	}
-
-	private static LockableListModel allFamiliars;
-	static
-	{
-		allFamiliars = new LockableListModel();
-
-		Iterator familiars = FamiliarsDatabase.iterator();
-		while ( familiars.hasNext() )
-			allFamiliars.add( familiars.next() );
-	}
+	private static LockableListModel allItems = new LockableListModel( TradeableItemDatabase.entrySet() );
+	private static LockableListModel allEffects = new LockableListModel( StatusEffectDatabase.entrySet() );
+	private static LockableListModel allSkills = new LockableListModel( ClassSkillsDatabase.entrySet() );
+	private static LockableListModel allFamiliars = new LockableListModel( FamiliarsDatabase.entrySet() );
 
 	public ExamineItemsFrame( KoLmafia client )
 	{

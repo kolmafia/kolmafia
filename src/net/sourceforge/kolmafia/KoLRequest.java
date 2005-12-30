@@ -51,7 +51,6 @@ import java.io.FileNotFoundException;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -318,15 +317,16 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected String getDataString()
 	{
 		StringBuffer dataBuffer = new StringBuffer();
-		Iterator iterator = data.iterator();
+		String [] elements = new String[ data.size() ];
+		data.toArray( elements );
 
-		if ( iterator.hasNext() )
-			dataBuffer.append( iterator.next().toString() );
+		if ( elements.length > 0 )
+			dataBuffer.append( elements[0] );
 
-		while ( iterator.hasNext() )
+		for ( int i = 1; i < elements.length; ++i )
 		{
 			dataBuffer.append( '&' );
-			dataBuffer.append( iterator.next().toString() );
+			dataBuffer.append( elements[i] );
 		}
 
 		return dataBuffer.toString();

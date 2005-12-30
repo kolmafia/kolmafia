@@ -76,6 +76,12 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		selectedIndex = -1;
 	}
 
+	public LockableListModel( Collection c )
+	{
+		this();
+		addAll( c );
+	}
+
 	private class FireListEventRunnable implements Runnable
 	{
 		private int changeType;

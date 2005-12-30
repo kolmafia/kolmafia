@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -186,12 +185,17 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		{
 			if ( !highlights.isEmpty() )
 			{
-				Iterator colorIterator = colors.iterator();
-				Iterator highlightIterator = highlights.iterator();
-				Iterator dehighlightIterator = dehighlights.iterator();
+				String [] colorArray = new String[ colors.size() ];
+				colors.toArray( colorArray );
 
-				while ( highlightIterator.hasNext() )
-					highlightMessage = applyHighlight( highlightMessage, (String) colorIterator.next(), (Pattern) highlightIterator.next(), (Pattern) dehighlightIterator.next() );
+				Pattern [] highlightArray = new Pattern[ highlights.size() ];
+				highlights.toArray( highlightArray );
+
+				Pattern [] dehighlightArray = new Pattern[ dehighlights.size() ];
+				dehighlights.toArray( dehighlightArray );
+
+				for ( int i = 0; i < colorArray.length; ++i )
+					highlightMessage = applyHighlight( highlightMessage, colorArray[i], highlightArray[i], dehighlightArray[i] );
 			}
 		}
 

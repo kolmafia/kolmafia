@@ -35,7 +35,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import javax.swing.SwingUtilities;

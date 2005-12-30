@@ -171,7 +171,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// The remaining settings are not related to choice
 		// adventures and require no special handling.
 
-		ensureProperty( "aggregatePrices", "true" );
 		ensureProperty( "autoAbortMechaMech", "false" );
 		ensureProperty( "autoSatisfyChecks", "false" );
 		ensureProperty( "autoLogChat", "false" );
@@ -346,7 +345,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		{
 			// Determine the contents of the file by
 			// actually printing them.
-			
+
 			FileOutputStream ostream = new FileOutputStream( destination );
 			store( ostream, "KoLmafia Settings" );
 			ostream.close();
@@ -369,7 +368,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 			for ( int i = 0; i < contents.size(); ++i )
 				if ( !((String) contents.get(i)).startsWith( "saveState" ) || characterName.equals( "" ) )
 					writer.println( (String) contents.get(i) );
-				
+
 			writer.close();
 			ostream = null;
 		}
