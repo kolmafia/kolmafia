@@ -77,8 +77,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
 	private static final AdventureResult CLOCKWORK_BARTENDER = new AdventureResult( 1111, 1 );
 
-	private int itemID, quantityNeeded, mixingMethod;
 	private String name;
+	private int itemID, quantityNeeded, mixingMethod;
 
 	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
 	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
@@ -548,65 +548,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// Then, make enough of the ingredient in order
 			// to proceed with the concoction.
 
-			makeIngredient( ingredients[i], multiplier );
+			AdventureDatabase.retrieveItem( ingredients[i].getInstance( ingredients[i].getCount() * multiplier ) );
 		}
 
 		// If this is a combining request, you will need
 		// to make meat paste as well.
 
 		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
-			makeIngredient( new AdventureResult( MEAT_PASTE, quantityNeeded ), 1 );
-	}
-
-	/**
-	 * Helper routine which makes more of the given ingredient, if it
-	 * is needed.
-	 *
-	 * @param	ingredient	The ingredient to make
-	 * @param	multiplier	The multiplier on quantity needed
-	 */
-
-	protected void makeIngredient( AdventureResult ingredient, int multiplier )
-	{
-		int actualQuantityNeeded = (quantityNeeded * multiplier) - ingredient.getCount( KoLCharacter.getInventory() );
-
-		// In order to minimize server overload by making exact quantities,
-		// the client will attempt to overcompensate by making more meat
-		// paste than is necessary.
-
-		if ( actualQuantityNeeded > 0 )
-		{
-			// Now, if you are to retrieve an item from the closet, this is where
-			// that retrieval would be done.
-
-			int closetCount = ingredient.getCount( KoLCharacter.getCloset() );
-
-			if ( closetCount != 0 )
-			{
-				AdventureResult [] retrieval = new AdventureResult[1];
-				retrieval[0] = ingredient.getInstance( Math.min( actualQuantityNeeded, closetCount ) );
-
-				updateDisplay( DISABLE_STATE, "Retrieving " + retrieval[0].toString() + " from closet..." );
-				(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, retrieval )).run();
-				actualQuantityNeeded -= retrieval[0].getCount();
-			}
-
-			// If more items are still needed, then attempt to create the desired
-			// item (since that's really the only way).
-
-			if ( actualQuantityNeeded > 0 )
-			{
-				ItemCreationRequest creator = ItemCreationRequest.getInstance( client, ingredient.getItemID(), actualQuantityNeeded );
-				if ( creator == null )
-				{
-					client.updateDisplay( ERROR_STATE, "Insufficient " + ingredient.getName() + " to continue." );
-					client.cancelRequest();
-					return;
-				}
-
-				creator.run();
-			}
-		}
+			AdventureDatabase.retrieveItem( new AdventureResult( MEAT_PASTE, quantityNeeded ) );
 	}
 
 	/**
