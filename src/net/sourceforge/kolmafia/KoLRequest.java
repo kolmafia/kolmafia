@@ -671,7 +671,10 @@ public class KoLRequest implements Runnable, KoLConstants
 					updateDisplay( ERROR_STATE, "Nightly maintenance." );
 
 					if ( !(this instanceof LoginRequest) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
+					{
 						client.executeTimeInRequest();
+						return false;
+					}
 					else
 					{
 						client.cancelRequest();
