@@ -156,6 +156,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		int mixingMethod = ConcoctionsDatabase.getMixingMethod( itemID );
 
+		// If the item creation process is not permitted,
+		// then return null to indicate that it is not
+		// possible to create the item.
+
+		if ( !ConcoctionsDatabase.isPermittedMethod( mixingMethod ) )
+			return null;
+
+		// Otherwise, return the appropriate subclass of
+		// item which will be created.
+
 		switch ( mixingMethod )
 		{
 			case COMBINE:

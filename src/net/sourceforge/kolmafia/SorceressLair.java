@@ -345,8 +345,8 @@ public abstract class SorceressLair extends StaticEntity
 		// stage of the entryway.
 
 		requirements.add( HEAVY_METAL_GUITAR.getCount( KoLCharacter.getInventory() ) > 0 ? HEAVY_METAL_GUITAR :
-			STONE_BANJO.getCount( KoLCharacter.getInventory() ) > 0 ? STONE_BANJO :
-			DISCO_BANJO.getCount( KoLCharacter.getInventory() ) > 0 ? DISCO_BANJO : ACOUSTIC_GUITAR );
+			ACOUSTIC_GUITAR.getCount( KoLCharacter.getInventory() ) > 0 ? ACOUSTIC_GUITAR :
+			DISCO_BANJO.getCount( KoLCharacter.getInventory() ) > 0 ? DISCO_BANJO : STONE_BANJO );
 
 		requirements.add( TAMBOURINE.getCount( KoLCharacter.getInventory() ) > 0 ? TAMBOURINE : BONE_RATTLE );
 		requirements.add( ROCKNROLL_LEGEND.getCount( KoLCharacter.getInventory() ) > 0 ? ROCKNROLL_LEGEND : ACCORDION );

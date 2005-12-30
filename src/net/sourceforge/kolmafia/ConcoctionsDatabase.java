@@ -128,6 +128,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 				concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE, false );
 	}
 
+	public static final boolean isPermittedMethod( int method )
+	{	return PERMIT_METHOD[ method ];
+	}
+
 	private static AdventureResult parseIngredient( String data )
 	{
 		try

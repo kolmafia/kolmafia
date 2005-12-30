@@ -509,8 +509,8 @@ public class AdventureDatabase extends KoLDatabase
 		if ( missingCount <= 0 )
 			return;
 
-		// Now, check to see if the items can be created from the
-		// ingredients in the player's inventory.
+		// Now, check to see if the items can be created.  For now,
+		// only create things from the player's existing inventory.
 
 		ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), missingCount );
 		if ( creation != null )
@@ -525,6 +525,9 @@ public class AdventureDatabase extends KoLDatabase
 		}
 
 		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+
+		// If there are now enough items in the player's inventory
+		// after the creation process, then return.
 
 		if ( missingCount <= 0 )
 			return;
@@ -557,8 +560,14 @@ public class AdventureDatabase extends KoLDatabase
 
 		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
+		// If there are now enough items in the player's inventory
+		// after the storage retrieval process, then return.
+
 		if ( missingCount <= 0 )
 			return;
+
+		// If it's not available in storage, then you'll have to try to
+		// purchase the item from an NPC store.
 
 		if ( NPCStoreDatabase.contains( itemName ) )
 		{
@@ -574,10 +583,29 @@ public class AdventureDatabase extends KoLDatabase
 			}
 		}
 
+		missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+
+		// If there are now enough items in the player's inventory
+		// after the NPC store purchase, then return.
+
 		if ( missingCount <= 0 )
 			return;
 
-		if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+		// Things which could not be created directly from the player's
+		// inventory might be creatable after grabbing sub-ingredients.
+		// Take advantage of the automatic retrieval process to grab the
+		// items from elsewhere.
+
+		if ( creation != null )
+		{
+			// Note that this process will result in the sub-ingredients being
+			// displayed as missing, rather than the final product.  So, you
+			// do not need to continue after this.
+
+			ItemCreationRequest.getInstance( client, item.getItemID(), missingCount ).run();
+			return;
+		}
+		else if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) )
 		{
 			// If all else fails, attempt to make a purchase from the
 			// mall.  Note that this is only possible if the character

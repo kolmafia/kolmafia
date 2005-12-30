@@ -2048,7 +2048,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If the number matching is less than the quantity desired,
 		// then be sure to throw an exception.
 
-		if ( matchType != NOWHERE && itemCount > matchCount )
+		if ( matchType != NOWHERE && matchType != CREATION && itemCount > matchCount )
 		{
 			updateDisplay( ERROR_STATE, "Insufficient " + TradeableItemDatabase.getItemName( itemID ) + " to continue." );
 			scriptRequestor.cancelRequest();
