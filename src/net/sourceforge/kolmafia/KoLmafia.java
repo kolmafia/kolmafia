@@ -866,7 +866,8 @@ public abstract class KoLmafia implements KoLConstants
 				if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
 				{
 					current = -1;
-					while ( current < ((Number)maximumMethod.invoke( null, empty )).intValue() && current != ((Number)currentMethod.invoke( null, empty )).intValue() )
+					while ( ((Number)currentMethod.invoke( null, empty )).intValue() < ((Number)maximumMethod.invoke( null, empty )).intValue() &&
+						current != ((Number)currentMethod.invoke( null, empty )).intValue() )
 					{
 						current = ((Number)currentMethod.invoke( null, empty )).intValue();
 						recoverOnce( currentTechnique );
