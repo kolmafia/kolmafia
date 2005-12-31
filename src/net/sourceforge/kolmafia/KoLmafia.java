@@ -2018,7 +2018,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		String [] targets = targetList.trim().split( "\\s*,\\s*" );
 		for ( int i = 0; i < targets.length; ++i )
-			targets[i] = getPlayerID( targets[i] );
+			targets[i] = getPlayerID( targets[i] ) == null ? targets[i] :
+				getPlayerID( targets[i] );
 
 		// Sort the list in order to increase the
 		// speed of duplicate detection.
@@ -2057,7 +2058,8 @@ public abstract class KoLmafia implements KoLConstants
 		// are easy to understand for the user.
 
 		for ( int i = 0; i < targets.length; ++i )
-			targets[i] = getPlayerName( targets[i] );
+			targets[i] = getPlayerName( targets[i] ) == null ? targets[i] :
+				getPlayerName( targets[i] );
 
 		// Sort the list one more time, this time
 		// by player name.
