@@ -1048,7 +1048,7 @@ public abstract class SorceressLair extends StaticEntity
 				case 4:
 					familiarBattle(4);
 					break;
-				}
+			}
 
 			if ( !client.permitsContinue() )
 				return;
@@ -1256,6 +1256,9 @@ public abstract class SorceressLair extends StaticEntity
 			client.cancelRequest();
 			return;
 		}
+
+		// The following should be unnecessary...
+		client.resetContinueState();
 
 		client.updateDisplay( DISABLE_STATE, "Facing giant familiar..." );
 		KoLRequest request = new KoLRequest( client, "lair6.php", true );
