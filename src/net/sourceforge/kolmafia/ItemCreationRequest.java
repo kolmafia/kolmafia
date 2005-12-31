@@ -558,7 +558,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// Then, make enough of the ingredient in order
 			// to proceed with the concoction.
 
-			AdventureDatabase.retrieveItem( ingredients[i].getInstance( ingredients[i].getCount() * multiplier ) );
+			AdventureDatabase.retrieveItem( ingredients[i].getInstance( quantityNeeded * multiplier ) );
 		}
 
 		// If this is a combining request, you will need
