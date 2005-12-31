@@ -151,6 +151,10 @@ public class SearchMallRequest extends KoLRequest
 			searchMall();
 	}
 
+	public void processResults()
+	{	return;
+	}
+
 	private void searchStore()
 	{
 		updateDisplay( DISABLE_STATE, retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
