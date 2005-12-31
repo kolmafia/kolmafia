@@ -441,8 +441,6 @@ public abstract class SorceressLair extends StaticEntity
 			request = new KoLRequest( client, "lair1.php" );
 			request.addFormField( "action", "mirror" );
 			request.run();
-
-			client.processResult( SHARD );
 		}
 
 		// Now handle the form for the digital key to get
