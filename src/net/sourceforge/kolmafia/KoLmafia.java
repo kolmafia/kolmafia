@@ -869,6 +869,7 @@ public abstract class KoLmafia implements KoLConstants
 					{
 						current = ((Number)currentMethod.invoke( null, empty )).intValue();
 						recoverOnce( currentTechnique );
+						resetContinueState();
 					}
 				}
 			}
@@ -879,6 +880,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( current >= needed )
 			{
 				updateDisplay( DISABLE_STATE, "Recovery complete.  Resuming requests..." );
+				resetContinueState();
 				return true;
 			}
 
