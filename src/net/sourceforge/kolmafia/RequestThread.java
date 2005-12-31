@@ -100,7 +100,8 @@ public class RequestThread extends Thread implements KoLConstants
 			if ( requests[i] != null )
 			{
 				if ( this.client == null )
-					this.client = requests[i] instanceof KoLRequest ? ((KoLRequest)requests[i]).client : null;
+					this.client = requests[i] instanceof KoLRequest ? ((KoLRequest)requests[i]).client :
+						requests[i] instanceof KoLAdventure ? ((KoLAdventure)requests[i]).client : null;
 
 				this.requests[ requestCount ] = requests[i];
 				this.repeatCount[ requestCount++ ] = repeatCount[i];
