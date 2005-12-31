@@ -99,16 +99,17 @@ public class CharsheetFrame extends KoLFrame
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
 
-		JPanel entirePanel = new JPanel();
-		entirePanel.setLayout( new BorderLayout( 20, 20 ) );
+		JPanel northPanel = new JPanel( new BorderLayout( 20, 20 ) );
 
-		entirePanel.add( createStatusPanel(), BorderLayout.CENTER );
-		entirePanel.add( createImagePanel(), BorderLayout.WEST );
+		northPanel.add( createStatusPanel(), BorderLayout.CENTER );
+		northPanel.add( createImagePanel(), BorderLayout.WEST );
 
 		JScrollPane scroller = new JScrollPane( new JList( KoLCharacter.getEffects() ),
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-		entirePanel.add( scroller, BorderLayout.SOUTH );
+		JPanel entirePanel = new JPanel( new BorderLayout( 20, 20 ) );
+		entirePanel.add( northPanel, BorderLayout.NORTH );
+		entirePanel.add( scroller, BorderLayout.CENTER );
 
 		refreshStatus();
 
