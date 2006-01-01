@@ -100,6 +100,13 @@ public class FightRequest extends KoLRequest
 
 			action = "attack";
 		}
+		else if ( action.equals( "abort" ) || !client.permitsContinue() )
+		{
+			// If the user has chosen to abort
+			// combat, flag it.
+			
+			action = "...";
+		}
 		else if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 		{
 			// If you plan on halting the battle
