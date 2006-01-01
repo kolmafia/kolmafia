@@ -326,9 +326,26 @@ public class KoLmafiaGUI extends KoLmafia
 			hunterItemArray, hunterItemArray[0] );
 
 		if ( selectedValue == null )
-                        return;
+			return;
 
-		makeRequest( new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) ), 1 );
+		AdventureResult selected = new AdventureResult( selectedValue, 0, false );
+		int available = selected.getCount( KoLCharacter.getInventory() );
+		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to sell?", available );
+		if ( tradeCount == 0 )
+			return;
+
+		// If we're not selling all of the item, closet the rest
+		if ( tradeCount < available )
+		{
+			Object [] items = new Object[1];
+			items[0] = selected.getInstance( available - tradeCount );
+			makeRequest( new ItemStorageRequest( this, ItemStorageRequest.INVENTORY_TO_CLOSET, items ), 1 );
+			makeRequest( new BountyHunterRequest( this, selected.getItemID() ), 1 );
+			makeRequest( new ItemStorageRequest( this, ItemStorageRequest.CLOSET_TO_INVENTORY, items ), 1 );
+		}
+		else
+			makeRequest( new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) ), 1 );
+
 		enableDisplay();
 
 		// We might have sold a craftable item
