@@ -51,6 +51,7 @@ public class FightRequest extends KoLRequest
 
 	private String action;
 	private int roundCount;
+	private String encounter;
 
 	/**
 	 * Constructs a new <code>FightRequest</code>.  The client provided will
@@ -81,6 +82,15 @@ public class FightRequest extends KoLRequest
 		// a moxious maneuver, or run away.
 
 		action = getProperty( "battleAction" );
+		
+		if ( action.equals( "custom" ) )
+		{
+			action = CombatSettings.getCurrent().getSetting( encounter, roundCount - 1 );
+			if ( action.startsWith( "item" ) )
+				action = "item" + TradeableItemDatabase.getItemID( action.substring(4).trim() );
+			else if ( action.startsWith( "skill" ) )
+				action = String.valueOf( ClassSkillsDatabase.getSkillID( action.substring(5).trim() ) );
+		}
 
 		if ( roundCount == 1 )
 		{
@@ -178,7 +188,7 @@ public class FightRequest extends KoLRequest
 
 				if ( encounterMatcher.find() )
 				{
-					String encounter = encounterMatcher.group(1);
+					this.encounter = encounterMatcher.group(1);
 					client.registerEncounter( encounter );
 
 					if ( encounter.equals( "a MagiMechTech MechaMech" ) && getProperty( "autoAbortMechaMech" ).equals( "true" ) )

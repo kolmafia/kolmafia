@@ -1550,6 +1550,9 @@ public abstract class KoLCharacter extends StaticEntity
 		// Set the selected combat skill based on
 		// the user's current setting.
 
+		KoLCharacter.battleSkillIDs.add( "custom" );
+		KoLCharacter.battleSkillNames.add( "Custom Combat Settings file" );
+
 		battleSkillIDs.setSelectedItem( getProperty( "battleAction" ) );
 		if ( battleSkillIDs.getSelectedIndex() != -1 )
 			battleSkillNames.setSelectedIndex( battleSkillIDs.getSelectedIndex() );
