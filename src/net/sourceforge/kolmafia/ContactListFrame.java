@@ -138,7 +138,7 @@ public class ContactListFrame extends KoLFrame
 		dialogCDL.getContentPane().add( scrollCDL );
 
 		entryCDL.setText( convertToCDL() );
-		dialogCDL.pack();  dialogCDL.show();
+		dialogCDL.pack();  dialogCDL.setVisible( true );
 	}
 
 	public void buffSelected()
