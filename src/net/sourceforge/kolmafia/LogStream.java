@@ -44,7 +44,7 @@ import java.io.FileNotFoundException;
  * by this class will be appended to provided files.
  */
 
-public class LogStream extends java.io.PrintStream
+public class LogStream extends java.io.PrintStream implements KoLConstants
 {
 	/**
 	 * Constructs a new <code>LogStream</code> which will append all
@@ -74,7 +74,11 @@ public class LogStream extends java.io.PrintStream
 		println();
 		println();
 		println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-		println( "                  Beginning New Logging Session" );
+		println( "            Beginning New Logging Session (" + VERSION_NAME + ")" );
+		println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+		println( " Please note: do not post these logs in the KoLmafia thread.  If " );
+		println( " you would like us to look at the log, please instead email logs " );
+		println( " to holatuwol@hotmail.com using the subject [KoLmafia] Debug Log " );
 		println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 		println();
 		println();
