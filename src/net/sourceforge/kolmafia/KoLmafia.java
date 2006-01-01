@@ -827,7 +827,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !scriptPath.trim().equals( "" ) )
 			{
 				while ( permitsContinue() && ((Number)currentMethod.invoke( null, empty )).intValue() < needed &&
-					current < ((Number)maximumMethod.invoke( null, empty )).intValue() && current != ((Number)currentMethod.invoke( null, empty )).intValue() )
+					current != ((Number)currentMethod.invoke( null, empty )).intValue() )
 				{
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 					recoverOnce( scriptProperty );
@@ -837,7 +837,7 @@ public abstract class KoLmafia implements KoLConstants
 			// If the recovery script was successful, then report success
 			// and return from the method.
 
-			if ( current >= needed )
+			if ( ((Number)currentMethod.invoke( null, empty )).intValue() >= needed )
 			{
 				updateDisplay( DISABLE_STATE, "Recovery complete.  Resuming requests..." );
 				resetContinueState();
@@ -865,12 +865,12 @@ public abstract class KoLmafia implements KoLConstants
 				if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
 				{
 					current = -1;
-					while ( ((Number)currentMethod.invoke( null, empty )).intValue() < ((Number)maximumMethod.invoke( null, empty )).intValue() &&
+					while ( ((Number)currentMethod.invoke( null, empty )).intValue() < needed &&
 						current != ((Number)currentMethod.invoke( null, empty )).intValue() )
 					{
 						current = ((Number)currentMethod.invoke( null, empty )).intValue();
-						recoverOnce( currentTechnique );
 						resetContinueState();
+						recoverOnce( currentTechnique );
 					}
 				}
 			}
@@ -878,7 +878,7 @@ public abstract class KoLmafia implements KoLConstants
 			// Fall-through check, just in case you've reached the
 			// desired value.
 
-			if ( current >= needed )
+			if ( ((Number)currentMethod.invoke( null, empty )).intValue() >= needed )
 			{
 				updateDisplay( DISABLE_STATE, "Recovery complete.  Resuming requests..." );
 				resetContinueState();
