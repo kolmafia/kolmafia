@@ -200,6 +200,8 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		ensureProperty( "baiowulf", "abort" );
 		ensureProperty( "crazy bastard", "abort" );
 		ensureProperty( "hockey elemental", "abort" );
+		ensureProperty( "hypnotist of hey deze", "abort" );
+		ensureProperty( "infinite meat bug", "abort" );
 	}
 
 	/**
