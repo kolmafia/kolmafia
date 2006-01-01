@@ -278,6 +278,14 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void makeTrapperRequest()
 	{
+		int furs = TrapperRequest.YETI_FUR.getCount( KoLCharacter.getInventory() );
+
+		if ( furs == 0 )
+		{
+			updateDisplay( NORMAL_STATE, "You don't have any yeti furs to trade." );
+			return;
+		}
+
 		Object selectedValue = JOptionPane.showInputDialog(
 			null, "I want this from the trapper...", "1337ing Trapper for...", JOptionPane.INFORMATION_MESSAGE, null,
 			trapperItemNames, trapperItemNames[0] );
@@ -297,7 +305,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selected == -1 )
 			return;
 
-		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", TrapperRequest.YETI_FUR.getCount( KoLCharacter.getInventory() ) );
+		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", furs );
 		if ( tradeCount == 0 )
 			return;
 
@@ -330,6 +338,13 @@ public class KoLmafiaGUI extends KoLmafia
 
 		AdventureResult selected = new AdventureResult( selectedValue, 0, false );
 		int available = selected.getCount( KoLCharacter.getInventory() );
+
+		if ( available == 0 )
+		{
+			updateDisplay( NORMAL_STATE, "You don't have any " + selectedValue + "." );
+			return;
+		}
+
 		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to sell?", available );
 		if ( tradeCount == 0 )
 			return;
