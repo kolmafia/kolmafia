@@ -186,16 +186,23 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		// adventures and require no special handling.
 
 		ensureProperty( "default", "attack" );
-		ensureProperty( "giant", "skill disco face stab; skill disco face stab; moxman" );
-		ensureProperty( "mechamech", "skill disco face stab; skill disco face stab; default" );
 
-		ensureProperty( "me4t begZ0r", "item dictionary" );
-		ensureProperty( "spam witch", "item dictionary" );
+		ensureProperty( "giant skeelton", "skill disco face stab; moxman" );
+		ensureProperty( "huge ghuol", "giant skeelton" );
+		ensureProperty( "conjoined zmombie", "giant skeelton" );
+		ensureProperty( "gargantulihc", "giant skeelton" );
+
+		ensureProperty( "mechamech", "skill lunging thrust smack" );
+		ensureProperty( "giant", "skill pastalord" );
+		ensureProperty( "astronomer", "skill wave of sauce" );
+
 		ensureProperty( "1335 haxx0r", "item dictionary" );
-		ensureProperty( "flaming troll", "item dictionary" );
-		ensureProperty( "anime smiley", "item dictionary" );
-		ensureProperty( "lamz0r n00b", "item dictionary" );
-		ensureProperty( "xxx pr0n", "item dictionary" );
+		ensureProperty( "anime smiley", "1335 haxx0r" );
+		ensureProperty( "flaming troll", "1335 haxx0r" );
+		ensureProperty( "lamz0r n00b", "1335 haxx0r" );
+		ensureProperty( "me4t begZ0r", "1335 haxx0r" );
+		ensureProperty( "spam witch", "1335 haxx0r" );
+		ensureProperty( "xxx pr0n", "1335 haxx0r" );
 
 		ensureProperty( "baiowulf", "abort" );
 		ensureProperty( "crazy bastard", "abort" );
@@ -268,16 +275,39 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		if ( encounter.equals( "" ) )
 			return getSetting( "default", roundCount );
 
+		// Allow for longer matches (closer to exact matches)
+		// by tracking the length of the match.
+
+		int longestMatch = -1;
+		int longestMatchLength = 0;
+
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			if ( encounter.toLowerCase().indexOf( keys[i] ) != -1 )
 			{
-				ArrayList match = (ArrayList) get( keys[i] );
-				String setting = (String) match.get( roundCount < match.size() ? roundCount : match.size() - 1 );
-				return setting.equals( "default" ) ? getSetting( "default", roundCount - match.size() ) : setting;
+				if ( keys[i].length() > longestMatchLength )
+				{
+					longestMatch = i;
+					longestMatchLength = keys[i].length();
+				}
 			}
 		}
+
+		// If no matches were found, then resort to the normal
+		// default routine -- because default is stored, there
+		// will definitely be a match.
+
+		if ( longestMatch == -1 )
+			return getSetting( "default", roundCount );
+
+		// Otherwise, you have a tactic for this round against
+		// the given monster.  Return that tactic.
+
+		ArrayList match = (ArrayList) get( keys[ longestMatch ] );
+		String setting = (String) match.get( roundCount < match.size() ? roundCount : match.size() - 1 );
+
+		return setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "item" ) ||
+			setting.startsWith( "skill" ) ? setting : getSetting( setting, roundCount - match.size() - 1 );
 		
-		return "attack";
 	}
 }
