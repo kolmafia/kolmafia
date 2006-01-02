@@ -296,7 +296,7 @@ public class BuffBotFrame extends KoLFrame
 
 		public MainSettingsPanel()
 		{
-			super( "apply", "defaults", new Dimension( 120, 20 ),  new Dimension( 300, 20 ));
+			super( new Dimension( 120, 20 ),  new Dimension( 300, 20 ));
 
 			JPanel panel = new JPanel();
 			panel.setLayout( new BorderLayout() );
@@ -328,10 +328,15 @@ public class BuffBotFrame extends KoLFrame
 
 			whiteListEntry.setLineWrap( true );
 			whiteListEntry.setWrapStyleWord( true );
+			whiteListEntry.addFocusListener( this );
+			
 			invalidPriceMessage.setLineWrap( true );
 			invalidPriceMessage.setWrapStyleWord( true );
+			invalidPriceMessage.addFocusListener( this );
+
 			thanksMessage.setLineWrap( true );
 			thanksMessage.setWrapStyleWord( true );
+			thanksMessage.addFocusListener( this );
 
 			JPanel centerTopPanel = new JPanel( new BorderLayout() );
 			centerTopPanel.add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
@@ -385,8 +390,6 @@ public class BuffBotFrame extends KoLFrame
 			setProperty( "whiteList", whiteListEntry.getText() );
 			setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
 			setProperty( "thanksMessage", thanksMessage.getText() );
-
-			JOptionPane.showMessageDialog( null, "Settings have been saved!" );
 		}
 
 		public void actionCancelled()
@@ -397,8 +400,6 @@ public class BuffBotFrame extends KoLFrame
 			whiteListEntry.setText( getProperty( "whiteList" ) );
 			invalidPriceMessage.setText( getProperty( "invalidBuffMessage" ) );
 			thanksMessage.setText( getProperty( "thanksMessage" ) );
-
-			setStatusMessage( NORMAL_STATE, "Settings loaded." );
 		}
 	}
 

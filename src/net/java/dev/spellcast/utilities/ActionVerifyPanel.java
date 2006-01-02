@@ -63,7 +63,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 
-public abstract class ActionVerifyPanel extends ActionPanel
+public abstract class ActionVerifyPanel extends ActionPanel implements ActionListener, FocusListener
 {
 	private boolean contentSet;
 	private boolean isCenterPanel;
@@ -75,11 +75,11 @@ public abstract class ActionVerifyPanel extends ActionPanel
 	private static final Dimension DEFAULT_FIELD_SIZE = new Dimension( 165, 20 );
 
 	public ActionVerifyPanel()
-	{	this( null, null, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, true );
+	{	this( null, null, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
 	}
 
 	public ActionVerifyPanel( Dimension labelSize, Dimension fieldSize )
-	{	this( null, null, labelSize, fieldSize, true );
+	{	this( null, null, labelSize, fieldSize, false );
 	}
 
 	public ActionVerifyPanel( String confirmedText, String cancelledText )
@@ -256,14 +256,30 @@ public abstract class ActionVerifyPanel extends ActionPanel
 	protected abstract void actionConfirmed();
 	protected abstract void actionCancelled();
 
+	public void focusGained( FocusEvent e )
+	{
+	}
+
+	public void focusLost( FocusEvent e )
+	{
+		if ( buttonPanel == null && isValid() )
+			actionConfirmed();
+	}
+
+	public void actionPerformed( ActionEvent e )
+	{
+		if ( buttonPanel == null && isValid() )
+			actionConfirmed();
+	}
+
+	private Object [] thisArray = { this };
 	private static final Class [] ACTIONS = { ActionListener.class };
 	private static final Class [] FOCUSES = { FocusListener.class };
 
-	protected final class VerifiableElement implements Comparable, ActionListener, FocusListener
+	protected final class VerifiableElement implements Comparable
 	{
 		private JLabel label;
 		private JComponent inputField;
-		private Object [] thisArray = { this };
 
 		public VerifiableElement( String label, JComponent inputField )
 		{	this( label, JLabel.RIGHT, inputField );
@@ -309,24 +325,6 @@ public abstract class ActionVerifyPanel extends ActionPanel
 			{
 				e.printStackTrace();
 			}
-		}
-
-		public void focusGained( FocusEvent e )
-		{
-			if ( buttonPanel == null && isValid() )
-				actionConfirmed();
-		}
-
-		public void focusLost( FocusEvent e )
-		{
-			if ( buttonPanel == null && isValid() )
-				actionConfirmed();
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( buttonPanel == null && isValid() )
-				actionConfirmed();
 		}
 
 		public JLabel getLabel()
