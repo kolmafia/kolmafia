@@ -126,6 +126,7 @@ public class SewerRequest extends KoLRequest
 
 			// Make a request to use from now on.
 
+			clearDataFields();
 			addFormField( "doodit", "1" );
 
 			// Rather than giving people flexibility, it seems like
