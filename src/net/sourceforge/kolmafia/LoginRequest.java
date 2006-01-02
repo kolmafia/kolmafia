@@ -45,9 +45,7 @@ public class LoginRequest extends KoLRequest
 {
 	private String loginname;
 	private String password;
-	private boolean getBreakfast;
 	private boolean savePassword;
-	private boolean isQuickLogin;
 
 	/**
 	 * Constructs a new <code>LoginRequest</code>.  The given
@@ -60,15 +58,13 @@ public class LoginRequest extends KoLRequest
 	 * @param	isQuickLogin	Whether or not this is a quick login attempt
 	 */
 
-	public LoginRequest( KoLmafia client, String loginname, String password, boolean getBreakfast, boolean savePassword, boolean isQuickLogin )
+	public LoginRequest( KoLmafia client, String loginname, String password, boolean savePassword )
 	{
 		super( client, "login.php" );
 
 		this.loginname = loginname;
 		this.password = password;
-		this.getBreakfast = getBreakfast;
 		this.savePassword = savePassword;
-		this.isQuickLogin = isQuickLogin;
 
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", loginname );
@@ -103,8 +99,8 @@ public class LoginRequest extends KoLRequest
 			else
 				client.removeSaveState( loginname.replaceFirst( "/q", "" ) );
 
-			client.initialize( loginname.replaceFirst( "/q", "" ), formConnection.getHeaderField( "Set-Cookie" ), getBreakfast, isQuickLogin );
-			client.cachedLogin = client.inLoginState() ? null : new LoginRequest( client, loginname, password, false, savePassword, true );
+			client.initialize( loginname.replaceFirst( "/q", "" ), formConnection.getHeaderField( "Set-Cookie" ) );
+			client.cachedLogin = client.inLoginState() ? null : new LoginRequest( client, loginname, password, savePassword );
 		}
 		else
 		{

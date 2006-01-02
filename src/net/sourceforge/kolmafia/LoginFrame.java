@@ -147,7 +147,6 @@ public class LoginFrame extends KoLFrame
 
 		private JComponent loginnameField;
 		private JPasswordField passwordField;
-		private JCheckBox getBreakfastCheckBox;
 		private JCheckBox savePasswordCheckBox;
 		private JCheckBox autoLoginCheckBox;
 
@@ -160,7 +159,7 @@ public class LoginFrame extends KoLFrame
 
 		public LoginPanel()
 		{
-			super( "login", "qlogin", "cancel" );
+			super( "login", "cancel" );
 
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
@@ -175,7 +174,6 @@ public class LoginFrame extends KoLFrame
 			savePasswordCheckBox.addActionListener( this );
 
 			autoLoginCheckBox = new JCheckBox();
-			getBreakfastCheckBox = new JCheckBox();
 
 			JPanel checkBoxPanels = new JPanel();
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
@@ -185,8 +183,6 @@ public class LoginFrame extends KoLFrame
 			checkBoxPanels.add( new JLabel( "Auto-Login: " ), "" );
 			checkBoxPanels.add( autoLoginCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
-			checkBoxPanels.add( new JLabel( "Get Breakfast: " ), "" );
-			checkBoxPanels.add( getBreakfastCheckBox );
 
 			JPanel southPanel = new JPanel();
 			southPanel.setLayout( new BorderLayout( 10, 10 ) );
@@ -234,26 +230,9 @@ public class LoginFrame extends KoLFrame
 			passwordField.setEnabled( isEnabled );
 			savePasswordCheckBox.setEnabled( isEnabled );
 			autoLoginCheckBox.setEnabled( isEnabled );
-			getBreakfastCheckBox.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
-		{	login( false );
-		}
-
-		protected void actionCancelled()
-		{
-			if ( loginnameField.isEnabled() )
-				login( true );
-			else
-			{
-				client.updateDisplay( ERROR_STATE, "Login cancelled." );
-				client.cancelRequest();
-				requestFocus();
-			}
-		}
-
-		private void login( boolean isQuickLogin )
 		{
 			String loginname = ((String)(loginnameField instanceof JComboBox ?
 				((JComboBox)loginnameField).getSelectedItem() : ((JTextField)loginnameField).getText() ));
@@ -271,11 +250,18 @@ public class LoginFrame extends KoLFrame
 			else
 				setProperty( "autoLogin", "" );
 
-			if ( isQuickLogin && !loginname.endsWith( "/q" ) )
+			if ( !loginname.endsWith( "/q" ) )
 				loginname += "/q";
 
 			client.updateDisplay( DISABLE_STATE, "Determining login settings..." );
-			(new LoginRequest( client, loginname, password, getBreakfastCheckBox.isSelected(), savePasswordCheckBox.isSelected(), isQuickLogin )).run();
+			(new LoginRequest( client, loginname, password, savePasswordCheckBox.isSelected() )).run();
+		}
+
+		protected void actionCancelled()
+		{
+			client.updateDisplay( ERROR_STATE, "Login cancelled." );
+			client.cancelRequest();
+			requestFocus();
 		}
 
 		public void requestFocus()

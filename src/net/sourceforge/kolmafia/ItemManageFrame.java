@@ -108,15 +108,29 @@ public class ItemManageFrame extends KoLFrame
 
 		if ( client != null )
 		{
-			if ( !client.getRestaurantItems().isEmpty() )
+			// If the person is in a mysticality sign, make sure
+			// you retrieve information from the restaurant.
+
+			if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
 			{
 				special = new SpecialPanel( client.getRestaurantItems() );
 				tabs.add( "Restaurant", special );
+
+				if ( client.getRestaurantItems().isEmpty() )
+					(new RequestThread( new RestaurantRequest( client ) )).start();
 			}
-			else if ( !client.getMicrobreweryItems().isEmpty() )
+
+			// If the person is in a moxie sign and they have completed
+			// the beach quest, then retrieve information from the
+			// microbrewery.
+
+			if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
 			{
 				special = new SpecialPanel( client.getMicrobreweryItems() );
 				tabs.add( "Microbrewery", special );
+
+				if ( client.getMicrobreweryItems().isEmpty() )
+					(new RequestThread( new MicrobreweryRequest( client ) )).start();
 			}
 		}
 

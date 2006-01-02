@@ -241,7 +241,7 @@ public class KoLmafiaCLI extends KoLmafia
 				outputStream.println();
 
 			scriptRequestor.deinitialize();
-			(new LoginRequest( scriptRequestor, username, password, false, true, false )).run();
+			(new LoginRequest( scriptRequestor, username, password, true )).run();
 		}
 		catch ( IOException e )
 		{
@@ -261,12 +261,12 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID, boolean getBreakfast, boolean isQuickLogin )
+	public void initialize( String loginname, String sessionID )
 	{
 		if ( scriptRequestor != this )
-			scriptRequestor.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
+			scriptRequestor.initialize( loginname, sessionID );
 		else
-			super.initialize( loginname, sessionID, getBreakfast, isQuickLogin );
+			super.initialize( loginname, sessionID );
 
 		if ( scriptRequestor == this )
 		{
@@ -455,7 +455,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( scriptRequestor.getSaveState( parameters ) != null )
 			{
 				scriptRequestor.deinitialize();
-				(new LoginRequest( scriptRequestor, parameters, scriptRequestor.getSaveState( parameters ), false, true, false )).run();
+				(new LoginRequest( scriptRequestor, parameters, scriptRequestor.getSaveState( parameters ), true )).run();
 			}
 			else
 				updateDisplay( ERROR_STATE, "No password saved for that username." );

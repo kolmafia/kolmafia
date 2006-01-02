@@ -543,9 +543,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			if ( !client.permitsContinue() )
-				return;
-
 			// First, calculate the multiplier that's needed
 			// for this ingredient to avoid not making enough
 			// intermediate ingredients and getting an error.

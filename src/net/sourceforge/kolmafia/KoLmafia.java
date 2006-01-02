@@ -210,14 +210,11 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID, boolean getBreakfast, boolean isQuickLogin )
+	public void initialize( String loginname, String sessionID )
 	{
 		// Initialize the variables to their initial
 		// states to avoid null pointers getting thrown
 		// all over the place
-
-		this.sessionID = sessionID;
-		isQuickLogin |= GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ).equals( "2" );
 
 		if ( !permitsContinue() )
 		{
@@ -225,6 +222,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		this.sessionID = sessionID;
 		KoLCharacter.reset( loginname );
 
 		FamiliarData.reset();
@@ -301,8 +299,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the list of familiars which are available to
 		// the player, if they haven't opted to skip them.
 
-		if ( !isQuickLogin )
-			(new FamiliarRequest( this )).run();
+		(new FamiliarRequest( this )).run();
 
 		if ( !permitsContinue() )
 		{
@@ -331,33 +328,13 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// If the person is in a mysticality sign, make sure
-		// you retrieve information from the restaurant.
-
-		if ( !isQuickLogin && KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
-		{
-			updateDisplay( DISABLE_STATE, "Retrieving menu..." );
-			(new RestaurantRequest( this )).run();
-		}
-
-		// If the person is in a moxie sign and they have completed
-		// the beach quest, then retrieve information from the
-		// microbrewery.
-
-		if ( !isQuickLogin && KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.hasAccomplishment( KoLCharacter.MEATCAR ) && KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
-		{
-			updateDisplay( DISABLE_STATE, "Retrieving menu..." );
-			(new MicrobreweryRequest( this )).run();
-		}
-
 		resetSession();
 		applyRecentEffects();
 
 		// Retrieve breakfast if the option to retrieve breakfast
 		// was previously selected.
 
-		if ( getBreakfast )
-			getBreakfast();
+		getBreakfast();
 
 		if ( !permitsContinue() )
 		{
