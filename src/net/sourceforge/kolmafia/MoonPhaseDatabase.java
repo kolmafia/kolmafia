@@ -52,12 +52,14 @@ public class MoonPhaseDatabase extends StaticEntity
 	// exception, most of the time.
 
 	private static long NEWYEAR = 0;
+	private static long BOUNDARY = 0;
 
 	static
 	{
 		try
 		{
 			NEWYEAR = sdf.parse( "20050917" ).getTime();
+			BOUNDARY = sdf.parse( "20051027" ).getTime();
 		}
 		catch ( Exception e )
 		{
@@ -180,8 +182,20 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	public static final void setMoonPhases( int ronaldPhase, int grimacePhase )
 	{
+		// Reset the new year based on the internal
+		// phase error.
+
+		int phaseError = getPhaseStep();
+
 		RONALD_PHASE = ronaldPhase;
 		GRIMACE_PHASE = grimacePhase;
+			
+		phaseError -= getPhaseStep();
+
+		// Adjust the new year by the appropriate
+		// number of days.
+
+		NEWYEAR += ((long)phaseError) * 86400000L;
 	}
 	
 	public static final int getRonaldPhase()
@@ -366,7 +380,11 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	public static int getCalendarDay( Date time )
 	{
-		long timeDifference = time.getTime() - NEWYEAR;
+		long timeDifference = time.getTime();
+		if ( timeDifference > BOUNDARY )
+			timeDifference -= 86400000L;
+
+		timeDifference -= NEWYEAR;
 		int dayDifference = (int) Math.floor( timeDifference / 86400000L );
 		return ((dayDifference % 96) + 96) % 96;
 	}

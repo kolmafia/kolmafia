@@ -236,6 +236,14 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	private static void updateDailyPage()
 	{
+		if ( sdf.format( selectedDate ).equals( "20051027" ) )
+		{
+			dailyBuffer.clearBuffer();
+			dailyBuffer.append( "<center><h1>White Wednesday</h1></center>" );
+			return;
+		}
+			
+
 		StringBuffer displayHTML = new StringBuffer();
 
 		// First display today's date along with the
@@ -413,7 +421,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	public static class OracleTable extends JTable
 	{
 		private CalendarTableModel model;
-		private DefaultTableCellRenderer normalRenderer, todayRenderer, holidayRenderer, statdayRenderer;
+		private DefaultTableCellRenderer normalRenderer, todayRenderer, specialRenderer, holidayRenderer, statdayRenderer;
 
 		public OracleTable( CalendarTableModel model )
 		{
@@ -425,6 +433,10 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			todayRenderer = new DefaultTableCellRenderer();
 			todayRenderer.setForeground( new Color( 255, 255, 255 ) );
 			todayRenderer.setBackground( new Color( 0, 0, 128 ) );
+			
+			specialRenderer = new DefaultTableCellRenderer();
+			specialRenderer.setForeground( new Color( 255, 255, 255 ) );
+			specialRenderer.setBackground( new Color( 0, 0, 0 ) );
 
 			holidayRenderer = new DefaultTableCellRenderer();
 			holidayRenderer.setForeground( new Color( 255, 255, 255 ) );
@@ -447,6 +459,13 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 				if ( todayDateString.equals( cellDateString ) )
 					return todayRenderer;
+
+				// White wednesday special highlighting.
+				// But, because white doesn't show up,
+				// make it black instead.
+
+				if ( cellDateString.equals( "20051027" ) )
+					return specialRenderer;
 
 				// Otherwise, if the date selected is equal
 				// to a special day, then highlight it.
