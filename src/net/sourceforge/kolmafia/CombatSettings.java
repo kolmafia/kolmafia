@@ -307,7 +307,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		String setting = (String) match.get( roundCount < match.size() ? roundCount : match.size() - 1 );
 
 		return setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "item" ) ||
-			setting.startsWith( "skill" ) ? setting : getSetting( setting, roundCount - match.size() - 1 );
+			setting.startsWith( "skill" ) ? setting : getSetting( setting, roundCount - match.size() + 1 );
 		
 	}
 }
