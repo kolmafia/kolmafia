@@ -388,8 +388,6 @@ public class LoginFrame extends KoLFrame
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "useSystemTrayIcon", String.valueOf( trayicon.getSelectedIndex() == 1 ) );
-
-			JOptionPane.showMessageDialog( null, "Settings saved." );
 		}
 
 		protected void actionCancelled()
@@ -440,7 +438,6 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			client.updateDisplay( DISABLE_STATE, "Applying network settings..." );
 			setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() != 0 ) );
 			setProperty( "http.proxyHost", proxyHost.getText() );
 			setProperty( "http.proxyPort", proxyPort.getText() );
@@ -451,8 +448,6 @@ public class LoginFrame extends KoLFrame
 			// the next login can use them.
 
 			KoLRequest.applySettings();
-			JOptionPane.showMessageDialog( null, "Settings saved." );
-			client.updateDisplay( NORMAL_STATE, "Network settings applied." );
 		}
 
 		protected void actionCancelled()

@@ -46,6 +46,8 @@ import javax.swing.SpringLayout;
 import com.sun.java.forums.SpringUtilities;
 
 // event listeners
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -56,6 +58,10 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 
 public abstract class ActionVerifyPanel extends ActionPanel
 {
@@ -67,6 +73,14 @@ public abstract class ActionVerifyPanel extends ActionPanel
 
 	private static final Dimension DEFAULT_LABEL_SIZE = new Dimension( 100, 20 );
 	private static final Dimension DEFAULT_FIELD_SIZE = new Dimension( 165, 20 );
+
+	public ActionVerifyPanel()
+	{	this( null, null, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, true );
+	}
+
+	public ActionVerifyPanel( Dimension labelSize, Dimension fieldSize )
+	{	this( null, null, labelSize, fieldSize, true );
+	}
 
 	public ActionVerifyPanel( String confirmedText, String cancelledText )
 	{	this( confirmedText, cancelledText, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
@@ -94,13 +108,12 @@ public abstract class ActionVerifyPanel extends ActionPanel
 		this.labelSize = labelSize;
 		this.fieldSize = fieldSize;
 		this.isCenterPanel = isCenterPanel;
-		buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText1, cancelledText2 );
+		this.buttonPanel = confirmedText == null ? null : new VerifyButtonPanel( confirmedText, cancelledText1, cancelledText2 );
 	}
 
 	protected void setContent( VerifiableElement [] elements )
 	{	setContent( elements, null, null, true, false );
 	}
-
 
 	protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding )
 	{	setContent( elements, null, null, isLabelPreceeding, false );
@@ -129,7 +142,9 @@ public abstract class ActionVerifyPanel extends ActionPanel
 
 		JPanel eastContainer = new JPanel();
 		eastContainer.setLayout( new BorderLayout( 10, 10 ) );
-		eastContainer.add( buttonPanel, BorderLayout.NORTH );
+
+		if ( this.buttonPanel != null )
+			eastContainer.add( this.buttonPanel, BorderLayout.NORTH );
 
 		if ( eastPanel != null )
 			eastContainer.add( eastPanel, BorderLayout.CENTER );
@@ -145,7 +160,7 @@ public abstract class ActionVerifyPanel extends ActionPanel
 
 		contentSet = true;
 
-		if ( bothDisabledOnClick )
+		if ( bothDisabledOnClick && buttonPanel != null )
 			buttonPanel.setBothDisabledOnClick( true );
 	}
 
@@ -233,16 +248,22 @@ public abstract class ActionVerifyPanel extends ActionPanel
 	}
 
 	public void setEnabled( boolean isEnabled )
-	{	buttonPanel.setEnabled( isEnabled );
+	{
+		if ( buttonPanel != null )
+			buttonPanel.setEnabled( isEnabled );
 	}
 
 	protected abstract void actionConfirmed();
 	protected abstract void actionCancelled();
 
-	protected final class VerifiableElement implements Comparable
+	private static final Class [] ACTIONS = { ActionListener.class };
+	private static final Class [] FOCUSES = { FocusListener.class };
+
+	protected final class VerifiableElement implements Comparable, ActionListener, FocusListener
 	{
 		private JLabel label;
 		private JComponent inputField;
+		private Object [] thisArray = { this };
 
 		public VerifiableElement( String label, JComponent inputField )
 		{	this( label, JLabel.RIGHT, inputField );
@@ -255,6 +276,57 @@ public abstract class ActionVerifyPanel extends ActionPanel
 
 			this.label.setLabelFor( inputField );
 			this.label.setVerticalAlignment( JLabel.TOP );
+
+			if ( buttonPanel == null )
+				addListeners( inputField );
+		}
+		
+		private void addListeners( JComponent c )
+		{
+			try
+			{
+				if ( c ==  null || c instanceof JLabel || c instanceof JButton )
+					return;
+
+				else if ( c instanceof JRadioButton || c instanceof JCheckBox || c instanceof JComboBox )
+				{
+					c.getClass().getMethod( "addActionListener", ACTIONS ).invoke( c, thisArray );
+				}
+				
+				else if ( c instanceof JTextField || c instanceof JPasswordField )
+				{
+					c.getClass().getMethod( "addFocusListener", FOCUSES ).invoke( c, thisArray );
+				}
+				
+				else
+				{
+					for ( int i = 0; i < c.getComponentCount(); ++i )
+						if ( c instanceof JComponent && !(c instanceof JLabel || c instanceof JButton) )
+							addListeners( (JComponent) c.getComponent(i) );
+				}
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace();
+			}
+		}
+
+		public void focusGained( FocusEvent e )
+		{
+			if ( buttonPanel == null && isValid() )
+				actionConfirmed();
+		}
+
+		public void focusLost( FocusEvent e )
+		{
+			if ( buttonPanel == null && isValid() )
+				actionConfirmed();
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( buttonPanel == null && isValid() )
+				actionConfirmed();
 		}
 
 		public JLabel getLabel()

@@ -812,7 +812,7 @@ public class AdventureFrame extends KoLFrame
 
 		public RestoreOptionsPanel()
 		{
-			super( "apply", "defaults", new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+			super( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
 
 			battleStopSelect = new JComboBox();
 			battleStopSelect.addItem( "Never stop combat" );
@@ -872,8 +872,6 @@ public class AdventureFrame extends KoLFrame
 			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
 			MPRestoreItemList.setProperty();
-
-			JOptionPane.showMessageDialog( null, "Settings saved." );
 		}
 
 		protected void actionCancelled()
@@ -905,7 +903,7 @@ public class AdventureFrame extends KoLFrame
 
 		public ChoiceOptionsPanel()
 		{
-			super( "apply", "defaults", new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+			super( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
 
 			optionSelects = new JComboBox[ AdventureDatabase.CHOICE_ADVS.length ];
 			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
@@ -1000,8 +998,6 @@ public class AdventureFrame extends KoLFrame
 					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
 					break;
 			}
-
-			JOptionPane.showMessageDialog( null, "Settings saved." );
 		}
 
 		protected void actionCancelled()

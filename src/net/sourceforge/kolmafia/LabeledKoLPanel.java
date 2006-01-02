@@ -58,7 +58,9 @@ public abstract class LabeledKoLPanel extends KoLPanel
 	private JLabel actionStatusLabel;
 
 	public LabeledKoLPanel( String panelTitle, Dimension left, Dimension right )
-	{	this( panelTitle, "apply", "defaults", left, right );
+	{
+		super( left, right );
+		this.panelTitle = panelTitle;
 	}
 
 	public LabeledKoLPanel( String panelTitle, String confirmButton, String cancelButton, Dimension left, Dimension right )

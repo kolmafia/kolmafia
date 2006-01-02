@@ -45,6 +45,10 @@ import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
 public abstract class KoLPanel extends ActionVerifyPanel
 {
+	protected KoLPanel( Dimension labelSize, Dimension fieldSize )
+	{	super( labelSize, fieldSize );
+	}
+
 	protected KoLPanel( String confirmedText, String cancelledText )
 	{
 		super( confirmedText, cancelledText );

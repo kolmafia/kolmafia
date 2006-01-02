@@ -151,7 +151,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// Determine the login server that will be used.
 
 			int setting = Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) );
-			int server = ( setting == 0 || setting > SERVER_COUNT ) ? RNG.nextInt( SERVER_COUNT ) : setting - 1;
+			int server = ( setting < 1 || setting > SERVER_COUNT ) ? RNG.nextInt( SERVER_COUNT ) : setting - 1;
 			setLoginServer( SERVERS[server][0] );
 		}
 		catch ( Exception e )
