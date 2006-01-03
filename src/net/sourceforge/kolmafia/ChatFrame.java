@@ -121,7 +121,7 @@ public class ChatFrame extends KoLFrame
 		// Set the default size so that it doesn't appear super-small
 		// when it's first constructed
 
-		setSize( new Dimension( 400, 300 ) );
+		setSize( new Dimension( 500, 300 ) );
 
 		if ( client != null && mainPanel != null && associatedContact != null )
 		{
