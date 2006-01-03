@@ -180,23 +180,6 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 
 		ensureProperty( "* default *", "attack" );
 
-		ensureProperty( "giant skeelton", "skill disco face stab; moxman" );
-		ensureProperty( "huge ghuol", "giant skeelton" );
-		ensureProperty( "conjoined zmombie", "giant skeelton" );
-		ensureProperty( "gargantulihc", "giant skeelton" );
-
-		ensureProperty( "mechamech", "skill lunging thrust smack" );
-		ensureProperty( "giant", "skill pastalord" );
-		ensureProperty( "astronomer", "skill wave of sauce" );
-
-		ensureProperty( "1335 haxx0r", "item dictionary" );
-		ensureProperty( "anime smiley", "1335 haxx0r" );
-		ensureProperty( "flaming troll", "1335 haxx0r" );
-		ensureProperty( "lamz0r n00b", "1335 haxx0r" );
-		ensureProperty( "me4t begz0r", "1335 haxx0r" );
-		ensureProperty( "spam witch", "1335 haxx0r" );
-		ensureProperty( "xxx pr0n", "1335 haxx0r" );
-
 		ensureProperty( "baiowulf", "abort" );
 		ensureProperty( "crazy bastard", "abort" );
 		ensureProperty( "hockey elemental", "abort" );
