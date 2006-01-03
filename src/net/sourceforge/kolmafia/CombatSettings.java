@@ -42,9 +42,12 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.io.InputStreamReader;
 
-import java.util.TreeMap;
-import java.util.ArrayList;
+import java.util.Vector;
+import java.util.Hashtable;
 import java.util.Collections;
+import java.util.Enumeration;
+import javax.swing.tree.TreeNode;
+
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 /**
@@ -58,12 +61,13 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * are stored in <code>~.kcs</code>.
  */
 
-public class CombatSettings extends TreeMap implements UtilityConstants
+public class CombatSettings extends Hashtable implements UtilityConstants
 {
 	private static String [] keys;
 	private static File settingsFile;
 	private static String characterName = "";
 	private static CombatSettings INSTANCE = null;
+	private final CombatSettingNode root = new CombatSettingNode();
 
 	public static final CombatSettings getCurrent()
 	{
@@ -72,6 +76,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 
 		return INSTANCE;
 	}
+
 
 	/**
 	 * Constructs a settings file for a character with the specified name.
@@ -91,6 +96,10 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		ensureDefaults();
 		loadSettings();
 		saveSettings();
+	}
+
+	public final TreeNode getRoot()
+	{	return root;
 	}
 
 	/**
@@ -128,7 +137,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 
 			String line;
 			String currentKey = "";
-			ArrayList currentList = new ArrayList();
+			CombatSettingNode currentList = root;
 
 			while ( (line = reader.readLine()) != null )
 			{
@@ -136,11 +145,13 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 				if ( line.startsWith( "[" ) )
 				{
 					currentKey = line.substring( 1, line.length() - 2 ).trim().toLowerCase();
-					currentList = new ArrayList();
+					currentList = new CombatSettingNode( currentKey );
+
 					put( currentKey, currentList );
+					root.add( currentList );
 				}
 				else if ( line.length() != 0 )
-					currentList.add( line );
+					currentList.add( new CombatActionNode( currentList, line ) );
 			}
 
 			reader.close();
@@ -178,7 +189,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		// The remaining settings are not related to choice
 		// adventures and require no special handling.
 
-		ensureProperty( "* default *", "attack" );
+		ensureProperty( "default", "attack" );
 
 		ensureProperty( "baiowulf", "abort" );
 		ensureProperty( "crazy bastard", "abort" );
@@ -196,12 +207,13 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 	{
 		if ( !containsKey( key ) )
 		{
-			ArrayList defaultList = new ArrayList();
+			CombatSettingNode defaultList = new CombatSettingNode( key );
 			String [] elements = defaultValue.split( "\\s*;\\s*" );
 			for ( int i = 0; i < elements.length; ++i )
-				defaultList.add( elements[i] );
+				defaultList.add( new CombatActionNode( defaultList, elements[i] ) );
 
 			put( key, defaultList );
+			root.add( defaultList );
 		}
 	}
 
@@ -219,14 +231,14 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		{
 			PrintStream writer = new PrintStream( new FileOutputStream( destination ) );
 
-			ArrayList combatOptions;
-			String [] combatOptionsArray;
+			CombatSettingNode combatOptions;
+			CombatActionNode [] combatOptionsArray;
 			for ( int i = 0; i < keys.length; ++i )
 			{
 				writer.println( "[ " + keys[i] + " ]" );
 
-				combatOptions = (ArrayList) get( keys[i] );
-				combatOptionsArray = new String[ combatOptions.size() ];
+				combatOptions = (CombatSettingNode) get( keys[i] );
+				combatOptionsArray = new CombatActionNode[ combatOptions.size() ];
 				combatOptions.toArray( combatOptionsArray );
 
 				for ( int j = 0; j < combatOptionsArray.length; ++j )
@@ -249,7 +261,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 	public String getSetting( String encounter, int roundCount )
 	{
 		if ( encounter.equals( "" ) )
-			return getSetting( "* default *", roundCount );
+			return getSetting( "default", roundCount );
 
 		// Allow for longer matches (closer to exact matches)
 		// by tracking the length of the match.
@@ -274,16 +286,108 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		// will definitely be a match.
 
 		if ( longestMatch == -1 )
-			return getSetting( "* default *", roundCount );
+			return getSetting( "default", roundCount );
 
 		// Otherwise, you have a tactic for this round against
 		// the given monster.  Return that tactic.
 
-		ArrayList match = (ArrayList) get( keys[ longestMatch ] );
-		String setting = (String) match.get( roundCount < match.size() ? roundCount : match.size() - 1 );
+		CombatSettingNode match = (CombatSettingNode) get( keys[ longestMatch ] );
+		CombatActionNode setting = (CombatActionNode) match.get( roundCount < match.size() ? roundCount : match.size() - 1 );
 
 		return setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "item" ) ||
-			setting.startsWith( "skill" ) ? setting : getSetting( setting, roundCount - match.size() + 1 );
+			setting.startsWith( "skill" ) ? setting.toString() : getSetting( setting.toString(), roundCount - match.size() + 1 );
+	}
 
+	private class CombatSettingNode extends Vector implements TreeNode
+	{
+		private String name;
+
+		public CombatSettingNode()
+		{	this.name = "";
+		}
+
+		public CombatSettingNode( String name )
+		{	this.name = name;
+		}
+
+		public Enumeration children()
+		{	return elements();
+		}
+
+		public boolean getAllowsChildren()
+		{	return true;
+		}
+
+		public int getChildCount()
+		{	return size();
+		}
+
+		public TreeNode getChildAt( int childIndex )
+		{	return (TreeNode) get( childIndex );
+		}
+
+		public int getIndex( TreeNode node )
+		{	return indexOf( node );
+		}
+
+		public TreeNode getParent()
+		{	return root;
+		}
+
+		public boolean isLeaf()
+		{	return false;
+		}
+
+		public String toString()
+		{	return name;
+		}
+	}
+
+	private class CombatActionNode implements TreeNode
+	{
+		private TreeNode parent;
+		private String action;
+
+		public CombatActionNode( TreeNode parent, String action )
+		{
+			this.parent = parent;
+			this.action = action;
+		}
+
+		public Enumeration children()
+		{	return null;
+		}
+
+		public boolean getAllowsChildren()
+		{	return false;
+		}
+
+		public TreeNode getChildAt( int childIndex )
+		{	return null;
+		}
+
+		public int getChildCount()
+		{	return 0;
+		}
+
+		public int getIndex( TreeNode node )
+		{	return -1;
+		}
+
+		public TreeNode getParent()
+		{	return parent;
+		}
+
+		public boolean isLeaf()
+		{	return true;
+		}
+
+		public boolean startsWith( String prefix )
+		{	return action.startsWith( prefix );
+		}
+
+		public String toString()
+		{	return action;
+		}
 	}
 }

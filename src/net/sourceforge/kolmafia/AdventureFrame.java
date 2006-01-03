@@ -64,7 +64,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
-import javax.swing.JTextArea;
+import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -130,7 +130,9 @@ public class AdventureFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( choiceScroller, 560, 400 );
 		tabs.addTab( "Choice Handler", choiceScroller );
 
-		tabs.addTab( "Custom Combat", new CustomCombatPanel() );
+		JPanel customContainer = new JPanel( new BorderLayout() );
+		customContainer.add( new CustomCombatPanel(), BorderLayout.CENTER );
+		tabs.addTab( "Custom Combat", customContainer );
 
 		addCompactPane();
 		framePanel.add( tabs, BorderLayout.CENTER );
@@ -1067,45 +1069,16 @@ public class AdventureFrame extends KoLFrame
 	{
 		public CustomCombatPanel()
 		{
-			super( "Custom Combat", "apply", "clear", new JTextArea() );
-			CombatSettings.getCurrent();
+			super( "Custom Combat", new JTree( CombatSettings.getCurrent() ) );
 			actionCancelled();
 		}
 
 		protected void actionConfirmed()
 		{
-			try
-			{
-				PrintStream writer = new PrintStream( new FileOutputStream( "~" + KoLCharacter.getUsername() + ".ccs" ) );
-				writer.println( ((JTextArea)scrollComponent).getText() );
-				writer.close();
-			}
-			catch ( Exception e )
-			{
-			}
 		}
 
 		protected void actionCancelled()
 		{
-			try
-			{
-				BufferedReader reader = KoLDatabase.getReader( "~" + KoLCharacter.getUsername() + ".ccs" );
-				StringBuffer buffer = new StringBuffer();
-
-				String line;
-
-				while ( (line = reader.readLine()) != null )
-				{
-					buffer.append( line );
-					buffer.append( System.getProperty( "line.separator" ) );
-				}
-
-				reader.close();
-				((JTextArea)scrollComponent).setText( buffer.toString() );
-			}
-			catch ( Exception e )
-			{
-			}
 		}
 	}
 

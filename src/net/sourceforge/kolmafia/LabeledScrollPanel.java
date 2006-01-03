@@ -59,6 +59,10 @@ public abstract class LabeledScrollPanel extends ActionPanel
 	protected VerifyButtonPanel buttonPanel;
 	protected JComponent scrollComponent;
 
+	public LabeledScrollPanel( String title, JComponent scrollComponent )
+	{	this( title, null, null, scrollComponent );
+	}
+
 	public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent )
 	{
 		this.scrollComponent = scrollComponent;
@@ -72,17 +76,24 @@ public abstract class LabeledScrollPanel extends ActionPanel
 
 		JComponentUtilities.setComponentSize( centerPanel, 560, 400 );
 
-		buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText );
-		buttonPanel.setBothDisabledOnClick( true );
+		if ( confirmedText != null )
+		{
+			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText );
+			buttonPanel.setBothDisabledOnClick( true );
+		}
 
 		actualPanel = new JPanel();
 		actualPanel.setLayout( new BorderLayout( 20, 10 ) );
 		actualPanel.add( centerPanel, BorderLayout.CENTER );
-		actualPanel.add( buttonPanel, BorderLayout.EAST );
+
+		if ( buttonPanel != null )
+			actualPanel.add( buttonPanel, BorderLayout.EAST );
 
 		setLayout( new CardLayout( 10, 10 ) );
 		add( actualPanel, "" );
-		buttonPanel.setBothDisabledOnClick( true );
+
+		if ( buttonPanel != null )
+			buttonPanel.setBothDisabledOnClick( true );
 	}
 
 	protected abstract void actionConfirmed();
