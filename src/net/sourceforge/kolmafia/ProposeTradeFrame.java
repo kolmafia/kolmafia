@@ -45,12 +45,17 @@ public class ProposeTradeFrame extends SendMessageFrame
 	private static final String [] HEADERS = { "Send this note:" };
 
 	public ProposeTradeFrame( KoLmafia client )
-	{	this( client, null );
+	{	this( client, "", null );
 	}
 
-	public ProposeTradeFrame( KoLmafia client, String offerID )
+	public ProposeTradeFrame( KoLmafia client, String target )
 	{
-		super( client, "Send a Trade Proposal" );
+		this( client, target, null );
+	}
+
+	public ProposeTradeFrame( KoLmafia client, String target, String offerID )
+	{
+		super( client, "Send a Trade Proposal", target );
 		this.offerID = offerID;
 
 		if ( this.offerID != null )
