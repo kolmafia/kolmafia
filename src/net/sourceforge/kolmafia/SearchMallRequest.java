@@ -115,11 +115,7 @@ public class SearchMallRequest extends KoLRequest
 	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results, boolean retainAll )
 	{
 		super( client, searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
-
-		String searchRequest = searchString.indexOf( "ñ" ) != -1 || searchString.indexOf( "©" ) != -1 ?
-			searchString.replaceAll( "[\"\']", "" ).replaceAll( "ñ", "" ).replaceAll( "©", "" ) : searchString;
-
-		addFormField( "whichitem", searchRequest );
+		addFormField( "whichitem", searchString );
 
 		if ( cheapestCount > 0 )
 		{
@@ -191,7 +187,7 @@ public class SearchMallRequest extends KoLRequest
 						limit = df.parse( limitMatcher.group(1) ).intValue();
 
 					int price = Integer.parseInt( priceID.substring( priceID.length() - 9 ) );
-					results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit ) );
+					results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, true ) );
 				}
 				catch ( Exception e )
 				{
@@ -256,10 +252,6 @@ public class SearchMallRequest extends KoLRequest
 
 		int startIndex = responseText.indexOf( "Search Results:" );
 		String storeListResult = responseText.substring( startIndex == -1 ? 0 : startIndex );
-
-		if ( !retainAll )
-			storeListResult = storeListResult.replaceAll( "<td style=.*?<tr>", "" );
-
 		String plainTextResult = storeListResult.replaceAll( "<br>", " " ).replaceAll( "</?b>", "\n" ).replaceAll(
 			"</?p>", "" ).replaceAll( "</c.*?>", "" ).replaceAll( "</?t.*?>", "\n" ).replaceAll( "</a>", "\n" );
 
@@ -285,6 +277,7 @@ public class SearchMallRequest extends KoLRequest
 
 		while ( parsedResults.countTokens() > 1 )
 		{
+			boolean canPurchase = true;
 			// The first token contains the item name
 
 			String itemName = parsedResults.nextToken().trim();
@@ -336,7 +329,7 @@ public class SearchMallRequest extends KoLRequest
 			}
 
 			if ( !npcStoreExists || KoLCharacter.canInteract() )
-				results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit ) );
+				results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC

@@ -217,6 +217,14 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
+		// Also add in a special handling for elves
+		// and other things ending in "f".
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "ves", "f" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
 		// Also add in a special handling for staves
 		// and other things ending in "aff".
 

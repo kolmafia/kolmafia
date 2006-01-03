@@ -194,8 +194,8 @@ public abstract class StoreManager extends StaticEntity
 			// substring consisting of everything after
 			// the n-tilde.
 
-			if ( itemName.indexOf( "ñ" ) != -1 )
-				itemName = itemName.substring( itemName.indexOf( "ñ" ) + 1 );
+			if ( itemName.indexOf( "&ntilde;" ) != -1 )
+				itemName = itemName.substring( itemName.indexOf( "n" ) + 1 );
 
 			// For items with the trademark character, a
 			// perfect match is available if you use the

@@ -1143,7 +1143,7 @@ public class KoLmafiaCLI extends KoLmafia
 			       replaceAll( "<.*?>", "" ).
 			       replaceAll( "&nbsp;", " " ).
 			       replaceAll( "&trade;", " [tm]" ).
-			       replaceAll( "&ntilde;", "ñ" ).
+			       replaceAll( "&ntilde;", "n" ).
 			       replaceAll( "&quot;", "\"" ) );
 	}
 

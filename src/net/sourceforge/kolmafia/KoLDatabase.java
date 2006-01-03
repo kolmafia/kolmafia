@@ -83,7 +83,7 @@ public class KoLDatabase extends StaticEntity
 	 */
 
 	public static final String getCanonicalName( String name )
-	{	return name == null ? null : name.replaceAll( "ñ", "&ntilde;" ).replaceAll( "é", "&eacute;" ).replaceAll( " \\[[tT][mM]\\]", "&trade;" ).toLowerCase();
+	{	return name == null ? null : name.replaceAll( " \\[[tT][mM]\\]", "&trade;" ).toLowerCase();
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class KoLDatabase extends StaticEntity
 	 */
 
 	public static final String getDisplayName( String name )
-	{	return name == null ? null : name.replaceAll( "&ntilde;", "ñ" ).replaceAll( "&eacute;", "é" ).replaceAll( "&trade;", " [TM]" );
+	{	return name == null ? null : name.replaceAll( "&ntilde;", "n" ).replaceAll( "&eacute;", "e" ).replaceAll( "&trade;", " [tm]" );
 	}
 
 	/**

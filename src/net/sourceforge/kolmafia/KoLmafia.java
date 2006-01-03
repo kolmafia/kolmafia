@@ -79,7 +79,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected static LimitedSizeChatBuffer commandBuffer = null;
 
 	protected static final String [] hermitItemNames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
-		"jabañero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
+		"jabanero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
 	protected static final int [] hermitItemNumbers = { 24, 46, 47, 52, 55, 61, 66, 106, 107, 135, 140, 527 };
 
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };

@@ -33,9 +33,17 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.JList;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.DefaultListCellRenderer;
 
 /**
  * An extension of <code>KoLRequest</code> which handles the purchase of
@@ -52,6 +60,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	private int itemID, shopID, quantity, price, limit;
 	private boolean isNPCStore;
 
+	private boolean canPurchase;
 	public static final int MAX_QUANTITY = 10000000;
 
 	/**
@@ -90,7 +99,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.quantity = MAX_QUANTITY;
 		this.limit = quantity;
 		this.price = price;
+
 		this.isNPCStore = true;
+		this.canPurchase = true;
 	}
 
 	/**
@@ -108,7 +119,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 * @param	price	The price at which the item will be purchased
 	 */
 
-	public MallPurchaseRequest( KoLmafia client, String itemName, int itemID, int quantity, int shopID, String shopName, int price, int limit )
+	public MallPurchaseRequest( KoLmafia client, String itemName, int itemID, int quantity, int shopID, String shopName, int price, int limit, boolean canPurchase )
 	{
 		super( client, "mallstore.php" );
 
@@ -125,6 +136,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.price = price;
 		this.limit = Math.min( quantity, limit );
 		this.isNPCStore = false;
+		this.canPurchase = canPurchase;
 
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "whichstore", String.valueOf( shopID ) );
@@ -209,7 +221,11 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		StringBuffer buffer = new StringBuffer();
 
 		if ( client instanceof KoLmafiaGUI )
+		{
 			buffer.append( "<html><nobr>" );
+			if ( !canPurchase )
+				buffer.append( "<font color=gray>" );
+		}
 
 		buffer.append( itemName );
 		buffer.append( " (" );
@@ -233,7 +249,12 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		buffer.append( shopName );
 
 		if ( client instanceof KoLmafiaGUI )
+		{
+			if ( !canPurchase )
+				buffer.append( "</font>" );
+
 			buffer.append( "</nobr></html>" );
+		}
 
 		return buffer.toString();
 	}
@@ -247,7 +268,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( limit < 1 )
+		if ( limit < 1 || !canPurchase )
 			return;
 
 		addFormField( isNPCStore ? "howmany" : "quantity", String.valueOf( limit ) );
@@ -317,7 +338,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 					if ( price >= newPrice )
 					{
 						updateDisplay( DISABLE_STATE, "Failed to yield.  Attempting repurchase..." );
-						(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ) )).run();
+						(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ), true )).run();
 					}
 					else
 					{
@@ -360,7 +381,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 				int limit = df.parse( quantityMatcher.group(1) ).intValue();
 				int alreadyPurchased = df.parse( quantityMatcher.group(2) ).intValue();
 
-				(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit )).run();
+				(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit, true )).run();
 				return;
 			}
 		}
