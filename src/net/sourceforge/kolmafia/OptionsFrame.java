@@ -69,6 +69,7 @@ import javax.swing.Box;
 
 // utilities
 import java.util.List;
+import javax.swing.JTree;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
@@ -119,7 +120,7 @@ public class OptionsFrame extends KoLFrame
 		tabs = new JTabbedPane();
 
 		addTab( "General", new GeneralOptionsPanel() );
-		addTab( "Areas", new AreaOptionsPanel() );
+		addTab( "Area List", new AreaOptionsPanel() );
 
 		JPanel chatContainer = new JPanel();
 		chatContainer.setLayout( new BoxLayout( chatContainer, BoxLayout.Y_AXIS ) );
@@ -127,7 +128,12 @@ public class OptionsFrame extends KoLFrame
 		chatContainer.add( new ChatColorsPanel() );
 		chatContainer.add( new JPanel() );
 
-		addTab( "Chat", chatContainer );
+		addTab( "Chat Options", chatContainer );
+
+		JPanel customContainer = new JPanel( new BorderLayout() );
+		customContainer.add( new CustomCombatPanel(), BorderLayout.CENTER );
+		addTab( "Custom Combat", customContainer );
+
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -477,11 +483,34 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void setStatusMessage( int displayState, String message )
-		{	JOptionPane.showMessageDialog( null, message );
+		{
 		}
 
 		protected void actionConfirmed()
-		{	setStatusMessage( NORMAL_STATE, "Settings saved." );
+		{
+		}
+	}
+
+
+	/**
+	 * Internal class used to handle everything related to
+	 * operating the buffbot.
+	 */
+
+	private class CustomCombatPanel extends LabeledScrollPanel
+	{
+		public CustomCombatPanel()
+		{
+			super( "Custom Combat", new JTree( CombatSettings.getCurrent() ) );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+		}
+
+		protected void actionCancelled()
+		{
 		}
 	}
 

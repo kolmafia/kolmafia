@@ -445,7 +445,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new KoLPanelFrameMenuItem( "Meat Manager", new MeatStoragePanel() ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Standard Arena", CakeArenaFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
@@ -1952,80 +1951,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 
 			(new RequestThread( requests )).start();
-		}
-	}
-
-	/**
-	 * An internal class which represents the panel used for storing and
-	 * removing meat from the closet.
-	 */
-
-	private class MeatStoragePanel extends LabeledKoLPanel
-	{
-		private JComboBox fundSource;
-		private JTextField amountField, closetField;
-
-		public MeatStoragePanel()
-		{
-			super( "Meat Management", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-
-			fundSource = new JComboBox();
-			fundSource.addItem( "Inventory / Closet" );
-			fundSource.addItem( "Hagnk's Storage" );
-
-			amountField = new JTextField();
-			closetField = new JTextField( String.valueOf( KoLCharacter.getClosetMeat() ) );
-			closetField.setEnabled( false );
-
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
-			elements[1] = new VerifiableElement( "Amount: ", amountField );
-			elements[2] = new VerifiableElement( "In Closet: ", closetField );
-			setContent( elements, true, true );
-
-			KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new ClosetUpdater() ) );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			fundSource.setEnabled( isEnabled );
-			amountField.setEnabled( isEnabled );
-		}
-
-		protected void actionConfirmed()
-		{
-			switch ( fundSource.getSelectedIndex() )
-			{
-				case 0:
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
-					return;
-
-				case 1:
-					client.updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
-					return;
-			}
-		}
-
-		private class ClosetUpdater implements Runnable
-		{
-			public void run()
-			{	closetField.setText( String.valueOf( KoLCharacter.getClosetMeat() ) );
-			}
-		}
-
-		protected void actionCancelled()
-		{
-			switch ( fundSource.getSelectedIndex() )
-			{
-				case 0:
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
-					return;
-
-				case 1:
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
-					return;
-			}
 		}
 	}
 }

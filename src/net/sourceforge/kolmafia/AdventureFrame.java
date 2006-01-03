@@ -64,7 +64,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
-import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -100,6 +99,9 @@ public class AdventureFrame extends KoLFrame
 	private JTabbedPane tabs;
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
+	private MeatStoragePanel meatStorage;
+	private SkillBuffPanel skillBuff;
+	private HeroDonationPanel heroDonation;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -118,9 +120,19 @@ public class AdventureFrame extends KoLFrame
 
 		this.adventureSelect = new AdventureSelectPanel();
 		this.mallSearch = new MallSearchPanel();
+		this.meatStorage = new MeatStoragePanel();
+		this.skillBuff = new SkillBuffPanel();
+		this.heroDonation = new HeroDonationPanel();
 
 		tabs.addTab( "Adventure", adventureSelect );
 		tabs.addTab( "Purchases", mallSearch );
+
+		JPanel otherPanel = new JPanel();
+		otherPanel.setLayout( new BoxLayout( otherPanel, BoxLayout.Y_AXIS ) );
+		otherPanel.add( meatStorage );
+		otherPanel.add( skillBuff );
+		otherPanel.add( heroDonation );
+		tabs.addTab( "Other Activities", otherPanel );
 
 		JScrollPane restoreScroller = new JScrollPane( new RestoreOptionsPanel(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
@@ -129,10 +141,6 @@ public class AdventureFrame extends KoLFrame
 		JScrollPane choiceScroller = new JScrollPane( new ChoiceOptionsPanel(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( choiceScroller, 560, 400 );
 		tabs.addTab( "Choice Handler", choiceScroller );
-
-		JPanel customContainer = new JPanel( new BorderLayout() );
-		customContainer.add( new CustomCombatPanel(), BorderLayout.CENTER );
-		tabs.addTab( "Custom Combat", customContainer );
 
 		addCompactPane();
 		framePanel.add( tabs, BorderLayout.CENTER );
@@ -211,10 +219,13 @@ public class AdventureFrame extends KoLFrame
 	{
 		this.isEnabled = isEnabled && (client == null || !BuffBotHome.isBuffBotActive());
 
-		if ( mallSearch != null )
+		if ( heroDonation != null )
 		{
 			adventureSelect.setEnabled( this.isEnabled );
 			mallSearch.setEnabled( this.isEnabled );
+			meatStorage.setEnabled( this.isEnabled );
+			skillBuff.setEnabled( this.isEnabled );
+			heroDonation.setEnabled( this.isEnabled );
 		}
 	}
 
@@ -1061,24 +1072,147 @@ public class AdventureFrame extends KoLFrame
 	}
 
 	/**
-	 * Internal class used to handle everything related to
-	 * operating the buffbot.
+	 * An internal class which represents the panel used for donations to
+	 * the statues in the shrine.
 	 */
 
-	private class CustomCombatPanel extends LabeledScrollPanel
+	private class HeroDonationPanel extends LabeledKoLPanel
 	{
-		public CustomCombatPanel()
+		private JComboBox heroField;
+		private JTextField amountField;
+
+		public HeroDonationPanel()
 		{
-			super( "Custom Combat", new JTree( CombatSettings.getCurrent() ) );
-			actionCancelled();
+			super( "Donations to the Greater Good", "lump sum", "increments", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			LockableListModel heroes = new LockableListModel();
+			heroes.add( "Statue of Boris" );
+			heroes.add( "Statue of Jarlsberg" );
+			heroes.add( "Statue of Sneaky Pete" );
+
+			heroField = new JComboBox( heroes );
+			amountField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Donate To: ", heroField );
+			elements[1] = new VerifiableElement( "Amount: ", amountField );
+
+			setContent( elements, true, true );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			heroField.setEnabled( isEnabled );
+			amountField.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
 		{
+			contentPanel = this;
+			if ( heroField.getSelectedIndex() != -1 )
+				(new RequestThread( new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
+
 		}
 
 		protected void actionCancelled()
 		{
+			try
+			{
+				contentPanel = this;
+				int increments = df.parse( JOptionPane.showInputDialog( "How many increments?" ) ).intValue();
+
+				if ( increments == 0 )
+				{
+					client.updateDisplay( ERROR_STATE, "Donation cancelled." );
+					return;
+				}
+
+				if ( heroField.getSelectedIndex() != -1 )
+				{
+					int eachAmount = getValue( amountField ) / increments;
+					(new RequestThread( new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, eachAmount ), increments )).start();
+				}
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+	}
+
+	/**
+	 * An internal class which represents the panel used for storing and
+	 * removing meat from the closet.
+	 */
+
+	private class MeatStoragePanel extends LabeledKoLPanel
+	{
+		private JComboBox fundSource;
+		private JTextField amountField, closetField;
+
+		public MeatStoragePanel()
+		{
+			super( "Meat Management", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			fundSource = new JComboBox();
+			fundSource.addItem( "Inventory / Closet" );
+			fundSource.addItem( "Hagnk's Storage" );
+
+			amountField = new JTextField();
+			closetField = new JTextField( String.valueOf( KoLCharacter.getClosetMeat() ) );
+			closetField.setEnabled( false );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
+			elements[1] = new VerifiableElement( "Amount: ", amountField );
+			elements[2] = new VerifiableElement( "In Closet: ", closetField );
+			setContent( elements, true, true );
+
+			KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new ClosetUpdater() ) );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			fundSource.setEnabled( isEnabled );
+			amountField.setEnabled( isEnabled );
+		}
+
+		protected void actionConfirmed()
+		{
+			contentPanel = this;
+			switch ( fundSource.getSelectedIndex() )
+			{
+				case 0:
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
+					return;
+
+				case 1:
+					client.updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
+					return;
+			}
+		}
+
+		protected void actionCancelled()
+		{
+			contentPanel = this;
+			switch ( fundSource.getSelectedIndex() )
+			{
+				case 0:
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
+					return;
+
+				case 1:
+					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
+					return;
+			}
+		}
+
+		private class ClosetUpdater implements Runnable
+		{
+			public void run()
+			{	closetField.setText( String.valueOf( KoLCharacter.getClosetMeat() ) );
+			}
 		}
 	}
 
