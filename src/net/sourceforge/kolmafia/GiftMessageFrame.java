@@ -112,10 +112,6 @@ public class GiftMessageFrame extends SendMessageFrame
 	 */
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( GiftMessageFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( GiftMessageFrame.class )).run();
 	}
 }

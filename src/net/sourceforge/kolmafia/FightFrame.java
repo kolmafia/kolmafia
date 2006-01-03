@@ -50,6 +50,10 @@ public class FightFrame extends RequestFrame
 {
 	private static FightFrame INSTANCE = null;
 
+	public FightFrame( KoLmafia client )
+	{	this( client, null );
+	}
+
 	public FightFrame( KoLmafia client, KoLRequest request )
 	{
 		super( client, null, request );
@@ -101,14 +105,5 @@ public class FightFrame extends RequestFrame
 		}
 		else
 			INSTANCE.refresh( request );
-	}
-
-	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[2];
-		parameters[0] = null;
-		parameters[1] = null;
-
-		(new CreateFrameRunnable( FightFrame.class, parameters )).run();
 	}
 }

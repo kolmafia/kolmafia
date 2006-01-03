@@ -241,10 +241,6 @@ public class ExamineItemsFrame extends KoLFrame
 	}
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( ExamineItemsFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( ExamineItemsFrame.class )).run();
 	}
 }

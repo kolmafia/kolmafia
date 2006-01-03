@@ -190,10 +190,6 @@ public class BuffRequestFrame extends KoLFrame
 	}
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( BuffRequestFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( BuffRequestFrame.class )).run();
 	}
 }

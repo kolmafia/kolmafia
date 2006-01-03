@@ -522,11 +522,8 @@ public class OptionsFrame extends KoLFrame
 
 	public static void main( String [] args )
 	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
 		HPRestoreItemList.reset();
 		MPRestoreItemList.reset();
-		(new CreateFrameRunnable( OptionsFrame.class, parameters )).run();
+		(new CreateFrameRunnable( OptionsFrame.class )).run();
 	}
 }

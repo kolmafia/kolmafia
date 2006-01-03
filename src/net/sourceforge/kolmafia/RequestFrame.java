@@ -628,11 +628,6 @@ public class RequestFrame extends KoLFrame
 	 */
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[2];
-		parameters[0] = null;
-		parameters[1] = new KoLRequest( null, "main.php" );
-
-		(new CreateFrameRunnable( RequestFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( RequestFrame.class )).run();
 	}
 }

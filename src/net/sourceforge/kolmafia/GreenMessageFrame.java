@@ -43,7 +43,6 @@ public class GreenMessageFrame extends SendMessageFrame
 {
 	private static final String [] HEADERS = { "Send this message:" };
 
-
 	public GreenMessageFrame( KoLmafia client )
 	{	this( client, "" );
 	}
@@ -88,10 +87,6 @@ public class GreenMessageFrame extends SendMessageFrame
 	 */
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( GreenMessageFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( GreenMessageFrame.class )).run();
 	}
 }

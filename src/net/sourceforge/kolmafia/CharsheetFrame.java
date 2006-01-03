@@ -324,10 +324,6 @@ public class CharsheetFrame extends KoLFrame
 	 */
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( CharsheetFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( CharsheetFrame.class )).run();
 	}
 }

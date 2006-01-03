@@ -242,7 +242,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			dailyBuffer.append( "<center><h1>White Wednesday</h1></center>" );
 			return;
 		}
-			
+
 
 		StringBuffer displayHTML = new StringBuffer();
 
@@ -433,7 +433,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			todayRenderer = new DefaultTableCellRenderer();
 			todayRenderer.setForeground( new Color( 255, 255, 255 ) );
 			todayRenderer.setBackground( new Color( 0, 0, 128 ) );
-			
+
 			specialRenderer = new DefaultTableCellRenderer();
 			specialRenderer.setForeground( new Color( 255, 255, 255 ) );
 			specialRenderer.setBackground( new Color( 0, 0, 0 ) );
@@ -502,10 +502,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	}
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( CalendarFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( CalendarFrame.class )).run();
 	}
 }

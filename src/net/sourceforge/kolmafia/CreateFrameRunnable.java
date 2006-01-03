@@ -82,6 +82,10 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	private Constructor creator;
 	private Object [] parameters;
 
+	public CreateFrameRunnable( Class creationType )
+	{	this( creationType, new Object[] { StaticEntity.getClient() } );
+	}
+
 	public CreateFrameRunnable( Class creationType, Object [] parameters )
 	{
 		this.creationType = creationType;

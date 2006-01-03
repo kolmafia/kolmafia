@@ -80,6 +80,10 @@ public class LoginFrame extends KoLFrame
 {
 	private SortedListModel saveStateNames;
 
+	public LoginFrame( KoLmafia client )
+	{	this( client, new SortedListModel() );
+	}
+
 	/**
 	 * Constructs a new <code>LoginFrame</code> which allows the user to
 	 * log into the Kingdom of Loathing.  The <code>LoginFrame</code>
@@ -474,11 +478,6 @@ public class LoginFrame extends KoLFrame
 	}
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[2];
-		parameters[0] = null;
-		parameters[1] = new SortedListModel();
-
-		(new CreateFrameRunnable( LoginFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( LoginFrame.class )).run();
 	}
 }

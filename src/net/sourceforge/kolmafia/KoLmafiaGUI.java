@@ -152,10 +152,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else
 		{
-			Object [] parameters = new Object[1];
-			parameters[0] = this;
-
-			displayer = new CreateFrameRunnable( frameClass, parameters );
+			displayer = new CreateFrameRunnable( frameClass );
 			displayer.run();
 		}
 

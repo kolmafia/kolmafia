@@ -329,7 +329,7 @@ public class BuffBotFrame extends KoLFrame
 			whiteListEntry.setLineWrap( true );
 			whiteListEntry.setWrapStyleWord( true );
 			whiteListEntry.addFocusListener( this );
-			
+
 			invalidPriceMessage.setLineWrap( true );
 			invalidPriceMessage.setWrapStyleWord( true );
 			invalidPriceMessage.addFocusListener( this );
@@ -419,10 +419,6 @@ public class BuffBotFrame extends KoLFrame
 	 */
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( BuffBotFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( BuffBotFrame.class )).run();
 	}
 }

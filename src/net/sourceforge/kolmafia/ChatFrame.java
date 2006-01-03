@@ -402,14 +402,18 @@ public class ChatFrame extends KoLFrame
 	{
 		protected void handleInternalLink( String location )
 		{
+			if ( location.startsWith( "makeoffer.php" ) )
+			{
+				SwingUtilities.invokeLater( new CreateFrameRunnable( PendingTradesFrame.class ) );
+				return;
+			}
+
 			String [] locationSplit = location.split( "[=_]" );
 
 			// First, determine the parameters inside of the
 			// location which will be passed to frame classes.
 
-			Object [] parameters = new Object[2];
-			parameters[0] = client;
-			parameters[1] = client.getPlayerName( locationSplit[1] );
+			Object [] parameters = new Object[] { client, client.getPlayerName( locationSplit[1] ) };
 
 			// Next, determine the option which had been
 			// selected in the link-click.
@@ -456,11 +460,6 @@ public class ChatFrame extends KoLFrame
 	 */
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[2];
-		parameters[0] = null;
-		parameters[1] = null;
-
-		(new CreateFrameRunnable( ChatFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( ChatFrame.class )).run();
 	}
 }

@@ -55,12 +55,4 @@ public class CouncilFrame extends RequestFrame
 		return super.getDisplayHTML( responseText ).replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ).replaceFirst(
 			"table width=95%", "table width=100%" );
 	}
-
-	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( CouncilFrame.class, parameters )).run();
-	}
 }

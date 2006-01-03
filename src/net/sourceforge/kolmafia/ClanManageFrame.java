@@ -782,10 +782,6 @@ public class ClanManageFrame extends KoLFrame
 	}
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( ClanManageFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( ClanManageFrame.class )).run();
 	}
 }

@@ -141,10 +141,6 @@ public class MushroomFrame extends KoLFrame
 	}
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( MushroomFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( MushroomFrame.class )).run();
 	}
 }

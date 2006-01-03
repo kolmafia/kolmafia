@@ -214,7 +214,7 @@ public class CommandDisplayFrame extends KoLFrame
 			}
 		}
 	}
-	
+
 	/**
 	 * The main method used in the event of testing the way the
 	 * user interface looks.  This allows the UI to be tested
@@ -222,10 +222,6 @@ public class CommandDisplayFrame extends KoLFrame
 	 */
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( CommandDisplayFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( CommandDisplayFrame.class )).run();
 	}
 }

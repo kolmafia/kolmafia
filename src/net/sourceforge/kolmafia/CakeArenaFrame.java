@@ -280,10 +280,6 @@ public class CakeArenaFrame extends KoLFrame
 	}
 
 	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( CakeArenaFrame.class, parameters )).run();
+	{	(new CreateFrameRunnable( CakeArenaFrame.class )).run();
 	}
 }
