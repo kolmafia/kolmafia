@@ -70,6 +70,8 @@ public abstract class LabeledScrollPanel extends ActionPanel
 		centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
+		JComponentUtilities.setComponentSize( centerPanel, 560, 400 );
+
 		buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText );
 		buttonPanel.setBothDisabledOnClick( true );
 
