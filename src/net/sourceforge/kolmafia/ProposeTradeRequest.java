@@ -41,6 +41,7 @@ package net.sourceforge.kolmafia;
 
 public class ProposeTradeRequest extends SendMessageRequest
 {
+	private boolean isCounterOffer;
 	private String recipient, message;
 
 	public ProposeTradeRequest( KoLmafia client )
@@ -57,6 +58,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 		addFormField( "offermeat", String.valueOf( meatAttachment ) );
 
 		this.message = message;
+		this.isCounterOffer = true;
 		this.recipient = client.getPlayerID( recipient );
 	}
 
@@ -70,6 +72,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 		addFormField( "offermeat", String.valueOf( meatAttachment ) );
 
 		this.message = message;
+		this.isCounterOffer = false;
 		this.recipient = client.getPlayerID( recipient );
 	}
 
@@ -96,6 +99,10 @@ public class ProposeTradeRequest extends SendMessageRequest
 	public void run()
 	{
 		super.run();
+
+		if ( responseCode != 200 )
+			return;
+
 		responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}
 }
