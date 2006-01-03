@@ -1245,6 +1245,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private boolean testConditional( String parameters )
 	{
+		if ( !scriptRequestor.permitsContinue() )
+			return false;
 
 		String operator = parameters.indexOf( "==" ) != -1 ? "==" : parameters.indexOf( "!=" ) != -1 ? "!=" :
 			parameters.indexOf( ">=" ) != -1 ? ">=" : parameters.indexOf( "<=" ) != -1 ? "<=" :
