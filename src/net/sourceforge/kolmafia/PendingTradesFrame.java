@@ -72,7 +72,7 @@ public class PendingTradesFrame extends RequestFrame
 			parameters[1] = location.substring( location.lastIndexOf( "=" ) + 1 );
 
 			(new CreateFrameRunnable( ProposeTradeFrame.class, parameters )).run();
-			return;
+			dispose();
 		}
 	}
 }
