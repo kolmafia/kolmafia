@@ -64,6 +64,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -73,6 +74,10 @@ import javax.swing.JOptionPane;
 import java.util.Date;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+
+import java.io.BufferedReader;
+import java.io.PrintStream;
+import java.io.FileOutputStream;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -95,8 +100,6 @@ public class AdventureFrame extends KoLFrame
 	private JTabbedPane tabs;
 	private AdventureSelectPanel adventureSelect;
 	private MallSearchPanel mallSearch;
-	private RestoreOptionsPanel restoration;
-	private ChoiceOptionsPanel choices;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -115,19 +118,19 @@ public class AdventureFrame extends KoLFrame
 
 		this.adventureSelect = new AdventureSelectPanel();
 		this.mallSearch = new MallSearchPanel();
-		this.restoration = new RestoreOptionsPanel();
-		this.choices = new ChoiceOptionsPanel();
 
-		tabs.addTab( "Adventure Select", adventureSelect );
-		tabs.addTab( "Mall of Loathing", mallSearch );
+		tabs.addTab( "Adventure", adventureSelect );
+		tabs.addTab( "Purchases", mallSearch );
 
-		JScrollPane restoreScroller = new JScrollPane( restoration, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JScrollPane restoreScroller = new JScrollPane( new RestoreOptionsPanel(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
-		tabs.addTab( "Auto-Restoration", restoreScroller );
+		tabs.addTab( "Auto-Restore", restoreScroller );
 
-		JScrollPane choiceScroller = new JScrollPane( choices, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JScrollPane choiceScroller = new JScrollPane( new ChoiceOptionsPanel(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( choiceScroller, 560, 400 );
-		tabs.addTab( "Choice Handling", choiceScroller );
+		tabs.addTab( "Choice Handler", choiceScroller );
+
+		tabs.addTab( "Custom Combat", new CustomCombatPanel() );
 
 		addCompactPane();
 		framePanel.add( tabs, BorderLayout.CENTER );
@@ -206,12 +209,10 @@ public class AdventureFrame extends KoLFrame
 	{
 		this.isEnabled = isEnabled && (client == null || !BuffBotHome.isBuffBotActive());
 
-		if ( choices != null )
+		if ( mallSearch != null )
 		{
 			adventureSelect.setEnabled( this.isEnabled );
 			mallSearch.setEnabled( this.isEnabled );
-			restoration.setEnabled( this.isEnabled );
-			choices.setEnabled( this.isEnabled );
 		}
 	}
 
@@ -1053,6 +1054,57 @@ public class AdventureFrame extends KoLFrame
 				case 4:		// Ignore this adventure
 					castleWheelSelect.setSelectedIndex(4);
 					break;
+			}
+		}
+	}
+
+	/**
+	 * Internal class used to handle everything related to
+	 * operating the buffbot.
+	 */
+
+	private class CustomCombatPanel extends LabeledScrollPanel
+	{
+		public CustomCombatPanel()
+		{
+			super( "Custom Combat", "apply", "clear", new JTextArea() );
+			CombatSettings.getCurrent();
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			try
+			{
+				PrintStream writer = new PrintStream( new FileOutputStream( "~" + KoLCharacter.getUsername() + ".ccs" ) );
+				writer.println( ((JTextArea)scrollComponent).getText() );
+				writer.close();
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+
+		protected void actionCancelled()
+		{
+			try
+			{
+				BufferedReader reader = KoLDatabase.getReader( "~" + KoLCharacter.getUsername() + ".ccs" );
+				StringBuffer buffer = new StringBuffer();
+
+				String line;
+
+				while ( (line = reader.readLine()) != null )
+				{
+					buffer.append( line );
+					buffer.append( System.getProperty( "line.separator" ) );
+				}
+
+				reader.close();
+				((JTextArea)scrollComponent).setText( buffer.toString() );
+			}
+			catch ( Exception e )
+			{
 			}
 		}
 	}

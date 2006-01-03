@@ -67,8 +67,8 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 
 	public static final CombatSettings getCurrent()
 	{
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			INSTANCE = new CombatSettings( KoLCharacter.getUsername() );
+		if ( characterName.equals( "" ) || !characterName.equals( KoLCharacter.getUsername() ) )
+			INSTANCE = new CombatSettings();
 
 		return INSTANCE;
 	}
@@ -82,14 +82,14 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 	 * @param	characterName	The name of the character this settings file represents
 	 */
 
-	private CombatSettings( String characterName )
+	private CombatSettings()
 	{
-		this.characterName = characterName;
+		this.characterName = KoLCharacter.getUsername();
 		String noExtensionName = characterName.replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase();
 		this.settingsFile = new File( DATA_DIRECTORY + "~" + noExtensionName + ".ccs" );
 
 		ensureDefaults();
-		loadSettings( this.settingsFile );
+		loadSettings();
 		saveSettings();
 	}
 
@@ -111,27 +111,20 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	private void loadSettings( File source )
+	private void loadSettings()
 	{
 		try
 		{
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			if ( !source.exists() )
+			if ( !this.settingsFile.exists() )
 			{
-				source.getParentFile().mkdirs();
-				source.createNewFile();
-
-				// Then, store the results into the designated
-				// file by calling the appropriate subroutine.
-
-				if ( source != settingsFile )
-					storeSettings( source );
+				this.settingsFile.getParentFile().mkdirs();
+				this.settingsFile.createNewFile();
 			}
 
-			BufferedReader reader = new BufferedReader(
-				new InputStreamReader( new FileInputStream( source ) ) );
+			BufferedReader reader = new BufferedReader( new InputStreamReader( new FileInputStream( this.settingsFile ) ) );
 
 			String line;
 			String currentKey = "";
@@ -148,13 +141,13 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 				}
 				else if ( line.length() != 0 )
 					currentList.add( line );
-
-				keys = new String[ keySet().size() ];
-				keySet().toArray( keys );
 			}
 
 			reader.close();
 			reader = null;
+
+			keys = new String[ keySet().size() ];
+			keySet().toArray( keys );
 		}
 		catch ( IOException e1 )
 		{
@@ -169,8 +162,8 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 			// means that they will have to be created after
 			// the current file is deleted.
 
-			source.delete();
-			loadSettings( source );
+			this.settingsFile.delete();
+			loadSettings();
 		}
 	}
 
@@ -185,7 +178,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		// The remaining settings are not related to choice
 		// adventures and require no special handling.
 
-		ensureProperty( "default", "attack" );
+		ensureProperty( "* default *", "attack" );
 
 		ensureProperty( "giant skeelton", "skill disco face stab; moxman" );
 		ensureProperty( "huge ghuol", "giant skeelton" );
@@ -200,7 +193,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		ensureProperty( "anime smiley", "1335 haxx0r" );
 		ensureProperty( "flaming troll", "1335 haxx0r" );
 		ensureProperty( "lamz0r n00b", "1335 haxx0r" );
-		ensureProperty( "me4t begZ0r", "1335 haxx0r" );
+		ensureProperty( "me4t begz0r", "1335 haxx0r" );
 		ensureProperty( "spam witch", "1335 haxx0r" );
 		ensureProperty( "xxx pr0n", "1335 haxx0r" );
 
@@ -242,7 +235,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		try
 		{
 			PrintStream writer = new PrintStream( new FileOutputStream( destination ) );
-			
+
 			ArrayList combatOptions;
 			String [] combatOptionsArray;
 			for ( int i = 0; i < keys.length; ++i )
@@ -252,7 +245,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 				combatOptions = (ArrayList) get( keys[i] );
 				combatOptionsArray = new String[ combatOptions.size() ];
 				combatOptions.toArray( combatOptionsArray );
-				
+
 				for ( int j = 0; j < combatOptionsArray.length; ++j )
 					writer.println( combatOptionsArray[j] );
 
@@ -273,7 +266,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 	public String getSetting( String encounter, int roundCount )
 	{
 		if ( encounter.equals( "" ) )
-			return getSetting( "default", roundCount );
+			return getSetting( "* default *", roundCount );
 
 		// Allow for longer matches (closer to exact matches)
 		// by tracking the length of the match.
@@ -298,7 +291,7 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 		// will definitely be a match.
 
 		if ( longestMatch == -1 )
-			return getSetting( "default", roundCount );
+			return getSetting( "* default *", roundCount );
 
 		// Otherwise, you have a tactic for this round against
 		// the given monster.  Return that tactic.
@@ -308,6 +301,6 @@ public class CombatSettings extends TreeMap implements UtilityConstants
 
 		return setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "item" ) ||
 			setting.startsWith( "skill" ) ? setting : getSetting( setting, roundCount - match.size() + 1 );
-		
+
 	}
 }
