@@ -68,12 +68,14 @@ public class TinkerRequest extends ItemCreationRequest
 
 		makeIngredients();
 
+		if ( !client.permitsContinue() )
+			return;
+
 		int quantity = getQuantityNeeded();
 
 		// Disable controls
 		updateDisplay( DISABLE_STATE, "Creating " + quantity + " " + getName() + "..." );
 		addFormField( "qty", String.valueOf( quantity ) );
-		// addFormField( "makeall", "off" );
 
 		// Run the request
 		super.run();

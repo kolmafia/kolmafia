@@ -68,6 +68,9 @@ public class StarChartRequest extends ItemCreationRequest
 
 		makeIngredients();
 
+		if ( !client.permitsContinue() )
+			return;
+
 		// Intermediate variables so you don't constantly
 		// instantiate new adventure results each time you
 		// create the item.

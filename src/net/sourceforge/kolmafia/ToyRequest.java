@@ -52,6 +52,10 @@ public class ToyRequest extends ItemCreationRequest
 		// pixels if they are not currently available.
 
 		makeIngredients();
+
+		if ( !client.permitsContinue() )
+			return;
+
 		int quantity = getQuantityNeeded();
 
 		// Disable controls

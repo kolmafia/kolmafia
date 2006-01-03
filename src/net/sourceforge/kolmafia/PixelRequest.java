@@ -55,6 +55,9 @@ public class PixelRequest extends ItemCreationRequest
 		makeIngredients();
 		int quantity = getQuantityNeeded();
 
+		if ( !client.permitsContinue() )
+			return;
+
 		// Disable controls
 		updateDisplay( DISABLE_STATE, "Creating " + quantity + " " + getName() + "..." );
 		addFormField( "quantity", String.valueOf( quantity ) );
