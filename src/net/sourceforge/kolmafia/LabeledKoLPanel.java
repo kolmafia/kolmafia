@@ -59,7 +59,7 @@ public abstract class LabeledKoLPanel extends KoLPanel
 
 	public LabeledKoLPanel( String panelTitle, Dimension left, Dimension right )
 	{
-		super( left, right );
+		super( left, right, true );
 		this.panelTitle = panelTitle;
 	}
 

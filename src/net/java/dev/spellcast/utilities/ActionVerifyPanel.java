@@ -82,6 +82,10 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	{	this( null, null, labelSize, fieldSize, false );
 	}
 
+	public ActionVerifyPanel( Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
+	{	this( null, null, labelSize, fieldSize, isCenterPanel );
+	}
+
 	public ActionVerifyPanel( String confirmedText, String cancelledText )
 	{	this( confirmedText, cancelledText, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
 	}
@@ -296,7 +300,7 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 			if ( buttonPanel == null )
 				addListeners( inputField );
 		}
-		
+
 		private void addListeners( JComponent c )
 		{
 			try
@@ -308,12 +312,12 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 				{
 					c.getClass().getMethod( "addActionListener", ACTIONS ).invoke( c, thisArray );
 				}
-				
+
 				else if ( c instanceof JTextField || c instanceof JPasswordField )
 				{
 					c.getClass().getMethod( "addFocusListener", FOCUSES ).invoke( c, thisArray );
 				}
-				
+
 				else
 				{
 					for ( int i = 0; i < c.getComponentCount(); ++i )

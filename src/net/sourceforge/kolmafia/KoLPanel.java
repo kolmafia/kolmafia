@@ -49,6 +49,10 @@ public abstract class KoLPanel extends ActionVerifyPanel
 	{	super( labelSize, fieldSize );
 	}
 
+	protected KoLPanel( Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
+	{	super( labelSize, fieldSize, isCenterPanel );
+	}
+
 	protected KoLPanel( String confirmedText, String cancelledText )
 	{
 		super( confirmedText, cancelledText );
