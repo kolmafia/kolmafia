@@ -774,7 +774,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// doing their chatting, then make sure to append the
 		// channel with the appropriate color.
 
-		if ( chattingStyle == 2 && channel.startsWith( "[" ) )
+		if ( getBufferKey( channel ).startsWith( "[" ) )
 			displayHTML = "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " + displayHTML;
 
 		// Now that everything has been properly formatted,
