@@ -1684,6 +1684,17 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method to look up whether or not the character can
+	 * summon snowcones
+	 *
+	 * @return	<code>true</code> if snowcones can be summoned by this character
+	 */
+
+	public static boolean canSummonSnowcones()
+	{	return hasSkill( "Summon Snowcone" );
+	}
+
+	/**
+	 * Accessor method to look up whether or not the character can
 	 * smith weapons.
 	 *
 	 * @return	<code>true</code> if this character can smith advanced weapons

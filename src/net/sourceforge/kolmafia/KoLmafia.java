@@ -385,6 +385,11 @@ public abstract class KoLmafia implements KoLConstants
 			(new UseSkillRequest( this, "Advanced Cocktailcrafting", "", 3 )).run();
 
 		resetContinueState();
+
+		if ( KoLCharacter.canSummonSnowcones() )
+			(new UseSkillRequest( this, "Summon Snowcone", "", 1 )).run();
+
+		resetContinueState();
 		updateDisplay( ENABLE_STATE, "Breakfast retrieved." );
 	}
 
@@ -997,7 +1002,7 @@ public abstract class KoLmafia implements KoLConstants
 		boolean hadResults = false;
 		logStream.println( "Processing results..." );
 
-		if ( results.indexOf( "gains a pound!</b>" ) != -1 )
+		if ( results.indexOf( "gains a pound" ) != -1 )
 		{
 			KoLCharacter.incrementFamilarWeight();
 			hadResults = true;
