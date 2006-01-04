@@ -168,6 +168,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "boxes of wine" ) )
 			return 1005;
 
+		// Yo-yos are pluralized in a very strange way as
+		// well, and require special handling.
+
+		if ( canonicalName.equals( "yo-yo-yo" ) )
+			return 1389;
+
 		// Mr. Accessory Jrs. are also pluralized in an
 		// unconventional manner (slightly, anyway)
 
