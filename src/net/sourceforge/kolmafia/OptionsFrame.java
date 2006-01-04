@@ -125,6 +125,7 @@ public class OptionsFrame extends KoLFrame
 		JPanel chatContainer = new JPanel();
 		chatContainer.setLayout( new BoxLayout( chatContainer, BoxLayout.Y_AXIS ) );
 		chatContainer.add( new ChatOptionsPanel() );
+		chatContainer.add( new ESoluScriptPanel() );
 		chatContainer.add( new ChatColorsPanel() );
 		chatContainer.add( new JPanel() );
 
@@ -328,12 +329,11 @@ public class OptionsFrame extends KoLFrame
 			eSoluSelect.addItem( "Blue message nameclicks only" );
 			eSoluSelect.addItem( "Use eSolu scriptlet chat links" );
 
-			VerifiableElement [] elements = new VerifiableElement[5];
+			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Chat Logs: ", autoLogSelect );
 			elements[1] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[2] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
 			elements[3] = new VerifiableElement( "Windowing: ", useTabsSelect );
-			elements[4] = new VerifiableElement( "eSolu Script: ", eSoluSelect );
 
 			setContent( elements );
 			actionCancelled();
@@ -350,7 +350,6 @@ public class OptionsFrame extends KoLFrame
 
 			setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
 			setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
-			setProperty( "eSoluScriptlet", String.valueOf( eSoluSelect.getSelectedIndex() == 1 ) );
 
 			super.actionConfirmed();
 		}
@@ -363,7 +362,47 @@ public class OptionsFrame extends KoLFrame
 
 			chatStyleSelect.setSelectedIndex( Integer.parseInt( getProperty( "chatStyle" ) ) );
 			useTabsSelect.setSelectedIndex( Integer.parseInt( getProperty( "useTabbedChat" ) ) );
-			eSoluSelect.setSelectedIndex( getProperty( "eSoluScriptlet" ).equals( "true" ) ? 1 : 0 );
+		}
+	}
+
+	private class ESoluScriptPanel extends LabeledKoLPanel
+	{
+		private JCheckBox [] options;
+
+		public ESoluScriptPanel()
+		{
+			super( "eSolu Scriptlet", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+
+			options = new JCheckBox[ KoLMessenger.ESOLU_OPTIONS.length ];
+
+			for ( int i = 0; i < options.length; ++i )
+				options[i] = new JCheckBox();
+
+			VerifiableElement [] elements = new VerifiableElement[ KoLMessenger.ESOLU_OPTIONS.length ];
+
+			for ( int i = 0; i < options.length; ++i )
+				elements[i] = new VerifiableElement( KoLMessenger.ESOLU_OPTIONS[i], JLabel.LEFT, options[i] );
+
+			setContent( elements, false );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			StringBuffer active = new StringBuffer();
+
+			for ( int i = 0; i < options.length; ++i )
+				if ( options[i].isSelected() )
+					active.append( i );
+
+			setProperty( "eSoluScript", active.toString() );
+		}
+
+		protected void actionCancelled()
+		{
+			String active = getProperty( "eSoluScript" );
+			for ( int i = 0; i < options.length; ++i )
+				options[i].setSelected( active.indexOf( String.valueOf(i) ) != -1 );
 		}
 	}
 

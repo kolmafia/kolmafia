@@ -189,7 +189,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "cloverProtectActive", "true" );
 		ensureProperty( "createWithoutBoxServants", "false" );
 		ensureProperty( "defaultLimit", "13" );
-		ensureProperty( "eSoluScriptlet", "false" );
+		ensureProperty( "eSoluScript", "" );
 		ensureProperty( "finishInBrowser", "false" );
 		ensureProperty( "fontSize", "3" );
 		ensureProperty( "forceReconnect", "false" );

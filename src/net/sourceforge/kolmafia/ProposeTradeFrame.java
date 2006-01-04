@@ -80,8 +80,7 @@ public class ProposeTradeFrame extends SendMessageFrame
 
 		Object [] parameters = new Object[2];
 		parameters[0] = client;
-		parameters[1] = offerID != null ? new ProposeTradeRequest( client ) :
-			new ProposeTradeRequest( client, recipient, messages[0], getAttachedItems(), getAttachedMeat() );
+		parameters[1] = new ProposeTradeRequest( client, recipient, messages[0], getAttachedItems(), getAttachedMeat() );
 
 		(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
 		return true;

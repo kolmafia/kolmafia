@@ -100,6 +100,13 @@ public abstract class SendMessageFrame extends KoLFrame
 
 		centerPanel.add( constructWestPanel(), BorderLayout.WEST );
 
+		if ( !recipient.equals( "" ) )
+		{
+			recipientEntry.addItem( recipient );
+			recipientEntry.getEditor().setItem( recipient );
+			recipientEntry.setSelectedItem( recipient );
+		}
+
 		JPanel attachmentPanel = new JPanel();
 		attachmentPanel.setLayout( new BorderLayout( 10, 10 ) );
 

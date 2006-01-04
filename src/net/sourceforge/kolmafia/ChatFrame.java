@@ -63,6 +63,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JFileChooser;
+import javax.swing.JComboBox;
 
 // other imports
 import java.util.List;
@@ -80,6 +81,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ChatFrame extends KoLFrame
 {
 	private ChatPanel mainPanel;
+	private JComboBox nameClickSelect;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code>.
@@ -102,6 +104,9 @@ public class ChatFrame extends KoLFrame
 		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
 
+		// Add the standard chat options which the user
+		// simply clicks on for functionality.
+
 		toolbarPanel.add( new MessengerButton( "Clear All", "clear.gif", "clearChatBuffers" ) );
 
 		toolbarPanel.add( new JToolBar.Separator() );
@@ -117,6 +122,21 @@ public class ChatFrame extends KoLFrame
 		toolbarPanel.add( new JToolBar.Separator() );
 
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
+
+		toolbarPanel.add( new JToolBar.Separator() );
+
+		// Add the name click options as a giant combo
+		// box, rather than a hidden menu.
+
+		nameClickSelect = new JComboBox();
+		nameClickSelect.addItem( "Name click shows player profile" );
+		nameClickSelect.addItem( "Name click opens blue message" );
+		nameClickSelect.addItem( "Name click opens green message" );
+		nameClickSelect.addItem( "Name click opens gift message" );
+		nameClickSelect.addItem( "Name click opens trade message" );
+
+		toolbarPanel.add( nameClickSelect );
+		nameClickSelect.setSelectedIndex(0);
 
 		// Set the default size so that it doesn't appear super-small
 		// when it's first constructed
@@ -164,8 +184,7 @@ public class ChatFrame extends KoLFrame
 			chatDisplay.setEditable( false );
 			this.associatedContact = associatedContact;
 
-			if ( !associatedContact.startsWith( "[" ) )
-				chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
+			chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
 
 			scrollPane = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -420,16 +439,38 @@ public class ChatFrame extends KoLFrame
 
 			int linkOption = locationSplit.length == 2 ? 0 : Integer.parseInt( locationSplit[2] );
 
-			Class frameClass = linkOption == 2 ? GreenMessageFrame.class :
-				linkOption == 3 ? GiftMessageFrame.class : ProfileFrame.class;
+			if ( linkOption == 0 )
+				linkOption = nameClickSelect.getSelectedIndex();
+
+			Class frameClass;
+
+			switch ( linkOption )
+			{
+				case 1:
+					KoLMessenger.openInstantMessage( (String) parameters[1] );
+					return;
+
+				case 2:
+					frameClass = GreenMessageFrame.class;
+					break;
+
+				case 3:
+					frameClass = GiftMessageFrame.class;
+					break;
+
+				case 4:
+					frameClass = ProposeTradeFrame.class;
+					break;
+
+				default:
+					frameClass = ProfileFrame.class;
+					break;
+			}
 
 			// Now, determine what needs to be done based
 			// on the link option.
 
-			if ( getProperty( "eSoluScriptlet" ).equals( "false" ) || linkOption == 1 )
-				KoLMessenger.openInstantMessage( (String) parameters[1] );
-			else
-				SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
+			SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
 		}
 	}
 

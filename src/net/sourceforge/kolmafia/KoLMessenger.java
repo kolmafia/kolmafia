@@ -60,7 +60,12 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static final String [] ROOMS =
 	{
-		"newbie", "normal", "trade", "clan", "games", "villa", "radio", "pvp", "haiku", "foodcourt", "valhalla", "hardcore"
+		"newbie", "normal", "trade", "clan", "games", "villa", "radio", "pvp", "haiku", "foodcourt", "valhalla", "hardcore", "veteran"
+	};
+
+	public static final String [] ESOLU_OPTIONS =
+	{
+		"Use gray links instead of color links", "Add blue message link", "Add green message link", "Add gift message link", "Add trade message link"
 	};
 
 	private static boolean isRunning = false;
@@ -282,7 +287,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static String getBufferKey( String contact )
 	{
 		return contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
-			chattingStyle != 0 && !contact.startsWith( "/" ) ? "/reply" : chattingStyle == 2 && contact.startsWith( "/" ) ? "[chat]" : contact;
+			chattingStyle == 1 && !contact.startsWith( "/" ) ? "[blues]" : chattingStyle == 2 && contact.startsWith( "/" ) ? "[chat]" : contact;
 	}
 
 	/**
@@ -669,16 +674,46 @@ public abstract class KoLMessenger extends StaticEntity
 
 		String displayHTML = null;
 
-		if ( getProperty( "eSoluScriptlet" ).equals( "true" ) )
+		String eSoluConfiguration = getProperty( "eSoluScript" );
+		if ( !eSoluConfiguration.equals( "" ) )
 		{
 			Matcher whoMatcher = Pattern.compile( "showplayer.php\\?who=[\\d]+" ).matcher( message );
 			if ( whoMatcher.find() )
 			{
 				String link = whoMatcher.group();
-				message = message.replaceFirst( "</b>", "</b> " +
-					"<a href=\"" + link + "_1\"><font color=blue>[p]</font></a>" +
-					"<a href=\"" + link + "_2\"><font color=green>[k]</font></a>" +
-					"<a href=\"" + link + "_3\"><font color=purple>[g]</font></a>" );
+
+				boolean useColors = getProperty( "eSoluScript" ).indexOf( "0" ) != -1;
+
+				StringBuffer linkBuffer = new StringBuffer();
+
+				linkBuffer.append( "</b> " );
+
+				if ( eSoluConfiguration.indexOf( "1" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_1\">" );
+					linkBuffer.append( useColors ? "<font color=blue>" : "<font color=gray>" );
+					linkBuffer.append( "[p]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "2" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_2\">" );
+					linkBuffer.append( useColors ? "<font color=green>" : "<font color=gray>" );
+					linkBuffer.append( "[k]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "3" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_3\">" );
+					linkBuffer.append( useColors ? "<font color=purple>" : "<font color=gray>" );
+					linkBuffer.append( "[g]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "4" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_4\">" );
+					linkBuffer.append( useColors ? "<font color=orange>" : "<font color=gray>" );
+					linkBuffer.append( "[t]</font></a>" );
+				}
+
+				message = message.replaceFirst( "</b>", linkBuffer.toString() );
 			}
 		}
 
@@ -692,6 +727,21 @@ public abstract class KoLMessenger extends StaticEntity
 			displayHTML = "<font color=green>" + message + "</font>";
 
 		else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
+			displayHTML = "<font color=green>" + message + "</font>";
+
+		else if ( message.indexOf( "has proposed a trade" ) != -1 )
+			displayHTML = "<font color=green>" + message + "</font>";
+
+		else if ( message.indexOf( "has cancelled a trade" ) != -1 )
+			displayHTML = "<font color=green>" + message + "</font>";
+
+		else if ( message.indexOf( "has responded to a trade" ) != -1 )
+			displayHTML = "<font color=green>" + message + "</font>";
+
+		else if ( message.indexOf( "has declined a trade" ) != -1 )
+			displayHTML = "<font color=green>" + message + "</font>";
+
+		else if ( message.indexOf( "has accepted a trade" ) != -1 )
 			displayHTML = "<font color=green>" + message + "</font>";
 
 		// Then, private messages resulting from a /last command
@@ -724,7 +774,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// doing their chatting, then make sure to append the
 		// channel with the appropriate color.
 
-		if ( chattingStyle == 2 )
+		if ( chattingStyle == 2 && channel.startsWith( "[" ) )
 			displayHTML = "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " + displayHTML;
 
 		// Now that everything has been properly formatted,
@@ -733,7 +783,7 @@ public abstract class KoLMessenger extends StaticEntity
 		buffer.append( displayHTML + "<br>" );
 
 		if ( useTabbedFrame )
-			tabbedFrame.highlightTab( channel );
+			tabbedFrame.highlightTab( getBufferKey( channel ) );
 	}
 
 	/**
@@ -748,7 +798,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		for ( int i = 0; i < ROOMS.length; ++i )
 			if ( ROOMS[i].equals( channel ) )
-				return colors.length < i ? colors[i] : "black";
+				return i < colors.length ? colors[i] : "black";
 
 		return "black";
 	}
