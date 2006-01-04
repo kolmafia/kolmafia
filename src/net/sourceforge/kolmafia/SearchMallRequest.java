@@ -253,7 +253,7 @@ public class SearchMallRequest extends KoLRequest
 		int startIndex = responseText.indexOf( "Search Results:" );
 		String storeListResult = responseText.substring( startIndex == -1 ? 0 : startIndex );
 		String plainTextResult = storeListResult.replaceAll( "<br>", " " ).replaceAll( "</?b>", "\n" ).replaceAll(
-			"</?p>", "" ).replaceAll( "</c.*?>", "" ).replaceAll( "</?t.*?>", "\n" ).replaceAll( "</a>", "\n" );
+			"</?p>", "" ).replaceAll( "</c.*?>", "" ).replaceAll( "<tr><td style", "\n...\n<tr><td style" ).replaceAll( "</?t.*?>", "\n" ).replaceAll( "</a>", "\n" );
 
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
 
@@ -278,9 +278,16 @@ public class SearchMallRequest extends KoLRequest
 		while ( parsedResults.countTokens() > 1 )
 		{
 			boolean canPurchase = true;
+
 			// The first token contains the item name
 
 			String itemName = parsedResults.nextToken().trim();
+
+			if ( itemName.equals( "..." ) )
+			{
+				canPurchase = false;
+				itemName = parsedResults.nextToken().trim();
+			}
 
 			if ( !itemName.equals( lastItemName ) )
 			{
