@@ -420,7 +420,7 @@ public class StoreManageFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				StoreManager.searchMall( itemName.getText(), priceSummary );
+				StoreManager.searchMall( TradeableItemDatabase.getItemName( itemID ), priceSummary );
 				searchLabel.setText( itemName.getText() );
 			}
 		}

@@ -194,16 +194,19 @@ public abstract class StoreManager extends StaticEntity
 			// substring consisting of everything after
 			// the ntilde;
 
-			if ( itemName.indexOf( "&ntilde;" ) != -1 )
-				itemName = itemName.substring( itemName.indexOf( ";" ) + 1 );
+			if ( itemName.indexOf( "\u00f1" ) != -1 )
+				itemName = itemName.substring( itemName.indexOf( "\u00f1" ) + 1 );
 
 			// For items with the trademark character, a
 			// perfect match is available if you use the
 			// substring consisting of everything before
 			// the trademark character
 
-			else if ( itemName.indexOf( "&trade;" ) != -1 )
-				itemName = itemName.substring( 0, itemName.indexOf( "&" ) );
+			else if ( itemName.indexOf( "\u2122" ) != -1 )
+				itemName = itemName.substring( 0, itemName.indexOf( "\u2122" ) );
+
+			else if ( itemName.indexOf( "\u00e9" ) != -1 )
+				itemName = itemName.substring( 0, itemName.indexOf( "\u00e9" ) );
 
 			// All items with double quotes can be matched
 			// by searching on everything before the double

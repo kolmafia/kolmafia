@@ -371,20 +371,22 @@ public class TradeableItemDatabase extends KoLDatabase
 	public static final boolean isUsable( String itemName )
 	{
 		int itemID = getItemID( itemName );
+
 		if ( itemID < 1 )
 			return false;
+
 		switch ( consumptionID[ itemID ] )
 		{
-		case ConsumeItemRequest.CONSUME_EAT:
-		case ConsumeItemRequest.CONSUME_DRINK:
-		case ConsumeItemRequest.CONSUME_USE:
-		case ConsumeItemRequest.CONSUME_MULTIPLE:
-		case ConsumeItemRequest.GROW_FAMILIAR:
-		case ConsumeItemRequest.CONSUME_ZAP:
-		case ConsumeItemRequest.CONSUME_RESTORE:
-			return true;
-		default:
-			return false;
+			case ConsumeItemRequest.CONSUME_EAT:
+			case ConsumeItemRequest.CONSUME_DRINK:
+			case ConsumeItemRequest.CONSUME_USE:
+			case ConsumeItemRequest.CONSUME_MULTIPLE:
+			case ConsumeItemRequest.GROW_FAMILIAR:
+			case ConsumeItemRequest.CONSUME_ZAP:
+			case ConsumeItemRequest.CONSUME_RESTORE:
+				return true;
+			default:
+				return false;
 		}
 	}
 
