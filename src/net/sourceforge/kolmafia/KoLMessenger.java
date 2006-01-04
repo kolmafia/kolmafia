@@ -297,33 +297,58 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void removeChat( String contact )
 	{
-		synchronized ( existingFrames )
+		if ( contact == null || contact.equals( "" ) )
+			return;
+
+		// What you're removing is not the channel, but the
+		// key associated with that channel.
+
+		contact = getBufferKey( contact );
+
+		// If this key does not exist, then go ahead and try
+		// to remove the key.
+
+		if ( !instantMessageFrames.containsKey( contact ) )
+			return;
+
+		ChatFrame removedFrame = (ChatFrame) instantMessageFrames.remove( contact );
+		LimitedSizeChatBuffer removedBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.remove( contact );
+
+		// Make sure you close any active logging on the channel
+		// as well as dispose of the frame so that KoLmafia can
+		// return to the login screen properly.
+
+		removedBuffer.closeActiveLogFile();
+		removedFrame.setVisible( false );
+		removedFrame.dispose();
+
+		// If chat is no longer running, you don't have to do
+		// anything more.
+
+		if ( !isRunning )
+			return;
+
+		// If you're leaving the channel that you are currently
+		// talking in, then this is equivalent to exiting chat.
+
+		if ( contact.equals( currentChannel ) )
 		{
-			if ( contact == null )
-				return;
+			// When you exit chat, you go ahead and remove all
+			// of the chat pannels from the listener lists.
 
-			ChatFrame removedFrame = (ChatFrame) instantMessageFrames.remove( contact );
+			KoLMessenger.dispose();
 
-			if ( removedFrame == null )
-				return;
+			String [] channels = new String[ instantMessageFrames.keySet().size() ];
+			instantMessageFrames.keySet().toArray( channels );
 
-			LimitedSizeChatBuffer removedBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.remove( contact );
+			for ( int i = 0; i < channels.length; ++i )
+				removeChat( channels[i] );
 
-			if ( contact.equals( currentChannel ) )
-			{
-				(new RequestThread( new ChatRequest( client, currentChannel, "/exit" ) )).start();
-				currentChannel = "";
-				dispose();
-				return;
-			}
-
-			if ( !currentChannel.equals( "" ) && contact.startsWith( "/" ) && !removedFrame.getTitle().endsWith( "(inactive)" ) )
-				(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
-
-			removedFrame.setVisible( false );
-			removedFrame.dispose();
-			removedBuffer.closeActiveLogFile();
+			return;
 		}
+
+		else if ( contact.startsWith( "/" ) && !removedFrame.getTitle().endsWith( "(inactive)" ) )
+			(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
 	}
 
 	/**
@@ -341,9 +366,15 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static synchronized void dispose()
 	{
+		if ( !isRunning )
+			return;
+
 		isRunning = false;
-		while ( !instantMessageFrames.isEmpty() )
-			removeChat( (String) instantMessageFrames.firstKey() );
+
+		(new RequestThread( new ChatRequest( client, currentChannel, "/exit" ) )).start();
+		removeChat( currentChannel );
+
+		currentChannel = "";
 
 		if ( contactsFrame != null )
 		{
