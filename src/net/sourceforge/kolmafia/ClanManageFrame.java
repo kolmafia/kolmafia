@@ -150,18 +150,17 @@ public class ClanManageFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( clanBuff != null )
+		if ( search != null )
+		{
 			clanBuff.setEnabled( isEnabled );
-		if ( storing != null )
 			storing.setEnabled( isEnabled );
-		if ( withdrawal != null )
 			withdrawal.setEnabled( isEnabled );
-		if ( donation != null )
 			donation.setEnabled( isEnabled );
-		if ( warfare != null )
-			warfare.setEnabled( isEnabled );
-		if ( attacks != null )
 			attacks.setEnabled( isEnabled );
+			warfare.setEnabled( isEnabled );
+			snapshot.setEnabled( isEnabled );
+			search.setEnabled( isEnabled );
+		}
 	}
 
 	/**
@@ -748,7 +747,7 @@ public class ClanManageFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
-			setContent( elements, false );
+			setContent( elements, null, null, true, true );
 
 			String tableHeaderSetting = getProperty( "clanRosterHeader" );
 			for ( int i = 0; i < options.length; ++i )

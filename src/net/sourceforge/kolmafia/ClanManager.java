@@ -72,6 +72,8 @@ public class ClanManager extends StaticEntity
 	private static final String STASH_ADD = "add";
 	private static final String STASH_TAKE = "take";
 	private static final String WAR_BATTLE = "warfare";
+
+	private static final String CLAN_WHITELIST = "whitelist";
 	private static final String CLAN_ACCEPT = "accept";
 	private static final String CLAN_LEAVE = "leave";
 	private static final String CLAN_BOOT = "boot";
@@ -596,6 +598,7 @@ public class ClanManager extends StaticEntity
 			ostream.println( "\t." + STASH_ADD + " { color: green }" );
 			ostream.println( "\t." + STASH_TAKE + " { color: olive }" );
 			ostream.println( "\t." + WAR_BATTLE + " { color: orange }" );
+			ostream.println( "\t." + CLAN_WHITELIST + " { color: blue }" );
 			ostream.println( "\t." + CLAN_ACCEPT + " { color: blue }" );
 			ostream.println( "\t." + CLAN_LEAVE + " { color: red }" );
 			ostream.println( "\t." + CLAN_BOOT + " { color: red }" );
@@ -714,6 +717,7 @@ public class ClanManager extends StaticEntity
 			// Now, handle all of the administrative-related
 			// things in the clan.
 
+			handleAdmin( CLAN_WHITELIST, "was accepted into the clan \\(whitelist\\)", "", "auto-accepted through whitelist" );
 			handleAdmin( CLAN_ACCEPT, "accepted", " into the clan", "accepted by " );
 			handleAdmin( CLAN_LEAVE, "left the clan", "", "left clan" );
 			handleAdmin( CLAN_BOOT, "booted", "", "booted by " );
@@ -770,6 +774,8 @@ public class ClanManager extends StaticEntity
 					e.printStackTrace();
 				}
 			}
+
+			responseText = entryMatcher.replaceAll( "" );
 		}
 
 		private void handleBattles()
@@ -804,11 +810,13 @@ public class ClanManager extends StaticEntity
 					e.printStackTrace();
 				}
 			}
+
+			responseText = entryMatcher.replaceAll( "" );
 		}
 
 		private void handleAdmin( String entryType, String searchString, String suffixString, String descriptionString )
 		{
-			String regex = TIME_REGEX + ": ([^<]*?) " + searchString + " (.*?)" + suffixString + "\\.<br>";
+			String regex = TIME_REGEX + ": ([^<]*?) " + searchString + "(.*?)" + suffixString + "\\.?<br>";
 
 			List entryList;
 			String currentMember;
@@ -841,6 +849,8 @@ public class ClanManager extends StaticEntity
 					e.printStackTrace();
 				}
 			}
+
+			responseText = entryMatcher.replaceAll( "" );
 		}
 	}
 
