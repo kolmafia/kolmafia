@@ -538,8 +538,8 @@ public class ClanManager extends StaticEntity
 
 		try
 		{
-			List entryList;
-			StashLogEntry entry;
+			List entryList = null;
+			StashLogEntry entry = null;
 
 			if ( file.exists() )
 			{
@@ -555,21 +555,24 @@ public class ClanManager extends StaticEntity
 					{
 						if ( line.startsWith( " " ) )
 						{
+							currentMember = line.substring( 0, line.length() - 1 );
 							entryList = (List) stashMap.get( currentMember );
 							if ( entryList == null )
 							{
 								entryList = new ArrayList();
 								stashMap.put( currentMember, entryList );
 							}
-
+						}
+						else if ( line.length() > 0 && !line.startsWith( "<" ) )
+						{
+System.out.println( line );
 							entry = new StashLogEntry( line );
 							if ( !entryList.contains( entry ) )
 								entryList.add( entry );
 						}
-						else if ( line.length() > 0 && !line.startsWith( "<" ) )
-							currentMember = line.substring( 0, line.length() - 1 );
 					}
-					else if ( line.equals( "<!-- Begin Stash Log: Do Not Modify Beyond This Point -->" ) );
+					else if ( line.equals( "<!-- Begin Stash Log: Do Not Modify Beyond This Point -->" ) )
+						startReading = true;
 				}
 
 				istream.close();
@@ -612,7 +615,7 @@ public class ClanManager extends StaticEntity
 
 			for ( int i = 0; i < members.length; ++i )
 			{
-				ostream.println( members[i] + ":" );
+				ostream.println( " " + members[i] + ":" );
 
 				entryList = (List) stashMap.get( members[i] );
 				Collections.sort( entryList );
@@ -747,7 +750,7 @@ public class ClanManager extends StaticEntity
 				try
 				{
 					entryBuffer.setLength(0);
-					currentMember = entryMatcher.group(2);
+					currentMember = entryMatcher.group(2).trim();
 
 					if ( !stashMap.containsKey( currentMember ) )
 						stashMap.put( currentMember, new ArrayList() );
@@ -790,7 +793,7 @@ public class ClanManager extends StaticEntity
 			{
 				try
 				{
-					currentMember = entryMatcher.group(2);
+					currentMember = entryMatcher.group(2).trim();
 					if ( !stashMap.containsKey( currentMember ) )
 						stashMap.put( currentMember, new ArrayList() );
 
@@ -829,7 +832,7 @@ public class ClanManager extends StaticEntity
 			{
 				try
 				{
-					currentMember = entryMatcher.group( descriptionString.endsWith( " " ) ? 3 : 2 );
+					currentMember = entryMatcher.group( descriptionString.endsWith( " " ) ? 3 : 2 ).trim();
 					if ( !stashMap.containsKey( currentMember ) )
 						stashMap.put( currentMember, new ArrayList() );
 
