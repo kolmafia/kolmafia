@@ -142,10 +142,7 @@ public class ClanManageFrame extends KoLFrame
 		framePanel.add( tabs, "" );
 
 		if ( client != null )
-		{
-			setEnabled( false );
 			(new RequestThread( new ClanStashRequest( client ) )).start();
-		}
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -537,7 +534,7 @@ public class ClanManageFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
-			client.updateDisplay( NORMAL_STATE, "Search results retrieved." );
+			client.updateDisplay( ENABLE_STATE, "Search results retrieved." );
 		}
 
 		protected void actionCancelled()
@@ -583,7 +580,7 @@ public class ClanManageFrame extends KoLFrame
 
 			client.updateDisplay( DISABLE_STATE, "Applying changes..." );
 			(new ClanMembersRequest( client, rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
-			client.updateDisplay( NORMAL_STATE, "Changes have been applied." );
+			client.updateDisplay( ENABLE_STATE, "Changes have been applied." );
 		}
 
 		private class SelectAllForBootButton extends JButton implements ActionListener
