@@ -238,23 +238,45 @@ public class AdventureFrame extends KoLFrame
 		public void setStatusMessage( int displayState, String s )
 		{
 			String label = getText();
-			if ( !s.equals( "Timing in session..." ) && (label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." ) ))
+
+			// If the current text or the string you're using is
+			// null, then do nothing.
+
+			if ( s == null || label == null )
 				return;
+
+			// If you're not attempting to time-in the session, but
+			// the session has timed out, then ignore all changes
+			// to the attempt to time-in the session.
+
+			if ( label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." ) )
+				if ( client.inLoginState() && !s.equals( "Timing in session..." ) && (displayState == NORMAL_STATE || displayState == DISABLE_STATE) )
+					return;
+
+			// If the string which you're trying to set is blank,
+			// then you don't have to update the status message.
 
 			if ( !s.equals( "" ) )
 				setText( s );
 
-			switch ( displayState )
+			// Now, change the background of the frame based on
+			// the current display state -- but only if the
+			// compact pane has already been constructed.
+
+			if ( compactPane != null )
 			{
-				case ERROR_STATE:
-					compactPane.setBackground( ERROR_COLOR );
-					break;
-				case ENABLE_STATE:
-					compactPane.setBackground( ENABLED_COLOR );
-					break;
-				case DISABLE_STATE:
-					compactPane.setBackground( DISABLED_COLOR );
-					break;
+				switch ( displayState )
+				{
+					case ERROR_STATE:
+						compactPane.setBackground( ERROR_COLOR );
+						break;
+					case ENABLE_STATE:
+						compactPane.setBackground( ENABLED_COLOR );
+						break;
+					case DISABLE_STATE:
+						compactPane.setBackground( DISABLED_COLOR );
+						break;
+				}
 			}
 		}
 	}
