@@ -141,7 +141,10 @@ public class TradeableItemDatabase extends KoLDatabase
 			return 81;
 
 		if ( itemName.equals( "dictionary" ) )
-			return KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) ? 1316: 536;
+			return KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) ? 1316 : 536;
+
+		// Get the canonical name of the item, and attempt
+		// to parse based on that.
 
 		String canonicalName = getCanonicalName( itemName );
 		Object itemID = itemByName.get( canonicalName );
@@ -161,8 +164,10 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Mr. Accessory Jrs. are also pluralized in an
 		// unconventional manner (slightly, anyway)
 
-		if ( canonicalName.equals( "mr. accessory jrs." ) )
-			return 896;
+		itemID = itemByName.get( canonicalName.replaceFirst( "s\\.", "\\." ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
 
 		// Fedoras are pluralized 1337-style, so make sure
 		// they are recognized as well.
@@ -170,13 +175,23 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "f3d0r45" ) )
 			return 538;
 
-		// If it's xs-in-the-box, return x-in-the-box
-		itemID = itemByName.get( canonicalName.replaceFirst( "s-in", "-in" ) );
+		// Possessive pluralization = tricky, and was not
+		// noticed until now.
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "'s", "s'" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "es-in", "-in" ) );
+		// The word right before the dash may also be pluralized,
+		// so make sure the dashed words are recognized.
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "es-", "-" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		itemID = itemByName.get( canonicalName.replaceFirst( "s-", "-" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
