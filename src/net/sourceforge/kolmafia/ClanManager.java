@@ -565,7 +565,6 @@ public class ClanManager extends StaticEntity
 						}
 						else if ( line.length() > 0 && !line.startsWith( "<" ) )
 						{
-System.out.println( line );
 							entry = new StashLogEntry( line );
 							if ( !entryList.contains( entry ) )
 								entryList.add( entry );
