@@ -555,7 +555,7 @@ public class ClanManager extends StaticEntity
 					{
 						if ( line.startsWith( " " ) )
 						{
-							currentMember = line.substring( 0, line.length() - 1 );
+							currentMember = line.substring( 1, line.length() - 1 );
 							entryList = (List) stashMap.get( currentMember );
 							if ( entryList == null )
 							{
@@ -575,13 +575,13 @@ public class ClanManager extends StaticEntity
 				}
 
 				istream.close();
+				file.delete();
 			}
 
 			client.updateDisplay( DISABLE_STATE, "Retrieving clan stash log..." );
 			(new StashLogRequest( client )).run();
 			client.updateDisplay( ENABLE_STATE, "Stash log retrieved." );
 
-			file.delete();
 			file.getParentFile().mkdirs();
 			file.createNewFile();
 
