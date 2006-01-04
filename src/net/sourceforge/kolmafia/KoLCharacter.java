@@ -243,6 +243,11 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int adventuresLeft = 0;
 	private static int totalTurnsUsed = 0;
 
+        // Travel information
+	private static boolean hasStore = false;
+	private static boolean hasDisplayCase = false;
+	private static boolean hasClan = false;
+
 	// Campground information
 
 	private static boolean hasToaster = false;
@@ -319,6 +324,10 @@ public abstract class KoLCharacter extends StaticEntity
 		availableSkills.clear();
 
 		canInteract = true;
+		hasStore = false;
+		hasDisplayCase = false;
+		hasClan = false;
+
 		hasToaster = false;
 		hasArches = false;
 		hasChef = false;
@@ -1237,6 +1246,60 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void armBeanstalk()
 	{	KoLCharacter.beanstalkArmed = true;
+	}
+
+	/**
+	 * Accessor method which indicates whether or not the character has store in the mall
+	 * @return	<code>true</code> if the character has a store
+	 */
+
+	public static boolean hasStore()
+	{	return hasStore;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the mall store.
+	 * @param	hasStore	Whether or not the character currently has a store
+	 */
+
+	public static void setStore( boolean hasStore )
+	{	KoLCharacter.hasStore = hasStore;
+	}
+
+	/**
+	 * Accessor method which indicates whether or not the character has display case
+	 * @return	<code>true</code> if the character has a display case
+	 */
+
+	public static boolean hasDisplayCase()
+	{	return hasDisplayCase;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the museum display case
+	 * @param	hasDisplayCase	Whether or not the character currently has display case
+	 */
+
+	public static void setDisplayCase( boolean hasDisplayCase )
+	{	KoLCharacter.hasDisplayCase = hasDisplayCase;
+	}
+
+	/**
+	 * Accessor method which indicates whether or not the character is in a clan
+	 * @return	<code>true</code> if the character is in a clan
+	 */
+
+	public static boolean hasClan()
+	{	return hasClan;
+	}
+
+	/**
+	 * Accessor method to indicate a change in state of the character's clan membership
+	 * @param	hasClan	Whether or not the character currently is in a clan
+	 */
+
+	public static void setClan( boolean hasClan )
+	{	KoLCharacter.hasClan = hasClan;
 	}
 
 	/**

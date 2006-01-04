@@ -219,6 +219,12 @@ public class CharsheetRequest extends KoLRequest
 				responseText.indexOf( "You may not eat any food or drink any non-alcoholic beverages." ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
 				responseText.indexOf( "You may not consume any alcohol." ) != -1 ? AscensionSnapshotTable.TEETOTALER : AscensionSnapshotTable.NOPATH );
 
+                        // See if the player has a store
+                        KoLCharacter.setStore( responseText.indexOf( "Mall of Loathing" ) != -1 );
+
+                        // See if the player has a display case
+                        KoLCharacter.setDisplayCase( responseText.indexOf( "Cannon Museum" ) != -1 );
+
 			// Determine whether or not the player has any
 			// active effects - if so, retrieve them.
 

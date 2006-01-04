@@ -359,6 +359,12 @@ public class ItemManageFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{
+				if ( sellType == AutoSellRequest.AUTOMALL && !KoLCharacter.hasStore() )
+				{
+					client.updateDisplay( ERROR_STATE, "You don't own a store in the mall.");
+					return;
+				}
+
 				if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 					"Are you sure you would like to sell the selected items?",
 						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
@@ -401,6 +407,12 @@ public class ItemManageFrame extends KoLFrame
 				Object [] items = initialSetup();
 				if ( items == null )
 					return;
+
+				if ( !KoLCharacter.hasDisplayCase() )
+				{
+					client.updateDisplay( ERROR_STATE, "You don't own a display case in the Cannon Museum.");
+					return;
+				}
 
 				requests[ requests.length - 1 ] = new MuseumRequest( client, items, true );
 				initializeTransfer();
